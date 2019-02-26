@@ -1,5 +1,3 @@
-
-// ref: https://umijs.org/config/
 export default {
   treeShaking: true,
   plugins: [
@@ -12,12 +10,12 @@ export default {
       dll: true,
       routes: {
         exclude: [
-        
+
           /models\//,
           /services\//,
           /model\.(t|j)sx?$/,
           /service\.(t|j)sx?$/,
-        
+
           /components\//,
         ],
       },
