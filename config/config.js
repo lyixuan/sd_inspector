@@ -21,4 +21,23 @@ export default {
       },
     }],
   ],
+  /**
+   * 路由相关配置
+   */
+  routes: [
+    {
+      path: '/inspector',
+      component: '../layouts/BasicLayout',
+      routes: [
+        {
+          path: '/inspector/survey',
+          component: './survey',
+        },
+        {
+          path: '/inspector/details',
+          component: './details',
+        },
+      ],
+    },
+  ],
 }
