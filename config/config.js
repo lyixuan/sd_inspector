@@ -28,10 +28,16 @@ export default {
     {
       path: '/inspector',
       component: '../layouts/BasicLayout',
+      Routes: ['/src/routes/PrivateRoute.js'],
       routes: [
+        {
+          path: '/inspector',
+          redirect: '/inspector/survey',
+        },
         {
           path: '/inspector/survey',
           component: './survey',
+          Routes: ['/src/routes/PrivateRoute.js'],
         },
         {
           path: '/inspector/details',
