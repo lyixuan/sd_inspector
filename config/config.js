@@ -45,5 +45,23 @@ export default {
         },
       ],
     },
+    {
+      path: '/exception',
+      component: '../layouts/ExceptionLayout',
+      routes: [
+        {
+          path: '/exception/403',
+          redirect: '/exception/403',
+        },
+        {
+          path: '/exception/404',
+          component: './exception/404',
+        },
+        {
+          path: '/exception/500',
+          component: './exception/500',
+        },
+      ],
+    },
   ],
 }

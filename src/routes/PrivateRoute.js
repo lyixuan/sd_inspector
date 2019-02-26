@@ -1,8 +1,29 @@
-export default (props) => {
-  return (
-    <div>
-      <div>PrivateRoute (routes/PrivateRoute.js)</div>
-      { props.children }
-    </div>
-  );
+import router from 'umi/router';
+import storage from '../../utils/storage';
+import { LOGIN_URL } from '../../utils/constants';
+
+function authority(props) {
+  const { path } = props.route;
+  const authList = storage.getUserAuth() || [];
+  let allow = false;
+  for (let i = 0; i < authList.length; i++) {
+    if (authList[i].resourceUrl === path) {
+      allow = true;
+      break;
+    }
+  }
+
+  if (allow) {
+    return (<div>{props.children}</div>);
+  }
+
+  if (!allow && path === '/inspector') {
+    // inspector模块级别没有权限，跳转登录
+    window.location.href = `${LOGIN_URL}?redirectUrl=${window.location.href}`;
+  } else {
+    // 模块下的其他页面没有权限
+    router.push('/exception/403')
+  }
 }
+
+export default authority;
