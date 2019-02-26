@@ -72,32 +72,40 @@ $ npm start || umi start    // 任选一种启动项目
 .
 |-- dist/                              // 默认的 build 输出目录
 |-- config/
-    |-- config.js                      // umi 配置。配置插件列表，配置路由，配置输出路径，配置全局context，配置静态资源路径等等。
+    |-- config.js                      // umi 配置入口
+    |-- plugins.js                     // umi 配置。插件配置
+    |-- routes.js                      // umi 配置。路由和权限配置
 |-- src/                               // 源码目录
     |-- assets/                        // 静态文件
     |-- components/                    // 组件
     |-- layouts/                       // 全局布局
     |-- models/                        // 全局models
-    |-- pages/                         // 页面目录，里面的文件即路由
+    |-- pages/                         // 页面目录
         |-- .umi/                      // dev 临时目录
-        |-- document.ejs               // HTML 模板
         |-- page1                      // 页面 1，每个页面以文件夹为单位
             |-- index.js               // 页面 1 入口文件
             |-- model.js               // 页面 1 model文件
             |-- service.js             // 页面 1 service层
             |-- style.css              // 页面 1 style
-        |-- global.css                 // 全局样式文件。此文件不走 css modules，且会自动被引入，在这里写全局样式，以及做样式覆盖
-        |-- global.js                  // 全局js文件。此文件会在入口文件的最前面被自动引入，在这里加载补丁，做一些初始化的操作等
     |-- services/                      // 全局service层
-    |-- theme/                         // ant design 重定义文件。初始化项目时，基于项目UI重定义并扩展ant design样式
-    |-- utils/                         // 工具。所有为项目服务的，与业务无关的，工具代码，底层封装
-        |-- authority.js               // 使用 localStorage 存储权限信息 
-        |-- Authorized.js              // 基于 authority 的权限渲染控制组件
-        |-- request.js                 // 网络请求配置。使用umi-request，一个基于 fetch 封装的请求库
-        |-- utils.js                   // 各种工具方法
+    |-- global.css                     // 全局样式文件。此文件不走 css modules，且会自动被引入，在这里写全局样式，以及做样式覆盖
+    |-- global.js                      // 全局js文件。此文件会在入口文件的最前面被自动引入，在这里加载补丁，做一些初始化的操作等
+|-- utils/                             // 工具。所有为项目服务的，与业务无关的，工具代码，底层封装
+    |-- themes/                        // ant design 重定义文件。初始化项目时，基于项目UI重定义并扩展ant design样式
+    |-- constant.js                    // 静态数据和全局配置
+    |-- PrivateRoute.js                // 私有 route 的鉴权处理 
+    |-- request.js                     // 网络请求配置。使用umi-request，一个基于 fetch 封装的请求库
+    |-- storage.js                     // localStorage 操作 
+    |-- utils.js                       // 各种工具方法
+|-- .env
 |-- webpack.config.js                  // webpack配置
 ```
 
+
+## 命名规范
+
+* 组件 - 驼峰命名，所有首字母大写
+* 页面文件 - 小写，中划线分割
 
 
 ## 相关技术
