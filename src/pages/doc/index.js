@@ -4,8 +4,6 @@ import Button from 'antd/lib/button';
 import Box from './Box'
 import style from './style.css';
 
-
-
 class Doc extends React.Component {
   constructor(props){
     super(props);
@@ -18,6 +16,7 @@ class Doc extends React.Component {
           <Button type="primary" size="large">查询</Button>
           <br/>
           <br/>
+          <Button type="primary" size="small">查询</Button>
           <Button type="primary" size="small">查询</Button>
           <br/>
           <Button type="primary2" size="middle">查询</Button>

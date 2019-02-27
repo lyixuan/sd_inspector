@@ -5,7 +5,7 @@ export const routes = [
   },
   {
     path: '/m1',
-    component: '../layouts/BasicLayout',
+    component: '../layouts/BasicLayoutM1',
     Routes: ['/utils/PrivateRoute.js'],
     routes: [
       {

@@ -1,7 +1,10 @@
 export const plugins = [['umi-plugin-react', {
   antd: true,
   dva: true,
-  dynamicImport: { webpackChunkName: true },
+  dynamicImport: {
+    webpackChunkName: true,
+    loadingComponent: '../src/components/PageLoading/index.js'
+  },
   title: 'sd_inspector_admin',
   dll: true,
   routes: {
