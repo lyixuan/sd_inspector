@@ -1,28 +1,24 @@
 export const routes = [
   {
-    path: '/inspector',
+    path: '/',
+    redirect: '/m1/survey',
+  },
+  {
+    path: '/m1',
     component: '../layouts/BasicLayout',
     Routes: ['/utils/PrivateRoute.js'],
     routes: [
       {
-        path: '/',
-        redirect: '/inspector/survey',
-      },
-      {
-        path: '/inspector',
-        redirect: '/inspector/survey',
-      },
-      {
-        path: '/inspector/survey',
-        component: './survey',
+        path: '/m1/survey',
+        component: './m1/survey',
         Routes: ['/utils/PrivateRoute.js'],
       },
       {
-        path: '/inspector/details',
-        component: './details',
+        path: '/m1/details',
+        component: './m1/details',
         Routes: ['/utils/PrivateRoute.js'],
       },
-    ],
+    ]
   },
   {
     path: '/exception',

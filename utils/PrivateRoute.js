@@ -17,8 +17,8 @@ function authority(props) {
     return (<div>{props.children}</div>);
   }
 
-  if (!allow && path === '/inspector') {
-    // inspector模块级别没有权限，跳转登录
+  if (!allow && path === '/m1') {
+    // inspector m1模块级别没有权限，跳转登录
     window.location.href = `${LOGIN_URL}?redirectUrl=${window.location.href}`;
   } else {
     // 模块下的其他页面没有权限

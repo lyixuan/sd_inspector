@@ -1,0 +1,23 @@
+/* =============== Button ============== */
+
+.ant-btn-primary {
+  background-color: #1B83E6;
+  border-radius: 2px;
+}
+
+.ant-btn-primary2 {
+  background-color: #DA584A;
+  color: #fff;
+}
+
+.ant-btn-lg {
+  width: 120px;
+  height: 40px;
+  font-size: 14px;
+}
+
+.ant-btn-sm {
+  width: 80px;
+  height: 26px;
+  font-size: 12px;
+}

@@ -1,25 +1,3 @@
-/* ============ css reset ============ */
-
-* {
-  box-sizing: border-box;
-  outline: none;
-}
-
-html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img {
-  margin: 0;
-  padding: 0;
-}
-
-html, body, #root {
-  height: 100%;
-  background: #F6F7FB;
-  font-size: 14px;
-  color: #666;
-  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
-}
-
-:focus {outline:none;} /*for IE*/
-::-moz-focus-inner {border-color: transparent;} /*for mozilla*/
 
 /* ============ 按顺序引用和覆盖 ============ */
 
