@@ -1,8 +1,33 @@
+/* ============ css reset ============ */
+
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img {
+  margin: 0;
+  padding: 0;
+}
 
 html, body, #root {
   height: 100%;
+  background: #F6F7FB;
+  font-size: 14px;
+  color: #666;
+  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
 }
 
-body {
-  margin: 0;
-}
+:focus {outline:none;} /*for IE*/
+::-moz-focus-inner {border-color: transparent;} /*for mozilla*/
+
+/* ============ 按顺序引用和覆盖 ============ */
+
+/* 原 ant 样式 */
+@import "~antd/dist/antd.css";
+
+/* 自定义和扩展的 ant 样式，全局 */
+@import "../utils/themes/custom-ant.css";
+
+/* 页面作用域内特殊 ant 样式，必须加页面 class 前缀 */
+@import "../utils/themes/custom-part-ant.css";
