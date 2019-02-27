@@ -4,6 +4,7 @@
  */
 
 module.exports = {
+  publicPath: "http://localhost:4000/inspector/",
   resolve: {
     alias: {
       '@': require('path').resolve(__dirname, 'src'),
