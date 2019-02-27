@@ -5,6 +5,10 @@ export const routes = [
     Routes: ['/utils/PrivateRoute.js'],
     routes: [
       {
+        path: '/',
+        redirect: '/inspector/survey',
+      },
+      {
         path: '/inspector',
         redirect: '/inspector/survey',
       },
