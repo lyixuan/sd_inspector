@@ -5,7 +5,7 @@ import { LOGIN_URL } from './constants';
 function authority(props) {
   const { path } = props.route;
   const authList = storage.getUserAuth() || [];
-  let allow = true;
+  let allow = false;
   for (let i = 0; i < authList.length; i++) {
     if (authList[i].resourceUrl === path) {
       allow = true;

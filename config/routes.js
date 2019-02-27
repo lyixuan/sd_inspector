@@ -26,7 +26,7 @@ export const routes = [
     routes: [
       {
         path: '/exception/403',
-        redirect: '/exception/403',
+        component: './exception/403',
       },
       {
         path: '/exception/404',
@@ -37,5 +37,9 @@ export const routes = [
         component: './exception/500',
       },
     ],
+  },
+  {
+    path: '/doc',
+    component: './doc',
   },
 ];
