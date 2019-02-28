@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select } from 'antd';
+import Select from 'antd/lib/select';
 import Radio from '../components/Tabs'
 import Echart from '../../../components/Echart'
 import styles from './style.less'
