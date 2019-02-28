@@ -22,8 +22,9 @@
   width: calc(100% - 151px);
 }
 
+
  /* box right部分 */
-.boxLeft,.boxRight {
+.boxLeft,.boxRight,.boxCenter {
   width: 59%;
   padding: 10px;
   float: left;
@@ -37,6 +38,9 @@
   margin-left: 1%;
 }
 
+.boxCenter {
+  width: 100%;
+}
 .title {
   text-align: center;
   margin: 10px 0;

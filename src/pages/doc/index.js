@@ -3,11 +3,13 @@ import Divider from 'antd/lib/divider';
 import Button from 'antd/lib/button';
 import Input from 'antd/lib/input';
 import Select from 'antd/lib/select';
+import Table from 'antd/lib/table';
 import DatePickerDecorator from 'antd/lib/date-picker';
 
 import Box from './Box';
 import Left from './Left';
 import Right from './Right';
+import Cente from './Center';
 import style from './style.css';
 
 const { TextArea } = Input;
@@ -38,6 +40,32 @@ class Doc extends Component {
                     <Option key="c12">c12</Option>
 </Select>`;
     const select3 = `<RangePicker/>`;
+
+    const dataSource = [{
+      key: '1',
+      name: '胡彦斌',
+      age: 32,
+      address: '西湖区湖底公园1号'
+    }, {
+      key: '2',
+      name: '胡彦祖',
+      age: 42,
+      address: '西湖区湖底公园1号'
+    }];
+
+    const columns = [{
+      title: '姓名',
+      dataIndex: 'name',
+      key: 'name',
+    }, {
+      title: '年龄',
+      dataIndex: 'age',
+      key: 'age',
+    }, {
+      title: '住址',
+      dataIndex: 'address',
+      key: 'address',
+    }];
 
     return (
       <div className={style.container}>
@@ -100,6 +128,13 @@ class Doc extends Component {
               1、type 默认 ：黑底蓝字； <br/>
             </div>
           </Right>
+        </Box>
+        <Box title="Table">
+          <Cente>
+            <Table dataSource={dataSource} columns={columns} bordered/>
+            <Divider> Code </Divider>
+            <TextArea rows={1} defaultValue='<Table dataSource={dataSource} columns={columns} bordered/>'/>
+          </Cente>
         </Box>
       </div>
     )

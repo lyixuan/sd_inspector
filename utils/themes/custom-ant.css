@@ -88,6 +88,8 @@
 
 .ant-select-dropdown {
   background-color: #0C172E;
+  box-shadow: rgb(0, 112, 183) 0px 0px 20px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .ant-select-dropdown-menu-item:first-child {
@@ -149,3 +151,24 @@
   background-color: #1683FB;
 }
 
+/* table */
+.ant-table {
+  color: #fff;
+}
+
+.ant-table-thead > tr > th {
+  color: #1B82E5;
+  background-color: #0C172E;
+}
+
+.ant-table-bordered .ant-table-thead > tr > th, .ant-table-bordered .ant-table-tbody > tr > td {
+  border: 1px solid #394671;
+}
+
+.ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td, .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td, .ant-table-thead > tr:hover:not(.ant-table-expanded-row) > td, .ant-table-tbody > tr:hover:not(.ant-table-expanded-row) > td {
+  background-color: #0C172E;
+}
+
+.ant-table-body {
+  background-color: #0C172E;
+}

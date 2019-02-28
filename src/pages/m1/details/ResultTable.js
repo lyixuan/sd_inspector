@@ -56,7 +56,9 @@ class ResultTable extends Component {
     ];
     return (
       <>
-        <Table dataSource={dataSource} columns={columns} />
+        <div>
+          <Table dataSource={dataSource} columns={columns} bordered/>
+        </div>
       </>
     );
   }

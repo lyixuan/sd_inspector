@@ -1,4 +1,3 @@
-
 import React from 'react';
 import router from 'umi/router';
 import { Radio } from 'antd';
@@ -12,7 +11,6 @@ export default class RadioComponent extends React.Component {
       path,
     };
   }
-
   handleSizeChange = (e) => {
     this.setState({ path: e.target.value });
     router.push(e.target.value)
