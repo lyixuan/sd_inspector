@@ -1,7 +1,10 @@
 import React from 'react';
-import Radio from '../../../components/Tabs'
+import { Select } from 'antd';
+import Radio from '../components/Tabs'
 import Echart from '../../../components/Echart'
+import styles from './style.less'
 
+const Option = Select.Option;
 export default class Survey extends React.Component {
   commonOption = (text,legendData=[],xData=[]) => {
     const option={
@@ -183,15 +186,38 @@ export default class Survey extends React.Component {
     };
     return {option1,option2}
   };
+  handleChange = (value)=> {
+    console.log(`selected ${value}`);
+  }
   render(){
     const {option1,option2} = this.initChart();
     return (
-      <div  style={{border:"1px solid blue",padding: '10px',textAlign:'center'}}>
+      <div className={styles.container}>
         <Radio path='/m1/survey' />
-        <div style={{display:'flex',justifyContent:'center',marginTop:'20px'}}>
-          <Echart update='1' style={{width:'540px', height:"300px",marginRight:'20px',backgroundColor:'#0c1731'}} options={option1} />
-          <Echart update='1' style={{width:'540px', height:"300px",backgroundColor:'#0c1731'}} options={option2} />
+        <div className={styles.histogram}>
+          <div className={styles.headerCls}>
+
+          </div>
+          <div className={styles.formCls}>
+            <div>
+             <span className={styles.searchTxt}>查询条件：</span>
+              <Select defaultValue="lucy" style={{ width: 120 }} onChange={this.handleChange}>
+                <Option value="jack">Jack</Option>
+                <Option value="lucy">Lucy</Option>
+                <Option value="disabled" disabled>Disabled</Option>
+                <Option value="Yiminghe">yiminghe</Option>
+              </Select>
+            </div>
+           <div>
+
+           </div>
+          </div>
+          <div className={styles.echartCls}>
+            <Echart update='1' style={{width:'46%', height:"510px"}} options={option1} />
+            <Echart update='1' style={{width:'46%', height:"510px"}} options={option2} />
+          </div>
         </div>
+
       </div>
     );
   }
