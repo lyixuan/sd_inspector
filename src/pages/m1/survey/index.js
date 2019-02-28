@@ -1,10 +1,12 @@
 import React from 'react';
 import Button from 'antd/lib/button';
+import DatePickerDecorator from 'antd/lib/date-picker';
 import Radio from '../components/Tabs';
 import Select from './component/Select';
 import Echart from '../../../components/Echart'
 import styles from './style.less'
 
+const { RangePicker } = DatePickerDecorator;
 export default class Survey extends React.Component {
   commonOption = (text,legendData=[],xData=[]) => {
     const option={
@@ -198,7 +200,7 @@ export default class Survey extends React.Component {
         <Radio path='/m1/survey' />
         <div className={styles.histogram}>
           <div className={styles.headerCls}>
-
+            数据概览
           </div>
           <div className={styles.formCls}>
             <div>
@@ -206,6 +208,7 @@ export default class Survey extends React.Component {
               <Select options={options} defaultValue='报考省份' />
               <Select options={options1} defaultValue='学院' />
               <Select options={options2} defaultValue='家族' />
+              <RangePicker />
             </div>
             <div>
               <Button type="primary2" style={{marginRight:'20px'}}>恢复默认</Button>

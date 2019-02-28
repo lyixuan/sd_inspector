@@ -8,9 +8,9 @@ export default class SelectComponent extends React.Component {
     console.log(`selected ${value}`);
   };
   render(){
-    const {options,defaultValue,style} = this.props;
+    const {options,defaultValue} = this.props;
     return (
-      <Select defaultValue={defaultValue} onChange={this.handleChange} style={{...style}}>
+      <Select defaultValue={defaultValue} onChange={this.handleChange} style={{marginRight:'20px'}}>
         {
           options.map(item=>{
             return <Option value={item.id} key={item.id}>{item.name}</Option>
