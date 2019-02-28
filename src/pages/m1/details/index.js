@@ -1,9 +1,11 @@
 import RadioComponent from '../../../components/Tabs'
+import ResultTable from './ResultTable';
 
 export default function() {
   return (
-    <div  style={{border:"1px solid blue",padding: '10px'}}>
+    <div>
       <RadioComponent path='/m1/details' />
+      <ResultTable />
     </div>
   );
 }
