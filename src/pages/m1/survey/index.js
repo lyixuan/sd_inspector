@@ -1,10 +1,10 @@
 import React from 'react';
-import Select from 'antd/lib/select';
-import Radio from '../components/Tabs'
+import Button from 'antd/lib/button';
+import Radio from '../components/Tabs';
+import Select from './component/Select';
 import Echart from '../../../components/Echart'
 import styles from './style.less'
 
-const Option = Select.Option;
 export default class Survey extends React.Component {
   commonOption = (text,legendData=[],xData=[]) => {
     const option={
@@ -186,11 +186,13 @@ export default class Survey extends React.Component {
     };
     return {option1,option2}
   };
-  handleChange = (value)=> {
-    console.log(`selected ${value}`);
-  }
+
   render(){
     const {option1,option2} = this.initChart();
+    const options=[{name:'报考省份',id:1},{name:'jucy2',id:2},{name:'jucy3',id:3},];
+    const options1=[{name:'学院',id:1},{name:'学院1',id:2},{name:'学院2',id:3},];
+    const options2=[{name:'家族',id:1},{name:'家族1',id:2},{name:'家族2',id:3},];
+
     return (
       <div className={styles.container}>
         <Radio path='/m1/survey' />
@@ -200,17 +202,15 @@ export default class Survey extends React.Component {
           </div>
           <div className={styles.formCls}>
             <div>
-             <span className={styles.searchTxt}>查询条件：</span>
-              <Select defaultValue="lucy" style={{ width: 120 }} onChange={this.handleChange}>
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
-                <Option value="disabled" disabled>Disabled</Option>
-                <Option value="Yiminghe">yiminghe</Option>
-              </Select>
+              <span className={styles.searchTxt}>查询条件：</span>
+              <Select options={options} defaultValue='报考省份' />
+              <Select options={options1} defaultValue='学院' />
+              <Select options={options2} defaultValue='家族' />
             </div>
-           <div>
-
-           </div>
+            <div>
+              <Button type="primary2" style={{marginRight:'20px'}}>恢复默认</Button>
+              <Button type="primary">查询</Button>
+            </div>
           </div>
           <div className={styles.echartCls}>
             <Echart update='1' style={{width:'46%', height:"510px"}} options={option1} />

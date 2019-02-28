@@ -4,7 +4,7 @@ import styles from './basicLayout.less'
 function BasicLayoutM1(props) {
   return (
     <div className={styles.basicWrap}>
-      <div className={styles.headerWrap}>智能报考督学平台</div>
+      <div className={styles.headerWrap} />
       { props.children }
     </div>
   );
