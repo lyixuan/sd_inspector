@@ -2,26 +2,149 @@
   督学模块自定义主题 - 全局样式
 */
 
+
 /* =============== Button ============== */
 
-.ant-btn-primary {
-  background-color: #1B83E6;
+/* 默认 空心按钮 */
+.ant-btn {
+  width: 115px;
+  height: 38px;
   border-radius: 2px;
 }
 
-.ant-btn-primary2 {
-  background-color: #DA584A;
+/* primary 主色 蓝色 按钮 */
+.ant-btn-primary,.ant-btn-primary2 {
   color: #fff;
+  background-color: #1B82E5;
+  border-color: #1B82E5;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+.ant-btn-primary:hover,
+.ant-btn-primary:focus{
+  color: #fff;
+  background-color: #1B82E5;
+  border-color: #1B82E5;
+}
+.ant-btn-primary.active {
+  color: #fff;
+  background-color: #1B82E5;
+  border-color: #1B82E5;
 }
 
-.ant-btn-lg {
-  width: 120px;
-  height: 40px;
-  font-size: 14px;
+/* primary2 辅助色 淡红色 按钮 */
+
+.ant-btn-primary2 {
+  background-color: #DA584A;
+  border-color: #DA584A;
+}
+.ant-btn-primary2:hover,
+.ant-btn-primary2:focus{
+  color: #fff;
+  background-color: #DA584A;
+  border-color: #DA584A;
+}
+
+.ant-btn-primary2:active {
+  background-color: #DA584A;
+  border-color: #DA584A;
 }
 
 .ant-btn-sm {
-  width: 80px;
-  height: 26px;
-  font-size: 12px;
+  width: 75px;
+  height: 38px;
+  font-size: 13px;
+}
+
+.ant-btn-lg {
+  width: 135px;
+  height: 38px;
+  font-size: 14px;
+}
+
+/* =============== Select ============== */
+
+/* 单选 */
+.ant-select {
+  color: #1DA9FC;
+}
+.ant-select-selection--single {
+  width: 185px;
+  height: 36px;
+  line-height: 36px;
+  border: 1px solid #1683FB;
+  border-radius: 2px;
+  background-color: #0C172E;
+}
+
+.ant-select-selection__rendered {
+  line-height: 34px;
+}
+
+.ant-select-arrow {
+  color: #1683FB;
+}
+
+.ant-select-dropdown {
+  background-color: #0C172E;
+}
+
+.ant-select-dropdown-menu-item:first-child {
+  border-radius: 2px 2px 0 0;
+}
+.ant-select-dropdown-menu-item {
+  color: #1683FB;
+}
+
+.ant-select-dropdown-menu-item-selected {
+  background-color: #0C2E58;
+}
+
+/* 多选 */
+.ant-select-selection--multiple {
+  width: 185px;
+  height: 36px;
+  line-height: 36px;
+  border: 1px solid #1683FB;
+  border-radius: 2px;
+  background-color: #0C172E;
+}
+
+.ant-select-selection--multiple > ul > li, .ant-select-selection--multiple .ant-select-selection__rendered > ul > li {
+  margin-top: 5px;
+}
+
+.ant-select-selection--multiple .ant-select-selection__choice {
+  color: #1683FB;
+  background-color: #0C172E;
+}
+
+.ant-select-selection__placeholder {
+  color: #1683FB;
+}
+
+.ant-select-selection--multiple .ant-select-selection__choice__remove,.ant-select-selection--multiple .ant-select-selection__choice__remove:hover {
+  color: #1683FB;
+}
+
+/* 日期选择 */
+
+.ant-calendar-picker {
+  width: 285px;
+  height: 36px;
+}
+
+.ant-calendar-picker .ant-calendar-picker-input.ant-input {
+  height: 36px;
+  color: #1683FB;
+  background-color: #0C172E;
+  border-radius: 2px;
+  border: 1px solid #1683FB;
+}
+.ant-calendar-range-picker-separator,.ant-calendar-picker-clear,.ant-calendar-picker-icon, .ant-calendar-picker-clear {
+  color: #1683FB;
+}
+.ant-calendar-picker-clear {
+  background-color: #1683FB;
 }
