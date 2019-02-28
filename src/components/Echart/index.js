@@ -21,6 +21,6 @@ export default class EchartsComponent extends React.Component {
   };
   render(){
     const {style} = this.props;
-    return <div ref={this.createRef} style={{...style,boxShadow:'0 0 20px #0070b7'}} />
+    return <div ref={this.createRef} style={{...style,boxShadow:'0 0 20px #0070b7',backgroundColor:'#0c162f'}} />
   }
 }

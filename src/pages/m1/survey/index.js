@@ -8,6 +8,16 @@ import styles from './style.less'
 
 const { RangePicker } = DatePickerDecorator;
 export default class Survey extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      proVal:'报考省份',
+      colVal:'学院',
+      famVal:'家族',
+      startTime:'',
+      endTime:'',
+    }
+  }
   commonOption = (text,legendData=[],xData=[]) => {
     const option={
       title: {
@@ -188,8 +198,44 @@ export default class Survey extends React.Component {
     };
     return {option1,option2}
   };
-
+  // 选择框修改
+  handleChange = (value,id)=> {
+    if(id === 'province'){
+      this.setState({
+        proVal:value,
+      });
+    }else if(id === 'college'){
+      this.setState({
+        colVal:value,
+      });
+    }else if(id === 'family'){
+      this.setState({
+        famVal:value,
+      });
+    }
+  };
+  // 日期修改
+  dateChange=(value, dateString)=> {
+    this.setState({
+      startTime:dateString[0],
+      endTime:dateString[1],
+    });
+  };
+  search = () =>{
+    console.log(this.state);
+  };
+  reset = () =>{
+    this.setState({
+      proVal:'报考省份',
+      colVal:'学院',
+      famVal:'家族',
+      startTime:'',
+      endTime:'',
+    })
+  };
   render(){
+    console.log(this.state)
+    const { proVal, colVal, famVal, startTime, endTime} =  this.state;
     const {option1,option2} = this.initChart();
     const options=[{name:'报考省份',id:1},{name:'jucy2',id:2},{name:'jucy3',id:3},];
     const options1=[{name:'学院',id:1},{name:'学院1',id:2},{name:'学院2',id:3},];
@@ -205,14 +251,14 @@ export default class Survey extends React.Component {
           <div className={styles.formCls}>
             <div>
               <span className={styles.searchTxt}>查询条件：</span>
-              <Select options={options} defaultValue='报考省份' />
-              <Select options={options1} defaultValue='学院' />
-              <Select options={options2} defaultValue='家族' />
-              <RangePicker />
+              <Select options={options} defaultValue={proVal} id='province' handleChange={this.handleChange} />
+              <Select options={options1} defaultValue={colVal} id='college' handleChange={this.handleChange} />
+              <Select options={options2} defaultValue={famVal} id='family' handleChange={this.handleChange} />
+              <RangePicker placeholder={['开始时间','结束时间']} onChange={this.dateChange}/>
             </div>
             <div>
-              <Button type="primary2" style={{marginRight:'20px'}}>恢复默认</Button>
-              <Button type="primary">查询</Button>
+              <Button type="primary2" style={{marginRight:'20px'}} onClick={this.reset}>恢复默认</Button>
+              <Button type="primary" onClick={this.search}>查询</Button>
             </div>
           </div>
           <div className={styles.echartCls}>
@@ -220,7 +266,6 @@ export default class Survey extends React.Component {
             <Echart update='1' style={{width:'46%', height:"510px"}} options={option2} />
           </div>
         </div>
-
       </div>
     );
   }
