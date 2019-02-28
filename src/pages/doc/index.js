@@ -6,6 +6,9 @@ import Select from 'antd/lib/select';
 import Table from 'antd/lib/table';
 import DatePickerDecorator from 'antd/lib/date-picker';
 
+// 自定义组件部分
+import Deliver from '../m1/components/Deliver';
+
 import Box from './Box';
 import Left from './Left';
 import Right from './Right';
@@ -134,6 +137,15 @@ class Doc extends Component {
             <Table dataSource={dataSource} columns={columns} bordered/>
             <Divider> Code </Divider>
             <TextArea rows={1} defaultValue='<Table dataSource={dataSource} columns={columns} bordered/>'/>
+          </Cente>
+        </Box>
+        <Box title="自定义组件 Deliver">
+          <Cente>
+            <div style={{background:'#0C172E'}}>
+              <Deliver titleName="查询结果"/>
+            </div>
+            <Divider> Code </Divider>
+            <TextArea rows={1} defaultValue='<Deliver titleName="查询结果"/>'/>
           </Cente>
         </Box>
       </div>
