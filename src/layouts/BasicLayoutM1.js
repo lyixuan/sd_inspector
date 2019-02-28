@@ -1,13 +1,10 @@
 import React  from 'react';
+import styles from './basicLayout.less'
 
 function BasicLayoutM1(props) {
   return (
-    <div style={{border:'1px solid red',padding: '10px'}}>
-      我是 basiclayout
-      我是 basiclayout
-      我是 basiclayout
-      我是 basiclayout
-
+    <div className={styles.basicWrap}>
+      <div className={styles.headerWrap}>智能报考督学平台</div>
       { props.children }
     </div>
   );
