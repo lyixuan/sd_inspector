@@ -6,7 +6,9 @@ import moment from 'moment';
 import Radio from '../components/Tabs';
 import Select from './component/Select';
 import Echart from '../../../components/Echart'
-import styles from './style.less'
+import styles from './style.less';
+import ChinaMap from './component/ChinaMap';
+
 
 const { RangePicker } = DatePickerDecorator;
 const dateFormat = 'YYYY-MM-DD';
@@ -247,6 +249,9 @@ export default class Survey extends React.Component {
     return (
       <div className={styles.container}>
         <Radio path='/m1/survey' />
+        <div className={styles.mapContainer}>
+          <ChinaMap />
+        </div>
         <div className={styles.histogram}>
           <div className={styles.headerCls}>
             数据概览
