@@ -32,6 +32,10 @@
   overflow: hidden;
 }
 
+.boxLeft ,.boxCenter{
+  background-color: #0B1530;
+}
+
 .boxRight {
   width: 39%;
   float: right;

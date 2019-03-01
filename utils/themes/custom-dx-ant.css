@@ -188,6 +188,7 @@
 
 .ant-pagination-item, .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link{
   background-color: #0A2F5B;
+  border-color: #0A2F5B;
   color: #fff;
 }
 .ant-pagination-item a {
@@ -211,6 +212,17 @@
   width: 110px;
   height: 32px;
 }
+
+.ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis {
+  color: #0080FF;
+}
+.ant-pagination-options-quick-jumper {
+  color: #fff;
+}
+.ant-pagination-options-quick-jumper input {
+  border-color: #0080FF;
+}
+
   /* =========================== form ===========================  */
 
 /*label*/
@@ -230,5 +242,11 @@
 
 
 .ant-breadcrumb, .ant-breadcrumb span ,.ant-breadcrumb a {
+  color: #fff;
+}
+
+/*ant-divider*/
+
+.ant-divider-inner-text {
   color: #fff;
 }
