@@ -135,12 +135,8 @@ export default class Survey extends React.Component {
       <div className={styles.container}>
         <Radio path='/m1/survey' />
         <div className={styles.mapContainer}>
-
-        <ChinaMap></ChinaMap>
-        <div className={styles.examinationState}>
-        <ProcessStep />
-        </div>
-
+            <ChinaMap />
+            <ProcessStep />
         </div>
         <div className={styles.histogram}>
           <div className={styles.headerCls}>

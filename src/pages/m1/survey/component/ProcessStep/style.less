@@ -2,9 +2,34 @@
 .stateBox{
     width:238px;
     height: 517px;
-    .stepItem{
+    .stepItem1{
+        position: relative;
         width: 100%;
-       height: 150px; 
-       background: url('../../../../../assets/inspactor/process1.png') no-repeat 100%;
+        height: 150px;
+        background: url('../../../../../assets/inspactor/process1.png') no-repeat top;
     }
-  }
+    .stepItem2{
+        position: relative;
+        width: 100%;
+        height: 150px;
+        background: url('../../../../../assets/inspactor/process2.png') no-repeat top;
+    }
+   li:after{
+        content: '';
+        position: absolute;
+        width: 1px;
+        top: 0;
+        height: 100%;
+        left: 24px;
+    }
+   li:last-child:after{
+      content: '';
+      width: 0;
+   }
+   .stepItem1:after{
+       background: #0c81e9;
+   }
+   .stepItem2:after{
+       background: #324f6c;
+   }
+}
