@@ -8,6 +8,7 @@ import Select from './component/Select';
 import Echart from '../../../components/Echart'
 import styles from './style.less';
 import ChinaMap from './component/ChinaMap';
+import ProcessStep from './component/ProcessStep';
 
 
 const { RangePicker } = DatePickerDecorator;
@@ -250,8 +251,11 @@ export default class Survey extends React.Component {
       <div className={styles.container}>
         <Radio path='/m1/survey' />
         <div className={styles.mapContainer}>
+
         <ChinaMap></ChinaMap>
-        <div className={styles.examinationState}></div>
+        <div className={styles.examinationState}>
+        <ProcessStep />
+        </div>
 
         </div>
         <div className={styles.histogram}>
