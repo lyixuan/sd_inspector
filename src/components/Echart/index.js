@@ -9,16 +9,24 @@ export default class EchartsComponent extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.update) !== JSON.stringify(this.props.update)) {
       // 接口出来后应该按照data进行判断
-      this.initChart(nextProps.options)
+      this.drawChart(nextProps.options)
     }
   }
   createRef = id => {
     this.ID = id;
   };
-  initChart= option =>{
-    const myChart = echarts.init(this.ID);
-    myChart.setOption(option);
+  initChart = () => {
+    this.myChart = echarts.init(this.ID);
+    this.drawChart();
   };
+  drawChart(nextProps = this.props) {
+    const { options } = nextProps;
+    if (!this.myChart) {
+      this.initChart();
+    }
+    this.myChart.setOption(options);
+  }
+
   render(){
     const {style} = this.props;
     return <div ref={this.createRef} style={{...style,boxShadow:'0 0 20px #0070b7',backgroundColor:'#0c162f'}} />
