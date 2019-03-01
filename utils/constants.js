@@ -15,10 +15,11 @@ export const ADMIN_USER = 'admin_user';
 export const LOGIN_URL = 'http://localhost:8001/userLayout/login';
 
 // 分页配置
-export const PAGENATION = {
+export const PAGINATION = {
   showSizeChanger:true,
   showQuickJumper:true,
   defaultCurrent:1,
+  total:0,
   pageSizeOptions:['36','50','100']
 };
 
@@ -194,5 +195,6 @@ export default {
   ORDER_STATE,
   STUDENT_TYPE,
   TICKET_STATES,
-  MSG_STATES
+  MSG_STATES,
+  PAGINATION
 };

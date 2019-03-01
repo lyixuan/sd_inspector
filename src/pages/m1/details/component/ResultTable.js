@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Table from 'antd/lib/table';
 import Button from 'antd/lib/button';
 import router from 'umi/router';
+import { BiFilter } from '../../../../../utils/utils';
 
 import styles from '../style.less'
 
@@ -73,7 +74,7 @@ class ResultTable extends Component {
               <Button type="primary2">添加下载任务</Button>
             </span>
           </div>
-          <Table dataSource={dataSource} columns={columns} bordered/>
+          <Table dataSource={dataSource} columns={columns} pagination={BiFilter("PAGINATION")} bordered/>
         </div>
       </>
     );

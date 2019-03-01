@@ -182,7 +182,7 @@ class Doc extends Component {
               pageSizeOptions:['36','50','100']
             }}  bordered/>
             <Divider> Code </Divider>
-            <TextArea rows={1} defaultValue='<Table dataSource={dataSource} columns={columns} pagination={BiFilter("PAGENATION")}  bordered/>'/>
+            <TextArea rows={1} defaultValue='<Table dataSource={dataSource} columns={columns} pagination={BiFilter("PAGINATION")}  bordered/>'/>
           </Cente>
         </Box>
         <Box title="自定义组件 Deliver">
