@@ -2,7 +2,9 @@
   督学模块自定义主题 - 全局样式
 */
 
-
+* {
+  font-weight: 300;
+}
 /* =============== Button ============== */
 
 /* 默认 空心按钮 */
@@ -124,13 +126,14 @@
 
 .ant-select-selection__placeholder {
   color: #1683FB;
+  opacity: .8;
 }
 
 .ant-select-selection--multiple .ant-select-selection__choice__remove,.ant-select-selection--multiple .ant-select-selection__choice__remove:hover {
   color: #1683FB;
 }
 
-/* 日期选择 */
+/* 日期选择  */
 
 .ant-calendar-picker {
   width: 285px;
@@ -151,7 +154,7 @@
   background-color: #1683FB;
 }
 
-/* table */
+/* ===========================  table ===========================  */
 .ant-table {
   color: #fff;
 }
@@ -171,4 +174,25 @@
 
 .ant-table-body {
   background-color: #0C172E;
+}
+
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+  padding: 12px 12px;
+}
+
+/* =========================== form ===========================  */
+
+/*label*/
+
+.ant-form-item-label label {
+  color: #1B82E5;
+  width: 80px;
+  display: inline-block;
+  text-align: justify;
+}
+
+.ant-form-item-label label:after {
+  content: " ";
+  display: inline-block;
+  width: 100%;
 }
