@@ -34,98 +34,60 @@ export default class Survey extends React.Component {
       {name:'学院2',code:311,children:[{name:'家族3',code:31},{name:'家族31',code:32},{name:'家族32',code:33}]},];
   };
   initChart= () =>{
-    const data1 = commonOptions('微信推送整体数据',['考试计划人数', '推送人数', '已读人数'],['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],50000,10000);
-    const data2 = commonOptions('准考证填写趋势',['考试计划人数','准考证填写人数','准考证填写占比'],['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],25000,5000);
-    const option1 = {
-      ...data1,
+    const params1 = {
+      text:'微信推送整体数据',
+      legendData:['考试计划人数', '推送人数', '已读人数'],
+      xData:['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],
       color:['#1e93ff',"#7363ec",'#1ec47a'],
-      series: [
-        {
-          name:'考试计划人数',
-          type:'bar',
-          barCategoryGap:'40%',
-          data:[43000.0, 35000.9, 18300.0, 28600.2, 37200.6, 37200.7, 37200.6]
-        },
-        {
-          name:'推送人数',
-          type:'bar',
-          data:[25300.6, 25300.9, 18300.0, 18300, 18300.7, 18300.7, 18300.6]
-        },
-        {
-          name:'已读人数',
-          type:'bar',
-          data:[20300.6, 18300.9, 13000.0, 13000, 13000.7, 13000.7, 13000.6]
-        },
-      ],
+      series:[{
+        type:'bar',
+        barCategoryGap:'40%',
+        data: [43000.0, 35000.9, 18300.0, 28600.2, 37200.6, 37200.7, 37200.6]
+      },{
+        type:'bar',
+        data: [25300.6, 25300.9, 18300.0, 18300, 18300.7, 18300.7, 18300.6]
+      },{
+        type:'bar',
+        data: [20300.6, 18300.9, 13000.0, 13000, 13000.7, 13000.7, 13000.6]
+      }],
+      max:50000,
+      interval:10000,
     };
-
-    const option2 = {
-      ...data2,
+    const params2 = {
+      text:'准考证填写趋势',
+      legendData:['考试计划人数','准考证填写人数','准考证填写占比'],
+      xData:['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],
       color:['#1e93ff',"#fc595b",'#fc3676'],
-      // toolbox: {
-      //   feature: {
-      //     dataView: {show: true, readOnly: false},
-      //     magicType: {show: true, type: ['line', 'bar']},
-      //     restore: {show: true},
-      //     saveAsImage: {show: true}
-      //   }
-      // },
-      yAxis: [
-        {
-          axisLine:{
-            lineStyle:{
-              color:'#bdc0c6'
-            }
-          },
-          axisTick:{
-            show:false,
-          },
-          splitLine:{
-            show:false
-          },
-          type: 'value',
-          min: 0,
-          max: 25000,
-          interval: 5000,
-          axisLabel: {
-            formatter: '{value}'
-          }
-        },
-        {
-          show:false,
-          type: 'value',
-          min: 0,
-          max: 75,
-          interval: 15,
-          axisLabel: {
-            formatter: '{value} %'
-          }
+      series:[{
+        type:'bar',
+        barCategoryGap:'60%',
+        data: [3000.0, 5000.9, 18300.0, 8600.2, 7200.6, 7200.7, 7200.6],
+      },{
+        type:'bar',
+        data: [5300.6, 5300.9, 8300.0, 8300, 18300.7, 18300.7, 18300.6],
+      },{
+        type:'line',
+        yAxisIndex: 1,
+        symbol:'circle',
+        symbolSize:6,
+        data: [20.6, 31.9, 35.0, 42, 52.7, 61.7, 71.6],
+        itemStyle : { normal: {label : {show: true,formatter:'{c}%'}}},
+      }],
+      yAxis: {
+        show:false,
+        type: 'value',
+        min: 0,
+        max: 75,
+        interval: 15,
+        axisLabel: {
+          formatter: '{value} %'
         }
-      ],
-      series: [
-        {
-          name:'考试计划人数',
-          type:'bar',
-          barCategoryGap:'60%',
-          data:[20000.0, 14333.9, 17222.0, 20003.2, 25000.6, 17006.7, 13005.6]
-        },
-        {
-          name:'准考证填写人数',
-          type:'bar',
-          data:[12222.6, 15333.9, 9999.0, 20000, 20800.7, 10070.7, 17005.6]
-        },
-        {
-          name:'准考证填写占比',
-          type:'line',
-          yAxisIndex: 1,
-          data:[20, 32.2, 43.3, 52.5, 62.3, 69.2, 70.3],
-          symbol:'circle',
-          symbolSize:6,
-          itemStyle : { normal: {label : {show: true,formatter:'{c}%'}}},
-          smooth:true
-        }
-      ]
+      },
+      max:25000,
+      interval:5000,
     };
+    const option1 = commonOptions(params1);
+    const option2 = commonOptions(params2);
     return {option1,option2}
   };
   // 选择框修改
