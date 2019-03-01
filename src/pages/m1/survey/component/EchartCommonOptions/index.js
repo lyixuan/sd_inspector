@@ -23,6 +23,9 @@ export function commonOptions(text,legendData=[],xData=[],max,interval) {
     },
     tooltip: {
       trigger: 'axis',
+      textStyle:{
+        align:'left'
+      },
       // axisPointer: {
       //   type: 'cross',
       //   crossStyle: {

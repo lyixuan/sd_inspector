@@ -62,6 +62,46 @@ export default class Survey extends React.Component {
     const option2 = {
       ...data2,
       color:['#1e93ff',"#fc595b",'#fc3676'],
+      // toolbox: {
+      //   feature: {
+      //     dataView: {show: true, readOnly: false},
+      //     magicType: {show: true, type: ['line', 'bar']},
+      //     restore: {show: true},
+      //     saveAsImage: {show: true}
+      //   }
+      // },
+      yAxis: [
+        {
+          axisLine:{
+            lineStyle:{
+              color:'#bdc0c6'
+            }
+          },
+          axisTick:{
+            show:false,
+          },
+          splitLine:{
+            show:false
+          },
+          type: 'value',
+          min: 0,
+          max: 25000,
+          interval: 5000,
+          axisLabel: {
+            formatter: '{value}'
+          }
+        },
+        {
+          show:false,
+          type: 'value',
+          min: 0,
+          max: 75,
+          interval: 15,
+          axisLabel: {
+            formatter: '{value} %'
+          }
+        }
+      ],
       series: [
         {
           name:'考试计划人数',
@@ -77,12 +117,12 @@ export default class Survey extends React.Component {
         {
           name:'准考证填写占比',
           type:'line',
-          // yAxisIndex: 1,
+          yAxisIndex: 1,
           data:[20, 32.2, 43.3, 52.5, 62.3, 69.2, 70.3],
           symbol:'circle',
           symbolSize:6,
-          hoverAnimation:false,
-          // smooth:true
+          itemStyle : { normal: {label : {show: true,formatter:'{c}%'}}},
+          smooth:true
         }
       ]
     };
