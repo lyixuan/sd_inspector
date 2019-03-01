@@ -3,6 +3,10 @@ import Form from 'antd/lib/form';
 import Select from 'antd/lib/select';
 import Button from 'antd/lib/button';
 import DatePicker from 'antd/lib/date-picker';
+import Dropdown from 'antd/lib/dropdown';
+import Menu from 'antd/lib/menu';
+import Icon from 'antd/lib/icon';
+
 import { BiFilter } from '../../../../../utils/utils';
 
 import styles from '../style.less'
@@ -38,12 +42,18 @@ class HorizontalLoginForm extends React.Component {
     ];
     this.collegeList = [];
     this.familyList = [];
-    this.conditionList = [];
+    this.conditionList = [
+      {id:1,name:'我的条件1'}
+    ];
 
   }
   componentDidMount() {
     // To disabled submit button at the beginning.
     // this.props.form.validateFields();
+  }
+
+  handleMenuClick = (e) => {
+    console.log('click', e);
   }
 
   handleSubmit = (e) => {
@@ -57,6 +67,15 @@ class HorizontalLoginForm extends React.Component {
 
   render() {
     const { getFieldDecorator, } = this.props.form;
+    const menu = (
+      <Menu onClick={this.handleMenuClick}>
+        {this.conditionList.map(item => (
+          <Menu.Item key={item.id}>
+            {item.name}<Icon type="user" />
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
 
     return (
       <Form layout="inline" onSubmit={this.handleSubmit}>
@@ -172,16 +191,11 @@ class HorizontalLoginForm extends React.Component {
           {/* 第四行 */}
           <div style={{marginTop: '60px'}}>
             <Form.Item label="&nbsp;">
-              {getFieldDecorator('searchCondition', {
-              })(
-                <Select placeholder="我的查询条件">
-                  {this.conditionList.map(item => (
-                    <Option value={item.id} key={item.name}>
-                      {item.name}
-                    </Option>
-                  ))}
-                </Select>
-              )}
+              <Dropdown overlay={menu}>
+                <Button>
+                  我的查询条件 <Icon type="down" />
+                </Button>
+              </Dropdown>
             </Form.Item>
             <Form.Item style={{marginLeft:'300px'}}>
               <Button type="primary2">恢复默认</Button>

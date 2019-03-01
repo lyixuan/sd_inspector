@@ -100,11 +100,14 @@
 .ant-select-dropdown-menu-item {
   color: #1683FB;
 }
-
-.ant-select-dropdown-menu-item-selected {
+.ant-select-dropdown-menu-item-selected,.ant-select-dropdown-menu-item-selected:hover,.ant-select-dropdown-menu-item-active {
   background-color: #0C2E58;
+  color: #1683FB;
 }
 
+.ant-select-dropdown-menu-item-active:hover{
+  background-color: #0C2E58;
+}
 /* 多选 */
 .ant-select-selection--multiple {
   width: 185px;
@@ -223,7 +226,7 @@
   border-color: #0080FF;
 }
 
-  /* =========================== form ===========================  */
+/* =========================== form ===========================  */
 
 /*label*/
 
@@ -249,4 +252,46 @@
 
 .ant-divider-inner-text {
   color: #fff;
+}
+
+/* =========================== dropdown 下拉菜单 ===========================  */
+.ant-dropdown-trigger {
+  background-color: #0C172E;
+  width: 185px;
+  height: 36px;
+  border: 1px solid #1683FB;
+}
+.ant-btn:hover, .ant-btn:focus, .ant-btn:active, .ant-btn.active {
+  background-color: #0C172E;
+}
+.ant-dropdown-trigger span {
+  color: #1DA9FC;
+}
+
+.ant-dropdown-trigger > .anticon.anticon-down, .ant-dropdown-link > .anticon.anticon-down {
+  color: #1683FB;
+}
+
+:root .ant-dropdown-trigger > .anticon.anticon-down, :root .ant-dropdown-link > .anticon.anticon-down {
+  font-size: 14px;
+}
+
+.ant-btn > .anticon + span, .ant-btn > span + .anticon {
+  float: right;
+}
+.ant-btn > .anticon {
+  line-height: 1.5;
+}
+
+.ant-dropdown-menu {
+  box-shadow: rgb(0, 112, 183) 0px 0px 20px;
+  -webkit-tap-highlight-color: transparent;
+  background-color: #0C172E;
+}
+
+.ant-dropdown-menu-item {
+  color: #1683FB;
+}
+.ant-dropdown-menu-item:hover {
+  background-color: #0C2E58;
 }

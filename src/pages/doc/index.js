@@ -5,6 +5,9 @@ import Input from 'antd/lib/input';
 import Select from 'antd/lib/select';
 import Table from 'antd/lib/table';
 import DatePickerDecorator from 'antd/lib/date-picker';
+import Dropdown from 'antd/lib/dropdown';
+import Icon from 'antd/lib/icon';
+import Menu from 'antd/lib/menu';
 import { BiFilter } from '../../../utils/utils';
 
 // 自定义组件部分
@@ -44,6 +47,25 @@ class Doc extends Component {
                     <Option key="c12">c12</Option>
 </Select>`;
     const select3 = `<RangePicker/>`;
+
+    const down1 = `<Menu>
+        <Menu.Item key="1"><Icon type="user" />1st menu item</Menu.Item>
+        <Menu.Item key="2"><Icon type="user" />2nd menu item</Menu.Item>
+        <Menu.Item key="3"><Icon type="user" />3rd item</Menu.Item>
+      </Menu>`;
+    const down2 = `<Dropdown overlay={menu} onClick={handleButtonClick}>
+              <Button>
+                我的查询条件 <Icon type="down" />
+              </Button>
+            </Dropdown>`;
+
+    const menu = (
+      <Menu>
+        <Menu.Item key="1"><Icon type="user" />1st menu item</Menu.Item>
+        <Menu.Item key="2"><Icon type="user" />2nd menu item</Menu.Item>
+        <Menu.Item key="3"><Icon type="user" />3rd item</Menu.Item>
+      </Menu>
+    );
 
     const dataSource = [{
       key: '1',
@@ -130,6 +152,23 @@ class Doc extends Component {
               <br/>
               type定义 <br/>
               1、type 默认 ：黑底蓝字； <br/>
+            </div>
+          </Right>
+        </Box>
+        <Box title="Dropdown 下拉菜单">
+          <Left>
+            <Dropdown overlay={menu}>
+              <Button>
+                我的查询条件 <Icon type="down" />
+              </Button>
+            </Dropdown>
+            <Divider> Code </Divider>
+            <TextArea rows={12} defaultValue={`${down1}\n${down2}`}/>
+          </Left>
+          <Right>
+            <div>
+              size定义 <br/>
+              1、size 按钮大小，和 Button 一致 <br/>
             </div>
           </Right>
         </Box>
