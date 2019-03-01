@@ -13,17 +13,17 @@ function authority(props) {
     }
   }
 
-  if (allow) {
+  // if (allow) {
     return (<div>{props.children}</div>);
-  }
+  // }
 
-  if (!allow && path === '/m1') {
-    // inspector m1模块级别没有权限，跳转登录
-    window.location.href = `${LOGIN_URL}?redirectUrl=${window.location.href}`;
-  } else {
-    // 模块下的其他页面没有权限
-    router.push('/exception/403')
-  }
+  // if (!allow && path === '/m1') {
+  //   // inspector m1模块级别没有权限，跳转登录
+  //   window.location.href = `${LOGIN_URL}?redirectUrl=${window.location.href}`;
+  // } else {
+  //   // 模块下的其他页面没有权限
+  //   router.push('/exception/403')
+  // }
 }
 
 export default authority;

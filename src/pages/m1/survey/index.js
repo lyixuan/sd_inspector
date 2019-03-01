@@ -1,6 +1,8 @@
 import React from 'react';
 import Radio from '../../../components/Tabs'
 import Echart from '../../../components/Echart'
+import styles from './style.less';
+import ChinaMap from './component/ChinaMap';
 
 export default class Survey extends React.Component {
   commonOption = (text,legendData=[],xData=[]) => {
@@ -188,6 +190,9 @@ export default class Survey extends React.Component {
     return (
       <div  style={{border:"1px solid blue",padding: '10px',textAlign:'center'}}>
         <Radio path='/m1/survey' />
+        <div className={styles.mapContainer}>
+        <ChinaMap></ChinaMap>
+        </div>
         <div style={{display:'flex',justifyContent:'center',marginTop:'20px'}}>
           <Echart update='1' style={{width:'540px', height:"300px",marginRight:'20px',backgroundColor:'#0c1731'}} options={option1} />
           <Echart update='1' style={{width:'540px', height:"300px",backgroundColor:'#0c1731'}} options={option2} />
