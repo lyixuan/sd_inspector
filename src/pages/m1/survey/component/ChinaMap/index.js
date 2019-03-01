@@ -22,24 +22,27 @@ const lended=`
 <text id="t7" data-name="7万≤N＜10万" class=${styles.cls8} transform="translate(147.281 777.221)">7万≤N＜10万</text>
 <text id="t8" data-name="≥10万" class=${styles.cls8} transform="translate(147.281 748.222)">≥10万</text>`
 
-const scaleNum=0.75;
+const scaleNum=0.70;
+let HEIGHT=0;
+let WIDTH=0
 
 class ChinaMap extends Component{
     componentDidMount(){
         this.initMap();
     }
     initMap=()=>{
+        WIDTH=this.svgDom.parentElement.offsetWidth;
+        HEIGHT=this.svgDom.parentElement.offsetHeight;
         this.drewMap(mapData);
+      
     }
    
     drewMap=(data)=>{
-       
-        const containerWidth=this.svgDom.parentElement.offsetWidth;
-        const containerHeight=this.svgDom.parentElement.offsetHeight;
-        const chart=d3.select(this.svgDom).attr('width',containerWidth).attr('height',containerHeight);
+        const chart=d3.select(this.svgDom).attr('width',WIDTH).attr('height',HEIGHT);
         this.svgFirstG = chart.append("g")// 设最外包层在总图上的相对位置
         this.svgFirstG.style('fill-opacity', 1)
-        .attr('transform',`scale(${scaleNum})`);
+        .attr("transform", `translate(${(1-scaleNum)/2*WIDTH},${(1-scaleNum)/2*HEIGHT}) scale(${scaleNum})`)
+        ;
     //    ;
         // 设置省path
         this.drewPath(data)
@@ -50,12 +53,11 @@ class ChinaMap extends Component{
     }
     drewLended=(svg)=>{
         this.lended=svg.append('g').html(lended)
-        this.lended.attr('y',100)
-        .attr('transform',`scale(${scaleNum})`);
+        // this.lended.attr('dy',100)
+        // this.lended.attr('x',-200)
+        .attr("transform", `translate(${(scaleNum-1)/2*WIDTH+10},${(scaleNum-1)/2*HEIGHT+100})`)
     }
     drewPath=(data)=>{
-        const chartWidth=this.svgFirstG.attr('width');
-        const chartHeight=this.svgFirstG.attr('height');
         this.provincePath = this.svgFirstG.append('g')
         .attr('class','pathClass')
         .selectAll("path") // 定义省容器
@@ -64,7 +66,7 @@ class ChinaMap extends Component{
        // // 向省容器添加path以及text
        this.provincePath.append('path')
        .attr("class",`state ${styles.province}`)
-       .attr("transform", `translate(${(1-scaleNum)/2*chartWidth},${(1-scaleNum)*chartHeight})`)
+       .attr("transform", `translate(${(scaleNum-1)/2*WIDTH-150},${(scaleNum-1)/2*HEIGHT+100})`)
        .attr("d", (d)=>d.d)
       .on('mouseover',this.onMouseover)
       .on('mouseout',this.onMouseout)
@@ -72,6 +74,7 @@ class ChinaMap extends Component{
     }
     drewText=()=>{
         this.allText=this.svgFirstG.append('g')
+        .attr("transform", `translate(${(scaleNum-1)/2*WIDTH-150},${(scaleNum-1)/2*HEIGHT+100})`)
         .attr('class','textClass')
         .selectAll("text")
         .data( mapData.textData )
@@ -98,7 +101,10 @@ class ChinaMap extends Component{
     }
     render(){
         return(
-            <svg ref={dom=>{this.svgDom=dom}} width={1000} height={1000}></svg>)
+            <div className={styles.container}>
+             <svg ref={dom=>{this.svgDom=dom}} width={1000} height={1000}></svg>
+            </div>
+            )
     }
 }
 export default ChinaMap;

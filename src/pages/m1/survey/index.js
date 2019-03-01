@@ -8,6 +8,9 @@ import Select from './component/Select';
 import Echart from '../../../components/Echart'
 import styles from './style.less';
 import ChinaMap from './component/ChinaMap';
+import {commonOptions} from './component/EchartCommonOptions';
+import {provinceJson} from '../../../../utils/constants';
+import ProcessStep from './component/ProcessStep';
 
 
 const { RangePicker } = DatePickerDecorator;
@@ -16,94 +19,26 @@ export default class Survey extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      proVal:'报考省份',
-      colVal:'学院',
-      famVal:'家族',
-      startTime:'',
-      endTime:'',
-    }
-  }
-  commonOption = (text,legendData=[],xData=[]) => {
-    const option={
-      title: {
-        text,
-        x:'center',
-        textStyle:{
-          color:'#fff',
-          fontSize:'16px'
-        },
-        top:20
-      },
-      grid:{
-        top:80
-      },
-      legend: {
-        bottom: 0,
-        textStyle:{
-          color:'#bdc0c6'
-        },
-        itemWidth:10,
-        itemHeight:10,
-        data:legendData
-      },
-      tooltip: {
-        trigger: 'axis',
-        // axisPointer: {
-        //   type: 'cross',
-        //   crossStyle: {
-        //     color: '#999'
-        //   }
-        // }
-      },
-      xAxis: [
-        {
-          axisLine:{
-            lineStyle:{
-              color:'#bdc0c6'
-            }
-          },
-          axisLabel:{// 横坐标轴标签
-            interval:0
-          },
-          axisTick:{
-            show:false,
-          },
-          type: 'category',
-          data: xData,
-          axisPointer: {
-            type: 'shadow'
-          }
-        }
-      ],
+      province:'报考省份',
+      collegeId:'学院',
+      familyId:'家族',
+      beginDate:'',
+      endDate:'',
+      familyData:[], // 家族的下拉框options
     };
-    return option;
+  }
+  collegeData = ()=>{
+    return [
+      {name:'学院',code:111,children:[{name:'家族1',code:11},{name:'家族11',code:12},{name:'家族12',code:13}]},
+      {name:'学院1',code:211,children:[{name:'家族2',code:21},{name:'家族21',code:22},{name:'家族22',code:23}]},
+      {name:'学院2',code:311,children:[{name:'家族3',code:31},{name:'家族31',code:32},{name:'家族32',code:33}]},];
   };
   initChart= () =>{
-    const data1 = this.commonOption('微信推送整体数据',['考试计划人数', '推送人数', '已读人数'],['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7']);
-    const data2 = this.commonOption('准考证填写趋势',['考试计划人数','准考证填写人数','准考证填写占比'],['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7']);
+    const data1 = commonOptions('微信推送整体数据',['考试计划人数', '推送人数', '已读人数'],['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],50000,10000);
+    const data2 = commonOptions('准考证填写趋势',['考试计划人数','准考证填写人数','准考证填写占比'],['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],25000,5000);
     const option1 = {
       ...data1,
       color:['#1e93ff',"#7363ec",'#1ec47a'],
-      yAxis: {
-        axisLine:{
-          lineStyle:{
-            color:'#bdc0c6'
-          }
-        },
-        axisTick:{
-          show:false,
-        },
-        type: 'value',
-        min: 0,
-        max: 50000,
-        interval: 10000,
-        axisLabel: {
-          formatter: '{value}'
-        },
-        splitLine:{
-          show:false
-        }
-      },
       series: [
         {
           name:'考试计划人数',
@@ -127,56 +62,6 @@ export default class Survey extends React.Component {
     const option2 = {
       ...data2,
       color:['#1e93ff',"#fc595b",'#fc3676'],
-      // toolbox: {
-      //   feature: {
-      //     dataView: {show: true, readOnly: false},
-      //     magicType: {show: true, type: ['line', 'bar']},
-      //     restore: {show: true},
-      //     saveAsImage: {show: true}
-      //   }
-      // },
-      yAxis: [
-        {
-          axisLine:{
-            lineStyle:{
-              color:'#bdc0c6'
-            }
-          },
-          axisTick:{
-            show:false,
-          },
-          splitLine:{
-            show:false
-          },
-          type: 'value',
-          min: 0,
-          max: 25000,
-          interval: 5000,
-          axisLabel: {
-            formatter: '{value}'
-          }
-        },
-        {
-          axisLine:{
-            lineStyle:{
-              color:'#bdc0c6'
-            }
-          },
-          axisTick:{
-            show:false,
-          },
-          splitLine:{
-            show:false
-          },
-          type: 'value',
-          min: 0,
-          max: 75,
-          interval: 15,
-          axisLabel: {
-            formatter: '{value} %'
-          }
-        }
-      ],
       series: [
         {
           name:'考试计划人数',
@@ -192,7 +77,7 @@ export default class Survey extends React.Component {
         {
           name:'准考证填写占比',
           type:'line',
-          yAxisIndex: 1,
+          // yAxisIndex: 1,
           data:[20, 32.2, 43.3, 52.5, 62.3, 69.2, 70.3],
           symbol:'circle',
           symbolSize:6,
@@ -207,23 +92,26 @@ export default class Survey extends React.Component {
   handleChange = (value,id)=> {
     if(id === 'province'){
       this.setState({
-        proVal:value,
+        province:value,
       });
     }else if(id === 'college'){
+      const familyData = this.collegeData().filter(item => item.code===value)[0].children ;
       this.setState({
-        colVal:value,
+        collegeId:value,
+        familyId:familyData[0].name,
+        familyData,
       });
     }else if(id === 'family'){
       this.setState({
-        famVal:value,
+        familyId:value,
       });
     }
   };
   // 日期修改
   dateChange=(value, dateString)=> {
     this.setState({
-      startTime:dateString[0],
-      endTime:dateString[1],
+      beginDate:dateString[0],
+      endDate:dateString[1],
     });
   };
   search = () =>{
@@ -231,28 +119,24 @@ export default class Survey extends React.Component {
   };
   reset = () =>{
     this.setState({
-      proVal:'报考省份',
-      colVal:'学院',
-      famVal:'家族',
-      startTime:'',
-      endTime:'',
+      province:'报考省份',
+      collegeId:'学院',
+      familyId:'家族',
+      beginDate:'',
+      endDate:'',
+      familyData:[]
     })
   };
   render(){
-    console.log(this.state)
-    const { proVal, colVal, famVal, startTime, endTime} =  this.state;
+    const { province, collegeId, familyId, beginDate, endDate,familyData} =  this.state;
     const {option1,option2} = this.initChart();
-    const options=[{name:'报考省份',id:1},{name:'jucy2',id:2},{name:'jucy3',id:3},];
-    const options1=[{name:'学院',id:1},{name:'学院1',id:2},{name:'学院2',id:3},];
-    const options2=[{name:'家族',id:1},{name:'家族1',id:2},{name:'家族2',id:3},];
 
     return (
       <div className={styles.container}>
         <Radio path='/m1/survey' />
         <div className={styles.mapContainer}>
-        <ChinaMap></ChinaMap>
-        <div className={styles.examinationState}></div>
-
+            <ChinaMap />
+            <ProcessStep />
         </div>
         <div className={styles.histogram}>
           <div className={styles.headerCls}>
@@ -261,10 +145,10 @@ export default class Survey extends React.Component {
           <div className={styles.formCls}>
             <div>
               <span className={styles.searchTxt}>查询条件：</span>
-              <Select options={options} defaultValue={proVal} id='province' handleChange={this.handleChange} />
-              <Select options={options1} defaultValue={colVal} id='college' handleChange={this.handleChange} />
-              <Select options={options2} defaultValue={famVal} id='family' handleChange={this.handleChange} />
-              <RangePicker placeholder={['开始时间','结束时间']} onChange={this.dateChange} value={startTime&&endTime?[moment(startTime, dateFormat), moment(endTime, dateFormat)]:''}/>
+              <Select options={provinceJson} defaultValue={province} id='province' handleChange={this.handleChange} />
+              <Select options={this.collegeData()} defaultValue={collegeId} id='college' handleChange={this.handleChange} />
+              <Select options={familyData} defaultValue={familyId} id='family' handleChange={this.handleChange} />
+              <RangePicker placeholder={['开始时间','结束时间']} onChange={this.dateChange} value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}/>
             </div>
             <div>
               <Button type="primary2" style={{marginRight:'20px'}} onClick={this.reset}>恢复默认</Button>
