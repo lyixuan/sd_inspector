@@ -1,9 +1,11 @@
 import React,{Component}from 'react';
 import * as d3 from "d3";
+import * as d3tip from 'd3-tip';
 import {mapData} from './mapData';
 import './styles.less';
 import styles from './styles.less'
 
+console.log(d3tip)
 const lended=`
 <path id="lenged_path_1" data-name="矩形 528" class=${styles.cls1} d="M115,764.977h16v16H115v-16Z"/>
 <path id="lenged_path_2" data-name="矩形 528 拷贝 3" class=${styles.cls2} d="M115,735.978h16v16H115v-16Z"/>
@@ -23,8 +25,10 @@ const lended=`
 <text id="t8" data-name="≥10万" class=${styles.cls8} transform="translate(147.281 748.222)">≥10万</text>`
 
 const scaleNum=0.70;
+let tip={};
 let HEIGHT=0;
 let WIDTH=0
+
 
 class ChinaMap extends Component{
     componentDidMount(){
@@ -38,23 +42,42 @@ class ChinaMap extends Component{
     }
    
     drewMap=(data)=>{
+         //设置tip框
+         this.drewTip();
+         // 设置path 部分
         const chart=d3.select(this.svgDom).attr('width',WIDTH).attr('height',HEIGHT);
         this.svgFirstG = chart.append("g")// 设最外包层在总图上的相对位置
         this.svgFirstG.style('fill-opacity', 1)
         .attr("transform", `translate(${(1-scaleNum)/2*WIDTH},${(1-scaleNum)/2*HEIGHT}) scale(${scaleNum})`)
+        .on('mouseover',tip.show)
+        .on('mouseout',tip.hide)
         ;
-    //    ;
         // 设置省path
         this.drewPath(data)
         // 设置省名字title
         this.drewText(data);
         // 设置图例
         this.drewLended(chart);
+        
+    }
+    drewTip=()=>{
+        const div=d3.select("body").append("div")
+        .attr("class",`${styles.tooltip} tooltip`) //用于css设置类样式
+        .html('"销售额为"');
+        tip.show=(event=d3.event)=>{
+            console.log(event)
+            const {pageX,pageY}=event;
+            div.style('display','block');
+            div.style('top',`${pageY}px`);
+            div.style('left',`${pageX}px`);
+
+        }
+        tip.hide=()=>{
+            div.style('display','none');
+        }
     }
     drewLended=(svg)=>{
         this.lended=svg.append('g').html(lended)
-        // this.lended.attr('dy',100)
-        // this.lended.attr('x',-200)
         .attr("transform", `translate(${(scaleNum-1)/2*WIDTH+10},${(scaleNum-1)/2*HEIGHT+100})`)
     }
     drewPath=(data)=>{
@@ -72,6 +95,7 @@ class ChinaMap extends Component{
       .on('mouseout',this.onMouseout)
       .on('click',this.onClick);
     }
+
     drewText=()=>{
         this.allText=this.svgFirstG.append('g')
         .attr("transform", `translate(${(scaleNum-1)/2*WIDTH-150},${(scaleNum-1)/2*HEIGHT+100})`)
@@ -85,19 +109,23 @@ class ChinaMap extends Component{
             return d.tspan?d.tspan:d.dataName;
            
         })
-        .attr("transform",(d) => d.transform)
+        .attr("transform",(d) => d.transform);
     }
     onMouseover(d,i){
+        console.log(d3.select(this).attr('class'))
         d3.select(this).raise()
         .attr("class",`${styles.province} ${styles.mouseoverStyle}`)
+        //现市tip
+        // tip.show(d3.event)
     }
     onMouseout(d,i){
         d3.select(this)
         .attr("class",`state ${styles.province}`)
+        tip.hide();
     }
     onClick(){
-        d3.select(this).raise()
-        .attr("class",`${styles.province} ${styles.mouseoverStyle}`)
+        // d3.select(this).raise()
+        // .attr("class",`${styles.province} ${styles.mouseoverStyle}`)
     }
     render(){
         return(
