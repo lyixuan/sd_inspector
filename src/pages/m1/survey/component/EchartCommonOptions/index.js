@@ -1,4 +1,5 @@
-export function commonOptions(text,legendData=[],xData=[],max,interval) {
+export function commonOptions(params) {
+  const {text,legendData=[],xData=[],max,interval,color,series,yAxis} = params;
   const option={
     title: {
       text,
@@ -23,6 +24,9 @@ export function commonOptions(text,legendData=[],xData=[],max,interval) {
     },
     tooltip: {
       trigger: 'axis',
+      textStyle:{
+        align:'left'
+      },
       // axisPointer: {
       //   type: 'cross',
       //   crossStyle: {
@@ -50,7 +54,7 @@ export function commonOptions(text,legendData=[],xData=[],max,interval) {
         }
       }
     ],
-    yAxis: {
+    yAxis: [{
       axisLine:{
         lineStyle:{
           color:'#bdc0c6'
@@ -69,7 +73,22 @@ export function commonOptions(text,legendData=[],xData=[],max,interval) {
       axisLabel: {
         formatter: '{value}'
       },
-    },
+    },yAxis?yAxis:null],
+    color,
+    series: [
+      {
+        name:legendData[0],
+        ...series[0],
+      },
+      {
+        name:legendData[1],
+        ...series[1],
+      },
+      {
+        name:legendData[2],
+        ...series[2],
+      },
+    ],
     // toolbox: {
     //   feature: {
     //     dataView: {show: true, readOnly: false},
