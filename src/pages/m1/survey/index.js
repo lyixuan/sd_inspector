@@ -1,10 +1,25 @@
 import React from 'react';
-import Radio from '../../../components/Tabs'
+import Button from 'antd/lib/button';
+import DatePickerDecorator from 'antd/lib/date-picker';
+import Radio from '../components/Tabs';
+import Select from './component/Select';
 import Echart from '../../../components/Echart'
 import styles from './style.less';
 import ChinaMap from './component/ChinaMap';
 
+
+const { RangePicker } = DatePickerDecorator;
 export default class Survey extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      proVal:'报考省份',
+      colVal:'学院',
+      famVal:'家族',
+      startTime:'',
+      endTime:'',
+    }
+  }
   commonOption = (text,legendData=[],xData=[]) => {
     const option={
       title: {
@@ -185,10 +200,51 @@ export default class Survey extends React.Component {
     };
     return {option1,option2}
   };
+  // 选择框修改
+  handleChange = (value,id)=> {
+    if(id === 'province'){
+      this.setState({
+        proVal:value,
+      });
+    }else if(id === 'college'){
+      this.setState({
+        colVal:value,
+      });
+    }else if(id === 'family'){
+      this.setState({
+        famVal:value,
+      });
+    }
+  };
+  // 日期修改
+  dateChange=(value, dateString)=> {
+    this.setState({
+      startTime:dateString[0],
+      endTime:dateString[1],
+    });
+  };
+  search = () =>{
+    console.log(this.state);
+  };
+  reset = () =>{
+    this.setState({
+      proVal:'报考省份',
+      colVal:'学院',
+      famVal:'家族',
+      startTime:'',
+      endTime:'',
+    })
+  };
   render(){
+    console.log(this.state)
+    const { proVal, colVal, famVal, startTime, endTime} =  this.state;
     const {option1,option2} = this.initChart();
+    const options=[{name:'报考省份',id:1},{name:'jucy2',id:2},{name:'jucy3',id:3},];
+    const options1=[{name:'学院',id:1},{name:'学院1',id:2},{name:'学院2',id:3},];
+    const options2=[{name:'家族',id:1},{name:'家族1',id:2},{name:'家族2',id:3},];
+
     return (
-      <div  style={{border:"1px solid blue",padding: '10px',textAlign:'center'}}>
+      <div className={styles.container}>
         <Radio path='/m1/survey' />
         <div className={styles.mapContainer}>
         <ChinaMap></ChinaMap>

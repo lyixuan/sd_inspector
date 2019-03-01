@@ -6,6 +6,3 @@
 
 /* 自定义和扩展的 ant 样式，全局 */
 @import "../utils/themes/custom-ant.css";
-
-/* 页面作用域内特殊 ant 样式，必须加页面 class 前缀 */
-@import "../utils/themes/custom-part-ant.css";
