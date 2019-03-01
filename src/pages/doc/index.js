@@ -5,6 +5,7 @@ import Input from 'antd/lib/input';
 import Select from 'antd/lib/select';
 import Table from 'antd/lib/table';
 import DatePickerDecorator from 'antd/lib/date-picker';
+import { BiFilter } from '../../../utils/utils';
 
 // 自定义组件部分
 import Deliver from '../m1/components/Deliver';
@@ -134,9 +135,15 @@ class Doc extends Component {
         </Box>
         <Box title="Table">
           <Cente>
-            <Table dataSource={dataSource} columns={columns} pagination={{showSizeChanger:true,defaultCurrent:3 ,total:100,pageSizeOptions:['36','50','100']}}  bordered/>
+            <Table dataSource={dataSource} columns={columns} pagination={{
+              showSizeChanger:true,
+              showQuickJumper:true,
+              defaultCurrent:1,
+              total:100,
+              pageSizeOptions:['36','50','100']
+            }}  bordered/>
             <Divider> Code </Divider>
-            <TextArea rows={1} defaultValue='<Table dataSource={dataSource} columns={columns} bordered/>'/>
+            <TextArea rows={1} defaultValue='<Table dataSource={dataSource} columns={columns} pagination={BiFilter("PAGENATION")}  bordered/>'/>
           </Cente>
         </Box>
         <Box title="自定义组件 Deliver">

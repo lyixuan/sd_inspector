@@ -14,6 +14,14 @@ export const ADMIN_USER = 'admin_user';
 // 登录页面地址配置
 export const LOGIN_URL = 'http://localhost:8001/userLayout/login';
 
+// 分页配置
+export const PAGENATION = {
+  showSizeChanger:true,
+  showQuickJumper:true,
+  defaultCurrent:1,
+  pageSizeOptions:['36','50','100']
+};
+
 // 省份
 export const provinceJson = [
   {
