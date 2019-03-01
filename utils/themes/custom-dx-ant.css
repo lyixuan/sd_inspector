@@ -180,7 +180,38 @@
   padding: 12px 12px;
 }
 
-/* =========================== form ===========================  */
+/*分页*/
+.ant-table-pagination.ant-pagination {
+  float: none;
+  text-align: center;
+}
+
+.ant-pagination-item, .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link{
+  background-color: #0A2F5B;
+  color: #fff;
+}
+.ant-pagination-item a {
+  color: #fff;
+}
+
+.ant-pagination-item-active {
+  border-color: #0080FF;
+  background-color: #0B80E9;
+}
+
+.ant-pagination-item-active:focus, .ant-pagination-item-active:hover {
+  border-color: #0080FF;
+}
+
+.ant-pagination-item-active:focus a, .ant-pagination-item-active:hover a,.ant-pagination-item:focus a, .ant-pagination-item:hover a ,.ant-pagination-prev:hover .ant-pagination-item-link,.ant-pagination-next:hover .ant-pagination-item-link{
+  color: #fff;
+}
+
+.ant-pagination-options .ant-select-selection--single{
+  width: 110px;
+  height: 32px;
+}
+  /* =========================== form ===========================  */
 
 /*label*/
 
@@ -195,4 +226,9 @@
   content: " ";
   display: inline-block;
   width: 100%;
+}
+
+
+.ant-breadcrumb, .ant-breadcrumb span ,.ant-breadcrumb a {
+  color: #fff;
 }

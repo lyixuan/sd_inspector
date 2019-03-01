@@ -134,7 +134,7 @@ class Doc extends Component {
         </Box>
         <Box title="Table">
           <Cente>
-            <Table dataSource={dataSource} columns={columns} bordered/>
+            <Table dataSource={dataSource} columns={columns} pagination={{showSizeChanger:true,defaultCurrent:3 ,total:100,pageSizeOptions:['36','50','100']}}  bordered/>
             <Divider> Code </Divider>
             <TextArea rows={1} defaultValue='<Table dataSource={dataSource} columns={columns} bordered/>'/>
           </Cente>

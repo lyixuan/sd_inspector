@@ -192,8 +192,8 @@ class HorizontalLoginForm extends React.Component {
           </div>
         </div>
         <span className={styles.rowTitle}>已选条件：</span>
-        <div className={styles.row}>
-          <span className={styles.spanBtn}></span>
+        <div className={styles.row} style={{background:'transparent'}}>
+          <span className={styles.spanBtn}>条件我</span> <Button type="primary">保存查询条件</Button>
         </div>
       </Form>
     );

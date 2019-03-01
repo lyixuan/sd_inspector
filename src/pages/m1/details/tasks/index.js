@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Table from 'antd/lib/table';
+import Breadcrumb from 'antd/lib/breadcrumb';
+import Link from 'umi/link';
+
 import Button from 'antd/lib/button';
-import router from 'umi/router';
 
 import styles from '../style.less'
 
-class ResultTable extends Component {
+class Tasks extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -14,9 +16,6 @@ class ResultTable extends Component {
   UNSAFE_componentWillMount() {
     // 获取数据
   }
-  toTask = () =>{
-    router.push('/m1/details/tasks');
-  };
 
   render() {
     const dataSource = [{
@@ -33,45 +32,46 @@ class ResultTable extends Component {
 
     const columns = [
       {
-        title: '省/市',
+        title: '序号',
         dataIndex: 'index',
       },
       {
-        title: '学院',
+        title: '创建时间',
         dataIndex: 'adjustDate2',
       },
       {
-        title: '家族',
+        title: '创建人',
         dataIndex: 'type2',
       },
       {
-        title: '考试计划人数',
+        title: '任务名称',
         dataIndex: 'creditScore2',
       },
       {
-        title: '准考证填写人数',
+        title: '查询条件',
         dataIndex: 'groupType2',
       },
       {
-        title: '消息已读人数',
+        title: '任务状态',
         dataIndex: 'orgName2',
       },
       {
-        title: '消息未读人数',
+        title: '学院订单数',
         dataIndex: 'familyType2',
       },
     ];
     return (
       <>
-        <div>
+        <div className={styles.breadcrumb}>
+          <Breadcrumb>
+            <Breadcrumb.Item>当前位置:</Breadcrumb.Item>
+            <Breadcrumb.Item><Link to="/m1/details">明细数据查询</Link></Breadcrumb.Item>
+            <Breadcrumb.Item>任务列表</Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
+        <div className={styles.tableBox}>
           <div className={styles.tableHead}>
-            <span className={styles.tableHeadLeft}>共搜出 889 条学员数据</span>
-            <span className={styles.tableHeadRight}>
-              <Button type="primary" onClick={this.toTask}>任务列表</Button>
-            </span>
-            <span className={styles.tableHeadRight}>
-              <Button type="primary2">添加下载任务</Button>
-            </span>
+            <span className={styles.tableHeadLeft}>任务列表</span>
           </div>
           <Table dataSource={dataSource} columns={columns} bordered/>
         </div>
@@ -80,4 +80,4 @@ class ResultTable extends Component {
   }
 }
 
-export default ResultTable;
+export default Tasks;
