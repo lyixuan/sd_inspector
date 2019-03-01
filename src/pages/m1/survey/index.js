@@ -1,6 +1,8 @@
 import React from 'react';
 import Button from 'antd/lib/button';
+import Icon from 'antd/lib/icon';
 import DatePickerDecorator from 'antd/lib/date-picker';
+import moment from 'moment';
 import Radio from '../components/Tabs';
 import Select from './component/Select';
 import Echart from '../../../components/Echart'
@@ -9,6 +11,7 @@ import ChinaMap from './component/ChinaMap';
 
 
 const { RangePicker } = DatePickerDecorator;
+const dateFormat = 'YYYY-MM-DD';
 export default class Survey extends React.Component {
   constructor(props){
     super(props);
@@ -249,10 +252,32 @@ export default class Survey extends React.Component {
         <div className={styles.mapContainer}>
         <ChinaMap></ChinaMap>
         <div className={styles.examinationState}></div>
+
         </div>
-        <div style={{display:'flex',justifyContent:'center',marginTop:'20px'}}>
-          <Echart update='1' style={{width:'540px', height:"300px",marginRight:'20px',backgroundColor:'#0c1731'}} options={option1} />
-          <Echart update='1' style={{width:'540px', height:"300px",backgroundColor:'#0c1731'}} options={option2} />
+        <div className={styles.histogram}>
+          <div className={styles.headerCls}>
+            数据概览
+          </div>
+          <div className={styles.formCls}>
+            <div>
+              <span className={styles.searchTxt}>查询条件：</span>
+              <Select options={options} defaultValue={proVal} id='province' handleChange={this.handleChange} />
+              <Select options={options1} defaultValue={colVal} id='college' handleChange={this.handleChange} />
+              <Select options={options2} defaultValue={famVal} id='family' handleChange={this.handleChange} />
+              <RangePicker placeholder={['开始时间','结束时间']} onChange={this.dateChange} value={startTime&&endTime?[moment(startTime, dateFormat), moment(endTime, dateFormat)]:''}/>
+            </div>
+            <div>
+              <Button type="primary2" style={{marginRight:'20px'}} onClick={this.reset}>恢复默认</Button>
+              <Button type="primary" onClick={this.search}>
+                <Icon type="search" style={{fontSize:'16px'}} />
+                查询
+              </Button>
+            </div>
+          </div>
+          <div className={styles.echartCls}>
+            <Echart update='1' style={{width:'46%', height:"510px"}} options={option1} />
+            <Echart update='1' style={{width:'46%', height:"510px"}} options={option2} />
+          </div>
         </div>
       </div>
     );
