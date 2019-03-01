@@ -1,12 +1,17 @@
 import React from 'react';
 import Button from 'antd/lib/button';
+import Icon from 'antd/lib/icon';
 import DatePickerDecorator from 'antd/lib/date-picker';
+import moment from 'moment';
 import Radio from '../components/Tabs';
 import Select from './component/Select';
 import Echart from '../../../components/Echart'
-import styles from './style.less'
+import styles from './style.less';
+import ChinaMap from './component/ChinaMap';
+
 
 const { RangePicker } = DatePickerDecorator;
+const dateFormat = 'YYYY-MM-DD';
 export default class Survey extends React.Component {
   constructor(props){
     super(props);
@@ -244,6 +249,11 @@ export default class Survey extends React.Component {
     return (
       <div className={styles.container}>
         <Radio path='/m1/survey' />
+        <div className={styles.mapContainer}>
+        <ChinaMap></ChinaMap>
+        <div className={styles.examinationState}></div>
+
+        </div>
         <div className={styles.histogram}>
           <div className={styles.headerCls}>
             数据概览
@@ -254,11 +264,14 @@ export default class Survey extends React.Component {
               <Select options={options} defaultValue={proVal} id='province' handleChange={this.handleChange} />
               <Select options={options1} defaultValue={colVal} id='college' handleChange={this.handleChange} />
               <Select options={options2} defaultValue={famVal} id='family' handleChange={this.handleChange} />
-              <RangePicker placeholder={['开始时间','结束时间']} onChange={this.dateChange}/>
+              <RangePicker placeholder={['开始时间','结束时间']} onChange={this.dateChange} value={startTime&&endTime?[moment(startTime, dateFormat), moment(endTime, dateFormat)]:''}/>
             </div>
             <div>
               <Button type="primary2" style={{marginRight:'20px'}} onClick={this.reset}>恢复默认</Button>
-              <Button type="primary" onClick={this.search}>查询</Button>
+              <Button type="primary" onClick={this.search}>
+                <Icon type="search" style={{fontSize:'16px'}} />
+                查询
+              </Button>
             </div>
           </div>
           <div className={styles.echartCls}>
