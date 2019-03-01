@@ -2,7 +2,7 @@
 
 import constants from './constants';
 
-export function ConFilter(param) {
+export function BiFilter(param) {
   /**
    * 获取静态常量(constants.js)中的数据
    *

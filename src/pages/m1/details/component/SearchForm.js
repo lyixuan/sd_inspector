@@ -3,7 +3,7 @@ import Form from 'antd/lib/form';
 import Select from 'antd/lib/select';
 import Button from 'antd/lib/button';
 import DatePicker from 'antd/lib/date-picker';
-import { ConFilter } from '../../../../../utils/utils';
+import { BiFilter } from '../../../../../utils/utils';
 
 import styles from '../style.less'
 
@@ -120,7 +120,7 @@ class HorizontalLoginForm extends React.Component {
               {getFieldDecorator('orderState', {
               })(
                 <Select placeholder="订单状态">
-                  {ConFilter('ORDER_STATE').map(item => (
+                  {BiFilter('ORDER_STATE').map(item => (
                     <Option value={item.id} key={item.name}>
                       {item.name}
                     </Option>
@@ -132,7 +132,7 @@ class HorizontalLoginForm extends React.Component {
               {getFieldDecorator('studentType', {
               })(
                 <Select placeholder="学员身份">
-                  {ConFilter('STUDENT_TYPE').map(item => (
+                  {BiFilter('STUDENT_TYPE').map(item => (
                     <Option value={item.id} key={item.name}>
                       {item.name}
                     </Option>
@@ -147,7 +147,7 @@ class HorizontalLoginForm extends React.Component {
               {getFieldDecorator('ticketState', {
               })(
                 <Select placeholder="准考证填写状态">
-                  {ConFilter('TICKET_STATES').map(item => (
+                  {BiFilter('TICKET_STATES').map(item => (
                     <Option value={item.id} key={item.name}>
                       {item.name}
                     </Option>
@@ -160,7 +160,7 @@ class HorizontalLoginForm extends React.Component {
                 rules: [{ required: true, message: 'Please input your Password!' }],
               })(
                 <Select placeholder="消息打开状态">
-                  {ConFilter('MSG_STATES').map(item => (
+                  {BiFilter('MSG_STATES').map(item => (
                     <Option value={item.id} key={item.name}>
                       {item.name}
                     </Option>
