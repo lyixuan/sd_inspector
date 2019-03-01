@@ -248,6 +248,7 @@ export default class Survey extends React.Component {
         <Radio path='/m1/survey' />
         <div className={styles.mapContainer}>
         <ChinaMap></ChinaMap>
+        <div className={styles.examinationState}></div>
         </div>
         <div style={{display:'flex',justifyContent:'center',marginTop:'20px'}}>
           <Echart update='1' style={{width:'540px', height:"300px",marginRight:'20px',backgroundColor:'#0c1731'}} options={option1} />

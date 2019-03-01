@@ -22,7 +22,7 @@ const lended=`
 <text id="t7" data-name="7万≤N＜10万" class=${styles.cls8} transform="translate(147.281 777.221)">7万≤N＜10万</text>
 <text id="t8" data-name="≥10万" class=${styles.cls8} transform="translate(147.281 748.222)">≥10万</text>`
 
-const scaleNum=0.8;
+const scaleNum=0.75;
 
 class ChinaMap extends Component{
     componentDidMount(){
@@ -33,8 +33,9 @@ class ChinaMap extends Component{
     }
    
     drewMap=(data)=>{
-        const containerWidth=1000;
-        const containerHeight=1000;
+       
+        const containerWidth=this.svgDom.parentElement.offsetWidth;
+        const containerHeight=this.svgDom.parentElement.offsetHeight;
         const chart=d3.select(this.svgDom).attr('width',containerWidth).attr('height',containerHeight);
         this.svgFirstG = chart.append("g")// 设最外包层在总图上的相对位置
         this.svgFirstG.style('fill-opacity', 1)
@@ -96,9 +97,8 @@ class ChinaMap extends Component{
         .attr("class",`${styles.province} ${styles.mouseoverStyle}`)
     }
     render(){
-        return(<div>
-            <svg ref={dom=>{this.svgDom=dom}} width={1000} height={1000}></svg>
-        </div>)
+        return(
+            <svg ref={dom=>{this.svgDom=dom}} width={1000} height={1000}></svg>)
     }
 }
 export default ChinaMap;
