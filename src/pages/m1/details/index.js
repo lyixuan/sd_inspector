@@ -1,6 +1,6 @@
 import RadioComponent from '../components/Tabs';
-import ResultTable from './ResultTable';
-import SearchForm from './SearchForm';
+import ResultTable from './component/ResultTable';
+import SearchForm from './component/SearchForm';
 import MyDeliver from '../components/Deliver';
 import styles from './style.less';
 
