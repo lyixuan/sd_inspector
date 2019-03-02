@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Table from 'antd/lib/table';
 import Button from 'antd/lib/button';
 import router from 'umi/router';
-import { BiFilter } from '../../../../../utils/utils';
+import { BiFilter } from '@/utils/utils';
 
 import styles from '../style.less'
 

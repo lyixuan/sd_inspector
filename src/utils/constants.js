@@ -162,7 +162,13 @@ export const provinceJson = [
     "name": "澳门特别行政区",
   }
 ];
-
+// 报考状态 
+export const PROVINCE_STEP=[
+  { id: '1', name: '新生注册' },
+  { id: '2', name: '现场确认' },
+  { id: '3', name: '报考科目&缴费' },
+  { id: '4', name: '补报名' },
+]
 // 订单状态
 export const ORDER_STATE = [
   { id: '1', name: '已支付' },
@@ -196,5 +202,5 @@ export default {
   STUDENT_TYPE,
   TICKET_STATES,
   MSG_STATES,
-  PAGINATION
+  PAGINATION,
 };

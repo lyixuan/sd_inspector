@@ -9,4 +9,4 @@
 /* @import "../utils/themes/custom-ant.css"; */
 
 /* 自定义和扩展的 ant 样式，全局 ---  督学主题 */
-@import "../utils/themes/custom-dx-ant.css";
+@import "./utils/themes/custom-dx-ant.css";

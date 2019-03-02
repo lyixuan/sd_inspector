@@ -7,7 +7,7 @@ import Dropdown from 'antd/lib/dropdown';
 import Menu from 'antd/lib/menu';
 import Icon from 'antd/lib/icon';
 
-import { BiFilter } from '../../../../../utils/utils';
+import { BiFilter } from '@/utils/utils';
 
 import styles from '../style.less'
 
@@ -33,17 +33,17 @@ class HorizontalLoginForm extends React.Component {
       msgState: undefined,
     };
     this.examList = [
-      {examId: 1,examName:'考期1904'}
+      { examId: 1, examName: '考期1904' }
     ];
     this.provinceList = [
-      {examId: '全部身份',examName:'全部身份'},
-      {examId: '河北省',examName:'河北省'},
-      {examId: '北京',examName:'北京'}
+      { examId: '全部身份', examName: '全部身份' },
+      { examId: '河北省', examName: '河北省' },
+      { examId: '北京', examName: '北京' }
     ];
     this.collegeList = [];
     this.familyList = [];
     this.conditionList = [
-      {id:1,name:'我的条件1'}
+      { id: 1, name: '我的条件1' }
     ];
 
   }
@@ -189,7 +189,7 @@ class HorizontalLoginForm extends React.Component {
             </Form.Item>
           </div>
           {/* 第四行 */}
-          <div style={{marginTop: '60px'}}>
+          <div style={{ marginTop: '60px' }}>
             <Form.Item label="&nbsp;">
               <Dropdown overlay={menu}>
                 <Button>
@@ -197,7 +197,7 @@ class HorizontalLoginForm extends React.Component {
                 </Button>
               </Dropdown>
             </Form.Item>
-            <Form.Item style={{marginLeft:'300px'}}>
+            <Form.Item style={{ marginLeft: '300px' }}>
               <Button type="primary2">恢复默认</Button>
             </Form.Item>
             <Form.Item>
@@ -206,7 +206,7 @@ class HorizontalLoginForm extends React.Component {
           </div>
         </div>
         <span className={styles.rowTitle}>已选条件：</span>
-        <div className={styles.row} style={{background:'transparent'}}>
+        <div className={styles.row} style={{ background: 'transparent' }}>
           <span className={styles.spanBtn}>条件我</span> <Button type="primary">保存查询条件</Button>
         </div>
       </Form>

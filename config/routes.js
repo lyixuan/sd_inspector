@@ -10,17 +10,17 @@ export const routes = [
       {
         path: '/m1',
         component: '../layouts/BasicLayoutM1',
-        Routes: ['/utils/PrivateRoute.js'],
+        Routes: ['/src/utils/PrivateRoute.js'],
         routes: [
           {
             path: '/m1/survey',
             component: './m1/survey',
-            Routes: ['/utils/PrivateRoute.js'],
+            Routes: ['/src/utils/PrivateRoute.js'],
           },
           {
             path: '/m1/details',
             component: './m1/details',
-            Routes: ['/utils/PrivateRoute.js'],
+            Routes: ['/src/utils/PrivateRoute.js'],
           },
           {
             path: '/m1/details/tasks',

@@ -8,12 +8,14 @@
     fill-rule: evenodd;
     stroke-linejoin: round;
 }
-.mouseoverStyle{
-    stroke:#caf3fe;
-}
-.onmouseoutStyle{
-    stroke:#0bb4f9; 
-    fill: #008dff;
+.worn{
+    font-family: MicrosoftYaHei;
+	font-size: 12px;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 86px;
+	letter-spacing: 1px;
+	fill: #ff6969;
 }
 .cls1, .cls11 {
     fill: #ec4f44;
@@ -116,4 +118,20 @@
     z-index: 100;
     pointer-events: none;
     transition: left .4s cubic-bezier(.23,1,.32,1) 0s,top .4s cubic-bezier(.23,1,.32,1) 0s;
+    .tootipPanl, .tootipPanlOther {
+        margin: 0;
+        padding: 0;
+       color:#052664;
+       pointer-events: none;
+       .tooltipItem{
+        padding: 10px;
+        list-style: none;
+       }
+    }
+    .tootipPanlOther{
+        padding-top: 10px;
+        margin-top: 10px;
+        border-top: 1px dashed #a6afbb;
+    }
+
   }

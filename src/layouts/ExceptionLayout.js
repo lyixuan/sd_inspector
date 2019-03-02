@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Switch, Route } from 'dva/router';
-import { getRoutes } from '../../utils/utils';
+import { getRoutes } from '@/utils/utils';
 
 class ExceptionLayout extends React.Component {
   render() {

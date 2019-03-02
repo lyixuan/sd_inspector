@@ -8,7 +8,7 @@ import DatePickerDecorator from 'antd/lib/date-picker';
 import Dropdown from 'antd/lib/dropdown';
 import Icon from 'antd/lib/icon';
 import Menu from 'antd/lib/menu';
-import { BiFilter } from '../../../utils/utils';
+import { BiFilter } from '@/utils/utils';
 
 // 自定义组件部分
 import Deliver from '../m1/components/Deliver';
