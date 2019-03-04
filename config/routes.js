@@ -9,7 +9,7 @@ export const routes = [
     routes: [
       {
         path: '/smartPlatform',
-        component: '../layouts/BasicLayoutM1',
+        component:  './smartPlatform',
         Routes: ['/src/utils/PrivateRoute.js'],
         routes: [
           {
