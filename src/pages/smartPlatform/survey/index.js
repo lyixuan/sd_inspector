@@ -36,7 +36,7 @@ class Survey extends React.Component {
   initChart= () =>{
     const params1 = {
       text:'微信推送整体数据',
-      legendData:['考试计划人数', '推送人数', '已读人数'],
+      legendData:[{name:'考试计划人数',icon:'rect'},{name:'推送人数',icon:'rect'},{name:'已读人数',icon:'rect'}],
       xData:['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],
       color:['#1e93ff',"#7363ec",'#1ec47a'],
       series:[{
@@ -56,7 +56,7 @@ class Survey extends React.Component {
     };
     const params2 = {
       text:'准考证填写趋势',
-      legendData:['考试计划人数','准考证填写人数','准考证填写占比'],
+      legendData:[{name:'考试计划人数',icon:'rect'},{name:'准考证填写人数',icon:'rect'},{name:'准考证填写占比',icon:'-'}],
       xData:['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],
       color:['#1e93ff',"#fc595b",'#fc3676'],
       series:[{

@@ -24,7 +24,7 @@ export function commonOptions(params) {
       itemGap,
       itemWidth:10,
       itemHeight:10,
-      data:[{name:legendData[0],icon:'1'},{name:legendData[1],icon:'1'},{name:legendData[2],icon:'image:../../../../assets/yay.jpg'}]
+      data:legendData
     },
     tooltip: {
       trigger: 'axis',
@@ -85,15 +85,15 @@ export function commonOptions(params) {
     color,
     series: [
       {
-        name:legendData[0],
+        name:legendData[0].name,
         ...series[0],
       },
       {
-        name:legendData[1],
+        name:legendData[1].name,
         ...series[1],
       },
       {
-        name:legendData[2],
+        name:legendData[2].name,
         ...series[2],
       },
     ],
