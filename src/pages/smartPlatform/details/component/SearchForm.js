@@ -288,19 +288,35 @@ class SearchForm extends Component {
     super(props);
     this.state = {
       visible: false,
+      conditionName: ''
     };
   }
 
   conditionDel = (e) => {
     console.log('menu', e);
+    this.setState({
+      visible: true,
+    });
   };
 
   conditionEdit = (e) => {
     console.log('menue', e);
+    this.setState({
+      visible: true,
+    });
   };
 
   conditionAdd = (e) => {
     console.log('menuadd', e);
+    this.setState({
+      visible: true,
+    });
+  };
+
+  onChangeUserName = (e) => {
+    this.setState({
+      conditionName: e.target.value,
+    });
   };
 
   handleOk = (e) => {
@@ -332,9 +348,15 @@ class SearchForm extends Component {
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
+          footer={[
+            <Button size="small" onClick={this.handleCancel}>取消</Button>,
+            <Button size="small" type="primary" onClick={this.handleOk}>
+              确定
+            </Button>
+          ]}
         >
-          <div>
-            <Input placeholder="Basic usage" />
+          <div className={styles.modalWrap}>
+            <Input placeholder="输入名称" value={this.state.conditionName} onChange={this.onChangeUserName}/>
           </div>
         </Modal>
       </>

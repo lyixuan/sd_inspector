@@ -9,3 +9,18 @@ export async function getDetailDataPage(params) {
 export async function getQueryConditionList() {
   return request('/detail/getQueryConditionList');
 }
+
+// 添加查询条件
+export async function addQueryCondition(params) {
+  return request('/detail/addQueryCondition', {method: 'post',data: params});
+}
+
+// 修改查询条件
+export async function updateQueryCondition(params) {
+  return request('/detail/updateQueryCondition', {method: 'post',data: params});
+}
+
+// 删除查询条件
+export async function deleteQueryCondition(params) {
+  return request('/detail/deleteQueryCondition', {method: 'delete',params});
+}
