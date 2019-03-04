@@ -56,7 +56,10 @@ class Survey extends React.Component {
     };
     const params2 = {
       text:'准考证填写趋势',
-      legendData:[{name:'考试计划人数',icon:'rect'},{name:'准考证填写人数',icon:'rect'},{name:'准考证填写占比',icon:'-'}],
+      legendData:[{name:'考试计划人数',icon:'rect'},{name:'准考证填写人数',icon:'rect'},{
+        name:'准考证填写占比',
+        icon:'image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAEAQMAAABSuEaRAAAAAXNSR0IB2cksfwAAAAZQTFRF+zd3AAAAP9uspgAAAAJ0Uk5T/wDltzBKAAAAEUlEQVR4nGNgYGhggOH//xsAEwsD/x/9IEYAAAAASUVORK5CYII=',
+      }],
       xData:['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],
       color:['#1e93ff',"#fc595b",'#fc3676'],
       series:[{
