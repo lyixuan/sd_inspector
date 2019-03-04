@@ -42,6 +42,7 @@ const errorHandler = error => {
  */
 const request = extend({
   errorHandler, // 默认错误处理
+  prefix: '/proxy', // prefix
   // credentials: 'include', // 默认请求是否带上cookie,暂不做处理,如需添加请设置跨域处进行设置
 });
 

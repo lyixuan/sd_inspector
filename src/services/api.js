@@ -9,14 +9,12 @@ export async function getUserAuthList() {
 }
 
 export async function loginOut() {
-    return request('/proxy/token/logout', {
+    return request('/token/logout', {
         method: 'post',
     });
 }
 
 // 获取考期列表
 export async function getExamList() {
-  return request('/proxy/detail/getExamList', {
-    method: 'get',
-  });
+  return request('/detail/getExamList');
 }

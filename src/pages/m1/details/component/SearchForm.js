@@ -19,21 +19,22 @@ const { Option } = Select;
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
-@connect(({ global }) => ({
+@connect(({ global,detail }) => ({
   global,
+  detail,
 }))
 
 class HorizontalLoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      examId: undefined,
-      provinceId: undefined,
+      exam: undefined,
+      provinceList: undefined,
       collegeId: undefined,
-      familyId: undefined,
-      orderState: undefined,
-      studentType: undefined,
-      ticketState: undefined,
+      familyIdList: undefined,
+      orderStatus: undefined,
+      stuType: undefined,
+      admissionStatus: undefined,
       msgState: undefined,
     };
     this.examList = [];
@@ -77,6 +78,10 @@ class HorizontalLoginForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        this.props.dispatch({
+          type: 'detail/getDetailData',
+          payload: { params: values },
+        });
       }
     });
   };
@@ -102,8 +107,8 @@ class HorizontalLoginForm extends React.Component {
           {/* 第一行 */}
           <div>
             <Form.Item label="考期">
-              {getFieldDecorator('examId', {
-                initialValue: this.state.examId,
+              {getFieldDecorator('exam', {
+                initialValue: this.state.exam,
               })(
                 <Select placeholder="考期">
                   {this.examList.map(item => (
@@ -119,6 +124,7 @@ class HorizontalLoginForm extends React.Component {
           <div>
             <Form.Item label="学员信息">
               {getFieldDecorator('provinceList', {
+                initialValue: this.state.provinceList,
               })(
                 <Select placeholder="报考省份"  mode="multiple" showArrow={true} maxTagCount={1} onChange={this.handleProChange}>
                   {this.provinceAllList.map(item => (
@@ -131,6 +137,7 @@ class HorizontalLoginForm extends React.Component {
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('collegeId', {
+                initialValue: this.state.collegeId,
               })(
                 <Select placeholder="学院">
                   {this.collegeList.map(item => (
@@ -142,7 +149,8 @@ class HorizontalLoginForm extends React.Component {
               )}
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator('familyId', {
+              {getFieldDecorator('familyIdList', {
+                initialValue: this.state.familyIdList,
               })(
                 <Select placeholder="家族">
                   {this.familyList.map(item => (
@@ -154,7 +162,8 @@ class HorizontalLoginForm extends React.Component {
               )}
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator('orderState', {
+              {getFieldDecorator('orderStatus', {
+                initialValue: this.state.orderStatus,
               })(
                 <Select placeholder="订单状态">
                   {BiFilter('ORDER_STATE').map(item => (
@@ -166,7 +175,8 @@ class HorizontalLoginForm extends React.Component {
               )}
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator('studentType', {
+              {getFieldDecorator('stuType', {
+                initialValue: this.state.stuType,
               })(
                 <Select placeholder="学员身份">
                   {BiFilter('STUDENT_TYPE').map(item => (
@@ -181,7 +191,8 @@ class HorizontalLoginForm extends React.Component {
           {/* 第三行 */}
           <div>
             <Form.Item label="业务信息">
-              {getFieldDecorator('ticketState', {
+              {getFieldDecorator('admissionStatus', {
+                initialValue: this.state.admissionStatus,
               })(
                 <Select placeholder="准考证填写状态">
                   {BiFilter('TICKET_STATES').map(item => (
@@ -193,7 +204,8 @@ class HorizontalLoginForm extends React.Component {
               )}
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator('msgState', {
+              {getFieldDecorator('msgStatusList', {
+                initialValue: this.state.msgStatusList,
               })(
                 <Select placeholder="消息打开状态">
                   {BiFilter('MSG_STATES').map(item => (
