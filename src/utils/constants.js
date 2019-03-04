@@ -189,10 +189,10 @@ export const TICKET_STATES = [
 
 // 消息打开状态
 export const MSG_STATES = [
-  { id: '1', name: '所有消息打开状态' },
+  { id: '1', name: '所有消息' },
   { id: '2', name: '未推送' },
-  { id: '3', name: '已推送（未读）' },
-  { id: '4', name: '已推送（已读）' },
+  { id: '3', name: '已推送(未读)' },
+  { id: '4', name: '已推送(已读)' },
 ];
 
 

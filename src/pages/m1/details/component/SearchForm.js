@@ -3,7 +3,6 @@ import { connect } from 'dva';
 import Form from 'antd/lib/form';
 import Select from 'antd/lib/select';
 import Button from 'antd/lib/button';
-import DatePicker from 'antd/lib/date-picker';
 import Dropdown from 'antd/lib/dropdown';
 import Menu from 'antd/lib/menu';
 import Icon from 'antd/lib/icon';
@@ -12,16 +11,11 @@ import { BiFilter } from '@/utils/utils';
 
 import styles from '../style.less'
 
-const FormItem = Form.Item;
-const { RangePicker } = DatePicker;
 const { Option } = Select;
 
-function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
-@connect(({ global,detail }) => ({
+@connect(({ global,dataDetail }) => ({
   global,
-  detail,
+  dataDetail,
 }))
 
 class HorizontalLoginForm extends React.Component {
@@ -36,13 +30,15 @@ class HorizontalLoginForm extends React.Component {
       stuType: undefined,
       admissionStatus: undefined,
       msgState: undefined,
+      menuCheckedName: '我的查询条件',
     };
     this.examList = [];
     this.provinceAllList = BiFilter('provinceJson');
     this.collegeList = [];
     this.familyList = [];
     this.conditionList = [
-      { id: 1, name: '我的条件1' }
+      { id: 1, name: '我的条件1' },
+      { id: 22, name: '我的条件22' }
     ];
 
   }
@@ -51,10 +47,25 @@ class HorizontalLoginForm extends React.Component {
       type: 'global/getExamList',
       payload: { params: {} },
     });
+    this.props.dispatch({
+      type: 'dataDetail/getQueryConditionList',
+      payload: { params: {} },
+    });
   }
 
-  handleMenuClick = (e) => {
-    console.log('click', e);
+  menuDel = (e) => {
+    console.log('menu', e);
+  };
+
+  menuEdit = (e) => {
+    console.log('menuEdit', e);
+  };
+
+  menuCheck = (val) => {
+    console.log('menuCheck', val);
+    this.setState({
+      menuCheckedName:val.name
+    })
   };
 
   handleProChange = (v) => {
@@ -79,7 +90,7 @@ class HorizontalLoginForm extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         this.props.dispatch({
-          type: 'detail/getDetailData',
+          type: 'dataDetail/getDetailData',
           payload: { params: values },
         });
       }
@@ -88,13 +99,14 @@ class HorizontalLoginForm extends React.Component {
 
   render() {
     this.examList = this.props.global.examList;
+    // this.conditionList = this.props.dataDetail.queryConditionList;
 
     const { getFieldDecorator, } = this.props.form;
     const menu = (
-      <Menu onClick={this.handleMenuClick}>
+      <Menu>
         {this.conditionList.map(item => (
           <Menu.Item key={item.id}>
-            {item.name}<Icon type="user" />
+            <span onClick={() => this.menuCheck(item)} >{item.name}</span><Icon onClick={() => this.menuDel(item.id)} style={{marginLeft:'5px'}}  type="delete" />  <Icon onClick={() => this.menuEdit(item.id)} type="edit" />
           </Menu.Item>
         ))}
       </Menu>
@@ -207,12 +219,10 @@ class HorizontalLoginForm extends React.Component {
               {getFieldDecorator('msgStatusList', {
                 initialValue: this.state.msgStatusList,
               })(
-                <Select placeholder="消息打开状态">
+                <Select placeholder="消息打开状态"  mode="multiple" showArrow={true} maxTagCount={1}>
                   {BiFilter('MSG_STATES').map(item => (
-                    <Option value={item.id} key={item.name}>
-                      {item.name}
-                    </Option>
-                  ))}
+                    <Option key={item.id}>{item.name} </Option>
+                    ))}
                 </Select>
               )}
             </Form.Item>
@@ -222,7 +232,7 @@ class HorizontalLoginForm extends React.Component {
             <Form.Item label="&nbsp;">
               <Dropdown overlay={menu}>
                 <Button>
-                  我的查询条件 <Icon type="down" />
+                  {this.state.menuCheckedName} <Icon type="down" />
                 </Button>
               </Dropdown>
             </Form.Item>
@@ -230,7 +240,7 @@ class HorizontalLoginForm extends React.Component {
               <Button type="primary2">恢复默认</Button>
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit">查询</Button>
+              <Button type="primary" htmlType="submit"><Icon type="search" />查询</Button>
             </Form.Item>
           </div>
         </div>
