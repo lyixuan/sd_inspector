@@ -5,7 +5,7 @@ const proxyHost = {
     development: '',   // 待确定
     production: ''     // 待确定
 }
-const proxy_env = proxyHost[process.env.PROXY_ENV];;
+const proxy_env = proxyHost[process.env.PROXY_ENV];
 export const webpackConfig = {
     define: {
         PROXY: '/proxy',    // 代理用pathname,跟下面proxy应保持一致,用于proxy设置,也可用于紧急设置直连java接口host
