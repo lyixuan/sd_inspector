@@ -4,13 +4,13 @@ import { redirectUrlParams } from './routeUtils';
 import { LOGIN_URL } from './constants';
 import config from '../../config/config';
 
-const BASE = config.base || '/';  // 设置的base的url
+const BASE = config.base || '';  // 设置的base的url
 function authority(props) {
   const { path } = props.route;
   const authList = storage.getUserAuth() || [];
   let allow = false;
   for (let i = 0; i < authList.length; i++) {
-    const authUrl = `${BASE}${path}`.replace(/\/\//g, '/');
+    const authUrl = `${BASE}${path}`;
     if (authList[i].resourceUrl === authUrl) {
       allow = true;
       break;
