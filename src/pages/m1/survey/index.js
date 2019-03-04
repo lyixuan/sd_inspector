@@ -92,7 +92,9 @@ class Survey extends React.Component {
     return {option1,option2}
   };
   searchData = param => {
-    console.log(param)
+    // const { province, collegeId, familyId, beginDate, endDate} = param;
+    this.setState(param);
+    this.queryHistogramData(param)
   };
   render(){
     const {option1,option2} = this.initChart();
