@@ -235,7 +235,7 @@ ul{
 
 .ant-form-item-label label {
   color: #1B82E5;
-  width: 80px;
+  width: 70px;
   display: inline-block;
   text-align-last: justify;
 }
@@ -303,4 +303,9 @@ ul{
 }
 .ant-dropdown-menu-item:hover {
   background-color: #0C2E58;
+}
+
+.ant-dropdown-menu-item > span {
+  width: 125px;
+  display: inline-block;
 }

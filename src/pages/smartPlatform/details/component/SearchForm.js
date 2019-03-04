@@ -6,6 +6,8 @@ import Button from 'antd/lib/button';
 import Dropdown from 'antd/lib/dropdown';
 import Menu from 'antd/lib/menu';
 import Icon from 'antd/lib/icon';
+import Modal from 'antd/lib/modal';
+import Input from 'antd/lib/input';
 
 import { BiFilter } from '@/utils/utils';
 
@@ -54,15 +56,18 @@ class HorizontalLoginForm extends React.Component {
   }
 
   menuDel = (e) => {
-    console.log('menu', e);
+    this.props.menuDel(e);
   };
 
   menuEdit = (e) => {
-    console.log('menuEdit', e);
+    this.props.menuEdit(e);
+  };
+
+  menuAdd = (e) => {
+    this.props.menuAdd(e);
   };
 
   menuCheck = (val) => {
-    console.log('menuCheck', val);
     this.setState({
       menuCheckedName:val.name
     })
@@ -117,8 +122,6 @@ class HorizontalLoginForm extends React.Component {
         ))}
       </Menu>
     );
-    console.log(checkedConditionList);
-
     function getCheckedConditionList() {
       const list = [];
       for (let key in checkedConditionList) {
@@ -265,10 +268,10 @@ class HorizontalLoginForm extends React.Component {
         </div>
         {
           getCheckedConditionList().length > 0 ? (
-            <div>
+            <div className={styles.searchBoxSeletected}>
               <span className={styles.rowTitle}>已选条件：</span>
-              <div className={styles.row} style={{ background: 'transparent' }}>
-                {getCheckedConditionList()} <Button type="primary" style={{marginLeft:'20px'}}>保存查询条件</Button>
+              <div className={styles.row}>
+                {getCheckedConditionList()} <Button type="primary" style={{marginLeft:'20px'}} onClick={this.menuAdd}>保存查询条件</Button>
               </div>
             </div>
           ):null
@@ -283,13 +286,57 @@ const WrappedHorizontalLoginForm = Form.create({ name: 'horizontal_login' })(Hor
 class SearchForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      visible: false,
+    };
   }
+
+  conditionDel = (e) => {
+    console.log('menu', e);
+  };
+
+  conditionEdit = (e) => {
+    console.log('menue', e);
+  };
+
+  conditionAdd = (e) => {
+    console.log('menuadd', e);
+  };
+
+  handleOk = (e) => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
+  handleCancel = (e) => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
   render() {
     return (
       <>
         <div className={styles.searchWrap}>
-          <WrappedHorizontalLoginForm />
+          <WrappedHorizontalLoginForm
+            menuDel={this.conditionDel}
+            menuEdit={this.conditionEdit}
+            menuAdd={this.conditionAdd}
+          />
         </div>
+        <Modal
+          title="添加查询条件"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <div>
+            <Input placeholder="Basic usage" />
+          </div>
+        </Modal>
       </>
     )
   }
