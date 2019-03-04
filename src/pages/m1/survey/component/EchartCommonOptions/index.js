@@ -1,23 +1,27 @@
 export function commonOptions(params) {
-  const {text,legendData=[],xData=[],max,interval,color,series,yAxis} = params;
-  const option={
+  const {text,legendData=[],xData=[],max,interval,color,series,yAxis,itemGap=19} = params;
+  return {
     title: {
       text,
       x:'center',
       textStyle:{
         color:'#fff',
-        fontSize:'16px'
+        fontSize:18
       },
-      top:20
+      top:54,
     },
     grid:{
-      top:80
+      top:166 ,
+      left:64,
+      height:234,
     },
     legend: {
-      bottom: 0,
+      bottom: 34,
       textStyle:{
-        color:'#bdc0c6'
+        color:'#bdc0c6',
+        fontSize:12
       },
+      itemGap,
       itemWidth:10,
       itemHeight:10,
       data:legendData
@@ -25,9 +29,13 @@ export function commonOptions(params) {
     tooltip: {
       trigger: 'axis',
       textStyle:{
-        align:'left'
+        align:'left',
+        // color:'#103069',
+        // fontSize:12,
       },
-      // axisPointer: {
+      // padding:20,
+      // backgroundColor:'rgba(255,255,255,0.8)' ,
+  // axisPointer: {
       //   type: 'cross',
       //   crossStyle: {
       //     color: '#999'
@@ -98,5 +106,4 @@ export function commonOptions(params) {
     //   }
     // },
   };
-  return option;
 }

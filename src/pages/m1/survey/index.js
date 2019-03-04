@@ -12,7 +12,6 @@ import {commonOptions} from './component/EchartCommonOptions';
 import {provinceJson} from '@/utils/constants';
 import {provinceData}from './component/test';
 
-
 const { RangePicker } = DatePickerDecorator;
 const dateFormat = 'YYYY-MM-DD';
 export default class Survey extends React.Component {
@@ -52,6 +51,7 @@ export default class Survey extends React.Component {
       }],
       max:50000,
       interval:10000,
+      itemGap:52,
     };
     const params2 = {
       text:'准考证填写趋势',
