@@ -1,5 +1,5 @@
 export function commonOptions(params) {
-  const {text,legendData=[],xData=[],max,interval,color,series,yAxis} = params;
+  const {text,legendData=[],xData=[],max,interval,color,series,yAxis,itemGap=19} = params;
   return {
     title: {
       text,
@@ -12,6 +12,7 @@ export function commonOptions(params) {
     },
     grid:{
       top:166 ,
+      left:64,
       height:234,
     },
     legend: {
@@ -20,7 +21,7 @@ export function commonOptions(params) {
         color:'#bdc0c6',
         fontSize:12
       },
-      itemGap:52,
+      itemGap,
       itemWidth:10,
       itemHeight:10,
       data:legendData
@@ -29,8 +30,12 @@ export function commonOptions(params) {
       trigger: 'axis',
       textStyle:{
         align:'left',
+        // color:'#103069',
+        // fontSize:12,
       },
-      // axisPointer: {
+      // padding:20,
+      // backgroundColor:'rgba(255,255,255,0.8)' ,
+  // axisPointer: {
       //   type: 'cross',
       //   crossStyle: {
       //     color: '#999'

@@ -51,6 +51,7 @@ export default class Survey extends React.Component {
       }],
       max:50000,
       interval:10000,
+      itemGap:52,
     };
     const params2 = {
       text:'准考证填写趋势',
