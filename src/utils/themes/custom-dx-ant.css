@@ -237,12 +237,12 @@ ul{
   color: #1B82E5;
   width: 80px;
   display: inline-block;
-  text-align: justify;
+  text-align-last: justify;
 }
 
 .ant-form-item-label label::after {
   content: " ";
-  display: inline-block;
+  display: inline;
   width: 100%;
 }
 
