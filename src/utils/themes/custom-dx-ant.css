@@ -264,7 +264,7 @@ ul{
   height: 36px;
   border: 1px solid #1683FB;
 }
-.ant-btn:hover, .ant-btn:focus, .ant-btn:active, .ant-btn.active {
+.ant-btn.ant-dropdown-trigger:hover, .ant-btn.ant-dropdown-trigger:focus, .ant-btn.ant-dropdown-trigger:active {
   background-color: #0C172E;
 }
 .ant-dropdown-trigger span {
