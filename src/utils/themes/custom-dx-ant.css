@@ -240,7 +240,7 @@ ul{
   text-align: justify;
 }
 
-.ant-form-item-label label:after {
+.ant-form-item-label label::after {
   content: " ";
   display: inline-block;
   width: 100%;
@@ -284,6 +284,14 @@ ul{
   line-height: 1.5;
 }
 
+.ant-btn.ant-dropdown-trigger .anticon {
+  float: right;
+  line-height: 1.5;
+}
+
+.ant-btn.ant-dropdown-trigger{
+  text-align: left;
+}
 .ant-dropdown-menu {
   box-shadow: rgb(0, 112, 183) 0px 0px 20px;
   -webkit-tap-highlight-color: transparent;

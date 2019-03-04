@@ -4,3 +4,8 @@ import request from '@/utils/request';
 export async function getDetailDataPage(params) {
   return request('/general/queryDetailDataPage', { params });
 }
+
+// 我的查询条件
+export async function getQueryConditionList() {
+  return request('/detail/getQueryConditionList');
+}
