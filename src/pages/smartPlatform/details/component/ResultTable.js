@@ -16,7 +16,7 @@ class ResultTable extends Component {
     // 获取数据
   }
   toTask = () =>{
-    router.push('/m1/details/tasks');
+    router.push('/smartPlatform/details/tasks');
   };
 
   render() {

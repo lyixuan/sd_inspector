@@ -20,8 +20,8 @@ export default class RadioComponent extends React.Component {
     return(
       <div className={styles.contWrap}>
         <Radio.Group value={path} onChange={this.handleSizeChange}>
-          <Radio.Button value="/m1/survey">报表概览</Radio.Button>
-          <Radio.Button value="/m1/details">明细数据查询</Radio.Button>
+          <Radio.Button value="/smartPlatform/survey">报表概览</Radio.Button>
+          <Radio.Button value="/smartPlatform/details">明细数据查询</Radio.Button>
         </Radio.Group>
       </div>
     )

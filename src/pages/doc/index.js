@@ -11,7 +11,7 @@ import Menu from 'antd/lib/menu';
 // import { BiFilter } from '@/utils/utils';
 
 // 自定义组件部分
-import Deliver from '../m1/components/Deliver';
+import Deliver from '../smartPlatform/components/Deliver';
 
 import Box from './Box';
 import Left from './Left';

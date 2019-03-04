@@ -19,8 +19,8 @@ function authority(props) {
   return (<div>{props.children}</div>);
   // }
 
-  // if (!allow && path === '/m1') {
-  //   // inspector m1模块级别没有权限，跳转登录
+  // if (!allow && path === '/smartPlatform') {
+  //   // inspector smartPlatform模块级别没有权限，跳转登录
   // const redirectUrl = redirectUrlParams(props);
 
   //   window.location.href = `${LOGIN_URL}?redirectUrl=${redirectUrl}`;

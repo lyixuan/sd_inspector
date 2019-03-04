@@ -8,7 +8,7 @@ export default function() {
   return (
     <div className={styles.container}>
       {/* tab分类 组件 */}
-      <RadioComponent path='/m1/details' />
+      <RadioComponent path='/smartPlatform/details' />
       {/* 搜索部分 组件 */}
       <div className={styles.searchBox}>
         <SearchForm />

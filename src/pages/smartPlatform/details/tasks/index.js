@@ -65,7 +65,7 @@ class Tasks extends Component {
         <div className={styles.breadcrumb}>
           <Breadcrumb>
             <Breadcrumb.Item>当前位置:</Breadcrumb.Item>
-            <Breadcrumb.Item><Link to="/m1/details">明细数据查询</Link></Breadcrumb.Item>
+            <Breadcrumb.Item><Link to="/smartPlatform/details">明细数据查询</Link></Breadcrumb.Item>
             <Breadcrumb.Item>任务列表</Breadcrumb.Item>
           </Breadcrumb>
         </div>

@@ -24,7 +24,7 @@ export function commonOptions(params) {
       itemGap,
       itemWidth:10,
       itemHeight:10,
-      data:legendData
+      data:[{name:legendData[0],icon:'1'},{name:legendData[1],icon:'1'},{name:legendData[2],icon:'image:../../../../assets/yay.jpg'}]
     },
     tooltip: {
       trigger: 'axis',
