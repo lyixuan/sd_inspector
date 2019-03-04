@@ -15,9 +15,9 @@ function authority(props) {
   }
   const redirectUrl = redirectUrlParams(props);
   console.log(redirectUrl);
-  if (allow) {
+  // if (allow) {
   return (<div>{props.children}</div>);
-  }
+  // }
 
   if (!allow && path === '/smartPlatform') {
     // inspector smartPlatform模块级别没有权限，跳转登录
