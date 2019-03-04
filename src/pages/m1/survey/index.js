@@ -12,7 +12,6 @@ import {commonOptions} from './component/EchartCommonOptions';
 import {provinceJson} from '@/utils/constants';
 import {provinceData}from './component/test';
 
-
 const { RangePicker } = DatePickerDecorator;
 const dateFormat = 'YYYY-MM-DD';
 export default class Survey extends React.Component {
