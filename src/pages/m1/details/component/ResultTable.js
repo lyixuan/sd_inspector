@@ -35,31 +35,31 @@ class ResultTable extends Component {
     const columns = [
       {
         title: '省/市',
-        dataIndex: 'index',
+        dataIndex: 'province',
       },
       {
         title: '学院',
-        dataIndex: 'adjustDate2',
+        dataIndex: 'collegeName',
       },
       {
         title: '家族',
-        dataIndex: 'type2',
+        dataIndex: 'familyName',
       },
       {
         title: '考试计划人数',
-        dataIndex: 'creditScore2',
+        dataIndex: 'examPlanNum',
       },
       {
         title: '准考证填写人数',
-        dataIndex: 'groupType2',
+        dataIndex: 'admissionFillNum',
       },
       {
         title: '消息已读人数',
-        dataIndex: 'orgName2',
+        dataIndex: 'readNum',
       },
       {
         title: '消息未读人数',
-        dataIndex: 'familyType2',
+        dataIndex: 'unreadNum',
       },
     ];
     return (

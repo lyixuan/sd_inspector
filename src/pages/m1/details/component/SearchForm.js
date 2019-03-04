@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'dva';
 import Form from 'antd/lib/form';
 import Select from 'antd/lib/select';
 import Button from 'antd/lib/button';
@@ -18,6 +19,9 @@ const { Option } = Select;
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
+@connect(({ global }) => ({
+  global,
+}))
 
 class HorizontalLoginForm extends React.Component {
   constructor(props) {
@@ -32,14 +36,8 @@ class HorizontalLoginForm extends React.Component {
       ticketState: undefined,
       msgState: undefined,
     };
-    this.examList = [
-      { examId: 1, examName: '考期1904' }
-    ];
-    this.provinceList = [
-      { examId: '全部身份', examName: '全部身份' },
-      { examId: '河北省', examName: '河北省' },
-      { examId: '北京', examName: '北京' }
-    ];
+    this.examList = [];
+    this.provinceAllList = BiFilter('provinceJson');
     this.collegeList = [];
     this.familyList = [];
     this.conditionList = [
@@ -47,14 +45,32 @@ class HorizontalLoginForm extends React.Component {
     ];
 
   }
-  componentDidMount() {
-    // To disabled submit button at the beginning.
-    // this.props.form.validateFields();
+  UNSAFE_componentWillMount() {
+    this.props.dispatch({
+      type: 'global/getExamList',
+      payload: { params: {} },
+    });
   }
 
   handleMenuClick = (e) => {
     console.log('click', e);
-  }
+  };
+
+  handleProChange = (v) => {
+    console.log(v);
+    if (v[v.length-1] === '000000') {
+      const list = [];
+      this.provinceAllList.forEach((v) => {
+        if (v.code !== '000000') {
+          list.push(v.code);
+        }
+      });
+      console.log(list);
+      this.props.form.setFieldsValue({
+        provinceList: list,
+      });
+    }
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -66,6 +82,8 @@ class HorizontalLoginForm extends React.Component {
   };
 
   render() {
+    this.examList = this.props.global.examList;
+
     const { getFieldDecorator, } = this.props.form;
     const menu = (
       <Menu onClick={this.handleMenuClick}>
@@ -89,8 +107,8 @@ class HorizontalLoginForm extends React.Component {
               })(
                 <Select placeholder="考期">
                   {this.examList.map(item => (
-                    <Option value={item.examId} key={item.examName}>
-                      {item.examName}
+                    <Option key={item.id}>
+                      {item.exam}
                     </Option>
                   ))}
                 </Select>
@@ -100,12 +118,12 @@ class HorizontalLoginForm extends React.Component {
           {/* 第二行 */}
           <div>
             <Form.Item label="学员信息">
-              {getFieldDecorator('provinceId', {
+              {getFieldDecorator('provinceList', {
               })(
-                <Select mode="multiple" showArrow={true} maxTagCount={1} placeholder="报考省份">
-                  {this.provinceList.map(item => (
-                    <Option value={item.examId} key={item.examName}>
-                      {item.examName}
+                <Select placeholder="报考省份"  mode="multiple" showArrow={true} maxTagCount={1} onChange={this.handleProChange}>
+                  {this.provinceAllList.map(item => (
+                    <Option key={item.code}>
+                      {item.name}
                     </Option>
                   ))}
                 </Select>
@@ -176,7 +194,6 @@ class HorizontalLoginForm extends React.Component {
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('msgState', {
-                rules: [{ required: true, message: 'Please input your Password!' }],
               })(
                 <Select placeholder="消息打开状态">
                   {BiFilter('MSG_STATES').map(item => (
@@ -201,7 +218,7 @@ class HorizontalLoginForm extends React.Component {
               <Button type="primary2">恢复默认</Button>
             </Form.Item>
             <Form.Item>
-              <Button type="primary">查询</Button>
+              <Button type="primary" htmlType="submit">查询</Button>
             </Form.Item>
           </div>
         </div>

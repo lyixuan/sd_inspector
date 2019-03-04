@@ -279,10 +279,8 @@ ul{
   font-size: 14px;
 }
 
-.ant-btn > .anticon + span, .ant-btn > span + .anticon {
+.ant-dropdown-menu .anticon {
   float: right;
-}
-.ant-btn > .anticon {
   line-height: 1.5;
 }
 

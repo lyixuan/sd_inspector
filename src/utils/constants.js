@@ -26,6 +26,10 @@ export const PAGINATION = {
 // 省份
 export const provinceJson = [
   {
+    "code": "000000",
+    "name": "全部省份",
+  },
+  {
     "code": "110000",
     "name": "北京市",
   },
@@ -162,7 +166,7 @@ export const provinceJson = [
     "name": "澳门特别行政区",
   }
 ];
-// 报考状态 
+// 报考状态
 export const PROVINCE_STEP=[
   { id: '1', name: '新生注册' },
   { id: '2', name: '现场确认' },
@@ -203,4 +207,5 @@ export default {
   TICKET_STATES,
   MSG_STATES,
   PAGINATION,
+  provinceJson,
 };

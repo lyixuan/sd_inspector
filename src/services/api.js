@@ -13,3 +13,10 @@ export async function loginOut() {
         method: 'post',
     });
 }
+
+// 获取考期列表
+export async function getExamList() {
+  return request('/proxy/detail/getExamList', {
+    method: 'get',
+  });
+}
