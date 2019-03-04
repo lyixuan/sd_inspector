@@ -11,16 +11,20 @@ export const ADMIN_AUTH = 'admin_auth';
 export const ADMIN_USER = 'admin_user';
 
 
-// 登录页面地址配置
-export const LOGIN_URL = 'http://localhost:8001/userLayout/login';
+// 登录页面地址配置,根据登录环境进行匹配
+export const LOGIN_URL = {
+  localhost: 'http://localhost:8088/userLayout/login',  // 开发模式下,注意小德admin是开启状态
+  development: 'http://172.16.117.64:8090/userLayout/login',  // dev环境
+  production: 'http://bd.ministudy.com/userLayout/login',     // 生产环境
+}[process.env.LOGIN_TYPE];
 
 // 分页配置
 export const PAGINATION = {
-  showSizeChanger:true,
-  showQuickJumper:true,
-  defaultCurrent:1,
-  total:0,
-  pageSizeOptions:['36','50','100']
+  showSizeChanger: true,
+  showQuickJumper: true,
+  defaultCurrent: 1,
+  total: 0,
+  pageSizeOptions: ['36', '50', '100']
 };
 
 // 省份
@@ -163,7 +167,7 @@ export const provinceJson = [
   }
 ];
 // 报考状态 
-export const PROVINCE_STEP=[
+export const PROVINCE_STEP = [
   { id: '1', name: '新生注册' },
   { id: '2', name: '现场确认' },
   { id: '3', name: '报考科目&缴费' },

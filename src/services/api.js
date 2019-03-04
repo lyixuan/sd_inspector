@@ -1,15 +1,19 @@
 import request from '@/utils/request';
 
-export async function getUserAuthList() {
-    return request('/api/test', {
-        data: {
-            ID: 12345
-        }
+/* global PROXY */
+/*
+* 用户登录接口
+* params：{name，password}
+* */
+
+export async function getUserAuthList(data) {
+    return request(`${PROXY}/token/login`, {
+        method: 'POST',
+        data,
     });
 }
-
 export async function loginOut() {
-    return request('/proxy/token/logout', {
-        method: 'post',
+    return request(`${PROXY}/token/logout`, {
+        method: 'POST',
     });
 }

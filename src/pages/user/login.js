@@ -5,10 +5,14 @@ class Login extends React.Component {
     UNSAFE_componentWillMount() {
         const { match, location } = this.props;
         const { params } = match;
-        console.log(location)
+        const { query: { pathname } } = location
         this.props.dispatch({
             type: 'login/loginin',
-            payload: params
+            payload: {
+                userInfo: params.id || '',
+                pathname,
+
+            }
         });
     }
     render() {

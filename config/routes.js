@@ -1,30 +1,30 @@
 export const routes = [
   {
     path: '/',
-    redirect: '/m1/survey',
+    redirect: '/smartPlatform/survey',
   },
   {
     path: '/',
     component: '../layouts/BasicLayout',
     routes: [
       {
-        path: '/m1',
+        path: '/smartPlatform',
         component: '../layouts/BasicLayoutM1',
         Routes: ['/src/utils/PrivateRoute.js'],
         routes: [
           {
-            path: '/m1/survey',
-            component: './m1/survey',
+            path: '/smartPlatform/survey',
+            component: './smartPlatform/survey',
             Routes: ['/src/utils/PrivateRoute.js'],
           },
           {
-            path: '/m1/details',
-            component: './m1/details',
+            path: '/smartPlatform/details',
+            component: './smartPlatform/details',
             Routes: ['/src/utils/PrivateRoute.js'],
           },
           {
-            path: '/m1/details/tasks',
-            component: './m1/details/tasks',
+            path: '/smartPlatform/details/tasks',
+            component: './smartPlatform/details/tasks',
           },
         ]
       },
