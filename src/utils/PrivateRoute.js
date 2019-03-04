@@ -1,5 +1,6 @@
 import router from 'umi/router';
 import storage from './storage';
+import { redirectUrlParams } from './routeUtils';
 import { LOGIN_URL } from './constants';
 
 function authority(props) {
@@ -12,14 +13,17 @@ function authority(props) {
       break;
     }
   }
-
+  const redirectUrl = redirectUrlParams(props);
+  console.log(redirectUrl);
   // if (allow) {
-    return (<div>{props.children}</div>);
+  return (<div>{props.children}</div>);
   // }
 
   // if (!allow && path === '/m1') {
   //   // inspector m1模块级别没有权限，跳转登录
-  //   window.location.href = `${LOGIN_URL}?redirectUrl=${window.location.href}`;
+  // const redirectUrl = redirectUrlParams(props);
+
+  //   window.location.href = `${LOGIN_URL}?redirectUrl=${redirectUrl}`;
   // } else {
   //   // 模块下的其他页面没有权限
   //   router.push('/exception/403')

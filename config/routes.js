@@ -47,9 +47,21 @@ export const routes = [
         ],
       },
       {
+        path: '/user',
+        component: '../layouts/UserLayout',
+        routes: [
+          {
+            path: '/user/:id',
+            component: './user/login',
+          },
+        ]
+
+      },
+      {
         path: '/doc',
         component: './doc',
       },
     ]
   },
+
 ];

@@ -2,6 +2,7 @@
  * request 网络请求工具
  */
 import { extend } from 'umi-request';
+
 import { notification } from 'antd';
 
 const codeMessage = {
@@ -41,7 +42,7 @@ const errorHandler = error => {
  */
 const request = extend({
   errorHandler, // 默认错误处理
-  credentials: 'include', // 默认请求是否带上cookie
+  // credentials: 'include', // 默认请求是否带上cookie,暂不做处理,如需添加请设置跨域处进行设置
 });
 
 export default request;
