@@ -12,8 +12,7 @@ export async function getUserAuthList(data) {
         data,
     });
 }
-export async function loginOut() {
-    return request(`${PROXY}/token/logout`, {
-        method: 'POST',
-    });
+// 获取考期列表
+export async function getExamList() {
+    return request('/detail/getExamList');
 }

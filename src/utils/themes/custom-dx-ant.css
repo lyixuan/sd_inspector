@@ -237,12 +237,12 @@ ul{
   color: #1B82E5;
   width: 80px;
   display: inline-block;
-  text-align: justify;
+  text-align-last: justify;
 }
 
-.ant-form-item-label label:after {
+.ant-form-item-label label::after {
   content: " ";
-  display: inline-block;
+  display: inline;
   width: 100%;
 }
 
@@ -279,13 +279,19 @@ ul{
   font-size: 14px;
 }
 
-.ant-btn > .anticon + span, .ant-btn > span + .anticon {
+.ant-dropdown-menu .anticon {
   float: right;
-}
-.ant-btn > .anticon {
   line-height: 1.5;
 }
 
+.ant-btn.ant-dropdown-trigger .anticon {
+  float: right;
+  line-height: 1.5;
+}
+
+.ant-btn.ant-dropdown-trigger{
+  text-align: left;
+}
 .ant-dropdown-menu {
   box-shadow: rgb(0, 112, 183) 0px 0px 20px;
   -webkit-tap-highlight-color: transparent;
