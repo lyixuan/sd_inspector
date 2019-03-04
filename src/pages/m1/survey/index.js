@@ -1,36 +1,37 @@
 import React from 'react';
-import Button from 'antd/lib/button';
-import Icon from 'antd/lib/icon';
-import DatePickerDecorator from 'antd/lib/date-picker';
-import moment from 'moment';
+import { connect } from 'dva';
 import Radio from '../components/Tabs';
-import Select from './component/Select';
 import Echart from '../../../components/Echart'
 import styles from './style.less';
 import ChinaMap from './component/ChinaMap';
+import SearchForm from './component/SearchForm';
 import {commonOptions} from './component/EchartCommonOptions';
-import {provinceJson} from '@/utils/constants';
 import {provinceData}from './component/test';
 
-const { RangePicker } = DatePickerDecorator;
-const dateFormat = 'YYYY-MM-DD';
-export default class Survey extends React.Component {
+@connect(({ survey, loading }) => ({
+  survey,
+  loading: loading.models.survey,
+  isLoading: loading.effects['survey/getExamDateRange'],
+}))
+class Survey extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      province:'报考省份',
-      collegeId:'学院',
-      familyId:'家族',
+      province:'',
+      collegeId:'',
+      familyId:'',
       beginDate:'',
       endDate:'',
-      familyData:[], // 家族的下拉框options
     };
   }
-  collegeData = ()=>{
-    return [
-      {name:'学院',code:111,children:[{name:'家族1',code:11},{name:'家族11',code:12},{name:'家族12',code:13}]},
-      {name:'学院1',code:211,children:[{name:'家族2',code:21},{name:'家族21',code:22},{name:'家族22',code:23}]},
-      {name:'学院2',code:311,children:[{name:'家族3',code:31},{name:'家族31',code:32},{name:'家族32',code:33}]},];
+  componentDidMount(){
+    this.queryHistogramData(this.state)
+  }
+  queryHistogramData = params =>{
+    this.props.dispatch({
+      type: 'survey/queryHistogramData',
+      payload: params,
+    });
   };
   initChart= () =>{
     const params1 = {
@@ -90,75 +91,29 @@ export default class Survey extends React.Component {
     const option2 = commonOptions(params2);
     return {option1,option2}
   };
-  // 选择框修改
-  handleChange = (value,id)=> {
-    if(id === 'province'){
-      this.setState({
-        province:value,
-      });
-    }else if(id === 'college'){
-      const familyData = this.collegeData().filter(item => item.code===value)[0].children ;
-      this.setState({
-        collegeId:value,
-        familyId:familyData[0].name,
-        familyData,
-      });
-    }else if(id === 'family'){
-      this.setState({
-        familyId:value,
-      });
-    }
-  };
-  // 日期修改
-  dateChange=(value, dateString)=> {
-    this.setState({
-      beginDate:dateString[0],
-      endDate:dateString[1],
-    });
-  };
-  search = () =>{
-    console.log(this.state);
-  };
-  reset = () =>{
-    this.setState({
-      province:'报考省份',
-      collegeId:'学院',
-      familyId:'家族',
-      beginDate:'',
-      endDate:'',
-      familyData:[]
-    })
+  searchData = param => {
+    console.log(param)
   };
   render(){
-    const { province, collegeId, familyId, beginDate, endDate,familyData} =  this.state;
     const {option1,option2} = this.initChart();
 
     return (
       <div className={styles.container}>
+        {/* 页面切换 */}
         <Radio path='/m1/survey' />
+        {/* 地图 */}
         <div className={styles.mapContainer}>
-            <ChinaMap data={provinceData}/>
+          <ChinaMap data={provinceData}/>
         </div>
         <div className={styles.histogram}>
           <div className={styles.headerCls}>
             数据概览
           </div>
+          {/* 搜索条件 */}
           <div className={styles.formCls}>
-            <div>
-              <span className={styles.searchTxt}>查询条件：</span>
-              <Select options={provinceJson} defaultValue={province} id='province' handleChange={this.handleChange} />
-              <Select options={this.collegeData()} defaultValue={collegeId} id='college' handleChange={this.handleChange} />
-              <Select options={familyData} defaultValue={familyId} id='family' handleChange={this.handleChange} />
-              <RangePicker placeholder={['开始时间','结束时间']} onChange={this.dateChange} value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}/>
-            </div>
-            <div>
-              <Button type="primary2" style={{marginRight:'20px'}} onClick={this.reset}>恢复默认</Button>
-              <Button type="primary" onClick={this.search}>
-                <Icon type="search" style={{fontSize:'16px'}} />
-                查询
-              </Button>
-            </div>
+            <SearchForm searchData={this.searchData}/>
           </div>
+          {/* 图表 */}
           <div className={styles.echartCls}>
             <Echart update='1' style={{width:'46%', height:"510px"}} options={option1} />
             <Echart update='1' style={{width:'46%', height:"510px"}} options={option2} />
@@ -169,3 +124,4 @@ export default class Survey extends React.Component {
   }
 
 }
+export default Survey;
