@@ -75,7 +75,7 @@ export default class Survey extends React.Component {
       <>
         <div>
           <span className={styles.searchTxt}>查询条件：</span>
-          <Select options={provinceJson} defaultValue={province} id='province' handleChange={this.handleChange} />
+          <Select options={provinceJson} defaultValue={province} id='province' handleChange={this.handleChange} showName/>
           <Select options={this.collegeData()} defaultValue={collegeId} id='college' handleChange={this.handleChange} />
           <Select options={familyData} defaultValue={familyId} id='family' handleChange={this.handleChange} />
           <RangePicker placeholder={['开始时间','结束时间']} onChange={this.dateChange} value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}/>
