@@ -7,7 +7,7 @@ export async function getExamList() {
 
 // 数据明细查询结果
 export async function getDetailDataPage(params) {
-  return request('/general/queryDetailDataPage', {method: 'post',data: params});
+  return request('/detail//queryDetailDataPage', {method: 'post',data: params});
 }
 
 // 我的查询条件

@@ -125,18 +125,18 @@ class HorizontalLoginForm extends React.Component {
     for (let key in checkedConditionList) {
       if ('provinceList' === key) {
         obj[key] = checkedConditionList[key].keys.split(',');
-      }
-      if ('familyIdList' === key) {
+      }else if ('familyIdList' === key) {
         obj[key] = checkedConditionList[key].keys.split(',');
         obj[key].forEach((v,i) => {
           obj[key][i] = Number(obj[key][i]);
         })
-      }
-      if ('msgStatusList' === key) {
+      } else if ('msgStatusList' === key) {
         obj[key] = checkedConditionList[key].keys.split(',');
         obj[key].forEach((v,i) => {
           obj[key][i] = Number(obj[key][i]);
         })
+      } else {
+        obj[key] = checkedConditionList[key].keys
       }
     }
     this.props.dispatch({
@@ -146,7 +146,6 @@ class HorizontalLoginForm extends React.Component {
   };
 
   render() {
-
     this.examList = this.props.dataDetail.examList;
     this.conditionList = this.props.dataDetail.queryConditionList || [];
     this.collegeList = this.props.home.orgList;
@@ -325,6 +324,27 @@ class SearchForm extends Component {
     this.setState({
       checkedConditionList: val,
     });
+
+    const obj = {};
+    const  checkedConditionList = DeepCopy(val);
+    for (let key in checkedConditionList) {
+      if ('provinceList' === key) {
+        obj[key] = checkedConditionList[key].keys.split(',');
+      }else if ('familyIdList' === key) {
+        obj[key] = checkedConditionList[key].keys.split(',');
+        obj[key].forEach((v,i) => {
+          obj[key][i] = Number(obj[key][i]);
+        })
+      } else if ('msgStatusList' === key) {
+        obj[key] = checkedConditionList[key].keys.split(',');
+        obj[key].forEach((v,i) => {
+          obj[key][i] = Number(obj[key][i]);
+        })
+      } else {
+        obj[key] = checkedConditionList[key].keys
+      }
+    }
+    this.props.updateCheckedConditions(obj)
   };
 
   conditionDel = (id) => {

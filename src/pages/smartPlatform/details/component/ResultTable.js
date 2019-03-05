@@ -16,7 +16,10 @@ class ResultTable extends Component {
     // 获取数据
   }
   toTask = () =>{
-    router.push('/smartPlatform/details/tasks');
+    router.push({
+      pathname: '/smartPlatform/details/tasks',
+      // query: this.props.checkedConditionList,
+    });
   };
 
   render() {
@@ -71,7 +74,7 @@ class ResultTable extends Component {
               <Button type="primary" onClick={this.toTask}>任务列表</Button>
             </span>
             <span className={styles.tableHeadRight}>
-              <Button type="primary2">添加下载任务</Button>
+              <Button type="primary2" onClick={this.addTask}>添加下载任务</Button>
             </span>
           </div>
           <Table dataSource={dataSource} columns={columns} pagination={BiFilter("PAGINATION")} bordered/>
