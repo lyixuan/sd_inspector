@@ -103,7 +103,6 @@ class Survey extends React.Component {
   };
   render(){
     const {option1,option2} = this.initChart();
-
     return (
       <div className={styles.container}>
         {/* 页面切换 */}

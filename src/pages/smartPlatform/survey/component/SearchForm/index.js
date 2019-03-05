@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'dva';
 import Button from 'antd/lib/button';
 import Icon from 'antd/lib/icon';
 import DatePickerDecorator from 'antd/lib/date-picker';
@@ -9,7 +10,11 @@ import {provinceJson} from '@/utils/constants';
 
 const { RangePicker } = DatePickerDecorator;
 const dateFormat = 'YYYY-MM-DD';
-export default class Survey extends React.Component {
+@connect(({ home, loading }) => ({
+  home,
+  loading: loading.models.home,
+}))
+ class Survey extends React.Component {
   constructor(props){
     super(props);
     this.state={
@@ -21,23 +26,19 @@ export default class Survey extends React.Component {
       familyData:[], // 家族的下拉框options
     };
   }
-  collegeData = ()=>{
-    return [
-      {name:'学院',code:111,children:[{name:'家族1',code:11},{name:'家族11',code:12},{name:'家族12',code:13}]},
-      {name:'学院1',code:211,children:[{name:'家族2',code:21},{name:'家族21',code:22},{name:'家族22',code:23}]},
-      {name:'学院2',code:311,children:[{name:'家族3',code:31},{name:'家族31',code:32},{name:'家族32',code:33}]},];
-  };
+
   // 选择框修改
   handleChange = (value,id)=> {
+    const {orgList} = this.props.home;
     if(id === 'province'){
       this.setState({
         province:value,
       });
     }else if(id === 'college'){
-      const familyData = this.collegeData().filter(item => item.code===value)[0].children ;
+      const familyData = orgList.filter(item => item.id===value)[0].sub ;
       this.setState({
         collegeId:value,
-        familyId:familyData[0].code,
+        familyId:familyData[0].id,
         familyData,
       });
     }else if(id === 'family'){
@@ -70,14 +71,15 @@ export default class Survey extends React.Component {
   };
   render(){
     const { province, collegeId, familyId, beginDate, endDate,familyData} =  this.state;
+    const {orgList} = this.props.home;
 
     return (
       <>
         <div>
           <span className={styles.searchTxt}>查询条件：</span>
           <Select options={provinceJson} defaultValue={province} id='province' handleChange={this.handleChange} showName/>
-          <Select options={this.collegeData()} defaultValue={collegeId} id='college' handleChange={this.handleChange} />
-          <Select options={familyData} defaultValue={familyId} id='family' handleChange={this.handleChange} />
+          <Select options={orgList} defaultValue={collegeId} id='college' handleChange={this.handleChange} value='id' />
+          <Select options={familyData} defaultValue={familyId} id='family' handleChange={this.handleChange} value='id' />
           <RangePicker placeholder={['开始时间','结束时间']} onChange={this.dateChange} value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}/>
         </div>
         <div>
@@ -90,5 +92,5 @@ export default class Survey extends React.Component {
       </>
     );
   }
-
 }
+export default Survey;

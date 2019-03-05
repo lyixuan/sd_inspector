@@ -9,7 +9,7 @@ import styles from './style.less'
 }))
 class Home extends React.Component {
   componentDidMount(){
-    this.getDateRange({});
+    this.getDateRange();
     this.getOrgInfo({})
   }
   getOrgInfo = params =>{
@@ -18,10 +18,10 @@ class Home extends React.Component {
       payload: params,
     });
   };
-  getDateRange = params =>{
+  getDateRange = () =>{
     this.props.dispatch({
       type: 'home/getExamDateRange',
-      payload: params,
+      payload: {},
     });
   };
   render (){

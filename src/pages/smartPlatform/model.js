@@ -12,16 +12,16 @@ export default {
   effects: {
     *getOrgInfo({ payload }, { call, put }) {
       const data = yield call(getOrgInfo, payload.params);
-      if (data && data.code === 2000) {
-        yield put({ type: 'save', payload: { orgList:data } });
+      if (data.code === 20000) {
+        yield put({ type: 'save', payload: { orgList:data.data} });
       } else {
         message.error(data.msg);
       }
     },
     *getExamDateRange({ payload }, { call, put }) {
       const data = yield call(getExamDateRange, payload.params);
-      if (data && data.code === 2000) {
-        yield put({ type: 'save', payload: { dateRange:data } });
+      if (data.code === 20000) {
+        yield put({ type: 'save', payload: { dateRange:data.data } });
       } else {
         message.error(data.msg);
       }
