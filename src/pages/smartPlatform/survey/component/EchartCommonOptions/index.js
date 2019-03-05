@@ -1,5 +1,5 @@
 export function commonOptions(params) {
-  const {text,legendData=[],xData=[],max,interval,color,series,yAxis,itemGap=19,formatter} = params;
+  const {text,legendData=[],xData=[],color,series,yAxis,itemGap=19,formatter} = params;
   return {
     title: {
       text,
@@ -57,26 +57,7 @@ export function commonOptions(params) {
         }
       }
     ],
-    yAxis: [{
-      axisLine:{
-        lineStyle:{
-          color:'#bdc0c6'
-        }
-      },
-      axisTick:{
-        show:false,
-      },
-      type: 'value',
-      splitLine:{
-        show:false
-      },
-      min: 0,
-      max,
-      interval,
-      axisLabel: {
-        formatter: '{value}'
-      },
-    },yAxis?yAxis:null],
+    yAxis,
     color,
     series: [
       {

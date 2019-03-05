@@ -8,8 +8,9 @@ import SearchForm from './component/SearchForm';
 import {commonOptions} from './component/EchartCommonOptions';
 import {provinceData}from './component/test';
 
-@connect(({ survey, loading }) => ({
+@connect(({ survey,home, loading }) => ({
   survey,
+  home,
   loading: loading.models.survey,
   isLoading: loading.effects['survey/getExamDateRange'],
 }))
@@ -42,13 +43,11 @@ class Survey extends React.Component {
   initChart= () =>{
     const {dataList={}} = this.props.survey;
     const{data1={},data2={}}=dataList;
-    const {dateArr=[]} = data1;
-    console.log(dateArr);
     const params1 = {
       text:'微信推送整体数据',
       legendData:[{name:'考试计划人数',icon:'rect'},{name:'推送人数',icon:'rect'},{name:'已读人数',icon:'rect'}],
-      xData:['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],
-      // xData:dateArr,
+      // xData:['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],
+      xData:data1.dateArr,
       color:['#1e93ff',"#7363ec",'#1ec47a'],
       formatter:'{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}',
       series:[{
@@ -65,8 +64,26 @@ class Survey extends React.Component {
         data: [20300.6, 18300.9, 13000.0, 13000, 13000.7, 13000.7, 13000.6]
         // data: data1.dataArr3
       }],
-      max:50000,
-      interval:10000,
+      yAxis:{
+        axisLine:{
+          lineStyle:{
+            color:'#bdc0c6'
+          }
+        },
+        axisTick:{
+          show:false,
+        },
+        type: 'value',
+        splitLine:{
+          show:false
+        },
+        min: 0,
+        max:50000,
+        interval:10000,
+        axisLabel: {
+          formatter: '{value}'
+        },
+      },
       itemGap:52,
     };
     const params2 = {
@@ -75,7 +92,8 @@ class Survey extends React.Component {
         name:'准考证填写占比',
         icon:'image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAEAQMAAABSuEaRAAAAAXNSR0IB2cksfwAAAAZQTFRF+zd3AAAAP9uspgAAAAJ0Uk5T/wDltzBKAAAAEUlEQVR4nGNgYGhggOH//xsAEwsD/x/9IEYAAAAASUVORK5CYII=',
       }],
-      xData:['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],
+      xData:data2.dateArr,
+      // xData:['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],
       color:['#1e93ff',"#fc595b",'#fc3676'],
       formatter:'{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}%',
       series:[{
@@ -93,7 +111,26 @@ class Survey extends React.Component {
         data: [20.6, 31.9, 35.0, 42, 52.7, 61.7, 71.6],
         itemStyle : { normal: {label : {show: true,formatter:'{c}%'}}},
       }],
-      yAxis: {
+      yAxis: [{
+        axisLine:{
+          lineStyle:{
+            color:'#bdc0c6'
+          }
+        },
+        axisTick:{
+          show:false,
+        },
+        type: 'value',
+        splitLine:{
+          show:false
+        },
+        min: 0,
+        max:25000,
+        interval:5000,
+        axisLabel: {
+          formatter: '{value}'
+        },
+      },{
         show:false,
         type: 'value',
         min: 0,
@@ -102,9 +139,7 @@ class Survey extends React.Component {
         axisLabel: {
           formatter: '{value} %'
         }
-      },
-      max:25000,
-      interval:5000,
+      }],
     };
     const option1 = commonOptions(params1);
     const option2 = commonOptions(params2);
@@ -116,8 +151,7 @@ class Survey extends React.Component {
     this.queryHistogramData(param)
   };
   render(){
-    const {dataList={}} = this.props.survey;
-    const{data1={},data2={}}=dataList;
+    const {dateRange} = this.props.home;
     const {option1,option2} = this.initChart();
     return (
       <div className={styles.container}>
@@ -137,8 +171,8 @@ class Survey extends React.Component {
           </div>
           {/* 图表 */}
           <div className={styles.echartCls}>
-            <Echart update={data1} style={{width:'46%', height:"510px"}} options={option1} />
-            <Echart update='2' style={{width:'46%', height:"510px"}} options={option2} />
+            <Echart update={dateRange} style={{width:'46%', height:"510px"}} options={option1} />
+            <Echart update={dateRange} style={{width:'46%', height:"510px"}} options={option2} />
           </div>
         </div>
       </div>
