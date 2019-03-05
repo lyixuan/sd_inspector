@@ -1,7 +1,7 @@
 // 处理umi对应的webpack配置
 // 根据API_ENV环境不同分为debugger开发代理(api),development为使用dev的api,production为使用线上api
 const proxyHost = {
-    localhost: 'http://127.0.0.1:4000/',
+    localhost: 'http://127.0.0.1:8095/',
     development: '',   // 待确定
     production: ''     // 待确定
 }
