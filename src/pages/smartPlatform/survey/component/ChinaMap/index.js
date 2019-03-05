@@ -87,7 +87,7 @@ class ChinaMap extends Component {
         this.svgFirstG = chart.append("g")// 设最外包层在总图上的相对位置
         this.svgFirstG.style('fill-opacity', 1)
             .attr("transform", `translate(${(1 - scaleNum) / 2 * WIDTH - 60},${(1 - scaleNum) / 2 * HEIGHT}) scale(${scaleNum})`)
-            .on('mouseout', tip.hide)
+            .on('mouseout', this.onMouseout)
             ;
         // 设置省path
         this.drewPath(data)
@@ -204,7 +204,7 @@ class ChinaMap extends Component {
         if (!data) {
             return
         }
-        // d3.select(`#${data.id}`).raise()
+        d3.select(`#${data.id}`).raise()
         const allPath = d3.selectAll('.state');
         allPath.style('stroke', d => {
             return d.id === data.id ? '#caf3fe' : '#0bb4f9'
