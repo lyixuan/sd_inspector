@@ -168,7 +168,8 @@ export const PROVINCE_STEP=[
   { id: 2, name: '现场确认' },
   { id: 3, name: '报考科目&缴费' },
   { id: 4, name: '补报名' },
-]
+];
+
 // 订单状态
 export const ORDER_STATE = [
   { id: 1, name: '已支付' },
@@ -189,12 +190,20 @@ export const TICKET_STATES = [
 
 // 消息打开状态
 export const MSG_STATES = [
-  { id: 1, name: '所有消息' },
-  { id: 2, name: '未推送' },
-  { id: 3, name: '已推送(未读)' },
-  { id: 4, name: '已推送(已读)' },
+  { id: 0, name: '所有消息' },
+  { id: 1, name: '未推送' },
+  { id: 2, name: '已推送(未读)' },
+  { id: 3, name: '已推送(已读)' },
 ];
 
+// 报考进度状态
+export const SIGN_STEP = [
+  { id: 1, name: '未公布' },
+  { id: 2, name: '未开始' },
+  { id: 3, name: '即将开始' },
+  { id: 4, name: '进行中' },
+  { id: 5, name: '已结束' },
+];
 
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
@@ -203,5 +212,6 @@ export default {
   TICKET_STATES,
   MSG_STATES,
   PAGINATION,
+  SIGN_STEP,
   provinceJson,
 };
