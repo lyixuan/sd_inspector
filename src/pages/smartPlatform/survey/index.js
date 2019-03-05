@@ -17,15 +17,21 @@ class Survey extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      province:'',
-      collegeId:'',
-      familyId:'',
-      beginDate:'',
-      endDate:'',
-    };
+      params:{"province":"北京市","collegeId":104,"familyId":155,"beginDate":"2019-02-22","endDate":"2019-02-27"},
+      data1:{},
+      data2:{},
+    }
+    // this.state={
+    //   province:'',
+    //   collegeId:'',
+    //   familyId:'',
+    //   beginDate:'',
+    //   endDate:'',
+    // };
+
   }
   componentDidMount(){
-    this.queryHistogramData(this.state)
+    this.queryHistogramData(this.state.params)
   }
   queryHistogramData = params =>{
     this.props.dispatch({
@@ -34,22 +40,30 @@ class Survey extends React.Component {
     });
   };
   initChart= () =>{
+    const {dataList={}} = this.props.survey;
+    const{data1={},data2={}}=dataList;
+    const {dateArr=[]} = data1;
+    console.log(dateArr);
     const params1 = {
       text:'微信推送整体数据',
       legendData:[{name:'考试计划人数',icon:'rect'},{name:'推送人数',icon:'rect'},{name:'已读人数',icon:'rect'}],
       xData:['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],
+      // xData:dateArr,
       color:['#1e93ff',"#7363ec",'#1ec47a'],
       formatter:'{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}',
       series:[{
         type:'bar',
         barCategoryGap:'40%',
         data: [43000.0, 35000.9, 18300.0, 28600.2, 37200.6, 37200.7, 37200.6]
+        // data: data1.dataArr1
       },{
         type:'bar',
         data: [25300.6, 25300.9, 18300.0, 18300, 18300.7, 18300.7, 18300.6]
+        // data: data1.dataArr2
       },{
         type:'bar',
         data: [20300.6, 18300.9, 13000.0, 13000, 13000.7, 13000.7, 13000.6]
+        // data: data1.dataArr3
       }],
       max:50000,
       interval:10000,
@@ -102,6 +116,8 @@ class Survey extends React.Component {
     this.queryHistogramData(param)
   };
   render(){
+    const {dataList={}} = this.props.survey;
+    const{data1={},data2={}}=dataList;
     const {option1,option2} = this.initChart();
     return (
       <div className={styles.container}>
@@ -121,8 +137,8 @@ class Survey extends React.Component {
           </div>
           {/* 图表 */}
           <div className={styles.echartCls}>
-            <Echart update='1' style={{width:'46%', height:"510px"}} options={option1} />
-            <Echart update='1' style={{width:'46%', height:"510px"}} options={option2} />
+            <Echart update={data1} style={{width:'46%', height:"510px"}} options={option1} />
+            <Echart update='2' style={{width:'46%', height:"510px"}} options={option2} />
           </div>
         </div>
       </div>
