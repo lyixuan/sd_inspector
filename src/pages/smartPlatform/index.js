@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less'
 
@@ -12,7 +12,12 @@ class Home extends React.Component {
     this.getDateRange();
     this.getOrgInfo({})
   }
-  getOrgInfo = params =>{
+  getMapInfo = () => {
+    this.props.dispatch({
+      type: 'home/getMapInfo',
+    })
+  };
+  getOrgInfo = params => {
     this.props.dispatch({
       type: 'home/getOrgInfo',
       payload: params,
@@ -24,11 +29,11 @@ class Home extends React.Component {
       payload: {},
     });
   };
-  render (){
+  render() {
     return (
       <div className={styles.basicWrap}>
         <div className={styles.headerWrap} />
-        { this.props.children }
+        {this.props.children}
       </div>
     );
   }

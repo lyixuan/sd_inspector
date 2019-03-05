@@ -1,19 +1,19 @@
 import { message } from 'antd/lib/index';
-import { getOrgInfo,getExamDateRange } from './services';
+import { getOrgInfo, getExamDateRange, getMapInfo } from './services';
 
 export default {
   namespace: 'home',
 
   state: {
-    orgList:[],
-    dateRange:{},
+    orgList: [],
+    dateRange: {},
+    mapInfo: {},
   },
 
   effects: {
     *getOrgInfo({ payload }, { call, put }) {
       const data = yield call(getOrgInfo, payload.params);
       if (data.code === 20000) {
-        yield put({ type: 'save', payload: { orgList:data.data} });
       } else {
         message.error(data.msg);
       }
@@ -25,6 +25,11 @@ export default {
       } else {
         message.error(data.msg);
       }
+    },
+    *getMapInfo({ payload }, { call, put }) {
+      const response = yield call(getMapInfo);
+      console.log(response);
+
     }
   },
 

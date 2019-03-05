@@ -34,6 +34,7 @@ class ChinaMap extends Component {
     constructor(props) {
         super(props);
         ChinaMap.that = this;
+        ChinaMap.tip = {}
         this.state = {
             mapData: {},
             examineStepList: [],      // 选中状态
@@ -120,6 +121,7 @@ class ChinaMap extends Component {
     tooltipText = (id) => {
         const { mapData } = this.state;
         const obj = mapData[id] || {};
+        console.log(obj)
         return (
             `<ul class=${styles.tootipPanl}>
     <li class=${styles.tooltipItem}>考试计划人数：${obj.examPlanNum || 0}人</li>
@@ -211,12 +213,17 @@ class ChinaMap extends Component {
     onMouseover(d, i) {
         d3.select(this).raise()
         ChinaMap.that.changePathStroke(this);
-        tip.show(d3.event);
+        if (tip.show) {
+            tip.show(d3.event);
+        }
+
     }
     onMouseout(d, i) {
         const allPath = d3.selectAll('.state');
         allPath.style('stroke', '#0bb4f9')
-        tip.hide()
+        if (tip.hide) {
+            tip.hide();
+        }
     }
     onClick() {
         const obj = d3.select(this).datum();

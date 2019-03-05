@@ -8,3 +8,8 @@ export async function getOrgInfo(params) {
 export async function getExamDateRange(params) {
   return request('/general/getExamDateRange', { params });
 }
+// 获取地图数据相关接口
+
+export async function getMapInfo(params) {
+  return request('/general/getMapInfo', { params });
+}
