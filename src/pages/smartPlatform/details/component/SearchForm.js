@@ -38,20 +38,19 @@ class HorizontalLoginForm extends React.Component {
     this.provinceAllList = BiFilter('provinceJson');
     this.collegeList = [];
     this.familyList = [];
-    this.conditionList = [
-      { id: 1, name: '我的条件1' },
-      { id: 22, name: '我的条件22' }
-    ];
+    this.conditionList = [];
     this.checkedConditionList = {};
   }
   UNSAFE_componentWillMount() {
+    // 获取考期
     this.props.dispatch({
       type: 'global/getExamList',
       payload: { params: {} },
     });
+    // 获取我的查询条件
     this.props.dispatch({
       type: 'dataDetail/getQueryConditionList',
-      payload: { params: {} },
+      payload: { params: undefined },
     });
   }
 
@@ -63,8 +62,9 @@ class HorizontalLoginForm extends React.Component {
     this.props.menuEdit(e);
   };
 
-  menuAdd = (e) => {
-    this.props.menuAdd(e);
+  menuAdd = (params) => {
+    console.log(params);
+    this.props.menuAdd(params);
   };
 
   menuCheck = (val) => {
@@ -108,7 +108,7 @@ class HorizontalLoginForm extends React.Component {
 
   render() {
     this.examList = this.props.global.examList;
-    // this.conditionList = this.props.dataDetail.queryConditionList;
+    this.conditionList = this.props.dataDetail.queryConditionList;
 
     const checkedConditionList = this.checkedConditionList;
 
@@ -122,15 +122,18 @@ class HorizontalLoginForm extends React.Component {
         ))}
       </Menu>
     );
+    // 构造 checkedConditionList 的node
     function getCheckedConditionList() {
       const list = [];
       for (let key in checkedConditionList) {
         checkedConditionList[key] && list.push(checkedConditionList[key]);
       }
-      return list.map((v) => (
-        <span className={styles.spanBtn} key={v}>{v}</span>
-      ))
+      return list;
     }
+    const checkedBtn = getCheckedConditionList().map((v) => (
+        <span className={styles.spanBtn} key={v}>{v}</span>
+      ));
+    console.log(checkedBtn);
 
     return (
       <Form layout="inline" onSubmit={this.handleSubmit}>
@@ -271,7 +274,7 @@ class HorizontalLoginForm extends React.Component {
             <div className={styles.searchBoxSeletected}>
               <span className={styles.rowTitle}>已选条件：</span>
               <div className={styles.row}>
-                {getCheckedConditionList()} <Button type="primary" style={{marginLeft:'20px'}} onClick={this.menuAdd}>保存查询条件</Button>
+                {checkedBtn} <Button type="primary" style={{marginLeft:'20px'}} onClick={this.menuAdd(checkedConditionList)}>保存查询条件</Button>
               </div>
             </div>
           ):null
@@ -288,7 +291,8 @@ class SearchForm extends Component {
     super(props);
     this.state = {
       visible: false,
-      conditionName: ''
+      conditionName: '',
+      titleType: 1,  // 1 添加查询条件 2 编辑查询条件
     };
   }
 
@@ -303,13 +307,15 @@ class SearchForm extends Component {
     console.log('menue', e);
     this.setState({
       visible: true,
+      titleType: 2
     });
   };
 
-  conditionAdd = (e) => {
-    console.log('menuadd', e);
+  conditionAdd = (params) => {
+    console.log('menuadd1111111', params);
     this.setState({
       visible: true,
+      titleType: 1
     });
   };
 
@@ -324,6 +330,13 @@ class SearchForm extends Component {
     this.setState({
       visible: false,
     });
+    // 获取我的查询条件
+    if (this.state.titleType === 1) {
+      this.props.dispatch({
+        type: 'dataDetail/getQueryConditionList',
+        payload: { params: {} },
+      });
+    }
   };
 
   handleCancel = (e) => {
@@ -340,11 +353,11 @@ class SearchForm extends Component {
           <WrappedHorizontalLoginForm
             menuDel={this.conditionDel}
             menuEdit={this.conditionEdit}
-            menuAdd={this.conditionAdd}
+            menuAdd={(params) => this.conditionAdd(params)}
           />
         </div>
         <Modal
-          title="添加查询条件"
+          title={this.state.titleType === 1 ? '添加查询条件' : '编辑查询条件'}
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
