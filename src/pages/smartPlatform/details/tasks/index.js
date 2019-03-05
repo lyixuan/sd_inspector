@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'dva';
 import Table from 'antd/lib/table';
 import Breadcrumb from 'antd/lib/breadcrumb';
 import Link from 'umi/link';
-
-import Button from 'antd/lib/button';
-
 import styles from '../style.less'
 
+@connect(({ detail, loading }) => ({
+  detail,
+  loading: loading.models.detail,
+}))
 class Tasks extends Component {
   constructor(props) {
     super(props);
@@ -15,8 +17,17 @@ class Tasks extends Component {
 
   UNSAFE_componentWillMount() {
     // 获取数据
-  }
 
+  }
+  componentDidMount(){
+    this.getData();
+  }
+  getData = params =>{
+    this.props.dispatch({
+      type: 'detail/getTaskPage',
+      payload: params,
+    });
+  };
   render() {
     const dataSource = [{
       index: '1',
@@ -37,27 +48,39 @@ class Tasks extends Component {
       },
       {
         title: '创建时间',
-        dataIndex: 'adjustDate2',
+        dataIndex: 'createTime',
       },
       {
         title: '创建人',
-        dataIndex: 'type2',
+        dataIndex: 'creator',
       },
       {
         title: '任务名称',
-        dataIndex: 'creditScore2',
+        dataIndex: 'taskName',
       },
       {
         title: '查询条件',
-        dataIndex: 'groupType2',
+        dataIndex: 'queryCondition',
       },
       {
         title: '任务状态',
-        dataIndex: 'orgName2',
+        dataIndex: 'taskStatus',
       },
       {
         title: '学院订单数',
-        dataIndex: 'familyType2',
+        dataIndex: 'orderCount',
+      },
+      {
+        title: '操作',
+        dataIndex: 'operate',
+        render: (text, record) => {
+          return (
+            <>
+              <span onClick={()=>{console.log(record)}} style={{ marginRight: '8px' }}>下载</span>
+              <span onClick={()=>{console.log(record)}} style={{ marginRight: '8px' }}>删除</span>
+            </>
+          );
+        },
       },
     ];
     return (
