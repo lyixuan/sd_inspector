@@ -1,5 +1,10 @@
 import request from '@/utils/request';
 
+// 获取考期列表
+export async function getExamList() {
+  return request('/detail/getExamList');
+}
+
 // 数据明细查询结果
 export async function getDetailDataPage(params) {
   return request('/general/queryDetailDataPage', { params });

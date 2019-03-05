@@ -1,20 +1,34 @@
 import { message } from 'antd/lib/index';
-import { getDetailDataPage, getQueryConditionList, addQueryCondition, deleteQueryCondition, updateQueryCondition } from './services';
+import { getExamList, getDetailDataPage, getQueryConditionList, addQueryCondition, deleteQueryCondition, updateQueryCondition } from './services';
 
 export default {
   namespace: 'dataDetail',
 
   state: {
     tableList:[],
-    queryConditionList:[]
+    queryConditionList:[],
+    examList: []
   },
 
   effects: {
+    // 获取考期列表
+    *getExamList({ payload }, { call, put }) {
+      const result = yield call(getExamList, payload);
+      const examList = result.data || [];
+      examList.forEach((v,i) => {
+        examList[i]['exam'] = `${v.examYearmonth.replace('-','').substr(2)}考期`
+      });
+      if (result && result.code === 20000) {
+        yield put({ type: 'save', payload: { examList } });
+      } else {
+        message.error(result.msg);
+      }
+    },
     // 数据明细查询结果
     *getDetailData({ payload }, { call, put }) {
       const result = yield call(getDetailDataPage, payload.params);
       const tableList = result.data || [];
-      if (result && result.code === 2000) {
+      if (result && result.code === 20000) {
         yield put({ type: 'save', payload: { tableList } });
       } else {
         message.error(result.msg);
@@ -24,7 +38,7 @@ export default {
     *getQueryConditionList({ payload }, { call, put }) {
       const result = yield call(getQueryConditionList, payload.params);
       const queryConditionList = result.data || [];
-      if (result && result.code === 2000) {
+      if (result && result.code === 20000) {
         yield put({ type: 'save', payload: { queryConditionList } });
       } else {
         message.error(result.msg);
@@ -34,7 +48,7 @@ export default {
     *addQueryCondition({ payload }, { call, put }) {
       const data = yield call(addQueryCondition, payload.params);
       const queryConditionList = data.list;
-      if (data && data.code === 2000) {
+      if (data && data.code === 20000) {
         yield put({ type: 'save', payload: { queryConditionList } });
       } else {
         message.error(data.msg);
@@ -44,7 +58,7 @@ export default {
     *updateQueryCondition({ payload }, { call, put }) {
       const data = yield call(updateQueryCondition, payload.params);
       const queryConditionList = data.list;
-      if (data && data.code === 2000) {
+      if (data && data.code === 20000) {
         yield put({ type: 'save', payload: { queryConditionList } });
       } else {
         message.error(data.msg);
@@ -54,7 +68,7 @@ export default {
     *deleteQueryCondition({ payload }, { call, put }) {
       const data = yield call(deleteQueryCondition, payload.params);
       const queryConditionList = data.list;
-      if (data && data.code === 2000) {
+      if (data && data.code === 20000) {
         yield put({ type: 'save', payload: { queryConditionList } });
       } else {
         message.error(data.msg);

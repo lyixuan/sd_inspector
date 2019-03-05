@@ -15,8 +15,7 @@ import styles from '../style.less'
 
 const { Option } = Select;
 
-@connect(({ global,dataDetail }) => ({
-  global,
+@connect(({ dataDetail }) => ({
   dataDetail,
 }))
 
@@ -44,7 +43,7 @@ class HorizontalLoginForm extends React.Component {
   UNSAFE_componentWillMount() {
     // 获取考期
     this.props.dispatch({
-      type: 'global/getExamList',
+      type: 'dataDetail/getExamList',
       payload: { params: {} },
     });
     // 获取我的查询条件
@@ -60,11 +59,6 @@ class HorizontalLoginForm extends React.Component {
 
   menuEdit = (e) => {
     this.props.menuEdit(e);
-  };
-
-  menuAdd = (params) => {
-    console.log(params);
-    this.props.menuAdd(params);
   };
 
   menuCheck = (val) => {
@@ -86,6 +80,7 @@ class HorizontalLoginForm extends React.Component {
       labels = val.label;
     }
     this.checkedConditionList[key] = labels;
+    this.props.updateCC(this.checkedConditionList);
   };
 
   handleReset = () => {
@@ -107,10 +102,8 @@ class HorizontalLoginForm extends React.Component {
   };
 
   render() {
-    this.examList = this.props.global.examList;
+    this.examList = this.props.dataDetail.examList;
     this.conditionList = this.props.dataDetail.queryConditionList;
-
-    const checkedConditionList = this.checkedConditionList;
 
     const { getFieldDecorator, } = this.props.form;
     const menu = (
@@ -122,18 +115,6 @@ class HorizontalLoginForm extends React.Component {
         ))}
       </Menu>
     );
-    // 构造 checkedConditionList 的node
-    function getCheckedConditionList() {
-      const list = [];
-      for (let key in checkedConditionList) {
-        checkedConditionList[key] && list.push(checkedConditionList[key]);
-      }
-      return list;
-    }
-    const checkedBtn = getCheckedConditionList().map((v) => (
-        <span className={styles.spanBtn} key={v}>{v}</span>
-      ));
-    console.log(checkedBtn);
 
     return (
       <Form layout="inline" onSubmit={this.handleSubmit}>
@@ -156,7 +137,7 @@ class HorizontalLoginForm extends React.Component {
                 )}
               </Form.Item>
             </div>
-            {/* 第二行 */}
+             第二行
             <div>
               <Form.Item label="学员信息">
                 {getFieldDecorator('provinceList', {
@@ -269,16 +250,6 @@ class HorizontalLoginForm extends React.Component {
             </div>
           </div>
         </div>
-        {
-          getCheckedConditionList().length > 0 ? (
-            <div className={styles.searchBoxSeletected}>
-              <span className={styles.rowTitle}>已选条件：</span>
-              <div className={styles.row}>
-                {checkedBtn} <Button type="primary" style={{marginLeft:'20px'}} onClick={this.menuAdd(checkedConditionList)}>保存查询条件</Button>
-              </div>
-            </div>
-          ):null
-        }
       </Form>
     );
   }
@@ -294,7 +265,16 @@ class SearchForm extends Component {
       conditionName: '',
       titleType: 1,  // 1 添加查询条件 2 编辑查询条件
     };
+    this.checkedConditionList = {};
   }
+
+  updateCheckedConditions = (val) => {
+    console.log('updateCheckedConditions', val);
+    // this.setState({
+    //   checkedConditionList: val,
+    // });
+    this.checkedConditionList = val;
+  };
 
   conditionDel = (e) => {
     console.log('menu', e);
@@ -347,14 +327,38 @@ class SearchForm extends Component {
   };
 
   render() {
+    const  checkedConditionList   = this.checkedConditionList;
+    // 构造 checkedConditionList 的node
+    function getCheckedConditionList() {
+      const list = [];
+      for (let key in checkedConditionList) {
+        checkedConditionList[key] && list.push(checkedConditionList[key]);
+      }
+      return list;
+    }
+    const checkedBtn = getCheckedConditionList().map((v) => (
+      <span className={styles.spanBtn} key={v}>{v}</span>
+    ));
+    console.log(checkedBtn);
     return (
       <>
         <div className={styles.searchWrap}>
           <WrappedHorizontalLoginForm
+            updateCC={(p)=>this.updateCheckedConditions(p)}
             menuDel={this.conditionDel}
             menuEdit={this.conditionEdit}
             menuAdd={(params) => this.conditionAdd(params)}
           />
+          {
+            getCheckedConditionList().length > 0 ? (
+              <div className={styles.searchBoxSeletected}>
+                <span className={styles.rowTitle}>已选条件：</span>
+                <div className={styles.row}>
+                  {checkedBtn} <Button type="primary" style={{marginLeft:'20px'}} onClick={this.conditionAdd(checkedConditionList)}>保存查询条件</Button>
+                </div>
+              </div>
+            ):null
+          }
         </div>
         <Modal
           title={this.state.titleType === 1 ? '添加查询条件' : '编辑查询条件'}
