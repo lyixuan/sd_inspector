@@ -28,7 +28,7 @@ class Survey extends React.Component {
   }
   componentDidMount() {
     this.getMapInfo();
-    this.queryHistogramData(this.state)
+    // this.queryHistogramData(this.state)
   }
   getMapInfo = () => {
     const { mapInfo } = this.props;
