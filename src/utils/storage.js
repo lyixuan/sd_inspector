@@ -14,6 +14,20 @@ const storage = {
   * 获取用户信息
   * return object || null
   * */
+  getToken() {
+    const info = this.getItem(ADMIN_USER);
+    let userId = '';
+    let token = '';
+    if (info) {
+      userId = info.userId;
+      token = info.token;
+    }
+    return `${userId}_${token}`;
+  },
+  /*
+  * 获取用户信息
+  * return object || null
+  * */
   getUserInfo() {
     return this.getItem(ADMIN_USER)
   }
