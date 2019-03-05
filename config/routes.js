@@ -9,18 +9,18 @@ export const routes = [
     routes: [
       {
         path: '/smartPlatform',
-        component:  './smartPlatform',
-        Routes: ['/src/utils/PrivateRoute.js'],
+        component: './smartPlatform',
+        // Routes: ['/src/utils/PrivateRoute.js'],
         routes: [
           {
             path: '/smartPlatform/survey',
             component: './smartPlatform/survey',
-            Routes: ['/src/utils/PrivateRoute.js'],
+            // Routes: ['/src/utils/PrivateRoute.js'],
           },
           {
             path: '/smartPlatform/details',
             component: './smartPlatform/details',
-            Routes: ['/src/utils/PrivateRoute.js'],
+            // Routes: ['/src/utils/PrivateRoute.js'],
           },
           {
             path: '/smartPlatform/details/tasks',
