@@ -6,7 +6,6 @@ import styles from './style.less';
 import ChinaMap from './component/ChinaMap';
 import SearchForm from './component/SearchForm';
 import { commonOptions } from './component/EchartCommonOptions';
-import { provinceData } from './component/test';
 
 @connect(({ survey, loading }) => ({
   survey,
@@ -28,7 +27,7 @@ class Survey extends React.Component {
   }
   componentDidMount() {
     this.getMapInfo();
-    // this.queryHistogramData(this.state)
+    this.queryHistogramData(this.state)
   }
   getMapInfo = () => {
     const { mapInfo } = this.props;

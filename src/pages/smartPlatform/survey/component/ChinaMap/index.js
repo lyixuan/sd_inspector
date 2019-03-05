@@ -64,7 +64,7 @@ class ChinaMap extends Component {
         if (!Array.isArray(data)) return;
         // 暂不做处理
         data.forEach(item => {
-            mapData[item.provinceCode] = {
+            mapData[item.province] = {
                 ...item,
             }
         });
@@ -121,6 +121,7 @@ class ChinaMap extends Component {
     tooltipText = (id) => {
         const { mapData } = this.state;
         const obj = mapData[id] || {};
+        console.log(obj)
         return (
             `<ul class=${styles.tootipPanl}>
     <li class=${styles.tooltipItem}>考试计划人数：${obj.examPlanNum || 0}人</li>
@@ -178,10 +179,6 @@ class ChinaMap extends Component {
     changePathColor = (data = {}) => {
         d3.selectAll('.state').style('fill', d => {
             const { examPlanNum = 0 } = data[d.id] || {};
-            if (d.id === 'BJ') {
-                console.log(data[d.id], examPlanNum)
-            }
-
             if (examPlanNum >= 100000) {
                 return '#e73236'
             } else if (examPlanNum < 100000 && examPlanNum >= 70000) {
