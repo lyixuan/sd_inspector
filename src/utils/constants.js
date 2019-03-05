@@ -12,7 +12,7 @@ export const ADMIN_USER = 'admin_user';
 
 
 // 登录页面地址配置
-export const LOGIN_URL = 'http://localhost:8001/userLayout/login';
+export const LOGIN_URL = 'http://localhost:8088/userLayout/login';
 
 // 分页配置
 export const PAGINATION = {
