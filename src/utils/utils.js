@@ -74,6 +74,14 @@ export function BiFilter(param) {
   return result;
 };
 
+export function DeepCopy(obj) {
+  if (typeof obj === 'object' && obj) {
+    return JSON.parse(JSON.stringify(obj));
+  } else {
+    return obj;
+  }
+}
+
 function getRenderArr(routes) {
   let renderArr = [];
   renderArr.push(routes[0]);
