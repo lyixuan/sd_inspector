@@ -4,6 +4,7 @@
 import { extend } from 'umi-request';
 import { routerRedux } from 'dva/router';
 import storage from './storage';
+import { redirectUrlParams } from './routeUtils';
 
 import { notification } from 'antd';
 
@@ -33,9 +34,9 @@ const errorHandler = error => {
   const errortext = codeMessage[response.status] || response.statusText;
   const { status, url } = response;
 
-  console.log(status);
   if (status === 401) {
-    routerRedux.push('login/logout');
+    redirectUrlParams();    // 跳转至登录页
+    // routerRedux.push('login/logout');
     return;
   } else if (status === 403) {
     routerRedux.push('/exception/403');
@@ -64,5 +65,13 @@ const request = extend({
   },
   // credentials: 'include', // 默认请求是否带上cookie,暂不做处理,如需添加请设置跨域处进行设置
 });
-
+request.interceptors.request.use((url, options) => {
+  options.headers = Object.assign({}, options.headers, { authorization: storage.getToken(), });
+  return (
+    {
+      url: `${url}`,
+      options,
+    }
+  );
+});
 export default request;

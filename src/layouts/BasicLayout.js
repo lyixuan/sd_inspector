@@ -14,11 +14,12 @@ class BasicLayout extends React.Component {
     const paramsId = query.paramsId || '';
     let paramsObj = {}
     try {
-      paramsObj = JSON.parse(Base64.decode(paramsId))
+      paramsObj = paramsId ? JSON.parse(Base64.decode(paramsId)) : {};
+      storage.setUserInfo(paramsObj);
     } catch (e) {
       console.log(e);
     }
-    storage.setUserInfo(paramsObj);
+
   }
   render() {
     return (

@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
-import { redirectUrlParams } from '../../utils/routeUtils';
+// import { redirectUrlParams } from '../../utils/routeUtils';
+
 
 class Login extends React.Component {
     UNSAFE_componentWillMount() {
-        window.location.href = redirectUrlParams();
+        // redirectUrlParams()
+        // window.location.href = redirectUrlParams();
         // const { match, location } = this.props;
         // const { params } = match;
         // const { query: { pathname } } = location
