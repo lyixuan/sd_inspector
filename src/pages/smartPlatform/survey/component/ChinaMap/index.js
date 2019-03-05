@@ -34,6 +34,7 @@ class ChinaMap extends Component {
     constructor(props) {
         super(props);
         ChinaMap.that = this;
+        ChinaMap.tip = {}
         this.state = {
             mapData: {},
             examineStepList: [],      // 选中状态
@@ -212,7 +213,6 @@ class ChinaMap extends Component {
     onMouseover(d, i) {
         d3.select(this).raise()
         ChinaMap.that.changePathStroke(this);
-        console.log(tip.show)
         if (tip.show) {
             tip.show(d3.event);
         }
