@@ -5,7 +5,7 @@ const proxyHost = {
     development: '',   // 待确定
     production: ''     // 待确定
 }
-const proxy_env = proxyHost[process.env.PROXY_ENV];;
+const proxy_env = proxyHost[process.env.PROXY_ENV];
 export const webpackConfig = {
     alias: {
         '@': require('path').resolve(__dirname, 'src'),

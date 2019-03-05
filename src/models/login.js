@@ -1,31 +1,46 @@
 import { Base64 } from 'js-base64';
 import { message } from 'antd';
-import { getUserAuthList, loginOut } from '@/services/api';
+import { getUserAuthList } from '@/services/api';
+import storage from '@/utils/storage';
+
+const handleLogin = (response) => {
+  let saveObj = response || {};
+  const { privilegeList = [], ...others } = response.data || {};
+  const AuthList = Array.isArray(privilegeList) ? privilegeList : [];
+  saveObj.privilegeList = AuthList;
+  storage.setUserInfo({ ...others });
+  storage.setUserAuth(privilegeList);
+};
 
 export default {
   namespace: 'login',
 
   state: {
+    userInfo: {},
   },
 
   effects: {
     *loginin({ payload }, { call, put }) {
-      const id = payload.id || '';
-      if (typeof id === 'string') {
+      const { userInfo = '', pathname } = payload;
+      if (typeof userInfo === 'string') {
         try {
-          // const params = Base64.decode(id);
-          // const response = yield call(getUserAuthList);
-          const response1 = yield call(loginOut);
-          console.log(response1);
-
+          const params = JSON.parse(Base64.decode(userInfo));
+          const { mail, password } = params;    //  
+          const response = yield call(getUserAuthList, { mail, password });
+          if (response.code === 2000) {
+            handleLogin(response);
+            yield put({
+              type: 'saveUserInfo',
+              payload: { userInfo: response.data },
+            })
+            yield
+          } else {
+            message.error(response.msg);
+          }
 
         } catch (error) {
           message.error(`参数传递异常!${error.name}`);
         }
-
-
-
-
       } else {
         message.error('参数传递异常');
       }
@@ -33,6 +48,10 @@ export default {
   },
 
   reducers: {
+    saveUserInfo(state, { payload }) {
+      return { ...state, ...payload }
+      console.log(payload)
+    },
   },
 
   subscriptions: {
