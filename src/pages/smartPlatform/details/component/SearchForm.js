@@ -15,7 +15,8 @@ import styles from '../style.less'
 
 const { Option } = Select;
 
-@connect(({ dataDetail }) => ({
+@connect(({ home,dataDetail }) => ({
+  home,
   dataDetail,
 }))
 
@@ -68,6 +69,9 @@ class HorizontalLoginForm extends React.Component {
   };
 
   formValChange = (val, key) => {
+    if (key === 'collegeId') {
+
+    }
     let labels = undefined;
     if (val instanceof Array) {
       // 处理多选类型
@@ -102,8 +106,12 @@ class HorizontalLoginForm extends React.Component {
   };
 
   render() {
+
     this.examList = this.props.dataDetail.examList;
     this.conditionList = this.props.dataDetail.queryConditionList;
+    this.collegeList = this.props.home.orgList;
+
+    console.log(this.collegeList);
 
     const { getFieldDecorator, } = this.props.form;
     const menu = (
@@ -339,7 +347,7 @@ class SearchForm extends Component {
     const checkedBtn = getCheckedConditionList().map((v) => (
       <span className={styles.spanBtn} key={v}>{v}</span>
     ));
-    console.log(checkedBtn);
+
     return (
       <>
         <div className={styles.searchWrap}>

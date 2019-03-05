@@ -12,10 +12,12 @@ export default {
 
   effects: {
     *getOrgInfo({ payload }, { call, put }) {
-      const data = yield call(getOrgInfo, payload.params);
-      if (data.code === 20000) {
+      const result = yield call(getOrgInfo, payload.params);
+      const orgList = result.data || [];
+      if (orgList && orgList.code === 20000) {
+        yield put({ type: 'save', payload: { orgList } });
       } else {
-        message.error(data.msg);
+        message.error(orgList.msg);
       }
     },
     *getExamDateRange({ payload }, { call, put }) {
