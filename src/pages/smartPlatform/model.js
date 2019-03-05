@@ -14,10 +14,10 @@ export default {
     *getOrgInfo({ payload }, { call, put }) {
       const result = yield call(getOrgInfo, payload.params);
       const orgList = result.data || [];
-      if (orgList && orgList.code === 20000) {
+      if (result && result.code === 20000) {
         yield put({ type: 'save', payload: { orgList } });
       } else {
-        message.error(orgList.msg);
+        message.error(result.msg);
       }
     },
     *getExamDateRange({ payload }, { call, put }) {
