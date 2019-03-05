@@ -53,22 +53,18 @@ class Survey extends React.Component {
     const params1 = {
       text:'微信推送整体数据',
       legendData:[{name:'考试计划人数',icon:'rect'},{name:'推送人数',icon:'rect'},{name:'已读人数',icon:'rect'}],
-      // xData:['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],
       xData:data1.dateArr,
       color:['#1e93ff',"#7363ec",'#1ec47a'],
       formatter:'{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}',
       series:[{
         type:'bar',
         barCategoryGap:'40%',
-        // data: [43000.0, 35000.9, 18300.0, 28600.2, 37200.6, 37200.7, 37200.6]
         data: data1.dataArr1
       }, {
         type: 'bar',
-        // data: [25300.6, 25300.9, 18300.0, 18300, 18300.7, 18300.7, 18300.6]
         data: data1.dataArr2
       }, {
         type: 'bar',
-        // data: [20300.6, 18300.9, 13000.0, 13000, 13000.7, 13000.7, 13000.6]
         data: data1.dataArr3
       }],
       yAxis:{
@@ -100,24 +96,20 @@ class Survey extends React.Component {
         icon: 'image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAEAQMAAABSuEaRAAAAAXNSR0IB2cksfwAAAAZQTFRF+zd3AAAAP9uspgAAAAJ0Uk5T/wDltzBKAAAAEUlEQVR4nGNgYGhggOH//xsAEwsD/x/9IEYAAAAASUVORK5CYII=',
       }],
       xData:data2.dateArr,
-      // xData:['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],
       color:['#1e93ff',"#fc595b",'#fc3676'],
       formatter:'{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}%',
       series:[{
         type:'bar',
         barCategoryGap:'60%',
-        // data: [3000.0, 5000.9, 18300.0, 8600.2, 7200.6, 7200.7, 7200.6],
         data: data2.dataArr1
       }, {
         type: 'bar',
-        // data: [5300.6, 5300.9, 8300.0, 8300, 18300.7, 18300.7, 18300.6],
         data: data2.dataArr2
       }, {
         type: 'line',
         yAxisIndex: 1,
         symbol: 'circle',
         symbolSize: 6,
-        // data: [20.6, 31.9, 35.0, 42, 52.7, 61.7, 71.6],
         data: data2.dataArr3,
         itemStyle: { normal: { label: { show: true, formatter: '{c}%' } } },
       }],
