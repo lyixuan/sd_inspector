@@ -16,11 +16,11 @@ export const LOGIN_URL = 'http://localhost:8088/userLayout/login';
 
 // 分页配置
 export const PAGINATION = {
-  showSizeChanger:true,
-  showQuickJumper:true,
-  defaultCurrent:1,
-  total:0,
-  pageSizeOptions:['36','50','100']
+  showSizeChanger: true,
+  showQuickJumper: true,
+  defaultCurrent: 1,
+  total: 0,
+  pageSizeOptions: ['36', '50', '100']
 };
 
 // 省份
@@ -163,7 +163,7 @@ export const provinceJson = [
   }
 ];
 // 报考状态
-export const PROVINCE_STEP=[
+export const PROVINCE_STEP = [
   { id: 1, name: '新生注册' },
   { id: 2, name: '现场确认' },
   { id: 3, name: '报考科目&缴费' },
