@@ -13,12 +13,15 @@ class BasicLayout extends React.Component {
     const { location: { query = {} } } = this.props;
     const paramsId = query.paramsId || '';
     let paramsObj = {}
-    try {
-      paramsObj = paramsId ? JSON.parse(Base64.decode(paramsId)) : {};
-      storage.setUserInfo(paramsObj);
-    } catch (e) {
-      console.log(e);
+    if (paramsId) {
+      try {
+        paramsObj = paramsId ? JSON.parse(Base64.decode(paramsId)) : {};
+        storage.setUserInfo(paramsObj);
+      } catch (e) {
+        console.log(e);
+      }
     }
+
 
   }
   render() {
