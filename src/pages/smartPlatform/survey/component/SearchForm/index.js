@@ -47,6 +47,12 @@ const dateFormat = 'YYYY-MM-DD';
       });
     }
   };
+  // 时间控件可展示的时间范围
+  disabledDate = current => {
+    const {dateRange} = this.props.home;
+    const {beginTime,endTime} = dateRange;
+    return current < moment(beginTime) || current > moment(endTime);
+  };
   // 日期修改
   dateChange=(value, dateString)=> {
     this.setState({
@@ -80,7 +86,12 @@ const dateFormat = 'YYYY-MM-DD';
           <Select options={provinceJson} defaultValue={province} id='province' handleChange={this.handleChange} showName/>
           <Select options={orgList} defaultValue={collegeId} id='college' handleChange={this.handleChange} value='id' />
           <Select options={familyData} defaultValue={familyId} id='family' handleChange={this.handleChange} value='id' />
-          <RangePicker placeholder={['开始时间','结束时间']} onChange={this.dateChange} value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}/>
+          <RangePicker
+            placeholder={['开始时间','结束时间']}
+            onChange={this.dateChange}
+            disabledDate={this.disabledDate}
+            value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}
+          />
         </div>
         <div>
           <Button type="primary2" style={{marginRight:'20px'}} onClick={this.reset}>恢复默认</Button>
