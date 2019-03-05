@@ -1,5 +1,5 @@
 export function commonOptions(params) {
-  const {text,legendData=[],xData=[],max,interval,color,series,yAxis,itemGap=19} = params;
+  const {text,legendData=[],xData=[],max,interval,color,series,yAxis,itemGap=19,formatter} = params;
   return {
     title: {
       text,
@@ -33,14 +33,9 @@ export function commonOptions(params) {
         // color:'#103069',
         // fontSize:12,
       },
-      // padding:20,
+      formatter,
+      padding:15,
       // backgroundColor:'rgba(255,255,255,0.8)' ,
-  // axisPointer: {
-      //   type: 'cross',
-      //   crossStyle: {
-      //     color: '#999'
-      //   }
-      // }
     },
     xAxis: [
       {

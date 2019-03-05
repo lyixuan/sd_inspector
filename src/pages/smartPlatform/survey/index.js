@@ -39,6 +39,7 @@ class Survey extends React.Component {
       legendData:[{name:'考试计划人数',icon:'rect'},{name:'推送人数',icon:'rect'},{name:'已读人数',icon:'rect'}],
       xData:['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],
       color:['#1e93ff',"#7363ec",'#1ec47a'],
+      formatter:'{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}',
       series:[{
         type:'bar',
         barCategoryGap:'40%',
@@ -62,6 +63,7 @@ class Survey extends React.Component {
       }],
       xData:['2019/1/1','2019/1/2','2019/1/3','2019/1/4','2019/1/5','2019/1/6','2019/1/7'],
       color:['#1e93ff',"#fc595b",'#fc3676'],
+      formatter:'{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}%',
       series:[{
         type:'bar',
         barCategoryGap:'60%',
