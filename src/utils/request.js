@@ -65,6 +65,7 @@ const request = extend({
   },
   // credentials: 'include', // 默认请求是否带上cookie,暂不做处理,如需添加请设置跨域处进行设置
 });
+// 动态添加数据;
 request.interceptors.request.use((url, options) => {
   options.headers = Object.assign({}, options.headers, { authorization: storage.getToken(), });
   return (
