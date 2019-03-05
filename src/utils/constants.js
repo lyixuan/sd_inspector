@@ -164,35 +164,35 @@ export const provinceJson = [
 ];
 // 报考状态
 export const PROVINCE_STEP=[
-  { id: '1', name: '新生注册' },
-  { id: '2', name: '现场确认' },
-  { id: '3', name: '报考科目&缴费' },
-  { id: '4', name: '补报名' },
+  { id: 1, name: '新生注册' },
+  { id: 2, name: '现场确认' },
+  { id: 3, name: '报考科目&缴费' },
+  { id: 4, name: '补报名' },
 ]
 // 订单状态
 export const ORDER_STATE = [
-  { id: '1', name: '已支付' },
-  { id: '2', name: '已冻结' },
+  { id: 1, name: '已支付' },
+  { id: 2, name: '已冻结' },
 ];
 
 // 学员身份
 export const STUDENT_TYPE = [
-  { id: '1', name: '新生' },
-  { id: '2', name: '老生' },
+  { id: 1, name: '新生' },
+  { id: 2, name: '老生' },
 ];
 
 // 准考证填写状态
 export const TICKET_STATES = [
-  { id: '1', name: '已填写' },
-  { id: '2', name: '未填写' },
+  { id: 1, name: '已填写' },
+  { id: 2, name: '未填写' },
 ];
 
 // 消息打开状态
 export const MSG_STATES = [
-  { id: '1', name: '所有消息' },
-  { id: '2', name: '未推送' },
-  { id: '3', name: '已推送(未读)' },
-  { id: '4', name: '已推送(已读)' },
+  { id: 1, name: '所有消息' },
+  { id: 2, name: '未推送' },
+  { id: 3, name: '已推送(未读)' },
+  { id: 4, name: '已推送(已读)' },
 ];
 
 

@@ -33,6 +33,7 @@ const errorHandler = error => {
   const errortext = codeMessage[response.status] || response.statusText;
   const { status, url } = response;
 
+  console.log(status);
   if (status === 401) {
     routerRedux.push('login/logout');
     return;
@@ -40,10 +41,11 @@ const errorHandler = error => {
     routerRedux.push('/exception/403');
     return;
   } else if (status <= 504 && status >= 500) {
-    routerRedux.push('/exception/500')
+    routerRedux.push('/exception/500');
     return;
   } else if (status >= 404 && status < 422) {
-    routerRedux.push('/exception/404')
+    routerRedux.push('/exception/404');
+    return;
   }
   notification.error({
     message: `请求错误 ${status}: ${url}`,
