@@ -17,9 +17,9 @@ const dateFormat = 'YYYY-MM-DD';
   constructor(props){
     super(props);
     this.state={
-      province:'',
+      province:'全部',
       collegeId:null,
-      familyId:null,
+      familyId:'全部',
       beginDate:'',
       endDate:'',
       familyData:[], // 家族的下拉框options
@@ -61,14 +61,17 @@ const dateFormat = 'YYYY-MM-DD';
   };
   search = () =>{
     const { province, collegeId, familyId, beginDate, endDate} =  this.state;
+    const newPro = province!=='全部'?province:'';
+    const newFam = familyId!=='全部'?familyId:null;
+
     const {searchData} = this.props;
-    searchData({ province, collegeId, familyId, beginDate, endDate});
+    searchData({ province:newPro, collegeId, familyId:newFam, beginDate, endDate});
   };
   reset = () =>{
     this.setState({
-      province:'',
+      province:'全部',
       collegeId:null,
-      familyId:null,
+      familyId:'全部',
       beginDate:'',
       endDate:'',
       familyData:[]
