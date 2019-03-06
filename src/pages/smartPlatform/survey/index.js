@@ -8,8 +8,9 @@ import ChinaMap from './component/ChinaMap';
 import SearchForm from './component/SearchForm';
 import { chartOptions } from './component/EchartCommonOptions';
 
-@connect(({ survey, loading }) => ({
+@connect(({ survey,home, loading }) => ({
   survey,
+  home,
   loading: loading.models.survey,
   mapInfo: survey.mapInfo || [],
   echartLoading: loading.effects['survey/queryHistogramData'],
@@ -27,7 +28,8 @@ class Survey extends React.Component {
 
   }
   componentDidMount() {
-    this.getMapInfo();
+    this.getMapInfo();// 组织架构
+    this.getProvinceJson();// 省份
     this.queryHistogramData(this.state)
   }
   getMapInfo = () => {
@@ -43,6 +45,11 @@ class Survey extends React.Component {
     this.props.dispatch({
       type: 'survey/queryHistogramData',
       payload: params,
+    });
+  };
+  getProvinceJson = () => {
+    this.props.dispatch({
+      type: 'home/getProvinceJson',
     });
   };
 

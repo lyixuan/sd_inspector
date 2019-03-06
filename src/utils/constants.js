@@ -33,10 +33,6 @@ export const PAGINATION = {
 // 省份
 export const provinceJson = [
   {
-    "code": "",
-    "name": " 全部",
-  },
-  {
     "code": "AH",
     "name": " 安徽省",
   },

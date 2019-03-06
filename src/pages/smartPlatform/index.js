@@ -10,18 +10,16 @@ import styles from './style.less'
 class Home extends React.Component {
   componentDidMount() {
     this.getDateRange();
-    this.getOrgInfo({})
+    this.getOrgInfo()
   }
-  getOrgInfo = params => {
+  getOrgInfo = () => {
     this.props.dispatch({
       type: 'home/getOrgInfo',
-      payload: params,
     });
   };
   getDateRange = () => {
     this.props.dispatch({
       type: 'home/getExamDateRange',
-      payload: {},
     });
   };
   render() {
