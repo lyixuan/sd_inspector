@@ -22,10 +22,16 @@ export async function addQueryCondition(params) {
 
 // 修改查询条件
 export async function updateQueryCondition(params) {
-  return request('/detail/updateQueryCondition', {method: 'post',data: params});
+  return request('/detail/updateQueryConditon', {method: 'post',data: params});
 }
 
 // 删除查询条件
 export async function deleteQueryCondition(params) {
-  return request('/detail/deleteQueryCondition', {method: 'delete',params});
+  return request('/detail/deleteQueryCondition', {method: 'post',data: params});
+}
+
+
+// 添加下载任务
+export async function addTask(params) {
+  return request('/detail/addTask', {method: 'post',data: params});
 }

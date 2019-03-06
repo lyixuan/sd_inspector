@@ -2,14 +2,25 @@ import React, { Component } from 'react';
 import Table from 'antd/lib/table';
 import Button from 'antd/lib/button';
 import router from 'umi/router';
-import { BiFilter } from '@/utils/utils';
+import { BiFilter, DeepCopy } from '@/utils/utils';
+import Modal from 'antd/lib/modal';
+import Input from 'antd/lib/input';
 
 import styles from '../style.less'
+import Message from 'antd/lib/message/index';
+import { connect } from 'dva/index';
+
+@connect(({ dataDetail }) => ({
+  dataDetail,
+}))
 
 class ResultTable extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      visible: false,
+      taskName: ''
+    };
   }
 
   UNSAFE_componentWillMount() {
@@ -22,23 +33,76 @@ class ResultTable extends Component {
     });
   };
 
+  handleOk = () => {
+    console.log(this.props.checkedConditionList);
+    const obj = {
+      taskName: this.state.taskName,
+      queryCondition: this.props.checkedConditionList
+    };
+    this.props.dispatch({
+      type: 'dataDetail/addTask',
+      payload: { params: obj },
+    });
+    this.setState({
+      visible: false,
+    });
+  };
+
+  handleCancel = (e) => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
+  addTask = () => {
+    if (!this.props.checkedConditionList.exam) {
+      Message.warning('请选择考期');
+      return
+    }
+    this.setState({
+      visible: true,
+      taskName: ''
+    });
+  };
+
+  onChangeName = (e) => {
+    this.setState({
+      taskName: e.target.value,
+    });
+  };
+
   render() {
     const dataSource = [{
-      index: '1',
-      adjustDate2: '胡彦斌',
-      type2: 32,
-      creditScore2: '西湖区湖底公园1号'
+      province: '1',
+      collegeName: '胡彦斌',
+      familyName: 32,
+      examPlanNum: '西湖区湖底公园1号'
     }, {
-      index: '2',
-      adjustDate2: '胡彦祖',
-      type2: 42,
-      creditScore2: '西湖区湖底公园1号'
+      province: '2',
+      collegeName: '胡彦祖',
+      familyName: 42,
+      examPlanNum: '西湖区湖底公园1号'
     }];
 
     const columns = [
       {
         title: '省/市',
         dataIndex: 'province',
+        render: (value, row, index) => {
+          const obj = {
+            children: value,
+            props: {},
+          };
+          if (index === 0) {
+            obj.props.rowSpan = 2;
+          }
+          // These two are merged into above cell
+          if (index === 1) {
+            obj.props.rowSpan = 0;
+          }
+          return obj;
+        },
       },
       {
         title: '学院',
@@ -79,6 +143,20 @@ class ResultTable extends Component {
           </div>
           <Table dataSource={dataSource} columns={columns} pagination={BiFilter("PAGINATION")} bordered/>
         </div>
+        <Modal
+          title='添加下载任务'
+          visible={this.state.visible}
+          footer={[
+            <Button size="small" onClick={this.handleCancel}>取消</Button>,
+            <Button size="small" type="primary" onClick={this.handleOk}>
+              确定
+            </Button>
+          ]}
+        >
+          <div className={styles.modalWrap}>
+            <Input placeholder="输入名称" maxLength={11} value={this.state.taskName} onChange={this.onChangeName}/>
+          </div>
+        </Modal>
       </>
     );
   }

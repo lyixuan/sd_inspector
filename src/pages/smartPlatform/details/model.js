@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { getExamList, getDetailDataPage, getQueryConditionList, addQueryCondition, deleteQueryCondition, updateQueryCondition } from './services';
+import { addTask,getExamList, getDetailDataPage, getQueryConditionList, addQueryCondition, deleteQueryCondition, updateQueryCondition } from './services';
 
 export default {
   namespace: 'dataDetail',
@@ -38,6 +38,9 @@ export default {
     *getQueryConditionList({ payload }, { call, put }) {
       const result = yield call(getQueryConditionList, payload.params);
       const queryConditionList = result.data || [];
+      queryConditionList.forEach((v,i) => {
+        queryConditionList[i]['exam2'] = `${v.exam.replace('-','').substr(2)}考期`
+      });
       if (result && result.code === 20000) {
         yield put({ type: 'save', payload: { queryConditionList } });
       } else {
@@ -67,6 +70,15 @@ export default {
       const result = yield call(deleteQueryCondition, payload.params);
       if (result.code === 20000) {
         yield put({ type: 'getQueryConditionList', payload: {params:{}} });
+      } else {
+        message.error(result.msg);
+      }
+    },
+    // 添加下载任务
+    *addTask({ payload }, { call, put }) {
+      const result = yield call(addTask, payload.params);
+      if (result.code === 20000) {
+        message.success("添加成功");
       } else {
         message.error(result.msg);
       }

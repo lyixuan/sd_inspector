@@ -65,12 +65,51 @@ class HorizontalLoginForm extends React.Component {
   };
 
   menuCheck = (val) => {
+    this.checkedConditionList = {
+      exam: {labels:val.exam2,keys:val.exam},
+      provinceList: val.provinceList.split(','),
+      collegeId: val.collegeId,
+      familyIdList: arr,
+      orderStatus: val.orderStatus,
+      stuType: val.stuType,
+      admissionStatus: val.admissionStatus,
+      msgState: arr2,
+    };
+    let arr = undefined;
+    if (val.familyIdList) {
+      arr = val.familyIdList.split(',');
+      arr.forEach((v,i) => {
+        arr[i] = Number(arr[i]);
+      });
+    }
+    let arr2 = undefined;
+    if (val.msgStatusList) {
+      arr2 = val.msgStatusList.split(',');
+      arr2.forEach((v,i) => {
+        arr2[i] = Number(arr2[i]);
+      });
+    }
+    let arr3 = undefined;
+    if (val.provinceList) {
+      arr3 = val.provinceList.split(',');
+    }
+    this.props.form.setFieldsValue({
+      exam: {key:val.exam,label:val.exam2},
+      provinceList: {key:arr3,label:val.arr3},
+      collegeId: {key:val.collegeId,label:val.collegeName},
+      familyIdList: arr,
+      orderStatus: val.orderStatus,
+      stuType: val.stuType,
+      admissionStatus: val.admissionStatus,
+      msgState: arr2,
+    });
     this.setState({
-      menuCheckedName:val.name
-    })
+      menuCheckedName:val.paramName
+    });
   };
 
   formValChange = (val, key) => {
+    console.log(1111);
     // 学院家族联动
     if (key === 'collegeId') {
       this.collegeList.forEach((v)=>{
@@ -104,7 +143,6 @@ class HorizontalLoginForm extends React.Component {
     } else {
       delete this.checkedConditionList[key];
     }
-    console.log(this.checkedConditionList);
     this.props.updateCC(this.checkedConditionList);
   };
 
@@ -115,7 +153,6 @@ class HorizontalLoginForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.checkedConditionList);
     if (!this.checkedConditionList.exam) {
       Message.warning('请选择考期');
       return
@@ -155,7 +192,7 @@ class HorizontalLoginForm extends React.Component {
       <Menu>
         {this.conditionList.map(item => (
           <Menu.Item key={item.id}>
-            <span onClick={() => this.menuCheck(item)} >{item.name}</span><Icon onClick={() => this.menuDel(item.id)} style={{marginLeft:'5px'}}  type="delete" />  <Icon onClick={() => this.menuEdit(item.id)} type="edit" />
+            <span onClick={() => this.menuCheck(item)} >{item.paramName}</span><Icon onClick={() => this.menuDel(item.id)} style={{marginLeft:'5px'}}  type="delete" />  <Icon onClick={() => this.menuEdit(item)} type="edit" />
           </Menu.Item>
         ))}
       </Menu>
@@ -190,7 +227,7 @@ class HorizontalLoginForm extends React.Component {
                 })(
                   <Select placeholder="报考省份"  mode="multiple" showArrow={true} maxTagCount={1} labelInValue onChange={(val) => this.formValChange(val,'provinceList')}>
                     {this.provinceAllList.map(item => (
-                      <Option key={item.code}>
+                      <Option key={item.name}>
                         {item.name}
                       </Option>
                     ))}
@@ -348,13 +385,11 @@ class SearchForm extends Component {
   };
 
   conditionDel = (id) => {
-    this.setState({
-      visible: true,
-    });
+    const that = this;
     confirm({
       title: '是否删除当前查询条件?',
       onOk() {
-        this.props.dispatch({
+        that.props.dispatch({
           type: 'dataDetail/deleteQueryCondition',
           payload: { params: {id} },
         });
@@ -363,12 +398,14 @@ class SearchForm extends Component {
     });
   };
 
-  conditionEdit = (id) => {
+  conditionEdit = (item) => {
+    console.log(item.paramName);
     this.setState({
       visible: true,
-      titleType: 2
+      titleType: 2,
+      conditionName: item.paramName
     });
-    this.tId = id;
+    this.tId = item.id;
   };
 
   conditionAdd = () => {
@@ -378,7 +415,8 @@ class SearchForm extends Component {
     }
     this.setState({
       visible: true,
-      titleType: 1
+      titleType: 1,
+      conditionName: ''
     });
   };
 
@@ -453,7 +491,7 @@ class SearchForm extends Component {
           <WrappedHorizontalLoginForm
             updateCC={(p)=>this.updateCheckedConditions(p)}
             menuDel={(id) => this.conditionDel(id)}
-            menuEdit={(id) => this.conditionEdit(id)}
+            menuEdit={(item) => this.conditionEdit(item)}
           />
           {
             getCheckedConditionList().length > 0 ? (
@@ -469,8 +507,6 @@ class SearchForm extends Component {
         <Modal
           title={this.state.titleType === 1 ? '添加查询条件' : '编辑查询条件'}
           visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
           footer={[
             <Button size="small" onClick={this.handleCancel}>取消</Button>,
             <Button size="small" type="primary" onClick={this.handleOk}>
@@ -479,7 +515,7 @@ class SearchForm extends Component {
           ]}
         >
           <div className={styles.modalWrap}>
-            <Input placeholder="输入名称" value={this.state.conditionName} onChange={this.onChangeUserName}/>
+            <Input placeholder="输入名称" maxLength={11} value={this.state.conditionName} onChange={this.onChangeUserName}/>
           </div>
         </Modal>
       </>
