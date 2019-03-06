@@ -6,7 +6,7 @@ import Echart from '@/components/Echart'
 import styles from './style.less';
 import ChinaMap from './component/ChinaMap';
 import SearchForm from './component/SearchForm';
-import { commonOptions } from './component/EchartCommonOptions';
+import { chartOptions } from './component/EchartCommonOptions';
 
 @connect(({ survey, loading }) => ({
   survey,
@@ -17,14 +17,13 @@ import { commonOptions } from './component/EchartCommonOptions';
 class Survey extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { "province": "北京市", "collegeId": 104, "familyId": 155, "beginDate": "2019-02-22", "endDate": "2019-02-27" }
-    // this.state={
-    //   province:'',
-    //   collegeId:'',
-    //   familyId:'',
-    //   beginDate:'',
-    //   endDate:'',
-    // };
+    this.state={
+      province:'',
+      collegeId:null,
+      familyId:null,
+      beginDate:'',
+      endDate:'',
+    };
 
   }
   componentDidMount() {
@@ -46,113 +45,15 @@ class Survey extends React.Component {
       payload: params,
     });
   };
-  initChart = () => {
-    const { dataList = {} } = this.props.survey;
-    const { data1 = {}, data2 = {} } = dataList;
-    const params1 = {
-      text: '微信推送整体数据',
-      legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '推送人数', icon: 'rect' }, { name: '已读人数', icon: 'rect' }],
-      xData: data1.dateArr,
-      color: ['#1e93ff', "#7363ec", '#1ec47a'],
-      formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}',
-      series: [{
-        type: 'bar',
-        barCategoryGap: '40%',
-        data: data1.dataArr1
-      }, {
-        type: 'bar',
-        data: data1.dataArr2
-      }, {
-        type: 'bar',
-        data: data1.dataArr3
-      }],
-      yAxis: {
-        axisLine: {
-          lineStyle: {
-            color: '#bdc0c6'
-          }
-        },
-        axisTick: {
-          show: false,
-        },
-        type: 'value',
-        splitLine: {
-          show: false
-        },
-        // min: 0,
-        // max:50000,
-        // interval:10000,
-        axisLabel: {
-          formatter: '{value}'
-        },
-      },
-      itemGap: 52,
-    };
-    const params2 = {
-      text: '准考证填写趋势',
-      legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '准考证填写人数', icon: 'rect' }, {
-        name: '准考证填写占比',
-        icon: 'image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAEAQMAAABSuEaRAAAAAXNSR0IB2cksfwAAAAZQTFRF+zd3AAAAP9uspgAAAAJ0Uk5T/wDltzBKAAAAEUlEQVR4nGNgYGhggOH//xsAEwsD/x/9IEYAAAAASUVORK5CYII=',
-      }],
-      xData: data2.dateArr,
-      color: ['#1e93ff', "#fc595b", '#fc3676'],
-      formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}%',
-      series: [{
-        type: 'bar',
-        barCategoryGap: '60%',
-        data: data2.dataArr1
-      }, {
-        type: 'bar',
-        data: data2.dataArr2
-      }, {
-        type: 'line',
-        yAxisIndex: 1,
-        symbol: 'circle',
-        symbolSize: 6,
-        data: data2.dataArr3,
-        itemStyle: { normal: { label: { show: true, formatter: '{c}%' } } },
-      }],
-      yAxis: [{
-        axisLine: {
-          lineStyle: {
-            color: '#bdc0c6'
-          }
-        },
-        axisTick: {
-          show: false,
-        },
-        type: 'value',
-        splitLine: {
-          show: false
-        },
-        // min: 0,
-        // max:25000,
-        // interval:5000,
-        axisLabel: {
-          formatter: '{value}'
-        },
-      }, {
-        show: false,
-        type: 'value',
-        min: 0,
-        max: 75,
-        interval: 15,
-        axisLabel: {
-          formatter: '{value} %'
-        }
-      }],
-    };
-    const option1 = commonOptions(params1);
-    const option2 = commonOptions(params2);
-    return { option1, option2 }
-  };
+
   searchData = param => {
     this.setState(param);
     this.queryHistogramData(param)
   };
   render() {
-    const { option1, option2 } = this.initChart();
-    const { mapInfo } = this.props;
+    const { mapInfo,survey } = this.props;
+    const { option1, option2 } = chartOptions(survey);
+
     return (
       <Spin spinning={false}>
         <div className={styles.container}>
