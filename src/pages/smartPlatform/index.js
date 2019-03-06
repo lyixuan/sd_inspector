@@ -8,22 +8,17 @@ import styles from './style.less'
   isLoading: loading.effects['home/getExamDateRange'],
 }))
 class Home extends React.Component {
-  componentDidMount(){
+  componentDidMount() {
     this.getDateRange();
     this.getOrgInfo({})
   }
-  getMapInfo = () => {
-    this.props.dispatch({
-      type: 'home/getMapInfo',
-    })
-  };
   getOrgInfo = params => {
     this.props.dispatch({
       type: 'home/getOrgInfo',
       payload: params,
     });
   };
-  getDateRange = () =>{
+  getDateRange = () => {
     this.props.dispatch({
       type: 'home/getExamDateRange',
       payload: {},

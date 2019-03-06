@@ -34,7 +34,6 @@ class Survey extends React.Component {
     if (Array.isArray(mapInfo) && mapInfo.length > 0) {
       return;
     }
-    console.log(mapInfo)
     this.props.dispatch({
       type: 'survey/getMapInfo',
     })
@@ -115,14 +114,14 @@ class Survey extends React.Component {
   };
   render() {
     const { option1, option2 } = this.initChart();
-    const { mapInfo } = this.props;
+    const { mapInfo, mapInfoLoading } = this.props;
     return (
       <div className={styles.container}>
         {/* 页面切换 */}
         <Radio path='/smartPlatform/survey' />
         {/* 地图 */}
         <div className={styles.mapContainer}>
-          <ChinaMap data={mapInfo} />
+          <ChinaMap data={mapInfo} loading={mapInfoLoading} />
         </div>
         <div className={styles.histogram}>
           <div className={styles.headerCls}>

@@ -12,7 +12,11 @@ export const ADMIN_USER = 'admin_user';
 
 
 // 登录页面地址配置
-export const LOGIN_URL = 'http://localhost:8088/userLayout/login';
+export const LOGIN_URL = {
+  localhost: 'http://localhost:8088/userLayout/login',
+  development: 'http://172.16.117.64:8090/userLayout/login',
+  production: 'http://bd.ministudy.com/userLayout/login',
+}[process.env.LOGIN_TYPE];
 
 // 分页配置
 export const PAGINATION = {
@@ -162,13 +166,21 @@ export const provinceJson = [
     "name": "台湾省",
   }
 ];
-// 报考状态
+// 报考步骤
 export const PROVINCE_STEP = [
   { id: 1, name: '新生注册' },
   { id: 2, name: '现场确认' },
   { id: 3, name: '报考科目&缴费' },
   { id: 4, name: '补报名' },
 ];
+// 报考状态
+export const PROVINCE_STATUS = [
+  { id: -1, name: '未定义' },
+  { id: 1, name: '未开始' },
+  { id: 2, name: '进行中' },
+  { id: 3, name: '已结束' },
+
+]
 
 // 每个省份的报考进度
 export const PROVINCE_SIGN_STEP = [
