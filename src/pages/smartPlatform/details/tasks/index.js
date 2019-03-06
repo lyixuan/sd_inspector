@@ -4,6 +4,7 @@ import { Icon } from 'antd';
 import Table from 'antd/lib/table';
 import Breadcrumb from 'antd/lib/breadcrumb';
 import Link from 'umi/link';
+import {STATIC_HOST} from '@/utils/constants'
 import { BiFilter } from '@/utils/utils';
 import styles from '../style.less'
 
@@ -14,7 +15,10 @@ import styles from '../style.less'
 class Tasks extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      pageNum:1,
+      pageSize:10
+    };
   }
 
   UNSAFE_componentWillMount() {
@@ -22,7 +26,7 @@ class Tasks extends Component {
 
   }
   componentDidMount(){
-    this.getData({});
+    this.getData(this.state);
   }
   getData = params =>{
     this.props.dispatch({
@@ -43,11 +47,7 @@ class Tasks extends Component {
     });
   };
   downloadFn = data => {
-    console.log(data.zipPath)
-    // this.props.dispatch({
-    //   type: 'detail/deleteTask',
-    //   payload: {id:data.id},
-    // });
+    window.location.href = `${STATIC_HOST}${data.zipPath}`;
   };
   render() {
     const columns = [

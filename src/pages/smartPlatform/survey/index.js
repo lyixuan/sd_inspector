@@ -12,7 +12,7 @@ import { commonOptions } from './component/EchartCommonOptions';
   survey,
   loading: loading.models.survey,
   mapInfo: survey.mapInfo || [],
-  isLoading: loading.effects['survey/getExamDateRange'],
+  echartLoading: loading.effects['survey/queryHistogramData'],
 }))
 class Survey extends React.Component {
   constructor(props) {
@@ -172,10 +172,12 @@ class Survey extends React.Component {
               <SearchForm searchData={this.searchData} />
             </div>
             {/* 图表 */}
-            <div className={styles.echartCls}>
-              <Echart update={option1} style={{ width: '46%', height: "510px" }} options={option1} />
-              <Echart update={option2} style={{ width: '46%', height: "510px" }} options={option2} />
-            </div>
+            <Spin spinning={this.props.echartLoading}>
+              <div className={styles.echartCls}>
+                <Echart update={option1} style={{ width: '46%', height: "510px" }} options={option1} />
+                <Echart update={option2} style={{ width: '46%', height: "510px" }} options={option2} />
+              </div>
+            </Spin>
           </div>
         </div>
       </Spin>

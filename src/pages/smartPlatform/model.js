@@ -30,6 +30,14 @@ export default {
   },
 
   reducers: {
+    saveOrgInfo(state, {payload}) {
+      const{orgList} = payload;
+      if(orgList){
+
+        console.log(orgList)
+      }
+      return { ...state, ...payload };
+    },
     save(state, action) {
       return { ...state, ...action.payload };
     },

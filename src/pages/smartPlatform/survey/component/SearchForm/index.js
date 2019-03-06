@@ -10,17 +10,16 @@ import {provinceJson} from '@/utils/constants';
 
 const { RangePicker } = DatePickerDecorator;
 const dateFormat = 'YYYY-MM-DD';
-@connect(({ home, loading }) => ({
+@connect(({ home }) => ({
   home,
-  loading: loading.models.home,
 }))
  class Survey extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      province:'报考省份',
-      collegeId:'学院',
-      familyId:'家族',
+      province:'',
+      collegeId:null,
+      familyId:null,
       beginDate:'',
       endDate:'',
       familyData:[], // 家族的下拉框options
@@ -67,9 +66,9 @@ const dateFormat = 'YYYY-MM-DD';
   };
   reset = () =>{
     this.setState({
-      province:'报考省份',
-      collegeId:'学院',
-      familyId:'家族',
+      province:'',
+      collegeId:null,
+      familyId:null,
       beginDate:'',
       endDate:'',
       familyData:[]
