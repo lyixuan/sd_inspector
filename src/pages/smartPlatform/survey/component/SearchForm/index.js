@@ -6,7 +6,6 @@ import DatePickerDecorator from 'antd/lib/date-picker';
 import moment from 'moment';
 import Select from '../../component/Select';
 import styles from '../../style.less';
-import {provinceJson} from '@/utils/constants';
 
 const { RangePicker } = DatePickerDecorator;
 const dateFormat = 'YYYY-MM-DD';
@@ -17,9 +16,9 @@ const dateFormat = 'YYYY-MM-DD';
   constructor(props){
     super(props);
     this.state={
-      province:'全部',
-      collegeId:null,
-      familyId:'全部',
+      province:'报考省份',
+      collegeId:'学院',
+      familyId:'家族',
       beginDate:'',
       endDate:'',
       familyData:[], // 家族的下拉框options
@@ -61,17 +60,18 @@ const dateFormat = 'YYYY-MM-DD';
   };
   search = () =>{
     const { province, collegeId, familyId, beginDate, endDate} =  this.state;
-    const newPro = province!=='全部'?province:'';
-    const newFam = familyId!=='全部'?familyId:null;
+    const newPro = province!=='报考省份'?province:'';
+    const newCol = collegeId!=='学院'?collegeId:null;
+    const newFam = familyId!=='家族'?familyId:null;
 
     const {searchData} = this.props;
-    searchData({ province:newPro, collegeId, familyId:newFam, beginDate, endDate});
+    searchData({ province:newPro, collegeId:newCol, familyId:newFam, beginDate, endDate});
   };
   reset = () =>{
     this.setState({
-      province:'全部',
-      collegeId:null,
-      familyId:'全部',
+      province:'报考省份',
+      collegeId:'学院',
+      familyId:'家族',
       beginDate:'',
       endDate:'',
       familyData:[]
@@ -79,7 +79,7 @@ const dateFormat = 'YYYY-MM-DD';
   };
   render(){
     const { province, collegeId, familyId, beginDate, endDate,familyData} =  this.state;
-    const {orgList} = this.props.home;
+    const {orgList,provinceJson} = this.props.home;
 
     return (
       <>
