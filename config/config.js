@@ -4,7 +4,7 @@ import { webpackConfig } from './webpack';
 
 export default {
   treeShaking: true,
-  base: '/inspector',
+  base: '/inspector/',
   /**
    * build时用于非根目录
    */
