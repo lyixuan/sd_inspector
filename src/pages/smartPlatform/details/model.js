@@ -1,13 +1,16 @@
 import { message } from 'antd/lib/index';
 import { addTask,getExamList, getDetailDataPage, getQueryConditionList, addQueryCondition, deleteQueryCondition, updateQueryCondition } from './services';
-
+import {BiFilter} from '@/utils/utils';
 export default {
   namespace: 'dataDetail',
 
   state: {
     tableList:[],
+    dataSourceSize: 0,
     queryConditionList:[],
-    examList: []
+    examList: [],
+    pageNum:1,
+    pageSize:10
   },
 
   effects: {
@@ -26,10 +29,14 @@ export default {
     },
     // 数据明细查询结果
     *getDetailData({ payload }, { call, put }) {
+      payload.params.pageNum = 1;
+      payload.params.pageSize = 36;
       const result = yield call(getDetailDataPage, payload.params);
-      const tableList = result.list || [];
+      const dataSourceSize = result.data ? result.data.size : 0;
+      const tableList = result.data ? result.data.list : [];
       if (result && result.code === 20000) {
         yield put({ type: 'save', payload: { tableList } });
+        yield put({ type: 'save', payload: { dataSourceSize } });
       } else {
         message.error(result.msg);
       }
@@ -38,10 +45,21 @@ export default {
     *getQueryConditionList({ payload }, { call, put }) {
       const result = yield call(getQueryConditionList, payload.params);
       const queryConditionList = result.data || [];
-      queryConditionList.forEach((v,i) => {
-        queryConditionList[i]['exam2'] = `${v.exam.replace('-','').substr(2)}考期`
-      });
       if (result && result.code === 20000) {
+        // 根据id添加name
+        queryConditionList.forEach((v,i) => {
+          queryConditionList[i]['exam2'] = `${v.exam.replace('-','').substr(2)}考期`
+          queryConditionList[i]['stuTypeName'] = BiFilter(`STUDENT_TYPE|id:${queryConditionList[i]['stuType']}`).name;
+          queryConditionList[i]['admissionStatusName'] = BiFilter(`TICKET_STATES|id:${queryConditionList[i]['admissionStatus']}`).name;
+          queryConditionList[i]['orderStatusName'] = BiFilter(`ORDER_STATE|id:${queryConditionList[i]['orderStatus']}`).name;
+          const arr = queryConditionList[i]['msgStatusList'] ? queryConditionList[i]['msgStatusList'].split(','):[];
+          queryConditionList[i]['msgStatusName']=[];
+          arr.forEach((v)=>{
+            queryConditionList[i]['msgStatusName'].push(BiFilter(`MSG_STATES|id:${Number(v)}`).name);
+          });
+          queryConditionList[i]['msgStatusName'] = queryConditionList[i]['msgStatusName'].join(',');
+        });
+        console.log(queryConditionList);
         yield put({ type: 'save', payload: { queryConditionList } });
       } else {
         message.error(result.msg);

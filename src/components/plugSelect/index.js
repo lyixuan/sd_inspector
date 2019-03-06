@@ -6,7 +6,7 @@ import Item from 'antd/lib/list/Item';
 const { Option } = Select;
 
 
-class PriceSelect extends React.Component {
+class PlugSelect extends React.Component {
 
   constructor(props) {
     super(props);
@@ -33,16 +33,19 @@ class PriceSelect extends React.Component {
   };
 
   render() {
-    const { size, options } = this.props;
+    const { placeholder,size, options } = this.props;
     const { selected } = this.state;
     console.log(selected);
     return (
       <span>
           <Select
-            value={selected}
-            size={size}
-            onChange={this.handleCurrencyChange}
+            placeholder={placeholder}
             mode="multiple"
+            showArrow={true}
+            maxTagCount={1}
+            value={selected}
+            onChange={this.handleCurrencyChange}
+            size={size}
           >
             {options.map(item => {
               return (
@@ -55,9 +58,14 @@ class PriceSelect extends React.Component {
   }
 }
 
-PriceSelect.propTypes = {
+PlugSelect.propTypes = {
+  placeholder: PropTypes.any,
+  mode: PropTypes.string,
+  showArrow:PropTypes.any,
+  maxTagCount:PropTypes.any,
   value: PropTypes.any,
   onChange: PropTypes.func,
   multiple: PropTypes.bool,
+  size:PropTypes.any,
 };
-export default PriceSelect;
+export default PlugSelect;
