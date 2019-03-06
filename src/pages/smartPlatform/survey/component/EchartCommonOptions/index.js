@@ -59,20 +59,20 @@ function commonOptions(params) {
     ],
     yAxis,
     color,
-    series: [
-      {
-        name:legendData[0].name,
-        ...series[0],
-      },
-      {
-        name:legendData[1].name,
-        ...series[1],
-      },
-      {
-        name:legendData[2].name,
-        ...series[2],
-      },
-    ],
+    // series: [
+    //   {
+    //     name:legendData[0].name,
+    //     ...series[0],
+    //   },
+    //   {
+    //     name:legendData[1].name,
+    //     ...series[1],
+    //   },
+    //   {
+    //     name:legendData[2].name,
+    //     ...series[2],
+    //   },
+    // ],
     // toolbox: {
     //   feature: {
     //     dataView: {show: true, readOnly: false},
@@ -88,20 +88,27 @@ export function chartOptions(data) {
   const { data1 = {}, data2 = {} } = dataList;
   const params1 = {
     text: '微信推送整体数据',
-    legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '推送人数', icon: 'rect' }, { name: '已读人数', icon: 'rect' }],
+    legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '已推送消息人数', icon: 'rect' }, { name: '已读人数', icon: 'rect' }, { name: '未推送消息人数', icon: 'rect' }],
     xData: data1.dateArr,
     color: ['#1e93ff', "#7363ec", '#1ec47a'],
     formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}',
     series: [{
+      name:'考试计划人数',
       type: 'bar',
       barCategoryGap: '40%',
       data: data1.dataArr1
     }, {
+      name:'已推送消息人数',
       type: 'bar',
       data: data1.dataArr2
     }, {
+      name:'已读人数',
       type: 'bar',
       data: data1.dataArr3
+    }, {
+      name:'未推送消息人数',
+      type: 'bar',
+      data: data1.dataArr4
     }],
     yAxis: {
       axisLine: {
@@ -135,13 +142,16 @@ export function chartOptions(data) {
     color: ['#1e93ff', "#fc595b", '#fc3676'],
     formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}%',
     series: [{
+      name:'考试计划人数',
       type: 'bar',
       barCategoryGap: '60%',
       data: data2.dataArr1
     }, {
+      name:'准考证填写人数',
       type: 'bar',
       data: data2.dataArr2
     }, {
+      name:'准考证填写占比',
       type: 'line',
       yAxisIndex: 1,
       symbol: 'circle',

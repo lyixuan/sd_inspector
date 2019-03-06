@@ -19,11 +19,11 @@ class Survey extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      province:'',
-      collegeId:null,
-      familyId:null,
-      beginDate:'',
-      endDate:'',
+      // province:'',
+      // collegeId:null,
+      // familyId:null,
+      beginDate:"2019-01-01",
+      endDate:"2019-01-07"
     };
 
   }
