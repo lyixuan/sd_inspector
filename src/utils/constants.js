@@ -26,6 +26,7 @@ export const PAGINATION = {
   showQuickJumper: true,
   defaultCurrent: 1,
   total: 0,
+  pageSize: 36,
   pageSizeOptions: ['36', '50', '100']
 };
 

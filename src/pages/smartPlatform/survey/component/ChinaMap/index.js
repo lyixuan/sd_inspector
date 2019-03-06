@@ -130,11 +130,11 @@ class ChinaMap extends Component {
     <li class=${styles.tooltipItem}>考试计划人数：${obj.examPlanNum || 0}人</li>
     <li class=${styles.tooltipItem}>通知人数：${obj.pushNum || 0}人</li>
     <li class=${styles.tooltipItem}>触达人数：${obj.readNum || 0}人</li>
-    <li class=${styles.tooltipItem}>触达率：${(obj.readRatio * 100).toFixed(2) || 0}%</li>
+    <li class=${styles.tooltipItem}>触达率：${((obj.readRatio || 0) * 100).toFixed(2)}%</li>
     </ul>
     <ul class=${styles.tootipPanlOther}>
     <li class=${styles.tooltipItem}>准考证填写人数：${obj.admissionFillNum || 0}人</li>
-    <li class=${styles.tooltipItem}>准考证填写率：${(obj.admissionFillRatio * 100).toFixed(2) || 0}%</li>
+    <li class=${styles.tooltipItem}>准考证填写率：${((obj.admissionFillRatio || 0) * 100).toFixed(2)}%</li>
     </ul>`
         )
     }
