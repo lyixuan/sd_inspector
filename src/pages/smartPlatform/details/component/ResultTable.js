@@ -73,17 +73,7 @@ class ResultTable extends Component {
   };
 
   render() {
-    const dataSource = [{
-      province: '1',
-      collegeName: '胡彦斌',
-      familyName: 32,
-      examPlanNum: '西湖区湖底公园1号'
-    }, {
-      province: '2',
-      collegeName: '胡彦祖',
-      familyName: 42,
-      examPlanNum: '西湖区湖底公园1号'
-    }];
+    const dataSource = this.props.dataDetail.tableList;
 
     const columns = [
       {

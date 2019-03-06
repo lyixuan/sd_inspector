@@ -235,6 +235,15 @@ ul{
   border-color: #0080FF;
 }
 
+.ant-table-placeholder {
+  background: #0C172E;
+  color: #fff;
+  border: 1px solid #394671;
+}
+
+.ant-table-bordered.ant-table-empty .ant-table-placeholder {
+  border: 1px solid #394671;
+}
 /* =========================== form ===========================  */
 
 /*label*/
