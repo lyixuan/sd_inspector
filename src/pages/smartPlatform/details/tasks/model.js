@@ -13,7 +13,7 @@ export default {
     // 任务列表
     *getTaskPage({ payload }, { call, put }) {
       const result = yield call(getTaskPage, payload.params);
-      const tableList = result.data.list || [];
+      const tableList = result.data?result.data.list : [];
       if (result.code === 20000) {
         yield put({ type: 'saveLsit', payload: { tableList } });
       } else {
