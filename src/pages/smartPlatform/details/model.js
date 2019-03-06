@@ -27,7 +27,7 @@ export default {
     // 数据明细查询结果
     *getDetailData({ payload }, { call, put }) {
       const result = yield call(getDetailDataPage, payload.params);
-      const tableList = result.data || [];
+      const tableList = result.list || [];
       if (result && result.code === 20000) {
         yield put({ type: 'save', payload: { tableList } });
       } else {

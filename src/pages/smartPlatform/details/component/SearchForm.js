@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import Form from 'antd/lib/form';
@@ -16,6 +17,30 @@ import styles from '../style.less'
 
 const { Option } = Select;
 const confirm = Modal.confirm;
+
+function dataFilter(list) {
+  // 将 checkedConditionList 处理成 key：List形式
+  const obj = {};
+  const  checkedConditionList = DeepCopy(list);
+  for (let key in checkedConditionList) {
+    if ('provinceList' === key) {
+      obj[key] = checkedConditionList[key].keys.split(',');
+    }else if ('familyIdList' === key) {
+      obj[key] = checkedConditionList[key].keys.split(',');
+      obj[key].forEach((v,i) => {
+        obj[key][i] = Number(obj[key][i]);
+      })
+    } else if ('msgStatusList' === key) {
+      obj[key] = checkedConditionList[key].keys.split(',');
+      obj[key].forEach((v,i) => {
+        obj[key][i] = Number(obj[key][i]);
+      })
+    } else {
+      obj[key] = checkedConditionList[key].keys
+    }
+  }
+  return obj;
+}
 
 @connect(({ home,dataDetail }) => ({
   home,
@@ -65,21 +90,28 @@ class HorizontalLoginForm extends React.Component {
   };
 
   menuCheck = (val) => {
-    this.checkedConditionList = {
-      exam: {labels:val.exam2,keys:val.exam},
-      provinceList: val.provinceList.split(','),
-      collegeId: val.collegeId,
-      familyIdList: arr,
-      orderStatus: val.orderStatus,
-      stuType: val.stuType,
-      admissionStatus: val.admissionStatus,
-      msgState: arr2,
-    };
+    this.checkedConditionList = {};
+    val.exam ? this.checkedConditionList.exam = {labels:val.exam2,keys:val.exam}:'';
+    val.provinceList ? this.checkedConditionList.provinceList = {labels:val.provinceList,keys:val.provinceList}:'';
+    val.collegeId ? this.checkedConditionList.collegeId = {labels:val.collegeId,keys:val.collegeId}:'';
+    val.familyIdList ? this.checkedConditionList.familyIdList = {labels:val.familyIdList,keys:val.familyNameList}:'';
+    val.orderStatus ? this.checkedConditionList.orderStatus = {labels:val.orderStatus,keys:val.orderStatus}:'';
+    val.stuType ? this.checkedConditionList.stuType = {labels:val.stuType,keys:val.stuType}:'';
+    val.admissionStatus ? this.checkedConditionList.admissionStatus = {labels:val.admissionStatus,keys:val.admissionStatus}:'';
+    val.msgState ? this.checkedConditionList.msgState = {labels:val.msgState,keys:val.msgState}:'';
+
     let arr = undefined;
+    let arr1 = undefined;
     if (val.familyIdList) {
       arr = val.familyIdList.split(',');
       arr.forEach((v,i) => {
         arr[i] = Number(arr[i]);
+      });
+    }
+    if (val.familyNameList) {
+      arr1 = val.familyIdList.split(',');
+      arr1.forEach((v,i) => {
+        arr1[i] = Number(arr1[i]);
       });
     }
     let arr2 = undefined;
@@ -95,21 +127,34 @@ class HorizontalLoginForm extends React.Component {
     }
     this.props.form.setFieldsValue({
       exam: {key:val.exam,label:val.exam2},
-      provinceList: {key:arr3,label:val.arr3},
+      provinceList: {key:arr3,label:arr3},
       collegeId: {key:val.collegeId,label:val.collegeName},
-      familyIdList: arr,
-      orderStatus: val.orderStatus,
-      stuType: val.stuType,
-      admissionStatus: val.admissionStatus,
-      msgState: arr2,
+      familyIdList: {key:arr,label:arr1},
+      orderStatus: {key:val.orderStatus,label:val.orderStatus},
+      stuType: {key:val.stuType,label:val.stuType},
+      admissionStatus: {key:val.admissionStatus,label:val.admissionStatus},
+      msgState:  {key:arr2,label:arr2},
     });
     this.setState({
       menuCheckedName:val.paramName
     });
+    this.props.updateCC(this.checkedConditionList);
   };
 
+  onSelect =(v)=>{
+    console.log(v);
+    // 所有省份
+    if (v.key === 'all') {
+      this.props.form.setFieldsValue({
+        provinceList: [{key:'安徽省'}]
+      })
+    }
+    this.props.form.setFieldsValue({
+      provinceList: [{key: "广东省", label: "广东省"}]
+    })
+
+  };
   formValChange = (val, key) => {
-    console.log(1111);
     // 学院家族联动
     if (key === 'collegeId') {
       this.collegeList.forEach((v)=>{
@@ -121,6 +166,7 @@ class HorizontalLoginForm extends React.Component {
         familyIdList: []
       })
     }
+
     // 收集条件
     let labels = undefined;
     let keys = undefined;
@@ -148,6 +194,7 @@ class HorizontalLoginForm extends React.Component {
 
   handleReset = () => {
     this.checkedConditionList= {};
+    this.props.updateCC(this.checkedConditionList);
     this.props.form.resetFields();
   };
 
@@ -157,25 +204,7 @@ class HorizontalLoginForm extends React.Component {
       Message.warning('请选择考期');
       return
     }
-    const obj = {};
-    const  checkedConditionList = DeepCopy(this.checkedConditionList);
-    for (let key in checkedConditionList) {
-      if ('provinceList' === key) {
-        obj[key] = checkedConditionList[key].keys.split(',');
-      }else if ('familyIdList' === key) {
-        obj[key] = checkedConditionList[key].keys.split(',');
-        obj[key].forEach((v,i) => {
-          obj[key][i] = Number(obj[key][i]);
-        })
-      } else if ('msgStatusList' === key) {
-        obj[key] = checkedConditionList[key].keys.split(',');
-        obj[key].forEach((v,i) => {
-          obj[key][i] = Number(obj[key][i]);
-        })
-      } else {
-        obj[key] = checkedConditionList[key].keys
-      }
-    }
+    const obj = dataFilter(this.checkedConditionList);
     this.props.dispatch({
       type: 'dataDetail/getDetailData',
       payload: { params: obj },
@@ -225,7 +254,10 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('provinceList', {
                   initialValue: this.state.provinceList,
                 })(
-                  <Select placeholder="报考省份"  mode="multiple" showArrow={true} maxTagCount={1} labelInValue onChange={(val) => this.formValChange(val,'provinceList')}>
+                  <Select placeholder="报考省份"  mode="multiple" showArrow={true} maxTagCount={1} labelInValue onChange={(val) => this.formValChange(val,'provinceList')} onSelect={this.onSelect}>
+                    <Option key='all'>
+                      所有省份
+                    </Option>
                     {this.provinceAllList.map(item => (
                       <Option key={item.name}>
                         {item.name}
