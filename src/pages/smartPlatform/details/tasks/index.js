@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'dva';
+import { Icon } from 'antd';
 import Table from 'antd/lib/table';
 import Breadcrumb from 'antd/lib/breadcrumb';
 import Link from 'umi/link';
-
-import Button from 'antd/lib/button';
-
+import { BiFilter } from '@/utils/utils';
 import styles from '../style.less'
 
+@connect(({ detail, loading }) => ({
+  detail,
+  loading: loading.models.detail,
+}))
 class Tasks extends Component {
   constructor(props) {
     super(props);
@@ -15,51 +19,99 @@ class Tasks extends Component {
 
   UNSAFE_componentWillMount() {
     // 获取数据
+
   }
-
+  componentDidMount(){
+    this.getData({});
+  }
+  getData = params =>{
+    this.props.dispatch({
+      type: 'detail/getTaskPage',
+      payload: params,
+    });
+  };
+  deleteFn = data => {
+    this.props.dispatch({
+      type: 'detail/deleteTask',
+      payload: {id:data.id},
+    });
+  };
+  reloadFn = data => {
+    this.props.dispatch({
+      type: 'detail/reloadTask',
+      payload: {id:data.id},
+    });
+  };
+  downloadFn = data => {
+    console.log(data)
+    // this.props.dispatch({
+    //   type: 'detail/deleteTask',
+    //   payload: {id:data.id},
+    // });
+  };
   render() {
-    const dataSource = [{
-      index: '1',
-      adjustDate2: '胡彦斌',
-      type2: 32,
-      creditScore2: '西湖区湖底公园1号'
-    }, {
-      index: '2',
-      adjustDate2: '胡彦祖',
-      type2: 42,
-      creditScore2: '西湖区湖底公园1号'
-    }];
-
     const columns = [
       {
         title: '序号',
-        dataIndex: 'index',
+        dataIndex: 'key',
       },
       {
         title: '创建时间',
-        dataIndex: 'adjustDate2',
+        dataIndex: 'createTime',
       },
       {
         title: '创建人',
-        dataIndex: 'type2',
+        dataIndex: 'creator',
       },
       {
         title: '任务名称',
-        dataIndex: 'creditScore2',
+        dataIndex: 'taskName',
       },
       {
         title: '查询条件',
-        dataIndex: 'groupType2',
+        dataIndex: 'queryCondition',
       },
       {
         title: '任务状态',
-        dataIndex: 'orgName2',
+        dataIndex: 'taskStatus',
+        render: (text, record) => {
+          return (
+            <>
+              {
+                BiFilter('TASK_STATES').map(item => {
+                  if(text === item.id){
+                    return (
+                      <>
+                        <span style={{color:item.color,marginRight:'6px'}}>{item.name}</span>
+                        {text===4?<Icon type="reload" onClick={()=>{this.reloadFn(record)}}/>:null}
+                      </>
+                    )
+                  }
+                  return null
+                })
+              }
+            </>
+          );
+        },
       },
       {
         title: '学院订单数',
-        dataIndex: 'familyType2',
+        dataIndex: 'orderCount',
+      },
+      {
+        title: '操作',
+        dataIndex: 'operate',
+        render: (text, record) => {
+          return (
+            <>
+              <Icon type="download" onClick={()=>{this.downloadFn(record)}} style={{marginRight:'8px'}} />
+              <Icon type="delete" onClick={()=>{this.deleteFn(record)}} />
+            </>
+          );
+        },
       },
     ];
+    const {tableList} = this.props.detail;
     return (
       <>
         <div className={styles.breadcrumb}>
@@ -73,7 +125,7 @@ class Tasks extends Component {
           <div className={styles.tableHead}>
             <span className={styles.tableHeadLeft}>任务列表</span>
           </div>
-          <Table dataSource={dataSource} columns={columns} bordered/>
+          <Table dataSource={tableList} columns={columns} bordered loading={this.props.loading}/>
         </div>
       </>
     );

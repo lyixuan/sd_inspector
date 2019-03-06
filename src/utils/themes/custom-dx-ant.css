@@ -168,6 +168,8 @@ ul{
 
 /* ===========================  table ===========================  */
 .ant-table {
+  font-family: 'MicrosoftYaHei';
+  font-size: 12px;
   color: #fff;
 }
 

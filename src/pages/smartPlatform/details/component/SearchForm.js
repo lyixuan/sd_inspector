@@ -8,12 +8,14 @@ import Menu from 'antd/lib/menu';
 import Icon from 'antd/lib/icon';
 import Modal from 'antd/lib/modal';
 import Input from 'antd/lib/input';
+import Message from 'antd/lib/message';
 
-import { BiFilter } from '@/utils/utils';
+import { BiFilter, DeepCopy } from '@/utils/utils';
 
 import styles from '../style.less'
 
 const { Option } = Select;
+const confirm = Modal.confirm;
 
 @connect(({ home,dataDetail }) => ({
   home,
@@ -69,21 +71,40 @@ class HorizontalLoginForm extends React.Component {
   };
 
   formValChange = (val, key) => {
+    // 学院家族联动
     if (key === 'collegeId') {
-
+      this.collegeList.forEach((v)=>{
+        if (v.id === Number(val.key)) {
+          this.familyList = v.sub;
+        }
+      });
+      this.props.form.setFieldsValue({
+        familyIdList: []
+      })
     }
+    // 收集条件
     let labels = undefined;
+    let keys = undefined;
     if (val instanceof Array) {
       // 处理多选类型
       const list = [];
+      const list2 = [];
       val.forEach((v) => {
         list.push(v.label);
+        list2.push(v.key);
       });
       labels = list.join(',');
+      keys = list2.join(',');
     } else {
       labels = val.label;
+      keys = val.key;
     }
-    this.checkedConditionList[key] = labels;
+    if (labels && keys) {
+      this.checkedConditionList[key] = {labels,keys};
+    } else {
+      delete this.checkedConditionList[key];
+    }
+    console.log(this.checkedConditionList);
     this.props.updateCC(this.checkedConditionList);
   };
 
@@ -94,24 +115,40 @@ class HorizontalLoginForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-        this.props.dispatch({
-          type: 'dataDetail/getDetailData',
-          payload: { params: values },
-        });
+    console.log(this.checkedConditionList);
+    if (!this.checkedConditionList.exam) {
+      Message.warning('请选择考期');
+      return
+    }
+    const obj = {};
+    const  checkedConditionList = DeepCopy(this.checkedConditionList);
+    for (let key in checkedConditionList) {
+      if ('provinceList' === key) {
+        obj[key] = checkedConditionList[key].keys.split(',');
+      }else if ('familyIdList' === key) {
+        obj[key] = checkedConditionList[key].keys.split(',');
+        obj[key].forEach((v,i) => {
+          obj[key][i] = Number(obj[key][i]);
+        })
+      } else if ('msgStatusList' === key) {
+        obj[key] = checkedConditionList[key].keys.split(',');
+        obj[key].forEach((v,i) => {
+          obj[key][i] = Number(obj[key][i]);
+        })
+      } else {
+        obj[key] = checkedConditionList[key].keys
       }
+    }
+    this.props.dispatch({
+      type: 'dataDetail/getDetailData',
+      payload: { params: obj },
     });
   };
 
   render() {
-
     this.examList = this.props.dataDetail.examList;
-    this.conditionList = this.props.dataDetail.queryConditionList;
+    this.conditionList = this.props.dataDetail.queryConditionList || [];
     this.collegeList = this.props.home.orgList;
-
-    console.log(this.collegeList);
 
     const { getFieldDecorator, } = this.props.form;
     const menu = (
@@ -137,7 +174,7 @@ class HorizontalLoginForm extends React.Component {
                 })(
                   <Select placeholder="考期" labelInValue onChange={(val) => this.formValChange(val,'exam')}>
                     {this.examList.map(item => (
-                      <Option key={item.id}>
+                      <Option key={item.examYearmonth}>
                         {item.exam}
                       </Option>
                     ))}
@@ -145,7 +182,7 @@ class HorizontalLoginForm extends React.Component {
                 )}
               </Form.Item>
             </div>
-             第二行
+             {/*第二行*/}
             <div>
               <Form.Item label="学员信息">
                 {getFieldDecorator('provinceList', {
@@ -166,8 +203,8 @@ class HorizontalLoginForm extends React.Component {
                 })(
                   <Select placeholder="学院" labelInValue onChange={(val) => this.formValChange(val,'collegeId')}>
                     {this.collegeList.map(item => (
-                      <Option value={item.examId} key={item.examName}>
-                        {item.examName}
+                      <Option key={item.id}>
+                        {item.name}
                       </Option>
                     ))}
                   </Select>
@@ -177,10 +214,10 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('familyIdList', {
                   initialValue: this.state.familyIdList,
                 })(
-                  <Select placeholder="家族" labelInValue onChange={(val) => this.formValChange(val,'familyIdList')}>
+                  <Select placeholder="家族" mode="multiple" showArrow={true} maxTagCount={1} labelInValue onChange={(val) => this.formValChange(val,'familyIdList')}>
                     {this.familyList.map(item => (
-                      <Option value={item.examId} key={item.examName}>
-                        {item.examName}
+                      <Option key={item.id}>
+                        {item.name}
                       </Option>
                     ))}
                   </Select>
@@ -265,6 +302,11 @@ class HorizontalLoginForm extends React.Component {
 
 const WrappedHorizontalLoginForm = Form.create({ name: 'horizontal_login' })(HorizontalLoginForm);
 
+@connect(({ home,dataDetail }) => ({
+  home,
+  dataDetail,
+}))
+
 class SearchForm extends Component {
   constructor(props) {
     super(props);
@@ -272,35 +314,68 @@ class SearchForm extends Component {
       visible: false,
       conditionName: '',
       titleType: 1,  // 1 添加查询条件 2 编辑查询条件
+      checkedConditionList: {}
     };
-    this.checkedConditionList = {};
+    this.tId = undefined;
   }
 
   updateCheckedConditions = (val) => {
     console.log('updateCheckedConditions', val);
-    // this.setState({
-    //   checkedConditionList: val,
-    // });
-    this.checkedConditionList = val;
+    this.setState({
+      checkedConditionList: val,
+    });
+
+    const obj = {};
+    const  checkedConditionList = DeepCopy(val);
+    for (let key in checkedConditionList) {
+      if ('provinceList' === key) {
+        obj[key] = checkedConditionList[key].keys.split(',');
+      }else if ('familyIdList' === key) {
+        obj[key] = checkedConditionList[key].keys.split(',');
+        obj[key].forEach((v,i) => {
+          obj[key][i] = Number(obj[key][i]);
+        })
+      } else if ('msgStatusList' === key) {
+        obj[key] = checkedConditionList[key].keys.split(',');
+        obj[key].forEach((v,i) => {
+          obj[key][i] = Number(obj[key][i]);
+        })
+      } else {
+        obj[key] = checkedConditionList[key].keys
+      }
+    }
+    this.props.updateCheckedConditions(obj)
   };
 
-  conditionDel = (e) => {
-    console.log('menu', e);
+  conditionDel = (id) => {
     this.setState({
       visible: true,
     });
+    confirm({
+      title: '是否删除当前查询条件?',
+      onOk() {
+        this.props.dispatch({
+          type: 'dataDetail/deleteQueryCondition',
+          payload: { params: {id} },
+        });
+      },
+      onCancel() {},
+    });
   };
 
-  conditionEdit = (e) => {
-    console.log('menue', e);
+  conditionEdit = (id) => {
     this.setState({
       visible: true,
       titleType: 2
     });
+    this.tId = id;
   };
 
-  conditionAdd = (params) => {
-    console.log('menuadd1111111', params);
+  conditionAdd = () => {
+    if (!this.state.checkedConditionList.exam) {
+      Message.warning('请选择考期');
+      return
+    }
     this.setState({
       visible: true,
       titleType: 1
@@ -313,18 +388,42 @@ class SearchForm extends Component {
     });
   };
 
-  handleOk = (e) => {
-    console.log(e);
+  handleOk = () => {
+    // 添加查询条件
+    if (this.state.titleType === 1) {
+      const  checkedConditionList = DeepCopy(this.state.checkedConditionList);
+      if (!this.state.conditionName) {
+        Message.warning('请输入名称');
+      }
+      const obj = {
+        paramName: this.state.conditionName,
+      };
+      for (let key in checkedConditionList) {
+        obj[key] = checkedConditionList[key].keys;
+        if (key === 'collegeId') {
+          obj['collegeName'] = checkedConditionList[key].labels;
+        }
+        if (key === 'familyIdList') {
+          obj['familyNameList'] = checkedConditionList[key].labels;
+        }
+      }
+      this.props.dispatch({
+        type: 'dataDetail/addQueryCondition',
+        payload: { params: obj },
+      });
+    } else if (this.state.titleType === 2) {
+      const obj2 = {
+        id: this.tId,
+        paramName: this.state.conditionName,
+      };
+      this.props.dispatch({
+        type: 'dataDetail/updateQueryCondition',
+        payload: { params: obj2 },
+      });
+    }
     this.setState({
       visible: false,
     });
-    // 获取我的查询条件
-    if (this.state.titleType === 1) {
-      this.props.dispatch({
-        type: 'dataDetail/getQueryConditionList',
-        payload: { params: {} },
-      });
-    }
   };
 
   handleCancel = (e) => {
@@ -335,7 +434,7 @@ class SearchForm extends Component {
   };
 
   render() {
-    const  checkedConditionList   = this.checkedConditionList;
+    const  {checkedConditionList}   = this.state;
     // 构造 checkedConditionList 的node
     function getCheckedConditionList() {
       const list = [];
@@ -345,7 +444,7 @@ class SearchForm extends Component {
       return list;
     }
     const checkedBtn = getCheckedConditionList().map((v) => (
-      <span className={styles.spanBtn} key={v}>{v}</span>
+      <span className={styles.spanBtn} key={v.labels}>{v.labels}</span>
     ));
 
     return (
@@ -353,16 +452,15 @@ class SearchForm extends Component {
         <div className={styles.searchWrap}>
           <WrappedHorizontalLoginForm
             updateCC={(p)=>this.updateCheckedConditions(p)}
-            menuDel={this.conditionDel}
-            menuEdit={this.conditionEdit}
-            menuAdd={(params) => this.conditionAdd(params)}
+            menuDel={(id) => this.conditionDel(id)}
+            menuEdit={(id) => this.conditionEdit(id)}
           />
           {
             getCheckedConditionList().length > 0 ? (
               <div className={styles.searchBoxSeletected}>
                 <span className={styles.rowTitle}>已选条件：</span>
                 <div className={styles.row}>
-                  {checkedBtn} <Button type="primary" style={{marginLeft:'20px'}} onClick={this.conditionAdd(checkedConditionList)}>保存查询条件</Button>
+                  {checkedBtn} <Button type="primary" style={{marginLeft:'20px'}} onClick={() => this.conditionAdd()}>保存查询条件</Button>
                 </div>
               </div>
             ):null

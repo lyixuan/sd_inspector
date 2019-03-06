@@ -46,32 +46,29 @@ export default {
     },
     // 添加查询条件
     *addQueryCondition({ payload }, { call, put }) {
-      const data = yield call(addQueryCondition, payload.params);
-      const queryConditionList = data.list;
-      if (data && data.code === 20000) {
-        yield put({ type: 'save', payload: { queryConditionList } });
+      const result = yield call(addQueryCondition, payload.params);
+      if (result.code === 20000) {
+        yield put({ type: 'getQueryConditionList', payload: {params:{}} });
       } else {
-        message.error(data.msg);
+        message.error(result.msg);
       }
     },
     // 修改查询条件
     *updateQueryCondition({ payload }, { call, put }) {
-      const data = yield call(updateQueryCondition, payload.params);
-      const queryConditionList = data.list;
-      if (data && data.code === 20000) {
-        yield put({ type: 'save', payload: { queryConditionList } });
+      const result = yield call(updateQueryCondition, payload.params);
+      if (result.code === 20000) {
+        yield put({ type: 'getQueryConditionList', payload: {params:{}} });
       } else {
-        message.error(data.msg);
+        message.error(result.msg);
       }
     },
     // 删除查询条件
     *deleteQueryCondition({ payload }, { call, put }) {
-      const data = yield call(deleteQueryCondition, payload.params);
-      const queryConditionList = data.list;
-      if (data && data.code === 20000) {
-        yield put({ type: 'save', payload: { queryConditionList } });
+      const result = yield call(deleteQueryCondition, payload.params);
+      if (result.code === 20000) {
+        yield put({ type: 'getQueryConditionList', payload: {params:{}} });
       } else {
-        message.error(data.msg);
+        message.error(result.msg);
       }
     }
 

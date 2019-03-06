@@ -216,7 +216,13 @@ export const MSG_STATES = [
   { id: 2, name: '已推送(未读)' },
   { id: 3, name: '已推送(已读)' },
 ];
-
+// 任务状态
+export const TASK_STATES = [
+  { id: 1, name: '未开始',color:'#999' },
+  { id: 2, name: '进行中..',color:'#dc5745' },
+  { id: 3, name: '完成',color:'#38e39d'  },
+  { id: 4, name: '失败',color:'#ff3678' },
+];
 
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
@@ -224,6 +230,7 @@ export default {
   STUDENT_TYPE,
   TICKET_STATES,
   MSG_STATES,
+  TASK_STATES,
   PAGINATION,
   PROVINCE_SIGN_STEP,
   provinceJson,
