@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
+import { Icon } from 'antd';
 import Table from 'antd/lib/table';
 import Breadcrumb from 'antd/lib/breadcrumb';
 import Link from 'umi/link';
+import { BiFilter } from '@/utils/utils';
 import styles from '../style.less'
 
 @connect(({ detail, loading }) => ({
@@ -20,7 +22,7 @@ class Tasks extends Component {
 
   }
   componentDidMount(){
-    this.getData();
+    this.getData({});
   }
   getData = params =>{
     this.props.dispatch({
@@ -28,23 +30,30 @@ class Tasks extends Component {
       payload: params,
     });
   };
+  deleteFn = data => {
+    this.props.dispatch({
+      type: 'detail/deleteTask',
+      payload: {id:data.id},
+    });
+  };
+  reloadFn = data => {
+    this.props.dispatch({
+      type: 'detail/reloadTask',
+      payload: {id:data.id},
+    });
+  };
+  downloadFn = data => {
+    console.log(data)
+    // this.props.dispatch({
+    //   type: 'detail/deleteTask',
+    //   payload: {id:data.id},
+    // });
+  };
   render() {
-    const dataSource = [{
-      index: '1',
-      adjustDate2: '胡彦斌',
-      type2: 32,
-      creditScore2: '西湖区湖底公园1号'
-    }, {
-      index: '2',
-      adjustDate2: '胡彦祖',
-      type2: 42,
-      creditScore2: '西湖区湖底公园1号'
-    }];
-
     const columns = [
       {
         title: '序号',
-        dataIndex: 'index',
+        dataIndex: 'key',
       },
       {
         title: '创建时间',
@@ -65,6 +74,25 @@ class Tasks extends Component {
       {
         title: '任务状态',
         dataIndex: 'taskStatus',
+        render: (text, record) => {
+          return (
+            <>
+              {
+                BiFilter('TASK_STATES').map(item => {
+                  if(text === item.id){
+                    return (
+                      <>
+                        <span style={{color:item.color,marginRight:'6px'}}>{item.name}</span>
+                        {text===4?<Icon type="reload" onClick={()=>{this.reloadFn(record)}}/>:null}
+                      </>
+                    )
+                  }
+                  return null
+                })
+              }
+            </>
+          );
+        },
       },
       {
         title: '学院订单数',
@@ -76,13 +104,14 @@ class Tasks extends Component {
         render: (text, record) => {
           return (
             <>
-              <span onClick={()=>{console.log(record)}} style={{ marginRight: '8px' }}>下载</span>
-              <span onClick={()=>{console.log(record)}} style={{ marginRight: '8px' }}>删除</span>
+              <Icon type="download" onClick={()=>{this.downloadFn(record)}} style={{marginRight:'8px'}} />
+              <Icon type="delete" onClick={()=>{this.deleteFn(record)}} />
             </>
           );
         },
       },
     ];
+    const {tableList} = this.props.detail;
     return (
       <>
         <div className={styles.breadcrumb}>
@@ -96,7 +125,7 @@ class Tasks extends Component {
           <div className={styles.tableHead}>
             <span className={styles.tableHeadLeft}>任务列表</span>
           </div>
-          <Table dataSource={dataSource} columns={columns} bordered/>
+          <Table dataSource={tableList} columns={columns} bordered loading={this.props.loading}/>
         </div>
       </>
     );
