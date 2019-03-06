@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
-import Spin from '@/components/PageLoading';
 import ProcessStep from '../ProcessStep'
 import { mapData } from './mapData';
 import './styles.less';
@@ -253,7 +252,6 @@ class ChinaMap extends Component {
     }
     render() {
         const { examineStepList } = this.state;
-        const { loading } = this.props;
         return (
             <>
                 <div className={styles.container}>
@@ -262,7 +260,6 @@ class ChinaMap extends Component {
                 <div className={styles.process}>
                     <ProcessStep data={examineStepList} />
                 </div>
-                {loading ? <Spin /> : null}
             </>
         )
     }

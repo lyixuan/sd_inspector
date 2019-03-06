@@ -43,7 +43,7 @@ class Tasks extends Component {
     });
   };
   downloadFn = data => {
-    console.log(data)
+    console.log(data.zipPath)
     // this.props.dispatch({
     //   type: 'detail/deleteTask',
     //   payload: {id:data.id},

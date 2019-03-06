@@ -1,7 +1,8 @@
 import React from 'react';
+import { Spin } from 'antd';
 import { connect } from 'dva';
 import Radio from '../components/Tabs';
-import Echart from '../../../components/Echart'
+import Echart from '@/components/Echart'
 import styles from './style.less';
 import ChinaMap from './component/ChinaMap';
 import SearchForm from './component/SearchForm';
@@ -11,7 +12,6 @@ import { commonOptions } from './component/EchartCommonOptions';
   survey,
   loading: loading.models.survey,
   mapInfo: survey.mapInfo || [],
-  mapInfoLoading: loading.effects['survey/getMapInfo'],
   isLoading: loading.effects['survey/getExamDateRange'],
 }))
 class Survey extends React.Component {
@@ -153,30 +153,32 @@ class Survey extends React.Component {
   };
   render() {
     const { option1, option2 } = this.initChart();
-    const { mapInfo, mapInfoLoading } = this.props;
+    const { mapInfo } = this.props;
     return (
-      <div className={styles.container}>
-        {/* 页面切换 */}
-        <Radio path='/smartPlatform/survey' />
-        {/* 地图 */}
-        <div className={styles.mapContainer}>
-          <ChinaMap data={mapInfo} loading={mapInfoLoading} />
+      <Spin spinning={false}>
+        <div className={styles.container}>
+          {/* 页面切换 */}
+          <Radio path='/smartPlatform/survey' />
+          {/* 地图 */}
+          <div className={styles.mapContainer}>
+            <ChinaMap data={mapInfo} />
+          </div>
+          <div className={styles.histogram}>
+            <div className={styles.headerCls}>
+              数据概览
+            </div>
+            {/* 搜索条件 */}
+            <div className={styles.formCls}>
+              <SearchForm searchData={this.searchData} />
+            </div>
+            {/* 图表 */}
+            <div className={styles.echartCls}>
+              <Echart update={option1} style={{ width: '46%', height: "510px" }} options={option1} />
+              <Echart update={option2} style={{ width: '46%', height: "510px" }} options={option2} />
+            </div>
+          </div>
         </div>
-        <div className={styles.histogram}>
-          <div className={styles.headerCls}>
-            数据概览
-          </div>
-          {/* 搜索条件 */}
-          <div className={styles.formCls}>
-            <SearchForm searchData={this.searchData} />
-          </div>
-          {/* 图表 */}
-          <div className={styles.echartCls}>
-            <Echart update={option1} style={{ width: '46%', height: "510px" }} options={option1} />
-            <Echart update={option2} style={{ width: '46%', height: "510px" }} options={option2} />
-          </div>
-        </div>
-      </div>
+      </Spin>
     );
   }
 
