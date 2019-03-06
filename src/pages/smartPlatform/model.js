@@ -14,7 +14,7 @@ export default {
       const result = yield call(getOrgInfo, payload.params);
       const orgList = result.data || [];
       if (result && result.code === 20000) {
-        yield put({ type: 'save', payload: { orgList } });
+        yield put({ type: 'saveOrgInfo', payload: { orgList } });
       } else {
         message.error(result.msg);
       }
@@ -33,8 +33,8 @@ export default {
     saveOrgInfo(state, {payload}) {
       const{orgList} = payload;
       if(orgList){
-
-        console.log(orgList)
+        orgList.unshift({name:'全部',id:null,sub:[]});
+        orgList.map(item=>item.sub.unshift({name:'全部',id:null,sub:[]}));
       }
       return { ...state, ...payload };
     },
