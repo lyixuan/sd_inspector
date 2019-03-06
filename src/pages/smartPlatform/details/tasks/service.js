@@ -7,11 +7,11 @@ export async function getTaskPage() {
 
 // 删除任务
 export async function deleteTask(params) {
-  return request('/detail/deleteTask', {method: 'delete',params});
+  return request('/detail/deleteTask', {method: 'post',data:params});
 }
 
-// 删除任务
+// 重新加载任务
 export async function reloadTask(params) {
-  return request('/detail/reloadTask', {method: 'put',params});
+  return request('/detail/reloadTask', {method: 'put',data:params});
 }
 

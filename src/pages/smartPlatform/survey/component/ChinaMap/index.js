@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
+import Spin from '@/components/PageLoading';
 import ProcessStep from '../ProcessStep'
 import { mapData } from './mapData';
 import './styles.less';
@@ -64,15 +65,17 @@ class ChinaMap extends Component {
         if (!Array.isArray(data)) return;
         // 暂不做处理
         data.forEach(item => {
-            mapData[item.province] = {
+            mapData[item.provinceCode] = {
                 ...item,
             }
         });
         this.setState({ mapData }, this.redrewMap.bind(this, mapData))
 
+
     }
     redrewMap = (data) => {
         this.changePathColor(data);
+        this.changeDrewTextColor(data);
     }
     handleProvinceStep = (selectedProvince) => {
         const { mapData } = this.state;
@@ -99,11 +102,13 @@ class ChinaMap extends Component {
     }
     drewTip = () => {
         const that = this;
-        if (d3.select("#mapTooltip").node()) return;
-        const div = d3.select("body").append("div")
-            .attr("class", `${styles.tooltip} tooltip`) //用于css设置类样式
-            .attr('id', 'mapTooltip')
-            .html('"销售额为"');
+        let div = d3.select("#mapTooltip");
+        if (!d3.select("#mapTooltip").node()) {
+            div = d3.select("body").append("div")
+                .attr("class", `${styles.tooltip} tooltip`) //用于css设置类样式
+                .attr('id', 'mapTooltip')
+                .html('"销售额为"');
+        }
         tip.show = function () {
             const showOriginData = d3.select(this).datum();
             if (!showOriginData) return
@@ -121,17 +126,16 @@ class ChinaMap extends Component {
     tooltipText = (id) => {
         const { mapData } = this.state;
         const obj = mapData[id] || {};
-        console.log(obj)
         return (
             `<ul class=${styles.tootipPanl}>
     <li class=${styles.tooltipItem}>考试计划人数：${obj.examPlanNum || 0}人</li>
     <li class=${styles.tooltipItem}>通知人数：${obj.pushNum || 0}人</li>
     <li class=${styles.tooltipItem}>触达人数：${obj.readNum || 0}人</li>
-    <li class=${styles.tooltipItem}>触达率：${obj.readRatio || 0}%</li>
+    <li class=${styles.tooltipItem}>触达率：${(obj.readRatio * 100).toFixed(2) || 0}%</li>
     </ul>
     <ul class=${styles.tootipPanlOther}>
     <li class=${styles.tooltipItem}>准考证填写人数：${obj.admissionFillNum || 0}人</li>
-    <li class=${styles.tooltipItem}>准考证填写率：${obj.admissionFillRatio || 0}%</li>
+    <li class=${styles.tooltipItem}>准考证填写率：${(obj.admissionFillRatio * 100).toFixed(2) || 0}%</li>
     </ul>`
         )
     }
@@ -176,13 +180,25 @@ class ChinaMap extends Component {
             .on('mousemove', tip.show)
             .on('click', this.onClick)
     }
+    changeDrewTextColor = (data = {}) => {
+        d3.selectAll(`.${styles.cls19}`).style('fill', d => {
+            const { examineStatus } = data[d.id] || {};
+            return examineStatus === 3 ? 'red' : '#fff'
+        })
+            .style('font-size', d => {
+                const { examineStatus } = data[d.id] || {};
+                return examineStatus === 3 ? '25px' : '20px'
+            })
+    }
     changePathColor = (data = {}) => {
         d3.selectAll('.state').style('fill', d => {
             const { examPlanNum = 0 } = data[d.id] || {};
+
             if (examPlanNum >= 100000) {
                 return '#e73236'
             } else if (examPlanNum < 100000 && examPlanNum >= 70000) {
-                return '#eec4f44'
+
+                return '#ec4f44'
             } else if (examPlanNum < 70000 && examPlanNum >= 50000) {
                 return '#fb7338'
             } else if (examPlanNum < 50000 && examPlanNum >= 30000) {
@@ -215,6 +231,8 @@ class ChinaMap extends Component {
         ChinaMap.that.changePathStroke(this);
         if (tip.show) {
             tip.show(d3.event);
+        } else {
+            ChinaMap.that.drewTip();
         }
 
     }
@@ -223,6 +241,8 @@ class ChinaMap extends Component {
         allPath.style('stroke', '#0bb4f9')
         if (tip.hide) {
             tip.hide();
+        } else {
+            ChinaMap.that.drewTip();
         }
     }
     onClick() {
@@ -233,6 +253,7 @@ class ChinaMap extends Component {
     }
     render() {
         const { examineStepList } = this.state;
+        const { loading } = this.props;
         return (
             <>
                 <div className={styles.container}>
@@ -241,6 +262,7 @@ class ChinaMap extends Component {
                 <div className={styles.process}>
                     <ProcessStep data={examineStepList} />
                 </div>
+                {loading ? <Spin /> : null}
             </>
         )
     }

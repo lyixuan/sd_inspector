@@ -12,7 +12,11 @@ export const ADMIN_USER = 'admin_user';
 
 
 // 登录页面地址配置
-export const LOGIN_URL = 'http://localhost:8088/userLayout/login';
+export const LOGIN_URL = {
+  localhost: 'http://localhost:8088/userLayout/login',
+  development: 'http://172.16.117.64:8090/userLayout/login',
+  production: 'http://bd.ministudy.com/userLayout/login',
+}[process.env.LOGIN_TYPE];
 
 // 分页配置
 export const PAGINATION = {
@@ -162,13 +166,21 @@ export const provinceJson = [
     "name": "台湾省",
   }
 ];
-// 报考状态
+// 报考步骤
 export const PROVINCE_STEP = [
   { id: 1, name: '新生注册' },
   { id: 2, name: '现场确认' },
   { id: 3, name: '报考科目&缴费' },
   { id: 4, name: '补报名' },
 ];
+// 报考状态
+export const PROVINCE_STATUS = [
+  { id: -1, name: '未定义' },
+  { id: 1, name: '未开始' },
+  { id: 2, name: '进行中' },
+  { id: 3, name: '已结束' },
+
+]
 
 // 每个省份的报考进度
 export const PROVINCE_SIGN_STEP = [
@@ -204,7 +216,13 @@ export const MSG_STATES = [
   { id: 2, name: '已推送(未读)' },
   { id: 3, name: '已推送(已读)' },
 ];
-
+// 任务状态
+export const TASK_STATES = [
+  { id: 1, name: '未开始',color:'#999' },
+  { id: 2, name: '进行中..',color:'#dc5745' },
+  { id: 3, name: '完成',color:'#38e39d'  },
+  { id: 4, name: '失败',color:'#ff3678' },
+];
 
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
@@ -212,6 +230,7 @@ export default {
   STUDENT_TYPE,
   TICKET_STATES,
   MSG_STATES,
+  TASK_STATES,
   PAGINATION,
   PROVINCE_SIGN_STEP,
   provinceJson,

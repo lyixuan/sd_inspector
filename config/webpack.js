@@ -7,6 +7,9 @@ const proxyHost = {
 }
 const proxy_env = proxyHost[process.env.PROXY_ENV];
 export const webpackConfig = {
+    define: {
+        'process.env.LOGIN_TYPE': process.env.LOGIN_TYPE,
+    },
     alias: {
         '@': require('path').resolve(__dirname, 'src'),
     },

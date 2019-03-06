@@ -17,7 +17,7 @@ import { commonOptions } from './component/EchartCommonOptions';
 class Survey extends React.Component {
   constructor(props) {
     super(props);
-    this.state ={"province":"北京市","collegeId":104,"familyId":155,"beginDate":"2019-02-22","endDate":"2019-02-27"}
+    this.state = { "province": "北京市", "collegeId": 104, "familyId": 155, "beginDate": "2019-02-22", "endDate": "2019-02-27" }
     // this.state={
     //   province:'',
     //   collegeId:'',
@@ -36,7 +36,6 @@ class Survey extends React.Component {
     if (Array.isArray(mapInfo) && mapInfo.length > 0) {
       return;
     }
-    console.log(mapInfo)
     this.props.dispatch({
       type: 'survey/getMapInfo',
     })
@@ -47,18 +46,18 @@ class Survey extends React.Component {
       payload: params,
     });
   };
-  initChart= () =>{
-    const {dataList={}} = this.props.survey;
-    const{data1={},data2={}}=dataList;
+  initChart = () => {
+    const { dataList = {} } = this.props.survey;
+    const { data1 = {}, data2 = {} } = dataList;
     const params1 = {
-      text:'微信推送整体数据',
-      legendData:[{name:'考试计划人数',icon:'rect'},{name:'推送人数',icon:'rect'},{name:'已读人数',icon:'rect'}],
-      xData:data1.dateArr,
-      color:['#1e93ff',"#7363ec",'#1ec47a'],
-      formatter:'{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}',
-      series:[{
-        type:'bar',
-        barCategoryGap:'40%',
+      text: '微信推送整体数据',
+      legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '推送人数', icon: 'rect' }, { name: '已读人数', icon: 'rect' }],
+      xData: data1.dateArr,
+      color: ['#1e93ff', "#7363ec", '#1ec47a'],
+      formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}',
+      series: [{
+        type: 'bar',
+        barCategoryGap: '40%',
         data: data1.dataArr1
       }, {
         type: 'bar',
@@ -67,18 +66,18 @@ class Survey extends React.Component {
         type: 'bar',
         data: data1.dataArr3
       }],
-      yAxis:{
-        axisLine:{
-          lineStyle:{
-            color:'#bdc0c6'
+      yAxis: {
+        axisLine: {
+          lineStyle: {
+            color: '#bdc0c6'
           }
         },
-        axisTick:{
-          show:false,
+        axisTick: {
+          show: false,
         },
         type: 'value',
-        splitLine:{
-          show:false
+        splitLine: {
+          show: false
         },
         // min: 0,
         // max:50000,
@@ -87,7 +86,7 @@ class Survey extends React.Component {
           formatter: '{value}'
         },
       },
-      itemGap:52,
+      itemGap: 52,
     };
     const params2 = {
       text: '准考证填写趋势',
@@ -95,12 +94,12 @@ class Survey extends React.Component {
         name: '准考证填写占比',
         icon: 'image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAEAQMAAABSuEaRAAAAAXNSR0IB2cksfwAAAAZQTFRF+zd3AAAAP9uspgAAAAJ0Uk5T/wDltzBKAAAAEUlEQVR4nGNgYGhggOH//xsAEwsD/x/9IEYAAAAASUVORK5CYII=',
       }],
-      xData:data2.dateArr,
-      color:['#1e93ff',"#fc595b",'#fc3676'],
-      formatter:'{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}%',
-      series:[{
-        type:'bar',
-        barCategoryGap:'60%',
+      xData: data2.dateArr,
+      color: ['#1e93ff', "#fc595b", '#fc3676'],
+      formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}%',
+      series: [{
+        type: 'bar',
+        barCategoryGap: '60%',
         data: data2.dataArr1
       }, {
         type: 'bar',
@@ -114,17 +113,17 @@ class Survey extends React.Component {
         itemStyle: { normal: { label: { show: true, formatter: '{c}%' } } },
       }],
       yAxis: [{
-        axisLine:{
-          lineStyle:{
-            color:'#bdc0c6'
+        axisLine: {
+          lineStyle: {
+            color: '#bdc0c6'
           }
         },
-        axisTick:{
-          show:false,
+        axisTick: {
+          show: false,
         },
         type: 'value',
-        splitLine:{
-          show:false
+        splitLine: {
+          show: false
         },
         // min: 0,
         // max:25000,
@@ -132,8 +131,8 @@ class Survey extends React.Component {
         axisLabel: {
           formatter: '{value}'
         },
-      },{
-        show:false,
+      }, {
+        show: false,
         type: 'value',
         min: 0,
         max: 75,
@@ -154,15 +153,14 @@ class Survey extends React.Component {
   };
   render() {
     const { option1, option2 } = this.initChart();
-    const { mapInfo } = this.props;
-
+    const { mapInfo, mapInfoLoading } = this.props;
     return (
       <div className={styles.container}>
         {/* 页面切换 */}
         <Radio path='/smartPlatform/survey' />
         {/* 地图 */}
         <div className={styles.mapContainer}>
-          <ChinaMap data={mapInfo} />
+          <ChinaMap data={mapInfo} loading={mapInfoLoading} />
         </div>
         <div className={styles.histogram}>
           <div className={styles.headerCls}>
@@ -174,8 +172,8 @@ class Survey extends React.Component {
           </div>
           {/* 图表 */}
           <div className={styles.echartCls}>
-            <Echart update={option1} style={{width:'46%', height:"510px"}} options={option1} />
-            <Echart update={option2} style={{width:'46%', height:"510px"}} options={option2} />
+            <Echart update={option1} style={{ width: '46%', height: "510px" }} options={option1} />
+            <Echart update={option2} style={{ width: '46%', height: "510px" }} options={option2} />
           </div>
         </div>
       </div>
