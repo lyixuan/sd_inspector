@@ -45,7 +45,7 @@ export function BiFilter(param) {
         const list = [...result];
         result = {};
         for (let i = 0; i < list.length; i += 1) {
-          if (list[i][type] === value) {
+          if (list[i][type] == value) {
             result = list[i];
             break;
           }

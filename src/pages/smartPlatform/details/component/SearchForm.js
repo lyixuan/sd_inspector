@@ -10,7 +10,6 @@ import Icon from 'antd/lib/icon';
 import Modal from 'antd/lib/modal';
 import Input from 'antd/lib/input';
 import Message from 'antd/lib/message';
-
 import { BiFilter, DeepCopy } from '@/utils/utils';
 
 import styles from '../style.less'
@@ -67,6 +66,10 @@ class HorizontalLoginForm extends React.Component {
     this.familyList = [];
     this.conditionList = [];
     this.checkedConditionList = {};
+    this.provinceAllList.unshift({
+      "code": "all",
+      "name": "所有省份",
+    })
   }
   UNSAFE_componentWillMount() {
     // 获取考期
@@ -91,34 +94,27 @@ class HorizontalLoginForm extends React.Component {
 
   menuCheck = (val) => {
     this.checkedConditionList = {};
-    val.exam ? this.checkedConditionList.exam = {labels:val.exam2,keys:val.exam}:'';
-    val.provinceList ? this.checkedConditionList.provinceList = {labels:val.provinceList,keys:val.provinceList}:'';
-    val.collegeId ? this.checkedConditionList.collegeId = {labels:val.collegeId,keys:val.collegeId}:'';
-    val.familyIdList ? this.checkedConditionList.familyIdList = {labels:val.familyIdList,keys:val.familyNameList}:'';
-    val.orderStatus ? this.checkedConditionList.orderStatus = {labels:val.orderStatus,keys:val.orderStatus}:'';
-    val.stuType ? this.checkedConditionList.stuType = {labels:val.stuType,keys:val.stuType}:'';
-    val.admissionStatus ? this.checkedConditionList.admissionStatus = {labels:val.admissionStatus,keys:val.admissionStatus}:'';
-    val.msgState ? this.checkedConditionList.msgState = {labels:val.msgState,keys:val.msgState}:'';
+    val.exam ? this.checkedConditionList.exam = {keys:val.exam,labels:val.exam2}:'';
+    val.provinceList ? this.checkedConditionList.provinceList = {keys:val.provinceList,labels:val.provinceList}:'';
+    val.collegeId ? this.checkedConditionList.collegeId = {keys:val.collegeId,labels:val.collegeName}:'';
+    val.familyIdList ? this.checkedConditionList.familyIdList = {keys:val.familyIdList,labels:val.familyNameList}:'';
+    val.orderStatus ? this.checkedConditionList.orderStatus = {keys:val.orderStatus,labels:val.orderStatusName}:'';
+    val.stuType ? this.checkedConditionList.stuType = {keys:val.stuType,labels:val.stuTypeName}:'';
+    val.admissionStatus ? this.checkedConditionList.admissionStatus = {keys:val.admissionStatus,labels:val.admissionStatusName}:'';
+    val.msgStatusList ? this.checkedConditionList.msgStatusList = {keys:val.msgStatusList,labels:val.msgStatusName}:'';
 
     let arr = undefined;
-    let arr1 = undefined;
     if (val.familyIdList) {
-      arr = val.familyIdList.split(',');
-      arr.forEach((v,i) => {
-        arr[i] = Number(arr[i]);
-      });
-    }
-    if (val.familyNameList) {
-      arr1 = val.familyIdList.split(',');
-      arr1.forEach((v,i) => {
-        arr1[i] = Number(arr1[i]);
+      arr = [];
+      val.familyIdList.split(',').forEach((v,i)=>{
+        arr.push({key:v,label:val.familyNameList[i]})
       });
     }
     let arr2 = undefined;
     if (val.msgStatusList) {
-      arr2 = val.msgStatusList.split(',');
-      arr2.forEach((v,i) => {
-        arr2[i] = Number(arr2[i]);
+      arr2 = [];
+      val.msgStatusList.split(',').forEach((v,i)=>{
+        arr2.push({key:v,label:val.msgStatusName[i]})
       });
     }
     let arr3 = undefined;
@@ -127,13 +123,13 @@ class HorizontalLoginForm extends React.Component {
     }
     this.props.form.setFieldsValue({
       exam: {key:val.exam,label:val.exam2},
-      provinceList: {key:arr3,label:arr3},
       collegeId: {key:val.collegeId,label:val.collegeName},
-      familyIdList: {key:arr,label:arr1},
-      orderStatus: {key:val.orderStatus,label:val.orderStatus},
-      stuType: {key:val.stuType,label:val.stuType},
-      admissionStatus: {key:val.admissionStatus,label:val.admissionStatus},
-      msgState:  {key:arr2,label:arr2},
+      orderStatus: {key:val.orderStatus,label:val.orderStatusName},
+      stuType: {key:val.stuType,label:val.stuTypeName},
+      admissionStatus: {key:val.admissionStatus,label:val.admissionStatusName},
+      familyIdList: arr,
+      msgStatusList:  arr2,
+      provinceList: {key:arr3,label:arr3},
     });
     this.setState({
       menuCheckedName:val.paramName
@@ -239,7 +235,6 @@ class HorizontalLoginForm extends React.Component {
             <div>
               <Form.Item label="学员信息">
                 {getFieldDecorator('provinceList', {
-                  initialValue: this.state.provinceList,
                 })(
                   <Select placeholder="报考省份"  mode="multiple" showArrow={true} maxTagCount={1} labelInValue onChange={(val) => this.formValChange(val,'provinceList')}>
                     <Option key='all'>
@@ -392,6 +387,7 @@ class SearchForm extends Component {
           obj[key][i] = Number(obj[key][i]);
         })
       } else if ('msgStatusList' === key) {
+        console.log(checkedConditionList[key]);
         obj[key] = checkedConditionList[key].keys.split(',');
         obj[key].forEach((v,i) => {
           obj[key][i] = Number(obj[key][i]);

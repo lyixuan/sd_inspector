@@ -10,8 +10,9 @@ import styles from '../style.less'
 import Message from 'antd/lib/message/index';
 import { connect } from 'dva/index';
 
-@connect(({ dataDetail }) => ({
+@connect(({ dataDetail,loading }) => ({
   dataDetail,
+  loading: loading.effects['dataDetail/getDetailData']
 }))
 
 class ResultTable extends Component {
@@ -74,25 +75,12 @@ class ResultTable extends Component {
 
   render() {
     const dataSource = this.props.dataDetail.tableList;
+    const dataSourceSize = this.props.dataDetail.dataSourceSize;
 
     const columns = [
       {
         title: '省/市',
         dataIndex: 'province',
-        render: (value, row, index) => {
-          const obj = {
-            children: value,
-            props: {},
-          };
-          if (index === 0) {
-            obj.props.rowSpan = 2;
-          }
-          // These two are merged into above cell
-          if (index === 1) {
-            obj.props.rowSpan = 0;
-          }
-          return obj;
-        },
       },
       {
         title: '学院',
@@ -111,6 +99,14 @@ class ResultTable extends Component {
         dataIndex: 'admissionFillNum',
       },
       {
+        title: '未推送消息人数',
+        dataIndex: 'unpushNum',
+      },
+      {
+        title: '已推送消息人数',
+        dataIndex: 'pushNum',
+      },
+      {
         title: '消息已读人数',
         dataIndex: 'readNum',
       },
@@ -123,7 +119,7 @@ class ResultTable extends Component {
       <>
         <div>
           <div className={styles.tableHead}>
-            <span className={styles.tableHeadLeft}>共搜出 889 条学员数据</span>
+            <span className={styles.tableHeadLeft}>共搜出 {dataSourceSize} 条学员数据</span>
             <span className={styles.tableHeadRight}>
               <Button type="primary" onClick={this.toTask}>任务列表</Button>
             </span>
@@ -131,7 +127,7 @@ class ResultTable extends Component {
               <Button type="primary2" onClick={this.addTask}>添加下载任务</Button>
             </span>
           </div>
-          <Table dataSource={dataSource} columns={columns} pagination={BiFilter("PAGINATION")} bordered/>
+          <Table dataSource={dataSource} columns={columns} pagination={BiFilter("PAGINATION")} loading={this.props.loading} bordered/>
         </div>
         <Modal
           title='添加下载任务'
