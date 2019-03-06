@@ -60,7 +60,7 @@ const dateFormat = 'YYYY-MM-DD';
   };
   search = () =>{
     const { province, collegeId, familyId, beginDate, endDate} =  this.state;
-    const newPro = province!=='报考省份'?province:'';
+    const newPro = province==='报考省份'|| province==="所有省份"?'':province;
     const newCol = collegeId!=='学院'?collegeId:null;
     const newFam = familyId!=='家族'?familyId:null;
 
