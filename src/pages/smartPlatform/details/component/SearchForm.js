@@ -141,19 +141,6 @@ class HorizontalLoginForm extends React.Component {
     this.props.updateCC(this.checkedConditionList);
   };
 
-  onSelect =(v)=>{
-    console.log(v);
-    // 所有省份
-    if (v.key === 'all') {
-      this.props.form.setFieldsValue({
-        provinceList: [{key:'安徽省'}]
-      })
-    }
-    this.props.form.setFieldsValue({
-      provinceList: [{key: "广东省", label: "广东省"}]
-    })
-
-  };
   formValChange = (val, key) => {
     // 学院家族联动
     if (key === 'collegeId') {
@@ -254,7 +241,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('provinceList', {
                   initialValue: this.state.provinceList,
                 })(
-                  <Select placeholder="报考省份"  mode="multiple" showArrow={true} maxTagCount={1} labelInValue onChange={(val) => this.formValChange(val,'provinceList')} onSelect={this.onSelect}>
+                  <Select placeholder="报考省份"  mode="multiple" showArrow={true} maxTagCount={1} labelInValue onChange={(val) => this.formValChange(val,'provinceList')}>
                     <Option key='all'>
                       所有省份
                     </Option>
@@ -383,7 +370,7 @@ class SearchForm extends Component {
       visible: false,
       conditionName: '',
       titleType: 1,  // 1 添加查询条件 2 编辑查询条件
-      checkedConditionList: {}
+      checkedConditionList: {},
     };
     this.tId = undefined;
   }
@@ -493,6 +480,7 @@ class SearchForm extends Component {
     }
     this.setState({
       visible: false,
+
     });
   };
 
@@ -517,6 +505,9 @@ class SearchForm extends Component {
       <span className={styles.spanBtn} key={v.labels}>{v.labels}</span>
     ));
 
+    function handleChange(value) {
+      console.log(value); // { key: "lucy", label: "Lucy (101)" }
+    }
     return (
       <>
         <div className={styles.searchWrap}>
@@ -536,6 +527,7 @@ class SearchForm extends Component {
             ):null
           }
         </div>
+
         <Modal
           title={this.state.titleType === 1 ? '添加查询条件' : '编辑查询条件'}
           visible={this.state.visible}
