@@ -12,7 +12,8 @@ export default {
   effects: {
     // 任务列表
     *getTaskPage({ payload }, { call, put }) {
-      const result = yield call(getTaskPage, payload.params);
+      console.log({...payload})
+      const result = yield call(getTaskPage,{...payload});
       const tableList = result.data?result.data.list : [];
       if (result.code === 20000) {
         yield put({ type: 'saveLsit', payload: { tableList } });
@@ -33,7 +34,7 @@ export default {
     *reloadTask({ payload }, { call, put }) {
       const result = yield call(reloadTask,{...payload});
       if (result.code === 20000) {
-        yield put({ type: 'save', payload: {} });
+        yield put(routerRedux.push('/smartPlatform/details/tasks'));
       } else {
         message.error(result.msg);
       }

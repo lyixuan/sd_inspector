@@ -9,6 +9,8 @@
 export const ADMIN_AUTH = 'admin_auth';
 // 当前用户信息
 export const ADMIN_USER = 'admin_user';
+// 静态文件host
+export const STATIC_HOST = 'http://172.16.117.65';
 
 
 // 登录页面地址配置
@@ -29,6 +31,10 @@ export const PAGINATION = {
 
 // 省份
 export const provinceJson = [
+  {
+    "code": "",
+    "name": " 全部",
+  },
   {
     "code": "AH",
     "name": " 安徽省",

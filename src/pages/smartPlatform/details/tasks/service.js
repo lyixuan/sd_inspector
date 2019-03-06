@@ -1,8 +1,8 @@
 import request from '@/utils/request';
 
 // 任务列表
-export async function getTaskPage() {
-  return request('/detail/getTaskPage');
+export async function getTaskPage(params) {
+  return request('/detail/getTaskPage',{ params });
 }
 
 // 删除任务
@@ -12,6 +12,6 @@ export async function deleteTask(params) {
 
 // 重新加载任务
 export async function reloadTask(params) {
-  return request('/detail/reloadTask', {method: 'put',data:params});
+  return request('/detail/reloadTask', {method: 'post',data:params});
 }
 
