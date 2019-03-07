@@ -267,6 +267,10 @@ ul{
 .ant-table-bordered.ant-table-empty .ant-table-placeholder {
   border: 1px solid #394671;
 }
+
+.ant-table-fixed-header > .ant-table-content > .ant-table-scroll > .ant-table-body {
+  background-color: #0C172E;
+}
 /* =========================== form ===========================  */
 
 /*label*/
