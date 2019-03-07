@@ -1,5 +1,5 @@
 function commonOptions(params) {
-  const {text,legendData=[],xData=[],color,series,yAxis,itemGap=19,formatter} = params;
+  const {text,legendData=[],xData=[],color,yAxis,itemGap=19,formatter} = params;
   return {
     title: {
       text,
@@ -88,7 +88,7 @@ export function chartOptions(data) {
   const { data1 = {}, data2 = {} } = dataList;
   const params1 = {
     text: '微信推送整体数据',
-    legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '已推送消息人数', icon: 'rect' }, { name: '已读人数', icon: 'rect' }, { name: '未推送消息人数', icon: 'rect' }],
+    legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '推送人数', icon: 'rect' }, { name: '已读人数', icon: 'rect' }],
     xData: data1.dateArr,
     color: ['#1e93ff', "#7363ec", '#1ec47a'],
     formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}',

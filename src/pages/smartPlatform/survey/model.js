@@ -25,7 +25,7 @@ export default {
     *queryHistogramData({ payload }, { call, put }) {
       const data = yield call(queryHistogramData, { ...payload });
       if (data.code === 20000) {
-        yield put({ type: 'saveDataList' });
+        yield put({ type: 'saveDataList' , payload: { dataList: data.data },});
       } else {
         message.error(data.msg);
       }
@@ -46,18 +46,6 @@ export default {
 
   reducers: {
     saveDataList(state, { payload }) {
-      // const dataList = {
-      //   0:[
-      //     {date:'81',examPlanNum:1,pushNum:2,readNum:3,unpushNum:4},
-      //     {date:'82',examPlanNum:1,pushNum:2,readNum:3,unpushNum:4},
-      //     {date:'83',examPlanNum:1,pushNum:2,readNum:3,unpushNum:4},
-      //     {date:'84',examPlanNum:1,pushNum:2,readNum:3,unpushNum:4},
-      //     {date:'85',examPlanNum:1,pushNum:2,readNum:3,unpushNum:4},
-      //     {date:'87',examPlanNum:1,pushNum:2,readNum:3,unpushNum:4},
-      //     {date:'96',examPlanNum:1,pushNum:2,readNum:3,unpushNum:4}
-      //     ],
-      //   1:[{date:'88',admissionFillNum:1,admissionFillRatio:2,examPlanNum:3},{date:'8',admissionFillNum:1,admissionFillRatio:2,examPlanNum:3}]
-      // }
       const { dataList } = payload;
       // let wxData = dataList.filter(item => item.type === 1);
       // let admissionData = dataList.filter(item => item.type === 2);
@@ -67,7 +55,7 @@ export default {
       //  admissionData = admissionData.sort(function (a, b) {
       //   return Date.parse(a.date) - Date.parse(b.date);//时间正序
       // });
-      const data1 = dealData(dataList[1], ['examPlanNum', 'pushNum', 'readNum','unpushNum']);
+      const data1 = dealData(dataList[1], ['examPlanNum', 'pushNum', 'readNum']);
       const data2 = dealData(dataList[2], ['examPlanNum', 'admissionFillNum', 'admissionFillRatio']);
       return { ...state, dataList: { data1, data2 } };
     },
