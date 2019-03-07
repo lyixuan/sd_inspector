@@ -491,11 +491,11 @@ class SearchForm extends Component {
     const checkedBtn = getCheckedConditionList().map((v) => (
       <span className={styles.spanBtn} key={v.labels}>{v.labels}</span>
     ));
-
     return (
       <>
         <div className={styles.searchWrap}>
           <WrappedHorizontalLoginForm
+            {...this.props}
             updateCC={(p) => this.updateCheckedConditions(p)}
             menuDel={(id) => this.conditionDel(id)}
             menuEdit={(item) => this.conditionEdit(item)}
