@@ -32,38 +32,47 @@ const columns = [
   {
     title: '省/市',
     dataIndex: 'province',
+    width: 120,
   },
   {
     title: '学院',
     dataIndex: 'collegeName',
+    width: 140,
   },
   {
     title: '家族',
     dataIndex: 'familyName',
+    width: 140,
   },
   {
     title: '考试计划人数',
     dataIndex: 'examPlanNum',
+    width: 140,
   },
   {
     title: '准考证填写人数',
     dataIndex: 'admissionFillNum',
+    width: 140,
   },
   {
     title: '未推送消息人数',
     dataIndex: 'unpushNum',
+    width: 140,
   },
   {
     title: '已推送消息人数',
     dataIndex: 'pushNum',
+    width: 140,
   },
   {
     title: '消息已读人数',
     dataIndex: 'readNum',
+    width: 140,
   },
   {
     title: '消息未读人数',
     dataIndex: 'unreadNum',
+    width: 140,
   },
 ];
 @connect(({ dataDetail, loading }) => ({
@@ -177,7 +186,7 @@ class ResultTable extends Component {
               <Button type="primary2" onClick={this.addTask}>添加下载任务</Button>
             </span>
           </div>
-          <Table dataSource={dataSource} columns={columns} pagination={false} loading={this.props.loading} bordered />
+          <Table dataSource={dataSource} columns={columns} pagination={false} loading={this.props.loading} scroll={{ y: 500 }} bordered />
           <br />
           <div className={styles.provinceCotainer}>
             {provinces.map(item => <span
