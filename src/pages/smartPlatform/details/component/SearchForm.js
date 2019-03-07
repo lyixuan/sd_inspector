@@ -18,6 +18,7 @@ const { Option } = Select;
 const confirm = Modal.confirm;
 let isEdit = false; // 判断是重置后的新增，还是选择了查询条件的编辑
 let editId = undefined;
+let editName = undefined;
 function dataFilter(list) {
   // 将 checkedConditionList 处理成 key：List形式
   const obj = {};
@@ -89,6 +90,7 @@ class HorizontalLoginForm extends React.Component {
   };
 
   menuCheck = (val) => {
+    console.log('a111',val);
     this.checkedConditionList = {};
     val.exam ? this.checkedConditionList.exam = {keys:val.exam,labels:val.exam2}:'';
     val.collegeId ? this.checkedConditionList.collegeId = {keys:val.collegeId,labels:val.collegeName}:'';
@@ -113,11 +115,11 @@ class HorizontalLoginForm extends React.Component {
       });
     }
     this.props.form.setFieldsValue({
-      exam: {key:val.exam,label:val.exam2},
-      collegeId: {key:val.collegeId,label:val.collegeName},
-      orderStatus: {key:val.orderStatus,label:val.orderStatusName},
-      stuType: {key:val.stuType,label:val.stuTypeName},
-      admissionStatus: {key:val.admissionStatus,label:val.admissionStatusName},
+      exam: val.exam ? {key:val.exam,label:val.exam2}:undefined,
+      collegeId: val.collegeId ? {key:val.collegeId,label:val.collegeName}:undefined,
+      orderStatus: val.orderStatus?{key:val.orderStatus,label:val.orderStatusName}:undefined,
+      stuType: val.stuType?{key:val.stuType,label:val.stuTypeName}:undefined,
+      admissionStatus: val.admissionStatus?{key:val.admissionStatus,label:val.admissionStatusName}:undefined,
       msgStatusList:  arr2,
     });
 
@@ -137,6 +139,7 @@ class HorizontalLoginForm extends React.Component {
     this.props.updateCC(this.checkedConditionList);
     isEdit=true;  // 点击我的查询条件后，保存时是编辑
     editId=val.id;
+    editName=val.paramName;
   };
 
   formValChange = (val, key) => {
@@ -209,11 +212,18 @@ class HorizontalLoginForm extends React.Component {
     const { getFieldDecorator, } = this.props.form;
     const menu = (
       <Menu>
-        {this.conditionList.map(item => (
-          <Menu.Item key={item.id}>
+        {
+          this.conditionList.length > 0 ?
+          this.conditionList.map(item => (
+            <Menu.Item key={item.id}>
             <span onClick={() => this.menuCheck(item)} >{item.paramName}</span><Icon onClick={() => this.menuDel(item.id)} style={{marginLeft:'5px'}}  type="delete" />  <Icon onClick={() => this.menuEdit(item)} type="edit" />
-          </Menu.Item>
-        ))}
+            </Menu.Item>
+          )) : (
+              <Menu.Item>
+                <span>暂无数据</span>
+              </Menu.Item>
+            )
+        }
       </Menu>
     );
 
@@ -375,28 +385,6 @@ class SearchForm extends Component {
     this.setState({
       checkedConditionList: val,
     });
-
-    // const obj = {};
-    // const  checkedConditionList = DeepCopy(val);
-    // for (let key in checkedConditionList) {
-    //   if ('provinceList' === key) {
-    //     obj[key] = checkedConditionList[key].keys.split(',');
-    //   }else if ('familyIdList' === key) {
-    //     obj[key] = checkedConditionList[key].keys.split(',');
-    //     obj[key].forEach((v,i) => {
-    //       obj[key][i] = Number(obj[key][i]);
-    //     })
-    //   } else if ('msgStatusList' === key) {
-    //     console.log(checkedConditionList[key]);
-    //     obj[key] = checkedConditionList[key].keys.split(',');
-    //     obj[key].forEach((v,i) => {
-    //       obj[key][i] = Number(obj[key][i]);
-    //     })
-    //   } else {
-    //     obj[key] = checkedConditionList[key].keys
-    //   }
-    // }
-    this.props.updateCheckedConditions(val)
   };
 
   conditionDel = (id) => {
@@ -433,6 +421,7 @@ class SearchForm extends Component {
       const  checkedConditionList = DeepCopy(this.state.checkedConditionList);
       const obj = {
         id: editId,
+        paramName: editName,
       };
       for (let key in checkedConditionList) {
         obj[key] = checkedConditionList[key].keys;
