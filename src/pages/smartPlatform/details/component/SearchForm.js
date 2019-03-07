@@ -19,31 +19,6 @@ const confirm = Modal.confirm;
 let isEdit = false; // 判断是重置后的新增，还是选择了查询条件的编辑
 let editId = undefined;
 let editName = undefined;
-function dataFilter(list) {
-  // 将 checkedConditionList 处理成 key：List形式
-  const obj = {};
-  const  checkedConditionList = DeepCopy(list);
-  for (let key in checkedConditionList) {
-    if (key === 'collegeId') {
-      obj['collegeName'] = checkedConditionList[key].labels.split(',');
-    }
-    if ('familyIdList' === key) {
-      obj[key] = checkedConditionList[key].keys.split(',');
-      obj['familyNameList'] = checkedConditionList[key].labels.split(',');
-      obj[key].forEach((v,i) => {
-        obj[key][i] = Number(obj[key][i]);
-      })
-    } else if ('msgStatusList' === key) {
-      obj[key] = checkedConditionList[key].keys.split(',');
-      obj[key].forEach((v,i) => {
-        obj[key][i] = Number(obj[key][i]);
-      })
-    } else {
-      obj[key] = checkedConditionList[key].keys
-    }
-  }
-  return obj;
-}
 
 @connect(({ home,dataDetail }) => ({
   home,
@@ -205,15 +180,7 @@ class HorizontalLoginForm extends React.Component {
       Message.warning('请选择考期');
       return
     }
-    const obj = dataFilter(this.checkedConditionList);
-
-    const oldP = this.props.dataDetail.params;
-    const { province } = oldP;
-    obj.province = province;
-    this.props.dispatch({
-      type: 'dataDetail/getDetailData',
-      payload: { params: obj },
-    });
+    this.props.handlePropSubmit();
   };
 
   render() {
