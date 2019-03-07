@@ -12,7 +12,7 @@ function commonOptions(params) {
     },
     grid: {
       top: 166,
-      left: 64,
+      // left: 64,
       height: 234,
     },
     legend: {
@@ -83,18 +83,18 @@ export function chartOptions(data) {
     series: [{
       name: '考试计划人数',
       type: 'bar',
-      barWidth: 20,
+      barWidth: 15,
       barCategoryGap: '40%',
       data: data1.dataArr1
     }, {
       name: '通知人数',
       type: 'bar',
-      barWidth: 20,
+      barWidth: 15,
       data: data1.dataArr2
     }, {
       name: '触达人数',
       type: 'bar',
-      barWidth: 20,
+      barWidth: 15,
       data: data1.dataArr3
     },{
       name: '触达率',
@@ -147,13 +147,13 @@ export function chartOptions(data) {
     series: [{
       name: '考试计划人数',
       type: 'bar',
-      barWidth: 20,
+      barWidth: 15,
       barCategoryGap: '60%',
       data: data2.dataArr1
     }, {
       name: '准考证填写人数',
       type: 'bar',
-      barWidth: 20,
+      barWidth: 15,
       data: data2.dataArr2
     }, {
       name: '准考证填写占比',
