@@ -41,7 +41,8 @@ function commonOptions(params) {
       {
         axisLine: {
           lineStyle: {
-            color: '#bdc0c6'
+            color: '#bdc0c6',
+            fontSize:12
           }
         },
         axisLabel: {// 横坐标轴标签

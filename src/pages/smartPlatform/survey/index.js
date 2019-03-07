@@ -86,8 +86,8 @@ class Survey extends React.Component {
             {/* 图表 */}
             <Spin spinning={this.props.echartLoading}>
               <div className={styles.echartCls}>
-                <Echart update={option1} style={{ width: '46%', height: "510px" }} options={option1} />
-                <Echart update={option2} style={{ width: '46%', height: "510px" }} options={option2} />
+                <Echart update={option1} style={{ width: '49%', height: "510px" }} options={option1} />
+                <Echart update={option2} style={{ width: '49%', height: "510px" }} options={option2} />
               </div>
             </Spin>
           </div>
