@@ -11,6 +11,24 @@ import styles from '../style.less'
 import Message from 'antd/lib/message/index';
 import { connect } from 'dva/index';
 
+function listToString(obj) {
+  const result = DeepCopy(obj);
+  for (let key in result) {
+    if (key === 'familyIdList') {
+      result[key] = result[key].join(',');
+    }
+    if (key === 'familyNameList') {
+      result[key] = result[key].join(',');
+    }
+    if (key === 'collegeName') {
+      result[key] = result[key].join(',');
+    }
+    if (key === 'msgStatusList') {
+      result[key] = result[key].join(',');
+    }
+  }
+  return result;
+}
 @connect(({ dataDetail,loading }) => ({
   dataDetail,
   loading: loading.effects['dataDetail/getDetailData']
@@ -37,10 +55,13 @@ class ResultTable extends Component {
 
   handleOk = () => {
     const oldParam = this.props.dataDetail.params;
-    console.log(oldParam);
+    const newParam = listToString(oldParam);
+    if (!this.state.taskName) {
+      Message.warning('请填写名称');
+    }
     const obj = {
       taskName: this.state.taskName,
-      queryCondition: oldParam
+      queryCondition: newParam
     };
     this.props.dispatch({
       type: 'dataDetail/addTask',

@@ -33,6 +33,7 @@ export default {
     *getDetailData({ payload }, { call, put}) {
       const params = payload.params;
       const result = yield call(getDetailDataPage, params);
+      yield put({ type: 'save', payload: { params } });
       if (result.code === 20000) {
         if (result.data) {
           const dataa = result.data;

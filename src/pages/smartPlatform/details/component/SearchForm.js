@@ -24,11 +24,12 @@ function dataFilter(list) {
   const obj = {};
   const  checkedConditionList = DeepCopy(list);
   for (let key in checkedConditionList) {
-    // if ('provinceList' === key) {
-    //   obj[key] = checkedConditionList[key].keys.split(',');
-    // }
+    if (key === 'collegeId') {
+      obj['collegeName'] = checkedConditionList[key].labels.split(',');
+    }
     if ('familyIdList' === key) {
       obj[key] = checkedConditionList[key].keys.split(',');
+      obj['familyNameList'] = checkedConditionList[key].labels.split(',');
       obj[key].forEach((v,i) => {
         obj[key][i] = Number(obj[key][i]);
       })
@@ -143,6 +144,18 @@ class HorizontalLoginForm extends React.Component {
   };
 
   formValChange = (val, key) => {
+    console.log(val);
+    if (val === undefined) {
+      delete this.checkedConditionList[key];
+      if (key === 'collegeId') {
+        this.props.form.setFieldsValue({
+          familyIdList: undefined
+        });
+        delete this.checkedConditionList['familyIdList'];
+      }
+      this.props.updateCC(this.checkedConditionList);
+      return
+    }
     // 学院家族联动
     if (key === 'collegeId') {
       this.collegeList.forEach((v)=>{
@@ -151,7 +164,7 @@ class HorizontalLoginForm extends React.Component {
         }
       });
       this.props.form.setFieldsValue({
-        familyIdList: []
+        familyIdList: undefined
       })
     }
 
@@ -194,8 +207,9 @@ class HorizontalLoginForm extends React.Component {
       Message.warning('请选择考期');
       return
     }
-    const oldP = this.props.dataDetail.params;
     const obj = dataFilter(this.checkedConditionList);
+
+    const oldP = this.props.dataDetail.params;
     const { province } = oldP;
     obj.province = province;
     this.props.dispatch({
@@ -238,7 +252,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('exam', {
                   initialValue: this.state.exam,
                 })(
-                  <Select placeholder="考期" labelInValue onChange={(val) => this.formValChange(val,'exam')}>
+                  <Select allowClear placeholder="考期" labelInValue onChange={(val) => this.formValChange(val,'exam')}>
                     {this.examList.map(item => (
                       <Option key={item.examYearmonth}>
                         {item.exam}
@@ -254,7 +268,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('collegeId', {
                   initialValue: this.state.collegeId,
                 })(
-                  <Select placeholder="学院" labelInValue onChange={(val) => this.formValChange(val,'collegeId')}>
+                  <Select allowClear placeholder="学院" labelInValue onChange={(val) => this.formValChange(val,'collegeId')}>
                     {this.collegeList.map(item => (
                       <Option key={item.id}>
                         {item.name}
@@ -280,7 +294,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('orderStatus', {
                   initialValue: this.state.orderStatus,
                 })(
-                  <Select placeholder="订单状态" labelInValue onChange={(val) => this.formValChange(val,'orderStatus')}>
+                  <Select allowClear placeholder="订单状态" labelInValue onChange={(val) => this.formValChange(val,'orderStatus')}>
                     {BiFilter('ORDER_STATE').map(item => (
                       <Option value={item.id} key={item.name}>
                         {item.name}
@@ -293,7 +307,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('stuType', {
                   initialValue: this.state.stuType,
                 })(
-                  <Select placeholder="学员身份" labelInValue onChange={(val) => this.formValChange(val,'stuType')}>
+                  <Select allowClear placeholder="学员身份" labelInValue onChange={(val) => this.formValChange(val,'stuType')}>
                     {BiFilter('STUDENT_TYPE').map(item => (
                       <Option value={item.id} key={item.name}>
                         {item.name}
@@ -309,7 +323,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('admissionStatus', {
                   initialValue: this.state.admissionStatus,
                 })(
-                  <Select placeholder="准考证填写状态" labelInValue onChange={(val) => this.formValChange(val,'admissionStatus')}>
+                  <Select allowClear placeholder="准考证填写状态" labelInValue onChange={(val) => this.formValChange(val,'admissionStatus')}>
                     {BiFilter('TICKET_STATES').map(item => (
                       <Option value={item.id} key={item.name}>
                         {item.name}
@@ -524,7 +538,7 @@ class SearchForm extends Component {
               <div className={styles.searchBoxSeletected}>
                 <span className={styles.rowTitle}>已选条件：</span>
                 <div className={styles.row}>
-                  <span>{checkedBtn}</span>  <Button type="primary" style={{marginLeft:'20px'}} onClick={() => this.conditionAdd()}>保存查询条件</Button>
+                  <span style={{display: 'inline-flex'}} >{checkedBtn}</span>  <Button type="primary" style={{marginLeft:'20px'}} onClick={() => this.conditionAdd()}>保存查询条件</Button>
                 </div>
               </div>
             ):null
