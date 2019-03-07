@@ -52,6 +52,10 @@ class DetailsIndex extends React.Component {
     });
   };
   handlePropSubmit = (province) => {
+    if (!this.state.checkedConditionList.exam) {
+      Message.warning('请选择考期');
+      return
+    }
     const obj = dataFilter(this.state.checkedConditionList);
     const { provinceList } = this.props.dataDetail.params;
     obj.provinceList = province || provinceList || provinceJson[0].name;

@@ -174,12 +174,8 @@ class HorizontalLoginForm extends React.Component {
   };
 
   handleSubmit = (e) => {
-    console.log(e)
     e.preventDefault();
-    if (!this.checkedConditionList.exam) {
-      Message.warning('请选择考期');
-      return
-    }
+
     if (this.props.handlePropSubmit) {
       this.props.handlePropSubmit();
     }

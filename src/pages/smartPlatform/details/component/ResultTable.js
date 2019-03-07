@@ -164,13 +164,12 @@ class ResultTable extends Component {
   }
   render() {
     const dataSource = this.props.dataDetail.tableList;
-    const { totalPlan } = this.props.dataDetail;
     const { provinceName } = this.state;
     return (
       <>
         <div>
           <div className={styles.tableHead}>
-            <span className={styles.tableHeadLeft}>共搜出 {totalPlan} 条学员订单数据</span>
+            {/*<span className={styles.tableHeadLeft}>共搜出 {totalPlan} 条学员订单数据</span>*/}
             <span className={styles.tableHeadRight}>
               <Button type="primary" onClick={this.toTask}>任务列表</Button>
             </span>

@@ -7,7 +7,6 @@ export default {
   state: {
     tableList:[],
     total: 0,
-    totalPlan: 0,
     defaultCurrent: 1,
     defaultPageSize: 36,
     queryConditionList:[],
@@ -35,18 +34,13 @@ export default {
       const result = yield call(getDetailDataPage, params);
       yield put({ type: 'save', payload: { params } });
       if (result.code === 20000) {
-        if (result.data) {
-          const dataa = result.data;
-          let total = 0;
-          let totalPlan = 0;
-          message.success('查询成功');
-          total = dataa.dataList?dataa.dataList.length:0;
-          totalPlan = dataa.planNumTotalNum||0;
-          const tableList = result.data.dataList ? result.data.dataList:[];
-          yield put({ type: 'save', payload: { tableList,total,totalPlan,params } });
-        } else {
-          message.error('查询结果异常');
-        }
+        const tableList = result.data.reverse();
+        tableList.forEach((v,i)=>{
+          if (v.type!==1) {
+            tableList[i].province ='';
+          }
+        });
+        yield put({ type: 'save', payload: { tableList,params } });
       } else {
         message.error(result.msg);
       }
