@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Icon } from 'antd';
+import { Icon,Popconfirm} from 'antd';
 import Table from 'antd/lib/table';
 import Breadcrumb from 'antd/lib/breadcrumb';
 import Link from 'umi/link';
@@ -26,7 +26,7 @@ class Tasks extends Component {
 
   }
   componentDidMount(){
-    this.getData(this.state);
+    this.getData({});
   }
   getData = params =>{
     this.props.dispatch({
@@ -105,7 +105,9 @@ class Tasks extends Component {
           return (
             <>
               <Icon type="download" onClick={()=>{this.downloadFn(record)}} style={{marginRight:'8px'}} />
-              <Icon type="delete" onClick={()=>{this.deleteFn(record)}} />
+              <Popconfirm placement="topRight" title='确定删除该任务么' onConfirm={()=>this.deleteFn(record)} okText="确定" cancelText="取消">
+                <Icon type="delete" />
+              </Popconfirm>
             </>
           );
         },
