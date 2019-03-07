@@ -98,6 +98,7 @@ export default {
     *deleteQueryCondition({ payload }, { call, put }) {
       const result = yield call(deleteQueryCondition, payload.params);
       if (result.code === 20000) {
+        message.success("删除成功");
         yield put({ type: 'getQueryConditionList', payload: {params:{}} });
       } else {
         message.error(result.msg);
