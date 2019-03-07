@@ -8,7 +8,7 @@ import ChinaMap from './component/ChinaMap';
 import SearchForm from './component/SearchForm';
 import { chartOptions } from './component/EchartCommonOptions';
 
-@connect(({ survey,home, loading }) => ({
+@connect(({ survey, home, loading }) => ({
   survey,
   home,
   loading: loading.models.survey,
@@ -18,12 +18,12 @@ import { chartOptions } from './component/EchartCommonOptions';
 class Survey extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       // province:'',
       // collegeId:null,
       // familyId:null,
-      beginDate:"2019-01-01",
-      endDate:"2019-01-07"
+      beginDate: "2019-01-01",
+      endDate: "2019-01-07"
     };
 
   }
@@ -58,7 +58,7 @@ class Survey extends React.Component {
     this.queryHistogramData(param)
   };
   render() {
-    const { mapInfo,survey } = this.props;
+    const { mapInfo, survey } = this.props;
     const { option1, option2 } = chartOptions(survey);
 
     return (
