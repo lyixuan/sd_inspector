@@ -180,13 +180,18 @@ class ChinaMap extends Component {
             .on('click', this.onClick)
     }
     changeDrewTextColor = (data = {}) => {
-        d3.selectAll(`.${styles.cls19}`).style('fill', d => {
-            const { examineStatus } = data[d.id] || {};
-            return examineStatus === 3 ? 'red' : '#fff'
-        })
+        d3.selectAll(`.${styles.cls19}`)
             .style('font-size', d => {
                 const { examineStatus } = data[d.id] || {};
-                return examineStatus === 3 ? '25px' : '20px'
+                return examineStatus === 3 ? '20px' : '18px'
+            })
+            .style('stroke', d => {
+                const { examineStatus } = data[d.id] || {};
+                return examineStatus === 3 ? 'red' : '#fff'
+            })
+            .style('stroke-width', d => {
+                const { examineStatus } = data[d.id] || {};
+                return examineStatus === 3 ? '1.5' : '0'
             })
     }
     changePathColor = (data = {}) => {
