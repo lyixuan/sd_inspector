@@ -10,7 +10,10 @@ export const ADMIN_AUTH = 'admin_auth';
 // 当前用户信息
 export const ADMIN_USER = 'admin_user';
 // 静态文件host
-export const STATIC_HOST = 'http://172.16.117.65';
+export const STATIC_HOST = {
+  development: 'http://172.16.117.65',
+  production: 'http://bi-admin.ministudy.com/staticFile/classFile',
+}[process.env.PROXY_ENV];
 
 
 // 登录页面地址配置

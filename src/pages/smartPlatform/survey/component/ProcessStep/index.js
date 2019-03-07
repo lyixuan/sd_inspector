@@ -27,7 +27,7 @@ export default class ProcessStep extends PureComponent {
             const dateTime = beginDate + endDate ? `${beginDate}-${endDate}` : '暂未公布';
             const { stepStatus } = obj;     // 报考状态
             return (
-                <li className={stepStatus === 3 || stepStatus === 1 ? styles.stepItem2 : styles.stepItem1} key={item.id}>
+                <li className={stepStatus === 3 || stepStatus === 1 || stepStatus === -1 ? styles.stepItem2 : styles.stepItem1} key={item.id}>
                     {stepStatus === 3 ? <div className={styles.stepOver}>已结束</div> : null}
                     <h4 className={styles.processName} key={`${item.id}h4`}>{item.name}</h4>
                     <p className={styles.processDate} key={`${item.id}p`}>{dateTime}</p>
