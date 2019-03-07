@@ -34,13 +34,14 @@ export default {
       const result = yield call(getDetailDataPage, params);
       yield put({ type: 'save', payload: { params } });
       if (result.code === 20000) {
+        const total = result.data.length || 0;
         const tableList = result.data.reverse();
         tableList.forEach((v,i)=>{
           if (v.type!==1) {
             tableList[i].province ='';
           }
         });
-        yield put({ type: 'save', payload: { tableList,params } });
+        yield put({ type: 'save', payload: { tableList,params,total } });
       } else {
         message.error(result.msg);
       }
