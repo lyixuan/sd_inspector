@@ -1,54 +1,54 @@
 function commonOptions(params) {
-  const {text,legendData=[],series,xData=[],color,yAxis,itemGap=19,formatter} = params;
+  const { text, legendData = [], series, xData = [], color, yAxis, itemGap = 19, formatter } = params;
   return {
     title: {
       text,
-      x:'center',
-      textStyle:{
-        color:'#fff',
-        fontSize:18
+      x: 'center',
+      textStyle: {
+        color: '#fff',
+        fontSize: 18
       },
-      top:54,
+      top: 54,
     },
-    grid:{
-      top:166 ,
-      left:64,
-      height:234,
+    grid: {
+      top: 166,
+      left: 64,
+      height: 234,
     },
     legend: {
       bottom: 34,
-      textStyle:{
-        color:'#bdc0c6',
-        fontSize:12
+      textStyle: {
+        color: '#bdc0c6',
+        fontSize: 12
       },
       itemGap,
-      itemWidth:10,
-      itemHeight:10,
-      data:legendData
+      itemWidth: 10,
+      itemHeight: 10,
+      data: legendData
     },
     tooltip: {
       trigger: 'axis',
-      textStyle:{
-        align:'left',
+      textStyle: {
+        align: 'left',
         // color:'#103069',
         // fontSize:12,
       },
       formatter,
-      padding:15,
+      padding: 15,
       // backgroundColor:'rgba(255,255,255,0.8)' ,
     },
     xAxis: [
       {
-        axisLine:{
-          lineStyle:{
-            color:'#bdc0c6'
+        axisLine: {
+          lineStyle: {
+            color: '#bdc0c6'
           }
         },
-        axisLabel:{// 横坐标轴标签
-          interval:0
+        axisLabel: {// 横坐标轴标签
+          interval: 0
         },
-        axisTick:{
-          show:false,
+        axisTick: {
+          show: false,
         },
         type: 'category',
         data: xData,
@@ -61,15 +61,15 @@ function commonOptions(params) {
     color,
     series: [
       {
-        name:legendData[0].name,
+        name: legendData[0].name,
         ...series[0],
       },
       {
-        name:legendData[1].name,
+        name: legendData[1].name,
         ...series[1],
       },
       {
-        name:legendData[2].name,
+        name: legendData[2].name,
         ...series[2],
       },
     ],
@@ -88,22 +88,22 @@ export function chartOptions(data) {
   const { data1 = {}, data2 = {} } = dataList;
   console.log(data1)
   const params1 = {
-    text: '微信推送整体数据',
+    text: '报考通知数据概览',
     legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '推送人数', icon: 'rect' }, { name: '已读人数', icon: 'rect' }],
     xData: data1.dateArr,
     color: ['#1e93ff', "#7363ec", '#1ec47a'],
     formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}',
     series: [{
-      name:'考试计划人数',
+      name: '考试计划人数',
       type: 'bar',
       barCategoryGap: '40%',
       data: data1.dataArr1
     }, {
-      name:'推送人数',
+      name: '推送人数',
       type: 'bar',
       data: data1.dataArr2
     }, {
-      name:'已读人数',
+      name: '已读人数',
       type: 'bar',
       data: data1.dataArr3
     }],
@@ -139,16 +139,16 @@ export function chartOptions(data) {
     color: ['#1e93ff', "#fc595b", '#fc3676'],
     formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}%',
     series: [{
-      name:'考试计划人数',
+      name: '考试计划人数',
       type: 'bar',
       barCategoryGap: '60%',
       data: data2.dataArr1
     }, {
-      name:'准考证填写人数',
+      name: '准考证填写人数',
       type: 'bar',
       data: data2.dataArr2
     }, {
-      name:'准考证填写占比',
+      name: '准考证填写占比',
       type: 'line',
       yAxisIndex: 1,
       symbol: 'circle',
