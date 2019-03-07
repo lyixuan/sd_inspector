@@ -34,6 +34,7 @@ function dataFilter(list) {
   return obj;
 }
 
+// const provinceJson = BiFilter('provinceJson');
 
 @connect(({ dataDetail }) => ({
   dataDetail,
@@ -52,8 +53,8 @@ class DetailsIndex extends React.Component {
   };
   handlePropSubmit = (province) => {
     const obj = dataFilter(this.state.checkedConditionList);
-    const { province2 } = this.props.dataDetail.params;
-    obj.province = province || province2;
+    const { provinceList } = this.props.dataDetail.params;
+    obj.provinceList = province || provinceList;
     this.props.dispatch({
       type: 'dataDetail/getDetailData',
       payload: { params: obj },
@@ -68,13 +69,13 @@ class DetailsIndex extends React.Component {
         <RadioComponent path='/smartPlatform/details' />
         {/* 搜索部分 组件 */}
         <div className={styles.searchBox}>
-          <SearchForm updateCheckedConditions={(p) => this.updateCheckedConditions(p)} />
+          <SearchForm updateCheckedConditions={(p) => this.updateCheckedConditions(p)} handlePropSubmit={this.handlePropSubmit} />
         </div>
         {/* table上方'查询结果'标题 组件 */}
         <MyDeliver titleName="查询结果" />
         {/* table结果 组件 */}
         <div className={styles.tableBox}>
-          <ResultTable checkedConditionList={this.state.checkedConditionList} />
+          <ResultTable checkedConditionList={this.state.checkedConditionList} handlePropSubmit={this.handlePropSubmit} />
 
         </div>
       </div>

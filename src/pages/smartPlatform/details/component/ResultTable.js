@@ -67,7 +67,7 @@ const columns = [
     dataIndex: 'unreadNum',
   },
 ];
-@connect(({ dataDetail,loading }) => ({
+@connect(({ dataDetail, loading }) => ({
   dataDetail,
   loading: loading.effects['dataDetail/getDetailData']
 }))
@@ -154,19 +154,14 @@ class ResultTable extends Component {
     });
   };
   onSelectedProvince = (e, provinceName) => {
-    console.log(SearchForm)
-    // SearchForm.handleSubmit(e)
-    // const { dataDetail: { params } } = this.props;
-    // const { province, ...others } = params || {};
-    // console.log(this.props.dataDetail)
-    // if (province === provinceName) {
-    //   return;
-    // }
-    // this.setState({ provinceName });
-    // this.props.dispatch({
-    //   type: 'dataDetail/getDetailData',
-    //   payload: { params: { ...others, province: provinceName } },
-    // });
+    const { province } = this.state;
+    if (province === provinceName) {
+      return;
+    }
+    if (this.props.handlePropSubmit) {
+      this.props.handlePropSubmit({ province: provinceName })
+    }
+    this.setState({ provinceName });
   }
   render() {
     const dataSource = this.props.dataDetail.tableList;

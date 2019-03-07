@@ -180,7 +180,9 @@ class HorizontalLoginForm extends React.Component {
       Message.warning('请选择考期');
       return
     }
-    this.props.handlePropSubmit();
+    if (this.props.handlePropSubmit) {
+      this.props.handlePropSubmit();
+    }
   };
   render() {
     this.examList = this.props.dataDetail.examList;
