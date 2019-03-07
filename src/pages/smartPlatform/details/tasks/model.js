@@ -26,6 +26,7 @@ export default {
     *deleteTask({ payload }, { call, put }) {
       const result = yield call(deleteTask, {...payload});
       if (result.code === 20000) {
+        message.success('删除成功！');
         yield put(routerRedux.push('/smartPlatform/details/tasks'));
       } else {
         message.error(result.msg);

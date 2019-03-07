@@ -8,7 +8,6 @@ import Input from 'antd/lib/input';
 import styles from '../style.less'
 import Message from 'antd/lib/message/index';
 import { connect } from 'dva/index';
-import SearchForm from './SearchForm';
 
 function listToString(obj) {
   const result = DeepCopy(obj);

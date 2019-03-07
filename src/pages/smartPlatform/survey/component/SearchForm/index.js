@@ -60,7 +60,7 @@ const dateFormat = 'YYYY-MM-DD';
   };
   search = () =>{
     const { province, collegeId, familyId, beginDate, endDate} =  this.state;
-    const newPro = province==='报考省份'|| province==="所有省份"?'':province;
+    const newPro = province==='报考省份'|| province==="所有省份"?null:province;
     const newCol = collegeId!=='学院'?collegeId:null;
     const newFam = familyId!=='家族'?familyId:null;
 
@@ -85,7 +85,7 @@ const dateFormat = 'YYYY-MM-DD';
       newOrgList.map(item=>item.sub.unshift({name:'全部家族',id:null,sub:[]}));
     }
     if(provinceJson){
-      newProvinceJson.unshift({name:'所有省份',code:''});
+      newProvinceJson.unshift({name:'所有省份',code:null});
     }
     return {newOrgList,newProvinceJson}
   };

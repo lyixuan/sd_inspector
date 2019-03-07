@@ -5,7 +5,7 @@ import SearchForm from './component/SearchForm';
 import MyDeliver from '../components/Deliver';
 import styles from './style.less';
 import Message from 'antd/lib/message/index';
-import { DeepCopy } from '@/utils/utils';
+import { DeepCopy, BiFilter } from '@/utils/utils';
 import { connect } from 'dva/index';
 
 function dataFilter(list) {
@@ -34,7 +34,7 @@ function dataFilter(list) {
   return obj;
 }
 
-// const provinceJson = BiFilter('provinceJson');
+const provinceJson = BiFilter('provinceJson');
 
 @connect(({ dataDetail }) => ({
   dataDetail,
@@ -54,7 +54,7 @@ class DetailsIndex extends React.Component {
   handlePropSubmit = (province) => {
     const obj = dataFilter(this.state.checkedConditionList);
     const { provinceList } = this.props.dataDetail.params;
-    obj.provinceList = province || provinceList;
+    obj.provinceList = province || provinceList || provinceJson[0].name;
     this.props.dispatch({
       type: 'dataDetail/getDetailData',
       payload: { params: obj },
