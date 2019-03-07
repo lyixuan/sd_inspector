@@ -6,10 +6,11 @@ function dealData(data, dataItem) {
   const dataObj = { dateArr: []};
   dataItem.map((item,i)=>dataObj[`dataArr${[i+1]}`]=[]);
   data.forEach(item => {
-    dataObj.dateArr.push(item.date);
+
+    dataObj.dateArr.push(item.date.split("-").join('/'));
     dataItem.forEach((item1,index1)=>{
       let val = item[dataItem[index1]];
-      if('admissionFillRatio' === dataItem[index1]){
+      if('admissionFillRatio' === dataItem[index1] ||'reachRatio' === dataItem[index1]){
         val = (val*100).toFixed(2);
       }
       dataObj[`dataArr${[index1+1]}`].push(val);
@@ -60,7 +61,7 @@ export default {
       //   return Date.parse(a.date) - Date.parse(b.date);//时间正序
       // });
      // console.log(JSON.stringify(dataList) === "{}") ;
-      const data1 =dataList[1]? dealData(dataList[1], ['examPlanNum', 'pushNum', 'readNum']):{};
+      const data1 =dataList[1]? dealData(dataList[1], ['examPlanNum', 'pushNum', 'readNum','reachRatio']):{};
       const data2 =dataList[2]? dealData(dataList[2], ['examPlanNum', 'admissionFillNum', 'admissionFillRatio']):{};
       return { ...state, dataList: { data1, data2 } };
     },

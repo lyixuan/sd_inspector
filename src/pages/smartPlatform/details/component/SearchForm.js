@@ -19,6 +19,7 @@ const confirm = Modal.confirm;
 let isEdit = false; // 判断是重置后的新增，还是选择了查询条件的编辑
 let editId = undefined;
 let editName = undefined;
+let menuCheckedName = '我的查询条件';
 @connect(({ home, dataDetail }) => ({
   home,
   dataDetail,
@@ -35,7 +36,6 @@ class HorizontalLoginForm extends React.Component {
       stuType: undefined,
       admissionStatus: undefined,
       msgState: undefined,
-      menuCheckedName: '我的查询条件',
     };
     this.examList = [];
     this.collegeList = [];
@@ -107,9 +107,7 @@ class HorizontalLoginForm extends React.Component {
       familyIdList: arr,
     });
 
-    this.setState({
-      menuCheckedName: val.paramName,
-    });
+    menuCheckedName = val.paramName;
     this.props.updateCC(this.checkedConditionList);
     isEdit = true;  // 点击我的查询条件后，保存时是编辑
     editId = val.id;
@@ -190,11 +188,15 @@ class HorizontalLoginForm extends React.Component {
       <Menu>
         {
           this.conditionList.length > 0 ?
-            this.conditionList.map(item => (
-              <Menu.Item key={item.id}>
-                <span onClick={() => this.menuCheck(item)} >{item.paramName}</span><Icon onClick={() => this.menuDel(item.id)} style={{ marginLeft: '5px' }} type="delete" />  <Icon onClick={() => this.menuEdit(item)} type="edit" />
-              </Menu.Item>
-            )) : (
+            this.conditionList.map(item => {
+              if (item.id !== editId) {
+                return (
+                  <Menu.Item key={item.id}>
+                    <span onClick={() => this.menuCheck(item)} >{item.paramName}</span><Icon onClick={() => this.menuDel(item.id)} style={{ marginLeft: '5px' }} type="delete" />  <Icon onClick={() => this.menuEdit(item)} type="edit" />
+                  </Menu.Item>
+                  )
+              }
+            }) : (
               <Menu.Item>
                 <span>暂无数据</span>
               </Menu.Item>
@@ -319,7 +321,7 @@ class HorizontalLoginForm extends React.Component {
               <Form.Item label="&nbsp;">
                 <Dropdown overlay={menu}>
                   <Button>
-                    {this.state.menuCheckedName} <Icon type="down" />
+                    {menuCheckedName} <Icon type="down" />
                   </Button>
                 </Dropdown>
               </Form.Item>
@@ -354,10 +356,6 @@ class SearchForm extends Component {
       checkedConditionList: {},
     };
     this.tId = undefined;
-    SearchForm.saveParams = this;
-  }
-  saveParams = () => {
-    console.log(this.state.checkedConditionList);
   }
   updateCheckedConditions = (val) => {
     this.setState({
@@ -461,6 +459,9 @@ class SearchForm extends Component {
         type: 'dataDetail/updateQueryCondition',
         payload: { params: obj2 },
       });
+      if (this.tId === editId) {
+        menuCheckedName = this.state.conditionName;
+      }
     }
     this.setState({
       visible: false,
