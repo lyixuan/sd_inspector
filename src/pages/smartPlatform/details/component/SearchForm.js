@@ -56,8 +56,22 @@ class HorizontalLoginForm extends React.Component {
     });
   }
 
-  menuDel = (e) => {
-    this.props.menuDel(e);
+  menuDel = (id) => {
+    const that = this;
+    confirm({
+      title: '是否删除当前查询条件?',
+      onOk() {
+        that.props.dispatch({
+          type: 'dataDetail/deleteQueryCondition',
+          payload: { params: { id } },
+        });
+        if (id === editId) {
+          menuCheckedName = '我的查询条件';
+        }
+        that.handleReset();
+      },
+      onCancel() { },
+    });
   };
 
   menuEdit = (e) => {
@@ -160,6 +174,27 @@ class HorizontalLoginForm extends React.Component {
     } else {
       delete this.checkedConditionList[key];
     }
+    const obj = {
+      exam: undefined,
+      collegeId: undefined,
+      familyIdList: undefined,
+      orderStatus: undefined,
+      stuType: undefined,
+      admissionStatus: undefined,
+      msgStatusList: undefined,
+    };
+    for (let key in obj) {
+      for (let key2 in this.checkedConditionList) {
+        if (key === key2) {
+          if (this.checkedConditionList[key2]) {
+            obj[key] = this.checkedConditionList[key2];
+          } else {
+            delete obj[key];
+          }
+        }
+      }
+    }
+    this.checkedConditionList = {...obj};
     this.props.updateCC(this.checkedConditionList);
   };
 
@@ -173,7 +208,6 @@ class HorizontalLoginForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
     if (this.props.handlePropSubmit) {
       this.props.handlePropSubmit();
     }
@@ -188,15 +222,11 @@ class HorizontalLoginForm extends React.Component {
       <Menu>
         {
           this.conditionList.length > 0 ?
-            this.conditionList.map(item => {
-              if (item.id !== editId) {
-                return (
-                  <Menu.Item key={item.id}>
-                    <span onClick={() => this.menuCheck(item)} >{item.paramName}</span><Icon onClick={() => this.menuDel(item.id)} style={{ marginLeft: '5px' }} type="delete" />  <Icon onClick={() => this.menuEdit(item)} type="edit" />
-                  </Menu.Item>
-                  )
-              }
-            }) : (
+            this.conditionList.map(item => (
+              <Menu.Item key={item.id}>
+                <span onClick={() => this.menuCheck(item)} >{item.paramName}</span><Icon onClick={() => this.menuDel(item.id)} style={{ marginLeft: '5px' }} type="delete" />  <Icon onClick={() => this.menuEdit(item)} type="edit" />
+              </Menu.Item>
+            )) : (
               <Menu.Item>
                 <span>暂无数据</span>
               </Menu.Item>
@@ -364,20 +394,6 @@ class SearchForm extends Component {
     this.props.updateCheckedConditions(val)
   };
 
-  conditionDel = (id) => {
-    const that = this;
-    confirm({
-      title: '是否删除当前查询条件?',
-      onOk() {
-        that.props.dispatch({
-          type: 'dataDetail/deleteQueryCondition',
-          payload: { params: { id } },
-        });
-      },
-      onCancel() { },
-    });
-  };
-
   conditionEdit = (item) => {
     this.setState({
       visible: true,
@@ -494,7 +510,6 @@ class SearchForm extends Component {
           <WrappedHorizontalLoginForm
             {...this.props}
             updateCC={(p) => this.updateCheckedConditions(p)}
-            menuDel={(id) => this.conditionDel(id)}
             menuEdit={(item) => this.conditionEdit(item)}
           />
           {
