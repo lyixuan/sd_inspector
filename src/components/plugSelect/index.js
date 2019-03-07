@@ -13,46 +13,47 @@ class PlugSelect extends React.Component {
     const value = props.value || {};
     console.log(props);
     this.state = {
-      selected: value.selected || [],
+      selected1: value.selected || [],
     };
   }
 
   handleCurrencyChange = (currency) => {
+    const selected1 = [...this.state.selected1, ...currency];
     if (!('value' in this.props)) {
-      this.setState({ currency });
+      this.setState({ selected1 });
     }
-    this.triggerChange({ currency });
+    this.triggerChange({ selected1 });
   };
 
   triggerChange = (changedValue) => {
     // Should provide an event to pass value to Form.
     const onChange = this.props.onChange;
+    console.log(this.props)
     if (onChange) {
-      onChange(Object.assign({}, this.state, changedValue));
+      onChange(changedValue);
     }
   };
 
   render() {
-    const { placeholder,size, options } = this.props;
+    const { placeholder, size, options } = this.props;
     const { selected } = this.state;
-    console.log(selected);
     return (
       <span>
-          <Select
-            placeholder={placeholder}
-            mode="multiple"
-            showArrow={true}
-            maxTagCount={1}
-            value={selected}
-            onChange={this.handleCurrencyChange}
-            size={size}
-          >
-            {options.map(item => {
-              return (
-                <Option value={item.id} key={item.id}>{item.name}</Option>
-              );
-            })}
-          </Select>
+        <Select
+          placeholder={placeholder}
+          mode="multiple"
+          showArrow={true}
+          maxTagCount={2}
+          value={selected}
+          onChange={this.handleCurrencyChange}
+          size={size}
+        >
+          {options.map(item => {
+            return (
+              <Option value={item.id} key={item.id}>{item.name}</Option>
+            );
+          })}
+        </Select>
       </span>
     );
   }
@@ -61,11 +62,11 @@ class PlugSelect extends React.Component {
 PlugSelect.propTypes = {
   placeholder: PropTypes.any,
   mode: PropTypes.string,
-  showArrow:PropTypes.any,
-  maxTagCount:PropTypes.any,
+  showArrow: PropTypes.any,
+  maxTagCount: PropTypes.any,
   value: PropTypes.any,
   onChange: PropTypes.func,
   multiple: PropTypes.bool,
-  size:PropTypes.any,
+  size: PropTypes.any,
 };
 export default PlugSelect;
