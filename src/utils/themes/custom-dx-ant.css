@@ -170,6 +170,16 @@ ul{
   background-color: #1683FB;
 }
 
+.ant-select-selection__clear {
+  background-color: #0C172E;
+  color: #1683FB;
+}
+
+.ant-select-selection__clear:hover {
+  background-color: #0C172E;
+  color: #1683FB;
+}
+
 /* ===========================  table ===========================  */
 .ant-table {
   color: #fff;
