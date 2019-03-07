@@ -111,6 +111,7 @@ class ResultTable extends Component {
     const newParam = listToString(oldParam);
     if (!this.state.taskName) {
       Message.warning('请填写名称');
+      return
     }
     const obj = {
       taskName: this.state.taskName,
