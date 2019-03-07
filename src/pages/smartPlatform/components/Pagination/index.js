@@ -10,14 +10,13 @@
 * */
 import React, { Component } from 'react';
 import Pagination from 'antd/lib/pagination';
-// import common from '../../routes/Common/common.css';
 
 class Index extends Component {
   render() {
     const {
       defaultCurrent,
       defaultPageSize,
-      // pageSizeOptions,
+      pageSizeOptions,
       total,
       onChange,
       onShowSizeChange,
@@ -27,14 +26,14 @@ class Index extends Component {
     return isShowPage ? (
       <Pagination
         showQuickJumper
-        // className={common.paginationStyle}
+        showSizeChanger
         showTotal={total => `共 ${total} 条`}
         onChange={onChange}
         onShowSizeChange={onShowSizeChange}
         current={defaultCurrent || 1}
         total={total || 0}
         defaultPageSize={defaultPageSize || 36}
-        // pageSizeOptions={pageSizeOptions || ['36','50','100']}
+        pageSizeOptions={pageSizeOptions || ['36','50','100']}
       />
     ) : null;
   }

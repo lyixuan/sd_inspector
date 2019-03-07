@@ -236,6 +236,9 @@ ul{
 }
 .ant-pagination-options-quick-jumper input {
   border-color: #0080FF;
+  background-color: #0c162f;
+  color: #fff;
+  text-align: center;
 }
 
 .ant-table-placeholder {
