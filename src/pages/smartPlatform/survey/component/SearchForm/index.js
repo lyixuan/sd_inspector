@@ -27,13 +27,13 @@ const dateFormat = 'YYYY-MM-DD';
 
   // 选择框修改
   handleChange = (value,id)=> {
-    const {orgList} = this.props.home;
+    const {newOrgList} = this.newData();
     if(id === 'province'){
       this.setState({
         province:value,
       });
     }else if(id === 'college'){
-      const familyData = orgList.filter(item => item.id===value)[0].sub ;
+      const familyData = newOrgList.filter(item => item.id===value)[0].sub ;
       this.setState({
         collegeId:value,
         familyId:familyData[0].id,

@@ -59,8 +59,9 @@ export default {
       //  admissionData = admissionData.sort(function (a, b) {
       //   return Date.parse(a.date) - Date.parse(b.date);//时间正序
       // });
-      const data1 = dealData(dataList[1], ['examPlanNum', 'pushNum', 'readNum']);
-      const data2 = dealData(dataList[2], ['examPlanNum', 'admissionFillNum', 'admissionFillRatio']);
+     // console.log(JSON.stringify(dataList) === "{}") ;
+      const data1 =dataList[1]? dealData(dataList[1], ['examPlanNum', 'pushNum', 'readNum']):{};
+      const data2 =dataList[2]? dealData(dataList[2], ['examPlanNum', 'admissionFillNum', 'admissionFillRatio']):{};
       return { ...state, dataList: { data1, data2 } };
     },
     saveMapInfo(state, { payload }) {
