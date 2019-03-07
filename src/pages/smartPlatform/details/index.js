@@ -8,20 +8,7 @@ import styles from './style.less';
 class DetailsIndex extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      checkedConditionList: {},
-      paging:{
-        current:1,
-        pageSize:36
-      }
-    };
   }
-  updateCheckedConditions = (val) => {
-    console.log('updateCheckedConditions 11111111', val);
-    this.setState({
-      checkedConditionList: val,
-    });
-  };
   render() {
     return (
       <div className={styles.container}>
@@ -29,13 +16,13 @@ class DetailsIndex extends React.Component {
         <RadioComponent path='/smartPlatform/details' />
         {/* 搜索部分 组件 */}
         <div className={styles.searchBox}>
-          <SearchForm updateCheckedConditions={(p)=>this.updateCheckedConditions(p)}/>
+          <SearchForm/>
         </div>
         {/* table上方'查询结果'标题 组件 */}
         <MyDeliver titleName="查询结果"/>
         {/* table结果 组件 */}
         <div className={styles.tableBox}>
-          <ResultTable checkedConditionList={this.state.checkedConditionList}/>
+          <ResultTable/>
         </div>
       </div>
     );

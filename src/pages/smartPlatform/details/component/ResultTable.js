@@ -79,10 +79,11 @@ class ResultTable extends Component {
   };
 
   handleOk = () => {
-    console.log(this.props.checkedConditionList);
+    const oldParam = this.props.dataDetail.params;
+    console.log(oldParam);
     const obj = {
       taskName: this.state.taskName,
-      queryCondition: this.props.checkedConditionList
+      queryCondition: oldParam
     };
     this.props.dispatch({
       type: 'dataDetail/addTask',
@@ -101,8 +102,13 @@ class ResultTable extends Component {
   };
 
   addTask = () => {
-    if (!this.props.checkedConditionList.exam) {
-      Message.warning('请选择考期');
+    const {params,total} = this.props.dataDetail;
+    if (JSON.stringify(params) == "{}") {
+      Message.warning('请查询后再添加下载任务');
+      return
+    }
+    if (total===0) {
+      Message.warning('查询数据结果为空');
       return
     }
     this.setState({

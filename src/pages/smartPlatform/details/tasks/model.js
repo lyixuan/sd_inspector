@@ -6,17 +6,18 @@ export default {
   namespace: 'detail',
 
   state: {
-    tableList:[]
+    tableList:[],
+    total:0,
   },
 
   effects: {
     // 任务列表
     *getTaskPage({ payload }, { call, put }) {
-      console.log({...payload})
       const result = yield call(getTaskPage,{...payload});
       const tableList = result.data?result.data.list : [];
+      const total = result.data?result.data.total : [];
       if (result.code === 20000) {
-        yield put({ type: 'saveLsit', payload: { tableList } });
+        yield put({ type: 'saveLsit', payload: { tableList,total} });
       } else {
         message.error(result.msg);
       }

@@ -30,23 +30,22 @@ export default {
       }
     },
     // 数据明细查询结果
-    *getDetailData({ payload }, { call, put, select}) {
-      // const oldParams = yield select(state => state.dataDetail.params);
-      // const params = Object.assign(oldParams,payload.params);
-      const result = yield call(getDetailDataPage, payload.params);
-      let total = 0;
-      let totalPlan = 0;
-      // let defaultCurrent = 1;
-      // let defaultPageSize = 36;
-      if (result.data) {
-        total = result.data.dataList.length;
-        totalPlan = result.data.planNumTotalNum;
-        // defaultCurrent = result.data.pageNum;
-        // defaultPageSize = result.data.pageSize;
-      }
-      const tableList = result.data ? result.data.dataList : [];
-      if (result && result.code === 20000) {
-        yield put({ type: 'save', payload: { tableList,total,totalPlan } });
+    *getDetailData({ payload }, { call, put}) {
+      const params = payload.params;
+      const result = yield call(getDetailDataPage, params);
+      if (result.code === 20000) {
+        if (result.data) {
+          const dataa = result.data;
+          let total = 0;
+          let totalPlan = 0;
+          message.success('查询成功');
+          total = dataa.dataList?dataa.dataList.length:0;
+          totalPlan = dataa.planNumTotalNum||0;
+          const tableList = result.data.dataList ? result.data.dataList:[];
+          yield put({ type: 'save', payload: { tableList,total,totalPlan,params } });
+        } else {
+          message.error('查询结果异常');
+        }
       } else {
         message.error(result.msg);
       }
@@ -76,8 +75,14 @@ export default {
     },
     // 添加查询条件
     *addQueryCondition({ payload }, { call, put }) {
+      const con = yield call(getQueryConditionList, {});
+      if (con.code===20000 && con.data.length >=5) {
+        message.success('最多保存5个条件');
+        return
+      }
       const result = yield call(addQueryCondition, payload.params);
       if (result.code === 20000) {
+        message.success('保存成功');
         yield put({ type: 'getQueryConditionList', payload: {params:{}} });
       } else {
         message.error(result.msg);
@@ -87,6 +92,7 @@ export default {
     *updateQueryCondition({ payload }, { call, put }) {
       const result = yield call(updateQueryCondition, payload.params);
       if (result.code === 20000) {
+        message.success('修改成功');
         yield put({ type: 'getQueryConditionList', payload: {params:{}} });
       } else {
         message.error(result.msg);
