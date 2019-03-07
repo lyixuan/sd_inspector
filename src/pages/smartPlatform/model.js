@@ -16,7 +16,7 @@ export default {
       const result = yield call(getOrgInfo, {...payload});
       const orgList = result.data || [];
       if (result && result.code === 20000) {
-        yield put({ type: 'saveData', payload: { orgList } });
+        yield put({ type: 'save', payload: { orgList } });
       } else {
         message.error(result.msg);
       }
@@ -30,22 +30,11 @@ export default {
       }
     },
     *getProvinceJson({ payload }, { _, put }) {
-      yield put({ type: 'saveData', payload: { provinceJson } });
+      yield put({ type: 'save', payload: { provinceJson } });
     },
   },
 
   reducers: {
-    saveData(state, {payload}) {
-      const{orgList,provinceJson} = payload;
-      if(orgList){
-        orgList.unshift({name:'全部学院',id:null,sub:[]});
-        orgList.map(item=>item.sub.unshift({name:'全部家族',id:null,sub:[]}));
-      }
-      if(provinceJson){
-        provinceJson.unshift({name:'所有省份',code:''});
-      }
-      return { ...state, ...payload };
-    },
     save(state, action) {
       return { ...state, ...action.payload };
     },

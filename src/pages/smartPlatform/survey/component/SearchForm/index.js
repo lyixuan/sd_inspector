@@ -77,16 +77,28 @@ const dateFormat = 'YYYY-MM-DD';
       familyData:[]
     })
   };
+  newData = ()=>{
+    const {orgList,provinceJson} = this.props.home;
+    let newOrgList=JSON.parse(JSON.stringify(orgList)),newProvinceJson=JSON.parse(JSON.stringify(provinceJson));
+    if(orgList){
+      newOrgList.unshift({name:'全部学院',id:null,sub:[]});
+      newOrgList.map(item=>item.sub.unshift({name:'全部家族',id:null,sub:[]}));
+    }
+    if(provinceJson){
+      newProvinceJson.unshift({name:'所有省份',code:''});
+    }
+    return {newOrgList,newProvinceJson}
+  };
   render(){
     const { province, collegeId, familyId, beginDate, endDate,familyData} =  this.state;
-    const {orgList,provinceJson} = this.props.home;
+    const {newOrgList,newProvinceJson} = this.newData();
 
     return (
       <>
         <div>
           <span className={styles.searchTxt}>查询条件：</span>
-          <Select options={provinceJson} defaultValue={province} id='province' handleChange={this.handleChange} showName/>
-          <Select options={orgList} defaultValue={collegeId} id='college' handleChange={this.handleChange} value='id' />
+          <Select options={newProvinceJson} defaultValue={province} id='province' handleChange={this.handleChange} showName/>
+          <Select options={newOrgList} defaultValue={collegeId} id='college' handleChange={this.handleChange} value='id' />
           <Select options={familyData} defaultValue={familyId} id='family' handleChange={this.handleChange} value='id' />
           <RangePicker
             placeholder={['开始时间','结束时间']}
