@@ -73,7 +73,7 @@ export default {
     *addQueryCondition({ payload }, { call, put }) {
       const con = yield call(getQueryConditionList, {});
       if (con.code===20000 && con.data.length >=5) {
-        message.success('最多保存5个条件');
+        message.warn('保存失败！最多保存5个条件');
         return
       }
       const result = yield call(addQueryCondition, payload.params);
@@ -98,6 +98,7 @@ export default {
     *deleteQueryCondition({ payload }, { call, put }) {
       const result = yield call(deleteQueryCondition, payload.params);
       if (result.code === 20000) {
+        message.success("删除成功");
         yield put({ type: 'getQueryConditionList', payload: {params:{}} });
       } else {
         message.error(result.msg);

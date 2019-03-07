@@ -225,14 +225,14 @@ class ChinaMap extends Component {
         if (!data) {
             return
         }
-        d3.select(`#${data.id}`).raise()
+        d3.select(`#${data.id}`).raise();
+        d3.select(`#${ChinaMap.that.selectedProvince}`).raise();   // 对点击元素进行置顶
         const allPath = d3.selectAll('.state');
         allPath.style('stroke', d => {
-            return d.id === data.id ? '#caf3fe' : '#0bb4f9'
+            return d.id === data.id || d.id === ChinaMap.that.selectedProvince ? '#caf3fe' : '#0bb4f9'
         })
     }
     onMouseover(d, i) {
-        d3.select(this).raise()
         ChinaMap.that.changePathStroke(this);
         if (tip.show) {
             tip.show(d3.event);
@@ -243,7 +243,9 @@ class ChinaMap extends Component {
     }
     onMouseout(d, i) {
         const allPath = d3.selectAll('.state');
-        allPath.style('stroke', '#0bb4f9');
+        allPath.style('stroke', d => {
+            return d.id === ChinaMap.that.selectedProvince ? '#caf3fe' : '#0bb4f9'
+        })
         if (tip.hide) {
             tip.hide();
         } else {
@@ -253,7 +255,9 @@ class ChinaMap extends Component {
     onClick() {
         const obj = d3.select(this).datum();
         if (!obj) return;
+        d3.select(this).raise();
         ChinaMap.that.selectedProvince = obj.id;
+        ChinaMap.that.changePathStroke(this);
         ChinaMap.that.handleProvinceStep(obj.id);
 
     }

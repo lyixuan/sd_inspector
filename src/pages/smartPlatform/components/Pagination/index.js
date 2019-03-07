@@ -32,8 +32,8 @@ class Index extends Component {
         onShowSizeChange={onShowSizeChange}
         current={defaultCurrent || 1}
         total={total || 0}
-        defaultPageSize={defaultPageSize || 36}
-        pageSizeOptions={pageSizeOptions || ['36','50','100']}
+        defaultPageSize={defaultPageSize || 10}
+        pageSizeOptions={pageSizeOptions || ['10','20','50']}
       />
     ) : null;
   }
