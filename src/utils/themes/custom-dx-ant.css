@@ -360,4 +360,7 @@ ul{
   height: 25px;
 }
 
-
+/* =========================== empty ===========================  */
+.ant-empty-description{
+  color: #fff;
+}
