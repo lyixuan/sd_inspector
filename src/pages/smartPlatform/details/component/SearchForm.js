@@ -515,6 +515,8 @@ class SearchForm extends Component {
         <Modal
           title={this.state.titleType === 1 ? '添加查询条件' : '编辑查询条件'}
           visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
           footer={[
             <Button size="small" onClick={this.handleCancel}>取消</Button>,
             <Button size="small" type="primary" onClick={this.handleOk}>

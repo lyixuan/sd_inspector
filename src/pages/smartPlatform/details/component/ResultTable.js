@@ -193,6 +193,8 @@ class ResultTable extends Component {
         <Modal
           title='添加下载任务'
           visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
           footer={[
             <Button size="small" onClick={this.handleCancel}>取消</Button>,
             <Button size="small" type="primary" onClick={this.handleOk}>
