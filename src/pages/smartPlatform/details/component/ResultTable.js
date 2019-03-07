@@ -7,6 +7,7 @@ import Modal from 'antd/lib/modal';
 import Input from 'antd/lib/input';
 import styles from '../style.less'
 import Message from 'antd/lib/message/index';
+import config from '../../../../../config/config';
 import { connect } from 'dva/index';
 
 function listToString(obj) {
@@ -95,10 +96,14 @@ class ResultTable extends Component {
     // 获取数据
   }
   toTask = () => {
-    router.push({
-      pathname: '/smartPlatform/details/tasks',
-      // query: this.props.checkedConditionList,
-    });
+    const origin = window.location.origin;
+    const url = `${origin}${config.base}smartPlatform/details/tasks`
+    window.open(url)
+
+    // router.push({
+    //   pathname: '/smartPlatform/details/tasks',
+    //   // query: this.props.checkedConditionList,
+    // });
   };
 
   handleOk = () => {
