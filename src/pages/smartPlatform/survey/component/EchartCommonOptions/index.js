@@ -12,7 +12,7 @@ function commonOptions(params) {
     },
     grid: {
       top: 166,
-      // left: 64,
+      left: 64,
       height: 234,
     },
     legend: {
@@ -133,7 +133,7 @@ export function chartOptions(data) {
         formatter: '{value} %'
       }
     }],
-    // itemGap: 52,
+    itemGap: 30,
   };
   const params2 = {
     text: '准考证填写趋势',

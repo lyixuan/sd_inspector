@@ -18,7 +18,7 @@ class Tasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pageNum: 1,
+      page: 1,
       pageSize: 10
     };
   }
@@ -62,13 +62,13 @@ class Tasks extends Component {
     a.click();
   };
   // 点击某一页函数
-  changePage = (pageNum, size) => {
+  changePage = (page, size) => {
     this.getData({
       pageSize: size,
-      pageNum,
+      page,
     });
     this.setState({
-      pageNum: pageNum,
+      page: page,
     });
   };
 
@@ -141,7 +141,7 @@ class Tasks extends Component {
       },
     ];
     const { tableList, total } = this.props.detail;
-    const { pageNum } = this.state;
+    const { page } = this.state;
     return (
       <>
         <div className={styles.breadcrumb}>
@@ -163,7 +163,7 @@ class Tasks extends Component {
             onShowSizeChange={(current, pageSize) => {
               this.onShowSizeChange(current, pageSize);
             }}
-            defaultCurrent={pageNum}
+            defaultCurrent={page}
             total={total}
           />
         </div>
