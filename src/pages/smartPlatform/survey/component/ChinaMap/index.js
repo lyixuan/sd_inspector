@@ -238,7 +238,7 @@ class ChinaMap extends Component {
     }
     onMouseout(d, i) {
         const allPath = d3.selectAll('.state');
-        allPath.style('stroke', '#0bb4f9')
+        allPath.style('stroke', '#0bb4f9');
         if (tip.hide) {
             tip.hide();
         } else {
@@ -248,6 +248,7 @@ class ChinaMap extends Component {
     onClick() {
         const obj = d3.select(this).datum();
         if (!obj) return;
+        ChinaMap.that.selectedProvince = obj.id;
         ChinaMap.that.handleProvinceStep(obj.id);
 
     }
