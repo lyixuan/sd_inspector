@@ -91,7 +91,6 @@ class HorizontalLoginForm extends React.Component {
   };
 
   menuCheck = (val) => {
-    console.log('a111',val);
     this.checkedConditionList = {};
     val.exam ? this.checkedConditionList.exam = {keys:val.exam,labels:val.exam2}:'';
     val.collegeId ? this.checkedConditionList.collegeId = {keys:val.collegeId,labels:val.collegeName}:'';
@@ -144,7 +143,6 @@ class HorizontalLoginForm extends React.Component {
   };
 
   formValChange = (val, key) => {
-    console.log(val);
     if (val === undefined) {
       delete this.checkedConditionList[key];
       if (key === 'collegeId') {
@@ -395,10 +393,10 @@ class SearchForm extends Component {
   }
 
   updateCheckedConditions = (val) => {
-    console.log('updateCheckedConditions', val);
     this.setState({
       checkedConditionList: val,
     });
+    this.props.updateCheckedConditions(val)
   };
 
   conditionDel = (id) => {
@@ -416,7 +414,6 @@ class SearchForm extends Component {
   };
 
   conditionEdit = (item) => {
-    console.log(item.paramName);
     this.setState({
       visible: true,
       titleType: 2,
@@ -504,8 +501,7 @@ class SearchForm extends Component {
     });
   };
 
-  handleCancel = (e) => {
-    console.log(e);
+  handleCancel = () => {
     this.setState({
       visible: false,
     });
