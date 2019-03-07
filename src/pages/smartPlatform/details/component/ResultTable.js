@@ -5,11 +5,10 @@ import router from 'umi/router';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 import Modal from 'antd/lib/modal';
 import Input from 'antd/lib/input';
-
-
 import styles from '../style.less'
 import Message from 'antd/lib/message/index';
 import { connect } from 'dva/index';
+import SearchForm from './SearchForm';
 
 const provinces = BiFilter('provinceJson');
 const columns = [
@@ -102,12 +101,12 @@ class ResultTable extends Component {
   };
 
   addTask = () => {
-    const {params,total} = this.props.dataDetail;
+    const { params, total } = this.props.dataDetail;
     if (JSON.stringify(params) == "{}") {
       Message.warning('请查询后再添加下载任务');
       return
     }
-    if (total===0) {
+    if (total === 0) {
       Message.warning('查询数据结果为空');
       return
     }
@@ -134,17 +133,20 @@ class ResultTable extends Component {
       payload: { params: { pageNum: 1, pageSize: pageSize } },
     });
   };
-  onSelectedProvince = (provinceName) => {
-    const { dataDetail: { params } } = this.props;
-    const { province, ...others } = params || {};
-    if (province === provinceName) {
-      return;
-    }
-    this.setState({ provinceName });
-    this.props.dispatch({
-      type: 'dataDetail/getDetailData',
-      payload: { params: { ...others, province: provinceName } },
-    });
+  onSelectedProvince = (e, provinceName) => {
+    console.log(SearchForm)
+    // SearchForm.handleSubmit(e)
+    // const { dataDetail: { params } } = this.props;
+    // const { province, ...others } = params || {};
+    // console.log(this.props.dataDetail)
+    // if (province === provinceName) {
+    //   return;
+    // }
+    // this.setState({ provinceName });
+    // this.props.dispatch({
+    //   type: 'dataDetail/getDetailData',
+    //   payload: { params: { ...others, province: provinceName } },
+    // });
   }
   render() {
     const dataSource = this.props.dataDetail.tableList;
@@ -168,7 +170,7 @@ class ResultTable extends Component {
             {provinces.map(item => <span
               key={item.code}
               className={provinceName === item.name ? styles.selectedProvinceBtn : styles.provinceBtn}
-              onClick={this.onSelectedProvince.bind(this, item.name)}
+              onClick={(e) => (this.onSelectedProvince(e, item.name))}
             >{item.name}</span>)}
 
           </div>

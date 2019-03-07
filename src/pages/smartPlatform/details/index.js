@@ -16,13 +16,13 @@ class DetailsIndex extends React.Component {
         <RadioComponent path='/smartPlatform/details' />
         {/* 搜索部分 组件 */}
         <div className={styles.searchBox}>
-          <SearchForm/>
+          <SearchForm />
         </div>
         {/* table上方'查询结果'标题 组件 */}
-        <MyDeliver titleName="查询结果"/>
+        <MyDeliver titleName="查询结果" />
         {/* table结果 组件 */}
         <div className={styles.tableBox}>
-          <ResultTable/>
+          <ResultTable />
         </div>
       </div>
     );
