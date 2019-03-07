@@ -19,7 +19,7 @@ class Tasks extends Component {
     super(props);
     this.state = {
       pageNum: 1,
-      pageSize: 36
+      pageSize: 10
     };
   }
   componentDidMount() {
