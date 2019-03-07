@@ -126,7 +126,7 @@ class ResultTable extends Component {
       return
     }
     if (total === 0) {
-      Message.warning('查询数据结果为空');
+      Message.warning('查询结果为空，添加下载任务失败');
       return
     }
     this.setState({
