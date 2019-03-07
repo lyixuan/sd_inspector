@@ -89,7 +89,7 @@ export function chartOptions(data) {
   console.log(data1)
   const params1 = {
     text: '报考通知数据概览',
-    legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '推送人数', icon: 'rect' }, { name: '已读人数', icon: 'rect' }],
+    legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '通知人数', icon: 'rect' }, { name: '触达人数', icon: 'rect' }],
     xData: data1.dateArr,
     color: ['#1e93ff', "#7363ec", '#1ec47a'],
     formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}',
@@ -99,11 +99,11 @@ export function chartOptions(data) {
       barCategoryGap: '40%',
       data: data1.dataArr1
     }, {
-      name: '推送人数',
+      name: '通知人数',
       type: 'bar',
       data: data1.dataArr2
     }, {
-      name: '已读人数',
+      name: '触达人数',
       type: 'bar',
       data: data1.dataArr3
     }],
