@@ -19,31 +19,6 @@ const confirm = Modal.confirm;
 let isEdit = false; // 判断是重置后的新增，还是选择了查询条件的编辑
 let editId = undefined;
 let editName = undefined;
-function dataFilter(list) {
-  // 将 checkedConditionList 处理成 key：List形式
-  const obj = {};
-  const checkedConditionList = DeepCopy(list);
-  for (let key in checkedConditionList) {
-    // if ('provinceList' === key) {
-    //   obj[key] = checkedConditionList[key].keys.split(',');
-    // }
-    if ('familyIdList' === key) {
-      obj[key] = checkedConditionList[key].keys.split(',');
-      obj[key].forEach((v, i) => {
-        obj[key][i] = Number(obj[key][i]);
-      })
-    } else if ('msgStatusList' === key) {
-      obj[key] = checkedConditionList[key].keys.split(',');
-      obj[key].forEach((v, i) => {
-        obj[key][i] = Number(obj[key][i]);
-      })
-    } else {
-      obj[key] = checkedConditionList[key].keys
-    }
-  }
-  return obj;
-}
-
 @connect(({ home, dataDetail }) => ({
   home,
   dataDetail,
@@ -90,7 +65,6 @@ class HorizontalLoginForm extends React.Component {
   };
 
   menuCheck = (val) => {
-    console.log('a111', val);
     this.checkedConditionList = {};
     val.exam ? this.checkedConditionList.exam = { keys: val.exam, labels: val.exam2 } : '';
     val.collegeId ? this.checkedConditionList.collegeId = { keys: val.collegeId, labels: val.collegeName } : '';
@@ -143,6 +117,17 @@ class HorizontalLoginForm extends React.Component {
   };
 
   formValChange = (val, key) => {
+    if (val === undefined) {
+      delete this.checkedConditionList[key];
+      if (key === 'collegeId') {
+        this.props.form.setFieldsValue({
+          familyIdList: undefined
+        });
+        delete this.checkedConditionList['familyIdList'];
+      }
+      this.props.updateCC(this.checkedConditionList);
+      return
+    }
     // 学院家族联动
     if (key === 'collegeId') {
       this.collegeList.forEach((v) => {
@@ -151,7 +136,7 @@ class HorizontalLoginForm extends React.Component {
         }
       });
       this.props.form.setFieldsValue({
-        familyIdList: []
+        familyIdList: undefined
       })
     }
 
@@ -195,14 +180,7 @@ class HorizontalLoginForm extends React.Component {
       Message.warning('请选择考期');
       return
     }
-    const oldP = this.props.dataDetail.params;
-    const obj = dataFilter(this.checkedConditionList);
-    const { province } = oldP;
-    obj.province = province;
-    this.props.dispatch({
-      type: 'dataDetail/getDetailData',
-      payload: { params: obj },
-    });
+    this.props.handlePropSubmit();
   };
   render() {
     this.examList = this.props.dataDetail.examList;
@@ -238,7 +216,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('exam', {
                   initialValue: this.state.exam,
                 })(
-                  <Select placeholder="考期" labelInValue onChange={(val) => this.formValChange(val, 'exam')}>
+                  <Select allowClear placeholder="考期" labelInValue onChange={(val) => this.formValChange(val, 'exam')}>
                     {this.examList.map(item => (
                       <Option key={item.examYearmonth}>
                         {item.exam}
@@ -254,7 +232,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('collegeId', {
                   initialValue: this.state.collegeId,
                 })(
-                  <Select placeholder="学院" labelInValue onChange={(val) => this.formValChange(val, 'collegeId')}>
+                  <Select allowClear placeholder="学院" labelInValue onChange={(val) => this.formValChange(val, 'collegeId')}>
                     {this.collegeList.map(item => (
                       <Option key={item.id}>
                         {item.name}
@@ -280,7 +258,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('orderStatus', {
                   initialValue: this.state.orderStatus,
                 })(
-                  <Select placeholder="订单状态" labelInValue onChange={(val) => this.formValChange(val, 'orderStatus')}>
+                  <Select allowClear placeholder="订单状态" labelInValue onChange={(val) => this.formValChange(val, 'orderStatus')}>
                     {BiFilter('ORDER_STATE').map(item => (
                       <Option value={item.id} key={item.name}>
                         {item.name}
@@ -293,7 +271,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('stuType', {
                   initialValue: this.state.stuType,
                 })(
-                  <Select placeholder="学员身份" labelInValue onChange={(val) => this.formValChange(val, 'stuType')}>
+                  <Select allowClear placeholder="学员身份" labelInValue onChange={(val) => this.formValChange(val, 'stuType')}>
                     {BiFilter('STUDENT_TYPE').map(item => (
                       <Option value={item.id} key={item.name}>
                         {item.name}
@@ -309,7 +287,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('admissionStatus', {
                   initialValue: this.state.admissionStatus,
                 })(
-                  <Select placeholder="准考证填写状态" labelInValue onChange={(val) => this.formValChange(val, 'admissionStatus')}>
+                  <Select allowClear placeholder="准考证填写状态" labelInValue onChange={(val) => this.formValChange(val, 'admissionStatus')}>
                     {BiFilter('TICKET_STATES').map(item => (
                       <Option value={item.id} key={item.name}>
                         {item.name}
@@ -384,10 +362,10 @@ class SearchForm extends Component {
     console.log(this.state.checkedConditionList);
   }
   updateCheckedConditions = (val) => {
-    console.log('updateCheckedConditions', val);
     this.setState({
       checkedConditionList: val,
     });
+    this.props.updateCheckedConditions(val)
   };
 
   conditionDel = (id) => {
@@ -405,7 +383,6 @@ class SearchForm extends Component {
   };
 
   conditionEdit = (item) => {
-    console.log(item.paramName);
     this.setState({
       visible: true,
       titleType: 2,
@@ -493,8 +470,7 @@ class SearchForm extends Component {
     });
   };
 
-  handleCancel = (e) => {
-    console.log(e);
+  handleCancel = () => {
     this.setState({
       visible: false,
     });
@@ -527,7 +503,7 @@ class SearchForm extends Component {
               <div className={styles.searchBoxSeletected}>
                 <span className={styles.rowTitle}>已选条件：</span>
                 <div className={styles.row}>
-                  <span>{checkedBtn}</span>  <Button type="primary" style={{ marginLeft: '20px' }} onClick={() => this.conditionAdd()}>保存查询条件</Button>
+                  <span style={{ display: 'inline-flex' }} >{checkedBtn}</span>  <Button type="primary" style={{ marginLeft: '20px' }} onClick={() => this.conditionAdd()}>保存查询条件</Button>
                 </div>
               </div>
             ) : null
