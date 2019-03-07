@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Icon} from 'antd';
+import { Icon } from 'antd';
 import Popconfirm from 'antd/lib/popconfirm';
 import Table from 'antd/lib/table';
 import Breadcrumb from 'antd/lib/breadcrumb';
 import Link from 'umi/link';
 import SelfPagination from '../../components/Pagination';
-import {STATIC_HOST} from '@/utils/constants'
+import { STATIC_HOST } from '@/utils/constants'
 import { BiFilter } from '@/utils/utils';
 import styles from '../style.less'
 
@@ -18,15 +18,15 @@ class Tasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pageNum:1,
-      pageSize:36
+      pageNum: 1,
+      pageSize: 36
     };
   }
-  componentDidMount(){
+  componentDidMount() {
     this.getData(this.state);
   }
   // 获取列表数据
-  getData = params =>{
+  getData = params => {
     this.props.dispatch({
       type: 'detail/getTaskPage',
       payload: params,
@@ -36,14 +36,14 @@ class Tasks extends Component {
   deleteFn = data => {
     this.props.dispatch({
       type: 'detail/deleteTask',
-      payload: {delParam:{id:data.id},listParam:this.state},
+      payload: { delParam: { id: data.id }, listParam: this.state },
     });
   };
   // 重新加载任务
   reloadFn = data => {
     this.props.dispatch({
       type: 'detail/reloadTask',
-      payload: {id:data.id},
+      payload: { id: data.id },
     });
   };
   // 下载任务
@@ -95,11 +95,11 @@ class Tasks extends Component {
             <>
               {
                 BiFilter('TASK_STATES').map(item => {
-                  if(text === item.id){
+                  if (text === item.id) {
                     return (
                       <>
-                        <span style={{color:item.color,marginRight:'6px'}}>{item.name}</span>
-                        {text===4?<Icon type="reload" onClick={()=>{this.reloadFn(record)}}/>:null}
+                        <span style={{ color: item.color, marginRight: '6px' }}>{item.name}</span>
+                        {text === 4 ? <Icon type="reload" onClick={() => { this.reloadFn(record) }} /> : null}
                       </>
                     )
                   }
@@ -120,8 +120,8 @@ class Tasks extends Component {
         render: (text, record) => {
           return (
             <>
-              <Icon type="download" onClick={()=>{this.downloadFn(record)}} style={{marginRight:'8px'}} />
-              <Popconfirm title='确定删除该任务么' onConfirm={()=>this.deleteFn(record)} okText="确定" cancelText="取消">
+              <Icon type="download" onClick={() => { this.downloadFn(record) }} style={{ marginRight: '8px' }} />
+              <Popconfirm title='确定删除该任务么' onConfirm={() => this.deleteFn(record)} okText="确定" cancelText="取消">
                 <Icon type="delete" />
               </Popconfirm>
             </>
@@ -129,7 +129,7 @@ class Tasks extends Component {
         },
       },
     ];
-    const {tableList,total} = this.props.detail;
+    const { tableList, total } = this.props.detail;
     const { pageNum } = this.state;
     return (
       <>
@@ -144,7 +144,7 @@ class Tasks extends Component {
           <div className={styles.tableHead}>
             <span className={styles.tableHeadLeft}>任务列表</span>
           </div>
-          <Table dataSource={tableList} pagination={false} columns={columns} bordered loading={this.props.loading}/>
+          <Table dataSource={tableList} pagination={false} columns={columns} bordered loading={this.props.loading} />
           <SelfPagination
             onChange={(current, pageSize) => {
               this.changePage(current, pageSize);
