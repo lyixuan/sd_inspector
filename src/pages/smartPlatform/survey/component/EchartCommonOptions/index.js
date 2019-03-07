@@ -96,18 +96,18 @@ export function chartOptions(data) {
     series: [{
       name: '考试计划人数',
       type: 'bar',
-      barWidth: 20,
-      barCategoryGap: '40%',
+      // barWidth: 20,
+      barCategoryGap: '20%',
       data: data1.dataArr1
     }, {
       name: '通知人数',
       type: 'bar',
-      barWidth: 20,
+      // barWidth: 20,
       data: data1.dataArr2
     }, {
       name: '触达人数',
       type: 'bar',
-      barWidth: 20,
+      // barWidth: 20,
       data: data1.dataArr3
     }],
     yAxis: {
