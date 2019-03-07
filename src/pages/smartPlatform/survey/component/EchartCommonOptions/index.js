@@ -61,7 +61,7 @@ function commonOptions(params) {
     ],
     yAxis,
     color,
-    series ,
+    series,
     // toolbox: {
     //   feature: {
     //     dataView: {show: true, readOnly: false},
@@ -77,14 +77,16 @@ export function chartOptions(data) {
   const { data1 = {}, data2 = {} } = dataList;
   const params1 = {
     text: '报考通知数据概览',
-    legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '通知人数', icon: 'rect' }, { name: '触达人数', icon: 'rect' },{ name: '触达率', icon: 'image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAEAQMAAABSuEaRAAAAAXNSR0IB2cksfwAAAAZQTFRF+zd3AAAAP9uspgAAAAJ0Uk5T/wDltzBKAAAAEUlEQVR4nGNgYGhggOH//xsAEwsD/x/9IEYAAAAASUVORK5CYII=',
+    legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '通知人数', icon: 'rect' }, { name: '触达人数', icon: 'rect' }, {
+      name: '触达率', icon: 'image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAEAQMAAABSuEaRAAAAAXNSR0IB2cksfwAAAAZQTFRF+zd3AAAAP9uspgAAAAJ0Uk5T/wDltzBKAAAAEUlEQVR4nGNgYGhggOH//xsAEwsD/x/9IEYAAAAASUVORK5CYII=',
     }],
     xData: data1.dateArr,
     color: ['#1e93ff', "#7363ec", '#1ec47a', '#fc3676'],
-    formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}',
+    formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}<br />{a3}: {c3}%',
     series: [{
       name: '考试计划人数',
       type: 'bar',
+      barCategoryGap: '20%',
       barWidth: 15,
       data: data1.dataArr1
     }, {
@@ -97,7 +99,7 @@ export function chartOptions(data) {
       type: 'bar',
       barWidth: 15,
       data: data1.dataArr3
-    },{
+    }, {
       name: '触达率',
       type: 'line',
       yAxisIndex: 1,
