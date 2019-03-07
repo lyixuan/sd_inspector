@@ -6,11 +6,13 @@ export default {
 
   state: {
     tableList:[],
-    dataSourceSize: 0,
+    total: 0,
+    totalPlan: 0,
+    defaultCurrent: 1,
+    defaultPageSize: 36,
     queryConditionList:[],
     examList: [],
-    pageNum:1,
-    pageSize:10
+    params:{}
   },
 
   effects: {
@@ -28,15 +30,23 @@ export default {
       }
     },
     // 数据明细查询结果
-    *getDetailData({ payload }, { call, put }) {
-      payload.params.pageNum = 1;
-      payload.params.pageSize = 36;
+    *getDetailData({ payload }, { call, put, select}) {
+      // const oldParams = yield select(state => state.dataDetail.params);
+      // const params = Object.assign(oldParams,payload.params);
       const result = yield call(getDetailDataPage, payload.params);
-      const dataSourceSize = result.data ? result.data.size : 0;
-      const tableList = result.data ? result.data.list : [];
+      let total = 0;
+      let totalPlan = 0;
+      // let defaultCurrent = 1;
+      // let defaultPageSize = 36;
+      if (result.data) {
+        total = result.data.dataList.length;
+        totalPlan = result.data.planNumTotalNum;
+        // defaultCurrent = result.data.pageNum;
+        // defaultPageSize = result.data.pageSize;
+      }
+      const tableList = result.data ? result.data.dataList : [];
       if (result && result.code === 20000) {
-        yield put({ type: 'save', payload: { tableList } });
-        yield put({ type: 'save', payload: { dataSourceSize } });
+        yield put({ type: 'save', payload: { tableList,total,totalPlan } });
       } else {
         message.error(result.msg);
       }

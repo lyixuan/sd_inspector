@@ -9,7 +9,11 @@ class DetailsIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkedConditionList: {}
+      checkedConditionList: {},
+      paging:{
+        current:1,
+        pageSize:36
+      }
     };
   }
   updateCheckedConditions = (val) => {
@@ -25,13 +29,13 @@ class DetailsIndex extends React.Component {
         <RadioComponent path='/smartPlatform/details' />
         {/* 搜索部分 组件 */}
         <div className={styles.searchBox}>
-          <SearchForm updateCheckedConditions={(p)=>this.updateCheckedConditions(p)} />
+          <SearchForm updateCheckedConditions={(p)=>this.updateCheckedConditions(p)}/>
         </div>
         {/* table上方'查询结果'标题 组件 */}
         <MyDeliver titleName="查询结果"/>
         {/* table结果 组件 */}
         <div className={styles.tableBox}>
-          <ResultTable checkedConditionList={this.state.checkedConditionList} />
+          <ResultTable checkedConditionList={this.state.checkedConditionList}/>
         </div>
       </div>
     );

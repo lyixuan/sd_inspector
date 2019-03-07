@@ -16,7 +16,8 @@ import styles from '../style.less'
 
 const { Option } = Select;
 const confirm = Modal.confirm;
-
+let isEdit = false; // 判断是重置后的新增，还是选择了查询条件的编辑
+let editId = undefined;
 function dataFilter(list) {
   // 将 checkedConditionList 处理成 key：List形式
   const obj = {};
@@ -66,10 +67,6 @@ class HorizontalLoginForm extends React.Component {
     this.familyList = [];
     this.conditionList = [];
     this.checkedConditionList = {};
-    this.provinceAllList.unshift({
-      "code": "all",
-      "name": "所有省份",
-    })
   }
   UNSAFE_componentWillMount() {
     // 获取考期
@@ -119,7 +116,10 @@ class HorizontalLoginForm extends React.Component {
     }
     let arr3 = undefined;
     if (val.provinceList) {
-      arr3 = val.provinceList.split(',');
+      arr3 = [];
+      val.provinceList.split(',').forEach((v)=>{
+        arr3.push({key:v,label:v})
+      });
     }
     this.props.form.setFieldsValue({
       exam: {key:val.exam,label:val.exam2},
@@ -127,14 +127,26 @@ class HorizontalLoginForm extends React.Component {
       orderStatus: {key:val.orderStatus,label:val.orderStatusName},
       stuType: {key:val.stuType,label:val.stuTypeName},
       admissionStatus: {key:val.admissionStatus,label:val.admissionStatusName},
-      familyIdList: arr,
       msgStatusList:  arr2,
-      provinceList: {key:arr3,label:arr3},
+      provinceList: arr3,
     });
+
+    this.collegeList.forEach((v)=>{
+      if (v.id === Number(val.collegeId)) {
+        this.familyList = v.sub;
+      }
+    });
+
+    this.props.form.setFieldsValue({
+      familyIdList: arr,
+    });
+
     this.setState({
-      menuCheckedName:val.paramName
+      menuCheckedName:val.paramName,
     });
     this.props.updateCC(this.checkedConditionList);
+    isEdit=true;  // 点击我的查询条件后，保存时是编辑
+    editId=val.id;
   };
 
   formValChange = (val, key) => {
@@ -175,8 +187,58 @@ class HorizontalLoginForm extends React.Component {
     this.props.updateCC(this.checkedConditionList);
   };
 
+  checkProvince = () => {
+    const list = BiFilter('provinceJson');
+    list.forEach((v,i)=>{
+      list[i]['key'] = v.name;
+      list[i]['label'] = v.name;
+      delete list[i].code;
+      delete list[i].name;
+    });
+    list.unshift({key:'所有省份',label:'所有省份'});
+    this.props.form.setFieldsValue({
+      provinceList: list
+    });
+  };
+
+  uncheckProvince = () => {
+    this.props.form.setFieldsValue({
+      provinceList: []
+    });
+    delete this.checkedConditionList['provinceList'];
+    this.props.updateCC(this.checkedConditionList);
+  };
+
+  checkAllProvince = (val) => {
+    // 选择所有省份
+    if (val.key === '所有省份') {
+      setTimeout(this.checkProvince, 100);
+    }
+  };
+
+  uncheckAllProvince = (val) => {
+    const that = this;
+    // 取消选择所有省份
+    if (val.key === '所有省份') {
+      setTimeout(this.uncheckProvince, 100);
+    } else {
+      setTimeout(function() {
+        const oldList = that.props.form.getFieldValue('provinceList');
+        oldList.forEach((v,i)=>{
+          if (v.key==='所有省份') {
+            delete oldList[i]
+          }
+        })
+        that.props.form.setFieldsValue({
+          provinceList: oldList
+        });
+      }, 100);
+    }
+  };
+
   handleReset = () => {
     this.checkedConditionList= {};
+    isEdit=false;   // 重置后，保存条件为新增
     this.props.updateCC(this.checkedConditionList);
     this.props.form.resetFields();
   };
@@ -188,6 +250,8 @@ class HorizontalLoginForm extends React.Component {
       return
     }
     const obj = dataFilter(this.checkedConditionList);
+    obj.pageNum = 1;
+    obj.pageSize = 36;
     this.props.dispatch({
       type: 'dataDetail/getDetailData',
       payload: { params: obj },
@@ -236,8 +300,14 @@ class HorizontalLoginForm extends React.Component {
               <Form.Item label="学员信息">
                 {getFieldDecorator('provinceList', {
                 })(
-                  <Select placeholder="报考省份"  mode="multiple" showArrow={true} maxTagCount={1} labelInValue onChange={(val) => this.formValChange(val,'provinceList')}>
-                    <Option key='all'>
+                  <Select placeholder="报考省份"  mode="multiple"
+                          showArrow={true}
+                          maxTagCount={1}
+                          labelInValue
+                          onChange={(val) => this.formValChange(val,'provinceList')}
+                          onSelect={(val)=>this.checkAllProvince(val)}
+                          onDeselect={(val)=>this.uncheckAllProvince(val)}>
+                    <Option key='所有省份'>
                       所有省份
                     </Option>
                     {this.provinceAllList.map(item => (
@@ -376,27 +446,27 @@ class SearchForm extends Component {
       checkedConditionList: val,
     });
 
-    const obj = {};
-    const  checkedConditionList = DeepCopy(val);
-    for (let key in checkedConditionList) {
-      if ('provinceList' === key) {
-        obj[key] = checkedConditionList[key].keys.split(',');
-      }else if ('familyIdList' === key) {
-        obj[key] = checkedConditionList[key].keys.split(',');
-        obj[key].forEach((v,i) => {
-          obj[key][i] = Number(obj[key][i]);
-        })
-      } else if ('msgStatusList' === key) {
-        console.log(checkedConditionList[key]);
-        obj[key] = checkedConditionList[key].keys.split(',');
-        obj[key].forEach((v,i) => {
-          obj[key][i] = Number(obj[key][i]);
-        })
-      } else {
-        obj[key] = checkedConditionList[key].keys
-      }
-    }
-    this.props.updateCheckedConditions(obj)
+    // const obj = {};
+    // const  checkedConditionList = DeepCopy(val);
+    // for (let key in checkedConditionList) {
+    //   if ('provinceList' === key) {
+    //     obj[key] = checkedConditionList[key].keys.split(',');
+    //   }else if ('familyIdList' === key) {
+    //     obj[key] = checkedConditionList[key].keys.split(',');
+    //     obj[key].forEach((v,i) => {
+    //       obj[key][i] = Number(obj[key][i]);
+    //     })
+    //   } else if ('msgStatusList' === key) {
+    //     console.log(checkedConditionList[key]);
+    //     obj[key] = checkedConditionList[key].keys.split(',');
+    //     obj[key].forEach((v,i) => {
+    //       obj[key][i] = Number(obj[key][i]);
+    //     })
+    //   } else {
+    //     obj[key] = checkedConditionList[key].keys
+    //   }
+    // }
+    this.props.updateCheckedConditions(val)
   };
 
   conditionDel = (id) => {
@@ -428,11 +498,32 @@ class SearchForm extends Component {
       Message.warning('请选择考期');
       return
     }
-    this.setState({
-      visible: true,
-      titleType: 1,
-      conditionName: ''
-    });
+
+    if (isEdit) {
+      const  checkedConditionList = DeepCopy(this.state.checkedConditionList);
+      const obj = {
+        id: editId,
+      };
+      for (let key in checkedConditionList) {
+        obj[key] = checkedConditionList[key].keys;
+        if (key === 'collegeId') {
+          obj['collegeName'] = checkedConditionList[key].labels;
+        }
+        if (key === 'familyIdList') {
+          obj['familyNameList'] = checkedConditionList[key].labels;
+        }
+      }
+      this.props.dispatch({
+        type: 'dataDetail/updateQueryCondition',
+        payload: { params: obj },
+      });
+    } else {
+      this.setState({
+        visible: true,
+        titleType: 1,
+        conditionName: ''
+      });
+    }
   };
 
   onChangeUserName = (e) => {
@@ -501,9 +592,6 @@ class SearchForm extends Component {
       <span className={styles.spanBtn} key={v.labels}>{v.labels}</span>
     ));
 
-    function handleChange(value) {
-      console.log(value); // { key: "lucy", label: "Lucy (101)" }
-    }
     return (
       <>
         <div className={styles.searchWrap}>

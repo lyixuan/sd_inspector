@@ -34,7 +34,7 @@ export const PAGINATION = {
 export const provinceJson = [
   {
     "code": "AH",
-    "name": " 安徽省",
+    "name": "安徽省",
   },
   {
     "code": "BJ",

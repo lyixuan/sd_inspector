@@ -5,6 +5,7 @@ import router from 'umi/router';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 import Modal from 'antd/lib/modal';
 import Input from 'antd/lib/input';
+import Pagination from 'antd/lib/pagination';
 
 import styles from '../style.less'
 import Message from 'antd/lib/message/index';
@@ -72,10 +73,21 @@ class ResultTable extends Component {
       taskName: e.target.value,
     });
   };
-
+  onCurrentSizeChange = (current, pageSize) => {
+    this.props.dispatch({
+      type: 'dataDetail/getDetailData',
+      payload: { params: {pageNum:current,pageSize:pageSize} },
+    });
+  };
+  onShowSizeChange = (current, pageSize) => {
+    this.props.dispatch({
+      type: 'dataDetail/getDetailData',
+      payload: { params: {pageNum:1,pageSize:pageSize} },
+    });
+  };
   render() {
     const dataSource = this.props.dataDetail.tableList;
-    const dataSourceSize = this.props.dataDetail.dataSourceSize;
+    const {total,totalPlan} = this.props.dataDetail;
 
     const columns = [
       {
@@ -119,7 +131,7 @@ class ResultTable extends Component {
       <>
         <div>
           <div className={styles.tableHead}>
-            <span className={styles.tableHeadLeft}>共搜出 {dataSourceSize} 条学员数据</span>
+            <span className={styles.tableHeadLeft}>共搜出 {totalPlan} 条学员数据</span>
             <span className={styles.tableHeadRight}>
               <Button type="primary" onClick={this.toTask}>任务列表</Button>
             </span>
@@ -127,7 +139,20 @@ class ResultTable extends Component {
               <Button type="primary2" onClick={this.addTask}>添加下载任务</Button>
             </span>
           </div>
-          <Table dataSource={dataSource} columns={columns} pagination={BiFilter("PAGINATION")} loading={this.props.loading} bordered/>
+          <Table dataSource={dataSource} columns={columns} pagination={false} loading={this.props.loading} bordered/>
+          <br/>
+          {/*{total ? (*/}
+            {/*<Pagination*/}
+              {/*showSizeChanger*/}
+              {/*pageSizeOptions= {['36', '50', '100']}*/}
+              {/*showQuickJumper*/}
+              {/*onChange={(current, pageSize)=>this.onCurrentSizeChange(current, pageSize)}*/}
+              {/*onShowSizeChange={(current, pageSize)=>this.onShowSizeChange(current, pageSize)}*/}
+              {/*current={defaultCurrent || 1}*/}
+              {/*total={total || 0}*/}
+              {/*pageSize={defaultPageSize || 36}*/}
+            {/*/>*/}
+          {/*):null}*/}
         </div>
         <Modal
           title='添加下载任务'
