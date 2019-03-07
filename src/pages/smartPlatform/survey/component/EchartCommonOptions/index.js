@@ -13,6 +13,7 @@ function commonOptions(params) {
     grid: {
       top: 166,
       left: 64,
+      right:20,
       height: 234,
     },
     legend: {
