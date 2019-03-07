@@ -24,10 +24,15 @@ export default {
     },
     // 删除查询条件
     *deleteTask({ payload }, { call, put }) {
-      const result = yield call(deleteTask, {...payload});
+      const result = yield call(deleteTask, {...payload.delParam});
       if (result.code === 20000) {
         message.success('删除成功！');
-        yield put(routerRedux.push('/smartPlatform/details/tasks'));
+        const response = yield call(getTaskPage, { ...payload.listParam });
+        if (response.code === 20000) {
+          yield put({ type: 'saveLsit', payload: { tableList:response.data.list,total:response.data.total} });
+        } else {
+          message.error(response.msg);
+        }
       } else {
         message.error(result.msg);
       }

@@ -36,7 +36,7 @@ class Tasks extends Component {
   deleteFn = data => {
     this.props.dispatch({
       type: 'detail/deleteTask',
-      payload: {id:data.id},
+      payload: {delParam:{id:data.id},listParam:this.state},
     });
   };
   // 重新加载任务
