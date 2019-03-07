@@ -1,6 +1,7 @@
 import { message } from 'antd/lib/index';
 import { routerRedux } from 'dva/router';
 import { getTaskPage,deleteTask,reloadTask } from './service';
+import moment from 'moment';
 
 export default {
   namespace: 'detail',
@@ -15,6 +16,9 @@ export default {
     *getTaskPage({ payload }, { call, put }) {
       const result = yield call(getTaskPage,{...payload});
       const tableList = result.data?result.data.list : [];
+      tableList.forEach((v,i)=>{
+        tableList[i].createTime = moment(v.createTime).format('YYYY-MM-DD HH:mm:ss')
+      });
       const total = result.data?result.data.total : [];
       if (result.code === 20000) {
         yield put({ type: 'saveLsit', payload: { tableList,total} });

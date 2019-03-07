@@ -145,6 +145,10 @@ ul{
   color: #1683FB;
 }
 
+.ant-select-dropdown-menu-item-disabled:hover {
+  background-color: #0C172E;
+  color: #fff;
+}
 /* 日期选择  */
 
 .ant-calendar-picker {
@@ -338,3 +342,5 @@ ul{
   width: 60px;
   height: 25px;
 }
+
+
