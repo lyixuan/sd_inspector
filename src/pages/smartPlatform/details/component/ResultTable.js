@@ -158,7 +158,7 @@ class ResultTable extends Component {
       return;
     }
     if (this.props.handlePropSubmit) {
-      this.props.handlePropSubmit(provinceName )
+      this.props.handlePropSubmit(provinceName)
     }
     this.setState({ provinceName });
   }
