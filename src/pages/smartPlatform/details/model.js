@@ -54,8 +54,8 @@ export default {
     // 我的查询条件
     *getQueryConditionList({ payload }, { call, put }) {
       const result = yield call(getQueryConditionList, payload.params);
-      const queryConditionList = result.data || [];
       if (result && result.code === 20000) {
+        const queryConditionList = result.data || [];
         // 根据id添加name
         queryConditionList.forEach((v,i) => {
           queryConditionList[i]['exam2'] = `${v.exam.replace('-','').substr(2)}考期`
@@ -69,7 +69,6 @@ export default {
           });
           queryConditionList[i]['msgStatusName'] = queryConditionList[i]['msgStatusName'].join(',');
         });
-        console.log(queryConditionList);
         yield put({ type: 'save', payload: { queryConditionList } });
       } else {
         message.error(result.msg);

@@ -23,9 +23,10 @@ function dataFilter(list) {
   const obj = {};
   const  checkedConditionList = DeepCopy(list);
   for (let key in checkedConditionList) {
-    if ('provinceList' === key) {
-      obj[key] = checkedConditionList[key].keys.split(',');
-    }else if ('familyIdList' === key) {
+    // if ('provinceList' === key) {
+    //   obj[key] = checkedConditionList[key].keys.split(',');
+    // }
+    if ('familyIdList' === key) {
       obj[key] = checkedConditionList[key].keys.split(',');
       obj[key].forEach((v,i) => {
         obj[key][i] = Number(obj[key][i]);
@@ -42,6 +43,13 @@ function dataFilter(list) {
   return obj;
 }
 
+const allMsgList = [
+  {key:'all',label:'所有消息'},
+  {key:'1',label:'未推送'},
+  {key:'2',label:'已推送(未读)'},
+  {key:'3',label:'已推送(已读)'},
+];
+
 @connect(({ home,dataDetail }) => ({
   home,
   dataDetail,
@@ -52,7 +60,7 @@ class HorizontalLoginForm extends React.Component {
     super(props);
     this.state = {
       exam: undefined,
-      provinceList: undefined,
+      // provinceList: undefined,
       collegeId: undefined,
       familyIdList: undefined,
       orderStatus: undefined,
@@ -62,7 +70,7 @@ class HorizontalLoginForm extends React.Component {
       menuCheckedName: '我的查询条件',
     };
     this.examList = [];
-    this.provinceAllList = BiFilter('provinceJson');
+    // this.provinceAllList = BiFilter('provinceJson');
     this.collegeList = [];
     this.familyList = [];
     this.conditionList = [];
@@ -92,7 +100,7 @@ class HorizontalLoginForm extends React.Component {
   menuCheck = (val) => {
     this.checkedConditionList = {};
     val.exam ? this.checkedConditionList.exam = {keys:val.exam,labels:val.exam2}:'';
-    val.provinceList ? this.checkedConditionList.provinceList = {keys:val.provinceList,labels:val.provinceList}:'';
+    // val.provinceList ? this.checkedConditionList.provinceList = {keys:val.provinceList,labels:val.provinceList}:'';
     val.collegeId ? this.checkedConditionList.collegeId = {keys:val.collegeId,labels:val.collegeName}:'';
     val.familyIdList ? this.checkedConditionList.familyIdList = {keys:val.familyIdList,labels:val.familyNameList}:'';
     val.orderStatus ? this.checkedConditionList.orderStatus = {keys:val.orderStatus,labels:val.orderStatusName}:'';
@@ -114,13 +122,13 @@ class HorizontalLoginForm extends React.Component {
         arr2.push({key:v,label:val.msgStatusName[i]})
       });
     }
-    let arr3 = undefined;
-    if (val.provinceList) {
-      arr3 = [];
-      val.provinceList.split(',').forEach((v)=>{
-        arr3.push({key:v,label:v})
-      });
-    }
+    // let arr3 = undefined;
+    // if (val.provinceList) {
+    //   arr3 = [];
+    //   val.provinceList.split(',').forEach((v)=>{
+    //     arr3.push({key:v,label:v})
+    //   });
+    // }
     this.props.form.setFieldsValue({
       exam: {key:val.exam,label:val.exam2},
       collegeId: {key:val.collegeId,label:val.collegeName},
@@ -128,7 +136,7 @@ class HorizontalLoginForm extends React.Component {
       stuType: {key:val.stuType,label:val.stuTypeName},
       admissionStatus: {key:val.admissionStatus,label:val.admissionStatusName},
       msgStatusList:  arr2,
-      provinceList: arr3,
+      // provinceList: arr3,
     });
 
     this.collegeList.forEach((v)=>{
@@ -187,52 +195,52 @@ class HorizontalLoginForm extends React.Component {
     this.props.updateCC(this.checkedConditionList);
   };
 
-  checkProvince = () => {
-    const list = BiFilter('provinceJson');
-    list.forEach((v,i)=>{
-      list[i]['key'] = v.name;
-      list[i]['label'] = v.name;
-      delete list[i].code;
-      delete list[i].name;
-    });
-    list.unshift({key:'所有省份',label:'所有省份'});
-    this.props.form.setFieldsValue({
-      provinceList: list
-    });
-  };
-
-  uncheckProvince = () => {
-    this.props.form.setFieldsValue({
-      provinceList: []
-    });
-    delete this.checkedConditionList['provinceList'];
-    this.props.updateCC(this.checkedConditionList);
-  };
-
-  checkAllProvince = (val) => {
-    // 选择所有省份
-    if (val.key === '所有省份') {
-      setTimeout(this.checkProvince, 100);
+  checkAllMsg = (val) => {
+    const that = this;
+    // 选择所有
+    if (val.key === 'all') {
+      setTimeout(check, 100);
+    } else {
+      setTimeout(function() {
+        const oldList = that.props.form.getFieldValue('msgStatusList');
+        if (oldList.length===3) {
+          that.props.form.setFieldsValue({
+            msgStatusList: allMsgList
+          });
+        }
+      }, 100);
+    }
+    function check() {
+      that.props.form.setFieldsValue({
+        msgStatusList: allMsgList
+      });
     }
   };
 
-  uncheckAllProvince = (val) => {
+  uncheckAllMsg = (val) => {
     const that = this;
-    // 取消选择所有省份
-    if (val.key === '所有省份') {
-      setTimeout(this.uncheckProvince, 100);
+    // 取消选择所有
+    if (val.key === 'all') {
+      setTimeout(uncheck, 100);
     } else {
       setTimeout(function() {
-        const oldList = that.props.form.getFieldValue('provinceList');
+        const oldList = that.props.form.getFieldValue('msgStatusList');
         oldList.forEach((v,i)=>{
-          if (v.key==='所有省份') {
+          if (v.key==='all') {
             delete oldList[i]
           }
-        })
+        });
         that.props.form.setFieldsValue({
-          provinceList: oldList
+          msgStatusList: oldList
         });
       }, 100);
+    }
+    function uncheck() {
+      that.props.form.setFieldsValue({
+        msgStatusList: []
+      });
+      delete that.checkedConditionList['msgStatusList'];
+      that.props.updateCC(this.checkedConditionList);
     }
   };
 
@@ -297,28 +305,28 @@ class HorizontalLoginForm extends React.Component {
             </div>
              {/*第二行*/}
             <div>
+              {/*<Form.Item label="学员信息">*/}
+                {/*{getFieldDecorator('provinceList', {*/}
+                {/*})(*/}
+                  {/*<Select placeholder="报考省份"  mode="multiple"*/}
+                          {/*showArrow={true}*/}
+                          {/*maxTagCount={1}*/}
+                          {/*labelInValue*/}
+                          {/*onChange={(val) => this.formValChange(val,'provinceList')}*/}
+                          {/*onSelect={(val)=>this.checkAllProvince(val)}*/}
+                          {/*onDeselect={(val)=>this.uncheckAllProvince(val)}>*/}
+                    {/*<Option key='所有省份'>*/}
+                      {/*所有省份*/}
+                    {/*</Option>*/}
+                    {/*{this.provinceAllList.map(item => (*/}
+                      {/*<Option key={item.name}>*/}
+                        {/*{item.name}*/}
+                      {/*</Option>*/}
+                    {/*))}*/}
+                  {/*</Select>*/}
+                {/*)}*/}
+              {/*</Form.Item>*/}
               <Form.Item label="学员信息">
-                {getFieldDecorator('provinceList', {
-                })(
-                  <Select placeholder="报考省份"  mode="multiple"
-                          showArrow={true}
-                          maxTagCount={1}
-                          labelInValue
-                          onChange={(val) => this.formValChange(val,'provinceList')}
-                          onSelect={(val)=>this.checkAllProvince(val)}
-                          onDeselect={(val)=>this.uncheckAllProvince(val)}>
-                    <Option key='所有省份'>
-                      所有省份
-                    </Option>
-                    {this.provinceAllList.map(item => (
-                      <Option key={item.name}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
-              </Form.Item>
-              <Form.Item>
                 {getFieldDecorator('collegeId', {
                   initialValue: this.state.collegeId,
                 })(
@@ -390,7 +398,15 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('msgStatusList', {
                   initialValue: this.state.msgStatusList,
                 })(
-                  <Select placeholder="消息打开状态"  mode="multiple" showArrow={true} maxTagCount={1} labelInValue onChange={(val) => this.formValChange(val,'msgStatusList')}>
+                  <Select placeholder="消息打开状态"
+                          mode="multiple"
+                          showArrow={true}
+                          maxTagCount={1}
+                          labelInValue
+                          onChange={(val) => this.formValChange(val,'msgStatusList')}
+                          // onSelect={(val)=>this.checkAllMsg(val)}
+                          // onDeselect={(val)=>this.uncheckAllMsg(val)}
+                  >
                     {BiFilter('MSG_STATES').map(item => (
                       <Option key={item.id}>{item.name}</Option>
                     ))}
@@ -605,7 +621,7 @@ class SearchForm extends Component {
               <div className={styles.searchBoxSeletected}>
                 <span className={styles.rowTitle}>已选条件：</span>
                 <div className={styles.row}>
-                  {checkedBtn} <Button type="primary" style={{marginLeft:'20px'}} onClick={() => this.conditionAdd()}>保存查询条件</Button>
+                  <span>{checkedBtn}</span>  <Button type="primary" style={{marginLeft:'20px'}} onClick={() => this.conditionAdd()}>保存查询条件</Button>
                 </div>
               </div>
             ):null

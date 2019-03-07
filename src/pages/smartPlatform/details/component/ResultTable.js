@@ -131,7 +131,7 @@ class ResultTable extends Component {
       <>
         <div>
           <div className={styles.tableHead}>
-            <span className={styles.tableHeadLeft}>共搜出 {totalPlan} 条学员数据</span>
+            <span className={styles.tableHeadLeft}>共搜出 {totalPlan} 条学员订单数据</span>
             <span className={styles.tableHeadRight}>
               <Button type="primary" onClick={this.toTask}>任务列表</Button>
             </span>

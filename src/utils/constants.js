@@ -214,10 +214,9 @@ export const TICKET_STATES = [
 
 // 消息打开状态
 export const MSG_STATES = [
-  { id: 0, name: '所有消息' },
-  { id: 1, name: '未推送' },
-  { id: 2, name: '已推送(未读)' },
-  { id: 3, name: '已推送(已读)' },
+  { id: '1', name: '未推送' },
+  { id: '2', name: '已推送(未读)' },
+  { id: '3', name: '已推送(已读)' },
 ];
 // 任务状态
 export const TASK_STATES = [
