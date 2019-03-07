@@ -56,6 +56,9 @@ class Tasks extends Component {
       pageSize: size,
       pageNum,
     });
+    this.setState({
+      pageNum: pageNum,
+    });
   };
 
   // 点击显示每页多少条数据函数
@@ -118,7 +121,7 @@ class Tasks extends Component {
           return (
             <>
               <Icon type="download" onClick={()=>{this.downloadFn(record)}} style={{marginRight:'8px'}} />
-              <Popconfirm placement="topRight" title='确定删除该任务么' onConfirm={()=>this.deleteFn(record)} okText="确定" cancelText="取消">
+              <Popconfirm title='确定删除该任务么' onConfirm={()=>this.deleteFn(record)} okText="确定" cancelText="取消">
                 <Icon type="delete" />
               </Popconfirm>
             </>
@@ -127,6 +130,7 @@ class Tasks extends Component {
       },
     ];
     const {tableList,total} = this.props.detail;
+    const { pageNum } = this.state;
     return (
       <>
         <div className={styles.breadcrumb}>
@@ -148,6 +152,7 @@ class Tasks extends Component {
             onShowSizeChange={(current, pageSize) => {
               this.onShowSizeChange(current, pageSize);
             }}
+            defaultCurrent={pageNum}
             total={total}
           />
         </div>

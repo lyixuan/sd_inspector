@@ -99,3 +99,24 @@
   width: 300px;
   margin: auto;
 }
+// 输出省份
+
+.provinceCotainer{
+width: 100%;
+height: 100px;
+.provinceBtn{
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+  color: #1683FB;
+  border-radius: 2px;
+  max-width: 300px;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+.selectedProvinceBtn{
+  &:extend(.provinceCotainer .provinceBtn);
+  color:#fff;
+}
+}

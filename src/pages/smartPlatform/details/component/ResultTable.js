@@ -5,7 +5,7 @@ import router from 'umi/router';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 import Modal from 'antd/lib/modal';
 import Input from 'antd/lib/input';
-import Pagination from 'antd/lib/pagination';
+
 
 import styles from '../style.less'
 import Message from 'antd/lib/message/index';
@@ -29,6 +29,45 @@ function listToString(obj) {
   }
   return result;
 }
+const provinces = BiFilter('provinceJson');
+const columns = [
+  {
+    title: '省/市',
+    dataIndex: 'province',
+  },
+  {
+    title: '学院',
+    dataIndex: 'collegeName',
+  },
+  {
+    title: '家族',
+    dataIndex: 'familyName',
+  },
+  {
+    title: '考试计划人数',
+    dataIndex: 'examPlanNum',
+  },
+  {
+    title: '准考证填写人数',
+    dataIndex: 'admissionFillNum',
+  },
+  {
+    title: '未推送消息人数',
+    dataIndex: 'unpushNum',
+  },
+  {
+    title: '已推送消息人数',
+    dataIndex: 'pushNum',
+  },
+  {
+    title: '消息已读人数',
+    dataIndex: 'readNum',
+  },
+  {
+    title: '消息未读人数',
+    dataIndex: 'unreadNum',
+  },
+];
 @connect(({ dataDetail,loading }) => ({
   dataDetail,
   loading: loading.effects['dataDetail/getDetailData']
@@ -37,16 +76,19 @@ function listToString(obj) {
 class ResultTable extends Component {
   constructor(props) {
     super(props);
+    const { dataDetail: { params } } = this.props;
+    const { province } = params || {};
     this.state = {
       visible: false,
-      taskName: ''
+      taskName: '',
+      provinceName: province || provinces[0].name,  // 默认选中省份
     };
   }
 
   UNSAFE_componentWillMount() {
     // 获取数据
   }
-  toTask = () =>{
+  toTask = () => {
     router.push({
       pathname: '/smartPlatform/details/tasks',
       // query: this.props.checkedConditionList,
@@ -103,57 +145,31 @@ class ResultTable extends Component {
   onCurrentSizeChange = (current, pageSize) => {
     this.props.dispatch({
       type: 'dataDetail/getDetailData',
-      payload: { params: {pageNum:current,pageSize:pageSize} },
+      payload: { params: { pageNum: current, pageSize: pageSize } },
     });
   };
   onShowSizeChange = (current, pageSize) => {
     this.props.dispatch({
       type: 'dataDetail/getDetailData',
-      payload: { params: {pageNum:1,pageSize:pageSize} },
+      payload: { params: { pageNum: 1, pageSize: pageSize } },
     });
   };
+  onSelectedProvince = (provinceName) => {
+    const { dataDetail: { params } } = this.props;
+    const { province, ...others } = params || {};
+    if (province === provinceName) {
+      return;
+    }
+    this.setState({ provinceName });
+    this.props.dispatch({
+      type: 'dataDetail/getDetailData',
+      payload: { params: { ...others, province: provinceName } },
+    });
+  }
   render() {
     const dataSource = this.props.dataDetail.tableList;
-    const {total,totalPlan} = this.props.dataDetail;
-
-    const columns = [
-      {
-        title: '省/市',
-        dataIndex: 'province',
-      },
-      {
-        title: '学院',
-        dataIndex: 'collegeName',
-      },
-      {
-        title: '家族',
-        dataIndex: 'familyName',
-      },
-      {
-        title: '考试计划人数',
-        dataIndex: 'examPlanNum',
-      },
-      {
-        title: '准考证填写人数',
-        dataIndex: 'admissionFillNum',
-      },
-      {
-        title: '未推送消息人数',
-        dataIndex: 'unpushNum',
-      },
-      {
-        title: '已推送消息人数',
-        dataIndex: 'pushNum',
-      },
-      {
-        title: '消息已读人数',
-        dataIndex: 'readNum',
-      },
-      {
-        title: '消息未读人数',
-        dataIndex: 'unreadNum',
-      },
-    ];
+    const { totalPlan } = this.props.dataDetail;
+    const { provinceName } = this.state;
     return (
       <>
         <div>
@@ -166,20 +182,16 @@ class ResultTable extends Component {
               <Button type="primary2" onClick={this.addTask}>添加下载任务</Button>
             </span>
           </div>
-          <Table dataSource={dataSource} columns={columns} pagination={false} loading={this.props.loading} bordered/>
-          <br/>
-          {/*{total ? (*/}
-            {/*<Pagination*/}
-              {/*showSizeChanger*/}
-              {/*pageSizeOptions= {['36', '50', '100']}*/}
-              {/*showQuickJumper*/}
-              {/*onChange={(current, pageSize)=>this.onCurrentSizeChange(current, pageSize)}*/}
-              {/*onShowSizeChange={(current, pageSize)=>this.onShowSizeChange(current, pageSize)}*/}
-              {/*current={defaultCurrent || 1}*/}
-              {/*total={total || 0}*/}
-              {/*pageSize={defaultPageSize || 36}*/}
-            {/*/>*/}
-          {/*):null}*/}
+          <Table dataSource={dataSource} columns={columns} pagination={false} loading={this.props.loading} bordered />
+          <br />
+          <div className={styles.provinceCotainer}>
+            {provinces.map(item => <span
+              key={item.code}
+              className={provinceName === item.name ? styles.selectedProvinceBtn : styles.provinceBtn}
+              onClick={this.onSelectedProvince.bind(this, item.name)}
+            >{item.name}</span>)}
+
+          </div>
         </div>
         <Modal
           title='添加下载任务'
@@ -192,7 +204,7 @@ class ResultTable extends Component {
           ]}
         >
           <div className={styles.modalWrap}>
-            <Input placeholder="输入名称" maxLength={11} value={this.state.taskName} onChange={this.onChangeName}/>
+            <Input placeholder="输入名称" maxLength={11} value={this.state.taskName} onChange={this.onChangeName} />
           </div>
         </Modal>
       </>
