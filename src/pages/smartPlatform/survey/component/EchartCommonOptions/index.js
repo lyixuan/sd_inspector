@@ -82,7 +82,7 @@ export function chartOptions(data) {
     }],
     xData: data1.dateArr,
     color: ['#1e93ff', "#7363ec", '#1ec47a', '#fc3676'],
-    formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}',
+    formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}<br />{a3}: {c3}%',
     series: [{
       name: '考试计划人数',
       type: 'bar',
