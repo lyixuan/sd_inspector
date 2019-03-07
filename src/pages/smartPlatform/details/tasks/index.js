@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Icon,Popconfirm} from 'antd';
+import { Icon} from 'antd';
+import Popconfirm from 'antd/lib/popconfirm';
 import Table from 'antd/lib/table';
 import Breadcrumb from 'antd/lib/breadcrumb';
 import Link from 'umi/link';
+import SelfPagination from '../../components/Pagination';
 import {STATIC_HOST} from '@/utils/constants'
 import { BiFilter } from '@/utils/utils';
 import styles from '../style.less'
@@ -17,37 +19,48 @@ class Tasks extends Component {
     super(props);
     this.state = {
       pageNum:1,
-      pageSize:10
+      pageSize:36
     };
   }
-
-  UNSAFE_componentWillMount() {
-    // 获取数据
-
-  }
   componentDidMount(){
-    this.getData({});
+    this.getData(this.state);
   }
+  // 获取列表数据
   getData = params =>{
     this.props.dispatch({
       type: 'detail/getTaskPage',
       payload: params,
     });
   };
+  // 删除任务
   deleteFn = data => {
     this.props.dispatch({
       type: 'detail/deleteTask',
       payload: {id:data.id},
     });
   };
+  // 重新加载任务
   reloadFn = data => {
     this.props.dispatch({
       type: 'detail/reloadTask',
       payload: {id:data.id},
     });
   };
+  // 下载任务
   downloadFn = data => {
     window.location.href = `${STATIC_HOST}${data.zipPath}`;
+  };
+  // 点击某一页函数
+  changePage = (pageNum, size) => {
+    this.getData({
+      pageSize: size,
+      pageNum,
+    });
+  };
+
+  // 点击显示每页多少条数据函数
+  onShowSizeChange = (current, pageSize) => {
+    this.changePage(current, pageSize);
   };
   render() {
     const columns = [
@@ -113,7 +126,7 @@ class Tasks extends Component {
         },
       },
     ];
-    const {tableList} = this.props.detail;
+    const {tableList,total} = this.props.detail;
     return (
       <>
         <div className={styles.breadcrumb}>
@@ -127,7 +140,16 @@ class Tasks extends Component {
           <div className={styles.tableHead}>
             <span className={styles.tableHeadLeft}>任务列表</span>
           </div>
-          <Table dataSource={tableList} columns={columns} bordered loading={this.props.loading}/>
+          <Table dataSource={tableList} pagination={false} columns={columns} bordered loading={this.props.loading}/>
+          <SelfPagination
+            onChange={(current, pageSize) => {
+              this.changePage(current, pageSize);
+            }}
+            onShowSizeChange={(current, pageSize) => {
+              this.onShowSizeChange(current, pageSize);
+            }}
+            total={total}
+          />
         </div>
       </>
     );

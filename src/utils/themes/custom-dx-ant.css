@@ -193,11 +193,14 @@ ul{
 }
 
 /*分页*/
-.ant-table-pagination.ant-pagination {
+.ant-table-pagination.ant-pagination,.ant-pagination {
   float: none;
   text-align: center;
+  margin-top: 30px;
 }
-
+.ant-pagination-total-text{
+  color: #fff;
+}
 .ant-pagination-item, .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link{
   background-color: #0A2F5B;
   border-color: #0A2F5B;
@@ -233,6 +236,9 @@ ul{
 }
 .ant-pagination-options-quick-jumper input {
   border-color: #0080FF;
+  background-color: #0c162f;
+  color: #fff;
+  text-align: center;
 }
 
 .ant-table-placeholder {

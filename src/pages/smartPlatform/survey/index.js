@@ -13,6 +13,7 @@ import { chartOptions } from './component/EchartCommonOptions';
   home,
   loading: loading.models.survey,
   mapInfo: survey.mapInfo || [],
+  mapInfoLoading: loading.effects['survey/getMapInfo'],
   echartLoading: loading.effects['survey/queryHistogramData'],
 }))
 class Survey extends React.Component {
@@ -67,9 +68,13 @@ class Survey extends React.Component {
           {/* 页面切换 */}
           <Radio path='/smartPlatform/survey' />
           {/* 地图 */}
-          <div className={styles.mapContainer}>
-            <ChinaMap data={mapInfo} />
-          </div>
+          <Spin spinning={this.props.mapInfoLoading}>
+            <div className={styles.mapContainer}>
+              <ChinaMap data={mapInfo} />
+            </div>
+
+          </Spin>
+
           <div className={styles.histogram}>
             <div className={styles.headerCls}>
               数据概览

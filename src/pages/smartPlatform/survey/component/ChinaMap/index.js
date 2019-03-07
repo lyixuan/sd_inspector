@@ -191,22 +191,23 @@ class ChinaMap extends Component {
     }
     changePathColor = (data = {}) => {
         d3.selectAll('.state').style('fill', d => {
-            const { examPlanNum = 0 } = data[d.id] || {};
+            const { examPlanNum = 0, examineStatus } = data[d.id] || {};
+            const isBegining = examineStatus === 4;
 
-            if (examPlanNum >= 100000) {
+            if (examPlanNum >= 100000 && isBegining) {
                 return '#e73236'
-            } else if (examPlanNum < 100000 && examPlanNum >= 70000) {
+            } else if (examPlanNum < 100000 && examPlanNum >= 70000 && isBegining) {
 
                 return '#ec4f44'
-            } else if (examPlanNum < 70000 && examPlanNum >= 50000) {
+            } else if (examPlanNum < 70000 && examPlanNum >= 50000 && isBegining) {
                 return '#fb7338'
-            } else if (examPlanNum < 50000 && examPlanNum >= 30000) {
+            } else if (examPlanNum < 50000 && examPlanNum >= 30000 && isBegining) {
                 return '#fd9d3c'
-            } else if (examPlanNum < 30000 && examPlanNum >= 20000) {
+            } else if (examPlanNum < 30000 && examPlanNum >= 20000 && isBegining) {
                 return '#fdbb3c'
-            } else if (examPlanNum < 20000 && examPlanNum >= 10000) {
+            } else if (examPlanNum < 20000 && examPlanNum >= 10000 && isBegining) {
                 return '#f2c71c'
-            } else if (examPlanNum < 10000 && examPlanNum > 0) {
+            } else if (examPlanNum < 10000 && examPlanNum >= 0 && isBegining) {
                 return '#e5e323'
             } else {
                 return '#008dff'
