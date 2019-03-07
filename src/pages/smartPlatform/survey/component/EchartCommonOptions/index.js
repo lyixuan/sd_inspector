@@ -1,5 +1,5 @@
 function commonOptions(params) {
-  const {text,legendData=[],xData=[],color,series,yAxis,itemGap=19,formatter} = params;
+  const {text,legendData=[],series,xData=[],color,yAxis,itemGap=19,formatter} = params;
   return {
     title: {
       text,
@@ -86,6 +86,7 @@ function commonOptions(params) {
 export function chartOptions(data) {
   const { dataList = {} } = data;
   const { data1 = {}, data2 = {} } = dataList;
+  console.log(data1)
   const params1 = {
     text: '微信推送整体数据',
     legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '推送人数', icon: 'rect' }, { name: '已读人数', icon: 'rect' }],
@@ -93,13 +94,16 @@ export function chartOptions(data) {
     color: ['#1e93ff', "#7363ec", '#1ec47a'],
     formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}',
     series: [{
+      name:'考试计划人数',
       type: 'bar',
       barCategoryGap: '40%',
       data: data1.dataArr1
     }, {
+      name:'推送人数',
       type: 'bar',
       data: data1.dataArr2
     }, {
+      name:'已读人数',
       type: 'bar',
       data: data1.dataArr3
     }],
@@ -135,13 +139,16 @@ export function chartOptions(data) {
     color: ['#1e93ff', "#fc595b", '#fc3676'],
     formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}%',
     series: [{
+      name:'考试计划人数',
       type: 'bar',
       barCategoryGap: '60%',
       data: data2.dataArr1
     }, {
+      name:'准考证填写人数',
       type: 'bar',
       data: data2.dataArr2
     }, {
+      name:'准考证填写占比',
       type: 'line',
       yAxisIndex: 1,
       symbol: 'circle',

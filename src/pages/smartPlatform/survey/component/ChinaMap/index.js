@@ -24,7 +24,7 @@ const lended = `
 <text id="t7" data-name="7万≤N＜10万" class=${styles.cls8} transform="translate(147.281 777.221)">7万≤N＜10万</text>
 <text id="t8" data-name="≥10万" class=${styles.cls8} transform="translate(147.281 748.222)">≥10万</text>`
 
-const scaleNum = 0.70;
+let scaleNum = 0.9;
 let tip = {};
 let HEIGHT = 0;
 let WIDTH = 0
@@ -88,7 +88,7 @@ class ChinaMap extends Component {
         const chart = d3.select(this.svgDom).attr('width', WIDTH).attr('height', HEIGHT);
         this.svgFirstG = chart.append("g")// 设最外包层在总图上的相对位置
         this.svgFirstG.style('fill-opacity', 1)
-            .attr("transform", `translate(${(1 - scaleNum) / 2 * WIDTH - 60},${(1 - scaleNum) / 2 * HEIGHT}) scale(${scaleNum})`)
+            .attr("transform", `translate(${(1 - scaleNum) / 2 * WIDTH},${(1 - scaleNum) / 2 * HEIGHT - 50}) scale(${scaleNum})`)
             .on('mouseout', this.onMouseout)
             ;
         // 设置省path
@@ -140,7 +140,7 @@ class ChinaMap extends Component {
     }
     drewLended = (svg) => {
         this.lended = svg.append('g').html(lended)
-            .attr("transform", `translate(${(scaleNum - 1) / 2 * WIDTH - 70},${(scaleNum - 1) / 2 * HEIGHT + 100})`)
+            .attr("transform", `translate(${(scaleNum - 1) / 2 * WIDTH - 40},${(scaleNum - 1) / 2 * HEIGHT + 100})`)
     }
     drewPath = (data) => {
         this.provincePath = this.svgFirstG.append('g')
@@ -253,14 +253,14 @@ class ChinaMap extends Component {
     render() {
         const { examineStepList } = this.state;
         return (
-            <>
+            <div className={styles.mapCotainer}>
                 <div className={styles.container}>
                     <svg ref={dom => { this.svgDom = dom }} width={1000} height={1000}></svg>
                 </div>
                 <div className={styles.process}>
                     <ProcessStep data={examineStepList} />
                 </div>
-            </>
+            </div>
         )
     }
 }
