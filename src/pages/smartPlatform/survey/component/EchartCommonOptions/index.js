@@ -12,7 +12,8 @@ function commonOptions(params) {
     },
     grid: {
       top: 166,
-      // left: 64,
+      left: 64,
+      right:20,
       height: 234,
     },
     legend: {
@@ -41,7 +42,8 @@ function commonOptions(params) {
       {
         axisLine: {
           lineStyle: {
-            color: '#bdc0c6'
+            color: '#bdc0c6',
+            fontSize:12
           }
         },
         axisLabel: {// 横坐标轴标签
@@ -134,7 +136,7 @@ export function chartOptions(data) {
         formatter: '{value} %'
       }
     }],
-    // itemGap: 52,
+    itemGap: 30,
   };
   const params2 = {
     text: '准考证填写趋势',
@@ -149,7 +151,6 @@ export function chartOptions(data) {
       name: '考试计划人数',
       type: 'bar',
       barWidth: 15,
-      barCategoryGap: '60%',
       data: data2.dataArr1
     }, {
       name: '准考证填写人数',

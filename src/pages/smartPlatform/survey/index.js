@@ -1,6 +1,7 @@
 import React from 'react';
 import { Spin } from 'antd';
 import { connect } from 'dva';
+import Empty from 'antd/lib/empty'
 import Radio from '../components/Tabs';
 import Echart from '@/components/Echart'
 import styles from './style.less';
@@ -60,6 +61,9 @@ class Survey extends React.Component {
   };
   render() {
     const { mapInfo, survey } = this.props;
+
+    const { dataList = {} } = survey;
+    const { data1 = {}, data2 = {} } = dataList;
     const { option1, option2 } = chartOptions(survey);
 
     return (
@@ -86,8 +90,16 @@ class Survey extends React.Component {
             {/* 图表 */}
             <Spin spinning={this.props.echartLoading}>
               <div className={styles.echartCls}>
-                <Echart update={option1} style={{ width: '46%', height: "510px" }} options={option1} />
-                <Echart update={option2} style={{ width: '46%', height: "510px" }} options={option2} />
+                {
+                  JSON.stringify(data1)==='{}'?
+                    <Empty className={styles.emptyCls} />:
+                    <Echart update={data1} style={{ width: '49%', height: "510px" }} options={option1} />
+                }
+                {
+                  JSON.stringify(data2)==='{}'?
+                  <Empty className={styles.emptyCls} />:
+                  <Echart update={data2} style={{ width: '49%', height: "510px" }} options={option2} />
+                }
               </div>
             </Spin>
           </div>
