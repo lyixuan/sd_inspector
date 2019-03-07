@@ -8,7 +8,11 @@ function dealData(data, dataItem) {
   data.forEach(item => {
     dataObj.dateArr.push(item.date);
     dataItem.forEach((item1,index1)=>{
-      dataObj[`dataArr${[index1+1]}`].push(item[dataItem[index1]]);
+      let val = item[dataItem[index1]];
+      if('admissionFillRatio' === dataItem[index1]){
+        val = (val*100).toFixed(2);
+      }
+      dataObj[`dataArr${[index1+1]}`].push(val);
     })
   });
   return dataObj;
