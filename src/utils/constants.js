@@ -12,7 +12,7 @@ export const ADMIN_USER = 'admin_user';
 // 静态文件host
 export const STATIC_HOST = {
   development: 'http://172.16.117.65',
-  production: 'http://bi-admin.ministudy.com/staticFile/classFile',
+  production: 'api.bd.ministudy.com/download',
 }[process.env.PROXY_ENV];
 
 
