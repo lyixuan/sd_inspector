@@ -49,17 +49,17 @@ class Tasks extends Component {
   };
   // 下载任务
   downloadFn = data => {
-    const arr = data.zipPath.split('.');
-    const filename = arr[arr.length - 1];
+    // const arr = data.zipPath.split('.');
+    // const filename = arr[arr.length - 1];
     const a = document.createElement("a");
     a.href = `${STATIC_HOST}${data.zipPath}`;
-    if (filename === 'zip') {
-      a.download = `${data.taskName}.zip`;
-      // console.log(a.download)
-    } else {
-      a.download = `${formatDate(data.createTime)}明细数据.xlsx`;
-      // console.log(data.createTime)
-    }
+    // if (filename === 'zip') {
+    //   a.download = `${data.taskName}.zip`;
+    //   // console.log(a.download)
+    // } else {
+    //   a.download = `${formatDate(data.createTime)}明细数据.xlsx`;
+    //   // console.log(data.createTime)
+    // }
     a.click();
   };
   // 点击某一页函数
