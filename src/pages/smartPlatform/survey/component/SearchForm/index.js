@@ -19,8 +19,8 @@ const dateFormat = 'YYYY-MM-DD';
       province:'报考省份',
       collegeId:'学院',
       familyId:'家族',
-      beginDate:'',
-      endDate:'',
+      beginDate:'2018-10-23',
+      endDate: '',
       familyData:[], // 家族的下拉框options
     };
   }
@@ -47,9 +47,11 @@ const dateFormat = 'YYYY-MM-DD';
   };
   // 时间控件可展示的时间范围
   disabledDate = current => {
-    const {dateRange} = this.props.home;
-    const {beginTime,endTime} = dateRange;
-    return current < moment(beginTime) || current > moment(endTime);
+    // const {dateRange} = this.props.home;
+    // const {beginTime,endTime} = dateRange;
+    const day1 = new Date();
+    day1.setTime(day1.getTime()-24*60*60*1000);
+    return current < moment('2018-10-23') || current > moment(day1,dateFormat);
   };
   // 日期修改
   dateChange=(value, dateString)=> {

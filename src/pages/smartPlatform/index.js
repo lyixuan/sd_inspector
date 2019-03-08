@@ -9,7 +9,7 @@ import styles from './style.less'
 }))
 class Home extends React.Component {
   componentDidMount() {
-    this.getDateRange();
+    // this.getDateRange();
     this.getOrgInfo()
   }
   getOrgInfo = () => {
