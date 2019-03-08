@@ -8,7 +8,7 @@ import Button from 'antd/lib/button';
 import Link from 'umi/link';
 import SelfPagination from '../../components/Pagination';
 import { STATIC_HOST } from '@/utils/constants'
-import { BiFilter, formatDate } from '@/utils/utils';
+import { BiFilter } from '@/utils/utils';
 import styles from '../style.less'
 
 @connect(({ detail, loading }) => ({
@@ -137,7 +137,7 @@ class Tasks extends Component {
         render: (text, record) => {
           return (
             <>
-              <Icon type="download" onClick={() => { this.downloadFn(record) }} style={{ marginRight: '8px' }} />
+              {record.taskStatus === 3 ?  <Icon type="download" onClick={() => { this.downloadFn(record) }} style={{ marginRight: '8px' }} /> : <span style={{ marginRight: '22px' }}/>}
               <Popconfirm title='确定删除该任务么' onConfirm={() => this.deleteFn(record)} okText="确定" cancelText="取消">
                 <Icon type="delete" />
               </Popconfirm>
