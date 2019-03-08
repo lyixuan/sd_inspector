@@ -200,8 +200,8 @@ class HorizontalLoginForm extends React.Component {
 
 
   handleReset = () => {
-    menuCheckedName = '我的查询条件';
     this.checkedConditionList = {};
+    menuCheckedName = '我的查询条件';
     isEdit = false;   // 重置后，保存条件为新增
     editId = undefined;   // 重置后，保存条件为新增
     editName = undefined;   // 重置后，保存条件为新增
@@ -219,6 +219,15 @@ class HorizontalLoginForm extends React.Component {
     this.examList = this.props.dataDetail.examList;
     this.conditionList = this.props.dataDetail.queryConditionList || [];
     this.collegeList = this.props.home.orgList;
+
+    this.conditionList.forEach((v)=>{
+      if (v.paramName === editName) {
+        isEdit = true;
+        editId = v.id;
+        editName = editName;
+        menuCheckedName = editName;
+      }
+    });
 
     const { getFieldDecorator, } = this.props.form;
     const menu = (
@@ -469,7 +478,9 @@ class SearchForm extends Component {
         type: 'dataDetail/addQueryCondition',
         payload: { params: obj },
       });
+      editName = this.state.conditionName;
     } else if (this.state.titleType === 2) {
+      // 更新
       const obj2 = {
         id: this.tId,
         paramName: this.state.conditionName,
