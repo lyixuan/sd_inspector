@@ -130,6 +130,13 @@ class Tasks extends Component {
       {
         title: '学员订单数',
         dataIndex: 'orderCount',
+        render: (text, record) => {
+          return (
+            <>
+              {record.taskStatus === 3 ? <span>{text} </span>: '--'}
+            </>
+          );
+        },
       },
       {
         title: '操作',
