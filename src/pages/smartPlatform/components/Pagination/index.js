@@ -33,7 +33,7 @@ class Index extends Component {
         current={defaultCurrent || 1}
         total={total || 0}
         defaultPageSize={defaultPageSize || 10}
-        pageSizeOptions={pageSizeOptions || ['10','20','50']}
+        pageSizeOptions={pageSizeOptions || ['10','20','50','100']}
       />
     ) : null;
   }
