@@ -26,6 +26,12 @@ ul{
   -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
 }
+
+.ant-btn-primary2.ant-btn[disabled] {
+  background-color: #DB7972;
+  border-color: #DB7972;
+  color: #fff;
+}
 .ant-btn-primary:hover,
 .ant-btn-primary:focus{
   color: #fff;

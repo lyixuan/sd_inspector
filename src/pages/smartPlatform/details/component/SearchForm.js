@@ -21,6 +21,7 @@ let editId = undefined;
 let editName = undefined;
 let menuCheckedName = '我的查询条件';
 
+let isDefault = true;
 // 名称正则校验，汉字数字英文
 const reg =/^[\u4e00-\u9fa5a-zA-Z0-9]+$/;
 
@@ -83,6 +84,7 @@ class HorizontalLoginForm extends React.Component {
   };
 
   menuCheck = (val) => {
+    isDefault = false;
     this.checkedConditionList = {};
     val.exam ? this.checkedConditionList.exam = { keys: val.exam, labels: val.exam2 } : '';
     val.collegeId ? this.checkedConditionList.collegeId = { keys: val.collegeId, labels: val.collegeName } : '';
@@ -133,6 +135,7 @@ class HorizontalLoginForm extends React.Component {
   };
 
   formValChange = (val, key) => {
+    isDefault = false;
     if (val === undefined) {
       delete this.checkedConditionList[key];
       if (key === 'collegeId') {
@@ -212,6 +215,7 @@ class HorizontalLoginForm extends React.Component {
     editName = undefined;   // 重置后，保存条件为新增
     this.props.updateCC(this.checkedConditionList);
     this.props.form.resetFields();
+    isDefault = true;
   };
 
   handleSubmit = (e) => {
@@ -373,7 +377,7 @@ class HorizontalLoginForm extends React.Component {
                 </Dropdown>
               </Form.Item>
               <Form.Item style={{ marginLeft: '300px' }}>
-                <Button type="primary2" onClick={this.handleReset}>恢复默认</Button>
+                <Button type="primary2" onClick={this.handleReset} disabled={isDefault}>恢复默认</Button>
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit"><Icon type="search" />查询</Button>
