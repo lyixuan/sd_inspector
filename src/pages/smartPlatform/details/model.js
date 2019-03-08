@@ -83,7 +83,7 @@ export default {
         message.success('保存成功');
         yield put({ type: 'getQueryConditionList', payload: {params:{}} });
       } else {
-        message.error(result.msg);
+        message.error(result.msgDetail);
       }
     },
     // 修改查询条件
@@ -93,7 +93,7 @@ export default {
         message.success('修改成功');
         yield put({ type: 'getQueryConditionList', payload: {params:{}} });
       } else {
-        message.error(result.msg);
+        message.error(result.msgDetail);
       }
     },
     // 删除查询条件
@@ -103,7 +103,7 @@ export default {
         message.success("删除成功");
         yield put({ type: 'getQueryConditionList', payload: {params:{}} });
       } else {
-        message.error(result.msg);
+        message.error(result.msgDetail);
       }
     },
     // 添加下载任务

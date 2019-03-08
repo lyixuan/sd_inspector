@@ -20,6 +20,10 @@ let isEdit = false; // 判断是重置后的新增，还是选择了查询条件
 let editId = undefined;
 let editName = undefined;
 let menuCheckedName = '我的查询条件';
+
+// 名称正则校验，汉字数字英文
+const reg =/^[\u4e00-\u9fa5a-zA-Z0-9]+$/;
+
 @connect(({ home, dataDetail }) => ({
   home,
   dataDetail,
@@ -457,12 +461,18 @@ class SearchForm extends Component {
   };
 
   handleOk = () => {
+    if (!this.state.conditionName) {
+      Message.warning('请输入名称');
+      return
+    }
+    if (!reg.test(this.state.conditionName)) {
+      Message.warning('名称只能包含汉字、数字和英文');
+      return
+    }
     // 添加查询条件
     if (this.state.titleType === 1) {
       const checkedConditionList = DeepCopy(this.state.checkedConditionList);
-      if (!this.state.conditionName) {
-        Message.warning('请输入名称');
-      }
+
       const obj = {
         paramName: this.state.conditionName,
       };
@@ -554,7 +564,7 @@ class SearchForm extends Component {
           ]}
         >
           <div className={styles.modalWrap}>
-            <Input placeholder="输入名称" maxLength={11} value={this.state.conditionName} onChange={this.onChangeUserName} />
+            <Input placeholder="输入名称" maxLength={10} value={this.state.conditionName} onChange={this.onChangeUserName} />
           </div>
         </Modal>
       </>

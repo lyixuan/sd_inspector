@@ -10,6 +10,9 @@ import Message from 'antd/lib/message/index';
 import config from '../../../../../config/config';
 import { connect } from 'dva/index';
 
+// 名称正则校验，汉字数字英文
+const reg =/^[\u4e00-\u9fa5a-zA-Z0-9]+$/;
+
 function listToString(obj) {
   const result = DeepCopy(obj);
   for (let key in result) {
@@ -111,6 +114,10 @@ class ResultTable extends Component {
     const newParam = listToString(oldParam);
     if (!this.state.taskName) {
       Message.warning('请填写名称');
+      return
+    }
+    if (!reg.test(this.state.taskName)) {
+      Message.warning('名称只能包含汉字、数字和英文');
       return
     }
     const obj = {
@@ -215,7 +222,7 @@ class ResultTable extends Component {
           ]}
         >
           <div className={styles.modalWrap}>
-            <Input placeholder="输入名称" maxLength={11} value={this.state.taskName} onChange={this.onChangeName} />
+            <Input placeholder="输入名称" maxLength={10} value={this.state.taskName} onChange={this.onChangeName} />
           </div>
         </Modal>
       </>
