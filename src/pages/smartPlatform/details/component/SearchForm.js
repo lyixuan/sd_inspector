@@ -200,8 +200,11 @@ class HorizontalLoginForm extends React.Component {
 
 
   handleReset = () => {
+    menuCheckedName = '我的查询条件';
     this.checkedConditionList = {};
     isEdit = false;   // 重置后，保存条件为新增
+    editId = undefined;   // 重置后，保存条件为新增
+    editName = undefined;   // 重置后，保存条件为新增
     this.props.updateCC(this.checkedConditionList);
     this.props.form.resetFields();
   };
