@@ -128,7 +128,7 @@ class Tasks extends Component {
         },
       },
       {
-        title: '学院订单数',
+        title: '学员订单数',
         dataIndex: 'orderCount',
       },
       {
