@@ -1,6 +1,7 @@
 import { message } from 'antd/lib/index';
 import { addTask,getExamList, getDetailDataPage, getQueryConditionList, addQueryCondition, deleteQueryCondition, updateQueryCondition } from './services';
 import {BiFilter} from '@/utils/utils';
+
 export default {
   namespace: 'dataDetail',
 
@@ -17,7 +18,8 @@ export default {
   effects: {
     // 获取考期列表
     *getExamList({ payload }, { call, put }) {
-      const result = yield call(getExamList, payload);
+      // const result = yield call(getExamList, payload);
+      const result = BiFilter('examList');
       const examList = result.data || [];
       examList.forEach((v,i) => {
         examList[i]['exam'] = `${v.examYearmonth.replace('-','').substr(2)}考期`

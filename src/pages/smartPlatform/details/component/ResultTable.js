@@ -84,11 +84,11 @@ class ResultTable extends Component {
   constructor(props) {
     super(props);
     const { dataDetail: { params } } = this.props;
-    const { province } = params || {};
+    const { provinceList } = params || {};
     this.state = {
       visible: false,
       taskName: '',
-      provinceName: province || provinces[0].name,  // 默认选中省份
+      provinceName: provinceList || provinces[0].name,  // 默认选中省份
     };
   }
 
