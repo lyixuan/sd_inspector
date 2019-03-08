@@ -4,6 +4,7 @@ import { Icon } from 'antd';
 import Popconfirm from 'antd/lib/popconfirm';
 import Table from 'antd/lib/table';
 import Breadcrumb from 'antd/lib/breadcrumb';
+import Button from 'antd/lib/button';
 import Link from 'umi/link';
 import SelfPagination from '../../components/Pagination';
 import { STATIC_HOST } from '@/utils/constants'
@@ -75,6 +76,11 @@ class Tasks extends Component {
   // 点击显示每页多少条数据函数
   onShowSizeChange = (current, pageSize) => {
     this.changePage(current, pageSize);
+  };
+
+  // 刷新
+  redo = () => {
+    this.getData(this.state);
   };
   render() {
     const columns = [
@@ -152,6 +158,7 @@ class Tasks extends Component {
           </Breadcrumb>
         </div>
         <div className={styles.tableBox}>
+          <Button style={{height:30}} type="primary" size='small' onClick={this.redo}><Icon type="redo" />刷新</Button>
           <div className={styles.tableHead}>
             <span className={styles.tableHeadLeft}>任务列表</span>
           </div>
