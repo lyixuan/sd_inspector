@@ -112,7 +112,7 @@ export default {
       if (result.code === 20000) {
         message.success("添加成功");
       } else {
-        message.error(result.msg);
+        message.error(result.msgDetail);
       }
     }
 

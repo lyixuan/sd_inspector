@@ -182,7 +182,7 @@ class ResultTable extends Component {
       this.props.handlePropSubmit(provinceName)
     }
     this.setState({ provinceName });
-  }
+  };
   render() {
     const dataSource = this.props.dataDetail.tableList;
     const { provinceName } = this.state;
@@ -222,7 +222,7 @@ class ResultTable extends Component {
           ]}
         >
           <div className={styles.modalWrap}>
-            <Input placeholder="输入名称" maxLength={10} value={this.state.taskName} onChange={this.onChangeName} />
+            <Input placeholder="输入名称" maxLength={20} value={this.state.taskName} onChange={this.onChangeName} />
           </div>
         </Modal>
       </>
