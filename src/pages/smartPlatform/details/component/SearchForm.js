@@ -136,6 +136,7 @@ class HorizontalLoginForm extends React.Component {
           familyIdList: undefined
         });
         delete this.checkedConditionList['familyIdList'];
+        this.familyList = [];
       }
       this.props.updateCC(this.checkedConditionList);
       return
@@ -480,7 +481,7 @@ class SearchForm extends Component {
       });
       editName = this.state.conditionName;
     } else if (this.state.titleType === 2) {
-      // 更新
+      // 更新名称
       const obj2 = {
         id: this.tId,
         paramName: this.state.conditionName,
@@ -490,7 +491,9 @@ class SearchForm extends Component {
         payload: { params: obj2 },
       });
       if (this.tId === editId) {
+        // 如果选中的和当前更新的是一个
         menuCheckedName = this.state.conditionName;
+        editName = this.state.conditionName;
       }
     }
     this.setState({
