@@ -1,6 +1,7 @@
 import { message } from 'antd/lib/index';
 import { addTask,getExamList, getDetailDataPage, getQueryConditionList, addQueryCondition, deleteQueryCondition, updateQueryCondition } from './services';
 import {BiFilter} from '@/utils/utils';
+
 export default {
   namespace: 'dataDetail',
 
@@ -17,7 +18,8 @@ export default {
   effects: {
     // 获取考期列表
     *getExamList({ payload }, { call, put }) {
-      const result = yield call(getExamList, payload);
+      // const result = yield call(getExamList, payload);
+      const result = BiFilter('examList');
       const examList = result.data || [];
       examList.forEach((v,i) => {
         examList[i]['exam'] = `${v.examYearmonth.replace('-','').substr(2)}考期`
@@ -81,7 +83,7 @@ export default {
         message.success('保存成功');
         yield put({ type: 'getQueryConditionList', payload: {params:{}} });
       } else {
-        message.error(result.msg);
+        message.error(result.msgDetail);
       }
     },
     // 修改查询条件
@@ -91,7 +93,7 @@ export default {
         message.success('修改成功');
         yield put({ type: 'getQueryConditionList', payload: {params:{}} });
       } else {
-        message.error(result.msg);
+        message.error(result.msgDetail);
       }
     },
     // 删除查询条件
@@ -101,7 +103,7 @@ export default {
         message.success("删除成功");
         yield put({ type: 'getQueryConditionList', payload: {params:{}} });
       } else {
-        message.error(result.msg);
+        message.error(result.msgDetail);
       }
     },
     // 添加下载任务
@@ -110,7 +112,7 @@ export default {
       if (result.code === 20000) {
         message.success("添加成功");
       } else {
-        message.error(result.msg);
+        message.error(result.msgDetail);
       }
     }
 

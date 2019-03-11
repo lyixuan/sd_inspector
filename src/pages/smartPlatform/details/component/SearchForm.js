@@ -20,6 +20,11 @@ let isEdit = false; // 判断是重置后的新增，还是选择了查询条件
 let editId = undefined;
 let editName = undefined;
 let menuCheckedName = '我的查询条件';
+
+let isDefault = true;
+// 名称正则校验，汉字数字英文
+const reg =/^[\u4e00-\u9fa5a-zA-Z0-9]+$/;
+
 @connect(({ home, dataDetail }) => ({
   home,
   dataDetail,
@@ -56,8 +61,22 @@ class HorizontalLoginForm extends React.Component {
     });
   }
 
-  menuDel = (e) => {
-    this.props.menuDel(e);
+  menuDel = (id) => {
+    const that = this;
+    confirm({
+      title: '是否删除当前查询条件?',
+      onOk() {
+        that.props.dispatch({
+          type: 'dataDetail/deleteQueryCondition',
+          payload: { params: { id } },
+        });
+        if (id === editId) {
+          menuCheckedName = '我的查询条件';
+        }
+        that.handleReset();
+      },
+      onCancel() { },
+    });
   };
 
   menuEdit = (e) => {
@@ -65,6 +84,7 @@ class HorizontalLoginForm extends React.Component {
   };
 
   menuCheck = (val) => {
+    isDefault = false;
     this.checkedConditionList = {};
     val.exam ? this.checkedConditionList.exam = { keys: val.exam, labels: val.exam2 } : '';
     val.collegeId ? this.checkedConditionList.collegeId = { keys: val.collegeId, labels: val.collegeName } : '';
@@ -115,6 +135,7 @@ class HorizontalLoginForm extends React.Component {
   };
 
   formValChange = (val, key) => {
+    isDefault = false;
     if (val === undefined) {
       delete this.checkedConditionList[key];
       if (key === 'collegeId') {
@@ -122,6 +143,7 @@ class HorizontalLoginForm extends React.Component {
           familyIdList: undefined
         });
         delete this.checkedConditionList['familyIdList'];
+        this.familyList = [];
       }
       this.props.updateCC(this.checkedConditionList);
       return
@@ -160,20 +182,44 @@ class HorizontalLoginForm extends React.Component {
     } else {
       delete this.checkedConditionList[key];
     }
+    const obj = {
+      exam: undefined,
+      collegeId: undefined,
+      familyIdList: undefined,
+      orderStatus: undefined,
+      stuType: undefined,
+      admissionStatus: undefined,
+      msgStatusList: undefined,
+    };
+    for (let key in obj) {
+      for (let key2 in this.checkedConditionList) {
+        if (key === key2) {
+          if (this.checkedConditionList[key2]) {
+            obj[key] = this.checkedConditionList[key2];
+          } else {
+            delete obj[key];
+          }
+        }
+      }
+    }
+    this.checkedConditionList = {...obj};
     this.props.updateCC(this.checkedConditionList);
   };
 
 
   handleReset = () => {
     this.checkedConditionList = {};
+    menuCheckedName = '我的查询条件';
     isEdit = false;   // 重置后，保存条件为新增
+    editId = undefined;   // 重置后，保存条件为新增
+    editName = undefined;   // 重置后，保存条件为新增
     this.props.updateCC(this.checkedConditionList);
     this.props.form.resetFields();
+    isDefault = true;
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-
     if (this.props.handlePropSubmit) {
       this.props.handlePropSubmit();
     }
@@ -183,20 +229,25 @@ class HorizontalLoginForm extends React.Component {
     this.conditionList = this.props.dataDetail.queryConditionList || [];
     this.collegeList = this.props.home.orgList;
 
+    this.conditionList.forEach((v)=>{
+      if (v.paramName === editName) {
+        isEdit = true;
+        editId = v.id;
+        editName = editName;
+        menuCheckedName = editName;
+      }
+    });
+
     const { getFieldDecorator, } = this.props.form;
     const menu = (
       <Menu>
         {
           this.conditionList.length > 0 ?
-            this.conditionList.map(item => {
-              if (item.id !== editId) {
-                return (
-                  <Menu.Item key={item.id}>
-                    <span onClick={() => this.menuCheck(item)} >{item.paramName}</span><Icon onClick={() => this.menuDel(item.id)} style={{ marginLeft: '5px' }} type="delete" />  <Icon onClick={() => this.menuEdit(item)} type="edit" />
-                  </Menu.Item>
-                  )
-              }
-            }) : (
+            this.conditionList.map(item => (
+              <Menu.Item key={item.id}>
+                <span onClick={() => this.menuCheck(item)} >{item.paramName}</span><Icon onClick={() => this.menuDel(item.id)} style={{ marginLeft: '5px' }} type="delete" />  <Icon onClick={() => this.menuEdit(item)} type="edit" />
+              </Menu.Item>
+            )) : (
               <Menu.Item>
                 <span>暂无数据</span>
               </Menu.Item>
@@ -326,7 +377,7 @@ class HorizontalLoginForm extends React.Component {
                 </Dropdown>
               </Form.Item>
               <Form.Item style={{ marginLeft: '300px' }}>
-                <Button type="primary2" onClick={this.handleReset}>恢复默认</Button>
+                <Button type="primary2" onClick={this.handleReset} disabled={isDefault}>恢复默认</Button>
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit"><Icon type="search" />查询</Button>
@@ -362,20 +413,6 @@ class SearchForm extends Component {
       checkedConditionList: val,
     });
     this.props.updateCheckedConditions(val)
-  };
-
-  conditionDel = (id) => {
-    const that = this;
-    confirm({
-      title: '是否删除当前查询条件?',
-      onOk() {
-        that.props.dispatch({
-          type: 'dataDetail/deleteQueryCondition',
-          payload: { params: { id } },
-        });
-      },
-      onCancel() { },
-    });
   };
 
   conditionEdit = (item) => {
@@ -428,12 +465,18 @@ class SearchForm extends Component {
   };
 
   handleOk = () => {
+    if (!this.state.conditionName) {
+      Message.warning('请输入名称');
+      return
+    }
+    if (!reg.test(this.state.conditionName)) {
+      Message.warning('名称只能包含汉字、数字和英文');
+      return
+    }
     // 添加查询条件
     if (this.state.titleType === 1) {
       const checkedConditionList = DeepCopy(this.state.checkedConditionList);
-      if (!this.state.conditionName) {
-        Message.warning('请输入名称');
-      }
+
       const obj = {
         paramName: this.state.conditionName,
       };
@@ -450,7 +493,9 @@ class SearchForm extends Component {
         type: 'dataDetail/addQueryCondition',
         payload: { params: obj },
       });
+      editName = this.state.conditionName;
     } else if (this.state.titleType === 2) {
+      // 更新名称
       const obj2 = {
         id: this.tId,
         paramName: this.state.conditionName,
@@ -460,7 +505,9 @@ class SearchForm extends Component {
         payload: { params: obj2 },
       });
       if (this.tId === editId) {
+        // 如果选中的和当前更新的是一个
         menuCheckedName = this.state.conditionName;
+        editName = this.state.conditionName;
       }
     }
     this.setState({
@@ -494,7 +541,6 @@ class SearchForm extends Component {
           <WrappedHorizontalLoginForm
             {...this.props}
             updateCC={(p) => this.updateCheckedConditions(p)}
-            menuDel={(id) => this.conditionDel(id)}
             menuEdit={(item) => this.conditionEdit(item)}
           />
           {
@@ -522,7 +568,7 @@ class SearchForm extends Component {
           ]}
         >
           <div className={styles.modalWrap}>
-            <Input placeholder="输入名称" maxLength={11} value={this.state.conditionName} onChange={this.onChangeUserName} />
+            <Input placeholder="输入名称" maxLength={10} value={this.state.conditionName} onChange={this.onChangeUserName} />
           </div>
         </Modal>
       </>

@@ -12,7 +12,7 @@ export const ADMIN_USER = 'admin_user';
 // 静态文件host
 export const STATIC_HOST = {
   development: 'http://172.16.117.65',
-  production: 'http://bi-admin.ministudy.com/staticFile/classFile',
+  production: 'http://api.bd.ministudy.com/download',
 }[process.env.PROXY_ENV];
 
 
@@ -229,6 +229,15 @@ export const TASK_STATES = [
   { id: 4, name: '失败', color: '#ff3678' },
 ];
 
+// 考期接口
+export const  examList =
+  {code:20000,
+    msg:"OK",
+    msgDetail:null,
+    data:[
+      {"beginDate":"2018-10-23","createTime":null,"endDate":"2019-04-22","examYearmonth":"2019-04","id":5,"updateTime":null}
+    ]};
+
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -239,4 +248,5 @@ export default {
   PAGINATION,
   PROVINCE_SIGN_STEP,
   provinceJson,
+  examList,
 };

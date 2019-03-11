@@ -83,12 +83,12 @@ class Survey extends React.Component {
             <div className={styles.headerCls}>
               数据概览
             </div>
-            {/* 搜索条件 */}
-            <div className={styles.formCls}>
-              <SearchForm searchData={this.searchData} />
-            </div>
-            {/* 图表 */}
             <Spin spinning={this.props.echartLoading}>
+              {/* 搜索条件 */}
+              <div className={styles.formCls}>
+                <SearchForm searchData={this.searchData} />
+              </div>
+              {/* 图表 */}
               <div className={styles.echartCls}>
                 {
                   JSON.stringify(data1) === '{}' ?

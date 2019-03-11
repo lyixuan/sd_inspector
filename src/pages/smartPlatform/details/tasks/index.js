@@ -4,10 +4,11 @@ import { Icon } from 'antd';
 import Popconfirm from 'antd/lib/popconfirm';
 import Table from 'antd/lib/table';
 import Breadcrumb from 'antd/lib/breadcrumb';
+import Button from 'antd/lib/button';
 import Link from 'umi/link';
 import SelfPagination from '../../components/Pagination';
 import { STATIC_HOST } from '@/utils/constants'
-import { BiFilter, formatDate } from '@/utils/utils';
+import { BiFilter } from '@/utils/utils';
 import styles from '../style.less'
 
 @connect(({ detail, loading }) => ({
@@ -48,20 +49,15 @@ class Tasks extends Component {
   };
   // 下载任务
   downloadFn = data => {
-    if (!data.zipPath) {
-      return;
-    }
-    const arr = data.zipPath.split('.');
-    const filename = arr[arr.length - 1];
     const a = document.createElement("a");
     a.href = `${STATIC_HOST}${data.zipPath}`;
-    if (filename === 'zip') {
-      a.download = `${data.taskName}.zip`;
-      // console.log(a.download)
-    } else {
-      a.download = `${formatDate(data.createTime)}明细数据.xlsx`;
-      // console.log(data.createTime)
-    }
+    // if (filename === 'zip') {
+    //   a.download = `${data.taskName}.zip`;
+    //   // console.log(a.download)
+    // } else {
+    //   a.download = `${formatDate(data.createTime)}明细数据.xlsx`;
+    //   // console.log(data.createTime)
+    // }
     a.click();
   };
   // 点击某一页函数
@@ -78,6 +74,11 @@ class Tasks extends Component {
   // 点击显示每页多少条数据函数
   onShowSizeChange = (current, pageSize) => {
     this.changePage(current, pageSize);
+  };
+
+  // 刷新
+  redo = () => {
+    this.getData(this.state);
   };
   render() {
     const columns = [
@@ -125,8 +126,15 @@ class Tasks extends Component {
         },
       },
       {
-        title: '学院订单数',
+        title: '学员订单数',
         dataIndex: 'orderCount',
+        render: (text, record) => {
+          return (
+            <>
+              {record.taskStatus === 3 ? <span>{text} </span> : '--'}
+            </>
+          );
+        },
       },
       {
         title: '操作',
@@ -134,7 +142,7 @@ class Tasks extends Component {
         render: (text, record) => {
           return (
             <>
-              <Icon type="download" onClick={() => { this.downloadFn(record) }} style={{ marginRight: '8px' }} />
+              {record.taskStatus === 3 ? <Icon type="download" onClick={() => { this.downloadFn(record) }} style={{ marginRight: '8px' }} /> : <span style={{ marginRight: '22px' }} />}
               <Popconfirm title='确定删除该任务么' onConfirm={() => this.deleteFn(record)} okText="确定" cancelText="取消">
                 <Icon type="delete" />
               </Popconfirm>
@@ -155,6 +163,7 @@ class Tasks extends Component {
           </Breadcrumb>
         </div>
         <div className={styles.tableBox}>
+          <Button style={{ height: 30 }} type="primary" size='small' onClick={this.redo}><Icon type="redo" />刷新</Button>
           <div className={styles.tableHead}>
             <span className={styles.tableHeadLeft}>任务列表</span>
           </div>

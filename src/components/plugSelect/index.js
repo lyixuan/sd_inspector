@@ -11,7 +11,6 @@ class PlugSelect extends React.Component {
   constructor(props) {
     super(props);
     const value = props.value || {};
-    console.log(props);
     this.state = {
       selected1: value.selected || [],
     };
@@ -28,7 +27,7 @@ class PlugSelect extends React.Component {
   triggerChange = (changedValue) => {
     // Should provide an event to pass value to Form.
     const onChange = this.props.onChange;
-    console.log(this.props)
+    console.log(this.props);
     if (onChange) {
       onChange(changedValue);
     }
@@ -41,7 +40,6 @@ class PlugSelect extends React.Component {
       <span>
         <Select
           placeholder={placeholder}
-          mode="multiple"
           showArrow={true}
           maxTagCount={2}
           value={selected}
