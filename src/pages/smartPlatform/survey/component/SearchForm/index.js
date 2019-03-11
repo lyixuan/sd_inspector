@@ -1,43 +1,42 @@
 import React from 'react';
+import { connect } from 'dva';
 import Button from 'antd/lib/button';
 import Icon from 'antd/lib/icon';
 import DatePickerDecorator from 'antd/lib/date-picker';
 import moment from 'moment';
 import Select from '../../component/Select';
 import styles from '../../style.less';
-import {provinceJson} from '@/utils/constants';
 
 const { RangePicker } = DatePickerDecorator;
 const dateFormat = 'YYYY-MM-DD';
-export default class Survey extends React.Component {
+@connect(({ home }) => ({
+  home,
+}))
+ class Survey extends React.Component {
   constructor(props){
     super(props);
     this.state={
       province:'报考省份',
       collegeId:'学院',
       familyId:'家族',
-      beginDate:'',
-      endDate:'',
+      beginDate:'2018-10-23',
+      endDate: '',
       familyData:[], // 家族的下拉框options
     };
   }
-  collegeData = ()=>{
-    return [
-      {name:'学院',code:111,children:[{name:'家族1',code:11},{name:'家族11',code:12},{name:'家族12',code:13}]},
-      {name:'学院1',code:211,children:[{name:'家族2',code:21},{name:'家族21',code:22},{name:'家族22',code:23}]},
-      {name:'学院2',code:311,children:[{name:'家族3',code:31},{name:'家族31',code:32},{name:'家族32',code:33}]},];
-  };
+
   // 选择框修改
   handleChange = (value,id)=> {
+    const {newOrgList} = this.newData();
     if(id === 'province'){
       this.setState({
         province:value,
       });
     }else if(id === 'college'){
-      const familyData = this.collegeData().filter(item => item.code===value)[0].children ;
+      const familyData = newOrgList.filter(item => item.id===value)[0].sub ;
       this.setState({
         collegeId:value,
-        familyId:familyData[0].code,
+        familyId:familyData[0].id,
         familyData,
       });
     }else if(id === 'family'){
@@ -45,6 +44,14 @@ export default class Survey extends React.Component {
         familyId:value,
       });
     }
+  };
+  // 时间控件可展示的时间范围
+  disabledDate = current => {
+    // const {dateRange} = this.props.home;
+    // const {beginTime,endTime} = dateRange;
+    const day1 = new Date();
+    day1.setTime(day1.getTime()-24*60*60*1000);
+    return current < moment('2018-10-23') || current > moment(day1,dateFormat);
   };
   // 日期修改
   dateChange=(value, dateString)=> {
@@ -55,8 +62,12 @@ export default class Survey extends React.Component {
   };
   search = () =>{
     const { province, collegeId, familyId, beginDate, endDate} =  this.state;
+    const newPro = province==='报考省份'|| province==="所有省份"?null:province;
+    const newCol = collegeId!=='学院'?collegeId:null;
+    const newFam = familyId!=='家族'?familyId:null;
+
     const {searchData} = this.props;
-    searchData({ province, collegeId, familyId, beginDate, endDate});
+    searchData({ province:newPro, collegeId:newCol, familyId:newFam, beginDate, endDate});
   };
   reset = () =>{
     this.setState({
@@ -68,17 +79,35 @@ export default class Survey extends React.Component {
       familyData:[]
     })
   };
+  newData = ()=>{
+    const {orgList,provinceJson} = this.props.home;
+    let newOrgList=JSON.parse(JSON.stringify(orgList)),newProvinceJson=JSON.parse(JSON.stringify(provinceJson));
+    if(orgList){
+      newOrgList.unshift({name:'全部学院',id:null,sub:[]});
+      newOrgList.map(item=>item.sub.unshift({name:'全部家族',id:null,sub:[]}));
+    }
+    if(provinceJson){
+      newProvinceJson.unshift({name:'所有省份',code:null});
+    }
+    return {newOrgList,newProvinceJson}
+  };
   render(){
     const { province, collegeId, familyId, beginDate, endDate,familyData} =  this.state;
+    const {newOrgList,newProvinceJson} = this.newData();
 
     return (
       <>
         <div>
           <span className={styles.searchTxt}>查询条件：</span>
-          <Select options={provinceJson} defaultValue={province} id='province' handleChange={this.handleChange} showName/>
-          <Select options={this.collegeData()} defaultValue={collegeId} id='college' handleChange={this.handleChange} />
-          <Select options={familyData} defaultValue={familyId} id='family' handleChange={this.handleChange} />
-          <RangePicker placeholder={['开始时间','结束时间']} onChange={this.dateChange} value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}/>
+          <Select options={newProvinceJson} defaultValue={province} id='province' handleChange={this.handleChange} showName/>
+          <Select options={newOrgList} defaultValue={collegeId} id='college' handleChange={this.handleChange} value='id' />
+          <Select options={familyData} defaultValue={familyId} id='family' handleChange={this.handleChange} value='id' />
+          <RangePicker
+            placeholder={['开始时间','结束时间']}
+            onChange={this.dateChange}
+            disabledDate={this.disabledDate}
+            value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}
+          />
         </div>
         <div>
           <Button type="primary2" style={{marginRight:'20px'}} onClick={this.reset}>恢复默认</Button>
@@ -90,5 +119,5 @@ export default class Survey extends React.Component {
       </>
     );
   }
-
 }
+export default Survey;

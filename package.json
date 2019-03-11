@@ -1,17 +1,18 @@
 {
   "private": true,
   "scripts": {
-    "start": "PORT=8087 cross-env NODE_ENV=development PROXY_ENV=development LOGIN_TYPE=localhost umi dev",
-    "start:test": "PORT=8087 cross-env NODE_ENV=development PROXY_ENV=localhost LOGIN_TYPE=localhost umi dev",
-    "start:pro": "PORT=8087 cross-env NODE_ENV=development PROXY_ENV=production LOGIN_TYPE=localhost umi dev",
-    "build:dev": "cross-env NODE_ENV=production LOGIN_TYPE=development umi build",
-    "build": "cross-env NODE_ENV=production LOGIN_TYPE=production umi build",
+    "start": "cross-env NODE_ENV=development PROXY_ENV=development LOGIN_TYPE=development umi dev",
+    "start:test": "cross-env NODE_ENV=development PROXY_ENV=development LOGIN_TYPE=localhost umi dev",
+    "start:pro": "cross-env NODE_ENV=development PROXY_ENV=production LOGIN_TYPE=production umi dev",
+    "build:dev": "cross-env NODE_ENV=production  PROXY_ENV=development LOGIN_TYPE=development umi build",
+    "build": "cross-env NODE_ENV=production  PROXY_ENV=production LOGIN_TYPE=production umi build",
     "test": "umi test",
     "lint": "eslint --ext .js src",
     "precommit": "lint-staged"
   },
   "dependencies": {
     "antd": "^3.12.1",
+    "classnames": "^2.2.6",
     "d3": "^5.9.1",
     "dva": "^2.5.0-beta.2",
     "js-base64": "^2.5.1",

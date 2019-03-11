@@ -9,13 +9,18 @@
 export const ADMIN_AUTH = 'admin_auth';
 // 当前用户信息
 export const ADMIN_USER = 'admin_user';
+// 静态文件host
+export const STATIC_HOST = {
+  development: 'http://172.16.117.65',
+  production: 'http://api.bd.ministudy.com/download',
+}[process.env.PROXY_ENV];
 
 
-// 登录页面地址配置,根据登录环境进行匹配
+// 登录页面地址配置
 export const LOGIN_URL = {
-  localhost: 'http://localhost:8088/userLayout/login',  // 开发模式下,注意小德admin是开启状态
-  development: 'http://172.16.117.64:8090/userLayout/login',  // dev环境
-  production: 'http://bd.ministudy.com/userLayout/login',     // 生产环境
+  localhost: 'http://localhost:8088/userLayout/login',
+  development: 'http://172.16.117.64:8090/userLayout/login',
+  production: 'http://bd.ministudy.com/userLayout/login',
 }[process.env.LOGIN_TYPE];
 
 // 分页配置
@@ -24,6 +29,7 @@ export const PAGINATION = {
   showQuickJumper: true,
   defaultCurrent: 1,
   total: 0,
+  pageSize: 36,
   pageSizeOptions: ['36', '50', '100']
 };
 
@@ -31,7 +37,7 @@ export const PAGINATION = {
 export const provinceJson = [
   {
     "code": "AH",
-    "name": " 安徽省",
+    "name": "安徽省",
   },
   {
     "code": "BJ",
@@ -166,39 +172,71 @@ export const provinceJson = [
     "name": "台湾省",
   }
 ];
-// 报考状态
+// 报考步骤
 export const PROVINCE_STEP = [
-  { id: '1', name: '新生注册' },
-  { id: '2', name: '现场确认' },
-  { id: '3', name: '报考科目&缴费' },
-  { id: '4', name: '补报名' },
+  { id: 1, name: '新生注册' },
+  { id: 2, name: '现场确认' },
+  { id: 3, name: '报考科目&缴费' },
+  { id: 4, name: '补报名' },
+];
+// 报考状态
+export const PROVINCE_STATUS = [
+  { id: -1, name: '未定义' },
+  { id: 1, name: '未开始' },
+  { id: 2, name: '进行中' },
+  { id: 3, name: '已结束' },
+
 ]
+
+// 每个省份的报考进度
+export const PROVINCE_SIGN_STEP = [
+  { id: 1, name: '未公布' },
+  { id: 2, name: '未开始' },
+  { id: 3, name: '即将开始' },
+  { id: 4, name: '进行中' },
+  { id: 5, name: '已结束' },
+];
+
 // 订单状态
 export const ORDER_STATE = [
-  { id: '1', name: '已支付' },
-  { id: '2', name: '已冻结' },
+  { id: 1, name: '已支付' },
+  { id: 2, name: '已冻结' },
 ];
 
 // 学员身份
 export const STUDENT_TYPE = [
-  { id: '1', name: '新生' },
-  { id: '2', name: '老生' },
+  { id: 1, name: '新生' },
+  { id: 2, name: '老生' },
 ];
 
 // 准考证填写状态
 export const TICKET_STATES = [
-  { id: '1', name: '已填写' },
-  { id: '2', name: '未填写' },
+  { id: 1, name: '已填写' },
+  { id: 2, name: '未填写' },
 ];
 
 // 消息打开状态
 export const MSG_STATES = [
-  { id: '1', name: '所有消息' },
-  { id: '2', name: '未推送' },
-  { id: '3', name: '已推送(未读)' },
-  { id: '4', name: '已推送(已读)' },
+  { id: '1', name: '未推送' },
+  { id: '2', name: '已推送(未读)' },
+  { id: '3', name: '已推送(已读)' },
+];
+// 任务状态
+export const TASK_STATES = [
+  { id: 1, name: '未开始', color: '#999' },
+  { id: 2, name: '进行中..', color: '#dc5745' },
+  { id: 3, name: '完成', color: '#38e39d' },
+  { id: 4, name: '失败', color: '#ff3678' },
 ];
 
+// 考期接口
+export const  examList =
+  {code:20000,
+    msg:"OK",
+    msgDetail:null,
+    data:[
+      {"beginDate":"2018-10-23","createTime":null,"endDate":"2019-04-22","examYearmonth":"2019-04","id":5,"updateTime":null}
+    ]};
 
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
@@ -206,6 +244,9 @@ export default {
   STUDENT_TYPE,
   TICKET_STATES,
   MSG_STATES,
+  TASK_STATES,
   PAGINATION,
+  PROVINCE_SIGN_STEP,
   provinceJson,
+  examList,
 };

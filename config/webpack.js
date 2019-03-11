@@ -1,15 +1,15 @@
 // 处理umi对应的webpack配置
 // 根据API_ENV环境不同分为debugger开发代理(api),development为使用dev的api,production为使用线上api
 const proxyHost = {
-    localhost: 'http://127.0.0.1:8095/',
-    development: '',   // 待确定
-    production: ''     // 待确定
+    localhost: 'http://127.0.0.1:8096',
+    development: 'http://172.16.117.65:8096',   // 待确定
+    production: 'http://api.bd.ministudy.com'     // 待确定
 }
 const proxy_env = proxyHost[process.env.PROXY_ENV];
 export const webpackConfig = {
     define: {
-        PROXY: '/proxy',    // 代理用pathname,跟下面proxy应保持一致,用于proxy设置,也可用于紧急设置直连java接口host
         'process.env.LOGIN_TYPE': process.env.LOGIN_TYPE,
+        'process.env.PROXY_ENV': process.env.PROXY_ENV,
     },
     alias: {
         '@': require('path').resolve(__dirname, 'src'),

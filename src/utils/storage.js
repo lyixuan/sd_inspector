@@ -11,8 +11,7 @@ const storage = {
     localStorage.removeItem(key);
   },
   /*
-  * 获取用户信息
-  * return object || null
+  * 获取token
   * */
   getToken() {
     const info = this.getItem(ADMIN_USER);

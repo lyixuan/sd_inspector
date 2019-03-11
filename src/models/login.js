@@ -1,6 +1,6 @@
 import { Base64 } from 'js-base64';
 import { message } from 'antd';
-import { getUserAuthList, loginOut } from '@/services/api';
+import { getUserAuthList } from '@/services/api';
 import storage from '@/utils/storage';
 
 const handleLogin = (response) => {
@@ -33,6 +33,7 @@ export default {
               type: 'saveUserInfo',
               payload: { userInfo: response.data },
             })
+            yield
           } else {
             message.error(response.msg);
           }

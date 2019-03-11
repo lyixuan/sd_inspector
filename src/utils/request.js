@@ -2,7 +2,9 @@
  * request 网络请求工具
  */
 import { extend } from 'umi-request';
+import { routerRedux } from 'dva/router';
 import storage from './storage';
+import { redirectUrlParams } from './routeUtils';
 
 import { notification } from 'antd';
 
@@ -32,6 +34,20 @@ const errorHandler = error => {
   const errortext = codeMessage[response.status] || response.statusText;
   const { status, url } = response;
 
+  if (status === 401) {
+    redirectUrlParams();    // 跳转至登录页
+    // routerRedux.push('login/logout');
+    return;
+  } else if (status === 403) {
+    routerRedux.push('/exception/403');
+    return;
+  } else if (status <= 504 && status >= 500) {
+    routerRedux.push('/exception/500');
+    return;
+  } else if (status >= 404 && status < 422) {
+    routerRedux.push('/exception/404');
+    return;
+  }
   notification.error({
     message: `请求错误 ${status}: ${url}`,
     description: errortext,
@@ -49,5 +65,14 @@ const request = extend({
   },
   // credentials: 'include', // 默认请求是否带上cookie,暂不做处理,如需添加请设置跨域处进行设置
 });
-
+// 动态添加数据;
+request.interceptors.request.use((url, options) => {
+  options.headers = Object.assign({}, options.headers, { authorization: storage.getToken(), });
+  return (
+    {
+      url: `${url}`,
+      options,
+    }
+  );
+});
 export default request;

@@ -1,9 +1,8 @@
 import { Base64 } from 'js-base64';
+import { LOGIN_URL } from './constants';
 export function redirectUrlParams(history = {}) {
-    const { location } = history;
-    const { pathname } = location;
     // 未部署在根目录下的处理
-    const host = window.location.origin;
-    const paramsStr = JSON.stringify({ host, pathname, type: 'inspector' });
-    return Base64.encode(paramsStr);
+    const url = window.location.href;
+    const paramsStr = Base64.encode(JSON.stringify({ url, type: 'inspector' }));
+    window.location.href = `${LOGIN_URL}?redirectUrl=${paramsStr}`;
 }

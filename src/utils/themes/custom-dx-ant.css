@@ -26,6 +26,12 @@ ul{
   -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
 }
+
+.ant-btn-primary2.ant-btn[disabled] {
+  background-color: #DB7972;
+  border-color: #DB7972;
+  color: #fff;
+}
 .ant-btn-primary:hover,
 .ant-btn-primary:focus{
   color: #fff;
@@ -66,6 +72,12 @@ ul{
   width: 135px;
   height: 38px;
   font-size: 14px;
+}
+/* =============== Input ============== */
+
+.ant-input {
+  height: 36px;
+  border:1px solid #1683FB;
 }
 
 /* =============== Select ============== */
@@ -139,6 +151,10 @@ ul{
   color: #1683FB;
 }
 
+.ant-select-dropdown-menu-item-disabled:hover {
+  background-color: #0C172E;
+  color: #fff;
+}
 /* 日期选择  */
 
 .ant-calendar-picker {
@@ -157,7 +173,20 @@ ul{
   color: #1683FB;
 }
 .ant-calendar-picker-clear {
-  background-color: #1683FB;
+  background-color: #0C172E;
+}
+.ant-calendar-picker-clear:hover{
+  background-color: #0C172E;
+  color: #1683FB;
+}
+.ant-select-selection__clear {
+  background-color: #0C172E;
+  color: #1683FB;
+}
+
+.ant-select-selection__clear:hover {
+  background-color: #0C172E;
+  color: #1683FB;
 }
 
 /* ===========================  table ===========================  */
@@ -165,6 +194,9 @@ ul{
   color: #fff;
 }
 
+.ant-table-header {
+  background: #0C172E;
+}
 .ant-table-thead > tr > th {
   color: #1B82E5;
   background-color: #0C172E;
@@ -187,11 +219,14 @@ ul{
 }
 
 /*分页*/
-.ant-table-pagination.ant-pagination {
+.ant-table-pagination.ant-pagination,.ant-pagination {
   float: none;
   text-align: center;
+  margin-top: 30px;
 }
-
+.ant-pagination-total-text{
+  color: #fff;
+}
 .ant-pagination-item, .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link{
   background-color: #0A2F5B;
   border-color: #0A2F5B;
@@ -227,15 +262,44 @@ ul{
 }
 .ant-pagination-options-quick-jumper input {
   border-color: #0080FF;
+  background-color: #0c162f;
+  color: #fff;
+  text-align: center;
 }
 
+.ant-table-placeholder {
+  background: #0C172E;
+  color: #fff;
+  border: 1px solid #394671;
+}
+
+.ant-table-bordered.ant-table-empty .ant-table-placeholder {
+  border: 1px solid #394671;
+}
+
+
+
+/*兼容windows 固定高度的 scroll问题*/
+.ant-table-fixed-header > .ant-table-content > .ant-table-scroll > .ant-table-body {
+  background: #0C172E;
+}
+
+.ant-table-bordered.ant-table-fixed-header .ant-table-header>table {
+  background: #0C172E;
+}
+.ant-table-fixed-header .ant-table-scroll .ant-table-header {
+  overflow-x: hidden!important;
+  overflow-y: scroll!important;
+  margin-bottom:0!important;
+  padding-bottom: 0;
+}
 /* =========================== form ===========================  */
 
 /*label*/
 
 .ant-form-item-label label {
   color: #1B82E5;
-  width: 80px;
+  width: 70px;
   display: inline-block;
   text-align-last: justify;
 }
@@ -293,7 +357,7 @@ ul{
   text-align: left;
 }
 .ant-dropdown-menu {
-  box-shadow: rgb(0, 112, 183) 0px 0px 20px;
+  box-shadow: rgb(0, 112, 183) 0 0 20px;
   -webkit-tap-highlight-color: transparent;
   background-color: #0C172E;
 }
@@ -303,4 +367,22 @@ ul{
 }
 .ant-dropdown-menu-item:hover {
   background-color: #0C2E58;
+}
+
+.ant-dropdown-menu-item > span {
+  width: 125px;
+  display: inline-block;
+}
+/* =========================== Popconfirm ===========================  */
+.ant-popover-inner-content{
+  width: 180px;
+}
+.ant-popover-buttons button{
+  width: 60px;
+  height: 25px;
+}
+
+/* =========================== empty ===========================  */
+.ant-empty-description{
+  color: #fff;
 }

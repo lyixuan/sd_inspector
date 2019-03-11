@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less'
 
@@ -8,27 +8,25 @@ import styles from './style.less'
   isLoading: loading.effects['home/getExamDateRange'],
 }))
 class Home extends React.Component {
-  componentDidMount(){
-    this.getDateRange({});
-    this.getOrgInfo({})
+  componentDidMount() {
+    // this.getDateRange();
+    this.getOrgInfo()
   }
-  getOrgInfo = params =>{
+  getOrgInfo = () => {
     this.props.dispatch({
       type: 'home/getOrgInfo',
-      payload: params,
     });
   };
-  getDateRange = params =>{
+  getDateRange = () => {
     this.props.dispatch({
       type: 'home/getExamDateRange',
-      payload: params,
     });
   };
-  render (){
+  render() {
     return (
       <div className={styles.basicWrap}>
         <div className={styles.headerWrap} />
-        { this.props.children }
+        {this.props.children}
       </div>
     );
   }

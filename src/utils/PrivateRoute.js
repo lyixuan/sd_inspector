@@ -5,6 +5,7 @@ import { LOGIN_URL } from './constants';
 import config from '../../config/config';
 
 const BASE = config.base || '';  // 设置的base的url
+
 function authority(props) {
   const { path } = props.route;
   const authList = storage.getUserAuth() || [];
@@ -19,9 +20,11 @@ function authority(props) {
   if (allow) {
     return (<div>{props.children}</div>);
   }
+
   if (!allow && path === '/smartPlatform') {
-    // inspector m1模块级别没有权限，跳转登录
+    // inspector smartPlatform模块级别没有权限，跳转登录
     const redirectUrl = redirectUrlParams(props);
+
     window.location.href = `${LOGIN_URL}?redirectUrl=${redirectUrl}`;
   } else {
     // 模块下的其他页面没有权限
