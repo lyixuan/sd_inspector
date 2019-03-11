@@ -5,7 +5,7 @@ import Empty from 'antd/lib/empty'
 import Radio from '../components/Tabs';
 import Echart from '@/components/Echart'
 import styles from './style.less';
-import ChinaMap from './component/ChinaMap';
+import ChinaMap from './component/ChinaMap.1';
 import SearchForm from './component/SearchForm';
 import { chartOptions } from './component/EchartCommonOptions';
 
@@ -21,9 +21,9 @@ class Survey extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      province:null,
-      collegeId:null,
-      familyId:null,
+      province: null,
+      collegeId: null,
+      familyId: null,
       beginDate: "",
       endDate: ""
     };
@@ -91,14 +91,14 @@ class Survey extends React.Component {
             <Spin spinning={this.props.echartLoading}>
               <div className={styles.echartCls}>
                 {
-                  JSON.stringify(data1)==='{}'?
-                    <Empty className={styles.emptyCls} />:
+                  JSON.stringify(data1) === '{}' ?
+                    <Empty className={styles.emptyCls} /> :
                     <Echart update={data1} style={{ width: '49%', height: "510px" }} options={option1} />
                 }
                 {
-                  JSON.stringify(data2)==='{}'?
-                  <Empty className={styles.emptyCls} />:
-                  <Echart update={data2} style={{ width: '49%', height: "510px" }} options={option2} />
+                  JSON.stringify(data2) === '{}' ?
+                    <Empty className={styles.emptyCls} /> :
+                    <Echart update={data2} style={{ width: '49%', height: "510px" }} options={option2} />
                 }
               </div>
             </Spin>

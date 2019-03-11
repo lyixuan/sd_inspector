@@ -48,6 +48,9 @@ class Tasks extends Component {
   };
   // 下载任务
   downloadFn = data => {
+    if (!data.zipPath) {
+      return;
+    }
     const arr = data.zipPath.split('.');
     const filename = arr[arr.length - 1];
     const a = document.createElement("a");
