@@ -9,6 +9,11 @@ import Dropdown from 'antd/lib/dropdown';
 import Icon from 'antd/lib/icon';
 import Menu from 'antd/lib/menu';
 import SelfSelected from '../../components/plugSelect/test';
+import MultipleSelect from '@/components/MultipleSelect';
+import SingleSelect from '@/components/SingleSelect';
+import {BiFilter} from '@/utils/utils';
+
+
 // import { BiFilter } from '@/utils/utils';
 
 // 自定义组件部分
@@ -27,7 +32,32 @@ const { RangePicker } = DatePickerDecorator;
 class Doc extends Component {
   constructor(props) {
     super(props);
+    this.state={
+      selecteds:[],
+      selecteds2:[]
+    }
   }
+  handleOnchange = (vales) => {
+    const arr = [];
+    vales.forEach((v)=>{
+      arr.push(v.key);
+    });
+    this.setState({
+      selecteds: [...arr]
+    })
+  };
+
+  handleOnchange2 = (vales) => {
+    console.log(vales);
+    const arr = [];
+    vales.forEach((v)=>{
+      arr.push(v.key);
+    });
+    this.setState({
+      selecteds2: [...arr]
+    })
+  };
+
   render() {
     const children = [];
     for (let i = 10; i < 36; i++) {
@@ -93,6 +123,7 @@ class Doc extends Component {
       dataIndex: 'address',
       key: 'address',
     }];
+
 
     return (
       <div className={style.container}>
@@ -195,15 +226,42 @@ class Doc extends Component {
             <TextArea rows={1} defaultValue='<Deliver titleName="查询结果"/>' />
           </Cente>
         </Box>
-        <Box title="自定义组件 多选">
-          <Cente>
-            <div style={{ background: '#0C172E' }}>
-              <SelfSelected />
+        <Box title="MultipleSelect 带全选的多选">
+          <Left>
+            <MultipleSelect
+              maxTagCount={1}
+              options={BiFilter('MSG_STATES')}
+              allName='全部消息'
+              selecteds={this.state.selecteds}
+              onProChange={(selecteds)=>this.handleOnchange(selecteds)}
+            />
+            <Divider> Code </Divider>
+          </Left>
+          <Right>
+            <div>
+              自定义多选 <br />
+              可返回带label的数据结构<br />
+              带全选功能
             </div>
-            {/* <Divider> Code </Divider>
-            <TextArea rows={1} defaultValue='<Deliver titleName="查询结果"/>' /> */}
-          </Cente>
+          </Right>
         </Box>
+        <Box title="SingleSelect 自定义单选">
+          <Left>
+            <SingleSelect
+              options={BiFilter('MSG_STATES')}
+              selecteds={this.state.selecteds2}
+              onProChange={(selecteds)=>this.handleOnchange2(selecteds)}
+            />
+            <Divider> Code </Divider>
+          </Left>
+          <Right>
+            <div>
+              自定义单选 <br />
+              可返回带label的数据结构 <br />
+            </div>
+          </Right>
+        </Box>
+
       </div>
     )
   }
