@@ -29,6 +29,24 @@ export const routes = [
         ]
       },
       {
+        path: '/quality',
+        component: './quality',
+        routes: [
+          {
+            path: '/quality/survey',
+            component: './quality/survey',
+          },
+          {
+            path: '/quality/details',
+            component: './quality/details',
+          },
+          {
+            path: '/quality/details/tasks',
+            component: './quality/details/tasks',
+          },
+        ]
+      },
+      {
         path: '/exception',
         component: '../layouts/ExceptionLayout',
         routes: [
