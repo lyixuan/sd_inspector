@@ -49,8 +49,6 @@ class Tasks extends Component {
   };
   // 下载任务
   downloadFn = data => {
-    // const arr = data.zipPath.split('.');
-    // const filename = arr[arr.length - 1];
     const a = document.createElement("a");
     a.href = `${STATIC_HOST}${data.zipPath}`;
     // if (filename === 'zip') {
@@ -133,7 +131,7 @@ class Tasks extends Component {
         render: (text, record) => {
           return (
             <>
-              {record.taskStatus === 3 ? <span>{text} </span>: '--'}
+              {record.taskStatus === 3 ? <span>{text} </span> : '--'}
             </>
           );
         },
@@ -144,7 +142,7 @@ class Tasks extends Component {
         render: (text, record) => {
           return (
             <>
-              {record.taskStatus === 3 ?  <Icon type="download" onClick={() => { this.downloadFn(record) }} style={{ marginRight: '8px' }} /> : <span style={{ marginRight: '22px' }}/>}
+              {record.taskStatus === 3 ? <Icon type="download" onClick={() => { this.downloadFn(record) }} style={{ marginRight: '8px' }} /> : <span style={{ marginRight: '22px' }} />}
               <Popconfirm title='确定删除该任务么' onConfirm={() => this.deleteFn(record)} okText="确定" cancelText="取消">
                 <Icon type="delete" />
               </Popconfirm>
@@ -165,7 +163,7 @@ class Tasks extends Component {
           </Breadcrumb>
         </div>
         <div className={styles.tableBox}>
-          <Button style={{height:30}} type="primary" size='small' onClick={this.redo}><Icon type="redo" />刷新</Button>
+          <Button style={{ height: 30 }} type="primary" size='small' onClick={this.redo}><Icon type="redo" />刷新</Button>
           <div className={styles.tableHead}>
             <span className={styles.tableHeadLeft}>任务列表</span>
           </div>
