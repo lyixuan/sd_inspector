@@ -1,0 +1,11 @@
+.ant-form-item-label label {
+  width: 70px;
+  display: inline-block;
+  text-align-last: justify;
+}
+
+.ant-form-item-label label::after {
+  content: " "!important;
+  display: inline;
+  width: 100%;
+}
