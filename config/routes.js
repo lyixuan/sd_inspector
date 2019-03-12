@@ -5,7 +5,7 @@ export const routes = [
   },
   {
     path: '/',
-    component: '../layouts/BasicLayout',
+    component: '../layouts/BasicLayoutM2',
     routes: [
       {
         path: '/smartPlatform',

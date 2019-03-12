@@ -2,6 +2,7 @@ import { routes } from './routes';
 import { plugins } from './plugins';
 import { webpackConfig } from './webpack';
 
+
 export default {
   treeShaking: true,
   base: '/inspector/',
@@ -23,4 +24,7 @@ export default {
    * 路由相关配置
    */
   routes,
+  /*
+  * 皮肤相关
+  */
 }

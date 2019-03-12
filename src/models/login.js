@@ -21,7 +21,7 @@ export default {
 
   effects: {
     *loginin({ payload }, { call, put }) {
-      const { userInfo = '', pathname } = payload;
+      const { userInfo = '' } = payload;
       if (typeof userInfo === 'string') {
         try {
           const params = JSON.parse(Base64.decode(userInfo));
@@ -50,7 +50,6 @@ export default {
   reducers: {
     saveUserInfo(state, { payload }) {
       return { ...state, ...payload }
-      console.log(payload)
     },
   },
 

@@ -227,8 +227,29 @@ ul{
 }
 .ant-pagination-options-quick-jumper input {
   border-color: #0080FF;
+<<<<<<< HEAD
+  background-color: #0c162f;
+  color: #fff;
+  text-align: center;
 }
 
+.ant-table-placeholder {
+  background: #0C172E;
+  color: #fff;
+  border: 1px solid #394671;
+}
+
+.ant-table-bordered.ant-table-empty .ant-table-placeholder {
+  border: 1px solid #394671;
+}
+
+.ant-table-fixed-header > .ant-table-content > .ant-table-scroll > .ant-table-body {
+  background-color: #0C172E;
+}
+=======
+}
+
+>>>>>>> 7a41a579f16e569b7dc620227727a47149e8da20
 /* =========================== form ===========================  */
 
 /*label*/

@@ -139,7 +139,7 @@ export function getRoutes(path, routerData) {
 }
 
 // 时间戳格式化
-export function formatDate(timestamp,split='') {
+export function formatDate(timestamp, split = '') {
   const dateTime = new Date(Number(timestamp));
   const y = dateTime.getFullYear(); // 获取年
   let m = dateTime.getMonth() + 1; // 获取月
@@ -147,4 +147,11 @@ export function formatDate(timestamp,split='') {
   let d = dateTime.getDate(); // 获取日
   d = d < 10 ? `0${d}` : d; // 判断日期是否大10
   return `${y}${split}${m}${split}${d}`; // 返回时间格式
+}
+// 处理url
+/* eslint no-useless-escape:0 */
+const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
+
+export function isUrl(path) {
+  return reg.test(path);
 }
