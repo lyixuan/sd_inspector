@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Icon } from 'antd';
 import Popconfirm from 'antd/lib/popconfirm';
-import Table from 'antd/lib/table';
+import BITable from '@/ant_components/BITable';
+import BIButton from '@/ant_components/BIButton';
 import Breadcrumb from 'antd/lib/breadcrumb';
-import Button from 'antd/lib/button';
+
 import Link from 'umi/link';
 import SelfPagination from '../../components/Pagination';
 import { STATIC_HOST } from '@/utils/constants'
@@ -163,11 +164,11 @@ class Tasks extends Component {
           </Breadcrumb>
         </div>
         <div className={styles.tableBox}>
-          <Button style={{ height: 30 }} type="primary" size='small' onClick={this.redo}><Icon type="redo" />刷新</Button>
+          <BIButton style={{ height: 30 }} type="primary" size='small' onClick={this.redo}><Icon type="redo" />刷新</BIButton>
           <div className={styles.tableHead}>
             <span className={styles.tableHeadLeft}>任务列表</span>
           </div>
-          <Table dataSource={tableList} pagination={false} columns={columns} bordered loading={this.props.loading} />
+          <BITable dataSource={tableList} pagination={false} columns={columns}  loading={this.props.loading} />
           <SelfPagination
             onChange={(current, pageSize) => {
               this.changePage(current, pageSize);

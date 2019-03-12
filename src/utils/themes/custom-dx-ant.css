@@ -67,12 +67,6 @@ ul{
   height: 38px;
   font-size: 14px;
 }
-/* =============== Input ============== */
-
-.ant-input {
-  height: 36px;
-  border:1px solid #1683FB;
-}
 
 /* =============== Select ============== */
 
@@ -145,10 +139,6 @@ ul{
   color: #1683FB;
 }
 
-.ant-select-dropdown-menu-item-disabled:hover {
-  background-color: #0C172E;
-  color: #fff;
-}
 /* 日期选择  */
 
 .ant-calendar-picker {
@@ -167,20 +157,7 @@ ul{
   color: #1683FB;
 }
 .ant-calendar-picker-clear {
-  background-color: #0C172E;
-}
-.ant-calendar-picker-clear:hover{
-  background-color: #0C172E;
-  color: #1683FB;
-}
-.ant-select-selection__clear {
-  background-color: #0C172E;
-  color: #1683FB;
-}
-
-.ant-select-selection__clear:hover {
-  background-color: #0C172E;
-  color: #1683FB;
+  background-color: #1683FB;
 }
 
 /* ===========================  table ===========================  */
@@ -210,14 +187,11 @@ ul{
 }
 
 /*分页*/
-.ant-table-pagination.ant-pagination,.ant-pagination {
+.ant-table-pagination.ant-pagination {
   float: none;
   text-align: center;
-  margin-top: 30px;
 }
-.ant-pagination-total-text{
-  color: #fff;
-}
+
 .ant-pagination-item, .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link{
   background-color: #0A2F5B;
   border-color: #0A2F5B;
@@ -253,6 +227,7 @@ ul{
 }
 .ant-pagination-options-quick-jumper input {
   border-color: #0080FF;
+<<<<<<< HEAD
   background-color: #0c162f;
   color: #fff;
   text-align: center;
@@ -271,13 +246,17 @@ ul{
 .ant-table-fixed-header > .ant-table-content > .ant-table-scroll > .ant-table-body {
   background-color: #0C172E;
 }
+=======
+}
+
+>>>>>>> 7a41a579f16e569b7dc620227727a47149e8da20
 /* =========================== form ===========================  */
 
 /*label*/
 
 .ant-form-item-label label {
   color: #1B82E5;
-  width: 70px;
+  width: 80px;
   display: inline-block;
   text-align-last: justify;
 }
@@ -335,7 +314,7 @@ ul{
   text-align: left;
 }
 .ant-dropdown-menu {
-  box-shadow: rgb(0, 112, 183) 0 0 20px;
+  box-shadow: rgb(0, 112, 183) 0px 0px 20px;
   -webkit-tap-highlight-color: transparent;
   background-color: #0C172E;
 }
@@ -345,22 +324,4 @@ ul{
 }
 .ant-dropdown-menu-item:hover {
   background-color: #0C2E58;
-}
-
-.ant-dropdown-menu-item > span {
-  width: 125px;
-  display: inline-block;
-}
-/* =========================== Popconfirm ===========================  */
-.ant-popover-inner-content{
-  width: 180px;
-}
-.ant-popover-buttons button{
-  width: 60px;
-  height: 25px;
-}
-
-/* =========================== empty ===========================  */
-.ant-empty-description{
-  color: #fff;
 }

@@ -1,9 +1,20 @@
+.ant-form-item-label label {
+  width: 70px;
+  display: inline-block;
+  text-align-last: justify;
+}
 
-/* ============ 按顺序引用和覆盖 ============ */
+.ant-form-item-label label::after {
+  content: " "!important;
+  display: inline;
+  width: 100%;
+}
 
-/* 原 ant 样式 */
-@import "~antd/dist/antd.css";
 
-
-/* 自定义和扩展的 ant 样式，全局 ---  督学主题 */
-@import "./utils/themes/custom-dx-ant.css";
+/*!*兼容windows 固定高度的 scroll问题*!*/
+/*.ant-table-fixed-header .ant-table-scroll .ant-table-header {*/
+  /*overflow-x: hidden!important;*/
+  /*overflow-y: scroll!important;*/
+  /*margin-bottom:0;*/
+  /*padding-bottom: 0;*/
+/*}*/
