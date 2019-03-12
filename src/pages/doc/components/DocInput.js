@@ -10,9 +10,7 @@ const { TextArea } = Input;
 
 
 class DocInput extends Component {
-  constructor(props) {
-    super(props);
-  }
+
   render() {
     const val =
       `import BIInput from '@/ant_components/BIInput';
@@ -20,7 +18,7 @@ class DocInput extends Component {
 <BIInput placeholder="请输入" />`;
 
     return (
-      <Box title="BIInput">
+      <Box title="BIInput 输入框">
         <Left>
           <BIInput placeholder="请输入" /> &nbsp;
 

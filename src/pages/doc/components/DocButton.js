@@ -10,9 +10,6 @@ const { TextArea } = Input;
 
 
 class DocButton extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const btn =
 `import BIButton from '@/ant_components/BIButton'
@@ -23,7 +20,7 @@ class DocButton extends Component {
 <BIButton size="large" type="primary">large</BIButton>`;
 
     return (
-      <Box title="BIButton">
+      <Box title="BIButton 按钮">
         <Left>
           <BIButton type="primary">查询</BIButton> &nbsp;
           <BIButton>重置</BIButton> &nbsp;

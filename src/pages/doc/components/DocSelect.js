@@ -10,10 +10,6 @@ import BISelect from '@/ant_components/BISelect';
 const { TextArea } = Input;
 
 class DocSelect extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleChange = (value) => {
     console.log(`selected ${value}`);
   };
@@ -28,7 +24,7 @@ class DocSelect extends Component {
 </BISelect>`;
 
     return (
-      <Box title="BISelect">
+      <Box title="BISelect 选择器">
         <Left>
           <BISelect defaultValue="lucy" style={{ width: 200 }} onChange={this.handleChange}>
             <BISelect.Option value="jack">Jack</BISelect.Option>

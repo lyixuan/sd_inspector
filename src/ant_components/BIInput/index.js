@@ -11,10 +11,6 @@ import './style.less';
 
 class BIInput extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <span className='BIInput'>

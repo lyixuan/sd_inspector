@@ -11,10 +11,6 @@ const Option = Select.Option;
 
 class BISelect extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <span className='BISelect'>
