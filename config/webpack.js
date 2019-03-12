@@ -3,7 +3,7 @@
 const proxyHost = {
     localhost: 'http://127.0.0.1:8096',
     development: 'http://172.16.117.65:8096',   // 待确定
-    production: 'http://172.16.225.5:8099'     // 待确定
+    production: 'http://api.bd.ministudy.com'     // 待确定
 }
 const proxy_env = proxyHost[process.env.PROXY_ENV];
 export const webpackConfig = {

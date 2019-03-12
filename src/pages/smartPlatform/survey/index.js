@@ -5,7 +5,7 @@ import Empty from 'antd/lib/empty'
 import Radio from '../components/Tabs';
 import Echart from '@/components/Echart'
 import styles from './style.less';
-import ChinaMap from './component/ChinaMap';
+import ChinaMap from './component/ChinaMap.1';
 import SearchForm from './component/SearchForm';
 import { chartOptions } from './component/EchartCommonOptions';
 import EchartTitle  from './component/EchartCommonOptions/echartTitle';
@@ -24,9 +24,9 @@ class Survey extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      province:null,
-      collegeId:null,
-      familyId:null,
+      province: null,
+      collegeId: null,
+      familyId: null,
       beginDate: "",
       endDate: ""
     };
