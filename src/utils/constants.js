@@ -18,9 +18,9 @@ export const STATIC_HOST = {
 
 // 登录页面地址配置
 export const LOGIN_URL = {
-  localhost: 'http://localhost:8088/userLayout/login',
-  development: 'http://172.16.117.64:8090/userLayout/login',
-  production: 'http://bd.ministudy.com/userLayout/login',
+  localhost: 'http://localhost:8088',
+  development: 'http://172.16.117.64:8090',
+  production: 'http://bd.ministudy.com',
 }[process.env.LOGIN_TYPE];
 
 // 分页配置
