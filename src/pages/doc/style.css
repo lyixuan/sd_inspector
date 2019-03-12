@@ -5,8 +5,11 @@
 }
 
 .box {
-  border-top: 1px solid #ccc;
+  /*border-top: 1px solid #EBEDF0;*/
+  box-shadow: 0 0 20px #EBEDF0;
+  -webkit-tap-highlight-color: transparent;
   padding: 10px;
+  margin: 8px 0;
   overflow: hidden;
 }
 

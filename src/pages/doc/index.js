@@ -6,6 +6,7 @@ import DocDropDown  from './components/DocDropDown';
 import DocMenu  from './components/DocMenu';
 import DocModal  from './components/DocModal';
 import DocTable  from './components/DocTable';
+import DocPagination  from './components/DocPagination';
 
 import style from './style.css';
 
@@ -16,8 +17,7 @@ class Doc extends Component {
   render() {
     return (
       <div className={style.container}>
-        <h2 className={style.title}>自定义组件文档</h2>
-
+        <h1 className={style.title}>自定义组件文档</h1>
         <DocButton/>
         <DocInput />
         <DocSelect/>
@@ -25,7 +25,7 @@ class Doc extends Component {
         <DocMenu/>
         <DocModal/>
         <DocTable/>
-
+        <DocPagination/>
       </div>
     )
   }
