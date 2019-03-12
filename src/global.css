@@ -1,9 +1,0 @@
-
-/* ============ 按顺序引用和覆盖 ============ */
-
-/* 原 ant 样式 */
-@import "~antd/dist/antd.css";
-
-
-/* 自定义和扩展的 ant 样式，全局 ---  督学主题 */
-@import "./utils/themes/custom-dx-ant.css";

@@ -5,7 +5,7 @@
 }
 
 .box {
-  border-top: 1px solid #EBEDF0;
+  border-top: 1px solid #ccc;
   padding: 10px;
   overflow: hidden;
 }
@@ -30,10 +30,6 @@
   float: left;
   border: 1px solid #EBEDF0;
   overflow: hidden;
-}
-
-.boxLeft ,.boxCenter{
-  background-color: #0B1530;
 }
 
 .boxRight {
