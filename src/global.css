@@ -9,3 +9,12 @@
   display: inline;
   width: 100%;
 }
+
+
+/*!*兼容windows 固定高度的 scroll问题*!*/
+/*.ant-table-fixed-header .ant-table-scroll .ant-table-header {*/
+  /*overflow-x: hidden!important;*/
+  /*overflow-y: scroll!important;*/
+  /*margin-bottom:0;*/
+  /*padding-bottom: 0;*/
+/*}*/

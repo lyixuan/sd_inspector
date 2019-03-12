@@ -5,6 +5,7 @@ import DocSelect  from './components/DocSelect';
 import DocDropDown  from './components/DocDropDown';
 import DocMenu  from './components/DocMenu';
 import DocModal  from './components/DocModal';
+import DocTable  from './components/DocTable';
 
 import style from './style.css';
 
@@ -23,6 +24,7 @@ class Doc extends Component {
         <DocDropDown/>
         <DocMenu/>
         <DocModal/>
+        <DocTable/>
 
       </div>
     )

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import {Form,Icon,Modal} from 'antd';
+import {Form,Icon} from 'antd';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
@@ -389,7 +389,7 @@ class HorizontalLoginForm extends React.Component {
   }
 }
 
-const WrappedHorizontalLoginForm = Form.create({ name: 'horizontal_login' })(HorizontalLoginForm);
+const WrappedHorizontalLoginForm = Form.create({ name: 'Search_Form' })(HorizontalLoginForm);
 
 @connect(({ home, dataDetail }) => ({
   home,

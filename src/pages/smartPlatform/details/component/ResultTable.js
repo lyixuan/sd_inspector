@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import Table from 'antd/lib/table';
-import Button from 'antd/lib/button';
 import router from 'umi/router';
 import { BiFilter, DeepCopy } from '@/utils/utils';
-import Modal from 'antd/lib/modal';
-import Input from 'antd/lib/input';
+import BIModal from '@/ant_components/BIModal';
+import BIButton from '@/ant_components/BIButton';
+import BIInput from '@/ant_components/BIInput';
+import BITable from '@/ant_components/BITable';
+
 import styles from '../style.less'
 import Message from 'antd/lib/message/index';
 import config from '../../../../../config/config';
@@ -192,13 +193,13 @@ class ResultTable extends Component {
           <div className={styles.tableHead}>
             {/*<span className={styles.tableHeadLeft}>共搜出 {totalPlan} 条学员订单数据</span>*/}
             <span className={styles.tableHeadRight}>
-              <Button type="primary" onClick={this.toTask}>任务列表</Button>
+              <BIButton type="primary" onClick={this.toTask}>任务列表</BIButton>
             </span>
             <span className={styles.tableHeadRight}>
-              <Button type="primary2" onClick={this.addTask}>添加下载任务</Button>
+              <BIButton type="primary2" onClick={this.addTask}>添加下载任务</BIButton>
             </span>
           </div>
-          <Table dataSource={dataSource} columns={columns} pagination={false} loading={this.props.loading} scroll={{ y: 500 }} bordered />
+          <BITable dataSource={dataSource} columns={columns} pagination={false} loading={this.props.loading} scroll={{ y: 500 }} bordered />
           <br />
           <div className={styles.provinceCotainer}>
             {provinces.map(item => <span
@@ -209,22 +210,22 @@ class ResultTable extends Component {
 
           </div>
         </div>
-        <Modal
+        <BIModal
           title='添加下载任务'
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
-            <Button size="small" onClick={this.handleCancel}>取消</Button>,
-            <Button size="small" type="primary" onClick={this.handleOk}>
+            <BIButton style={{marginRight:10}} onClick={this.handleCancel}>取消</BIButton>,
+            <BIButton type="primary" onClick={this.handleOk}>
               确定
-            </Button>
+            </BIButton>
           ]}
         >
           <div className={styles.modalWrap}>
-            <Input placeholder="输入名称" maxLength={20} value={this.state.taskName} onChange={this.onChangeName} />
+            <BIInput placeholder="输入名称" maxLength={20} value={this.state.taskName} onChange={this.onChangeName} />
           </div>
-        </Modal>
+        </BIModal>
       </>
     );
   }
