@@ -7,6 +7,7 @@ import DocMenu  from './components/DocMenu';
 import DocModal  from './components/DocModal';
 import DocTable  from './components/DocTable';
 import DocPagination  from './components/DocPagination';
+import DocDatePicker  from './components/DocDatePicker';
 
 import style from './style.css';
 
@@ -26,6 +27,7 @@ class Doc extends Component {
         <DocModal/>
         <DocTable/>
         <DocPagination/>
+        <DocDatePicker/>
       </div>
     )
   }
