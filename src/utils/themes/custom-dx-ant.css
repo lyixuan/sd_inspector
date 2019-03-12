@@ -26,12 +26,6 @@ ul{
   -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
 }
-
-.ant-btn-primary2.ant-btn[disabled] {
-  background-color: #DB7972;
-  border-color: #DB7972;
-  color: #fff;
-}
 .ant-btn-primary:hover,
 .ant-btn-primary:focus{
   color: #fff;
@@ -194,9 +188,6 @@ ul{
   color: #fff;
 }
 
-.ant-table-header {
-  background: #0C172E;
-}
 .ant-table-thead > tr > th {
   color: #1B82E5;
   background-color: #0C172E;
@@ -277,21 +268,8 @@ ul{
   border: 1px solid #394671;
 }
 
-
-
-/*兼容windows 固定高度的 scroll问题*/
 .ant-table-fixed-header > .ant-table-content > .ant-table-scroll > .ant-table-body {
-  background: #0C172E;
-}
-
-.ant-table-bordered.ant-table-fixed-header .ant-table-header>table {
-  background: #0C172E;
-}
-.ant-table-fixed-header .ant-table-scroll .ant-table-header {
-  overflow-x: hidden!important;
-  overflow-y: scroll!important;
-  margin-bottom:0!important;
-  padding-bottom: 0;
+  background-color: #0C172E;
 }
 /* =========================== form ===========================  */
 

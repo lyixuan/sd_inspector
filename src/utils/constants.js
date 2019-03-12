@@ -32,6 +32,12 @@ export const PAGINATION = {
   pageSize: 36,
   pageSizeOptions: ['36', '50', '100']
 };
+// header下拉选
+export const GLOBAL_HEADER_SELECT = [
+  { id: 'changeRole', name: '切换角色', icon: 'user' },
+  { id: 'changePwd', name: '修改密码', icon: 'lock' },
+  { id: 'logout', name: '退出登录', icon: 'logout' },
+];
 
 // 省份
 export const provinceJson = [
@@ -230,13 +236,15 @@ export const TASK_STATES = [
 ];
 
 // 考期接口
-export const  examList =
-  {code:20000,
-    msg:"OK",
-    msgDetail:null,
-    data:[
-      {"beginDate":"2018-10-23","createTime":null,"endDate":"2019-04-22","examYearmonth":"2019-04","id":5,"updateTime":null}
-    ]};
+export const examList =
+{
+  code: 20000,
+  msg: "OK",
+  msgDetail: null,
+  data: [
+    { "beginDate": "2018-10-23", "createTime": null, "endDate": "2019-04-22", "examYearmonth": "2019-04", "id": 5, "updateTime": null }
+  ]
+};
 
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {

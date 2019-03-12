@@ -47,6 +47,7 @@ const storage = {
   getUserAuth() {
     return this.getItem(ADMIN_AUTH)
   },
+
   // 存储用户权限
   setUserAuth(token) {
     this.setItem(ADMIN_AUTH, token);
