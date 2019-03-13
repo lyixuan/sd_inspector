@@ -13,9 +13,9 @@ class BITable extends React.Component {
 
   render() {
     return (
-      <span className='BITable'>
+      <div className='BITable'>
         <Table {...this.props} />
-      </span>
+      </div>
     );
   }
 }

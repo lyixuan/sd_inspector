@@ -9,9 +9,9 @@
 * */
 
 import React from 'react';
-import Select from 'antd/lib/select';
+import BISelect from '@/ant_components/BISelect';
 
-const Option = Select.Option;
+const { Option } = BISelect;
 export default class SelectComponent extends React.Component {
   handleChange = (value)=> {
     const {id} = this.props;
@@ -20,13 +20,13 @@ export default class SelectComponent extends React.Component {
   render(){
     const {options=[],defaultValue,keyName='name',value='code',showName} = this.props;
     return (
-      <Select value={defaultValue} onChange={this.handleChange} style={{marginRight:'20px'}}>
+      <BISelect value={defaultValue} onChange={this.handleChange} style={{width: '230px'}}>
         {
           options.length>0?options.map(item=>{
             return <Option value={showName?item[keyName]:item[value]} key={item[value]}>{item[keyName]}</Option>
           }):null
         }
-      </Select>
+      </BISelect>
     );
   }
 }

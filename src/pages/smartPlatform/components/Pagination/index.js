@@ -9,7 +9,7 @@
 *         total,   （总条数  number类型）
 * */
 import React, { Component } from 'react';
-import Pagination from 'antd/lib/pagination';
+import Pagination from '@/ant_components/BIPagination';
 
 class Index extends Component {
   render() {

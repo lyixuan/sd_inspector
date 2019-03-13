@@ -6,8 +6,7 @@ function dealData(data, dataItem) {
   const dataObj = { dateArr: []};
   dataItem.map((item,i)=>dataObj[`dataArr${[i+1]}`]=[]);
   data.forEach(item => {
-
-    dataObj.dateArr.push(item.date.split("-").join('/'));
+    dataObj.dateArr.push(`${item.date.split("-")[1]}/${item.date.split("-")[2]}`);
     dataItem.forEach((item1,index1)=>{
       let val = item[dataItem[index1]];
       if('admissionFillRatio' === dataItem[index1] ||'reachRatio' === dataItem[index1]){

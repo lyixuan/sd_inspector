@@ -13,9 +13,9 @@ class BIPagination extends React.Component {
 
   render() {
     return (
-      <span className='BIPagination'>
+      <div className='BIPagination'>
         <Pagination {...this.props} />
-      </span>
+      </div>
     );
   }
 }
