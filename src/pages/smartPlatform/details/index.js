@@ -4,7 +4,6 @@ import SearchForm from './component/SearchForm';
 import { Message } from 'antd';
 import { DeepCopy, BiFilter } from '@/utils/utils';
 import { connect } from 'dva/index';
-import styles from './style.less';
 
 function dataFilter(list) {
   // 将 checkedConditionList 处理成 key：List形式
@@ -65,17 +64,12 @@ class DetailsIndex extends React.Component {
 
   render() {
     return (
-      <div>
+      <>
         {/* 搜索部分 组件 */}
-        <div className={styles.searchBox}>
-          <SearchForm updateCheckedConditions={(p) => this.updateCheckedConditions(p)} handlePropSubmit={this.handlePropSubmit} />
-        </div>
+        <SearchForm updateCheckedConditions={(p) => this.updateCheckedConditions(p)} handlePropSubmit={this.handlePropSubmit} />
         {/* table结果 组件 */}
-        <div className={styles.tableBox}>
-          <ResultTable checkedConditionList={this.state.checkedConditionList} handlePropSubmit={this.handlePropSubmit} />
-
-        </div>
-      </div>
+        <ResultTable checkedConditionList={this.state.checkedConditionList} handlePropSubmit={this.handlePropSubmit} />
+      </>
     );
   }
 

@@ -536,7 +536,7 @@ class SearchForm extends Component {
     ));
     return (
       <>
-        <div className={styles.searchWrap}>
+        <div>
           <WrappedHorizontalLoginForm
             {...this.props}
             updateCC={(p) => this.updateCheckedConditions(p)}

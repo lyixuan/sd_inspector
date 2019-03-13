@@ -4,12 +4,11 @@ import styles from './ContentLayout.less';
 
 class ContentLayout extends Component {
   getRouterPathname = (routesData) => {
-    console.log(routesData);
     const { location } = this.props;
     const currentPath = location.pathname;
     const routeObj = {};
-    routeObj.name = routesData[currentPath].name;
-    routeObj.bread = routesData[currentPath].bread;
+    routeObj.name = routesData[currentPath] ? routesData[currentPath].name:undefined;
+    routeObj.bread = routesData[currentPath] ? routesData[currentPath].bread:undefined;
     return routeObj;
   };
 
@@ -18,12 +17,10 @@ class ContentLayout extends Component {
     const {routesData} = this.props;
     const routeObj = this.getRouterPathname(routesData);
     const { name = '', bread = {} } = routeObj;
-    console.log(name)
-    console.log(bread)
     return (
       <div className={styles.contentLayout}>
         <div className={styles.bread}>
-          { bread && bread.path && <PageHead routerData={bread} />}
+          { bread && bread.path && <PageHead routerData={routeObj} />}
         </div>
         {name && <div className={styles.title}>{name}</div>}
         <div className={styles.wrapperClassName}>
