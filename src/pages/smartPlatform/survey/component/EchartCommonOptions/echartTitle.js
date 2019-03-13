@@ -25,7 +25,6 @@ const dateFormat = 'YYYY-MM-DD';
   constructor(props){
     super(props);
     this.state={
-      province:'报考省份',
       beginDate:'2018-10-23',
       endDate: '',
     };
@@ -42,10 +41,10 @@ const dateFormat = 'YYYY-MM-DD';
       beginDate:dateString[0],
       endDate:dateString[1],
     });
+    console.log(value)
   };
   handleChange = (value)=> {
-    const {id} = this.props;
-    this.props.handleChange(value,id)
+    console.log(value)
   };
   newData = ()=>{
     const {provinceJson} = this.props.home;
@@ -56,13 +55,13 @@ const dateFormat = 'YYYY-MM-DD';
     return newProvinceJson
   };
   render(){
-    const { province, beginDate, endDate} =  this.state;
+    const { beginDate, endDate} =  this.state;
     const {name=[],keyName='name',value='code'} = this.props;
     return (
        <div className={styles.m_contentWrap}>
          <span className={styles.u_titleCls}>{name}</span>
          <div className={styles.u_formCls}>
-           <BISelect value={province} onChange={this.handleChange} style={{marginRight:'20px',width:'190px'}}>
+           <BISelect placeholder='报考省份' onChange={this.handleChange} style={{marginRight:'20px',width:'190px'}}>
              {
                this.newData().length>0?this.newData().map(item=>{
                  return <Option value={item[keyName]} key={item[value]}>{item[keyName]}</Option>

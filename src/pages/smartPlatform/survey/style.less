@@ -1,7 +1,6 @@
 .container {
   margin-bottom: 100px;
   text-align: center;
-  background-color: #F0F2F5;
   .histogram{
     margin-top: 20px;
     .headerCls{
@@ -13,6 +12,14 @@
       padding-left: 30px;
       border-bottom: 1px solid #EBECEF;
       background-color: #fff;
+    }
+    .headerCls::before{
+      content: '';
+      display: inline-block;
+      width: 2px;
+      height: 12px;
+      background: #52c9c2;
+      margin: 0 6px 0 -6px;
     }
     .formCls{
       background-color: #fff;

@@ -20,7 +20,7 @@ export default class SelectComponent extends React.Component {
   render(){
     const {options=[],defaultValue,keyName='name',value='code',showName} = this.props;
     return (
-      <BISelect value={defaultValue} onChange={this.handleChange} style={{marginRight:'20px'}}>
+      <BISelect value={defaultValue} onChange={this.handleChange} style={{width: '230px'}}>
         {
           options.length>0?options.map(item=>{
             return <Option value={showName?item[keyName]:item[value]} key={item[value]}>{item[keyName]}</Option>
