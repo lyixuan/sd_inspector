@@ -69,7 +69,7 @@ export const routes = [
         component: '../layouts/UserLayout',
         routes: [
           {
-            path: '/user/:id',
+            path: '/user/login',
             component: './user/login',
           },
         ]
