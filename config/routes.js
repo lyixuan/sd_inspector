@@ -14,21 +14,27 @@ export const routes = [
       {
         path: '/smartPlatform',
         component: './smartPlatform',
+        name:'督学',
         // Routes: ['/src/utils/PrivateRoute.js'],
         routes: [
           {
             path: '/smartPlatform/survey',
             component: './smartPlatform/survey',
-            // Routes: ['/src/utils/PrivateRoute.js'],
+            name:'报表概览',
           },
           {
             path: '/smartPlatform/details',
             component: './smartPlatform/details',
-            // Routes: ['/src/utils/PrivateRoute.js'],
+            name:'明细数据查询',
           },
           {
             path: '/smartPlatform/details/tasks',
             component: './smartPlatform/details/tasks',
+            name:'任务列表',
+            bread: {
+              name: '明细数据查询',
+              path: '/smartPlatform/details',
+            },
           },
         ]
       },

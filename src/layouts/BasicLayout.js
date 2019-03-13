@@ -12,7 +12,8 @@ import biIcon from '../assets/biIcon.png';
 import logo from '../assets/logo.png';
 import storage from '../utils/storage';
 import HeaderLayout from './Header';
-import { query } from './utils/query'
+import { query } from './utils/query';
+import ContentLayout  from '@/layouts/ContentLayout';
 
 const { Content, Header } = Layout;
 /**
@@ -57,13 +58,30 @@ enquireScreen(b => {
   isMobile = b;
 });
 
+const routesData ={};
 class BasicLayout extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.routerFlat(props.route.routes);
+  }
   static childContextTypes = {
     location: PropTypes.object,
     breadcrumbNameMap: PropTypes.object,
   };
   state = {
     isMobile,
+  };
+
+  routerFlat = (routes) => {
+    const that = this;
+    for(let i = 0;i<routes.length;i++) {
+      if (routes[i].path) {
+        routesData[routes[i].path] = {name:routes[i].name,bread:routes[i].bread};
+        if (routes[i].routes) {
+          that.routerFlat(routes[i].routes)
+        }
+      }
+    }
   };
 
   getChildContext() {
@@ -145,7 +163,6 @@ class BasicLayout extends React.PureComponent {
     const { menuData } = this.props;
     const currentUser = this.handleUserInfo();
     currentUser.avatar = biIcon;
-    console.log(this.props)
     // const bashRedirect = this.getBaseRedirect();
     // routerData = addRouteData(routerData);
     const layout = (
@@ -172,7 +189,10 @@ class BasicLayout extends React.PureComponent {
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
           </Header>
-          <Content>{children}
+          <Content>
+            <ContentLayout {...this.props} routesData={routesData}>
+              {children}
+            </ContentLayout>
           </Content>
         </Layout>
       </Layout>
