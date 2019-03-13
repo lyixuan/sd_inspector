@@ -14,8 +14,7 @@ export const routes = [
       {
         path: '/smartPlatform',
         component: './smartPlatform',
-        name:'督学',
-        // Routes: ['/src/utils/PrivateRoute.js'],
+        name:'督学平台',
         routes: [
           {
             path: '/smartPlatform/survey',
@@ -39,20 +38,51 @@ export const routes = [
         ]
       },
       {
-        path: '/quality',
-        component: './quality',
+        path: '/qualityAppeal',
+        component: './qualityAppeal',
+        name:'质检管理',
         routes: [
           {
-            path: '/quality/survey',
-            component: './quality/survey',
+            path: '/qualityAppeal/qualityNewSheet',
+            component: './qualityAppeal/qualityNewSheet',
+            name:'新质检单管理',
           },
           {
-            path: '/quality/details',
-            component: './quality/details',
+            path: '/qualityAppeal/qualityNewSheet/Create',
+            component: './qualityAppeal/qualityNewSheet/Create',
+            name:'创建质检单',
+            bread: {
+              name: '新质检单管理',
+              path: '/qualityAppeal/qualityNewSheet',
+            },
           },
           {
-            path: '/quality/details/tasks',
-            component: './quality/details/tasks',
+            path: '/qualityAppeal/qualityAppeal',
+            component: './qualityAppeal/qualityAppeal',
+            name:'质检申诉管理',
+          },
+          {
+            path: '/qualityAppeal/qualityAppeal/appeal',
+            component: './qualityAppeal/qualityAppeal/appeal',
+            name:'申诉审核',
+            bread: {
+              name: '质检申诉管理',
+              path: '/qualityAppeal/qualityAppeal',
+            },
+          },
+          {
+            path: '/qualityAppeal/qualityBook',
+            component: './qualityAppeal/qualityBook',
+            name:'品控质检手册',
+          },
+          {
+            path: '/qualityAppeal/qualityBook/create',
+            component: './qualityAppeal/qualityBook/create',
+            name:'新建质检手册',
+            bread: {
+              name: '品控质检手册',
+              path: '/qualityAppeal/qualityBook',
+            },
           },
         ]
       },

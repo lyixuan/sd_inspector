@@ -57,6 +57,7 @@ export default class SiderMenu extends PureComponent {
       menus: props.menuData,
       openKeys: this.getDefaultCollapsedSubMenus(props),
     };
+    console.log(123,props.menuData);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -89,7 +90,8 @@ export default class SiderMenu extends PureComponent {
    * @memberof SiderMenu
    */
   getMenuItemPath = item => {
-    const itemPath = this.conversionPath(item.path);
+    const itemPath = this.removeInspector(this.conversionPath(item.path));
+
     const icon = getIcon(item.icon);
     console.log(getOldSysPath(itemPath))
     const { target, name } = item;
@@ -119,6 +121,10 @@ export default class SiderMenu extends PureComponent {
       </Link>
     );
   };
+  removeInspector = (itemPath) =>{
+    return itemPath.replace('/inspector','')
+  };
+
   /**
    * get SubMenu or Item
    */
