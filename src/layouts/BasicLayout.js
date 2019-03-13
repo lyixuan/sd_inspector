@@ -12,8 +12,9 @@ import biIcon from '../assets/biIcon.png';
 import logo from '../assets/logo.png';
 import storage from '../utils/storage';
 import HeaderLayout from './Header';
-import { query } from './utils/query'
-
+import { query } from './utils/query';
+import ContentLayout  from '@/layouts/ContentLayout';
+import { redirectUrlParams } from '../utils/routeUtils';
 const { Content, Header } = Layout;
 /**
  * 根据菜单取得重定向地址.
@@ -57,7 +58,12 @@ enquireScreen(b => {
   isMobile = b;
 });
 
+const routesData ={};
 class BasicLayout extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.routerFlat(props.route.routes);
+  }
   static childContextTypes = {
     location: PropTypes.object,
     breadcrumbNameMap: PropTypes.object,
@@ -66,12 +72,29 @@ class BasicLayout extends React.PureComponent {
     isMobile,
   };
 
+  routerFlat = (routes) => {
+    const that = this;
+    for(let i = 0;i<routes.length;i++) {
+      if (routes[i].path) {
+        routesData[routes[i].path] = {name:routes[i].name,bread:routes[i].bread};
+        if (routes[i].routes) {
+          that.routerFlat(routes[i].routes)
+        }
+      }
+    }
+  };
+
   getChildContext() {
     const { location, routerData, menuData } = this.props;
     return {
       location,
       breadcrumbNameMap: getBreadcrumbNameMap(menuData, routerData),
     };
+  }
+  componentWillMount() {
+    // 从url中拿取paramsId参数,包含userId,token,存储在local中
+    //判断缓存中是否有userId;
+    this.checkoutHasAuth();
   }
   componentDidMount() {
     this.enquireHandler = enquireScreen(mobile => {
@@ -90,6 +113,14 @@ class BasicLayout extends React.PureComponent {
 
   componentWillUnmount() {
     unenquireScreen(this.enquireHandler);
+  }
+
+
+  checkoutHasAuth = () => {
+    const userInfo = storage.getUserInfo();
+    if (!userInfo) {
+      redirectUrlParams();
+    }
   }
   loginSys = () => {
 
@@ -145,7 +176,6 @@ class BasicLayout extends React.PureComponent {
     const { menuData } = this.props;
     const currentUser = this.handleUserInfo();
     currentUser.avatar = biIcon;
-    console.log(this.props)
     // const bashRedirect = this.getBaseRedirect();
     // routerData = addRouteData(routerData);
     const layout = (
@@ -157,6 +187,7 @@ class BasicLayout extends React.PureComponent {
           location={location}
           isMobile={this.state.isMobile}
           onCollapse={this.handleMenuCollapse}
+          onClick={({ item, key, keyPath }) => { console.log(item, key); window.location.href = 'www.baidu.com' }}
         />
         <Layout>
           <Header style={{ padding: 0 }}>
@@ -172,7 +203,10 @@ class BasicLayout extends React.PureComponent {
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
           </Header>
-          <Content>{children}
+          <Content>
+            <ContentLayout {...this.props} routesData={routesData}>
+              {children}
+            </ContentLayout>
           </Content>
         </Layout>
       </Layout>

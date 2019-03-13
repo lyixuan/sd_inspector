@@ -1,10 +1,7 @@
 import React from 'react';
-import RadioComponent from '../components/Tabs';
 import ResultTable from './component/ResultTable';
 import SearchForm from './component/SearchForm';
-import MyDeliver from '../components/Deliver';
-import styles from './style.less';
-import Message from 'antd/lib/message/index';
+import { Message } from 'antd';
 import { DeepCopy, BiFilter } from '@/utils/utils';
 import { connect } from 'dva/index';
 
@@ -65,24 +62,14 @@ class DetailsIndex extends React.Component {
     });
   };
 
-
   render() {
     return (
-      <div className={styles.container}>
-        {/* tab分类 组件 */}
-        <RadioComponent path='/smartPlatform/details' />
+      <>
         {/* 搜索部分 组件 */}
-        <div className={styles.searchBox}>
-          <SearchForm updateCheckedConditions={(p) => this.updateCheckedConditions(p)} handlePropSubmit={this.handlePropSubmit} />
-        </div>
-        {/* table上方'查询结果'标题 组件 */}
-        <MyDeliver titleName="查询结果" />
+        <SearchForm updateCheckedConditions={(p) => this.updateCheckedConditions(p)} handlePropSubmit={this.handlePropSubmit} />
         {/* table结果 组件 */}
-        <div className={styles.tableBox}>
-          <ResultTable checkedConditionList={this.state.checkedConditionList} handlePropSubmit={this.handlePropSubmit} />
-
-        </div>
-      </div>
+        <ResultTable checkedConditionList={this.state.checkedConditionList} handlePropSubmit={this.handlePropSubmit} />
+      </>
     );
   }
 

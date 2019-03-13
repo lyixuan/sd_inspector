@@ -26,4 +26,9 @@ export async function userChangeRole(data) {
         data,
     });
 }
+// 根据userId和token,获取权限列表
+export async function getPrivilegeList(params) {
+    return request('/user/getPrivilegeList', { params });
+}
+
 

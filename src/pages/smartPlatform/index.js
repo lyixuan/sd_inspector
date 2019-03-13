@@ -24,8 +24,7 @@ class Home extends React.Component {
   };
   render() {
     return (
-      <div className={styles.basicWrap}>
-        <div className={styles.headerWrap} />
+      <div>
         {this.props.children}
       </div>
     );

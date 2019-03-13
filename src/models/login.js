@@ -1,7 +1,6 @@
-import { Base64 } from 'js-base64';
 import { message } from 'antd';
 import { routerRedux } from 'dva/router';
-import { getUserAuthList, CurrentUserListRole, userChangeRole } from '@/services/api';
+import { getPrivilegeList, CurrentUserListRole, userChangeRole } from '@/services/api';
 import storage from '@/utils/storage';
 
 const handleLogin = (response) => {
@@ -17,6 +16,7 @@ export default {
   namespace: 'login',
 
   state: {
+    loginState: false,
     userInfo: {},
     currentUser: {},
     authList: [],
@@ -24,30 +24,30 @@ export default {
   },
 
   effects: {
-    *loginin({ payload }, { call, put }) {
-      const { userInfo = '' } = payload;
-      if (typeof userInfo === 'string') {
-        try {
-          const params = JSON.parse(Base64.decode(userInfo));
-          const { mail, password } = params;    //  
-          const response = yield call(getUserAuthList, { mail, password });
-          if (response.code === 2000) {
-            handleLogin(response);
-            yield put({
-              type: 'saveUserInfo',
-              payload: { userInfo: response.data },
-            })
-            yield
-          } else {
-            message.error(response.msg);
-          }
-
-        } catch (error) {
-          message.error(`参数传递异常!${error.name}`);
+    *loginin(_, { call, put }) {
+      const isHasUserInfo = storage.isHasUserInfo();
+      const authList = storage.getUserAuth();
+      const userInfo = storage.getUserInfo();
+      let loginState = false;
+      if (!isHasUserInfo || !authList) {
+        const response = yield call(getPrivilegeList);
+        if (response.code === 20000) {
+          const data = response.data || {};
+          const { privilegeList, ...others } = data;
+          const { token, userId } = userInfo;
+          const saveObj = { token, userId, ...others };
+          storage.setUserInfo(saveObj);
+          storage.setUserAuth(privilegeList);
+        } else {
+          message.error(response.msg);
         }
       } else {
-        message.error('参数传递异常');
+        loginState = true;
       }
+      yield put({
+        type: 'changeLoginStatus',
+        payload: { loginState }
+      });
     },
     *CurrentUserListRole({ payload }, { call, put }) {
       const response = yield call(CurrentUserListRole, { ...payload });
@@ -62,19 +62,20 @@ export default {
     },
     *changeRole({ payload }, { call, put }) {
       const response = yield call(userChangeRole, { ...payload });
-      const saveObj = handleLogin(response);
-      if (saveObj.code === 2000 && saveObj.privilegeList.length > 0) {
+
+      if (response.code === 2000 && response.privilegeList.length > 0) {
+        handleLogin(response);
         yield put({
           type: 'menu/getMenu',
-          payload: { routeData: saveObj.privilegeList },
+          payload: { routeData: response.privilegeList },
         });
         yield put(routerRedux.push('/'));
       } else {
-        message.error(saveObj.msg);
+        message.error(response.msg);
       }
       yield put({
         type: 'changeLoginStatus',
-        payload: saveObj,
+        payload: response,
       });
     },
 
@@ -85,13 +86,9 @@ export default {
       return { ...state, ...payload }
     },
     changeLoginStatus(state, { payload }) {
-      const loginStatusObj = {
-        status: payload.code === 2000,
-        msg: payload.msg,
-      };
       return {
         ...state,
-        loginStatusObj,
+        ...payload,
       };
     },
     saveAuthList(state, { payload }) {
