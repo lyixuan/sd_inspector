@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Icon } from 'antd';
-import Popconfirm from 'antd/lib/popconfirm';
+import {Popconfirm} from 'antd';
 import BITable from '@/ant_components/BITable';
 import BIButton from '@/ant_components/BIButton';
-import Breadcrumb from 'antd/lib/breadcrumb';
 
-import Link from 'umi/link';
 import SelfPagination from '../../components/Pagination';
 import { STATIC_HOST } from '@/utils/constants'
 import { BiFilter } from '@/utils/utils';
-import styles from '../style.less'
+import styles from './style.less'
 
 @connect(({ detail, loading }) => ({
   detail,
@@ -156,29 +154,21 @@ class Tasks extends Component {
     const { page } = this.state;
     return (
       <>
-        <div className={styles.breadcrumb}>
-          <Breadcrumb>
-            <Breadcrumb.Item>当前位置:</Breadcrumb.Item>
-            <Breadcrumb.Item><Link to="/smartPlatform/details">明细数据查询</Link></Breadcrumb.Item>
-            <Breadcrumb.Item>任务列表</Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
         <div className={styles.tableBox}>
-          <BIButton style={{ height: 30 }} type="primary" size='small' onClick={this.redo}><Icon type="redo" />刷新</BIButton>
-          <div className={styles.tableHead}>
-            <span className={styles.tableHeadLeft}>任务列表</span>
-          </div>
+          <div><BIButton type="primary" onClick={this.redo}>刷新</BIButton></div>
+          <br/>
           <BITable dataSource={tableList} pagination={false} columns={columns}  loading={this.props.loading} />
-          <SelfPagination
-            onChange={(current, pageSize) => {
-              this.changePage(current, pageSize);
-            }}
-            onShowSizeChange={(current, pageSize) => {
-              this.onShowSizeChange(current, pageSize);
-            }}
-            defaultCurrent={page}
-            total={total}
-          />
+          <br/>
+            <SelfPagination
+              onChange={(current, pageSize) => {
+                this.changePage(current, pageSize);
+              }}
+              onShowSizeChange={(current, pageSize) => {
+                this.onShowSizeChange(current, pageSize);
+              }}
+              defaultCurrent={page}
+              total={total}
+            />
         </div>
       </>
     );

@@ -367,7 +367,7 @@ class HorizontalLoginForm extends React.Component {
               </Form.Item>
             </div>
             {/* 第四行 */}
-            <div style={{ marginTop: '60px' }}>
+            <div style={{ marginTop: '40px',marginBottom:0 }}>
               <Form.Item label="&nbsp;">
                 <DxDropDown overlay={menu}>
                   <BIButton style={{ width: 190 }}>
@@ -375,12 +375,10 @@ class HorizontalLoginForm extends React.Component {
                   </BIButton>
                 </DxDropDown>
               </Form.Item>
-              <Form.Item style={{ marginLeft: '300px' }}>
-                <BIButton type="primary2" onClick={this.handleReset}>恢复默认</BIButton>
-              </Form.Item>
-              <Form.Item>
-                <BIButton type="primary" htmlType="submit"><Icon type="search" />查询</BIButton>
-              </Form.Item>
+              <div style={{ float: 'right',marginTop: 3 }}>
+                <BIButton style={{ marginRight: 10 }} type="primary" htmlType="submit">查询</BIButton>
+                <BIButton  onClick={this.handleReset}>重置</BIButton>
+              </div>
             </div>
           </div>
         </div>
@@ -545,9 +543,9 @@ class SearchForm extends Component {
           {
             getCheckedConditionList().length > 0 ? (
               <div className={styles.searchBoxSeletected}>
-                <span className={styles.rowTitle}>已选条件：</span>
+                <span className={styles.rowTitle2}>已选条件：</span>
                 <div className={styles.row}>
-                  <span style={{ display: 'inline-flex' }} >{checkedBtn}</span>  <BIButton type="primary" style={{ marginLeft: '20px' }} onClick={() => this.conditionAdd()}>保存查询条件</BIButton>
+                  <span style={{ display: 'inline-flex' }} >{checkedBtn}</span>  <span style={{ float: 'right',marginRight:20 }}><BIButton type="primary"  onClick={() => this.conditionAdd()}>保存查询条件</BIButton></span>
                 </div>
               </div>
             ) : null
