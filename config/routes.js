@@ -4,6 +4,10 @@ export const routes = [
     redirect: '/smartPlatform/survey',
   },
   {
+    path: '/doc',
+    component: './doc',
+  },
+  {
     path: '/',
     component: '../layouts/BasicLayoutM2',
     routes: [
@@ -74,10 +78,6 @@ export const routes = [
           },
         ]
 
-      },
-      {
-        path: '/doc',
-        component: './doc',
       },
     ]
   },
