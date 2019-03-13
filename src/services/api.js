@@ -8,3 +8,22 @@ export async function getUserAuthList(data) {
     });
 }
 
+/*
+* 获取用户对应的角色信息信息
+* params：{userId}
+* */
+export async function CurrentUserListRole(params) {
+    return request('/account/listRole', { params });
+}
+
+/*
+* 切换用户权限角色
+* params：{userId}
+* */
+export async function userChangeRole(data) {
+    return request(`/account/changeRole`, {
+        method: 'POST',
+        data,
+    });
+}
+

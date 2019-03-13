@@ -3,11 +3,12 @@ import { Layout, Radio, Spin } from 'antd';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import GlobalHeader from '../components/GlobalHeader';
-// import Modal from '@/selfComponent/Modal/Modal';
+import Modal from '@/components/Modal/Modal';
 import { ADMIN_USER } from '@/utils/constants';
 import styles from './styles/header.less';
 import storage from '../utils/storage';
 import { GLOBAL_HEADER_SELECT } from '../utils/constants';
+import { redirectOldSysHosts } from '../utils/routeUtils';
 
 const { Header } = Layout;
 const RadioGroup = Radio.Group;
@@ -38,10 +39,10 @@ export default class SelfHeader extends PureComponent {
     handleMenuClick = ({ key }) => {
         switch (key) {
             case 'changePwd':
-                this.props.dispatch(routerRedux.push('/changePwd/changePassword'));
+                redirectOldSysHosts('/changePwd/changePassword');
                 break;
             case 'logout':
-                this.props.dispatch({ type: 'login/logout' });
+                redirectOldSysHosts('userLayout/login');
                 break;
             case 'changeRole':
                 this.showModal(true);
@@ -110,14 +111,14 @@ export default class SelfHeader extends PureComponent {
                     onMenuClick={this.handleMenuClick}
                     selectedGroup={selectedGroup}
                 />
-                {/* <Modal
+                <Modal
                     visible={visible}
                     title="切换角色"
                     modalContent={this.renderContent()}
                     clickOK={this.sureChoseRole}
                     footButton={['取消', '确定']}
                     showModal={this.showModal}
-                /> */}
+                />
             </Header>
         );
     }
