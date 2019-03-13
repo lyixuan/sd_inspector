@@ -1,3 +1,4 @@
+import storage from '@/utils/storage';
 function getAuthData(data1) {
     const newArr = filterMenu(data1).sort((a, b) => a.sortFlag - b.sortFlag);
     return formatter(newArr, 0);
@@ -41,8 +42,8 @@ export default {
     },
 
     effects: {
-        *getMenu({ payload }, { put }) {
-            const { routeData } = payload;
+        *getMenu(_, { put }) {
+            const routeData = storage.getUserAuth() || [];
             const menuData = getAuthData(routeData) || [];
             yield put({
                 type: 'saveMenu',

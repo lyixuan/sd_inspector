@@ -19,8 +19,8 @@ export const DOMAIN_HOST = '.ministudy.com';
 
 // 登录页面地址配置
 export const LOGIN_URL = {
-  localhost: 'http://localhost:8088',
-  development: 'http://172.16.117.64:8090',
+  localhost: 'http://newadmin.ministudy.com',
+  development: 'http://test.xd.admin.ministudy.com',
   production: 'http://bd.ministudy.com',
 }[process.env.LOGIN_TYPE];
 

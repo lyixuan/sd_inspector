@@ -14,22 +14,22 @@ export const routes = [
       {
         path: '/smartPlatform',
         component: './smartPlatform',
-        name:'督学平台',
+        name: '督学平台',
         routes: [
           {
             path: '/smartPlatform/survey',
             component: './smartPlatform/survey',
-            name:'报表概览',
+            name: '报表概览',
           },
           {
             path: '/smartPlatform/details',
             component: './smartPlatform/details',
-            name:'明细数据查询',
+            name: '明细数据查询',
           },
           {
             path: '/smartPlatform/details/tasks',
             component: './smartPlatform/details/tasks',
-            name:'任务列表',
+            name: '任务列表',
             bread: {
               name: '明细数据查询',
               path: '/smartPlatform/details',
@@ -40,17 +40,17 @@ export const routes = [
       {
         path: '/qualityAppeal',
         component: './qualityAppeal',
-        name:'质检管理',
+        name: '质检管理',
         routes: [
           {
             path: '/qualityAppeal/qualityNewSheet',
             component: './qualityAppeal/qualityNewSheet',
-            name:'新质检单管理',
+            name: '新质检单管理',
           },
           {
             path: '/qualityAppeal/qualityNewSheet/Create',
             component: './qualityAppeal/qualityNewSheet/Create',
-            name:'创建质检单',
+            name: '创建质检单',
             bread: {
               name: '新质检单管理',
               path: '/qualityAppeal/qualityNewSheet',
@@ -59,12 +59,12 @@ export const routes = [
           {
             path: '/qualityAppeal/qualityAppeal',
             component: './qualityAppeal/qualityAppeal',
-            name:'质检申诉管理',
+            name: '质检申诉管理',
           },
           {
             path: '/qualityAppeal/qualityAppeal/appeal',
             component: './qualityAppeal/qualityAppeal/appeal',
-            name:'申诉审核',
+            name: '申诉审核',
             bread: {
               name: '质检申诉管理',
               path: '/qualityAppeal/qualityAppeal',
@@ -73,12 +73,12 @@ export const routes = [
           {
             path: '/qualityAppeal/qualityBook',
             component: './qualityAppeal/qualityBook',
-            name:'品控质检手册',
+            name: '品控质检手册',
           },
           {
             path: '/qualityAppeal/qualityBook/create',
             component: './qualityAppeal/qualityBook/create',
-            name:'新建质检手册',
+            name: '新建质检手册',
             bread: {
               name: '品控质检手册',
               path: '/qualityAppeal/qualityBook',

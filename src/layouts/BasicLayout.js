@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Layout } from 'antd';
+import { Layout, Spin } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { ContainerQuery } from 'react-container-query';
 import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
+import { Base64 } from 'js-base64';
 import SiderMenu from '../components/SiderMenu';
 import biIcon from '../assets/biIcon.png';
 import logo from '../assets/logo.png';
 import storage from '../utils/storage';
 import HeaderLayout from './Header';
 import { query } from './utils/query';
-import ContentLayout  from '@/layouts/ContentLayout';
+import ContentLayout from '@/layouts/ContentLayout';
 import { redirectUrlParams } from '../utils/routeUtils';
 const { Content, Header } = Layout;
 /**
@@ -58,7 +59,7 @@ enquireScreen(b => {
   isMobile = b;
 });
 
-const routesData ={};
+const routesData = {};
 class BasicLayout extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -74,9 +75,9 @@ class BasicLayout extends React.PureComponent {
 
   routerFlat = (routes) => {
     const that = this;
-    for(let i = 0;i<routes.length;i++) {
+    for (let i = 0; i < routes.length; i++) {
       if (routes[i].path) {
-        routesData[routes[i].path] = {name:routes[i].name,bread:routes[i].bread};
+        routesData[routes[i].path] = { name: routes[i].name, bread: routes[i].bread };
         if (routes[i].routes) {
           that.routerFlat(routes[i].routes)
         }
@@ -102,7 +103,6 @@ class BasicLayout extends React.PureComponent {
         isMobile: mobile,
       });
     });
-    this.MenuData();
     this.setRedirectData(this.props.menuData);
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -120,10 +120,23 @@ class BasicLayout extends React.PureComponent {
     const userInfo = storage.getUserInfo();
     if (!userInfo) {
       redirectUrlParams();
+    } else {
+      this.loginInSysItem();
     }
   }
-  loginSys = () => {
+  getAuthToken = () => {
+    const { location: { query = {} } } = this.props;
+    const paramsId = query.paramsId || '';
+    let paramsObj = {}
 
+    if (paramsId) {
+      try {
+        paramsObj = paramsId ? JSON.parse(Base64.decode(paramsId)) : {};
+        storage.setUserInfo(paramsObj);
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }
   setRedirectData = menuData => {
     menuData.forEach(getRedirect);
@@ -162,22 +175,17 @@ class BasicLayout extends React.PureComponent {
       });
     }
   };
-  MenuData = () => {
-    const routeData = storage.getUserAuth() || [];
+  loginInSysItem = () => {
     this.props.dispatch({
-      type: 'menu/getMenu',
-      payload: { routeData },
-    });
-  };
+      type: 'login/loginin',
+    })
+  }
 
   render() {
-    const { collapsed, fetchingNotices, notices, match, location, children } = this.props;
-    // let { routerData } = this.props;
+    const { collapsed, fetchingNotices, notices, location, children, isLoginIng } = this.props;
     const { menuData } = this.props;
     const currentUser = this.handleUserInfo();
     currentUser.avatar = biIcon;
-    // const bashRedirect = this.getBaseRedirect();
-    // routerData = addRouteData(routerData);
     const layout = (
       <Layout>
         <SiderMenu
@@ -214,16 +222,21 @@ class BasicLayout extends React.PureComponent {
 
     return (
       <DocumentTitle title={this.getPageTitle()}>
-        <ContainerQuery query={query}>
-          {params => <div className={classNames(params)}>{layout}</div>}
-        </ContainerQuery>
+        <Spin tip="Loading..." spinning={isLoginIng}>
+          <ContainerQuery query={query}>
+            {params => <div className={classNames(params)}>{layout}</div>}
+          </ContainerQuery>
+        </Spin>
+
       </DocumentTitle>
     );
   }
 }
 
-export default connect(({ global, menu }) => ({
+export default connect(({ global, menu, login, loading }) => ({
   // currentUser: login.currentUser,
+  isLoginIng: loading.effects['login/loginin'],
+  login: login,
   menuData: menu.menuData,
   collapsed: global.collapsed,
 }))(BasicLayout);

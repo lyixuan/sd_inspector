@@ -13,13 +13,14 @@ import { redirectOldSysHosts } from '../utils/routeUtils';
 const { Header } = Layout;
 const RadioGroup = Radio.Group;
 
-// @connect(({ login = {}, loading }) => ({
-//     login,
-//     loading,
-//     getRoleListLoading: loading.effects['login/CurrentUserListRole'],
-//     // roleList: login.roleList || [],
-// }))
-export default class SelfHeader extends PureComponent {
+@connect(({ login = {}, loading }) => ({
+    login,
+    loading,
+    getRoleListLoading: loading.effects['login/CurrentUserListRole'],
+    roleList: login.roleList || [],
+}))
+
+class SelfHeader extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -28,7 +29,7 @@ export default class SelfHeader extends PureComponent {
         };
     }
     getUserInfo = () => {
-        return storage.getUserInfo || {};
+        return storage.getUserInfo() || {};
     }
     getRoleList = () => {
         this.props.dispatch({
@@ -104,6 +105,7 @@ export default class SelfHeader extends PureComponent {
     render() {
         const { visible } = this.state;
         const selectedGroup = this.handleMenuList();
+        console.log(selectedGroup)
         return (
             <Header style={{ padding: 0 }}>
                 <GlobalHeader
@@ -128,3 +130,4 @@ const radioStyle = {
     height: '30px',
     lineHeight: '30px',
 };
+export default SelfHeader;
