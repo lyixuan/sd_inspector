@@ -40,6 +40,7 @@ class Survey extends React.Component {
     this.getProvinceJson();// 省份
     this.queryHistogramData(this.state)
   }
+
   getMapInfo = () => {
     const { mapInfo } = this.props;
     if (Array.isArray(mapInfo) && mapInfo.length > 0) {
@@ -67,7 +68,6 @@ class Survey extends React.Component {
   };
   render() {
     const { mapInfo, survey } = this.props;
-
     const { dataList = {} } = survey;
     const { data1 = {}, data2 = {} } = dataList;
     const { option1, option2 } = chartOptions(survey);
