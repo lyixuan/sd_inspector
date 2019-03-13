@@ -1,42 +1,44 @@
 .container {
   margin-bottom: 100px;
   text-align: center;
+  background-color: #F0F2F5;
   .histogram{
-    padding-top: 20px;
+    margin-top: 20px;
     .headerCls{
-      height: 98px;
-      line-height: 98px;
-      background: url("../../../assets/title.png") no-repeat center;
-      background-size: 100%;
-      font-size: 30px;
-      color: #fff;
+      height: 73px;
+      line-height: 73px;
+      text-align: left;
+      font-size: 18px;
+      color: #000;
+      padding-left: 30px;
+      border-bottom: 1px solid #EBECEF;
+      background-color: #fff;
     }
     .formCls{
+      background-color: #fff;
       box-sizing: border-box;
-      display: flex;
-      justify-content: space-between;
-      margin: 0 64px;
-      height: 107px;
-      background: rgba(0,144,255,.05);
-      padding: 36px 30px;
-      .searchTxt{
-        margin-right: 10px;
-        font-size: 14px;
-        color: #fff;
+      padding:30px 30px 10px;
+      .form1{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
       }
     }
     .echartCls{
-      padding: 0 64px 50px;
       display:flex;
       justify-content:space-between;
-      margin-top:47px;
+      margin-top:10px;
       .emptyCls{
         width:49%;
-        height: 510px;
+        height: 380px;
         line-height: 400px;
-        box-shadow:0 0 20px #0070b7;
-        background-color:#0c162f;
+        background-color: #fff;
       }
+    }
+    .echartFamily{
+      margin-top: 20px;
+      background-color: #fff;
     }
   }
 }
@@ -46,4 +48,10 @@
   justify-content:center;
   flex-flow: row;
   background: #0b1530;
+}
+.labelCls{
+  display: inline-block;
+  width: 60px;
+  font-size: 14px;
+  text-align-last: justify;
 }

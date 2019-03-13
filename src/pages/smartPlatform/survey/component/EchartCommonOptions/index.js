@@ -3,28 +3,29 @@ function commonOptions(params) {
   return {
     title: {
       text,
-      x: 'center',
+      x: 30,
       textStyle: {
-        color: '#fff',
-        fontSize: 18
+        fontSize:16,
+        color: '#18191A',
+        fontWeight:'normal'
       },
-      top: 54,
+      top: 15,
     },
     grid: {
-      top: 166,
-      left: 64,
-      right:20,
-      height: 234,
+      top: 80,
+      left:90,
+      right:30,
+      height: 200,
     },
     legend: {
-      bottom: 34,
+      bottom: 40,
       textStyle: {
         color: '#bdc0c6',
         fontSize: 12
       },
       itemGap,
-      itemWidth: 10,
-      itemHeight: 10,
+      itemWidth: 7,
+      itemHeight: 7,
       data: legendData
     },
     tooltip: {
@@ -42,12 +43,12 @@ function commonOptions(params) {
       {
         axisLine: {
           lineStyle: {
-            color: '#bdc0c6',
+            color: '#F5F6F7',
             fontSize:12
           }
         },
         axisLabel: {// 横坐标轴标签
-          interval: 0
+          color: '#787A7F',
         },
         axisTick: {
           show: false,
@@ -77,27 +78,27 @@ export function chartOptions(data) {
   const { data1 = {}, data2 = {} } = dataList;
   const params1 = {
     text: '报考通知数据概览',
-    legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '通知人数', icon: 'rect' }, { name: '触达人数', icon: 'rect' }, {
-      name: '触达率', icon: 'image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAEAQMAAABSuEaRAAAAAXNSR0IB2cksfwAAAAZQTFRF+zd3AAAAP9uspgAAAAJ0Uk5T/wDltzBKAAAAEUlEQVR4nGNgYGhggOH//xsAEwsD/x/9IEYAAAAASUVORK5CYII=',
+    legendData: [{ name: '考试计划人数', icon: 'circle' }, { name: '通知人数', icon: 'circle' }, { name: '触达人数', icon: 'circle' }, {
+      name: '触达率',
     }],
     xData: data1.dateArr,
-    color: ['#1e93ff', "#7363ec", '#1ec47a', '#fc3676'],
+    color: ['#52C9C2', "#30B0E6", '#FD9E3B', '#CC73FF'],
     formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}<br />{a3}: {c3}%',
     series: [{
       name: '考试计划人数',
       type: 'bar',
       barCategoryGap: '20%',
-      barWidth: 15,
+      barWidth: 9,
       data: data1.dataArr1
     }, {
       name: '通知人数',
       type: 'bar',
-      barWidth: 15,
+      barWidth: 9,
       data: data1.dataArr2
     }, {
       name: '触达人数',
       type: 'bar',
-      barWidth: 15,
+      barWidth: 9,
       data: data1.dataArr3
     }, {
       name: '触达率',
@@ -106,26 +107,29 @@ export function chartOptions(data) {
       symbol: 'circle',
       symbolSize: 6,
       data: data1.dataArr4,
-      itemStyle: { normal: { label: { show: true, formatter: '{c}%' } } },
+      // itemStyle: { normal: { label: { show: true, formatter: '{c}%' } } },
     }],
     yAxis: [{
       axisLine: {
         lineStyle: {
-          color: '#bdc0c6'
+          color: '#fff'
+        }
+      },
+      splitLine:{
+        lineStyle: {
+          color: '#F5F6F7'
         }
       },
       axisTick: {
         show: false,
       },
       type: 'value',
-      splitLine: {
-        show: false
-      },
       // min: 0,
       // max:25000,
       // interval:5000,
       axisLabel: {
-        formatter: '{value}'
+        formatter: '{value}',
+        color:'#787A7F'
       },
     }, {
       show: false,
@@ -140,22 +144,20 @@ export function chartOptions(data) {
   };
   const params2 = {
     text: '准考证填写趋势',
-    legendData: [{ name: '考试计划人数', icon: 'rect' }, { name: '准考证填写人数', icon: 'rect' }, {
-      name: '准考证填写占比',
-      icon: 'image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAEAQMAAABSuEaRAAAAAXNSR0IB2cksfwAAAAZQTFRF+zd3AAAAP9uspgAAAAJ0Uk5T/wDltzBKAAAAEUlEQVR4nGNgYGhggOH//xsAEwsD/x/9IEYAAAAASUVORK5CYII=',
-    }],
+    legendData: [{ name: '考试计划人数', icon: 'circle' }, { name: '准考证填写人数', icon: 'circle' }, {
+      name: '准考证填写占比', }],
     xData: data2.dateArr,
-    color: ['#1e93ff', "#fc595b", '#fc3676'],
+    color: ['#52C9C2', '#FD9E3B', '#CC73FF'],
     formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}%',
     series: [{
       name: '考试计划人数',
       type: 'bar',
-      barWidth: 15,
+      barWidth: 9,
       data: data2.dataArr1
     }, {
       name: '准考证填写人数',
       type: 'bar',
-      barWidth: 15,
+      barWidth: 9,
       data: data2.dataArr2
     }, {
       name: '准考证填写占比',
@@ -164,26 +166,29 @@ export function chartOptions(data) {
       symbol: 'circle',
       symbolSize: 6,
       data: data2.dataArr3,
-      itemStyle: { normal: { label: { show: true, formatter: '{c}%' } } },
+      // itemStyle: { normal: { label: { show: true, formatter: '{c}%' } } },
     }],
     yAxis: [{
       axisLine: {
         lineStyle: {
-          color: '#bdc0c6'
+          color: '#fff'
         }
       },
       axisTick: {
         show: false,
       },
       type: 'value',
-      splitLine: {
-        show: false
+      splitLine:{
+        lineStyle: {
+          color: '#F5F6F7'
+        }
       },
       // min: 0,
       // max:25000,
       // interval:5000,
       axisLabel: {
-        formatter: '{value}'
+        formatter: '{value}',
+        color:'#787A7F'
       },
     }, {
       show: false,

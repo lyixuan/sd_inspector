@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
-import Button from 'antd/lib/button';
-import Icon from 'antd/lib/icon';
+import BIButton from '@/ant_components/BIButton'
 import DatePickerDecorator from 'antd/lib/date-picker';
 import moment from 'moment';
-import Select from '../../component/Select';
+import BISelect from '@/ant_components/BISelect';
 import styles from '../../style.less';
 
 const { RangePicker } = DatePickerDecorator;
@@ -97,25 +96,26 @@ const dateFormat = 'YYYY-MM-DD';
 
     return (
       <>
-        <div>
-          <span className={styles.searchTxt}>查询条件：</span>
-          <Select options={newProvinceJson} defaultValue={province} id='province' handleChange={this.handleChange} showName/>
-          <Select options={newOrgList} defaultValue={collegeId} id='college' handleChange={this.handleChange} value='id' />
-          <Select options={familyData} defaultValue={familyId} id='family' handleChange={this.handleChange} value='id' />
-          <RangePicker
-            placeholder={['开始时间','结束时间']}
-            onChange={this.dateChange}
-            disabledDate={this.disabledDate}
-            value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}
-          />
+        <div className={styles.form1}>
+          <div><span className={styles.labelCls}>报考省份</span>：<BISelect style={{ width: '230px' }} options={newProvinceJson} defaultValue={province} id='province' handleChange={this.handleChange} showName/></div>
+          <div><span className={styles.labelCls}>学院</span>：<BISelect style={{ width: '230px' }} options={newOrgList} defaultValue={collegeId} id='college' handleChange={this.handleChange} value='id' /></div>
+          <div><span className={styles.labelCls}>家族</span>：<BISelect style={{ width: '230px'}} options={familyData} defaultValue={familyId} id='family' handleChange={this.handleChange} value='id' /></div>
         </div>
-        <div>
-          <Button type="primary2" style={{marginRight:'20px'}} onClick={this.reset}>恢复默认</Button>
-          <Button type="primary" onClick={this.search}>
-            <Icon type="search" style={{fontSize:'16px'}} />
-            查询
-          </Button>
-        </div>
+       <div className={styles.form1}>
+         <div><span className={styles.labelCls}>小组</span>：<BISelect style={{ width: '230px' }} options={familyData} defaultValue={familyId} id='family' handleChange={this.handleChange} value='id' /></div>
+         <div><span className={styles.labelCls}>日期</span>：<RangePicker
+           placeholder={['开始时间','结束时间']}
+           onChange={this.dateChange}
+           style={{ width: '230px'}}
+           disabledDate={this.disabledDate}
+           value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}
+        /></div>
+         <div style={{width:'300px',textAlign:'right'}}>
+           <BIButton type="primary" style={{ width: '70px', marginRight:'10px'}} onClick={this.search}>查询</BIButton>
+           <BIButton type="primary2" style={{width: '70px' }} onClick={this.reset}>重置</BIButton>
+         </div>
+       </div>
+
       </>
     );
   }
