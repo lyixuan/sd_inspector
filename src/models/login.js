@@ -1,4 +1,3 @@
-import { Base64 } from 'js-base64';
 import { message } from 'antd';
 import { routerRedux } from 'dva/router';
 import { getPrivilegeList, CurrentUserListRole, userChangeRole } from '@/services/api';
@@ -17,6 +16,7 @@ export default {
   namespace: 'login',
 
   state: {
+    loginState: false,
     userInfo: {},
     currentUser: {},
     authList: [],
@@ -24,21 +24,30 @@ export default {
   },
 
   effects: {
-    *loginin({ payload }, { call, put }) {
-      const { token, userId, pathname } = payload;
-      const response = yield call(getPrivilegeList);
-      if (response.code === 20000) {
-        const data = response.data || {};
-        const { privilegeList, ...others } = data;
-        const saveObj = { token, userId, ...others };
-        storage.setUserInfo(saveObj);
-        storage.setUserAuth(privilegeList);
-        yield put(routerRedux.push(pathname));
+    *loginin(_, { call, put }) {
+      const isHasUserInfo = storage.isHasUserInfo();
+      const authList = storage.getUserAuth();
+      const userInfo = storage.getUserInfo();
+      let loginState = false;
+      if (!isHasUserInfo || !authList) {
+        const response = yield call(getPrivilegeList);
+        if (response.code === 20000) {
+          const data = response.data || {};
+          const { privilegeList, ...others } = data;
+          const { token, userId } = userInfo;
+          const saveObj = { token, userId, ...others };
+          storage.setUserInfo(saveObj);
+          storage.setUserAuth(privilegeList);
+        } else {
+          message.error(response.msg);
+        }
       } else {
-        message.error(response.msg);
+        loginState = true;
       }
-
-
+      yield put({
+        type: 'changeLoginStatus',
+        payload: { loginState }
+      });
     },
     *CurrentUserListRole({ payload }, { call, put }) {
       const response = yield call(CurrentUserListRole, { ...payload });
@@ -77,13 +86,9 @@ export default {
       return { ...state, ...payload }
     },
     changeLoginStatus(state, { payload }) {
-      const loginStatusObj = {
-        status: payload.code === 2000,
-        msg: payload.msg,
-      };
       return {
         ...state,
-        loginStatusObj,
+        ...payload,
       };
     },
     saveAuthList(state, { payload }) {

@@ -1,7 +1,6 @@
 import { ADMIN_AUTH, ADMIN_USER, DOMAIN_HOST } from './constants';
 import Cookies from 'js-cookie';
 
-
 const storage = {
   getItem(key) {
     return JSON.parse(localStorage.getItem(key))
@@ -37,7 +36,7 @@ const storage = {
   },
   // 存储用户信息
   setUserInfo(token) {
-    Cookies.set(ADMIN_USER, { ...token }, { domain: DOMAIN_HOST });
+    Cookies.set(ADMIN_USER, { ...token }, { expires: 365, domain: DOMAIN_HOST });
     this.setItem(ADMIN_USER, token);
   },
   // 清除用户信息
@@ -61,5 +60,12 @@ const storage = {
   clearUserAuth() {
     this.removeItem(ADMIN_AUTH);
   },
+  isHasUserInfo() {
+    const userInfo_cookie = Cookies.get(ADMIN_USER);
+    const userInfo_localStorage = this.getItem(ADMIN_USER);
+    if (userInfo_cookie && userInfo_localStorage) {
+      return userInfo_cookie.userId === userInfo_localStorage.userId && userInfo_cookie.token === userInfo_localStorage.token
+    } else return false;
+  }
 };
 export default storage
