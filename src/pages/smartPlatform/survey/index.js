@@ -90,7 +90,7 @@ class Survey extends React.Component {
             <div className={styles.headerCls}>
               数据概览
             </div>
-            {/*<Spin spinning={this.props.echartLoading}>*/}
+            <Spin spinning={this.props.echartLoading}>
               {/* 搜索条件 */}
               <div className={styles.formCls}>
                 <SearchForm searchData={this.searchData} />
@@ -124,7 +124,7 @@ class Survey extends React.Component {
                   <SelfProgress dataList={[{name:'派学院|商进家族',per:30,color:'#ff6d6d'},{name:'2',per:50,color:'#ff8e57'},{name:'1',per:70,color:'#ffaa4d'},{name:'1',per:90}]} />
                 </div>
               </div>
-            {/*</Spin>*/}
+            </Spin>
           </div>
         </div>
       </Spin>
