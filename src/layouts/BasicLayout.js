@@ -14,7 +14,7 @@ import storage from '../utils/storage';
 import HeaderLayout from './Header';
 import { query } from './utils/query';
 import ContentLayout  from '@/layouts/ContentLayout';
-
+import { redirectUrlParams } from '../utils/routeUtils';
 const { Content, Header } = Layout;
 /**
  * 根据菜单取得重定向地址.
@@ -91,6 +91,11 @@ class BasicLayout extends React.PureComponent {
       breadcrumbNameMap: getBreadcrumbNameMap(menuData, routerData),
     };
   }
+  componentWillMount() {
+    // 从url中拿取paramsId参数,包含userId,token,存储在local中
+    //判断缓存中是否有userId;
+    this.checkoutHasAuth();
+  }
   componentDidMount() {
     this.enquireHandler = enquireScreen(mobile => {
       this.setState({
@@ -108,6 +113,14 @@ class BasicLayout extends React.PureComponent {
 
   componentWillUnmount() {
     unenquireScreen(this.enquireHandler);
+  }
+
+
+  checkoutHasAuth = () => {
+    const userInfo = storage.getUserInfo();
+    if (!userInfo) {
+      redirectUrlParams();
+    }
   }
   loginSys = () => {
 
@@ -174,6 +187,7 @@ class BasicLayout extends React.PureComponent {
           location={location}
           isMobile={this.state.isMobile}
           onCollapse={this.handleMenuCollapse}
+          onClick={({ item, key, keyPath }) => { console.log(item, key); window.location.href = 'www.baidu.com' }}
         />
         <Layout>
           <Header style={{ padding: 0 }}>

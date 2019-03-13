@@ -1,7 +1,7 @@
 import { Base64 } from 'js-base64';
 import { message } from 'antd';
 import { routerRedux } from 'dva/router';
-import { getUserAuthList, CurrentUserListRole, userChangeRole } from '@/services/api';
+import { getPrivilegeList, CurrentUserListRole, userChangeRole } from '@/services/api';
 import storage from '@/utils/storage';
 
 const handleLogin = (response) => {
@@ -25,29 +25,20 @@ export default {
 
   effects: {
     *loginin({ payload }, { call, put }) {
-      const { userInfo = '' } = payload;
-      if (typeof userInfo === 'string') {
-        try {
-          const params = JSON.parse(Base64.decode(userInfo));
-          const { mail, password } = params;    //  
-          const response = yield call(getUserAuthList, { mail, password });
-          if (response.code === 2000) {
-            handleLogin(response);
-            yield put({
-              type: 'saveUserInfo',
-              payload: { userInfo: response.data },
-            })
-            yield
-          } else {
-            message.error(response.msg);
-          }
-
-        } catch (error) {
-          message.error(`参数传递异常!${error.name}`);
-        }
+      const { token, userId, pathname } = payload;
+      const response = yield call(getPrivilegeList);
+      if (response.code === 20000) {
+        const data = response.data || {};
+        const { privilegeList, ...others } = data;
+        const saveObj = { token, userId, ...others };
+        storage.setUserInfo(saveObj);
+        storage.setUserAuth(privilegeList);
+        yield put(routerRedux.push(pathname));
       } else {
-        message.error('参数传递异常');
+        message.error(response.msg);
       }
+
+
     },
     *CurrentUserListRole({ payload }, { call, put }) {
       const response = yield call(CurrentUserListRole, { ...payload });
@@ -62,19 +53,20 @@ export default {
     },
     *changeRole({ payload }, { call, put }) {
       const response = yield call(userChangeRole, { ...payload });
-      const saveObj = handleLogin(response);
-      if (saveObj.code === 2000 && saveObj.privilegeList.length > 0) {
+
+      if (response.code === 2000 && response.privilegeList.length > 0) {
+        handleLogin(response);
         yield put({
           type: 'menu/getMenu',
-          payload: { routeData: saveObj.privilegeList },
+          payload: { routeData: response.privilegeList },
         });
         yield put(routerRedux.push('/'));
       } else {
-        message.error(saveObj.msg);
+        message.error(response.msg);
       }
       yield put({
         type: 'changeLoginStatus',
-        payload: saveObj,
+        payload: response,
       });
     },
 
