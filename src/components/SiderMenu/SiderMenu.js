@@ -45,7 +45,7 @@ export const getFlatMenuKeys = menu =>
 export const getMenuMatchKeys = (flatMenuKeys, paths) =>
   paths.reduce(
     (matchKeys, path) =>
-      matchKeys.concat(flatMenuKeys.filter(item => pathToRegexp(item).test(path))),
+      matchKeys.concat(flatMenuKeys.filter(item => pathToRegexp(item.replace('/inspector','')).test(path)).map((item2)=>item2.replace('/inspector',''))),
     []
   );
 
@@ -57,11 +57,11 @@ export default class SiderMenu extends PureComponent {
       menus: props.menuData,
       openKeys: this.getDefaultCollapsedSubMenus(props),
     };
-    console.log(123,props.menuData);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.location.pathname !== this.props.location.pathname) {
+      console.log(this.getDefaultCollapsedSubMenus(nextProps));
       this.setState({
         openKeys: this.getDefaultCollapsedSubMenus(nextProps),
       });
@@ -90,10 +90,9 @@ export default class SiderMenu extends PureComponent {
    * @memberof SiderMenu
    */
   getMenuItemPath = item => {
-    const itemPath = this.removeInspector(this.conversionPath(item.path));
-
+    let itemPath = this.conversionPath(item.path);
+    itemPath = this.removeInspector(itemPath);
     const icon = getIcon(item.icon);
-    console.log(getOldSysPath(itemPath))
     const { target, name } = item;
     // Is it a http link
     if (/^https?:\/\//.test(itemPath)) {
@@ -129,6 +128,7 @@ export default class SiderMenu extends PureComponent {
    * get SubMenu or Item
    */
   getSubMenuOrItem = item => {
+    item.path = this.removeInspector(item.path);
     if (item.children && item.children.some(child => child.name)) {
       const childrenItems = this.getNavMenuItems(item.children);
       // 当无子菜单时就不展示菜单
