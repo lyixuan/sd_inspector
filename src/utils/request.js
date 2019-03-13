@@ -35,7 +35,6 @@ const errorHandler = error => {
   const { status, url } = response;
 
   if (status === 401) {
-    console.log('tiaoz')
     redirectUrlParams();    // 跳转至登录页
     // routerRedux.push('login/logout');
     // return;
