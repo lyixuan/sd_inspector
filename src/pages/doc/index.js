@@ -8,6 +8,7 @@ import DocModal  from './components/DocModal';
 import DocTable  from './components/DocTable';
 import DocPagination  from './components/DocPagination';
 import DocDatePicker  from './components/DocDatePicker';
+import DocTabs  from './components/DocTabs';
 
 import style from './style.css';
 
@@ -28,6 +29,7 @@ class Doc extends Component {
         <DocTable/>
         <DocPagination/>
         <DocDatePicker/>
+        <DocTabs/>
       </div>
     )
   }

@@ -8,9 +8,6 @@ import styles from './style.less';
 import ChinaMap from './component/ChinaMap.1';
 import SearchForm from './component/SearchForm';
 import { chartOptions } from './component/EchartCommonOptions';
-import {blendChartOptions}  from './component/EchartCommonOptions/college_options';
-import {famProOPtion}  from './component/EchartCommonOptions/family_prov_options';
-import {groupOPtion}  from './component/EchartCommonOptions/group_options';
 import EchartTitle  from './component/EchartCommonOptions/echartTitle';
 import SelfProgress  from './component/EchartCommonOptions/fillRateFamily';
 import { fillCollege } from './component/EchartCommonOptions/fillRateOptions';
@@ -71,7 +68,6 @@ class Survey extends React.Component {
     const { dataList = {} } = survey;
     const { data1 = {}, data2 = {} } = dataList;
     const { option1, option2 } = chartOptions(survey);
-    const optionBlend = blendChartOptions(survey);
 
     return (
       <Spin spinning={false}>
@@ -108,12 +104,6 @@ class Survey extends React.Component {
                     <Echart update={data2} style={{ width: '49%', height: "380px", backgroundColor:' #fff' }} options={option2} />
                 }
               </div>
-              {/*<div className={styles.echartFamily}>*/}
-                {/*<Echart update={data1} style={{ width: '100%', height: "510px" }} options={optionBlend} />*/}
-                {/*<Echart update={data1} style={{ width: '100%', height: "510px" }} options={famProOPtion()} />*/}
-                {/*<Echart update={data1} style={{ width: '100%', height: "510px" }} options={groupOPtion()} />*/}
-                {/*<p>查看更多</p>*/}
-              {/*</div>*/}
               <div className={styles.echartFamily}>
                 <EchartTitle name='准考证填写率排行榜（学院）' />
                 <Echart update={data1} style={{ width: '100%', height: "293px" }} options={fillCollege(['瑞博','虎落','虎落','瑞博','虎落','虎落','瑞博'],[20,30,50,30,50,30,70])} />
