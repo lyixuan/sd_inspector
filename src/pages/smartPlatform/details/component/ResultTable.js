@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import router from 'umi/router';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 import BIModal from '@/ant_components/BIModal';
 import BIButton from '@/ant_components/BIButton';
+import  BIButtonYellow from '@/components/BIButtonYellow';
+import  BIButtonBlue from '@/components/BIButtonBlue';
 import BIInput from '@/ant_components/BIInput';
 import BITable from '@/ant_components/BITable';
 
@@ -37,17 +38,16 @@ const columns = [
   {
     title: '省/市',
     dataIndex: 'province',
-    width: 140,
   },
   {
     title: '学院',
     dataIndex: 'collegeName',
-    width: 150,
+    width: 120,
   },
   {
     title: '家族',
     dataIndex: 'familyName',
-    width: 150,
+    width: 120,
   },
   {
     title: '考试计划人数',
@@ -77,6 +77,7 @@ const columns = [
   {
     title: '消息未读人数',
     dataIndex: 'unreadNum',
+    width: 130,
   },
 ];
 @connect(({ dataDetail, loading }) => ({
@@ -189,18 +190,16 @@ class ResultTable extends Component {
     const { provinceName } = this.state;
     return (
       <>
-        <div>
+        <div className={styles.tableWrap}>
+          <div className={styles.tableTitleWrap}>
+            <span className={styles.tableTitle}></span><span className={styles.tableTitle1}>查询结果</span>
+          </div>
           <div className={styles.tableHead}>
             {/*<span className={styles.tableHeadLeft}>共搜出 {totalPlan} 条学员订单数据</span>*/}
-            <span className={styles.tableHeadRight}>
-              <BIButton type="primary" onClick={this.toTask}>任务列表</BIButton>
-            </span>
-            <span className={styles.tableHeadRight}>
-              <BIButton type="primary2" onClick={this.addTask}>添加下载任务</BIButton>
-            </span>
+            <BIButtonBlue type="primary"  className={styles.tableHeadSpan} onClick={this.addTask}>添加下载任务</BIButtonBlue>
+            <BIButtonYellow type="primary" onClick={this.toTask}>任务列表</BIButtonYellow>
           </div>
           <BITable dataSource={dataSource} columns={columns} pagination={false} loading={this.props.loading} scroll={{ y: 500 }} bordered />
-          <br />
           <div className={styles.provinceCotainer}>
             {provinces.map(item => <span
               key={item.code}

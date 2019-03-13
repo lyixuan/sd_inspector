@@ -16,6 +16,8 @@ import HeaderLayout from './Header';
 import { query } from './utils/query';
 import ContentLayout from '@/layouts/ContentLayout';
 import { redirectUrlParams } from '../utils/routeUtils';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
+import { LocaleProvider } from 'antd';
 const { Content, Header } = Layout;
 /**
  * 根据菜单取得重定向地址.
@@ -221,6 +223,7 @@ class BasicLayout extends React.PureComponent {
     );
 
     return (
+      <LocaleProvider locale={zhCN}>
       <DocumentTitle title={this.getPageTitle()}>
         <Spin tip="Loading..." spinning={isLoginIng}>
           <ContainerQuery query={query}>
@@ -229,6 +232,7 @@ class BasicLayout extends React.PureComponent {
         </Spin>
 
       </DocumentTitle>
+      </LocaleProvider>
     );
   }
 }
