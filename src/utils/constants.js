@@ -15,7 +15,8 @@ export const STATIC_HOST = {
   production: 'http://api.bd.ministudy.com/download',
 }[process.env.PROXY_ENV];
 // 设置domain域名
-export const DOMAIN_HOST = '.ministudy.com';
+// export const DOMAIN_HOST = '.ministudy.com';
+export const DOMAIN_HOST = 'localhost';
 
 // 登录页面地址配置
 export const LOGIN_URL = {
