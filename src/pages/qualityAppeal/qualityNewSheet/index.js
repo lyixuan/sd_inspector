@@ -33,13 +33,13 @@ class NewQualitySheet extends React.Component {
         <div className={styles.searchBlock}>
           <Row gutter={0}>
             <Col className="gutter-row" span={8}>
-              <div className="gutter-box">col-6</div>
+              <div className="gutter-box1">col-6</div>
             </Col>
             <Col className="gutter-row" span={8}>
-              <div className="gutter-box">col-6</div>
+              <div className="gutter-box2">col-6</div>
             </Col>
             <Col className="gutter-row" span={8}>
-              <div className="gutter-box">col-6</div>
+              <div className="gutter-box1">col-6</div>
             </Col>
           </Row>
           <Row gutter={0}>
