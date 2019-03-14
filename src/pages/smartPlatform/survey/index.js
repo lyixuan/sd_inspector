@@ -2,7 +2,6 @@ import React from 'react';
 import { Spin } from 'antd';
 import { connect } from 'dva';
 import Empty from 'antd/lib/empty'
-import Radio from '../components/Tabs';
 import Echart from '@/components/Echart'
 import styles from './style.less';
 import ChinaMap from './component/ChinaMap.1';
@@ -72,8 +71,6 @@ class Survey extends React.Component {
     return (
       <Spin spinning={false}>
         <div className={styles.container}>
-          {/* 页面切换 */}
-          <Radio path='/smartPlatform/survey' />
           {/* 地图 */}
           <Spin spinning={this.props.mapInfoLoading}>
             <div className={styles.mapContainer}>
