@@ -8,7 +8,7 @@ import BIButton from '@/ant_components/BIButton';
 import DxDropDown from '@/pages/smartPlatform/details/component/DxDropDown';
 import DxMenu from '@/pages/smartPlatform/details/component/DxMenu';
 import BIModal from '@/ant_components/BIModal';
-import Message from 'antd/lib/message';
+import { Message } from 'antd';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 
 import styles from '../style.less'

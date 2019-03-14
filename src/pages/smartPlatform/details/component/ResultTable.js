@@ -8,7 +8,7 @@ import BIInput from '@/ant_components/BIInput';
 import BITable from '@/ant_components/BITable';
 
 import styles from '../style.less'
-import Message from 'antd/lib/message/index';
+import {Message} from 'antd';
 import config from '../../../../../config/config';
 import { connect } from 'dva/index';
 
@@ -42,42 +42,42 @@ const columns = [
   {
     title: '学院',
     dataIndex: 'collegeName',
-    width: 120,
+    width: 130,
   },
   {
     title: '家族',
     dataIndex: 'familyName',
-    width: 120,
+    width: 130,
   },
   {
     title: '考试计划人数',
     dataIndex: 'examPlanNum',
-    width: 130,
+    width: 140,
   },
   {
     title: '准考证填写人数',
     dataIndex: 'admissionFillNum',
-    width: 130,
+    width: 140,
   },
   {
     title: '未推送消息人数',
     dataIndex: 'unpushNum',
-    width: 130,
+    width: 140,
   },
   {
     title: '已推送消息人数',
     dataIndex: 'pushNum',
-    width: 130,
+    width: 140,
   },
   {
     title: '消息已读人数',
     dataIndex: 'readNum',
-    width: 130,
+    width: 140,
   },
   {
     title: '消息未读人数',
     dataIndex: 'unreadNum',
-    width: 130,
+    width: 140,
   },
 ];
 @connect(({ dataDetail, loading }) => ({

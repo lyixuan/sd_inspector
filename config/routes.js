@@ -27,6 +27,11 @@ export const routes = [
             name: '明细数据查询',
           },
           {
+            path: '/smartPlatform/exam',
+            component: './smartPlatform/exam',
+            name:'报考',
+          },
+          {
             path: '/smartPlatform/details/tasks',
             component: './smartPlatform/details/tasks',
             name: '任务列表',
@@ -39,7 +44,7 @@ export const routes = [
       },
       {
         path: '/qualityAppeal',
-
+        redirect: '/qualityAppeal/qualityNewSheet',
         name: '质检管理',
         routes: [
           {

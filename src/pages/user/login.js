@@ -17,10 +17,6 @@ class Login extends React.Component {
             try {
                 paramsObj = paramsId ? JSON.parse(Base64.decode(paramsId)) : {};
                 storage.setUserInfo(paramsObj);
-                this.props.dispatch({
-                    type: 'login/loginin',
-                    payload: paramsObj,
-                })
             } catch (e) {
                 console.log(e);
             }

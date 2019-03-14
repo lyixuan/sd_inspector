@@ -25,25 +25,28 @@ export default {
 
   effects: {
     *loginin(_, { call, put }) {
-      const isHasUserInfo = storage.isHasUserInfo();
-      const authList = storage.getUserAuth();
+      const isHasUserInfo = storage.isRepeatLogin();
       const userInfo = storage.getUserInfo();
       let loginState = false;
-      if (!isHasUserInfo || !authList) {
+      if (isHasUserInfo) {
         const response = yield call(getPrivilegeList);
         if (response.code === 20000) {
           const data = response.data || {};
-          const { privilegeList, ...others } = data;
-          const { token, userId } = userInfo;
-          const saveObj = { token, userId, ...others };
+          const { privilegeList, ...resothers } = data;
+          const { token, userId, ...others } = userInfo;
+          const saveObj = { token, userId, ...others, ...resothers };
           storage.setUserInfo(saveObj);
           storage.setUserAuth(privilegeList);
         } else {
+          loginState = false;
           message.error(response.msg);
         }
       } else {
         loginState = true;
       }
+      yield put({
+        type: 'menu/getMenu',
+      })
       yield put({
         type: 'changeLoginStatus',
         payload: { loginState }
@@ -62,9 +65,13 @@ export default {
     },
     *changeRole({ payload }, { call, put }) {
       const response = yield call(userChangeRole, { ...payload });
-
-      if (response.code === 2000 && response.privilegeList.length > 0) {
-        handleLogin(response);
+      if (response.code === 2000) {
+        const userInfo = storage.getUserInfo();
+        const data = response.data || {};
+        const { privilegeList, ...others } = data;
+        const saveObj = { ...userInfo, ...others };
+        storage.setUserInfo(saveObj);
+        storage.setUserAuth(privilegeList);
         yield put({
           type: 'menu/getMenu',
           payload: { routeData: response.privilegeList },
