@@ -13,7 +13,7 @@ export const routes = [
     routes: [
       {
         path: '/smartPlatform',
-        redirect: '/smartPlatform/survey',
+        component: './smartPlatform',
         name: '督学平台',
         routes: [
           {
@@ -25,6 +25,11 @@ export const routes = [
             path: '/smartPlatform/details',
             component: './smartPlatform/details',
             name: '明细数据查询',
+          },
+          {
+            path: '/smartPlatform/exam',
+            component: './smartPlatform/exam',
+            name:'报考',
           },
           {
             path: '/smartPlatform/details/tasks',
