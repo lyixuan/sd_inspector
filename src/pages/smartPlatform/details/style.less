@@ -1,39 +1,41 @@
 
 .searchBoxBg {
   overflow: hidden;
-  margin-bottom: 20px;
-}
-
-.searchBoxSeletected {
-  overflow: hidden;
-  margin-bottom: 20px;
-  margin-left: 30px;
-}
-
-
-.tableBox {
-  overflow: hidden;
-  padding: 30px;
-}
-
-.rowTitle {
-  float: left;
-  line-height: 32px;
-  width: 100px;
-  text-align: left;
+  background: #fff;
+  padding: 20px;
+  width: 100%;
 }
 
 .row {
   float: left;
   text-align: left;
-  width: 1130px;
-  margin-bottom: 20px;
+  width: calc(100% - 101px);
 }
 
 .row>div {
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
+
+.rowTitle,.rowTitle2 {
+  float: left;
+  line-height: 40px;
+  width: 100px;
+  text-align: left;
+}
+
+.rowTitle2 {
+  line-height: 56px;
+}
+
+.searchBoxSeletected {
+  overflow: hidden;
+  background: #fff;
+  border-top: 1px solid #EBECEF;
+  padding-left: 20px;
+  min-height: 56px;
+  line-height: 56px;
+}
 .spanBtn {
   cursor: pointer;
   display: inline-block;
@@ -52,21 +54,39 @@
 }
 
 
+.tableWrap {
+  padding: 20px;
+  padding-top: 0;
+  margin-top: 20px;
+  background: #fff;
+}
+
+.tableTitleWrap {
+  border-bottom: 1px solid #EBECEF;
+  height: 70px;
+  line-height: 70px;
+}
+.tableTitle {
+  border-left: 2px solid #52C9C2;
+}
+
+.tableTitle1 {
+  font-size: 18px;
+  color: #333;
+  margin-left: 5px;
+}
+
 .tableHead {
   height: 42px;
   line-height: 42px;
   margin: 10px 0;
-}
-
-.tableHeadLeft {
   float: left;
+  overflow: hidden;
 }
 
-.tableHeadRight {
-  float: right;
-  margin-left: 20px;
+.tableHeadSpan {
+  margin-right: 10px;
 }
-
 
 .breadcrumb {
   margin: 0 auto 30px;
@@ -80,8 +100,11 @@
 // 输出省份
 
 .provinceCotainer{
+  border-top: 1px solid #EBECEF;
+  padding-top: 10px;
 width: 100%;
 height: 100px;
+  text-align: center;
 .provinceBtn{
   display: inline-block;
   height: 30px;
@@ -95,6 +118,7 @@ height: 100px;
   cursor:pointer;
 }
 .selectedProvinceBtn{
+  color: #46A3EF;
   &:extend(.provinceCotainer .provinceBtn);
 }
 }
