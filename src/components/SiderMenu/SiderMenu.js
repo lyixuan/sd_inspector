@@ -4,7 +4,7 @@ import pathToRegexp from 'path-to-regexp';
 import { Link } from 'dva/router';
 import styles from './index.less';
 import { urlToList } from '../_utils/pathTools';
-import { getOldSysPath } from '@/utils/routeUtils';
+import { LOGIN_URL } from '@/utils/constants';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -45,7 +45,7 @@ export const getFlatMenuKeys = menu =>
 export const getMenuMatchKeys = (flatMenuKeys, paths) =>
   paths.reduce(
     (matchKeys, path) =>
-      matchKeys.concat(flatMenuKeys.filter(item => pathToRegexp(item.replace('/inspector','')).test(path)).map((item2)=>item2.replace('/inspector',''))),
+      matchKeys.concat(flatMenuKeys.filter(item => pathToRegexp(item.replace('/inspector', '')).test(path)).map((item2) => item2.replace('/inspector', ''))),
     []
   );
 
@@ -120,8 +120,14 @@ export default class SiderMenu extends PureComponent {
       </Link>
     );
   };
-  removeInspector = (itemPath) =>{
-    return itemPath.replace('/inspector','')
+  removeInspector = (itemPath) => {
+    const isInspector = /^\/inspector\/(\w+\/?)+$/.test(itemPath);
+    if (isInspector) {
+      return itemPath.replace('/inspector', '')
+    } else {
+      return `${LOGIN_URL}${itemPath}`;
+    }
+
   };
 
   /**
