@@ -11,7 +11,6 @@ import BIPagination from '@/ant_components/BIPagination';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 import { Row, Col } from 'antd';
 import styles from '../../style.less'
-const { RangePicker } = BIDatePicker
 
 @connect(({ newQuality }) => ({
   newQuality,
@@ -21,17 +20,15 @@ class NewQualitySheet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      qualityNum: undefined,
-      dateRange: undefined,
-      dimensionId: undefined,
-      organization: undefined,
-      status: undefined,
-      violationLevel: undefined,
-      operateName: undefined,
+      qualityNum:undefined,
+      organization:undefined,
+      violationLevel:undefined,
+      status:undefined,
+      isWarn:undefined,
     };
   }
   componentDidMount() {
-    // 获取select下拉数据
+    // 获取数据
     this.props.dispatch({
       type: 'dataDetail/getExamList',
       payload: { params: {} },
@@ -49,15 +46,11 @@ class NewQualitySheet extends React.Component {
   onSizeChange = ()=>{
     this.props.queryData();
   };
-  createe = ()=>{
-
-  };
   exportRt = ()=>{
 
   };
-
   render() {
-    const {qualityNum,dateRange,organization,dimensionId,status,violationLevel,operateName} = this.state;
+    const {qualityNum,organization,violationLevel,status,isWarn} = this.state;
     const {violationLevelList = [],dataSource,columns,loading} = this.props;
     return (
       <div className={styles.newSheetWrap}>
@@ -67,21 +60,23 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel1}>质检单号</span>:
+                <span className={styles.gutterLabel}>质检单号</span>:
                 <span className={styles.gutterForm}><BIInput placeholder="请输入" value={qualityNum}/></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>质检扣分日期</span>:
-                <span className={styles.gutterForm}><RangePicker value={dateRange} /></span>
+                <span className={styles.gutterLabel}>归属组织</span>:
+                <span className={styles.gutterForm}>
+                  <BISelect style={{width:230}} value={organization} options={violationLevelList} />
+                </span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel1}>归属组织</span>:
+                <span className={styles.gutterLabel}>违规等级</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={organization} options={violationLevelList} />
+                  <BISelect style={{width:230}} value={violationLevel} options={violationLevelList} />
                 </span>
               </div>
             </Col>
@@ -90,44 +85,23 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel1}>分维</span>:
-                <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={dimensionId} options={violationLevelList} />
-                </span>
-              </div>
-            </Col>
-            <Col className={styles.gutterCol}  span={8}>
-              <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>质检状态</span>:
+                <span className={styles.gutterLabel}>申诉状态</span>:
                 <span className={styles.gutterForm}>
                   <BISelect style={{width:230}} value={status} options={violationLevelList} />
                 </span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
-              <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel1}>违规等级</span>:
+              <div className={styles.gutterBox2}>
+                <span className={styles.gutterLabel}>是否警告</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={violationLevel} options={violationLevelList} />
+                  <BISelect style={{width:230}} value={isWarn} options={violationLevelList} />
                 </span>
               </div>
             </Col>
-          </Row>
-          {/*第三行*/}
-          <Row className={styles.gutterRow}>
-            <Col className={styles.gutterCol} span={8}>
-              <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel1}>质检发起人</span>:
-                <span className={styles.gutterForm}><BIInput placeholder="请输入" value={operateName}/></span>
-              </div>
-            </Col>
-            <Col className={styles.gutterCol}  span={8}>
-              <div className={styles.gutterBox2}>
-              </div>
-            </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox3}>
-                <span className={styles.gutterBtn1}><BIButton onClick={this.search} type='primary'>搜索</BIButton></span>
+                <span className={styles.gutterBtn1}><BIButton onClick={this.search}  type='primary'>搜索</BIButton></span>
                 <span className={styles.gutterBtn2}><BIButton onClick={this.reset}>重置</BIButton></span>
               </div>
             </Col>
@@ -138,8 +112,7 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow1}>
             <Col className={styles.gutterCol} span={12}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterBtn1}><BIButtonBlue type='primary' onClick={this.createe} >新建质检</BIButtonBlue></span>
-                <span className={styles.gutterBtn2}><BIButtonYellow type='primary' onClick={this.exportRt} >导出查询结果</BIButtonYellow></span>
+                <span className={styles.gutterBtn1}><BIButtonYellow type='primary'  onClick={this.exportRt}>导出Excel</BIButtonYellow></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={12}>
