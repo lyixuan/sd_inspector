@@ -98,7 +98,7 @@ class QualityBook extends React.Component {
             <TabPane tab="客诉质检" key="2">
               <Page {...this.props} columns={columns} keye='2' queryData={()=>this.queryData()} />
             </TabPane>
-          </BITabs>,
+          </BITabs>
         </div>
       </>
     );

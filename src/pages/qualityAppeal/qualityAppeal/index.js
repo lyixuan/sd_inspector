@@ -136,7 +136,7 @@ class QualityAppeal extends React.Component {
               <div className={styles.tabBlank}>&nbsp;</div>
               <Page2 {...this.props} columns={columns2} queryData={()=>this.queryData()} />
             </TabPane>
-          </BITabs>,
+          </BITabs>
         </div>
       </>
 

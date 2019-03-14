@@ -11,7 +11,7 @@ import BIPagination from '@/ant_components/BIPagination';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 import { Row, Col } from 'antd';
 import styles from '../../style.less'
-const { RangePicker } = BIDatePicker
+const { BIRangePicker } = BIDatePicker;
 
 @connect(({ newQuality }) => ({
   newQuality,
@@ -74,7 +74,7 @@ class NewQualitySheet extends React.Component {
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
                 <span className={styles.gutterLabel}>质检扣分日期</span>:
-                <span className={styles.gutterForm}><RangePicker value={dateRange} /></span>
+                <span className={styles.gutterForm}><BIRangePicker value={dateRange} /></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
