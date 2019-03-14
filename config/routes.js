@@ -44,7 +44,7 @@ export const routes = [
       },
       {
         path: '/qualityAppeal',
-        redirect: '/qualityAppeal/qualityNewSheet',
+        component: './qualityAppeal',
         name: '质检管理',
         routes: [
           {
