@@ -119,7 +119,12 @@ class BasicLayout extends React.PureComponent {
 
 
   checkoutHasAuth = () => {
+    // debugger环境下使用url跳转传参
+    if (process.env.LOGIN_TYPE === 'localhost') {
+      this.getAuthToken();
+    }
     const userInfo = storage.getUserInfo();
+    // 判断是有有用户信息;
     if (!userInfo) {
       redirectUrlParams();
     } else {
@@ -224,14 +229,14 @@ class BasicLayout extends React.PureComponent {
 
     return (
       <LocaleProvider locale={zhCN}>
-      <DocumentTitle title={this.getPageTitle()}>
-        <Spin tip="Loading..." spinning={isLoginIng}>
-          <ContainerQuery query={query}>
-            {params => <div className={classNames(params)}>{layout}</div>}
-          </ContainerQuery>
-        </Spin>
+        <DocumentTitle title={this.getPageTitle()}>
+          <Spin tip="Loading..." spinning={isLoginIng}>
+            <ContainerQuery query={query}>
+              {params => <div className={classNames(params)}>{layout}</div>}
+            </ContainerQuery>
+          </Spin>
 
-      </DocumentTitle>
+        </DocumentTitle>
       </LocaleProvider>
     );
   }

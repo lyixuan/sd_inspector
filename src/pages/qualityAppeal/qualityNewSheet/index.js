@@ -1,50 +1,100 @@
 import React from 'react';
 import { connect } from 'dva';
-import BIInput from '@/ant_components/BIInput';
-import BISelect from '@/ant_components/BISelect';
-import BIButton from '@/ant_components/BIButton';
-import BIButtonYellow from '@/components/BIButtonYellow';
-import BIButtonBlue from '@/components/BIButtonBlue';
-import BITable from '@/ant_components/BITable';
-import { BiFilter, DeepCopy } from '@/utils/utils';
-import { Row, Col } from 'antd';
-import styles from '../style.less';
-const { Option } = BISelect;
+import Page from './component/page';
 
-@connect(({ newQualitySheet }) => ({
-  newQualitySheet,
+const columns = [
+  {
+    title: '省/市',
+    dataIndex: 'province',
+  },
+  {
+    title: '学院',
+    dataIndex: 'collegeName',
+    width: 130,
+  },
+  {
+    title: '家族',
+    dataIndex: 'familyName',
+    width: 130,
+  },
+  {
+    title: '考试计划人数',
+    dataIndex: 'examPlanNum',
+    width: 140,
+  },
+  {
+    title: '准考证填写人数',
+    dataIndex: 'admissionFillNum',
+    width: 140,
+  },
+  {
+    title: '未推送消息人数',
+    dataIndex: 'unpushNum',
+    width: 140,
+  },
+  {
+    title: '已推送消息人数',
+    dataIndex: 'pushNum',
+    width: 140,
+  },
+  {
+    title: '消息已读人数',
+    dataIndex: 'readNum',
+    width: 140,
+  },
+  {
+    title: '消息未读人数',
+    dataIndex: 'unreadNum',
+    width: 140,
+  },
+  {
+    title: '操作',
+    dataIndex: 'operation',
+    width: 150,
+    render: (text, record) => {
+      return (
+        <div>
+          <div>
+              <span
+                style={{ color: '#52C9C2', cursor: 'pointer', display: 'inline-block' }}
+                onClick={() => this.onRecord(record)}
+              >
+                审核记录
+              </span>
+          </div>
+        </div>
+      );
+    },
+  },
+];
+
+@connect(({ newQuality }) => ({
+  newQuality,
 }))
-class NewQualitySheet extends React.Component {
+
+class NewQualitySheetIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
   componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
     // 获取数据
     this.props.dispatch({
       type: 'dataDetail/getExamList',
       payload: { params: {} },
     });
-  }
+  };
   render() {
     return (
-      <div className={styles.newSheetBox}>
-        <div className={styles.searchBox}>
-          <Row gutter={16}>
-            <Col className="gutter-row" span={8}>
-              <div className="gutter-box">col-6</div>
-            </Col>
-            <Col className="gutter-row" span={8}>
-              <div className="gutter-box">col-6</div>
-            </Col>
-            <Col className="gutter-row" span={8}>
-              <div className="gutter-box">col-6</div>
-            </Col>
-          </Row>
-        </div>
-      </div>
+      <>
+        <Page {...this.props} columns={columns}></Page>
+      </>
     );
   }
 }
 
-export default NewQualitySheet;
+export default NewQualitySheetIndex;

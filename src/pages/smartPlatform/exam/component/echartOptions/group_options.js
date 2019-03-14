@@ -1,8 +1,5 @@
 
-const config = {
-
-}
-export function groupOPtion(){
+export function groupOPtion(param,data){
   const dataPro= [
     {name:'巴西',value:820},
     {name:'印尼',value:820},
@@ -37,7 +34,13 @@ export function groupOPtion(){
   }();
   return {
     title: {
-      text: '各小组考试计划人数概览（集团）',
+      text: `各小组${param.name}（集团）`,
+      x: 'center',
+      textStyle: {
+        fontSize: 16,
+        fontWeight:'normal',
+      },
+      top: 18,
     },
     tooltip : {
       trigger: 'axis',
@@ -46,19 +49,19 @@ export function groupOPtion(){
       }
     },
     legend: {
-      bottom: 0,
+      bottom: 20,
       textStyle: {
         fontSize: '12px'
       },
       itemWidth: 10,
       itemHeight: 10,
-      data: ['新生计划考试人数/人均服务新生', '老生触达人数/人均服务老生']
+      data: [`${param.legendGroup[0]}`, `${param.legendGroup[1]}`]
     },
     color:['#fff','#52C9C2','#FD9E3B',],
     grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
+      top:48,
+      left: 35,
+      bottom: 33,
       containLabel: true
     },
     xAxis:  {
@@ -85,7 +88,7 @@ export function groupOPtion(){
         data: dataPro
       },
       {
-        name: '新生计划考试人数/人均服务新生',
+        name: `${param.legendGroup[0]}`,
         type: 'bar',
         barWidth: 20,
         stack: 'sum',
@@ -101,7 +104,7 @@ export function groupOPtion(){
         data: data1
       },
       {
-        name: '老生触达人数/人均服务老生',
+        name: `${param.legendGroup[1]}`,
         type: 'bar',
         barWidth: 20,
         stack: 'sum',

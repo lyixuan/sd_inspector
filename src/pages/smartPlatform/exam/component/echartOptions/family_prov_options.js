@@ -1,7 +1,19 @@
-export function famProOPtion(){
+export function famProOPtion(param,data,id){
+  let text='';
+  if(id === 'pro'){
+    text=`各省${param.name}`
+  }else if(id === 'fam'){
+    text=`各家族${param.name}（集团）`
+  }
   return {
     title: {
-      text: '各省考试计划人数',
+      text,
+      x: 'center',
+      textStyle: {
+        fontSize: 16,
+        fontWeight:'normal',
+      },
+      top: 18,
     },
     tooltip: {
       trigger: 'axis',
@@ -10,19 +22,19 @@ export function famProOPtion(){
       }
     },
     legend: {
-      bottom: 0,
+      bottom: 20,
       textStyle: {
         fontSize: '12px'
       },
       itemWidth: 10,
       itemHeight: 10,
-      data: ['老生触达率', '新生触达率','人均服务老生人数', '人均服务新生人数']
+      data: param.legend
     },
     color:['#0080FF','#FF4165','#fff','#52C9C2','#FD9E3B'],
     grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '10%',
+      top:48,
+      left: 35,
+      bottom: 33,
       containLabel: true
     },
     xAxis: [{
@@ -40,19 +52,17 @@ export function famProOPtion(){
       axisTick: {
         show: false,
       },
-      // inverse:true,
       show:false,
-      // data: ['巴西','印尼','美国','印度','中国','北京']
     },
     series: [{
-      name: '老生触达率',
+      name: param.legend[0],
       type: 'line',
       xAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
       data: [18203, 23489, 29034, 104970, 131744, 630230]
     },{
-      name: '新生触达率',
+      name: param.legend[1],
       type: 'line',
       xAxisIndex: 1,
       symbol: 'circle',
@@ -77,7 +87,7 @@ export function famProOPtion(){
         {name:'中国',value:134141},
         {name:'北京',value:134141}]
     }, {
-      name: '人均服务老生人数',
+      name:  param.legend[2],
       type: 'bar',
       barWidth: 10,
       label: {
@@ -88,7 +98,7 @@ export function famProOPtion(){
       },
       data: [18203, 23489, 29034, 104970, 131744, 630230]
     }, {
-      name: '人均服务新生人数',
+      name:  param.legend[3],
       type: 'bar',
       barWidth: 10,
       label: {

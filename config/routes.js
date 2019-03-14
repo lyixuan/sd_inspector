@@ -1,7 +1,7 @@
 export const routes = [
   {
     path: '/',
-    redirect: '/smartPlatform/survey',
+    redirect: '/indexPage',
   },
   {
     path: '/doc',
@@ -11,6 +11,10 @@ export const routes = [
     path: '/',
     component: '../layouts/BasicLayout',
     routes: [
+      {
+        path: '/indexPage',
+        component: './indexPage',
+      },
       {
         path: '/smartPlatform',
         component: './smartPlatform',
@@ -44,6 +48,7 @@ export const routes = [
       },
       {
         path: '/qualityAppeal',
+        component: './qualityAppeal',
         name: '质检管理',
         routes: [
           {

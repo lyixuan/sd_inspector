@@ -105,7 +105,6 @@ class SelfHeader extends PureComponent {
     render() {
         const { visible } = this.state;
         const selectedGroup = this.handleMenuList();
-        console.log(selectedGroup)
         return (
             <Header style={{ padding: 0 }}>
                 <GlobalHeader

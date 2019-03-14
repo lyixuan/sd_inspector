@@ -3,15 +3,6 @@ import { routerRedux } from 'dva/router';
 import { getPrivilegeList, CurrentUserListRole, userChangeRole } from '@/services/api';
 import storage from '@/utils/storage';
 
-const handleLogin = (response) => {
-  let saveObj = response || {};
-  const { privilegeList = [], ...others } = response.data || {};
-  const AuthList = Array.isArray(privilegeList) ? privilegeList : [];
-  saveObj.privilegeList = AuthList;
-  storage.setUserInfo({ ...others });
-  storage.setUserAuth(privilegeList);
-};
-
 export default {
   namespace: 'login',
 
