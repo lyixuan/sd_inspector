@@ -13,7 +13,7 @@ export const routes = [
     routes: [
       {
         path: '/smartPlatform',
-        component: './smartPlatform',
+        redirect: '/smartPlatform/survey',
         name: '督学平台',
         routes: [
           {
@@ -39,7 +39,7 @@ export const routes = [
       },
       {
         path: '/qualityAppeal',
-
+        redirect: '/qualityAppeal/qualityNewSheet',
         name: '质检管理',
         routes: [
           {
