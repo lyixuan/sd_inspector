@@ -3,18 +3,17 @@ import { connect } from 'dva';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
-import  BIButtonYellow from '@/components/BIButtonYellow';
-import  BIButtonBlue from '@/components/BIButtonBlue';
+import BIButtonYellow from '@/components/BIButtonYellow';
+import BIButtonBlue from '@/components/BIButtonBlue';
 import BITable from '@/ant_components/BITable';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 import { Row, Col } from 'antd';
-import styles from '../style.less'
+import styles from '../style.less';
 const { Option } = BISelect;
 
 @connect(({ newQualitySheet }) => ({
   newQualitySheet,
 }))
-
 class NewQualitySheet extends React.Component {
   constructor(props) {
     super(props);
@@ -28,9 +27,6 @@ class NewQualitySheet extends React.Component {
     });
   }
   render() {
-<<<<<<< HEAD
-    return <div>qualityNewSheet</div>;
-=======
     return (
       <div className={styles.newSheetBox}>
         <div className={styles.searchBox}>
@@ -48,7 +44,6 @@ class NewQualitySheet extends React.Component {
         </div>
       </div>
     );
->>>>>>> development
   }
 }
 
