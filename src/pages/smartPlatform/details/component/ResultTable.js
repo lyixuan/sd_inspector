@@ -8,7 +8,7 @@ import BIInput from '@/ant_components/BIInput';
 import BITable from '@/ant_components/BITable';
 
 import styles from '../style.less'
-import Message from 'antd/lib/message/index';
+import {Message} from 'antd';
 import config from '../../../../../config/config';
 import { connect } from 'dva/index';
 
