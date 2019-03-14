@@ -20,17 +20,20 @@ class DocDatePicker extends Component {
     const btn =
 `import BIDatePicker from '@/ant_components/BIDatePicker';
 const  { BIRangePicker, BIMonthPicker, BIWeekPicker } = BIDatePicker;
-<BIDatePicker onChange={this.onChange} />
-<BIRangePicker onChange={this.onChange} />
-<BIMonthPicker onChange={this.onChange} />
+<BIDatePicker onChange={this.onChange} /> 
+<BIRangePicker onChange={this.onChange} /> 
+<BIMonthPicker onChange={this.onChange} /> 
 <BIWeekPicker onChange={this.onChange} />`
 
     return (
       <Box title="BIDatePicker 日期选择框">
         <Left>
           <BIDatePicker onChange={this.onChange} />
+
           <BIRangePicker onChange={this.onChange} />
+
           <BIMonthPicker onChange={this.onChange} />
+
           <BIWeekPicker onChange={this.onChange} />
 
           <Divider orientation="left"> 组件说明 </Divider>
