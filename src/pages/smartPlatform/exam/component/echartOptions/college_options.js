@@ -5,18 +5,19 @@ function commonOptions(params) {
       text,
       x: 'center',
       textStyle: {
-        fontSize: 16
+        fontSize: 16,
+        fontWeight:'normal',
       },
-      top: 54,
+      top: 18,
     },
     grid: {
-      top: 166,
-      left: 110,
-      right:100,
+      top:80,
+      bottom: 33,
+      left: 75,
       height: 234,
     },
     legend: {
-      bottom: 34,
+      bottom: 20,
       textStyle: {
         color: '#bdc0c6',
         fontSize: 12
@@ -62,17 +63,25 @@ function commonOptions(params) {
     series,
   };
 }
-export function blendChartOptions(data) {
+export function blendChartOptions(param,data,id,pro) {
+  let text='';
+  if(id === 'all'){
+    text = `各学院${param.name}（集团）`
+  }else if(id === 'single'){
+    text = `学院${param.name}（${pro}）`
+  }else {
+    console.error('缺乏参数id：all是所有省份，single是点击省份进去的单个省份')
+  }
   const { dataList = {} } = data;
   const { data2 = {} } = dataList;
   const params2 = {
-    text: '各学院考试计划人数（集团）',
-    legendData: [{ name: '人均服务老生人数 ' },{ name: '人均服务新生人数 ' }, { name: '老生考试计划人数', icon: 'rect' }, { name: '新生考试计划人数', icon: 'rect' }],
+    text,
+    legendData:param.legend,
     xData: data2.dateArr,
     color: ['#0080FF', "#FF4165", '#52C9C2','#FD9E3B'],
     formatter: '{b}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人',
     series: [ {
-      name: '人均服务老生人数 ',
+      name: param.legend[0],
       type: 'line',
       yAxisIndex: 1,
       symbol: 'circle',
@@ -80,7 +89,7 @@ export function blendChartOptions(data) {
       data: data2.dataArr3,
       itemStyle: { normal: { label: { show: true, formatter: '{c}' } } },
     }, {
-      name: '人均服务新生人数 ',
+      name: param.legend[1],
       type: 'line',
       yAxisIndex: 1,
       symbol: 'circle',
@@ -88,12 +97,12 @@ export function blendChartOptions(data) {
       data: data2.dataArr2,
       itemStyle: { normal: { label: { show: true, formatter: '{c}' } } },
     },{
-      name: '老生考试计划人数',
+      name: param.legend[2],
       type: 'bar',
       barWidth: 15,
       data: data2.dataArr1
     }, {
-      name: '新生考试计划人数',
+      name: param.legend[3],
       type: 'bar',
       barWidth: 15,
       data: data2.dataArr2
