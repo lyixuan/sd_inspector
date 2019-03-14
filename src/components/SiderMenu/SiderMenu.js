@@ -4,7 +4,7 @@ import pathToRegexp from 'path-to-regexp';
 import { Link } from 'dva/router';
 import styles from './index.less';
 import { urlToList } from '../_utils/pathTools';
-import { LOGIN_URL } from '@/utils/constants';
+
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -91,7 +91,7 @@ export default class SiderMenu extends PureComponent {
    */
   getMenuItemPath = item => {
     let itemPath = this.conversionPath(item.path);
-    itemPath = this.removeInspector(itemPath);
+    // itemPath = this.removeInspector(itemPath);
     const icon = getIcon(item.icon);
     const { target, name } = item;
     // Is it a http link
@@ -120,21 +120,11 @@ export default class SiderMenu extends PureComponent {
       </Link>
     );
   };
-  removeInspector = (itemPath) => {
-    const isInspector = /^\/inspector\/(\w+\/?)+$/.test(itemPath);
-    if (isInspector) {
-      return itemPath.replace('/inspector', '')
-    } else {
-      return `${LOGIN_URL}${itemPath}`;
-    }
-
-  };
 
   /**
    * get SubMenu or Item
    */
   getSubMenuOrItem = item => {
-    item.path = this.removeInspector(item.path);
     if (item.children && item.children.some(child => child.name)) {
       const childrenItems = this.getNavMenuItems(item.children);
       // 当无子菜单时就不展示菜单
