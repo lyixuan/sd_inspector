@@ -29,7 +29,7 @@ export const routes = [
           {
             path: '/smartPlatform/exam',
             component: './smartPlatform/exam',
-            name:'报考',
+            name: '报考',
           },
           {
             path: '/smartPlatform/details/tasks',
@@ -54,7 +54,7 @@ export const routes = [
           },
           {
             path: '/qualityAppeal/qualityNewSheet/Create',
-            component: './qualityAppeal/qualityNewSheet/Create',
+            component: './qualityAppeal/qualityNewSheet/create',
             name: '创建质检单',
             bread: {
               name: '新质检单管理',
