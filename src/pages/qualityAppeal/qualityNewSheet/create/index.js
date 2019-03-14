@@ -3,12 +3,8 @@ import { connect } from 'dva';
 
 class CreateQualityNewSheet extends React.Component {
   render() {
-    return (
-      <div>
-      </div>
-    );
+    return <div>test1</div>;
   }
-
 }
 
 export default CreateQualityNewSheet;

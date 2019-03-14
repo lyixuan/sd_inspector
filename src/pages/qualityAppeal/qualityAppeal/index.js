@@ -3,12 +3,8 @@ import { connect } from 'dva';
 
 class QualityAppeal extends React.Component {
   render() {
-    return (
-      <div>
-      </div>
-    );
+    return <div>33</div>;
   }
-
 }
 
 export default QualityAppeal;
