@@ -4,48 +4,32 @@ import Page from './component/page';
 
 const columns = [
   {
-    title: '省/市',
-    dataIndex: 'province',
+    title: '质检单号',
+    dataIndex: 'qualityNum',
   },
   {
-    title: '学院',
-    dataIndex: 'collegeName',
-    width: 130,
+    title: '分维',
+    dataIndex: 'violationName',
   },
   {
-    title: '家族',
-    dataIndex: 'familyName',
-    width: 130,
+    title: '归属组织',
+    dataIndex: 'organitionName',
   },
   {
-    title: '考试计划人数',
-    dataIndex: 'examPlanNum',
-    width: 140,
+    title: '质检扣分日期',
+    dataIndex: 'reduceScoreDate',
   },
   {
-    title: '准考证填写人数',
-    dataIndex: 'admissionFillNum',
-    width: 140,
+    title: '质检发起人',
+    dataIndex: 'operateName',
   },
   {
-    title: '未推送消息人数',
-    dataIndex: 'unpushNum',
-    width: 140,
+    title: '违规等级',
+    dataIndex: 'violationLevel',
   },
   {
-    title: '已推送消息人数',
-    dataIndex: 'pushNum',
-    width: 140,
-  },
-  {
-    title: '消息已读人数',
-    dataIndex: 'readNum',
-    width: 140,
-  },
-  {
-    title: '消息未读人数',
-    dataIndex: 'unreadNum',
-    width: 140,
+    title: '质检状态',
+    dataIndex: 'statusName',
   },
   {
     title: '操作',
@@ -78,20 +62,21 @@ class NewQualitySheetIndex extends React.Component {
     this.state = {};
   }
   componentDidMount() {
-    this.getData();
+    this.queryData();
   }
 
-  getData = () => {
+  queryData = () => {
     // 获取数据
     this.props.dispatch({
       type: 'dataDetail/getExamList',
       payload: { params: {} },
     });
   };
+
   render() {
     return (
       <>
-        <Page {...this.props} columns={columns}></Page>
+        <Page {...this.props} columns={columns} queryData={()=>this.queryData()} />
       </>
     );
   }
