@@ -62,20 +62,22 @@ class Survey extends React.Component {
             tabData.map(item=> <BITabs.TabPane tab={item.name} key={item.id}>
               <div className={styles.m_container}>
                 <div className={`${styles.map_container} m_box`}>
-                  <img src={staticMap} alt="" width='631' height='526' style={{margin:'29px 47px 20px 67px'}}/>
-                  <div className={styles.m_mapInfo}>
-                    <p className={styles.map_title}>全国{name}共：500000人</p>
-                    <p className={styles.map_txt}>{legend[0]}：2300</p>
-                    <p className={styles.map_txt}>{legend[1]}：2300</p>
-                    <p className={styles.map_txt}>{legend[2]}：2300</p>
-                    <p className={styles.map_txt}>{legend[3]}：2300</p>
+                  <div style={{width:'928px',margin:'0 auto'}}>
+                    <img src={staticMap} alt="" width='631' height='526' style={{margin:'29px 47px 20px 0'}}/>
+                    <div className={styles.m_mapInfo}>
+                      <p className={styles.map_title}>全国{name}共：500000人</p>
+                      <p className={styles.map_txt}>{legend[0]}：2300</p>
+                      <p className={styles.map_txt}>{legend[1]}：2300</p>
+                      <p className={styles.map_txt}>{legend[2]}：2300</p>
+                      <p className={styles.map_txt}>{legend[3]}：2300</p>
+                    </div>
                   </div>
                 </div>
                 <div className={styles.echart_container}>
-                  <div className='m_box'><Echart update={data1} style={{ width: '980px', height: "510px" }} options={famProOPtion(this.state,data1,'pro')} /></div>
-                  <div className='m_box'><Echart update={data1} style={{ width: '980px', height: "410px" }} options={blendChartOptions(this.state,exam,'all')} /></div>
-                  <div className='m_box'><Echart update={data1} style={{ width: '980px', height: "510px" }} options={famProOPtion(this.state,data2,'fam')} /></div>
-                  <div className='m_box'><Echart update={data1} style={{ width: '980px', height: "510px" }} options={groupOPtion(this.state)} /> <p>查看更多</p></div>
+                  <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "510px" }} options={famProOPtion(this.state,data1,'pro')} /></div>
+                  <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,exam,'all')} /></div>
+                  <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "510px" }} options={famProOPtion(this.state,data2,'fam')} /></div>
+                  <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "510px" }} options={groupOPtion(this.state)} /> <p>查看更多</p></div>
                 </div>
               </div>
             </BITabs.TabPane>)

@@ -32,10 +32,11 @@ export function famProOPtion(param,data,id){
     },
     color:['#0080FF','#FF4165','#fff','#52C9C2','#FD9E3B'],
     grid: {
+      // width:980,
       top:48,
       left: 35,
       bottom: 33,
-      containLabel: true
+      // containLabel: true
     },
     xAxis: [{
       type: 'value',

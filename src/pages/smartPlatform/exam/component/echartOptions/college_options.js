@@ -15,6 +15,7 @@ function commonOptions(params) {
       bottom: 33,
       left: 75,
       height: 234,
+      // width:980,
     },
     legend: {
       bottom: 20,
