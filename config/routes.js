@@ -49,7 +49,7 @@ export const routes = [
           },
           {
             path: '/qualityAppeal/qualityNewSheet/Create',
-            component: './qualityAppeal/qualityNewSheet/Create',
+            component: './qualityAppeal/qualityNewSheet/create',
             name: '创建质检单',
             bread: {
               name: '新质检单管理',
