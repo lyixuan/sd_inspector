@@ -1,4 +1,6 @@
 import storage from '@/utils/storage';
+import { LOGIN_URL } from '@/utils/constants';
+
 function getAuthData(data1) {
     const newArr = filterMenu(data1).sort((a, b) => a.sortFlag - b.sortFlag);
     return formatter(newArr, 0);
@@ -9,6 +11,15 @@ function filterMenu(data) {
         item => item.level <= 2 && item.resourceUrl !== '/' && item.resourceUrl !== '/indexPage'
     );
 }
+function removeInspector(itemPath) {
+    const isInspector = /^\/inspector\/(\w+\/?)+$/.test(itemPath);
+    if (isInspector) {
+        return itemPath.replace('/inspector', '')
+    } else {
+        return `${LOGIN_URL}${itemPath}`;
+    }
+
+};
 
 function formatter(data, parentId) {
     const itemArr = [];
@@ -16,14 +27,12 @@ function formatter(data, parentId) {
         const node = data[i];
         // 如果level是3的话,是功能页面,并不展示
         if (Number(node.parentId) === Number(parentId) || Number(node.pid) === Number(parentId)) {
-            // 过滤掉督学相关path
-            // const isInspector = /^\/inspector\/(\w+\/?)+$/.test(node.resourceUrl);
             // if (!isInspector) {
             const newNode = {
                 icon: node.iconUrl,
                 id: node.id,
                 name: node.name,
-                path: node.resourceUrl,
+                path: removeInspector(node.resourceUrl),
                 authority: true,
                 hideInMenu: false, // level的等级大于2的话为功能权限
                 children: formatter(data, node.id),
