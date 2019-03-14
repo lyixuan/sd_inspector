@@ -23,7 +23,7 @@ export const LOGIN_URL = {
   localhost: 'http://newadmin.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   production: 'http://bd.ministudy.com',
-}[process.env.LOGIN_TYPE];
+}[process.env.PROXY_ENV];
 
 // 分页配置
 export const PAGINATION = {
