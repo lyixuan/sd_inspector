@@ -1,10 +1,14 @@
 import React from 'react';
 import { connect } from 'dva';
-import { SubOrderDetail } from '@/pages/QualityApeal/components';
+import SubOrderDetail from './../../components/subOrderDetail';
 
 class QualityDetail extends React.Component {
   render() {
-    return <div>detail</div>;
+    return (
+      <div>
+        <SubOrderDetail />
+      </div>
+    );
   }
 }
 
