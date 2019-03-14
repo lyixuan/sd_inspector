@@ -15,6 +15,7 @@ function commonOptions(params) {
       bottom: 33,
       left: 75,
       height: 234,
+      // width:980,
     },
     legend: {
       bottom: 20,
@@ -23,8 +24,8 @@ function commonOptions(params) {
         fontSize: 12
       },
       itemGap,
-      itemWidth: 10,
-      itemHeight: 10,
+      itemWidth: 9,
+      itemHeight: 9,
       data: legendData
     },
     tooltip: {
@@ -64,6 +65,7 @@ function commonOptions(params) {
   };
 }
 export function blendChartOptions(param,data,id,pro) {
+  console.log(param)
   let text='';
   if(id === 'all'){
     text = `各学院${param.name}（集团）`
@@ -74,6 +76,13 @@ export function blendChartOptions(param,data,id,pro) {
   }
   const { dataList = {} } = data;
   const { data2 = {} } = dataList;
+  const dataAll = {
+    dateArr:['瑞博','瑞博1','瑞博2','瑞博3'],
+    data3:[1000,2000,3000,4000],
+    data4:[1000,2000,3000,4000],
+    data1:[100,200,300,400],
+    data2:[200,200,400,300],
+  }
   const params2 = {
     text,
     legendData:param.legend,
@@ -86,7 +95,8 @@ export function blendChartOptions(param,data,id,pro) {
       yAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
-      data: data2.dataArr3,
+      data: dataAll.data1,
+      smooth: true,
       itemStyle: { normal: { label: { show: true, formatter: '{c}' } } },
     }, {
       name: param.legend[1],
@@ -94,18 +104,19 @@ export function blendChartOptions(param,data,id,pro) {
       yAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
-      data: data2.dataArr2,
+      data: dataAll.data2,
+      smooth: true,
       itemStyle: { normal: { label: { show: true, formatter: '{c}' } } },
     },{
       name: param.legend[2],
       type: 'bar',
       barWidth: 15,
-      data: data2.dataArr1
+      data: dataAll.data3
     }, {
       name: param.legend[3],
       type: 'bar',
       barWidth: 15,
-      data: data2.dataArr2
+      data: dataAll.data4
     }],
     yAxis: [{
       axisLine: {
@@ -128,17 +139,29 @@ export function blendChartOptions(param,data,id,pro) {
       type: 'value',
       position: 'right',
       offset: 50,
+      splitLine: {
+        show: false
+      },
       axisTick: {
         show: false,
       },
     }, {
+      // show:false,
+      axisLine: {
+        lineStyle: {
+          color: '#979797'
+        }
+      },
       type: 'value',
-      min: 0,
-      max: 100,
       position: 'right',
       axisTick: {
         show: false,
       },
+      splitLine: {
+        show: false
+      },
+      min:0,
+      max:100,
       axisLabel: {
         formatter: '{value} %'
       }
