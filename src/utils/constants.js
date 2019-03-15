@@ -236,7 +236,7 @@ export const TASK_STATES = [
   { id: 4, name: '失败', color: '#ff3678' },
 ];
 
-// 考期接口
+// 考期临时接口
 export const examList =
 {
   code: 20000,
@@ -247,6 +247,58 @@ export const examList =
   ]
 };
 
+// ====================================== 质检
+// 质检类型
+export const QUALITY_TYPE = [
+  { id: 1, name: '客诉质检' },
+  { id: 2, name: '班主任质检' },
+];
+
+// 质检状态
+export const QUALITY_STATE = [
+  { id: 1, name: '待审核' },
+  { id: 2, name: '已通过' },
+  { id: 3, name: '已撤销' },
+  { id: 4, name: '已驳回' },
+];
+
+// 质检扣分规则类别
+export const QUALITY_RULE_TYPE = [
+  { id: 1, name: '班主任' },
+  { id: 2, name: '运营长' },
+  { id: 3, name: '家族长' },
+  { id: 4, name: '客诉' },
+];
+
+// 违规等级
+export const VIOLATION_LEVEL = [
+  { id: 1, name: '特级违规' },
+  { id: 2, name: '一级违规' },
+  { id: 3, name: '二级违规' },
+  { id: 4, name: '三级违规' },
+];
+
+// 申诉状态
+export const APPEAL_STATE = [
+  { id: 1, name: '待申诉',type:1 },
+  { id: 2, name: '一次SOP待审核',type:1 },
+  { id: 3, name: '一次SOP已驳回',type:1 },
+  { id: 4, name: '一次质检主管待审核',type:1 },
+  { id: 5, name: '一次质检主管已驳回',type:1 },
+  { id: 6, name: '二次SOP待审核',type:1 },
+  { id: 7, name: '二次SOP已驳回',type:1 },
+  { id: 8, name: '一次申诉审核通过',type:2 },
+  { id: 9, name: '一次申诉超时',type:2 },
+  { id: 10, name: '二次申诉审核通过',type:2 },
+  { id: 11, name: '二次申诉已驳回',type:2 },
+  { id: 12, name: '二次申诉超时',type:2 },
+];
+
+// 申诉类别
+export const APPEAL_TYPE = [
+  { id: 1, name: '一次申诉' },
+  { id: 2, name: '二次申诉' },
+];
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -258,4 +310,10 @@ export default {
   PROVINCE_SIGN_STEP,
   provinceJson,
   examList,
+  QUALITY_TYPE,
+  QUALITY_STATE,
+  QUALITY_RULE_TYPE,
+  VIOLATION_LEVEL,
+  APPEAL_STATE,
+  APPEAL_TYPE,
 };

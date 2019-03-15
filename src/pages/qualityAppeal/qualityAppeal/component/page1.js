@@ -11,7 +11,7 @@ import BIPagination from '@/ant_components/BIPagination';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 import { Row, Col } from 'antd';
 import styles from '../../style.less'
-const { RangePicker } = BIDatePicker
+const { BIRangePicker } = BIDatePicker;
 
 @connect(({ newQuality }) => ({
   newQuality,
@@ -25,9 +25,10 @@ class NewQualitySheet extends React.Component {
       status:undefined,
       organization:undefined,
       verifyDate:undefined,
-      firstAppealEndDate:undefined,
-      secondAppealEndDate:undefined,
+      firstAppealDate:undefined,
+      secondAppealDate:undefined,
       name:undefined,
+      qualityType:undefined,
     };
   }
   componentDidMount() {
@@ -48,14 +49,11 @@ class NewQualitySheet extends React.Component {
   onPageChange = ()=>{
     this.props.queryData();
   };
-  onSizeChange = ()=>{
-    this.props.queryData();
-  };
   exportRt = ()=>{
 
   };
   render() {
-    const {qualityNum,status,organization,verifyDate,firstAppealEndDate,secondAppealEndDate,name} = this.state;
+    const {qualityNum,status,organization,verifyDate,firstAppealEndDate,secondAppealEndDate,name,qualityType} = this.state;
     const {violationLevelList = [],dataSource,columns,loading} = this.props;
     return (
       <div className={styles.newSheetWrap}>
@@ -71,17 +69,17 @@ class NewQualitySheet extends React.Component {
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>申诉状态</span>:
+                <span className={styles.gutterLabel}>质检类型</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={status} options={violationLevelList} />
+                  <BISelect style={{width:230}} mode="multiple" showArrow maxTagCount={1}  value={qualityType} options={violationLevelList} />
                 </span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel}>归属组织</span>:
+                <span className={styles.gutterLabel}>申诉状态</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={organization} options={violationLevelList} />
+                  <BISelect style={{width:230}} value={status} options={violationLevelList} />
                 </span>
               </div>
             </Col>
@@ -90,20 +88,22 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel}>质检通过时间</span>:
-                <span className={styles.gutterForm}><BIDatePicker style={{width:'100%'}} value={verifyDate} /></span>
+                <span className={styles.gutterLabel}>归属组织</span>:
+                <span className={styles.gutterForm}>
+                  <BISelect style={{width:230}} value={organization} options={violationLevelList} />
+                </span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>一审截止时间</span>:
-                <span className={styles.gutterForm}><BIDatePicker style={{width:'100%'}} value={firstAppealEndDate}/></span>
+                <span className={styles.gutterLabel}>质检通过时间</span>:
+                <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} value={verifyDate} /></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel}>二审截止时间</span>:
-                <span className={styles.gutterForm}><BIDatePicker style={{width:'100%'}} value={secondAppealEndDate} /></span>
+                <span className={styles.gutterLabel}>一审截止时间</span>:
+                <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} value={firstAppealEndDate}/></span>
               </div>
             </Col>
           </Row>
@@ -111,14 +111,16 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel}>归属人</span>:
-                <span className={styles.gutterForm}>
-                  <BIInput placeholder="请输入" value={name}/>
-                </span>
+                <span className={styles.gutterLabel}>二审截止时间</span>:
+                <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} value={secondAppealEndDate} /></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
+                <span className={styles.gutterLabel}>归属人</span>:
+                <span className={styles.gutterForm}>
+                  <BIInput placeholder="请输入" value={name}/>
+                </span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
@@ -145,7 +147,7 @@ class NewQualitySheet extends React.Component {
           </Row>
           <BITable dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
           <br/>
-          <BIPagination showSizeChanger onShowSizeChange={this.onSizeChange} onChange={this.onPageChange} defaultCurrent={3} total={500} />
+          <BIPagination showQuickJumper onChange={this.onPageChange} defaultCurrent={3} total={500} />
         </div>
       </div>
     );

@@ -21,7 +21,8 @@ class NewQualitySheet extends React.Component {
     super(props);
     this.state = {
       qualityNum:undefined,
-      organization:undefined,
+      qualityType:undefined,
+      dimensionId:undefined,
       violationLevel:undefined,
       status:undefined,
       isWarn:undefined,
@@ -43,14 +44,11 @@ class NewQualitySheet extends React.Component {
   onPageChange = ()=>{
     this.props.queryData();
   };
-  onSizeChange = ()=>{
-    this.props.queryData();
-  };
   exportRt = ()=>{
 
   };
   render() {
-    const {qualityNum,organization,violationLevel,status,isWarn} = this.state;
+    const {qualityNum,qualityType,dimensionId,violationLevel,status,isWarn} = this.state;
     const {violationLevelList = [],dataSource,columns,loading} = this.props;
     return (
       <div className={styles.newSheetWrap}>
@@ -60,23 +58,23 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel}>质检单号</span>:
+                <span className={styles.gutterLabel1}>质检单号</span>:
                 <span className={styles.gutterForm}><BIInput placeholder="请输入" value={qualityNum}/></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>归属组织</span>:
+                <span className={styles.gutterLabel1}>质检类型</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={organization} options={violationLevelList} />
+                  <BISelect style={{width:230}} value={qualityType} options={violationLevelList} />
                 </span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel}>违规等级</span>:
+                <span className={styles.gutterLabel1}>分维</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={violationLevel} options={violationLevelList} />
+                  <BISelect style={{width:230}} value={dimensionId} options={violationLevelList} />
                 </span>
               </div>
             </Col>
@@ -85,18 +83,37 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel}>申诉状态</span>:
+                <span className={styles.gutterLabel1}>违规等级</span>:
+                <span className={styles.gutterForm}>
+                  <BISelect style={{width:230}} value={violationLevel} options={violationLevelList} />
+                </span>
+              </div>
+            </Col>
+            <Col className={styles.gutterCol}  span={8}>
+              <div className={styles.gutterBox2}>
+                <span className={styles.gutterLabel1}>申诉状态</span>:
                 <span className={styles.gutterForm}>
                   <BISelect style={{width:230}} value={status} options={violationLevelList} />
                 </span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
-              <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>是否警告</span>:
+              <div className={styles.gutterBox3}>
+                <span className={styles.gutterLabel1}>是否警告</span>:
                 <span className={styles.gutterForm}>
                   <BISelect style={{width:230}} value={isWarn} options={violationLevelList} />
                 </span>
+              </div>
+            </Col>
+          </Row>
+          {/*第三行*/}
+          <Row className={styles.gutterRow}>
+            <Col className={styles.gutterCol} span={8}>
+              <div className={styles.gutterBox1}>
+              </div>
+            </Col>
+            <Col className={styles.gutterCol}  span={8}>
+              <div className={styles.gutterBox2}>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
@@ -123,7 +140,7 @@ class NewQualitySheet extends React.Component {
           </Row>
           <BITable dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
           <br/>
-          <BIPagination showSizeChanger onShowSizeChange={this.onSizeChange} onChange={this.onPageChange} defaultCurrent={3} total={500} />
+          <BIPagination showQuickJumper  onChange={this.onPageChange} defaultCurrent={3} total={500} />
         </div>
       </div>
     );

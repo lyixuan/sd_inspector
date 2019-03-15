@@ -8,6 +8,10 @@ const columns = [
     dataIndex: 'qualityNum',
   },
   {
+    title: '质检类型',
+    dataIndex: 'qualityType',
+  },
+  {
     title: '分维',
     dataIndex: 'violationName',
   },
@@ -59,7 +63,10 @@ const columns = [
 class NewQualitySheetIndex extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      page: 1,
+      pageSize: 30
+    };
   }
   componentDidMount() {
     this.queryData();

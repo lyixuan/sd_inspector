@@ -28,6 +28,7 @@ class NewQualitySheet extends React.Component {
       status: undefined,
       violationLevel: undefined,
       operateName: undefined,
+      qualityType: undefined,
     };
   }
   componentDidMount() {
@@ -46,9 +47,6 @@ class NewQualitySheet extends React.Component {
   onPageChange = ()=>{
     this.props.queryData();
   };
-  onSizeChange = ()=>{
-    this.props.queryData();
-  };
   createe = ()=>{
 
   };
@@ -57,7 +55,7 @@ class NewQualitySheet extends React.Component {
   };
 
   render() {
-    const {qualityNum,dateRange,organization,dimensionId,status,violationLevel,operateName} = this.state;
+    const {qualityNum,dateRange,organization,dimensionId,status,violationLevel,operateName,qualityType} = this.state;
     const {violationLevelList = [],dataSource,columns,loading} = this.props;
     return (
       <div className={styles.newSheetWrap}>
@@ -67,21 +65,23 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel1}>质检单号</span>:
+                <span className={styles.gutterLabel}>质检单号</span>:
                 <span className={styles.gutterForm}><BIInput placeholder="请输入" value={qualityNum}/></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>质检扣分日期</span>:
-                <span className={styles.gutterForm}><BIRangePicker value={dateRange} /></span>
+                <span className={styles.gutterLabel1}>质检类型</span>:
+                <span className={styles.gutterForm}>
+                  <BISelect style={{width:230}} value={qualityType} options={violationLevelList} />
+                </span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel1}>归属组织</span>:
+                <span className={styles.gutterLabel1}>分维</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={organization} options={violationLevelList} />
+                  <BISelect style={{width:230}} value={dimensionId} options={violationLevelList} />
                 </span>
               </div>
             </Col>
@@ -90,15 +90,13 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel1}>分维</span>:
-                <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={dimensionId} options={violationLevelList} />
-                </span>
+                <span className={styles.gutterLabel}>质检扣分日期</span>:
+                <span className={styles.gutterForm}><BIRangePicker value={dateRange} /></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>质检状态</span>:
+                <span className={styles.gutterLabel1}>质检状态</span>:
                 <span className={styles.gutterForm}>
                   <BISelect style={{width:230}} value={status} options={violationLevelList} />
                 </span>
@@ -117,12 +115,16 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel1}>质检发起人</span>:
-                <span className={styles.gutterForm}><BIInput placeholder="请输入" value={operateName}/></span>
+                <span className={styles.gutterLabel}>归属组织</span>:
+                <span className={styles.gutterForm}>
+                  <BISelect style={{width:230}} value={organization} options={violationLevelList} />
+                </span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
+                <span className={styles.gutterLabel1}>质检发起人</span>:
+                <span className={styles.gutterForm}><BIInput placeholder="请输入" value={operateName}/></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
@@ -150,7 +152,7 @@ class NewQualitySheet extends React.Component {
           </Row>
           <BITable dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
           <br/>
-          <BIPagination showSizeChanger onShowSizeChange={this.onSizeChange} onChange={this.onPageChange} defaultCurrent={3} total={500} />
+          <BIPagination showQuickJumper onChange={this.onPageChange} defaultCurrent={3} total={500} />
         </div>
       </div>
     );

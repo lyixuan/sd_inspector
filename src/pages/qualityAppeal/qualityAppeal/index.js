@@ -11,6 +11,10 @@ const columns1 = [
     dataIndex: 'qualityNum',
   },
   {
+    title: '质检类型',
+    dataIndex: 'qualityType',
+  },
+  {
     title: '归属人',
     dataIndex: 'collegeName',
   },
@@ -60,6 +64,10 @@ const columns2 = [
     dataIndex: 'qualityNum',
   },
   {
+    title: '质检类型',
+    dataIndex: 'qualityType',
+  },
+  {
     title: '归属组织',
     dataIndex: 'organization',
   },
@@ -104,6 +112,8 @@ class QualityAppeal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: 1,
+      pageSize: 30
     };
   }
   componentDidMount() {
