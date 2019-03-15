@@ -1,0 +1,37 @@
+.qualityContainter {
+  min-width: 1100px;
+  background: #fff;
+  padding-top: 20px;
+  padding-bottom: 50px;
+  padding: 20px 40px 50px;
+}
+.qualityContainter .title {
+  background: #f0f0f0;
+  height: 30px;
+  line-height: 30px;
+  padding-left: 20px;
+  color: #000;
+}
+.qualityContainter .text {
+  padding-right: 20px;
+}
+.qualityContainter .content {
+  border-bottom: 1px solid #EBECEF;
+  padding: 15px 0;
+}
+.qualityContainter .abc {
+  width: 100px;
+}
+:global .txRight {
+  text-align: right;
+}
+:global .labelWidth .ant-form-item label {
+  width: 120px;
+}
+:global(.ant-row) {
+  padding-bottom: 8px;
+}
+:global(.ant-form-item label) {
+  font-size: 14px;
+  width: 95px;
+}
