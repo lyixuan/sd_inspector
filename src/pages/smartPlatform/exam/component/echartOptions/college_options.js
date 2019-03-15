@@ -11,28 +11,29 @@ function commonOptions(params) {
       top: 18,
     },
     grid: {
-      top:80,
+      top:120,
       bottom: 33,
       left: 75,
-      height: 234,
+      height: 190,
+      // width:980,
     },
     legend: {
       bottom: 20,
       textStyle: {
-        color: '#bdc0c6',
-        fontSize: 12
+        fontSize: '12px'
       },
       itemGap,
-      itemWidth: 10,
-      itemHeight: 10,
+      itemWidth: 9,
+      itemHeight: 9,
       data: legendData
     },
     tooltip: {
-      trigger: 'axis',
+      // trigger: '',
+      backgroundColor:'#fff',
       textStyle: {
         align: 'left',
-        // color:'#103069',
-        // fontSize:12,
+        color:'#052664',
+        fontSize:12,
       },
       formatter,
       padding: 15,
@@ -41,12 +42,13 @@ function commonOptions(params) {
       {
         axisLine: {
           lineStyle: {
-            color: '#979797',
+            color: '#d8d8d8',
             fontSize:12
           }
         },
         axisLabel: {// 横坐标轴标签
-          interval: 0
+          interval: 0,
+          color: '#979797',
         },
         axisTick: {
           show: false,
@@ -64,6 +66,7 @@ function commonOptions(params) {
   };
 }
 export function blendChartOptions(param,data,id,pro) {
+  console.log(param)
   let text='';
   if(id === 'all'){
     text = `各学院${param.name}（集团）`
@@ -74,19 +77,41 @@ export function blendChartOptions(param,data,id,pro) {
   }
   const { dataList = {} } = data;
   const { data2 = {} } = dataList;
+  const dataAll = {
+    dateArr:['瑞博','瑞博1','瑞博2','瑞博3'],
+    data3:[1000,2000,3000,4000],
+    data4:[1000,2000,3000,4000],
+    data1:[100,200,300,400],
+    data2:[200,200,400,300],
+  };
+  const _html =function(i) {
+    return `<div>
+<div style="color:#052664;font-size:14px;width:183px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.dateArr[i]}${param.name}:共1000人</div>
+<div style="margin-bottom: 8px">${param.legend[0]}:${dataAll.data1[i]}人</div>
+<div style="margin-bottom: 8px">${param.legend[1]}:${dataAll.data2[i]}人</div>
+<div style="margin-bottom: 8px">${param.legend[2]}:${dataAll.data3[i]}人</div>
+<div style="margin-bottom: 8px">${param.legend[3]}:${dataAll.data4[i]}人</div>
+</div>`
+  } ;
+
   const params2 = {
     text,
     legendData:param.legend,
-    xData: data2.dateArr,
+    xData: dataAll.dateArr,
     color: ['#0080FF', "#FF4165", '#52C9C2','#FD9E3B'],
-    formatter: '{b}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人',
+    formatter:function(params) {
+      console.log(params);
+      return `<div style=" width:213px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 3px 16px ">${_html(params.dataIndex)}</div>`;
+    },
+      // '<div style=" width:193px;height:120px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 0 16px ">{b}{333333}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人</div>',
     series: [ {
       name: param.legend[0],
       type: 'line',
       yAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
-      data: data2.dataArr3,
+      data: dataAll.data1,
+      smooth: true,
       itemStyle: { normal: { label: { show: true, formatter: '{c}' } } },
     }, {
       name: param.legend[1],
@@ -94,23 +119,24 @@ export function blendChartOptions(param,data,id,pro) {
       yAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
-      data: data2.dataArr2,
+      data: dataAll.data2,
+      smooth: true,
       itemStyle: { normal: { label: { show: true, formatter: '{c}' } } },
     },{
       name: param.legend[2],
       type: 'bar',
       barWidth: 15,
-      data: data2.dataArr1
+      data: dataAll.data3
     }, {
       name: param.legend[3],
       type: 'bar',
       barWidth: 15,
-      data: data2.dataArr2
+      data: dataAll.data4
     }],
     yAxis: [{
       axisLine: {
         lineStyle: {
-          color: '#979797'
+          color: '#d8d8d8'
         }
       },
       axisTick: {
@@ -121,26 +147,40 @@ export function blendChartOptions(param,data,id,pro) {
         show: false
       },
       axisLabel: {
-        formatter: '{value}'
+        formatter: '{value}',
+        color: '#979797',
       },
     },{
       show:false,
       type: 'value',
       position: 'right',
       offset: 50,
+      splitLine: {
+        show: false
+      },
       axisTick: {
         show: false,
       },
     }, {
+      // show:false,
+      axisLine: {
+        lineStyle: {
+          color: '#d8d8d8'
+        }
+      },
       type: 'value',
-      min: 0,
-      max: 100,
       position: 'right',
       axisTick: {
         show: false,
       },
+      splitLine: {
+        show: false
+      },
+      min:0,
+      max:100,
       axisLabel: {
-        formatter: '{value} %'
+        formatter: '{value} %',
+        color: '#979797',
       }
     }],
   };

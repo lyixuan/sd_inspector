@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
 import BIButton from '@/ant_components/BIButton'
-import DatePickerDecorator from 'antd/lib/date-picker';
+import BIDatePicker from '@/ant_components/BIDatePicker';
 import moment from 'moment';
 import BISelect from '../Select';
 import styles from '../../style.less';
 
-const { RangePicker } = DatePickerDecorator;
+const  { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
 @connect(({ home }) => ({
   home,
@@ -116,7 +116,7 @@ const dateFormat = 'YYYY-MM-DD';
         </div>
        <div className={styles.form1}>
          <div><span className={styles.labelCls}>小组</span>：<BISelect options={groupData} defaultValue={groupId} id='group' handleChange={this.handleChange} value='id' /></div>
-         <div><span className={styles.labelCls}>日期</span>：<RangePicker
+         <div><span className={styles.labelCls}>日期</span>：<BIRangePicker
            placeholder={['开始时间','结束时间']}
            onChange={this.dateChange}
            style={{ width: '230px'}}

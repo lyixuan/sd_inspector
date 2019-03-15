@@ -6,6 +6,7 @@ import Left from '../Left';
 import Right from '../Right';
 
 import BIDatePicker from '@/ant_components/BIDatePicker';
+const  { BIRangePicker, BIMonthPicker, BIWeekPicker } = BIDatePicker;
 const { TextArea } = Input;
 
 
@@ -17,14 +18,23 @@ class DocDatePicker extends Component {
 
   render() {
     const btn =
-`import BIPagination from '@/ant_components/BIPagination'
-
-<BIPagination showSizeChanger showQuickJumper onShowSizeChange={this.onShowSizeChange} defaultCurrent={3} total={500} />`;
+`import BIDatePicker from '@/ant_components/BIDatePicker';
+const  { BIRangePicker, BIMonthPicker, BIWeekPicker } = BIDatePicker;
+<BIDatePicker onChange={this.onChange} /> 
+<BIRangePicker onChange={this.onChange} /> 
+<BIMonthPicker onChange={this.onChange} /> 
+<BIWeekPicker onChange={this.onChange} />`
 
     return (
       <Box title="BIDatePicker 日期选择框">
         <Left>
           <BIDatePicker onChange={this.onChange} />
+
+          <BIRangePicker onChange={this.onChange} />
+
+          <BIMonthPicker onChange={this.onChange} />
+
+          <BIWeekPicker onChange={this.onChange} />
 
           <Divider orientation="left"> 组件说明 </Divider>
           <div>

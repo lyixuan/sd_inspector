@@ -11,6 +11,8 @@ import DocDatePicker  from './components/DocDatePicker';
 import DocTabs  from './components/DocTabs';
 
 import style from './style.css';
+import { LocaleProvider } from 'antd';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
 
 class Doc extends Component {
   constructor(props) {
@@ -18,19 +20,21 @@ class Doc extends Component {
   }
   render() {
     return (
-      <div className={style.container}>
-        <h1 className={style.title}>自定义组件文档</h1>
-        <DocButton/>
-        <DocInput />
-        <DocSelect/>
-        <DocDropDown/>
-        <DocMenu/>
-        <DocModal/>
-        <DocTable/>
-        <DocPagination/>
-        <DocDatePicker/>
-        <DocTabs/>
-      </div>
+      <LocaleProvider locale={zhCN}>
+        <div className={style.container}>
+          <h1 className={style.title}>自定义组件文档</h1>
+          <DocButton/>
+          <DocInput />
+          <DocSelect/>
+          <DocDropDown/>
+          <DocMenu/>
+          <DocModal/>
+          <DocTable/>
+          <DocPagination/>
+          <DocDatePicker/>
+          <DocTabs/>
+        </div>
+      </LocaleProvider>
     )
   }
 }

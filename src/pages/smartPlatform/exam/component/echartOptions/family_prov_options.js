@@ -1,9 +1,16 @@
-export function famProOPtion(param,data,id){
+// var ecConfig = require('echarts/config');
+
+export function famProOPtion(param,data,id,pro){
   let text='';
   if(id === 'pro'){
     text=`各省${param.name}`
   }else if(id === 'fam'){
-    text=`各家族${param.name}（集团）`
+    if(pro){
+      text=`家族${param.name}（${pro}）`
+    }else {
+      text=`各家族${param.name}（集团）`
+    }
+
   }
   return {
     title: {
@@ -17,9 +24,18 @@ export function famProOPtion(param,data,id){
     },
     tooltip: {
       trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
-      }
+      axisPointer: { // 坐标轴指示器，坐标轴触发有效
+        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+      },
+      backgroundColor:'#fff',
+      textStyle: {
+        align: 'left',
+        color:'#052664',
+        fontSize:12,
+      },
+      formatter:'<div style=" width:193px;height:120px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 0 16px ">{b}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人</div>',
+
+      padding: 15,
     },
     legend: {
       bottom: 20,
@@ -30,12 +46,13 @@ export function famProOPtion(param,data,id){
       itemHeight: 10,
       data: param.legend
     },
-    color:['#0080FF','#FF4165','#fff','#52C9C2','#FD9E3B'],
+    color:['#0080FF','#FF4165','rgba(255,255,255,0)','#52C9C2','#FD9E3B'],
     grid: {
+      // width:980,
       top:48,
       left: 35,
       bottom: 33,
-      containLabel: true
+      // containLabel: true
     },
     xAxis: [{
       type: 'value',
@@ -70,7 +87,8 @@ export function famProOPtion(param,data,id){
       data: [19325, 23438, 31000, 121594, 134141, 681807]
     }, {
       type: 'bar',
-      barWidth: 10,
+      // barGap:'-100%',
+      // barWidth: 25,
       label: {
         show: true,
         formatter:function (params) {
