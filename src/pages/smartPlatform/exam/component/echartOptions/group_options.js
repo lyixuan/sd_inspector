@@ -1,4 +1,4 @@
-
+// name:人均，value:触达人数
 export function groupOPtion(param,data){
   const dataPro= [
     {name:'巴西',value:820},
@@ -18,12 +18,43 @@ export function groupOPtion(param,data){
   ];
   const data2 = [
     {name:'120',value:120},
-    {name:'130',value:120},
+    {name:'160',value:200},
     {name:'220',value:220},
     {name:'320',value:320},
     {name:'120',value:520},
     {name:'120',value:180},
   ];
+  const data3 = [
+    {name:'120',value:120},
+    {name:'160',value:200},
+    {name:'220',value:220},
+    {name:'320',value:320},
+    {name:'120',value:520},
+    {name:'120',value:180},
+  ];
+  const _html =function(i) {
+    if(param.legendGroup[2]){
+      return `<div>
+<div style="color:#052664;text-align:center;font-size:14px;width:183px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataPro[i].name}</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data2[i].name}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data2[i].value}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data1[i].name}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data1[i].value}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[0]}:${data1[i].name}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[1]}:${data1[i].value}人</div>
+</div>`
+    }else {
+      return `<div>
+<div style="color:#052664;text-align:center;font-size:14px;width:183px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataPro[i].name}</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data2[i].name}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data2[i].value}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data1[i].name}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data1[i].value}人</div>
+</div>`
+    }
+
+  } ;
+
   const dataSum = function() {
     let datas = [];
     for (let i = 0; i < data1.length; i++) {
@@ -32,6 +63,52 @@ export function groupOPtion(param,data){
     }
     return datas;
   }();
+  const series = ()=>{
+    if(!param.legendGroup[2]){
+      return [{
+        type: 'bar',
+        stack: 'sum',
+        label: {
+          normal: {
+            show: true,
+            position: 'insideLeft',
+            color:'#000'
+          }
+        },
+        data: dataSum
+      }]
+    }else {
+      return [ {
+        name: `${param.legendGroup[2]}`,
+        type: 'bar',
+        barWidth: 20,
+        stack: 'sum',
+        label: {
+          normal: {
+            show: true,
+            position: 'insideRight',
+            formatter:function (params) {
+              return `${params.value}/${params.name}`
+            },
+          }
+        },
+        data: data3
+      },{
+        type: 'bar',
+        stack: 'sum',
+        label: {
+          normal: {
+            show: true,
+            position: 'insideLeft',
+            color:'#000'
+          }
+        },
+        data: dataSum
+      }]
+    }
+  };
+  const color=param.legendGroup[2]?['rgba(255,255,0,0)','#52C9C2','#FD9E3B','#46A3EF','#fff',]:['rgba(255,255,0,0)','#52C9C2','#FD9E3B','#fff',];
+  const legendData = !param.legendGroup[2]?[param.legendGroup[0], param.legendGroup[1]]:[param.legendGroup[0], param.legendGroup[1],param.legendGroup[2]];
   return {
     title: {
       text: `各小组${param.name}（集团）`,
@@ -43,10 +120,20 @@ export function groupOPtion(param,data){
       top: 18,
     },
     tooltip : {
-      trigger: 'axis',
+      // trigger: 'axis',
       axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-        type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
-      }
+        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+      },
+      backgroundColor:'#fff',
+      textStyle: {
+        align: 'left',
+        color:'#052664',
+        fontSize:12,
+      },
+      formatter:function(params) {
+        console.log(params);
+        return `<div style="width:213px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 3px 16px ">${_html(params.dataIndex)}</div>`;
+      },
     },
     legend: {
       bottom: 20,
@@ -55,9 +142,9 @@ export function groupOPtion(param,data){
       },
       itemWidth: 10,
       itemHeight: 10,
-      data: [`${param.legendGroup[0]}`, `${param.legendGroup[1]}`]
+      data: legendData,
     },
-    color:['#fff','#52C9C2','#FD9E3B','#fff',],
+    color,
     grid: {
       top:48,
       left: 35,
@@ -75,7 +162,9 @@ export function groupOPtion(param,data){
     series: [
       {
         type: 'bar',
-        barWidth: 15,
+        barWidth: 38,
+        barGap:'-60%',
+        z:6,
         label: {
           show: true,
           formatter:function (params) {
@@ -83,7 +172,8 @@ export function groupOPtion(param,data){
           },
           position:  [0, 0],
           color:'#000',
-          fontSize:'14px'
+          fontSize:'14px',
+          borderWidth:100
         },
         data: dataPro
       },
@@ -94,6 +184,7 @@ export function groupOPtion(param,data){
         stack: 'sum',
         label: {
           normal: {
+            borderWidth:100,
             show: true,
             position: 'insideRight',
             formatter:function (params) {
@@ -119,18 +210,7 @@ export function groupOPtion(param,data){
         },
         data: data2
       },
-      {
-        type: 'bar',
-        stack: 'sum',
-        label: {
-          normal: {
-            show: true,
-            position: 'insideLeft',
-            color:'#000'
-          }
-        },
-        data: dataSum
-      },
+      ...series(),
     ]
   };
 }

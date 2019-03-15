@@ -43,13 +43,13 @@ class Survey extends React.Component {
       this.setState({
         name:'报考通知人数',
         legend:['老生触达率','新生触达率','应通知老生人数','应通知新生人数'],
-        legendGroup:['新生应通知人数','新生触达率','老生应通知人数','老生触达率','未触达人数','未触达率']
+        legendGroup:['新生应通知人数/新生触达率','老生应通知人数/老生触达率','未触达人数/未触达率']
       })
     }else if(val === 'examTicket'){
       this.setState({
         name:'准考证填写',
         legend:['老生填写率','新生填写率','老生填写人数','新生填写人数'],
-        legendGroup:['新生填写人数','新生填写率','老生填写人数','老生填写率','未填写人数','未填写率']
+        legendGroup:['新生填写人数/新生填写率','老生填写人数/老生填写率','未填写人数/未填写率']
       })
     }
     console.log(val)
@@ -100,7 +100,7 @@ class Survey extends React.Component {
                     onChange={this.dateChange}
                     style={{ width: '230px'}}
                     disabledDate={this.disabledDate}
-                    // value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}
+                    value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}
                   />
                 </div>
                 <div>
