@@ -1,73 +1,85 @@
 import React from 'react';
 import { connect } from 'dva';
-import BIInput from '@/ant_components/BIInput';
-import BISelect from '@/ant_components/BISelect';
-import BIButton from '@/ant_components/BIButton';
-import BIButtonYellow from '@/components/BIButtonYellow';
-import BIButtonBlue from '@/components/BIButtonBlue';
-import BITable from '@/ant_components/BITable';
-import { BiFilter, DeepCopy } from '@/utils/utils';
-import { Row, Col } from 'antd';
-import styles from './style.less'
-const { Option } = BISelect;
+import Page from './component/page';
+
+const columns = [
+  {
+    title: '质检单号',
+    dataIndex: 'qualityNum',
+  },
+  {
+    title: '分维',
+    dataIndex: 'violationName',
+  },
+  {
+    title: '归属组织',
+    dataIndex: 'organitionName',
+  },
+  {
+    title: '质检扣分日期',
+    dataIndex: 'reduceScoreDate',
+  },
+  {
+    title: '质检发起人',
+    dataIndex: 'operateName',
+  },
+  {
+    title: '违规等级',
+    dataIndex: 'violationLevel',
+  },
+  {
+    title: '质检状态',
+    dataIndex: 'statusName',
+  },
+  {
+    title: '操作',
+    dataIndex: 'operation',
+    width: 150,
+    render: (text, record) => {
+      return (
+        <div>
+          <div>
+              <span
+                style={{ color: '#52C9C2', cursor: 'pointer', display: 'inline-block' }}
+                onClick={() => this.onRecord(record)}
+              >
+                审核记录
+              </span>
+          </div>
+        </div>
+      );
+    },
+  },
+];
 
 @connect(({ newQuality }) => ({
   newQuality,
 }))
 
-class NewQualitySheet extends React.Component {
+class NewQualitySheetIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
   componentDidMount() {
+    this.queryData();
+  }
+
+  queryData = () => {
     // 获取数据
     this.props.dispatch({
       type: 'dataDetail/getExamList',
       payload: { params: {} },
     });
-  }
+  };
+
   render() {
     return (
-      <div className={styles.newSheetWrap}>
-        <div className={styles.searchBlock}>
-          <Row gutter={0}>
-            <Col className="gutter-row" span={8}>
-              <div className="gutter-box1">col-6</div>
-            </Col>
-            <Col className="gutter-row" span={8}>
-              <div className="gutter-box2">col-6</div>
-            </Col>
-            <Col className="gutter-row" span={8}>
-              <div className="gutter-box1">col-6</div>
-            </Col>
-          </Row>
-          <Row gutter={0}>
-            <Col className="gutter-row" span={8}>
-              <div className="gutter-box">col-6</div>
-            </Col>
-            <Col className="gutter-row" span={8}>
-              <div className="gutter-box">col-6</div>
-            </Col>
-            <Col className="gutter-row" span={8}>
-              <div className="gutter-box">col-6</div>
-            </Col>
-          </Row>
-          <Row gutter={0}>
-            <Col className="gutter-row" span={8}>
-              <div className="gutter-box">col-6</div>
-            </Col>
-            <Col className="gutter-row" span={8}>
-              <div className="gutter-box">col-6</div>
-            </Col>
-            <Col className="gutter-row" span={8}>
-              <div className="gutter-box">col-6</div>
-            </Col>
-          </Row>
-        </div>
-      </div>
+      <>
+        <Page {...this.props} columns={columns} queryData={()=>this.queryData()} />
+      </>
     );
   }
 }
 
-export default NewQualitySheet;
+export default NewQualitySheetIndex;

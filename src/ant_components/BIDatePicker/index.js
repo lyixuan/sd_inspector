@@ -20,7 +20,40 @@ class BIDatePicker extends React.Component {
   }
 }
 
+class BIRangePicker extends React.Component {
+
+  render() {
+    return (
+      <span className='BIDatePicker'>
+        <RangePicker {...this.props} />
+      </span>
+    );
+  }
+}
+
+class BIMonthPicker extends React.Component {
+
+  render() {
+    return (
+      <span className='BIDatePicker'>
+        <MonthPicker {...this.props} />
+      </span>
+    );
+  }
+}
+
+class BIWeekPicker extends React.Component {
+
+  render() {
+    return (
+      <span className='BIDatePicker'>
+        <WeekPicker {...this.props} />
+      </span>
+    );
+  }
+}
+BIDatePicker.BIMonthPicker = BIMonthPicker;
+BIDatePicker.BIRangePicker = BIRangePicker;
+BIDatePicker.BIWeekPicker = BIWeekPicker;
 export { BIDatePicker as default };
-BIDatePicker.MonthPicker = MonthPicker;
-BIDatePicker.RangePicker = RangePicker;
-BIDatePicker.WeekPicker = WeekPicker;
+
