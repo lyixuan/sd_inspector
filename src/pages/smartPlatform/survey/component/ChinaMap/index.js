@@ -24,7 +24,7 @@ const lended = `
 <text id="t7" data-name="7万≤N＜10万" class=${styles.cls8} transform="translate(147.281 777.221)">7万≤N＜10万</text>
 <text id="t8" data-name="≥10万" class=${styles.cls8} transform="translate(147.281 748.222)">≥10万</text>`
 
-let scaleNum = 0.9;
+let scaleNum = 0.8;
 let tip = {};
 let HEIGHT = 0;
 let WIDTH = 0
@@ -54,8 +54,9 @@ class ChinaMap extends Component {
 
     }
     initMap = () => {
-        WIDTH = this.svgDom.parentElement.offsetWidth;
-        HEIGHT = this.svgDom.parentElement.offsetHeight;
+        // WIDTH = this.svgDom.offsetWidth;
+        WIDTH = this.svgDom.parentNode.offsetHeight;
+        HEIGHT = this.svgDom.parentNode.offsetHeight;
         this.drewMap(mapData);
 
     }
@@ -85,10 +86,11 @@ class ChinaMap extends Component {
         //设置tip框
         this.drewTip();
         // 设置path 部分
+        console.log(WIDTH)
         const chart = d3.select(this.svgDom).attr('width', WIDTH).attr('height', HEIGHT);
         this.svgFirstG = chart.append("g")// 设最外包层在总图上的相对位置
         this.svgFirstG.style('fill-opacity', 1)
-            .attr("transform", `translate(${(1 - scaleNum) / 2 * WIDTH},${(1 - scaleNum) / 2 * HEIGHT - 50}) scale(${scaleNum})`)
+            .attr("transform", `translate(${(1 - scaleNum) / 2 * WIDTH - 80},${(1 - scaleNum) / 2 * HEIGHT - 50}) scale(${scaleNum})`)
             .on('mouseout', this.onMouseout)
             ;
         // 设置省path
@@ -140,7 +142,7 @@ class ChinaMap extends Component {
     }
     drewLended = (svg) => {
         this.lended = svg.append('g').html(lended)
-            .attr("transform", `translate(${(scaleNum - 1) / 2 * WIDTH - 40},${(scaleNum - 1) / 2 * HEIGHT + 100})`)
+            .attr("transform", `translate(${(scaleNum - 1) / 2 * WIDTH - 40},${(scaleNum - 1) / 2 * HEIGHT - 50})`)
     }
     drewPath = (data) => {
         this.provincePath = this.svgFirstG.append('g')
@@ -152,7 +154,7 @@ class ChinaMap extends Component {
         this.provincePath.append('path')
             .attr('id', d => d.id)
             .attr("class", `state ${styles.province}`)
-            .attr("transform", `translate(${(scaleNum - 1) / 2 * WIDTH - 150},${(scaleNum - 1) / 2 * HEIGHT + 100})`)
+            // .attr("transform", `translate(${(scaleNum - 1) / 2 * WIDTH - 150},${(scaleNum - 1) / 2 * HEIGHT + 100})`)
             .attr("d", (d) => d.d)
             .on('click', this.onClick)
             .on('mouseover', this.onMouseover)
@@ -162,14 +164,14 @@ class ChinaMap extends Component {
 
     drewText = () => {
         this.allText = this.svgFirstG.append('g')
-            .attr("transform", `translate(${(scaleNum - 1) / 2 * WIDTH - 150},${(scaleNum - 1) / 2 * HEIGHT + 100})`)
+            // .attr("transform", `translate(${(scaleNum - 1) / 2 * WIDTH - 150},${(scaleNum - 1) / 2 * HEIGHT + 100})`)
             .attr('class', 'textClass')
             .selectAll("text")
             .data(mapData.textData)
             .enter()
             .append("text")
             .attr('id', d => d.id)
-            .attr('class', styles.cls19)
+            .attr('class', styles.textStyle)
             .html(d => {
                 return d.tspan ? d.tspan : d.dataName;
 
@@ -200,22 +202,22 @@ class ChinaMap extends Component {
             const isBegining = examineStatus === 4;
 
             if (examPlanNum >= 100000 && isBegining) {
-                return '#e73236'
+                return '#FE6450'
             } else if (examPlanNum < 100000 && examPlanNum >= 70000 && isBegining) {
 
-                return '#ec4f44'
+                return '#FD7950'
             } else if (examPlanNum < 70000 && examPlanNum >= 50000 && isBegining) {
-                return '#fb7338'
+                return '#FD9150'
             } else if (examPlanNum < 50000 && examPlanNum >= 30000 && isBegining) {
-                return '#fd9d3c'
+                return '#FEBA50'
             } else if (examPlanNum < 30000 && examPlanNum >= 20000 && isBegining) {
-                return '#fdbb3c'
+                return '#FDC64F'
             } else if (examPlanNum < 20000 && examPlanNum >= 10000 && isBegining) {
-                return '#f2c71c'
+                return '#FED568'
             } else if (examPlanNum < 10000 && examPlanNum >= 0 && isBegining) {
-                return '#e5e323'
+                return '#FFEB68'
             } else {
-                return '#008dff'
+                return '#52C9C2'
             }
 
         })
@@ -229,7 +231,7 @@ class ChinaMap extends Component {
         d3.select(`#${ChinaMap.that.selectedProvince}`).raise();   // 对点击元素进行置顶
         const allPath = d3.selectAll('.state');
         allPath.style('stroke', d => {
-            return d.id === data.id || d.id === ChinaMap.that.selectedProvince ? '#caf3fe' : '#0bb4f9'
+            return d.id === data.id || d.id === ChinaMap.that.selectedProvince ? '#caf3fe' : '#3cbbba'
         })
     }
     onMouseover(d, i) {
@@ -244,7 +246,7 @@ class ChinaMap extends Component {
     onMouseout(d, i) {
         const allPath = d3.selectAll('.state');
         allPath.style('stroke', d => {
-            return d.id === ChinaMap.that.selectedProvince ? '#caf3fe' : '#0bb4f9'
+            return d.id === ChinaMap.that.selectedProvince ? '#caf3fe' : '#3cbbba'
         })
         if (tip.hide) {
             tip.hide();
@@ -266,7 +268,7 @@ class ChinaMap extends Component {
         return (
             <div className={styles.mapCotainer}>
                 <div className={styles.container}>
-                    <svg ref={dom => { this.svgDom = dom }} width={1000} height={1000}></svg>
+                    <svg width={1000} height={1000} ref={dom => { this.svgDom = dom }}></svg>
                 </div>
                 <div className={styles.process}>
                     <ProcessStep data={examineStepList} />

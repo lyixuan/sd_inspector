@@ -4,11 +4,11 @@ import { connect } from 'dva';
 import Empty from 'antd/lib/empty'
 import Echart from '@/components/Echart'
 import styles from './style.less';
-import ChinaMap from './component/ChinaMap.1';
+import ChinaMap from './component/ChinaMap';
 import SearchForm from './component/SearchForm';
 import { chartOptions } from './component/EchartCommonOptions';
-import EchartTitle  from './component/EchartCommonOptions/echartTitle';
-import SelfProgress  from './component/EchartCommonOptions/fillRateFamily';
+import EchartTitle from './component/EchartCommonOptions/echartTitle';
+import SelfProgress from './component/EchartCommonOptions/fillRateFamily';
 import { fillCollege } from './component/EchartCommonOptions/fillRateOptions';
 
 @connect(({ survey, home, loading }) => ({
@@ -93,22 +93,22 @@ class Survey extends React.Component {
                 {
                   JSON.stringify(data1) === '{}' ?
                     <Empty className={styles.emptyCls} /> :
-                    <Echart update={data1} style={{ width: '49%', height: "380px", backgroundColor:' #fff' }} options={option1} />
+                    <Echart update={data1} style={{ width: '49%', height: "380px", backgroundColor: ' #fff' }} options={option1} />
                 }
                 {
                   JSON.stringify(data2) === '{}' ?
                     <Empty className={styles.emptyCls} /> :
-                    <Echart update={data2} style={{ width: '49%', height: "380px", backgroundColor:' #fff' }} options={option2} />
+                    <Echart update={data2} style={{ width: '49%', height: "380px", backgroundColor: ' #fff' }} options={option2} />
                 }
               </div>
               <div className={styles.echartFamily}>
                 <EchartTitle name='准考证填写率排行榜（学院）' />
-                <Echart update={data1} style={{ width: '100%', height: "293px" }} options={fillCollege(['瑞博','虎落','虎落','瑞博','虎落','虎落','瑞博'],[20,30,50,30,50,30,70])} />
+                <Echart update={data1} style={{ width: '100%', height: "293px" }} options={fillCollege(['瑞博', '虎落', '虎落', '瑞博', '虎落', '虎落', '瑞博'], [20, 30, 50, 30, 50, 30, 70])} />
               </div>
               <div className={styles.echartFamily}>
                 <EchartTitle name='准考证填写率排行榜（家族）' />
-                <div style={{padding:'35px 80px 35px 110px'}}>
-                  <SelfProgress dataList={[{name:'派学院|商进家族',per:30,color:'#ff6d6d'},{name:'2',per:50,color:'#ff8e57'},{name:'1',per:70,color:'#ffaa4d'},{name:'1',per:90}]} />
+                <div style={{ padding: '35px 80px 35px 110px' }}>
+                  <SelfProgress dataList={[{ name: '派学院|商进家族', per: 30, color: '#ff6d6d' }, { name: '2', per: 50, color: '#ff8e57' }, { name: '1', per: 70, color: '#ffaa4d' }, { name: '1', per: 90 }]} />
                 </div>
               </div>
             </Spin>
