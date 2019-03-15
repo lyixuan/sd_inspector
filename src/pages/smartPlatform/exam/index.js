@@ -102,7 +102,6 @@ class Survey extends React.Component {
     const {tabId,endDate,beginDate} = this.state;
     const { exam } = this.props;
     const { dataList = {} ,examTotal={}} = exam;
-    const { data1 = {}, data2 = {} } = dataList;
     const tabData = [{name:'考试计划',id:'examPlan',data:[]},{name:'报考通知',id:'examNotice',data:[]},{name:'准考证填写',id:'examTicket',data:[]}];
 
     return (
@@ -136,12 +135,12 @@ class Survey extends React.Component {
                 <div className={styles.echartCls}>
                   <div className='m_box'>
                     <p className={styles.proTip}>点击省份可查看该省份的学院及家族数据</p>
-                    <Echart clickEvent update={data1} style={{ width: '100%', height: "510px" }} options={famProOPtion(this.state,data1,'pro')} />
+                    <Echart clickEvent update={dataList} style={{ width: '100%', height: "1010px" }} options={famProOPtion(this.state,dataList,'pro')} />
                   </div>
-                  <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,exam,'all')} /></div>
-                  <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "510px" }} options={famProOPtion(this.state,data2,'fam')} /></div>
+                  <div className='m_box'><Echart update={dataList} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,exam,'all')} /></div>
+                  <div className='m_box'><Echart update={dataList} style={{ width: '100%', height: "510px" }} options={famProOPtion(this.state,dataList,'fam')} /></div>
                   <div className='m_box'>
-                    <Echart update={data1} style={{ width: '100%', height: "410px" }} options={groupOPtion(this.state)} />
+                    <Echart update={dataList} style={{ width: '100%', height: "410px" }} options={groupOPtion(this.state)} />
                     <BIButton type="primary" style={{marginBottom:'20px'}} onClick={()=>console.log(1)}>查看更多</BIButton>
                   </div>
                 </div>

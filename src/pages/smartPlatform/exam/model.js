@@ -131,7 +131,7 @@ export default {
         data4:[],
       };
       dataList.map(item=>{
-        data.province.push(item.province);
+        data.province.push({name:item.province,value:10000});
         data.data1.push(item.oldAvgServiceNum);
         data.data2.push(item.newAvgServiceNum);
         data.data3.push(item.oldExamPlanNum);

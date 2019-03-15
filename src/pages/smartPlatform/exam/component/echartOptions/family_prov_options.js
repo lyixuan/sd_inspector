@@ -1,4 +1,3 @@
-// var ecConfig = require('echarts/config');
 
 export function famProOPtion(param,data,id,pro){
   let text='';
@@ -65,6 +64,7 @@ export function famProOPtion(param,data,id,pro){
       show:false,
     }],
     yAxis: {
+      inverse:true,
       type: 'category',
       axisTick: {
         show: false,
@@ -77,17 +77,17 @@ export function famProOPtion(param,data,id,pro){
       xAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
-      data: [18203, 23489, 29034, 104970, 131744, 630230]
+      data: data.data1
     },{
       name: param.legend[1],
       type: 'line',
       xAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
-      data: [19325, 23438, 31000, 121594, 134141, 681807]
+      data: data.data2
     }, {
       type: 'bar',
-      // barWidth: 25,
+      barWidth: 25,
       label: {
         show: true,
         formatter:function (params) {
@@ -97,12 +97,7 @@ export function famProOPtion(param,data,id,pro){
         color:'#000',
         fontSize:'14px'
       },
-      data:  [{name:'巴西',value:134141},
-        {name:'印尼',value:134141},
-        {name:'美国',value:134141},
-        {name:'印度',value:134141},
-        {name:'中国',value:134141},
-        {name:'北京',value:134141}]
+      data:  data.province
     }, {
       name:  param.legend[2],
       type: 'bar',
@@ -113,7 +108,7 @@ export function famProOPtion(param,data,id,pro){
         color:'#000',
         fontSize:'12px',
       },
-      data: [18203, 23489, 29034, 104970, 131744, 630230]
+      data: data.data3
     }, {
       name:  param.legend[3],
       type: 'bar',
@@ -124,7 +119,7 @@ export function famProOPtion(param,data,id,pro){
         color:'#000',
         fontSize:'12px',
       },
-      data: [19325, 23438, 31000, 121594, 134141, 681807]
+      data: data.data4
     }
     ]
   };
