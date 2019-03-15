@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import {Form,Icon} from 'antd';
+import { Form, Icon } from 'antd';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
@@ -21,7 +21,7 @@ let editName = undefined;
 let menuCheckedName = '我的查询条件';
 
 // 名称正则校验，汉字数字英文
-const reg =/^[\u4e00-\u9fa5a-zA-Z0-9]+$/;
+const reg = /^[\u4e00-\u9fa5a-zA-Z0-9]+$/;
 
 @connect(({ home, dataDetail }) => ({
   home,
@@ -62,10 +62,10 @@ class HorizontalLoginForm extends React.Component {
   menuDel = (id) => {
     const that = this;
     confirm({
-      className:'BIConfirm',
+      className: 'BIConfirm',
       title: '是否删除当前查询条件?',
-      cancelText:'取消',
-      okText:'确定',
+      cancelText: '取消',
+      okText: '确定',
       onOk() {
         that.props.dispatch({
           type: 'dataDetail/deleteQueryCondition',
@@ -201,7 +201,7 @@ class HorizontalLoginForm extends React.Component {
         }
       }
     }
-    this.checkedConditionList = {...obj};
+    this.checkedConditionList = { ...obj };
     this.props.updateCC(this.checkedConditionList);
   };
 
@@ -227,7 +227,7 @@ class HorizontalLoginForm extends React.Component {
     this.conditionList = this.props.dataDetail.queryConditionList || [];
     this.collegeList = this.props.home.orgList;
 
-    this.conditionList.forEach((v)=>{
+    this.conditionList.forEach((v) => {
       if (v.paramName === editName) {
         isEdit = true;
         editId = v.id;
@@ -265,7 +265,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('exam', {
                   initialValue: this.state.exam,
                 })(
-                  <BISelect allowClear placeholder="考期"  style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'exam')}>
+                  <BISelect allowClear placeholder="考期" style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'exam')}>
                     {this.examList.map(item => (
                       <Option key={item.examYearmonth}>
                         {item.exam}
@@ -350,7 +350,7 @@ class HorizontalLoginForm extends React.Component {
                   initialValue: this.state.msgStatusList,
                 })(
                   <BISelect placeholder="消息打开状态"
-                            style={{ width: 190 }}
+                    style={{ width: 190 }}
                     mode="multiple"
                     showArrow
                     maxTagCount={1}
@@ -367,7 +367,7 @@ class HorizontalLoginForm extends React.Component {
               </Form.Item>
             </div>
             {/* 第四行 */}
-            <div style={{ marginTop: '40px',marginBottom:0 }}>
+            <div style={{ marginTop: '40px', marginBottom: 0 }}>
               <Form.Item label="&nbsp;">
                 <DxDropDown overlay={menu}>
                   <BIButton style={{ width: 190 }}>
@@ -375,9 +375,9 @@ class HorizontalLoginForm extends React.Component {
                   </BIButton>
                 </DxDropDown>
               </Form.Item>
-              <div style={{ float: 'right',marginTop: 3 }}>
+              <div style={{ float: 'right', marginTop: 3 }}>
                 <BIButton style={{ marginRight: 10 }} type="primary" htmlType="submit">查询</BIButton>
-                <BIButton  onClick={this.handleReset}>重置</BIButton>
+                <BIButton onClick={this.handleReset}>重置</BIButton>
               </div>
             </div>
           </div>
@@ -545,7 +545,7 @@ class SearchForm extends Component {
               <div className={styles.searchBoxSeletected}>
                 <span className={styles.rowTitle2}>已选条件：</span>
                 <div className={styles.row}>
-                  <span style={{ display: 'inline-flex' }} >{checkedBtn}</span>  <span style={{ float: 'right',marginRight:20 }}><BIButton type="primary"  onClick={() => this.conditionAdd()}>保存查询条件</BIButton></span>
+                  <span style={{ display: 'inline-flex' }} >{checkedBtn}</span>  <span style={{ float: 'right', marginRight: 20 }}><BIButton type="primary" onClick={() => this.conditionAdd()}>保存查询条件</BIButton></span>
                 </div>
               </div>
             ) : null
@@ -558,7 +558,7 @@ class SearchForm extends Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
-            <BIButton style={{marginRight:10}} onClick={this.handleCancel}>取消</BIButton>,
+            <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>取消</BIButton>,
             <BIButton type="primary" onClick={this.handleOk}>
               确定
             </BIButton>

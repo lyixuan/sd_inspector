@@ -12,14 +12,37 @@
     color:#000;
   }
   .text{
-    padding-right:20px;
+    padding:0 15px;
   }
   .content{
     border-bottom:1px solid #EBECEF;
     padding:15px 0;
   }
-  .abc{width:100px;}
+  .content:last-child{
+    border:none;
+  }
+  .gutterBox1{
+    text-align:right;
+    padding-top:50px;
+    .gutterBtn2{
+      margin-right:20px;
+    }
+  }
 }
+.verify{
+  padding-top:20px;
+  color:#000;
+  line-height:25px;
+  .label{
+    display:inline-block;
+    white-space: nowrap;
+  }
+  .verifyContent{
+    padding-top:20px;
+  }
+}
+
+
 :global .txRight{
   text-align:right;
 }
@@ -32,4 +55,8 @@
 :global(.ant-form-item label){
   font-size:14px;
   width:95px;
+}
+
+:global(.ant-form-inline .ant-form-item){
+  margin-right:0;
 }
