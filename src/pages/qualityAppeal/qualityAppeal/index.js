@@ -123,7 +123,7 @@ class QualityAppeal extends React.Component {
   queryData = () => {
     // 获取数据
     this.props.dispatch({
-      type: 'qualityBook/getExamList',
+      type: 'qualityCheck/getAppealList',
       payload: { params: {} },
     });
   };

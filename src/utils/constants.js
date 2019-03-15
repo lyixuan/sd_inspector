@@ -299,6 +299,12 @@ export const APPEAL_TYPE = [
   { id: 1, name: '一次申诉' },
   { id: 2, name: '二次申诉' },
 ];
+
+// 是否警告
+export const ISWARN = [
+  { id: 1, name: '是' },
+  { id: 0, name: '否' },
+];
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -316,4 +322,5 @@ export default {
   VIOLATION_LEVEL,
   APPEAL_STATE,
   APPEAL_TYPE,
+  ISWARN,
 };
