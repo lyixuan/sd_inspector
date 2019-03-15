@@ -77,6 +77,7 @@ class QualityDetail extends React.Component {
         <section>
           {/* 质检违规详情 */}
           <section>{/* 质检审核 */}</section>
+          <div className={styles.divideLine} />
           <IllegalInfo data={this.state.qualityData} />
         </section>
         <section>

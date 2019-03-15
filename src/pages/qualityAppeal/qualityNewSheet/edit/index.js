@@ -14,10 +14,11 @@ const { Option } = BISelect;
 const TreeNode = TreeSelect.TreeNode;
 const { TextArea } = Input;
 
-class CreateQualityNewSheet extends React.Component {
+class EditQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: this.props.match.params.id,
       type: undefined,
       mail: undefined,
       user: undefined,
@@ -45,6 +46,27 @@ class CreateQualityNewSheet extends React.Component {
     console.log(treeValue);
     this.setState({ treeValue });
   };
+  getDomFragementByRole = (role, data, getFieldDecorator) => {
+    if (role == 1) {
+      return (
+        <Form.Item label="*质检类型111：">
+          {getFieldDecorator('type', {
+            initialValue: this.state.type,
+          })(
+            <BISelect allowClear labelInValue defaultValue="lucy" style={{ width: 280 }}>
+              {BiFilter('ORDER_STATE').map(item => (
+                <Option value={item.id} key={item.name}>
+                  {item.name}
+                </Option>
+              ))}
+            </BISelect>
+          )}
+        </Form.Item>
+      );
+    } else {
+      return;
+    }
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -54,19 +76,7 @@ class CreateQualityNewSheet extends React.Component {
           <div className={styles.content}>
             <Row>
               <Col className="gutter-row" span={20}>
-                <Form.Item label="*质检类型：">
-                  {getFieldDecorator('type', {
-                    initialValue: this.state.type,
-                  })(
-                    <BISelect allowClear labelInValue defaultValue="lucy" style={{ width: 280 }}>
-                      {BiFilter('ORDER_STATE').map(item => (
-                        <Option value={item.id} key={item.name}>
-                          {item.name}
-                        </Option>
-                      ))}
-                    </BISelect>
-                  )}
-                </Form.Item>
+                {this.getDomFragementByRole(this.state.id, {}, getFieldDecorator)}
               </Col>
             </Row>
             <Row style={{ lineHeight: '40px' }}>
@@ -285,6 +295,6 @@ class CreateQualityNewSheet extends React.Component {
   }
 }
 
-const WrappedHorizontalLoginForm = Form.create({ name: 'Search_Form' })(CreateQualityNewSheet);
+const WrappedHorizontalLoginForm = Form.create({ name: 'Search_Form' })(EditQualityNewSheet);
 
 export default WrappedHorizontalLoginForm;

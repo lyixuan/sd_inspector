@@ -75,6 +75,15 @@ export const routes = [
             },
           },
           {
+            path: '/qualityAppeal/qualityNewSheet/edit/:id',
+            component: './qualityAppeal/qualityNewSheet/edit',
+            name: '编辑质检单',
+            bread: {
+              name: '新质检单管理',
+              path: '/qualityAppeal/qualityNewSheet',
+            },
+          },
+          {
             path: '/qualityAppeal/qualityNewSheet/detail',
             component: './qualityAppeal/qualityNewSheet/detail',
             name: '质检详情',

@@ -13,7 +13,7 @@ export default class SubOrderDetailComponent extends React.Component {
   render() {
     return (
       <section className={styles.subOrderCon}>
-        <h1>子订单详情</h1>
+        <span className={styles.secctionTitle}>子订单详情</span>
         <div className={styles.container}>
           <div className={styles.secRow}>
             <div>学员姓名：{this.state.data.stuName}</div>

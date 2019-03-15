@@ -29,6 +29,7 @@ export default class PersonInfoComponent extends React.Component {
             <div>归属人：{this.state.data.name}</div>
           </div>
         </div>
+        <div className={styles.divideLine} />
       </section>
     );
   }
