@@ -73,11 +73,11 @@ class Survey extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className={styles.echart_container}>
-                  <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "510px" }} options={famProOPtion(this.state,data1,'pro')} /></div>
+                <div>
+                  <div className='m_box'><Echart clickEvent update={data1} style={{ width: '100%', height: "510px" }} options={famProOPtion(this.state,data1,'pro')} /></div>
                   <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,exam,'all')} /></div>
                   <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "510px" }} options={famProOPtion(this.state,data2,'fam')} /></div>
-                  <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "510px" }} options={groupOPtion(this.state)} /> <p>查看更多</p></div>
+                  <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "510px" }} options={groupOPtion(this.state)} /> <p className={styles.checkMore} onClick={()=>console.log(1)}>查看更多</p></div>
                 </div>
               </div>
             </BITabs.TabPane>)

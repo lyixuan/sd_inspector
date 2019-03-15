@@ -46,7 +46,7 @@ export function famProOPtion(param,data,id,pro){
       itemHeight: 10,
       data: param.legend
     },
-    color:['#0080FF','#FF4165','#fff','#52C9C2','#FD9E3B'],
+    color:['#0080FF','#FF4165','rgba(255,255,255,0)','#52C9C2','#FD9E3B'],
     grid: {
       // width:980,
       top:48,
@@ -87,7 +87,8 @@ export function famProOPtion(param,data,id,pro){
       data: [19325, 23438, 31000, 121594, 134141, 681807]
     }, {
       type: 'bar',
-      barWidth: 10,
+      // barGap:'-100%',
+      // barWidth: 25,
       label: {
         show: true,
         formatter:function (params) {

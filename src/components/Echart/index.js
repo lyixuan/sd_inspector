@@ -1,5 +1,6 @@
 import React from 'react';
-import echarts from 'echarts'
+import echarts from 'echarts';
+import config from '../../../config/config';
 
 export default class EchartsComponent extends React.Component {
 
@@ -15,9 +16,13 @@ export default class EchartsComponent extends React.Component {
   createRef = id => {
     this.ID = id;
   };
+   eConsole=(param)=> {
+     const origin = window.location.origin;
+     const url = `${origin}${config.base}smartPlatform/exam/collegeinfo?${param.name}`;
+     window.location.href = url;
+  };
   initChart = () => {
     this.myChart = echarts.init(this.ID);
-    // console.log(this.myChart)
     this.drawChart();
   };
   drawChart(nextProps = this.props) {
@@ -28,6 +33,10 @@ export default class EchartsComponent extends React.Component {
     }
     // this.myChart.resize();
     this.myChart.setOption(options);
+    if(this.props.clickEvent){
+      this.myChart.on("click", this.eConsole);
+    }
+
   }
 
   render(){
