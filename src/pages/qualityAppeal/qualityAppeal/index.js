@@ -104,7 +104,8 @@ const columns2 = [
   },
 ];
 
-@connect(({ qualityCheck }) => ({
+@connect(({ qualityAppealHome,qualityCheck }) => ({
+  qualityAppealHome,
   qualityCheck,
 }))
 
@@ -134,17 +135,27 @@ class QualityAppeal extends React.Component {
   };
   render() {
     const {} = this.state;
+    const {orgList = [], dimensionList1 = [],dimensionList2 = []} = this.props.qualityAppealHome;
     return (
       <>
         <div className={styles.topTab}>
           <BITabs onChange={this.onTabChange} animated={false}>
             <TabPane tab="在途质检申诉" key="1">
               <div className={styles.tabBlank}>&nbsp;</div>
-              <Page1 {...this.props} columns={columns1} queryData={()=>this.queryData()} />
+              <Page1
+                {...this.props}
+                columns={columns1}
+                orgList={orgList}
+                queryData={()=>this.queryData()} />
             </TabPane>
             <TabPane tab="结案质检申诉" key="2">
               <div className={styles.tabBlank}>&nbsp;</div>
-              <Page2 {...this.props} columns={columns2} queryData={()=>this.queryData()} />
+              <Page2
+                {...this.props}
+                dimensionList1 = {dimensionList1}
+                dimensionList2 = {dimensionList2}
+                columns={columns2}
+                queryData={()=>this.queryData()} />
             </TabPane>
           </BITabs>
         </div>

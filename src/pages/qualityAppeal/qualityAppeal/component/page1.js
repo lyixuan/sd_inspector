@@ -59,7 +59,7 @@ class NewQualitySheet extends React.Component {
   };
   render() {
     const {qualityNum,status,organization,verifyDate,firstAppealDate,secondAppealDate,name,qualityType} = this.state;
-    const {violationLevelList = [],dataSource,columns,loading} = this.props;
+    const {orgList = [],dataSource,columns,loading} = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -109,7 +109,11 @@ class NewQualitySheet extends React.Component {
                 <span className={styles.gutterLabel}>归属组织</span>:
                 <span className={styles.gutterForm}>
                   <BISelect style={{width:230}} placeholder="请选择" allowClear value={organization} onChange={(val)=>this.onFormChange(val,'organization')}>
-                    <Option key={'all'}>全部</Option>
+                    {orgList.map(item => (
+                      <Option key={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
                   </BISelect>
                 </span>
               </div>

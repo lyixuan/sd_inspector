@@ -19,18 +19,30 @@ class NewQualitySheet extends React.Component {
     this.state = {
       qualityNum: undefined,
       dateRange: undefined,
-       dimensionIdList: null,
+      dimensionIdList: undefined,
       organization: undefined,
       status: undefined,
       violationLevel: undefined,
       operateName: undefined,
       qualityType: 'all',
     };
+    this.canDimension = false;
   }
   onFormChange = (value,vname)=>{
     this.setState({
       [vname]:value
-    })
+    });
+    if ('qualityType' === vname) {
+      if (value === 'all') {
+        this.canDimension = false;
+      }
+      if (value === '1') {
+        this.canDimension = 1;
+      }
+      if (value === '2') {
+        this.canDimension = 2;
+      }
+    }
   };
   search = ()=>{
     this.props.queryData();
@@ -50,7 +62,7 @@ class NewQualitySheet extends React.Component {
 
   render() {
     const {qualityNum,dateRange,organization, dimensionIdList,status,violationLevel,operateName,qualityType} = this.state;
-    const {dimensionList = [],dataSource,columns,loading} = this.props;
+    const {dimensionList1 = [],dimensionList2 = [],orgList = [],dataSource,columns,loading} = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -82,13 +94,32 @@ class NewQualitySheet extends React.Component {
               <div className={styles.gutterBox3}>
                 <span className={styles.gutterLabel1}>分维</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} allowClear placeholder="请选择"  mode="multiple" showArrow maxTagCount={1} value={ dimensionIdList} onChange={(val)=>this.onFormChange(val,' dimensionIdList')}>
-                    {dimensionList.map(item => (
+                  {this.canDimension === 1 ? (
+                    <BISelect style={{width:230}} allowClear placeholder="请选择客诉分维"  mode="multiple" showArrow maxTagCount={1} value={ dimensionIdList} onChange={(val)=>this.onFormChange(val,' dimensionIdList')}>
+                      {dimensionList1.map(item => (
+                        <Option key={item.id}>
+                          {item.name}
+                        </Option>
+                      ))}
+                    </BISelect>
+                  ): this.canDimension === 2 ?(
+                    <BISelect style={{width:230}} allowClear placeholder="请选择班主任分维"  mode="multiple" showArrow maxTagCount={1} value={ dimensionIdList} onChange={(val)=>this.onFormChange(val,' dimensionIdList')}>
+                    {dimensionList2.map(item => (
                       <Option key={item.id}>
                         {item.name}
                       </Option>
                     ))}
                   </BISelect>
+                  ):(
+                    <BISelect style={{width:230}} allowClear placeholder="请选择" disabled={true}  mode="multiple" showArrow maxTagCount={1} value={ dimensionIdList} onChange={(val)=>this.onFormChange(val,' dimensionIdList')}>
+                      {dimensionList2.map(item => (
+                        <Option key={item.id}>
+                          {item.name}
+                        </Option>
+                      ))}
+                    </BISelect>
+                  )}
+
                 </span>
               </div>
             </Col>
@@ -137,7 +168,11 @@ class NewQualitySheet extends React.Component {
                 <span className={styles.gutterLabel}>归属组织</span>:
                 <span className={styles.gutterForm}>
                   <BISelect style={{width:230}} placeholder="请选择" allowClear value={organization} onChange={(val)=>this.onFormChange(val,'organization')}>
-                    <Option key={'all'}>全部</Option>
+                    {orgList.map(item => (
+                      <Option key={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
                   </BISelect>
                 </span>
               </div>
