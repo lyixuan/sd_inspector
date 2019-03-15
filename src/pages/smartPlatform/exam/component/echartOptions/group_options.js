@@ -57,7 +57,7 @@ export function groupOPtion(param,data){
       itemHeight: 10,
       data: [`${param.legendGroup[0]}`, `${param.legendGroup[1]}`]
     },
-    color:['#fff','#52C9C2','#FD9E3B',],
+    color:['#fff','#52C9C2','#FD9E3B','#fff',],
     grid: {
       top:48,
       left: 35,

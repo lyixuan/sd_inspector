@@ -1,11 +1,11 @@
 import React from 'react';
 import { Radio } from 'antd';
 import './style.less';
-
+const RadioGroup = Radio.Group;
 /*
-* Input 组件
+* Select 组件
 *
-* 基于原 ant Input
+* 基于原 ant Select
 * 只扩展自定义样式
 * */
 
@@ -14,10 +14,13 @@ class BIRadio extends React.Component {
   render() {
     return (
       <span className='BIRadio'>
-        <Radio {...this.props}></Radio>
+        <RadioGroup {...this.props}>
+          {this.props.children}
+        </RadioGroup>
       </span>
     );
   }
 }
 
-export default BIRadio;
+export { BIRadio as default };
+BIRadio.Radio = Radio;

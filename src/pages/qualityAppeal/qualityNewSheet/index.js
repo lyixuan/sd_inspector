@@ -8,12 +8,16 @@ const columns = [
     dataIndex: 'qualityNum',
   },
   {
+    title: '质检类型',
+    dataIndex: 'qualityType',
+  },
+  {
     title: '分维',
-    dataIndex: 'violationName',
+    dataIndex: 'dimensionName',
   },
   {
     title: '归属组织',
-    dataIndex: 'organitionName',
+    dataIndex: 'organzitionName',
   },
   {
     title: '质检扣分日期',
@@ -52,14 +56,17 @@ const columns = [
   },
 ];
 
-@connect(({ newQuality }) => ({
-  newQuality,
+@connect(({ qualityNewSheet }) => ({
+  qualityNewSheet,
 }))
 
 class NewQualitySheetIndex extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      page: 1,
+      pageSize: 30
+    };
   }
   componentDidMount() {
     this.queryData();
@@ -68,7 +75,7 @@ class NewQualitySheetIndex extends React.Component {
   queryData = () => {
     // 获取数据
     this.props.dispatch({
-      type: 'dataDetail/getExamList',
+      type: 'qualityNewSheet/getQualityList',
       payload: { params: {} },
     });
   };

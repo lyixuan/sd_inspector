@@ -36,6 +36,15 @@ export const routes = [
             name: '报考',
           },
           {
+            path: '/smartPlatform/exam/collegeinfo',
+            component: './smartPlatform/exam/singleProColInfo',
+            name: '报考信息',
+            bread: {
+              name: '报考',
+              path: '/smartPlatform/exam',
+            },
+          },
+          {
             path: '/smartPlatform/details/tasks',
             component: './smartPlatform/details/tasks',
             name: '任务列表',
