@@ -103,8 +103,11 @@ class Survey extends React.Component {
                     value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}
                   />
                 </div>
-                <div>
-                  <div className='m_box'><Echart clickEvent update={data1} style={{ width: '100%', height: "510px" }} options={famProOPtion(this.state,data1,'pro')} /></div>
+                <div className={styles.echartCls}>
+                  <div className='m_box'>
+                    <p className={styles.proTip}>点击省份可查看该省份的学院及家族数据</p>
+                    <Echart clickEvent update={data1} style={{ width: '100%', height: "510px" }} options={famProOPtion(this.state,data1,'pro')} />
+                  </div>
                   <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,exam,'all')} /></div>
                   <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "510px" }} options={famProOPtion(this.state,data2,'fam')} /></div>
                   <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "510px" }} options={groupOPtion(this.state)} /> <p className={styles.checkMore} onClick={()=>console.log(1)}>查看更多</p></div>
