@@ -10,7 +10,6 @@ class IndexPage extends Component {
         <div className={styles.content}>
           <img src={homeImg} alt="首页" className={styles.homeImg} />
           <div className={styles.userDescription}>
-
             <img src={homeText} alt="首页文字" />
           </div>
         </div>
