@@ -24,6 +24,7 @@ class Survey extends React.Component {
     this.state = {
       beginDate: "2019-03-02",
       endDate:"2019-03-03",
+      tabId:'examPlan',
       name:'考试计划人数',
       legend:['人均服务老生','人均服务新生','老生考试计划人数','新生考试计划人数'],
       legendGroup:['新生考试计划人数/人均服务新生','老生触达人数/人均服务老生'],
@@ -62,18 +63,21 @@ class Survey extends React.Component {
   switchContent=(val)=>{
     if(val === 'examPlan'){
       this.setState({
+        tabId:"examPlan",
         name:'考试计划人数',
         legend:['人均服务老生','人均服务新生','老生考试计划人数','新生考试计划人数'],
         legendGroup:['新生考试计划人数/人均服务新生','老生触达人数/人均服务老生'],
       })
     }else if(val === 'examNotice'){
       this.setState({
+        tabId:"examNotice",
         name:'报考通知人数',
         legend:['老生触达率','新生触达率','应通知老生人数','应通知新生人数'],
         legendGroup:['新生应通知人数/新生触达率','老生应通知人数/老生触达率','未触达人数/未触达率']
       })
     }else if(val === 'examTicket'){
       this.setState({
+        tabId:"examTicket",
         name:'准考证填写',
         legend:['老生填写率','新生填写率','老生填写人数','新生填写人数'],
         legendGroup:['新生填写人数/新生填写率','老生填写人数/老生填写率','未填写人数/未填写率']
@@ -96,9 +100,9 @@ class Survey extends React.Component {
     console.log(dateString)
   };
   render() {
-    const {legend,name,endDate,beginDate} = this.state;
+    const {tabId,endDate,beginDate} = this.state;
     const { exam } = this.props;
-    const { dataList = {} ,mapInfo} = exam;
+    const { dataList = {} ,examTotal} = exam;
     const { data1 = {}, data2 = {} } = dataList;
     const tabData = [{name:'考试计划',id:'examPlan',data:[]},{name:'报考通知',id:'examNotice',data:[]},{name:'准考证填写',id:'examTicket',data:[]}];
 
@@ -112,11 +116,12 @@ class Survey extends React.Component {
                   <div style={{width:'928px',margin:'0 auto'}}>
                     <img src={staticMap} alt="" width='631' height='526' style={{margin:'29px 47px 20px 0'}}/>
                     <div className={styles.m_mapInfo}>
-                      <p className={styles.map_title}>全国{name}共：500000人</p>
-                      <p className={styles.map_txt}>{legend[0]}：2300</p>
-                      <p className={styles.map_txt}>{legend[1]}：2300</p>
-                      <p className={styles.map_txt}>{legend[2]}：2300</p>
-                      <p className={styles.map_txt}>{legend[3]}：2300</p>
+                      {
+                        // console.log(examTotal[tabId])
+                        examTotal[tabId]?examTotal[tabId].map((itemList,i)=>{
+                          return  <p key={itemList.name} className={i===0?styles.map_title:styles.map_txt}>{itemList.name}{itemList.value}</p>
+                        }):null
+                      }
                     </div>
                   </div>
                 </div>
