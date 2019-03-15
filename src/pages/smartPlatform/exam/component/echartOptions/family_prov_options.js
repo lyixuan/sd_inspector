@@ -1,9 +1,16 @@
-export function famProOPtion(param,data,id){
+// var ecConfig = require('echarts/config');
+
+export function famProOPtion(param,data,id,pro){
   let text='';
   if(id === 'pro'){
     text=`各省${param.name}`
   }else if(id === 'fam'){
-    text=`各家族${param.name}（集团）`
+    if(pro){
+      text=`家族${param.name}（${pro}）`
+    }else {
+      text=`各家族${param.name}（集团）`
+    }
+
   }
   return {
     title: {
@@ -16,15 +23,20 @@ export function famProOPtion(param,data,id){
       top: 18,
     },
     tooltip: {
+      trigger: 'axis',
+      axisPointer: { // 坐标轴指示器，坐标轴触发有效
+        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+      },
       backgroundColor:'#fff',
       textStyle: {
         align: 'left',
         color:'#052664',
         fontSize:12,
       },
-     padding: 15,
+      formatter:'<div style=" width:193px;height:120px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 0 16px ">{b}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人</div>',
+
+      padding: 15,
     },
-    // formatter:'<div style=" width:193px;height:120px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 0 16px ">{b}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人</div>',
     legend: {
       bottom: 20,
       textStyle: {

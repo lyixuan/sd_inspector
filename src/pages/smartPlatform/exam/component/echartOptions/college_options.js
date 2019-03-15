@@ -20,8 +20,7 @@ function commonOptions(params) {
     legend: {
       bottom: 20,
       textStyle: {
-        color: '#bdc0c6',
-        fontSize: 12
+        fontSize: '12px'
       },
       itemGap,
       itemWidth: 9,

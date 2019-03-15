@@ -17,13 +17,16 @@ export default class EchartsComponent extends React.Component {
   };
   initChart = () => {
     this.myChart = echarts.init(this.ID);
+    // console.log(this.myChart)
     this.drawChart();
   };
   drawChart(nextProps = this.props) {
     const { options } = nextProps;
+    this.myChart.clear();
     if (!this.myChart) {
       this.initChart();
     }
+    // this.myChart.resize();
     this.myChart.setOption(options);
   }
 
