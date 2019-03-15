@@ -22,7 +22,7 @@ class NewQualitySheet extends React.Component {
     this.state = {
       qualityNum:undefined,
       qualityType:'all',
-      dimensionId:undefined,
+      dimensionIdList:undefined,
       violationLevel:undefined,
       status:undefined,
       isWarn:'all',
@@ -53,8 +53,8 @@ class NewQualitySheet extends React.Component {
 
   };
   render() {
-    const {qualityNum,qualityType,dimensionId,violationLevel,status,isWarn} = this.state;
-    const {dimensionList = [],violationLevelList = [],dataSource,columns,loading} = this.props;
+    const {qualityNum,qualityType, dimensionIdList,violationLevel,status,isWarn} = this.state;
+    const {dimensionList = [],dataSource,columns,loading} = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -86,7 +86,7 @@ class NewQualitySheet extends React.Component {
               <div className={styles.gutterBox3}>
                 <span className={styles.gutterLabel1}>分维</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} allowClear placeholder="请选择"  value={dimensionId} onChange={(val)=>this.onFormChange(val,'dimensionId')}>
+                  <BISelect style={{width:230}} allowClear placeholder="请选择"  mode="multiple" showArrow maxTagCount={1}  value={ dimensionIdList} onChange={(val)=>this.onFormChange(val,' dimensionIdList')}>
                     {dimensionList.map(item => (
                       <Option key={item.id}>
                         {item.name}

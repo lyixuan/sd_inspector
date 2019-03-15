@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'dva';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
@@ -14,30 +13,19 @@ import styles from '../../style.less'
 const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
 
-@connect(({ newQuality }) => ({
-  newQuality,
-}))
-
 class NewQualitySheet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       qualityNum: undefined,
       dateRange: undefined,
-      dimensionId: null,
+       dimensionIdList: null,
       organization: undefined,
       status: undefined,
       violationLevel: undefined,
       operateName: undefined,
       qualityType: 'all',
     };
-  }
-  componentDidMount() {
-    // 获取select下拉数据
-    this.props.dispatch({
-      type: 'dataDetail/getExamList',
-      payload: { params: {} },
-    });
   }
   onFormChange = (value,vname)=>{
     this.setState({
@@ -61,7 +49,7 @@ class NewQualitySheet extends React.Component {
   };
 
   render() {
-    const {qualityNum,dateRange,organization,dimensionId,status,violationLevel,operateName,qualityType} = this.state;
+    const {qualityNum,dateRange,organization, dimensionIdList,status,violationLevel,operateName,qualityType} = this.state;
     const {dimensionList = [],dataSource,columns,loading} = this.props;
     return (
       <div className={styles.newSheetWrap}>
@@ -94,7 +82,7 @@ class NewQualitySheet extends React.Component {
               <div className={styles.gutterBox3}>
                 <span className={styles.gutterLabel1}>分维</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} allowClear placeholder="请选择"  value={dimensionId} onChange={(val)=>this.onFormChange(val,'dimensionId')}>
+                  <BISelect style={{width:230}} allowClear placeholder="请选择"  mode="multiple" showArrow maxTagCount={1} value={ dimensionIdList} onChange={(val)=>this.onFormChange(val,' dimensionIdList')}>
                     {dimensionList.map(item => (
                       <Option key={item.id}>
                         {item.name}
