@@ -14,7 +14,7 @@ export default {
     *province({ payload }, { call, put }) {
       const data = yield call(province, { ...payload });
       if (data.code === 20000) {
-        yield put({ type: 'save' , payload: { dataList: data.data },});
+        yield put({ type: 'saveDataList' , payload: { dataList: data.data },});
       } else {
         message.error(data.msg);
       }
@@ -23,7 +23,7 @@ export default {
       const response = yield call(examTotal);
       if (response.code === 20000) {
         yield put({
-          type: 'saveDataList',
+          type: 'saveExamTotal',
           payload: { examTotal: response.data },
         })
 
@@ -46,7 +46,7 @@ export default {
   },
 
   reducers: {
-    saveDataList(state, { payload }) {
+    saveExamTotal(state, { payload }) {
       const { examTotal } = payload;
       const data = {
         examNotice:[],
@@ -120,6 +120,25 @@ export default {
         }
       ];
       return { ...state, examTotal:data };
+    },
+    saveDataList(state, { payload }) {
+      const { dataList } = payload;
+      const data = {
+        province:[],
+        data1:[],
+        data2:[],
+        data3:[],
+        data4:[],
+      };
+      dataList.map(item=>{
+        data.province.push(item.province);
+        data.data1.push(item.oldAvgServiceNum);
+        data.data2.push(item.newAvgServiceNum);
+        data.data3.push(item.oldExamPlanNum);
+        data.data4.push(item.newExamPlanNum);
+        return data
+      });
+      return { ...state, dataList:data };
     },
     save(state, { payload }) {
 

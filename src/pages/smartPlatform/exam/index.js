@@ -97,12 +97,11 @@ class Survey extends React.Component {
       beginDate:dateString[0],
       endDate:dateString[1],
     });
-    console.log(dateString)
   };
   render() {
     const {tabId,endDate,beginDate} = this.state;
     const { exam } = this.props;
-    const { dataList = {} ,examTotal} = exam;
+    const { dataList = {} ,examTotal={}} = exam;
     const { data1 = {}, data2 = {} } = dataList;
     const tabData = [{name:'考试计划',id:'examPlan',data:[]},{name:'报考通知',id:'examNotice',data:[]},{name:'准考证填写',id:'examTicket',data:[]}];
 
@@ -117,7 +116,6 @@ class Survey extends React.Component {
                     <img src={staticMap} alt="" width='631' height='526' style={{margin:'29px 47px 20px 0'}}/>
                     <div className={styles.m_mapInfo}>
                       {
-                        // console.log(examTotal[tabId])
                         examTotal[tabId]?examTotal[tabId].map((itemList,i)=>{
                           return  <p key={itemList.name} className={i===0?styles.map_title:styles.map_txt}>{itemList.name}{itemList.value}</p>
                         }):null
