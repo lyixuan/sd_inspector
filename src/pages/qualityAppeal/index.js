@@ -8,8 +8,18 @@ class qualityAppeal extends React.Component {
   componentDidMount() {
     // 获取组织
     this.props.dispatch({
-      type: 'qualityAppealHome/orgList',
+      type: 'qualityAppealHome/getOrgMapList',
       payload: { params: {} },
+    });
+    // 获取分维（客诉）
+    this.props.dispatch({
+      type: 'qualityAppealHome/getOrgMapList',
+      payload: { params: {qualityType:1} },
+    });
+    // 获取分维（班主任）
+    this.props.dispatch({
+      type: 'qualityAppealHome/getOrgMapList',
+      payload: { params: {qualityType:2} },
     });
   }
   render() {

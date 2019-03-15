@@ -12,10 +12,10 @@ export default {
     *getQualityList({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(getQualityList, params);
-      const orgList = result.data || [];
+      const qualityList = result.data || [];
 
       if (result.code === 20000) {
-        yield put({ type: 'save', payload: { orgList } });
+        yield put({ type: 'save', payload: { qualityList } });
       } else {
         message.error(result.msgDetail);
       }

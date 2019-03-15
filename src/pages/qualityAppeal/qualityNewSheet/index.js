@@ -56,7 +56,8 @@ const columns = [
   },
 ];
 
-@connect(({ qualityNewSheet }) => ({
+@connect(({ qualityAppealHome,qualityNewSheet }) => ({
+  qualityAppealHome,
   qualityNewSheet,
 }))
 
@@ -81,9 +82,16 @@ class NewQualitySheetIndex extends React.Component {
   };
 
   render() {
+    const {orgList = [], dimensionList1 = [],dimensionList2 = []} = this.props.qualityAppealHome;
     return (
       <>
-        <Page {...this.props} columns={columns} queryData={()=>this.queryData()} />
+        <Page
+          {...this.props}
+          columns={columns}
+          orgList={orgList}
+          dimensionList1 = {dimensionList1}
+          dimensionList2 = {dimensionList2}
+          queryData={()=>this.queryData()} />
       </>
     );
   }
