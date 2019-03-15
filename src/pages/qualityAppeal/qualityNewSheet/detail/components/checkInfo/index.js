@@ -15,7 +15,7 @@ export default class CheckInfoComponent extends React.Component {
     console.log(this.state.data);
     return (
       <section className={styles.personInfoCon}>
-        <h1>质检审核</h1>
+        <span className={styles.secctionTitle}>质检审核</span>
         {this.state.data.map(item => (
           <div>
             <div key={item.id} className={styles.container}>

@@ -4,8 +4,6 @@
   flex-direction: column;
   border-bottom: 1px solid #d5dae2;
   padding-bottom: 10px;
-  font-size: 14px;
-  color: #262626;
 }
 .container {
   display: flex;
@@ -31,7 +29,7 @@
 .secCol :last-child {
   flex: 1;
 }
-h1 {
+.secctionTitle {
   height: 43px;
   background-color: #f6f7fa;
   line-height: 43px;
