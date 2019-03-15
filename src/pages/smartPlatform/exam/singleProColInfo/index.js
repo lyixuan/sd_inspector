@@ -7,8 +7,8 @@ import styles from './style.less';
 import {blendChartOptions}  from '../component/echartOptions/college_options';
 import {famProOPtion}  from '../component/echartOptions/family_prov_options';
 
-@connect(({ exam, loading }) => ({
-  exam,
+@connect(({ examOrg, loading }) => ({
+  examOrg,
   loading: loading.models.exam,
 }))
 class Survey extends React.Component {
@@ -23,19 +23,31 @@ class Survey extends React.Component {
 
   }
   componentDidMount() {
-
+    this.provinceOrg();
   }
+  provinceOrg = () => {
+    const params={
+      province:'北京',
+      orgType:'college',
+      beginDate:'2019-03-01',
+      endDate:'2019-03-08',
+    }
+    this.props.dispatch({
+      type: 'examOrg/provinceOrg',
+      payload: params,
+    });
+  };
   onChange = (e) => {
     this.setState({
       value: e.target.value,
     });
   }
   render() {
-    const { exam } = this.props;
+    const { examOrg } = this.props;
     const {value} = this.state;
-    const { dataList = {} } = exam;
+    const { dataList = {} } = examOrg;
     const { data1 = {}, data2 = {} } = dataList;
-    const newOptions =  value===1?blendChartOptions(this.state,exam,'single','山西'):famProOPtion(this.state,data2,'fam','山西');
+    const newOptions =  value===1?blendChartOptions(this.state,examOrg,'single','山西'):famProOPtion(this.state,data2,'fam','山西');
     return (
       <Spin spinning={false}>
         <div className={styles.m_container}>

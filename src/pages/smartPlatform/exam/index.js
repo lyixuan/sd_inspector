@@ -10,6 +10,7 @@ import {blendChartOptions}  from './component/echartOptions/college_options';
 import {famProOPtion}  from './component/echartOptions/family_prov_options';
 import {groupOPtion}  from './component/echartOptions/group_options';
 import moment from 'moment/moment';
+import BIButton from '@/ant_components/BIButton';
 
 const  { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -21,8 +22,8 @@ class Survey extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      beginDate:'',
-      endDate:'',
+      beginDate: "2019-03-02",
+      endDate:"2019-03-03",
       name:'考试计划人数',
       legend:['人均服务老生','人均服务新生','老生考试计划人数','新生考试计划人数'],
       legendGroup:['新生考试计划人数/人均服务新生','老生触达人数/人均服务老生'],
@@ -30,8 +31,34 @@ class Survey extends React.Component {
 
   }
   componentDidMount() {
-
+    this.examTotal();
+    this.province();
+    this.examOrg('college');
+    this.examOrg('family');
+    this.examOrg('group');
   }
+  examTotal = () => {
+    this.props.dispatch({
+      type: 'exam/examTotal',
+    })
+  };
+  province = () => {
+    const {beginDate,endDate}=this.state;
+    this.props.dispatch({
+      type: 'exam/province',
+      payload: {beginDate,endDate},
+    })
+  };
+  examOrg = (orgType) => {
+    const {beginDate,endDate}=this.state;
+    const param = {
+      beginDate,endDate,orgType
+    };
+    this.props.dispatch({
+      type: 'exam/examOrg',
+      payload: param,
+    })
+  };
   switchContent=(val)=>{
     if(val === 'examPlan'){
       this.setState({
@@ -71,7 +98,7 @@ class Survey extends React.Component {
   render() {
     const {legend,name,endDate,beginDate} = this.state;
     const { exam } = this.props;
-    const { dataList = {} } = exam;
+    const { dataList = {} ,mapInfo} = exam;
     const { data1 = {}, data2 = {} } = dataList;
     const tabData = [{name:'考试计划',id:'examPlan',data:[]},{name:'报考通知',id:'examNotice',data:[]},{name:'准考证填写',id:'examTicket',data:[]}];
 
@@ -110,7 +137,10 @@ class Survey extends React.Component {
                   </div>
                   <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,exam,'all')} /></div>
                   <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "510px" }} options={famProOPtion(this.state,data2,'fam')} /></div>
-                  <div className='m_box'><Echart update={data1} style={{ width: '100%', height: "510px" }} options={groupOPtion(this.state)} /> <p className={styles.checkMore} onClick={()=>console.log(1)}>查看更多</p></div>
+                  <div className='m_box'>
+                    <Echart update={data1} style={{ width: '100%', height: "410px" }} options={groupOPtion(this.state)} />
+                    <BIButton type="primary" style={{marginBottom:'20px'}} onClick={()=>console.log(1)}>查看更多</BIButton>
+                  </div>
                 </div>
               </div>
             </BITabs.TabPane>)

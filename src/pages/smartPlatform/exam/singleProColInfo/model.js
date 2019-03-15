@@ -1,8 +1,8 @@
 import { message } from 'antd/lib/index';
-import { queryHistogramData, getMapInfo } from './services';
+import { provinceOrg } from './services';
 
 export default {
-  namespace: 'exam',
+  namespace: 'examOrg',
 
   state: {
     dataList: [],
@@ -10,33 +10,18 @@ export default {
   },
 
   effects: {
-    *queryHistogramData({ payload }, { call, put }) {
-      const data = yield call(queryHistogramData, { ...payload });
+    *provinceOrg({ payload }, { call, put }) {
+      const data = yield call(provinceOrg, { ...payload });
       if (data.code === 20000) {
-        yield put({ type: 'saveDataList' , payload: { dataList: data.data },});
+        yield put({ type: 'save' , payload: { dataList: data.data },});
       } else {
         message.error(data.msg);
       }
     },
-    *getMapInfo(_, { call, put }) {
-      const response = yield call(getMapInfo);
-      if (response.code === 20000) {
-        yield put({
-          type: 'saveMapInfo',
-          payload: { mapInfo: response.data },
-        })
-
-      } else {
-        message.error(response.msg)
-      }
-    }
   },
 
   reducers: {
-    saveDataList(state, { payload }) {
-      const { dataList } = payload;
-    },
-    saveMapInfo(state, { payload }) {
+    save(state, { payload }) {
       return { ...state, ...payload };
     }
   },

@@ -87,7 +87,6 @@ export function famProOPtion(param,data,id,pro){
       data: [19325, 23438, 31000, 121594, 134141, 681807]
     }, {
       type: 'bar',
-      // barGap:'-100%',
       // barWidth: 25,
       label: {
         show: true,

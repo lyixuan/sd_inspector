@@ -66,7 +66,7 @@ function commonOptions(params) {
   };
 }
 export function blendChartOptions(param,data,id,pro) {
-  console.log(param)
+  // console.log(param)
   let text='';
   if(id === 'all'){
     text = `各学院${param.name}（集团）`

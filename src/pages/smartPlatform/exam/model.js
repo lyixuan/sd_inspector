@@ -1,29 +1,43 @@
 import { message } from 'antd/lib/index';
-import { queryHistogramData, getMapInfo } from './services';
+import { province, examTotal,examOrg } from './services';
 
 export default {
   namespace: 'exam',
 
   state: {
     dataList: [],
-    mapInfo: [],
+    examTotal: [],
+    examOrg: [],
   },
 
   effects: {
-    *queryHistogramData({ payload }, { call, put }) {
-      const data = yield call(queryHistogramData, { ...payload });
+    *province({ payload }, { call, put }) {
+      console.log({...payload})
+      const data = yield call(province, { ...payload });
       if (data.code === 20000) {
-        yield put({ type: 'saveDataList' , payload: { dataList: data.data },});
+        yield put({ type: 'save' , payload: { dataList: data.data },});
       } else {
         message.error(data.msg);
       }
     },
-    *getMapInfo(_, { call, put }) {
-      const response = yield call(getMapInfo);
+    *examTotal(_, { call, put }) {
+      const response = yield call(examTotal);
       if (response.code === 20000) {
         yield put({
-          type: 'saveMapInfo',
-          payload: { mapInfo: response.data },
+          type: 'save',
+          payload: { examTotal: response.data },
+        })
+
+      } else {
+        message.error(response.msg)
+      }
+    },
+    *examOrg({payload}, { call, put }) {
+      const response = yield call(examOrg, payload);
+      if (response.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: { examOrg: response.data },
         })
 
       } else {
@@ -36,7 +50,7 @@ export default {
     saveDataList(state, { payload }) {
       const { dataList } = payload;
     },
-    saveMapInfo(state, { payload }) {
+    save(state, { payload }) {
       return { ...state, ...payload };
     }
   },
