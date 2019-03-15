@@ -4,13 +4,13 @@ import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
 import BIButtonYellow from '@/components/BIButtonYellow';
-import BIButtonBlue from '@/components/BIButtonBlue';
-import BIDatePicker from '@/ant_components/BIDatePicker';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
-import { BiFilter, DeepCopy } from '@/utils/utils';
+import { BiFilter } from '@/utils/utils';
 import { Row, Col } from 'antd';
 import styles from '../../style.less'
+import { ISWARN } from '@/utils/constants';
+const { Option } = BISelect;
 
 @connect(({ newQuality }) => ({
   newQuality,
@@ -21,11 +21,11 @@ class NewQualitySheet extends React.Component {
     super(props);
     this.state = {
       qualityNum:undefined,
-      qualityType:undefined,
+      qualityType:'all',
       dimensionId:undefined,
       violationLevel:undefined,
       status:undefined,
-      isWarn:undefined,
+      isWarn:'all',
     };
   }
   componentDidMount() {
@@ -35,6 +35,11 @@ class NewQualitySheet extends React.Component {
       payload: { params: {} },
     });
   }
+  onFormChange = (value,vname)=>{
+    this.setState({
+      [vname]:value
+    })
+  };
   search = ()=>{
     this.props.queryData();
   };
@@ -49,7 +54,7 @@ class NewQualitySheet extends React.Component {
   };
   render() {
     const {qualityNum,qualityType,dimensionId,violationLevel,status,isWarn} = this.state;
-    const {violationLevelList = [],dataSource,columns,loading} = this.props;
+    const {dimensionList = [],violationLevelList = [],dataSource,columns,loading} = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -59,14 +64,21 @@ class NewQualitySheet extends React.Component {
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
                 <span className={styles.gutterLabel1}>质检单号</span>:
-                <span className={styles.gutterForm}><BIInput placeholder="请输入" value={qualityNum}/></span>
+                <span className={styles.gutterForm}><BIInput placeholder="请输入" allowClear value={qualityNum} onChange={(e)=>this.onFormChange(e.target.value,'qualityNum')}/></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
                 <span className={styles.gutterLabel1}>质检类型</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={qualityType} options={violationLevelList} />
+                  <BISelect style={{width:230}} placeholder="请选择" value={qualityType} onChange={(val)=>this.onFormChange(val,'qualityType')}>
+                    <Option key={'all'}>全部</Option>
+                    {BiFilter('QUALITY_TYPE').map(item => (
+                      <Option key={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </BISelect>
                 </span>
               </div>
             </Col>
@@ -74,7 +86,13 @@ class NewQualitySheet extends React.Component {
               <div className={styles.gutterBox3}>
                 <span className={styles.gutterLabel1}>分维</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={dimensionId} options={violationLevelList} />
+                  <BISelect style={{width:230}} allowClear placeholder="请选择"  value={dimensionId} onChange={(val)=>this.onFormChange(val,'dimensionId')}>
+                    {dimensionList.map(item => (
+                      <Option key={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </BISelect>
                 </span>
               </div>
             </Col>
@@ -85,7 +103,13 @@ class NewQualitySheet extends React.Component {
               <div className={styles.gutterBox1}>
                 <span className={styles.gutterLabel1}>违规等级</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={violationLevel} options={violationLevelList} />
+                  <BISelect style={{width:230}} placeholder="请选择"  allowClear mode="multiple" showArrow maxTagCount={1}  value={violationLevel} onChange={(val)=>this.onFormChange(val,'violationLevel')}>
+                    {BiFilter('VIOLATION_LEVEL').map(item => (
+                      <Option key={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </BISelect>
                 </span>
               </div>
             </Col>
@@ -93,7 +117,13 @@ class NewQualitySheet extends React.Component {
               <div className={styles.gutterBox2}>
                 <span className={styles.gutterLabel1}>申诉状态</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={status} options={violationLevelList} />
+                  <BISelect style={{width:230}} allowClear value={status} placeholder="请选择" mode="multiple" showArrow maxTagCount={1} onChange={(val)=>this.onFormChange(val,'status')}>
+                    {BiFilter('APPEAL_STATE').map(item => (
+                      item.type===2 && <Option key={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </BISelect>
                 </span>
               </div>
             </Col>
@@ -101,7 +131,14 @@ class NewQualitySheet extends React.Component {
               <div className={styles.gutterBox3}>
                 <span className={styles.gutterLabel1}>是否警告</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={isWarn} options={violationLevelList} />
+                  <BISelect style={{width:230}} placeholder="请选择" value={isWarn} onChange={(val)=>this.onFormChange(val,'isWarn')}>
+                    <Option key={'all'}>全部</Option>
+                    {BiFilter('ISWARN').map(item => (
+                      <Option key={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </BISelect>
                 </span>
               </div>
             </Col>

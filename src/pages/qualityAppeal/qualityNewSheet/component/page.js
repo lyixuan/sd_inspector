@@ -8,10 +8,11 @@ import BIButtonBlue from '@/components/BIButtonBlue';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
-import { BiFilter, DeepCopy } from '@/utils/utils';
+import { BiFilter } from '@/utils/utils';
 import { Row, Col } from 'antd';
 import styles from '../../style.less'
 const { BIRangePicker } = BIDatePicker;
+const { Option } = BISelect;
 
 @connect(({ newQuality }) => ({
   newQuality,
@@ -23,12 +24,12 @@ class NewQualitySheet extends React.Component {
     this.state = {
       qualityNum: undefined,
       dateRange: undefined,
-      dimensionId: undefined,
+      dimensionId: null,
       organization: undefined,
       status: undefined,
       violationLevel: undefined,
       operateName: undefined,
-      qualityType: undefined,
+      qualityType: 'all',
     };
   }
   componentDidMount() {
@@ -38,6 +39,11 @@ class NewQualitySheet extends React.Component {
       payload: { params: {} },
     });
   }
+  onFormChange = (value,vname)=>{
+    this.setState({
+      [vname]:value
+    })
+  };
   search = ()=>{
     this.props.queryData();
   };
@@ -56,7 +62,7 @@ class NewQualitySheet extends React.Component {
 
   render() {
     const {qualityNum,dateRange,organization,dimensionId,status,violationLevel,operateName,qualityType} = this.state;
-    const {violationLevelList = [],dataSource,columns,loading} = this.props;
+    const {dimensionList = [],dataSource,columns,loading} = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -66,14 +72,21 @@ class NewQualitySheet extends React.Component {
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
                 <span className={styles.gutterLabel}>质检单号</span>:
-                <span className={styles.gutterForm}><BIInput placeholder="请输入" value={qualityNum}/></span>
+                <span className={styles.gutterForm}><BIInput placeholder="请输入" allowClear value={qualityNum} onChange={(e)=>this.onFormChange(e.target.value,'qualityNum')}/></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
                 <span className={styles.gutterLabel1}>质检类型</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={qualityType} options={violationLevelList} />
+                  <BISelect style={{width:230}} placeholder="请选择" value={qualityType} onChange={(val)=>this.onFormChange(val,'qualityType')}>
+                    <Option key={'all'}>全部</Option>
+                    {BiFilter('QUALITY_TYPE').map(item => (
+                      <Option key={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </BISelect>
                 </span>
               </div>
             </Col>
@@ -81,7 +94,13 @@ class NewQualitySheet extends React.Component {
               <div className={styles.gutterBox3}>
                 <span className={styles.gutterLabel1}>分维</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={dimensionId} options={violationLevelList} />
+                  <BISelect style={{width:230}} allowClear placeholder="请选择"  value={dimensionId} onChange={(val)=>this.onFormChange(val,'dimensionId')}>
+                    {dimensionList.map(item => (
+                      <Option key={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </BISelect>
                 </span>
               </div>
             </Col>
@@ -91,14 +110,20 @@ class NewQualitySheet extends React.Component {
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
                 <span className={styles.gutterLabel}>质检扣分日期</span>:
-                <span className={styles.gutterForm}><BIRangePicker value={dateRange} /></span>
+                <span className={styles.gutterForm}><BIRangePicker allowClear value={dateRange} onChange={(val)=>this.onFormChange(val,'dateRange')}/></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
                 <span className={styles.gutterLabel1}>质检状态</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={status} options={violationLevelList} />
+                  <BISelect style={{width:230}} placeholder="请选择"  allowClear mode="multiple" showArrow maxTagCount={1}  value={status} onChange={(val)=>this.onFormChange(val,'status')}>
+                    {BiFilter('QUALITY_STATE').map(item => (
+                      <Option key={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </BISelect>
                 </span>
               </div>
             </Col>
@@ -106,7 +131,13 @@ class NewQualitySheet extends React.Component {
               <div className={styles.gutterBox3}>
                 <span className={styles.gutterLabel1}>违规等级</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={violationLevel} options={violationLevelList} />
+                  <BISelect style={{width:230}} placeholder="请选择"  allowClear mode="multiple" showArrow maxTagCount={1}  value={violationLevel} onChange={(val)=>this.onFormChange(val,'violationLevel')}>
+                    {BiFilter('VIOLATION_LEVEL').map(item => (
+                      <Option key={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </BISelect>
                 </span>
               </div>
             </Col>
@@ -117,14 +148,16 @@ class NewQualitySheet extends React.Component {
               <div className={styles.gutterBox1}>
                 <span className={styles.gutterLabel}>归属组织</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={organization} options={violationLevelList} />
+                  <BISelect style={{width:230}} placeholder="请选择" allowClear value={organization} onChange={(val)=>this.onFormChange(val,'organization')}>
+                    <Option key={'all'}>全部</Option>
+                  </BISelect>
                 </span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
                 <span className={styles.gutterLabel1}>质检发起人</span>:
-                <span className={styles.gutterForm}><BIInput placeholder="请输入" value={operateName}/></span>
+                <span className={styles.gutterForm}><BIInput allowClear placeholder="请输入" value={operateName} onChange={(e)=>this.onFormChange(e.target.value,'operateName')}/></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
