@@ -33,6 +33,15 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
       text=`各家族${param.name}（集团）`
     }
   }
+  const _html =function(i) {
+    return `<div>
+<div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.province[i]}${param.name}:共1000人</div>
+<div style="margin-bottom: 8px">${ myLegend[0]}:${dataAll.data1[i]}${unit}</div>
+<div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
+<div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
+<div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
+</div>`
+  } ;
   return {
     title: {
       text,
@@ -44,7 +53,7 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
       top: 18,
     },
     tooltip: {
-      trigger: 'axis',
+      // trigger: 'axis',
       axisPointer: { // 坐标轴指示器，坐标轴触发有效
         type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
       },
@@ -54,8 +63,10 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
         color:'#052664',
         fontSize:12,
       },
-      formatter:'<div style=" width:193px;height:120px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 0 16px ">{b}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人</div>',
-
+      // formatter:'<div style=" width:193px;height:120px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 0 16px ">{b}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人</div>',
+      formatter:function(params) {
+        return `<div style=" box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 3px 3px 16px ">${_html(params.dataIndex)}</div>`;
+      },
       padding: 15,
     },
     legend: {
