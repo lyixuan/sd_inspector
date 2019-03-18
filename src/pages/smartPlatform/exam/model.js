@@ -5,7 +5,10 @@ export default {
   namespace: 'exam',
 
   state: {
-    dataList: [],
+    porDataList: [],
+    famDataList: [],
+    colDataList: [],
+    groDataList: [],
     examTotal: [],
     examOrg: [],
   },
@@ -14,7 +17,7 @@ export default {
     *province({ payload }, { call, put }) {
       const data = yield call(province, { ...payload });
       if (data.code === 20000) {
-        yield put({ type: 'saveDataList' , payload: { dataList: data.data },});
+        yield put({ type: 'saveDataList' , payload: { porDataList: data.data },});
       } else {
         message.error(data.msg);
       }
@@ -32,11 +35,20 @@ export default {
       }
     },
     *examOrg({payload}, { call, put }) {
+      const {orgType} = payload;
+      let data = {};
       const response = yield call(examOrg, payload);
       if (response.code === 20000) {
+        if(orgType === 'college'){
+          data = { colDataList: response.data }
+        }else  if(orgType === 'family'){
+          data = { famDataList: response.data };
+        }else {
+          data = { groDataList: response.data };
+        }
         yield put({
           type: 'save',
-          payload: { examOrg: response.data },
+          payload:data,
         })
 
       } else {
@@ -122,7 +134,7 @@ export default {
       return { ...state, examTotal:data };
     },
     saveDataList(state, { payload }) {
-      const { dataList } = payload;
+      const { porDataList } = payload;
       const data = {
         province:[],
         data1:[],
@@ -130,7 +142,7 @@ export default {
         data3:[],
         data4:[],
       };
-      dataList.map(item=>{
+      porDataList.map(item=>{
         data.province.push({name:item.province,value:10000});
         data.data1.push(item.oldAvgServiceNum);
         data.data2.push(item.newAvgServiceNum);
@@ -138,7 +150,7 @@ export default {
         data.data4.push(item.newExamPlanNum);
         return data
       });
-      return { ...state, dataList:data };
+      return { ...state, porDataList:data };
     },
     save(state, { payload }) {
 
