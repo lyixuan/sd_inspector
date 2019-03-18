@@ -26,6 +26,7 @@ export default {
       const mapInfo = {
         examNotice:{
           province:[],
+          familyName:[],
           data3:[],
           data4:[],
           data1:[],
@@ -33,6 +34,7 @@ export default {
         },
         examPlan:{
           province:[],
+          familyName:[],
           data3:[],
           data4:[],
           data1:[],
@@ -40,6 +42,7 @@ export default {
         },
         examTicket:{
           province:[],
+          familyName:[],
           data3:[],
           data4:[],
           data1:[],
@@ -48,6 +51,7 @@ export default {
       };
       dataList.forEach((v)=>{
         mapInfo.examNotice.province.push(v.collegeName);
+        mapInfo.examNotice.familyName.push(v.familyName);
         mapInfo.examNotice.data1.push(`${(v.oldReadRatio*100).toFixed(2)}`);
         mapInfo.examNotice.data2.push(`${(v.newReadRatio*100).toFixed(2)}`);
         mapInfo.examNotice.data3.push(v.oldReadNum);
@@ -55,6 +59,7 @@ export default {
       });
       dataList.forEach((v)=>{
         mapInfo.examPlan.province.push(v.collegeName);
+        mapInfo.examPlan.familyName.push(v.familyName);
         mapInfo.examPlan.data1.push(v.oldAvgServiceNum);
         mapInfo.examPlan.data2.push(v.newAvgServiceNum);
         mapInfo.examPlan.data3.push(v.oldExamPlanNum);
@@ -62,6 +67,7 @@ export default {
       });
       dataList.forEach((v)=>{
         mapInfo.examTicket.province.push(v.collegeName);
+        mapInfo.examTicket.familyName.push(v.familyName);
         mapInfo.examTicket.data1.push(`${(v.oldAdmissionFillRatio*100).toFixed(2)}`);
         mapInfo.examTicket.data2.push(`${(v.newAdmissionFillRatio*100).toFixed(2)}`);
         mapInfo.examTicket.data3.push(v.oldAdmissionFillNum);

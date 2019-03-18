@@ -14,6 +14,7 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
   * */
   const emptyData = {
     province:[],
+    yName:[],
     data1:[],
     data2:[],
     data3:[],
@@ -21,6 +22,15 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
   };
   const myLegend = pro ? param[`legend_${type}`]: param.legend;
   const dataAll = mapInfo && mapInfo[type] ? mapInfo[type] : emptyData;
+  dataAll.yName = [];
+  dataAll.province.forEach((v,i)=>{
+    const familyName = dataAll.familyName?dataAll.familyName:undefined;
+    if(familyName){
+      dataAll.yName.push({name:`${v}|${familyName[i]}`,value:400})
+    }else {
+      dataAll.yName.push({name:`${v}`,value:400})
+    }
+  });
   let text='';
   if(id === 'pro'){
     // 省级查询
@@ -35,7 +45,7 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
   }
   const _html =function(i) {
     return `<div>
-<div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.province[i]}${param.name}:共1000人</div>
+<div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.yName[i]}${param.name}:共1000人</div>
 <div style="margin-bottom: 8px">${ myLegend[0]}:${dataAll.data1[i]}${unit}</div>
 <div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
 <div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
@@ -130,7 +140,7 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
         color:'#000',
         fontSize:'14px'
       },
-      data:  dataAll.province
+      data:  dataAll.yName
     }, {
       name:   myLegend[2],
       type: 'bar',
