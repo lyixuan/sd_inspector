@@ -7,20 +7,20 @@ export function groupOPtion(param,data){
     if(isEmpty(data3)){
       return `<div>
 <div style="color:#052664;text-align:center;font-size:14px;width:183px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataPro[i].name}</div>
-<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data2[i].name}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data2[i].value}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data1[i].name}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data1[i].value}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[0]}:${data1[i].name}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[1]}:${data1[i].value}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data1[i].name}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data1[i].value}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data2[i].name}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data2[i].value}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[0]}:${data3[i].name}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[1]}:${data3[i].value}人</div>
 </div>`
     }else {
       return `<div>
 <div style="color:#052664;text-align:center;font-size:14px;width:183px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataPro[i].name}</div>
-<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data2[i].name}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data2[i].value}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data1[i].name}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data1[i].value}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data1[i].name}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data1[i].value}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data2[i].name}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data2[i].value}人</div>
 </div>`
     }
 
@@ -137,6 +137,7 @@ export function groupOPtion(param,data){
     yAxis: {
       type: 'category',
       show:false,
+      inverse:true,
     },
     series: [
       {

@@ -34,25 +34,25 @@ class Survey extends React.Component {
   }
   componentDidMount() {
     this.examTotal();
-    this.province();
-    this.examOrg('college');
-    this.examOrg('family');
-    this.examOrg('group');
+    this.province({ beginDate: "2019-03-02", endDate:"2019-03-03"});
+    this.examOrg('college',{ beginDate: "2019-03-02", endDate:"2019-03-03"});
+    this.examOrg('family',{ beginDate: "2019-03-02", endDate:"2019-03-03"});
+    this.examOrg('group',{ beginDate: "2019-03-02", endDate:"2019-03-03"});
   }
   examTotal = () => {
     this.props.dispatch({
       type: 'exam/examTotal',
     })
   };
-  province = () => {
-    const {beginDate,endDate}=this.state;
+  province = (param) => {
+    const {beginDate,endDate}=param;
     this.props.dispatch({
       type: 'exam/province',
       payload: {beginDate,endDate},
     })
   };
-  examOrg = (orgType) => {
-    const {beginDate,endDate}=this.state;
+  examOrg = (orgType,params) => {
+    const {beginDate,endDate}=params;
     const param = {
       beginDate,endDate,orgType
     };
@@ -93,10 +93,15 @@ class Survey extends React.Component {
   };
   // 日期修改
   dateChange=(value, dateString)=> {
-    this.setState({
+    const date = {
       beginDate:dateString[0],
       endDate:dateString[1],
-    });
+    };
+    this.setState(date);
+    this.province(date);
+    this.examOrg('college',date);
+    this.examOrg('family',date);
+    this.examOrg('group',date);
   };
   getMoreData = ()=>{
     const {beginDate,endDate}=this.state;
@@ -156,7 +161,7 @@ class Survey extends React.Component {
                     <p className={styles.proTip}>点击省份可查看该省份的学院及家族数据</p>
                     <Echart clickEvent={(e)=>this.eConsole({type:tabId,endDate,beginDate},e)} update={porDataList} style={{ width: '100%', height: "1500px" }} options={famProOPtion(this.state,porDataList,'pro',undefined,unit,this.state.tabId)} />
                   </div>
-                  <div className='m_box'><Echart update={porDataList} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,colDataList,'all',undefined,unit,this.state.tabId)} /></div>
+                  <div className='m_box'><Echart update={colDataList} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,colDataList,'all',undefined,unit,this.state.tabId)} /></div>
                   <div className='m_box'><Echart update={famDataMap} style={{ width: '100%', height:"1700px" }} options={famProOPtion(this.state,famDataMap,'fam',undefined,unit,this.state.tabId)} /></div>
                   <div className='m_box'>
                     <Echart update={`${JSON.stringify(groDataList)}${isShowAll}`} style={sty} options={groupOPtion(this.state,groDataList)} />
