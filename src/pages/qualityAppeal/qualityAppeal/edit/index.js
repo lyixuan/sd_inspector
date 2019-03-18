@@ -12,7 +12,7 @@ class EditAppeal extends React.Component {
       <div className={styles.editAppeal}>
         <div className={styles.editBox}>
           <div className={styles.title}>SOP审核</div>
-          <Row className="gutter-row">
+          <Row className="gutter-row2">
             <Col span={24} className="editRow">
               <div className={styles.label}>审核结果：</div>
               <div className={styles.content}>
@@ -23,7 +23,7 @@ class EditAppeal extends React.Component {
               </div>
             </Col>
           </Row>
-          <Row className="gutter-row">
+          <Row className="gutter-row2">
             <Col span={24} className="editRow">
               <div className={styles.label}>审核说明：</div>
               <div className={styles.content}>
