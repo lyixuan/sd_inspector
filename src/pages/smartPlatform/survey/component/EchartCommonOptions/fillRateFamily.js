@@ -19,18 +19,19 @@ export default class SelfProgress extends React.Component {
     return Math.max.apply(null, dataList.map(item => item.per));
   }
   renderPercent = (per) => {
-    const { dataList } = this.props;
-    let maxData = dataList.length > 0 ? this.chooseMaxData() : 0;
-    if (maxData === 0) {
-      return 0
-    }
-    // 处理非100
-    if (maxData / 5 < 1) {
-      maxData = 5;
-    } else if (maxData / 5 >= 1 && maxData / 5 < 20) {
-      maxData = (maxData / 5 + 1) * 5;
-    }
-    return Number(per) / maxData * 100;
+    // const { dataList } = this.props;
+    // let maxData = dataList.length > 0 ? this.chooseMaxData() : 0;
+    // if (maxData === 0) {
+    //   return 0
+    // }
+    // // 处理非100
+    // if (maxData / 5 < 1) {
+    //   maxData = 5;
+    // } else if (maxData / 5 >= 1 && maxData / 5 < 20) {
+    //   maxData = (maxData / 5 + 1) * 5;
+    // }
+    // return Number(per) / maxData * 100;
+    return Number(per)
   }
   render() {
     const { dataList, isEmpty } = this.props;
@@ -46,7 +47,7 @@ export default class SelfProgress extends React.Component {
                   percent={this.renderPercent(item.per)}
                   strokeColor={item.color ? item.color : '#52c9c2'}
                   strokeWidth={20}
-                  format={percent => item.per.toFixed(2) + '%'}
+                  format={percent => percent.toFixed(2) + '%'}
                 />
               </div>
             )

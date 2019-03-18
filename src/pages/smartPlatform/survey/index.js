@@ -110,7 +110,7 @@ class Survey extends React.Component {
       ...item,
       name: `${item.collegeName}|${item.familyName}`,
       per: (item.admissionFillRatio || 0) * 100,
-      color: 'ffaa4d'
+      color: '#52C9C2'
     }));
   }
   handleCollegeExamOrgData = (data = []) => {
