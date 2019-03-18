@@ -1,39 +1,40 @@
 // name:人均，value:触达人数
 export function groupOPtion(param,data){
-  const dataPro= [
-    {name:'巴西',value:820},
-    {name:'印尼',value:820},
-    {name:'美国',value:820},
-    {name:'印度',value:820},
-    {name:'中国',value:820},
-    {name:'北京',value:820}
-  ];
-  const data1 = [
-    {name:'120',value:320},
-    {name:'130',value:120},
-    {name:'220',value:220},
-    {name:'320',value:320},
-    {name:'120',value:120},
-    {name:'120',value:320},
-  ];
-  const data2 = [
-    {name:'120',value:120},
-    {name:'160',value:200},
-    {name:'220',value:220},
-    {name:'320',value:320},
-    {name:'120',value:520},
-    {name:'120',value:180},
-  ];
-  const data3 = [
-    {name:'120',value:120},
-    {name:'160',value:200},
-    {name:'220',value:220},
-    {name:'320',value:320},
-    {name:'120',value:520},
-    {name:'120',value:180},
-  ];
+  const {dataPro,data1,data2,data3=[]} = data;
+  // const dataPro= [
+  //   {name:'巴西',value:820},
+  //   {name:'印尼',value:820},
+  //   {name:'美国',value:820},
+  //   {name:'印度',value:820},
+  //   {name:'中国',value:820},
+  //   {name:'北京',value:820}
+  // ];
+  // const data1 = [
+  //   {name:'120',value:320},
+  //   {name:'130',value:120},
+  //   {name:'220',value:220},
+  //   {name:'320',value:320},
+  //   {name:'120',value:120},
+  //   {name:'120',value:320},
+  // ];
+  // const data2 = [
+  //   {name:'120',value:120},
+  //   {name:'160',value:200},
+  //   {name:'220',value:220},
+  //   {name:'320',value:320},
+  //   {name:'120',value:520},
+  //   {name:'120',value:180},
+  // ];
+  // const data3 = [
+  //   {name:'120',value:120},
+  //   {name:'160',value:200},
+  //   {name:'220',value:220},
+  //   {name:'320',value:320},
+  //   {name:'120',value:520},
+  //   {name:'120',value:180},
+  // ];
   const _html =function(i) {
-    if(param.legendGroup[2]){
+    if(isEmpty(data3)){
       return `<div>
 <div style="color:#052664;text-align:center;font-size:14px;width:183px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataPro[i].name}</div>
 <div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data2[i].name}人</div>
@@ -54,17 +55,26 @@ export function groupOPtion(param,data){
     }
 
   } ;
-
+  const isEmpty = function(obj) {
+    const bol = Array.prototype.isPrototypeOf(obj) && obj.length !== 0;
+    return bol;
+  };
   const dataSum = function() {
     let datas = [];
-    for (let i = 0; i < data1.length; i++) {
-
-      datas.push(data1[i].value + data2[i].value);
+    if(isEmpty(data3)){
+      for (let i = 0; i < data1.length; i++) {
+        datas.push(data1[i].value + data2[i].value+ data3[i].value);
+      }
+    }else if(isEmpty(data1)) {
+      for (let i = 0; i < data1.length; i++) {
+        datas.push(data1[i].value + data2[i].value);
+      }
     }
+
     return datas;
   }();
   const series = ()=>{
-    if(!param.legendGroup[2]){
+    if(isEmpty(data3)){
       return [{
         type: 'bar',
         stack: 'sum',
@@ -107,8 +117,8 @@ export function groupOPtion(param,data){
       }]
     }
   };
-  const color=param.legendGroup[2]?['rgba(255,255,0,0)','#52C9C2','#FD9E3B','#46A3EF','#fff',]:['rgba(255,255,0,0)','#52C9C2','#FD9E3B','#fff',];
-  const legendData = !param.legendGroup[2]?[param.legendGroup[0], param.legendGroup[1]]:[param.legendGroup[0], param.legendGroup[1],param.legendGroup[2]];
+  const color=!isEmpty(data3)?['rgba(255,255,0,0)','#52C9C2','#FD9E3B','#46A3EF','#fff',]:['rgba(255,255,0,0)','#52C9C2','#FD9E3B','#fff',];
+  const legendData = isEmpty(data3)?[param.legendGroup[0], param.legendGroup[1],param.legendGroup[2]]:[param.legendGroup[0], param.legendGroup[1]];
   return {
     title: {
       text: `各小组${param.name}（集团）`,
@@ -131,7 +141,6 @@ export function groupOPtion(param,data){
         fontSize:12,
       },
       formatter:function(params) {
-        console.log(params);
         return `<div style="width:213px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 3px 16px ">${_html(params.dataIndex)}</div>`;
       },
     },
