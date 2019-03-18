@@ -109,7 +109,7 @@ class Survey extends React.Component {
     const {type,beginDate,endDate}=param;
     // console.log(param,e)
     const origin = window.location.origin;
-    window.location.href = `${origin}${config.base}smartPlatform/exam/collegeinfo?name=${e.name}&type=${type}&beginDate=${beginDate},endDate=${endDate}`;
+    window.location.href = `${origin}${config.base}smartPlatform/exam/collegeinfo?name=${e.name}&type=${type}&beginDate=${beginDate}&endDate=${endDate}`;
   };
   render() {
     const {tabId,endDate,beginDate} = this.state;
