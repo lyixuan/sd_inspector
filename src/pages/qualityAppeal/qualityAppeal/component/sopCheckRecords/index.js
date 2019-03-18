@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './style.css';
 import Item from 'antd/lib/list/Item';
 
-export default class SuperiorCheckComponent extends React.Component {
+export default class SOPCheckRecordsComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,13 +16,19 @@ export default class SuperiorCheckComponent extends React.Component {
       <section className={styles.personInfoCon}>
         <div>
           <article className={styles.appealPerson}>
-            <div className={styles.secctionTitle}>主管审核：</div>
+            <div className={styles.secctionTitle}>SOP审核记录</div>
             {this.state.data.map(item => (
               <div>
                 <div className={styles.container}>
                   <div className={styles.secRow}>
                     <div className={item.sign ? styles.resultDotColor1 : styles.resultDotColor2}>
-                      审核结果： {item.sopCheckResult}
+                      审核结果：{item.sopCheckResult}
+                    </div>
+                  </div>
+                  <div className={styles.secRow}>
+                    <div>
+                      <span>执行人：{item.operator}</span>
+                      <span>操作时间：{item.verifyDate}</span>
                     </div>
                   </div>
                 </div>

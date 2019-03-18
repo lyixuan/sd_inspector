@@ -17,6 +17,12 @@
   margin-left: 18px;
 }
 .secRow > div {
+  display: inline-block;
+}
+.secRow > div span:last-child {
+  margin-left: 50px;
+}
+.secRow > div {
   margin-top: 10px;
 }
 .secCol {

@@ -44,24 +44,25 @@ class AppealDetail extends React.Component {
           teaName: '李四',
           groupName: '芝士学员|能源管理',
         },
-        qualityAudit: [
+        verifyDate: '2019年02月01日 21：22：30',
+        appealEndDate: '2019年02月01日 21：22：30',
+        operateDate: '2019年02月01日 21：22：30',
+        desc: '没有违规',
+        operator: '张三',
+        sopCheckDetail: [
           {
-            id: 1,
-            checkResult: '已通过',
+            sopCheckResult: '审核通过',
             verifyDate: '2019年02月01日 21：22：30',
-            firstAppealEndDate: '2019年02月01日',
-            secondAppealEndDate: '2019年02月01日',
-            Desc:
-              '违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述',
+            checkDesc: '审核通过',
+            operator: '张三',
+            sign: true,
           },
           {
-            id: 2,
-            checkResult: '已通过',
+            sopCheckResult: '驳回',
             verifyDate: '2019年02月01日 21：22：30',
-            firstAppealEndDate: '2019年02月01日',
-            secondAppealEndDate: '2019年02月01日',
-            Desc:
-              '违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述',
+            checkDesc: '审核通过',
+            operator: '张三',
+            sign: false,
           },
         ],
       },
@@ -75,13 +76,13 @@ class AppealDetail extends React.Component {
           <PersonInfo data={this.state.qualityData} />
         </section>
         <section>
-          <AppealInfo data={this.state.qualityData.qualityAudit} />
+          <AppealInfo data={this.state.qualityData} />
         </section>
         <section>
-          <SOPCheckResult />
+          <SOPCheckResult data={this.state.qualityData.sopCheckDetail} />
         </section>
         <section>
-          <SuperiorCheck />
+          <SuperiorCheck data={this.state.qualityData.sopCheckDetail} />
         </section>
         <section>
           <Form layout="inline" className={styles.formBox}>
