@@ -86,7 +86,7 @@ export function blendChartOptions(param,mapInfo,id,pro,unit,type) {
     data3:[],
     data4:[],
   };
-  const myLegend = id ==='single' ? param[`legend_${type}`]:param.legend;
+  const myLegend = type ? id ==='single' ? param[`legend_${type}`]:param.legend : [];
   let text='';
   if(id === 'all'){
     text = `各学院${param.name}（集团）`
