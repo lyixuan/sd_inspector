@@ -6,7 +6,7 @@ export default {
   namespace: 'exam',
 
   state: {
-    porDataList: [],
+    porDataList: {},
     famDataMap: [],
     colDataList: [],
     groDataList: [],
@@ -347,6 +347,7 @@ export default {
           mapInfo.examTicket.data2.push({ name: item.oldAvgServiceNum, value: item.oldExamPlanNum });
         });
       }
+      console.log(mapInfo);
       return { ...state, groDataList: mapInfo };
     },
     save(state, { payload }) {

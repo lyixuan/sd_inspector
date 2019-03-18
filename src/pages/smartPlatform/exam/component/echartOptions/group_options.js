@@ -1,7 +1,9 @@
 // name:人均，value:触达人数
 export function groupOPtion(param,data){
   const {tabId} = param;
-  const {dataPro,data1,data2,data3=[]} = data[tabId];
+  console.log(data);
+  console.log(param);
+  const {dataPro = [],data1,data2,data3=[]} = data[tabId]?data[tabId]:{};
 
   const _html =function(i) {
     if(isEmpty(data3)){
