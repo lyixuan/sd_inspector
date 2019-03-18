@@ -1,14 +1,14 @@
 import React from 'react';
 import styles from './style.less';
-import { connect } from 'dva';
-import SubOrderDetail from './../../components/subOrderDetail';
-import PersonInfo from './components/personInfo';
-import IllegalInfo from './components/illegalInfo';
-import CheckInfo from './components/checkInfo';
-import { Form, Icon, Row, Col, TreeSelect, Input, Upload, message } from 'antd';
-import BIButton from '@/ant_components/BIButton';
+// import { connect } from 'dva';
+// import SubOrderDetail from './../../components/subOrderDetail';
+// import PersonInfo from './components/personInfo';
+// import IllegalInfo from './components/illegalInfo';
+// import CheckInfo from './components/checkInfo';
+// import { Form, Icon, Row, Col, TreeSelect, Input, Upload, message } from 'antd';
+// import BIButton from '@/ant_components/BIButton';
 
-class QualityDetail extends React.Component {
+class AppealDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,47 +66,8 @@ class QualityDetail extends React.Component {
     };
   }
   render() {
-    return (
-      <div className={styles.detailContainer}>
-        <section>
-          {/* 质检违规人员信息 */}
-          <PersonInfo data={this.state.qualityData} />
-        </section>
-        <section>
-          <div className={styles.subOrderNum}>子订单编号：{this.state.qualityData.orderNum}</div>
-          <SubOrderDetail data={this.state.qualityData.orderDetail} />
-        </section>
-        <section>
-          {/* 质检违规详情 */}
-          <section>{/* 质检审核 */}</section>
-          <div className={styles.divideLine} />
-          <IllegalInfo data={this.state.qualityData} />
-        </section>
-        <section>
-          {/* 质检审核 */}
-          <CheckInfo data={this.state.qualityData.qualityAudit} />
-        </section>
-        <section>
-          <Form layout="inline" className={styles.formBox}>
-            <div className={styles.content}>
-              <Row className="gutter-row">
-                <Col span={24}>
-                  <div className={styles.gutterBox1}>
-                    <span className={styles.gutterBtn2}>
-                      <BIButton>取消</BIButton>
-                    </span>
-                    <span className={styles.gutterBtn1}>
-                      <BIButton type="primary">提交</BIButton>
-                    </span>
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Form>
-        </section>
-      </div>
-    );
+    return <div className={styles.detailContainer}>33</div>;
   }
 }
 
-export default QualityDetail;
+export default AppealDetail;

@@ -35,7 +35,7 @@ const errorHandler = error => {
   const { status, url } = response;
 
   if (status === 401) {
-    redirectUrlParams();    // 跳转至登录页
+    // redirectUrlParams();    // 跳转至登录页
     // routerRedux.push('login/logout');
     // return;
   } else if (status === 403) {
@@ -67,12 +67,10 @@ const request = extend({
 });
 // 动态添加数据;
 request.interceptors.request.use((url, options) => {
-  options.headers = Object.assign({}, options.headers, { authorization: storage.getToken(), });
-  return (
-    {
-      url: `${url}`,
-      options,
-    }
-  );
+  options.headers = Object.assign({}, options.headers, { authorization: storage.getToken() });
+  return {
+    url: `${url}`,
+    options,
+  };
 });
 export default request;
