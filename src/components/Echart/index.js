@@ -8,6 +8,7 @@ export default class EchartsComponent extends React.Component {
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.update) !== JSON.stringify(this.props.update)) {
+      console.log(nextProps.update)
       // 接口出来后应该按照data进行判断
       this.drawChart(nextProps)
     }
