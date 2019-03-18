@@ -23,6 +23,10 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
   const myLegend = pro ? param[`legend_${type}`]: param.legend;
   const dataAll = mapInfo && mapInfo[type] ? mapInfo[type] : emptyData;
   dataAll.yName = [];
+  dataAll.dataMap1 = [];
+  dataAll.dataMap2 = [];
+  dataAll.dataMap3 = [];
+  dataAll.dataMap4 = [];
   dataAll.province.forEach((v,i)=>{
     const familyName = dataAll.familyName?dataAll.familyName:undefined;
     if(familyName){
@@ -30,6 +34,10 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
     }else {
       dataAll.yName.push({name:`${v}`,value:400})
     }
+    dataAll.dataMap1.push({name:v,value:dataAll.data1[i]});
+    dataAll.dataMap2.push({name:v,value:dataAll.data2[i]});
+    dataAll.dataMap3.push({name:v,value:dataAll.data3[i]});
+    dataAll.dataMap4.push({name:v,value:dataAll.data4[i]});
   });
   let text='';
   if(id === 'pro'){
@@ -121,14 +129,14 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
       xAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
-      data:  dataAll.data1
+      data:  dataAll.dataMap1
     },{
       name:  myLegend[1],
       type: 'line',
       xAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
-      data: dataAll.data2
+      data: dataAll.dataMap2
     }, {
       type: 'bar',
       barWidth: 10,
@@ -152,7 +160,7 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
         color:'#000',
         fontSize:'12px',
       },
-      data: dataAll.data3
+      data: dataAll.dataMap3
     }, {
       name:   myLegend[3],
       type: 'bar',
@@ -163,7 +171,7 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
         color:'#000',
         fontSize:'12px',
       },
-      data: dataAll.data4
+      data: dataAll.dataMap4
     }
     ]
   };

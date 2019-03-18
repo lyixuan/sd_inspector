@@ -119,8 +119,9 @@ class Survey extends React.Component {
   };
   eConsole=(param,e)=> {
     const {type,beginDate,endDate}=param;
+    const proName = e.data && e.data.name ? e.data.name: '';
     const origin = window.location.origin;
-    window.location.href = `${origin}${config.base}smartPlatform/exam/collegeinfo?name=${e.name}&type=${type}&beginDate=${beginDate}&endDate=${endDate}`;
+    window.location.href = `${origin}${config.base}smartPlatform/exam/collegeinfo?name=${proName}&type=${type}&beginDate=${beginDate}&endDate=${endDate}`;
   };
   render() {
     const {tabId,endDate,beginDate,isShowMore} = this.state;
