@@ -6,7 +6,7 @@ export default {
   namespace: 'exam',
 
   state: {
-    porDataList: {},
+    porDataList: [],
     famDataMap: [],
     colDataList: [],
     groDataList: [],
