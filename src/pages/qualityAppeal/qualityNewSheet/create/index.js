@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Icon, Row, Col, TreeSelect, Input, Upload, message } from 'antd';
+import { Form, Icon, Row, Col, TreeSelect, Input, Upload, Radio } from 'antd';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
-import BIRadio from '@/ant_components/BIRadio';
 import BIModal from '@/ant_components/BIModal';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import { BiFilter, DeepCopy } from '@/utils/utils';
@@ -13,6 +12,7 @@ import SubOrderDetail from './../../components/subOrderDetail';
 const { Option } = BISelect;
 const TreeNode = TreeSelect.TreeNode;
 const { TextArea } = Input;
+const RadioGroup = Radio.Group;
 
 class CreateQualityNewSheet extends React.Component {
   constructor(props) {
@@ -28,6 +28,8 @@ class CreateQualityNewSheet extends React.Component {
       dateDeduction: undefined,
       treeValue: undefined,
       dimension: undefined,
+      credit: undefined, //学分
+      customerMail: undefined,//客诉主管邮箱
       visible: false,
       orderDetail: {
         stuName: '张三',
@@ -45,20 +47,31 @@ class CreateQualityNewSheet extends React.Component {
     console.log(treeValue);
     this.setState({ treeValue });
   };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
       <div className={styles.qualityContainter}>
         <div className={styles.title}>质检违规详情</div>
-        <Form layout="inline" className={styles.formBox}>
+        <Form layout="inline" onSubmit={this.handleSubmit} className={styles.formBox}>
           <div className={styles.content}>
             <Row>
               <Col className="gutter-row" span={20}>
-                <Form.Item label="*质检类型：">
+                <Form.Item label="质检类型：">
                   {getFieldDecorator('type', {
                     initialValue: this.state.type,
+                    rules: [{ required: true, message: 'Please input your username!' }],
                   })(
-                    <BISelect allowClear labelInValue defaultValue="lucy" style={{ width: 280 }}>
+                    <BISelect allowClear labelInValue initialValue="lucy" style={{ width: 280 }}>
                       {BiFilter('ORDER_STATE').map(item => (
                         <Option value={item.id} key={item.name}>
                           {item.name}
@@ -71,7 +84,7 @@ class CreateQualityNewSheet extends React.Component {
             </Row>
             <Row style={{ lineHeight: '40px' }}>
               <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
-                <Form.Item label="*归属人邮箱：">
+                <Form.Item label="*归属人邮箱">
                   {getFieldDecorator('mail', {
                     initialValue: this.state.mail,
                   })(<BIInput placeholder="请输入" style={{ width: 170 }} />)}
@@ -88,7 +101,7 @@ class CreateQualityNewSheet extends React.Component {
                   {getFieldDecorator('userRole', {
                     initialValue: this.state.userRole,
                   })(
-                    <BISelect allowClear labelInValue defaultValue="lucy" style={{ width: 280 }}>
+                    <BISelect allowClear labelInValue initialValue="lucy" style={{ width: 280 }}>
                       <Option value="jack">Jack</Option>
                       <Option value="lucy">lucy</Option>
                     </BISelect>
@@ -109,7 +122,7 @@ class CreateQualityNewSheet extends React.Component {
                   {getFieldDecorator('organize', {
                     initialValue: this.state.organize,
                   })(
-                    <BISelect allowClear labelInValue defaultValue="lucy" style={{ width: 280 }}>
+                    <BISelect allowClear labelInValue initialValue="lucy" style={{ width: 280 }}>
                       <Option value="jack">Jack</Option>
                       <Option value="lucy">lucy</Option>
                     </BISelect>
@@ -122,8 +135,11 @@ class CreateQualityNewSheet extends React.Component {
             <Row>
               <Col className="labelWidth" span={24}>
                 <Form.Item label="*有无子订单编号？">
-                  <BIRadio>有</BIRadio>
-                  <BIRadio>无</BIRadio>
+                  <RadioGroup>
+                    <Radio value={1}>有</Radio>
+                    <Radio value={2}>无</Radio>
+                  </RadioGroup>
+
                 </Form.Item>
               </Col>
             </Row>
@@ -163,12 +179,26 @@ class CreateQualityNewSheet extends React.Component {
             <Row className="gutter-row">
               <Col span={12}>
                 <Form.Item label="*分维：">
+                  {getFieldDecorator('organize', {
+                    initialValue: this.state.organize,
+                  })(
+                    <BISelect allowClear labelInValue initialValue="lucy" style={{ width: 280 }}>
+                      <Option value="jack">Jack</Option>
+                      <Option value="lucy">lucy</Option>
+                    </BISelect>
+                  )}
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row className="gutter-row">
+              <Col span={12}>
+                <Form.Item label="*违规分类：">
                   {getFieldDecorator('dimension', {
                     initialValue: this.state.dimension,
                   })(
                     <TreeSelect
                       style={{ width: 280 }}
-                      value={this.state.value}
+                      setFieldsValue={this.state.value}
                       dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                       placeholder="Please select"
                       allowClear
@@ -190,20 +220,40 @@ class CreateQualityNewSheet extends React.Component {
                       </TreeNode>
                     </TreeSelect>
                   )}
+
+                </Form.Item>
+              </Col>
+              <Col className="txRight" span={12}>
+                <Form.Item label="*违规等级：">
+                  <div style={{ width: "280px", textAlign: "left" }}>一级违规</div>
                 </Form.Item>
               </Col>
             </Row>
-            <Row className="gutter-row">
-              <Col span={12}>
-                <Form.Item label="*违规分类：">
-                  {getFieldDecorator('organize', {
-                    initialValue: this.state.organize,
-                  })(
-                    <BISelect allowClear labelInValue defaultValue="lucy" style={{ width: 280 }}>
-                      <Option value="jack">Jack</Option>
-                      <Option value="lucy">lucy</Option>
-                    </BISelect>
-                  )}
+            <Row style={{ lineHeight: '40px' }}>
+              <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
+                <Form.Item label="*客诉主管邮箱：">
+                  {getFieldDecorator('customerMail', {
+                    initialValue: this.state.customerMail,
+                  })(<BIInput placeholder="请输入" style={{ width: 170 }} />)}
+                </Form.Item>
+                <div className={styles.text}>@sunland.com</div>
+              </Col>
+              <Col className="gutter-row txRight" span={12}>
+                <Form.Item label="*主管扣除绩效：">
+                  {getFieldDecorator('userRole', {
+                    initialValue: this.state.userRole,
+                  })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
+                  <span style={{ display: "inline-block", width: "20px" }}>%</span>
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row style={{ lineHeight: '40px' }}>
+              <Col className="gutter-row" span={12}>
+                <Form.Item label="*扣除学分">
+                  {getFieldDecorator('credit', {
+                    initialValue: this.state.credit,
+                  })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
+                  <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}>%</span>
                 </Form.Item>
               </Col>
             </Row>
@@ -212,8 +262,8 @@ class CreateQualityNewSheet extends React.Component {
                 <Form.Item label="*附件：">
                   {/* <BIButton type="primary" htmlType="submit">上传附件</BIButton> */}
                   <Upload>
-                    <BIButton>
-                      <Icon type="upload" /> 上传附件
+                    <BIButton type="primary">
+                      上传附件
                     </BIButton>
                   </Upload>
                 </Form.Item>
@@ -225,7 +275,7 @@ class CreateQualityNewSheet extends React.Component {
                 <TextArea rows={4} />
               </Col>
             </Row>
-            <div className={styles.verify}>
+            {/* <div className={styles.verify}>
               <div className={styles.title}>质检审核</div>
               <div className={styles.verifyContent}>
                 <Row>
@@ -247,7 +297,7 @@ class CreateQualityNewSheet extends React.Component {
                   </Col>
                 </Row>
               </div>
-            </div>
+            </div> */}
 
             <Row className="gutter-row">
               <Col span={24}>
@@ -256,7 +306,7 @@ class CreateQualityNewSheet extends React.Component {
                     <BIButton>取消</BIButton>
                   </span>
                   <span className={styles.gutterBtn1}>
-                    <BIButton type="primary">提交</BIButton>
+                    <BIButton type="primary" htmlType="submit">提交</BIButton>
                   </span>
                 </div>
               </Col>
