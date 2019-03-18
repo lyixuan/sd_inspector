@@ -65,8 +65,26 @@ function commonOptions(params) {
     series,
   };
 }
-export function blendChartOptions(param,data,id,pro) {
-  // console.log(param)
+
+function handleSrcData(srcData) {
+  const targetData = {
+    dateArr:[],
+    data3:[],
+    data4:[],
+    data1:[],
+    data2:[],
+  };
+  srcData.forEach((v)=>{
+    targetData.dateArr.push(v.collegeName);
+    targetData.data3.push(v.oldExamPlanNum);
+    targetData.data4.push(v.newExamPlanNum);
+    targetData.data1.push(v.oldAvgServiceNum);
+    targetData.data2.push(v.newAvgServiceNum);
+  });
+
+  return targetData;
+}
+export function blendChartOptions(param,dataList,id,pro) {
   let text='';
   if(id === 'all'){
     text = `各学院${param.name}（集团）`
@@ -75,15 +93,7 @@ export function blendChartOptions(param,data,id,pro) {
   }else {
     console.error('缺乏参数id：all是所有省份，single是点击省份进去的单个省份')
   }
-  const { dataList = {} } = data;
-  const { data2 = {} } = dataList;
-  const dataAll = {
-    dateArr:['瑞博','瑞博1','瑞博2','瑞博3'],
-    data3:[1000,2000,3000,4000],
-    data4:[1000,2000,3000,4000],
-    data1:[100,200,300,400],
-    data2:[200,200,400,300],
-  };
+  const dataAll = handleSrcData(dataList);
   const _html =function(i) {
     return `<div>
 <div style="color:#052664;font-size:14px;width:183px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.dateArr[i]}${param.name}:共1000人</div>
@@ -101,7 +111,7 @@ export function blendChartOptions(param,data,id,pro) {
     color: ['#0080FF', "#FF4165", '#52C9C2','#FD9E3B'],
     formatter:function(params) {
       console.log(params);
-      return `<div style=" width:213px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 3px 16px ">${_html(params.dataIndex)}</div>`;
+      return `<div style=" width:223px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 3px 16px ">${_html(params.dataIndex)}</div>`;
     },
       // '<div style=" width:193px;height:120px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 0 16px ">{b}{333333}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人</div>',
     series: [ {
@@ -110,7 +120,7 @@ export function blendChartOptions(param,data,id,pro) {
       yAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
-      data: dataAll.data1,
+      data: dataAll.data1, // 人均服务老生
       smooth: true,
       itemStyle: { normal: { label: { show: true, formatter: '{c}' } } },
     }, {
@@ -119,19 +129,19 @@ export function blendChartOptions(param,data,id,pro) {
       yAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
-      data: dataAll.data2,
+      data: dataAll.data2,  // 人均服务新生
       smooth: true,
       itemStyle: { normal: { label: { show: true, formatter: '{c}' } } },
     },{
       name: param.legend[2],
       type: 'bar',
       barWidth: 15,
-      data: dataAll.data3
+      data: dataAll.data3   // 老生考试计划人数
     }, {
       name: param.legend[3],
       type: 'bar',
       barWidth: 15,
-      data: dataAll.data4
+      data: dataAll.data4 // 新生考试计划人数
     }],
     yAxis: [{
       axisLine: {

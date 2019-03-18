@@ -27,7 +27,7 @@ class Survey extends React.Component {
   }
   provinceOrg = () => {
     const params={
-      province:'北京',
+      province:'北京市',
       orgType:'college',
       beginDate:'2019-03-01',
       endDate:'2019-03-08',
@@ -46,8 +46,7 @@ class Survey extends React.Component {
     const { examOrg } = this.props;
     const {value} = this.state;
     const { dataList = {} } = examOrg;
-    const { data1 = {}, data2 = {} } = dataList;
-    const newOptions =  value===1?blendChartOptions(this.state,examOrg,'single','山西'):famProOPtion(this.state,data2,'fam','山西');
+    const newOptions =  value===1?blendChartOptions(this.state,dataList,'single','山西'):famProOPtion(this.state,dataList,'fam','山西');
     return (
       <Spin spinning={false}>
         <div className={styles.m_container}>
