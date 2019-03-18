@@ -39,8 +39,6 @@ export default class AppealInfoComponent extends React.Component {
               </div>
             </div>
           </article>
-
-          <div className={styles.divideLine} />
         </div>
       </section>
     );
