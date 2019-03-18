@@ -83,20 +83,8 @@ class AppealDetail extends React.Component {
         <section>
           <SuperiorCheck />
         </section>
-        <section>
-          <Form layout="inline" className={styles.formBox}>
-            <div className={styles.content}>
-              <Row className="gutter-row">
-                <Col span={24}>
-                  <div className={styles.gutterBox1}>
-                    <span className={styles.gutterBtn2}>
-                      <BIButton>返回</BIButton>
-                    </span>
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Form>
+        <section style={{ textAlign: "right" }}>
+          <BIButton>返回</BIButton>
         </section>
       </div>
     );

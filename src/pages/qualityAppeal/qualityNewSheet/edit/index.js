@@ -232,8 +232,8 @@ class EditQualityNewSheet extends React.Component {
                 <Form.Item label="*附件：">
                   {/* <BIButton type="primary" htmlType="submit">上传附件</BIButton> */}
                   <Upload>
-                    <BIButton>
-                      <Icon type="upload" /> 上传附件
+                    <BIButton type="primary">
+                      上传附件
                     </BIButton>
                   </Upload>
                 </Form.Item>
