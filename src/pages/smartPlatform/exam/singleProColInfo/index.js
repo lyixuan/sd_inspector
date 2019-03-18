@@ -56,6 +56,9 @@ class Survey extends React.Component {
     const { examOrg } = this.props;
     const {value} = this.state;
     const { mapInfo = {} } = examOrg;
+    const style1={width: '100%', height: '410px'};
+    const style2={width: '100%', height: '1700px'};
+    const sty = value === 1?style1:style2;
     const newOptions =  value===1?blendChartOptions(this.state,mapInfo,'single',this.params.name,this.params.unit,this.params.type):famProOPtion(this.state,mapInfo,'fam',this.params.name,this.params.unit,this.params.type);
     return (
       <Spin spinning={false}>
@@ -67,7 +70,7 @@ class Survey extends React.Component {
             </BIRadio>
           </div>
           <div className='m_box'>
-            <Echart update={newOptions} style={{ width: '100%', height: value===1?'410px':'510px' }} options={newOptions} />
+            <Echart update={newOptions} style={sty} options={newOptions} />
           </div>
         </div>
       </Spin>
