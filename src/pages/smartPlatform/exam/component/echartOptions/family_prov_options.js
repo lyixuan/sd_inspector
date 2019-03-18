@@ -87,7 +87,7 @@ export function famProOPtion(param,data,id,pro){
       data: data.data2
     }, {
       type: 'bar',
-      barWidth: 25,
+      barWidth: 10,
       label: {
         show: true,
         formatter:function (params) {

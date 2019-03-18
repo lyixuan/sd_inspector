@@ -135,10 +135,10 @@ class Survey extends React.Component {
                 <div className={styles.echartCls}>
                   <div className='m_box'>
                     <p className={styles.proTip}>点击省份可查看该省份的学院及家族数据</p>
-                    <Echart clickEvent update={dataList} style={{ width: '100%', height: "1010px" }} options={famProOPtion(this.state,dataList,'pro')} />
+                    <Echart clickEvent update={dataList} style={{ width: '100%', height: "1500px" }} options={famProOPtion(this.state,dataList,'pro')} />
                   </div>
                   <div className='m_box'><Echart update={dataList} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,exam,'all')} /></div>
-                  <div className='m_box'><Echart update={dataList} style={{ width: '100%', height: "510px" }} options={famProOPtion(this.state,dataList,'fam')} /></div>
+                  <div className='m_box'><Echart update={dataList} style={{ width: '100%', height: "1500px" }} options={famProOPtion(this.state,dataList,'fam')} /></div>
                   <div className='m_box'>
                     <Echart update={dataList} style={{ width: '100%', height: "410px" }} options={groupOPtion(this.state)} />
                     <BIButton type="primary" style={{marginBottom:'20px'}} onClick={()=>console.log(1)}>查看更多</BIButton>
