@@ -36,20 +36,24 @@ export default {
     },
     *examOrg({payload}, { call, put }) {
       const {orgType} = payload;
-      let data = {};
       const response = yield call(examOrg, payload);
       if (response.code === 20000) {
         if(orgType === 'college'){
-          data = { colDataList: response.data }
+          yield put({
+            type: 'save',
+            payload: { colDataList: response.data },
+          })
         }else  if(orgType === 'family'){
-          data = { famDataList: response.data };
+          yield put({
+            type: 'saveFamDataList',
+            payload: { famDataList: response.data },
+          })
         }else {
-          data = { groDataList: response.data };
+          yield put({
+            type: 'save',
+            payload: { groDataList: response.data },
+          })
         }
-        yield put({
-          type: 'save',
-          payload:data,
-        })
 
       } else {
         message.error(response.msg)
@@ -142,19 +146,44 @@ export default {
         data3:[],
         data4:[],
       };
-      porDataList.map(item=>{
-        data.province.push({name:item.province,value:10000});
-        data.data1.push(item.oldAvgServiceNum);
-        data.data2.push(item.newAvgServiceNum);
-        data.data3.push(item.oldExamPlanNum);
-        data.data4.push(item.newExamPlanNum);
-        return data
-      });
+
+      if(porDataList){
+        porDataList.map(item=>{
+          data.province.push({name:item.province,value:10000});
+          data.data1.push(item.oldAvgServiceNum);
+          data.data2.push(item.newAvgServiceNum);
+          data.data3.push(item.oldExamPlanNum);
+          data.data4.push(item.newExamPlanNum);
+          return data
+        });
+      }
+
+
       return { ...state, porDataList:data };
     },
+    saveFamDataList(state, { payload }) {
+      const { famDataList } = payload;
+      const dataFam = {
+        province:[],
+        data1:[],
+        data2:[],
+        data3:[],
+        data4:[],
+      };
+      if(famDataList){
+        famDataList.map(item=>{
+          dataFam.province.push({name:`${item.collegeName}|${item.familyName}`,value:10000});
+          dataFam.data1.push(item.oldAvgServiceNum);
+          dataFam.data2.push(item.newAvgServiceNum);
+          dataFam.data3.push(item.oldExamPlanNum);
+          dataFam.data4.push(item.newExamPlanNum);
+          return dataFam
+        });
+      }
+      return { ...state, famDataList:dataFam};
+    },
     save(state, { payload }) {
-
-      return { ...state, ...payload };
+      return { ...state, ...payload};
     }
   },
 

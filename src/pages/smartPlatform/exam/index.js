@@ -138,7 +138,7 @@ class Survey extends React.Component {
                     <Echart clickEvent update={porDataList} style={{ width: '100%', height: "1500px" }} options={famProOPtion(this.state,porDataList,'pro')} />
                   </div>
                   <div className='m_box'><Echart update={porDataList} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,exam,'all')} /></div>
-                  <div className='m_box'><Echart update={famDataList} style={{ width: '100%', height: "1500px" }} options={famProOPtion(this.state,famDataList,'fam')} /></div>
+                  <div className='m_box'><Echart update={famDataList} style={{ width: '100%', height: "1700px" }} options={famProOPtion(this.state,famDataList,'fam')} /></div>
                   <div className='m_box'>
                     <Echart update={porDataList} style={{ width: '100%', height: "410px" }} options={groupOPtion(this.state)} />
                     <BIButton type="primary" style={{marginBottom:'20px'}} onClick={()=>console.log(1)}>查看更多</BIButton>
