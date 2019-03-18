@@ -52,7 +52,7 @@ export default {
         }else {
           yield put({
             type: 'saveGroDataList',
-            payload: { groDataList: response.data },
+            payload: {  isShowAll: false ,groDataList: response.data },
           })
         }
 
@@ -61,10 +61,13 @@ export default {
       }
     },
     *allGroData({payload}, { call, put }) {
-      yield put({
-        type: 'saveGroDataList',
-        payload: { isShowAll: true },
-      });
+      const response = yield call(examOrg, payload);
+      if (response.code === 20000) {
+        yield put({
+          type: 'saveGroDataList',
+          payload: { isShowAll: true ,groDataList: response.data},
+        });
+      }
     }
   },
 
@@ -191,6 +194,7 @@ export default {
     },
     saveGroDataList(state, { payload }) {
       const { groDataList,isShowAll } = payload;
+      console.log(isShowAll)
       const dataPro = {
         dataPro:[],
         data1:[],
