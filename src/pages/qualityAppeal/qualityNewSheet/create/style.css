@@ -57,3 +57,6 @@
 :global(.ant-form-inline .ant-form-item) {
   margin-right: 0;
 }
+:global(.ant-form-item-required::before) {
+  color: #000;
+}

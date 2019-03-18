@@ -94,6 +94,24 @@ export const routes = [
             name: '质检申诉管理',
           },
           {
+            path: '/qualityAppeal/qualityAppeal/detail',
+            component: './qualityAppeal/qualityAppeal/detail',
+            name: '申诉详情',
+            bread: {
+              name: '质检申诉管理',
+              path: '/qualityAppeal/qualityAppeal',
+            },
+          },
+          {
+            path: '/qualityAppeal/qualityAppeal/edit',
+            component: './qualityAppeal/qualityAppeal/edit',
+            name: '发起申诉',
+            bread: {
+              name: '质检申诉管理',
+              path: '/qualityAppeal/qualityAppeal',
+            },
+          },
+          {
             path: '/qualityAppeal/qualityAppeal/appeal',
             component: './qualityAppeal/qualityAppeal/appeal',
             name: '申诉审核',

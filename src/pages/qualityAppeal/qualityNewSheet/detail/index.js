@@ -5,6 +5,8 @@ import SubOrderDetail from './../../components/subOrderDetail';
 import PersonInfo from './components/personInfo';
 import IllegalInfo from './components/illegalInfo';
 import CheckInfo from './components/checkInfo';
+import { Form, Icon, Row, Col, TreeSelect, Input, Upload, message } from 'antd';
+import BIButton from '@/ant_components/BIButton';
 
 class QualityDetail extends React.Component {
   constructor(props) {
@@ -83,6 +85,24 @@ class QualityDetail extends React.Component {
         <section>
           {/* 质检审核 */}
           <CheckInfo data={this.state.qualityData.qualityAudit} />
+        </section>
+        <section>
+          <Form layout="inline" className={styles.formBox}>
+            <div className={styles.content}>
+              <Row className="gutter-row">
+                <Col span={24}>
+                  <div className={styles.gutterBox1}>
+                    <span className={styles.gutterBtn2}>
+                      <BIButton>取消</BIButton>
+                    </span>
+                    <span className={styles.gutterBtn1}>
+                      <BIButton type="primary">提交</BIButton>
+                    </span>
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          </Form>
         </section>
       </div>
     );

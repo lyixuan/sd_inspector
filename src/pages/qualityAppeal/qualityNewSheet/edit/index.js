@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Icon, Row, Col, TreeSelect, Input, Upload, message } from 'antd';
+import { Form, Icon, Row, Col, TreeSelect, Input, Upload, Radio } from 'antd';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
@@ -13,6 +13,7 @@ import SubOrderDetail from './../../components/subOrderDetail';
 const { Option } = BISelect;
 const TreeNode = TreeSelect.TreeNode;
 const { TextArea } = Input;
+const RadioGroup = Radio.Group;
 
 class EditQualityNewSheet extends React.Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class EditQualityNewSheet extends React.Component {
           {getFieldDecorator('type', {
             initialValue: this.state.type,
           })(
-            <BISelect allowClear labelInValue defaultValue="lucy" style={{ width: 280 }}>
+            <BISelect allowClear labelInValue initialValue="lucy" style={{ width: 280 }}>
               {BiFilter('ORDER_STATE').map(item => (
                 <Option value={item.id} key={item.name}>
                   {item.name}
@@ -63,7 +64,7 @@ class EditQualityNewSheet extends React.Component {
           )}
         </Form.Item>
       );
-    } else {
+    } else if (role == 2) {
       return;
     }
   };
@@ -74,9 +75,16 @@ class EditQualityNewSheet extends React.Component {
         <div className={styles.title}>质检违规详情</div>
         <Form layout="inline" className={styles.formBox}>
           <div className={styles.content}>
-            <Row>
+            {/* <Row>
               <Col className="gutter-row" span={20}>
                 {this.getDomFragementByRole(this.state.id, {}, getFieldDecorator)}
+              </Col>
+            </Row> */}
+            <Row>
+              <Col className="gutter-row" span={20}>
+                <Form.Item label="*质检类型">
+                  质检类型
+                </Form.Item>
               </Col>
             </Row>
             <Row style={{ lineHeight: '40px' }}>
@@ -98,7 +106,7 @@ class EditQualityNewSheet extends React.Component {
                   {getFieldDecorator('userRole', {
                     initialValue: this.state.userRole,
                   })(
-                    <BISelect allowClear labelInValue defaultValue="lucy" style={{ width: 280 }}>
+                    <BISelect allowClear labelInValue initialValue="lucy" style={{ width: 280 }}>
                       <Option value="jack">Jack</Option>
                       <Option value="lucy">lucy</Option>
                     </BISelect>
@@ -119,7 +127,7 @@ class EditQualityNewSheet extends React.Component {
                   {getFieldDecorator('organize', {
                     initialValue: this.state.organize,
                   })(
-                    <BISelect allowClear labelInValue defaultValue="lucy" style={{ width: 280 }}>
+                    <BISelect allowClear labelInValue initialValue="lucy" style={{ width: 280 }}>
                       <Option value="jack">Jack</Option>
                       <Option value="lucy">lucy</Option>
                     </BISelect>
@@ -132,8 +140,10 @@ class EditQualityNewSheet extends React.Component {
             <Row>
               <Col className="labelWidth" span={24}>
                 <Form.Item label="*有无子订单编号？">
-                  <BIRadio>有</BIRadio>
-                  <BIRadio>无</BIRadio>
+                  <RadioGroup>
+                    <Radio value={1}>有</Radio>
+                    <Radio value={2}>无</Radio>
+                  </RadioGroup>
                 </Form.Item>
               </Col>
             </Row>
@@ -209,7 +219,7 @@ class EditQualityNewSheet extends React.Component {
                   {getFieldDecorator('organize', {
                     initialValue: this.state.organize,
                   })(
-                    <BISelect allowClear labelInValue defaultValue="lucy" style={{ width: 280 }}>
+                    <BISelect allowClear labelInValue initialValue="lucy" style={{ width: 280 }}>
                       <Option value="jack">Jack</Option>
                       <Option value="lucy">lucy</Option>
                     </BISelect>
@@ -222,8 +232,8 @@ class EditQualityNewSheet extends React.Component {
                 <Form.Item label="*附件：">
                   {/* <BIButton type="primary" htmlType="submit">上传附件</BIButton> */}
                   <Upload>
-                    <BIButton>
-                      <Icon type="upload" /> 上传附件
+                    <BIButton type="primary">
+                      上传附件
                     </BIButton>
                   </Upload>
                 </Form.Item>
