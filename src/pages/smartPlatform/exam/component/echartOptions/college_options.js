@@ -66,25 +66,25 @@ function commonOptions(params) {
   };
 }
 
-function handleSrcData(srcData) {
-  const targetData = {
-    dateArr:[],
-    data3:[],
-    data4:[],
+export function blendChartOptions(param,mapInfo,id,pro,type,unit) {
+  /*
+  * unit: data1和data2的单位
+  * @type:  examPlan, examNotice, examTicket
+  * @mapInfo
+   * {
+        examNotice:{},
+        examPlan:{},
+        examTicket:{},
+      };
+  * */
+  const emptyData = {
+    province:[],
     data1:[],
     data2:[],
+    data3:[],
+    data4:[],
   };
-  srcData.forEach((v)=>{
-    targetData.dateArr.push(v.collegeName);
-    targetData.data3.push(v.oldExamPlanNum);
-    targetData.data4.push(v.newExamPlanNum);
-    targetData.data1.push(v.oldAvgServiceNum);
-    targetData.data2.push(v.newAvgServiceNum);
-  });
-
-  return targetData;
-}
-export function blendChartOptions(param,dataList,id,pro) {
+  const myLegend = type ? param[`legend_${type}`]:param.legend;
   let text='';
   if(id === 'all'){
     text = `各学院${param.name}（集团）`
@@ -93,55 +93,55 @@ export function blendChartOptions(param,dataList,id,pro) {
   }else {
     console.error('缺乏参数id：all是所有省份，single是点击省份进去的单个省份')
   }
-  const dataAll = handleSrcData(dataList);
+  const dataAll = mapInfo && mapInfo[type] ? mapInfo[type] : emptyData;
   const _html =function(i) {
     return `<div>
-<div style="color:#052664;font-size:14px;width:183px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.dateArr[i]}${param.name}:共1000人</div>
-<div style="margin-bottom: 8px">${param.legend[0]}:${dataAll.data1[i]}人</div>
-<div style="margin-bottom: 8px">${param.legend[1]}:${dataAll.data2[i]}人</div>
-<div style="margin-bottom: 8px">${param.legend[2]}:${dataAll.data3[i]}人</div>
-<div style="margin-bottom: 8px">${param.legend[3]}:${dataAll.data4[i]}人</div>
+<div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.province[i]}${param.name}:共1000人</div>
+<div style="margin-bottom: 8px">${ myLegend[0]}:${dataAll.data1[i]}${unit}</div>
+<div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
+<div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
+<div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
 </div>`
   } ;
 
   const params2 = {
     text,
-    legendData:param.legend,
-    xData: dataAll.dateArr,
+    legendData: myLegend,
+    xData: dataAll.province,
     color: ['#0080FF', "#FF4165", '#52C9C2','#FD9E3B'],
     formatter:function(params) {
       console.log(params);
-      return `<div style=" width:223px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 3px 16px ">${_html(params.dataIndex)}</div>`;
+      return `<div style=" box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 3px 3px 16px ">${_html(params.dataIndex)}</div>`;
     },
       // '<div style=" width:193px;height:120px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 0 16px ">{b}{333333}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人</div>',
     series: [ {
-      name: param.legend[0],
+      name:  myLegend[0],
       type: 'line',
       yAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
-      data: dataAll.data1, // 人均服务老生
+      data: dataAll.data1,
       smooth: true,
       itemStyle: { normal: { label: { show: true, formatter: '{c}' } } },
     }, {
-      name: param.legend[1],
+      name:  myLegend[1],
       type: 'line',
       yAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
-      data: dataAll.data2,  // 人均服务新生
+      data: dataAll.data2,
       smooth: true,
       itemStyle: { normal: { label: { show: true, formatter: '{c}' } } },
     },{
-      name: param.legend[2],
+      name:  myLegend[2],
       type: 'bar',
       barWidth: 15,
-      data: dataAll.data3   // 老生考试计划人数
+      data: dataAll.data3
     }, {
-      name: param.legend[3],
+      name:  myLegend[3],
       type: 'bar',
       barWidth: 15,
-      data: dataAll.data4 // 新生考试计划人数
+      data: dataAll.data4
     }],
     yAxis: [{
       axisLine: {
