@@ -106,7 +106,7 @@ class Survey extends React.Component {
     return moment().add(-1, 'days').format('YYYY-MM-DD');
   }
   handleFamilyExamOrgData = (data = []) => {
-    return data.map(item => ({
+    return data.sort((a, b) => b.admissionFillRatio - a.admissionFillRatio).map(item => ({
       ...item,
       name: `${item.collegeName}|${item.familyName}`,
       per: (item.admissionFillRatio || 0) * 100,
