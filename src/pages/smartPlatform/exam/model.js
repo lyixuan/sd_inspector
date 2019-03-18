@@ -280,21 +280,21 @@ export default {
         },
       };
       dataList.forEach((v) => {
-        mapInfo.examNotice.province.push(v.collegeName);
+        mapInfo.examNotice.province.push({name:`${v.collegeName}|${v.familyName}`,value:400});
         mapInfo.examNotice.data1.push(`${(v.oldReadRatio * 100).toFixed(2)}`);
         mapInfo.examNotice.data2.push(`${(v.newReadRatio * 100).toFixed(2)}`);
         mapInfo.examNotice.data3.push(v.oldReadNum);
         mapInfo.examNotice.data4.push(v.newReadNum);
       });
       dataList.forEach((v) => {
-        mapInfo.examPlan.province.push(v.collegeName);
+        mapInfo.examPlan.province.push({name:`${v.collegeName}|${v.familyName}`,value:400});
         mapInfo.examPlan.data1.push(v.oldAvgServiceNum);
         mapInfo.examPlan.data2.push(v.newAvgServiceNum);
         mapInfo.examPlan.data3.push(v.oldExamPlanNum);
         mapInfo.examPlan.data4.push(v.newExamPlanNum);
       });
       dataList.forEach((v) => {
-        mapInfo.examTicket.province.push(v.collegeName);
+        mapInfo.examTicket.province.push({name:`${v.collegeName}|${v.familyName}`,value:400});
         mapInfo.examTicket.data1.push(`${(v.oldAdmissionFillRatio * 100).toFixed(2)}`);
         mapInfo.examTicket.data2.push(`${(v.newAdmissionFillRatio * 100).toFixed(2)}`);
         mapInfo.examTicket.data3.push(v.oldAdmissionFillNum);
