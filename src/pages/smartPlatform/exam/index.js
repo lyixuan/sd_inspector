@@ -10,6 +10,7 @@ import {blendChartOptions}  from './component/echartOptions/college_options';
 import {famProOPtion}  from './component/echartOptions/family_prov_options';
 import {groupOPtion}  from './component/echartOptions/group_options';
 import moment from 'moment/moment';
+import config from '../../../../config/config';
 import BIButton from '@/ant_components/BIButton';
 
 const  { BIRangePicker } = BIDatePicker;
@@ -83,7 +84,6 @@ class Survey extends React.Component {
         legendGroup:['新生填写人数/新生填写率','老生填写人数/老生填写率','未填写人数/未填写率']
       })
     }
-    console.log(val)
   };
   // 时间控件可展示的时间范围
   disabledDate = current => {
@@ -98,12 +98,26 @@ class Survey extends React.Component {
       endDate:dateString[1],
     });
   };
+  getMoreData = ()=>{
+    const {beginDate,endDate}=this.state;
+    const param = {
+      beginDate,endDate,orgType:'group'
+    };
+    this.props.dispatch({
+      type: 'exam/allGroData',
+      payload: param,
+    })
+  };
+  eConsole=(param,e)=> {
+    const {type,beginDate,endDate}=param;
+    const origin = window.location.origin;
+    window.location.href = `${origin}${config.base}smartPlatform/exam/collegeinfo?name=${e.name}&type=${type}&beginDate=${beginDate}&endDate=${endDate}`;
+  };
   render() {
     const {tabId,endDate,beginDate} = this.state;
     const { exam } = this.props;
-    const { porDataList = {} ,famDataList={},examTotal={}} = exam;
+    const { porDataList = {} ,famDataMap={},groDataList={},examTotal={},isShowAll} = exam;
     const tabData = [{name:'考试计划',id:'examPlan',data:[]},{name:'报考通知',id:'examNotice',data:[]},{name:'准考证填写',id:'examTicket',data:[]}];
-
     return (
       <Spin spinning={false}>
         <BITabs onChange={this.switchContent} type="card" tabBarStyle={{backgroundColor:'#fff',padding:'19px 0 0 30px'}}>
@@ -135,13 +149,13 @@ class Survey extends React.Component {
                 <div className={styles.echartCls}>
                   <div className='m_box'>
                     <p className={styles.proTip}>点击省份可查看该省份的学院及家族数据</p>
-                    <Echart clickEvent update={porDataList} style={{ width: '100%', height: "1500px" }} options={famProOPtion(this.state,porDataList,'pro')} />
+                    <Echart clickEvent={(e)=>this.eConsole({type:tabId,endDate,beginDate},e)} update={porDataList} style={{ width: '100%', height: "1500px" }} options={famProOPtion(this.state,porDataList,'pro',undefined,'人',this.state.tabId)} />
                   </div>
-                  <div className='m_box'><Echart update={porDataList} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,exam,'all')} /></div>
-                  <div className='m_box'><Echart update={famDataList} style={{ width: '100%', height: "1500px" }} options={famProOPtion(this.state,famDataList,'fam')} /></div>
+                  <div className='m_box'><Echart update={porDataList} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,[],'all')} /></div>
+                  <div className='m_box'><Echart update={famDataMap} style={{ width: '100%', height:"1700px" }} options={famProOPtion(this.state,famDataMap,'fam',undefined,'人',this.state.tabId)} /></div>
                   <div className='m_box'>
-                    <Echart update={porDataList} style={{ width: '100%', height: "410px" }} options={groupOPtion(this.state)} />
-                    <BIButton type="primary" style={{marginBottom:'20px'}} onClick={()=>console.log(1)}>查看更多</BIButton>
+                    <Echart update={`${JSON.stringify(groDataList)}${isShowAll}`} style={{ width: '100%', height: isShowAll?'5376px':'960px' }} options={groupOPtion(this.state,groDataList)} />
+                    <BIButton type="primary" style={{marginBottom:'20px',display:isShowAll?'none':'block'}} onClick={this.getMoreData}>查看更多</BIButton>
                   </div>
                 </div>
               </div>

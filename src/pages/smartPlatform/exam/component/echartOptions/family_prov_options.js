@@ -1,15 +1,37 @@
 
-export function famProOPtion(param,data,id,pro){
+export function famProOPtion(param, mapInfo,id,pro,unit,type){
+  /*
+  * @id: 区分集团和省份  pro、fam
+  * @pro: 省份名称
+  * @unit: data1和data2的单位
+  * @type:  examPlan, examNotice, examTicket
+  * @mapInfo: 构造好的数据
+   * {
+        examNotice:{},
+        examPlan:{},
+        examTicket:{},
+      };
+  * */
+  const emptyData = {
+    province:[],
+    data1:[],
+    data2:[],
+    data3:[],
+    data4:[],
+  };
+  const myLegend = pro ? param[`legend_${type}`]: param.legend;
+  const dataAll = mapInfo && mapInfo[type] ? mapInfo[type] : emptyData;
   let text='';
   if(id === 'pro'){
+    // 省级查询
     text=`各省${param.name}`
   }else if(id === 'fam'){
+    // 家族查询
     if(pro){
       text=`家族${param.name}（${pro}）`
     }else {
       text=`各家族${param.name}（集团）`
     }
-
   }
   return {
     title: {
@@ -43,7 +65,7 @@ export function famProOPtion(param,data,id,pro){
       },
       itemWidth: 10,
       itemHeight: 10,
-      data: param.legend
+      data:  myLegend
     },
     color:['#0080FF','#FF4165','rgba(255,255,255,0)','#52C9C2','#FD9E3B'],
     grid: {
@@ -72,19 +94,19 @@ export function famProOPtion(param,data,id,pro){
       show:false,
     },
     series: [{
-      name: param.legend[0],
+      name:  myLegend[0],
       type: 'line',
       xAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
-      data: data.data1
+      data:  dataAll.data1
     },{
-      name: param.legend[1],
+      name:  myLegend[1],
       type: 'line',
       xAxisIndex: 1,
       symbol: 'circle',
       symbolSize: 6,
-      data: data.data2
+      data: dataAll.data2
     }, {
       type: 'bar',
       barWidth: 10,
@@ -97,9 +119,9 @@ export function famProOPtion(param,data,id,pro){
         color:'#000',
         fontSize:'14px'
       },
-      data:  data.province
+      data:  dataAll.province
     }, {
-      name:  param.legend[2],
+      name:   myLegend[2],
       type: 'bar',
       barWidth: 10,
       label: {
@@ -108,9 +130,9 @@ export function famProOPtion(param,data,id,pro){
         color:'#000',
         fontSize:'12px',
       },
-      data: data.data3
+      data: dataAll.data3
     }, {
-      name:  param.legend[3],
+      name:   myLegend[3],
       type: 'bar',
       barWidth: 10,
       label: {
@@ -119,7 +141,7 @@ export function famProOPtion(param,data,id,pro){
         color:'#000',
         fontSize:'12px',
       },
-      data: data.data4
+      data: dataAll.data4
     }
     ]
   };

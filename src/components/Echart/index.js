@@ -16,14 +16,15 @@ export default class EchartsComponent extends React.Component {
       // 接口出来后应该按照data进行判断
       this.drawChart(nextProps)
     }
+
+    if (JSON.stringify(nextProps.style) !== JSON.stringify(this.props.style)) {
+      // style 变化，resize echarts
+      this.myChart.resize({ height: nextProps.style.height });
+      this.myChart.setOption(nextProps.options);
+    }
   }
   createRef = id => {
     this.ID = id;
-  };
-  eConsole = (param) => {
-    const origin = window.location.origin;
-    const url = `${origin}${config.base}smartPlatform/exam/collegeinfo?${param.name}`;
-    window.location.href = url;
   };
   initChart = () => {
     this.myChart = echarts.init(this.ID);
@@ -38,7 +39,7 @@ export default class EchartsComponent extends React.Component {
     // this.myChart.resize();
     this.myChart.setOption(options);
     if (this.props.clickEvent) {
-      this.myChart.on("click", this.eConsole);
+      this.myChart.on("click", this.props.clickEvent);
     }
 
   }
