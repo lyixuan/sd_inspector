@@ -10,29 +10,49 @@
 
 import React from 'react';
 import { Progress } from 'antd';
+import Empty from '@/components/Empty';
 import styles from './common.less'
 
 export default class SelfProgress extends React.Component {
-  render(){
-    const {dataList} = this.props;
+  chooseMaxData = () => {
+    const { dataList } = this.props;
+    return Math.max.apply(null, dataList.map(item => item.per));
+  }
+  renderPercent = (per) => {
+    const { dataList } = this.props;
+    let maxData = dataList.length > 0 ? this.chooseMaxData() : 0;
+    if (maxData === 0) {
+      return 0
+    }
+    // 处理非100
+    if (maxData / 5 < 1) {
+      maxData = 5;
+    } else if (maxData / 5 >= 1 && maxData / 5 < 20) {
+      maxData = (maxData / 5 + 1) * 5;
+    }
+    return Number(per) / maxData * 100;
+  }
+  render() {
+    const { dataList, isEmpty } = this.props;
     return (
-      <>
+      <div className={styles.progressCotainer}>
+        {isEmpty ? <span className={styles.empty}><Empty isEmpty={isEmpty} /></span> : null}
         {
-          dataList.map((item,i)=>{
+          dataList.map((item, i) => {
             return (
               <div className={styles.m_progressCls} key={i}>
-                <div className={styles.u_name}><span className={styles.u_iconCls} style={{backgroundColor:item.color?item.color:'#52c9c2'}}>{i+1}</span>{item.name}</div>
+                <div className={styles.u_name}><span className={styles.u_iconCls} style={{ backgroundColor: item.color ? item.color : '#52c9c2' }}>{i + 1}</span>{item.name}</div>
                 <Progress
-                  percent={item.per}
-                  strokeColor={item.color?item.color:'#52c9c2'}
+                  percent={this.renderPercent(item.per)}
+                  strokeColor={item.color ? item.color : '#52c9c2'}
                   strokeWidth={20}
-                  format={percent=>percent.toFixed(2) + '%'}
+                  format={percent => item.per.toFixed(2) + '%'}
                 />
               </div>
             )
           })
         }
-      </>
+      </div>
     );
   }
 }

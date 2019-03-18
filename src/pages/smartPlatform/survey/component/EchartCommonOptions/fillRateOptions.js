@@ -1,7 +1,7 @@
 function handleOptionsData(data = []) {
   const xAxisData = [];
   const seriesData = [];
-  data.forEach(item => {
+  data.sort((a, b) => b.admissionFillRatio - a.admissionFillRatio).forEach(item => {
     xAxisData.push(item.collegeName);
     seriesData.push({
       ...item,

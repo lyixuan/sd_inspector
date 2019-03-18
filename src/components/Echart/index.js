@@ -2,6 +2,7 @@ import React from 'react';
 import echarts from 'echarts';
 import Empty from '@/components/Empty';
 import config from '../../../config/config';
+import styles from './styles.less';
 
 export default class EchartsComponent extends React.Component {
 
@@ -46,8 +47,11 @@ export default class EchartsComponent extends React.Component {
 
   render() {
     const { style, isEmpty } = this.props;
-    return <>
-      {isEmpty ? <Empty isEmpty={isEmpty} /> : null}
-      <div ref={this.createRef} style={{ ...style }} /></>
+    return (
+      <div className={styles.echartContainer} style={{ ...style }}>
+        {isEmpty ? <span className={styles.empty}><Empty isEmpty={isEmpty} /></span> : null}
+        <div ref={this.createRef} className={styles.echartDom} />
+      </div>
+    )
   }
 }
