@@ -106,8 +106,12 @@ class Survey extends React.Component {
     return moment().add(-1, 'days').format('YYYY-MM-DD');
   }
   handleFamilyExamOrgData = (data = []) => {
-    return [{ name: '派学院|商进家族', per: 30, color: '#ff6d6d' }, { name: '2', per: 50, color: '#ff8e57' }, { name: '1', per: 70, color: '#ffaa4d' }, { name: '1', per: 90 }]
-
+    return data.sort((a, b) => b.admissionFillRatio - a.admissionFillRatio).map(item => ({
+      ...item,
+      name: `${item.collegeName}|${item.familyName}`,
+      per: (item.admissionFillRatio || 0) * 100,
+      color: '#52C9C2'
+    }));
   }
   handleCollegeExamOrgData = (data = []) => {
     return fillCollege(data)
@@ -159,14 +163,12 @@ class Survey extends React.Component {
                 <EchartTitle onChangeExamOrg={this.onChangeExamOrg} paramsData={collegeExamOrgParams} />
                 <Echart update={data1} style={{ width: '100%', height: "293px" }}
                   options={collegeExamOptionsData}
-                  isEmpty={true}
+                  isEmpty={collegeExamOrgData.length === 0}
                 />
               </div>
               <div className={styles.echartFamily}>
                 <EchartTitle onChangeExamOrg={this.onChangeExamOrg} paramsData={familyExamOrgParams} />
-                <div style={{ padding: '35px 80px 35px 110px' }}>
-                  <SelfProgress dataList={familyExamOptionsData} />
-                </div>
+                <SelfProgress dataList={familyExamOptionsData} isEmpty={familyExamOrgData.length === 0} />
               </div>
             </Spin>
           </div>

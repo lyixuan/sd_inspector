@@ -86,7 +86,6 @@ class ChinaMap extends Component {
         //设置tip框
         this.drewTip();
         // 设置path 部分
-        console.log(WIDTH)
         const chart = d3.select(this.svgDom).attr('width', WIDTH).attr('height', HEIGHT);
         this.svgFirstG = chart.append("g")// 设最外包层在总图上的相对位置
         this.svgFirstG.style('fill-opacity', 1)

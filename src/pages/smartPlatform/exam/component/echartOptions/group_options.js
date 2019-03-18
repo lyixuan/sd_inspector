@@ -1,26 +1,26 @@
 // name:人均，value:触达人数
-export function groupOPtion(param,data){
+export function groupOPtion(param,data,unit){
   const {tabId} = param;
   const {dataPro = [],data1,data2,data3=[]} = data[tabId]?data[tabId]:{};
 
   const _html =function(i) {
     if(isEmpty(data3)){
       return `<div>
-<div style="color:#052664;text-align:center;font-size:14px;width:183px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataPro[i].name}</div>
-<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data2[i].name}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data2[i].value}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data1[i].name}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data1[i].value}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[0]}:${data1[i].name}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[1]}:${data1[i].value}人</div>
+<div style="color:#052664;text-align:center;font-size:14px;width:223px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataPro[i].name}</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data1[i].value}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data1[i].name}${unit}</div>
+<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data2[i].value}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data2[i].name}${unit}</div>
+<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[0]}:${data3[i].value}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[1]}:${data3[i].name}${unit}</div>
 </div>`
     }else {
       return `<div>
-<div style="color:#052664;text-align:center;font-size:14px;width:183px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataPro[i].name}</div>
-<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data2[i].name}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data2[i].value}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data1[i].name}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data1[i].value}人</div>
+<div style="color:#052664;text-align:center;font-size:14px;width:223px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataPro[i].name}</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data1[i].valueg}${unit}</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data1[i].name}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data2[i].value}${unit}</div>
+<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data2[i].name}人</div>
 </div>`
     }
 
@@ -44,7 +44,7 @@ export function groupOPtion(param,data){
     return datas;
   }();
   const series = ()=>{
-    if(isEmpty(data3)){
+    if(!isEmpty(data3)){
       return [{
         type: 'bar',
         stack: 'sum',
@@ -66,7 +66,7 @@ export function groupOPtion(param,data){
         label: {
           normal: {
             show: true,
-            position: 'insideRight',
+            position: 'insideLeft',
             formatter:function (params) {
               return `${params.value}/${params.name}`
             },
@@ -87,7 +87,7 @@ export function groupOPtion(param,data){
       }]
     }
   };
-  const color=!isEmpty(data3)?['rgba(255,255,0,0)','#52C9C2','#FD9E3B','#46A3EF','#fff',]:['rgba(255,255,0,0)','#52C9C2','#FD9E3B','#fff',];
+  const color=isEmpty(data3)?['rgba(255,255,0,0)','#52C9C2','#FD9E3B','#46A3EF','#fff',]:['rgba(255,255,0,0)','#52C9C2','#FD9E3B','#fff',];
   const legendData = isEmpty(data3)?[param.legendGroup[0], param.legendGroup[1],param.legendGroup[2]]:[param.legendGroup[0], param.legendGroup[1]];
   return {
     title: {
@@ -111,7 +111,7 @@ export function groupOPtion(param,data){
         fontSize:12,
       },
       formatter:function(params) {
-        return `<div style="width:213px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 3px 16px ">${_html(params.dataIndex)}</div>`;
+        return `<div style="width:263px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 3px 16px ">${_html(params.dataIndex)}</div>`;
       },
     },
     legend: {
@@ -137,6 +137,7 @@ export function groupOPtion(param,data){
     yAxis: {
       type: 'category',
       show:false,
+      inverse:true,
     },
     series: [
       {
@@ -165,7 +166,7 @@ export function groupOPtion(param,data){
           normal: {
             borderWidth:100,
             show: true,
-            position: 'insideRight',
+            position: 'insideLeft',
             formatter:function (params) {
               return `${params.value}/${params.name}`
             },
@@ -181,7 +182,7 @@ export function groupOPtion(param,data){
         label: {
           normal: {
             show: true,
-            position: 'insideRight',
+            position: 'insideLeft',
             formatter:function (params) {
               return `${params.value}/${params.name}`
             },

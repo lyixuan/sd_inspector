@@ -26,7 +26,6 @@ class SelectComponent extends React.Component {
   constructor(props) {
     super(props);
     const { paramsData = {} } = props;
-    console.log(paramsData)
     const { beginDate = '', endDate = '', province = null, orgType = '' } = paramsData;
     this.state = {
       beginDate,
