@@ -97,8 +97,9 @@ export function blendChartOptions(param,mapInfo,id,pro,unit,type) {
   }
   const dataAll = mapInfo && mapInfo[type] ? mapInfo[type] : emptyData;
   const _html =function(i) {
+    const total = parseFloat(dataAll.data3[i]) + parseFloat(dataAll.data4[i]);
     return `<div>
-<div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.province[i]}${param.name}:共1000人</div>
+<div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.province[i]}${param.name}:共${total}人</div>
 <div style="margin-bottom: 8px">${ myLegend[0]}:${dataAll.data1[i]}${unit}</div>
 <div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
 <div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
