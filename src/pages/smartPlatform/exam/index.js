@@ -84,7 +84,6 @@ class Survey extends React.Component {
         legendGroup:['新生填写人数/新生填写率','老生填写人数/老生填写率','未填写人数/未填写率']
       })
     }
-    console.log(val)
   };
   // 时间控件可展示的时间范围
   disabledDate = current => {
@@ -111,7 +110,6 @@ class Survey extends React.Component {
   };
   eConsole=(param,e)=> {
     const {type,beginDate,endDate}=param;
-    // console.log(param,e)
     const origin = window.location.origin;
     window.location.href = `${origin}${config.base}smartPlatform/exam/collegeinfo?name=${e.name}&type=${type}&beginDate=${beginDate}&endDate=${endDate}`;
   };
@@ -119,10 +117,7 @@ class Survey extends React.Component {
     const {tabId,endDate,beginDate} = this.state;
     const { exam } = this.props;
     const { porDataList = {} ,famDataMap={},groDataList={},examTotal={},isShowAll} = exam;
-    console.log(1,famDataMap)
-    console.log(2,porDataList)
     const tabData = [{name:'考试计划',id:'examPlan',data:[]},{name:'报考通知',id:'examNotice',data:[]},{name:'准考证填写',id:'examTicket',data:[]}];
-console.log(groDataList.dataPro?groDataList.dataPro.length:20)
     return (
       <Spin spinning={false}>
         <BITabs onChange={this.switchContent} type="card" tabBarStyle={{backgroundColor:'#fff',padding:'19px 0 0 30px'}}>

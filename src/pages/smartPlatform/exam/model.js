@@ -151,13 +151,13 @@ export default {
       const { porDataList } = payload;
 
       const dataMap = {
-        // examNotice:{
-        //   province:[],
-        //   data3:[],
-        //   data4:[],
-        //   data1:[],
-        //   data2:[],
-        // },
+        examNotice:{
+          province:[],
+          data3:[],
+          data4:[],
+          data1:[],
+          data2:[],
+        },
         examPlan:{
           province:[],
           data3:[],
@@ -165,22 +165,36 @@ export default {
           data1:[],
           data2:[],
         },
-        // examTicket:{
-        //   province:[],
-        //   data3:[],
-        //   data4:[],
-        //   data1:[],
-        //   data2:[],
-        // },
+        examTicket:{
+          province:[],
+          data3:[],
+          data4:[],
+          data1:[],
+          data2:[],
+        },
       };
 
       if(porDataList){
         porDataList.forEach(item=>{
-          dataMap.examPlan.province.push({name:item.province,value:10000});
+          dataMap.examPlan.province.push({name:item.province,value:100});
           dataMap.examPlan.data1.push(item.oldAvgServiceNum);
           dataMap.examPlan.data2.push(item.newAvgServiceNum);
           dataMap.examPlan.data3.push(item.oldExamPlanNum);
           dataMap.examPlan.data4.push(item.newExamPlanNum);
+        });
+        porDataList.forEach((v)=>{
+          dataMap.examNotice.province.push({name:v.province,value:100});
+          dataMap.examNotice.data1.push(`${(v.oldReadRatio*100).toFixed(2)}`);
+          dataMap.examNotice.data2.push(`${(v.newReadRatio*100).toFixed(2)}`);
+          dataMap.examNotice.data3.push(v.oldReadNum);
+          dataMap.examNotice.data4.push(v.newReadNum);
+        });
+        porDataList.forEach((v)=>{
+          dataMap.examTicket.province.push({name:v.province,value:100});
+          dataMap.examTicket.data1.push(`${(v.oldAdmissionFillRatio*100).toFixed(2)}`);
+          dataMap.examTicket.data2.push(`${(v.newAdmissionFillRatio*100).toFixed(2)}`);
+          dataMap.examTicket.data3.push(v.oldAdmissionFillNum);
+          dataMap.examTicket.data4.push(v.newAdmissionFillNum);
         });
       }
 

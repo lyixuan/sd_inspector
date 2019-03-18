@@ -112,7 +112,6 @@ export function blendChartOptions(param,mapInfo,id,pro,unit,type) {
     xData: dataAll.province,
     color: ['#0080FF', "#FF4165", '#52C9C2','#FD9E3B'],
     formatter:function(params) {
-      console.log(params);
       return `<div style=" box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 3px 3px 16px ">${_html(params.dataIndex)}</div>`;
     },
       // '<div style=" width:193px;height:120px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 0 16px ">{b}{333333}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人</div>',
