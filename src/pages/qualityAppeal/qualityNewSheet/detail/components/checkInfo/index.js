@@ -29,10 +29,11 @@ export default class CheckInfoComponent extends React.Component {
             </div>
             <div>
               <div className={styles.secCol}>
-                <div>审核详情</div>
+                <div>审核详情：</div>
                 <div>{item.Desc}</div>
               </div>
             </div>
+            <div className={styles.divideLine} />
           </div>
         ))}
       </section>

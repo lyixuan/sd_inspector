@@ -2,7 +2,6 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #d5dae2;
   padding-bottom: 10px;
 }
 .container {
@@ -14,9 +13,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-top: 8px;
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-top: 12px;
+  margin-left: 18px;
+}
+.secRow > div {
+  margin-top: 10px;
 }
 .secCol {
   display: flex;
@@ -36,4 +37,14 @@
   padding-left: 18px;
   font-size: 16px;
   color: #353535;
+}
+
+.divideLine {
+  height: 1px;
+  background-color: #ebecef;
+  flex: 1;
+  margin: 24px 0 0 12px;
+}
+div.divideLine:last-child {
+  height: 0;
 }
