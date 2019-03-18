@@ -1,38 +1,8 @@
 // name:人均，value:触达人数
 export function groupOPtion(param,data){
-  const {dataPro,data1,data2,data3=[]} = data;
-  // const dataPro= [
-  //   {name:'巴西',value:820},
-  //   {name:'印尼',value:820},
-  //   {name:'美国',value:820},
-  //   {name:'印度',value:820},
-  //   {name:'中国',value:820},
-  //   {name:'北京',value:820}
-  // ];
-  // const data1 = [
-  //   {name:'120',value:320},
-  //   {name:'130',value:120},
-  //   {name:'220',value:220},
-  //   {name:'320',value:320},
-  //   {name:'120',value:120},
-  //   {name:'120',value:320},
-  // ];
-  // const data2 = [
-  //   {name:'120',value:120},
-  //   {name:'160',value:200},
-  //   {name:'220',value:220},
-  //   {name:'320',value:320},
-  //   {name:'120',value:520},
-  //   {name:'120',value:180},
-  // ];
-  // const data3 = [
-  //   {name:'120',value:120},
-  //   {name:'160',value:200},
-  //   {name:'220',value:220},
-  //   {name:'320',value:320},
-  //   {name:'120',value:520},
-  //   {name:'120',value:180},
-  // ];
+  const {tabId} = param;
+  const {dataPro,data1,data2,data3=[]} = data[tabId];
+
   const _html =function(i) {
     if(isEmpty(data3)){
       return `<div>

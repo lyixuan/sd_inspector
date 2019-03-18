@@ -116,7 +116,12 @@ class Survey extends React.Component {
   render() {
     const {tabId,endDate,beginDate} = this.state;
     const { exam } = this.props;
-    const { porDataList = {} ,famDataMap={},groDataList={},examTotal={},isShowAll} = exam;
+
+    const style1={width: '100%', height: '960px'};
+    const style2={width: '100%', height: '5376px'};
+    const sty = isShowAll?style2:style1;
+    const unit = tabId === 'examPlan'?'人':'%';
+    const { porDataList = {} ,colDataList={},famDataMap={},groDataList={},examTotal={},isShowAll} = exam;
     const tabData = [{name:'考试计划',id:'examPlan',data:[]},{name:'报考通知',id:'examNotice',data:[]},{name:'准考证填写',id:'examTicket',data:[]}];
     return (
       <Spin spinning={false}>
@@ -149,12 +154,12 @@ class Survey extends React.Component {
                 <div className={styles.echartCls}>
                   <div className='m_box'>
                     <p className={styles.proTip}>点击省份可查看该省份的学院及家族数据</p>
-                    <Echart clickEvent={(e)=>this.eConsole({type:tabId,endDate,beginDate},e)} update={porDataList} style={{ width: '100%', height: "1500px" }} options={famProOPtion(this.state,porDataList,'pro',undefined,'人',this.state.tabId)} />
+                    <Echart clickEvent={(e)=>this.eConsole({type:tabId,endDate,beginDate},e)} update={porDataList} style={{ width: '100%', height: "1500px" }} options={famProOPtion(this.state,porDataList,'pro',undefined,unit,this.state.tabId)} />
                   </div>
-                  <div className='m_box'><Echart update={porDataList} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,[],'all')} /></div>
-                  <div className='m_box'><Echart update={famDataMap} style={{ width: '100%', height:"1700px" }} options={famProOPtion(this.state,famDataMap,'fam',undefined,'人',this.state.tabId)} /></div>
+                  <div className='m_box'><Echart update={porDataList} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,colDataList,'all',undefined,unit,this.state.tabId)} /></div>
+                  <div className='m_box'><Echart update={famDataMap} style={{ width: '100%', height:"1700px" }} options={famProOPtion(this.state,famDataMap,'fam',undefined,unit,this.state.tabId)} /></div>
                   <div className='m_box'>
-                    <Echart update={`${JSON.stringify(groDataList)}${isShowAll}`} style={{ width: '100%', height: isShowAll?'5376px':'960px' }} options={groupOPtion(this.state,groDataList)} />
+                    <Echart update={`${JSON.stringify(groDataList)}${isShowAll}`} style={sty} options={groupOPtion(this.state,groDataList)} />
                     <BIButton type="primary" style={{marginBottom:'20px',display:isShowAll?'none':'block'}} onClick={this.getMoreData}>查看更多</BIButton>
                   </div>
                 </div>

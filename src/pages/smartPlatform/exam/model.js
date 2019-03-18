@@ -41,7 +41,7 @@ export default {
       if (response.code === 20000) {
         if(orgType === 'college'){
           yield put({
-            type: 'save',
+            type: 'saveColDataList',
             payload: { colDataList: response.data },
           })
         }else  if(orgType === 'family'){
@@ -201,6 +201,60 @@ export default {
 
       return { ...state, porDataList:dataMap };
     },
+    saveColDataList(state, { payload }) {
+      const { colDataList } = payload;
+
+      const mapInfo = {
+        examNotice:{
+          province:[],
+          data3:[],
+          data4:[],
+          data1:[],
+          data2:[],
+        },
+        examPlan:{
+          province:[],
+          data3:[],
+          data4:[],
+          data1:[],
+          data2:[],
+        },
+        examTicket:{
+          province:[],
+          data3:[],
+          data4:[],
+          data1:[],
+          data2:[],
+        },
+      };
+
+      if(colDataList){
+        colDataList.forEach((v)=>{
+          mapInfo.examNotice.province.push(v.collegeName);
+          mapInfo.examNotice.data1.push(`${(v.oldReadRatio*100).toFixed(2)}`);
+          mapInfo.examNotice.data2.push(`${(v.newReadRatio*100).toFixed(2)}`);
+          mapInfo.examNotice.data3.push(v.oldReadNum);
+          mapInfo.examNotice.data4.push(v.newReadNum);
+        });
+        colDataList.forEach((v)=>{
+          mapInfo.examPlan.province.push(v.collegeName);
+          mapInfo.examPlan.data1.push(v.oldAvgServiceNum);
+          mapInfo.examPlan.data2.push(v.newAvgServiceNum);
+          mapInfo.examPlan.data3.push(v.oldExamPlanNum);
+          mapInfo.examPlan.data4.push(v.newExamPlanNum);
+        });
+        colDataList.forEach((v)=>{
+          mapInfo.examTicket.province.push(v.collegeName);
+          mapInfo.examTicket.data1.push(`${(v.oldAdmissionFillRatio*100).toFixed(2)}`);
+          mapInfo.examTicket.data2.push(`${(v.newAdmissionFillRatio*100).toFixed(2)}`);
+          mapInfo.examTicket.data3.push(v.oldAdmissionFillNum);
+          mapInfo.examTicket.data4.push(v.newAdmissionFillNum);
+        });
+      }
+
+
+      return { ...state, colDataList:mapInfo };
+    },
     saveFamDataList(state, { payload }) {
       const dataList = payload.famDataList || [];
       const mapInfo = {
@@ -251,36 +305,50 @@ export default {
     },
     saveGroDataList(state, { payload }) {
       const { groDataList,isShowAll } = payload;
-      console.log(isShowAll)
-      const dataPro = {
-        dataPro:[],
-        data1:[],
-        data2:[],
-        data3:[],
+      const mapInfo = {
+        examNotice:{
+          dataPro:[],
+          data3:[],
+          data1:[],
+          data2:[],
+        },
+        examPlan:{
+          dataPro:[],
+          data3:[],
+          data1:[],
+          data2:[],
+        },
+        examTicket:{
+          dataPro:[],
+          data3:[],
+          data1:[],
+          data2:[],
+        },
       };
+      let deepGroDataList = groDataList.concat();
+      if(!isShowAll){
+        deepGroDataList=deepGroDataList.slice(0,20)
+      }
       if(groDataList){
-        groDataList.map((item,i)=>{
-          if(!isShowAll){
-            if(i<20){
-              dataPro.dataPro.push({name:`${item.collegeName}|${item.familyName}|${item.groupName}`,value:1000});
-              dataPro.data1.push(
-                {name:item.newAvgServiceNum,value:item.newExamPlanNum},
-              );
-              dataPro.data2.push({name:item.oldAvgServiceNum,value:item.oldExamPlanNum})
-              // dataPro.data3.push(item.oldExamPlanNum);
-            }
-          }else {
-            dataPro.dataPro.push({name:`${item.collegeName}|${item.familyName}|${item.groupName}`,value:1000});
-            dataPro.data1.push(
-              {name:item.newAvgServiceNum,value:item.newExamPlanNum},
-            );
-            dataPro.data2.push({name:item.oldAvgServiceNum,value:item.oldExamPlanNum})
-            // dataPro.data3.push(item.oldExamPlanNum);
-          }
-          return dataPro
+        deepGroDataList.forEach((item)=>{
+          mapInfo.examNotice.dataPro.push({name:`${item.collegeName}|${item.familyName}|${item.groupName}`,value:1000});
+          mapInfo.examNotice.data1.push({name:item.newAvgServiceNum,value:item.newExamPlanNum});
+          mapInfo.examNotice.data2.push({name:item.oldAvgServiceNum,value:item.oldExamPlanNum});
+          // mapInfo.examNotice.data3.push(v.oldReadNum);
+        });
+        deepGroDataList.forEach((item)=>{
+          mapInfo.examPlan.dataPro.push({name:`${item.collegeName}|${item.familyName}|${item.groupName}`,value:1000});
+          mapInfo.examPlan.data1.push({name:item.newAvgServiceNum,value:item.newExamPlanNum});
+          mapInfo.examPlan.data2.push({name:item.oldAvgServiceNum,value:item.oldExamPlanNum});
+          // mapInfo.examNotice.data3.push(v.oldReadNum);
+        });
+        deepGroDataList.forEach((item)=>{
+          mapInfo.examTicket.dataPro.push({name:`${item.collegeName}|${item.familyName}|${item.groupName}`,value:1000});
+          mapInfo.examTicket.data1.push({name:item.newAvgServiceNum,value:item.newExamPlanNum});
+          mapInfo.examTicket.data2.push({name:item.oldAvgServiceNum,value:item.oldExamPlanNum});
         });
       }
-      return { ...state, groDataList:dataPro};
+      return { ...state, groDataList:mapInfo};
     },
     save(state, { payload }) {
       return { ...state, ...payload};
