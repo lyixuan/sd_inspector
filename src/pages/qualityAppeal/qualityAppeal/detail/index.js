@@ -1,12 +1,14 @@
 import React from 'react';
 import styles from './style.less';
-// import { connect } from 'dva';
-// import SubOrderDetail from './../../components/subOrderDetail';
-// import PersonInfo from './components/personInfo';
+import { connect } from 'dva';
+import AppealInfo from './../component/appealInfo';
+import SOPCheckResult from './../component/sopCheckResult';
+import SuperiorCheck from './../component/superiorCheck';
+import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 // import IllegalInfo from './components/illegalInfo';
 // import CheckInfo from './components/checkInfo';
-// import { Form, Icon, Row, Col, TreeSelect, Input, Upload, message } from 'antd';
-// import BIButton from '@/ant_components/BIButton';
+import { Form, Icon, Row, Col, TreeSelect, Input, Upload, message } from 'antd';
+import BIButton from '@/ant_components/BIButton';
 
 class AppealDetail extends React.Component {
   constructor(props) {
@@ -66,7 +68,38 @@ class AppealDetail extends React.Component {
     };
   }
   render() {
-    return <div className={styles.detailContainer}>33</div>;
+    return (
+      <div className={styles.detailContainer}>
+        <section>
+          {/* 质检违规人员信息 */}
+          <PersonInfo data={this.state.qualityData} />
+        </section>
+        <section>
+          <AppealInfo data={this.state.qualityData.qualityAudit} />
+        </section>
+        <section>
+          <SOPCheckResult />
+        </section>
+        <section>
+          <SuperiorCheck />
+        </section>
+        <section>
+          <Form layout="inline" className={styles.formBox}>
+            <div className={styles.content}>
+              <Row className="gutter-row">
+                <Col span={24}>
+                  <div className={styles.gutterBox1}>
+                    <span className={styles.gutterBtn2}>
+                      <BIButton>返回</BIButton>
+                    </span>
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          </Form>
+        </section>
+      </div>
+    );
   }
 }
 
