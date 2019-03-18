@@ -98,10 +98,16 @@ class Survey extends React.Component {
       endDate:dateString[1],
     });
   };
+  getMoreData = ()=>{
+    this.props.dispatch({
+      type: 'exam/allGroData',
+      payload: {},
+    })
+  };
   render() {
     const {tabId,endDate,beginDate} = this.state;
     const { exam } = this.props;
-    const { porDataList = {} ,famDataList={},examTotal={}} = exam;
+    const { porDataList = {} ,famDataList={},groDataList={},examTotal={},isShowAll} = exam;
     const tabData = [{name:'考试计划',id:'examPlan',data:[]},{name:'报考通知',id:'examNotice',data:[]},{name:'准考证填写',id:'examTicket',data:[]}];
 
     return (
@@ -137,11 +143,11 @@ class Survey extends React.Component {
                     <p className={styles.proTip}>点击省份可查看该省份的学院及家族数据</p>
                     <Echart clickEvent update={porDataList} style={{ width: '100%', height: "1500px" }} options={famProOPtion(this.state,porDataList,'pro')} />
                   </div>
-                  <div className='m_box'><Echart update={porDataList} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,{},'all')} /></div>
-                  <div className='m_box'><Echart update={famDataList} style={{ width: '100%', height: "1700px" }} options={famProOPtion(this.state,famDataList,'fam')} /></div>
+                  <div className='m_box'><Echart update={porDataList} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,[],'all')} /></div>
+                  <div className='m_box'><Echart update={famDataList} style={{ width: '100%', height:"1700px" }} options={famProOPtion(this.state,famDataList,'fam')} /></div>
                   <div className='m_box'>
-                    <Echart update={porDataList} style={{ width: '100%', height: "410px" }} options={groupOPtion(this.state)} />
-                    <BIButton type="primary" style={{marginBottom:'20px'}} onClick={()=>console.log(1)}>查看更多</BIButton>
+                    <Echart update={groDataList} style={{ width: '100%', height: isShowAll?`${48*groDataList.dataPro.length}px`:'960px' }} options={groupOPtion(this.state,groDataList)} />
+                    <BIButton type="primary" style={{marginBottom:'20px',display:isShowAll?'none':'block'}} onClick={this.getMoreData}>查看更多</BIButton>
                   </div>
                 </div>
               </div>

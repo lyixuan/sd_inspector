@@ -11,6 +11,7 @@ export default {
     groDataList: [],
     examTotal: [],
     examOrg: [],
+    isShowAll:false
   },
 
   effects: {
@@ -50,7 +51,7 @@ export default {
           })
         }else {
           yield put({
-            type: 'save',
+            type: 'saveGroDataList',
             payload: { groDataList: response.data },
           })
         }
@@ -58,6 +59,12 @@ export default {
       } else {
         message.error(response.msg)
       }
+    },
+    *allGroData({payload}, { call, put }) {
+      yield put({
+        type: 'saveGroDataList',
+        payload: { isShowAll: true },
+      });
     }
   },
 
@@ -181,6 +188,38 @@ export default {
         });
       }
       return { ...state, famDataList:dataFam};
+    },
+    saveGroDataList(state, { payload }) {
+      const { groDataList,isShowAll } = payload;
+      const dataPro = {
+        dataPro:[],
+        data1:[],
+        data2:[],
+        data3:[],
+      };
+      if(groDataList){
+        groDataList.map((item,i)=>{
+          if(!isShowAll){
+            if(i<20){
+              dataPro.dataPro.push({name:`${item.collegeName}|${item.familyName}|${item.groupName}`,value:1000});
+              dataPro.data1.push(
+                {name:item.newAvgServiceNum,value:item.newExamPlanNum},
+              );
+              dataPro.data2.push({name:item.oldAvgServiceNum,value:item.oldExamPlanNum})
+              // dataPro.data3.push(item.oldExamPlanNum);
+            }
+          }else {
+            dataPro.dataPro.push({name:`${item.collegeName}|${item.familyName}|${item.groupName}`,value:1000});
+            dataPro.data1.push(
+              {name:item.newAvgServiceNum,value:item.newExamPlanNum},
+            );
+            dataPro.data2.push({name:item.oldAvgServiceNum,value:item.oldExamPlanNum})
+            // dataPro.data3.push(item.oldExamPlanNum);
+          }
+          return dataPro
+        });
+      }
+      return { ...state, groDataList:dataPro};
     },
     save(state, { payload }) {
       return { ...state, ...payload};
