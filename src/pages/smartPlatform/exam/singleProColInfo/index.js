@@ -22,18 +22,20 @@ class Survey extends React.Component {
       legend_examTicket:['老生填写率','新生填写率','老生填写','新生填写'],
       legendGroup:['新生考试计划人数/人均服务新生','老生触达人数/人均服务老生'],
     };
-
+    const { query = {} } = this.props.location;
+    this.params = query;
+    this.params.unit = query.type === 'examPlan'?'人':'%';
   }
   componentDidMount() {
     this.provinceOrg();
   }
-  provinceOrg = () => {
+  provinceOrg = (orgType) => {
     const params={
-      province:'北京市',
-      orgType:'college',
-      beginDate:'2019-03-01',
-      endDate:'2019-03-08',
-      type:'examPlan',
+      province:this.params.name,
+      orgType:orgType?orgType:'college',
+      beginDate:this.params.beginDate,
+      endDate:this.params.endDate,
+      type:this.params.type,
     };
     this.props.dispatch({
       type: 'examOrg/provinceOrg',
@@ -41,15 +43,20 @@ class Survey extends React.Component {
     });
   };
   onChange = (e) => {
+    const orgType = e.target.value === 1?'college':'family';
     this.setState({
-      value: e.target.value,
-    });
+        value: e.target.value,
+      },
+      () => {
+        this.provinceOrg(orgType);
+      }
+    );
   };
   render() {
     const { examOrg } = this.props;
     const {value} = this.state;
     const { mapInfo = {} } = examOrg;
-    const newOptions =  value===1?blendChartOptions(this.state,mapInfo,'single','山西','examPlan','%'):famProOPtion(this.state,mapInfo,'fam','山西');
+    const newOptions =  value===1?blendChartOptions(this.state,mapInfo,'single',this.params.name,this.params.unit,this.params.type):famProOPtion(this.state,mapInfo,'fam',this.params.name,this.params.unit,this.params.type);
     return (
       <Spin spinning={false}>
         <div className={styles.m_container}>

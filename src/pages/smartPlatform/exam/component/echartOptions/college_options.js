@@ -66,11 +66,13 @@ function commonOptions(params) {
   };
 }
 
-export function blendChartOptions(param,mapInfo,id,pro,type,unit) {
+export function blendChartOptions(param,mapInfo,id,pro,unit,type) {
   /*
-  * unit: data1和data2的单位
+  * @id:省份名称
+  * @pro: 区分集团和省份  single、all
+  * @unit: data1和data2的单位
   * @type:  examPlan, examNotice, examTicket
-  * @mapInfo
+  * @mapInfo: 构造好的数据
    * {
         examNotice:{},
         examPlan:{},
