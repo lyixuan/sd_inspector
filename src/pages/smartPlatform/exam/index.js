@@ -10,6 +10,7 @@ import {blendChartOptions}  from './component/echartOptions/college_options';
 import {famProOPtion}  from './component/echartOptions/family_prov_options';
 import {groupOPtion}  from './component/echartOptions/group_options';
 import moment from 'moment/moment';
+import config from '../../../../config/config';
 import BIButton from '@/ant_components/BIButton';
 
 const  { BIRangePicker } = BIDatePicker;
@@ -104,6 +105,12 @@ class Survey extends React.Component {
       payload: {},
     })
   };
+  eConsole=(param,e)=> {
+    const {type,beginDate,endDate}=param;
+    // console.log(param,e)
+    const origin = window.location.origin;
+    window.location.href = `${origin}${config.base}smartPlatform/exam/collegeinfo?name=${e.name}&type=${type}&beginDate=${beginDate},endDate=${endDate}`;
+  };
   render() {
     const {tabId,endDate,beginDate} = this.state;
     const { exam } = this.props;
@@ -141,7 +148,7 @@ class Survey extends React.Component {
                 <div className={styles.echartCls}>
                   <div className='m_box'>
                     <p className={styles.proTip}>点击省份可查看该省份的学院及家族数据</p>
-                    <Echart clickEvent update={porDataList} style={{ width: '100%', height: "1500px" }} options={famProOPtion(this.state,porDataList,'pro')} />
+                    <Echart clickEvent={(e)=>this.eConsole({type:tabId,endDate,beginDate},e)} update={porDataList} style={{ width: '100%', height: "1500px" }} options={famProOPtion(this.state,porDataList,'pro')} />
                   </div>
                   <div className='m_box'><Echart update={porDataList} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,[],'all')} /></div>
                   <div className='m_box'><Echart update={famDataList} style={{ width: '100%', height:"1700px" }} options={famProOPtion(this.state,famDataList,'fam')} /></div>
