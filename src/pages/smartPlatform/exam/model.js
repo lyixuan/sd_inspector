@@ -149,27 +149,43 @@ export default {
     },
     saveDataList(state, { payload }) {
       const { porDataList } = payload;
-      const data = {
-        province:[],
-        data1:[],
-        data2:[],
-        data3:[],
-        data4:[],
+
+      const dataMap = {
+        // examNotice:{
+        //   province:[],
+        //   data3:[],
+        //   data4:[],
+        //   data1:[],
+        //   data2:[],
+        // },
+        examPlan:{
+          province:[],
+          data3:[],
+          data4:[],
+          data1:[],
+          data2:[],
+        },
+        // examTicket:{
+        //   province:[],
+        //   data3:[],
+        //   data4:[],
+        //   data1:[],
+        //   data2:[],
+        // },
       };
 
       if(porDataList){
-        porDataList.map(item=>{
-          data.province.push({name:item.province,value:10000});
-          data.data1.push(item.oldAvgServiceNum);
-          data.data2.push(item.newAvgServiceNum);
-          data.data3.push(item.oldExamPlanNum);
-          data.data4.push(item.newExamPlanNum);
-          return data
+        porDataList.forEach(item=>{
+          dataMap.examPlan.province.push({name:item.province,value:10000});
+          dataMap.examPlan.data1.push(item.oldAvgServiceNum);
+          dataMap.examPlan.data2.push(item.newAvgServiceNum);
+          dataMap.examPlan.data3.push(item.oldExamPlanNum);
+          dataMap.examPlan.data4.push(item.newExamPlanNum);
         });
       }
 
 
-      return { ...state, porDataList:data };
+      return { ...state, porDataList:dataMap };
     },
     saveFamDataList(state, { payload }) {
       const dataList = payload.famDataList || [];

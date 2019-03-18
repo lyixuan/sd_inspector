@@ -1,8 +1,8 @@
 
 export function famProOPtion(param, mapInfo,id,pro,unit,type){
   /*
-  * @id:省份名称
-  * @pro: 区分集团和省份  single、all
+  * @id: 区分集团和省份  pro、fam
+  * @pro: 省份名称
   * @unit: data1和data2的单位
   * @type:  examPlan, examNotice, examTicket
   * @mapInfo: 构造好的数据
@@ -19,12 +19,14 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
     data3:[],
     data4:[],
   };
-  const myLegend = type ? param[`legend_${type}`]:param.legend;
+  const myLegend = pro ? param[`legend_${type}`]: param.legend;
   const dataAll = mapInfo && mapInfo[type] ? mapInfo[type] : emptyData;
   let text='';
   if(id === 'pro'){
+    // 省级查询
     text=`各省${param.name}`
   }else if(id === 'fam'){
+    // 家族查询
     if(pro){
       text=`家族${param.name}（${pro}）`
     }else {

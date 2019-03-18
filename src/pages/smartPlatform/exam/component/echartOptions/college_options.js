@@ -68,8 +68,8 @@ function commonOptions(params) {
 
 export function blendChartOptions(param,mapInfo,id,pro,unit,type) {
   /*
-  * @id:省份名称
-  * @pro: 区分集团和省份  single、all
+  * @id: 区分集团和省份 single、all
+  * @pro:  省份名称 eg:北京市
   * @unit: data1和data2的单位
   * @type:  examPlan, examNotice, examTicket
   * @mapInfo: 构造好的数据
@@ -86,7 +86,7 @@ export function blendChartOptions(param,mapInfo,id,pro,unit,type) {
     data3:[],
     data4:[],
   };
-  const myLegend = type ? param[`legend_${type}`]:param.legend;
+  const myLegend = id ==='single' ? param[`legend_${type}`]:param.legend;
   let text='';
   if(id === 'all'){
     text = `各学院${param.name}（集团）`
