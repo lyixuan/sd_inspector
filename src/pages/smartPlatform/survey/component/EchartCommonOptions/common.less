@@ -23,13 +23,22 @@
   height: 1px;
   background-color: #ebecef;
 }
-
+.progressCotainer{
+  position: relative;
+  min-height: 200px;
+  padding: 35px 80px 35px 110px;
+  .empty{
+    position: absolute;
+    top: 10px;
+  }
+}
 .m_progressCls{
   margin-bottom: 23px;
   .u_iconCls{
     display: inline-block;
     margin-right: 5px;
-    width: 14px;
+    min-width: 14px;
+    padding: 0 1px;
     height: 14px;
     line-height: 14px;
     text-align: center;

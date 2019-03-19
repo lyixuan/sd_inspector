@@ -1,7 +1,6 @@
 import { PureComponent } from 'react';
-import classNames from 'classnames';
 import styles from './style.less';
-import { PROVINCE_STEP, PROVINCE_STATUS } from '@/utils/constants';
+import { PROVINCE_STEP } from '@/utils/constants';
 import moment from 'moment';
 
 export default class ProcessStep extends PureComponent {
@@ -31,6 +30,8 @@ export default class ProcessStep extends PureComponent {
                     {stepStatus === 3 ? <div className={styles.stepOver}>已结束</div> : null}
                     <h4 className={styles.processName} key={`${item.id}h4`}>{item.name}</h4>
                     <p className={styles.processDate} key={`${item.id}p`}>{dateTime}</p>
+                    <span className={styles.symbal}>◀</span>
+                    <span className={styles.circle}></span>
                 </li>
             )
         });
@@ -42,6 +43,7 @@ export default class ProcessStep extends PureComponent {
         return (
             <ul className={styles.stateBox}>
                 {objList}
+                <li className={styles.line}></li>
             </ul>
         )
     }

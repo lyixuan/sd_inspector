@@ -232,7 +232,7 @@ export const MSG_STATES = [
 export const TASK_STATES = [
   { id: 1, name: '未开始', color: '#999' },
   { id: 2, name: '进行中..', color: '#dc5745' },
-  { id: 3, name: '完成', color: '#38e39d' },
+  { id: 3, name: '完成', color: '#52C9C2' },
   { id: 4, name: '失败', color: '#ff3678' },
 ];
 
