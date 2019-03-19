@@ -187,8 +187,8 @@ export default {
           dataMap.examNotice.province.push(v.province);
           dataMap.examNotice.data1.push(`${(v.oldReadRatio * 100).toFixed(2)}`);
           dataMap.examNotice.data2.push(`${(v.newReadRatio * 100).toFixed(2)}`);
-          dataMap.examNotice.data3.push(Number(v.oldReadNum));
-          dataMap.examNotice.data4.push(Number(v.newReadNum));
+          dataMap.examNotice.data3.push(Number(v.oldExamPlanNum));
+          dataMap.examNotice.data4.push(Number(v.newExamPlanNum));
           dataMap.examNotice.data5.push(`${(v.readRatio * 100).toFixed(2)}`);
         });
         porDataList.sort((a,b)=>b.admissionFillRatio-a.admissionFillRatio).forEach((v) => {
@@ -236,8 +236,8 @@ export default {
           mapInfo.examNotice.province.push(v.collegeName);
           mapInfo.examNotice.data1.push(`${(v.oldReadRatio * 100).toFixed(2)}`);
           mapInfo.examNotice.data2.push(`${(v.newReadRatio * 100).toFixed(2)}`);
-          mapInfo.examNotice.data3.push(Number(v.oldReadNum));
-          mapInfo.examNotice.data4.push(Number(v.newReadNum));
+          mapInfo.examNotice.data3.push(Number(v.oldExamPlanNum));
+          mapInfo.examNotice.data4.push(Number(v.newExamPlanNum));
         });
         colDataList.forEach((v) => {
           mapInfo.examPlan.province.push(v.collegeName);
@@ -295,8 +295,8 @@ export default {
           mapInfo.examNotice.familyName.push(v.familyName);
           mapInfo.examNotice.data1.push(`${(v.oldReadRatio * 100).toFixed(2)}`);
           mapInfo.examNotice.data2.push(`${(v.newReadRatio * 100).toFixed(2)}`);
-          mapInfo.examNotice.data3.push(Number(v.oldReadNum));
-          mapInfo.examNotice.data4.push(Number(v.newReadNum));
+          mapInfo.examNotice.data3.push(Number(v.oldExamPlanNum));
+          mapInfo.examNotice.data4.push(Number(v.newExamPlanNum));
           mapInfo.examNotice.data5.push(`${(v.readRatio * 100).toFixed(2)}`);
         });
         dataList.forEach((v) => {
