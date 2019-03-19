@@ -158,6 +158,22 @@ export function groupOPtion(param,data,unit){
         data: dataPro
       },
       {
+        name: `${param.legendGroup[1]}`,
+        type: 'bar',
+        barWidth: 20,
+        stack: 'sum',
+        label: {
+          normal: {
+            show: true,
+            position: 'insideLeft',
+            formatter:function (params) {
+              return `${params.value}/${params.name}`
+            },
+          }
+        },
+        data: data2
+      },
+      {
         name: `${param.legendGroup[0]}`,
         type: 'bar',
         barWidth: 20,
@@ -173,22 +189,6 @@ export function groupOPtion(param,data,unit){
           }
         },
         data: data1
-      },
-      {
-        name: `${param.legendGroup[1]}`,
-        type: 'bar',
-        barWidth: 20,
-        stack: 'sum',
-        label: {
-          normal: {
-            show: true,
-            position: 'insideLeft',
-            formatter:function (params) {
-              return `${params.value}/${params.name}`
-            },
-          }
-        },
-        data: data2
       },
       ...series(),
     ]

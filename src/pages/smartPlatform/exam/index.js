@@ -71,20 +71,20 @@ class Survey extends React.Component {
         tabId:"examPlan",
         name:'考试计划人数',
         legend:['人均服务老生','人均服务新生','老生考试计划人数','新生考试计划人数'],
-        legendGroup:['新生考试计划人数/人均服务新生','老生触达人数/人均服务老生'],
+        legendGroup:['新生考试计划人数/人均服务新生','老生考试计划人数/人均服务老生'],
       })
     }else if(val === 'examNotice'){
       this.setState({
         tabId:"examNotice",
         name:'报考通知人数',
-        legend:['老生触达率','新生触达率','应通知老生人数','应通知新生人数'],
+        legend:['老生触达率','新生触达率','应通知老生人数','应通知新生人数','触达人数','通知率'],
         legendGroup:['新生应通知人数/新生触达率','老生应通知人数/老生触达率','未触达人数/未触达率']
       })
     }else if(val === 'examTicket'){
       this.setState({
         tabId:"examTicket",
         name:'准考证填写',
-        legend:['老生填写率','新生填写率','老生填写人数','新生填写人数'],
+        legend:['老生填写率','新生填写率','老生填写人数','新生填写人数','填写人数','填写率'],
         legendGroup:['新生填写人数/新生填写率','老生填写人数/老生填写率','未填写人数/未填写率']
       })
     }
