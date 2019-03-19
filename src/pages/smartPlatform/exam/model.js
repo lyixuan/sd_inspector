@@ -349,9 +349,9 @@ export default {
       if (groDataList) {
         deepGroDataList.sort((a,b)=>b.readRatio-a.readRatio).forEach((item) => {
           mapInfo.examNotice.dataPro.push({ name: `${item.collegeName}|${item.familyName}|${item.groupName}`, value: 100 });
-          mapInfo.examNotice.data1.push({ name: (item.newReadRatio*100).toFixed(2), value: Number(item.newExamPlanNum) });
-          mapInfo.examNotice.data2.push({ name: (item.oldReadRatio*100).toFixed(2), value: Number(item.oldExamPlanNum) });
-          mapInfo.examNotice.data3.push({ name: (100-item.readRatio*100).toFixed(2), value: Number(item.examPlanNum-item.readNum) });
+          mapInfo.examNotice.data1.push({ name: `${(item.newReadRatio*100).toFixed(2)}%`, value: Number(item.newExamPlanNum) });
+          mapInfo.examNotice.data2.push({ name: `${(item.oldReadRatio*100).toFixed(2)}%`, value: Number(item.oldExamPlanNum) });
+          mapInfo.examNotice.data3.push({ name: `${(100-item.readRatio*100).toFixed(2)}%`, value: Number(item.examPlanNum-item.readNum) });
         });
         deepGroDataList.forEach((item) => {
           mapInfo.examPlan.dataPro.push({ name: `${item.collegeName}|${item.familyName}|${item.groupName}`, value: 100 });
@@ -360,9 +360,9 @@ export default {
         });
         deepGroDataList.sort((a,b)=>b.admissionFillRatio-a.admissionFillRatio).forEach((item) => {
           mapInfo.examTicket.dataPro.push({ name: `${item.collegeName}|${item.familyName}|${item.groupName}`, value: 100 });
-          mapInfo.examTicket.data1.push({ name: (item.newAdmissionFillRatio*100).toFixed(2), value: Number(item.newExamPlanNum) });
-          mapInfo.examTicket.data2.push({ name: (item.oldAdmissionFillRatio*100).toFixed(2), value: Number(item.oldExamPlanNum) });
-          mapInfo.examTicket.data3.push({ name: (100-item.admissionFillRatio*100).toFixed(2), value: Number(item.examPlanNum-item.readNum) });
+          mapInfo.examTicket.data1.push({ name: `${(item.newAdmissionFillRatio*100).toFixed(2)}%`, value: Number(item.newExamPlanNum) });
+          mapInfo.examTicket.data2.push({ name: `${(item.oldAdmissionFillRatio*100).toFixed(2)}%`, value: Number(item.oldExamPlanNum) });
+          mapInfo.examTicket.data3.push({ name: `${(100-item.admissionFillRatio*100).toFixed(2)}%`, value: Number(item.examPlanNum-item.readNum) });
         });
       }
       return { ...state, groDataList: mapInfo };
