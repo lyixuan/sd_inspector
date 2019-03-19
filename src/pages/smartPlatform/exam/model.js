@@ -351,7 +351,7 @@ export default {
           mapInfo.examNotice.dataPro.push({ name: `${item.collegeName}|${item.familyName}|${item.groupName}`, value: 100 });
           mapInfo.examNotice.data1.push({ name: (item.newReadRatio*100).toFixed(2), value: Number(item.newExamPlanNum) });
           mapInfo.examNotice.data2.push({ name: (item.oldReadRatio*100).toFixed(2), value: Number(item.oldExamPlanNum) });
-          mapInfo.examNotice.data3.push({ name: (100-item.readRatio*100).toFixed(2), value: Number(item.oldExamPlanNum+item.newExamPlanNum)*(1-item.readRatio).toFixed(0) });
+          mapInfo.examNotice.data3.push({ name: (100-item.readRatio*100).toFixed(2), value: Number(item.examPlanNum-item.readNum) });
         });
         deepGroDataList.forEach((item) => {
           mapInfo.examPlan.dataPro.push({ name: `${item.collegeName}|${item.familyName}|${item.groupName}`, value: 100 });
@@ -362,7 +362,7 @@ export default {
           mapInfo.examTicket.dataPro.push({ name: `${item.collegeName}|${item.familyName}|${item.groupName}`, value: 100 });
           mapInfo.examTicket.data1.push({ name: (item.newAdmissionFillRatio*100).toFixed(2), value: Number(item.newExamPlanNum) });
           mapInfo.examTicket.data2.push({ name: (item.oldAdmissionFillRatio*100).toFixed(2), value: Number(item.oldExamPlanNum) });
-          mapInfo.examTicket.data3.push({ name: (100-item.admissionFillRatio*100).toFixed(2), value: Number(item.newExamPlanNum+item.newAvgServiceNum)*(1-item.admissionFillRatio).toFixed(0) });
+          mapInfo.examTicket.data3.push({ name: (100-item.admissionFillRatio*100).toFixed(2), value: Number(item.examPlanNum-item.readNum) });
         });
       }
       return { ...state, groDataList: mapInfo };
