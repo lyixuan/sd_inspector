@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Layout, Radio, Spin } from 'antd';
 import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
 import GlobalHeader from '../components/GlobalHeader';
 import Modal from '@/components/Modal/Modal';
-import { ADMIN_USER } from '@/utils/constants';
 import styles from './styles/header.less';
 import storage from '../utils/storage';
 import { GLOBAL_HEADER_SELECT } from '../utils/constants';

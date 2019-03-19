@@ -19,6 +19,8 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
     data2:[],
     data3:[],
     data4:[],
+    data5:[],
+    data6:[],
   };
   const myLegend = pro ? param[`legend_${type}`]: param.legend;
   const dataAll = mapInfo && mapInfo[type] ? mapInfo[type] : emptyData;
@@ -27,6 +29,8 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
   dataAll.dataMap2 = [];
   dataAll.dataMap3 = [];
   dataAll.dataMap4 = [];
+  dataAll.dataMap5 = [];
+  dataAll.dataMap6 = [];
   dataAll.province.forEach((v,i)=>{
     const familyName = dataAll.familyName?dataAll.familyName:undefined;
     if(familyName){
@@ -53,13 +57,26 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
   }
   const _html =function(i) {
     const total = parseFloat(dataAll.data3[i]) + parseFloat(dataAll.data4[i]);
-    return `<div>
+    if(!myLegend[5]){
+      return `<div>
 <div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.yName[i].name}${param.name}:共${total}人</div>
 <div style="margin-bottom: 8px">${ myLegend[0]}:${dataAll.data1[i]}${unit}</div>
 <div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
 <div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
 <div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
 </div>`
+    }else {
+      return `<div>
+<div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.yName[i].name}${param.name}:共${total}人</div>
+<div style="margin-bottom: 8px">${ myLegend[4]}:${dataAll.data5[i]}人</div>
+<div style="margin-bottom: 8px">${ myLegend[5]}:${dataAll.data5[i]}*total${unit}</div>
+<div style="margin-bottom: 8px">${ myLegend[0]}:${dataAll.data1[i]}${unit}</div>
+<div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
+<div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
+<div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
+</div>`
+    }
+
   } ;
   return {
     title: {
@@ -76,7 +93,7 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
       // axisPointer: { // 坐标轴指示器，坐标轴触发有效
       //   type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
       // },
-      backgroundColor:'rgba(255,255,255,.6)',
+      backgroundColor:'rgba(255,255,255,.8)',
       textStyle: {
         align: 'left',
         color:'#052664',

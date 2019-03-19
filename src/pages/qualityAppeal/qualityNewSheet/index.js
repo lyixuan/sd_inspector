@@ -87,6 +87,8 @@ class NewQualitySheetIndex extends React.Component {
     });
   };
 
+  onRepeal = (record) => {
+  };
   columnsAction = () => {
     const actionObj = [{
       title: '操作',
@@ -105,7 +107,7 @@ class NewQualitySheetIndex extends React.Component {
               </span>
             </AuthButton>
             <AuthButton authority='/qualityAppeal/qualityNewSheet/repeal'>
-              <span className={style.actionBtn} onClick={() => this.onDetail(record)}>
+              <span className={style.actionBtn} onClick={() => this.onRepeal(record)}>
                 撤销
               </span>
             </AuthButton>

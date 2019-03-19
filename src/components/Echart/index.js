@@ -1,7 +1,6 @@
 import React from 'react';
 import echarts from 'echarts';
 import Empty from '@/components/Empty';
-import config from '../../../config/config';
 import styles from './styles.less';
 
 export default class EchartsComponent extends React.Component {

@@ -17,7 +17,7 @@ export function groupOPtion(param,data,unit){
     }else {
       return `<div>
 <div style="color:#052664;text-align:center;font-size:14px;width:223px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataPro[i].name}</div>
-<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data1[i].valueg}${unit}</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data1[i].value}${unit}</div>
 <div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data1[i].name}人</div>
 <div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data2[i].value}${unit}</div>
 <div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data2[i].name}人</div>
@@ -158,6 +158,22 @@ export function groupOPtion(param,data,unit){
         data: dataPro
       },
       {
+        name: `${param.legendGroup[1]}`,
+        type: 'bar',
+        barWidth: 20,
+        stack: 'sum',
+        label: {
+          normal: {
+            show: true,
+            position: 'insideLeft',
+            formatter:function (params) {
+              return `${params.value}/${params.name}`
+            },
+          }
+        },
+        data: data2
+      },
+      {
         name: `${param.legendGroup[0]}`,
         type: 'bar',
         barWidth: 20,
@@ -173,22 +189,6 @@ export function groupOPtion(param,data,unit){
           }
         },
         data: data1
-      },
-      {
-        name: `${param.legendGroup[1]}`,
-        type: 'bar',
-        barWidth: 20,
-        stack: 'sum',
-        label: {
-          normal: {
-            show: true,
-            position: 'insideLeft',
-            formatter:function (params) {
-              return `${params.value}/${params.name}`
-            },
-          }
-        },
-        data: data2
       },
       ...series(),
     ]
