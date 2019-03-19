@@ -4,14 +4,14 @@
  * 建议path路径结构与route相同
  */
 const urlPathMap = {
-  '/skillCertification/certificationClose': {
-    name: '认证关闭报名',
+  '/qualityAppeal/qualityNewSheet/exportResult': {
+    name: '导出查询结果',
   },
-  '/appeal/scoreAdjustDel': {
-    name: '删除学分调整',
+  '/qualityAppeal/qualityNewSheet/delete': {
+    name: '删除质检',
   },
-  '/otherConfig/officialSet': {
-    name: '文案编辑',
+  '/qualityAppeal/qualityNewSheet/repeal': {
+    name: '质检单撤销',
   },
 };
 export { urlPathMap };

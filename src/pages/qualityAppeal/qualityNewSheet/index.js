@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
+import AuthButton from '@/components/AuthButton';
 import Page from './component/page';
+import style from '@/pages/qualityAppeal/style.less';
+
 
 const columns = [
   {
@@ -41,16 +44,33 @@ const columns = [
     width: 150,
     render: (text, record) => {
       return (
-        <div>
-          <div>
-              <span
-                style={{ color: '#52C9C2', cursor: 'pointer', display: 'inline-block' }}
-                onClick={() => this.onRecord(record)}
-              >
-                审核记录
+        <>
+          <AuthButton authority='/qualityAppeal/qualityNewSheet/detail'>
+              <span className={style.actionBtn} onClick={() => this.onDetail(record)}>
+                查看详情
               </span>
-          </div>
-        </div>
+          </AuthButton>
+          <AuthButton authority='/qualityAppeal/qualityNewSheet/edit'>
+              <span className={style.actionBtn} onClick={() => this.onDetail(record)}>
+                编辑
+              </span>
+          </AuthButton>
+          <AuthButton authority='/qualityAppeal/qualityNewSheet/repeal'>
+              <span className={style.actionBtn} onClick={() => this.onDetail(record)}>
+                撤销
+              </span>
+          </AuthButton>
+          <AuthButton authority='/qualityAppeal/qualityNewSheet/appealSheet'>
+              <span className={style.actionBtn} onClick={() => this.onDetail(record)}>
+                审核
+              </span>
+          </AuthButton>
+          {/*<AuthButton authority='/qualityAppeal/qualityNewSheet/delete'>*/}
+              {/*<span className={style.actionBtn} onClick={() => this.onDetail(record)}>*/}
+                {/*删除*/}
+              {/*</span>*/}
+          {/*</AuthButton>*/}
+        </>
       );
     },
   },
