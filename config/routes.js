@@ -75,13 +75,18 @@ export const routes = [
             },
           },
           {
-            path: '/qualityAppeal/qualityNewSheet/edit/:id',
+            path: '/qualityAppeal/qualityNewSheet/edit',
             component: './qualityAppeal/qualityNewSheet/edit',
             name: '编辑质检单',
             bread: {
               name: '新质检单管理',
               path: '/qualityAppeal/qualityNewSheet',
             },
+          },
+          {
+            path: '/qualityAppeal/qualityNewSheet/appealSt',
+            component: './qualityAppeal/qualityNewSheet/edit',
+            name: '审核',
           },
           {
             path: '/qualityAppeal/qualityNewSheet/detail',
@@ -113,6 +118,15 @@ export const routes = [
           },
           {
             path: '/qualityAppeal/qualityAppeal/appeal',
+            component: './qualityAppeal/qualityAppeal/appeal',
+            name: '申诉审核',
+            bread: {
+              name: '质检申诉管理',
+              path: '/qualityAppeal/qualityAppeal',
+            },
+          },
+          {
+            path: '/qualityAppeal/qualityAppeal/launchAppeal',
             component: './qualityAppeal/qualityAppeal/appeal',
             name: '申诉审核',
             bread: {

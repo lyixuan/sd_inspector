@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import {provinceJson} from '@/utils/constants'
+import { provinceJson } from '@/utils/constants'
 import { getOrgInfo, getExamDateRange } from './services';
 
 export default {
@@ -13,7 +13,7 @@ export default {
 
   effects: {
     *getOrgInfo({ payload }, { call, put }) {
-      const result = yield call(getOrgInfo, {...payload});
+      const result = yield call(getOrgInfo, { ...payload });
       const orgList = result.data || [];
       if (result && result.code === 20000) {
         yield put({ type: 'save', payload: { orgList } });
@@ -22,7 +22,7 @@ export default {
       }
     },
     *getExamDateRange({ payload }, { call, put }) {
-      const data = yield call(getExamDateRange, {...payload});
+      const data = yield call(getExamDateRange, { ...payload });
       if (data.code === 20000) {
         yield put({ type: 'save', payload: { dateRange: data.data } });
       } else {

@@ -1,8 +1,24 @@
-export function fillCollege(dataX,dataY) {
+function handleOptionsData(data = []) {
+  const xAxisData = [];
+  const seriesData = [];
+  data.sort((a, b) => b.admissionFillRatio - a.admissionFillRatio).forEach(item => {
+    xAxisData.push(item.collegeName);
+    seriesData.push({
+      ...item,
+      value: ((item.admissionFillRatio || 0) * 100).toFixed(2),
+    })
+  });
+  return {
+    xAxisData,
+    seriesData,
+  }
+}
+export function fillCollege(data) {
+  const collegeData = handleOptionsData(data);
   const option = {
     xAxis: {
       type: 'category',
-      data: dataX,
+      data: collegeData.xAxisData,
       axisTick: {
         show: false,
       },
@@ -18,7 +34,6 @@ export function fillCollege(dataX,dataY) {
     yAxis: {
       type: 'value',
       min: 0,
-      max: 100,
       axisLine: {
         lineStyle: {
           color: '#F5F6F7'
@@ -26,9 +41,9 @@ export function fillCollege(dataX,dataY) {
       },
       axisLabel: {
         formatter: '{value}%',
-         color: '#8a8c91'
+        color: '#8a8c91'
       },
-      splitLine:false,
+      splitLine: false,
       axisTick: {
         show: false,
       },
@@ -40,19 +55,12 @@ export function fillCollege(dataX,dataY) {
           position: 'top',
           fontSize: 12,
           formatter: '{c}%',
-          color:'#000'
+          color: '#000'
         }
       },
       barWidth: 34,
-      data: [
-        {value:dataY[0],itemStyle:{color:'#ff6d6d'}},
-        {value:dataY[1],itemStyle:{color:'#ff8e57'}},
-        {value:dataY[2],itemStyle:{color:'#f29f38'}},
-        {value:dataY[3],itemStyle:{color:'#52c9c2'}},
-        {value:dataY[4],itemStyle:{color:'#52c9c2'}},
-        {value:dataY[5],itemStyle:{color:'#52c9c2'}},
-        {value:dataY[6],itemStyle:{color:'#52c9c2'}},
-        ],
+      color: '#52c9c2',
+      data: collegeData.seriesData,
       type: 'bar'
     }]
   };

@@ -1,9 +1,13 @@
 import React from 'react';
 import storage from '@/utils/storage';
+import config from '../../../config/config';
 
 function checkPathname(authority) {
   const list = storage.getUserAuth();
-  const menuKey = list.find(item => item.resourceUrl === authority);
+  const base = config.base.replace(/\//g,'');
+  const menuKey = list.find(item => item.resourceUrl === `/${base}${authority}`
+  );
+
   if (menuKey) {
     return true;
   } else return false;
@@ -13,7 +17,7 @@ function checkPathname(authority) {
 * 控制按钮权限
 * 权限配置同菜单
 * */
-class AuthButton extends React.Component {
+class Index extends React.Component {
   constructor(props) {
     super(props);
     const { authority } = this.props;
@@ -27,4 +31,4 @@ class AuthButton extends React.Component {
   }
 }
 
-export default AuthButton;
+export default Index;

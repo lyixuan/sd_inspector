@@ -1,14 +1,16 @@
 import React from 'react';
+import { Row, Col } from 'antd';
+import router from 'umi/router';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
 import BIButtonYellow from '@/components/BIButtonYellow';
-import BIButtonBlue from '@/components/BIButtonBlue';
+import BIButtonGreen from '@/components/BIButtonGreen';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
+import AuthButton from '@/components/AuthButton';
 import { BiFilter } from '@/utils/utils';
-import { Row, Col } from 'antd';
 import styles from '../../style.less'
 const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
@@ -54,15 +56,35 @@ class NewQualitySheet extends React.Component {
     this.props.queryData();
   };
   createe = ()=>{
-
+    router.push({
+      pathname: '/qualityAppeal/qualityNewSheet/create',
+      // query: this.props.checkedConditionList,
+    });
   };
   exportRt = ()=>{
 
   };
 
+  onDetail = (record)=>{
+    console.log(record);
+  };
+
   render() {
     const {qualityNum,dateRange,organization, dimensionIdList,status,violationLevel,operateName,qualityType} = this.state;
-    const {dimensionList1 = [],dimensionList2 = [],orgList = [],dataSource,columns,loading} = this.props;
+    let {dimensionList1 = [],dimensionList2 = [],orgList = [],dataSource,columns,loading} = this.props;
+    dataSource = [
+      {
+        qualityNum: 1546358400000,
+        qualityType: 1,
+        dimensionName: "分维1",
+        归属组织: 1,
+        reduceScoreDate: '2019-09-09',
+        operateName: 'name',
+        violationLevel: 1,
+        familyType: 0,
+        statusName: 1
+      }
+    ]
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -196,8 +218,12 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow1}>
             <Col className={styles.gutterCol} span={12}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterBtn1}><BIButtonBlue type='primary' onClick={this.createe} >新建质检</BIButtonBlue></span>
-                <span className={styles.gutterBtn2}><BIButtonYellow type='primary' onClick={this.exportRt} >导出查询结果</BIButtonYellow></span>
+                <AuthButton authority='/qualityAppeal/qualityNewSheet/create'>
+                  <span className={styles.gutterBtn1}><BIButtonGreen type='primary' onClick={this.createe} >新建质检</BIButtonGreen></span>
+                </AuthButton>
+                <AuthButton authority='/qualityAppeal/qualityNewSheet/exportRt'>
+                  <span className={styles.gutterBtn2}><BIButtonYellow type='primary' onClick={this.exportRt} >导出查询结果</BIButtonYellow></span>
+                </AuthButton>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={12}>

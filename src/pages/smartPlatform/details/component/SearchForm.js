@@ -8,6 +8,7 @@ import BIButton from '@/ant_components/BIButton';
 import DxDropDown from '@/pages/smartPlatform/details/component/DxDropDown';
 import DxMenu from '@/pages/smartPlatform/details/component/DxMenu';
 import BIModal from '@/ant_components/BIModal';
+import BIButtonGreen from '@/components/BIButtonGreen';
 import { Message } from 'antd';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 
@@ -257,7 +258,6 @@ class HorizontalLoginForm extends React.Component {
     return (
       <Form layout='inline' onSubmit={this.handleSubmit}>
         <div className={styles.searchBoxBg}>
-          <span className={styles.rowTitle}>查询条件：</span>
           <div className={styles.row}>
             {/* 第一行 */}
             <div>
@@ -294,7 +294,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('familyIdList', {
                   initialValue: this.state.familyIdList,
                 })(
-                  <BISelect placeholder="家族" mode="multiple" style={{ width: 190 }} showArrow maxTagCount={1} labelInValue onChange={(val) => this.formValChange(val, 'familyIdList')}>
+                  <BISelect placeholder="家族" mode="multiple" allowClear style={{ width: 190 }} showArrow maxTagCount={1} labelInValue onChange={(val) => this.formValChange(val, 'familyIdList')}>
                     {this.familyList.map(item => (
                       <Option key={item.id}>
                         {item.name}
@@ -307,7 +307,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('orderStatus', {
                   initialValue: this.state.orderStatus,
                 })(
-                  <BISelect allowClear placeholder="订单状态" style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'orderStatus')}>
+                  <BISelect allowClear placeholder="订单状态" allowClear style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'orderStatus')}>
                     {BiFilter('ORDER_STATE').map(item => (
                       <Option value={item.id} key={item.name}>
                         {item.name}
@@ -352,7 +352,7 @@ class HorizontalLoginForm extends React.Component {
                   <BISelect placeholder="消息打开状态"
                     style={{ width: 190 }}
                     mode="multiple"
-                    showArrow
+                    showArrow allowClear
                     maxTagCount={1}
                     labelInValue
                     onChange={(val) => this.formValChange(val, 'msgStatusList')}
@@ -543,9 +543,9 @@ class SearchForm extends Component {
           {
             getCheckedConditionList().length > 0 ? (
               <div className={styles.searchBoxSeletected}>
-                <span className={styles.rowTitle2}>已选条件：</span>
-                <div className={styles.row}>
-                  <span style={{ display: 'inline-flex' }} >{checkedBtn}</span>  <span style={{ float: 'right', marginRight: 20 }}><BIButton type="primary" onClick={() => this.conditionAdd()}>保存查询条件</BIButton></span>
+                <span className={styles.rowTitle2}>已选条件</span>
+                <div className={styles.row11}>
+                  <span style={{ display: 'inline-flex' }} >{checkedBtn}</span>  <span style={{ float: 'right',marginRight:-10 }}><BIButtonGreen type="primary"  onClick={() => this.conditionAdd()}>保存查询条件</BIButtonGreen></span>
                 </div>
               </div>
             ) : null

@@ -65,8 +65,28 @@ function commonOptions(params) {
     series,
   };
 }
-export function blendChartOptions(param,data,id,pro) {
-  console.log(param)
+
+export function blendChartOptions(param,mapInfo,id,pro,unit,type) {
+  /*
+  * @id: 区分集团和省份 single、all
+  * @pro:  省份名称 eg:北京市
+  * @unit: data1和data2的单位
+  * @type:  examPlan, examNotice, examTicket
+  * @mapInfo: 构造好的数据
+   * {
+        examNotice:{},
+        examPlan:{},
+        examTicket:{},
+      };
+  * */
+  const emptyData = {
+    province:[],
+    data1:[],
+    data2:[],
+    data3:[],
+    data4:[],
+  };
+  const myLegend = type ? id ==='single' ? param[`legend_${type}`]:param.legend : [];
   let text='';
   if(id === 'all'){
     text = `各学院${param.name}（集团）`
@@ -75,37 +95,29 @@ export function blendChartOptions(param,data,id,pro) {
   }else {
     console.error('缺乏参数id：all是所有省份，single是点击省份进去的单个省份')
   }
-  const { dataList = {} } = data;
-  const { data2 = {} } = dataList;
-  const dataAll = {
-    dateArr:['瑞博','瑞博1','瑞博2','瑞博3'],
-    data3:[1000,2000,3000,4000],
-    data4:[1000,2000,3000,4000],
-    data1:[100,200,300,400],
-    data2:[200,200,400,300],
-  };
+  const dataAll = mapInfo && mapInfo[type] ? mapInfo[type] : emptyData;
   const _html =function(i) {
+    const total = parseFloat(dataAll.data3[i]) + parseFloat(dataAll.data4[i]);
     return `<div>
-<div style="color:#052664;font-size:14px;width:183px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.dateArr[i]}${param.name}:共1000人</div>
-<div style="margin-bottom: 8px">${param.legend[0]}:${dataAll.data1[i]}人</div>
-<div style="margin-bottom: 8px">${param.legend[1]}:${dataAll.data2[i]}人</div>
-<div style="margin-bottom: 8px">${param.legend[2]}:${dataAll.data3[i]}人</div>
-<div style="margin-bottom: 8px">${param.legend[3]}:${dataAll.data4[i]}人</div>
+<div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.province[i]}${param.name}:共${total}人</div>
+<div style="margin-bottom: 8px">${ myLegend[0]}:${dataAll.data1[i]}${unit}</div>
+<div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
+<div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
+<div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
 </div>`
   } ;
 
   const params2 = {
     text,
-    legendData:param.legend,
-    xData: dataAll.dateArr,
+    legendData: myLegend,
+    xData: dataAll.province,
     color: ['#0080FF', "#FF4165", '#52C9C2','#FD9E3B'],
     formatter:function(params) {
-      console.log(params);
-      return `<div style=" width:213px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 3px 16px ">${_html(params.dataIndex)}</div>`;
+      return `<div style=" box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 3px 3px 16px ">${_html(params.dataIndex)}</div>`;
     },
       // '<div style=" width:193px;height:120px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 0 16px ">{b}{333333}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人</div>',
     series: [ {
-      name: param.legend[0],
+      name:  myLegend[0],
       type: 'line',
       yAxisIndex: 1,
       symbol: 'circle',
@@ -114,7 +126,7 @@ export function blendChartOptions(param,data,id,pro) {
       smooth: true,
       itemStyle: { normal: { label: { show: true, formatter: '{c}' } } },
     }, {
-      name: param.legend[1],
+      name:  myLegend[1],
       type: 'line',
       yAxisIndex: 1,
       symbol: 'circle',
@@ -123,12 +135,12 @@ export function blendChartOptions(param,data,id,pro) {
       smooth: true,
       itemStyle: { normal: { label: { show: true, formatter: '{c}' } } },
     },{
-      name: param.legend[2],
+      name:  myLegend[2],
       type: 'bar',
       barWidth: 15,
       data: dataAll.data3
     }, {
-      name: param.legend[3],
+      name:  myLegend[3],
       type: 'bar',
       barWidth: 15,
       data: dataAll.data4
