@@ -25,7 +25,27 @@ const urlPathMap = {
   '/qualityAppeal/qualityAppeal/showQA': {
     name: '显示质检归属人',
   },
-
+  '/qualityAppeal/qualityNexSheet/edit': {
+    name: '质检专员-编辑质检单',
+  },
+  '/qualityAppeal/qualityNexSheet/superioEdit': {
+    name: '质检主管-编辑质检单',
+  },
+  '/qualityAppeal/qualityNexSheet/appealReCheck': {
+    name: '质检主管申诉复审',
+  },
+  '/qualityAppeal/qualityNexSheet/launchAppeal': {
+    name: '发起申诉',
+  },
+  '/qualityAppeal/qualityNexSheet/appealCheck': {
+    name: '申诉审核',
+  },
+  '/qualityAppeal/qualityNexSheet/qualityDetail': {
+    name: '质检详情',
+  },
+  '/qualityAppeal/qualityNexSheet/appealDetail': {
+    name: '申诉详情',
+  },
 
 
 };

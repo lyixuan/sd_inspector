@@ -41,6 +41,12 @@
 .verify .verifyContent {
   padding-top: 20px;
 }
+.appealMaster {
+  margin-left: 20px;
+}
+.appealMaster .appealTitle {
+  font-weight: bold;
+}
 :global .txRight {
   text-align: right;
 }

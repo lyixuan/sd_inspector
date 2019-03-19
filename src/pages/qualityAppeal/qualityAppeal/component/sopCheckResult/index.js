@@ -9,7 +9,7 @@ export default class SOPCheckResultComponent extends React.Component {
       data: props.data,
     };
   }
-  componentDidMount() {}
+  componentDidMount() { }
 
   render() {
     return (
