@@ -8,16 +8,18 @@ import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
 import { Base64 } from 'js-base64';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
+import { LocaleProvider } from 'antd';
+import ContentLayout from '@/layouts/ContentLayout';
 import SiderMenu from '../components/SiderMenu';
 import biIcon from '../assets/biIcon.png';
 import logo from '../assets/logo.png';
 import storage from '../utils/storage';
 import HeaderLayout from './Header';
 import { query } from './utils/query';
-import ContentLayout from '@/layouts/ContentLayout';
-import { redirectUrlParams } from '../utils/routeUtils';
-import zhCN from 'antd/lib/locale-provider/zh_CN';
-import { LocaleProvider } from 'antd';
+
+import { redirectUrlParams, checkPathname } from '../utils/routeUtils';
+import Authorized from '../utils/Authorized';
 const { Content, Header } = Layout;
 /**
  * 根据菜单取得重定向地址.
@@ -220,7 +222,11 @@ class BasicLayout extends React.PureComponent {
           </Header>
           <Content>
             <ContentLayout {...this.props} routesData={routesData}>
-              {children}
+              <Authorized
+                authority={checkPathname.bind(null, location.patchname)}
+              >
+                {children}
+              </Authorized>
             </ContentLayout>
           </Content>
         </Layout>

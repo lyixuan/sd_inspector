@@ -4,6 +4,11 @@ export const routes = [
     redirect: '/indexPage',
   },
   {
+    path: '/404',
+    redirect: '/exception/404',
+  },
+
+  {
     path: '/doc',
     component: './doc',
   },
