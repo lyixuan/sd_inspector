@@ -105,6 +105,48 @@ export function blendChartOptions(param, mapInfo, id, pro, unit, type) {
 <div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
 <div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
 </div>`
+
+  };
+  const showY = function () {
+    if (type === 'examPlan') {
+      return {
+        axisLine: {
+          lineStyle: {
+            color: '#d8d8d8'
+          }
+        },
+        type: 'value',
+        position: 'right',
+        axisTick: {
+          show: false,
+        },
+        splitLine: {
+          show: false
+        },
+      }
+    } else {
+      return {
+        axisLine: {
+          lineStyle: {
+            color: '#d8d8d8'
+          }
+        },
+        type: 'value',
+        position: 'right',
+        axisTick: {
+          show: false,
+        },
+        splitLine: {
+          show: false
+        },
+        // min:0,
+        // max:100,
+        axisLabel: {
+          formatter: '{value} %',
+          color: '#979797',
+        }
+      }
+    }
   };
 
   const params2 = {
@@ -163,37 +205,7 @@ export function blendChartOptions(param, mapInfo, id, pro, unit, type) {
         color: '#979797',
       },
     }, {
-      show: false,
-      type: 'value',
-      position: 'right',
-      offset: 50,
-      splitLine: {
-        show: false
-      },
-      axisTick: {
-        show: false,
-      },
-    }, {
-      // show:false,
-      axisLine: {
-        lineStyle: {
-          color: '#d8d8d8'
-        }
-      },
-      type: 'value',
-      position: 'right',
-      axisTick: {
-        show: false,
-      },
-      splitLine: {
-        show: false
-      },
-      min: 0,
-      max: 100,
-      axisLabel: {
-        formatter: '{value} %',
-        color: '#979797',
-      }
+      ...showY()
     }],
   };
   return commonOptions(params2);

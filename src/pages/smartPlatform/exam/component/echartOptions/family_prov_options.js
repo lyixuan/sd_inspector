@@ -19,6 +19,8 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
     data2:[],
     data3:[],
     data4:[],
+    data5:[],
+    data6:[],
   };
   const myLegend = pro ? param[`legend_${type}`]: param.legend;
   const dataAll = mapInfo && mapInfo[type] ? mapInfo[type] : emptyData;
@@ -27,6 +29,8 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
   dataAll.dataMap2 = [];
   dataAll.dataMap3 = [];
   dataAll.dataMap4 = [];
+  dataAll.dataMap5 = [];
+  dataAll.dataMap6 = [];
   dataAll.province.forEach((v,i)=>{
     const familyName = dataAll.familyName?dataAll.familyName:undefined;
     if(familyName){
@@ -53,13 +57,26 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
   }
   const _html =function(i) {
     const total = parseFloat(dataAll.data3[i]) + parseFloat(dataAll.data4[i]);
-    return `<div>
+    if(!myLegend[5]){
+      return `<div>
 <div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.yName[i].name}${param.name}:共${total}人</div>
 <div style="margin-bottom: 8px">${ myLegend[0]}:${dataAll.data1[i]}${unit}</div>
 <div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
 <div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
 <div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
 </div>`
+    }else {
+      return `<div>
+<div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.yName[i].name}${param.name}:共${total}人</div>
+<div style="margin-bottom: 8px">${ myLegend[4]}:${(dataAll.data5[i]*total/100).toFixed(0)}人</div>
+<div style="margin-bottom: 8px">${ myLegend[5]}:${dataAll.data5[i]}${unit}</div>
+<div style="margin-bottom: 8px">${ myLegend[0]}:${dataAll.data1[i]}${unit}</div>
+<div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
+<div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
+<div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
+</div>`
+    }
+
   } ;
   return {
     title: {

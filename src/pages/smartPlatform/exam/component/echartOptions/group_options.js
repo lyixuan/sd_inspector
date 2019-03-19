@@ -1,5 +1,5 @@
 // name:人均，value:触达人数
-export function groupOPtion(param,data,unit){
+export function groupOPtion(param,data){
   const {tabId} = param;
   const {dataPro = [],data1,data2,data3=[]} = data[tabId]?data[tabId]:{};
 
@@ -8,18 +8,18 @@ export function groupOPtion(param,data,unit){
       return `<div>
 <div style="color:#052664;text-align:center;font-size:14px;width:223px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataPro[i].name}</div>
 <div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data1[i].value}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data1[i].name}${unit}</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data1[i].name}</div>
 <div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data2[i].value}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data2[i].name}${unit}</div>
+<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data2[i].name}</div>
 <div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[0]}:${data3[i].value}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[1]}:${data3[i].name}${unit}</div>
+<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[1]}:${data3[i].name}</div>
 </div>`
     }else {
       return `<div>
 <div style="color:#052664;text-align:center;font-size:14px;width:223px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataPro[i].name}</div>
-<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data1[i].value}${unit}</div>
+<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data1[i].value}人</div>
 <div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data1[i].name}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data2[i].value}${unit}</div>
+<div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data2[i].value}人</div>
 <div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data2[i].name}人</div>
 </div>`
     }
@@ -158,6 +158,22 @@ export function groupOPtion(param,data,unit){
         data: dataPro
       },
       {
+        name: `${param.legendGroup[1]}`,
+        type: 'bar',
+        barWidth: 20,
+        stack: 'sum',
+        label: {
+          normal: {
+            show: true,
+            position: 'insideLeft',
+            formatter:function (params) {
+              return `${params.value}/${params.name}`
+            },
+          }
+        },
+        data: data2
+      },
+      {
         name: `${param.legendGroup[0]}`,
         type: 'bar',
         barWidth: 20,
@@ -173,22 +189,6 @@ export function groupOPtion(param,data,unit){
           }
         },
         data: data1
-      },
-      {
-        name: `${param.legendGroup[1]}`,
-        type: 'bar',
-        barWidth: 20,
-        stack: 'sum',
-        label: {
-          normal: {
-            show: true,
-            position: 'insideLeft',
-            formatter:function (params) {
-              return `${params.value}/${params.name}`
-            },
-          }
-        },
-        data: data2
       },
       ...series(),
     ]
