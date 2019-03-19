@@ -6,12 +6,12 @@ function commonOptions(params) {
       x: 'center',
       textStyle: {
         fontSize: 16,
-        fontWeight:'normal',
+        fontWeight: 'normal',
       },
       top: 18,
     },
     grid: {
-      top:120,
+      top: 120,
       bottom: 33,
       left: 75,
       height: 190,
@@ -29,11 +29,11 @@ function commonOptions(params) {
     },
     tooltip: {
       // trigger: '',
-      backgroundColor:'#fff',
+      backgroundColor: '#fff',
       textStyle: {
         align: 'left',
-        color:'#052664',
-        fontSize:12,
+        color: '#052664',
+        fontSize: 12,
       },
       formatter,
       padding: 15,
@@ -43,7 +43,7 @@ function commonOptions(params) {
         axisLine: {
           lineStyle: {
             color: '#d8d8d8',
-            fontSize:12
+            fontSize: 12
           }
         },
         axisLabel: {// 横坐标轴标签
@@ -66,7 +66,7 @@ function commonOptions(params) {
   };
 }
 
-export function blendChartOptions(param,mapInfo,id,pro,unit,type) {
+export function blendChartOptions(param, mapInfo, id, pro, unit, type) {
   /*
   * @id: 区分集团和省份 single、all
   * @pro:  省份名称 eg:北京市
@@ -80,23 +80,23 @@ export function blendChartOptions(param,mapInfo,id,pro,unit,type) {
       };
   * */
   const emptyData = {
-    province:[],
-    data1:[],
-    data2:[],
-    data3:[],
-    data4:[],
+    province: [],
+    data1: [],
+    data2: [],
+    data3: [],
+    data4: [],
   };
-  const myLegend = type ? id ==='single' ? param[`legend_${type}`]:param.legend : [];
-  let text='';
-  if(id === 'all'){
+  const myLegend = type ? id === 'single' ? param[`legend_${type}`] : param.legend : [];
+  let text = '';
+  if (id === 'all') {
     text = `各学院${param.name}（集团）`
-  }else if(id === 'single'){
+  } else if (id === 'single') {
     text = `学院${param.name}（${pro}）`
-  }else {
+  } else {
     console.error('缺乏参数id：all是所有省份，single是点击省份进去的单个省份')
   }
   const dataAll = mapInfo && mapInfo[type] ? mapInfo[type] : emptyData;
-  const _html =function(i) {
+  const _html = function (i) {
     const total = parseFloat(dataAll.data3[i]) + parseFloat(dataAll.data4[i]);
     if(!myLegend[5]) {
       return `<div>
@@ -135,7 +135,7 @@ export function blendChartOptions(param,mapInfo,id,pro,unit,type) {
           show: false
         },
       }
-    }else {
+    } else {
       return {
         axisLine: {
           lineStyle: {
@@ -159,17 +159,18 @@ export function blendChartOptions(param,mapInfo,id,pro,unit,type) {
       }
     }
   };
+
   const params2 = {
     text,
     legendData: myLegend,
     xData: dataAll.province,
-    color: ['#0080FF', "#FF4165", '#52C9C2','#FD9E3B'],
-    formatter:function(params) {
+    color: ['#0080FF', "#FF4165", '#52C9C2', '#FD9E3B'],
+    formatter: function (params) {
       return `<div style=" box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 3px 3px 16px ">${_html(params.dataIndex)}</div>`;
     },
-      // '<div style=" width:193px;height:120px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 0 16px ">{b}{333333}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人</div>',
-    series: [ {
-      name:  myLegend[0],
+    // '<div style=" width:193px;height:120px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 0 16px ">{b}{333333}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人</div>',
+    series: [{
+      name: myLegend[0],
       type: 'line',
       yAxisIndex: 1,
       symbol: 'circle',
@@ -178,7 +179,7 @@ export function blendChartOptions(param,mapInfo,id,pro,unit,type) {
       smooth: true,
       itemStyle: { normal: { label: { show: true, formatter: '{c}' } } },
     }, {
-      name:  myLegend[1],
+      name: myLegend[1],
       type: 'line',
       yAxisIndex: 1,
       symbol: 'circle',
@@ -186,13 +187,13 @@ export function blendChartOptions(param,mapInfo,id,pro,unit,type) {
       data: dataAll.data2,
       smooth: true,
       itemStyle: { normal: { label: { show: true, formatter: '{c}' } } },
-    },{
-      name:  myLegend[2],
+    }, {
+      name: myLegend[2],
       type: 'bar',
       barWidth: 15,
       data: dataAll.data3
     }, {
-      name:  myLegend[3],
+      name: myLegend[3],
       type: 'bar',
       barWidth: 15,
       data: dataAll.data4
@@ -214,7 +215,7 @@ export function blendChartOptions(param,mapInfo,id,pro,unit,type) {
         formatter: '{value}',
         color: '#979797',
       },
-    },{
+    }, {
       ...showY()
     }],
   };
