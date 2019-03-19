@@ -136,7 +136,7 @@ class Survey extends React.Component {
     const tabData = [{name:'考试计划',id:'examPlan',data:[]},{name:'报考通知',id:'examNotice',data:[]},{name:'准考证填写',id:'examTicket',data:[]}];
 
     return (
-      <Spin spinning={false}>
+      <Spin spinning={this.props.loading}>
         <BITabs onChange={this.switchContent} type="card" tabBarStyle={{backgroundColor:'#fff',padding:'19px 0 0 30px'}}>
           {
             tabData.map(item=> <BITabs.TabPane tab={item.name} key={item.id}>
@@ -171,7 +171,7 @@ class Survey extends React.Component {
                   <div className='m_box'><Echart isEmpty={colDataList[tabId]?colDataList[tabId].data1.length === 0:false} update={`${JSON.stringify(colDataList)}${tabId}`} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,colDataList,'all',undefined,unit,tabId)} /></div>
                   <div className='m_box'><Echart isEmpty={famDataMap[tabId]?famDataMap[tabId].data1.length === 0:false} update={`${JSON.stringify(famDataMap)}${tabId}`} style={{ width: '100%', height:`${famDataMap[tabId]?famDataMap[tabId].data1.length*50:1700}px` }} options={famProOPtion(this.state,famDataMap,'fam',undefined,unit,tabId)} /></div>
                   <div className='m_box'>
-                    <Echart isEmpty={groDataList[tabId]?groDataList[tabId].data1.length === 0:false} update={`${JSON.stringify(groDataList)}${isShowMore}`} style={{width:'100%',height:isShowMore?`${groDataList[tabId].data1.length*48}px`:'1100px'}} options={groupOPtion(this.state,groDataList,unit)} />
+                    <Echart isEmpty={groDataList[tabId]?groDataList[tabId].data1.length === 0:false} update={`${JSON.stringify(groDataList)}${isShowMore}${tabId}`} style={{width:'100%',height:isShowMore?`${groDataList[tabId].data1.length*48}px`:'1100px'}} options={groupOPtion(this.state,groDataList,unit)} />
                     <BIButton type="primary" style={{marginBottom:'20px',display:isShowMore?'none':'block'}} onClick={()=>this.getMoreData(true)}>查看更多</BIButton>
                   </div>
                 </div>
