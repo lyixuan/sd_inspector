@@ -137,7 +137,7 @@ class ChinaMap extends Component {
     <li class=${styles.tooltipItem}>准考证填写人数：${obj.admissionFillNum || 0}人</li>
     <li class=${styles.tooltipItem}>准考证填写率：${((obj.admissionFillRatio || 0) * 100).toFixed(2)}%</li>
     </ul>`
-        )
+        );
     }
     drewLended = (svg) => {
         this.lended = svg.append('g').html(lended)
