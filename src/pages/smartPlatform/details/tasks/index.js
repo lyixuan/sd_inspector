@@ -141,9 +141,9 @@ class Tasks extends Component {
         render: (text, record) => {
           return (
             <>
-              {record.taskStatus === 3 ? <Icon type="download" onClick={() => { this.downloadFn(record) }} style={{ marginRight: '8px' }} /> : <span style={{ marginRight: '22px' }} />}
+              {record.taskStatus === 3 ? <span style={{color:'#52C9C2',marginRight: '8px',cursor:'pointer'}} onClick={() => { this.downloadFn(record) }}>下载</span> : <span style={{ marginRight: '35px' }} />}
               <Popconfirm title='确定删除该任务么' onConfirm={() => this.deleteFn(record)} okText="确定" cancelText="取消">
-                <Icon type="delete" />
+                <span style={{color:'#52C9C2',marginRight: '8px',cursor:'pointer'}}>删除</span>
               </Popconfirm>
             </>
           );
