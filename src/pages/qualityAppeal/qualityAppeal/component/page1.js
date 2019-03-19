@@ -7,7 +7,8 @@ import BIButtonYellow from '@/components/BIButtonYellow';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
-import { BiFilter, DeepCopy } from '@/utils/utils';
+import AuthButton from '@/components/AuthButton';
+import { BiFilter } from '@/utils/utils';
 import { Row, Col } from 'antd';
 import styles from '../../style.less'
 const { BIRangePicker } = BIDatePicker;
@@ -59,7 +60,20 @@ class NewQualitySheet extends React.Component {
   };
   render() {
     const {qualityNum,status,organization,verifyDate,firstAppealDate,secondAppealDate,name,qualityType} = this.state;
-    const {orgList = [],dataSource,columns,loading} = this.props;
+    let {orgList = [],dataSource,columns,loading} = this.props;
+    dataSource = [
+      {
+        qualityNum: 1546358400000,
+        qualityType: 1,
+        dimensionName: "分维1",
+        归属组织: 1,
+        reduceScoreDate: '2019-09-09',
+        operateName: 'name',
+        violationLevel: 1,
+        familyType: 0,
+        statusName: 1
+      }
+    ]
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -160,7 +174,9 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow1}>
             <Col className={styles.gutterCol} span={12}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterBtn1}><BIButtonYellow type='primary' onClick={this.exportRt}>导出Excel</BIButtonYellow></span>
+                <AuthButton authority='/qualityAppeal/qualityAppeal/export'>
+                  <span className={styles.gutterBtn1}><BIButtonYellow type='primary' onClick={this.exportRt}>导出Excel</BIButtonYellow></span>
+                </AuthButton>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={12}>
