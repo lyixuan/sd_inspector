@@ -83,7 +83,7 @@ class Survey extends React.Component {
     }else if(val === 'examTicket'){
       this.setState({
         tabId:"examTicket",
-        name:'准考证填写',
+        name:'考试计划人数',
         legend:['老生填写率','新生填写率','老生填写人数','新生填写人数','填写人数','填写率'],
         legendGroup:['新生填写人数/新生填写率','老生填写人数/老生填写率','未填写人数/未填写率']
       })
