@@ -41,13 +41,12 @@ const columns = [
   {
     title: '操作',
     dataIndex: 'operation',
-    width: 150,
     render: (text, record) => {
       return (
         <>
           <AuthButton authority='/qualityAppeal/qualityNewSheet/detail'>
               <span className={style.actionBtn} onClick={() => this.onDetail(record)}>
-                查看详情
+                查看
               </span>
           </AuthButton>
           <AuthButton authority='/qualityAppeal/qualityNewSheet/edit'>
@@ -60,7 +59,7 @@ const columns = [
                 撤销
               </span>
           </AuthButton>
-          <AuthButton authority='/qualityAppeal/qualityNewSheet/appealSheet'>
+          <AuthButton authority='/qualityAppeal/qualityNewSheet/appealSt'>
               <span className={style.actionBtn} onClick={() => this.onDetail(record)}>
                 审核
               </span>

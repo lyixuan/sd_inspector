@@ -4,7 +4,7 @@
  * 建议path路径结构与route相同
  */
 const urlPathMap = {
-  '/qualityAppeal/qualityNewSheet/exportResult': {
+  '/qualityAppeal/qualityNewSheet/exportRt': {
     name: '导出查询结果',
   },
   '/qualityAppeal/qualityNewSheet/delete': {

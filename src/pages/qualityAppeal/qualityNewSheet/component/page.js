@@ -221,7 +221,7 @@ class NewQualitySheet extends React.Component {
                 <AuthButton authority='/qualityAppeal/qualityNewSheet/create'>
                   <span className={styles.gutterBtn1}><BIButtonGreen type='primary' onClick={this.createe} >新建质检</BIButtonGreen></span>
                 </AuthButton>
-                <AuthButton authority='/qualityAppeal/qualityNewSheet/exportResult'>
+                <AuthButton authority='/qualityAppeal/qualityNewSheet/exportRt'>
                   <span className={styles.gutterBtn2}><BIButtonYellow type='primary' onClick={this.exportRt} >导出查询结果</BIButtonYellow></span>
                 </AuthButton>
               </div>
