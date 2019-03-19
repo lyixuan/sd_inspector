@@ -61,7 +61,6 @@ export default class SiderMenu extends PureComponent {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.location.pathname !== this.props.location.pathname) {
-      console.log(this.getDefaultCollapsedSubMenus(nextProps));
       this.setState({
         openKeys: this.getDefaultCollapsedSubMenus(nextProps),
       });
