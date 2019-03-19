@@ -3,7 +3,6 @@ export const routes = [
     path: '/',
     redirect: '/indexPage',
   },
-
   {
     path: '/doc',
     component: './doc',
