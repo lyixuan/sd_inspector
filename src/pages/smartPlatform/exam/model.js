@@ -123,7 +123,7 @@ export default {
       ];
       data.examTicket = [
         {
-          name: '全国准考证填写人数：共',
+          name: '全国考试计划人数：共',
           value: `${examTotal.examPlanNum}人`,
         }, {
           name: '填写人数：',
