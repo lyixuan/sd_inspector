@@ -9,3 +9,7 @@ export async function province(params) {
 export async function examTotal() {
   return request('/exam/total');
 }
+// 获取组织柱状图数据
+export async function examOrg(params) {
+  return request('/exam/org', { method: 'post', data: params });
+}

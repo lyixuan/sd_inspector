@@ -9,7 +9,7 @@ export async function getExamDateRange(params) {
   return request('/general/getExamDateRange', { params });
 }
 // 获取组织柱状图数据
-export async function examOrg(params) {
-  return request('/exam/org', { method: 'post', data: params });
+export async function examProvinceOrg(params) {
+  return request('/exam/province/org', { method: 'post', data: params });
 }
 

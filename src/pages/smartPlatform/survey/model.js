@@ -1,6 +1,6 @@
 import { message } from 'antd/lib/index';
 import { queryHistogramData, getMapInfo } from './services';
-import { examOrg } from '../services';
+import { examProvinceOrg } from '../services';
 
 function dealData(data, dataItem) {
 
@@ -49,10 +49,13 @@ export default {
         message.error(response.msg)
       }
     },
-    *examOrg({ payload }, { call, put }) {
+    *examProvinceOrg({ payload }, { call, put }) {
       const { orgType } = payload;
       let data = {};
-      const response = yield call(examOrg, payload);
+      const { province, ...others } = payload;
+      const newPayload = province ? payload : { ...others };
+
+      const response = yield call(examProvinceOrg, newPayload);
       if (response.code === 20000) {
         data[`${orgType}ExamOrgData`] = Array.isArray(response.data) ? response.data : [];
         yield put({

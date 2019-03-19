@@ -80,7 +80,7 @@ class Survey extends React.Component {
   };
   getExamOrgData = (payload = {}) => {
     this.props.dispatch({
-      type: 'survey/examOrg',
+      type: 'survey/examProvinceOrg',
       payload,
     })
   }

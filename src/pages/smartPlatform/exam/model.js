@@ -1,12 +1,12 @@
 import { message } from 'antd/lib/index';
 import { province, examTotal } from './services';
-import { examOrg } from '../services';
+import { examOrg } from './services';
 
 export default {
   namespace: 'exam',
 
   state: {
-    porDataList: {},
+    porDataList: [],
     famDataMap: [],
     colDataList: [],
     groDataList: [],
