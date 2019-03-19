@@ -126,6 +126,15 @@ export const routes = [
             },
           },
           {
+            path: '/qualityAppeal/qualityAppeal/launchAppeal',
+            component: './qualityAppeal/qualityAppeal/appeal',
+            name: '申诉审核',
+            bread: {
+              name: '质检申诉管理',
+              path: '/qualityAppeal/qualityAppeal',
+            },
+          },
+          {
             path: '/qualityAppeal/qualityBook',
             component: './qualityAppeal/qualityBook',
             name: '品控质检手册',
