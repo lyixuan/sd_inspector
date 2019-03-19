@@ -19,6 +19,14 @@ const urlPathMap = {
   '/qualityAppeal/qualityAppeal/export': {
     name: '导出在途申诉',
   },
+  '/qualityAppeal/qualityNewSheet/showQR': {
+    name: '显示质检发起人',
+  },
+  '/qualityAppeal/qualityAppeal/showQA': {
+    name: '显示质检归属人',
+  },
+
+
 
 };
 export { urlPathMap };

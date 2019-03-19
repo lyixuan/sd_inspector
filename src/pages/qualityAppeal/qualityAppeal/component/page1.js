@@ -154,12 +154,14 @@ class NewQualitySheet extends React.Component {
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
+              <AuthButton authority='/qualityAppeal/qualityAppeal/showQA'>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>归属人</span>:
-                <span className={styles.gutterForm}>
+                  <span className={styles.gutterLabel}>归属人</span>:
+                  <span className={styles.gutterForm}>
                   <BIInput placeholder="请输入" allowClear value={name} onChange={(e)=>this.onFormChange(e.target.value,'name')}/>
                 </span>
               </div>
+              </AuthButton>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox3}>

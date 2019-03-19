@@ -200,10 +200,12 @@ class NewQualitySheet extends React.Component {
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
-              <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel1}>质检发起人</span>:
-                <span className={styles.gutterForm}><BIInput allowClear placeholder="请输入" value={operateName} onChange={(e)=>this.onFormChange(e.target.value,'operateName')}/></span>
-              </div>
+              <AuthButton authority='/qualityAppeal/qualityNewSheet/showQR'>
+                <div className={styles.gutterBox2}>
+                  <span className={styles.gutterLabel1}>质检发起人</span>:
+                  <span className={styles.gutterForm}><BIInput allowClear placeholder="请输入" value={operateName} onChange={(e)=>this.onFormChange(e.target.value,'operateName')}/></span>
+                </div>
+              </AuthButton>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox3}>
