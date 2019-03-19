@@ -20,8 +20,6 @@ import { query } from './utils/query';
 
 import { redirectUrlParams, checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
-
-const { AuthorizedRoute, check } = Authorized;
 const { Content, Header } = Layout;
 /**
  * 根据菜单取得重定向地址.

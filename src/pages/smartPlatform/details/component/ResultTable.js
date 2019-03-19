@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 import BIModal from '@/ant_components/BIModal';
 import BIButton from '@/ant_components/BIButton';
-import  BIButtonYellow from '@/components/BIButtonYellow';
-import  BIButtonBlue from '@/components/BIButtonBlue';
+import BIButtonYellow from '@/components/BIButtonYellow';
+import BIButtonBlue from '@/components/BIButtonBlue';
 import BIInput from '@/ant_components/BIInput';
 import BITable from '@/ant_components/BITable';
 
 import styles from '../style.less'
-import {Message} from 'antd';
+import { Message } from 'antd';
 import config from '../../../../../config/config';
 import { connect } from 'dva/index';
 
 // 名称正则校验，汉字数字英文
-const reg =/^[\u4e00-\u9fa5a-zA-Z0-9]+$/;
+const reg = /^[\u4e00-\u9fa5a-zA-Z0-9]+$/;
 
 function listToString(obj) {
   const result = DeepCopy(obj);
@@ -144,7 +144,7 @@ class ResultTable extends Component {
 
   addTask = () => {
     const { params, total } = this.props.dataDetail;
-    if (JSON.stringify(params) == "{}") {
+    if (JSON.stringify(params) === "{}") {
       Message.warning('请查询后再添加下载任务');
       return
     }
@@ -196,7 +196,7 @@ class ResultTable extends Component {
           </div>
           <div className={styles.tableHead}>
             {/*<span className={styles.tableHeadLeft}>共搜出 {totalPlan} 条学员订单数据</span>*/}
-            <BIButtonBlue type="primary"  className={styles.tableHeadSpan} onClick={this.addTask}>添加下载任务</BIButtonBlue>
+            <BIButtonBlue type="primary" className={styles.tableHeadSpan} onClick={this.addTask}>添加下载任务</BIButtonBlue>
             <BIButtonYellow type="primary" onClick={this.toTask}>任务列表</BIButtonYellow>
           </div>
           <BITable dataSource={dataSource} columns={columns} pagination={false} loading={this.props.loading} scroll={{ y: 500 }} bordered />
@@ -215,7 +215,7 @@ class ResultTable extends Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
-            <BIButton style={{marginRight:10}} onClick={this.handleCancel}>取消</BIButton>,
+            <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>取消</BIButton>,
             <BIButton type="primary" onClick={this.handleOk}>
               确定
             </BIButton>
