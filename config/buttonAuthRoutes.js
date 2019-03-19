@@ -19,6 +19,26 @@ const urlPathMap = {
   '/qualityAppeal/qualityAppeal/export': {
     name: '导出在途申诉',
   },
-
+  '/qualityAppeal/qualityAppeal/qualityNexSheet/edit': {
+    name: '质检专员-编辑质检单',
+  },
+  '/qualityAppeal/qualityAppeal/qualityNexSheet/superioEdit': {
+    name: '质检主管-编辑质检单',
+  },
+  '/qualityAppeal/qualityAppeal/qualityNexSheet/appealReCheck': {
+    name: '质检主管申诉复审',
+  },
+  '/qualityAppeal/qualityAppeal/qualityNexSheet/launchAppeal': {
+    name: '发起申诉',
+  },
+  '/qualityAppeal/qualityAppeal/qualityNexSheet/appealCheck': {
+    name: '申诉审核',
+  },
+  '/qualityAppeal/qualityAppeal/qualityNexSheet/qualityDetail': {
+    name: '质检详情',
+  },
+  '/qualityAppeal/qualityAppeal/qualityNexSheet/appealDetail': {
+    name: '申诉详情',
+  },
 };
 export { urlPathMap };
