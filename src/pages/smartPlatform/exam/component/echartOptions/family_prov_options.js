@@ -76,7 +76,7 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
       // axisPointer: { // 坐标轴指示器，坐标轴触发有效
       //   type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
       // },
-      backgroundColor:'rgba(255,255,255,.6)',
+      backgroundColor:'rgba(255,255,255,.8)',
       textStyle: {
         align: 'left',
         color:'#052664',

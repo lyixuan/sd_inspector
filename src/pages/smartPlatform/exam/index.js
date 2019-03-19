@@ -85,6 +85,7 @@ class Survey extends React.Component {
         legendGroup:['新生填写人数/新生填写率','老生填写人数/老生填写率','未填写人数/未填写率']
       })
     }
+   this.getMoreData(false)
   };
   // 时间控件可展示的时间范围
   disabledDate = current => {
@@ -104,13 +105,16 @@ class Survey extends React.Component {
     this.examOrg('family',date);
     this.examOrg('group',date);
   };
-  getMoreData = ()=>{
-    const {beginDate,endDate,isShowMore}=this.state;
+  getMoreData = (isShow)=>{
+    const {beginDate,endDate}=this.state;
     this.setState({
-      isShowMore:true
+      isShowMore:isShow
     });
     const param = {
-      beginDate,endDate,orgType:'group'
+      data:{
+        beginDate,endDate,orgType:'group'
+      },
+      isShow
     };
     this.props.dispatch({
       type: 'exam/allGroData',
@@ -168,7 +172,7 @@ class Survey extends React.Component {
                   <div className='m_box'><Echart isEmpty={famDataMap[tabId]?famDataMap[tabId].data1.length === 0:false} update={`${JSON.stringify(famDataMap)}${tabId}`} style={{ width: '100%', height:`${famDataMap[tabId]?famDataMap[tabId].data1.length*50:1700}px` }} options={famProOPtion(this.state,famDataMap,'fam',undefined,unit,tabId)} /></div>
                   <div className='m_box'>
                     <Echart isEmpty={groDataList[tabId]?groDataList[tabId].data1.length === 0:false} update={`${JSON.stringify(groDataList)}${isShowMore}`} style={{width:'100%',height:isShowMore?`${groDataList[tabId].data1.length*48}px`:'1100px'}} options={groupOPtion(this.state,groDataList,unit)} />
-                    <BIButton type="primary" style={{marginBottom:'20px',display:isShowMore?'none':'block'}} onClick={this.getMoreData}>查看更多</BIButton>
+                    <BIButton type="primary" style={{marginBottom:'20px',display:isShowMore?'none':'block'}} onClick={()=>this.getMoreData(true)}>查看更多</BIButton>
                   </div>
                 </div>
               </div>

@@ -61,11 +61,11 @@ export default {
       }
     },
     *allGroData({ payload }, { call, put }) {
-      const response = yield call(examOrg, payload);
+      const response = yield call(examOrg, {...payload.data});
       if (response.code === 20000) {
         yield put({
           type: 'saveGroDataList',
-          payload: { isShowAll: true, groDataList: response.data },
+          payload: { isShowAll: payload.isShow, groDataList: response.data },
         });
       }
     }
@@ -109,13 +109,13 @@ export default {
           value: `${(examTotal.readRatio * 100).toFixed(2)}%`,
         }, {
           name: '应通知新生：',
-          value: `${examTotal.newReadNum}人`,
+          value: `${examTotal.newExamPlanNum}人`,
         }, {
           name: '新生触达率：',
           value: `${(examTotal.newReadRatio * 100).toFixed(2)}%`,
         }, {
           name: '应通知老生：',
-          value: `${examTotal.oldReadNum}人`,
+          value: `${examTotal.oldExamPlanNum}人`,
         }, {
           name: '老生触达率：',
           value: `${(examTotal.oldReadRatio * 100).toFixed(2)}%`,
