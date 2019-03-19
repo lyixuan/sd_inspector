@@ -7,12 +7,11 @@ export function groupOPtion(param,data){
     if(isEmpty(data3)){
       return `<div>
 <div style="color:#052664;text-align:center;font-size:14px;width:223px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataPro[i].name}</div>
-<div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data1[i].value}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[0]}:${data3[i].value}人</div>
+<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[1]}:${data3[i].name}</div><div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[0]}:${data1[i].value}人</div>
 <div style="margin-bottom: 8px">${param.legendGroup[0].split('/')[1]}:${data1[i].name}</div>
 <div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[0]}:${data2[i].value}人</div>
 <div style="margin-bottom: 8px">${param.legendGroup[1].split('/')[1]}:${data2[i].name}</div>
-<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[0]}:${data3[i].value}人</div>
-<div style="margin-bottom: 8px">${param.legendGroup[2].split('/')[1]}:${data3[i].name}</div>
 </div>`
     }else {
       return `<div>
@@ -112,7 +111,7 @@ export function groupOPtion(param,data){
         fontSize:12,
       },
       formatter:function(params) {
-        return `<div style="width:263px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 3px 16px ">${_html(params.dataIndex)}</div>`;
+        return `<div style="box-shadow:0 0 12px 0; border-radius: 5px;padding:12px 16px 8px ">${_html(params.dataIndex)}</div>`;
       },
     },
     legend: {

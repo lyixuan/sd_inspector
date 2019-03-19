@@ -163,6 +163,7 @@ class Survey extends React.Component {
                     onChange={this.dateChange}
                     style={{ width: '230px'}}
                     disabledDate={this.disabledDate}
+                    allowClear={false}
                     value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}
                   />
                 </div>
