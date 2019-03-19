@@ -17,11 +17,14 @@ const RadioGroup = Radio.Group;
 class CreateQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
+    console.log(20)
     this.state = {
-      type: undefined,
+      roleOption: 2,
+      type: undefined, //质检类型
       mail: undefined,
       user: undefined,
       userRole: undefined,
+      radio: undefined,
       organize: undefined,
       order: undefined,
       dateViolation: undefined,
@@ -43,6 +46,11 @@ class CreateQualityNewSheet extends React.Component {
       },
     };
   }
+  componentDidMount() {
+    // this.props.form.setFieldsValue({
+    //   type: { key: 0, label: "全部" }
+    // }); //页面内容回显
+  }
   onChange = treeValue => {
     console.log(treeValue);
     this.setState({ treeValue });
@@ -56,6 +64,18 @@ class CreateQualityNewSheet extends React.Component {
       }
     });
   }
+  // 质检类型onchange
+  qualityChange = (val) => {
+    console.log(60, val)
+  }
+  // 子订单编号onchange
+  radioChange = (e) => {
+    console.log(73, e.target.value)
+    if (e.target.value == 1) {
+
+    }
+  }
+
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -66,13 +86,13 @@ class CreateQualityNewSheet extends React.Component {
           <div className={styles.content}>
             <Row>
               <Col className="gutter-row" span={20}>
-                <Form.Item label="质检类型：">
+                <Form.Item label="*质检类型：">
                   {getFieldDecorator('type', {
                     initialValue: this.state.type,
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [{ required: true, message: '请选择质检类型' }],
                   })(
-                    <BISelect allowClear labelInValue initialValue="lucy" style={{ width: 280 }}>
-                      {BiFilter('ORDER_STATE').map(item => (
+                    <BISelect placeholder="请选择" allowClear labelInValue style={{ width: 280 }} onChange={this.qualityChange}>
+                      {BiFilter('QUALITY_TYPE').map(item => (
                         <Option value={item.id} key={item.name}>
                           {item.name}
                         </Option>
@@ -87,11 +107,12 @@ class CreateQualityNewSheet extends React.Component {
                 <Form.Item label="*归属人邮箱">
                   {getFieldDecorator('mail', {
                     initialValue: this.state.mail,
+                    rules: [{ required: true, message: '请输入邮箱' }],
                   })(<BIInput placeholder="请输入" style={{ width: 170 }} />)}
                 </Form.Item>
                 <div className={styles.text}>@sunland.com</div>
                 <div>
-                  <BIButton type="primary" htmlType="submit">
+                  <BIButton type="primary">
                     查询
                   </BIButton>
                 </div>
@@ -100,10 +121,14 @@ class CreateQualityNewSheet extends React.Component {
                 <Form.Item label="*归属人角色：">
                   {getFieldDecorator('userRole', {
                     initialValue: this.state.userRole,
+                    rules: [{ required: true, message: '请选择归属人角色' }],
                   })(
-                    <BISelect allowClear labelInValue initialValue="lucy" style={{ width: 280 }}>
-                      <Option value="jack">Jack</Option>
-                      <Option value="lucy">lucy</Option>
+                    <BISelect allowClear labelInValue placeholder="请选择" style={{ width: 280 }}>
+                      {BiFilter("QUALITY_RULE_TYPE").map(item => (
+                        <Option value={item.id} key={item.name}>
+                          {item.name}
+                        </Option>
+                      ))}
                     </BISelect>
                   )}
                 </Form.Item>
@@ -114,6 +139,7 @@ class CreateQualityNewSheet extends React.Component {
                 <Form.Item label="*归属人：">
                   {getFieldDecorator('user', {
                     initialValue: this.state.user,
+                    rules: [{ required: true, message: '请输入归属人' }],
                   })(<BIInput placeholder="请输入" style={{ width: 280 }} />)}
                 </Form.Item>
               </Col>
@@ -122,10 +148,29 @@ class CreateQualityNewSheet extends React.Component {
                   {getFieldDecorator('organize', {
                     initialValue: this.state.organize,
                   })(
-                    <BISelect allowClear labelInValue initialValue="lucy" style={{ width: 280 }}>
-                      <Option value="jack">Jack</Option>
-                      <Option value="lucy">lucy</Option>
-                    </BISelect>
+                    <TreeSelect
+                      style={{ width: 280 }}
+                      setFieldsValue={this.state.value}
+                      dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                      placeholder="Please select"
+                      allowClear
+                      treeDefaultExpandAll
+                      onChange={this.onChange}
+                    >
+                      <TreeNode value="parent 1" title="parent 1" key="0-1">
+                        <TreeNode value="parent 1-0" title="parent 1-0" key="0-1-1">
+                          <TreeNode value="leaf1" title="my leaf" key="random" />
+                          <TreeNode value="leaf2" title="your leaf" key="random1" />
+                        </TreeNode>
+                        <TreeNode value="parent 1-1" title="parent 1-1" key="random2">
+                          <TreeNode
+                            value="sss"
+                            title={<b style={{ color: '#08c' }}>sss</b>}
+                            key="random3"
+                          />
+                        </TreeNode>
+                      </TreeNode>
+                    </TreeSelect>
                   )}
                 </Form.Item>
               </Col>
@@ -135,10 +180,15 @@ class CreateQualityNewSheet extends React.Component {
             <Row>
               <Col className="labelWidth" span={24}>
                 <Form.Item label="*有无子订单编号？">
-                  <RadioGroup>
-                    <Radio value={1}>有</Radio>
-                    <Radio value={2}>无</Radio>
-                  </RadioGroup>
+                  {getFieldDecorator('radio', {
+                    initialValue: this.state.radio,
+                  })(
+                    <RadioGroup onChange={this.radioChange}>
+                      <Radio value={1}>有</Radio>
+                      <Radio value={2}>无</Radio>
+                    </RadioGroup>
+                  )}
+
 
                 </Form.Item>
               </Col>
@@ -151,7 +201,7 @@ class CreateQualityNewSheet extends React.Component {
                   })(<BIInput placeholder="请输入" style={{ width: 280 }} />)}
                 </Form.Item>
                 <div style={{ marginTop: '4px', marginLeft: '15px' }}>
-                  <BIButton type="primary" htmlType="submit">
+                  <BIButton type="primary">
                     查询
                   </BIButton>
                 </div>
@@ -275,6 +325,7 @@ class CreateQualityNewSheet extends React.Component {
                 <TextArea rows={4} />
               </Col>
             </Row>
+
             {/* <div className={styles.verify}>
               <div className={styles.title}>质检审核</div>
               <div className={styles.verifyContent}>
