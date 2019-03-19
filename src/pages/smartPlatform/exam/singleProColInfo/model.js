@@ -29,6 +29,7 @@ export default {
           familyName:[],
           data3:[],
           data4:[],
+          data5:[],
           data1:[],
           data2:[],
         },
@@ -37,6 +38,7 @@ export default {
           familyName:[],
           data3:[],
           data4:[],
+          data5:[],
           data1:[],
           data2:[],
         },
@@ -45,6 +47,7 @@ export default {
           familyName:[],
           data3:[],
           data4:[],
+          data5:[],
           data1:[],
           data2:[],
         },
@@ -56,6 +59,7 @@ export default {
         mapInfo.examNotice.data2.push(`${(v.newReadRatio*100).toFixed(2)}`);
         mapInfo.examNotice.data3.push(Number(v.oldReadNum));
         mapInfo.examNotice.data4.push(Number(v.newReadNum));
+        mapInfo.examNotice.data5.push(`${(v.readRatio * 100).toFixed(2)}`);
       });
       dataList.forEach((v)=>{
         mapInfo.examPlan.province.push(v.collegeName);
@@ -72,6 +76,7 @@ export default {
         mapInfo.examTicket.data2.push(`${(v.newAdmissionFillRatio*100).toFixed(2)}`);
         mapInfo.examTicket.data3.push(Number(v.oldAdmissionFillNum));
         mapInfo.examTicket.data4.push(Number(v.newAdmissionFillNum));
+        mapInfo.examTicket.data5.push(`${(v.admissionFillRatio * 100).toFixed(2)}`);
       });
 
       return { ...state, mapInfo };

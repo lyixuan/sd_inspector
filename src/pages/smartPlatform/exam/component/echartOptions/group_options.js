@@ -1,7 +1,7 @@
 // name:人均，value:触达人数
 export function groupOPtion(param,data){
   const {tabId} = param;
-  const {dataPro = [],data1,data2,data3=[]} = data[tabId]?data[tabId]:{};
+  const {dataPro = [],data1,data2,data3=[],dataRatio=[]} = data[tabId]?data[tabId]:{};
 
   const _html =function(i) {
     if(isEmpty(data3)){
@@ -33,6 +33,7 @@ export function groupOPtion(param,data){
     let datas = [];
     if(isEmpty(data3)){
       for (let i = 0; i < data1.length; i++) {
+        // datas.push(Number(dataRatio[i]))
         datas.push(data1[i].value + data2[i].value+ data3[i].value);
       }
     }else if(isEmpty(data1)) {
