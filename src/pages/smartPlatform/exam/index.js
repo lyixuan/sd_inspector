@@ -77,7 +77,7 @@ class Survey extends React.Component {
       this.setState({
         tabId:"examNotice",
         name:'报考通知人数',
-        legend:['老生触达率','新生触达率','应通知老生人数','应通知新生人数','触达人数','通知率'],
+        legend:['老生触达率','新生触达率','应通知老生人数','应通知新生人数','触达人数','触达率'],
         legendGroup:['新生应通知人数/新生触达率','老生应通知人数/老生触达率','未触达人数/未触达率']
       })
     }else if(val === 'examTicket'){

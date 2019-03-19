@@ -175,8 +175,6 @@ export default {
           data2: [],
         },
       };
-      // console.log(porDataList.sort((a,b)=>a.readRatio-b.readRatio));
-      // console.log(porDataList.sort((a,b)=>a.admissionFillRatio-b.admissionFillRatio));
       if (porDataList) {
         porDataList.forEach(item => {
           dataMap.examPlan.province.push(item.province);
@@ -191,7 +189,7 @@ export default {
           dataMap.examNotice.data2.push(`${(v.newReadRatio * 100).toFixed(2)}`);
           dataMap.examNotice.data3.push(Number(v.oldReadNum));
           dataMap.examNotice.data4.push(Number(v.newReadNum));
-          dataMap.examTicket.data5.push(`${(v.readRatio * 100).toFixed(2)}`);
+          dataMap.examNotice.data5.push(`${(v.readRatio * 100).toFixed(2)}`);
         });
         porDataList.sort((a,b)=>b.admissionFillRatio-a.admissionFillRatio).forEach((v) => {
           dataMap.examTicket.province.push(v.province);
@@ -299,7 +297,7 @@ export default {
           mapInfo.examNotice.data2.push(`${(v.newReadRatio * 100).toFixed(2)}`);
           mapInfo.examNotice.data3.push(Number(v.oldReadNum));
           mapInfo.examNotice.data4.push(Number(v.newReadNum));
-          mapInfo.examTicket.data5.push(`${(v.readRatio * 100).toFixed(2)}`);
+          mapInfo.examNotice.data5.push(`${(v.readRatio * 100).toFixed(2)}`);
         });
         dataList.forEach((v) => {
           mapInfo.examPlan.province.push(v.collegeName);
