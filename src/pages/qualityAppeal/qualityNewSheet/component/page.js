@@ -9,6 +9,7 @@ import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
 import { BiFilter } from '@/utils/utils';
 import { Row, Col } from 'antd';
+import router from 'umi/router';
 import styles from '../../style.less'
 const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
@@ -54,7 +55,10 @@ class NewQualitySheet extends React.Component {
     this.props.queryData();
   };
   createe = ()=>{
-
+    router.push({
+      pathname: '/qualityAppeal/qualityNewSheet/create',
+      // query: this.props.checkedConditionList,
+    });
   };
   exportRt = ()=>{
 
