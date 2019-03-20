@@ -9,7 +9,7 @@ import {famProOPtion}  from '../component/echartOptions/family_prov_options';
 
 @connect(({ examOrg, loading }) => ({
   examOrg,
-  loading: loading.models.exam,
+  loading: loading.models.examOrg,
 }))
 class Survey extends React.Component {
   constructor(props) {
@@ -63,7 +63,7 @@ class Survey extends React.Component {
     const sty = value === 1?style1:style2;
     const newOptions =  value===1?blendChartOptions(this.state,mapInfo,'single',this.params.name,this.params.unit,this.params.type):famProOPtion(this.state,mapInfo,'fam',this.params.name,this.params.unit,this.params.type);
     return (
-      <Spin spinning={false}>
+      <Spin spinning={this.props.loading}>
         <div className={styles.m_container}>
           <div className={styles.radioCls}>
             <BIRadio onChange={this.onChange} value={this.state.value}>
@@ -72,7 +72,7 @@ class Survey extends React.Component {
             </BIRadio>
           </div>
           <div className='m_box'>
-            <Echart update={newOptions} style={sty} options={newOptions} />
+            <Echart isEmpty={mapInfo[this.params.type]?mapInfo[this.params.type].data1.length === 0:false} update={newOptions} style={sty} options={newOptions} />
           </div>
         </div>
       </Spin>
