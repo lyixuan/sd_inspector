@@ -120,6 +120,7 @@ const dateFormat = 'YYYY-MM-DD';
            placeholder={['开始时间','结束时间']}
            onChange={this.dateChange}
            style={{ width: '230px'}}
+           allowClear={false}
            disabledDate={this.disabledDate}
            value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}
         /></div>
