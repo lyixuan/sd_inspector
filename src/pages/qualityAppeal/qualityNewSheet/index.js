@@ -120,6 +120,10 @@ class NewQualitySheetIndex extends React.Component {
         );
       },
     }];
+
+    if (!AuthButton.checkPathname('/qualityAppeal/qualityNewSheet/showQR')) {
+      columns.splice(5,1);
+    }
     return [...columns,...actionObj];
   };
   render() {

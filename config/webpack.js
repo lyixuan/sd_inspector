@@ -20,6 +20,10 @@ export const webpackConfig = {
             target: proxy_env, //  区别于self接口
             changeOrigin: true,
         },
+        '/proxyQuality': {
+            target: proxy_env, //  区别于self接口
+            changeOrigin: true,
+        },
         '/oldApi': {
             target: proxy_env, //  区别于self接口
             changeOrigin: true,

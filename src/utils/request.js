@@ -35,7 +35,7 @@ const errorHandler = error => {
   const { status, url } = response;
 
   if (status === 401) {
-    // redirectUrlParams();    // 跳转至登录页
+    redirectUrlParams();    // 跳转至登录页
     // routerRedux.push('login/logout');
     // return;
   } else if (status === 403) {
@@ -59,7 +59,7 @@ const errorHandler = error => {
  */
 const request = extend({
   errorHandler, // 默认错误处理
-  prefix: '/proxy', // prefix
+  prefix: '/proxyQuality', // prefix
   headers: {
     authorization: storage.getToken(),
   },

@@ -82,6 +82,7 @@ class SelectComponent extends React.Component {
             style={{ width: '230px' }}
             placeholder={['开始时间', '结束时间']}
             onChange={this.dateChange}
+            allowClear={false}
             disabledDate={this.disabledDate}
             value={beginDate && endDate ? [moment(beginDate, dateFormat), moment(endDate, dateFormat)] : ''}
           />

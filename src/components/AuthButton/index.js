@@ -5,8 +5,7 @@ import config from '../../../config/config';
 function checkPathname(authority) {
   const list = storage.getUserAuth();
   const base = config.base.replace(/\//g,'');
-  const menuKey = list.find(item => item.resourceUrl === `/${base}${authority}`
-  );
+  const menuKey = list.find(item => item.resourceUrl === `/${base}${authority}`);
 
   if (menuKey) {
     return true;
@@ -32,3 +31,4 @@ class Index extends React.Component {
 }
 
 export default Index;
+Index.checkPathname = checkPathname;
