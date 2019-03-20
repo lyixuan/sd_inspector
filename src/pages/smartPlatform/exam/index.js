@@ -25,8 +25,6 @@ class Survey extends React.Component {
     const day = (new Date()).getTime()-24*60*60*1000;
     this.state = {
       isShowMore:false,
-      // beginDate: '2019-03-01',
-      // endDate: '2019-03-02',
       beginDate: moment(day).format('YYYY-MM-DD'),
       endDate: moment(day).format('YYYY-MM-DD'),
       tabId:'examPlan',

@@ -390,9 +390,9 @@ export default {
           mapInfo.examTicket.dataPro.push({ name: `${item.collegeName}|${item.familyName}|${item.groupName}`, value: 100 });
           mapInfo.examTicket.data1.push({ name: `${(item.newAdmissionFillRatio*100).toFixed(2)}%`, value: Number(item.newExamPlanNum) });
           mapInfo.examTicket.data2.push({ name: `${(item.oldAdmissionFillRatio*100).toFixed(2)}%`, value: Number(item.oldExamPlanNum) });
-          mapInfo.examTicket.data3.push({ name: `${(100-item.admissionFillRatio*100).toFixed(2)}%`, value: Number(item.examPlanNum-item.readNum) });
+          mapInfo.examTicket.data3.push({ name: `${(100-item.admissionFillRatio*100).toFixed(2)}%`, value: Number(item.examPlanNum-item.admissionFillNum) });
           mapInfo.examTicket.data4.push(item.examPlanNum);
-          mapInfo.examTicket.data5.push({ name: `${(item.readRatio*100).toFixed(2)}%`, value: Number(item.readNum) });
+          mapInfo.examTicket.data5.push({ name: `${(item.admissionFillRatio*100).toFixed(2)}%`, value: Number(item.admissionFillNum) });
           mapInfo.examTicket.dataRatio.push(`${(item.admissionFillRatio*100).toFixed(2)}`);
         });
       }
