@@ -134,7 +134,6 @@ class Survey extends React.Component {
     const {tabId,endDate,beginDate,isShowMore} = this.state;
     const { exam } = this.props;
 
-    console.log(beginDate)
     const unit = tabId === 'examPlan'?'人':'%';
     const { porDataList = {} ,colDataList={},famDataMap={},groDataList={},examTotal={}} = exam;
     const tabData = [{name:'考试计划',id:'examPlan',data:[]},{name:'报考通知',id:'examNotice',data:[]},{name:'准考证填写',id:'examTicket',data:[]}];

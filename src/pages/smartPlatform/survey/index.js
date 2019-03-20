@@ -5,7 +5,6 @@ import Echart from '@/components/Echart';
 import moment from 'moment';
 import memoizeOne from 'memoize-one';
 import styles from './style.less';
-import Empty from '@/components/Empty';
 import ChinaMap from './component/ChinaMap';
 import SearchForm from './component/SearchForm';
 import { chartOptions } from './component/EchartCommonOptions';

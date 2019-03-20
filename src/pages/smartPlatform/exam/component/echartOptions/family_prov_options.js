@@ -34,7 +34,7 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
   dataAll.province.forEach((v,i)=>{
     const familyName = dataAll.familyName?dataAll.familyName:undefined;
     if(familyName){
-      dataAll.yName.push({name:`${v}|${familyName[i]}`,value:400})
+      dataAll.yName.push({name:`${v} | ${familyName[i]}`,value:400})
     }else {
       dataAll.yName.push({name:`${v}`,value:400})
     }
@@ -60,23 +60,23 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
     const name = param.name==='准考证填写人数'?'考试计划人数':param.name;
     if(!myLegend[5]){
       return `<div>
-           <div style="text-align:center;color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.yName[i].name}</div>
-          <div style="margin-bottom: 8px">${name}:共${total}人</div>
-          <div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
-          <div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
-          <div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
-          <div style="margin-bottom: 8px">${ myLegend[0]}:${dataAll.data1[i]}${unit}</div>
+           <div style="text-align:center;color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 15px;">${dataAll.yName[i].name}</div>
+          <div style="margin-bottom: 15px">${name}:共${total}人</div>
+          <div style="margin-bottom: 15px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
+          <div style="margin-bottom: 15px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
+          <div style="margin-bottom: 15px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
+          <div style="margin-bottom: 15px">${ myLegend[0]}:${dataAll.data1[i]}${unit}</div>
 </div>`
     }else {
       return `<div>
-          <div style="text-align:center;color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.yName[i].name}</div>
-          <div style="margin-bottom: 8px">${name}:共${total}人</div>
-          <div style="margin-bottom: 8px">${ myLegend[4]}:${(dataAll.data5[i]*total/100).toFixed(0)}人</div>
-          <div style="margin-bottom: 8px">${ myLegend[5]}:${dataAll.data5[i]}${unit}</div>
-          <div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
-          <div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
-          <div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
-          <div style="margin-bottom: 8px">${ myLegend[0]}:${dataAll.data1[i]}${unit}</div>
+          <div style="text-align:center;color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 15px;">${dataAll.yName[i].name}</div>
+          <div style="margin-bottom: 15px">${name}:共${total}人</div>
+          <div style="margin-bottom: 15px">${ myLegend[4]}:${(dataAll.data5[i]*total/100).toFixed(0)}人</div>
+          <div style="margin-bottom: 15px">${ myLegend[5]}:${dataAll.data5[i]}${unit}</div>
+          <div style="margin-bottom: 15px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
+          <div style="margin-bottom: 15px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
+          <div style="margin-bottom: 15px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
+          <div style="margin-bottom: 15px">${ myLegend[0]}:${dataAll.data1[i]}${unit}</div>
 </div>`
     }
 
