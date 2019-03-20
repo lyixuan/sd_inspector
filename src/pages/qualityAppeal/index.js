@@ -14,12 +14,12 @@ class qualityAppeal extends React.Component {
     // 获取分维（客诉）
     this.props.dispatch({
       type: 'qualityAppealHome/getOrgMapList',
-      payload: { params: {qualityType:1} },
+      payload: { params: { qualityType: 1 } },
     });
     // 获取分维（班主任）
     this.props.dispatch({
       type: 'qualityAppealHome/getOrgMapList',
-      payload: { params: {qualityType:2} },
+      payload: { params: { qualityType: 2 } },
     });
   }
   render() {

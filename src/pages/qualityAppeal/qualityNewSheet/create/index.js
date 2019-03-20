@@ -14,11 +14,15 @@ const TreeNode = TreeSelect.TreeNode;
 const { TextArea } = Input;
 const RadioGroup = Radio.Group;
 
+@connect(({ createQualityNewSheet1 }) => ({
+  createQualityNewSheet1,
+}))
+
 class CreateQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
-    console.log(20)
     this.state = {
+      radioChange: undefined,
       roleOption: 2,
       type: undefined, //质检类型
       mail: undefined,
@@ -46,6 +50,12 @@ class CreateQualityNewSheet extends React.Component {
       },
     };
   }
+  UNSAFE_componentWillMount() {
+    this.props.dispatch({
+      type: 'createQualityNewSheet1/getOrgMapList',
+      payload: { params: {} },
+    });
+  }
   componentDidMount() {
     // this.props.form.setFieldsValue({
     //   type: { key: 0, label: "全部" }
@@ -69,12 +79,40 @@ class CreateQualityNewSheet extends React.Component {
     console.log(60, val)
   }
   // 子订单编号onchange
-  radioChange = (e) => {
-    console.log(73, e.target.value)
+  radioChange = (e, getFieldDecorator) => {
     if (e.target.value == 1) {
-
+      this.setState({
+        radioChange: this.getOrder(getFieldDecorator)
+      })
+    } else {
+      this.setState({
+        radioChange: null
+      })
     }
   }
+  // 有子订单编号DOM结构
+  getOrder = (getFieldDecorator) => {
+    return (
+      <div>
+        <Row>
+          <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
+            <Form.Item label="*子订单编号：">
+              {getFieldDecorator('order', {
+                initialValue: this.state.order,
+                rules: [{ required: true, message: '请输入子订单编号' }],
+              })(<BIInput placeholder="请输入" style={{ width: 280 }} />)}
+            </Form.Item>
+            <div style={{ marginTop: '4px', marginLeft: '15px' }}>
+              <BIButton type="primary">
+                查询
+                </BIButton>
+            </div>
+          </Col>
+        </Row>
+        <SubOrderDetail data={this.state.orderDetail} />
+      </div>
+    );
+  };
 
 
   render() {
@@ -183,7 +221,8 @@ class CreateQualityNewSheet extends React.Component {
                   {getFieldDecorator('radio', {
                     initialValue: this.state.radio,
                   })(
-                    <RadioGroup onChange={this.radioChange}>
+
+                    <RadioGroup onChange={(e) => (this.radioChange(e, getFieldDecorator))}>
                       <Radio value={1}>有</Radio>
                       <Radio value={2}>无</Radio>
                     </RadioGroup>
@@ -193,7 +232,9 @@ class CreateQualityNewSheet extends React.Component {
                 </Form.Item>
               </Col>
             </Row>
-            <Row>
+            {this.state.radioChange}
+
+            {/* <Row>
               <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
                 <Form.Item label="*子订单编号：">
                   {getFieldDecorator('order', {
@@ -207,7 +248,7 @@ class CreateQualityNewSheet extends React.Component {
                 </div>
               </Col>
             </Row>
-            <SubOrderDetail data={this.state.orderDetail} />
+            <SubOrderDetail data={this.state.orderDetail} /> */}
           </div>
           <div className={styles.content}>
             <Row>

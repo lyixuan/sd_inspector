@@ -133,7 +133,7 @@ export const routes = [
           {
             path: '/qualityAppeal/qualityAppeal/launchAppeal',
             component: './qualityAppeal/qualityAppeal/launchAppeal',
-            name: '申诉审核',
+            name: '发起申诉',
             bread: {
               name: '质检申诉管理',
               path: '/qualityAppeal/qualityAppeal',
