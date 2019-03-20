@@ -72,7 +72,7 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
       return `<div>
           <div style="text-align:center;color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 15px;">${dataAll.yName[i].name}</div>
           <div style="margin-bottom: 15px">${name}:共${total}人</div>
-          <div style="margin-bottom: 15px">${ myLegend[4]}:${(dataAll.data5[i]*total/100).toFixed(0)}人</div>
+          <div style="margin-bottom: 15px">${ myLegend[4]}:${dataAll.data6[i]}人</div>
           <div style="margin-bottom: 15px">${ myLegend[5]}:${dataAll.data5[i]}${unit}</div>
           <div style="margin-bottom: 15px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
           <div style="margin-bottom: 15px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>

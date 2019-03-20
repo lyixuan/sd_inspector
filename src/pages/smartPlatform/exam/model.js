@@ -151,10 +151,11 @@ export default {
       const { porDataList } = payload;
       const dataMap = {
         examNotice: {
-          province: [],
+          province: [],// 省份名字
           data3: [],
           data4: [],
           data5: [],
+          data6: [],//触达人数
           data1: [],
           data2: [],
         },
@@ -163,6 +164,7 @@ export default {
           data3: [],
           data4: [],
           data5: [],
+          data6: [],//触达人数
           data1: [],
           data2: [],
         },
@@ -171,6 +173,7 @@ export default {
           data3: [],
           data4: [],
           data5: [],
+          data6: [],//触达人数
           data1: [],
           data2: [],
         },
@@ -190,6 +193,7 @@ export default {
           dataMap.examNotice.data3.push(Number(v.oldExamPlanNum));
           dataMap.examNotice.data4.push(Number(v.newExamPlanNum));
           dataMap.examNotice.data5.push(`${(v.readRatio * 100).toFixed(2)}`);
+          dataMap.examNotice.data6.push(Number(v.readNum));
         });
         porDataList.sort((a,b)=>b.admissionFillRatio-a.admissionFillRatio).forEach((v) => {
           dataMap.examTicket.province.push(v.province);
@@ -198,6 +202,7 @@ export default {
           dataMap.examTicket.data3.push(Number(v.oldAdmissionFillNum));
           dataMap.examTicket.data4.push(Number(v.newAdmissionFillNum));
           dataMap.examTicket.data5.push(`${(v.admissionFillRatio * 100).toFixed(2)}`);
+          dataMap.examTicket.data6.push(Number(v.admissionFillNum));
         });
       }
 
