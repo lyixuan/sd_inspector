@@ -34,7 +34,6 @@ class NewQualitySheet extends React.Component {
       groupIdList: [],
     };
     this.state = DeepCopy(this.init);
-    this.canDimension = false;
   }
   onFormChange = (value,vname)=>{
     if ('dateRange' === vname ) {
@@ -101,7 +100,7 @@ class NewQualitySheet extends React.Component {
     console.log(record);
   };
   reset = ()=>{
-    this.setState(DeepCopy(this.init));
+    this.setState(this.init);
     this.canDimension = false;
     this.props.queryData(this.state,{page:1});
   };
