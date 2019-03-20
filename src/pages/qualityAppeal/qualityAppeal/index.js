@@ -155,6 +155,9 @@ class QualityAppeal extends React.Component {
         );
       },
     }];
+    if (!AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
+      columns1.splice(2,1);
+    }
     return [...columns1,...actionObj];
   };
 
