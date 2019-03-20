@@ -192,12 +192,30 @@ export function blendChartOptions(param, mapInfo, id, pro, unit, type) {
       name: myLegend[2],
       type: 'bar',
       barWidth: 15,
-      data: dataAll.data3
+      data: dataAll.data3,
+      label: {
+        normal: {
+          show: true,
+          position: 'top',
+          fontSize: 12,
+          formatter: '{c}',
+          color: '#000'
+        }
+      },
     }, {
       name: myLegend[3],
       type: 'bar',
       barWidth: 15,
-      data: dataAll.data4
+      data: dataAll.data4,
+      label: {
+        normal: {
+          show: true,
+          position: 'top',
+          fontSize: 12,
+          formatter: '{c}',
+          color: '#000'
+        }
+      },
     }],
     yAxis: [{
       axisLine: {
