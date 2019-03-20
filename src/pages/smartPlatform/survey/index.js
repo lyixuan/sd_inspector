@@ -148,16 +148,15 @@ class Survey extends React.Component {
               </div>
               {/* 图表 */}
               <div className={styles.echartCls}>
-                {
-                  JSON.stringify(data1) === '{}' ?
-                    <Empty className={styles.emptyCls} /> :
-                    <Echart update={data1} style={{ width: '49.5%', height: "380px", backgroundColor: ' #fff' }} options={option1} />
-                }
-                {
-                  JSON.stringify(data2) === '{}' ?
-                    <Empty className={styles.emptyCls} /> :
-                    <Echart update={data2} style={{ width: '49.5%', height: "380px", backgroundColor: ' #fff' }} options={option2} />
-                }
+                <Echart update={data1}
+                        style={{ width: '49.5%', height: "380px", backgroundColor: ' #fff' }}
+                        options={option1}
+                        isEmpty={JSON.stringify(data1) === '{}' }
+                />
+                <Echart update={data2} style={{ width: '49.5%', height: "380px", backgroundColor: ' #fff' }}
+                        options={option2}
+                        isEmpty={JSON.stringify(data2) === "{}"}
+                />
               </div>
               <div className={styles.echartFamily}>
                 <EchartTitle onChangeExamOrg={this.onChangeExamOrg} paramsData={collegeExamOrgParams} />
