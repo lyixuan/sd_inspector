@@ -57,10 +57,11 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
   }
   const _html =function(i) {
     const total = parseFloat(dataAll.data3[i]) + parseFloat(dataAll.data4[i]);
+    const name = param.name==='准考证填写人数'?'考试计划人数':param.name;
     if(!myLegend[5]){
       return `<div>
            <div style="text-align:center;color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.yName[i].name}</div>
-          <div style="margin-bottom: 8px">${param.name}:共${total}人</div>
+          <div style="margin-bottom: 8px">${name}:共${total}人</div>
           <div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
           <div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
           <div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
@@ -69,7 +70,7 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
     }else {
       return `<div>
           <div style="text-align:center;color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.yName[i].name}</div>
-          <div style="margin-bottom: 8px">${param.name}:共${total}人</div>
+          <div style="margin-bottom: 8px">${name}:共${total}人</div>
           <div style="margin-bottom: 8px">${ myLegend[4]}:${(dataAll.data5[i]*total/100).toFixed(0)}人</div>
           <div style="margin-bottom: 8px">${ myLegend[5]}:${dataAll.data5[i]}${unit}</div>
           <div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
