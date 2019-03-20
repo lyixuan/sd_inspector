@@ -25,14 +25,14 @@ class Survey extends React.Component {
     const day = (new Date()).getTime()-24*60*60*1000;
     this.state = {
       isShowMore:false,
-      beginDate: '2019-03-01',
-      endDate: '2019-03-02',
-      // beginDate: moment(day).format('YYYY-MM-DD'),
-      // endDate: moment(day).format('YYYY-MM-DD'),
+      // beginDate: '2019-03-01',
+      // endDate: '2019-03-02',
+      beginDate: moment(day).format('YYYY-MM-DD'),
+      endDate: moment(day).format('YYYY-MM-DD'),
       tabId:'examPlan',
       name:'考试计划人数',
       legend:['人均服务老生','人均服务新生','老生考试计划人数','新生考试计划人数'],
-      legendGroup:['新生考试计划人数/人均服务新生','老生触达人数/人均服务老生'],
+      legendGroup:['新生考试计划人数/人均服务新生','老生考试计划人数/人均服务老生'],
     };
 
   }

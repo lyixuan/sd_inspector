@@ -4,6 +4,7 @@ export function groupOPtion(param,data){
   const {dataPro = [],data1,data2,data3=[],data4=[],data5=[],dataRatio=[]} = data[tabId]?data[tabId]:{};
 
   const _html =function(i) {
+    console.log(param.legendGroup[1])
     const name = param.name==='准考证填写人数'?'考试计划人数':param.name;
     if(isEmpty(data3)){
       return `<div>
