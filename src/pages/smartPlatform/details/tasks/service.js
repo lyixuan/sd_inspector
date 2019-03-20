@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
 // 任务列表
-export async function getTaskPage(params) {
+export async function queryTaskPage(params) {
   return request('/detail/getTaskPage',{ params });
 }
 
