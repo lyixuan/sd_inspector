@@ -88,7 +88,7 @@ export default {
         mapInfo.examTicket.data4.push(Number(v.newAdmissionFillNum));
         mapInfo.examTicket.data5.push(`${(v.admissionFillRatio * 100).toFixed(2)}`);
         mapInfo.examTicket.data6.push(v.examPlanNum);
-        mapInfo.examTicket.data7.push(v.readNum);
+        mapInfo.examTicket.data7.push(v.admissionFillNum);
       });
 
       return { ...state, mapInfo };
