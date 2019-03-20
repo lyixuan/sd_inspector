@@ -136,6 +136,9 @@ export function blendChartOptions(param, mapInfo, id, pro, unit, type) {
         splitLine: {
           show: false
         },
+        axisLabel: {
+          color: '#979797',
+        }
       }
     } else {
       return {
