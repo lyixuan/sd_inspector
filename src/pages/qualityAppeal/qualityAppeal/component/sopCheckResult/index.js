@@ -9,9 +9,11 @@ export default class SOPCheckResultComponent extends React.Component {
       data: props.data,
     };
   }
-  componentDidMount() { }
+  componentDidMount() {}
 
   render() {
+    const { checkResult, desc, operator, operatorDate } = this.state.data;
+    console.log(this.state.data);
     return (
       <section className={styles.personInfoCon}>
         <div>
@@ -21,24 +23,27 @@ export default class SOPCheckResultComponent extends React.Component {
               <div>
                 <div className={styles.container}>
                   <div className={styles.secRow}>
-                    <div className={item.sign ? styles.resultDotColor1 : styles.resultDotColor2}>
-                      审核结果：{item.sopCheckResult}
+                    <div
+                      className={item.checkResult ? styles.resultDotColor1 : styles.resultDotColor2}
+                    >
+                      审核结果：{item.checkResult}
                     </div>
                   </div>
                   <div className={styles.secRow}>
                     <div>
                       <span>执行人：{item.operator}</span>
-                      <span>操作时间：{item.verifyDate}</span>
+                      <span>操作时间：{item.operatorDate}</span>
                     </div>
                   </div>
                 </div>
                 <div>
                   <div className={styles.secCol}>
-                    <div>审核说明：{item.checkDesc}</div>
+                    <div>审核说明：{desc}</div>
                   </div>
                 </div>
               </div>
             ))}
+            }
           </article>
 
           <div className={styles.divideLine} />

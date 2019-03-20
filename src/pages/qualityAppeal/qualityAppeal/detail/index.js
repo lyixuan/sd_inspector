@@ -81,14 +81,19 @@ class AppealDetail extends React.Component {
     });
   }
   getAppealInfos(detailData) {
-    console.log(detailData);
-    return detailData.forEach(item => (
-      <>
-        <AppealInfo data={item.appealStart} />
-        <SOPCheckResult data={item.sopAppealCheck} />
-        <SuperiorCheck data={item.masterAppealCheck} />
-      </>
-    ));
+    let domFragment = [];
+    detailData.forEach(item =>
+      domFragment.push(
+        <>
+          <AppealInfo
+            data={{ appealStart: item.appealStart, appealEndDate: item.appealEndDate, id: item.id }}
+          />
+          <SOPCheckResult data={item.sopAppealCheck} />
+          <SuperiorCheck data={item.masterAppealCheck} />
+        </>
+      )
+    );
+    return domFragment;
   }
   render() {
     const detailData = this.props.appealDetail.DetailData;
