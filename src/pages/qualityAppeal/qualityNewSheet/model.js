@@ -1,11 +1,11 @@
 import { message } from 'antd/lib/index';
-import { getQualityList } from '@/pages/qualityAppeal/qualityNewSheet/services';
+import { getQualityList, getOrgMapByMail } from '@/pages/qualityAppeal/qualityNewSheet/services';
 
 export default {
   namespace: 'qualityNewSheet',
 
   state: {
-    qualityList:[]
+    qualityList: []
   },
 
   effects: {
@@ -20,6 +20,11 @@ export default {
         message.error(result.msgDetail);
       }
     },
+    *getOrgMapByMail({ payload }, { call, put }) {
+      const response = yield call(getOrgMapByMail, payload);
+      console.log(response)
+
+    }
   },
 
   reducers: {
