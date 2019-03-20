@@ -12,7 +12,7 @@ export default {
     *getQualityList({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(getQualityList, params);
-      const qualityList = result.data || [];
+      const qualityList = result.data && result.data.list ? result.data.list : [];
 
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { qualityList } });
