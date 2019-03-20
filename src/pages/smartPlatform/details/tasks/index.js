@@ -9,6 +9,7 @@ import SelfPagination from '../../components/Pagination';
 import { STATIC_HOST } from '@/utils/constants'
 import { BiFilter } from '@/utils/utils';
 import styles from './style.less'
+import moment from 'moment/moment';
 
 @connect(({ detail, loading }) => ({
   detail,
@@ -88,6 +89,9 @@ class Tasks extends Component {
       {
         title: '创建时间',
         dataIndex: 'createTime',
+        render:text=>{
+          return moment(text).format('YYYY-MM-DD HH:mm:ss')
+        }
       },
       {
         title: '创建人',

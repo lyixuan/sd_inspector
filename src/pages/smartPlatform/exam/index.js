@@ -126,16 +126,17 @@ class Survey extends React.Component {
       payload: param,
     })
   };
-  eConsole=(param,e)=> {
-    const {type,beginDate,endDate}=param;
+  eConsole=(e)=> {
+    const {tabId,beginDate,endDate}=this.state;
     const proName = e.data && e.data.name ? e.data.name: '';
     const origin = window.location.origin;
-    window.location.href=(`${origin}${config.base}smartPlatform/exam/collegeinfo?name=${proName}&type=${type}&beginDate=${beginDate}&endDate=${endDate}`);
+    window.open(`${origin}${config.base}smartPlatform/exam/collegeinfo?name=${proName}&type=${tabId}&beginDate=${beginDate}&endDate=${endDate}`);
   };
   render() {
     const {tabId,endDate,beginDate,isShowMore} = this.state;
     const { exam } = this.props;
 
+    console.log(beginDate)
     const unit = tabId === 'examPlan'?'人':'%';
     const { porDataList = {} ,colDataList={},famDataMap={},groDataList={},examTotal={}} = exam;
     const tabData = [{name:'考试计划',id:'examPlan',data:[]},{name:'报考通知',id:'examNotice',data:[]},{name:'准考证填写',id:'examTicket',data:[]}];
@@ -172,7 +173,7 @@ class Survey extends React.Component {
                 <div className={styles.echartCls}>
                   <div className='m_box'>
                     <p className={styles.proTip}>点击省份可查看该省份的学院及家族数据</p>
-                    <Echart isEmpty={porDataList[tabId]?porDataList[tabId].data1.length === 0:false} clickEvent={(e)=>this.eConsole({type:tabId,endDate,beginDate},e)} update={`${JSON.stringify(porDataList)}${tabId}`} style={{ width: '100%', height:`${porDataList[tabId]&&porDataList[tabId].data1.length !== 0?porDataList[tabId].data1.length*50:400}px`  }} options={famProOPtion(this.state,porDataList,'pro',undefined,unit,tabId)} />
+                    <Echart isEmpty={porDataList[tabId]?porDataList[tabId].data1.length === 0:false} clickEvent={this.eConsole} update={`${JSON.stringify(porDataList)}${tabId}`} style={{ width: '100%', height:`${porDataList[tabId]&&porDataList[tabId].data1.length !== 0?porDataList[tabId].data1.length*50:400}px`  }} options={famProOPtion(this.state,porDataList,'pro',undefined,unit,tabId)} />
                   </div>
                   <div className='m_box'><Echart isEmpty={colDataList[tabId]?colDataList[tabId].data1.length === 0:false} update={`${JSON.stringify(colDataList)}${tabId}`} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,colDataList,'all',undefined,unit,tabId)} /></div>
                   <div className='m_box'><Echart isEmpty={famDataMap[tabId]?famDataMap[tabId].data1.length === 0:false} update={`${JSON.stringify(famDataMap)}${tabId}`} style={{ width: '100%', height:`${famDataMap[tabId]&&famDataMap[tabId].data1.length!==0?famDataMap[tabId].data1.length*50:400}px` }} options={famProOPtion(this.state,famDataMap,'fam',undefined,unit,tabId)} /></div>
