@@ -10,10 +10,16 @@ import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 import { Form, Icon, Row, Col, TreeSelect, Input, Upload, message } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 
+@connect(({ appealDetail }) => ({
+  appealDetail,
+}))
 class AppealDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      params: {
+        id: 1,
+      },
       qualityData: {
         verifyDate: '2019年02月01日 21：22：30',
         mail: 'test@sunlands.com',
@@ -68,7 +74,24 @@ class AppealDetail extends React.Component {
       },
     };
   }
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'appealDetail/getDetailData',
+      payload: this.state.params,
+    });
+  }
+  getAppealInfos(detailData) {
+    console.log(detailData);
+    return detailData.forEach(item => (
+      <>
+        <AppealInfo data={item.appealStart} />
+        <SOPCheckResult data={item.sopAppealCheck} />
+        <SuperiorCheck data={item.masterAppealCheck} />
+      </>
+    ));
+  }
   render() {
+    const detailData = this.props.appealDetail.DetailData;
     return (
       <div className={styles.detailContainer}>
         <section>
@@ -76,15 +99,10 @@ class AppealDetail extends React.Component {
           <PersonInfo data={this.state.qualityData} />
         </section>
         <section>
-          <AppealInfo data={this.state.qualityData} />
+          {/* 申诉信息 */}
+          {this.getAppealInfos(detailData)}
         </section>
-        <section>
-          <SOPCheckResult data={this.state.qualityData.sopCheckDetail} />
-        </section>
-        <section>
-          <SuperiorCheck data={this.state.qualityData.sopCheckDetail} />
-        </section>
-        <section style={{ textAlign: "right" }}>
+        <section style={{ textAlign: 'right' }}>
           <BIButton>返回</BIButton>
         </section>
       </div>
