@@ -7,6 +7,7 @@ import BIButtonYellow from '@/components/BIButtonYellow';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
+import BITreeSelect from '@/ant_components/BITreeSelect';
 import AuthButton from '@/components/AuthButton';
 import { BiFilter } from '@/utils/utils';
 import { Row, Col } from 'antd';
@@ -122,13 +123,17 @@ class NewQualitySheet extends React.Component {
               <div className={styles.gutterBox1}>
                 <span className={styles.gutterLabel}>归属组织</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} placeholder="请选择" allowClear value={organization} onChange={(val)=>this.onFormChange(val,'organization')}>
-                    {orgList.map(item => (
-                      <Option key={item.id}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </BISelect>
+                  <BITreeSelect
+                    style={{ width: 230 }}
+                    placeholder="请选择"
+                    allowClear
+                    value={organization}
+                    multiple
+                    showArrow maxTagCount={1}
+                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                    treeData={orgList}
+                    onChange={(val)=>this.onFormChange(val,'organization')}
+                  />
                 </span>
               </div>
             </Col>

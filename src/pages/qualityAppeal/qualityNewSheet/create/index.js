@@ -9,19 +9,24 @@ import BIDatePicker from '@/ant_components/BIDatePicker';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 import styles from './style.less';
 import SubOrderDetail from './../../components/subOrderDetail';
+import { BaseModels } from '../_utils/baseModels';
+
 const { Option } = BISelect;
 const TreeNode = TreeSelect.TreeNode;
 const { TextArea } = Input;
 const RadioGroup = Radio.Group;
 
-@connect(({ createQualityNewSheet1 }) => ({
+@connect(({ createQualityNewSheet1, qualityAppealHome }) => ({
   createQualityNewSheet1,
+  orgList: qualityAppealHome.orgList,
 }))
 
 class CreateQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
+    this.paramsModel = new BaseModels();
     this.state = {
+      params: this.paramsModel.initModel,
       radioChange: undefined,
       roleOption: 2,
       type: undefined, //质检类型
@@ -51,15 +56,23 @@ class CreateQualityNewSheet extends React.Component {
     };
   }
   UNSAFE_componentWillMount() {
-    this.props.dispatch({
-      type: 'createQualityNewSheet1/getOrgMapList',
-      payload: { params: {} },
-    });
+    // this.props.dispatch({
+    //   type: 'createQualityNewSheet1/getOrgMapList',
+    //   payload: { params: {} },
+    // });
   }
   componentDidMount() {
+    console.log(this.props.orgList)
     // this.props.form.setFieldsValue({
     //   type: { key: 0, label: "全部" }
     // }); //页面内容回显
+  }
+  getOrgMapByMail = (mail) => {
+    this.props.dispatch({
+      type: 'qualityNewSheet/getOrgMapByMail',
+      payload: { mail },
+    })
+
   }
   onChange = treeValue => {
     console.log(treeValue);
@@ -117,6 +130,7 @@ class CreateQualityNewSheet extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { params } = this.state;
     return (
       <div className={styles.qualityContainter}>
         <div className={styles.title}>质检违规详情</div>
@@ -125,8 +139,8 @@ class CreateQualityNewSheet extends React.Component {
             <Row>
               <Col className="gutter-row" span={20}>
                 <Form.Item label="*质检类型：">
-                  {getFieldDecorator('type', {
-                    initialValue: this.state.type,
+                  {getFieldDecorator('qualityType', {
+                    initialValue: params.qualityType || undefined,
                     rules: [{ required: true, message: '请选择质检类型' }],
                   })(
                     <BISelect placeholder="请选择" allowClear labelInValue style={{ width: 280 }} onChange={this.qualityChange}>
@@ -144,7 +158,7 @@ class CreateQualityNewSheet extends React.Component {
               <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
                 <Form.Item label="*归属人邮箱">
                   {getFieldDecorator('mail', {
-                    initialValue: this.state.mail,
+                    initialValue: params.mail,
                     rules: [{ required: true, message: '请输入邮箱' }],
                   })(<BIInput placeholder="请输入" style={{ width: 170 }} />)}
                 </Form.Item>
@@ -156,9 +170,9 @@ class CreateQualityNewSheet extends React.Component {
                 </div>
               </Col>
               <Col className="gutter-row txRight" span={12}>
-                <Form.Item label="*归属人角色：">
-                  {getFieldDecorator('userRole', {
-                    initialValue: this.state.userRole,
+                {/* <Form.Item label="*归属人角色：">
+                  {getFieldDecorator('role', {
+                    initialValue: params.role,
                     rules: [{ required: true, message: '请选择归属人角色' }],
                   })(
                     <BISelect allowClear labelInValue placeholder="请选择" style={{ width: 280 }}>
@@ -169,14 +183,14 @@ class CreateQualityNewSheet extends React.Component {
                       ))}
                     </BISelect>
                   )}
-                </Form.Item>
+                </Form.Item> */}
               </Col>
             </Row>
             <Row gutter={0} style={{ lineHeight: '40px' }}>
               <Col className="gutter-row" span={12}>
                 <Form.Item label="*归属人：">
-                  {getFieldDecorator('user', {
-                    initialValue: this.state.user,
+                  {getFieldDecorator('name', {
+                    initialValue: params.name,
                     rules: [{ required: true, message: '请输入归属人' }],
                   })(<BIInput placeholder="请输入" style={{ width: 280 }} />)}
                 </Form.Item>
@@ -218,8 +232,8 @@ class CreateQualityNewSheet extends React.Component {
             <Row>
               <Col className="labelWidth" span={24}>
                 <Form.Item label="*有无子订单编号？">
-                  {getFieldDecorator('radio', {
-                    initialValue: this.state.radio,
+                  {getFieldDecorator('orderNum', {
+                    initialValue: params.orderNum,
                   })(
 
                     <RadioGroup onChange={(e) => (this.radioChange(e, getFieldDecorator))}>
@@ -253,32 +267,32 @@ class CreateQualityNewSheet extends React.Component {
           <div className={styles.content}>
             <Row>
               <Col className="gutter-row" span={12}>
-                <Form.Item label="*质检违规日期：">
-                  {getFieldDecorator('dateViolation', {
-                    initialValue: this.state.dateViolation,
+                {/* <Form.Item label="*质检违规日期：">
+                  {getFieldDecorator('violationDate', {
+                    initialValue: params.violationDate,
                   })(<BIDatePicker style={{ width: 280 }} />)}
-                </Form.Item>
+                </Form.Item> */}
               </Col>
               <Col className="gutter-row txRight" span={12}>
-                <Form.Item label="*质检扣分日期：">
-                  {getFieldDecorator('dateDeduction', {
-                    initialValue: this.state.dateViolation,
+                {/* <Form.Item label="*质检扣分日期：">
+                  {getFieldDecorator('reduceScoreDate', {
+                    initialValue: params.reduceScoreDate,
                   })(<BIDatePicker style={{ width: 280 }} />)}
-                </Form.Item>
+                </Form.Item> */}
               </Col>
             </Row>
             <Row className="gutter-row">
               <Col span={12}>
-                <Form.Item label="*分维：">
-                  {getFieldDecorator('organize', {
-                    initialValue: this.state.organize,
+                {/* <Form.Item label="*分维：">
+                  {getFieldDecorator('dimensionId', {
+                    initialValue: params.dimensionId,
                   })(
                     <BISelect allowClear labelInValue initialValue="lucy" style={{ width: 280 }}>
                       <Option value="jack">Jack</Option>
                       <Option value="lucy">lucy</Option>
                     </BISelect>
                   )}
-                </Form.Item>
+                </Form.Item> */}
               </Col>
             </Row>
             <Row className="gutter-row">
