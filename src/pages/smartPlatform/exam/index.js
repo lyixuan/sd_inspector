@@ -25,8 +25,10 @@ class Survey extends React.Component {
     const day = (new Date()).getTime()-24*60*60*1000;
     this.state = {
       isShowMore:false,
-      beginDate: moment(day).format('YYYY-MM-DD'),
-      endDate: moment(day).format('YYYY-MM-DD'),
+      beginDate: '2019-03-01',
+      endDate: '2019-03-02',
+      // beginDate: moment(day).format('YYYY-MM-DD'),
+      // endDate: moment(day).format('YYYY-MM-DD'),
       tabId:'examPlan',
       name:'考试计划人数',
       legend:['人均服务老生','人均服务新生','老生考试计划人数','新生考试计划人数'],
@@ -78,14 +80,14 @@ class Survey extends React.Component {
         tabId:"examNotice",
         name:'报考通知人数',
         legend:['老生触达率','新生触达率','应通知老生人数','应通知新生人数','触达人数','触达率'],
-        legendGroup:['新生应通知人数/新生触达率','老生应通知人数/老生触达率','未触达人数/未触达率']
+        legendGroup:['新生应通知人数/新生触达率','老生应通知人数/老生触达率','未触达人数/未触达率','触达人数/触达率']
       })
     }else if(val === 'examTicket'){
       this.setState({
         tabId:"examTicket",
         name:'考试计划人数',
         legend:['老生填写率','新生填写率','老生填写人数','新生填写人数','填写人数','填写率'],
-        legendGroup:['新生填写人数/新生填写率','老生填写人数/老生填写率','未填写人数/未填写率']
+        legendGroup:['新生填写人数/新生填写率','老生填写人数/老生填写率','未填写人数/未填写率','填写人数/填写率']
       })
     }
    this.getMoreData(false)
@@ -128,7 +130,7 @@ class Survey extends React.Component {
     const {type,beginDate,endDate}=param;
     const proName = e.data && e.data.name ? e.data.name: '';
     const origin = window.location.origin;
-    window.location.href = `${origin}${config.base}smartPlatform/exam/collegeinfo?name=${proName}&type=${type}&beginDate=${beginDate}&endDate=${endDate}`;
+    window.location.href=(`${origin}${config.base}smartPlatform/exam/collegeinfo?name=${proName}&type=${type}&beginDate=${beginDate}&endDate=${endDate}`);
   };
   render() {
     const {tabId,endDate,beginDate,isShowMore} = this.state;

@@ -97,10 +97,10 @@ export function blendChartOptions(param, mapInfo, id, pro, unit, type) {
   }
   const dataAll = mapInfo && mapInfo[type] ? mapInfo[type] : emptyData;
   const _html = function (i) {
-    const total = parseFloat(dataAll.data3[i]) + parseFloat(dataAll.data4[i]);
     if(!myLegend[5]) {
       return `<div>
-              <div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.province[i]}${param.name}:共${total}人</div>  
+              <div style="text-align:center;color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.province[i]}</div>  
+              <div style="margin-bottom: 8px">${param.name}:共${dataAll.data6[i]}人</div>
               <div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
               <div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
               <div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
@@ -108,8 +108,9 @@ export function blendChartOptions(param, mapInfo, id, pro, unit, type) {
               </div>`
     }else {
       return `<div>
-              <div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.province[i]}${param.name}:共${total}人</div>
-          <div style="margin-bottom: 8px">${ myLegend[4]}:${(dataAll.data5[i]*total/100).toFixed(0)}人</div>
+              <div style="text-align:center;color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.province[i]}</div>
+              <div style="margin-bottom: 8px">${param.name}:共${dataAll.data6[i]}人</div>
+          <div style="margin-bottom: 8px">${ myLegend[4]}:${dataAll.data7[i]}人</div>
           <div style="margin-bottom: 8px">${ myLegend[5]}:${dataAll.data5[i]}${unit}</div>
           <div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
           <div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
@@ -166,7 +167,7 @@ export function blendChartOptions(param, mapInfo, id, pro, unit, type) {
     xData: dataAll.province,
     color: ['#0080FF', "#FF4165", '#52C9C2', '#FD9E3B'],
     formatter: function (params) {
-      return `<div style="box-shadow:0 0 12px 0; border-radius: 5px;padding:12px 16px 8px">${_html(params.dataIndex)}</div>`;
+      return `<div style="min-width:200px;box-shadow:0 0 12px 0; border-radius: 5px;padding:12px 16px 8px">${_html(params.dataIndex)}</div>`;
     },
     series: [{
       name: myLegend[0],

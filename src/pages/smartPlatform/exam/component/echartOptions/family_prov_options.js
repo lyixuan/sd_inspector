@@ -59,7 +59,8 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
     const total = parseFloat(dataAll.data3[i]) + parseFloat(dataAll.data4[i]);
     if(!myLegend[5]){
       return `<div>
-           <div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.yName[i].name}${param.name}:共${total}人</div>
+           <div style="text-align:center;color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.yName[i].name}</div>
+          <div style="margin-bottom: 8px">${param.name}:共${total}人</div>
           <div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
           <div style="margin-bottom: 8px">${ myLegend[1]}:${dataAll.data2[i]}${unit}</div>
           <div style="margin-bottom: 8px">${ myLegend[2]}:${dataAll.data3[i]}人</div>
@@ -67,7 +68,8 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
 </div>`
     }else {
       return `<div>
-          <div style="color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.yName[i].name}${param.name}:共${total}人</div>
+          <div style="text-align:center;color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.yName[i].name}</div>
+          <div style="margin-bottom: 8px">${param.name}:共${total}人</div>
           <div style="margin-bottom: 8px">${ myLegend[4]}:${(dataAll.data5[i]*total/100).toFixed(0)}人</div>
           <div style="margin-bottom: 8px">${ myLegend[5]}:${dataAll.data5[i]}${unit}</div>
           <div style="margin-bottom: 8px">${ myLegend[3]}:${dataAll.data4[i]}人</div>
@@ -101,7 +103,7 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
       },
       // formatter:'<div style=" width:193px;height:120px;box-shadow:0 0 12px 0; border-radius: 3px;padding:12px 0 0 16px ">{b}<br />{a2}: {c2}人<br />{a3}: {c3}人<br />{a0}: {c0}人<br />{a1}: {c1}人</div>',
       formatter:function(params) {
-        return `<div style=" box-shadow:0 0 12px 0; border-radius: 5px;padding:12px 16px 8px ">${_html(params.dataIndex)}</div>`;
+        return `<div style="min-width:200px; box-shadow:0 0 12px 0; border-radius: 5px;padding:12px 16px 8px ">${_html(params.dataIndex)}</div>`;
       },
       padding: 15,
     },
