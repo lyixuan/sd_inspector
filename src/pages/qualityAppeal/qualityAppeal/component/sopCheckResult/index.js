@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './style.css';
-import Item from 'antd/lib/list/Item';
+// import Item from 'antd/lib/list/Item';
 
 export default class SOPCheckResultComponent extends React.Component {
   constructor(props) {

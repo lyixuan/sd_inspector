@@ -59,7 +59,7 @@ const errorHandler = error => {
  */
 const request = extend({
   errorHandler, // 默认错误处理
-  prefix: '/proxy', // prefix
+  prefix: '/proxyQuality', // prefix
   headers: {
     authorization: storage.getToken(),
   },

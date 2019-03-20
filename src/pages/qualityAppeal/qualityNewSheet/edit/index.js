@@ -10,7 +10,7 @@ import BIDatePicker from '@/ant_components/BIDatePicker';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 import styles from './style.less';
 import SubOrderDetail from './../../components/subOrderDetail';
-import SOPCheckResult from './../../qualityAppeal/component/SOPCheckResult';
+import SOPCheckResult from './../../qualityAppeal/component/sopCheckRecords';
 import AppealInfo from './../../qualityAppeal/component/AppealInfo';
 const { Option } = BISelect;
 const TreeNode = TreeSelect.TreeNode;

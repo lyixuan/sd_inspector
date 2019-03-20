@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './style.css';
-import Item from 'antd/lib/list/Item';
+// import { List } from 'antd';
+
+// const { Item } = List;
 
 export default class AppealInfoComponent extends React.Component {
   constructor(props) {
@@ -9,7 +11,7 @@ export default class AppealInfoComponent extends React.Component {
       data: props.data,
     };
   }
-  componentDidMount() {}
+  componentDidMount() { }
 
   render() {
     return (
