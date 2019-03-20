@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import {DeepCopy} from '@/utils/utils';
 import AuthButton from '@/components/AuthButton';
 import Page from './component/page';
 import style from '@/pages/qualityAppeal/style.less';
@@ -41,6 +42,44 @@ const columns = [
   },
 ];
 
+function dealQuarys(pm){
+  const p = DeepCopy(pm);
+  if (p.collegeIdList.length===0) {
+    p.collegeIdList=undefined;
+  } else {
+    p.collegeIdList = p.collegeIdList.map((v)=>{
+      return Number(v.replace('a-',''));
+    })
+  }
+  if (p.familyIdList.length===0) {
+    p.familyIdList=undefined;
+  } else {
+    p.familyIdList = p.familyIdList.map((v)=>{
+      return Number(v.replace('b-',''));
+    })
+  }
+  if (p.groupIdList.length===0) {
+    p.groupIdList=undefined;
+  } else {
+    p.groupIdList = p.groupIdList.map((v)=>{
+      return Number(v.replace('c-',''));
+    })
+  }
+  if (p.qualityType === 'all') {
+    p.qualityType = undefined;
+  }
+  if (p.statusList) {
+    p.statusList = p.statusList.map(v=>Number(v))
+  }
+  if (p.violationLevelList) {
+    p.violationLevelList = p.violationLevelList.map(v=>Number(v))
+  }
+  if (p.dimensionIdList) {
+    p.dimensionIdList = p.dimensionIdList.map(v=>Number(v))
+  }
+  return p;
+};
+
 @connect(({ qualityAppealHome,qualityNewSheet }) => ({
   qualityAppealHome,
   qualityNewSheet,
@@ -58,11 +97,23 @@ class NewQualitySheetIndex extends React.Component {
     this.queryData();
   }
 
-  queryData = () => {
+  queryData = (pm,pg) => {
+    const pmm = pm && dealQuarys(pm);
     // 获取数据
+    let params = {...this.state};
+    if (pmm) {
+      params = {...params,...pmm};
+    }
+    if (pg) {
+      params = {...params,...pg};
+      this.setState({
+        page:pg.page
+      });
+    }
+    console.log(params);
     this.props.dispatch({
       type: 'qualityNewSheet/getQualityList',
-      payload: { params: {} },
+      payload: { params },
     });
   };
 
@@ -89,6 +140,7 @@ class NewQualitySheetIndex extends React.Component {
 
   onRepeal = (record) => {
   };
+
   columnsAction = () => {
     const actionObj = [{
       title: '操作',
@@ -127,17 +179,19 @@ class NewQualitySheetIndex extends React.Component {
     return [...columns,...actionObj];
   };
   render() {
-    const {orgList = [], dimensionList1 = [],dimensionList2 = []} = this.props.qualityAppealHome;
+    const {orgListTreeData = [], dimensionList1 = [],dimensionList2 = []} = this.props.qualityAppealHome;
+    const {qualityList = []} = this.props.qualityNewSheet;
 
     return (
       <>
         <Page
           {...this.props}
           columns={this.columnsAction()}
-          orgList={orgList}
+          dataSource={qualityList}
+          orgList={orgListTreeData}
           dimensionList1 = {dimensionList1}
           dimensionList2 = {dimensionList2}
-          queryData={()=>this.queryData()} />
+          queryData={(params,page)=>this.queryData(params,page)} />
       </>
     );
   }

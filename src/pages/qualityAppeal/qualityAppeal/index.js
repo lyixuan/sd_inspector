@@ -181,7 +181,7 @@ class QualityAppeal extends React.Component {
   };
   render() {
     const {} = this.state;
-    const {orgList = [], dimensionList1 = [],dimensionList2 = []} = this.props.qualityAppealHome;
+    const {orgListTreeData = [], dimensionList1 = [],dimensionList2 = []} = this.props.qualityAppealHome;
     return (
       <>
         <div className={styles.topTab}>
@@ -191,7 +191,7 @@ class QualityAppeal extends React.Component {
               <Page1
                 {...this.props}
                 columns={this.columnsAction1()}
-                orgList={orgList}
+                orgList={orgListTreeData}
                 queryData={()=>this.queryData()} />
             </TabPane>
             <TabPane tab="结案质检申诉" key="2">
