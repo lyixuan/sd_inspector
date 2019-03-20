@@ -87,17 +87,18 @@ export function blendChartOptions(param, mapInfo, id, pro, unit, type) {
     data4: [],
   };
   const myLegend = type ? id === 'single' ? param[`legend_${type}`] : param.legend : [];
+  const myName = type ? id === 'single' ? param[`name_${type}`] : param.name : [];
   let text = '';
   if (id === 'all') {
-    text = `各学院${param.name}（集团）`
+    text = `各学院${ myName}（集团）`
   } else if (id === 'single') {
-    text = `学院${param.name}（${pro}）`
+    text = `学院${ myName}（${pro}）`
   } else {
     console.error('缺乏参数id：all是所有省份，single是点击省份进去的单个省份')
   }
   const dataAll = mapInfo && mapInfo[type] ? mapInfo[type] : emptyData;
   const _html = function (i) {
-    const name = param.name==='准考证填写人数'?'考试计划人数':param.name;
+    const name =  myName==='准考证填写人数'?'考试计划人数': myName;
     if(!myLegend[5]) {
       return `<div>
               <div style="text-align:center;color:#052664;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 10px;">${dataAll.province[i]}</div>  

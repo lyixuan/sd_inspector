@@ -16,7 +16,9 @@ class Survey extends React.Component {
     super(props);
     this.state = {
       value:1,
-      name:'考试计划人数',
+      name_examPlan:'考试计划人数',
+      name_examNotice:'报考通知人数',
+      name_examTicket:'准考证填写人数',
       legend_examPlan:['人均服务老生','人均服务新生','老生考试计划人数','新生考试计划人数'],
       legend_examNotice:['老生触达率','新生触达率','应通知老生','应通知新生','触达人数','触达率'],
       legend_examTicket:['老生填写率','新生填写率','老生填写','新生填写','填写人数','填写率'],
