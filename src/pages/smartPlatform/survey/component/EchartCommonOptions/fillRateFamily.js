@@ -36,10 +36,11 @@ export default class SelfProgress extends React.Component {
   render() {
     const { dataList, isEmpty } = this.props;
     return (
-      <div className={styles.progressCotainer}>
-        {isEmpty ? <span className={styles.empty}><Empty isEmpty={isEmpty} /></span> : null}
-        {
-          dataList.map((item, i) => {
+      <>
+        {isEmpty ? <span className={styles.empty}><Empty isEmpty={isEmpty} /></span> : (
+          <div className={styles.progressCotainer}>
+          {
+            dataList.map((item, i) => {
             return (
               <div className={styles.m_progressCls} key={i}>
                 <div className={styles.u_name}><span className={styles.u_iconCls} style={{ backgroundColor: item.color ? item.color : '#52c9c2' }}>{i + 1}</span>{item.name}</div>
@@ -53,7 +54,10 @@ export default class SelfProgress extends React.Component {
             )
           })
         }
-      </div>
+          </div>
+        )}
+
+      </>
     );
   }
 }
