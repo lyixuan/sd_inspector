@@ -63,8 +63,8 @@ export default {
         mapInfo.examNotice.familyName.push(v.familyName);
         mapInfo.examNotice.data1.push(`${(v.oldReadRatio*100).toFixed(2)}`);
         mapInfo.examNotice.data2.push(`${(v.newReadRatio*100).toFixed(2)}`);
-        mapInfo.examNotice.data3.push(Number(v.oldReadNum));
-        mapInfo.examNotice.data4.push(Number(v.newReadNum));
+        mapInfo.examNotice.data3.push(Number(v.oldExamPlanNum));
+        mapInfo.examNotice.data4.push(Number(v.newExamPlanNum));
         mapInfo.examNotice.data5.push(`${(v.readRatio * 100).toFixed(2)}`);
         mapInfo.examNotice.data6.push(v.examPlanNum);
         mapInfo.examNotice.data7.push(v.readNum);
