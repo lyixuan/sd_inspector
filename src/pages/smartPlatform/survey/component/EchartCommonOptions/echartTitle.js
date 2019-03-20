@@ -79,7 +79,7 @@ class SelectComponent extends React.Component {
             }
           </BISelect>
           <RangePicker
-            style={{ width: '230px' }}
+            style={{ width: '230px', textAlign:'left'}}
             placeholder={['开始时间', '结束时间']}
             onChange={this.dateChange}
             allowClear={false}
