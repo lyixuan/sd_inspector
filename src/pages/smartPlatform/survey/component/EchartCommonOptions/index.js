@@ -144,7 +144,7 @@ export function chartOptions(data) {
   const params2 = {
     text: '准考证填写趋势',
     legendData: [{ name: '考试计划人数', icon: 'circle' }, { name: '准考证填写人数', icon: 'circle' }, {
-      name: '准考证填写占比', }],
+      name: '准考证填写率', }],
     xData: data2.dateArr,
     color: ['#52C9C2', '#FD9E3B', '#CC73FF'],
     formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}%',
@@ -159,7 +159,7 @@ export function chartOptions(data) {
       barWidth: 9,
       data: data2.dataArr2
     }, {
-      name: '准考证填写占比',
+      name: '准考证填写率',
       type: 'line',
       yAxisIndex: 1,
       symbolSize: 2,
