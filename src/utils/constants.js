@@ -280,18 +280,18 @@ export const VIOLATION_LEVEL = [
 
 // 申诉状态
 export const APPEAL_STATE = [
-  { id: 1, name: '待申诉',type:1 },
-  { id: 2, name: '一次SOP待审核',type:1 },
-  { id: 3, name: '一次SOP已驳回',type:1 },
-  { id: 4, name: '一次质检主管待审核',type:1 },
-  { id: 5, name: '一次质检主管已驳回',type:1 },
-  { id: 6, name: '二次SOP待审核',type:1 },
-  { id: 7, name: '二次SOP已驳回',type:1 },
-  { id: 8, name: '一次申诉审核通过',type:2 },
-  { id: 9, name: '一次申诉超时',type:2 },
-  { id: 10, name: '二次申诉审核通过',type:2 },
-  { id: 11, name: '二次申诉已驳回',type:2 },
-  { id: 12, name: '二次申诉超时',type:2 },
+  { id: 1, name: '待申诉', type: 1 },
+  { id: 2, name: '一次SOP待审核', type: 1 },
+  { id: 3, name: '一次SOP已驳回', type: 1 },
+  { id: 4, name: '一次质检主管待审核', type: 1 },
+  { id: 5, name: '一次质检主管已驳回', type: 1 },
+  { id: 6, name: '二次SOP待审核', type: 1 },
+  { id: 7, name: '二次SOP已驳回', type: 1 },
+  { id: 8, name: '一次申诉审核通过', type: 2 },
+  { id: 9, name: '一次申诉超时', type: 2 },
+  { id: 10, name: '二次申诉审核通过', type: 2 },
+  { id: 11, name: '二次申诉已驳回', type: 2 },
+  { id: 12, name: '二次申诉超时', type: 2 },
 ];
 
 // 申诉类别
@@ -304,6 +304,22 @@ export const APPEAL_TYPE = [
 export const ISWARN = [
   { id: 1, name: '是' },
   { id: 0, name: '否' },
+];
+//  组织机构相关
+
+// 前端角色类型,level含义是组织结构的层级，1代表选择到学院，2表示选择学院+家族，3代表选择三级，0代表不可选择,isPerformance代表绩效权限
+export const FRONT_ROLE_TYPE_LIST = [
+  { id: 'college', name: '院长或副院长', level: '1', isPerformance: 1 },
+  { id: 'family', name: '家族长', level: '2', isPerformance: 1 },
+  { id: 'group', name: '运营长', level: '3', isPerformance: 1 },
+  { id: 'class', name: '班主任', level: '3', isPerformance: 1 },
+  { id: 'admin', name: '管理员', level: '0', isPerformance: 1 },
+  { id: 'boss', name: '管理层', level: '0', isPerformance: 1 },
+  { id: 'others', name: '无绩效岗位', level: '0', isPerformance: 0 },
+  { id: 'csmanager', name: '客诉经理', level: '1', isPerformance: 0 },
+  { id: 'cssupervisor', name: '客诉主管', level: '1', isPerformance: 0 },
+  { id: 'csleader', name: '客诉组长', level: '1', isPerformance: 0 },
+  { id: 'csofficer', name: '客诉专员', level: '1', isPerformance: 0 },
 ];
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
@@ -323,4 +339,5 @@ export default {
   APPEAL_STATE,
   APPEAL_TYPE,
   ISWARN,
+  FRONT_ROLE_TYPE_LIST,
 };
