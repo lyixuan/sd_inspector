@@ -4,6 +4,7 @@ import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
+import OrgCascader from '@/components/OrgCascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import { BiFilter } from '@/utils/utils';
 import styles from './style.less';
@@ -18,6 +19,12 @@ class CreateQualityNewSheet extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            level: null,   // 展示层级
+
+
+
+
+
             radioChange: undefined,
             roleOption: 2,
             type: undefined, //质检类型
@@ -54,6 +61,17 @@ class CreateQualityNewSheet extends React.Component {
         if (this.props.getOrgMapByMail) {
             this.props.getOrgMapByMail(mail, values);
         }
+    }
+    changeOrg = (value) => {
+        const level = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === value).level;
+        this.setState({
+            level
+        });
+    }
+    getOrgRole = () => {
+        const role = this.props.form.getFieldValue('role');
+        const obj = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === role) || {};
+        return obj.level || 3;
     }
     onChange = treeValue => {
         console.log(treeValue);
@@ -114,7 +132,8 @@ class CreateQualityNewSheet extends React.Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        const { params } = this.props;
+        const { params, orgList } = this.props;
+        const { level } = this.state;
         return (
             <div className={styles.qualityContainter}>
                 <div className={styles.title}>质检违规详情</div>
@@ -154,12 +173,14 @@ class CreateQualityNewSheet extends React.Component {
                                 </div>
                             </Col>
                             <Col className="gutter-row txRight" span={12}>
-                                {/* <Form.Item label="*归属人角色：">
+                                <Form.Item label="*归属人角色：">
                                     {getFieldDecorator('role', {
                                         initialValue: params.role || undefined,
                                         rules: [{ required: true, message: '请选择归属人角色' }],
                                     })(
-                                        <BISelect allowClear placeholder="请选择" style={{ width: 280 }}>
+                                        <BISelect allowClear placeholder="请选择"
+                                            onChange={this.changeOrg}
+                                            style={{ width: 280 }}>
                                             {BiFilter("FRONT_ROLE_TYPE_LIST").map(item => (
                                                 <Option value={item.id} key={item.name}>
                                                     {item.name}
@@ -167,7 +188,7 @@ class CreateQualityNewSheet extends React.Component {
                                             ))}
                                         </BISelect>
                                     )}
-                                </Form.Item> */}
+                                </Form.Item>
                             </Col>
                         </Row>
                         <Row gutter={0} style={{ lineHeight: '40px' }}>
@@ -182,31 +203,14 @@ class CreateQualityNewSheet extends React.Component {
                             <Col className="gutter-row txRight" span={12}>
                                 <Form.Item label="*归属组织：">
                                     {getFieldDecorator('organize', {
-                                        initialValue: this.state.organize,
+                                        initialValue: [],
                                     })(
-                                        <TreeSelect
-                                            style={{ width: 280 }}
-                                            setFieldsValue={this.state.value}
-                                            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                                            placeholder="Please select"
-                                            allowClear
-                                            treeDefaultExpandAll
-                                            onChange={this.onChange}
-                                        >
-                                            <TreeNode value="parent 1" title="parent 1" key="0-1">
-                                                <TreeNode value="parent 1-0" title="parent 1-0" key="0-1-1">
-                                                    <TreeNode value="leaf1" title="my leaf" key="random" />
-                                                    <TreeNode value="leaf2" title="your leaf" key="random1" />
-                                                </TreeNode>
-                                                <TreeNode value="parent 1-1" title="parent 1-1" key="random2">
-                                                    <TreeNode
-                                                        value="sss"
-                                                        title={<b style={{ color: '#08c' }}>sss</b>}
-                                                        key="random3"
-                                                    />
-                                                </TreeNode>
-                                            </TreeNode>
-                                        </TreeSelect>
+                                        <OrgCascader
+                                            level={this.getOrgRole()}
+                                            placeholder="请选择"
+                                            options={orgList}
+                                            fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+                                        />
                                     )}
                                 </Form.Item>
                             </Col>
@@ -432,7 +436,7 @@ function mapPropsToFields(props) {
         // 此处后期应对学院家族小组进行处理
         if (item === 'role') { // 对角色单独处理
             returnObj[item] = Form.createFormField({
-                value: { key: params[item] || undefined },
+                value: params[item] || undefined,
             })
         } else {
             returnObj[item] = Form.createFormField({

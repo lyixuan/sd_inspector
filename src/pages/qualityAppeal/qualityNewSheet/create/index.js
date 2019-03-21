@@ -55,11 +55,12 @@ class CreateQualityNewSheet extends React.Component {
   }
   render() {
     const { params } = this.state;
-    console.log(params)
+    const { orgList } = this.props;
     return (<div>
       {/* form区域 */}
       <FormComponent
         params={params}
+        orgList={orgList}
         getOrgMapByMail={this.getOrgMapByMail}
         onSubmit={this.onSubmit}
       />
