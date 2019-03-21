@@ -84,10 +84,10 @@ class Launch extends React.Component {
         <div className={styles.info}>
           <div className={styles.title}>申诉信息</div>
           <div>
-            <div class={styles.appealInfo}>
+            <div className={styles.appealInfo}>
               一次申诉<span>一次申诉截止日期：3939393</span>
             </div>
-            <div class={styles.originator}>
+            <div className={styles.originator}>
               申诉发起人
             </div>
             <div className={styles.flexStyle}>

@@ -11,7 +11,7 @@ export default class AppealInfoComponent extends React.Component {
       data: props.data,
     };
   }
-  componentDidMount() {}
+  componentDidMount() { }
 
   render() {
     const { appealEndDate, appealStart } = this.props.data;
