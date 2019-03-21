@@ -12,7 +12,7 @@ export default class PersonInfoComponent extends React.Component {
   componentDidMount() {}
 
   render() {
-    const { qualityType, verifyDate, mail, role, groupName } = this.state.data;
+    const { qualityType, verifyDate, mail, role, groupName, name } = this.state.data;
     return (
       <section className={styles.personInfoCon}>
         <div className={styles.personInfo}>
@@ -28,7 +28,7 @@ export default class PersonInfoComponent extends React.Component {
           <div className={styles.secRow}>
             <div />
             <div>归属组织：{groupName}</div>
-            <div>归属人：{groupName}</div>
+            <div>归属人：{name}</div>
           </div>
         </div>
         <div className={styles.divideLine} />

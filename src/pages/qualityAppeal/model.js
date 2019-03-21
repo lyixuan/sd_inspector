@@ -98,7 +98,7 @@ export default {
       }
     },
     *getQualityDetailData({ payload }, { call, put }) {
-      //申诉详情页数据
+      //质检详情页数据
       const result = yield call(getQualityDetail, { ...payload });
       const QualityDetailData = result.data ? result.data : {};
       if (result.code === 20000) {

@@ -43,11 +43,11 @@ class QualityDetail extends React.Component {
           {/* 质检违规详情 */}
           <section>{/* 质检审核 */}</section>
           <div className={styles.divideLine} />
-          {/* <IllegalInfo data={this.state.qualityData} /> */}
+          <IllegalInfo data={qualityDetailData} />
         </section>
         <section>
           {/* 质检审核 */}
-          {/* <CheckInfo data={this.state.qualityData.qualityAudit} /> */}
+          <CheckInfo data={qualityDetailData.qualityAudit} />
         </section>
         <section>
           <Form layout="inline" className={styles.formBox}>
