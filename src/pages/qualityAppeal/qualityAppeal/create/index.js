@@ -23,7 +23,9 @@ let isZip = false;
 
 @connect(({ qualityAppealHome, createAppeal }) => ({
   qualityAppealHome,
-  createAppeal
+  createAppeal,
+  orgList: qualityAppealHome.orgList,
+  orgMapByMailData: qualityAppealHome.orgMapByMailData,
 }))
 
 class EditQualityNewSheet extends React.Component {

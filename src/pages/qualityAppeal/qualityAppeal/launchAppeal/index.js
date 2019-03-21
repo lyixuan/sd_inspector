@@ -1,12 +1,15 @@
 import React from 'react';
 import styles from './style.less';
-import { Row, Col, Input } from 'antd';
+import { Row, Col, Form, Input, Upload } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import SubOrderDetail from './../../components/subOrderDetail';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 import IllegalInfo from './../../qualityNewSheet/detail/components/illegalInfo';
 import { connect } from 'dva';
 const { TextArea } = Input;
+@connect(({ Launch, }) => ({
+  Launch
+}))
 class Launch extends React.Component {
   constructor(props) {
     super(props);
@@ -62,9 +65,34 @@ class Launch extends React.Component {
           },
         ],
       },
+      params: {
+        firstAppealEndDate: undefined,
+        type: 1,
+        attUrl: "123",
+        desc: "",
+        qualityId: 1
+      },
+
     };
+
+  }
+  handleSubmit = e => {
+    let params = this.state.params
+    console.log(82, params)
+    this.props.dispatch({
+      type: 'Launch/launchAppeal',
+      payload: { params },
+    })
+
+
+  };
+  inputChange = e => {
+    e.persist();
+    this.state.params.desc = e.target.value
+    this.setState({ params: this.state.params })
   }
   render() {
+    const { getFieldDecorator } = this.props.form;
     return (
       <div className={styles.launchContainer}>
         <section>
@@ -92,12 +120,18 @@ class Launch extends React.Component {
             </div>
             <div className={styles.flexStyle}>
               <div className={styles.label}>附件:</div>
-              <div className={styles.intro}>附件1</div>
+              <Upload >
+                <BIButton type="primary">
+                  上传附件
+                    </BIButton>
+              </Upload>
+
             </div>
+
             <div className={styles.flexStyle}>
               <div className={styles.label}>申诉说明:</div>
               <div className={styles.intro}>
-                <TextArea rows={4} value="郭老师" />
+                <TextArea rows={4} onChange={this.inputChange} />
               </div>
             </div>
 
@@ -112,7 +146,7 @@ class Launch extends React.Component {
                 <BIButton>取消</BIButton>
               </span>
               <span className={styles.gutterBtn1}>
-                <BIButton type="primary" htmlType="submit">提交申诉</BIButton>
+                <BIButton type="primary" onClick={this.handleSubmit}>提交申诉</BIButton>
               </span>
             </div>
           </Col>
@@ -122,4 +156,8 @@ class Launch extends React.Component {
   }
 }
 
-export default Launch;
+const submitForm = Form.create({ name: 'form' })(Launch);
+
+export default submitForm;
+
+// export default Launch;
