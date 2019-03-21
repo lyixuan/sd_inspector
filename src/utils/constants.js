@@ -236,7 +236,7 @@ export const TASK_STATES = [
   { id: 4, name: '失败', color: '#ff3678' },
 ];
 
-// 考期接口
+// 考期临时接口
 export const examList =
 {
   code: 20000,
@@ -254,6 +254,80 @@ export const RATE_COLOR = [
   { id: 3, color: '#52C9C2' },
 ];
 
+// ====================================== 质检
+// 质检类型
+export const QUALITY_TYPE = [
+  { id: 1, name: '客诉质检' },
+  { id: 2, name: '班主任质检' },
+];
+
+// 质检状态
+export const QUALITY_STATE = [
+  { id: 1, name: '待审核' },
+  { id: 2, name: '已通过' },
+  { id: 3, name: '已撤销' },
+  { id: 4, name: '已驳回' },
+];
+
+// 质检扣分规则类别
+export const QUALITY_RULE_TYPE = [
+  { id: 1, name: '班主任' },
+  { id: 2, name: '运营长' },
+  { id: 3, name: '家族长' },
+  { id: 4, name: '客诉' },
+];
+
+// 违规等级
+export const VIOLATION_LEVEL = [
+  { id: 1, name: '特级违规' },
+  { id: 2, name: '一级违规' },
+  { id: 3, name: '二级违规' },
+  { id: 4, name: '三级违规' },
+];
+
+// 申诉状态
+export const APPEAL_STATE = [
+  { id: 1, name: '待申诉', type: 1 },
+  { id: 2, name: '一次SOP待审核', type: 1 },
+  { id: 3, name: '一次SOP已驳回', type: 1 },
+  { id: 4, name: '一次质检主管待审核', type: 1 },
+  { id: 5, name: '一次质检主管已驳回', type: 1 },
+  { id: 6, name: '二次SOP待审核', type: 1 },
+  { id: 7, name: '二次SOP已驳回', type: 1 },
+  { id: 8, name: '一次申诉审核通过', type: 2 },
+  { id: 9, name: '一次申诉超时', type: 2 },
+  { id: 10, name: '二次申诉审核通过', type: 2 },
+  { id: 11, name: '二次申诉已驳回', type: 2 },
+  { id: 12, name: '二次申诉超时', type: 2 },
+];
+
+// 申诉类别
+export const APPEAL_TYPE = [
+  { id: 1, name: '一次申诉' },
+  { id: 2, name: '二次申诉' },
+];
+
+// 是否警告
+export const ISWARN = [
+  { id: 1, name: '是' },
+  { id: 0, name: '否' },
+];
+//  组织机构相关
+
+// 前端角色类型,level含义是组织结构的层级，1代表选择到学院，2表示选择学院+家族，3代表选择三级，0代表不可选择,isPerformance代表绩效权限
+export const FRONT_ROLE_TYPE_LIST = [
+  { id: 'college', name: '院长或副院长', level: '1', isPerformance: 1 },
+  { id: 'family', name: '家族长', level: '2', isPerformance: 1 },
+  { id: 'group', name: '运营长', level: '3', isPerformance: 1 },
+  { id: 'class', name: '班主任', level: '3', isPerformance: 1 },
+  { id: 'admin', name: '管理员', level: '0', isPerformance: 1 },
+  { id: 'boss', name: '管理层', level: '0', isPerformance: 1 },
+  { id: 'others', name: '无绩效岗位', level: '0', isPerformance: 0 },
+  { id: 'csmanager', name: '客诉经理', level: '1', isPerformance: 0 },
+  { id: 'cssupervisor', name: '客诉主管', level: '1', isPerformance: 0 },
+  { id: 'csleader', name: '客诉组长', level: '1', isPerformance: 0 },
+  { id: 'csofficer', name: '客诉专员', level: '1', isPerformance: 0 },
+];
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -266,4 +340,12 @@ export default {
   PROVINCE_SIGN_STEP,
   provinceJson,
   examList,
+  QUALITY_TYPE,
+  QUALITY_STATE,
+  QUALITY_RULE_TYPE,
+  VIOLATION_LEVEL,
+  APPEAL_STATE,
+  APPEAL_TYPE,
+  ISWARN,
+  FRONT_ROLE_TYPE_LIST,
 };

@@ -53,7 +53,7 @@ export const routes = [
               path: '/smartPlatform/details',
             },
           },
-        ]
+        ],
       },
       {
         path: '/qualityAppeal',
@@ -66,7 +66,7 @@ export const routes = [
             name: '新质检单管理',
           },
           {
-            path: '/qualityAppeal/qualityNewSheet/Create',
+            path: '/qualityAppeal/qualityNewSheet/create',
             component: './qualityAppeal/qualityNewSheet/create',
             name: '创建质检单',
             bread: {
@@ -75,9 +75,46 @@ export const routes = [
             },
           },
           {
+            path: '/qualityAppeal/qualityNewSheet/edit',
+            component: './qualityAppeal/qualityNewSheet/edit',
+            name: '编辑质检单',
+            bread: {
+              name: '新质检单管理',
+              path: '/qualityAppeal/qualityNewSheet',
+            },
+          },
+          {
+            path: '/qualityAppeal/qualityNewSheet/appealSt',
+            component: './qualityAppeal/qualityNewSheet/edit',
+            name: '审核',
+          },
+          {
+            path: '/qualityAppeal/qualityNewSheet/detail',
+            component: './qualityAppeal/qualityNewSheet/detail',
+            name: '质检详情',
+          },
+          {
             path: '/qualityAppeal/qualityAppeal',
             component: './qualityAppeal/qualityAppeal',
             name: '质检申诉管理',
+          },
+          {
+            path: '/qualityAppeal/qualityAppeal/detail',
+            component: './qualityAppeal/qualityAppeal/detail',
+            name: '申诉详情',
+            bread: {
+              name: '质检申诉管理',
+              path: '/qualityAppeal/qualityAppeal',
+            },
+          },
+          {
+            path: '/qualityAppeal/qualityAppeal/edit',
+            component: './qualityAppeal/qualityAppeal/edit',
+            name: '发起申诉',
+            bread: {
+              name: '质检申诉管理',
+              path: '/qualityAppeal/qualityAppeal',
+            },
           },
           {
             path: '/qualityAppeal/qualityAppeal/appeal',
@@ -85,6 +122,24 @@ export const routes = [
             name: '申诉审核',
             bread: {
               name: '质检申诉管理',
+              path: '/qualityAppeal/qualityAppeal',
+            },
+          },
+          {
+            path: '/qualityAppeal/qualityAppeal/launchAppeal',
+            component: './qualityAppeal/qualityAppeal/launchAppeal',
+            name: '发起申诉',
+            bread: {
+              name: '质检申诉管理',
+              path: '/qualityAppeal/qualityAppeal',
+            },
+          },
+          {
+            path: '/qualityAppeal/qualityAppeal/create',
+            component: './qualityAppeal/qualityAppeal/create',
+            name: '申诉审核',
+            bread: {
+              name: '申诉审核',
               path: '/qualityAppeal/qualityAppeal',
             },
           },
@@ -102,38 +157,8 @@ export const routes = [
               path: '/qualityAppeal/qualityBook',
             },
           },
-        ]
-      },
-      {
-        path: '/exception',
-        component: '../layouts/ExceptionLayout',
-        routes: [
-          {
-            path: '/exception/403',
-            component: './exception/403',
-          },
-          {
-            path: '/exception/404',
-            component: './exception/404',
-          },
-          {
-            path: '/exception/500',
-            component: './exception/500',
-          },
         ],
       },
-      {
-        path: '/user',
-        component: '../layouts/UserLayout',
-        routes: [
-          {
-            path: '/user/login',
-            component: './user/login',
-          },
-        ]
-
-      },
-    ]
+    ],
   },
-
 ];

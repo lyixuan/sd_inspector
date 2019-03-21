@@ -3,12 +3,8 @@ import { connect } from 'dva';
 
 class CreatePointBook extends React.Component {
   render() {
-    return (
-      <div>
-      </div>
-    );
+    return <div>test2</div>;
   }
-
 }
 
 export default CreatePointBook;
