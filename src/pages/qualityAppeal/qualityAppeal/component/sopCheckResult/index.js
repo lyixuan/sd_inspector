@@ -12,8 +12,6 @@ export default class SOPCheckResultComponent extends React.Component {
   componentDidMount() {}
 
   render() {
-    const { checkResult, desc, operator, operatorDate } = this.state.data;
-    console.log(this.state.data);
     return (
       <section className={styles.personInfoCon}>
         <div>
@@ -38,12 +36,11 @@ export default class SOPCheckResultComponent extends React.Component {
                 </div>
                 <div>
                   <div className={styles.secCol}>
-                    <div>审核说明：{desc}</div>
+                    <div>审核说明：{item.desc}</div>
                   </div>
                 </div>
               </div>
             ))}
-            }
           </article>
 
           <div className={styles.divideLine} />

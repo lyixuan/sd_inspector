@@ -1,14 +1,31 @@
 import { message } from 'antd/lib/index';
-import {} from './services';
+import { getQualityDetail } from './service';
 
 export default {
-  namespace: 'QualityDetail',
+  namespace: 'qualityDetail',
 
-  state: {},
+  state: {
+    QualityDetailData: {},
+  },
 
-  effects: {},
+  effects: {
+    *getQualityDetailData({ payload }, { call, put }) {
+      //质检详情页数据
+      const result = yield call(getQualityDetail, { ...payload });
+      const QualityDetailData = result.data ? result.data : {};
+      if (result.code === 20000) {
+        yield put({ type: 'saveQualityDetailData', payload: { QualityDetailData } });
+      } else {
+        message.error(result.msg);
+      }
+    },
+  },
 
-  reducers: {},
+  reducers: {
+    saveQualityDetailData(state, { payload }) {
+      return { ...state, ...payload };
+    },
+  },
 
   subscriptions: {},
 };

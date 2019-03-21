@@ -73,6 +73,7 @@ div.divideLine:last-child {
   border: 1px solid #d5dae2;
   margin-left: 20px;
   flex-direction: column;
+  padding-bottom: 10px;
 }
 .secctionTitle {
   display: block;
