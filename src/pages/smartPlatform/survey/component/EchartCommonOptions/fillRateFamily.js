@@ -41,17 +41,18 @@ export default class SelfProgress extends React.Component {
           <div className={styles.progressCotainer}>
           {
             dataList.map((item, i) => {
-            return (
-              <div className={styles.m_progressCls} key={i}>
-                <div className={styles.u_name}><span className={styles.u_iconCls} style={{ backgroundColor: item.color ? item.color : '#52c9c2' }}>{i + 1}</span>{item.name}</div>
-                <Progress
-                  percent={this.renderPercent(item.per)}
-                  strokeColor={item.color ? item.color : '#52c9c2'}
-                  strokeWidth={20}
-                  format={percent => percent.toFixed(2) + '%'}
-                />
-              </div>
-            )
+              const color = item.color[0] ? item.color[0].color : '#52c9c2';
+              return (
+                <div className={styles.m_progressCls} key={i}>
+                  <div className={styles.u_name}><span className={styles.u_iconCls} style={{ backgroundColor: color }}>{i + 1}</span>{item.name}</div>
+                  <Progress
+                    percent={this.renderPercent(item.per)}
+                    strokeColor={color}
+                    strokeWidth={20}
+                    format={percent => percent.toFixed(2) + '%'}
+                  />
+                </div>
+              )
           })
         }
           </div>
