@@ -12,11 +12,11 @@ import React from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
 import BISelect from '@/ant_components/BISelect';
-import DatePickerDecorator from 'antd/lib/date-picker';
+import BIDatePicker from '@/ant_components/BIDatePicker';
 import styles from './common.less'
 
 const Option = BISelect.Option;
-const { RangePicker } = DatePickerDecorator;
+const  { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
 const allProvince = { name: '所有省份', code: '' };
 @connect(({ home }) => ({
@@ -78,8 +78,8 @@ class SelectComponent extends React.Component {
               }) : null
             }
           </BISelect>
-          <RangePicker
-            style={{ width: '230px' }}
+          <BIRangePicker
+            style={{ width: '230px', textAlign:'left'}}
             placeholder={['开始时间', '结束时间']}
             onChange={this.dateChange}
             allowClear={false}

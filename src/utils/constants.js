@@ -246,6 +246,13 @@ export const examList =
     { "beginDate": "2018-10-23", "createTime": null, "endDate": "2019-04-22", "examYearmonth": "2019-04", "id": 5, "updateTime": null }
   ]
 };
+// 排行榜颜色
+export const RATE_COLOR = [
+  { id: 0, color: '#FF6D6D' },
+  { id: 1, color: '#FF8E57' },
+  { id: 2, color: '#FFAA4D' },
+  { id: 3, color: '#52C9C2' },
+];
 
 // ====================================== 质检
 // 质检类型
@@ -328,6 +335,7 @@ export default {
   TICKET_STATES,
   MSG_STATES,
   TASK_STATES,
+  RATE_COLOR,
   PAGINATION,
   PROVINCE_SIGN_STEP,
   provinceJson,

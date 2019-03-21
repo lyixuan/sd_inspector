@@ -36,24 +36,29 @@ export default class SelfProgress extends React.Component {
   render() {
     const { dataList, isEmpty } = this.props;
     return (
-      <div className={styles.progressCotainer}>
-        {isEmpty ? <span className={styles.empty}><Empty isEmpty={isEmpty} /></span> : null}
-        {
-          dataList.map((item, i) => {
-            return (
-              <div className={styles.m_progressCls} key={i}>
-                <div className={styles.u_name}><span className={styles.u_iconCls} style={{ backgroundColor: item.color ? item.color : '#52c9c2' }}>{i + 1}</span>{item.name}</div>
-                <Progress
-                  percent={this.renderPercent(item.per)}
-                  strokeColor={item.color ? item.color : '#52c9c2'}
-                  strokeWidth={20}
-                  format={percent => percent.toFixed(2) + '%'}
-                />
-              </div>
-            )
+      <>
+        {isEmpty ? <span className={styles.empty}><Empty isEmpty={isEmpty} /></span> : (
+          <div className={styles.progressCotainer}>
+          {
+            dataList.map((item, i) => {
+              const color = item.color[0] ? item.color[0].color : '#52c9c2';
+              return (
+                <div className={styles.m_progressCls} key={i}>
+                  <div className={styles.u_name}><span className={styles.u_iconCls} style={{ backgroundColor: color }}>{i + 1}</span>{item.name}</div>
+                  <Progress
+                    percent={this.renderPercent(item.per)}
+                    strokeColor={color}
+                    strokeWidth={20}
+                    format={percent => percent.toFixed(2) + '%'}
+                  />
+                </div>
+              )
           })
         }
-      </div>
+          </div>
+        )}
+
+      </>
     );
   }
 }

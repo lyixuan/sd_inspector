@@ -49,6 +49,14 @@ export function fillCollege(data) {
       },
     },
     series: [{
+      itemStyle:{
+        normal:{
+          color: function(params) {
+            const colorList = ['#FF6D6D','#FF8E57','#FFAA4D','#52C9C2','#52C9C2','#52C9C2','#52C9C2'];
+            return colorList[params.dataIndex]
+          }
+        }
+      },
       label: {
         normal: {
           show: true,
