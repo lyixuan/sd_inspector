@@ -121,7 +121,7 @@ class Survey extends React.Component {
   };
   isEmptyArr = (data)=>{
     const {tabId} = this.state;
-    return data[tabId]?data[tabId].data1.length:0;
+    return data[tabId]&&data[tabId].data1.length;
   };
   render() {
     const {tabId,endDate,beginDate,isShowMore} = this.state;
@@ -163,12 +163,12 @@ class Survey extends React.Component {
           <div className={styles.echartCls}>
             <div className='m_box'>
               <p className={styles.proTip}>点击省份可查看该省份的学院及家族数据</p>
-              <Echart isEmpty={this.isEmptyArr(porDataList) === 0} clickEvent={this.eConsole} style={{ width: '100%', height:`${porDataList[tabId]&&porDataList[tabId].data1.length !== 0?porDataList[tabId].data1.length*50:400}px`  }} options={famProOPtion(this.state,porDataList,'pro',undefined,unit,tabId)} />
+              <Echart isEmpty={this.isEmptyArr(porDataList) === 0} clickEvent={this.eConsole} style={{ width: '100%', height:`${this.isEmptyArr(porDataList) !== 0?this.isEmptyArr(porDataList)*50:400}px`  }} options={famProOPtion(this.state,porDataList,'pro',undefined,unit,tabId)} />
             </div>
             <div className='m_box'><Echart isEmpty={this.isEmptyArr(colDataList) === 0} style={{ width: '100%', height: "410px" }} options={blendChartOptions(this.state,colDataList,'all',undefined,unit,tabId)} /></div>
-            <div className='m_box'><Echart isEmpty={this.isEmptyArr(famDataMap) === 0} style={{ width: '100%', height:`${famDataMap[tabId]&&famDataMap[tabId].data1.length!==0?famDataMap[tabId].data1.length*50:400}px` }} options={famProOPtion(this.state,famDataMap,'fam',undefined,unit,tabId)} /></div>
+            <div className='m_box'><Echart isEmpty={this.isEmptyArr(famDataMap) === 0} style={{ width: '100%', height:`${this.isEmptyArr(famDataMap)!==0?this.isEmptyArr(famDataMap)*50:400}px` }} options={famProOPtion(this.state,famDataMap,'fam',undefined,unit,tabId)} /></div>
             <div className='m_box'>
-              <Echart isEmpty={this.isEmptyArr(groDataList) === 0} style={{ width: '100%',height:`${groDataList[tabId]&&groDataList[tabId].data1.length!==0?isShowMore?groDataList[tabId].data1.length*48:960:400}px`}} options={groupOPtion(this.state,groDataList,isShowMore)} />
+              <Echart isEmpty={this.isEmptyArr(groDataList) === 0} style={{ width: '100%',height:`${this.isEmptyArr(groDataList)!==0?isShowMore?this.isEmptyArr(groDataList)*48:960:400}px`}} options={groupOPtion(this.state,groDataList,isShowMore)} />
               {!isShowMore?<BIButton type="primary" style={{marginBottom:'20px'}} onClick={this.getMoreData.bind(this,true)}>查看更多</BIButton>:null}
             </div>
           </div>
