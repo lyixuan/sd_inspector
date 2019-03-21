@@ -25,6 +25,7 @@ class Survey extends React.Component {
     const day = (new Date()).getTime()-24*60*60*1000;
     this.state = {
       isShowMore:false,
+      loading:props.loading||false,
       beginDate: moment(day).format('YYYY-MM-DD'),
       // beginDate: '2019-03-01',
       endDate: moment(day).format('YYYY-MM-DD'),
@@ -109,9 +110,22 @@ class Survey extends React.Component {
     this.examOrg('group',date);
   };
   getMoreData = (isShow)=>{
-    this.setState({
-      isShowMore:isShow,
-    });
+    if(isShow){
+      this.setState({
+        isShowMore:isShow,
+        loading:true,
+      });
+      setTimeout(()=>{
+        this.setState({
+          isShowMore:isShow,
+          loading:false,
+        });
+      },800)
+    }else {
+      this.setState({
+        isShowMore:isShow
+      });
+    }
   };
   eConsole=(e)=> {
     const {tabId,beginDate,endDate}=this.state;
@@ -124,7 +138,7 @@ class Survey extends React.Component {
     return data[tabId]&&data[tabId].data1.length;
   };
   render() {
-    const {tabId,endDate,beginDate,isShowMore} = this.state;
+    const {tabId,endDate,beginDate,isShowMore,loading} = this.state;
     const { exam } = this.props;
 
     const unit = tabId === 'examPlan'?'人':'%';
@@ -132,7 +146,7 @@ class Survey extends React.Component {
 
     const tabData = [{name:'考试计划',id:'examPlan',data:[]},{name:'报考通知',id:'examNotice',data:[]},{name:'准考证填写',id:'examTicket',data:[]}];
     return (
-      <Spin spinning={this.props.loading}>
+      <Spin spinning={loading}>
         <BITabs onChange={this.switchContent} type="card" tabBarStyle={{backgroundColor:'#fff',padding:'19px 0 0 30px'}}>
           {tabData.map(item=> <BITabs.TabPane tab={item.name} key={item.id} />)}
         </BITabs>
