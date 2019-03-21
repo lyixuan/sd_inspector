@@ -30,6 +30,16 @@ export class BaseModels {
             ...initModel,
             ...propsData,
         }
+    }
+    HandleOrgMapByMail(obj) {
+        if (!obj || typeof obj !== 'object') return;
+        return {
+            role: obj.userType || null,
+            name: obj.name || '',
+            collegeId: obj.collegeId || null,
+            familyId: obj.familyId || null,
+            groupId: obj.groupId || null,
+        }
 
     }
 
