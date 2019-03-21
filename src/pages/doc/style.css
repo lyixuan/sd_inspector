@@ -5,8 +5,11 @@
 }
 
 .box {
-  border-top: 1px solid #EBEDF0;
+  /*border-top: 1px solid #EBEDF0;*/
+  box-shadow: 0 0 20px #EBEDF0;
+  -webkit-tap-highlight-color: transparent;
   padding: 10px;
+  margin: 8px 0;
   overflow: hidden;
 }
 
@@ -25,21 +28,18 @@
 
  /* box right部分 */
 .boxLeft,.boxRight,.boxCenter {
-  width: 59%;
+  width: 55%;
   padding: 10px;
   float: left;
   border: 1px solid #EBEDF0;
   overflow: hidden;
 }
 
-.boxLeft ,.boxCenter{
-  background-color: #0B1530;
-}
-
 .boxRight {
-  width: 39%;
+  width: 44%;
   float: right;
   margin-left: 1%;
+  border: none;
 }
 
 .boxCenter {

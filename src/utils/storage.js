@@ -1,8 +1,10 @@
-import { ADMIN_AUTH, ADMIN_USER } from './constants';
+import { ADMIN_AUTH, ADMIN_USER, DOMAIN_HOST } from './constants';
+import Cookies from 'js-cookie';
 
 const storage = {
   getItem(key) {
-    return JSON.parse(localStorage.getItem(key))
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : null;
   },
   setItem(key, value) {
     return localStorage.setItem(key, JSON.stringify(value));
@@ -14,7 +16,7 @@ const storage = {
   * 获取token
   * */
   getToken() {
-    const info = this.getItem(ADMIN_USER);
+    const info = this.getUserInfo();
     let userId = '';
     let token = '';
     if (info) {
@@ -28,11 +30,13 @@ const storage = {
   * return object || null
   * */
   getUserInfo() {
-    return this.getItem(ADMIN_USER)
-  }
-  ,
+    // 优先从督学模块拿取cookie参数,其次再去local中去取
+    const userInfo = Cookies.get(ADMIN_USER);
+    return userInfo ? JSON.parse(userInfo) : this.getItem(ADMIN_USER);
+  },
   // 存储用户信息
   setUserInfo(token) {
+    Cookies.set(ADMIN_USER, { ...token }, { expires: 365, domain: DOMAIN_HOST });
     this.setItem(ADMIN_USER, token);
   },
   // 清除用户信息
@@ -47,6 +51,7 @@ const storage = {
   getUserAuth() {
     return this.getItem(ADMIN_AUTH)
   },
+
   // 存储用户权限
   setUserAuth(token) {
     this.setItem(ADMIN_AUTH, token);
@@ -55,5 +60,15 @@ const storage = {
   clearUserAuth() {
     this.removeItem(ADMIN_AUTH);
   },
+  isRepeatLogin() {
+    const userInfo = this.getUserInfo() || {};
+    const userInfo_localStorage = this.getItem(ADMIN_USER) || {};
+    if (userInfo) {
+      return (
+        userInfo.userId !== userInfo_localStorage.userId ||
+        userInfo.token !== userInfo_localStorage.token
+      );
+    } else return false;
+  }
 };
 export default storage

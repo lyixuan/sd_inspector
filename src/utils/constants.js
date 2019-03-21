@@ -14,14 +14,15 @@ export const STATIC_HOST = {
   development: 'http://172.16.117.65',
   production: 'http://api.bd.ministudy.com/download',
 }[process.env.PROXY_ENV];
-
+// 设置domain域名
+export const DOMAIN_HOST = '.ministudy.com';
+// export const DOMAIN_HOST = 'localhost';
 
 // 登录页面地址配置
 export const LOGIN_URL = {
-  localhost: 'http://localhost:8088/userLayout/login',
-  development: 'http://172.16.117.64:8090/userLayout/login',
-  production: 'http://bd.ministudy.com/userLayout/login',
-}[process.env.LOGIN_TYPE];
+  development: 'http://test.xd.admin.ministudy.com',
+  production: 'http://bd.ministudy.com',
+}[process.env.PROXY_ENV];
 
 // 分页配置
 export const PAGINATION = {
@@ -32,6 +33,12 @@ export const PAGINATION = {
   pageSize: 36,
   pageSizeOptions: ['36', '50', '100']
 };
+// header下拉选
+export const GLOBAL_HEADER_SELECT = [
+  { id: 'changeRole', name: '切换角色', icon: 'user' },
+  { id: 'changePwd', name: '修改密码', icon: 'lock' },
+  { id: 'logout', name: '退出登录', icon: 'logout' },
+];
 
 // 省份
 export const provinceJson = [
@@ -225,18 +232,20 @@ export const MSG_STATES = [
 export const TASK_STATES = [
   { id: 1, name: '未开始', color: '#999' },
   { id: 2, name: '进行中..', color: '#dc5745' },
-  { id: 3, name: '完成', color: '#38e39d' },
+  { id: 3, name: '完成', color: '#52C9C2' },
   { id: 4, name: '失败', color: '#ff3678' },
 ];
 
 // 考期接口
-export const  examList =
-  {code:20000,
-    msg:"OK",
-    msgDetail:null,
-    data:[
-      {"beginDate":"2018-10-23","createTime":null,"endDate":"2019-04-22","examYearmonth":"2019-04","id":5,"updateTime":null}
-    ]};
+export const examList =
+{
+  code: 20000,
+  msg: "OK",
+  msgDetail: null,
+  data: [
+    { "beginDate": "2018-10-23", "createTime": null, "endDate": "2019-04-22", "examYearmonth": "2019-04", "id": 5, "updateTime": null }
+  ]
+};
 
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {

@@ -37,7 +37,7 @@ const errorHandler = error => {
   if (status === 401) {
     redirectUrlParams();    // 跳转至登录页
     // routerRedux.push('login/logout');
-    return;
+    // return;
   } else if (status === 403) {
     routerRedux.push('/exception/403');
     return;

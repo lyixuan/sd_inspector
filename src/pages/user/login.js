@@ -1,22 +1,26 @@
 import React from 'react';
 import { connect } from 'dva';
-// import { redirectUrlParams } from '../../utils/routeUtils';
+import { Base64 } from 'js-base64';
+import storage from '@/utils/storage';
 
 
 class Login extends React.Component {
     UNSAFE_componentWillMount() {
-        // redirectUrlParams()
-        // window.location.href = redirectUrlParams();
-        // const { match, location } = this.props;
-        // const { params } = match;
-        // const { query: { pathname } } = location
-        // this.props.dispatch({
-        //     type: 'login/loginin',
-        //     payload: {
-        //         userInfo: params.id || '',
-        //         pathname,
-        //     }
-        // });
+        this.getAuthToken();
+    }
+    getAuthToken = () => {
+        const { location: { query = {} } } = this.props;
+        const paramsId = query.paramsId || '';
+        let paramsObj = {}
+
+        if (paramsId) {
+            try {
+                paramsObj = paramsId ? JSON.parse(Base64.decode(paramsId)) : {};
+                storage.setUserInfo(paramsObj);
+            } catch (e) {
+                console.log(e);
+            }
+        }
     }
     render() {
         return (

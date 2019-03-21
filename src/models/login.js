@@ -1,56 +1,100 @@
-import { Base64 } from 'js-base64';
 import { message } from 'antd';
-import { getUserAuthList } from '@/services/api';
+import { routerRedux } from 'dva/router';
+import { getPrivilegeList, CurrentUserListRole, userChangeRole } from '@/services/api';
 import storage from '@/utils/storage';
-
-const handleLogin = (response) => {
-  let saveObj = response || {};
-  const { privilegeList = [], ...others } = response.data || {};
-  const AuthList = Array.isArray(privilegeList) ? privilegeList : [];
-  saveObj.privilegeList = AuthList;
-  storage.setUserInfo({ ...others });
-  storage.setUserAuth(privilegeList);
-};
 
 export default {
   namespace: 'login',
 
   state: {
+    loginState: false,
     userInfo: {},
+    currentUser: {},
+    authList: [],
+    roleList: [],
   },
 
   effects: {
-    *loginin({ payload }, { call, put }) {
-      const { userInfo = '', pathname } = payload;
-      if (typeof userInfo === 'string') {
-        try {
-          const params = JSON.parse(Base64.decode(userInfo));
-          const { mail, password } = params;    //  
-          const response = yield call(getUserAuthList, { mail, password });
-          if (response.code === 2000) {
-            handleLogin(response);
-            yield put({
-              type: 'saveUserInfo',
-              payload: { userInfo: response.data },
-            })
-            yield
-          } else {
-            message.error(response.msg);
-          }
-
-        } catch (error) {
-          message.error(`参数传递异常!${error.name}`);
+    *loginin(_, { call, put }) {
+      const isHasUserInfo = storage.isRepeatLogin();
+      const userInfo = storage.getUserInfo();
+      let loginState = false;
+      if (isHasUserInfo) {
+        const response = yield call(getPrivilegeList);
+        if (response.code === 20000) {
+          const data = response.data || {};
+          const { privilegeList, ...resothers } = data;
+          const { token, userId, ...others } = userInfo;
+          const saveObj = { token, userId, ...others, ...resothers };
+          storage.setUserInfo(saveObj);
+          storage.setUserAuth(privilegeList);
+        } else {
+          loginState = false;
+          message.error(response.msg);
         }
       } else {
-        message.error('参数传递异常');
+        loginState = true;
       }
-    }
+      yield put({
+        type: 'menu/getMenu',
+      })
+      yield put({
+        type: 'changeLoginStatus',
+        payload: { loginState }
+      });
+    },
+    *CurrentUserListRole({ payload }, { call, put }) {
+      const response = yield call(CurrentUserListRole, { ...payload });
+      if (response.code === 2000) {
+        yield put({
+          type: 'saveRoleList',
+          payload: { roleList: Array.isArray(response.data) ? response.data : [] },
+        });
+      } else {
+        message.error(response.msg);
+      }
+    },
+    *changeRole({ payload }, { call, put }) {
+      const response = yield call(userChangeRole, { ...payload });
+      if (response.code === 2000) {
+        const userInfo = storage.getUserInfo();
+        const data = response.data || {};
+        const { privilegeList, ...others } = data;
+        const saveObj = { ...userInfo, ...others };
+        storage.setUserInfo(saveObj);
+        storage.setUserAuth(privilegeList);
+        yield put({
+          type: 'menu/getMenu',
+          payload: { routeData: response.privilegeList },
+        });
+        yield put(routerRedux.push('/'));
+      } else {
+        message.error(response.msg);
+      }
+      yield put({
+        type: 'changeLoginStatus',
+        payload: response,
+      });
+    },
+
   },
 
   reducers: {
     saveUserInfo(state, { payload }) {
       return { ...state, ...payload }
-      console.log(payload)
+    },
+    changeLoginStatus(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+    saveAuthList(state, { payload }) {
+      const authList = payload || [];
+      return { ...state, authList };
+    },
+    saveRoleList(state, { payload }) {
+      return { ...state, ...payload };
     },
   },
 
