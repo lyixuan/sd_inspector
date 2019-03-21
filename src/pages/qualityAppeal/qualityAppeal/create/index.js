@@ -452,13 +452,13 @@ class EditQualityNewSheet extends React.Component {
 
             {this.getAppealInfos(detailData)}
 
-            {/* <div className={styles.appealContent}>
-              <section>
+            <div className={styles.appealContent}>
+              {/* <section>
                 <AppealInfo data={this.state.qualityData} />
               </section>
               <section>
                 <SOPCheckResult data={this.state.qualityData.sopCheckDetail} />
-              </section>
+              </section> */}
               <div className={styles.appealMaster}>
                 <div className={styles.appealTitle}>主管审核</div>
                 <div>
@@ -489,7 +489,7 @@ class EditQualityNewSheet extends React.Component {
                   </Row>
                 </div>
               </div>
-            </div> */}
+            </div>
 
             <Row className="gutter-row">
               <Col span={24}>

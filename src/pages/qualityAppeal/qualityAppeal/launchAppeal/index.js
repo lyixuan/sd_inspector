@@ -76,9 +76,12 @@ class Launch extends React.Component {
             <div className={styles.originator}>申诉发起人</div>
             <div className={styles.flexStyle}>
               <div className={styles.label}>附件:</div>
-              <Upload>
-                <BIButton type="primary">上传附件</BIButton>
-              </Upload>
+              <div style={{ marginLeft: "20px", marginTop: "-5px" }}>
+                <Upload>
+                  <BIButton type="primary">上传附件</BIButton>
+                </Upload>
+              </div>
+
             </div>
 
             <div className={styles.flexStyle}>

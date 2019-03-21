@@ -50,3 +50,9 @@
 :global .editRow {
   display: flex;
 }
+.subOrderNum {
+  padding-left: 20px;
+}
+.divideLine {
+  margin-bottom: 20px;
+}
