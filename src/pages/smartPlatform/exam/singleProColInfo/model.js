@@ -77,7 +77,7 @@ export default {
         mapInfo.examPlan.data3.push(Number(v.oldExamPlanNum));
         mapInfo.examPlan.data4.push(Number(v.newExamPlanNum));
         mapInfo.examPlan.data6.push(Number(v.examPlanNum));
-        mapInfo.examPlan.data7.push(v.readNum);
+        mapInfo.examPlan.data7.push(v.examPlanNum);
       });
       dataList.sort((a,b)=>b.admissionFillRatio-a.admissionFillRatio).forEach((v)=>{
         mapInfo.examTicket.province.push(v.collegeName);

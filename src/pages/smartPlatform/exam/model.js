@@ -155,8 +155,8 @@ export default {
           data3: [],
           data4: [],
           data5: [],
-          data6: [],//触达人数
-          data7: [],//考试计划人数
+          data6: [],//
+          data7: [],//
           data1: [],
           data2: [],
         },
@@ -165,8 +165,8 @@ export default {
           data3: [],
           data4: [],
           data5: [],
-          data6: [],//触达人数
-          data7: [],//考试计划人数
+          data6: [],
+          data7: [],
           data1: [],
           data2: [],
         },
@@ -175,8 +175,8 @@ export default {
           data3: [],
           data4: [],
           data5: [],
-          data6: [],//触达人数
-          data7: [],//考试计划人数
+          data7: [],//触达人数
+          data6: [],//考试计划人数
           data1: [],
           data2: [],
         },
@@ -188,7 +188,7 @@ export default {
           dataMap.examPlan.data2.push(Number(item.newAvgServiceNum));
           dataMap.examPlan.data3.push(Number(item.oldExamPlanNum));
           dataMap.examPlan.data4.push(Number(item.newExamPlanNum));
-          dataMap.examPlan.data7.push(Number(item.examPlanNum));
+          dataMap.examPlan.data6.push(Number(item.examPlanNum));
         });
         porDataList.sort((a,b)=>b.readRatio-a.readRatio).forEach((v) => {
           dataMap.examNotice.province.push(v.province);
@@ -197,8 +197,8 @@ export default {
           dataMap.examNotice.data3.push(Number(v.oldExamPlanNum));
           dataMap.examNotice.data4.push(Number(v.newExamPlanNum));
           dataMap.examNotice.data5.push(`${(v.readRatio * 100).toFixed(2)}`);
-          dataMap.examNotice.data6.push(Number(v.readNum));
-          dataMap.examNotice.data7.push(Number(v.examPlanNum));
+          dataMap.examNotice.data7.push(Number(v.readNum));
+          dataMap.examNotice.data6.push(Number(v.examPlanNum));
         });
         porDataList.sort((a,b)=>b.admissionFillRatio-a.admissionFillRatio).forEach((v) => {
           dataMap.examTicket.province.push(v.province);
@@ -207,8 +207,8 @@ export default {
           dataMap.examTicket.data3.push(Number(v.oldAdmissionFillNum));
           dataMap.examTicket.data4.push(Number(v.newAdmissionFillNum));
           dataMap.examTicket.data5.push(`${(v.admissionFillRatio * 100).toFixed(2)}`);
-          dataMap.examTicket.data6.push(Number(v.admissionFillNum));
-          dataMap.examTicket.data7.push(Number(v.examPlanNum));
+          dataMap.examTicket.data7.push(Number(v.admissionFillNum));
+          dataMap.examTicket.data6.push(Number(v.examPlanNum));
         });
       }
 
@@ -294,6 +294,8 @@ export default {
           data3: [],
           data4: [],
           data5: [],
+          data6: [],// 考试计划人数
+          data7: [],// 通知人数
           data1: [],
           data2: [],
         },
@@ -303,6 +305,8 @@ export default {
           data3: [],
           data4: [],
           data5: [],
+          data6: [],// 考试计划人数
+          data7: [],// 考试计划人数
           data1: [],
           data2: [],
         },
@@ -312,6 +316,8 @@ export default {
           data3: [],
           data4: [],
           data5: [],
+          data6: [],// 考试计划人数
+          data7: [],// 准考证填写人数
           data1: [],
           data2: [],
         },
@@ -325,6 +331,8 @@ export default {
           mapInfo.examNotice.data3.push(Number(v.oldExamPlanNum));
           mapInfo.examNotice.data4.push(Number(v.newExamPlanNum));
           mapInfo.examNotice.data5.push(`${(v.readRatio * 100).toFixed(2)}`);
+          mapInfo.examNotice.data6.push(v.examPlanNum);
+          mapInfo.examNotice.data7.push(v.readNum);
         });
         dataList.sort((a,b)=>b.examPlanNum-a.examPlanNum).forEach((v) => {
           mapInfo.examPlan.province.push(v.collegeName);
@@ -333,6 +341,8 @@ export default {
           mapInfo.examPlan.data2.push(Number(v.newAvgServiceNum));
           mapInfo.examPlan.data3.push(Number(v.oldExamPlanNum));
           mapInfo.examPlan.data4.push(Number(v.newExamPlanNum));
+          mapInfo.examPlan.data6.push(v.examPlanNum);
+          mapInfo.examPlan.data7.push(v.examPlanNum);
         });
         dataList.sort((a,b)=>b.admissionFillRatio-a.admissionFillRatio).forEach((v) => {
           mapInfo.examTicket.province.push(v.collegeName);
@@ -342,6 +352,8 @@ export default {
           mapInfo.examTicket.data3.push(Number(v.oldAdmissionFillNum));
           mapInfo.examTicket.data4.push(Number(v.newAdmissionFillNum));
           mapInfo.examTicket.data5.push(`${(v.admissionFillRatio * 100).toFixed(2)}`);
+          mapInfo.examTicket.data6.push(v.examPlanNum);
+          mapInfo.examTicket.data7.push(v.admissionFillNum);
         });
       }
 
