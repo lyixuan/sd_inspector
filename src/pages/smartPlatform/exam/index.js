@@ -66,6 +66,7 @@ class Survey extends React.Component {
       payload: param,
     })
   };
+
   switchContent=(val)=>{
     if(val === 'examPlan'){
       this.setState({
@@ -183,7 +184,7 @@ class Survey extends React.Component {
             <div className='m_box'><Echart isEmpty={this.isEmptyArr(famDataMap) === 0} style={{ width: '100%', height:`${this.isEmptyArr(famDataMap)!==0?this.isEmptyArr(famDataMap)*50:400}px` }} options={famProOPtion(this.state,famDataMap,'fam',undefined,unit,tabId)} /></div>
             <div className='m_box'>
               <Echart isEmpty={this.isEmptyArr(groDataList) === 0} style={{ width: '100%',height:`${this.isEmptyArr(groDataList)!==0?isShowMore?this.isEmptyArr(groDataList)*48:960:400}px`}} options={groupOPtion(this.state,groDataList,isShowMore)} />
-              {!isShowMore?<BIButton type="primary" style={{marginBottom:'20px'}} onClick={this.getMoreData.bind(this,true)}>查看更多</BIButton>:null}
+              {!isShowMore&&this.isEmptyArr(groDataList) !== 0?<BIButton type="primary" style={{marginBottom:'20px'}} onClick={this.getMoreData.bind(this,true)}>查看更多</BIButton>:null}
             </div>
           </div>
         </div>
