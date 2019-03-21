@@ -12,7 +12,7 @@ export default class PersonInfoComponent extends React.Component {
   componentDidMount() {}
 
   render() {
-    const { qualityType, verifyDate, mail, role, groupName, name } = this.state.data;
+    const { qualityType, verifyDate, mail, role, groupName, name } = this.props.data;
     return (
       <section className={styles.personInfoCon}>
         <div className={styles.personInfo}>
