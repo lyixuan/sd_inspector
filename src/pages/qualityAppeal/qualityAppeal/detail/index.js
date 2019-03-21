@@ -101,7 +101,7 @@ class AppealDetail extends React.Component {
       <div className={styles.detailContainer}>
         <section>
           {/* 质检违规人员信息 */}
-          <PersonInfo data={this.state.qualityData} />
+          {/* <PersonInfo data={this.state.qualityData} /> */}
         </section>
         <section>
           {/* 申诉信息 */}
