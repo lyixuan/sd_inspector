@@ -6,13 +6,14 @@ export default class CheckInfoComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      data: props.data,
     };
   }
   componentDidMount() {}
 
   render() {
-    this.state.data = this.props.data;
+    this.state.data = this.props.data ? this.props.data : [];
+    console.log(222, this.state.data);
     return (
       <section className={styles.personInfoCon}>
         <span className={styles.secctionTitle}>质检审核</span>
