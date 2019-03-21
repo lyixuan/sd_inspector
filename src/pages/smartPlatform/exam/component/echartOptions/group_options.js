@@ -7,7 +7,7 @@ export function groupOPtion(param,data){
     const name = param.name==='准考证填写人数'?'考试计划人数':param.name;
     if(isEmpty(data3)){
       return `<div>
-<div style="color:#052664;text-align:center;font-size:14px;width:223px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 15px;">${dataPro[i].name}</div>
+<div style="color:#052664;text-align:center;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 15px;">${dataPro[i].name}</div>
 <div style="margin-bottom: 15px">${name}:共${data4[i]}人</div>
 <div style="margin-bottom: 15px">${param.legendGroup[3].split('/')[0]}:${data5[i].value}人</div>
 <div style="margin-bottom: 15px">${param.legendGroup[3].split('/')[1]}:${data5[i].name}</div>
@@ -20,7 +20,7 @@ export function groupOPtion(param,data){
 </div>`
     }else {
       return `<div>
-<div style="color:#052664;text-align:center;font-size:14px;width:223px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 15px;">${dataPro[i].name}</div>
+<div style="color:#052664;text-align:center;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 15px;">${dataPro[i].name}</div>
 <div style="margin-bottom: 15px">${name}:共${data4[i]}人</div>
 <div style="margin-bottom: 15px">${param.legendGroup[0].split('/')[0]}:${data1[i].value}人</div>
 <div style="margin-bottom: 15px">${param.legendGroup[0].split('/')[1]}:${data1[i].name}人</div>
