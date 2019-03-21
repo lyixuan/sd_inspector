@@ -2,13 +2,9 @@ import { message } from 'antd/lib/index';
 import { province, examTotal } from './services';
 import { examOrg } from './services';
 
-function sortdata(datalist,name,isShowAll){
+function sortdata(datalist,name){
   let deepGroDataList = datalist.concat();
-  let newdata = deepGroDataList.sort((a,b)=>b[name]-a[name]);
-  if (!isShowAll) {
-    newdata = newdata.slice(0, 20)
-  }
-  return newdata
+  return deepGroDataList.sort((a,b)=>b[name]-a[name]);
 }
 export default {
   namespace: 'exam',
@@ -19,8 +15,7 @@ export default {
     colDataList: [],
     groDataList: [],
     examTotal: [],
-    examOrg: [],
-    isShowAll: false
+    examOrg: []
   },
 
   effects: {
@@ -61,22 +56,13 @@ export default {
         } else {
           yield put({
             type: 'saveGroDataList',
-            payload: { isShowAll: false, groDataList: response.data },
+            payload: { groDataList: response.data },
           })
         }
       } else {
         message.error(response.msg)
       }
     },
-    *allGroData({ payload }, { call, put }) {
-      const response = yield call(examOrg, {...payload.data});
-      if (response.code === 20000) {
-        yield put({
-          type: 'saveGroDataList',
-          payload: { isShowAll: payload.isShow, groDataList: response.data },
-        });
-      }
-    }
   },
 
   reducers: {
@@ -368,7 +354,7 @@ export default {
       return { ...state, famDataMap: mapInfo };
     },
     saveGroDataList(state, { payload }) {
-      const { groDataList, isShowAll } = payload;
+      const { groDataList } = payload;
       const mapInfo = {
         examNotice: {
           dataPro: [],
@@ -399,13 +385,13 @@ export default {
       };
 
       if (groDataList) {
-        sortdata(groDataList,'examPlanNum',isShowAll).forEach((item) => {
+        sortdata(groDataList,'examPlanNum').forEach((item) => {
           mapInfo.examPlan.dataPro.push({ name: `${item.collegeName}  |  ${item.familyName} | ${item.groupName}`, value: 100 });
           mapInfo.examPlan.data1.push({ name: Number(item.newAvgServiceNum), value: Number(item.newExamPlanNum) });
           mapInfo.examPlan.data2.push({ name: Number(item.oldAvgServiceNum), value: Number(item.oldExamPlanNum) });
           mapInfo.examPlan.data4.push(item.examPlanNum);
         });
-        sortdata(groDataList,'readRatio',isShowAll).forEach((item) => {
+        sortdata(groDataList,'readRatio').forEach((item) => {
           mapInfo.examNotice.dataPro.push({ name: `${item.collegeName} | ${item.familyName} | ${item.groupName}`, value: 100 });
           mapInfo.examNotice.data1.push({ name: `${(item.newReadRatio*100).toFixed(2)}%`, value: Number(item.newExamPlanNum) });
           mapInfo.examNotice.data2.push({ name: `${(item.oldReadRatio*100).toFixed(2)}%`, value: Number(item.oldExamPlanNum) });
@@ -414,7 +400,7 @@ export default {
           mapInfo.examNotice.data4.push(item.examPlanNum);
           mapInfo.examNotice.dataRatio.push(`${(item.readRatio*100).toFixed(2)}`);
         });
-        sortdata(groDataList,'admissionFillRatio',isShowAll).forEach((item) => {
+        sortdata(groDataList,'admissionFillRatio').forEach((item) => {
           mapInfo.examTicket.dataPro.push({ name: `${item.collegeName} | ${item.familyName} | ${item.groupName}`, value: 100 });
           mapInfo.examTicket.data1.push({ name: `${(item.newAdmissionFillRatio*100).toFixed(2)}%`, value: Number(item.newAdmissionFillNum) });
           mapInfo.examTicket.data2.push({ name: `${(item.oldAdmissionFillRatio*100).toFixed(2)}%`, value: Number(item.oldAdmissionFillNum) });

@@ -1,8 +1,17 @@
 // name:人均，value:触达人数
-export function groupOPtion(param,data){
+export function groupOPtion(param,data,isShowMore){
   const {tabId} = param;
-  const {dataPro = [],data1,data2,data3=[],data4=[],data5=[],dataRatio=[]} = data[tabId]?data[tabId]:{};
+  let {dataPro = [],data1=[],data2=[],data3=[],data4=[],data5=[],dataRatio=[]} = data[tabId]?data[tabId]:{};
 
+  if(!isShowMore){
+    data1 = data1.slice(0, 20);
+    data2 = data2.slice(0, 20);
+    data3 = data3.slice(0, 20);
+    data4 = data4.slice(0, 20);
+    data5 = data5.slice(0, 20);
+    dataRatio = dataRatio.slice(0, 20);
+    dataPro = dataPro.slice(0, 20);
+  }
   const _html =function(i) {
     const name = param.name==='准考证填写人数'?'考试计划人数':param.name;
     if(isEmpty(data3)){
