@@ -18,17 +18,15 @@ class ContentLayout extends Component {
     const routeObj = this.getRouterPathname(routesData);
     const { name = '', bread = {} } = routeObj;
     return (
-      <div className={styles.contentLayout}>
+      <>
         <div className={styles.bread}>
           { bread && bread.path && <PageHead routerData={routeObj} />}
         </div>
         {name && <div className={styles.title}>{name}</div>}
-        <div className={styles.wrapperClassName}>
-          <div className={styles.content}>
+        <div>
           {this.props.children && { ...this.props.children }}
-          </div>
         </div>
-      </div>
+      </>
     );
   }
 }
