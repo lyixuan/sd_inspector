@@ -21,8 +21,7 @@ const RadioGroup = Radio.Group;
 let isLt10M = false;
 let isZip = false;
 
-@connect(({ appealDetail, qualityAppealHome, createAppeal }) => ({
-  appealDetail,
+@connect(({ qualityAppealHome, createAppeal }) => ({
   qualityAppealHome,
   createAppeal
 }))
@@ -47,74 +46,12 @@ class EditQualityNewSheet extends React.Component {
       treeValue: undefined,
       dimension: undefined,
       visible: false,
-      fileList: this.props.fileList,
-      orderDetail: {
-        stuName: '张三',
-        signDate: '2019年02月01日 21：22：30',
-        stuId: '00001',
-        phoneNum: '18600540558',
-        produce: '不过退费',
-        payment: '4999元',
-        teaName: '李四',
-        groupName: '芝士学员|能源管理',
-      },
-      qualityData: {
-        verifyDate: '2019年02月01日 21：22：30',
-        mail: 'test@sunlands.com',
-        role: '班主任',
-        name: '李思思',
-        collegeName: null,
-        familyName: null,
-        orderNum: 123456789,
-        groupName: '芝士学院|能源管理|运营1组',
-        violationDate: '2019年02月01日 21：22：30',
-        reduceScoreDate: '2019年02月01日 21：22：30',
-        qualityType: '班主任质检',
-        dimension: '超高危',
-        primaryAssortment: '服务禁语规范',
-        secondAssortment: '禁止沟通中消极对待用户',
-        thirdAssortment: '冷漠、不热情、不耐烦',
-        violationLevel: '一级违规（扣除学分1000分）',
-        attUrl: '附件1',
-        desc:
-          '违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述',
-        orderDetail: {
-          stuName: '张三',
-          signDate: '2019年02月01日 21：22：30',
-          stuId: '00001',
-          phoneNum: '18600540558',
-          produce: '不过退费',
-          payment: '4999元',
-          teaName: '李四',
-          groupName: '芝士学员|能源管理',
-        },
-        verifyDate: '2019年02月01日 21：22：30',
-        appealEndDate: '2019年02月01日 21：22：30',
-        operateDate: '2019年02月01日 21：22：30',
-        desc: '没有违规',
-        operator: '张三',
-        sopCheckDetail: [
-          {
-            sopCheckResult: '审核通过',
-            verifyDate: '2019年02月01日 21：22：30',
-            checkDesc: '审核通过',
-            operator: '张三',
-            sign: true,
-          },
-          {
-            sopCheckResult: '驳回',
-            verifyDate: '2019年02月01日 21：22：30',
-            checkDesc: '审核通过',
-            operator: '张三',
-            sign: false,
-          },
-        ],
-      }
+      fileList: this.props.fileList
     };
   }
   componentDidMount() {
     this.props.dispatch({
-      type: 'appealDetail/getDetailData',
+      type: 'qualityAppealHome/getDetailData',
       payload: this.state.params,
     });
 
@@ -161,7 +98,7 @@ class EditQualityNewSheet extends React.Component {
       }
       this.props.dispatch({
         type: 'createAppeal/reviewAppel',
-        payload: { qualityInspectionParam: qualityInspectionParam, appealParam: appealParam },
+        payload: {},
       })
 
       if (!err) {
@@ -248,7 +185,7 @@ class EditQualityNewSheet extends React.Component {
       beforeUpload: this.beforeUpload,
       onChange: this.uploadFileChange,
     };
-    // const detailData = this.props.appealDetail.DetailData;
+    const detailData = this.props.qualityAppealHome.DetailData;
     return (
       <div className={styles.qualityContainter}>
         <div className={styles.title}>质检违规详情</div>
@@ -511,7 +448,7 @@ class EditQualityNewSheet extends React.Component {
               </div>
             </div> */}
 
-            {/* {this.getAppealInfos(detailData)} */}
+            {this.getAppealInfos(detailData)}
 
             {/* <div className={styles.appealContent}>
               <section>

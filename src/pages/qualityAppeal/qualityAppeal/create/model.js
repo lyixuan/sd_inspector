@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { uploadFile } from './services';
+import { uploadFile, reviewAppel } from './services';
 
 export default {
   namespace: 'createAppeal',
@@ -20,7 +20,7 @@ export default {
     },
   },
   *reviewAppel({ payload }, { call, put }) {
-    const result = yield call(uploadFile, { ...payload });
+    const result = yield call(reviewAppel, { ...payload });
     console.log(14, result)
     const appealReview = result.data ? result.data : [];
     if (result.code === 20000) {
