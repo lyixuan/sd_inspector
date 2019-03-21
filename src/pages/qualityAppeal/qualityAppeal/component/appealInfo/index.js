@@ -14,8 +14,7 @@ export default class AppealInfoComponent extends React.Component {
   componentDidMount() {}
 
   render() {
-    const { appealEndDate, appealStart } = this.state.data;
-    console.log(this.state.data);
+    const { appealEndDate, appealStart } = this.props.data;
     return (
       <section className={styles.personInfoCon}>
         <span className={styles.secctionTitle}>申诉信息</span>
