@@ -19,6 +19,7 @@ const RadioGroup = Radio.Group;
 @connect(({ createQualityNewSheet1, qualityAppealHome }) => ({
   createQualityNewSheet1,
   orgList: qualityAppealHome.orgList,
+  orgMapByMailData: qualityAppealHome.orgMapByMailData,
 }))
 
 class CreateQualityNewSheet extends React.Component {
@@ -55,21 +56,18 @@ class CreateQualityNewSheet extends React.Component {
       },
     };
   }
-  UNSAFE_componentWillMount() {
-    // this.props.dispatch({
-    //   type: 'createQualityNewSheet1/getOrgMapList',
-    //   payload: { params: {} },
-    // });
-  }
+
   componentDidMount() {
-    console.log(this.props.orgList)
+
     // this.props.form.setFieldsValue({
     //   type: { key: 0, label: "全部" }
     // }); //页面内容回显
   }
-  getOrgMapByMail = (mail) => {
+  getOrgMapByMail = () => {
+    const mail = this.props.form.getFieldValue('mail');
+    if (!mail) return;
     this.props.dispatch({
-      type: 'qualityNewSheet/getOrgMapByMail',
+      type: 'qualityAppealHome/getOrgMapByMail',
       payload: { mail },
     })
 
@@ -131,6 +129,7 @@ class CreateQualityNewSheet extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { params } = this.state;
+    console.log(this.props)
     return (
       <div className={styles.qualityContainter}>
         <div className={styles.title}>质检违规详情</div>
@@ -164,15 +163,15 @@ class CreateQualityNewSheet extends React.Component {
                 </Form.Item>
                 <div className={styles.text}>@sunland.com</div>
                 <div>
-                  <BIButton type="primary">
+                  <BIButton type="primary" onClick={this.getOrgMapByMail}>
                     查询
                   </BIButton>
                 </div>
               </Col>
               <Col className="gutter-row txRight" span={12}>
-                {/* <Form.Item label="*归属人角色：">
+                <Form.Item label="*归属人角色：">
                   {getFieldDecorator('role', {
-                    initialValue: params.role,
+                    initialValue: params.role || undefined,
                     rules: [{ required: true, message: '请选择归属人角色' }],
                   })(
                     <BISelect allowClear labelInValue placeholder="请选择" style={{ width: 280 }}>
@@ -183,7 +182,7 @@ class CreateQualityNewSheet extends React.Component {
                       ))}
                     </BISelect>
                   )}
-                </Form.Item> */}
+                </Form.Item>
               </Col>
             </Row>
             <Row gutter={0} style={{ lineHeight: '40px' }}>

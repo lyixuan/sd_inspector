@@ -10,5 +10,10 @@ export async function getOrgMapList(params) {
 export async function getDimensionList(params) {
   return request('/dimension/rootList', { params });
 }
+////根据邮箱获取组织信息
+export async function getOrgMapByMail(params) {
+  return request('/orgMap/getOrgMapByMail', { params });
+}
+
 
 
