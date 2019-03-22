@@ -4,78 +4,104 @@ import styles from './style.less';
 import { Row, Col, Input, Radio } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
+import SubOrderDetail from './../../components/subOrderDetail';
+import IllegalInfo from './../../qualityNewSheet/detail/components/IllegalInfo';
 import AppealInfo from './../component/appealInfo';
 import SuperiorCheck from './../component/superiorCheck';
 const { TextArea } = Input;
 const RadioGroup = Radio.Group;
 
+@connect(({ qualityAppealHome, EditAppeal }) => ({
+  qualityAppealHome,
+  EditAppeal
+}))
 
 class EditAppeal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      qualityData: {
-        verifyDate: '2019年02月01日 21：22：30',
-        mail: 'test@sunlands.com',
-        role: '班主任',
-        name: '李思思',
-        collegeName: null,
-        familyName: null,
-        orderNum: 123456789,
-        groupName: '芝士学院|能源管理|运营1组',
-        violationDate: '2019年02月01日 21：22：30',
-        reduceScoreDate: '2019年02月01日 21：22：30',
-        qualityType: '班主任质检',
-        dimension: '超高危',
-        primaryAssortment: '服务禁语规范',
-        secondAssortment: '禁止沟通中消极对待用户',
-        thirdAssortment: '冷漠、不热情、不耐烦',
-        violationLevel: '一级违规（扣除学分1000分）',
-        attUrl: '附件1',
-        desc:
-          '违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述',
-        orderDetail: {
-          stuName: '张三',
-          signDate: '2019年02月01日 21：22：30',
-          stuId: '00001',
-          phoneNum: '18600540558',
-          produce: '不过退费',
-          payment: '4999元',
-          teaName: '李四',
-          groupName: '芝士学员|能源管理',
-        },
-        verifyDate: '2019年02月01日 21：22：30',
-        appealEndDate: '2019年02月01日 21：22：30',
-        operateDate: '2019年02月01日 21：22：30',
-        desc: '没有违规',
-        operator: '张三',
-        sopCheckDetail: [
-          {
-            sopCheckResult: '审核通过',
-            verifyDate: '2019年02月01日 21：22：30',
-            checkDesc: '审核通过',
-            operator: '张三',
-            sign: true,
-          },
-          {
-            sopCheckResult: '驳回',
-            verifyDate: '2019年02月01日 21：22：30',
-            checkDesc: '审核通过',
-            operator: '张三',
-            sign: false,
-          },
-        ],
+      params: {
+        id: 1,
       },
+      submitParam: {
+        checkResult: null,
+        appealEndDate: 1000,
+        type: 1,
+        desc: "",
+        qualityId: 1
+      }
+
     };
   }
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'qualityAppealHome/getDetailData',
+      payload: this.state.params,
+    });
+    this.props.dispatch({
+      type: 'qualityAppealHome/getQualityDetailData',
+      payload: this.state.params,
+    });
+  }
+
+  getAppealInfos(detailData) {
+    let domFragment = [];
+    detailData.forEach(item =>
+      domFragment.push(
+        <>
+          <AppealInfo
+            data={{ appealStart: item.appealStart, appealEndDate: item.appealEndDate, id: item.id }}
+          />
+          {/* <SOPCheckResult data={item.sopAppealCheck} /> */}
+          <SuperiorCheck data={item.masterAppealCheck} />
+        </>
+      )
+    );
+    return domFragment;
+  }
+  handleSubmit = e => {
+    let params = this.state.submitParam
+    console.log(82, params)
+    this.props.dispatch({
+      type: 'EditAppeal/sopCheckAppeal',
+      payload: { params },
+    })
+
+
+  };
+  radioChange = e => {
+    this.state.submitParam.checkResult = e.target.value
+    this.setState({ submitParam: this.state.submitParam })
+  }
+  inputChange = e => {
+    e.persist();
+    this.state.submitParam.desc = e.target.value
+    this.setState({ submitParam: this.state.submitParam })
+  }
+
   render() {
+    const detailData = this.props.qualityAppealHome.DetailData;
+    const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
     return (
       <div className={styles.editAppeal}>
         <section>
-          <PersonInfo data={this.state.qualityData} />
+          {/* 质检违规人员信息 */}
+          <PersonInfo data={qualityDetailData} />
         </section>
         <section>
-          <AppealInfo data={this.state.qualityData} />
+          <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
+          <SubOrderDetail data={qualityDetailData.orderDetail} />
+        </section>
+        <section>
+          {/* 质检违规详情 */}
+          <section>{/* 质检审核 */}</section>
+          <div className={styles.divideLine} />
+          <IllegalInfo data={qualityDetailData} />
+        </section>
+
+        <section>
+          {/* 申诉信息 */}
+          {this.getAppealInfos(detailData)}
         </section>
         <div className={styles.editBox}>
           <div className={styles.title}>SOP审核</div>
@@ -83,9 +109,9 @@ class EditAppeal extends React.Component {
             <Col span={24} className="editRow">
               <div className={styles.label}>审核结果：</div>
               <div className={styles.content}>
-                <RadioGroup>
+                <RadioGroup onChange={this.radioChange}>
                   <Radio value={1}>通过</Radio>
-                  <Radio value={2}>驳回</Radio>
+                  <Radio value={0}>驳回</Radio>
                 </RadioGroup>
               </div>
             </Col>
@@ -94,14 +120,14 @@ class EditAppeal extends React.Component {
             <Col span={24} className="editRow">
               <div className={styles.label}>审核说明：</div>
               <div className={styles.content}>
-                <TextArea rows={4} />
+                <TextArea rows={4} onChange={this.inputChange} />
               </div>
             </Col>
           </Row>
         </div>
 
         <section>
-          <SuperiorCheck data={this.state.qualityData.sopCheckDetail} />
+          {/* <SuperiorCheck data={this.state.qualityData.sopCheckDetail} /> */}
         </section>
 
         <Row className="gutter-row">
@@ -111,7 +137,7 @@ class EditAppeal extends React.Component {
                 <BIButton>取消</BIButton>
               </span>
               <span className={styles.gutterBtn1}>
-                <BIButton type="primary" htmlType="submit">提交</BIButton>
+                <BIButton type="primary" onClick={this.handleSubmit}>提交</BIButton>
               </span>
             </div>
           </Col>

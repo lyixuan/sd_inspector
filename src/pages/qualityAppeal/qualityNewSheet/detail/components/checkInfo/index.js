@@ -12,7 +12,8 @@ export default class CheckInfoComponent extends React.Component {
   componentDidMount() {}
 
   render() {
-    console.log(this.state.data);
+    this.state.data = this.props.data ? this.props.data : [];
+    console.log(222, this.state.data);
     return (
       <section className={styles.personInfoCon}>
         <span className={styles.secctionTitle}>质检审核</span>
@@ -20,11 +21,11 @@ export default class CheckInfoComponent extends React.Component {
           <div>
             <div key={item.id} className={styles.container}>
               <div className={styles.secRow}>
-                <div>审核结果：{item.checkResult}</div>
-                <div>一次申诉截止日期：{item.firstAppealEndDate}</div>
+                <div>审核结果：{item.operate}</div>
+                <div>一次申诉截止日期：{item.updateTime}</div>
               </div>
               <div className={styles.secRow}>
-                <div>审核时间：{item.verifyDate}</div>
+                <div>审核时间：{item.verifyTime}</div>
               </div>
             </div>
             <div>

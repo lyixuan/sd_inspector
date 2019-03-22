@@ -15,8 +15,4 @@ export async function qualityCancelQuality(params) {
 }
 
 
-////根据邮箱获取组织信息
-export async function getOrgMapByMail(params) {
-  return request('/orgMap/getOrgMapByMail', { params });
-}
 

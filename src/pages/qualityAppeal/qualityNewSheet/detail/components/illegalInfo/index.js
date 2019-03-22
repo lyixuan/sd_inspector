@@ -11,6 +11,7 @@ export default class IllegalInfoComponent extends React.Component {
   componentDidMount() {}
 
   render() {
+    this.state.data = this.props.data;
     return (
       <section className={styles.personInfoCon}>
         <div className={styles.container}>

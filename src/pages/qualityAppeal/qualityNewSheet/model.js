@@ -50,11 +50,6 @@ export default {
         message.error(result.msgDetail);
       }
     },
-    *getOrgMapByMail({ payload }, { call, put }) {
-      const response = yield call(getOrgMapByMail, payload);
-      console.log(response)
-
-    }
   },
 
   reducers: {
