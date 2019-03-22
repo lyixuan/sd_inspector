@@ -12,8 +12,8 @@ export default class SuperiorCheckComponent extends React.Component {
   componentDidMount() {}
 
   render() {
-    // const { checkResult, desc } = this.props.data;
-    console.log(this.props.data);
+    const { checkResult, desc } = this.props.data ? this.props.data : {};
+    console.log(this.props);
     return (
       <section className={styles.personInfoCon}>
         <div>
@@ -23,13 +23,15 @@ export default class SuperiorCheckComponent extends React.Component {
             <div>
               <div className={styles.container}>
                 <div className={styles.secRow}>
-                  {/* <div className={checkResult ? styles.resultDotColor1 : styles.resultDotColor2}>
+                  <div className={checkResult ? styles.resultDotColor1 : styles.resultDotColor2}>
                     审核结果： {checkResult}
-                  </div> */}
+                  </div>
                 </div>
               </div>
               <div>
-                <div className={styles.secCol}>{/* <div>审核说明：{desc}</div> */}</div>
+                <div className={styles.secCol}>
+                  <div>审核说明：{desc}</div>
+                </div>
               </div>
             </div>
             {/* ))} */}

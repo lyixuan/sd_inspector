@@ -23,14 +23,14 @@ export default class AppealInfoComponent extends React.Component {
     return '+';
   }
   render() {
-    const { appealEndDate, appealStart } = this.props.data;
+    const { appealEndDate, appealStart, type } = this.props.data;
     const appealInfoCollapse = this.props.appealInfoCollapse;
     return (
       <section className={styles.personInfoCon}>
         <span className={styles.secctionTitle}>申诉信息</span>
         <div className={styles.appealInfoCon}>
           <div className={styles.appealInfo}>
-            一次申诉<span>一次申诉截止日期：{appealEndDate}</span>
+            {type}次申诉<span>一次申诉截止日期：{appealEndDate}</span>
             <span
               onClick={() => {
                 this.appealPanelVisible();

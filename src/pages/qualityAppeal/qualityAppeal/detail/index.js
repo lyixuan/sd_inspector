@@ -36,11 +36,17 @@ class AppealDetail extends React.Component {
   }
   getAppealInfos(detailData) {
     let domFragment = [];
+    console.log(444, detailData);
     detailData.forEach(item =>
       domFragment.push(
         <>
           <AppealInfo
-            data={{ appealStart: item.appealStart, appealEndDate: item.appealEndDate, id: item.id }}
+            data={{
+              appealStart: item.appealStart,
+              appealEndDate: item.appealEndDate,
+              id: item.id,
+              type: item.type,
+            }}
           />
           <SOPCheckResult data={item.sopAppealCheck} />
           <SuperiorCheck data={item.masterAppealCheck} />

@@ -17,6 +17,7 @@ export default class SOPCheckResultComponent extends React.Component {
     return <div className={styles.divideLine} />;
   }
   render() {
+    this.state.data = this.props.data;
     return (
       <section className={styles.personInfoCon}>
         <div>
