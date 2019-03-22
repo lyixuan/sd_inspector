@@ -20,6 +20,8 @@ class AppealDetail extends React.Component {
       params: {
         id: 1,
       },
+      appealInfoCollapse: true,
+      checkResultsCollapse: true,
     };
   }
   componentDidMount() {
@@ -47,6 +49,12 @@ class AppealDetail extends React.Component {
     );
     return domFragment;
   }
+  handleCollapse() {
+    this.setState({ appealInfoCollapse: !this.state.appealInfoCollapse });
+  }
+  handleCheckResultsCollapse() {
+    this.setState({ checkResultsCollapse: !this.state.checkResultsCollapse });
+  }
   render() {
     const detailData = this.props.appealDetail.DetailData;
     const qualityDetailData = this.props.appealDetail.QualityDetailData;
@@ -54,7 +62,11 @@ class AppealDetail extends React.Component {
       <div className={styles.detailContainer}>
         <section>
           {/* 质检违规人员信息 */}
-          <PersonInfo data={qualityDetailData} />
+          <PersonInfo
+            data={qualityDetailData}
+            appealInfoCollapse={this.state.appealInfoCollapse}
+            onClick={() => this.handleCollapse()}
+          />
         </section>
         <section>
           {/* 申诉信息 */}

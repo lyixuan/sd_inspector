@@ -92,3 +92,16 @@ div.divideLine:last-child {
   padding-left: 18px;
   font-weight: bold;
 }
+.appealInfoPanel {
+  float: right;
+  color: #52c9c2;
+  font-size: 20px;
+  cursor: pointer;
+  width: 30px;
+}
+.showPanel {
+  flex: 1;
+}
+.hidePanel {
+  display: none;
+}
