@@ -27,8 +27,14 @@ class NewQualitySheet extends React.Component {
       status:undefined,
       isWarn:'all',
     };
-    this.state = DeepCopy(this.init);
-    this.canDimension = false;
+    const {p=null} = this.props.location.query;
+    this.state = {...this.init,...JSON.parse(p)};
+    this.state.qualityType === 'all' ? this.canDimension = false:this.canDimension = Number(this.state.qualityType);
+  }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (this.props.tabType === '1' && nextProps.tabType === '2') {
+      this.reset()
+    }
   }
   onFormChange = (value,vname)=>{
     this.setState({
@@ -57,8 +63,10 @@ class NewQualitySheet extends React.Component {
     this.props.queryData(this.state,{page:currentPage});
   };
   reset = ()=>{
-    this.setState(this.init);
-    this.props.queryData(this.state,{page:1});
+    this.canDimension = false;
+    this.setState(this.init,()=>{
+      this.props.queryData(this.state,{page:1});
+    });
     this.canDimension = false;
   };
   render() {

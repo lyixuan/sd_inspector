@@ -327,24 +327,27 @@ function dealQuarys(pm){
 class QualityAppeal extends React.Component {
   constructor(props) {
     super(props);
+    const {p='{}'} = this.props.location.query;
+    const {tabType = '1'} = JSON.parse(p);
     this.state = {
       page: 1,
       pageSize: 30,
-      type:1      // 1:在途，2:结案
+      type: tabType       // 1:在途，2:结案
     };
-    this.lastParams = {};
+    this.saveUrlParams = undefined;
   }
   componentDidMount() {
-    this.queryData();
+    const {p=null} = this.props.location.query;
+    this.queryData(JSON.parse(p));
   }
 
   queryData = (pm,pg,isExport) => {
-    const that = this;
-    const pmm = pm && dealQuarys(pm);
+    this.saveUrlParams = (pm && !isExport) ? JSON.stringify(pm):undefined;
+    const dealledPm = pm && dealQuarys(pm);
     // 获取数据
     let params = {...this.state};
-    if (pmm) {
-      params = {...params,...pmm};
+    if (dealledPm) {
+      params = {...params,...dealledPm};
     }
     if (pg) {
       params = {...params,...pg};
@@ -355,30 +358,44 @@ class QualityAppeal extends React.Component {
     if (isExport){
       this.props.dispatch({
         type: 'qualityCheck/exportExcel',
-        payload: { params:this.lastParams },
+        payload: {params },
       });
     } else {
       this.props.dispatch({
         type: 'qualityCheck/getAppealList',
         payload: { params },
       }).then(()=>{
-        that.lastParams = params;
+        router.replace({
+          pathname:this.props.location.pathname,
+          query:this.saveUrlParams ? {p:this.saveUrlParams}:''
+        })
       });
     }
   };
 
   onTabChange = (val) => {
+    if (val==='1') {
+      router.replace({
+        pathname:this.props.location.pathname,
+        query: {p:JSON.stringify({tabType:'1'})}
+      });
+    } else {
+      router.replace({
+        pathname:this.props.location.pathname,
+        query: {p:JSON.stringify({tabType:'2'})}
+      });
+    }
     this.setState({
-      type: Number(val)
+      type: val
     },() => {
-      this.queryData();
+      this.queryData({tabType:val});
     })
   };
 
-  onDetail = () => {
+  onDetail = (record) => {
     router.push({
       pathname: '/qualityAppeal/qualityAppeal/detail',
-      // query: this.props.checkedConditionList,
+      query: {id:record.id},
     });
   };
 
@@ -398,6 +415,7 @@ class QualityAppeal extends React.Component {
 
   onRepeal = (record) => {
     const that = this;
+    const {p=null} = this.props.location.query;
     confirm({
       className: 'BIConfirm',
       title: '是否撤销当前数据状态?',
@@ -408,7 +426,7 @@ class QualityAppeal extends React.Component {
           type: 'qualityCheck/cancelQuality',
           payload: { params: { id:record.id } },
         }).then(()=>{
-          that.queryData(that.lastParams)
+          that.queryData(JSON.parse(p))
         });
       },
       onCancel() { },
@@ -481,11 +499,12 @@ class QualityAppeal extends React.Component {
     return (
       <>
         <div className={subStl.topTab}>
-          <BITabs onChange={this.onTabChange} animated={false}>
+          <BITabs onChange={this.onTabChange} defaultActiveKey={this.state.type} animated={false}>
             <TabPane tab="在途质检申诉" key={1}>
               <div className={subStl.tabBlank}>&nbsp;</div>
               <Page1
                 {...this.props}
+                tabType={this.state.type}
                 columns={this.columnsAction1()}
                 orgList={orgListTreeData}
                 dataSource={qualityAppealList}
@@ -496,6 +515,7 @@ class QualityAppeal extends React.Component {
               <div className={subStl.tabBlank}>&nbsp;</div>
               <Page2
                 {...this.props}
+                tabType={this.state.type}
                 dimensionList1 = {dimensionList1}
                 dimensionList2 = {dimensionList2}
                 columns={this.columnsAction2()}

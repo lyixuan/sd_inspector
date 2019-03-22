@@ -8,3 +8,8 @@ export async function uploadFile(params) {
 export async function reviewAppel(params) {
   return request('/appeal/masterCheckAppeal', { method: 'post', data: params });
 }
+
+// 子订单编号查询
+export async function getOrderNum(params) {
+  return request('/quality/getOrderNum', { params });
+}

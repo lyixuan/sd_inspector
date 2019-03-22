@@ -1,19 +1,17 @@
 import React from 'react';
-import { Form, Icon, Row, Col, TreeSelect, Input, Upload, Radio } from 'antd';
+import { Form, message, Row, Col, Input, Upload } from 'antd';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
-import OrgCascader from '@/components/OrgCascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
+import OrgCascader from '@/components/OrgCascader';
 import { BiFilter } from '@/utils/utils';
 import styles from './style.less';
 import SubOrderDetail from './../../components/subOrderDetail';
 
 const { Option } = BISelect;
-const TreeNode = TreeSelect.TreeNode;
 const { TextArea } = Input;
-const RadioGroup = Radio.Group;
 
 class CreateQualityNewSheet extends React.Component {
     constructor(props) {
@@ -28,29 +26,12 @@ class CreateQualityNewSheet extends React.Component {
             radioChange: undefined,
             roleOption: 2,
             type: undefined, //质检类型
-            mail: undefined,
-            user: undefined,
-            userRole: undefined,
-            radio: undefined,
-            organize: undefined,
-            order: undefined,
             dateViolation: undefined,
             dateDeduction: undefined,
-            treeValue: undefined,
             dimension: undefined,
             credit: undefined, //学分
             customerMail: undefined,//客诉主管邮箱
             visible: false,
-            orderDetail: {
-                stuName: '张三',
-                signDate: '2019年02月01日 21：22：30',
-                stuId: '00001',
-                phoneNum: '18600540558',
-                produce: '不过退费',
-                payment: '4999元',
-                teaName: '李四',
-                groupName: '芝士学员|能源管理',
-            },
         };
     }
 
@@ -76,14 +57,13 @@ class CreateQualityNewSheet extends React.Component {
     getOrderNum = () => {
         const values = this.props.form.getFieldsValue();
         const { orderNum } = values;
+        if (!orderNum) {
+            message.error('请输入正确的子订单编号');
+        }
         if (this.props.getOrderNum) {
             this.props.getOrderNum(orderNum, values)
         }
     }
-    onChange = treeValue => {
-        console.log(treeValue);
-        this.setState({ treeValue });
-    };
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -224,25 +204,7 @@ class CreateQualityNewSheet extends React.Component {
                         </Row>
                     </div>
                     <div className={styles.content}>
-                        <Row>
-                            <Col className="labelWidth" span={24}>
-                                <Form.Item label="*有无子订单编号？">
-                                    {getFieldDecorator('orderNum', {
-                                        initialValue: params.orderNum,
-                                    })(
-
-                                        <RadioGroup onChange={(e) => (this.radioChange(e, getFieldDecorator))}>
-                                            <Radio value={1}>有</Radio>
-                                            <Radio value={2}>无</Radio>
-                                        </RadioGroup>
-                                    )}
-
-
-                                </Form.Item>
-                            </Col>
-                        </Row>
                         {this.state.radioChange}
-
                         <Row>
                             <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
                                 <Form.Item label="*子订单编号：">
@@ -257,37 +219,38 @@ class CreateQualityNewSheet extends React.Component {
                                 </div>
                             </Col>
                         </Row>
-                        <SubOrderDetail data={this.props.orderNumData} />
+                        {/* 显示子订单详情 */}
+                        {!this.props.orderNumData ? null : <SubOrderDetail data={this.props.orderNumData || {}} />}
                     </div>
                     <div className={styles.content}>
                         <Row>
                             <Col className="gutter-row" span={12}>
-                                {/* <Form.Item label="*质检违规日期：">
-                  {getFieldDecorator('violationDate', {
-                    initialValue: params.violationDate,
-                  })(<BIDatePicker style={{ width: 280 }} />)}
-                </Form.Item> */}
+                                <Form.Item label="*质检违规日期：">
+                                    {getFieldDecorator('violationDate', {
+                                        initialValue: params.violationDate,
+                                    })(<BIDatePicker style={{ width: 280 }} />)}
+                                </Form.Item>
                             </Col>
                             <Col className="gutter-row txRight" span={12}>
-                                {/* <Form.Item label="*质检扣分日期：">
-                  {getFieldDecorator('reduceScoreDate', {
-                    initialValue: params.reduceScoreDate,
-                  })(<BIDatePicker style={{ width: 280 }} />)}
-                </Form.Item> */}
+                                <Form.Item label="*质检扣分日期：">
+                                    {getFieldDecorator('reduceScoreDate', {
+                                        initialValue: params.reduceScoreDate,
+                                    })(<BIDatePicker style={{ width: 280 }} />)}
+                                </Form.Item>
                             </Col>
                         </Row>
                         <Row className="gutter-row">
                             <Col span={12}>
-                                {/* <Form.Item label="*分维：">
-                  {getFieldDecorator('dimensionId', {
-                    initialValue: params.dimensionId,
-                  })(
-                    <BISelect allowClear labelInValue initialValue="lucy" style={{ width: 280 }}>
-                      <Option value="jack">Jack</Option>
-                      <Option value="lucy">lucy</Option>
-                    </BISelect>
-                  )}
-                </Form.Item> */}
+                                <Form.Item label="*分维：">
+                                    {getFieldDecorator('dimensionId', {
+                                        initialValue: params.dimensionId,
+                                    })(
+                                        <BISelect allowClear placeholder="请选择" style={{ width: 280 }}>
+                                            <Option value="jack">Jack</Option>
+                                            <Option value="lucy">lucy</Option>
+                                        </BISelect>
+                                    )}
+                                </Form.Item>
                             </Col>
                         </Row>
                         <Row className="gutter-row">
