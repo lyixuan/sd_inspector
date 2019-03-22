@@ -13,10 +13,9 @@ import BIPagination from '@/ant_components/BIPagination';
 import BITreeSelect from '@/ant_components/BITreeSelect';
 import AuthButton from '@/components/AuthButton';
 import { BiFilter,DeepCopy } from '@/utils/utils';
-import styles from '../../style.less'
+import styles from '../../style.less';
 const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
-
 class NewQualitySheet extends React.Component {
   constructor(props) {
     super(props);
@@ -34,6 +33,7 @@ class NewQualitySheet extends React.Component {
       groupIdList: [],
     };
     this.state = DeepCopy(this.init);
+    this.canDimension = false;
   }
   onFormChange = (value,vname)=>{
     if ('dateRange' === vname ) {
@@ -42,22 +42,25 @@ class NewQualitySheet extends React.Component {
         endDate:value[1],
       });
     } else if ('organization' === vname) {
-      const newval = value[value.length-1];
-      if (newval.indexOf('a-')>=0) {
-        this.setState({
-          collegeIdList: [...this.state.collegeIdList,newval]
-        })
-      }
-      if (newval.indexOf('b-')>=0) {
-        this.setState({
-          familyIdList: [...this.state.familyIdList,newval]
-        })
-      }
-      if (newval.indexOf('c-')>=0) {
-        this.setState({
-          groupIdList: [...this.state.groupIdList,newval]
-        })
-      }
+      const list1 = [];
+      const list2 = [];
+      const list3 = [];
+      value.forEach((v)=>{
+        if (v.indexOf('a-')>=0) {
+          list1.push(v);
+        }
+        if (v.indexOf('b-')>=0) {
+          list2.push(v);
+        }
+        if (v.indexOf('c-')>=0) {
+          list3.push(v);
+        }
+      });
+      this.setState({
+        collegeIdList: [...list1],
+        familyIdList: [...list2],
+        groupIdList: [...list3],
+      })
     } else {
       this.setState({
         [vname]:value
@@ -89,15 +92,10 @@ class NewQualitySheet extends React.Component {
   createe = ()=>{
     router.push({
       pathname: '/qualityAppeal/qualityNewSheet/create',
-      // query: this.props.checkedConditionList,
     });
   };
   exportRt = ()=>{
-
-  };
-
-  onDetail = (record)=>{
-    console.log(record);
+    this.props.queryData(this.state,null,true);
   };
   reset = ()=>{
     this.setState(this.init);
@@ -106,7 +104,7 @@ class NewQualitySheet extends React.Component {
   };
   render() {
     const {qualityNum,beginDate,endDate,collegeIdList,familyIdList,groupIdList, dimensionIdList,statusList,violationLevelList,operateName,qualityType} = this.state;
-    const {dimensionList1 = [],dimensionList2 = [],orgList = [],dataSource,columns,loading} = this.props;
+    const {dimensionList1 = [],dimensionList2 = [],orgList = [],dataSource,page,columns,loading} = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -249,19 +247,21 @@ class NewQualitySheet extends React.Component {
                   <span className={styles.gutterBtn1}><BIButtonGreen type='primary' onClick={this.createe} >新建质检</BIButtonGreen></span>
                 </AuthButton>
                 <AuthButton authority='/qualityAppeal/qualityNewSheet/exportRt'>
-                  <span className={styles.gutterBtn2}><BIButtonYellow type='primary' onClick={this.exportRt} >导出查询结果</BIButtonYellow></span>
+                  <span className={styles.gutterBtn2}>
+                    <BIButtonYellow type='primary' onClick={this.exportRt}>导出查询结果</BIButtonYellow>
+                  </span>
                 </AuthButton>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={12}>
               <div className={styles.gutterBox3}>
-                总条数：4
+                总条数：{page.total}
               </div>
             </Col>
           </Row>
-          <BITable dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
+          <BITable rowKey={record=>record.id} dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
           <br/>
-          <BIPagination showQuickJumper onChange={this.onPageChange} defaultCurrent={3} total={500} />
+          <BIPagination showQuickJumper onChange={this.onPageChange} defaultCurrent={page.pageNum} total={page.total} />
         </div>
       </div>
     );

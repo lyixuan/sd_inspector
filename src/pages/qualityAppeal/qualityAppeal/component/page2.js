@@ -6,7 +6,7 @@ import BIButton from '@/ant_components/BIButton';
 import BIButtonYellow from '@/components/BIButtonYellow';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
-import { BiFilter } from '@/utils/utils';
+import { BiFilter, DeepCopy } from '@/utils/utils';
 import { Row, Col } from 'antd';
 import styles from '../../style.less'
 import { ISWARN } from '@/utils/constants';
@@ -19,7 +19,7 @@ const { Option } = BISelect;
 class NewQualitySheet extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.init = {
       qualityNum:undefined,
       qualityType:'all',
       dimensionIdList:undefined,
@@ -27,12 +27,17 @@ class NewQualitySheet extends React.Component {
       status:undefined,
       isWarn:'all',
     };
+    this.state = DeepCopy(this.init);
+    this.canDimension = false;
   }
   onFormChange = (value,vname)=>{
     this.setState({
       [vname]:value
     });
     if ('qualityType' === vname) {
+      this.setState({
+        dimensionIdList: undefined
+      });
       if (value === 'all') {
         this.canDimension = false;
       }
@@ -45,33 +50,20 @@ class NewQualitySheet extends React.Component {
     }
   };
   search = ()=>{
-    this.props.queryData();
+    this.props.queryData(this.state);
+  };
+
+  onPageChange = (currentPage)=>{
+    this.props.queryData(this.state,{page:currentPage});
   };
   reset = ()=>{
-    this.props.queryData();
-  };
-  onPageChange = ()=>{
-    this.props.queryData();
-  };
-  exportRt = ()=>{
-
+    this.setState(this.init);
+    this.props.queryData(this.state,{page:1});
+    this.canDimension = false;
   };
   render() {
     const {qualityNum,qualityType, dimensionIdList,violationLevel,status,isWarn} = this.state;
-    let {dimensionList1 = [],dimensionList2 = [],dataSource,columns,loading} = this.props;
-    dataSource = [
-      {
-        qualityNum: 1546358400000,
-        qualityType: 1,
-        dimensionName: "分维1",
-        归属组织: 1,
-        reduceScoreDate: '2019-09-09',
-        operateName: 'name',
-        violationLevel: 1,
-        familyType: 0,
-        statusName: 1
-      }
-    ]
+    const {dimensionList1 = [],dimensionList2 = [],dataSource,columns,page,loading} = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -104,7 +96,7 @@ class NewQualitySheet extends React.Component {
                 <span className={styles.gutterLabel1}>分维</span>:
                 <span className={styles.gutterForm}>
                   {this.canDimension === 1 ? (
-                    <BISelect style={{width:230}} allowClear placeholder="请选择客诉分维"  mode="multiple" showArrow maxTagCount={1} value={ dimensionIdList} onChange={(val)=>this.onFormChange(val,' dimensionIdList')}>
+                    <BISelect style={{width:230}} allowClear placeholder="请选择客诉分维"  mode="multiple" showArrow maxTagCount={1} value={ dimensionIdList} onChange={(val)=>this.onFormChange(val,'dimensionIdList')}>
                       {dimensionList1.map(item => (
                         <Option key={item.id}>
                           {item.name}
@@ -112,7 +104,7 @@ class NewQualitySheet extends React.Component {
                       ))}
                     </BISelect>
                   ): this.canDimension === 2 ?(
-                    <BISelect style={{width:230}} allowClear placeholder="请选择班主任分维"  mode="multiple" showArrow maxTagCount={1} value={ dimensionIdList} onChange={(val)=>this.onFormChange(val,' dimensionIdList')}>
+                    <BISelect style={{width:230}} allowClear placeholder="请选择班主任分维"  mode="multiple" showArrow maxTagCount={1} value={ dimensionIdList} onChange={(val)=>this.onFormChange(val,'dimensionIdList')}>
                       {dimensionList2.map(item => (
                         <Option key={item.id}>
                           {item.name}
@@ -120,7 +112,7 @@ class NewQualitySheet extends React.Component {
                       ))}
                     </BISelect>
                   ):(
-                    <BISelect style={{width:230}} allowClear placeholder="请选择" disabled={true}  mode="multiple" showArrow maxTagCount={1} value={ dimensionIdList} onChange={(val)=>this.onFormChange(val,' dimensionIdList')}>
+                    <BISelect style={{width:230}} allowClear placeholder="请选择" disabled={true}  mode="multiple" showArrow maxTagCount={1} value={ dimensionIdList} onChange={(val)=>this.onFormChange(val,'dimensionIdList')}>
                       {dimensionList2.map(item => (
                         <Option key={item.id}>
                           {item.name}
@@ -152,7 +144,7 @@ class NewQualitySheet extends React.Component {
               <div className={styles.gutterBox2}>
                 <span className={styles.gutterLabel1}>申诉状态</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} allowClear value={status} placeholder="请选择" mode="multiple" showArrow maxTagCount={1} onChange={(val)=>this.onFormChange(val,'status')}>
+                  <BISelect style={{width:230}} allowClear value={status} placeholder="请选择" onChange={(val)=>this.onFormChange(val,'status')}>
                     {BiFilter('APPEAL_STATE').map(item => (
                       item.type===2 && <Option key={item.id}>
                         {item.name}
@@ -205,13 +197,13 @@ class NewQualitySheet extends React.Component {
             </Col>
             <Col className={styles.gutterCol}  span={12}>
               <div className={styles.gutterBox3}>
-                总条数：4
+                总条数：{page.total}
               </div>
             </Col>
           </Row>
-          <BITable dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
+          <BITable rowKey={record=>record.id} dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
           <br/>
-          <BIPagination showQuickJumper  onChange={this.onPageChange} defaultCurrent={3} total={500} />
+          <BIPagination showQuickJumper  onChange={this.onPageChange} defaultCurrent={page.pageNum} total={page.total} />
         </div>
       </div>
     );
