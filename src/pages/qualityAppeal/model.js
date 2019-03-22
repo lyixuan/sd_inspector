@@ -41,7 +41,7 @@ export default {
     orgMapByMailData: {}, // 根据邮箱获取用户组织信息
     DetailData: [], // 申诉详情页数据
     QualityDetailData: {}, // 质检详情页数据
-    orderNumData: {},   // 根据子订单编号获取订单详情数据
+    orderNumData: null,   // 根据子订单编号获取订单详情数据
   },
 
   effects: {

@@ -11,6 +11,8 @@ import { BaseModels } from '../_utils/baseModels';
   orgList: qualityAppealHome.orgList,
   orgMapByMailData: qualityAppealHome.orgMapByMailData,
   orderNumData: qualityAppealHome.orderNumData,
+  dimensionList1: qualityAppealHome.dimensionList1, // 客诉分维
+  dimensionList2: qualityAppealHome.dimensionList2, // 班主任分维
   mailDataLoading: loading.effects['qualityAppealHome/getOrgMapByMail'],
   getOrderNumLoading: loading.effects['qualityAppealHome/getOrderNum'],
 }))
@@ -68,6 +70,7 @@ class CreateQualityNewSheet extends React.Component {
   render() {
     const { params } = this.state;
     const { orgList } = this.props;
+    console.log(this.props)
     return (<div>
       {/* form区域 */}
       <FormComponent
