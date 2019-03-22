@@ -1,16 +1,6 @@
 import { message } from 'antd/lib/index';
 import { getQualityList, getOrgMapByMail,qualityExportExcel,qualityCancelQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
-function downBlob(blob, name) {
-  // 接收返回blob类型的数据
-  const downloadElement = document.createElement('a');
-  const href = window.URL.createObjectURL(blob); // 创建下载的链接
-  downloadElement.href = href;
-  downloadElement.download = 'name.xlsx'; // 下载后文件名
-  document.body.appendChild(downloadElement);
-  downloadElement.click(); // 点击下载
-  document.body.removeChild(downloadElement); // 下载完成移除元素
-  window.URL.revokeObjectURL(href); // 释放掉blob对象
-}
+
 export default {
   namespace: 'qualityNewSheet',
 
@@ -44,7 +34,7 @@ export default {
       const params = payload.params;
       const result = yield call(qualityExportExcel, params);
       if (result) {
-        downBlob(result.data);
+        downBlob(result.data,'name.xlsx');
         message.success('导出成功');
       } else {
         message.error(result.msgDetail);
@@ -61,3 +51,15 @@ export default {
   subscriptions: {
   },
 };
+
+function downBlob(blob, name) {
+  // 接收返回blob类型的数据
+  const downloadElement = document.createElement('a');
+  const href = window.URL.createObjectURL(blob); // 创建下载的链接
+  downloadElement.href = href;
+  downloadElement.download = name; // 下载后文件名
+  document.body.appendChild(downloadElement);
+  downloadElement.click(); // 点击下载
+  document.body.removeChild(downloadElement); // 下载完成移除元素
+  window.URL.revokeObjectURL(href); // 释放掉blob对象
+}
