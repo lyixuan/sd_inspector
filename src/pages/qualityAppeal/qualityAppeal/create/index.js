@@ -21,9 +21,9 @@ const RadioGroup = Radio.Group;
 let isLt10M = false;
 let isZip = false;
 
-@connect(({ qualityAppealHome, createAppeal }) => ({
+@connect(({ qualityAppealHome, createAppeal12 }) => ({
   qualityAppealHome,
-  createAppeal,
+  createAppeal12,
   orgList: qualityAppealHome.orgList,
   orgMapByMailData: qualityAppealHome.orgMapByMailData,
 }))
@@ -33,10 +33,10 @@ class EditQualityNewSheet extends React.Component {
     super(props);
     this.paramsModel = new BaseModels();
     this.state = {
-      params: {
+      paramsId: {
         id: 1,
       },
-      params2: this.paramsModel.initModel,
+      params: this.paramsModel.initModel,
       type: undefined,
       mail: undefined,
       user: undefined,
@@ -54,7 +54,7 @@ class EditQualityNewSheet extends React.Component {
   componentDidMount() {
     this.props.dispatch({
       type: 'qualityAppealHome/getDetailData',
-      payload: this.state.params,
+      payload: this.state.paramsId,
     });
 
 
@@ -78,6 +78,7 @@ class EditQualityNewSheet extends React.Component {
   // 根据邮箱获取归属组织
   getOrgMapByMail = () => {
     const mail = this.props.form.getFieldValue('mail');
+    console.log(81, mail)
     if (!mail) return;
     this.props.dispatch({
       type: 'qualityAppealHome/getOrgMapByMail',
@@ -99,8 +100,8 @@ class EditQualityNewSheet extends React.Component {
         isWarn: 1
       }
       this.props.dispatch({
-        type: 'createAppeal/reviewAppel',
-        payload: {},
+        type: 'createAppeal12/reviewAppel',
+        payload: { qualityInspectionParam, appealParam },
       })
 
       if (!err) {
@@ -131,7 +132,7 @@ class EditQualityNewSheet extends React.Component {
       if (isZip) {
         this.setState({ fileList });
         this.props.dispatch({
-          type: 'createAppeal/uploadFile',
+          type: 'createAppeal12/uploadFile',
           payload: { file: fileList[0].name, type: 3 },
         })
       }
@@ -155,32 +156,27 @@ class EditQualityNewSheet extends React.Component {
       })
     }
   }
+  getOrderInfo = () => {
+    let orderNum = this.props.form.getFieldValue('orderNum')
+    if (!orderNum) return;
+    this.props.dispatch({
+      type: 'createAppeal12/getOrderNum111',
+      payload: { orderNum },
+    });
+    this.setState({
+      radioChange: this.getOrder()
+    })
+  }
   // 有子订单编号DOM结构
-  getOrder = (getFieldDecorator) => {
+  getOrder = () => {
     return (
       <div>
-        <Row>
-          <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
-            <Form.Item label="*子订单编号：">
-              {getFieldDecorator('order', {
-                initialValue: this.state.order,
-                rules: [{ required: true, message: '请输入子订单编号' }],
-              })(<BIInput placeholder="请输入" style={{ width: 280 }} />)}
-            </Form.Item>
-            <div style={{ marginTop: '4px', marginLeft: '15px' }}>
-              <BIButton type="primary">
-                查询
-                </BIButton>
-            </div>
-          </Col>
-        </Row>
         <SubOrderDetail data={this.state.orderDetail} />
       </div>
     );
   };
 
   render() {
-    console.log(99, this.props)
     const { getFieldDecorator } = this.props.form;
     const { params } = this.state;
     const props = {
@@ -221,7 +217,7 @@ class EditQualityNewSheet extends React.Component {
                     initialValue: params.role,
                     rules: [{ required: true, message: '请选择归属人角色' }],
                   })(
-                    <BISelect allowClear labelInValue placeholder="请选择" style={{ width: 280 }}>
+                    <BISelect allowClear placeholder="请选择" style={{ width: 280 }}>
                       {BiFilter("QUALITY_RULE_TYPE").map(item => (
                         <Option value={item.id} key={item.name}>
                           {item.name}
@@ -276,7 +272,7 @@ class EditQualityNewSheet extends React.Component {
           </div>
           <div className={styles.content}>
             <Row>
-              <Col className="labelWidth" span={24}>
+              {/* <Col className="labelWidth" span={24}>
                 <Form.Item label="*有无子订单编号？">
                   {getFieldDecorator('orderNum', {
                     initialValue: params.orderNum,
@@ -290,6 +286,19 @@ class EditQualityNewSheet extends React.Component {
 
 
                 </Form.Item>
+              </Col> */}
+              <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
+                <Form.Item label="*子订单编号：">
+                  {getFieldDecorator('orderNum', {
+                    initialValue: params.orderNum,
+                    rules: [{ required: true, message: '请输入子订单编号' }],
+                  })(<BIInput placeholder="请输入" style={{ width: 280 }} />)}
+                </Form.Item>
+                <div style={{ marginTop: '4px', marginLeft: '15px' }}>
+                  <BIButton type="primary" onClick={this.getOrderInfo}>
+                    查询
+                </BIButton>
+                </div>
               </Col>
             </Row>
             {this.state.radioChange}
@@ -333,7 +342,7 @@ class EditQualityNewSheet extends React.Component {
                   {getFieldDecorator('dimensionId', {
                     initialValue: params.dimensionId,
                   })(
-                    <BISelect allowClear labelInValue initialValue="lucy" style={{ width: 280 }}>
+                    <BISelect allowClear style={{ width: 280 }}>
                       <Option value="jack">Jack</Option>
                       <Option value="lucy">lucy</Option>
                     </BISelect>
@@ -426,39 +435,9 @@ class EditQualityNewSheet extends React.Component {
               </Col>
             </Row>
 
-            {/* <div className={styles.verify}>
-              <div className={styles.title}>质检审核</div>
-              <div className={styles.verifyContent}>
-                <Row>
-                  <Col span={12} style={{ display: 'flex' }}>
-                    <span className={styles.label}> 审核结果：</span>
-                    <span className={styles.texts}>已驳回</span>
-                  </Col>
-                  <Col span={12}>
-                    <span className={styles.label}>操作时间：</span>
-                    <span className={styles.texts}>2019-02-12 12：22：22</span>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={24} style={{ display: 'flex' }}>
-                    <span className={styles.label}> 审核详情：</span>
-                    <span className={styles.texts}>
-                      郭珊老师在4月2日19:30-21:00讲的【开学典礼】教师资格证课程中，在课程31分23秒老师介绍教师资格证时，只介绍了资格证的考试时间，考试安排，含金量，全国通用，未介绍资格证的定义，PPT也未展示定义，参考话术：职业资格证即职业资格证书，是表明劳动者具有从事某一职业所必备的学识和技能的证明。
-                    </span>
-                  </Col>
-                </Row>
-              </div>
-            </div> */}
-
             {this.getAppealInfos(detailData)}
 
             <div className={styles.appealContent}>
-              {/* <section>
-                <AppealInfo data={this.state.qualityData} />
-              </section>
-              <section>
-                <SOPCheckResult data={this.state.qualityData.sopCheckDetail} />
-              </section> */}
               <div className={styles.appealMaster}>
                 <div className={styles.appealTitle}>主管审核</div>
                 <div>

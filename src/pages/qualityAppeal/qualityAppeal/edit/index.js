@@ -8,6 +8,7 @@ import SubOrderDetail from './../../components/subOrderDetail';
 import IllegalInfo from './../../qualityNewSheet/detail/components/IllegalInfo';
 import AppealInfo from './../component/appealInfo';
 import SuperiorCheck from './../component/superiorCheck';
+import SOPCheckResult from './../component/sopCheckResult';
 const { TextArea } = Input;
 const RadioGroup = Radio.Group;
 
@@ -53,7 +54,22 @@ class EditAppeal extends React.Component {
             data={{ appealStart: item.appealStart, appealEndDate: item.appealEndDate, id: item.id }}
           />
           {/* <SOPCheckResult data={item.sopAppealCheck} /> */}
-          <SuperiorCheck data={item.masterAppealCheck} />
+          {/* <SuperiorCheck data={item.masterAppealCheck} /> */}
+        </>
+      )
+    );
+    return domFragment;
+  }
+  getSuperiorCheck(detailData) {
+    let domFragment = [];
+    detailData.forEach(item =>
+      domFragment.push(
+        <>
+          {/* <AppealInfo
+            data={{ appealStart: item.appealStart, appealEndDate: item.appealEndDate, id: item.id }}
+          /> */}
+          <SOPCheckResult data={item.sopAppealCheck} />
+          {/* <SuperiorCheck data={item.masterAppealCheck} /> */}
         </>
       )
     );
@@ -102,6 +118,8 @@ class EditAppeal extends React.Component {
         <section>
           {/* 申诉信息 */}
           {this.getAppealInfos(detailData)}
+
+
         </section>
         <div className={styles.editBox}>
           <div className={styles.title}>SOP审核</div>
@@ -127,6 +145,7 @@ class EditAppeal extends React.Component {
         </div>
 
         <section>
+          {this.getSuperiorCheck(detailData)}
           {/* <SuperiorCheck data={this.state.qualityData.sopCheckDetail} /> */}
         </section>
 

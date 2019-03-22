@@ -48,10 +48,7 @@
   height: 1px;
   background-color: #ebecef;
   flex: 1;
-  margin: 24px 0 0 12px;
-}
-div.divideLine:last-child {
-  height: 0;
+  margin: 24px 12px 0 12px;
 }
 .appealInfo {
   height: 20px;
