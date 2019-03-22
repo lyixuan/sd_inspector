@@ -256,7 +256,7 @@ class HorizontalLoginForm extends React.Component {
     );
 
     return (
-      <Form layout='inline' onSubmit={this.handleSubmit}>
+      <Form layout='inline' onSubmit={this.handleSubmit} className='dxForm'>
         <div className={styles.searchBoxBg}>
           <div className={styles.row}>
             {/* 第一行 */}

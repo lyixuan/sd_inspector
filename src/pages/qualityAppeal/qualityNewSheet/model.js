@@ -1,11 +1,13 @@
 import { message } from 'antd/lib/index';
-import { getQualityList, getOrgMapByMail,qualityExportExcel,qualityCancelQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
+import { getQualityList, queryDimensionTreeList, qualityExportExcel, qualityCancelQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
 
 export default {
   namespace: 'qualityNewSheet',
 
   state: {
     qualityList: [],
+    dimensionTreeList: [],
+    originAllDimensionTreeList: {},
     page: {}
   },
 
@@ -15,8 +17,8 @@ export default {
       const result = yield call(getQualityList, params);
       if (result.code === 20000) {
         const qualityList = result.data.list ? result.data.list : [];
-        const page = {total:result.data.total? result.data.total : 0,pageNum:result.data.pageNum?result.data.pageNum:1};
-        yield put({ type: 'save', payload: { qualityList,page } });
+        const page = { total: result.data.total ? result.data.total : 0, pageNum: result.data.pageNum ? result.data.pageNum : 1 };
+        yield put({ type: 'save', payload: { qualityList, page } });
       } else {
         message.error(result.msgDetail);
       }
@@ -34,18 +36,36 @@ export default {
       const params = payload.params;
       const result = yield call(qualityExportExcel, params);
       if (result) {
-        downBlob(result.data,'name.xlsx');
+        downBlob(result.data, 'name.xlsx');
         message.success('导出成功');
       } else {
         message.error(result.msgDetail);
       }
     },
+    *queryDimensionTreeList({ payload }, { call, put }) {
+      const response = yield call(queryDimensionTreeList, payload);
+      if (response.code === 20000) {
+        const dimensionTreeList = response.data;
+
+        yield put({
+          type: 'saveDimensionTreeList',
+          payload: { dimensionTreeList }
+        })
+
+      } else {
+        message.error(response.msg);
+      }
+
+    }
   },
 
   reducers: {
     save(state, action) {
       return { ...state, ...action.payload };
     },
+    saveDimensionTreeList(state, action) {
+      return { ...state, ...action.payload };
+    }
   },
 
   subscriptions: {
