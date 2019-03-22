@@ -18,6 +18,8 @@ class QualityDetail extends React.Component {
       params: {
         id: 1,
       },
+      appealInfoCollapse: true,
+      checkResultsCollapse: true,
     };
   }
   componentDidMount() {
@@ -26,28 +28,42 @@ class QualityDetail extends React.Component {
       payload: this.state.params,
     });
   }
+  handleCollapse() {
+    this.setState({ appealInfoCollapse: !this.state.appealInfoCollapse });
+  }
+  handleCheckResultsCollapse() {
+    this.setState({ checkResultsCollapse: !this.state.checkResultsCollapse });
+  }
   render() {
     const qualityDetailData = this.props.qualityDetail.QualityDetailData;
-    console.log(qualityDetailData);
     return (
       <div className={styles.detailContainer}>
         <section>
           {/* 质检违规人员信息 */}
-          <PersonInfo data={qualityDetailData} />
-        </section>
-        <section>
-          <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
-          <SubOrderDetail data={qualityDetailData.orderDetail} />
-        </section>
-        <section>
-          {/* 质检违规详情 */}
-          <section>{/* 质检审核 */}</section>
-          <div className={styles.divideLine} />
-          <IllegalInfo data={qualityDetailData} />
+          <PersonInfo
+            data={qualityDetailData}
+            appealInfoCollapse={this.state.appealInfoCollapse}
+            onClick={() => this.handleCollapse()}
+          />
+          <article
+            className={
+              this.state.appealInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
+            }
+          >
+            <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
+            <SubOrderDetail data={qualityDetailData.orderDetail} />
+            {/* 质检违规详情 */}
+            <div className={styles.divideLine} />
+            <IllegalInfo data={qualityDetailData} />
+          </article>
         </section>
         <section>
           {/* 质检审核 */}
-          <CheckInfo data={qualityDetailData.qualityAudit} />
+          <CheckInfo
+            data={qualityDetailData.qualityAudit}
+            checkResultsCollapse={this.state.checkResultsCollapse}
+            onClick={() => this.handleCheckResultsCollapse()}
+          />
         </section>
         <section>
           <Form layout="inline" className={styles.formBox}>

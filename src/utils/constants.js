@@ -1,7 +1,6 @@
 /**
-* 静态数据和全局配置
-* */
-
+ * 静态数据和全局配置
+ * */
 
 // localStorage Keys
 
@@ -31,7 +30,7 @@ export const PAGINATION = {
   defaultCurrent: 1,
   total: 0,
   pageSize: 36,
-  pageSizeOptions: ['36', '50', '100']
+  pageSizeOptions: ['36', '50', '100'],
 };
 // header下拉选
 export const GLOBAL_HEADER_SELECT = [
@@ -43,141 +42,141 @@ export const GLOBAL_HEADER_SELECT = [
 // 省份
 export const provinceJson = [
   {
-    "code": "AH",
-    "name": "安徽省",
+    code: 'AH',
+    name: '安徽省',
   },
   {
-    "code": "BJ",
-    "name": "北京市",
+    code: 'BJ',
+    name: '北京市',
   },
   {
-    "code": "FJ",
-    "name": "福建省",
+    code: 'FJ',
+    name: '福建省',
   },
   {
-    "code": "GS",
-    "name": "甘肃省",
+    code: 'GS',
+    name: '甘肃省',
   },
   {
-    "code": "GD",
-    "name": "广东省",
+    code: 'GD',
+    name: '广东省',
   },
   {
-    "code": "GX",
-    "name": "广西壮族自治区",
+    code: 'GX',
+    name: '广西壮族自治区',
   },
   {
-    "code": "GZ",
-    "name": "贵州省",
+    code: 'GZ',
+    name: '贵州省',
   },
   {
-    "code": "HI",
-    "name": "海南省",
+    code: 'HI',
+    name: '海南省',
   },
   {
-    "code": "HE",
-    "name": "河北省",
+    code: 'HE',
+    name: '河北省',
   },
   {
-    "code": "HA",
-    "name": "河南省",
+    code: 'HA',
+    name: '河南省',
   },
   {
-    "code": "HL",
-    "name": "黑龙江省",
+    code: 'HL',
+    name: '黑龙江省',
   },
   {
-    "code": "HB",
-    "name": "湖北省",
+    code: 'HB',
+    name: '湖北省',
   },
   {
-    "code": "HN",
-    "name": "湖南省",
+    code: 'HN',
+    name: '湖南省',
   },
   {
-    "code": "JL",
-    "name": "吉林省",
+    code: 'JL',
+    name: '吉林省',
   },
   {
-    "code": "JS",
-    "name": "江苏省",
+    code: 'JS',
+    name: '江苏省',
   },
   {
-    "code": "JX",
-    "name": "江西省",
+    code: 'JX',
+    name: '江西省',
   },
   {
-    "code": "LN",
-    "name": "辽宁省",
+    code: 'LN',
+    name: '辽宁省',
   },
   {
-    "code": "NM",
-    "name": "内蒙古自治区",
+    code: 'NM',
+    name: '内蒙古自治区',
   },
   {
-    "code": "NX",
-    "name": "宁夏回族自治区",
+    code: 'NX',
+    name: '宁夏回族自治区',
   },
   {
-    "code": "QH",
-    "name": "青海省",
+    code: 'QH',
+    name: '青海省',
   },
   {
-    "code": "SD",
-    "name": "山东省",
+    code: 'SD',
+    name: '山东省',
   },
   {
-    "code": "SX",
-    "name": "山西省",
+    code: 'SX',
+    name: '山西省',
   },
   {
-    "code": "SN",
-    "name": "陕西省",
+    code: 'SN',
+    name: '陕西省',
   },
   {
-    "code": "SH",
-    "name": "上海市",
+    code: 'SH',
+    name: '上海市',
   },
   {
-    "code": "SC",
-    "name": "四川省",
+    code: 'SC',
+    name: '四川省',
   },
   {
-    "code": "TJ",
-    "name": "天津市",
+    code: 'TJ',
+    name: '天津市',
   },
   {
-    "code": "XZ",
-    "name": "西藏自治区",
+    code: 'XZ',
+    name: '西藏自治区',
   },
   {
-    "code": "XJ",
-    "name": "新疆维吾尔自治区",
+    code: 'XJ',
+    name: '新疆维吾尔自治区',
   },
   {
-    "code": "YN",
-    "name": "云南省",
+    code: 'YN',
+    name: '云南省',
   },
   {
-    "code": "ZJ",
-    "name": "浙江省",
+    code: 'ZJ',
+    name: '浙江省',
   },
   {
-    "code": "CQ",
-    "name": "重庆市",
+    code: 'CQ',
+    name: '重庆市',
   },
   {
-    "code": "MO",
-    "name": "澳门特别行政区",
+    code: 'MO',
+    name: '澳门特别行政区',
   },
   {
-    "code": "HK",
-    "name": "香港特别行政区",
+    code: 'HK',
+    name: '香港特别行政区',
   },
   {
-    "code": "TW",
-    "name": "台湾省",
-  }
+    code: 'TW',
+    name: '台湾省',
+  },
 ];
 // 报考步骤
 export const PROVINCE_STEP = [
@@ -192,8 +191,7 @@ export const PROVINCE_STATUS = [
   { id: 1, name: '未开始' },
   { id: 2, name: '进行中' },
   { id: 3, name: '已结束' },
-
-]
+];
 
 // 每个省份的报考进度
 export const PROVINCE_SIGN_STEP = [
@@ -205,22 +203,13 @@ export const PROVINCE_SIGN_STEP = [
 ];
 
 // 订单状态
-export const ORDER_STATE = [
-  { id: 1, name: '已支付' },
-  { id: 2, name: '已冻结' },
-];
+export const ORDER_STATE = [{ id: 1, name: '已支付' }, { id: 2, name: '已冻结' }];
 
 // 学员身份
-export const STUDENT_TYPE = [
-  { id: 1, name: '新生' },
-  { id: 2, name: '老生' },
-];
+export const STUDENT_TYPE = [{ id: 1, name: '新生' }, { id: 2, name: '老生' }];
 
 // 准考证填写状态
-export const TICKET_STATES = [
-  { id: 1, name: '已填写' },
-  { id: 2, name: '未填写' },
-];
+export const TICKET_STATES = [{ id: 1, name: '已填写' }, { id: 2, name: '未填写' }];
 
 // 消息打开状态
 export const MSG_STATES = [
@@ -237,22 +226,25 @@ export const TASK_STATES = [
 ];
 
 // 考期临时接口
-export const examList =
-{
+export const examList = {
   code: 20000,
-  msg: "OK",
+  msg: 'OK',
   msgDetail: null,
   data: [
-    { "beginDate": "2018-10-23", "createTime": null, "endDate": "2019-04-22", "examYearmonth": "2019-04", "id": 5, "updateTime": null }
-  ]
+    {
+      beginDate: '2018-10-23',
+      createTime: null,
+      endDate: '2019-04-22',
+      examYearmonth: '2019-04',
+      id: 5,
+      updateTime: null,
+    },
+  ],
 };
 
 // ====================================== 质检
 // 质检类型
-export const QUALITY_TYPE = [
-  { id: 1, name: '客诉质检' },
-  { id: 2, name: '班主任质检' },
-];
+export const QUALITY_TYPE = [{ id: 1, name: '客诉质检' }, { id: 2, name: '班主任质检' }];
 
 // 质检状态
 export const QUALITY_STATE = [
@@ -280,43 +272,37 @@ export const VIOLATION_LEVEL = [
 
 // 申诉状态 前端状态
 export const APPEAL_STATE = [
-  { id: 1, name: '待申诉',type:1 },
-  { id: 2, name: '一次SOP待审核',type:1 },
-  { id: 3, name: '一次SOP已驳回',type:1 },
-  { id: 4, name: '一次质检主管待审核',type:1 },
-  { id: 5, name: '一次质检主管已驳回',type:1 },
-  { id: 6, name: '二次SOP待审核',type:1 },
-  { id: 7, name: '二次SOP已驳回',type:1 },
-  { id: 8, name: '二次质检主管待审核',type:1 },
-  { id: 9, name: '一次申诉审核通过',type:2 },
-  { id: 10, name: '一次申诉超时',type:2 },
-  { id: 11, name: '二次申诉审核通过',type:2 },
-  { id: 12, name: '二次申诉已驳回',type:2 },
-  { id: 13, name: '二次申诉超时',type:2 },
+  { id: 1, name: '待申诉', type: 1 },
+  { id: 2, name: '一次SOP待审核', type: 1 },
+  { id: 3, name: '一次SOP已驳回', type: 1 },
+  { id: 4, name: '一次质检主管待审核', type: 1 },
+  { id: 5, name: '一次质检主管已驳回', type: 1 },
+  { id: 6, name: '二次SOP待审核', type: 1 },
+  { id: 7, name: '二次SOP已驳回', type: 1 },
+  { id: 8, name: '二次质检主管待审核', type: 1 },
+  { id: 9, name: '一次申诉审核通过', type: 2 },
+  { id: 10, name: '一次申诉超时', type: 2 },
+  { id: 11, name: '二次申诉审核通过', type: 2 },
+  { id: 12, name: '二次申诉已驳回', type: 2 },
+  { id: 13, name: '二次申诉超时', type: 2 },
 ];
 
 // 申诉状态2 拆分的状态，后端状态
 export const APPEAL_STATE2 = [
-  { id: 10, name: '待申诉'},
-  { id: 1, name: 'sop待审核'},
-  { id: 2, name: 'sop已驳回'},
-  { id: 3, name: '质检主管待审核'},
-  { id: 4, name: '申诉审核通过'},
-  { id: 5, name: '质检主管已驳回'},
-  { id: 6, name: '申诉超时'},
+  { id: 10, name: '待申诉' },
+  { id: 1, name: 'sop待审核' },
+  { id: 2, name: 'sop已驳回' },
+  { id: 3, name: '质检主管待审核' },
+  { id: 4, name: '申诉审核通过' },
+  { id: 5, name: '质检主管已驳回' },
+  { id: 6, name: '申诉超时' },
 ];
 
 // 申诉类别
-export const APPEAL_TYPE = [
-  { id: 1, name: '一次申诉' },
-  { id: 2, name: '二次申诉' },
-];
+export const APPEAL_TYPE = [{ id: 1, name: '一次申诉' }, { id: 2, name: '二次申诉' }];
 
 // 是否警告
-export const ISWARN = [
-  { id: 1, name: '是' },
-  { id: 0, name: '否' },
-];
+export const ISWARN = [{ id: 1, name: '是' }, { id: 0, name: '否' }];
 //  组织机构相关
 
 // 前端角色类型,level含义是组织结构的层级，1代表选择到学院，2表示选择学院+家族，3代表选择三级，0代表不可选择,isPerformance代表绩效权限
@@ -353,3 +339,5 @@ export default {
   ISWARN,
   FRONT_ROLE_TYPE_LIST,
 };
+// 质检审核-审核状态
+export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
