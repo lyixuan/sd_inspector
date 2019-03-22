@@ -47,7 +47,7 @@ const dateFormat = 'YYYY-MM-DD';
         groupId:groupData[0].id,
         groupData,
       });
-    } else if(id === 'groupId'){
+    } else if(id === 'group'){
       this.setState({
         groupId:value,
       });
@@ -119,8 +119,7 @@ const dateFormat = 'YYYY-MM-DD';
          <div><span className={styles.labelCls}>日期</span>：<BIRangePicker
            placeholder={['开始时间','结束时间']}
            onChange={this.dateChange}
-           style={{ width: '230px'}}
-           allowClear={false}
+           style={{ width: '230px'}}x
            disabledDate={this.disabledDate}
            value={beginDate&&endDate?[moment(beginDate, dateFormat), moment(endDate, dateFormat)]:''}
         /></div>
