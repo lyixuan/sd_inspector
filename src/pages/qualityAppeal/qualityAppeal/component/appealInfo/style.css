@@ -94,7 +94,7 @@ div.divideLine:last-child {
 }
 .appealInfoPanel {
   float: right;
-  color: #52c9c2;
+  color: #52c9c2 !important;
   font-size: 20px;
   cursor: pointer;
   width: 30px;

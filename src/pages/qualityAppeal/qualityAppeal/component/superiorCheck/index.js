@@ -24,7 +24,7 @@ export default class SuperiorCheckComponent extends React.Component {
               <div className={styles.container}>
                 <div className={styles.secRow}>
                   <div className={checkResult ? styles.resultDotColor1 : styles.resultDotColor2}>
-                    审核结果： {checkResult}
+                    审核结果： {checkResult == 1 ? '通过' : '不通过'}
                   </div>
                 </div>
               </div>

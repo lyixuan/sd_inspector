@@ -33,7 +33,7 @@ export default class SOPCheckResultComponent extends React.Component {
                           item.checkResult ? styles.resultDotColor1 : styles.resultDotColor2
                         }
                       >
-                        审核结果：{item.checkResult}
+                        审核结果：{item.checkResult == 1 ? '通过' : '不通过'}
                       </div>
                     </div>
                     <div className={styles.secRow}>
