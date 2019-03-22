@@ -45,6 +45,3 @@
   flex: 1;
   margin: 24px 0 0 12px;
 }
-div.divideLine:last-child {
-  height: 0;
-}
