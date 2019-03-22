@@ -1,8 +1,6 @@
 import React from 'react';
 import styles from './style.css';
-// import { List } from 'antd';
-
-// const { Item } = List;
+import moment from 'moment';
 
 export default class AppealInfoComponent extends React.Component {
   constructor(props) {
@@ -30,7 +28,8 @@ export default class AppealInfoComponent extends React.Component {
         <span className={styles.secctionTitle}>申诉信息</span>
         <div className={styles.appealInfoCon}>
           <div className={styles.appealInfo}>
-            {type}次申诉<span>一次申诉截止日期：{appealEndDate}</span>
+            {type}次申诉
+            <span>一次申诉截止日期：{moment(appealEndDate).format('YYYY-MM-DD HH:mm:ss')}</span>
             <span
               onClick={() => {
                 this.appealPanelVisible();
@@ -54,7 +53,9 @@ export default class AppealInfoComponent extends React.Component {
               <div className={[styles.secRow]}>
                 <div>
                   <span>执行人：{appealStart.operator}</span>
-                  <span>操作时间：{appealStart.operateDate}</span>
+                  <span>
+                    操作时间：{moment(appealStart.operateDate).format('YYYY-MM-DD HH:mm:ss')}
+                  </span>
                 </div>
               </div>
             </div>
