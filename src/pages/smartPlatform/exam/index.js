@@ -25,7 +25,7 @@ class Survey extends React.Component {
     const day = (new Date()).getTime()-24*60*60*1000;
     this.state = {
       isShowMore:false,
-      loading:props.loading||false,
+      loading:props.loading||null,
       beginDate: moment(day).format('YYYY-MM-DD'),
       // beginDate: '2019-03-01',
       endDate: moment(day).format('YYYY-MM-DD'),
@@ -147,7 +147,7 @@ class Survey extends React.Component {
 
     const tabData = [{name:'考试计划',id:'examPlan',data:[]},{name:'报考通知',id:'examNotice',data:[]},{name:'准考证填写',id:'examTicket',data:[]}];
     return (
-      <Spin spinning={loading}>
+      <Spin spinning={loading?loading:this.props.loading}>
         <BITabs onChange={this.switchContent} type="card" tabBarStyle={{backgroundColor:'#fff',padding:'19px 0 0 30px'}}>
           {tabData.map(item=> <BITabs.TabPane tab={item.name} key={item.id} />)}
         </BITabs>
