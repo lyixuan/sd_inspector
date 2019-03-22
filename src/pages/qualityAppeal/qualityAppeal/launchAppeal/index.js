@@ -22,6 +22,8 @@ class Launch extends React.Component {
         desc: '',
         qualityId: 1,
       },
+      appealInfoCollapse: true,
+      checkResultsCollapse: true,
     };
   }
   componentDidMount() {
@@ -47,6 +49,12 @@ class Launch extends React.Component {
     this.state.params.desc = e.target.value;
     this.setState({ params: this.state.params });
   };
+  handleCollapse() {
+    this.setState({ appealInfoCollapse: !this.state.appealInfoCollapse });
+  }
+  handleCheckResultsCollapse() {
+    this.setState({ checkResultsCollapse: !this.state.checkResultsCollapse });
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
@@ -55,17 +63,22 @@ class Launch extends React.Component {
       <div className={styles.launchContainer}>
         <section>
           {/* 质检违规人员信息 */}
-          <PersonInfo data={qualityDetailData} />
-        </section>
-        <section>
-          <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
-          <SubOrderDetail data={qualityDetailData.orderDetail} />
-        </section>
-        <section>
-          {/* 质检违规详情 */}
-          <section>{/* 质检审核 */}</section>
-          <div className={styles.divideLine} />
-          <IllegalInfo data={qualityDetailData} />
+          <PersonInfo
+            data={qualityDetailData}
+            appealInfoCollapse={this.state.appealInfoCollapse}
+            onClick={() => this.handleCollapse()}
+          />
+          <article
+            className={
+              this.state.appealInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
+            }
+          >
+            <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
+            <SubOrderDetail data={qualityDetailData.orderDetail} />
+            {/* 质检违规详情 */}
+            <div className={styles.divideLine} />
+            <IllegalInfo data={qualityDetailData} />
+          </article>
         </section>
         <div className={styles.info}>
           <div className={styles.title}>申诉信息</div>
@@ -76,12 +89,11 @@ class Launch extends React.Component {
             <div className={styles.originator}>申诉发起人</div>
             <div className={styles.flexStyle}>
               <div className={styles.label}>附件:</div>
-              <div style={{ marginLeft: "20px", marginTop: "-5px" }}>
+              <div style={{ marginLeft: '20px', marginTop: '-5px' }}>
                 <Upload>
                   <BIButton type="primary">上传附件</BIButton>
                 </Upload>
               </div>
-
             </div>
 
             <div className={styles.flexStyle}>
