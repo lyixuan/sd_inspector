@@ -6,10 +6,13 @@ import SubOrderDetail from './../../components/subOrderDetail';
 import FormComponent from '../component/form';
 import { BaseModels } from '../_utils/baseModels';
 
-@connect(({ createQualityNewSheet1, qualityAppealHome }) => ({
+@connect(({ createQualityNewSheet1, qualityAppealHome, loading }) => ({
   createQualityNewSheet1,
   orgList: qualityAppealHome.orgList,
   orgMapByMailData: qualityAppealHome.orgMapByMailData,
+  orderNumData: qualityAppealHome.orderNumData,
+  mailDataLoading: loading.effects['qualityAppealHome/getOrgMapByMail'],
+  getOrderNumLoading: loading.effects['qualityAppealHome/getOrderNum'],
 }))
 class CreateQualityNewSheet extends React.Component {
   constructor(props) {
@@ -42,6 +45,15 @@ class CreateQualityNewSheet extends React.Component {
     });
     this.saveParams(values);
   }
+  getOrderNum = (orderNum, values) => {
+    if (!orderNum) return;
+    console.log(orderNum)
+    this.props.dispatch({
+      type: 'qualityAppealHome/getOrderNum',
+      payload: { orderNum },
+    });
+    this.saveParams(values);
+  }
   upDateFormParams = (newParams = {}) => {
     this.saveParams(newParams);
   }
@@ -59,9 +71,11 @@ class CreateQualityNewSheet extends React.Component {
     return (<div>
       {/* form区域 */}
       <FormComponent
+        {...this.props}
         params={params}
         orgList={orgList}
         getOrgMapByMail={this.getOrgMapByMail}
+        getOrderNum={this.getOrderNum}
         onSubmit={this.onSubmit}
       />
     </div>)

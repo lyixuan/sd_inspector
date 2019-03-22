@@ -5,6 +5,7 @@ import {
   getOrgMapByMail,
   getAppealDetail,
   getQualityDetail,
+  getOrderNum,
 } from '@/pages/qualityAppeal/services';
 
 function toTreeData(orgList) {
@@ -40,6 +41,7 @@ export default {
     orgMapByMailData: {}, // 根据邮箱获取用户组织信息
     DetailData: [], // 申诉详情页数据
     QualityDetailData: {}, // 质检详情页数据
+    orderNumData: {},   // 根据子订单编号获取订单详情数据
   },
 
   effects: {
@@ -107,6 +109,19 @@ export default {
         message.error(result.msg);
       }
     },
+    *getOrderNum({ payload }, { call, put }) {
+      const response = yield call(getOrderNum, payload);
+      if (response.code === 20000) {
+        const orderNumData = response.data || {};
+        yield put({
+          type: 'saveOrderNumData',
+          payload: { orderNumData },
+        })
+      } else {
+        message.error(response.msg);
+      }
+
+    }
   },
 
   reducers: {
@@ -132,6 +147,9 @@ export default {
     saveQualityDetailData(state, { payload }) {
       return { ...state, ...payload };
     },
+    saveOrderNumData(state, { payload }) {
+      return { ...state, ...payload };
+    }
   },
 
   subscriptions: {},

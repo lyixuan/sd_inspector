@@ -73,6 +73,13 @@ class CreateQualityNewSheet extends React.Component {
         const obj = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === role) || {};
         return obj.level || 3;
     }
+    getOrderNum = () => {
+        const values = this.props.form.getFieldsValue();
+        const { orderNum } = values;
+        if (this.props.getOrderNum) {
+            this.props.getOrderNum(orderNum, values)
+        }
+    }
     onChange = treeValue => {
         console.log(treeValue);
         this.setState({ treeValue });
@@ -167,7 +174,7 @@ class CreateQualityNewSheet extends React.Component {
                                 </Form.Item>
                                 <div className={styles.text}>@sunland.com</div>
                                 <div>
-                                    <BIButton type="primary" onClick={this.getOrgMapByMail}>
+                                    <BIButton type="primary" onClick={this.getOrgMapByMail} loading={this.props.mailDataLoading}>
                                         查询
                   </BIButton>
                                 </div>
@@ -236,21 +243,21 @@ class CreateQualityNewSheet extends React.Component {
                         </Row>
                         {this.state.radioChange}
 
-                        {/* <Row>
-              <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
-                <Form.Item label="*子订单编号：">
-                  {getFieldDecorator('order', {
-                    initialValue: this.state.order,
-                  })(<BIInput placeholder="请输入" style={{ width: 280 }} />)}
-                </Form.Item>
-                <div style={{ marginTop: '4px', marginLeft: '15px' }}>
-                  <BIButton type="primary">
-                    查询
+                        <Row>
+                            <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
+                                <Form.Item label="*子订单编号：">
+                                    {getFieldDecorator('orderNum', {
+                                        initialValue: params.orderNum,
+                                    })(<BIInput placeholder="请输入" style={{ width: 280 }} />)}
+                                </Form.Item>
+                                <div style={{ marginTop: '4px', marginLeft: '15px' }}>
+                                    <BIButton type="primary" onClick={this.getOrderNum} loading={this.props.getOrderNumLoading}>
+                                        查询
                   </BIButton>
-                </div>
-              </Col>
-            </Row>
-            <SubOrderDetail data={this.state.orderDetail} /> */}
+                                </div>
+                            </Col>
+                        </Row>
+                        <SubOrderDetail data={this.props.orderNumData} />
                     </div>
                     <div className={styles.content}>
                         <Row>
@@ -433,17 +440,13 @@ function mapPropsToFields(props) {
     const returnObj = {};
     if (!params || typeof params !== 'object') return returnObj;
     Object.keys(params).forEach(item => {
+        returnObj[item] = Form.createFormField({
+            value: params[item] || undefined,
+        });
         // 此处后期应对学院家族小组进行处理
-        if (item === 'role') { // 对角色单独处理
-            returnObj[item] = Form.createFormField({
-                value: params[item] || undefined,
-            })
-        } else {
-            returnObj[item] = Form.createFormField({
-                value: params[item] || undefined,
-            })
-        }
-
+        returnObj['organize'] = Form.createFormField({
+            value: [params.collegeId, params.familyId, params.groupId].filter(item => item),
+        });
     })
     return returnObj
 }
