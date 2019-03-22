@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './style.css';
-import Item from 'antd/lib/list/Item';
+import moment from 'moment';
+import { CHECKSTATUS } from '@/utils/constants';
 
 export default class CheckInfoComponent extends React.Component {
   constructor(props) {
@@ -26,6 +27,9 @@ export default class CheckInfoComponent extends React.Component {
     }
     return '+';
   }
+  getOperateName(code) {
+    return CHECKSTATUS[code];
+  }
   render() {
     this.state.data = this.props.data ? this.props.data : [];
     this.state.checkResultsCollapse = this.props.checkResultsCollapse;
@@ -48,11 +52,13 @@ export default class CheckInfoComponent extends React.Component {
             <div className={styles.appealCheckCon}>
               <div key={item.id} className={styles.container}>
                 <div className={styles.secRow}>
-                  <div>审核结果：{item.operate}</div>
-                  <div>一次申诉截止日期：{item.updateTime}</div>
+                  <div>审核结果：{this.getOperateName(item.operate)}</div>
+                  <div>
+                    一次申诉截止日期：{moment(item.updateTime).format('YYYY-MM-DD HH:mm:ss')}
+                  </div>
                 </div>
                 <div className={styles.secRow}>
-                  <div>审核时间：{item.verifyTime}</div>
+                  <div>审核时间：{moment(item.verifyTime).format('YYYY-MM-DD HH:mm:ss')}</div>
                 </div>
               </div>
               <div>
