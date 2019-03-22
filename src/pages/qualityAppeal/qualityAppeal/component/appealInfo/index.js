@@ -9,20 +9,43 @@ export default class AppealInfoComponent extends React.Component {
     super(props);
     this.state = {
       data: props.data,
+      appealInfoCollapse: props.appealInfoCollapse,
     };
   }
   componentDidMount() {}
-
+  appealPanelVisible() {
+    this.props.onClick();
+  }
+  getAppealStatus() {
+    if (this.state.appealInfoCollapse) {
+      return '-';
+    }
+    return '+';
+  }
   render() {
     const { appealEndDate, appealStart } = this.props.data;
+    const appealInfoCollapse = this.props.appealInfoCollapse;
     return (
       <section className={styles.personInfoCon}>
         <span className={styles.secctionTitle}>申诉信息</span>
         <div className={styles.appealInfoCon}>
           <div className={styles.appealInfo}>
             一次申诉<span>一次申诉截止日期：{appealEndDate}</span>
+            <span
+              onClick={() => {
+                this.appealPanelVisible();
+              }}
+              className={styles.appealInfoPanel}
+            >
+              {this.getAppealStatus()}
+            </span>
           </div>
-          <article className={styles.appealPerson}>
+          <article
+            className={[
+              styles.appealPerson,
+              appealInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`,
+            ]}
+          >
             <div className={styles.secctionTitle}>申诉发起人</div>
             <div className={styles.container}>
               <div className={styles.secRow}>
