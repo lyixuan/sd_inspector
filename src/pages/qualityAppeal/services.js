@@ -25,3 +25,8 @@ export async function getAppealDetail(params) {
 export async function getQualityDetail(params) {
   return request('/quality/getQualityInfo', { params });
 }
+// 上传附件
+export function uploadAttachment() {
+  return '/quality/uploadAttachment'
+}
+

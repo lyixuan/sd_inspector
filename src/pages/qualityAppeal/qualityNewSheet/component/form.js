@@ -6,6 +6,7 @@ import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import OrgCascader from '@/components/OrgCascader';
+import BICascader from '@/ant_components/BICascader';
 import { BiFilter } from '@/utils/utils';
 import styles from './style.less';
 import SubOrderDetail from './../../components/subOrderDetail';
@@ -18,17 +19,9 @@ class CreateQualityNewSheet extends React.Component {
         super(props);
         this.state = {
             level: null,   // 展示层级
+            violationLevelObj: {},
 
 
-
-
-
-            radioChange: undefined,
-            roleOption: 2,
-            type: undefined, //质检类型
-            dateViolation: undefined,
-            dateDeduction: undefined,
-            dimension: undefined,
             credit: undefined, //学分
             customerMail: undefined,//客诉主管邮箱
             visible: false,
@@ -64,6 +57,30 @@ class CreateQualityNewSheet extends React.Component {
             this.props.getOrderNum(orderNum, values)
         }
     }
+    chooseDimensionList = () => {
+        const { dimensionList1, dimensionList2 } = this.props;
+        const qualityType = this.props.form.getFieldValue('qualityType');
+        return qualityType === 1 ? dimensionList1 : qualityType === 2 ? dimensionList2 : [];
+    }
+    changeDimension = (dimensionId) => {
+        const params = this.props.form.getFieldsValue();
+        const { qualityType } = params || {};
+        if (!qualityType || !dimensionId) return;
+        if (this.props.changeDimension) {
+            this.props.changeDimension({ qualityType, dimensionId }, { ...params, dimensionId })
+        }
+    }
+    onChangedimensionTree = (value, objArr) => {
+        let violationLevelObj = objArr.slice(-1);
+        violationLevelObj = violationLevelObj.length > 0 ? violationLevelObj[0] : {};
+        this.setState({ violationLevelObj });
+    }
+    getDimensionTreeList = () => {
+        const { dimensionTreeList } = this.props;
+        const params = this.props.form.getFieldsValue();
+        const { qualityType, dimensionId } = params || {};
+        return qualityType && dimensionId ? dimensionTreeList : [];
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -78,49 +95,44 @@ class CreateQualityNewSheet extends React.Component {
     }
     // 质检类型onchange
     qualityChange = (val) => {
-        console.log(60, val)
+        this.props.form.setFieldsValue({ dimensionId: undefined });
     }
-    // 子订单编号onchange
-    radioChange = (e, getFieldDecorator) => {
-        if (e.target.value == 1) {
-            this.setState({
-                radioChange: this.getOrder(getFieldDecorator)
-            })
-        } else {
-            this.setState({
-                radioChange: null
-            })
-        }
-    }
-    // 有子订单编号DOM结构
-    getOrder = (getFieldDecorator) => {
-        return (
-            <div>
-                <Row>
+    renderGovernorComponent = () => {
+        const { getFieldDecorator } = this.props.form;
+        const params = this.props.form.getFieldsValue();
+        const { qualityType, role } = params || {};
+        const { violationLevelObj } = this.state;
+        console.log(role, qualityType, violationLevelObj)
+        if ((role === 'csleader' || role === 'csofficer') && qualityType === 1 && violationLevelObj.violationLevelname === '一级违规') {
+            return (
+                <Row style={{ lineHeight: '40px' }}>
                     <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
-                        <Form.Item label="*子订单编号：">
-                            {getFieldDecorator('order', {
-                                initialValue: this.state.order,
-                                rules: [{ required: true, message: '请输入子订单编号' }],
-                            })(<BIInput placeholder="请输入" style={{ width: 280 }} />)}
+                        <Form.Item label="*客诉主管邮箱：">
+                            {getFieldDecorator('customerMail', {
+                                initialValue: this.state.customerMail,
+                            })(<BIInput placeholder="请输入" style={{ width: 170 }} />)}
                         </Form.Item>
-                        <div style={{ marginTop: '4px', marginLeft: '15px' }}>
-                            <BIButton type="primary">
-                                查询
-                </BIButton>
-                        </div>
+                        <div className={styles.text}>@sunland.com</div>
+                    </Col>
+                    <Col className="gutter-row txRight" span={12}>
+                        <Form.Item label="*主管扣除绩效：">
+                            {getFieldDecorator('userRole', {
+                                initialValue: this.state.userRole,
+                            })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
+                            <span style={{ display: "inline-block", width: "20px" }}>%</span>
+                        </Form.Item>
                     </Col>
                 </Row>
-                <SubOrderDetail data={this.state.orderDetail} />
-            </div>
-        );
-    };
+            )
+        } else return null;
 
 
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         const { params, orgList } = this.props;
-        const { level } = this.state;
+        const { violationLevelObj } = this.state;
+        const dimensionList = this.chooseDimensionList();
         return (
             <div className={styles.qualityContainter}>
                 <div className={styles.title}>质检违规详情</div>
@@ -245,9 +257,13 @@ class CreateQualityNewSheet extends React.Component {
                                     {getFieldDecorator('dimensionId', {
                                         initialValue: params.dimensionId,
                                     })(
-                                        <BISelect allowClear placeholder="请选择" style={{ width: 280 }}>
-                                            <Option value="jack">Jack</Option>
-                                            <Option value="lucy">lucy</Option>
+                                        <BISelect allowClear placeholder="请选择" notFoundContent="请选择质检类型" onChange={this.changeDimension} style={{ width: 280 }}>
+                                            {dimensionList.map(item => (
+                                                <Option value={item.id} key={item.name}>
+                                                    {item.name}
+                                                </Option>
+                                            ))}
+
                                         </BISelect>
                                     )}
                                 </Form.Item>
@@ -255,61 +271,28 @@ class CreateQualityNewSheet extends React.Component {
                         </Row>
                         <Row className="gutter-row">
                             <Col span={12}>
-                                {/* <Form.Item label="*违规分类：">
+                                <Form.Item label="*违规分类：">
                                     {getFieldDecorator('dimension', {
                                         initialValue: this.state.dimension,
                                     })(
-                                        <TreeSelect
+                                        <BICascader
+                                            options={this.getDimensionTreeList()}
+                                            fieldNames={{ label: 'title', value: 'key', children: 'children' }}
                                             style={{ width: 280 }}
-                                            setFieldsValue={this.state.value}
-                                            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                                            placeholder="Please select"
-                                            allowClear
-                                            treeDefaultExpandAll
-                                            onChange={this.onChange}
-                                        >
-                                            <TreeNode value="parent 1" title="parent 1" key="0-1">
-                                                <TreeNode value="parent 1-0" title="parent 1-0" key="0-1-1">
-                                                    <TreeNode value="leaf1" title="my leaf" key="random" />
-                                                    <TreeNode value="leaf2" title="your leaf" key="random1" />
-                                                </TreeNode>
-                                                <TreeNode value="parent 1-1" title="parent 1-1" key="random2">
-                                                    <TreeNode
-                                                        value="sss"
-                                                        title={<b style={{ color: '#08c' }}>sss</b>}
-                                                        key="random3"
-                                                    />
-                                                </TreeNode>
-                                            </TreeNode>
-                                        </TreeSelect>
+                                            displayRender={(label) => label[label.length - 1]}
+                                            onChange={this.onChangedimensionTree}
+                                        />
                                     )}
 
-                                </Form.Item> */}
+                                </Form.Item>
                             </Col>
                             <Col className="txRight" span={12}>
-                                <Form.Item label="*违规等级：">
-                                    <div style={{ width: "280px", textAlign: "left" }}>一级违规</div>
+                                <Form.Item label="*违规等级:">
+                                    <div style={{ width: "280px", textAlign: "left" }}>{violationLevelObj.violationLevelname}</div>
                                 </Form.Item>
                             </Col>
                         </Row>
-                        <Row style={{ lineHeight: '40px' }}>
-                            <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
-                                <Form.Item label="*客诉主管邮箱：">
-                                    {getFieldDecorator('customerMail', {
-                                        initialValue: this.state.customerMail,
-                                    })(<BIInput placeholder="请输入" style={{ width: 170 }} />)}
-                                </Form.Item>
-                                <div className={styles.text}>@sunland.com</div>
-                            </Col>
-                            <Col className="gutter-row txRight" span={12}>
-                                <Form.Item label="*主管扣除绩效：">
-                                    {getFieldDecorator('userRole', {
-                                        initialValue: this.state.userRole,
-                                    })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
-                                    <span style={{ display: "inline-block", width: "20px" }}>%</span>
-                                </Form.Item>
-                            </Col>
-                        </Row>
+                        {this.renderGovernorComponent()}
                         <Row style={{ lineHeight: '40px' }}>
                             <Col className="gutter-row" span={12}>
                                 <Form.Item label="*扣除学分">
@@ -323,7 +306,6 @@ class CreateQualityNewSheet extends React.Component {
                         <Row className="gutter-row">
                             <Col span={12}>
                                 <Form.Item label="*附件：">
-                                    {/* <BIButton type="primary" htmlType="submit">上传附件</BIButton> */}
                                     <Upload>
                                         <BIButton type="primary">
                                             上传附件
@@ -403,6 +385,7 @@ function mapPropsToFields(props) {
     const returnObj = {};
     if (!params || typeof params !== 'object') return returnObj;
     Object.keys(params).forEach(item => {
+
         returnObj[item] = Form.createFormField({
             value: params[item] || undefined,
         });
