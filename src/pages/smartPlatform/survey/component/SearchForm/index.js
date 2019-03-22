@@ -39,6 +39,7 @@ const dateFormat = 'YYYY-MM-DD';
         collegeId:value,
         familyId:familyData[0].id,
         familyData,
+        groupId:'全部小组',
       });
     }else if(id === 'family'){
       const groupData = this.state.familyData.filter(item => item.id===value)[0].sub ;
@@ -73,7 +74,7 @@ const dateFormat = 'YYYY-MM-DD';
     const newPro = province==='报考省份'|| province==="所有省份"?null:province;
     const newCol = collegeId!=='学院'?collegeId:null;
     const newFam = familyId!=='家族'?familyId:null;
-    const newGroup = groupId!=='小组'?groupId:null;
+    const newGroup = groupId!=='小组'&&groupId!=='全部小组'?groupId:null;
 
     const {searchData} = this.props;
     searchData({ province:newPro, collegeId:newCol, familyId:newFam, beginDate, endDate,groupId:newGroup});
