@@ -295,15 +295,15 @@ function dealQuarys(pm){
   } else {
     p.groupIdList=undefined;
   }
-  if (p.isWarn === 'all') {
-    p.isWarn = undefined;
-  } else {
+  if (p.isWarn && p.isWarn !== 'all') {
     p.isWarn = Number(p.isWarn);
-  }
-  if (p.qualityType === 'all') {
-    p.qualityType = undefined;
   } else {
+    p.isWarn = undefined;
+  }
+  if (p.qualityType && p.qualityType !== 'all') {
     p.qualityType = Number(p.qualityType);
+  } else {
+    p.qualityType = undefined;
   }
   if (p.status) {
     const o = changeState2(Number(p.status));
@@ -332,7 +332,8 @@ class QualityAppeal extends React.Component {
     this.state = {
       page: 1,
       pageSize: 30,
-      type: tabType       // 1:在途，2:结案
+      type: 1,         // 1:在途，2:结案
+      tabType: tabType
     };
     this.saveUrlParams = undefined;
   }
@@ -386,7 +387,8 @@ class QualityAppeal extends React.Component {
       });
     }
     this.setState({
-      type: val
+      type: Number(val),
+      tabType: val,
     },() => {
       this.queryData({tabType:val});
     })
@@ -499,12 +501,12 @@ class QualityAppeal extends React.Component {
     return (
       <>
         <div className={subStl.topTab}>
-          <BITabs onChange={this.onTabChange} defaultActiveKey={this.state.type} animated={false}>
+          <BITabs onChange={this.onTabChange} defaultActiveKey={this.state.tabType} animated={false}>
             <TabPane tab="在途质检申诉" key={1}>
               <div className={subStl.tabBlank}>&nbsp;</div>
               <Page1
                 {...this.props}
-                tabType={this.state.type}
+                tabType={this.state.tabType}
                 columns={this.columnsAction1()}
                 orgList={orgListTreeData}
                 dataSource={qualityAppealList}
@@ -515,7 +517,7 @@ class QualityAppeal extends React.Component {
               <div className={subStl.tabBlank}>&nbsp;</div>
               <Page2
                 {...this.props}
-                tabType={this.state.type}
+                tabType={this.state.tabType}
                 dimensionList1 = {dimensionList1}
                 dimensionList2 = {dimensionList2}
                 columns={this.columnsAction2()}

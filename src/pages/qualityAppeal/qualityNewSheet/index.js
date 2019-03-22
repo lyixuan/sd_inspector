@@ -113,10 +113,10 @@ function dealQuarys(pm){
   } else {
     p.groupIdList=undefined;
   }
-  if (p.qualityType === 'all') {
-    p.qualityType = undefined;
-  } else {
+  if (p.qualityType && p.qualityType !== 'all') {
     p.qualityType = Number(p.qualityType);
+  } else {
+    p.qualityType = undefined;
   }
   if (p.statusList) {
     p.statusList = p.statusList.map(v=>Number(v))
