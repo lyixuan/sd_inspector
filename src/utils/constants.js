@@ -278,20 +278,32 @@ export const VIOLATION_LEVEL = [
   { id: 4, name: '三级违规' },
 ];
 
-// 申诉状态
+// 申诉状态 前端状态
 export const APPEAL_STATE = [
-  { id: 1, name: '待申诉', type: 1 },
-  { id: 2, name: '一次SOP待审核', type: 1 },
-  { id: 3, name: '一次SOP已驳回', type: 1 },
-  { id: 4, name: '一次质检主管待审核', type: 1 },
-  { id: 5, name: '一次质检主管已驳回', type: 1 },
-  { id: 6, name: '二次SOP待审核', type: 1 },
-  { id: 7, name: '二次SOP已驳回', type: 1 },
-  { id: 8, name: '一次申诉审核通过', type: 2 },
-  { id: 9, name: '一次申诉超时', type: 2 },
-  { id: 10, name: '二次申诉审核通过', type: 2 },
-  { id: 11, name: '二次申诉已驳回', type: 2 },
-  { id: 12, name: '二次申诉超时', type: 2 },
+  { id: 1, name: '待申诉',type:1 },
+  { id: 2, name: '一次SOP待审核',type:1 },
+  { id: 3, name: '一次SOP已驳回',type:1 },
+  { id: 4, name: '一次质检主管待审核',type:1 },
+  { id: 5, name: '一次质检主管已驳回',type:1 },
+  { id: 6, name: '二次SOP待审核',type:1 },
+  { id: 7, name: '二次SOP已驳回',type:1 },
+  { id: 8, name: '二次质检主管待审核',type:1 },
+  { id: 9, name: '一次申诉审核通过',type:2 },
+  { id: 10, name: '一次申诉超时',type:2 },
+  { id: 11, name: '二次申诉审核通过',type:2 },
+  { id: 12, name: '二次申诉已驳回',type:2 },
+  { id: 13, name: '二次申诉超时',type:2 },
+];
+
+// 申诉状态2 拆分的状态，后端状态
+export const APPEAL_STATE2 = [
+  { id: 10, name: '待申诉'},
+  { id: 1, name: 'sop待审核'},
+  { id: 2, name: 'sop已驳回'},
+  { id: 3, name: '质检主管待审核'},
+  { id: 4, name: '申诉审核通过'},
+  { id: 5, name: '质检主管已驳回'},
+  { id: 6, name: '申诉超时'},
 ];
 
 // 申诉类别

@@ -1,12 +1,15 @@
 import React from 'react';
 import { connect } from 'dva';
-import {DeepCopy} from '@/utils/utils';
+import {DeepCopy,BiFilter} from '@/utils/utils';
 import AuthButton from '@/components/AuthButton';
 import Page from './component/page';
 import style from '@/pages/qualityAppeal/style.less';
+import subStl from '@/pages/qualityAppeal/qualityNewSheet/style.less';
 import router from 'umi/router';
+import BIModal from '@/ant_components/BIModal';
+import moment from 'moment/moment';
 
-
+const confirm = BIModal.confirm;
 const columns = [
   {
     title: '质检单号',
@@ -15,18 +18,39 @@ const columns = [
   {
     title: '质检类型',
     dataIndex: 'qualityType',
+    render: (text, record) => {
+      return (
+        <>
+          {BiFilter(`QUALITY_TYPE|id:${record.qualityType}`).name}
+        </>
+      );
+    },
   },
   {
     title: '分维',
-    dataIndex: 'dimensionName',
+    dataIndex: 'violationName',
   },
   {
     title: '归属组织',
-    dataIndex: 'organzitionName',
+    dataIndex: 'collegeName',
+    render: (text, record) => {
+      return (
+        <>
+          {`${record.collegeName ?record.collegeName:''} ${record.familyName?`| ${record.familyName}`:''}  ${record.groupName ?`| ${record.groupName}`:''}`}
+        </>
+      );
+    },
   },
   {
     title: '质检扣分日期',
     dataIndex: 'reduceScoreDate',
+    render: (text, record) => {
+      return (
+        <>
+          {record.reduceScoreDate?moment(record.reduceScoreDate).format('YYYY-MM-DD'):'-'}
+        </>
+      );
+    },
   },
   {
     title: '质检发起人',
@@ -38,35 +62,61 @@ const columns = [
   },
   {
     title: '质检状态',
-    dataIndex: 'statusName',
+    dataIndex: 'status',
+    render: (text, record) => {
+      function dot() {
+        let rt = null;
+        if (record.status === 1) {
+          rt = <span className={subStl.dotStl} style={{background: '#FAAC14'}}></span>
+        }
+        if (record.status === 2) {
+          rt = <span className={subStl.dotStl} style={{background: '#52C9C2'}}></span>
+        }
+        if (record.status === 3) {
+          rt = <span className={subStl.dotStl} style={{background: '#D9D9D9'}}></span>
+        }
+        if (record.status === 4) {
+          rt = <span className={subStl.dotStl} style={{background: '#FF0000'}}></span>
+        }
+        return rt;
+      }
+      return (
+        <>
+          {dot()}
+          {BiFilter(`QUALITY_STATE|id:${record.status}`).name}
+        </>
+      );
+    },
   },
 ];
 
 function dealQuarys(pm){
   const p = DeepCopy(pm);
-  if (p.collegeIdList.length===0) {
-    p.collegeIdList=undefined;
-  } else {
+  if (p.collegeIdList && p.collegeIdList.length>0) {
     p.collegeIdList = p.collegeIdList.map((v)=>{
       return Number(v.replace('a-',''));
     })
+  } else{
+    p.collegeIdList=undefined;
   }
-  if (p.familyIdList.length===0) {
-    p.familyIdList=undefined;
-  } else {
+  if (p.familyIdList&&p.familyIdList.length>0) {
     p.familyIdList = p.familyIdList.map((v)=>{
       return Number(v.replace('b-',''));
     })
-  }
-  if (p.groupIdList.length===0) {
-    p.groupIdList=undefined;
   } else {
+    p.familyIdList=undefined;
+  }
+  if (p.groupIdList&&p.groupIdList.length>0) {
     p.groupIdList = p.groupIdList.map((v)=>{
       return Number(v.replace('c-',''));
     })
+  } else {
+    p.groupIdList=undefined;
   }
   if (p.qualityType === 'all') {
     p.qualityType = undefined;
+  } else {
+    p.qualityType = Number(p.qualityType);
   }
   if (p.statusList) {
     p.statusList = p.statusList.map(v=>Number(v))
@@ -80,9 +130,10 @@ function dealQuarys(pm){
   return p;
 };
 
-@connect(({ qualityAppealHome,qualityNewSheet }) => ({
+@connect(({ qualityAppealHome,qualityNewSheet,loading }) => ({
   qualityAppealHome,
   qualityNewSheet,
+  loading: loading.effects['qualityNewSheet/getQualityList']
 }))
 
 class NewQualitySheetIndex extends React.Component {
@@ -97,7 +148,7 @@ class NewQualitySheetIndex extends React.Component {
     this.queryData();
   }
 
-  queryData = (pm,pg) => {
+  queryData = (pm,pg,isExport) => {
     const pmm = pm && dealQuarys(pm);
     // 获取数据
     let params = {...this.state};
@@ -110,17 +161,24 @@ class NewQualitySheetIndex extends React.Component {
         page:pg.page
       });
     }
-    console.log(params);
-    this.props.dispatch({
-      type: 'qualityNewSheet/getQualityList',
-      payload: { params },
-    });
+
+    if (isExport) {
+      this.props.dispatch({
+        type: 'qualityNewSheet/exportExcel',
+        payload: { params },
+      });
+    } else {
+      this.props.dispatch({
+        type: 'qualityNewSheet/getQualityList',
+        payload: { params },
+      });
+    }
   };
 
-  onDetail = () => {
+  onDetail = (record) => {
     router.push({
       pathname: '/qualityAppeal/qualityNewSheet/detail',
-      // query: this.props.checkedConditionList,
+      query: {id:record.id},
     });
   };
 
@@ -139,6 +197,22 @@ class NewQualitySheetIndex extends React.Component {
   };
 
   onRepeal = (record) => {
+    const that = this;
+    confirm({
+      className: 'BIConfirm',
+      title: '是否撤销当前数据状态?',
+      cancelText: '取消',
+      okText: '确定',
+      onOk() {
+        that.props.dispatch({
+          type: 'qualityNewSheet/cancelQuality',
+          payload: { params: { id:record.id } },
+        }).then(()=>{
+          that.queryData(that.lastParams)
+        });
+      },
+      onCancel() { },
+    });
   };
 
   columnsAction = () => {
@@ -150,24 +224,30 @@ class NewQualitySheetIndex extends React.Component {
           <>
             <AuthButton authority='/qualityAppeal/qualityNewSheet/detail'>
               <span className={style.actionBtn} onClick={() => this.onDetail(record)}>
-                查看
+                详情
               </span>
             </AuthButton>
-            <AuthButton authority='/qualityAppeal/qualityNewSheet/edit'>
-              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
-                编辑
-              </span>
-            </AuthButton>
-            <AuthButton authority='/qualityAppeal/qualityNewSheet/repeal'>
+            {record.status === 3||record.status === 4?(
+              <AuthButton authority='/qualityAppeal/qualityNewSheet/edit'>
+                <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+                  编辑
+                </span>
+              </AuthButton>
+            ):null}
+            {record.status === 1?(
+              <AuthButton authority='/qualityAppeal/qualityNewSheet/repeal'>
               <span className={style.actionBtn} onClick={() => this.onRepeal(record)}>
                 撤销
               </span>
-            </AuthButton>
-            <AuthButton authority='/qualityAppeal/qualityNewSheet/appealSt'>
-              <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
-                审核
-              </span>
-            </AuthButton>
+              </AuthButton>
+            ):null}
+            {record.status === 1?(
+              <AuthButton authority='/qualityAppeal/qualityNewSheet/appealSt'>
+                <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
+                  审核
+                </span>
+              </AuthButton>
+            ):null}
           </>
         );
       },
@@ -180,7 +260,7 @@ class NewQualitySheetIndex extends React.Component {
   };
   render() {
     const {orgListTreeData = [], dimensionList1 = [],dimensionList2 = []} = this.props.qualityAppealHome;
-    const {qualityList = []} = this.props.qualityNewSheet;
+    const {qualityList = [],page} = this.props.qualityNewSheet;
 
     return (
       <>
@@ -188,10 +268,11 @@ class NewQualitySheetIndex extends React.Component {
           {...this.props}
           columns={this.columnsAction()}
           dataSource={qualityList}
+          page={page}
           orgList={orgListTreeData}
           dimensionList1 = {dimensionList1}
           dimensionList2 = {dimensionList2}
-          queryData={(params,page)=>this.queryData(params,page)} />
+          queryData={(params,page,isExport)=>this.queryData(params,page,isExport)}/>
       </>
     );
   }
