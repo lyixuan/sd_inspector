@@ -97,7 +97,7 @@ export default class SiderMenu extends PureComponent {
     if (/^https?:\/\//.test(itemPath)) {
       return (
         <a href={itemPath} target={target}>
-          {icon}
+          {/*{icon}*/}
           <span>{name}</span>
         </a>
       );

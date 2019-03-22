@@ -11,7 +11,7 @@ export default class AppealInfoComponent extends React.Component {
       data: props.data,
     };
   }
-  componentDidMount() { }
+  componentDidMount() {}
 
   render() {
     const { appealEndDate, appealStart } = this.props.data;
@@ -26,7 +26,7 @@ export default class AppealInfoComponent extends React.Component {
             <div className={styles.secctionTitle}>申诉发起人</div>
             <div className={styles.container}>
               <div className={styles.secRow}>
-                <div>附件：{appealStart.attUrl} </div>
+                <div>附件：{appealStart.attUrl ? appealStart.attUrl : ''} </div>
               </div>
               <div className={[styles.secRow]}>
                 <div>
