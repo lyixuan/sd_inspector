@@ -7,6 +7,7 @@ export default class CheckInfoComponent extends React.Component {
     super(props);
     this.state = {
       data: props.data,
+      checkResultsCollapse: this.props.checkResultsCollapse,
     };
   }
   componentDidMount() {}
@@ -16,14 +17,34 @@ export default class CheckInfoComponent extends React.Component {
     }
     return <div className={styles.divideLine} />;
   }
+  appealPanelVisible() {
+    this.props.onClick();
+  }
+  getAppealStatus() {
+    if (this.state.checkResultsCollapse) {
+      return '-';
+    }
+    return '+';
+  }
   render() {
     this.state.data = this.props.data ? this.props.data : [];
-    console.log(222, this.state.data);
+    this.state.checkResultsCollapse = this.props.checkResultsCollapse;
+    const checkResultsCollapse = this.props.checkResultsCollapse;
     return (
       <section className={styles.personInfoCon}>
-        <span className={styles.secctionTitle}>质检审核</span>
+        <div className={styles.secctionTitle}>
+          <span>质检审核</span>
+          <span
+            onClick={() => {
+              this.appealPanelVisible();
+            }}
+            className={styles.appealInfoPanel}
+          >
+            {this.getAppealStatus()}
+          </span>
+        </div>
         {this.state.data.map((item, index) => (
-          <>
+          <div className={checkResultsCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`}>
             <div className={styles.appealCheckCon}>
               <div key={item.id} className={styles.container}>
                 <div className={styles.secRow}>
@@ -42,7 +63,7 @@ export default class CheckInfoComponent extends React.Component {
               </div>
               {this.getDivideLine(index)}
             </div>
-          </>
+          </div>
         ))}
       </section>
     );
