@@ -9,7 +9,7 @@ import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
 import BITreeSelect from '@/ant_components/BITreeSelect';
 import AuthButton from '@/components/AuthButton';
-import { BiFilter, DeepCopy } from '@/utils/utils';
+import { BiFilter } from '@/utils/utils';
 import { Row, Col } from 'antd';
 import styles from '../../style.less'
 import moment from 'moment/moment';
@@ -39,8 +39,15 @@ class NewQualitySheet extends React.Component {
       familyIdList: [],
       groupIdList: [],
     };
-    this.state = DeepCopy(this.init);
+    const {p=null} = this.props.location.query;
+    this.state = {...this.init,...JSON.parse(p)};
   }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (this.props.tabType === '2' && nextProps.tabType === '1') {
+      this.reset()
+    }
+  }
+
   onFormChange = (value,vname)=>{
     if ('verifyDate' === vname ) {
       this.setState({
@@ -82,20 +89,6 @@ class NewQualitySheet extends React.Component {
         [vname]:value
       });
     }
-    if ('qualityType' === vname) {
-      this.setState({
-        dimensionIdList: undefined
-      });
-      if (value === 'all') {
-        this.canDimension = false;
-      }
-      if (value === '1') {
-        this.canDimension = 1;
-      }
-      if (value === '2') {
-        this.canDimension = 2;
-      }
-    }
   };
   search = ()=>{
     this.props.queryData(this.state);
@@ -105,11 +98,14 @@ class NewQualitySheet extends React.Component {
     this.props.queryData(this.state,{page:currentPage});
   };
   reset = ()=>{
-    this.setState(this.init);
-    this.props.queryData(this.state,{page:1});
+    this.canDimension = false;
+    this.setState(this.init,()=>{
+      this.props.queryData(this.state,{page:1});
+    });
   };
   exportRt = ()=>{
-    this.props.queryData(this.state,null,true);
+    const {p=null} = this.props.location.query;
+    this.props.queryData(JSON.parse(p),null,true);
   };
   render() {
     const {qualityNum,qualityType,collegeIdList,familyIdList,groupIdList,beginDate,endDate,firstAppealBeginDate,firstAppealEndDate,status,secondAppealBeginDate,secondAppealEndDate,userName,} = this.state;

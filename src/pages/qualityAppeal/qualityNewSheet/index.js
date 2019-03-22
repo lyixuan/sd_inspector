@@ -143,17 +143,19 @@ class NewQualitySheetIndex extends React.Component {
       page: 1,
       pageSize: 30
     };
+    this.saveUrlParams = undefined;
   }
   componentDidMount() {
-    this.queryData();
+    const {p=null} = this.props.location.query;
+    this.queryData(JSON.parse(p));
   }
 
   queryData = (pm,pg,isExport) => {
-    const pmm = pm && dealQuarys(pm);
-    // 获取数据
+    this.saveUrlParams = (pm && !isExport) ? JSON.stringify(pm):undefined;
+    const dealledPm = pm && dealQuarys(pm);
     let params = {...this.state};
-    if (pmm) {
-      params = {...params,...pmm};
+    if (dealledPm) {
+      params = {...params,...dealledPm};
     }
     if (pg) {
       params = {...params,...pg};
@@ -171,33 +173,18 @@ class NewQualitySheetIndex extends React.Component {
       this.props.dispatch({
         type: 'qualityNewSheet/getQualityList',
         payload: { params },
+      }).then(()=>{
+        router.replace({
+          pathname:this.props.location.pathname,
+          query:this.saveUrlParams ? {p:this.saveUrlParams}:''
+        })
       });
     }
   };
 
-  onDetail = (record) => {
-    router.push({
-      pathname: '/qualityAppeal/qualityNewSheet/detail',
-      query: {id:record.id},
-    });
-  };
-
-  onEdit = (record) => {
-    router.push({
-      pathname: '/qualityAppeal/qualityNewSheet/edit',
-      query: {id:record.id},
-    });
-  };
-
-  onAppeal = (record) => {
-    router.push({
-      pathname: '/qualityAppeal/qualityNewSheet/appealSt',
-      query: {id:record.id},
-    });
-  };
-
   onRepeal = (record) => {
     const that = this;
+    const {p=null} = this.props.location.query;
     confirm({
       className: 'BIConfirm',
       title: '是否撤销当前数据状态?',
@@ -208,7 +195,7 @@ class NewQualitySheetIndex extends React.Component {
           type: 'qualityNewSheet/cancelQuality',
           payload: { params: { id:record.id } },
         }).then(()=>{
-          that.queryData(that.lastParams)
+          that.queryData(JSON.parse(p))
         });
       },
       onCancel() { },
@@ -258,6 +245,24 @@ class NewQualitySheetIndex extends React.Component {
     }
     return [...columns,...actionObj];
   };
+
+  onJumpPage = (query,pathname) => {
+    router.push({
+      pathname,
+      query
+    });
+  };
+  onDetail = (record) => {
+    this.onJumpPage({id:record.id},'/qualityAppeal/qualityNewSheet/detail');
+  };
+
+  onEdit = (record) => {
+    this.onJumpPage({id:record.id},'/qualityAppeal/qualityNewSheet/edit');
+  };
+
+  onAppeal = (record) => {
+    this.onJumpPage({id:record.id},'/qualityAppeal/qualityNewSheet/appealSt');
+  };
   render() {
     const {orgListTreeData = [], dimensionList1 = [],dimensionList2 = []} = this.props.qualityAppealHome;
     const {qualityList = [],page} = this.props.qualityNewSheet;
@@ -272,7 +277,8 @@ class NewQualitySheetIndex extends React.Component {
           orgList={orgListTreeData}
           dimensionList1 = {dimensionList1}
           dimensionList2 = {dimensionList2}
-          queryData={(params,page,isExport)=>this.queryData(params,page,isExport)}/>
+          queryData={(params,page,isExport)=>this.queryData(params,page,isExport)}
+          onJumpPage={(query,pathname)=>this.onJumpPage(query,pathname)}/>
       </>
     );
   }

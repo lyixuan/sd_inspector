@@ -1,7 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import moment from 'moment';
-import router from 'umi/router';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
@@ -12,7 +11,7 @@ import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
 import BITreeSelect from '@/ant_components/BITreeSelect';
 import AuthButton from '@/components/AuthButton';
-import { BiFilter,DeepCopy } from '@/utils/utils';
+import { BiFilter } from '@/utils/utils';
 import styles from '../../style.less';
 const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
@@ -32,8 +31,9 @@ class NewQualitySheet extends React.Component {
       familyIdList: [],
       groupIdList: [],
     };
-    this.state = DeepCopy(this.init);
-    this.canDimension = false;
+    const {p=null} = this.props.location.query;
+    this.state = {...this.init,...JSON.parse(p)};
+    this.state.qualityType === 'all' ? this.canDimension = false:this.canDimension = Number(this.state.qualityType) ;
   }
   onFormChange = (value,vname)=>{
     if ('dateRange' === vname ) {
@@ -81,6 +81,14 @@ class NewQualitySheet extends React.Component {
       }
     }
   };
+
+  reset = ()=>{
+    this.setState(this.init,()=>{
+      this.props.queryData(this.state,{page:1});
+    });
+    this.canDimension = false;
+  };
+
   search = ()=>{
     this.props.queryData(this.state);
   };
@@ -89,19 +97,15 @@ class NewQualitySheet extends React.Component {
     this.props.queryData(this.state,{page:currentPage});
   };
 
-  createe = ()=>{
-    router.push({
-      pathname: '/qualityAppeal/qualityNewSheet/create',
-    });
-  };
   exportRt = ()=>{
-    this.props.queryData(this.state,null,true);
+    const {p=null} = this.props.location.query;
+    this.props.queryData(JSON.parse(p),null,true);
   };
-  reset = ()=>{
-    this.setState(this.init);
-    this.canDimension = false;
-    this.props.queryData(this.state,{page:1});
+
+  createe = ()=>{
+    this.props.onJumpPage({},'/qualityAppeal/qualityNewSheet/create');
   };
+
   render() {
     const {qualityNum,beginDate,endDate,collegeIdList,familyIdList,groupIdList, dimensionIdList,statusList,violationLevelList,operateName,qualityType} = this.state;
     const {dimensionList1 = [],dimensionList2 = [],orgList = [],dataSource,page,columns,loading} = this.props;
