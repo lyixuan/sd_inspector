@@ -9,7 +9,7 @@ import BIModal from '@/ant_components/BIModal';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import { BiFilter } from '@/utils/utils';
 import styles from './style.less';
-import SubOrderDetail from './../../components/subOrderDetail';
+import SubOrderDetail from './component/OrderDetail';
 import SOPCheckResult from './../../qualityAppeal/component/sopCheckRecords';
 const { Option } = BISelect;
 const TreeNode = TreeSelect.TreeNode;
