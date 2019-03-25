@@ -7,6 +7,7 @@ import styles from './style.less';
 import PersonInfo from '@/pages/qualityAppeal/qualityNewSheet/detail/components/personInfo';
 import SubOrderDetail from './../../components/subOrderDetail';
 import AppealInfo from './component/AppealInfo';
+import router from 'umi/router';
 
 
 @connect(({ qualityAppealing, qualityAppealHome }) => ({
@@ -49,6 +50,9 @@ class  QualityAppealing extends React.Component {
     //   payload: { qualityInspectionParam, appealParam },
     // })
   };
+  handleCancel = () => {
+    router.goBack();
+  };
   render() {
     const {appealShow=[],qualityDetailData} = this.props.qualityAppealing;
       appealShow.forEach((v)=>{
@@ -57,9 +61,9 @@ class  QualityAppealing extends React.Component {
         }
       });
     return (
-      <div className={styles.qualityContainter}>
+      <div className={styles.detailContainer}>
         {this.query.status !== 2 || this.query.status === 6 ? (
-          <section>
+          <section style={{overflow:'hidden'}}>
             {/* 质检违规人员信息 */}
             <PersonInfo
               data={qualityDetailData}
@@ -74,9 +78,17 @@ class  QualityAppealing extends React.Component {
               <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
               <SubOrderDetail data={qualityDetailData.orderDetail} />
             </div>
-            <div>
+            <div style={{marginTop:20}}>
               <div className={styles.title}>申诉信息</div>
               <AppealInfo dataList={appealShow} appealStatus={this.query.status}/>
+            </div>
+            <div style={{float:'right'}}>
+              <BIButton onClick={this.handleCancel} style={{marginRight:20}}>
+                取消
+              </BIButton>
+              <BIButton type="primary" onClick={this.handleSubmit}>
+                提交审核
+              </BIButton>
             </div>
           </section>
         ):(
