@@ -9,7 +9,8 @@ class Index extends React.Component {
   render() {
     const {dataList,status=0} = this.props;
     let dataList1={},dataList2={};
-    if(dataList){
+    console.log(dataList)
+    if(dataList&&dataList.length>0){
       if(dataList[0].type===1){
         dataList1 = dataList[0];
         dataList2 = dataList[1];

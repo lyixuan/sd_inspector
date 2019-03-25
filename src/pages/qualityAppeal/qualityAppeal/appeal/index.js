@@ -7,8 +7,8 @@ import styles from './style.less';
 import AppealInfo from './component/AppealInfo';
 
 
-@connect(({ createPointBook, qualityAppealHome }) => ({
-  createPointBook,
+@connect(({ qualityAppealing, qualityAppealHome }) => ({
+  qualityAppealing,
   orgList: qualityAppealHome.orgList,
 }))
 class  CreatePointBook extends React.Component {
@@ -16,36 +16,51 @@ class  CreatePointBook extends React.Component {
     super(props);
     this.state={
       appealType:1
-    }
+    };
+    const {query = {}} = this.props.location;
+    this.query  = query;
+    this.firstAppealEndDate = null;
   }
   componentDidMount(){
+    this.getQualityInfo();
     this.getAppealInfo();
-  }
+  };
   getAppealInfo=()=>{
     this.props.dispatch({
-      type: 'createPointBook/getAppealInfo',
-      payload: { id:1},
+      type: 'qualityAppealing/getAppealInfo',
+      payload: { id:this.query.id},
     })
-  }
+  };
+  getQualityInfo=()=>{
+    this.props.dispatch({
+      type: 'qualityAppealing/getQualityDetailData',
+      payload: { id:this.query.id},
+    })
+  };
   handleSubmit = () => {
     console.log(1)
     // this.props.dispatch({
     //   type: 'createPointBook/reviewAppel',
     //   payload: { qualityInspectionParam, appealParam },
     // })
-  }
+  };
   render() {
-    const {appealShow} = this.props.createPointBook;
     const {appealType} = this.state;
-    // console.log(appealShow)
-
+    const {appealShow=[],qualityDetailData} = this.props.qualityAppealing;
+      appealShow.forEach((v)=>{
+        if (v.type === 1)  {
+          this.firstAppealEndDate = v.appealEndDate;
+        }
+      });
     return (
       <div className={styles.qualityContainter}>
-        <div className={styles.title}>质检违规详情 <span className={styles.passTimeCls}>（质检通过时间：2019-02-01 22:22:22）</span>  </div>
-        <CommonForm {...this.props} onSubmit={this.onSubmit} >
+        <CommonForm
+          {...this.props}
+          // dataSource={qualityDetailData}
+          onSubmit={this.onSubmit} >
           <div>
             <div className={styles.title}>申诉信息</div>
-            <AppealInfo dataList={appealShow} appealType={appealType}/>
+            <AppealInfo dataList={appealShow} status={this.query.status}/>
           </div>
         </CommonForm>
         <BIModal

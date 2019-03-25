@@ -102,5 +102,5 @@ div.divideLine:last-child {
   flex: 1;
 }
 .hidePanel {
-  display: none !important;
+  display: none;
 }

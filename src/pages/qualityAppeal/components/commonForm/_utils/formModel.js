@@ -27,10 +27,14 @@ export class FormModels extends BaseModels {
         }
     }
     transFormParams = (params) => {
-        const { organize = [], dimension = [], ...others } = params || {};
+        const { organize = [], dimension = [], violationDate, reduceScoreDate, ...others } = params || {};
         const [collegeId, familyId, groupId] = organize;
         const [primaryAssortmentId, secondAssortmentId, thirdAssortmentId] = dimension;
-        const newParams = { ...others, primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId, familyId, groupId };
+        const dateTimeObj = {
+            violationDate: this.transDateTime(violationDate),
+            reduceScoreDate: this.transDateTime(reduceScoreDate),
+        }
+        const newParams = { ...others, ...dateTimeObj, primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId, familyId, groupId };
         return newParams;
     }
 }

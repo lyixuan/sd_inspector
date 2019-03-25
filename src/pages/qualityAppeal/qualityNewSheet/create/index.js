@@ -14,7 +14,10 @@ class CreateQualityNewSheet extends React.Component {
   }
 
   onSubmit = (params) => {
-    console.log(params)
+    this.props.dispatch({
+      type: 'qualityNewSheet/addQuality',
+      payload: { ...params },
+    })
   }
   render() {
     return (<div>
