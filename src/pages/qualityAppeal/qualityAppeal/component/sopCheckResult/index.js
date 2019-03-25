@@ -11,7 +11,7 @@ export default class SOPCheckResultComponent extends React.Component {
   }
   componentDidMount() {}
   getDivideLine(index) {
-    if (this.state.data.length == index + 1) {
+    if (this.props.data.sopAppealCheck.length == index + 1) {
       return <></>;
     }
     return <div className={styles.divideLine} />;
