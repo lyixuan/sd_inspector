@@ -29,7 +29,7 @@ export default class PersonInfoComponent extends React.Component {
       <section className={styles.personInfoCon}>
         <div className={styles.personInfo}>
           <span>质检违规详情</span>
-          <span>(质检审核通过时间：{moment(verifyDate).format('YYYY-MM-DD HH:mm:ss')})</span>
+          <span>（检审核通过时间：{moment(verifyDate).format('YYYY-MM-DD HH:mm:ss')}）</span>
           <span
             onClick={() => {
               this.appealPanelVisible();

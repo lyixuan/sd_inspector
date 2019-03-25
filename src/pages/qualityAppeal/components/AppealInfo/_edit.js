@@ -10,44 +10,63 @@ class Edit extends React.Component {
     super(props);
     this.state = {
       appealEndDate:null,
-      value:null,
+      checkResult:null,
       desc:null,
       isWarn:null
     }
   }
   onChangeCheckBox=(e)=>{
-    console.log(e)
+    const {setStateData} =  this.props;
     this.setState({
-      isWarn: e.target.checked,
+      isWarn: Number(e.target.checked),
+    },()=>{
+      setStateData(this.state)
     });
   };
   onChangeRadio=(e)=>{
-    this.setState({
-      value: e.target.value,
+    const {setStateData} =  this.props;
+    let param={};
+    if(e.target.value===2){
+      param={
+        checkResult: e.target.value,
+        isWarn:null
+      }
+    }else {
+      param={
+        checkResult: e.target.value,
+      }
+    }
+    this.setState(param,()=>{
+      setStateData(this.state)
     });
   };
   onChangeDate=(e,dateString)=>{
+    const {setStateData} =  this.props;
     this.setState({
       appealEndDate:dateString,
+    },()=>{
+      setStateData(this.state)
     });
   };
   onChangeInput=(e)=>{
-    console.log(e.target);
+    const {setStateData} =  this.props;
     this.setState({
       desc: e.target.value,
+    },()=>{
+      setStateData(this.state)
     });
   };
   render() {
-    const {value,desc} = this.state;
+    const {checkResult} = this.state;
     const {hideDate} =  this.props;
     return (
       <div>
         <Row>
           <Col span={12}>
             <span>审核结果：</span>
-            <BIRadio onChange={this.onChangeRadio} value={this.state.value}>
+            <BIRadio onChange={this.onChangeRadio} value={this.state.checkResult}>
               <BIRadio.Radio value={1}>通过</BIRadio.Radio>
-              {value===1?<Checkbox onChange={this.onChangeCheckBox}>警告</Checkbox>:null}
+              {checkResult===1?<Checkbox onChange={this.onChangeCheckBox}>警告</Checkbox>:null}
               <BIRadio.Radio value={2}>驳回</BIRadio.Radio>
             </BIRadio>
           </Col>

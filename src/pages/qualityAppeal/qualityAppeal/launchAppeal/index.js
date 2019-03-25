@@ -47,7 +47,6 @@ class Launch extends React.Component {
   }
   handleSubmit = e => {
     let params = this.state.params;
-    console.log(82, params);
     if (!this.state.params.desc) {
       alert('请填写申诉说明');
       return;

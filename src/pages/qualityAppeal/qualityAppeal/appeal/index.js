@@ -8,6 +8,8 @@ import PersonInfo from '@/pages/qualityAppeal/qualityNewSheet/detail/components/
 import SubOrderDetail from './../../components/subOrderDetail';
 import AppealInfo from '../../components/AppealInfo';
 import router from 'umi/router';
+import { message } from 'antd/lib/index';
+const confirm = BIModal.confirm;
 
 @connect(({ qualityAppealing, qualityAppealHome }) => ({
   qualityAppealing,
@@ -18,6 +20,7 @@ class QualityAppealing extends React.Component {
     super(props);
     this.state = {
       qualityInfoCollapse: true,
+      appealParam:{}
     };
     const { query = {} } = this.props.location;
     this.query = query;
@@ -43,25 +46,74 @@ class QualityAppealing extends React.Component {
     });
   };
   handleSubmitSop = () => {
-    console.log(1)
-    // this.props.dispatch({
-    //   type: 'createPointBook/reviewAppel',
-    //   payload: { qualityInspectionParam, appealParam },
-    // })
+    const {appealParam} = this.state;
+    if (!appealParam.checkResult) {
+      message.warn('审核结果为必选项');
+      return
+    }
+    if (this.query.status === '4' && !appealParam.appealEndDate) {
+      message.warn('二审截止日期必填');
+      return
+    }
+    const params = {
+      qualityId: Number(this.query.id),
+      type: this.query.status === '2' || this.query.status === '4' ? 1:2,
+      checkResult: Number(appealParam.checkResult),
+      isWarn: appealParam.isWarn,
+      desc: appealParam.desc ? appealParam.desc:undefined,
+      appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate:undefined,
+    };
+    const that = this;
+    confirm({
+      className: 'BIConfirm',
+      title: '提交后，该申诉将被提交给质检主管进行审核。',
+      cancelText: '取消',
+      okText: '确定',
+      onOk() {
+        that.props.dispatch({
+          type: 'qualityAppealing/sopAppeal',
+          payload: { params },
+        })
+      },
+      onCancel() { },
+    });
   };
-  handleSubmitMaster = () => {
-    console.log(2)
-    // this.props.dispatch({
-    //   type: 'createPointBook/reviewAppel',
-    //   payload: { qualityInspectionParam, appealParam },
-    // })
+  handleSubmitMaster = (formParams) => {
+    const {appealParam} = this.state;
+    console.log(appealParam);
+    console.log(formParams);
+    if (!appealParam.checkResult) {
+      message.warn('审核结果为必选项');
+      return
+    }
+    if (this.query.status === '4' && !appealParam.appealEndDate) {
+      message.warn('二审截止日期必填');
+      return
+    }
+    const appealParamNew = {
+      qualityId: Number(this.query.id),
+      type: this.query.status === '2' || this.query.status === '4' ? 1:2,
+      checkResult: Number(appealParam.checkResult),
+      isWarn: appealParam.isWarn,
+      desc: appealParam.desc ? appealParam.desc:undefined,
+      appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate:undefined,
+    };
+    this.props.dispatch({
+      type: 'qualityAppealing/reviewAppeal',
+      payload: { qualityInspectionParam:formParams, appealParam:appealParamNew },
+    })
   };
   handleCancel = () => {
     router.goBack();
   };
+  setStateData = (val)=>{
+    console.log(val)
+    this.setState({
+      appealParam:val
+    })
+  };
   render() {
-    const { appealShow = [], qualityDetailData } = this.props.qualityAppealing;
-    console.log(this.props);
+    const { appealShow = [], qualityDetailData={} } = this.props.qualityAppealing;
     appealShow.forEach(v => {
       if (v.type === 1) {
         this.firstAppealEndDate = v.appealEndDate;
@@ -69,7 +121,7 @@ class QualityAppealing extends React.Component {
     });
     return (
       <div className={styles.detailContainer}>
-        {this.query.status !== 2 || this.query.status === 6 ? (
+        {this.query.status === 2 || this.query.status === 6 ? (
           <section style={{overflow:'hidden'}}>
             {/* 质检违规人员信息 */}
             <PersonInfo
@@ -87,7 +139,7 @@ class QualityAppealing extends React.Component {
             </div>
             <div style={{marginTop:20}}>
               <div className={styles.title}>申诉信息</div>
-              <AppealInfo dataList={appealShow} appealStatus={this.query.status}/>
+              <AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData}/>
             </div>
             <div style={{float:'right'}}>
               <BIButton onClick={this.handleCancel} style={{marginRight:20}}>
@@ -101,11 +153,11 @@ class QualityAppealing extends React.Component {
         ) : (
           <CommonForm
             {...this.props}
-            // dataSource={qualityDetailData}
-            onSubmit={this.handleSubmitMaster} >
+            dataSource={qualityDetailData}
+            onSubmit={(params)=>this.handleSubmitMaster(params)} >
             <div>
               <div className={styles.title}>申诉信息</div>
-            <AppealInfo dataList={appealShow} appealStatus={this.query.status}/>
+              <AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData}/>
             </div>
           </CommonForm>
         )}
