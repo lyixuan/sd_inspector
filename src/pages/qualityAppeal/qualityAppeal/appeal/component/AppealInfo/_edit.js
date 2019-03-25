@@ -26,17 +26,19 @@ class Edit extends React.Component {
       value: e.target.value,
     });
   };
-  onChangeDate=(e)=>{
-    console.log(e)
+  onChangeDate=(e,dateString)=>{
+    this.setState({
+      appealEndDate:dateString,
+    });
   };
   onChangeInput=(e)=>{
-    console.log(e)
+    console.log(e.target.value)
     this.setState({
       desc: e.target.value,
     });
   };
   render() {
-    const {value} = this.state;
+    const {value,desc} = this.state;
     return (
       <div>
         <Row>
@@ -56,7 +58,7 @@ class Edit extends React.Component {
         <Row className="gutter-row">
           <Col span={24} style={{ display: 'flex' }}>
             <span style={{width:80}}>审核说明：</span>
-            <BIInput.TextArea onChange={this.onChangeInput} rows={4} />
+            <BIInput.TextArea onPressEnter={this.onChangeInput} rows={4} />
           </Col>
         </Row>
       </div>
