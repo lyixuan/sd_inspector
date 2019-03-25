@@ -24,7 +24,7 @@ class Info extends React.Component {
           </Col>
           <Col span={8}>
             <span>操作时间：</span>
-            <span>{moment(data.operateDate).format('YYYY年MM月DD日 HH:mm:ss')}</span>
+            <span>{data.operateDate?moment(data.operateDate).format('YYYY年MM月DD日 HH:mm:ss'):null}</span>
           </Col>
         </Row>
         <Row>
