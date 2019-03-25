@@ -26,7 +26,7 @@ class CreateQualityNewSheet extends React.Component {
         this.state = {
             level: null,   // 展示层级
             violationLevelObj: {},
-           fileList:[]
+            fileList: []
         };
     }
 
@@ -92,8 +92,10 @@ class CreateQualityNewSheet extends React.Component {
             if (!err) {
                 console.log('Received values of form: ', values);
             }
+            const { violationLevelObj } = this.state;
+            const { violationLevel } = violationLevelObj;
             if (this.props.onSubmit) {
-                this.props.onSubmit(values);
+                this.props.onSubmit({ ...values, violationLevel });
             }
         });
     }
@@ -103,37 +105,37 @@ class CreateQualityNewSheet extends React.Component {
     }
     // 文件预上传判断
     beforeUpload = file => {
-      const arr = file.name.split('.');
-      isZip = arr[arr.length - 1] === 'zip' || arr[arr.length - 1] === 'rar';
-      if (!isZip) {
-        message.error('文件仅支持zip或rar格式!');
-      }
-      isLt10M = file.size / 1024 / 1024 < 10;
-      if (!isLt10M) {
-        message.error('文件不能大于10MB！');
-      }
-      return isZip && isLt10M;
+        const arr = file.name.split('.');
+        isZip = arr[arr.length - 1] === 'zip' || arr[arr.length - 1] === 'rar';
+        if (!isZip) {
+            message.error('文件仅支持zip或rar格式!');
+        }
+        isLt10M = file.size / 1024 / 1024 < 10;
+        if (!isLt10M) {
+            message.error('文件不能大于10MB！');
+        }
+        return isZip && isLt10M;
     };
     uploadChange = (info) => {
         // tip 目前支持上传一个文件
         const { file = null } = info || {};
         let attUrl = '';
         if (file) {
-          const {response = null} = file;
-          if (response) {
-            if (response.code === 20000) {
-              attUrl = response.data;
-              this.setState({ fileList:file });
+            const { response = null } = file;
+            if (response) {
+                if (response.code === 20000) {
+                    attUrl = response.data;
+                    this.setState({ fileList: file });
+                } else {
+                    this.setState({ fileList: [] });
+                    message.error(response.msgDetail);
+                }
             } else {
-              this.setState({ fileList:[] });
-              message.error(response.msgDetail);
+                message.error('上传错误');
+                this.setState({ fileList: [] });
             }
-          } else {
-            message.error('上传错误');
-            this.setState({ fileList:[] });
-          }
         }
-      const params = this.props.form.getFieldsValue();
+        const params = this.props.form.getFieldsValue();
         if (this.props.setAttUrl) {
             this.props.setAttUrl(attUrl, params);
         }
@@ -184,7 +186,7 @@ class CreateQualityNewSheet extends React.Component {
             <Row style={{ lineHeight: '40px' }}>
                 <Col className="gutter-row" span={12}>
                     <Form.Item label="*扣除学分">
-                        {getFieldDecorator('credit', {
+                        {getFieldDecorator('qualityType', {
                             initialValue: this.state.credit,
                         })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
                         <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}>%</span>
