@@ -40,6 +40,9 @@ class Edit extends React.Component {
       setStateData(this.state)
     });
   };
+  disabledDate=(current)=> {
+    return current && current < moment().endOf('day');
+  };
   onChangeDate=(e,dateString)=>{
     const {setStateData} =  this.props;
     this.setState({
@@ -73,7 +76,7 @@ class Edit extends React.Component {
           {
             hideDate?null:<Col className="gutter-row txRight" span={12}>
               <span>*二申截止日期： </span>
-              <BIDatePicker onChange={this.onChangeDate} style={{ width: 280 }} />
+              <BIDatePicker disabledDate={this.disabledDate} onChange={this.onChangeDate} style={{ width: 280 }} />
             </Col>
           }
 
