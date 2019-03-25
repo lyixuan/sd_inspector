@@ -20,7 +20,7 @@ export default class SubOrderDetailComponent extends React.Component {
       amount,
       classTeacherName,
       groupName,
-    } = this.state.data ? this.state.data : {};
+    } = this.props.data ? this.props.data : {};
     return (
       <section className={styles.subOrderCon}>
         <span className={styles.secctionTitle}>子订单详情</span>
