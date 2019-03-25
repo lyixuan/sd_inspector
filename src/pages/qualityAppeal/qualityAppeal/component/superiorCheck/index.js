@@ -34,10 +34,7 @@ export default class SuperiorCheckComponent extends React.Component {
                 </div>
               </div>
             </div>
-            {/* ))} */}
           </article>
-
-          <div className={styles.divideLine} />
         </div>
       </section>
     );

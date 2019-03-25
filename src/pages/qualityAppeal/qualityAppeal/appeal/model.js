@@ -1,14 +1,23 @@
 import { message } from 'antd/lib/index';
-import {  reviewAppel } from './services';
+import {  getAppealInfo, reviewAppel } from './services';
 
 export default {
   namespace: 'createPointBook',
 
   state: {
     appealReview: null,
+    appealShow: null,
   },
 
   effects: {
+    *getAppealInfo({ payload }, { call, put }) {
+      const result = yield call(getAppealInfo, { ...payload });
+      if (result.code === 20000) {
+        yield put({ type: 'save', payload: { appealShow:result.data } });
+      } else {
+        message.error(result.msg);
+      }
+    },
     *reviewAppel({ payload }, { call, put }) {
       const result = yield call(reviewAppel, { ...payload });
       console.log(14, result)
@@ -22,6 +31,9 @@ export default {
   },
 
   reducers: {
+    save(state, { payload }) {
+      return { ...state, ...payload };
+    },
   },
 
   subscriptions: {
