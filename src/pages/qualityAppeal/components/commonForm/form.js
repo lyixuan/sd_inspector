@@ -156,6 +156,8 @@ class CreateQualityNewSheet extends React.Component {
     }
     renderQualityValue = () => {
         const { getFieldDecorator } = this.props.form;
+        const values = this.props.form.getFieldsValue();
+        const { qualityType, role } = values || {};
         return (
             <Row style={{ lineHeight: '40px' }}>
                 <Col className="gutter-row" span={12}>
