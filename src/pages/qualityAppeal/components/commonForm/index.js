@@ -4,12 +4,12 @@ import { connect } from 'dva';
 import FormComponent from './form';
 import { FormModels } from './_utils/formModel';
 
-@connect(({ createQualityNewSheet1, qualityAppealHome, qualityNewSheet, loading }) => ({
+@connect(({ createQualityNewSheet1, qualityAppealHome, loading }) => ({
     createQualityNewSheet1,
     orgList: qualityAppealHome.orgList,
     orgMapByMailData: qualityAppealHome.orgMapByMailData,
     orderNumData: qualityAppealHome.orderNumData,
-    dimensionTreeList: qualityNewSheet.dimensionTreeList,
+    dimensionTreeList: qualityAppealHome.dimensionTreeList,
     dimensionList1: qualityAppealHome.dimensionList1, // 客诉分维
     dimensionList2: qualityAppealHome.dimensionList2, // 班主任分维
     mailDataLoading: loading.effects['qualityAppealHome/getOrgMapByMail'],

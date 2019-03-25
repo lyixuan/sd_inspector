@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { getQualityList, queryDimensionTreeList, qualityExportExcel, qualityCancelQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
+import { getQualityList, qualityExportExcel, qualityCancelQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
 
 export default {
   namespace: 'qualityNewSheet',
@@ -42,30 +42,13 @@ export default {
         message.error(result.msgDetail);
       }
     },
-    *queryDimensionTreeList({ payload }, { call, put }) {
-      const response = yield call(queryDimensionTreeList, payload);
-      if (response.code === 20000) {
-        const dimensionTreeList = response.data;
-
-        yield put({
-          type: 'saveDimensionTreeList',
-          payload: { dimensionTreeList }
-        })
-
-      } else {
-        message.error(response.msg);
-      }
-
-    }
   },
 
   reducers: {
     save(state, action) {
       return { ...state, ...action.payload };
     },
-    saveDimensionTreeList(state, action) {
-      return { ...state, ...action.payload };
-    }
+
   },
 
   subscriptions: {

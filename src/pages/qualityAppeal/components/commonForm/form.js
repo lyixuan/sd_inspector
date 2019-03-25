@@ -104,17 +104,15 @@ class CreateQualityNewSheet extends React.Component {
         const { fileList } = info || {};
         let attUrl = '';
         if (fileList.length > 0) {
-            const { response } = fileList[0];
+            const { response={} } = fileList[0];
             if (response.code === 20000) {
                 attUrl = response.data;
             }
-
         }
         if (this.props.setAttUrl) {
             this.props.setAttUrl(attUrl, params);
         }
 
-        console.log(info)
     }
     renderViolationLevelName = () => {
         const dimension = this.props.form.getFieldValue('dimension');
