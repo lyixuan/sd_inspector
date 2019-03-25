@@ -47,6 +47,7 @@ class Launch extends React.Component {
   }
   handleSubmit = e => {
     let params = this.state.params;
+    console.log(50, params)
     if (!this.state.params.desc) {
       alert('请填写申诉说明');
       return;
@@ -85,16 +86,13 @@ class Launch extends React.Component {
   uploadFileChange = info => {
     // tip 目前支持上传一个文件
     let { fileList } = info;
-    if (isLt10M) {
-      fileList = fileList.slice(-1);
-      console.log(89, info, fileList);
-      if (isZip) {
-        this.setState({ fileList });
-        // this.props.dispatch({
-        //   type: 'Launch/uploadFile',
-        //   payload: { file: fileList[0].name, type: this.state.params.type },
-        // })
-      }
+    fileList = fileList.slice(-1);
+    this.setState({ fileList });
+    const { response = {} } = fileList[0] || {};
+    if (response.code === 20000) {
+      this.state.params.attUrl = response.data.fileUrl;
+    } else {
+      this.state.params.attUrl = '';
     }
   };
   render() {
