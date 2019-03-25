@@ -10,7 +10,7 @@ class Edit extends React.Component {
     super(props);
     this.state = {
       appealEndDate:null,
-      value:null,
+      checkResult:null,
       desc:null,
       isWarn:null
     }
@@ -25,9 +25,18 @@ class Edit extends React.Component {
   };
   onChangeRadio=(e)=>{
     const {setStateData} =  this.props;
-    this.setState({
-      value: e.target.value,
-    },()=>{
+    let param={};
+    if(e.target.value===2){
+      param={
+        checkResult: e.target.value,
+        isWarn:null
+      }
+    }else {
+      param={
+        checkResult: e.target.value,
+      }
+    }
+    this.setState(param,()=>{
       setStateData(this.state)
     });
   };
@@ -48,16 +57,16 @@ class Edit extends React.Component {
     });
   };
   render() {
-    const {value,desc} = this.state;
+    const {checkResult,desc} = this.state;
     const {hideDate} =  this.props;
     return (
       <div>
         <Row>
           <Col span={12}>
             <span>审核结果：</span>
-            <BIRadio onChange={this.onChangeRadio} value={this.state.value}>
+            <BIRadio onChange={this.onChangeRadio} value={this.state.checkResult}>
               <BIRadio.Radio value={1}>通过</BIRadio.Radio>
-              {value===1?<Checkbox onChange={this.onChangeCheckBox}>警告</Checkbox>:null}
+              {checkResult===1?<Checkbox onChange={this.onChangeCheckBox}>警告</Checkbox>:null}
               <BIRadio.Radio value={2}>驳回</BIRadio.Radio>
             </BIRadio>
           </Col>
