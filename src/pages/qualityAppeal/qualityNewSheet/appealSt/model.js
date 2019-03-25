@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { } from './services';
+import {checkQuality } from './services';
 
 export default {
   namespace: 'editQualityNewSheet',
@@ -9,9 +9,13 @@ export default {
   },
 
   effects: {
-    *getQualityDetail({ payload }, { call, put }) {
-
-    }
+    *checkQuality({ payload }, { call, put }) {
+      const result = yield call(checkQuality, { ...payload });
+      if (result.code === 20000) {
+      } else {
+        message.error(result.msg);
+      }
+    },
   },
 
   reducers: {},

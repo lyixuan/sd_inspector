@@ -1,11 +1,13 @@
 import { message } from 'antd/lib/index';
 import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
+import { getQualityDetail } from '@/pages/qualityAppeal/qualityAppeal/appeal/services';
 
 export default {
   namespace: 'qualityNewSheet',
 
   state: {
     qualityList: [],
+    qualityDetail: {},
     dimensionTreeList: [],
     originAllDimensionTreeList: {},
     page: {}
@@ -49,9 +51,17 @@ export default {
       } else {
         message.error(response.msg)
       }
-
-
-    }
+    },
+    *getQualityDetail({ payload }, { call, put }) {
+      //质检详情数据
+      const result = yield call(getQualityDetail, { ...payload });
+      if (result.code === 20000) {
+        const qualityDetail = result.data ? result.data : {};
+        yield put({ type: 'save', payload: { qualityDetail } });
+      } else {
+        message.error(result.msg);
+      }
+    },
   },
   reducers: {
     save(state, action) {
