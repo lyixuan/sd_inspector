@@ -65,7 +65,7 @@ class CreateQualityNewSheet extends React.Component {
     }
     changeDimension = (params = {}, values) => {
         this.props.dispatch({
-            type: 'qualityNewSheet/queryDimensionTreeList',
+            type: 'qualityAppealHome/queryDimensionTreeList',
             payload: { ...params },
         });
         this.saveParams(values);
@@ -78,8 +78,8 @@ class CreateQualityNewSheet extends React.Component {
         this.saveParams({ ...newParams, attUrl });
     }
     saveParams = (nextParams = {}) => {
-        const { params } = this.state;
-        const newParams = { ...params };
+        const { formParams } = this.state;
+        const newParams = { ...formParams };
         for (let item in nextParams) {
             newParams[item] = nextParams[item];
         }
@@ -90,7 +90,6 @@ class CreateQualityNewSheet extends React.Component {
         if (this.props.onSubmit) {
             this.props.onSubmit(newParams)
         }
-        console.log(newParams, this.state.formParams)
     }
     onCancel = () => {
         this.props.history.goBack();
@@ -98,6 +97,7 @@ class CreateQualityNewSheet extends React.Component {
     render() {
         const { formParams } = this.state;
         const { orgList } = this.props;
+        console.log(formParams)
         return (<div>
             {/* form区域 */}
             <FormComponent

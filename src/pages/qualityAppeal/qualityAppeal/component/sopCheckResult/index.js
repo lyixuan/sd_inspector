@@ -17,13 +17,14 @@ export default class SOPCheckResultComponent extends React.Component {
     return <div className={styles.divideLine} />;
   }
   render() {
-    this.state.data = this.props.data;
+    let { sopAppealCheck, isCollapse } = this.props.data;
+    console.log(this.props.data);
     return (
-      <section className={styles.personInfoCon}>
-        <div>
+      <section className={isCollapse ? `${styles.hidePanel}` : `${styles.showPanel} `}>
+        <div className={styles.personInfoCon}>
           <article className={styles.appealPerson}>
             <div className={styles.secctionTitle}>SOP审核结果</div>
-            {this.state.data.map((item, index) => (
+            {sopAppealCheck.map((item, index) => (
               <>
                 <div>
                   <div className={styles.container}>
