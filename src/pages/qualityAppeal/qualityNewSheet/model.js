@@ -42,6 +42,9 @@ export default {
         message.error(result.msgDetail);
       }
     },
+    *addQuality({ payload }, { call, put }) {
+
+    }
   },
 
   reducers: {
