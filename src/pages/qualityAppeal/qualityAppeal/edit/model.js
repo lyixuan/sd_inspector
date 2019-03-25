@@ -11,7 +11,6 @@ export default {
     *sopCheckAppeal({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(sopCheckAppeal, params);
-      console.log(14, result)
       let lunchData = result.data
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { lunchData } });

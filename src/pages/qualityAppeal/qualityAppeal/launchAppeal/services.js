@@ -4,3 +4,9 @@ import request from '@/utils/request';
 export async function launchAppeal(params) {
   return request('/appeal/addAppeal', { method: 'post', data: params });
 }
+
+// 文件上传
+export async function uploadFile(params) {
+  return request('/appeal/uploadAttachment');
+}
+
