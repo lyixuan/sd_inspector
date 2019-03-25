@@ -1,9 +1,9 @@
 import React from 'react';
 import {  Row, Col,Checkbox } from 'antd';
 import moment from 'moment';
-import BIDatePicker from '@/ant_components/BIDatePicker';
-import BIRadio from '@/ant_components/BIRadio';
-import BIInput from '@/ant_components/BIInput';
+import BIDatePicker from '@/ant_components/BIDatePicker/index';
+import BIRadio from '@/ant_components/BIRadio/index';
+import BIInput from '@/ant_components/BIInput/index';
 
 class Edit extends React.Component {
   constructor(props) {
@@ -17,24 +17,37 @@ class Edit extends React.Component {
   }
   onChangeCheckBox=(e)=>{
     console.log(e)
+    const {setStateData} =  this.props;
     this.setState({
-      isWarn: e.target.value,
+      isWarn: e.target.checked,
+    },()=>{
+      setStateData(this.state)
     });
   };
   onChangeRadio=(e)=>{
+    const {setStateData} =  this.props;
+
     this.setState({
       value: e.target.value,
+    },()=>{
+      setStateData(this.state)
     });
   };
   onChangeDate=(e,dateString)=>{
+    const {setStateData} =  this.props;
     this.setState({
       appealEndDate:dateString,
+    },()=>{
+      setStateData(this.state)
     });
   };
   onChangeInput=(e)=>{
-    console.log(e.target.value);
+    const {setStateData} =  this.props;
+    console.log(e.target);
     this.setState({
       desc: e.target.value,
+    },()=>{
+      setStateData(this.state)
     });
   };
   render() {

@@ -9,6 +9,7 @@ import IllegalInfo from './../../qualityNewSheet/detail/components/IllegalInfo';
 import AppealInfo from './../component/appealInfo';
 import SuperiorCheck from './../component/superiorCheck';
 import SOPCheckResult from './../component/sopCheckResult';
+import sopCheckRecords from './../component/sopCheckRecords';
 const { TextArea } = Input;
 const RadioGroup = Radio.Group;
 
@@ -21,14 +22,14 @@ class EditAppeal extends React.Component {
     super(props);
     this.state = {
       params: {
-        id: 1,
+        id: this.props.location.query.id || 1,
       },
       submitParam: {
         checkResult: null,
-        appealEndDate: 1000,
+        appealEndDate: null,
         type: 1,
         desc: '',
-        qualityId: 1,
+        qualityId: this.props.location.query.id || 1,
       },
       appealInfoCollapse: [],
     };
@@ -61,45 +62,48 @@ class EditAppeal extends React.Component {
             }}
             onClick={index => this.handleAppealInfoCollapse(index)}
           />
-          <SOPCheckResult
+          {/* <SOPCheckResult
             data={{
               sopAppealCheck: item.sopAppealCheck,
               isCollapse: this.state.appealInfoCollapse[index],
             }}
-          />
+          /> */}
           {/* <SuperiorCheck data={item.masterAppealCheck} /> */}
         </>
       );
     });
     return domFragment;
   }
-  handleAppealInfoCollapse(index) {
-    this.state.appealInfoCollapse[index] = !this.state.appealInfoCollapse[index];
-    this.setState({ appealInfoCollapse: this.state.appealInfoCollapse });
-  }
   getSuperiorCheck(detailData) {
     let domFragment = [];
     detailData.forEach((item, index) =>
       domFragment.push(
         <>
-          {/* <AppealInfo
-            data={{ appealStart: item.appealStart, appealEndDate: item.appealEndDate, id: item.id }}
-          /> */}
           <SOPCheckResult
             data={{
               sopAppealCheck: item.sopAppealCheck,
               isCollapse: this.state.appealInfoCollapse[index],
             }}
           />
-          {/* <SuperiorCheck data={item.masterAppealCheck} /> */}
         </>
       )
     );
     return domFragment;
   }
+  handleAppealInfoCollapse(index) {
+    this.state.appealInfoCollapse[index] = !this.state.appealInfoCollapse[index];
+    this.setState({ appealInfoCollapse: this.state.appealInfoCollapse });
+  }
   handleSubmit = e => {
     let params = this.state.submitParam;
-    console.log(82, params);
+    if (!this.state.submitParam.checkResult) {
+      alert("请选择审核结果");
+      return;
+    }
+    if (!this.state.submitParam.desc) {
+      alert("请填写审核说明");
+      return;
+    }
     this.props.dispatch({
       type: 'EditAppeal/sopCheckAppeal',
       payload: { params },
@@ -118,6 +122,8 @@ class EditAppeal extends React.Component {
   render() {
     const detailData = this.props.qualityAppealHome.DetailData;
     const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
+    this.state.submitParam.appealEndDate = detailData[detailData.length - 1] ? detailData[detailData.length - 1].appealEndDate : ''
+    this.state.submitParam.type = detailData[detailData.length - 1] ? detailData[detailData.length - 1].type : ''
     return (
       <div className={styles.editAppeal}>
         <section>
@@ -161,6 +167,7 @@ class EditAppeal extends React.Component {
             </Col>
           </Row>
         </div>
+        {this.getSuperiorCheck(detailData)}
         <Row className="gutter-row">
           <Col span={24}>
             <div className={styles.gutterBox1}>

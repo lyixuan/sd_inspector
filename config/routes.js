@@ -85,7 +85,7 @@ export const routes = [
           },
           {
             path: '/qualityAppeal/qualityNewSheet/appealSt',
-            component: './qualityAppeal/qualityNewSheet/edit',
+            component: './qualityAppeal/qualityNewSheet/appealSt',
             name: '审核',
           },
           {

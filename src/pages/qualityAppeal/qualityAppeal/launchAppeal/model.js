@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { launchAppeal } from './services';
+import { launchAppeal, uploadFile } from './services';
 
 export default {
   namespace: 'Launch',
@@ -9,6 +9,15 @@ export default {
   },
 
   effects: {
+    *uploadFile({ payload }, { call, put }) {
+      const result = yield call(uploadFile, { ...payload });
+      console.log(155, result)
+      if (result.code === 20000) {
+        yield put({ type: 'save' });
+      } else {
+        message.error(result.msg);
+      }
+    },
     *launchAppeal({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(launchAppeal, params);

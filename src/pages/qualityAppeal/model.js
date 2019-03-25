@@ -91,6 +91,7 @@ export default {
       //申诉详情页数据
       const result = yield call(getAppealDetail, { ...payload });
       const DetailData = result.data ? result.data : [];
+      console.log(94, "申诉", DetailData)
       DetailData.forEach((v, i) => {
         // DetailData[i].createTime = moment(v.createTime).format('YYYY-MM-DD HH:mm:ss')
       });
@@ -104,6 +105,7 @@ export default {
       //质检详情页数据
       const result = yield call(getQualityDetail, { ...payload });
       const QualityDetailData = result.data ? result.data : {};
+      console.log(108, "质检", QualityDetailData)
       if (result.code === 20000) {
         yield put({ type: 'saveQualityDetailData', payload: { QualityDetailData } });
       } else {

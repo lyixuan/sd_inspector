@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './style.less';
-import { Row, Col, Form, Input, Upload } from 'antd';
+import { Row, Col, Form, Input, Upload, message } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import SubOrderDetail from './../../components/subOrderDetail';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
@@ -8,6 +8,8 @@ import IllegalInfo from './../../qualityNewSheet/detail/components/illegalInfo';
 import { connect } from 'dva';
 import moment from 'moment';
 const { TextArea } = Input;
+let isLt10M = false;
+let isZip = false;
 @connect(({ Launch, qualityAppealHome }) => ({
   Launch,
   qualityAppealHome,
@@ -26,6 +28,8 @@ class Launch extends React.Component {
         desc: '',
         qualityId: this.props.location.query.id || 1,
       },
+      fileList: this.props.fileList,
+      appealInfoCollapse: true,
       qualityInfoCollapse: true,
       checkResultsCollapse: true,
     };
@@ -43,6 +47,10 @@ class Launch extends React.Component {
   handleSubmit = e => {
     let params = this.state.params;
     console.log(82, params);
+    if (!this.state.params.desc) {
+      alert("请填写申诉说明");
+      return;
+    }
     this.props.dispatch({
       type: 'Launch/launchAppeal',
       payload: { params },
@@ -59,12 +67,45 @@ class Launch extends React.Component {
   handleCheckResultsCollapse() {
     this.setState({ checkResultsCollapse: !this.state.checkResultsCollapse });
   }
+  // 上传附件
+  // 文件预上传判断
+  beforeUpload = file => {
+    const arr = file.name.split('.');
+    isZip = arr[arr.length - 1] === 'zip' || arr[arr.length - 1] === 'rar';
+    if (!isZip) {
+      message.error('文件仅支持zip或rar格式!');
+    }
+    isLt10M = file.size / 1024 / 1024 < 10;
+    if (!isLt10M) {
+      message.error('文件不能大于10MB！');
+    }
+    return isZip && isLt10M;
+  };
+
+  uploadFileChange = info => {
+    // tip 目前支持上传一个文件
+    let { fileList } = info;
+    if (isLt10M) {
+      fileList = fileList.slice(-1);
+      console.log(89, info, fileList)
+      if (isZip) {
+        this.setState({ fileList });
+        // this.props.dispatch({
+        //   type: 'Launch/uploadFile',
+        //   payload: { file: fileList[0].name, type: this.state.params.type },
+        // })
+      }
+    }
+
+  };
   render() {
-    const { getFieldDecorator } = this.props.form;
     const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
-    console.log(604, qualityDetailData);
-    this.state.params.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
-    this.state.params.type = qualityDetailData.type;
+    const props = {
+      beforeUpload: this.beforeUpload,
+      onChange: this.uploadFileChange,
+    };
+    this.state.params.firstAppealEndDate = qualityDetailData.firstAppealEndDate
+    this.state.params.type = qualityDetailData.qualityType
     return (
       <div className={styles.launchContainer}>
         <section>
@@ -100,7 +141,7 @@ class Launch extends React.Component {
             <div className={styles.flexStyle}>
               <div className={styles.label}>附件:</div>
               <div style={{ marginLeft: '20px', marginTop: '-5px' }}>
-                <Upload>
+                <Upload {...props} fileList={this.state.fileList} action='http://172.16.117.65:3000/mock/29/quality/uploadAttachment'>
                   <BIButton type="primary">上传附件</BIButton>
                 </Upload>
               </div>

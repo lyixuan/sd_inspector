@@ -6,7 +6,7 @@ import CommonForm from '@/pages/qualityAppeal/components/commonForm';
 import styles from './style.less';
 import PersonInfo from '@/pages/qualityAppeal/qualityNewSheet/detail/components/personInfo';
 import SubOrderDetail from './../../components/subOrderDetail';
-import AppealInfo from './component/AppealInfo';
+import AppealInfo from '../../components/AppealInfo';
 import router from 'umi/router';
 const confirm = BIModal.confirm;
 
@@ -19,6 +19,7 @@ class QualityAppealing extends React.Component {
     super(props);
     this.state = {
       qualityInfoCollapse: true,
+      appealParam:{}
     };
     const { query = {} } = this.props.location;
     this.query = query;
@@ -69,6 +70,12 @@ class QualityAppealing extends React.Component {
   handleCancel = () => {
     router.goBack();
   };
+  setStateData = (val)=>{
+    console.log(val)
+    this.setState({
+      appealParam:val
+    })
+  };
   render() {
     const { appealShow = [], qualityDetailData } = this.props.qualityAppealing;
     console.log(this.props);
@@ -97,7 +104,7 @@ class QualityAppealing extends React.Component {
             </div>
             <div style={{marginTop:20}}>
               <div className={styles.title}>申诉信息</div>
-              <AppealInfo dataList={appealShow} appealStatus={this.query.status}/>
+              <AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData}/>
             </div>
             <div style={{float:'right'}}>
               <BIButton onClick={this.handleCancel} style={{marginRight:20}}>
