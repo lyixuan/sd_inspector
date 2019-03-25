@@ -44,8 +44,7 @@ export default {
     },
     *addQuality({ payload }, { call, put }) {
       const response = yield call(addQuality, payload);
-      console.log(response)
-      if (response.code === 2000) {
+      if (response.code === 20000) {
 
       } else {
         message.error(response.msg)
