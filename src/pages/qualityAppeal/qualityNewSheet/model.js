@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { getQualityList, qualityExportExcel, qualityCancelQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
+import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
 
 export default {
   namespace: 'qualityNewSheet',
@@ -43,10 +43,17 @@ export default {
       }
     },
     *addQuality({ payload }, { call, put }) {
+      const response = yield call(addQuality, payload);
+      console.log(response)
+      if (response.code === 2000) {
+
+      } else {
+        message.error(response.msg)
+      }
+
 
     }
   },
-
   reducers: {
     save(state, action) {
       return { ...state, ...action.payload };
