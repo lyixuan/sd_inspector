@@ -102,3 +102,9 @@ div.divideLine:last-child {
   margin: 2.5px 5px;
   background: #ff0000;
 }
+.showPanel {
+  flex: 1;
+}
+.hidePanel {
+  display: none !important;
+}
