@@ -16,17 +16,15 @@ class Edit extends React.Component {
     }
   }
   onChangeCheckBox=(e)=>{
-    console.log(e)
     const {setStateData} =  this.props;
     this.setState({
-      isWarn: e.target.checked,
+      isWarn: Number(e.target.checked),
     },()=>{
       setStateData(this.state)
     });
   };
   onChangeRadio=(e)=>{
     const {setStateData} =  this.props;
-
     this.setState({
       value: e.target.value,
     },()=>{
@@ -43,7 +41,6 @@ class Edit extends React.Component {
   };
   onChangeInput=(e)=>{
     const {setStateData} =  this.props;
-    console.log(e.target);
     this.setState({
       desc: e.target.value,
     },()=>{
