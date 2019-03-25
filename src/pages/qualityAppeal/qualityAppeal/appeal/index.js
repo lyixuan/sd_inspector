@@ -3,6 +3,8 @@ import { connect } from 'dva';
 import { Row, Col } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
+import { BiFilter } from '@/utils/utils';
+import CommonForm from '@/pages/qualityAppeal/components/commonForm';
 import styles from './style.less';
 import AppealInfo from './component/AppealInfo';
 
@@ -39,25 +41,12 @@ class  CreatePointBook extends React.Component {
     return (
       <div className={styles.qualityContainter}>
         <div className={styles.title}>质检违规详情 <span className={styles.passTimeCls}>（质检通过时间：2019-02-01 22:22:22）</span>  </div>
-      <div>
-        <div>
-          <div className={styles.title}>申诉信息</div>
-          <AppealInfo dataList={appealShow}/>
-        </div>
-
-        <Row className="gutter-row">
-          <Col span={24}>
-            <div className={styles.gutterBox1}>
-                        <span className={styles.gutterBtn2}>
-                          <BIButton>取消</BIButton>
-                        </span>
-              <span className={styles.gutterBtn1}>
-                          <BIButton type="primary" onClick={this.handleSubmit}>提交</BIButton>
-                        </span>
-            </div>
-          </Col>
-        </Row>
-      </div>
+        <CommonForm {...this.props} onSubmit={this.onSubmit} >
+          <div>
+            <div className={styles.title}>申诉信息</div>
+            <AppealInfo dataList={appealShow}/>
+          </div>
+        </CommonForm>
         <BIModal
           title="提交确认"
           visible={this.state.visible}

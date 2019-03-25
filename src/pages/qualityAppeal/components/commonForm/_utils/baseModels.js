@@ -8,6 +8,7 @@ export class BaseModels {
             collegeId: null,            // 学院ID
             familyId: null,             // 家族ID
             groupId: null,              // 小组ID
+            familyType: null,           // 学院类型
             orderNum: null,             // 子订单编号
             violationDate: '',          // 质检违规日期
             reduceScoreDate: '',        // 质检扣分日期
@@ -35,12 +36,11 @@ export class BaseModels {
     }
     HandleOrgMapByMail(obj) {
         if (!obj || typeof obj !== 'object') return;
+        const { collegeId, familyId, groupId, userType, ...others } = obj;
+        const organize = [collegeId, familyId, groupId].filter(item => item);
+
         return {
-            role: obj.userType || null,
-            name: obj.name || '',
-            collegeId: obj.collegeId || null,
-            familyId: obj.familyId || null,
-            groupId: obj.groupId || null,
+            ...others, organize, role: userType,
         }
     }
     transOriginParams = (params) => {

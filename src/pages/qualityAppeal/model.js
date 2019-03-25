@@ -6,6 +6,7 @@ import {
   getAppealDetail,
   getQualityDetail,
   getOrderNum,
+  queryDimensionTreeList
 } from '@/pages/qualityAppeal/services';
 
 function toTreeData(orgList) {
@@ -121,6 +122,21 @@ export default {
         message.error(response.msg);
       }
 
+    },
+    *queryDimensionTreeList({ payload }, { call, put }) {
+      const response = yield call(queryDimensionTreeList, payload);
+      if (response.code === 20000) {
+        const dimensionTreeList = response.data;
+
+        yield put({
+          type: 'saveDimensionTreeList',
+          payload: { dimensionTreeList }
+        })
+
+      } else {
+        message.error(response.msg);
+      }
+
     }
   },
 
@@ -149,6 +165,9 @@ export default {
     },
     saveOrderNumData(state, { payload }) {
       return { ...state, ...payload };
+    },
+    saveDimensionTreeList(state, action) {
+      return { ...state, ...action.payload };
     }
   },
 

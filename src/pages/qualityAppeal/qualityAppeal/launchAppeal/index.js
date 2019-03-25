@@ -6,6 +6,7 @@ import SubOrderDetail from './../../components/subOrderDetail';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 import IllegalInfo from './../../qualityNewSheet/detail/components/illegalInfo';
 import { connect } from 'dva';
+import moment from 'moment';
 const { TextArea } = Input;
 @connect(({ Launch, qualityAppealHome }) => ({
   Launch,
@@ -15,12 +16,15 @@ class Launch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      paramId: {
+        id: this.props.location.query.id || 1,
+      },
       params: {
         firstAppealEndDate: undefined,
         type: 1,
         attUrl: '123',
         desc: '',
-        qualityId: 1,
+        qualityId: this.props.location.query.id || 1,
       },
       appealInfoCollapse: true,
       checkResultsCollapse: true,
@@ -29,11 +33,11 @@ class Launch extends React.Component {
   componentDidMount() {
     this.props.dispatch({
       type: 'qualityAppealHome/getDetailData',
-      payload: { id: 1 },
+      payload: this.state.paramId,
     });
     this.props.dispatch({
       type: 'qualityAppealHome/getQualityDetailData',
-      payload: { id: 1 },
+      payload: this.state.paramId,
     });
   }
   handleSubmit = e => {
@@ -58,7 +62,9 @@ class Launch extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
-    console.log(this.props);
+    console.log(604, qualityDetailData);
+    this.state.params.firstAppealEndDate = qualityDetailData.firstAppealEndDate
+    this.state.params.type = qualityDetailData.type
     return (
       <div className={styles.launchContainer}>
         <section>
@@ -84,7 +90,7 @@ class Launch extends React.Component {
           <div className={styles.title}>申诉信息</div>
           <div>
             <div className={styles.appealInfo}>
-              一次申诉<span>一次申诉截止日期：3939393</span>
+              一次申诉<span>一次申诉截止日期：{moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD HH:mm:ss')}</span>
             </div>
             <div className={styles.originator}>申诉发起人</div>
             <div className={styles.flexStyle}>

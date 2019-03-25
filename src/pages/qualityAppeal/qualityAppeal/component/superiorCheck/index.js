@@ -12,11 +12,11 @@ export default class SuperiorCheckComponent extends React.Component {
   componentDidMount() {}
 
   render() {
-    const { checkResult, desc } = this.props.data ? this.props.data : {};
+    const { checkResult, desc, isCollapse } = this.props.data ? this.props.data : {};
     console.log(this.props);
     return (
-      <section className={styles.personInfoCon}>
-        <div>
+      <section className={isCollapse ? `${styles.hidePanel}` : `${styles.showPanel} `}>
+        <div className={styles.personInfoCon}>
           <article className={styles.appealPerson}>
             <div className={styles.secctionTitle}>主管审核：</div>
             {/* {this.state.data.map(item => ( */}

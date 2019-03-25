@@ -16,7 +16,7 @@ class QualityDetail extends React.Component {
     super(props);
     this.state = {
       params: {
-        id: 1,
+        id: this.props.location.query.id,
       },
       appealInfoCollapse: true,
       checkResultsCollapse: true,

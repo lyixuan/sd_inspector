@@ -18,10 +18,10 @@ class AppealDetail extends React.Component {
     super(props);
     this.state = {
       params: {
-        id: 1,
+        id: this.props.location.query.id || 1,
       },
-      appealInfoCollapse: true,
-      checkResultsCollapse: true,
+      qualityInfoCollapse: true,
+      appealInfoCollapse: [],
     };
   }
   componentDidMount() {
@@ -34,10 +34,13 @@ class AppealDetail extends React.Component {
       payload: this.state.params,
     });
   }
+  handleAppealInfoCollapse(index) {
+    this.state.appealInfoCollapse[index] = !this.state.appealInfoCollapse[index];
+    this.setState({ appealInfoCollapse: this.state.appealInfoCollapse });
+  }
   getAppealInfos(detailData) {
     let domFragment = [];
-    console.log(444, detailData);
-    detailData.forEach(item =>
+    detailData.forEach((item, index) => {
       domFragment.push(
         <>
           <AppealInfo
@@ -46,17 +49,31 @@ class AppealDetail extends React.Component {
               appealEndDate: item.appealEndDate,
               id: item.id,
               type: item.type,
+              index: index,
+              isCollapse: this.state.appealInfoCollapse[index],
+            }}
+            onClick={index => this.handleAppealInfoCollapse(index)}
+          />
+          <SOPCheckResult
+            data={{
+              sopAppealCheck: item.sopAppealCheck,
+              isCollapse: this.state.appealInfoCollapse[index],
             }}
           />
-          <SOPCheckResult data={item.sopAppealCheck} />
-          <SuperiorCheck data={item.masterAppealCheck} />
+          <SuperiorCheck
+            data={{
+              masterAppealCheck: item.masterAppealCheck,
+              isCollapse: this.state.appealInfoCollapse[index],
+            }}
+          />
         </>
-      )
-    );
+      );
+      this.state.appealInfoCollapse.push(false);
+    });
     return domFragment;
   }
   handleCollapse() {
-    this.setState({ appealInfoCollapse: !this.state.appealInfoCollapse });
+    this.setState({ qualityInfoCollapse: !this.state.qualityInfoCollapse });
   }
   handleCheckResultsCollapse() {
     this.setState({ checkResultsCollapse: !this.state.checkResultsCollapse });
@@ -70,7 +87,7 @@ class AppealDetail extends React.Component {
           {/* 质检违规人员信息 */}
           <PersonInfo
             data={qualityDetailData}
-            appealInfoCollapse={this.state.appealInfoCollapse}
+            appealInfoCollapse={this.state.qualityInfoCollapse}
             onClick={() => this.handleCollapse()}
           />
         </section>
