@@ -9,22 +9,32 @@ import styles from './style.less';
 import AppealInfo from './component/AppealInfo';
 
 
-@connect(({ createPointBook, qualityAppealHome }) => ({
-  createPointBook,
+@connect(({ qualityAppealing, qualityAppealHome }) => ({
+  qualityAppealing,
   orgList: qualityAppealHome.orgList,
 }))
 class  CreatePointBook extends React.Component {
   constructor(props) {
     super(props);
-    this.state={}
+    this.state={};
+    console.log(this.props);
+    const {query = {}} = this.props.location;
+    this.query  = query;
   }
   componentDidMount(){
+    this.getQualityInfo();
     this.getAppealInfo();
   }
   getAppealInfo=()=>{
     this.props.dispatch({
-      type: 'createPointBook/getAppealInfo',
-      payload: { id:1},
+      type: 'qualityAppealing/getAppealInfo',
+      payload: { id:this.query.id},
+    })
+  };
+  getQualityInfo=()=>{
+    this.props.dispatch({
+      type: 'qualityAppealing/getQualityDetailData',
+      payload: { id:this.query.id},
     })
   }
   handleSubmit = () => {
@@ -35,13 +45,13 @@ class  CreatePointBook extends React.Component {
     // })
   }
   render() {
-    const {appealShow} = this.props.createPointBook;
+    const {appealShow,qualityDetailData} = this.props.qualityAppealing;
     // console.log(appealShow)
 
     return (
       <div className={styles.qualityContainter}>
         <div className={styles.title}>质检违规详情 <span className={styles.passTimeCls}>（质检通过时间：2019-02-01 22:22:22）</span>  </div>
-        <CommonForm {...this.props} onSubmit={this.onSubmit} >
+        <CommonForm {...this.props} qualityDetailData={qualityDetailData} onSubmit={this.onSubmit} >
           <div>
             <div className={styles.title}>申诉信息</div>
             <AppealInfo dataList={appealShow}/>
