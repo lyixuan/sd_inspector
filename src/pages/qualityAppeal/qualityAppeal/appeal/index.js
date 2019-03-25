@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
-import { BiFilter } from '@/utils/utils';
 import CommonForm from '@/pages/qualityAppeal/components/commonForm';
 import styles from './style.less';
+import PersonInfo from '@/pages/qualityAppeal/qualityNewSheet/detail/components/personInfo';
+import SubOrderDetail from './../../components/subOrderDetail';
 import AppealInfo from './component/AppealInfo';
 
 
@@ -13,14 +13,18 @@ import AppealInfo from './component/AppealInfo';
   qualityAppealing,
   orgList: qualityAppealHome.orgList,
 }))
-class  CreatePointBook extends React.Component {
+class  QualityAppealing extends React.Component {
   constructor(props) {
     super(props);
     this.state={
+      appealInfoCollapse: true
     };
     const {query = {}} = this.props.location;
     this.query  = query;
     this.firstAppealEndDate = null;
+  }
+  handleCollapse() {
+    this.setState({ appealInfoCollapse: !this.state.appealInfoCollapse });
   }
   componentDidMount(){
     this.getQualityInfo();
@@ -54,15 +58,38 @@ class  CreatePointBook extends React.Component {
       });
     return (
       <div className={styles.qualityContainter}>
-        <CommonForm
-          {...this.props}
-          // dataSource={qualityDetailData}
-          onSubmit={this.onSubmit} >
-          <div>
-            <div className={styles.title}>申诉信息</div>
-            <AppealInfo dataList={appealShow} status={this.query.status}/>
-          </div>
-        </CommonForm>
+        {this.query.status !== 2 || this.query.status === 6 ? (
+          <section>
+            {/* 质检违规人员信息 */}
+            <PersonInfo
+              data={qualityDetailData}
+              appealInfoCollapse={this.state.qualityInfoCollapse}
+              onClick={() => this.handleCollapse()}
+            />
+            <div
+              className={
+                this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
+              }
+            >
+              <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
+              <SubOrderDetail data={qualityDetailData.orderDetail} />
+            </div>
+            <div>
+              <div className={styles.title}>申诉信息</div>
+              {/*<AppealInfo dataList={appealShow} status={this.query.status}/>*/}
+            </div>
+          </section>
+        ):(
+          <CommonForm
+            {...this.props}
+            // dataSource={qualityDetailData}
+            onSubmit={this.onSubmit} >
+            <div>
+              <div className={styles.title}>申诉信息</div>
+              {/*<AppealInfo dataList={appealShow} status={this.query.status}/>*/}
+            </div>
+          </CommonForm>
+        )}
         <BIModal
           title="提交确认"
           visible={this.state.visible}
@@ -84,4 +111,4 @@ class  CreatePointBook extends React.Component {
   }
 }
 
-export default CreatePointBook;
+export default QualityAppealing;
