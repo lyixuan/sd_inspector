@@ -7,7 +7,7 @@ import moment from 'moment';
 class Index extends React.Component {
 
   render() {
-    const {dataList,appealStatus=0} = this.props;
+    const {dataList,appealStatus=0,setStateData} = this.props;
     const status = Number(appealStatus);
     let dataList1={},dataList2={};
     if(dataList&&dataList.length>0){
@@ -40,7 +40,7 @@ class Index extends React.Component {
           {status===2?(
             <div className={styles.masterContent}>
               <div className={styles.appealTitle}>SOP审核</div>
-              <Edit />
+              <Edit setStateData={setStateData}/>
             </div>
           ):null}
           {
@@ -58,7 +58,7 @@ class Index extends React.Component {
                 {status===4?(
                   <div className={styles.masterContent}>
                     <div className={styles.appealTitle}>主管审核</div>
-                    <Edit />
+                    <Edit setStateData={setStateData}/>
                   </div>
                 ):null}
               </>
@@ -84,7 +84,7 @@ class Index extends React.Component {
               {status===6?(
                 <div className={styles.masterContent}>
                   <div className={styles.appealTitle}>SOP审核</div>
-                  <Edit hideDate />
+                  <Edit hideDate setStateData={setStateData}/>
                 </div>
               ):null}
               {status===8?(
@@ -100,7 +100,7 @@ class Index extends React.Component {
                   {status===8?(
                     <div className={styles.masterContent}>
                       <div className={styles.appealTitle}>主管审核</div>
-                      <Edit hideDate/>
+                      <Edit hideDate setStateData={setStateData}/>
                     </div>
                   ):null}
                 </>
