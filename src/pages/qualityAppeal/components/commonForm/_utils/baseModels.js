@@ -38,7 +38,6 @@ export class BaseModels {
         if (!obj || typeof obj !== 'object') return;
         const { collegeId, familyId, groupId, userType, ...others } = obj;
         const organize = [collegeId, familyId, groupId].filter(item => item);
-
         return {
             ...others, organize, role: userType,
         }

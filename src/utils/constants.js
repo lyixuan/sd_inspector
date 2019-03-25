@@ -16,7 +16,7 @@ export const STATIC_HOST = {
 // 设置domain域名
 export const DOMAIN_HOST = '.ministudy.com';
 // export const DOMAIN_HOST = 'localhost';
-export const PROXY_PATH = () => '/proxyQuality';
+export const PROXY_PATH = () => '/proxy';
 
 // 登录页面地址配置
 export const LOGIN_URL = {
