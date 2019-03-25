@@ -32,13 +32,14 @@ class Edit extends React.Component {
     });
   };
   onChangeInput=(e)=>{
-    console.log(e.target.value)
+    console.log(e.target.value);
     this.setState({
       desc: e.target.value,
     });
   };
   render() {
     const {value,desc} = this.state;
+    const {hideDate} =  this.props;
     return (
       <div>
         <Row>
@@ -50,15 +51,18 @@ class Edit extends React.Component {
               <BIRadio.Radio value={2}>驳回</BIRadio.Radio>
             </BIRadio>
           </Col>
-          <Col className="gutter-row txRight" span={12}>
-            <span>*二申截止日期： </span>
-            <BIDatePicker onChange={this.onChangeDate} style={{ width: 280 }} />
-          </Col>
+          {
+            hideDate?null:<Col className="gutter-row txRight" span={12}>
+              <span>*二申截止日期： </span>
+              <BIDatePicker onChange={this.onChangeDate} style={{ width: 280 }} />
+            </Col>
+          }
+
         </Row>
         <Row className="gutter-row">
           <Col span={24} style={{ display: 'flex' }}>
             <span style={{width:80}}>审核说明：</span>
-            <BIInput.TextArea onPressEnter={this.onChangeInput} rows={4} />
+            <BIInput.TextArea onChange={this.onChangeInput} rows={4} />
           </Col>
         </Row>
       </div>

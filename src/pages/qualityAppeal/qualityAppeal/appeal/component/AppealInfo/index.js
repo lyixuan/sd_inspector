@@ -70,7 +70,7 @@ class Index extends React.Component {
               {status===6?(
                 <div className={styles.masterContent}>
                   <div className={styles.appealTitle}>SOP审核</div>
-                  <Edit />
+                  <Edit hideDate />
                 </div>
               ):null}
               {status===8?(
@@ -82,7 +82,7 @@ class Index extends React.Component {
                   {status===8?(
                     <div className={styles.masterContent}>
                       <div className={styles.appealTitle}>主管审核</div>
-                      <Edit />
+                      <Edit hideDate/>
                     </div>
                   ):null}
                 </>
