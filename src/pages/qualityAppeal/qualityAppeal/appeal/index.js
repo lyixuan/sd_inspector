@@ -110,6 +110,29 @@ class  CreatePointBook extends React.Component {
     const obj = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === role) || {};
     return obj.level || 3;
   };
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      console.log(132, values)
+      let qualityInspectionParam = values
+      let appealParam = {
+        type: 1,
+        appealEndDate: 3939,
+        desc: 33,
+        checkResult: 44,
+        qualityId: 44,
+        isWarn: 1
+      }
+      this.props.dispatch({
+        type: 'createAppeal12/reviewAppel',
+        payload: { qualityInspectionParam, appealParam },
+      })
+
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -321,7 +344,7 @@ class  CreatePointBook extends React.Component {
                     <BIButton>取消</BIButton>
                   </span>
                   <span className={styles.gutterBtn1}>
-                    <BIButton type="primary">提交</BIButton>
+                    <BIButton type="primary" onClick={this.handleSubmit}>提交</BIButton>
                   </span>
                 </div>
               </Col>
