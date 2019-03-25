@@ -4,39 +4,46 @@ import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
 import styles from './style.less';
 import CommonForm from '../../components/commonForm';
+import { message } from 'antd/lib/index';
 
 
-@connect(({ loading }) => ({
-  loading
+@connect(({ loading, qualityNewSheet,editQualityNewSheet }) => ({
+  loading,
+  qualityNewSheet,
+  editQualityNewSheet,
 }))
 
 class EditQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    const { query = {} } = this.props.location;
+    this.query = query;
   }
   componentDidMount() {
-
+    this.getQualityDetailData();
   }
   getQualityDetailData = () => {
-
+    const { location: { query } } = this.props;
     this.props.dispatch({
-      type: 'qualityAppealHome/getQualityDetailData',
-      id: null,
+      type: 'qualityNewSheet/getQualityDetail',
+      payload: query,
     })
-  }
-
+  };
   onSubmit = (params) => {
-    console.log(params)
-  }
+    console.log(11);
+    this.props.dispatch({
+      type: 'editQualityNewSheet/updateQuality',
+      payload: {...params},
+    })
+  };
 
   render() {
+    const { qualityDetail = {} } = this.props.qualityNewSheet;
     return (
       <div className={styles.qualityContainter}>
-        <div className={styles.title}>质检违规详情</div>
-
         {/* form区域 */}
-        <CommonForm {...this.props} onSubmit={this.onSubmit} />
+        <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={qualityDetail} />
 
         <BIModal
           title="提交确认"

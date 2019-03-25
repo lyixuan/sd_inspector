@@ -12,8 +12,9 @@ export default {
     *checkQuality({ payload }, { call, put }) {
       const result = yield call(checkQuality, { ...payload });
       if (result.code === 20000) {
+        message.success('提交成功');
       } else {
-        message.error(result.msg);
+        message.error(result.msgDetail);
       }
     },
   },
