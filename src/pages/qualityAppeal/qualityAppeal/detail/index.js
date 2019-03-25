@@ -3,6 +3,7 @@ import styles from './style.less';
 import { connect } from 'dva';
 import AppealInfo from './../component/appealInfo';
 import SOPCheckResult from './../component/sopCheckResult';
+import SubOrderDetail from './../../components/subOrderDetail';
 import SuperiorCheck from './../component/superiorCheck';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 // import IllegalInfo from './components/illegalInfo';
@@ -87,15 +88,23 @@ class AppealDetail extends React.Component {
           {/* 质检违规人员信息 */}
           <PersonInfo
             data={qualityDetailData}
-            appealInfoCollapse={this.state.qualityInfoCollapse}
+            qualityInfoCollapse={this.state.qualityInfoCollapse}
             onClick={() => this.handleCollapse()}
           />
+          <div
+            className={
+              this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
+            }
+          >
+            <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
+            <SubOrderDetail data={qualityDetailData.orderDetail} />
+          </div>
         </section>
-        <section>
+        <section className={styles.appealInfoCon}>
           {/* 申诉信息 */}
           {this.getAppealInfos(detailData)}
         </section>
-        <section style={{ textAlign: 'right' }}>
+        <section style={{ textAlign: 'right', marginTop: '20px' }}>
           <BIButton>返回</BIButton>
         </section>
       </div>

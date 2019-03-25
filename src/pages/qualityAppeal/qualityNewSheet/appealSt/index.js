@@ -6,8 +6,9 @@ import styles from './style.less';
 import CommonForm from '../../components/commonForm';
 
 
-@connect(({ loading }) => ({
-  loading
+@connect(({ loading, qualityAppealHome }) => ({
+  loading,
+  QualityDetailData: qualityAppealHome.QualityDetailData,
 }))
 
 class EditQualityNewSheet extends React.Component {
@@ -69,13 +70,13 @@ class EditQualityNewSheet extends React.Component {
     };
   }
   componentDidMount() {
-
+    this.getQualityDetailData();
   }
   getQualityDetailData = () => {
-
+    const { location: { query } } = this.props;
     this.props.dispatch({
       type: 'qualityAppealHome/getQualityDetailData',
-      id: null,
+      payload: query,
     })
   }
 
@@ -84,12 +85,14 @@ class EditQualityNewSheet extends React.Component {
   }
 
   render() {
+    const { QualityDetailData } = this.props;
+    console.log(this.props)
     return (
       <div className={styles.qualityContainter}>
         <div className={styles.title}>质检违规详情</div>
 
         {/* form区域 */}
-        <CommonForm {...this.props} onSubmit={this.onSubmit} />
+        <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={QualityDetailData} />
 
         <BIModal
           title="提交确认"

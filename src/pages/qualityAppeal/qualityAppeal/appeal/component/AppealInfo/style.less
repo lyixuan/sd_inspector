@@ -3,6 +3,9 @@
   color: #353535;
   padding-left: 18px;
   line-height:25px;
+  .txtCls{
+    font-family: PingFangSC-Regular;
+  }
   .s1_title{
     font-family: PingFangSC-Semibold;
     line-height: 66px;
@@ -85,3 +88,12 @@
 
 
 
+:global{
+  .ant-checkbox-checked .ant-checkbox-inner{
+    background: #52c9c2;
+    border-color: #52c9c2;
+  }
+  .ant-checkbox-wrapper:hover .ant-checkbox-inner, .ant-checkbox:hover .ant-checkbox-inner, .ant-checkbox-input:focus + .ant-checkbox-inner{
+    border-color: #52c9c2;
+  }
+}

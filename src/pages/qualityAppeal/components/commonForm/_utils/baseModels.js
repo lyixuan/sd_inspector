@@ -1,3 +1,7 @@
+import moment from 'moment';
+
+const format = 'YYYY-MM-DD';
+
 export class BaseModels {
     constructor(props) {
         const { qualityDetail = {} } = props || {};
@@ -21,6 +25,7 @@ export class BaseModels {
             desc: '',                   // 违规详情	
             masterMail: '',              // 客诉主管邮箱
             qualityValue: null,          // 扣除学分/绩效
+            userId: null,                 // 根据邮箱查出用户id
         };
         this.modelData = this.handleInitData(qualityDetail);
     }
@@ -36,19 +41,31 @@ export class BaseModels {
     }
     HandleOrgMapByMail(obj) {
         if (!obj || typeof obj !== 'object') return;
-        const { collegeId, familyId, groupId, userType, ...others } = obj;
+        const { collegeId, familyId, groupId, userType, id, name } = obj;
+
         const organize = [collegeId, familyId, groupId].filter(item => item);
         return {
-            ...others, organize, role: userType,
+            organize, role: userType, userId: id, name,
         }
     }
     transOriginParams = (params) => {
         const { primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId,            // 学院ID
             familyId,
-            groupId, ...others } = params || {};
+            groupId, violationDate, reduceScoreDate, ...others } = params || {};
         const organize = [collegeId, familyId, groupId].filter(item => item);
         const dimension = [primaryAssortmentId, secondAssortmentId, thirdAssortmentId].filter(item => item);
-        return { ...others, organize, dimension };
+        const dateTimeObj = {
+            violationDate: this.transMoment(violationDate),
+            reduceScoreDate: this.transMoment(reduceScoreDate),
+        }
+        return { ...others, ...dateTimeObj, organize, dimension };
 
+    }
+    transMoment = (date) => {
+        return date ? moment(date) : null;
+    }
+    transDateTime = (date) => {
+        if (!date) return;
+        return date.format(format);
     }
 }

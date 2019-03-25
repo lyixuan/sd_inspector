@@ -17,7 +17,8 @@ export class FormModels extends BaseModels {
             qualityValue: null,        // @params(Number)扣除学分/绩效
             attUrl: '',                // @params(String)附件地址	
             desc: '',                  // @params(String)违规详情
-            familyType: null,          // @params(Number)自考壁垒	
+            familyType: null,          // @params(Number)自考壁垒
+            userId: null,
         };
     }
     handleInitData = () => {
@@ -27,10 +28,14 @@ export class FormModels extends BaseModels {
         }
     }
     transFormParams = (params) => {
-        const { organize = [], dimension = [], ...others } = params || {};
+        const { organize = [], dimension = [], violationDate, reduceScoreDate, ...others } = params || {};
         const [collegeId, familyId, groupId] = organize;
         const [primaryAssortmentId, secondAssortmentId, thirdAssortmentId] = dimension;
-        const newParams = { ...others, primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId, familyId, groupId };
+        const dateTimeObj = {
+            violationDate: this.transDateTime(violationDate),
+            reduceScoreDate: this.transDateTime(reduceScoreDate),
+        }
+        const newParams = { ...others, ...dateTimeObj, primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId, familyId, groupId };
         return newParams;
     }
 }

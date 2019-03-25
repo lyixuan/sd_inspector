@@ -18,7 +18,7 @@ class QualityDetail extends React.Component {
       params: {
         id: this.props.location.query.id,
       },
-      appealInfoCollapse: true,
+      qualityInfoCollapse: true,
       checkResultsCollapse: true,
     };
   }
@@ -29,7 +29,7 @@ class QualityDetail extends React.Component {
     });
   }
   handleCollapse() {
-    this.setState({ appealInfoCollapse: !this.state.appealInfoCollapse });
+    this.setState({ qualityInfoCollapse: !this.state.qualityInfoCollapse });
   }
   handleCheckResultsCollapse() {
     this.setState({ checkResultsCollapse: !this.state.checkResultsCollapse });
@@ -42,12 +42,12 @@ class QualityDetail extends React.Component {
           {/* 质检违规人员信息 */}
           <PersonInfo
             data={qualityDetailData}
-            appealInfoCollapse={this.state.appealInfoCollapse}
+            qualityInfoCollapse={this.state.qualityInfoCollapse}
             onClick={() => this.handleCollapse()}
           />
           <article
             className={
-              this.state.appealInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
+              this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
             }
           >
             <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
