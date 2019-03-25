@@ -1,6 +1,7 @@
 import React from 'react';
 import {  Row, Col } from 'antd';
 import moment from 'moment';
+import { BiFilter } from '@/utils/utils';
 import styles from './style.less';
 
 class Info extends React.Component {
@@ -11,7 +12,10 @@ class Info extends React.Component {
           <Col span={12} >
             {
               type==='startAppeal'?<> <span> 附件：</span><span>{data.attUrl}</span></>:
-                <><span className={data.checkResult!==1?styles.redIcon:styles.greenIcon}> 审核结果：</span><span>{data.checkResult}</span></>
+                <>
+                  <span className={data.checkResult!==1?styles.redIcon:styles.greenIcon}> 审核结果：</span>
+                  <span>{ BiFilter('APPEAL_RESULT_TYPE').map(item => {if(item.id===data.checkResult)return item.name})}</span>
+                </>
             }
           </Col>
           <Col span={4}>

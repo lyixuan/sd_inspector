@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
-import { BiFilter } from '@/utils/utils';
 import CommonForm from '@/pages/qualityAppeal/components/commonForm';
 import styles from './style.less';
 import AppealInfo from './component/AppealInfo';
@@ -16,7 +14,9 @@ import AppealInfo from './component/AppealInfo';
 class  CreatePointBook extends React.Component {
   constructor(props) {
     super(props);
-    this.state={}
+    this.state={
+      appealType:1
+    }
   }
   componentDidMount(){
     this.getAppealInfo();
@@ -36,6 +36,7 @@ class  CreatePointBook extends React.Component {
   }
   render() {
     const {appealShow} = this.props.createPointBook;
+    const {appealType} = this.state;
     // console.log(appealShow)
 
     return (
@@ -44,7 +45,7 @@ class  CreatePointBook extends React.Component {
         <CommonForm {...this.props} onSubmit={this.onSubmit} >
           <div>
             <div className={styles.title}>申诉信息</div>
-            <AppealInfo dataList={appealShow}/>
+            <AppealInfo dataList={appealShow} appealType={appealType}/>
           </div>
         </CommonForm>
         <BIModal
