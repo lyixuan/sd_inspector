@@ -51,7 +51,7 @@ class EditAppeal extends React.Component {
       domFragment.push(
         <>
           <AppealInfo
-            data={{ appealStart: item.appealStart, appealEndDate: item.appealEndDate, id: item.id }}
+            data={{ appealStart: item.appealStart, appealEndDate: item.appealEndDate, id: item.id, type: item.type, }}
           />
           {/* <SOPCheckResult data={item.sopAppealCheck} /> */}
           {/* <SuperiorCheck data={item.masterAppealCheck} /> */}
