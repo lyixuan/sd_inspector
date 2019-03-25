@@ -1,8 +1,8 @@
 import React from 'react';
-import { Form, Row, Col } from 'antd';
-import { connect } from 'dva';
+import {  Row, Col } from 'antd';
 import Info from './_info';
 import styles from './style.less';
+import moment from 'moment';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BIRadio from '@/ant_components/BIRadio';
 import BIInput from '@/ant_components/BIInput';
@@ -21,23 +21,36 @@ class Index extends React.Component {
       });
   };
   render() {
+    const {dataList} = this.props;
+    let dataList1={},dataList2={};
+    if(dataList){
+      if(dataList[0].type===1){
+        dataList1 = dataList[0];
+        dataList2 = dataList[1];
+      }else {
+        dataList2 = dataList[0];
+        dataList1 = dataList[1];
+      }
+
+      console.log(dataList1)
+    }
     return (
       <div>
         <div className={styles.appealWrap}>
-          <div className={styles.s1_title}>一次申诉<span className={styles.txtCls}>（一次申诉截止日期：2019-02-01）</span></div>
+          <div className={styles.s1_title}>一次申诉<span className={styles.txtCls}>（一次申诉截止日期：{moment(dataList1.appealEndDate).format('YYYY-MM-DD')}）</span></div>
           <div className={styles.resultWrap}>
             <div className={styles.s2_title}>申诉发起人</div>
-            <Info type='1'/>
+            <Info type='startAppeal' data={dataList1.appealStart}/>
           </div>
           <div className={styles.resultWrap}>
             <div className={styles.s2_title}>SOP审核结果</div>
-            <Info />
-            <Info />
-            <Info />
+            <Info data={dataList1.sopAppealCheck}/>
+            {/*<Info data={dataList1.appealStart}/>*/}
+            {/*<Info />*/}
           </div>
           <div className={styles.resultWrap}>
             <div className={styles.s2_title}>主管审核</div>
-            <Info />
+            <Info data={dataList1.masterAppealCheck}/>
           </div>
         </div>
         <div className={styles.appealWrap}>
