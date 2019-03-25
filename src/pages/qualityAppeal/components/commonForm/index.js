@@ -26,6 +26,7 @@ class CreateQualityNewSheet extends React.Component {
     componentDidMount() {
         // 初始化更新form的value
         this.handleOrgMapByMailParams();
+        this.handleOriginDataSource();
     }
     componentWillReceiveProps(nextProps) {
         if (JSON.stringify(nextProps.orgMapByMailData) !== JSON.stringify(this.props.orgMapByMailData)) {
