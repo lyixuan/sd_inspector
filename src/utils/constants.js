@@ -16,6 +16,7 @@ export const STATIC_HOST = {
 // 设置domain域名
 export const DOMAIN_HOST = '.ministudy.com';
 // export const DOMAIN_HOST = 'localhost';
+export const PROXY_PATH = () => '/proxyQuality';
 
 // 登录页面地址配置
 export const LOGIN_URL = {
@@ -319,6 +320,11 @@ export const FRONT_ROLE_TYPE_LIST = [
   { id: 'csleader', name: '客诉组长', level: '1', isPerformance: 0 },
   { id: 'csofficer', name: '客诉专员', level: '1', isPerformance: 0 },
 ];
+// 学院类型
+export const FAMILY_TYPE = [
+  { id: 1, name: '自考' },
+  { id: 2, name: '壁垒' },
+]
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -338,6 +344,7 @@ export default {
   APPEAL_TYPE,
   ISWARN,
   FRONT_ROLE_TYPE_LIST,
+  FAMILY_TYPE,
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

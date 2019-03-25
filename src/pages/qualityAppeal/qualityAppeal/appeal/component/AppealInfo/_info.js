@@ -3,7 +3,9 @@ import {  Row, Col } from 'antd';
 import styles from './style.less';
 
 class Info extends React.Component {
+
   render() {
+    const {type} = this.props;
     const a=1;
       return (
       <div className={styles.itemInfo}>

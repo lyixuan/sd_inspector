@@ -13,10 +13,7 @@ export async function qualityExportExcel(params) {
 export async function qualityCancelQuality(params) {
   return request('/quality/cancelQuality', { params });
 }
-// 分维树状数据
-export async function queryDimensionTreeList(params) {
-  return request('/dimension/queryDimensionTreeList', { params });
-}
+
 
 
 

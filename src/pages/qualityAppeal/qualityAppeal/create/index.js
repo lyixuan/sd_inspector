@@ -12,7 +12,7 @@ import styles from './style.less';
 import SubOrderDetail from './../../components/subOrderDetail';
 import SOPCheckResult from '../component/sopCheckRecords';
 import AppealInfo from '../component/AppealInfo';
-import { BaseModels } from './../../../qualityAppeal/qualityNewSheet/_utils/baseModels';
+// import { BaseModels } from './../../../qualityAppeal/qualityNewSheet/_utils/baseModels';
 const { Option } = BISelect;
 const TreeNode = TreeSelect.TreeNode;
 const { TextArea } = Input;
@@ -31,7 +31,7 @@ let isZip = false;
 class EditQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
-    this.paramsModel = new BaseModels();
+    this.paramsModel = {};
     this.state = {
       paramsId: {
         id: 1,

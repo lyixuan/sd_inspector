@@ -5,6 +5,7 @@ import { extend } from 'umi-request';
 import { routerRedux } from 'dva/router';
 import storage from './storage';
 import { redirectUrlParams } from './routeUtils';
+import { PROXY_PATH } from './constants';
 
 import { notification } from 'antd';
 
@@ -59,7 +60,7 @@ const errorHandler = error => {
  */
 const request = extend({
   errorHandler, // 默认错误处理
-  prefix: '/proxyQuality', // prefix
+  prefix: PROXY_PATH(), // prefix
   headers: {
     authorization: storage.getToken(),
   },
