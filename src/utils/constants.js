@@ -274,13 +274,13 @@ export const VIOLATION_LEVEL = [
 // 申诉状态 前端状态
 export const APPEAL_STATE = [
   { id: 1, name: '待申诉', type: 1 },
-  { id: 2, name: '一次SOP待审核', type: 1 },
+  { id: 2, name: '一次SOP待审核', type: 1 },// 1
   { id: 3, name: '一次SOP已驳回', type: 1 },
-  { id: 4, name: '一次质检主管待审核', type: 1 },
+  { id: 4, name: '一次质检主管待审核', type: 1 },//
   { id: 5, name: '一次质检主管已驳回', type: 1 },
-  { id: 6, name: '二次SOP待审核', type: 1 },
+  { id: 6, name: '二次SOP待审核', type: 1 },//
   { id: 7, name: '二次SOP已驳回', type: 1 },
-  { id: 8, name: '二次质检主管待审核', type: 1 },
+  { id: 8, name: '二次质检主管待审核', type: 1 },//2
   { id: 9, name: '一次申诉审核通过', type: 2 },
   { id: 10, name: '一次申诉超时', type: 2 },
   { id: 11, name: '二次申诉审核通过', type: 2 },
@@ -324,6 +324,11 @@ export const FRONT_ROLE_TYPE_LIST = [
 export const FAMILY_TYPE = [
   { id: 1, name: '自考' },
   { id: 2, name: '壁垒' },
+];
+// 学院类型
+export const APPEAL_RESULT_TYPE = [
+  { id: 1, name: '通过' },
+  { id: 0, name: '驳回' },
 ]
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
@@ -345,6 +350,7 @@ export default {
   ISWARN,
   FRONT_ROLE_TYPE_LIST,
   FAMILY_TYPE,
+  APPEAL_RESULT_TYPE,
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
