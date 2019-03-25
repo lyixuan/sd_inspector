@@ -7,9 +7,9 @@ import moment from 'moment';
 class Index extends React.Component {
 
   render() {
-    const {dataList,status=0} = this.props;
+    const {dataList,appealStatus=0} = this.props;
+    const status = Number(appealStatus);
     let dataList1={},dataList2={};
-    console.log(dataList)
     if(dataList&&dataList.length>0){
       if(dataList[0].type===1){
         dataList1 = dataList[0];
@@ -47,7 +47,7 @@ class Index extends React.Component {
                 </div>
                 {status===4?(
                   <div className={styles.masterContent}>
-                    <div className={styles.appealTitle}>SOP审核</div>
+                    <div className={styles.appealTitle}>主管审核</div>
                     <Edit />
                   </div>
                 ):null}

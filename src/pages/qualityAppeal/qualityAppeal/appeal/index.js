@@ -60,7 +60,7 @@ class  CreatePointBook extends React.Component {
           onSubmit={this.onSubmit} >
           <div>
             <div className={styles.title}>申诉信息</div>
-            <AppealInfo dataList={appealShow} status={this.query.status}/>
+            <AppealInfo dataList={appealShow} appealStatus={this.query.status}/>
           </div>
         </CommonForm>
         <BIModal
