@@ -1,20 +1,20 @@
 import React from 'react';
-import {  Row, Col } from 'antd';
+import { Row, Col } from 'antd';
 import moment from 'moment';
 import { BiFilter } from '@/utils/utils';
 import styles from './style.less';
 
 class Info extends React.Component {
-  renderDom = (data,type,i=0)=>{
-    return(
+  renderDom = (data, type, i = 0) => {
+    return (
       <div key={i}>
         <Row>
           <Col span={12} >
             {
-              type==='startAppeal'?<> <span> 附件：</span><span>{data.attUrl}</span></>:
+              type === 'startAppeal' ? <> <span> 附件：</span><span>{data.attUrl}</span></> :
                 <>
-                  <span className={data.checkResult!==1?styles.redIcon:styles.greenIcon}> 审核结果：</span>
-                  <span>{ BiFilter('APPEAL_RESULT_TYPE').map(item => {if(item.id===data.checkResult)return item.name})}</span>
+                  <span className={data.checkResult !== 1 ? styles.redIcon : styles.greenIcon}> 审核结果：</span>
+                  <span>{BiFilter('APPEAL_RESULT_TYPE').map(item => { if (item.id === data.checkResult) return item.name })}</span>
                 </>
             }
           </Col>
@@ -24,12 +24,12 @@ class Info extends React.Component {
           </Col>
           <Col span={8}>
             <span>操作时间：</span>
-            <span>{data.operateDate?moment(data.operateDate).format('YYYY年MM月DD日 HH:mm:ss'):null}</span>
+            <span>{data.operateDate ? moment(data.operateDate).format('YYYY年MM月DD日 HH:mm:ss') : null}</span>
           </Col>
         </Row>
         <Row>
           <Col span={24}>
-            <span>{type==='startAppeal'?'申诉说明':'审核说明'} ：</span>
+            <span>{type === 'startAppeal' ? '申诉说明' : '审核说明'} ：</span>
             <span>{data.desc}</span>
           </Col>
         </Row>
@@ -37,16 +37,17 @@ class Info extends React.Component {
     )
   };
   render() {
-    const {data,type} = this.props;
+    const { data, type } = this.props;
     const isArr = data instanceof Array;
-      return (
+    console.log(this.props)
+    return (
       <div className={styles.itemInfo}>
-        {!data?null: (
+        {!data ? null : (
           <>
             {
-              isArr?data.map((item,i) => {
-               return this.renderDom(item,type,i)
-              }): this.renderDom(data,type)
+              isArr ? data.map((item, i) => {
+                return this.renderDom(item, type, i)
+              }) : this.renderDom(data, type)
             }
           </>
         )
