@@ -6,7 +6,7 @@ import CommonForm from '@/pages/qualityAppeal/components/commonForm';
 import styles from './style.less';
 import PersonInfo from '@/pages/qualityAppeal/qualityNewSheet/detail/components/personInfo';
 import SubOrderDetail from './../../components/subOrderDetail';
-import AppealInfo from './component/AppealInfo';
+import AppealInfo from '../../components/AppealInfo';
 import router from 'umi/router';
 
 @connect(({ qualityAppealing, qualityAppealHome }) => ({

@@ -1,9 +1,9 @@
 import React from 'react';
 import {  Row, Col,Checkbox } from 'antd';
 import moment from 'moment';
-import BIDatePicker from '@/ant_components/BIDatePicker';
-import BIRadio from '@/ant_components/BIRadio';
-import BIInput from '@/ant_components/BIInput';
+import BIDatePicker from '@/ant_components/BIDatePicker/index';
+import BIRadio from '@/ant_components/BIRadio/index';
+import BIInput from '@/ant_components/BIInput/index';
 
 class Edit extends React.Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class Edit extends React.Component {
     });
   };
   onChangeInput=(e)=>{
-    console.log(e.target.value);
+    console.log(e.target);
     this.setState({
       desc: e.target.value,
     });
