@@ -7,7 +7,7 @@ export default class PersonInfoComponent extends React.Component {
     super(props);
     this.state = {
       data: props.data,
-      appealInfoCollapse: this.props.appealInfoCollapse,
+      qualityInfoCollapse: this.props.qualityInfoCollapse,
     };
   }
   componentDidMount() {}
@@ -15,15 +15,16 @@ export default class PersonInfoComponent extends React.Component {
     this.props.onClick();
   }
   getAppealStatus() {
-    if (this.state.appealInfoCollapse) {
+    if (this.state.qualityInfoCollapse) {
       return '-';
     }
     return '+';
   }
   render() {
     const { qualityType, verifyDate, mail, role, groupName, name } = this.props.data;
-    this.state.appealInfoCollapse = this.props.appealInfoCollapse;
-    const appealInfoCollapse = this.props.appealInfoCollapse;
+    this.state.qualityInfoCollapse = this.props.qualityInfoCollapse;
+    const qualityInfoCollapse = this.props.qualityInfoCollapse;
+    console.log('personinfo:', this.props);
     return (
       <section className={styles.personInfoCon}>
         <div className={styles.personInfo}>
@@ -38,7 +39,7 @@ export default class PersonInfoComponent extends React.Component {
             {this.getAppealStatus()}
           </span>
         </div>
-        <div className={appealInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`}>
+        <div className={qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`}>
           <div className={styles.container}>
             <div className={styles.secRow}>
               <div>质检类型：{qualityType == 1 ? '客诉质检' : '班主任质检'}</div>

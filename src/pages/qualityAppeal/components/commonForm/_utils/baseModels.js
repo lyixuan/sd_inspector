@@ -25,6 +25,7 @@ export class BaseModels {
             desc: '',                   // 违规详情	
             masterMail: '',              // 客诉主管邮箱
             qualityValue: null,          // 扣除学分/绩效
+            userId: null,                 // 根据邮箱查出用户id
         };
         this.modelData = this.handleInitData(qualityDetail);
     }
@@ -40,10 +41,11 @@ export class BaseModels {
     }
     HandleOrgMapByMail(obj) {
         if (!obj || typeof obj !== 'object') return;
-        const { collegeId, familyId, groupId, userType, ...others } = obj;
+        const { collegeId, familyId, groupId, userType, id, name } = obj;
+
         const organize = [collegeId, familyId, groupId].filter(item => item);
         return {
-            ...others, organize, role: userType,
+            organize, role: userType, userId: id, name,
         }
     }
     transOriginParams = (params) => {
