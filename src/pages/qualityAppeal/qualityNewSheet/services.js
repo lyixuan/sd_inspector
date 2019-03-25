@@ -13,6 +13,10 @@ export async function qualityExportExcel(params) {
 export async function qualityCancelQuality(params) {
   return request('/quality/cancelQuality', { params });
 }
+//  添加质检接口
+export async function addQuality(data) {
+  return request('/quality/addQuality', { method: 'post', data });
+}
 
 
 

@@ -76,10 +76,10 @@ class CreateQualityNewSheet extends React.Component {
         this.setState({ violationLevelObj });
     }
     getDimensionTreeList = () => {
-        const { dimensionTreeList } = this.props;
+        const { dimensionTreeList = [] } = this.props;
         const params = this.props.form.getFieldsValue();
         const { qualityType, dimensionId } = params || {};
-        return qualityType && dimensionId ? dimensionTreeList[0].children : [];
+        return qualityType && dimensionId ? dimensionTreeList[0] ? dimensionTreeList[0].children : [] : [];
     }
 
 
@@ -178,7 +178,7 @@ class CreateQualityNewSheet extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         const { params, orgList } = this.props;
-        const violationLevelObj = this.renderViolationLevelName();
+        const { violationLevelObj } = this.state;
         const dimensionList = this.chooseDimensionList();
         return (
             <div className={styles.qualityContainter}>
@@ -321,7 +321,6 @@ class CreateQualityNewSheet extends React.Component {
                                 <Form.Item label="*违规分类：">
                                     {getFieldDecorator('dimension', {
                                         initialValue: params.dimension,
-                                        normalize: (...argu) => argu[1],
                                     })(
                                         <BICascader
                                             options={this.getDimensionTreeList()}
