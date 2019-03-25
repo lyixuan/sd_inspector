@@ -28,8 +28,8 @@ export default {
         message.error(result.msgDetail);
       }
     },
-    *reviewAppel({ payload }, { call, put }) {
-      const result = yield call(reviewAppeal, { ...payload.params });
+    *reviewAppeal({ payload }, { call, put }) {
+      const result = yield call(reviewAppeal, { ...payload });
       if (result.code === 20000) {
         const appealReview = result.data ? result.data : [];
         yield put({ type: 'save', payload: { appealReview } });

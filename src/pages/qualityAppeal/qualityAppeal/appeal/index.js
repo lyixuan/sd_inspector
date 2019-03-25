@@ -47,7 +47,7 @@ class QualityAppealing extends React.Component {
   };
   handleSubmitSop = () => {
     const {appealParam} = this.state;
-    if (!appealParam.value) {
+    if (!appealParam.checkResult) {
       message.warn('审核结果为必选项');
       return
     }
@@ -58,7 +58,7 @@ class QualityAppealing extends React.Component {
     const params = {
       qualityId: Number(this.query.id),
       type: this.query.status === '2' || this.query.status === '4' ? 1:2,
-      checkResult: Number(appealParam.value),
+      checkResult: Number(appealParam.checkResult),
       isWarn: appealParam.isWarn,
       desc: appealParam.desc ? appealParam.desc:undefined,
       appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate:undefined,
@@ -78,12 +78,30 @@ class QualityAppealing extends React.Component {
       onCancel() { },
     });
   };
-  handleSubmitMaster = () => {
-    console.log(2)
-    // this.props.dispatch({
-    //   type: 'createPointBook/reviewAppel',
-    //   payload: { qualityInspectionParam, appealParam },
-    // })
+  handleSubmitMaster = (formParams) => {
+    const {appealParam} = this.state;
+    console.log(appealParam);
+    console.log(formParams);
+    if (!appealParam.checkResult) {
+      message.warn('审核结果为必选项');
+      return
+    }
+    if (this.query.status === '4' && !appealParam.appealEndDate) {
+      message.warn('二审截止日期必填');
+      return
+    }
+    const appealParamNew = {
+      qualityId: Number(this.query.id),
+      type: this.query.status === '2' || this.query.status === '4' ? 1:2,
+      checkResult: Number(appealParam.checkResult),
+      isWarn: appealParam.isWarn,
+      desc: appealParam.desc ? appealParam.desc:undefined,
+      appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate:undefined,
+    };
+    this.props.dispatch({
+      type: 'qualityAppealing/reviewAppeal',
+      payload: { qualityInspectionParam:formParams, appealParam:appealParamNew },
+    })
   };
   handleCancel = () => {
     router.goBack();
@@ -95,7 +113,7 @@ class QualityAppealing extends React.Component {
     })
   };
   render() {
-    const { appealShow = [], qualityDetailData } = this.props.qualityAppealing;
+    const { appealShow = [], qualityDetailData={} } = this.props.qualityAppealing;
     appealShow.forEach(v => {
       if (v.type === 1) {
         this.firstAppealEndDate = v.appealEndDate;
@@ -103,7 +121,7 @@ class QualityAppealing extends React.Component {
     });
     return (
       <div className={styles.detailContainer}>
-        {this.query.status !== 2 || this.query.status === 6 ? (
+        {this.query.status === 2 || this.query.status === 6 ? (
           <section style={{overflow:'hidden'}}>
             {/* 质检违规人员信息 */}
             <PersonInfo
@@ -135,11 +153,11 @@ class QualityAppealing extends React.Component {
         ) : (
           <CommonForm
             {...this.props}
-            // dataSource={qualityDetailData}
-            onSubmit={this.handleSubmitMaster} >
+            dataSource={qualityDetailData}
+            onSubmit={(params)=>this.handleSubmitMaster(params)} >
             <div>
               <div className={styles.title}>申诉信息</div>
-            <AppealInfo dataList={appealShow} appealStatus={this.query.status}/>
+              <AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData}/>
             </div>
           </CommonForm>
         )}
