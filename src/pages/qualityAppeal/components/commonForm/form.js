@@ -40,7 +40,7 @@ class CreateQualityNewSheet extends React.Component {
     }
     changeOrg = (value) => {
         const level = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === value).level;
-        this.props.form.setFieldsValue({ organize: [] });
+        this.props.form.setFieldsValue({ organize: [], qualityValue: null });
         this.setState({
             level
         });
@@ -102,7 +102,7 @@ class CreateQualityNewSheet extends React.Component {
     }
     // 质检类型onchange
     qualityChange = (val) => {
-        this.props.form.setFieldsValue({ dimensionId: undefined });
+        this.props.form.setFieldsValue({ dimensionId: undefined, qualityValue: null });
     }
     // 文件预上传判断
     beforeUpload = file => {
@@ -195,19 +195,87 @@ class CreateQualityNewSheet extends React.Component {
         const { getFieldDecorator } = this.props.form;
         const values = this.props.form.getFieldsValue();
         const { qualityType, role } = values || {};
+        const isShowCreate = qualityType === 2 && role !== 'class' && role !== 'group' && role !== 'family';
+        const isShowPerformance = qualityType === 1 && role !== 'csleader' && role !== 'csofficer';
+        if (isShowCreate) return this.renderQualityType_create();
+        if (isShowPerformance) return this.renderQualityType_performance();
+    }
+    renderQualityType_performance = () => {
+        const { getFieldDecorator } = this.props.form;
+        const { params } = this.props;
         return (
             <Row style={{ lineHeight: '40px' }}>
                 <Col className="gutter-row" span={12}>
-                    <Form.Item label="*扣除学分">
-                        {getFieldDecorator('qualityType', {
-                            initialValue: this.state.credit,
+                    <Form.Item label="*扣除绩效">
+                        {getFieldDecorator('qualityValue', {
+                            initialValue: params.qualityType,
                         })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
                         <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}>%</span>
                     </Form.Item>
                 </Col>
             </Row>
         )
+    }
+    renderQualityType_create = () => {
+        const { getFieldDecorator } = this.props.form;
+        const { params } = this.props;
+        return (
+            <>
+                <Row style={{ lineHeight: '40px' }}>
+                    <Col className="gutter-row" span={12}>
+                        <Form.Item label="*扣除学分">
+                            {getFieldDecorator('qualityValue', {
+                                initialValue: this.state.credit,
+                            })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
+                            <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}>%</span>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row className="gutter-row">
+                    <Col className="gutter-row" span={12}>
+                        <Form.Item label="*学院类型">
+                            {getFieldDecorator('familyType', {
+                                initialValue: params.familyType || undefined,
+                                rules: [{ required: true, message: '请选择学院类型' }],
 
+                            })(
+                                <BISelect allowClear placeholder="请选择" style={{ width: 280 }}>
+                                    {BiFilter('FAMILY_TYPE').map(item => (
+                                        <Option value={item.id} key={item.name}>
+                                            {item.name}
+                                        </Option>
+                                    ))}
+
+                                </BISelect>
+                            )}
+
+
+                        </Form.Item>
+                    </Col>
+                </Row>
+            </>
+        )
+
+    }
+    renderUpload = () => {
+        const { isUpload } = this.props;
+        if (!isUpload) {
+            return (<Upload
+                {...uploadAttachment()}
+                data={{ type: 1 }}
+                onChange={this.uploadChange}
+                beforeUpload={this.beforeUpload}
+            >
+                <BIButton type="primary"
+                >
+                    上传附件
+</BIButton>
+            </Upload>)
+        } else {
+            return (
+                <div>下载</div>
+            )
+        }
     }
     onCancel = () => {
         if (this.props.onCancel) {
@@ -342,6 +410,7 @@ class CreateQualityNewSheet extends React.Component {
                                 <Form.Item label="*分维：">
                                     {getFieldDecorator('dimensionId', {
                                         initialValue: params.dimensionId,
+                                        rules: [{ required: true, message: '请选择分维' }],
                                     })(
                                         <BISelect allowClear placeholder="请选择" notFoundContent="请选择质检类型" onChange={this.changeDimension} style={{ width: 280 }}>
                                             {dimensionList.map(item => (
@@ -360,6 +429,7 @@ class CreateQualityNewSheet extends React.Component {
                                 <Form.Item label="*违规分类：">
                                     {getFieldDecorator('dimension', {
                                         initialValue: params.dimension,
+                                        rules: [{ required: true, message: '请选择违规分类' }],
                                     })(
                                         <BICascader
                                             options={this.getDimensionTreeList()}
@@ -380,47 +450,15 @@ class CreateQualityNewSheet extends React.Component {
                         </Row>
                         {this.renderGovernorComponent()}
                         {this.renderQualityValue()}
-                        <Row className="gutter-row">
-                            <Col className="gutter-row" span={12}>
-                                <Form.Item label="*学院类型">
-                                    {getFieldDecorator('familyType', {
-                                        initialValue: params.familyType || undefined,
-                                    })(
-
-                                        <BISelect allowClear placeholder="请选择" style={{ width: 280 }}>
-                                            {BiFilter('FAMILY_TYPE').map(item => (
-                                                <Option value={item.id} key={item.name}>
-                                                    {item.name}
-                                                </Option>
-                                            ))}
-
-                                        </BISelect>
-                                    )}
-
-
-                                </Form.Item>
-                            </Col>
-                        </Row>
+                        {/* 当在非编辑状态下进行下载 */}
                         <Row className="gutter-row">
                             <Col span={12}>
                                 <Form.Item label="*附件：">
-                                    {getFieldDecorator('attUrl', {
-                                        initialValue: params.attUrl,
-                                    })(<Upload
-                                        {...uploadAttachment()}
-                                        data={{ type: 1 }}
-                                        onChange={this.uploadChange}
-                                        beforeUpload={this.beforeUpload}
-                                    >
-                                        <BIButton type="primary"
-                                        >
-                                            上传附件
-                    </BIButton>
-                                    </Upload>)}
-
+                                    {this.renderUpload()}
                                 </Form.Item>
                             </Col>
                         </Row>
+
                         <Row className="gutter-row">
                             <Col span={24} style={{ display: 'flex' }}>
                                 <Form.Item label="*违规详情:">
