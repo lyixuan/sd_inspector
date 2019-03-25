@@ -8,6 +8,7 @@ import PersonInfo from '@/pages/qualityAppeal/qualityNewSheet/detail/components/
 import SubOrderDetail from './../../components/subOrderDetail';
 import AppealInfo from '../../components/AppealInfo';
 import router from 'umi/router';
+import { message } from 'antd/lib/index';
 const confirm = BIModal.confirm;
 
 @connect(({ qualityAppealing, qualityAppealHome }) => ({
@@ -45,6 +46,23 @@ class QualityAppealing extends React.Component {
     });
   };
   handleSubmitSop = () => {
+    const {appealParam} = this.state;
+    if (!appealParam.value) {
+      message.warn('审核结果为必选项');
+      return
+    }
+    if (this.query.status === '4' && !appealParam.appealEndDate) {
+      message.warn('二审截止日期必填');
+      return
+    }
+    const params = {
+      qualityId: Number(this.query.id),
+      type: this.query.status === '2' || this.query.status === '4' ? 1:2,
+      checkResult: Number(appealParam.value),
+      isWarn: appealParam.isWarn,
+      desc: appealParam.desc ? appealParam.desc:undefined,
+      appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate:undefined,
+    };
     const that = this;
     confirm({
       className: 'BIConfirm',
@@ -54,7 +72,7 @@ class QualityAppealing extends React.Component {
       onOk() {
         that.props.dispatch({
           type: 'qualityAppealing/sopAppeal',
-          payload: { params: { } },
+          payload: { params },
         })
       },
       onCancel() { },
