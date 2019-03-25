@@ -8,7 +8,11 @@ export default {
 
   },
 
-  effects: {},
+  effects: {
+    *getQualityDetail({ payload }, { call, put }) {
+
+    }
+  },
 
   reducers: {},
 

@@ -1,4 +1,5 @@
 import request from '@/utils/request';
+import uploadRequest from '@/utils/uploadRequest'
 
 // 查询组织架构
 export async function getOrgMapList(params) {
@@ -27,6 +28,6 @@ export async function getQualityDetail(params) {
 }
 // 上传附件
 export function uploadAttachment() {
-  return '/quality/uploadAttachment'
+  return uploadRequest('/quality/uploadAttachment');
 }
 
