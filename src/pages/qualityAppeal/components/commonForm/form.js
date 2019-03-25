@@ -387,6 +387,12 @@ class CreateQualityNewSheet extends React.Component {
                                 x
                             </Col>
                         </Row>
+                        {/* 显示children */}
+                        <Row>
+                            <Col span={24}>
+                                {this.props.otherNode}
+                            </Col>
+                        </Row>
                         <Row className="gutter-row">
                             <Col span={24}>
                                 <div className={styles.gutterBox1}>
