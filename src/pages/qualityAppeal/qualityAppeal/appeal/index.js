@@ -8,54 +8,54 @@ import PersonInfo from '@/pages/qualityAppeal/qualityNewSheet/detail/components/
 import SubOrderDetail from './../../components/subOrderDetail';
 import AppealInfo from './component/AppealInfo';
 
-
 @connect(({ qualityAppealing, qualityAppealHome }) => ({
   qualityAppealing,
   orgList: qualityAppealHome.orgList,
 }))
-class  QualityAppealing extends React.Component {
+class QualityAppealing extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
-      appealInfoCollapse: true
+    this.state = {
+      qualityInfoCollapse: true,
     };
-    const {query = {}} = this.props.location;
-    this.query  = query;
+    const { query = {} } = this.props.location;
+    this.query = query;
     this.firstAppealEndDate = null;
   }
   handleCollapse() {
-    this.setState({ appealInfoCollapse: !this.state.appealInfoCollapse });
+    this.setState({ qualityInfoCollapse: !this.state.qualityInfoCollapse });
   }
-  componentDidMount(){
+  componentDidMount() {
     this.getQualityInfo();
     this.getAppealInfo();
-  };
-  getAppealInfo=()=>{
+  }
+  getAppealInfo = () => {
     this.props.dispatch({
       type: 'qualityAppealing/getAppealInfo',
-      payload: { id:this.query.id},
-    })
+      payload: { id: this.query.id },
+    });
   };
-  getQualityInfo=()=>{
+  getQualityInfo = () => {
     this.props.dispatch({
       type: 'qualityAppealing/getQualityDetailData',
-      payload: { id:this.query.id},
-    })
+      payload: { id: this.query.id },
+    });
   };
   handleSubmit = () => {
-    console.log(1)
+    console.log(1);
     // this.props.dispatch({
     //   type: 'createPointBook/reviewAppel',
     //   payload: { qualityInspectionParam, appealParam },
     // })
   };
   render() {
-    const {appealShow=[],qualityDetailData} = this.props.qualityAppealing;
-      appealShow.forEach((v)=>{
-        if (v.type === 1)  {
-          this.firstAppealEndDate = v.appealEndDate;
-        }
-      });
+    const { appealShow = [], qualityDetailData } = this.props.qualityAppealing;
+    console.log(this.props);
+    appealShow.forEach(v => {
+      if (v.type === 1) {
+        this.firstAppealEndDate = v.appealEndDate;
+      }
+    });
     return (
       <div className={styles.qualityContainter}>
         {this.query.status !== 2 || this.query.status === 6 ? (
@@ -63,7 +63,7 @@ class  QualityAppealing extends React.Component {
             {/* 质检违规人员信息 */}
             <PersonInfo
               data={qualityDetailData}
-              appealInfoCollapse={this.state.qualityInfoCollapse}
+              qualityInfoCollapse={this.state.qualityInfoCollapse}
               onClick={() => this.handleCollapse()}
             />
             <div
@@ -79,11 +79,12 @@ class  QualityAppealing extends React.Component {
               {/*<AppealInfo dataList={appealShow} status={this.query.status}/>*/}
             </div>
           </section>
-        ):(
+        ) : (
           <CommonForm
             {...this.props}
             // dataSource={qualityDetailData}
-            onSubmit={this.onSubmit} >
+            onSubmit={this.onSubmit}
+          >
             <div>
               <div className={styles.title}>申诉信息</div>
               {/*<AppealInfo dataList={appealShow} status={this.query.status}/>*/}
