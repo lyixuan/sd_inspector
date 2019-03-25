@@ -45,30 +45,35 @@ class CreateQualityNewSheet extends React.Component {
     handleOrgMapByMailParams = (params) => {
         const { orgMapByMailData } = this.props;
         const newParams = this.formModels.HandleOrgMapByMail(params || orgMapByMailData);
+        console.log(newParams)
         this.upDateFormParams(newParams);
     }
     getOrgMapByMail = (mail, values) => {
         if (!mail) return;
-        this.props.dispatch({
-            type: 'qualityAppealHome/getOrgMapByMail',
-            payload: { mail },
+        this.saveParams(values, () => {
+            this.props.dispatch({
+                type: 'qualityAppealHome/getOrgMapByMail',
+                payload: { mail },
+            });
         });
-        this.saveParams(values);
     }
     getOrderNum = (orderNum, values) => {
         if (!orderNum) return;
-        this.props.dispatch({
-            type: 'qualityAppealHome/getOrderNum',
-            payload: { orderNum },
+
+        this.saveParams(values, () => {
+            this.props.dispatch({
+                type: 'qualityAppealHome/getOrderNum',
+                payload: { orderNum },
+            });
         });
-        this.saveParams(values);
     }
     changeDimension = (params = {}, values) => {
-        this.props.dispatch({
-            type: 'qualityAppealHome/queryDimensionTreeList',
-            payload: { ...params },
+        this.saveParams(values, () => {
+            this.props.dispatch({
+                type: 'qualityAppealHome/queryDimensionTreeList',
+                payload: { ...params },
+            });
         });
-        this.saveParams(values);
 
     }
     upDateFormParams = (newParams = {}) => {
@@ -77,19 +82,25 @@ class CreateQualityNewSheet extends React.Component {
     setAttUrl = (attUrl, newParams) => {
         this.saveParams({ ...newParams, attUrl });
     }
-    saveParams = (nextParams = {}) => {
+    saveParams = (nextParams = {}, callback) => {
         const { formParams } = this.state;
         const newParams = { ...formParams };
         for (let item in nextParams) {
             newParams[item] = nextParams[item];
         }
-        this.setState({ formParams: newParams });
+        this.setState({ formParams: newParams }, () => {
+            if (callback) callback();
+        });
     }
     onSubmit = (params) => {
-        const newParams = this.formModels.transFormParams(params);
+        const { formParams } = this.state;
+        const assginObject = Object.assign({}, formParams, params)
+        const newParams = this.formModels.transFormParams(assginObject);
+
         if (this.props.onSubmit) {
             this.props.onSubmit(newParams)
         }
+        this.saveParams(params);
     }
     onCancel = () => {
         this.props.history.goBack();

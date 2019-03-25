@@ -17,7 +17,8 @@ export class FormModels extends BaseModels {
             qualityValue: null,        // @params(Number)扣除学分/绩效
             attUrl: '',                // @params(String)附件地址	
             desc: '',                  // @params(String)违规详情
-            familyType: null,          // @params(Number)自考壁垒	
+            familyType: null,          // @params(Number)自考壁垒
+            userId: null,
         };
     }
     handleInitData = () => {
