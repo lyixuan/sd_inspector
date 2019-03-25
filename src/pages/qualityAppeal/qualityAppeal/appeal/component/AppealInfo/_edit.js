@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Row, Col } from 'antd';
+import {  Row, Col,Checkbox } from 'antd';
 import moment from 'moment';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BIRadio from '@/ant_components/BIRadio';
@@ -9,10 +9,18 @@ class Edit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      appealEndDate:null,
       value:null,
+      desc:null,
+      isWarn:null
     }
   }
-
+  onChangeCheckBox=(e)=>{
+    console.log(e)
+    this.setState({
+      isWarn: e.target.value,
+    });
+  };
   onChangeRadio=(e)=>{
     this.setState({
       value: e.target.value,
@@ -23,8 +31,12 @@ class Edit extends React.Component {
   };
   onChangeInput=(e)=>{
     console.log(e)
+    this.setState({
+      desc: e.target.value,
+    });
   };
   render() {
+    const {value} = this.state;
     return (
       <div>
         <Row>
@@ -32,6 +44,7 @@ class Edit extends React.Component {
             <span>审核结果：</span>
             <BIRadio onChange={this.onChangeRadio} value={this.state.value}>
               <BIRadio.Radio value={1}>通过</BIRadio.Radio>
+              {value===1?<Checkbox onChange={this.onChangeCheckBox}>警告</Checkbox>:null}
               <BIRadio.Radio value={2}>驳回</BIRadio.Radio>
             </BIRadio>
           </Col>
