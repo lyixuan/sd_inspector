@@ -57,7 +57,7 @@ class Edit extends React.Component {
     });
   };
   render() {
-    const {checkResult,desc} = this.state;
+    const {checkResult} = this.state;
     const {hideDate} =  this.props;
     return (
       <div>

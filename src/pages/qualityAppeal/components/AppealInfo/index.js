@@ -40,7 +40,7 @@ class Index extends React.Component {
           {status===2?(
             <div className={styles.masterContent}>
               <div className={styles.appealTitle}>SOP审核</div>
-              <Edit setStateData={setStateData}/>
+              <Edit hideDate setStateData={setStateData}/>
             </div>
           ):null}
           {
@@ -58,7 +58,7 @@ class Index extends React.Component {
                 {status===4?(
                   <div className={styles.masterContent}>
                     <div className={styles.appealTitle}>主管审核</div>
-                    <Edit setStateData={setStateData} hideDate />
+                    <Edit setStateData={setStateData} />
                   </div>
                 ):null}
               </>
@@ -84,7 +84,7 @@ class Index extends React.Component {
               {status===6?(
                 <div className={styles.masterContent}>
                   <div className={styles.appealTitle}>SOP审核</div>
-                  <Edit setStateData={setStateData}/>
+                  <Edit hideDate setStateData={setStateData}/>
                 </div>
               ):null}
               {status===8?(
@@ -100,7 +100,7 @@ class Index extends React.Component {
                   {status===8?(
                     <div className={styles.masterContent}>
                       <div className={styles.appealTitle}>主管审核</div>
-                      <Edit setStateData={setStateData}/>
+                      <Edit hideDate setStateData={setStateData}/>
                     </div>
                   ):null}
                 </>
