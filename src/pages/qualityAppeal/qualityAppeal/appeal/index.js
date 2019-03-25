@@ -42,8 +42,15 @@ class QualityAppealing extends React.Component {
       payload: { id: this.query.id },
     });
   };
-  handleSubmit = () => {
-    console.log(1);
+  handleSubmitSop = () => {
+    console.log(1)
+    // this.props.dispatch({
+    //   type: 'createPointBook/reviewAppel',
+    //   payload: { qualityInspectionParam, appealParam },
+    // })
+  };
+  handleSubmitMaster = () => {
+    console.log(2)
     // this.props.dispatch({
     //   type: 'createPointBook/reviewAppel',
     //   payload: { qualityInspectionParam, appealParam },
@@ -86,7 +93,7 @@ class QualityAppealing extends React.Component {
               <BIButton onClick={this.handleCancel} style={{marginRight:20}}>
                 取消
               </BIButton>
-              <BIButton type="primary" onClick={this.handleSubmit}>
+              <BIButton type="primary" onClick={this.handleSubmitSop}>
                 提交审核
               </BIButton>
             </div>
@@ -95,8 +102,7 @@ class QualityAppealing extends React.Component {
           <CommonForm
             {...this.props}
             // dataSource={qualityDetailData}
-            onSubmit={this.onSubmit}
-          >
+            onSubmit={this.handleSubmitMaster} >
             <div>
               <div className={styles.title}>申诉信息</div>
             <AppealInfo dataList={appealShow} appealStatus={this.query.status}/>
