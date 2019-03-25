@@ -40,6 +40,7 @@ class CreateQualityNewSheet extends React.Component {
     }
     changeOrg = (value) => {
         const level = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === value).level;
+        this.props.form.setFieldsValue({ organize: [] });
         this.setState({
             level
         });
