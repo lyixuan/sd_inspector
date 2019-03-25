@@ -18,7 +18,7 @@ class Edit extends React.Component {
   onChangeCheckBox=(e)=>{
     console.log(e)
     this.setState({
-      isWarn: e.target.value,
+      isWarn: e.target.checked,
     });
   };
   onChangeRadio=(e)=>{
