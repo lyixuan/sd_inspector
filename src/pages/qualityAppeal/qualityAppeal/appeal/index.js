@@ -58,7 +58,7 @@ class QualityAppealing extends React.Component {
     const params = {
       qualityId: Number(this.query.id),
       type: this.query.status === '2' || this.query.status === '4' ? 1:2,
-      checkResult: Number(appealParam.value),
+      checkResult: Number(appealParam.checkResult),
       isWarn: appealParam.isWarn,
       desc: appealParam.desc ? appealParam.desc:undefined,
       appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate:undefined,
