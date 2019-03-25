@@ -16,15 +16,16 @@ import AppealInfo from './component/AppealInfo';
 class  CreatePointBook extends React.Component {
   constructor(props) {
     super(props);
-    this.state={};
-    console.log(this.props);
+    this.state={
+    };
     const {query = {}} = this.props.location;
     this.query  = query;
+    this.firstAppealEndDate = null;
   }
   componentDidMount(){
     this.getQualityInfo();
     this.getAppealInfo();
-  }
+  };
   getAppealInfo=()=>{
     this.props.dispatch({
       type: 'qualityAppealing/getAppealInfo',
@@ -36,25 +37,30 @@ class  CreatePointBook extends React.Component {
       type: 'qualityAppealing/getQualityDetailData',
       payload: { id:this.query.id},
     })
-  }
+  };
   handleSubmit = () => {
     console.log(1)
     // this.props.dispatch({
     //   type: 'createPointBook/reviewAppel',
     //   payload: { qualityInspectionParam, appealParam },
     // })
-  }
+  };
   render() {
-    const {appealShow,qualityDetailData} = this.props.qualityAppealing;
-    // console.log(appealShow)
-
+    const {appealShow=[],qualityDetailData} = this.props.qualityAppealing;
+      appealShow.forEach((v)=>{
+        if (v.type === 1)  {
+          this.firstAppealEndDate = v.appealEndDate;
+        }
+      });
     return (
       <div className={styles.qualityContainter}>
-        <div className={styles.title}>质检违规详情 <span className={styles.passTimeCls}>（质检通过时间：2019-02-01 22:22:22）</span>  </div>
-        <CommonForm {...this.props} qualityDetailData={qualityDetailData} onSubmit={this.onSubmit} >
+        <CommonForm
+          {...this.props}
+          // dataSource={qualityDetailData}
+          onSubmit={this.onSubmit} >
           <div>
             <div className={styles.title}>申诉信息</div>
-            <AppealInfo dataList={appealShow}/>
+            <AppealInfo dataList={appealShow} status={this.query.status}/>
           </div>
         </CommonForm>
         <BIModal

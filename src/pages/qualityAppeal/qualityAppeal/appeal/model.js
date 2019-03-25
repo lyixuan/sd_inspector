@@ -6,7 +6,7 @@ export default {
 
   state: {
     appealReview: null,
-    appealShow: null,
+    appealShow: [],
     qualityDetailData: {},
   },
 
