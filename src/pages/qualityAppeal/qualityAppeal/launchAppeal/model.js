@@ -11,7 +11,6 @@ export default {
   effects: {
     *uploadFile({ payload }, { call, put }) {
       const result = yield call(uploadFile, { ...payload });
-      console.log(155, result)
       if (result.code === 20000) {
         yield put({ type: 'save' });
       } else {
@@ -21,7 +20,6 @@ export default {
     *launchAppeal({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(launchAppeal, params);
-      console.log(14, result)
       let lunchData = result.data
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { lunchData } });

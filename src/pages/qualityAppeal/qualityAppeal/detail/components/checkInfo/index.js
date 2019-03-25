@@ -12,7 +12,6 @@ export default class CheckInfoComponent extends React.Component {
   componentDidMount() {}
 
   render() {
-    console.log(this.state.data);
     return (
       <section className={styles.personInfoCon}>
         <span className={styles.secctionTitle}>质检审核</span>

@@ -78,7 +78,6 @@ class QualityAppealing extends React.Component {
   };
   render() {
     const { appealShow = [], qualityDetailData } = this.props.qualityAppealing;
-    console.log(this.props);
     appealShow.forEach(v => {
       if (v.type === 1) {
         this.firstAppealEndDate = v.appealEndDate;
