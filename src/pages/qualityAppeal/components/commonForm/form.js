@@ -119,27 +119,39 @@ class CreateQualityNewSheet extends React.Component {
     };
     uploadChange = (info) => {
         // tip 目前支持上传一个文件
-        const { file = null } = info || {};
+        const { fileList = [] } = info || {};
         let attUrl = '';
-        if (file) {
-            const { response = null } = file;
+        if (fileList.length > 0) {
+            const { response = null } = fileList[0] || {};
             if (response) {
+
                 if (response.code === 20000) {
-                    attUrl = response.data;
-                    this.setState({ fileList: file });
+                    attUrl = response.data.fileUrl;
+                    this.setState({ fileList: fileList });
                 } else {
                     this.setState({ fileList: [] });
                     message.error(response.msgDetail);
                 }
-            } else {
-                message.error('上传错误');
-                this.setState({ fileList: [] });
             }
         }
         const params = this.props.form.getFieldsValue();
         if (this.props.setAttUrl) {
             this.props.setAttUrl(attUrl, params);
         }
+    };
+    // 上传附件
+    // 文件预上传判断
+    beforeUpload = file => {
+        const arr = file.name.split('.');
+        isZip = arr[arr.length - 1] === 'zip' || arr[arr.length - 1] === 'rar';
+        if (!isZip) {
+            message.error('文件仅支持zip或rar格式!');
+        }
+        isLt10M = file.size / 1024 / 1024 < 10;
+        if (!isLt10M) {
+            message.error('文件不能大于10MB！');
+        }
+        return isZip && isLt10M;
     };
     renderViolationLevelName = () => {
         const dimension = this.props.form.getFieldValue('dimension');
@@ -392,17 +404,20 @@ class CreateQualityNewSheet extends React.Component {
                         <Row className="gutter-row">
                             <Col span={12}>
                                 <Form.Item label="*附件：">
-                                    <Upload
+                                    {getFieldDecorator('attUrl', {
+                                        initialValue: params.attUrl,
+                                    })(<Upload
                                         {...uploadAttachment()}
+                                        data={{ type: 1 }}
                                         onChange={this.uploadChange}
                                         beforeUpload={this.beforeUpload}
-                                        fileList={this.state.fileList}
                                     >
                                         <BIButton type="primary"
                                         >
                                             上传附件
                     </BIButton>
-                                    </Upload>
+                                    </Upload>)}
+
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -410,7 +425,7 @@ class CreateQualityNewSheet extends React.Component {
                             <Col span={24} style={{ display: 'flex' }}>
                                 <Form.Item label="*违规详情:">
                                     {getFieldDecorator('desc', {
-                                        initialValue: this.state.credit,
+                                        initialValue: params.desc,
                                     })(<TextArea placeholder="请输入违规详情" />)}
                                 </Form.Item>
                                 x
