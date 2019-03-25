@@ -90,7 +90,6 @@ class CreateQualityNewSheet extends React.Component {
         if (this.props.onSubmit) {
             this.props.onSubmit(newParams)
         }
-        console.log(newParams, this.state.formParams)
     }
     onCancel = () => {
         this.props.history.goBack();

@@ -104,7 +104,9 @@ class CreateQualityNewSheet extends React.Component {
         const { fileList } = info || {};
         let attUrl = '';
         if (fileList.length > 0) {
-            const { response } = fileList[0];
+            const { response = {} } = fileList[0] || {};
+            console.log(response)
+
             if (response.code === 20000) {
                 attUrl = response.data;
             }
