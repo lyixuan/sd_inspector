@@ -4,9 +4,9 @@ import moment from 'moment';
 import styles from './style.less';
 
 class Info extends React.Component {
-  renderDom = (data,type)=>{
+  renderDom = (data,type,i=0)=>{
     return(
-      <>
+      <div key={i}>
         <Row>
           <Col span={12} >
             {
@@ -29,7 +29,7 @@ class Info extends React.Component {
             <span>{data.desc}</span>
           </Col>
         </Row>
-      </>
+      </div>
     )
   };
   render() {
@@ -40,8 +40,8 @@ class Info extends React.Component {
         {!data?null: (
           <>
             {
-              isArr?data.map(item=>{
-                this.renderDom(item,type)
+              isArr?data.map((item,i) => {
+               return this.renderDom(item,type,i)
               }): this.renderDom(data,type)
             }
           </>
