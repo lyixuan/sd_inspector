@@ -8,6 +8,7 @@ import PersonInfo from '@/pages/qualityAppeal/qualityNewSheet/detail/components/
 import SubOrderDetail from './../../components/subOrderDetail';
 import AppealInfo from '../../components/AppealInfo';
 import router from 'umi/router';
+const confirm = BIModal.confirm;
 
 @connect(({ qualityAppealing, qualityAppealHome }) => ({
   qualityAppealing,
@@ -44,11 +45,20 @@ class QualityAppealing extends React.Component {
     });
   };
   handleSubmitSop = () => {
-    console.log(1)
-    // this.props.dispatch({
-    //   type: 'createPointBook/reviewAppel',
-    //   payload: { qualityInspectionParam, appealParam },
-    // })
+    const that = this;
+    confirm({
+      className: 'BIConfirm',
+      title: '提交后，该申诉将被提交给质检主管进行审核。',
+      cancelText: '取消',
+      okText: '确定',
+      onOk() {
+        that.props.dispatch({
+          type: 'qualityAppealing/sopAppeal',
+          payload: { params: { } },
+        })
+      },
+      onCancel() { },
+    });
   };
   handleSubmitMaster = () => {
     console.log(2)

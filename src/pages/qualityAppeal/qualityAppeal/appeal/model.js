@@ -1,5 +1,6 @@
 import { message } from 'antd/lib/index';
-import {  getAppealInfo, reviewAppeal,getQualityDetail } from './services';
+import {  getAppealInfo, reviewAppeal,getQualityDetail,sopAppeal } from './services';
+import router from 'umi/router';
 
 export default {
   namespace: 'qualityAppealing',
@@ -19,14 +20,21 @@ export default {
         message.error(result.msg);
       }
     },
-    *reviewAppel({ payload }, { call, put }) {
-      const result = yield call(reviewAppeal, { ...payload });
-      console.log(14, result)
-      const appealReview = result.data ? result.data : [];
+    *sopAppeal({ payload }, { call, put }) {
+      const result = yield call(sopAppeal, { ...payload.params });
       if (result.code === 20000) {
+        router.goBack();
+      } else {
+        message.error(result.msgDetail);
+      }
+    },
+    *reviewAppel({ payload }, { call, put }) {
+      const result = yield call(reviewAppeal, { ...payload.params });
+      if (result.code === 20000) {
+        const appealReview = result.data ? result.data : [];
         yield put({ type: 'save', payload: { appealReview } });
       } else {
-        message.error(result.msg);
+        message.error(result.msgDetail);
       }
     },
     *getQualityDetailData({ payload }, { call, put }) {
