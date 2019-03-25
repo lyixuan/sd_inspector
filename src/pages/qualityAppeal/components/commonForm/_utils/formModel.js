@@ -29,10 +29,8 @@ export class FormModels extends BaseModels {
     transFormParams = (params) => {
         const { organize = [], dimension = [], ...others } = params || {};
         const [collegeId, familyId, groupId] = organize;
-        const [primaryAssortment = {}, secondAssortment = {}, thirdAssortment = {}] = dimension;
-        const assortmentIdParams = { primaryAssortmentId: primaryAssortment.id, secondAssortmentId: secondAssortment.id, thirdAssortmentId: thirdAssortment.id }
-        const newParams = { ...others, ...assortmentIdParams, collegeId, familyId, groupId };
+        const [primaryAssortmentId, secondAssortmentId, thirdAssortmentId] = dimension;
+        const newParams = { ...others, primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId, familyId, groupId };
         return newParams;
     }
-
 }
