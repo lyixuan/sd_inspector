@@ -26,7 +26,7 @@ class Launch extends React.Component {
         desc: '',
         qualityId: this.props.location.query.id || 1,
       },
-      appealInfoCollapse: true,
+      qualityInfoCollapse: true,
       checkResultsCollapse: true,
     };
   }
@@ -54,7 +54,7 @@ class Launch extends React.Component {
     this.setState({ params: this.state.params });
   };
   handleCollapse() {
-    this.setState({ appealInfoCollapse: !this.state.appealInfoCollapse });
+    this.setState({ qualityInfoCollapse: !this.state.qualityInfoCollapse });
   }
   handleCheckResultsCollapse() {
     this.setState({ checkResultsCollapse: !this.state.checkResultsCollapse });
@@ -63,20 +63,20 @@ class Launch extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
     console.log(604, qualityDetailData);
-    this.state.params.firstAppealEndDate = qualityDetailData.firstAppealEndDate
-    this.state.params.type = qualityDetailData.type
+    this.state.params.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
+    this.state.params.type = qualityDetailData.type;
     return (
       <div className={styles.launchContainer}>
         <section>
           {/* 质检违规人员信息 */}
           <PersonInfo
             data={qualityDetailData}
-            appealInfoCollapse={this.state.appealInfoCollapse}
+            qualityInfoCollapse={this.state.qualityInfoCollapse}
             onClick={() => this.handleCollapse()}
           />
           <article
             className={
-              this.state.appealInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
+              this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
             }
           >
             <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
@@ -90,7 +90,11 @@ class Launch extends React.Component {
           <div className={styles.title}>申诉信息</div>
           <div>
             <div className={styles.appealInfo}>
-              一次申诉<span>一次申诉截止日期：{moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD HH:mm:ss')}</span>
+              一次申诉
+              <span>
+                一次申诉截止日期：
+                {moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD HH:mm:ss')}
+              </span>
             </div>
             <div className={styles.originator}>申诉发起人</div>
             <div className={styles.flexStyle}>

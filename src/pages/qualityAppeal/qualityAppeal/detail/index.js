@@ -88,7 +88,7 @@ class AppealDetail extends React.Component {
           {/* 质检违规人员信息 */}
           <PersonInfo
             data={qualityDetailData}
-            appealInfoCollapse={this.state.qualityInfoCollapse}
+            qualityInfoCollapse={this.state.qualityInfoCollapse}
             onClick={() => this.handleCollapse()}
           />
           <div
