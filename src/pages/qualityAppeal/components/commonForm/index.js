@@ -109,6 +109,7 @@ class CreateQualityNewSheet extends React.Component {
     render() {
         const { formParams } = this.state;
         const { orgList, children } = this.props;
+        console.log(formParams)
         return (<div>
             {/* form区域 */}
             <FormComponent
