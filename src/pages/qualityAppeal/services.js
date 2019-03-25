@@ -31,3 +31,7 @@ export function uploadAttachment() {
   return uploadRequest('/quality/uploadAttachment');
 }
 
+// 分维树状数据
+export async function queryDimensionTreeList(params) {
+  return request('/dimension/queryDimensionTreeList', { params });
+}

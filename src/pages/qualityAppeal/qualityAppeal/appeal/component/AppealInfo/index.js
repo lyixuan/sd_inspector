@@ -27,7 +27,7 @@ class Index extends React.Component {
           <div className={styles.s1_title}>一次申诉<span className={styles.txtCls}>（一次申诉截止日期：2019-02-01）</span></div>
           <div className={styles.resultWrap}>
             <div className={styles.s2_title}>申诉发起人</div>
-            <Info />
+            <Info type='1'/>
           </div>
           <div className={styles.resultWrap}>
             <div className={styles.s2_title}>SOP审核结果</div>
