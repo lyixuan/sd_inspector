@@ -140,7 +140,7 @@ class Launch extends React.Component {
               <div style={{ marginLeft: '20px', marginTop: '-5px' }}>
                 <Upload
                   {...uploadAttachment()}
-                  data={{ type: 1 }}
+                  data={{ type: qualityDetailData.qualityType }}
                   onChange={this.uploadFileChange}
                   beforeUpload={this.beforeUpload}
                   fileList={this.state.fileList}
