@@ -40,7 +40,7 @@ class Index extends React.Component {
           {status===2?(
             <div className={styles.masterContent}>
               <div className={styles.appealTitle}>SOP审核</div>
-              <Edit setStateData={setStateData}/>
+              <Edit hideDate setStateData={setStateData}/>
             </div>
           ):null}
           {
@@ -58,7 +58,7 @@ class Index extends React.Component {
                 {status===4?(
                   <div className={styles.masterContent}>
                     <div className={styles.appealTitle}>主管审核</div>
-                    <Edit setStateData={setStateData}/>
+                    <Edit setStateData={setStateData} />
                   </div>
                 ):null}
               </>
