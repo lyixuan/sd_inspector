@@ -14,9 +14,8 @@ const RadioGroup = Radio.Group;
 
 @connect(({ qualityAppealHome, EditAppeal }) => ({
   qualityAppealHome,
-  EditAppeal
+  EditAppeal,
 }))
-
 class EditAppeal extends React.Component {
   constructor(props) {
     super(props);
@@ -28,10 +27,10 @@ class EditAppeal extends React.Component {
         checkResult: null,
         appealEndDate: 1000,
         type: 1,
-        desc: "",
-        qualityId: 1
-      }
-
+        desc: '',
+        qualityId: 1,
+      },
+      appealInfoCollapse: [],
     };
   }
   componentDidMount() {
@@ -47,28 +46,51 @@ class EditAppeal extends React.Component {
 
   getAppealInfos(detailData) {
     let domFragment = [];
-    detailData.forEach(item =>
+    detailData.forEach((item, index) => {
+      this.state.appealInfoCollapse.push(false);
       domFragment.push(
         <>
           <AppealInfo
-            data={{ appealStart: item.appealStart, appealEndDate: item.appealEndDate, id: item.id }}
+            data={{
+              appealStart: item.appealStart,
+              appealEndDate: item.appealEndDate,
+              id: item.id,
+              type: item.type,
+              index: index,
+              isCollapse: this.state.appealInfoCollapse[index],
+            }}
+            onClick={index => this.handleAppealInfoCollapse(index)}
           />
-          {/* <SOPCheckResult data={item.sopAppealCheck} /> */}
+          <SOPCheckResult
+            data={{
+              sopAppealCheck: item.sopAppealCheck,
+              isCollapse: this.state.appealInfoCollapse[index],
+            }}
+          />
           {/* <SuperiorCheck data={item.masterAppealCheck} /> */}
         </>
-      )
-    );
+      );
+    });
     return domFragment;
+  }
+  handleAppealInfoCollapse(index) {
+    this.state.appealInfoCollapse[index] = !this.state.appealInfoCollapse[index];
+    this.setState({ appealInfoCollapse: this.state.appealInfoCollapse });
   }
   getSuperiorCheck(detailData) {
     let domFragment = [];
-    detailData.forEach(item =>
+    detailData.forEach((item, index) =>
       domFragment.push(
         <>
           {/* <AppealInfo
             data={{ appealStart: item.appealStart, appealEndDate: item.appealEndDate, id: item.id }}
           /> */}
-          <SOPCheckResult data={item.sopAppealCheck} />
+          <SOPCheckResult
+            data={{
+              sopAppealCheck: item.sopAppealCheck,
+              isCollapse: this.state.appealInfoCollapse[index],
+            }}
+          />
           {/* <SuperiorCheck data={item.masterAppealCheck} /> */}
         </>
       )
@@ -76,24 +98,22 @@ class EditAppeal extends React.Component {
     return domFragment;
   }
   handleSubmit = e => {
-    let params = this.state.submitParam
-    console.log(82, params)
+    let params = this.state.submitParam;
+    console.log(82, params);
     this.props.dispatch({
       type: 'EditAppeal/sopCheckAppeal',
       payload: { params },
-    })
-
-
+    });
   };
   radioChange = e => {
-    this.state.submitParam.checkResult = e.target.value
-    this.setState({ submitParam: this.state.submitParam })
-  }
+    this.state.submitParam.checkResult = e.target.value;
+    this.setState({ submitParam: this.state.submitParam });
+  };
   inputChange = e => {
     e.persist();
-    this.state.submitParam.desc = e.target.value
-    this.setState({ submitParam: this.state.submitParam })
-  }
+    this.state.submitParam.desc = e.target.value;
+    this.setState({ submitParam: this.state.submitParam });
+  };
 
   render() {
     const detailData = this.props.qualityAppealHome.DetailData;
@@ -118,8 +138,6 @@ class EditAppeal extends React.Component {
         <section>
           {/* 申诉信息 */}
           {this.getAppealInfos(detailData)}
-
-
         </section>
         <div className={styles.editBox}>
           <div className={styles.title}>SOP审核</div>
@@ -143,12 +161,6 @@ class EditAppeal extends React.Component {
             </Col>
           </Row>
         </div>
-
-        <section>
-          {this.getSuperiorCheck(detailData)}
-          {/* <SuperiorCheck data={this.state.qualityData.sopCheckDetail} /> */}
-        </section>
-
         <Row className="gutter-row">
           <Col span={24}>
             <div className={styles.gutterBox1}>
@@ -156,7 +168,9 @@ class EditAppeal extends React.Component {
                 <BIButton>取消</BIButton>
               </span>
               <span className={styles.gutterBtn1}>
-                <BIButton type="primary" onClick={this.handleSubmit}>提交</BIButton>
+                <BIButton type="primary" onClick={this.handleSubmit}>
+                  提交
+                </BIButton>
               </span>
             </div>
           </Col>

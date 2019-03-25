@@ -21,7 +21,7 @@ class AppealDetail extends React.Component {
         id: this.props.location.query.id || 1,
       },
       qualityInfoCollapse: true,
-      appealInfoCollapse: [false, false],
+      appealInfoCollapse: [],
     };
   }
   componentDidMount() {
@@ -68,6 +68,7 @@ class AppealDetail extends React.Component {
           />
         </>
       );
+      this.state.appealInfoCollapse.push(false);
     });
     return domFragment;
   }
