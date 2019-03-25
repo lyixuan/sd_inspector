@@ -1,3 +1,7 @@
+import moment from 'moment';
+
+const format = 'YYYY-MM-DD';
+
 export class BaseModels {
     constructor(props) {
         const { qualityDetail = {} } = props || {};
@@ -45,10 +49,21 @@ export class BaseModels {
     transOriginParams = (params) => {
         const { primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId,            // 学院ID
             familyId,
-            groupId, ...others } = params || {};
+            groupId, violationDate, reduceScoreDate, ...others } = params || {};
         const organize = [collegeId, familyId, groupId].filter(item => item);
         const dimension = [primaryAssortmentId, secondAssortmentId, thirdAssortmentId].filter(item => item);
-        return { ...others, organize, dimension };
+        const dateTimeObj = {
+            violationDate: this.transMoment(violationDate),
+            reduceScoreDate: this.transMoment(reduceScoreDate),
+        }
+        return { ...others, ...dateTimeObj, organize, dimension };
 
+    }
+    transMoment = (date) => {
+        return date ? moment(date) : null;
+    }
+    transDateTime = (date) => {
+        if (!date) return;
+        return date.format(format);
     }
 }
