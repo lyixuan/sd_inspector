@@ -9,47 +9,54 @@ import styles from './style.less';
 import AppealInfo from './component/AppealInfo';
 
 
-@connect(({ createPointBook, qualityAppealHome }) => ({
-  createPointBook,
+@connect(({ qualityAppealing, qualityAppealHome }) => ({
+  qualityAppealing,
   orgList: qualityAppealHome.orgList,
 }))
 class  CreatePointBook extends React.Component {
   constructor(props) {
     super(props);
-    this.state={}
+    this.state={};
+    console.log(this.props);
+    const {query = {}} = this.props.location;
+    this.query  = query;
   }
-
+  componentDidMount(){
+    this.getQualityInfo();
+    this.getAppealInfo();
+  }
+  getAppealInfo=()=>{
+    this.props.dispatch({
+      type: 'qualityAppealing/getAppealInfo',
+      payload: { id:this.query.id},
+    })
+  };
+  getQualityInfo=()=>{
+    this.props.dispatch({
+      type: 'qualityAppealing/getQualityDetailData',
+      payload: { id:this.query.id},
+    })
+  }
   handleSubmit = () => {
     console.log(1)
     // this.props.dispatch({
-    //   type: 'createAppeal12/reviewAppel',
+    //   type: 'createPointBook/reviewAppel',
     //   payload: { qualityInspectionParam, appealParam },
     // })
   }
   render() {
+    const {appealShow,qualityDetailData} = this.props.qualityAppealing;
+    // console.log(appealShow)
+
     return (
       <div className={styles.qualityContainter}>
         <div className={styles.title}>质检违规详情 <span className={styles.passTimeCls}>（质检通过时间：2019-02-01 22:22:22）</span>  </div>
-        <CommonForm {...this.props} onSubmit={this.onSubmit} />
-      <div>
-        <div>
-          <div className={styles.title}>申诉信息</div>
-          <AppealInfo/>
-        </div>
-
-        <Row className="gutter-row">
-          <Col span={24}>
-            <div className={styles.gutterBox1}>
-                        <span className={styles.gutterBtn2}>
-                          <BIButton>取消</BIButton>
-                        </span>
-              <span className={styles.gutterBtn1}>
-                          <BIButton type="primary" onClick={this.handleSubmit}>提交</BIButton>
-                        </span>
-            </div>
-          </Col>
-        </Row>
-      </div>
+        <CommonForm {...this.props} qualityDetailData={qualityDetailData} onSubmit={this.onSubmit} >
+          <div>
+            <div className={styles.title}>申诉信息</div>
+            <AppealInfo dataList={appealShow}/>
+          </div>
+        </CommonForm>
         <BIModal
           title="提交确认"
           visible={this.state.visible}

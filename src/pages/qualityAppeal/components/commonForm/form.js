@@ -18,13 +18,15 @@ import { uploadAttachment } from '../../services';
 const { Option } = BISelect;
 const { TextArea } = Input;
 const format = 'YYYY-MM-DD';
-
+let isZip = false;
+let isLt10M = false;
 class CreateQualityNewSheet extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             level: null,   // 展示层级
             violationLevelObj: {},
+           fileList:[]
         };
     }
 
@@ -99,21 +101,43 @@ class CreateQualityNewSheet extends React.Component {
     qualityChange = (val) => {
         this.props.form.setFieldsValue({ dimensionId: undefined });
     }
+    // 文件预上传判断
+    beforeUpload = file => {
+      const arr = file.name.split('.');
+      isZip = arr[arr.length - 1] === 'zip' || arr[arr.length - 1] === 'rar';
+      if (!isZip) {
+        message.error('文件仅支持zip或rar格式!');
+      }
+      isLt10M = file.size / 1024 / 1024 < 10;
+      if (!isLt10M) {
+        message.error('文件不能大于10MB！');
+      }
+      return isZip && isLt10M;
+    };
     uploadChange = (info) => {
-        const params = this.props.form.getFieldsValue();
-        const { fileList } = info || {};
+        // tip 目前支持上传一个文件
+        const { file = null } = info || {};
         let attUrl = '';
-        if (fileList.length > 0) {
-            const { response = {} } = fileList[0];
+        if (file) {
+          const {response = null} = file;
+          if (response) {
             if (response.code === 20000) {
-                attUrl = response.data;
+              attUrl = response.data;
+              this.setState({ fileList:file });
+            } else {
+              this.setState({ fileList:[] });
+              message.error(response.msgDetail);
             }
+          } else {
+            message.error('上传错误');
+            this.setState({ fileList:[] });
+          }
         }
+      const params = this.props.form.getFieldsValue();
         if (this.props.setAttUrl) {
             this.props.setAttUrl(attUrl, params);
         }
-
-    }
+    };
     renderViolationLevelName = () => {
         const dimension = this.props.form.getFieldValue('dimension');
         if (Array.isArray(dimension) && dimension.length > 0) {
@@ -368,6 +392,8 @@ class CreateQualityNewSheet extends React.Component {
                                     <Upload
                                         {...uploadAttachment()}
                                         onChange={this.uploadChange}
+                                        beforeUpload={this.beforeUpload}
+                                        fileList={this.state.fileList}
                                     >
                                         <BIButton type="primary"
                                         >
@@ -385,6 +411,12 @@ class CreateQualityNewSheet extends React.Component {
                                     })(<TextArea placeholder="请输入违规详情" />)}
                                 </Form.Item>
                                 x
+                            </Col>
+                        </Row>
+                        {/* 显示children */}
+                        <Row>
+                            <Col span={24}>
+                                {this.props.otherNode}
                             </Col>
                         </Row>
                         <Row className="gutter-row">

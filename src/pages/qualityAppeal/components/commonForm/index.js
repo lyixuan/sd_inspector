@@ -96,8 +96,7 @@ class CreateQualityNewSheet extends React.Component {
     }
     render() {
         const { formParams } = this.state;
-        const { orgList } = this.props;
-        console.log(formParams)
+        const { orgList, children } = this.props;
         return (<div>
             {/* form区域 */}
             <FormComponent
@@ -110,6 +109,7 @@ class CreateQualityNewSheet extends React.Component {
                 setAttUrl={this.setAttUrl}
                 onSubmit={this.onSubmit}
                 onCancel={this.onCancel}
+                otherNode={children || null}
             />
         </div>)
     }

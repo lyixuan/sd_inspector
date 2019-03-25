@@ -1,36 +1,52 @@
 import React from 'react';
 import {  Row, Col } from 'antd';
+import moment from 'moment';
 import styles from './style.less';
 
 class Info extends React.Component {
-
-  render() {
-    const {type} = this.props;
-    const a=1;
-      return (
-      <div className={styles.itemInfo}>
+  renderDom = (data,type,i=0)=>{
+    return(
+      <div key={i}>
         <Row>
           <Col span={12} >
-            <span className={a!==1?styles.redIcon:styles.greenIcon}> 审核结果：</span>
-            <span>已驳回</span>
+            {
+              type==='startAppeal'?<> <span> 附件：</span><span>{data.attUrl}</span></>:
+                <><span className={data.checkResult!==1?styles.redIcon:styles.greenIcon}> 审核结果：</span><span>{data.checkResult}</span></>
+            }
           </Col>
           <Col span={4}>
             <span> 执行人：</span>
-            <span>张三</span>
+            <span>{data.operator}</span>
           </Col>
           <Col span={8}>
             <span>操作时间：</span>
-            <span>2019-02-12 12：22：22</span>
+            <span>{moment(data.operateDate).format('YYYY年MM月DD日 HH:mm:ss')}</span>
           </Col>
         </Row>
         <Row>
           <Col span={24}>
-            <span> 审核说明：</span>
-            <span>
-              郭珊老师在4月2日19:30-21:00讲的【开学典礼】明劳动者具有从事某一职业所必备的学识和技能的证明。
-            </span>
+            <span>{type==='startAppeal'?'申诉说明':'审核说明'} ：</span>
+            <span>{data.desc}</span>
           </Col>
         </Row>
+      </div>
+    )
+  };
+  render() {
+    const {data,type} = this.props;
+    const isArr = data instanceof Array;
+      return (
+      <div className={styles.itemInfo}>
+        {!data?null: (
+          <>
+            {
+              isArr?data.map((item,i) => {
+               return this.renderDom(item,type,i)
+              }): this.renderDom(data,type)
+            }
+          </>
+        )
+        }
       </div>
     );
   }
