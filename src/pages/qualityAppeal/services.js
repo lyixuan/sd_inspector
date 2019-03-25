@@ -1,5 +1,5 @@
 import request from '@/utils/request';
-import uploadRequest from '@/utils/uploadRequest'
+import uploadRequest from '@/utils/uploadRequest';
 
 // 查询组织架构
 export async function getOrgMapList(params) {

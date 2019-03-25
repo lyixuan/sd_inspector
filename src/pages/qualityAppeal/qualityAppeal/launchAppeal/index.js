@@ -5,6 +5,7 @@ import BIButton from '@/ant_components/BIButton';
 import SubOrderDetail from './../../components/subOrderDetail';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 import IllegalInfo from './../../qualityNewSheet/detail/components/illegalInfo';
+import { uploadAttachment } from '../../services';
 import { connect } from 'dva';
 import moment from 'moment';
 const { TextArea } = Input;
@@ -48,7 +49,7 @@ class Launch extends React.Component {
     let params = this.state.params;
     console.log(82, params);
     if (!this.state.params.desc) {
-      alert("请填写申诉说明");
+      alert('请填写申诉说明');
       return;
     }
     this.props.dispatch({
@@ -87,7 +88,7 @@ class Launch extends React.Component {
     let { fileList } = info;
     if (isLt10M) {
       fileList = fileList.slice(-1);
-      console.log(89, info, fileList)
+      console.log(89, info, fileList);
       if (isZip) {
         this.setState({ fileList });
         // this.props.dispatch({
@@ -96,7 +97,6 @@ class Launch extends React.Component {
         // })
       }
     }
-
   };
   render() {
     const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
@@ -104,8 +104,8 @@ class Launch extends React.Component {
       beforeUpload: this.beforeUpload,
       onChange: this.uploadFileChange,
     };
-    this.state.params.firstAppealEndDate = qualityDetailData.firstAppealEndDate
-    this.state.params.type = qualityDetailData.qualityType
+    this.state.params.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
+    this.state.params.type = qualityDetailData.qualityType;
     return (
       <div className={styles.launchContainer}>
         <section>
@@ -141,7 +141,13 @@ class Launch extends React.Component {
             <div className={styles.flexStyle}>
               <div className={styles.label}>附件:</div>
               <div style={{ marginLeft: '20px', marginTop: '-5px' }}>
-                <Upload {...props} fileList={this.state.fileList} action='http://172.16.117.65:3000/mock/29/quality/uploadAttachment'>
+                <Upload
+                  {...uploadAttachment()}
+                  data={{ type: 1 }}
+                  onChange={this.uploadFileChange}
+                  beforeUpload={this.beforeUpload}
+                  fileList={this.state.fileList}
+                >
                   <BIButton type="primary">上传附件</BIButton>
                 </Upload>
               </div>
