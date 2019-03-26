@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './style.css';
-import Item from 'antd/lib/list/Item';
 
 export default class SOPCheckRecordsComponent extends React.Component {
   constructor(props) {
@@ -9,7 +8,7 @@ export default class SOPCheckRecordsComponent extends React.Component {
       data: props.data,
     };
   }
-  componentDidMount() {}
+  componentDidMount() { }
 
   render() {
     debugger;
