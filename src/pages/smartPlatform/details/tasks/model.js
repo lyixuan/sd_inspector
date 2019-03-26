@@ -16,9 +16,6 @@ export default {
     *getTaskPage({ payload }, { call, put }) {
       const result = yield call(getTaskPage,{...payload});
       const tableList = result.data?result.data.list : [];
-      tableList.forEach((v,i)=>{
-        tableList[i].createTime = moment(v.createTime).format('YYYY-MM-DD HH:mm:ss')
-      });
       const total = result.data?result.data.total : [];
       if (result.code === 20000) {
         yield put({ type: 'saveLsit', payload: { tableList,total} });
