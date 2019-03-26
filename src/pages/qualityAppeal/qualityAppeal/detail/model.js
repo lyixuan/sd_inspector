@@ -1,7 +1,5 @@
 import { message } from 'antd/lib/index';
-import { routerRedux } from 'dva/router';
 import { getAppealDetail, getQualityDetail } from './service';
-import moment from 'moment';
 
 export default {
   namespace: 'appealDetail',

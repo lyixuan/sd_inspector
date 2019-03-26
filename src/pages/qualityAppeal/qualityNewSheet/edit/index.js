@@ -54,10 +54,7 @@ class EditQualityNewSheet extends React.Component {
     return (
       <div className={styles.qualityContainter}>
         {/* form区域 */}
-        <CommonForm {...this.props}
-                    formType='quality'
-                    actionType='edit'
-                    onSubmit={this.onSubmit} dataSource={{ ...others }}>
+        <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={{ ...others }} formType="quality" actionType="edit">
           <QualityAppeal data={newqualityAudit} />
         </CommonForm>
         <BIModal
