@@ -7,9 +7,7 @@ import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 import SubOrderDetail from './../../components/subOrderDetail';
 import IllegalInfo from './../../qualityNewSheet/detail/components/illegalInfo';
 import AppealInfo from './../component/appealInfo';
-import SuperiorCheck from './../component/superiorCheck';
 import SOPCheckResult from './../component/sopCheckResult';
-import sopCheckRecords from './../component/sopCheckRecords';
 import router from 'umi/router';
 const { TextArea } = Input;
 const RadioGroup = Radio.Group;
@@ -23,17 +21,19 @@ class EditAppeal extends React.Component {
     super(props);
     this.state = {
       params: {
-        id: this.props.location.query.id || 1,
+        id: this.props.location.query.id || 26,
       },
       submitParam: {
         checkResult: null,
         appealEndDate: null,
         type: 1,
         desc: '',
-        qualityId: this.props.location.query.id || 1,
+        qualityId: this.props.location.query.id || 26,
       },
       appealInfoCollapse: [],
     };
+    this.appealEndDate = null;
+    this.type = null
   }
   componentDidMount() {
     this.props.dispatch({
@@ -97,7 +97,9 @@ class EditAppeal extends React.Component {
   }
   handleSubmit = e => {
     let params = this.state.submitParam;
-    if (!this.state.submitParam.checkResult) {
+    params.appealEndDate = this.appealEndDate;
+    params.type = this.type;
+    if (this.state.submitParam.checkResult == null) {
       message.warn('请选择审核结果');
       return;
     }
@@ -105,6 +107,8 @@ class EditAppeal extends React.Component {
       message.warn('请填写审核说明');
       return;
     }
+
+    console.log(109, params); return;
     this.props.dispatch({
       type: 'EditAppeal/sopCheckAppeal',
       payload: { params },
@@ -126,12 +130,16 @@ class EditAppeal extends React.Component {
   render() {
     const detailData = this.props.qualityAppealHome.DetailData;
     const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
-    this.state.submitParam.appealEndDate = detailData[detailData.length - 1]
-      ? detailData[detailData.length - 1].appealEndDate
-      : '';
-    this.state.submitParam.type = detailData[detailData.length - 1]
-      ? detailData[detailData.length - 1].type
-      : '';
+
+    this.appealEndDate = detailData[detailData.length - 1] ? detailData[detailData.length - 1].appealEndDate : '';
+    this.type = detailData[detailData.length - 1] ? detailData[detailData.length - 1].type : '';
+
+    // this.state.submitParam.appealEndDate = detailData[detailData.length - 1]
+    //   ? detailData[detailData.length - 1].appealEndDate
+    //   : '';
+    // this.state.submitParam.type = detailData[detailData.length - 1]
+    //   ? detailData[detailData.length - 1].type
+    //   : '';
     return (
       <div className={styles.editAppeal}>
         <section>

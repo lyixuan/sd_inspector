@@ -6,7 +6,7 @@ import CommonForm from '@/pages/qualityAppeal/components/commonForm';
 import styles from './style.less';
 import PersonInfo from '@/pages/qualityAppeal/qualityNewSheet/detail/components/personInfo';
 import SubOrderDetail from './../../components/subOrderDetail';
-import AppealInfo from '../../components/appealInfo';
+import AppealInfo from '../../components/AppealInfo';
 import router from 'umi/router';
 import { message } from 'antd/lib/index';
 const confirm = BIModal.confirm;
@@ -20,7 +20,8 @@ class QualityAppealing extends React.Component {
     super(props);
     this.state = {
       qualityInfoCollapse: true,
-      appealParam: {},
+      appealIsShow: true,
+      appealParam:{}
     };
     const { query = {} } = this.props.location;
     this.query = query;
@@ -28,6 +29,9 @@ class QualityAppealing extends React.Component {
   }
   handleCollapse() {
     this.setState({ qualityInfoCollapse: !this.state.qualityInfoCollapse });
+  }
+  handleAppeal() {
+    this.setState({ appealIsShow: !this.state.appealIsShow });
   }
   componentDidMount() {
     this.getQualityInfo();
@@ -104,11 +108,17 @@ class QualityAppealing extends React.Component {
   handleCancel = () => {
     router.goBack();
   };
-  setStateData = val => {
+  setStateData = (val)=>{
     this.setState({
       appealParam: val,
     });
   };
+  getAppealStatus() {
+    if (this.state.appealIsShow) {
+      return '-';
+    }
+    return '+';
+  }
   render() {
     const { appealShow = [], qualityDetailData = {} } = this.props.qualityAppealing;
     appealShow.forEach(v => {
@@ -134,13 +144,9 @@ class QualityAppealing extends React.Component {
               <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
               <SubOrderDetail data={qualityDetailData.orderDetail} />
             </div>
-            <div style={{ marginTop: 20 }}>
-              <div className={styles.title}>申诉信息</div>
-              <AppealInfo
-                dataList={appealShow}
-                appealStatus={this.query.status}
-                setStateData={this.setStateData}
-              />
+            <div style={{marginTop:20}}>
+              <div className={styles.title}>申诉信息 <span className={styles.iconCls} onClick={()=>this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
+              {this.state.appealIsShow?<AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData}/>:null}
             </div>
             <div style={{ float: 'right' }}>
               <BIButton onClick={this.handleCancel} style={{ marginRight: 20 }}>
@@ -155,16 +161,11 @@ class QualityAppealing extends React.Component {
           <CommonForm
             {...this.props}
             dataSource={qualityDetailData}
-            onSubmit={params => this.handleSubmitMaster(params)}
-          >
-            <div>
-              <div className={styles.title}>申诉信息</div>
-              <AppealInfo
-                dataList={appealShow}
-                appealStatus={this.query.status}
-                setStateData={this.setStateData}
-              />
-            </div>
+            onSubmit={(params)=>this.handleSubmitMaster(params)} >
+            <>
+              <div className={styles.title}>申诉信息 <span className={styles.iconCls} onClick={()=>this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
+              {this.state.appealIsShow?<AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData}/>:null}
+            </>
           </CommonForm>
         )}
         <BIModal

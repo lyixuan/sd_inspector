@@ -21,7 +21,7 @@ class Launch extends React.Component {
     super(props);
     this.state = {
       paramId: {
-        id: this.props.location.query.id || 1,
+        id: this.props.location.query.id || 26,
       },
       params: {
         firstAppealEndDate: undefined,
@@ -35,6 +35,8 @@ class Launch extends React.Component {
       qualityInfoCollapse: true,
       checkResultsCollapse: true,
     };
+    this.firstAppealEndDate = null;
+    this.type = null
   }
   componentDidMount() {
     this.props.dispatch({
@@ -48,6 +50,8 @@ class Launch extends React.Component {
   }
   handleSubmit = e => {
     let params = this.state.params;
+    params.firstAppealEndDate = this.firstAppealEndDate;
+    params.type = this.type
     console.log(50, params)
     if (!this.state.params.desc) {
       message.warn('请填写申诉说明');
@@ -103,12 +107,10 @@ class Launch extends React.Component {
   };
   render() {
     const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
-    const props = {
-      beforeUpload: this.beforeUpload,
-      onChange: this.uploadFileChange,
-    };
-    this.state.params.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
-    this.state.params.type = qualityDetailData.qualityType;
+    // this.state.params.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
+    // this.state.params.type = qualityDetailData.qualityType;
+    this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
+    this.type = qualityDetailData.qualityType;
     return (
       <div className={styles.launchContainer}>
         <section>

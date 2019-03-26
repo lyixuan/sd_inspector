@@ -4,8 +4,7 @@ import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
 import styles from './style.less';
 import CommonForm from '../../components/commonForm';
-import QualityAppeal from '../../components/appealInfo/qualityAppeal';
-import { message } from 'antd/lib/index';
+import QualityAppeal from '../../components/AppealInfo/qualityAppeal';
 
 @connect(({ loading, qualityNewSheet, editQualityNewSheet }) => ({
   loading,
