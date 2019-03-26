@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less';
-import { Row, Col, Input, Radio } from 'antd';
+import { Row, Col, Input, Radio, message } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 import SubOrderDetail from './../../components/subOrderDetail';
@@ -98,11 +98,11 @@ class EditAppeal extends React.Component {
   handleSubmit = e => {
     let params = this.state.submitParam;
     if (!this.state.submitParam.checkResult) {
-      alert("请选择审核结果");
+      message.warn('请选择审核结果');
       return;
     }
     if (!this.state.submitParam.desc) {
-      alert("请填写审核说明");
+      message.warn('请填写审核说明');
       return;
     }
     this.props.dispatch({

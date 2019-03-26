@@ -50,7 +50,7 @@ class Launch extends React.Component {
     let params = this.state.params;
     console.log(50, params)
     if (!this.state.params.desc) {
-      alert('请填写申诉说明');
+      message.warn('请填写申诉说明');
       return;
     }
     this.props.dispatch({
