@@ -46,6 +46,9 @@ class EditQualityNewSheet extends React.Component {
         {/* form区域 */}
         <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={{ ...others }} />
 
+        <div>
+
+        </div>
         <BIModal
           title="提交确认"
           visible={this.state.visible}
