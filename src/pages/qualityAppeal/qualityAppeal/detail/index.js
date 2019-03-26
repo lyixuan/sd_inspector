@@ -6,6 +6,7 @@ import SOPCheckResult from './../component/sopCheckResult';
 import SubOrderDetail from './../../components/subOrderDetail';
 import SuperiorCheck from './../component/superiorCheck';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
+import router from 'umi/router';
 // import IllegalInfo from './components/illegalInfo';
 // import CheckInfo from './components/checkInfo';
 import { Form, Icon, Row, Col, TreeSelect, Input, Upload, message } from 'antd';
@@ -105,7 +106,7 @@ class AppealDetail extends React.Component {
           {this.getAppealInfos(detailData)}
         </section>
         <section style={{ textAlign: 'right', marginTop: '20px' }}>
-          <BIButton>返回</BIButton>
+          <BIButton onClick={() => router.goBack()}>返回</BIButton>
         </section>
       </div>
     );
