@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
+import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality, checkRepeatQualityInspection } from '@/pages/qualityAppeal/qualityNewSheet/services';
 import { getQualityDetail } from '@/pages/qualityAppeal/qualityAppeal/appeal/services';
 import router from 'umi/router';
 
@@ -64,6 +64,15 @@ export default {
         message.error(result.msg);
       }
     },
+    *checkRepeatQualityInspection({ payload }, { call, put }) {
+      const response = yield call(checkRepeatQualityInspection, payload);
+      if (response.code === 20000) {
+
+      } else {
+        message.msg(response.msg);
+      }
+
+    }
   },
   reducers: {
     save(state, action) {

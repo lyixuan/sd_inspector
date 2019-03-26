@@ -51,13 +51,11 @@ class CreateQualityNewSheet extends React.Component {
         if (dimensionId) {
             this.changeDimension({ qualityType, dimensionId }, newParams)
         }
-        console.log(newParams)
         this.upDateFormParams(newParams);
     }
     handleOrgMapByMailParams = (params) => {
         const { orgMapByMailData } = this.props;
         const newParams = this.formModels.HandleOrgMapByMail(params || orgMapByMailData);
-        console.log(newParams)
         this.upDateFormParams(newParams);
     }
     getOrgMapByMail = (mail, values) => {
@@ -88,6 +86,12 @@ class CreateQualityNewSheet extends React.Component {
         });
 
     }
+    checkRepeatQualityInspection = (payload) => {
+        this.props.dispatch({
+            type: 'qualityNewSheet/checkRepeatQualityInspection',
+            payload,
+        })
+    }
     upDateFormParams = (newParams = {}) => {
         this.saveParams(newParams);
     }
@@ -106,9 +110,10 @@ class CreateQualityNewSheet extends React.Component {
     }
     onSubmit = (params) => {
         const { formParams } = this.state;
+        const { formType } = this.props
         const assginObject = Object.assign({}, formParams, params)
         const newParams = this.formModels.transFormParams(assginObject);
-
+        // if()
         if (this.props.onSubmit) {
             this.props.onSubmit(newParams)
         }

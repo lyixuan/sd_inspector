@@ -8,11 +8,11 @@ import styles from './style.less';
 class Info extends React.Component {
   renderDom = (data, type, i = 0) => {
     return (
-      <div key={i}>
+      <div key={i} className={styles.infoCls}>
         <Row>
           <Col span={12} >
             {
-              type === 'startAppeal' ? <> <span> 附件：</span><a href={`${STATIC_HOST}${data.attUrl}`} >附件1</a></> :
+              type === 'startAppeal' ? <> <span> 附件：</span> {data.attUrl?<a href={`${STATIC_HOST}${data.attUrl}`} >附件1</a>:null}</> :
                 <>
                   <span className={data.checkResult !== 1 ? styles.redIcon : styles.greenIcon}> 审核结果：</span>
                   <span>{BiFilter('APPEAL_RESULT_TYPE').map(item => { if (item.id === data.checkResult) return item.name })}</span>
