@@ -257,11 +257,12 @@ class CreateQualityNewSheet extends React.Component {
 
     }
     renderUpload = () => {
-        const { isUpload } = this.props;
-        if (!isUpload) {
+        const { formType, actionType } = this.props;
+        const upLoadTypeObj = BiFilter('QUALITY_UPLOAD_TYPE').find(item => item.name === formType) || {};
+        if (actionType !== 'appeal') {
             return (<Upload
                 {...uploadAttachment()}
-                data={{ type: 1 }}
+                data={{ type: upLoadTypeObj.id || 1 }}
                 onChange={this.uploadChange}
                 beforeUpload={this.beforeUpload}
             >
