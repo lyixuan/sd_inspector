@@ -6,7 +6,7 @@ import CommonForm from '@/pages/qualityAppeal/components/commonForm';
 import styles from './style.less';
 import PersonInfo from '@/pages/qualityAppeal/qualityNewSheet/detail/components/personInfo';
 import SubOrderDetail from './../../components/subOrderDetail';
-import AppealInfo from '../../components/appealInfo';
+import AppealInfo from '../../components/AppealInfo';
 import router from 'umi/router';
 import { message } from 'antd/lib/index';
 const confirm = BIModal.confirm;
