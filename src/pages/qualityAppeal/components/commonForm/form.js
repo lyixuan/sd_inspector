@@ -39,7 +39,8 @@ class CreateQualityNewSheet extends React.Component {
         }
     }
     changeOrg = (value) => {
-        const level = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === value).level;
+        const obj = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === value) || {};
+        const { level } = obj;
         this.props.form.setFieldsValue({ organize: [], qualityValue: null });
         this.setState({
             level
@@ -124,19 +125,18 @@ class CreateQualityNewSheet extends React.Component {
         if (fileList.length > 0) {
             const { response = null } = fileList[0] || {};
             if (response) {
-
                 if (response.code === 20000) {
                     attUrl = response.data.fileUrl;
+                    const params = this.props.form.getFieldsValue();
+                    if (this.props.setAttUrl) {
+                        this.props.setAttUrl(attUrl, params);
+                    }
                     this.setState({ fileList: fileList });
                 } else {
                     this.setState({ fileList: [] });
                     message.error(response.msgDetail);
                 }
             }
-        }
-        const params = this.props.form.getFieldsValue();
-        if (this.props.setAttUrl) {
-            this.props.setAttUrl(attUrl, params);
         }
     };
     // 上传附件
@@ -192,7 +192,6 @@ class CreateQualityNewSheet extends React.Component {
         } else return null;
     }
     renderQualityValue = () => {
-        const { getFieldDecorator } = this.props.form;
         const values = this.props.form.getFieldsValue();
         const { qualityType, role } = values || {};
         const isShowCreate = qualityType === 2 && role !== 'class' && role !== 'group' && role !== 'family';
@@ -394,6 +393,7 @@ class CreateQualityNewSheet extends React.Component {
                                 <Form.Item label="*质检违规日期：">
                                     {getFieldDecorator('violationDate', {
                                         initialValue: params.violationDate,
+                                        rules: [{ required: true, message: '质检违规日期' }],
                                     })(<BIDatePicker style={{ width: 280 }} format={format} />)}
                                 </Form.Item>
                             </Col>
@@ -409,7 +409,7 @@ class CreateQualityNewSheet extends React.Component {
                             <Col span={12}>
                                 <Form.Item label="*分维：">
                                     {getFieldDecorator('dimensionId', {
-                                        initialValue: params.dimensionId,
+                                        initialValue: params.dimensionId || undefined,
                                         rules: [{ required: true, message: '请选择分维' }],
                                     })(
                                         <BISelect allowClear placeholder="请选择" notFoundContent="请选择质检类型" onChange={this.changeDimension} style={{ width: 280 }}>
@@ -428,7 +428,7 @@ class CreateQualityNewSheet extends React.Component {
                             <Col span={12}>
                                 <Form.Item label="*违规分类：">
                                     {getFieldDecorator('dimension', {
-                                        initialValue: params.dimension,
+                                        initialValue: params.dimension || undefined,
                                         rules: [{ required: true, message: '请选择违规分类' }],
                                     })(
                                         <BICascader
