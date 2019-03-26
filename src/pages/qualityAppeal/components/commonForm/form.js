@@ -355,7 +355,7 @@ class CreateQualityNewSheet extends React.Component {
                             <Col className="gutter-row txRight" span={12}>
                               <span className={styles.i}>*</span><Form.Item label="归属组织：">
                                     {getFieldDecorator('organize', {
-                                        initialValue: [],
+                                        initialValue: params.groupId?[params.collegeId,params.familyId,params.groupId]:params.familyId?[params.collegeId,params.familyId]:params.collegeId?[params.collegeId]:[],
                                     })(
                                         <OrgCascader
                                             level={this.getOrgRole()}
@@ -428,7 +428,7 @@ class CreateQualityNewSheet extends React.Component {
                             <Col span={12}>
                               <span className={styles.i}>*</span><Form.Item label="违规分类：">
                                     {getFieldDecorator('dimension', {
-                                        initialValue: params.dimension || undefined,
+                                        initialValue: [params.primaryAssortmentId] || undefined,
                                         rules: [{ required: true, message: '请选择违规分类' }],
                                     })(
                                         <BICascader

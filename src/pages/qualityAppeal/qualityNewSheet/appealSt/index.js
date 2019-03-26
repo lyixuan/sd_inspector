@@ -52,9 +52,9 @@ class EditQualityNewSheet extends React.Component {
       qualityId: Number(this.query.id),
       type: this.query.status === '2' || this.query.status === '4' ? 1 : 2,
       checkResult: Number(appealParam.checkResult)===1?2:4,
-      isWarn: appealParam.isWarn,
+      isWarn: appealParam.isWarn===null?undefined:appealParam.isWarn,
       desc: appealParam.desc ? appealParam.desc : undefined,
-      appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
+      firstAppealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
     };
     this.props.dispatch({
       type: 'editQualityNewSheet/checkQuality',
