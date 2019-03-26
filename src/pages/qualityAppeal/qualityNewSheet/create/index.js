@@ -21,7 +21,7 @@ class CreateQualityNewSheet extends React.Component {
   }
   render() {
     return (<div>
-      <CommonForm {...this.props} onSubmit={this.onSubmit}>
+      <CommonForm {...this.props} onSubmit={this.onSubmit} formType="quality" actionType="create">
       </CommonForm>
     </div>)
   }
