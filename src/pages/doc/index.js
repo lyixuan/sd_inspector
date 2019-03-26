@@ -9,6 +9,7 @@ import DocTable  from './components/DocTable';
 import DocPagination  from './components/DocPagination';
 import DocDatePicker  from './components/DocDatePicker';
 import DocTabs  from './components/DocTabs';
+import DocTreeSelect  from './components/DocTreeSelect';
 
 import style from './style.css';
 import { LocaleProvider } from 'antd';
@@ -33,6 +34,7 @@ class Doc extends Component {
           <DocPagination/>
           <DocDatePicker/>
           <DocTabs/>
+          <DocTreeSelect/>
         </div>
       </LocaleProvider>
     )

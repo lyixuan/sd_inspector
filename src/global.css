@@ -3,18 +3,33 @@
   font-weight: 300;
   font-family: "Chinese Quote",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"!important;
 }
-.ant-form-item-label label {
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected {
+  background-color:  #52C9C2!important;
+}
+/* dxForm */
+.dxForm .ant-form-item-label label {
   width: 70px;
   display: inline-block;
   text-align-last: justify;
 }
-
-.ant-form-item-label label::after {
+/* dxForm */
+.dxForm .ant-form-item-label label::after {
   content: " "!important;
   display: inline;
   width: 100%;
 }
 
+.ant-form-item-label label {
+  width: 70px;
+  display: inline-block;
+  text-align-last: justify;
+}
+.ant-form-item-label label::after {
+  content: " "!important;
+  display: inline;
+  width: 100%;
+}
 
 /*!*兼容windows 固定高度的 scroll问题*!*/
 /*.ant-table-fixed-header .ant-table-scroll .ant-table-header {*/
