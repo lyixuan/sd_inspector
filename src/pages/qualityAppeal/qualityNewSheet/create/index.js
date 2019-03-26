@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import CommonForm from '../../components/commonForm';
-
+import styles from './style.less';
 @connect(({ loading }) => ({
   loading
 }))
@@ -20,7 +20,8 @@ class CreateQualityNewSheet extends React.Component {
     })
   }
   render() {
-    return (<div>
+    return (
+      <div className={styles.qualityContainter}>
       <CommonForm {...this.props} onSubmit={this.onSubmit} formType="quality" actionType="create">
       </CommonForm>
     </div>)
