@@ -8,12 +8,9 @@ export default class EchartsComponent extends React.Component {
   componentDidMount() {
     this.initChart(this.props.options)
   }
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.options) !== JSON.stringify(this.props.options)) {
-      this.drawChart(nextProps)
-    }
-    if (JSON.stringify(nextProps.update) !== JSON.stringify(this.props.update)) {
-      // 接口出来后应该按照data进行判断
       this.drawChart(nextProps)
     }
 
@@ -36,7 +33,6 @@ export default class EchartsComponent extends React.Component {
     if (!this.myChart) {
       this.initChart();
     }
-    // this.myChart.resize();
     this.myChart.setOption(options);
     if (this.props.clickEvent) {
       this.myChart.on("click", this.props.clickEvent);

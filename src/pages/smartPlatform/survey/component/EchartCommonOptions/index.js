@@ -1,5 +1,5 @@
 function commonOptions(params) {
-  const { text, legendData = [], series, xData = [], color, yAxis, itemGap = 19, formatter } = params;
+  const { text, legendData = [], series, xData = [], color, yAxis, itemGap = 19,formatter } = params;
   return {
     title: {
       text,
@@ -29,15 +29,15 @@ function commonOptions(params) {
       data: legendData
     },
     tooltip: {
-      trigger: 'axis',
+      // trigger: 'line',
       textStyle: {
         align: 'left',
-        // color:'#103069',
-        // fontSize:12,
+        color:'#103069',
+        fontSize:12,
       },
       formatter,
       padding: 15,
-      // backgroundColor:'rgba(255,255,255,0.8)' ,
+      backgroundColor:'#fff' ,
     },
     xAxis: [
       {
@@ -76,6 +76,23 @@ function commonOptions(params) {
 export function chartOptions(data) {
   const { dataList = {} } = data;
   const { data1 = {}, data2 = {} } = dataList;
+  const _html1 = function(i,name) {
+    return `<div>
+        <div style="color:#052664;text-align:center;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 15px;">${name}</div>
+        <div style="margin-bottom: 15px">考试计划人数:${data1.dataArr1[i]}人</div>
+        <div style="margin-bottom: 15px">通知人数:${data1.dataArr2[i]}人</div>
+        <div style="margin-bottom: 15px">触达人数:${data1.dataArr3[i]}人</div>
+        <div style="margin-bottom: 15px">触达率:${data1.dataArr4[i]}%</div>
+    </div>`
+  };
+  const _html2 = function(i,name) {
+    return `<div>
+            <div style="color:#052664;text-align:center;font-size:14px;height:30px;border-bottom: 1px dashed darkblue;margin-bottom: 15px;">${name}</div>
+            <div style="margin-bottom: 15px">考试计划人数:${data2.dataArr1[i]}人</div>
+            <div style="margin-bottom: 15px">准考证填写人数:${data2.dataArr2[i]}人</div>
+            <div style="margin-bottom: 15px">准考证填写率:${data2.dataArr3[i]}%</div>
+        </div>`
+  };
   const params1 = {
     text: '报考通知数据概览',
     legendData: [{ name: '考试计划人数', icon: 'circle' }, { name: '通知人数', icon: 'circle' }, { name: '触达人数', icon: 'circle' }, {
@@ -83,7 +100,9 @@ export function chartOptions(data) {
     }],
     xData: data1.dateArr,
     color: ['#52C9C2', "#30B0E6", '#FD9E3B', '#CC73FF'],
-    formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}<br />{a3}: {c3}%',
+    formatter: function(params) {
+      return `<div style="min-width:200px;box-shadow:0 0 12px 0; border-radius: 5px;padding:12px 16px 8px ">${_html1(params.dataIndex,params.name)}</div>`;
+    },
     series: [{
       name: '考试计划人数',
       type: 'bar',
@@ -147,7 +166,9 @@ export function chartOptions(data) {
       name: '准考证填写率', }],
     xData: data2.dateArr,
     color: ['#52C9C2', '#FD9E3B', '#CC73FF'],
-    formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}%',
+    formatter:  function(params) {
+      return `<div style="min-width:200px;box-shadow:0 0 12px 0; border-radius: 5px;padding:12px 16px 8px ">${_html2(params.dataIndex,params.name)}</div>`;
+    },
     series: [{
       name: '考试计划人数',
       type: 'bar',
