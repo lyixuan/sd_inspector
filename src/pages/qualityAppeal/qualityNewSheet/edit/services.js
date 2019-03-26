@@ -1,6 +1,6 @@
 import request from '@/utils/request';
 
-// 查询质检列表
+// 质检审核编辑
 export async function updateQuality(params) {
-    return request('/quality/updateQuality', { method: 'post', data: params });
+  return request('/quality/updateQuality', { method: 'post', data: params });
 }

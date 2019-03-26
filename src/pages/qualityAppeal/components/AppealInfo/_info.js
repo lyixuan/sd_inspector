@@ -11,7 +11,7 @@ class Info extends React.Component {
         <Row>
           <Col span={12} >
             {
-              type === 'startAppeal' ? <> <span> 附件：</span><span>{data.attUrl}</span></> :
+              type === 'startAppeal' ? <> <span> 附件：</span><a href={data.attUrl} >附件1</a></> :
                 <>
                   <span className={data.checkResult !== 1 ? styles.redIcon : styles.greenIcon}> 审核结果：</span>
                   <span>{BiFilter('APPEAL_RESULT_TYPE').map(item => { if (item.id === data.checkResult) return item.name })}</span>

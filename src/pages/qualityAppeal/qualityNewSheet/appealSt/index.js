@@ -5,70 +5,23 @@ import BIModal from '@/ant_components/BIModal';
 import styles from './style.less';
 import CommonForm from '../../components/commonForm';
 import QualityAppeal from '../../components/AppealInfo/qualityAppeal';
+import { message } from 'antd/lib/index';
 
 
-@connect(({ loading, qualityAppealHome }) => ({
+@connect(({ loading, qualityNewSheet,editQualityNewSheet }) => ({
   loading,
-  QualityDetailData: qualityAppealHome.QualityDetailData,
+  qualityNewSheet,
+  editQualityNewSheet,
 }))
 
 class EditQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      qualityData: {
-        verifyDate: '2019年02月01日 21：22：30',
-        mail: 'test@sunlands.com',
-        role: '班主任',
-        name: '李思思',
-        collegeName: null,
-        familyName: null,
-        orderNum: 123456789,
-        groupName: '芝士学院|能源管理|运营1组',
-        violationDate: '2019年02月01日 21：22：30',
-        reduceScoreDate: '2019年02月01日 21：22：30',
-        qualityType: '班主任质检',
-        dimension: '超高危',
-        primaryAssortment: '服务禁语规范',
-        secondAssortment: '禁止沟通中消极对待用户',
-        thirdAssortment: '冷漠、不热情、不耐烦',
-        violationLevel: '一级违规（扣除学分1000分）',
-        attUrl: '附件1',
-        desc:
-          '违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述违规描述',
-        orderDetail: {
-          stuName: '张三',
-          signDate: '2019年02月01日 21：22：30',
-          stuId: '00001',
-          phoneNum: '18600540558',
-          produce: '不过退费',
-          payment: '4999元',
-          teaName: '李四',
-          groupName: '芝士学员|能源管理',
-        },
-        verifyDate: '2019年02月01日 21：22：30',
-        appealEndDate: '2019年02月01日 21：22：30',
-        operateDate: '2019年02月01日 21：22：30',
-        desc: '没有违规',
-        operator: '张三',
-        sopCheckDetail: [
-          {
-            sopCheckResult: '审核通过',
-            verifyDate: '2019年02月01日 21：22：30',
-            checkDesc: '审核通过',
-            operator: '张三',
-            sign: true,
-          },
-          {
-            sopCheckResult: '驳回',
-            verifyDate: '2019年02月01日 21：22：30',
-            checkDesc: '审核通过',
-            operator: '张三',
-            sign: false,
-          },
-        ],
-      }
+      appealParam:{}
     };
+    const { query = {} } = this.props.location;
+    this.query = query;
   }
   componentDidMount() {
     this.getQualityDetailData();
@@ -76,25 +29,47 @@ class EditQualityNewSheet extends React.Component {
   getQualityDetailData = () => {
     const { location: { query } } = this.props;
     this.props.dispatch({
-      type: 'qualityAppealHome/getQualityDetailData',
+      type: 'qualityNewSheet/getQualityDetail',
       payload: query,
     })
-  }
-
+  };
+  setStateData = (val)=>{
+    this.setState({
+      appealParam:val
+    })
+  };
   onSubmit = (params) => {
-    console.log(params)
-  }
+    const {appealParam} = this.state;
+    if (!appealParam.checkResult) {
+      message.warn('审核结果为必选项');
+      return
+    }
+    if (!appealParam.appealEndDate) {
+      message.warn('一审截止日期必填');
+      return
+    }
+    const params2 = {
+      qualityId: Number(this.query.id),
+      type: this.query.status === '2' || this.query.status === '4' ? 1:2,
+      checkResult: Number(appealParam.checkResult),
+      isWarn: appealParam.isWarn,
+      desc: appealParam.desc ? appealParam.desc:undefined,
+      appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate:undefined,
+    };
+    this.props.dispatch({
+      type: 'editQualityNewSheet/checkQuality',
+      payload: {...params,...params2},
+    })
+  };
 
   render() {
-    const { QualityDetailData = {} } = this.props;
-    const { qualityAudit = [] } = QualityDetailData;
+    const { qualityDetail = {} } = this.props.qualityNewSheet;
+    const { qualityAudit = [] } = qualityDetail;
     return (
       <div className={styles.qualityContainter}>
-        <div className={styles.title}>质检违规详情</div>
-
         {/* form区域 */}
-        <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={QualityDetailData}>
-          <QualityAppeal data={qualityAudit} />
+        <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={qualityDetail}>
+          <QualityAppeal data={qualityAudit} setStateData={this.setStateData}/>
         </CommonForm>
 
         <BIModal

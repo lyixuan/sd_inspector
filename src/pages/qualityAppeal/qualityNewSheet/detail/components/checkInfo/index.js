@@ -48,7 +48,10 @@ export default class CheckInfoComponent extends React.Component {
           </span>
         </div>
         {this.state.data.map((item, index) => (
-          <div className={checkResultsCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`}>
+          <div
+            key={item.id}
+            className={checkResultsCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`}
+          >
             <div className={styles.appealCheckCon}>
               <div key={item.id} className={styles.container}>
                 <div className={styles.secRow}>

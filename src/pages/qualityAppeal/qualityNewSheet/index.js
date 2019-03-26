@@ -214,7 +214,7 @@ class NewQualitySheetIndex extends React.Component {
                 详情
               </span>
             </AuthButton>
-            {record.status === 3||record.status === 4?(
+            {record.status !== 3||record.status === 4?(
               <AuthButton authority='/qualityAppeal/qualityNewSheet/edit'>
                 <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
                   编辑
