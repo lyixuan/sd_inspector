@@ -10,6 +10,7 @@ import AppealInfo from './../component/appealInfo';
 import SuperiorCheck from './../component/superiorCheck';
 import SOPCheckResult from './../component/sopCheckResult';
 import sopCheckRecords from './../component/sopCheckRecords';
+import router from 'umi/router';
 const { TextArea } = Input;
 const RadioGroup = Radio.Group;
 
@@ -107,6 +108,9 @@ class EditAppeal extends React.Component {
     this.props.dispatch({
       type: 'EditAppeal/sopCheckAppeal',
       payload: { params },
+    });
+    router.push({
+      pathname: '/qualityAppeal/qualityAppeal'
     });
   };
   radioChange = e => {

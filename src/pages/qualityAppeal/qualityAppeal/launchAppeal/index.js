@@ -6,6 +6,7 @@ import SubOrderDetail from './../../components/subOrderDetail';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 import IllegalInfo from './../../qualityNewSheet/detail/components/illegalInfo';
 import { uploadAttachment } from '../../services';
+import router from 'umi/router';
 import { connect } from 'dva';
 import moment from 'moment';
 const { TextArea } = Input;
@@ -56,6 +57,11 @@ class Launch extends React.Component {
       type: 'Launch/launchAppeal',
       payload: { params },
     });
+
+    router.push({
+      pathname: '/qualityAppeal/qualityAppeal'
+    });
+
   };
   inputChange = e => {
     e.persist();
