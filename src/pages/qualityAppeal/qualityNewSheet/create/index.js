@@ -20,11 +20,8 @@ class CreateQualityNewSheet extends React.Component {
     })
   }
   render() {
-    const { qualityDetail = {} } = this.props.qualityNewSheet;
-    const { orderDetail, qualityAudit, ...others } = qualityDetail;
     return (<div>
-      <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={{ ...others }}>
-
+      <CommonForm {...this.props} onSubmit={this.onSubmit}>
       </CommonForm>
     </div>)
   }
