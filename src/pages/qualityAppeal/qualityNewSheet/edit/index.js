@@ -7,7 +7,7 @@ import CommonForm from '../../components/commonForm';
 import { message } from 'antd/lib/index';
 
 
-@connect(({ loading, qualityNewSheet,editQualityNewSheet }) => ({
+@connect(({ loading, qualityNewSheet, editQualityNewSheet }) => ({
   loading,
   qualityNewSheet,
   editQualityNewSheet,
@@ -31,10 +31,9 @@ class EditQualityNewSheet extends React.Component {
     })
   };
   onSubmit = (params) => {
-    console.log(11);
     this.props.dispatch({
       type: 'editQualityNewSheet/updateQuality',
-      payload: {...params},
+      payload: { ...params },
     })
   };
 

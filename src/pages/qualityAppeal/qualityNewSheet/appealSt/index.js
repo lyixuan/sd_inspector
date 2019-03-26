@@ -8,7 +8,7 @@ import QualityAppeal from '../../components/AppealInfo/qualityAppeal';
 import { message } from 'antd/lib/index';
 
 
-@connect(({ loading, qualityNewSheet,editQualityNewSheet }) => ({
+@connect(({ loading, qualityNewSheet, editQualityNewSheet }) => ({
   loading,
   qualityNewSheet,
   editQualityNewSheet,
@@ -18,7 +18,7 @@ class EditQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      appealParam:{}
+      appealParam: {}
     };
     const { query = {} } = this.props.location;
     this.query = query;
@@ -33,13 +33,13 @@ class EditQualityNewSheet extends React.Component {
       payload: query,
     })
   };
-  setStateData = (val)=>{
+  setStateData = (val) => {
     this.setState({
-      appealParam:val
+      appealParam: val
     })
   };
   onSubmit = (params) => {
-    const {appealParam} = this.state;
+    const { appealParam } = this.state;
     if (!appealParam.checkResult) {
       message.warn('审核结果为必选项');
       return
@@ -50,26 +50,26 @@ class EditQualityNewSheet extends React.Component {
     }
     const params2 = {
       qualityId: Number(this.query.id),
-      type: this.query.status === '2' || this.query.status === '4' ? 1:2,
+      type: this.query.status === '2' || this.query.status === '4' ? 1 : 2,
       checkResult: Number(appealParam.checkResult),
       isWarn: appealParam.isWarn,
-      desc: appealParam.desc ? appealParam.desc:undefined,
-      appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate:undefined,
+      desc: appealParam.desc ? appealParam.desc : undefined,
+      appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
     };
     this.props.dispatch({
       type: 'editQualityNewSheet/checkQuality',
-      payload: {...params,...params2},
+      payload: { ...params, ...params2 },
     })
   };
 
   render() {
     const { qualityDetail = {} } = this.props.qualityNewSheet;
-    const { qualityAudit = [] } = qualityDetail;
+    const { orderDetail, qualityAudit, ...others } = qualityDetail;
     return (
       <div className={styles.qualityContainter}>
         {/* form区域 */}
-        <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={qualityDetail}>
-          <QualityAppeal data={qualityAudit} setStateData={this.setStateData}/>
+        <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={{ ...others }}>
+          <QualityAppeal data={qualityAudit} setStateData={this.setStateData} />
         </CommonForm>
 
         <BIModal

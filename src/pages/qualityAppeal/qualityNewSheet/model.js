@@ -1,6 +1,7 @@
 import { message } from 'antd/lib/index';
 import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
 import { getQualityDetail } from '@/pages/qualityAppeal/qualityAppeal/appeal/services';
+import router from 'umi/router';
 
 export default {
   namespace: 'qualityNewSheet',
@@ -47,6 +48,7 @@ export default {
     *addQuality({ payload }, { call, put }) {
       const response = yield call(addQuality, payload);
       if (response.code === 20000) {
+        yield put(router.push('/qualityAppeal/qualityNewShee'));
 
       } else {
         message.error(response.msg)
