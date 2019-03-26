@@ -70,7 +70,7 @@ class EditQualityNewSheet extends React.Component {
     qualityAudit && qualityAudit.forEach((v) => {
       newqualityAudit.push({
         checkResult: v.operate === 4 ? 0 : 1,
-        operator: v.operate,
+        operator: null,
         operateDate: v.updateTime,
         desc: v.desc
       })

@@ -20,8 +20,12 @@ class Info extends React.Component {
             }
           </Col>
           <Col span={4}>
-            <span> 执行人：</span>
-            <span>{data.operator}</span>
+            {data.operator?(
+              <span>
+                <span> 执行人：</span>
+                <span>{data.operator}</span>
+              </span>
+            ):null}
           </Col>
           <Col span={8}>
             <span>操作时间：</span>
