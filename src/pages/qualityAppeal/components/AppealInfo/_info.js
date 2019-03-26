@@ -6,7 +6,6 @@ import styles from './style.less';
 
 class Info extends React.Component {
   renderDom = (data, type, i = 0) => {
-    console.log(data);
     return (
       <div key={i}>
         <Row>
@@ -40,7 +39,7 @@ class Info extends React.Component {
   render() {
     const { data, type } = this.props;
     const isArr = data instanceof Array;
-    console.log(this.props)
+
     return (
       <div className={styles.itemInfo}>
         {!data ? null : (

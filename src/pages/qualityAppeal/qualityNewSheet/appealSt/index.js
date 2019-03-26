@@ -4,21 +4,19 @@ import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
 import styles from './style.less';
 import CommonForm from '../../components/commonForm';
-import QualityAppeal from '../../components/AppealInfo/qualityAppeal';
+import QualityAppeal from '../../components/appealInfo/qualityAppeal';
 import { message } from 'antd/lib/index';
-
 
 @connect(({ loading, qualityNewSheet, editQualityNewSheet }) => ({
   loading,
   qualityNewSheet,
   editQualityNewSheet,
 }))
-
 class EditQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      appealParam: {}
+      appealParam: {},
     };
     const { query = {} } = this.props.location;
     this.query = query;
@@ -27,26 +25,28 @@ class EditQualityNewSheet extends React.Component {
     this.getQualityDetailData();
   }
   getQualityDetailData = () => {
-    const { location: { query } } = this.props;
+    const {
+      location: { query },
+    } = this.props;
     this.props.dispatch({
       type: 'qualityNewSheet/getQualityDetail',
       payload: query,
-    })
+    });
   };
-  setStateData = (val) => {
+  setStateData = val => {
     this.setState({
-      appealParam: val
-    })
+      appealParam: val,
+    });
   };
-  onSubmit = (params) => {
+  onSubmit = params => {
     const { appealParam } = this.state;
     if (!appealParam.checkResult) {
       message.warn('审核结果为必选项');
-      return
+      return;
     }
     if (!appealParam.appealEndDate) {
       message.warn('一审截止日期必填');
-      return
+      return;
     }
     const params2 = {
       qualityId: Number(this.query.id),
@@ -59,14 +59,14 @@ class EditQualityNewSheet extends React.Component {
     this.props.dispatch({
       type: 'editQualityNewSheet/checkQuality',
       payload: { ...params, ...params2 },
-    })
+    });
   };
 
   render() {
     const { qualityDetail = {} } = this.props.qualityNewSheet;
     const { orderDetail, qualityAudit=[], ...others } = qualityDetail;
     const newqualityAudit = [];
-    qualityAudit.forEach((v)=>{
+    qualityAudit&&qualityAudit.forEach((v)=>{
       newqualityAudit.push({
         checkResult: v.operate === 4? 0:1,
         operator:v.operateId,
