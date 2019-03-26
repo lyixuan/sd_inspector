@@ -3,6 +3,12 @@ import { connect } from 'dva';
 
 import FormComponent from './form';
 import { FormModels } from './_utils/formModel';
+/*
+* submitLoading:@params(boole)提交状态
+* formType:     @params(string)quality(质检),appeal(申述)
+* actionType:   @params(string)create(创建),edit(编辑),appeal(审核)
+
+*/
 
 @connect(({ createQualityNewSheet1, qualityAppealHome, loading }) => ({
     createQualityNewSheet1,
