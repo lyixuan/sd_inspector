@@ -79,9 +79,11 @@ export default {
       const response = yield call(getOrgMapByMail, payload);
       if (response.code === 20000) {
         const orgMapByMailData = response.data || {};
+        // 强制触发更新
+        orgMapByMailData.upDateTime = new Date().valueOf();
         yield put({
           type: 'saveOrgMapByMailData',
-          payload: { orgMapByMailData },
+          payload: { orgMapByMailData, },
         });
       } else {
         message.error(response.msg);
