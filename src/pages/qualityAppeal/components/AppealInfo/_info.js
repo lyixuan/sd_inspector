@@ -8,7 +8,7 @@ import styles from './style.less';
 class Info extends React.Component {
   renderDom = (data, type, i = 0) => {
     return (
-      <div key={i}>
+      <div key={i} className={styles.infoCls}>
         <Row>
           <Col span={12} >
             {
