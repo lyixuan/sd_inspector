@@ -5,7 +5,7 @@ import { Row, Col, Input, Radio, message } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 import SubOrderDetail from './../../components/subOrderDetail';
-import IllegalInfo from './../../qualityNewSheet/detail/components/IllegalInfo';
+import IllegalInfo from './../../qualityNewSheet/detail/components/illegalInfo';
 import AppealInfo from './../component/appealInfo';
 import SuperiorCheck from './../component/superiorCheck';
 import SOPCheckResult from './../component/sopCheckResult';
@@ -110,7 +110,7 @@ class EditAppeal extends React.Component {
       payload: { params },
     });
     router.push({
-      pathname: '/qualityAppeal/qualityAppeal'
+      pathname: '/qualityAppeal/qualityAppeal',
     });
   };
   radioChange = e => {
@@ -126,8 +126,12 @@ class EditAppeal extends React.Component {
   render() {
     const detailData = this.props.qualityAppealHome.DetailData;
     const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
-    this.state.submitParam.appealEndDate = detailData[detailData.length - 1] ? detailData[detailData.length - 1].appealEndDate : ''
-    this.state.submitParam.type = detailData[detailData.length - 1] ? detailData[detailData.length - 1].type : ''
+    this.state.submitParam.appealEndDate = detailData[detailData.length - 1]
+      ? detailData[detailData.length - 1].appealEndDate
+      : '';
+    this.state.submitParam.type = detailData[detailData.length - 1]
+      ? detailData[detailData.length - 1].type
+      : '';
     return (
       <div className={styles.editAppeal}>
         <section>

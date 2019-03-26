@@ -11,13 +11,12 @@ import { BiFilter, DeepCopy } from '@/utils/utils';
 import styles from './style.less';
 import SubOrderDetail from './../../components/subOrderDetail';
 import SOPCheckResult from '../component/sopCheckRecords';
-import AppealInfo from '../component/AppealInfo';
+import AppealInfo from '../component/appealInfo';
 import CommonForm from '../../components/commonForm';
 
 @connect(({ loading }) => ({
-  loading
+  loading,
 }))
-
 class EditQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
@@ -37,14 +36,13 @@ class EditQualityNewSheet extends React.Component {
       treeValue: undefined,
       dimension: undefined,
       visible: false,
-      fileList: this.props.fileList
+      fileList: this.props.fileList,
     };
   }
-  onSubmit = (params) => {
-    console.log(params)
-  }
+  onSubmit = params => {
+    console.log(params);
+  };
   render() {
-
     return (
       <div className={styles.qualityContainter}>
         <div className={styles.title}>质检违规详情</div>
