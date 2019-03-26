@@ -160,6 +160,8 @@ class QualityAppealing extends React.Component {
         ) : (
           <CommonForm
             {...this.props}
+            formType='appeal'
+            actionType='appeal'
             dataSource={qualityDetailData}
             onSubmit={(params)=>this.handleSubmitMaster(params)} >
             <>
