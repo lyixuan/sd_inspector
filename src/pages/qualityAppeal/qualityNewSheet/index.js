@@ -127,6 +127,9 @@ function dealQuarys(pm){
   if (p.dimensionIdList) {
     p.dimensionIdList = p.dimensionIdList.map(v=>Number(v))
   }
+  if(p.qualityNum === '') {
+    p.qualityNum= undefined
+  }
   return p;
 };
 

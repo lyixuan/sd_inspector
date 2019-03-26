@@ -8,7 +8,7 @@ class QualityAppeal extends React.Component {
   render() {
     const {setStateData,data} = this.props;
     return (
-      <div className={styles.appealWrap}>
+      <div className={styles.appealWrap} style={{marginLeft:'-20px'}}>
         <div className={styles.mtitle}>质检审核</div>
         <div className={styles.resultWrap}>
           <div className={styles.s2_title}>审核记录</div>

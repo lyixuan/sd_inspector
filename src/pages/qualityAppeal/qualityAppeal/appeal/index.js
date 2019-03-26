@@ -128,7 +128,7 @@ class QualityAppealing extends React.Component {
     });
     return (
       <div className={styles.detailContainer}>
-        {this.query.status === 2 || this.query.status === 6 ? (
+        {this.query.status === '2' || this.query.status === '6' ? (
           <section style={{ overflow: 'hidden' }}>
             {/* 质检违规人员信息 */}
             <PersonInfo
@@ -145,7 +145,7 @@ class QualityAppealing extends React.Component {
               <SubOrderDetail data={qualityDetailData.orderDetail} />
             </div>
             <div style={{marginTop:20}}>
-              <div className={styles.title}>申诉信息 <span className={styles.iconCls} onClick={()=>this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
+              <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={()=>this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
               {this.state.appealIsShow?<AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData}/>:null}
             </div>
             <div style={{ float: 'right' }}>
@@ -164,10 +164,10 @@ class QualityAppealing extends React.Component {
             actionType='appeal'
             dataSource={qualityDetailData}
             onSubmit={(params)=>this.handleSubmitMaster(params)} >
-            <>
-              <div className={styles.title}>申诉信息 <span className={styles.iconCls} onClick={()=>this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
+            <div style={{marginLeft:'-20px'}}>
+              <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={()=>this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
               {this.state.appealIsShow?<AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData}/>:null}
-            </>
+            </div>
           </CommonForm>
         )}
         <BIModal
