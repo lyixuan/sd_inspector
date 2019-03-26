@@ -105,7 +105,6 @@ class QualityAppealing extends React.Component {
     router.goBack();
   };
   setStateData = (val)=>{
-    console.log(val)
     this.setState({
       appealParam:val
     })
