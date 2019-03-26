@@ -6,6 +6,7 @@ import styles from './style.less';
 
 class Info extends React.Component {
   renderDom = (data, type, i = 0) => {
+    console.log(data);
     return (
       <div key={i}>
         <Row>
