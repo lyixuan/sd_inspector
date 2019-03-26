@@ -171,7 +171,7 @@ class CreateQualityNewSheet extends React.Component {
             return (
                 <Row style={{ lineHeight: '40px' }}>
                     <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
-                        <Form.Item label="*客诉主管邮箱：">
+                      <span className={styles.i}>*</span><Form.Item label="客诉主管邮箱：">
                             {getFieldDecorator('customerMail', {
                                 initialValue: params.masterMail,
                             })(<BIInput placeholder="请输入" style={{ width: 170 }} />)}
@@ -179,7 +179,7 @@ class CreateQualityNewSheet extends React.Component {
                         <div className={styles.text}>@sunland.com</div>
                     </Col>
                     <Col className="gutter-row txRight" span={12}>
-                        <Form.Item label="*主管扣除绩效：">
+                      <span className={styles.i}>*</span><Form.Item label="主管扣除绩效：">
                             {getFieldDecorator('qualityValue', {
                                 initialValue: params.qualityValue,
                             })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
@@ -204,7 +204,7 @@ class CreateQualityNewSheet extends React.Component {
         return (
             <Row style={{ lineHeight: '40px' }}>
                 <Col className="gutter-row" span={12}>
-                    <Form.Item label="*扣除绩效">
+                  <span className={styles.i}>*</span><Form.Item label="扣除绩效">
                         {getFieldDecorator('qualityValue', {
                             initialValue: params.qualityType,
                         })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
@@ -221,7 +221,7 @@ class CreateQualityNewSheet extends React.Component {
             <>
                 <Row style={{ lineHeight: '40px' }}>
                     <Col className="gutter-row" span={12}>
-                        <Form.Item label="*扣除学分">
+                      <span className={styles.i}>*</span><Form.Item label="扣除学分">
                             {getFieldDecorator('qualityValue', {
                                 initialValue: this.state.credit,
                             })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
@@ -231,7 +231,7 @@ class CreateQualityNewSheet extends React.Component {
                 </Row>
                 <Row className="gutter-row">
                     <Col className="gutter-row" span={12}>
-                        <Form.Item label="*学院类型">
+                      <span className={styles.i}>*</span><Form.Item label="学院类型">
                             {getFieldDecorator('familyType', {
                                 initialValue: params.familyType || undefined,
                                 rules: [{ required: true, message: '请选择学院类型' }],
@@ -287,13 +287,13 @@ class CreateQualityNewSheet extends React.Component {
         const { violationLevelObj } = this.state;
         const dimensionList = this.chooseDimensionList();
         return (
-            <div className={styles.qualityContainter}>
+            <div className={styles.commonformWrap}>
                 <div className={styles.title}>质检违规详情</div>
                 <Form layout="inline" onSubmit={this.handleSubmit} className={styles.formBox}>
                     <div className={styles.content}>
                         <Row>
                             <Col className="gutter-row" span={20}>
-                                <Form.Item label="*质检类型：">
+                              <span className={styles.i}>*</span><Form.Item label="质检类型：">
                                     {getFieldDecorator('qualityType', {
                                         initialValue: params.qualityType || undefined,
                                         rules: [{ required: true, message: '请选择质检类型' }],
@@ -311,7 +311,7 @@ class CreateQualityNewSheet extends React.Component {
                         </Row>
                         <Row style={{ lineHeight: '40px' }}>
                             <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
-                                <Form.Item label="*归属人邮箱">
+                              <span className={styles.i}>*</span><Form.Item label="归属人邮箱">
                                     {getFieldDecorator('mail', {
                                         initialValue: params.mail,
                                         rules: [{ required: true, message: '请输入邮箱' }],
@@ -325,7 +325,7 @@ class CreateQualityNewSheet extends React.Component {
                                 </div>
                             </Col>
                             <Col className="gutter-row txRight" span={12}>
-                                <Form.Item label="*归属人角色：">
+                              <span className={styles.i}>*</span><Form.Item label="归属人角色">
                                     {getFieldDecorator('role', {
                                         initialValue: params.role || undefined,
                                         rules: [{ required: true, message: '请选择归属人角色' }],
@@ -345,7 +345,7 @@ class CreateQualityNewSheet extends React.Component {
                         </Row>
                         <Row gutter={0} style={{ lineHeight: '40px' }}>
                             <Col className="gutter-row" span={12}>
-                                <Form.Item label="*归属人：">
+                              <span className={styles.i}>*</span><Form.Item label="归属人：">
                                     {getFieldDecorator('name', {
                                         initialValue: params.name,
                                         rules: [{ required: true, message: '请输入归属人' }],
@@ -353,7 +353,7 @@ class CreateQualityNewSheet extends React.Component {
                                 </Form.Item>
                             </Col>
                             <Col className="gutter-row txRight" span={12}>
-                                <Form.Item label="*归属组织：">
+                              <span className={styles.i}>*</span><Form.Item label="归属组织：">
                                     {getFieldDecorator('organize', {
                                         initialValue: [],
                                     })(
@@ -372,7 +372,7 @@ class CreateQualityNewSheet extends React.Component {
                         {this.state.radioChange}
                         <Row>
                             <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
-                                <Form.Item label="*子订单编号：">
+                              <span className={styles.i}>*</span><Form.Item label="子订单编号：">
                                     {getFieldDecorator('orderNum', {
                                         initialValue: params.orderNum,
                                     })(<BIInput placeholder="请输入" style={{ width: 280 }} />)}
@@ -390,7 +390,7 @@ class CreateQualityNewSheet extends React.Component {
                     <div className={styles.content}>
                         <Row>
                             <Col className="gutter-row" span={12}>
-                                <Form.Item label="*质检违规日期：">
+                              <span className={styles.i}>*</span><Form.Item label="质检违规日期：">
                                     {getFieldDecorator('violationDate', {
                                         initialValue: params.violationDate,
                                         rules: [{ required: true, message: '质检违规日期' }],
@@ -398,7 +398,7 @@ class CreateQualityNewSheet extends React.Component {
                                 </Form.Item>
                             </Col>
                             <Col className="gutter-row txRight" span={12}>
-                                <Form.Item label="*质检扣分日期：">
+                              <span className={styles.i}>*</span><Form.Item label="质检扣分日期：">
                                     {getFieldDecorator('reduceScoreDate', {
                                         initialValue: params.reduceScoreDate,
                                     })(<BIDatePicker style={{ width: 280 }} format={format} />)}
@@ -407,7 +407,7 @@ class CreateQualityNewSheet extends React.Component {
                         </Row>
                         <Row className="gutter-row">
                             <Col span={12}>
-                                <Form.Item label="*分维：">
+                                <span className={styles.i}>*</span><Form.Item label="分维：">
                                     {getFieldDecorator('dimensionId', {
                                         initialValue: params.dimensionId || undefined,
                                         rules: [{ required: true, message: '请选择分维' }],
@@ -426,7 +426,7 @@ class CreateQualityNewSheet extends React.Component {
                         </Row>
                         <Row className="gutter-row">
                             <Col span={12}>
-                                <Form.Item label="*违规分类：">
+                              <span className={styles.i}>*</span><Form.Item label="违规分类：">
                                     {getFieldDecorator('dimension', {
                                         initialValue: params.dimension || undefined,
                                         rules: [{ required: true, message: '请选择违规分类' }],
@@ -443,7 +443,7 @@ class CreateQualityNewSheet extends React.Component {
                                 </Form.Item>
                             </Col>
                             <Col className="txRight" span={12}>
-                                <Form.Item label="*违规等级:">
+                              <span className={styles.i}>*</span><Form.Item label="违规等级:">
                                     <div style={{ width: "280px", textAlign: "left" }}>{violationLevelObj.violationLevelname}</div>
                                 </Form.Item>
                             </Col>
@@ -453,7 +453,7 @@ class CreateQualityNewSheet extends React.Component {
                         {/* 当在非编辑状态下进行下载 */}
                         <Row className="gutter-row">
                             <Col span={12}>
-                                <Form.Item label="*附件：">
+                              <span className={styles.i}>&nbsp;</span><Form.Item label="附件：">
                                     {this.renderUpload()}
                                 </Form.Item>
                             </Col>
@@ -461,7 +461,7 @@ class CreateQualityNewSheet extends React.Component {
 
                         <Row className="gutter-row">
                             <Col span={24}>
-                                <Form.Item label="*违规详情:" className="row-details">
+                              <span className={styles.i}>*</span><Form.Item label="违规详情:" className="row-details">
                                     {getFieldDecorator('desc', {
                                         initialValue: params.desc,
                                     })(<TextArea rows="4" placeholder="请输入违规详情" />)}
