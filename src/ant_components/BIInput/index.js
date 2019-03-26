@@ -1,7 +1,6 @@
 import React from 'react';
 import { Input } from 'antd';
 import './style.less';
-import BITabs from '@/ant_components/BITabs';
 
 const { TextArea } = Input;
 /*
