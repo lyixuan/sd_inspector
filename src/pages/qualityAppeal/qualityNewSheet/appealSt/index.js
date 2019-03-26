@@ -65,11 +65,20 @@ class EditQualityNewSheet extends React.Component {
   render() {
     const { qualityDetail = {} } = this.props.qualityNewSheet;
     const { orderDetail, qualityAudit, ...others } = qualityDetail;
+    const newqualityAudit = [];
+    qualityAudit.forEach((v)=>{
+      newqualityAudit.push({
+        checkResult: v.operate === 4? 0:1,
+        operator:v.operateId,
+        operateDate: v.updateTime,
+        desc: v.desc
+      })
+    });
     return (
       <div className={styles.qualityContainter}>
         {/* form区域 */}
         <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={{ ...others }}>
-          <QualityAppeal data={qualityAudit} setStateData={this.setStateData} />
+          <QualityAppeal data={newqualityAudit} setStateData={this.setStateData} />
         </CommonForm>
 
         <BIModal
