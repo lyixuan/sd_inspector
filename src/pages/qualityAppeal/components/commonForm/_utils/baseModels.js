@@ -49,10 +49,14 @@ export class BaseModels {
             organize, role: userType, userId: id, name,
         }
     }
-    transOriginParams = (params) => {
+    transOriginParams = (params = {}) => {
+        const newParams = {};
+        Object.keys(this.initModel).forEach(item => {
+            newParams[item] = params[item];
+        })
         const { primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId,            // 学院ID
             familyId,
-            groupId, violationDate, reduceScoreDate, ...others } = params || {};
+            groupId, violationDate, reduceScoreDate, ...others } = newParams || {};
         const organize = [collegeId, familyId, groupId].filter(item => item);
         const dimension = [primaryAssortmentId, secondAssortmentId, thirdAssortmentId].filter(item => item);
         const dateTimeObj = {
