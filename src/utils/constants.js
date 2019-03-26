@@ -329,8 +329,8 @@ export const FRONT_ROLE_TYPE_LIST = [
 ];
 // 学院类型
 export const FAMILY_TYPE = [
-  { id: 1, name: '自考' },
-  { id: 2, name: '壁垒' },
+  { id: 0, name: '自考' },
+  { id: 1, name: '壁垒' },
 ];
 // 学院类型
 export const APPEAL_RESULT_TYPE = [
