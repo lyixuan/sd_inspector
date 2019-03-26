@@ -7,6 +7,7 @@ import IllegalInfo from './components/illegalInfo';
 import CheckInfo from './components/checkInfo';
 import { Form, Icon, Row, Col, TreeSelect, Input, Upload, message } from 'antd';
 import BIButton from '@/ant_components/BIButton';
+import router from 'umi/router';
 
 @connect(({ qualityDetail }) => ({
   qualityDetail,
@@ -16,7 +17,7 @@ class QualityDetail extends React.Component {
     super(props);
     this.state = {
       params: {
-        id: this.props.location.query.id,
+        id: this.props.location.query.id || 1,
       },
       qualityInfoCollapse: true,
       checkResultsCollapse: true,
@@ -73,11 +74,11 @@ class QualityDetail extends React.Component {
                 <Col span={24}>
                   <div className={styles.gutterBox1}>
                     <span className={styles.gutterBtn2}>
-                      <BIButton>取消</BIButton>
+                      <BIButton onClick={() => router.goBack()}>返回</BIButton>
                     </span>
-                    <span className={styles.gutterBtn1}>
+                    {/* <span className={styles.gutterBtn1}>
                       <BIButton type="primary">提交</BIButton>
-                    </span>
+                    </span> */}
                   </div>
                 </Col>
               </Row>

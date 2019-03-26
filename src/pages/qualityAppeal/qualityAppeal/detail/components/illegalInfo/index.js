@@ -25,7 +25,7 @@ export default class IllegalInfoComponent extends React.Component {
           <div className={styles.secRow}>
             <div>质检扣分日期：{this.state.data.reduceScoreDate}</div>
             <div>分维：{this.state.data.dimension}</div>
-            <div>违规等级：{this.state.data.violationLevel}</div>
+            <div>违规等级：{this.state.data.violationLevelName}</div>
           </div>
         </div>
         <div>
