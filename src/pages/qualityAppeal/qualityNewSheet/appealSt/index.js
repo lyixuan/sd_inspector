@@ -64,7 +64,7 @@ class EditQualityNewSheet extends React.Component {
 
   render() {
     const { qualityDetail = {} } = this.props.qualityNewSheet;
-    const { orderDetail, qualityAudit, ...others } = qualityDetail;
+    const { orderDetail, qualityAudit=[], ...others } = qualityDetail;
     const newqualityAudit = [];
     qualityAudit&&qualityAudit.forEach((v)=>{
       newqualityAudit.push({
