@@ -460,13 +460,12 @@ class CreateQualityNewSheet extends React.Component {
                         </Row>
 
                         <Row className="gutter-row">
-                            <Col span={24} style={{ display: 'flex' }}>
-                                <Form.Item label="*违规详情:">
+                            <Col span={24}>
+                                <Form.Item label="*违规详情:" className="row-details">
                                     {getFieldDecorator('desc', {
                                         initialValue: params.desc,
-                                    })(<TextArea placeholder="请输入违规详情" />)}
+                                    })(<TextArea rows="4" placeholder="请输入违规详情" />)}
                                 </Form.Item>
-                                x
                             </Col>
                         </Row>
                         {/* 显示children */}
