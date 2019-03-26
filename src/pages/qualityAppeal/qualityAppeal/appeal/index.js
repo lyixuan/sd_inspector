@@ -20,6 +20,7 @@ class QualityAppealing extends React.Component {
     super(props);
     this.state = {
       qualityInfoCollapse: true,
+      appealIsShow: true,
       appealParam:{}
     };
     const { query = {} } = this.props.location;
@@ -28,6 +29,9 @@ class QualityAppealing extends React.Component {
   }
   handleCollapse() {
     this.setState({ qualityInfoCollapse: !this.state.qualityInfoCollapse });
+  }
+  handleAppeal() {
+    this.setState({ appealIsShow: !this.state.appealIsShow });
   }
   componentDidMount() {
     this.getQualityInfo();
@@ -105,11 +109,16 @@ class QualityAppealing extends React.Component {
     router.goBack();
   };
   setStateData = (val)=>{
-    console.log(val)
     this.setState({
       appealParam:val
     })
   };
+  getAppealStatus() {
+    if (this.state.appealIsShow) {
+      return '-';
+    }
+    return '+';
+  }
   render() {
     const { appealShow = [], qualityDetailData={} } = this.props.qualityAppealing;
     appealShow.forEach(v => {
@@ -136,8 +145,8 @@ class QualityAppealing extends React.Component {
               <SubOrderDetail data={qualityDetailData.orderDetail} />
             </div>
             <div style={{marginTop:20}}>
-              <div className={styles.title}>申诉信息</div>
-              <AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData}/>
+              <div className={styles.title}>申诉信息 <span className={styles.iconCls} onClick={()=>this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
+              {this.state.appealIsShow?<AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData}/>:null}
             </div>
             <div style={{float:'right'}}>
               <BIButton onClick={this.handleCancel} style={{marginRight:20}}>
@@ -153,10 +162,10 @@ class QualityAppealing extends React.Component {
             {...this.props}
             dataSource={qualityDetailData}
             onSubmit={(params)=>this.handleSubmitMaster(params)} >
-            <div>
-              <div className={styles.title}>申诉信息</div>
-              <AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData}/>
-            </div>
+            <>
+              <div className={styles.title}>申诉信息 <span className={styles.iconCls} onClick={()=>this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
+              {this.state.appealIsShow?<AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData}/>:null}
+            </>
           </CommonForm>
         )}
         <BIModal
