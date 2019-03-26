@@ -41,6 +41,11 @@ class CreateQualityNewSheet extends React.Component {
     handleOriginDataSource = (params) => {
         const { dataSource } = this.props;
         const newParams = this.formModels.transOriginParams(params || dataSource);
+        const { qualityType, dimensionId } = newParams;
+        if (dimensionId) {
+            this.changeDimension({ qualityType, dimensionId }, newParams)
+        }
+        console.log(newParams)
         this.upDateFormParams(newParams);
     }
     handleOrgMapByMailParams = (params) => {
@@ -109,7 +114,6 @@ class CreateQualityNewSheet extends React.Component {
     render() {
         const { formParams } = this.state;
         const { orgList, children } = this.props;
-        console.log(formParams)
         return (<div>
             {/* form区域 */}
             <FormComponent
