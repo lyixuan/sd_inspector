@@ -355,7 +355,7 @@ class CreateQualityNewSheet extends React.Component {
                             <Col className="gutter-row txRight" span={12}>
                               <span className={styles.i}>*</span><Form.Item label="归属组织：">
                                     {getFieldDecorator('organize', {
-                                        initialValue: params.groupId?[params.collegeId,params.familyId,params.groupId]:params.familyId?[params.collegeId,params.familyId]:params.collegeId?[params.collegeId]:[],
+                                        initialValue: [],
                                     })(
                                         <OrgCascader
                                             level={this.getOrgRole()}

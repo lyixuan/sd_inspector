@@ -111,7 +111,7 @@ class CreateQualityNewSheet extends React.Component {
     onSubmit = (params) => {
         const { formParams } = this.state;
         const { formType } = this.props
-        const assginObject = Object.assign({}, formParams, params)
+        const assginObject = Object.assign({}, formParams, params,{collegeName:'collegeName',familyName:'familyName',groupName:'groupName'})
         const newParams = this.formModels.transFormParams(assginObject);
         // if()
         if (this.props.onSubmit) {
