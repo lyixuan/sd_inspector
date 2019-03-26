@@ -1,7 +1,6 @@
 import React from 'react';
 import Select from 'antd/lib/select';
 import PropTypes from 'prop-types';
-import Item from 'antd/lib/list/Item';
 
 const { Option } = Select;
 

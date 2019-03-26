@@ -481,7 +481,7 @@ class CreateQualityNewSheet extends React.Component {
                                         <BIButton onClick={this.onCancel}>取消</BIButton>
                                     </span>
                                     <span className={styles.gutterBtn1}>
-                                        <BIButton type="primary" htmlType="submit">提交</BIButton>
+                                        <BIButton type="primary" htmlType="submit" loading={this.props.submitLoading}>提交</BIButton>
                                     </span>
                                 </div>
                             </Col>

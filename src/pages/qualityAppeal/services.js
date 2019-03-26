@@ -35,3 +35,4 @@ export function uploadAttachment() {
 export async function queryDimensionTreeList(params) {
   return request('/dimension/queryDimensionTreeList', { params });
 }
+
