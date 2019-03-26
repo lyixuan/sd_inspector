@@ -48,7 +48,7 @@ export default {
     *addQuality({ payload }, { call, put }) {
       const response = yield call(addQuality, payload);
       if (response.code === 20000) {
-        yield put(router.push('/qualityAppeal/qualityNewShee'));
+        yield put(router.push('/qualityAppeal/qualityNewSheet'));
 
       } else {
         message.error(response.msg)

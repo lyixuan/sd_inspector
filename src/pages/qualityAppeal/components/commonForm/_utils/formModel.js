@@ -18,7 +18,8 @@ export class FormModels extends BaseModels {
             attUrl: '',                // @params(String)附件地址	
             desc: '',                  // @params(String)违规详情
             familyType: null,          // @params(Number)自考壁垒
-            userId: null,
+            userId: null,              // @params(number) 用户id
+            id: null,                   // @params(number) 质检单id
         };
     }
     handleInitData = () => {
