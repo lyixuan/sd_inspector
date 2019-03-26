@@ -31,19 +31,24 @@ class EditQualityNewSheet extends React.Component {
     })
   };
   onSubmit = (params) => {
+    console.log(params)
     this.props.dispatch({
       type: 'editQualityNewSheet/updateQuality',
-      payload: { ...params },
+      payload: { ...params, familyType: 1 },
     })
   };
 
   render() {
     const { qualityDetail = {} } = this.props.qualityNewSheet;
+    const { orderDetail, qualityAudit, ...others } = qualityDetail;
     return (
       <div className={styles.qualityContainter}>
         {/* form区域 */}
-        <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={qualityDetail} />
+        <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={{ ...others }} />
 
+        <div>
+
+        </div>
         <BIModal
           title="提交确认"
           visible={this.state.visible}
