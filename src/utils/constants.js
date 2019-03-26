@@ -256,10 +256,10 @@ export const QUALITY_TYPE = [{ id: 1, name: '客诉质检' }, { id: 2, name: '�
 
 // 质检状态
 export const QUALITY_STATE = [
-  { id: 1, name: '待审核' },
-  { id: 2, name: '已通过' },
+  { id: 1, name: '已驳回' },
+  { id: 2, name: '待审核' },
   { id: 3, name: '已撤销' },
-  { id: 4, name: '已驳回' },
+  { id: 4, name: '已通过' },
 ];
 
 // 质检扣分规则类别
