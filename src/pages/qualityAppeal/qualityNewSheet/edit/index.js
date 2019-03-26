@@ -4,6 +4,7 @@ import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
 import styles from './style.less';
 import CommonForm from '../../components/commonForm';
+import QualityAppeal from '../../components/AppealInfo/qualityAppeal';
 import { message } from 'antd/lib/index';
 
 
@@ -44,11 +45,9 @@ class EditQualityNewSheet extends React.Component {
     return (
       <div className={styles.qualityContainter}>
         {/* form区域 */}
-        <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={{ ...others }} />
-
-        <div>
-
-        </div>
+        <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={{ ...others }} >
+          <QualityAppeal data={qualityAudit} />
+        </CommonForm>
         <BIModal
           title="提交确认"
           visible={this.state.visible}
