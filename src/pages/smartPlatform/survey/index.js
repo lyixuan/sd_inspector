@@ -4,14 +4,15 @@ import { connect } from 'dva';
 import Echart from '@/components/Echart';
 import moment from 'moment';
 import memoizeOne from 'memoize-one';
+import { BiFilter } from '@/utils/utils';
 import styles from './style.less';
-import Empty from '@/components/Empty';
 import ChinaMap from './component/ChinaMap';
 import SearchForm from './component/SearchForm';
 import { chartOptions } from './component/EchartCommonOptions';
 import EchartTitle from './component/EchartCommonOptions/echartTitle';
 import SelfProgress from './component/EchartCommonOptions/fillRateFamily';
 import { fillCollege } from './component/EchartCommonOptions/fillRateOptions';
+import { RATE_COLOR } from '@/utils/constants';
 
 
 @connect(({ survey, home, loading }) => ({
@@ -101,21 +102,21 @@ class Survey extends React.Component {
     this.setState({ ...paramsObj });
     this.getExamOrgData(newParams);
 
-  }
+  };
   getLastDateParams = () => {
     return moment().add(-1, 'days').format('YYYY-MM-DD');
-  }
+  };
   handleFamilyExamOrgData = (data = []) => {
-    return data.sort((a, b) => b.admissionFillRatio - a.admissionFillRatio).map(item => ({
+    return data.sort((a, b) => b.admissionFillRatio - a.admissionFillRatio).map((item,i) => ({
       ...item,
       name: `${item.collegeName}|${item.familyName}`,
       per: (item.admissionFillRatio || 0) * 100,
-      color: '#52C9C2'
+      color:BiFilter('RATE_COLOR').filter(item=>item.id===i)
     }));
-  }
+  };
   handleCollegeExamOrgData = (data = []) => {
     return fillCollege(data)
-  }
+  };
   momenyFamilyExamOrgData = memoizeOne(this.handleFamilyExamOrgData);
   momenyCollegeExamOrgData = memoizeOne(this.handleCollegeExamOrgData);
   render() {
@@ -148,16 +149,15 @@ class Survey extends React.Component {
               </div>
               {/* 图表 */}
               <div className={styles.echartCls}>
-                {
-                  JSON.stringify(data1) === '{}' ?
-                    <Empty className={styles.emptyCls} /> :
-                    <Echart update={data1} style={{ width: '49%', height: "380px", backgroundColor: ' #fff' }} options={option1} />
-                }
-                {
-                  JSON.stringify(data2) === '{}' ?
-                    <Empty className={styles.emptyCls} /> :
-                    <Echart update={data2} style={{ width: '49%', height: "380px", backgroundColor: ' #fff' }} options={option2} />
-                }
+                <Echart update={data1}
+                        style={{ width: '49.5%', height: "380px", backgroundColor: ' #fff' }}
+                        options={option1}
+                        isEmpty={JSON.stringify(data1) === '{}' }
+                />
+                <Echart update={data2} style={{ width: '49.5%', height: "380px", backgroundColor: ' #fff' }}
+                        options={option2}
+                        isEmpty={JSON.stringify(data2) === "{}"}
+                />
               </div>
               <div className={styles.echartFamily}>
                 <EchartTitle onChangeExamOrg={this.onChangeExamOrg} paramsData={collegeExamOrgParams} />

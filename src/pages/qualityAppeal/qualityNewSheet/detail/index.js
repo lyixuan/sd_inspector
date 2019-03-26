@@ -5,7 +5,7 @@ import SubOrderDetail from './../../components/subOrderDetail';
 import PersonInfo from './components/personInfo';
 import IllegalInfo from './components/illegalInfo';
 import CheckInfo from './components/checkInfo';
-import { Form, Icon, Row, Col, TreeSelect, Input, Upload, message } from 'antd';
+import { Form, Row, Col } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import router from 'umi/router';
 
