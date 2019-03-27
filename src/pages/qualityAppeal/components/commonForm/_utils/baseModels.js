@@ -55,21 +55,24 @@ export class BaseModels {
     }
     transOriginParams = (params = {}) => {
         const newParams = {};
-        Object.keys(this.initModel).forEach(item => {
-            newParams[item] = params[item];
-        })
+        for (let key in this.initModel) {
+            newParams[key] = params[key] || newParams[key];
+        }
+
         const { primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId,            // 学院ID
             familyId, collegeName, familyName, groupName,
             groupId, violationDate, reduceScoreDate, ...others } = newParams || {};
         const organizeName = [collegeName, familyName, groupName].filter(item => item).join('|');
-        const organize = [collegeId, familyId, groupId].filter(item => item);
+
+        // 暂不做回显处理
+        // const organize = [collegeId, familyId, groupId].filter(item => item);
+        const groupObj = { collegeId, familyId, groupId, collegeName, familyName, groupName };
         const dimension = [primaryAssortmentId, secondAssortmentId, thirdAssortmentId].filter(item => item);
         const dateTimeObj = {
             violationDate: this.transMoment(violationDate),
             reduceScoreDate: this.transMoment(reduceScoreDate),
         }
-        return { ...others, ...dateTimeObj, organize, dimension, organizeName };
-
+        return { ...others, ...dateTimeObj, ...groupObj, dimension, organizeName };
     }
     transMoment = (date) => {
         return date ? moment(date) : null;

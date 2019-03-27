@@ -37,13 +37,27 @@ class CreateQualityNewSheet extends React.Component {
             this.props.getOrgMapByMail(mail, values);
         }
     }
-    changeOrg = (value) => {
+    changeRole = (value) => {
         const obj = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === value) || {};
         const { level } = obj;
         this.props.form.setFieldsValue({ organize: [], qualityValue: null });
         this.setState({
             level
         });
+    }
+    changeOrg = (...argu) => {
+        const organize = argu[0];
+        const orgArr = argu[1];
+        const returnObj = { organize };
+        const orgSymbol = ['college', 'family', 'group'];
+        orgArr.forEach((item, index) => {
+            const groupType = orgSymbol[index];
+            returnObj[groupType + 'Id'] = orgArr[index].id;
+            returnObj[groupType + 'Name'] = orgArr[index].name;
+        });
+        if (this.props.onChangeOrg) {
+            this.props.onChangeOrg(returnObj)
+        }
     }
     getOrgRole = () => {
         const role = this.props.form.getFieldValue('role');
@@ -331,7 +345,7 @@ class CreateQualityNewSheet extends React.Component {
                                         rules: [{ required: true, message: '请选择归属人角色' }],
                                     })(
                                         <BISelect allowClear placeholder="请选择"
-                                            onChange={this.changeOrg}
+                                            onChange={this.changeRole}
                                             style={{ width: 280 }}>
                                             {BiFilter("FRONT_ROLE_TYPE_LIST").map(item => (
                                                 <Option value={item.id} key={item.name}>
@@ -362,6 +376,7 @@ class CreateQualityNewSheet extends React.Component {
                                             placeholder={params.organizeName || '请选择'}
                                             options={orgList}
                                             fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+                                            onChange={this.changeOrg}
                                         />
                                     )}
                                 </Form.Item>
@@ -428,7 +443,7 @@ class CreateQualityNewSheet extends React.Component {
                             <Col span={12}>
                                 <span className={styles.i}>*</span><Form.Item label="违规分类：">
                                     {getFieldDecorator('dimension', {
-                                        initialValue: [params.primaryAssortmentId] || undefined,
+                                        initialValue: params.dimension || undefined,
                                         rules: [{ required: true, message: '请选择违规分类' }],
                                     })(
                                         <BICascader

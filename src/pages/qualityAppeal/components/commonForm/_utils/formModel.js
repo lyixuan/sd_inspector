@@ -2,7 +2,7 @@ import { BaseModels } from './baseModels';
 export class FormModels extends BaseModels {
     constructor(props) {
         super(props)
-        this.initModel = {
+        this.initFormModel = {
             qualityType: null,         // @params(Number)质检类型
             mail: '',                  // @params(String)邮箱
             role: '',                  // @params(String)归属人角色
@@ -21,17 +21,20 @@ export class FormModels extends BaseModels {
             userId: null,              // @params(number) 用户id
             id: null,                   // @params(number) 质检单id
             organizeName: null,
+            collegeId: null,            // 学院ID
+            familyId: null,             // 家族ID
+            groupId: null,              // 小组ID
         };
     }
     handleInitData = () => {
-        const initModel = JSON.parse(JSON.stringify(this.initModel));
+        const initModel = JSON.parse(JSON.stringify(this.initFormModel));
         return {
             ...initModel,
         }
     }
     transFormParams = (params) => {
-        const { organize = [], dimension = [], violationDate, reduceScoreDate, ...others } = params || {};
-        const [collegeId, familyId, groupId] = organize;
+        const { organize = [], dimension = [], violationDate, reduceScoreDate, organizeName, ...others } = params || {};
+        const [collegeId = params.collegeId, familyId = params.familyId, groupId = params.groupId] = organize;
         const [primaryAssortmentId, secondAssortmentId, thirdAssortmentId] = dimension;
         const dateTimeObj = {
             violationDate: this.transDateTime(violationDate),

@@ -26,7 +26,7 @@ class CreateQualityNewSheet extends React.Component {
         super(props);
         this.formModels = new FormModels();
         this.state = {
-            formParams: this.formModels.initModel,
+            formParams: this.formModels.initFormModel,
         };
     }
     componentDidMount() {
@@ -43,6 +43,11 @@ class CreateQualityNewSheet extends React.Component {
             // 使用邮箱获取组织机构信息
             this.handleOriginDataSource(nextProps.dataSource);
         }
+    }
+    componentWillUnmount() {
+        this.props.dispatch({
+            type: 'qualityAppealHome/clearOrderNumData',
+        })
     }
     handleOriginDataSource = (params) => {
         const { dataSource } = this.props;
@@ -95,6 +100,9 @@ class CreateQualityNewSheet extends React.Component {
     upDateFormParams = (newParams = {}) => {
         this.saveParams(newParams);
     }
+    onChangeOrg = (orgObj) => {
+        this.saveParams(orgObj);
+    }
     setAttUrl = (attUrl, newParams) => {
         this.saveParams({ ...newParams, attUrl });
     }
@@ -111,10 +119,11 @@ class CreateQualityNewSheet extends React.Component {
     onSubmit = (params) => {
         const { formParams } = this.state;
         const { formType } = this.props
-        const assginObject = Object.assign({}, formParams, params,{collegeName:'collegeName',familyName:'familyName',groupName:'groupName'})
+        const assginObject = Object.assign({}, formParams, params)
         const newParams = this.formModels.transFormParams(assginObject);
         // if()
         if (this.props.onSubmit) {
+            console.log(newParams)
             this.props.onSubmit(newParams)
         }
         this.saveParams(params);
@@ -134,6 +143,7 @@ class CreateQualityNewSheet extends React.Component {
                 getOrgMapByMail={this.getOrgMapByMail}
                 getOrderNum={this.getOrderNum}
                 changeDimension={this.changeDimension}
+                onChangeOrg={this.onChangeOrg}
                 setAttUrl={this.setAttUrl}
                 onSubmit={this.onSubmit}
                 onCancel={this.onCancel}
