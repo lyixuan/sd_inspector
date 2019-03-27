@@ -67,7 +67,7 @@ export default class CheckInfoComponent extends React.Component {
               <div>
                 <div className={styles.secCol}>
                   <div>审核详情：</div>
-                  <div>{item.Desc}</div>
+                  <div>{item.desc}</div>
                 </div>
               </div>
               {this.getDivideLine(index)}
