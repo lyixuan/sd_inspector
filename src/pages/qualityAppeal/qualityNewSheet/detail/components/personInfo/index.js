@@ -8,7 +8,7 @@ export default class PersonInfoComponent extends React.Component {
     super(props);
     this.state = {
       data: props.data,
-      qualityInfoCollapse: this.props.qualityInfoCollapse,
+      qualityInfoCollapse: props.qualityInfoCollapse,
     };
   }
   componentDidMount() {}
