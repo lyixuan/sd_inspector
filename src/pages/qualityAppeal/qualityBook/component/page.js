@@ -4,14 +4,10 @@ import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
 import BIButtonBlue from '@/components/BIButtonBlue';
-import BIDatePicker from '@/ant_components/BIDatePicker';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
-
-import { BiFilter, DeepCopy } from '@/utils/utils';
 import { Row, Col } from 'antd';
 import styles from '../../style.less'
-const { RangePicker } = BIDatePicker
 
 @connect(({ newQuality }) => ({
   newQuality,

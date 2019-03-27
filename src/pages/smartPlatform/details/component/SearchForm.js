@@ -307,7 +307,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('orderStatus', {
                   initialValue: this.state.orderStatus,
                 })(
-                  <BISelect allowClear placeholder="订单状态" allowClear style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'orderStatus')}>
+                  <BISelect allowClear placeholder="订单状态" style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'orderStatus')}>
                     {BiFilter('ORDER_STATE').map(item => (
                       <Option value={item.id} key={item.name}>
                         {item.name}

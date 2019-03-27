@@ -16,9 +16,6 @@ import { LocaleProvider } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 
 class Doc extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <LocaleProvider locale={zhCN}>

@@ -12,8 +12,6 @@ import { chartOptions } from './component/EchartCommonOptions';
 import EchartTitle from './component/EchartCommonOptions/echartTitle';
 import SelfProgress from './component/EchartCommonOptions/fillRateFamily';
 import { fillCollege } from './component/EchartCommonOptions/fillRateOptions';
-import { RATE_COLOR } from '@/utils/constants';
-
 
 @connect(({ survey, home, loading }) => ({
   survey,
