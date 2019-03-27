@@ -8,6 +8,8 @@ import BIDatePicker from '@/ant_components/BIDatePicker';
 import OrgCascader from '@/components/OrgCascader';
 import BICascader from '@/ant_components/BICascader';
 import { BiFilter } from '@/utils/utils';
+import DownLoad from '@/components/DownLoad';
+import { STATIC_HOST } from '@/utils/constants'
 import styles from './style.less';
 import SubOrderDetail from '../subOrderDetail';
 import { uploadAttachment } from '../../services';
@@ -272,6 +274,7 @@ class CreateQualityNewSheet extends React.Component {
     renderUpload = () => {
         const { formType, actionType } = this.props;
         const upLoadTypeObj = BiFilter('QUALITY_UPLOAD_TYPE').find(item => item.name === formType) || {};
+        const { attUrl = '' } = this.props.params;
         if (actionType !== 'appeal') {
             return (<Upload
                 {...uploadAttachment()}
@@ -286,7 +289,7 @@ class CreateQualityNewSheet extends React.Component {
             </Upload>)
         } else {
             return (
-                <div>下载</div>
+                attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text="下载附件" />) : null
             )
         }
     }
