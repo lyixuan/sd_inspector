@@ -9,11 +9,16 @@ class QualityAppeal extends React.Component {
     const {setStateData,data} = this.props;
     return (
       <div className={styles.appealWrap} style={{marginLeft:'-20px'}}>
-        <div className={styles.mtitle}>质检审核</div>
-        <div className={styles.resultWrap}>
-          <div className={styles.s2_title}>审核记录</div>
-          <Info data={data}/>
-        </div>
+        {
+          data.length>0?(
+            <div>
+            <div className={styles.mtitle}>质检审核</div>
+            <div className={styles.resultWrap}>
+              <div className={styles.s2_title}>审核记录</div>
+              <Info data={data}/>
+            </div></div>
+          ):null
+        }
         {setStateData?<Edit {...this.props} dataName='一审截止日期' showWarn={false} setStateData={setStateData}/>:null}
       </div>
     );

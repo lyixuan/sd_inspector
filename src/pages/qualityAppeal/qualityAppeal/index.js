@@ -337,6 +337,8 @@ class QualityAppeal extends React.Component {
       tabType: tabType
     };
     this.saveUrlParams = undefined;
+    this.c1 = this.columnsAction1();
+    this.c2 = this.columnsAction2();
   }
   componentDidMount() {
     const {p=null} = this.props.location.query;
@@ -497,7 +499,7 @@ class QualityAppeal extends React.Component {
               <Page1
                 {...this.props}
                 tabType={this.state.tabType}
-                columns={this.columnsAction1()}
+                columns={this.c1}
                 orgList={orgListTreeData}
                 dataSource={qualityAppealList}
                 page={page}
@@ -510,7 +512,7 @@ class QualityAppeal extends React.Component {
                 tabType={this.state.tabType}
                 dimensionList1 = {dimensionList1}
                 dimensionList2 = {dimensionList2}
-                columns={this.columnsAction2()}
+                columns={this.c2}
                 dataSource={qualityAppealList}
                 page={page}
                 queryData={(params,page)=>this.queryData(params,page)} />

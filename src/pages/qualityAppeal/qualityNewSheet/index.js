@@ -148,6 +148,7 @@ class NewQualitySheetIndex extends React.Component {
       pageSize: 30
     };
     this.saveUrlParams = undefined;
+    this.columnsAction = this.columnsAction()
   }
   componentDidMount() {
     const {p=null} = this.props.location.query;
@@ -247,6 +248,7 @@ class NewQualitySheetIndex extends React.Component {
     if (!AuthButton.checkPathname('/qualityAppeal/qualityNewSheet/showQR')) {
       columns.splice(5,1);
     }
+    console.log([...columns,...actionObj]);
     return [...columns,...actionObj];
   };
 
@@ -275,7 +277,7 @@ class NewQualitySheetIndex extends React.Component {
       <>
         <Page
           {...this.props}
-          columns={this.columnsAction()}
+          columns={this.columnsAction}
           dataSource={qualityList}
           page={page}
           orgList={orgListTreeData}
