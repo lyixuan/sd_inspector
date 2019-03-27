@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less';
-import { Row, Col, Input, Radio, message } from 'antd';
+import Edit from '../../components/AppealInfo/_edit';
+import { Row, Col, message } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 import SubOrderDetail from './../../components/subOrderDetail';
@@ -9,8 +10,6 @@ import IllegalInfo from './../../qualityNewSheet/detail/components/illegalInfo';
 import AppealInfo from './../component/appealInfo';
 import SOPCheckResult from './../component/sopCheckResult';
 import router from 'umi/router';
-const { TextArea } = Input;
-const RadioGroup = Radio.Group;
 
 @connect(({ qualityAppealHome, EditAppeal }) => ({
   qualityAppealHome,
@@ -31,6 +30,7 @@ class EditAppeal extends React.Component {
         qualityId: this.props.location.query.id || 26,
       },
       appealInfoCollapse: [],
+      qualityInfoCollapse: true,
     };
     this.appealEndDate = null;
     this.type = null
@@ -99,16 +99,14 @@ class EditAppeal extends React.Component {
     let params = this.state.submitParam;
     params.appealEndDate = this.appealEndDate;
     params.type = this.type;
-    if (this.state.submitParam.checkResult == null) {
+    if (params.checkResult == null) {
       message.warn('请选择审核结果');
       return;
     }
-    if (!this.state.submitParam.desc) {
+    if (!params.desc) {
       message.warn('请填写审核说明');
       return;
     }
-
-    console.log(109, params); return;
     this.props.dispatch({
       type: 'EditAppeal/sopCheckAppeal',
       payload: { params },
@@ -117,16 +115,16 @@ class EditAppeal extends React.Component {
       pathname: '/qualityAppeal/qualityAppeal',
     });
   };
-  radioChange = e => {
-    this.state.submitParam.checkResult = e.target.value;
-    this.setState({ submitParam: this.state.submitParam });
-  };
-  inputChange = e => {
-    e.persist();
-    this.state.submitParam.desc = e.target.value;
-    this.setState({ submitParam: this.state.submitParam });
+  setStateData = (val)=>{
+    const {submitParam} = this.state;
+    this.setState({
+      submitParam: {...submitParam,...val},
+    });
   };
 
+  handleCollapse() {
+    this.setState({ qualityInfoCollapse: !this.state.qualityInfoCollapse });
+  }
   render() {
     const detailData = this.props.qualityAppealHome.DetailData;
     const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
@@ -134,28 +132,26 @@ class EditAppeal extends React.Component {
     this.appealEndDate = detailData[detailData.length - 1] ? detailData[detailData.length - 1].appealEndDate : '';
     this.type = detailData[detailData.length - 1] ? detailData[detailData.length - 1].type : '';
 
-    // this.state.submitParam.appealEndDate = detailData[detailData.length - 1]
-    //   ? detailData[detailData.length - 1].appealEndDate
-    //   : '';
-    // this.state.submitParam.type = detailData[detailData.length - 1]
-    //   ? detailData[detailData.length - 1].type
-    //   : '';
     return (
       <div className={styles.editAppeal}>
         <section>
           {/* 质检违规人员信息 */}
-          <PersonInfo data={qualityDetailData} />
+          <PersonInfo data={qualityDetailData} qualityInfoCollapse={this.state.qualityInfoCollapse}  onClick={() => this.handleCollapse()}/>
         </section>
-        <section>
+        <div
+          className={
+            this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
+          }
+        >
           <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
           <SubOrderDetail data={qualityDetailData.orderDetail} />
-        </section>
-        <section>
-          {/* 质检违规详情 */}
-          <section>{/* 质检审核 */}</section>
-          <div className={styles.divideLine} />
-          <IllegalInfo data={qualityDetailData} />
-        </section>
+          <>
+            {/* 质检违规详情 */}
+            <section>{/* 质检审核 */}</section>
+            <div className={styles.divideLine} />
+            <IllegalInfo data={qualityDetailData} />
+          </>
+        </div>
 
         <section>
           {/* 申诉信息 */}
@@ -163,25 +159,7 @@ class EditAppeal extends React.Component {
         </section>
         <div className={styles.editBox}>
           <div className={styles.title}>SOP审核</div>
-          <Row className="gutter-row2">
-            <Col span={24} className="editRow">
-              <div className={styles.label}>审核结果：</div>
-              <div className={styles.content}>
-                <RadioGroup onChange={this.radioChange}>
-                  <Radio value={1}>通过</Radio>
-                  <Radio value={0}>驳回</Radio>
-                </RadioGroup>
-              </div>
-            </Col>
-          </Row>
-          <Row className="gutter-row2">
-            <Col span={24} className="editRow">
-              <div className={styles.label}>审核说明：</div>
-              <div className={styles.content}>
-                <TextArea rows={4} onChange={this.inputChange} />
-              </div>
-            </Col>
-          </Row>
+          <Edit hideDate setStateData={this.setStateData} />
         </div>
         {this.getSuperiorCheck(detailData)}
         <Row className="gutter-row">
