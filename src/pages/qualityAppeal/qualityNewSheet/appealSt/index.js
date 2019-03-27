@@ -51,9 +51,8 @@ class EditQualityNewSheet extends React.Component {
     const params2 = {
       qualityId: Number(this.query.id),
       type: this.query.status === '2' || this.query.status === '4' ? 1 : 2,
-      checkResult: Number(appealParam.checkResult)===1?4:1,
-      isWarn: appealParam.isWarn===null?undefined:appealParam.isWarn,
-      desc: appealParam.desc ? appealParam.desc : undefined,
+      checkResult: Number(appealParam.checkResult)===1?2:4,
+      checkResultDesc: appealParam.desc ? appealParam.desc : undefined,
       firstAppealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
     };
     this.props.dispatch({
@@ -66,13 +65,12 @@ class EditQualityNewSheet extends React.Component {
     const { qualityDetail = {} } = this.props.qualityNewSheet;
     const { orderDetail, qualityAudit = [], ...others } = qualityDetail;
     const newqualityAudit = [];
-    console.log(qualityAudit);
     qualityAudit && qualityAudit.forEach((v) => {
       newqualityAudit.push({
-        checkResult: v.operate === 4 ? 0 : 1,
+        checkResult: v.operate === 4 ? 0 : v.operate === 2?1:'',
         operator: null,
         operateDate: v.updateTime,
-        checkResultDesc: v.desc
+        desc: v.desc
       })
     });
     return (

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Progress } from 'antd';
 
-const Base = '/proxy';
 class DownLoad extends Component {
   static propTypes = {
     onPreview: PropTypes.func, //  点击下载时的回调
@@ -33,7 +32,7 @@ class DownLoad extends Component {
   }
   onLoad = () => {
     if (!this.props.loadUrl) return;
-    this.ajax(`${Base}${this.props.loadUrl}`);
+    this.ajax(`${this.props.loadUrl}`);
     if (this.props.onPreview) this.props.onPreview();
     this.showProgressWrapperPanel();
   };
