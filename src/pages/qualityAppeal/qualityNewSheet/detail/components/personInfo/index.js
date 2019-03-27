@@ -4,30 +4,22 @@ import moment from 'moment';
 import { BiFilter } from '@/utils/utils';
 
 export default class PersonInfoComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: props.data,
-      qualityInfoCollapse: props.qualityInfoCollapse,
-    };
-  }
-  componentDidMount() {}
   appealPanelVisible() {
     this.props.onClick();
   }
   getAppealStatus() {
-    if (this.state.qualityInfoCollapse) {
+    if (this.props.qualityInfoCollapse) {
       return '-';
     }
     return '+';
   }
 
   render() {
-    const { qualityType, verifyDate, mail, role, collegeName,familyName,groupName, name } = this.props.data;
-    this.state.qualityInfoCollapse = this.props.qualityInfoCollapse;
-    const qualityInfoCollapse = this.props.qualityInfoCollapse;
+    const {qualityInfoCollapse,data={}} = this.props;
+    const { qualityType, verifyDate, mail, role, collegeName,familyName,groupName, name } = data;
+
     const roleObj = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === role);
-    console.log('personinfo:', this.props);
+
     return (
       <section className={styles.personInfoCon}>
         <div className={styles.personInfo}>
