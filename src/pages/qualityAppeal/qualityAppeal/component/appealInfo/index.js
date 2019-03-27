@@ -4,27 +4,20 @@ import moment from 'moment';
 import { STATIC_HOST } from '@/utils/constants';
 
 export default class AppealInfoComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: props.data,
-      appealInfoCollapse: false,
-    };
-  }
-  componentDidMount() {}
   appealPanelVisible(index) {
     this.props.onClick(index);
   }
   getAppealStatus() {
-    if (this.state.appealInfoCollapse) {
+    const {isCollapse=false} = this.props.data;
+    if (isCollapse) {
       return '+';
     }
     return '-';
   }
   render() {
-    const { appealEndDate, appealStart, type, index, isCollapse } = this.props.data;
-    this.state.appealInfoCollapse = isCollapse;
-    console.log(isCollapse);
+    const {data={}} = this.props;
+    const { appealEndDate, appealStart, type, index, isCollapse } = data;
+
     const number = Number(type)===2?'二':'一';
     return (
       <section className={styles.personInfoCon}>
