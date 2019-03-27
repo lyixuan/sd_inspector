@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './style.css';
 import moment from 'moment';
+import { BiFilter } from '@/utils/utils';
 
 export default class PersonInfoComponent extends React.Component {
   constructor(props) {
@@ -20,16 +21,18 @@ export default class PersonInfoComponent extends React.Component {
     }
     return '+';
   }
+
   render() {
     const { qualityType, verifyDate, mail, role, groupName, name } = this.props.data;
     this.state.qualityInfoCollapse = this.props.qualityInfoCollapse;
     const qualityInfoCollapse = this.props.qualityInfoCollapse;
+    const roleObj = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === role);
     console.log('personinfo:', this.props);
     return (
       <section className={styles.personInfoCon}>
         <div className={styles.personInfo}>
           <span>质检违规详情</span>
-          <span>（检审核通过时间：{moment(verifyDate).format('YYYY-MM-DD HH:mm:ss')}）</span>
+          <span>（检审核通过时间：{verifyDate?moment(verifyDate).format('YYYY-MM-DD HH:mm:ss'):null}）</span>
           <span
             onClick={() => {
               this.appealPanelVisible();
@@ -42,9 +45,9 @@ export default class PersonInfoComponent extends React.Component {
         <div className={qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`}>
           <div className={styles.container}>
             <div className={styles.secRow}>
-              <div>质检类型：{qualityType == 1 ? '客诉质检' : '班主任质检'}</div>
-              <div>归属人邮箱：{mail}</div>
-              <div>归属人角色：{role}</div>
+              <div>质检类型：{Number(qualityType) === 1 ? '客诉质检' : '班主任质检'}</div>
+              <div>归属人邮箱：{mail}@sunladns.com</div>
+              <div>归属人角色：{roleObj?roleObj.name:''  }</div>
             </div>
             <div className={styles.secRow}>
               <div />
