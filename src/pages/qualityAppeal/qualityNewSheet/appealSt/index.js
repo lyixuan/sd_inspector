@@ -44,7 +44,7 @@ class EditQualityNewSheet extends React.Component {
       message.warn('审核结果为必选项');
       return;
     }
-    if (!appealParam.appealEndDate) {
+    if (Number(appealParam.checkResult)===0 && !appealParam.appealEndDate) {
       message.warn('一审截止日期必填');
       return;
     }
@@ -77,7 +77,7 @@ class EditQualityNewSheet extends React.Component {
       <div className={styles.qualityContainter}>
         {/* form区域 */}
         <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={{ ...others }} formType="quality" actionType="appeal">
-          <QualityAppeal data={newqualityAudit} setStateData={this.setStateData} />
+          <QualityAppeal data={newqualityAudit} formType="quality"  setStateData={this.setStateData} />
         </CommonForm>
 
         <BIModal
