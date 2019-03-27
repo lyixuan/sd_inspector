@@ -51,7 +51,7 @@ export default class PersonInfoComponent extends React.Component {
             </div>
             <div className={styles.secRow}>
               <div />
-              <div>归属组织：{collegeName}|{familyName}|{groupName}</div>
+              <div>归属组织：{collegeName}{familyName?`| ${familyName}`:null}{groupName?`| ${groupName}`:null}</div>
               <div>归属人：{name}</div>
             </div>
           </div>
