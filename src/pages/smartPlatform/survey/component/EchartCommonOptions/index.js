@@ -29,15 +29,14 @@ function commonOptions(params) {
       data: legendData
     },
     tooltip: {
-      // trigger: 'line',
       textStyle: {
         align: 'left',
         color:'#103069',
         fontSize:12,
       },
       formatter,
-      padding: 15,
-      backgroundColor:'#fff' ,
+      padding:0,
+      backgroundColor:'hsla(0,0%,100%,.9)' ,
     },
     xAxis: [
       {
@@ -101,7 +100,7 @@ export function chartOptions(data) {
     xData: data1.dateArr,
     color: ['#52C9C2', "#30B0E6", '#FD9E3B', '#CC73FF'],
     formatter: function(params) {
-      return `<div style="min-width:200px;box-shadow:0 0 12px 0; border-radius: 5px;padding:12px 16px 8px ">${_html1(params.dataIndex,params.name)}</div>`;
+      return `<div style="min-width:200px;box-shadow:0 0 8px 0; border-radius: 5px;padding:12px 16px 8px ">${_html1(params.dataIndex,params.name)}</div>`;
     },
     series: [{
       name: '考试计划人数',
@@ -167,7 +166,7 @@ export function chartOptions(data) {
     xData: data2.dateArr,
     color: ['#52C9C2', '#FD9E3B', '#CC73FF'],
     formatter:  function(params) {
-      return `<div style="min-width:200px;box-shadow:0 0 12px 0; border-radius: 5px;padding:12px 16px 8px ">${_html2(params.dataIndex,params.name)}</div>`;
+      return `<div style="min-width:200px; border-radius: 5px;box-shadow:0 0 8px 0;padding:12px 16px 8px ">${_html2(params.dataIndex,params.name)}</div>`;
     },
     series: [{
       name: '考试计划人数',

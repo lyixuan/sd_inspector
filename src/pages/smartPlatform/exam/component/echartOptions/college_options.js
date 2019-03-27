@@ -29,14 +29,14 @@ function commonOptions(params) {
     },
     tooltip: {
       // trigger: '',
-      backgroundColor: 'rgba(255,255,255,1)',
+      backgroundColor:'hsla(0,0%,100%,.9)' ,
       textStyle: {
         align: 'left',
         color: '#052664',
         fontSize: 12,
       },
       formatter,
-      padding: 15,
+      padding: 0,
     },
     xAxis: [
       {

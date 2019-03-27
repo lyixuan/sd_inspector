@@ -96,7 +96,7 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
       // axisPointer: { // 坐标轴指示器，坐标轴触发有效
       //   type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
       // },
-      backgroundColor:'rgba(255,255,255,1)',
+      backgroundColor:'hsla(0,0%,100%,.9)' ,
       textStyle: {
         align: 'left',
         color:'#052664',
@@ -106,7 +106,7 @@ export function famProOPtion(param, mapInfo,id,pro,unit,type){
       formatter:function(params) {
         return `<div style="min-width:200px; box-shadow:0 0 12px 0; border-radius: 5px;padding:12px 16px 8px ">${_html(params.dataIndex)}</div>`;
       },
-      padding: 15,
+      padding: 0,
     },
     legend: {
       bottom: 20,
