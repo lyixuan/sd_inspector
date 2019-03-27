@@ -8,7 +8,7 @@ export default class PersonInfoComponent extends React.Component {
     super(props);
     this.state = {
       data: props.data,
-      qualityInfoCollapse: this.props.qualityInfoCollapse,
+      qualityInfoCollapse: props.qualityInfoCollapse,
     };
   }
   componentDidMount() {}
@@ -23,7 +23,7 @@ export default class PersonInfoComponent extends React.Component {
   }
 
   render() {
-    const { qualityType, verifyDate, mail, role, groupName, name } = this.props.data;
+    const { qualityType, verifyDate, mail, role, collegeName,familyName,groupName, name } = this.props.data;
     this.state.qualityInfoCollapse = this.props.qualityInfoCollapse;
     const qualityInfoCollapse = this.props.qualityInfoCollapse;
     const roleObj = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === role);
@@ -51,7 +51,7 @@ export default class PersonInfoComponent extends React.Component {
             </div>
             <div className={styles.secRow}>
               <div />
-              <div>归属组织：{groupName}</div>
+              <div>归属组织：{collegeName}|{familyName}|{groupName}</div>
               <div>归属人：{name}</div>
             </div>
           </div>

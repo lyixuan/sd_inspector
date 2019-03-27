@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './style.css';
 import moment from 'moment';
+import { STATIC_HOST } from '@/utils/constants';
 
 export default class AppealInfoComponent extends React.Component {
   constructor(props) {
@@ -24,15 +25,16 @@ export default class AppealInfoComponent extends React.Component {
     const { appealEndDate, appealStart, type, index, isCollapse } = this.props.data;
     this.state.appealInfoCollapse = isCollapse;
     console.log(isCollapse);
+    const number = Number(type)===2?'二':'一';
     return (
       <section className={styles.personInfoCon}>
-        <span className={[index == 0 ? styles.secctionTitle : `${styles.hidePanel}`]}>
+        <span className={[Number(index) === 0 ? styles.secctionTitle : `${styles.hidePanel}`]}>
           申诉信息
         </span>
         <div className={styles.appealInfoCon}>
           <div className={styles.appealInfo}>
-            {type}次申诉
-            <span>一次申诉截止日期：{moment(appealEndDate).format('YYYY-MM-DD HH:mm:ss')}</span>
+            {number}次申诉
+            <span> {number}次申诉截止日期：{appealEndDate?moment(appealEndDate).format('YYYY-MM-DD HH:mm:ss'):null}</span>
             <span
               onClick={() => {
                 this.appealPanelVisible(index);
@@ -47,7 +49,7 @@ export default class AppealInfoComponent extends React.Component {
               <div className={styles.secctionTitle}>申诉发起人</div>
               <div className={styles.container}>
                 <div className={styles.secRow}>
-                  <div>附件：{appealStart.attUrl ? appealStart.attUrl : ''} </div>
+                  <div>附件：{appealStart.attUrl?<a href={`${STATIC_HOST}/${appealStart.attUrl}`} >附件1</a>:null} </div>
                 </div>
                 <div className={[styles.secRow]}>
                   <div>

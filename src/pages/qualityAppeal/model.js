@@ -172,6 +172,10 @@ export default {
     },
     saveDimensionTreeList(state, action) {
       return { ...state, ...action.payload };
+    },
+    clearOrderNumData(state, { payload }) {
+      const orderNumData = null;
+      return { ...state, orderNumData };
     }
   },
 
