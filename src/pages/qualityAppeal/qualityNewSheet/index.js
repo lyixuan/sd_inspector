@@ -57,17 +57,6 @@ const columns = [
     dataIndex: 'operateName',
   },
   {
-    title: '质检审核通过日期',
-    dataIndex: 'reduceScoreDate',
-    render: (text, record) => {
-      return (
-        <>
-          {record.reduceScoreDate?moment(record.reduceScoreDate).format('YYYY-MM-DD'):'-'}
-        </>
-      );
-    },
-  },
-  {
     title: '违规等级',
     dataIndex: 'violationLevel',
   },
