@@ -20,6 +20,7 @@ export class FormModels extends BaseModels {
             familyType: null,          // @params(Number)自考壁垒
             userId: null,              // @params(number) 用户id
             id: null,                   // @params(number) 质检单id
+            organizeName: null,
         };
     }
     handleInitData = () => {

@@ -26,7 +26,11 @@ export class BaseModels {
             masterMail: '',              // 客诉主管邮箱
             qualityValue: null,          // 扣除学分/绩效
             userId: null,                 // 根据邮箱查出用户id
-            id: null,                     // 质检单id 
+            id: null,                     // 质检单id
+            collegeName: null,             // 学院名
+            familyName: null,              // 家族名
+            groupName: null,                // 小组名
+
         };
         this.modelData = this.handleInitData(qualityDetail);
     }
@@ -55,15 +59,16 @@ export class BaseModels {
             newParams[item] = params[item];
         })
         const { primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId,            // 学院ID
-            familyId,
+            familyId, collegeName, familyName, groupName,
             groupId, violationDate, reduceScoreDate, ...others } = newParams || {};
+        const organizeName = [collegeName, familyName, groupName].filter(item => item).join('|');
         const organize = [collegeId, familyId, groupId].filter(item => item);
         const dimension = [primaryAssortmentId, secondAssortmentId, thirdAssortmentId].filter(item => item);
         const dateTimeObj = {
             violationDate: this.transMoment(violationDate),
             reduceScoreDate: this.transMoment(reduceScoreDate),
         }
-        return { ...others, ...dateTimeObj, organize, dimension };
+        return { ...others, ...dateTimeObj, organize, dimension, organizeName };
 
     }
     transMoment = (date) => {
