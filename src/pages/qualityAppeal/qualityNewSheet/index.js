@@ -218,21 +218,21 @@ class NewQualitySheetIndex extends React.Component {
                 详情
               </span>
             </AuthButton>
-            {record.status === 3||record.status === 4?(
+            {record.status === 1||record.status === 3?(
               <AuthButton authority='/qualityAppeal/qualityNewSheet/edit'>
                 <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
                   编辑
                 </span>
               </AuthButton>
             ):null}
-            {record.status === 1?(
+            {record.status === 2?(
               <AuthButton authority='/qualityAppeal/qualityNewSheet/repeal'>
               <span className={style.actionBtn} onClick={() => this.onRepeal(record)}>
                 撤销
               </span>
               </AuthButton>
             ):null}
-            {record.status === 1?(
+            {record.status === 2?(
               <AuthButton authority='/qualityAppeal/qualityNewSheet/appealSt'>
                 <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
                   审核

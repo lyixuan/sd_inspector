@@ -35,6 +35,17 @@
   content: none!important;
 }
 
+.ant-checkbox-checked .ant-checkbox-inner{
+  background: #52c9c2;
+  border-color: #52c9c2;
+}
+.ant-checkbox-wrapper:hover .ant-checkbox-inner, .ant-checkbox:hover .ant-checkbox-inner, .ant-checkbox-input:focus + .ant-checkbox-inner{
+  border-color: #52c9c2;
+}
+a,a:hover{
+  color: #52c9c2;
+}
+
 /*!*兼容windows 固定高度的 scroll问题*!*/
 /*.ant-table-fixed-header .ant-table-scroll .ant-table-header {*/
   /*overflow-x: hidden!important;*/
