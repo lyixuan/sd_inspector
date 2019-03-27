@@ -66,16 +66,16 @@ const columns = [
     render: (text, record) => {
       function dot() {
         let rt = null;
-        if (record.status === 1) {
+        if (record.status === 2) {
           rt = <span className={subStl.dotStl} style={{background: '#FAAC14'}}></span>
         }
-        if (record.status === 2) {
+        if (record.status === 4) {
           rt = <span className={subStl.dotStl} style={{background: '#52C9C2'}}></span>
         }
         if (record.status === 3) {
           rt = <span className={subStl.dotStl} style={{background: '#D9D9D9'}}></span>
         }
-        if (record.status === 4) {
+        if (record.status === 1) {
           rt = <span className={subStl.dotStl} style={{background: '#FF0000'}}></span>
         }
         return rt;
