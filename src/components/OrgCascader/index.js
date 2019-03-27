@@ -35,7 +35,6 @@ class OrgCascader extends React.Component {
     }
     componentDidMount() {
         const { level = 0, options = [] } = this.props;
-
         this.saveOptions(options, level);
     }
     componentWillReceiveProps(nextProps) {
@@ -65,13 +64,15 @@ class OrgCascader extends React.Component {
 
     render() {
         const { options } = this.state;
+        const { level } = this.props;
         return (
-          <BICascader
-            style={{ width: 280, height: 32 }}
-            {...this.props}
-            options={options}
-            onChange={this.onChange}
-          />
+            <BICascader
+                style={{ width: 280, height: 32 }}
+                {...this.props}
+                options={options}
+                onChange={this.onChange}
+                disabled={Number(level) === 0}
+            />
 
         )
     }

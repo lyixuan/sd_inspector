@@ -26,7 +26,7 @@ export class BaseModels {
             masterMail: '',              // 客诉主管邮箱
             qualityValue: null,          // 扣除学分/绩效
             userId: null,                 // 根据邮箱查出用户id
-            id: null,                     // 质检单id
+            id: null,                     // 质检单id 
         };
         this.modelData = this.handleInitData(qualityDetail);
     }
