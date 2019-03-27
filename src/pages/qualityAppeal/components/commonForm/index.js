@@ -123,7 +123,6 @@ class CreateQualityNewSheet extends React.Component {
         const newParams = this.formModels.transFormParams(assginObject);
         // if()
         if (this.props.onSubmit) {
-            console.log(newParams)
             this.props.onSubmit(newParams)
         }
         this.saveParams(params);

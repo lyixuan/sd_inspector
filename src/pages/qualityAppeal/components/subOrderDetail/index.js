@@ -9,7 +9,7 @@ export default class SubOrderDetailComponent extends React.Component {
       data: props.data,
     };
   }
-  componentDidMount() {}
+  componentDidMount() { }
 
   render() {
     const {
@@ -28,7 +28,7 @@ export default class SubOrderDetailComponent extends React.Component {
         <div className={styles.container}>
           <div className={styles.secRow}>
             <div>学员姓名：{stuName}</div>
-            <div>报名时间：{moment(bizDate).format('YYYY年MM月DD日 HH:mm:ss') }</div>
+            <div>报名时间：{bizDate ? moment(bizDate).format('YYYY年MM月DD日 HH:mm:ss') : null}</div>
             <div>学员id：{stuId}</div>
           </div>
           <div className={styles.secRow}>
