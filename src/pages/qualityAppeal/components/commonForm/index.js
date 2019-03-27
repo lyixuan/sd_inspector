@@ -33,6 +33,7 @@ class CreateQualityNewSheet extends React.Component {
             violationLevelObj: {},  // 用于储存违规等级,
             isShowConfirmModel: false,
         };
+        this.tmpParams = null;   //  用于临时储存参数;
     }
     componentDidMount() {
         // 初始化更新form的value
@@ -133,15 +134,22 @@ class CreateQualityNewSheet extends React.Component {
     changeConfirmModel = (bol) => {
         this.setState({ isShowConfirmModel: bol });
     }
+    confirmModelSubmit = () => {
+        if (this.props.onSubmit) {
+            this.props.onSubmit(this.tmpParams);
+        }
+    }
     onSubmit = (params) => {
         const { formParams } = this.state;
         const { formType } = this.props
         const assginObject = Object.assign({}, formParams, params)
         const newParams = this.formModels.transFormParams(assginObject);
-        if (formType === 'quality') {
-            this.checkRepeatQualityInspection(newParams);
-            return;
-        }
+        const { orderNum } = newParams;
+        this.tmpParams = newParams;
+        // if (orderNum) {
+        //     this.checkRepeatQualityInspection(newParams);
+        //     return;
+        // }
         if (this.props.onSubmit) {
             this.props.onSubmit(newParams)
         }
@@ -151,7 +159,7 @@ class CreateQualityNewSheet extends React.Component {
         this.props.history.goBack();
     }
     render() {
-        const { formParams } = this.state;
+        const { formParams, isShowConfirmModel } = this.state;
         const { orgList, children } = this.props;
         return (<div>
             {/* form区域 */}
@@ -171,16 +179,31 @@ class CreateQualityNewSheet extends React.Component {
                 onChangedimensionTree={this.onChangedimensionTree}
             />
             {/* 模态框部分 */}
+            {/* 对子订单提示模态框 */}
             <BIModal
                 title="提交确认"
-                visible={false}
-                onOk={this.handleOk}
-                onCancel={this.changeConfirmModel}
+                visible={isShowConfirmModel}
+                onCancel={this.changeConfirmModel.bind(null, false)}
                 footer={[
-                    <BIButton style={{ marginRight: 10 }} onClick={this.onCancel}>
+                    <BIButton style={{ marginRight: 10 }} onClick={this.changeConfirmModel.bind(null, false)}>
                         取消
             </BIButton>,
-                    <BIButton type="primary" onClick={this.handleOk}>
+                    <BIButton type="primary" onClick={this.confirmModelSubmit}>
+                        确定
+            </BIButton>,
+                ]}
+            >
+                <div className={styles.modalWrap}>该条记录将被提交给质检主管进行审核，确定提交吗？</div>
+            </BIModal>
+            <BIModal
+                title="提交审核"
+                visible={isShowConfirmModel}
+                onCancel={this.changeConfirmModel.bind(null, false)}
+                footer={[
+                    <BIButton style={{ marginRight: 10 }} onClick={this.changeConfirmModel.bind(null, false)}>
+                        取消
+            </BIButton>,
+                    <BIButton type="primary" onClick={this.confirmModelSubmit}>
                         确定
             </BIButton>,
                 ]}
