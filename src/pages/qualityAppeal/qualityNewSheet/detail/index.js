@@ -36,7 +36,9 @@ class QualityDetail extends React.Component {
     this.setState({ checkResultsCollapse: !this.state.checkResultsCollapse });
   }
   render() {
-    const qualityDetailData = this.props.qualityDetail.QualityDetailData;
+    const {qualityDetail={}} = this.props;
+    const qualityDetailData = qualityDetail.QualityDetailData||{};
+
     return (
       <div className={styles.detailContainer}>
         <section>
