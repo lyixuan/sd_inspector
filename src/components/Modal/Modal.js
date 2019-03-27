@@ -7,7 +7,7 @@
 * footButton：数组，['是'，'否']
 * */
 import React from 'react';
-import { Modal, Input, Button } from 'antd';
+import { Modal, Input } from 'antd';
 import styles from './Modal.css';
 import BIButton from '@/ant_components/BIButton'
 
