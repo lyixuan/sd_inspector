@@ -40,11 +40,11 @@ class EditQualityNewSheet extends React.Component {
   };
   onSubmit = params => {
     const { appealParam } = this.state;
-    if (!appealParam.checkResult) {
+    if (Number(appealParam.checkResult)!==0 && !appealParam.checkResult) {
       message.warn('审核结果为必选项');
       return;
     }
-    if (Number(appealParam.checkResult)===0 && !appealParam.appealEndDate) {
+    if (Number(appealParam.checkResult)===1 && !appealParam.appealEndDate) {
       message.warn('一审截止日期必填');
       return;
     }
