@@ -3,15 +3,9 @@ import moment from 'moment';
 import styles from './style.css';
 
 export default class SubOrderDetailComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: props.data,
-    };
-  }
-  componentDidMount() { }
 
   render() {
+    const {data} = this.props;
     const {
       stuName,
       bizDate,
@@ -21,7 +15,7 @@ export default class SubOrderDetailComponent extends React.Component {
       amount,
       classTeacherName,
       groupName,
-    } = this.props.data ? this.props.data : {};
+    } = data||{} ;
     return (
       <section className={styles.subOrderCon}>
         <span className={styles.secctionTitle}>子订单详情</span>
