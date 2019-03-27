@@ -321,7 +321,8 @@ function dealQuarys(pm){
 @connect(({ qualityAppealHome,qualityCheck,loading }) => ({
   qualityAppealHome,
   qualityCheck,
-  loading:loading.effects['qualityCheck/getAppealList']
+  loading:loading.effects['qualityCheck/getAppealList'],
+  loading2:loading.effects['qualityCheck/exportExcel']
 }))
 
 class QualityAppeal extends React.Component {

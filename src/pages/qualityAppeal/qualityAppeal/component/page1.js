@@ -109,7 +109,7 @@ class NewQualitySheet extends React.Component {
   };
   render() {
     const {qualityNum,qualityType,collegeIdList,familyIdList,groupIdList,beginDate,endDate,firstAppealBeginDate,firstAppealEndDate,status,secondAppealBeginDate,secondAppealEndDate,userName,} = this.state;
-    const {orgList = [],dataSource,columns,page,loading} = this.props;
+    const {orgList = [],dataSource,columns,page,loading,loading2} = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -217,7 +217,7 @@ class NewQualitySheet extends React.Component {
             <Col className={styles.gutterCol} span={12}>
               <div className={styles.gutterBox1}>
                 <AuthButton authority='/qualityAppeal/qualityAppeal/export'>
-                  <span className={styles.gutterBtn1}><BIButtonYellow type='primary' onClick={this.exportRt}>导出Excel</BIButtonYellow></span>
+                  <span className={styles.gutterBtn1}><BIButtonYellow type='primary' onClick={this.exportRt} loading={loading2} >导出Excel</BIButtonYellow></span>
                 </AuthButton>
               </div>
             </Col>
