@@ -136,7 +136,8 @@ function dealQuarys(pm){
 @connect(({ qualityAppealHome,qualityNewSheet,loading }) => ({
   qualityAppealHome,
   qualityNewSheet,
-  loading: loading.effects['qualityNewSheet/getQualityList']
+  loading: loading.effects['qualityNewSheet/getQualityList'],
+  loading2: loading.effects['qualityNewSheet/exportExcel']
 }))
 
 class NewQualitySheetIndex extends React.Component {
