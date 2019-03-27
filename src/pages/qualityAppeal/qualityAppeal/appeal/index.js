@@ -51,11 +51,11 @@ class QualityAppealing extends React.Component {
   };
   handleSubmitSop = () => {
     const { appealParam } = this.state;
-    if (!appealParam.checkResult) {
+    if (Number(appealParam.checkResult)!==0 && !appealParam.checkResult) {
       message.warn('审核结果为必选项');
       return;
     }
-    if (this.query.status === '4' && !appealParam.appealEndDate) {
+    if (this.query.status === '4' && Number(appealParam.checkResult)===1 && !appealParam.appealEndDate) {
       message.warn('二审截止日期必填');
       return;
     }

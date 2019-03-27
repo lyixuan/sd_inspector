@@ -1,7 +1,10 @@
 import { message } from 'antd/lib/index';
 import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality, checkRepeatQualityInspection } from '@/pages/qualityAppeal/qualityNewSheet/services';
 import { getQualityDetail } from '@/pages/qualityAppeal/qualityAppeal/appeal/services';
+import BIModal from '@/ant_components/BIModal';
 import router from 'umi/router';
+
+const confirm = BIModal.confirm;
 
 export default {
   namespace: 'qualityNewSheet',
@@ -66,10 +69,21 @@ export default {
     },
     *checkRepeatQualityInspection({ payload }, { call, put }) {
       const response = yield call(checkRepeatQualityInspection, payload);
+      console.log(response)
+      confirm({
+        className: 'BIConfirm',
+        title: '是否撤销当前数据状态?',
+        cancelText: '取消',
+        okText: '确定',
+        onOk() {
+
+        },
+        onCancel() { },
+      });
       if (response.code === 20000) {
 
       } else {
-        message.msg(response.msg);
+        message.error(response.msg);
       }
 
     }

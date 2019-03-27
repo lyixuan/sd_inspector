@@ -43,7 +43,7 @@ export class FormModels extends BaseModels {
         const newParams = { ...others, ...dateTimeObj, primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId, familyId, groupId };
         return newParams;
     }
-    violationLevel = (params) => {
+    violationLevel = (params = {}) => {
         const { violationLevelName, violationLevel } = params;
         return { violationLevelName, violationLevel }
     }

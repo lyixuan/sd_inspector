@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-
+import BIModal from '@/ant_components/BIModal';
+import BIButton from '@/ant_components/BIButton';
 import FormComponent from './form';
 import { FormModels } from './_utils/formModel';
+import styles from './style.less';
+
 /*
 * submitLoading:@params(boole)提交状态
 * formType:     @params(string)quality(质检),appeal(申述)
@@ -28,6 +31,7 @@ class CreateQualityNewSheet extends React.Component {
         this.state = {
             formParams: this.formModels.initFormModel,
             violationLevelObj: {},  // 用于储存违规等级,
+            isShowConfirmModel: false,
         };
     }
     componentDidMount() {
@@ -126,11 +130,17 @@ class CreateQualityNewSheet extends React.Component {
             if (callback) callback();
         });
     }
+    changeConfirmModel = (bol) => {
+        this.setState({ isShowConfirmModel: bol });
+    }
     onSubmit = (params) => {
         const { formParams } = this.state;
         const assginObject = Object.assign({}, formParams, params);
         const newParams = this.formModels.transFormParams(assginObject);
-        // if()
+        if (formType === 'quality') {
+            this.checkRepeatQualityInspection(newParams);
+            return;
+        }
         if (this.props.onSubmit) {
             this.props.onSubmit(newParams)
         }
@@ -159,6 +169,23 @@ class CreateQualityNewSheet extends React.Component {
                 violationLevelObj={this.state.violationLevelObj}
                 onChangedimensionTree={this.onChangedimensionTree}
             />
+            {/* 模态框部分 */}
+            <BIModal
+                title="提交确认"
+                visible={false}
+                onOk={this.handleOk}
+                onCancel={this.changeConfirmModel}
+                footer={[
+                    <BIButton style={{ marginRight: 10 }} onClick={this.onCancel}>
+                        取消
+            </BIButton>,
+                    <BIButton type="primary" onClick={this.handleOk}>
+                        确定
+            </BIButton>,
+                ]}
+            >
+                <div className={styles.modalWrap}>该条记录将被提交给质检主管进行审核，确定提交吗？</div>
+            </BIModal>
         </div>)
     }
 }
