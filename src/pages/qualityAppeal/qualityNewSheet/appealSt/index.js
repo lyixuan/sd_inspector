@@ -72,7 +72,7 @@ class EditQualityNewSheet extends React.Component {
         checkResult: v.operate === 4 ? 0 : 1,
         operator: null,
         operateDate: v.updateTime,
-        desc: v.desc
+        checkResultDesc: v.desc
       })
     });
     return (
