@@ -27,6 +27,7 @@ class CreateQualityNewSheet extends React.Component {
         this.formModels = new FormModels();
         this.state = {
             formParams: this.formModels.initFormModel,
+            violationLevelObj: {},  // 用于储存违规等级,
         };
     }
     componentDidMount() {
@@ -56,6 +57,8 @@ class CreateQualityNewSheet extends React.Component {
         if (dimensionId) {
             this.changeDimension({ qualityType, dimensionId }, newParams)
         }
+        const violationLevelObj = this.formModels.violationLevel(params || dataSource);
+        this.setState({ violationLevelObj });
         this.upDateFormParams(newParams);
     }
     handleOrgMapByMailParams = (params) => {
@@ -103,6 +106,13 @@ class CreateQualityNewSheet extends React.Component {
     onChangeOrg = (orgObj) => {
         this.saveParams(orgObj);
     }
+    onChangedimensionTree = (params) => {
+        const violationLevelObj = {
+            ...params,
+            violationLevelName: params.violationLevelname
+        }
+        this.setState({ violationLevelObj })
+    }
     setAttUrl = (attUrl, newParams) => {
         this.saveParams({ ...newParams, attUrl });
     }
@@ -147,6 +157,8 @@ class CreateQualityNewSheet extends React.Component {
                 onSubmit={this.onSubmit}
                 onCancel={this.onCancel}
                 otherNode={children || null}
+                violationLevelObj={this.state.violationLevelObj}
+                onChangedimensionTree={this.onChangedimensionTree}
             />
         </div>)
     }

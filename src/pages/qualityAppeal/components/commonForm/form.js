@@ -30,7 +30,6 @@ class CreateQualityNewSheet extends React.Component {
             fileList: []
         };
     }
-
     getOrgMapByMail = () => {
         const values = this.props.form.getFieldsValue();
         const { mail } = values;
@@ -92,7 +91,9 @@ class CreateQualityNewSheet extends React.Component {
     onChangedimensionTree = (value, objArr) => {
         let violationLevelObj = objArr.slice(-1);
         violationLevelObj = violationLevelObj.length > 0 ? violationLevelObj[0] : {};
-        this.setState({ violationLevelObj });
+        if (this.props.onChangedimensionTree) {
+            this.props.onChangedimensionTree(violationLevelObj);
+        }
     }
     getDimensionTreeList = () => {
         const { dimensionTreeList = [] } = this.props;
@@ -109,7 +110,7 @@ class CreateQualityNewSheet extends React.Component {
             if (!err) {
                 console.log('Received values of form: ', values);
             }
-            const { violationLevelObj } = this.state;
+            const { violationLevelObj } = this.props;
             const { violationLevel } = violationLevelObj;
             if (this.props.onSubmit) {
                 this.props.onSubmit({ ...values, violationLevel });
@@ -168,20 +169,12 @@ class CreateQualityNewSheet extends React.Component {
         }
         return isZip && isLt10M;
     };
-    renderViolationLevelName = () => {
-        const dimension = this.props.form.getFieldValue('dimension');
-        if (Array.isArray(dimension) && dimension.length > 0) {
-            const obj = dimension.slice(-1)[0] || {};
-            return obj
-        } return {}
-
-    }
     renderGovernorComponent = () => {
         const { getFieldDecorator } = this.props.form;
         const { params } = this.props;
         const values = this.props.form.getFieldsValue();
         const { qualityType, role } = values || {};
-        const violationLevelObj = this.renderViolationLevelName();
+        const { violationLevelObj } = this.props;
         const isShowMasterMail = (role === 'csleader' || role === 'csofficer') && qualityType === 1 && (violationLevelObj.violationLevelname === '一级违规' || violationLevelObj.violationLevelname === '特级违规');
         if (isShowMasterMail) {
             return (
@@ -301,7 +294,7 @@ class CreateQualityNewSheet extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         const { params, orgList } = this.props;
-        const { violationLevelObj } = this.state;
+        const { violationLevelObj } = this.props;
         const dimensionList = this.chooseDimensionList();
         return (
             <div className={styles.commonformWrap}>
@@ -462,7 +455,7 @@ class CreateQualityNewSheet extends React.Component {
                             </Col>
                             <Col className="txRight" span={12}>
                                 <span className={styles.i}>*</span><Form.Item label="违规等级:">
-                                    <div style={{ width: "280px", textAlign: "left" }}>{violationLevelObj.violationLevelname}</div>
+                                    <div style={{ width: "280px", textAlign: "left" }}>{violationLevelObj.violationLevelName}</div>
                                 </Form.Item>
                             </Col>
                         </Row>
