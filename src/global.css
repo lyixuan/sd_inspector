@@ -46,6 +46,25 @@ a,a:hover{
   color: #52c9c2;
 }
 
+
+.txRight{
+  text-align:right;
+}
+.labelWidth .ant-form-item label{
+  width:120px;
+}
+.ant-row{
+  padding-bottom:6px;
+}
+.ant-form-item label{
+  font-size:14px;
+  width:95px;
+}
+
+.ant-form-inline .ant-form-item{
+  margin-right:0;
+}
+
 /*!*兼容windows 固定高度的 scroll问题*!*/
 /*.ant-table-fixed-header .ant-table-scroll .ant-table-header {*/
   /*overflow-x: hidden!important;*/
