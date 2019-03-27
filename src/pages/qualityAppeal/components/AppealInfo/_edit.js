@@ -69,7 +69,7 @@ class Edit extends React.Component {
       <div>
         <Row>
           <Col span={12}>
-            <span>审核结果：</span>
+            <span style={{display:'inline-block',height:'38px'}}>审核结果：</span>
             <BIRadio onChange={this.onChangeRadio} value={checkResult}>
               <BIRadio.Radio value={1}>通过</BIRadio.Radio>
               {checkResult===1&&showWarn?<Checkbox onChange={this.onChangeCheckBox}>警告</Checkbox>:null}
