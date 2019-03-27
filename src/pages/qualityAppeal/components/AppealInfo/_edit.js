@@ -26,7 +26,7 @@ class Edit extends React.Component {
   onChangeRadio=(e)=>{
     const {setStateData} =  this.props;
     let param={};
-    if(e.target.value===2){
+    if(e.target.value===0){
       param={
         checkResult: e.target.value,
         isWarn:null
@@ -63,20 +63,21 @@ class Edit extends React.Component {
   };
   render() {
     const {checkResult} = this.state;
-    const {hideDate,showWarn} =  this.props;
+    const {hideDate,showWarn,formType} =  this.props;
+    const isShowDate = formType&&formType==='quality' && checkResult===0;
     return (
       <div>
         <Row>
           <Col span={12}>
             <span>审核结果：</span>
-            <BIRadio onChange={this.onChangeRadio} value={this.state.checkResult}>
+            <BIRadio onChange={this.onChangeRadio} value={checkResult}>
               <BIRadio.Radio value={1}>通过</BIRadio.Radio>
               {checkResult===1&&showWarn?<Checkbox onChange={this.onChangeCheckBox}>警告</Checkbox>:null}
-              <BIRadio.Radio value={2}>驳回</BIRadio.Radio>
+              <BIRadio.Radio value={0}>驳回</BIRadio.Radio>
             </BIRadio>
           </Col>
           {
-            hideDate?null:<Col className="gutter-row txRight" span={12}>
+            hideDate || isShowDate ?null:<Col className="gutter-row txRight" span={12}>
               <span>*{this.props.dataName?this.props.dataName:'二申截止日期'}： </span>
               <BIDatePicker disabledDate={this.disabledDate} onChange={this.onChangeDate} style={{ width: 280 }} />
             </Col>
