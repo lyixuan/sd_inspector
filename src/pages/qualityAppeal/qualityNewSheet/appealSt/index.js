@@ -6,7 +6,6 @@ import styles from './style.less';
 import CommonForm from '../../components/commonForm';
 import QualityAppeal from '../../components/AppealInfo/qualityAppeal';
 import { message } from 'antd/lib/index';
-
 @connect(({ loading, qualityNewSheet, editQualityNewSheet }) => ({
   loading,
   qualityNewSheet,
@@ -44,14 +43,14 @@ class EditQualityNewSheet extends React.Component {
       message.warn('审核结果为必选项');
       return;
     }
-    if (Number(appealParam.checkResult)===0 && !appealParam.appealEndDate) {
+    if (Number(appealParam.checkResult) === 0 && !appealParam.appealEndDate) {
       message.warn('一审截止日期必填');
       return;
     }
     const params2 = {
       qualityId: Number(this.query.id),
       type: this.query.status === '2' || this.query.status === '4' ? 1 : 2,
-      checkResult: Number(appealParam.checkResult)===1?2:4,
+      checkResult: Number(appealParam.checkResult) === 1 ? 2 : 4,
       checkResultDesc: appealParam.desc ? appealParam.desc : undefined,
       firstAppealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
     };
@@ -67,7 +66,7 @@ class EditQualityNewSheet extends React.Component {
     const newqualityAudit = [];
     qualityAudit && qualityAudit.forEach((v) => {
       newqualityAudit.push({
-        checkResult: v.operate === 4 ? 0 : v.operate === 2?1:'',
+        checkResult: v.operate === 4 ? 0 : v.operate === 2 ? 1 : '',
         operator: null,
         operateDate: v.updateTime,
         desc: v.desc
@@ -77,7 +76,7 @@ class EditQualityNewSheet extends React.Component {
       <div className={styles.qualityContainter}>
         {/* form区域 */}
         <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={{ ...others }} formType="quality" actionType="appeal">
-          <QualityAppeal data={newqualityAudit} formType="quality"  setStateData={this.setStateData} />
+          <QualityAppeal data={newqualityAudit} formType="quality" setStateData={this.setStateData} />
         </CommonForm>
 
         <BIModal

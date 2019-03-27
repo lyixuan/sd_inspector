@@ -3,7 +3,6 @@ import { Form, message, Row, Col, Input, Upload } from 'antd';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
-import BIModal from '@/ant_components/BIModal';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import OrgCascader from '@/components/OrgCascader';
 import BICascader from '@/ant_components/BICascader';
@@ -101,9 +100,6 @@ class CreateQualityNewSheet extends React.Component {
         const { qualityType, dimensionId } = params || {};
         return qualityType && dimensionId ? dimensionTreeList[0] ? dimensionTreeList[0].children : [] : [];
     }
-
-
-
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -499,23 +495,6 @@ class CreateQualityNewSheet extends React.Component {
                         </Row>
                     </div>
                 </Form>
-
-                <BIModal
-                    title="提交确认"
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
-                    footer={[
-                        <BIButton style={{ marginRight: 10 }} onClick={this.onCancel}>
-                            取消
-            </BIButton>,
-                        <BIButton type="primary" onClick={this.handleOk}>
-                            确定
-            </BIButton>,
-                    ]}
-                >
-                    <div className={styles.modalWrap}>该条记录将被提交给质检主管进行审核，确定提交吗？</div>
-                </BIModal>
             </div>
         );
     }
