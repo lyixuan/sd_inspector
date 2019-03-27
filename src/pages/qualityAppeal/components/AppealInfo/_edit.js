@@ -63,7 +63,7 @@ class Edit extends React.Component {
   };
   render() {
     const {checkResult} = this.state;
-    const {hideDate} =  this.props;
+    const {hideDate,showWarn} =  this.props;
     return (
       <div>
         <Row>
@@ -71,7 +71,7 @@ class Edit extends React.Component {
             <span>审核结果：</span>
             <BIRadio onChange={this.onChangeRadio} value={this.state.checkResult}>
               <BIRadio.Radio value={1}>通过</BIRadio.Radio>
-              {checkResult===1?<Checkbox onChange={this.onChangeCheckBox}>警告</Checkbox>:null}
+              {checkResult===1&&showWarn?<Checkbox onChange={this.onChangeCheckBox}>警告</Checkbox>:null}
               <BIRadio.Radio value={2}>驳回</BIRadio.Radio>
             </BIRadio>
           </Col>
