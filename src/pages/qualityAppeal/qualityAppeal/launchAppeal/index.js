@@ -8,6 +8,7 @@ import IllegalInfo from './../../qualityNewSheet/detail/components/illegalInfo';
 import { uploadAttachment } from '../../services';
 import { connect } from 'dva';
 import moment from 'moment';
+import router from 'umi/router';
 const { TextArea } = Input;
 let isLt10M = false;
 let isZip = false;
@@ -159,7 +160,7 @@ class Launch extends React.Component {
           <Col span={24}>
             <div className={styles.gutterBox1}>
               <span className={styles.gutterBtn2}>
-                <BIButton>取消</BIButton>
+                <BIButton onClick={() => router.goBack()}>取消</BIButton>
               </span>
               <span className={styles.gutterBtn1}>
                 <BIButton type="primary" onClick={this.handleSubmit}>
