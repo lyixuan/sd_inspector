@@ -45,7 +45,7 @@ class AppealDetail extends React.Component {
     if(detailData.length>0){
       detailData.forEach((item, index) => {
         domFragment.push(
-          <>
+          <div key={index}>
             <AppealInfo
               data={{
                 appealStart: item.appealStart,
@@ -69,7 +69,7 @@ class AppealDetail extends React.Component {
                 isCollapse: this.state.appealInfoCollapse[index],
               }}
             />
-          </>
+          </div>
         );
         this.state.appealInfoCollapse.push(false);
       });
