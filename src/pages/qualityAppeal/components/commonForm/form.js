@@ -442,6 +442,7 @@ class CreateQualityNewSheet extends React.Component {
                                         rules: [{ required: true, message: '请选择违规分类' }],
                                     })(
                                         <BICascader
+                                            gplaceholder = '请选择'
                                             options={this.getDimensionTreeList()}
                                             fieldNames={{ label: 'title', value: 'key', children: 'children' }}
                                             style={{ width: 280 }}
