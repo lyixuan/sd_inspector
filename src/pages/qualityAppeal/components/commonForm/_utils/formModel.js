@@ -24,6 +24,10 @@ export class FormModels extends BaseModels {
             collegeId: null,            // 学院ID
             familyId: null,             // 家族ID
             groupId: null,              // 小组ID
+            collegeName: null,             // 学院名
+            familyName: null,              // 家族名
+            groupName: null,                // 小组名
+
         };
     }
     handleInitData = () => {
