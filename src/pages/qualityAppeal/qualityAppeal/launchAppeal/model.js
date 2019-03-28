@@ -1,4 +1,5 @@
 import { message } from 'antd/lib/index';
+import { routerRedux } from 'dva/router';
 import { launchAppeal, uploadFile } from './services';
 
 export default {
@@ -20,9 +21,8 @@ export default {
     *launchAppeal({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(launchAppeal, params);
-      let lunchData = result.data
       if (result.code === 20000) {
-        yield put({ type: 'save', payload: { lunchData } });
+        yield put(routerRedux.push('/qualityAppeal/qualityAppeal'));
       } else {
         message.error(result.msgDetail);
       }

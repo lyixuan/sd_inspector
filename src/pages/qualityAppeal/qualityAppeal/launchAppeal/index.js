@@ -6,7 +6,6 @@ import SubOrderDetail from './../../components/subOrderDetail';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 import IllegalInfo from './../../qualityNewSheet/detail/components/illegalInfo';
 import { uploadAttachment } from '../../services';
-import router from 'umi/router';
 import { connect } from 'dva';
 import moment from 'moment';
 const { TextArea } = Input;
@@ -51,8 +50,8 @@ class Launch extends React.Component {
   handleSubmit = e => {
     let params = this.state.params;
     params.firstAppealEndDate = this.firstAppealEndDate;
-    params.type = this.type
-    console.log(50, params)
+    // params.type = this.type
+    // console.log(50, params)
     if (!this.state.params.desc) {
       message.warn('请填写申诉说明');
       return;
@@ -60,10 +59,6 @@ class Launch extends React.Component {
     this.props.dispatch({
       type: 'Launch/launchAppeal',
       payload: { params },
-    });
-
-    router.push({
-      pathname: '/qualityAppeal/qualityAppeal'
     });
 
   };
@@ -110,7 +105,7 @@ class Launch extends React.Component {
     // this.state.params.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
     // this.state.params.type = qualityDetailData.qualityType;
     this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
-    this.type = qualityDetailData.qualityType;
+    this.type = 1;
     return (
       <div className={styles.launchContainer}>
         <section>
