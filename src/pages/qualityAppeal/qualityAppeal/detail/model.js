@@ -14,11 +14,9 @@ export default {
       //申诉详情页数据
       const result = yield call(getAppealDetail, { ...payload });
       const DetailData = result.data ? result.data : [];
-      DetailData.forEach((v, i) => {
-        // DetailData[i].createTime = moment(v.createTime).format('YYYY-MM-DD HH:mm:ss')
-      });
+
       if (result.code === 20000) {
-        yield put({ type: 'saveDetailData', payload: { DetailData } });
+        yield put({ type: 'saveDetailData', payload: { DetailData} });
       } else {
         message.error(result.msg);
       }
