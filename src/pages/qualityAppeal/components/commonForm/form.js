@@ -88,10 +88,12 @@ class CreateQualityNewSheet extends React.Component {
         }
     }
     onChangedimensionTree = (value, objArr) => {
+      console.log(value);
         let violationLevelObj = objArr.slice(-1);
         violationLevelObj = violationLevelObj.length > 0 ? violationLevelObj[0] : {};
+        console.log(violationLevelObj);
         if (this.props.onChangedimensionTree) {
-            this.props.onChangedimensionTree(violationLevelObj);
+            this.props.onChangedimensionTree(violationLevelObj,value);
         }
     }
     getDimensionTreeList = () => {
@@ -290,6 +292,7 @@ class CreateQualityNewSheet extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         const { params, orgList } = this.props;
+        console.log(params);
         const { violationLevelObj } = this.props;
         const dimensionList = this.chooseDimensionList();
         return (
