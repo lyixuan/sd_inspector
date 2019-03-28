@@ -42,47 +42,47 @@ class AppealDetail extends React.Component {
   }
   getAppealInfos(detailData) {
     let domFragment = [];
-    detailData.forEach((item, index) => {
-      domFragment.push(
-        <>
-          <AppealInfo
-            data={{
-              appealStart: item.appealStart,
-              appealEndDate: item.appealEndDate,
-              id: item.id,
-              type: item.type,
-              index: index,
-              isCollapse: this.state.appealInfoCollapse[index],
-            }}
-            onClick={index => this.handleAppealInfoCollapse(index)}
-          />
-          <SOPCheckResult
-            data={{
-              sopAppealCheck: item.sopAppealCheck,
-              isCollapse: this.state.appealInfoCollapse[index],
-            }}
-          />
-          <SuperiorCheck
-            data={{
-              masterAppealCheck: item.masterAppealCheck,
-              isCollapse: this.state.appealInfoCollapse[index],
-            }}
-          />
-        </>
-      );
-      this.state.appealInfoCollapse.push(false);
-    });
+    if(detailData.length>0){
+      detailData.forEach((item, index) => {
+        domFragment.push(
+          <>
+            <AppealInfo
+              data={{
+                appealStart: item.appealStart,
+                appealEndDate: item.appealEndDate,
+                id: item.id,
+                type: item.type,
+                index: index,
+                isCollapse: this.state.appealInfoCollapse[index],
+              }}
+              onClick={index => this.handleAppealInfoCollapse(index)}
+            />
+            <SOPCheckResult
+              data={{
+                sopAppealCheck: item.sopAppealCheck,
+                isCollapse: this.state.appealInfoCollapse[index],
+              }}
+            />
+            <SuperiorCheck
+              data={{
+                masterAppealCheck: item.masterAppealCheck,
+                isCollapse: this.state.appealInfoCollapse[index],
+              }}
+            />
+          </>
+        );
+        this.state.appealInfoCollapse.push(false);
+      });
+    }
     return domFragment;
   }
   handleCollapse() {
     this.setState({ qualityInfoCollapse: !this.state.qualityInfoCollapse });
   }
-  handleCheckResultsCollapse() {
-    this.setState({ checkResultsCollapse: !this.state.checkResultsCollapse });
-  }
   render() {
-    const detailData = this.props.appealDetail.DetailData;
-    const qualityDetailData = this.props.appealDetail.QualityDetailData;
+    const{appealDetail={}} = this.props;
+    const detailData = appealDetail.DetailData;
+    const qualityDetailData = appealDetail.QualityDetailData;
     return (
       <div className={styles.detailContainer}>
         <section>

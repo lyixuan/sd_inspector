@@ -111,12 +111,14 @@ class CreateQualityNewSheet extends React.Component {
     onChangeOrg = (orgObj) => {
         this.saveParams(orgObj);
     }
-    onChangedimensionTree = (params) => {
+    onChangedimensionTree = (params,val) => {
+      console.log(params);
         const violationLevelObj = {
             ...params,
             violationLevelName: params.violationLevelname
         }
-        this.setState({ violationLevelObj })
+
+        this.setState({ violationLevelObj, formParams:{...this.state.formParams,...{dimension:val}}})
     }
     setAttUrl = (attUrl, newParams) => {
         this.saveParams({ ...newParams, attUrl });

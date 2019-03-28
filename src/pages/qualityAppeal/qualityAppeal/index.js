@@ -316,6 +316,9 @@ function dealQuarys(pm){
   if (p.dimensionIdList) {
     p.dimensionIdList = p.dimensionIdList.map(v=>Number(v))
   }
+  if(p.qualityNum === '') {
+    p.qualityNum= undefined
+  }
   return p;
 };
 @connect(({ qualityAppealHome,qualityCheck,loading }) => ({
@@ -432,6 +435,7 @@ class QualityAppeal extends React.Component {
       title: '操作',
       dataIndex: 'operation',
       render: (text, record) => {
+        const status = changeState(record);
         return (
           <>
             <AuthButton authority='/qualityAppeal/qualityAppeal/detail'>
@@ -439,21 +443,21 @@ class QualityAppeal extends React.Component {
                 详情
               </span>
             </AuthButton>
-            {record.status === 1||record.status === 3||record.status === 5||record.status === 7?(
+            {status === 1||status === 3||status === 5||status === 7?(
               <AuthButton authority='/qualityAppeal/qualityAppeal/edit'>
                 <span className={style.actionBtn} onClick={() => this.onSubmitAppeal(record)}>
                   提交申诉
                 </span>
               </AuthButton>
             ):null}
-            {record.status === 2||record.status === 4||record.status === 6||record.status === 8?(
+            {status === 2||status === 4||status === 6||status === 8?(
               <AuthButton authority='/qualityAppeal/qualityAppeal/appeal'>
                 <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
                   审核
                 </span>
               </AuthButton>
             ):null}
-            {record.status === 2||record.status === 6?(
+            {status === 2||status === 6?(
               <AuthButton authority='/qualityAppeal/qualityAppeal/repeal'>
                 <span className={style.actionBtn} onClick={() => this.onRepeal(record)}>
                   撤销
