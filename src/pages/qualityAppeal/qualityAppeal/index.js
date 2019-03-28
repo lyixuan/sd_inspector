@@ -403,7 +403,7 @@ class QualityAppeal extends React.Component {
   };
 
   onAppeal = (record) => {
-    this.onJumpPage({id:record.id,status:record.status},'/qualityAppeal/qualityAppeal/appeal');
+    this.onJumpPage({id:record.id,status:changeState(record)},'/qualityAppeal/qualityAppeal/appeal');
   };
 
   onRepeal = (record) => {
