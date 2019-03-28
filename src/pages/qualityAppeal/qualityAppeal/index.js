@@ -398,7 +398,7 @@ class QualityAppeal extends React.Component {
 
   onSubmitAppeal = (record) => {
     router.push({
-      pathname: '/qualityAppeal/qualityAppeal/edit',
+      pathname: '/qualityAppeal/qualityAppeal/launch',
       query: {id:record.id},
     });
   };
@@ -444,7 +444,7 @@ class QualityAppeal extends React.Component {
               </span>
             </AuthButton>
             {status === 1||status === 3||status === 5||status === 7?(
-              <AuthButton authority='/qualityAppeal/qualityAppeal/edit'>
+              <AuthButton authority='/qualityAppeal/qualityAppeal/launch'>
                 <span className={style.actionBtn} onClick={() => this.onSubmitAppeal(record)}>
                   提交申诉
                 </span>

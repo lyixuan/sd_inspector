@@ -34,7 +34,7 @@ const urlPathMap = {
   '/qualityAppeal/qualityNexSheet/appealReCheck': {
     name: '质检主管申诉复审',
   },
-  '/qualityAppeal/qualityNexSheet/launchAppeal': {
+  '/qualityAppeal/qualityAppeal/launch': {
     name: '发起申诉',
   },
   '/qualityAppeal/qualityNexSheet/appealCheck': {
