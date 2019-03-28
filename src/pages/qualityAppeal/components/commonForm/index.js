@@ -33,6 +33,7 @@ class CreateQualityNewSheet extends React.Component {
             violationLevelObj: {},  // 用于储存违规等级,
             isShowConfirmModel: false,
             isShowOrderNumConfirmModel: false,
+            msgDetail: '',
         };
         this.tmpParams = null;   //  用于临时储存参数;
     }
@@ -103,7 +104,7 @@ class CreateQualityNewSheet extends React.Component {
     checkRepeatQualityInspection = (payload) => {
         this.props.dispatch({
             type: 'qualityNewSheet/checkRepeatQualityInspection',
-            payload: { payload },
+            payload: { params: payload, callback: this.checkoutOrderNumCallBack },
         })
     }
     upDateFormParams = (newParams = {}) => {
@@ -116,7 +117,7 @@ class CreateQualityNewSheet extends React.Component {
         const { dimension, violationLevelObj } = params;
         const newviolationLevelObj = {
             ...violationLevelObj,
-            violationLevelName: params.violationLevelname
+            violationLevelName: violationLevelObj.violationLevelname
         }
         this.setState({ violationLevelObj: newviolationLevelObj });
         this.saveParams({ dimension });
@@ -140,8 +141,12 @@ class CreateQualityNewSheet extends React.Component {
     changeOrderNumConfirmModel = (bol) => {
         this.setState({ isShowOrderNumConfirmModel: bol });
     }
-    checkoutOrderNumCallBack = () => {
-
+    checkoutOrderNumCallBack = (params) => {
+        if (!params) {
+            this.setState({ isShowConfirmModel: true });
+        } else {
+            this.setState({ isShowOrderNumConfirmModel: true, msgDetail: params });
+        }
     }
     confirmModelSubmit = () => {
         if (this.props.onSubmit) {
@@ -168,7 +173,7 @@ class CreateQualityNewSheet extends React.Component {
         this.props.history.goBack();
     }
     render() {
-        const { formParams, isShowConfirmModel, isShowOrderNumConfirmModel } = this.state;
+        const { formParams, isShowConfirmModel, isShowOrderNumConfirmModel, msgDetail } = this.state;
         const { orgList, children } = this.props;
         return (<div>
             {/* form区域 */}
@@ -198,11 +203,11 @@ class CreateQualityNewSheet extends React.Component {
                         取消
             </BIButton>,
                     <BIButton type="primary" onClick={this.confirmModelSubmit}>
-                        确定
+                        继续提交
             </BIButton>,
                 ]}
             >
-                <div className={styles.modalWrap}>该条记录将被提交给质检主管进行审核，确定提交吗？</div>
+                <div className={styles.modalWrap}>{msgDetail}</div>
             </BIModal>
             <BIModal
                 title="提交审核"
