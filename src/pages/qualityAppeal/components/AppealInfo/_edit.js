@@ -78,7 +78,7 @@ class Edit extends React.Component {
           </Col>
           {
             hideDate || isShowDate ?null:<Col className="gutter-row txRight" span={12}>
-              <span>*{this.props.dataName?this.props.dataName:'二申截止日期'}： </span>
+              <span>*{this.props.dataName?this.props.dataName:'二审截止日期'}： </span>
               <BIDatePicker disabledDate={this.disabledDate} onChange={this.onChangeDate} style={{ width: 280 }} />
             </Col>
           }
