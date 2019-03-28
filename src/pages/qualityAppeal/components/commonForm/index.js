@@ -103,14 +103,13 @@ class CreateQualityNewSheet extends React.Component {
     checkRepeatQualityInspection = (payload) => {
         this.props.dispatch({
             type: 'qualityNewSheet/checkRepeatQualityInspection',
-            payload,
+            payload: { payload },
         })
     }
     upDateFormParams = (newParams = {}) => {
         this.saveParams(newParams);
     }
     onChangeOrg = (orgObj) => {
-
         this.saveParams(orgObj);
     }
     onChangedimensionTree = (params) => {
@@ -155,7 +154,7 @@ class CreateQualityNewSheet extends React.Component {
         const newParams = this.formModels.transFormParams(assginObject);
         const { orderNum } = newParams;
         this.tmpParams = newParams;
-        console.log(newParams)
+        this.saveParams(params);
         if (orderNum) {
             this.checkRepeatQualityInspection(newParams);
             return;
@@ -163,7 +162,7 @@ class CreateQualityNewSheet extends React.Component {
         if (this.props.onSubmit) {
             this.props.onSubmit(newParams)
         }
-        this.saveParams(params);
+
     }
     onCancel = () => {
         this.props.history.goBack();

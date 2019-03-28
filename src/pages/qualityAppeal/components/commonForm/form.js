@@ -55,8 +55,9 @@ class CreateQualityNewSheet extends React.Component {
             returnObj[groupType + 'Id'] = orgArr[index].id;
             returnObj[groupType + 'Name'] = orgArr[index].name;
         });
+        const values = this.props.form.getFieldsValue();
         if (this.props.onChangeOrg) {
-            this.props.onChangeOrg(returnObj)
+            this.props.onChangeOrg({ ...values, ...returnObj })
         }
     }
     getOrgRole = () => {
