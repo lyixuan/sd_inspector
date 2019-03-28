@@ -19,16 +19,17 @@ let isZip = false;
 class Launch extends React.Component {
   constructor(props) {
     super(props);
+    const {id=null,appealType}=props.location.query;
     this.state = {
       paramId: {
-        id: this.props.location.query.id || 26,
+        id,
       },
       params: {
         firstAppealEndDate: undefined,
-        type: 1,
+        type: appealType||1,
         attUrl: '123',
         desc: '',
-        qualityId: this.props.location.query.id || 1,
+        qualityId: id,
       },
       fileList: this.props.fileList,
       appealInfoCollapse: true,
@@ -36,7 +37,6 @@ class Launch extends React.Component {
       checkResultsCollapse: true,
     };
     this.firstAppealEndDate = null;
-    this.type = null
   }
   componentDidMount() {
     this.props.dispatch({
@@ -51,10 +51,12 @@ class Launch extends React.Component {
   handleSubmit = () => {
     let params = this.state.params;
     params.firstAppealEndDate = this.firstAppealEndDate;
+
     if (!this.state.params.desc) {
       message.warn('请填写申诉说明');
       return;
     }
+
     this.props.dispatch({
       type: 'Launch/launchAppeal',
       payload: { params },
