@@ -388,26 +388,22 @@ class QualityAppeal extends React.Component {
       this.queryData({tabType:val,type: Number(val)});
     })
   };
-
-  onDetail = (record) => {
+  onJumpPage = (query,pathname) => {
     router.push({
-      pathname: '/qualityAppeal/qualityAppeal/detail',
-      query: {id:record.id},
+      pathname,
+      query
     });
+  };
+  onDetail = (record) => {
+    this.onJumpPage({id:record.id},'/qualityAppeal/qualityAppeal/detail');
   };
 
   onSubmitAppeal = (record) => {
-    router.push({
-      pathname: '/qualityAppeal/qualityAppeal/launch',
-      query: {id:record.id},
-    });
+    this.onJumpPage({id:record.id},'/qualityAppeal/qualityAppeal/launch');
   };
 
   onAppeal = (record) => {
-    router.push({
-      pathname: '/qualityAppeal/qualityAppeal/appeal',
-      query: {id:record.id},
-    });
+    this.onJumpPage({id:record.id,status:record.status},'/qualityAppeal/qualityAppeal/appeal');
   };
 
   onRepeal = (record) => {
