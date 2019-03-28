@@ -142,8 +142,15 @@ class CreateQualityNewSheet extends React.Component {
         this.setState({ isShowOrderNumConfirmModel: bol });
     }
     checkoutOrderNumCallBack = (params) => {
+        //审核状态下不弹框
+        const { actionType } = this.props;
+
         if (!params) {
-            this.setState({ isShowConfirmModel: true });
+            if (actionType === 'appeal') {
+                this.confirmModelSubmit()
+            } else {
+                this.setState({ isShowConfirmModel: true });
+            }
         } else {
             this.setState({ isShowOrderNumConfirmModel: true, msgDetail: params });
         }
@@ -195,6 +202,7 @@ class CreateQualityNewSheet extends React.Component {
             {/* 模态框部分 */}
             {/* 对子订单提示模态框 */}
             <BIModal
+                key="继续提交"
                 title="提交确认"
                 visible={isShowOrderNumConfirmModel}
                 onCancel={this.changeOrderNumConfirmModel.bind(null, false)}
@@ -210,6 +218,7 @@ class CreateQualityNewSheet extends React.Component {
                 <div className={styles.modalWrap}>{msgDetail}</div>
             </BIModal>
             <BIModal
+                key="提交审核"
                 title="提交审核"
                 visible={isShowConfirmModel}
                 onCancel={this.changeConfirmModel.bind(null, false)}
