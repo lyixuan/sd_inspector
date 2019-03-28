@@ -47,11 +47,9 @@ class Launch extends React.Component {
       payload: this.state.paramId,
     });
   }
-  handleSubmit = e => {
+  handleSubmit = () => {
     let params = this.state.params;
     params.firstAppealEndDate = this.firstAppealEndDate;
-    // params.type = this.type
-    // console.log(50, params)
     if (!this.state.params.desc) {
       message.warn('请填写申诉说明');
       return;
@@ -69,9 +67,6 @@ class Launch extends React.Component {
   };
   handleCollapse() {
     this.setState({ qualityInfoCollapse: !this.state.qualityInfoCollapse });
-  }
-  handleCheckResultsCollapse() {
-    this.setState({ checkResultsCollapse: !this.state.checkResultsCollapse });
   }
   // 上传附件
   // 文件预上传判断
@@ -102,10 +97,8 @@ class Launch extends React.Component {
   };
   render() {
     const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
-    // this.state.params.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
-    // this.state.params.type = qualityDetailData.qualityType;
     this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
-    this.type = 1;
+
     return (
       <div className={styles.launchContainer}>
         <section>
