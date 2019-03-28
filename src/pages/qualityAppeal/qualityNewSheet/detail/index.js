@@ -63,6 +63,7 @@ class QualityDetail extends React.Component {
         <section>
           {/* 质检审核 */}
           <CheckInfo
+            firstAppealEndDate={qualityDetailData.firstAppealEndDate}
             data={qualityDetailData.qualityAudit}
             checkResultsCollapse={this.state.checkResultsCollapse}
             onClick={() => this.handleCheckResultsCollapse()}
