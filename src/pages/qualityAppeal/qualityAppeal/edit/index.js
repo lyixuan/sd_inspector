@@ -126,8 +126,9 @@ class EditAppeal extends React.Component {
     this.setState({ qualityInfoCollapse: !this.state.qualityInfoCollapse });
   }
   render() {
-    const detailData = this.props.qualityAppealHome.DetailData;
-    const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
+    const {qualityAppealHome={}} = this.props;
+    const detailData = qualityAppealHome.DetailData;
+    const qualityDetailData = qualityAppealHome.QualityDetailData;
 
     this.appealEndDate = detailData[detailData.length - 1] ? detailData[detailData.length - 1].appealEndDate : '';
     this.type = detailData[detailData.length - 1] ? detailData[detailData.length - 1].type : '';
