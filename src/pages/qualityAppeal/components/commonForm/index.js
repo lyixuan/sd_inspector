@@ -32,6 +32,7 @@ class CreateQualityNewSheet extends React.Component {
             formParams: this.formModels.initFormModel,
             violationLevelObj: {},  // 用于储存违规等级,
             isShowConfirmModel: false,
+            isShowOrderNumConfirmModel: false,
         };
         this.tmpParams = null;   //  用于临时储存参数;
     }
@@ -102,7 +103,7 @@ class CreateQualityNewSheet extends React.Component {
     checkRepeatQualityInspection = (payload) => {
         this.props.dispatch({
             type: 'qualityNewSheet/checkRepeatQualityInspection',
-            payload,
+            payload: { payload },
         })
     }
     upDateFormParams = (newParams = {}) => {
@@ -111,14 +112,14 @@ class CreateQualityNewSheet extends React.Component {
     onChangeOrg = (orgObj) => {
         this.saveParams(orgObj);
     }
-    onChangedimensionTree = (params,val) => {
-      console.log(params);
-        const violationLevelObj = {
-            ...params,
+    onChangedimensionTree = (params) => {
+        const { dimension, violationLevelObj } = params;
+        const newviolationLevelObj = {
+            ...violationLevelObj,
             violationLevelName: params.violationLevelname
         }
-
-        this.setState({ violationLevelObj, formParams:{...this.state.formParams,...{dimension:val}}})
+        this.setState({ violationLevelObj: newviolationLevelObj });
+        this.saveParams({ dimension });
     }
     setAttUrl = (attUrl, newParams) => {
         this.saveParams({ ...newParams, attUrl });
@@ -136,6 +137,12 @@ class CreateQualityNewSheet extends React.Component {
     changeConfirmModel = (bol) => {
         this.setState({ isShowConfirmModel: bol });
     }
+    changeOrderNumConfirmModel = (bol) => {
+        this.setState({ isShowOrderNumConfirmModel: bol });
+    }
+    checkoutOrderNumCallBack = () => {
+
+    }
     confirmModelSubmit = () => {
         if (this.props.onSubmit) {
             this.props.onSubmit(this.tmpParams);
@@ -143,25 +150,25 @@ class CreateQualityNewSheet extends React.Component {
     }
     onSubmit = (params) => {
         const { formParams } = this.state;
-        const { formType } = this.props;
         const assginObject = Object.assign({}, formParams, params);
         const newParams = this.formModels.transFormParams(assginObject);
         const { orderNum } = newParams;
         this.tmpParams = newParams;
-        // if (orderNum) {
-        //     this.checkRepeatQualityInspection(newParams);
-        //     return;
-        // }
+        this.saveParams(params);
+        if (orderNum) {
+            this.checkRepeatQualityInspection(newParams);
+            return;
+        }
         if (this.props.onSubmit) {
             this.props.onSubmit(newParams)
         }
-        this.saveParams(params);
+
     }
     onCancel = () => {
         this.props.history.goBack();
     }
     render() {
-        const { formParams, isShowConfirmModel } = this.state;
+        const { formParams, isShowConfirmModel, isShowOrderNumConfirmModel } = this.state;
         const { orgList, children } = this.props;
         return (<div>
             {/* form区域 */}
@@ -184,10 +191,10 @@ class CreateQualityNewSheet extends React.Component {
             {/* 对子订单提示模态框 */}
             <BIModal
                 title="提交确认"
-                visible={isShowConfirmModel}
-                onCancel={this.changeConfirmModel.bind(null, false)}
+                visible={isShowOrderNumConfirmModel}
+                onCancel={this.changeOrderNumConfirmModel.bind(null, false)}
                 footer={[
-                    <BIButton style={{ marginRight: 10 }} onClick={this.changeConfirmModel.bind(null, false)}>
+                    <BIButton style={{ marginRight: 10 }} onClick={this.changeOrderNumConfirmModel.bind(null, false)}>
                         取消
             </BIButton>,
                     <BIButton type="primary" onClick={this.confirmModelSubmit}>
