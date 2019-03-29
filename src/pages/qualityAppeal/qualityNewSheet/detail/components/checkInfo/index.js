@@ -49,9 +49,7 @@ export default class CheckInfoComponent extends React.Component {
               <div key={item.id} className={styles.container}>
                 <div className={styles.secRow}>
                   <div>审核结果：{this.getOperateName(item.operate)}</div>
-                  <div>
-                    一次申诉截止日期：{firstAppealEndDate}
-                  </div>
+                  {Number(item.operate)===2?<div>一次申诉截止日期：{firstAppealEndDate}</div>:null}
                 </div>
                 <div className={styles.secRow}>
                   <div>审核时间：{moment(item.verifyTime).format('YYYY-MM-DD HH:mm:ss')}</div>
