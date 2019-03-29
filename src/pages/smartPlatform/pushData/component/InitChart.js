@@ -90,7 +90,6 @@ class InitChart extends Component {
   }
 
   render() {
-
     const options = option(this.props.proData)
     return (
       <>

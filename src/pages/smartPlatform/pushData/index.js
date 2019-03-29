@@ -24,7 +24,7 @@ class PushData extends React.Component {
       province: '北京市',
       nodeSign: 3,
       collegeId: '',
-      familyId: '',
+      familyId: undefined,
       beginDate: moment(new Date(new Date().getTime() - 24 * 60 * 60 * 1000), dateFormat),
       endDate: moment(new Date(new Date().getTime() - 24 * 60 * 60 * 1000), dateFormat)
     };
@@ -35,6 +35,7 @@ class PushData extends React.Component {
     this.refreshList();
   }
   formValChange = (val, key) => {
+    console.log(38, val, key)
     if (key === 'collegeId') {
       this.familyList = [];
       this.collegeList.forEach((v) => {
@@ -43,12 +44,17 @@ class PushData extends React.Component {
         }
       });
       this.setState({
-        familyList: this.familyList
+        familyList: this.familyList,
+        familyId: ""
       })
+      this.state.familyId = ""
       this.state.collegeId = val.key
 
     } else if (key === 'familyIdList') {
-      this.state.familyId = val.key
+      this.setState({
+        familyId: val
+      })
+      this.state.familyId = val
     }
     this.refreshList();
   };
@@ -83,7 +89,7 @@ class PushData extends React.Component {
           <div className={styles.filterCondition}>
             <div>
               <span>学院：</span>
-              <BISelect allowClear placeholder="学院" style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'collegeId')}>
+              <BISelect placeholder="学院" style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'collegeId')}>
                 {this.collegeList.map(item => (
                   <Option key={item.id}>
                     {item.name}
@@ -93,7 +99,7 @@ class PushData extends React.Component {
             </div>
             <div>
               <span>家族：</span>
-              <BISelect placeholder="家族" allowClear style={{ width: 190 }} showArrow maxTagCount={1} labelInValue onChange={(val) => this.formValChange(val, 'familyIdList')}>
+              <BISelect placeholder="家族" style={{ width: 190 }} showArrow value={this.state.familyId ? this.state.familyId : undefined} onChange={(val) => this.formValChange(val, 'familyIdList')}>
                 {this.familyList.map(item => (
                   <Option key={item.id}>
                     {item.name}

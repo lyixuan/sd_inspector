@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import BIButton from '@/ant_components/BIButton';
-import { Table } from 'antd';
+import BITable from '@/ant_components/BITable';
 import { Pagination } from 'antd';
 import styles from '../style.less'
 
@@ -15,7 +15,7 @@ const renderContent2 = (value, row, index) => {
 
 const columns = [{
   title: '推送时间',
-  dataIndex: 'date'
+  dataIndex: 'countDate'
 }, {
   title: '考试计算人数',
   dataIndex: 'examPlanNum'
@@ -115,9 +115,8 @@ class InitTable extends Component {
   }
 
   render() {
-    console.log(92, this.props.proData)
-    const date = this.props.proData.countDate;
-
+    const dataSource = this.props.proData.channelDtoList;
+    const { loading } = this.props;
     return (
       <>
         <div className={styles.dataDetail}>
@@ -126,7 +125,9 @@ class InitTable extends Component {
             <BIButton type="primary" >导出</BIButton>
           </div>
           <div className={styles.tableBox}>
-            <Table style={{ textAlign: "center" }} columns={columns} pagination={false} dataSource={this.props.proData.channelDtoList} bordered />
+            {/* <Table style={{ textAlign: "center" }} columns={columns} pagination={false} dataSource={dataSource} bordered /> */}
+            <BITable rowKey={record => record.id} dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
+            <br />
             <div className={styles.notice}>
               <span>已读</span>
               <span>未读</span>
