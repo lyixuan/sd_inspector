@@ -87,7 +87,7 @@ class Edit extends React.Component {
         <Row className="gutter-row">
           <Col span={24} style={{ display: 'flex' }}>
             <span style={{width:80}}>审核说明：</span>
-            <BIInput.TextArea onChange={this.onChangeInput} rows={4} />
+            <BIInput.TextArea maxLength={500} onChange={this.onChangeInput} rows={4} />
           </Col>
         </Row>
       </div>

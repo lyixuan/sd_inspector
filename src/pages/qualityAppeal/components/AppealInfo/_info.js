@@ -8,12 +8,13 @@ import styles from './style.less';
 
 class Info extends React.Component {
   renderDom = (data, type, i = 0) => {
+    const name= data.attUrl&&data.attUrl.split('/')[3];
     return (
       <div key={i} className={styles.infoCls}>
         <Row>
           <Col span={12} >
             {
-              type === 'startAppeal' ? <> <span>附件：</span>  {data.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${data.attUrl}`} text="附件1" />:null}</> :
+              type === 'startAppeal' ? <> <span>附件：</span>  {data.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${data.attUrl}`} text={name} textClassName={styles.downCls}/>:null}</> :
                 <>
                   <span className={data.checkResult !== 1 ? styles.redIcon : styles.greenIcon}> 审核结果：</span>
                   <span>{BiFilter('APPEAL_RESULT_TYPE').map(item => { if (item.id === data.checkResult) {return item.name}else return null})}</span>
