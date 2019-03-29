@@ -142,7 +142,12 @@ class CreateQualityNewSheet extends React.Component {
     uploadChange = (info) => {
         // tip 目前支持上传一个文件
         let { fileList = [],file={} } = info || {};
-        this.setState({ fileList });
+        if (isLt10M) {
+          fileList = fileList.slice(-1);
+          if (isZip) {
+            this.setState({ fileList });
+          }
+        }
         let attUrl = '';
         if (fileList.length > 0) {
             const { response = null } = file || {};
