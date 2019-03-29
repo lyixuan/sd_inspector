@@ -68,24 +68,13 @@ export default {
       }
     },
     *checkRepeatQualityInspection({ payload }, { call, put }) {
-      const response = yield call(checkRepeatQualityInspection, payload);
-      console.log(response)
-      confirm({
-        className: 'BIConfirm',
-        title: '是否撤销当前数据状态?',
-        cancelText: '取消',
-        okText: '确定',
-        onOk() {
-
-        },
-        onCancel() { },
-      });
+      const { callback, params } = payload
+      const response = yield call(checkRepeatQualityInspection, params);
       if (response.code === 20000) {
-
+        callback.call(null, response.msgDetail)
       } else {
         message.error(response.msg);
       }
-
     }
   },
   reducers: {

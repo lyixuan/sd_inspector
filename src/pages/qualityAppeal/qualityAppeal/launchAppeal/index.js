@@ -6,9 +6,9 @@ import SubOrderDetail from './../../components/subOrderDetail';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 import IllegalInfo from './../../qualityNewSheet/detail/components/illegalInfo';
 import { uploadAttachment } from '../../services';
-import router from 'umi/router';
 import { connect } from 'dva';
 import moment from 'moment';
+import router from 'umi/router';
 const { TextArea } = Input;
 let isLt10M = false;
 let isZip = false;
@@ -19,16 +19,17 @@ let isZip = false;
 class Launch extends React.Component {
   constructor(props) {
     super(props);
+    const {id=null,appealType}=props.location.query;
     this.state = {
       paramId: {
-        id: this.props.location.query.id || 26,
+        id,
       },
       params: {
         firstAppealEndDate: undefined,
-        type: 1,
+        type: appealType||1,
         attUrl: '123',
         desc: '',
-        qualityId: this.props.location.query.id || 1,
+        qualityId: id,
       },
       fileList: this.props.fileList,
       appealInfoCollapse: true,
@@ -36,7 +37,6 @@ class Launch extends React.Component {
       checkResultsCollapse: true,
     };
     this.firstAppealEndDate = null;
-    this.type = null
   }
   componentDidMount() {
     this.props.dispatch({
@@ -48,22 +48,18 @@ class Launch extends React.Component {
       payload: this.state.paramId,
     });
   }
-  handleSubmit = e => {
+  handleSubmit = () => {
     let params = this.state.params;
     params.firstAppealEndDate = this.firstAppealEndDate;
-    params.type = this.type
-    console.log(50, params)
+
     if (!this.state.params.desc) {
       message.warn('请填写申诉说明');
       return;
     }
+
     this.props.dispatch({
       type: 'Launch/launchAppeal',
       payload: { params },
-    });
-
-    router.push({
-      pathname: '/qualityAppeal/qualityAppeal'
     });
 
   };
@@ -74,9 +70,6 @@ class Launch extends React.Component {
   };
   handleCollapse() {
     this.setState({ qualityInfoCollapse: !this.state.qualityInfoCollapse });
-  }
-  handleCheckResultsCollapse() {
-    this.setState({ checkResultsCollapse: !this.state.checkResultsCollapse });
   }
   // 上传附件
   // 文件预上传判断
@@ -107,10 +100,8 @@ class Launch extends React.Component {
   };
   render() {
     const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
-    // this.state.params.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
-    // this.state.params.type = qualityDetailData.qualityType;
     this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
-    this.type = qualityDetailData.qualityType;
+
     return (
       <div className={styles.launchContainer}>
         <section>
@@ -171,7 +162,7 @@ class Launch extends React.Component {
           <Col span={24}>
             <div className={styles.gutterBox1}>
               <span className={styles.gutterBtn2}>
-                <BIButton>取消</BIButton>
+                <BIButton onClick={() => router.goBack()}>取消</BIButton>
               </span>
               <span className={styles.gutterBtn1}>
                 <BIButton type="primary" onClick={this.handleSubmit}>

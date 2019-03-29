@@ -126,7 +126,7 @@ export const routes = [
             },
           },
           {
-            path: '/qualityAppeal/qualityAppeal/launchAppeal',
+            path: '/qualityAppeal/qualityAppeal/launch',
             component: './qualityAppeal/qualityAppeal/launchAppeal',
             name: '发起申诉',
             bread: {

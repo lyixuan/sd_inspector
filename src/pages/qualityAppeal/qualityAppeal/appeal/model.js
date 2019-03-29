@@ -33,6 +33,7 @@ export default {
       if (result.code === 20000) {
         const appealReview = result.data ? result.data : [];
         yield put({ type: 'save', payload: { appealReview } });
+        router.goBack();
       } else {
         message.error(result.msgDetail);
       }

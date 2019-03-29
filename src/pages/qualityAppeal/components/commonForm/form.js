@@ -55,8 +55,9 @@ class CreateQualityNewSheet extends React.Component {
             returnObj[groupType + 'Id'] = orgArr[index].id;
             returnObj[groupType + 'Name'] = orgArr[index].name;
         });
+        const values = this.props.form.getFieldsValue();
         if (this.props.onChangeOrg) {
-            this.props.onChangeOrg(returnObj)
+            this.props.onChangeOrg({ ...values, ...returnObj })
         }
     }
     getOrgRole = () => {
@@ -88,12 +89,10 @@ class CreateQualityNewSheet extends React.Component {
         }
     }
     onChangedimensionTree = (value, objArr) => {
-      console.log(value);
         let violationLevelObj = objArr.slice(-1);
         violationLevelObj = violationLevelObj.length > 0 ? violationLevelObj[0] : {};
-        console.log(violationLevelObj);
         if (this.props.onChangedimensionTree) {
-            this.props.onChangedimensionTree(violationLevelObj,value);
+            this.props.onChangedimensionTree({ violationLevelObj, dimension: value });
         }
     }
     getDimensionTreeList = () => {
@@ -106,13 +105,15 @@ class CreateQualityNewSheet extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                console.log(err, values)
+                const { violationLevelObj } = this.props;
+                const { violationLevel } = violationLevelObj;
+                if (this.props.onSubmit) {
+                    this.props.onSubmit({ ...values, violationLevel });
+                }
+
             }
-            const { violationLevelObj } = this.props;
-            const { violationLevel } = violationLevelObj;
-            if (this.props.onSubmit) {
-                this.props.onSubmit({ ...values, violationLevel });
-            }
+
         });
     }
     // 质检类型onchange
@@ -230,7 +231,7 @@ class CreateQualityNewSheet extends React.Component {
                     <Col className="gutter-row" span={12}>
                         <span className={styles.i}>*</span><Form.Item label="扣除学分">
                             {getFieldDecorator('qualityValue', {
-                                initialValue: this.state.credit,
+                                initialValue: params.qualityValue,
                             })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
                             <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}>%</span>
                         </Form.Item>
@@ -292,7 +293,6 @@ class CreateQualityNewSheet extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         const { params, orgList } = this.props;
-        console.log(params);
         const { violationLevelObj } = this.props;
         const dimensionList = this.chooseDimensionList();
         return (
@@ -442,6 +442,7 @@ class CreateQualityNewSheet extends React.Component {
                                         rules: [{ required: true, message: '请选择违规分类' }],
                                     })(
                                         <BICascader
+                                            placeholder='请选择'
                                             options={this.getDimensionTreeList()}
                                             fieldNames={{ label: 'title', value: 'key', children: 'children' }}
                                             style={{ width: 280 }}

@@ -388,26 +388,22 @@ class QualityAppeal extends React.Component {
       this.queryData({tabType:val,type: Number(val)});
     })
   };
-
-  onDetail = (record) => {
+  onJumpPage = (query,pathname) => {
     router.push({
-      pathname: '/qualityAppeal/qualityAppeal/detail',
-      query: {id:record.id},
+      pathname,
+      query
     });
+  };
+  onDetail = (record) => {
+    this.onJumpPage({id:record.id},'/qualityAppeal/qualityAppeal/detail');
   };
 
   onSubmitAppeal = (record) => {
-    router.push({
-      pathname: '/qualityAppeal/qualityAppeal/edit',
-      query: {id:record.id},
-    });
+    this.onJumpPage({id:record.id,appealType:record.appealType},'/qualityAppeal/qualityAppeal/launch');
   };
 
   onAppeal = (record) => {
-    router.push({
-      pathname: '/qualityAppeal/qualityAppeal/appeal',
-      query: {id:record.id},
-    });
+    this.onJumpPage({id:record.id,status:changeState(record)},'/qualityAppeal/qualityAppeal/appeal');
   };
 
   onRepeal = (record) => {
@@ -444,7 +440,7 @@ class QualityAppeal extends React.Component {
               </span>
             </AuthButton>
             {status === 1||status === 3||status === 5||status === 7?(
-              <AuthButton authority='/qualityAppeal/qualityAppeal/edit'>
+              <AuthButton authority='/qualityAppeal/qualityAppeal/launch'>
                 <span className={style.actionBtn} onClick={() => this.onSubmitAppeal(record)}>
                   提交申诉
                 </span>
