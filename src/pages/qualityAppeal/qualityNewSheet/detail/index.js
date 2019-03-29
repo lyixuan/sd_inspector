@@ -38,6 +38,7 @@ class QualityDetail extends React.Component {
   render() {
     const {qualityDetail={}} = this.props;
     const qualityDetailData = qualityDetail.QualityDetailData||{};
+    const {masterQualityValue='',masterMail=''} = qualityDetail;
 
     return (
       <div className={styles.detailContainer}>
@@ -57,7 +58,7 @@ class QualityDetail extends React.Component {
             <SubOrderDetail data={qualityDetailData.orderDetail} />
             {/* 质检违规详情 */}
             <div className={styles.divideLine} />
-            <IllegalInfo data={qualityDetailData} />
+            <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail} />
           </article>
         </section>
         <section>

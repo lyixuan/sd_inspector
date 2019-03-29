@@ -130,6 +130,8 @@ class EditAppeal extends React.Component {
     const detailData = qualityAppealHome.DetailData;
     const qualityDetailData = qualityAppealHome.QualityDetailData;
 
+    const {masterQualityValue='',masterMail=''} = qualityAppealHome;
+
     this.appealEndDate = detailData[detailData.length - 1] ? detailData[detailData.length - 1].appealEndDate : '';
     this.type = detailData[detailData.length - 1] ? detailData[detailData.length - 1].type : '';
 
@@ -150,7 +152,7 @@ class EditAppeal extends React.Component {
             {/* 质检违规详情 */}
             <section>{/* 质检审核 */}</section>
             <div className={styles.divideLine} />
-            <IllegalInfo data={qualityDetailData} />
+            <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail}/>
           </>
         </div>
 
