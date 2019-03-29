@@ -9,10 +9,12 @@ import BICascader from '@/ant_components/BICascader';
 import { BiFilter } from '@/utils/utils';
 import DownLoad from '@/components/DownLoad';
 import moment from 'moment';
-import { STATIC_HOST } from '@/utils/constants'
+import { STATIC_HOST } from '@/utils/constants';
+import { IS_NUMBER } from '@/utils/regex';
 import styles from './style.less';
 import SubOrderDetail from '../subOrderDetail';
 import { uploadAttachment } from '../../services';
+
 
 
 
@@ -200,6 +202,7 @@ class CreateQualityNewSheet extends React.Component {
                         <span className={styles.i}>*</span><Form.Item label="客诉主管邮箱：">
                             {getFieldDecorator('masterMail', {
                                 initialValue: params.masterMail,
+                                rules: [{ required: true, message: '请输入主管邮箱' }],
                             })(<BIInput placeholder="请输入" style={{ width: 170 }} />)}
                         </Form.Item>
                         <div className={styles.text}>@sunland.com</div>
@@ -208,6 +211,7 @@ class CreateQualityNewSheet extends React.Component {
                         <span className={styles.i}>*</span><Form.Item label="主管扣除绩效：">
                             {getFieldDecorator('masterQualityValue', {
                                 initialValue: params.masterQualityValue,
+                                rules: [{ required: true, message: '请输入扣除绩效' }],
                             })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
                             <span style={{ display: "inline-block", width: "20px" }}>%</span>
                         </Form.Item>
@@ -233,6 +237,7 @@ class CreateQualityNewSheet extends React.Component {
                     <span className={styles.i}>*</span><Form.Item label="扣除绩效">
                         {getFieldDecorator('qualityValue', {
                             initialValue: params.qualityType,
+                            rules: [{ required: true, message: '请输入扣除绩效' }],
                         })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
                         <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}>%</span>
                     </Form.Item>
@@ -250,6 +255,7 @@ class CreateQualityNewSheet extends React.Component {
                         <span className={styles.i}>*</span><Form.Item label="扣除学分">
                             {getFieldDecorator('qualityValue', {
                                 initialValue: params.qualityValue,
+                                rules: [{ required: true, message: '请输入合法学分' }],
                             })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
                             <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}></span>
                         </Form.Item>
@@ -386,6 +392,7 @@ class CreateQualityNewSheet extends React.Component {
                                 <span className={styles.i}></span><Form.Item label="归属组织：">
                                     {getFieldDecorator('organize', {
                                         initialValue: params.organize,
+                                        rules: [{ required: this.getOrgRole() > 0, message: '请输入归属组织' }]
                                     })(
                                         <OrgCascader
                                             level={this.getOrgRole()}

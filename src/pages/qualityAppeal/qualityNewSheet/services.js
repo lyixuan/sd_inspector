@@ -21,10 +21,7 @@ export async function addQuality(data) {
 export async function getQualityDetail(params) {
   return request('/quality/getQualityInfo', { params });
 }
-//  检验质检单是否重复
-export async function checkRepeatQualityInspection(data) {
-  return request('/quality/checkRepeatQualityInspection', { method: 'post', data });
-}
+
 
 
 

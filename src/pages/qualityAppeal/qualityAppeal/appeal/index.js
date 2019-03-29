@@ -21,7 +21,7 @@ class QualityAppealing extends React.Component {
     this.state = {
       qualityInfoCollapse: true,
       appealIsShow: true,
-      appealParam:{}
+      appealParam: {}
     };
     const { query = {} } = this.props.location;
     this.query = query;
@@ -51,18 +51,18 @@ class QualityAppealing extends React.Component {
   };
   handleSubmitSop = () => {
     const { appealParam } = this.state;
-    if (Number(appealParam.checkResult)!==0 && !appealParam.checkResult) {
+    if (Number(appealParam.checkResult) !== 0 && !appealParam.checkResult) {
       message.warn('审核结果为必选项');
       return;
     }
-    if (this.query.status === '4' && Number(appealParam.checkResult)===1 && !appealParam.appealEndDate) {
+    if (this.query.status === '4' && Number(appealParam.checkResult) === 1 && !appealParam.appealEndDate) {
       message.warn('二审截止日期必填');
       return;
     }
     const params = {
       qualityId: Number(this.query.id),
       type: this.query.status === '2' || this.query.status === '4' ? 1 : 2,
-      checkResult: Number(appealParam.checkResult) === 1?1:0,
+      checkResult: Number(appealParam.checkResult) === 1 ? 1 : 0,
       isWarn: appealParam.isWarn,
       desc: appealParam.desc ? appealParam.desc : undefined,
       appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
@@ -79,12 +79,12 @@ class QualityAppealing extends React.Component {
           payload: { params },
         });
       },
-      onCancel() {},
+      onCancel() { },
     });
   };
   handleSubmitMaster = formParams => {
     const { appealParam } = this.state;
-    if (appealParam.checkResult!== 0 && !appealParam.checkResult) {
+    if (appealParam.checkResult !== 0 && !appealParam.checkResult) {
       message.warn('审核结果为必选项');
       return;
     }
@@ -95,7 +95,7 @@ class QualityAppealing extends React.Component {
     const appealParamNew = {
       qualityId: Number(this.query.id),
       type: this.query.status === '2' || this.query.status === '4' ? 1 : 2,
-      checkResult: Number(appealParam.checkResult) === 1?1:0,
+      checkResult: Number(appealParam.checkResult) === 1 ? 1 : 0,
       isWarn: appealParam.isWarn,
       desc: appealParam.desc ? appealParam.desc : undefined,
       appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
@@ -108,7 +108,7 @@ class QualityAppealing extends React.Component {
   handleCancel = () => {
     router.goBack();
   };
-  setStateData = (val)=>{
+  setStateData = (val) => {
     this.setState({
       appealParam: val,
     });
@@ -144,9 +144,9 @@ class QualityAppealing extends React.Component {
               <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
               <SubOrderDetail data={qualityDetailData.orderDetail} />
             </div>
-            <div style={{marginTop:20}}>
-              <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={()=>this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
-              {this.state.appealIsShow?<AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData}/>:null}
+            <div style={{ marginTop: 20 }}>
+              <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={() => this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
+              {this.state.appealIsShow ? <AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData} /> : null}
             </div>
             <div style={{ float: 'right' }}>
               <BIButton onClick={this.handleCancel} style={{ marginRight: 20 }}>
@@ -158,18 +158,18 @@ class QualityAppealing extends React.Component {
             </div>
           </section>
         ) : (
-          <CommonForm
-            {...this.props}
-            formType='appeal'
-            actionType='appeal'
-            dataSource={qualityDetailData}
-            onSubmit={(params)=>this.handleSubmitMaster(params)} >
-            <div style={{marginLeft:'-20px'}}>
-              <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={()=>this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
-              {this.state.appealIsShow?<AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData}/>:null}
-            </div>
-          </CommonForm>
-        )}
+            <CommonForm
+              {...this.props}
+              formType='appeal'
+              actionType='appeal'
+              dataSource={qualityDetailData}
+              onSubmit={(params) => this.handleSubmitMaster(params)} >
+              <div style={{ marginLeft: '-20px' }}>
+                <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={() => this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
+                {this.state.appealIsShow ? <AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData} /> : null}
+              </div>
+            </CommonForm>
+          )}
         <BIModal
           title="提交确认"
           visible={this.state.visible}
