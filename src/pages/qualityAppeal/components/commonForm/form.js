@@ -41,6 +41,16 @@ class CreateQualityNewSheet extends React.Component {
         })
 
     }
+    // 质检类型onchange
+    qualityChange = (qualityType) => {
+        // this.props.form.setFieldsValue({ dimensionId: undefined, qualityValue: null, masterQualityValue: null, masterMail: null });
+        if (this.props.onChangedimensionTree) {
+            this.props.onChangedimensionTree({
+                violationLevelObj: {}, dimension: [], dimensionId: undefined, qualityType,
+                masterQualityValue: null, masterMail: null,
+            });
+        }
+    }
     changeRole = (role) => {
         const values = this.props.form.getFieldsValue();
         const obj = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === role) || {};
@@ -51,10 +61,8 @@ class CreateQualityNewSheet extends React.Component {
             level
         });
         if (this.props.onChangeRole) {
-            this.props.onChangeRole({ ...values, role, organize: [], qualityValue: null })
+            this.props.onChangeRole({ ...values, role, organize: [], qualityValue: null, masterQualityValue: null, masterMail: null })
         }
-
-
     }
     changeOrg = (...argu) => {
         const organize = argu[0];
@@ -103,7 +111,10 @@ class CreateQualityNewSheet extends React.Component {
         let violationLevelObj = objArr.slice(-1);
         violationLevelObj = violationLevelObj.length > 0 ? violationLevelObj[0] : {};
         if (this.props.onChangedimensionTree) {
-            this.props.onChangedimensionTree({ violationLevelObj, dimension: value });
+            this.props.onChangedimensionTree({
+                violationLevelObj, dimension: value,
+                masterQualityValue: null, masterMail: null,
+            });
         }
     }
     getDimensionTreeList = () => {
@@ -112,24 +123,7 @@ class CreateQualityNewSheet extends React.Component {
         const { qualityType, dimensionId } = params || {};
         return qualityType && dimensionId ? dimensionTreeList[0] ? dimensionTreeList[0].children : [] : [];
     }
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                const { violationLevelObj } = this.props;
-                const { violationLevel } = violationLevelObj;
-                if (this.props.onSubmit) {
-                    this.props.onSubmit({ ...values, violationLevel });
-                }
 
-            }
-
-        });
-    }
-    // 质检类型onchange
-    qualityChange = (val) => {
-        this.props.form.setFieldsValue({ dimensionId: undefined, qualityValue: null });
-    }
     // 文件预上传判断
     beforeUpload = file => {
         const arr = file.name.split('.');
@@ -178,19 +172,33 @@ class CreateQualityNewSheet extends React.Component {
         }
         return isZip && isLt10M;
     };
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                const { violationLevelObj } = this.props;
+                const { violationLevel } = violationLevelObj;
+                if (this.props.onSubmit) {
+                    this.props.onSubmit({ ...values, violationLevel });
+                }
+
+            }
+
+        });
+    }
     renderGovernorComponent = () => {
         const { getFieldDecorator } = this.props.form;
         const { params } = this.props;
         const values = this.props.form.getFieldsValue();
         const { qualityType, role } = values || {};
         const { violationLevelObj } = this.props;
-        const isShowMasterMail = (role === 'csleader' || role === 'csofficer') && qualityType === 1 && (violationLevelObj.violationLevelname === '一级违规' || violationLevelObj.violationLevelname === '特级违规');
+        const isShowMasterMail = (role === 'csleader' || role === 'csofficer') && qualityType === 1 && (violationLevelObj.violationLevelName === '一级违规' || violationLevelObj.violationLevelname === '特级违规');
         if (isShowMasterMail) {
             return (
                 <Row style={{ lineHeight: '40px' }}>
                     <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
                         <span className={styles.i}>*</span><Form.Item label="客诉主管邮箱：">
-                            {getFieldDecorator('customerMail', {
+                            {getFieldDecorator('masterMail', {
                                 initialValue: params.masterMail,
                             })(<BIInput placeholder="请输入" style={{ width: 170 }} />)}
                         </Form.Item>
@@ -198,8 +206,8 @@ class CreateQualityNewSheet extends React.Component {
                     </Col>
                     <Col className="gutter-row txRight" span={12}>
                         <span className={styles.i}>*</span><Form.Item label="主管扣除绩效：">
-                            {getFieldDecorator('qualityValue', {
-                                initialValue: params.qualityValue,
+                            {getFieldDecorator('masterQualityValue', {
+                                initialValue: params.masterQualityValue,
                             })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
                             <span style={{ display: "inline-block", width: "20px" }}>%</span>
                         </Form.Item>
@@ -243,7 +251,7 @@ class CreateQualityNewSheet extends React.Component {
                             {getFieldDecorator('qualityValue', {
                                 initialValue: params.qualityValue,
                             })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
-                            <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}>%</span>
+                            <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}></span>
                         </Form.Item>
                     </Col>
                 </Row>
@@ -277,6 +285,7 @@ class CreateQualityNewSheet extends React.Component {
         const { formType, actionType } = this.props;
         const upLoadTypeObj = BiFilter('QUALITY_UPLOAD_TYPE').find(item => item.name === formType) || {};
         const { attUrl = '' } = this.props.params;
+        const name= attUrl && attUrl.split('/')[3];
         if (actionType !== 'appeal') {
             return (<Upload
                 {...uploadAttachment()}
@@ -291,7 +300,7 @@ class CreateQualityNewSheet extends React.Component {
             </Upload>)
         } else {
             return (
-                attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text="下载附件" />) : null
+                attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} textClassName={styles.downCls} />) : null
             )
         }
     }
