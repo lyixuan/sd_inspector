@@ -99,8 +99,10 @@ class Launch extends React.Component {
     }
   };
   render() {
-    const qualityDetailData = this.props.qualityAppealHome.QualityDetailData;
+    const {qualityAppealHome = {}} = this.props;
+    const qualityDetailData = qualityAppealHome.QualityDetailData;
     this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
+    const {masterQualityValue='',masterMail=''} = qualityAppealHome;
 
     return (
       <div className={styles.launchContainer}>
@@ -120,7 +122,7 @@ class Launch extends React.Component {
             <SubOrderDetail data={qualityDetailData.orderDetail} />
             {/* 质检违规详情 */}
             <div className={styles.divideLine} />
-            <IllegalInfo data={qualityDetailData} />
+            <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail}/>
           </article>
         </section>
         <div className={styles.info}>
