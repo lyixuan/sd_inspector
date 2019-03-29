@@ -223,7 +223,22 @@ class CreateQualityNewSheet extends React.Component {
         const isShowPerformance = qualityType === 1 && role !== 'csleader' && role !== 'csofficer';
         if (isShowCreate) return this.renderQualityType_create();
         if (isShowPerformance) return this.renderQualityType_performance();
-    }
+    };
+    checkQuality = (rule, value, callback) => {
+            if (Number(value) >= 0) {
+                callback();
+                return;
+            }
+            callback('请输入大于0的数字');
+    };
+    checkScore = (rule, value, callback) => {
+        const reg = /^[1-9]\d*$/;
+        if (reg.test(value)) {
+          callback();
+          return;
+        }
+        callback('请输入大于0的正整数');
+    };
     renderQualityType_performance = () => {
         const { getFieldDecorator } = this.props.form;
         const { params } = this.props;
@@ -233,6 +248,7 @@ class CreateQualityNewSheet extends React.Component {
                     <span className={styles.i}>*</span><Form.Item label="扣除绩效">
                         {getFieldDecorator('qualityValue', {
                             initialValue: params.qualityType,
+                            rules: [{validator:this.checkQuality}]
                         })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
                         <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}>%</span>
                     </Form.Item>
@@ -250,6 +266,7 @@ class CreateQualityNewSheet extends React.Component {
                         <span className={styles.i}>*</span><Form.Item label="扣除学分">
                             {getFieldDecorator('qualityValue', {
                                 initialValue: params.qualityValue,
+                                rules: [{validator:this.checkScore}]
                             })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
                             <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}></span>
                         </Form.Item>
