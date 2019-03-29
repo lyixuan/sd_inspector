@@ -18,6 +18,7 @@ export default class AppealInfoComponent extends React.Component {
   render() {
     const {data={}} = this.props;
     const { appealEndDate, appealStart, type, index, isCollapse } = data;
+    const name= appealStart.attUrl&&appealStart.attUrl.split('/')[3];
 
     const number = Number(type)===2?'二':'一';
     return (
@@ -43,7 +44,7 @@ export default class AppealInfoComponent extends React.Component {
               <div className={styles.secctionTitle}>申诉发起人</div>
               <div className={styles.container}>
                 <div className={styles.secRow}>
-                  <span>附件：</span> <div>{appealStart.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${appealStart.attUrl}`} text="附件1" />:null} </div>
+                  <span>附件：</span> <div>{appealStart.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${appealStart.attUrl}`} text={name} textClassName={styles.downCls}/>:null} </div>
                 </div>
                 <div className={[styles.secRow]}>
                   <div>
