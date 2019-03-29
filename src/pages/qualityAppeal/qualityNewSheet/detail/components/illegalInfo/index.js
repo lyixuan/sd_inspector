@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import DownLoad from '@/components/DownLoad';
 import Styles from './style.css';
 import { STATIC_HOST } from '@/utils/constants';
 
@@ -23,7 +24,7 @@ export default class IllegalInfoComponent extends React.Component {
         </div>
         <div>
           <div className={`${Styles.secCol} ${Styles.secDesc}`}>
-            <div>附件：{attUrl?<a href={`${STATIC_HOST}/${attUrl}`} >附件1</a>:null}</div>
+            <span>附件：</span> <div>{attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text="附件1" />:null}</div>
           </div>
           <div className={`${Styles.secCol} ${Styles.secDesc}`}>
             <div>违规详情：</div>
