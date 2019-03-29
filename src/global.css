@@ -17,7 +17,7 @@
 /* dxForm */
 .dxForm .ant-form-item-label label::after {
   content: ""!important;
-  display: inline-block;
+  display: inline;
   width: 100%;
 }
 
@@ -30,7 +30,7 @@
 }
 .ant-form-item-label label::after {
   content: ""!important;
-  display: inline-block;
+  display: inline;
   width: 100%;
 }
 
