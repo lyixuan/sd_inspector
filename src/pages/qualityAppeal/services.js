@@ -35,4 +35,8 @@ export function uploadAttachment() {
 export async function queryDimensionTreeList(params) {
   return request('/dimension/queryDimensionTreeList', { params });
 }
+//  检验质检单是否重复
+export async function checkRepeatQualityInspection(data) {
+  return request('/quality/checkRepeatQualityInspection', { method: 'post', data });
+}
 
