@@ -84,7 +84,7 @@ class QualityAppealing extends React.Component {
   };
   handleSubmitMaster = formParams => {
     const { appealParam } = this.state;
-    if (!appealParam.checkResult) {
+    if (appealParam.checkResult!== 0 && !appealParam.checkResult) {
       message.warn('审核结果为必选项');
       return;
     }
