@@ -141,10 +141,11 @@ class CreateQualityNewSheet extends React.Component {
     };
     uploadChange = (info) => {
         // tip 目前支持上传一个文件
-        const { fileList = [] } = info || {};
+        let { fileList = [],file={} } = info || {};
+        this.setState({ fileList });
         let attUrl = '';
         if (fileList.length > 0) {
-            const { response = null } = fileList[0] || {};
+            const { response = null } = file || {};
             if (response) {
                 if (response.code === 20000) {
                     attUrl = response.data.fileUrl;
@@ -298,6 +299,7 @@ class CreateQualityNewSheet extends React.Component {
         if (actionType !== 'appeal') {
             return (<Upload
                 {...uploadAttachment()}
+              fileList={this.state.fileList}
                 data={{ type: upLoadTypeObj.id || 1 }}
                 onChange={this.uploadChange}
                 beforeUpload={this.beforeUpload}
