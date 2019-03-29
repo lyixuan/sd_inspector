@@ -110,13 +110,11 @@ class InitTable extends Component {
 
     };
   }
-  pagerOnChange = (num) => {
-    console.log(131, num)
-  }
 
   render() {
     const dataSource = this.props.proData.channelDtoList;
     const { loading } = this.props;
+    const { onSizeChange } = this.props
     return (
       <>
         <div className={styles.dataDetail}>
@@ -125,14 +123,13 @@ class InitTable extends Component {
             <BIButton type="primary" >导出</BIButton>
           </div>
           <div className={styles.tableBox}>
-            {/* <Table style={{ textAlign: "center" }} columns={columns} pagination={false} dataSource={dataSource} bordered /> */}
             <BITable rowKey={record => record.id} dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
             <br />
             <div className={styles.notice}>
               <span>已读</span>
               <span>未读</span>
             </div>
-            <Pagination showQuickJumper defaultCurrent={1} total={50} onChange={this.pagerOnChange} />
+            <Pagination showQuickJumper defaultCurrent={1} total={50} onChange={onSizeChange} />
           </div>
         </div>
       </>

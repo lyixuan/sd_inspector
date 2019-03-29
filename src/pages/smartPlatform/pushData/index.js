@@ -26,7 +26,9 @@ class PushData extends React.Component {
       collegeId: '',
       familyId: undefined,
       beginDate: moment(new Date(new Date().getTime() - 24 * 60 * 60 * 1000), dateFormat),
-      endDate: moment(new Date(new Date().getTime() - 24 * 60 * 60 * 1000), dateFormat)
+      endDate: moment(new Date(new Date().getTime() - 24 * 60 * 60 * 1000), dateFormat),
+      page: 1,
+      pageSize: 15
     };
     this.collegeList = [];
     this.familyList = [];
@@ -34,8 +36,11 @@ class PushData extends React.Component {
   componentDidMount() {
     this.refreshList();
   }
+  onSizeChange = (val) => {
+    this.state.page = val
+    this.refreshList();
+  };
   formValChange = (val, key) => {
-    console.log(38, val, key)
     if (key === 'collegeId') {
       this.familyList = [];
       this.collegeList.forEach((v) => {
@@ -73,10 +78,10 @@ class PushData extends React.Component {
   // 触发搜索
   refreshList = () => {
     console.log(76, this.state);
-    const { province, collegeId, familyId, nodeSign, beginDate, endDate } = this.state;
+    const { province, collegeId, familyId, nodeSign, beginDate, endDate, page, pageSize } = this.state;
     this.props.dispatch({
       type: 'PushDataModel/getData',
-      payload: { province: province, collegeId: collegeId, familyId: familyId, nodeSign: nodeSign, beginDate: beginDate, endDate: endDate },
+      payload: { province: province, collegeId: collegeId, familyId: familyId, nodeSign: nodeSign, beginDate: beginDate, endDate: endDate, page: page, pageSize: pageSize },
     });
   }
 
@@ -123,7 +128,7 @@ class PushData extends React.Component {
 
         </div>
         <div className={styles.tableContainer}>
-          <InitTable proData={dataList} />
+          <InitTable proData={dataList} onSizeChange={this.onSizeChange} />
         </div>
 
       </div>
