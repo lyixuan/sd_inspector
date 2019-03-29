@@ -8,6 +8,7 @@ import OrgCascader from '@/components/OrgCascader';
 import BICascader from '@/ant_components/BICascader';
 import { BiFilter } from '@/utils/utils';
 import DownLoad from '@/components/DownLoad';
+import moment from 'moment';
 import { STATIC_HOST } from '@/utils/constants'
 import styles from './style.less';
 import SubOrderDetail from '../subOrderDetail';
@@ -298,6 +299,9 @@ class CreateQualityNewSheet extends React.Component {
         if (this.props.onCancel) {
             this.props.onCancel()
         }
+    };
+    disabledDate=(current)=> {
+        return current && current > moment().endOf('day');
     }
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -413,14 +417,14 @@ class CreateQualityNewSheet extends React.Component {
                                     {getFieldDecorator('violationDate', {
                                         initialValue: params.violationDate,
                                         rules: [{ required: true, message: '质检违规日期' }],
-                                    })(<BIDatePicker style={{ width: 280 }} format={format} />)}
+                                    })(<BIDatePicker disabledDate={this.disabledDate} style={{ width: 280 }} format={format} />)}
                                 </Form.Item>
                             </Col>
                             <Col className="gutter-row txRight" span={12}>
                                 <span className={styles.i}>*</span><Form.Item label="质检扣分日期：">
                                     {getFieldDecorator('reduceScoreDate', {
                                         initialValue: params.reduceScoreDate,
-                                    })(<BIDatePicker style={{ width: 280 }} format={format} />)}
+                                    })(<BIDatePicker disabledDate={this.disabledDate} style={{ width: 280 }} format={format} />)}
                                 </Form.Item>
                             </Col>
                         </Row>

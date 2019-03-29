@@ -310,13 +310,20 @@ function dealQuarys(pm) {
     p.status = o.status;
     p.appealType = o.appealType;
   }
-  if (p.violationLevel) {
-    p.violationLevel = p.violationLevel.map(v => Number(v))
+
+  if (p.violationLevel && p.violationLevel.length>0) {
+    p.violationLevel = p.violationLevel.map(v=>Number(v))
+  } else {
+    p.violationLevel = undefined;
   }
-  if (p.dimensionIdList) {
-    p.dimensionIdList = p.dimensionIdList.map(v => Number(v))
+  if (p.dimensionIdList && p.dimensionIdList.length>0) {
+    p.dimensionIdList = p.dimensionIdList.map(v=>Number(v))
+  } else {
+    p.dimensionIdList = undefined;
   }
-  if (p.qualityNum === '') {
+  if (p.qualityNum && p.qualityNum !== '') {
+    p.qualityNum = p.qualityNum.trim();
+  } else {
     p.qualityNum = undefined
   }
   return p;
@@ -446,7 +453,14 @@ class QualityAppeal extends React.Component {
                 </span>
               </AuthButton>
             ) : null}
-            {status === 2 || status === 4 || status === 6 || status === 8 ? (
+            {status === 2 ||  status === 6 ? (
+              <AuthButton authority='/inspector/qualityAppeal/qualityAppeal/appealsop'>
+                <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
+                  审核
+                </span>
+              </AuthButton>
+            ) : null}
+            {status === 4 || status === 8 ? (
               <AuthButton authority='/qualityAppeal/qualityAppeal/appeal'>
                 <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
                   审核

@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './style.css';
 import moment from 'moment';
+import DownLoad from '@/components/DownLoad';
 import { STATIC_HOST } from '@/utils/constants';
 
 export default class AppealInfoComponent extends React.Component {
@@ -42,7 +43,7 @@ export default class AppealInfoComponent extends React.Component {
               <div className={styles.secctionTitle}>申诉发起人</div>
               <div className={styles.container}>
                 <div className={styles.secRow}>
-                  <div>附件：{appealStart.attUrl?<a href={`${STATIC_HOST}/${appealStart.attUrl}`} >附件1</a>:null} </div>
+                  <span>附件：</span> <div>{appealStart.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${appealStart.attUrl}`} text="附件1" />:null} </div>
                 </div>
                 <div className={[styles.secRow]}>
                   <div>

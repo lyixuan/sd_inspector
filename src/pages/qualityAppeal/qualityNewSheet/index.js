@@ -123,13 +123,20 @@ function dealQuarys(pm) {
   } else {
     p.statusList = undefined;
   }
-  if (p.violationLevelList) {
+  if (p.violationLevelList&&p.violationLevelList.length>0) {
     p.violationLevelList = p.violationLevelList.map(v => Number(v))
+  } else {
+    p.violationLevelList = undefined;
   }
-  if (p.dimensionIdList) {
+
+  if (p.dimensionIdList&&p.dimensionIdList.length>0) {
     p.dimensionIdList = p.dimensionIdList.map(v => Number(v))
+  } else {
+    p.dimensionIdList = undefined
   }
-  if (p.qualityNum === '') {
+  if (p.qualityNum && p.qualityNum !== '') {
+    p.qualityNum = p.qualityNum.trim();
+  } else {
     p.qualityNum = undefined
   }
   return p;
