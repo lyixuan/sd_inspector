@@ -46,11 +46,12 @@ export class BaseModels {
     }
     HandleOrgMapByMail(obj) {
         if (!obj || typeof obj !== 'object') return;
-        const { collegeId, familyId, groupId, userType, id, name } = obj;
+        const { collegeId, familyId, groupId, collegeName, familyName, groupName, userType, id, name } = obj;
 
-        const organize = [collegeId, familyId, groupId].filter(item => item);
+        // const organize = [collegeId, familyId, groupId].filter(item => item);
+        const organizeName = [collegeName, familyName, groupName].filter(item => item).join('|');
         return {
-            organize, role: userType, userId: id, name,
+            collegeId, familyId, groupId, collegeName, familyName, groupName, role: userType, userId: id, name, organizeName
         }
     }
     transOriginParams = (params = {}) => {
