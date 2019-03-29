@@ -6,7 +6,9 @@ import { connect } from 'dva';
 import styles from '../style.less'
 
 
-function option() {
+function option(param) {
+  // console.log(10, param)
+  // let arr = param.
   return {
     xAxis: [
       {
@@ -70,7 +72,7 @@ function option() {
           }
         },
         barWidth: 44,
-        data: [120, 200, 3000],
+        data: [param.examPlanNum, param.readNum, param.unreadNum],
         color: '#52c9c2',
         type: 'bar'
       }
@@ -78,7 +80,7 @@ function option() {
   }
 }
 
-const option1 = option();
+
 class InitChart extends Component {
   constructor(props) {
     super(props);
@@ -88,13 +90,14 @@ class InitChart extends Component {
   }
 
   render() {
-    return (
 
+    const options = option(this.props.proData)
+    return (
       <>
         <div style={{ height: "500px" }}>
           <Echart
             style={{ width: '100%', height: "380px", backgroundColor: ' #fff' }}
-            options={option1}
+            options={options}
           />
         </div>
       </>
