@@ -277,6 +277,7 @@ class CreateQualityNewSheet extends React.Component {
         const { formType, actionType } = this.props;
         const upLoadTypeObj = BiFilter('QUALITY_UPLOAD_TYPE').find(item => item.name === formType) || {};
         const { attUrl = '' } = this.props.params;
+        const name= attUrl && attUrl.split('/')[3];
         if (actionType !== 'appeal') {
             return (<Upload
                 {...uploadAttachment()}
@@ -291,7 +292,7 @@ class CreateQualityNewSheet extends React.Component {
             </Upload>)
         } else {
             return (
-                attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text="下载附件" />) : null
+                attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} textClassName={styles.downCls} />) : null
             )
         }
     }
