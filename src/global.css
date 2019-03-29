@@ -12,11 +12,12 @@
   width: 70px;
   display: inline-block;
   text-align-last: justify;
+  text-align: justify;
 }
 /* dxForm */
 .dxForm .ant-form-item-label label::after {
-  content: " "!important;
-  display: inline;
+  content: ""!important;
+  display: inline-block;
   width: 100%;
 }
 
@@ -24,10 +25,12 @@
   width: 70px;
   display: inline-block;
   text-align-last: justify;
+  -webkit-text-align-last: justify;
+  text-align: justify;
 }
 .ant-form-item-label label::after {
-  content: " "!important;
-  display: inline;
+  content: ""!important;
+  display: inline-block;
   width: 100%;
 }
 
