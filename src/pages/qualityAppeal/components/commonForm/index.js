@@ -110,6 +110,17 @@ class CreateQualityNewSheet extends React.Component {
     upDateFormParams = (newParams = {}) => {
         this.saveParams(newParams);
     }
+    onChangeRole = (values) => {
+        const { organize } = values;
+        let newParams = {};
+        if (organize.length === 0) {
+            newParams = {
+                collegeId: undefined, familyId: undefined, groupId: undefined, collegeName: undefined, familyName: undefined, groupName: undefined,
+                organizeName: '',
+            }
+        }
+        this.saveParams({ ...values, ...newParams, });
+    }
     onChangeOrg = (orgObj) => {
         this.saveParams(orgObj);
     }
@@ -182,6 +193,7 @@ class CreateQualityNewSheet extends React.Component {
     render() {
         const { formParams, isShowConfirmModel, isShowOrderNumConfirmModel, msgDetail } = this.state;
         const { orgList, children } = this.props;
+        console.log(formParams)
         return (<div>
             {/* form区域 */}
             <FormComponent
@@ -191,6 +203,7 @@ class CreateQualityNewSheet extends React.Component {
                 getOrgMapByMail={this.getOrgMapByMail}
                 getOrderNum={this.getOrderNum}
                 changeDimension={this.changeDimension}
+                onChangeRole={this.onChangeRole}
                 onChangeOrg={this.onChangeOrg}
                 setAttUrl={this.setAttUrl}
                 onSubmit={this.onSubmit}

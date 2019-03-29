@@ -31,19 +31,29 @@ class CreateQualityNewSheet extends React.Component {
     }
     getOrgMapByMail = () => {
         const values = this.props.form.getFieldsValue();
-        const { mail } = values;
-        if (!mail) return;
-        if (this.props.getOrgMapByMail) {
-            this.props.getOrgMapByMail(mail, values);
-        }
+        this.props.form.validateFields(['mail'], () => {
+            const { mail } = values;
+            if (!mail) return;
+            if (this.props.getOrgMapByMail) {
+                this.props.getOrgMapByMail(mail, values);
+            }
+        })
+
     }
     changeRole = (value) => {
+        const values = this.props.form.getFieldsValue();
         const obj = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === value) || {};
         const { level } = obj;
-        this.props.form.setFieldsValue({ organize: [], qualityValue: null });
+
+        // this.props.form.setFieldsValue({ organize: [], qualityValue: null });
         this.setState({
             level
         });
+        if (this.props.onChangeRole) {
+            this.props.onChangeRole({ ...values, organize: [], qualityValue: null })
+        }
+
+
     }
     changeOrg = (...argu) => {
         const organize = argu[0];
