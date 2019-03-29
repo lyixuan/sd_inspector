@@ -103,27 +103,29 @@ class HorizontalLoginForm extends React.Component {
   };
   updateFormFieldsSelectedVal =(val)=>{
     this.checkedConditionList = {};
-    val.exam ? this.checkedConditionList.exam = { keys: val.exam, labels: val.exam2 } : '';
-    val.collegeId ? this.checkedConditionList.collegeId = { keys: val.collegeId, labels: val.collegeName } : '';
-    val.familyIdList ? this.checkedConditionList.familyIdList = { keys: val.familyIdList, labels: val.familyNameList } : '';
-    val.orderStatus ? this.checkedConditionList.orderStatus = { keys: val.orderStatus, labels: val.orderStatusName } : '';
-    val.stuType ? this.checkedConditionList.stuType = { keys: val.stuType, labels: val.stuTypeName } : '';
-    val.admissionStatus ? this.checkedConditionList.admissionStatus = { keys: val.admissionStatus, labels: val.admissionStatusName } : '';
-    val.msgStatusList ? this.checkedConditionList.msgStatusList = { keys: val.msgStatusList, labels: val.msgStatusName } : '';
+    val.exam ? this.checkedConditionList.exam = { key: val.exam, label: val.exam2 } : '';
+    val.collegeId ? this.checkedConditionList.collegeId = { key: val.collegeId, label: val.collegeName } : '';
+    val.familyIdList ? this.checkedConditionList.familyIdList = { key: val.familyIdList, label: val.familyNameList } : '';
+    val.orderStatus ? this.checkedConditionList.orderStatus = { key: val.orderStatus, label: val.orderStatusName } : '';
+    val.stuType ? this.checkedConditionList.stuType = { key: val.stuType, label: val.stuTypeName } : '';
+    val.admissionStatus ? this.checkedConditionList.admissionStatus = { key: val.admissionStatus, label: val.admissionStatusName } : '';
+    val.msgStatusList ? this.checkedConditionList.msgStatusList = { key: val.msgStatusList, label: val.msgStatusName } : '';
 
     let arr = undefined;
     if (val.familyIdList) {
       arr = [];
       val.familyIdList.split(',').forEach((v, i) => {
-        arr.push({ key: v, label: val.familyNameList[i] })
+        arr.push({ key: v, label: val.familyNameList.split(',')[i] })
       });
+      this.checkedConditionList['familyIdList'] = arr
     }
     let arr2 = undefined;
     if (val.msgStatusList) {
       arr2 = [];
       val.msgStatusList.split(',').forEach((v, i) => {
-        arr2.push({ key: v, label: val.msgStatusName[i] })
+        arr2.push({ key: v, label: val.msgStatusName.split(',')[i] })
       });
+      this.checkedConditionList['msgStatusList'] = arr2
     }
     this.props.form.setFieldsValue({
       exam: val.exam ? { key: val.exam, label: val.exam2 } : undefined,
@@ -145,7 +147,6 @@ class HorizontalLoginForm extends React.Component {
     });
   }
   formValChange = (val, key) => {
-    console.log(val)
     if (val === undefined) {
       delete this.checkedConditionList[key];
       if (key === 'collegeId') {
@@ -172,14 +173,6 @@ class HorizontalLoginForm extends React.Component {
     this.checkedConditionList[key] = val;
     this.props.updateCC(this.checkedConditionList);
   };
-  componentWillReceiveProps(newProps){
-    // this.formValChange(undefined,"exam");
-    // delete this.checkedConditionList["exam"];
-    if(newProps.updateFormItem){
-      this.checkedConditionList[newProps.updateFormItem.itemName] = undefined;
-      this.updateFormFieldsSelectedVal(this.checkedConditionList)
-    }
-  }
   handleReset = () => {
     this.checkedConditionList = {};
     menuCheckedName = '我的查询条件';
@@ -401,7 +394,6 @@ class SearchForm extends Component {
       Message.warning('请选择考期');
       return
     }
-
     if (isEdit) {
       const checkedConditionList = DeepCopy(this.state.checkedConditionList);
       const obj = {
@@ -409,12 +401,16 @@ class SearchForm extends Component {
         paramName: editName,
       };
       for (let key in checkedConditionList) {
-        obj[key] = checkedConditionList[key].keys;
         if (key === 'collegeId') {
+          obj[key] = checkedConditionList[key].key;
           obj['collegeName'] = checkedConditionList[key].label;
-        }
-        if (key === 'familyIdList') {
-          obj['familyNameList'] = checkedConditionList[key].label;
+        }else if (key === 'familyIdList') {
+          obj['familyIdList'] = checkedConditionList[key] instanceof Array? checkedConditionList[key].map(item => item.key).join(','):checkedConditionList[key].key;
+          obj['familyNameList'] = checkedConditionList[key] instanceof Array? checkedConditionList[key].map(item => item.label).join(','):checkedConditionList[key].label;
+        }else if(key === 'msgStatusList'){
+          obj[key] = checkedConditionList[key] instanceof Array? checkedConditionList[key].map(item => item.key).join(','):checkedConditionList[key].key;
+        }else{
+          obj[key] = checkedConditionList[key].key;
         }
       }
       this.props.dispatch({
@@ -453,12 +449,16 @@ class SearchForm extends Component {
         paramName: this.state.conditionName,
       };
       for (let key in checkedConditionList) {
-        obj[key] = checkedConditionList[key].keys;
         if (key === 'collegeId') {
-          obj['collegeName'] = checkedConditionList[key].labels;
-        }
-        if (key === 'familyIdList') {
-          obj['familyNameList'] = checkedConditionList[key].labels;
+          obj[key] = checkedConditionList[key].key;
+          obj['collegeName'] = checkedConditionList[key].label;
+        }else if (key === 'familyIdList') {
+          obj['familyIdList'] = checkedConditionList[key] instanceof Array? checkedConditionList[key].map(item => item.key).join(','):checkedConditionList[key].key;
+          obj['familyNameList'] = checkedConditionList[key] instanceof Array? checkedConditionList[key].map(item => item.label).join(','):checkedConditionList[key].label;
+        }else if(key === 'msgStatusList'){
+          obj[key] = checkedConditionList[key] instanceof Array? checkedConditionList[key].map(item => item.key).join(','):checkedConditionList[key].key;
+        }else{
+          obj[key] = checkedConditionList[key].key;
         }
       }
       this.props.dispatch({
