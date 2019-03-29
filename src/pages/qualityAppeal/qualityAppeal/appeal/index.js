@@ -55,13 +55,13 @@ class QualityAppealing extends React.Component {
       message.warn('审核结果为必选项');
       return;
     }
-    if (this.query.status === '4' && Number(appealParam.checkResult)===1 && !appealParam.appealEndDate) {
+    if (String(this.query.status) === '4' && Number(appealParam.checkResult)===1 && !appealParam.appealEndDate) {
       message.warn('二审截止日期必填');
       return;
     }
     const params = {
       qualityId: Number(this.query.id),
-      type: this.query.status === '2' || this.query.status === '4' ? 1 : 2,
+      type: String(this.query.status) === '2' || String(this.query.status) === '4' ? 1 : 2,
       checkResult: Number(appealParam.checkResult) === 1?1:0,
       isWarn: appealParam.isWarn,
       desc: appealParam.desc ? appealParam.desc : undefined,
@@ -88,13 +88,13 @@ class QualityAppealing extends React.Component {
       message.warn('审核结果为必选项');
       return;
     }
-    if (this.query.status === '4' && !appealParam.appealEndDate) {
+    if (String(this.query.status) === '4' && !appealParam.appealEndDate) {
       message.warn('二审截止日期必填');
       return;
     }
     const appealParamNew = {
       qualityId: Number(this.query.id),
-      type: this.query.status === '2' || this.query.status === '4' ? 1 : 2,
+      type: String(this.query.status) === '2' || String(this.query.status) === '4' ? 1 : 2,
       checkResult: Number(appealParam.checkResult) === 1?1:0,
       isWarn: appealParam.isWarn,
       desc: appealParam.desc ? appealParam.desc : undefined,
@@ -128,7 +128,7 @@ class QualityAppealing extends React.Component {
     });
     return (
       <div className={styles.detailContainer}>
-        {this.query.status === '2' || this.query.status === '6' ? (
+        {String(this.query.status) === '2' || String(this.query.status) === '6' ? (
           <section style={{ overflow: 'hidden' }}>
             {/* 质检违规人员信息 */}
             <PersonInfo
