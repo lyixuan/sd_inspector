@@ -57,18 +57,23 @@ class AppealDetail extends React.Component {
               }}
               onClick={index => this.handleAppealInfoCollapse(index)}
             />
-            <SOPCheckResult
-              data={{
-                sopAppealCheck: item.sopAppealCheck,
-                isCollapse: this.state.appealInfoCollapse[index],
-              }}
-            />
-            <SuperiorCheck
-              data={{
-                masterAppealCheck: item.masterAppealCheck,
-                isCollapse: this.state.appealInfoCollapse[index],
-              }}
-            />
+            {item.sopAppealCheck ? (
+              <SOPCheckResult
+                data={{
+                  sopAppealCheck: item.sopAppealCheck,
+                  isCollapse: this.state.appealInfoCollapse[index],
+                }}
+              />
+            ):null}
+
+            {item.masterAppealCheck ? (
+              <SuperiorCheck
+                data={{
+                  masterAppealCheck: item.masterAppealCheck,
+                  isCollapse: this.state.appealInfoCollapse[index],
+                }}
+              />
+            ): null }
           </div>
         );
         this.state.appealInfoCollapse.push(false);
