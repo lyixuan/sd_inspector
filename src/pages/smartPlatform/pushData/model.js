@@ -1,27 +1,5 @@
 import { message } from 'antd/lib/index';
-import { queryHistogramData } from './services';
-import { examOrg } from './services';
-
-function sortdata(datalist, name) {
-  let deepGroDataList = datalist.concat();
-  return deepGroDataList.sort((a, b) => b[name] - a[name]);
-}
-function dealData(data, dataItem) {
-
-  const dataObj = { dateArr: [] };
-  dataItem.map((item, i) => dataObj[`dataArr${[i + 1]}`] = []);
-  data.forEach(item => {
-    dataObj.dateArr.push(`${item.date.split("-")[1]}/${item.date.split("-")[2]}`);
-    dataItem.forEach((item1, index1) => {
-      let val = item[dataItem[index1]];
-      if ('admissionFillRatio' === dataItem[index1] || 'reachRatio' === dataItem[index1]) {
-        val = (val * 100).toFixed(2);
-      }
-      dataObj[`dataArr${[index1 + 1]}`].push(val);
-    })
-  });
-  return dataObj;
-}
+import { getData } from './services';
 
 export default {
   namespace: 'PushDataModel',
@@ -31,11 +9,20 @@ export default {
   },
 
   effects: {
-
+    *getData({ payload }, { call, put }) {
+      const data = yield call(getData, { ...payload });
+      if (data.code === 20000) {
+        yield put({ type: 'save', payload: { dataList: data.data } });
+      } else {
+        message.error(data.msg);
+      }
+    },
   },
 
   reducers: {
-
+    save(state, action) {
+      return { ...state, ...action.payload };
+    },
   },
 
   subscriptions: {
