@@ -86,6 +86,14 @@ class HorizontalLoginForm extends React.Component {
   };
 
   menuCheck = (val) => {
+    this.updateFormFieldsSelectedVal(val)
+    menuCheckedName = val.paramName;
+    this.props.updateCC(this.checkedConditionList);
+    isEdit = true;  // 点击我的查询条件后，保存时是编辑
+    editId = val.id;
+    editName = val.paramName;
+  };
+  updateFormFieldsSelectedVal =(val)=>{
     this.checkedConditionList = {};
     val.exam ? this.checkedConditionList.exam = { keys: val.exam, labels: val.exam2 } : '';
     val.collegeId ? this.checkedConditionList.collegeId = { keys: val.collegeId, labels: val.collegeName } : '';
@@ -127,14 +135,7 @@ class HorizontalLoginForm extends React.Component {
     this.props.form.setFieldsValue({
       familyIdList: arr,
     });
-
-    menuCheckedName = val.paramName;
-    this.props.updateCC(this.checkedConditionList);
-    isEdit = true;  // 点击我的查询条件后，保存时是编辑
-    editId = val.id;
-    editName = val.paramName;
-  };
-
+  }
   formValChange = (val, key) => {
     if (val === undefined) {
       delete this.checkedConditionList[key];
@@ -205,8 +206,14 @@ class HorizontalLoginForm extends React.Component {
     this.checkedConditionList = { ...obj };
     this.props.updateCC(this.checkedConditionList);
   };
-
-
+  componentWillReceiveProps(newProps){
+    // this.formValChange(undefined,"exam");
+    // delete this.checkedConditionList["exam"];
+    if(newProps.updateFormItem){
+      this.checkedConditionList[newProps.updateFormItem.itemName] = undefined;
+      this.updateFormFieldsSelectedVal(this.checkedConditionList)
+    }
+  }
   handleReset = () => {
     this.checkedConditionList = {};
     menuCheckedName = '我的查询条件';
@@ -307,7 +314,7 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('orderStatus', {
                   initialValue: this.state.orderStatus,
                 })(
-                  <BISelect allowClear placeholder="订单状态" allowClear style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'orderStatus')}>
+                  <BISelect allowClear placeholder="订单状态"  style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'orderStatus')}>
                     {BiFilter('ORDER_STATE').map(item => (
                       <Option value={item.id} key={item.name}>
                         {item.name}
@@ -402,6 +409,7 @@ class SearchForm extends Component {
       conditionName: '',
       titleType: 1,  // 1 添加查询条件 2 编辑查询条件
       checkedConditionList: {},
+      itemName:null,//删除已保存的选项时，更新已选择的过滤条件
     };
     this.tId = undefined;
   }
@@ -409,7 +417,7 @@ class SearchForm extends Component {
     this.setState({
       checkedConditionList: val,
     });
-    this.props.updateCheckedConditions(val)
+    // this.props.updateCheckedConditions(val)
   };
 
   conditionEdit = (item) => {
@@ -512,7 +520,24 @@ class SearchForm extends Component {
 
     });
   };
-
+  deleteFilterItem = (e) =>{
+    //删除已选条件
+    console.log(this.state.checkedConditionList)
+    // if(!this.state.checkedConditionList){
+    //   return
+    // }
+    Object.keys(this.state.checkedConditionList).forEach(name =>{
+      if(name === e.currentTarget.dataset.name){
+        this.state.checkedConditionList[name]=undefined
+      }
+    })
+    this.setState({checkedConditionList:this.state.checkedConditionList,
+      itemName:{id:e.currentTarget.id,itemName:e.currentTarget.dataset.name}})
+    //    debugger
+    // this.updateCheckedConditions()
+    console.log(e.currentTarget.id,e.currentTarget.dataset.name)
+    // this.setState({itemName:{id:e.currentTarget.id,itemName:e.currentTarget.dataset.name}})
+  }
   handleCancel = () => {
     this.setState({
       visible: false,
@@ -520,23 +545,35 @@ class SearchForm extends Component {
   };
 
   render() {
-    const { checkedConditionList } = this.state;
+    let { checkedConditionList } = this.state;
     // 构造 checkedConditionList 的node
     function getCheckedConditionList() {
       const list = [];
-      for (let key in checkedConditionList) {
-        checkedConditionList[key] && list.push(checkedConditionList[key]);
-      }
+      Object.keys(checkedConditionList).map(name =>{
+        if(!checkedConditionList[name]){
+          return
+        }
+        let curObj = checkedConditionList[name]
+        if(name === "familyIdList" && curObj.keys.match(/\,/g)){
+          curObj.keys.split(',').map((sub,index) =>{
+            list.push({keys:sub,labels:curObj.labels.split(',')[index],name:name});
+          })
+        }else{
+          checkedConditionList[name]['name'] = name
+          list.push(checkedConditionList[name]);
+        }
+      })
       return list;
     }
-    const checkedBtn = getCheckedConditionList().map((v) => (
-      <span className={styles.spanBtn} key={v.labels}>{v.labels}</span>
-    ));
+    const checkedBtn = getCheckedConditionList().map((v) => {
+      return <span className={styles.spanBtn} key={v.labels}>{v.labels}<Icon id={v.labels} data-name={v.name} onClick={this.deleteFilterItem} style={{ marginLeft: '5px' }} type="close" /></span>
+    });
     return (
       <>
         <div>
           <WrappedHorizontalLoginForm
             {...this.props}
+            updateFormItem={this.state.itemName}
             updateCC={(p) => this.updateCheckedConditions(p)}
             menuEdit={(item) => this.conditionEdit(item)}
           />
