@@ -1,22 +1,18 @@
 import { PureComponent } from 'react';
 import styles from './style.less';
 import { PROVINCE_STEP } from '@/utils/constants';
+import router from 'umi/router';
 import moment from 'moment';
 
 function StepStatusHover(props){
-    console.log(props.isVisible)
-    let obj = {read:10000,unread:3000}
-    let num1 = (obj.read/(obj.read+obj.unread)).toFixed(2)
-    let num2 = (obj.unread/(obj.read+obj.unread)).toFixed(2)
-    // return <div className={props.isVisible?styles.showToolTips:styles.hideToolTips}>{props.isVisible}33</div>
-    let readStyle = {width:num1*157+'px'}
-    let unReadStyle = {width:num2*157+'px'}
-    console.log(styles.msgRead)
+    console.log('props',props)
+    let readStyle = {width:props.data.readNum*157+'px'}
+    let unReadStyle = {width:props.data.unreadNum*157+'px'}
     return (<div className={props.isVisible?styles.showToolTips:styles.hideToolTips}>
         <span className={styles.msgRead} style={readStyle}></span>
         <span className={styles.msgUnRead}  style={unReadStyle}></span>
-        <div className={styles.percentNum}><span>{num1*100}%</span><span>{num2*100}%</span></div>
-        <div className={styles.countNum}><span>已读{obj.read}</span><span>未读{obj.unread}</span></div>
+        <div className={styles.percentNum}><span>{(props.data.readRatio*100).toFixed(2)}%</span><span>{(props.data.unreadRatio*100).toFixed(2)}%</span></div>
+        <div className={styles.countNum}><span>已读{props.data.readNum}</span><span>未读{props.data.unreadNum}</span></div>
     </div>)
 }
 
@@ -28,6 +24,12 @@ export default class ProcessStep extends PureComponent {
         this.state={
             initObj:examStep
         }
+    }
+    redirectDetails=(obj)=>{
+        router.push({
+            pathname: '/smartPlatform/pushData',
+            query: {province: '北京市',nodeSign: obj.stepType,},
+          });
     }
     initData = () => {
         const returnObj = {};
@@ -56,14 +58,15 @@ export default class ProcessStep extends PureComponent {
     handleData = (data = []) => {
         return PROVINCE_STEP.map((item,index) => {
             const obj = data.find(ls => ls.stepType === item.id) || {};
+            console.log('obj:',obj)
             const beginDate = obj.beginDate ? moment(obj.beginDate).format('MMMDo') : '';
             const endDate = obj.endDate ? moment(obj.endDate).format('MMMDo') : '';
             const dateTime = beginDate + endDate ? `${beginDate}-${endDate}` : '暂未公布';
             const { stepStatus } = obj;     // 报考状态
             const examNodeLightHight = stepStatus === 3 || stepStatus === 1 || stepStatus === -1
-            const toolTips = examNodeLightHight ? <></>:<StepStatusHover isVisible={item.isVisible}></StepStatusHover>
+            const toolTips = examNodeLightHight ? <></>:<StepStatusHover data={obj} isVisible={item.isVisible}></StepStatusHover>
             return (
-                <li onMouseLeave={this.stepStatusLeave.bind(this,index)} onMouseOver={this.stepStatusHover.bind(this,index)}  className={examNodeLightHight? styles.stepItem2 : styles.stepItem1} key={item.id}>
+                <li onClick={this.redirectDetails.bind(this,obj)} onMouseLeave={this.stepStatusLeave.bind(this,index)} onMouseOver={this.stepStatusHover.bind(this,index)}  className={examNodeLightHight? styles.stepItem2 : styles.stepItem1} key={item.id}>
                     {stepStatus === 3 ? <div className={styles.stepOver}>已结束</div> : null}
                     <h4 className={styles.processName} key={`${item.id}h4`}>{item.name}</h4>
                     <p className={styles.processDate} key={`${item.id}p`}>{dateTime}</p>
