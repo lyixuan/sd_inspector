@@ -9,10 +9,12 @@ import BICascader from '@/ant_components/BICascader';
 import { BiFilter } from '@/utils/utils';
 import DownLoad from '@/components/DownLoad';
 import moment from 'moment';
-import { STATIC_HOST } from '@/utils/constants'
+import { STATIC_HOST } from '@/utils/constants';
+import { IS_NUMBER } from '@/utils/regex';
 import styles from './style.less';
 import SubOrderDetail from '../subOrderDetail';
 import { uploadAttachment } from '../../services';
+
 
 
 
@@ -200,6 +202,7 @@ class CreateQualityNewSheet extends React.Component {
                         <span className={styles.i}>*</span><Form.Item label="客诉主管邮箱：">
                             {getFieldDecorator('masterMail', {
                                 initialValue: params.masterMail,
+                                rules: [{ required: true, message: '请输入主管邮箱' }],
                             })(<BIInput placeholder="请输入" style={{ width: 170 }} />)}
                         </Form.Item>
                         <div className={styles.text}>@sunland.com</div>
@@ -208,6 +211,7 @@ class CreateQualityNewSheet extends React.Component {
                         <span className={styles.i}>*</span><Form.Item label="主管扣除绩效：">
                             {getFieldDecorator('masterQualityValue', {
                                 initialValue: params.masterQualityValue,
+                                rules: [{ required: true, message: '请输入扣除绩效', validator: this.checkQuality }],
                             })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
                             <span style={{ display: "inline-block", width: "20px" }}>%</span>
                         </Form.Item>
@@ -225,17 +229,17 @@ class CreateQualityNewSheet extends React.Component {
         if (isShowPerformance) return this.renderQualityType_performance();
     };
     checkQuality = (rule, value, callback) => {
-            if (Number(value) >= 0) {
-                callback();
-                return;
-            }
-            callback('请输入大于0的数字');
+        if (Number(value) >= 0) {
+            callback();
+            return;
+        }
+        callback('请输入大于0的数字');
     };
     checkScore = (rule, value, callback) => {
         const reg = /^[1-9]\d*$/;
         if (reg.test(value)) {
-          callback();
-          return;
+            callback();
+            return;
         }
         callback('请输入大于0的正整数');
     };
@@ -248,7 +252,7 @@ class CreateQualityNewSheet extends React.Component {
                     <span className={styles.i}>*</span><Form.Item label="扣除绩效">
                         {getFieldDecorator('qualityValue', {
                             initialValue: params.qualityType,
-                            rules: [{validator:this.checkQuality}]
+                            rules: [{ required: true, message: '请输入合法绩效', validator: this.checkQuality }]
                         })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
                         <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}>%</span>
                     </Form.Item>
@@ -266,7 +270,8 @@ class CreateQualityNewSheet extends React.Component {
                         <span className={styles.i}>*</span><Form.Item label="扣除学分">
                             {getFieldDecorator('qualityValue', {
                                 initialValue: params.qualityValue,
-                                rules: [{validator:this.checkScore}]
+                                rules: [{ required: true, message: '请输入合法学分', validator: this.checkScore }],
+
                             })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
                             <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}></span>
                         </Form.Item>
@@ -302,7 +307,7 @@ class CreateQualityNewSheet extends React.Component {
         const { formType, actionType } = this.props;
         const upLoadTypeObj = BiFilter('QUALITY_UPLOAD_TYPE').find(item => item.name === formType) || {};
         const { attUrl = '' } = this.props.params;
-        const name= attUrl && attUrl.split('/')[3];
+        const name = attUrl && attUrl.split('/')[3];
         if (actionType !== 'appeal') {
             return (<Upload
                 {...uploadAttachment()}
@@ -404,6 +409,7 @@ class CreateQualityNewSheet extends React.Component {
                                 <span className={styles.i}></span><Form.Item label="归属组织：">
                                     {getFieldDecorator('organize', {
                                         initialValue: params.organize,
+                                        rules: [{ required: this.getOrgRole() > 0, message: '请输入归属组织' }]
                                     })(
                                         <OrgCascader
                                             level={this.getOrgRole()}
@@ -551,15 +557,6 @@ function mapPropsToFields(props) {
         returnObj[item] = Form.createFormField({
             value: params[item] || undefined,
         });
-        // 对分类级别进行处理
-        // returnObj['dimension'] = Form.createFormField({
-        //     value: [params.secondAssortmentId, params.secondAssortmentId, params.thirdAssortmentId].filter(item => item),
-        // });
-
-        // // 此处后期应对学院家族小组进行处理
-        // returnObj['organize'] = Form.createFormField({
-        //     value: [params.collegeId, params.familyId, params.groupId].filter(item => item),
-        // });
     })
     return returnObj
 }

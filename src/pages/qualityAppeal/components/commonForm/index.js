@@ -103,7 +103,7 @@ class CreateQualityNewSheet extends React.Component {
     }
     checkRepeatQualityInspection = (payload) => {
         this.props.dispatch({
-            type: 'qualityNewSheet/checkRepeatQualityInspection',
+            type: 'qualityAppealHome/checkRepeatQualityInspection',
             payload: { params: payload, callback: this.checkoutOrderNumCallBack },
         })
     }
@@ -155,7 +155,6 @@ class CreateQualityNewSheet extends React.Component {
     checkoutOrderNumCallBack = (params) => {
         //审核状态下不弹框
         const { actionType } = this.props;
-
         if (!params) {
             if (actionType === 'appeal') {
                 this.confirmModelSubmit()

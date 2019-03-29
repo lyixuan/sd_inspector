@@ -20,16 +20,18 @@ export class BaseModels {
             dimensionId: null,          // 分维ID
             primaryAssortmentId: null,  // 一级违规分类
             secondAssortmentId: null,   // 二级违规分类
-            thirdAssortmentId: null,    // 三级违规分类	
-            attUrl: '',                 // 附件地址	
-            desc: '',                   // 违规详情	
+            thirdAssortmentId: null,    // 三级违规分类
+            attUrl: '',                 // 附件地址
+            desc: '',                   // 违规详情
             masterMail: '',              // 客诉主管邮箱
+            masterQualityValue: null,     // 客诉主管扣除绩效
             qualityValue: null,          // 扣除学分/绩效
             userId: null,                 // 根据邮箱查出用户id
             id: null,                     // 质检单id
             collegeName: null,             // 学院名
             familyName: null,              // 家族名
             groupName: null,                // 小组名
+            qualityNum:null                 // 质检单号
 
         };
         this.modelData = this.handleInitData(qualityDetail);
@@ -48,10 +50,10 @@ export class BaseModels {
         if (!obj || typeof obj !== 'object') return;
         const { collegeId, familyId, groupId, collegeName, familyName, groupName, userType, id, name } = obj;
 
-        // const organize = [collegeId, familyId, groupId].filter(item => item);
+        const organize = [collegeId, familyId, groupId].filter(item => item);
         const organizeName = [collegeName, familyName, groupName].filter(item => item).join('|');
         return {
-            collegeId, familyId, groupId, collegeName, familyName, groupName, role: userType, userId: id, name, organizeName
+            collegeId, familyId, groupId, collegeName, familyName, groupName, role: userType, userId: id, name, organizeName, organize
         }
     }
     transOriginParams = (params = {}) => {
@@ -66,14 +68,14 @@ export class BaseModels {
         const organizeName = [collegeName, familyName, groupName].filter(item => item).join('|');
 
         // 暂不做回显处理
-        // const organize = [collegeId, familyId, groupId].filter(item => item);
+        const organize = [collegeId, familyId, groupId].filter(item => item);
         const groupObj = { collegeId, familyId, groupId, collegeName, familyName, groupName };
         const dimension = [primaryAssortmentId, secondAssortmentId, thirdAssortmentId].filter(item => item);
         const dateTimeObj = {
             violationDate: this.transMoment(violationDate),
             reduceScoreDate: this.transMoment(reduceScoreDate),
         }
-        return { ...others, ...dateTimeObj, ...groupObj, dimension, organizeName };
+        return { ...others, ...dateTimeObj, ...groupObj, dimension, organizeName, organize };
     }
     transMoment = (date) => {
         return date ? moment(date) : null;

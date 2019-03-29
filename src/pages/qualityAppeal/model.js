@@ -6,7 +6,8 @@ import {
   getAppealDetail,
   getQualityDetail,
   getOrderNum,
-  queryDimensionTreeList
+  queryDimensionTreeList,
+  checkRepeatQualityInspection,
 } from '@/pages/qualityAppeal/services';
 
 function toTreeData(orgList) {
@@ -138,6 +139,15 @@ export default {
         message.error(response.msg);
       }
 
+    },
+    *checkRepeatQualityInspection({ payload }, { call, put }) {
+      const { callback, params } = payload
+      const response = yield call(checkRepeatQualityInspection, params);
+      if (response.code === 20000) {
+        callback.call(null, response.msgDetail)
+      } else {
+        message.error(response.msg);
+      }
     }
   },
 

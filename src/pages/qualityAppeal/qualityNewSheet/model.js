@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality, checkRepeatQualityInspection } from '@/pages/qualityAppeal/qualityNewSheet/services';
+import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
 import { getQualityDetail } from '@/pages/qualityAppeal/qualityAppeal/appeal/services';
 import BIModal from '@/ant_components/BIModal';
 import router from 'umi/router';
@@ -67,15 +67,6 @@ export default {
         message.error(result.msg);
       }
     },
-    *checkRepeatQualityInspection({ payload }, { call, put }) {
-      const { callback, params } = payload
-      const response = yield call(checkRepeatQualityInspection, params);
-      if (response.code === 20000) {
-        callback.call(null, response.msgDetail)
-      } else {
-        message.error(response.msg);
-      }
-    }
   },
   reducers: {
     save(state, action) {
