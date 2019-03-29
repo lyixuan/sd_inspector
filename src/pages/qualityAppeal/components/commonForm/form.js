@@ -41,9 +41,9 @@ class CreateQualityNewSheet extends React.Component {
         })
 
     }
-    changeRole = (value) => {
+    changeRole = (role) => {
         const values = this.props.form.getFieldsValue();
-        const obj = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === value) || {};
+        const obj = BiFilter("FRONT_ROLE_TYPE_LIST").find(item => item.id === role) || {};
         const { level } = obj;
 
         // this.props.form.setFieldsValue({ organize: [], qualityValue: null });
@@ -51,7 +51,7 @@ class CreateQualityNewSheet extends React.Component {
             level
         });
         if (this.props.onChangeRole) {
-            this.props.onChangeRole({ ...values, organize: [], qualityValue: null })
+            this.props.onChangeRole({ ...values, role, organize: [], qualityValue: null })
         }
 
 
@@ -300,7 +300,7 @@ class CreateQualityNewSheet extends React.Component {
             this.props.onCancel()
         }
     };
-    disabledDate=(current)=> {
+    disabledDate = (current) => {
         return current && current > moment().endOf('day');
     }
     render() {
