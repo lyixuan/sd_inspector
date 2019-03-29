@@ -105,7 +105,6 @@ class CreateQualityNewSheet extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log(err, values)
                 const { violationLevelObj } = this.props;
                 const { violationLevel } = violationLevelObj;
                 if (this.props.onSubmit) {
@@ -326,7 +325,7 @@ class CreateQualityNewSheet extends React.Component {
                                         rules: [{ required: true, message: '请输入邮箱' }],
                                     })(<BIInput placeholder="请输入" style={{ width: 170 }} />)}
                                 </Form.Item>
-                                <div className={styles.text}>@sunland.com</div>
+                                <div className={styles.text}>@sunlands.com</div>
                                 <div>
                                     <BIButton type="primary" onClick={this.getOrgMapByMail} loading={this.props.mailDataLoading}>
                                         查询
