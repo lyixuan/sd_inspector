@@ -310,13 +310,20 @@ function dealQuarys(pm) {
     p.status = o.status;
     p.appealType = o.appealType;
   }
-  if (p.violationLevel) {
-    p.violationLevel = p.violationLevel.map(v => Number(v))
+
+  if (p.violationLevel && p.violationLevel.length>0) {
+    p.violationLevel = p.violationLevel.map(v=>Number(v))
+  } else {
+    p.violationLevel = undefined;
   }
-  if (p.dimensionIdList) {
-    p.dimensionIdList = p.dimensionIdList.map(v => Number(v))
+  if (p.dimensionIdList && p.dimensionIdList.length>0) {
+    p.dimensionIdList = p.dimensionIdList.map(v=>Number(v))
+  } else {
+    p.dimensionIdList = undefined;
   }
-  if (p.qualityNum === '') {
+  if (p.qualityNum && p.qualityNum !== '') {
+    p.qualityNum = p.qualityNum.trim();
+  } else {
     p.qualityNum = undefined
   }
   return p;
