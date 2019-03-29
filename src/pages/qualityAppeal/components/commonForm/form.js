@@ -160,20 +160,7 @@ class CreateQualityNewSheet extends React.Component {
             }
         }
     };
-    // 上传附件
-    // 文件预上传判断
-    beforeUpload = file => {
-        const arr = file.name.split('.');
-        isZip = arr[arr.length - 1] === 'zip' || arr[arr.length - 1] === 'rar';
-        if (!isZip) {
-            message.error('文件仅支持zip或rar格式!');
-        }
-        isLt10M = file.size / 1024 / 1024 < 10;
-        if (!isLt10M) {
-            message.error('文件不能大于10MB！');
-        }
-        return isZip && isLt10M;
-    };
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
