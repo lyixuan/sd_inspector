@@ -227,7 +227,22 @@ class CreateQualityNewSheet extends React.Component {
         const isShowPerformance = qualityType === 1 && role !== 'csleader' && role !== 'csofficer';
         if (isShowCreate) return this.renderQualityType_create();
         if (isShowPerformance) return this.renderQualityType_performance();
-    }
+    };
+    checkQuality = (rule, value, callback) => {
+        if (Number(value) >= 0) {
+            callback();
+            return;
+        }
+        callback('请输入大于0的数字');
+    };
+    checkScore = (rule, value, callback) => {
+        const reg = /^[1-9]\d*$/;
+        if (reg.test(value)) {
+            callback();
+            return;
+        }
+        callback('请输入大于0的正整数');
+    };
     renderQualityType_performance = () => {
         const { getFieldDecorator } = this.props.form;
         const { params } = this.props;
@@ -237,7 +252,7 @@ class CreateQualityNewSheet extends React.Component {
                     <span className={styles.i}>*</span><Form.Item label="扣除绩效">
                         {getFieldDecorator('qualityValue', {
                             initialValue: params.qualityType,
-                            rules: [{ required: true, message: '请输入扣除绩效' }],
+                            rules: [{ validator: this.checkQuality }]
                         })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
                         <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}>%</span>
                     </Form.Item>
@@ -256,6 +271,8 @@ class CreateQualityNewSheet extends React.Component {
                             {getFieldDecorator('qualityValue', {
                                 initialValue: params.qualityValue,
                                 rules: [{ required: true, message: '请输入合法学分' }],
+                                // rules: [{validator:this.checkScore}]
+
                             })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
                             <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}></span>
                         </Form.Item>
@@ -291,6 +308,7 @@ class CreateQualityNewSheet extends React.Component {
         const { formType, actionType } = this.props;
         const upLoadTypeObj = BiFilter('QUALITY_UPLOAD_TYPE').find(item => item.name === formType) || {};
         const { attUrl = '' } = this.props.params;
+        const name = attUrl && attUrl.split('/')[3];
         if (actionType !== 'appeal') {
             return (<Upload
                 {...uploadAttachment()}
@@ -305,7 +323,7 @@ class CreateQualityNewSheet extends React.Component {
             </Upload>)
         } else {
             return (
-                attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text="下载附件" />) : null
+                attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} textClassName={styles.downCls} />) : null
             )
         }
     }
