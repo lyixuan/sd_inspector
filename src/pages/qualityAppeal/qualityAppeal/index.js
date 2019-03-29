@@ -453,7 +453,14 @@ class QualityAppeal extends React.Component {
                 </span>
               </AuthButton>
             ) : null}
-            {status === 2 || status === 4 || status === 6 || status === 8 ? (
+            {status === 2 ||  status === 6 ? (
+              <AuthButton authority='/inspector/qualityAppeal/qualityAppeal/appealsop'>
+                <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
+                  审核
+                </span>
+              </AuthButton>
+            ) : null}
+            {status === 4 || status === 8 ? (
               <AuthButton authority='/qualityAppeal/qualityAppeal/appeal'>
                 <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
                   审核
