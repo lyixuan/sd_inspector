@@ -13,7 +13,8 @@ export class FormModels extends BaseModels {
             reduceScoreDate: null,     // @params(Moment)质检扣分日期
             dimensionId: null,         // @params(Number)分维ID
             dimension: [],             // @params(Array)违规分类
-            customerMail: '',          // @params(String)客诉主管邮箱
+            masterMail: '',            // @params(String)客诉主管邮箱
+            masterQualityValue: null,   // @params(Number)客诉主管扣分绩效
             qualityValue: null,        // @params(Number)扣除学分/绩效
             attUrl: '',                // @params(String)附件地址	
             desc: '',                  // @params(String)违规详情

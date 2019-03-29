@@ -113,26 +113,25 @@ class CreateQualityNewSheet extends React.Component {
     onChangeRole = (values) => {
         const { organize } = values;
         let newParams = {};
-        // if (organize.length === 0) {
-        //     newParams = {
-        //         collegeId: undefined, familyId: undefined, groupId: undefined, collegeName: undefined, familyName: undefined, groupName: undefined,
-        //         organizeName: '',
-        //     }
-        // }
-        console.log()
+        if (organize.length === 0) {
+            newParams = {
+                collegeId: undefined, familyId: undefined, groupId: undefined, collegeName: undefined, familyName: undefined, groupName: undefined,
+                organizeName: '',
+            }
+        }
         this.saveParams({ ...values, ...newParams, });
     }
     onChangeOrg = (orgObj) => {
         this.saveParams(orgObj);
     }
     onChangedimensionTree = (params) => {
-        const { dimension, violationLevelObj } = params;
+        const { violationLevelObj, ...others } = params;
         const newviolationLevelObj = {
             ...violationLevelObj,
             violationLevelName: violationLevelObj.violationLevelname
         }
         this.setState({ violationLevelObj: newviolationLevelObj });
-        this.saveParams({ dimension });
+        this.saveParams({ ...others });
     }
     setAttUrl = (attUrl, newParams) => {
         this.saveParams({ ...newParams, attUrl });
