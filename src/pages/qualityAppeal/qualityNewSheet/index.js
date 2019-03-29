@@ -118,8 +118,10 @@ function dealQuarys(pm) {
   } else {
     p.qualityType = undefined;
   }
-  if (p.statusList) {
+  if (p.statusList && p.statusList.length > 0) {
     p.statusList = p.statusList.map(v => Number(v))
+  } else {
+    p.statusList = undefined;
   }
   if (p.violationLevelList) {
     p.violationLevelList = p.violationLevelList.map(v => Number(v))
