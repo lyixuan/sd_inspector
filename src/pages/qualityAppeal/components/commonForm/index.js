@@ -31,7 +31,6 @@ class CreateQualityNewSheet extends React.Component {
         this.state = {
             formParams: this.formModels.initFormModel,
             violationLevelObj: {},  // 用于储存违规等级,
-            isShowConfirmModel: false,
             isShowOrderNumConfirmModel: false,
             msgDetail: '',
         };
@@ -154,16 +153,14 @@ class CreateQualityNewSheet extends React.Component {
     }
     checkoutOrderNumCallBack = (params) => {
         //审核状态下不弹框
-        const { actionType } = this.props;
-        if (!params) {
-            if (actionType === 'appeal') {
-                this.confirmModelSubmit()
-            } else {
-                this.setState({ isShowConfirmModel: true });
-            }
+        const { code, msg } = params || {};
+        let msgDetail = '';
+        if (code === 20000) {
+            msgDetail = '该条信息将被提交审核,确定提交吗?'
         } else {
-            this.setState({ isShowOrderNumConfirmModel: true, msgDetail: params });
+            msgDetail = msg || '该条信息将被提交审核,确定提交吗?';
         }
+        this.setState({ isShowOrderNumConfirmModel: true, msgDetail });
     }
     confirmModelSubmit = () => {
         if (this.props.onSubmit) {
@@ -182,7 +179,7 @@ class CreateQualityNewSheet extends React.Component {
         this.props.history.goBack();
     }
     render() {
-        const { formParams, isShowConfirmModel, isShowOrderNumConfirmModel, msgDetail } = this.state;
+        const { formParams, isShowOrderNumConfirmModel, msgDetail } = this.state;
         const { orgList, children } = this.props;
         return (<div>
             {/* form区域 */}
@@ -219,22 +216,6 @@ class CreateQualityNewSheet extends React.Component {
                 ]}
             >
                 <div className={styles.modalWrap}>{msgDetail}</div>
-            </BIModal>
-            <BIModal
-                key="提交审核"
-                title="提交审核"
-                visible={isShowConfirmModel}
-                onCancel={this.changeConfirmModel.bind(null, false)}
-                footer={[
-                    <BIButton style={{ marginRight: 10 }} onClick={this.changeConfirmModel.bind(null, false)}>
-                        取消
-            </BIButton>,
-                    <BIButton type="primary" onClick={this.confirmModelSubmit}>
-                        确定
-            </BIButton>,
-                ]}
-            >
-                <div className={styles.modalWrap}>该条记录将被提交给质检主管进行审核，确定提交吗？</div>
             </BIModal>
         </div>)
     }

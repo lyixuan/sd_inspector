@@ -141,12 +141,12 @@ class CreateQualityNewSheet extends React.Component {
     };
     uploadChange = (info) => {
         // tip 目前支持上传一个文件
-        let { fileList = [],file={} } = info || {};
+        let { fileList = [], file = {} } = info || {};
         if (isLt10M) {
-          fileList = fileList.slice(-1);
-          if (isZip) {
-            this.setState({ fileList });
-          }
+            fileList = fileList.slice(-1);
+            if (isZip) {
+                this.setState({ fileList });
+            }
         }
         let attUrl = '';
         if (fileList.length > 0) {
@@ -305,7 +305,7 @@ class CreateQualityNewSheet extends React.Component {
         if (actionType !== 'appeal') {
             return (<Upload
                 {...uploadAttachment()}
-              fileList={this.state.fileList}
+                fileList={this.state.fileList}
                 data={{ type: upLoadTypeObj.id || 1 }}
                 onChange={this.uploadChange}
                 beforeUpload={this.beforeUpload}
@@ -532,7 +532,7 @@ class CreateQualityNewSheet extends React.Component {
                                         <BIButton onClick={this.onCancel}>取消</BIButton>
                                     </span>
                                     <span className={styles.gutterBtn1}>
-                                        <BIButton type="primary" htmlType="submit" loading={this.props.submitLoading}>提交</BIButton>
+                                        <BIButton type="primary" htmlType="submit" loading={this.props.checkRepeatQualityIng}>提交</BIButton>
                                     </span>
                                 </div>
                             </Col>

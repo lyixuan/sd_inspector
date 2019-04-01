@@ -144,7 +144,7 @@ export default {
       const { callback, params } = payload
       const response = yield call(checkRepeatQualityInspection, params);
       if (response.code === 20000) {
-        callback.call(null, response.msgDetail)
+        callback.call(null, response.data || {})
       } else {
         message.error(response.msg);
       }
