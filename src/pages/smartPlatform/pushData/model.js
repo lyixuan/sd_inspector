@@ -1,11 +1,12 @@
 import { message } from 'antd/lib/index';
-import { getData } from './services';
+import { getData, exportData } from './services';
 
 export default {
   namespace: 'PushDataModel',
 
   state: {
-    dataList: []
+    dataList: [],
+    exprotUrl: null,
   },
 
   effects: {
@@ -17,14 +18,36 @@ export default {
         message.error(data.msg);
       }
     },
+    *exportData({ payload }, { call, put }) {
+      const result = yield call(exportData, { ...payload });
+      if (result) {
+        downBlob(result.data, '推送明细数据.xlsx');
+        message.success('导出成功');
+      } else {
+        message.error('导出失败');
+      }
+    },
   },
 
   reducers: {
     save(state, action) {
       return { ...state, ...action.payload };
     },
+    exportData(state, action) {
+      return { ...state, ...action.payload };
+    },
   },
 
-  subscriptions: {
-  },
+  subscriptions: {},
 };
+function downBlob(blob, name) {
+  // 接收返回blob类型的数据
+  const downloadElement = document.createElement('a');
+  const href = window.URL.createObjectURL(blob); // 创建下载的链接
+  downloadElement.href = href;
+  downloadElement.download = name; // 下载后文件名
+  document.body.appendChild(downloadElement);
+  downloadElement.click(); // 点击下载
+  document.body.removeChild(downloadElement); // 下载完成移除元素
+  window.URL.revokeObjectURL(href); // 释放掉blob对象
+}
