@@ -20,9 +20,9 @@ export class BaseModels {
             dimensionId: null,          // 分维ID
             primaryAssortmentId: null,  // 一级违规分类
             secondAssortmentId: null,   // 二级违规分类
-            thirdAssortmentId: null,    // 三级违规分类	
-            attUrl: '',                 // 附件地址	
-            desc: '',                   // 违规详情	
+            thirdAssortmentId: null,    // 三级违规分类
+            attUrl: '',                 // 附件地址
+            desc: '',                   // 违规详情
             masterMail: '',              // 客诉主管邮箱
             masterQualityValue: null,     // 客诉主管扣除绩效
             qualityValue: null,          // 扣除学分/绩效
@@ -31,6 +31,7 @@ export class BaseModels {
             collegeName: null,             // 学院名
             familyName: null,              // 家族名
             groupName: null,                // 小组名
+            qualityNum:null                 // 质检单号
 
         };
         this.modelData = this.handleInitData(qualityDetail);

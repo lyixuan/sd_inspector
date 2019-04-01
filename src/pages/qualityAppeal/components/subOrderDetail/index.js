@@ -14,6 +14,8 @@ export default class SubOrderDetailComponent extends React.Component {
       packageName,
       amount,
       classTeacherName,
+      collegeName,
+      familyName,
       groupName,
     } = data||{} ;
     return (
@@ -32,7 +34,7 @@ export default class SubOrderDetailComponent extends React.Component {
           </div>
           <div className={styles.secRow}>
             <div>班主任：{classTeacherName}</div>
-            <div>组织：{groupName}</div>
+            <div>组织：{collegeName}|{familyName}|{groupName}</div>
           </div>
         </div>
       </section>
