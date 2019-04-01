@@ -43,8 +43,9 @@ export default {
       const result = yield call(qualityExportExcel, params);
       if (result) {
         const { headers } = result.response || {};
-        const filename = headers.get('content-disposition');
-        downBlob(result.data, filename);
+        const filename = headers.get('content-disposition') || '';
+        const numNmae = filename.split('=?????')[1];
+        downBlob(result.data, `质检信息--${numNmae}`);
         message.success('导出成功');
       } else {
         message.error(result.msgDetail);
