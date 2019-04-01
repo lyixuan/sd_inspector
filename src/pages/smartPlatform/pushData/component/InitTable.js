@@ -100,27 +100,6 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    key: '1',
-    countDate: '2019-09-09',
-    examPlanNum: 32,
-    readNum: 900,
-    appRead: 100,
-    appUnread: 900,
-    wechatRead: 100,
-    wechatUnRead: 1001,
-    ttsRead: 100,
-    ttsUnread: 100,
-    pcRead: 100,
-    pcUnread: 100,
-    im1v1Read: 100,
-    im1v1Unread: 'abc',
-    callRead: 100,
-    callUnread: 100,
-  },
-];
-
 class InitTable extends Component {
   constructor(props) {
     super(props);
@@ -131,7 +110,6 @@ class InitTable extends Component {
   };
   render() {
     const { list, pageNum, total } = this.props.proData.pageInfo ? this.props.proData.pageInfo : {};
-    console.log(this.props.proData);
     const { loading } = this.props;
     const { onSizeChange } = this.props;
     return (
