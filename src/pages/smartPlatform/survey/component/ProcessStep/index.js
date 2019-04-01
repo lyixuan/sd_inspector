@@ -42,13 +42,16 @@ export default class ProcessStep extends PureComponent {
   };
   redirectDetails = obj => {
     console.log(obj);
-    if (!obj.stepType) {
-      return;
+    if (
+      PROVINCE_STEP.map(item => item.id)
+        .join('')
+        .indexOf(obj.stepType) >= 0
+    ) {
+      router.push({
+        pathname: '/smartPlatform/pushData',
+        query: { province: '北京市', nodeSign: obj.stepType },
+      });
     }
-    router.push({
-      pathname: '/smartPlatform/pushData',
-      query: { province: '北京市', nodeSign: obj.stepType },
-    });
   };
   initData = () => {
     const returnObj = {};
