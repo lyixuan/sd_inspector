@@ -31,7 +31,7 @@ export class BaseModels {
             collegeName: null,             // 学院名
             familyName: null,              // 家族名
             groupName: null,                // 小组名
-            qualityNum:null                 // 质检单号
+            qualityNum: null                 // 质检单号
 
         };
         this.modelData = this.handleInitData(qualityDetail);
@@ -74,13 +74,13 @@ export class BaseModels {
     getQualityValueFamter = (params) => {
         const { qualityValue } = params;
         const isPerformance = BaseModels.checkoutQualityPerfor(params);
-        return isPerformance && qualityValue && qualityValue > 0 ? (qualityValue || 0) * 100 : qualityValue;
+        return isPerformance && qualityValue && qualityValue > 0 ? (Number(qualityValue) * 100).toFixed(2) : qualityValue;
     }
     getMasterQualityValueFamter = (params) => {
         const { masterQualityValue } = params;
         // 暂不对其做处理
         // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-        return masterQualityValue && masterQualityValue > 0 ? Number(masterQualityValue || 0) * 100 : masterQualityValue;
+        return masterQualityValue && masterQualityValue > 0 ? (Number(masterQualityValue) * 100).toFixed(2) : masterQualityValue;
     }
     setQualityValueFamter = (params) => {
         const { qualityValue } = params;

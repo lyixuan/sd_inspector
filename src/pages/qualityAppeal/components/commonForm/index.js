@@ -23,6 +23,7 @@ import styles from './style.less';
     dimensionList2: qualityAppealHome.dimensionList2, // 班主任分维
     mailDataLoading: loading.effects['qualityAppealHome/getOrgMapByMail'],
     getOrderNumLoading: loading.effects['qualityAppealHome/getOrderNum'],
+    checkRepeatQualityIng: loading.effects['qualityAppealHome/checkRepeatQualityInspection'],
 }))
 class CreateQualityNewSheet extends React.Component {
     constructor(props) {
@@ -164,6 +165,7 @@ class CreateQualityNewSheet extends React.Component {
     }
     confirmModelSubmit = () => {
         if (this.props.onSubmit) {
+            console.log(this.tmpParams)
             this.props.onSubmit(this.tmpParams);
         }
     }
