@@ -14,11 +14,10 @@ import { message } from 'antd/lib/index';
 class EditQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      appealParam: {},
-    };
+    this.state = {};
     const { query = {} } = this.props.location;
     this.query = query;
+    this.appealParam={};
   }
   componentDidMount() {
     this.getQualityDetailData();
@@ -33,12 +32,10 @@ class EditQualityNewSheet extends React.Component {
     });
   };
   setStateData = val => {
-    this.setState({
-      appealParam: val,
-    });
+    this.appealParam = val;
   };
   onSubmit = params => {
-    const { appealParam } = this.state;
+    const { appealParam } = this;
     if (Number(appealParam.checkResult) !== 0 && !appealParam.checkResult) {
       message.warn('审核结果为必选项');
       return;
@@ -63,7 +60,7 @@ class EditQualityNewSheet extends React.Component {
 
   render() {
     const { qualityDetail = {} } = this.props.qualityNewSheet;
-    const { orderDetail, qualityAudit = [], ...others } = qualityDetail;
+    const {  qualityAudit = [], ...others } = qualityDetail;
     const newqualityAudit = [];
     qualityAudit && qualityAudit.forEach((v) => {
       newqualityAudit.push({
