@@ -406,7 +406,7 @@ class QualityAppeal extends React.Component {
   };
 
   onSubmitAppeal = (record) => {
-    this.onJumpPage({ id: record.id, appealType: record.appealType }, '/qualityAppeal/qualityAppeal/launch');
+    this.onJumpPage({ id: record.id, appealType: record.status }, '/qualityAppeal/qualityAppeal/launch');
   };
 
   onAppeal = (record) => {

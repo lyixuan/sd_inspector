@@ -19,14 +19,14 @@ let isZip = false;
 class Launch extends React.Component {
   constructor(props) {
     super(props);
-    const {id=null,appealType}=props.location.query;
+    const {id=null}=props.location.query;
     this.state = {
       paramId: {
         id,
       },
       params: {
         firstAppealEndDate: undefined,
-        type: appealType||1,
+        type: 1,// 一次提交申诉
         attUrl: '123',
         desc: '',
         qualityId: id,
@@ -49,9 +49,12 @@ class Launch extends React.Component {
     });
   }
   handleSubmit = () => {
+    const {appealType}=this.props.location.query;
     let params = this.state.params;
     params.firstAppealEndDate = this.firstAppealEndDate;
-
+    if(Number(appealType)===5||Number(appealType)===7){// 二次提交申诉
+      params.type=2;
+    }
     if (!this.state.params.desc) {
       message.warn('请填写申诉说明');
       return;
