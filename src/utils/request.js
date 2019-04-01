@@ -74,4 +74,11 @@ request.interceptors.request.use((url, options) => {
     options,
   };
 });
+request.interceptors.response.use((response) => {
+  console.log(response.headers.keys());
+  for (let i of response.headers.keys()) {
+    console.log(response.headers.keys()[i])
+  }
+  return response;
+});
 export default request;
