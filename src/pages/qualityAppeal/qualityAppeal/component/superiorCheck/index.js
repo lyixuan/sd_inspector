@@ -22,8 +22,8 @@ export default class SuperiorCheckComponent extends React.Component {
             <div>
               <div className={styles.container}>
                 <div className={styles.secRow}>
-                  <div className={masterAppealCheck.checkResult == 2 ? styles.resultDotColor1 : styles.resultDotColor2}>
-                    审核结果： {masterAppealCheck.checkResult == 2 ? '通过' : '不通过'}
+                  <div className={Number(masterAppealCheck.checkResult) ? styles.resultDotColor1 : styles.resultDotColor2}>
+                    审核结果： {Number(masterAppealCheck.checkResult) === 1 ? '通过' : '不通过'}
                   </div>
                 </div>
               </div>
