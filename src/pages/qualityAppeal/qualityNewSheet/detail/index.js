@@ -38,7 +38,7 @@ class QualityDetail extends React.Component {
   render() {
     const {qualityDetail={}} = this.props;
     const qualityDetailData = qualityDetail.QualityDetailData||{};
-    const {masterQualityValue='',masterMail=''} = qualityDetail;
+    const {masterQualityValue='',masterMail=''} = qualityDetailData;
 
     return (
       <div className={styles.detailContainer}>
