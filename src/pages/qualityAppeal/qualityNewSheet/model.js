@@ -42,7 +42,9 @@ export default {
       const params = payload.params;
       const result = yield call(qualityExportExcel, params);
       if (result) {
-        downBlob(result.data, 'name.xlsx');
+        const { headers } = result.response || {};
+        const filename = headers.get('content-disposition');
+        downBlob(result.data, filename);
         message.success('导出成功');
       } else {
         message.error(result.msgDetail);
