@@ -171,20 +171,12 @@ class CreateQualityNewSheet extends React.Component {
         }
     }
     onSubmit = (params) => {
-        const { formParams } = this.state;
+        const { formParams, violationLevelObj } = this.state;
         const assginObject = Object.assign({}, formParams, params);
-        const newParams = this.formModels.transFormParams(assginObject);
-        const { orderNum } = newParams;
+        const newParams = this.formModels.transFormParams(assginObject, violationLevelObj);
         this.tmpParams = newParams;
         this.saveParams(params);
-        if (orderNum) {
-            this.checkRepeatQualityInspection(newParams);
-            return;
-        }
-        if (this.props.onSubmit) {
-            this.props.onSubmit(newParams)
-        }
-
+        this.checkRepeatQualityInspection(newParams);
     }
     onCancel = () => {
         this.props.history.goBack();

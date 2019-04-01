@@ -35,6 +35,21 @@ export class BaseModels {
         };
         this.modelData = this.handleInitData(qualityDetail);
     }
+    static checkoutQualityScore = (params = {}) => {
+        const { qualityType, role } = params;
+        const isShowCreate = qualityType === 2 && role !== 'class' && role !== 'group' && role !== 'family';
+        return isShowCreate;
+    }
+    static checkoutQualityPerfor = (params) => {
+        const { qualityType, role } = params;
+        const isShowPerformance = qualityType === 1 && role !== 'csleader' && role !== 'csofficer';
+        return isShowPerformance;
+    }
+    static checkoutQualityMaster = (params = {}, violationLevelObj = {}) => {
+        const { qualityType, role } = params;
+        const isShowMasterPerformance = (role === 'csleader' || role === 'csofficer') && qualityType === 1 && (violationLevelObj.violationLevelName === '一级违规' || violationLevelObj.violationLevelName === '特级违规');
+        return isShowMasterPerformance;
+    }
     handleInitData = (propsData = {}) => {
         const initModel = JSON.parse(JSON.stringify(this.initModel));
         if (!propsData || typeof propsData !== 'object') {
@@ -55,6 +70,27 @@ export class BaseModels {
             collegeId, familyId, groupId, collegeName, familyName, groupName, role: userType, userId: id, name, organizeName, organize
         }
     }
+    getQualityValueFamter = (params) => {
+        const { qualityValue } = params;
+        const isPerformance = BaseModels.checkoutQualityPerfor(params);
+        return isPerformance && qualityValue && qualityValue > 0 ? (qualityValue || 0) * 100 : qualityValue;
+    }
+    getMasterQualityValueFamter = (params) => {
+        const { masterQualityValue } = params;
+        // 暂不对其做处理
+        // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
+        return masterQualityValue && masterQualityValue > 0 ? Number(masterQualityValue || 0) * 100 : masterQualityValue;
+    }
+    setQualityValueFamter = (params) => {
+        const { qualityValue } = params;
+        const isPerformance = BaseModels.checkoutQualityPerfor(params);
+        return isPerformance && qualityValue && qualityValue > 0 ? Number(qualityValue || 0) / 100 : qualityValue;
+    }
+    setMasterQualityValueFamter = (params, violationLevelObj) => {
+        const { masterQualityValue } = params;
+        // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
+        return masterQualityValue && masterQualityValue > 0 ? Number(masterQualityValue || 0) / 100 : masterQualityValue;
+    }
     transOriginParams = (params = {}) => {
         const newParams = {};
         for (let key in this.initModel) {
@@ -74,7 +110,11 @@ export class BaseModels {
             violationDate: this.transMoment(violationDate),
             reduceScoreDate: this.transMoment(reduceScoreDate),
         }
-        return { ...others, ...dateTimeObj, ...groupObj, dimension, organizeName, organize };
+        const handleQualityObj = {
+            qualityValue: this.getQualityValueFamter(params),
+            masterQualityValue: this.getMasterQualityValueFamter(params)
+        }
+        return { ...others, ...dateTimeObj, ...groupObj, ...handleQualityObj, dimension, organizeName, organize };
     }
     transMoment = (date) => {
         return date ? moment(date) : null;

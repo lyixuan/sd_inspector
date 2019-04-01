@@ -31,21 +31,26 @@ export class FormModels extends BaseModels {
 
         };
     }
+
     handleInitData = () => {
         const initModel = JSON.parse(JSON.stringify(this.initFormModel));
         return {
             ...initModel,
         }
     }
-    transFormParams = (params) => {
-        const { organize = [], dimension = [], violationDate, reduceScoreDate, organizeName, ...others } = params || {};
+    transFormParams = (params, violationLevelObj) => {
+        const { organize = [], dimension = [], violationDate, reduceScoreDate, organizeName, qualityValue, ...others } = params || {};
         const [collegeId = params.collegeId, familyId = params.familyId, groupId = params.groupId] = organize;
         const [primaryAssortmentId, secondAssortmentId, thirdAssortmentId] = dimension;
         const dateTimeObj = {
             violationDate: this.transDateTime(violationDate),
             reduceScoreDate: this.transDateTime(reduceScoreDate),
         }
-        const newParams = { ...others, ...dateTimeObj, primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId, familyId, groupId };
+        const handleQualityObj = {
+            qualityValue: this.setQualityValueFamter(params),
+            masterQualityValue: this.setMasterQualityValueFamter(params, violationLevelObj)
+        }
+        const newParams = { ...others, ...dateTimeObj, ...handleQualityObj, primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId, familyId, groupId };
         return newParams;
     }
     violationLevel = (params = {}) => {

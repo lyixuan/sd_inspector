@@ -10,10 +10,10 @@ import { BiFilter } from '@/utils/utils';
 import DownLoad from '@/components/DownLoad';
 import moment from 'moment';
 import { STATIC_HOST } from '@/utils/constants';
-import { IS_NUMBER } from '@/utils/regex';
 import styles from './style.less';
 import SubOrderDetail from '../subOrderDetail';
 import { uploadAttachment } from '../../services';
+import { BaseModels } from './_utils/baseModels';
 
 
 
@@ -49,7 +49,7 @@ class CreateQualityNewSheet extends React.Component {
         if (this.props.onChangedimensionTree) {
             this.props.onChangedimensionTree({
                 violationLevelObj: {}, dimension: [], dimensionId: undefined, qualityType,
-                masterQualityValue: null, masterMail: null,
+                masterQualityValue: null, masterMail: null, qualityValue: null,
             });
         }
     }
@@ -177,14 +177,14 @@ class CreateQualityNewSheet extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            if (!err) {
-                const { violationLevelObj } = this.props;
-                const { violationLevel } = violationLevelObj;
-                if (this.props.onSubmit) {
-                    this.props.onSubmit({ ...values, violationLevel });
-                }
-
+            // if (!err) {
+            const { violationLevelObj } = this.props;
+            const { violationLevel } = violationLevelObj;
+            if (this.props.onSubmit) {
+                this.props.onSubmit({ ...values, violationLevel });
             }
+
+            // }
 
         });
     }
@@ -192,9 +192,8 @@ class CreateQualityNewSheet extends React.Component {
         const { getFieldDecorator } = this.props.form;
         const { params } = this.props;
         const values = this.props.form.getFieldsValue();
-        const { qualityType, role } = values || {};
         const { violationLevelObj } = this.props;
-        const isShowMasterMail = (role === 'csleader' || role === 'csofficer') && qualityType === 1 && (violationLevelObj.violationLevelName === '一级违规' || violationLevelObj.violationLevelname === '特级违规');
+        const isShowMasterMail = BaseModels.checkoutQualityMaster(values, violationLevelObj)
         if (isShowMasterMail) {
             return (
                 <Row style={{ lineHeight: '40px' }}>
@@ -222,9 +221,11 @@ class CreateQualityNewSheet extends React.Component {
     }
     renderQualityValue = () => {
         const values = this.props.form.getFieldsValue();
-        const { qualityType, role } = values || {};
-        const isShowCreate = qualityType === 2 && role !== 'class' && role !== 'group' && role !== 'family';
-        const isShowPerformance = qualityType === 1 && role !== 'csleader' && role !== 'csofficer';
+        // const { qualityType, role } = values || {};
+        // const isShowCreate = qualityType === 2 && role !== 'class' && role !== 'group' && role !== 'family';
+        // const isShowPerformance = qualityType === 1 && role !== 'csleader' && role !== 'csofficer';
+        const isShowCreate = BaseModels.checkoutQualityScore(values);
+        const isShowPerformance = BaseModels.checkoutQualityPerfor(values);
         if (isShowCreate) return this.renderQualityType_create();
         if (isShowPerformance) return this.renderQualityType_performance();
     };
