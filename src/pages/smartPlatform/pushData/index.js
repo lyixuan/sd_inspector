@@ -28,7 +28,7 @@ class PushData extends React.Component {
       beginDate: moment(new Date(new Date().getTime() - 24 * 60 * 60 * 1000), dateFormat),
       endDate: moment(new Date(new Date().getTime() - 24 * 60 * 60 * 1000), dateFormat),
       page: 1,
-      pageSize: 15,
+      pageSize: 10,
     };
     this.collegeList = [];
     this.familyList = [];
@@ -76,25 +76,17 @@ class PushData extends React.Component {
   };
   exportData = () => {
     const { province, collegeId, familyId, nodeSign, beginDate, endDate } = this.state;
-    this.props
-      .dispatch({
-        type: 'PushDataModel/exportData',
-        payload: {
-          province: province,
-          collegeId: collegeId,
-          familyId: familyId,
-          nodeSign: nodeSign,
-          beginDate: beginDate,
-          endDate: endDate,
-        },
-      })
-      .then(res => {
-        // debugger;
-        // router.replace({
-        //   pathname: this.props.location.pathname,
-        //   query: this.saveUrlParams ? { p: this.saveUrlParams } : '',
-        // });
-      });
+    this.props.dispatch({
+      type: 'PushDataModel/exportData',
+      payload: {
+        province: province,
+        collegeId: collegeId,
+        familyId: familyId,
+        nodeSign: nodeSign,
+        beginDate: beginDate,
+        endDate: endDate,
+      },
+    });
   };
   // 触发搜索
   refreshList = () => {

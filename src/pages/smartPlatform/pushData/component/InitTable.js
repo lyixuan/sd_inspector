@@ -130,8 +130,8 @@ class InitTable extends Component {
     this.props.exportData();
   };
   render() {
-    const { pageInfo = {} } = this.props.proData;
-    console.log(pageInfo);
+    const { list, pageNum, total } = this.props.proData.pageInfo ? this.props.proData.pageInfo : {};
+    console.log(this.props.proData);
     const { loading } = this.props;
     const { onSizeChange } = this.props;
     return (
@@ -146,7 +146,7 @@ class InitTable extends Component {
           <div className={styles.tableBox}>
             <BITable
               rowKey={record => record.id}
-              dataSource={pageInfo.list || []}
+              dataSource={list || []}
               columns={columns}
               pagination={false}
               loading={loading}
@@ -159,8 +159,9 @@ class InitTable extends Component {
             </div>
             <Pagination
               showQuickJumper
-              defaultCurrent={pageInfo.pageNum}
-              total={pageInfo.total}
+              defaultCurrent={pageNum}
+              total={total}
+              pageSize={10}
               onChange={onSizeChange}
             />
           </div>

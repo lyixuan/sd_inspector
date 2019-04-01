@@ -181,10 +181,10 @@ export const provinceJson = [
 ];
 // 报考步骤
 export const PROVINCE_STEP = [
-  { id: 1, name: '新生注册' },
-  { id: 2, name: '现场确认' },
-  { id: 3, name: '报考科目&缴费' },
-  { id: 4, name: '补报名' },
+  { id: 0, name: '新生注册' },
+  { id: 1, name: '现场确认' },
+  { id: 2, name: '报考科目&缴费' },
+  { id: 3, name: '补报名' },
 ];
 // 报考状态
 export const PROVINCE_STATUS = [
@@ -281,13 +281,13 @@ export const VIOLATION_LEVEL = [
 // 申诉状态 前端状态
 export const APPEAL_STATE = [
   { id: 1, name: '待申诉', type: 1 },
-  { id: 2, name: '一次SOP待审核', type: 1 },// 1
+  { id: 2, name: '一次SOP待审核', type: 1 }, // 1
   { id: 3, name: '一次SOP已驳回', type: 1 },
-  { id: 4, name: '一次质检主管待审核', type: 1 },//
+  { id: 4, name: '一次质检主管待审核', type: 1 }, //
   { id: 5, name: '一次质检主管已驳回', type: 1 },
-  { id: 6, name: '二次SOP待审核', type: 1 },//
+  { id: 6, name: '二次SOP待审核', type: 1 }, //
   { id: 7, name: '二次SOP已驳回', type: 1 },
-  { id: 8, name: '二次质检主管待审核', type: 1 },//2
+  { id: 8, name: '二次质检主管待审核', type: 1 }, //2
   { id: 9, name: '一次申诉审核通过', type: 2 },
   { id: 10, name: '一次申诉超时', type: 2 },
   { id: 11, name: '二次申诉审核通过', type: 2 },
@@ -328,20 +328,11 @@ export const FRONT_ROLE_TYPE_LIST = [
   { id: 'csofficer', name: '客诉专员', level: '1', isPerformance: 0 },
 ];
 // 学院类型
-export const FAMILY_TYPE = [
-  { id: 0, name: '自考' },
-  { id: 1, name: '壁垒' },
-];
+export const FAMILY_TYPE = [{ id: 0, name: '自考' }, { id: 1, name: '壁垒' }];
 // 学院类型
-export const APPEAL_RESULT_TYPE = [
-  { id: 1, name: '通过' },
-  { id: 0, name: '驳回' },
-]
+export const APPEAL_RESULT_TYPE = [{ id: 1, name: '通过' }, { id: 0, name: '驳回' }];
 // 质检上传类型
-export const QUALITY_UPLOAD_TYPE = [
-  { id: 1, name: 'quality' },
-  { id: 2, name: 'appeal' },
-]
+export const QUALITY_UPLOAD_TYPE = [{ id: 1, name: 'quality' }, { id: 2, name: 'appeal' }];
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,

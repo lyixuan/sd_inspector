@@ -80,9 +80,10 @@ export default class ProcessStep extends PureComponent {
       const endDate = obj.endDate ? moment(obj.endDate).format('MMMDo') : '';
       const dateTime = beginDate + endDate ? `${beginDate}-${endDate}` : '暂未公布';
       const { stepStatus } = obj; // 报考状态
-      const examNodeLightHight = stepStatus === 3 || stepStatus === 1 || stepStatus === -1;
+      console.log(stepStatus, beginDate + endDate);
+      const examNodeLightHight = stepStatus === 2 || stepStatus === 0 || stepStatus === -1;
       const toolTips =
-        examNodeLightHight || obj ? (
+        examNodeLightHight || beginDate + endDate == '' ? (
           <></>
         ) : (
           <StepStatusHover data={obj} isVisible={item.isVisible} />
@@ -95,7 +96,7 @@ export default class ProcessStep extends PureComponent {
           className={examNodeLightHight ? styles.stepItem2 : styles.stepItem1}
           key={item.id}
         >
-          {stepStatus === 3 ? <div className={styles.stepOver}>已结束</div> : null}
+          {stepStatus === 2 ? <div className={styles.stepOver}>已结束</div> : null}
           <h4 className={styles.processName} key={`${item.id}h4`}>
             {item.name}
           </h4>
