@@ -15,9 +15,6 @@ import SubOrderDetail from '../subOrderDetail';
 import { uploadAttachment } from '../../services';
 import { BaseModels } from './_utils/baseModels';
 
-
-
-
 const { Option } = BISelect;
 const { TextArea } = Input;
 const format = 'YYYY-MM-DD';
@@ -303,24 +300,29 @@ class CreateQualityNewSheet extends React.Component {
         const { attUrl = '' } = this.props.params;
         const name = attUrl && attUrl.split('/')[3];
         if (actionType !== 'appeal') {
-            return (<Upload
-                {...uploadAttachment()}
-                fileList={this.state.fileList}
-                data={{ type: upLoadTypeObj.id || 1 }}
-                onChange={this.uploadChange}
-                beforeUpload={this.beforeUpload}
-            >
-                <BIButton type="primary"
+            return (
+              <>
+                <Upload
+                    {...uploadAttachment()}
+                    fileList={this.state.fileList}
+                    data={{ type: upLoadTypeObj.id || 1 }}
+                    onChange={this.uploadChange}
+                    beforeUpload={this.beforeUpload}
                 >
-                    上传附件
-</BIButton>
-            </Upload>)
+                    <BIButton type="primary"
+                    >
+                        上传附件
+                    </BIButton>
+                </Upload>
+                {attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={()=>name} textClassName={styles.downCls} />) : null}
+              </>
+            )
         } else {
             return (
                 attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={()=>name} textClassName={styles.downCls} />) : null
             )
         }
-    }
+    };
     onCancel = () => {
         if (this.props.onCancel) {
             this.props.onCancel()
