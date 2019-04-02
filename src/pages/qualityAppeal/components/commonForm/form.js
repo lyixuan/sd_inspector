@@ -32,7 +32,7 @@ class CreateQualityNewSheet extends React.Component {
     componentWillReceiveProps(next){
       const newUrl = next.params.attUrl;
       const oldUrl = this.props.params.attUrl;
-      if(newUrl!==oldUrl){
+      if(newUrl!==oldUrl && !oldUrl){
         this.setState({
           fileList: newUrl&&newUrl!==''?[{
             uid: '-1',
@@ -40,7 +40,8 @@ class CreateQualityNewSheet extends React.Component {
             status: 'done',
             url: newUrl,
           }]:[]
-        })
+        });
+
       }
     }
     getOrgMapByMail = () => {

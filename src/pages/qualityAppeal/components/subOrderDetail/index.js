@@ -3,7 +3,17 @@ import moment from 'moment';
 import styles from './style.css';
 
 export default class SubOrderDetailComponent extends React.Component {
-
+  renderOrd = (collegeName,familyName,groupName)=>{
+    if(collegeName&&familyName&&groupName){
+      return `${collegeName} | ${familyName} | ${groupName}`
+    }else if(collegeName&&familyName){
+      return `${collegeName} | ${familyName}`
+    }else if(collegeName){
+      return `${collegeName}`
+    }else {
+      return null
+    }
+  };
   render() {
     const {data} = this.props;
     const {
@@ -18,6 +28,7 @@ export default class SubOrderDetailComponent extends React.Component {
       familyName,
       groupName,
     } = data||{} ;
+
     return (
       <section className={styles.subOrderCon}>
         <span className={styles.secctionTitle}>子订单详情</span>
@@ -34,7 +45,7 @@ export default class SubOrderDetailComponent extends React.Component {
           </div>
           <div className={styles.secRow}>
             <div>班主任：{classTeacherName}</div>
-            <div>组织：{collegeName}|{familyName}|{groupName}</div>
+            <div>组织：{this.renderOrd(collegeName,familyName,groupName)}</div>
           </div>
         </div>
       </section>

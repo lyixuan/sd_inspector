@@ -75,3 +75,7 @@ a,a:hover{
   /*margin-bottom:0;*/
   /*padding-bottom: 0;*/
 /*}*/
+
+.ant-upload-list-item-info .anticon-loading, .ant-upload-list-item-info .anticon-paper-clip{
+  color: #52C9C2;
+}
