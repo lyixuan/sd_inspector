@@ -158,7 +158,7 @@ class CreateQualityNewSheet extends React.Component {
         //审核状态下不弹框, roleId=49 主管 roleId=70专员 roleId=71 sop
         // checkResult 1 通过审核 0 不通过审核
         const { code, msg, roleId } = params || {};
-        const { actionType, formType, checkResult } = this.props;
+        const { actionType, checkResult } = this.props;
         let msgDetail = '';
         let buttonText = '确定';
         if (code === 20000) {
