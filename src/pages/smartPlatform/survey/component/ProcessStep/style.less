@@ -1,110 +1,159 @@
-.stepItemOri{
-    position: relative;
-    z-index: 10;
-    width: 116px;
-    height: 65px;
-    margin: 25px 0;
-    border-radius:2px; 
+.stepItemOri {
+  position: relative;
+  z-index: 10;
+  width: 116px;
+  height: 65px;
+  margin: 25px 0;
+  border-radius: 2px;
 }
-.processNameOri{
-    width: 110px;
-    height: 35px;
-    line-height: 35px;
-    margin: 3px auto;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    border-radius:2px; 
-    background: #fff;
+.processNameOri {
+  width: 110px;
+  height: 35px;
+  line-height: 35px;
+  margin: 3px auto;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  border-radius: 2px;
+  background: #fff;
 }
-.processDateOri{
-    margin: 0;
-    font-size: 12px;
-font-weight: normal;
-font-stretch: normal;
-letter-spacing: 0px;
-color: #fff;
+.processDateOri {
+  margin: 0;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #fff;
 }
-.symbalOri{
-    position: absolute;
-    top: 5px;
-    left:-9px;
+.symbalOri {
+  position: absolute;
+  top: 5px;
+  left: -9px;
 }
-.circleOri{
-    position: absolute;
-    top: 11px;
-    left:-25px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #fff;
+.circleOri {
+  position: absolute;
+  top: 11px;
+  left: -25px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
 }
-.stateBox{
-    position: relative;
-    width:200px;
-    li{
-        list-style: none;
+.stateBox {
+  position: relative;
+  width: 200px;
+  li {
+    list-style: none;
+  }
+  .stepItem1 {
+    &:extend(.stepItemOri);
+    border: 1px solid #52c9c2;
+    background: #52c9c2;
+    .processName {
+      &:extend(.processNameOri);
+      color: #52c9c2;
     }
-    .stepItem1{
-        &:extend(.stepItemOri);
-        border: 1px solid #52C9C2;
-        background:#52C9C2;
-        .processName{
-            &:extend(.processNameOri);
-            color: #52C9C2;
-        }
-        .processDate{
-            &:extend(.processDateOri);
-        }
-        .symbal{
-            &:extend(.symbalOri);
-            color: #52C9C2;
-        }
-        .circle{
-            &:extend(.circleOri);
-            border: 2px solid #52C9C2;
-        }
+    .processDate {
+      &:extend(.processDateOri);
     }
-    .stepItem2{
-        &:extend(.stepItemOri);
-        border: 1px solid #979797;
-        background:#D8D8D8;
-        color: #DCDDE0;
-        .processName{
-            &:extend(.processNameOri);
-            color: #DCDDE0;
-           
-        }
-        .processDate{
-            &:extend(.processDateOri);
-        }
-        .symbal{
-            &:extend(.symbalOri);
-            color: #DCDDE0;
-        }
-        .circle{
-            &:extend(.circleOri);
-            border: 2px solid #DCDDE0;
-        }
+    .symbal {
+      &:extend(.symbalOri);
+      color: #52c9c2;
     }
+    .circle {
+      &:extend(.circleOri);
+      border: 2px solid #52c9c2;
+    }
+  }
+  .stepItem2 {
+    &:extend(.stepItemOri);
+    border: 1px solid #979797;
+    background: #d8d8d8;
+    color: #dcdde0;
+    .processName {
+      &:extend(.processNameOri);
+      color: #dcdde0;
+    }
+    .processDate {
+      &:extend(.processDateOri);
+    }
+    .symbal {
+      &:extend(.symbalOri);
+      color: #dcdde0;
+    }
+    .circle {
+      &:extend(.circleOri);
+      border: 2px solid #dcdde0;
+    }
+  }
 }
-.stepOver{
-    position: absolute;
-    right: -18px;
-    top: 5px;
-    color: #f33737;
-    border: 2px solid #ff1414;
-    width: 60px;
-    line-height: 22px;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 600;
-    transform: rotate(45deg);
+.stepOver {
+  position: absolute;
+  right: -18px;
+  top: 5px;
+  color: #f33737;
+  border: 2px solid #ff1414;
+  width: 60px;
+  line-height: 22px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  transform: rotate(45deg);
 }
-.line{
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    border: 1px solid #DCDDE0;
-    height: 262px;
+.line {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  border: 1px solid #dcdde0;
+  height: 262px;
+}
+.showToolTips {
+  display: block;
+  position: absolute;
+  left: 180px;
+  top: 20px;
+  background-color: #d8d8d8;
+  width: 160px;
+  height: 22px;
+}
+.hideToolTips {
+  display: none;
+}
+.msgUnRead {
+  display: inline-block;
+  height: 100%;
+  background-color: #f29f38;
+  float: right;
+}
+.msgRead {
+  display: inline-block;
+  height: 100%;
+  background-color: #52c9c2;
+  float: left;
+}
+.percentNum {
+  position: absolute;
+  left: 0;
+  top: -22px;
+  font-size: 12px;
+  width: 100%;
+  :first-child {
+    float: left;
+  }
+  :last-child {
+    float: right;
+  }
+}
+.countNum {
+  position: absolute;
+  bottom: -22px;
+  left: 0;
+  font-size: 12px;
+  width: 100%;
+  :first-child {
+    float: left;
+  }
+  :last-child {
+    float: right;
+  }
 }

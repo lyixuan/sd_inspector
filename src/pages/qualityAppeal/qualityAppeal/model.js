@@ -1,13 +1,16 @@
 import { message } from 'antd/lib/index';
-import { getAppealList,appealCancelQuality,appealExportExcel } from '@/pages/qualityAppeal/qualityAppeal/services';
-
+import {
+  getAppealList,
+  appealCancelQuality,
+  appealExportExcel,
+} from '@/pages/qualityAppeal/qualityAppeal/services';
 
 export default {
   namespace: 'qualityCheck',
 
   state: {
-    qualityAppealList:[],
-    page: {}
+    qualityAppealList: [],
+    page: {},
   },
 
   effects: {
@@ -17,8 +20,11 @@ export default {
 
       if (result.code === 20000) {
         const qualityAppealList = result.data.list ? result.data.list : [];
-        const page = {total:result.data.total? result.data.total : 0,pageNum:result.data.pageNum?result.data.pageNum:1};
-        yield put({ type: 'save', payload: { qualityAppealList,page } });
+        const page = {
+          total: result.data.total ? result.data.total : 0,
+          pageNum: result.data.pageNum ? result.data.pageNum : 1,
+        };
+        yield put({ type: 'save', payload: { qualityAppealList, page } });
       } else {
         message.error(result.msgDetail);
       }
@@ -37,7 +43,7 @@ export default {
       delete params.type;
       const result = yield call(appealExportExcel, params);
       if (result) {
-        downBlob(result.data,'name.xlsx');
+        downBlob(result.data, 'name.xlsx');
         message.success('导出成功');
       } else {
         message.error(result.msgDetail);
@@ -51,8 +57,7 @@ export default {
     },
   },
 
-  subscriptions: {
-  },
+  subscriptions: {},
 };
 
 function downBlob(blob, name) {

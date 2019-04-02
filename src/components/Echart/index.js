@@ -37,6 +37,9 @@ export default class EchartsComponent extends React.Component {
     if (this.props.clickEvent) {
       this.myChart.on("click", this.props.clickEvent);
     }
+    window.addEventListener("resize", () => {
+      this.myChart.resize();
+    });
 
   }
 

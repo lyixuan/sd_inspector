@@ -45,7 +45,15 @@ class HorizontalLoginForm extends React.Component {
     this.collegeList = [];
     this.familyList = [];
     this.conditionList = [];
-    this.checkedConditionList = {};
+    this.checkedConditionList = {
+      exam: undefined,
+      collegeId: undefined,
+      familyIdList: undefined,
+      orderStatus: undefined,
+      stuType: undefined,
+      admissionStatus: undefined,
+      msgStatusList: undefined
+    };
   }
   UNSAFE_componentWillMount() {
     // 获取考期
@@ -86,28 +94,38 @@ class HorizontalLoginForm extends React.Component {
   };
 
   menuCheck = (val) => {
+    this.updateFormFieldsSelectedVal(val)
+    menuCheckedName = val.paramName;
+    this.props.updateCC(this.checkedConditionList);
+    isEdit = true;  // 点击我的查询条件后，保存时是编辑
+    editId = val.id;
+    editName = val.paramName;
+  };
+  updateFormFieldsSelectedVal = (val) => {
     this.checkedConditionList = {};
-    val.exam ? this.checkedConditionList.exam = { keys: val.exam, labels: val.exam2 } : '';
-    val.collegeId ? this.checkedConditionList.collegeId = { keys: val.collegeId, labels: val.collegeName } : '';
-    val.familyIdList ? this.checkedConditionList.familyIdList = { keys: val.familyIdList, labels: val.familyNameList } : '';
-    val.orderStatus ? this.checkedConditionList.orderStatus = { keys: val.orderStatus, labels: val.orderStatusName } : '';
-    val.stuType ? this.checkedConditionList.stuType = { keys: val.stuType, labels: val.stuTypeName } : '';
-    val.admissionStatus ? this.checkedConditionList.admissionStatus = { keys: val.admissionStatus, labels: val.admissionStatusName } : '';
-    val.msgStatusList ? this.checkedConditionList.msgStatusList = { keys: val.msgStatusList, labels: val.msgStatusName } : '';
+    val.exam ? this.checkedConditionList.exam = { key: val.exam, label: val.exam2 } : '';
+    val.collegeId ? this.checkedConditionList.collegeId = { key: val.collegeId, label: val.collegeName } : '';
+    val.familyIdList ? this.checkedConditionList.familyIdList = { key: val.familyIdList, label: val.familyNameList } : '';
+    val.orderStatus ? this.checkedConditionList.orderStatus = { key: val.orderStatus, label: val.orderStatusName } : '';
+    val.stuType ? this.checkedConditionList.stuType = { key: val.stuType, label: val.stuTypeName } : '';
+    val.admissionStatus ? this.checkedConditionList.admissionStatus = { key: val.admissionStatus, label: val.admissionStatusName } : '';
+    val.msgStatusList ? this.checkedConditionList.msgStatusList = { key: val.msgStatusList, label: val.msgStatusName } : '';
 
     let arr = undefined;
     if (val.familyIdList) {
       arr = [];
       val.familyIdList.split(',').forEach((v, i) => {
-        arr.push({ key: v, label: val.familyNameList[i] })
+        arr.push({ key: v, label: val.familyNameList.split(',')[i] })
       });
+      this.checkedConditionList['familyIdList'] = arr
     }
     let arr2 = undefined;
     if (val.msgStatusList) {
       arr2 = [];
       val.msgStatusList.split(',').forEach((v, i) => {
-        arr2.push({ key: v, label: val.msgStatusName[i] })
+        arr2.push({ key: v, label: val.msgStatusName.split(',')[i] })
       });
+      this.checkedConditionList['msgStatusList'] = arr2
     }
     this.props.form.setFieldsValue({
       exam: val.exam ? { key: val.exam, label: val.exam2 } : undefined,
@@ -127,14 +145,7 @@ class HorizontalLoginForm extends React.Component {
     this.props.form.setFieldsValue({
       familyIdList: arr,
     });
-
-    menuCheckedName = val.paramName;
-    this.props.updateCC(this.checkedConditionList);
-    isEdit = true;  // 点击我的查询条件后，保存时是编辑
-    editId = val.id;
-    editName = val.paramName;
-  };
-
+  }
   formValChange = (val, key) => {
     if (val === undefined) {
       delete this.checkedConditionList[key];
@@ -159,54 +170,9 @@ class HorizontalLoginForm extends React.Component {
         familyIdList: undefined
       })
     }
-
-    // 收集条件
-    let labels = undefined;
-    let keys = undefined;
-    if (val instanceof Array) {
-      // 处理多选类型
-      const list = [];
-      const list2 = [];
-      val.forEach((v) => {
-        list.push(v.label);
-        list2.push(v.key);
-      });
-      labels = list.join(',');
-      keys = list2.join(',');
-    } else {
-      labels = val.label;
-      keys = val.key;
-    }
-    if (labels && keys) {
-      this.checkedConditionList[key] = { labels, keys };
-    } else {
-      delete this.checkedConditionList[key];
-    }
-    const obj = {
-      exam: undefined,
-      collegeId: undefined,
-      familyIdList: undefined,
-      orderStatus: undefined,
-      stuType: undefined,
-      admissionStatus: undefined,
-      msgStatusList: undefined,
-    };
-    for (let key in obj) {
-      for (let key2 in this.checkedConditionList) {
-        if (key === key2) {
-          if (this.checkedConditionList[key2]) {
-            obj[key] = this.checkedConditionList[key2];
-          } else {
-            delete obj[key];
-          }
-        }
-      }
-    }
-    this.checkedConditionList = { ...obj };
+    this.checkedConditionList[key] = val;
     this.props.updateCC(this.checkedConditionList);
   };
-
-
   handleReset = () => {
     this.checkedConditionList = {};
     menuCheckedName = '我的查询条件';
@@ -402,14 +368,16 @@ class SearchForm extends Component {
       conditionName: '',
       titleType: 1,  // 1 添加查询条件 2 编辑查询条件
       checkedConditionList: {},
+      itemName: null,//删除已保存的选项时，更新已选择的过滤条件
     };
     this.tId = undefined;
+    this.formRef = undefined
   }
   updateCheckedConditions = (val) => {
     this.setState({
       checkedConditionList: val,
     });
-    this.props.updateCheckedConditions(val)
+    // this.props.updateCheckedConditions(val)
   };
 
   conditionEdit = (item) => {
@@ -426,7 +394,6 @@ class SearchForm extends Component {
       Message.warning('请选择考期');
       return
     }
-
     if (isEdit) {
       const checkedConditionList = DeepCopy(this.state.checkedConditionList);
       const obj = {
@@ -434,12 +401,16 @@ class SearchForm extends Component {
         paramName: editName,
       };
       for (let key in checkedConditionList) {
-        obj[key] = checkedConditionList[key].keys;
         if (key === 'collegeId') {
-          obj['collegeName'] = checkedConditionList[key].labels;
-        }
-        if (key === 'familyIdList') {
-          obj['familyNameList'] = checkedConditionList[key].labels;
+          obj[key] = checkedConditionList[key].key;
+          obj['collegeName'] = checkedConditionList[key].label;
+        } else if (key === 'familyIdList') {
+          obj['familyIdList'] = checkedConditionList[key] instanceof Array ? checkedConditionList[key].map(item => item.key).join(',') : checkedConditionList[key].key;
+          obj['familyNameList'] = checkedConditionList[key] instanceof Array ? checkedConditionList[key].map(item => item.label).join(',') : checkedConditionList[key].label;
+        } else if (key === 'msgStatusList') {
+          obj[key] = checkedConditionList[key] instanceof Array ? checkedConditionList[key].map(item => item.key).join(',') : checkedConditionList[key].key;
+        } else {
+          obj[key] = checkedConditionList[key].key;
         }
       }
       this.props.dispatch({
@@ -478,12 +449,16 @@ class SearchForm extends Component {
         paramName: this.state.conditionName,
       };
       for (let key in checkedConditionList) {
-        obj[key] = checkedConditionList[key].keys;
         if (key === 'collegeId') {
-          obj['collegeName'] = checkedConditionList[key].labels;
-        }
-        if (key === 'familyIdList') {
-          obj['familyNameList'] = checkedConditionList[key].labels;
+          obj[key] = checkedConditionList[key].key;
+          obj['collegeName'] = checkedConditionList[key].label;
+        } else if (key === 'familyIdList') {
+          obj['familyIdList'] = checkedConditionList[key] instanceof Array ? checkedConditionList[key].map(item => item.key).join(',') : checkedConditionList[key].key;
+          obj['familyNameList'] = checkedConditionList[key] instanceof Array ? checkedConditionList[key].map(item => item.label).join(',') : checkedConditionList[key].label;
+        } else if (key === 'msgStatusList') {
+          obj[key] = checkedConditionList[key] instanceof Array ? checkedConditionList[key].map(item => item.key).join(',') : checkedConditionList[key].key;
+        } else {
+          obj[key] = checkedConditionList[key].key;
         }
       }
       this.props.dispatch({
@@ -512,7 +487,37 @@ class SearchForm extends Component {
 
     });
   };
-
+  getFilterArr(oldItem, delItem) {
+    let arr = []
+    if (oldItem instanceof Array) {
+      oldItem.map((sub, index) => {
+        if (sub.key !== delItem.id)
+          arr.push({ key: sub.key, label: sub.label });
+      })
+      return arr.length ? arr : undefined
+    }
+  }
+  deleteFilterItem = (e) => {
+    //删除已选条件
+    const delItem = { id: e.currentTarget.id, name: e.currentTarget.dataset.name }
+    const checkedConditionList = this.state.checkedConditionList
+    Object.keys(checkedConditionList).forEach(name => {
+      if (name === e.currentTarget.dataset.name) {
+        if (checkedConditionList[name] instanceof Array) {
+          this.state.checkedConditionList[name] = this.getFilterArr(checkedConditionList[delItem.name], delItem)
+        } else {
+          if (name === 'collegeId') {
+            this.state.checkedConditionList[name] = undefined
+            this.state.checkedConditionList['familyIdList'] = undefined
+          } else {
+            this.state.checkedConditionList[name] = undefined
+          }
+        }
+      }
+    })
+    this.formRef.props.form.setFieldsValue({ ...this.state.checkedConditionList })
+    this.setState({ checkedConditionList: this.state.checkedConditionList })
+  }
   handleCancel = () => {
     this.setState({
       visible: false,
@@ -520,23 +525,36 @@ class SearchForm extends Component {
   };
 
   render() {
-    const { checkedConditionList } = this.state;
+    let { checkedConditionList } = this.state;
     // 构造 checkedConditionList 的node
     function getCheckedConditionList() {
       const list = [];
-      for (let key in checkedConditionList) {
-        checkedConditionList[key] && list.push(checkedConditionList[key]);
-      }
+      Object.keys(checkedConditionList).map(name => {
+        if (!checkedConditionList[name]) {
+          return
+        }
+        let curObj = checkedConditionList[name]
+        if (curObj instanceof Array) {
+          curObj.map((sub) => {
+            list.push({ ...sub, name: name });
+          })
+        } else {
+          checkedConditionList[name]['name'] = name
+          list.push(checkedConditionList[name]);
+        }
+      })
       return list;
     }
-    const checkedBtn = getCheckedConditionList().map((v) => (
-      <span className={styles.spanBtn} key={v.labels}>{v.labels}</span>
-    ));
+    const checkedBtn = getCheckedConditionList().map((v) => {
+      return <span className={styles.spanBtn} key={v.label}>{v.label}<Icon id={v.key} data-name={v.name} onClick={this.deleteFilterItem} style={{ marginLeft: '5px' }} type="close" /></span>
+    });
     return (
       <>
         <div>
           <WrappedHorizontalLoginForm
             {...this.props}
+            updateFormItem={this.state.itemName}
+            wrappedComponentRef={(inst) => this.formRef = inst}
             updateCC={(p) => this.updateCheckedConditions(p)}
             menuEdit={(item) => this.conditionEdit(item)}
           />
@@ -545,7 +563,7 @@ class SearchForm extends Component {
               <div className={styles.searchBoxSeletected}>
                 <span className={styles.rowTitle2}>已选条件</span>
                 <div className={styles.row11}>
-                  <span style={{ display: 'inline-flex' }} >{checkedBtn}</span>  <span style={{ float: 'right',marginRight:-10 }}><BIButtonGreen type="primary"  onClick={() => this.conditionAdd()}>保存查询条件</BIButtonGreen></span>
+                  <span style={{ display: 'inline-flex' }} >{checkedBtn}</span>  <span style={{ float: 'right', marginRight: -10 }}><BIButtonGreen type="primary" onClick={() => this.conditionAdd()}>保存查询条件</BIButtonGreen></span>
                 </div>
               </div>
             ) : null
