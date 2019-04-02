@@ -156,15 +156,16 @@ class CreateQualityNewSheet extends React.Component {
     }
     checkoutOrderNumCallBack = (params) => {
         //审核状态下不弹框, roleId=49 主管 roleId=70专员 roleId=71 sop
+        // checkResult 1 通过审核 0 不通过审核
         const { code, msg, roleId } = params || {};
-        const { actionType, formType } = this.props;
+        const { actionType, formType, checkResult } = this.props;
         let msgDetail = '';
         let buttonText = '确定';
         if (code === 20000) {
             if (roleId === 49 && actionType === 'appeal') { // 只有主管才有审核权限
-                msgDetail = formType === 'appeal' ? '该条记录将提交到小德后台并修改归属人学分(绩效) , 确认提交吗?' : '该条记录将提交到小德后台并扣除归属人学分(绩效) , 确认提交吗?';
+                msgDetail = checkResult === 1 ? '该条记录将提交到小德后台并修改归属人学分(绩效) , 确认提交吗?' : '确认驳回该条记录吗?';
             } else if (roleId === 70) {
-                msgDetail = '改条记录将被提交给质检主管进行审核,确认提交吗?'
+                msgDetail = '该条记录将被提交给质检主管进行审核,确认提交吗?'
             }
             buttonText = '确定';
         } else {
