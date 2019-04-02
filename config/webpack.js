@@ -23,5 +23,9 @@ export const webpackConfig = {
             target: proxy_env, //  区别于self接口
             changeOrigin: true,
         }
+        , '/tmpApi': {
+            target: proxy_env, //  区别于self接口
+            changeOrigin: true,
+        }
     },
-}
+};

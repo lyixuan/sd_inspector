@@ -61,16 +61,42 @@ export class BaseModels {
             ...propsData,
         }
     }
-    HandleOrgMapByMail(obj) {
+    HandleOrgMapByMail(obj, orgList) {
         if (!obj || typeof obj !== 'object') return;
-        const { collegeId, familyId, groupId, collegeName, familyName, groupName, userType, id, name } = obj;
+        const { userType, id, name } = obj;
+        const orgObj = this.findOrganizeName(orgList, obj);
+        const { collegeId, familyId, groupId, collegeName, familyName, groupName } = orgObj;
         const organize = [collegeId, familyId, groupId].filter(item => item);
         const organizeName = [collegeName, familyName, groupName].filter(item => item).join('|');
         return {
             collegeId, familyId, groupId, collegeName, familyName, groupName, role: userType, userId: id, name, organizeName, organize
         }
     }
-    findOrganizeName() {
+    findOrganizeName(organize = [], orgObj) {
+        const { collegeId, familyId, groupId } = orgObj || {};
+        let { returnObj = {}, familyObj = {}, groupObj = {} } = {};
+        for (let i = 0, len = organize.length; i < len; i += 1) {
+            const obj = organize[i];
+            if (collegeId === obj.id) {
+                if (obj.nodeList) {
+                    familyObj = obj.nodeList.find(item => item.id === familyId) || {};
+                    if (familyObj.nodeList) {
+                        groupObj = familyObj.nodeList.find(item => item.id === groupId) || {};
+                    }
+                }
+                returnObj = {
+                    collegeId: obj.id,
+                    collegeName: obj.name,
+                    familyId: familyObj.id,
+                    familyName: familyObj.name,
+                    groupId: groupObj.id,
+                    groupName: groupObj.name,
+                }
+                break;
+            }
+        }
+        return returnObj
+
 
     }
     getQualityValueFamter = (params) => {

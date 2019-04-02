@@ -41,9 +41,10 @@ class Edit extends React.Component {
     });
   };
   disabledDate=(current)=> {
-    const day1 = new Date();
-    day1.setTime(day1.getTime()-24*60*60*1000);
-    return  current < moment(day1,'YYYY-MM-DD');
+    // const day1 = new Date();
+    // day1.setTime(day1.getTime()-24*60*60*1000);
+    // return  current < moment(day1,'YYYY-MM-DD');
+    return current && current < moment().endOf('day');
   };
   onChangeDate=(e,dateString)=>{
     const {setStateData} =  this.props;

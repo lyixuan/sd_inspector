@@ -2,14 +2,13 @@ import request from '@/utils/request';
 
 // 查询组织架构
 export async function getOrgInfo(params) {
-  return request('/detail/getOrgList', { params });
+  return request('/detail/getOrgList', { params, prefix: '/tmpApi' });
 }
 // 当前考期时间范围接口
 export async function getExamDateRange(params) {
-  return request('/general/getExamDateRange', { params });
+  return request('/general/getExamDateRange', { params, prefix: '/tmpApi' });
 }
 // 获取组织柱状图数据
 export async function examProvinceOrg(params) {
-  return request('/exam/province/org', { method: 'post', data: params });
+  return request('/exam/province/org', { method: 'post', data: params, prefix: '/tmpApi' });
 }
-
