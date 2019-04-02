@@ -4,7 +4,7 @@ import CommonForm from '../../components/commonForm';
 import styles from './style.less';
 @connect(({ loading }) => ({
   loading,
-  submitLoading: loading.effects['qualityNewSheet/addQuality']
+  submitLoading: loading.effects['qualityNewSheet/addQuality'],
 }))
 class CreateQualityNewSheet extends React.Component {
   constructor(props) {

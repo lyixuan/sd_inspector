@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Spin } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
 import styles from './style.less';
@@ -10,7 +11,8 @@ import QualityAppeal from '../../components/AppealInfo/qualityAppeal';
   loading,
   qualityNewSheet,
   editQualityNewSheet,
-  submitLoading: loading.effects['editQualityNewSheet/updateQuality']
+  submitLoading: loading.effects['editQualityNewSheet/updateQuality'],
+  pageLoading: loading.effects['qualityNewSheet/getQualityDetail']
 }))
 class EditQualityNewSheet extends React.Component {
   constructor(props) {
@@ -53,28 +55,30 @@ class EditQualityNewSheet extends React.Component {
         });
       });
     return (
-      <div className={styles.qualityContainter}>
-        {/* form区域 */}
-        <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={{ ...others }} formType="quality" actionType="edit">
-          <QualityAppeal data={newqualityAudit} />
-        </CommonForm>
-        <BIModal
-          title="提交确认"
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          footer={[
-            <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
-              取消
-            </BIButton>,
-            <BIButton type="primary" onClick={this.handleOk}>
-              确定
-            </BIButton>,
-          ]}
-        >
-          <div className={styles.modalWrap}>该条记录将被提交给质检主管进行审核，确定提交吗？</div>
-        </BIModal>
-      </div>
+      <Spin spinning={this.props.pageLoading}>
+        <div className={styles.qualityContainter}>
+          {/* form区域 */}
+          <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={{ ...others }} formType="quality" actionType="edit">
+            <QualityAppeal data={newqualityAudit} />
+          </CommonForm>
+          <BIModal
+            title="提交确认"
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer={[
+              <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
+                取消
+              </BIButton>,
+              <BIButton type="primary" onClick={this.handleOk}>
+                确定
+              </BIButton>,
+            ]}
+          >
+            <div className={styles.modalWrap}>该条记录将被提交给质检主管进行审核，确定提交吗？</div>
+          </BIModal>
+        </div>
+      </Spin>
     );
   }
 }

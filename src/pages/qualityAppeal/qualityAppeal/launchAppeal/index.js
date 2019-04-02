@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './style.less';
-import { Row, Col, Form, Input, Upload, message } from 'antd';
+import { Row, Col, Form, Input, Upload, message,Spin } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import SubOrderDetail from './../../components/subOrderDetail';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
@@ -15,7 +15,8 @@ let isZip = false;
 @connect(({ Launch, qualityAppealHome,loading }) => ({
   Launch,
   qualityAppealHome,
-  loading: loading.effects['Launch/launchAppeal']
+  loading: loading.effects['Launch/launchAppeal'],
+  pageLoading: loading.effects['qualityAppealHome/getDetailData']||loading.effects['qualityAppealHome/getQualityDetailData']
 }))
 class Launch extends React.Component {
   constructor(props) {
@@ -109,76 +110,78 @@ class Launch extends React.Component {
     const {masterQualityValue='',masterMail=''} = qualityAppealHome;
 
     return (
-      <div className={styles.launchContainer}>
-        <section>
-          {/* 质检违规人员信息 */}
-          <PersonInfo
-            data={qualityDetailData}
-            qualityInfoCollapse={this.state.qualityInfoCollapse}
-            onClick={() => this.handleCollapse()}
-          />
-          <article
-            className={
-              this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
-            }
-          >
-            <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
-            <SubOrderDetail data={qualityDetailData.orderDetail} />
-            {/* 质检违规详情 */}
-            <div className={styles.divideLine} />
-            <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail}/>
-          </article>
-        </section>
-        <div className={styles.info}>
-          <div className={styles.title}>申诉信息</div>
-          <div>
-            <div className={styles.appealInfo}>
-              一次申诉
-              <span>
+      <Spin spinning={this.props.pageLoading}>
+        <div className={styles.launchContainer}>
+          <section>
+            {/* 质检违规人员信息 */}
+            <PersonInfo
+              data={qualityDetailData}
+              qualityInfoCollapse={this.state.qualityInfoCollapse}
+              onClick={() => this.handleCollapse()}
+            />
+            <article
+              className={
+                this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
+              }
+            >
+              <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
+              <SubOrderDetail data={qualityDetailData.orderDetail} />
+              {/* 质检违规详情 */}
+              <div className={styles.divideLine} />
+              <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail}/>
+            </article>
+          </section>
+          <div className={styles.info}>
+            <div className={styles.title}>申诉信息</div>
+            <div>
+              <div className={styles.appealInfo}>
+                一次申诉
+                <span>
                 一次申诉截止日期：
-                {moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD HH:mm:ss')}
+                  {moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD HH:mm:ss')}
               </span>
-            </div>
-            <div className={styles.originator}>申诉发起人</div>
-            <div className={styles.flexStyle}>
-              <div className={styles.label}>附件:</div>
-              <div style={{ marginLeft: '20px', marginTop: '-5px' }}>
-                <Upload
-                  {...uploadAttachment()}
-                  data={{ type: qualityDetailData.qualityType }}
-                  onChange={this.uploadFileChange}
-                  beforeUpload={this.beforeUpload}
-                  fileList={this.state.fileList}
-                >
-                  <BIButton type="primary">上传附件</BIButton>
-                </Upload>
               </div>
-            </div>
+              <div className={styles.originator}>申诉发起人</div>
+              <div className={styles.flexStyle}>
+                <div className={styles.label}>附件:</div>
+                <div style={{ marginLeft: '20px', marginTop: '-5px' }}>
+                  <Upload
+                    {...uploadAttachment()}
+                    data={{ type: qualityDetailData.qualityType }}
+                    onChange={this.uploadFileChange}
+                    beforeUpload={this.beforeUpload}
+                    fileList={this.state.fileList}
+                  >
+                    <BIButton type="primary">上传附件</BIButton>
+                  </Upload>
+                </div>
+              </div>
 
-            <div className={styles.flexStyle}>
-              <div className={styles.label}>申诉说明:</div>
-              <div className={styles.intro}>
-                <TextArea maxLength={500}  rows={4} onChange={this.inputChange} />
+              <div className={styles.flexStyle}>
+                <div className={styles.label}>申诉说明:</div>
+                <div className={styles.intro}>
+                  <TextArea maxLength={500}  rows={4} onChange={this.inputChange} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <Row className="gutter-row">
-          <Col span={24}>
-            <div className={styles.gutterBox1}>
+          <Row className="gutter-row">
+            <Col span={24}>
+              <div className={styles.gutterBox1}>
               <span className={styles.gutterBtn2}>
                 <BIButton onClick={() => router.goBack()}>取消</BIButton>
               </span>
-              <span className={styles.gutterBtn1}>
+                <span className={styles.gutterBtn1}>
                 <BIButton type="primary" loading={loading} onClick={this.handleSubmit}>
                   提交申诉
                 </BIButton>
               </span>
-            </div>
-          </Col>
-        </Row>
-      </div>
+              </div>
+            </Col>
+          </Row>
+        </div>
+      </Spin>
     );
   }
 }

@@ -8,14 +8,15 @@ import PersonInfo from '@/pages/qualityAppeal/qualityNewSheet/detail/components/
 import SubOrderDetail from './../../components/subOrderDetail';
 import AppealInfo from '../../components/AppealInfo';
 import router from 'umi/router';
-import { message } from 'antd/lib/index';
+import { message,Spin } from 'antd';
 const confirm = BIModal.confirm;
 
 @connect(({ qualityAppealing, qualityAppealHome,loading }) => ({
   qualityAppealing,
   orgList: qualityAppealHome.orgList,
   submitLoading: loading.effects['qualityAppealing/reviewAppeal'],
-  submitLoading2: loading.effects['qualityAppealing/sopAppeal']
+  submitLoading2: loading.effects['qualityAppealing/sopAppeal'],
+  pageLoading: loading.effects['qualityAppealing/getAppealInfo']||loading.effects['qualityAppealing/getQualityDetailData']
 }))
 class QualityAppealing extends React.Component {
   constructor(props) {
@@ -130,37 +131,38 @@ class QualityAppealing extends React.Component {
       }
     });
     return (
-      <div className={styles.detailContainer}>
-        {String(this.query.status) === '2' || String(this.query.status) === '6' ? (
-          <section style={{ overflow: 'hidden' }}>
-            {/* 质检违规人员信息 */}
-            <PersonInfo
-              data={qualityDetailData}
-              qualityInfoCollapse={this.state.qualityInfoCollapse}
-              onClick={() => this.handleCollapse()}
-            />
-            <div
-              className={
-                this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
-              }
-            >
-              <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
-              <SubOrderDetail data={qualityDetailData.orderDetail} />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={() => this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
-              {this.state.appealIsShow ? <AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData} /> : null}
-            </div>
-            <div style={{ float: 'right' }}>
-              <BIButton onClick={this.handleCancel} style={{ marginRight: 20 }}>
-                取消
-              </BIButton>
-              <BIButton loading={submitLoading2} type="primary" onClick={this.handleSubmitSop}>
-                提交审核
-              </BIButton>
-            </div>
-          </section>
-        ) : (
+      <Spin spinning={this.props.pageLoading}>
+        <div className={styles.detailContainer}>
+          {String(this.query.status) === '2' || String(this.query.status) === '6' ? (
+            <section style={{ overflow: 'hidden' }}>
+              {/* 质检违规人员信息 */}
+              <PersonInfo
+                data={qualityDetailData}
+                qualityInfoCollapse={this.state.qualityInfoCollapse}
+                onClick={() => this.handleCollapse()}
+              />
+              <div
+                className={
+                  this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
+                }
+              >
+                <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
+                <SubOrderDetail data={qualityDetailData.orderDetail} />
+              </div>
+              <div style={{ marginTop: 20 }}>
+                <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={() => this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
+                {this.state.appealIsShow ? <AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData} /> : null}
+              </div>
+              <div style={{ float: 'right' }}>
+                <BIButton onClick={this.handleCancel} style={{ marginRight: 20 }}>
+                  取消
+                </BIButton>
+                <BIButton loading={submitLoading2} type="primary" onClick={this.handleSubmitSop}>
+                  提交审核
+                </BIButton>
+              </div>
+            </section>
+          ) : (
             <CommonForm
               {...this.props}
               formType='appeal'
@@ -173,23 +175,24 @@ class QualityAppealing extends React.Component {
               </div>
             </CommonForm>
           )}
-        <BIModal
-          title="提交确认"
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          footer={[
-            <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
-              取消
-            </BIButton>,
-            <BIButton type="primary" onClick={this.handleOk}>
-              确定
-            </BIButton>,
-          ]}
-        >
-          <div className={styles.modalWrap}>该条记录将被提交给质检主管进行审核，确定提交吗？</div>
-        </BIModal>
-      </div>
+          <BIModal
+            title="提交确认"
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer={[
+              <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
+                取消
+              </BIButton>,
+              <BIButton type="primary" onClick={this.handleOk}>
+                确定
+              </BIButton>,
+            ]}
+          >
+            <div className={styles.modalWrap}>该条记录将被提交给质检主管进行审核，确定提交吗？</div>
+          </BIModal>
+        </div>
+      </Spin>
     );
   }
 }
