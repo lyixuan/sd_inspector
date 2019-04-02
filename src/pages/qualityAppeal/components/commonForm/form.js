@@ -317,7 +317,7 @@ class CreateQualityNewSheet extends React.Component {
             </Upload>)
         } else {
             return (
-                attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} textClassName={styles.downCls} />) : null
+                attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={()=>name} textClassName={styles.downCls} />) : null
             )
         }
     }

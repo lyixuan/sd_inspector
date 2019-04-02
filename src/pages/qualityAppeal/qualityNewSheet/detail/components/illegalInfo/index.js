@@ -39,7 +39,7 @@ export default class IllegalInfoComponent extends React.Component {
         </div>
         <div>
           <div className={`${styles.secCol} ${styles.secDesc}`}>
-            <span>附件：</span> <div>{attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} textClassName={styles.downCls} />:null}</div>
+            <span>附件：</span> <div>{attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={()=>name} textClassName={styles.downCls} />:null}</div>
           </div>
           <div className={`${styles.secCol} ${styles.secDesc}`}>
             <div>违规详情：</div>

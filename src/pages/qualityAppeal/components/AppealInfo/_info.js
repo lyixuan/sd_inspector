@@ -14,7 +14,7 @@ class Info extends React.Component {
         <Row>
           <Col span={12} >
             {
-              type === 'startAppeal' ? <> <span>附件：</span>  {data.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${data.attUrl}`} text={name} textClassName={styles.downCls}/>:null}</> :
+              type === 'startAppeal' ? <> <span>附件：</span>  {data.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${data.attUrl}`} text={name} fileName={()=>name} textClassName={styles.downCls}/>:null}</> :
                 <>
                   <span className={data.checkResult !== 1 ? styles.redIcon : styles.greenIcon}> 审核结果：</span>
                   <span>{BiFilter('APPEAL_RESULT_TYPE').map(item => { if (item.id === data.checkResult) {return item.name}else return null})}</span>
