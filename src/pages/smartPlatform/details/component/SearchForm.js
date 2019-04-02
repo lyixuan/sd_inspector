@@ -12,7 +12,7 @@ import BIButtonGreen from '@/components/BIButtonGreen';
 import { Message } from 'antd';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 
-import styles from '../style.less'
+import styles from '../style.less';
 
 const { Option } = BISelect;
 const confirm = BIModal.confirm;
@@ -28,7 +28,6 @@ const reg = /^[\u4e00-\u9fa5a-zA-Z0-9]+$/;
   home,
   dataDetail,
 }))
-
 class HorizontalLoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -52,7 +51,7 @@ class HorizontalLoginForm extends React.Component {
       orderStatus: undefined,
       stuType: undefined,
       admissionStatus: undefined,
-      msgStatusList: undefined
+      msgStatusList: undefined,
     };
   }
   UNSAFE_componentWillMount() {
@@ -68,7 +67,7 @@ class HorizontalLoginForm extends React.Component {
     });
   }
 
-  menuDel = (id) => {
+  menuDel = id => {
     const that = this;
     confirm({
       className: 'BIConfirm',
@@ -85,58 +84,86 @@ class HorizontalLoginForm extends React.Component {
         }
         that.handleReset();
       },
-      onCancel() { },
+      onCancel() {},
     });
   };
 
-  menuEdit = (e) => {
+  menuEdit = e => {
     this.props.menuEdit(e);
   };
 
-  menuCheck = (val) => {
-    this.updateFormFieldsSelectedVal(val)
+  menuCheck = val => {
+    this.updateFormFieldsSelectedVal(val);
     menuCheckedName = val.paramName;
     this.props.updateCC(this.checkedConditionList);
-    isEdit = true;  // 点击我的查询条件后，保存时是编辑
+    isEdit = true; // 点击我的查询条件后，保存时是编辑
     editId = val.id;
     editName = val.paramName;
   };
-  updateFormFieldsSelectedVal =(val)=>{
+  updateFormFieldsSelectedVal = val => {
     this.checkedConditionList = {};
-    val.exam ? this.checkedConditionList.exam = { key: val.exam, label: val.exam2 } : '';
-    val.collegeId ? this.checkedConditionList.collegeId = { key: val.collegeId, label: val.collegeName } : '';
-    val.familyIdList ? this.checkedConditionList.familyIdList = { key: val.familyIdList, label: val.familyNameList } : '';
-    val.orderStatus ? this.checkedConditionList.orderStatus = { key: val.orderStatus, label: val.orderStatusName } : '';
-    val.stuType ? this.checkedConditionList.stuType = { key: val.stuType, label: val.stuTypeName } : '';
-    val.admissionStatus ? this.checkedConditionList.admissionStatus = { key: val.admissionStatus, label: val.admissionStatusName } : '';
-    val.msgStatusList ? this.checkedConditionList.msgStatusList = { key: val.msgStatusList, label: val.msgStatusName } : '';
+    val.exam ? (this.checkedConditionList.exam = { key: val.exam, label: val.exam2 }) : '';
+    val.collegeId
+      ? (this.checkedConditionList.collegeId = { key: val.collegeId, label: val.collegeName })
+      : '';
+    val.familyIdList
+      ? (this.checkedConditionList.familyIdList = {
+          key: val.familyIdList,
+          label: val.familyNameList,
+        })
+      : '';
+    val.orderStatus
+      ? (this.checkedConditionList.orderStatus = {
+          key: val.orderStatus,
+          label: val.orderStatusName,
+        })
+      : '';
+    val.stuType
+      ? (this.checkedConditionList.stuType = { key: val.stuType, label: val.stuTypeName })
+      : '';
+    val.admissionStatus
+      ? (this.checkedConditionList.admissionStatus = {
+          key: val.admissionStatus,
+          label: val.admissionStatusName,
+        })
+      : '';
+    val.msgStatusList
+      ? (this.checkedConditionList.msgStatusList = {
+          key: val.msgStatusList,
+          label: val.msgStatusName,
+        })
+      : '';
 
     let arr = undefined;
     if (val.familyIdList) {
       arr = [];
       val.familyIdList.split(',').forEach((v, i) => {
-        arr.push({ key: v, label: val.familyNameList.split(',')[i] })
+        arr.push({ key: v, label: val.familyNameList.split(',')[i] });
       });
-      this.checkedConditionList['familyIdList'] = arr
+      this.checkedConditionList['familyIdList'] = arr;
     }
     let arr2 = undefined;
     if (val.msgStatusList) {
       arr2 = [];
       val.msgStatusList.split(',').forEach((v, i) => {
-        arr2.push({ key: v, label: val.msgStatusName.split(',')[i] })
+        arr2.push({ key: v, label: val.msgStatusName.split(',')[i] });
       });
-      this.checkedConditionList['msgStatusList'] = arr2
+      this.checkedConditionList['msgStatusList'] = arr2;
     }
     this.props.form.setFieldsValue({
       exam: val.exam ? { key: val.exam, label: val.exam2 } : undefined,
       collegeId: val.collegeId ? { key: val.collegeId, label: val.collegeName } : undefined,
-      orderStatus: val.orderStatus ? { key: val.orderStatus, label: val.orderStatusName } : undefined,
+      orderStatus: val.orderStatus
+        ? { key: val.orderStatus, label: val.orderStatusName }
+        : undefined,
       stuType: val.stuType ? { key: val.stuType, label: val.stuTypeName } : undefined,
-      admissionStatus: val.admissionStatus ? { key: val.admissionStatus, label: val.admissionStatusName } : undefined,
+      admissionStatus: val.admissionStatus
+        ? { key: val.admissionStatus, label: val.admissionStatusName }
+        : undefined,
       msgStatusList: arr2,
     });
 
-    this.collegeList.forEach((v) => {
+    this.collegeList.forEach(v => {
       if (v.id === Number(val.collegeId)) {
         this.familyList = v.sub;
       }
@@ -145,30 +172,30 @@ class HorizontalLoginForm extends React.Component {
     this.props.form.setFieldsValue({
       familyIdList: arr,
     });
-  }
+  };
   formValChange = (val, key) => {
     if (val === undefined) {
       delete this.checkedConditionList[key];
       if (key === 'collegeId') {
         this.props.form.setFieldsValue({
-          familyIdList: undefined
+          familyIdList: undefined,
         });
         delete this.checkedConditionList['familyIdList'];
         this.familyList = [];
       }
       this.props.updateCC(this.checkedConditionList);
-      return
+      return;
     }
     // 学院家族联动
     if (key === 'collegeId') {
-      this.collegeList.forEach((v) => {
+      this.collegeList.forEach(v => {
         if (v.id === Number(val.key)) {
           this.familyList = v.sub;
         }
       });
       this.props.form.setFieldsValue({
-        familyIdList: undefined
-      })
+        familyIdList: undefined,
+      });
     }
     this.checkedConditionList[key] = val;
     this.props.updateCC(this.checkedConditionList);
@@ -176,14 +203,14 @@ class HorizontalLoginForm extends React.Component {
   handleReset = () => {
     this.checkedConditionList = {};
     menuCheckedName = '我的查询条件';
-    isEdit = false;   // 重置后，保存条件为新增
-    editId = undefined;   // 重置后，保存条件为新增
-    editName = undefined;   // 重置后，保存条件为新增
+    isEdit = false; // 重置后，保存条件为新增
+    editId = undefined; // 重置后，保存条件为新增
+    editName = undefined; // 重置后，保存条件为新增
     this.props.updateCC(this.checkedConditionList);
     this.props.form.resetFields();
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     if (this.props.handlePropSubmit) {
       this.props.handlePropSubmit();
@@ -194,7 +221,7 @@ class HorizontalLoginForm extends React.Component {
     this.conditionList = this.props.dataDetail.queryConditionList || [];
     this.collegeList = this.props.home.orgList;
 
-    this.conditionList.forEach((v) => {
+    this.conditionList.forEach(v => {
       if (v.paramName === editName) {
         isEdit = true;
         editId = v.id;
@@ -203,26 +230,31 @@ class HorizontalLoginForm extends React.Component {
       }
     });
 
-    const { getFieldDecorator, } = this.props.form;
+    const { getFieldDecorator } = this.props.form;
     const menu = (
       <DxMenu>
-        {
-          this.conditionList.length > 0 ?
-            this.conditionList.map(item => (
-              <DxMenu.Item key={item.id}>
-                <span onClick={() => this.menuCheck(item)} >{item.paramName}</span><Icon onClick={() => this.menuDel(item.id)} style={{ marginLeft: '5px' }} type="delete" />  <Icon onClick={() => this.menuEdit(item)} type="edit" />
-              </DxMenu.Item>
-            )) : (
-              <DxMenu.Item>
-                <span>暂无数据</span>
-              </DxMenu.Item>
-            )
-        }
+        {this.conditionList.length > 0 ? (
+          this.conditionList.map(item => (
+            <DxMenu.Item key={item.id}>
+              <span onClick={() => this.menuCheck(item)}>{item.paramName}</span>
+              <Icon
+                onClick={() => this.menuDel(item.id)}
+                style={{ marginLeft: '5px' }}
+                type="delete"
+              />{' '}
+              <Icon onClick={() => this.menuEdit(item)} type="edit" />
+            </DxMenu.Item>
+          ))
+        ) : (
+          <DxMenu.Item>
+            <span>暂无数据</span>
+          </DxMenu.Item>
+        )}
       </DxMenu>
     );
 
     return (
-      <Form layout='inline' onSubmit={this.handleSubmit} className='dxForm'>
+      <Form layout="inline" onSubmit={this.handleSubmit} className="dxForm">
         <div className={styles.searchBoxBg}>
           <div className={styles.row}>
             {/* 第一行 */}
@@ -231,11 +263,15 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('exam', {
                   initialValue: this.state.exam,
                 })(
-                  <BISelect allowClear placeholder="考期" style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'exam')}>
+                  <BISelect
+                    allowClear
+                    placeholder="考期"
+                    style={{ width: 190 }}
+                    labelInValue
+                    onChange={val => this.formValChange(val, 'exam')}
+                  >
                     {this.examList.map(item => (
-                      <Option key={item.examYearmonth}>
-                        {item.exam}
-                      </Option>
+                      <Option key={item.examYearmonth}>{item.exam}</Option>
                     ))}
                   </BISelect>
                 )}
@@ -247,11 +283,15 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('collegeId', {
                   initialValue: this.state.collegeId,
                 })(
-                  <BISelect allowClear placeholder="学院" style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'collegeId')}>
+                  <BISelect
+                    allowClear
+                    placeholder="学院"
+                    style={{ width: 190 }}
+                    labelInValue
+                    onChange={val => this.formValChange(val, 'collegeId')}
+                  >
                     {this.collegeList.map(item => (
-                      <Option key={item.id}>
-                        {item.name}
-                      </Option>
+                      <Option key={item.id}>{item.name}</Option>
                     ))}
                   </BISelect>
                 )}
@@ -260,11 +300,18 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('familyIdList', {
                   initialValue: this.state.familyIdList,
                 })(
-                  <BISelect placeholder="家族" mode="multiple" allowClear style={{ width: 190 }} showArrow maxTagCount={1} labelInValue onChange={(val) => this.formValChange(val, 'familyIdList')}>
+                  <BISelect
+                    placeholder="家族"
+                    mode="multiple"
+                    allowClear
+                    style={{ width: 190 }}
+                    showArrow
+                    maxTagCount={1}
+                    labelInValue
+                    onChange={val => this.formValChange(val, 'familyIdList')}
+                  >
                     {this.familyList.map(item => (
-                      <Option key={item.id}>
-                        {item.name}
-                      </Option>
+                      <Option key={item.id}>{item.name}</Option>
                     ))}
                   </BISelect>
                 )}
@@ -273,7 +320,13 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('orderStatus', {
                   initialValue: this.state.orderStatus,
                 })(
-                  <BISelect allowClear placeholder="订单状态"  style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'orderStatus')}>
+                  <BISelect
+                    allowClear
+                    placeholder="订单状态"
+                    style={{ width: 190 }}
+                    labelInValue
+                    onChange={val => this.formValChange(val, 'orderStatus')}
+                  >
                     {BiFilter('ORDER_STATE').map(item => (
                       <Option value={item.id} key={item.name}>
                         {item.name}
@@ -286,7 +339,13 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('stuType', {
                   initialValue: this.state.stuType,
                 })(
-                  <BISelect allowClear placeholder="学员身份" style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'stuType')}>
+                  <BISelect
+                    allowClear
+                    placeholder="学员身份"
+                    style={{ width: 190 }}
+                    labelInValue
+                    onChange={val => this.formValChange(val, 'stuType')}
+                  >
                     {BiFilter('STUDENT_TYPE').map(item => (
                       <Option value={item.id} key={item.name}>
                         {item.name}
@@ -302,7 +361,13 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('admissionStatus', {
                   initialValue: this.state.admissionStatus,
                 })(
-                  <BISelect allowClear placeholder="准考证填写状态" style={{ width: 190 }} labelInValue onChange={(val) => this.formValChange(val, 'admissionStatus')}>
+                  <BISelect
+                    allowClear
+                    placeholder="准考证填写状态"
+                    style={{ width: 190 }}
+                    labelInValue
+                    onChange={val => this.formValChange(val, 'admissionStatus')}
+                  >
                     {BiFilter('TICKET_STATES').map(item => (
                       <Option value={item.id} key={item.name}>
                         {item.name}
@@ -315,15 +380,17 @@ class HorizontalLoginForm extends React.Component {
                 {getFieldDecorator('msgStatusList', {
                   initialValue: this.state.msgStatusList,
                 })(
-                  <BISelect placeholder="消息打开状态"
+                  <BISelect
+                    placeholder="消息打开状态"
                     style={{ width: 190 }}
                     mode="multiple"
-                    showArrow allowClear
+                    showArrow
+                    allowClear
                     maxTagCount={1}
                     labelInValue
-                    onChange={(val) => this.formValChange(val, 'msgStatusList')}
-                  // onSelect={(val)=>this.checkAllMsg(val)}
-                  // onDeselect={(val)=>this.uncheckAllMsg(val)}
+                    onChange={val => this.formValChange(val, 'msgStatusList')}
+                    // onSelect={(val)=>this.checkAllMsg(val)}
+                    // onDeselect={(val)=>this.uncheckAllMsg(val)}
                   >
                     {BiFilter('MSG_STATES').map(item => (
                       <Option key={item.id}>{item.name}</Option>
@@ -342,7 +409,9 @@ class HorizontalLoginForm extends React.Component {
                 </DxDropDown>
               </Form.Item>
               <div style={{ float: 'right', marginTop: 3 }}>
-                <BIButton style={{ marginRight: 10 }} type="primary" htmlType="submit">查询</BIButton>
+                <BIButton style={{ marginRight: 10 }} type="primary" htmlType="submit">
+                  查询
+                </BIButton>
                 <BIButton onClick={this.handleReset}>重置</BIButton>
               </div>
             </div>
@@ -359,32 +428,31 @@ const WrappedHorizontalLoginForm = Form.create({ name: 'Search_Form' })(Horizont
   home,
   dataDetail,
 }))
-
 class SearchForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
       conditionName: '',
-      titleType: 1,  // 1 添加查询条件 2 编辑查询条件
+      titleType: 1, // 1 添加查询条件 2 编辑查询条件
       checkedConditionList: {},
-      itemName:null,//删除已保存的选项时，更新已选择的过滤条件
+      itemName: null, //删除已保存的选项时，更新已选择的过滤条件
     };
     this.tId = undefined;
-    this.formRef  = undefined
+    this.formRef = undefined;
   }
-  updateCheckedConditions = (val) => {
+  updateCheckedConditions = val => {
     this.setState({
       checkedConditionList: val,
     });
     // this.props.updateCheckedConditions(val)
   };
 
-  conditionEdit = (item) => {
+  conditionEdit = item => {
     this.setState({
       visible: true,
       titleType: 2,
-      conditionName: item.paramName
+      conditionName: item.paramName,
     });
     this.tId = item.id;
   };
@@ -392,7 +460,7 @@ class SearchForm extends Component {
   conditionAdd = () => {
     if (!this.state.checkedConditionList.exam) {
       Message.warning('请选择考期');
-      return
+      return;
     }
     if (isEdit) {
       const checkedConditionList = DeepCopy(this.state.checkedConditionList);
@@ -404,12 +472,21 @@ class SearchForm extends Component {
         if (key === 'collegeId') {
           obj[key] = checkedConditionList[key].key;
           obj['collegeName'] = checkedConditionList[key].label;
-        }else if (key === 'familyIdList') {
-          obj['familyIdList'] = checkedConditionList[key] instanceof Array? checkedConditionList[key].map(item => item.key).join(','):checkedConditionList[key].key;
-          obj['familyNameList'] = checkedConditionList[key] instanceof Array? checkedConditionList[key].map(item => item.label).join(','):checkedConditionList[key].label;
-        }else if(key === 'msgStatusList'){
-          obj[key] = checkedConditionList[key] instanceof Array? checkedConditionList[key].map(item => item.key).join(','):checkedConditionList[key].key;
-        }else{
+        } else if (key === 'familyIdList') {
+          obj['familyIdList'] =
+            checkedConditionList[key] instanceof Array
+              ? checkedConditionList[key].map(item => item.key).join(',')
+              : checkedConditionList[key].key;
+          obj['familyNameList'] =
+            checkedConditionList[key] instanceof Array
+              ? checkedConditionList[key].map(item => item.label).join(',')
+              : checkedConditionList[key].label;
+        } else if (key === 'msgStatusList') {
+          obj[key] =
+            checkedConditionList[key] instanceof Array
+              ? checkedConditionList[key].map(item => item.key).join(',')
+              : checkedConditionList[key].key;
+        } else {
           obj[key] = checkedConditionList[key].key;
         }
       }
@@ -421,12 +498,12 @@ class SearchForm extends Component {
       this.setState({
         visible: true,
         titleType: 1,
-        conditionName: ''
+        conditionName: '',
       });
     }
   };
 
-  onChangeUserName = (e) => {
+  onChangeUserName = e => {
     this.setState({
       conditionName: e.target.value,
     });
@@ -435,11 +512,11 @@ class SearchForm extends Component {
   handleOk = () => {
     if (!this.state.conditionName) {
       Message.warning('请输入名称');
-      return
+      return;
     }
     if (!reg.test(this.state.conditionName)) {
       Message.warning('名称只能包含汉字、数字和英文');
-      return
+      return;
     }
     // 添加查询条件
     if (this.state.titleType === 1) {
@@ -452,12 +529,21 @@ class SearchForm extends Component {
         if (key === 'collegeId') {
           obj[key] = checkedConditionList[key].key;
           obj['collegeName'] = checkedConditionList[key].label;
-        }else if (key === 'familyIdList') {
-          obj['familyIdList'] = checkedConditionList[key] instanceof Array? checkedConditionList[key].map(item => item.key).join(','):checkedConditionList[key].key;
-          obj['familyNameList'] = checkedConditionList[key] instanceof Array? checkedConditionList[key].map(item => item.label).join(','):checkedConditionList[key].label;
-        }else if(key === 'msgStatusList'){
-          obj[key] = checkedConditionList[key] instanceof Array? checkedConditionList[key].map(item => item.key).join(','):checkedConditionList[key].key;
-        }else{
+        } else if (key === 'familyIdList') {
+          obj['familyIdList'] =
+            checkedConditionList[key] instanceof Array
+              ? checkedConditionList[key].map(item => item.key).join(',')
+              : checkedConditionList[key].key;
+          obj['familyNameList'] =
+            checkedConditionList[key] instanceof Array
+              ? checkedConditionList[key].map(item => item.label).join(',')
+              : checkedConditionList[key].label;
+        } else if (key === 'msgStatusList') {
+          obj[key] =
+            checkedConditionList[key] instanceof Array
+              ? checkedConditionList[key].map(item => item.key).join(',')
+              : checkedConditionList[key].key;
+        } else {
           obj[key] = checkedConditionList[key].key;
         }
       }
@@ -484,40 +570,41 @@ class SearchForm extends Component {
     }
     this.setState({
       visible: false,
-
     });
   };
-  getFilterArr(oldItem,delItem){
-    let arr = []
-    if(oldItem instanceof Array){
-      oldItem.map((sub,index) =>{
-        if(sub.key !== delItem.id)
-        arr.push({key:sub.key,label:sub.label});
-      })
-      return arr.length ? arr:undefined
+  getFilterArr(oldItem, delItem) {
+    let arr = [];
+    if (oldItem instanceof Array) {
+      oldItem.map((sub, index) => {
+        if (sub.key !== delItem.id) arr.push({ key: sub.key, label: sub.label });
+      });
+      return arr.length ? arr : undefined;
     }
   }
-  deleteFilterItem = (e) =>{
+  deleteFilterItem = e => {
     //删除已选条件
-    const delItem = {id:e.currentTarget.id,name:e.currentTarget.dataset.name}
-    const checkedConditionList = this.state.checkedConditionList
-    Object.keys(checkedConditionList).forEach(name =>{
-      if(name === e.currentTarget.dataset.name){
+    const delItem = { id: e.currentTarget.id, name: e.currentTarget.dataset.name };
+    const checkedConditionList = this.state.checkedConditionList;
+    Object.keys(checkedConditionList).forEach(name => {
+      if (name === e.currentTarget.dataset.name) {
         if (checkedConditionList[name] instanceof Array) {
-          this.state.checkedConditionList[name] = this.getFilterArr(checkedConditionList[delItem.name],delItem)
-        }else{
-          if(name === 'collegeId'){
-            this.state.checkedConditionList[name]=undefined
-            this.state.checkedConditionList['familyIdList']=undefined
-          }else{
-            this.state.checkedConditionList[name]=undefined
+          checkedConditionList[name] = this.getFilterArr(
+            checkedConditionList[delItem.name],
+            delItem
+          );
+        } else {
+          if (name === 'collegeId') {
+            checkedConditionList[name] = undefined;
+            checkedConditionList['familyIdList'] = undefined;
+          } else {
+            checkedConditionList[name] = undefined;
           }
         }
       }
-    })
-    this.formRef.props.form.setFieldsValue({...this.state.checkedConditionList})
-    this.setState({checkedConditionList:this.state.checkedConditionList})
-  }
+    });
+    this.formRef.props.form.setFieldsValue({ ...checkedConditionList });
+    this.setState({ checkedConditionList: checkedConditionList });
+  };
   handleCancel = () => {
     this.setState({
       visible: false,
@@ -529,24 +616,35 @@ class SearchForm extends Component {
     // 构造 checkedConditionList 的node
     function getCheckedConditionList() {
       const list = [];
-      Object.keys(checkedConditionList).map(name =>{
-        if(!checkedConditionList[name]){
-          return
+      Object.keys(checkedConditionList).map(name => {
+        if (!checkedConditionList[name]) {
+          return;
         }
-        let curObj = checkedConditionList[name]
-        if(curObj instanceof Array){
-          curObj.map((sub) =>{
-            list.push({...sub,name:name});
-          })
-        }else{
-          checkedConditionList[name]['name'] = name
+        let curObj = checkedConditionList[name];
+        if (curObj instanceof Array) {
+          curObj.map(sub => {
+            list.push({ ...sub, name: name });
+          });
+        } else {
+          checkedConditionList[name]['name'] = name;
           list.push(checkedConditionList[name]);
         }
-      })
+      });
       return list;
     }
-    const checkedBtn = getCheckedConditionList().map((v) => {
-      return <span className={styles.spanBtn} key={v.label}>{v.label}<Icon id={v.key} data-name={v.name} onClick={this.deleteFilterItem} style={{ marginLeft: '5px' }} type="close" /></span>
+    const checkedBtn = getCheckedConditionList().map(v => {
+      return (
+        <span className={styles.spanBtn} key={v.label}>
+          {v.label}
+          <Icon
+            id={v.key}
+            data-name={v.name}
+            onClick={this.deleteFilterItem}
+            style={{ marginLeft: '5px' }}
+            type="close"
+          />
+        </span>
+      );
     });
     return (
       <>
@@ -554,20 +652,23 @@ class SearchForm extends Component {
           <WrappedHorizontalLoginForm
             {...this.props}
             updateFormItem={this.state.itemName}
-            wrappedComponentRef={(inst) => this.formRef = inst}
-            updateCC={(p) => this.updateCheckedConditions(p)}
-            menuEdit={(item) => this.conditionEdit(item)}
+            wrappedComponentRef={inst => (this.formRef = inst)}
+            updateCC={p => this.updateCheckedConditions(p)}
+            menuEdit={item => this.conditionEdit(item)}
           />
-          {
-            getCheckedConditionList().length > 0 ? (
-              <div className={styles.searchBoxSeletected}>
-                <span className={styles.rowTitle2}>已选条件</span>
-                <div className={styles.row11}>
-                  <span style={{ display: 'inline-flex' }} >{checkedBtn}</span>  <span style={{ float: 'right',marginRight:-10 }}><BIButtonGreen type="primary"  onClick={() => this.conditionAdd()}>保存查询条件</BIButtonGreen></span>
-                </div>
+          {getCheckedConditionList().length > 0 ? (
+            <div className={styles.searchBoxSeletected}>
+              <span className={styles.rowTitle2}>已选条件</span>
+              <div className={styles.row11}>
+                <span style={{ display: 'inline-flex' }}>{checkedBtn}</span>{' '}
+                <span style={{ float: 'right', marginRight: -10 }}>
+                  <BIButtonGreen type="primary" onClick={() => this.conditionAdd()}>
+                    保存查询条件
+                  </BIButtonGreen>
+                </span>
               </div>
-            ) : null
-          }
+            </div>
+          ) : null}
         </div>
 
         <BIModal
@@ -576,19 +677,25 @@ class SearchForm extends Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
-            <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>取消</BIButton>,
+            <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
+              取消
+            </BIButton>,
             <BIButton type="primary" onClick={this.handleOk}>
               确定
-            </BIButton>
+            </BIButton>,
           ]}
         >
           <div className={styles.modalWrap}>
-            <BIInput placeholder="输入名称" maxLength={10} value={this.state.conditionName} onChange={this.onChangeUserName} />
+            <BIInput
+              placeholder="输入名称"
+              maxLength={10}
+              value={this.state.conditionName}
+              onChange={this.onChangeUserName}
+            />
           </div>
         </BIModal>
       </>
-    )
+    );
   }
 }
 export default SearchForm;
-
