@@ -20,7 +20,7 @@ export default class IllegalInfoComponent extends React.Component {
           <div className={styles.secRow}>
             <div>质检扣分日期：{reduceScoreDate?moment(reduceScoreDate).format('YYYY-MM-DD'):null}</div>
             <div>分维：{dimension}</div>
-            <div>违规等级：{violationLevelName}（{Number(qualityType) !== 1 ?'扣除学分':'扣除绩效'}{Number(qualityType) !== 1 ?qualityValue:`${qualityValue*100}%`}）</div>
+            <div>违规等级：{violationLevelName}（{Number(qualityType) !== 1 ?'扣除学分':'扣除绩效'}{Number(qualityType) !== 1 ?qualityValue:`${(qualityValue*100).toFixed(2)}%`}）</div>
           </div>
         </div>
         <div className={styles.container}>
@@ -31,7 +31,7 @@ export default class IllegalInfoComponent extends React.Component {
                   <div>客诉主管邮箱：{masterMail}</div>
                 </div>
                 <div className={styles.secRow}>
-                  <div>主管扣除绩效：{masterQualityValue*100}%</div>
+                  <div>主管扣除绩效：{(masterQualityValue*100).toFixed(2)}%</div>
                 </div>
               </>
             ):null
