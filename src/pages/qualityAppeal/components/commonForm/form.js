@@ -167,14 +167,14 @@ class CreateQualityNewSheet extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            // if (!err) {
-            const { violationLevelObj } = this.props;
-            const { violationLevel } = violationLevelObj;
-            if (this.props.onSubmit) {
-                this.props.onSubmit({ ...values, violationLevel });
-            }
+            if (!err) {
+                const { violationLevelObj } = this.props;
+                const { violationLevel } = violationLevelObj;
+                if (this.props.onSubmit) {
+                    this.props.onSubmit({ ...values, violationLevel });
+                }
 
-            // }
+            }
 
         });
     }
@@ -301,25 +301,25 @@ class CreateQualityNewSheet extends React.Component {
         const name = attUrl && attUrl.split('/')[3];
         if (actionType !== 'appeal') {
             return (
-              <div style={{display:'flex'}}>
-                <Upload
-                    {...uploadAttachment()}
-                    fileList={this.state.fileList}
-                    data={{ type: upLoadTypeObj.id || 1 }}
-                    onChange={this.uploadChange}
-                    beforeUpload={this.beforeUpload}
-                >
-                    <BIButton type="primary"
+                <div style={{ display: 'flex' }}>
+                    <Upload
+                        {...uploadAttachment()}
+                        fileList={this.state.fileList}
+                        data={{ type: upLoadTypeObj.id || 1 }}
+                        onChange={this.uploadChange}
+                        beforeUpload={this.beforeUpload}
                     >
-                        上传附件
+                        <BIButton type="primary"
+                        >
+                            上传附件
                     </BIButton>
-                </Upload>
-                {attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={()=>name} textClassName={styles.downCls1} />) : null}
-              </div>
+                    </Upload>
+                    {attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={() => name} textClassName={styles.downCls1} />) : null}
+                </div>
             )
         } else {
             return (
-                attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={()=>name} textClassName={styles.downCls} />) : null
+                attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={() => name} textClassName={styles.downCls} />) : null
             )
         }
     };
