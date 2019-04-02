@@ -70,8 +70,8 @@ class CreateQualityNewSheet extends React.Component {
         this.upDateFormParams(newParams);
     }
     handleOrgMapByMailParams = (params) => {
-        const { orgMapByMailData } = this.props;
-        const newParams = this.formModels.HandleOrgMapByMail(params || orgMapByMailData);
+        const { orgMapByMailData, orgList } = this.props;
+        const newParams = this.formModels.HandleOrgMapByMail(params || orgMapByMailData, orgList);
         this.upDateFormParams(newParams);
     }
     getOrgMapByMail = (mail, values) => {
