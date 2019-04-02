@@ -26,23 +26,23 @@ class CreateQualityNewSheet extends React.Component {
         this.state = {
             level: null,   // 展示层级
             violationLevelObj: {},
-            fileList:[]
+            fileList: []
         };
     }
-    componentWillReceiveProps(next){
-      const newUrl = next.params.attUrl;
-      const oldUrl = this.props.params.attUrl;
-      if(newUrl!==oldUrl && !oldUrl){
-        this.setState({
-          fileList: newUrl&&newUrl!==''?[{
-            uid: '-1',
-            name:newUrl.split('/')[3],
-            status: 'done',
-            url: newUrl,
-          }]:[]
-        });
+    componentWillReceiveProps(next) {
+        const newUrl = next.params.attUrl;
+        const oldUrl = this.props.params.attUrl;
+        if (newUrl !== oldUrl && !oldUrl) {
+            this.setState({
+                fileList: newUrl && newUrl !== '' ? [{
+                    uid: '-1',
+                    name: newUrl.split('/')[3],
+                    status: 'done',
+                    url: newUrl,
+                }] : []
+            });
 
-      }
+        }
     }
     getOrgMapByMail = () => {
         const values = this.props.form.getFieldsValue();
@@ -178,6 +178,22 @@ class CreateQualityNewSheet extends React.Component {
             }
         }
     };
+    datePackerChange = (value, key) => {
+        const values = this.props.form.getFieldsValue();
+        values[key] = value;
+        this.formChange(values)
+
+    }
+    inputChange = (e, key) => {
+        const values = this.props.form.getFieldsValue();
+        values[key] = e.currentTarget.value;
+        this.formChange(values)
+    }
+    formChange = (params) => {
+        if (this.props.formChange) {
+            this.props.formChange(params);
+        }
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -207,7 +223,7 @@ class CreateQualityNewSheet extends React.Component {
                             {getFieldDecorator('masterMail', {
                                 initialValue: params.masterMail,
                                 rules: [{ required: true, message: '请输入主管邮箱' }],
-                            })(<BIInput placeholder="请输入" style={{ width: 170 }} />)}
+                            })(<BIInput placeholder="请输入" style={{ width: 170 }} onChange={e => this.inputChange(e, 'masterMail')} />)}
                         </Form.Item>
                         <div className={styles.text}>@sunland.com</div>
                     </Col>
@@ -216,7 +232,7 @@ class CreateQualityNewSheet extends React.Component {
                             {getFieldDecorator('masterQualityValue', {
                                 initialValue: params.masterQualityValue,
                                 rules: [{ required: true, message: '请输入扣除绩效', validator: this.checkQuality }],
-                            })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
+                            })(<BIInput placeholder="请输入" style={{ width: 260 }} onChange={e => this.inputChange(e, 'masterQualityValue')} />)}
                             <span style={{ display: "inline-block", width: "20px" }}>%</span>
                         </Form.Item>
                     </Col>
@@ -259,7 +275,7 @@ class CreateQualityNewSheet extends React.Component {
                         {getFieldDecorator('qualityValue', {
                             initialValue: params.qualityType,
                             rules: [{ required: true, message: '请输入合法绩效', validator: this.checkQuality }]
-                        })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
+                        })(<BIInput placeholder="请输入" style={{ width: 260 }} onChange={e => this.inputChange(e, 'qualityValue')} />)}
                         <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}>%</span>
                     </Form.Item>
                 </Col>
@@ -278,7 +294,7 @@ class CreateQualityNewSheet extends React.Component {
                                 initialValue: params.qualityValue,
                                 rules: [{ required: true, message: '请输入合法学分', validator: this.checkScore }],
 
-                            })(<BIInput placeholder="请输入" style={{ width: 260 }} />)}
+                            })(<BIInput placeholder="请输入" style={{ width: 260 }} onChange={e => this.inputChange(e, 'qualityValue')} />)}
                             <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}></span>
                         </Form.Item>
                     </Col>
@@ -327,7 +343,7 @@ class CreateQualityNewSheet extends React.Component {
                     >
                         上传附件
                     </BIButton>
-                </Upload> )
+                </Upload>)
         } else {
             return (
                 attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={() => name} textClassName={styles.downCls} />) : null
@@ -378,7 +394,7 @@ class CreateQualityNewSheet extends React.Component {
                                     {getFieldDecorator('mail', {
                                         initialValue: params.mail,
                                         rules: [{ required: true, message: '请输入邮箱' }],
-                                    })(<BIInput placeholder="请输入" style={{ width: 170 }} />)}
+                                    })(<BIInput placeholder="请输入" style={{ width: 170 }} onChange={e => this.inputChange(e, 'mail')} />)}
                                 </Form.Item>
                                 <div className={styles.text}>@sunlands.com</div>
                                 <div>
@@ -412,11 +428,11 @@ class CreateQualityNewSheet extends React.Component {
                                     {getFieldDecorator('name', {
                                         initialValue: params.name,
                                         rules: [{ required: true, message: '请输入归属人' }],
-                                    })(<BIInput placeholder="请输入" style={{ width: 280 }} />)}
+                                    })(<BIInput placeholder="请输入" style={{ width: 280 }} onChange={e => this.inputChange(e, 'name')} />)}
                                 </Form.Item>
                             </Col>
                             <Col className="gutter-row txRight" span={12}>
-                                <span className={styles.i}></span><Form.Item label="归属组织：">
+                                <span className={styles.i}>*</span><Form.Item label="归属组织：">
                                     {getFieldDecorator('organize', {
                                         initialValue: params.organize,
                                         rules: [{ required: this.getOrgRole() > 0, message: '请输入归属组织' }]
@@ -440,7 +456,7 @@ class CreateQualityNewSheet extends React.Component {
                                 <span className={styles.i}></span><Form.Item label="子订单编号：">
                                     {getFieldDecorator('orderNum', {
                                         initialValue: params.orderNum,
-                                    })(<BIInput placeholder="请输入" style={{ width: 280 }} />)}
+                                    })(<BIInput placeholder="请输入" style={{ width: 280 }} onChange={e => this.inputChange(e, 'orderNum')} />)}
                                 </Form.Item>
                                 <div style={{ marginTop: '4px', marginLeft: '15px' }}>
                                     <BIButton type="primary" onClick={this.getOrderNum} loading={this.props.getOrderNumLoading}>
@@ -459,14 +475,14 @@ class CreateQualityNewSheet extends React.Component {
                                     {getFieldDecorator('violationDate', {
                                         initialValue: params.violationDate,
                                         rules: [{ required: true, message: '质检违规日期' }],
-                                    })(<BIDatePicker disabledDate={this.disabledDate} style={{ width: 280 }} format={format} />)}
+                                    })(<BIDatePicker disabledDate={this.disabledDate} style={{ width: 280 }} format={format} onChange={val => this.datePackerChange(val, 'violationDate')} />)}
                                 </Form.Item>
                             </Col>
                             <Col className="gutter-row txRight" span={12}>
                                 <span className={styles.i}>*</span><Form.Item label="质检扣分日期：">
                                     {getFieldDecorator('reduceScoreDate', {
                                         initialValue: params.reduceScoreDate,
-                                    })(<BIDatePicker disabledDate={this.disabledDate} style={{ width: 280 }} format={format} />)}
+                                    })(<BIDatePicker disabledDate={this.disabledDate} style={{ width: 280 }} format={format} onChange={val => this.datePackerChange(val, 'reduceScoreDate')} />)}
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -530,7 +546,7 @@ class CreateQualityNewSheet extends React.Component {
                                 <span className={styles.i}>&nbsp;</span><Form.Item label="违规详情:" className="row-details">
                                     {getFieldDecorator('desc', {
                                         initialValue: params.desc,
-                                    })(<TextArea maxLength={1000} className={styles.textA} rows="4" placeholder="请输入违规详情" />)}
+                                    })(<TextArea maxLength={1000} className={styles.textA} rows="4" placeholder="请输入违规详情" onChange={e => this.inputChange(e, 'desc')} />)}
                                 </Form.Item>
                             </Col>
                         </Row>

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less';
 import Edit from '../../components/AppealInfo/_edit';
-import { Row, Col, message } from 'antd';
+import { Row, Col, message,Spin } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 import SubOrderDetail from './../../components/subOrderDetail';
@@ -11,9 +11,10 @@ import AppealInfo from './../component/appealInfo';
 import SOPCheckResult from './../component/sopCheckResult';
 import router from 'umi/router';
 
-@connect(({ qualityAppealHome, EditAppeal }) => ({
+@connect(({ qualityAppealHome, EditAppeal,loading }) => ({
   qualityAppealHome,
   EditAppeal,
+  pageLoading: loading.effects['qualityAppealHome/getQualityDetailData']||loading.effects['qualityAppealHome/getDetailData']
 }))
 class EditAppeal extends React.Component {
   constructor(props) {
@@ -136,50 +137,52 @@ class EditAppeal extends React.Component {
     this.type = detailData[detailData.length - 1] ? detailData[detailData.length - 1].type : '';
 
     return (
-      <div className={styles.editAppeal}>
-        <section>
-          {/* 质检违规人员信息 */}
-          <PersonInfo data={qualityDetailData} qualityInfoCollapse={this.state.qualityInfoCollapse}  onClick={() => this.handleCollapse()}/>
-        </section>
-        <div
-          className={
-            this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
-          }
-        >
-          <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
-          <SubOrderDetail data={qualityDetailData.orderDetail} />
-          <>
-            {/* 质检违规详情 */}
-            <section>{/* 质检审核 */}</section>
-            <div className={styles.divideLine} />
-            <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail}/>
-          </>
-        </div>
+      <Spin spinning={this.props.pageLoading}>
+        <div className={styles.editAppeal}>
+          <section>
+            {/* 质检违规人员信息 */}
+            <PersonInfo data={qualityDetailData} qualityInfoCollapse={this.state.qualityInfoCollapse}  onClick={() => this.handleCollapse()}/>
+          </section>
+          <div
+            className={
+              this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
+            }
+          >
+            <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
+            <SubOrderDetail data={qualityDetailData.orderDetail} />
+            <>
+              {/* 质检违规详情 */}
+              <section>{/* 质检审核 */}</section>
+              <div className={styles.divideLine} />
+              <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail}/>
+            </>
+          </div>
 
-        <section>
-          {/* 申诉信息 */}
-          {this.getAppealInfos(detailData)}
-        </section>
-        <div className={styles.editBox}>
-          <div className={styles.title}>SOP审核</div>
-          <Edit hideDate setStateData={this.setStateData} />
-        </div>
-        {this.getSuperiorCheck(detailData)}
-        <Row className="gutter-row">
-          <Col span={24}>
-            <div className={styles.gutterBox1}>
+          <section>
+            {/* 申诉信息 */}
+            {this.getAppealInfos(detailData)}
+          </section>
+          <div className={styles.editBox}>
+            <div className={styles.title}>SOP审核</div>
+            <Edit hideDate setStateData={this.setStateData} />
+          </div>
+          {this.getSuperiorCheck(detailData)}
+          <Row className="gutter-row">
+            <Col span={24}>
+              <div className={styles.gutterBox1}>
               <span className={styles.gutterBtn2}>
                 <BIButton>取消</BIButton>
               </span>
-              <span className={styles.gutterBtn1}>
+                <span className={styles.gutterBtn1}>
                 <BIButton type="primary" onClick={this.handleSubmit}>
                   提交
                 </BIButton>
               </span>
-            </div>
-          </Col>
-        </Row>
-      </div>
+              </div>
+            </Col>
+          </Row>
+        </div>
+      </Spin>
     );
   }
 }
