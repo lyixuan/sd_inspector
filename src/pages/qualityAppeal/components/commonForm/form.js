@@ -301,7 +301,7 @@ class CreateQualityNewSheet extends React.Component {
         const name = attUrl && attUrl.split('/')[3];
         if (actionType !== 'appeal') {
             return (
-              <>
+              <div style={{display:'flex'}}>
                 <Upload
                     {...uploadAttachment()}
                     fileList={this.state.fileList}
@@ -314,8 +314,8 @@ class CreateQualityNewSheet extends React.Component {
                         上传附件
                     </BIButton>
                 </Upload>
-                {attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={()=>name} textClassName={styles.downCls} />) : null}
-              </>
+                {attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={()=>name} textClassName={styles.downCls1} />) : null}
+              </div>
             )
         } else {
             return (
