@@ -45,8 +45,10 @@ export default {
       if (result) {
         const { headers } = result.response || {};
         const filename = headers.get('content-disposition') || '';
-        const numName = filename.split('=?????')[1];
-        downBlob(result.data, decodeURI(numName));
+        const numName = filename.split('filename=')[1]; // 带后缀的文件名
+        const numName2 = numName.split('.')[0];   // 纯文件名
+        // console.log(11,window.decodeURI(numName2))
+        downBlob(result.data, `${eval("'"+numName2+"'")}.xlsx`);
         message.success('导出成功');
       } else {
         message.error(result.msgDetail);
