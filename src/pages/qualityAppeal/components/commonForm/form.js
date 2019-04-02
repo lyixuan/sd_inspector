@@ -181,14 +181,14 @@ class CreateQualityNewSheet extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            // if (!err) {
-            const { violationLevelObj } = this.props;
-            const { violationLevel } = violationLevelObj;
-            if (this.props.onSubmit) {
-                this.props.onSubmit({ ...values, violationLevel });
-            }
+            if (!err) {
+                const { violationLevelObj } = this.props;
+                const { violationLevel } = violationLevelObj;
+                if (this.props.onSubmit) {
+                    this.props.onSubmit({ ...values, violationLevel });
+                }
 
-            // }
+            }
 
         });
     }
@@ -329,7 +329,7 @@ class CreateQualityNewSheet extends React.Component {
                 </Upload> )
         } else {
             return (
-                attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={()=>name} textClassName={styles.downCls} />) : null
+                attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={() => name} textClassName={styles.downCls} />) : null
             )
         }
     };
