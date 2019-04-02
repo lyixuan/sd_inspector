@@ -56,7 +56,8 @@ class AppealDetail extends React.Component {
               }}
               onClick={index => this.handleAppealInfoCollapse(index)}
             />
-            {item.sopAppealCheck ? (
+
+            {item.sopAppealCheck&&item.sopAppealCheck.length>0 ? (
               <SOPCheckResult
                 data={{
                   sopAppealCheck: item.sopAppealCheck,
