@@ -45,7 +45,8 @@ export default class ProcessStep extends PureComponent {
     if (
       PROVINCE_STEP.map(item => item.id)
         .join('')
-        .indexOf(obj.stepType) >= 0
+        .indexOf(obj.stepType) >= 0 &&
+      obj.stepType != 2
     ) {
       router.push({
         pathname: '/smartPlatform/pushData',
