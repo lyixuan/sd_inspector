@@ -2,12 +2,10 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less';
 import InitChart from './component/InitChart';
-import Echart from '@/components/Echart';
 import InitTable from './component/InitTable';
 import BISelect from '@/ant_components/BISelect';
 import moment from 'moment';
 import BIDatePicker from '@/ant_components/BIDatePicker';
-import router from 'umi/router';
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -90,7 +88,6 @@ class PushData extends React.Component {
   };
   // 触发搜索
   refreshList = () => {
-    console.log(76, this.state);
     const {
       province,
       collegeId,
@@ -119,7 +116,6 @@ class PushData extends React.Component {
   render() {
     this.collegeList = this.props.home.orgList;
     const { dataList } = this.props.PushDataModel;
-    console.log(this.props.PushDataModel);
     return (
       <div className={styles.pushData}>
         <div className={styles.filterContainer}>
