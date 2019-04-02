@@ -26,8 +26,22 @@ class CreateQualityNewSheet extends React.Component {
         this.state = {
             level: null,   // 展示层级
             violationLevelObj: {},
-            fileList: []
+            fileList:[]
         };
+    }
+    componentWillReceiveProps(next){
+      const newUrl = next.params.attUrl;
+      const oldUrl = this.props.params.attUrl;
+      if(newUrl!==oldUrl){
+        this.setState({
+          fileList: newUrl&&newUrl!==''?[{
+            uid: '-1',
+            name:newUrl.split('/')[3],
+            status: 'done',
+            url: newUrl,
+          }]:[]
+        })
+      }
     }
     getOrgMapByMail = () => {
         const values = this.props.form.getFieldsValue();
@@ -301,7 +315,6 @@ class CreateQualityNewSheet extends React.Component {
         const name = attUrl && attUrl.split('/')[3];
         if (actionType !== 'appeal') {
             return (
-              <div style={{display:'flex'}}>
                 <Upload
                     {...uploadAttachment()}
                     fileList={this.state.fileList}
@@ -313,10 +326,7 @@ class CreateQualityNewSheet extends React.Component {
                     >
                         上传附件
                     </BIButton>
-                </Upload>
-                {attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={()=>name} textClassName={styles.downCls1} />) : null}
-              </div>
-            )
+                </Upload> )
         } else {
             return (
                 attUrl ? (<DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={()=>name} textClassName={styles.downCls} />) : null
@@ -332,6 +342,8 @@ class CreateQualityNewSheet extends React.Component {
         return current && current > moment().endOf('day');
     }
     render() {
+        const { attUrl = '' } = this.props.params;
+        this.attUrl = attUrl;
         const { getFieldDecorator } = this.props.form;
         const { params, orgList } = this.props;
         const { violationLevelObj } = this.props;
