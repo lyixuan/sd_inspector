@@ -137,6 +137,9 @@ class CreateQualityNewSheet extends React.Component {
     setAttUrl = (attUrl, newParams) => {
         this.saveParams({ ...newParams, attUrl });
     }
+    formChange = (params) => {
+        this.saveParams(params);
+    }
     saveParams = (nextParams = {}, callback) => {
         const { formParams } = this.state;
         const newParams = { ...formParams };
@@ -159,13 +162,13 @@ class CreateQualityNewSheet extends React.Component {
         let buttonText = '确定';
         if (code === 20000) {
             if (roleId === 49 && actionType === 'appeal') { // 只有主管才有审核权限
-                msgDetail = formType === 'appeal' ? '该条记录将提交到小德后台并补回归属人学分(绩效) , 确认提交吗?' : '该条记录将提交到小德后台并扣除归属人学分(绩效) , 确认提交吗?';
+                msgDetail = formType === 'appeal' ? '该条记录将提交到小德后台并修改归属人学分(绩效) , 确认提交吗?' : '该条记录将提交到小德后台并扣除归属人学分(绩效) , 确认提交吗?';
             } else if (roleId === 70) {
                 msgDetail = '改条记录将被提交给质检主管进行审核,确认提交吗?'
             }
             buttonText = '确定';
         } else {
-            msgDetail = msg || '该条信息将被提交审核,确定提交吗?';
+            msgDetail = msg;
             buttonText = '继续提交';
         }
         this.setState({ isShowOrderNumConfirmModel: true, msgDetail, buttonText });
@@ -188,7 +191,7 @@ class CreateQualityNewSheet extends React.Component {
     }
     render() {
         const { formParams, isShowOrderNumConfirmModel, msgDetail, buttonText } = this.state;
-        const { orgList, children } = this.props;
+        const { orgList, children, submitLoading } = this.props;
         return (<div>
             {/* form区域 */}
             <FormComponent
@@ -205,6 +208,7 @@ class CreateQualityNewSheet extends React.Component {
                 onCancel={this.onCancel}
                 otherNode={children || null}
                 violationLevelObj={this.state.violationLevelObj}
+                formChange={this.formChange}
                 onChangedimensionTree={this.onChangedimensionTree}
             />
             {/* 模态框部分 */}
@@ -218,7 +222,7 @@ class CreateQualityNewSheet extends React.Component {
                     <BIButton key="1" style={{ marginRight: 10 }} onClick={this.changeOrderNumConfirmModel.bind(null, false)}>
                         取消
             </BIButton>,
-                    <BIButton key="2" type="primary" onClick={this.confirmModelSubmit}>
+                    <BIButton key="2" type="primary" onClick={this.confirmModelSubmit} loading={submitLoading}>
                         {buttonText}
                     </BIButton>
                 ]}

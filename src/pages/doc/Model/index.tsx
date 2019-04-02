@@ -6,7 +6,8 @@ interface HelloProps {
 }
 export default class Hello extends React.Component<HelloProps, {}>{
     render() {
-        return (<div>yyyyy</div>
+        const num: number = 222;
+        return (<div>{num}</div>
         );
     };
 }
