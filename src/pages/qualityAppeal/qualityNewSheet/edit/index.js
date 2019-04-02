@@ -10,6 +10,7 @@ import QualityAppeal from '../../components/AppealInfo/qualityAppeal';
   loading,
   qualityNewSheet,
   editQualityNewSheet,
+  submitLoading: loading.effects['editQualityNewSheet/updateQuality']
 }))
 class EditQualityNewSheet extends React.Component {
   constructor(props) {

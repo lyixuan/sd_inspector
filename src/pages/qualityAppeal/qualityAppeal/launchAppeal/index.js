@@ -12,9 +12,10 @@ import router from 'umi/router';
 const { TextArea } = Input;
 let isLt10M = false;
 let isZip = false;
-@connect(({ Launch, qualityAppealHome }) => ({
+@connect(({ Launch, qualityAppealHome,loading }) => ({
   Launch,
   qualityAppealHome,
+  loading: loading.effects['Launch/launchAppeal']
 }))
 class Launch extends React.Component {
   constructor(props) {
@@ -170,7 +171,7 @@ class Launch extends React.Component {
                 <BIButton onClick={() => router.goBack()}>取消</BIButton>
               </span>
               <span className={styles.gutterBtn1}>
-                <BIButton type="primary" onClick={this.handleSubmit}>
+                <BIButton type="primary" loading={loading} onClick={this.handleSubmit}>
                   提交申诉
                 </BIButton>
               </span>

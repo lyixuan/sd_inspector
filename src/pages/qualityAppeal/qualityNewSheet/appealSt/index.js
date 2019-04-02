@@ -10,6 +10,7 @@ import { message } from 'antd/lib/index';
   loading,
   qualityNewSheet,
   editQualityNewSheet,
+  submitLoading: loading.effects['editQualityNewSheet/checkQuality']
 }))
 class EditQualityNewSheet extends React.Component {
   constructor(props) {
@@ -47,7 +48,6 @@ class EditQualityNewSheet extends React.Component {
     }
     const params2 = {
       qualityId: Number(this.query.id),
-      type: this.query.status === '2' || this.query.status === '4' ? 1 : 2,
       checkResult: Number(appealParam.checkResult) === 1 ? 2 : 4,
       checkResultDesc: appealParam.desc ? appealParam.desc : undefined,
       firstAppealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,

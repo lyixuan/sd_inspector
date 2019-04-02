@@ -11,9 +11,11 @@ import router from 'umi/router';
 import { message } from 'antd/lib/index';
 const confirm = BIModal.confirm;
 
-@connect(({ qualityAppealing, qualityAppealHome }) => ({
+@connect(({ qualityAppealing, qualityAppealHome,loading }) => ({
   qualityAppealing,
   orgList: qualityAppealHome.orgList,
+  submitLoading: loading.effects['qualityAppealing/reviewAppeal'],
+  submitLoading2: loading.effects['qualityAppealing/sopAppeal']
 }))
 class QualityAppealing extends React.Component {
   constructor(props) {
@@ -121,6 +123,7 @@ class QualityAppealing extends React.Component {
   }
   render() {
     const { appealShow = [], qualityDetailData = {} } = this.props.qualityAppealing;
+    const {submitLoading2} = this.props;
     appealShow.forEach(v => {
       if (v.type === 1) {
         this.firstAppealEndDate = v.appealEndDate;
@@ -152,7 +155,7 @@ class QualityAppealing extends React.Component {
               <BIButton onClick={this.handleCancel} style={{ marginRight: 20 }}>
                 取消
               </BIButton>
-              <BIButton type="primary" onClick={this.handleSubmitSop}>
+              <BIButton loading={submitLoading2} type="primary" onClick={this.handleSubmitSop}>
                 提交审核
               </BIButton>
             </div>
