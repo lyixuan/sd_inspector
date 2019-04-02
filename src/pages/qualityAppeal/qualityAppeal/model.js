@@ -4,6 +4,7 @@ import {
   appealCancelQuality,
   appealExportExcel,
 } from '@/pages/qualityAppeal/qualityAppeal/services';
+import {downBlob} from '@/utils/utils';
 
 export default {
   namespace: 'qualityCheck',
@@ -43,7 +44,10 @@ export default {
       delete params.type;
       const result = yield call(appealExportExcel, params);
       if (result) {
-        downBlob(result.data, 'name.xlsx');
+        const { headers } = result.response || {};
+        const filename = headers.get('content-disposition') || '';
+        const numName = filename.split('=?????')[1];
+        downBlob(result.data, decodeURI(numName));
         message.success('导出成功');
       } else {
         message.error(result.msgDetail);
@@ -59,15 +63,3 @@ export default {
 
   subscriptions: {},
 };
-
-function downBlob(blob, name) {
-  // 接收返回blob类型的数据
-  const downloadElement = document.createElement('a');
-  const href = window.URL.createObjectURL(blob); // 创建下载的链接
-  downloadElement.href = href;
-  downloadElement.download = name; // 下载后文件名
-  document.body.appendChild(downloadElement);
-  downloadElement.click(); // 点击下载
-  document.body.removeChild(downloadElement); // 下载完成移除元素
-  window.URL.revokeObjectURL(href); // 释放掉blob对象
-}
