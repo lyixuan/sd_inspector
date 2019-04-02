@@ -147,9 +147,7 @@ class CreateQualityNewSheet extends React.Component {
             if (callback) callback();
         });
     }
-    changeConfirmModel = (bol) => {
-        this.setState({ isShowConfirmModel: bol });
-    }
+
     changeOrderNumConfirmModel = (bol) => {
         this.setState({ isShowOrderNumConfirmModel: bol });
     }

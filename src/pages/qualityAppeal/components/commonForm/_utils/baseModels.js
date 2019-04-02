@@ -64,12 +64,14 @@ export class BaseModels {
     HandleOrgMapByMail(obj) {
         if (!obj || typeof obj !== 'object') return;
         const { collegeId, familyId, groupId, collegeName, familyName, groupName, userType, id, name } = obj;
-
         const organize = [collegeId, familyId, groupId].filter(item => item);
         const organizeName = [collegeName, familyName, groupName].filter(item => item).join('|');
         return {
             collegeId, familyId, groupId, collegeName, familyName, groupName, role: userType, userId: id, name, organizeName, organize
         }
+    }
+    findOrganizeName() {
+
     }
     getQualityValueFamter = (params) => {
         const { qualityValue } = params;
