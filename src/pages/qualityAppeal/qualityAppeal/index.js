@@ -17,7 +17,7 @@ function changeState(record) {
   // 合并
   // 后端通过两个字段控制状态，前端只能有一个字段遵循顺序关系，只能这样手动映射，本人也表示很无语
   let myStatue = 1;
-  if (record.status === 10) {
+  if (record.status === null) {
     myStatue = 1; // 待申诉
   }
   if (record.status === 1 && record.appealType === 1) {
@@ -405,8 +405,8 @@ class QualityAppeal extends React.Component {
     this.onJumpPage({ id: record.id }, '/qualityAppeal/qualityAppeal/detail');
   };
 
-  onSubmitAppeal = (record) => {
-    this.onJumpPage({ id: record.id, appealType: record.status }, '/qualityAppeal/qualityAppeal/launch');
+  onSubmitAppeal = (record,status) => {
+    this.onJumpPage({ id: record.id, appealType: status }, '/qualityAppeal/qualityAppeal/launch');
   };
 
   onAppeal = (record) => {
@@ -448,7 +448,7 @@ class QualityAppeal extends React.Component {
             </AuthButton>
             {status === 1 || status === 3 || status === 5 || status === 7 ? (
               <AuthButton authority='/qualityAppeal/qualityAppeal/launch'>
-                <span className={style.actionBtn} onClick={() => this.onSubmitAppeal(record)}>
+                <span className={style.actionBtn} onClick={() => this.onSubmitAppeal(record,status)}>
                   提交申诉
                 </span>
               </AuthButton>
