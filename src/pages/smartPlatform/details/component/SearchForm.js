@@ -84,7 +84,7 @@ class HorizontalLoginForm extends React.Component {
         }
         that.handleReset();
       },
-      onCancel() { },
+      onCancel() {},
     });
   };
 
@@ -108,30 +108,30 @@ class HorizontalLoginForm extends React.Component {
       : '';
     val.familyIdList
       ? (this.checkedConditionList.familyIdList = {
-        key: val.familyIdList,
-        label: val.familyNameList,
-      })
+          key: val.familyIdList,
+          label: val.familyNameList,
+        })
       : '';
     val.orderStatus
       ? (this.checkedConditionList.orderStatus = {
-        key: val.orderStatus,
-        label: val.orderStatusName,
-      })
+          key: val.orderStatus,
+          label: val.orderStatusName,
+        })
       : '';
     val.stuType
       ? (this.checkedConditionList.stuType = { key: val.stuType, label: val.stuTypeName })
       : '';
     val.admissionStatus
       ? (this.checkedConditionList.admissionStatus = {
-        key: val.admissionStatus,
-        label: val.admissionStatusName,
-      })
+          key: val.admissionStatus,
+          label: val.admissionStatusName,
+        })
       : '';
     val.msgStatusList
       ? (this.checkedConditionList.msgStatusList = {
-        key: val.msgStatusList,
-        label: val.msgStatusName,
-      })
+          key: val.msgStatusList,
+          label: val.msgStatusName,
+        })
       : '';
 
     let arr = undefined;
@@ -246,10 +246,10 @@ class HorizontalLoginForm extends React.Component {
             </DxMenu.Item>
           ))
         ) : (
-            <DxMenu.Item>
-              <span>暂无数据</span>
-            </DxMenu.Item>
-          )}
+          <DxMenu.Item>
+            <span>暂无数据</span>
+          </DxMenu.Item>
+        )}
       </DxMenu>
     );
 
@@ -389,8 +389,8 @@ class HorizontalLoginForm extends React.Component {
                     maxTagCount={1}
                     labelInValue
                     onChange={val => this.formValChange(val, 'msgStatusList')}
-                  // onSelect={(val)=>this.checkAllMsg(val)}
-                  // onDeselect={(val)=>this.uncheckAllMsg(val)}
+                    // onSelect={(val)=>this.checkAllMsg(val)}
+                    // onDeselect={(val)=>this.uncheckAllMsg(val)}
                   >
                     {BiFilter('MSG_STATES').map(item => (
                       <Option key={item.id}>{item.name}</Option>
@@ -445,7 +445,8 @@ class SearchForm extends Component {
     this.setState({
       checkedConditionList: val,
     });
-    // this.props.updateCheckedConditions(val)
+    console.log(val, '------', this.state.checkedConditionList);
+    this.props.updateCheckedConditions(val);
   };
 
   conditionEdit = item => {
