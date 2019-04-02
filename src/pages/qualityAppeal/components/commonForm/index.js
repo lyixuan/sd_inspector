@@ -152,12 +152,17 @@ class CreateQualityNewSheet extends React.Component {
         this.setState({ isShowOrderNumConfirmModel: bol });
     }
     checkoutOrderNumCallBack = (params) => {
-        //审核状态下不弹框
-        const { code, msg } = params || {};
+        //审核状态下不弹框, roleId=49 主管 roleId=70专员 roleId=71 sop
+        const { code, msg, roleId } = params || {};
+        const { actionType, formType } = this.props;
         let msgDetail = '';
         let buttonText = '确定';
         if (code === 20000) {
-            msgDetail = '该条信息将被提交审核,确定提交吗?'
+            if (roleId === 49 && actionType === 'appeal') { // 只有主管才有审核权限
+                msgDetail = formType === 'appeal' ? '该条记录将提交到小德后台并补回归属人学分(绩效) , 确认提交吗?' : '该条记录将提交到小德后台并扣除归属人学分(绩效) , 确认提交吗?';
+            } else if (roleId === 70) {
+                msgDetail = '改条记录将被提交给质检主管进行审核,确认提交吗?'
+            }
             buttonText = '确定';
         } else {
             msgDetail = msg || '该条信息将被提交审核,确定提交吗?';
@@ -167,7 +172,6 @@ class CreateQualityNewSheet extends React.Component {
     }
     confirmModelSubmit = () => {
         if (this.props.onSubmit) {
-            console.log(this.tmpParams)
             this.props.onSubmit(this.tmpParams);
         }
     }
