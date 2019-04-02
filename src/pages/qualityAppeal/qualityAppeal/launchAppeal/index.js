@@ -103,7 +103,7 @@ class Launch extends React.Component {
     }
   };
   render() {
-    const {qualityAppealHome = {}} = this.props;
+    const {qualityAppealHome = {},loading} = this.props;
     const qualityDetailData = qualityAppealHome.QualityDetailData;
     this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
     const {masterQualityValue='',masterMail=''} = qualityAppealHome;
