@@ -23,6 +23,7 @@ import styles from './style.less';
     dimensionList2: qualityAppealHome.dimensionList2, // 班主任分维
     mailDataLoading: loading.effects['qualityAppealHome/getOrgMapByMail'],
     getOrderNumLoading: loading.effects['qualityAppealHome/getOrderNum'],
+    checkRepeatQualityIng: loading.effects['qualityAppealHome/checkRepeatQualityInspection'],
 }))
 class CreateQualityNewSheet extends React.Component {
     constructor(props) {
@@ -33,6 +34,7 @@ class CreateQualityNewSheet extends React.Component {
             violationLevelObj: {},  // 用于储存违规等级,
             isShowOrderNumConfirmModel: false,
             msgDetail: '',
+            buttonText: '确定',
         };
         this.tmpParams = null;   //  用于临时储存参数;
     }
@@ -155,15 +157,19 @@ class CreateQualityNewSheet extends React.Component {
         //审核状态下不弹框
         const { code, msg } = params || {};
         let msgDetail = '';
+        let buttonText = '确定';
         if (code === 20000) {
             msgDetail = '该条信息将被提交审核,确定提交吗?'
+            buttonText = '确定';
         } else {
             msgDetail = msg || '该条信息将被提交审核,确定提交吗?';
+            buttonText = '继续提交';
         }
-        this.setState({ isShowOrderNumConfirmModel: true, msgDetail });
+        this.setState({ isShowOrderNumConfirmModel: true, msgDetail, buttonText });
     }
     confirmModelSubmit = () => {
         if (this.props.onSubmit) {
+            console.log(this.tmpParams)
             this.props.onSubmit(this.tmpParams);
         }
     }
@@ -179,7 +185,7 @@ class CreateQualityNewSheet extends React.Component {
         this.props.history.goBack();
     }
     render() {
-        const { formParams, isShowOrderNumConfirmModel, msgDetail } = this.state;
+        const { formParams, isShowOrderNumConfirmModel, msgDetail, buttonText } = this.state;
         const { orgList, children } = this.props;
         return (<div>
             {/* form区域 */}
@@ -207,12 +213,12 @@ class CreateQualityNewSheet extends React.Component {
                 visible={isShowOrderNumConfirmModel}
                 onCancel={this.changeOrderNumConfirmModel.bind(null, false)}
                 footer={[
-                    <BIButton style={{ marginRight: 10 }} onClick={this.changeOrderNumConfirmModel.bind(null, false)}>
+                    <BIButton key="1" style={{ marginRight: 10 }} onClick={this.changeOrderNumConfirmModel.bind(null, false)}>
                         取消
             </BIButton>,
-                    <BIButton type="primary" onClick={this.confirmModelSubmit}>
-                        继续提交
-            </BIButton>,
+                    <BIButton key="2" type="primary" onClick={this.confirmModelSubmit}>
+                        {buttonText}
+                    </BIButton>
                 ]}
             >
                 <div className={styles.modalWrap}>{msgDetail}</div>
