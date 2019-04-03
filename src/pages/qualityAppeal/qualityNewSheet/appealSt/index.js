@@ -77,7 +77,6 @@ class EditQualityNewSheet extends React.Component {
         desc: v.desc
       })
     });
-    console.log(111,checkResult)
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.qualityContainter}>

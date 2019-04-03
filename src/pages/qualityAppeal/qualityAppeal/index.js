@@ -388,11 +388,22 @@ class QualityAppeal extends React.Component {
   };
 
   onTabChange = (val) => {
+    if (val==='1') {
+      router.replace({
+        pathname:this.props.location.pathname,
+        query: {p:JSON.stringify({tabType:'1',type: 1})}
+      });
+    } else {
+      router.replace({
+        pathname:this.props.location.pathname,
+        query: {p:JSON.stringify({tabType:'2',type: 2})}
+      });
+    }
     this.setState({
       type: Number(val),
       tabType: val,
     }, () => {
-      this.queryData({ tabType: val, type: Number(val) });
+      // this.queryData({ tabType: val, type: Number(val) });
     })
   };
   onJumpPage = (query, pathname) => {
