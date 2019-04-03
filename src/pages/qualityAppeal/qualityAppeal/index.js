@@ -402,6 +402,8 @@ class QualityAppeal extends React.Component {
     this.setState({
       type: Number(val),
       tabType: val,
+    }, () => {
+      this.queryData({ tabType: val, type: Number(val) });
     })
   };
   onJumpPage = (query, pathname) => {
@@ -515,7 +517,7 @@ class QualityAppeal extends React.Component {
   };
   render() {
     const { orgListTreeData = [], dimensionList1 = [], dimensionList2 = [] } = this.props.qualityAppealHome;
-    const { qualityAppealList = [], page } = this.props.qualityCheck;
+    const { qualityAppealList1 = [],qualityAppealList2 = [], page } = this.props.qualityCheck;
     return (
       <>
         <div className={subStl.topTab}>
@@ -527,7 +529,7 @@ class QualityAppeal extends React.Component {
                 tabType={this.state.tabType}
                 columns={this.c1}
                 orgList={orgListTreeData}
-                dataSource={qualityAppealList}
+                dataSource={qualityAppealList1}
                 page={page}
                 queryData={(params, page, isExport) => this.queryData(params, page, isExport)} />
             </TabPane>
@@ -539,7 +541,7 @@ class QualityAppeal extends React.Component {
                 dimensionList1={dimensionList1}
                 dimensionList2={dimensionList2}
                 columns={this.c2}
-                dataSource={qualityAppealList}
+                dataSource={qualityAppealList2}
                 page={page}
                 queryData={(params, page) => this.queryData(params, page)} />
             </TabPane>
