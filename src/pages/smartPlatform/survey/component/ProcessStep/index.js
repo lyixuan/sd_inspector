@@ -81,7 +81,11 @@ export default class ProcessStep extends PureComponent {
       const { stepStatus } = obj; // 报考状态
       const examNodeLightHight =
         stepStatus === 3 || stepStatus === 1 || stepStatus === -1 || stepStatus == undefined;
-      const toolTips = examNodeLightHight ? <></> : <StepStatusHover data={obj} isVisible={true} />;
+      const toolTips = examNodeLightHight ? (
+        <></>
+      ) : (
+        <StepStatusHover data={obj} isVisible={item.isVisible} />
+      );
       return (
         <li
           onClick={this.redirectDetails.bind(this, obj, item.name)}
