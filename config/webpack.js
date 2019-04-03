@@ -31,4 +31,5 @@ export const webpackConfig = {
             changeOrigin: true,
         }
     },
+    ignoreMomentLocale: true,
 };

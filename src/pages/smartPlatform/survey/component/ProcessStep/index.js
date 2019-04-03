@@ -5,9 +5,8 @@ import router from 'umi/router';
 import moment from 'moment';
 
 function StepStatusHover(props) {
-  console.log('props', props);
-  let readStyle = { width: props.data.readRatio * 157 + 'px' };
-  let unReadStyle = { width: props.data.unreadRatio * 157 + 'px' };
+  let readStyle = { width: props.data.readRatio * 160 + 'px' };
+  let unReadStyle = { width: props.data.unreadRatio * 160 + 'px' };
   return (
     <div className={props.isVisible ? styles.showToolTips : styles.hideToolTips}>
       <span className={styles.msgRead} style={readStyle} />
@@ -37,11 +36,7 @@ export default class ProcessStep extends PureComponent {
       props: props,
     };
   }
-  static getDerivedStateFromProps = (nextProps, prevState) => {
-    console.log(nextProps);
-  };
   redirectDetails = (obj, name) => {
-    console.log(obj, name);
     if (obj.stepStatus == 2) {
       router.push({
         pathname: '/smartPlatform/pushData',
@@ -74,7 +69,6 @@ export default class ProcessStep extends PureComponent {
   handleData = (data = []) => {
     return PROVINCE_STEP.map((item, index) => {
       const obj = data.find(ls => ls.stepType === item.id) || {};
-      console.log('obj:', obj);
       const beginDate = obj.beginDate ? moment(obj.beginDate).format('MMMDo') : '';
       const endDate = obj.endDate ? moment(obj.endDate).format('MMMDo') : '';
       const dateTime = beginDate + endDate ? `${beginDate}-${endDate}` : '暂未公布';
