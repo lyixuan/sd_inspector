@@ -1,5 +1,6 @@
 import { message } from 'antd/lib/index';
 import { getData, exportData } from './services';
+import moment from 'moment';
 
 export default {
   namespace: 'PushDataModel',
@@ -21,7 +22,7 @@ export default {
     *exportData({ payload }, { call, put }) {
       const result = yield call(exportData, { ...payload });
       if (result) {
-        downBlob(result.data, '推送明细数据.xlsx');
+        downBlob(result.data, '推送明细数据-' + moment(new Date()).format('YYYYMMDD') + '.xlsx');
         message.success('导出成功');
       } else {
         message.error('导出失败');
