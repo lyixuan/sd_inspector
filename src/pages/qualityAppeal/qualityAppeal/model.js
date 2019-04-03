@@ -10,7 +10,8 @@ export default {
   namespace: 'qualityCheck',
 
   state: {
-    qualityAppealList: [],
+    qualityAppealList1: [],
+    qualityAppealList2: [],
     page: {},
   },
 
@@ -20,12 +21,19 @@ export default {
       const result = yield call(getAppealList, params);
 
       if (result.code === 20000) {
-        const qualityAppealList = result.data.list ? result.data.list : [];
+        let qualityAppealList1 = [];
+        let qualityAppealList2 = [];
+        if (params.type===1) {
+          qualityAppealList1 = result.data.list ? result.data.list : [];
+        } else {
+          qualityAppealList2 = result.data.list ? result.data.list : [];
+        }
+
         const page = {
           total: result.data.total ? result.data.total : 0,
           pageNum: result.data.pageNum ? result.data.pageNum : 1,
         };
-        yield put({ type: 'save', payload: { qualityAppealList, page } });
+        yield put({ type: 'save', payload: { qualityAppealList1,qualityAppealList2, page } });
       } else {
         message.error(result.msgDetail);
       }

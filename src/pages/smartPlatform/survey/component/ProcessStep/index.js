@@ -42,12 +42,7 @@ export default class ProcessStep extends PureComponent {
   };
   redirectDetails = obj => {
     console.log(obj);
-    if (
-      PROVINCE_STEP.map(item => item.id)
-        .join('')
-        .indexOf(obj.stepType) >= 0 &&
-      obj.stepType != 2
-    ) {
+    if (obj.stepStatus == 2) {
       router.push({
         pathname: '/smartPlatform/pushData',
         query: { province: '北京市', nodeSign: obj.stepType },
@@ -84,14 +79,15 @@ export default class ProcessStep extends PureComponent {
       const endDate = obj.endDate ? moment(obj.endDate).format('MMMDo') : '';
       const dateTime = beginDate + endDate ? `${beginDate}-${endDate}` : '暂未公布';
       const { stepStatus } = obj; // 报考状态
+      console.log(stepStatus);
       console.log(stepStatus, beginDate + endDate);
-      const examNodeLightHight = stepStatus === 2 || stepStatus === 0 || stepStatus === -1;
-      const toolTips =
-        examNodeLightHight || beginDate + endDate == '' ? (
-          <></>
-        ) : (
-          <StepStatusHover data={obj} isVisible={item.isVisible} />
-        );
+      const examNodeLightHight =
+        stepStatus === 3 || stepStatus === 1 || stepStatus === -1 || stepStatus == undefined;
+      const toolTips = examNodeLightHight ? (
+        <></>
+      ) : (
+        <StepStatusHover data={obj} isVisible={item.isVisible} />
+      );
       return (
         <li
           onClick={this.redirectDetails.bind(this, obj)}
@@ -100,7 +96,7 @@ export default class ProcessStep extends PureComponent {
           className={examNodeLightHight ? styles.stepItem2 : styles.stepItem1}
           key={item.id}
         >
-          {stepStatus === 2 ? <div className={styles.stepOver}>已结束</div> : null}
+          {stepStatus === 3 ? <div className={styles.stepOver}>已结束</div> : null}
           <h4 className={styles.processName} key={`${item.id}h4`}>
             {item.name}
           </h4>
