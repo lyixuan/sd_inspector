@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './style.css';
+import moment from 'moment/moment';
 // import Item from 'antd/lib/list/Item';
 
 export default class SOPCheckResultComponent extends React.Component {
@@ -18,7 +19,6 @@ export default class SOPCheckResultComponent extends React.Component {
   }
   render() {
     let { sopAppealCheck, isCollapse } = this.props.data;
-    console.log(this.props.data);
     return (
       <section className={isCollapse ? `${styles.hidePanel}` : `${styles.showPanel} `}>
         <div className={styles.personInfoCon}>
@@ -40,7 +40,7 @@ export default class SOPCheckResultComponent extends React.Component {
                     <div className={styles.secRow}>
                       <div>
                         <span>执行人：{item.operator}</span>
-                        <span>操作时间：{item.operatorDate}</span>
+                        <span>操作时间：{moment(item.operateDate).format('YYYY-MM-DD HH:mm:ss')}</span>
                       </div>
                     </div>
                   </div>
