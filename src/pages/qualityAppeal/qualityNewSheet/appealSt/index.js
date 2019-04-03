@@ -16,7 +16,9 @@ import { message,Spin } from 'antd';
 class EditQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      checkResult: undefined
+    };
     const { query = {} } = this.props.location;
     this.query = query;
     this.appealParam={};
@@ -35,6 +37,9 @@ class EditQualityNewSheet extends React.Component {
   };
   setStateData = val => {
     this.appealParam = val;
+    this.setState({
+      checkResult: Number(val.checkResult)
+    })
   };
   onSubmit = params => {
     const { appealParam } = this;
@@ -60,6 +65,7 @@ class EditQualityNewSheet extends React.Component {
   };
 
   render() {
+    const {checkResult} = this.state;
     const { qualityDetail = {} } = this.props.qualityNewSheet;
     const {  qualityAudit = [], ...others } = qualityDetail;
     const newqualityAudit = [];
@@ -75,7 +81,7 @@ class EditQualityNewSheet extends React.Component {
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.qualityContainter}>
           {/* form区域 */}
-          <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={{ ...others }} formType="quality" actionType="appeal">
+          <CommonForm {...this.props} checkResult={checkResult} onSubmit={this.onSubmit} dataSource={{ ...others }} formType="quality" actionType="appeal">
             <QualityAppeal data={newqualityAudit} formType="quality" setStateData={this.setStateData} />
           </CommonForm>
 
