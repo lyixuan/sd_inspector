@@ -7,6 +7,9 @@ const proxyHost = {
 }
 const proxy_env = proxyHost[process.env.PROXY_ENV];
 export const webpackConfig = {
+    externals: {
+        echarts: 'echarts'
+    },
     define: {
         'process.env.LOGIN_TYPE': process.env.LOGIN_TYPE,
         'process.env.PROXY_ENV': process.env.PROXY_ENV,
