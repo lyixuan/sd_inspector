@@ -24,6 +24,8 @@ class Index extends React.Component {
     }
     const data1 = this.isEmptyObj(dataList1);
     const data2 = this.isEmptyObj(dataList2);
+    const InfoList1 = data1.appealStart && data1.appealStart.map((v)=><Info type='startAppeal' data={v}/>);
+    const InfoList2 = data2.appealStart && data2.appealStart.map((v)=><Info type='startAppeal' data={v}/>);
     return (
       <div>
         {
@@ -33,7 +35,7 @@ class Index extends React.Component {
                 <div className={styles.s1_title}>一次申诉<span className={styles.txtCls}>（一次申诉截止日期：{dataList1.appealEndDate?moment(dataList1.appealEndDate).format('YYYY-MM-DD'):null}）</span></div>
                 <div className={styles.resultWrap}>
                   <div className={styles.s2_title}>申诉发起人</div>
-                  <Info type='startAppeal' data={dataList1.appealStart}/>
+                  {InfoList1}
                 </div>
                 {
                   dataList1.sopAppealCheck&&dataList1.sopAppealCheck.length===0?null:(
@@ -81,7 +83,7 @@ class Index extends React.Component {
               <div className={styles.s1_title}>二次申诉<span className={styles.txtCls}>（二次申诉截止日期：{dataList2.appealEndDate?moment(dataList2.appealEndDate).format('YYYY-MM-DD'):null}）</span></div>
               <div className={styles.resultWrap}>
                 <div className={styles.s2_title}>申诉发起人</div>
-                <Info type='startAppeal' data={dataList2.appealStart}/>
+                {InfoList2}
               </div>
               {
                 dataList2.sopAppealCheck&&dataList2.sopAppealCheck.length===0?null:(

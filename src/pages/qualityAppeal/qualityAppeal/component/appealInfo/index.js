@@ -17,9 +17,34 @@ export default class AppealInfoComponent extends React.Component {
   }
   render() {
     const {data={}} = this.props;
-    const { appealEndDate, appealStart, type, index, isCollapse } = data;
+    const { appealEndDate, appealStart=[], type, index, isCollapse } = data;
     const name= appealStart.attUrl&&appealStart.attUrl.split('/')[3];
     const number = Number(type)===2?'二':'一';
+    const InfoList = appealStart.map((v)=>(
+      <div>
+        <div className={styles.container}>
+          <div className={styles.secRow}>
+            <div>
+              <span style={{float:'left',marginLeft:0}}>附件：</span> {v.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${v.attUrl}`} text={name?name:'attrurl不对'} fileName={()=>name} textClassName={styles.downCls}/>:null}
+            </div>
+          </div>
+          <div className={[styles.secRow]}>
+            <div>
+              <span>执行人：{v.operator}</span>
+              <span>
+                      操作时间：{moment(v.operateDate).format('YYYY-MM-DD HH:mm:ss')}
+                    </span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div className={styles.secCol}>
+            <div>申诉说明：{v.desc}</div>
+            <div />
+          </div>
+        </div>
+      </div>
+    ));
     return (
       <section className={styles.personInfoCon}>
         <span className={[Number(index) === 0 ? styles.secctionTitle : `${styles.hidePanel}`]}>
@@ -41,27 +66,7 @@ export default class AppealInfoComponent extends React.Component {
           <article className={isCollapse ? `${styles.hidePanel}` : `${styles.showPanel} `}>
             <div className={styles.appealPerson}>
               <div className={styles.secctionTitle}>申诉发起人</div>
-              <div className={styles.container}>
-                <div className={styles.secRow}>
-                  <div>
-                    <span style={{float:'left'}}>附件：</span> {appealStart.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${appealStart.attUrl}`} text={name?name:'attrurl不对'} fileName={()=>name} textClassName={styles.downCls}/>:null}
-                  </div>
-                </div>
-                <div className={[styles.secRow]}>
-                  <div>
-                    <span>执行人：{appealStart.operator}</span>
-                    <span>
-                      操作时间：{moment(appealStart.operateDate).format('YYYY-MM-DD HH:mm:ss')}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div className={styles.secCol}>
-                  <div>申诉说明：{appealStart.desc}</div>
-                  <div />
-                </div>
-              </div>
+              {InfoList}
             </div>
           </article>
         </div>
