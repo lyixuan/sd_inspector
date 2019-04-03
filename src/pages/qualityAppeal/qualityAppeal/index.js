@@ -402,8 +402,6 @@ class QualityAppeal extends React.Component {
     this.setState({
       type: Number(val),
       tabType: val,
-    }, () => {
-      // this.queryData({ tabType: val, type: Number(val) });
     })
   };
   onJumpPage = (query, pathname) => {
