@@ -138,7 +138,7 @@ class InitTable extends Component {
             <Pagination
               showQuickJumper
               defaultCurrent={pageNum}
-              total={total}
+              total={total || 1}
               pageSize={10}
               onChange={onSizeChange}
             />
