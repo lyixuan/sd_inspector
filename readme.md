@@ -29,6 +29,7 @@ $ node -v
 $ sudo npm i yarn -g        
 yarn -v
 
+
 // 然后全局安装 umi，并确保版本是 2.0.0 或以上
 $ sudo yarn global add umi
 umi -v

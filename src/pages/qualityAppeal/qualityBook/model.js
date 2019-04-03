@@ -1,8 +1,7 @@
-import { message } from 'antd/lib/index';
 import {  } from './services';
 
 export default {
-  namespace: 'pointRules',
+  namespace: 'qualityBook',
 
   state: {
   },

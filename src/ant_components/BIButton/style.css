@@ -1,0 +1,14 @@
+:global .BIButton {
+  display: inline-block;
+}
+:global .BIButton .ant-btn {
+  padding: 0 12px;
+  border-radius: 4px;
+}
+:global .BIButton .ant-btn-primary {
+  color: #fff;
+  background-color: #52C9C2;
+  border-color: #52C9C2;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}

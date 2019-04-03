@@ -4,7 +4,7 @@ import { redirectUrlParams } from './routeUtils';
 import { LOGIN_URL } from './constants';
 import config from '../../config/config';
 
-const BASE = config.base || '';  // 设置的base的url
+const BASE = config.base || ''; // 设置的base的url
 
 function authority(props) {
   const { path } = props.route;
@@ -18,7 +18,7 @@ function authority(props) {
     }
   }
   if (allow) {
-    return (<div>{props.children}</div>);
+    return <div>{props.children}</div>;
   }
 
   if (!allow && path === '/smartPlatform') {
@@ -28,7 +28,7 @@ function authority(props) {
     window.location.href = `${LOGIN_URL}?redirectUrl=${redirectUrl}`;
   } else {
     // 模块下的其他页面没有权限
-    router.push('/exception/403')
+    router.push('/exception/403');
   }
 }
 

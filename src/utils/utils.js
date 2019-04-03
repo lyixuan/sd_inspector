@@ -45,6 +45,7 @@ export function BiFilter(param) {
         const list = [...result];
         result = {};
         for (let i = 0; i < list.length; i += 1) {
+          // eslint-disable-next-line eqeqeq
           if (list[i][type] == value) {
             result = list[i];
             break;
@@ -154,4 +155,16 @@ const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(
 
 export function isUrl(path) {
   return reg.test(path);
+}
+
+export function downBlob(blob, name) {
+  // 接收返回blob类型的数据
+  const downloadElement = document.createElement('a');
+  const href = window.URL.createObjectURL(blob); // 创建下载的链接
+  downloadElement.href = href;
+  downloadElement.download = name; // 下载后文件名
+  document.body.appendChild(downloadElement);
+  downloadElement.click(); // 点击下载
+  document.body.removeChild(downloadElement); // 下载完成移除元素
+  window.URL.revokeObjectURL(href); // 释放掉blob对象
 }

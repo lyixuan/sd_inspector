@@ -12,4 +12,3 @@ export async function getExamDateRange(params) {
 export async function examProvinceOrg(params) {
   return request('/exam/province/org', { method: 'post', data: params });
 }
-

@@ -2,6 +2,7 @@ import React from 'react';
 import { Input } from 'antd';
 import './style.less';
 
+const { TextArea } = Input;
 /*
 * Input 组件
 *
@@ -21,3 +22,4 @@ class BIInput extends React.Component {
 }
 
 export default BIInput;
+BIInput.TextArea = TextArea;
