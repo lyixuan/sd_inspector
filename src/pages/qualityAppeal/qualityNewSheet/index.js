@@ -173,6 +173,7 @@ class NewQualitySheetIndex extends React.Component {
     }
     if (pg) {
       params = { ...params, ...pg };
+      this.saveUrlParams =JSON.stringify({...JSON.parse(this.saveUrlParams),...pg});
       this.setState({
         page: pg.page
       });
