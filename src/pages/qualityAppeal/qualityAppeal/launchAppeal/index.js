@@ -29,7 +29,7 @@ class Launch extends React.Component {
       params: {
         firstAppealEndDate: undefined,
         type: 1,// 一次提交申诉
-        attUrl: '123',
+        attUrl: '',
         desc: '',
         qualityId: id,
       },
