@@ -258,12 +258,12 @@ class CreateQualityNewSheet extends React.Component {
         callback('请输入大于0的数字');
     };
     checkScore = (rule, value, callback) => {
-        const reg = /^[1-9]\d*$/;
+        const reg = /^[0-9]\d*$/;
         if (reg.test(value)) {
             callback();
             return;
         }
-        callback('请输入大于0的正整数');
+        callback('请输入正整数');
     };
     renderQualityType_performance = () => {
         const { getFieldDecorator } = this.props.form;
