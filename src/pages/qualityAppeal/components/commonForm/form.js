@@ -38,7 +38,7 @@ class CreateQualityNewSheet extends React.Component {
                     uid: '-1',
                     name: newUrl.split('/')[3],
                     status: 'done',
-                    url: newUrl,
+                    url: `${STATIC_HOST}/${newUrl}` ,
                 }] : []
             });
 
