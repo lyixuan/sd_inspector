@@ -5,7 +5,6 @@ import BIButton from '@/ant_components/BIButton';
 import FormComponent from './form';
 import { FormModels } from './_utils/formModel';
 import styles from './style.less';
-
 /*
 * submitLoading:@params(boole)提交状态
 * formType:     @params(string)quality(质检),appeal(申述)
