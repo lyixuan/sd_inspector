@@ -266,7 +266,7 @@ const columns2 = [
     render: (text, record) => {
       return (
         <>
-          {BiFilter(`ISWARN|id:${record.isWarn}`).name}
+          {record.isWarn ? BiFilter(`ISWARN|id:${record.isWarn}`).name: '否'}
         </>
       );
     },
