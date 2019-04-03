@@ -6,8 +6,8 @@ import moment from 'moment';
 
 function StepStatusHover(props) {
   console.log('props', props);
-  let readStyle = { width: props.data.readNum * 157 + 'px' };
-  let unReadStyle = { width: props.data.unreadNum * 157 + 'px' };
+  let readStyle = { width: props.data.readRatio * 157 + 'px' };
+  let unReadStyle = { width: props.data.unreadRatio * 157 + 'px' };
   return (
     <div className={props.isVisible ? styles.showToolTips : styles.hideToolTips}>
       <span className={styles.msgRead} style={readStyle} />
@@ -40,12 +40,12 @@ export default class ProcessStep extends PureComponent {
   static getDerivedStateFromProps = (nextProps, prevState) => {
     console.log(nextProps);
   };
-  redirectDetails = obj => {
-    console.log(obj);
+  redirectDetails = (obj, name) => {
+    console.log(obj, name);
     if (obj.stepStatus == 2) {
       router.push({
         pathname: '/smartPlatform/pushData',
-        query: { province: '北京市', nodeSign: obj.stepType },
+        query: { province: '北京市', nodeSign: obj.stepType, pathName: name },
       });
     }
   };
@@ -79,18 +79,12 @@ export default class ProcessStep extends PureComponent {
       const endDate = obj.endDate ? moment(obj.endDate).format('MMMDo') : '';
       const dateTime = beginDate + endDate ? `${beginDate}-${endDate}` : '暂未公布';
       const { stepStatus } = obj; // 报考状态
-      console.log(stepStatus);
-      console.log(stepStatus, beginDate + endDate);
       const examNodeLightHight =
         stepStatus === 3 || stepStatus === 1 || stepStatus === -1 || stepStatus == undefined;
-      const toolTips = examNodeLightHight ? (
-        <></>
-      ) : (
-        <StepStatusHover data={obj} isVisible={item.isVisible} />
-      );
+      const toolTips = examNodeLightHight ? <></> : <StepStatusHover data={obj} isVisible={true} />;
       return (
         <li
-          onClick={this.redirectDetails.bind(this, obj)}
+          onClick={this.redirectDetails.bind(this, obj, item.name)}
           onMouseLeave={this.stepStatusLeave.bind(this, index)}
           onMouseOver={this.stepStatusHover.bind(this, index)}
           className={examNodeLightHight ? styles.stepItem2 : styles.stepItem1}

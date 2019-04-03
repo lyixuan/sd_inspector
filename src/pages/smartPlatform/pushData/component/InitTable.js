@@ -116,7 +116,7 @@ class InitTable extends Component {
       <>
         <div className={styles.dataDetail}>
           <div className={styles.title}>
-            <h4 className={styles.headerCls}>数据概览</h4>
+            <h4 className={styles.headerCls}>推送数据明细</h4>
             <BIButton onClick={this.exportExcel} type="primary">
               导出
             </BIButton>

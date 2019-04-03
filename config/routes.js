@@ -38,11 +38,11 @@ export const routes = [
           {
             path: '/smartPlatform/pushData',
             component: './smartPlatform/pushData',
-            name: '【现场确认】推送数据',
+            name: '推送数据',
             bread: {
               name: '报表概览',
               path: '/smartPlatform/survey',
-            }
+            },
           },
           {
             path: '/smartPlatform/exam/collegeinfo',
