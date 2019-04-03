@@ -65,7 +65,7 @@ class Edit extends React.Component {
   render() {
     const {checkResult} = this.state;
     const {hideDate,showWarn,formType} =  this.props;
-    const isShowDate = formType&&formType==='quality' && checkResult===0;
+    const isShowDate = (formType&&formType==='quality' && checkResult===0)||(formType&&formType==='appeal' && checkResult===1);
     return (
       <div>
         <Row>

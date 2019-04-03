@@ -47,7 +47,7 @@ class Index extends React.Component {
                 {status===2?(
                   <div className={styles.masterContent}>
                     <div className={styles.appealTitle}>SOP审核</div>
-                    <Edit hideDate showWarn={false} setStateData={setStateData}/>
+                    <Edit {...this.props} hideDate showWarn={false} setStateData={setStateData}/>
                   </div>
                 ):null}
                 {
@@ -65,7 +65,7 @@ class Index extends React.Component {
                       {status===4?(
                         <div className={styles.masterContent}>
                           <div className={styles.appealTitle}>主管审核</div>
-                          <Edit showWarn={true} setStateData={setStateData} />
+                          <Edit {...this.props} showWarn={true} setStateData={setStateData} />
                         </div>
                       ):null}
                     </>
@@ -94,7 +94,7 @@ class Index extends React.Component {
               {status===6?(
                 <div className={styles.masterContent}>
                   <div className={styles.appealTitle}>SOP审核</div>
-                  <Edit hideDate showWarn={false} setStateData={setStateData}/>
+                  <Edit {...this.props} hideDate showWarn={false} setStateData={setStateData}/>
                 </div>
               ):null}
               {status===8?(
@@ -110,7 +110,7 @@ class Index extends React.Component {
                   {status===8?(
                     <div className={styles.masterContent}>
                       <div className={styles.appealTitle}>主管审核</div>
-                      <Edit hideDate showWarn={true} setStateData={setStateData}/>
+                      <Edit {...this.props} hideDate showWarn={true} setStateData={setStateData}/>
                     </div>
                   ):null}
                 </>
