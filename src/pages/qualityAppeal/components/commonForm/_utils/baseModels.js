@@ -123,7 +123,7 @@ export class BaseModels {
     transOriginParams = (params = {}) => {
         const newParams = {};
         for (let key in this.initModel) {
-            newParams[key] = params[key] || newParams[key];
+            newParams[key] = params[key];
         }
 
         const { primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId,            // 学院ID
