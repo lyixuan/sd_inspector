@@ -1,32 +1,31 @@
-
-.filterContainer{
-  background:#fff;
+.filterContainer {
+  background: #fff;
 }
-.filterCondition{
-  width:100%;
-  display:flex;
+.filterCondition {
+  width: 100%;
+  display: flex;
   justify-content: space-between;
-  padding:30px 35px;
+  padding: 30px 35px;
 }
-.dataDetail{
-  padding-bottom:20px;
-  .title{
-    display:flex;
-    justify-content:space-between;
+.dataDetail {
+  padding-bottom: 20px;
+  .title {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #EBECEF;
-    padding:0 30px;
+    border-bottom: 1px solid #ebecef;
+    padding: 0 30px;
     height: 73px;
     line-height: 73px;
-    overflow:hidden;
+    overflow: hidden;
   }
-  .headerCls{
+  .headerCls {
     font-size: 18px;
     color: #000;
     background-color: #fff;
-    margin:0;
+    margin: 0;
   }
-  .headerCls::before{
+  .headerCls::before {
     content: '';
     display: inline-block;
     width: 2px;
@@ -34,51 +33,61 @@
     background: #52c9c2;
     margin: 0 6px 0 -6px;
   }
-  :global .ant-pagination{
-    margin-top:5px;
-    text-align:center;
+  :global .ant-pagination {
+    margin-top: 5px;
+    text-align: center;
   }
-  :global .ant-table-thead > tr > th{
-    text-align:center;
+  :global .ant-table-thead > tr > th {
+    text-align: center;
   }
   :global .ant-table-tbody > tr > td {
     text-align: center;
   }
-  
 }
-.tableBox{
-  padding:20px;
-  .notice{
-    padding-top:15px;
-    span{
-      display:inline-block;
-      margin-right:25px;
-      padding-left:6px;
-      font-size:12px;
-      &::before{
+.tableBox {
+  padding: 20px;
+  .notice {
+    padding-top: 15px;
+    span {
+      display: inline-block;
+      margin-right: 25px;
+      padding-left: 6px;
+      font-size: 12px;
+      &::before {
         content: '';
         display: inline-block;
         width: 12px;
         height: 12px;
         background: #52c9c2;
         margin: 0 6px 0 -6px;
-        vertical-align:-2px;
+        vertical-align: -2px;
       }
     }
-    span:last-child{
-      &::before{
-        background:#FF6D6D;
+    span:last-child {
+      &::before {
+        background: #ff6d6d;
       }
     }
   }
 }
-.tableContainer{
-  background:#fff;
-  margin-top:20px;
+.tableContainer {
+  background: #fff;
+  margin-top: 20px;
 }
-.green{
-  color:#52C9C2;
+.green {
+  color: #52c9c2;
 }
-.red{
-  color:#FF6D6D;
+.red {
+  color: #ff6d6d;
+}
+.sectionCon {
+  padding: 20px 20px 0px 20px;
+}
+.secctionTitle {
+  height: 43px;
+  background-color: #f6f7fa;
+  line-height: 43px;
+  padding-left: 18px;
+  font-size: 16px;
+  color: #353535;
 }

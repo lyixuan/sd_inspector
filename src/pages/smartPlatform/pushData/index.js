@@ -5,6 +5,7 @@ import InitChart from './component/InitChart';
 import InitTable from './component/InitTable';
 import BISelect from '@/ant_components/BISelect';
 import moment from 'moment';
+import router from 'umi/router';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
@@ -32,6 +33,8 @@ class PushData extends React.Component {
     this.familyList = [];
   }
   componentDidMount() {
+    console.log(this.props.route.name);
+    this.props.route.name = 'test';
     this.refreshList();
   }
   onSizeChange = val => {
@@ -119,6 +122,9 @@ class PushData extends React.Component {
     return (
       <div className={styles.pushData}>
         <div className={styles.filterContainer}>
+          <div className={styles.sectionCon}>
+            <div className={styles.secctionTitle}>{this.props.location.query.pathName}</div>
+          </div>
           <div className={styles.filterCondition}>
             <div>
               <span>学院：</span>
