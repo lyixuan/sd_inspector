@@ -19,7 +19,6 @@ export default class AppealInfoComponent extends React.Component {
     const {data={}} = this.props;
     const { appealEndDate, appealStart, type, index, isCollapse } = data;
     const name= appealStart.attUrl&&appealStart.attUrl.split('/')[3];
-
     const number = Number(type)===2?'二':'一';
     return (
       <section className={styles.personInfoCon}>
@@ -44,7 +43,9 @@ export default class AppealInfoComponent extends React.Component {
               <div className={styles.secctionTitle}>申诉发起人</div>
               <div className={styles.container}>
                 <div className={styles.secRow}>
-                  <span>附件：</span> <div>{appealStart.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${appealStart.attUrl}`} text={name} fileName={()=>name} textClassName={styles.downCls}/>:null} </div>
+                  <div>
+                    <span style={{float:'left'}}>附件：</span> {appealStart.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${appealStart.attUrl}`} text={name?name:'attrurl不对'} fileName={()=>name} textClassName={styles.downCls}/>:null}
+                  </div>
                 </div>
                 <div className={[styles.secRow]}>
                   <div>
