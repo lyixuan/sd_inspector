@@ -391,12 +391,12 @@ class QualityAppeal extends React.Component {
     if (val==='1') {
       router.replace({
         pathname:this.props.location.pathname,
-        query: {p:JSON.stringify({tabType:'1',type: 1})}
+        query: {p:JSON.stringify(this.state)}
       });
     } else {
       router.replace({
         pathname:this.props.location.pathname,
-        query: {p:JSON.stringify({tabType:'2',type: 2})}
+        query: {p:JSON.stringify(this.state)}
       });
     }
     this.setState({
@@ -521,7 +521,7 @@ class QualityAppeal extends React.Component {
     return (
       <>
         <div className={subStl.topTab}>
-          <BITabs onChange={this.onTabChange} defaultActiveKey={this.state.tabType} animated={false}>
+          <BITabs onChange={this.onTabChange}  animated={false}>
             <TabPane tab="在途质检申诉" key={1}>
               <div className={subStl.tabBlank}>&nbsp;</div>
               <Page1

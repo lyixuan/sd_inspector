@@ -174,6 +174,10 @@ class CreateQualityNewSheet extends React.Component {
         }
         this.setState({ isShowOrderNumConfirmModel: true, msgDetail, buttonText });
     }
+    noCheckoutAction = () => {
+        // 审核不通过时,不需要调取检索参数接口
+        this.setState({ isShowOrderNumConfirmModel: true, msgDetail: '确认驳回该条记录吗?', buttonText: '确定' });
+    }
     confirmModelSubmit = () => {
         if (this.props.onSubmit) {
             this.props.onSubmit(this.tmpParams);
@@ -181,10 +185,15 @@ class CreateQualityNewSheet extends React.Component {
     }
     onSubmit = (params) => {
         const { formParams, violationLevelObj } = this.state;
+        const { actionType, checkResult } = this.props;
         const assginObject = Object.assign({}, formParams, params);
         const newParams = this.formModels.transFormParams(assginObject, violationLevelObj);
         this.tmpParams = newParams;
         this.saveParams(params);
+        if (checkResult === 0 && actionType === 'appeal') {
+            this.noCheckoutAction();
+            return;
+        }
         this.checkRepeatQualityInspection(newParams);
     }
     onCancel = () => {

@@ -38,7 +38,7 @@ class CreateQualityNewSheet extends React.Component {
                     uid: '-1',
                     name: newUrl.split('/')[3],
                     status: 'done',
-                    url: `${STATIC_HOST}/${newUrl}` ,
+                    url: `${STATIC_HOST}/${newUrl}`,
                 }] : []
             });
 
@@ -178,6 +178,11 @@ class CreateQualityNewSheet extends React.Component {
             }
         }
     };
+    onChangeFamilyType = (value) => {
+        const values = this.props.form.getFieldsValue();
+        values['familyType'] = value;
+        this.formChange(values)
+    }
     datePackerChange = (value, key) => {
         const values = this.props.form.getFieldsValue();
         values[key] = value;
@@ -307,7 +312,7 @@ class CreateQualityNewSheet extends React.Component {
                                 rules: [{ required: true, message: '请选择学院类型' }],
 
                             })(
-                                <BISelect allowClear placeholder="请选择" style={{ width: 280 }}>
+                                <BISelect allowClear placeholder="请选择" style={{ width: 280 }} onChange={this.onChangeFamilyType}>
                                     {BiFilter('FAMILY_TYPE').map(item => (
                                         <Option value={item.id} key={item.name}>
                                             {item.name}
@@ -579,9 +584,8 @@ function mapPropsToFields(props) {
     const returnObj = {};
     if (!params || typeof params !== 'object') return returnObj;
     Object.keys(params).forEach(item => {
-
         returnObj[item] = Form.createFormField({
-            value: params[item] || undefined,
+            value: params[item],
         });
     })
     return returnObj

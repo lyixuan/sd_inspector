@@ -91,7 +91,7 @@ class QualityAppealing extends React.Component {
       message.warn('审核结果为必选项');
       return;
     }
-    if (String(this.query.status) === '4' && !appealParam.appealEndDate) {
+    if (String(this.query.status) === '4'&& Number(appealParam.checkResult) === 0 && !appealParam.appealEndDate) {
       message.warn('二审截止日期必填');
       return;
     }
@@ -171,7 +171,7 @@ class QualityAppealing extends React.Component {
               onSubmit={(params) => this.handleSubmitMaster(params)} >
               <div style={{ marginLeft: '-20px' }}>
                 <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={() => this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
-                {this.state.appealIsShow ? <AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData} /> : null}
+                {this.state.appealIsShow ? <AppealInfo dataList={appealShow} formType="appeal" appealStatus={this.query.status} setStateData={this.setStateData} /> : null}
               </div>
             </CommonForm>
           )}
