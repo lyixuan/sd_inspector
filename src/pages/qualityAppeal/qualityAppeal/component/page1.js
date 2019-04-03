@@ -110,6 +110,7 @@ class NewQualitySheet extends React.Component {
   render() {
     const {qualityNum,qualityType,collegeIdList,familyIdList,groupIdList,beginDate,endDate,firstAppealBeginDate,firstAppealEndDate,status,secondAppealBeginDate,secondAppealEndDate,userName,} = this.state;
     const {orgList = [],dataSource,columns,page,loading,loading2} = this.props;
+    console.log(1111,page);
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -229,7 +230,7 @@ class NewQualitySheet extends React.Component {
           </Row>
           <BITable rowKey={record=>record.id}  dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
           <br/>
-          <BIPagination showQuickJumper defaultPageSize={page.pageSize?page.pageSize:30} onChange={this.onPageChange} defaultCurrent={page.pageNum} total={page.total}/>
+          <BIPagination showQuickJumper defaultPageSize={page.pageSize?page.pageSize:30} onChange={this.onPageChange} current={page.pageNum} total={page.total}/>
         </div>
       </div>
     );

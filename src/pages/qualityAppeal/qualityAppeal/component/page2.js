@@ -70,6 +70,7 @@ class NewQualitySheet extends React.Component {
   render() {
     const { qualityNum, qualityType, dimensionIdList, violationLevel, status, isWarn } = this.state;
     const { dimensionList1 = [], dimensionList2 = [], dataSource, columns, page, loading } = this.props;
+    console.log(dataSource)
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -207,9 +208,9 @@ class NewQualitySheet extends React.Component {
               </div>
             </Col>
           </Row>
-          <BITable rowKey={record => record.id} defaultPageSize={page.pageSize ? page.pageSize : 30} dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
+          <BITable rowKey={record => record.id}  dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
           <br />
-          <BIPagination showQuickJumper onChange={this.onPageChange} defaultCurrent={page.pageNum} total={page.total} />
+          <BIPagination showQuickJumper defaultPageSize={page.pageSize ? page.pageSize : 30} onChange={this.onPageChange} current={page.pageNum} total={page.total} />
         </div>
       </div>
     );

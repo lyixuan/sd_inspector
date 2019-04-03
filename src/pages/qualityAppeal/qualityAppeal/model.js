@@ -12,7 +12,8 @@ export default {
   state: {
     qualityAppealList1: [],
     qualityAppealList2: [],
-    page: {},
+    page1: {},
+    page2: {},
   },
 
   effects: {
@@ -23,17 +24,24 @@ export default {
       if (result.code === 20000) {
         let qualityAppealList1 = [];
         let qualityAppealList2 = [];
+        let page1 = {};
+        let page2 = {};
         if (params.type===1) {
           qualityAppealList1 = result.data.list ? result.data.list : [];
+           page1 = {
+            total: result.data.total ? result.data.total : 0,
+            pageNum: result.data.pageNum ? result.data.pageNum : 1,
+          };
         } else {
           qualityAppealList2 = result.data.list ? result.data.list : [];
+           page2 = {
+            total: result.data.total ? result.data.total : 0,
+            pageNum: result.data.pageNum ? result.data.pageNum : 1,
+          };
         }
 
-        const page = {
-          total: result.data.total ? result.data.total : 0,
-          pageNum: result.data.pageNum ? result.data.pageNum : 1,
-        };
-        yield put({ type: 'save', payload: { qualityAppealList1,qualityAppealList2, page } });
+
+        yield put({ type: 'save', payload: { qualityAppealList1,qualityAppealList2, page1,page2 } });
       } else {
         message.error(result.msgDetail);
       }

@@ -365,6 +365,7 @@ class QualityAppeal extends React.Component {
     }
     if (pg) {
       params = { ...params, ...pg };
+      this.saveUrlParams =JSON.stringify({...JSON.parse(this.saveUrlParams),...pg});
       this.setState({
         page: pg.page
       });
@@ -391,17 +392,18 @@ class QualityAppeal extends React.Component {
     if (val==='1') {
       router.replace({
         pathname:this.props.location.pathname,
-        query: {p:JSON.stringify(this.state)}
+        query: {p:JSON.stringify({tabType:'1',type: 1,page:1})}
       });
     } else {
       router.replace({
         pathname:this.props.location.pathname,
-        query: {p:JSON.stringify(this.state)}
+        query: {p:JSON.stringify({tabType:'2',type: 2,page:1})}
       });
     }
     this.setState({
       type: Number(val),
       tabType: val,
+      page: 1,
     }, () => {
       this.queryData({ tabType: val, type: Number(val) });
     })
@@ -517,11 +519,11 @@ class QualityAppeal extends React.Component {
   };
   render() {
     const { orgListTreeData = [], dimensionList1 = [], dimensionList2 = [] } = this.props.qualityAppealHome;
-    const { qualityAppealList1 = [],qualityAppealList2 = [], page } = this.props.qualityCheck;
+    const { qualityAppealList1 = [],qualityAppealList2 = [], page1,page2 } = this.props.qualityCheck;
     return (
       <>
         <div className={subStl.topTab}>
-          <BITabs onChange={this.onTabChange}  animated={false}>
+          <BITabs onChange={this.onTabChange} defaultActiveKey={this.state.tabType} animated={false}>
             <TabPane tab="在途质检申诉" key={1}>
               <div className={subStl.tabBlank}>&nbsp;</div>
               <Page1
@@ -530,7 +532,7 @@ class QualityAppeal extends React.Component {
                 columns={this.c1}
                 orgList={orgListTreeData}
                 dataSource={qualityAppealList1}
-                page={page}
+                page={page1}
                 queryData={(params, page, isExport) => this.queryData(params, page, isExport)} />
             </TabPane>
             <TabPane tab="结案质检申诉" key={2}>
@@ -542,7 +544,7 @@ class QualityAppeal extends React.Component {
                 dimensionList2={dimensionList2}
                 columns={this.c2}
                 dataSource={qualityAppealList2}
-                page={page}
+                page={page2}
                 queryData={(params, page) => this.queryData(params, page)} />
             </TabPane>
           </BITabs>
