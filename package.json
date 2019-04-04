@@ -14,7 +14,6 @@
   "dependencies": {
     "antd": "^3.15.0",
     "classnames": "^2.2.6",
-    "d3": "^5.9.1",
     "dva": "^2.5.0-beta.2",
     "enquire-js": "^0.2.1",
     "js-base64": "^2.5.1",
@@ -24,13 +23,12 @@
     "moment": "^2.24.0",
     "path-to-regexp": "^3.0.0",
     "rc-drawer-menu": "^1.1.0",
-    "react": "^16.7.0",
+    "react": "^16.8.6",
     "react-container-query": "^0.11.0",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.7.0",
     "react-media": "^1.9.2",
-    "umi-request": "^1.0.4",
-    "echarts": "^4.1.0"
+    "umi-request": "^1.0.4"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",

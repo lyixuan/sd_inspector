@@ -7,9 +7,40 @@ const proxyHost = {
 };
 const proxy_env = proxyHost[process.env.PROXY_ENV];
 export const webpackConfig = {
-  externals: {
-    echarts: 'echarts',
-  },
+
+    externals: {
+        echarts: 'echarts',
+        d3: 'd3',
+    },
+    define: {
+        'process.env.LOGIN_TYPE': process.env.LOGIN_TYPE,
+        'process.env.PROXY_ENV': process.env.PROXY_ENV,
+    },
+    chainWebpack(config, { webpack }) {
+        config.merge({
+            optimization: {
+                minimize: true,
+                splitChunks: {
+                    chunks: 'all',
+                    minSize: 0,
+                    minChunks: 3,
+                    maxAsyncRequests: 5,
+                    maxInitialRequests: 3,
+                    automaticNameDelimiter: '.',
+                    cacheGroups: {
+                        vendor: {
+                            name: 'vendors',
+                            test({ resource }) {
+                                return /[\\/]node_modules[\\/]/.test(resource);
+                            },
+                            priority: 10,
+                        },
+                    },
+                },
+            }
+        });
+
+    },
   define: {
     'process.env.LOGIN_TYPE': process.env.LOGIN_TYPE,
     'process.env.PROXY_ENV': process.env.PROXY_ENV,
@@ -31,5 +62,4 @@ export const webpackConfig = {
       changeOrigin: true,
     },
   },
-  ignoreMomentLocale: true,
 };

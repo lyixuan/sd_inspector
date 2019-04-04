@@ -25,7 +25,6 @@ class ProcessStep extends PureComponent {
   }
 
   componentWillReceiveProps = nextProps => {
-    console.log(nextProps);
     if (nextProps.province != this.props.province && nextProps.data && nextProps.data.length > 0) {
       this.handleNodeExam(nextProps.province, nextProps.pushNum);
     }
@@ -128,8 +127,8 @@ function StepStatusHover(props) {
         <span>{(props.data.unreadRatio * 100).toFixed(2)}%</span>
       </div>
       <div className={styles.countNum}>
-        <span>已读{props.data.readNum}</span>
-        <span>未读{props.data.unreadNum}</span>
+        <span>已读{props.data.readSum}</span>
+        <span>未读{props.data.unReadSum}</span>
       </div>
     </div>
   );
