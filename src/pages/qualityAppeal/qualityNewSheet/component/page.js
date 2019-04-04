@@ -263,7 +263,7 @@ class NewQualitySheet extends React.Component {
               </div>
             </Col>
           </Row>
-          <BITable rowKey={record=>record.id} dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
+          <BITable rowKey={record=>record.id + Math.random()*1000} dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
           <br/>
           <BIPagination showQuickJumper defaultPageSize={page.pageSize?page.pageSize:30} onChange={this.onPageChange} defaultCurrent={page.pageNum} total={page.total} />
         </div>
