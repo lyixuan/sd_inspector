@@ -5,10 +5,19 @@ export async function queryHistogramData(params) {
   return request('/general/queryHistogramData', {
     method: 'post',
     data: params,
+    prefix: '/tmpApi',
   });
 }
 // 获取地图数据相关接口
 
 export async function getMapInfo() {
-  return request('/general/getMapInfo');
+  return request('/general/getMapInfo', { prefix: '/tmpApi' });
+}
+
+export async function getNodeMsgCount(params) {
+  return request('/general/getNodeMsgCount', {
+    method: 'get',
+    data: params,
+    prefix: '/tmpApi',
+  });
 }
