@@ -1,4 +1,4 @@
-import { message } from 'antd/lib/index';
+import { message } from 'antd';
 import { checkQuality } from './services';
 import router from 'umi/router';
 
