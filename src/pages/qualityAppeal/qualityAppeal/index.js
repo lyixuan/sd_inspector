@@ -154,11 +154,11 @@ const columns1 = [
 
       function dot() {
         let rt = null;
-        // 3 一次SOP已驳回 5一次质检主管已驳回 7二次SOP已驳回 8 二次质检主管待审核
-        if (myStatue === 3 || myStatue === 5 || myStatue === 7 || myStatue === 8) {
+        // 3 一次SOP已驳回 5一次质检主管已驳回 7二次SOP已驳回
+        if (myStatue === 3 || myStatue === 5 || myStatue === 7) {
           rt = <span className={subStl.dotStl} style={{ background: '#FF0000' }}></span>
         } else {
-          // 1待申诉 2一次SOP待审核 4一次质检主管待审核 6二次SOP待审核
+          // 1待申诉 2一次SOP待审核 4一次质检主管待审核 6二次SOP待审核 8 二次质检主管待审核
           rt = <span className={subStl.dotStl} style={{ background: '#FAAC14' }}></span>
         }
         return rt;
