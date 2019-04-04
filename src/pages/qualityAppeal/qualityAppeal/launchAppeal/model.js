@@ -24,7 +24,7 @@ export default {
       if (result.code === 20000) {
         yield put(routerRedux.push('/qualityAppeal/qualityAppeal'));
       } else {
-        message.error(result.msgDetail);
+        message.error(result.msg);
       }
     },
   },

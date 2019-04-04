@@ -6,6 +6,9 @@ import SubOrderDetail from './../../components/subOrderDetail';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 import IllegalInfo from './../../qualityNewSheet/detail/components/illegalInfo';
 import { uploadAttachment } from '../../services';
+import AppealInfo from './../component/appealInfo';
+import SOPCheckResult from './../component/sopCheckResult';
+import SuperiorCheck from './../component/superiorCheck';
 import { connect } from 'dva';
 import moment from 'moment';
 import router from 'umi/router';
@@ -34,7 +37,7 @@ class Launch extends React.Component {
         qualityId: id,
       },
       fileList: this.props.fileList,
-      appealInfoCollapse: true,
+      appealInfoCollapse: [],
       qualityInfoCollapse: true,
       checkResultsCollapse: true,
     };
@@ -51,10 +54,10 @@ class Launch extends React.Component {
     });
   }
   handleSubmit = () => {
-    const {appealType}=this.props.location.query;
+    const {secondAppealEndDate}=this.props.location.query;
     let params = this.state.params;
     params.firstAppealEndDate = this.firstAppealEndDate;
-    if(Number(appealType)===5||Number(appealType)===7){// 二次提交申诉
+    if(secondAppealEndDate){// 二次提交申诉
       params.type=2;
     }
     if (!this.state.params.desc) {
@@ -103,11 +106,54 @@ class Launch extends React.Component {
       this.state.params.attUrl = '';
     }
   };
+  getAppealInfos(detailData) {
+    let domFragment = [];
+    if(detailData.length>0){
+      detailData.forEach((item, index) => {
+        domFragment.push(
+          <div key={index}>
+            <AppealInfo
+              data={{
+                appealStart: item.appealStart,
+                appealEndDate: item.appealEndDate,
+                id: item.id,
+                type: item.type,
+                index: index,
+                isCollapse: this.state.appealInfoCollapse[index],
+              }}
+              onClick={index => this.handleAppealInfoCollapse(index)}
+            />
+
+            {item.sopAppealCheck&&item.sopAppealCheck.length>0 ? (
+              <SOPCheckResult
+                data={{
+                  sopAppealCheck: item.sopAppealCheck,
+                  isCollapse: this.state.appealInfoCollapse[index],
+                }}
+              />
+            ):null}
+
+            {item.masterAppealCheck ? (
+              <SuperiorCheck
+                data={{
+                  masterAppealCheck: item.masterAppealCheck,
+                  isCollapse: this.state.appealInfoCollapse[index],
+                }}
+              />
+            ): null }
+          </div>
+        );
+        this.state.appealInfoCollapse.push(false);
+      });
+    }
+    return domFragment;
+  }
   render() {
     const {qualityAppealHome = {},loading} = this.props;
     const qualityDetailData = qualityAppealHome.QualityDetailData;
     this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
     const {masterQualityValue='',masterMail=''} = qualityAppealHome;
+    const {secondAppealEndDate} = this.props.location.query
 
     return (
       <Spin spinning={this.props.pageLoading}>
@@ -131,41 +177,78 @@ class Launch extends React.Component {
               <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail}/>
             </article>
           </section>
-          <div className={styles.info}>
-            <div className={styles.title}>申诉信息</div>
-            <div>
-              <div className={styles.appealInfo}>
-                一次申诉
-                <span>
+          {secondAppealEndDate?
+            (
+              <div>
+                {this.getAppealInfos(qualityAppealHome.DetailData)}
+                <div className={styles.appealInfo}>
+                  二次申诉
+                  <span>
+                二次申诉截止日期：
+                    {moment(Number(secondAppealEndDate)).format('YYYY-MM-DD HH:mm:ss')}
+                      </span>
+                </div>
+                <div className={styles.originator}>申诉发起人</div>
+                <div className={styles.flexStyle}>
+                  <div className={styles.label}>附件:</div>
+                  <div style={{ marginLeft: '20px', marginTop: '-5px' }}>
+                    <Upload
+                      {...uploadAttachment()}
+                      data={{ type: qualityDetailData.qualityType }}
+                      onChange={this.uploadFileChange}
+                      beforeUpload={this.beforeUpload}
+                      fileList={this.state.fileList}
+                    >
+                      <BIButton type="primary">上传附件</BIButton>
+                    </Upload>
+                  </div>
+                </div>
+
+                <div className={styles.flexStyle}>
+                  <div className={styles.label}>申诉说明:</div>
+                  <div className={styles.intro}>
+                    <TextArea maxLength={500}  rows={4} onChange={this.inputChange} />
+                  </div>
+                </div>
+              </div>
+            ):
+            (
+              <div className={styles.info}>
+                <div className={styles.title}>申诉信息</div>
+                <div>
+                  <div className={styles.appealInfo}>
+                    一次申诉
+                    <span>
                 一次申诉截止日期：
-                  {moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD HH:mm:ss')}
-              </span>
-              </div>
-              <div className={styles.originator}>申诉发起人</div>
-              <div className={styles.flexStyle}>
-                <div className={styles.label}>附件:</div>
-                <div style={{ marginLeft: '20px', marginTop: '-5px' }}>
-                  <Upload
-                    {...uploadAttachment()}
-                    data={{ type: qualityDetailData.qualityType }}
-                    onChange={this.uploadFileChange}
-                    beforeUpload={this.beforeUpload}
-                    fileList={this.state.fileList}
-                  >
-                    <BIButton type="primary">上传附件</BIButton>
-                  </Upload>
+                      {moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD HH:mm:ss')}
+                      </span>
+                  </div>
+                  <div className={styles.originator}>申诉发起人</div>
+                  <div className={styles.flexStyle}>
+                    <div className={styles.label}>附件:</div>
+                    <div style={{ marginLeft: '20px', marginTop: '-5px' }}>
+                      <Upload
+                        {...uploadAttachment()}
+                        data={{ type: qualityDetailData.qualityType }}
+                        onChange={this.uploadFileChange}
+                        beforeUpload={this.beforeUpload}
+                        fileList={this.state.fileList}
+                      >
+                        <BIButton type="primary">上传附件</BIButton>
+                      </Upload>
+                    </div>
+                  </div>
+
+                  <div className={styles.flexStyle}>
+                    <div className={styles.label}>申诉说明:</div>
+                    <div className={styles.intro}>
+                      <TextArea maxLength={500}  rows={4} onChange={this.inputChange} />
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              <div className={styles.flexStyle}>
-                <div className={styles.label}>申诉说明:</div>
-                <div className={styles.intro}>
-                  <TextArea maxLength={500}  rows={4} onChange={this.inputChange} />
-                </div>
-              </div>
-            </div>
-          </div>
-
+            )
+          }
           <Row className="gutter-row">
             <Col span={24}>
               <div className={styles.gutterBox1}>
