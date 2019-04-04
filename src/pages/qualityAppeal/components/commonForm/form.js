@@ -348,6 +348,7 @@ class CreateQualityNewSheet extends React.Component {
                     >
                         上传附件
                     </BIButton>
+                  <span style={{color:'#aaa',fontSize:12}}>（请上传10M以内的rar、zip格式文件）</span>
                 </Upload>)
         } else {
             return (
