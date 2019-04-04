@@ -18,14 +18,13 @@ export default class AppealInfoComponent extends React.Component {
   render() {
     const {data={}} = this.props;
     const { appealEndDate, appealStart=[], type, index, isCollapse } = data;
-    const name= appealStart.attUrl&&appealStart.attUrl.split('/')[3];
     const number = Number(type)===2?'二':'一';
     const InfoList = appealStart.map((v)=>(
       <div>
         <div className={styles.container}>
           <div className={styles.secRow}>
             <div>
-              <span style={{float:'left',marginLeft:0}}>附件：</span> {v.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${v.attUrl}`} text={name?name:'attrurl不对'} fileName={()=>name} textClassName={styles.downCls}/>:null}
+              <span style={{float:'left',marginLeft:0}}>附件：</span> {v.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${v.attUrl}`} text={v.attUrl&&v.attUrl.split('/')[3]} fileName={v.attUrl&&v.attUrl.split('/')[3]} textClassName={styles.downCls}/>:null}
             </div>
           </div>
           <div className={[styles.secRow]}>

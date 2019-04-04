@@ -71,6 +71,10 @@ class Launch extends React.Component {
     });
 
   };
+  handleAppealInfoCollapse(index) {
+    this.state.appealInfoCollapse[index] = !this.state.appealInfoCollapse[index];
+    this.setState({ appealInfoCollapse: this.state.appealInfoCollapse });
+  }
   inputChange = e => {
     e.persist();
     this.state.params.desc = e.target.value;
