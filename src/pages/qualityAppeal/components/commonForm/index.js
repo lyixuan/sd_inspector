@@ -187,19 +187,19 @@ class CreateQualityNewSheet extends React.Component {
         // 单独处理qualityValue
         const { qualityValue = null, masterQualityValue = null } = params;
         const { formParams, violationLevelObj } = this.state;
-        const { actionType, checkResult,appealEndDate } = this.props;
+        const { actionType, checkResult, appealEndDate } = this.props;
         const assginObject = Object.assign({}, formParams, params, { qualityValue, masterQualityValue });
         const newParams = this.formModels.transFormParams(assginObject, violationLevelObj);
         this.tmpParams = newParams;
         this.saveParams(params);
-      if (checkResult === undefined && actionType === 'appeal') {
-        message.warn('请选择审核结果');
-        return;
-      }
-      if (!appealEndDate && actionType === 'appeal') {
-        message.warn('请填写截止日期');
-        return;
-      }
+        if (checkResult === undefined && actionType === 'appeal') {
+            message.warn('请选择审核结果');
+            return;
+        }
+        if (!appealEndDate && actionType === 'appeal' && checkResult === 1) {
+            message.warn('请填写截止日期');
+            return;
+        }
         if (checkResult === 0 && actionType === 'appeal') {
             this.noCheckoutAction();
             return;
