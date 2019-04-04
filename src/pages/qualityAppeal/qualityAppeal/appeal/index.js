@@ -24,7 +24,8 @@ class QualityAppealing extends React.Component {
     this.state = {
       qualityInfoCollapse: true,
       appealIsShow: true,
-      appealParam: {}
+      appealParam: {},
+      checkResult:undefined
     };
     const { query = {} } = this.props.location;
     this.query = query;
@@ -114,6 +115,7 @@ class QualityAppealing extends React.Component {
   setStateData = (val) => {
     this.setState({
       appealParam: val,
+      checkResult: Number(val.checkResult)
     });
   };
   getAppealStatus() {
@@ -123,6 +125,7 @@ class QualityAppealing extends React.Component {
     return '+';
   }
   render() {
+    const {checkResult} = this.state;
     const { appealShow = [], qualityDetailData = {} } = this.props.qualityAppealing;
     const {submitLoading2} = this.props;
     appealShow.forEach(v => {
@@ -165,6 +168,7 @@ class QualityAppealing extends React.Component {
           ) : (
             <CommonForm
               {...this.props}
+              checkResult={checkResult}
               formType='appeal'
               actionType='appeal'
               dataSource={qualityDetailData}
