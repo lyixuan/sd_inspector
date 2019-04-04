@@ -70,6 +70,8 @@ class ChinaMap extends Component {
       mapData: {},
       examineStepList: [], // 选中状态
       selectedProvince: 'SD', // 默认选中省份的id
+      pushNum: 0,
+      province: '',
     };
   }
 
@@ -97,7 +99,10 @@ class ChinaMap extends Component {
         ...item,
       };
     });
+    const { examineStepList = [], pushNum = 0, province } =
+      mapData[this.state.selectedProvince] || {};
     this.setState({ mapData }, this.redrewMap.bind(this, mapData));
+    this.setState({ examineStepList, pushNum, province });
   };
   redrewMap = data => {
     this.changePathColor(data);
@@ -105,8 +110,8 @@ class ChinaMap extends Component {
   };
   handleProvinceStep = selectedProvince => {
     const { mapData } = this.state;
-    const { examineStepList = [] } = mapData[selectedProvince] || {};
-    this.setState({ examineStepList, selectedProvince });
+    const { examineStepList = [], pushNum = 0, province } = mapData[selectedProvince] || {};
+    this.setState({ examineStepList, selectedProvince, pushNum, province });
   };
   drewMap = data => {
     //设置tip框
@@ -300,7 +305,7 @@ class ChinaMap extends Component {
     ChinaMap.that.handleProvinceStep(obj.id);
   }
   render() {
-    const { examineStepList } = this.state;
+    const { examineStepList, selectedProvince, pushNum, province } = this.state;
     return (
       <div className={styles.mapCotainer}>
         <div className={styles.container}>
@@ -313,7 +318,7 @@ class ChinaMap extends Component {
           />
         </div>
         <div className={styles.process}>
-          <ProcessStep data={examineStepList} />
+          <ProcessStep data={examineStepList} pushNum={pushNum} province={province} />
         </div>
       </div>
     );

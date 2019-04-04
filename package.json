@@ -28,7 +28,8 @@
     "react-document-title": "^2.0.3",
     "react-dom": "^16.7.0",
     "react-media": "^1.9.2",
-    "umi-request": "^1.0.4"
+    "umi-request": "^1.0.4",
+    "echarts": "^4.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",
