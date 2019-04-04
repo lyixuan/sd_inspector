@@ -25,7 +25,6 @@ class ProcessStep extends PureComponent {
   }
 
   componentWillReceiveProps = nextProps => {
-    console.log(nextProps);
     if (nextProps.province != this.props.province && nextProps.data && nextProps.data.length > 0) {
       this.handleNodeExam(nextProps.province, nextProps.pushNum);
     }
@@ -79,7 +78,7 @@ class ProcessStep extends PureComponent {
       const toolTips = examNodeLightHight ? (
         <></>
       ) : (
-        <StepStatusHover data={examNodes[index]} isVisible={item.isVisible} />
+        <StepStatusHover data={examNodes[index]} isVisible={true} />
       );
       return (
         <li
