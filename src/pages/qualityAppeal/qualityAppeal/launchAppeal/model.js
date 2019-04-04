@@ -15,7 +15,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'save' });
       } else {
-        message.error(result.msg);
+        message.error(result.msg + result.msgDetail);
       }
     },
     *launchAppeal({ payload }, { call, put }) {
@@ -24,7 +24,7 @@ export default {
       if (result.code === 20000) {
         yield put(routerRedux.push('/qualityAppeal/qualityAppeal'));
       } else {
-        message.error(result.msg);
+        message.error(result.msg + result.msgDetail);
       }
     },
   },

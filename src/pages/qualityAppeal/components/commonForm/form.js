@@ -173,7 +173,7 @@ class CreateQualityNewSheet extends React.Component {
                     this.setState({ fileList: fileList });
                 } else {
                     this.setState({ fileList: [] });
-                    message.error(response.msgDetail);
+                    message.error(response.msg + response.msgDetail);
                 }
             }
         }

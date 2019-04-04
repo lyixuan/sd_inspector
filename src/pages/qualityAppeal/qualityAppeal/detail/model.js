@@ -18,7 +18,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveDetailData', payload: { DetailData} });
       } else {
-        message.error(result.msg);
+        message.error(result.msg + result.msgDetail);
       }
     },
     *getQualityDetailData({ payload }, { call, put }) {
@@ -28,7 +28,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveQualityDetailData', payload: { QualityDetailData } });
       } else {
-        message.error(result.msg);
+        message.error(result.msg + result.msgDetail);
       }
     },
   },
