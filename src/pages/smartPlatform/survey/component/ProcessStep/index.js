@@ -103,7 +103,6 @@ class ProcessStep extends PureComponent {
     });
   };
   render() {
-    console.log('render', this.props);
     const objList = this.handleData(this.props.data, this.props.survey.examNodes) || null;
     return (
       <ul className={styles.stateBox}>
