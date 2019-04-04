@@ -480,7 +480,7 @@ class CreateQualityNewSheet extends React.Component {
                                 <span className={styles.i}>*</span><Form.Item label="质检违规日期：">
                                     {getFieldDecorator('violationDate', {
                                         initialValue: params.violationDate,
-                                        rules: [{ required: true, message: '质检违规日期' }],
+                                        rules: [{ required: true, message: '请选择质检违规日期' }],
                                     })(<BIDatePicker disabledDate={this.disabledDate} style={{ width: 280 }} format={format} onChange={val => this.datePackerChange(val, 'violationDate')} />)}
                                 </Form.Item>
                             </Col>
@@ -488,6 +488,7 @@ class CreateQualityNewSheet extends React.Component {
                                 <span className={styles.i}>*</span><Form.Item label="质检扣分日期：">
                                     {getFieldDecorator('reduceScoreDate', {
                                         initialValue: params.reduceScoreDate,
+                                      rules: [{ required: true, message: '请选择质检扣分日期' }],
                                     })(<BIDatePicker disabledDate={this.disabledDate} style={{ width: 280 }} format={format} onChange={val => this.datePackerChange(val, 'reduceScoreDate')} />)}
                                 </Form.Item>
                             </Col>
