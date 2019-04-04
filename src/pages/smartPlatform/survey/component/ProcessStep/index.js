@@ -78,7 +78,7 @@ class ProcessStep extends PureComponent {
       const toolTips = examNodeLightHight ? (
         <></>
       ) : (
-        <StepStatusHover data={examNodes[index]} isVisible={true} />
+        <StepStatusHover data={examNodes[index]} isVisible={item.isVisible} />
       );
       return (
         <li
