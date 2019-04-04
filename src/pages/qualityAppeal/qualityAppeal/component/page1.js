@@ -110,7 +110,6 @@ class NewQualitySheet extends React.Component {
   render() {
     const {qualityNum,qualityType,collegeIdList,familyIdList,groupIdList,beginDate,endDate,firstAppealBeginDate,firstAppealEndDate,status,secondAppealBeginDate,secondAppealEndDate,userName,} = this.state;
     const {orgList = [],dataSource,columns,page,loading,loading2} = this.props;
-    console.log(1111,page);
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
