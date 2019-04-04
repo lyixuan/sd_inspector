@@ -24,7 +24,7 @@ export default class AppealInfoComponent extends React.Component {
         <div className={styles.container}>
           <div className={styles.secRow}>
             <div>
-              <span style={{float:'left',marginLeft:0}}>附件：</span> {v.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${v.attUrl}`} text={v.attUrl&&v.attUrl.split('/')[3]} fileName={()=>name} textClassName={styles.downCls}/>:null}
+              <span style={{float:'left',marginLeft:0}}>附件：</span> {v.attUrl?<DownLoad loadUrl={`${STATIC_HOST}/${v.attUrl}`} text={v.attUrl&&v.attUrl.split('/')[3]} fileName={v.attUrl&&v.attUrl.split('/')[3]} textClassName={styles.downCls}/>:null}
             </div>
           </div>
           <div className={[styles.secRow]}>
