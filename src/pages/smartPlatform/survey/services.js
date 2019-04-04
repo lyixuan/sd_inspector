@@ -15,9 +15,10 @@ export async function getMapInfo() {
 }
 
 export async function getNodeMsgCount(params) {
+  console.log(111, params);
   return request('/general/getNodeMsgCount', {
+    params,
     method: 'get',
-    data: params,
     prefix: '/tmpApi',
   });
 }
