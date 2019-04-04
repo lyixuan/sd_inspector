@@ -34,7 +34,7 @@ export default {
       if (data.code === 20000) {
         yield put({ type: 'saveExamNodes', payload: { examNodes: data.data } });
       } else {
-        message.error(data.msg);
+        message.error(data.msg + data.msgDetail);
       }
     },
     *queryHistogramData({ payload }, { call, put }) {
@@ -42,7 +42,7 @@ export default {
       if (data.code === 20000) {
         yield put({ type: 'saveDataList', payload: { dataList: data.data } });
       } else {
-        message.error(data.msg);
+        message.error(data.msg + data.msgDetail);
       }
     },
     *getMapInfo(_, { call, put }) {
@@ -53,7 +53,7 @@ export default {
           payload: { mapInfo: response.data },
         });
       } else {
-        message.error(response.msg);
+        message.error(response.msg + response.msgDetail);
       }
     },
     *examProvinceOrg({ payload }, { call, put }) {
@@ -70,7 +70,7 @@ export default {
           payload: data,
         });
       } else {
-        message.error(response.msg);
+        message.error(response.msg + response.msgDetail);
       }
     },
   },

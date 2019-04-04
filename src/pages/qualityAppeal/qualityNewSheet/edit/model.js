@@ -17,7 +17,7 @@ export default {
         yield put(router.push('/qualityAppeal/qualityNewSheet'));
 
       } else {
-        message.error(result.msgDetail);
+        message.error(result.msg + result.msgDetail);
       }
     },
   },

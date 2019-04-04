@@ -16,7 +16,7 @@ export default {
         message.success('提交成功');
         yield put(router.push('/qualityAppeal/qualityNewSheet'));
       } else {
-        message.error(result.msgDetail);
+        message.error(result.msg + result.msgDetail);
       }
     },
   },

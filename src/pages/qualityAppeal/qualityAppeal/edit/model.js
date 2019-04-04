@@ -15,7 +15,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { lunchData } });
       } else {
-        message.error(result.msgDetail);
+        message.error(result.msg + result.msgDetail);
       }
     },
   },
