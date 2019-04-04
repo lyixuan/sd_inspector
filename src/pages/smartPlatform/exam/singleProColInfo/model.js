@@ -15,7 +15,7 @@ export default {
       if (data.code === 20000) {
         yield put({ type: 'saveProvinceOrg' , payload: { dataList: data.data },});
       } else {
-        message.error(data.msg);
+        message.error(data.msg + data.msgDetail);
       }
     },
   },

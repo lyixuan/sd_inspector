@@ -17,7 +17,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveLsit', payload: { tableList, total } });
       } else {
-        message.error(result.msg);
+        message.error(result.msg + result.msgDetail);
       }
     },
   },

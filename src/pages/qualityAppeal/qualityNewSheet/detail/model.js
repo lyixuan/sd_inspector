@@ -16,7 +16,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveQualityDetailData', payload: { QualityDetailData } });
       } else {
-        message.error(result.msg);
+        message.error(result.msg + result.msgDetail);
       }
     },
   },

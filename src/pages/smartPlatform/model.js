@@ -18,7 +18,7 @@ export default {
       if (result && result.code === 20000) {
         yield put({ type: 'save', payload: { orgList } });
       } else {
-        message.error(result.msg);
+        message.error(result.msg + result.msgDetail);
       }
     },
     *getExamDateRange({ payload }, { call, put }) {
@@ -26,7 +26,7 @@ export default {
       if (data.code === 20000) {
         yield put({ type: 'save', payload: { dateRange: data.data } });
       } else {
-        message.error(data.msg);
+        message.error(data.msg + data.msgDetail);
       }
     },
     *getProvinceJson({ payload }, { _, put }) {

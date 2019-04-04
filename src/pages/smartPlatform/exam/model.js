@@ -24,7 +24,7 @@ export default {
       if (data.code === 20000) {
         yield put({ type: 'saveDataList', payload: { porDataList: data.data }, });
       } else {
-        message.error(data.msg);
+        message.error(data.msg + data.msgDetail);
       }
     },
     *examTotal(_, { call, put }) {
@@ -36,7 +36,7 @@ export default {
         })
 
       } else {
-        message.error(response.msg)
+        message.error(response.msg + response.msgDetail)
       }
     },
     *examOrg({ payload }, { call, put }) {
@@ -60,7 +60,7 @@ export default {
           })
         }
       } else {
-        message.error(response.msg)
+        message.error(response.msg + response.msgDetail)
       }
     },
   },
