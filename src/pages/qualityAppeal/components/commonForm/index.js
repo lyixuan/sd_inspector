@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { message } from 'antd';
 import BIModal from '@/ant_components/BIModal';
 import BIButton from '@/ant_components/BIButton';
 import FormComponent from './form';
@@ -186,11 +187,19 @@ class CreateQualityNewSheet extends React.Component {
         // 单独处理qualityValue
         const { qualityValue = null, masterQualityValue = null } = params;
         const { formParams, violationLevelObj } = this.state;
-        const { actionType, checkResult } = this.props;
+        const { actionType, checkResult,appealEndDate } = this.props;
         const assginObject = Object.assign({}, formParams, params, { qualityValue, masterQualityValue });
         const newParams = this.formModels.transFormParams(assginObject, violationLevelObj);
         this.tmpParams = newParams;
         this.saveParams(params);
+      if (checkResult === undefined && actionType === 'appeal') {
+        message.warn('请选择审核结果');
+        return;
+      }
+      if (!appealEndDate && actionType === 'appeal') {
+        message.warn('请填写截止日期');
+        return;
+      }
         if (checkResult === 0 && actionType === 'appeal') {
             this.noCheckoutAction();
             return;

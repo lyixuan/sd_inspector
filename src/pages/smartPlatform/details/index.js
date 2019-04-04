@@ -58,6 +58,11 @@ class DetailsIndex extends React.Component {
     const obj = dataFilter(this.state.checkedConditionList);
     const { provinceList } = this.props.dataDetail.params;
     obj.provinceList = province || provinceList || provinceJson[0].name;
+    for (let item in obj) {
+      if (obj[item] instanceof Array && obj[item].length <= 0) {
+        obj[item] = null;
+      }
+    }
     this.props.dispatch({
       type: 'dataDetail/getDetailData',
       payload: { params: obj },

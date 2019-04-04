@@ -17,7 +17,8 @@ class EditQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkResult: undefined
+      checkResult: undefined,
+      appealEndDate: undefined
     };
     const { query = {} } = this.props.location;
     this.query = query;
@@ -38,7 +39,8 @@ class EditQualityNewSheet extends React.Component {
   setStateData = val => {
     this.appealParam = val;
     this.setState({
-      checkResult: Number(val.checkResult)
+      checkResult: Number(val.checkResult),
+      appealEndDate: val.appealEndDate
     })
   };
   onSubmit = params => {
@@ -65,7 +67,7 @@ class EditQualityNewSheet extends React.Component {
   };
 
   render() {
-    const {checkResult} = this.state;
+    const {checkResult,appealEndDate} = this.state;
     const { qualityDetail = {} } = this.props.qualityNewSheet;
     const {  qualityAudit = [], ...others } = qualityDetail;
     const newqualityAudit = [];
@@ -81,7 +83,7 @@ class EditQualityNewSheet extends React.Component {
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.qualityContainter}>
           {/* form区域 */}
-          <CommonForm {...this.props} checkResult={checkResult} onSubmit={this.onSubmit} dataSource={{ ...others }} formType="quality" actionType="appeal">
+          <CommonForm {...this.props} checkResult={checkResult} appealEndDate={appealEndDate} onSubmit={this.onSubmit} dataSource={{ ...others }} formType="quality" actionType="appeal">
             <QualityAppeal data={newqualityAudit} formType="quality" setStateData={this.setStateData} />
           </CommonForm>
 
