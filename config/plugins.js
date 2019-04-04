@@ -6,6 +6,7 @@ export const plugins = [['umi-plugin-react', {
     loadingComponent: '../src/components/PageLoading/index.js'
   },
   title: 'sd_inspector_admin',
+  chunks: ['vendors', 'umi'],
   dll: true,
   routes: {
     exclude: [

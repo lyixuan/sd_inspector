@@ -4,6 +4,7 @@ export async function getData(params) {
   return request('/node/getQueryPushNumByPage', {
     method: 'post',
     data: params,
+    prefix: '/tmpApi',
   });
 }
 export async function exportData(params) {
@@ -12,5 +13,6 @@ export async function exportData(params) {
     data: params,
     responseType: 'blob',
     getResponse: true,
+    prefix: '/tmpApi',
   });
 }
