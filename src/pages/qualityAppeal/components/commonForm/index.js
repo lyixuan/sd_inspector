@@ -193,7 +193,7 @@ class CreateQualityNewSheet extends React.Component {
         // 单独处理qualityValue
         const { qualityValue = null, masterQualityValue = null } = params;
         const { formParams, violationLevelObj } = this.state;
-        const { actionType, checkResult, appealEndDate,formType } = this.props;
+        const { actionType, checkResult, appealEndDate, formType } = this.props;
         const assginObject = Object.assign({}, formParams, params, { qualityValue, masterQualityValue });
         const newParams = this.formModels.transFormParams(assginObject, violationLevelObj);
         this.tmpParams = newParams;
@@ -202,19 +202,18 @@ class CreateQualityNewSheet extends React.Component {
             message.warn('请选择审核结果');
             return;
         }
-        if (!appealEndDate && actionType === 'appeal' && formType==='appeal' && checkResult === 0) {
+        if (!appealEndDate && actionType === 'appeal' && formType === 'appeal' && checkResult === 0) {
             message.warn('请填写截止日期');
             return;
         }
-        if (!appealEndDate && actionType === 'appeal' && formType==='quality' && checkResult === 1) {
-          message.warn('请填写截止日期');
-          return;
+        if (!appealEndDate && actionType === 'appeal' && formType === 'quality' && checkResult === 1) {
+            message.warn('请填写截止日期');
+            return;
         }
         if (checkResult === 0 && actionType === 'appeal') {
             this.noCheckoutAction();
             return;
         }
-        return
         this.checkRepeatQualityInspection(newParams);
     }
     onCancel = () => {
