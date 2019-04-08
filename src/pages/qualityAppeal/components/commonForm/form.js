@@ -459,7 +459,7 @@ class CreateQualityNewSheet extends React.Component {
                         {this.state.radioChange}
                         <Row>
                             <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
-                                <span className={styles.i}></span><Form.Item label="子订单编号：">
+                                <span className={styles.i} style={{display:'inline-block',width:'7.24px'}}>&nbsp;</span><Form.Item label="子订单编号：">
                                     {getFieldDecorator('orderNum', {
                                         initialValue: params.orderNum,
                                     })(<BIInput placeholder="请输入" style={{ width: 280 }} onChange={e => this.inputChange(e, 'orderNum')} />)}
