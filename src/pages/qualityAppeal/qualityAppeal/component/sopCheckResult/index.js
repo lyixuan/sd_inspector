@@ -40,7 +40,7 @@ export default class SOPCheckResultComponent extends React.Component {
                     <div className={styles.secRow}>
                       <div>
                         <span>执行人：{item.operator}</span>
-                        <span>操作时间：{moment(item.operateDate).format('YYYY-MM-DD HH:mm:ss')}</span>
+                        <span>操作时间：{moment(item.operateDate).format('YYYY年MM月DD日 HH:mm:ss')}</span>
                       </div>
                     </div>
                   </div>
