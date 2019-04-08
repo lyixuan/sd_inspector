@@ -80,7 +80,7 @@ class Edit extends React.Component {
       <div>
         <Row>
           <Col span={12}>
-            <span style={{ display: 'inline-block', height: '38px' }}>审核结果：</span>
+            <span style={{ display: 'inline-block', height: '38px',width:'73.72px' }}>审核结果：</span>
             <BIRadio onChange={this.onChangeRadio} value={checkResult}>
               <BIRadio.Radio value={1}>通过</BIRadio.Radio>
               {checkResult === 1 && showWarn ? <Checkbox onChange={this.onChangeCheckBox}>警告</Checkbox> : null}
@@ -89,7 +89,7 @@ class Edit extends React.Component {
           </Col>
           {
             hideDate || isShowDate ? null : <Col className="gutter-row txRight" span={12}>
-              <span>*{this.props.dataName ? this.props.dataName : '二审截止日期'}： </span>
+              <span><i style={{position:'relative',left:'-3px',top:'1px',fontStyle: 'normal'}}>*</i>{this.props.dataName ? this.props.dataName : '二审截止日期'}： </span>
               <BIDatePicker disabledDate={this.disabledDate} onChange={this.onChangeDate} style={{ width: 280 }} />
             </Col>
           }
