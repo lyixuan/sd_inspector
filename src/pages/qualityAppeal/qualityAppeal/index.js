@@ -63,6 +63,7 @@ function changeState2(status) {
   let rt = { status: undefined, appealType: undefined };
   if (status === 1) {
     rt.status = 10; // 待申诉
+    rt.appealType = 1;
   }
   if (status === 2) {
     rt.status = 1; // 一次SOP待审核
