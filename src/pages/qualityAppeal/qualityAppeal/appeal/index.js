@@ -156,7 +156,7 @@ class QualityAppealing extends React.Component {
               </div>
               <div style={{ marginTop: 20 }}>
                 <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={() => this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
-                {this.state.appealIsShow ? <AppealInfo dataList={appealShow} appealStatus={this.query.status} setStateData={this.setStateData} /> : null}
+                {this.state.appealIsShow ? <AppealInfo dataList={appealShow} formType="appeal" appealStatus={this.query.status} setStateData={this.setStateData} /> : null}
               </div>
               <div style={{ float: 'right' }}>
                 <BIButton onClick={this.handleCancel} style={{ marginRight: 20 }}>

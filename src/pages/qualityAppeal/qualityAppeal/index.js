@@ -426,7 +426,7 @@ class QualityAppeal extends React.Component {
     this.onJumpPage({ id: record.id, status: changeState(record) }, '/qualityAppeal/qualityAppeal/appeal');
   };
 
-  onRepeal = (record) => {
+  onRepeal = (record,status) => {
     const that = this;
     const { p = null } = this.props.location.query;
     confirm({
@@ -437,7 +437,7 @@ class QualityAppeal extends React.Component {
       onOk() {
         that.props.dispatch({
           type: 'qualityCheck/cancelQuality',
-          payload: { params: { id: record.id } },
+          payload: { params: { id: record.id,type:status === 2?1:2 } },
         }).then(() => {
           that.queryData(JSON.parse(p))
         });
@@ -482,7 +482,7 @@ class QualityAppeal extends React.Component {
             ) : null}
             {status === 2 || status === 6 ? (
               <AuthButton authority='/qualityAppeal/qualityAppeal/repeal'>
-                <span className={style.actionBtn} onClick={() => this.onRepeal(record)}>
+                <span className={style.actionBtn} onClick={() => this.onRepeal(record,status)}>
                   撤销
                 </span>
               </AuthButton>
