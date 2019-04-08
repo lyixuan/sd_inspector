@@ -173,7 +173,7 @@ class CreateQualityNewSheet extends React.Component {
                     this.setState({ fileList: fileList });
                 } else {
                     this.setState({ fileList: [] });
-                    message.error(msgF(response.msg,response.msgDetail));
+                    message.error(msgF(response.msg, response.msgDetail));
                 }
             }
         }
@@ -236,7 +236,7 @@ class CreateQualityNewSheet extends React.Component {
                         <span className={styles.i}>*</span><Form.Item label="主管扣除绩效：">
                             {getFieldDecorator('masterQualityValue', {
                                 initialValue: params.masterQualityValue,
-                                rules: [{ required: true, message: '请输入扣除绩效', validator: this.checkQuality }],
+                                rules: [{ required: true, message: '请输入主管扣除绩效', validator: this.checkQuality }],
                             })(<BIInput placeholder="请输入" style={{ width: 260 }} onChange={e => this.inputChange(e, 'masterQualityValue')} />)}
                             <span style={{ display: "inline-block", width: "20px" }}>%</span>
                         </Form.Item>
@@ -278,7 +278,7 @@ class CreateQualityNewSheet extends React.Component {
                 <Col className="gutter-row" span={12}>
                     <span className={styles.i}>*</span><Form.Item label="扣除绩效">
                         {getFieldDecorator('qualityValue', {
-                            initialValue: params.qualityType,
+                            initialValue: params.qualityValue,
                             rules: [{ required: true, message: '请输入合法绩效', validator: this.checkQuality }]
                         })(<BIInput placeholder="请输入" style={{ width: 260 }} onChange={e => this.inputChange(e, 'qualityValue')} />)}
                         <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}>%</span>
