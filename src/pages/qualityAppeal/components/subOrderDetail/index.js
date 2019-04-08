@@ -46,6 +46,7 @@ export default class SubOrderDetailComponent extends React.Component {
           <div className={styles.secRow} style={{paddingLeft:'100px'}}>
             <div>学员id：{stuId}</div>
             <div>缴费金额：{amount}</div>
+            <div>&nbsp;</div>
           </div>
         </div>
       </section>
