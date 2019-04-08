@@ -9,6 +9,7 @@ import {
   queryDimensionTreeList,
   checkRepeatQualityInspection,
 } from '@/pages/qualityAppeal/services';
+import { msgF } from '@/utils/utils';
 
 function toTreeData(orgList) {
   const treeData = [];
@@ -55,7 +56,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveMap', payload: { orgList } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *getDimensionList({ payload }, { call, put }) {
@@ -73,7 +74,7 @@ export default {
           yield put({ type: 'save', payload: { dimensionList2 } });
         }
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *getOrgMapByMail({ payload }, { call, put }) {
@@ -87,7 +88,7 @@ export default {
           payload: { orgMapByMailData, },
         });
       } else {
-        message.error(response.msg + response.msgDetail);
+        message.error(msgF(response.msg,response.msgDetail));
       }
     },
     *getDetailData({ payload }, { call, put }) {
@@ -98,7 +99,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveDetailData', payload: { DetailData } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *getQualityDetailData({ payload }, { call, put }) {
@@ -109,7 +110,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveQualityDetailData', payload: { QualityDetailData } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *getOrderNum({ payload }, { call, put }) {
@@ -121,7 +122,7 @@ export default {
           payload: { orderNumData },
         })
       } else {
-        message.error(response.msg + response.msgDetail);
+        message.error(msgF(response.msg,response.msgDetail));
       }
 
     },
@@ -136,7 +137,7 @@ export default {
         })
 
       } else {
-        message.error(response.msg + response.msgDetail);
+        message.error(msgF(response.msg,response.msgDetail));
       }
 
     },
@@ -146,7 +147,7 @@ export default {
       if (response.code === 20000) {
         callback.call(null, response.data || {})
       } else {
-        message.error(response.msg + response.msgDetail);
+        message.error(msgF(response.msg,response.msgDetail));
       }
     }
   },

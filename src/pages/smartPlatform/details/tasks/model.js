@@ -1,6 +1,7 @@
 import { message } from 'antd/lib/index';
 import { routerRedux } from 'dva/router';
 import { getTaskPage, deleteTask, reloadTask } from './service';
+import { msgF } from '@/utils/utils';
 
 export default {
   namespace: 'detail',
@@ -19,7 +20,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveLsit', payload: { tableList, total } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     // 删除查询条件
@@ -31,10 +32,10 @@ export default {
         if (response.code === 20000) {
           yield put({ type: 'saveLsit', payload: { tableList: response.data.list, total: response.data.total } });
         } else {
-          message.error(response.msg + response.msgDetail);
+          message.error(msgF(response.msg,response.msgDetail));
         }
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     // 重新加载任务
@@ -43,7 +44,7 @@ export default {
       if (result.code === 20000) {
         yield put(routerRedux.push('/smartPlatform/details/tasks'));
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     }
   },

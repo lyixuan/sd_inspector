@@ -83,6 +83,20 @@ export function DeepCopy(obj) {
   }
 }
 
+export function msgF(msg,msgDetail) {
+  let r = '';
+  if (msg && !msgDetail) {
+    r = msg;
+  }
+  if (!msg && msgDetail) {
+    r = msgDetail;
+  }
+  if (msg && msgDetail) {
+    r = msg +','+msgDetail;
+  }
+  return  r;
+}
+
 function getRenderArr(routes) {
   let renderArr = [];
   renderArr.push(routes[0]);

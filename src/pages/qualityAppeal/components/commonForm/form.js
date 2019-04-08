@@ -6,7 +6,7 @@ import BIButton from '@/ant_components/BIButton';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import OrgCascader from '@/components/OrgCascader';
 import BICascader from '@/ant_components/BICascader';
-import { BiFilter } from '@/utils/utils';
+import { BiFilter, msgF } from '@/utils/utils';
 import DownLoad from '@/components/DownLoad';
 import moment from 'moment';
 import { STATIC_HOST } from '@/utils/constants';
@@ -173,7 +173,7 @@ class CreateQualityNewSheet extends React.Component {
                     this.setState({ fileList: fileList });
                 } else {
                     this.setState({ fileList: [] });
-                    message.error(response.msg + response.msgDetail);
+                    message.error(msgF(response.msg,response.msgDetail));
                 }
             }
         }

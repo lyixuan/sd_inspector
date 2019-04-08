@@ -1,5 +1,6 @@
 import { message } from 'antd/lib/index';
 import { routerRedux } from 'dva/router';
+import { msgF } from '@/utils/utils';
 import { launchAppeal, uploadFile } from './services';
 
 export default {
@@ -15,7 +16,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'save' });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *launchAppeal({ payload }, { call, put }) {
@@ -24,7 +25,7 @@ export default {
       if (result.code === 20000) {
         yield put(routerRedux.push('/qualityAppeal/qualityAppeal'));
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
   },
@@ -38,3 +39,4 @@ export default {
   subscriptions: {
   },
 };
+
