@@ -256,7 +256,7 @@ class CreateQualityNewSheet extends React.Component {
         if (isShowPerformance) return this.renderQualityType_performance();
     };
     checkQuality = (rule, value, callback) => {
-        if (Number(value) >= 0) {
+        if (value && Number(value) >= 0) {
             callback();
             return;
         }
