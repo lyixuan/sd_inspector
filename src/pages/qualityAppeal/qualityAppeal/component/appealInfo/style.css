@@ -7,8 +7,7 @@
   margin-left: 20px;
 }
 .container {
-  display: flex;
-  flex-direction: row;
+  padding: 20px 18px 0;
 }
 .secRow {
   flex: 1;
