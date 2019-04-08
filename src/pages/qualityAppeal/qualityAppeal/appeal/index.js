@@ -75,7 +75,7 @@ class QualityAppealing extends React.Component {
     const that = this;
     confirm({
       className: 'BIConfirm',
-      title: '提交后，该申诉将被提交给质检主管进行审核。',
+      title: params.checkResult === 1?'提交后，该申诉将被提交给质检主管进行审核。':'确认驳回这条记录吗？',
       cancelText: '取消',
       okText: '确定',
       onOk() {
