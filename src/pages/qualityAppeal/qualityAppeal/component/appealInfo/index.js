@@ -31,7 +31,7 @@ export default class AppealInfoComponent extends React.Component {
             <div>
               <span>执行人：{v.operator}</span>
               <span>
-                      操作时间：{moment(v.operateDate).format('YYYY-MM-DD HH:mm:ss')}
+                      操作时间：{moment(v.operateDate).format('YYYY年MM月DD日 HH:mm:ss')}
                     </span>
             </div>
           </div>
