@@ -14,12 +14,12 @@ export default class IllegalInfoComponent extends React.Component {
         <div className={styles.container}>
           <div className={styles.secRow}>
             <div>质检违规日期：{violationDate?moment(violationDate).format('YYYY-MM-DD'):null}</div>
-            <div>质检类型：{Number(qualityType) === 1 ? '客诉质检' : '班主任质检'}</div>
+            {/*<div>质检类型：{Number(qualityType) === 1 ? '客诉质检' : '班主任质检'}</div>*/}
+            <div>分维：{dimension}</div>
             <div>违规分类：{primaryAssortment}{secondAssortment?`| ${secondAssortment}`:null}{thirdAssortment?`| ${thirdAssortment}`:null}</div>
           </div>
           <div className={styles.secRow}>
             <div>质检扣分日期：{reduceScoreDate?moment(reduceScoreDate).format('YYYY-MM-DD'):null}</div>
-            <div>分维：{dimension}</div>
             <div>违规等级：{violationLevelName}（{Number(qualityType) !== 1 ?'扣除学分':'扣除绩效'}{Number(qualityType) !== 1 ?qualityValue:`${(qualityValue*100).toFixed(2)}%`}）</div>
           </div>
         </div>
