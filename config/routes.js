@@ -96,11 +96,19 @@ export const routes = [
             path: '/qualityAppeal/qualityNewSheet/appealSt',
             component: './qualityAppeal/qualityNewSheet/appealSt',
             name: '审核',
+            bread: {
+              name: '新质检单管理',
+              path: '/qualityAppeal/qualityNewSheet',
+            },
           },
           {
             path: '/qualityAppeal/qualityNewSheet/detail',
             component: './qualityAppeal/qualityNewSheet/detail',
             name: '质检详情',
+            bread: {
+              name: '新质检单管理',
+              path: '/qualityAppeal/qualityNewSheet',
+            },
           },
           {
             path: '/qualityAppeal/qualityAppeal',
