@@ -189,7 +189,7 @@ class Launch extends React.Component {
                   二次申诉
                   <span>
                 二次申诉截止日期：
-                    {moment(Number(secondAppealEndDate)).format('YYYY-MM-DD HH:mm:ss')}
+                    {moment(Number(secondAppealEndDate)).format('YYYY-MM-DD')}
                       </span>
                 </div>
                 <div className={styles.originator}>申诉发起人</div>
@@ -225,7 +225,7 @@ class Launch extends React.Component {
                     一次申诉
                     <span>
                 一次申诉截止日期：
-                      {moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD HH:mm:ss')}
+                      {moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD')}
                       </span>
                   </div>
                   <div className={styles.originator}>申诉发起人</div>

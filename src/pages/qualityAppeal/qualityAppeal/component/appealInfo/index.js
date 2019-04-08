@@ -52,7 +52,7 @@ export default class AppealInfoComponent extends React.Component {
         <div className={styles.appealInfoCon}>
           <div className={styles.appealInfo}>
             {number}次申诉
-            <span> {number}次申诉截止日期：{appealEndDate?moment(appealEndDate).format('YYYY-MM-DD HH:mm:ss'):null}</span>
+            <span> ({number}次申诉截止日期：{appealEndDate?moment(appealEndDate).format('YYYY-MM-DD'):null})</span>
             <span
               onClick={() => {
                 this.appealPanelVisible(index);
