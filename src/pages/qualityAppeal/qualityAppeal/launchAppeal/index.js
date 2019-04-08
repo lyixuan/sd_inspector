@@ -60,11 +60,10 @@ class Launch extends React.Component {
     if(secondAppealEndDate){// 二次提交申诉
       params.type=2;
     }
-    if (!this.state.params.desc) {
-      message.warn('请填写申诉说明');
+    if (!this.state.params.desc.replace(/(^\s*)/g, "")) {
+      message.error('请填写申诉说明');
       return;
     }
-
     this.props.dispatch({
       type: 'Launch/launchAppeal',
       payload: { params },
@@ -223,10 +222,7 @@ class Launch extends React.Component {
                 <div>
                   <div className={styles.appealInfo}>
                     一次申诉
-                    <span>
-                一次申诉截止日期：
-                      {moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD')}
-                      </span>
+                    <span>（一次申诉截止日期：{moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD')}） </span>
                   </div>
                   <div className={styles.originator}>申诉发起人</div>
                   <div className={styles.flexStyle}>
@@ -246,7 +242,7 @@ class Launch extends React.Component {
                   </div>
 
                   <div className={styles.flexStyle}>
-                    <div className={styles.label}>申诉说明:</div>
+                    <div className={styles.label}>*申诉说明:</div>
                     <div className={styles.intro}>
                       <TextArea maxLength={500}  rows={4} onChange={this.inputChange} />
                     </div>
