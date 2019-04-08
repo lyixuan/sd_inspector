@@ -230,7 +230,7 @@ class CreateQualityNewSheet extends React.Component {
                                 rules: [{ required: true, message: '请输入主管邮箱' }],
                             })(<BIInput placeholder="请输入" style={{ width: 170 }} onChange={e => this.inputChange(e, 'masterMail')} />)}
                         </Form.Item>
-                        <div className={styles.text}>@sunland.com</div>
+                        <div className={styles.text}>@sunlands.com</div>
                     </Col>
                     <Col className="gutter-row txRight" span={12}>
                         <span className={styles.i}>*</span><Form.Item label="主管扣除绩效：">

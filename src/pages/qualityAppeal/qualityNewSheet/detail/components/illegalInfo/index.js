@@ -28,7 +28,7 @@ export default class IllegalInfoComponent extends React.Component {
             Number(qualityType) === 1?(
               <>
                 <div className={styles.secRow}>
-                  <div>客诉主管邮箱：{masterMail}</div>
+                  <div>客诉主管邮箱：{masterMail?`${masterMail}@sunlands.com`:'无'}</div>
                 </div>
                 <div className={styles.secRow}>
                   <div>主管扣除绩效：{(masterQualityValue*100).toFixed(2)}%</div>
