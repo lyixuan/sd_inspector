@@ -37,12 +37,13 @@
 
 .gutterLabel,.gutterLabel1 {
   width: 88px;
+  line-height: 0;
   display: inline-block;
-  text-align-last: justify;
+  //text-align-last: justify;
   text-align: justify;
 }
 
-.gutterLabel::after.gutterLabel1::after {
+.gutterLabel:after,.gutterLabel1:after {
   content: ''!important;
   display: inline-block;
   width: 100%;
