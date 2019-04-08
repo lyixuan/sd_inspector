@@ -419,7 +419,6 @@ class QualityAppeal extends React.Component {
   };
 
   onSubmitAppeal = (record,status) => {
-    console.log(111,record)
     this.onJumpPage({ id: record.id, appealType: status, secondAppealEndDate:record.secondAppealEndDate }, '/qualityAppeal/qualityAppeal/launch');
   };
 
@@ -456,7 +455,7 @@ class QualityAppeal extends React.Component {
         return (
           <>
             <AuthButton authority='/qualityAppeal/qualityAppeal/detail'>
-              <span className={style.actionBtn} onClick={() => this.onDetail(record)}>
+              <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
                 详情
               </span>
             </AuthButton>
@@ -508,7 +507,7 @@ class QualityAppeal extends React.Component {
         return (
           <>
             <AuthButton authority='/qualityAppeal/qualityAppeal/detail'>
-              <span className={style.actionBtn} onClick={() => this.onDetail(record)}>
+              <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
                 详情
               </span>
             </AuthButton>
