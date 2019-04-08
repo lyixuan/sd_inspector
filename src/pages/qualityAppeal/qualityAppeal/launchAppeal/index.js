@@ -182,7 +182,7 @@ class Launch extends React.Component {
           </section>
           {secondAppealEndDate?
             (
-              <div>
+              <div className={styles.info}>
                 {this.getAppealInfos(qualityAppealHome.DetailData)}
                 <div className={styles.appealInfo}>
                   二次申诉
