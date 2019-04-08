@@ -348,7 +348,7 @@ class CreateQualityNewSheet extends React.Component {
                     >
                         上传附件
                     </BIButton>
-                  <span style={{color:'#aaa',fontSize:12}}>（请上传10M以内的rar、zip格式文件）</span>
+                    <span style={{ color: '#aaa', fontSize: 12 }}>（请上传10M以内的rar、zip格式文件）</span>
                 </Upload>)
         } else {
             return (
@@ -488,7 +488,7 @@ class CreateQualityNewSheet extends React.Component {
                                 <span className={styles.i}>*</span><Form.Item label="质检扣分日期：">
                                     {getFieldDecorator('reduceScoreDate', {
                                         initialValue: params.reduceScoreDate,
-                                      rules: [{ required: true, message: '请选择质检扣分日期' }],
+                                        rules: [{ required: true, message: '请选择质检扣分日期' }],
                                     })(<BIDatePicker disabledDate={this.disabledDate} style={{ width: 280 }} format={format} onChange={val => this.datePackerChange(val, 'reduceScoreDate')} />)}
                                 </Form.Item>
                             </Col>
@@ -550,9 +550,10 @@ class CreateQualityNewSheet extends React.Component {
 
                         <Row className="gutter-row">
                             <Col span={24}>
-                                <span className={styles.i}>&nbsp;</span><Form.Item label="违规详情:" className="row-details">
+                                <span className={styles.i}>*</span><Form.Item label="违规详情:" className="row-details">
                                     {getFieldDecorator('desc', {
                                         initialValue: params.desc,
+                                        rules: [{ required: true, message: '请输入违规详情' }],
                                     })(<TextArea maxLength={1000} className={styles.textA} rows="4" placeholder="请输入违规详情" onChange={e => this.inputChange(e, 'desc')} />)}
                                 </Form.Item>
                             </Col>

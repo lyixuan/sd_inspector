@@ -169,8 +169,14 @@ class CreateQualityNewSheet extends React.Component {
             }
             buttonText = '确定';
         } else {
-            msgDetail = msg;
-            buttonText = '继续提交';
+            if (roleId === 49 && actionType === 'appeal') {
+                msgDetail = checkResult === 1 ? '该条记录将提交到小德后台并修改归属人学分(绩效) , 确认提交吗?' : '确认驳回该条记录吗?';
+                buttonText = '确定';
+            } else {
+                msgDetail = msg;
+                buttonText = '继续提交';
+            }
+
         }
         this.setState({ isShowOrderNumConfirmModel: true, msgDetail, buttonText });
     }
