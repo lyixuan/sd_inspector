@@ -226,7 +226,7 @@ class NewQualitySheetIndex extends React.Component {
           <>
             <AuthButton authority='/qualityAppeal/qualityNewSheet/detail'>
               <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
-                详情
+                查看详情
               </span>
             </AuthButton>
             {record.status === 1 || record.status === 3 ? (
