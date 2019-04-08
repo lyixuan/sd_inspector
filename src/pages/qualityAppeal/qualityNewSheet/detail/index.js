@@ -5,11 +5,11 @@ import SubOrderDetail from './../../components/subOrderDetail';
 import PersonInfo from './components/personInfo';
 import IllegalInfo from './components/illegalInfo';
 import CheckInfo from './components/checkInfo';
-import { Form, Row, Col,Spin } from 'antd';
+import { Form, Row, Col, Spin } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import router from 'umi/router';
 
-@connect(({ qualityDetail,loading }) => ({
+@connect(({ qualityDetail, loading }) => ({
   qualityDetail,
   pageLoading: loading.effects['qualityDetail/getQualityDetailData']
 }))
@@ -37,10 +37,9 @@ class QualityDetail extends React.Component {
     this.setState({ checkResultsCollapse: !this.state.checkResultsCollapse });
   }
   render() {
-    const {qualityDetail={}} = this.props;
-    const qualityDetailData = qualityDetail.QualityDetailData||{};
-    const {masterQualityValue='',masterMail=''} = qualityDetailData;
-
+    const { qualityDetail = {} } = this.props;
+    const qualityDetailData = qualityDetail.QualityDetailData || {};
+    const { masterQualityValue = '', masterMail = '' } = qualityDetailData;
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.detailContainer}>
@@ -78,9 +77,9 @@ class QualityDetail extends React.Component {
                 <Row className="gutter-row">
                   <Col span={24}>
                     <div className={styles.gutterBox1}>
-                    <span className={styles.gutterBtn2}>
-                      <BIButton onClick={() => router.goBack()}>返回</BIButton>
-                    </span>
+                      <span className={styles.gutterBtn2}>
+                        <BIButton onClick={() => router.goBack()}>返回</BIButton>
+                      </span>
                       {/* <span className={styles.gutterBtn1}>
                       <BIButton type="primary">提交</BIButton>
                     </span> */}
