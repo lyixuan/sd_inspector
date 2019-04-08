@@ -1,6 +1,7 @@
 import { message } from 'antd/lib/index';
 import { province, examTotal } from './services';
 import { examOrg } from './services';
+import { msgF } from '@/utils/utils';
 
 function sortdata(datalist, name) {
   let deepGroDataList = datalist.concat();
@@ -24,7 +25,7 @@ export default {
       if (data.code === 20000) {
         yield put({ type: 'saveDataList', payload: { porDataList: data.data }, });
       } else {
-        message.error(data.msg + data.msgDetail);
+        message.error(msgF(data.msg,data.msgDetail));
       }
     },
     *examTotal(_, { call, put }) {
@@ -36,7 +37,7 @@ export default {
         })
 
       } else {
-        message.error(response.msg + response.msgDetail)
+        message.error(msgF(response.msg,response.msgDetail))
       }
     },
     *examOrg({ payload }, { call, put }) {
@@ -60,7 +61,7 @@ export default {
           })
         }
       } else {
-        message.error(response.msg + response.msgDetail)
+        message.error(msgF(response.msg,response.msgDetail))
       }
     },
   },

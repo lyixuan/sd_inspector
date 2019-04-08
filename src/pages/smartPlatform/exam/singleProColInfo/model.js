@@ -1,5 +1,6 @@
 import { message } from 'antd/lib/index';
 import { provinceOrg } from './services';
+import { msgF } from '@/utils/utils';
 
 export default {
   namespace: 'examOrg',
@@ -15,7 +16,7 @@ export default {
       if (data.code === 20000) {
         yield put({ type: 'saveProvinceOrg' , payload: { dataList: data.data },});
       } else {
-        message.error(data.msg + data.msgDetail);
+        message.error(msgF(data.msg,data.msgDetail));
       }
     },
   },

@@ -6,7 +6,7 @@ import BIButton from '@/ant_components/BIButton';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import OrgCascader from '@/components/OrgCascader';
 import BICascader from '@/ant_components/BICascader';
-import { BiFilter } from '@/utils/utils';
+import { BiFilter, msgF } from '@/utils/utils';
 import DownLoad from '@/components/DownLoad';
 import moment from 'moment';
 import { STATIC_HOST } from '@/utils/constants';
@@ -173,7 +173,7 @@ class CreateQualityNewSheet extends React.Component {
                     this.setState({ fileList: fileList });
                 } else {
                     this.setState({ fileList: [] });
-                    message.error(response.msg + response.msgDetail);
+                    message.error(msgF(response.msg,response.msgDetail));
                 }
             }
         }
@@ -230,7 +230,7 @@ class CreateQualityNewSheet extends React.Component {
                                 rules: [{ required: true, message: '请输入主管邮箱' }],
                             })(<BIInput placeholder="请输入" style={{ width: 170 }} onChange={e => this.inputChange(e, 'masterMail')} />)}
                         </Form.Item>
-                        <div className={styles.text}>@sunland.com</div>
+                        <div className={styles.text}>@sunlands.com</div>
                     </Col>
                     <Col className="gutter-row txRight" span={12}>
                         <span className={styles.i}>*</span><Form.Item label="主管扣除绩效：">
@@ -378,7 +378,7 @@ class CreateQualityNewSheet extends React.Component {
                     <div className={styles.content}>
                         <Row>
                             <Col className="gutter-row" span={20}>
-                                <span className={styles.i}>*</span><Form.Item label="质检类型：">
+                                <span className={styles.i}>*</span><Form.Item label="质检类型">
                                     {getFieldDecorator('qualityType', {
                                         initialValue: params.qualityType || undefined,
                                         rules: [{ required: true, message: '请选择质检类型' }],
