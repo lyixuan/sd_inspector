@@ -28,8 +28,8 @@
   display: inline-block;
   text-align: justify;
 }
-.ant-form-item-label label::after {
-  content: ""!important;
+.ant-form-item-label > label::after{
+  left: 98px;
   display: inline-block;
   width: 100%;
 }
@@ -63,7 +63,7 @@ a,a:hover{
   width:95px!important;
   white-space: normal;
   line-height: 0;
-  margin-right: 10px;
+  margin-right: 20px;
 }
 
 .ant-form-inline .ant-form-item{
