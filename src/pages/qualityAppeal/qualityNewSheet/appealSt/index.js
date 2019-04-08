@@ -5,7 +5,7 @@ import BIModal from '@/ant_components/BIModal';
 import styles from './style.less';
 import CommonForm from '../../components/commonForm';
 import QualityAppeal from '../../components/AppealInfo/qualityAppeal';
-import { message,Spin } from 'antd';
+import { message, Spin } from 'antd';
 @connect(({ loading, qualityNewSheet, editQualityNewSheet }) => ({
   loading,
   qualityNewSheet,
@@ -22,7 +22,7 @@ class EditQualityNewSheet extends React.Component {
     };
     const { query = {} } = this.props.location;
     this.query = query;
-    this.appealParam={};
+    this.appealParam = {};
   }
   componentDidMount() {
     this.getQualityDetailData();
@@ -67,9 +67,9 @@ class EditQualityNewSheet extends React.Component {
   };
 
   render() {
-    const {checkResult,appealEndDate} = this.state;
+    const { checkResult, appealEndDate } = this.state;
     const { qualityDetail = {} } = this.props.qualityNewSheet;
-    const {  qualityAudit = [], ...others } = qualityDetail;
+    const { qualityAudit = [], ...others } = qualityDetail;
     const newqualityAudit = [];
     qualityAudit && qualityAudit.forEach((v) => {
       newqualityAudit.push({
