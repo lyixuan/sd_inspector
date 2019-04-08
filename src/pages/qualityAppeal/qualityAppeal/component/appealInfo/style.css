@@ -107,4 +107,5 @@ div.divideLine:last-child {
 .downCls{
   color:#52C9C2;
   margin-left: 0!important;
+  border-bottom: 1px solid;
 }
