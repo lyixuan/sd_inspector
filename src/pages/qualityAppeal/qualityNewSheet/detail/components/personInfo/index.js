@@ -37,7 +37,7 @@ export default class PersonInfoComponent extends React.Component {
         <div className={qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`}>
           <div className={styles.container}>
             <div className={styles.secRow}>
-              <div>质检类型：{Number(qualityType) === 1 ? '客诉质检' : '班主任质检'}</div>
+              {/*<div>质检类型：{Number(qualityType) === 1 ? '客诉质检' : '班主任质检'}</div>*/}
               <div>归属人邮箱：{mail}@sunlands.com</div>
               <div>归属人角色：{roleObj?roleObj.name:''  }</div>
             </div>
