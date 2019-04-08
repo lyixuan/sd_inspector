@@ -1,6 +1,7 @@
 import { message } from 'antd/lib/index';
 import { queryHistogramData, getMapInfo, getNodeMsgCount } from './services';
 import { examProvinceOrg } from '../services';
+import { msgF } from '@/utils/utils';
 
 function dealData(data, dataItem) {
   const dataObj = { dateArr: [] };
@@ -34,7 +35,7 @@ export default {
       if (data.code === 20000) {
         yield put({ type: 'saveExamNodes', payload: { examNodes: data.data } });
       } else {
-        message.error(data.msg + data.msgDetail);
+        message.error(msgF(data.msg,data.msgDetail));
       }
     },
     *queryHistogramData({ payload }, { call, put }) {
@@ -42,7 +43,7 @@ export default {
       if (data.code === 20000) {
         yield put({ type: 'saveDataList', payload: { dataList: data.data } });
       } else {
-        message.error(data.msg + data.msgDetail);
+        message.error(msgF(data.msg,data.msgDetail));
       }
     },
     *getMapInfo(_, { call, put }) {
@@ -53,7 +54,7 @@ export default {
           payload: { mapInfo: response.data },
         });
       } else {
-        message.error(response.msg + response.msgDetail);
+        message.error(msgF(response.msg,response.msgDetail));
       }
     },
     *examProvinceOrg({ payload }, { call, put }) {
@@ -70,7 +71,7 @@ export default {
           payload: data,
         });
       } else {
-        message.error(response.msg + response.msgDetail);
+        message.error(msgF(response.msg,response.msgDetail));
       }
     },
   },

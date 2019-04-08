@@ -3,7 +3,7 @@ import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality } 
 import { getQualityDetail } from '@/pages/qualityAppeal/qualityAppeal/appeal/services';
 import BIModal from '@/ant_components/BIModal';
 import router from 'umi/router';
-import {downBlob} from '@/utils/utils';
+import { downBlob, msgF } from '@/utils/utils';
 
 const confirm = BIModal.confirm;
 
@@ -27,7 +27,7 @@ export default {
         const page = { total: result.data.total ? result.data.total : 0, pageNum: result.data.pageNum ? result.data.pageNum : 1 };
         yield put({ type: 'save', payload: { qualityList, page } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *cancelQuality({ payload }, { call }) {
@@ -36,7 +36,7 @@ export default {
       if (result.code === 20000) {
         message.success('撤销成功');
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *exportExcel({ payload }, { call }) {
@@ -51,7 +51,7 @@ export default {
         downBlob(result.data, `${eval("'"+numName2+"'")}.xlsx`);
         message.success('导出成功');
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *addQuality({ payload }, { call, put }) {
@@ -60,7 +60,7 @@ export default {
         yield put(router.push('/qualityAppeal/qualityNewSheet'));
 
       } else {
-        message.error(response.msg + response.msgDetail)
+        message.error(msgF(response.msg,response.msgDetail))
       }
     },
     *getQualityDetail({ payload }, { call, put }) {
@@ -70,7 +70,7 @@ export default {
         const qualityDetail = result.data ? result.data : {};
         yield put({ type: 'save', payload: { qualityDetail } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
   },

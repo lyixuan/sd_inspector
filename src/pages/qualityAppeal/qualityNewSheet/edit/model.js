@@ -1,6 +1,7 @@
 import { message } from 'antd/lib/index';
 import { updateQuality } from './services';
 import router from 'umi/router';
+import { msgF } from '@/utils/utils';
 
 export default {
   namespace: 'editQualityNewSheet',
@@ -17,7 +18,7 @@ export default {
         yield put(router.push('/qualityAppeal/qualityNewSheet'));
 
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
   },
