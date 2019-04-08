@@ -44,7 +44,7 @@ export default class IllegalInfoComponent extends React.Component {
               <div>学院类型：{FAMILY_TYPE.find(item => item.id === familyType) ? FAMILY_TYPE.find(item => item.id === familyType).name : ''}</div>
             </div>
             <div className={styles.secRow}>
-              <span>附件：</span> <div>&nbsp;{attUrl ? <DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={() => name} textClassName={styles.downCls} /> : null}</div>
+              <span>附件：</span> <div>{attUrl ? <DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={() => name} textClassName={styles.downCls} /> : null}</div>
             </div>
           </div>
 
