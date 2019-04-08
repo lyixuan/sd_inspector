@@ -378,7 +378,7 @@ class CreateQualityNewSheet extends React.Component {
                     <div className={styles.content}>
                         <Row>
                             <Col className="gutter-row" span={20}>
-                                <span className={styles.i}>*</span><Form.Item label="质检类型：">
+                                <span className={styles.i}>*</span><Form.Item label="质检类型">
                                     {getFieldDecorator('qualityType', {
                                         initialValue: params.qualityType || undefined,
                                         rules: [{ required: true, message: '请选择质检类型' }],
