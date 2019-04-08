@@ -37,6 +37,13 @@ class Index extends React.Component {
                   <div className={styles.s2_title}>申诉发起人</div>
                   {InfoList1}
                 </div>
+
+                {status===2?(
+                  <div className={styles.masterContent} style={{borderTop: '1px solid #DCDDE0',paddingTop:'20px'}}>
+                    <div className={styles.appealTitle}>SOP审核</div>
+                    <Edit {...this.props} hideDate showWarn={false} setStateData={setStateData}/>
+                  </div>
+                ):null}
                 {
                   dataList1.sopAppealCheck&&dataList1.sopAppealCheck.length===0?null:(
                     <div className={styles.resultWrap}>
@@ -45,13 +52,6 @@ class Index extends React.Component {
                     </div>
                   )
                 }
-
-                {status===2?(
-                  <div className={styles.masterContent}>
-                    <div className={styles.appealTitle}>SOP审核</div>
-                    <Edit {...this.props} hideDate showWarn={false} setStateData={setStateData}/>
-                  </div>
-                ):null}
                 {
                   status===4?(
                     <>
@@ -63,7 +63,6 @@ class Index extends React.Component {
                           </div>
                         )
                       }
-
                       {status===4?(
                         <div className={styles.masterContent}>
                           <div className={styles.appealTitle}>主管审核</div>
@@ -85,6 +84,12 @@ class Index extends React.Component {
                 <div className={styles.s2_title}>申诉发起人</div>
                 {InfoList2}
               </div>
+              {status===6?(
+                <div className={styles.masterContent} style={{borderTop: '1px solid #DCDDE0',paddingTop:'20px'}}>
+                  <div className={styles.appealTitle}>SOP审核</div>
+                  <Edit {...this.props} hideDate showWarn={false} setStateData={setStateData}/>
+                </div>
+              ):null}
               {
                 dataList2.sopAppealCheck&&dataList2.sopAppealCheck.length===0?null:(
                   <div className={styles.resultWrap}>
@@ -93,12 +98,6 @@ class Index extends React.Component {
                   </div>
                 )
               }
-              {status===6?(
-                <div className={styles.masterContent}>
-                  <div className={styles.appealTitle}>SOP审核</div>
-                  <Edit {...this.props} hideDate showWarn={false} setStateData={setStateData}/>
-                </div>
-              ):null}
               {status===8?(
                 <>
                   {
