@@ -57,11 +57,12 @@ class QualityDetail extends React.Component {
             >
               {qualityDetailData.orderNum?(
                 <div>
+                  <div className={styles.divideLine} />
                   <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
                   <SubOrderDetail data={qualityDetailData.orderDetail} />
-                  <div className={styles.divideLine} />
                 </div>
               ):null}
+              <div className={styles.divideLine} />
               {/* 质检违规详情 */}
               <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail} />
             </article>
