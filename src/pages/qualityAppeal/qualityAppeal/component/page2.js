@@ -79,13 +79,13 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel1}>质检单号</span>:
+                <span className={styles.gutterLabel1}>质检单号</span>：
                 <span className={styles.gutterForm}><BIInput placeholder="请输入" allowClear value={qualityNum} onChange={(e) => this.onFormChange(e.target.value, 'qualityNum')} /></span>
               </div>
             </Col>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel1}>质检类型</span>:
+                <span className={styles.gutterLabel1}>质检类型</span>：
                 <span className={styles.gutterForm}>
                   <BISelect style={{ width: 230 }} placeholder="请选择" value={qualityType} onChange={(val) => this.onFormChange(val, 'qualityType')}>
                     <Option key={'all'}>全部</Option>
@@ -100,7 +100,7 @@ class NewQualitySheet extends React.Component {
             </Col>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel1}>分维</span>:
+                <span className={styles.gutterLabel1}>分维</span>：
                 <span className={styles.gutterForm}>
                   {this.canDimension === 1 ? (
                     <BISelect style={{ width: 230 }} allowClear placeholder="请选择客诉分维" mode="multiple" showArrow maxTagCount={1} value={dimensionIdList} onChange={(val) => this.onFormChange(val, 'dimensionIdList')}>
@@ -135,7 +135,7 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel1}>违规等级</span>:
+                <span className={styles.gutterLabel1}>违规等级</span>：
                 <span className={styles.gutterForm}>
                   <BISelect style={{ width: 230 }} placeholder="请选择" allowClear mode="multiple" showArrow maxTagCount={1} value={violationLevel} onChange={(val) => this.onFormChange(val, 'violationLevel')}>
                     {BiFilter('VIOLATION_LEVEL').map(item => (
@@ -149,7 +149,7 @@ class NewQualitySheet extends React.Component {
             </Col>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel1}>申诉状态</span>:
+                <span className={styles.gutterLabel1}>申诉状态</span>：
                 <span className={styles.gutterForm}>
                   <BISelect style={{ width: 230 }} allowClear value={status} placeholder="请选择" onChange={(val) => this.onFormChange(val, 'status')}>
                     {BiFilter('APPEAL_STATE').map(item => (
@@ -163,7 +163,7 @@ class NewQualitySheet extends React.Component {
             </Col>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel1}>是否警告</span>:
+                <span className={styles.gutterLabel1}>是否警告</span>：
                 <span className={styles.gutterForm}>
                   <BISelect style={{ width: 230 }} placeholder="请选择" value={isWarn} onChange={(val) => this.onFormChange(val, 'isWarn')}>
                     <Option key={'all'}>全部</Option>
