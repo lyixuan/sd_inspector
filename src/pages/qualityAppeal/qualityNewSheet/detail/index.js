@@ -55,22 +55,28 @@ class QualityDetail extends React.Component {
                 this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
               }
             >
-              <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
-              <SubOrderDetail data={qualityDetailData.orderDetail} />
+              {qualityDetailData.orderNum?(
+                <div>
+                  <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
+                  <SubOrderDetail data={qualityDetailData.orderDetail} />
+                  <div className={styles.divideLine} />
+                </div>
+              ):null}
               {/* 质检违规详情 */}
-              <div className={styles.divideLine} />
               <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail} />
             </article>
           </section>
-          <section>
-            {/* 质检审核 */}
-            <CheckInfo
-              firstAppealEndDate={qualityDetailData.firstAppealEndDate}
-              data={qualityDetailData.qualityAudit}
-              checkResultsCollapse={this.state.checkResultsCollapse}
-              onClick={() => this.handleCheckResultsCollapse()}
-            />
-          </section>
+          {qualityDetailData.qualityAudit && qualityDetailData.qualityAudit.length>0?(
+            <section>
+              {/* 质检审核 */}
+              <CheckInfo
+                firstAppealEndDate={qualityDetailData.firstAppealEndDate}
+                data={qualityDetailData.qualityAudit}
+                checkResultsCollapse={this.state.checkResultsCollapse}
+                onClick={() => this.handleCheckResultsCollapse()}
+              />
+            </section>
+          ):null}
           <section>
             <Form layout="inline" className={styles.formBox}>
               <div className={styles.content}>
