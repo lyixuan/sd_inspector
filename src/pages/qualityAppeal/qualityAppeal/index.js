@@ -63,6 +63,7 @@ function changeState2(status) {
   let rt = { status: undefined, appealType: undefined };
   if (status === 1) {
     rt.status = 10; // 待申诉
+    rt.appealType = 1;
   }
   if (status === 2) {
     rt.status = 1; // 一次SOP待审核
@@ -419,7 +420,6 @@ class QualityAppeal extends React.Component {
   };
 
   onSubmitAppeal = (record,status) => {
-    console.log(111,record)
     this.onJumpPage({ id: record.id, appealType: status, secondAppealEndDate:record.secondAppealEndDate }, '/qualityAppeal/qualityAppeal/launch');
   };
 
@@ -427,7 +427,7 @@ class QualityAppeal extends React.Component {
     this.onJumpPage({ id: record.id, status: changeState(record) }, '/qualityAppeal/qualityAppeal/appeal');
   };
 
-  onRepeal = (record) => {
+  onRepeal = (record,status) => {
     const that = this;
     const { p = null } = this.props.location.query;
     confirm({
@@ -438,7 +438,7 @@ class QualityAppeal extends React.Component {
       onOk() {
         that.props.dispatch({
           type: 'qualityCheck/cancelQuality',
-          payload: { params: { id: record.id } },
+          payload: { params: { id: record.id,type:status === 2?1:2 } },
         }).then(() => {
           that.queryData(JSON.parse(p))
         });
@@ -456,8 +456,8 @@ class QualityAppeal extends React.Component {
         return (
           <>
             <AuthButton authority='/qualityAppeal/qualityAppeal/detail'>
-              <span className={style.actionBtn} onClick={() => this.onDetail(record)}>
-                详情
+              <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
+                查看详情
               </span>
             </AuthButton>
             {status === 1 || status === 3 || status === 5 || status === 7 ? (
@@ -483,7 +483,7 @@ class QualityAppeal extends React.Component {
             ) : null}
             {status === 2 || status === 6 ? (
               <AuthButton authority='/qualityAppeal/qualityAppeal/repeal'>
-                <span className={style.actionBtn} onClick={() => this.onRepeal(record)}>
+                <span className={style.actionBtn} onClick={() => this.onRepeal(record,status)}>
                   撤销
                 </span>
               </AuthButton>
@@ -508,8 +508,8 @@ class QualityAppeal extends React.Component {
         return (
           <>
             <AuthButton authority='/qualityAppeal/qualityAppeal/detail'>
-              <span className={style.actionBtn} onClick={() => this.onDetail(record)}>
-                详情
+              <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
+                查看详情
               </span>
             </AuthButton>
           </>

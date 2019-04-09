@@ -1,6 +1,7 @@
 import { message } from 'antd/lib/index';
 import {  getAppealInfo, reviewAppeal,getQualityDetail,sopAppeal } from './services';
 import router from 'umi/router';
+import { msgF } from '@/utils/utils';
 
 export default {
   namespace: 'qualityAppealing',
@@ -17,7 +18,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { appealShow:result.data } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *sopAppeal({ payload }, { call, put }) {
@@ -25,7 +26,7 @@ export default {
       if (result.code === 20000) {
         router.goBack();
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *reviewAppeal({ payload }, { call, put }) {
@@ -35,7 +36,7 @@ export default {
         yield put({ type: 'save', payload: { appealReview } });
         router.goBack();
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *getQualityDetailData({ payload }, { call, put }) {
@@ -45,7 +46,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { qualityDetailData } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
   },

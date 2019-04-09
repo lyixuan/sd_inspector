@@ -60,11 +60,10 @@ class Launch extends React.Component {
     if(secondAppealEndDate){// 二次提交申诉
       params.type=2;
     }
-    if (!this.state.params.desc) {
-      message.warn('请填写申诉说明');
+    if (!this.state.params.desc.replace(/(^\s*)/g, "")) {
+      message.error('请填写申诉说明');
       return;
     }
-
     this.props.dispatch({
       type: 'Launch/launchAppeal',
       payload: { params },
@@ -156,7 +155,7 @@ class Launch extends React.Component {
     const {qualityAppealHome = {},loading} = this.props;
     const qualityDetailData = qualityAppealHome.QualityDetailData;
     this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
-    const {masterQualityValue='',masterMail=''} = qualityAppealHome;
+    const {masterQualityValue='',masterMail=''} = qualityDetailData;
     const {secondAppealEndDate} = this.props.location.query
 
     return (
@@ -174,8 +173,14 @@ class Launch extends React.Component {
                 this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
               }
             >
-              <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
-              <SubOrderDetail data={qualityDetailData.orderDetail} />
+              {qualityDetailData.orderNum?(
+                <div>
+                  <div className={styles.divideLine} />
+                  <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
+                  <SubOrderDetail data={qualityDetailData.orderDetail} />
+                </div>
+              ):null}
+
               {/* 质检违规详情 */}
               <div className={styles.divideLine} />
               <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail}/>
@@ -183,13 +188,13 @@ class Launch extends React.Component {
           </section>
           {secondAppealEndDate?
             (
-              <div>
+              <div className={styles.info}>
                 {this.getAppealInfos(qualityAppealHome.DetailData)}
                 <div className={styles.appealInfo}>
                   二次申诉
                   <span>
                 二次申诉截止日期：
-                    {moment(Number(secondAppealEndDate)).format('YYYY-MM-DD HH:mm:ss')}
+                    {moment(Number(secondAppealEndDate)).format('YYYY-MM-DD')}
                       </span>
                 </div>
                 <div className={styles.originator}>申诉发起人</div>
@@ -210,7 +215,7 @@ class Launch extends React.Component {
                 </div>
 
                 <div className={styles.flexStyle}>
-                  <div className={styles.label}>申诉说明:</div>
+                  <div className={styles.label}>*申诉说明:</div>
                   <div className={styles.intro}>
                     <TextArea maxLength={500}  rows={4} onChange={this.inputChange} />
                   </div>
@@ -223,10 +228,7 @@ class Launch extends React.Component {
                 <div>
                   <div className={styles.appealInfo}>
                     一次申诉
-                    <span>
-                一次申诉截止日期：
-                      {moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD HH:mm:ss')}
-                      </span>
+                    <span>（一次申诉截止日期：{moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD')}） </span>
                   </div>
                   <div className={styles.originator}>申诉发起人</div>
                   <div className={styles.flexStyle}>
@@ -246,7 +248,7 @@ class Launch extends React.Component {
                   </div>
 
                   <div className={styles.flexStyle}>
-                    <div className={styles.label}>申诉说明:</div>
+                    <div className={styles.label}>*申诉说明:</div>
                     <div className={styles.intro}>
                       <TextArea maxLength={500}  rows={4} onChange={this.inputChange} />
                     </div>

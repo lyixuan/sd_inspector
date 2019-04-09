@@ -1,6 +1,6 @@
 import { message } from 'antd/lib/index';
 import { getData, exportData } from './services';
-import { downBlob } from '@/utils/utils';
+import { downBlob, msgF } from '@/utils/utils';
 
 export default {
   namespace: 'PushDataModel',
@@ -16,7 +16,7 @@ export default {
       if (data.code === 20000) {
         yield put({ type: 'save', payload: { dataList: data.data } });
       } else {
-        message.error(data.msg + data.msgDetail);
+        message.error(msgF(data.msg,data.msgDetail));
       }
     },
     *exportData({ payload }, { call, put }) {

@@ -98,14 +98,18 @@ class AppealDetail extends React.Component {
               qualityInfoCollapse={this.state.qualityInfoCollapse}
               onClick={() => this.handleCollapse()}
             />
-            <div
-              className={
-                this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
-              }
-            >
-              <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
-              <SubOrderDetail data={qualityDetailData.orderDetail} />
-            </div>
+
+              {qualityDetailData.orderNum?(
+                <div
+                  className={
+                    this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
+                  }
+                >
+                  <div className={styles.divideLine} />
+                  <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
+                  <SubOrderDetail data={qualityDetailData.orderDetail} />
+                </div>
+              ):null}
           </section>
           <section className={styles.appealInfoCon}>
             {/* 申诉信息 */}

@@ -1,5 +1,6 @@
 import { message } from 'antd/lib/index';
 import { getQualityDetail } from './service';
+import { msgF } from '@/utils/utils';
 
 export default {
   namespace: 'qualityDetail',
@@ -16,7 +17,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveQualityDetailData', payload: { QualityDetailData } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
   },

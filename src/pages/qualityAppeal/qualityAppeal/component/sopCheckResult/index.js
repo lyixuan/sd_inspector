@@ -1,4 +1,5 @@
 import React from 'react';
+import { Row, Col } from 'antd';
 import styles from './style.css';
 import moment from 'moment/moment';
 // import Item from 'antd/lib/list/Item';
@@ -27,8 +28,8 @@ export default class SOPCheckResultComponent extends React.Component {
             {sopAppealCheck.map((item, index) => (
               <>
                 <div>
-                  <div className={styles.container}>
-                    <div className={styles.secRow}>
+                  <Row className={styles.container}>
+                    <Col span={12}>
                       <div
                         className={
                           item.checkResult ? styles.resultDotColor1 : styles.resultDotColor2
@@ -36,19 +37,19 @@ export default class SOPCheckResultComponent extends React.Component {
                       >
                         审核结果：{Number(item.checkResult) === 1 ? '通过' : '不通过'}
                       </div>
-                    </div>
-                    <div className={styles.secRow}>
-                      <div>
-                        <span>执行人：{item.operator}</span>
-                        <span>操作时间：{moment(item.operateDate).format('YYYY-MM-DD HH:mm:ss')}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className={styles.secCol}>
+                    </Col>
+                    <Col span={4}>
+                      <span>执行人：{item.operator}</span>
+                    </Col>
+                    <Col span={8}>
+                      <span>操作时间：{moment(item.operateDate).format('YYYY年MM月DD日 HH:mm:ss')}</span>
+                    </Col>
+                  </Row>
+                  <Row className={styles.container}>
+                    <Col span={12}>
                       <div>审核说明：{item.desc}</div>
-                    </div>
-                  </div>
+                    </Col>
+                  </Row>
                 </div>
                 {this.getDivideLine(index)}
               </>

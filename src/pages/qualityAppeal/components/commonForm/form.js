@@ -6,7 +6,7 @@ import BIButton from '@/ant_components/BIButton';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import OrgCascader from '@/components/OrgCascader';
 import BICascader from '@/ant_components/BICascader';
-import { BiFilter } from '@/utils/utils';
+import { BiFilter, msgF } from '@/utils/utils';
 import DownLoad from '@/components/DownLoad';
 import moment from 'moment';
 import { STATIC_HOST } from '@/utils/constants';
@@ -173,7 +173,7 @@ class CreateQualityNewSheet extends React.Component {
                     this.setState({ fileList: fileList });
                 } else {
                     this.setState({ fileList: [] });
-                    message.error(response.msg + response.msgDetail);
+                    message.error(msgF(response.msg, response.msgDetail));
                 }
             }
         }
@@ -230,13 +230,13 @@ class CreateQualityNewSheet extends React.Component {
                                 rules: [{ required: true, message: '请输入主管邮箱' }],
                             })(<BIInput placeholder="请输入" style={{ width: 170 }} onChange={e => this.inputChange(e, 'masterMail')} />)}
                         </Form.Item>
-                        <div className={styles.text}>@sunland.com</div>
+                        <div className={styles.text}>@sunlands.com</div>
                     </Col>
                     <Col className="gutter-row txRight" span={12}>
                         <span className={styles.i}>*</span><Form.Item label="主管扣除绩效：">
                             {getFieldDecorator('masterQualityValue', {
                                 initialValue: params.masterQualityValue,
-                                rules: [{ required: true, message: '请输入扣除绩效', validator: this.checkQuality }],
+                                rules: [{ required: true, message: '请输入主管扣除绩效', validator: this.checkQuality }],
                             })(<BIInput placeholder="请输入" style={{ width: 260 }} onChange={e => this.inputChange(e, 'masterQualityValue')} />)}
                             <span style={{ display: "inline-block", width: "20px" }}>%</span>
                         </Form.Item>
@@ -256,7 +256,7 @@ class CreateQualityNewSheet extends React.Component {
         if (isShowPerformance) return this.renderQualityType_performance();
     };
     checkQuality = (rule, value, callback) => {
-        if (Number(value) >= 0) {
+        if (value && Number(value) >= 0) {
             callback();
             return;
         }
@@ -278,7 +278,7 @@ class CreateQualityNewSheet extends React.Component {
                 <Col className="gutter-row" span={12}>
                     <span className={styles.i}>*</span><Form.Item label="扣除绩效">
                         {getFieldDecorator('qualityValue', {
-                            initialValue: params.qualityType,
+                            initialValue: params.qualityValue,
                             rules: [{ required: true, message: '请输入合法绩效', validator: this.checkQuality }]
                         })(<BIInput placeholder="请输入" style={{ width: 260 }} onChange={e => this.inputChange(e, 'qualityValue')} />)}
                         <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}>%</span>
@@ -378,7 +378,7 @@ class CreateQualityNewSheet extends React.Component {
                     <div className={styles.content}>
                         <Row>
                             <Col className="gutter-row" span={20}>
-                                <span className={styles.i}>*</span><Form.Item label="质检类型：">
+                                <span className={styles.i}>*</span><Form.Item label="质检类型">
                                     {getFieldDecorator('qualityType', {
                                         initialValue: params.qualityType || undefined,
                                         rules: [{ required: true, message: '请选择质检类型' }],
@@ -459,7 +459,7 @@ class CreateQualityNewSheet extends React.Component {
                         {this.state.radioChange}
                         <Row>
                             <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
-                                <span className={styles.i}></span><Form.Item label="子订单编号：">
+                                <span className={styles.i} style={{display:'inline-block',width:'7.24px'}}>&nbsp;</span><Form.Item label="子订单编号：">
                                     {getFieldDecorator('orderNum', {
                                         initialValue: params.orderNum,
                                     })(<BIInput placeholder="请输入" style={{ width: 280 }} onChange={e => this.inputChange(e, 'orderNum')} />)}

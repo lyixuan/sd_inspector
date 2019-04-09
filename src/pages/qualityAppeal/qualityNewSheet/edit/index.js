@@ -34,10 +34,9 @@ class EditQualityNewSheet extends React.Component {
     });
   };
   onSubmit = params => {
-    console.log(params);
     this.props.dispatch({
       type: 'editQualityNewSheet/updateQuality',
-      payload: { ...params, familyType: 1 },
+      payload: { ...params },
     });
   };
 

@@ -4,7 +4,7 @@ import {
   appealCancelQuality,
   appealExportExcel,
 } from '@/pages/qualityAppeal/qualityAppeal/services';
-import {downBlob} from '@/utils/utils';
+import { downBlob, msgF } from '@/utils/utils';
 
 export default {
   namespace: 'qualityCheck',
@@ -43,7 +43,7 @@ export default {
 
         yield put({ type: 'save', payload: { qualityAppealList1,qualityAppealList2, page1,page2 } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *cancelQuality({ payload }, { call }) {
@@ -52,7 +52,7 @@ export default {
       if (result.code === 20000) {
         message.success('撤销成功');
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *exportExcel({ payload }, { call }) {
@@ -67,7 +67,7 @@ export default {
         downBlob(result.data, `${eval("'"+numName2+"'")}.xlsx`);
         message.success('导出成功');
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
   },

@@ -1,6 +1,6 @@
 import { message } from 'antd/lib/index';
 import { addTask, getExamList, getDetailDataPage, getQueryConditionList, addQueryCondition, deleteQueryCondition, updateQueryCondition } from './services';
-import { BiFilter } from '@/utils/utils';
+import { BiFilter, msgF } from '@/utils/utils';
 
 export default {
   namespace: 'dataDetail',
@@ -27,7 +27,7 @@ export default {
       if (result && result.code === 20000) {
         yield put({ type: 'save', payload: { examList } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     // 数据明细查询结果
@@ -45,7 +45,7 @@ export default {
         });
         yield put({ type: 'save', payload: { tableList, params, total } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     // 我的查询条件
@@ -68,7 +68,7 @@ export default {
         });
         yield put({ type: 'save', payload: { queryConditionList } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     // 添加查询条件
@@ -83,7 +83,7 @@ export default {
         message.success('保存成功');
         yield put({ type: 'getQueryConditionList', payload: { params: {} } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     // 修改查询条件
@@ -93,7 +93,7 @@ export default {
         message.success('修改成功');
         yield put({ type: 'getQueryConditionList', payload: { params: {} } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     // 删除查询条件
@@ -103,7 +103,7 @@ export default {
         message.success("删除成功");
         yield put({ type: 'getQueryConditionList', payload: { params: {} } });
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     // 添加下载任务
@@ -112,7 +112,7 @@ export default {
       if (result.code === 20000) {
         message.success("添加成功");
       } else {
-        message.error(result.msg + result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     }
 
