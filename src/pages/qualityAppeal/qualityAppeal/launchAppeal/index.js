@@ -209,7 +209,7 @@ class Launch extends React.Component {
                 </div>
 
                 <div className={styles.flexStyle}>
-                  <div className={styles.label}>申诉说明:</div>
+                  <div className={styles.label}>*申诉说明:</div>
                   <div className={styles.intro}>
                     <TextArea maxLength={500}  rows={4} onChange={this.inputChange} />
                   </div>
