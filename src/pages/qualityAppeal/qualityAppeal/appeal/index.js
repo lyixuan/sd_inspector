@@ -151,8 +151,13 @@ class QualityAppealing extends React.Component {
                   this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
                 }
               >
-                <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
-                <SubOrderDetail data={qualityDetailData.orderDetail} />
+                {qualityDetailData.orderNum?(
+                  <div>
+                    <div className={styles.divideLine} />
+                    <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
+                    <SubOrderDetail data={qualityDetailData.orderDetail} />
+                  </div>
+                ):null}
               </div>
               <div style={{ marginTop: 20 }}>
                 <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={() => this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>

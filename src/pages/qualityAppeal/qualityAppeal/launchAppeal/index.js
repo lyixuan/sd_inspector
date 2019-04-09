@@ -173,8 +173,14 @@ class Launch extends React.Component {
                 this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
               }
             >
-              <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
-              <SubOrderDetail data={qualityDetailData.orderDetail} />
+              {qualityDetailData.orderNum?(
+                <div>
+                  <div className={styles.divideLine} />
+                  <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
+                  <SubOrderDetail data={qualityDetailData.orderDetail} />
+                </div>
+              ):null}
+
               {/* 质检违规详情 */}
               <div className={styles.divideLine} />
               <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail}/>
