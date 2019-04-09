@@ -509,7 +509,7 @@ class QualityAppeal extends React.Component {
           <>
             <AuthButton authority='/qualityAppeal/qualityAppeal/detail'>
               <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
-                详情
+                查看详情
               </span>
             </AuthButton>
           </>
