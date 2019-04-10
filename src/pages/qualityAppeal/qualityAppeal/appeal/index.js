@@ -179,6 +179,7 @@ class QualityAppealing extends React.Component {
                 appealEndDate={appealEndDate}
                 formType='appeal'
                 actionType='appeal'
+                appealStatus={Number(this.query.status)}
                 dataSource={qualityDetailData}
                 onSubmit={(params) => this.handleSubmitMaster(params)} >
                 <div style={{ marginLeft: '-20px' }}>
