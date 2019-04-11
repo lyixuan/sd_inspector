@@ -60,14 +60,22 @@ class CreateQualityNewSheet extends React.Component {
     }
     handleOriginDataSource = (params) => {
         const { dataSource } = this.props;
-        const newParams = this.formModels.transOriginParams(params || dataSource);
+        const {orderDetail,...others}=params || dataSource;
+        const newParams = this.formModels.transOriginParams(others);
         const { qualityType, dimensionId } = newParams;
         if (dimensionId) {
             this.changeDimension({ qualityType, dimensionId }, newParams)
         }
-        const violationLevelObj = this.formModels.violationLevel(params || dataSource);
+        const violationLevelObj = this.formModels.violationLevel(others);
         this.setState({ violationLevelObj });
         this.upDateFormParams(newParams);
+      orderDetail&&this.setOrderDetail(orderDetail);
+    }
+    setOrderDetail=(orderNumData)=>{
+      this.props.dispatch({
+        type: 'qualityAppealHome/saveOrderNumData',
+        payload: { orderNumData },
+      });
     }
     handleOrgMapByMailParams = (params) => {
         const { orgMapByMailData, orgList } = this.props;

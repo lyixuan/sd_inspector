@@ -80,7 +80,7 @@ class Edit extends React.Component {
       <div>
         <Row>
           <Col span={12}>
-            <span style={{ display: 'inline-block', height: '38px',width:'73.72px' }}>审核结果：</span>
+            <span style={{ display: 'inline-block', height: '38px',width:'80px' }}>*审核结果：</span>
             <BIRadio onChange={this.onChangeRadio} value={checkResult}>
               <BIRadio.Radio value={1}>通过</BIRadio.Radio>
               {checkResult === 1 && showWarn ? <Checkbox onChange={this.onChangeCheckBox}>警告</Checkbox> : null}
@@ -97,7 +97,7 @@ class Edit extends React.Component {
         </Row>
         <Row className="gutter-row">
           <Col span={24} style={{ display: 'flex' }}>
-            <span style={{ width: 80 }}>审核说明：</span>
+            <span style={{ width: 80 }}>&nbsp;审核说明：</span>
             <BIInput.TextArea maxLength={500} onChange={this.onChangeInput} rows={4} />
           </Col>
         </Row>
