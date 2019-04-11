@@ -64,7 +64,7 @@ class CreateQualityNewSheet extends React.Component {
     }
     handleOriginDataSource = (params) => {
         const { dataSource } = this.props;
-        const {orderDetail,...others}=params || dataSource;
+        const {orderDetail,...others}=params || dataSource||{};
         const newParams = this.formModels.transOriginParams(others);
         const { qualityType, dimensionId } = newParams;
         if (dimensionId) {
