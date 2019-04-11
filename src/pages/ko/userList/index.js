@@ -5,8 +5,8 @@ import { connect } from 'dva';
   userList,
 }))
 class userList extends React.Component {
-  componentDidMount() {}
   render() {
+
     return <div>用户列表</div>;
   }
 }

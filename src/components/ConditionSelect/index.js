@@ -5,7 +5,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    };
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -17,16 +17,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
-var Hello = /** @class */ (function (_super) {
-    __extends(Hello, _super);
-    function Hello() {
+var Condition = /** @class */ (function (_super) {
+    __extends(Condition, _super);
+    function Condition() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    Hello.prototype.render = function () {
-        var num = 222;
-        return (react_1.default.createElement("div", null, num));
+    Condition.prototype.redurn = function () {
+        return react_1.default.createElement("div", null, "2222");
     };
-    ;
-    return Hello;
+    return Condition;
 }(react_1.default.Component));
-exports.default = Hello;
+exports.Condition = Condition;

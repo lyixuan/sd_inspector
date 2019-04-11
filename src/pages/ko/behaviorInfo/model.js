@@ -1,20 +1,15 @@
 import { message } from 'antd';
 
 export default {
-  namespace: 'koPlan',
+  namespace: 'behavior',
 
-  state: {
-    params: {},
-  },
+  state: { },
 
   effects: {
 
   },
 
   reducers: {
-    saveParams(state, { payload }) {
-      return { ...state, ...payload };
-    },
     save(state, { payload }) {
       return { ...state, ...payload };
     }

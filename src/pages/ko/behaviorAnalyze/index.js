@@ -5,8 +5,11 @@ import { connect } from 'dva';
   behavior,
 }))
 class behavior extends React.Component {
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(this)
+  }
   render() {
+
     return <div>行为轨迹</div>;
   }
 }
