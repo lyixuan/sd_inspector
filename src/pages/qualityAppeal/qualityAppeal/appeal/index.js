@@ -60,17 +60,13 @@ class QualityAppealing extends React.Component {
       message.warn('审核结果为必选项');
       return;
     }
-    if (String(this.query.status) === '4' && Number(appealParam.checkResult) === 1 && !appealParam.appealEndDate) {
-      message.warn('二审截止日期必填');
-      return;
-    }
     const params = {
       qualityId: Number(this.query.id),
       type: String(this.query.status) === '2' || String(this.query.status) === '4' ? 1 : 2,
       checkResult: Number(appealParam.checkResult) === 1 ? 1 : 0,
       isWarn: appealParam.isWarn,
       desc: appealParam.desc ? appealParam.desc : undefined,
-      appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
+      appealEndDate: String(this.query.status) === '2' ? this.query.firstAppealEndDate : String(this.query.status) === '6'?this.query.secondAppealEndDate:undefined,
     };
     const that = this;
     confirm({

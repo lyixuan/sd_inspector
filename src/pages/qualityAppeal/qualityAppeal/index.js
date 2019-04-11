@@ -424,7 +424,7 @@ class QualityAppeal extends React.Component {
   };
 
   onAppeal = (record) => {
-    this.onJumpPage({ id: record.id, status: changeState(record) }, '/qualityAppeal/qualityAppeal/appeal');
+    this.onJumpPage({ id: record.id, status: changeState(record),firstAppealEndDate:record.firstAppealEndDate ? moment(record.firstAppealEndDate).format('YYYY-MM-DD'):undefined, secondAppealEndDate:record.secondAppealEndDate?moment(record.secondAppealEndDate).format('YYYY-MM-DD'):undefined}, '/qualityAppeal/qualityAppeal/appeal');
   };
 
   onRepeal = (record,status) => {
