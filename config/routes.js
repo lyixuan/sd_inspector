@@ -176,6 +176,23 @@ export const routes = [
           },
         ],
       },
+      {
+        path: '/ko',
+        component: './ko',
+        name: 'KO计划',
+        routes: [
+          {
+            path: '/ko/behavior',
+            component : './ko/behavior',
+            name: '行为分析',
+          },
+          {
+            path: '/ko/userList',
+            component: './ko/userList',
+            name: '用户列表',
+          },
+        ],
+      },
     ],
   },
 ];
