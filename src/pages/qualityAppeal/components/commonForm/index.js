@@ -57,6 +57,10 @@ class CreateQualityNewSheet extends React.Component {
         this.props.dispatch({
             type: 'qualityAppealHome/clearOrderNumData',
         })
+      this.props.dispatch({
+        type: 'qualityAppealHome/saveOrderNumData',
+        payload: { orderNumData:null },
+      });
     }
     handleOriginDataSource = (params) => {
         const { dataSource } = this.props;
@@ -69,9 +73,9 @@ class CreateQualityNewSheet extends React.Component {
         const violationLevelObj = this.formModels.violationLevel(others);
         this.setState({ violationLevelObj });
         this.upDateFormParams(newParams);
-      orderDetail&&this.setOrderDetail(orderDetail);
+      this.setOrderDetail(orderDetail);
     }
-    setOrderDetail=(orderNumData)=>{
+    setOrderDetail=(orderNumData=null)=>{
       this.props.dispatch({
         type: 'qualityAppealHome/saveOrderNumData',
         payload: { orderNumData },
