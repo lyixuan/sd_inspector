@@ -6,7 +6,7 @@ class KoTab extends React.Component {
   render() {
     return (
       <div className='KoTab'>
-        ddd
+        {this.props.children}
       </div>
     );
   }
