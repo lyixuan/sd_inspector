@@ -10,7 +10,9 @@ class behavior extends React.Component {
   }
   render() {
 
-    return <div>行为轨迹</div>;
+    return (
+      <div>行为轨迹</div>
+    );
   }
 }
 

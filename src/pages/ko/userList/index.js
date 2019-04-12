@@ -1,4 +1,5 @@
 import React from 'react';
+import Echart from '@/components/Echart';
 import { connect } from 'dva';
 
 @connect(({ userList }) => ({

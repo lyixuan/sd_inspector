@@ -42,10 +42,10 @@ class koPlan extends React.Component {
       <div>
         <div className={styles.commonBox}>
           <CommonForm onSubmit={this.onSubmit} />
-          {this.props.children}
+          {/*{this.props.children}*/}
         </div>
 
-        <div onClick={() => this.jumpTo('/ko/behavior')}>行为分析</div>
+        <div onClick={() => this.jumpTo('/ko/behaviorAnalyze')}>行为分析</div>
         <div onClick={() => this.jumpTo('/ko/userList')}>用户列表</div>
       </div>
     );
