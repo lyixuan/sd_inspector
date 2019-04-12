@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Form} from 'antd';
 import styles from './style.less';
+import CommonForm from './components/form';
 
-import CommonForm from './components/commonForm';
+const WrappedDynamicFieldSet = Form.create()(CommonForm);
 
 @connect(({ koPlan }) => ({
   koPlan,
 }))
-
 class koPlan extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +42,7 @@ class koPlan extends React.Component {
     return (
       <div>
         <div className={styles.commonBox}>
-          <CommonForm onSubmit={this.onSubmit} />
+          <WrappedDynamicFieldSet/>
           {/*{this.props.children}*/}
         </div>
 
