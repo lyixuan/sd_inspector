@@ -185,28 +185,16 @@ export const routes = [
             path: '/ko/behaviorAnalyze',
             component: './ko/behaviorAnalyze',
             name: '行为分析',
-            bread: {
-              name: 'KO计划',
-              path: '/ko',
-            },
           },
           {
             path: '/ko/userList',
             component: './ko/userList',
             name: '用户列表',
-            bread: {
-              name: 'KO计划',
-              path: '/ko',
-            },
           },
           {
             path: '/ko/behaviorInfo',
             component: './ko/behaviorInfo',
             name: '行为轨迹',
-            bread: {
-              name: 'KO计划',
-              path: '/ko',
-            },
           },
         ],
       },

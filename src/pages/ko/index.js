@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Form} from 'antd';
 import styles from './style.less';
 import CommonForm from './components/form';
+import KoTab from '@/pages/ko/components/KoTab';
 
 const WrappedDynamicFieldSet = Form.create()(CommonForm);
 
@@ -41,13 +42,16 @@ class koPlan extends React.Component {
   render() {
     return (
       <div>
+        {/*------- 公共 form 部分 --------*/}
         <div className={styles.commonBox}>
           <WrappedDynamicFieldSet/>
-          {/*{this.props.children}*/}
         </div>
-
-        <div onClick={() => this.jumpTo('/ko/behaviorAnalyze')}>行为分析</div>
-        <div onClick={() => this.jumpTo('/ko/userList')}>用户列表</div>
+        {/*------- 公共 tab 部分 --------*/}
+        <KoTab>
+          <div onClick={() => this.jumpTo('/ko/behaviorAnalyze')}>行为分析</div>
+          <div onClick={() => this.jumpTo('/ko/userList')}>用户列表</div>
+        </KoTab>
+        {this.props.children}
       </div>
     );
   }
