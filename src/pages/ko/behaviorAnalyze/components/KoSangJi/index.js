@@ -1,12 +1,12 @@
 import React from 'react';
-import './style.less';
+import style from './style.less';
 
 class KoSangJi extends React.Component {
 
   render() {
     return (
-      <span>
-      </span>
+      <div className={style.KoSangJi}>
+      </div>
     );
   }
 }
