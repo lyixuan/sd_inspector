@@ -333,6 +333,10 @@ export const FAMILY_TYPE = [{ id: 0, name: '自考' }, { id: 1, name: '壁垒' }
 export const APPEAL_RESULT_TYPE = [{ id: 1, name: '通过' }, { id: 0, name: '驳回' }];
 // 质检上传类型
 export const QUALITY_UPLOAD_TYPE = [{ id: 1, name: 'quality' }, { id: 2, name: 'appeal' }];
+
+// 空ContentLayout页面名单
+export const EmptyContentLayout = [{path:'/ko',name:'KO计划'}];
+
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -356,6 +360,7 @@ export default {
   FAMILY_TYPE,
   APPEAL_RESULT_TYPE,
   QUALITY_UPLOAD_TYPE,
+  EmptyContentLayout,
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

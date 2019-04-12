@@ -41,25 +41,16 @@ class koPlan extends React.Component {
   render() {
     return (
       <div>
-        {/*------- form 部分 --------*/}
+        {/*------- 公共 form 部分 --------*/}
         <div className={styles.commonBox}>
           <CommonForm onSubmit={this.onSubmit} />
           {/*{this.props.children}*/}
         </div>
-        {/*------- tab 部分 --------*/}
-        <KoTab></KoTab>
-        <div>
+        {/*------- 公共 tab 部分 --------*/}
+        <KoTab>
           <div onClick={() => this.jumpTo('/ko/behaviorAnalyze')}>行为分析</div>
           <div onClick={() => this.jumpTo('/ko/userList')}>用户列表</div>
-        </div>
-        {/*------- 图1 部分 --------*/}
-        <div>
-
-        </div>
-        {/*------- 图2 部分 --------*/}
-        <div>
-
-        </div>
+        </KoTab>
       </div>
     );
   }

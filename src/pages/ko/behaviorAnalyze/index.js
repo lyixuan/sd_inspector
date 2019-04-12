@@ -11,7 +11,16 @@ class behavior extends React.Component {
   render() {
 
     return (
-      <div>行为轨迹</div>
+      <div>
+        {/*------- 图1 部分 --------*/}
+        <div>
+
+        </div>
+        {/*------- 图2 部分 --------*/}
+        <div>
+
+        </div>
+      </div>
     );
   }
 }
