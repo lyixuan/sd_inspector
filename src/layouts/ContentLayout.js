@@ -3,7 +3,7 @@ import PageHead from '@/components/PageHead/pageHead';
 import styles from './ContentLayout.less';
 import {BiFilter} from '@/utils/utils';
 
-let isEmptyContentLayout = false;
+
 class ContentLayout extends Component {
   getRouterPathname = routesData => {
     const { location } = this.props;
@@ -20,8 +20,9 @@ class ContentLayout extends Component {
     const routeObj = this.getRouterPathname(routesData);
     const { name = '', bread = {},path = null  } = routeObj;
     const nameList = BiFilter('EmptyContentLayout')||[];
+    let isEmptyContentLayout = false;
     nameList.forEach((v)=>{
-      if (path === v.path) {
+      if (path.indexOf(v.path) > -1 ) {
         isEmptyContentLayout = true;
       }
     });
