@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less';
-import KoTab from '@/components/KoTab';
+import KoTab from '@/pages/ko/components/KoTab';
 
 import CommonForm from './components/commonForm';
 
