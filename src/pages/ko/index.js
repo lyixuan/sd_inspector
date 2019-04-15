@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Form} from 'antd';
 import styles from './style.less';
 import KoRadio from '@/pages/ko/components/KoRadio';
-import CommonForm from './components/commonForm';
+import CommonForm from './components/form';
+
+const WrappedDynamicFieldSet = Form.create()(CommonForm);
 
 @connect(({ koPlan }) => ({
   koPlan,
 }))
-
 class koPlan extends React.Component {
   constructor(props) {
     super(props);
@@ -52,7 +54,8 @@ class koPlan extends React.Component {
       <div>
         {/*------- 公共 form 部分 --------*/}
         <div className={styles.commonBox}>
-          <CommonForm onSubmit={this.onSubmit}/>
+          <WrappedDynamicFieldSet/>
+          {/*<CommonForm onSubmit={this.onSubmit}/>*/}
         </div>
         <div className={styles.tabBox}>
           <KoRadio buttonStyle="solid" value={radioValue} onChange={this.onChangeRadio}>
