@@ -4,6 +4,7 @@ import BISelect from '@/ant_components/BISelect';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BIButton from '@/ant_components/BIButton';
 import styles from './index.less';
+import formStyles from '../formCommon.less';
 
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY.MM.DD';
@@ -38,7 +39,7 @@ export default class CommonForm extends React.Component{
       <div className={styles.formCotainer}>
         <Form
           layout="inline"
-          className="ant-advanced-search-form"
+          className={`${formStyles.formStyle} ant-advanced-search-form`}
           onSubmit={this.handleSearch}
         >
           <div className={styles.rowWrap}>
