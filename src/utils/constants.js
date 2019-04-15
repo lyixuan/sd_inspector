@@ -336,7 +336,10 @@ export const QUALITY_UPLOAD_TYPE = [{ id: 1, name: 'quality' }, { id: 2, name: '
 
 // 空ContentLayout页面名单
 export const EmptyContentLayout = [{path:'/ko',name:'KO计划'}];
-
+// 应用类型
+export const APP_LIST = [
+  {id:'1',name:'极速版App'}
+  ];
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -361,6 +364,7 @@ export default {
   APPEAL_RESULT_TYPE,
   QUALITY_UPLOAD_TYPE,
   EmptyContentLayout,
+  APP_LIST
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
