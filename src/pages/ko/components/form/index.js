@@ -36,10 +36,10 @@ export default class CommonForm extends React.Component{
     const { expand } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
-      <div className={styles.formCotainer}>
+      <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
         <Form
           layout="inline"
-          className={`${formStyles.formStyle} ant-advanced-search-form`}
+          className='ant-advanced-search-form'
           onSubmit={this.handleSearch}
         >
           <div className={styles.rowWrap}>
