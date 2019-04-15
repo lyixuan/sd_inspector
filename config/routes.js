@@ -177,6 +177,18 @@ export const routes = [
         ],
       },
       {
+        path: '/ko/behaviorPath',
+        component: './ko/behaviorPath',
+        name: '用户行为轨迹',
+        routes: [
+          {
+            path: '/ko/behaviorPath',
+            component: './ko/behaviorPath',
+            name: '行为分析',
+          }
+        ]
+      },
+      {
         path: '/ko',
         component: './ko',
         name: 'KO计划',
@@ -195,7 +207,7 @@ export const routes = [
             path: '/ko/behaviorInfo',
             component: './ko/behaviorInfo',
             name: '行为轨迹',
-          },
+          }
         ],
       },
     ],

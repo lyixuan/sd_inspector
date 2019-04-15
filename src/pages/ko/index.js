@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form} from 'antd';
+import { Form } from 'antd';
 import styles from './style.less';
-import KoRadio from '@/pages/ko/components/KoRadio';
+import KoTab from '@/pages/ko/components/KoRadio/KoTab';
+import KoForm from '@/pages/ko/components/KoForm';
 import CommonForm from './components/form';
 
 const WrappedDynamicFieldSet = Form.create()(CommonForm);
@@ -15,7 +16,6 @@ class koPlan extends React.Component {
     super(props);
     this.state = {
       originParams: {},      //  储存原始form的params
-      radioValue: props.location.pathname||'/ko/behaviorAnalyze',
     }
   }
   componentDidMount() {
@@ -35,33 +35,23 @@ class koPlan extends React.Component {
     this.setState({ originParams: params });
 
   };
-  onChangeRadio = (e) => {
-    const path = e.target.value;
-    this.setState({
-      radioValue:path
-    },function() {
-      this.jumpTo(path)
-    })
-  };
   jumpTo = (pathname) => {
     this.props.history.push({
       pathname,
     });
   };
   render() {
-    const {radioValue} = this.state;
+
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
         <div className={styles.commonBox}>
-          <WrappedDynamicFieldSet/>
+          <WrappedDynamicFieldSet />
           {/*<CommonForm onSubmit={this.onSubmit}/>*/}
         </div>
         <div className={styles.tabBox}>
-          <KoRadio buttonStyle="solid" value={radioValue} onChange={this.onChangeRadio}>
-            <KoRadio.Radio.Button value={'/ko/behaviorAnalyze'}>行为分析</KoRadio.Radio.Button>
-            <KoRadio.Radio.Button value={'/ko/userList'}>用户列表</KoRadio.Radio.Button>
-          </KoRadio>
+          <KoTab {...this.props} />
+          <KoForm {...this.props} />
         </div>
         {this.props.children}
       </div>
