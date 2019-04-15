@@ -16,9 +16,9 @@ class Views extends React.Component {
     return (
       <div className={styles.contentWrap}>
         {
-          dataObj.map((item)=>{
+          dataObj.map((item,index)=>{
             return (
-              <div className={styles.itemCls}>
+              <div className={styles.itemCls} key={index}>
                 <div className={styles.nameCls}>{item.name}</div>
                 <div className={styles.dataCls}>{item.data}</div>
               </div>
