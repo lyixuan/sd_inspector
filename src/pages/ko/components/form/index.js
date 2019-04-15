@@ -39,7 +39,7 @@ export default class CommonForm extends React.Component{
       <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
         <Form
           layout="inline"
-          className='ant-advanced-search-form'
+          className="ant-advanced-search-form"
           onSubmit={this.handleSearch}
         >
           <div className={styles.rowWrap}>
