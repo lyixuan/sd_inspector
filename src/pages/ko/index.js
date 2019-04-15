@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form} from 'antd';
+import { Form } from 'antd';
 import styles from './style.less';
 import KoTab from '@/pages/ko/components/KoRadio/KoTab';
 import KoForm from '@/pages/ko/components/KoForm';
@@ -46,7 +46,7 @@ class koPlan extends React.Component {
       <div>
         {/*------- 公共 form 部分 --------*/}
         <div className={styles.commonBox}>
-          <WrappedDynamicFieldSet/>
+          <WrappedDynamicFieldSet />
           {/*<CommonForm onSubmit={this.onSubmit}/>*/}
         </div>
         <div className={styles.tabBox}>
