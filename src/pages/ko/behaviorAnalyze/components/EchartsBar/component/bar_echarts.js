@@ -35,13 +35,15 @@ export function options(data){
       },
     },
     legend: {
+      left:0,
       bottom: 20,
       textStyle: {
         fontSize: '12px'
       },
-      itemWidth: 10,
-      itemHeight: 10,
-      data: ['点击数','转化率']
+      itemGap:30,
+      itemWidth: 6,
+      itemHeight: 6,
+      data: [{ name: '点击数', icon: 'circle'},{ name: '转化率', icon: 'circle'}]
     },
     xAxis: {
       type: 'category',
@@ -65,14 +67,11 @@ export function options(data){
       name:'点击数',
       type: 'bar',
       barWidth: '14%',
-      data: [120, 200, 150, 80, 70, 110, 130],
-    // },{
-    //   name: 'line',
-    //   type: 'line',
-    //   xAxisIndex: 1,
-    //   symbol: 'circle',
-    //   symbolSize: 6,
-    //   data: [120, 200, 150, 80, 70, 110, 130]
+      data: [120, 230, 150, 80, 70, 110, 130],
+    },{
+      name: '转化率',
+      type: 'line',
+      data: [20, 200, 150, 80, 70, 110, 130]
     }
     ]
   };
