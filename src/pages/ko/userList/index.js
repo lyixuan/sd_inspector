@@ -1,14 +1,23 @@
 import React from 'react';
-import Echart from '@/components/Echart';
 import { connect } from 'dva';
 
 @connect(({ userList }) => ({
   userList,
 }))
 class userList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    };
+  };
   render() {
 
-    return <div>用户列表</div>;
+    return (
+      <div>
+        ddd
+      </div>
+    );
   }
 }
 
