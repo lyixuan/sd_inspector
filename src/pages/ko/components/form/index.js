@@ -39,7 +39,7 @@ export default class CommonForm extends React.Component{
       <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
         <Form
           layout="inline"
-          className='ant-advanced-search-form'
+          className="ant-advanced-search-form"
           onSubmit={this.handleSearch}
         >
           <div className={styles.rowWrap}>
@@ -51,7 +51,7 @@ export default class CommonForm extends React.Component{
                     message: 'Input something!',
                   }],
                 })(
-                  <BISelect style={{width:'140px'}} placeholder="请选择" />
+                  <BISelect placeholder="请选择" />
                 )}
               </Form.Item>
            </div>
@@ -63,7 +63,7 @@ export default class CommonForm extends React.Component{
                     message: 'Input something!',
                   }],
                 })(
-                  <BISelect style={{width:'140px'}} placeholder="请选择" />
+                  <BISelect placeholder="请选择" />
                 )}
               </Form.Item>
            </div>
@@ -75,7 +75,7 @@ export default class CommonForm extends React.Component{
                     message: 'Input something!',
                   }],
                 })(
-                  <BISelect style={{width:'140px'}} placeholder="请选择" />
+                  <BISelect placeholder="请选择" />
                 )}
               </Form.Item>
            </div>
@@ -87,7 +87,7 @@ export default class CommonForm extends React.Component{
                     message: 'Input something!',
                   }],
                 })(
-                  <BIRangePicker style={{width:'140px'}} placeholder={["起始时间","截止时间"]} format={dateFormat}/>
+                  <BIRangePicker placeholder={["起始时间","截止时间"]} format={dateFormat}/>
                 )}
               </Form.Item>
            </div>
@@ -102,7 +102,7 @@ export default class CommonForm extends React.Component{
                     message: 'Input something!',
                   }],
                 })(
-                  <BISelect style={{width:'140px'}} placeholder="请选择" />
+                  <BISelect placeholder="请选择" />
                 )}
               </Form.Item>
            </div>
@@ -114,7 +114,7 @@ export default class CommonForm extends React.Component{
                     message: 'Input something!',
                   }],
                 })(
-                  <BISelect style={{width:'140px'}} placeholder="请选择" />
+                  <BISelect placeholder="请选择" />
                 )}
               </Form.Item>
            </div>
@@ -126,7 +126,7 @@ export default class CommonForm extends React.Component{
                     message: 'Input something!',
                   }],
                 })(
-                  <BIRangePicker style={{width:'140px'}} placeholder={["起始时间","截止时间"]} format={dateFormat}/>
+                  <BIRangePicker placeholder={["起始时间","截止时间"]} format={dateFormat}/>
                 )}
               </Form.Item>
            </div>
@@ -138,7 +138,7 @@ export default class CommonForm extends React.Component{
                     message: 'Input something!',
                   }],
                 })(
-                  <BISelect style={{width:'140px'}} placeholder="请选择" />
+                  <BISelect placeholder="请选择" />
                 )}
               </Form.Item>
            </div>
@@ -150,7 +150,7 @@ export default class CommonForm extends React.Component{
                     message: 'Input something!',
                   }],
                 })(
-                  <BIRangePicker style={{width:'140px'}} placeholder={["起始时间","截止时间"]} format={dateFormat}/>
+                  <BIRangePicker placeholder={["起始时间","截止时间"]} format={dateFormat}/>
                 )}
               </Form.Item>
            </div>
@@ -164,7 +164,7 @@ export default class CommonForm extends React.Component{
                     message: 'Input something!',
                   }],
                 })(
-                  <BISelect style={{width:'140px'}} placeholder="请选择" />
+                  <BISelect placeholder="请选择" />
                 )}
               </Form.Item>
            </div>
@@ -176,7 +176,7 @@ export default class CommonForm extends React.Component{
                     message: 'Input something!',
                   }],
                 })(
-                  <BISelect style={{width:'140px'}} placeholder="请选择" />
+                  <BISelect placeholder="请选择" />
                 )}
               </Form.Item>
            </div>
@@ -188,7 +188,7 @@ export default class CommonForm extends React.Component{
                     message: 'Input something!',
                   }],
                 })(
-                  <BISelect style={{width:'140px'}} placeholder="请选择" />
+                  <BISelect placeholder="请选择" />
                 )}
               </Form.Item>
            </div>
@@ -207,7 +207,7 @@ export default class CommonForm extends React.Component{
                         message: 'Input something!',
                       }],
                     })(
-                      <BISelect style={{width:'140px'}} placeholder="请选择" />
+                      <BISelect placeholder="请选择" />
                     )}
                   </Form.Item>
                 </div>
@@ -219,7 +219,7 @@ export default class CommonForm extends React.Component{
                         message: 'Input something!',
                       }],
                     })(
-                      <BISelect style={{width:'140px'}} placeholder="请选择" />
+                      <BISelect placeholder="请选择" />
                     )}
                   </Form.Item>
                 </div>
@@ -231,7 +231,7 @@ export default class CommonForm extends React.Component{
                         message: 'Input something!',
                       }],
                     })(
-                      <BISelect style={{width:'140px'}} placeholder="请选择" />
+                      <BISelect placeholder="请选择" />
                     )}
                   </Form.Item>
                 </div>
@@ -247,7 +247,7 @@ export default class CommonForm extends React.Component{
                           message: 'Input something!',
                         }],
                       })(
-                        <BISelect style={{width:'140px'}} placeholder="请选择" />
+                        <BISelect placeholder="请选择" />
                       )}
                     </Form.Item>
                   </div>
@@ -259,7 +259,7 @@ export default class CommonForm extends React.Component{
                           message: 'Input something!',
                         }],
                       })(
-                        <BISelect style={{width:'140px'}} placeholder="请选择" />
+                        <BISelect placeholder="请选择" />
                       )}
                     </Form.Item>
                   </div>

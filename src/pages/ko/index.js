@@ -41,7 +41,7 @@ class koPlan extends React.Component {
     });
   };
   render() {
-
+    const {pathname} = this.props.location;
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
@@ -51,7 +51,7 @@ class koPlan extends React.Component {
         </div>
         <div className={styles.tabBox}>
           <KoTab {...this.props} />
-          <KoForm {...this.props} />
+          {pathname === '/ko/behaviorAnalyze' && <KoForm {...this.props} />}
         </div>
         {this.props.children}
       </div>
