@@ -27,20 +27,16 @@
 
 
 
-
-// 
-
 /*用户信息*/
 
 .personIntro{
-	/*width:200px;*/
+	float:left;
 	background:#f5f6f9;
 	border:1px solid #ececec;
 	position:relative;
 	padding-top:10px;
-	position:absolute;
-	right:0;
-	top:50px;
+	margin-left:120px;
+	margin-top:-40px;
 }
 .personIntro .avatar{
 	width:35px;
@@ -146,8 +142,8 @@
 .behavior .title .bigDot .dot::before{
 	content:"-";
 	position:absolute;
-	left:2px;
-	top:-7px;
+	left:1px;
+	top:-8px;
 	font-size:18px;
 	font-weight:bold;
 	color:#48c2ba;
@@ -155,8 +151,8 @@
 .behavior .title .plus .dot::before{
 	content:"+";
 	position:absolute;
-	left:1px;
-	top:-4px;
+	left:2px;
+	top:-5px;
 	font-size:14px;
 	color:#48c2ba;
 }
@@ -164,20 +160,25 @@
 	width:8px;
 	height:8px;
 }
-.behavior .chat{
-	display:flex;
-	align-items: flex-start;
-}
-.behavior .chat .avatar{
+// .behavior .chat{
+// 	display:flex;
+// 	align-items: flex-start;
+// }
+.behavior .chatLeft .avatar, .behavior .chatRight .avatar{
 	text-align:center;
 }
-.behavior .chat .avatar img{
+.behavior .chatLeft .avatar img, .behavior .chatRight .avatar img{
 	width:35px;
 	height:35px;
 	border-radius:100px;
 }
-.behavior .chat .avatar p{
+.behavior .chatLeft .avatar p, .behavior .chatRight .avatar p{
 	font-size:12px;
+	transform:scale(0.9);
+}
+.behavior .chatLeft, .behavior .chatRight{
+	display:flex;
+	align-items: flex-start;
 }
 .behavior .chatLeft .chatContent{
 	width:175px;
@@ -256,6 +257,7 @@
 .step .prise .stars{
 	padding-left:10px;
 }
+
 .step .prise img{
 	width:15px;
 	vertical-align: middle;
@@ -269,6 +271,7 @@
 .behavior .post .postHead{
 	font-weight:bold;
 	margin-top:-4px;
+	margin-bottom:0;
 	color:#000;
 }
 .behavior .post .postBody{
@@ -299,6 +302,12 @@
 .study .prise1{
 	display:flex;
 	color:#52C9C2;
+}
+.stars i{
+	margin-right:5px;
+}
+.stars .empty{
+	color:#e8e8e8;
 }
 .study .prise2{
 	display:flex;
@@ -351,5 +360,9 @@
 }
 
 .comWrap{
-  min-height:400px;
+	padding-top:20px;
+	display: inline-block;
+	.leftComponent{
+		float:left;
+	}
 }
