@@ -5,15 +5,22 @@ import Box from '../Box';
 import Left from '../Left';
 import Right from '../Right';
 
-import BISelect from '@/ant_components/BISelect';
 import ConditionSelect from '@/ant_components/ConditionSelect';
+import { UNIT_DATE } from '@/utils/constants';
 
+const optionsData = [{ type: 2, value: 60, minValue: null, maxValue: null, unit: 'hh', unitType: 'date' }, { type: 3, value: 60, minValue: null, maxValue: null, unit: 'hh', unitType: 'date' }, { type: 5, value: 60, minValue: 60, maxValue: null, unit: 'hh', unitType: 'date' }]
 const { TextArea } = Input;
 
 class DocSelect extends Component {
+    constructor(props) {
+        super(props)
+
+    }
+
     handleChange = (value) => {
         console.log(`selected ${value}`);
     };
+
 
     render() {
         const val =
@@ -31,7 +38,7 @@ class DocSelect extends Component {
                         <BISelect.Option value="jack">Jack</BISelect.Option>
                         <BISelect.Option value="lucy">Lucy</BISelect.Option>
                     </BISelect> */}
-                    <ConditionSelect/>
+                    <ConditionSelect options={optionsData} unitData={UNIT_DATE} defaultUnit={{ id: 'hh', name: '小时' }} />
 
                     <Divider orientation="left"> 组件说明 </Divider>
 

@@ -333,6 +333,13 @@ export const FAMILY_TYPE = [{ id: 0, name: '自考' }, { id: 1, name: '壁垒' }
 export const APPEAL_RESULT_TYPE = [{ id: 1, name: '通过' }, { id: 0, name: '驳回' }];
 // 质检上传类型
 export const QUALITY_UPLOAD_TYPE = [{ id: 1, name: 'quality' }, { id: 2, name: 'appeal' }];
+// 过滤单位
+export const UNIT_DATE = [
+  { id: 'dd', name: '天' },
+  { id: 'hh', name: '小时' },
+  { id: 'mm', name: '分钟' },
+  { id: 'ss', name: '秒' },
+];
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
