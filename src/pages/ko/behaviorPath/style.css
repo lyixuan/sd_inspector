@@ -1,7 +1,10 @@
 .behaviorPath {
   background: #fff;
-  padding: 20px 30px;
-  min-height: 400px;
+  padding: 20px 30px 50px;
+  overflow: hidden;
+}
+.tabBox {
+  float: left;
 }
 .tabBox :global .ant-tabs .ant-tabs-bar {
   border: none;
@@ -29,7 +32,7 @@
   position: relative;
   padding-top: 10px;
   margin-left: 120px;
-  margin-top: -40px;
+  margin-top: 40px;
 }
 .personIntro .avatar {
   width: 35px;
@@ -332,19 +335,17 @@
   font-size: 12px;
   padding-left: 15px;
   line-height: 20px;
+  margin-bottom: 0;
 }
 .privateLetter .privateToggle .intro .name {
   font-weight: bold;
   font-size: 14px;
   color: #000;
+  margin-bottom: 0;
 }
 .privateLetter .last .content {
   padding-bottom: 20px;
 }
 .comWrap {
   padding-top: 20px;
-  display: inline-block;
-}
-.comWrap .leftComponent {
-  float: left;
 }

@@ -5,6 +5,7 @@ import styles from './style.less';
 import Study from './components/study';
 import Im from './components/im';
 import Bbs from './components/bbs';
+import UserInfo from './components/userInfo';
 import PrivateLetter from './components/privateLetter';
 const TabPane = BITabs.TabPane;
 
@@ -38,6 +39,9 @@ class behaviorPath extends React.Component {
               <PrivateLetter></PrivateLetter>
             </TabPane>
           </BITabs>
+        </div>
+        <div style={{ float: 'left' }}>
+          <UserInfo></UserInfo>
         </div>
       </div>
     );
