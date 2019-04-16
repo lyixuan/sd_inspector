@@ -1,5 +1,11 @@
 .formStyle {
   :global{
+    .ant-form-item-control-wrapper{
+      width: 70%;
+    }
+    .ant-form-inline .ant-form-item{
+      display: flex;
+    }
     .ant-form-item-label{
       width: 60px;
     }
@@ -14,7 +20,6 @@
       margin-bottom: 0;
     }
     .ant-form-item-control{
-      width: 10%;
       min-width: 140px;
     }
     .ant-input{
@@ -39,14 +44,24 @@
       margin-left: -10px;
     }
     .ant-calendar-range-picker-separator{
-      min-width: 6px;
-    }
-    .ant-calendar-range-picker-separator{
       margin-left: -9px;
+      min-width: 6px;
       padding: 0;
     }
-    .BIDatePicker .ant-calendar-range-picker-input{
-      width: 58%;
+    @media screen and (max-width: 1410px) {
+      .BIDatePicker .ant-calendar-range-picker-input {
+        min-width: 58%;
+      }
+    }
+    @media screen and (min-width: 1411px)and (max-width: 1550px) {
+      .BIDatePicker .ant-calendar-range-picker-input {
+        min-width: 56%;
+      }
+    }
+    @media screen and (min-width: 1551px) {
+      .BIDatePicker .ant-calendar-range-picker-input {
+        min-width: 50%;
+      }
     }
   }
 }
