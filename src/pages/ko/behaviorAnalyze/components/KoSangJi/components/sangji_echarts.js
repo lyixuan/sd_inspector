@@ -18,8 +18,8 @@ class SangJiEcharts extends React.Component {
   }
   render() {
     return (
-      <div>
-        <Echart style={{width:'300px',height:'300px'}} options={this.state.option} />
+      <div style={{float:'left'}} >
+        <Echart {...this.props} options={this.state.option} />
       </div>
     );
   }

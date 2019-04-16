@@ -4,7 +4,7 @@
 
 .gutterLabel{
   font-size: 12px;
-  width: 52px;
+  width: 60px;
   line-height: 0;
   display: inline-block;
   text-align: justify;
@@ -12,8 +12,7 @@
 }
 
 .gutterForm {
-  margin-left: 5px;
-  display: inline-block;
+  width: calc(100% - 60px);
 }
 
 .rowWrap{
@@ -22,4 +21,7 @@
   .itemCls{
     flex: 1;
   }
+}
+.itemCls:not(:last-child){
+  margin-right: 20px;
 }

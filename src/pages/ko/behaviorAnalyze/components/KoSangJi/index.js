@@ -12,10 +12,9 @@ class KoSangJi extends React.Component {
         <div>
           <Views></Views>
         </div>
-        <SangJiEcharts position={'left'}></SangJiEcharts>
-        <SangJiEcharts position={'right'}></SangJiEcharts>
-
+        <SangJiEcharts style={{width:'300px',height:'300px'}}  position={'left'}></SangJiEcharts>
         <KoDetail />
+        <SangJiEcharts style={{width:'700px',height:'300px',marginLeft:50}}  position={'right'}></SangJiEcharts>
       </div>
     );
   }
