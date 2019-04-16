@@ -1,6 +1,7 @@
 import React from 'react';
 import SangJiEcharts from './components/sangji_echarts';
 import Views from './views'
+import KoDetail from './components/HotImg/KO_detail';
 import style from './style.less';
 
 class KoSangJi extends React.Component {
@@ -13,6 +14,7 @@ class KoSangJi extends React.Component {
         </div>
         <div className={style.rowWrap}>
           <SangJiEcharts className={style.colWrap} style={{width:'16%',height:'490px'}}  position={'left'}></SangJiEcharts>
+          <KoDetail />
           <SangJiEcharts className={style.colWrap} style={{width:'58%',height:'490px'}}  position={'right'}></SangJiEcharts>
         </div>
       </div>
