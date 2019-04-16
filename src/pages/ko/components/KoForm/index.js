@@ -43,15 +43,15 @@ export default class KoForm extends React.Component {
           {/*第一行*/}
           <div className={styles.rowWrap}>
             <div className={styles.itemCls}>
-              <span className={styles.gutterLabel}>选择时间:</span>
+              <span className={styles.gutterLabel}>选择时间：</span>
               <span className={styles.gutterForm}>
-                <BIRangePicker style={{width:'140px'}} placeholder={["起始时间","截止时间"]} format={dateFormat}/>
+                <BIRangePicker style={{width:'70%',minWidth:'140px'}}  placeholder={["起始时间","截止时间"]} format={dateFormat}/>
               </span>
             </div>
             <div className={styles.itemCls}>
-              <span className={styles.gutterLabel}>选择应用:</span>
+              <span className={styles.gutterLabel}>选择应用：</span>
               <span className={styles.gutterForm}>
-                <BISelect style={{width:'140px'}} placeholder="请选择"  value={appVer} onChange={(val)=>this.onFormChange(val,'appVer')}>
+                <BISelect style={{width:'70%',minWidth:'140px'}}  placeholder="请选择"  value={appVer} onChange={(val)=>this.onFormChange(val,'appVer')}>
                   {BiFilter('APP_LIST').map(item => (
                     <Option key={item.id}>
                       {item.name}
@@ -61,9 +61,9 @@ export default class KoForm extends React.Component {
               </span>
             </div>
             <div className={styles.itemCls}>
-              <span className={styles.gutterLabel}>选择页面:</span>
+              <span className={styles.gutterLabel}>选择页面：</span>
               <span className={styles.gutterForm}>
-                <BISelect style={{width:'140px'}} placeholder="请选择"  value={appPage} onChange={(val)=>this.onFormChange(val,'appPage')}>
+                <BISelect style={{width:'70%',minWidth:'140px'}}  placeholder="请选择"  value={appPage} onChange={(val)=>this.onFormChange(val,'appPage')}>
                    {appPageList.map(item => (
                      <Option key={item.id}>
                        {item.name}
@@ -73,9 +73,9 @@ export default class KoForm extends React.Component {
               </span>
             </div>
             <div className={styles.itemCls}>
-              <span className={styles.gutterLabel}>详情页面:</span>
+              <span className={styles.gutterLabel}>详情页面：</span>
               <span className={styles.gutterForm}>
-                <BISelect style={{width:'140px'}} allowClear placeholder="请选择" />
+                <BISelect style={{width:'70%',minWidth:'140px'}} allowClear placeholder="请选择" />
               </span>
             </div>
             <div className={styles.itemCls}>
