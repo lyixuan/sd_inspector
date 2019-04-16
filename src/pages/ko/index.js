@@ -1,13 +1,16 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Form } from 'antd';
 import styles from './style.less';
+import KoTab from '@/pages/ko/components/KoRadio/KoTab';
+import KoForm from '@/pages/ko/components/KoForm';
+import CommonForm from './components/form';
 
-import CommonForm from './components/commonForm';
+const WrappedDynamicFieldSet = Form.create()(CommonForm);
 
 @connect(({ koPlan }) => ({
   koPlan,
 }))
-
 class koPlan extends React.Component {
   constructor(props) {
     super(props);
@@ -31,22 +34,26 @@ class koPlan extends React.Component {
     });
     this.setState({ originParams: params });
 
-  }
+  };
   jumpTo = (pathname) => {
     this.props.history.push({
       pathname,
     });
-  }
+  };
   render() {
+    const {pathname} = this.props.location;
     return (
       <div>
+        {/*------- 公共 form 部分 --------*/}
         <div className={styles.commonBox}>
-          <CommonForm onSubmit={this.onSubmit} />
-          {/*{this.props.children}*/}
+          <WrappedDynamicFieldSet />
+          {/*<CommonForm onSubmit={this.onSubmit}/>*/}
         </div>
-
-        <div onClick={() => this.jumpTo('/ko/behaviorAnalyze')}>行为分析</div>
-        <div onClick={() => this.jumpTo('/ko/userList')}>用户列表</div>
+        <div className={styles.tabBox}>
+          <KoTab {...this.props} />
+          {pathname === '/ko/behaviorAnalyze' && <KoForm {...this.props} />}
+        </div>
+        {this.props.children}
       </div>
     );
   }

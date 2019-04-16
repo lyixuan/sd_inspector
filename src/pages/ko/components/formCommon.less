@@ -1,0 +1,67 @@
+.formStyle {
+  :global{
+    .ant-form-item-control-wrapper{
+      width: 70%;
+    }
+    .ant-form-inline .ant-form-item{
+      display: flex;
+    }
+    .ant-form-item-label{
+      width: 60px;
+    }
+    .ant-form-item label{
+      font-size: 12px;
+      width: 51px!important;
+    }
+    .ant-form-item-label > label::after{
+      left: 50px!important;
+    }
+    .ant-advanced-search-form .ant-form-item{
+      margin-bottom: 0;
+    }
+    .ant-form-item-control{
+      min-width: 140px;
+    }
+    .ant-input{
+      padding-left: 5px;
+      padding-right: 7px;
+    }
+    .ant-select {
+      font-size: 12px;
+    }
+    .ant-select-selection__rendered{
+      margin: auto 10px;
+    }
+    // 时间
+    .ant-select-selection__placeholder, .ant-select-search__field__placeholder{
+      font-size: 12px;
+    }
+    .BIDatePicker .ant-calendar-picker-clear, .BIDatePicker .ant-calendar-picker-icon{
+      right: 5px;
+    }
+    .BIDatePicker .ant-calendar-range-picker-input{
+      transform: scale(0.7);
+      margin-left: -10px;
+    }
+    .ant-calendar-range-picker-separator{
+      margin-left: -9px;
+      min-width: 6px;
+      padding: 0;
+    }
+    @media screen and (max-width: 1410px) {
+      .BIDatePicker .ant-calendar-range-picker-input {
+        min-width: 58%;
+      }
+    }
+    @media screen and (min-width: 1411px)and (max-width: 1550px) {
+      .BIDatePicker .ant-calendar-range-picker-input {
+        min-width: 56%;
+      }
+    }
+    @media screen and (min-width: 1551px) {
+      .BIDatePicker .ant-calendar-range-picker-input {
+        min-width: 50%;
+      }
+    }
+  }
+}
