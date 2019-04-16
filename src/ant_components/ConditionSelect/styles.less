@@ -1,6 +1,7 @@
 @import "../config.less";
 
-:global .conditionSelect {
+:global .conditionSelect,:global .betweennessSelect {
+  width: 120px;
   .ant-select-selection {
     border: 1px solid #DCDDE0;
     border-radius: 2px;
@@ -23,5 +24,114 @@
   .ant-select-selection--multiple .ant-select-selection__choice {
     margin-right: 1px;
   }
+}
+:global .betweennessSelect{
+  font-size: 12px;
+  color: #000;
+  .ant-select-selection{
+   border-style: none;
+  }
+  .ant-select-arrow-icon{
+    transform: translate(80%,0) scale(0.8);
+  }
+  .ant-select-selection__rendered{
+    margin: 0;
+  }
+  .ant-select-selection-selected-value{
+    float: right;
+  }
+}
+:global .inputPanle {
+  .ant-input {
+    border-radius: 2px;
+    padding: 8px;
+  }
+  .ant-input:hover {
+    border: 1px solid @base-green;
+    box-shadow: 0 0 0 2px @base-green-shadow;
+  }
+  .ant-input:focus{
+    border: 1px solid @base-green;
+    box-shadow: 0 0 0 2px @base-green-shadow;
+  }
+  .ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled) {
+    border-color: @base-green;
+  }
+}
+:global .betweennessSelectDropdownClassName{
+  .ant-select-dropdown-menu-item{
+    font-size: 12px;
+    color: #000;
+  }
+}
 
+.conditionCustom{
+  position: relative;
+  padding: 10px;
+  cursor: pointer;
+  .customText{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
+.customBox{
+  position: absolute;
+  left: 130px;
+  top: 30%;
+  bottom: 0;
+  width: 240px;
+  height: 160px;
+  padding: 30px;
+  font-variant: tabular-nums;
+  line-height: 1.5;
+  list-style: none;
+  font-feature-settings: 'tnum';
+  box-sizing: border-box;
+  font-variant: initial;
+  background-color: #fff;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  .symbolIcon{
+    position: absolute;
+    top: 20%;
+    left: 0;
+    color: #fff;
+    transform: translate(-80%,-50%) scale(1.5);
+  }
+  .customChooseBox{
+  }
+  .inputPanle{
+    height: 32px;
+    margin-top: 10px;
+    // .inputNum{
+      width: 100%;
+      .renderBaseUnitinput{
+        display: inline-block;
+        width: 120px;
+      }
+      .betweenness{
+        display: inline-block;
+        width: 50px;
+      }
+      .betweennessSymbol{
+        display: inline-block;
+        width: 20px;
+        text-align: center;
+      // }
+    }
+    .betweennessSelect{
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+  .buttonGroup{
+    margin: 10px 0;
+    .button{
+      float:right;
+      margin-left:10px; 
+    }
+  }
 }

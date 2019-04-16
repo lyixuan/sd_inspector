@@ -1,3 +1,5 @@
+import { seriesConfig,Config,sangjiColor } from '@/pages/ko/behaviorAnalyze/components/KoSangJi/components/common_options';
+
 const node = [{
   name: '启动页',
   value:10,
@@ -73,54 +75,11 @@ const links = [{
   target: '0-1',
   value: 13
 }];
-const config = {
-  type: 'sankey',
-  left: 30,
-  top:30,
-  right:30,
-  bottom:30,
-  lineStyle: {
-    normal: {   // 流量样式
-      color: 'source',
-      curveness: 0.6
-    }
-  },
-  layout:'none',
-  layoutIterations:0,
-  draggable:false,  // 不可拖动节点
-  focusNodeAdjacency: true,   // hover 高亮
-  itemStyle: {
-    normal: {    // 节点样式
-      borderWidth: 1,
-      borderColor: '#aaa'
-    }
-  },
-  label: {
-    normal: {
-      color: "#000",
-      fontSize: 10,
-      formatter: function(params, i) {
-        if (params.data.id==='0-1') {
-          return "上\n\n游\n\n页\n\n面";
-        }
-        return params.data.name;
-      },
-      rich: {
-        white: {
-          fontSize: 10,
-          padding: [0, 0, 0, 0]
-        }
-      }
-    }
-  }
-};
-const sangjiColor = ['#FE7413','#D02124', '#1BB5C7', '#747474', '#1A6DAA','#749f83',  '#1BB5C7','#FE7413','#D02124', '#1BB5C7', '#747474', '#1A6DAA','#749f83',  '#1BB5C7','#FE7413','#D02124', '#1BB5C7', '#747474', '#1A6DAA','#749f83',  '#1BB5C7'];
-const itemStyleSource = [];
 for (let d = 0; d < node.length; d++) {
   if (node[d].id !== '0-1') {
     node[d].itemStyle = {
       normal: {
-        color: sangjiColor[d]
+        color: sangjiColor[d%sangjiColor.length]
       }
     };
   }
@@ -129,7 +88,6 @@ for (let d = 0; d < node.length; d++) {
       position:'right'
     }
   };
-  itemStyleSource.push(node[d]);
 }
 export function getSangJiUpOption() {
   let option = {
@@ -140,8 +98,29 @@ export function getSangJiUpOption() {
     series: {
       data: node,
       links: links,
+      left: 0,
+      right:30,
+      label: {
+        normal: {
+          color: "#000",
+          fontSize: 10,
+          formatter: function(params, i) {
+            if (params.data.id==='0-1') {
+              return "上\n\n游\n\n页\n\n面";
+            }
+            return params.data.name;
+          },
+          rich: {
+            white: {
+              fontSize: 10,
+              padding: [0, 0, 0, 0]
+            }
+          }
+        }
+      },
     }
   };
-  option.series = {...option.series,...config}
+  option.series = {...option.series,...seriesConfig}
+  option = {...option,...Config}
   return option;
 }

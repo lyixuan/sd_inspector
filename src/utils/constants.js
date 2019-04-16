@@ -333,26 +333,31 @@ export const FAMILY_TYPE = [{ id: 0, name: '自考' }, { id: 1, name: '壁垒' }
 export const APPEAL_RESULT_TYPE = [{ id: 1, name: '通过' }, { id: 0, name: '驳回' }];
 // 质检上传类型
 export const QUALITY_UPLOAD_TYPE = [{ id: 1, name: 'quality' }, { id: 2, name: 'appeal' }];
+// 过滤单位
+export const UNIT_DATE = [
+  { id: 'dd', name: '天' },
+  { id: 'hh', name: '小时' },
+  { id: 'mm', name: '分钟' },
+  { id: 'ss', name: '秒' },
+];
 
 // 空ContentLayout页面名单
-export const EmptyContentLayout = [{path:'/ko',name:'KO计划'}];
+export const EmptyContentLayout = [{ path: '/ko', name: 'KO计划' }];
 // 应用类型
 export const APP_LIST = [
-  {id:'1',name:'极速版App'}
-  ];
+  { id: '1', name: '极速版App' }
+];
 
 // 热力图对应的区间取值
 export const HOT_RANGE = [
-  {minVal:0,maxVal:10,color:'#7B83FF'},
-  {minVal:11,maxVal:30,color:'#5AB9FF'},
-  {minVal:31,maxVal:40,color:'#7AF5C5'},
-  {minVal:41,maxVal:50,color:'#FFE65A'},
-  {minVal:51,maxVal:60,color:'#FFCB64'},
-  {minVal:61,maxVal:80,color:'#FF9862'},
-  {minVal:81,maxVal:100,color:'#FF8383'},
+  { minVal: 0, maxVal: 10, color: '#7B83FF' },
+  { minVal: 11, maxVal: 30, color: '#5AB9FF' },
+  { minVal: 31, maxVal: 40, color: '#7AF5C5' },
+  { minVal: 41, maxVal: 50, color: '#FFE65A' },
+  { minVal: 51, maxVal: 60, color: '#FFCB64' },
+  { minVal: 61, maxVal: 80, color: '#FF9862' },
+  { minVal: 81, maxVal: 100, color: '#FF8383' },
 ];
-
-
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
