@@ -2,8 +2,66 @@ import React from 'react';
 import { Icon } from 'antd';
 import styles from '../../style.less';
 class Im extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      listData: [
+        {
+          countDate: "2019-01-02 12:23:21",
+          countDate: 1, //满意度评价，0：不满意 1：一般 2：满意 3：非常满意
+          consultType: 1,
+          contentList: [
+            {
+              userName: "张三",
+              userType: "1", //用户类型（1:学员 2:老师）
+              consultTime: "2019-01-02 12:23:21",
+              message: "一次能考过吗"
+            },
+            {
+              userName: "班主任",
+              userType: "2", //用户类型（1:学员 2:老师）
+              consultTime: "2019-01-02 12:23:21",
+              message: "一次能考过吗"
+            },
+            {
+              userName: "张三",
+              userType: "1", //用户类型（1:学员 2:老师）
+              consultTime: "2019-01-02 12:23:21",
+              message: "有免费的公开课吗"
+            }
+          ]
+        },
+        {
+          countDate: "2019-01-03 12:23:21",
+          countDate: 0, //满意度评价，0：不满意 1：一般 2：满意 3：非常满意
+          consultType: 1,
+          contentList: [
+            {
+              userName: "李四",
+              userType: "1", //用户类型（1:学员 2:老师）
+              consultTime: "2019-01-02 12:23:21",
+              message: "一次能考过吗"
+            },
+            {
+              userName: "班主任",
+              userType: "2", //用户类型（1:学员 2:老师）
+              consultTime: "2019-01-02 12:23:21",
+              message: "一次能考过吗"
+            },
+            {
+              userName: "张三",
+              userType: "1", //用户类型（1:学员 2:老师）
+              consultTime: "2019-01-02 12:23:21",
+              message: "有免费的公开课吗"
+            }
+          ]
+        }
+      ]
+    }
+  }
 
   render() {
+    console.log(64, this.state.listData)
     return (
       <div className={styles.comWrap}>
         <section>
@@ -21,15 +79,6 @@ class Im extends React.Component {
                   <span className={styles.dot}></span>
                 </div>
                 <div className={styles.text}>进入会话</div>
-              </div>
-            </li>
-            <li className={styles.step}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.text}>点击FAQ【报考流程是什么】</div>
               </div>
             </li>
             <li className={styles.step}>
