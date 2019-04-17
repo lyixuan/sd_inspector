@@ -41,7 +41,7 @@ class koPlan extends React.Component {
     });
   };
   render() {
-    const {pathname} = this.props.location;
+    const { pathname } = this.props.location;
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
