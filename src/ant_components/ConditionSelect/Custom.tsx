@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDom from 'react-dom';
 import { Select, Icon, Input, message } from 'antd';
 import { condition } from './utils/utils';
 import BiButton from '../BIButton';
