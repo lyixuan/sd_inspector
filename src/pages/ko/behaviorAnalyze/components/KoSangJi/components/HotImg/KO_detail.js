@@ -11,35 +11,35 @@ import {
   SelfExam} from './SVG';
   import styles from './style.less';
 
-const data=[{name:'d1',val:10},{name:'d2',val:30},{name:'d3',val:40},
-{name:'d4',val:10},{name:'d5',val:30},{name:'d6',val:40},
-{name:'d7',val:10},{name:'d8',val:30},{name:'d9',val:40},
-{name:'d10',val:10},{name:'d11',val:10},{name:'d12',val:50},{name:'d13',val:63},{name:'d14',val:70},{name:'d15',val:80}]
-
 let tip={}
 class KoDetailPage extends React.Component {
   constructor(props) {
     super(props);
+    const data=[];
+    for(let i=0;i<20;i++){
+      data.push({
+        name:`d${i+1}`,
+        clickPeople:i*10,//点击人数
+        peopoleRate:(i/15*100).toFixed(2),
+        clickCountPre:i*20,//点击次数
+        countRate:(i/20*100).toFixed(2),//点击次数占比
+      })
+    }
     KoDetailPage.that = this;
     KoDetailPage.tip = {};
-    this.state = {
-      mapData: {},
-      examineStepList: [], // 选中状态
-      selectedProvince: 'SD', // 默认选中省份的id
-      pushNum: 0,
-      province: '',
-    };
+    this.state = { hotData:data};
   }
   componentDidMount() {
     this.drewLended();
-  
+
   }
   getColorFn = () => {// 对data数据处理，加上颜色
-     data.map(item1=>{
-      const colorVal = HOT_RANGE.filter(item2=>item1.val>=item2.minVal&&item1.val<=item2.maxVal)[0];
+    const{hotData} = this.state;
+    hotData.map(item1=>{
+      const colorVal = HOT_RANGE.filter(item2=>item1.countRate>=item2.minVal&&item1.countRate<=item2.maxVal)[0];
       if(colorVal) return item1.color=colorVal.color
     })
-    return data;
+    return hotData;
   }
   drewTip = ()=>{
     const that = this;
@@ -76,11 +76,11 @@ class KoDetailPage extends React.Component {
   drewLended = () => {
     this.chart = d3.select(this.svgDom).html(IndexPage);
     const colorArr = this.getColorFn()
-  
+
     // 修改数据
     this.chart.selectAll('.text').text(function(){
       const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
-      if(val) return val.val;
+      if(val) return val.clickCountPre;
     });
     // 修改颜色
     this.chart.selectAll('.mask').style('fill',function(){
