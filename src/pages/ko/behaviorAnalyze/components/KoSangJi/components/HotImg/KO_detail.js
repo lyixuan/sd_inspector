@@ -38,13 +38,13 @@ class KoDetailPage extends React.Component {
     hotData.map(item1=>{
       const colorVal = HOT_RANGE.filter(item2=>item1.countRate>=item2.minVal&&item1.countRate<=item2.maxVal)[0];
       if(colorVal) return item1.color=colorVal.color
-    })
+    });
     return hotData;
-  }
+  };
   drewTip = ()=>{
     const that = this;
     let div = d3.select('#mapTooltip');
-    if (!d3.select('#mapTooltip').node()) {
+    if (!div.node()) {
       div = d3
         .select('body')
         .append('div')
@@ -52,25 +52,26 @@ class KoDetailPage extends React.Component {
         .attr('id', 'mapTooltip')
     }
     tip.show = function() {
-      // const showOriginData = d3.select(this).datum();
-      // if (!showOriginData) return;
+      const id = d3.select(this).attr('data-name');
       const { pageX, pageY } = d3.event;
       div
         .style('display', 'block')
         .style('top', `${pageY}px`)
         .style('left', `${pageX + 20}px`)
-        .html(that.tooltipText());
+        .html(that.tooltipText(id));
     };
     tip.hide = () => {
       div.style('display', 'none');
     };
   }
   tooltipText = id => {
+    const{hotData} = this.state;
+    const newHotData = hotData.filter(item=>item.name===id)[0];
     return `<ul class=${styles.tootipPanl}>
-    <li class=${styles.tooltipItem}>点击人数：20人</li>
-    <li class=${styles.tooltipItem}>人数占比：${(0.22 * 100).toFixed(2)}%
-    <li class=${styles.tooltipItem}>点击次数：200次</li>
-    <li class=${styles.tooltipItem}>次数占比：${(0.22 * 100).toFixed(2)}%
+    <li class=${styles.tooltipItem}>点击人数：${newHotData.clickPeople}人</li>
+    <li class=${styles.tooltipItem}>人数占比：${newHotData.peopoleRate}%</li>
+    <li class=${styles.tooltipItem}>点击次数：${newHotData.clickCountPre}次</li>
+    <li class=${styles.tooltipItem}>次数占比：${newHotData.countRate}%</li>
     </ul>`;
   };
   drewLended = () => {
