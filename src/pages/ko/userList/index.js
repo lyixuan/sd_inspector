@@ -9,10 +9,24 @@ const columns = [
   {
     title: '学员',
     dataIndex: '1',
+    onCell:(record,rowIndex) => {
+      return {
+        onClick: (event) => {
+          console.log(233111,record,event,event.detail)
+        },
+      };
+    }
   },
   {
     title: '注册状态',
     dataIndex: '2',
+    onCell:(record,rowIndex) => {
+      return {
+        onClick: (event) => {
+          console.log(233111,record,record['2'],event.detail)
+        },
+      };
+    }
     // render: (text, record) => {
     //   return (
     //     <>

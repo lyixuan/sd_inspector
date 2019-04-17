@@ -93,7 +93,14 @@ export function getSangJiUpOption() {
   let option = {
     tooltip: {
       trigger: 'item',
-      triggerOn: 'mousemove'
+      triggerOn: 'mousemove',
+      formatter: function (param) {
+        const {data} = param;
+        const {pv = undefined,zb = undefined} = data;
+        if (pv && zb) {
+          return  `<div><div>pv：${pv}</div><div>占比：${zb}</div></div>`
+        }
+      }
     },
     series: {
       data: node,
