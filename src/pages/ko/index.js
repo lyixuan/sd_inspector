@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form } from 'antd';
+import Redirect from 'umi/redirect';
 import styles from './style.less';
+import RenderRoute from '@/components/RenderRoute';
 import KoTab from '@/pages/ko/components/KoRadio/KoTab';
 import KoForm from '@/pages/ko/components/KoForm';
 import CommonForm from './components/form';
-
-const WrappedDynamicFieldSet = Form.create()(CommonForm);
 
 @connect(({ koPlan }) => ({
   koPlan,
@@ -19,12 +18,18 @@ class koPlan extends React.Component {
     }
   }
   componentDidMount() {
-    console.log(this.props)
+    this.getKOEnumList();
+
   }
   componentWillUnmount() {
     this.props.dispatch({
       type: 'koPlan/saveParams',
       payload: { params: {} },
+    })
+  }
+  getKOEnumList = () => {
+    this.props.dispatch({
+      type: 'koPlan/getKOEnumList',
     })
   }
   onSubmit = (params) => {
@@ -41,19 +46,19 @@ class koPlan extends React.Component {
     });
   };
   render() {
-    const { pathname } = this.props.location;
+    const { route } = this.props;
+    const { pageRedirect, path } = route;
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
-        <div className={styles.commonBox}>
-          <WrappedDynamicFieldSet />
-          {/*<CommonForm onSubmit={this.onSubmit}/>*/}
-        </div>
+        {!pageRedirect ? null : <div className={styles.commonBox}>
+          <CommonForm onSubmit={this.onSubmit} />
+        </div>}
         <div className={styles.tabBox}>
           <KoTab {...this.props} />
-          {pathname === '/ko/behaviorAnalyze' && <KoForm {...this.props} />}
+          {path === '/ko/behaviorAnalyze' && <KoForm {...this.props} />}
         </div>
-        {this.props.children}
+        <RenderRoute {...this.props} />
       </div>
     );
   }

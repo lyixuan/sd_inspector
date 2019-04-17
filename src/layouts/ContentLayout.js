@@ -9,7 +9,6 @@ class ContentLayout extends Component {
 
     const { location } = this.props;
     const currentPath = location.pathname;
-    console.log(routesData)
     const routeObj = {};
     routeObj.name = routesData[currentPath] ? routesData[currentPath].name : undefined;
     routeObj.bread = routesData[currentPath] ? routesData[currentPath].bread : undefined;

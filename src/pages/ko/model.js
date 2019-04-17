@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import { getKOEnumList } from './services';
 
 export default {
   namespace: 'koPlan',
@@ -8,6 +9,11 @@ export default {
   },
 
   effects: {
+    *getKOEnumList({ payload }, { call, put }) {
+      const response = yield call(getKOEnumList, payload);
+      console.log(response)
+
+    }
 
   },
 
