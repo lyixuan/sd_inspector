@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Form, Icon, Divider } from 'antd';
 import memoizeOne from 'memoize-one';
-import BISelect from '@/ant_components/BISelect';
+import BISelect from '@/ant_components/BISelect/formSelect';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BIButton from '@/ant_components/BIButton';
 import BICascader from '@/ant_components/BICascader/FormCascader';
@@ -25,9 +25,12 @@ class CommonForm extends React.Component {
   }
   handleSearch = (e) => {
     e.preventDefault();
+    const { expand } = this.state;
     this.props.form.validateFields((err, values) => {
       if (this.props.onSubmit) {
-        this.props.onSubmit(values)
+        const { payOrder, orderMoney, koOrderGap, frontBelong, backBelong, ...others } = values;
+        const newParams = expand ? { ...values } : { ...others };
+        this.props.onSubmit(newParams)
       }
 
     });
@@ -50,22 +53,15 @@ class CommonForm extends React.Component {
     if (type >= 1 && type <= 10) {
       returnData = Array.isArray(enumData[type]) ? enumData[type] : [];
     }
-    // switch (type) {
-    //   case 1:
-    //     returnData = Array.isArray(enumData[type]) ? enumData[type] : [];
-    //     break;
-    //   default:
-    //     returnData = Array.isArray(enumData[type]) ? enumData[type] : [];
-    //     break;
-    // }
     return returnData;
   }
-  renderButtonGroup = (parpms = this.state.params) => {
+
+  renderButtonGroup = () => {
     const { expand } = this.state;
     const top = expand ? 420 : 320
 
     return (
-      <ButtonGroupCom params={this.state.params} top={top}></ButtonGroupCom>
+      <ButtonGroupCom params={this.props.params} top={top}></ButtonGroupCom>
     )
   }
   render() {

@@ -21,7 +21,7 @@ class koPlan extends React.Component {
     }
   }
   componentDidMount() {
-    // this.getKOEnumList();
+    this.getKOEnumList();
 
   }
   componentWillUnmount() {

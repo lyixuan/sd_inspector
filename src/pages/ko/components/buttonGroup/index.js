@@ -26,7 +26,30 @@ export default class ButtonGroup extends React.Component {
         } else if (pageTop <= top && isShowFiexd) {
             this.setState({ isShowFiexd: !isShowFiexd });
         }
+    }
+    renderTypeTage = (obj) => {
+        return (<span key={obj.name + obj.id} className={styles.tags}><Tag closable>{obj.name}</Tag></span>)
 
+    }
+    checkoutTypeTage = (key, obj) => {
+        let returnDom = null;
+        switch (key) {
+            case 'fromDevice':
+                returnDom = (<>{this.renderTypeTage(obj)}</>)
+
+                break;
+            default:
+                returnDom = null;
+                break
+        }
+        return returnDom;
+
+    }
+    renderChooseTags = () => {
+        const { params = {} } = this.props;
+        Object.keys(params).map(item => {
+            return this.checkoutTypeTage(item, params[item]);
+        });
     }
     renderFixedBox = () => {
         const tags = ['抖音', '华为', 'wo', '主app', '小程序', '注册时间:2013.01.03-2013.1.2', '注册时间:2013.01.03-2013.1.2',
@@ -46,7 +69,8 @@ export default class ButtonGroup extends React.Component {
 
     }
     render() {
-        const { top } = this.props;
+        const { top, params } = this.props;
+        console.log(params)
         const { isShowFiexd, width } = this.state;
         console.log(width)
         const tags = ['抖音', '华为', 'wo', '主app', '小程序', '注册时间:2013.01.03-2013.1.2', '注册时间:2013.01.03-2013.1.2',
@@ -58,11 +82,11 @@ export default class ButtonGroup extends React.Component {
             '注册时间:2013.01.03-2013.1.2']
         return (
             <div className={styles.fixedStyle} ref={dom => this.tagsDom = dom}>
-                <div className={`${styles.groupContainer} ${isShowFiexd ? styles.groupContainerFixed : ''}`} style={{ minHeight:'100px',width:'83%',marginLeft:'-1.5%'}}>
-                <span className={styles.gropLabel}>已选条件:</span>
-                        {isShowFiexd ? this.renderFixedBox() : (<div className={`${styles.buttonGroup}`}>
-                            {tags.map((item, index) => <span key={item + index} className={styles.tags}><Tag closable>{item}</Tag></span>)}
-                        </div>)}
+                <div className={`${styles.groupContainer} ${isShowFiexd ? styles.groupContainerFixed : ''}`} style={{ minHeight: '100px', width: '83%', marginLeft: '-1.5%' }}>
+                    <span className={styles.gropLabel}>已选条件:</span>
+                    {isShowFiexd ? this.renderFixedBox() : (<div className={`${styles.buttonGroup}`}>
+                        {tags.map((item, index) => <span key={item + index} className={styles.tags}><Tag closable>{item}</Tag></span>)}
+                    </div>)}
                 </div>
                 <div className={styles.shrink}></div>
             </div>
