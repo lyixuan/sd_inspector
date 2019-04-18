@@ -28,14 +28,16 @@ export default class ButtonGroup extends React.Component {
         }
     }
     renderTypeTage = (obj) => {
-        return (<span key={obj.name + obj.id} className={styles.tags}><Tag closable>{obj.name}</Tag></span>)
+
+        return (<span key={obj.name + obj.value} className={styles.tags}><Tag closable>{obj.name}</Tag></span>)
 
     }
-    checkoutTypeTage = (key, obj) => {
+    checkoutTypeTage = (key, item) => {
         let returnDom = null;
         switch (key) {
             case 'fromDevice':
-                returnDom = (<>{this.renderTypeTage(obj)}</>)
+                console.log(item)
+                returnDom = Array.isArray(item) && item.length > 0 ? item.map(ls => this.renderTypeTage(ls)) : null;
 
                 break;
             default:
@@ -47,7 +49,7 @@ export default class ButtonGroup extends React.Component {
     }
     renderChooseTags = () => {
         const { params = {} } = this.props;
-        Object.keys(params).map(item => {
+        return Object.keys(params).map(item => {
             return this.checkoutTypeTage(item, params[item]);
         });
     }
@@ -62,7 +64,7 @@ export default class ButtonGroup extends React.Component {
         return (
             <>
                 <div className={`${styles.buttonGroup} ${styles.buttonGroupFixed}`}>
-                    {tags.map((item, index) => <span key={item + index} className={styles.tags}><Tag closable>{item}</Tag></span>)}
+                    {tags.map((item, index) => <span key={item + index} className={styles.tags}><Tag closable color="#595959">{item}</Tag></span>)}
                 </div>
             </>
         )
@@ -70,9 +72,7 @@ export default class ButtonGroup extends React.Component {
     }
     render() {
         const { top, params } = this.props;
-        console.log(params)
         const { isShowFiexd, width } = this.state;
-        console.log(width)
         const tags = ['抖音', '华为', 'wo', '主app', '小程序', '注册时间:2013.01.03-2013.1.2', '注册时间:2013.01.03-2013.1.2',
             '注册时间:2013.01.03-2013.1.2', '注册时间:2013.01.03-2013.1.2', '抖音', '华为', 'wo',
             '主app', '小程序', '注册时间:2013.01.03-2013.1.2', '注册时间:2013.01.03-2013.1.2', '注册时间:2013.01.03-2013.1.2',
@@ -85,7 +85,8 @@ export default class ButtonGroup extends React.Component {
                 <div className={`${styles.groupContainer} ${isShowFiexd ? styles.groupContainerFixed : ''}`}>
                     <span className={styles.gropLabel}>已选条件:</span>
                     {isShowFiexd ? this.renderFixedBox() : (<div className={`${styles.buttonGroup}`}>
-                        {tags.map((item, index) => <span key={item + index} className={styles.tags}><Tag closable>{item}</Tag></span>)}
+                        {this.renderChooseTags()}
+                        {/* {tags.map((item, index) => <span key={item + index} className={styles.tags}><Tag closable>{item}</Tag></span>)} */}
                     </div>)}
                 </div>
                 <div className={styles.shrink}></div>
