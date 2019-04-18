@@ -5,7 +5,11 @@ import { options } from './component/bar_echarts';
 import TitleName  from './component/titleName';
 
 class BarEcharts extends React.Component {
-
+  eConsole = (e) => {
+    this.props.history.push({
+      pathname:'/ko/userList',
+    });
+ };
   render() {
     return (
       <div className={style.barWrap}>
@@ -13,7 +17,7 @@ class BarEcharts extends React.Component {
         <div className={style.barContent}>
           <Echart
             isEmpty={false}
-            // clickEvent={this.eConsole}
+            clickEvent={this.eConsole}
             style={{ width: '100%', height:'297px' }}
             options={options()} />
         </div>

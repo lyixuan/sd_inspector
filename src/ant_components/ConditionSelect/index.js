@@ -44,14 +44,20 @@ var Condition = /** @class */ (function (_super) {
             customObj: null,
             inputValue: undefined,
         };
-        _this.dom = null;
+        _this.handleDomClick = function (e) {
+            _this.closeSelectPanle();
+        };
         _this.handleOriginOptionsData = function (options) {
             var newOptions = options.map(function (item) { return (__assign({}, item, utils_1.handleOptionsName(item))); });
             return newOptions;
         };
+        _this.handleOriginValue = function (value) {
+            var inputValue = _this.handleInputValue(value);
+            _this.setState({ inputValue: inputValue });
+        };
         _this.handleInputValue = function (selectObj, selected) {
             if (selected === void 0) { selected = _this.state.selected; }
-            var obj = selected === 'all' ? { name: '全部' } : selectObj;
+            var obj = selected === 'all' ? { name: '全部' } : (selectObj || {});
             return obj.name;
         };
         _this.onChange = function (selected) {
@@ -73,7 +79,7 @@ var Condition = /** @class */ (function (_super) {
         };
         _this.chooseSelectObj = function (key, selectObj) {
             if (selectObj === void 0) { selectObj = _this.state.customObj; }
-            var options = _this.props.options;
+            var _a = _this.props.options, options = _a === void 0 ? [] : _a;
             var hasCustomObj = selectObj ? [selectObj] : [];
             var optionsData = _this.handleOriginOptionsData(options.concat(hasCustomObj));
             return optionsData.find(function (item) { return item.name === key; });
@@ -81,9 +87,6 @@ var Condition = /** @class */ (function (_super) {
         _this.onFocus = function () {
             _this.setState({ isOpen: true });
         };
-        // public onBlur = () => {
-        //     this.setState({ isOpen: false });
-        // }
         _this.onCancel = function () {
             _this.closeSelectPanle();
         };
@@ -120,18 +123,32 @@ var Condition = /** @class */ (function (_super) {
         };
         return _this;
     }
+    Condition.prototype.componentDidMount = function () {
+        var value = this.props.value;
+        this.handleOriginValue(value);
+        window.addEventListener('click', this.handleDomClick);
+    };
+    Condition.prototype.componentWillReceiveProps = function (nextProps) {
+        if (JSON.stringify(nextProps.value) !== JSON.stringify(this.props.value)) {
+            this.handleOriginValue(nextProps.value);
+        }
+    };
+    Condition.prototype.componentWillUnmount = function () {
+        window.removeEventListener('click', this.handleDomClick);
+    };
     Condition.transformOriginOptionsData = function (options) {
         return options;
     };
     Condition.prototype.render = function () {
-        var _a = this.props, options = _a.options, _b = _a.ShowAllOptions, ShowAllOptions = _b === void 0 ? true : _b, _c = _a.placeholder, placeholder = _c === void 0 ? '请选择' : _c, _d = _a.width, width = _d === void 0 ? 120 : _d;
-        var _e = this.state, isOpen = _e.isOpen, selected = _e.selected, inputValue = _e.inputValue;
+        var _a = this.props, _b = _a.options, options = _b === void 0 ? [] : _b, _c = _a.placeholder, placeholder = _c === void 0 ? '请选择' : _c;
+        var _d = this.state, isOpen = _d.isOpen, inputValue = _d.inputValue;
         var hasCustomObj = this.state.customObj ? [this.state.customObj] : [];
         var optionsData = this.handleOriginOptionsData(options.concat(hasCustomObj));
-        return react_1.default.createElement(react_1.default.Fragment, null,
-            react_1.default.createElement(antd_1.Dropdown, { overlay: this.dropdownRender(optionsData), visible: isOpen },
-                react_1.default.createElement("span", { className: "inputPanle" },
-                    react_1.default.createElement(antd_1.Input, { onFocus: this.onFocus, placeholder: placeholder, style: { width: width }, value: inputValue }))));
+        return (react_1.default.createElement(react_1.default.Fragment, null,
+            react_1.default.createElement("span", { onClick: function (e) { e.stopPropagation(); } },
+                react_1.default.createElement(antd_1.Dropdown, { overlay: this.dropdownRender(optionsData), visible: isOpen, overlayClassName: styles.overlayClassName },
+                    react_1.default.createElement("span", { className: "inputPanle" },
+                        react_1.default.createElement(antd_1.Input, { onFocus: this.onFocus, placeholder: placeholder, value: inputValue }))))));
     };
     return Condition;
 }(react_1.default.Component));

@@ -180,26 +180,29 @@ export const routes = [
         path: '/ko',
         component: './ko',
         name: 'KO计划',
+        pageRedirect: '/ko/behaviorAnalyze',
         routes: [
-          {
-            path: '/ko/behaviorPath',
-            component: './ko/behaviorPath',
-            name: '用户行为轨迹',
-          },
           {
             path: '/ko/behaviorAnalyze',
             component: './ko/behaviorAnalyze',
             name: '行为分析',
+            commonPath: true,   // 继承父页面
           },
           {
             path: '/ko/userList',
             component: './ko/userList',
             name: '用户列表',
+            commonPath: true,   // 继承父页面
           },
           {
             path: '/ko/behaviorInfo',
             component: './ko/behaviorInfo',
             name: '行为轨迹',
+          },
+          {
+            path: '/ko/behaviorPath',
+            component: './ko/behaviorPath',
+            name: '用户行为轨迹',
           },
         ],
       },

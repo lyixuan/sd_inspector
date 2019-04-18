@@ -1,3 +1,4 @@
+
 const config = {
   splitLine:{
     lineStyle:{
@@ -32,6 +33,16 @@ export function options(data){
         lineStyle:{
           color:' #CFD0D4'
         }
+      },
+      formatter: function (params) {
+        let tipItem='';
+        if(params&&params.length){
+          for(let i=0;i<params.length;i++){
+            tipItem += `<div class="tipItem"><span class="tipIcon" style="background-color:${params[i].color}"></span><span>${params[i].seriesName}：${params[i].value}${i===0?'次':'%'}</span></div>`
+          }
+        }
+        return `<div class="tipWrap"><div>2019-02-12 周二</div>${tipItem}</div>`;
+
       },
     },
     legend: {

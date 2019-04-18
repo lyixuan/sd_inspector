@@ -347,6 +347,15 @@ export const EmptyContentLayout = [{ path: '/ko', name: 'KO计划' }];
 export const APP_LIST = [
   { id: '1', name: '极速版App' }
 ];
+// 注册类型
+export const REGISTER_STATUS  = [
+  { id: 1, name: '已注册' }
+];
+// 选课状态
+export const CHOISE_STATUS  = [
+  { id: 0, name: '未选课' },
+  { id: 1, name: '已选课' }
+];
 
 // 热力图对应的区间取值
 export const HOT_RANGE = [
@@ -384,6 +393,8 @@ export default {
   EmptyContentLayout,
   APP_LIST,
   HOT_RANGE,
+  REGISTER_STATUS,
+  CHOISE_STATUS,
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

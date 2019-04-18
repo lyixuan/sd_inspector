@@ -1,15 +1,17 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form } from 'antd';
+import { Spin } from 'antd';
 import styles from './style.less';
+import RenderRoute from '@/components/RenderRoute';
 import KoTab from '@/pages/ko/components/KoRadio/KoTab';
 import KoForm from '@/pages/ko/components/KoForm';
 import CommonForm from './components/form';
 
-const WrappedDynamicFieldSet = Form.create()(CommonForm);
-
-@connect(({ koPlan }) => ({
+@connect(({ koPlan, loading }) => ({
+  loading,
   koPlan,
+  enumData: koPlan.enumData,
+  isLoadEnumData: loading.effects['koPlan/getKOEnumList'],
 }))
 class koPlan extends React.Component {
   constructor(props) {
@@ -19,12 +21,19 @@ class koPlan extends React.Component {
     }
   }
   componentDidMount() {
-    console.log(this.props)
+    this.getKOEnumList();
+
   }
   componentWillUnmount() {
     this.props.dispatch({
       type: 'koPlan/saveParams',
       payload: { params: {} },
+    })
+  }
+  getKOEnumList = () => {
+    this.props.dispatch({
+      type: 'koPlan/getKOEnumList',
+      payload: { type: null }
     })
   }
   onSubmit = (params) => {
@@ -41,19 +50,24 @@ class koPlan extends React.Component {
     });
   };
   render() {
-    const {pathname} = this.props.location;
+    const { route, enumData, isLoadEnumData, location: { pathname } } = this.props;
+    const { pageRedirect } = route;
+
+
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
-        <div className={styles.commonBox}>
-          <WrappedDynamicFieldSet />
-          {/*<CommonForm onSubmit={this.onSubmit}/>*/}
-        </div>
+        {!pageRedirect ? null : <div className={styles.commonBox}>
+          {/* <Spin tip="Loading..." spinning={isLoadEnumData}> */}
+          <CommonForm onSubmit={this.onSubmit} enumData={enumData} />
+          {/* </Spin> */}
+
+        </div>}
         <div className={styles.tabBox}>
           <KoTab {...this.props} />
-          {pathname === '/ko/behaviorAnalyze' && <KoForm {...this.props} />}
+          {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <KoForm {...this.props} />}
         </div>
-        {this.props.children}
+        <RenderRoute {...this.props} />
       </div>
     );
   }

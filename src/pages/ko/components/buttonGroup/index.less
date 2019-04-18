@@ -1,0 +1,65 @@
+.fixedStyle{
+    width: 100%;
+    // transform:translate(0,0)
+    .groupContainer{
+        width: 100%;
+        background: #fff;
+        .tagContent{
+            display: flex;
+        }
+        .collapCls{
+            margin-bottom: 0;
+            font-size: 12px;
+            color: #DCDDE0;
+        }
+        .shrink{
+            height: 20px;
+            border: 1px solid red;
+        }
+        .gropLabel{
+            font-size: 12px;
+            padding-right: 8px;
+            margin-top:3px; 
+        }
+        .buttonGroup{
+            display: inline-block;
+            width: 100%;
+            flex: 1;
+            .tags{
+                display: inline-block;
+                margin-bottom:10px; 
+                :global{
+                    .ant-tag{
+                        padding: 3px 7px;
+                        color: #595959;
+                        border: none;
+                    }
+                }   
+            }
+        }
+    }
+    .groupContainerFixed{
+        width:calc(~"100% - 245px");
+        margin-left: -20px;
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        padding: 30px;
+        box-shadow: 0 4px 6px -3px #D3D3D3;
+        border-radius: 10px;
+        overflow: hidden;
+        box-sizing: border-box;
+    
+    }
+   
+}
+
+.buttonGroupFixed{
+    &:extend(.buttonGroup);
+    max-height: 60px;
+    overflow: hidden;
+}
+.buttonGroupFixed1{
+    &:extend(.buttonGroup);
+    overflow: hidden;
+}
