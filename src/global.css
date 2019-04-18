@@ -85,6 +85,7 @@ a,a:hover{
 .ant-divider-inner-text{
   cursor: pointer;
 }
+/* 柱状图自定义tip框样式 */
 .tipWrap{
   width: 136px;
   height: 80px;
@@ -100,4 +101,6 @@ a,a:hover{
   width: 6px;
   height: 6px;
   border-radius: 6px;
+  margin-right: 4px;
+  vertical-align:6%;
 }
