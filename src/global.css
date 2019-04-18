@@ -85,3 +85,19 @@ a,a:hover{
 .ant-divider-inner-text{
   cursor: pointer;
 }
+.tipWrap{
+  width: 136px;
+  height: 80px;
+  padding: 5px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+.tipItem{
+ line-height: 24px;
+}
+.tipIcon{
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 6px;
+}
