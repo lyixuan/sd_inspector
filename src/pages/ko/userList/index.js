@@ -40,6 +40,90 @@ class UserList extends React.Component {
   };
 
   columns() {
+    const col1 = [
+      {
+        title: '学员',
+        dataIndex: 'username',
+      },
+      {
+        title: '注册状态',
+        dataIndex: 'registerStatus',
+        render: (text, record) => {
+          return (
+            <>
+              {BiFilter(`REGISTER_STATUS|id:${record.registerStatus}`).name}
+            </>
+          );
+        },
+      },
+      {
+        title: '选课状态',
+        dataIndex: 'choiceLessonStatus',
+        render: (text, record) => {
+          return (
+            <>
+              {BiFilter(`CHOISE_STATUS|id:${record.choiceLessonStatus}`).name}
+            </>
+          );
+        },
+      },
+      {
+        title: '选课时间',
+        dataIndex: 'choiceLessonTime',
+      },
+      {
+        title: '订单时间',
+        dataIndex: 'orderTime',
+      },
+      {
+        title: '出勤次数',
+        dataIndex: 'attendenceCount',
+      },
+      {
+        title: '做题数量',
+        dataIndex: 'studyExeciseNum',
+      },
+      {
+        title: 'IM咨询次数',
+        dataIndex: 'imDialogueNum',
+      },
+      {
+        title: 'IM老师主动发起量',
+        dataIndex: 'imTeacherChatNum',
+      },
+      {
+        title: 'IM学员主动发起量',
+        dataIndex: 'imStudentChatNum',
+      },
+      {
+        title: '排队次数',
+        dataIndex: 'imQueueDialogueNum',
+      },
+      {
+        title: '留言次数',
+        dataIndex: 'imMessageDialogueNum',
+      },
+      {
+        title: '发帖数量',
+        dataIndex: 'bbsPostNum',
+      },
+      {
+        title: '跟帖数量',
+        dataIndex: 'bbsFollowNum',
+      },
+      {
+        title: '微信咨询次数',
+        dataIndex: 'wechatDialogueNum',
+      },
+      {
+        title: '微信老师主动发起量',
+        dataIndex: 'wechatTeacherChatNum',
+      },
+      {
+        title: '微信学员主动发起量',
+        dataIndex: 'wechatStudentChatNum',
+      },
+    ];
     const col = [
       {
         title: '学员',
@@ -48,13 +132,6 @@ class UserList extends React.Component {
       {
         title: '注册状态',
         dataIndex: '2',
-        // render: (text, record) => {
-        //   return (
-        //     <>
-        //       {BiFilter(`QUALITY_TYPE|id:${record.qualityType}`).name}
-        //     </>
-        //   );
-        // },
       },
       {
         title: '选课状态',
@@ -134,7 +211,7 @@ class UserList extends React.Component {
     const {userList,page={},loading} = this.props.userListModel;
     // const dataSource = userList;
     const dataSource = [{
-      id:1,
+      userId:1,
       '1':'姓名1',
       '2':'未注册',
       '3':'已选课',
@@ -148,7 +225,7 @@ class UserList extends React.Component {
       '11':'60',
       '12':'未转化',
     },{
-      id:2,
+      userId:2,
       '1':'姓名2',
       '2':'未注册',
       '3':'已选课',
@@ -162,7 +239,7 @@ class UserList extends React.Component {
       '11':'60',
       '12':'未转化',
     },{
-      id:3,
+      userId:3,
       '1':'姓名3',
       '2':'未注册',
       '3':'已选课',
@@ -179,7 +256,7 @@ class UserList extends React.Component {
     return (
       <div>
         <div className={style.contentWrap}>
-          <BITable rowKey={record=>record.id + Math.random()*1000} dataSource={dataSource} columns={this.columns()} pagination={false} loading={loading} />
+          <BITable rowKey={record=>record.userId + Math.random()*1000} dataSource={dataSource} columns={this.columns()} pagination={false} loading={loading} />
           <br/>
           <BIPagination showQuickJumper defaultPageSize={page.pageSize?page.pageSize:30} onChange={this.onPageChange} current={page.pageNum} total={page.total} />
         </div>
