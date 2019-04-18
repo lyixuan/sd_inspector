@@ -1,16 +1,217 @@
 import React from 'react';
 import { Icon } from 'antd';
 import styles from '../../style.less';
+
+// 评价的星星
+function Star(props) {
+  if (!props.evaluate) {
+    return null;
+  }
+  const evaluate = props.evaluate;
+  const number = [1, 2, 3, 4, 5];
+  const starList = number.map((item, index) =>
+    <Icon type="star" theme="filled" key={index} className={index <= evaluate ? '' : styles.empty} />
+  )
+  return starList
+}
+
+function Prise(props) {
+  if (props.li.evaluate < 1) {
+    return null;
+  }
+  return (
+    <li className={styles.step}>
+      <div className={styles.time}>{props.li.countDate.split(" ")[1]}</div>
+      <div className={styles.content}>
+        <div className={styles.bigDot}>
+          <span className={styles.dot}></span>
+        </div>
+        <div className={styles.prise}>
+          <span>学员提交评价：</span>
+          <div className={styles.stars}>
+            <Star evaluate={props.li.evaluate}></Star>
+          </div>
+        </div>
+      </div>
+    </li>
+  )
+}
+
+// 日期条
+function DateBar(props) {
+  console.log(44, props)
+  return (
+    <div>
+      <div className={styles.dateBar}>
+        <span>{props.date.date.split(" ")[0]}</span>
+        <span onClick={() => props.list.onClick(props.index)}>
+          <Icon type={props.date.collapse ? "up" : "down"} />
+        </span>
+      </div>
+      {props.date.collapse ? props.children : null}
+    </div>
+  )
+}
+
+// 判断会话类型
+function sessionType(type) {
+  if (type == 1) {
+    return "进入会话"
+  } else if (type == 0) {
+    return "退出会话"
+  }
+
+}
+
+
+// 会话中可展开收起的行
+class ToggleSession extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      expand: true
+    }
+  }
+  toggleSession = () => {
+    this.setState({
+      expand: !this.state.expand
+    })
+    console.log(this.state.expand)
+  }
+  render() {
+    let props = this.props
+    return (
+      <>
+        <li className={styles.step + " " + styles.title} onClick={this.toggleSession}>
+          <div className={styles.time}>{props.li.countDate.split(" ")[1]}</div>
+          <div className={styles.content}>
+            <div className={styles.bigDot + " " + (this.state.expand ? '' : styles.plus)}>
+              <span className={styles.dot}></span>
+            </div>
+            <div className={styles.text}>
+              {sessionType(props.li.consultType)}
+            </div>
+          </div>
+        </li>
+        {this.state.expand ? props.children : null}
+      </>
+    );
+  }
+}
+//对话区域
+function SessionContent(props) {
+  const li = props.li.map((item, index) =>
+    <ListItem li={item} key={index}></ListItem>
+  )
+  return li
+
+}
+//对话区域行
+function ListItem(props) {
+  if (!props.li) {
+    return null;
+  } else {
+    return <TeacherOrStudent item={props.li}></TeacherOrStudent>
+  }
+}
+// 判断是老师还是学员
+function TeacherOrStudent(props) {
+  if (props.item.userType == 1) {
+    return (
+      <li className={styles.step}>
+        <div className={styles.time}>{props.item.consultTime.split(" ")[1]}</div>
+        <div className={styles.content}>
+          <div className={styles.bigDot}>
+            <span className={styles.dot}></span>
+          </div>
+          <div className={styles.chatLeft}>
+            <div className={styles.avatar}>
+              <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
+              <p>{props.item.userName}</p>
+            </div>
+            <div className={styles.chatContent}>
+              <span className={styles.triangle}><em></em></span>
+              {props.item.message}
+            </div>
+          </div>
+        </div>
+      </li>
+    )
+  } else {
+    return (
+      <li className={styles.step}>
+        <div className={styles.time}>{props.item.consultTime.split(" ")[1]}</div>
+        <div className={styles.content}>
+          <div className={styles.bigDot}>
+            <span className={styles.dot}></span>
+          </div>
+          <div className={styles.chatRight}>
+            <div className={styles.chatContent}>
+              <span className={styles.triangle}><em></em></span>
+              {props.item.message}
+            </div>
+            <div className={styles.avatar}>
+              <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
+              <p>{props.item.userName}</p>
+            </div>
+          </div>
+        </div>
+      </li>
+    )
+  }
+}
+function UlContent(props) {
+  const layout = props.li.map((item, index) =>
+    <ToggleSession li={item} key={index}>
+      <SessionContent li={item.contentList}></SessionContent>
+      <Prise li={item}></Prise>
+    </ToggleSession>
+  )
+  return layout
+}
+
+function Ul(props) {
+  return (
+    <UlContent li={props.item.dialogList}></UlContent>
+  )
+}
+
+// 整个列表
+function Layout(props) {
+  const layout = props.dataLists.map((item, index) =>
+    <div key={index}>
+      <DateBar date={item} list={props} index={index}>
+        <section>
+          <ul className={styles.behavior}>
+            <ContentChildren content={item.dialogList.length > 1 ? <Ul item={item}></Ul> : null}></ContentChildren>
+          </ul>
+        </section>
+      </DateBar>
+    </div>
+  )
+  return layout
+}
+function ContentChildren(props) {
+  return props.content
+}
+
 class Im extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      dateList: ["2019-01-02 12:23:21", "20199-01-02 12:23:21", "219-01-02 12:23:21"],
       listData: [
         {
           countDate: "2019-01-02 12:23:21",
-          countDate: 1, //满意度评价，0：不满意 1：一般 2：满意 3：非常满意
+          evaluate: 3, //满意度评价，0：不满意 1：一般 2：满意 3：非常满意
           consultType: 1,
           contentList: [
+            {
+              userName: "张三",
+              userType: "1", //用户类型（1:学员 2:老师）
+              consultTime: "2019-01-02 12:23:21",
+              message: "一次能考过吗"
+            },
             {
               userName: "张三",
               userType: "1", //用户类型（1:学员 2:老师）
@@ -32,9 +233,9 @@ class Im extends React.Component {
           ]
         },
         {
-          countDate: "2019-01-03 12:23:21",
-          countDate: 0, //满意度评价，0：不满意 1：一般 2：满意 3：非常满意
-          consultType: 1,
+          countDate: "2019-01-03 12:23:99",
+          evaluate: 0, //满意度评价，0：不满意 1：一般 2：满意 3：非常满意
+          consultType: 0,
           contentList: [
             {
               userName: "李四",
@@ -58,167 +259,37 @@ class Im extends React.Component {
         }
       ]
     }
+    let list = [];
+    this.state.dateList.map(item => {
+      list.push({
+        date: item,
+        collapse: false,
+        dialogList: []
+      })
+    })
+    list[0].collapse = true;
+    list[0].dialogList = this.state.listData;
+    list[1].dialogList = this.state.listData;
+    this.state.dateList = list
   }
 
+  toggle = (index) => {
+    this.state.dateList.map((item, i) => {
+      if (i != index) {
+        item.collapse = false
+      }
+    })
+    this.state.dateList[index].collapse = !this.state.dateList[index].collapse;
+    this.setState({
+      dateList: this.state.dateList
+    })
+  }
+
+
   render() {
-    console.log(64, this.state.listData)
     return (
       <div className={styles.comWrap}>
-        <section>
-          <div className={styles.dateBar}>
-            <span>2019-09-09</span>
-            <span>
-              <Icon type="up" />
-            </span>
-          </div>
-          <ul className={styles.behavior}>
-            <li className={styles.step + " " + styles.title}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.text}>进入会话</div>
-              </div>
-            </li>
-            <li className={styles.step}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.chatLeft}>
-                  <div className={styles.avatar}>
-                    <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
-                    <p>尚德学员</p>
-                  </div>
-                  <div className={styles.chatContent}>
-                    <span className={styles.triangle}><em></em></span>
-                    报考科目有哪些
-                    </div>
-                </div>
-              </div>
-            </li>
-            <li className={styles.step}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.chatRight}>
-                  <div className={styles.chatContent}>
-                    <span className={styles.triangle}><em></em></span>
-                    报考科目有哪些报考科目有哪些报考科目有哪些报考科目有哪些
-                    </div>
-                  <div className={styles.avatar}>
-                    <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
-                    <p>尚德学员</p>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li className={styles.step}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.prise}>
-                  <span>学员提交评价：</span>
-                  <div className={styles.stars}>
-                    <Icon type="star" theme="filled" />
-                    <Icon type="star" theme="filled" />
-                    <Icon type="star" theme="filled" />
-                    <Icon type="star" theme="filled" className={styles.empty} />
-                    <Icon type="star" theme="filled" className={styles.empty} />
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </section>
-        <section>
-          <div className={styles.dateBar}>
-            <span>2019-09-09</span>
-            <span>
-              <Icon type="up" />
-            </span>
-          </div>
-          <ul className={styles.behavior}>
-            <li className={styles.step + " " + styles.title}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot + " " + styles.plus}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.text}>进入会话</div>
-              </div>
-            </li>
-            <li className={styles.step}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.text}>点击FAQ【报考流程是什么】</div>
-              </div>
-            </li>
-            <li className={styles.step}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.chatLeft}>
-                  <div className={styles.avatar}>
-                    <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
-                    <p>尚德学员</p>
-                  </div>
-                  <div className={styles.chatContent}>
-                    <span className={styles.triangle}><em></em></span>
-                    报考科目有哪些
-                    </div>
-                </div>
-              </div>
-            </li>
-            <li className={styles.step}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.chatRight}>
-                  <div className={styles.chatContent}>
-                    <span className={styles.triangle}><em></em></span>
-                    报考科目有哪些报考科目有哪些报考科目有哪些报考科目有哪些
-                    </div>
-                  <div className={styles.avatar}>
-                    <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
-                    <p>尚德学员</p>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li className={styles.step}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.prise}>
-                  <span>学员提交评价：</span>
-                  <div className={styles.stars}>
-                    <Icon type="star" theme="filled" />
-                    <Icon type="star" theme="filled" />
-                    <Icon type="star" theme="filled" />
-                    <Icon type="star" theme="filled" className={styles.empty} />
-                    <Icon type="star" theme="filled" className={styles.empty} />
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </section>
+        <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout>
       </div >
     );
   }

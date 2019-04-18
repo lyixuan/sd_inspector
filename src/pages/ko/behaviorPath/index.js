@@ -26,14 +26,14 @@ class behaviorPath extends React.Component {
       <div className={styles.behaviorPath}>
         <div className={styles.tabBox}>
           <BITabs onChange={this.onTabChange} type="card" animated={false}>
-            <TabPane tab="学习" key="1">
-              <Study></Study>
+            <TabPane tab="BBS" key="3">
+              <Bbs></Bbs>
             </TabPane>
             <TabPane tab="IM" key="2">
               <Im></Im>
             </TabPane>
-            <TabPane tab="BBS" key="3">
-              <Bbs></Bbs>
+            <TabPane tab="学习" key="1">
+              <Study></Study>
             </TabPane>
             <TabPane tab="私信" key="4">
               <PrivateLetter></PrivateLetter>

@@ -9,6 +9,13 @@ export default class KoTab extends React.Component {
       radioValue: props.location.pathname||'/ko/behaviorAnalyze',
     }
   }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      this.setState({
+        radioValue: nextProps.location.pathname,
+      })
+    }
+  }
   onChangeRadio = (e) => {
     const path = e.target.value;
     this.setState({
