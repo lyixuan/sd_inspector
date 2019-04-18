@@ -2,16 +2,22 @@
     width: 100%;
     // transform:translate(0,0)
     .groupContainer{
-        display: flex;
         width: 100%;
         background: #fff;
+        .tagContent{
+            display: flex;
+        }
+        .collapCls{
+            margin-bottom: 0;
+            font-size: 12px;
+            color: #DCDDE0;
+        }
         .shrink{
             height: 20px;
             border: 1px solid red;
         }
         .gropLabel{
             font-size: 12px;
-            height: 100px;
             padding-right: 8px;
             margin-top:3px; 
         }
@@ -46,8 +52,12 @@
    
 }
 
-
 .buttonGroupFixed{
     &:extend(.buttonGroup);
-    max-height: 95px;
+    max-height: 57px;
+    overflow: hidden;
+}
+.buttonGroupFixed1{
+    &:extend(.buttonGroup);
+    overflow: hidden;
 }

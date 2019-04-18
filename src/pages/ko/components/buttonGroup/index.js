@@ -68,7 +68,13 @@ export default class ButtonGroup extends React.Component {
                 </div>
             </>
         )
+    }
+    renderTag = () => {
+        return (
+            <div className={styles.tags}>
 
+            </div>
+        )
     }
     render() {
         const { top, params } = this.props;
