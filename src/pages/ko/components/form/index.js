@@ -16,15 +16,13 @@ class CommonForm extends React.Component {
     componentDidMount() {
 
     }
-    onSaveParams = (params) => {
-        this.setState({ params });
-    }
     onChangeParams = (obj) => {
-        this.onSaveParams({ ...this.state.params, ...obj })
+        this.onSaveParams({ ...obj })
 
     }
+
     onSubmit = (params) => {
-        console.log(params)
+        this.onSaveParams(params);
     }
     render() {
         const { params } = this.state
