@@ -1,17 +1,15 @@
 import React from 'react';
 import reactDom from 'react-dom';
-import { Tag } from 'antd';
+import { Tag,Icon,Divider } from 'antd';
 import styles from './index.less';
 
 export default class ButtonGroup extends React.Component {
     state = {
         isShowFiexd: false,
-        width: 0,
+        expand:false,
     }
     componentDidMount() {
         window.addEventListener('scroll', this.pageOnscroll);
-        this.setState({ width: reactDom.findDOMNode(this.tagsDom).clientWidth })
-        console.log(reactDom.findDOMNode(this.tagsDom).clientWidth)
     }
     componentWillUnmount() {
         window.removeEventListener('scroll', this.pageOnscroll)
@@ -52,6 +50,7 @@ export default class ButtonGroup extends React.Component {
         });
     }
     renderFixedBox = () => {
+        const { expand } = this.state;
         const tags = ['抖音', '华为', 'wo', '主app', '小程序', '注册时间:2013.01.03-2013.1.2', '注册时间:2013.01.03-2013.1.2',
             '注册时间:2013.01.03-2013.1.2', '注册时间:2013.01.03-2013.1.2', '抖音', '华为', 'wo',
             '主app', '小程序', '注册时间:2013.01.03-2013.1.2', '注册时间:2013.01.03-2013.1.2', '注册时间:2013.01.03-2013.1.2',
@@ -61,18 +60,22 @@ export default class ButtonGroup extends React.Component {
             '注册时间:2013.01.03-2013.1.2']
         return (
             <>
-                <div className={`${styles.buttonGroup} ${styles.buttonGroupFixed}`}>
+                <div className={`${styles.buttonGroup} ${expand?styles.buttonGroupFixed1:styles.buttonGroupFixed}`}>
                     {tags.map((item, index) => <span key={item + index} className={styles.tags}><Tag closable>{item}</Tag></span>)}
                 </div>
             </>
         )
 
     }
+    toggle = () => {
+        const { expand } = this.state;
+        this.setState({ expand: !expand });
+      };
     render() {
         const { top, params } = this.props;
         console.log(params)
-        const { isShowFiexd, width } = this.state;
-        console.log(width)
+        const { isShowFiexd,expand } = this.state;
+    
         const tags = ['抖音', '华为', 'wo', '主app', '小程序', '注册时间:2013.01.03-2013.1.2', '注册时间:2013.01.03-2013.1.2',
             '注册时间:2013.01.03-2013.1.2', '注册时间:2013.01.03-2013.1.2', '抖音', '华为', 'wo',
             '主app', '小程序', '注册时间:2013.01.03-2013.1.2', '注册时间:2013.01.03-2013.1.2', '注册时间:2013.01.03-2013.1.2',
@@ -83,11 +86,16 @@ export default class ButtonGroup extends React.Component {
         return (
             <div className={styles.fixedStyle} ref={dom => this.tagsDom = dom}>
                 <div className={`${styles.groupContainer} ${isShowFiexd ? styles.groupContainerFixed : ''}`}>
-                    <span className={styles.gropLabel}>已选条件:</span>
-                    {isShowFiexd ? this.renderFixedBox() : (<div className={`${styles.buttonGroup}`}>
-                        {tags.map((item, index) => <span key={item + index} className={styles.tags}><Tag closable>{item}</Tag></span>)}
-                    </div>)}
+                    <div className={styles.tagContent}>
+                        <span className={styles.gropLabel}>已选条件:</span>
+                        {isShowFiexd ? this.renderFixedBox() : (<div className={`${styles.buttonGroup}`}>
+                            {tags.map((item, index) => <span key={item + index} className={styles.tags}><Tag closable>{item}</Tag></span>)}
+                        </div>)}
+                    </div>
+                    <Divider className={styles.collapCls} dashed onClick={this.toggle}>{expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} /></Divider>
+        
                 </div>
+                
                 <div className={styles.shrink}></div>
             </div>
 
