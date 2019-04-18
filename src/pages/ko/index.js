@@ -1,14 +1,17 @@
 import React from 'react';
 import { connect } from 'dva';
-import Redirect from 'umi/redirect';
+import { Spin } from 'antd';
 import styles from './style.less';
 import RenderRoute from '@/components/RenderRoute';
 import KoTab from '@/pages/ko/components/KoRadio/KoTab';
 import KoForm from '@/pages/ko/components/KoForm';
 import CommonForm from './components/form';
 
-@connect(({ koPlan }) => ({
+@connect(({ koPlan, loading }) => ({
+  loading,
   koPlan,
+  enumData: koPlan.enumData,
+  isLoadEnumData: loading.effects['koPlan/getKOEnumList'],
 }))
 class koPlan extends React.Component {
   constructor(props) {
@@ -30,6 +33,7 @@ class koPlan extends React.Component {
   getKOEnumList = () => {
     this.props.dispatch({
       type: 'koPlan/getKOEnumList',
+      payload: { type: null }
     })
   }
   onSubmit = (params) => {
@@ -46,13 +50,16 @@ class koPlan extends React.Component {
     });
   };
   render() {
-    const { route } = this.props;
+    const { route, enumData, isLoadEnumData } = this.props;
     const { pageRedirect, path } = route;
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
         {!pageRedirect ? null : <div className={styles.commonBox}>
-          <CommonForm onSubmit={this.onSubmit} />
+          <Spin tip="Loading..." spinning={isLoadEnumData}>
+            <CommonForm onSubmit={this.onSubmit} enumData={enumData} />
+          </Spin>
+
         </div>}
         <div className={styles.tabBox}>
           <KoTab {...this.props} />

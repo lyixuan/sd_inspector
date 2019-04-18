@@ -127,7 +127,7 @@ export default class Custom extends React.Component<any> {
         return optionsDom
     }
     public renderUnitOptions = () => {
-        const unitData = this.props.unitData;
+        const unitData = this.props.unitData || (this.props.defaultUnit ? [this.props.defaultUnit] : undefined);
         if (!unitData || !unitData.length) return;
         return unitData.map((item: any) =>
             (<Option key={item.id} value={item.id}>{item.name}</Option>)
