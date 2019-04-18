@@ -15,33 +15,25 @@ let tip={}
 class KoDetailPage extends React.Component {
   constructor(props) {
     super(props);
-    const data=[];
-    for(let i=0;i<20;i++){
-      data.push({
-        name:`d${i+1}`,
-        clickPeople:i*10,//点击人数
-        peopoleRate:(i/15*100).toFixed(2),
-        clickCountPre:i*20,//点击次数
-        countRate:(i/20*100).toFixed(2),//点击次数占比
-      })
-    }
     KoDetailPage.that = this;
     KoDetailPage.tip = {};
-    this.state = { hotData:data};
   }
   componentDidMount() {
-    this.drewLended();
-
+    this.drewLended([]);
   }
-  getColorFn = () => {// 对data数据处理，加上颜色
-    const{hotData} = this.state;
+  componentWillReceiveProps(nextProps){
+    if(nextProps.behavior.hotDataList.length&&nextProps.behavior.hotDataList!==this.props.behavior.hotDataList){
+      this.drewLended(nextProps.behavior.hotDataList);
+    }
+  }
+  getColorFn = (hotData) => {// 对data数据处理，加上颜色
     hotData.map(item1=>{
       const colorVal = HOT_RANGE.filter(item2=>item1.countRate>=item2.minVal&&item1.countRate<=item2.maxVal)[0];
       if(colorVal) return item1.color=colorVal.color
     });
     return hotData;
   };
-  drewTip = ()=>{
+  drewTip = (hotData)=>{
     const that = this;
     let div = d3.select('#mapTooltip');
     if (!div.node()) {
@@ -58,14 +50,13 @@ class KoDetailPage extends React.Component {
         .style('display', 'block')
         .style('top', `${pageY}px`)
         .style('left', `${pageX + 20}px`)
-        .html(that.tooltipText(id));
+        .html(that.tooltipText(hotData,id));
     };
     tip.hide = () => {
       div.style('display', 'none');
     };
   }
-  tooltipText = id => {
-    const{hotData} = this.state;
+  tooltipText = (hotData,id) => {
     const newHotData = hotData.filter(item=>item.name===id)[0];
     return `<ul class=${styles.tootipPanl}>
     <li class=${styles.tooltipItem}>点击人数：${newHotData.clickPeople}人</li>
@@ -74,23 +65,25 @@ class KoDetailPage extends React.Component {
     <li class=${styles.tooltipItem}>次数占比：${newHotData.countRate}%</li>
     </ul>`;
   };
-  drewLended = () => {
-    this.chart = d3.select(this.svgDom).html(StartList);
-    const colorArr = this.getColorFn();
-    this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
-    // 修改数据
-    this.chart.selectAll('.text').text(function(){
-      const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
-      if(val) return val.clickCountPre;
-    });
-    // 修改颜色
-    this.chart.selectAll('.mask').style('fill',function(){
-      const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
-      if(val) return val.color;
-    })
-    .on('mouseover', KoDetailPage.that.drewTip())
-    .on('mouseout', tip.hide)
-    .on('mousemove', tip.show);
+  drewLended = (data) => {
+    if(data&&data.length){
+      this.chart = d3.select(this.svgDom).html(StartList);
+      const colorArr = this.getColorFn(data);
+      this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
+      // 修改数据
+      this.chart.selectAll('.text').text(function(){
+        const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
+        if(val) return val.clickCountPre;
+      });
+      // 修改颜色
+      this.chart.selectAll('.mask').style('fill',function(){
+        const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
+        if(val) return val.color;
+      })
+      .on('mouseover', KoDetailPage.that.drewTip(data))
+      .on('mouseout', tip.hide)
+      .on('mousemove', tip.show);
+    }
   };
 
   render() {
