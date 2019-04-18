@@ -50,8 +50,10 @@ class koPlan extends React.Component {
     });
   };
   render() {
-    const { route, enumData, isLoadEnumData } = this.props;
-    const { pageRedirect, path } = route;
+    const { route, enumData, isLoadEnumData, location: { pathname } } = this.props;
+    const { pageRedirect } = route;
+
+
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
@@ -63,7 +65,7 @@ class koPlan extends React.Component {
         </div>}
         <div className={styles.tabBox}>
           <KoTab {...this.props} />
-          {(path === '/ko/behaviorAnalyze' || path === '/ko') && <KoForm {...this.props} />}
+          {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <KoForm {...this.props} />}
         </div>
         <RenderRoute {...this.props} />
       </div>
