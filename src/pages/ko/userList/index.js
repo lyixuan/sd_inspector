@@ -126,6 +126,7 @@ class UserList extends React.Component {
     const {userList,page={},loading} = this.props.userListModel;
     // const dataSource = userList;
     const dataSource = [{
+      id:1,
       '1':'姓名1',
       '2':'未注册',
       '3':'已选课',
@@ -139,6 +140,7 @@ class UserList extends React.Component {
       '11':'60',
       '12':'未转化',
     },{
+      id:2,
       '1':'姓名2',
       '2':'未注册',
       '3':'已选课',
@@ -152,6 +154,7 @@ class UserList extends React.Component {
       '11':'60',
       '12':'未转化',
     },{
+      id:3,
       '1':'姓名3',
       '2':'未注册',
       '3':'已选课',
