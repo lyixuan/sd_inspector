@@ -6,6 +6,7 @@ import BIDatePicker from '@/ant_components/BIDatePicker';
 import BIButton from '@/ant_components/BIButton';
 import BICascader from '@/ant_components/BICascader/FormCascader';
 import ConditionSelect from '@/ant_components/ConditionSelect';
+import ButtonGroupCom from '../buttonGroup';
 import styles from './index.less';
 import formStyles from '../formCommon.less';
 import customData from './utils/unitData';
@@ -20,6 +21,7 @@ class CommonForm extends React.Component {
       expand: false,      //  储存原始form的params
     }
     this.filterEnumData = memoizeOne(type => this.chooseEnumData(type));
+    this.buttonGroup = this.renderButtonGroup();
   }
   handleSearch = (e) => {
     e.preventDefault();
@@ -57,6 +59,14 @@ class CommonForm extends React.Component {
     //     break;
     // }
     return returnData;
+  }
+  renderButtonGroup = (parpms = this.state.params) => {
+    const { expand } = this.state;
+    const top = expand ? 420 : 320
+
+    return (
+      <ButtonGroupCom params={this.state.params} top={top}></ButtonGroupCom>
+    )
   }
   render() {
     const { expand } = this.state;
@@ -272,6 +282,11 @@ class CommonForm extends React.Component {
             ) : null
           }
           <Divider className={styles.collapCls} dashed onClick={this.toggle}>{expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} /></Divider>
+          {/* 已选项设置 */}
+          <div className={styles.rowWrap}>{
+            this.renderButtonGroup()
+          }</div>
+
           <div className={styles.rowWrap}>
             <div>
               <BIButton onClick={this.handleReset}>重置</BIButton>
