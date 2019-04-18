@@ -118,10 +118,18 @@ class UserList extends React.Component {
             console.log(233111,record,event,event.detail)
           },
         };
-      }
-    });
+      };
+      v.render = (text) => {
+        return (
+          <>
+            <span style={{cursor:'pointer'}}>{text}</span>
+          </>
+        );
+      };
+    })
+    console.log(col)
     return col;
-  }
+  };
   render() {
     const {userList,page={},loading} = this.props.userListModel;
     // const dataSource = userList;
