@@ -290,13 +290,11 @@ class CommonForm extends React.Component {
           }</div>
 
           <div className={styles.rowWrap}>
-            <div>
-              <BIButton onClick={this.handleReset}>重置</BIButton>
+            
+              <BIButton onClick={this.handleReset} style={{marginRight:'10px'}}>重置</BIButton>
               <BIButton type="primary" htmlType="submit">
                 查询
               </BIButton>
-
-            </div>
           </div>
         </Form>
       </div>
