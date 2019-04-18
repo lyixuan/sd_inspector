@@ -63,7 +63,7 @@ class koPlan extends React.Component {
         </div>}
         <div className={styles.tabBox}>
           <KoTab {...this.props} />
-          {path === '/ko/behaviorAnalyze' && <KoForm {...this.props} />}
+          {(path === '/ko/behaviorAnalyze' || path === '/ko') && <KoForm {...this.props} />}
         </div>
         <RenderRoute {...this.props} />
       </div>
