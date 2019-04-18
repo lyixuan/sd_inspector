@@ -82,7 +82,7 @@ export default class ButtonGroup extends React.Component {
             '注册时间:2013.01.03-2013.1.2']
         return (
             <div className={styles.fixedStyle} ref={dom => this.tagsDom = dom}>
-                <div className={`${styles.groupContainer} ${isShowFiexd ? styles.groupContainerFixed : ''}`} style={{ minHeight: '100px', width: '83%', marginLeft: '-1.5%' }}>
+                <div className={`${styles.groupContainer} ${isShowFiexd ? styles.groupContainerFixed : ''}`}>
                     <span className={styles.gropLabel}>已选条件:</span>
                     {isShowFiexd ? this.renderFixedBox() : (<div className={`${styles.buttonGroup}`}>
                         {tags.map((item, index) => <span key={item + index} className={styles.tags}><Tag closable>{item}</Tag></span>)}
