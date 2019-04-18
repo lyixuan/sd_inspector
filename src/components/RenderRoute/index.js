@@ -4,8 +4,7 @@ import { Route, Switch, Redirect } from 'dva/router';
 export default class RenderRoute extends PureComponent {
     render() {
         const { route } = this.props;
-        const { routes, path, pageRedirect } = route
-        console.log(route)
+        const { routes, path, pageRedirect } = route;
         return (
             <Switch>
                 {routes.map(item => (

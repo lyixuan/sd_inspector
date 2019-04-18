@@ -4,15 +4,6 @@ import { handleOptionsName } from './utils/utils';
 import Custom from './Custom';
 import { unitInterface, OptionInterface } from './utils/interface';
 const styles = require('./styles.less');
-
-
-
-
-
-
-
-
-
 interface Props {
     name?: string,
     options: any[],
@@ -22,6 +13,7 @@ interface Props {
     defaultUnit?: unitInterface,
     unitData?: unitInterface[] | [],
     onChange: (ops: OptionInterface) => {},
+    value?: OptionInterface | string | number | undefined | null,
 }
 interface State {
     isOpen: boolean,
@@ -32,7 +24,6 @@ interface State {
 }
 const Option = Select.Option;
 
-
 export default class Condition extends React.Component<Props, State, object>{
     public state = {
         isOpen: false,
@@ -41,9 +32,25 @@ export default class Condition extends React.Component<Props, State, object>{
         customObj: null,
         inputValue: undefined,
     }
-    public dom: any = null
+    componentDidMount() {
+        const { value } = this.props;
+        this.handleOriginValue(value);
+        window.addEventListener('click', this.handleDomClick)
+    }
+    componentWillReceiveProps(nextProps: any) {
+        if (JSON.stringify(nextProps.value) !== JSON.stringify(this.props.value){
+            this.handleOriginValue(nextProps.value);
+        }
+    }
+    componentWillUnmount() {
+        window.removeEventListener('click', this.handleDomClick)
+    }
     static transformOriginOptionsData(options: any[]) {
         return options;
+    }
+    private handleDomClick = (e: MouseEvent) => {
+        this.closeSelectPanle();
+
     }
     private handleOriginOptionsData = (options: any[]) => {
         const newOptions = options.map((item) => ({
@@ -53,8 +60,12 @@ export default class Condition extends React.Component<Props, State, object>{
 
         return newOptions;
     }
+    public handleOriginValue = (value: any) => {
+        const inputValue = this.handleInputValue(value)
+        this.setState({ inputValue })
+    }
     public handleInputValue = (selectObj: any, selected = this.state.selected) => {
-        const obj = selected === 'all' ? { name: '全部' } : selectObj
+        const obj = selected === 'all' ? { name: '全部' } : (selectObj || {});
         return obj.name;
     }
     public onChange = (selected: OptionInterface): void => {
@@ -77,7 +88,7 @@ export default class Condition extends React.Component<Props, State, object>{
 
     }
     chooseSelectObj = (key: string, selectObj = this.state.customObj) => {
-        const { options } = this.props;
+        const { options = [] } = this.props;
         const hasCustomObj = selectObj ? [selectObj] : []
         const optionsData = this.handleOriginOptionsData([...options, ...hasCustomObj]);
         return optionsData.find(item => item.name === key);
@@ -85,9 +96,6 @@ export default class Condition extends React.Component<Props, State, object>{
     public onFocus = () => {
         this.setState({ isOpen: true });
     }
-    // public onBlur = () => {
-    //     this.setState({ isOpen: false });
-    // }
     public onCancel = () => {
         this.closeSelectPanle();
     }
@@ -132,16 +140,20 @@ export default class Condition extends React.Component<Props, State, object>{
         ))
     }
     render() {
-        const { options, placeholder = '请选择', width = 120 } = this.props;
+        const { options = [], placeholder = '请选择' } = this.props;
         const { isOpen, inputValue } = this.state;
         const hasCustomObj = this.state.customObj ? [this.state.customObj] : []
         const optionsData = this.handleOriginOptionsData([...options, ...hasCustomObj]);
-        return <>
-            <Dropdown overlay={this.dropdownRender(optionsData)} visible={isOpen} >
-                <span className="inputPanle">
-                    <Input onFocus={this.onFocus} placeholder={placeholder} style={{ width }} value={inputValue} />
+        return (
+            <>
+                <span onClick={(e) => { e.stopPropagation() }}>
+                    <Dropdown overlay={this.dropdownRender(optionsData)} visible={isOpen} overlayClassName={styles.overlayClassName}>
+                        <span className="inputPanle">
+                            <Input onFocus={this.onFocus} placeholder={placeholder} value={inputValue} />
+                        </span>
+                    </Dropdown>
                 </span>
-            </Dropdown>
-        </>
+            </>
+        )
     }
 }

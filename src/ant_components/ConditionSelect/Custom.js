@@ -136,7 +136,7 @@ var Custom = /** @class */ (function (_super) {
             return optionsDom;
         };
         _this.renderUnitOptions = function () {
-            var unitData = _this.props.unitData;
+            var unitData = _this.props.unitData || (_this.props.defaultUnit ? [_this.props.defaultUnit] : undefined);
             if (!unitData || !unitData.length)
                 return;
             return unitData.map(function (item) {
