@@ -61,7 +61,7 @@ export default class ButtonGroup extends React.Component {
         return (
             <>
                 <div className={`${styles.buttonGroup} ${expand?styles.buttonGroupFixed1:styles.buttonGroupFixed}`}>
-                    {tags.map((item, index) => <span key={item + index} className={styles.tags}><Tag closable>{item}</Tag></span>)}
+                    {tags.map((item, index) => <span key={item + index} className={styles.tags}><Tag color="magenta" closable={false}>{item}</Tag></span>)}
                 </div>
             </>
         )
