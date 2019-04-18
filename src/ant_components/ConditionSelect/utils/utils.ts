@@ -44,21 +44,21 @@ export const handleDateValue = (option: OptionInterface) => {
     return { ...option, ...timeTmpObj };
 
 }
-export const handleOptionsName = (option: OptionInterface) => {
+export const handleOptionsName = (option: OptionInterface, unitOptions: any) => {
     const { type, value, minValue, maxValue, unit } = option;
     const conditionObj = condition.find(item => item.id === type);
-    const unitObj = unitData.find(item => item.id === unit) || {};
+    const unitObj = (unitOptions || []).find((item: any) => item.id === unit) || {};
     if (!conditionObj) return;
     let label: string = '';
     switch (type) {
         case 1 || 2 || 3 || 4 || 5:
-            label = `${conditionObj.symbol}${value}${unitObj.name || ''}`
+            label = `${conditionObj.symbol}${value} ${unitObj.name || ''}`
             break;
         case 6:
-            label = `${minValue}${unitObj.name}${conditionObj.symbol}${maxValue}${unitObj.name || ''}`;
+            label = `${minValue}${unitObj.name}${conditionObj.symbol}${maxValue} ${unitObj.name || ''}`;
             break;
         default:
-            label = `${conditionObj.symbol}${value}${unitObj.name || ''}`
+            label = `${conditionObj.symbol}${value} ${unitObj.name || ''}`
             break;
     }
     const newOptions = {

@@ -36,7 +36,13 @@ class CommonForm extends React.Component {
     });
 
   }
-
+  onDelete = (name, value) => {
+    const returnParams = {}
+    if (this.props.onChange) {
+      returnParams[name] = value;
+      this.props.onChange(returnParams)
+    }
+  }
   handleReset = () => {
     this.props.form.resetFields();
   }
@@ -61,7 +67,7 @@ class CommonForm extends React.Component {
     const top = expand ? 420 : 320
 
     return (
-      <ButtonGroupCom params={this.props.params} top={top}></ButtonGroupCom>
+      <ButtonGroupCom params={this.props.params} top={top} onDelete={this.onDelete}></ButtonGroupCom>
     )
   }
   render() {

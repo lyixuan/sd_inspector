@@ -21,7 +21,7 @@ export const listenLessonTimeUnits = [
 ]
 
 export const defaultListenLessonTimeOptions = [{
-    type: 2, value: 60, minValue: null, maxValue: null, unit: 'mm', unitName: '分钟',
+    type: 2, value: 60, minValue: null, maxValue: null, unit: 'min', unitName: '分钟',
 }]
 export const defaultOrderMoneyUnit = {
     id: 'money', name: '元',
