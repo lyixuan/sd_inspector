@@ -12,7 +12,7 @@ class Views extends React.Component {
 
   }
   render() {
-    const dataObj = [{name:'PV',data:12121},{name:'UV',data:121},{name:'跳出率',data:'20%'},{name:'转化率',data:'5%'}]
+    const dataObj = [{name:'PV',data:12121},{name:'UV',data:121},{name:'跳出率',data:'20%'},{name:'选课后付费占比',data:'5%'}]
     return (
       <div className={styles.contentWrap}>
         {

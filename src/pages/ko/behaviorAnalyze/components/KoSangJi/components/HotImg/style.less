@@ -1,0 +1,30 @@
+.tooltip {
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    left:0;
+    display: none;
+    width: 180px;
+    height: 98px;
+    opacity: 0.8;
+    background: #18191A;
+    border-radius: 6px;
+    border-radius: 10px;
+    padding: 11px 12px;
+    font-size: 12px;
+    color: #FFF;
+    pointer-events: none;
+    transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s,
+      top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+    .tootipPanl,
+    .tootipPanlOther {
+      margin: 0;
+      padding: 0;
+      color: #FFF;
+      pointer-events: none;
+      .tooltipItem {
+        list-style: none;
+        line-height: 20px;
+      }
+    }
+  }

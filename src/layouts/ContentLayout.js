@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PageHead from '@/components/PageHead/pageHead';
 import styles from './ContentLayout.less';
-import {BiFilter} from '@/utils/utils';
+import { BiFilter } from '@/utils/utils';
 
 
 class ContentLayout extends Component {
   getRouterPathname = routesData => {
+
     const { location } = this.props;
     const currentPath = location.pathname;
     const routeObj = {};
@@ -18,27 +19,27 @@ class ContentLayout extends Component {
   render() {
     const { routesData } = this.props;
     const routeObj = this.getRouterPathname(routesData);
-    const { name = '', bread = {},path = null  } = routeObj;
-    const nameList = BiFilter('EmptyContentLayout')||[];
+    const { name = '', bread = {}, path = null } = routeObj;
+    const nameList = BiFilter('EmptyContentLayout') || [];
     let isEmptyContentLayout = false;
-    nameList.forEach((v)=>{
-      if (path.indexOf(v.path) > -1 ) {
+    nameList && nameList.forEach((v) => {
+      if (path && path.indexOf(v.path) > -1) {
         isEmptyContentLayout = true;
       }
     });
     return (
       <>
         {isEmptyContentLayout ? (
-          <div style={{marginTop:'28px'}}>{this.props.children && { ...this.props.children }}</div>
-        ):(
-          <div>
-            <div className={styles.bread}>
-              {bread && bread.path && <PageHead routerData={routeObj} />}
+          <div style={{ marginTop: '28px' }}>{this.props.children && { ...this.props.children }}</div>
+        ) : (
+            <div>
+              <div className={styles.bread}>
+                {bread && bread.path && <PageHead routerData={routeObj} />}
+              </div>
+              {name && <div className={styles.title}>{name}</div>}
+              <div>{this.props.children && { ...this.props.children }}</div>
             </div>
-            {name && <div className={styles.title}>{name}</div>}
-            <div>{this.props.children && { ...this.props.children }}</div>
-          </div>
-        )}
+          )}
       </>
     );
   }

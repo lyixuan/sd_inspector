@@ -16,7 +16,7 @@ class behavior extends React.Component {
         {/*------- 图1 桑吉 部分 --------*/}
         <KoSangJi></KoSangJi>
         {/*------- 图2 柱状 部分 --------*/}
-        <BarEcharts />
+        <BarEcharts {...this.props} />
       </div>
     );
   }

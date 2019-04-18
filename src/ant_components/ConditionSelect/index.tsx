@@ -1,6 +1,6 @@
 import React from 'react';
-import { Select, Dropdown, Menu, Button, Input } from 'antd';
-import { condition, handleOptionsName, unitData } from './utils/utils';
+import { Select, Dropdown, Menu, Input } from 'antd';
+import { handleOptionsName } from './utils/utils';
 import Custom from './Custom';
 import { unitInterface, OptionInterface } from './utils/interface';
 const styles = require('./styles.less');
@@ -132,8 +132,8 @@ export default class Condition extends React.Component<Props, State, object>{
         ))
     }
     render() {
-        const { options, ShowAllOptions = true, placeholder = '请选择', width = 120 } = this.props;
-        const { isOpen, selected, inputValue } = this.state;
+        const { options, placeholder = '请选择', width = 120 } = this.props;
+        const { isOpen, inputValue } = this.state;
         const hasCustomObj = this.state.customObj ? [this.state.customObj] : []
         const optionsData = this.handleOriginOptionsData([...options, ...hasCustomObj]);
         return <>
