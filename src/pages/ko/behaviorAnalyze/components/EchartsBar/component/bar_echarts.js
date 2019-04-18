@@ -19,10 +19,10 @@ export function options(data){
   return  {
     grid: {
       top: 30,
-      bottom: 33,
+      bottom: 63,
       left: 30,
       right: 30,
-      height: 190,
+      // height: 120,
       // width:980,
     },
     color:['#52C9C2','#FFD75E'],
@@ -47,7 +47,7 @@ export function options(data){
     },
     legend: {
       left:0,
-      bottom: 20,
+      bottom: 5,
       textStyle: {
         fontSize: '12px'
       },
