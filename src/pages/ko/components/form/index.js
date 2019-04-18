@@ -2,6 +2,7 @@ import React from 'react';
 import Form from './form';
 import { FormParams } from './utils/utils';
 
+
 class CommonForm extends React.Component {
     constructor(props) {
         super(props)
@@ -10,19 +11,18 @@ class CommonForm extends React.Component {
             params: this.formInstance.initParams,
         }
 
+
     }
     componentDidMount() {
 
     }
-    onSaveParams = (params) => {
-        this.setState({ params });
-    }
     onChangeParams = (obj) => {
-        this.onSaveParams({ ...this.state.params, ...obj })
+        this.onSaveParams({ ...obj })
 
     }
+
     onSubmit = (params) => {
-        console.log(params)
+        this.onSaveParams(params);
     }
     render() {
         const { params } = this.state

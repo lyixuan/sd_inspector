@@ -58,9 +58,9 @@ class koPlan extends React.Component {
       <div>
         {/*------- 公共 form 部分 --------*/}
         {!pageRedirect ? null : <div className={styles.commonBox}>
-          <Spin tip="Loading..." spinning={isLoadEnumData}>
-            <CommonForm onSubmit={this.onSubmit} enumData={enumData} />
-          </Spin>
+          {/* <Spin tip="Loading..." spinning={isLoadEnumData}> */}
+          <CommonForm onSubmit={this.onSubmit} enumData={enumData} />
+          {/* </Spin> */}
 
         </div>}
         <div className={styles.tabBox}>

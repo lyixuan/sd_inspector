@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Form, Icon, Divider } from 'antd';
 import memoizeOne from 'memoize-one';
-import BISelect from '@/ant_components/BISelect';
+import BISelect from '@/ant_components/BISelect/formSelect';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BIButton from '@/ant_components/BIButton';
 import BICascader from '@/ant_components/BICascader/FormCascader';
 import ConditionSelect from '@/ant_components/ConditionSelect';
+import ButtonGroupCom from '../buttonGroup';
 import styles from './index.less';
 import formStyles from '../formCommon.less';
 import customData from './utils/unitData';
@@ -20,12 +21,16 @@ class CommonForm extends React.Component {
       expand: false,      //  储存原始form的params
     }
     this.filterEnumData = memoizeOne(type => this.chooseEnumData(type));
+    this.buttonGroup = this.renderButtonGroup();
   }
   handleSearch = (e) => {
     e.preventDefault();
+    const { expand } = this.state;
     this.props.form.validateFields((err, values) => {
       if (this.props.onSubmit) {
-        this.props.onSubmit(values)
+        const { payOrder, orderMoney, koOrderGap, frontBelong, backBelong, ...others } = values;
+        const newParams = expand ? { ...values } : { ...others };
+        this.props.onSubmit(newParams)
       }
 
     });
@@ -48,15 +53,16 @@ class CommonForm extends React.Component {
     if (type >= 1 && type <= 10) {
       returnData = Array.isArray(enumData[type]) ? enumData[type] : [];
     }
-    // switch (type) {
-    //   case 1:
-    //     returnData = Array.isArray(enumData[type]) ? enumData[type] : [];
-    //     break;
-    //   default:
-    //     returnData = Array.isArray(enumData[type]) ? enumData[type] : [];
-    //     break;
-    // }
     return returnData;
+  }
+
+  renderButtonGroup = () => {
+    const { expand } = this.state;
+    const top = expand ? 420 : 320
+
+    return (
+      <ButtonGroupCom params={this.props.params} top={top}></ButtonGroupCom>
+    )
   }
   render() {
     const { expand } = this.state;
@@ -272,6 +278,11 @@ class CommonForm extends React.Component {
             ) : null
           }
           <Divider className={styles.collapCls} dashed onClick={this.toggle}>{expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} /></Divider>
+          {/* 已选项设置 */}
+          <div className={styles.rowWrap}>{
+            this.renderButtonGroup()
+          }</div>
+
           <div className={styles.rowWrap}>
             <div>
               <BIButton onClick={this.handleReset}>重置</BIButton>
