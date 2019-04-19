@@ -61,11 +61,15 @@ class CommonForm extends React.Component {
     }
     return returnData;
   }
-
+  renderCascader = (label) => {
+    if (Array.isArray(label) && label.length === 0) return;
+    let labelStr = label.join('/');
+    labelStr = labelStr.length >= 6 ? `${labelStr.substr(0, 6)}...` : labelStr;
+    return <span>{labelStr}</span>
+  }
   renderButtonGroup = () => {
     const { expand } = this.state;
     const top = expand ? 420 : 320
-
     return (
       <ButtonGroupCom params={this.props.params} top={top} onDelete={this.onDelete}></ButtonGroupCom>
     )
@@ -99,7 +103,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('fromDevice', {
                   initialValue: params.fromDevice,
                 })(
-                  <BISelect placeholder="请选择" mode="multiple" allowClear showArrow maxTagCount={1}>
+                  <BISelect placeholder="请选择" mode="multiple" allowClear showArrow maxTagCount={1} maxTagPlaceholder={(omittedValues) => (<span>{`+${omittedValues.length}`}</span>)}>
                     {this.filterEnumData(1).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                   </BISelect>
                 )}
@@ -110,7 +114,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('fromApp', {
                   initialValue: params.fromApp,
                 })(
-                  <BISelect placeholder="请选择" mode="multiple" allowClear showArrow maxTagCount={1}>
+                  <BISelect placeholder="请选择" mode="multiple" allowClear showArrow maxTagCount={1} maxTagPlaceholder={(omittedValues) => (<span>{`+${omittedValues.length}`}</span>)}>
                     {this.filterEnumData(2).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                   </BISelect>
                 )}
@@ -257,7 +261,7 @@ class CommonForm extends React.Component {
                       {getFieldDecorator('frontBelong', {
                         initialValue: params.frontBelong,
                       })(
-                        <BICascader placeholder="请选择" changeOnSelect options={this.filterEnumData(8)} fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }} />
+                        <BICascader placeholder="请选择" changeOnSelect options={this.filterEnumData(8)} fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }} displayRender={this.renderCascader} />
                       )}
                     </Form.Item>
                   </div>
@@ -266,7 +270,7 @@ class CommonForm extends React.Component {
                       {getFieldDecorator('backBelong', {
                         initialValue: params.backBelong,
                       })(
-                        <BICascader placeholder="请选择" changeOnSelect options={this.filterEnumData(9)} fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }} />
+                        <BICascader placeholder="请选择" changeOnSelect options={this.filterEnumData(9)} fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }} displayRender={this.renderCascader} />
                       )}
                     </Form.Item>
                   </div>

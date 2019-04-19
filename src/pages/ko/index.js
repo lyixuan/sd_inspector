@@ -67,21 +67,22 @@ class koPlan extends React.Component {
     });
   };
   render() {
-    const { route, enumData, isLoadEnumData, location: { pathname } } = this.props;
-    const { pageRedirect } = route;
-
+    const { enumData, isLoadEnumData, location: { pathname } } = this.props;
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
-        {!pageRedirect ? null : <div className={styles.commonBox}>
-          {/* <Spin tip="Loading..." spinning={isLoadEnumData}> */}
-          <CommonForm onSubmit={this.onSubmit} enumData={enumData} />
-          {/* </Spin> */}
-        </div>}
-        <div className={styles.tabBox}>
-          <KoTab {...this.props} />
-          {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <KoForm {...this.props}/>}
+        {(pathname === '/ko/behaviorPath') ? null : <> <div className={styles.commonBox}>
+          <Spin tip="Loading..." spinning={isLoadEnumData}>
+            <CommonForm onSubmit={this.onSubmit} enumData={enumData} />
+          </Spin>
         </div>
+          <div className={styles.tabBox}>
+            <KoTab {...this.props} />
+            {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <KoForm {...this.props} />}
+          </div>
+        </>
+        }
+
         <RenderRoute {...this.props} />
       </div>
     );

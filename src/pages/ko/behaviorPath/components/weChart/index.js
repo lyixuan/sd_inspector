@@ -2,40 +2,6 @@ import React from 'react';
 import { Icon } from 'antd';
 import styles from '../../style.less';
 
-// 评价的星星
-function Star(props) {
-  if (!props.evaluate) {
-    return null;
-  }
-  const evaluate = props.evaluate;
-  const number = [1, 2, 3, 4, 5];
-  const starList = number.map((item, index) =>
-    <Icon type="star" theme="filled" key={index} className={index <= evaluate ? '' : styles.empty} />
-  )
-  return starList
-}
-
-function Prise(props) {
-  if (props.li.evaluate < 1) {
-    return null;
-  }
-  return (
-    <li className={styles.step}>
-      <div className={styles.time}>{props.li.countDate.split(" ")[1]}</div>
-      <div className={styles.content}>
-        <div className={styles.bigDot}>
-          <span className={styles.dot}></span>
-        </div>
-        <div className={styles.prise}>
-          <span>学员提交评价：</span>
-          <div className={styles.stars}>
-            <Star evaluate={props.li.evaluate}></Star>
-          </div>
-        </div>
-      </div>
-    </li>
-  )
-}
 
 // 日期条
 function DateBar(props) {
@@ -52,17 +18,6 @@ function DateBar(props) {
     </div>
   )
 }
-
-// 判断会话类型
-function sessionType(type) {
-  if (type == 1) {
-    return "进入会话"
-  } else if (type == 0) {
-    return "退出会话"
-  }
-
-}
-
 
 // 会话中可展开收起的行
 class ToggleSession extends React.Component {
@@ -88,9 +43,7 @@ class ToggleSession extends React.Component {
             <div className={styles.bigDot + " " + (this.state.expand ? '' : styles.plus)}>
               <span className={styles.dot}></span>
             </div>
-            <div className={styles.text}>
-              {sessionType(props.li.consultType)}
-            </div>
+            <div className={styles.text}>微信进入会话</div>
           </div>
         </li>
         {this.state.expand ? props.children : null}
@@ -164,7 +117,6 @@ function UlContent(props) {
   const layout = props.li.map((item, index) =>
     <ToggleSession li={item} key={index}>
       <SessionContent li={item.contentList}></SessionContent>
-      <Prise li={item}></Prise>
     </ToggleSession>
   )
   return layout
@@ -195,7 +147,7 @@ function ContentChildren(props) {
   return props.content
 }
 
-class Im extends React.Component {
+class Wechart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -295,4 +247,4 @@ class Im extends React.Component {
   }
 }
 
-export default Im;
+export default Wechart;
