@@ -11,17 +11,30 @@ export async function getPageList(params) {
 }
 
 // 桑吉图结构接口
-export async function getSankeyMapOrg(params) {
-  return request('/homePage/sankeyMapOrg', { params });
+export async function getSankeyMapOrg(params1,params2) {
+  const response = await request('/homePage/sankeyMapOrg', { params1 });
+  // todo 处理返回数据 作为二次接口参数
+  let response2 = [];
+  let result;
+  if (response) {
+    // 桑吉图数据接口
+    response2 = await request('/homePage/sankeyMapData', { params2 });
+    result = fun();
+  }
+  function fun() {
+    // todo  合并接口1 接口2的数据，处理结构
+    const rs = '';
+    return rs;
+  }
+  return result;
 }
 
-// 桑吉图数据接口
-export async function getSankeyMapData(params) {
-  return request('/homePage/sankeyMapData', { params });
+// table 列表数据
+export async function getTableList(params) {
+  return request('/homePage/userList', { params });
 }
 
-
-// table列表数据
-export async function getDataList(params) {
-  return request('/homePage/sankeyMapData', { params });
+// bar 数据
+export async function getBarData(params) {
+  return request('/homePage/userList', { params });
 }

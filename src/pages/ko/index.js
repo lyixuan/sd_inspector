@@ -11,6 +11,7 @@ import CommonForm from './components/form';
   loading,
   koPlan,
   enumData: koPlan.enumData,
+  pageList: koPlan.pageList,
   isLoadEnumData: loading.effects['koPlan/getKOEnumList'],
 }))
 class koPlan extends React.Component {
@@ -35,7 +36,23 @@ class koPlan extends React.Component {
       type: 'koPlan/getKOEnumList',
       payload: { type: null }
     })
-  }
+  };
+  queryMapData = () => {
+    this.props.dispatch({
+      type: 'koPlan/getPageList',
+      payload: { params: {}}
+    });
+    this.props.dispatch({
+      type: 'koPlan/getPageList',
+      payload: { params: {}}
+    })
+  };
+  queryTabelData = () => {
+    this.props.dispatch({
+      type: 'koPlan/getPageList',
+      payload: { params: {}}
+    });
+  };
   onSubmit = (params) => {
     this.props.dispatch({
       type: 'koPlan/saveParams',
@@ -53,7 +70,6 @@ class koPlan extends React.Component {
     const { route, enumData, isLoadEnumData, location: { pathname } } = this.props;
     const { pageRedirect } = route;
 
-
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
@@ -61,11 +77,10 @@ class koPlan extends React.Component {
           {/* <Spin tip="Loading..." spinning={isLoadEnumData}> */}
           <CommonForm onSubmit={this.onSubmit} enumData={enumData} />
           {/* </Spin> */}
-
         </div>}
         <div className={styles.tabBox}>
           <KoTab {...this.props} />
-          {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <KoForm {...this.props} />}
+          {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <KoForm {...this.props}/>}
         </div>
         <RenderRoute {...this.props} />
       </div>
