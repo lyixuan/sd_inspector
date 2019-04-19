@@ -7,7 +7,6 @@ import {
   StartList,
   KoDetail,
   KoList,
-  CertifiCate,
   SelfExam} from './SVG';
   import styles from './style.less';
 
