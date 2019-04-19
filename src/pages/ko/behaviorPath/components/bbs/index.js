@@ -39,7 +39,6 @@ class EachItem extends React.Component {
     this.setState({
       expand: !this.state.expand
     })
-    console.log(this.state.expand)
   }
 
   processStr = (str, n) => {

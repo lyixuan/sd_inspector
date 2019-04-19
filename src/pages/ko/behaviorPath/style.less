@@ -23,7 +23,11 @@
   border-radius:0 4px 4px 0;
 }
 .tabBox :global .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active{
-  padding-bottom:0;
+	padding-bottom:0;
+	border:1px solid #48c2ba;
+	position:relative;
+	z-index:2;
+
 }
 
 /*用户信息*/
@@ -299,6 +303,7 @@
 .study .priseBox{
 	flex-wrap:wrap;
 	padding-left:30px;
+	padding-bottom:20px;
 }
 .study .prise1{
 	display:flex;
@@ -313,6 +318,7 @@
 .study .prise2{
 	display:flex;
 	padding:10px 0;
+	flex-wrap:wrap;
 }
 .study .prise2 .label{
 	background:#F6F7FA;
@@ -322,6 +328,7 @@
 	font-size:12px;
 	padding:0 8px;
 	margin-right:4px;
+	margin-bottom:4px;
 }
 
 .privateLetter .privateToggle{

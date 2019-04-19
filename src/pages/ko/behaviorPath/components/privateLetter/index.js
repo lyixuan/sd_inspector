@@ -4,7 +4,6 @@ import styles from '../../style.less';
 
 // 日期条
 function DateBar(props) {
-  console.log(44, props)
   return (
     <div>
       <div className={styles.dateBar}>
@@ -18,18 +17,6 @@ function DateBar(props) {
   )
 }
 
-// 判断会话类型
-function sessionType(type) {
-  console.log(23, type)
-  if (type == 1) {
-    return "进入会话"
-  } else if (type == 0) {
-    return "退出会话"
-  }
-
-}
-
-
 // 会话中可展开收起的行
 class ToggleSession extends React.Component {
   constructor(props) {
@@ -42,11 +29,9 @@ class ToggleSession extends React.Component {
     this.setState({
       expand: !this.state.expand
     })
-    console.log(this.state.expand)
   }
   render() {
     let props = this.props
-    console.log(49, props)
     return (
       <>
         {
@@ -267,107 +252,7 @@ class PrivateLetter extends React.Component {
     return (
       <div className={styles.comWrap}>
         <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout>
-        <section style={{ display: "none" }}>
-          <div className={styles.dateBar}>
-            <span>2019-09-09</span>
-            <span>
-              <Icon type="up" />
-            </span>
-          </div>
-          <ul className={styles.behavior + " " + styles.privateLetter}>
-            <li className={styles.step + " " + styles.title}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot + " " + styles.plus}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.privateToggle}>
-                  <div className={styles.avatar}>
-                    <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
-                  </div>
-                  <div className={styles.intro}>
-                    <p className={styles.name}>苏大强</p>
-                    <p className={styles.chat}>还行啊，老师都挺负责的</p>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li className={styles.step + " " + styles.title}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.text}>
-                  与韩眉眉的对话
-                  </div>
-              </div>
-            </li>
-            <li className={styles.step}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.text}>点击FAQ【报考流程是什么】</div>
-              </div>
-            </li>
-            <li className={styles.step}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.chatLeft}>
-                  <div className={styles.avatar}>
-                    <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
-                    <p>尚德学员</p>
-                  </div>
-                  <div className={styles.chatContent}>
-                    <span className={styles.triangle}><em></em></span>
-                    报考科目有哪些
-                    </div>
-                </div>
-              </div>
-            </li>
-            <li className={styles.step}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.chatRight}>
-                  <div className={styles.chatContent}>
-                    <span className={styles.triangle}><em></em></span>
-                    报考科目有哪些报考科目有哪些报考科目有哪些报考科目有哪些
-                    </div>
-                  <div className={styles.avatar}>
-                    <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
-                    <p>尚德学员</p>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li className={styles.step}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={styles.chatLeft}>
-                  <div className={styles.avatar}>
-                    <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
-                    <p>尚德学员</p>
-                  </div>
-                  <div className={styles.chatContent}>
-                    <span className={styles.triangle}><em></em></span>
-                    报考科目有哪些
-                    </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </section>
+
       </div>
     );
   }

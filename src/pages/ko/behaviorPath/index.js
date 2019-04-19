@@ -14,33 +14,33 @@ class behaviorPath extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      size: "study"
+      activeKey: "3"
     }
   }
 
 
-  onChange = (e) => {
-    this.setState({ size: e.target.value });
+  onTabChange = (e) => {
+    console.log(24)
   }
   render() {
     return (
       <div className={styles.behaviorPath}>
         <div className={styles.tabBox}>
-          <BITabs onChange={this.onTabChange} type="card" animated={false}>
-            <TabPane tab="私信" key="4">
-              <PrivateLetter></PrivateLetter>
-            </TabPane>
-            <TabPane tab="BBS" key="3">
-              <Bbs></Bbs>
+          <BITabs onChange={this.onTabChange} type="card" animated={false} defaultActiveKey={this.state.activeKey}>
+            <TabPane tab="学习" key="1">
+              <Study></Study>
             </TabPane>
             <TabPane tab="IM" key="2">
               <Im></Im>
             </TabPane>
-            <TabPane tab="微信" key="5">
+            <TabPane tab="微信" key="3">
               <WeChart></WeChart>
             </TabPane>
-            <TabPane tab="学习" key="1">
-              <Study></Study>
+            <TabPane tab="BBS" key="4">
+              <Bbs></Bbs>
+            </TabPane>
+            <TabPane tab="私信" key="5">
+              <PrivateLetter></PrivateLetter>
             </TabPane>
           </BITabs>
         </div>
