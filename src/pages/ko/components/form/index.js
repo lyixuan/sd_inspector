@@ -9,13 +9,7 @@ class CommonForm extends React.Component {
         this.formInstance = new FormParams();
         this.state = {
             params: this.formInstance.initParams,
-            hasChooseParams: {},
         }
-
-
-    }
-    componentDidMount() {
-
     }
     onSaveParams = (ops) => {
         const { params } = this.state;
@@ -24,7 +18,6 @@ class CommonForm extends React.Component {
     }
     onChangeParams = (obj) => {
         this.onSaveParams({ ...obj })
-
     }
     onSubmit = (params) => {
         this.onSaveParams(params);
