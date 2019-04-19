@@ -105,8 +105,8 @@ export function getSangJiUpOption() {
     series: {
       data: node,
       links: links,
-      left: 0,
-      right:30,
+      left: 1,
+      right:20,
       label: {
         normal: {
           color: "#000",
