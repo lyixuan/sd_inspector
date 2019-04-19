@@ -11,6 +11,7 @@ import CommonForm from './components/form';
   loading,
   koPlan,
   enumData: koPlan.enumData,
+  pageList: koPlan.pageList,
   isLoadEnumData: loading.effects['koPlan/getKOEnumList'],
 }))
 class koPlan extends React.Component {
@@ -22,6 +23,7 @@ class koPlan extends React.Component {
   }
   componentDidMount() {
     this.getKOEnumList();
+    this.getPageList();
 
   }
   componentWillUnmount() {
@@ -35,7 +37,29 @@ class koPlan extends React.Component {
       type: 'koPlan/getKOEnumList',
       payload: { type: null }
     })
-  }
+  };
+  getPageList = () => {
+    this.props.dispatch({
+      type: 'koPlan/getPageList',
+      payload: { params: {}}
+    });
+  };
+  queryMapData = () => {
+    this.props.dispatch({
+      type: 'koPlan/getPageList',
+      payload: { params: {}}
+    });
+    this.props.dispatch({
+      type: 'koPlan/getPageList',
+      payload: { params: {}}
+    })
+  };
+  queryTabelData = () => {
+    this.props.dispatch({
+      type: 'koPlan/getPageList',
+      payload: { params: {}}
+    });
+  };
   onSubmit = (params) => {
     this.props.dispatch({
       type: 'koPlan/saveParams',

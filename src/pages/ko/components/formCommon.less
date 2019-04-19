@@ -46,7 +46,6 @@
       transform: scale(0.7);
       margin-left: -10px;
       width: 65px;
-      // text-align: justify;
     }
 
     .ant-calendar-range-picker-separator{
@@ -70,25 +69,18 @@
     .BIDatePicker .ant-calendar-picker{
       width: 100%;
     }
-    // @media screen and (max-width: 1410px) {
-    //   .BIDatePicker .ant-calendar-range-picker-input {
-    //     min-width: 58%;
-    //   }
-    // }
-    // @media screen and (min-width: 1411px)and (max-width: 1550px) {
-    //   .BIDatePicker .ant-calendar-range-picker-input {
-    //     min-width: 56%;
-    //   }
-    // }
-    // @media screen and (min-width: 1551px) {
-    //   .BIDatePicker .ant-calendar-range-picker-input {
-    //     min-width: 50%;
-    //   }
-    // }
-    // @media screen and (min-width: 2100px) {
-    //   .BIDatePicker .ant-calendar-picker{
-    //     width: 100%;
-    //   }
-    // }
+    @media screen and (min-width: 1551px) {
+      .BIDatePicker .ant-calendar-range-picker-input{
+        transform: scale(.85);
+        width: 75px;
+      }
+    }
+  
+    @media screen and (min-width: 1700px) {
+      .BIDatePicker .ant-calendar-range-picker-input{
+        transform: scale(1);
+        width: 88px;
+      }
+    }
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import KoRadio from '@/pages/ko/components/KoRadio';
-import './style.less';
+import style from './style.less';
 
 export default class KoTab extends React.Component {
   constructor(props) {
@@ -37,6 +37,11 @@ export default class KoTab extends React.Component {
           <KoRadio.Radio.Button value={'/ko/behaviorAnalyze'}>行为分析</KoRadio.Radio.Button>
           <KoRadio.Radio.Button value={'/ko/userList'}>用户列表</KoRadio.Radio.Button>
         </KoRadio>
+        {radioValue === '/ko/behaviorAnalyze'?(
+          <span className={style.beizhu}>
+          备注：当前最大可用日期2019-03-03 ，更多数据添加中...
+        </span>
+        ):null}
       </div>
     );
   }

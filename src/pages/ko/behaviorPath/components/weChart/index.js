@@ -5,7 +5,6 @@ import styles from '../../style.less';
 
 // 日期条
 function DateBar(props) {
-  console.log(44, props)
   return (
     <div>
       <div className={styles.dateBar}>
@@ -31,7 +30,7 @@ class ToggleSession extends React.Component {
     this.setState({
       expand: !this.state.expand
     })
-    console.log(this.state.expand)
+
   }
   render() {
     let props = this.props
