@@ -18,7 +18,7 @@ class BarEcharts extends React.Component {
           <Echart
             isEmpty={false}
             clickEvent={this.eConsole}
-            style={{ width: '100%', height:'297px' }}
+            style={{ width: '100%', height:'267px' }}
             options={options()} />
         </div>
 

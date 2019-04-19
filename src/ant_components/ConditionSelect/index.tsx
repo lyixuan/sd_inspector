@@ -53,9 +53,11 @@ export default class Condition extends React.Component<Props, State, object>{
 
     }
     private handleOriginOptionsData = (options: any[]) => {
+        const { unitData, defaultUnit } = this.props;
+        const handleUnit = unitData || (defaultUnit ? [defaultUnit] : []);
         const newOptions = options.map((item) => ({
             ...item,
-            ...handleOptionsName(item),
+            ...handleOptionsName(item, handleUnit),
         }))
 
         return newOptions;

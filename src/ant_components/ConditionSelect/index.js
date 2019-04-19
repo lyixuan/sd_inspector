@@ -48,7 +48,9 @@ var Condition = /** @class */ (function (_super) {
             _this.closeSelectPanle();
         };
         _this.handleOriginOptionsData = function (options) {
-            var newOptions = options.map(function (item) { return (__assign({}, item, utils_1.handleOptionsName(item))); });
+            var _a = _this.props, unitData = _a.unitData, defaultUnit = _a.defaultUnit;
+            var handleUnit = unitData || (defaultUnit ? [defaultUnit] : []);
+            var newOptions = options.map(function (item) { return (__assign({}, item, utils_1.handleOptionsName(item, handleUnit))); });
             return newOptions;
         };
         _this.handleOriginValue = function (value) {
