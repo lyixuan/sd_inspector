@@ -99,7 +99,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('fromDevice', {
                   initialValue: params.fromDevice,
                 })(
-                  <BISelect placeholder="请选择" mode="multiple" allowClear showArrow maxTagCount={1}>
+                  <BISelect placeholder="请选择" mode="multiple" allowClear showArrow maxTagCount={1} maxTagPlaceholder={(omittedValues) => (<span>{`+${omittedValues.length}`}</span>)}>
                     {this.filterEnumData(1).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                   </BISelect>
                 )}
@@ -110,7 +110,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('fromApp', {
                   initialValue: params.fromApp,
                 })(
-                  <BISelect placeholder="请选择" mode="multiple" allowClear showArrow maxTagCount={1}>
+                  <BISelect placeholder="请选择" mode="multiple" allowClear showArrow maxTagCount={1} maxTagPlaceholder={(omittedValues) => (<span>{`+${omittedValues.length}`}</span>)}>
                     {this.filterEnumData(2).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                   </BISelect>
                 )}
