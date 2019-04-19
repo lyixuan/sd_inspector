@@ -74,7 +74,7 @@ var Custom = /** @class */ (function (_super) {
         _this.inputChange = function (e, key) {
             var obj = {};
             var value = e.target.value;
-            if (isNaN(Number(value))) {
+            if (isNaN(Number(value)) && value !== '-') {
                 _this.props.onError && _this.props.onError();
                 return;
             }

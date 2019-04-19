@@ -135,8 +135,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('choiceLessonStatus', {
                   initialValue: params.choiceLessonStatus,
                 })(
-                  <BISelect placeholder="请选择">
-                    <Option value={null}>全部</Option>
+                  <BISelect placeholder="请选择" allowClear>
                     {this.filterEnumData(3).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                   </BISelect>
                 )}
@@ -147,8 +146,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('publicLesson', {
                   initialValue: params.publicLesson,
                 })(
-                  <BISelect placeholder="请选择" >
-                    <Option value={null}>全部</Option>
+                  <BISelect placeholder="请选择" allowClear>
                     {this.filterEnumData(4).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                   </BISelect>
                 )}
@@ -168,8 +166,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('certificateChoiceLesson', {
                   initialValue: params.certificateChoiceLesson,
                 })(
-                  <BISelect placeholder="请选择" >
-                    <Option value={null}>全部</Option>
+                  <BISelect placeholder="请选择" allowClear >
                     {this.filterEnumData(5).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                   </BISelect>
                 )}
@@ -191,8 +188,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('attendanceStatus', {
                   initialValue: params.attendanceStatus,
                 })(
-                  <BISelect placeholder="请选择" >
-                    <Option value={null}>全部</Option>
+                  <BISelect placeholder="请选择" allowClear >
                     {this.filterEnumData(6).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                   </BISelect>
                 )}
@@ -228,8 +224,7 @@ class CommonForm extends React.Component {
                       {getFieldDecorator('payOrder', {
                         initialValue: params.payOrder,
                       })(
-                        <BISelect placeholder="请选择">
-                          <Option value={null}>全部</Option>
+                        <BISelect placeholder="请选择" allowClear>
                           {this.filterEnumData(7).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                         </BISelect>
                       )}
@@ -290,10 +285,10 @@ class CommonForm extends React.Component {
           }</div>
 
           <div className={styles.rowWrap}>
-            
-              <BIButton onClick={this.handleReset} style={{marginRight:'10px'}}>重置</BIButton>
-              <BIButton type="primary" htmlType="submit">
-                查询
+
+            <BIButton onClick={this.handleReset} style={{ marginRight: '10px' }}>重置</BIButton>
+            <BIButton type="primary" htmlType="submit">
+              查询
               </BIButton>
           </div>
         </Form>
