@@ -50,14 +50,11 @@ class koPlan extends React.Component {
     });
   };
   render() {
-    const { route, enumData, isLoadEnumData, location: { pathname } } = this.props;
-    const { pageRedirect } = route;
-
-    console.log(pageRedirect)
+    const { enumData, isLoadEnumData, location: { pathname } } = this.props;
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
-        {((pathname === '/ko/behaviorAnalyze' || pathname === '/ko/behaviorInfo' || pathname === '/ko')) ? null : <> <div className={styles.commonBox}>
+        {(pathname === '/ko/behaviorInfo') ? null : <> <div className={styles.commonBox}>
           <Spin tip="Loading..." spinning={isLoadEnumData}>
             <CommonForm onSubmit={this.onSubmit} enumData={enumData} />
           </Spin>
