@@ -305,8 +305,8 @@ export function getSangJiDownOption() {
     series: {
       data: node,
       links: links,
-      left: 30,
-      right:30,
+      left: 25,
+      right:1,
       label: {
         normal: {
           color: "#000",

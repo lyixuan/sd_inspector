@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Tag, Icon, Divider } from 'antd';
 import moment from 'moment';
 import styles from './index.less';
@@ -8,6 +9,7 @@ export default class ButtonGroup extends React.Component {
     state = {
         isShowFiexd: false,
         expand: false,
+
     }
     componentDidMount() {
         window.addEventListener('scroll', this.pageOnscroll);
@@ -21,9 +23,9 @@ export default class ButtonGroup extends React.Component {
         const { isShowFiexd } = this.state;
         // 此处应增加防抖操作
         if (pageTop > top && !isShowFiexd) {
-            this.setState({ isShowFiexd: !isShowFiexd,expand:false });
+            this.setState({ isShowFiexd: !isShowFiexd, expand: false });
         } else if (pageTop <= top && isShowFiexd) {
-            this.setState({ isShowFiexd: !isShowFiexd ,expand:false});
+            this.setState({ isShowFiexd: !isShowFiexd, expand: false });
         }
     }
     onClose = (keyName, data) => {
@@ -149,20 +151,23 @@ export default class ButtonGroup extends React.Component {
         this.setState({ expand: !expand });
     };
     render() {
-        const { isShowFiexd, expand } = this.state;
+        const { isShowFiexd, expand, is2Lines } = this.state;
         const children = this.renderChooseTags();
         const isHasChoose = children.filter(item => item).length > 0;
+
+
+
         return (
             !isHasChoose ? null :
                 <div className={styles.fixedStyle} ref={dom => this.tagsDom = dom}>
                     <div className={`${styles.groupContainer} ${isShowFiexd ? styles.groupContainerFixed : ''}`}>
-                        <div className={styles.tagContent}>
+                        <div className={styles.tagContent} ref={dom => this.tagsContent = dom}>
                             <span className={styles.gropLabel}>已选条件:</span>
                             {isShowFiexd ? this.renderFixedBox() : (<div className={`${styles.buttonGroup}`}>
                                 {children}
                             </div>)}
                         </div>
-                      {isShowFiexd?<Divider className={styles.collapCls} dashed onClick={this.toggle}>{expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} /></Divider>:null}
+                        {isShowFiexd ? <Divider className={styles.collapCls} dashed onClick={this.toggle}>{expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} /></Divider> : null}
 
                     </div>
 

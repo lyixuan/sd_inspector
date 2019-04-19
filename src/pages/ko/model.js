@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { msgF } from '@/utils/utils';
-import { getKOEnumList } from './services';
+import { getKOEnumList ,getPageList,getSankeyMapOrg,getTableList,getBarData} from './services';
 
 
 export default {
@@ -9,6 +9,9 @@ export default {
   state: {
     enumData: {},
     params: {},
+    pageList: [],
+    tableList: [],
+    tabFromParams:{}
   },
 
   effects: {
@@ -28,8 +31,54 @@ export default {
       } else {
         message.error(msgF(response.msg, response.msgDetail));
       }
-    }
-
+    },
+    *getPageList({ payload }, { call, put }) {
+      yield put({ type: 'saveTabFromParams', payload: {  } });
+      // 二级页面下拉接口
+      const params = payload.params;
+      const result = yield call(getPageList,params);
+      if (result.code === 20000) {
+        const pageList = result.data || [];
+        yield put({ type: 'save', payload: { pageList } });
+        yield put({ type: 'getSankeyList', payload: { tabFromParams:this.state.tabFromParams } });
+        yield put({ type: 'getBarData', payload: { params:this.state.params } });
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    *getSankeyList({ payload }, { call, put }) {
+      // 桑吉图
+      const params = payload.params;
+      const result = yield call(getSankeyMapOrg,params);
+      if (result.code === 20000) {
+        const pageList = result.data || [];
+        yield put({ type: 'save', payload: { pageList } });
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    *getBarData({ payload }, { call, put }) {
+      // 柱状图
+      const params = payload.params;
+      const result = yield call(getBarData,params);
+      if (result.code === 20000) {
+        const tableList = result.data || [];
+        yield put({ type: 'save', payload: { tableList } });
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    *getTableList({ payload }, { call, put }) {
+      // 列表
+      const params = payload.params;
+      const result = yield call(getTableList,params);
+      if (result.code === 20000) {
+        const tableList = result.data || [];
+        yield put({ type: 'save', payload: { tableList } });
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
   },
 
   reducers: {
@@ -41,6 +90,9 @@ export default {
     },
     save(state, { payload }) {
       return { ...state, ...payload };
+    },
+    saveTabFromParams(state, { payload }) {
+      return { ...state, ...payload.tabFromParams };
     }
   },
 
