@@ -23,6 +23,7 @@ class koPlan extends React.Component {
   }
   componentDidMount() {
     this.getKOEnumList();
+    this.getPageList();
 
   }
   componentWillUnmount() {
@@ -36,6 +37,12 @@ class koPlan extends React.Component {
       type: 'koPlan/getKOEnumList',
       payload: { type: null }
     })
+  };
+  getPageList = () => {
+    this.props.dispatch({
+      type: 'koPlan/getPageList',
+      payload: { params: {}}
+    });
   };
   queryMapData = () => {
     this.props.dispatch({
