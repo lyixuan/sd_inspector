@@ -21,9 +21,9 @@ export default class ButtonGroup extends React.Component {
         const { isShowFiexd } = this.state;
         // 此处应增加防抖操作
         if (pageTop > top && !isShowFiexd) {
-            this.setState({ isShowFiexd: !isShowFiexd });
+            this.setState({ isShowFiexd: !isShowFiexd,expand:false });
         } else if (pageTop <= top && isShowFiexd) {
-            this.setState({ isShowFiexd: !isShowFiexd });
+            this.setState({ isShowFiexd: !isShowFiexd ,expand:false});
         }
     }
     onClose = (keyName, data) => {
@@ -158,11 +158,11 @@ export default class ButtonGroup extends React.Component {
                     <div className={`${styles.groupContainer} ${isShowFiexd ? styles.groupContainerFixed : ''}`}>
                         <div className={styles.tagContent}>
                             <span className={styles.gropLabel}>已选条件:</span>
-                            {isShowFiexd ? children : (<div className={`${styles.buttonGroup}`}>
+                            {isShowFiexd ? this.renderFixedBox() : (<div className={`${styles.buttonGroup}`}>
                                 {children}
                             </div>)}
                         </div>
-                        <Divider className={styles.collapCls} dashed onClick={this.toggle}>{expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} /></Divider>
+                      {isShowFiexd?<Divider className={styles.collapCls} dashed onClick={this.toggle}>{expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} /></Divider>:null}
 
                     </div>
 
