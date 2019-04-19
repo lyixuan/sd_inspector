@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select, Dropdown, Menu, Input } from 'antd';
+import { Select, Dropdown, Menu, Input, Icon, Button } from 'antd';
 import { handleOptionsName } from './utils/utils';
 import Custom from './Custom';
 import { unitInterface, OptionInterface } from './utils/interface';
@@ -70,7 +70,7 @@ export default class Condition extends React.Component<Props, State, object>{
         const obj = selected === 'all' ? { name: '全部' } : (selectObj || {});
         return obj.name;
     }
-    public onChange = (selected: OptionInterface): void => {
+    public onChange = (selected: any): void => {
         if (this.props.onChange) {
             this.props.onChange(selected)
         }
@@ -95,8 +95,15 @@ export default class Condition extends React.Component<Props, State, object>{
         const optionsData = this.handleOriginOptionsData([...options, ...hasCustomObj]);
         return optionsData.find(item => item.name === key);
     }
-    public onFocus = () => {
+    public onOpen = () => {
         this.setState({ isOpen: true });
+    }
+    public onDelete = (e: any) => {
+        const selected = undefined
+        this.setState({ selected });
+        this.onChange(selected);
+        e.stopPropagation()
+
     }
     public onCancel = () => {
         this.closeSelectPanle();
@@ -118,14 +125,12 @@ export default class Condition extends React.Component<Props, State, object>{
     }
     public dropdownRender = (optionsGroup: any[]) => {
         const { isShowCustom } = this.state;
-        const { ShowAllOptions = true } = this.props;
         const items = optionsGroup.map((item, index) => (
             <Menu.Item key={item.name} onClick={this.handleMenuClick.bind(item.name)}>{item.name}</Menu.Item>
         ))
         return (
             <Menu>
                 {items}
-                {!ShowAllOptions ? null : <Menu.Item key="all" onClick={this.handleMenuClick.bind({ key: 'all' })}>全部</Menu.Item>}
                 <Menu.Item key="custom">
                     <div className={styles.conditionCustom}>
                         <span className={styles.customText} onClick={() => this.handleMenuClick({ key: 'custom' })}> 自定义</span>
@@ -150,9 +155,15 @@ export default class Condition extends React.Component<Props, State, object>{
             <>
                 <span onClick={(e) => { e.stopPropagation() }}>
                     <Dropdown overlay={this.dropdownRender(optionsData)} visible={isOpen} overlayClassName={styles.overlayClassName}>
-                        <span className="inputPanle">
-                            <Input onFocus={this.onFocus} placeholder={placeholder} value={inputValue} />
-                        </span>
+                        {/* <span className="inputPanle"> */}
+                        <div className={styles.selectCotainer} onClick={this.onOpen}>
+                            <div className={styles.chooseContent}>
+                                {!inputValue ? <div className={styles.placeholder}>请选择</div> : null}
+                                <div className={styles.selectedValue}>{inputValue}</div>
+                                <span className={styles.inputIcon}><Icon type={`${isOpen ? 'up' : 'down'}`} /></span>
+                                {inputValue ? <span className={styles.inputClear} onClick={this.onDelete}><Icon type='close-circle' theme="filled" /></span> : null}
+                            </div>
+                        </div>
                     </Dropdown>
                 </span>
             </>

@@ -86,8 +86,14 @@ var Condition = /** @class */ (function (_super) {
             var optionsData = _this.handleOriginOptionsData(options.concat(hasCustomObj));
             return optionsData.find(function (item) { return item.name === key; });
         };
-        _this.onFocus = function () {
+        _this.onOpen = function () {
             _this.setState({ isOpen: true });
+        };
+        _this.onDelete = function (e) {
+            var selected = undefined;
+            _this.setState({ selected: selected });
+            _this.onChange(selected);
+            e.stopPropagation();
         };
         _this.onCancel = function () {
             _this.closeSelectPanle();
@@ -109,11 +115,9 @@ var Condition = /** @class */ (function (_super) {
         };
         _this.dropdownRender = function (optionsGroup) {
             var isShowCustom = _this.state.isShowCustom;
-            var _a = _this.props.ShowAllOptions, ShowAllOptions = _a === void 0 ? true : _a;
             var items = optionsGroup.map(function (item, index) { return (react_1.default.createElement(antd_1.Menu.Item, { key: item.name, onClick: _this.handleMenuClick.bind(item.name) }, item.name)); });
             return (react_1.default.createElement(antd_1.Menu, null,
                 items,
-                !ShowAllOptions ? null : react_1.default.createElement(antd_1.Menu.Item, { key: "all", onClick: _this.handleMenuClick.bind({ key: 'all' }) }, "\u5168\u90E8"),
                 react_1.default.createElement(antd_1.Menu.Item, { key: "custom" },
                     react_1.default.createElement("div", { className: styles.conditionCustom },
                         react_1.default.createElement("span", { className: styles.customText, onClick: function () { return _this.handleMenuClick({ key: 'custom' }); } }, " \u81EA\u5B9A\u4E49"),
@@ -149,8 +153,14 @@ var Condition = /** @class */ (function (_super) {
         return (react_1.default.createElement(react_1.default.Fragment, null,
             react_1.default.createElement("span", { onClick: function (e) { e.stopPropagation(); } },
                 react_1.default.createElement(antd_1.Dropdown, { overlay: this.dropdownRender(optionsData), visible: isOpen, overlayClassName: styles.overlayClassName },
-                    react_1.default.createElement("span", { className: "inputPanle" },
-                        react_1.default.createElement(antd_1.Input, { onFocus: this.onFocus, placeholder: placeholder, value: inputValue }))))));
+                    react_1.default.createElement("div", { className: styles.selectCotainer, onClick: this.onOpen },
+                        react_1.default.createElement("div", { className: styles.chooseContent },
+                            !inputValue ? react_1.default.createElement("div", { className: styles.placeholder }, "\u8BF7\u9009\u62E9") : null,
+                            react_1.default.createElement("div", { className: styles.selectedValue }, inputValue),
+                            react_1.default.createElement("span", { className: styles.inputIcon },
+                                react_1.default.createElement(antd_1.Icon, { type: "" + (isOpen ? 'up' : 'down') })),
+                            inputValue ? react_1.default.createElement("span", { className: styles.inputClear, onClick: this.onDelete },
+                                react_1.default.createElement(antd_1.Icon, { type: 'close-circle', theme: "filled" })) : null))))));
     };
     return Condition;
 }(react_1.default.Component));
