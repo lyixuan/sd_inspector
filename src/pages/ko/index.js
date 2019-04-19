@@ -54,7 +54,7 @@ class koPlan extends React.Component {
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
-        {(pathname === '/ko/behaviorInfo') ? null : <> <div className={styles.commonBox}>
+        {(pathname === '/ko/behaviorPath') ? null : <> <div className={styles.commonBox}>
           <Spin tip="Loading..." spinning={isLoadEnumData}>
             <CommonForm onSubmit={this.onSubmit} enumData={enumData} />
           </Spin>

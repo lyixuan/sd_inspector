@@ -11,6 +11,14 @@ class CommonForm extends React.Component {
             params: this.formInstance.initParams,
         }
     }
+    handleSubmitParams = (params = {}) => {
+        const returnParams = {};
+        Object.keys(params).forEach(key => {
+            const obj = params[key];
+            returnParams[key] = this.checkoutParams(key, obj)
+        })
+        return returnParams;
+    }
     onSaveParams = (ops) => {
         const { params } = this.state;
         const newParams = { ...params, ...ops };

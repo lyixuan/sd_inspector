@@ -5,6 +5,7 @@ import styles from './style.less';
 import Study from './components/study';
 import Im from './components/im';
 import Bbs from './components/bbs';
+import WeChart from './components/weChart';
 import UserInfo from './components/userInfo';
 import PrivateLetter from './components/privateLetter';
 const TabPane = BITabs.TabPane;
@@ -26,17 +27,20 @@ class behaviorPath extends React.Component {
       <div className={styles.behaviorPath}>
         <div className={styles.tabBox}>
           <BITabs onChange={this.onTabChange} type="card" animated={false}>
+            <TabPane tab="私信" key="4">
+              <PrivateLetter></PrivateLetter>
+            </TabPane>
             <TabPane tab="BBS" key="3">
               <Bbs></Bbs>
             </TabPane>
             <TabPane tab="IM" key="2">
               <Im></Im>
             </TabPane>
+            <TabPane tab="微信" key="5">
+              <WeChart></WeChart>
+            </TabPane>
             <TabPane tab="学习" key="1">
               <Study></Study>
-            </TabPane>
-            <TabPane tab="私信" key="4">
-              <PrivateLetter></PrivateLetter>
             </TabPane>
           </BITabs>
         </div>
