@@ -367,6 +367,16 @@ export const HOT_RANGE = [
   { minVal: 61, maxVal: 80, color: '#FF9862' },
   { minVal: 81, maxVal: 100, color: '#FF8383' },
 ];
+// 热力图pageKey
+export const PAGE_KEY_ARR = [
+  {page:'IndexPage',keys:['homepage_lite','newhomepage_lite','home_page_lite_lite','fast_home_page_lite','home_page_lite']},
+  {page:'ShopPage',keys:['majorlist_page_lite','storelist_page_lite']},
+  {page:'StartList',keys:['study_page_lite','studypage_lite']},
+  {page:'KoDetail',keys:['kogoodsdetails_page_lite','kogoodsdetails_page_lite_lite','fast_kogoodsdetails_page_lite']},
+  {page:'KoList',keys:['kogoodslist_page_lite','kogoodslist_page_lite_lite']},
+  {page:'SelfExam',keys:['fast_majordetails_page_lite','majordetail_page_lite']},
+]
+
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -395,6 +405,7 @@ export default {
   HOT_RANGE,
   REGISTER_STATUS,
   CHOISE_STATUS,
+  PAGE_KEY_ARR,
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
