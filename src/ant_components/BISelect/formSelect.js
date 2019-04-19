@@ -21,7 +21,6 @@ class BISelect extends React.Component {
     }
     componentWillReceiveProps(nextProps) {
         if (JSON.stringify(nextProps.value) !== JSON.stringify(this.props.value)) {
-            console.log(nextProps.value)
             this.handleValue(nextProps.value);
         }
     }

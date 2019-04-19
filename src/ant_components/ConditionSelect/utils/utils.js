@@ -55,22 +55,22 @@ exports.handleDateValue = function (option) {
     };
     return __assign({}, option, timeTmpObj);
 };
-exports.handleOptionsName = function (option) {
+exports.handleOptionsName = function (option, unitOptions) {
     var type = option.type, value = option.value, minValue = option.minValue, maxValue = option.maxValue, unit = option.unit;
     var conditionObj = exports.condition.find(function (item) { return item.id === type; });
-    var unitObj = exports.unitData.find(function (item) { return item.id === unit; }) || {};
+    var unitObj = (unitOptions || []).find(function (item) { return item.id === unit; }) || {};
     if (!conditionObj)
         return;
     var label = '';
     switch (type) {
         case 1 || 2 || 3 || 4 || 5:
-            label = "" + conditionObj.symbol + value + (unitObj.name || '');
+            label = "" + conditionObj.symbol + value + " " + (unitObj.name || '');
             break;
         case 6:
-            label = "" + minValue + unitObj.name + conditionObj.symbol + maxValue + (unitObj.name || '');
+            label = "" + minValue + unitObj.name + conditionObj.symbol + maxValue + " " + (unitObj.name || '');
             break;
         default:
-            label = "" + conditionObj.symbol + value + (unitObj.name || '');
+            label = "" + conditionObj.symbol + value + " " + (unitObj.name || '');
             break;
     }
     var newOptions = __assign({}, option, { name: label });

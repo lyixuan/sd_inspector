@@ -52,5 +52,4 @@ export class FormParams {
         frontBelong: undefined,
         backBelong: undefined,
     }
-
 }

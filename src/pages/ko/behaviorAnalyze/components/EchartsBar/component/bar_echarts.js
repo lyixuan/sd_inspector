@@ -15,14 +15,40 @@ const config = {
     }
   },
 };
-export function options(data){
+const dataFn= ()=> {
+  const data=[];
+  for(let i=0;i<15;i++){
+    data.push({
+      name:`name${i}`,
+      actionKey:`actionKey${i}`,
+      clickNum:i*12,
+      convertPer:(i/15*100).toFixed(2),
+      time:`2019-02-03${i}`,
+    })
+  }
+  return data;
+};
+
+const getData = (data,name)=>{
+  data=[];
+  dataFn().forEach(item=>{
+    data.push({name:item,value:item[name]})
+  });
+  return data;
+};
+const data1 = getData('data1','name');
+const data3 = getData('data3','clickNum');
+const data4 = getData('data4','convertPer');
+const data5 = getData('data5','time');
+
+export function options(){
   return  {
     grid: {
       top: 30,
-      bottom: 33,
+      bottom: 63,
       left: 30,
       right: 30,
-      height: 190,
+      // height: 120,
       // width:980,
     },
     color:['#52C9C2','#FFD75E'],
@@ -47,7 +73,7 @@ export function options(data){
     },
     legend: {
       left:0,
-      bottom: 20,
+      bottom: 5,
       textStyle: {
         fontSize: '12px'
       },
@@ -61,7 +87,7 @@ export function options(data){
       axisLine:config.axisLine,
       axisTick:config.axisTick,
       splitLine: config.splitLine,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      data: data1
     },
     yAxis: [{
       type: 'value',
@@ -78,11 +104,11 @@ export function options(data){
       name:'点击数',
       type: 'bar',
       barWidth: '14%',
-      data: [120, 230, 150, 80, 70, 110, 130],
+      data: data3,
     },{
       name: '转化率',
       type: 'line',
-      data: [20, 200, 150, 80, 70, 110, 130]
+      data: data4
     }
     ]
   };

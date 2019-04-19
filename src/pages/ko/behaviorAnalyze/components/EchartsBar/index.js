@@ -6,6 +6,7 @@ import TitleName  from './component/titleName';
 
 class BarEcharts extends React.Component {
   eConsole = (e) => {
+    // console.log(e.data.name)
     this.props.history.push({
       pathname:'/ko/userList',
     });
@@ -18,7 +19,7 @@ class BarEcharts extends React.Component {
           <Echart
             isEmpty={false}
             clickEvent={this.eConsole}
-            style={{ width: '100%', height:'297px' }}
+            style={{ width: '100%', height:'267px' }}
             options={options()} />
         </div>
 

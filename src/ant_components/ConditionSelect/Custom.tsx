@@ -67,7 +67,7 @@ export default class Custom extends React.Component<any> {
     public inputChange = (e: any, key: string) => {
         const obj: any = {};
         const value = e.target.value;
-        if (isNaN(Number(value))) {
+        if (isNaN(Number(value)) && value !== '-') {
             this.props.onError && this.props.onError();
             return;
         };
