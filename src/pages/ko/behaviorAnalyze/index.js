@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import KoSangJi from './components/KoSangJi';
 import BarEcharts from './components/EchartsBar'
-@connect(({ behavior }) => ({
+@connect(({ behavior, koPlan }) => ({
   behavior,
 }))
 class behavior extends React.Component {

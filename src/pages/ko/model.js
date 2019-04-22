@@ -20,7 +20,9 @@ export default {
   },
 
   effects: {
-    *pageParams(_, { all, call, put }) {
+    *pageParams(_, { all, call, put, select }) {
+      const pageParams = yield select(state => state.koPlan.pageParams);
+      if (JSON.stringify(pageParams) !== '{}') return;
       const [KoDateRangeResponse, KOMessageResponse] = yield all([
         call(getKoDateRange),
         call(getKOMessage),
