@@ -90,8 +90,10 @@ class CommonForm extends React.Component {
     onSubmit = (params) => {
         const newParams = { ...this.state.params, ...params };
         const hasHandleParams = this.handleSubmitParams(newParams);
-        console.log(hasHandleParams);
         this.onSaveParams(newParams);
+        if (this.props.onSubmit) {
+            this.props.onSubmit(hasHandleParams);
+        }
     }
     render() {
         const { params } = this.state

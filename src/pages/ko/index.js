@@ -22,15 +22,16 @@ class koPlan extends React.Component {
     }
   }
   componentDidMount() {
-    this.getKOEnumList();
-    this.getPageList();
-
+    this.getInitParams();
   }
   componentWillUnmount() {
     this.props.dispatch({
       type: 'koPlan/saveParams',
       payload: { params: {} },
     })
+  }
+  getInitParams = () => {
+    this.getKOEnumList();
   }
   getKOEnumList = () => {
     this.props.dispatch({
@@ -41,23 +42,23 @@ class koPlan extends React.Component {
   getPageList = () => {
     this.props.dispatch({
       type: 'koPlan/getPageList',
-      payload: { params: {}}
+      payload: { params: {} }
     });
   };
   queryMapData = () => {
     this.props.dispatch({
       type: 'koPlan/getPageList',
-      payload: { params: {}}
+      payload: { params: {} }
     });
     this.props.dispatch({
       type: 'koPlan/getPageList',
-      payload: { params: {}}
+      payload: { params: {} }
     })
   };
   queryTabelData = () => {
     this.props.dispatch({
       type: 'koPlan/getPageList',
-      payload: { params: {}}
+      payload: { params: {} }
     });
   };
   onSubmit = (params) => {
