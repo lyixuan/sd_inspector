@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { msgF } from '@/utils/utils';
-import { getKOEnumList ,getPageList,getSankeyMapOrg,getTableList,getBarData} from './services';
+import { getKOEnumList ,getPageList,getSankeyData,getTableList,getBarData} from './services';
 
 
 export default {
@@ -11,7 +11,8 @@ export default {
     params: {},
     pageList: [],
     tableList: [],
-    tabFromParams:{}
+    tabFromParams:{},
+    sankeyData: []
   },
 
   effects: {
@@ -49,12 +50,12 @@ export default {
     *getSankeyList({ payload }, { call, put }) {
       // 桑吉图
       const params = payload.params;
-      const result = yield call(getSankeyMapOrg,params);
-      if (result.code === 20000) {
-        const pageList = result.data || [];
-        yield put({ type: 'save', payload: { pageList } });
+      const result = yield call(getSankeyData,params);
+      if (result) {
+        const sankeyData = result.data || [];
+        yield put({ type: 'save', payload: { sankeyData } });
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error("");
       }
     },
     *getBarData({ payload }, { call, put }) {
