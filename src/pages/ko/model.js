@@ -55,7 +55,7 @@ export default {
         const sankeyData = result.data || [];
         yield put({ type: 'save', payload: { sankeyData } });
       } else {
-        message.error("");
+        message.error(result.msg);
       }
     },
     *getBarData({ payload }, { call, put }) {

@@ -7,27 +7,6 @@ export const seriesConfig = {
   layoutIterations:0,
   draggable:false,  // 不可拖动节点
   focusNodeAdjacency: true,   // hover 高亮
-  levels: [{
-    depth: 0,
-    itemStyle: {
-      // color: '#fbb4ae'
-    },
-  }, {
-    depth: 1,
-    itemStyle: {
-      // color: '#b3cde3'
-    },
-  }, {
-    depth: 2,
-    itemStyle: {
-      // color: '#ccebc5'
-    },
-  }, {
-    depth: 4,
-    itemStyle: {
-      color: '#decbe4'
-    },
-  }],
   lineStyle: {
     normal: {   // 流量样式
       color: 'source',
