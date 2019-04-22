@@ -61,6 +61,11 @@ class CommonForm extends React.Component {
     }
     return returnData;
   }
+  checkoutHasChooseClass = () => {
+    const { getFieldValue } = this.props.form;
+    const params = getFieldValue('choiceLessonStatus') || {};
+    return params.value ? Number(params.value) === 0 : false;
+  }
   renderCascader = (label) => {
     if (Array.isArray(label) && label.length === 0) return;
     let labelStr = label.join('/');
@@ -76,7 +81,7 @@ class CommonForm extends React.Component {
   }
   render() {
     const { expand } = this.state;
-    const { params, enumData } = this.props;
+    const { params } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
@@ -150,7 +155,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('publicLesson', {
                   initialValue: params.publicLesson,
                 })(
-                  <BISelect placeholder="请选择" allowClear>
+                  <BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass()}>
                     {this.filterEnumData(4).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                   </BISelect>
                 )}
@@ -161,7 +166,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('publicChoiceLessonTime', {
                   initialValue: params.publicChoiceLessonTime,
                 })(
-                  <BIRangePicker placeholder={["起始时间", "截止时间"]} format={dateFormat} />
+                  <BIRangePicker placeholder={["起始时间", "截止时间"]} format={dateFormat} disabled={this.checkoutHasChooseClass()} />
                 )}
               </Form.Item>
             </div>
@@ -170,7 +175,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('certificateChoiceLesson', {
                   initialValue: params.certificateChoiceLesson,
                 })(
-                  <BISelect placeholder="请选择" allowClear >
+                  <BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass()}>
                     {this.filterEnumData(5).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                   </BISelect>
                 )}
@@ -181,7 +186,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('certificateChoiceLessonTime', {
                   initialValue: params.certificateChoiceLessonTime,
                 })(
-                  <BIRangePicker placeholder={["起始时间", "截止时间"]} format={dateFormat} />
+                  <BIRangePicker placeholder={["起始时间", "截止时间"]} format={dateFormat} disabled={this.checkoutHasChooseClass()} />
                 )}
               </Form.Item>
             </div>
@@ -315,7 +320,7 @@ function mapPropsToFields(props) {
 function onFieldsChange(props, fields) {
   if (props.onChange) {
     const params = {}
-    Object.keys(fields).map(item => {
+    Object.keys(fields).forEach(item => {
       const { value } = fields[item];
       params[item] = value
     })

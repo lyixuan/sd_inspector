@@ -38,7 +38,7 @@ export default class Condition extends React.Component<Props, State, object>{
         window.addEventListener('click', this.handleDomClick)
     }
     componentWillReceiveProps(nextProps: any) {
-        if (JSON.stringify(nextProps.value) !== JSON.stringify(this.props.value){
+        if (JSON.stringify(nextProps.value) !== JSON.stringify(this.props.value)) {
             this.handleOriginValue(nextProps.value);
         }
     }

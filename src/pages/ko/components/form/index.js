@@ -2,6 +2,8 @@ import React from 'react';
 import Form from './form';
 import { FormParams } from './utils/utils';
 
+const dateFormat = 'YYYY.MM.DD';
+
 
 class CommonForm extends React.Component {
     constructor(props) {
@@ -11,24 +13,85 @@ class CommonForm extends React.Component {
             params: this.formInstance.initParams,
         }
     }
+    checkoutParamsType = (key, item) => {
+        let returnItem = undefined;
+        switch (key) {
+            case 'fromDevice':
+                returnItem = (Array.isArray(item) && item.length > 0) ? item.map(ls => ls.value) : undefined
+                break;
+            case 'fromApp':
+                returnItem = (Array.isArray(item) && item.length > 0) ? item.map(ls => ls.value) : undefined
+                break;
+            case 'registerTime':
+                returnItem = (Array.isArray(item) && item.length > 0) ? item.map(ls => ls && ls.format(dateFormat)) : undefined
+                break;
+            case 'choiceLessonStatus':
+                returnItem = item ? item.value : undefined
+                break;
+            case 'publicLesson':
+                returnItem = item ? item.value : undefined
+                break;
+            case 'publicChoiceLessonTime':
+                returnItem = (Array.isArray(item) && item.length > 0) ? item.map(ls => ls && ls.format(dateFormat)) : undefined
+                break;
+            case 'certificateChoiceLesson':
+                returnItem = item ? item.value : undefined
+                break;
+            case 'certificateChoiceLessonTime':
+                returnItem = (Array.isArray(item) && item.length > 0) ? item.map(ls => ls && ls.format(dateFormat)) : undefined
+                break;
+            case 'attendanceStatus':
+                returnItem = item ? item.value : undefined
+                break;
+            case 'attendanceNum':
+                returnItem = item ? item.value : undefined
+                break;
+            case 'listenLessonTime':
+                returnItem = item ? item : undefined;
+                break;
+            case 'payOrder':
+                returnItem = item ? item.value : undefined
+                break;
+            case 'orderMoney':
+                returnItem = item ? item : undefined;
+                break;
+            case 'koOrderGap':
+                returnItem = item ? item : undefined;
+                break;
+            case 'frontBelong':
+                returnItem = item ? item : undefined;
+                break;
+            case 'backBelong':
+                returnItem = item ? item : undefined;
+                break;
+            default:
+                returnItem = null;
+                break
+        }
+        return returnItem;
+
+    }
     handleSubmitParams = (params = {}) => {
         const returnParams = {};
         Object.keys(params).forEach(key => {
             const obj = params[key];
-            returnParams[key] = this.checkoutParams(key, obj)
+            returnParams[key] = this.checkoutParamsType(key, obj)
         })
         return returnParams;
     }
-    onSaveParams = (ops) => {
-        const { params } = this.state;
-        const newParams = { ...params, ...ops };
-        this.setState({ params: newParams });
+    onSaveParams = (params) => {
+        this.setState({ params });
     }
     onChangeParams = (obj) => {
-        this.onSaveParams({ ...obj })
+        const { params } = this.state;
+        const newParams = { ...params, ...obj };
+        this.onSaveParams({ ...newParams })
     }
     onSubmit = (params) => {
-        this.onSaveParams(params);
+        const newParams = { ...this.state.params, ...params };
+        const hasHandleParams = this.handleSubmitParams(newParams);
+        console.log(hasHandleParams);
+        this.onSaveParams(newParams);
     }
     render() {
         const { params } = this.state
