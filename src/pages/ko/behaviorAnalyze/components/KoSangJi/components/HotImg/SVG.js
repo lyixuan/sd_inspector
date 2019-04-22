@@ -201,7 +201,7 @@ export const IndexPage=`<?xml version="1.0" encoding="UTF-8"?>
                                 <rect class='mask' data-name='d4' x="5" y="215" width="220" height="66" rx="4"></rect>
                                 <rect class='mask' data-name='d5' x="5" y="286" width="220" height="66" rx="4"></rect>
                                 <rect class='mask' data-name='d6' x="5" y="358" width="220" height="66" rx="4"></rect>
-                                <rect class='mask' data-name='d7' x="5" y="429" width="220" height="61" rx="4"></rect>
+                                <rect class='mask' data-name='d7' x="5" y="429" width="220" height="66" rx="4"></rect>
                             </g>
                         </g>
                         <g id="分组-48" mask="url(#mask-2)" font-family="PingFangSC-Regular, PingFang SC" font-size="10" font-weight="normal">
@@ -257,7 +257,7 @@ export const IndexPage=`<?xml version="1.0" encoding="UTF-8"?>
                                 <rect class='mask' data-name='d4' x="80" y="258" width="70" height="30" rx="4"></rect>
                                 <rect class='mask' data-name='d5' x="160" y="258" width="70" height="30" rx="4"></rect>
                                 <rect class='mask' data-name='d6' x="0" y="297" width="230" height="128" rx="4"></rect>
-                                <rect class='mask' data-name='d8' x="145" y="437" width="85" height="34" rx="4"></rect>
+                                <rect class='mask' data-name='d8' x="144" y="437" width="92" height="34" rx="4"></rect>
                             </g>
                         </g>
                         <g id="分组-51" mask="url(#mask-2)" font-family="PingFangSC-Regular, PingFang SC" font-size="10" font-weight="normal">
