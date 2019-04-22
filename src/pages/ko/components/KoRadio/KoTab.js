@@ -6,7 +6,7 @@ export default class KoTab extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      radioValue: props.location.pathname||'/ko/behaviorAnalyze',
+      radioValue: props.location.pathname || '/ko/behaviorAnalyze',
     }
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -19,8 +19,8 @@ export default class KoTab extends React.Component {
   onChangeRadio = (e) => {
     const path = e.target.value;
     this.setState({
-      radioValue:path
-    },function() {
+      radioValue: path
+    }, function () {
       this.jumpTo(path)
     })
   };
@@ -30,18 +30,21 @@ export default class KoTab extends React.Component {
     });
   };
   render() {
-    const {radioValue} = this.state;
+    const { radioValue } = this.state;
+    const { pageParams = {} } = this.props;
+    const KOMessage = pageParams.KOMessage || {};
     return (
       <div>
         <KoRadio buttonStyle="solid" value={radioValue} onChange={this.onChangeRadio}>
           <KoRadio.Radio.Button value={'/ko/behaviorAnalyze'}>行为分析</KoRadio.Radio.Button>
           <KoRadio.Radio.Button value={'/ko/userList'}>用户列表</KoRadio.Radio.Button>
         </KoRadio>
-        {radioValue === '/ko/behaviorAnalyze'?(
+        {radioValue === '/ko/behaviorAnalyze' ? (
           <span className={style.beizhu}>
-          备注：当前最大可用日期2019-03-03 ，更多数据添加中...
-        </span>
-        ):null}
+            {KOMessage.message}
+            {/* 备注：当前最大可用日期2019-03-03 ，更多数据添加中... */}
+          </span>
+        ) : null}
       </div>
     );
   }

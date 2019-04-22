@@ -7,12 +7,19 @@ import BarEcharts from './components/EchartsBar'
 }))
 class behavior extends React.Component {
   componentDidMount() {
+    this.getInitData();
     this.getHotDataList()
   }
-  getHotDataList =()=>{
+  getInitData = () => {
     this.props.dispatch({
-      type:'behavior/getHotDataList',
-      payload:{}
+      type: 'koPlan/pageParams',
+    })
+
+  }
+  getHotDataList = () => {
+    this.props.dispatch({
+      type: 'behavior/getHotDataList',
+      payload: {}
     })
   }
   render() {

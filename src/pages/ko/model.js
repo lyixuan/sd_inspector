@@ -1,6 +1,9 @@
 import { message } from 'antd';
 import { msgF } from '@/utils/utils';
-import { getKOEnumList ,getPageList,getSankeyData,getTableList,getBarData} from './services';
+import {
+  getKOEnumList, getPageList, getSankeyData, getTableList, getBarData,
+  getKoDateRange, getKOMessage,
+} from './services';
 
 
 export default {
@@ -11,17 +14,40 @@ export default {
     params: {},
     pageList: [],
     tableList: [],
-    tabFromParams:{},
-    sankeyData: []
+    tabFromParams: {},
+    sankeyData: [],
+    pageParams: {},
   },
 
   effects: {
+    *pageParams(_, { all, call, put }) {
+      const [KoDateRangeResponse, KOMessageResponse] = yield all([
+        call(getKoDateRange),
+        call(getKOMessage),
+      ]);
+      KoDateRangeResponse.code !== 2000 && message.error(KoDateRangeResponse.msg);
+      KOMessageResponse.code !== 2000 && message.error(KOMessageResponse.msg);
+      const KoDateRange = KoDateRangeResponse.data;
+      const KOMessage = KOMessageResponse.data;
+      yield put({
+        type: 'savePageParams',
+        payload: { pageParams: { KoDateRange, KOMessage } }
+      });
+    },
+    *getKoDateRange(_, { call, put }) {
+      const response = yield call(getKoDateRange);
+      if (response.code === 2000) {
+      } else {
+        message.error(response.msg);
+      }
+
+    },
     *getKOEnumList({ payload }, { call, put }) {
       const response = yield call(getKOEnumList, payload);
-      if (response.code) {
+      if (response.code === 20000) {
         const data = Array.isArray(response.data) ? response.data : [];
         const enumData = {};
-        data.map(item => {
+        data.forEach(item => {
           enumData[item.type] = item.enumData;
         });
         yield put({
@@ -34,23 +60,23 @@ export default {
       }
     },
     *getPageList({ payload }, { call, put }) {
-      yield put({ type: 'saveTabFromParams', payload: {  } });
+      yield put({ type: 'saveTabFromParams', payload: {} });
       // 二级页面下拉接口
       const params = payload.params;
-      const result = yield call(getPageList,params);
+      const result = yield call(getPageList, params);
       if (result.code === 20000) {
         const pageList = result.data || [];
         yield put({ type: 'save', payload: { pageList } });
-        yield put({ type: 'getSankeyList', payload: { tabFromParams:this.state.tabFromParams } });
-        yield put({ type: 'getBarData', payload: { params:this.state.params } });
+        yield put({ type: 'getSankeyList', payload: { tabFromParams: this.state.tabFromParams } });
+        yield put({ type: 'getBarData', payload: { params: this.state.params } });
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
     *getSankeyList({ payload }, { call, put }) {
       // 桑吉图
       const params = payload.params;
-      const result = yield call(getSankeyData,params);
+      const result = yield call(getSankeyData, params);
       if (result) {
         const sankeyData = result.data || [];
         yield put({ type: 'save', payload: { sankeyData } });
@@ -61,23 +87,23 @@ export default {
     *getBarData({ payload }, { call, put }) {
       // 柱状图
       const params = payload.params;
-      const result = yield call(getBarData,params);
+      const result = yield call(getBarData, params);
       if (result.code === 20000) {
         const tableList = result.data || [];
         yield put({ type: 'save', payload: { tableList } });
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
     *getTableList({ payload }, { call, put }) {
       // 列表
       const params = payload.params;
-      const result = yield call(getTableList,params);
+      const result = yield call(getTableList, params);
       if (result.code === 20000) {
         const tableList = result.data || [];
         yield put({ type: 'save', payload: { tableList } });
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
   },
@@ -87,6 +113,9 @@ export default {
       return { ...state, ...payload };
     },
     saveKOEnumList(state, { payload }) {
+      return { ...state, ...payload };
+    },
+    savePageParams(state, { payload }) {
       return { ...state, ...payload };
     },
     save(state, { payload }) {
