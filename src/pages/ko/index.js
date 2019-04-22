@@ -12,6 +12,7 @@ import CommonForm from './components/form';
   koPlan,
   enumData: koPlan.enumData,
   pageList: koPlan.pageList,
+  pageParams: koPlan.pageParams,
   isLoadEnumData: loading.effects['koPlan/getKOEnumList'],
 }))
 class koPlan extends React.Component {
@@ -90,7 +91,6 @@ class koPlan extends React.Component {
           </div>
         </>
         }
-
         <RenderRoute {...this.props} />
       </div>
     );

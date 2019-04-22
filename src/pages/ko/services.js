@@ -20,21 +20,21 @@ export async function getPageList(params) {
 }
 
 // 桑吉图接口
-export async function getSankeyData(params,formParams) {
-  let result = {code:20000,msg:"成功",data:[]};
+export async function getSankeyData(params, formParams) {
+  let result = { code: 20000, msg: "成功", data: [] };
   const response = await request('/homePage/sankeyMapOrg', { params });
   if (response.code === 20000) {
-    const params2 = dealMapOrg(response.data,formParams);
+    const params2 = dealMapOrg(response.data, formParams);
     const response2 = await request('/homePage/sankeyMapData', { params2 });
     if (response2.code === 20000) {
-      result.data = dealResultData(response.data,response2.data);
+      result.data = dealResultData(response.data, response2.data);
     } else {
       result.code = -1;
-      result.msg = msgF(response2.msg,response2.msgDetail);
+      result.msg = msgF(response2.msg, response2.msgDetail);
     }
   } else {
     result.code = -1;
-    result.msg = msgF(response.msg,response.msgDetail)
+    result.msg = msgF(response.msg, response.msgDetail)
   }
   return result;
 }
@@ -49,7 +49,7 @@ export async function getBarData(params) {
   return request('/homePage/userList', { params });
 }
 
-function dealMapOrg(data,formParams) {
+function dealMapOrg(data, formParams) {
   const data1 = {
     "downPageList": [
       {
@@ -80,20 +80,20 @@ function dealMapOrg(data,formParams) {
   };
   let pageList = new Set();
   let actionList = new Set();
-  data1.upPageList && data1.upPageList.forEach((v)=>{
+  data1.upPageList && data1.upPageList.forEach((v) => {
     pageList.add(v.downPagekey);
     actionList.add(v.action_key);
   });
-  data1.downPageList && data1.downPageList.forEach((v)=>{
+  data1.downPageList && data1.downPageList.forEach((v) => {
     pageList.add(v.pageKey);
     actionList.add(v.action_key);
   });
   pageList = Array.from(pageList);
   actionList = Array.from(actionList);
 
-  return {pageList,actionList,formParams};
+  return { pageList, actionList, formParams };
 }
-function dealResultData(data1,data2) {
+function dealResultData(data1, data2) {
   // todo  合并接口1 接口2的数据，处理结构
   const rs = '';
   return rs;
