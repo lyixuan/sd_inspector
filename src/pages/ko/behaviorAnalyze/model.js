@@ -16,7 +16,7 @@ export default {
   namespace: 'behavior',
 
   state: {
-    hotDataList: [],    // 热力图数据
+    hotDataList: {},   // 热力图数据
     upPage: {},        // 桑吉图上游数据
     downPage: {},      // 桑吉图下游数据
     behaviourData: [], // 柱状图
@@ -30,10 +30,14 @@ export default {
       const otherParams = payload.otherParams;
       const result = yield call(getSankeyData, {params,formParams,otherParams});
       if (result) {
+        console.log('getSankeyList',result)
         const {behaviourData = [],sankeyData={}} = result.data || [];
         yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj} });
         yield put({ type: 'saveBehaviourData', payload: { behaviourData }});
-        yield put({ type: 'save', payload: { upPage: sankeyData.upPage,downPage:sankeyData.downPage,currentPage:'' } });
+        yield put({
+          type: 'save',
+          payload: { upPage: sankeyData.upPage, downPage: sankeyData.downPage, currentPage: '' },
+        });
       } else {
         message.error(result.msg);
       }

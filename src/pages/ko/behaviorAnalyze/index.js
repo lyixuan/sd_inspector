@@ -23,11 +23,11 @@ class behavior extends React.Component {
     })
   };
   render() {
-
+    const {upPage,downPage,currentPage} = this.props.behavior;
     return (
       <div>
         {/*------- 图1 桑吉 部分 --------*/}
-        <KoSangJi {...this.props}></KoSangJi>
+        <KoSangJi {...this.props} upPage={upPage} downPage={downPage} currentPage={currentPage}></KoSangJi>
         {/*------- 图2 柱状 部分 --------*/}
         <BarEcharts {...this.props} />
       </div>

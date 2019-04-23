@@ -11,9 +11,9 @@ class SangJiEcharts extends React.Component {
     };
   }
   componentDidMount() {
-    const {position = 'left'} =  this.props;
+    const {position = 'left',upPage,downPage,currentPage} =  this.props;
     this.setState({
-      option: position === 'left'?getSangJiUpOption():getSangJiDownOption()
+      option: position === 'left'?getSangJiUpOption(upPage,currentPage):getSangJiDownOption(downPage,currentPage)
     })
   }
   render() {

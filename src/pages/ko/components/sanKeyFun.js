@@ -226,7 +226,6 @@ function getCurrentPage(downPageList, currentPage) {
       break;
     }
   }
-  console.log(currentPageObj)
   return currentPageObj;
 }
 
