@@ -74,7 +74,7 @@ function dealData1(data1) {
     if (!tempObj[v.page]) {
       v.pageKeys = new Set([v.pageKey]);
       v.actionKeyIds = new Set([v.actionKeyId]);
-      tempObj[v.page] = { v };
+      tempObj[v.page] = v;
     } else {
       tempObj[v.page].pageKeys.add(v.pageKey);
       tempObj[v.page].actionKeyIds.add(v.actionKeyId);
@@ -133,6 +133,7 @@ function addObjectItem(newData1,pageEventData,actionEventData) {
       });
     });
   });
+  console.log(newData1);
   return newData1;
 }
 
@@ -212,10 +213,13 @@ function getCurrentPage(downPageList,currentPage) {
   return currentPageObj;
 }
 
-export function dealMapOrg(data, currentPage, formParams,currentActionKeyId) {
+export function dealMapOrg({data, formParams,params,otherParams}) {
   /*
   * 基于结构数据data，构造下一个接口需要的参数
   * */
+  const {page:currentPage,belongApp} = params;
+  const {currentActionKeyId,recordTimeList} = otherParams;
+
   let pageKeyList = new Set();
   let actionKeyList = new Set();
   let currentActionList = new Set();
@@ -223,9 +227,6 @@ export function dealMapOrg(data, currentPage, formParams,currentActionKeyId) {
   data.upPageList && data.upPageList.forEach((v) => {
     pageKeyList.add(currentPage);
     actionKeyList.add(v.actionKeyId);
-    if (v.page === currentPage) {
-      currentActionList.add({actionKeyId: v.actionKeyId,actionKey:v.actionKey,actionName:v.actionName});
-    }
   });
   data.downPageList && data.downPageList.forEach((v) => {
     pageKeyList.add(v.pageKey);
@@ -236,8 +237,9 @@ export function dealMapOrg(data, currentPage, formParams,currentActionKeyId) {
   });
   pageKeyList = Array.from(pageKeyList);
   actionKeyList = Array.from(actionKeyList);
+  currentActionList = Array.from(currentActionList);
 
-  return { pageKeyList, actionKeyList,currentActionList,formParams,currentActionKeyId };
+  return { pageKeyList, actionKeyList,currentActionList,formParams,currentActionKeyId,recordTimeList,belongApp };
 }
 
 export function dealResultData(data1, data2, currentPage) {
@@ -249,13 +251,15 @@ export function dealResultData(data1, data2, currentPage) {
     downPageList:[],
   };
 
+  console.log(11,data2)
+  console.log(11,currentPage)
   // 基于page合并去重
   newData1.upPageList = dealData1(data1.upPageList);
   newData1.downPageList = dealData1(data1.downPageList);
 
   // 为newData1添加 页面点击量 点击人数等;并取actionKeyId点击量前十
   newData1.upPageList = getFirstTen(addObjectItem(newData1.upPageList,data2.pageEventData,data2.actionEventData));
-  newData1.downPageList = getFirstTen(addObjectItem(newData1.upPageList,data2.pageEventData,data2.actionEventData));
+  newData1.downPageList = getFirstTen(addObjectItem(newData1.downPageList,data2.pageEventData,data2.actionEventData));
 
   // 构造桑吉图需要的结构，并处理节点
   const {upPage={}, downPage={}}=getSanKeyMap(newData1);

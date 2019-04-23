@@ -17,6 +17,9 @@ class UserList extends React.Component {
       pageSize: 30
     };
   };
+  componentDidMount() {
+    this.queryData();
+  }
   jumpTo = (pathname) => {
     this.props.history.push({
       pathname,

@@ -15,7 +15,9 @@ export default {
   effects: {
     *getSankeyList({ payload }, { call, put }) {
       const params = payload.params;
-      const result = yield call(getSankeyData, params);
+      const formParams = payload.formParams;
+      const otherParams = payload.otherParams;
+      const result = yield call(getSankeyData, {params,formParams,otherParams});
       if (result) {
         const {behaviourData = [],sankeyData={}} = result.data || [];
         yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj}, });
