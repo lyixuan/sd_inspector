@@ -23,17 +23,22 @@ export default {
     *pageParams(_, { all, call, put, select }) {
       const pageParams = yield select(state => state.koPlan.pageParams);
       if (JSON.stringify(pageParams) !== '{}') return;
-      const [KoDateRangeResponse, KOMessageResponse] = yield all([
+      const [KoDateRangeResponse, KOMessageResponse, pageDetailInfoList, fromAppResponse] = yield all([
         call(getKoDateRange),
         call(getKOMessage),
+        call(getPageDetailInfoList),
+        call(getKOEnumList, { type: 2 })
       ]);
+      console.log(fromAppResponse)
       KoDateRangeResponse.code !== 2000 && message.error(KoDateRangeResponse.msg);
       KOMessageResponse.code !== 2000 && message.error(KOMessageResponse.msg);
+      pageDetailInfoList.code !== 20000 && message.error(msgF(pageDetailInfoList.msg, pageDetailInfoList.msgDetail));
       const KoDateRange = KoDateRangeResponse.data;
       const KOMessage = KOMessageResponse.data;
+      const pageDetailInfo = pageDetailInfoList.data;
       yield put({
         type: 'savePageParams',
-        payload: { pageParams: { KoDateRange, KOMessage } }
+        payload: { pageParams: { KoDateRange, KOMessage, pageDetailInfo } }
       });
     },
     *getKoDateRange(_, { call, put }) {
@@ -62,18 +67,18 @@ export default {
       }
     },
     *getPageList({ payload }, { call, put }) {
-      yield put({ type: 'saveTabFromParams', payload: {} });
-      // 二级页面下拉接口
-      const params = payload.params;
-      const result = yield call(getPageList, params);
-      if (result.code === 20000) {
-        const pageList = result.data || [];
-        yield put({ type: 'save', payload: { pageList } });
-        yield put({ type: 'getSankeyList', payload: { tabFromParams: this.state.tabFromParams } });
-        yield put({ type: 'getBarData', payload: { params: this.state.params } });
-      } else {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
+      // yield put({ type: 'saveTabFromParams', payload: {} });
+      // // 二级页面下拉接口
+      // const params = payload.params;
+      // const result = yield call(getPageList, params);
+      // if (result.code === 20000) {
+      //   const pageList = result.data || [];
+      //   yield put({ type: 'save', payload: { pageList } });
+      //   yield put({ type: 'getSankeyList', payload: { tabFromParams: this.state.tabFromParams } });
+      //   yield put({ type: 'getBarData', payload: { params: this.state.params } });
+      // } else {
+      //   message.error(msgF(result.msg, result.msgDetail));
+      // }
     },
     *getSankeyList({ payload }, { call, put }) {
       // 桑吉图
