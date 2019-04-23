@@ -18,7 +18,7 @@ export default {
       const result = yield call(getSankeyData, params);
       if (result) {
         const {behaviourData = [],sankeyData={}} = result.data || [];
-        yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.downPageList}, });
+        yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj}, });
         yield put({ type: 'save', payload: { behaviourData, upPage: sankeyData.upPage,downPage:sankeyData.downPage,currentPage:'' } });
       } else {
         message.error(result.msg);
