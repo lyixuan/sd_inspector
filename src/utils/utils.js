@@ -163,6 +163,12 @@ export function formatDate(timestamp, split = '') {
   d = d < 10 ? `0${d}` : d; // 判断日期是否大10
   return `${y}${split}${m}${split}${d}`; // 返回时间格式
 }
+// 时间转化成星期几
+export function formatDateToWeek(date) {
+  const weekArr = ['周日','周一','周二','周三','周四','周五','周六']
+  const dateTime = new Date(date).getDay();
+  return `${date} ${weekArr[dateTime]}`
+}
 // 处理url
 /* eslint no-useless-escape:0 */
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
