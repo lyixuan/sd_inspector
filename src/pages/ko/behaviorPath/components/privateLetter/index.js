@@ -196,9 +196,9 @@ class PrivateLetter extends React.Component {
         props.behaviorPath.letterData.map(item => {
           item.contentList.map(item => {
             if (item.userId == this.state.userId) {
-              item.userType = 1
-            } else {
               item.userType = 2
+            } else {
+              item.userType = 1
             }
           })
         })
@@ -221,7 +221,6 @@ class PrivateLetter extends React.Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    console.log(246, nextProps.behaviorPath, this.props.behaviorPath)
     if (
       JSON.stringify(nextProps.behaviorPath.letterData) !==
       JSON.stringify(this.props.behaviorPath.letterData)
