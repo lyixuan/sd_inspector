@@ -66,14 +66,14 @@ class KoDetailPage extends React.Component {
   };
   drewLended = (data) => {
     if(data&&data.length){
-      this.chart = d3.select(this.svgDom).html(ShopPage);
+      this.chart = d3.select(this.svgDom).html(KoList);
       const colorArr = this.getColorFn(data);
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       // 修改数据
       this.chart.selectAll('.text').text(function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
         if(val) return val.clickCountPre;
-      });
+      }).style('font-weight','700');
       // 修改商城列表name
       this.chart.selectAll('.textName').text(function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];

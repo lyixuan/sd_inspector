@@ -87,7 +87,7 @@ a,a:hover{
 }
 /* 柱状图自定义tip框样式 */
 .tipWrap{
-  width: 136px;
+  min-width: 136px;
   height: 80px;
   padding: 5px;
   border-radius: 6px;

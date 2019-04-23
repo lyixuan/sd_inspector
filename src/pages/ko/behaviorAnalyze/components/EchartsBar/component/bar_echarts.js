@@ -23,7 +23,7 @@ const dataFn= ()=> {
       actionKey:`actionKey${i}`,
       clickNum:i*12,
       convertPer:(i/15*100).toFixed(2),
-      time:`2019-02-03${i}`,
+      time:`2019-02-03 周二`,
     })
   }
   return data;
@@ -39,7 +39,6 @@ const getData = (data,name)=>{
 const data1 = getData('data1','name');
 const data3 = getData('data3','clickNum');
 const data4 = getData('data4','convertPer');
-const data5 = getData('data5','time');
 
 export function options(){
   return  {
@@ -67,7 +66,7 @@ export function options(){
             tipItem += `<div class="tipItem"><span class="tipIcon" style="background-color:${params[i].color}"></span><span>${params[i].seriesName}：${params[i].value}${i===0?'次':'%'}</span></div>`
           }
         }
-        return `<div class="tipWrap"><div>2019-02-12 周二</div>${tipItem}</div>`;
+        return `<div class="tipWrap"><div>${params[0].name.time}</div>${tipItem}</div>`;
 
       },
     },
