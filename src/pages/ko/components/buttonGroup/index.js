@@ -167,7 +167,7 @@ export default class ButtonGroup extends React.Component {
                                 {children}
                             </div>)}
                         </div>
-                        {isShowFiexd ? <Divider className={styles.collapCls} dashed onClick={this.toggle}>{expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} /></Divider> : null}
+                        {/* {isShowFiexd ? <Divider className={styles.collapCls} dashed onClick={this.toggle}>{expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} /></Divider> : null} */}
 
                     </div>
 
