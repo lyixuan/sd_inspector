@@ -1,6 +1,4 @@
 import request from '@/utils/request';
-import { msgF } from '@/utils/utils';
-import { dealMapOrg,dealResultData } from '@/pages/ko/components/commonFun';
 
 // 页面枚举接口
 export async function getKOEnumList(params) {

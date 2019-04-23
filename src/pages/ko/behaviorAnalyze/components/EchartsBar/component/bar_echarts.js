@@ -1,4 +1,3 @@
-
 const config = {
   splitLine:{
     lineStyle:{
@@ -15,33 +14,7 @@ const config = {
     }
   },
 };
-// const dataFn= ()=> {
-//   const data=[];
-//   for(let i=0;i<15;i++){
-//     data.push({
-//       name:`name${i}`,
-//       actionKey:`actionKey${i}`,
-//       clickNum:i*12,
-//       convertPer:(i/15*100).toFixed(2),
-//       time:`2019-02-03 周二`,
-//     })
-//   }
-//   return data;
-// };
-
-// const getData = (data,name)=>{
-//   data=[];
-//   dataFn().forEach(item=>{
-//     data.push({name:item,value:item[name]})
-//   });
-//   return data;
-// };
-// const data1 = getData('data1','name');
-// const data3 = getData('data3','clickNum');
-// const data4 = getData('data4','convertPer');
-
 export function options(data){
-  console.log(data)
   return  {
     grid: {
       top: 30,

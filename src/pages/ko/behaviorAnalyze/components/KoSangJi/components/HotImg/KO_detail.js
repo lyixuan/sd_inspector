@@ -9,6 +9,7 @@ import {
   KoList,
   SelfExam} from './SVG';
   import styles from './style.less';
+import { func } from 'prop-types';
 
 let tip={}
 class KoDetailPage extends React.Component {
@@ -66,18 +67,25 @@ class KoDetailPage extends React.Component {
   };
   drewLended = (data) => {
     if(data&&data.length){
-      this.chart = d3.select(this.svgDom).html(StartList);
+      this.chart = d3.select(this.svgDom).html(ShopPage);
       const colorArr = this.getColorFn(data);
+
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       // 修改数据
       this.chart.selectAll('.text').text(function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
         if(val) return val.clickCountPre;
       }).style('font-weight','600');
+
       // 修改商城列表name
+      const datall = [{actionID:'name1',textName:'11'},{actionID:'name12',textName:'fef'},{actionID:'name13',textName:'erw'},{actionID:'name14',textName:'vv'}]
+      this.chart.selectAll('.textName').nodes().map((item,i)=>{
+          item.setAttribute('data-id',datall[i].actionID)
+        }
+      )
       this.chart.selectAll('.textName').text(function(){
-        const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
-        if(val) return val.textName;
+        const val = datall.filter((item,i)=>d3.select(this).attr('data-id')===item.actionID);
+        if(val) return val[0].textName;
       })
       // 修改颜色
       this.chart.selectAll('.mask').style('fill',function(){
