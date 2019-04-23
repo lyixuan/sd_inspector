@@ -213,9 +213,8 @@ function getCurrentPage(downPageList,currentPage) {
 }
 
 export function dealMapOrg(data, currentPage, formParams,currentActionKeyId) {
-  /**
+  /*
   * 基于结构数据data，构造下一个接口需要的参数
-  * return  所有pageKey，所有actionKeyId，当前页的action对象，currentActionKeyId详情页的id，form表单所有选项
   * */
   let pageKeyList = new Set();
   let actionKeyList = new Set();
@@ -242,6 +241,9 @@ export function dealMapOrg(data, currentPage, formParams,currentActionKeyId) {
 }
 
 export function dealResultData(data1, data2, currentPage) {
+  /*
+  * 桑吉接口组合，处理数据
+  * */
   let newData1 = {
     upPageList:[],
     downPageList:[],
