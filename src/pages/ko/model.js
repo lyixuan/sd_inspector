@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import { msgF } from '@/utils/utils';
+import { handleInitParams } from './utils/utils';
 import {
   getKOEnumList, getPageList, getSankeyData, getTableList, getBarData,
   getKoDateRange, getKOMessage, getPageDetailInfoList,
@@ -27,19 +28,25 @@ export default {
         call(getKoDateRange),
         call(getKOMessage),
         call(getPageDetailInfoList),
-        call(getKOEnumList, { type: 2 })
+        call(getKOEnumList, { type: 2 }),
       ]);
-      console.log(fromAppResponse)
       KoDateRangeResponse.code !== 2000 && message.error(KoDateRangeResponse.msg);
       KOMessageResponse.code !== 2000 && message.error(KOMessageResponse.msg);
       pageDetailInfoList.code !== 20000 && message.error(msgF(pageDetailInfoList.msg, pageDetailInfoList.msgDetail));
-      const KoDateRange = KoDateRangeResponse.data;
-      const KOMessage = KOMessageResponse.data;
-      const pageDetailInfo = pageDetailInfoList.data;
-      yield put({
-        type: 'savePageParams',
-        payload: { pageParams: { KoDateRange, KOMessage, pageDetailInfo } }
-      });
+      fromAppResponse.code !== 20000 && message.error(msgF(fromAppResponse.msg, fromAppResponse.msgDetail));
+      if (fromAppResponse.code === 20000 && pageDetailInfoList.code === 20000 && KoDateRangeResponse.code === 2000) {
+        const KoDateRange = KoDateRangeResponse.data;
+        const KOMessage = KOMessageResponse.data;
+        const pageDetailInfo = pageDetailInfoList.data;
+        const fromAppData = fromAppResponse.data;
+        const newParams = { KoDateRange, KOMessage, pageDetailInfo, fromAppData };
+        yield put({
+          type: 'savePageParams',
+          payload: { pageParams: newParams }
+        });
+        yield put({ type: 'saveTabFromParams', payload: { ...handleInitParams(newParams) } })
+      }
+
     },
     *getKoDateRange(_, { call, put }) {
       const response = yield call(getKoDateRange);
@@ -129,7 +136,7 @@ export default {
       return { ...state, ...payload };
     },
     saveTabFromParams(state, { payload }) {
-      return { ...state, ...payload.tabFromParams };
+      return { ...state, tabFromParams: { ...payload } };
     }
   },
 

@@ -4,16 +4,16 @@ export default {
   namespace: 'behavior',
 
   state: {
-    hotDataList:[]
+    hotDataList: []
   },
 
   effects: {
     *getHotDataList({ payload }, { call, put }) {
       // const data = yield call(province, { ...payload });
       // if (data.code === 20000) {
-        yield put({ type: 'saveDataList', payload: { hotDataList:[]}, });
+      yield put({ type: 'saveDataList', payload: { hotDataList: [] }, });
       // } else {
-        // message.error(msgF(data.msg,data.msgDetail));
+      // message.error(msgF(data.msg,data.msgDetail));
       // }
     },
   },
@@ -23,15 +23,15 @@ export default {
       return { ...state, ...payload };
     },
     saveDataList(state, { payload }) {
-      const {hotDataList}=payload;
-      for(let i=0;i<15;i++){
+      const { hotDataList } = payload;
+      for (let i = 0; i < 15; i++) {
         hotDataList.push({
-          name:`d${i+1}`,
-          textName: `行政管理${i+1}`,// 商城列表的名字
-          clickPeople:i*10,//点击人数
-          peopoleRate:(i/15*100).toFixed(2),
-          clickCountPre:i*20,//点击次数
-          countRate:(i/20*100).toFixed(2),//点击次数
+          name: `d${i + 1}`,
+          textName: `行政管理${i + 1}`,// 商城列表的名字
+          clickPeople: i * 10,//点击人数
+          peopoleRate: (i / 15 * 100).toFixed(2),
+          clickCountPre: i * 20,//点击次数
+          countRate: (i / 20 * 100).toFixed(2),//点击次数
         })
       }
       return { ...state, ...payload };
