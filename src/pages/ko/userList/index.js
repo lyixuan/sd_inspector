@@ -34,13 +34,13 @@ class UserList extends React.Component {
       });
     }
     this.props.dispatch({
-      type: 'userListModel/userList',
+      type: 'userListModel/getTableList',
       payload: { params },
     });
   };
 
   columns() {
-    const col1 = [
+    const col = [
       {
         title: '学员',
         dataIndex: 'username',
@@ -124,69 +124,6 @@ class UserList extends React.Component {
         dataIndex: 'wechatStudentChatNum',
       },
     ];
-    const col = [
-      {
-        title: '学员',
-        dataIndex: '1',
-      },
-      {
-        title: '注册状态',
-        dataIndex: '2',
-      },
-      {
-        title: '选课状态',
-        dataIndex: '3',
-      },
-      {
-        title: '浏览页面数量',
-        dataIndex: '4',
-      },
-      {
-        title: '视频播放次数',
-        dataIndex: '5',
-      },
-      {
-        title: '做题次数',
-        dataIndex: '6',
-      },
-      {
-        title: 'IM咨询次数',
-        dataIndex: '7',
-      },
-      {
-        title: '排队次数',
-        dataIndex: '8',
-      },
-      {
-        title: '留言次数',
-        dataIndex: '9',
-      },
-      {
-        title: '跟帖次数',
-        dataIndex: '10',
-      },
-      {
-        title: '微信咨询次数',
-        dataIndex: '11',
-      },
-      {
-        title: 'KO转化',
-        dataIndex: '12',
-        render: (text) => {
-          const c1 = '#52C9C2';
-          const c2 = '#595959';
-          const c = text === '已转化'?c1:c2;
-          const stl = {
-            color: c
-          };
-          return (
-            <>
-              <span style={stl}>{text}</span>
-            </>
-          );
-        },
-      },
-    ];
     col.forEach((v)=>{
       v.onCell = (record,rowIndex) => {
         return {
@@ -203,56 +140,12 @@ class UserList extends React.Component {
           </>
         );
       };
-    })
-    console.log(col)
+    });
     return col;
   };
   render() {
     const {userList,page={},loading} = this.props.userListModel;
-    // const dataSource = userList;
-    const dataSource = [{
-      userId:1,
-      '1':'姓名1',
-      '2':'未注册',
-      '3':'已选课',
-      '4':'1',
-      '5':'10',
-      '6':'3',
-      '7':'20',
-      '8':'30',
-      '9':'40',
-      '10':'50',
-      '11':'60',
-      '12':'未转化',
-    },{
-      userId:2,
-      '1':'姓名2',
-      '2':'未注册',
-      '3':'已选课',
-      '4':'1',
-      '5':'10',
-      '6':'3',
-      '7':'20',
-      '8':'30',
-      '9':'40',
-      '10':'50',
-      '11':'60',
-      '12':'未转化',
-    },{
-      userId:3,
-      '1':'姓名3',
-      '2':'未注册',
-      '3':'已选课',
-      '4':'1',
-      '5':'10',
-      '6':'3',
-      '7':'20',
-      '8':'30',
-      '9':'40',
-      '10':'50',
-      '11':'60',
-      '12':'已转化',
-    }];
+    const dataSource = userList;
     return (
       <div>
         <div className={style.contentWrap}>
