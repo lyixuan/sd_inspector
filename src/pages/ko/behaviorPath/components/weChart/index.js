@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon } from 'antd';
+import { connect } from 'dva';
 import styles from '../../style.less';
 
 
@@ -10,7 +11,7 @@ function DateBar(props) {
       <div className={styles.dateBar}>
         <span>{props.date.date.split(" ")[0]}</span>
         <span onClick={() => props.list.onClick(props.index)}>
-          <Icon type={props.date.collapse ? "up" : "down"} style={{ display: (props.date.dialogList.length > 0) ? "block" : "none" }} />
+          <Icon type={props.date.collapse ? "up" : "down"} />
         </span>
       </div>
       {props.date.collapse ? props.children : null}
@@ -42,7 +43,7 @@ class ToggleSession extends React.Component {
             <div className={styles.bigDot + " " + (this.state.expand ? '' : styles.plus)}>
               <span className={styles.dot}></span>
             </div>
-            <div className={styles.text}>微信进入会话</div>
+            <div className={styles.text}>进入会话</div>
           </div>
         </li>
         {this.state.expand ? props.children : null}
@@ -134,7 +135,7 @@ function Layout(props) {
       <DateBar date={item} list={props} index={index}>
         <section>
           <ul className={styles.behavior}>
-            <ContentChildren content={item.dialogList.length > 1 ? <Ul item={item}></Ul> : null}></ContentChildren>
+            <ContentChildren content={item.dialogList.length > 1 ? <Ul item={item}></Ul> : '无数据'}></ContentChildren>
           </ul>
         </section>
       </DateBar>
@@ -146,94 +147,84 @@ function ContentChildren(props) {
   return props.content
 }
 
+@connect(({ behaviorPath }) => ({
+  behaviorPath,
+}))
+
+
 class Wechart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dateList: ["2019-01-02 12:23:21", "20199-01-02 12:23:21", "219-01-02 12:23:21"],
-      listData: [
-        {
-          countDate: "2019-01-02 12:253:21",
-          evaluate: 3, //满意度评价，0：不满意 1：一般 2：满意 3：非常满意
-          consultType: 1,
-          contentList: [
-            {
-              userName: "张三",
-              userType: "1", //用户类型（1:学员 2:老师）
-              consultTime: "2019-01-02 12:23:21",
-              message: "一次能考过吗"
-            },
-            {
-              userName: "张三",
-              userType: "1", //用户类型（1:学员 2:老师）
-              consultTime: "2019-01-02 12:23:21",
-              message: "一次能考过吗"
-            },
-            {
-              userName: "班主任",
-              userType: "2", //用户类型（1:学员 2:老师）
-              consultTime: "2019-01-02 12:23:21",
-              message: "一次能考过吗"
-            },
-            {
-              userName: "张三",
-              userType: "1", //用户类型（1:学员 2:老师）
-              consultTime: "2019-01-02 12:23:21",
-              message: "有免费的公开课吗"
-            }
-          ]
-        },
-        {
-          countDate: "2019-01-03 12:23:99",
-          evaluate: 0, //满意度评价，0：不满意 1：一般 2：满意 3：非常满意
-          consultType: 0,
-          contentList: [
-            {
-              userName: "李四",
-              userType: "1", //用户类型（1:学员 2:老师）
-              consultTime: "2019-01-02 12:23:21",
-              message: "一次能考过吗"
-            },
-            {
-              userName: "班主任",
-              userType: "2", //用户类型（1:学员 2:老师）
-              consultTime: "2019-01-02 12:23:21",
-              message: "一次能考过吗"
-            },
-            {
-              userName: "张三",
-              userType: "1", //用户类型（1:学员 2:老师）
-              consultTime: "2019-01-02 12:23:21",
-              message: "有免费的公开课吗"
-            }
-          ]
-        }
-      ]
+      dateList: [],
+      listData: [],
+      currentIndex: 0
     }
+  }
+  componentDidMount() {
+    this.mount(this.props);
+  }
+  mount(props) {
     let list = [];
-    this.state.dateList.map(item => {
-      list.push({
-        date: item,
-        collapse: false,
-        dialogList: []
-      })
-    })
-    list[0].collapse = true;
-    list[0].dialogList = this.state.listData;
-    list[1].dialogList = this.state.listData;
-    this.state.dateList = list
+    if (props.behaviorPath.dateList.length > 0) {
+      props.behaviorPath.dateList.map(item => {
+        list.push({
+          date: item,
+          collapse: false,
+          dialogList: [],
+        });
+      });
+
+      list[this.state.currentIndex].collapse = true;
+      list[this.state.currentIndex].dialogList = props.behaviorPath.wechartData ? props.behaviorPath.wechartData : [];
+      this.state.dateList = list;
+      this.setState({
+        dateList: this.state.dateList
+      });
+    }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (
+      JSON.stringify(nextProps.behaviorPath.wechartData) !==
+      JSON.stringify(this.props.behaviorPath.wechartData)
+    ) {
+      this.mount(nextProps);
+
+    }
+  }
+  getWechartList = paramDate => {
+    let params = {
+      beginDate: paramDate,
+      // beginDate: '2019-04-17',
+      stuId: 3538515,
+    };
+    this.props.dispatch({
+      type: 'behaviorPath/wechatAct',
+      payload: { params },
+    });
+  };
+
   toggle = (index) => {
+    this.setState({
+      currentIndex: index
+    })
     this.state.dateList.map((item, i) => {
       if (i != index) {
         item.collapse = false
       }
     })
+    if (this.state.dateList[index].collapse) {
+      console.log('收起');
+    } else {
+      let date = this.state.dateList[index].date.replace(/[\u4e00-\u9fa5]/g, '-').split('-');
+      date.length = 3;
+      this.getWechartList(date.join('-'));
+    }
     this.state.dateList[index].collapse = !this.state.dateList[index].collapse;
-    this.setState({
-      dateList: this.state.dateList
-    })
+    // this.setState({
+    //   dateList: this.state.dateList
+    // })
   }
 
 
