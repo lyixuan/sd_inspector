@@ -69,7 +69,7 @@ class KoDetailPage extends React.Component {
     if(data&&data.length){
       this.chart = d3.select(this.svgDom).html(ShopPage);
       const colorArr = this.getColorFn(data);
-      console.log(colorArr)
+
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       // 修改数据
       this.chart.selectAll('.text').text(function(){

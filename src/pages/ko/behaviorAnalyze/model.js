@@ -30,9 +30,9 @@ export default {
       const otherParams = payload.otherParams;
       const result = yield call(getSankeyData, {params,formParams,otherParams});
       if (result) {
-        const {behaviourData = [],sankeyData={}} = result.data || [];
+        const {behaviourData = {},sankeyData={}} = result.data || [];
         yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj} });
-        yield put({ type: 'saveBehaviourData', payload: { behaviourData }});
+        yield put({ type: 'saveBehaviourData', payload: { behaviourData:behaviourData.barActionEventData}});
         yield put({ type: 'save', payload: { upPage: sankeyData.upPage,downPage:sankeyData.downPage,currentPage:'' } });
       } else {
         message.error(result.msg);
@@ -45,23 +45,28 @@ export default {
       return { ...state, ...payload };
     },
     saveBehaviourData(state, { payload }) {
-      // const {behaviourData}=payload;
-      const behaviourData= [ {
-        "name": "aute fugiat aliquip",
-        "actionKey": "non ipsum",
-        "actionKeyId": "exercitation tempor ad commodo ex",
-        "clickNum": -8881030.618847996,
-        "choiceLessonPercent": "eiusmod Duis i"
-      },
-      {
-        "name": "fugiat",
-        "actionKey": "non sint Duis",
-        "actionKeyId": "voluptate pariatur laborum v",
-        "clickNum": -89545102.40833753,
-        "choiceLessonPercent": "et"
-      }]
+      const {behaviourData}=payload;
+      console.log(behaviourData)
+      // const behaviourData= [ {
+      //   "name": "aute fugiat aliquip",
+      //   "actionKey": "non ipsum",
+      //   "actionKeyId": "exercitation tempor ad commodo ex",
+      //   "clickNum": -8881030.618847996,
+      //   "choiceLessonPercent": "eiusmod Duis i"
+      // },
+      // {
+      //   "name": "fugiat",
+      //   "actionKey": "non sint Duis",
+      //   "actionKeyId": "voluptate pariatur laborum v",
+      //   "clickNum": -89545102.40833753,
+      //   "choiceLessonPercent": "et"
+      // }]
       // 数组的字符串跟接口返回的字段一致，否则option那块取值报错
-      const newData=getData(behaviourData,['name','clickNum','choiceLessonPercent'])
+      let newData=[]
+      if(behaviourData){
+        newData=getData(behaviourData,['name','clickNum','choiceLessonPercent'])
+      }
+     
       return { ...state,behaviourData:newData };
     },
     saveDataList(state, { payload }) {
@@ -78,17 +83,19 @@ export default {
         })
       }
       return { ...state, hotDataList};
-      // const newHotData = [];
-      // hotDataList.forEach((item,i) => {
-      //   const {actionKey,clickNum,clickPeople} = item.actionEventData;
-      //   newHotData.push({
-      //     name:actionKey,
-      //     clickPeople:item.clickPeople,//点击人数
-      //     peopoleRate:(item.clickPeople/clickPeople*100).toFixed(2),//人数占比
-      //     clickCountPre:item.clickNum,//点击次数
-      //     countRate:(item.clickNum/clickNum*100).toFixed(2),//次数占比
+      // if(hotDataList&&hotDataList.length){
+      //   const newHotData = [];
+      //   hotDataList.forEach((item,i) => {
+      //     const {actionKey,clickNum,clickPeople} = item.actionEventData;
+      //     newHotData.push({
+      //       name:actionKey,
+      //       clickPeople:item.clickPeople,//点击人数
+      //       peopoleRate:(item.clickPeople/clickPeople*100).toFixed(2),//人数占比
+      //       clickCountPre:item.clickNum,//点击次数
+      //       countRate:(item.clickNum/clickNum*100).toFixed(2),//次数占比
+      //     })
       //   })
-      // })
+      // }
       // return { ...state,hotDataList:newHotData };
     }
   },
