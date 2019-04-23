@@ -9,6 +9,7 @@ export default {
     upPage: {},        // 桑吉图上游数据
     downPage: {},      // 桑吉图下游数据
     behaviourData: [], // 柱状图
+    currentPage: '',   // 当前页面
   },
 
   effects: {
@@ -18,7 +19,7 @@ export default {
       if (result) {
         const {behaviourData = [],sankeyData={}} = result.data || [];
         yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.downPageList}, });
-        yield put({ type: 'save', payload: { behaviourData,upPage: sankeyData.upPage,downPage:sankeyData.downPage } });
+        yield put({ type: 'save', payload: { behaviourData, upPage: sankeyData.upPage,downPage:sankeyData.downPage,currentPage:'' } });
       } else {
         message.error(result.msg);
       }

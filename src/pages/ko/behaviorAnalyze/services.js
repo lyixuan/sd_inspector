@@ -4,7 +4,13 @@ import { msgF } from '@/utils/utils';
 
 // 桑吉图接口
 export async function getSankeyData(params,formParams) {
-  let result = {code:20000,msg:"成功",data:{ behaviourData:[],sankeyData:{upPageList:[],downPageList:[],upPage:{}, downPage:{}} }};
+  let result = {
+    code: 20000,
+    msg: '成功',
+    data: {
+      behaviourData: [],
+      sankeyData: { upPageList: [], downPageList: [], upPage: {}, downPage: {},currentPageObj: {},currentPage:'' } },
+  };
   const response = await request('/homePage/sankeyMapOrg', { params });
   if (response.code === 20000) {
     const params2 = dealMapOrg(response.data,formParams);
