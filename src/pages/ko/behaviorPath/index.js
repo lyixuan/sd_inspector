@@ -17,7 +17,8 @@ class behaviorPath extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeKey: "2"
+      activeKey: "2",
+      dateList: []
     }
   }
 
@@ -28,6 +29,7 @@ class behaviorPath extends React.Component {
   getDateList = () => {
     this.props.dispatch({
       type: 'behaviorPath/getDateList',
+      payload: { stuId: 1767329 },
     });
   };
 
@@ -37,6 +39,7 @@ class behaviorPath extends React.Component {
 
   render() {
     let dateList = this.props.behaviorPath.dateList
+    this.state.dataList = this.props.behaviorPath.dateList
     return (
       <div className={styles.behaviorPath}>
         <div className={styles.tabBox}>
@@ -45,7 +48,7 @@ class behaviorPath extends React.Component {
               <Study dateList={dateList}></Study>
             </TabPane>
             <TabPane tab="IM" key="2">
-              <Im dateList={dateList}></Im>
+              <Im></Im>
             </TabPane>
             <TabPane tab="微信" key="3">
               <WeChart dateList={dateList}></WeChart>
