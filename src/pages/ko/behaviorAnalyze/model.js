@@ -27,6 +27,7 @@ export default {
       for(let i=0;i<15;i++){
         hotDataList.push({
           name:`d${i+1}`,
+          textName: `行政管理${i+1}`,// 商城列表的名字
           clickPeople:i*10,//点击人数
           peopoleRate:(i/15*100).toFixed(2),
           clickCountPre:i*20,//点击次数

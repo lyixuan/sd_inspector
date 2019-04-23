@@ -66,7 +66,7 @@ class KoDetailPage extends React.Component {
   };
   drewLended = (data) => {
     if(data&&data.length){
-      this.chart = d3.select(this.svgDom).html(KoList);
+      this.chart = d3.select(this.svgDom).html(ShopPage);
       const colorArr = this.getColorFn(data);
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       // 修改数据
@@ -74,11 +74,17 @@ class KoDetailPage extends React.Component {
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
         if(val) return val.clickCountPre;
       });
+      // 修改商城列表name
+      this.chart.selectAll('.textName').text(function(){
+        const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
+        if(val) return val.textName;
+      })
       // 修改颜色
       this.chart.selectAll('.mask').style('fill',function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
         if(val) return val.color;
       })
+      
       .on('mouseover', KoDetailPage.that.drewTip(data))
       .on('mouseout', tip.hide)
       .on('mousemove', tip.show);
