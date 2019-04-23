@@ -15,7 +15,7 @@ export async function getKOMessage(params) {
   return request('/certificationItem/getKOMessage', { params, prefix: '/oldApi' });
 }
 // 页面下拉二级列表
-export async function getPageList(params) {
+export async function getPageDetailInfoList(params) {
   return request('/homePage/pageDetailInfoList', { params });
 }
 // 桑吉图接口
