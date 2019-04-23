@@ -1,5 +1,6 @@
 import request from '@/utils/request';
 import { msgF } from '@/utils/utils';
+import { dealMapOrg,dealResultData } from '@/pages/ko/components/commonFun';
 
 // 页面枚举接口
 export async function getKOEnumList(params) {
@@ -13,28 +14,27 @@ export async function getKoDateRange(params) {
 export async function getKOMessage(params) {
   return request('/certificationItem/getKOMessage', { params, prefix: '/oldApi' });
 }
-
 // 页面下拉二级列表
 export async function getPageDetailInfoList(params) {
   return request('/homePage/pageDetailInfoList', { params });
 }
-
 // 桑吉图接口
-export async function getSankeyData(params, formParams) {
-  let result = { code: 20000, msg: "成功", data: [] };
+export async function getSankeyData(params,formParams) {
+  let result = {code:20000,msg:"成功",data:{ behaviourData:[],sankeyData:{} }};
   const response = await request('/homePage/sankeyMapOrg', { params });
   if (response.code === 20000) {
-    const params2 = dealMapOrg(response.data, formParams);
+    const params2 = dealMapOrg(response.data,formParams);
     const response2 = await request('/homePage/sankeyMapData', { params2 });
     if (response2.code === 20000) {
-      result.data = dealResultData(response.data, response2.data);
+      result.data.sankeyData = dealResultData(response.data,response2.data.sankeyData);
+      result.data.behaviourData = response2.data.behaviourData
     } else {
       result.code = -1;
-      result.msg = msgF(response2.msg, response2.msgDetail);
+      result.msg = msgF(response2.msg,response2.msgDetail);
     }
   } else {
     result.code = -1;
-    result.msg = msgF(response.msg, response.msgDetail)
+    result.msg = msgF(response.msg,response.msgDetail)
   }
   return result;
 }
@@ -47,55 +47,5 @@ export async function getTableList(params) {
 // bar 数据
 export async function getBarData(params) {
   return request('/homePage/userList', { params });
-}
-
-function dealMapOrg(data, formParams) {
-  const data1 = {
-    "downPageList": [
-      {
-        "page": "in aute",
-        "pageKey": "fugiat aute",
-        "action_key_id": "esse veniam adipisicing",
-        "action_key": "veniam magna consectetur ea aliquip",
-        "downPage": "anim amet reprehenderit pariatur nulla",
-        "downPageKey": "pariatur eiusmod occaecat",
-        "pageName": "cupidatat reprehenderi",
-        "orderNo": -95012603.42110287,
-        "downPageName": "commodo pariatur incididunt"
-      },
-    ],
-    "upPageList": [
-      {
-        "page": "sunt et",
-        "action_key_id": "veniam magna consectetur ea aliquip",
-        "action_key": "veniam magna consectetur ea aliquip",
-        "pageName": "adipisicing non ut dolor",
-        "pageKey": "proident dolor labore est do",
-        "orderNo": -58347709.499044955,
-        "downPage": "aliquip non commodo consequat",
-        "downPagekey": "veniam ea",
-        "downPageName": "ipsum nisi"
-      },
-    ]
-  };
-  let pageList = new Set();
-  let actionList = new Set();
-  data1.upPageList && data1.upPageList.forEach((v) => {
-    pageList.add(v.downPagekey);
-    actionList.add(v.action_key);
-  });
-  data1.downPageList && data1.downPageList.forEach((v) => {
-    pageList.add(v.pageKey);
-    actionList.add(v.action_key);
-  });
-  pageList = Array.from(pageList);
-  actionList = Array.from(actionList);
-
-  return { pageList, actionList, formParams };
-}
-function dealResultData(data1, data2) {
-  // todo  合并接口1 接口2的数据，处理结构
-  const rs = '';
-  return rs;
 }
 

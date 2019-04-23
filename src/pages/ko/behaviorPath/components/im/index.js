@@ -217,11 +217,11 @@ function ContentChildren(props) {
 class Im extends React.Component {
   constructor(props) {
     super(props);
-    console.log(209, this.props);
+    console.log(220, props)
     this.state = {
       dateList: [],
       currentDate: null,
-      listData: this.props.behaviorPath.listData,
+      listData: [],
     };
   }
   componentDidMount() {
@@ -229,7 +229,7 @@ class Im extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     console.log(221, nextProps);
-    return;
+    // return;
     if (
       JSON.stringify(nextProps.behaviorPath.dateList) !==
       JSON.stringify(this.props.behaviorPath.dateList)
@@ -242,19 +242,19 @@ class Im extends React.Component {
           dialogList: [],
         });
       });
+      this.setState({
+        listData: nextProps.behaviorPath.imData ? nextProps.behaviorPath.imData : []
+      })
       list[0].collapse = true;
-      list[0].dialogList = this.state.listData;
-      list[1].dialogList = this.state.listData;
+      list[0].dialogList = nextProps.behaviorPath.imData ? nextProps.behaviorPath.imData : [];
       this.state.dateList = list;
-      // let date = this.state.dateList[0].date.replace(/[\u4e00-\u9fa5]/g, "-").split("-");
-      // date.length = 3;
-      // this.getImList(date.join("-"));
+
     }
   }
   getImList = paramDate => {
     let params = {
-      // beginDate: paramDate,
-      beginDate: '2019-04-17',
+      beginDate: paramDate,
+      // beginDate: '2019-04-17',
       stuId: 1767329,
     };
     this.props.dispatch({
@@ -272,6 +272,7 @@ class Im extends React.Component {
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {
+      console.log(275, this.props.behaviorPath)
       let date = this.state.dateList[index].date.replace(/[\u4e00-\u9fa5]/g, '-').split('-');
       date.length = 3;
       this.getImList(date.join('-'));

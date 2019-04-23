@@ -7,15 +7,18 @@ export default {
 
   state: {
     dateList: [],
-    listData: [],
+    imData: [],
   },
 
   effects: {
     *getDateList({ payload }, { call, put }) {
-      const data = yield call(getDateList, { ...payload });
-      const dates = yield call(imAct, { beginDate: '2019-04-17', stuId: 1767329 });
-      if (data.code === 20000 && dates.code === 20000) {
-        yield put({ type: 'save', payload: { dateList: data.data, listData: dates.data } });
+      const data = yield call(getDateList, {});
+      const dateFormat = data.data[0].replace(/[\u4e00-\u9fa5]/g, "-").split("-");
+      dateFormat.length = 3;
+      const imData = yield call(imAct, { beginDate: dateFormat.join("-"), stuid: payload.stuId });
+
+      if (data.code === 20000 && imData.code === 20000) {
+        yield put({ type: 'save', payload: { dateList: data.data, imData: imData.data } });
       } else {
         message.error(msgF(data.msg, data.msgDetail));
       }
@@ -25,8 +28,8 @@ export default {
       const result = yield call(imAct, params);
       console.log(26, result);
       if (result.code === 20000) {
-        const listData = result.data || [];
-        yield put({ type: 'save', payload: { listData } });
+        const imData = result.data || [];
+        yield put({ type: 'save', payload: { imData } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
