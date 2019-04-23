@@ -73,7 +73,7 @@ class KoDetailPage extends React.Component {
       this.chart.selectAll('.text').text(function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
         if(val) return val.clickCountPre;
-      }).style('font-weight','700');
+      }).style('font-weight','600');
       // 修改商城列表name
       this.chart.selectAll('.textName').text(function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
