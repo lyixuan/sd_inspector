@@ -1,20 +1,27 @@
 import { message } from 'antd';
+import { getSankeyData } from '@/pages/ko/behaviorAnalyze/services';
 
 export default {
   namespace: 'behavior',
 
   state: {
-    hotDataList:[]
+    hotDataList:[],    // 热力图数据
+    upPage: {},        // 桑吉图上游数据
+    downPage: {},      // 桑吉图下游数据
+    behaviourData: [], // 柱状图
   },
 
   effects: {
-    *getHotDataList({ payload }, { call, put }) {
-      // const data = yield call(province, { ...payload });
-      // if (data.code === 20000) {
-        yield put({ type: 'saveDataList', payload: { hotDataList:[]}, });
-      // } else {
-        // message.error(msgF(data.msg,data.msgDetail));
-      // }
+    *getSankeyList({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getSankeyData, params);
+      if (result) {
+        const {behaviourData = [],sankeyData={}} = result.data || [];
+        yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.downPageList}, });
+        yield put({ type: 'save', payload: { behaviourData,upPage: sankeyData.upPage,downPage:sankeyData.downPage } });
+      } else {
+        message.error(result.msg);
+      }
     },
   },
 

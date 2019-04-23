@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import { queryUserList } from '@/pages/ko/userList/services';
 import { msgF } from '@/utils/utils';
+import { getTableList } from '@/pages/ko/services';
 
 export default {
   namespace: 'userListModel',
@@ -10,15 +11,15 @@ export default {
   },
 
   effects: {
-    *getUserList({ payload }, { call, put }) {
+    *getTableList({ payload }, { call, put }) {
+      // 列表
       const params = payload.params;
-      const result = yield call(queryUserList, params);
-      const userList = result.data || [];
-
+      const result = yield call(getTableList, params);
       if (result.code === 20000) {
-        yield put({ type: 'save', payload: { userList } });
+        const tableList = result.data || [];
+        yield put({ type: 'save', payload: { tableList } });
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
   },

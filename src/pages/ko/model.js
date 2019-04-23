@@ -15,7 +15,6 @@ export default {
     pageList: [],
     tableList: [],
     tabFromParams: {},
-    sankeyData: [],
     pageParams: {},
   },
 
@@ -71,39 +70,6 @@ export default {
         yield put({ type: 'save', payload: { pageList } });
         yield put({ type: 'getSankeyList', payload: { tabFromParams: this.state.tabFromParams } });
         yield put({ type: 'getBarData', payload: { params: this.state.params } });
-      } else {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    *getSankeyList({ payload }, { call, put }) {
-      // 桑吉图
-      const params = payload.params;
-      const result = yield call(getSankeyData, params);
-      if (result) {
-        const sankeyData = result.data || [];
-        yield put({ type: 'save', payload: { sankeyData } });
-      } else {
-        message.error(result.msg);
-      }
-    },
-    *getBarData({ payload }, { call, put }) {
-      // 柱状图
-      const params = payload.params;
-      const result = yield call(getBarData, params);
-      if (result.code === 20000) {
-        const tableList = result.data || [];
-        yield put({ type: 'save', payload: { tableList } });
-      } else {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    *getTableList({ payload }, { call, put }) {
-      // 列表
-      const params = payload.params;
-      const result = yield call(getTableList, params);
-      if (result.code === 20000) {
-        const tableList = result.data || [];
-        yield put({ type: 'save', payload: { tableList } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

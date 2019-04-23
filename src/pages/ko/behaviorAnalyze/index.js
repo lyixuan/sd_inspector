@@ -21,7 +21,7 @@ class behavior extends React.Component {
       type: 'behavior/getHotDataList',
       payload: {}
     })
-  }
+  };
   render() {
 
     return (

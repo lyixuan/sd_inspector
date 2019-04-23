@@ -209,6 +209,6 @@ export function dealResultData(data1, data2, currentPage) {
     });
   });
 
-  return { newData1,upPage, downPage };
+  return { upPageList:newData1.upPageList,downPageList:newData1.downPageList,upPage, downPage };
 }
 
