@@ -2,17 +2,24 @@ import React from 'react';
 import { connect } from 'dva';
 import KoSangJi from './components/KoSangJi';
 import BarEcharts from './components/EchartsBar'
-@connect(({ behavior }) => ({
+@connect(({ behavior, koPlan }) => ({
   behavior,
 }))
 class behavior extends React.Component {
   componentDidMount() {
+    this.getInitData();
     this.getHotDataList()
   }
-  getHotDataList =()=>{
+  getInitData = () => {
     this.props.dispatch({
-      type:'behavior/getHotDataList',
-      payload:{}
+      type: 'koPlan/pageParams',
+    })
+
+  }
+  getHotDataList = () => {
+    this.props.dispatch({
+      type: 'behavior/getHotDataList',
+      payload: {}
     })
   }
   render() {

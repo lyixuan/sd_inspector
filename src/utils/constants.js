@@ -377,6 +377,9 @@ export const PAGE_KEY_ARR = [
   {page:'SelfExam',keys:['fast_majordetails_page_lite','majordetail_page_lite']},
 ]
 
+export const INDEX_PAGE = 'IndexPage';
+export const KO_LIST = 'KoList';
+
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,

@@ -57,6 +57,9 @@ class CommonForm extends React.Component {
     const { enumData = {} } = this.props;
     let returnData = [];
     if (type >= 1 && type <= 10) {
+      if (type === 5) {
+        return Array.isArray(enumData[type]) ? enumData[type].map(item => ({ ...item, value: item.id })) : [];
+      }
       returnData = Array.isArray(enumData[type]) ? enumData[type] : [];
     }
     return returnData;
