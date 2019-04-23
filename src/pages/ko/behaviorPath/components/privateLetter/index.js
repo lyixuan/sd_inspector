@@ -9,7 +9,7 @@ function DateBar(props) {
       <div className={styles.dateBar}>
         <span>{props.date.date.split(" ")[0]}</span>
         <span onClick={() => props.list.onClick(props.index)}>
-          <Icon type={props.date.collapse ? "up" : "down"} />
+          <Icon type={props.date.collapse ? "up" : "down"} style={{ display: (props.date.dialogList.length > 0) ? "block" : "none" }} />
         </span>
       </div>
       {props.date.collapse ? props.children : null}
