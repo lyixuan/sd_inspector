@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon } from 'antd';
+import { connect } from 'dva';
 import styles from '../../style.less';
 // 评价的星星
 function Star(props) {
@@ -123,7 +124,7 @@ function Layout(props) {
       <DateBar date={item} list={props} index={index}>
         <section>
           <ul className={styles.behavior + " " + styles.study}>
-            <ContentChildren content={item.dialogList.length > 1 ? <Ul item={item.dialogList}></Ul> : null}></ContentChildren>
+            <ContentChildren content={item.dialogList.length > 0 ? <Ul item={item.dialogList}></Ul> : '无数据'}></ContentChildren>
           </ul>
         </section>
       </DateBar>
@@ -132,70 +133,89 @@ function Layout(props) {
   return layout
 }
 
+
+@connect(({ behaviorPath }) => ({
+  behaviorPath,
+}))
+
 class Study extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dateList: ["2019-01-02 12:23:21", "20199-01-02 12:23:21", "219-01-02 12:23:21"],
-      listData: [
-        {
-          countDate: "2019-03-03 12:23:21",
-          subjectType: 1, //课程类型（1:直播 2:重播）
-          subjectName: "中国近现代史",
-          evaluateContent: "服务态度好",
-          evaluateStar: 2,
-          evaluateLabel:
-            "上课态度极好;互动好，并答疑解惑;教学内容非常熟练;知识点讲解特清晰;讲课节奏非常好;语言表达能力强;重点、难点很突出", //按分号拆分
-          evaluateDate: "2019-03-03 18:23:21"
-        },
-        {
-          countDate: "2019-03-09 12:23:21",
-          subjectType: 2, //课程类型（1:直播 2:重播）
-          subjectName: "数学",
-          evaluateContent: "服务态度好",
-          evaluateStar: 5,
-          evaluateLabel:
-            "上课态度极好;互动好，并答疑解惑;教学内容非常熟练;知识点讲解特清晰;讲课节奏非常好;语言表达能力强;重点、难点很突出", //按分号拆分
-          evaluateDate: "2019-03-03 18:23:21"
-        }, {
-          countDate: "2019-03-09 12:23:21",
-          subjectType: 2, //课程类型（1:直播 2:重播）
-          subjectName: "数学",
-          evaluateContent: "服务态度好",
-          evaluateStar: 5,
-          evaluateLabel:
-            "上课态度极好;互动好，并答疑解惑;教学内容非常熟练;知识点讲解特清晰;讲课节奏非常好;语言表达能力强;重点、难点很突出", //按分号拆分
-          evaluateDate: "2019-03-03 18:23:21"
-        }]
+      dateList: [],
+      listData: [],
+      currentIndex: 0
     }
-    let list = [];
-    this.state.dateList.map(item => {
-      list.push({
-        date: item,
-        collapse: false,
-        dialogList: []
-      })
-    })
-    list[0].collapse = true;
-    list[0].dialogList = this.state.listData;
-    list[1].dialogList = this.state.listData;
-    this.state.dateList = list
   }
 
+  componentDidMount() {
+    this.mount(this.props);
+  }
+  mount(props) {
+    let list = [];
+    if (props.behaviorPath.dateList.length > 0) {
+      props.behaviorPath.dateList.map(item => {
+        list.push({
+          date: item,
+          collapse: false,
+          dialogList: [],
+        });
+      });
+
+      list[this.state.currentIndex].collapse = true;
+      list[this.state.currentIndex].dialogList = props.behaviorPath.studyData ? props.behaviorPath.studyData : [];
+      this.state.dateList = list;
+      this.setState({
+        dateList: this.state.dateList
+      });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      JSON.stringify(nextProps.behaviorPath.studyData) !==
+      JSON.stringify(this.props.behaviorPath.studyData)
+    ) {
+      this.mount(nextProps);
+
+    }
+  }
+  getStudyList = paramDate => {
+    let params = {
+      beginDate: paramDate,
+      // beginDate: '2019-04-17',
+      stuId: 24545,
+    };
+    this.props.dispatch({
+      type: 'behaviorPath/learningAct',
+      payload: { params },
+    });
+  };
+
   toggle = (index) => {
+    this.setState({
+      currentIndex: index
+    })
     this.state.dateList.map((item, i) => {
       if (i != index) {
         item.collapse = false
       }
     })
+    if (this.state.dateList[index].collapse) {
+      console.log('收起');
+    } else {
+      let date = this.state.dateList[index].date.replace(/[\u4e00-\u9fa5]/g, '-').split('-');
+      date.length = 3;
+      this.getStudyList(date.join('-'));
+    }
+
     this.state.dateList[index].collapse = !this.state.dateList[index].collapse;
-    this.setState({
-      dateList: this.state.dateList
-    })
+    // this.setState({
+    //   dateList: this.state.dateList
+    // })
   }
 
   render() {
-
     return (
       <div className={styles.comWrap}>
         <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout>

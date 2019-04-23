@@ -13,12 +13,12 @@ const TabPane = BITabs.TabPane;
 @connect(({ behaviorPath }) => ({
   behaviorPath
 }))
-class behaviorPath extends React.Component {
+
+class BehaviorPath1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeKey: "2",
-      dateList: []
+      activeKey: "1"
     }
   }
 
@@ -29,7 +29,7 @@ class behaviorPath extends React.Component {
   getDateList = () => {
     this.props.dispatch({
       type: 'behaviorPath/getDateList',
-      payload: { stuId: 1767329 },
+      payload: { stuId: 3641156 },
     });
   };
 
@@ -38,26 +38,25 @@ class behaviorPath extends React.Component {
   }
 
   render() {
-    let dateList = this.props.behaviorPath.dateList
-    this.state.dataList = this.props.behaviorPath.dateList
+    // let dateList = this.props.behaviorPath.dateList
     return (
       <div className={styles.behaviorPath}>
         <div className={styles.tabBox}>
           <BITabs onChange={this.onTabChange} type="card" animated={false} defaultActiveKey={this.state.activeKey}>
             <TabPane tab="学习" key="1">
-              <Study dateList={dateList}></Study>
+              <Study></Study>
             </TabPane>
             <TabPane tab="IM" key="2">
               <Im></Im>
             </TabPane>
             <TabPane tab="微信" key="3">
-              <WeChart dateList={dateList}></WeChart>
+              <WeChart></WeChart>
             </TabPane>
             <TabPane tab="BBS" key="4">
-              <Bbs dateList={dateList}></Bbs>
+              <Bbs></Bbs>
             </TabPane>
             <TabPane tab="私信" key="5">
-              <PrivateLetter dateList={dateList}></PrivateLetter>
+              <PrivateLetter></PrivateLetter>
             </TabPane>
           </BITabs>
         </div>
@@ -69,4 +68,4 @@ class behaviorPath extends React.Component {
   }
 }
 
-export default behaviorPath;
+export default BehaviorPath1;

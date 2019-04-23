@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon } from 'antd';
+import { connect } from 'dva';
 import styles from '../../style.less';
 
 // 日期条
@@ -167,6 +168,10 @@ function Layout(props) {
 function ContentChildren(props) {
   return props.content
 }
+
+@connect(({ behaviorPath }) => ({
+  behaviorPath,
+}))
 
 class PrivateLetter extends React.Component {
   constructor(props) {
