@@ -1,7 +1,6 @@
 import { message } from 'antd';
-import { queryUserList } from '@/pages/ko/userList/services';
+import { getTableList } from '@/pages/ko/userList/services';
 import { msgF } from '@/utils/utils';
-import { getTableList } from '@/pages/ko/services';
 
 export default {
   namespace: 'userListModel',

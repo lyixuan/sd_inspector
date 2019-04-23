@@ -19,12 +19,6 @@ export async function getPageDetailInfoList(params) {
   return request('/homePage/pageDetailInfoList', { params });
 }
 
-
-// table 列表数据
-export async function getTableList(params) {
-  return request('/homePage/userList', { params });
-}
-
 // bar 数据
 export async function getBarData(params) {
   return request('/homePage/userList', { params });

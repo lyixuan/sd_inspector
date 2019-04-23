@@ -2,24 +2,22 @@ import React from 'react';
 import { connect } from 'dva';
 import KoSangJi from './components/KoSangJi';
 import BarEcharts from './components/EchartsBar'
-@connect(({ behavior, koPlan }) => ({
+@connect(({ behavior }) => ({
   behavior,
 }))
 class behavior extends React.Component {
   componentDidMount() {
     this.getInitData();
-    this.getHotDataList()
+  }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (this.props.tabType === '2' && nextProps.tabType === '1') {
+      this.getInitData()
+    }
   }
   getInitData = () => {
     this.props.dispatch({
-      type: 'koPlan/pageParams',
-    })
-
-  }
-  getHotDataList = () => {
-    this.props.dispatch({
-      type: 'behavior/getHotDataList',
-      payload: {}
+      type: 'behavior/getSankeyList',
+      payload: { params: {} }
     })
   };
   render() {
