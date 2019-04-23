@@ -15,9 +15,11 @@ class behavior extends React.Component {
     }
   }
   getInitData = () => {
+    const formParams={};
+    const otherParams={currentActionKeyId:undefined,recordTimeList:["2019-01-01 12:00:00","2019-05-01 12:00:00"]};
     this.props.dispatch({
       type: 'behavior/getSankeyList',
-      payload: { params: {} }
+      payload: { params: {belongApp:1,page:'homepage'},formParams,otherParams }
     })
   };
   render() {

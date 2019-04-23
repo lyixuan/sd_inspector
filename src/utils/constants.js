@@ -369,15 +369,9 @@ export const HOT_RANGE = [
 ];
 // 热力图pageKey
 export const PAGE_KEY_ARR = [
-  {page:'IndexPage',keys:['homepage_lite','newhomepage_lite','home_page_lite_lite','fast_home_page_lite','home_page_lite']},
-  {page:'ShopPage',keys:['majorlist_page_lite','storelist_page_lite']},
-  {page:'StartList',keys:['study_page_lite','studypage_lite']},
-  {page:'KoDetail',keys:['kogoodsdetails_page_lite','kogoodsdetails_page_lite_lite','fast_kogoodsdetails_page_lite']},
-  {page:'KoList',keys:['kogoodslist_page_lite','kogoodslist_page_lite_lite']},
-  {page:'SelfExam',keys:['fast_majordetails_page_lite','majordetail_page_lite']},
 ]
 
-export const INDEX_PAGE = 'IndexPage';
+export const INDEX_PAGE = 'homepage';
 export const KO_LIST = 'KoList';
 
 // 需要用于global filter 进行数据筛选的，必须加到default里

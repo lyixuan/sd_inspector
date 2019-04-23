@@ -41,7 +41,6 @@ const config = {
 // const data4 = getData('data4','convertPer');
 
 export function options(data){
-  console.log(data)
   return  {
     grid: {
       top: 30,

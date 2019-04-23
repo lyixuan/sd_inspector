@@ -70,7 +70,6 @@ class NewQualitySheet extends React.Component {
   render() {
     const { qualityNum, qualityType, dimensionIdList, violationLevel, status, isWarn } = this.state;
     const { dimensionList1 = [], dimensionList2 = [], dataSource, columns, page, loading } = this.props;
-    console.log(dataSource)
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}

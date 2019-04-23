@@ -33,7 +33,6 @@ export default class KoTab extends React.Component {
     const { radioValue } = this.state;
     const { pageParams = {} } = this.props;
     const KOMessage = pageParams.KOMessage || {};
-    console.log(this.props)
     return (
       <div>
         <KoRadio buttonStyle="solid" value={radioValue} onChange={this.onChangeRadio}>
