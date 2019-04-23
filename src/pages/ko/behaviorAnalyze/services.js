@@ -8,7 +8,7 @@ export async function getSankeyData({params,formParams,otherParams}) {
     code: 20000,
     msg: '成功',
     data: {
-      behaviourData: [],
+      behaviourData: {},
       sankeyData: { upPageList: [], downPageList: [], upPage: {}, downPage: {},currentPageObj: {},currentPage:'' } },
   };
   // 请求结构
@@ -20,8 +20,8 @@ export async function getSankeyData({params,formParams,otherParams}) {
     const response2 = await request('/api/sankeyMapData', {method: 'post',  data:params2 });
     if (response2.code === 20000) {
       // 处理两次结果
-      result.data.sankeyData = dealResultData({data:response.data,data2:response2.data.sankeyData});
-      result.data.behaviourData = response2.data.behaviourData
+      result.data.sankeyData = dealResultData({data1:response.data,data2:response2.data.sankeyData,params});
+      result.data.behaviourData = response2.data.behaviourData?response2.data.behaviourData.barActionEventData : {};
     } else {
       result.code = -1;
       result.msg = msgF(response2.msg,response2.msgDetail);
