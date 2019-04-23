@@ -2,7 +2,7 @@ import { message } from 'antd';
 import { msgF } from '@/utils/utils';
 import {
   getKOEnumList, getPageList, getSankeyData, getTableList, getBarData,
-  getKoDateRange, getKOMessage,
+  getKoDateRange, getKOMessage, getPageDetailInfoList,
 } from './services';
 
 
