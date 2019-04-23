@@ -29,7 +29,7 @@ class BehaviorPath1 extends React.Component {
   getDateList = () => {
     this.props.dispatch({
       type: 'behaviorPath/getDateList',
-      payload: { stuId: 3641156 },
+      payload: { stuId: 7186492 },
     });
   };
 

@@ -23,6 +23,7 @@ export default {
       const studyData = yield call(learningAct, { beginDate: dateFormat.join("-"), stuid: payload.stuId });
       const wechartData = yield call(wechatAct, { beginDate: dateFormat.join("-"), stuid: payload.stuId });
       const bbsData = yield call(bbsAct, { beginDate: dateFormat.join("-"), stuid: payload.stuId });
+      const letterData = yield call(chatMessageAct, { beginDate: dateFormat.join("-"), stuid: payload.stuId });
 
       if (data.code === 20000 && imData.code === 20000) {
         yield put({
@@ -32,7 +33,8 @@ export default {
             imData: imData.data,
             studyData: studyData.data,
             wechartData: wechartData.data,
-            bbsData: bbsData.data
+            bbsData: bbsData.data,
+            letterData: letterData.data
           }
         });
       } else {
@@ -75,6 +77,16 @@ export default {
       if (result.code === 20000) {
         const bbsData = result.data || [];
         yield put({ type: 'save', payload: { bbsData } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *chatMessageAct({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(chatMessageAct, params);
+      if (result.code === 20000) {
+        const letterData = result.data || [];
+        yield put({ type: 'save', payload: { letterData } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
