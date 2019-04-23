@@ -66,7 +66,7 @@ class KoDetailPage extends React.Component {
   };
   drewLended = (data) => {
     if(data&&data.length){
-      this.chart = d3.select(this.svgDom).html(KoList);
+      this.chart = d3.select(this.svgDom).html(StartList);
       const colorArr = this.getColorFn(data);
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       // 修改数据
