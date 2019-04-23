@@ -95,16 +95,16 @@ export const IndexPage=`<?xml version="1.0" encoding="UTF-8"?>
                         <g id="分组-55" mask="url(#mask-2)" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal">
                             <g transform="translate(60.000000, 211.000000)" id="0">
                                 <text>
-                                    <tspan class='textName' data-name='d1' x="25" y="15" fill="#000000">0</tspan>
+                                    <tspan class='textName' data-name='d1' font-size='12px' x="25" y="15" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='textName' data-name='d2' x="25" y="98" fill="#000000">0</tspan>
+                                    <tspan class='textName' data-name='d2' font-size='12px' x="25" y="98" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='textName' data-name='d3' x="25" y="182" fill="#000000">0</tspan>
+                                    <tspan class='textName' data-name='d3' font-size='12px' x="25" y="182" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='textName' data-name='d4' x="25" y="265" fill="#000000">0</tspan>
+                                    <tspan class='textName' data-name='d4' font-size='12px' x="25" y="265" fill="#000000">0</tspan>
                                 </text>
                             </g>
                         </g>
