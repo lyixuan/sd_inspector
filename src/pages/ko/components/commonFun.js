@@ -202,9 +202,9 @@ export function dealResultData(data1, data2, currentPage) {
     downPage.node.push({ id: v.page, name: v.pageName });
     downPage.links.push({
       source: v.page,
-      target: v.downPage,
+      target: v.actionKeyId,
       pv: v.pv,
-      zb: v.zb,
+      zb: v.clickNumPro,
       value: v.value,
     });
   });
