@@ -13,9 +13,9 @@ class KoSangJi extends React.Component {
           <Views></Views>
         </div>
         <div className={style.rowWrap}>
-          <SangJiEcharts className={style.colWrap} style={{width:'18%',height:'525px'}}  position={'left'}></SangJiEcharts>
+          <SangJiEcharts {...this.props} className={style.colWrap} style={{width:'18%',height:'525px'}}  position={'left'}></SangJiEcharts>
           <KoDetail {...this.props} />
-          <SangJiEcharts className={style.colWrap} style={{width:'60%',height:'525px'}}  position={'right'}></SangJiEcharts>
+          <SangJiEcharts {...this.props} className={style.colWrap} style={{width:'60%',height:'525px'}}  position={'right'}></SangJiEcharts>
         </div>
       </div>
     );

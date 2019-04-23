@@ -16,7 +16,7 @@ export default {
   namespace: 'behavior',
 
   state: {
-    hotDataList: [],    // 热力图数据
+    hotDataList: {},   // 热力图数据
     upPage: {},        // 桑吉图上游数据
     downPage: {},      // 桑吉图下游数据
     behaviourData: [], // 柱状图
@@ -35,7 +35,7 @@ export default {
         yield put({ type: 'saveBehaviourData', payload: { behaviourData:behaviourData.barActionEventData}});
         yield put({ type: 'save', payload: { upPage: sankeyData.upPage,downPage:sankeyData.downPage,currentPage:'' } });
       } else {
-        message.error(result.msg);
+          message.error(result.msg);
       }
     },
   },
