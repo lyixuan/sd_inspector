@@ -2,28 +2,38 @@ import React from 'react';
 import { connect } from 'dva';
 import KoSangJi from './components/KoSangJi';
 import BarEcharts from './components/EchartsBar'
-@connect(({ behavior }) => ({
+@connect(({ behavior, koPlan }) => ({
   behavior,
+  tabFromParams: koPlan.tabFromParams,
+  params: koPlan.params,
 }))
 class behavior extends React.Component {
   componentDidMount() {
-    this.getInitData();
+    this.getInitParams();
+    this.getData();
+
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.tabType === '2' && nextProps.tabType === '1') {
-      this.getInitData()
+    if (JSON.stringify(nextProps.tabFromParams) !== JSON.stringify(this.props.tabFromParams)) {
+      this.getData(nextProps.tabFromParams);
     }
   }
-  getInitData = () => {
-    const formParams={};
-    const otherParams={currentActionKeyId:undefined,recordTimeList:["2019-01-01 12:00:00","2019-05-01 12:00:00"]};
+  getInitParams = () => {
+    this.props.dispatch({
+      type: 'koPlan/pageParams',
+    })
+  }
+  getData = (params = this.props.tabFromParams) => {
+    if (JSON.stringify(params) === '{}') return;
+    const { formParams = {} } = params;
+    const otherParams = { currentActionKeyId: undefined, recordTimeList: ["2019-01-01 12:00:00", "2019-05-01 12:00:00"] };
     this.props.dispatch({
       type: 'behavior/getSankeyList',
-      payload: { params: {belongApp:1,page:'homepage'},formParams,otherParams }
+      payload: { params: { belongApp: 1, page: 'homepage' }, formParams, otherParams }
     })
   };
   render() {
-    const {upPage,downPage,currentPage} = this.props.behavior;
+    const { upPage, downPage, currentPage } = this.props.behavior;
     console.log(1,upPage.node)
     console.log(2,upPage.links)
     return (
