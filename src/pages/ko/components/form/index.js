@@ -22,25 +22,41 @@ class CommonForm extends React.Component {
             })
         }
     }
-    // handleCustomValue = (value) => (formula) => {
-    //     if (!value) return value;
-    //     return Number(value) *
-
-
-    // }
-    handleKoOrderGap = (item) => {
+    handleCustomValue = (obj) => (formula = 1) => {
+        const { value, minValue, maxValue } = obj;
+        const returnObj = { value, minValue, maxValue };;
+        Object.keys(returnObj).forEach(item => {
+            const ls = returnObj[item];
+            returnObj[item] = !ls ? ls : Number(ls) * formula;
+        })
+        return { ...obj, ...returnObj };
+    }
+    handleCustomParams = (item) => {
         const { type } = item;
+        let returnObj = { ...item };
         switch (type) {
             case 'yy':
-
+                returnObj = this.handleCustomValue(item)(365 * 24 * 3600);
+                break;
+            case 'mm':
+                returnObj = this.handleCustomValue(item)(30 * 24 * 3600);
+                break;
+            case 'dd':
+                returnObj = this.handleCustomValue(item)(24 * 3600);
+                break;
+            case 'hh':
+                returnObj = this.handleCustomValue(item)(3600);
+                break;
+            case 'min':
+                returnObj = this.handleCustomValue(item)(60);
                 break;
             default:
                 break;
 
         }
-        console.log(item)
-        return item
+        return returnObj
     }
+
     checkoutParamsType = (key, item) => {
         let returnItem = undefined;
         switch (key) {
@@ -75,7 +91,7 @@ class CommonForm extends React.Component {
                 returnItem = item ? item.value : undefined
                 break;
             case 'listenLessonTime':
-                returnItem = item ? item : undefined;
+                returnItem = item ? this.handleCustomParams(item) : undefined;
                 break;
             case 'payOrder':
                 returnItem = item ? item.value : undefined
@@ -85,7 +101,7 @@ class CommonForm extends React.Component {
                 break;
             case 'koOrderGap':
                 // 时间间隔,处理到秒
-                returnItem = item ? this.handleKoOrderGap(item) : undefined;
+                returnItem = item ? this.handleCustomParams(item) : undefined;
                 break;
             case 'frontBelong':
                 returnItem = item ? item : undefined;
