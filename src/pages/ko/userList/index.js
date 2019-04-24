@@ -4,18 +4,20 @@ import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
 import { BiFilter } from '@/utils/utils';
 import style from './style.less';
+import router from 'umi/router';
 
 @connect(({ userListModel, koPlan, loading }) => ({
   userListModel,
   tabFromParams: koPlan.tabFromParams,
   pageParams: userListModel.pageParams,
-  loading: loading.effects['userListModel/userList'],
+  loading: loading.effects['userListModel/getTableList'],
 }))
 class UserList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       pageParams: this.props.pageParams,
+
     };
   };
   componentDidMount() {
@@ -146,21 +148,34 @@ class UserList extends React.Component {
       v.onCell = (record, rowIndex) => {
         return {
           onClick: (event) => {
-            this.jumpTo('/ko/behaviorInfo');
-            console.log(233111, record)
+            router.push({
+              pathname: '/ko/behaviorPath',
+              params: { record, target: v.dataIndex }
+            });
           },
         };
       };
-      v.render = (text) => {
-        return (
-          <>
-            <span style={{ cursor: 'pointer' }}>{text}</span>
-          </>
-        );
-      };
+      if (v.dataIndex !== 'orderTime') {
+        v.render = (text) => {
+          return (
+            <>
+              <span style={{ cursor: 'pointer' }}>{text}</span>
+            </>
+          );
+        };
+      } else {
+        v.render = (text) => {
+          return (
+            <>
+              <span className={style.blankBox} style={{ cursor: 'pointer' }}>{text}</span>
+            </>
+          );
+        };
+      }
     });
     return col;
   };
+
   render() {
     const { userList, page = {}, loading } = this.props.userListModel;
     const { pageParams } = this.state;
