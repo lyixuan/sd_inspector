@@ -131,7 +131,6 @@ class UserList extends React.Component {
       v.onCell = (record,rowIndex) => {
         return {
           onClick: (event) => {
-            this.jumpTo('/ko/behaviorInfo',);
             this.props.history.push({
               path:'/ko/behaviorInfo',
               params: {record}
