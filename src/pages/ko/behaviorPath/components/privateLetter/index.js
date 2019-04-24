@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon } from 'antd';
+import { connect } from 'dva';
 import styles from '../../style.less';
 
 // 日期条
@@ -9,7 +10,7 @@ function DateBar(props) {
       <div className={styles.dateBar}>
         <span>{props.date.date.split(" ")[0]}</span>
         <span onClick={() => props.list.onClick(props.index)}>
-          <Icon type={props.date.collapse ? "up" : "down"} style={{ display: (props.date.dialogList.length > 0) ? "block" : "none" }} />
+          <Icon type={props.date.collapse ? "up" : "down"} />
         </span>
       </div>
       {props.date.collapse ? props.children : null}
@@ -155,7 +156,7 @@ function Layout(props) {
       <DateBar date={item} list={props} index={index}>
         <section>
           <ul className={styles.behavior + " " + styles.privateLetter}>
-            <ContentChildren content={item.dialogList.length > 1 ? <Ul item={item}></Ul> : null}></ContentChildren>
+            <ContentChildren content={item.dialogList.length > 1 ? <Ul item={item}></Ul> : '无数据'}></ContentChildren>
           </ul>
         </section>
       </DateBar>
@@ -168,84 +169,94 @@ function ContentChildren(props) {
   return props.content
 }
 
+@connect(({ behaviorPath }) => ({
+  behaviorPath,
+}))
+
 class PrivateLetter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: 100,
-      dateList: ["2019-01-02 12:23:21", "20199-01-02 12:23:21", "219-01-02 12:23:21"],
-      listData:
-        [{
-          countDate: "2019-01-03 12:23:21",
-          userName: "李四",
-          contentList: [
-            {
-              userId: 100,
-              userName: "张三",
-              consultTime: "2019-01-03 12:23:21",
-              message: "今年自考什么时候报名"
-            },
-            {
-              userId: 2,
-              userName: "张三",
-              consultTime: "2019-01-03 12:23:21",
-              message: "今年自考什么时候报名"
-            }
-          ]
-        },
-        {
-          countDate: "2019-02-03 12:23:21",
-          userName: "李四22",
-          contentList: [
-            {
-              userId: 11,
-              userName: "张三",
-              consultTime: "2019-03-03 12:23:21",
-              message: "今年自考什么时候报名"
-            },
-            {
-              userId: 100,
-              userName: "张三",
-              consultTime: "2019-03-03 12:23:21",
-              message: "今年自考什么时候报名"
-            }
-          ]
-        }]
+      userId: 7186492,
+      dateList: [],
+      listData: [],
+      currentIndex: 0
     }
-    let list = [];
-    // 根据userId来判断是学员还是老师，如果是学员，在数据中加一个userType
-    this.state.listData.map(item => {
-      item.contentList.map(item => {
-        if (item.userId == this.state.userId) {
-          item.userType = 1
-        } else {
-          item.userType = 2
-        }
-      })
-    })
-    this.state.dateList.map(item => {
-      list.push({
-        date: item,
-        collapse: false,
-        dialogList: []
-      })
-    })
-    list[0].collapse = true;
-    list[0].dialogList = this.state.listData;
-    list[1].dialogList = this.state.listData;
-    this.state.dateList = list
   }
 
+  componentDidMount() {
+    this.mount(this.props);
+  }
+  mount(props) {
+    console.log(212, props)
+    let list = [];
+    if (props.behaviorPath.dateList.length > 0) {
+      if (props.behaviorPath.letterData) {
+        // 根据userId来判断是学员还是老师，如果是学员，在数据中加一个userType
+        props.behaviorPath.letterData.map(item => {
+          item.contentList.map(item => {
+            if (item.userId == this.state.userId) {
+              item.userType = 2
+            } else {
+              item.userType = 1
+            }
+          })
+        })
+      }
+
+      props.behaviorPath.dateList.map(item => {
+        list.push({
+          date: item,
+          collapse: false,
+          dialogList: [],
+        });
+      });
+
+      list[this.state.currentIndex].collapse = true;
+      list[this.state.currentIndex].dialogList = props.behaviorPath.letterData ? props.behaviorPath.letterData : [];
+      this.state.dateList = list;
+      this.setState({
+        dateList: this.state.dateList
+      });
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (
+      JSON.stringify(nextProps.behaviorPath.letterData) !==
+      JSON.stringify(this.props.behaviorPath.letterData)
+    ) {
+      this.mount(nextProps);
+
+    }
+  }
+  getLetterList = paramDate => {
+    let params = {
+      beginDate: paramDate,
+      stuId: 7186492,
+    };
+    this.props.dispatch({
+      type: 'behaviorPath/chatMessageAct',
+      payload: { params },
+    });
+  };
+
   toggle = (index) => {
+    this.setState({
+      currentIndex: index
+    })
     this.state.dateList.map((item, i) => {
       if (i != index) {
         item.collapse = false
       }
     })
+    if (this.state.dateList[index].collapse) {
+      console.log('收起');
+    } else {
+      let date = this.state.dateList[index].date.replace(/[\u4e00-\u9fa5]/g, '-').split('-');
+      date.length = 3;
+      this.getLetterList(date.join('-'));
+    }
     this.state.dateList[index].collapse = !this.state.dateList[index].collapse;
-    this.setState({
-      dateList: this.state.dateList
-    })
   }
 
   render() {

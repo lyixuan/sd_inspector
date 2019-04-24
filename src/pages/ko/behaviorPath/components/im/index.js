@@ -2,6 +2,8 @@ import React from 'react';
 import { Icon } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
+import avatarTeacher from '@/assets/avatarTeacher.png';
+import avatarStudent from '@/assets/avatarStudent.png';
 
 // 评价的星星
 function Star(props) {
@@ -140,7 +142,7 @@ function TeacherOrStudent(props) {
           </div>
           <div className={styles.chatLeft}>
             <div className={styles.avatar}>
-              <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
+              <img src={avatarStudent} />
               <p>{props.item.userName}</p>
             </div>
             <div className={styles.chatContent}>
@@ -169,7 +171,7 @@ function TeacherOrStudent(props) {
               {props.item.message}
             </div>
             <div className={styles.avatar}>
-              <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
+              <img src={avatarTeacher} />
               <p>{props.item.userName}</p>
             </div>
           </div>
@@ -199,7 +201,7 @@ function Layout(props) {
       <DateBar date={item} list={props} index={index}>
         <section>
           <ul className={styles.behavior}>
-            <ContentChildren content={item.dialogList.length > 1 ? <Ul item={item} /> : '无数据'} />
+            <ContentChildren content={item.dialogList.length > 0 ? <Ul item={item} /> : '无数据'} />
           </ul>
         </section>
       </DateBar>
@@ -220,41 +222,44 @@ class Im extends React.Component {
     console.log(220, props)
     this.state = {
       dateList: [],
-      currentDate: null,
       listData: [],
+      currentIndex: 0
     };
   }
   componentDidMount() {
-    // this.getImList(); // 获取Im列表
+    this.mount(this.props);
   }
-  componentWillReceiveProps(nextProps) {
-    console.log(221, nextProps);
-    // return;
-    if (
-      JSON.stringify(nextProps.behaviorPath.dateList) !==
-      JSON.stringify(this.props.behaviorPath.dateList)
-    ) {
-      let list = [];
-      nextProps.behaviorPath.dateList.map(item => {
+  mount(props) {
+    let list = [];
+    if (props.behaviorPath.dateList.length > 0) {
+      props.behaviorPath.dateList.map(item => {
         list.push({
           date: item,
           collapse: false,
           dialogList: [],
         });
       });
-      this.setState({
-        listData: nextProps.behaviorPath.imData ? nextProps.behaviorPath.imData : []
-      })
-      list[0].collapse = true;
-      list[0].dialogList = nextProps.behaviorPath.imData ? nextProps.behaviorPath.imData : [];
+
+      list[this.state.currentIndex].collapse = true;
+      list[this.state.currentIndex].dialogList = props.behaviorPath.imData ? props.behaviorPath.imData : [];
       this.state.dateList = list;
+      this.setState({
+        dateList: this.state.dateList
+      });
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (
+      JSON.stringify(nextProps.behaviorPath.imData) !==
+      JSON.stringify(this.props.behaviorPath.imData)
+    ) {
+      this.mount(nextProps);
 
     }
   }
   getImList = paramDate => {
     let params = {
       beginDate: paramDate,
-      // beginDate: '2019-04-17',
       stuId: 1767329,
     };
     this.props.dispatch({
@@ -264,6 +269,9 @@ class Im extends React.Component {
   };
 
   toggle = index => {
+    this.setState({
+      currentIndex: index
+    })
     this.state.dateList.map((item, i) => {
       if (i != index) {
         item.collapse = false;
@@ -272,15 +280,11 @@ class Im extends React.Component {
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {
-      console.log(275, this.props.behaviorPath)
       let date = this.state.dateList[index].date.replace(/[\u4e00-\u9fa5]/g, '-').split('-');
       date.length = 3;
       this.getImList(date.join('-'));
     }
     this.state.dateList[index].collapse = !this.state.dateList[index].collapse;
-    this.setState({
-      dateList: this.state.dateList,
-    });
   };
 
   render() {
@@ -288,7 +292,8 @@ class Im extends React.Component {
       <div className={styles.comWrap}>
         <Layout dataLists={this.state.dateList} onClick={this.toggle} />
       </div>
-    );
+    )
+
   }
 }
 

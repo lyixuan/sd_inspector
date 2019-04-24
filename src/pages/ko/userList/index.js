@@ -17,6 +17,9 @@ class UserList extends React.Component {
       pageSize: 30
     };
   };
+  componentDidMount() {
+    this.queryData();
+  }
   jumpTo = (pathname) => {
     this.props.history.push({
       pathname,
@@ -128,8 +131,8 @@ class UserList extends React.Component {
       v.onCell = (record,rowIndex) => {
         return {
           onClick: (event) => {
-            this.jumpTo('/ko/behaviorInfo');
-            console.log(233111,record,event,event.detail)
+            this.jumpTo('/ko/behaviorInfo',);
+            console.log(233111,record,)
           },
         };
       };

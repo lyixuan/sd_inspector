@@ -12,17 +12,17 @@ class BarEcharts extends React.Component {
     });
  };
   render() {
+    const{behaviourData} = this.props.behavior
     return (
       <div className={style.barWrap}>
         <TitleName name='用户行为事件分析'/>
         <div className={style.barContent}>
           <Echart
-            isEmpty={false}
+            isEmpty={behaviourData.length===0}
             clickEvent={this.eConsole}
             style={{ width: '100%', height:'267px' }}
-            options={options()} />
+            options={options(behaviourData)} />
         </div>
-
       </div>
     );
   }
