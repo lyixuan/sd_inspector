@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'antd';
+import { Icon, Empty, Spin } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
 import avatarTeacher from '@/assets/avatarTeacher.png';
@@ -9,9 +9,9 @@ import avatarStudent from '@/assets/avatarStudent.png';
 function DateBar(props) {
   return (
     <div>
-      <div className={styles.dateBar}>
+      <div className={styles.dateBar} onClick={() => props.list.onClick(props.index)}>
         <span>{props.date.date.split(" ")[0]}</span>
-        <span onClick={() => props.list.onClick(props.index)}>
+        <span>
           <Icon type={props.date.collapse ? "up" : "down"} />
         </span>
       </div>
@@ -158,7 +158,7 @@ function Layout(props) {
       <DateBar date={item} list={props} index={index}>
         <section>
           <ul className={styles.behavior + " " + styles.privateLetter}>
-            <ContentChildren content={item.dialogList.length > 1 ? <Ul item={item}></Ul> : '无数据'}></ContentChildren>
+            <ContentChildren content={item.dialogList.length > 1 ? <Ul item={item}></Ul> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}></Empty>}></ContentChildren>
           </ul>
         </section>
       </DateBar>
@@ -171,8 +171,10 @@ function ContentChildren(props) {
   return props.content
 }
 
-@connect(({ behaviorPath }) => ({
+@connect(({ behaviorPath, loading }) => ({
+  loading,
   behaviorPath,
+  isLoading: loading.effects['behaviorPath/getDateList']
 }))
 
 class PrivateLetter extends React.Component {
@@ -264,7 +266,10 @@ class PrivateLetter extends React.Component {
   render() {
     return (
       <div className={styles.comWrap}>
-        <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout>
+      <Spin spinning={this.props.isLoading}>
+          <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout>
+        </Spin>
+        {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
 
       </div>
     );
