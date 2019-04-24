@@ -12,7 +12,6 @@ const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY.MM.DD';
 const { Option } = BISelect;
 
-const commitDateFormat = 'YYYY-MM-DD HH:mm:ss';
 export default class KoForm extends React.Component {
   constructor(props) {
     super(props);
