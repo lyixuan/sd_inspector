@@ -259,7 +259,7 @@ export function dealMapOrg({ data, formParams, params, otherParams }) {
 
   let pageKeyList = new Set();
   let actionKeyList = new Set();
-  let currentActionList = new Set();
+  let currentActionList = [];
 
   data.upPageList && data.upPageList.forEach((v) => {
     pageKeyList.add(currentPage);
@@ -269,14 +269,23 @@ export function dealMapOrg({ data, formParams, params, otherParams }) {
     pageKeyList.add(v.pageKey);
     actionKeyList.add(v.actionKeyId);
     if (v.page === currentPage) {
-      currentActionList.add({ actionKeyId: v.actionKeyId, actionKey: v.actionKey, actionName: v.actionName });
+      currentActionList.push({ actionKeyId: v.actionKeyId, actionKey: v.actionKey, actionName: v.actionName });
     }
   });
   pageKeyList = Array.from(pageKeyList);
   actionKeyList = Array.from(actionKeyList);
-  currentActionList = Array.from(currentActionList);
+  const tempObj = {};
+  currentActionList.forEach((v)=>{
+    if (!tempObj[v.actionKeyId]) {
+      tempObj[v.actionKeyId] = v;
+    }
+  });
+  let newCurrentActionList = [];
+  Object.keys(tempObj).forEach((key)=>{
+    newCurrentActionList.push(tempObj[key]);
+  });
 
-  return { pageKeyList, actionKeyList, currentActionList, formParams, currentActionKeyId, recordTimeList, belongApp };
+  return Object.assign({ pageKeyList, actionKeyList, currentActionList:newCurrentActionList, currentActionKeyId, recordTimeList, belongApp },formParams);
 }
 
 export function dealResultData({ data1, data2, params }) {

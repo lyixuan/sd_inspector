@@ -22,7 +22,7 @@ class behavior extends React.Component {
     this.props.dispatch({
       type: 'koPlan/pageParams',
     })
-  }
+  };
   getData = (params = this.props.tabFromParams) => {
     if (JSON.stringify(params) === '{}') return;
     const { formParams = {}, page, belongApp, ...others } = params;

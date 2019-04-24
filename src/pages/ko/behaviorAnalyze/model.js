@@ -29,6 +29,7 @@ export default {
       const otherParams = payload.otherParams;
       const result = yield call(sankeySuperApi, {params,formParams,otherParams});
       if (result) {
+        console.log('result',result)
         const {behaviourData = {},sankeyData={}} = result.data || [];
         yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj} });
         yield put({ type: 'saveBehaviourData', payload: { behaviourData:behaviourData.barActionEventData}});
@@ -65,7 +66,7 @@ export default {
       if(behaviourData){
         newData=getData(behaviourData,['name','clickNum','choiceLessonPercent'])
       }
-     
+
       return { ...state,behaviourData:newData };
     },
     saveDataList(state, { payload }) {

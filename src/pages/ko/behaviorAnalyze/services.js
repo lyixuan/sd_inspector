@@ -17,7 +17,7 @@ export async function sankeySuperApi({params,formParams,otherParams}) {
     // 构造第二次请求的参数
     const params2 = dealMapOrg({data:response.data,formParams,params,otherParams});
     // 请求数据
-    const response2 = await request('/api/sankeyMapData', {method: 'post',  data:params2 });
+    const response2 = await request('/sankey/sankeyMapData', {method: 'post',  data:params2 });
     if (response2.code === 20000) {
       // 处理两次结果
       result.data.sankeyData = dealResultData({data1:response.data,data2:response2.data.sankeyData,params});

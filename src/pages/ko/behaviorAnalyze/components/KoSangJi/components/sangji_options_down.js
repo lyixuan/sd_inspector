@@ -45,7 +45,7 @@ export function getSangJiDownOption(downPage,currentPage) {
           color: "#000",
           fontSize: 10,
           formatter: function(params, i) {
-            if (params.data.id==='0-1') {
+            if (params.data.id===currentPage) {
               return "下\n\n游\n\n页\n\n面";
             }
             return params.data.name;
