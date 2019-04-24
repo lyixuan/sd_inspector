@@ -2,6 +2,8 @@ import React from 'react';
 import { Icon } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
+import avatarTeacher from '@/assets/avatarTeacher.png';
+import avatarStudent from '@/assets/avatarStudent.png';
 
 // 日期条
 function DateBar(props) {
@@ -45,7 +47,7 @@ class ToggleSession extends React.Component {
                 </div>
                 <div className={styles.privateToggle}>
                   <div className={styles.avatar}>
-                    <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
+                    <img src={avatarTeacher} />
                   </div>
                   <div className={styles.intro}>
                     <p className={styles.name}>{props.li.contentList[0].userName}</p>
@@ -101,7 +103,7 @@ function TeacherOrStudent(props) {
           </div>
           <div className={styles.chatLeft}>
             <div className={styles.avatar}>
-              <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
+              <img src={avatarStudent} />
               <p>{props.item.userName}</p>
             </div>
             <div className={styles.chatContent}>
@@ -126,7 +128,7 @@ function TeacherOrStudent(props) {
               {props.item.message}
             </div>
             <div className={styles.avatar}>
-              <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
+              <img src={avatarTeacher} />
               <p>{props.item.userName}</p>
             </div>
           </div>
