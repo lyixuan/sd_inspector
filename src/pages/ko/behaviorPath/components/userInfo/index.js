@@ -2,27 +2,31 @@ import React from 'react';
 import styles from '../../style.less';
 import avatarStudent from '@/assets/avatarStudent.png';
 class PathUserInfo extends React.Component {
-
+  constructor(props) {
+    super(props);
+  }
   render() {
+    const info = this.props.info
+    console.log(9, this.props.info)
     return (
       <div className={styles.personIntro}>
         <img className={styles.avatar} src={avatarStudent} />
         <ul className={styles.intro}>
           <li>
             <label>学员：</label>
-            <span>张小明</span>
+            <span>{info.userName}</span>
           </li>
           <li>
             <label>性别：</label>
-            <span>男</span>
+            <span>{info.sex.toLowerCase() === "female" ? "女" : "男"}</span>
           </li>
           <li>
             <label>年龄：</label>
-            <span>25</span>
+            <span>{info.age}</span>
           </li>
           <li>
             <label>手机型号：</label>
-            <span>iphone xs max</span>
+            <span>{info.phoneBrand}</span>
           </li>
           <li>
             <label>学院：</label>
@@ -40,35 +44,35 @@ class PathUserInfo extends React.Component {
         <ul className={styles.intro}>
           <li>
             <label>来源：</label>
-            <span>抖音</span>
+            <span>{info.userFromApp}</span>
           </li>
           <li>
             <label>设备：</label>
-            <span>主APP</span>
+            <span>{info.deviceModel}</span>
           </li>
           <li>
             <label>注册状态：</label>
-            <span>已注册</span>
+            <span>{info.registerStatus}</span>
           </li>
           <li>
             <label>选课状态：</label>
-            <span>未选课</span>
+            <span>{info.choiceLessonStatus}</span>
           </li>
-          <li>
+          {/* <li>
             <label>新老用户：</label>
             <span>老用户</span>
-          </li>
+          </li> */}
           <li>
             <label>出勤次数：</label>
-            <span>30次</span>
+            <span>{info.attendenceCount}次</span>
           </li>
           <li>
             <label>平均听课时长：</label>
-            <span>60分钟</span>
+            <span>{info.avgListenTime}分钟</span>
           </li>
           <li>
             <label>做题正确率：</label>
-            <span>70%</span>
+            <span>{info.studyCorrentRate}%</span>
           </li>
         </ul>
       </div>

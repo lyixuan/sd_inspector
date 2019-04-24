@@ -186,7 +186,7 @@ class Study extends React.Component {
     let params = {
       beginDate: paramDate,
       // beginDate: '2019-04-17',
-      stuId: 24545,
+      stuId: this.props.stuId,
     };
     this.props.dispatch({
       type: 'behaviorPath/learningAct',
@@ -212,13 +212,9 @@ class Study extends React.Component {
     }
 
     this.state.dateList[index].collapse = !this.state.dateList[index].collapse;
-    // this.setState({
-    //   dateList: this.state.dateList
-    // })
   }
 
   render() {
-    console.log(220, this.props)
     return (
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>

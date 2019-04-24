@@ -181,7 +181,7 @@ class PrivateLetter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: 7186492,
+      userId: this.props.stuId,
       dateList: [],
       listData: [],
       currentIndex: 0
@@ -236,7 +236,7 @@ class PrivateLetter extends React.Component {
   getLetterList = paramDate => {
     let params = {
       beginDate: paramDate,
-      stuId: 7186492,
+      stuId: this.props.stuId,
     };
     this.props.dispatch({
       type: 'behaviorPath/chatMessageAct',
@@ -266,7 +266,7 @@ class PrivateLetter extends React.Component {
   render() {
     return (
       <div className={styles.comWrap}>
-      <Spin spinning={this.props.isLoading}>
+        <Spin spinning={this.props.isLoading}>
           <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout>
         </Spin>
         {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
