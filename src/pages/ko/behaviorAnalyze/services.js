@@ -3,7 +3,7 @@ import { dealMapOrg, dealResultData } from '@/pages/ko/components/sanKeyFun';
 import { msgF } from '@/utils/utils';
 
 // 桑吉图接口
-export async function getSankeyData({params,formParams,otherParams}) {
+export async function sankeySuperApi({params,formParams,otherParams}) {
   let result = {
     code: 20000,
     msg: '成功',

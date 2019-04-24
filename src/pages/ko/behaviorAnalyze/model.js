@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { getSankeyData } from '@/pages/ko/behaviorAnalyze/services';
+import { sankeySuperApi } from '@/pages/ko/behaviorAnalyze/services';
 
 function getData(dataList,dataArr){
   const dataObj={};
@@ -27,7 +27,7 @@ export default {
       const params = payload.params;
       const formParams = payload.formParams;
       const otherParams = payload.otherParams;
-      const result = yield call(getSankeyData, {params,formParams,otherParams});
+      const result = yield call(sankeySuperApi, {params,formParams,otherParams});
       if (result) {
         const {behaviourData = {},sankeyData={}} = result.data || [];
         yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj} });
