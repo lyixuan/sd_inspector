@@ -1,7 +1,8 @@
 .behaviorPath{
   background:#fff;
-  padding:20px 30px 50px;
+  padding:20px 30px 30px;
 	overflow:hidden;
+	border-radius:10px;
 }
 .tabBox{
   float:left;
@@ -84,12 +85,11 @@
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom:20px;
-	i{
-		cursor:pointer;
-	}
+	cursor:pointer;
 }
 .behavior{
 	padding:10px 0 10px 120px;
+	margin-bottom:0;
 }
 .behavior li:last-child .content{
 	border:none;
@@ -357,6 +357,7 @@
 	padding-left:15px;
 	line-height:20px;
 	margin-bottom:0;
+	word-break: break-all;
 }
 .privateLetter .privateToggle .intro .name{
 	font-weight:bold;
@@ -370,4 +371,12 @@
 
 .comWrap{
 	padding-top:20px;
+}
+.comWrap :global .ant-empty{
+	font-size:12px;
+	margin-left:-68px;
+	margin-top:-20px;
+	.ant-empty-image{
+		height:50px;
+	}
 }

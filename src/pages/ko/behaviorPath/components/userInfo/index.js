@@ -1,11 +1,12 @@
 import React from 'react';
 import styles from '../../style.less';
+import avatarStudent from '@/assets/avatarStudent.png';
 class PathUserInfo extends React.Component {
 
   render() {
     return (
       <div className={styles.personIntro}>
-        <img className={styles.avatar} src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
+        <img className={styles.avatar} src={avatarStudent} />
         <ul className={styles.intro}>
           <li>
             <label>学员：</label>

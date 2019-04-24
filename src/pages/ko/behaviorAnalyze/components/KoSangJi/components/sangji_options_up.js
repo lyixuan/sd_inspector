@@ -3,6 +3,7 @@ import { seriesConfig,Config,sangjiColor } from '@/pages/ko/behaviorAnalyze/comp
 
 export function getSangJiUpOption(upPage,currentPage) {
   const {node=[],links=[]} = upPage;
+  console.log(upPage)
   for (let d = 0; d < node.length; d++) {
     if (node[d].id !== currentPage) {
       node[d].itemStyle = {
@@ -45,7 +46,7 @@ export function getSangJiUpOption(upPage,currentPage) {
           color: "#000",
           fontSize: 10,
           formatter: function(params, i) {
-            if (params.data.id==='0-1') {
+            if (params.data.id===currentPage) {
               return "上\n\n游\n\n页\n\n面";
             }
             return params.data.name;
@@ -60,8 +61,9 @@ export function getSangJiUpOption(upPage,currentPage) {
       },
     }
   };
-  option.series = {...option.series,...seriesConfig}
-  option = {...option,...Config}
+  option.series = {...option.series,...seriesConfig};
+  option = {...option,...Config};
+  console.log('000',option)
   return option;
 }
 

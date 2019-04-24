@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'antd';
+import { Icon, Empty, Spin } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
 // 评价的星星
@@ -55,9 +55,9 @@ function PriseLabel(props) {
 function DateBar(props) {
   return (
     <div>
-      <div className={styles.dateBar}>
+      <div className={styles.dateBar} onClick={() => props.list.onClick(props.index)}>
         <span>{props.date.date.split(" ")[0]}</span>
-        <span onClick={() => props.list.onClick(props.index)}>
+        <span>
           <Icon type={props.date.collapse ? "up" : "down"} />
         </span>
       </div>
@@ -124,7 +124,7 @@ function Layout(props) {
       <DateBar date={item} list={props} index={index}>
         <section>
           <ul className={styles.behavior + " " + styles.study}>
-            <ContentChildren content={item.dialogList.length > 0 ? <Ul item={item.dialogList}></Ul> : '无数据'}></ContentChildren>
+            <ContentChildren content={item.dialogList.length > 0 ? <Ul item={item.dialogList}></Ul> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}></Empty>}></ContentChildren>
           </ul>
         </section>
       </DateBar>
@@ -134,8 +134,10 @@ function Layout(props) {
 }
 
 
-@connect(({ behaviorPath }) => ({
+@connect(({ behaviorPath, loading }) => ({
+  loading,
   behaviorPath,
+  isLoading: loading.effects['behaviorPath/getDateList']
 }))
 
 class Study extends React.Component {
@@ -216,10 +218,13 @@ class Study extends React.Component {
   }
 
   render() {
+    console.log(220, this.props)
     return (
       <div className={styles.comWrap}>
-        <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout>
-
+        <Spin spinning={this.props.isLoading}>
+          <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout>
+        </Spin>
+        {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
       </div>
     );
   }

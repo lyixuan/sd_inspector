@@ -91,14 +91,12 @@ export default class Custom extends React.Component<any> {
         if (this.props.onClickOk) {
             this.props.onClickOk(returnObj);
         }
-
-
     }
     public hanldData = () => {
         const { baseInputValue, startValue, endValue, selected, unit } = this.state;
         let returnObj = {};
         if (selected.type === 6) {
-            if (!startValue || endValue) this.onError('请输入正确数字')
+            if (!startValue || !endValue) this.onError('请输入正确数字')
             returnObj = {
                 type: selected.type,
                 value: null,

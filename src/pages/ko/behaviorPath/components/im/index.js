@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'antd';
+import { Icon, Empty, Spin } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
 import avatarTeacher from '@/assets/avatarTeacher.png';
@@ -49,9 +49,9 @@ function Prise(props) {
 function DateBar(props) {
   return (
     <div>
-      <div className={styles.dateBar}>
+      <div className={styles.dateBar} onClick={() => props.list.onClick(props.index)}>
         <span>{props.date.date}</span>
-        <span onClick={() => props.list.onClick(props.index)}>
+        <span>
           <Icon type={props.date.collapse ? 'up' : 'down'} />
         </span>
       </div>
@@ -201,7 +201,7 @@ function Layout(props) {
       <DateBar date={item} list={props} index={index}>
         <section>
           <ul className={styles.behavior}>
-            <ContentChildren content={item.dialogList.length > 0 ? <Ul item={item} /> : '无数据'} />
+            <ContentChildren content={item.dialogList.length > 0 ? <Ul item={item} /> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}></Empty>} />
           </ul>
         </section>
       </DateBar>
@@ -213,13 +213,14 @@ function ContentChildren(props) {
   return props.content;
 }
 
-@connect(({ behaviorPath }) => ({
+@connect(({ behaviorPath, loading }) => ({
+  loading,
   behaviorPath,
+  isLoading: loading.effects['behaviorPath/getDateList']
 }))
 class Im extends React.Component {
   constructor(props) {
     super(props);
-    console.log(220, props)
     this.state = {
       dateList: [],
       listData: [],
@@ -290,7 +291,10 @@ class Im extends React.Component {
   render() {
     return (
       <div className={styles.comWrap}>
-        <Layout dataLists={this.state.dateList} onClick={this.toggle} />
+        <Spin spinning={this.props.isLoading}>
+          <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout>
+        </Spin>
+        {/* <Layout dataLists={this.state.dateList} onClick={this.toggle} /> */}
       </div>
     )
 

@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { msgF } from '@/utils/utils';
-import { handleInitParams } from './utils/utils';
+import { handleInitParams, handleFormParams } from './utils/utils';
 import {
   getKOEnumList, getPageList, getSankeyData, getTableList, getBarData,
   getKoDateRange, getKOMessage, getPageDetailInfoList,
@@ -23,27 +23,29 @@ export default {
     *pageParams(_, { all, call, put, select }) {
       const pageParams = yield select(state => state.koPlan.pageParams);
       if (JSON.stringify(pageParams) !== '{}') return;
-      const [KoDateRangeResponse, KOMessageResponse, pageDetailInfoList, fromAppResponse] = yield all([
+      const [KoDateRangeResponse, KOMessageResponse, pageDetailInfoList, enumDataResponse] = yield all([
         call(getKoDateRange),
         call(getKOMessage),
         call(getPageDetailInfoList),
-        call(getKOEnumList, { type: 2 }),
+        call(getKOEnumList, { type: null }),
       ]);
       KoDateRangeResponse.code !== 2000 && message.error(KoDateRangeResponse.msg);
       KOMessageResponse.code !== 2000 && message.error(KOMessageResponse.msg);
       pageDetailInfoList.code !== 20000 && message.error(msgF(pageDetailInfoList.msg, pageDetailInfoList.msgDetail));
-      fromAppResponse.code !== 20000 && message.error(msgF(fromAppResponse.msg, fromAppResponse.msgDetail));
-      if (fromAppResponse.code === 20000 && pageDetailInfoList.code === 20000 && KoDateRangeResponse.code === 2000) {
+      enumDataResponse.code !== 20000 && message.error(msgF(enumDataResponse.msg, enumDataResponse.msgDetail));
+      if (enumDataResponse.code === 20000 && pageDetailInfoList.code === 20000 && KoDateRangeResponse.code === 2000) {
         const KoDateRange = KoDateRangeResponse.data;
         const KOMessage = KOMessageResponse.data;
         const pageDetailInfo = pageDetailInfoList.data;
-        const fromAppData = fromAppResponse.data;
-        const newParams = { KoDateRange, KOMessage, pageDetailInfo, fromAppData };
+        const enumData = {};
+        enumDataResponse.data.forEach(item => {
+          enumData[item.type] = item.enumData;
+        });
+        const newParams = { KoDateRange, KOMessage, pageDetailInfo, enumData };
         yield put({
           type: 'savePageParams',
           payload: { pageParams: newParams }
         });
-        yield put({ type: 'saveTabFromParams', payload: { ...handleInitParams(newParams) } })
       }
 
     },
@@ -102,7 +104,8 @@ export default {
       return { ...state, ...payload };
     },
     saveTabFromParams(state, { payload }) {
-      return { ...state, tabFromParams: { ...payload } };
+      console.log(payload)
+      return { ...state, tabFromParams: payload };
     }
   },
 
