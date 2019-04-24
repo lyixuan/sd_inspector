@@ -132,7 +132,10 @@ class UserList extends React.Component {
         return {
           onClick: (event) => {
             this.jumpTo('/ko/behaviorInfo',);
-            console.log(233111,record,)
+            this.props.history.push({
+              path:'/ko/behaviorInfo',
+              params: {record}
+            });
           },
         };
       };
