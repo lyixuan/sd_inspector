@@ -91,7 +91,6 @@ export default class KoForm extends React.Component {
     const { appVer, tabFromParams } = this.state;
     const { appPage, pageParams } = this.props;
     const { appPageList = [] } = pageParams;
-    console.log(tabFromParams)
 
     return (
       <div>
