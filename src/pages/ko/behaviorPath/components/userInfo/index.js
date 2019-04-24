@@ -44,7 +44,7 @@ class PathUserInfo extends React.Component {
         <ul className={styles.intro}>
           <li>
             <label>来源：</label>
-            <span>{info.userFromApp}</span>
+            <span>{info.userFromApp == 1 ? "极速APP" : "主APP"}</span>
           </li>
           <li>
             <label>设备：</label>
@@ -52,11 +52,11 @@ class PathUserInfo extends React.Component {
           </li>
           <li>
             <label>注册状态：</label>
-            <span>{info.registerStatus}</span>
+            <span>{info.registerStatus == 1 ? "已注册" : "未注册"}</span>
           </li>
           <li>
             <label>选课状态：</label>
-            <span>{info.choiceLessonStatus}</span>
+            <span>{info.choiceLessonStatus == 1 ? "已选课" : "未选课"}</span>
           </li>
           {/* <li>
             <label>新老用户：</label>
@@ -68,7 +68,7 @@ class PathUserInfo extends React.Component {
           </li>
           <li>
             <label>平均听课时长：</label>
-            <span>{info.avgListenTime}分钟</span>
+            <span>{parseInt(info.avgListenTime / 60)}分钟</span>
           </li>
           <li>
             <label>做题正确率：</label>

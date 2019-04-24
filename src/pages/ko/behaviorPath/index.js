@@ -53,6 +53,7 @@ class BehaviorPath1 extends React.Component {
 
     return (
       <div className={styles.behaviorPath}>
+        <div className={styles.headBar}></div>
         <div className={styles.tabBox}>
           <BITabs onChange={this.onTabChange} type="card" animated={false} defaultActiveKey={this.state.activeKey}>
             <TabPane tab="学习" key="study">
