@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './form';
 import { FormParams } from './utils/utils';
+import { handleDateParams } from '../../utils/utils';
 
 const commitDateFormat = 'YYYY-MM-DD HH:mm:ss';
 
@@ -21,12 +22,12 @@ class CommonForm extends React.Component {
             })
         }
     }
-    handleDateParams = (item) => {
-        const [startTime, endTime] = item;
-        return [startTime, endTime].map((ls, index) => {
-            return index === 0 ? ls.format(commitDateFormat) : ls.format('YYYY-MM-DD 23:59:59');
-        });
-    }
+    // handleCustomValue = (value) => (formula) => {
+    //     if (!value) return value;
+    //     return Number(value) *
+
+
+    // }
     handleKoOrderGap = (item) => {
         const { type } = item;
         switch (type) {
@@ -50,7 +51,7 @@ class CommonForm extends React.Component {
                 returnItem = (Array.isArray(item) && item.length > 0) ? item.map(ls => ls.value) : undefined
                 break;
             case 'registerTime':
-                returnItem = (Array.isArray(item) && item.length > 0) ? this.handleDateParams(item) : undefined
+                returnItem = (Array.isArray(item) && item.length > 0) ? handleDateParams(item) : undefined
                 break;
             case 'choiceLessonStatus':
                 returnItem = item ? item.value : undefined
@@ -59,13 +60,13 @@ class CommonForm extends React.Component {
                 returnItem = item ? item.value : undefined
                 break;
             case 'publicChoiceLessonTime':
-                returnItem = (Array.isArray(item) && item.length > 0) ? this.handleDateParams(item) : undefined
+                returnItem = (Array.isArray(item) && item.length > 0) ? handleDateParams(item) : undefined
                 break;
             case 'certificateChoiceLesson':
                 returnItem = item ? item.value : undefined
                 break;
             case 'certificateChoiceLessonTime':
-                returnItem = (Array.isArray(item) && item.length > 0) ? this.handleDateParams(item) : undefined
+                returnItem = (Array.isArray(item) && item.length > 0) ? handleDateParams(item) : undefined
                 break;
             case 'attendanceStatus':
                 returnItem = item ? item.value : undefined

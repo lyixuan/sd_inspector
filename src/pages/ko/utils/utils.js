@@ -3,12 +3,10 @@ import { INDEX_PAGE } from '@/utils/constants';
 
 const dateFormat = 'YYYY.MM.DD';
 
-const commitDateFormat = 'YYYY-MM-DD  HH:mm:ss';
+const commitDateFormat = 'YYYY-MM-DD';
 export const handleDateParams = (item) => {
     const [startTime, endTime] = item;
-    return [startTime, endTime].map((ls, index) => {
-        return index === 0 ? moment(ls).format(commitDateFormat) : moment(ls).format('YYYY-MM-DD  23:59:59');
-    });
+    return [startTime, endTime].map((ls) => ls && moment(ls).format(commitDateFormat));
 }
 
 export function handleInitParams(params = {}) {
