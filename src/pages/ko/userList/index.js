@@ -4,10 +4,11 @@ import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
 import { BiFilter } from '@/utils/utils';
 import style from './style.less';
+import router from 'umi/router';
 
 @connect(({ userListModel,loading }) => ({
   userListModel,
-  loading: loading.effects['userListModel/userList'],
+  loading: loading.effects['userListModel/getTableList'],
 }))
 class UserList extends React.Component {
   constructor(props) {
@@ -20,11 +21,6 @@ class UserList extends React.Component {
   componentDidMount() {
     this.queryData();
   }
-  jumpTo = (pathname) => {
-    this.props.history.push({
-      pathname,
-    });
-  };
   onPageChange = (currentPage)=>{
     this.queryData({page:currentPage});
   };
@@ -77,6 +73,7 @@ class UserList extends React.Component {
       {
         title: '订单时间',
         dataIndex: 'orderTime',
+        width: 150,
       },
       {
         title: '出勤次数',
@@ -131,25 +128,36 @@ class UserList extends React.Component {
       v.onCell = (record,rowIndex) => {
         return {
           onClick: (event) => {
-            this.props.history.push({
-              path:'/ko/behaviorInfo',
-              params: {record}
+            router.push({
+              pathname:'/ko/behaviorPath',
+              params: {record,target:v.dataIndex}
             });
           },
         };
       };
-      v.render = (text) => {
-        return (
-          <>
-            <span style={{cursor:'pointer'}}>{text}</span>
-          </>
-        );
-      };
+      if (v.dataIndex !== 'orderTime') {
+        v.render = (text) => {
+          return (
+            <>
+              <span style={{cursor:'pointer'}}>{text}</span>
+            </>
+          );
+        };
+      } else {
+        v.render = (text) => {
+          return (
+            <>
+              <span className={style.blankBox} style={{cursor:'pointer'}}>{text}</span>
+            </>
+          );
+        };
+      }
     });
     return col;
   };
   render() {
-    const {userList,page={},loading} = this.props.userListModel;
+    const {userList,page={}} = this.props.userListModel;
+    const {loading} = this.props;
     const dataSource = userList;
     return (
       <div>
