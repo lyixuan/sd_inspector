@@ -302,12 +302,12 @@ class CommonForm extends React.Component {
             this.renderButtonGroup()
           }</div>
 
-          <div className={styles.rowWrap}>
-
+          <div className={`${styles.rowWrap} ${styles.buttonGroup}`}>
             <BIButton onClick={this.handleReset} style={{ marginRight: '10px' }}>重置</BIButton>
             <BIButton type="primary" htmlType="submit">
               查询
               </BIButton>
+            <span className={styles.peopleTotall}>共查询到<i className={styles.peopleNum}>1230</i>个用户</span>
           </div>
         </Form>
       </div>
