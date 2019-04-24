@@ -200,8 +200,7 @@ class Wechart extends React.Component {
   getWechartList = paramDate => {
     let params = {
       beginDate: paramDate,
-      // beginDate: '2019-04-17',
-      stuId: 3538515,
+      stuId: this.props.stuId,
     };
     this.props.dispatch({
       type: 'behaviorPath/wechatAct',

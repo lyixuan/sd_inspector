@@ -18,7 +18,7 @@ class BehaviorPath1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeKey: "1"
+      activeKey: "study"
     }
   }
 
@@ -27,9 +27,10 @@ class BehaviorPath1 extends React.Component {
   }
 
   getDateList = () => {
+    let stuId = this.props.location.params.record.userId
     this.props.dispatch({
       type: 'behaviorPath/getDateList',
-      payload: { stuId: 7186492 },
+      payload: { stuId: stuId },
     });
   };
 
@@ -38,30 +39,41 @@ class BehaviorPath1 extends React.Component {
   }
 
   render() {
-    // let dateList = this.props.behaviorPath.dateList
+    const target = this.props.location.params.target
+    const locationParams = this.props.location.params.record
+    if (target.indexOf("im") != -1) {
+      this.state.activeKey = "im"
+    } else if (target.indexOf("bbs") != -1) {
+      this.state.activeKey = "bbs"
+    } else if (target.indexOf("wechat") != -1) {
+      this.state.activeKey = "wechat"
+    } else if (target.indexOf("study") != -1) {
+      this.state.activeKey = "study"
+    }
+
     return (
       <div className={styles.behaviorPath}>
         <div className={styles.tabBox}>
           <BITabs onChange={this.onTabChange} type="card" animated={false} defaultActiveKey={this.state.activeKey}>
-            <TabPane tab="学习" key="1">
-              <Study></Study>
+            <TabPane tab="学习" key="study">
+              <Study stuId={locationParams.userId}></Study>
             </TabPane>
-            <TabPane tab="IM" key="2">
-              <Im></Im>
+            <TabPane tab="IM" key="im">
+              <Im stuId={locationParams.userId}></Im>
             </TabPane>
-            <TabPane tab="微信" key="3">
-              <WeChart></WeChart>
+            <TabPane tab="微信" key="wechat">
+              <WeChart stuId={locationParams.userId}></WeChart>
             </TabPane>
-            <TabPane tab="BBS" key="4">
-              <Bbs></Bbs>
+            <TabPane tab="BBS" key="bbs">
+              <Bbs stuId={locationParams.userId}></Bbs>
             </TabPane>
             <TabPane tab="私信" key="5">
-              <PrivateLetter></PrivateLetter>
+              <PrivateLetter stuId={locationParams.userId}></PrivateLetter>
             </TabPane>
           </BITabs>
         </div>
         <div style={{ float: 'left' }}>
-          <UserInfo></UserInfo>
+          <UserInfo info={locationParams}></UserInfo>
         </div>
       </div>
     );

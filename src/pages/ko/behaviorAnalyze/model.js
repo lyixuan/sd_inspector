@@ -34,7 +34,7 @@ export default {
         const {behaviourData = {},sankeyData={},pvuvData} = result.data || [];
         yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj} });
         yield put({ type: 'saveBehaviourData', payload: { behaviourData:behaviourData.barActionEventData}});
-        yield put({ type: 'save', payload: {pvuvData, upPage: sankeyData.upPage,downPage:sankeyData.downPage,currentPage:'' } });
+        yield put({ type: 'save', payload: { upPage: sankeyData.upPage,downPage:sankeyData.downPage,currentPage: sankeyData.currentPage} });
       } else {
           message.error(result.msg);
       }
@@ -47,7 +47,6 @@ export default {
     },
     saveBehaviourData(state, { payload }) {
       const {behaviourData}=payload;
-      console.log(behaviourData)
       // const behaviourData= [ {
       //   "name": "aute fugiat aliquip",
       //   "actionKey": "non ipsum",

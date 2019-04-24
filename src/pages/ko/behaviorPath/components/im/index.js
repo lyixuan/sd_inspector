@@ -261,7 +261,8 @@ class Im extends React.Component {
   getImList = paramDate => {
     let params = {
       beginDate: paramDate,
-      stuId: 1767329,
+      stuId: this.props.stuId,
+
     };
     this.props.dispatch({
       type: 'behaviorPath/imAct',

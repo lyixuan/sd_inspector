@@ -187,8 +187,7 @@ class Bbs extends React.Component {
   getBbsList = paramDate => {
     let params = {
       beginDate: paramDate,
-      // beginDate: '2019-04-17',
-      stuId: 3641156,
+      stuId: this.props.stuId,
     };
     this.props.dispatch({
       type: 'behaviorPath/bbsAct',
