@@ -24,6 +24,8 @@ class behavior extends React.Component {
   };
   render() {
     const {upPage,downPage,currentPage} = this.props.behavior;
+    console.log(1,upPage.node)
+    console.log(2,upPage.links)
     return (
       <div>
         {/*------- 图1 桑吉 部分 --------*/}
