@@ -46,7 +46,6 @@ export default {
           type: 'savePageParams',
           payload: { pageParams: newParams }
         });
-        // yield put({ type: 'saveTabFromParams', payload: { ...handleInitParams(newParams), formParams: handleFormParams(KoDateRange) } })
       }
 
     },
@@ -105,7 +104,8 @@ export default {
       return { ...state, ...payload };
     },
     saveTabFromParams(state, { payload }) {
-      return { ...state, tabFromParams: { ...payload } };
+      console.log(payload)
+      return { ...state, tabFromParams: payload };
     }
   },
 

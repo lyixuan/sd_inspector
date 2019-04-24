@@ -1,4 +1,4 @@
-import { PAGE_KEY_ARR } from '@/utils/constants';
+import { KO_LIST_ACTION } from '@/utils/constants';
 
 // 桑吉图数据结构 demo
 // const data1 = {
@@ -53,7 +53,7 @@ function dealData1(data1) {
    * 处理data1(桑吉图结构)原始数据
    *
    * 原始结构：
-   * [{page:'',pageKey:'',actionKeyId:'',actionKey:'',downPageName:'',actionName:''}]
+   * [{page:'',pageKey:'',actionKeyId:'',actionKey:'',downPage:'',downPageName:'',actionName:''}]
    * 关系：page --1:n-- actionKeyId   page --1:n pageKey
    *
    * 输出结构：
@@ -61,7 +61,9 @@ function dealData1(data1) {
    *     [
    *      {actionKeyId:'',actionKey:'',actionName:'',clickNum:'',clickPeople:'',clickNumPro:'',clickNumPro:'',clickPeoplePro:''}
    *    ],
-   *  pv:''
+   *  pv:'',
+   *  downPage:'',
+   *  downPageName:'',
    * }]
    *
    * 关系：page --1:1-- actionKeyIds --1:1-- pageKeys
@@ -93,6 +95,11 @@ function dealData1(data1) {
     Object.keys(tempO).forEach((key2)=>{
       tempObj[key].actionKeyIds.push(tempO[key2]);
     });
+    delete tempObj[key].actionKey;
+    delete tempObj[key].actionName;
+    delete tempObj[key].children;
+    delete tempObj[key].pageKey;
+    delete tempObj[key].actionKeyId;
     newList.push(tempObj[key]);
   });
   return newList;
@@ -139,9 +146,9 @@ function addObjectItem(pageList, pageEventData, actionEventData) {
             v2.clickPeople = Number(a1.clickPeople);
           }
           // 点击量占比
-          v2.clickNumPro = (a1.clickNum / v.pv).toFixed(4) * 100 + '%'; //小数点后两位百分比
+          v2.clickNumPro = (a1.clickNum / v.pv* 100).toFixed(4) + '%'; //小数点后两位百分比
           // 人数击量占比
-          v2.clickPeoplePro = (a1.clickPeople / v.pClickPeople).toFixed(4) * 100 + '%'; //小数点后两位百分比
+          v2.clickPeoplePro = (a1.clickPeople / v.pClickPeople* 100).toFixed(4) + '%'; //小数点后两位百分比
         }
       });
     });
@@ -173,6 +180,15 @@ function getFirstTen(pageList) {
 function getSanKeyMap(newData1, currentPage) {
   /**
    * 构造桑吉图要的数据结构，并处理特殊节点
+   *
+   * 上游桑吉图规则：
+   *    上游桑吉图，节点和连线都取page和downPage
+   *
+   * 下游桑吉图规则：
+   *  1、节点和连线的id和name取值规则：
+   *     actionKeyId值下划线最后一个值大于零，认为是详情页；所有详情页取 actionkeyId 作为node节点的 id。其它取page作为id。name同理
+   *  2、是否流向 选课 节点规则：
+   *     通过判断KO_LIST_ACTION改值是否存在于actionKeyId里确实这个节点是否流向 选课 节点。包含则流向选课节点
    * */
   const upPage = {
     node: [],
@@ -183,22 +199,26 @@ function getSanKeyMap(newData1, currentPage) {
     links: [],
   };
 
-  newData1.upPageList.forEach((v) => {
-    if (v.page === currentPage) {
-      v.pageName = '下游页面';
-    }
-    upPage.node.push({ id: v.page, name: v.pageName });
+  // 上游桑吉图
+  let total = 0;
+  upPage.node.push({ id: currentPage, name: '上游页面' });
 
-    v.actionKeyIds.forEach((a) => {
-      upPage.links.push({
-        source: v.page,
-        target: a.actionKeyId,
-        pv: v.pv || 0,
-        zb: a.clickNumPro || '0.00%',
-        value: a.clickNum || 0,
-      });
+  newData1.upPageList.forEach((v) => {
+    upPage.node.push({ id: v.page, name: v.pageName });
+    upPage.links.push({
+      source: v.page,
+      target: v.downPage,
+      pv: v.pv || 0,
+      zb: 0,
+      value: v.pv || 0,
     });
+    total+=v.pv;
   });
+
+  upPage.links.forEach((v)=>{
+    v.zb = (v.pv/total*100).toFixed(2) + '%';
+  });
+
   newData1.downPageList.forEach((v) => {
     if (v.page === currentPage) {
       v.pageName = '上游页面';
@@ -215,6 +235,7 @@ function getSanKeyMap(newData1, currentPage) {
       });
     });
   });
+  console.log(11234,upPage)
   return { upPage, downPage };
 }
 
@@ -277,7 +298,7 @@ export function dealResultData({ data1, data2, params }) {
   newData1.downPageList = getFirstTen(addObjectItem(newData1.downPageList, data2.pageEventData, data2.actionEventData));
 
   // 构造桑吉图需要的结构，并处理节点
-  const { upPage = {}, downPage = {} } = getSanKeyMap(newData1);
+  const { upPage = {}, downPage = {} } = getSanKeyMap(newData1,currentPage);
 
   // 筛选当前页面
   const currentPageObj = getCurrentPage(newData1.downPageList, currentPage);

@@ -10,26 +10,30 @@ import BarEcharts from './components/EchartsBar'
 class behavior extends React.Component {
   componentDidMount() {
     this.getInitParams();
-    this.getInitData();
+    this.getData();
 
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(nextProps.tabFromParams) !== JSON.stringify(this.props.tabFromParams)) {
+      this.getData(nextProps.tabFromParams);
+    }
   }
   getInitParams = () => {
     this.props.dispatch({
       type: 'koPlan/pageParams',
     })
   }
-  getInitData = () => {
-    const formParams={};
-    const otherParams={currentActionKeyId:undefined,recordTimeList:["2019-01-01 12:00:00","2019-05-01 12:00:00"]};
+  getData = (params = this.props.tabFromParams) => {
+    if (JSON.stringify(params) === '{}') return;
+    const { formParams = {}, page, belongApp, ...others } = params;
+    const otherParams = { ...others };
     this.props.dispatch({
       type: 'behavior/getSankeyList',
-      payload: { params: {belongApp:1,page:'homepage'},formParams,otherParams }
+      payload: { params: { belongApp, page: page.actionValue }, formParams, otherParams }
     })
   };
   render() {
-    const {upPage,downPage,currentPage} = this.props.behavior;
+    const { upPage, downPage, currentPage } = this.props.behavior;
     return (
       <div>
         {/*------- 图1 桑吉 部分 --------*/}

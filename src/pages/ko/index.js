@@ -64,17 +64,22 @@ class koPlan extends React.Component {
       payload: { ...params }
     })
   }
+  changeFilterAction = (params, originParams = {}) => {
+    const tabFromParams = JSON.parse(JSON.stringify(this.props.tabFromParams));
+    const { formParams, ...others } = tabFromParams;
+    const newParams = { ...others, ...params };
+    this.onSaveTabFromParams({ formParams, ...newParams });
+    this.onSavefFlterActionParams(originParams);
+
+
+  }
 
   onSubmit = (params, originParams) => {
-    const { tabFromParams } = this.props;
+    const tabFromParams = JSON.parse(JSON.stringify(this.props.tabFromParams));
     const { formParams } = tabFromParams;
     tabFromParams.formParams = { ...formParams, ...params };
-    this.props.dispatch({
-      type: 'koPlan/saveTabFromParams',
-      payload: { ...tabFromParams },
-    });
+    this.onSaveTabFromParams(tabFromParams)
     this.setState({ originParams: { ...this.state.originParams, ...originParams } });
-
   };
   jumpTo = (pathname) => {
     this.props.history.push({
@@ -94,7 +99,7 @@ class koPlan extends React.Component {
         </div>
           <div className={styles.tabBox}>
             <KoTab {...this.props} />
-            {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <KoForm {...this.props} originParams={filterActionParams} />}
+            {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <KoForm {...this.props} originParams={filterActionParams} onChange={this.changeFilterAction} />}
           </div>
         </>
         }

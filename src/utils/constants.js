@@ -348,11 +348,11 @@ export const APP_LIST = [
   { id: '1', name: '极速版App' }
 ];
 // 注册类型
-export const REGISTER_STATUS  = [
+export const REGISTER_STATUS = [
   { id: 1, name: '已注册' }
 ];
 // 选课状态
-export const CHOISE_STATUS  = [
+export const CHOISE_STATUS = [
   { id: 0, name: '未选课' },
   { id: 1, name: '已选课' }
 ];
@@ -367,12 +367,16 @@ export const HOT_RANGE = [
   { minVal: 61, maxVal: 80, color: '#FF9862' },
   { minVal: 81, maxVal: 100, color: '#FF8383' },
 ];
-// 热力图pageKey
-export const PAGE_KEY_ARR = [
+export const PAGE_KEY_ACTION = [
+  { value: 'storelist', actionValue: 'majordetail' },
+  { value: 'kolist', actionValue: 'kogoodsdetail' },
 ]
+export const KO_LIST = 'KoList';
+
 
 export const INDEX_PAGE = 'homepage';
-export const KO_LIST = 'KoList';
+// 通过判断改值是否存在于actionKeyId里确实这个节点是否流向 选课 节点
+export const KO_LIST_ACTION = 'click_ko_item';
 
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
@@ -402,7 +406,6 @@ export default {
   HOT_RANGE,
   REGISTER_STATUS,
   CHOISE_STATUS,
-  PAGE_KEY_ARR,
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
