@@ -7,6 +7,11 @@ export default {
 
   state: {
     userList: [],
+    pageParams: {
+      currentPage: 1,
+      pageSize: 30,
+    }
+
   },
 
   effects: {
@@ -26,7 +31,11 @@ export default {
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
+    },
+    savePageParams(state, { payload }) {
+      return { ...state, ...payload };
     }
+
   },
 
   subscriptions: {},

@@ -95,16 +95,16 @@ export const homepage=`<?xml version="1.0" encoding="UTF-8"?>
                         <g id="分组-55" mask="url(#mask-2)" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal">
                             <g transform="translate(60.000000, 211.000000)" id="0">
                                 <text>
-                                    <tspan class='textName' data-name='d1' font-size='12px' x="25" y="15" fill="#000000">0</tspan>
+                                    <tspan class='textVal textName' data-name='d1' font-size='12px' x="25" y="15" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='textName' data-name='d2' font-size='12px' x="25" y="98" fill="#000000">0</tspan>
+                                    <tspan class='textVal textName' data-name='d2' font-size='12px' x="25" y="98" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='textName' data-name='d3' font-size='12px' x="25" y="182" fill="#000000">0</tspan>
+                                    <tspan class='textVal textName' data-name='d3' font-size='12px' x="25" y="182" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='textName' data-name='d4' font-size='12px' x="25" y="265" fill="#000000">0</tspan>
+                                    <tspan class='textVal textName' data-name='d4' font-size='12px' x="25" y="265" fill="#000000">0</tspan>
                                 </text>
                             </g>
                         </g>
@@ -112,10 +112,10 @@ export const homepage=`<?xml version="1.0" encoding="UTF-8"?>
                             <g cursor='pointer' transform="translate(12.000000, 30.000000)" id="矩形">
                                 <rect class='mask' data-name='storelist_Click_back_-1' x="0" y="0" width="54" height="20" rx="4"></rect>
                                 <rect class='mask' data-name='storelist_Click_first_categroy_-1' x="0" y="77" width="230" height="80" rx="4"></rect>
-                                <rect class='mask' data-name='torelist_Click_major_-1' x="0" y="181" width="230" height="60" rx="4"></rect>
-                                <rect class='mask' data-name='d4' x="0" y="264" width="230" height="60" rx="4"></rect>
-                                <rect class='mask' data-name='d5' x="0" y="348" width="230" height="60" rx="4"></rect>
-                                <rect class='mask' data-name='d6' x="0" y="431" width="230" height="60" rx="4"></rect>
+                                <rect class='textVal' data-name='torelist_Click_major_-1' x="0" y="181" width="230" height="60" rx="4"></rect>
+                                <rect class='textVal' data-name='d4' x="0" y="264" width="230" height="60" rx="4"></rect>
+                                <rect class='textVal' data-name='d5' x="0" y="348" width="230" height="60" rx="4"></rect>
+                                <rect class='textVal' data-name='d6' x="0" y="431" width="230" height="60" rx="4"></rect>
                             </g>
                         </g>
                         <g id="分组-50" mask="url(#mask-2)" font-family="PingFangSC-Regular, PingFang SC" font-size="10" font-weight="normal">
@@ -127,16 +127,16 @@ export const homepage=`<?xml version="1.0" encoding="UTF-8"?>
                                     <tspan class='text' data-name='torelist_Click_first_categroy_-1' x="88" y="118" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='text' data-name='torelist_Click_major_-1' x="88" y="212" fill="#000000">0</tspan>
+                                    <tspan class='textVal' data-name='torelist_Click_major_-1' x="88" y="212" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='text' data-name='d4' x="88" y="295" fill="#000000">0</tspan>
+                                    <tspan class='textVal' data-name='d4' x="88" y="295" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='text' data-name='d5' x="88" y="379" fill="#000000">0</tspan>
+                                    <tspan class='textVal' data-name='d5' x="88" y="379" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='text' data-name='d6' x="88" y="462" fill="#000000">0</tspan>
+                                    <tspan class='textVal' data-name='d6' x="88" y="462" fill="#000000">0</tspan>
                                 </text>
                             </g>
                         </g>
@@ -212,12 +212,12 @@ export const homepage=`<?xml version="1.0" encoding="UTF-8"?>
                         <g id="分组-48" mask="url(#mask-2)" fill="#C1C1C1" fill-opacity="0.7" fill-rule="nonzero">
                             <g cursor='pointer' transform="translate(12.000000, 30.000000)" id="矩形">
                                 <rect class='mask' data-name='kolist_click_back_-1' x="0" y="0" width="54" height="20" rx="4"></rect>
-                                <rect class='mask' data-name='kolist_click_ko_item_-1' x="5" y="72" width="220" height="66" rx="4"></rect>
-                                <rect class='mask' data-name='d3' x="5" y="143" width="220" height="66" rx="4"></rect>
-                                <rect class='mask' data-name='d4' x="5" y="215" width="220" height="66" rx="4"></rect>
-                                <rect class='mask' data-name='d5' x="5" y="286" width="220" height="66" rx="4"></rect>
-                                <rect class='mask' data-name='d6' x="5" y="358" width="220" height="66" rx="4"></rect>
-                                <rect class='mask' data-name='d7' x="5" y="429" width="220" height="66" rx="4"></rect>
+                                <rect class='textVal' data-name='kolist_click_ko_item_-1' x="5" y="72" width="220" height="66" rx="4"></rect>
+                                <rect class='textVal' data-name='d3' x="5" y="143" width="220" height="66" rx="4"></rect>
+                                <rect class='textVal' data-name='d4' x="5" y="215" width="220" height="66" rx="4"></rect>
+                                <rect class='textVal' data-name='d5' x="5" y="286" width="220" height="66" rx="4"></rect>
+                                <rect class='textVal' data-name='d6' x="5" y="358" width="220" height="66" rx="4"></rect>
+                                <rect class='textVal' data-name='d7' x="5" y="429" width="220" height="66" rx="4"></rect>
                             </g>
                         </g>
                         <g id="分组-48" mask="url(#mask-2)" font-family="PingFangSC-Regular, PingFang SC" font-size="10" font-weight="normal">
@@ -226,22 +226,22 @@ export const homepage=`<?xml version="1.0" encoding="UTF-8"?>
                                     <tspan class='text' data-name='kolist_click_back_-1' x="0" y="11" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='text' data-name='kolist_click_ko_item_-1' x="88" y="106" fill="#000000">0</tspan>
+                                    <tspan class='textVal' data-name='kolist_click_ko_item_-1' x="88" y="106" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='text' data-name='d3' x="88" y="177" fill="#000000">0</tspan>
+                                    <tspan class='textVal' data-name='d3' x="88" y="177" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='text' data-name='d4' x="88" y="249" fill="#000000">0</tspan>
+                                    <tspan class='textVal' data-name='d4' x="88" y="249" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='text' data-name='d5' x="88" y="320" fill="#000000">0</tspan>
+                                    <tspan class='textVal' data-name='d5' x="88" y="320" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='text' data-name='d6' x="88" y="392" fill="#000000">0</tspan>
+                                    <tspan class='textVal' data-name='d6' x="88" y="392" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='text' data-name='d7' x="88" y="461" fill="#000000">0</tspan>
+                                    <tspan class='textVal' data-name='d7' x="88" y="461" fill="#000000">0</tspan>
                                 </text>
                             </g>
                         </g>

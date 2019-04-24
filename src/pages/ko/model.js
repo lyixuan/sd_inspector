@@ -17,44 +17,59 @@ export default {
     tableList: [],
     tabFromParams: {},
     pageParams: {},
+    KOMessage: {},
   },
 
   effects: {
-    *pageParams(_, { all, call, put, select }) {
-      const pageParams = yield select(state => state.koPlan.pageParams);
-      if (JSON.stringify(pageParams) !== '{}') return;
-      const [KoDateRangeResponse, KOMessageResponse, pageDetailInfoList, enumDataResponse] = yield all([
-        call(getKoDateRange),
-        call(getKOMessage),
-        call(getPageDetailInfoList),
-        call(getKOEnumList, { type: null }),
-      ]);
-      KoDateRangeResponse.code !== 2000 && message.error(KoDateRangeResponse.msg);
-      KOMessageResponse.code !== 2000 && message.error(KOMessageResponse.msg);
-      pageDetailInfoList.code !== 20000 && message.error(msgF(pageDetailInfoList.msg, pageDetailInfoList.msgDetail));
-      enumDataResponse.code !== 20000 && message.error(msgF(enumDataResponse.msg, enumDataResponse.msgDetail));
-      if (enumDataResponse.code === 20000 && pageDetailInfoList.code === 20000 && KoDateRangeResponse.code === 2000) {
-        const KoDateRange = KoDateRangeResponse.data;
-        const KOMessage = KOMessageResponse.data;
-        const pageDetailInfo = pageDetailInfoList.data;
-        const enumData = {};
-        enumDataResponse.data.forEach(item => {
-          enumData[item.type] = item.enumData;
-        });
-        const newParams = { KoDateRange, KOMessage, pageDetailInfo, enumData };
+    *getKOMessage(_, { call, put }) {
+      const response = yield call(getKOMessage);
+      if (response.code === 2000) {
         yield put({
-          type: 'savePageParams',
-          payload: { pageParams: newParams }
-        });
+          type: 'saveKOEnumList',
+          payload: { KOMessage: response.data },
+        })
+      } else {
+        message.error(response.msg)
       }
 
     },
-    *getKoDateRange(_, { call, put }) {
-      const response = yield call(getKoDateRange);
-      if (response.code === 2000) {
+    *getEnumData(_, { call, put }) {
+      const response = yield call(getKOEnumList, { type: null });
+      if (response.code === 20000) {
+        const enumData = {};
+        response.data.forEach(item => {
+          enumData[item.type] = item.enumData;
+        });
+        yield put({
+          type: 'saveKOEnumList',
+          payload: { enumData },
+        })
       } else {
         message.error(response.msg);
       }
+    },
+    *pageParams(_, { all, call, put, select }) {
+      const pageParams = yield select(state => state.koPlan.pageParams);
+      const enumData = yield select(state => state.koPlan.enumData);
+      if (JSON.stringify(enumData) === '{}') {
+        yield put({ type: 'getEnumData' });
+      }
+      if (JSON.stringify(pageParams) !== '{}') return;
+      const [KoDateRangeResponse, pageDetailInfoList] = yield all([
+        call(getKoDateRange),
+        call(getPageDetailInfoList),
+      ]);
+      KoDateRangeResponse.code !== 2000 && message.error(KoDateRangeResponse.msg);
+      pageDetailInfoList.code !== 20000 && message.error(msgF(pageDetailInfoList.msg, pageDetailInfoList.msgDetail));
+      // if (pageDetailInfoList.code === 20000 && KoDateRangeResponse.code === 2000) {
+      const KoDateRange = KoDateRangeResponse.data;
+      const pageDetailInfo = pageDetailInfoList.data;
+      const newParams = { KoDateRange, pageDetailInfo };
+      yield put({
+        type: 'savePageParams',
+        payload: { pageParams: newParams }
+      });
+      // }
 
     },
     *getKOEnumList({ payload }, { call, put }) {
@@ -107,6 +122,5 @@ export default {
       return { ...state, tabFromParams: payload };
     }
   },
-
   subscriptions: {},
 };
