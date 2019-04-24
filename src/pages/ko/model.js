@@ -104,7 +104,6 @@ export default {
       return { ...state, ...payload };
     },
     saveTabFromParams(state, { payload }) {
-      console.log(payload)
       return { ...state, tabFromParams: payload };
     }
   },

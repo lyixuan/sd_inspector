@@ -53,6 +53,13 @@ class CommonForm extends React.Component {
         }
         return returnObj
     }
+    handleOrgParams = (data = []) => (orgArr) => {
+        const returnObj = {};
+        orgArr.forEach((item, index) => {
+            returnObj[item] = data[index] ? data[index].value : null;
+        });
+        return returnObj;
+    }
 
     checkoutParamsType = (key, item) => {
         let returnItem = undefined;
@@ -101,10 +108,10 @@ class CommonForm extends React.Component {
                 returnItem = item ? this.handleCustomParams(item) : undefined;
                 break;
             case 'frontBelong':
-                returnItem = item ? item : undefined;
+                returnItem = item ? this.handleOrgParams(item)(['businessId', 'legionId']) : undefined;
                 break;
             case 'backBelong':
-                returnItem = item ? item : undefined;
+                returnItem = item ? this.handleOrgParams(item)(['collegeId', 'familyId', 'groupId']) : undefined;
                 break;
             default:
                 returnItem = null;
