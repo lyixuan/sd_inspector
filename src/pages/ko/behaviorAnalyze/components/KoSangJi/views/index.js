@@ -12,7 +12,11 @@ class Views extends React.Component {
 
   }
   render() {
-    const dataObj = [{name:'PV',data:12121},{name:'UV',data:121},{name:'跳出率',data:'20%'},{name:'选课后付费占比',data:'5%'}]
+    console.log(this.props.behavior.pvuvData)
+    const {pvuvData={}} = this.props.behavior;
+    const {bouncePercent,choicePercent,pv,uv} = pvuvData
+    
+    const dataObj = [{name:'PV',data:pv},{name:'UV',data:uv},{name:'跳出率',data:bouncePercent},{name:'选课后付费占比',data:choicePercent}]
     return (
       <div className={styles.contentWrap}>
         {

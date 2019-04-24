@@ -16,6 +16,7 @@ export default {
   namespace: 'behavior',
 
   state: {
+    pvuvData: {},   // 仪表盘
     hotDataList: {},   // 热力图数据
     upPage: {},        // 桑吉图上游数据
     downPage: {},      // 桑吉图下游数据
@@ -30,10 +31,10 @@ export default {
       const result = yield call(sankeySuperApi, {params,formParams,otherParams});
       if (result) {
         console.log('result',result)
-        const {behaviourData = {},sankeyData={}} = result.data || [];
+        const {behaviourData = {},sankeyData={},pvuvData} = result.data || [];
         yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj} });
         yield put({ type: 'saveBehaviourData', payload: { behaviourData:behaviourData.barActionEventData}});
-        yield put({ type: 'save', payload: { upPage: sankeyData.upPage,downPage:sankeyData.downPage,currentPage:'' } });
+        yield put({ type: 'save', payload: {pvuvData, upPage: sankeyData.upPage,downPage:sankeyData.downPage,currentPage:'' } });
       } else {
           message.error(result.msg);
       }
