@@ -25,11 +25,11 @@ class behavior extends React.Component {
   }
   getData = (params = this.props.tabFromParams) => {
     if (JSON.stringify(params) === '{}') return;
-    const { formParams = {} } = params;
-    const otherParams = { currentActionKeyId: undefined, recordTimeList: ["2019-01-01 12:00:00", "2019-05-01 12:00:00"] };
+    const { formParams = {}, page, belongApp, ...others } = params;
+    const otherParams = { ...others };
     this.props.dispatch({
       type: 'behavior/getSankeyList',
-      payload: { params: { belongApp: 1, page: 'homepage' }, formParams, otherParams }
+      payload: { params: { belongApp, page: page.actionValue }, formParams, otherParams }
     })
   };
   render() {

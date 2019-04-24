@@ -348,11 +348,11 @@ export const APP_LIST = [
   { id: '1', name: '极速版App' }
 ];
 // 注册类型
-export const REGISTER_STATUS  = [
+export const REGISTER_STATUS = [
   { id: 1, name: '已注册' }
 ];
 // 选课状态
-export const CHOISE_STATUS  = [
+export const CHOISE_STATUS = [
   { id: 0, name: '未选课' },
   { id: 1, name: '已选课' }
 ];
@@ -370,8 +370,11 @@ export const HOT_RANGE = [
 // 热力图pageKey
 export const PAGE_KEY_ARR = [
 ]
-
-export const INDEX_PAGE = 'homepage';
+export const PAGE_KEY_ACTION = [
+  { value: 'storelist', actionValue: 'majordetail' },
+  { value: 'kolist', actionValue: 'kogoodsdetail' },
+]
+export const INDEX_PAGE = 'storelist';
 export const KO_LIST = 'KoList';
 
 // 需要用于global filter 进行数据筛选的，必须加到default里

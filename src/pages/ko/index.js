@@ -64,7 +64,13 @@ class koPlan extends React.Component {
       payload: { ...params }
     })
   }
-  changeFilterAction = (params) => {
+  changeFilterAction = (params, originParams = {}) => {
+    const tabFromParams = JSON.parse(JSON.stringify(this.props.tabFromParams));
+    const { formParams, ...others } = tabFromParams;
+    const newParams = { ...others, ...params };
+    this.onSaveTabFromParams({ formParams, ...newParams });
+    this.onSavefFlterActionParams(originParams);
+
 
   }
 
@@ -72,10 +78,7 @@ class koPlan extends React.Component {
     const tabFromParams = JSON.parse(JSON.stringify(this.props.tabFromParams));
     const { formParams } = tabFromParams;
     tabFromParams.formParams = { ...formParams, ...params };
-    this.props.dispatch({
-      type: 'koPlan/saveTabFromParams',
-      payload: { ...tabFromParams },
-    });
+    this.onSaveTabFromParams(tabFromParams)
     this.setState({ originParams: { ...this.state.originParams, ...originParams } });
   };
   jumpTo = (pathname) => {

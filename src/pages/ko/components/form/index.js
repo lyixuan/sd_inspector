@@ -2,7 +2,7 @@ import React from 'react';
 import Form from './form';
 import { FormParams } from './utils/utils';
 
-const dateFormat = 'YYYY.MM.DD';
+const commitDateFormat = 'YYYY-MM-DD  HH:mm:ss';
 
 
 class CommonForm extends React.Component {
@@ -20,7 +20,12 @@ class CommonForm extends React.Component {
                 params: { ...this.formInstance.initParams, ...nextProps.originParams },
             })
         }
-
+    }
+    handleDateParams = (item) => {
+        const [startTime, endTime] = item;
+        return [startTime, endTime].map((ls, index) => {
+            return index === 0 ? ls.format(commitDateFormat) : ls.format('YYYY-MM-DD  23:59:59');
+        });
     }
     checkoutParamsType = (key, item) => {
         let returnItem = undefined;
@@ -32,7 +37,7 @@ class CommonForm extends React.Component {
                 returnItem = (Array.isArray(item) && item.length > 0) ? item.map(ls => ls.value) : undefined
                 break;
             case 'registerTime':
-                returnItem = (Array.isArray(item) && item.length > 0) ? item.map(ls => ls && ls.format(dateFormat)) : undefined
+                returnItem = (Array.isArray(item) && item.length > 0) ? this.handleDateParams(item) : undefined
                 break;
             case 'choiceLessonStatus':
                 returnItem = item ? item.value : undefined
@@ -41,13 +46,13 @@ class CommonForm extends React.Component {
                 returnItem = item ? item.value : undefined
                 break;
             case 'publicChoiceLessonTime':
-                returnItem = (Array.isArray(item) && item.length > 0) ? item.map(ls => ls && ls.format(dateFormat)) : undefined
+                returnItem = (Array.isArray(item) && item.length > 0) ? this.handleDateParams(item) : undefined
                 break;
             case 'certificateChoiceLesson':
                 returnItem = item ? item.value : undefined
                 break;
             case 'certificateChoiceLessonTime':
-                returnItem = (Array.isArray(item) && item.length > 0) ? item.map(ls => ls && ls.format(dateFormat)) : undefined
+                returnItem = (Array.isArray(item) && item.length > 0) ? this.handleDateParams(item) : undefined
                 break;
             case 'attendanceStatus':
                 returnItem = item ? item.value : undefined
