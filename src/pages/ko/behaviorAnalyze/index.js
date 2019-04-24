@@ -2,17 +2,23 @@ import React from 'react';
 import { connect } from 'dva';
 import KoSangJi from './components/KoSangJi';
 import BarEcharts from './components/EchartsBar'
-@connect(({ behavior }) => ({
+@connect(({ behavior, koPlan }) => ({
   behavior,
+  tabFromParams: koPlan.tabFromParams,
+  params: koPlan.params,
 }))
 class behavior extends React.Component {
   componentDidMount() {
+    this.getInitParams();
     this.getInitData();
+
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.tabType === '2' && nextProps.tabType === '1') {
-      this.getInitData()
-    }
+  }
+  getInitParams = () => {
+    this.props.dispatch({
+      type: 'koPlan/pageParams',
+    })
   }
   getInitData = () => {
     this.props.dispatch({

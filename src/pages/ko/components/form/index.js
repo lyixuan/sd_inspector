@@ -9,9 +9,18 @@ class CommonForm extends React.Component {
     constructor(props) {
         super(props)
         this.formInstance = new FormParams();
+        const { originParams } = this.props;
         this.state = {
-            params: this.formInstance.initParams,
+            params: { ...this.formInstance.initParams, ...originParams },
         }
+    }
+    componentWillReceiveProps(nextProps) {
+        if (JSON.stringify(nextProps.originParams) !== JSON.stringify(this.props.originParams)) {
+            this.setState({
+                params: { ...this.formInstance.initParams, ...nextProps.originParams },
+            })
+        }
+
     }
     checkoutParamsType = (key, item) => {
         let returnItem = undefined;
@@ -92,7 +101,7 @@ class CommonForm extends React.Component {
         const hasHandleParams = this.handleSubmitParams(newParams);
         this.onSaveParams(newParams);
         if (this.props.onSubmit) {
-            this.props.onSubmit(hasHandleParams);
+            this.props.onSubmit(hasHandleParams, newParams);
         }
     }
     render() {

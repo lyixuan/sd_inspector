@@ -11,7 +11,6 @@ export default {
     behaviourData: [], // 柱状图
     currentPage: '',   // 当前页面
   },
-
   effects: {
     *getSankeyList({ payload }, { call, put }) {
       const params = payload.params;
