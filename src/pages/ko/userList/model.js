@@ -15,8 +15,8 @@ export default {
       const params = payload.params;
       const result = yield call(getTableList, params);
       if (result.code === 20000) {
-        const tableList = result.data || [];
-        yield put({ type: 'save', payload: { tableList } });
+        const userList = result.data || [];
+        yield put({ type: 'save', payload: { userList } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
