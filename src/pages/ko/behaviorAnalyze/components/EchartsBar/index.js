@@ -9,6 +9,7 @@ class BarEcharts extends React.Component {
     // console.log(e.data.name)
     this.props.history.push({
       pathname:'/ko/userList',
+      // query:{e.data.name.}
     });
  };
   render() {
