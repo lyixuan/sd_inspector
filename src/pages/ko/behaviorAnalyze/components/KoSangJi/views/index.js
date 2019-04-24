@@ -12,7 +12,6 @@ class Views extends React.Component {
 
   }
   render() {
-    console.log(this.props.behavior.pvuvData)
     const {pvuvData={}} = this.props.behavior;
     const {bouncePercent,choicePercent,pv,uv} = pvuvData
     
