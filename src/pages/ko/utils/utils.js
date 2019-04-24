@@ -32,7 +32,7 @@ export function handleInitParams(params = {}) {
 export function handleFormParams(params) {
     const date = Array.isArray(params) && params.length > 0 ? params[0] : {};
     const { beginTime, endTime } = date;
-    const HandleData = [beginTime, endTime].map(item => item && moment(item).format(dateFormat));
+    const HandleData = [beginTime, endTime].map(item => item && moment(item).format(commitDateFormat));
     return {
         certificateChoiceLessonTime: HandleData,
         registerTime: HandleData,

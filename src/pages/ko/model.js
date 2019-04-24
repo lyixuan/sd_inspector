@@ -61,15 +61,15 @@ export default {
       ]);
       KoDateRangeResponse.code !== 2000 && message.error(KoDateRangeResponse.msg);
       pageDetailInfoList.code !== 20000 && message.error(msgF(pageDetailInfoList.msg, pageDetailInfoList.msgDetail));
-      if (pageDetailInfoList.code === 20000 && KoDateRangeResponse.code === 2000) {
-        const KoDateRange = KoDateRangeResponse.data;
-        const pageDetailInfo = pageDetailInfoList.data;
-        const newParams = { KoDateRange, pageDetailInfo };
-        yield put({
-          type: 'savePageParams',
-          payload: { pageParams: newParams }
-        });
-      }
+      // if (pageDetailInfoList.code === 20000 && KoDateRangeResponse.code === 2000) {
+      const KoDateRange = KoDateRangeResponse.data;
+      const pageDetailInfo = pageDetailInfoList.data;
+      const newParams = { KoDateRange, pageDetailInfo };
+      yield put({
+        type: 'savePageParams',
+        payload: { pageParams: newParams }
+      });
+      // }
 
     },
     *getKOEnumList({ payload }, { call, put }) {
