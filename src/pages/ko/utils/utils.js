@@ -10,17 +10,21 @@ export const handleDateParams = (item) => {
 }
 
 export function handleInitParams(params = {}) {
-    let returnObj = {};
+    let returnObj = {
+
+    };
+
     Object.keys(params).forEach(key => {
         if (key === 'KoDateRange') {
             const date = Array.isArray(params[key]) && params[key].length > 0 ? params[key][0] : {};
             const { beginTime, endTime } = date;
-            returnObj = { ...returnObj, page: { value: INDEX_PAGE, actionValue: INDEX_PAGE }, recordTimeList: handleDateParams([beginTime, endTime]) };
+            returnObj = {
+                ...returnObj,
+                page: { value: INDEX_PAGE, actionValue: INDEX_PAGE },
+                recordTimeList: handleDateParams([beginTime, endTime]),
+                belongApp: '1',
+            };
 
-        } else if (key === 'enumData') {
-            const data = Array.isArray(params[key][2]) && params[key][2].length > 0 ? params[key][2] : [];
-            const formApp = Array.isArray(data) && data.length ? data[0] : {};
-            returnObj = { ...returnObj, belongApp: formApp.value };
         }
     })
 
