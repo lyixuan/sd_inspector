@@ -1,13 +1,14 @@
 import React from 'react';
 import * as d3 from 'd3';
-import {HOT_RANGE} from '@/utils/constants'
-import {
-  IndexPage,
-  ShopPage,
-  StartList,
-  KoDetail,
-  KoList,
-  SelfExam} from './SVG';
+import {HOT_RANGE} from '@/utils/constants';
+import pages from './SVG';
+// import {
+//   homepage,
+//   storelist,
+//   studypage,
+//   kogoodsdetail,
+//   kolist,
+//   majordetail} from './SVG';
   import styles from './style.less';
 import { func } from 'prop-types';
 
@@ -19,16 +20,20 @@ class KoDetailPage extends React.Component {
     KoDetailPage.tip = {};
   }
   componentDidMount() {
-    this.drewLended([]);
+    this.drewLended([],pages.homepage);
   }
   componentWillReceiveProps(nextProps){
-    if(nextProps.behavior.hotDataList.length&&nextProps.behavior.hotDataList!==this.props.behavior.hotDataList){
-      this.drewLended(nextProps.behavior.hotDataList);
+    if(nextProps.behavior.hotDataList!==this.props.behavior.hotDataList){
+      if(JSON.stringify(nextProps.behavior.hotDataList)!=='{}' ){
+        this.drewLended(nextProps.behavior.hotDataList.newIds,nextProps.behavior.hotDataList.page);
+      }
+      
     }
   }
   getColorFn = (hotData) => {// 对data数据处理，加上颜色
     hotData.map(item1=>{
-      const colorVal = HOT_RANGE.filter(item2=>item1.countRate>=item2.minVal&&item1.countRate<=item2.maxVal)[0];
+      const colorVal = HOT_RANGE.filter(item2=>Number(item1.countRate.split('%')[0])>=item2.minVal&&Number(item1.countRate.split('%')[0])<=item2.maxVal)[0];
+      console.log(1,colorVal)
       if(colorVal) return item1.color=colorVal.color
     });
     return hotData;
@@ -57,7 +62,8 @@ class KoDetailPage extends React.Component {
     };
   }
   tooltipText = (hotData,id) => {
-    const newHotData = hotData.filter(item=>item.name===id)[0];
+    const newHotData = hotData.filter(item=>item.actionKeyId===id)[0];
+    if(newHotData)
     return `<ul class=${styles.tootipPanl}>
     <li class=${styles.tooltipItem}>点击人数：${newHotData.clickPeople}人</li>
     <li class=${styles.tooltipItem}>人数占比：${newHotData.peopoleRate}%</li>
@@ -65,17 +71,44 @@ class KoDetailPage extends React.Component {
     <li class=${styles.tooltipItem}>次数占比：${newHotData.countRate}%</li>
     </ul>`;
   };
-  drewLended = (data) => {
+  drewLended = (data,page) => {
     if(data&&data.length){
-      this.chart = d3.select(this.svgDom).html(ShopPage);
+      if(page==='homepage'){
+        let homepage_click_city1 = {
+          actionKeyId:'homepage_click_city',
+        };
+        data.map(item=>{
+          if(item.actionKeyId==='homepage_click_testregion_-1'){
+            homepage_click_city1={
+              clickNum:22692,
+              clickNumPro:'10%',
+              clickPeople:item.clickPeople,
+              clickPeoplePro:item.clickPeoplePro
+            }
+          }
+          if(item.actionKeyId==='homepage_Click_city_-1'){
+            // data.push({
+            //   item['actionKeyId']:'homepage_click_city',
+            // })
+          }
+        })
+        console.log(homepage_click_city1)
+      }
+      this.chart = d3.select(this.svgDom).html(pages['kolist']);
       const colorArr = this.getColorFn(data);
-
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       // 修改数据
       this.chart.selectAll('.text').text(function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
         if(val) return val.clickCountPre;
       }).style('font-weight','600');
+      // if(page==='homepage'){
+      //   this.chart.selectAll('.text').text(function(){
+      //     const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
+      //     if(val) return val.clickCountPre;
+      //   }).style('font-weight','600');
+      // }
+      
 
       // 修改商城列表name
       const datall = [{actionID:'name1',textName:'11'},{actionID:'name12',textName:'fef'},{actionID:'name13',textName:'erw'},{actionID:'name14',textName:'vv'}]
