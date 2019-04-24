@@ -15,12 +15,9 @@ export function handleInitParams(params = {}) {
         if (key === 'KoDateRange') {
             const date = Array.isArray(params[key]) && params[key].length > 0 ? params[key][0] : {};
             const { beginTime, endTime } = date;
-            returnObj = { ...returnObj, recordTimeList: handleDateParams([beginTime, endTime]) };
+            returnObj = { ...returnObj, page: { value: INDEX_PAGE, actionValue: INDEX_PAGE }, recordTimeList: handleDateParams([beginTime, endTime]) };
 
-        } else if (key === 'pageDetailInfo') {
-            returnObj = { ...returnObj, page: { value: INDEX_PAGE, actionValue: INDEX_PAGE }, };
-        }
-        else if (key === 'enumData') {
+        } else if (key === 'enumData') {
             const data = Array.isArray(params[key][2]) && params[key][2].length > 0 ? params[key][2] : [];
             const formApp = Array.isArray(data) && data.length ? data[0] : {};
             returnObj = { ...returnObj, belongApp: formApp.value };

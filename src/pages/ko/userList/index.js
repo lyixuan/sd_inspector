@@ -23,12 +23,11 @@ class UserList extends React.Component {
   };
   componentDidMount() {
     this.getInitParams();
-    console.log(this.props.tabFromParams)
     this.queryData();
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (JSON.stringify(nextProps.tabFromParams.formParams) !== JSON.stringify(this.props.tabFromParams.formParams)) {
-      this.queryData(nextProps.tabFromParams.formParams);
+    if (JSON.stringify(nextProps.tabFromParams) !== JSON.stringify(this.props.tabFromParams)) {
+      this.queryData(nextProps.tabFromParams);
     }
     if (JSON.stringify(nextProps.pageParams) !== JSON.stringify(this.props.pageParams)) {
       this.setState({ pageParams: nextProps.pageParams });
@@ -54,9 +53,9 @@ class UserList extends React.Component {
     });
 
   };
-  queryData = (params = this.props.tabFromParams.formParams, pageParams = this.state.pageParams) => {
+  queryData = (params = this.props.tabFromParams, pageParams = this.state.pageParams) => {
     if (!params || JSON.stringify(params) === '{}') return;
-    const newParams = { ...params, ...pageParams };
+    const newParams = { ...params.formParams, ...pageParams };
     this.props.dispatch({
       type: 'userListModel/getTableList',
       payload: { params: newParams },

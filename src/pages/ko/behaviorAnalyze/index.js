@@ -21,7 +21,10 @@ class behavior extends React.Component {
   getInitParams = () => {
     this.props.dispatch({
       type: 'koPlan/pageParams',
-    })
+    });
+    this.props.dispatch({
+      type: 'koPlan/getPageList',
+    });
   };
   getData = (params = this.props.tabFromParams) => {
     if (JSON.stringify(params) === '{}') return;

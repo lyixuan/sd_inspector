@@ -50,6 +50,7 @@ class KoDetailPage extends React.Component {
     }
     tip.show = function() {
       const id = d3.select(this).attr('data-name');
+      console.log(id)
       const { pageX, pageY } = d3.event;
       div
         .style('display', 'block')
