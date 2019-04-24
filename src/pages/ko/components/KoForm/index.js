@@ -7,11 +7,12 @@ import moment from 'moment';
 import { PAGE_KEY_ACTION } from '@/utils/constants';
 import styles from './style.less';
 import formStyles from '../formCommon.less';
+import { handleDateParams } from '../../utils/utils';
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY.MM.DD';
 const { Option } = BISelect;
 
-const commitDateFormat = 'YYYY-MM-DD  HH:mm:ss';
+const commitDateFormat = 'YYYY-MM-DD HH:mm:ss';
 export default class KoForm extends React.Component {
   constructor(props) {
     super(props);
@@ -46,7 +47,7 @@ export default class KoForm extends React.Component {
   })
   changeDate = (recordTimeList) => {
     if (this.props.onChange) {
-      const newDateTime = this.handleDateParams(recordTimeList);
+      const newDateTime = handleDateParams(recordTimeList);
       this.props.onChange({ recordTimeList: newDateTime }, { recordTimeList });
     }
     this.onSaveParams({ recordTimeList });
@@ -86,12 +87,6 @@ export default class KoForm extends React.Component {
       tabFromParams: { ...tabFromParams, ...params }
     })
 
-  }
-  handleDateParams = (item) => {
-    const [startTime, endTime] = item;
-    return [startTime, endTime].map((ls, index) => {
-      return index === 0 ? ls.format(commitDateFormat) : ls.format('YYYY-MM-DD  23:59:59');
-    });
   }
   formateDateTime = () => {
     const { recordTimeList = [] } = this.state.tabFromParams;
