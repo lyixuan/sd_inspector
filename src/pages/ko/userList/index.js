@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Popover, Button } from 'antd';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
 import { BiFilter } from '@/utils/utils';
@@ -22,11 +23,12 @@ class UserList extends React.Component {
   };
   componentDidMount() {
     this.getInitParams();
+    console.log(this.props.tabFromParams)
     this.queryData();
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.tabFromParams.formParams) !== JSON.stringify(this.props.tabFromParams.formParams)) {
-      this.getData(nextProps.tabFromParams.formParams);
+      this.queryData(nextProps.tabFromParams.formParams);
     }
     if (JSON.stringify(nextProps.pageParams) !== JSON.stringify(this.props.pageParams)) {
       this.setState({ pageParams: nextProps.pageParams });
@@ -43,20 +45,22 @@ class UserList extends React.Component {
     });
   };
   onPageChange = (currentPage) => {
-    this.queryData({ page: currentPage });
+    const { pageParams } = this.state;
+    const newPageParams = { ...pageParams, currentPage };
+    this.queryData(this.props.tabFromParams.formParams, newPageParams);
+    this.props.dispatch({
+      type: 'userListModel/savePageParams',
+      payload: { pageParams: newPageParams },
+    });
+
   };
-  queryData = (params = this.props.tabFromParams) => {
-    // let params = { ...this.state };
-    // if (page) {
-    //   params = { ...params, ...page };
-    //   this.setState({
-    //     page: page.page
-    //   });
-    // }
-    // this.props.dispatch({
-    //   type: 'userListModel/getTableList',
-    //   payload: { params },
-    // });
+  queryData = (params = this.props.tabFromParams.formParams, pageParams = this.state.pageParams) => {
+    if (!params || JSON.stringify(params) === '{}') return;
+    const newParams = { ...params, ...pageParams };
+    this.props.dispatch({
+      type: 'userListModel/getTableList',
+      payload: { params: newParams },
+    });
   };
 
   columns() {
@@ -165,9 +169,17 @@ class UserList extends React.Component {
         };
       } else {
         v.render = (text) => {
+          const content = (
+            <div>
+              {text}
+            </div>
+          );
           return (
             <>
               <span className={style.blankBox} style={{ cursor: 'pointer' }}>{text}</span>
+              <Popover content={content}>
+                <Button className={style.blankBox}>{text}</Button>
+              </Popover>
             </>
           );
         };
@@ -177,7 +189,8 @@ class UserList extends React.Component {
   };
 
   render() {
-    const { userList, page = {}, loading } = this.props.userListModel;
+    const { userList, page = {} } = this.props.userListModel;
+    const { loading } = this.props;
     const { pageParams } = this.state;
     const dataSource = userList;
     return (
