@@ -73,7 +73,6 @@ class UserList extends React.Component {
       {
         title: '订单时间',
         dataIndex: 'orderTime',
-        width: 150,
       },
       {
         title: '出勤次数',
@@ -155,6 +154,7 @@ class UserList extends React.Component {
     });
     return col;
   };
+
   render() {
     const {userList,page={}} = this.props.userListModel;
     const {loading} = this.props;

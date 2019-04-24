@@ -177,7 +177,7 @@ function getFirstTen(pageList) {
   return pageList;
 }
 
-function getUpSanKeyMap(newData1, currentPage) {
+function getUpSanKeyMap(upPageList, currentPage) {
   /**
    * 构造桑吉图要的数据结构，并处理特殊节点
    *
@@ -193,7 +193,7 @@ function getUpSanKeyMap(newData1, currentPage) {
   let total = 0;
   upPage.node.push({ id: currentPage, name: '上游页面' });
 
-  newData1.upPageList.forEach((v) => {
+  upPageList.forEach((v) => {
     upPage.node.push({ id: v.page, name: v.pageName });
     upPage.links.push({
       source: v.page,
@@ -212,7 +212,7 @@ function getUpSanKeyMap(newData1, currentPage) {
   return upPage
 }
 
-function getDownSanKeyMap(newData1, currentPage) {
+function getDownSanKeyMap(downPageList, currentPage) {
   /**
    * 构造桑吉图要的数据结构，并处理特殊节点
    *
@@ -229,7 +229,7 @@ function getDownSanKeyMap(newData1, currentPage) {
 
   // 下游桑吉图
   downPage.node.push({ id: currentPage, name: '下游页面' });
-  newData1.downPageList.forEach((v) => {
+  downPageList.forEach((v) => {
     v.actionKeyIds.forEach((actionItem) => {
       const num = stringTool(actionItem.actionKeyId);
       if (num > 0){
@@ -328,12 +328,12 @@ export function dealResultData({ data1, data2, params }) {
   newData1.downPageList = dealData1(data1.downPageList);
 
   // 为newData1添加 页面点击量 点击人数等;并取actionKeyId点击量前十
-  newData1.upPageList = getFirstTen(addObjectItem(newData1.upPageList, data2.pageEventData, data2.actionEventData));
-  newData1.downPageList = getFirstTen(addObjectItem(newData1.downPageList, data2.pageEventData, data2.actionEventData));
+  newData1.upPageList = addObjectItem(newData1.upPageList, data2.pageEventData, data2.actionEventData);
+  newData1.downPageList = addObjectItem(newData1.downPageList, data2.pageEventData, data2.actionEventData);
 
   // 构造桑吉图需要的结构，并处理节点
-  const upPage = getUpSanKeyMap(newData1,currentPage);
-  const downPage = getDownSanKeyMap(newData1,currentPage);
+  const upPage = getUpSanKeyMap(getFirstTen(newData1.upPageList),currentPage);
+  const downPage = getDownSanKeyMap(getFirstTen(newData1.downPageList,currentPage));
 
   // 筛选当前页面
   const currentPageObj = getCurrentPage(newData1.downPageList, currentPage);
