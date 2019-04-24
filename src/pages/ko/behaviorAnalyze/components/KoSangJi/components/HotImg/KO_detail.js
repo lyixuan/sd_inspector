@@ -89,10 +89,13 @@ class KoDetailPage extends React.Component {
       })
     })
     newIdArr.forEach(item=>{
+      const clickNumPro= item.clickNumPro?Number(item.clickNumPro.split('%')[0]):0;
+      const clickPeoplePro= item.clickPeoplePro?Number(item.clickPeoplePro.split('%')[0]):0;
+      new_click.name=item.name;
       new_click.clickCountPre+=Number(item.clickNum);
       new_click.clickPeople+=Number(item.clickPeople);
-      new_click.countRate+=Number(item.clickNumPro.split('%')[0]);
-      new_click.peopoleRate+=Number(item.clickPeoplePro.split('%')[0]);
+      new_click.countRate+=clickNumPro;
+      new_click.peopoleRate+=clickPeoplePro;
     })
     data.push(new_click)
     console.log(data);
@@ -112,7 +115,7 @@ class KoDetailPage extends React.Component {
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       // 修改数据
       this.chart.selectAll('.text').text(function(){
-        const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
+        const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
         if(val) return val.clickCountPre;
       }).style('font-weight','600');
 
@@ -123,12 +126,12 @@ class KoDetailPage extends React.Component {
         }
       )
       this.chart.selectAll('.textName').text(function(){
-        const val = datall.filter((item,i)=>d3.select(this).attr('data-id')===item.actionID);
-        if(val) return val[0].textName;
+        const val = datall.filter((item,i)=>d3.select(this).attr('data-id')===item.actionKeyId);
+        if(val) return val[0].name;
       })
       // 修改颜色
       this.chart.selectAll('.mask').style('fill',function(){
-        const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.name)[0];
+        const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
         if(val) return val.color;
       })
       
