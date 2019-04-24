@@ -209,6 +209,7 @@ function getUpSanKeyMap(upPageList, currentPage) {
     v.zb = (v.pv/total*100).toFixed(2) + '%';
   });
 
+  console.log('upPage',upPage)
   return upPage
 }
 
@@ -317,12 +318,13 @@ export function dealResultData({ data1, data2, params }) {
   /*
   * 桑吉接口组合，处理数据
   * */
-  const { page: currentPage } = params;
+  // const { page: currentPage } = params;
   let newData1 = {
     upPageList: [],
     downPageList: [],
   };
 
+  const currentPage = 'homepage'
   // 基于page合并去重
   newData1.upPageList = dealData1(data1.upPageList);
   newData1.downPageList = dealData1(data1.downPageList);

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Popover, Button } from 'antd';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
 import { BiFilter } from '@/utils/utils';
@@ -168,9 +169,17 @@ class UserList extends React.Component {
         };
       } else {
         v.render = (text) => {
+          const content = (
+            <div>
+              {text}
+            </div>
+          );
           return (
             <>
               <span className={style.blankBox} style={{ cursor: 'pointer' }}>{text}</span>
+              <Popover content={content}>
+                <Button className={style.blankBox}>{text}</Button>
+              </Popover>
             </>
           );
         };
@@ -180,7 +189,8 @@ class UserList extends React.Component {
   };
 
   render() {
-    const { userList, page = {}, loading } = this.props.userListModel;
+    const { userList, page = {} } = this.props.userListModel;
+    const { loading } = this.props;
     const { pageParams } = this.state;
     const dataSource = userList;
     return (

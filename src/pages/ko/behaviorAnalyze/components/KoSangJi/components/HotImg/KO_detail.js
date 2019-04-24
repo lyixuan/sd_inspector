@@ -27,13 +27,13 @@ class KoDetailPage extends React.Component {
       if(JSON.stringify(nextProps.behavior.hotDataList)!=='{}' ){
         this.drewLended(nextProps.behavior.hotDataList.newIds,nextProps.behavior.hotDataList.page);
       }
-      
     }
   }
-  getColorFn = (hotData) => {// 对data数据处理，加上颜色
+  // 对data数据处理，加上颜色
+  getColorFn = (hotData) => {
     hotData.map(item1=>{
-      const colorVal = HOT_RANGE.filter(item2=>Number(item1.countRate.split('%')[0])>=item2.minVal&&Number(item1.countRate.split('%')[0])<=item2.maxVal)[0];
-      console.log(1,colorVal)
+      const val = Number(item1.countRate.toString().split('%')[0])
+      const colorVal = HOT_RANGE.filter(item2=> val >= item2.minVal && val<=item2.maxVal)[0];
       if(colorVal) return item1.color=colorVal.color
     });
     return hotData;
@@ -103,14 +103,14 @@ class KoDetailPage extends React.Component {
   }
   drewLended = (data,page) => {
     if(data&&data.length){
-      if(page==='homepage'){
-        this.specialData(data,['homepage_click_testregion_-1','homepage_Click_city_-1','homepage_click_city'])
-      }else if(page==='studypage'){
-        this.specialData(data,['studypage_click_golesson_-1','homepage_click_golesson_free_-1'],'studypage_click_golesson');
-        this.specialData(data,['studypage_click_record_free_-1','homepage_click_record_-1'],'studypage_click_record');
-        this.specialData(data,['studypage_click_livebroadcast_free_-1','homepage_click_livebroadcast-1'],'studypage_click_livebroadcast');
-      }
-      this.chart = d3.select(this.svgDom).html(pages['kolist']);
+      // if(page==='homepage'){
+      //   this.specialData(data,['homepage_click_testregion_-1','homepage_Click_city_-1','homepage_click_city'])
+      // }else if(page==='studypage'){
+      //   this.specialData(data,['studypage_click_golesson_-1','homepage_click_golesson_free_-1'],'studypage_click_golesson');
+      //   this.specialData(data,['studypage_click_record_free_-1','homepage_click_record_-1'],'studypage_click_record');
+      //   this.specialData(data,['studypage_click_livebroadcast_free_-1','homepage_click_livebroadcast-1'],'studypage_click_livebroadcast');
+      // }
+      this.chart = d3.select(this.svgDom).html(pages['storelist']);
       const colorArr = this.getColorFn(data);
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       // 修改数据
@@ -119,16 +119,21 @@ class KoDetailPage extends React.Component {
         if(val) return val.clickCountPre;
       }).style('font-weight','600');
 
-      // 修改商城列表name
-      const datall = [{actionID:'name1',textName:'11'},{actionID:'name12',textName:'fef'},{actionID:'name13',textName:'erw'},{actionID:'name14',textName:'vv'}]
-      this.chart.selectAll('.textName').nodes().map((item,i)=>{
-          item.setAttribute('data-id',datall[i].actionID)
-        }
-      )
-      this.chart.selectAll('.textName').text(function(){
-        const val = datall.filter((item,i)=>d3.select(this).attr('data-id')===item.actionKeyId);
-        if(val) return val[0].name;
-      })
+      // // 修改商城列表和kolist name
+      // this.chart.selectAll('.textVal').nodes().map((item,i)=>{
+      //     item.setAttribute('data-name',data[i].actionKeyId)
+      //   }
+      // )
+      // if(page==='storelist'){
+      //   this.chart.selectAll('.textName').text(function(){
+      //     const val = data.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId);
+      //     if(val) return val[0].name;
+      //   })
+      // }
+      // this.chart.selectAll('.textName').text(function(){
+      //   const val = data.filter(item=>d3.select(this).attr('data-name')===item.actionKeyId);
+      //   if(val) return val[0].clickCountPre;
+      // })
       // 修改颜色
       this.chart.selectAll('.mask').style('fill',function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
