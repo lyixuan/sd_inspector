@@ -39,8 +39,7 @@ export default class KoForm extends React.Component {
       tabFromParams: newTabFromParams
     });
   }
-  handlePageDetail = memoizeOne((page, pageParams = this.props.pageParams) => {
-    const { pageDetailInfo = [] } = pageParams;
+  handlePageDetail = memoizeOne((page, pageDetailInfo = this.props.pageDetailInfo) => {
     const detailObj = pageDetailInfo.find(item => item.page === page) || {};
     return detailObj.children || [];
   })
@@ -105,8 +104,7 @@ export default class KoForm extends React.Component {
   }
 
   renderPagaData = () => {
-    const { pageParams } = this.props;
-    const { pageDetailInfo = [] } = pageParams;
+    const { pageDetailInfo = [] } = this.props;
     return pageDetailInfo;
   }
   render() {

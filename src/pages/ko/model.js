@@ -18,6 +18,7 @@ export default {
     tabFromParams: {},
     pageParams: {},
     KOMessage: {},
+    pageDetailInfo: [],
   },
 
   effects: {
@@ -48,28 +49,23 @@ export default {
         message.error(response.msg);
       }
     },
-    *pageParams(_, { all, call, put, select }) {
+    *pageParams(_, { call, put, select }) {
       const pageParams = yield select(state => state.koPlan.pageParams);
       const enumData = yield select(state => state.koPlan.enumData);
       if (JSON.stringify(enumData) === '{}') {
         yield put({ type: 'getEnumData' });
       }
       if (JSON.stringify(pageParams) !== '{}') return;
-      const [KoDateRangeResponse, pageDetailInfoList] = yield all([
-        call(getKoDateRange),
-        call(getPageDetailInfoList),
-      ]);
+      const KoDateRangeResponse = yield call(getKoDateRange);
       KoDateRangeResponse.code !== 2000 && message.error(KoDateRangeResponse.msg);
-      pageDetailInfoList.code !== 20000 && message.error(msgF(pageDetailInfoList.msg, pageDetailInfoList.msgDetail));
-      // if (pageDetailInfoList.code === 20000 && KoDateRangeResponse.code === 2000) {
-      const KoDateRange = KoDateRangeResponse.data;
-      const pageDetailInfo = pageDetailInfoList.data;
-      const newParams = { KoDateRange, pageDetailInfo };
-      yield put({
-        type: 'savePageParams',
-        payload: { pageParams: newParams }
-      });
-      // }
+      if (KoDateRangeResponse.code === 2000) {
+        const KoDateRange = KoDateRangeResponse.data;
+        const newParams = { KoDateRange, enumData };
+        yield put({
+          type: 'savePageParams',
+          payload: { pageParams: newParams }
+        });
+      }
 
     },
     *getKOEnumList({ payload }, { call, put }) {
@@ -89,19 +85,20 @@ export default {
         message.error(msgF(response.msg, response.msgDetail));
       }
     },
-    *getPageList({ payload }, { call, put }) {
-      // yield put({ type: 'saveTabFromParams', payload: {} });
-      // // 二级页面下拉接口
-      // const params = payload.params;
-      // const result = yield call(getPageList, params);
-      // if (result.code === 20000) {
-      //   const pageList = result.data || [];
-      //   yield put({ type: 'save', payload: { pageList } });
-      //   yield put({ type: 'getSankeyList', payload: { tabFromParams: this.state.tabFromParams } });
-      //   yield put({ type: 'getBarData', payload: { params: this.state.params } });
-      // } else {
-      //   message.error(msgF(result.msg, result.msgDetail));
-      // }
+    *getPageList(_, { call, put, select }) {
+      const pageParams = yield select(state => state.koPlan.pageDetailInfo);
+      if (pageParams.length > 0) return;
+      const response = yield call(getPageDetailInfoList);
+      if (response.code === 20000) {
+        const pageDetailInfo = response.data || [];
+        yield put({
+          type: 'save',
+          payload: { pageDetailInfo },
+        })
+      } else {
+        message.error(response.msg);
+      }
+
     },
   },
 

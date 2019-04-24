@@ -16,6 +16,7 @@ import CommonForm from './components/form';
   tabFromParams: koPlan.tabFromParams,
   enumData: koPlan.enumData,
   KOMessage: koPlan.KOMessage,
+  pageDetailInfo: koPlan.pageDetailInfo,
   isLoadEnumData: loading.effects['koPlan/pageParams'],
 }))
 class koPlan extends React.Component {
