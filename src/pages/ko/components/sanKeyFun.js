@@ -177,24 +177,14 @@ function getFirstTen(pageList) {
   return pageList;
 }
 
-function getSanKeyMap(newData1, currentPage) {
+function getUpSanKeyMap(newData1, currentPage) {
   /**
    * 构造桑吉图要的数据结构，并处理特殊节点
    *
    * 上游桑吉图规则：
    *    上游桑吉图，节点和连线都取page和downPage
-   *
-   * 下游桑吉图规则：
-   *  1、节点和连线的id和name取值规则：
-   *     actionKeyId值下划线最后一个值大于零，认为是详情页；所有详情页取 actionkeyId 作为node节点的 id。其它取page作为id。name同理
-   *  2、是否流向 选课 节点规则：
-   *     通过判断KO_LIST_ACTION改值是否存在于actionKeyId里确实这个节点是否流向 选课 节点。包含则流向选课节点
    * */
   const upPage = {
-    node: [],
-    links: [],
-  };
-  const downPage = {
     node: [],
     links: [],
   };
@@ -219,24 +209,56 @@ function getSanKeyMap(newData1, currentPage) {
     v.zb = (v.pv/total*100).toFixed(2) + '%';
   });
 
-  newData1.downPageList.forEach((v) => {
-    if (v.page === currentPage) {
-      v.pageName = '上游页面';
-    }
-    downPage.node.push({ id: v.page, name: v.pageName });
-
-    v.actionKeyIds.forEach((a) => {
-      downPage.links.push({
-        source: v.page,
-        target: a.actionKeyId,
-        pv: v.pv || 0,
-        zb: a.clickNumPro || '0.00%',
-        value: a.clickNum || 0,
-      });
-    });
-  });
   console.log(11234,upPage)
-  return { upPage, downPage };
+  return upPage
+}
+
+function getDownSanKeyMap(newData1, currentPage) {
+  /**
+   * 构造桑吉图要的数据结构，并处理特殊节点
+   *
+   * 下游桑吉图规则：
+   *  1、节点和连线的id和name取值规则：
+   *     actionKeyId值下划线最后一个值大于零，认为是详情页；所有详情页取 actionkeyId 作为node节点的 id。其它取page作为id。name同理
+   *  2、是否流向 选课 节点规则：
+   *     通过判断KO_LIST_ACTION改值是否存在于actionKeyId里确实这个节点是否流向 选课 节点。包含则流向选课节点
+   * */
+  const downPage = {
+    node: [],
+    links: [],
+  };
+
+  // 下游桑吉图
+  downPage.node.push({ id: currentPage, name: '下游页面' });
+  newData1.downPageList.forEach((v) => {
+    v.actionKeyIds.forEach((actionItem) => {
+      console.log(actionItem)
+      const num = stringTool(actionItem.actionKeyIds);
+      if (num > 0){
+        downPage.node.push({ id: actionItem.actionKeyIds, name: actionItem.actionName });
+        downPage.links.push({
+          source: v.page,
+          target: actionItem.actionKeyId,
+          pv: v.pv || 0,
+          zb: actionItem.clickNumPro || '0.00%',
+          value: actionItem.clickNum || 0,
+        });
+      } else {
+        downPage.node.push({ id: v.page, name: v.pageName });
+        downPage.links.push({
+          source: v.page,
+          target: v.downPage,
+          pv: v.pv || 0,
+          zb: actionItem.clickNumPro || '0.00%',
+          value: actionItem.clickNum || 0,
+        });
+      }
+    });
+
+
+  });
+  console.log(32323,downPage)
+  return downPage;
 }
 
 function getCurrentPage(downPageList, currentPage) {
@@ -248,6 +270,13 @@ function getCurrentPage(downPageList, currentPage) {
     }
   }
   return currentPageObj;
+}
+
+function stringTool(str) {
+  // 获取string最后一个下划线后的数字，并判断是否大于零
+  const num = str.lastIndexOf('_');
+  console.log(11,Number(str.substr(num+1)))
+  return Number(str.substr(num+1));
 }
 
 export function dealMapOrg({ data, formParams, params, otherParams }) {
@@ -307,7 +336,8 @@ export function dealResultData({ data1, data2, params }) {
   newData1.downPageList = getFirstTen(addObjectItem(newData1.downPageList, data2.pageEventData, data2.actionEventData));
 
   // 构造桑吉图需要的结构，并处理节点
-  const { upPage = {}, downPage = {} } = getSanKeyMap(newData1,currentPage);
+  const upPage = getUpSanKeyMap(newData1,currentPage);
+  const downPage = getDownSanKeyMap(newData1,currentPage);
 
   // 筛选当前页面
   const currentPageObj = getCurrentPage(newData1.downPageList, currentPage);
