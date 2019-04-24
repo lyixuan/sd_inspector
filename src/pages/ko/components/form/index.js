@@ -2,7 +2,7 @@ import React from 'react';
 import Form from './form';
 import { FormParams } from './utils/utils';
 
-const commitDateFormat = 'YYYY-MM-DD  HH:mm:ss';
+const commitDateFormat = 'YYYY-MM-DD HH:mm:ss';
 
 
 class CommonForm extends React.Component {
@@ -24,8 +24,21 @@ class CommonForm extends React.Component {
     handleDateParams = (item) => {
         const [startTime, endTime] = item;
         return [startTime, endTime].map((ls, index) => {
-            return index === 0 ? ls.format(commitDateFormat) : ls.format('YYYY-MM-DD  23:59:59');
+            return index === 0 ? ls.format(commitDateFormat) : ls.format('YYYY-MM-DD 23:59:59');
         });
+    }
+    handleKoOrderGap = (item) => {
+        const { type } = item;
+        switch (type) {
+            case 'yy':
+
+                break;
+            default:
+                break;
+
+        }
+        console.log(item)
+        return item
     }
     checkoutParamsType = (key, item) => {
         let returnItem = undefined;
@@ -70,7 +83,8 @@ class CommonForm extends React.Component {
                 returnItem = item ? item : undefined;
                 break;
             case 'koOrderGap':
-                returnItem = item ? item : undefined;
+                // 时间间隔,处理到秒
+                returnItem = item ? this.handleKoOrderGap(item) : undefined;
                 break;
             case 'frontBelong':
                 returnItem = item ? item : undefined;

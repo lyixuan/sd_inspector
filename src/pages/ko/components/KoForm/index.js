@@ -11,7 +11,7 @@ const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY.MM.DD';
 const { Option } = BISelect;
 
-const commitDateFormat = 'YYYY-MM-DD  HH:mm:ss';
+const commitDateFormat = 'YYYY-MM-DD HH:mm:ss';
 export default class KoForm extends React.Component {
   constructor(props) {
     super(props);
@@ -90,7 +90,7 @@ export default class KoForm extends React.Component {
   handleDateParams = (item) => {
     const [startTime, endTime] = item;
     return [startTime, endTime].map((ls, index) => {
-      return index === 0 ? ls.format(commitDateFormat) : ls.format('YYYY-MM-DD  23:59:59');
+      return index === 0 ? ls.format(commitDateFormat) : ls.format('YYYY-MM-DD 23:59:59');
     });
   }
   formateDateTime = () => {
