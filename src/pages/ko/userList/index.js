@@ -7,36 +7,57 @@ import { BiFilter } from '@/utils/utils';
 import style from './style.less';
 import router from 'umi/router';
 
-@connect(({ userListModel,loading }) => ({
+@connect(({ userListModel, koPlan, loading }) => ({
   userListModel,
+  tabFromParams: koPlan.tabFromParams,
+  pageParams: userListModel.pageParams,
   loading: loading.effects['userListModel/getTableList'],
 }))
 class UserList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: 1,
-      pageSize: 30
+      pageParams: this.props.pageParams,
+
     };
   };
   componentDidMount() {
+    this.getInitParams();
     this.queryData();
   }
-  onPageChange = (currentPage)=>{
-    this.queryData({page:currentPage});
-  };
-  queryData = (page) => {
-    let params = { ...this.state };
-    if (page) {
-      params = { ...params, ...page };
-      this.setState({
-        page: page.page
-      });
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(nextProps.tabFromParams.formParams) !== JSON.stringify(this.props.tabFromParams.formParams)) {
+      this.getData(nextProps.tabFromParams.formParams);
     }
+    if (JSON.stringify(nextProps.pageParams) !== JSON.stringify(this.props.pageParams)) {
+      this.setState({ pageParams: nextProps.pageParams });
+    }
+  }
+  getInitParams = () => {
     this.props.dispatch({
-      type: 'userListModel/getTableList',
-      payload: { params },
+      type: 'koPlan/pageParams',
+    })
+  };
+  jumpTo = (pathname) => {
+    this.props.history.push({
+      pathname,
     });
+  };
+  onPageChange = (currentPage) => {
+    this.queryData({ page: currentPage });
+  };
+  queryData = (params = this.props.tabFromParams) => {
+    // let params = { ...this.state };
+    // if (page) {
+    //   params = { ...params, ...page };
+    //   this.setState({
+    //     page: page.page
+    //   });
+    // }
+    // this.props.dispatch({
+    //   type: 'userListModel/getTableList',
+    //   payload: { params },
+    // });
   };
 
   columns() {
@@ -124,13 +145,13 @@ class UserList extends React.Component {
         dataIndex: 'wechatStudentChatNum',
       },
     ];
-    col.forEach((v)=>{
-      v.onCell = (record,rowIndex) => {
+    col.forEach((v) => {
+      v.onCell = (record, rowIndex) => {
         return {
           onClick: (event) => {
             router.push({
-              pathname:'/ko/behaviorPath',
-              params: {record,target:v.dataIndex}
+              pathname: '/ko/behaviorPath',
+              params: { record, target: v.dataIndex }
             });
           },
         };
@@ -139,7 +160,7 @@ class UserList extends React.Component {
         v.render = (text) => {
           return (
             <>
-              <span style={{cursor:'pointer'}}>{text}</span>
+              <span style={{ cursor: 'pointer' }}>{text}</span>
             </>
           );
         };
@@ -152,6 +173,7 @@ class UserList extends React.Component {
           );
           return (
             <>
+              <span className={style.blankBox} style={{ cursor: 'pointer' }}>{text}</span>
               <Popover content={content}>
                 <Button className={style.blankBox}>{text}</Button>
               </Popover>
@@ -164,15 +186,16 @@ class UserList extends React.Component {
   };
 
   render() {
-    const {userList,page={}} = this.props.userListModel;
-    const {loading} = this.props;
+    const { userList, page = {} } = this.props.userListModel;
+    const { loading } = this.props;
+    const { pageParams } = this.state;
     const dataSource = userList;
     return (
       <div>
         <div className={style.contentWrap}>
-          <BITable rowKey={record=>record.userId + Math.random()*1000} dataSource={dataSource} columns={this.columns()} pagination={false} loading={loading} />
-          <br/>
-          <BIPagination showQuickJumper defaultPageSize={page.pageSize?page.pageSize:30} onChange={this.onPageChange} current={page.pageNum} total={page.total} />
+          <BITable rowKey={record => record.userId + Math.random() * 1000} dataSource={dataSource} columns={this.columns()} pagination={false} loading={loading} />
+          <br />
+          <BIPagination showQuickJumper defaultPageSize={pageParams.pageSize ? pageParams.pageSize : 30} onChange={this.onPageChange} current={pageParams.currentPage} total={page.total} />
         </div>
       </div>
     );

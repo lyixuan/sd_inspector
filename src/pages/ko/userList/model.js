@@ -7,6 +7,11 @@ export default {
 
   state: {
     userList: [],
+    pageParams: {
+      currentPage: 1,
+      pageSize: 30,
+    }
+
   },
 
   effects: {
