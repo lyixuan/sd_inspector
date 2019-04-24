@@ -31,7 +31,11 @@ export default {
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
+    },
+    savePageParams(state, { payload }) {
+      return { ...state, ...payload };
     }
+
   },
 
   subscriptions: {},

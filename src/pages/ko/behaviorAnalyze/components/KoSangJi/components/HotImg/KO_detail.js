@@ -32,7 +32,7 @@ class KoDetailPage extends React.Component {
   // 对data数据处理，加上颜色
   getColorFn = (hotData) => {
     hotData.map(item1=>{
-      const val = Number(item1.countRate.toString().split('%')[0])
+      const val = typeof(item1.countRate)==='number'?Number(item1.countRate.toString().split('%')[0]):Number(item1.countRate.split('%')[0])
       const colorVal = HOT_RANGE.filter(item2=> val >= item2.minVal && val<=item2.maxVal)[0];
       if(colorVal) return item1.color=colorVal.color
     });
@@ -103,14 +103,14 @@ class KoDetailPage extends React.Component {
   }
   drewLended = (data,page) => {
     if(data&&data.length){
-      // if(page==='homepage'){
-      //   this.specialData(data,['homepage_click_testregion_-1','homepage_Click_city_-1','homepage_click_city'])
-      // }else if(page==='studypage'){
-      //   this.specialData(data,['studypage_click_golesson_-1','homepage_click_golesson_free_-1'],'studypage_click_golesson');
-      //   this.specialData(data,['studypage_click_record_free_-1','homepage_click_record_-1'],'studypage_click_record');
-      //   this.specialData(data,['studypage_click_livebroadcast_free_-1','homepage_click_livebroadcast-1'],'studypage_click_livebroadcast');
-      // }
-      this.chart = d3.select(this.svgDom).html(pages['storelist']);
+      if(page==='homepage'){
+        this.specialData(data,['homepage_click_testregion_-1','homepage_Click_city_-1'],'homepage_click_city')
+      }else if(page==='studypage'){
+        this.specialData(data,['studypage_click_golesson_-1','homepage_click_golesson_free_-1'],'studypage_click_golesson');
+        this.specialData(data,['studypage_click_record_free_-1','homepage_click_record_-1'],'studypage_click_record');
+        this.specialData(data,['studypage_click_livebroadcast_free_-1','homepage_click_livebroadcast-1'],'studypage_click_livebroadcast');
+      }
+      this.chart = d3.select(this.svgDom).html(pages[page]);
       const colorArr = this.getColorFn(data);
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       // 修改数据
