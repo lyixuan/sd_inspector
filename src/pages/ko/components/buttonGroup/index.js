@@ -46,12 +46,12 @@ export default class ButtonGroup extends React.Component {
             this.props.onDelete(keyName, value)
         }
     }
-    renderDateTags = (date, key, name) => {
+    renderDateTags = (date, key, name, index) => {
         const { isShowFiexd } = this.state;
         let [startTime, endTime] = date;
         startTime = moment(startTime).format(dateFormat);
         endTime = moment(endTime).format(dateFormat);
-        return (<span key={name} className={styles.tags} ><Tag closable={!isShowFiexd} onClose={() => !isShowFiexd ? this.onClose(key, date) : null}>{name}:{`${startTime}~${endTime}`}</Tag></span>)
+        return (<span key={name + index} className={styles.tags} ><Tag closable={!isShowFiexd} onClose={() => !isShowFiexd ? this.onClose(key, date) : null}>{name}:{`${startTime}~${endTime}`}</Tag></span>)
     }
     renderGrouptags = (item, key) => {
         const { isShowFiexd } = this.state;
@@ -74,7 +74,7 @@ export default class ButtonGroup extends React.Component {
                 returnDom = (Array.isArray(item) && item.length > 0) ? item.map(ls => this.renderTypeTage(ls, 'fromApp', '#FFF9E9')) : null
                 break;
             case 'registerTime':
-                returnDom = (Array.isArray(item) && item.length > 0) ? this.renderDateTags(item, 'registerTime', '注册时间') : null
+                returnDom = (Array.isArray(item) && item.length > 0) ? this.renderDateTags(item, 'registerTime', '注册时间', 1) : null
                 break;
             case 'choiceLessonStatus':
                 returnDom = item ? this.renderTypeTage(item, 'choiceLessonStatus') : null
@@ -83,13 +83,13 @@ export default class ButtonGroup extends React.Component {
                 returnDom = item ? this.renderTypeTage(item, 'publicLesson') : null
                 break;
             case 'publicChoiceLessonTime':
-                returnDom = (Array.isArray(item) && item.length > 0) ? this.renderDateTags(item, 'publicChoiceLessonTime', '选课时间') : null
+                returnDom = (Array.isArray(item) && item.length > 0) ? this.renderDateTags(item, 'publicChoiceLessonTime', '选课时间', 2) : null
                 break;
             case 'certificateChoiceLesson':
                 returnDom = item ? this.renderTypeTage(item, 'certificateChoiceLesson') : null
                 break;
             case 'certificateChoiceLessonTime':
-                returnDom = (Array.isArray(item) && item.length > 0) ? this.renderDateTags(item, 'certificateChoiceLessonTime', '选课时间') : null
+                returnDom = (Array.isArray(item) && item.length > 0) ? this.renderDateTags(item, 'certificateChoiceLessonTime', '选课时间', 3) : null
                 break;
             case 'attendanceStatus':
                 returnDom = item ? this.renderTypeTage(item, 'attendanceStatus') : null

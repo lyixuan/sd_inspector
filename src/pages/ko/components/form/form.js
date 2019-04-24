@@ -6,6 +6,7 @@ import BIDatePicker from '@/ant_components/BIDatePicker';
 import BIButton from '@/ant_components/BIButton';
 import BICascader from '@/ant_components/BICascader/FormCascader';
 import ConditionSelect from '@/ant_components/ConditionSelect';
+import moment from 'moment';
 import ButtonGroupCom from '../buttonGroup';
 import styles from './index.less';
 import formStyles from '../formCommon.less';
@@ -68,6 +69,11 @@ class CommonForm extends React.Component {
     const { getFieldValue } = this.props.form;
     const params = getFieldValue('choiceLessonStatus') || {};
     return params.value ? Number(params.value) === 0 : false;
+  }
+  disabledDate = (current, keyName) => {
+    const dateArr = this.props.originParams[keyName] || [];
+    const [startTime, endTime] = dateArr;
+    return current.isBefore(moment(startTime)) || current.isAfter(moment(endTime))
   }
   renderCascader = (label) => {
     if (Array.isArray(label) && label.length === 0) return;
@@ -133,7 +139,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('registerTime', {
                   initialValue: params.registerTime,
                 })(
-                  <BIRangePicker placeholder={["起始时间", "截止时间"]} format={dateFormat} />
+                  <BIRangePicker placeholder={["起始时间", "截止时间"]} format={dateFormat} disabledDate={(current) => this.disabledDate(current, 'registerTime')} />
                 )}
               </Form.Item>
             </div>
@@ -169,7 +175,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('publicChoiceLessonTime', {
                   initialValue: params.publicChoiceLessonTime,
                 })(
-                  <BIRangePicker placeholder={["起始时间", "截止时间"]} format={dateFormat} disabled={this.checkoutHasChooseClass()} />
+                  <BIRangePicker placeholder={["起始时间", "截止时间"]} format={dateFormat} disabled={this.checkoutHasChooseClass()} disabledDate={(current) => this.disabledDate(current, 'publicChoiceLessonTime')} />
                 )}
               </Form.Item>
             </div>
@@ -189,7 +195,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('certificateChoiceLessonTime', {
                   initialValue: params.certificateChoiceLessonTime,
                 })(
-                  <BIRangePicker placeholder={["起始时间", "截止时间"]} format={dateFormat} disabled={this.checkoutHasChooseClass()} />
+                  <BIRangePicker placeholder={["起始时间", "截止时间"]} format={dateFormat} disabled={this.checkoutHasChooseClass()} disabledDate={(current) => this.disabledDate(current, 'certificateChoiceLessonTime')} />
                 )}
               </Form.Item>
             </div>

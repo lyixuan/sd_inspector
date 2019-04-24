@@ -7,6 +7,7 @@ export default class KoTab extends React.Component {
     super(props);
     this.state = {
       radioValue: props.location.pathname || '/ko/behaviorAnalyze',
+
     }
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
