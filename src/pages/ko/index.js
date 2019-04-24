@@ -14,6 +14,8 @@ import CommonForm from './components/form';
   pageList: koPlan.pageList,
   pageParams: koPlan.pageParams,
   tabFromParams: koPlan.tabFromParams,
+  enumData: koPlan.enumData,
+  KOMessage: koPlan.KOMessage,
   isLoadEnumData: loading.effects['koPlan/pageParams'],
 }))
 class koPlan extends React.Component {
@@ -26,6 +28,7 @@ class koPlan extends React.Component {
   }
   componentDidMount() {
     const { pageParams } = this.props;
+    this.getInitData();
     this.handleOriginParams(pageParams);
   }
   componentWillReceiveProps(nextProps) {
@@ -48,6 +51,11 @@ class koPlan extends React.Component {
     }
     this.onSaveOriginParams(handleDateFormParams(KoDateRange));
     this.onSavefFlterActionParams(handleInitParams(params));
+  }
+  getInitData = () => {
+    this.props.dispatch({
+      type: 'koPlan/getKOMessage',
+    })
   }
   onSaveOriginParams = (params = {}) => {
     const { originParams } = this.state;
@@ -87,14 +95,15 @@ class koPlan extends React.Component {
     });
   };
   render() {
-    const { pageParams, isLoadEnumData, location: { pathname } } = this.props;
+    const { enumData, isLoadEnumData, location: { pathname } } = this.props;
     const { originParams, filterActionParams } = this.state;
+
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
         {(pathname === '/ko/behaviorPath') ? null : <> <div className={styles.commonBox}>
           <Spin tip="Loading..." spinning={isLoadEnumData}>
-            <CommonForm onSubmit={this.onSubmit} enumData={pageParams.enumData} originParams={originParams} />
+            <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} />
           </Spin>
         </div>
           <div className={styles.tabBox}>
