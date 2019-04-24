@@ -10,7 +10,6 @@ export default class EchartsComponent extends React.Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.options) !== JSON.stringify(this.props.options)) {
-      console.log(112344)
       this.drawChart(nextProps)
     }
 
@@ -29,7 +28,6 @@ export default class EchartsComponent extends React.Component {
   };
   drawChart(nextProps = this.props) {
     const { options } = nextProps;
-    console.log(234,options)
     this.myChart.clear();
     if (!this.myChart) {
       this.initChart();

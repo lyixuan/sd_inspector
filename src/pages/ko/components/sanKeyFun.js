@@ -198,9 +198,9 @@ function getUpSanKeyMap(newData1, currentPage) {
     upPage.links.push({
       source: v.page,
       target: v.downPage,
-      pv: v.pv || 0,
-      zb: 0,
-      value: v.pv || 0,
+      pv: 1,
+      zb: 1,
+      value: 1,
     });
     total+=v.pv;
   });
@@ -209,7 +209,6 @@ function getUpSanKeyMap(newData1, currentPage) {
     v.zb = (v.pv/total*100).toFixed(2) + '%';
   });
 
-  console.log(11234,upPage)
   return upPage
 }
 
@@ -232,32 +231,30 @@ function getDownSanKeyMap(newData1, currentPage) {
   downPage.node.push({ id: currentPage, name: '下游页面' });
   newData1.downPageList.forEach((v) => {
     v.actionKeyIds.forEach((actionItem) => {
-      console.log(actionItem)
-      const num = stringTool(actionItem.actionKeyIds);
+      const num = stringTool(actionItem.actionKeyId);
       if (num > 0){
-        downPage.node.push({ id: actionItem.actionKeyIds, name: actionItem.actionName });
+        downPage.node.push({ id: actionItem.actionKeyId, name: actionItem.actionName });
         downPage.links.push({
           source: v.page,
           target: actionItem.actionKeyId,
-          pv: v.pv || 0,
+          pv: v.pv || 1,
           zb: actionItem.clickNumPro || '0.00%',
-          value: actionItem.clickNum || 0,
+          value: actionItem.clickNum || 1,
         });
       } else {
         downPage.node.push({ id: v.page, name: v.pageName });
         downPage.links.push({
           source: v.page,
           target: v.downPage,
-          pv: v.pv || 0,
+          pv: v.pv || 1,
           zb: actionItem.clickNumPro || '0.00%',
-          value: actionItem.clickNum || 0,
+          value: actionItem.clickNum || 1,
         });
       }
     });
 
 
   });
-  console.log(32323,downPage)
   return downPage;
 }
 
@@ -275,7 +272,6 @@ function getCurrentPage(downPageList, currentPage) {
 function stringTool(str) {
   // 获取string最后一个下划线后的数字，并判断是否大于零
   const num = str.lastIndexOf('_');
-  console.log(11,Number(str.substr(num+1)))
   return Number(str.substr(num+1));
 }
 

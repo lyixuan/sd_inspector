@@ -3,7 +3,6 @@ import { seriesConfig,Config,sangjiColor } from '@/pages/ko/behaviorAnalyze/comp
 
 export function getSangJiUpOption(upPage,currentPage) {
   const {node=[],links=[]} = upPage;
-  console.log(upPage)
   for (let d = 0; d < node.length; d++) {
     if (node[d].id !== currentPage) {
       node[d].itemStyle = {
@@ -63,7 +62,6 @@ export function getSangJiUpOption(upPage,currentPage) {
   };
   option.series = {...option.series,...seriesConfig};
   option = {...option,...Config};
-  console.log('000',option)
   return option;
 }
 
