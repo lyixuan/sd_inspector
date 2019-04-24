@@ -146,9 +146,9 @@ function addObjectItem(pageList, pageEventData, actionEventData) {
             v2.clickPeople = Number(a1.clickPeople);
           }
           // 点击量占比
-          v2.clickNumPro = (a1.clickNum / v.pv* 100).toFixed(4) + '%'; //小数点后两位百分比
+          v2.clickNumPro = v.pv?(a1.clickNum / v.pv* 100).toFixed(4) + '%':0; //小数点后两位百分比
           // 人数击量占比
-          v2.clickPeoplePro = (a1.clickPeople / v.pClickPeople* 100).toFixed(4) + '%'; //小数点后两位百分比
+          v2.clickPeoplePro = v.pClickPeople?(a1.clickPeople / v.pClickPeople* 100).toFixed(4) + '%':0; //小数点后两位百分比
         }
       });
     });
