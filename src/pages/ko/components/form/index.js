@@ -3,9 +3,6 @@ import Form from './form';
 import { FormParams } from './utils/utils';
 import { handleDateParams } from '../../utils/utils';
 
-const commitDateFormat = 'YYYY-MM-DD HH:mm:ss';
-
-
 class CommonForm extends React.Component {
     constructor(props) {
         super(props)

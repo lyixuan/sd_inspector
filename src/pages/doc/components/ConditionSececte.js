@@ -12,10 +12,6 @@ const optionsData = [{ type: 2, value: 60, minValue: null, maxValue: null, unit:
 const { TextArea } = Input;
 
 class DocSelect extends Component {
-    constructor(props) {
-        super(props)
-
-    }
 
     handleChange = (value) => {
         console.log(`selected ${value}`);

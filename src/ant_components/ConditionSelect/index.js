@@ -146,8 +146,8 @@ var Condition = /** @class */ (function (_super) {
         return options;
     };
     Condition.prototype.render = function () {
-        var _a = this.props, _b = _a.options, options = _b === void 0 ? [] : _b, _c = _a.placeholder, placeholder = _c === void 0 ? '请选择' : _c;
-        var _d = this.state, isOpen = _d.isOpen, inputValue = _d.inputValue;
+        var _a = this.props.options, options = _a === void 0 ? [] : _a;
+        var _b = this.state, isOpen = _b.isOpen, inputValue = _b.inputValue;
         var hasCustomObj = this.state.customObj ? [this.state.customObj] : [];
         var optionsData = this.handleOriginOptionsData(options.concat(hasCustomObj));
         return (react_1.default.createElement(react_1.default.Fragment, null,

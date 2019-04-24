@@ -4,7 +4,7 @@ import config from '../../../config/config';
 
 function checkPathname(authority) {
   const list = storage.getUserAuth();
-  const base = config.base.replace(/\//g,'');
+  const base = config.base.replace(/\//g, '');
   const menuKey = list.find(item => item.resourceUrl === `/${base}${authority}`);
 
   if (menuKey) {
@@ -17,9 +17,6 @@ function checkPathname(authority) {
 * 权限配置同菜单
 * */
 class Index extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return !checkPathname(this.props.authority) ? null : { ...this.props.children };
