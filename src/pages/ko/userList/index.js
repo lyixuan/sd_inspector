@@ -66,7 +66,7 @@ class UserList extends React.Component {
     const col = [
       {
         title: '学员',
-        dataIndex: 'username',
+        dataIndex: 'userName',
       },
       {
         title: '注册状态',
@@ -168,17 +168,22 @@ class UserList extends React.Component {
         };
       } else {
         v.render = (text) => {
-          const content = (
-            <div>
-              {text}
-            </div>
-          );
+          // const content = (
+          //   <div>
+          //     {text}
+          //   </div>
+          // );
+          // return (
+          //   <>
+          //     <span className={style.blankBox} style={{ cursor: 'pointer' }}>{text}</span>
+          //     <Popover content={content}>
+          //       <Button className={style.blankBox}>{text}</Button>
+          //     </Popover>
+          //   </>
+          // );
           return (
             <>
-              <span className={style.blankBox} style={{ cursor: 'pointer' }}>{text}</span>
-              <Popover content={content}>
-                <Button className={style.blankBox}>{text}</Button>
-              </Popover>
+              <span className={style.blankBox}>{text}</span>
             </>
           );
         };

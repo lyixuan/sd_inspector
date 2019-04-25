@@ -376,7 +376,7 @@ export const KO_LIST = 'KoList';
 
 export const INDEX_PAGE = 'homepage';
 // 通过判断改值是否存在于actionKeyId里确实这个节点是否流向 选课 节点
-export const KO_LIST_ACTION = 'click_ko_item';
+export const CLICK_KO_ITEM = 'click_ko_item';
 
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {

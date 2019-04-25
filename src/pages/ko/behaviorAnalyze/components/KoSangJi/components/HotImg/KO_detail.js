@@ -99,7 +99,6 @@ class KoDetailPage extends React.Component {
       new_click.peopoleRate+=clickPeoplePro;
     })
     data.push(new_click)
-    console.log(data);
     return data
   }
   drewLended = (data,page) => {
@@ -140,7 +139,7 @@ class KoDetailPage extends React.Component {
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
         if(val) return val.color;
       })
-      
+
       .on('mouseover', KoDetailPage.that.drewTip(data))
       .on('mouseout', tip.hide)
       .on('mousemove', tip.show);

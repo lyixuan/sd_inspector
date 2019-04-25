@@ -97,7 +97,6 @@ export default {
           })
         })
       }
-      console.log(hotDataList)
       return { ...state,hotDataList };
     }
   },
