@@ -50,20 +50,6 @@ export default {
     },
     saveBehaviourData(state, { payload }) {
       const { behaviourData } = payload;
-      // const behaviourData= [ {
-      //   "name": "aute fugiat aliquip",
-      //   "actionKey": "non ipsum",
-      //   "actionKeyId": "exercitation tempor ad commodo ex",
-      //   "clickNum": -8881030.618847996,
-      //   "choiceLessonPercent": "eiusmod Duis i"
-      // },
-      // {
-      //   "name": "fugiat",
-      //   "actionKey": "non sint Duis",
-      //   "actionKeyId": "voluptate pariatur laborum v",
-      //   "clickNum": -89545102.40833753,
-      //   "choiceLessonPercent": "et"
-      // }]
       // 数组的字符串跟接口返回的字段一致，否则option那块取值报错
       let newData = []
       if (behaviourData) {
@@ -74,18 +60,6 @@ export default {
     },
     saveDataList(state, { payload }) {
       const { hotDataList } = payload;
-      // const hotDataList=[]
-      // for(let i=0;i<15;i++){
-      //   hotDataList.push({
-      //     name: `d${i + 1}`,
-      //     textName: `行政管理${i + 1}`,// 商城列表的名字
-      //     clickPeople: i * 10,//点击人数
-      //     peopoleRate: (i / 15 * 100).toFixed(2),
-      //     clickCountPre: i * 20,//点击次数
-      //     countRate: (i / 20 * 100).toFixed(2),//点击次数
-      //   })
-      // }
-      // return { ...state, hotDataList};
       const { actionKeyIds } = hotDataList;
       if (actionKeyIds && actionKeyIds.length) {
         hotDataList.newIds = [];

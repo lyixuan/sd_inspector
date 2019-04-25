@@ -58,9 +58,9 @@ class KoDetailPage extends React.Component {
     if(newHotData)
     return `<ul class=${styles.tootipPanl}>
     <li class=${styles.tooltipItem}>点击人数：${newHotData.clickPeople}人</li>
-    <li class=${styles.tooltipItem}>人数占比：${newHotData.clickPeoplePro}%</li>
+    <li class=${styles.tooltipItem}>人数占比：${newHotData.clickPeoplePro}</li>
     <li class=${styles.tooltipItem}>点击次数：${newHotData.clickNum}次</li>
-    <li class=${styles.tooltipItem}>次数占比：${newHotData.clickNumPro}%</li>
+    <li class=${styles.tooltipItem}>次数占比：${newHotData.clickNumPro}</li>
     </ul>`;
   };
   // 处理特殊actionids
