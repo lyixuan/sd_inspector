@@ -183,6 +183,61 @@ function getFirstTen(pageList) {
   return pageList;
 }
 
+function getCurrentPage(downPageList, currentPage) {
+  let currentPageObj = {};
+  for (let i = 0; i < downPageList.length; i++) {
+    if (downPageList[i].page === currentPage) {
+      currentPageObj = downPageList[i];
+      break;
+    }
+  }
+  return currentPageObj;
+}
+
+function stringTool(str) {
+  // 获取string最后一个下划线后的数字，并判断是否大于零
+  const num = str.lastIndexOf('_');
+  return Number(str.substr(num+1));
+}
+
+function cleanSrcData(srcList,currentPage) {
+  const newSrcList = [];
+  srcList.forEach((v)=>{
+    if (v.downPage !== currentPage){
+      newSrcList.push(v);
+    }
+  });
+  return newSrcList;
+}
+
+function actionListDataDeal(downPageList) {
+  /*
+  * 桑吉图，处理actionKeyIds中，最后节点小于0的数据。这些数据，downPage相同的进行合并，值相加；只处理下游节点
+  * */
+
+  downPageList.forEach((v1)=>{
+    const tempObject = {};
+    const tempList = [];
+    v1.actionKeyIds.forEach((v2)=>{
+      if (stringTool(v2.actionKeyId)<0) {
+        if (!tempObject[v2.downPage]){
+          tempObject[v2.downPage] = v2;
+        } else {
+          tempObject[v2.downPage].clickNum += v2.clickNum;
+          tempObject[v2.downPage].clickNumPro += v2.clickNumPro;
+          tempObject[v2.downPage].clickPeople += v2.clickPeople;
+          tempObject[v2.downPage].clickPeoplePro += v2.clickPeoplePro;
+        }
+      }
+    });
+    Object.keys(tempObject).forEach((key)=>{
+      tempList.push(tempObject[key]);
+    });
+    v1.actionKeyIds = tempList;
+  });
+  return downPageList;
+}
+
 function getUpSanKeyMap(upPageList, currentPage) {
   /**
    * 构造桑吉图要的数据结构，并处理特殊节点
@@ -280,53 +335,6 @@ console.log('downPageList 桑吉结构前',downPageList)
   return downPage;
 }
 
-function getCurrentPage(downPageList, currentPage) {
-  let currentPageObj = {};
-  for (let i = 0; i < downPageList.length; i++) {
-    if (downPageList[i].page === currentPage) {
-      currentPageObj = downPageList[i];
-      break;
-    }
-  }
-  return currentPageObj;
-}
-
-function stringTool(str) {
-  // 获取string最后一个下划线后的数字，并判断是否大于零
-  const num = str.lastIndexOf('_');
-  return Number(str.substr(num+1));
-}
-
-function cleanSrcData(srcList,currentPage) {
-  const newSrcList = [];
-  srcList.forEach((v)=>{
-    if (v.downPage !== currentPage){
-      newSrcList.push(v);
-    }
-  });
-  return newSrcList;
-}
-
-function actionListDataDeal(downPageList) {
-  /*
-  * 桑吉图，处理actionKeyIds中，最后节点小于0的数据。这些数据，downPage相同的进行合并，值相加；只处理下游节点
-  * */
-
-  downPageList.forEach((v1)=>{
-    const tempObject = {};
-    v1.actionKeyIds.forEach((v2)=>{
-      if (stringTool(v2.actionKeyId)<0) {
-        if (tempObject[v2.downPage]){
-
-        } else {
-
-        }
-      }
-    });
-  });
-
-}
-
 export function dealMapOrg({ data, formParams, params, otherParams }) {
   /*
   * 基于结构数据data，构造下一个接口需要的参数
@@ -386,7 +394,7 @@ export function dealResultData({ data1, data2, params }) {
   const currentPageObj = getCurrentPage(downPageList, currentPage);
 
   // 桑吉图，处理actionKeyIds中，最后节点小于0的数据。这些数据，downPage相同的进行合并，值相加；只处理下游节点
-  const dealledDownPageList = actionListDataDeal(downPageList,currentPageObj);
+  const dealledDownPageList = actionListDataDeal(downPageList);
 
   // 构造桑吉图需要的结构，并处理节点。actionKeyId点击量取前十
   const upPage = getUpSanKeyMap(getFirstTen(upPageList),currentPage);
