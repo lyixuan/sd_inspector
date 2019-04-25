@@ -122,39 +122,26 @@ function addObjectItem(pageList, pageEventData, actionEventData) {
    * return newData1
    * */
   pageList.forEach((v) => {
+    v.pv = 0;
+    v.pClickPeople = 0;
     v.pageKeys.forEach((v1) => {
       pageEventData.forEach((p1) => {
-        // pv：pageKey 的点击量之和, pClickPeople页面点击人数
         if (v1 === p1.pageKey) {
-          if (!v.pv) {
-            v.pv = Number(p1.clickNum);
-            v.pClickPeople = Number(p1.clickPeople);
-          } else {
-            v.pv += Number(p1.clickNum);
-            v.pClickPeople += Number(p1.clickPeople);
-          }
+          v.pv += Number(p1.clickNum);               // pv：pageKey 的点击量之和,
+          v.pClickPeople += Number(p1.clickPeople);  // pClickPeople页面点击人数
         }
       });
     });
     v.actionKeyIds.forEach((v2) => {
+      v2.clickNum = 0;
+      v2.clickPeople = 0;
       actionEventData.forEach((a1) => {
         if (v2.actionKeyId === a1.actionKeyId) {
-          // clickNum：热点点击量为 actionKeyId 的点击量
-          if (!v2.clickNum) {
-            v2.clickNum = Number(a1.clickNum);
-          } else {
-            v2.clickNum = Number(a1.clickNum);
-          }
-          // clickPeople：热点点击人数为 actionKeyId 的点击人数
-          if (!v2.clickPeople) {
-            v2.clickPeople = Number(a1.clickPeople);
-          } else {
-            v2.clickPeople = Number(a1.clickPeople);
-          }
-          // 点击量占比
-          v2.clickNumPro = v.pv?parseFloat(a1.clickNum / v.pv* 100):0; //小数点后两位百分比
-          // 人数击量占比
-          v2.clickPeoplePro = v.pClickPeople?parseFloat(a1.clickPeople / v.pClickPeople* 100):0; //小数点后两位百分比
+          v2.clickNum = Number(a1.clickNum);       // clickNum：热点点击量 即actionKeyId 的点击量
+          v2.clickPeople = Number(a1.clickPeople); // clickPeople：热点点击人数为 actionKeyId 的点击人数
+
+          v2.clickNumPro = v.pv?parseFloat(a1.clickNum / v.pv* 100):0; // 点击量占比
+          v2.clickPeoplePro = v.pClickPeople?parseFloat(a1.clickPeople / v.pClickPeople* 100):0; // 人数击量占比
         }
       });
     });
