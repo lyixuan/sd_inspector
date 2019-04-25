@@ -19,10 +19,11 @@ export function options(data,date){
   if(data.name){
     for(let i=0;i<data.name.length;i++){
       if(!data.name[i].value){
-        data.name[i].value=i
+        data.name[i].value=`name${i}`
       }
     }
   }
+  console.log(data.name)
   return  {
     grid: {
       top: 30,
@@ -68,6 +69,10 @@ export function options(data,date){
       axisLine:config.axisLine,
       axisTick:config.axisTick,
       splitLine: config.splitLine,
+      axisLabel:{
+        interval:0,  //类目全显
+        // rotate:45   //顺时针旋转45度
+      },
       data: data.name
     },
     yAxis: [{
