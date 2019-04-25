@@ -38,7 +38,7 @@ function columns() {
     },
     {
       title: '选课时间',
-      dataIndex: 'choiceLessonTime',
+      dataIndex: 'choiceLessionTime',
     },
     {
       title: '订单时间',
@@ -104,7 +104,7 @@ function columns() {
         },
       };
     };
-    if (v.dataIndex !== 'orderTime') {
+    if (v.dataIndex !== 'orderTime' && v.dataIndex !== 'choiceLessionTime') {
       v.render = v.render || ((text) => {
         return (
           <>
