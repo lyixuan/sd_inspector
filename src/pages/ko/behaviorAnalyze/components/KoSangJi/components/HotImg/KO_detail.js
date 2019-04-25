@@ -58,21 +58,15 @@ class KoDetailPage extends React.Component {
     if(newHotData)
     return `<ul class=${styles.tootipPanl}>
     <li class=${styles.tooltipItem}>点击人数：${newHotData.clickPeople}人</li>
-    <li class=${styles.tooltipItem}>人数占比：${newHotData.clickPeoplePro}</li>
+    <li class=${styles.tooltipItem}>人数占比：${newHotData.clickPeoplePro}%</li>
     <li class=${styles.tooltipItem}>点击次数：${newHotData.clickNum}次</li>
-    <li class=${styles.tooltipItem}>次数占比：${newHotData.clickNumPro}</li>
+    <li class=${styles.tooltipItem}>次数占比：${newHotData.clickNumPro}%</li>
     </ul>`;
   };
   // 处理特殊actionids
   specialData = (data,keyArr,id)=>{
     const newIdArr = [];
-    let new_click={
-      actionKeyId:id,
-      clickNum:0,
-      clickPeople:0,
-      clickNumPro:0,
-      clickPeoplePro:0,
-    };
+    let new_click={};
     data.forEach(item=>{
       keyArr.forEach(el=>{
         if(item.actionKeyId===el){
@@ -80,35 +74,9 @@ class KoDetailPage extends React.Component {
         }
       })
     })
-    newIdArr.forEach(item=>{
-      const clickNumPro= item.clickNumPro?Number(item.clickNumPro.split('%')[0]):0;
-      const clickPeoplePro= item.clickPeoplePro?Number(item.clickPeoplePro.split('%')[0]):0;
-      new_click.name=item.name;
-      new_click.clickNum+=Number(item.clickNum);
-      new_click.clickPeople+=Number(item.clickPeople);
-      new_click.clickNumPro+=clickNumPro;
-      new_click.clickPeoplePro+=clickPeoplePro;
-    })
-    data.push(new_click)
-    return data
-  }
-  // actionkey
-  getActionKeyList = (data,key,id,isNewKey)=>{
-    const newKeyArr=[];
-    let new_click={
-      actionKeyId:id,
-      clickNum:0,
-      clickPeople:0,
-      clickNumPro:0,
-      clickPeoplePro:0,
-    };
-    data.forEach(item=>{
-      if(item.actionKey===key){
-        newKeyArr.push(item)
-      }
-    })
-    if(!isNewKey){
-      newKeyArr.forEach(item=>{
+    if(newIdArr.length){
+      new_click.actionKeyId=id;
+      newIdArr.forEach(item=>{
         new_click.name=item.name;
         new_click.clickNum+=Number(item.clickNum);
         new_click.clickPeople+=Number(item.clickPeople);
@@ -116,6 +84,31 @@ class KoDetailPage extends React.Component {
         new_click.clickPeoplePro+=Number(item.clickPeoplePro);
       })
       data.push(new_click)
+    }
+    
+    return data
+  }
+  // 处理actionkey相同的子项之和
+  getActionKeyList = (data,key,id,bol)=>{
+    const newKeyArr=[];
+    let new_click={};
+    data.forEach(item=>{
+      if(item.actionKey===key){
+        newKeyArr.push(item)
+      }
+    })
+    if(!bol){
+      if(newKeyArr.length){
+        new_click.actionKeyId=id;
+        newKeyArr.forEach(item=>{
+          new_click.name=item.name;
+          new_click.clickNum+=Number(item.clickNum);
+          new_click.clickPeople+=Number(item.clickPeople);
+          new_click.clickNumPro+=Number(item.clickNumPro);
+          new_click.clickPeoplePro+=Number(item.clickPeoplePro);
+        })
+        data.push(new_click)
+      }
       return data
     }else{
       return newKeyArr
@@ -169,7 +162,6 @@ class KoDetailPage extends React.Component {
       }else if(page==='kolist'){
         this.dealListDom(data,'click_ko_item','kolist_ko_item',true);
       }
-
       // 修改数据
       this.chart.selectAll('.text').text(function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
