@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Popover, Button } from 'antd';
+import { Popover } from 'antd';
 import BITable from '@/ant_components/BITable';
 import BIButtonText from '@/components/BIButtonText';
 import BIPagination from '@/ant_components/BIPagination';
@@ -183,7 +183,7 @@ class UserList extends React.Component {
   };
 
   render() {
-    const { userList, page = {} } = this.props.userListModel;
+    const { userList, currentPage = 1, totalCount = 0} = this.props.userListModel;
     const { loading } = this.props;
     const { pageParams } = this.state;
     const dataSource = userList;
@@ -195,7 +195,7 @@ class UserList extends React.Component {
             dataSource={dataSource} columns={columns()}
             pagination={false} loading={loading} />
           <br />
-          <BIPagination showQuickJumper defaultPageSize={pageParams.pageSize ? pageParams.pageSize : 30} onChange={this.onPageChange} current={pageParams.currentPage} total={page.total} />
+          <BIPagination showQuickJumper defaultPageSize={pageParams.pageSize ? pageParams.pageSize : 30} onChange={this.onPageChange} current={currentPage} total={totalCount} />
         </div>
       </div>
     );
