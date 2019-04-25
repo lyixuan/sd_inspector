@@ -351,6 +351,17 @@ function getDownSanKeyMap(downPageList, currentPageObj,currentPage) {
       }
     });
   });
+  // downPage.node去重
+  const obj = {};
+  downPage.node.forEach((v)=>{
+    if (!obj[v.id]){
+      obj[v.id] = v;
+    }
+  });
+  downPage.node = [];
+  Object.keys(obj).forEach((v)=>{
+    downPage.node.push(obj[v]);
+  });
   console.log('downPageList 桑吉结构 后--',downPage)
   return downPage;
 }
