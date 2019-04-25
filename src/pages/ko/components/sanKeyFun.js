@@ -67,7 +67,7 @@ function dealData1(data1) {
    * 关系：page --1:1-- actionKeyIds --1:1-- pageKeys
    * */
 
-    // 合并多个pageKey和多个actionKeyId并去重
+  // 合并多个pageKey和多个actionKeyId并去重
   const tempObj = {};
   const newList = [];
   data1.forEach((v) => {
@@ -96,7 +96,7 @@ function dealData1(data1) {
       }
     });
     tempObj[key].actionKeyIds = [];
-    Object.keys(tempO).forEach((key2)=>{
+    Object.keys(tempO).forEach((key2) => {
       tempObj[key].actionKeyIds.push(tempO[key2]);
     });
     delete tempObj[key].actionKey;
@@ -140,8 +140,8 @@ function addObjectItem(pageList, pageEventData, actionEventData) {
           v2.clickNum = Number(a1.clickNum);       // clickNum：热点点击量 即actionKeyId 的点击量
           v2.clickPeople = Number(a1.clickPeople); // clickPeople：热点点击人数为 actionKeyId 的点击人数
 
-          v2.clickNumPro = v.pv?parseFloat(a1.clickNum / v.pv* 100):0; // 点击量占比
-          v2.clickPeoplePro = v.pClickPeople?parseFloat(a1.clickPeople / v.pClickPeople* 100):0; // 人数击量占比
+          v2.clickNumPro = v.pv ? parseFloat(a1.clickNum / v.pv * 100) : 0; // 点击量占比
+          v2.clickPeoplePro = v.pClickPeople ? parseFloat(a1.clickPeople / v.pClickPeople * 100) : 0; // 人数击量占比
         }
       });
     });
@@ -153,9 +153,9 @@ function getFirstTen(pageList) {
   /**
    * actionKeyId取前十
    * */
-  pageList.forEach((item)=>{
+  pageList.forEach((item) => {
     // actionKeyId 排序，倒叙
-    item.actionKeyIds.sort(function(a, b) {
+    item.actionKeyIds.sort(function (a, b) {
       if (Number(a.clickNum) > Number(b.clickNum)) {
         return -1;
       } else if (a < b) {
@@ -184,14 +184,14 @@ function getCurrentPage(downPageList, currentPage) {
 function stringTool(str) {
   // 获取string最后一个下划线后的数字，并判断是否大于零
   const num = str.lastIndexOf('_');
-  return Number(str.substr(num+1));
+  return Number(str.substr(num + 1));
 }
 
-function cleanSrcData(srcList,currentPage) {
+function cleanSrcData(srcList, currentPage) {
   // 去掉downPage==currentPage的数据
   const newSrcList = [];
-  srcList.forEach((v)=>{
-    if (v.downPage !== currentPage){
+  srcList.forEach((v) => {
+    if (v.downPage !== currentPage) {
       newSrcList.push(v);
     }
   });
@@ -200,12 +200,12 @@ function cleanSrcData(srcList,currentPage) {
 
 function actionListDataDeal(downPageList) {
   // 桑吉图，处理actionKeyIds中，最后节点小于0的数据。这些数据，downPage相同的进行合并，值相加；只处理下游节点
-  downPageList.forEach((v1)=>{
+  downPageList.forEach((v1) => {
     const tempObject = {};
     const tempList = [];
-    v1.actionKeyIds.forEach((v2)=>{
-      if (stringTool(v2.actionKeyId)<0) {
-        if (!tempObject[v2.downPage]){
+    v1.actionKeyIds.forEach((v2) => {
+      if (stringTool(v2.actionKeyId) < 0) {
+        if (!tempObject[v2.downPage]) {
           tempObject[v2.downPage] = v2;
         } else {
           tempObject[v2.downPage].clickNum += Number(v2.clickNum);
@@ -215,7 +215,7 @@ function actionListDataDeal(downPageList) {
         }
       }
     });
-    Object.keys(tempObject).forEach((key)=>{
+    Object.keys(tempObject).forEach((key) => {
       tempList.push(tempObject[key]);
     });
     v1.actionKeyIds = tempList;
@@ -241,7 +241,7 @@ function getUpSanKeyMap(upPageList, currentPage) {
 
   upPageList.forEach((v) => {
     if (v.page !== currentPage) {
-      upPage.node.push({ id: v.page, name: v.pageName,pageView:v.pv });
+      upPage.node.push({ id: v.page, name: v.pageName, pageView: v.pv });
     }
     upPage.links.push({
       source: v.page,
@@ -249,16 +249,16 @@ function getUpSanKeyMap(upPageList, currentPage) {
       // pv: v.pv || 0,
       value: v.pv || 0,
     });
-    total+=v.pv;
+    total += v.pv;
   });
 
-  upPage.links.forEach((v)=>{
-    v.zb = (v.pv/total*100).toFixed(2) + '%';
+  upPage.links.forEach((v) => {
+    v.zb = (v.pv / total * 100).toFixed(2) + '%';
   });
   return upPage
 }
 
-function getDownSanKeyMap(downPageList, currentPageObj,currentPage) {
+function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
   /**
    * 构造桑吉图要的数据结构，并处理特殊节点
    *
@@ -279,33 +279,33 @@ function getDownSanKeyMap(downPageList, currentPageObj,currentPage) {
   // 当前页的target节点list
   const currentPageTargetList = currentPageObj.actionKeyIds;
 
-  for (let i = downPageList.length-1; i >=0; i--) {
+  for (let i = downPageList.length - 1; i >= 0; i--) {
     if (downPageList[i].page !== currentPage) {
       let flag = 0; // 1 改page存在于currentPageTargetList 0 不存在，这种节点要去除
-      currentPageTargetList.forEach((v)=>{
-        if (downPageList[i].page === v.downPage ) {
+      currentPageTargetList.forEach((v) => {
+        if (downPageList[i].page === v.downPage) {
           flag = 1;
         }
       });
       if (!flag) {
-        downPageList.splice(i,1)
+        downPageList.splice(i, 1)
       }
     }
   }
 
-  console.log('downPageList 桑吉结构前',downPageList)
+  console.log('downPageList 桑吉结构前', downPageList)
 
   // 下游桑吉图
   downPage.node.push({ id: currentPage, name: '下游页面' });
 
   downPageList.forEach((v) => {
-    if (v.page!==currentPage) {
-      downPage.node.push({ id: v.page, name: v.pageName, pageView:v.pv });
+    if (v.page !== currentPage) {
+      downPage.node.push({ id: v.page, name: v.pageName, pageView: v.pv });
     }
     v.actionKeyIds.forEach((actionItem) => {
       const num = stringTool(actionItem.actionKeyId);
-      if (num > 0){
-        downPage.node.push({ id: actionItem.actionKeyId, name: actionItem.actionName,pageView:actionItem.clickNum });
+      if (num > 0) {
+        downPage.node.push({ id: actionItem.actionKeyId, name: actionItem.actionName, pageView: actionItem.clickNum });
         downPage.links.push({
           source: v.page,
           target: actionItem.actionKeyId,
@@ -314,7 +314,7 @@ function getDownSanKeyMap(downPageList, currentPageObj,currentPage) {
           value: actionItem.clickNum || 0,
         });
         // 如果target节点包含 CLICK_KO_ITEM ，则再增加一个target节点到 选课节点的连接
-        if (actionItem.actionKeyId.indexOf(CLICK_KO_ITEM)>=0) {
+        if (actionItem.actionKeyId.indexOf(CLICK_KO_ITEM) >= 0) {
           downPage.node.push({ id: xuankeNode, name: '选课' });
           downPage.links.push({
             source: actionItem.actionKeyId,
@@ -325,7 +325,7 @@ function getDownSanKeyMap(downPageList, currentPageObj,currentPage) {
           });
         }
       } else {
-        downPage.node.push({ id: actionItem.downPage, name: actionItem.downPageName, pageView:actionItem.clickNum });
+        downPage.node.push({ id: actionItem.downPage, name: actionItem.downPageName, pageView: actionItem.clickNum });
         downPage.links.push({
           source: v.page,
           target: actionItem.downPage,
@@ -338,16 +338,16 @@ function getDownSanKeyMap(downPageList, currentPageObj,currentPage) {
   });
   // downPage.node去重
   const obj = {};
-  downPage.node.forEach((v)=>{
-    if (!obj[v.id]){
+  downPage.node.forEach((v) => {
+    if (!obj[v.id]) {
       obj[v.id] = v;
     }
   });
   downPage.node = [];
-  Object.keys(obj).forEach((v)=>{
+  Object.keys(obj).forEach((v) => {
     downPage.node.push(obj[v]);
   });
-  console.log('downPageList 桑吉结构 后--',downPage)
+  console.log('downPageList 桑吉结构 后--', downPage)
   return downPage;
 }
 
@@ -376,17 +376,17 @@ export function dealMapOrg({ data, formParams, params, otherParams }) {
   pageKeyList = Array.from(pageKeyList);
   actionKeyList = Array.from(actionKeyList);
   const tempObj = {};
-  currentActionList.forEach((v)=>{
+  currentActionList.forEach((v) => {
     if (!tempObj[v.actionKeyId]) {
       tempObj[v.actionKeyId] = v;
     }
   });
   let newCurrentActionList = [];
-  Object.keys(tempObj).forEach((key)=>{
+  Object.keys(tempObj).forEach((key) => {
     newCurrentActionList.push(tempObj[key]);
   });
 
-  return Object.assign({ pageKeyList, actionKeyList, currentActionList:newCurrentActionList, currentActionKeyId, recordTimeList, belongApp },formParams);
+  return Object.assign({ pageKeyList, actionKeyList, currentActionList: newCurrentActionList, currentActionKeyId, recordTimeList, belongApp }, formParams);
 }
 
 export function dealResultData({ data1, data2, params }) {
@@ -396,7 +396,7 @@ export function dealResultData({ data1, data2, params }) {
   const { page: currentPage } = params;
 
   // 清洗数据 只需处理下游
-  const cleanedDownPageList = cleanSrcData(data1.downPageList,currentPage);
+  const cleanedDownPageList = cleanSrcData(data1.downPageList, currentPage);
 
   // 基于page合并去重，构造新的数据结构
   let upPageList = dealData1(data1.upPageList);
@@ -413,8 +413,8 @@ export function dealResultData({ data1, data2, params }) {
   const dealledDownPageList = actionListDataDeal(downPageList);
 
   // 构造桑吉图需要的结构，并处理节点。actionKeyId点击量取前十
-  const upPage = getUpSanKeyMap(getFirstTen(upPageList),currentPage);
-  const downPage = getDownSanKeyMap(getFirstTen(dealledDownPageList),currentPageObj,currentPage);
+  const upPage = getUpSanKeyMap(getFirstTen(upPageList), currentPage);
+  const downPage = getDownSanKeyMap(getFirstTen(dealledDownPageList), currentPageObj, currentPage);
 
   return {
     upPage,

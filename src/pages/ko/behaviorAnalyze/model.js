@@ -2,10 +2,25 @@ import { message } from 'antd';
 import { sankeySuperApi } from '@/pages/ko/behaviorAnalyze/services';
 
 function getData(dataList, dataArr) {
+  let newKey = {clickNum:0,choiceLessonPercent:0};
+  const newDatalist = [];
+  dataList.forEach(item=>{
+    if(item.actionKeyId.indexOf('homepage')>=0&&item.actionKey==='click_ko_item'){
+      newKey.name='点击课程公开计划选项';
+      newKey.actionKey = item.actionKey
+      newKey.clickNum+=Number(item.clickNum)
+      newKey.choiceLessonPercent+=Number(item.choiceLessonPercent.split('%')[0])
+    }else{
+      newDatalist.push(item)
+    }
+  });
+
+  newDatalist.push(newKey);
+
   const dataObj = {};
   dataArr.forEach(item => {
     dataObj[item] = [];
-    dataList.forEach(item1 => {
+    newDatalist.forEach(item1 => {
       dataObj[item].push({ name: item1, value: item1[item] })
     });
   })
@@ -32,8 +47,8 @@ export default {
       if (result) {
         const { behaviourData = {}, sankeyData = {}, pvuvData, userSize } = result.data || [];
         yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj } });
-        yield put({ type: 'saveBehaviourData', payload: { behaviourData: behaviourData.barActionEventData } });
-        yield put({ type: 'save', payload: { upPage: sankeyData.upPage, downPage: sankeyData.downPage, currentPage: sankeyData.currentPage } });
+        yield put({ type: 'saveBehaviourData', payload: { behaviourData } });
+        yield put({ type: 'save', payload: {pvuvData, upPage: sankeyData.upPage, downPage: sankeyData.downPage, currentPage: sankeyData.currentPage } });
         yield put({
           type: 'koPlan/saveUserData',
           payload: { usersData: { totalCount: userSize } }
