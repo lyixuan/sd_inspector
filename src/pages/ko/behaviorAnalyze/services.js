@@ -9,7 +9,7 @@ export async function sankeySuperApi({params,formParams,otherParams}) {
     msg: '成功',
     data: {
       behaviourData: {},
-      sankeyData: { upPageList: [], downPageList: [], upPage: {}, downPage: {},currentPageObj: {},currentPage:'' } },
+      sankeyData: { upPage: {}, downPage: {},currentPageObj: {},currentPage:'' } },
   };
   // 请求结构
   const response = await request('/homePage/sankeyMapOrg', {params });
