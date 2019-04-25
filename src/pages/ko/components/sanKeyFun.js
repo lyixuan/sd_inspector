@@ -152,9 +152,9 @@ function addObjectItem(pageList, pageEventData, actionEventData) {
             v2.clickPeople = Number(a1.clickPeople);
           }
           // 点击量占比
-          v2.clickNumPro = v.pv?(a1.clickNum / v.pv* 100).toFixed(4) + '%':'0.00%'; //小数点后两位百分比
+          v2.clickNumPro = v.pv?(a1.clickNum / v.pv* 100).toFixed(4):0; //小数点后两位百分比
           // 人数击量占比
-          v2.clickPeoplePro = v.pClickPeople?(a1.clickPeople / v.pClickPeople* 100).toFixed(4) + '%':'0.00%'; //小数点后两位百分比
+          v2.clickPeoplePro = v.pClickPeople?(a1.clickPeople / v.pClickPeople* 100).toFixed(4):0; //小数点后两位百分比
         }
       });
     });
@@ -307,6 +307,26 @@ function cleanSrcData(srcList,currentPage) {
   return newSrcList;
 }
 
+function actionListDataDeal(downPageList) {
+  /*
+  * 桑吉图，处理actionKeyIds中，最后节点小于0的数据。这些数据，downPage相同的进行合并，值相加；只处理下游节点
+  * */
+
+  downPageList.forEach((v1)=>{
+    const tempObject = {};
+    v1.actionKeyIds.forEach((v2)=>{
+      if (stringTool(v2.actionKeyId)<0) {
+        if (tempObject[v2.downPage]){
+
+        } else {
+
+        }
+      }
+    });
+  });
+
+}
+
 export function dealMapOrg({ data, formParams, params, otherParams }) {
   /*
   * 基于结构数据data，构造下一个接口需要的参数
@@ -350,36 +370,33 @@ export function dealResultData({ data1, data2, params }) {
   * 桑吉接口组合，处理数据
   * */
   const { page: currentPage } = params;
-  let newData1 = {
-    upPageList: [],
-    downPageList: [],
-  };
 
   // 清洗数据 只需处理下游
   const cleanedDownPageList = cleanSrcData(data1.downPageList,currentPage);
 
-  // 基于page合并去重
-  newData1.upPageList = dealData1(data1.upPageList);
-  newData1.downPageList = dealData1(cleanedDownPageList);
+  // 基于page合并去重，构造新的数据结构
+  let upPageList = dealData1(data1.upPageList);
+  let downPageList = dealData1(cleanedDownPageList);
 
-  // 结构和数值匹配。为newData1添加 页面点击量 点击人数等
-  newData1.upPageList = addObjectItem(newData1.upPageList, data2.pageEventData, data2.actionEventData);
-  newData1.downPageList = addObjectItem(newData1.downPageList, data2.pageEventData, data2.actionEventData);
-
-  // 构造桑吉图需要的结构，并处理节点。actionKeyId点击量取前十
-  const upPage = getUpSanKeyMap(getFirstTen(newData1.upPageList),currentPage);
-  const downPage = getDownSanKeyMap(getFirstTen(newData1.downPageList),currentPage);
+  // 结构和数值匹配。为newData1添加 页面点击量 点击人数等数值
+  upPageList = addObjectItem(upPageList, data2.pageEventData, data2.actionEventData);
+  downPageList = addObjectItem(downPageList, data2.pageEventData, data2.actionEventData);
 
   // 热力图，筛选当前页面
-  const currentPageObj = getCurrentPage(newData1.downPageList, currentPage);
+  const currentPageObj = getCurrentPage(downPageList, currentPage);
+
+  // 桑吉图，处理actionKeyIds中，最后节点小于0的数据。这些数据，downPage相同的进行合并，值相加；只处理下游节点
+  const dealledDownPageList = actionListDataDeal(downPageList,currentPageObj);
+
+  // 构造桑吉图需要的结构，并处理节点。actionKeyId点击量取前十
+  const upPage = getUpSanKeyMap(getFirstTen(upPageList),currentPage);
+  const downPage = getDownSanKeyMap(getFirstTen(dealledDownPageList),currentPage);
 
   return {
     upPage,
     downPage,
     currentPageObj,
-    currentPage,
-    upPageList: newData1.upPageList,
-    downPageList: newData1.downPageList,
+    currentPage
   };
 }
 
