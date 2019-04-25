@@ -11,7 +11,6 @@ export default {
       currentPage: 1,
       pageSize: 30,
     }
-
   },
 
   effects: {
@@ -23,7 +22,8 @@ export default {
         const data = result.data || {};
         const userList = Array.isArray(data.resultList) ? data.resultList : [];
         const totalCount = data.totalCount;
-        yield put({ type: 'save', payload: { userList } });
+        const currentPage = data.currentPage;
+        yield put({ type: 'save', payload: { userList,currentPage,totalCount } });
         yield put({
           type: 'koPlan/saveUserData',
           payload: { usersData: { totalCount } }

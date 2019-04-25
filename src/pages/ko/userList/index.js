@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Popover, Button } from 'antd';
+import { Popover } from 'antd';
 import BITable from '@/ant_components/BITable';
 import BIButtonText from '@/components/BIButtonText';
 import BIPagination from '@/ant_components/BIPagination';
@@ -38,7 +38,7 @@ function columns() {
     },
     {
       title: '选课时间',
-      dataIndex: 'choiceLessonTime',
+      dataIndex: 'choiceLessionTime',
     },
     {
       title: '订单时间',
@@ -104,7 +104,7 @@ function columns() {
         },
       };
     };
-    if (v.dataIndex !== 'orderTime') {
+    if (v.dataIndex !== 'orderTime' && v.dataIndex !== 'choiceLessionTime') {
       v.render = v.render || ((text) => {
         return (
           <>
@@ -149,6 +149,7 @@ class UserList extends React.Component {
   componentDidMount() {
     this.getInitParams();
     this.queryData();
+    console.log(this.props)
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.tabFromParams) !== JSON.stringify(this.props.tabFromParams)) {
@@ -173,9 +174,14 @@ class UserList extends React.Component {
     });
 
   };
+  getLocationParams = () => {
+    const { location: { state = {} } } = this.props;
+    return state
+  }
   queryData = (params = this.props.tabFromParams, pageParams = this.state.pageParams) => {
     if (!params || JSON.stringify(params) === '{}') return;
-    const newParams = { ...params.formParams, ...pageParams };
+    const localtionParams = this.getLocationParams()
+    const newParams = { ...params.formParams, ...pageParams, ...localtionParams };
     this.props.dispatch({
       type: 'userListModel/getTableList',
       payload: { params: newParams },
@@ -183,7 +189,7 @@ class UserList extends React.Component {
   };
 
   render() {
-    const { userList, page = {} } = this.props.userListModel;
+    const { userList, currentPage = 1, totalCount = 0} = this.props.userListModel;
     const { loading } = this.props;
     const { pageParams } = this.state;
     const dataSource = userList;
@@ -195,7 +201,7 @@ class UserList extends React.Component {
             dataSource={dataSource} columns={columns()}
             pagination={false} loading={loading} />
           <br />
-          <BIPagination showQuickJumper defaultPageSize={pageParams.pageSize ? pageParams.pageSize : 30} onChange={this.onPageChange} current={pageParams.currentPage} total={page.total} />
+          <BIPagination showQuickJumper defaultPageSize={pageParams.pageSize ? pageParams.pageSize : 30} onChange={this.onPageChange} current={currentPage} total={totalCount} />
         </div>
       </div>
     );
