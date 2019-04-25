@@ -91,12 +91,13 @@ export default {
         hotDataList.newIds = [];
         actionKeyIds.forEach((item, i) => {
           hotDataList.newIds.push({
+            actionKey: item.actionKey,
             name: item.actionName,
             actionKeyId: item.actionKeyId,
             clickPeople: item.clickPeople,//点击人数
-            peopoleRate: item.clickPeoplePro,//人数占比
-            clickCountPre: item.clickNum,//点击次数
-            countRate: item.clickNumPro,//次数占比
+            clickPeoplePro: item.clickPeoplePro,//人数占比
+            clickNum: item.clickNum,//点击次数
+            clickNumPro: item.clickNumPro,//次数占比
           })
         })
       }
