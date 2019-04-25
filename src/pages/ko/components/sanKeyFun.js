@@ -125,7 +125,7 @@ function addObjectItem(pageList, pageEventData, actionEventData) {
     v.pageKeys.forEach((v1) => {
       pageEventData.forEach((p1) => {
         // pv：pageKey 的点击量之和, pClickPeople页面点击人数
-        if (v1.pageKey === p1.pageKey) {
+        if (v1 === p1.pageKey) {
           if (!v.pv) {
             v.pv = Number(p1.clickNum);
             v.pClickPeople = Number(p1.clickPeople);
@@ -152,9 +152,9 @@ function addObjectItem(pageList, pageEventData, actionEventData) {
             v2.clickPeople = Number(a1.clickPeople);
           }
           // 点击量占比
-          v2.clickNumPro = v.pv?(a1.clickNum / v.pv* 100).toFixed(4):0; //小数点后两位百分比
+          v2.clickNumPro = v.pv?parseFloat(a1.clickNum / v.pv* 100):0; //小数点后两位百分比
           // 人数击量占比
-          v2.clickPeoplePro = v.pClickPeople?(a1.clickPeople / v.pClickPeople* 100).toFixed(4):0; //小数点后两位百分比
+          v2.clickPeoplePro = v.pClickPeople?parseFloat(a1.clickPeople / v.pClickPeople* 100):0; //小数点后两位百分比
         }
       });
     });
@@ -201,6 +201,7 @@ function stringTool(str) {
 }
 
 function cleanSrcData(srcList,currentPage) {
+  // 去掉downPage==currentPage的数据
   const newSrcList = [];
   srcList.forEach((v)=>{
     if (v.downPage !== currentPage){
@@ -211,10 +212,7 @@ function cleanSrcData(srcList,currentPage) {
 }
 
 function actionListDataDeal(downPageList) {
-  /*
-  * 桑吉图，处理actionKeyIds中，最后节点小于0的数据。这些数据，downPage相同的进行合并，值相加；只处理下游节点
-  * */
-
+  // 桑吉图，处理actionKeyIds中，最后节点小于0的数据。这些数据，downPage相同的进行合并，值相加；只处理下游节点
   downPageList.forEach((v1)=>{
     const tempObject = {};
     const tempList = [];
@@ -223,10 +221,10 @@ function actionListDataDeal(downPageList) {
         if (!tempObject[v2.downPage]){
           tempObject[v2.downPage] = v2;
         } else {
-          tempObject[v2.downPage].clickNum += v2.clickNum;
-          tempObject[v2.downPage].clickNumPro += v2.clickNumPro;
-          tempObject[v2.downPage].clickPeople += v2.clickPeople;
-          tempObject[v2.downPage].clickPeoplePro += v2.clickPeoplePro;
+          tempObject[v2.downPage].clickNum += Number(v2.clickNum);
+          tempObject[v2.downPage].clickNumPro += parseFloat(v2.clickNumPro);
+          tempObject[v2.downPage].clickPeople += Number(v2.clickPeople);
+          tempObject[v2.downPage].clickPeoplePro += parseFloat(v2.clickPeoplePro);
         }
       }
     });
@@ -256,13 +254,12 @@ function getUpSanKeyMap(upPageList, currentPage) {
 
   upPageList.forEach((v) => {
     if (v.page !== currentPage) {
-      upPage.node.push({ id: v.page, name: v.pageName });
+      upPage.node.push({ id: v.page, name: v.pageName,pageView:v.pv });
     }
     upPage.links.push({
       source: v.page,
-      target: v.downPage,
-      pv: v.pv || 0,
-      zb: v.clickNumPro || '0.00%',
+      target: currentPage,
+      // pv: v.pv || 0,
       value: v.pv || 0,
     });
     total+=v.pv;
@@ -313,40 +310,41 @@ function getDownSanKeyMap(downPageList, currentPageObj,currentPage) {
 
   // 下游桑吉图
   downPage.node.push({ id: currentPage, name: '下游页面' });
-  downPage.node.push({ id: xuankeNode, name: '选课' });
 
   downPageList.forEach((v) => {
+    if (v.page!==currentPage) {
+      downPage.node.push({ id: v.page, name: v.pageName, pageView:v.pv });
+    }
     v.actionKeyIds.forEach((actionItem) => {
       const num = stringTool(actionItem.actionKeyId);
       if (num > 0){
-        downPage.node.push({ id: actionItem.actionKeyId, name: actionItem.actionName });
+        downPage.node.push({ id: actionItem.actionKeyId, name: actionItem.actionName,pageView:actionItem.clickNum });
         downPage.links.push({
           source: v.page,
           target: actionItem.actionKeyId,
-          pv: v.pv || 1,
-          zb: actionItem.clickNumPro + '%'|| '0.00%',
-          value: actionItem.clickNum || 1,
+          // pv: v.pv || 0,
+          zb: actionItem.clickNumPro.toFixed(2) + '%',
+          value: actionItem.clickNum || 0,
         });
-        // 如果target节点包含KO_LIST_ACTION ，则再增加一个target节点到 选课节点的连接
+        // 如果target节点包含 CLICK_KO_ITEM ，则再增加一个target节点到 选课节点的连接
         if (actionItem.actionKeyId.indexOf(CLICK_KO_ITEM)>=0) {
+          downPage.node.push({ id: xuankeNode, name: '选课' });
           downPage.links.push({
             source: actionItem.actionKeyId,
             target: xuankeNode,
-            pv: actionItem.clickNum || 1,
-            zb: actionItem.clickNumPro + '%'|| '0.00%',
-            value: actionItem.clickNum || 1,
+            // pv: actionItem.clickNum || 0,
+            zb: actionItem.clickNumPro.toFixed(2) + '%',
+            value: actionItem.clickNum || 0,
           });
         }
       } else {
-        if (v.page !== currentPage) {
-          downPage.node.push({ id: v.page, name: actionItem.downPageName });
-        }
+        downPage.node.push({ id: actionItem.downPage, name: actionItem.downPageName, pageView:actionItem.clickNum });
         downPage.links.push({
           source: v.page,
           target: actionItem.downPage,
-          pv: v.pv || 1,
-          zb: actionItem.clickNumPro + '%' || '0.00%',
-          value: actionItem.clickNum || 1,
+          // pv: v.pv || 0,
+          zb: actionItem.clickNumPro.toFixed(2) + '%',
+          value: actionItem.clickNum || 0,
         });
       }
     });
