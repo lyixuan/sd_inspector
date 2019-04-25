@@ -12,6 +12,7 @@ interface Props {
     width?: number,
     defaultUnit?: unitInterface,
     unitData?: unitInterface[] | [],
+    disabled?: boolean,
     onChange: (ops: OptionInterface) => {},
     value?: OptionInterface | string | number | undefined | null,
 }
@@ -96,6 +97,7 @@ export default class Condition extends React.Component<Props, State, object>{
         return optionsData.find(item => item.name === key);
     }
     public onOpen = () => {
+        if (this.props.disabled) return;
         this.setState({ isOpen: true });
     }
     public onDelete = (e: any) => {
@@ -147,17 +149,21 @@ export default class Condition extends React.Component<Props, State, object>{
         ))
     }
     render() {
-        const { options = [] } = this.props;
+        const { options = [], disabled } = this.props;
         const { isOpen, inputValue } = this.state;
         const hasCustomObj = this.state.customObj ? [this.state.customObj] : []
         const optionsData = this.handleOriginOptionsData([...options, ...hasCustomObj]);
         return (
             <>
                 <span onClick={(e) => { e.stopPropagation() }}>
-                    <Dropdown overlay={this.dropdownRender(optionsData)} visible={isOpen} overlayClassName={styles.overlayClassName}>
+                    <Dropdown
+                        disabled={disabled}
+                        overlay={this.dropdownRender(optionsData)}
+                        visible={isOpen}
+                        overlayClassName={styles.overlayClassName}>
                         {/* <span className="inputPanle"> */}
                         <div className={styles.selectCotainer} onClick={this.onOpen}>
-                            <div className={styles.chooseContent}>
+                            <div className={`${disabled ? styles.disableChooseContent : styles.chooseContent}`}>
                                 {!inputValue ? <div className={styles.placeholder}>请选择</div> : null}
                                 <div className={styles.selectedValue}>{inputValue}</div>
                                 <span className={styles.inputIcon}><Icon type={`${isOpen ? 'up' : 'down'}`} /></span>

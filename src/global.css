@@ -104,3 +104,19 @@ a,a:hover{
   margin-right: 4px;
   vertical-align:6%;
 }
+
+/*ko 模块需要，修改ant-popover浮出框背景为黑色，这个样式是定位到根的，所以需要在全局修改，以后其他地方用到再说*/
+.ant-popover .ant-popover-inner{
+  background-color: #565656;
+}
+
+
+.ant-popover-placement-top > .ant-popover-content > .ant-popover-arrow{
+  border-right-color: #565656;
+  border-bottom-color: #565656;
+  background-color: #565656;
+}
+
+.ant-popover-inner-content {
+  color: #fff;
+}

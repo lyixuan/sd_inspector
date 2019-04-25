@@ -20,8 +20,14 @@ export default {
       const params = payload.params;
       const result = yield call(getTableList, params);
       if (result.code === 20000) {
-        const userList = result.data || [];
+        const data = result.data || {};
+        const userList = Array.isArray(data.resultList) ? data.resultList : [];
+        const totalCount = data.totalCount;
         yield put({ type: 'save', payload: { userList } });
+        yield put({
+          type: 'koPlan/saveUserData',
+          payload: { usersData: { totalCount } }
+        })
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

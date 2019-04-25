@@ -1,8 +1,7 @@
 import { message } from 'antd';
 import { msgF } from '@/utils/utils';
-import { handleInitParams, handleFormParams } from './utils/utils';
 import {
-  getKOEnumList, getPageList, getSankeyData, getTableList, getBarData,
+  getKOEnumList,
   getKoDateRange, getKOMessage, getPageDetailInfoList,
 } from './services';
 
@@ -19,6 +18,7 @@ export default {
     pageParams: {},
     KOMessage: {},
     pageDetailInfo: [],
+    usersData: {},
   },
 
   effects: {
@@ -117,6 +117,9 @@ export default {
     },
     saveTabFromParams(state, { payload }) {
       return { ...state, tabFromParams: payload };
+    },
+    saveUserData(state, { payload }) {
+      return { ...state, ...payload };
     }
   },
   subscriptions: {},

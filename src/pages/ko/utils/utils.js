@@ -1,7 +1,6 @@
 import moment from 'moment';
 import { INDEX_PAGE } from '@/utils/constants';
 
-const dateFormat = 'YYYY.MM.DD';
 
 const commitDateFormat = 'YYYY-MM-DD';
 export const handleDateParams = (item) => {

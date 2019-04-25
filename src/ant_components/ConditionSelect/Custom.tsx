@@ -77,6 +77,7 @@ export default class Custom extends React.Component<any> {
     }
     public onError = (meg: string) => {
         message.warn(meg);
+        return;
     }
     public onCancel = () => {
         this.props.onCancel && this.props.onCancel()
@@ -87,16 +88,15 @@ export default class Custom extends React.Component<any> {
             this.onError('请选择过滤条件');
             return
         }
-        const returnObj = this.hanldData();
-        if (this.props.onClickOk) {
-            this.props.onClickOk(returnObj);
-        }
+
+        this.props.onClickOk && this.hanldData(this.props.onClickOk)
     }
-    public hanldData = () => {
+    public hanldData = (fun: (params: any) => {}) => {
         const { baseInputValue, startValue, endValue, selected, unit } = this.state;
         let returnObj = {};
         if (selected.type === 6) {
-            if (!startValue || !endValue) this.onError('请输入正确数字')
+            if (!startValue || !endValue) { this.onError('请输入正确数字'); return };
+            if (Number(startValue) > Number(endValue)) { this.onError('后面数字应大于前面'); return };
             returnObj = {
                 type: selected.type,
                 value: null,
@@ -105,8 +105,9 @@ export default class Custom extends React.Component<any> {
                 unit: unit.id,
                 unitName: unit.name,
             }
+            fun(returnObj);
         } else {
-            if (!baseInputValue) this.onError('请输入正确数字')
+            if (!baseInputValue) { this.onError('请输入正确数字'); return }
             returnObj = {
                 type: selected.type,
                 value: Number(baseInputValue),
@@ -115,6 +116,7 @@ export default class Custom extends React.Component<any> {
                 unit: unit.id,
                 unitName: unit.name,
             }
+            fun(returnObj);
         }
         return returnObj;
     }

@@ -109,6 +109,7 @@ export default class KoForm extends React.Component {
   }
   render() {
     const { tabFromParams } = this.state;
+    const pageDetails = this.handlePageDetail(tabFromParams.page.value);
 
     return (
       <div>
@@ -150,16 +151,21 @@ export default class KoForm extends React.Component {
               </span>
             </div>
             <div className={styles.itemCls}>
-              <span className={styles.gutterLabel}>详情页面：</span>
-              <span className={styles.gutterForm}>
-                <BISelect style={{ width: '70%', minWidth: '140px' }} allowClear placeholder="请选择" value={tabFromParams.currentActionKeyId} onChange={this.changeDetailPage}>
-                  {this.handlePageDetail(tabFromParams.page.value).map(item => (
-                    <Option key={item.actionKeyId} id={item.actionKeyId}>
-                      {item.actionName}
-                    </Option>
-                  ))}
-                </BISelect>
-              </span>
+              {pageDetails.length === 0 ? null :
+                <>
+                  <span className={styles.gutterLabel}>详情页面：</span>
+                  <span className={styles.gutterForm}>
+                    <BISelect style={{ width: '70%', minWidth: '140px' }} allowClear placeholder="请选择" value={tabFromParams.currentActionKeyId} onChange={this.changeDetailPage}>
+                      {pageDetails.map(item => (
+                        <Option key={item.actionKeyId} id={item.actionKeyId}>
+                          {item.actionName}
+                        </Option>
+                      ))}
+                    </BISelect>
+                  </span>
+                </>
+              }
+
             </div>
             <div className={styles.itemCls}>
               &nbsp;

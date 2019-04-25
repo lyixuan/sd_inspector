@@ -85,6 +85,7 @@ var Custom = /** @class */ (function (_super) {
         };
         _this.onError = function (meg) {
             antd_1.message.warn(meg);
+            return;
         };
         _this.onCancel = function () {
             _this.props.onCancel && _this.props.onCancel();
@@ -95,17 +96,22 @@ var Custom = /** @class */ (function (_super) {
                 _this.onError('请选择过滤条件');
                 return;
             }
-            var returnObj = _this.hanldData();
-            if (_this.props.onClickOk) {
-                _this.props.onClickOk(returnObj);
-            }
+            _this.props.onClickOk && _this.hanldData(_this.props.onClickOk);
         };
-        _this.hanldData = function () {
+        _this.hanldData = function (fun) {
             var _a = _this.state, baseInputValue = _a.baseInputValue, startValue = _a.startValue, endValue = _a.endValue, selected = _a.selected, unit = _a.unit;
             var returnObj = {};
             if (selected.type === 6) {
-                if (!startValue || !endValue)
+                if (!startValue || !endValue) {
                     _this.onError('请输入正确数字');
+                    return;
+                }
+                ;
+                if (Number(startValue) > Number(endValue)) {
+                    _this.onError('后面数字应大于前面');
+                    return;
+                }
+                ;
                 returnObj = {
                     type: selected.type,
                     value: null,
@@ -114,10 +120,13 @@ var Custom = /** @class */ (function (_super) {
                     unit: unit.id,
                     unitName: unit.name,
                 };
+                fun(returnObj);
             }
             else {
-                if (!baseInputValue)
+                if (!baseInputValue) {
                     _this.onError('请输入正确数字');
+                    return;
+                }
                 returnObj = {
                     type: selected.type,
                     value: Number(baseInputValue),
@@ -126,6 +135,7 @@ var Custom = /** @class */ (function (_super) {
                     unit: unit.id,
                     unitName: unit.name,
                 };
+                fun(returnObj);
             }
             return returnObj;
         };

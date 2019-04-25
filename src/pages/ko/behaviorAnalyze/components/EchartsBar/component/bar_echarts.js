@@ -14,7 +14,7 @@ const config = {
     }
   },
 };
-export function options(data){
+export function options(data,date){
   return  {
     grid: {
       top: 30,
@@ -40,7 +40,7 @@ export function options(data){
             tipItem += `<div class="tipItem"><span class="tipIcon" style="background-color:${params[i].color}"></span><span>${params[i].seriesName}：${params[i].value}${i===0?'次':'%'}</span></div>`
           }
         }
-        return `<div class="tipWrap"><div>${params[0].name.time}</div>${tipItem}</div>`;
+        return `<div class="tipWrap"><div>${date}</div>${tipItem}</div>`;
 
       },
     },
