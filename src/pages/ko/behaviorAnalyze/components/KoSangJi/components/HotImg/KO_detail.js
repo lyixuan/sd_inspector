@@ -50,6 +50,7 @@ class KoDetailPage extends React.Component {
     }
     tip.show = function() {
       const id = d3.select(this).attr('data-name');
+      console.log(id)
       const { pageX, pageY } = d3.event;
       div
         .style('display', 'block')
@@ -129,9 +130,49 @@ class KoDetailPage extends React.Component {
       return newKeyArr
     }
   }
+  dealListDom = (data,actionKey,id,bol)=>{
+    let newKeys = this.getActionKeyList(data,actionKey,id,bol);
+    this.chart.selectAll('.textWrap1 .textVal').nodes().map((item,i)=>{
+      // if(i<4){
+        return item.setAttribute('data-name',newKeys[i].actionKeyId)
+      // }
+    })
+    this.chart.selectAll('.textWrap2 .textVal').nodes().map((item,i)=>{
+      // if(i<4){
+        return item.setAttribute('data-name',newKeys[i].actionKeyId)
+      // }
+    })
+    this.chart.selectAll('.textWrap3 .textVal').nodes().map((item,i)=>{
+      // if(i<4){
+        return item.setAttribute('data-name',newKeys[i].actionKeyId)
+      // }
+    })
+    this.chart.selectAll('.textWrap1 .textVal').text(function(){
+      const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
+      if(val) return val.name;
+    })
+    this.chart.selectAll('.textWrap3 .textVal').text(function(){
+      const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
+      if(val) return val.clickNum;
+    })
+    this.chart.selectAll('.textWrap2 .textVal').style('fill',function(){
+      const val = newKeys.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
+      
+      if(val) return val.color;
+    })
+    .on('mouseover', KoDetailPage.that.drewTip(data))
+    .on('mouseout', tip.hide)
+    .on('mousemove', tip.show);
+  }
   drewLended = (data,page) => {
     if(data&&data.length){
       this.chart = d3.select(this.svgDom).html(pages[page]);
+      this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
+      this.chart.selectAll('.textWrap1 text').attr('dominant-baseline',"inherit").attr('text-anchor',"left");
+
+      const colorArr = this.getColorFn(data);
+
+      // 处理特殊页面
       if(page==='homepage'){
         this.specialData(data,['homepage_click_testregion_-1','homepage_Click_city_-1'],'homepage_click_city')
         this.getActionKeyList(data,'click_ko_item','homepage_add_koitem')
@@ -140,68 +181,11 @@ class KoDetailPage extends React.Component {
         this.specialData(data,['studypage_click_record_free_-1','homepage_click_record_-1'],'studypage_click_record');
         this.specialData(data,['studypage_click_livebroadcast_free_-1','homepage_click_livebroadcast-1'],'studypage_click_livebroadcast');
       }else if(page==='storelist'){
-        // 获取商城列表前四个数据
-        let newKeys = this.getActionKeyList(data,'Click_major','storelist_ko_item',true);
-        this.chart.selectAll('.textWrap1 .textVal').nodes().map((item,i)=>{
-          if(i<4){
-            return item.setAttribute('data-name',newKeys[i].actionKeyId)
-          }
-        })
-        this.chart.selectAll('.textWrap2 .textVal').nodes().map((item,i)=>{
-          if(i<4){
-            return item.setAttribute('data-name',newKeys[i].actionKeyId)
-          }
-        })
-        this.chart.selectAll('.textWrap3 .textVal').nodes().map((item,i)=>{
-          if(i<4){
-            return item.setAttribute('data-name',newKeys[i].actionKeyId)
-          }
-        })
-        this.chart.selectAll('.textWrap1 .textVal').text(function(){
-          const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-          if(val) return val.name;
-        })
-        this.chart.selectAll('.textWrap3 .textVal').text(function(){
-          const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-          if(val) return val.clickNum;
-        })
-        this.chart.selectAll('.textWrap2 .textVal').style('fill',function(){
-          const val = newKeys.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-          if(val) return val.color;
-        })
+        this.dealListDom(data,'Click_major','storelist_ko_item',true);
       }else if(page==='kolist'){
-        let newKeys =this.getActionKeyList(data,'click_ko_item','kolist_ko_item',true);
-        this.chart.selectAll('.textWrap1 .textVal').nodes().map((item,i)=>{
-          if(i<5){
-            return item.setAttribute('data-name',newKeys[i].actionKeyId)
-          }
-        })
-        this.chart.selectAll('.textWrap2 .textVal').nodes().map((item,i)=>{
-          if(i<5){
-            return item.setAttribute('data-name',newKeys[i].actionKeyId)
-          }
-        })
-        this.chart.selectAll('.textWrap3 .textVal').nodes().map((item,i)=>{
-          if(i<5){
-            return item.setAttribute('data-name',newKeys[i].actionKeyId)
-          }
-        })
-        this.chart.selectAll('.textWrap1 .textVal').text(function(){
-          const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-          if(val) return val.name;
-        })
-        this.chart.selectAll('.textWrap3 .textVal').text(function(){
-          const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-          if(val) return val.clickNum;
-        })
-        this.chart.selectAll('.textWrap2 .textVal').style('fill',function(){
-          const val = newKeys.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-          if(val) return val.color;
-        })
+        this.dealListDom(data,'click_ko_item','kolist_ko_item',true);
       }
-      const colorArr = this.getColorFn(data);
-      this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
-      this.chart.selectAll('.textWrap1 text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
+
       // 修改数据
       this.chart.selectAll('.text').text(function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
@@ -213,7 +197,6 @@ class KoDetailPage extends React.Component {
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
         if(val) return val.color;
       })
-      
       .on('mouseover', KoDetailPage.that.drewTip(data))
       .on('mouseout', tip.hide)
       .on('mousemove', tip.show);
