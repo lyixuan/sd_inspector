@@ -45,13 +45,13 @@ class BehaviorPath1 extends React.Component {
     const pathParams = JSON.parse(localStorage.getItem("pathParams"))
     const target = pathParams.target
     const locationParams = pathParams.record
-    if (target.indexOf("im") != -1) {
+    if (target.indexOf("im") == 0) {
       this.state.activeKey = "im"
-    } else if (target.indexOf("bbs") != -1) {
+    } else if (target.indexOf("bbs") == 0) {
       this.state.activeKey = "bbs"
-    } else if (target.indexOf("wechat") != -1) {
+    } else if (target.indexOf("wechat") == 0) {
       this.state.activeKey = "wechat"
-    } else if (target.indexOf("study") != -1) {
+    } else if (target.indexOf("study") == 0) {
       this.state.activeKey = "study"
     }
 
