@@ -80,8 +80,8 @@ class KoDetailPage extends React.Component {
         new_click.name=item.name;
         new_click.clickNum+=Number(item.clickNum);
         new_click.clickPeople+=Number(item.clickPeople);
-        new_click.clickNumPro+=Number(item.clickNumPro);
-        new_click.clickPeoplePro+=Number(item.clickPeoplePro);
+        new_click.clickNumPro+=Number(item.clickNumPro).toFixed(2);
+        new_click.clickPeoplePro+=Number(item.clickPeoplePro).toFixed(2);
       })
       data.push(new_click)
     }
@@ -116,30 +116,32 @@ class KoDetailPage extends React.Component {
   }
   dealListDom = (data,actionKey,id,bol)=>{
     let newKeys = this.getActionKeyList(data,actionKey,id,bol);
-    this.chart.selectAll('.textWrap1 .textVal').nodes().map((item,i)=>{
-      return item.setAttribute('data-name',newKeys[i].actionKeyId)
-    })
-    this.chart.selectAll('.textWrap2 .textVal').nodes().map((item,i)=>{
-      return item.setAttribute('data-name',newKeys[i].actionKeyId)
-    })
-    this.chart.selectAll('.textWrap3 .textVal').nodes().map((item,i)=>{
-      return item.setAttribute('data-name',newKeys[i].actionKeyId)
-    })
-    this.chart.selectAll('.textWrap1 .textVal').text(function(){
-      const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-      if(val) return val.name;
-    })
-    this.chart.selectAll('.textWrap3 .textVal').text(function(){
-      const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-      if(val) return val.clickNum;
-    })
-    this.chart.selectAll('.textWrap2 .textVal').style('fill',function(){
-      const val = newKeys.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-      if(val) return val.color;
-    })
-    .on('mouseover', KoDetailPage.that.drewTip(data))
-    .on('mouseout', tip.hide)
-    .on('mousemove', tip.show);
+    if(newKeys.length){
+      this.chart.selectAll('.textWrap1 .textVal').nodes().map((item,i)=>{
+        return item.setAttribute('data-name',newKeys[i].actionKeyId)
+      })
+      this.chart.selectAll('.textWrap2 .textVal').nodes().map((item,i)=>{
+        return item.setAttribute('data-name',newKeys[i].actionKeyId)
+      })
+      this.chart.selectAll('.textWrap3 .textVal').nodes().map((item,i)=>{
+        return item.setAttribute('data-name',newKeys[i].actionKeyId)
+      })
+      this.chart.selectAll('.textWrap1 .textVal').text(function(){
+        const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
+        if(val) return val.name;
+      })
+      this.chart.selectAll('.textWrap3 .textVal').text(function(){
+        const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
+        if(val) return val.clickNum;
+      })
+      this.chart.selectAll('.textWrap2 .textVal').style('fill',function(){
+        const val = newKeys.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
+        if(val) return val.color;
+      })
+      .on('mouseover', KoDetailPage.that.drewTip(data))
+      .on('mouseout', tip.hide)
+      .on('mousemove', tip.show);
+    }
   }
   drewLended = (data,page) => {
     if(data&&data.length){
