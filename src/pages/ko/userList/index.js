@@ -149,6 +149,7 @@ class UserList extends React.Component {
   componentDidMount() {
     this.getInitParams();
     this.queryData();
+    console.log(this.props)
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.tabFromParams) !== JSON.stringify(this.props.tabFromParams)) {
@@ -173,9 +174,14 @@ class UserList extends React.Component {
     });
 
   };
+  getLocationParams = () => {
+    const { location: { state = {} } } = this.props;
+    return state
+  }
   queryData = (params = this.props.tabFromParams, pageParams = this.state.pageParams) => {
     if (!params || JSON.stringify(params) === '{}') return;
-    const newParams = { ...params.formParams, ...pageParams };
+    const localtionParams = this.getLocationParams()
+    const newParams = { ...params.formParams, ...pageParams, ...localtionParams };
     this.props.dispatch({
       type: 'userListModel/getTableList',
       payload: { params: newParams },
