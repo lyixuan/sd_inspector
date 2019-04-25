@@ -57,13 +57,16 @@ export default class ButtonGroup extends React.Component {
         const { isShowFiexd } = this.state;
         const orgName = item.map(item => item.name).join('/');
         return (<span key={orgName} className={styles.tags}><Tag closable={!isShowFiexd} onClose={() => !isShowFiexd ? this.onClose(key, item) : null}>{orgName}</Tag></span>)
-
     }
-    renderTypeTage = (obj, key, color = '#F4F4F4') => {
+    renderTypeTage = (obj, key, color = '#F4F4F4') => (type) => {
         const { isShowFiexd } = this.state;
+        if (type === 'custorm' && typeof obj === 'object') {
+            return (<span key={obj.name + obj.value} className={styles.tags}><Tag closable={!isShowFiexd} color={color} onClose={() => !isShowFiexd ? this.onClose(key, obj) : null}>{obj.name}</Tag></span>)
+        }
         if (obj.value === null || obj.value === undefined) return null;
         return (<span key={obj.name + obj.value} className={styles.tags}><Tag closable={!isShowFiexd} color={color} onClose={() => !isShowFiexd ? this.onClose(key, obj) : null}>{obj.name}</Tag></span>)
     }
+
     checkoutTypeTage = (key, item) => {
         let returnDom = null;
         switch (key) {
@@ -77,37 +80,37 @@ export default class ButtonGroup extends React.Component {
                 returnDom = (Array.isArray(item) && item.length > 0) ? this.renderDateTags(item, 'registerTime', '注册时间', 1) : null
                 break;
             case 'choiceLessonStatus':
-                returnDom = item ? this.renderTypeTage(item, 'choiceLessonStatus') : null
+                returnDom = item ? this.renderTypeTage(item, 'choiceLessonStatus')() : null
                 break;
             case 'publicLesson':
-                returnDom = item ? this.renderTypeTage(item, 'publicLesson') : null
+                returnDom = item ? this.renderTypeTage(item, 'publicLesson')() : null
                 break;
             case 'publicChoiceLessonTime':
                 returnDom = (Array.isArray(item) && item.length > 0) ? this.renderDateTags(item, 'publicChoiceLessonTime', '公共课选课时间', 2) : null
                 break;
             case 'certificateChoiceLesson':
-                returnDom = item ? this.renderTypeTage(item, 'certificateChoiceLesson') : null
+                returnDom = item ? this.renderTypeTage(item, 'certificateChoiceLesson')() : null
                 break;
             case 'certificateChoiceLessonTime':
                 returnDom = (Array.isArray(item) && item.length > 0) ? this.renderDateTags(item, 'certificateChoiceLessonTime', '资格证选课时间', 3) : null
                 break;
             case 'attendanceStatus':
-                returnDom = item ? this.renderTypeTage(item, 'attendanceStatus') : null
+                returnDom = item ? this.renderTypeTage(item, 'attendanceStatus')() : null
                 break;
             case 'attendanceNum':
-                returnDom = item ? this.renderTypeTage(item, 'attendanceNum') : null
+                returnDom = item ? this.renderTypeTage(item, 'attendanceNum')('custorm') : null
                 break;
             case 'listenLessonTime':
-                returnDom = item ? this.renderTypeTage(item, 'listenLessonTime') : null
+                returnDom = item ? this.renderTypeTage(item, 'listenLessonTime')('custorm') : null
                 break;
             case 'payOrder':
-                returnDom = item ? this.renderTypeTage(item, 'payOrder') : null
+                returnDom = item ? this.renderTypeTage(item, 'payOrder')() : null
                 break;
             case 'orderMoney':
-                returnDom = item ? this.renderTypeTage(item, 'orderMoney') : null
+                returnDom = item ? this.renderTypeTage(item, 'orderMoney')('custorm') : null
                 break;
             case 'koOrderGap':
-                returnDom = item ? this.renderTypeTage(item, 'koOrderGap') : null
+                returnDom = item ? this.renderTypeTage(item, 'koOrderGap')('custorm') : null
                 break;
             case 'frontBelong':
                 returnDom = item ? this.renderGrouptags(item, 'frontBelong') : null
@@ -151,10 +154,9 @@ export default class ButtonGroup extends React.Component {
         this.setState({ expand: !expand });
     };
     render() {
-        const { isShowFiexd, expand, is2Lines } = this.state;
+        const { isShowFiexd } = this.state;
         const children = this.renderChooseTags();
         const isHasChoose = children.filter(item => item).length > 0;
-
 
 
         return (

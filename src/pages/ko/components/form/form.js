@@ -150,7 +150,6 @@ class CommonForm extends React.Component {
     const { params, usersData } = this.props;
     const { getFieldDecorator } = this.props.form;
 
-
     return (
       <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
         <Form

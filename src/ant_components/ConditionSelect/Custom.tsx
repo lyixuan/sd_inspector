@@ -88,7 +88,6 @@ export default class Custom extends React.Component<any> {
             this.onError('请选择过滤条件');
             return
         }
-
         this.props.onClickOk && this.hanldData(this.props.onClickOk)
     }
     public hanldData = (fun: (params: any) => {}) => {
