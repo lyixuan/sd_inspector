@@ -6,8 +6,8 @@ class PathUserInfo extends React.Component {
     super(props);
   }
   render() {
-    const info = this.props.info
-    console.log(9, this.props.info)
+    const info = this.props.info;
+    console.log(9, this.props.info);
     return (
       <div className={styles.personIntro}>
         <img className={styles.avatar} src={avatarStudent} />
@@ -18,7 +18,7 @@ class PathUserInfo extends React.Component {
           </li>
           <li>
             <label>性别：</label>
-            <span>{info.sex.toLowerCase() === "female" ? "女" : "男"}</span>
+            <span>{info.sex.toLowerCase() === 'female' ? '女' : '男'}</span>
           </li>
           <li>
             <label>年龄：</label>
@@ -30,21 +30,21 @@ class PathUserInfo extends React.Component {
           </li>
           <li>
             <label>学院：</label>
-            <span>自变量学院</span>
+            <span>{info.collegeName}</span>
           </li>
           <li>
             <label>家族：</label>
-            <span>汉专</span>
+            <span>{info.familyName}</span>
           </li>
           <li>
             <label>小组：</label>
-            <span>运营一组</span>
+            <span>{info.groupName}</span>
           </li>
         </ul>
         <ul className={styles.intro}>
           <li>
             <label>来源：</label>
-            <span>{info.userFromApp == 1 ? "极速APP" : "主APP"}</span>
+            <span>{info.userFromApp == 1 ? '极速APP' : '主APP'}</span>
           </li>
           <li>
             <label>设备：</label>
@@ -52,11 +52,11 @@ class PathUserInfo extends React.Component {
           </li>
           <li>
             <label>注册状态：</label>
-            <span>{info.registerStatus == 1 ? "已注册" : "未注册"}</span>
+            <span>{info.registerStatus == 1 ? '已注册' : '未注册'}</span>
           </li>
           <li>
             <label>选课状态：</label>
-            <span>{info.choiceLessonStatus == 1 ? "已选课" : "未选课"}</span>
+            <span>{info.choiceLessonStatus == 1 ? '已选课' : '未选课'}</span>
           </li>
           {/* <li>
             <label>新老用户：</label>

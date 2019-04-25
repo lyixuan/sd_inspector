@@ -1,12 +1,12 @@
 import { message } from 'antd';
 import { sankeySuperApi } from '@/pages/ko/behaviorAnalyze/services';
 
-function getData(dataList,dataArr){
-  const dataObj={};
-  dataArr.forEach(item=>{
-    dataObj[item]=[];
-    dataList.forEach(item1=>{
-      dataObj[item].push({name:item1,value:item1[item]})
+function getData(dataList, dataArr) {
+  const dataObj = {};
+  dataArr.forEach(item => {
+    dataObj[item] = [];
+    dataList.forEach(item1 => {
+      dataObj[item].push({ name: item1, value: item1[item] })
     });
   })
   return dataObj;
@@ -28,15 +28,18 @@ export default {
       const params = payload.params;
       const formParams = payload.formParams;
       const otherParams = payload.otherParams;
-      const result = yield call(sankeySuperApi, {params,formParams,otherParams});
+      const result = yield call(sankeySuperApi, { params, formParams, otherParams });
       if (result) {
-        console.log('result',result)
-        const {behaviourData = {},sankeyData={},pvuvData} = result.data || [];
-        yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj} });
-        yield put({ type: 'saveBehaviourData', payload: { behaviourData:behaviourData.barActionEventData}});
-        yield put({ type: 'save', payload: { upPage: sankeyData.upPage,downPage:sankeyData.downPage,currentPage: sankeyData.currentPage} });
+        const { behaviourData = {}, sankeyData = {}, pvuvData, userSize } = result.data || [];
+        yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj } });
+        yield put({ type: 'saveBehaviourData', payload: { behaviourData: behaviourData.barActionEventData } });
+        yield put({ type: 'save', payload: { upPage: sankeyData.upPage, downPage: sankeyData.downPage, currentPage: sankeyData.currentPage } });
+        yield put({
+          type: 'koPlan/saveUserData',
+          payload: { usersData: { totalCount: userSize } }
+        })
       } else {
-          message.error(result.msg);
+        message.error(result.msg);
       }
     },
   },
@@ -46,7 +49,7 @@ export default {
       return { ...state, ...payload };
     },
     saveBehaviourData(state, { payload }) {
-      const {behaviourData}=payload;
+      const { behaviourData } = payload;
       // const behaviourData= [ {
       //   "name": "aute fugiat aliquip",
       //   "actionKey": "non ipsum",
@@ -62,15 +65,15 @@ export default {
       //   "choiceLessonPercent": "et"
       // }]
       // 数组的字符串跟接口返回的字段一致，否则option那块取值报错
-      let newData=[]
-      if(behaviourData){
-        newData=getData(behaviourData,['name','clickNum','choiceLessonPercent'])
+      let newData = []
+      if (behaviourData) {
+        newData = getData(behaviourData, ['name', 'clickNum', 'choiceLessonPercent'])
       }
 
-      return { ...state,behaviourData:newData };
+      return { ...state, behaviourData: newData };
     },
     saveDataList(state, { payload }) {
-      const {hotDataList}=payload;
+      const { hotDataList } = payload;
       // const hotDataList=[]
       // for(let i=0;i<15;i++){
       //   hotDataList.push({
@@ -83,21 +86,27 @@ export default {
       //   })
       // }
       // return { ...state, hotDataList};
-      const {actionKeyIds} = hotDataList;
-      if(actionKeyIds&&actionKeyIds.length){
-        hotDataList.newIds=[];
-        actionKeyIds.forEach((item,i) => {
+      const { actionKeyIds } = hotDataList;
+      if (actionKeyIds && actionKeyIds.length) {
+        hotDataList.newIds = [];
+        actionKeyIds.forEach((item, i) => {
           hotDataList.newIds.push({
-            name:item.actionName,
-            actionKeyId:item.actionKeyId,
-            clickPeople:item.clickPeople,//点击人数
-            peopoleRate:item.clickPeoplePro,//人数占比
-            clickCountPre:item.clickNum,//点击次数
-            countRate:item.clickNumPro,//次数占比
+            actionKey: item.actionKey,
+            name: item.actionName,
+            actionKeyId: item.actionKeyId,
+            clickPeople: item.clickPeople,//点击人数
+            clickPeoplePro: item.clickPeoplePro,//人数占比
+            clickNum: item.clickNum,//点击次数
+            clickNumPro: item.clickNumPro,//次数占比
           })
         })
       }
+<<<<<<< HEAD
       return { ...state,hotDataList };
+=======
+      console.log(hotDataList)
+      return { ...state, hotDataList };
+>>>>>>> origin/development
     }
   },
 

@@ -17,6 +17,7 @@ import CommonForm from './components/form';
   enumData: koPlan.enumData,
   KOMessage: koPlan.KOMessage,
   pageDetailInfo: koPlan.pageDetailInfo,
+  usersData: koPlan.usersData,
   isLoadEnumData: loading.effects['koPlan/pageParams'],
 }))
 class koPlan extends React.Component {
@@ -104,7 +105,7 @@ class koPlan extends React.Component {
         {/*------- 公共 form 部分 --------*/}
         {(pathname === '/ko/behaviorPath') ? null : <> <div className={styles.commonBox}>
           <Spin tip="Loading..." spinning={isLoadEnumData}>
-            <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} />
+            <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} usersData={this.props.usersData} />
           </Spin>
         </div>
           <div className={styles.tabBox}>

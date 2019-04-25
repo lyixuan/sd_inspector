@@ -27,7 +27,7 @@ class BehaviorPath1 extends React.Component {
   }
 
   getDateList = () => {
-    let stuId = this.props.location.params.record.userId
+    let stuId = JSON.parse(localStorage.getItem("pathParams")).record.userId
     this.props.dispatch({
       type: 'behaviorPath/getDateList',
       payload: { stuId: stuId },
@@ -39,8 +39,12 @@ class BehaviorPath1 extends React.Component {
   }
 
   render() {
-    const target = this.props.location.params.target
-    const locationParams = this.props.location.params.record
+    if (this.props.location.params) {
+      localStorage.setItem("pathParams", JSON.stringify(this.props.location.params))
+    }
+    const pathParams = JSON.parse(localStorage.getItem("pathParams"))
+    const target = pathParams.target
+    const locationParams = pathParams.record
     if (target.indexOf("im") != -1) {
       this.state.activeKey = "im"
     } else if (target.indexOf("bbs") != -1) {
@@ -53,7 +57,7 @@ class BehaviorPath1 extends React.Component {
 
     return (
       <div className={styles.behaviorPath}>
-        <div className={styles.headBar}></div>
+        <div className={styles.headBar}>用户行为轨迹</div>
         <div className={styles.tabBox}>
           <BITabs onChange={this.onTabChange} type="card" animated={false} defaultActiveKey={this.state.activeKey}>
             <TabPane tab="学习" key="study">
