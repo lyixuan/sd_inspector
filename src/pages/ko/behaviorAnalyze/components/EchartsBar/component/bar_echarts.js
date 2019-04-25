@@ -15,6 +15,14 @@ const config = {
   },
 };
 export function options(data,date){
+  // 处理name值为null的异常
+  if(data.name){
+    for(let i=0;i<data.name.length;i++){
+      if(!data.name[i].value){
+        data.name[i].value=i
+      }
+    }
+  }
   return  {
     grid: {
       top: 30,
@@ -37,7 +45,7 @@ export function options(data,date){
         let tipItem='';
         if(params&&params.length){
           for(let i=0;i<params.length;i++){
-            tipItem += `<div class="tipItem"><span class="tipIcon" style="background-color:${params[i].color}"></span><span>${params[i].seriesName}：${params[i].value}${i===0?'次':'%'}</span></div>`
+            tipItem += `<div class="tipItem"><span class="tipIcon" style="background-color:${params[i].color}"></span><span>${params[i].seriesName}：${params[i].value}${i===0?'次':''}</span></div>`
           }
         }
         return `<div class="tipWrap"><div>${date}</div>${tipItem}</div>`;
