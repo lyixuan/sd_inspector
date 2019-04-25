@@ -102,7 +102,7 @@ var Custom = /** @class */ (function (_super) {
             var _a = _this.state, baseInputValue = _a.baseInputValue, startValue = _a.startValue, endValue = _a.endValue, selected = _a.selected, unit = _a.unit;
             var returnObj = {};
             if (selected.type === 6) {
-                if (!startValue || !endValue) {
+                if (!startValue || !endValue || startValue === '-' || endValue === '-') {
                     _this.onError('请输入正确数字');
                     return;
                 }
@@ -123,7 +123,7 @@ var Custom = /** @class */ (function (_super) {
                 fun(returnObj);
             }
             else {
-                if (!baseInputValue) {
+                if (!baseInputValue || baseInputValue === '-') {
                     _this.onError('请输入正确数字');
                     return;
                 }

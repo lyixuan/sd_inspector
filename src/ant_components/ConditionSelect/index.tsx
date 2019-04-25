@@ -114,6 +114,7 @@ export default class Condition extends React.Component<Props, State, object>{
         if (params) {
             const hasHandleObj = this.handleOriginOptionsData([params])[0] || {};
             const inputValue = hasHandleObj.name;
+
             this.setState({
                 customObj: params,
                 inputValue

@@ -88,14 +88,13 @@ export default class Custom extends React.Component<any> {
             this.onError('请选择过滤条件');
             return
         }
-
         this.props.onClickOk && this.hanldData(this.props.onClickOk)
     }
     public hanldData = (fun: (params: any) => {}) => {
         const { baseInputValue, startValue, endValue, selected, unit } = this.state;
         let returnObj = {};
         if (selected.type === 6) {
-            if (!startValue || !endValue) { this.onError('请输入正确数字'); return };
+            if (!startValue || !endValue || startValue === '-' || endValue === '-') { this.onError('请输入正确数字'); return };
             if (Number(startValue) > Number(endValue)) { this.onError('后面数字应大于前面'); return };
             returnObj = {
                 type: selected.type,
@@ -107,7 +106,7 @@ export default class Custom extends React.Component<any> {
             }
             fun(returnObj);
         } else {
-            if (!baseInputValue) { this.onError('请输入正确数字'); return }
+            if (!baseInputValue || baseInputValue === '-') { this.onError('请输入正确数字'); return }
             returnObj = {
                 type: selected.type,
                 value: Number(baseInputValue),
