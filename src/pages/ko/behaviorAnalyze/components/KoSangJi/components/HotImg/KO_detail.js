@@ -162,7 +162,6 @@ class KoDetailPage extends React.Component {
       }else if(page==='kolist'){
         this.dealListDom(data,'click_ko_item','kolist_ko_item',true);
       }
-console.log(data,colorArr)
       // 修改数据
       this.chart.selectAll('.text').text(function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
