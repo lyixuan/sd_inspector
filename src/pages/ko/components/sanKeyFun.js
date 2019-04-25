@@ -274,11 +274,12 @@ function getUpSanKeyMap(upPageList, currentPage) {
   return upPage
 }
 
-function getDownSanKeyMap(downPageList, currentPage) {
+function getDownSanKeyMap(downPageList, currentPageObj,currentPage) {
   /**
    * 构造桑吉图要的数据结构，并处理特殊节点
    *
    * 下游桑吉图规则：
+   *  0、先去除非当前页面的根节点
    *  1、节点和连线的id和name取值规则：
    *     actionKeyId值下划线最后一个值大于零，认为是详情页；所有详情页取 actionkeyId 作为node节点的 id。其它取page作为id。name同理
    *  2、是否流向 选课 节点规则：
@@ -290,7 +291,26 @@ function getDownSanKeyMap(downPageList, currentPage) {
   };
 
   const xuankeNode = 'xuankeNode';
-console.log('downPageList 桑吉结构前',downPageList)
+
+  // 当前页的target节点list
+  const currentPageTargetList = currentPageObj.actionKeyIds;
+
+  for (let i = downPageList.length-1; i >=0; i--) {
+    if (downPageList[i].page !== currentPage) {
+      let flag = 0; // 1 改page存在于currentPageTargetList 0 不存在，这种节点要去除
+      currentPageTargetList.forEach((v)=>{
+        if (downPageList[i].page === v.downPage ) {
+          flag = 1;
+        }
+      });
+      if (!flag) {
+        downPageList.splice(i,1)
+      }
+    }
+  }
+
+  console.log('downPageList 桑吉结构前',downPageList)
+
   // 下游桑吉图
   downPage.node.push({ id: currentPage, name: '下游页面' });
   downPage.node.push({ id: xuankeNode, name: '选课' });
@@ -304,7 +324,7 @@ console.log('downPageList 桑吉结构前',downPageList)
           source: v.page,
           target: actionItem.actionKeyId,
           pv: v.pv || 1,
-          zb: actionItem.clickNumPro || '0.00%',
+          zb: actionItem.clickNumPro + '%'|| '0.00%',
           value: actionItem.clickNum || 1,
         });
         // 如果target节点包含KO_LIST_ACTION ，则再增加一个target节点到 选课节点的连接
@@ -313,7 +333,7 @@ console.log('downPageList 桑吉结构前',downPageList)
             source: actionItem.actionKeyId,
             target: xuankeNode,
             pv: actionItem.clickNum || 1,
-            zb: actionItem.clickNumPro || '0.00%',
+            zb: actionItem.clickNumPro + '%'|| '0.00%',
             value: actionItem.clickNum || 1,
           });
         }
@@ -325,7 +345,7 @@ console.log('downPageList 桑吉结构前',downPageList)
           source: v.page,
           target: actionItem.downPage,
           pv: v.pv || 1,
-          zb: actionItem.clickNumPro || '0.00%',
+          zb: actionItem.clickNumPro + '%' || '0.00%',
           value: actionItem.clickNum || 1,
         });
       }
@@ -398,7 +418,7 @@ export function dealResultData({ data1, data2, params }) {
 
   // 构造桑吉图需要的结构，并处理节点。actionKeyId点击量取前十
   const upPage = getUpSanKeyMap(getFirstTen(upPageList),currentPage);
-  const downPage = getDownSanKeyMap(getFirstTen(dealledDownPageList),currentPage);
+  const downPage = getDownSanKeyMap(getFirstTen(dealledDownPageList),currentPageObj,currentPage);
 
   return {
     upPage,
