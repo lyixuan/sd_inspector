@@ -6,10 +6,9 @@ import TitleName  from './component/titleName';
 
 class BarEcharts extends React.Component {
   eConsole = (e) => {
-    // console.log(e.data.name)
     this.props.history.push({
       pathname:'/ko/userList',
-      // query:{e.data.name.}
+      query:{actionKey:e.data.name.actionKey}
     });
  };
   render() {
