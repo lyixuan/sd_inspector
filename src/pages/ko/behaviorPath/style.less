@@ -7,9 +7,20 @@
 		height:70px;
 		line-height:70px;
 		border-bottom:1px solid #EBECEF;
-		padding-left:30px;
+		padding-left:10px;
+		font-size:18px;
+		&:before{
+			content: '';
+			display: inline-block;
+			width: 2px;
+			height: 12px;
+			background: #52c9c2;
+			margin: 0 6px 0 20px;
+		}
+		
 	}
-}
+}	
+
 .tabBox{
 	float:left;
 	padding-top:20px;
@@ -379,6 +390,7 @@
 
 .comWrap{
 	padding-top:20px;
+	min-height:100px;
 }
 .comWrap :global .ant-empty{
 	font-size:12px;
