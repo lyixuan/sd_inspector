@@ -7,10 +7,6 @@ import { BiFilter } from '@/utils/utils';
 import style from './style.less';
 import router from 'umi/router';
 
-function renderContent(value, row, index) {
-  console.log(value, row, index)
-}
-
 function columns() {
   const col = [
     {
