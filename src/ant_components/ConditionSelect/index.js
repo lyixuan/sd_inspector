@@ -152,7 +152,6 @@ var Condition = /** @class */ (function (_super) {
         var _c = this.state, isOpen = _c.isOpen, inputValue = _c.inputValue;
         var hasCustomObj = this.state.customObj ? [this.state.customObj] : [];
         var optionsData = this.handleOriginOptionsData(options.concat(hasCustomObj));
-        console.log(disabled);
         return (react_1.default.createElement(react_1.default.Fragment, null,
             react_1.default.createElement("span", { onClick: function (e) { e.stopPropagation(); } },
                 react_1.default.createElement(antd_1.Dropdown, { disabled: disabled, overlay: this.dropdownRender(optionsData), visible: isOpen, overlayClassName: styles.overlayClassName },

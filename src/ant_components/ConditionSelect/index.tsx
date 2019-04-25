@@ -153,7 +153,6 @@ export default class Condition extends React.Component<Props, State, object>{
         const { isOpen, inputValue } = this.state;
         const hasCustomObj = this.state.customObj ? [this.state.customObj] : []
         const optionsData = this.handleOriginOptionsData([...options, ...hasCustomObj]);
-        console.log(disabled)
         return (
             <>
                 <span onClick={(e) => { e.stopPropagation() }}>

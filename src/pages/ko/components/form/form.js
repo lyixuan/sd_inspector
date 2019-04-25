@@ -7,6 +7,7 @@ import BIButton from '@/ant_components/BIButton';
 import BICascader from '@/ant_components/BICascader/FormCascader';
 import ConditionSelect from '@/ant_components/ConditionSelect';
 import moment from 'moment';
+import { handleDateFormParams } from '../../utils/utils';
 import ButtonGroupCom from '../buttonGroup';
 import styles from './index.less';
 import formStyles from '../formCommon.less';
@@ -33,8 +34,11 @@ class CommonForm extends React.Component {
         const newParams = expand ? { ...values } : { ...others };
         this.props.onSubmit(newParams)
       }
-
     });
+  }
+  resertDatePacker = (key) => {
+    const dataObj = this.resertDate(key);
+    this.props.form.setFieldsValue(dataObj);
 
   }
   onDelete = (name, value) => {
@@ -45,8 +49,15 @@ class CommonForm extends React.Component {
     }
   }
   handleReset = () => {
-    this.props.form.resetFields();
+    const dataObj = this.resertDate();
+    const values = this.props.form.getFieldsValue();
+    const resertObj = {}
+    Object.keys(values).forEach(item => {
+      resertObj[item] = undefined;
+    });
+    this.props.form.setFieldsValue({ ...resertObj, ...dataObj });
   }
+
   toggle = () => {
     const { expand } = this.state;
     this.setState({ expand: !expand });
@@ -59,27 +70,67 @@ class CommonForm extends React.Component {
     let returnData = [];
     if (type >= 1 && type <= 10) {
       if (type === 5) {
-        return Array.isArray(enumData[type]) ? enumData[type].map(item => ({ ...item, value: item.id })) : [];
+        return Array.isArray(enumData[type]) ? enumData[type].map(item => ({ ...item, value: item.name })) : [];
       }
       returnData = Array.isArray(enumData[type]) ? enumData[type] : [];
     }
     return returnData;
   }
-  checkoutHasChooseClass = () => {
+  checkoutHasChooseClass = (keyname) => {
     const { getFieldValue } = this.props.form;
-    const params = getFieldValue('choiceLessonStatus') || {};
-    return params.value ? Number(params.value) === 0 : false;
+    const choiceLessonStatus = getFieldValue('choiceLessonStatus') || {};
+    const publicLesson = getFieldValue('publicLesson') || {};
+    const certificateChoiceLesson = getFieldValue('certificateChoiceLesson') || {};
+    let disable = false;
+    switch (keyname) {
+      case 'publicLesson':
+        disable = Number(choiceLessonStatus.value) === 0
+        break;
+      case 'publicChoiceLessonTime':
+        disable = Number(choiceLessonStatus.value) === 0 || Number(publicLesson.value) === 0;
+        break;
+      case 'certificateChoiceLesson':
+        disable = Number(choiceLessonStatus.value) === 0;
+        break;
+      case 'certificateChoiceLessonTime':
+        disable = Number(choiceLessonStatus.value) === 0 || certificateChoiceLesson.value === 'javascript';
+        break;
+      default:
+        break;
+    }
+    return disable
   }
   checkoutHasAttendanceStatus = () => {
     const { getFieldValue } = this.props.form;
     const params = getFieldValue('attendanceStatus') || {};
-    console.log(params)
     return Number(params.value) === 3
+  }
+  resertDate = (key) => {
+    const { pageParams } = this.props
+    const { KoDateRange = {} } = pageParams || {};
+    let returnObj = {};
+    const dateObj = handleDateFormParams(KoDateRange);
+    if (key) {
+      returnObj[key] = dateObj[key];
+    } else {
+      returnObj = dateObj;
+    }
+    return returnObj
   }
   disabledDate = (current, keyName) => {
     const dateArr = this.props.originParams[keyName] || [];
     const [startTime, endTime] = dateArr;
     return current.isBefore(moment(startTime)) || current.isAfter(moment(endTime))
+  }
+  changeDate = (value, key) => {
+    if (!value || value.length === 0) {
+      const dateObj = this.resertDate(key);
+      setTimeout(() => {
+        this.props.form.setFieldsValue({ ...dateObj });
+      }, 0)
+
+    }
+
   }
   renderCascader = (label) => {
     if (Array.isArray(label) && label.length === 0) return;
@@ -147,7 +198,11 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('registerTime', {
                   initialValue: params.registerTime,
                 })(
-                  <BIRangePicker placeholder={["起始时间", "截止时间"]} format={dateFormat} disabledDate={(current) => this.disabledDate(current, 'registerTime')} />
+                  <BIRangePicker
+                    placeholder={["起始时间", "截止时间"]}
+                    format={dateFormat}
+                    disabledDate={(current) => this.disabledDate(current, 'registerTime')}
+                    onChange={(value) => this.changeDate(value, 'registerTime')} />
                 )}
               </Form.Item>
             </div>
@@ -172,7 +227,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('publicLesson', {
                   initialValue: params.publicLesson,
                 })(
-                  <BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass()}>
+                  <BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass('publicLesson')}>
                     {this.filterEnumData(4).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                   </BISelect>
                 )}
@@ -183,7 +238,13 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('publicChoiceLessonTime', {
                   initialValue: params.publicChoiceLessonTime,
                 })(
-                  <BIRangePicker placeholder={["起始时间", "截止时间"]} format={dateFormat} disabled={this.checkoutHasChooseClass()} disabledDate={(current) => this.disabledDate(current, 'publicChoiceLessonTime')} />
+                  <BIRangePicker
+                    placeholder={["起始时间", "截止时间"]}
+                    format={dateFormat}
+                    disabled={this.checkoutHasChooseClass('publicChoiceLessonTime')}
+                    disabledDate={(current) => this.disabledDate(current, 'publicChoiceLessonTime')}
+                    onChange={(value) => this.changeDate(value, 'publicChoiceLessonTime')}
+                  />
                 )}
               </Form.Item>
             </div>
@@ -192,7 +253,8 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('certificateChoiceLesson', {
                   initialValue: params.certificateChoiceLesson,
                 })(
-                  <BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass()}>
+                  <BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass('certificateChoiceLesson')}>
+                    <Option key='javascript' value="javascript">无</Option>
                     {this.filterEnumData(5).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                   </BISelect>
                 )}
@@ -203,7 +265,11 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('certificateChoiceLessonTime', {
                   initialValue: params.certificateChoiceLessonTime,
                 })(
-                  <BIRangePicker placeholder={["起始时间", "截止时间"]} format={dateFormat} disabled={this.checkoutHasChooseClass()} disabledDate={(current) => this.disabledDate(current, 'certificateChoiceLessonTime')} />
+                  <BIRangePicker
+                    placeholder={["起始时间", "截止时间"]}
+                    format={dateFormat} disabled={this.checkoutHasChooseClass('certificateChoiceLessonTime')}
+                    onChange={(value) => this.changeDate(value, 'certificateChoiceLessonTime')}
+                    disabledDate={(current) => this.disabledDate(current, 'certificateChoiceLessonTime')} />
                 )}
               </Form.Item>
             </div>

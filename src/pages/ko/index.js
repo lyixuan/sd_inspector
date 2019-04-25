@@ -97,7 +97,7 @@ class koPlan extends React.Component {
     });
   };
   render() {
-    const { enumData, isLoadEnumData, location: { pathname } } = this.props;
+    const { enumData, pageParams, isLoadEnumData, location: { pathname } } = this.props;
     const { originParams, filterActionParams } = this.state;
 
     return (
@@ -105,7 +105,7 @@ class koPlan extends React.Component {
         {/*------- 公共 form 部分 --------*/}
         {(pathname === '/ko/behaviorPath') ? null : <> <div className={styles.commonBox}>
           <Spin tip="Loading..." spinning={isLoadEnumData}>
-            <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} usersData={this.props.usersData} />
+            <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} usersData={this.props.usersData} pageParams={pageParams} />
           </Spin>
         </div>
           <div className={styles.tabBox}>
