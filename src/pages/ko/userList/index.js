@@ -17,7 +17,6 @@ function columns() {
     {
       title: '注册状态',
       dataIndex: 'registerStatus',
-      // render: renderContent
       render: (text, record) => {
         return (
           <>
@@ -192,138 +191,7 @@ class UserList extends React.Component {
     console.log(e.currentTarget, record)
   }
 
-<<<<<<< HEAD
-  columns() {
-    const col = [
-      {
-        title: '学员',
-        dataIndex: 'userName',
-      },
-      {
-        title: '注册状态',
-        dataIndex: 'registerStatus',
-        render: (text, record) => {
-          return (
-            <>
-              {BiFilter(`REGISTER_STATUS|id:${record.registerStatus}`).name}
-            </>
-          );
-        },
-      },
-      {
-        title: '选课状态',
-        dataIndex: 'choiceLessonStatus',
-        render: (text, record) => {
-          return (
-            <>
-              {BiFilter(`CHOISE_STATUS|id:${record.choiceLessonStatus}`).name}
-            </>
-          );
-        },
-      },
-      {
-        title: '选课时间',
-        dataIndex: 'choiceLessonTime',
-      },
-      {
-        title: '订单时间',
-        dataIndex: 'orderTime',
-      },
-      {
-        title: '出勤次数',
-        dataIndex: 'attendenceCount',
-      },
-      {
-        title: '做题数量',
-        dataIndex: 'studyExeciseNum',
-      },
-      {
-        title: 'IM咨询次数',
-        dataIndex: 'imDialogueNum',
-      },
-      {
-        title: 'IM老师主动发起量',
-        dataIndex: 'imTeacherChatNum',
-      },
-      {
-        title: 'IM学员主动发起量',
-        dataIndex: 'imStudentChatNum',
-      },
-      {
-        title: '排队次数',
-        dataIndex: 'imQueueDialogueNum',
-      },
-      {
-        title: '留言次数',
-        dataIndex: 'imMessageDialogueNum',
-      },
-      {
-        title: '发帖数量',
-        dataIndex: 'bbsPostNum',
-      },
-      {
-        title: '跟帖数量',
-        dataIndex: 'bbsFollowNum',
-      },
-      {
-        title: '微信咨询次数',
-        dataIndex: 'wechatDialogueNum',
-      },
-      {
-        title: '微信老师主动发起量',
-        dataIndex: 'wechatTeacherChatNum',
-      },
-      {
-        title: '微信学员主动发起量',
-        dataIndex: 'wechatStudentChatNum',
-      },
-    ];
-    col.forEach((v) => {
-      v.onCell = (record, rowIndex) => {
-        return {
-          onClick: (event) => {
-            router.push({
-              pathname: '/ko/behaviorPath',
-              params: { record, target: v.dataIndex }
-            });
-          },
-        };
-      };
-      if (v.dataIndex !== 'orderTime') {
-        v.render = (text) => {
-          return (
-            <>
-              <span style={{ cursor: 'pointer' }}>{text}</span>
-            </>
-          );
-        };
-      } else {
-        v.render = (text) => {
-          // const content = (
-          //   <div>
-          //     {text}
-          //   </div>
-          // );
-          // return (
-          //   <>
-          //     <span className={style.blankBox} style={{ cursor: 'pointer' }}>{text}</span>
-          //     <Popover content={content}>
-          //       <Button className={style.blankBox}>{text}</Button>
-          //     </Popover>
-          //   </>
-          // );
-          return (
-            <>
-              <span className={style.blankBox}>{text}</span>
-            </>
-          );
-        };
-      }
-    });
-    return col;
-  };
-=======
->>>>>>> origin/development
+
 
   render() {
     const { userList, page = {} } = this.props.userListModel;

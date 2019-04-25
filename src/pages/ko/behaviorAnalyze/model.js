@@ -101,12 +101,7 @@ export default {
           })
         })
       }
-<<<<<<< HEAD
-      return { ...state,hotDataList };
-=======
-      console.log(hotDataList)
       return { ...state, hotDataList };
->>>>>>> origin/development
     }
   },
 

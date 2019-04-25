@@ -146,13 +146,14 @@ var Condition = /** @class */ (function (_super) {
         return options;
     };
     Condition.prototype.render = function () {
-        var _a = this.props.options, options = _a === void 0 ? [] : _a;
-        var _b = this.state, isOpen = _b.isOpen, inputValue = _b.inputValue;
+        var _a = this.props, _b = _a.options, options = _b === void 0 ? [] : _b, disabled = _a.disabled;
+        var _c = this.state, isOpen = _c.isOpen, inputValue = _c.inputValue;
         var hasCustomObj = this.state.customObj ? [this.state.customObj] : [];
         var optionsData = this.handleOriginOptionsData(options.concat(hasCustomObj));
+        console.log(disabled);
         return (react_1.default.createElement(react_1.default.Fragment, null,
             react_1.default.createElement("span", { onClick: function (e) { e.stopPropagation(); } },
-                react_1.default.createElement(antd_1.Dropdown, { overlay: this.dropdownRender(optionsData), visible: isOpen, overlayClassName: styles.overlayClassName },
+                react_1.default.createElement(antd_1.Dropdown, { disabled: disabled, overlay: this.dropdownRender(optionsData), visible: isOpen, overlayClassName: styles.overlayClassName },
                     react_1.default.createElement("div", { className: styles.selectCotainer, onClick: this.onOpen },
                         react_1.default.createElement("div", { className: styles.chooseContent },
                             !inputValue ? react_1.default.createElement("div", { className: styles.placeholder }, "\u8BF7\u9009\u62E9") : null,
