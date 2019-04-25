@@ -2,15 +2,7 @@ import React from 'react';
 import * as d3 from 'd3';
 import {HOT_RANGE} from '@/utils/constants';
 import pages from './SVG';
-// import {
-//   homepage,
-//   storelist,
-//   studypage,
-//   kogoodsdetail,
-//   kolist,
-//   majordetail} from './SVG';
-  import styles from './style.less';
-import { func } from 'prop-types';
+import styles from './style.less';
 
 let tip={}
 class KoDetailPage extends React.Component {
@@ -50,7 +42,6 @@ class KoDetailPage extends React.Component {
     }
     tip.show = function() {
       const id = d3.select(this).attr('data-name');
-      console.log(id)
       const { pageX, pageY } = d3.event;
       div
         .style('display', 'block')
@@ -133,19 +124,13 @@ class KoDetailPage extends React.Component {
   dealListDom = (data,actionKey,id,bol)=>{
     let newKeys = this.getActionKeyList(data,actionKey,id,bol);
     this.chart.selectAll('.textWrap1 .textVal').nodes().map((item,i)=>{
-      // if(i<4){
-        return item.setAttribute('data-name',newKeys[i].actionKeyId)
-      // }
+      return item.setAttribute('data-name',newKeys[i].actionKeyId)
     })
     this.chart.selectAll('.textWrap2 .textVal').nodes().map((item,i)=>{
-      // if(i<4){
-        return item.setAttribute('data-name',newKeys[i].actionKeyId)
-      // }
+      return item.setAttribute('data-name',newKeys[i].actionKeyId)
     })
     this.chart.selectAll('.textWrap3 .textVal').nodes().map((item,i)=>{
-      // if(i<4){
-        return item.setAttribute('data-name',newKeys[i].actionKeyId)
-      // }
+      return item.setAttribute('data-name',newKeys[i].actionKeyId)
     })
     this.chart.selectAll('.textWrap1 .textVal').text(function(){
       const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
@@ -157,7 +142,6 @@ class KoDetailPage extends React.Component {
     })
     this.chart.selectAll('.textWrap2 .textVal').style('fill',function(){
       const val = newKeys.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-      
       if(val) return val.color;
     })
     .on('mouseover', KoDetailPage.that.drewTip(data))
