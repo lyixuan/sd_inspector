@@ -87,6 +87,8 @@ var Condition = /** @class */ (function (_super) {
             return optionsData.find(function (item) { return item.name === key; });
         };
         _this.onOpen = function () {
+            if (_this.props.disabled)
+                return;
             _this.setState({ isOpen: true });
         };
         _this.onDelete = function (e) {
@@ -155,7 +157,7 @@ var Condition = /** @class */ (function (_super) {
             react_1.default.createElement("span", { onClick: function (e) { e.stopPropagation(); } },
                 react_1.default.createElement(antd_1.Dropdown, { disabled: disabled, overlay: this.dropdownRender(optionsData), visible: isOpen, overlayClassName: styles.overlayClassName },
                     react_1.default.createElement("div", { className: styles.selectCotainer, onClick: this.onOpen },
-                        react_1.default.createElement("div", { className: styles.chooseContent },
+                        react_1.default.createElement("div", { className: "" + (disabled ? styles.disableChooseContent : styles.chooseContent) },
                             !inputValue ? react_1.default.createElement("div", { className: styles.placeholder }, "\u8BF7\u9009\u62E9") : null,
                             react_1.default.createElement("div", { className: styles.selectedValue }, inputValue),
                             react_1.default.createElement("span", { className: styles.inputIcon },

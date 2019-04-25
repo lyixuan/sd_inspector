@@ -97,6 +97,7 @@ export default class Condition extends React.Component<Props, State, object>{
         return optionsData.find(item => item.name === key);
     }
     public onOpen = () => {
+        if (this.props.disabled) return;
         this.setState({ isOpen: true });
     }
     public onDelete = (e: any) => {
@@ -163,7 +164,7 @@ export default class Condition extends React.Component<Props, State, object>{
                         overlayClassName={styles.overlayClassName}>
                         {/* <span className="inputPanle"> */}
                         <div className={styles.selectCotainer} onClick={this.onOpen}>
-                            <div className={styles.chooseContent}>
+                            <div className={`${disabled ? styles.disableChooseContent : styles.chooseContent}`}>
                                 {!inputValue ? <div className={styles.placeholder}>请选择</div> : null}
                                 <div className={styles.selectedValue}>{inputValue}</div>
                                 <span className={styles.inputIcon}><Icon type={`${isOpen ? 'up' : 'down'}`} /></span>
