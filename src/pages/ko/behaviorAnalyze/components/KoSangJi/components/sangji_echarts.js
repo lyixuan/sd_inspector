@@ -7,6 +7,7 @@ class SangJiEcharts extends React.Component {
 
   render() {
     const { position = 'left', upPage, downPage, currentPage } = this.props;
+
     const option1 = {
       downPage: {
         node: [
@@ -183,7 +184,7 @@ class SangJiEcharts extends React.Component {
         ]
       }
     }
-    const option = position === 'left' ? option1 : getSangJiDownOption(downPage, currentPage);
+    const option = position === 'left' ? getSangJiUpOption(upPage, currentPage) : option1;
     return (
       <Echart {...this.props} options={option}/>
     );
