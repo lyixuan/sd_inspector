@@ -19,6 +19,7 @@ export default {
     pageParams: {},
     KOMessage: {},
     pageDetailInfo: [],
+    usersData: {},
   },
 
   effects: {
@@ -117,6 +118,9 @@ export default {
     },
     saveTabFromParams(state, { payload }) {
       return { ...state, tabFromParams: payload };
+    },
+    saveUserData(state, { payload }) {
+      return { ...state, ...payload };
     }
   },
   subscriptions: {},

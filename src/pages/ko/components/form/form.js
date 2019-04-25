@@ -90,8 +90,10 @@ class CommonForm extends React.Component {
   }
   render() {
     const { expand } = this.state;
-    const { params } = this.props;
+    const { params, usersData } = this.props;
     const { getFieldDecorator } = this.props.form;
+
+
     return (
       <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
         <Form
@@ -307,7 +309,7 @@ class CommonForm extends React.Component {
             <BIButton type="primary" htmlType="submit">
               查询
               </BIButton>
-            <span className={styles.peopleTotall}>共查询到<i className={styles.peopleNum}>1230</i>个用户</span>
+            <span className={styles.peopleTotall}>共查询到<i className={styles.peopleNum}>{usersData.totalCount || 0}</i>个用户</span>
           </div>
         </Form>
       </div>
