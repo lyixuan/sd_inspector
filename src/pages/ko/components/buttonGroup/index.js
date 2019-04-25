@@ -56,7 +56,8 @@ export default class ButtonGroup extends React.Component {
     renderGrouptags = (item, key) => {
         const { isShowFiexd } = this.state;
         const orgName = item.map(item => item.name).join('/');
-        return (<span key={orgName} className={styles.tags}><Tag closable={!isShowFiexd} onClose={() => !isShowFiexd ? this.onClose(key, item) : null}>{orgName}</Tag></span>)
+        console.log(orgName)
+        return orgName ? (<span key={orgName} className={styles.tags}><Tag closable={!isShowFiexd} onClose={() => !isShowFiexd ? this.onClose(key, item) : null}>{orgName}</Tag></span>) : null;
     }
     renderTypeTage = (obj, key, color = '#F4F4F4') => (type) => {
         const { isShowFiexd } = this.state;
