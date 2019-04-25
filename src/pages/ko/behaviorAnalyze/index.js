@@ -1,9 +1,9 @@
 import React from 'react';
-import {Spin} from 'antd';
+import { Spin } from 'antd';
 import { connect } from 'dva';
 import KoSangJi from './components/KoSangJi';
 import BarEcharts from './components/EchartsBar'
-@connect(({ behavior, koPlan,loading }) => ({
+@connect(({ behavior, koPlan, loading }) => ({
   behavior,
   tabFromParams: koPlan.tabFromParams,
   params: koPlan.params,
@@ -42,12 +42,12 @@ class behavior extends React.Component {
     return (
       <div>
         <Spin spinning={this.props.loading}>
-        {/*------- 图1 桑吉 部分 --------*/}
-        <KoSangJi {...this.props} upPage={upPage} downPage={downPage} currentPage={currentPage}></KoSangJi>
+          {/*------- 图1 桑吉 部分 --------*/}
+          <KoSangJi {...this.props} upPage={upPage} downPage={downPage} currentPage={currentPage}></KoSangJi>
         </Spin>
         {/*------- 图2 柱状 部分 --------*/}
         <Spin spinning={this.props.loading}>
-        <BarEcharts {...this.props} />
+          <BarEcharts {...this.props} />
         </Spin>
       </div>
     );
