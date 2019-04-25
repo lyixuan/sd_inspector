@@ -29,9 +29,11 @@ export function getSangJiUpOption(upPage,currentPage) {
       triggerOn: 'mousemove',
       formatter: function (param) {
         const {data} = param;
-        const {pv = undefined,zb = undefined} = data;
-        if (pv && zb) {
-          return  `<div><div>pv：${pv}</div><div>占比：${zb}</div></div>`
+        const {pageView = undefined,zb = undefined,value=undefined} = data;
+        if (zb && value) {
+          return  `<div style='font-size: 12px'><div>pv：${value}次</div><div>占比：${zb}</div></div>`
+        } else if(pageView){
+          return  `<div style='font-size: 12px'><div>pv：${pageView}次</div></div>`
         }
       }
     },

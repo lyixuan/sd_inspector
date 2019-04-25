@@ -1,53 +1,5 @@
 import { CLICK_KO_ITEM } from '@/utils/constants';
 
-// 桑吉图数据结构 demo
-// const data1 = {
-//   "downPageList": [
-//   {
-//     "page": "in aute",
-//     "pageKey": "fugiat aute",
-//     "action_key_id": "esse veniam adipisicing",
-//     "action_key": "veniam magna consectetur ea aliquip",
-//     "downPage": "anim amet reprehenderit pariatur nulla",
-//     "downPageKey": "pariatur eiusmod occaecat",
-//     "pageName": "cupidatat reprehenderi",
-//     "orderNo": 2,
-//     "downPageName": "commodo pariatur incididunt"
-//   },
-// ],
-//   "upPageList": [
-//   {
-//     "page": "sunt et",
-//     "action_key_id": "veniam",
-//     "action_key": "veniam magna consectetur ea aliquip",
-//     "pageName": "adipisicing non ut dolor",
-//     "pageKey": "proident dolor labore est do",
-//     "orderNo": 1,
-//     "downPage": "aliquip non commodo consequat",
-//     "downPagekey": "veniam ea",
-//     "downPageName": "ipsum nisi"
-//   },
-// ]
-// }
-// 桑吉图数据 demo
-// const data2 = {
-//     "pageEventData": [
-//       {
-//         "clickNum": 16198937.576634526,
-//         "clickPeople": 18265575.948332787,
-//         "pageKey": "sunt qui"
-//       },
-//     ],
-//     "actionEventData": [
-//       {
-//         "actionKey": "tempor voluptate aute",
-//         "actionKeyId": "dolore mollit nulla",
-//         "clickNum": 36397845.29906312,
-//         "clickPeople": -23918351.228441194
-//       },
-//     ]
-// };
-
 function dealData1(data1) {
   /**
    * 处理data1(桑吉图结构)原始数据
@@ -243,17 +195,17 @@ function getUpSanKeyMap(upPageList, currentPage) {
     if (v.page !== currentPage) {
       upPage.node.push({ id: v.page, name: v.pageName, pageView: v.pv });
     }
+    total += Number(v.pv);
     upPage.links.push({
       source: v.page,
       target: currentPage,
       // pv: v.pv || 0,
       value: v.pv || 0,
     });
-    total += v.pv;
   });
 
   upPage.links.forEach((v) => {
-    v.zb = (v.pv / total * 100).toFixed(2) + '%';
+    v.zb = (v.value / total * 100).toFixed(2) + '%';
   });
   return upPage
 }
@@ -299,9 +251,6 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
   downPage.node.push({ id: currentPage, name: '下游页面' });
 
   downPageList.forEach((v) => {
-    if (v.page !== currentPage) {
-      downPage.node.push({ id: v.page, name: v.pageName, pageView: v.pv });
-    }
     v.actionKeyIds.forEach((actionItem) => {
       const num = stringTool(actionItem.actionKeyId);
       if (num > 0) {
@@ -406,6 +355,7 @@ export function dealResultData({ data1, data2, params }) {
   upPageList = addObjectItem(upPageList, data2.pageEventData, data2.actionEventData);
   downPageList = addObjectItem(downPageList, data2.pageEventData, data2.actionEventData);
 
+  console.log(123,downPageList)
   // 热力图，筛选当前页面
   const currentPageObj = getCurrentPage(downPageList, currentPage);
 
@@ -424,3 +374,51 @@ export function dealResultData({ data1, data2, params }) {
   };
 }
 
+
+// 桑吉图数据结构参考 demo
+// const data1 = {
+//   "downPageList": [
+//   {
+//     "page": "in aute",
+//     "pageKey": "fugiat aute",
+//     "action_key_id": "esse veniam adipisicing",
+//     "action_key": "veniam magna consectetur ea aliquip",
+//     "downPage": "anim amet reprehenderit pariatur nulla",
+//     "downPageKey": "pariatur eiusmod occaecat",
+//     "pageName": "cupidatat reprehenderi",
+//     "orderNo": 2,
+//     "downPageName": "commodo pariatur incididunt"
+//   },
+// ],
+//   "upPageList": [
+//   {
+//     "page": "sunt et",
+//     "action_key_id": "veniam",
+//     "action_key": "veniam magna consectetur ea aliquip",
+//     "pageName": "adipisicing non ut dolor",
+//     "pageKey": "proident dolor labore est do",
+//     "orderNo": 1,
+//     "downPage": "aliquip non commodo consequat",
+//     "downPagekey": "veniam ea",
+//     "downPageName": "ipsum nisi"
+//   },
+// ]
+// }
+// 桑吉图数据 demo
+// const data2 = {
+//     "pageEventData": [
+//       {
+//         "clickNum": 16198937.576634526,
+//         "clickPeople": 18265575.948332787,
+//         "pageKey": "sunt qui"
+//       },
+//     ],
+//     "actionEventData": [
+//       {
+//         "actionKey": "tempor voluptate aute",
+//         "actionKeyId": "dolore mollit nulla",
+//         "clickNum": 36397845.29906312,
+//         "clickPeople": -23918351.228441194
+//       },
+//     ]
+// };
