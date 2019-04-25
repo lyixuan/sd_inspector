@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Popover, Button } from 'antd';
 import BITable from '@/ant_components/BITable';
+import BIButtonText from '@/components/BIButtonText';
 import BIPagination from '@/ant_components/BIPagination';
 import { BiFilter } from '@/utils/utils';
 import style from './style.less';
@@ -12,7 +13,6 @@ function columns() {
     {
       title: '学员',
       dataIndex: 'userName',
-      onCell: (record, rowIndex) => ('dddd'),
     },
     {
       title: '注册状态',
@@ -20,7 +20,7 @@ function columns() {
       render: (text, record) => {
         return (
           <>
-            {BiFilter(`REGISTER_STATUS|id:${record.registerStatus}`).name}
+            <span style={{ cursor: 'pointer' }}>{BiFilter(`REGISTER_STATUS|id:${record.registerStatus}`).name}</span>
           </>
         );
       },
@@ -31,7 +31,7 @@ function columns() {
       render: (text, record) => {
         return (
           <>
-            {BiFilter(`CHOISE_STATUS|id:${record.choiceLessonStatus}`).name}
+            <span style={{ cursor: 'pointer' }}>{BiFilter(`CHOISE_STATUS|id:${record.choiceLessonStatus}`).name}</span>
           </>
         );
       },
@@ -115,15 +115,14 @@ function columns() {
     } else {
       v.render = (text) => {
         const content = (
-          <div>
+          <div className={style.popover}>
             {text}
           </div>
         );
         return (
           <>
-            <span className={style.blankBox} style={{ cursor: 'pointer' }}>{text}</span>
             <Popover content={content}>
-              <Button className={style.blankBox}>{text}</Button>
+              <BIButtonText>{text}</BIButtonText>
             </Popover>
           </>
         );
@@ -164,11 +163,6 @@ class UserList extends React.Component {
       type: 'koPlan/pageParams',
     })
   };
-  jumpTo = (pathname) => {
-    this.props.history.push({
-      pathname,
-    });
-  };
   onPageChange = (currentPage) => {
     const { pageParams } = this.state;
     const newPageParams = { ...pageParams, currentPage };
@@ -187,11 +181,6 @@ class UserList extends React.Component {
       payload: { params: newParams },
     });
   };
-  onClickTable = (e, record) => {
-    console.log(e.currentTarget, record)
-  }
-
-
 
   render() {
     const { userList, page = {} } = this.props.userListModel;

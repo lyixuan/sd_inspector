@@ -297,6 +297,16 @@ function stringTool(str) {
   return Number(str.substr(num+1));
 }
 
+function cleanSrcData(srcList,currentPage) {
+  const newSrcList = [];
+  srcList.forEach((v)=>{
+    if (v.downPage !== currentPage){
+      newSrcList.push(v);
+    }
+  });
+  return newSrcList;
+}
+
 export function dealMapOrg({ data, formParams, params, otherParams }) {
   /*
   * 基于结构数据data，构造下一个接口需要的参数
@@ -345,15 +355,18 @@ export function dealResultData({ data1, data2, params }) {
     downPageList: [],
   };
 
+  // 清洗数据 只需处理下游
+  const cleanedDownPageList = cleanSrcData(data1.downPageList,currentPage);
+
   // 基于page合并去重
   newData1.upPageList = dealData1(data1.upPageList);
-  newData1.downPageList = dealData1(data1.downPageList);
+  newData1.downPageList = dealData1(cleanedDownPageList);
 
-  // 为newData1添加 页面点击量 点击人数等;并取actionKeyId点击量前十
+  // 结构和数值匹配。为newData1添加 页面点击量 点击人数等
   newData1.upPageList = addObjectItem(newData1.upPageList, data2.pageEventData, data2.actionEventData);
   newData1.downPageList = addObjectItem(newData1.downPageList, data2.pageEventData, data2.actionEventData);
 
-  // 构造桑吉图需要的结构，并处理节点
+  // 构造桑吉图需要的结构，并处理节点。actionKeyId点击量取前十
   const upPage = getUpSanKeyMap(getFirstTen(newData1.upPageList),currentPage);
   const downPage = getDownSanKeyMap(getFirstTen(newData1.downPageList),currentPage);
 
