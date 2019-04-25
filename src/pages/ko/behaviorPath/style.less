@@ -54,6 +54,7 @@
 /*用户信息*/
 
 .personIntro{
+	width:230px;
 	float:left;
 	background:#f5f6f9;
 	border:1px solid #ececec;
@@ -81,7 +82,7 @@
 .personIntro .intro li{
 	font-size:12px;
 	display:flex;
-	height:22px;
+	// height:22px;
 	line-height:22px;
 	padding-right:30px;
 	overflow:hidden;
@@ -89,6 +90,7 @@
 .personIntro .intro li label{
 	width:100px;
 	text-align:right;
+	flex-shrink: 0;
 }
 .personIntro .intro li span{
 	text-align:left;
@@ -104,7 +106,7 @@
 	box-sizing: border-box;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom:20px;
+	margin-bottom:10px;
 	cursor:pointer;
 }
 .behavior{
@@ -396,7 +398,7 @@
 .comWrap :global .ant-empty{
 	font-size:12px;
 	margin-left:-68px;
-	margin-top:-20px;
+	margin-top:-10px;
 	.ant-empty-image{
 		height:50px;
 	}
