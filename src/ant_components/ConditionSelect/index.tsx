@@ -12,6 +12,7 @@ interface Props {
     width?: number,
     defaultUnit?: unitInterface,
     unitData?: unitInterface[] | [],
+    disabled?: boolean,
     onChange: (ops: OptionInterface) => {},
     value?: OptionInterface | string | number | undefined | null,
 }
@@ -147,14 +148,19 @@ export default class Condition extends React.Component<Props, State, object>{
         ))
     }
     render() {
-        const { options = [] } = this.props;
+        const { options = [], disabled } = this.props;
         const { isOpen, inputValue } = this.state;
         const hasCustomObj = this.state.customObj ? [this.state.customObj] : []
         const optionsData = this.handleOriginOptionsData([...options, ...hasCustomObj]);
+        console.log(disabled)
         return (
             <>
                 <span onClick={(e) => { e.stopPropagation() }}>
-                    <Dropdown overlay={this.dropdownRender(optionsData)} visible={isOpen} overlayClassName={styles.overlayClassName}>
+                    <Dropdown
+                        disabled={disabled}
+                        overlay={this.dropdownRender(optionsData)}
+                        visible={isOpen}
+                        overlayClassName={styles.overlayClassName}>
                         {/* <span className="inputPanle"> */}
                         <div className={styles.selectCotainer} onClick={this.onOpen}>
                             <div className={styles.chooseContent}>

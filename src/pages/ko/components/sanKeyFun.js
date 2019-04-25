@@ -1,4 +1,4 @@
-import { KO_LIST_ACTION } from '@/utils/constants';
+import { CLICK_KO_ITEM } from '@/utils/constants';
 
 // 桑吉图数据结构 demo
 // const data1 = {
@@ -59,11 +59,9 @@ function dealData1(data1) {
    * 输出结构：
    * [{page:'',pageKeys:[],actionKeyIds:
    *     [
-   *      {actionKeyId:'',actionKey:'',actionName:'',clickNum:'',clickPeople:'',clickNumPro:'',clickNumPro:'',clickPeoplePro:''}
+   *      {actionKeyId:'',actionKey:'',actionName:'',clickNum:'',clickPeople:'',clickNumPro:'',clickNumPro:'',clickPeoplePro:'',downPage:'',downPageName:''}
    *    ],
    *  pv:'',
-   *  downPage:'',
-   *  downPageName:'',
    * }]
    *
    * 关系：page --1:1-- actionKeyIds --1:1-- pageKeys
@@ -73,7 +71,13 @@ function dealData1(data1) {
   const tempObj = {};
   const newList = [];
   data1.forEach((v) => {
-    const actionObj = { actionKeyId: v.actionKeyId, actionKey: v.actionKey, actionName: v.actionName };
+    const actionObj = {
+      actionKeyId: v.actionKeyId,
+      actionKey: v.actionKey,
+      actionName: v.actionName,
+      downPage: v.downPage,
+      downPageName: v.downPageName,
+    };
     if (!tempObj[v.page]) {
       v.pageKeys = new Set([v.pageKey]);
       v.actionKeyIds = [actionObj];
@@ -100,6 +104,8 @@ function dealData1(data1) {
     delete tempObj[key].children;
     delete tempObj[key].pageKey;
     delete tempObj[key].actionKeyId;
+    delete tempObj[key].downPage;
+    delete tempObj[key].downPageName;
     newList.push(tempObj[key]);
   });
   return newList;
@@ -146,9 +152,9 @@ function addObjectItem(pageList, pageEventData, actionEventData) {
             v2.clickPeople = Number(a1.clickPeople);
           }
           // 点击量占比
-          v2.clickNumPro = v.pv?(a1.clickNum / v.pv* 100).toFixed(4) + '%':0; //小数点后两位百分比
+          v2.clickNumPro = v.pv?(a1.clickNum / v.pv* 100).toFixed(4) + '%':'0.00%'; //小数点后两位百分比
           // 人数击量占比
-          v2.clickPeoplePro = v.pClickPeople?(a1.clickPeople / v.pClickPeople* 100).toFixed(4) + '%':0; //小数点后两位百分比
+          v2.clickPeoplePro = v.pClickPeople?(a1.clickPeople / v.pClickPeople* 100).toFixed(4) + '%':'0.00%'; //小数点后两位百分比
         }
       });
     });
@@ -194,13 +200,15 @@ function getUpSanKeyMap(upPageList, currentPage) {
   upPage.node.push({ id: currentPage, name: '上游页面' });
 
   upPageList.forEach((v) => {
-    upPage.node.push({ id: v.page, name: v.pageName });
+    if (v.page !== currentPage) {
+      upPage.node.push({ id: v.page, name: v.pageName });
+    }
     upPage.links.push({
       source: v.page,
       target: v.downPage,
-      pv: 1,
-      zb: 1,
-      value: 1,
+      pv: v.pv || 0,
+      zb: v.clickNumPro || '0.00%',
+      value: v.pv || 0,
     });
     total+=v.pv;
   });
@@ -208,8 +216,6 @@ function getUpSanKeyMap(upPageList, currentPage) {
   upPage.links.forEach((v)=>{
     v.zb = (v.pv/total*100).toFixed(2) + '%';
   });
-
-  console.log('upPage',upPage)
   return upPage
 }
 
@@ -228,8 +234,12 @@ function getDownSanKeyMap(downPageList, currentPage) {
     links: [],
   };
 
+  const xuankeNode = 'xuankeNode';
+console.log('downPageList 桑吉结构前',downPageList)
   // 下游桑吉图
   downPage.node.push({ id: currentPage, name: '下游页面' });
+  downPage.node.push({ id: xuankeNode, name: '选课' });
+
   downPageList.forEach((v) => {
     v.actionKeyIds.forEach((actionItem) => {
       const num = stringTool(actionItem.actionKeyId);
@@ -242,20 +252,31 @@ function getDownSanKeyMap(downPageList, currentPage) {
           zb: actionItem.clickNumPro || '0.00%',
           value: actionItem.clickNum || 1,
         });
+        // 如果target节点包含KO_LIST_ACTION ，则再增加一个target节点到 选课节点的连接
+        if (actionItem.actionKeyId.indexOf(CLICK_KO_ITEM)>=0) {
+          downPage.links.push({
+            source: actionItem.actionKeyId,
+            target: xuankeNode,
+            pv: actionItem.clickNum || 1,
+            zb: actionItem.clickNumPro || '0.00%',
+            value: actionItem.clickNum || 1,
+          });
+        }
       } else {
-        downPage.node.push({ id: v.page, name: v.pageName });
+        if (v.page !== currentPage) {
+          downPage.node.push({ id: v.page, name: actionItem.downPageName });
+        }
         downPage.links.push({
           source: v.page,
-          target: v.downPage,
+          target: actionItem.downPage,
           pv: v.pv || 1,
           zb: actionItem.clickNumPro || '0.00%',
           value: actionItem.clickNum || 1,
         });
       }
     });
-
-
   });
+  console.log('downPageList 桑吉结构 后--',downPage)
   return downPage;
 }
 
@@ -334,9 +355,9 @@ export function dealResultData({ data1, data2, params }) {
 
   // 构造桑吉图需要的结构，并处理节点
   const upPage = getUpSanKeyMap(getFirstTen(newData1.upPageList),currentPage);
-  const downPage = getDownSanKeyMap(getFirstTen(newData1.downPageList,currentPage));
+  const downPage = getDownSanKeyMap(getFirstTen(newData1.downPageList),currentPage);
 
-  // 筛选当前页面
+  // 热力图，筛选当前页面
   const currentPageObj = getCurrentPage(newData1.downPageList, currentPage);
 
   return {

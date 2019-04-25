@@ -70,6 +70,12 @@ class CommonForm extends React.Component {
     const params = getFieldValue('choiceLessonStatus') || {};
     return params.value ? Number(params.value) === 0 : false;
   }
+  checkoutHasAttendanceStatus = () => {
+    const { getFieldValue } = this.props.form;
+    const params = getFieldValue('attendanceStatus') || {};
+    console.log(params)
+    return Number(params.value) === 3
+  }
   disabledDate = (current, keyName) => {
     const dateArr = this.props.originParams[keyName] || [];
     const [startTime, endTime] = dateArr;
@@ -219,7 +225,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('attendanceNum', {
                   initialValue: params.attendanceNum,
                 })(
-                  <ConditionSelect placeholder="请选择" defaultUnit={customData.defaultAttendanceNumUnit} options={customData.defaultAttendanceNumOptions} />
+                  <ConditionSelect placeholder="请选择" disabled={this.checkoutHasAttendanceStatus()} defaultUnit={customData.defaultAttendanceNumUnit} options={customData.defaultAttendanceNumOptions} />
                 )}
               </Form.Item>
             </div>
@@ -228,7 +234,7 @@ class CommonForm extends React.Component {
                 {getFieldDecorator('listenLessonTime', {
                   initialValue: params.listenLessonTime,
                 })(
-                  <ConditionSelect placeholder="请选择" defaultUnit={customData.defaultListenLessonTimeUnit} options={customData.defaultListenLessonTimeOptions} unitData={customData.listenLessonTimeUnits} />
+                  <ConditionSelect placeholder="请选择" disabled={this.checkoutHasAttendanceStatus()} defaultUnit={customData.defaultListenLessonTimeUnit} options={customData.defaultListenLessonTimeOptions} unitData={customData.listenLessonTimeUnits} />
                 )}
               </Form.Item>
             </div>

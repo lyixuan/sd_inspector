@@ -17,7 +17,6 @@ function columns() {
     {
       title: '注册状态',
       dataIndex: 'registerStatus',
-      // render: renderContent
       render: (text, record) => {
         return (
           <>
@@ -191,6 +190,7 @@ class UserList extends React.Component {
   onClickTable = (e, record) => {
     console.log(e.currentTarget, record)
   }
+
 
 
   render() {
