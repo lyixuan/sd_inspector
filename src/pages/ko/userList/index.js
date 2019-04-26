@@ -1,22 +1,25 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Popover } from 'antd';
-import BITable from '@/ant_components/BITable';
+import BITable from '@/components/BIKoTable';
 import BIButtonText from '@/components/BIButtonText';
 import BIPagination from '@/ant_components/BIPagination';
 import { BiFilter } from '@/utils/utils';
+import storage from '@/utils/storage';
 import style from './style.less';
-import router from 'umi/router';
+import config from '../../../../config/config';
 
 function columns() {
   const col = [
     {
       title: '学员',
       dataIndex: 'userName',
+      width: 60,
     },
     {
-      title: '注册状态',
+      title: '注册',
       dataIndex: 'registerStatus',
+      width: 60,
       render: (text, record) => {
         return (
           <>
@@ -26,8 +29,9 @@ function columns() {
       },
     },
     {
-      title: '选课状态',
+      title: '选课',
       dataIndex: 'choiceLessonStatus',
+      width: 60,
       render: (text, record) => {
         return (
           <>
@@ -39,68 +43,79 @@ function columns() {
     {
       title: '选课时间',
       dataIndex: 'choiceLessionTime',
+      width: 82,
     },
     {
       title: '订单时间',
       dataIndex: 'orderTime',
+      width: 82,
     },
     {
-      title: '出勤次数',
+      title: '出勤数',
       dataIndex: 'attendenceCount',
+      width: 60,
     },
     {
-      title: '做题数量',
+      title: '做题量',
       dataIndex: 'studyExeciseNum',
+      width: 60,
     },
     {
-      title: 'IM咨询次数',
+      title: 'IM咨询量',
       dataIndex: 'imDialogueNum',
+      width: 72,
     },
     {
-      title: 'IM老师主动发起量',
+      title: 'IM老师主动量',
       dataIndex: 'imTeacherChatNum',
+      width: 63,
     },
     {
-      title: 'IM学员主动发起量',
+      title: 'IM学员主动量',
       dataIndex: 'imStudentChatNum',
+      width: 63,
     },
     {
-      title: '排队次数',
+      title: '排队数',
       dataIndex: 'imQueueDialogueNum',
+      width: 60,
     },
     {
-      title: '留言次数',
+      title: '留言数',
       dataIndex: 'imMessageDialogueNum',
+      width: 60,
     },
     {
-      title: '发帖数量',
+      title: '发帖量',
       dataIndex: 'bbsPostNum',
+      width: 60,
     },
     {
-      title: '跟帖数量',
+      title: '跟帖量',
       dataIndex: 'bbsFollowNum',
+      width: 60,
     },
     {
-      title: '微信咨询次数',
+      title: '微信咨询量',
       dataIndex: 'wechatDialogueNum',
+      width: 60,
     },
     {
-      title: '微信老师主动发起量',
+      title: '微信老师主动量',
       dataIndex: 'wechatTeacherChatNum',
+      width: 70,
     },
     {
-      title: '微信学员主动发起量',
+      title: '微信学员主动量',
       dataIndex: 'wechatStudentChatNum',
+      width: 70,
     },
   ];
   col.forEach((v) => {
     v.onCell = (record, rowIndex) => {
       return {
         onClick: (event) => {
-          router.push({
-            pathname: '/ko/behaviorPath',
-            params: { record, target: v.dataIndex }
-          });
+          jump(record,v);
         },
       };
     };
@@ -132,6 +147,13 @@ function columns() {
   return col;
 };
 
+function jump(record,v) {
+  const origin = window.location.origin;
+  const url = `${origin}${config.base}ko/behaviorPath`;
+  const params = { record, target: v.dataIndex };
+  storage.setItem('pathParams',params);
+  window.open(url);
+}
 @connect(({ userListModel, koPlan, loading }) => ({
   userListModel,
   tabFromParams: koPlan.tabFromParams,
@@ -149,7 +171,6 @@ class UserList extends React.Component {
   componentDidMount() {
     this.getInitParams();
     this.queryData();
-    console.log(this.props)
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.tabFromParams) !== JSON.stringify(this.props.tabFromParams)) {
@@ -177,7 +198,7 @@ class UserList extends React.Component {
   getLocationParams = () => {
     const { location: { state = {} } } = this.props;
     return state
-  }
+  };
   queryData = (params = this.props.tabFromParams, pageParams = this.state.pageParams) => {
     if (!params || JSON.stringify(params) === '{}') return;
     const localtionParams = this.getLocationParams()
@@ -199,7 +220,10 @@ class UserList extends React.Component {
           <BITable
             rowKey={record => { return record.userId + Math.random() * 1000 }}
             dataSource={dataSource} columns={columns()}
-            pagination={false} loading={loading} />
+            pagination={false} loading={loading}
+            scroll={{ x: 1060}}
+            size="middle"
+          />
           <br />
           <BIPagination showQuickJumper defaultPageSize={pageParams.pageSize ? pageParams.pageSize : 30} onChange={this.onPageChange} current={currentPage} total={totalCount} />
         </div>

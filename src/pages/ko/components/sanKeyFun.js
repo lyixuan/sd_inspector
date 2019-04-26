@@ -175,6 +175,55 @@ function actionListDataDeal(downPageList) {
   return downPageList;
 }
 
+function sankeyDownFilter(sanKeyData) {
+/*
+  下游
+* 去掉值为0的节点
+* 1、遍历node节点，当前节点在links里为target的值为零，删掉此条link数据
+* 2、累计上述该node在link中为target的值，和为零，删掉此条node数据,否则保留
+* */
+  const {node=[],links=[]} = sanKeyData;
+  for (let j = node.length - 1; j >= 0; j--) {
+    let count = -1;
+    for (let i = links.length - 1; i >= 0; i--) {
+      if (node[j].id === links[i].target) {
+        if (count===-1)  count=0;
+        if (links[i].value === 0) {
+          links.splice(i, 1);
+        } else {
+          count += links[i].value;
+        }
+      }
+    }
+    if (count === 0) {
+      node.splice(j, 1);
+    }
+  }
+  return {node,links};
+}
+
+function sankeyUpFilter(sanKeyData) {
+  /*
+    上游
+  * 去掉值为0的节点
+  * 1、遍历node节点，当前节点在links里为source的值为零，删掉此条link数据，同时删掉词条node
+  * */
+  const {node=[],links=[]} = sanKeyData;
+  for (let i = links.length - 1; i >= 0; i--) {
+    dd:
+    for (let j = node.length - 1; j >= 0; j--) {
+      if (node[j].id === links[i].source) {
+        if (links[i].value === 0) {
+          links.splice(i, 1);
+          node.splice(j, 1);
+          break dd;
+        }
+      }
+    }
+  }
+  return {node,links};
+}
+
 function getUpSanKeyMap(upPageList, currentPage) {
   /**
    * 构造桑吉图要的数据结构，并处理特殊节点
@@ -207,7 +256,7 @@ function getUpSanKeyMap(upPageList, currentPage) {
   upPage.links.forEach((v) => {
     v.zb = (v.value / total * 100).toFixed(2) + '%';
   });
-  return upPage
+  return sankeyUpFilter(upPage)
 }
 
 function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
@@ -225,9 +274,7 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
     node: [],
     links: [],
   };
-
   const xuankeNode = 'xuankeNode';
-
   // 当前页的target节点list
   const currentPageTargetList = currentPageObj.actionKeyIds;
 
@@ -244,9 +291,7 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
       }
     }
   }
-
   console.log('downPageList 桑吉结构前', downPageList)
-
   // 下游桑吉图
   downPage.node.push({ id: currentPage, name: '下游页面' });
 
@@ -297,7 +342,7 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
     downPage.node.push(obj[v]);
   });
   console.log('downPageList 桑吉结构 后--', downPage)
-  return downPage;
+  return sankeyDownFilter(downPage);
 }
 
 export function dealMapOrg({ data, formParams, params, otherParams }) {

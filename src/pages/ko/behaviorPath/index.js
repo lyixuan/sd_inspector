@@ -39,9 +39,9 @@ class BehaviorPath1 extends React.Component {
   }
 
   render() {
-    if (this.props.location.params) {
-      localStorage.setItem("pathParams", JSON.stringify(this.props.location.params))
-    }
+    // if (this.props.location.params) {
+    //   localStorage.setItem("pathParams", JSON.stringify(this.props.location.params))
+    // }
     const pathParams = JSON.parse(localStorage.getItem("pathParams"))
     const target = pathParams.target
     const locationParams = pathParams.record
