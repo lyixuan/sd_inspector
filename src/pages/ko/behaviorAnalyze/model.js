@@ -14,14 +14,8 @@ function getByteLen(val) {
     return len;
 }
 function format(name){
-  let newName = '';
   if(getByteLen(name)>16){
-    newName = name.replace('点击','');
-    console.log(newName)
-    if(getByteLen(newName)>16){
-      console.log(newName)
-      return `${newName.substring(0,8)}...`
-    }
+    return `${name.substring(0,8)}...`
   }else{
     return name
   }
@@ -42,9 +36,7 @@ function getData(dataList, dataArr) {
   })
   return dataObj;
 }
-function sortId(a,b){  
-  return a.clickNum-b.clickNum 
-}
+
 export default {
   namespace: 'behavior',
 
@@ -86,7 +78,7 @@ export default {
       // 数组的字符串跟接口返回的字段一致，否则option那块取值报错
       let newData = []
       if (behaviourData) {
-        let newbehaviourData = behaviourData.sort(sortId);
+        let newbehaviourData = behaviourData.sort((a,b)=>(b.clickNum-a.clickNum ));
         newData = getData(newbehaviourData.slice(0, 10), ['name', 'clickNum', 'choiceLessonPercent'])
       }
 
