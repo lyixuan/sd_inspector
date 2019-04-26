@@ -25,9 +25,10 @@ class PathUserInfo extends React.Component {
             <span>{info.age}</span>
           </li>
           <li>
-            <label>手机型号：</label>
-            <span>{info.phoneBrand}</span>
+            <label>行政所属：</label>
+            <span>{info.backOrgs}{info.frontOrgs}</span>
           </li>
+
           <li>
             <label>学院：</label>
             <span>{info.collegeName}</span>
@@ -42,13 +43,17 @@ class PathUserInfo extends React.Component {
           </li>
         </ul>
         <ul className={styles.intro}>
-          <li>
+          {/* <li>
             <label>来源：</label>
             <span>{info.userFromApp == 1 ? '极速APP' : '主APP'}</span>
-          </li>
+          </li> */}
           <li>
             <label>设备：</label>
-            <span>{info.deviceModel}</span>
+            <span>{info.deviceModel ? info.deviceModel : '其他'}</span>
+          </li>
+          <li>
+            <label>选课前是否已付费：</label>
+            <span>{info.paidFlag ? '选课前已付费' : '选课前未付费'}</span>
           </li>
           <li>
             <label>注册状态：</label>
@@ -58,10 +63,10 @@ class PathUserInfo extends React.Component {
             <label>选课状态：</label>
             <span>{info.choiceLessonStatus == 1 ? '已选课' : '未选课'}</span>
           </li>
-          {/* <li>
-            <label>新老用户：</label>
-            <span>老用户</span>
-          </li> */}
+          <li>
+            <label>选课名称：</label>
+            <span>{info.choiceLessionName}</span>
+          </li>
           <li>
             <label>出勤次数：</label>
             <span>{info.attendenceCount}次</span>
@@ -71,8 +76,12 @@ class PathUserInfo extends React.Component {
             <span>{parseInt(info.avgListenTime / 60)}分钟</span>
           </li>
           <li>
+            <label>做题量：</label>
+            <span>{info.studyExeciseNum}</span>
+          </li>
+          <li>
             <label>做题正确率：</label>
-            <span>{info.studyCorrentRate}%</span>
+            <span>{isNaN(info.studyCorrentRate) ? info.studyCorrentRate * 100 : 0}%</span>
           </li>
         </ul>
       </div>

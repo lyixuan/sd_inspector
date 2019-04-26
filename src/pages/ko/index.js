@@ -51,7 +51,7 @@ class koPlan extends React.Component {
     if (JSON.stringify(this.props.tabFromParams) !== JSON.stringify(tabFromParams)) {
       this.onSaveTabFromParams(tabFromParams);
     }
-    this.onSaveOriginParams(handleDateFormParams(KoDateRange));
+    // this.onSaveOriginParams(handleDateFormParams(KoDateRange));
     this.onSavefFlterActionParams(handleInitParams(params));
   }
   getInitData = () => {
@@ -69,10 +69,18 @@ class koPlan extends React.Component {
 
   }
   onSaveTabFromParams = (params) => {
+    this.handleDateParams(params.formParams);
     this.props.dispatch({
       type: 'koPlan/saveTabFromParams',
       payload: { ...params }
     })
+  }
+  handleDateParams = (params) => {
+    const { KoDateRange } = this.props.pageParams;
+    const dateObj = handleFormParams(KoDateRange);
+    Object.keys(dateObj).forEach(item => {
+      params[item] = params[item] && params[item].length > 0 ? params[item] : dateObj[item];
+    });
   }
   changeFilterAction = (params, originParams = {}) => {
     const tabFromParams = JSON.parse(JSON.stringify(this.props.tabFromParams));
@@ -80,8 +88,6 @@ class koPlan extends React.Component {
     const newParams = { ...others, ...params };
     this.onSaveTabFromParams({ formParams, ...newParams });
     this.onSavefFlterActionParams(originParams);
-
-
   }
 
   onSubmit = (params, originParams) => {
