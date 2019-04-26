@@ -254,10 +254,10 @@ export const homepage=`<?xml version="1.0" encoding="UTF-8"?>
             </g>
             <g id="分组-48-Clipped" transform="translate(6.000000, 5.000000)" fill="#000000" font-family="PingFangSC-Regular, PingFang SC" font-size="10" font-weight="normal">
                 <g id="分组-48" transform="translate(30.000000, 28.000000)">
-                    <g id="0" class='textWrap3'>
+                    <g cursor='pointer' id="0" class='textWrap3'>
                         <g id="分组">
                             <text id="0">
-                                <tspan class='mask' data-name='kolist_click_back_-1' x="0" y="11">0</tspan>
+                                <tspan class='text' data-name='kolist_click_back_-1' x="0" y="11">0</tspan>
                             </text>
                         </g>
                         <g id="分组" transform="translate(88.000000, 95.000000)">

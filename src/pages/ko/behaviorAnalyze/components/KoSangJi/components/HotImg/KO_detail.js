@@ -134,6 +134,9 @@ class KoDetailPage extends React.Component {
         const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
         if(val) return val.clickNum;
       })
+      .on('mouseover', KoDetailPage.that.drewTip(data))
+      .on('mouseout', tip.hide)
+      .on('mousemove', tip.show);
       this.chart.selectAll('.textWrap2 .textVal').style('fill',function(){
         const val = newKeys.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
         if(val) return val.color;
@@ -168,7 +171,10 @@ class KoDetailPage extends React.Component {
       this.chart.selectAll('.text').text(function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
         if(val) return val.clickNum;
-      }).style('font-weight','600');
+      }).style('font-weight','600')
+      .on('mouseover', KoDetailPage.that.drewTip(data))
+      .on('mouseout', tip.hide)
+      .on('mousemove', tip.show);
 
       // 修改颜色
       this.chart.selectAll('.mask').style('fill',function(){
