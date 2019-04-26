@@ -2,15 +2,23 @@ import { message } from 'antd';
 import { sankeySuperApi } from '@/pages/ko/behaviorAnalyze/services';
 
 function getData(dataList, dataArr) {
+  const re = /[\u4E00-\u9FA5]/g
   let newKey = {clickNum:0,choiceLessonPercent:0};
   const newDatalist = [];
-  dataList.forEach(item=>{
+  dataList.forEach((item,i)=>{
+    item.choiceLessonPercent=Number(item.choiceLessonPercent.split('%')[0]);
     if(item.actionKeyId.indexOf('homepage')>=0&&item.actionKey==='click_ko_item'){
-      newKey.name='点击课程公开计划选项';
+      newKey.name='课程公开计划选项';
       newKey.actionKey = item.actionKey
       newKey.clickNum+=Number(item.clickNum)
-      newKey.choiceLessonPercent+=Number(item.choiceLessonPercent.split('%')[0])
+      newKey.choiceLessonPercent+=Number(item.choiceLessonPercent)
     }else{
+      // if(item.name){
+      //   if(item.name.match(re).length > 8){
+      //     item.name=`${item.name.match(re).substring(0,8)}...`
+      //   }
+      // }
+      // console.log(item.name)
       newDatalist.push(item)
     }
   });
@@ -20,7 +28,8 @@ function getData(dataList, dataArr) {
   const dataObj = {};
   dataArr.forEach(item => {
     dataObj[item] = [];
-    newDatalist.forEach(item1 => {
+    newDatalist.forEach((item1,i) => {
+      if(i<10)
       dataObj[item].push({ name: item1, value: item1[item] })
     });
   })

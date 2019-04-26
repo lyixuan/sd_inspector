@@ -14,14 +14,8 @@ const config = {
     }
   },
 };
-function isNumber(data){
-  let flag=''
-  if(data===0||data&&typeof(data)==='number'){
-    flag='%'
- }
-  return flag
-}
 export function options(data,date){
+
   // 处理name值为null的异常
   if(data.name){
     for(let i=0;i<data.name.length;i++){
@@ -30,15 +24,14 @@ export function options(data,date){
       }
     }
   }
-  console.log(data.name)
   return  {
     grid: {
       top: 30,
       bottom: 63,
-      left: 30,
+      left: 60,
       right: 30,
       // height: 120,
-      // width:980,
+      // width:580,
     },
     color:['#52C9C2','#FFD75E'],
     tooltip: {
@@ -53,7 +46,7 @@ export function options(data,date){
         let tipItem='';
         if(params&&params.length){
           for(let i=0;i<params.length;i++){
-            tipItem += `<div class="tipItem"><span class="tipIcon" style="background-color:${params[i].color}"></span><span>${params[i].seriesName}：${params[i].value}${i===0?'次':isNumber(params[i].value)}</span></div>`
+            tipItem += `<div class="tipItem"><span class="tipIcon" style="background-color:${params[i].color}"></span><span>${params[i].seriesName}：${params[i].value}${i===0?'次':'%'}</span></div>`
           }
         }
         return `<div class="tipWrap"><div>${date}</div>${tipItem}</div>`;
@@ -78,7 +71,7 @@ export function options(data,date){
       splitLine: config.splitLine,
       axisLabel:{
         interval:0,  //类目全显
-        rotate:45   //顺时针旋转45度
+        // rotate:45   //顺时针旋转45度
       },
       data: data.name
     },
@@ -88,21 +81,25 @@ export function options(data,date){
       axisTick:config.axisTick,
       splitLine: config.splitLine
     },{
+      show: false,
       type: 'value',
-      axisLine:config.axisLine,
-      axisTick:config.axisTick,
-      splitLine: config.splitLine
+      min: 0,
+      max: 100,
+      axisLabel: {
+        formatter: '{value} %',
+      }
     }],
     series: [{
       name:'点击数',
       type: 'bar',
-      barWidth: '14%',
+      barWidth:'16',
+      // barWidth: '14%',
       data: data.clickNum,
     },{
       name: '转化率',
       type: 'line',
+      yAxisIndex: 1,
       data: data.choiceLessonPercent
-    }
-    ]
+    }]
   };
 };
