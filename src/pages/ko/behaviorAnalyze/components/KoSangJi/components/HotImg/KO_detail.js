@@ -85,7 +85,6 @@ class KoDetailPage extends React.Component {
       })
       data.push(new_click)
     }
-    
     return data
   }
   // 处理actionkey相同的子项之和
@@ -139,7 +138,9 @@ class KoDetailPage extends React.Component {
       .on('mousemove', tip.show);
       this.chart.selectAll('.textWrap2 .textVal').style('fill',function(){
         const val = newKeys.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) return val.color;
+        if(val) {
+          return val.color;
+        }
       })
       .on('mouseover', KoDetailPage.that.drewTip(data))
       .on('mouseout', tip.hide)
@@ -179,14 +180,15 @@ class KoDetailPage extends React.Component {
       // 修改颜色
       this.chart.selectAll('.mask').style('fill',function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) return val.color;
+        if(val) {
+          return val.color;
+        }
       })
       .on('mouseover', KoDetailPage.that.drewTip(data))
       .on('mouseout', tip.hide)
       .on('mousemove', tip.show);
     }
   };
-
   render() {
     return (
       <div style={{width:'254px',height:'525px',}} ref={dom => {

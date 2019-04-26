@@ -387,7 +387,7 @@ export const homepage=`<?xml version="1.0" encoding="UTF-8"?>
                                     <tspan class='text' data-name='majordetail_click_intro_teacher_-1' x="119" y="225" fill="#000000">0</tspan>
                                 </text>
                                 <text>
-                                    <tspan class='text' data-name='majordetail_click_intro _class_-1' x="177" y="225" fill="#000000">0</tspan>
+                                    <tspan class='text' data-name='majordetail_click_intro_class_-1' x="177" y="225" fill="#000000">0</tspan>
                                 </text>
                                 <text>
                                     <tspan class='text' data-name='majordetail_click_look_class_-1' x="31" y="453" fill="#000000">0</tspan>

@@ -14,24 +14,14 @@ const config = {
     }
   },
 };
-export function options(data,date){
 
-  // 处理name值为null的异常
-  if(data.name){
-    for(let i=0;i<data.name.length;i++){
-      if(!data.name[i].value){
-        data.name[i].value=`name${i}`
-      }
-    }
-  }
+export function options(data,date){
   return  {
     grid: {
       top: 30,
       bottom: 63,
       left: 60,
       right: 30,
-      // height: 120,
-      // width:580,
     },
     color:['#52C9C2','#FFD75E'],
     tooltip: {
