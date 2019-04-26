@@ -63,7 +63,7 @@ class KoDetailPage extends React.Component {
     <li class=${styles.tooltipItem}>次数占比：${newHotData.clickNumPro.toFixed(2)}%</li>
     </ul>`;
   };
-  // 处理特殊actionids
+  // 处理不同id表示同一模块的actionids
   specialData = (data,keyArr,id)=>{
     const newIdArr = [];
     let new_click={};
@@ -75,9 +75,16 @@ class KoDetailPage extends React.Component {
       })
     })
     if(newIdArr.length){
-      new_click.actionKeyId=id;
+      new_click={
+        actionKeyId:id,
+        clickNum:0,
+        clickPeople:0,
+        clickNumPro:0,
+        clickPeoplePro:0
+      };
       newIdArr.forEach(item=>{
         new_click.name=item.name;
+        new_click.color=item.color;
         new_click.clickNum+=Number(item.clickNum);
         new_click.clickPeople+=Number(item.clickPeople);
         new_click.clickNumPro+=Number(item.clickNumPro);
@@ -85,7 +92,6 @@ class KoDetailPage extends React.Component {
       })
       data.push(new_click)
     }
-    
     return data
   }
   // 处理actionkey相同的子项之和
@@ -114,8 +120,13 @@ class KoDetailPage extends React.Component {
       return newKeyArr
     }
   }
+  // 动态添加列表
   dealListDom = (data,actionKey,id,bol)=>{
     let newKeys = this.getActionKeyList(data,actionKey,id,bol);
+    newKeys = newKeys.sort((a,b)=>{  
+      return b.clickNum-a.clickNum 
+    })
+    newKeys = newKeys.slice(0,10);
     if(newKeys.length){
       this.chart.selectAll('.textWrap1 .textVal').nodes().map((item,i)=>{
         return item.setAttribute('data-name',newKeys[i].actionKeyId)
@@ -139,7 +150,9 @@ class KoDetailPage extends React.Component {
       .on('mousemove', tip.show);
       this.chart.selectAll('.textWrap2 .textVal').style('fill',function(){
         const val = newKeys.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) return val.color;
+        if(val) {
+          return val.color;
+        }
       })
       .on('mouseover', KoDetailPage.that.drewTip(data))
       .on('mouseout', tip.hide)
@@ -179,14 +192,15 @@ class KoDetailPage extends React.Component {
       // 修改颜色
       this.chart.selectAll('.mask').style('fill',function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) return val.color;
+        if(val) {
+          return val.color;
+        }
       })
       .on('mouseover', KoDetailPage.that.drewTip(data))
       .on('mouseout', tip.hide)
       .on('mousemove', tip.show);
     }
   };
-
   render() {
     return (
       <div style={{width:'254px',height:'525px',}} ref={dom => {

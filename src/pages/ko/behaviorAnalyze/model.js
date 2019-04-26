@@ -1,35 +1,36 @@
 import { message } from 'antd';
 import { sankeySuperApi } from '@/pages/ko/behaviorAnalyze/services';
 
-function getData(dataList, dataArr) {
-  const re = /[\u4E00-\u9FA5]/g
-  let newKey = {clickNum:0,choiceLessonPercent:0};
-  const newDatalist = [];
-  dataList.forEach((item,i)=>{
-    item.choiceLessonPercent=Number(item.choiceLessonPercent.split('%')[0]);
-    if(item.actionKeyId.indexOf('homepage')>=0&&item.actionKey==='click_ko_item'){
-      newKey.name='课程公开计划选项';
-      newKey.actionKey = item.actionKey
-      newKey.clickNum+=Number(item.clickNum)
-      newKey.choiceLessonPercent+=Number(item.choiceLessonPercent)
+function getByteLen(val) {
+  var len = 0;
+  for (var i = 0; i < val.length; i++) {
+    var a = val.charAt(i);
+    if (a.match(/[^\x00-\xff]/ig) != null){
+      len += 2;
     }else{
-      // if(item.name){
-      //   if(item.name.match(re).length > 8){
-      //     item.name=`${item.name.match(re).substring(0,8)}...`
-      //   }
-      // }
-      // console.log(item.name)
-      newDatalist.push(item)
+      len += 1;
     }
-  });
-
-  newDatalist.push(newKey);
-
+  }
+    return len;
+}
+function format(name){
+  if(getByteLen(name)>16){
+    return `${name.substring(0,8)}...`
+  }else{
+    return name
+  }
+}
+function getData(dataList, dataArr) {
   const dataObj = {};
   dataArr.forEach(item => {
     dataObj[item] = [];
-    newDatalist.forEach((item1,i) => {
-      if(i<10)
+    dataList.forEach((item1) => {
+      if(item==='choiceLessonPercent'){
+        item1[item]=item1[item].split('%')[0]
+      }
+      if(item==='name'){
+        item1[item]=format(item1[item])
+      }
       dataObj[item].push({ name: item1, value: item1[item] })
     });
   })
@@ -77,7 +78,8 @@ export default {
       // 数组的字符串跟接口返回的字段一致，否则option那块取值报错
       let newData = []
       if (behaviourData) {
-        newData = getData(behaviourData, ['name', 'clickNum', 'choiceLessonPercent'])
+        let newbehaviourData = behaviourData.sort((a,b)=>(b.clickNum-a.clickNum ));
+        newData = getData(newbehaviourData.slice(0, 10), ['name', 'clickNum', 'choiceLessonPercent'])
       }
 
       return { ...state, behaviourData: newData };
