@@ -9,7 +9,7 @@ import storage from '@/utils/storage';
 import style from './style.less';
 import config from '../../../../config/config';
 
-function columns_small() {
+function columns() {
   const col = [
     {
       title: '学员',
@@ -147,137 +147,6 @@ function columns_small() {
   return col;
 };
 
-function columns_big() {
-  const col = [
-    {
-      title: '学员',
-      dataIndex: 'userName',
-      minWidth: 70,
-    },
-    {
-      title: '注册状态',
-      dataIndex: 'registerStatus',
-      render: (text, record) => {
-        return (
-          <>
-            <span style={{ cursor: 'pointer' }}>{BiFilter(`REGISTER_STATUS|id:${record.registerStatus}`).name}</span>
-          </>
-        );
-      },
-    },
-    {
-      title: '选课状态',
-      dataIndex: 'choiceLessonStatus',
-      render: (text, record) => {
-        return (
-          <>
-            <span style={{ cursor: 'pointer' }}>{BiFilter(`CHOISE_STATUS|id:${record.choiceLessonStatus}`).name}</span>
-          </>
-        );
-      },
-    },
-    {
-      title: '选课时间',
-      dataIndex: 'choiceLessionTime',
-    },
-    {
-      title: '订单时间',
-      dataIndex: 'orderTime',
-    },
-    {
-      title: '出勤次数',
-      dataIndex: 'attendenceCount',
-    },
-    {
-      title: '做题数量',
-      dataIndex: 'studyExeciseNum',
-    },
-    {
-      title: 'IM咨询量',
-      dataIndex: 'imDialogueNum',
-    },
-    {
-      title: 'IM老师主动量',
-      dataIndex: 'imTeacherChatNum',
-    },
-    {
-      title: 'IM学员主动量',
-      dataIndex: 'imStudentChatNum',
-    },
-    {
-      title: '排队次数',
-      dataIndex: 'imQueueDialogueNum',
-    },
-    {
-      title: '留言次数',
-      dataIndex: 'imMessageDialogueNum',
-    },
-    {
-      title: '发帖数量',
-      dataIndex: 'bbsPostNum',
-    },
-    {
-      title: '跟帖数量',
-      dataIndex: 'bbsFollowNum',
-    },
-    {
-      title: '微信咨询量',
-      dataIndex: 'wechatDialogueNum',
-    },
-    {
-      title: '微信老师主动数量',
-      dataIndex: 'wechatTeacherChatNum',
-    },
-    {
-      title: '微信学员主动数量',
-      dataIndex: 'wechatStudentChatNum',
-    },
-  ];
-  col.forEach((v) => {
-    v.onCell = (record, rowIndex) => {
-      return {
-        onClick: (event) => {
-          jump(record,v);
-        },
-      };
-    };
-    if (v.dataIndex !== 'orderTime' && v.dataIndex !== 'choiceLessionTime') {
-      v.render = v.render || ((text) => {
-        return (
-          <>
-            <span style={{ cursor: 'pointer' }}>{text}</span>
-          </>
-        );
-      });
-    } else {
-      v.render = (text) => {
-        const content = (
-          <div className={style.popover}>
-            {text}
-          </div>
-        );
-        return (
-          <>
-            <Popover content={content}>
-              <BIButtonText>{text}</BIButtonText>
-            </Popover>
-          </>
-        );
-      };
-    }
-  });
-  return col;
-};
-
-function columns() {
-  return columns_small();
-  // const width =1500;
-  // if (window.outerWidth < width) {
-  //   return columns_small();
-  // } else {
-  //   return columns_big();
-  // }
-}
 function jump(record,v) {
   const origin = window.location.origin;
   const url = `${origin}${config.base}ko/behaviorPath`;
