@@ -49,13 +49,14 @@ class CommonForm extends React.Component {
     }
   }
   handleReset = () => {
-    const dataObj = this.resertDate();
-    const values = this.props.form.getFieldsValue();
-    const resertObj = {}
-    Object.keys(values).forEach(item => {
-      resertObj[item] = undefined;
-    });
-    this.props.form.setFieldsValue({ ...resertObj, ...dataObj });
+    this.props.form.resetFields();
+    // const dataObj = this.resertDate();
+    // const values = this.props.form.getFieldsValue();
+    // const resertObj = {}
+    // Object.keys(values).forEach(item => {
+    //   resertObj[item] = undefined;
+    // });
+    // this.props.form.setFieldsValue({ ...resertObj, ...dataObj });
   }
 
   toggle = () => {
@@ -118,20 +119,21 @@ class CommonForm extends React.Component {
     return returnObj
   }
   disabledDate = (current, keyName) => {
-    const dateArr = this.props.originParams[keyName] || [];
+    const { KoDateRange } = this.props.pageParams;
+    const dateArr = handleDateFormParams(KoDateRange)[keyName] || [];
     const [startTime, endTime] = dateArr;
     return current.isBefore(moment(startTime)) || current.isAfter(moment(endTime))
   }
-  changeDate = (value, key) => {
-    if (!value || value.length === 0) {
-      const dateObj = this.resertDate(key);
-      setTimeout(() => {
-        this.props.form.setFieldsValue({ ...dateObj });
-      }, 0)
+  // changeDate = (value, key) => {
+  //   if (!value || value.length === 0) {
+  //     const dateObj = this.resertDate(key);
+  //     setTimeout(() => {
+  //       this.props.form.setFieldsValue({ ...dateObj });
+  //     }, 0)
 
-    }
+  //   }
 
-  }
+  // }
   renderCascader = (label) => {
     if (Array.isArray(label) && label.length === 0) return;
     let labelStr = label.join('/');
@@ -201,7 +203,8 @@ class CommonForm extends React.Component {
                     placeholder={["起始时间", "截止时间"]}
                     format={dateFormat}
                     disabledDate={(current) => this.disabledDate(current, 'registerTime')}
-                    onChange={(value) => this.changeDate(value, 'registerTime')} />
+                  // onChange={(value) => this.changeDate(value, 'registerTime')} 
+                  />
                 )}
               </Form.Item>
             </div>
@@ -242,7 +245,7 @@ class CommonForm extends React.Component {
                     format={dateFormat}
                     disabled={this.checkoutHasChooseClass('publicChoiceLessonTime')}
                     disabledDate={(current) => this.disabledDate(current, 'publicChoiceLessonTime')}
-                    onChange={(value) => this.changeDate(value, 'publicChoiceLessonTime')}
+                  // onChange={(value) => this.changeDate(value, 'publicChoiceLessonTime')}
                   />
                 )}
               </Form.Item>
@@ -267,7 +270,7 @@ class CommonForm extends React.Component {
                   <BIRangePicker
                     placeholder={["起始时间", "截止时间"]}
                     format={dateFormat} disabled={this.checkoutHasChooseClass('certificateChoiceLessonTime')}
-                    onChange={(value) => this.changeDate(value, 'certificateChoiceLessonTime')}
+                    // onChange={(value) => this.changeDate(value, 'certificateChoiceLessonTime')}
                     disabledDate={(current) => this.disabledDate(current, 'certificateChoiceLessonTime')} />
                 )}
               </Form.Item>
