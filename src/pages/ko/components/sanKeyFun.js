@@ -299,7 +299,7 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
     v.actionKeyIds.forEach((actionItem) => {
       const num = stringTool(actionItem.actionKeyId);
       if (num > 0) {
-        downPage.node.push({ id: actionItem.actionKeyId, name: actionItem.actionName, pageView: actionItem.clickNum });
+        downPage.node.push({ id: actionItem.actionKeyId, name: actionItem.actionName, pageView: 0 });
         downPage.links.push({
           source: v.page,
           target: actionItem.actionKeyId,
@@ -319,7 +319,7 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
           });
         }
       } else {
-        downPage.node.push({ id: actionItem.downPage, name: actionItem.downPageName, pageView: actionItem.clickNum });
+        downPage.node.push({ id: actionItem.downPage, name: actionItem.downPageName, pageView: 0 });
         downPage.links.push({
           source: v.page,
           target: actionItem.downPage,
@@ -333,16 +333,27 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
   // downPage.node去重
   const obj = {};
   downPage.node.forEach((v) => {
-    if (!obj[v.id]) {
-      obj[v.id] = v;
-    }
+    if (!obj[v.id]) obj[v.id] = v;
   });
   downPage.node = [];
   Object.keys(obj).forEach((v) => {
     downPage.node.push(obj[v]);
   });
   console.log('downPageList 桑吉结构 后--', downPage)
-  return sankeyDownFilter(downPage);
+  return countDownPagePv(sankeyDownFilter(downPage));
+}
+
+function countDownPagePv(downPage) {
+  // 有些节点只作为downPage，从来没有做过page，这种节点是不能根据求他的下游流量和来计算pv的。
+  // 所以这里专门处理node中的pageView，遍历此节点在links中作为target的所有值之和。即根据上游来计算
+  const {node=[],links=[]} = downPage;
+  node.forEach((v1)=>{
+    v1.pageView = 0;
+    links.forEach((v2)=>{
+      if (v1.id === v2.target) v1.pageView+=v2.value;
+    });
+  });
+  return downPage;
 }
 
 export function dealMapOrg({ data, formParams, params, otherParams }) {
@@ -404,7 +415,7 @@ export function dealResultData({ data1, data2, params }) {
   // 热力图，筛选当前页面
   const currentPageObj = getCurrentPage(downPageList, currentPage);
 
-  // 桑吉图，处理actionKeyIds中，最后节点小于0的数据。这些数据，downPage相同的进行合并，值相加；只处理下游节点
+  // 桑吉图，处理actionKeyIds这个字段，下划线最后节点小于0的数据。这些数据，downPage相同的进行合并，值相加；只处理下游节点
   const dealledDownPageList = actionListDataDeal(downPageList);
 
   // 构造桑吉图需要的结构，并处理节点。actionKeyId点击量取前十
