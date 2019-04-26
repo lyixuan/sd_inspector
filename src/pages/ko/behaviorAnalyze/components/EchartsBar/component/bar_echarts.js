@@ -14,6 +14,13 @@ const config = {
     }
   },
 };
+function isNumber(data){
+  let flag=''
+  if(data===0||data&&typeof(data)==='number'){
+    flag='%'
+ }
+  return flag
+}
 export function options(data,date){
   // 处理name值为null的异常
   if(data.name){
@@ -46,7 +53,7 @@ export function options(data,date){
         let tipItem='';
         if(params&&params.length){
           for(let i=0;i<params.length;i++){
-            tipItem += `<div class="tipItem"><span class="tipIcon" style="background-color:${params[i].color}"></span><span>${params[i].seriesName}：${params[i].value}${i===0?'次':''}</span></div>`
+            tipItem += `<div class="tipItem"><span class="tipIcon" style="background-color:${params[i].color}"></span><span>${params[i].seriesName}：${params[i].value}${i===0?'次':isNumber(params[i].value)}</span></div>`
           }
         }
         return `<div class="tipWrap"><div>${date}</div>${tipItem}</div>`;
@@ -71,7 +78,7 @@ export function options(data,date){
       splitLine: config.splitLine,
       axisLabel:{
         interval:0,  //类目全显
-        // rotate:45   //顺时针旋转45度
+        rotate:45   //顺时针旋转45度
       },
       data: data.name
     },
