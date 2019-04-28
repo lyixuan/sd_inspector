@@ -74,6 +74,7 @@ export default class Custom extends React.Component<any> {
         obj[key] = e.target.value;
         const { baseInputValue, startValue, endValue } = this.state;
         this.setState({ baseInputValue, startValue, endValue, ...obj });
+        e.stopPropagation();
     }
     public onError = (meg: string) => {
         message.warn(meg);
@@ -82,20 +83,21 @@ export default class Custom extends React.Component<any> {
     public onCancel = () => {
         this.props.onCancel && this.props.onCancel()
     }
-    public onClickOk = () => {
+    public onClickOk = (e: any) => {
         const { selected } = this.state;
         if (!selected.type) {
             this.onError('请选择过滤条件');
+            e.stopPropagation();
             return
         }
-        this.props.onClickOk && this.hanldData(this.props.onClickOk)
+        this.props.onClickOk && this.hanldData(e, this.props.onClickOk)
     }
-    public hanldData = (fun: (params: any) => {}) => {
+    public hanldData = (e: any, fun: (params: any) => {}) => {
         const { baseInputValue, startValue, endValue, selected, unit } = this.state;
         let returnObj = {};
         if (selected.type === 6) {
-            if (!startValue || !endValue || startValue === '-' || endValue === '-') { this.onError('请输入正确数字'); return };
-            if (Number(startValue) > Number(endValue)) { this.onError('后面数字应大于前面'); return };
+            if (!startValue || !endValue || startValue === '-' || endValue === '-') { this.onError('请输入正确数字'); e.stopPropagation(); return };
+            if (Number(startValue) > Number(endValue)) { this.onError('后面数字应大于前面'); e.stopPropagation(); return };
             returnObj = {
                 type: selected.type,
                 value: null,
@@ -106,7 +108,7 @@ export default class Custom extends React.Component<any> {
             }
             fun(returnObj);
         } else {
-            if (!baseInputValue || baseInputValue === '-') { this.onError('请输入正确数字'); return }
+            if (!baseInputValue || baseInputValue === '-') { this.onError('请输入正确数字'); e.stopPropagation(); return }
             returnObj = {
                 type: selected.type,
                 value: Number(baseInputValue),
@@ -187,7 +189,7 @@ export default class Custom extends React.Component<any> {
                     <Icon type="caret-left" />
                 </span>
                 <div className={styles.customChooseBox}>
-                    <div className={styles.selectPanle}>
+                    <div className={styles.selectPanle} onClick={(e) => { e.stopPropagation(); }}>
                         <Select
                             className='conditionSelect'
                             placeholder="请选择条件"
@@ -197,7 +199,7 @@ export default class Custom extends React.Component<any> {
                             {options}
                         </Select>
                     </div>
-                    <div className={`inputPanle ${styles.inputPanle}`}>
+                    <div className={`inputPanle ${styles.inputPanle}`} onClick={(e) => { e.stopPropagation(); }}>
                         {renderInputPanle}
                     </div>
                     <div className={styles.buttonGroup}>

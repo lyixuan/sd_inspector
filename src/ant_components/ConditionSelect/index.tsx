@@ -22,6 +22,7 @@ interface State {
     isShowCustom: boolean,
     customObj: OptionInterface | null,
     inputValue: string | null | undefined,
+    visible: boolean,
 }
 const Option = Select.Option;
 
@@ -32,6 +33,7 @@ export default class Condition extends React.Component<Props, State, object>{
         isShowCustom: false,
         customObj: null,
         inputValue: undefined,
+        visible: false,
     }
     componentDidMount() {
         const { value } = this.props;
@@ -67,6 +69,9 @@ export default class Condition extends React.Component<Props, State, object>{
         const inputValue = this.handleInputValue(value)
         this.setState({ inputValue })
     }
+    public onVisibleChange = (visible: boolean) => {
+        this.setState({ visible });
+    }
     public handleInputValue = (selectObj: any, selected = this.state.selected) => {
         const obj = selected === 'all' ? { name: '全部' } : (selectObj || {});
         return obj.name;
@@ -76,7 +81,7 @@ export default class Condition extends React.Component<Props, State, object>{
             this.props.onChange(selected)
         }
     }
-    public handleMenuClick = (options: any) => {
+    public handleMenuClick = (options: any): void => {
         const { key } = options;
         const isOpen = key === 'custom';
         const selected = key;
@@ -87,7 +92,7 @@ export default class Condition extends React.Component<Props, State, object>{
             this.onChange(obj);
         }
 
-        this.setState({ isOpen, selected, isShowCustom: isOpen, inputValue });
+        this.setState({ visible: isOpen, isOpen, selected, isShowCustom: isOpen, inputValue });
 
     }
     chooseSelectObj = (key: string, selectObj = this.state.customObj) => {
@@ -108,6 +113,9 @@ export default class Condition extends React.Component<Props, State, object>{
 
     }
     public onCancel = () => {
+        this.setState({
+            visible: false,
+        })
         this.closeSelectPanle();
     }
     public onClickOk = (params: any) => {
@@ -124,7 +132,7 @@ export default class Condition extends React.Component<Props, State, object>{
         this.closeSelectPanle()
     }
     public closeSelectPanle = () => {
-        this.setState({ isShowCustom: false, isOpen: false });
+        this.setState({ isShowCustom: false, isOpen: false, visible: false, });
     }
     public dropdownRender = (optionsGroup: any[]) => {
         const { isShowCustom } = this.state;
@@ -136,7 +144,7 @@ export default class Condition extends React.Component<Props, State, object>{
                 {items}
                 <Menu.Item key="custom">
                     <div className={styles.conditionCustom}>
-                        <span className={styles.customText} onClick={() => this.handleMenuClick({ key: 'custom' })}> 自定义</span>
+                        <span className={styles.customText} onClick={(e) => { e.stopPropagation(); this.handleMenuClick({ key: 'custom' }) }}> 自定义</span>
                         {!isShowCustom ? null : <Custom {...this.props} onClickOk={this.onClickOk} onCancel={this.onCancel} />}
                     </div>
                 </Menu.Item>
@@ -151,23 +159,25 @@ export default class Condition extends React.Component<Props, State, object>{
     }
     render() {
         const { options = [], disabled } = this.props;
-        const { isOpen, inputValue } = this.state;
+        const { isOpen, inputValue, visible } = this.state;
         const hasCustomObj = this.state.customObj ? [this.state.customObj] : []
         const optionsData = this.handleOriginOptionsData([...options, ...hasCustomObj]);
+
         return (
             <>
-                <span onClick={(e) => { e.stopPropagation() }}>
+                <span>
                     <Dropdown
                         disabled={disabled}
                         overlay={this.dropdownRender(optionsData)}
-                        visible={isOpen}
+                        trigger={['click']}
+                        onVisibleChange={this.onVisibleChange}
                         overlayClassName={styles.overlayClassName}>
                         {/* <span className="inputPanle"> */}
                         <div className={styles.selectCotainer} onClick={this.onOpen}>
                             <div className={`${disabled ? styles.disableChooseContent : styles.chooseContent}`}>
                                 {!inputValue ? <div className={styles.placeholder}>请选择</div> : null}
                                 <div className={styles.selectedValue}>{inputValue}</div>
-                                <span className={styles.inputIcon}><Icon type={`${isOpen ? 'up' : 'down'}`} /></span>
+                                <span className={styles.inputIcon}><Icon type={`${visible ? 'up' : 'down'}`} /></span>
                                 {inputValue ? <span className={styles.inputClear} onClick={this.onDelete}><Icon type='close-circle' theme="filled" /></span> : null}
                             </div>
                         </div>
