@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import { sankeySuperApi } from '@/pages/ko/behaviorAnalyze/services';
 
+// 处理成柱状图需要的数据（dataList:整合过的数据源,dataArr：柱状图数据分类)
 function getData(dataList, dataArr) {
   const dataObj = {};
   dataArr.forEach(item => {
@@ -14,6 +15,7 @@ function getData(dataList, dataArr) {
   })
   return dataObj;
 }
+// 首页：需要把 课程公开计划选项 子项求和计算，重新整合数据源
 function dealHomeData (behaviourData){
   let newKey = {name:'课程公开计划选项',actionKey:'click_ko_item',clickNum:0,choicePerson:0,clickTotalPerson:0};
   behaviourData.forEach((item)=>{
@@ -27,7 +29,6 @@ function dealHomeData (behaviourData){
   newKey.choiceLessonPercent = `${((newKey.choicePerson/newKey.clickTotalPerson)*100).toFixed(2)}%`;
   const newbehaviourData = behaviourData.filter(item=>item.actionKey!=='click_ko_item');
   newbehaviourData.push(newKey);
-  console.log(newbehaviourData)
   return newbehaviourData
 }
 export default {
@@ -40,6 +41,7 @@ export default {
     downPage: {},      // 桑吉图下游数据
     behaviourData: [], // 柱状图
     currentPage: '',   // 当前页面
+    userSize:0,   //用户数量
   },
   effects: {
     *getSankeyList({ payload }, { call, put }) {
@@ -51,7 +53,7 @@ export default {
         const { behaviourData = {}, sankeyData = {}, pvuvData, userSize } = result.data || [];
         yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj } });
         yield put({ type: 'saveBehaviourData', payload: { behaviourData } });
-        yield put({ type: 'save', payload: {pvuvData, upPage: sankeyData.upPage, downPage: sankeyData.downPage, currentPage: sankeyData.currentPage } });
+        yield put({ type: 'save', payload: {userSize,pvuvData, upPage: sankeyData.upPage, downPage: sankeyData.downPage, currentPage: sankeyData.currentPage } });
         yield put({
           type: 'koPlan/saveUserData',
           payload: { usersData: { totalCount: userSize } }
@@ -68,7 +70,7 @@ export default {
     },
     saveBehaviourData(state, { payload }) {
       const { behaviourData } = payload;
-      // 数组的字符串跟接口返回的字段一致，否则option那块取值报错
+      //  ['name', 'clickNum', 'choiceLessonPercent']数组的字符串跟接口返回的字段一致，否则option那块取值报错
       let newData = []
       if (behaviourData.length) {
         let newbehaviourData = dealHomeData(behaviourData);
