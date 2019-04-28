@@ -67,11 +67,15 @@ export function dealResultData({ data1, data2, params }) {
   // 处理下游数据
   let downPageList = cleanSrcData(srcDownPageList, currentPage);
   downPageList = downDataDeal(downPageList);
+  console.log(0,downPageList)
   downPageList = cleanSrcData2(downPageList,currentPage);
+  console.log(1,downPageList)
   downPageList = downDataAddValue(downPageList, pageEventData, actionEventData);
-
+  console.log(3,downPageList)
   const currentPageObj = getCurrentPage(downPageList, currentPage);   // 在处理数据前，取出当前页面，即热力图需要的数据
+  console.log(4,downPageList)
   downPageList = downDataDealValue(downPageList, pageEventData, actionEventData);  // 继续处理下游数据
+  console.log(5,downPageList)
   const downPage = getDownSanKeyMap(downDataTen(downPageList), currentPageObj, currentPage);
 
   console.log(downPage)
@@ -308,7 +312,7 @@ function downDataDeal(data1) {
   return newList;
 }
 
-function cleanSrcData2(downPageList, currentPageObj,currentPage) {
+function cleanSrcData2(downPageList,currentPage) {
   // 去掉page不在currentPage的downPageList的节点。即独立于currentPage之外的根节点
   // 当前页的target节点list
   const currentPageTargetList = getCurrentPage(downPageList, currentPage).actionKeyIds;
