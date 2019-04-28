@@ -1,369 +1,5 @@
 import { CLICK_KO_ITEM } from '@/utils/constants';
-let currentPv = 0;
-function dealData1(data1) {
-  /**
-   * 处理data1(桑吉图结构)原始数据
-   *
-   * 原始结构：
-   * [{page:'',pageKey:'',actionKeyId:'',actionKey:'',downPage:'',downPageName:'',actionName:''}]
-   * 关系：page --1:n-- actionKeyId   page --1:n pageKey
-   *
-   * 输出结构：
-   * [{page:'',pageKeys:[],actionKeyIds:
-   *     [
-   *      {actionKeyId:'',actionKey:'',actionName:'',clickNum:'',clickPeople:'',clickNumPro:'',clickNumPro:'',clickPeoplePro:'',downPage:'',downPageName:''}
-   *    ],
-   *  pv:'',
-   * }]
-   *
-   * 关系：page --1:1-- actionKeyIds --1:1-- pageKeys
-   * */
-
-  // 合并多个pageKey和多个actionKeyId并去重
-  const tempObj = {};
-  const newList = [];
-  data1.forEach((v) => {
-    const actionObj = {
-      actionKeyId: v.actionKeyId,
-      actionKey: v.actionKey,
-      actionName: v.actionName,
-      downPage: v.downPage,
-      downPageName: v.downPageName,
-    };
-    if (!tempObj[v.page]) {
-      v.pageKeys = new Set([v.pageKey]);
-      v.actionKeyIds = [actionObj];
-      tempObj[v.page] = v;
-    } else {
-      tempObj[v.page].pageKeys.add(v.pageKey);
-      tempObj[v.page].actionKeyIds.push(actionObj);
-    }
-  });
-  Object.keys(tempObj).forEach((key) => {
-    tempObj[key].pageKeys = Array.from(tempObj[key].pageKeys);
-    const tempO = {};
-    tempObj[key].actionKeyIds.forEach((item) => {
-      if (!tempO[item.actionKeyId]) {
-        tempO[item.actionKeyId] = item;
-      }
-    });
-    tempObj[key].actionKeyIds = [];
-    Object.keys(tempO).forEach((key2) => {
-      tempObj[key].actionKeyIds.push(tempO[key2]);
-    });
-    delete tempObj[key].actionKey;
-    delete tempObj[key].actionName;
-    delete tempObj[key].children;
-    delete tempObj[key].pageKey;
-    delete tempObj[key].actionKeyId;
-    delete tempObj[key].downPage;
-    delete tempObj[key].downPageName;
-    newList.push(tempObj[key]);
-  });
-  return newList;
-}
-
-function addObjectItem(pageList, pageEventData, actionEventData) {
-  /**
-   * 1、为 newData1 (桑吉图结构)子对象添加 页面点击量（pv）字段
-   * 2、为 newData1 (桑吉图结构)子对象添加 点击人数（clickPeople）字段
-   * 3、为 newData1 (桑吉图结构)子对象添加 点击次数（clickNum）字段
-   * 4、为 newData1 (桑吉图结构)子对象添加 人数占比（clickPeoplePro）字段
-   * 5、为 newData1 (桑吉图结构)子对象添加 次数占比（clickNumPro）字段
-   * key可能会不存在
-   * return newData1
-   * */
-  pageList.forEach((v) => {
-    v.pv = 0;
-    v.pClickPeople = 0;
-    v.pageKeys.forEach((v1) => {
-      pageEventData.forEach((p1) => {
-        if (v1 === p1.pageKey) {
-          v.pv += Number(p1.clickNum);               // pv：pageKey 的点击量之和,
-          v.pClickPeople += Number(p1.clickPeople);  // pClickPeople页面点击人数
-        }
-      });
-    });
-    v.actionKeyIds.forEach((v2) => {
-      v2.clickNum = 0;
-      v2.clickPeople = 0;
-      actionEventData.forEach((a1) => {
-        if (v2.actionKeyId === a1.actionKeyId) {
-          v2.clickNum = Number(a1.clickNum);       // clickNum：热点点击量 即actionKeyId 的点击量
-          v2.clickPeople = Number(a1.clickPeople); // clickPeople：热点点击人数为 actionKeyId 的点击人数
-
-          v2.clickNumPro = v.pv ? parseFloat(a1.clickNum / v.pv * 100) : 0; // 点击量占比
-          v2.clickPeoplePro = v.pClickPeople ? parseFloat(a1.clickPeople / v.pClickPeople * 100) : 0; // 人数击量占比
-        }
-      });
-    });
-  });
-  return pageList;
-}
-
-function getFirstTen(pageList) {
-  /**
-   * actionKeyId取前十
-   * */
-  pageList.forEach((item) => {
-    // actionKeyId 排序，倒叙
-    item.actionKeyIds.sort(function (a, b) {
-      if (Number(a.clickNum) > Number(b.clickNum)) {
-        return -1;
-      } else if (a < b) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
-    // 取前十
-    item.actionKeyIds = item.actionKeyIds.slice(0, 10);
-  });
-  return pageList;
-}
-
-function getCurrentPage(downPageList, currentPage) {
-  let currentPageObj = {};
-  for (let i = 0; i < downPageList.length; i++) {
-    if (downPageList[i].page === currentPage) {
-      currentPageObj = downPageList[i];
-      break;
-    }
-  }
-  return currentPageObj;
-}
-
-function stringTool(str) {
-  // 获取string最后一个下划线后的数字，并判断是否大于零
-  const num = str.lastIndexOf('_');
-  return Number(str.substr(num + 1));
-}
-
-function cleanSrcData(srcList, currentPage) {
-  // 去掉downPage==currentPage的数据
-  const newSrcList = [];
-  srcList.forEach((v) => {
-    if (v.downPage !== currentPage) {
-      newSrcList.push(v);
-    }
-  });
-  return newSrcList;
-}
-
-function actionListDataDeal(downPageList) {
-  // 桑吉图，处理actionKeyIds中，最后节点小于0的数据。这些数据，downPage相同的进行合并，值相加；只处理下游节点
-  downPageList.forEach((v1) => {
-    const tempObject = {};
-    const tempList = [];
-    v1.actionKeyIds.forEach((v2) => {
-      if (stringTool(v2.actionKeyId) < 0) {
-        if (!tempObject[v2.downPage]) {
-          tempObject[v2.downPage] = v2;
-        } else {
-          tempObject[v2.downPage].clickNum += Number(v2.clickNum);
-          tempObject[v2.downPage].clickNumPro += parseFloat(v2.clickNumPro);
-          tempObject[v2.downPage].clickPeople += Number(v2.clickPeople);
-          tempObject[v2.downPage].clickPeoplePro += parseFloat(v2.clickPeoplePro);
-        }
-      }
-    });
-    Object.keys(tempObject).forEach((key) => {
-      tempList.push(tempObject[key]);
-    });
-    v1.actionKeyIds = tempList;
-  });
-  return downPageList;
-}
-
-function sankeyDownFilter(sanKeyData) {
-/*
-  下游
-* 去掉值为0的节点
-* 1、遍历node节点，当前节点在links里为target的值为零，删掉此条link数据
-* 2、累计上述该node在link中为target的值，和为零，删掉此条node数据,否则保留
-* */
-  const {node=[],links=[]} = sanKeyData;
-  for (let j = node.length - 1; j >= 0; j--) {
-    let count = -1;
-    for (let i = links.length - 1; i >= 0; i--) {
-      if (node[j].id === links[i].target) {
-        if (count===-1)  count=0;
-        if (links[i].value === 0) {
-          links.splice(i, 1);
-        } else {
-          count += links[i].value;
-        }
-      }
-    }
-    if (count === 0) {
-      node.splice(j, 1);
-    }
-  }
-  return {node,links};
-}
-
-function sankeyUpFilter(sanKeyData) {
-  /*
-    上游
-  * 去掉值为0的节点
-  * 1、遍历node节点，当前节点在links里为source的值为零，删掉此条link数据，同时删掉词条node
-  * */
-  const {node=[],links=[]} = sanKeyData;
-  for (let i = links.length - 1; i >= 0; i--) {
-    dd:
-    for (let j = node.length - 1; j >= 0; j--) {
-      if (node[j].id === links[i].source) {
-        if (links[i].value === 0) {
-          links.splice(i, 1);
-          node.splice(j, 1);
-          break dd;
-        }
-      }
-    }
-  }
-  return {node,links};
-}
-
-function getUpSanKeyMap(upPageList, currentPage) {
-  /**
-   * 构造桑吉图要的数据结构，并处理特殊节点
-   *
-   * 上游桑吉图规则：
-   *    上游桑吉图，节点和连线都取page和downPage
-   * */
-  const upPage = {
-    node: [],
-    links: [],
-  };
-
-  // 上游桑吉图
-  let total = 0;
-
-  upPageList.forEach((v) => {
-    total += Number(v.pv);
-    if (v.page !== currentPage) {
-      upPage.node.push({ id: v.page, name: v.pageName, pageView: v.pv });
-    }
-    upPage.links.push({
-      source: v.page,
-      target: currentPage,
-      // pv: v.pv || 0,
-      value: v.pv || 0,
-    });
-  });
-  upPage.node.push({ id: currentPage, name: '上游页面', pageView:total});
-
-  upPage.links.forEach((v) => {
-    v.zb = (v.value / total * 100).toFixed(2) + '%';
-  });
-  currentPv = total;
-  return sankeyUpFilter(upPage)
-}
-
-function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
-  /**
-   * 构造桑吉图要的数据结构，并处理特殊节点
-   *
-   * 下游桑吉图规则：
-   *  0、先去除非当前页面的根节点
-   *  1、节点和连线的id和name取值规则：
-   *     actionKeyId值下划线最后一个值大于零，认为是详情页；所有详情页取 actionkeyId 作为node节点的 id。其它取page作为id。name同理
-   *  2、是否流向 选课 节点规则：
-   *     通过判断KO_LIST_ACTION改值是否存在于actionKeyId里确实这个节点是否流向 选课 节点。包含则流向选课节点
-   * */
-  const downPage = {
-    node: [],
-    links: [],
-  };
-  const xuankeNode = 'xuankeNode';
-  // 当前页的target节点list
-  const currentPageTargetList = currentPageObj.actionKeyIds;
-
-  for (let i = downPageList.length - 1; i >= 0; i--) {
-    if (downPageList[i].page !== currentPage) {
-      let flag = 0; // 1 改page存在于currentPageTargetList 0 不存在，这种节点要去除
-      currentPageTargetList.forEach((v) => {
-        if (downPageList[i].page === v.downPage) {
-          flag = 1;
-        }
-      });
-      if (!flag) {
-        downPageList.splice(i, 1)
-      }
-    }
-  }
-  console.log('downPageList 桑吉结构前', downPageList)
-  // 下游桑吉图
-  downPageList.forEach((v) => {
-    if (v.page===currentPage) {
-      downPage.node.push({ id: currentPage, name: '下游页面',pageView:currentPv });
-    }
-    v.actionKeyIds.forEach((actionItem) => {
-      const num = stringTool(actionItem.actionKeyId);
-      if (num > 0) {
-        downPage.node.push({ id: actionItem.actionKeyId, name: actionItem.actionName, pageView: actionItem.clickNum });
-        downPage.links.push({
-          source: v.page,
-          target: actionItem.actionKeyId,
-          // pv: v.pv || 0,
-          zb: actionItem.clickNumPro.toFixed(2) + '%',
-          value: actionItem.clickNum || 0,
-        });
-        // 如果target节点包含 CLICK_KO_ITEM ，则再增加一个target节点到 选课节点的连接
-        if (actionItem.actionKeyId.indexOf(CLICK_KO_ITEM) >= 0) {
-          downPage.node.push({ id: xuankeNode, name: '选课',pageView:actionItem.clickNum });
-          downPage.links.push({
-            source: actionItem.actionKeyId,
-            target: xuankeNode,
-            // pv: actionItem.clickNum || 0,
-            zb: actionItem.clickNumPro.toFixed(2) + '%',
-            value: actionItem.clickNum || 0,
-          });
-        }
-      } else {
-        downPage.node.push({ id: actionItem.downPage, name: actionItem.downPageName, pageView: actionItem.clickNum });
-        downPage.links.push({
-          source: v.page,
-          target: actionItem.downPage,
-          // pv: v.pv || 0,
-          zb: actionItem.clickNumPro.toFixed(2) + '%',
-          value: actionItem.clickNum || 0,
-        });
-      }
-    });
-  });
-  // downPage.node去重
-  const obj = {};
-  downPage.node.forEach((v) => {
-    if (!obj[v.id]) obj[v.id] = v;
-  });
-  downPage.node = [];
-  Object.keys(obj).forEach((v) => {
-    downPage.node.push(obj[v]);
-  });
-  console.log('downPageList 桑吉结构 后--', downPage)
-  return countDownPagePv(sankeyDownFilter(downPage));
-}
-
-function countDownPagePv(downPage) {
-  // 有些节点只作为downPage，从来没有做过page，这种节点是不能根据求他的下游流量和来计算pv的。
-  // 这里处理有多个target的节点pv。
-  const {node=[],links=[]} = downPage;
-  node.forEach((v1)=>{
-    let count = 0;
-    links.forEach((v2)=>{
-      if (v1.id === v2.target) {
-        count++;
-        if (count===1) {
-          v1.pageView=v2.value;
-        } else if (count>1){
-          v1.pageView+=v2.value;
-        }
-      }
-    });
-  });
-  return downPage;
-}
+import { DeepCopy } from '@/utils/utils';
 
 export function dealMapOrg({ data, formParams, params, otherParams }) {
   /*
@@ -400,44 +36,487 @@ export function dealMapOrg({ data, formParams, params, otherParams }) {
     newCurrentActionList.push(tempObj[key]);
   });
 
-  return Object.assign({ pageKeyList, actionKeyList, currentActionList: newCurrentActionList, currentActionKeyId, recordTimeList, belongApp }, formParams);
+  return Object.assign({
+    pageKeyList,
+    actionKeyList,
+    currentActionList: newCurrentActionList,
+    currentActionKeyId,
+    recordTimeList,
+    belongApp,
+  }, formParams);
 }
 
 export function dealResultData({ data1, data2, params }) {
   /*
   * 桑吉接口组合，处理数据
+  * data1：桑吉图结构
+  * data2：桑吉图值
   * */
   const { page: currentPage } = params;
+  const { upPageList: srcUpPageList, downPageList: srcDownPageList } = data1;
+  const { pageEventData, actionEventData } = data2;
 
-  // 清洗数据 只需处理下游
-  const cleanedDownPageList = cleanSrcData(data1.downPageList, currentPage);
+  const currentPageClickNum = currentPageClickSun(srcUpPageList, pageEventData, currentPage);
 
-  // 基于page合并去重，构造新的数据结构
-  let upPageList = dealData1(data1.upPageList);
-  let downPageList = dealData1(cleanedDownPageList);
+  // 处理上游数据
+  let upPageList = upDataDeal(srcUpPageList);
+  upPageList = upDataAddValue(upPageList, pageEventData, currentPageClickNum);
+  upPageList = updataTen(upPageList);
+  const upPage = getUpSanKeyMap(upPageList, currentPage, currentPageClickNum);
 
-  // 结构和数值匹配。为newData1添加 页面点击量 点击人数等数值
-  upPageList = addObjectItem(upPageList, data2.pageEventData, data2.actionEventData);
-  downPageList = addObjectItem(downPageList, data2.pageEventData, data2.actionEventData);
+  // 处理下游数据
+  let downPageList = cleanSrcData(srcDownPageList, currentPage);
+  downPageList = downDataDeal(downPageList);
+  downPageList = cleanSrcData2(downPageList,currentPage);
+  downPageList = downDataAddValue(downPageList, pageEventData, actionEventData);
 
-  console.log(123,downPageList)
-  // 热力图，筛选当前页面
-  const currentPageObj = getCurrentPage(downPageList, currentPage);
+  const currentPageObj = getCurrentPage(downPageList, currentPage);   // 在处理数据前，取出当前页面，即热力图需要的数据
+  downPageList = downDataDealValue(downPageList, pageEventData, actionEventData);  // 继续处理下游数据
+  const downPage = getDownSanKeyMap(downDataTen(downPageList), currentPageObj, currentPage);
 
-  // 桑吉图，处理actionKeyIds这个字段，下划线最后节点小于0的数据。这些数据，downPage相同的进行合并，值相加；只处理下游节点
-  const dealledDownPageList = actionListDataDeal(downPageList);
-
-  // 构造桑吉图需要的结构，并处理节点。actionKeyId点击量取前十
-  const upPage = getUpSanKeyMap(getFirstTen(upPageList), currentPage);
-  const downPage = getDownSanKeyMap(getFirstTen(dealledDownPageList), currentPageObj, currentPage);
-
+  console.log(downPage)
   return {
     upPage,
     downPage,
     currentPageObj,
-    currentPage
+    currentPage,
   };
 }
+
+function stringTool(str) {
+  // 获取string最后一个下划线后的数字
+  const num = str.lastIndexOf('_');
+  return Number(str.substr(num + 1));
+}
+
+function currentPageClickSun(upPageList, pageEventData, currentPage) {
+  let currentPageClickNum = 0;
+  const downPageKeyList = new Set();
+  upPageList.forEach((v) => {
+    if (v.downPage === currentPage) {
+      downPageKeyList.add(v.downPageKey);
+    }
+  });
+  downPageKeyList.forEach((v1) => {
+    pageEventData.forEach((v2) => {
+      if (v1 === v2.pageKey) currentPageClickNum += v2.clickNum;
+    });
+  });
+  return currentPageClickNum;
+}
+
+//
+function getCurrentPage(downPageList, currentPage) {
+  let currentPageObj = {};
+  for (let i = 0; i < downPageList.length; i++) {
+    if (downPageList[i].page === currentPage) {
+      currentPageObj = downPageList[i];
+      break;
+    }
+  }
+  return currentPageObj;
+}
+
+function upDataDeal(data) {
+  /**
+   * 处理(桑吉图结构)上游数据
+   * 原始结构：
+   * [{page:'',pageKey:'',actionKeyId:'',actionKey:'',downPage:'',downPageName:'',actionName:''}]
+   * 关系：page --1:n pageKey
+   *
+   * 输出结构：
+   * [{page:'',pageKeys:[],downPage:'',downPageName:'',clickNum:'',pageView:'',clickNumPro:''}]
+   *
+   * 关系：page --1:1--  pageKeys
+   * */
+
+  const tempObj = {};
+  const newList = [];
+  // 合并pageKey到page
+  data.forEach((v) => {
+    if (!tempObj[v.page]) {
+      v.pageKeys = new Set([v.pageKey]);
+      tempObj[v.page] = v;
+    } else {
+      tempObj[v.page].pageKeys.add(v.pageKey);
+    }
+  });
+  // 对象转数组
+  Object.keys(tempObj).forEach((key) => {
+    delete tempObj[key].actionKey;
+    delete tempObj[key].actionName;
+    delete tempObj[key].children;
+    delete tempObj[key].pageKey;
+    delete tempObj[key].actionKeyId;
+    tempObj[key].pageKeys = Array.from(tempObj[key].pageKeys);
+    newList.push(tempObj[key]);
+  });
+
+  return newList;
+}
+
+function upDataAddValue(upPageList, pageEventData, currentClickNum) {
+  /**
+   * 1、为 pageList (桑吉图结构)对象添加 页面点击量（pageView）字段
+   * 2、为 pageList (桑吉图结构)对象添加 点击人数-流量（clickNum）字段
+   * 3、为 pageList (桑吉图结构)对象添加 点击次数占比（clickNumPro）字段
+   * */
+
+  const pageList = DeepCopy(upPageList);
+  pageList.forEach((v) => {
+    v.pageView = 0;
+    v.clickNum = 0;
+    v.pageKeys.forEach((v1) => {
+      pageEventData.forEach((p1) => {
+        if (v1 === p1.pageKey) {
+          v.pageView += Number(p1.clickNum);
+          v.clickNum += Number(p1.clickNum);
+        }
+      });
+    });
+  });
+  pageList.forEach((v) => {
+    v.zb = (v.clickNum / currentClickNum * 100).toFixed(2) + '%';
+  });
+  return pageList;
+}
+
+function updataTen(upPageList) {
+  // 上游前十
+  let pageList = DeepCopy(upPageList);
+  pageList.sort(function(a, b) {
+    if (Number(a.clickNum) > Number(b.clickNum)) {
+      return -1;
+    } else if (a < b) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+  pageList = pageList.slice(0, 10);
+  return pageList;
+}
+
+function getUpSanKeyMap(upPageList, currentPage, currentClickNum) {
+  /**
+   * 构造桑吉图要的数据结构，并处理特殊节点
+   *
+   * 上游桑吉图规则：
+   *    上游桑吉图，节点和连线都取page和downPage
+   * */
+  const upPage = {
+    node: [],
+    links: [],
+  };
+
+  // 上游桑吉图
+  upPage.node.push({ id: currentPage, name: '上游页面', pageView: currentClickNum });
+  upPageList.forEach((v) => {
+    if (v.clickNum || v.clickNum !== 0) { // 只保留非零节点
+      upPage.node.push({ id: v.page, name: v.pageName, pageView: v.pageView });
+      upPage.links.push({
+        source: v.page,
+        target: currentPage,
+        zb: v.zb || 0,
+        value: v.clickNum || 0,
+      });
+    }
+  });
+
+  return upPage;
+}
+
+//
+function cleanSrcData(srcList, currentPage) {
+  // 去掉downPage==currentPage的数据
+  const newSrcList = [];
+  srcList.forEach((v) => {
+    if (v.downPage !== currentPage) {
+      newSrcList.push(v);
+    }
+  });
+  return newSrcList;
+}
+
+function downDataDeal(data1) {
+  /**
+   * 处理(桑吉图结构)下游数据
+   *
+   * 原始结构：
+   * [{page:'',pageKey:'',actionKeyId:'',actionKey:'',downPage:'',downPageName:'',actionName:''}]
+   * 关系：page --1:n-- actionKeyId   page --1:n pageKey
+   *
+   * 输出结构：
+   * [{page:'',pageKeys:[],actionKeyIds:
+   *     [
+   *      {actionKeyId:'',actionKey:'',actionName:'',clickNum:'',clickPeople:'',clickNumPro:'',clickNumPro:'',clickPeoplePro:'',downPage:'',downPageName:'',downPageView:''}
+   *    ],
+   *  pageView:'',
+   * }]
+   *
+   * 关系：page --1:1-- actionKeyIds --1:1-- pageKeys
+   * */
+
+    // 合并多个pageKey和多个actionKeyId并去重
+  const tempObj = {};
+  const newList = [];
+  data1.forEach((v) => {
+    const actionObj = {
+      actionKeyId: v.actionKeyId,
+      actionKey: v.actionKey,
+      actionName: v.actionName,
+      downPage: v.downPage,
+      downPageName: v.downPageName,
+      downPageView: 0,
+      clickNum: 0,
+      clickPeople: 0,
+      clickNumPro: 0,
+      clickPeoplePro: 0,
+    };
+    v.pageView = 0;
+    if (!tempObj[v.page]) {
+      v.pageKeys = new Set([v.pageKey]);
+      v.actionKeyIds = [actionObj];
+      tempObj[v.page] = v;
+    } else {
+      tempObj[v.page].pageKeys.add(v.pageKey);
+      tempObj[v.page].actionKeyIds.push(actionObj);
+    }
+  });
+  Object.keys(tempObj).forEach((key) => {
+    // actionKeyId 去重
+    const tempO = {};
+    tempObj[key].actionKeyIds.forEach((item) => {
+      if (!tempO[item.actionKeyId]) {
+        tempO[item.actionKeyId] = item;
+      }
+    });
+    tempObj[key].actionKeyIds = [];
+    Object.keys(tempO).forEach((key2) => {
+      tempObj[key].actionKeyIds.push(tempO[key2]);
+    });
+    delete tempObj[key].actionKey;
+    delete tempObj[key].actionName;
+    delete tempObj[key].children;
+    delete tempObj[key].pageKey;
+    delete tempObj[key].actionKeyId;
+    delete tempObj[key].downPage;
+    delete tempObj[key].downPageName;
+    tempObj[key].pageKeys = Array.from(tempObj[key].pageKeys);
+    newList.push(tempObj[key]);
+  });
+  return newList;
+}
+
+function cleanSrcData2(downPageList, currentPageObj,currentPage) {
+  // 去掉page不在currentPage的downPageList的节点。即独立于currentPage之外的根节点
+  // 当前页的target节点list
+  const currentPageTargetList = getCurrentPage(downPageList, currentPage).actionKeyIds;
+
+  for (let i = downPageList.length - 1; i >= 0; i--) {
+    if (downPageList[i].page !== currentPage) {
+      let flag = 0; // 1 改page存在于currentPageTargetList 0 不存在，这种节点要去除
+      currentPageTargetList.forEach((v) => {
+        if (downPageList[i].page === v.downPage) {
+          flag = 1;
+        }
+      });
+      if (!flag) {
+        downPageList.splice(i, 1)
+      }
+    }
+  }
+  return downPageList;
+}
+
+function downDataAddValue(pageList, pageEventData, actionEventData) {
+  /**
+   * 1、为 桑吉图结构 对象添加 页面点击量（pageView）字段
+   * 2、为 桑吉图结构 对象添加 点击人数（clickPeople）字段
+   * 3、为 桑吉图结构 对象添加 点击次数（clickNum）字段
+   * 4、为 桑吉图结构 对象添加 人数占比（clickPeoplePro）字段
+   * 5、为 桑吉图结构 对象添加 次数占比（clickNumPro）字段
+   * */
+  pageList.forEach((v) => {
+    v.pageView = 0;
+    v.pagePeopleView = 0;
+    v.pageKeys.forEach((v1) => {
+      pageEventData.forEach((p1) => {
+        if (v1 === p1.pageKey) {
+          v.pageView += Number(p1.clickNum);
+          v.pagePeopleView += Number(p1.clickPeople);
+        }
+      });
+    });
+    v.actionKeyIds.forEach((v2) => {
+      v2.clickNum = 0;
+      v2.clickPeople = 0;
+      actionEventData.forEach((a1) => {
+        if (v2.actionKeyId === a1.actionKeyId) {
+          v2.clickNum = Number(a1.clickNum);
+          v2.clickPeople = Number(a1.clickPeople);
+          v2.clickNumPro = v.pageView ? parseFloat(a1.clickNum / v.pageView * 100) : 0; // 点击量占比
+          v2.clickPeoplePro = v.pagePeopleView ? parseFloat(a1.clickPeople / v.pagePeopleView * 100) : 0; // 人数击量占比
+        }
+      });
+    });
+  });
+  // 为 actionKeyIds 里的downPage添加 downPageView，如果该downPage也是page的话;
+  pageList.forEach((v1) => {
+    v1.actionKeyIds.forEach((v2) => {
+      pageList.forEach((v3) => {
+        if (v2.downPage === v3.page) {
+          v2.downPageView = v3.pageView;
+        }
+      })
+    });
+  });
+  return pageList;
+}
+
+function downDataDealValue(pageList) {
+  // 桑吉图，处理actionKeyIds中，最后节点小于0的数据(页面)。这些数据，downPage相同的进行合并，值相加
+  pageList.forEach((v1) => {
+    const tempObject = {};
+    const tempList = [];
+    v1.actionKeyIds.forEach((v2) => {
+      if (stringTool(v2.actionKeyId) < 0) {
+        if (!tempObject[v2.downPage]) {
+          tempObject[v2.downPage] = v2;
+        } else {
+          tempObject[v2.downPage].clickNum += Number(v2.clickNum);
+          tempObject[v2.downPage].clickNumPro += parseFloat(v2.clickNumPro);
+          tempObject[v2.downPage].clickPeople += Number(v2.clickPeople);
+          tempObject[v2.downPage].clickPeoplePro += parseFloat(v2.clickPeoplePro);
+        }
+      }
+    });
+    Object.keys(tempObject).forEach((key) => {
+      tempList.push(tempObject[key]);
+    });
+    v1.actionKeyIds = tempList;
+  });
+  return pageList;
+}
+
+function downDataTen(pageList) {
+  /**
+   * actionKeyId取前十
+   * */
+  pageList.forEach((item) => {
+    // actionKeyId 排序，倒叙
+    item.actionKeyIds.sort(function(a, b) {
+      if (Number(a.clickNum) > Number(b.clickNum)) {
+        return -1;
+      } else if (a < b) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    // 取前十
+    item.actionKeyIds = item.actionKeyIds.slice(0, 10);
+  });
+  return pageList;
+}
+
+function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
+  /**
+   * 构造桑吉图要的数据结构，并处理特殊节点
+   *
+   * 下游桑吉图规则：
+   *  1、节点和连线的id和name取值规则：
+   *     actionKeyId值下划线最后一个值大于零，认为是详情页；所有详情页取 actionkeyId 作为node节点的 id。其它取page作为id。name同理
+   *  2、是否流向 选课 节点规则：
+   *     通过判断KO_LIST_ACTION改值是否存在于actionKeyId里确实这个节点是否流向 选课 节点。包含则流向选课节点
+   * */
+  const downPage = {
+    node: [],
+    links: [],
+  };
+  const xuankeNode = 'xuankeNode';
+
+  // 下游桑吉图
+  downPageList.forEach((v) => {
+    if (v.page === currentPage) {
+      downPage.node.push({ id: currentPage, name: '下游页面', pageView: v.pageView });
+    } else {
+      downPage.node.push({ id: v.page, name: v.pageName, pageView: v.pageView });
+    }
+    v.actionKeyIds.forEach((actionItem) => {
+      const num = stringTool(actionItem.actionKeyId);
+      if (num > 0) { // 详情页，取actionKeyId
+        downPage.node.push({ id: actionItem.actionKeyId, name: actionItem.actionName, pageView: actionItem.clickNum });
+        downPage.links.push({
+          source: v.page,
+          target: actionItem.actionKeyId,
+          zb: actionItem.clickNumPro.toFixed(2) + '%',
+          value: actionItem.clickNum || 0,
+        });
+        // 如果target节点包含 CLICK_KO_ITEM ，则再增加一个target节点到 选课节点的连接
+        if (actionItem.actionKeyId.indexOf(CLICK_KO_ITEM) >= 0) {
+          downPage.node.push({ id: xuankeNode, name: '选课' });
+          downPage.links.push({
+            source: actionItem.actionKeyId,
+            target: xuankeNode,
+            zb: actionItem.clickNumPro.toFixed(2) + '%',
+            value: actionItem.clickNum || 0,
+          });
+        }
+      } else {  // 页面
+        downPage.node.push({ id: actionItem.downPage, name: actionItem.downPageName, pageView: actionItem.downPageView });
+        downPage.links.push({
+          source: v.page,
+          target: actionItem.downPage,
+          zb: actionItem.clickNumPro.toFixed(2) + '%',
+          value: actionItem.clickNum || 0,
+        });
+      }
+    });
+  });
+  // downPage.node去重
+  const obj = {};
+  downPage.node.forEach((v) => {
+    if (!obj[v.id]) obj[v.id] = v;
+  });
+  downPage.node = [];
+  Object.keys(obj).forEach((v) => {
+    downPage.node.push(obj[v]);
+  });
+  return delZeroData(downPage);
+}
+
+function delZeroData(sanKeyData) {
+  /*
+    下游
+  * 去掉值为0的节点
+  * 1、遍历node节点，当前节点在links里为target的值为零，删掉此条link数据
+  * 2、累计上述该node在link中为target的值，和为零，删掉此条node数据,否则保留
+  * */
+  const { node = [], links = [] } = sanKeyData;
+  for (let j = node.length - 1; j >= 0; j--) {
+    let count = -1;
+    for (let i = links.length - 1; i >= 0; i--) {
+      if (node[j].id === links[i].target) {
+        if (count === -1) count = 0;
+        if (links[i].value === 0) {
+          links.splice(i, 1);
+        } else {
+          count += links[i].value;
+        }
+      }
+    }
+    if (count === 0) {
+      node.splice(j, 1);
+    }
+  }
+  return { node, links };
+}
+
+
+
+
+
 
 
 // 桑吉图数据结构参考 demo
