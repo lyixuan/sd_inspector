@@ -1,5 +1,5 @@
 import { CLICK_KO_ITEM } from '@/utils/constants';
-
+let currentPv = 0;
 function dealData1(data1) {
   /**
    * 处理data1(桑吉图结构)原始数据
@@ -239,7 +239,6 @@ function getUpSanKeyMap(upPageList, currentPage) {
   // 上游桑吉图
   let total = 0;
 
-
   upPageList.forEach((v) => {
     total += Number(v.pv);
     if (v.page !== currentPage) {
@@ -257,6 +256,7 @@ function getUpSanKeyMap(upPageList, currentPage) {
   upPage.links.forEach((v) => {
     v.zb = (v.value / total * 100).toFixed(2) + '%';
   });
+  currentPv = total;
   return sankeyUpFilter(upPage)
 }
 
@@ -296,12 +296,12 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
   // 下游桑吉图
   downPageList.forEach((v) => {
     if (v.page===currentPage) {
-      downPage.node.push({ id: currentPage, name: '下游页面',pageView:v.pv });
+      downPage.node.push({ id: currentPage, name: '下游页面',pageView:currentPv });
     }
     v.actionKeyIds.forEach((actionItem) => {
       const num = stringTool(actionItem.actionKeyId);
       if (num > 0) {
-        downPage.node.push({ id: actionItem.actionKeyId, name: actionItem.actionName, pageView: 0 });
+        downPage.node.push({ id: actionItem.actionKeyId, name: actionItem.actionName, pageView: actionItem.clickNum });
         downPage.links.push({
           source: v.page,
           target: actionItem.actionKeyId,
@@ -311,7 +311,7 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
         });
         // 如果target节点包含 CLICK_KO_ITEM ，则再增加一个target节点到 选课节点的连接
         if (actionItem.actionKeyId.indexOf(CLICK_KO_ITEM) >= 0) {
-          downPage.node.push({ id: xuankeNode, name: '选课' });
+          downPage.node.push({ id: xuankeNode, name: '选课',pageView:actionItem.clickNum });
           downPage.links.push({
             source: actionItem.actionKeyId,
             target: xuankeNode,
@@ -321,7 +321,7 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
           });
         }
       } else {
-        downPage.node.push({ id: actionItem.downPage, name: actionItem.downPageName, pageView: 0 });
+        downPage.node.push({ id: actionItem.downPage, name: actionItem.downPageName, pageView: actionItem.clickNum });
         downPage.links.push({
           source: v.page,
           target: actionItem.downPage,
