@@ -92,7 +92,7 @@ class CommonForm extends React.Component {
                 returnItem = item ? item.value : undefined
                 break;
             case 'attendanceNum':
-                returnItem = item ? item.value : undefined
+                returnItem = item ? item : undefined
                 break;
             case 'listenLessonTime':
                 returnItem = item ? this.handleCustomParams(item) : undefined;

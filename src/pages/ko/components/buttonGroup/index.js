@@ -93,7 +93,7 @@ export default class ButtonGroup extends React.Component {
                 returnDom = item ? this.renderTypeTage(item, 'certificateChoiceLesson')() : null
                 break;
             case 'certificateChoiceLessonTime':
-                returnDom = (Array.isArray(item) && item.length > 0) ? this.renderDateTags(item, 'certificateChoiceLessonTime', '资格证选课时间', 3) : null
+                returnDom = (Array.isArray(item) && item.length > 0) ? this.renderDateTags(item, 'certificateChoiceLessonTime', '资格证课选课时间', 3) : null
                 break;
             case 'attendanceStatus':
                 returnDom = item ? this.renderTypeTage(item, 'attendanceStatus')() : null
