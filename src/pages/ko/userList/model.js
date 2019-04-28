@@ -18,12 +18,14 @@ export default {
       // 列表
       const params = payload.params;
       const result = yield call(getTableList, params);
+      const { pageSize, currentPage } = params;
+      console.log(pageSize, currentPage)
       if (result.code === 20000) {
         const data = result.data || {};
         const userList = Array.isArray(data.resultList) ? data.resultList : [];
         const totalCount = data.totalCount;
         const currentPage = data.currentPage;
-        yield put({ type: 'save', payload: { userList,currentPage,totalCount } });
+        yield put({ type: 'save', payload: { userList, currentPage, totalCount } });
         yield put({
           type: 'koPlan/saveUserData',
           payload: { usersData: { totalCount } }
@@ -31,6 +33,11 @@ export default {
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
+      yield put({
+        type: 'savePageParams',
+        payload: { pageParams: { pageSize, currentPage } },
+
+      })
     },
   },
 
