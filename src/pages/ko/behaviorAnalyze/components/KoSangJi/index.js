@@ -19,7 +19,6 @@ class KoSangJi extends React.Component {
             <div className={style.rowWrap}>
               <SangJiEcharts {...this.props} className={style.colWrap} style={{ width: '18%', height: '525px' }} position={'left'}></SangJiEcharts>
               <div className={style.currentPage}>上游页面</div>
-              {Number(userSize)===0?null:<KoDetail {...this.props} />}
               <KoDetail {...this.props} />
               <div className={style.currentPage}>下游页面</div>
               <SangJiEcharts {...this.props} className={style.colWrap} style={{ width: '60%', height: '525px' }} position={'right'}></SangJiEcharts>
