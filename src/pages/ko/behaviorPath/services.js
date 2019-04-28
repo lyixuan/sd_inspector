@@ -23,3 +23,7 @@ export async function wechatAct(params) {
 export async function learningAct(params) {
   return request('/userTrack/learningAct', { method: 'post', data: params });
 }
+// 获取日期列表
+export async function getDateList2(params) {
+  return request('/userTrack/getDateList', { params });
+}

@@ -170,8 +170,8 @@ class Wechart extends React.Component {
   }
   mount(props) {
     let list = [];
-    if (props.behaviorPath.dateList.length > 0) {
-      props.behaviorPath.dateList.map(item => {
+    if (props.behaviorPath.dateListWechart.length > 0) {
+      props.behaviorPath.dateListWechart.map(item => {
         list.push({
           date: item,
           collapse: false,
@@ -185,14 +185,15 @@ class Wechart extends React.Component {
       this.setState({
         dateList: this.state.dateList
       });
+    } else {
+      this.setState({
+        dateList: []
+      });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      JSON.stringify(nextProps.behaviorPath.wechartData) !==
-      JSON.stringify(this.props.behaviorPath.wechartData)
-    ) {
+    if ((JSON.stringify(nextProps.behaviorPath.wechartData) !== JSON.stringify(this.props.behaviorPath.wechartData)) || (JSON.stringify(nextProps.behaviorPath.dateListWechart) !== JSON.stringify(this.props.behaviorPath.dateListWechart))) {
       this.mount(nextProps);
 
     }
@@ -235,7 +236,9 @@ class Wechart extends React.Component {
     return (
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>
-          <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout>
+          {
+            this.state.dateList.length > 0 ? <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> : <Empty></Empty>
+          }
         </Spin>
         {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
       </div >

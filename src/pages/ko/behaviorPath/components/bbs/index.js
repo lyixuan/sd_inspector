@@ -159,10 +159,9 @@ class Bbs extends React.Component {
     this.mount(this.props);
   }
   mount(props) {
-    console.log(167, props)
     let list = [];
-    if (props.behaviorPath.dateList.length > 0) {
-      props.behaviorPath.dateList.map(item => {
+    if (props.behaviorPath.dateListBbs.length > 0) {
+      props.behaviorPath.dateListBbs.map(item => {
         list.push({
           date: item,
           collapse: false,
@@ -176,11 +175,15 @@ class Bbs extends React.Component {
       this.setState({
         dateList: this.state.dateList
       });
+    } else {
+      this.setState({
+        dateList: []
+      });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (JSON.stringify(nextProps.behaviorPath.bbsData) !== JSON.stringify(this.props.behaviorPath.bbsData)) {
+    if ((JSON.stringify(nextProps.behaviorPath.bbsData) !== JSON.stringify(this.props.behaviorPath.bbsData)) || (JSON.stringify(nextProps.behaviorPath.dateListBbs) !== JSON.stringify(this.props.behaviorPath.dateListBbs))) {
       this.mount(nextProps);
     }
   }
@@ -218,7 +221,9 @@ class Bbs extends React.Component {
     return (
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>
-          <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout>
+          {
+            this.state.dateList.length > 0 ? <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> : <Empty></Empty>
+          }
         </Spin>
         {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
       </div >

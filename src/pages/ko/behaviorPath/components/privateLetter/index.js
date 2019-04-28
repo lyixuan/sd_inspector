@@ -192,9 +192,8 @@ class PrivateLetter extends React.Component {
     this.mount(this.props);
   }
   mount(props) {
-    console.log(212, props)
     let list = [];
-    if (props.behaviorPath.dateList.length > 0) {
+    if (props.behaviorPath.dateListLetter.length > 0) {
       if (props.behaviorPath.letterData) {
         // 根据userId来判断是学员还是老师，如果是学员，在数据中加一个userType
         props.behaviorPath.letterData.map(item => {
@@ -208,7 +207,7 @@ class PrivateLetter extends React.Component {
         })
       }
 
-      props.behaviorPath.dateList.map(item => {
+      props.behaviorPath.dateListLetter.map(item => {
         list.push({
           date: item,
           collapse: false,
@@ -222,13 +221,14 @@ class PrivateLetter extends React.Component {
       this.setState({
         dateList: this.state.dateList
       });
+    } else {
+      this.setState({
+        dateList: []
+      });
     }
   }
   componentWillReceiveProps(nextProps) {
-    if (
-      JSON.stringify(nextProps.behaviorPath.letterData) !==
-      JSON.stringify(this.props.behaviorPath.letterData)
-    ) {
+    if ((JSON.stringify(nextProps.behaviorPath.letterData) !== JSON.stringify(this.props.behaviorPath.letterData)) || (JSON.stringify(nextProps.behaviorPath.dateListLetter) !== JSON.stringify(this.props.behaviorPath.dateListLetter))) {
       this.mount(nextProps);
 
     }
@@ -267,7 +267,9 @@ class PrivateLetter extends React.Component {
     return (
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>
-          <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout>
+          {
+            this.state.dateList.length > 0 ? <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> : <Empty></Empty>
+          }
         </Spin>
         {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
 
