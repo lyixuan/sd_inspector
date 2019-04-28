@@ -7,14 +7,13 @@ export const handleDateParams = (item) => {
     const [startTime, endTime] = item;
     return [startTime, endTime].map((ls) => ls && moment(ls).format(commitDateFormat));
 }
-
 export function handleInitParams(params = {}) {
     let returnObj = {
 
     };
-
     Object.keys(params).forEach(key => {
         if (key === 'KoDateRange') {
+            // 默认不回显
             const date = Array.isArray(params[key]) && params[key].length > 0 ? params[key][0] : {};
             const { beginTime, endTime } = date;
             returnObj = {
@@ -28,6 +27,11 @@ export function handleInitParams(params = {}) {
     })
 
     return returnObj;
+}
+export function initRecordTimeListData(params) {
+    const date = Array.isArray(params) && params.length > 0 ? params[0] : {};
+    const { beginTime, endTime } = date;
+    return [beginTime, endTime].map(item => item && moment(item).format(commitDateFormat));
 }
 export function handleFormParams(params) {
     const date = Array.isArray(params) && params.length > 0 ? params[0] : {};

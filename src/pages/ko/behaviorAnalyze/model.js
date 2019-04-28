@@ -1,25 +1,6 @@
 import { message } from 'antd';
 import { sankeySuperApi } from '@/pages/ko/behaviorAnalyze/services';
 
-function getByteLen(val) {
-  var len = 0;
-  for (var i = 0; i < val.length; i++) {
-    var a = val.charAt(i);
-    if (a.match(/[^\x00-\xff]/ig) != null){
-      len += 2;
-    }else{
-      len += 1;
-    }
-  }
-    return len;
-}
-function format(name){
-  if(getByteLen(name)>16){
-    return `${name.substring(0,8)}...`
-  }else{
-    return name
-  }
-}
 function getData(dataList, dataArr) {
   const dataObj = {};
   dataArr.forEach(item => {
@@ -28,15 +9,27 @@ function getData(dataList, dataArr) {
       if(item==='choiceLessonPercent'){
         item1[item]=item1[item].split('%')[0]
       }
-      if(item==='name'){
-        item1[item]=format(item1[item])
-      }
       dataObj[item].push({ name: item1, value: item1[item] })
     });
   })
   return dataObj;
 }
+function dealHomeData (behaviourData){
+  let newKey = {name:'课程公开计划选项',actionKey:'click_ko_item',clickNum:0,choicePerson:0,clickTotalPerson:0};
+  behaviourData.forEach((item)=>{
+    if(item.actionKeyId.indexOf('homepage')>=0&&item.actionKey==='click_ko_item'){
+      newKey.clickNum+=Number(item.clickNum)
+      newKey.choicePerson+=Number(item.choicePerson)
+      newKey.clickTotalPerson+=Number(item.clickTotalPerson)
+    }
+  });
 
+  newKey.choiceLessonPercent = `${((newKey.choicePerson/newKey.clickTotalPerson)*100).toFixed(2)}%`;
+  const newbehaviourData = behaviourData.filter(item=>item.actionKey!=='click_ko_item');
+  newbehaviourData.push(newKey);
+  console.log(newbehaviourData)
+  return newbehaviourData
+}
 export default {
   namespace: 'behavior',
 
@@ -77,8 +70,9 @@ export default {
       const { behaviourData } = payload;
       // 数组的字符串跟接口返回的字段一致，否则option那块取值报错
       let newData = []
-      if (behaviourData) {
-        let newbehaviourData = behaviourData.sort((a,b)=>(b.clickNum-a.clickNum ));
+      if (behaviourData.length) {
+        let newbehaviourData = dealHomeData(behaviourData);
+        newbehaviourData = newbehaviourData.sort((a,b)=>(b.clickNum-a.clickNum ));
         newData = getData(newbehaviourData.slice(0, 10), ['name', 'clickNum', 'choiceLessonPercent'])
       }
 

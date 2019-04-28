@@ -2,6 +2,8 @@ export const seriesConfig = {
   type: 'sankey',
   top:1,
   bottom:1,
+  left: 1,
+  right:1,
   nodeWidth: 10,
   layout:'none',
   layoutIterations:0,

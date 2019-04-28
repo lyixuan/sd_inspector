@@ -29,9 +29,9 @@ class CommonForm extends React.Component {
         return { ...obj, ...returnObj };
     }
     handleCustomParams = (item) => {
-        const { type } = item;
+        const { unit } = item;
         let returnObj = { ...item };
-        switch (type) {
+        switch (unit) {
             case 'yy':
                 returnObj = this.handleCustomValue(item)(365 * 24 * 3600);
                 break;
@@ -92,7 +92,7 @@ class CommonForm extends React.Component {
                 returnItem = item ? item.value : undefined
                 break;
             case 'attendanceNum':
-                returnItem = item ? item.value : undefined
+                returnItem = item ? item : undefined
                 break;
             case 'listenLessonTime':
                 returnItem = item ? this.handleCustomParams(item) : undefined;

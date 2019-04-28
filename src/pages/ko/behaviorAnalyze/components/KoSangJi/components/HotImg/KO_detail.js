@@ -16,9 +16,7 @@ class KoDetailPage extends React.Component {
   }
   componentWillReceiveProps(nextProps){
     if(nextProps.behavior.hotDataList!==this.props.behavior.hotDataList){
-      if(JSON.stringify(nextProps.behavior.hotDataList)!=='{}' ){
-        this.drewLended(nextProps.behavior.hotDataList.newIds,nextProps.behavior.hotDataList.page);
-      }
+      this.drewLended(nextProps.behavior.hotDataList.newIds,nextProps.behavior.hotDataList.page);
     }
   }
   // 对data数据处理，加上颜色
@@ -169,7 +167,8 @@ class KoDetailPage extends React.Component {
 
       // 处理特殊页面
       if(page==='homepage'){
-        this.specialData(data,['homepage_click_testregion_-1','homepage_Click_city_-1'],'homepage_click_city')
+        let m = this.specialData(data,['homepage_click_testregion_-1','homepage_Click_city_-1'],'homepage_click_city')
+        console.log(m)
         this.getActionKeyList(data,'click_ko_item','homepage_add_koitem')
       }else if(page==='studypage'){
         this.specialData(data,['studypage_click_golesson_-1','homepage_click_golesson_free_-1'],'studypage_click_golesson');
@@ -199,6 +198,8 @@ class KoDetailPage extends React.Component {
       .on('mouseover', KoDetailPage.that.drewTip(data))
       .on('mouseout', tip.hide)
       .on('mousemove', tip.show);
+    }else{
+      d3.select(this.svgDom).html(pages[page]);
     }
   };
   render() {
