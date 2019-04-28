@@ -16,7 +16,8 @@ class KoDetailPage extends React.Component {
   }
   componentWillReceiveProps(nextProps){
     if(nextProps.behavior.hotDataList!==this.props.behavior.hotDataList){
-      this.drewLended(nextProps.behavior.hotDataList.actionKeyIds,nextProps.behavior.hotDataList.page);
+      console.log(1)
+      this.drewLended(nextProps.behavior.hotDataList.newIds,nextProps.behavior.hotDataList.page);
     }
   }
   // 对data数据处理，加上颜色
