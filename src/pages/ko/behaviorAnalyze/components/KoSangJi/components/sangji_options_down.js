@@ -40,15 +40,14 @@ export function getSangJiDownOption(downPage,currentPage) {
     series: {
       data: node,
       links: links,
-      left: 25,
-      right:1,
       label: {
         normal: {
           color: "#000",
           fontSize: 10,
           formatter: function(params, i) {
             if (params.data.id===currentPage) {
-              return "下\n\n游\n\n页\n\n面";
+              // return "下\n\n游\n\n页\n\n面";
+              return "";
             }
             return params.data.name;
           },

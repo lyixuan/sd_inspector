@@ -238,13 +238,13 @@ function getUpSanKeyMap(upPageList, currentPage) {
 
   // 上游桑吉图
   let total = 0;
-  upPage.node.push({ id: currentPage, name: '上游页面' });
+
 
   upPageList.forEach((v) => {
+    total += Number(v.pv);
     if (v.page !== currentPage) {
       upPage.node.push({ id: v.page, name: v.pageName, pageView: v.pv });
     }
-    total += Number(v.pv);
     upPage.links.push({
       source: v.page,
       target: currentPage,
@@ -252,6 +252,7 @@ function getUpSanKeyMap(upPageList, currentPage) {
       value: v.pv || 0,
     });
   });
+  upPage.node.push({ id: currentPage, name: '上游页面', pageView:total});
 
   upPage.links.forEach((v) => {
     v.zb = (v.value / total * 100).toFixed(2) + '%';
@@ -293,9 +294,10 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
   }
   console.log('downPageList 桑吉结构前', downPageList)
   // 下游桑吉图
-  downPage.node.push({ id: currentPage, name: '下游页面' });
-
   downPageList.forEach((v) => {
+    if (v.page===currentPage) {
+      downPage.node.push({ id: currentPage, name: '下游页面',pageView:v.pv });
+    }
     v.actionKeyIds.forEach((actionItem) => {
       const num = stringTool(actionItem.actionKeyId);
       if (num > 0) {
@@ -345,12 +347,19 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
 
 function countDownPagePv(downPage) {
   // 有些节点只作为downPage，从来没有做过page，这种节点是不能根据求他的下游流量和来计算pv的。
-  // 所以这里专门处理node中的pageView，遍历此节点在links中作为target的所有值之和。即根据上游来计算
+  // 这里处理有多个target的节点pv。
   const {node=[],links=[]} = downPage;
   node.forEach((v1)=>{
-    v1.pageView = 0;
+    let count = 0;
     links.forEach((v2)=>{
-      if (v1.id === v2.target) v1.pageView+=v2.value;
+      if (v1.id === v2.target) {
+        count++;
+        if (count===1) {
+          v1.pageView=v2.value;
+        } else if (count>1){
+          v1.pageView+=v2.value;
+        }
+      }
     });
   });
   return downPage;

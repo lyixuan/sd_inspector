@@ -41,12 +41,12 @@ class behavior extends React.Component {
     const { upPage, downPage, currentPage } = this.props.behavior;
     return (
       <div>
-        <Spin spinning={this.props.loading}>
+        <Spin tip="Loading..."  spinning={this.props.loading}>
           {/*------- 图1 桑吉 部分 --------*/}
           <KoSangJi {...this.props} upPage={upPage} downPage={downPage} currentPage={currentPage}></KoSangJi>
         </Spin>
         {/*------- 图2 柱状 部分 --------*/}
-        <Spin spinning={this.props.loading}>
+        <Spin tip="Loading..."  spinning={this.props.loading}>
           <BarEcharts {...this.props} />
         </Spin>
       </div>
