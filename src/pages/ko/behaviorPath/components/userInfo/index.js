@@ -7,7 +7,6 @@ class PathUserInfo extends React.Component {
   }
   render() {
     const info = this.props.info;
-    console.log(9, this.props.info);
     return (
       <div className={styles.personIntro}>
         <img className={styles.avatar} src={avatarStudent} />
@@ -81,7 +80,7 @@ class PathUserInfo extends React.Component {
           </li>
           <li>
             <label>做题正确率：</label>
-            <span>{isNaN(info.studyCorrentRate) ? info.studyCorrentRate * 100 : 0}%</span>
+            <span>{info.studyCorrentRate ? info.studyCorrentRate * 100 : '0.00'}%</span>
           </li>
         </ul>
       </div>

@@ -18,41 +18,85 @@ class BehaviorPath1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeKey: "study"
+      activeKey: "1",
+      study: true,
+      im: true,
+      weChart: true,
+      bbs: true,
+      letter: true
     }
   }
 
   componentDidMount() {
-    this.getDateList(); // 获取日期列表
+    this.getDateList(this.state.activeKey); // 获取日期列表
+  }
+  componentWillReceiveProps(nextProps) {
+    if ((JSON.stringify(nextProps.behaviorPath.dateListStudy) !== JSON.stringify(this.props.behaviorPath.dateListStudy))) {
+      this.setState({
+        study: false
+      })
+    }
+    if ((JSON.stringify(nextProps.behaviorPath.dateListIm) !== JSON.stringify(this.props.behaviorPath.dateListIm))) {
+      this.setState({
+        im: false
+      })
+    }
+    if ((JSON.stringify(nextProps.behaviorPath.dateListWechart) !== JSON.stringify(this.props.behaviorPath.dateListWechart))) {
+      this.setState({
+        weChart: false
+      })
+    }
+    if ((JSON.stringify(nextProps.behaviorPath.dateListBbs) !== JSON.stringify(this.props.behaviorPath.dateListBbs))) {
+      this.setState({
+        bbs: false
+      })
+    }
+    if ((JSON.stringify(nextProps.behaviorPath.dateListLetter) !== JSON.stringify(this.props.behaviorPath.dateListLetter))) {
+      this.setState({
+        letter: false
+      })
+    }
   }
 
-  getDateList = () => {
+  getDateList = (type) => {
+
     let stuId = JSON.parse(localStorage.getItem("pathParams")).record.userId
     this.props.dispatch({
       type: 'behaviorPath/getDateList',
-      payload: { stuId: stuId },
+      payload: { params: { stuId: stuId, type: type } },
+      // payload: { params: { stuId: 10257895, type: type } },
     });
   };
 
   onTabChange = (e) => {
-    console.log(24)
+    if (e == "1" && !this.state.study) {
+      return;
+    } else if (e == "2" && !this.state.im) {
+      return;
+    } else if (e == "3" && !this.state.weChart) {
+      return;
+    } else if (e == "4" && !this.state.bbs) {
+      return;
+    } else if (e == "5" && !this.state.letter) {
+      return;
+    } else {
+      this.getDateList(e)
+    }
+
   }
 
   render() {
-    // if (this.props.location.params) {
-    //   localStorage.setItem("pathParams", JSON.stringify(this.props.location.params))
-    // }
     const pathParams = JSON.parse(localStorage.getItem("pathParams"))
     const target = pathParams.target
     const locationParams = pathParams.record
     if (target.indexOf("im") == 0) {
-      this.state.activeKey = "im"
+      this.state.activeKey = "2"
     } else if (target.indexOf("bbs") == 0) {
-      this.state.activeKey = "bbs"
+      this.state.activeKey = "4"
     } else if (target.indexOf("wechat") == 0) {
-      this.state.activeKey = "wechat"
+      this.state.activeKey = "3"
     } else if (target.indexOf("study") == 0) {
-      this.state.activeKey = "study"
+      this.state.activeKey = "1"
     }
 
     return (
@@ -60,16 +104,16 @@ class BehaviorPath1 extends React.Component {
         <div className={styles.headBar}>用户行为轨迹</div>
         <div className={styles.tabBox}>
           <BITabs onChange={this.onTabChange} type="card" animated={false} defaultActiveKey={this.state.activeKey}>
-            <TabPane tab="学习" key="study">
+            <TabPane tab="学习" key="1">
               <Study stuId={locationParams.userId}></Study>
             </TabPane>
-            <TabPane tab="IM" key="im">
+            <TabPane tab="IM" key="2">
               <Im stuId={locationParams.userId}></Im>
             </TabPane>
-            <TabPane tab="微信" key="wechat">
+            <TabPane tab="微信" key="3">
               <WeChart stuId={locationParams.userId}></WeChart>
             </TabPane>
-            <TabPane tab="BBS" key="bbs">
+            <TabPane tab="BBS" key="4">
               <Bbs stuId={locationParams.userId}></Bbs>
             </TabPane>
             <TabPane tab="私信" key="5">

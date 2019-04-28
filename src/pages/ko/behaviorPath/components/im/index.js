@@ -232,8 +232,8 @@ class Im extends React.Component {
   }
   mount(props) {
     let list = [];
-    if (props.behaviorPath.dateList.length > 0) {
-      props.behaviorPath.dateList.map(item => {
+    if (props.behaviorPath.dateListIm.length > 0) {
+      props.behaviorPath.dateListIm.map(item => {
         list.push({
           date: item,
           collapse: false,
@@ -247,15 +247,15 @@ class Im extends React.Component {
       this.setState({
         dateList: this.state.dateList
       });
+    } else {
+      this.setState({
+        dateList: []
+      });
     }
   }
   componentWillReceiveProps(nextProps) {
-    if (
-      JSON.stringify(nextProps.behaviorPath.imData) !==
-      JSON.stringify(this.props.behaviorPath.imData)
-    ) {
+    if ((JSON.stringify(nextProps.behaviorPath.imData) !== JSON.stringify(this.props.behaviorPath.imData)) || (JSON.stringify(nextProps.behaviorPath.dateListIm) !== JSON.stringify(this.props.behaviorPath.dateListIm))) {
       this.mount(nextProps);
-
     }
   }
   getImList = paramDate => {
@@ -293,7 +293,10 @@ class Im extends React.Component {
     return (
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>
-          <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout>
+          {
+            this.state.dateList.length > 0 ? <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> : <Empty></Empty>
+          }
+
         </Spin>
         {/* <Layout dataLists={this.state.dateList} onClick={this.toggle} /> */}
       </div>

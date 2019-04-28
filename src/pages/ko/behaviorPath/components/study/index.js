@@ -151,12 +151,14 @@ class Study extends React.Component {
   }
 
   componentDidMount() {
+    console.log(154, this.state.currentIndex)
     this.mount(this.props);
   }
   mount(props) {
+    console.log(157, this.state.currentIndex)
     let list = [];
-    if (props.behaviorPath.dateList.length > 0) {
-      props.behaviorPath.dateList.map(item => {
+    if (props.behaviorPath.dateListStudy.length > 0) {
+      props.behaviorPath.dateListStudy.map(item => {
         list.push({
           date: item,
           collapse: false,
@@ -165,19 +167,20 @@ class Study extends React.Component {
       });
 
       list[this.state.currentIndex].collapse = true;
-      list[this.state.currentIndex].dialogList = props.behaviorPath.studyData ? props.behaviorPath.studyData : [];
+      list[this.state.currentIndex].dialogList = props.behaviorPath.studyData;
       this.state.dateList = list;
       this.setState({
         dateList: this.state.dateList
+      });
+    } else {
+      this.setState({
+        dateList: []
       });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      JSON.stringify(nextProps.behaviorPath.studyData) !==
-      JSON.stringify(this.props.behaviorPath.studyData)
-    ) {
+    if ((JSON.stringify(nextProps.behaviorPath.studyData) !== JSON.stringify(this.props.behaviorPath.studyData)) || (JSON.stringify(nextProps.behaviorPath.dateList) !== JSON.stringify(this.props.behaviorPath.dateListStudy))) {
       this.mount(nextProps);
 
     }
@@ -187,6 +190,7 @@ class Study extends React.Component {
       beginDate: paramDate,
       // beginDate: '2019-04-17',
       stuId: this.props.stuId,
+      // stuId: 10257895,
     };
     this.props.dispatch({
       type: 'behaviorPath/learningAct',
@@ -216,11 +220,13 @@ class Study extends React.Component {
 
   render() {
     return (
+
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>
-          <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout>
+          {
+            this.state.dateList.length > 0 ? <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> : <Empty></Empty>
+          }
         </Spin>
-        {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import Echart from '@/components/Echart';
+import Empty from '@/components/Empty';
 import style from './style.less';
 import { formatDateToWeek } from '@/utils/utils'
 import { options } from './component/bar_echarts';
@@ -20,17 +21,20 @@ class BarEcharts extends React.Component {
     }
   }
   render() {
-    const { behaviourData } = this.props.behavior;
+    const { behaviourData,userSize } = this.props.behavior;
     const date = this.dealDate();
     return (
       <div className={style.barWrap}>
         <TitleName name='用户行为事件分析' />
         <div className={style.barContent}>
-          <Echart
-            isEmpty={behaviourData.length === 0}
+        {
+          Number(userSize)===0?<Empty isEmpty={true}/>:<Echart
+            isEmpty={behaviourData.length}
             clickEvent={this.eConsole}
             style={{ width: '100%', height: '267px' }}
             options={options(behaviourData, date)} />
+        }
+          
         </div>
       </div>
     );
