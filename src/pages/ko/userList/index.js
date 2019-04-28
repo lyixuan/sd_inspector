@@ -163,8 +163,11 @@ function jump(record, v) {
 class UserList extends React.Component {
   constructor(props) {
     super(props);
+    this.initpage = {
+      currentPage: 1, pageSize: 30
+    }
     this.state = {
-      pageParams: this.props.pageParams,
+      pageParams: this.props.pageParams || this.initpage,
 
     };
   };
@@ -174,7 +177,7 @@ class UserList extends React.Component {
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.tabFromParams) !== JSON.stringify(this.props.tabFromParams)) {
-      this.queryData(nextProps.tabFromParams);
+      this.queryData(nextProps.tabFromParams, this.initpage);
     }
     if (JSON.stringify(nextProps.pageParams) !== JSON.stringify(this.props.pageParams)) {
       this.setState({ pageParams: nextProps.pageParams });
@@ -189,10 +192,10 @@ class UserList extends React.Component {
     const { pageParams } = this.state;
     const newPageParams = { ...pageParams, currentPage };
     this.queryData(this.props.tabFromParams, newPageParams);
-    this.props.dispatch({
-      type: 'userListModel/savePageParams',
-      payload: { pageParams: newPageParams },
-    });
+    // this.props.dispatch({
+    //   type: 'userListModel/savePageParams',
+    //   payload: { pageParams: newPageParams },
+    // });
 
   };
   getLocationParams = () => {

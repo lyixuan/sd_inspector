@@ -5,7 +5,7 @@ import styles from './style.less';
 import RenderRoute from '@/components/RenderRoute';
 import KoTab from '@/pages/ko/components/KoRadio/KoTab';
 import KoForm from '@/pages/ko/components/KoForm';
-import { handleInitParams, handleFormParams, handleDateFormParams } from './utils/utils';
+import { handleInitParams, handleFormParams, initRecordTimeListData } from './utils/utils';
 import CommonForm from './components/form';
 
 @connect(({ koPlan, loading }) => ({
@@ -47,12 +47,13 @@ class koPlan extends React.Component {
   handleOriginParams = (params = {}) => {
     if (JSON.stringify(params) === '{}') return;
     const { KoDateRange } = params;
-    const tabFromParams = { ...handleInitParams(params), formParams: handleFormParams(KoDateRange) };
+    const { recordTimeList, ...others } = handleInitParams(params);
+    const tabFromParams = { recordTimeList, ...others, formParams: handleFormParams(KoDateRange) };
     if (JSON.stringify(this.props.tabFromParams) !== JSON.stringify(tabFromParams)) {
-      this.onSaveTabFromParams(tabFromParams);
+      this.onSaveTabFromParams(tabFromParams, KoDateRange);
     }
     // this.onSaveOriginParams(handleDateFormParams(KoDateRange));
-    this.onSavefFlterActionParams(handleInitParams(params));
+    this.onSavefFlterActionParams({ ...others });
   }
   getInitData = () => {
     this.props.dispatch({
@@ -68,15 +69,19 @@ class koPlan extends React.Component {
     this.setState({ filterActionParams: { ...filterActionParams, ...params } });
 
   }
-  onSaveTabFromParams = (params) => {
-    this.handleDateParams(params.formParams);
+  onSaveTabFromParams = (params, KoDateRange = this.props.pageParams.KoDateRange) => {
+    this.handleDateParams(params.formParams, KoDateRange);
+    const recordTimeList = this.handleRecordTime(params, KoDateRange);
     this.props.dispatch({
       type: 'koPlan/saveTabFromParams',
-      payload: { ...params }
+      payload: { ...params, recordTimeList }
     })
   }
-  handleDateParams = (params) => {
-    const { KoDateRange } = this.props.pageParams;
+  handleRecordTime = (params, KoDateRange) => {
+    const recordTimeList = initRecordTimeListData(KoDateRange);
+    return params['recordTimeList'] && params['recordTimeList'].length > 0 ? params['recordTimeList'] : recordTimeList;
+  }
+  handleDateParams = (params, KoDateRange) => {
     const dateObj = handleFormParams(KoDateRange);
     Object.keys(dateObj).forEach(item => {
       params[item] = params[item] && params[item].length > 0 ? params[item] : dateObj[item];
