@@ -1,25 +1,6 @@
 import { message } from 'antd';
 import { sankeySuperApi } from '@/pages/ko/behaviorAnalyze/services';
 
-function getByteLen(val) {
-  var len = 0;
-  for (var i = 0; i < val.length; i++) {
-    var a = val.charAt(i);
-    if (a.match(/[^\x00-\xff]/ig) != null){
-      len += 2;
-    }else{
-      len += 1;
-    }
-  }
-    return len;
-}
-function format(name){
-  if(getByteLen(name)>16){
-    return `${name.substring(0,8)}...`
-  }else{
-    return name
-  }
-}
 function getData(dataList, dataArr) {
   const dataObj = {};
   dataArr.forEach(item => {
@@ -27,9 +8,6 @@ function getData(dataList, dataArr) {
     dataList.forEach((item1) => {
       if(item==='choiceLessonPercent'){
         item1[item]=item1[item].split('%')[0]
-      }
-      if(item==='name'){
-        item1[item]=format(item1[item])
       }
       dataObj[item].push({ name: item1, value: item1[item] })
     });
