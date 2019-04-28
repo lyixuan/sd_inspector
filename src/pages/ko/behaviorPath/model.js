@@ -32,15 +32,15 @@ export default {
       if (dateFormat) {
         dateFormat.length = 3;
         if (params.type == 1) {
-          studyData = yield call(learningAct, { beginDate: dateFormat.join("-"), stuid: payload.stuId });
+          studyData = yield call(learningAct, { beginDate: dateFormat.join("-"), stuid: params.stuId });
         } else if (params.type == 2) {
-          imData = yield call(imAct, { beginDate: dateFormat.join("-"), stuid: payload.stuId });
+          imData = yield call(imAct, { beginDate: dateFormat.join("-"), stuid: params.stuId });
         } else if (params.type == 3) {
-          wechartData = yield call(wechatAct, { beginDate: dateFormat.join("-"), stuid: payload.stuId });
+          wechartData = yield call(wechatAct, { beginDate: dateFormat.join("-"), stuid: params.stuId });
         } else if (params.type == 4) {
-          bbsData = yield call(bbsAct, { beginDate: dateFormat.join("-"), stuid: payload.stuId });
+          bbsData = yield call(bbsAct, { beginDate: dateFormat.join("-"), stuid: params.stuId });
         } else if (params.type == 5) {
-          letterData = yield call(chatMessageAct, { beginDate: dateFormat.join("-"), stuid: payload.stuId });
+          letterData = yield call(chatMessageAct, { beginDate: dateFormat.join("-"), stuid: params.stuId });
         }
       }
 

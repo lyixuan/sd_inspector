@@ -61,6 +61,7 @@ class BehaviorPath1 extends React.Component {
   getDateList = (type) => {
 
     let stuId = JSON.parse(localStorage.getItem("pathParams")).record.userId
+    console.log(64, stuId)
     this.props.dispatch({
       type: 'behaviorPath/getDateList',
       payload: { params: { stuId: stuId, type: type } },
