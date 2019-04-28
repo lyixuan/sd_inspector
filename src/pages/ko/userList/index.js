@@ -115,7 +115,7 @@ function columns() {
     v.onCell = (record, rowIndex) => {
       return {
         onClick: (event) => {
-          jump(record,v);
+          jump(record, v);
         },
       };
     };
@@ -147,11 +147,11 @@ function columns() {
   return col;
 };
 
-function jump(record,v) {
+function jump(record, v) {
   const origin = window.location.origin;
   const url = `${origin}${config.base}ko/behaviorPath`;
   const params = { record, target: v.dataIndex };
-  storage.setItem('pathParams',params);
+  storage.setItem('pathParams', params);
   window.open(url);
 }
 @connect(({ userListModel, koPlan, loading }) => ({
@@ -163,8 +163,11 @@ function jump(record,v) {
 class UserList extends React.Component {
   constructor(props) {
     super(props);
+    this.initpage = {
+      currentPage: 1, pageSize: 30
+    }
     this.state = {
-      pageParams: this.props.pageParams,
+      pageParams: this.props.pageParams || this.initpage,
 
     };
   };
@@ -174,7 +177,7 @@ class UserList extends React.Component {
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.tabFromParams) !== JSON.stringify(this.props.tabFromParams)) {
-      this.queryData(nextProps.tabFromParams);
+      this.queryData(nextProps.tabFromParams, this.initpage);
     }
     if (JSON.stringify(nextProps.pageParams) !== JSON.stringify(this.props.pageParams)) {
       this.setState({ pageParams: nextProps.pageParams });
@@ -188,11 +191,11 @@ class UserList extends React.Component {
   onPageChange = (currentPage) => {
     const { pageParams } = this.state;
     const newPageParams = { ...pageParams, currentPage };
-    this.queryData(this.props.tabFromParams.formParams, newPageParams);
-    this.props.dispatch({
-      type: 'userListModel/savePageParams',
-      payload: { pageParams: newPageParams },
-    });
+    this.queryData(this.props.tabFromParams, newPageParams);
+    // this.props.dispatch({
+    //   type: 'userListModel/savePageParams',
+    //   payload: { pageParams: newPageParams },
+    // });
 
   };
   getLocationParams = () => {
@@ -210,7 +213,7 @@ class UserList extends React.Component {
   };
 
   render() {
-    const { userList, currentPage = 1, totalCount = 0} = this.props.userListModel;
+    const { userList, currentPage = 1, totalCount = 0 } = this.props.userListModel;
     const { loading } = this.props;
     const { pageParams } = this.state;
     const dataSource = userList;
@@ -221,7 +224,7 @@ class UserList extends React.Component {
             rowKey={record => { return record.userId + Math.random() * 1000 }}
             dataSource={dataSource} columns={columns()}
             pagination={false} loading={loading}
-            scroll={{ x: 1060}}
+            scroll={{ x: 1060 }}
             size="middle"
           />
           <br />

@@ -7,7 +7,7 @@ import moment from 'moment';
 import { PAGE_KEY_ACTION } from '@/utils/constants';
 import styles from './style.less';
 import formStyles from '../formCommon.less';
-import { handleDateParams } from '../../utils/utils';
+import { handleDateParams, initRecordTimeListData } from '../../utils/utils';
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY.MM.DD';
 const { Option } = BISelect;
@@ -45,15 +45,13 @@ export default class KoForm extends React.Component {
   })
   changeDate = (recordTimeList) => {
     if (this.props.onChange) {
-      const newDateTime = handleDateParams(recordTimeList);
-      this.props.onChange({ recordTimeList: newDateTime }, { recordTimeList });
+      const newDateTime = recordTimeList.length > 0 ? handleDateParams(recordTimeList) : undefined;
+      this.onChange({ recordTimeList: newDateTime }, { recordTimeList });
     }
     this.onSaveParams({ recordTimeList });
   }
   onChangeApp = (belongApp) => {
-    if (this.props.onChange) {
-      this.props.onChange({ belongApp }, { belongApp });
-    }
+    this.onChange({ belongApp }, { belongApp });
     this.onSaveParams({ belongApp });
   }
   onSelectPage = (value, ops) => {
@@ -62,9 +60,7 @@ export default class KoForm extends React.Component {
       actionValue: value,
     };
     const currentActionKeyId = undefined;
-    if (this.props.onChange) {
-      this.props.onChange({ page, currentActionKeyId }, { page, currentActionKeyId });
-    }
+    this.onChange({ page, currentActionKeyId }, { page, currentActionKeyId });
     this.onSaveParams({ page });
   }
   changeDetailPage = (currentActionKeyId) => {
@@ -75,9 +71,7 @@ export default class KoForm extends React.Component {
     } else {
       page = { ...page, actionValue: page.value };
     }
-    if (this.props.onChange) {
-      this.props.onChange({ page, currentActionKeyId }, { page, currentActionKeyId });
-    }
+    this.onChange({ page, currentActionKeyId }, { page, currentActionKeyId });
     this.onSaveParams({ page, currentActionKeyId });
   }
   onSaveParams = (params = {}) => {
@@ -86,6 +80,11 @@ export default class KoForm extends React.Component {
       tabFromParams: { ...tabFromParams, ...params }
     })
 
+  }
+  onChange = (nextParams, originParmas) => {
+    if (this.props.onChange) {
+      this.props.onChange(nextParams, originParmas);
+    }
   }
   formateDateTime = () => {
     const { recordTimeList = [] } = this.state.tabFromParams;
@@ -99,7 +98,8 @@ export default class KoForm extends React.Component {
     return returnArr;
   }
   disabledDate = (current) => {
-    const { recordTimeList = [] } = this.state.tabFromParams;
+    const { KoDateRange } = this.props.pageParams;
+    const recordTimeList = initRecordTimeListData(KoDateRange);
     const [beginTime, endTime] = recordTimeList;
     return current.isBefore(moment(beginTime)) || current.isAfter(moment(endTime))
   }
