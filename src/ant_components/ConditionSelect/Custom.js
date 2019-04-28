@@ -82,6 +82,7 @@ var Custom = /** @class */ (function (_super) {
             obj[key] = e.target.value;
             var _a = _this.state, baseInputValue = _a.baseInputValue, startValue = _a.startValue, endValue = _a.endValue;
             _this.setState(__assign({ baseInputValue: baseInputValue, startValue: startValue, endValue: endValue }, obj));
+            e.stopPropagation();
         };
         _this.onError = function (meg) {
             antd_1.message.warn(meg);
@@ -90,25 +91,28 @@ var Custom = /** @class */ (function (_super) {
         _this.onCancel = function () {
             _this.props.onCancel && _this.props.onCancel();
         };
-        _this.onClickOk = function () {
+        _this.onClickOk = function (e) {
             var selected = _this.state.selected;
             if (!selected.type) {
                 _this.onError('请选择过滤条件');
+                e.stopPropagation();
                 return;
             }
-            _this.props.onClickOk && _this.hanldData(_this.props.onClickOk);
+            _this.props.onClickOk && _this.hanldData(e, _this.props.onClickOk);
         };
-        _this.hanldData = function (fun) {
+        _this.hanldData = function (e, fun) {
             var _a = _this.state, baseInputValue = _a.baseInputValue, startValue = _a.startValue, endValue = _a.endValue, selected = _a.selected, unit = _a.unit;
             var returnObj = {};
             if (selected.type === 6) {
                 if (!startValue || !endValue || startValue === '-' || endValue === '-') {
                     _this.onError('请输入正确数字');
+                    e.stopPropagation();
                     return;
                 }
                 ;
                 if (Number(startValue) > Number(endValue)) {
                     _this.onError('后面数字应大于前面');
+                    e.stopPropagation();
                     return;
                 }
                 ;
@@ -125,6 +129,7 @@ var Custom = /** @class */ (function (_super) {
             else {
                 if (!baseInputValue || baseInputValue === '-') {
                     _this.onError('请输入正确数字');
+                    e.stopPropagation();
                     return;
                 }
                 returnObj = {
@@ -193,9 +198,9 @@ var Custom = /** @class */ (function (_super) {
             react_1.default.createElement("span", { className: styles.symbolIcon },
                 react_1.default.createElement(antd_1.Icon, { type: "caret-left" })),
             react_1.default.createElement("div", { className: styles.customChooseBox },
-                react_1.default.createElement("div", { className: styles.selectPanle },
+                react_1.default.createElement("div", { className: styles.selectPanle, onClick: function (e) { e.stopPropagation(); } },
                     react_1.default.createElement(antd_1.Select, { className: 'conditionSelect', placeholder: "\u8BF7\u9009\u62E9\u6761\u4EF6", style: { width: 180 }, onChange: this.onChangeCustoms }, options)),
-                react_1.default.createElement("div", { className: "inputPanle " + styles.inputPanle }, renderInputPanle),
+                react_1.default.createElement("div", { className: "inputPanle " + styles.inputPanle, onClick: function (e) { e.stopPropagation(); } }, renderInputPanle),
                 react_1.default.createElement("div", { className: styles.buttonGroup },
                     react_1.default.createElement("span", { className: styles.button, onClick: this.onCancel },
                         " ",

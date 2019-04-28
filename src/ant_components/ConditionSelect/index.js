@@ -43,6 +43,7 @@ var Condition = /** @class */ (function (_super) {
             isShowCustom: false,
             customObj: null,
             inputValue: undefined,
+            visible: false,
         };
         _this.handleDomClick = function (e) {
             _this.closeSelectPanle();
@@ -56,6 +57,9 @@ var Condition = /** @class */ (function (_super) {
         _this.handleOriginValue = function (value) {
             var inputValue = _this.handleInputValue(value);
             _this.setState({ inputValue: inputValue });
+        };
+        _this.onVisibleChange = function (visible) {
+            _this.setState({ visible: visible });
         };
         _this.handleInputValue = function (selectObj, selected) {
             if (selected === void 0) { selected = _this.state.selected; }
@@ -77,7 +81,7 @@ var Condition = /** @class */ (function (_super) {
                 inputValue = _this.handleInputValue(obj, selected);
                 _this.onChange(obj);
             }
-            _this.setState({ isOpen: isOpen, selected: selected, isShowCustom: isOpen, inputValue: inputValue });
+            _this.setState({ visible: isOpen, isOpen: isOpen, selected: selected, isShowCustom: isOpen, inputValue: inputValue });
         };
         _this.chooseSelectObj = function (key, selectObj) {
             if (selectObj === void 0) { selectObj = _this.state.customObj; }
@@ -98,6 +102,9 @@ var Condition = /** @class */ (function (_super) {
             e.stopPropagation();
         };
         _this.onCancel = function () {
+            _this.setState({
+                visible: false,
+            });
             _this.closeSelectPanle();
         };
         _this.onClickOk = function (params) {
@@ -113,7 +120,7 @@ var Condition = /** @class */ (function (_super) {
             _this.closeSelectPanle();
         };
         _this.closeSelectPanle = function () {
-            _this.setState({ isShowCustom: false, isOpen: false });
+            _this.setState({ isShowCustom: false, isOpen: false, visible: false, });
         };
         _this.dropdownRender = function (optionsGroup) {
             var isShowCustom = _this.state.isShowCustom;
@@ -122,7 +129,7 @@ var Condition = /** @class */ (function (_super) {
                 items,
                 react_1.default.createElement(antd_1.Menu.Item, { key: "custom" },
                     react_1.default.createElement("div", { className: styles.conditionCustom },
-                        react_1.default.createElement("span", { className: styles.customText, onClick: function () { return _this.handleMenuClick({ key: 'custom' }); } }, " \u81EA\u5B9A\u4E49"),
+                        react_1.default.createElement("span", { className: styles.customText, onClick: function (e) { e.stopPropagation(); _this.handleMenuClick({ key: 'custom' }); } }, " \u81EA\u5B9A\u4E49"),
                         !isShowCustom ? null : react_1.default.createElement(Custom_1.default, __assign({}, _this.props, { onClickOk: _this.onClickOk, onCancel: _this.onCancel }))))));
         };
         _this.renderOptionsNode = function (options) {
@@ -149,18 +156,18 @@ var Condition = /** @class */ (function (_super) {
     };
     Condition.prototype.render = function () {
         var _a = this.props, _b = _a.options, options = _b === void 0 ? [] : _b, disabled = _a.disabled;
-        var _c = this.state, isOpen = _c.isOpen, inputValue = _c.inputValue;
+        var _c = this.state, isOpen = _c.isOpen, inputValue = _c.inputValue, visible = _c.visible;
         var hasCustomObj = this.state.customObj ? [this.state.customObj] : [];
         var optionsData = this.handleOriginOptionsData(options.concat(hasCustomObj));
         return (react_1.default.createElement(react_1.default.Fragment, null,
-            react_1.default.createElement("span", { onClick: function (e) { e.stopPropagation(); } },
-                react_1.default.createElement(antd_1.Dropdown, { disabled: disabled, overlay: this.dropdownRender(optionsData), visible: isOpen, overlayClassName: styles.overlayClassName },
+            react_1.default.createElement("span", null,
+                react_1.default.createElement(antd_1.Dropdown, { disabled: disabled, overlay: this.dropdownRender(optionsData), trigger: ['click'], onVisibleChange: this.onVisibleChange, overlayClassName: styles.overlayClassName },
                     react_1.default.createElement("div", { className: styles.selectCotainer, onClick: this.onOpen },
                         react_1.default.createElement("div", { className: "" + (disabled ? styles.disableChooseContent : styles.chooseContent) },
                             !inputValue ? react_1.default.createElement("div", { className: styles.placeholder }, "\u8BF7\u9009\u62E9") : null,
                             react_1.default.createElement("div", { className: styles.selectedValue }, inputValue),
                             react_1.default.createElement("span", { className: styles.inputIcon },
-                                react_1.default.createElement(antd_1.Icon, { type: "" + (isOpen ? 'up' : 'down') })),
+                                react_1.default.createElement(antd_1.Icon, { type: "" + (visible ? 'up' : 'down') })),
                             inputValue ? react_1.default.createElement("span", { className: styles.inputClear, onClick: this.onDelete },
                                 react_1.default.createElement(antd_1.Icon, { type: 'close-circle', theme: "filled" })) : null))))));
     };
