@@ -16,9 +16,7 @@ class KoDetailPage extends React.Component {
   }
   componentWillReceiveProps(nextProps){
     if(nextProps.behavior.hotDataList!==this.props.behavior.hotDataList){
-      if(JSON.stringify(nextProps.behavior.hotDataList)!=='{}' ){
-        this.drewLended(nextProps.behavior.hotDataList.newIds,nextProps.behavior.hotDataList.page);
-      }
+      this.drewLended(nextProps.behavior.hotDataList.newIds,nextProps.behavior.hotDataList.page);
     }
   }
   // 对data数据处理，加上颜色
@@ -199,6 +197,8 @@ class KoDetailPage extends React.Component {
       .on('mouseover', KoDetailPage.that.drewTip(data))
       .on('mouseout', tip.hide)
       .on('mousemove', tip.show);
+    }else{
+      d3.select(this.svgDom).html(pages[page]);
     }
   };
   render() {

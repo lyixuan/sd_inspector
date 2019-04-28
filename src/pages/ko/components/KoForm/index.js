@@ -61,8 +61,9 @@ export default class KoForm extends React.Component {
       value,
       actionValue: value,
     };
+    const currentActionKeyId = undefined;
     if (this.props.onChange) {
-      this.props.onChange({ page }, { page });
+      this.props.onChange({ page, currentActionKeyId }, { page, currentActionKeyId });
     }
     this.onSaveParams({ page });
   }

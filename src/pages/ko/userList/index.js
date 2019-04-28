@@ -115,7 +115,7 @@ function columns() {
     v.onCell = (record, rowIndex) => {
       return {
         onClick: (event) => {
-          jump(record,v);
+          jump(record, v);
         },
       };
     };
@@ -147,11 +147,11 @@ function columns() {
   return col;
 };
 
-function jump(record,v) {
+function jump(record, v) {
   const origin = window.location.origin;
   const url = `${origin}${config.base}ko/behaviorPath`;
   const params = { record, target: v.dataIndex };
-  storage.setItem('pathParams',params);
+  storage.setItem('pathParams', params);
   window.open(url);
 }
 @connect(({ userListModel, koPlan, loading }) => ({
@@ -188,7 +188,7 @@ class UserList extends React.Component {
   onPageChange = (currentPage) => {
     const { pageParams } = this.state;
     const newPageParams = { ...pageParams, currentPage };
-    this.queryData(this.props.tabFromParams.formParams, newPageParams);
+    this.queryData(this.props.tabFromParams, newPageParams);
     this.props.dispatch({
       type: 'userListModel/savePageParams',
       payload: { pageParams: newPageParams },
@@ -210,7 +210,7 @@ class UserList extends React.Component {
   };
 
   render() {
-    const { userList, currentPage = 1, totalCount = 0} = this.props.userListModel;
+    const { userList, currentPage = 1, totalCount = 0 } = this.props.userListModel;
     const { loading } = this.props;
     const { pageParams } = this.state;
     const dataSource = userList;
@@ -221,7 +221,7 @@ class UserList extends React.Component {
             rowKey={record => { return record.userId + Math.random() * 1000 }}
             dataSource={dataSource} columns={columns()}
             pagination={false} loading={loading}
-            scroll={{ x: 1060}}
+            scroll={{ x: 1060 }}
             size="middle"
           />
           <br />

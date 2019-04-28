@@ -49,7 +49,11 @@ class CommonForm extends React.Component {
     }
   }
   handleReset = () => {
-    this.props.form.resetFields();
+    const { params = {} } = this.props;
+    for (let item in params) {
+      params[item] = undefined;
+    }
+    this.props.onChange && this.props.onChange(params);
     // const dataObj = this.resertDate();
     // const values = this.props.form.getFieldsValue();
     // const resertObj = {}

@@ -55,7 +55,7 @@ export default {
       const { behaviourData } = payload;
       // 数组的字符串跟接口返回的字段一致，否则option那块取值报错
       let newData = []
-      if (behaviourData) {
+      if (behaviourData.length) {
         let newbehaviourData = behaviourData.sort((a,b)=>(b.clickNum-a.clickNum ));
         newData = getData(newbehaviourData.slice(0, 10), ['name', 'clickNum', 'choiceLessonPercent'])
       }
