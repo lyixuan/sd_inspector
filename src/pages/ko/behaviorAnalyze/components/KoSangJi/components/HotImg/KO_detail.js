@@ -15,8 +15,7 @@ class KoDetailPage extends React.Component {
     this.drewLended([],pages.homepage);
   }
   componentWillReceiveProps(nextProps){
-    if(nextProps.behavior.hotDataList!==this.props.behavior.hotDataList){
-      console.log(1)
+    if(JSON.stringify(nextProps.behavior.hotDataList)!=='{}'||nextProps.behavior.hotDataList!==this.props.behavior.hotDataList){
       this.drewLended(nextProps.behavior.hotDataList.newIds,nextProps.behavior.hotDataList.page);
     }
   }
