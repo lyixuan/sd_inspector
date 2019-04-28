@@ -14,7 +14,22 @@ function getData(dataList, dataArr) {
   })
   return dataObj;
 }
+function dealHomeData (behaviourData){
+  let newKey = {name:'课程公开计划选项',actionKey:'click_ko_item',clickNum:0,choicePerson:0,clickTotalPerson:0};
+  behaviourData.forEach((item)=>{
+    if(item.actionKeyId.indexOf('homepage')>=0&&item.actionKey==='click_ko_item'){
+      newKey.clickNum+=Number(item.clickNum)
+      newKey.choicePerson+=Number(item.choicePerson)
+      newKey.clickTotalPerson+=Number(item.clickTotalPerson)
+    }
+  });
 
+  newKey.choiceLessonPercent = `${((newKey.choicePerson/newKey.clickTotalPerson)*100).toFixed(2)}%`;
+  const newbehaviourData = behaviourData.filter(item=>item.actionKey!=='click_ko_item');
+  newbehaviourData.push(newKey);
+  console.log(newbehaviourData)
+  return newbehaviourData
+}
 export default {
   namespace: 'behavior',
 
@@ -56,7 +71,8 @@ export default {
       // 数组的字符串跟接口返回的字段一致，否则option那块取值报错
       let newData = []
       if (behaviourData.length) {
-        let newbehaviourData = behaviourData.sort((a,b)=>(b.clickNum-a.clickNum ));
+        let newbehaviourData = dealHomeData(behaviourData);
+        newbehaviourData = newbehaviourData.sort((a,b)=>(b.clickNum-a.clickNum ));
         newData = getData(newbehaviourData.slice(0, 10), ['name', 'clickNum', 'choiceLessonPercent'])
       }
 
