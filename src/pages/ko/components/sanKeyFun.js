@@ -65,16 +65,13 @@ export function dealResultData({ data1, data2, params }) {
   const upPage = getUpSanKeyMap(upPageList, currentPage, currentPageClickNum);
 
   // 处理下游数据
-  let downPageList = cleanSrcData(srcDownPageList, currentPage);
-  downPageList = downDataDeal(downPageList);
-  downPageList = downDataAddValue(downPageList, pageEventData, actionEventData);
-  const currentPageObj = getCurrentPage(downPageList, currentPage);   // 在处理数据前，取出当前页面，即热力图需要的数据
-  console.log(4,downPageList)
-  downPageList = cleanSrcData2(downPageList,currentPage);
-  downPageList = downDataDealValue(downPageList, pageEventData, actionEventData);  // 继续处理下游数据
-  console.log(5,downPageList)
-  const downPage = getDownSanKeyMap(downDataTen(downPageList), currentPageObj, currentPage);
-
+  let downPageList1 = cleanSrcData(srcDownPageList, currentPage);
+  let downPageList2 = downDataDeal(downPageList1);
+  let downPageList3 = downDataAddValue(downPageList2, pageEventData, actionEventData);
+  const currentPageObj = getCurrentPage(downPageList3, currentPage);   // 在处理数据前，取出当前页面，即热力图需要的数据
+  let downPageList4 = cleanSrcData2(downPageList2,currentPageObj,currentPage);
+  let downPageList5 = downDataDealValue(downPageList4, pageEventData, actionEventData);  // 继续处理下游数据
+  const downPage = getDownSanKeyMap(downDataTen(downPageList5), currentPageObj, currentPage);
   console.log(downPage)
   return {
     upPage,
@@ -309,13 +306,12 @@ function downDataDeal(data1) {
   return newList;
 }
 
-function cleanSrcData2(downPageList,currentPage) {
+function cleanSrcData2(downPageList,currentPageObj) {
   // 去掉page不在currentPage的downPageList的节点。即独立于currentPage之外的根节点
   // 当前页的target节点list
-  const currentPageTargetList = getCurrentPage(downPageList, currentPage).actionKeyIds;
+  const currentPageTargetList = currentPageObj.actionKeyIds;
 
   for (let i = downPageList.length - 1; i >= 0; i--) {
-    if (downPageList[i].page !== currentPage) {
       let flag = 0; // 1 改page存在于currentPageTargetList 0 不存在，这种节点要去除
       currentPageTargetList.forEach((v) => {
         if (downPageList[i].page === v.downPage) {
@@ -325,12 +321,11 @@ function cleanSrcData2(downPageList,currentPage) {
       if (!flag) {
         downPageList.splice(i, 1)
       }
-    }
   }
   return downPageList;
 }
 
-function downDataAddValue(pageList, pageEventData, actionEventData) {
+function downDataAddValue(downData, pageEventData, actionEventData) {
   /**
    * 1、为 桑吉图结构 对象添加 页面点击量（pageView）字段
    * 2、为 桑吉图结构 对象添加 点击人数（clickPeople）字段
@@ -338,6 +333,7 @@ function downDataAddValue(pageList, pageEventData, actionEventData) {
    * 4、为 桑吉图结构 对象添加 人数占比（clickPeoplePro）字段
    * 5、为 桑吉图结构 对象添加 次数占比（clickNumPro）字段
    * */
+  const pageList = DeepCopy(downData);
   pageList.forEach((v) => {
     v.pageView = 0;
     v.pagePeopleView = 0;
