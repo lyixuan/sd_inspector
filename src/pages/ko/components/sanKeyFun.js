@@ -68,6 +68,7 @@ export function dealResultData({ data1, data2, params }) {
   let downPageList1 = cleanSrcData(srcDownPageList, currentPage);
   let downPageList2 = downDataDeal(downPageList1);
   let downPageList3 = downDataAddValue(downPageList2, pageEventData, actionEventData);
+  console.log(3,downPageList3)
   const currentPageObj = getCurrentPage(downPageList3, currentPage);   // 在处理数据前，取出当前页面，即热力图需要的数据
   let downPageList4 = downDataDealValue(downPageList3, pageEventData, actionEventData);  // 继续处理下游数据
   // let downPageList5 = cleanSrcData2(downPageList4,currentPageObj,currentPage);
@@ -475,7 +476,7 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
           });
         }
       } else {  // 页面
-        downPage.node.push({ id: actionItem.downPage, name: actionItem.downPageName, pageView: actionItem.downPageView });
+        downPage.node.push({ id: actionItem.downPage, name: actionItem.downPageName, pageView: actionItem.downPageView?actionItem.downPageView:actionItem.clickNum });
         downPage.links.push({
           source: v.page,
           target: actionItem.downPage,
