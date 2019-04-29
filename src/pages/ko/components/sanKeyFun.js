@@ -448,6 +448,7 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
     }
   }
 
+  const downPageNode = [];
   // 下游桑吉图
   downPageList.forEach((v) => {
     if (v.page === currentPage) {
@@ -476,7 +477,9 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
           });
         }
       } else {  // 页面
-        downPage.node.push({ id: actionItem.downPage, name: actionItem.downPageName, pageView: actionItem.downPageView?actionItem.downPageView:actionItem.clickNum });
+        // 下游节点可能存在只作为过target的节点，并且多个上游流入，这种要给clickNum加和
+        downPageNode.push({ id: actionItem.downPage, name: actionItem.downPageName, pageView: actionItem.downPageView?actionItem.downPageView:actionItem.clickNum });
+        // downPage.node.push({ id: actionItem.downPage, name: actionItem.downPageName,pageView: actionItem.downPageView?actionItem.downPageView:actionItem.clickNum });
         downPage.links.push({
           source: v.page,
           target: actionItem.downPage,
@@ -485,6 +488,18 @@ function getDownSanKeyMap(downPageList, currentPageObj, currentPage) {
         });
       }
     });
+  });
+  // downPageNode合并
+  const obj1 = {};
+  downPageNode.forEach((v)=>{
+    if (!obj1[v.id]) {
+      obj1[v.id] = v;
+    } else {
+      obj1[v.id].pageView += v.pageView;
+    }
+  });
+  Object.keys(obj1).forEach((key) => {
+    downPage.node.push(obj1[key]);
   });
   // downPage.node去重
   const obj = {};
