@@ -21,7 +21,7 @@ export async function sankeySuperApi({params,formParams,otherParams}) {
     if (response2.code === 20000) {
       // 处理两次结果
       result.data.sankeyData = dealResultData({data1:response.data,data2:response2.data.sankeyData,params});
-      result.data.behaviourData = response2.data.behaviourData?response2.data.behaviourData : {};
+      result.data.behaviourData = response2.data.behaviourData?response2.data.behaviourData : [];
       result.data.pvuvData = response2.data.pvuvData?response2.data.pvuvData : {};
       result.data.userSize = response2.data.userSize||0;
     } else {

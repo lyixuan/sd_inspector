@@ -50,7 +50,7 @@ export default {
       const otherParams = payload.otherParams;
       const result = yield call(sankeySuperApi, { params, formParams, otherParams });
       if (result) {
-        const { behaviourData = {}, sankeyData = {}, pvuvData, userSize } = result.data || [];
+        const { behaviourData = [], sankeyData = {}, pvuvData, userSize } = result.data || [];
         yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj } });
         yield put({ type: 'saveBehaviourData', payload: { behaviourData } });
         yield put({ type: 'save', payload: {userSize,pvuvData, upPage: sankeyData.upPage, downPage: sankeyData.downPage, currentPage: sankeyData.currentPage } });
