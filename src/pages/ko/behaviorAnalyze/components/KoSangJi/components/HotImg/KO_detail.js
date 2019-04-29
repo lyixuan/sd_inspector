@@ -94,13 +94,12 @@ class KoDetailPage extends React.Component {
   }
   // 处理actionkey相同的子项之和
   getActionKeyList = (data,key,id,bol)=>{
-    const newKeyArr=[];
-    let new_click={};
-    data.forEach(item=>{
-      if(item.actionKey===key){
-        newKeyArr.push(item)
-      }
-    })
+    let new_click={clickNum:0,
+      clickPeople:0,
+      clickNumPro:0,
+      clickPeoplePro:0};
+    const newKeyArr=data.filter(item=>item.actionKey===key);
+
     if(!bol){
       if(newKeyArr.length){
         new_click.actionKeyId=id;
