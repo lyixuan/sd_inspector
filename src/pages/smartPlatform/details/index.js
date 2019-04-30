@@ -11,21 +11,21 @@ function dataFilter(list) {
   const checkedConditionList = DeepCopy(list);
   for (let key in checkedConditionList) {
     if (key === 'collegeId') {
-      obj['collegeName'] = checkedConditionList[key].labels.split(',');
+      obj['collegeName'] = checkedConditionList[key].labels;
     }
     if ('familyIdList' === key) {
-      obj[key] = checkedConditionList[key].keys.split(',');
-      obj['familyNameList'] = checkedConditionList[key].labels.split(',');
+      obj[key] = checkedConditionList[key].map(item => item.key);
+      obj['familyNameList'] = checkedConditionList[key].map(item => item.label);
       obj[key].forEach((v, i) => {
         obj[key][i] = Number(obj[key][i]);
-      })
+      });
     } else if ('msgStatusList' === key) {
-      obj[key] = checkedConditionList[key].keys.split(',');
+      obj[key] = checkedConditionList[key].map(item => item.key);
       obj[key].forEach((v, i) => {
         obj[key][i] = Number(obj[key][i]);
-      })
+      });
     } else {
-      obj[key] = checkedConditionList[key].keys
+      obj[key] = checkedConditionList[key].key;
     }
   }
   return obj;
@@ -43,19 +43,26 @@ class DetailsIndex extends React.Component {
       checkedConditionList: {},
     };
   }
-  updateCheckedConditions = (val) => {
+  updateCheckedConditions = val => {
+    console.log(val);
     this.setState({
       checkedConditionList: val,
     });
   };
-  handlePropSubmit = (province) => {
+  handlePropSubmit = province => {
     if (!this.state.checkedConditionList.exam) {
       Message.warning('请选择考期');
-      return
+      return;
     }
+
     const obj = dataFilter(this.state.checkedConditionList);
     const { provinceList } = this.props.dataDetail.params;
     obj.provinceList = province || provinceList || provinceJson[0].name;
+    for (let item in obj) {
+      if (obj[item] instanceof Array && obj[item].length <= 0) {
+        obj[item] = null;
+      }
+    }
     this.props.dispatch({
       type: 'dataDetail/getDetailData',
       payload: { params: obj },
@@ -66,13 +73,18 @@ class DetailsIndex extends React.Component {
     return (
       <>
         {/* 搜索部分 组件 */}
-        <SearchForm updateCheckedConditions={(p) => this.updateCheckedConditions(p)} handlePropSubmit={this.handlePropSubmit} />
+        <SearchForm
+          updateCheckedConditions={p => this.updateCheckedConditions(p)}
+          handlePropSubmit={this.handlePropSubmit}
+        />
         {/* table结果 组件 */}
-        <ResultTable checkedConditionList={this.state.checkedConditionList} handlePropSubmit={this.handlePropSubmit} />
+        <ResultTable
+          checkedConditionList={this.state.checkedConditionList}
+          handlePropSubmit={this.handlePropSubmit}
+        />
       </>
     );
   }
-
 }
 
 export default DetailsIndex;

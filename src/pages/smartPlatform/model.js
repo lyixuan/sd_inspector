@@ -1,6 +1,7 @@
 import { message } from 'antd/lib/index';
 import { provinceJson } from '@/utils/constants'
 import { getOrgInfo, getExamDateRange } from './services';
+import { msgF } from '@/utils/utils';
 
 export default {
   namespace: 'home',
@@ -18,7 +19,7 @@ export default {
       if (result && result.code === 20000) {
         yield put({ type: 'save', payload: { orgList } });
       } else {
-        message.error(result.msg);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *getExamDateRange({ payload }, { call, put }) {
@@ -26,7 +27,7 @@ export default {
       if (data.code === 20000) {
         yield put({ type: 'save', payload: { dateRange: data.data } });
       } else {
-        message.error(data.msg);
+        message.error(msgF(data.msg,data.msgDetail));
       }
     },
     *getProvinceJson({ payload }, { _, put }) {

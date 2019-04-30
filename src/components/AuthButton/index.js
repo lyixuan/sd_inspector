@@ -19,14 +19,10 @@ function checkPathname(authority) {
 class Index extends React.Component {
   constructor(props) {
     super(props);
-    const { authority } = this.props;
-    this.state = {
-      isShowElement: checkPathname(authority),
-    };
   }
 
   render() {
-    return !this.state.isShowElement ? null : { ...this.props.children };
+    return !checkPathname(this.props.authority) ? null : { ...this.props.children };
   }
 }
 

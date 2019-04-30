@@ -1,5 +1,6 @@
 import { message } from 'antd/lib/index';
 import { sopCheckAppeal } from './services';
+import { msgF } from '@/utils/utils';
 
 export default {
   namespace: 'EditAppeal',
@@ -15,7 +16,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { lunchData } });
       } else {
-        message.error(result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
   },

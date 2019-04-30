@@ -12,8 +12,6 @@ import { chartOptions } from './component/EchartCommonOptions';
 import EchartTitle from './component/EchartCommonOptions/echartTitle';
 import SelfProgress from './component/EchartCommonOptions/fillRateFamily';
 import { fillCollege } from './component/EchartCommonOptions/fillRateOptions';
-import { RATE_COLOR } from '@/utils/constants';
-
 
 @connect(({ survey, home, loading }) => ({
   survey,
@@ -31,8 +29,8 @@ class Survey extends React.Component {
         province: null,
         collegeId: null,
         familyId: null,
-        beginDate: "",
-        endDate: "",
+        beginDate: '',
+        endDate: '',
       },
       familyExamOrgParams: {
         province: '',
@@ -45,18 +43,16 @@ class Survey extends React.Component {
         beginDate: this.getLastDateParams(),
         endDate: this.getLastDateParams(),
         orgType: 'college',
-      }
-
+      },
     };
-
   }
   componentDidMount() {
     const { HistogramDataParams, familyExamOrgParams, collegeExamOrgParams } = this.state;
-    this.getMapInfo();// 组织架构
-    this.getProvinceJson();// 省份
+    this.getMapInfo(); // 组织架构
+    this.getProvinceJson(); // 省份
     this.queryHistogramData(HistogramDataParams);
-    this.getExamOrgData(familyExamOrgParams);    //  获取省份对应家族排行榜数据
-    this.getExamOrgData(collegeExamOrgParams);   //  获取省份对应学院排行榜数据
+    this.getExamOrgData(familyExamOrgParams); //  获取省份对应家族排行榜数据
+    this.getExamOrgData(collegeExamOrgParams); //  获取省份对应学院排行榜数据
   }
 
   getMapInfo = () => {
@@ -66,7 +62,7 @@ class Survey extends React.Component {
     }
     this.props.dispatch({
       type: 'survey/getMapInfo',
-    })
+    });
   };
   queryHistogramData = params => {
     this.props.dispatch({
@@ -83,12 +79,12 @@ class Survey extends React.Component {
     this.props.dispatch({
       type: 'survey/examProvinceOrg',
       payload,
-    })
-  }
+    });
+  };
 
   searchData = param => {
     this.setState(param);
-    this.queryHistogramData(param)
+    this.queryHistogramData(param);
   };
   onChangeExamOrg = (value = {}) => {
     const { orgType } = value;
@@ -97,26 +93,32 @@ class Survey extends React.Component {
       return;
     }
     const originParams = this.state[`${orgType}ExamOrgParams`];
-    const newParams = { ...originParams, ...value }
+    const newParams = { ...originParams, ...value };
     paramsObj[`${orgType}ExamOrgParams`] = newParams;
     this.setState({ ...paramsObj });
     this.getExamOrgData(newParams);
-
   };
   getLastDateParams = () => {
-    return moment().add(-1, 'days').format('YYYY-MM-DD');
+    return moment()
+      .add(-1, 'days')
+      .format('YYYY-MM-DD');
   };
   handleFamilyExamOrgData = (data = []) => {
-    return data.sort((a, b) => b.admissionFillRatio - a.admissionFillRatio).map((item,i) => ({
-      ...item,
-      name: `${item.collegeName}|${item.familyName}`,
-      per: (item.admissionFillRatio || 0) * 100,
-      color:BiFilter('RATE_COLOR').filter(item=>item.id===i)
-    }));
+    return data
+      .sort((a, b) => b.admissionFillRatio - a.admissionFillRatio)
+      .map((item, i) => ({
+        ...item,
+        name: `${item.collegeName}|${item.familyName}`,
+        per: (item.admissionFillRatio || 0) * 100,
+        color: BiFilter('RATE_COLOR').filter(item => item.id === i),
+      }));
   };
   handleCollegeExamOrgData = (data = []) => {
-    return fillCollege(data)
+    return fillCollege(data);
   };
+  toTask() {
+    console.log(this.props.mapInfo);
+  }
   momenyFamilyExamOrgData = memoizeOne(this.handleFamilyExamOrgData);
   momenyCollegeExamOrgData = memoizeOne(this.handleCollegeExamOrgData);
   render() {
@@ -126,22 +128,19 @@ class Survey extends React.Component {
     const { data1 = {}, data2 = {} } = dataList;
     const { option1, option2 } = chartOptions(survey);
     const familyExamOptionsData = this.momenyFamilyExamOrgData(familyExamOrgData);
-    const collegeExamOptionsData = this.momenyCollegeExamOrgData(collegeExamOrgData)
+    const collegeExamOptionsData = this.momenyCollegeExamOrgData(collegeExamOrgData);
     return (
       <Spin spinning={false}>
         <div className={styles.container}>
           {/* 地图 */}
           <Spin spinning={this.props.mapInfoLoading}>
             <div className={styles.mapContainer}>
-              <ChinaMap data={mapInfo} />
+              <ChinaMap data={mapInfo} toTask={() => this.toTask()} />
             </div>
-
           </Spin>
 
           <div className={styles.histogram}>
-            <div className={styles.headerCls}>
-              数据概览
-            </div>
+            <div className={styles.headerCls}>数据概览</div>
             <Spin spinning={this.props.echartLoading}>
               {/* 搜索条件 */}
               <div className={styles.formCls}>
@@ -149,26 +148,40 @@ class Survey extends React.Component {
               </div>
               {/* 图表 */}
               <div className={styles.echartCls}>
-                <Echart update={data1}
-                        style={{ width: '49.5%', height: "380px", backgroundColor: ' #fff' }}
-                        options={option1}
-                        isEmpty={JSON.stringify(data1) === '{}' }
+                <Echart
+                  update={data1}
+                  style={{ width: '49.5%', height: '380px', backgroundColor: ' #fff' }}
+                  options={option1}
+                  isEmpty={JSON.stringify(data1) === '{}'}
                 />
-                <Echart update={data2} style={{ width: '49.5%', height: "380px", backgroundColor: ' #fff' }}
-                        options={option2}
-                        isEmpty={JSON.stringify(data2) === "{}"}
+                <Echart
+                  update={data2}
+                  style={{ width: '49.5%', height: '380px', backgroundColor: ' #fff' }}
+                  options={option2}
+                  isEmpty={JSON.stringify(data2) === '{}'}
                 />
               </div>
               <div className={styles.echartFamily}>
-                <EchartTitle onChangeExamOrg={this.onChangeExamOrg} paramsData={collegeExamOrgParams} />
-                <Echart update={data1} style={{ width: '100%', height: "293px" }}
+                <EchartTitle
+                  onChangeExamOrg={this.onChangeExamOrg}
+                  paramsData={collegeExamOrgParams}
+                />
+                <Echart
+                  update={data1}
+                  style={{ width: '100%', height: '293px' }}
                   options={collegeExamOptionsData}
                   isEmpty={collegeExamOrgData.length === 0}
                 />
               </div>
               <div className={styles.echartFamily}>
-                <EchartTitle onChangeExamOrg={this.onChangeExamOrg} paramsData={familyExamOrgParams} />
-                <SelfProgress dataList={familyExamOptionsData} isEmpty={familyExamOrgData.length === 0} />
+                <EchartTitle
+                  onChangeExamOrg={this.onChangeExamOrg}
+                  paramsData={familyExamOrgParams}
+                />
+                <SelfProgress
+                  dataList={familyExamOptionsData}
+                  isEmpty={familyExamOrgData.length === 0}
+                />
               </div>
             </Spin>
           </div>
@@ -176,6 +189,5 @@ class Survey extends React.Component {
       </Spin>
     );
   }
-
 }
 export default Survey;

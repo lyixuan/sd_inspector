@@ -5,21 +5,24 @@ import BIModal from '@/ant_components/BIModal';
 import styles from './style.less';
 import CommonForm from '../../components/commonForm';
 import QualityAppeal from '../../components/AppealInfo/qualityAppeal';
-import { message } from 'antd/lib/index';
-
+import { message, Spin } from 'antd';
 @connect(({ loading, qualityNewSheet, editQualityNewSheet }) => ({
   loading,
   qualityNewSheet,
   editQualityNewSheet,
+  submitLoading: loading.effects['editQualityNewSheet/checkQuality'],
+  pageLoading: loading.effects['qualityNewSheet/getQualityDetail']
 }))
 class EditQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      appealParam: {},
+      checkResult: undefined,
+      appealEndDate: undefined
     };
     const { query = {} } = this.props.location;
     this.query = query;
+    this.appealParam = {};
   }
   componentDidMount() {
     this.getQualityDetailData();
@@ -34,27 +37,28 @@ class EditQualityNewSheet extends React.Component {
     });
   };
   setStateData = val => {
+    this.appealParam = val;
     this.setState({
-      appealParam: val,
-    });
+      checkResult: Number(val.checkResult),
+      appealEndDate: val.appealEndDate
+    })
   };
   onSubmit = params => {
-    const { appealParam } = this.state;
-    if (!appealParam.checkResult) {
+    const { appealParam } = this;
+    if (Number(appealParam.checkResult) !== 0 && !appealParam.checkResult) {
       message.warn('审核结果为必选项');
       return;
     }
-    if (!appealParam.appealEndDate) {
+
+    if (Number(appealParam.checkResult) === 1 && !appealParam.appealEndDate) {
       message.warn('一审截止日期必填');
       return;
     }
     const params2 = {
       qualityId: Number(this.query.id),
-      type: this.query.status === '2' || this.query.status === '4' ? 1 : 2,
-      checkResult: Number(appealParam.checkResult),
-      isWarn: appealParam.isWarn,
-      desc: appealParam.desc ? appealParam.desc : undefined,
-      appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
+      checkResult: Number(appealParam.checkResult) === 1 ? 2 : 4,
+      checkResultDesc: appealParam.desc ? appealParam.desc : undefined,
+      firstAppealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
     };
     this.props.dispatch({
       type: 'editQualityNewSheet/checkQuality',
@@ -63,41 +67,44 @@ class EditQualityNewSheet extends React.Component {
   };
 
   render() {
+    const { checkResult, appealEndDate } = this.state;
     const { qualityDetail = {} } = this.props.qualityNewSheet;
-    const { orderDetail, qualityAudit=[], ...others } = qualityDetail;
+    const { qualityAudit = [], ...others } = qualityDetail;
     const newqualityAudit = [];
-    qualityAudit&&qualityAudit.forEach((v)=>{
+    qualityAudit && qualityAudit.forEach((v) => {
       newqualityAudit.push({
-        checkResult: v.operate === 4? 0:1,
-        operator:v.operateId,
+        checkResult: v.operate === 4 ? 0 : v.operate === 2 ? 1 : '',
+        operator: null,
         operateDate: v.updateTime,
         desc: v.desc
       })
     });
     return (
-      <div className={styles.qualityContainter}>
-        {/* form区域 */}
-        <CommonForm {...this.props} onSubmit={this.onSubmit} dataSource={{ ...others }}>
-          <QualityAppeal data={newqualityAudit} setStateData={this.setStateData} />
-        </CommonForm>
+      <Spin spinning={this.props.pageLoading}>
+        <div className={styles.qualityContainter}>
+          {/* form区域 */}
+          <CommonForm {...this.props} checkResult={checkResult} appealEndDate={appealEndDate} onSubmit={this.onSubmit} dataSource={{ ...others }} formType="quality" actionType="appeal">
+            <QualityAppeal data={newqualityAudit} formType="quality" setStateData={this.setStateData} />
+          </CommonForm>
 
-        <BIModal
-          title="提交确认"
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          footer={[
-            <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
-              取消
-            </BIButton>,
-            <BIButton type="primary" onClick={this.handleOk}>
-              确定
-            </BIButton>,
-          ]}
-        >
-          <div className={styles.modalWrap}>该条记录将被提交给质检主管进行审核，确定提交吗？</div>
-        </BIModal>
-      </div>
+          <BIModal
+            title="提交确认"
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer={[
+              <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
+                取消
+              </BIButton>,
+              <BIButton type="primary" onClick={this.handleOk}>
+                确定
+              </BIButton>,
+            ]}
+          >
+            <div className={styles.modalWrap}>该条记录将被提交给质检主管进行审核，确定提交吗？</div>
+          </BIModal>
+        </div>
+      </Spin>
     );
   }
 }

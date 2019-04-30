@@ -1,7 +1,11 @@
 import { message } from 'antd/lib/index';
 import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
 import { getQualityDetail } from '@/pages/qualityAppeal/qualityAppeal/appeal/services';
+import BIModal from '@/ant_components/BIModal';
 import router from 'umi/router';
+import { downBlob, msgF } from '@/utils/utils';
+
+const confirm = BIModal.confirm;
 
 export default {
   namespace: 'qualityNewSheet',
@@ -23,7 +27,7 @@ export default {
         const page = { total: result.data.total ? result.data.total : 0, pageNum: result.data.pageNum ? result.data.pageNum : 1 };
         yield put({ type: 'save', payload: { qualityList, page } });
       } else {
-        message.error(result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *cancelQuality({ payload }, { call }) {
@@ -32,17 +36,22 @@ export default {
       if (result.code === 20000) {
         message.success('撤销成功');
       } else {
-        message.error(result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *exportExcel({ payload }, { call }) {
       const params = payload.params;
       const result = yield call(qualityExportExcel, params);
       if (result) {
-        downBlob(result.data, 'name.xlsx');
+        const { headers } = result.response || {};
+        const filename = headers.get('content-disposition') || '';
+        const numName = filename.split('filename=')[1]; // 带后缀的文件名
+        const numName2 = numName.split('.')[0];   // 纯文件名
+        // console.log(11,window.decodeURI(numName2))
+        downBlob(result.data, `${eval("'"+numName2+"'")}.xlsx`);
         message.success('导出成功');
       } else {
-        message.error(result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *addQuality({ payload }, { call, put }) {
@@ -51,7 +60,7 @@ export default {
         yield put(router.push('/qualityAppeal/qualityNewSheet'));
 
       } else {
-        message.error(response.msg)
+        message.error(msgF(response.msg,response.msgDetail))
       }
     },
     *getQualityDetail({ payload }, { call, put }) {
@@ -61,7 +70,7 @@ export default {
         const qualityDetail = result.data ? result.data : {};
         yield put({ type: 'save', payload: { qualityDetail } });
       } else {
-        message.error(result.msg);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
   },
@@ -76,14 +85,3 @@ export default {
   },
 };
 
-function downBlob(blob, name) {
-  // 接收返回blob类型的数据
-  const downloadElement = document.createElement('a');
-  const href = window.URL.createObjectURL(blob); // 创建下载的链接
-  downloadElement.href = href;
-  downloadElement.download = name; // 下载后文件名
-  document.body.appendChild(downloadElement);
-  downloadElement.click(); // 点击下载
-  document.body.removeChild(downloadElement); // 下载完成移除元素
-  window.URL.revokeObjectURL(href); // 释放掉blob对象
-}

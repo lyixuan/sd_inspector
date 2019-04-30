@@ -109,7 +109,7 @@ class NewQualitySheet extends React.Component {
   };
   render() {
     const {qualityNum,qualityType,collegeIdList,familyIdList,groupIdList,beginDate,endDate,firstAppealBeginDate,firstAppealEndDate,status,secondAppealBeginDate,secondAppealEndDate,userName,} = this.state;
-    const {orgList = [],dataSource,columns,page,loading} = this.props;
+    const {orgList = [],dataSource,columns,page,loading,loading2} = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -118,13 +118,13 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel}>质检单号</span>:
+                <span className={styles.gutterLabel}>质检单号</span>：
                 <span className={styles.gutterForm}><BIInput placeholder="请输入" allowClear value={qualityNum} onChange={(e)=>this.onFormChange(e.target.value,'qualityNum')}/></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>质检类型</span>:
+                <span className={styles.gutterLabel}>质检类型</span>：
                 <span className={styles.gutterForm}>
                   <BISelect style={{width:230}} placeholder="请选择" value={qualityType} onChange={(val)=>this.onFormChange(val,'qualityType')}>
                     <Option key={'all'}>全部</Option>
@@ -139,7 +139,7 @@ class NewQualitySheet extends React.Component {
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel}>申诉状态</span>:
+                <span className={styles.gutterLabel}>申诉状态</span>：
                 <span className={styles.gutterForm}>
                   <BISelect style={{width:230}} allowClear value={status} placeholder="请选择" onChange={(val)=>this.onFormChange(val,'status')}>
                     {BiFilter('APPEAL_STATE').map(item => (
@@ -156,7 +156,7 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel}>归属组织</span>:
+                <span className={styles.gutterLabel}>归属组织</span>：
                 <span className={styles.gutterForm}>
                   <BITreeSelect
                     style={{ width: 230 }}
@@ -174,13 +174,13 @@ class NewQualitySheet extends React.Component {
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>质检通过时间</span>:
+                <span className={styles.gutterLabel}>质检通过时间</span>：
                 <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} allowClear value={beginDate && [moment(beginDate),moment(endDate)]} onChange={(val)=>this.onFormChange(val,'verifyDate')}/></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel}>一审截止时间</span>:
+                <span className={styles.gutterLabel}>一审截止时间</span>：
                 <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} allowClear value={firstAppealBeginDate && [moment(firstAppealBeginDate),moment(firstAppealEndDate)]}  onChange={(val)=>this.onFormChange(val,'firstAppealDate')}/></span>
               </div>
             </Col>
@@ -189,14 +189,14 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel}>二审截止时间</span>:
+                <span className={styles.gutterLabel}>二审截止时间</span>：
                 <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} allowClear value={secondAppealBeginDate && [moment(secondAppealBeginDate),moment(secondAppealEndDate)]} onChange={(val)=>this.onFormChange(val,'secondAppealDate')}/></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <AuthButton authority='/qualityAppeal/qualityAppeal/showQA'>
               <div className={styles.gutterBox2}>
-                  <span className={styles.gutterLabel}>归属人</span>:
+                  <span className={styles.gutterLabel}>归属人</span>：
                   <span className={styles.gutterForm}>
                   <BIInput placeholder="请输入" allowClear value={userName} onChange={(e)=>this.onFormChange(e.target.value,'userName')}/>
                 </span>
@@ -217,7 +217,7 @@ class NewQualitySheet extends React.Component {
             <Col className={styles.gutterCol} span={12}>
               <div className={styles.gutterBox1}>
                 <AuthButton authority='/qualityAppeal/qualityAppeal/export'>
-                  <span className={styles.gutterBtn1}><BIButtonYellow type='primary' onClick={this.exportRt}>导出Excel</BIButtonYellow></span>
+                  <span className={styles.gutterBtn1}><BIButtonYellow type='primary' onClick={this.exportRt} loading={loading2} >导出Excel</BIButtonYellow></span>
                 </AuthButton>
               </div>
             </Col>
@@ -227,9 +227,9 @@ class NewQualitySheet extends React.Component {
               </div>
             </Col>
           </Row>
-          <BITable rowKey={record=>record.id}  dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
+          <BITable rowKey={record=>record.id + Math.random()*1000}  dataSource={dataSource} columns={columns} pagination={false} loading={loading} />
           <br/>
-          <BIPagination showQuickJumper defaultPageSize={page.pageSize?page.pageSize:30} onChange={this.onPageChange} defaultCurrent={page.pageNum} total={page.total}/>
+          <BIPagination showQuickJumper defaultPageSize={page.pageSize?page.pageSize:30} onChange={this.onPageChange} current={page.pageNum} total={page.total}/>
         </div>
       </div>
     );

@@ -1,20 +1,20 @@
 import { message } from 'antd/lib/index';
-import { queryHistogramData, getMapInfo } from './services';
+import { queryHistogramData, getMapInfo, getNodeMsgCount } from './services';
 import { examProvinceOrg } from '../services';
+import { msgF } from '@/utils/utils';
 
 function dealData(data, dataItem) {
-
   const dataObj = { dateArr: [] };
-  dataItem.map((item, i) => dataObj[`dataArr${[i + 1]}`] = []);
+  dataItem.map((item, i) => (dataObj[`dataArr${[i + 1]}`] = []));
   data.forEach(item => {
-    dataObj.dateArr.push(`${item.date.split("-")[1]}/${item.date.split("-")[2]}`);
+    dataObj.dateArr.push(`${item.date.split('-')[1]}/${item.date.split('-')[2]}`);
     dataItem.forEach((item1, index1) => {
       let val = item[dataItem[index1]];
       if ('admissionFillRatio' === dataItem[index1] || 'reachRatio' === dataItem[index1]) {
         val = (val * 100).toFixed(2);
       }
       dataObj[`dataArr${[index1 + 1]}`].push(val);
-    })
+    });
   });
   return dataObj;
 }
@@ -24,17 +24,26 @@ export default {
   state: {
     dataList: [],
     mapInfo: [],
-    familyExamOrgData: [],  // 排名家族数据
-    collegeExamOrgData: [],  // 排名学院数据
+    familyExamOrgData: [], // 排名家族数据
+    collegeExamOrgData: [], // 排名学院数据
+    examNodes: [],
   },
 
   effects: {
+    *getNodeMsgCount({ payload }, { call, put }) {
+      const data = yield call(getNodeMsgCount, { ...payload });
+      if (data.code === 20000) {
+        yield put({ type: 'saveExamNodes', payload: { examNodes: data.data } });
+      } else {
+        message.error(msgF(data.msg,data.msgDetail));
+      }
+    },
     *queryHistogramData({ payload }, { call, put }) {
       const data = yield call(queryHistogramData, { ...payload });
       if (data.code === 20000) {
-        yield put({ type: 'saveDataList', payload: { dataList: data.data }, });
+        yield put({ type: 'saveDataList', payload: { dataList: data.data } });
       } else {
-        message.error(data.msg);
+        message.error(msgF(data.msg,data.msgDetail));
       }
     },
     *getMapInfo(_, { call, put }) {
@@ -43,10 +52,9 @@ export default {
         yield put({
           type: 'saveMapInfo',
           payload: { mapInfo: response.data },
-        })
-
+        });
       } else {
-        message.error(response.msg)
+        message.error(msgF(response.msg,response.msgDetail));
       }
     },
     *examProvinceOrg({ payload }, { call, put }) {
@@ -61,12 +69,11 @@ export default {
         yield put({
           type: 'saveExamOrgData',
           payload: data,
-        })
-
+        });
       } else {
-        message.error(response.msg)
+        message.error(msgF(response.msg,response.msgDetail));
       }
-    }
+    },
   },
 
   reducers: {
@@ -81,9 +88,16 @@ export default {
       //   return Date.parse(a.date) - Date.parse(b.date);//时间正序
       // });
       // console.log(JSON.stringify(dataList) === "{}") ;
-      const data1 = dataList[1] ? dealData(dataList[1], ['examPlanNum', 'pushNum', 'readNum', 'reachRatio']) : {};
-      const data2 = dataList[2] ? dealData(dataList[2], ['examPlanNum', 'admissionFillNum', 'admissionFillRatio']) : {};
+      const data1 = dataList[1]
+        ? dealData(dataList[1], ['examPlanNum', 'pushNum', 'readNum', 'reachRatio'])
+        : {};
+      const data2 = dataList[2]
+        ? dealData(dataList[2], ['examPlanNum', 'admissionFillNum', 'admissionFillRatio'])
+        : {};
       return { ...state, dataList: { data1, data2 } };
+    },
+    saveExamNodes(state, { payload }) {
+      return { ...state, ...payload };
     },
     saveMapInfo(state, { payload }) {
       return { ...state, ...payload };
@@ -93,6 +107,5 @@ export default {
     },
   },
 
-  subscriptions: {
-  },
+  subscriptions: {},
 };

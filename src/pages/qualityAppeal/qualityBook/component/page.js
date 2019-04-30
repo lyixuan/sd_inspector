@@ -3,16 +3,11 @@ import { connect } from 'dva';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
-import BIButtonYellow from '@/components/BIButtonYellow';
 import BIButtonBlue from '@/components/BIButtonBlue';
-import BIDatePicker from '@/ant_components/BIDatePicker';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
-
-import { BiFilter, DeepCopy } from '@/utils/utils';
 import { Row, Col } from 'antd';
 import styles from '../../style.less'
-const { RangePicker } = BIDatePicker
 
 @connect(({ newQuality }) => ({
   newQuality,
@@ -31,27 +26,27 @@ class NewQualitySheet extends React.Component {
       payload: { params: {} },
     });
   }
-  search = ()=>{
+  search = () => {
     this.props.queryData();
   };
-  reset = ()=>{
+  reset = () => {
     this.props.queryData();
   };
-  onPageChange = ()=>{
+  onPageChange = () => {
     this.props.queryData();
   };
-  onSizeChange = ()=>{
+  onSizeChange = () => {
     this.props.queryData();
   };
-  classCreate = ()=>{
+  classCreate = () => {
 
   };
-  customCreate = ()=>{
+  customCreate = () => {
 
   };
   render() {
-    const {violationLevel} = this.state;
-    const {violationLevelList = [],dataSource,columns,loading,keye} = this.props;
+    const { violationLevel } = this.state;
+    const { violationLevelList = [], dataSource, columns, loading, keye } = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -66,19 +61,19 @@ class NewQualitySheet extends React.Component {
                 </span>
               </div>
             </Col>
-            <Col className={styles.gutterCol}  span={8}>
+            <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox2}>
                 <span className={styles.gutterLabel}>状态</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={violationLevel} options={violationLevelList} />
+                  <BISelect style={{ width: 230 }} value={violationLevel} options={violationLevelList} />
                 </span>
               </div>
             </Col>
-            <Col className={styles.gutterCol}  span={8}>
+            <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox3}>
                 <span className={styles.gutterLabel1}>违规等级</span>:
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} value={violationLevel} options={violationLevelList} />
+                  <BISelect style={{ width: 230 }} value={violationLevel} options={violationLevelList} />
                 </span>
               </div>
             </Col>
@@ -93,7 +88,7 @@ class NewQualitySheet extends React.Component {
                 </span>
               </div>
             </Col>
-            <Col className={styles.gutterCol}  span={8}>
+            <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox2}>
                 <span className={styles.gutterLabel}>二级分类</span>:
                 <span className={styles.gutterForm}>
@@ -101,7 +96,7 @@ class NewQualitySheet extends React.Component {
                 </span>
               </div>
             </Col>
-            <Col className={styles.gutterCol}  span={8}>
+            <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox3}>
                 <span className={styles.gutterLabel1}>三级分类</span>:
                 <span className={styles.gutterForm}>
@@ -116,11 +111,11 @@ class NewQualitySheet extends React.Component {
               <div className={styles.gutterBox1}>
               </div>
             </Col>
-            <Col className={styles.gutterCol}  span={8}>
+            <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox2}>
               </div>
             </Col>
-            <Col className={styles.gutterCol}  span={8}>
+            <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox3}>
                 <span className={styles.gutterBtn1}><BIButton onClick={this.search} type='primary'>搜索</BIButton></span>
                 <span className={styles.gutterBtn2}><BIButton onClick={this.reset}>重置</BIButton></span>
@@ -134,17 +129,17 @@ class NewQualitySheet extends React.Component {
             <Col className={styles.gutterCol} span={12}>
               <div className={styles.gutterBox1}>
                 {keye === '1' && (<span className={styles.gutterBtn1}><BIButtonBlue onClick={this.classCreate} type='primary'>新建班主任质检</BIButtonBlue></span>)}
-                {keye === '2' && (<span className={styles.gutterBtn1}><BIButtonBlue onClick={this.customCreate} type='primary'>新建客诉质检</BIButtonBlue></span>) }
+                {keye === '2' && (<span className={styles.gutterBtn1}><BIButtonBlue onClick={this.customCreate} type='primary'>新建客诉质检</BIButtonBlue></span>)}
               </div>
             </Col>
-            <Col className={styles.gutterCol}  span={12}>
+            <Col className={styles.gutterCol} span={12}>
               <div className={styles.gutterBox3}>
                 总条数：4
               </div>
             </Col>
           </Row>
           <BITable dataSource={dataSource} columns={columns} pagination={false} loading={loading} bordered />
-          <br/>
+          <br />
           <BIPagination showSizeChanger onShowSizeChange={this.onSizeChange} onChange={this.onPageChange} defaultCurrent={3} total={500} />
         </div>
       </div>

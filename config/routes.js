@@ -36,6 +36,15 @@ export const routes = [
             name: '报考',
           },
           {
+            path: '/smartPlatform/pushData',
+            component: './smartPlatform/pushData',
+            name: '推送数据',
+            bread: {
+              name: '报表概览',
+              path: '/smartPlatform/survey',
+            },
+          },
+          {
             path: '/smartPlatform/exam/collegeinfo',
             component: './smartPlatform/exam/singleProColInfo',
             name: '报考信息',
@@ -87,11 +96,19 @@ export const routes = [
             path: '/qualityAppeal/qualityNewSheet/appealSt',
             component: './qualityAppeal/qualityNewSheet/appealSt',
             name: '审核',
+            bread: {
+              name: '新质检单管理',
+              path: '/qualityAppeal/qualityNewSheet',
+            },
           },
           {
             path: '/qualityAppeal/qualityNewSheet/detail',
             component: './qualityAppeal/qualityNewSheet/detail',
             name: '质检详情',
+            bread: {
+              name: '新质检单管理',
+              path: '/qualityAppeal/qualityNewSheet',
+            },
           },
           {
             path: '/qualityAppeal/qualityAppeal',
@@ -126,7 +143,7 @@ export const routes = [
             },
           },
           {
-            path: '/qualityAppeal/qualityAppeal/launchAppeal',
+            path: '/qualityAppeal/qualityAppeal/launch',
             component: './qualityAppeal/qualityAppeal/launchAppeal',
             name: '发起申诉',
             bread: {

@@ -27,6 +27,7 @@
   float: left;
 }
 .gutterBox2 {
+  text-align: center;
   margin: 0 auto;
 }
 
@@ -35,19 +36,21 @@
 }
 
 .gutterLabel,.gutterLabel1 {
-  width: 85px;
+  width: 88px;
+  line-height: 0;
   display: inline-block;
-  text-align-last: justify;
+  //text-align-last: justify;
+  text-align: justify;
 }
 
-.gutterLabel::after.gutterLabel1::after {
-  content: '';
-  display: inline;
+.gutterLabel:after,.gutterLabel1:after {
+  content: ''!important;
+  display: inline-block;
   width: 100%;
 }
 
 .gutterLabel1 {
-  width: 70px;
+  width: 74px;
 }
 
 .gutterForm {
@@ -67,6 +70,7 @@
 // --------
 .tableBlock {
   padding: 20px;
+  padding-top: 0;
   background: #fff;
   overflow: hidden;
 }

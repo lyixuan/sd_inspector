@@ -8,7 +8,7 @@ import style from '@/pages/qualityAppeal/style.less';
 import subStl from './style.less';
 import router from 'umi/router';
 import moment from 'moment';
-import { BiFilter,DeepCopy } from '@/utils/utils';
+import { BiFilter, DeepCopy } from '@/utils/utils';
 import BIModal from '@/ant_components/BIModal';
 const TabPane = BITabs.TabPane;
 const confirm = BIModal.confirm;
@@ -17,7 +17,7 @@ function changeState(record) {
   // 合并
   // 后端通过两个字段控制状态，前端只能有一个字段遵循顺序关系，只能这样手动映射，本人也表示很无语
   let myStatue = 1;
-  if (record.status === 10) {
+  if (record.status === null) {
     myStatue = 1; // 待申诉
   }
   if (record.status === 1 && record.appealType === 1) {
@@ -60,9 +60,10 @@ function changeState(record) {
 }
 function changeState2(status) {
   // 拆分
-  let rt = {status:undefined,appealType:undefined};
+  let rt = { status: undefined, appealType: undefined };
   if (status === 1) {
     rt.status = 10; // 待申诉
+    rt.appealType = 1;
   }
   if (status === 2) {
     rt.status = 1; // 一次SOP待审核
@@ -140,7 +141,7 @@ const columns1 = [
     render: (text, record) => {
       return (
         <>
-          {`${record.collegeName ?record.collegeName:''} ${record.familyName?`| ${record.familyName}`:''}  ${record.groupName ?`| ${record.groupName}`:''}`}
+          {`${record.collegeName ? record.collegeName : ''} ${record.familyName ? `| ${record.familyName}` : ''}  ${record.groupName ? `| ${record.groupName}` : ''}`}
         </>
       );
     },
@@ -154,12 +155,12 @@ const columns1 = [
 
       function dot() {
         let rt = null;
-        // 3 一次SOP已驳回 5一次质检主管已驳回 7二次SOP已驳回 8 二次质检主管待审核
-        if (myStatue === 3 || myStatue === 5 || myStatue === 7||myStatue === 8) {
-          rt = <span className={subStl.dotStl} style={{background: '#FF0000'}}></span>
+        // 3 一次SOP已驳回 5一次质检主管已驳回 7二次SOP已驳回
+        if (myStatue === 3 || myStatue === 5 || myStatue === 7) {
+          rt = <span className={subStl.dotStl} style={{ background: '#FF0000' }}></span>
         } else {
-          // 1待申诉 2一次SOP待审核 4一次质检主管待审核 6二次SOP待审核
-          rt = <span className={subStl.dotStl} style={{background: '#FAAC14'}}></span>
+          // 1待申诉 2一次SOP待审核 4一次质检主管待审核 6二次SOP待审核 8 二次质检主管待审核
+          rt = <span className={subStl.dotStl} style={{ background: '#FAAC14' }}></span>
         }
         return rt;
       }
@@ -177,7 +178,7 @@ const columns1 = [
     render: (text, record) => {
       return (
         <>
-          {record.verifyDate?moment(record.verifyDate).format('YYYY-MM-DD'):'-'}
+          {record.verifyDate ? moment(record.verifyDate).format('YYYY-MM-DD') : '-'}
         </>
       );
     },
@@ -188,7 +189,7 @@ const columns1 = [
     render: (text, record) => {
       return (
         <>
-          {record.firstAppealEndDate?moment(record.firstAppealEndDate).format('YYYY-MM-DD'):'-'}
+          {record.firstAppealEndDate ? moment(record.firstAppealEndDate).format('YYYY-MM-DD') : '-'}
         </>
       );
     },
@@ -199,7 +200,7 @@ const columns1 = [
     render: (text, record) => {
       return (
         <>
-          {record.secondAppealEndDate ? moment(record.secondAppealEndDate).format('YYYY-MM-DD'):'-'}
+          {record.secondAppealEndDate ? moment(record.secondAppealEndDate).format('YYYY-MM-DD') : '-'}
         </>
       );
     },
@@ -227,7 +228,7 @@ const columns2 = [
     render: (text, record) => {
       return (
         <>
-          {`${record.collegeName ?record.collegeName:''} ${record.familyName?`| ${record.familyName}`:''}  ${record.groupName ?`| ${record.groupName}`:''}`}
+          {`${record.collegeName ? record.collegeName : ''} ${record.familyName ? `| ${record.familyName}` : ''}  ${record.groupName ? `| ${record.groupName}` : ''}`}
         </>
       );
     },
@@ -243,12 +244,12 @@ const columns2 = [
       let myStatue = changeState(record);
       function dot() {
         let rt = null;
-        if (myStatue === 9||myStatue === 11) {
-          rt = <span className={subStl.dotStl} style={{background: '#52C9C2'}}></span>
+        if (myStatue === 9 || myStatue === 11) {
+          rt = <span className={subStl.dotStl} style={{ background: '#52C9C2' }}></span>
         } else if (myStatue === 10 || myStatue === 13) {
-          rt = <span className={subStl.dotStl} style={{background: '#FAAC14'}}></span>
+          rt = <span className={subStl.dotStl} style={{ background: '#FAAC14' }}></span>
         } else {
-          rt = <span className={subStl.dotStl} style={{background: '#FF0000'}}></span>
+          rt = <span className={subStl.dotStl} style={{ background: '#FF0000' }}></span>
         }
         return rt;
       }
@@ -266,34 +267,34 @@ const columns2 = [
     render: (text, record) => {
       return (
         <>
-          {BiFilter(`ISWARN|id:${record.isWarn}`).name}
+          {record.isWarn ? BiFilter(`ISWARN|id:${record.isWarn}`).name: '否'}
         </>
       );
     },
   },
 ];
-function dealQuarys(pm){
+function dealQuarys(pm) {
   const p = DeepCopy(pm);
-  if (p.collegeIdList && p.collegeIdList.length>0) {
-    p.collegeIdList = p.collegeIdList.map((v)=>{
-      return Number(v.replace('a-',''));
-    })
-  } else{
-    p.collegeIdList=undefined;
-  }
-  if (p.familyIdList&&p.familyIdList.length>0) {
-    p.familyIdList = p.familyIdList.map((v)=>{
-      return Number(v.replace('b-',''));
+  if (p.collegeIdList && p.collegeIdList.length > 0) {
+    p.collegeIdList = p.collegeIdList.map((v) => {
+      return Number(v.replace('a-', ''));
     })
   } else {
-    p.familyIdList=undefined;
+    p.collegeIdList = undefined;
   }
-  if (p.groupIdList&&p.groupIdList.length>0) {
-    p.groupIdList = p.groupIdList.map((v)=>{
-      return Number(v.replace('c-',''));
+  if (p.familyIdList && p.familyIdList.length > 0) {
+    p.familyIdList = p.familyIdList.map((v) => {
+      return Number(v.replace('b-', ''));
     })
   } else {
-    p.groupIdList=undefined;
+    p.familyIdList = undefined;
+  }
+  if (p.groupIdList && p.groupIdList.length > 0) {
+    p.groupIdList = p.groupIdList.map((v) => {
+      return Number(v.replace('c-', ''));
+    })
+  } else {
+    p.groupIdList = undefined;
   }
   if (p.isWarn && p.isWarn !== 'all') {
     p.isWarn = Number(p.isWarn);
@@ -310,25 +311,36 @@ function dealQuarys(pm){
     p.status = o.status;
     p.appealType = o.appealType;
   }
-  if (p.violationLevel) {
+
+  if (p.violationLevel && p.violationLevel.length>0) {
     p.violationLevel = p.violationLevel.map(v=>Number(v))
+  } else {
+    p.violationLevel = undefined;
   }
-  if (p.dimensionIdList) {
+  if (p.dimensionIdList && p.dimensionIdList.length>0) {
     p.dimensionIdList = p.dimensionIdList.map(v=>Number(v))
+  } else {
+    p.dimensionIdList = undefined;
+  }
+  if (p.qualityNum && p.qualityNum !== '') {
+    p.qualityNum = p.qualityNum.trim();
+  } else {
+    p.qualityNum = undefined
   }
   return p;
 };
-@connect(({ qualityAppealHome,qualityCheck,loading }) => ({
+@connect(({ qualityAppealHome, qualityCheck, loading }) => ({
   qualityAppealHome,
   qualityCheck,
-  loading:loading.effects['qualityCheck/getAppealList']
+  loading: loading.effects['qualityCheck/getAppealList'],
+  loading2: loading.effects['qualityCheck/exportExcel']
 }))
 
 class QualityAppeal extends React.Component {
   constructor(props) {
     super(props);
-    const {p='{}'} = this.props.location.query;
-    const {tabType = '1'} = JSON.parse(p);
+    const { p = '{}' } = this.props.location.query;
+    const { tabType = '1' } = JSON.parse(p);
     this.state = {
       page: 1,
       pageSize: 30,
@@ -336,77 +348,88 @@ class QualityAppeal extends React.Component {
       tabType: tabType
     };
     this.saveUrlParams = undefined;
+    this.c1 = this.columnsAction1();
+    this.c2 = this.columnsAction2();
   }
   componentDidMount() {
-    const {p=null} = this.props.location.query;
+    const { p = null } = this.props.location.query;
     this.queryData(JSON.parse(p));
   }
 
-  queryData = (pm,pg,isExport) => {
-    this.saveUrlParams = (pm && !isExport) ? JSON.stringify(pm):undefined;
+  queryData = (pm, pg, isExport) => {
+    this.saveUrlParams = (pm && !isExport) ? JSON.stringify(pm) : undefined;
     const dealledPm = pm && dealQuarys(pm);
     // 获取数据
-    let params = {...this.state};
+    let params = { ...this.state };
     if (dealledPm) {
-      params = {...params,...dealledPm};
+      params = { ...params, ...dealledPm };
     }
     if (pg) {
-      params = {...params,...pg};
+      params = { ...params, ...pg };
+      this.saveUrlParams =JSON.stringify({...JSON.parse(this.saveUrlParams),...pg});
       this.setState({
-        page:pg.page
+        page: pg.page
       });
     }
-    if (isExport){
+    if (isExport) {
       this.props.dispatch({
         type: 'qualityCheck/exportExcel',
-        payload: {params },
+        payload: { params },
       });
     } else {
       this.props.dispatch({
         type: 'qualityCheck/getAppealList',
         payload: { params },
-      }).then(()=>{
+      }).then(() => {
         router.replace({
-          pathname:this.props.location.pathname,
-          query:this.saveUrlParams ? {p:this.saveUrlParams}:''
+          pathname: this.props.location.pathname,
+          query: this.saveUrlParams ? { p: this.saveUrlParams } : ''
         })
       });
     }
   };
 
   onTabChange = (val) => {
+    if (val==='1') {
+      router.replace({
+        pathname:this.props.location.pathname,
+        query: {p:JSON.stringify({tabType:'1',type: 1,page:1})}
+      });
+    } else {
+      router.replace({
+        pathname:this.props.location.pathname,
+        query: {p:JSON.stringify({tabType:'2',type: 2,page:1})}
+      });
+    }
     this.setState({
       type: Number(val),
       tabType: val,
-    },() => {
-      this.queryData({tabType:val,type: Number(val)});
+      page: 1,
+    }, () => {
+      this.queryData({ tabType: val, type: Number(val) });
     })
   };
-
-  onDetail = (record) => {
+  onJumpPage = (query, pathname) => {
     router.push({
-      pathname: '/qualityAppeal/qualityAppeal/detail',
-      query: {id:record.id},
+      pathname,
+      query
     });
   };
+  onDetail = (record) => {
+    this.onJumpPage({ id: record.id }, '/qualityAppeal/qualityAppeal/detail');
+  };
 
-  onSubmitAppeal = (record) => {
-    router.push({
-      pathname: '/qualityAppeal/qualityAppeal/edit',
-      query: {id:record.id},
-    });
+  onSubmitAppeal = (record,status) => {
+    this.onJumpPage({ id: record.id, appealType: status, secondAppealEndDate:record.secondAppealEndDate }, '/qualityAppeal/qualityAppeal/launch');
   };
 
   onAppeal = (record) => {
-    router.push({
-      pathname: '/qualityAppeal/qualityAppeal/appeal',
-      query: {id:record.id},
-    });
+    this.onJumpPage({ id: record.id, status: changeState(record) }, '/qualityAppeal/qualityAppeal/appeal');
   };
 
-  onRepeal = (record) => {
+  onRepeal = (record,status) => {
     const that = this;
-    const {p=null} = this.props.location.query;
+    const { p = null } = this.props.location.query;
     confirm({
       className: 'BIConfirm',
       title: '是否撤销当前数据状态?',
@@ -415,8 +438,8 @@ class QualityAppeal extends React.Component {
       onOk() {
         that.props.dispatch({
           type: 'qualityCheck/cancelQuality',
-          payload: { params: { id:record.id } },
-        }).then(()=>{
+          payload: { params: { id: record.id,type:status === 2?1:2 } },
+        }).then(() => {
           that.queryData(JSON.parse(p))
         });
       },
@@ -429,42 +452,53 @@ class QualityAppeal extends React.Component {
       title: '操作',
       dataIndex: 'operation',
       render: (text, record) => {
+        const status = changeState(record);
         return (
           <>
             <AuthButton authority='/qualityAppeal/qualityAppeal/detail'>
-              <span className={style.actionBtn} onClick={() => this.onDetail(record)}>
-                详情
+              <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
+                查看详情
               </span>
             </AuthButton>
-            {record.status === 1||record.status === 3||record.status === 5||record.status === 7?(
-              <AuthButton authority='/qualityAppeal/qualityAppeal/edit'>
-                <span className={style.actionBtn} onClick={() => this.onSubmitAppeal(record)}>
+            {status === 1 || status === 3 || status === 5 || status === 7 ? (
+              <AuthButton authority='/qualityAppeal/qualityAppeal/launch'>
+                <span className={style.actionBtn} onClick={() => this.onSubmitAppeal(record,status)}>
                   提交申诉
                 </span>
               </AuthButton>
-            ):null}
-            {record.status === 2||record.status === 4||record.status === 6||record.status === 8?(
+            ) : null}
+            {status === 2 ||  status === 6 ? (
+              <AuthButton authority='/qualityAppeal/qualityAppeal/appealsop'>
+                <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
+                  审核
+                </span>
+              </AuthButton>
+            ) : null}
+            {status === 4 || status === 8 ? (
               <AuthButton authority='/qualityAppeal/qualityAppeal/appeal'>
                 <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
                   审核
                 </span>
               </AuthButton>
-            ):null}
-            {record.status === 2||record.status === 6?(
+            ) : null}
+            {status === 2 || status === 6 ? (
               <AuthButton authority='/qualityAppeal/qualityAppeal/repeal'>
-                <span className={style.actionBtn} onClick={() => this.onRepeal(record)}>
+                <span className={style.actionBtn} onClick={() => this.onRepeal(record,status)}>
                   撤销
                 </span>
               </AuthButton>
-            ):null}
+            ) : null}
           </>
         );
       },
     }];
     if (!AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
-      columns1.splice(2,1);
+      const index = columns1.findIndex(item => item.dataIndex === 'userName');
+      if (index >= 0) {
+        columns1.splice(index, 1);
+      }
     }
-    return [...columns1,...actionObj];
+    return [...columns1, ...actionObj];
   };
   columnsAction2 = () => {
     const actionObj = [{
@@ -474,19 +508,19 @@ class QualityAppeal extends React.Component {
         return (
           <>
             <AuthButton authority='/qualityAppeal/qualityAppeal/detail'>
-              <span className={style.actionBtn} onClick={() => this.onDetail(record)}>
-                详情
+              <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
+                查看详情
               </span>
             </AuthButton>
           </>
         );
       },
     }];
-    return [...columns2,...actionObj];
+    return [...columns2, ...actionObj];
   };
   render() {
-    const {orgListTreeData = [], dimensionList1 = [],dimensionList2 = []} = this.props.qualityAppealHome;
-    const {qualityAppealList = [],page} = this.props.qualityCheck;
+    const { orgListTreeData = [], dimensionList1 = [], dimensionList2 = [] } = this.props.qualityAppealHome;
+    const { qualityAppealList1 = [],qualityAppealList2 = [], page1,page2 } = this.props.qualityCheck;
     return (
       <>
         <div className={subStl.topTab}>
@@ -496,23 +530,23 @@ class QualityAppeal extends React.Component {
               <Page1
                 {...this.props}
                 tabType={this.state.tabType}
-                columns={this.columnsAction1()}
+                columns={this.c1}
                 orgList={orgListTreeData}
-                dataSource={qualityAppealList}
-                page={page}
-                queryData={(params,page,isExport)=>this.queryData(params,page,isExport)} />
+                dataSource={qualityAppealList1}
+                page={page1}
+                queryData={(params, page, isExport) => this.queryData(params, page, isExport)} />
             </TabPane>
             <TabPane tab="结案质检申诉" key={2}>
               <div className={subStl.tabBlank}>&nbsp;</div>
               <Page2
                 {...this.props}
                 tabType={this.state.tabType}
-                dimensionList1 = {dimensionList1}
-                dimensionList2 = {dimensionList2}
-                columns={this.columnsAction2()}
-                dataSource={qualityAppealList}
-                page={page}
-                queryData={(params,page)=>this.queryData(params,page)} />
+                dimensionList1={dimensionList1}
+                dimensionList2={dimensionList2}
+                columns={this.c2}
+                dataSource={qualityAppealList2}
+                page={page2}
+                queryData={(params, page) => this.queryData(params, page)} />
             </TabPane>
           </BITabs>
         </div>

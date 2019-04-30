@@ -1,5 +1,6 @@
 import { message } from 'antd/lib/index';
 import { getOrgMapList } from './services';
+import { msgF } from '@/utils/utils';
 
 export default {
   namespace: 'createQualityNewSheet1',
@@ -17,7 +18,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveLsit', payload: { tableList, total } });
       } else {
-        message.error(result.msg);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
   },

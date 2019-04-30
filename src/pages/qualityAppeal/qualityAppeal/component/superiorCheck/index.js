@@ -12,8 +12,7 @@ export default class SuperiorCheckComponent extends React.Component {
   componentDidMount() {}
 
   render() {
-    const { checkResult, desc, isCollapse } = this.props.data ? this.props.data : {};
-    console.log(this.props);
+    const { masterAppealCheck={}, isCollapse } = this.props.data ? this.props.data : {};
     return (
       <section className={isCollapse ? `${styles.hidePanel}` : `${styles.showPanel} `}>
         <div className={styles.personInfoCon}>
@@ -23,14 +22,14 @@ export default class SuperiorCheckComponent extends React.Component {
             <div>
               <div className={styles.container}>
                 <div className={styles.secRow}>
-                  <div className={checkResult ? styles.resultDotColor1 : styles.resultDotColor2}>
-                    审核结果： {checkResult == 1 ? '通过' : '不通过'}
+                  <div className={Number(masterAppealCheck.checkResult) ? styles.resultDotColor1 : styles.resultDotColor2}>
+                    审核结果： {Number(masterAppealCheck.checkResult) === 1 ? '通过' : '不通过'}
                   </div>
                 </div>
               </div>
               <div>
                 <div className={styles.secCol}>
-                  <div>审核说明：{desc}</div>
+                  <div>审核说明：{masterAppealCheck.desc}</div>
                 </div>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cascader } from 'antd';
+import BICascader from '@/ant_components/BICascader';
 import './styles.less';
 
 
@@ -35,7 +35,6 @@ class OrgCascader extends React.Component {
     }
     componentDidMount() {
         const { level = 0, options = [] } = this.props;
-
         this.saveOptions(options, level);
     }
     componentWillReceiveProps(nextProps) {
@@ -65,15 +64,15 @@ class OrgCascader extends React.Component {
 
     render() {
         const { options } = this.state;
+        const { level } = this.props;
         return (
-            <span className="BICascader">
-                <Cascader
-                    style={{ width: 280, height: 32 }}
-                    {...this.props}
-                    options={options}
-                    onChange={this.onChange}
-                />
-            </span>
+            <BICascader
+                style={{ width: 280, height: 32 }}
+                {...this.props}
+                options={options}
+                onChange={this.onChange}
+                disabled={Number(level) === 0}
+            />
 
         )
     }

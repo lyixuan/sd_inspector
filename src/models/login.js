@@ -2,6 +2,7 @@ import { message } from 'antd';
 import { routerRedux } from 'dva/router';
 import { getPrivilegeList, CurrentUserListRole, userChangeRole } from '@/services/api';
 import storage from '@/utils/storage';
+import { msgF } from '@/utils/utils';
 
 export default {
   namespace: 'login',
@@ -30,7 +31,7 @@ export default {
           storage.setUserAuth(privilegeList);
         } else {
           loginState = false;
-          message.error(response.msg);
+          message.error(msgF(response.msg,response.msgDetail));
         }
       } else {
         loginState = true;
@@ -51,7 +52,7 @@ export default {
           payload: { roleList: Array.isArray(response.data) ? response.data : [] },
         });
       } else {
-        message.error(response.msg);
+        message.error(msgF(response.msg,response.msgDetail));
       }
     },
     *changeRole({ payload }, { call, put }) {
@@ -69,7 +70,7 @@ export default {
         });
         yield put(routerRedux.push('/'));
       } else {
-        message.error(response.msg);
+        message.error(msgF(response.msg,response.msgDetail));
       }
       yield put({
         type: 'changeLoginStatus',

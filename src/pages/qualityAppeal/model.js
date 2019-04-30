@@ -6,8 +6,10 @@ import {
   getAppealDetail,
   getQualityDetail,
   getOrderNum,
-  queryDimensionTreeList
+  queryDimensionTreeList,
+  checkRepeatQualityInspection,
 } from '@/pages/qualityAppeal/services';
+import { msgF } from '@/utils/utils';
 
 function toTreeData(orgList) {
   const treeData = [];
@@ -54,7 +56,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveMap', payload: { orgList } });
       } else {
-        message.error(result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *getDimensionList({ payload }, { call, put }) {
@@ -72,44 +74,43 @@ export default {
           yield put({ type: 'save', payload: { dimensionList2 } });
         }
       } else {
-        message.error(result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *getOrgMapByMail({ payload }, { call, put }) {
       const response = yield call(getOrgMapByMail, payload);
       if (response.code === 20000) {
         const orgMapByMailData = response.data || {};
+        // 强制触发更新
+        orgMapByMailData.upDateTime = new Date().valueOf();
         yield put({
           type: 'saveOrgMapByMailData',
-          payload: { orgMapByMailData },
+          payload: { orgMapByMailData, },
         });
       } else {
-        message.error(response.msg);
+        message.error(msgF(response.msg,response.msgDetail));
       }
     },
     *getDetailData({ payload }, { call, put }) {
       //申诉详情页数据
       const result = yield call(getAppealDetail, { ...payload });
       const DetailData = result.data ? result.data : [];
-      console.log(94, "申诉", DetailData)
-      DetailData.forEach((v, i) => {
-        // DetailData[i].createTime = moment(v.createTime).format('YYYY-MM-DD HH:mm:ss')
-      });
+
       if (result.code === 20000) {
         yield put({ type: 'saveDetailData', payload: { DetailData } });
       } else {
-        message.error(result.msg);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *getQualityDetailData({ payload }, { call, put }) {
       //质检详情页数据
       const result = yield call(getQualityDetail, { ...payload });
       const QualityDetailData = result.data ? result.data : {};
-      console.log(108, "质检", QualityDetailData)
+
       if (result.code === 20000) {
         yield put({ type: 'saveQualityDetailData', payload: { QualityDetailData } });
       } else {
-        message.error(result.msg);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *getOrderNum({ payload }, { call, put }) {
@@ -121,7 +122,7 @@ export default {
           payload: { orderNumData },
         })
       } else {
-        message.error(response.msg);
+        message.error(msgF(response.msg,response.msgDetail));
       }
 
     },
@@ -136,9 +137,18 @@ export default {
         })
 
       } else {
-        message.error(response.msg);
+        message.error(msgF(response.msg,response.msgDetail));
       }
 
+    },
+    *checkRepeatQualityInspection({ payload }, { call, put }) {
+      const { callback, params } = payload
+      const response = yield call(checkRepeatQualityInspection, params);
+      if (response.code === 20000) {
+        callback.call(null, response.data || {})
+      } else {
+        message.error(msgF(response.msg,response.msgDetail));
+      }
     }
   },
 
@@ -170,6 +180,10 @@ export default {
     },
     saveDimensionTreeList(state, action) {
       return { ...state, ...action.payload };
+    },
+    clearOrderNumData(state, { payload }) {
+      const orderNumData = null;
+      return { ...state, orderNumData };
     }
   },
 

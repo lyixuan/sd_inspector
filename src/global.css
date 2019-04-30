@@ -1,7 +1,9 @@
-
+* {
+  font-family: "PingFangSC-Regular","Chinese Quote",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"!important;
+}
 .ant-menu {
   font-weight: 300;
-  font-family: "Chinese Quote",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"!important;
+  font-family: "PingFangSC-Regular","Chinese Quote",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"!important;
 }
 
 .ant-menu.ant-menu-dark .ant-menu-item-selected {
@@ -12,10 +14,11 @@
   width: 70px;
   display: inline-block;
   text-align-last: justify;
+  text-align: justify;
 }
 /* dxForm */
 .dxForm .ant-form-item-label label::after {
-  content: " "!important;
+  content: ""!important;
   display: inline;
   width: 100%;
 }
@@ -23,12 +26,48 @@
 .ant-form-item-label label {
   width: 70px;
   display: inline-block;
-  text-align-last: justify;
+  text-align: justify;
 }
-.ant-form-item-label label::after {
-  content: " "!important;
-  display: inline;
+.ant-form-item-label > label::after{
+  left: 98px;
+  display: inline-block;
   width: 100%;
+}
+
+.ant-form-item-required::before{
+  content: none!important;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner{
+  background: #52c9c2;
+  border-color: #52c9c2;
+}
+.ant-checkbox-wrapper:hover .ant-checkbox-inner, .ant-checkbox:hover .ant-checkbox-inner, .ant-checkbox-input:focus + .ant-checkbox-inner{
+  border-color: #52c9c2;
+}
+a,a:hover{
+  color: #52c9c2;
+}
+
+
+.txRight{
+  text-align:right;
+}
+.labelWidth .ant-form-item label{
+  width:120px;
+}
+.ant-row{
+  padding-bottom:6px;
+}
+.ant-form-item label{
+  width:95px!important;
+  white-space: normal;
+  line-height: 0;
+  margin-right: 20px;
+}
+
+.ant-form-inline .ant-form-item{
+  margin-right:0;
 }
 
 /*!*兼容windows 固定高度的 scroll问题*!*/
@@ -38,3 +77,7 @@
   /*margin-bottom:0;*/
   /*padding-bottom: 0;*/
 /*}*/
+
+.ant-upload-list-item-info .anticon-loading, .ant-upload-list-item-info .anticon-paper-clip{
+  color: #52C9C2;
+}

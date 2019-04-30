@@ -1,13 +1,19 @@
 import { message } from 'antd/lib/index';
-import { getAppealList,appealCancelQuality,appealExportExcel } from '@/pages/qualityAppeal/qualityAppeal/services';
-
+import {
+  getAppealList,
+  appealCancelQuality,
+  appealExportExcel,
+} from '@/pages/qualityAppeal/qualityAppeal/services';
+import { downBlob, msgF } from '@/utils/utils';
 
 export default {
   namespace: 'qualityCheck',
 
   state: {
-    qualityAppealList:[],
-    page: {}
+    qualityAppealList1: [],
+    qualityAppealList2: [],
+    page1: {},
+    page2: {},
   },
 
   effects: {
@@ -16,11 +22,28 @@ export default {
       const result = yield call(getAppealList, params);
 
       if (result.code === 20000) {
-        const qualityAppealList = result.data.list ? result.data.list : [];
-        const page = {total:result.data.total? result.data.total : 0,pageNum:result.data.pageNum?result.data.pageNum:1};
-        yield put({ type: 'save', payload: { qualityAppealList,page } });
+        let qualityAppealList1 = [];
+        let qualityAppealList2 = [];
+        let page1 = {};
+        let page2 = {};
+        if (params.type===1) {
+          qualityAppealList1 = result.data.list ? result.data.list : [];
+           page1 = {
+            total: result.data.total ? result.data.total : 0,
+            pageNum: result.data.pageNum ? result.data.pageNum : 1,
+          };
+        } else {
+          qualityAppealList2 = result.data.list ? result.data.list : [];
+           page2 = {
+            total: result.data.total ? result.data.total : 0,
+            pageNum: result.data.pageNum ? result.data.pageNum : 1,
+          };
+        }
+
+
+        yield put({ type: 'save', payload: { qualityAppealList1,qualityAppealList2, page1,page2 } });
       } else {
-        message.error(result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *cancelQuality({ payload }, { call }) {
@@ -29,7 +52,7 @@ export default {
       if (result.code === 20000) {
         message.success('撤销成功');
       } else {
-        message.error(result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *exportExcel({ payload }, { call }) {
@@ -37,10 +60,14 @@ export default {
       delete params.type;
       const result = yield call(appealExportExcel, params);
       if (result) {
-        downBlob(result.data,'name.xlsx');
+        const { headers } = result.response || {};
+        const filename = headers.get('content-disposition') || '';
+        const numName = filename.split('filename=')[1]; // 带后缀的文件名
+        const numName2 = numName.split('.')[0];   // 纯文件名
+        downBlob(result.data, `${eval("'"+numName2+"'")}.xlsx`);
         message.success('导出成功');
       } else {
-        message.error(result.msgDetail);
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
   },
@@ -51,18 +78,5 @@ export default {
     },
   },
 
-  subscriptions: {
-  },
+  subscriptions: {},
 };
-
-function downBlob(blob, name) {
-  // 接收返回blob类型的数据
-  const downloadElement = document.createElement('a');
-  const href = window.URL.createObjectURL(blob); // 创建下载的链接
-  downloadElement.href = href;
-  downloadElement.download = name; // 下载后文件名
-  document.body.appendChild(downloadElement);
-  downloadElement.click(); // 点击下载
-  document.body.removeChild(downloadElement); // 下载完成移除元素
-  window.URL.revokeObjectURL(href); // 释放掉blob对象
-}

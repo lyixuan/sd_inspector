@@ -7,7 +7,7 @@ import BIButtonBlue from '@/components/BIButtonBlue';
 import BIInput from '@/ant_components/BIInput';
 import BITable from '@/ant_components/BITable';
 
-import styles from '../style.less'
+import styles from '../style.less';
 import { Message } from 'antd';
 import config from '../../../../../config/config';
 import { connect } from 'dva/index';
@@ -55,23 +55,13 @@ const columns = [
     width: 140,
   },
   {
-    title: '准考证填写人数',
-    dataIndex: 'admissionFillNum',
-    width: 140,
-  },
-  {
-    title: '未推送消息人数',
-    dataIndex: 'unpushNum',
-    width: 140,
-  },
-  {
-    title: '已推送消息人数',
-    dataIndex: 'pushNum',
-    width: 140,
-  },
-  {
-    title: '消息已读人数',
+    title: '触达人数',
     dataIndex: 'readNum',
+    width: 140,
+  },
+  {
+    title: '触达率',
+    dataIndex: 'readRatio',
     width: 140,
   },
   {
@@ -79,21 +69,32 @@ const columns = [
     dataIndex: 'unreadNum',
     width: 140,
   },
+  {
+    title: '准考证填写人数',
+    dataIndex: 'admissionFillNum',
+    width: 140,
+  },
+  {
+    title: '填写率',
+    dataIndex: 'admissionFillRatio',
+    width: 140,
+  },
 ];
 @connect(({ dataDetail, loading }) => ({
   dataDetail,
-  loading: loading.effects['dataDetail/getDetailData']
+  loading: loading.effects['dataDetail/getDetailData'],
 }))
-
 class ResultTable extends Component {
   constructor(props) {
     super(props);
-    const { dataDetail: { params } } = this.props;
+    const {
+      dataDetail: { params },
+    } = this.props;
     const { provinceList } = params || {};
     this.state = {
       visible: false,
       taskName: '',
-      provinceName: provinceList || provinces[0].name,  // 默认选中省份
+      provinceName: provinceList || provinces[0].name, // 默认选中省份
     };
   }
 
@@ -102,8 +103,8 @@ class ResultTable extends Component {
   }
   toTask = () => {
     const origin = window.location.origin;
-    const url = `${origin}${config.base}smartPlatform/details/tasks`
-    window.open(url)
+    const url = `${origin}${config.base}smartPlatform/details/tasks`;
+    window.open(url);
 
     // router.push({
     //   pathname: '/smartPlatform/details/tasks',
@@ -116,15 +117,15 @@ class ResultTable extends Component {
     const newParam = listToString(oldParam);
     if (!this.state.taskName) {
       Message.warning('请填写名称');
-      return
+      return;
     }
     if (!reg.test(this.state.taskName)) {
       Message.warning('名称只能包含汉字、数字和英文');
-      return
+      return;
     }
     const obj = {
       taskName: this.state.taskName,
-      queryCondition: newParam
+      queryCondition: newParam,
     };
     this.props.dispatch({
       type: 'dataDetail/addTask',
@@ -135,7 +136,7 @@ class ResultTable extends Component {
     });
   };
 
-  handleCancel = (e) => {
+  handleCancel = e => {
     console.log(e);
     this.setState({
       visible: false,
@@ -144,21 +145,21 @@ class ResultTable extends Component {
 
   addTask = () => {
     const { params, total } = this.props.dataDetail;
-    if (JSON.stringify(params) === "{}") {
+    if (JSON.stringify(params) === '{}') {
       Message.warning('请查询后再添加下载任务');
-      return
+      return;
     }
     if (total === 0) {
       Message.warning('查询结果为空，添加下载任务失败');
-      return
+      return;
     }
     this.setState({
       visible: true,
-      taskName: ''
+      taskName: '',
     });
   };
 
-  onChangeName = (e) => {
+  onChangeName = e => {
     this.setState({
       taskName: e.target.value,
     });
@@ -181,7 +182,7 @@ class ResultTable extends Component {
       return;
     }
     if (this.props.handlePropSubmit) {
-      this.props.handlePropSubmit(provinceName)
+      this.props.handlePropSubmit(provinceName);
     }
     this.setState({ provinceName });
   };
@@ -192,37 +193,61 @@ class ResultTable extends Component {
       <>
         <div className={styles.tableWrap}>
           <div className={styles.tableTitleWrap}>
-            <span className={styles.tableTitle}></span><span className={styles.tableTitle1}>查询结果</span>
+            <span className={styles.tableTitle} />
+            <span className={styles.tableTitle1}>查询结果</span>
           </div>
           <div className={styles.tableHead}>
             {/*<span className={styles.tableHeadLeft}>共搜出 {totalPlan} 条学员订单数据</span>*/}
-            <BIButtonBlue type="primary" className={styles.tableHeadSpan} onClick={this.addTask}>添加下载任务</BIButtonBlue>
-            <BIButtonYellow type="primary" onClick={this.toTask}>任务列表</BIButtonYellow>
+            <BIButtonBlue type="primary" className={styles.tableHeadSpan} onClick={this.addTask}>
+              添加下载任务
+            </BIButtonBlue>
+            <BIButtonYellow type="primary" onClick={this.toTask}>
+              任务列表
+            </BIButtonYellow>
           </div>
-          <BITable dataSource={dataSource} columns={columns} pagination={false} loading={this.props.loading} scroll={{ y: 500 }} bordered />
+          <BITable
+            dataSource={dataSource}
+            columns={columns}
+            pagination={false}
+            loading={this.props.loading}
+            scroll={{ y: 500 }}
+            bordered
+          />
           <div className={styles.provinceCotainer}>
-            {provinces.map(item => <span
-              key={item.code}
-              className={provinceName === item.name ? styles.selectedProvinceBtn : styles.provinceBtn}
-              onClick={(e) => (this.onSelectedProvince(e, item.name))}
-            >{item.name}</span>)}
-
+            {provinces.map(item => (
+              <span
+                key={item.code}
+                className={
+                  provinceName === item.name ? styles.selectedProvinceBtn : styles.provinceBtn
+                }
+                onClick={e => this.onSelectedProvince(e, item.name)}
+              >
+                {item.name}
+              </span>
+            ))}
           </div>
         </div>
         <BIModal
-          title='添加下载任务'
+          title="添加下载任务"
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
-            <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>取消</BIButton>,
+            <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
+              取消
+            </BIButton>,
             <BIButton type="primary" onClick={this.handleOk}>
               确定
-            </BIButton>
+            </BIButton>,
           ]}
         >
           <div className={styles.modalWrap}>
-            <BIInput placeholder="输入名称" maxLength={20} value={this.state.taskName} onChange={this.onChangeName} />
+            <BIInput
+              placeholder="输入名称"
+              maxLength={20}
+              value={this.state.taskName}
+              onChange={this.onChangeName}
+            />
           </div>
         </BIModal>
       </>

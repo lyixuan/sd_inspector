@@ -30,3 +30,7 @@
 .secCol :last-child {
   flex: 1;
 }
+.downCls{
+  color:#52C9C2;
+  border-bottom: 1px solid;
+}

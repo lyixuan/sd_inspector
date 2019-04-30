@@ -24,6 +24,8 @@ class Index extends React.Component {
     }
     const data1 = this.isEmptyObj(dataList1);
     const data2 = this.isEmptyObj(dataList2);
+    const InfoList1 = dataList1.appealStart && dataList1.appealStart.map((v)=><Info type='startAppeal' data={v}/>);
+    const InfoList2 = dataList2.appealStart && dataList2.appealStart.map((v)=><Info type='startAppeal' data={v}/>);
     return (
       <div>
         {
@@ -33,8 +35,15 @@ class Index extends React.Component {
                 <div className={styles.s1_title}>一次申诉<span className={styles.txtCls}>（一次申诉截止日期：{dataList1.appealEndDate?moment(dataList1.appealEndDate).format('YYYY-MM-DD'):null}）</span></div>
                 <div className={styles.resultWrap}>
                   <div className={styles.s2_title}>申诉发起人</div>
-                  <Info type='startAppeal' data={dataList1.appealStart}/>
+                  {InfoList1}
                 </div>
+
+                {status===2?(
+                  <div className={styles.masterContent} style={{borderTop: '1px solid #DCDDE0',paddingTop:'20px'}}>
+                    <div className={styles.appealTitle}>SOP审核</div>
+                    <Edit {...this.props} hideDate showWarn={false} setStateData={setStateData}/>
+                  </div>
+                ):null}
                 {
                   dataList1.sopAppealCheck&&dataList1.sopAppealCheck.length===0?null:(
                     <div className={styles.resultWrap}>
@@ -43,13 +52,6 @@ class Index extends React.Component {
                     </div>
                   )
                 }
-
-                {status===2?(
-                  <div className={styles.masterContent}>
-                    <div className={styles.appealTitle}>SOP审核</div>
-                    <Edit hideDate setStateData={setStateData}/>
-                  </div>
-                ):null}
                 {
                   status===4?(
                     <>
@@ -61,11 +63,10 @@ class Index extends React.Component {
                           </div>
                         )
                       }
-
                       {status===4?(
                         <div className={styles.masterContent}>
                           <div className={styles.appealTitle}>主管审核</div>
-                          <Edit setStateData={setStateData} />
+                          <Edit {...this.props} showWarn={true} setStateData={setStateData} />
                         </div>
                       ):null}
                     </>
@@ -81,8 +82,14 @@ class Index extends React.Component {
               <div className={styles.s1_title}>二次申诉<span className={styles.txtCls}>（二次申诉截止日期：{dataList2.appealEndDate?moment(dataList2.appealEndDate).format('YYYY-MM-DD'):null}）</span></div>
               <div className={styles.resultWrap}>
                 <div className={styles.s2_title}>申诉发起人</div>
-                <Info type='startAppeal' data={dataList2.appealStart}/>
+                {InfoList2}
               </div>
+              {status===6?(
+                <div className={styles.masterContent} style={{borderTop: '1px solid #DCDDE0',paddingTop:'20px'}}>
+                  <div className={styles.appealTitle}>SOP审核</div>
+                  <Edit {...this.props} hideDate showWarn={false} setStateData={setStateData}/>
+                </div>
+              ):null}
               {
                 dataList2.sopAppealCheck&&dataList2.sopAppealCheck.length===0?null:(
                   <div className={styles.resultWrap}>
@@ -91,12 +98,6 @@ class Index extends React.Component {
                   </div>
                 )
               }
-              {status===6?(
-                <div className={styles.masterContent}>
-                  <div className={styles.appealTitle}>SOP审核</div>
-                  <Edit hideDate setStateData={setStateData}/>
-                </div>
-              ):null}
               {status===8?(
                 <>
                   {
@@ -110,7 +111,7 @@ class Index extends React.Component {
                   {status===8?(
                     <div className={styles.masterContent}>
                       <div className={styles.appealTitle}>主管审核</div>
-                      <Edit hideDate setStateData={setStateData}/>
+                      <Edit {...this.props} hideDate showWarn={true} setStateData={setStateData}/>
                     </div>
                   ):null}
                 </>

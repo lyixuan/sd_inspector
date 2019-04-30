@@ -4,4 +4,3 @@ import request from '@/utils/request';
 export async function provinceOrg(params) {
   return request('/exam/province/org', { method: 'post', data: params });
 }
-

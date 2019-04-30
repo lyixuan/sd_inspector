@@ -1,17 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Icon, message, Row, Col, TreeSelect, Input, Upload, Radio } from 'antd';
-import BIInput from '@/ant_components/BIInput';
-import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
-import BIRadio from '@/ant_components/BIRadio';
 import BIModal from '@/ant_components/BIModal';
-import BIDatePicker from '@/ant_components/BIDatePicker';
-import { BiFilter, DeepCopy } from '@/utils/utils';
 import styles from './style.less';
-import SubOrderDetail from './../../components/subOrderDetail';
-import SOPCheckResult from '../component/sopCheckRecords';
-import AppealInfo from '../component/appealInfo';
 import CommonForm from '../../components/commonForm';
 
 @connect(({ loading }) => ({
