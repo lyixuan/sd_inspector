@@ -284,14 +284,14 @@ export const APPEAL_STATE = [
   { id: 2, name: '一次SOP待审核', type: 1 }, // 1
   { id: 3, name: '一次SOP已驳回', type: 1 },
   { id: 4, name: '一次质检主管待审核', type: 1 }, //
-  { id: 5, name: '一次质检主管已驳回', type: 1 },
+  { id: 5, name: '一次申诉失败', type: 1 },
   { id: 6, name: '二次SOP待审核', type: 1 }, //
   { id: 7, name: '二次SOP已驳回', type: 1 },
   { id: 8, name: '二次质检主管待审核', type: 1 }, //2
-  { id: 9, name: '一次申诉审核通过', type: 2 },
+  { id: 9, name: '一次申诉成功', type: 2 },
   { id: 10, name: '一次申诉超时', type: 2 },
-  { id: 11, name: '二次申诉审核通过', type: 2 },
-  { id: 12, name: '二次申诉已驳回', type: 2 },
+  { id: 11, name: '二次申诉成功', type: 2 },
+  { id: 12, name: '二次申诉失败', type: 2 },
   { id: 13, name: '二次申诉超时', type: 2 },
 ];
 

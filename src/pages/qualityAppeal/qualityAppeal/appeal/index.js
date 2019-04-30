@@ -61,7 +61,7 @@ class QualityAppealing extends React.Component {
       return;
     }
     if (String(this.query.status) === '4' && Number(appealParam.checkResult) === 1 && !appealParam.appealEndDate) {
-      message.warn('二审截止日期必填');
+      message.warn('二申截止日期必填');
       return;
     }
     const params = {
@@ -94,7 +94,7 @@ class QualityAppealing extends React.Component {
       return;
     }
     if (String(this.query.status) === '4' && Number(appealParam.checkResult) === 0 && !appealParam.appealEndDate) {
-      message.warn('二审截止日期必填');
+      message.warn('二申截止日期必填');
       return;
     }
     const appealParamNew = {

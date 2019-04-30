@@ -180,7 +180,7 @@ class NewQualitySheet extends React.Component {
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel}>一审截止时间</span>：
+                <span className={styles.gutterLabel}>一申截止时间</span>：
                 <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} allowClear value={firstAppealBeginDate && [moment(firstAppealBeginDate),moment(firstAppealEndDate)]}  onChange={(val)=>this.onFormChange(val,'firstAppealDate')}/></span>
               </div>
             </Col>
@@ -189,7 +189,7 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel}>二审截止时间</span>：
+                <span className={styles.gutterLabel}>二申截止时间</span>：
                 <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} allowClear value={secondAppealBeginDate && [moment(secondAppealBeginDate),moment(secondAppealEndDate)]} onChange={(val)=>this.onFormChange(val,'secondAppealDate')}/></span>
               </div>
             </Col>

@@ -30,7 +30,7 @@ function changeState(record) {
     myStatue = 4; // 一次质检主管待审核
   }
   if (record.status === 5 && record.appealType === 1) {
-    myStatue = 5; // 一次质检主管已驳回
+    myStatue = 5; // 一次申诉失败
   }
   if (record.status === 1 && record.appealType === 2) {
     myStatue = 6; // 二次SOP待审核
@@ -42,16 +42,16 @@ function changeState(record) {
     myStatue = 8; // 二次质检主管待审核
   }
   if (record.status === 4 && record.appealType === 1) {
-    myStatue = 9; // 一次申诉审核通过
+    myStatue = 9; // 一次申诉成功
   }
   if (record.status === 6 && record.appealType === 1) {
     myStatue = 10; // 一次申诉超时
   }
   if (record.status === 4 && record.appealType === 2) {
-    myStatue = 11; // 二次申诉审核通过
+    myStatue = 11; // 二次申诉成功
   }
   if (record.status === 5 && record.appealType === 2) {
-    myStatue = 12; // 二次申诉已驳回
+    myStatue = 12; // 二次申诉失败
   }
   if (record.status === 6 && record.appealType === 2) {
     myStatue = 13; // 二次申诉超时
@@ -78,7 +78,7 @@ function changeState2(status) {
     rt.appealType = 1;
   }
   if (status === 5) {
-    rt.status = 5; // 一次质检主管已驳回
+    rt.status = 5; // 一次申诉失败
     rt.appealType = 1;
   }
   if (status === 6) {
@@ -94,7 +94,7 @@ function changeState2(status) {
     rt.appealType = 2;
   }
   if (status === 9) {
-    rt.status = 4; // 一次申诉审核通过
+    rt.status = 4; // 一次申诉成功
     rt.appealType = 1;
   }
   if (status === 10) {
@@ -102,11 +102,11 @@ function changeState2(status) {
     rt.appealType = 1;
   }
   if (status === 11) {
-    rt.status = 4; // 二次申诉审核通过
+    rt.status = 4; // 二次申诉成功
     rt.appealType = 2;
   }
   if (status === 12) {
-    rt.status = 5; // 二次申诉已驳回
+    rt.status = 5; // 二次申诉失败
     rt.appealType = 2;
   }
   if (status === 13) {
@@ -132,6 +132,10 @@ const columns1 = [
     },
   },
   {
+    title: '违规等级',
+    dataIndex: 'violationLevelName',
+  },
+  {
     title: '归属人',
     dataIndex: 'userName',
   },
@@ -147,6 +151,10 @@ const columns1 = [
     },
   },
   {
+    title: '扣除学分（绩效）',
+    dataIndex: 'qualityValue',
+  },
+  {
     title: '申诉状态',
     dataIndex: 'status',
     render: (text, record) => {
@@ -155,7 +163,7 @@ const columns1 = [
 
       function dot() {
         let rt = null;
-        // 3 一次SOP已驳回 5一次质检主管已驳回 7二次SOP已驳回
+        // 3 一次SOP已驳回 5一次申诉失败 7二次SOP已驳回
         if (myStatue === 3 || myStatue === 5 || myStatue === 7) {
           rt = <span className={subStl.dotStl} style={{ background: '#FF0000' }}></span>
         } else {
@@ -184,7 +192,7 @@ const columns1 = [
     },
   },
   {
-    title: '一审截止时间',
+    title: '一申截止时间',
     dataIndex: 'firstAppealEndDate',
     render: (text, record) => {
       return (
@@ -195,7 +203,7 @@ const columns1 = [
     },
   },
   {
-    title: '二审截止时间',
+    title: '二申截止时间',
     dataIndex: 'secondAppealEndDate',
     render: (text, record) => {
       return (
@@ -493,9 +501,28 @@ class QualityAppeal extends React.Component {
       },
     }];
     if (!AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
+      // 非归属人
       const index = columns1.findIndex(item => item.dataIndex === 'userName');
       if (index >= 0) {
         columns1.splice(index, 1);
+      }
+      const index2 = columns1.findIndex(item => item.dataIndex === 'violationLevelName');
+      if (index >= 0) {
+        columns1.splice(index2, 1);
+      }
+      const index3 = columns1.findIndex(item => item.dataIndex === 'qualityValue');
+      if (index >= 0) {
+        columns1.splice(index3, 1);
+      }
+    } else {
+      // 归属人
+      const index = columns1.findIndex(item => item.dataIndex === 'qualityType');
+      if (index >= 0) {
+        columns1.splice(index, 1);
+      }
+      const index2 = columns1.findIndex(item => item.dataIndex === 'collegeName');
+      if (index >= 0) {
+        columns1.splice(index2, 1);
       }
     }
     return [...columns1, ...actionObj];
