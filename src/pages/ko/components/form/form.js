@@ -108,7 +108,12 @@ class CommonForm extends React.Component {
   checkoutHasAttendanceStatus = () => {
     const { getFieldValue } = this.props.form;
     const params = getFieldValue('attendanceStatus') || {};
-    return Number(params.value) === 3
+    return Number(params.value) === 3;
+  }
+  checkoutHasPayOrder = () => {
+    const { getFieldValue } = this.props.form;
+    const params = getFieldValue('payOrder') || {};
+    return Number(params.value) === 2;
   }
   resertDate = (key) => {
     const { pageParams } = this.props
@@ -333,7 +338,7 @@ class CommonForm extends React.Component {
                       {getFieldDecorator('orderMoney', {
                         initialValue: params.orderMoney,
                       })(
-                        <ConditionSelect placeholder="请选择" defaultUnit={customData.defaultOrderMoneyUnit} />
+                        <ConditionSelect placeholder="请选择" disabled={this.checkoutHasPayOrder()} defaultUnit={customData.defaultOrderMoneyUnit} />
                       )}
                     </Form.Item>
                   </div>
@@ -342,7 +347,7 @@ class CommonForm extends React.Component {
                       {getFieldDecorator('koOrderGap', {
                         initialValue: params.koOrderGap,
                       })(
-                        <ConditionSelect placeholder="请选择" defaultUnit={customData.defaultKoOrderGapUnit} options={customData.defaultKoOrderGapOptions} unitData={customData.KoOrderGapunits} />
+                        <ConditionSelect placeholder="请选择" defaultUnit={customData.defaultKoOrderGapUnit} disabled={this.checkoutHasPayOrder()} options={customData.defaultKoOrderGapOptions} unitData={customData.KoOrderGapunits} />
                       )}
                     </Form.Item>
                   </div>
