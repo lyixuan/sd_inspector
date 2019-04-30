@@ -167,7 +167,7 @@ class UserList extends React.Component {
       currentPage: 1, pageSize: 30
     }
     this.state = {
-      pageParams: this.props.pageParams || this.initpage,
+      pageParams: this.initpage,
 
     };
   };

@@ -19,7 +19,7 @@ class KoDetailPage extends React.Component {
       this.drewLended(nextProps.behavior.hotDataList.newIds,nextProps.behavior.hotDataList.page);
     }
   }
-  // 对data数据处理，加上颜色
+  // 给data增加颜色属性
   getColorFn = (hotData) => {
     hotData.map(item1=>{
       const val = (!item1.clickNumPro||typeof(item1.clickNumPro)==='number')?item1.clickNumPro:Number(item1.clickNumPro.split('%')[0])
@@ -28,6 +28,7 @@ class KoDetailPage extends React.Component {
     });
     return hotData;
   };
+  // 绘制tip框
   drewTip = (hotData)=>{
     const that = this;
     let div = d3.select('#mapTooltip');
@@ -61,10 +62,21 @@ class KoDetailPage extends React.Component {
     <li class=${styles.tooltipItem}>次数占比：${newHotData.clickNumPro.toFixed(2)}%</li>
     </ul>`;
   };
+  // 求和
+  sumFn = (newIdArr,id)=>{
+    let new_click={clickNum:0,clickPeople:0,clickNumPro:0,clickPeoplePro:0,actionKeyId:id};
+      newIdArr.forEach(item=>{
+        new_click.name=item.name;
+        new_click.clickNum+=Number(item.clickNum);
+        new_click.clickPeople+=Number(item.clickPeople);
+        new_click.clickNumPro+=Number(item.clickNumPro);
+        new_click.clickPeoplePro+=Number(item.clickPeoplePro);
+      })
+      return new_click
+  }
   // 处理不同id表示同一模块的actionids
   specialData = (data,keyArr,id)=>{
     const newIdArr = [];
-    let new_click={};
     data.forEach(item=>{
       keyArr.forEach(el=>{
         if(item.actionKeyId===el){
@@ -72,51 +84,15 @@ class KoDetailPage extends React.Component {
         }
       })
     })
-    if(newIdArr.length){
-      new_click={
-        actionKeyId:id,
-        clickNum:0,
-        clickPeople:0,
-        clickNumPro:0,
-        clickPeoplePro:0
-      };
-      newIdArr.forEach(item=>{
-        new_click.name=item.name;
-        new_click.color=item.color;
-        new_click.clickNum+=Number(item.clickNum);
-        new_click.clickPeople+=Number(item.clickPeople);
-        new_click.clickNumPro+=Number(item.clickNumPro);
-        new_click.clickPeoplePro+=Number(item.clickPeoplePro);
-      })
-      data.push(new_click)
+    if(newIdArr.length&&!data.find(item=>item.actionKeyId===id)){
+      data.push(this.sumFn(newIdArr,id))
     }
     return data
   }
   // 处理actionkey相同的子项之和
   getActionKeyList = (data,key,id,bol)=>{
-    const newKeyArr=[];
-    let new_click={};
-    data.forEach(item=>{
-      if(item.actionKey===key){
-        newKeyArr.push(item)
-      }
-    })
-    if(!bol){
-      if(newKeyArr.length){
-        new_click.actionKeyId=id;
-        newKeyArr.forEach(item=>{
-          new_click.name=item.name;
-          new_click.clickNum+=Number(item.clickNum);
-          new_click.clickPeople+=Number(item.clickPeople);
-          new_click.clickNumPro+=Number(item.clickNumPro);
-          new_click.clickPeoplePro+=Number(item.clickPeoplePro);
-        })
-        data.push(new_click)
-      }
-      return data
-    }else{
-      return newKeyArr
-    }
+    const newKeyArr=data.filter(item=>item.actionKey===key);
+    return bol?newKeyArr:(newKeyArr.length&&!data.find(item=>item.actionKeyId===id)? data.push(this.sumFn(newKeyArr,id)):null)
   }
   // 动态添加列表
   dealListDom = (data,actionKey,id,bol)=>{
@@ -167,8 +143,7 @@ class KoDetailPage extends React.Component {
 
       // 处理特殊页面
       if(page==='homepage'){
-        let m = this.specialData(data,['homepage_click_testregion_-1','homepage_Click_city_-1'],'homepage_click_city')
-        console.log(m)
+        this.specialData(data,['homepage_click_testregion_-1','homepage_Click_city_-1'],'homepage_click_city')
         this.getActionKeyList(data,'click_ko_item','homepage_add_koitem')
       }else if(page==='studypage'){
         this.specialData(data,['studypage_click_golesson_-1','homepage_click_golesson_free_-1'],'studypage_click_golesson');
