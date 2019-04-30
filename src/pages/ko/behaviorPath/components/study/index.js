@@ -88,11 +88,13 @@ class EachItem extends React.Component {
             <div className={styles.bigDot}>
               <span className={styles.dot} />
             </div>
-            <div className={styles.text}>{props.subjectType == 1 ? '直播' : '重播'}</div>
+            <div className={styles.text}>
+              {props.subjectType == 1 ? '参加直播课' : '参加重播课'}
+            </div>
           </div>
         </li>
         <li className={styles.step}>
-          <div className={styles.time}> </div>
+          <div className={styles.time}>听课时长{props.classCount}</div>
           <div className={styles.content}>
             <div className={styles.bigDot}>
               <span className={styles.dot} />
