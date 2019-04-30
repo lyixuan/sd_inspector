@@ -25,7 +25,10 @@ class PathUserInfo extends React.Component {
           </li>
           <li>
             <label>行政所属：</label>
-            <span>{info.backOrgs}{info.frontOrgs}</span>
+            <span>
+              {info.backOrgs}
+              {info.frontOrgs}
+            </span>
           </li>
 
           <li>
@@ -55,8 +58,7 @@ class PathUserInfo extends React.Component {
             <span>{info.paidFlag ? '选课前已付费' : '选课前未付费'}</span>
           </li>
           <li>
-            <label>注册状态：</label>
-            <span>{info.registerStatus == 1 ? '已注册' : '未注册'}</span>
+            <label>注册状态：</label>+<span>{info.registerStatus == 1 ? '已注册' : '未注册'}</span>
           </li>
           <li>
             <label>选课状态：</label>

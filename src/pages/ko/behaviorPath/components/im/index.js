@@ -29,7 +29,9 @@ function Prise(props) {
   }
   return (
     <li className={styles.step}>
-      <div className={styles.time}>{props.li.countDate.split(' ')[1]}</div>
+      <div className={styles.time}>
+        {props.li.countDate ? props.li.countDate.split(' ')[1] : ''}
+      </div>
       <div className={styles.content}>
         <div className={styles.bigDot}>
           <span className={styles.dot} />
@@ -104,7 +106,9 @@ class ToggleSession extends React.Component {
     return (
       <>
         <li className={styles.step + ' ' + styles.title} onClick={this.toggleSession}>
-          <div className={styles.time}>{props.li.countDate.split(' ')[1]}</div>
+          <div className={styles.time}>
+            {props.li.countDate ? props.li.countDate.split(' ')[1] : ''}
+          </div>
           <div className={styles.content}>
             <div className={styles.bigDot + ' ' + (this.state.expand ? '' : styles.plus)}>
               <span className={styles.dot} />
@@ -135,7 +139,9 @@ function TeacherOrStudent(props) {
   if (props.item.userType == 1) {
     return (
       <li className={styles.step}>
-        <div className={styles.time}>{props.item.consultTime.split(' ')[1]}</div>
+        <div className={styles.time}>
+          {props.item.consultTime ? props.item.consultTime.split(' ')[1] : ''}
+        </div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
             <span className={styles.dot} />
@@ -158,7 +164,9 @@ function TeacherOrStudent(props) {
   } else {
     return (
       <li className={styles.step}>
-        <div className={styles.time}>{props.item.consultTime.split(' ')[1]}</div>
+        <div className={styles.time}>
+          {props.item.consultTime ? props.item.consultTime.split(' ')[1] : ''}
+        </div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
             <span className={styles.dot} />
@@ -201,7 +209,15 @@ function Layout(props) {
       <DateBar date={item} list={props} index={index}>
         <section>
           <ul className={styles.behavior}>
-            <ContentChildren content={item.dialogList.length > 0 ? <Ul item={item} /> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}></Empty>} />
+            <ContentChildren
+              content={
+                item.dialogList.length > 0 ? (
+                  <Ul item={item} />
+                ) : (
+                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                )
+              }
+            />
           </ul>
         </section>
       </DateBar>
@@ -216,7 +232,7 @@ function ContentChildren(props) {
 @connect(({ behaviorPath, loading }) => ({
   loading,
   behaviorPath,
-  isLoading: loading.effects['behaviorPath/getDateList']
+  isLoading: loading.effects['behaviorPath/getDateList'],
 }))
 class Im extends React.Component {
   constructor(props) {
@@ -224,7 +240,7 @@ class Im extends React.Component {
     this.state = {
       dateList: [],
       listData: [],
-      currentIndex: 0
+      currentIndex: 0,
     };
   }
   componentDidMount() {
@@ -242,19 +258,26 @@ class Im extends React.Component {
       });
 
       list[this.state.currentIndex].collapse = true;
-      list[this.state.currentIndex].dialogList = props.behaviorPath.imData ? props.behaviorPath.imData : [];
+      list[this.state.currentIndex].dialogList = props.behaviorPath.imData
+        ? props.behaviorPath.imData
+        : [];
       this.state.dateList = list;
       this.setState({
-        dateList: this.state.dateList
+        dateList: this.state.dateList,
       });
     } else {
       this.setState({
-        dateList: []
+        dateList: [],
       });
     }
   }
   componentWillReceiveProps(nextProps) {
-    if ((JSON.stringify(nextProps.behaviorPath.imData) !== JSON.stringify(this.props.behaviorPath.imData)) || (JSON.stringify(nextProps.behaviorPath.dateListIm) !== JSON.stringify(this.props.behaviorPath.dateListIm))) {
+    if (
+      JSON.stringify(nextProps.behaviorPath.imData) !==
+        JSON.stringify(this.props.behaviorPath.imData) ||
+      JSON.stringify(nextProps.behaviorPath.dateListIm) !==
+        JSON.stringify(this.props.behaviorPath.dateListIm)
+    ) {
       this.mount(nextProps);
     }
   }
@@ -262,7 +285,6 @@ class Im extends React.Component {
     let params = {
       beginDate: paramDate,
       stuId: this.props.stuId,
-
     };
     this.props.dispatch({
       type: 'behaviorPath/imAct',
@@ -272,8 +294,8 @@ class Im extends React.Component {
 
   toggle = index => {
     this.setState({
-      currentIndex: index
-    })
+      currentIndex: index,
+    });
     this.state.dateList.map((item, i) => {
       if (i != index) {
         item.collapse = false;
@@ -293,15 +315,15 @@ class Im extends React.Component {
     return (
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>
-          {
-            this.state.dateList.length > 0 ? <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> : <Empty></Empty>
-          }
-
+          {this.state.dateList.length > 0 ? (
+            <Layout dataLists={this.state.dateList} onClick={this.toggle} />
+          ) : (
+            <Empty />
+          )}
         </Spin>
         {/* <Layout dataLists={this.state.dateList} onClick={this.toggle} /> */}
       </div>
-    )
-
+    );
   }
 }
 

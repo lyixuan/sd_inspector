@@ -5,20 +5,19 @@ import styles from '../../style.less';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 
-
 // 日期条
 function DateBar(props) {
   return (
     <div>
       <div className={styles.dateBar} onClick={() => props.list.onClick(props.index)}>
-        <span>{props.date.date.split(" ")[0]}</span>
+        <span>{props.date.date ? props.date.date.split(' ')[0] : ''}</span>
         <span>
-          <Icon type={props.date.collapse ? "up" : "down"} />
+          <Icon type={props.date.collapse ? 'up' : 'down'} />
         </span>
       </div>
       {props.date.collapse ? props.children : null}
     </div>
-  )
+  );
 }
 
 // 会话中可展开收起的行
@@ -26,24 +25,25 @@ class ToggleSession extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      expand: true
-    }
+      expand: true,
+    };
   }
   toggleSession = () => {
     this.setState({
-      expand: !this.state.expand
-    })
-
-  }
+      expand: !this.state.expand,
+    });
+  };
   render() {
-    let props = this.props
+    let props = this.props;
     return (
       <>
-        <li className={styles.step + " " + styles.title} onClick={this.toggleSession}>
-          <div className={styles.time}>{props.li.countDate.split(" ")[1]}</div>
+        <li className={styles.step + ' ' + styles.title} onClick={this.toggleSession}>
+          <div className={styles.time}>
+            {props.li.countDate ? props.li.countDate.split(' ')[1] : ''}
+          </div>
           <div className={styles.content}>
-            <div className={styles.bigDot + " " + (this.state.expand ? '' : styles.plus)}>
-              <span className={styles.dot}></span>
+            <div className={styles.bigDot + ' ' + (this.state.expand ? '' : styles.plus)}>
+              <span className={styles.dot} />
             </div>
             <div className={styles.text}>进入会话</div>
           </div>
@@ -55,18 +55,15 @@ class ToggleSession extends React.Component {
 }
 //对话区域
 function SessionContent(props) {
-  const li = props.li.map((item, index) =>
-    <ListItem li={item} key={index}></ListItem>
-  )
-  return li
-
+  const li = props.li.map((item, index) => <ListItem li={item} key={index} />);
+  return li;
 }
 //对话区域行
 function ListItem(props) {
   if (!props.li) {
     return null;
   } else {
-    return <TeacherOrStudent item={props.li}></TeacherOrStudent>
+    return <TeacherOrStudent item={props.li} />;
   }
 }
 // 判断是老师还是学员
@@ -74,10 +71,12 @@ function TeacherOrStudent(props) {
   if (props.item.userType == 1) {
     return (
       <li className={styles.step}>
-        <div className={styles.time}>{props.item.consultTime.split(" ")[1]}</div>
+        <div className={styles.time}>
+          {props.item.consultTime ? props.item.consultTime.split(' ')[1] : ''}
+        </div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
-            <span className={styles.dot}></span>
+            <span className={styles.dot} />
           </div>
           <div className={styles.chatLeft}>
             <div className={styles.avatar}>
@@ -85,24 +84,30 @@ function TeacherOrStudent(props) {
               <p>{props.item.userName}</p>
             </div>
             <div className={styles.chatContent}>
-              <span className={styles.triangle}><em></em></span>
+              <span className={styles.triangle}>
+                <em />
+              </span>
               {props.item.message}
             </div>
           </div>
         </div>
       </li>
-    )
+    );
   } else {
     return (
       <li className={styles.step}>
-        <div className={styles.time}>{props.item.consultTime.split(" ")[1]}</div>
+        <div className={styles.time}>
+          {props.item.consultTime ? props.item.consultTime.split(' ')[1] : ''}
+        </div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
-            <span className={styles.dot}></span>
+            <span className={styles.dot} />
           </div>
           <div className={styles.chatRight}>
             <div className={styles.chatContent}>
-              <span className={styles.triangle}><em></em></span>
+              <span className={styles.triangle}>
+                <em />
+              </span>
               {props.item.message}
             </div>
             <div className={styles.avatar}>
@@ -112,58 +117,62 @@ function TeacherOrStudent(props) {
           </div>
         </div>
       </li>
-    )
+    );
   }
 }
 function UlContent(props) {
-  const layout = props.li.map((item, index) =>
+  const layout = props.li.map((item, index) => (
     <ToggleSession li={item} key={index}>
-      <SessionContent li={item.contentList}></SessionContent>
+      <SessionContent li={item.contentList} />
     </ToggleSession>
-  )
-  return layout
+  ));
+  return layout;
 }
 
 function Ul(props) {
-  return (
-    <UlContent li={props.item.dialogList}></UlContent>
-  )
+  return <UlContent li={props.item.dialogList} />;
 }
 
 // 整个列表
 function Layout(props) {
-  const layout = props.dataLists.map((item, index) =>
+  const layout = props.dataLists.map((item, index) => (
     <div key={index}>
       <DateBar date={item} list={props} index={index}>
         <section>
           <ul className={styles.behavior}>
-            <ContentChildren content={item.dialogList.length > 1 ? <Ul item={item}></Ul> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}></Empty>}></ContentChildren>
+            <ContentChildren
+              content={
+                item.dialogList.length > 1 ? (
+                  <Ul item={item} />
+                ) : (
+                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                )
+              }
+            />
           </ul>
         </section>
       </DateBar>
     </div>
-  )
-  return layout
+  ));
+  return layout;
 }
 function ContentChildren(props) {
-  return props.content
+  return props.content;
 }
 
 @connect(({ behaviorPath, loading }) => ({
   loading,
   behaviorPath,
-  isLoading: loading.effects['behaviorPath/getDateList']
+  isLoading: loading.effects['behaviorPath/getDateList'],
 }))
-
-
 class Wechart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dateList: [],
       listData: [],
-      currentIndex: 0
-    }
+      currentIndex: 0,
+    };
   }
   componentDidMount() {
     this.mount(this.props);
@@ -180,22 +189,28 @@ class Wechart extends React.Component {
       });
 
       list[this.state.currentIndex].collapse = true;
-      list[this.state.currentIndex].dialogList = props.behaviorPath.wechartData ? props.behaviorPath.wechartData : [];
+      list[this.state.currentIndex].dialogList = props.behaviorPath.wechartData
+        ? props.behaviorPath.wechartData
+        : [];
       this.state.dateList = list;
       this.setState({
-        dateList: this.state.dateList
+        dateList: this.state.dateList,
       });
     } else {
       this.setState({
-        dateList: []
+        dateList: [],
       });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((JSON.stringify(nextProps.behaviorPath.wechartData) !== JSON.stringify(this.props.behaviorPath.wechartData)) || (JSON.stringify(nextProps.behaviorPath.dateListWechart) !== JSON.stringify(this.props.behaviorPath.dateListWechart))) {
+    if (
+      JSON.stringify(nextProps.behaviorPath.wechartData) !==
+        JSON.stringify(this.props.behaviorPath.wechartData) ||
+      JSON.stringify(nextProps.behaviorPath.dateListWechart) !==
+        JSON.stringify(this.props.behaviorPath.dateListWechart)
+    ) {
       this.mount(nextProps);
-
     }
   }
   getWechartList = paramDate => {
@@ -209,15 +224,15 @@ class Wechart extends React.Component {
     });
   };
 
-  toggle = (index) => {
+  toggle = index => {
     this.setState({
-      currentIndex: index
-    })
+      currentIndex: index,
+    });
     this.state.dateList.map((item, i) => {
       if (i != index) {
-        item.collapse = false
+        item.collapse = false;
       }
-    })
+    });
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {
@@ -229,19 +244,20 @@ class Wechart extends React.Component {
     // this.setState({
     //   dateList: this.state.dateList
     // })
-  }
-
+  };
 
   render() {
     return (
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>
-          {
-            this.state.dateList.length > 0 ? <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> : <Empty></Empty>
-          }
+          {this.state.dateList.length > 0 ? (
+            <Layout dataLists={this.state.dateList} onClick={this.toggle} />
+          ) : (
+            <Empty />
+          )}
         </Spin>
         {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
-      </div >
+      </div>
     );
   }
 }

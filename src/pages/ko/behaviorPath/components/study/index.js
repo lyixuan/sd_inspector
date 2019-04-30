@@ -9,10 +9,15 @@ function Star(props) {
   }
   const evaluate = props.evaluate;
   const number = [1, 2, 3, 4, 5];
-  const starList = number.map((item, index) =>
-    <Icon type="star" theme="filled" key={index} className={index <= evaluate ? '' : styles.empty} />
-  )
-  return starList
+  const starList = number.map((item, index) => (
+    <Icon
+      type="star"
+      theme="filled"
+      key={index}
+      className={index <= evaluate ? '' : styles.empty}
+    />
+  ));
+  return starList;
 }
 
 function Prise(props) {
@@ -21,34 +26,37 @@ function Prise(props) {
   }
   return (
     <li className={styles.step}>
-      <div className={styles.time}>{props.li.evaluateDate.split(" ")[1]}</div>
-      <div className={styles.content} style={{ width: "480px" }}>
+      <div className={styles.time}>
+        {props.li.evaluateDate ? props.li.evaluateDate.split(' ')[1] : ''}
+      </div>
+      <div className={styles.content} style={{ width: '480px' }}>
         <div className={styles.bigDot}>
-          <span className={styles.dot}></span>
+          <span className={styles.dot} />
         </div>
         <div className={styles.priseBox}>
           <div className={styles.prise1}>
             <span>提交课程评价：</span>
             <div className={styles.stars}>
-              <Star evaluate={props.li.evaluateStar}></Star>
+              <Star evaluate={props.li.evaluateStar} />
             </div>
           </div>
           <div className={styles.prise2}>
-            <PriseLabel label={props.li.evaluateLabel}></PriseLabel>
+            <PriseLabel label={props.li.evaluateLabel} />
           </div>
           <div className={styles.prise3}>{props.li.evaluateContent}</div>
         </div>
       </div>
-    </li >
-
-  )
+    </li>
+  );
 }
 function PriseLabel(props) {
-  let labels = props.label.split(";")
-  const label = labels.map((item, index) =>
-    <span key={index} className={styles.label}>{item}</span>
-  )
-  return label
+  let labels = props.label.split(';');
+  const label = labels.map((item, index) => (
+    <span key={index} className={styles.label}>
+      {item}
+    </span>
+  ));
+  return label;
 }
 
 // 日期条
@@ -56,14 +64,14 @@ function DateBar(props) {
   return (
     <div>
       <div className={styles.dateBar} onClick={() => props.list.onClick(props.index)}>
-        <span>{props.date.date.split(" ")[0]}</span>
+        <span>{props.date.date ? props.date.date.split(' ')[0] : ''}</span>
         <span>
-          <Icon type={props.date.collapse ? "up" : "down"} />
+          <Icon type={props.date.collapse ? 'up' : 'down'} />
         </span>
       </div>
       {props.date.collapse ? props.children : null}
     </div>
-  )
+  );
 }
 
 class EachItem extends React.Component {
@@ -71,91 +79,90 @@ class EachItem extends React.Component {
     super(props);
   }
   render() {
-    let props = this.props.item
+    let props = this.props.item;
     return (
       <>
-        <li className={styles.step + " " + styles.studyTitle}>
-          <div className={styles.time}>{props.countDate.split(" ")[1]}</div>
+        <li className={styles.step + ' ' + styles.studyTitle}>
+          <div className={styles.time}>{props.countDate ? props.countDate.split(' ')[1] : ''}</div>
           <div className={styles.content}>
             <div className={styles.bigDot}>
-              <span className={styles.dot}></span>
+              <span className={styles.dot} />
             </div>
-            <div className={styles.text}>{props.subjectType == 1 ? "直播" : "重播"}</div>
+            <div className={styles.text}>{props.subjectType == 1 ? '直播' : '重播'}</div>
           </div>
         </li>
         <li className={styles.step}>
           <div className={styles.time}> </div>
           <div className={styles.content}>
             <div className={styles.bigDot}>
-              <span className={styles.dot}></span>
+              <span className={styles.dot} />
             </div>
             <div className={styles.text}>{props.subjectName}</div>
           </div>
         </li>
-        {
-          props.subjectType == 1 ? <Prise li={props}></Prise> : null
-        }
-
+        {props.subjectType == 1 ? <Prise li={props} /> : null}
       </>
-    )
+    );
   }
 }
 
 function UlContent(props) {
-  const ul = props.li.map((item, index) =>
-    <EachItem item={item} key={index}></EachItem>
-  )
-  return ul
+  const ul = props.li.map((item, index) => <EachItem item={item} key={index} />);
+  return ul;
 }
 function Ul(props) {
-  return (
-    <UlContent li={props.item}></UlContent>
-  )
+  return <UlContent li={props.item} />;
 }
 
 function ContentChildren(props) {
-  return props.content
+  return props.content;
 }
 
 // 整个列表
 function Layout(props) {
-  const layout = props.dataLists.map((item, index) =>
+  const layout = props.dataLists.map((item, index) => (
     <div key={index}>
       <DateBar date={item} list={props} index={index}>
         <section>
-          <ul className={styles.behavior + " " + styles.study}>
-            <ContentChildren content={item.dialogList.length > 0 ? <Ul item={item.dialogList}></Ul> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}></Empty>}></ContentChildren>
+          <ul className={styles.behavior + ' ' + styles.study}>
+            <ContentChildren
+              content={
+                item.dialogList.length > 0 ? (
+                  <Ul item={item.dialogList} />
+                ) : (
+                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                )
+              }
+            />
           </ul>
         </section>
       </DateBar>
     </div>
-  )
-  return layout
+  ));
+  return layout;
 }
-
 
 @connect(({ behaviorPath, loading }) => ({
   loading,
   behaviorPath,
-  isLoading: loading.effects['behaviorPath/getDateList']
+  isLoading: loading.effects['behaviorPath/getDateList'],
 }))
-
 class Study extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dateList: [],
       listData: [],
-      currentIndex: 0
-    }
+      currentIndex: 0,
+    };
   }
 
   componentDidMount() {
-    console.log(154, this.state.currentIndex)
+    console.log(154, this.state.currentIndex);
     this.mount(this.props);
   }
   mount(props) {
-    console.log(157, this.state.currentIndex)
+    console.log(157, this.state.currentIndex);
     let list = [];
     if (props.behaviorPath.dateListStudy.length > 0) {
       props.behaviorPath.dateListStudy.map(item => {
@@ -170,19 +177,23 @@ class Study extends React.Component {
       list[this.state.currentIndex].dialogList = props.behaviorPath.studyData;
       this.state.dateList = list;
       this.setState({
-        dateList: this.state.dateList
+        dateList: this.state.dateList,
       });
     } else {
       this.setState({
-        dateList: []
+        dateList: [],
       });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((JSON.stringify(nextProps.behaviorPath.studyData) !== JSON.stringify(this.props.behaviorPath.studyData)) || (JSON.stringify(nextProps.behaviorPath.dateList) !== JSON.stringify(this.props.behaviorPath.dateListStudy))) {
+    if (
+      JSON.stringify(nextProps.behaviorPath.studyData) !==
+        JSON.stringify(this.props.behaviorPath.studyData) ||
+      JSON.stringify(nextProps.behaviorPath.dateList) !==
+        JSON.stringify(this.props.behaviorPath.dateListStudy)
+    ) {
       this.mount(nextProps);
-
     }
   }
   getStudyList = paramDate => {
@@ -198,15 +209,15 @@ class Study extends React.Component {
     });
   };
 
-  toggle = (index) => {
+  toggle = index => {
     this.setState({
-      currentIndex: index
-    })
+      currentIndex: index,
+    });
     this.state.dateList.map((item, i) => {
       if (i != index) {
-        item.collapse = false
+        item.collapse = false;
       }
-    })
+    });
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {
@@ -216,16 +227,17 @@ class Study extends React.Component {
     }
 
     this.state.dateList[index].collapse = !this.state.dateList[index].collapse;
-  }
+  };
 
   render() {
     return (
-
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>
-          {
-            this.state.dateList.length > 0 ? <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> : <Empty></Empty>
-          }
+          {this.state.dateList.length > 0 ? (
+            <Layout dataLists={this.state.dateList} onClick={this.toggle} />
+          ) : (
+            <Empty />
+          )}
         </Spin>
       </div>
     );

@@ -1,4 +1,12 @@
-import { getDateList, getDateList2, imAct, bbsAct, chatMessageAct, wechatAct, learningAct } from './services';
+import {
+  getDateList,
+  getDateList2,
+  imAct,
+  bbsAct,
+  chatMessageAct,
+  wechatAct,
+  learningAct,
+} from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
 
@@ -15,14 +23,15 @@ export default {
     studyData: null,
     bbsData: [],
     wechartData: [],
-    letterData: []
+    letterData: [],
   },
 
   effects: {
     *getDateList({ payload }, { call, put }) {
       const params = payload.params;
       const data = yield call(getDateList2, params);
-      const dateFormat = data.data && data.data[0] ? data.data[0].replace(/[\u4e00-\u9fa5]/g, "-").split("-") : null;
+      const dateFormat =
+        data.data && data.data[0] ? data.data[0].replace(/[\u4e00-\u9fa5]/g, '-').split('-') : null;
 
       let studyData = {};
       let imData = {};
@@ -32,15 +41,24 @@ export default {
       if (dateFormat) {
         dateFormat.length = 3;
         if (params.type == 1) {
-          studyData = yield call(learningAct, { beginDate: dateFormat.join("-"), stuid: params.stuId });
+          studyData = yield call(learningAct, {
+            beginDate: dateFormat.join('-'),
+            stuid: params.stuId,
+          });
         } else if (params.type == 2) {
-          imData = yield call(imAct, { beginDate: dateFormat.join("-"), stuid: params.stuId });
+          imData = yield call(imAct, { beginDate: dateFormat.join('-'), stuid: params.stuId });
         } else if (params.type == 3) {
-          wechartData = yield call(wechatAct, { beginDate: dateFormat.join("-"), stuid: params.stuId });
+          wechartData = yield call(wechatAct, {
+            beginDate: dateFormat.join('-'),
+            stuid: params.stuId,
+          });
         } else if (params.type == 4) {
-          bbsData = yield call(bbsAct, { beginDate: dateFormat.join("-"), stuid: params.stuId });
+          bbsData = yield call(bbsAct, { beginDate: dateFormat.join('-'), stuid: params.stuId });
         } else if (params.type == 5) {
-          letterData = yield call(chatMessageAct, { beginDate: dateFormat.join("-"), stuid: params.stuId });
+          letterData = yield call(chatMessageAct, {
+            beginDate: dateFormat.join('-'),
+            stuid: params.stuId,
+          });
         }
       }
 
@@ -48,38 +66,43 @@ export default {
         const dateList = data.data || [];
         if (params.type == 1) {
           yield put({
-            type: 'save', payload: {
+            type: 'save',
+            payload: {
               dateListStudy: dateList,
-              studyData: studyData.data
-            }
+              studyData: studyData.data,
+            },
           });
         } else if (params.type == 2) {
           yield put({
-            type: 'save', payload: {
+            type: 'save',
+            payload: {
               dateListIm: dateList,
-              imData: imData.data
-            }
+              imData: imData.data,
+            },
           });
         } else if (params.type == 3) {
           yield put({
-            type: 'save', payload: {
+            type: 'save',
+            payload: {
               dateListWechart: dateList,
-              wechartData: wechartData.data
-            }
+              wechartData: wechartData.data,
+            },
           });
         } else if (params.type == 4) {
           yield put({
-            type: 'save', payload: {
+            type: 'save',
+            payload: {
               dateListBbs: dateList,
-              bbsData: bbsData.data
-            }
+              bbsData: bbsData.data,
+            },
           });
         } else if (params.type == 5) {
           yield put({
-            type: 'save', payload: {
+            type: 'save',
+            payload: {
               dateListLetter: dateList,
-              letterData: letterData.data
-            }
+              letterData: letterData.data,
+            },
           });
         }
       } else {
@@ -162,9 +185,6 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-
-
-
   },
 
   reducers: {
