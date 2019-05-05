@@ -85,6 +85,8 @@ function sessionType(type) {
     return '排队';
   } else if (type == 3 || type == 10 || type == 66 || type == 99 || type == 100) {
     return '留言';
+  } else {
+    return '新增';
   }
 }
 
@@ -214,8 +216,8 @@ function Layout(props) {
                 item.dialogList.length > 0 ? (
                   <Ul item={item} />
                 ) : (
-                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                )
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  )
               }
             />
           </ul>
@@ -274,9 +276,9 @@ class Im extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (
       JSON.stringify(nextProps.behaviorPath.imData) !==
-        JSON.stringify(this.props.behaviorPath.imData) ||
+      JSON.stringify(this.props.behaviorPath.imData) ||
       JSON.stringify(nextProps.behaviorPath.dateListIm) !==
-        JSON.stringify(this.props.behaviorPath.dateListIm)
+      JSON.stringify(this.props.behaviorPath.dateListIm)
     ) {
       this.mount(nextProps);
     }
@@ -318,8 +320,8 @@ class Im extends React.Component {
           {this.state.dateList.length > 0 ? (
             <Layout dataLists={this.state.dateList} onClick={this.toggle} />
           ) : (
-            <Empty />
-          )}
+              <Empty />
+            )}
         </Spin>
         {/* <Layout dataLists={this.state.dateList} onClick={this.toggle} /> */}
       </div>

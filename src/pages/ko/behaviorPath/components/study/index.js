@@ -21,28 +21,35 @@ function Star(props) {
 }
 
 function Prise(props) {
-  if (props.li.evaluateStar < 1) {
-    return null;
-  }
+  // if (props.li.evaluateStar < 1) {
+  //   return null;
+  // }
   return (
     <li className={styles.step}>
       <div className={styles.time}>
         {props.li.evaluateDate ? props.li.evaluateDate.split(' ')[1] : ''}
       </div>
-      <div className={styles.content} style={{ width: '480px' }}>
+      <div className={styles.content}>
         <div className={styles.bigDot}>
           <span className={styles.dot} />
         </div>
         <div className={styles.priseBox}>
           <div className={styles.prise1}>
             <span>提交课程评价：</span>
-            <div className={styles.stars}>
-              <Star evaluate={props.li.evaluateStar} />
+
+          </div>
+          <div style={{ display: "flex", paddingTop: "10px" }}>
+            <label>评价内容：</label>
+            <div>
+              <div className={styles.stars}>
+                <Star evaluate={props.li.evaluateStar} />
+              </div>
+              <div className={styles.prise2}>
+                <PriseLabel label={props.li.evaluateLabel} />
+              </div>
             </div>
           </div>
-          <div className={styles.prise2}>
-            <PriseLabel label={props.li.evaluateLabel} />
-          </div>
+
           <div className={styles.prise3}>{props.li.evaluateContent}</div>
         </div>
       </div>
@@ -50,7 +57,7 @@ function Prise(props) {
   );
 }
 function PriseLabel(props) {
-  let labels = props.label.split(';');
+  let labels = props.label ? props.label.split(';') : [];
   const label = labels.map((item, index) => (
     <span key={index} className={styles.label}>
       {item}
@@ -102,7 +109,8 @@ class EachItem extends React.Component {
             <div className={styles.text}>{props.subjectName}</div>
           </div>
         </li>
-        {props.subjectType == 1 ? <Prise li={props} /> : null}
+        {/* <Prise li={props} /> */}
+        {props.subjectType == 3 ? <Prise li={props} /> : null}
       </>
     );
   }
@@ -132,8 +140,8 @@ function Layout(props) {
                 item.dialogList.length > 0 ? (
                   <Ul item={item.dialogList} />
                 ) : (
-                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                )
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  )
               }
             />
           </ul>
@@ -191,9 +199,9 @@ class Study extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (
       JSON.stringify(nextProps.behaviorPath.studyData) !==
-        JSON.stringify(this.props.behaviorPath.studyData) ||
+      JSON.stringify(this.props.behaviorPath.studyData) ||
       JSON.stringify(nextProps.behaviorPath.dateList) !==
-        JSON.stringify(this.props.behaviorPath.dateListStudy)
+      JSON.stringify(this.props.behaviorPath.dateListStudy)
     ) {
       this.mount(nextProps);
     }
@@ -238,8 +246,8 @@ class Study extends React.Component {
           {this.state.dateList.length > 0 ? (
             <Layout dataLists={this.state.dateList} onClick={this.toggle} />
           ) : (
-            <Empty />
-          )}
+              <Empty />
+            )}
         </Spin>
       </div>
     );
