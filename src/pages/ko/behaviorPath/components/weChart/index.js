@@ -121,6 +121,7 @@ function TeacherOrStudent(props) {
   }
 }
 function UlContent(props) {
+  console.log(124, props.li)
   const layout = props.li.map((item, index) => (
     <ToggleSession li={item} key={index}>
       <SessionContent li={item.contentList} />
@@ -142,11 +143,11 @@ function Layout(props) {
           <ul className={styles.behavior}>
             <ContentChildren
               content={
-                item.dialogList.length > 1 ? (
+                item.dialogList.length > 0 ? (
                   <Ul item={item} />
                 ) : (
-                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                )
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  )
               }
             />
           </ul>
@@ -206,9 +207,9 @@ class Wechart extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (
       JSON.stringify(nextProps.behaviorPath.wechartData) !==
-        JSON.stringify(this.props.behaviorPath.wechartData) ||
+      JSON.stringify(this.props.behaviorPath.wechartData) ||
       JSON.stringify(nextProps.behaviorPath.dateListWechart) !==
-        JSON.stringify(this.props.behaviorPath.dateListWechart)
+      JSON.stringify(this.props.behaviorPath.dateListWechart)
     ) {
       this.mount(nextProps);
     }
@@ -247,14 +248,15 @@ class Wechart extends React.Component {
   };
 
   render() {
+    console.log(251, this.state.dateList)
     return (
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>
           {this.state.dateList.length > 0 ? (
             <Layout dataLists={this.state.dateList} onClick={this.toggle} />
           ) : (
-            <Empty />
-          )}
+              <Empty />
+            )}
         </Spin>
         {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
       </div>

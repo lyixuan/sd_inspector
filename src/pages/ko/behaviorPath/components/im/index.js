@@ -138,6 +138,13 @@ function ListItem(props) {
 }
 // 判断是老师还是学员
 function TeacherOrStudent(props) {
+  let message = "";
+  // 检测文本中是否包含 { }
+  if (/\{([^\}]+)\}/.test(props.item.message)) {
+    message = JSON.parse(props.item.message).content;
+  } else {
+    message = props.item.message
+  }
   if (props.item.userType == 1) {
     return (
       <li className={styles.step}>
@@ -157,7 +164,7 @@ function TeacherOrStudent(props) {
               <span className={styles.triangle}>
                 <em />
               </span>
-              {props.item.message}
+              {message}
             </div>
           </div>
         </div>
@@ -178,7 +185,7 @@ function TeacherOrStudent(props) {
               <span className={styles.triangle}>
                 <em />
               </span>
-              {props.item.message}
+              {message}
             </div>
             <div className={styles.avatar}>
               <img src={avatarTeacher} />

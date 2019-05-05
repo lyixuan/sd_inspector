@@ -60,18 +60,18 @@ class ToggleSession extends React.Component {
             </div>
           </li>
         ) : (
-          <li className={styles.step + ' ' + styles.title} onClick={this.toggleSession}>
-            <div className={styles.time}>
-              {props.li.countDate ? props.li.countDate.split(' ')[1] : ''}
-            </div>
-            <div className={styles.content}>
-              <div className={styles.bigDot + ' ' + (this.state.expand ? '' : styles.plus)}>
-                <span className={styles.dot} />
+            <li className={styles.step + ' ' + styles.title} onClick={this.toggleSession}>
+              <div className={styles.time}>
+                {props.li.countDate ? props.li.countDate.split(' ')[1] : ''}
               </div>
-              <div className={styles.text}>与{props.li.userName}的对话</div>
-            </div>
-          </li>
-        )}
+              <div className={styles.content}>
+                <div className={styles.bigDot + ' ' + (this.state.expand ? '' : styles.plus)}>
+                  <span className={styles.dot} />
+                </div>
+                <div className={styles.text}>与{props.li.userName}的对话</div>
+              </div>
+            </li>
+          )}
 
         {this.state.expand ? props.children : null}
       </>
@@ -167,11 +167,11 @@ function Layout(props) {
           <ul className={styles.behavior + ' ' + styles.privateLetter}>
             <ContentChildren
               content={
-                item.dialogList.length > 1 ? (
+                item.dialogList.length > 0 ? (
                   <Ul item={item} />
                 ) : (
-                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                )
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  )
               }
             />
           </ul>
@@ -246,9 +246,9 @@ class PrivateLetter extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (
       JSON.stringify(nextProps.behaviorPath.letterData) !==
-        JSON.stringify(this.props.behaviorPath.letterData) ||
+      JSON.stringify(this.props.behaviorPath.letterData) ||
       JSON.stringify(nextProps.behaviorPath.dateListLetter) !==
-        JSON.stringify(this.props.behaviorPath.dateListLetter)
+      JSON.stringify(this.props.behaviorPath.dateListLetter)
     ) {
       this.mount(nextProps);
     }
@@ -290,8 +290,8 @@ class PrivateLetter extends React.Component {
           {this.state.dateList.length > 0 ? (
             <Layout dataLists={this.state.dateList} onClick={this.toggle} />
           ) : (
-            <Empty />
-          )}
+              <Empty />
+            )}
         </Spin>
         {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
       </div>
