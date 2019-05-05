@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import styles from '../../style.less';
 // 评价的星星
 function Star(props) {
-  if (!props.evaluate) {
+  if (!props.evaluate && props.evaluate != 0) {
     return null;
   }
   const evaluate = props.evaluate;
@@ -14,7 +14,7 @@ function Star(props) {
       type="star"
       theme="filled"
       key={index}
-      className={index <= evaluate ? '' : styles.empty}
+      className={index < evaluate ? '' : styles.empty}
     />
   ));
   return starList;

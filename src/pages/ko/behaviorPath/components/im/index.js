@@ -7,30 +7,28 @@ import avatarStudent from '@/assets/avatarStudent.png';
 
 // 评价的星星
 function Star(props) {
-  if (!props.evaluate) {
-    return null;
-  }
+  console.log(13, props.evaluate)
   const evaluate = props.evaluate;
-  const number = [1, 2, 3, 4, 5];
+  const number = [1, 2, 3];
   const starList = number.map((item, index) => (
     <Icon
       type="star"
       theme="filled"
       key={index}
-      className={index <= evaluate ? '' : styles.empty}
+      className={index < evaluate ? '' : styles.empty}
     />
   ));
   return starList;
 }
 
 function Prise(props) {
-  if (props.li.evaluate < 1) {
+  if (!props.li.evaluate && props.li.evaluate != 0) {
     return null;
   }
   return (
     <li className={styles.step}>
       <div className={styles.time}>
-        {props.li.countDate ? props.li.countDate.split(' ')[1] : ''}
+        {/* {props.li.countDate ? props.li.countDate.split(' ')[1] : ''} */}
       </div>
       <div className={styles.content}>
         <div className={styles.bigDot}>
@@ -86,7 +84,7 @@ function sessionType(type) {
   } else if (type == 3 || type == 10 || type == 66 || type == 99 || type == 100) {
     return '留言';
   } else {
-    return '新增';
+    return '其他';
   }
 }
 

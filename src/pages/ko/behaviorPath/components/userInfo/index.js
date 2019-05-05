@@ -26,12 +26,11 @@ class PathUserInfo extends React.Component {
           <li>
             <label>行政所属：</label>
             <span>
-              {info.backOrgs}
-              {info.frontOrgs}
+              {info.backOrgs}; {info.frontOrgs}
             </span>
           </li>
 
-          <li>
+          {/* <li>
             <label>学院：</label>
             <span>{info.collegeName}</span>
           </li>
@@ -42,7 +41,7 @@ class PathUserInfo extends React.Component {
           <li>
             <label>小组：</label>
             <span>{info.groupName}</span>
-          </li>
+          </li> */}
         </ul>
         <ul className={styles.intro}>
           {/* <li>
