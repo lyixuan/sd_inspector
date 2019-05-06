@@ -25,7 +25,9 @@ function sessionType(type) {
   } else if (type == 2) {
     return "跟帖"
   } else if (type == 3) {
-    return "点赞"
+    return "点赞帖"
+  } else if (type == 4) {
+    return "回复帖"
   }
 
 }
@@ -53,7 +55,7 @@ class EachItem extends React.Component {
     let { expand } = this.state
     return (
       <li className={styles.step}>
-        <div className={styles.time}>{props.countDate ?props.countDate.split(" ")[1]:''}</div>
+        <div className={styles.time}>{props.countDate ? props.countDate.split(" ")[1] : ''}</div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
             <span className={styles.dot}></span>
