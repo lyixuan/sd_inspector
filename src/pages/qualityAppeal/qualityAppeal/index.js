@@ -17,7 +17,7 @@ function changeState(record) {
   // 合并
   // 后端通过两个字段控制状态，前端只能有一个字段控制状态，这里要映射
   let myStatue = 1;
-  if (record.status === null && record.firstAppealEndDate >= record.nowTime) {
+  if (record.status === null && record.firstAppealEndDate && record.firstAppealEndDate >= record.nowTime) {
     myStatue = 1; // 待申诉
   }
   if (record.status === 1 && record.appealType === 1) {
@@ -44,7 +44,7 @@ function changeState(record) {
   if (record.status === 4 && record.appealType === 1) {
     myStatue = 9; // 一次申诉成功
   }
-  if ((record.status === 6 && record.appealType === 1) || (record.status === null && record.firstAppealEndDate < record.nowTime)) {
+  if ((record.status === 6 && record.appealType === 1) || ( record.status === null && record.firstAppealEndDate && record.firstAppealEndDate < record.nowTime)) {
     myStatue = 10; // 一次申诉超时
   }
   if (record.status === 4 && record.appealType === 2) {
@@ -53,7 +53,7 @@ function changeState(record) {
   if (record.status === 5 && record.appealType === 2) {
     myStatue = 12; // 二次申诉失败
   }
-  if ((record.status === 6 && record.appealType === 2) || (record.status === null && record.secondAppealEndDate < record.nowTime)) {
+  if ((record.status === 6 && record.appealType === 2) || ( record.status === 5 && record.secondAppealEndDate && record.secondAppealEndDate < record.nowTime)) {
     myStatue = 13; // 二次申诉超时
   }
   return myStatue;
