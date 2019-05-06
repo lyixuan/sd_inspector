@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Spin } from 'antd';
 import styles from './style.less';
 import RenderRoute from '@/components/RenderRoute';
 import KoTab from '@/pages/ko/components/KoRadio/KoTab';
@@ -115,9 +114,7 @@ class koPlan extends React.Component {
       <div>
         {/*------- 公共 form 部分 --------*/}
         {(pathname === '/ko/behaviorPath') ? null : <> <div className={styles.commonBox}>
-          <Spin tip="Loading..." spinning={isLoadEnumData}>
-            <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} usersData={this.props.usersData} pageParams={pageParams} />
-          </Spin>
+          <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} usersData={this.props.usersData} pageParams={pageParams} loading={isLoadEnumData} />
         </div>
           <div className={styles.tabBox}>
             <KoTab {...this.props} />
