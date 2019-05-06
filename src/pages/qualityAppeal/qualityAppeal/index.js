@@ -15,9 +15,9 @@ const confirm = BIModal.confirm;
 
 function changeState(record) {
   // 合并
-  // 后端通过两个字段控制状态，前端只能有一个字段遵循顺序关系，只能这样手动映射，本人也表示很无语
+  // 后端通过两个字段控制状态，前端只能有一个字段控制状态，这里要映射
   let myStatue = 1;
-  if (record.status === null) {
+  if (record.status === null && record.firstAppealEndDate >= record.nowTime) {
     myStatue = 1; // 待申诉
   }
   if (record.status === 1 && record.appealType === 1) {
@@ -44,7 +44,7 @@ function changeState(record) {
   if (record.status === 4 && record.appealType === 1) {
     myStatue = 9; // 一次申诉成功
   }
-  if (record.status === 6 && record.appealType === 1) {
+  if ((record.status === 6 && record.appealType === 1) || (record.status === null && record.firstAppealEndDate < record.nowTime)) {
     myStatue = 10; // 一次申诉超时
   }
   if (record.status === 4 && record.appealType === 2) {
@@ -53,7 +53,7 @@ function changeState(record) {
   if (record.status === 5 && record.appealType === 2) {
     myStatue = 12; // 二次申诉失败
   }
-  if (record.status === 6 && record.appealType === 2) {
+  if ((record.status === 6 && record.appealType === 2) || (record.status === null && record.secondAppealEndDate < record.nowTime)) {
     myStatue = 13; // 二次申诉超时
   }
   return myStatue;
@@ -133,7 +133,14 @@ const columns1 = [
   },
   {
     title: '违规等级',
-    dataIndex: 'violationLevelName',
+    dataIndex: 'violationLevel',
+    render: (text, record) => {
+      return (
+        <>
+          {BiFilter(`VIOLATION_LEVEL|id:${record.violationLevel}`).name}
+        </>
+      );
+    },
   },
   {
     title: '归属人',
@@ -506,7 +513,7 @@ class QualityAppeal extends React.Component {
       if (index >= 0) {
         columns1.splice(index, 1);
       }
-      const index2 = columns1.findIndex(item => item.dataIndex === 'violationLevelName');
+      const index2 = columns1.findIndex(item => item.dataIndex === 'violationLevel');
       if (index >= 0) {
         columns1.splice(index2, 1);
       }
