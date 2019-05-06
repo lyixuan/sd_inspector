@@ -156,7 +156,7 @@ var Condition = /** @class */ (function (_super) {
     };
     Condition.prototype.render = function () {
         var _a = this.props, _b = _a.options, options = _b === void 0 ? [] : _b, disabled = _a.disabled;
-        var _c = this.state, isOpen = _c.isOpen, inputValue = _c.inputValue, visible = _c.visible;
+        var _c = this.state, inputValue = _c.inputValue, visible = _c.visible;
         var hasCustomObj = this.state.customObj ? [this.state.customObj] : [];
         var optionsData = this.handleOriginOptionsData(options.concat(hasCustomObj));
         return (react_1.default.createElement(react_1.default.Fragment, null,

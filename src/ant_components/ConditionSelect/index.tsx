@@ -159,7 +159,7 @@ export default class Condition extends React.Component<Props, State, object>{
     }
     render() {
         const { options = [], disabled } = this.props;
-        const { isOpen, inputValue, visible } = this.state;
+        const { inputValue, visible } = this.state;
         const hasCustomObj = this.state.customObj ? [this.state.customObj] : []
         const optionsData = this.handleOriginOptionsData([...options, ...hasCustomObj]);
 

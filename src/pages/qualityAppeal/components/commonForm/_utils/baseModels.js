@@ -113,12 +113,12 @@ export class BaseModels {
     setQualityValueFamter = (params) => {
         const { qualityValue } = params;
         const isPerformance = BaseModels.checkoutQualityPerfor(params);
-        return isPerformance && qualityValue && qualityValue > 0 ? Number(qualityValue || 0) / 100 : qualityValue;
+        return isPerformance && qualityValue && qualityValue > 0 ? Number(qualityValue || 0) * 100 / 10000 : qualityValue;
     }
     setMasterQualityValueFamter = (params, violationLevelObj) => {
         const { masterQualityValue } = params;
         // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-        return masterQualityValue && masterQualityValue > 0 ? Number(masterQualityValue || 0) / 100 : masterQualityValue;
+        return masterQualityValue && masterQualityValue > 0 ? Number(masterQualityValue || 0) * 100 / 10000 : masterQualityValue;
     }
     transOriginParams = (params = {}) => {
         const newParams = {};
