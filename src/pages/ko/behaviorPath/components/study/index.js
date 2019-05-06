@@ -39,7 +39,7 @@ function Prise(props) {
 
           </div>
           <div style={{ display: "flex", paddingTop: "10px" }}>
-            <label>评价内容：</label>
+            <label style={{ width: "135px" }}>评价内容：</label>
             <div>
               <div className={styles.stars}>
                 <Star evaluate={props.li.evaluateStar} />
@@ -87,32 +87,42 @@ class EachItem extends React.Component {
   }
   render() {
     let props = this.props.item;
-    return (
-      <>
-        <li className={styles.step + ' ' + styles.studyTitle}>
-          <div className={styles.time}>{props.countDate ? props.countDate.split(' ')[1] : ''}</div>
-          <div className={styles.content}>
-            <div className={styles.bigDot}>
-              <span className={styles.dot} />
+    if (props.subjectType != 3) {
+      return (
+        <>
+
+          <li className={styles.step + ' ' + styles.studyTitle}>
+            <div className={styles.time}>{props.countDate ? props.countDate.split(' ')[1] : ''}</div>
+            <div className={styles.content}>
+              <div className={styles.bigDot}>
+                <span className={styles.dot} />
+              </div>
+              <div className={styles.text}>
+                {props.subjectType == 1 ? '参加直播课' : '参加重播课'}
+              </div>
             </div>
-            <div className={styles.text}>
-              {props.subjectType == 1 ? '参加直播课' : '参加重播课'}
+          </li>
+          <li className={styles.step}>
+            <div className={styles.time}>听课时长{props.classCount}</div>
+            <div className={styles.content}>
+              <div className={styles.bigDot}>
+                <span className={styles.dot} />
+              </div>
+              <div className={styles.text}>{props.subjectName}</div>
             </div>
-          </div>
-        </li>
-        <li className={styles.step}>
-          <div className={styles.time}>听课时长{props.classCount}</div>
-          <div className={styles.content}>
-            <div className={styles.bigDot}>
-              <span className={styles.dot} />
-            </div>
-            <div className={styles.text}>{props.subjectName}</div>
-          </div>
-        </li>
-        {/* <Prise li={props} /> */}
-        {props.subjectType == 3 ? <Prise li={props} /> : null}
-      </>
-    );
+          </li>
+          {/* <Prise li={props} /> */}
+
+        </>
+      );
+    } else {
+      return (
+        <>
+          {props.subjectType == 3 ? <Prise li={props} /> : null}
+        </>
+      )
+    }
+
   }
 }
 

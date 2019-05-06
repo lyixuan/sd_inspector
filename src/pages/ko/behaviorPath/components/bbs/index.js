@@ -63,13 +63,13 @@ class EachItem extends React.Component {
           <div className={styles.post}>
             <p className={styles.postHead}>{sessionType(props.postType)}</p>
             {
-              props.masterPostContent ? (
+              props.replayPostContent ? (
                 <div className={styles.postBody}>
                   {
-                    expand ? this.processStr(props.masterPostContent, 100) : props.masterPostContent
+                    expand ? this.processStr(props.replayPostContent, 100) : props.replayPostContent
                   }
                   {
-                    props.masterPostContent.length > 100 ? <span className={styles.toggle} onClick={this.toggleSession}>{!expand ? '收起' : '展开'} <Icon type={!expand ? 'up' : 'down'} /></span> : null
+                    props.replayPostContent.length > 100 ? <span className={styles.toggle} onClick={this.toggleSession}>{!expand ? '收起' : '展开'} <Icon type={!expand ? 'up' : 'down'} /></span> : null
                   }
 
                 </div>
@@ -89,13 +89,13 @@ class EachItem extends React.Component {
               ) : null
             }
             {
-              props.replayPostContent ? (
+              props.masterPostContent ? (
                 <div className={styles.postBody}>
                   {
-                    expand ? this.processStr(props.replayPostContent, 100) : props.replayPostContent
+                    expand ? this.processStr(props.masterPostContent, 100) : props.masterPostContent
                   }
                   {
-                    props.replayPostContent.length > 100 ? <span className={styles.toggle} onClick={this.toggleSession}>{!expand ? '收起' : '展开'} <Icon type={!expand ? 'up' : 'down'} /></span> : null
+                    props.masterPostContent.length > 100 ? <span className={styles.toggle} onClick={this.toggleSession}>{!expand ? '收起' : '展开'} <Icon type={!expand ? 'up' : 'down'} /></span> : null
                   }
 
                 </div>
