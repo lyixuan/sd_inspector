@@ -118,7 +118,7 @@ class koPlan extends React.Component {
         </div>
           <div className={styles.tabBox}>
             <KoTab {...this.props} />
-            {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <KoForm {...this.props} originParams={filterActionParams} onChange={this.changeFilterAction} />}
+            {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <KoForm {...this.props} originParams={filterActionParams} onChange={this.changeFilterAction} loading={isLoadEnumData} />}
           </div>
         </>
         }
