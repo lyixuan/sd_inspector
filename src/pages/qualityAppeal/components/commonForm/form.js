@@ -113,12 +113,13 @@ class CreateQualityNewSheet extends React.Component {
         const qualityType = this.props.form.getFieldValue('qualityType');
         return qualityType === 1 ? dimensionList1 : qualityType === 2 ? dimensionList2 : [];
     }
-    changeDimension = (dimensionId) => {
+    changeDimension = (dimensionId, ops) => {
+        const { props: { children } } = ops;
         const params = this.props.form.getFieldsValue();
         const { qualityType } = params || {};
         if (!qualityType || !dimensionId) return;
         if (this.props.changeDimension) {
-            this.props.changeDimension({ qualityType, dimensionId }, { ...params, dimensionId })
+            this.props.changeDimension({ qualityType, dimensionId, violationName: children }, { ...params, dimensionId })
         }
     }
     onChangedimensionTree = (value, objArr) => {
@@ -459,7 +460,7 @@ class CreateQualityNewSheet extends React.Component {
                         {this.state.radioChange}
                         <Row>
                             <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
-                                <span className={styles.i} style={{display:'inline-block',width:'7.24px'}}>&nbsp;</span><Form.Item label="子订单编号：">
+                                <span className={styles.i} style={{ display: 'inline-block', width: '7.24px' }}>&nbsp;</span><Form.Item label="子订单编号：">
                                     {getFieldDecorator('orderNum', {
                                         initialValue: params.orderNum,
                                     })(<BIInput placeholder="请输入" style={{ width: 280 }} onChange={e => this.inputChange(e, 'orderNum')} />)}
