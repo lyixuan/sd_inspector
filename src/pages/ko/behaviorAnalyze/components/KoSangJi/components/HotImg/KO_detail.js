@@ -146,9 +146,9 @@ class KoDetailPage extends React.Component {
         this.specialData(data,['homepage_click_testregion_-1','homepage_Click_city_-1'],'homepage_click_city')
         this.getActionKeyList(data,'click_ko_item','homepage_add_koitem')
       }else if(page==='studypage'){
-        this.specialData(data,['studypage_click_golesson_-1','homepage_click_golesson_free_-1'],'studypage_click_golesson');
-        this.specialData(data,['studypage_click_record_free_-1','homepage_click_record_-1'],'studypage_click_record');
-        this.specialData(data,['studypage_click_livebroadcast_free_-1','homepage_click_livebroadcast-1'],'studypage_click_livebroadcast');
+        this.specialData(data,['studypage_click_golesson_-1','studypage_click_golesson_free_-1'],'studypage_click_golesson');
+        this.specialData(data,['studypage_click_record_free_-1','studypage_click_record_-1'],'studypage_click_record');
+        this.specialData(data,['studypage_click_livebroadcast_free_-1','studypage_click_livebroadcast-1'],'studypage_click_livebroadcast');
       }else if(page==='storelist'){
         this.dealListDom(data,'Click_major','storelist_ko_item',true);
       }else if(page==='kolist'){
