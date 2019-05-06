@@ -381,7 +381,9 @@ class CommonForm extends React.Component {
               </>
             ) : null
           }
-          <Divider className={styles.collapCls} dashed onClick={this.toggle}>{expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} /></Divider>
+          <Divider className={styles.collapCls} dashed >
+            <span className={styles.expand} onClick={this.toggle}>{expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} /></span>
+          </Divider>
           {/* 已选项设置 */}
           <div className={styles.rowWrap}>{
             this.renderButtonGroup()
