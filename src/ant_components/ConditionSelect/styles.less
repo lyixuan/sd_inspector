@@ -1,0 +1,249 @@
+@import "../config.less";
+
+:global .conditionSelect,:global .betweennessSelect {
+  width: 120px;
+  .ant-select-selection {
+    border: 1px solid #DCDDE0;
+    border-radius: 2px;
+  }
+  .ant-select-selection--single:hover{
+    border-color: @base-green;
+  }
+  .ant-select-selection:focus{
+    border-color: @base-green;
+    box-shadow: none;
+  }
+  .ant-select-selection:active{
+    border-color: @base-green;
+    box-shadow: none;
+  }
+  .ant-select-open .ant-select-selection{
+    border-color: @base-green;
+    box-shadow: none;
+  }
+  .ant-select-selection--multiple .ant-select-selection__choice {
+    margin-right: 1px;
+  }
+}
+:global .betweennessSelect{
+  font-size: 12px;
+  color: #000;
+  .ant-select-selection{
+   border-style: none;
+  }
+  .ant-select-arrow-icon{
+    transform: translate(80%,0) scale(0.8);
+  }
+  .ant-select-selection__rendered{
+    margin: 0;
+  }
+  .ant-select-selection-selected-value{
+    float: right;
+  }
+}
+:global .inputPanle {
+  .ant-input {
+    border-radius: 2px;
+    padding: 8px;
+  }
+  .ant-input:hover {
+    border: 1px solid @base-green;
+    box-shadow: 0 0 0 2px @base-green-shadow;
+  }
+  .ant-input:focus{
+    border: 1px solid @base-green;
+    box-shadow: 0 0 0 2px @base-green-shadow;
+  }
+  .ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled) {
+    border-color: @base-green;
+  }
+}
+:global .betweennessSelectDropdownClassName{
+  .ant-select-dropdown-menu-item{
+    font-size: 12px;
+    color: #000;
+  }
+}
+
+.conditionCustom{
+  position: relative;
+  padding: 10px;
+  cursor: pointer;
+  .customText{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
+.customBox{
+  position: absolute;
+  left: 115%;
+  top: -100%;
+  bottom: 0;
+  width: 240px;
+  height: 160px;
+  padding: 30px;
+  font-variant: tabular-nums;
+  line-height: 1.5;
+  list-style: none;
+  font-feature-settings: 'tnum';
+  box-sizing: border-box;
+  font-variant: initial;
+  background-color: #fff;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  .symbolIcon{
+    position: absolute;
+    top: 20%;
+    left: 0;
+    color: #fff;
+    transform: translate(-80%,-50%) scale(1.5);
+  }
+  .customChooseBox{
+  }
+  .inputPanle{
+    position: relative;
+    height: 32px;
+    margin-top: 10px;
+    // .inputNum{
+      width: 100%;
+      .renderBaseUnitinput{
+        display: inline-block;
+        width: 120px;
+      }
+      .betweenness{
+        display: inline-block;
+        width: 50px;
+      }
+      .betweennessSymbol{
+        display: inline-block;
+        width: 20px;
+        text-align: center;
+      // }
+    }
+    .betweennessSelect{
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+  .buttonGroup{
+    margin: 10px 0;
+    .button{
+      float:right;
+      margin-left:10px; 
+    }
+  }
+}
+
+.masker{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  height: 100%;
+  background-color: rgba(0,0,0,0.65);
+}
+.selectCotainer{
+  box-sizing: border-box;
+    margin: 5px 0 0 0;
+    padding: 0;
+    line-height: 1.5;
+}
+.chooseContent{
+  border: 1px solid #DCDDE0;
+  border-radius: 2px;
+  position: relative;
+  height: 32px;
+  line-height: 30px;
+  cursor: pointer;
+  display: block;
+    box-sizing: border-box;
+    background-color: #fff;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    user-select: none;
+}
+.disableChooseContent{
+  &:extend(.chooseContent);
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+.placeholder{
+  position: absolute;
+  top: 50%;
+  right: 9px;
+  left: 0;
+  max-width: 100%;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: 10px;
+  overflow: hidden;
+  color: #bfbfbf;
+  line-height: 20px;
+  white-space: nowrap;
+  font-size: 12px;
+  text-align: left;
+  text-overflow: ellipsis;
+  }
+  .selectedValue{
+    float: left;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size:12px; 
+    margin-left: 10px
+  }
+.inputIcon{
+  display: inline-block;
+    color: inherit;
+    font-style: normal;
+    line-height: 0;
+    text-align: center;
+    text-transform: none;
+    vertical-align: -0.125em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: absolute;
+    top: 50%;
+    right: 11px;
+    margin-top: -6px;
+    color: rgba(0, 0, 0, 0.25);
+    font-size: 12px;
+    line-height: 1;
+    transform-origin: 50% 50%;
+}
+.inputClear{
+  position: absolute;
+    top: 50%;
+    right: 11px;
+    z-index: 1;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-top: -6px;
+    color: rgba(0, 0, 0, 0.25);
+    font-size: 12px;
+    font-style: normal;
+    line-height: 12px;
+    text-align: center;
+    text-transform: none;
+    background: #fff;
+    cursor: pointer;
+    opacity: 0;
+    transition: color 0.3s ease, opacity 0.15s ease;
+    text-rendering: auto;
+}
+.chooseContent:hover{
+  opacity: 1;
+  border: 1px solid #52C9C2;
+}
+.chooseContent:hover .inputClear{
+  opacity: 1;
+}
+

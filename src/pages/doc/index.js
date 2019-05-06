@@ -11,6 +11,8 @@ import DocDatePicker from './components/DocDatePicker';
 import DocTabs from './components/DocTabs';
 import DocTreeSelect from './components/DocTreeSelect';
 import Model from './Model/index.tsx';
+import ConditionSelect from './components/ConditionSececte';
+import Hooks from './components/hooks';
 
 import style from './style.css';
 import { LocaleProvider } from 'antd';
@@ -34,6 +36,8 @@ class Doc extends Component {
           <DocTabs />
           <DocTreeSelect />
           <Model />
+          <ConditionSelect />
+          <Hooks></Hooks>
         </div>
       </LocaleProvider>
     )

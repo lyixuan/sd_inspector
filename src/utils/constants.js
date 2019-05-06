@@ -333,6 +333,51 @@ export const FAMILY_TYPE = [{ id: 0, name: '自考' }, { id: 1, name: '壁垒' }
 export const APPEAL_RESULT_TYPE = [{ id: 1, name: '通过' }, { id: 0, name: '驳回' }];
 // 质检上传类型
 export const QUALITY_UPLOAD_TYPE = [{ id: 1, name: 'quality' }, { id: 2, name: 'appeal' }];
+// 过滤单位
+export const UNIT_DATE = [
+  { id: 'dd', name: '天' },
+  { id: 'hh', name: '小时' },
+  { id: 'mm', name: '分钟' },
+  { id: 'ss', name: '秒' },
+];
+
+// 空ContentLayout页面名单
+export const EmptyContentLayout = [{ path: '/ko', name: 'KO计划' }];
+// 应用类型
+export const APP_LIST = [
+  { id: '1', name: '极速版App' }
+];
+// 注册类型
+export const REGISTER_STATUS = [
+  { id: 1, name: '已注册' }
+];
+// 选课状态
+export const CHOISE_STATUS = [
+  { id: 0, name: '未选课' },
+  { id: 1, name: '已选课' }
+];
+
+// 热力图对应的区间取值
+export const HOT_RANGE = [
+  { minVal: 0, maxVal: 10, color: '#7B83FF' },
+  { minVal: 11, maxVal: 30, color: '#5AB9FF' },
+  { minVal: 31, maxVal: 40, color: '#7AF5C5' },
+  { minVal: 41, maxVal: 50, color: '#FFE65A' },
+  { minVal: 51, maxVal: 60, color: '#FFCB64' },
+  { minVal: 61, maxVal: 80, color: '#FF9862' },
+  { minVal: 81, maxVal: 100, color: '#FF8383' },
+];
+export const PAGE_KEY_ACTION = [
+  { value: 'storelist', actionValue: 'majordetail' },
+  { value: 'kolist', actionValue: 'kogoodsdetail' },
+]
+export const KO_LIST = 'KoList';
+
+
+export const INDEX_PAGE = 'homepage';
+// 通过判断改值是否存在于actionKeyId里确实这个节点是否流向 选课 节点
+export const CLICK_KO_ITEM = 'click_ko_item';
+
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -356,6 +401,11 @@ export default {
   FAMILY_TYPE,
   APPEAL_RESULT_TYPE,
   QUALITY_UPLOAD_TYPE,
+  EmptyContentLayout,
+  APP_LIST,
+  HOT_RANGE,
+  REGISTER_STATUS,
+  CHOISE_STATUS,
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

@@ -32,6 +32,7 @@ class CreateQualityNewSheet extends React.Component {
         this.state = {
             formParams: this.formModels.initFormModel,
             violationLevelObj: {},  // 用于储存违规等级,
+            violationName: null,
             isShowOrderNumConfirmModel: false,
             msgDetail: '',
             buttonText: '确定',
@@ -57,17 +58,29 @@ class CreateQualityNewSheet extends React.Component {
         this.props.dispatch({
             type: 'qualityAppealHome/clearOrderNumData',
         })
+        this.props.dispatch({
+            type: 'qualityAppealHome/saveOrderNumData',
+            payload: { orderNumData: null },
+        });
     }
     handleOriginDataSource = (params) => {
         const { dataSource } = this.props;
-        const newParams = this.formModels.transOriginParams(params || dataSource);
+        const { orderDetail, ...others } = params || dataSource || {};
+        const newParams = this.formModels.transOriginParams(others);
         const { qualityType, dimensionId } = newParams;
         if (dimensionId) {
             this.changeDimension({ qualityType, dimensionId }, newParams)
         }
-        const violationLevelObj = this.formModels.violationLevel(params || dataSource);
+        const violationLevelObj = this.formModels.violationLevel(others);
         this.setState({ violationLevelObj });
         this.upDateFormParams(newParams);
+        this.setOrderDetail(orderDetail);
+    }
+    setOrderDetail = (orderNumData = null) => {
+        this.props.dispatch({
+            type: 'qualityAppealHome/saveOrderNumData',
+            payload: { orderNumData },
+        });
     }
     handleOrgMapByMailParams = (params) => {
         const { orgMapByMailData, orgList } = this.props;
@@ -94,10 +107,12 @@ class CreateQualityNewSheet extends React.Component {
         });
     }
     changeDimension = (params = {}, values) => {
+        const { violationName, ...others } = params;
+        this.setState({ violationName })
         this.saveParams(values, () => {
             this.props.dispatch({
                 type: 'qualityAppealHome/queryDimensionTreeList',
-                payload: { ...params },
+                payload: { ...others },
             });
         });
 
@@ -192,9 +207,9 @@ class CreateQualityNewSheet extends React.Component {
     onSubmit = (params) => {
         // 单独处理qualityValue
         const { qualityValue = null, masterQualityValue = null, familyType = null } = params;
-        const { formParams, violationLevelObj } = this.state;
-        const { actionType, checkResult, appealEndDate, formType } = this.props;
-        const assginObject = Object.assign({}, formParams, params, { qualityValue, masterQualityValue, familyType });
+        const { formParams, violationLevelObj, violationName } = this.state;
+        const { actionType, checkResult, appealEndDate, formType, appealStatus } = this.props;
+        const assginObject = Object.assign({}, formParams, params, { qualityValue, masterQualityValue, familyType, violationName });
         const newParams = this.formModels.transFormParams(assginObject, violationLevelObj);
         this.tmpParams = newParams;
         this.saveParams(params);
@@ -202,7 +217,7 @@ class CreateQualityNewSheet extends React.Component {
             message.warn('请选择审核结果');
             return;
         }
-        if (!appealEndDate && actionType === 'appeal' && formType === 'appeal' && checkResult === 0) {
+        if (!appealEndDate && actionType === 'appeal' && formType === 'appeal' && appealStatus === 4 && checkResult === 0) {
             message.warn('请填写截止日期');
             return;
         }

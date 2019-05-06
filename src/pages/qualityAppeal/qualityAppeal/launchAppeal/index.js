@@ -59,6 +59,7 @@ class Launch extends React.Component {
     params.firstAppealEndDate = this.firstAppealEndDate;
     if(secondAppealEndDate){// 二次提交申诉
       params.type=2;
+      params.firstAppealEndDate=secondAppealEndDate ;
     }
     if (!this.state.params.desc.replace(/(^\s*)/g, "")) {
       message.error('请填写申诉说明');

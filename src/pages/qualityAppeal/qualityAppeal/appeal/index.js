@@ -70,12 +70,12 @@ class QualityAppealing extends React.Component {
       checkResult: Number(appealParam.checkResult) === 1 ? 1 : 0,
       isWarn: appealParam.isWarn,
       desc: appealParam.desc ? appealParam.desc : undefined,
-      appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
+      appealEndDate: String(this.query.status) === '2' ? this.query.firstAppealEndDate : String(this.query.status) === '6' ? this.query.secondAppealEndDate : undefined,
     };
     const that = this;
     confirm({
       className: 'BIConfirm',
-      title: params.checkResult === 1?'提交后，该申诉将被提交给质检主管进行审核。':'确认驳回这条记录吗？',
+      title: params.checkResult === 1 ? '提交后，该申诉将被提交给质检主管进行审核。' : '确认驳回这条记录吗？',
       cancelText: '取消',
       okText: '确定',
       onOk() {
@@ -151,13 +151,13 @@ class QualityAppealing extends React.Component {
                   this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
                 }
               >
-                {qualityDetailData.orderNum?(
+                {qualityDetailData.orderNum ? (
                   <div>
                     <div className={styles.divideLine} />
                     <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
                     <SubOrderDetail data={qualityDetailData.orderDetail} />
                   </div>
-                ):null}
+                ) : null}
               </div>
               <div style={{ marginTop: 20 }}>
                 <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={() => this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
@@ -179,6 +179,7 @@ class QualityAppealing extends React.Component {
                 appealEndDate={appealEndDate}
                 formType='appeal'
                 actionType='appeal'
+                appealStatus={Number(this.query.status)}
                 dataSource={qualityDetailData}
                 onSubmit={(params) => this.handleSubmitMaster(params)} >
                 <div style={{ marginLeft: '-20px' }}>

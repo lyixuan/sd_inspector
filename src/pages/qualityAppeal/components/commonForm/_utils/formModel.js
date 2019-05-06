@@ -48,7 +48,8 @@ export class FormModels extends BaseModels {
         }
         const handleQualityObj = {
             qualityValue: this.setQualityValueFamter(params),
-            masterQualityValue: this.setMasterQualityValueFamter(params, violationLevelObj)
+            masterQualityValue: this.setMasterQualityValueFamter(params, violationLevelObj),
+            violationLevelName: violationLevelObj.title,
         }
         const newParams = { ...others, ...dateTimeObj, ...handleQualityObj, primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId, familyId, groupId };
         return newParams;

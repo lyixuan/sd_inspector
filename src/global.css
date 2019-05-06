@@ -81,3 +81,43 @@ a,a:hover{
 .ant-upload-list-item-info .anticon-loading, .ant-upload-list-item-info .anticon-paper-clip{
   color: #52C9C2;
 }
+/*  */
+.ant-divider-inner-text{
+  cursor: pointer;
+}
+/* 柱状图自定义tip框样式 */
+.tipWrap{
+  min-width: 136px;
+  min-height: 80px;
+  padding: 5px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+.tipItem{
+ line-height: 24px;
+}
+.tipIcon{
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 6px;
+  margin-right: 4px;
+  vertical-align:6%;
+}
+
+/*ko 模块需要，修改ant-popover浮出框背景为黑色，这个样式是定位到根的，所以需要在全局修改，以后其他地方用到再说*/
+.ant-popover .ant-popover-inner{
+  background-color: #565656;
+}
+
+
+.ant-popover-placement-top > .ant-popover-content > .ant-popover-arrow{
+  border-right-color: #565656;
+  border-bottom-color: #565656;
+  background-color: #565656;
+}
+
+.ant-popover-inner-content {
+  color: #fff;
+  font-size: 12px;
+}
