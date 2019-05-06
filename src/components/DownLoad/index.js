@@ -8,7 +8,7 @@ class DownLoad extends Component {
     onChange: PropTypes.func, //  下载回调
     loadUrl: PropTypes.string, //  下载文件地址
     onError: PropTypes.func, //   处理异常
-    fileName: PropTypes.func, //   自定义文件名
+    fileName: PropTypes.func|PropTypes.string, //   自定义文件名
     progress: PropTypes.node, //   自定义进度条
     headers: PropTypes.object, //   设置请求头
     text: PropTypes.node, //   显示文案信息
@@ -41,10 +41,17 @@ class DownLoad extends Component {
     let a = document.createElement('a');
     const url = window.URL.createObjectURL(response);
     a.href = url;
-    a.download = this.props.fileName ? this.props.fileName(xhr) : '自定义';
+    a.download = this.props.fileName ? this.fileNameType(this.props.fileName,xhr): '自定义';
     a.click();
     this.hideProgressWrapperPanel();
     a = null;
+  };
+  fileNameType = (fileName,xhr) => {
+    if (typeof fileName === 'string') {
+      return fileName
+    } else {
+      return fileName(xhr)
+    }
   };
   ajax = url => {
     const { headers } = this.props;
