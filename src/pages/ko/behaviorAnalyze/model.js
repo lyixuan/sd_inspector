@@ -19,18 +19,39 @@ function getData(dataList, dataArr) {
 function dealHomeData (behaviourData){
   let newKey = {name:'课程公开计划选项',actionKey:'click_ko_item',clickNum:0,choicePerson:0,clickTotalPerson:0};
   behaviourData.forEach((item)=>{
-    if(item.actionKeyId.indexOf('homepage')>=0&&item.actionKey==='click_ko_item'){
+    if(item.actionKey==='click_ko_item'){
       newKey.clickNum+=Number(item.clickNum)
       newKey.choicePerson+=Number(item.choicePerson)
       newKey.clickTotalPerson+=Number(item.clickTotalPerson)
     }
   });
 
-  newKey.choiceLessonPercent = `${((newKey.choicePerson/newKey.clickTotalPerson)*100).toFixed(2)}%`;
+  newKey.choiceLessonPercent = !newKey.clickTotalPerson?'0%':`${((newKey.choicePerson/newKey.clickTotalPerson)*100).toFixed(2)}%`;
   const newbehaviourData = behaviourData.filter(item=>item.actionKey!=='click_ko_item');
   newbehaviourData.push(newKey);
   return newbehaviourData
 }
+// 学习页：需要把 直播重播等数据求和
+function dealStudyPage (behaviourData,dealObj){
+  const newbehaviourData=[];
+  dealObj.forEach(items=>{
+    let newKey = {actionKey:items.name,clickNum:0,choicePerson:0,clickTotalPerson:0};
+    items.list.forEach((el)=>{
+      behaviourData.forEach((item)=>{
+        if(el===item.actionKeyId){
+          newKey.name=item.name
+          newKey.clickNum+=Number(item.clickNum)
+          newKey.choicePerson+=Number(item.choicePerson)
+          newKey.clickTotalPerson+=Number(item.clickTotalPerson)
+        }
+      })
+    })
+    newKey.choiceLessonPercent = !newKey.clickTotalPerson?'0%':`${((newKey.choicePerson/newKey.clickTotalPerson)*100).toFixed(2)}%`;
+    newbehaviourData.push(newKey);
+  })
+  return newbehaviourData
+}
+
 export default {
   namespace: 'behavior',
 
@@ -51,8 +72,8 @@ export default {
       const result = yield call(sankeySuperApi, { params, formParams, otherParams });
       if (result) {
         const { behaviourData = [], sankeyData = {}, pvuvData, userSize } = result.data || [];
-        yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj } });
-        yield put({ type: 'saveBehaviourData', payload: { behaviourData } });
+        yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj  } });
+        yield put({ type: 'saveBehaviourData', payload: { behaviourData ,currentPage: sankeyData.currentPage} });
         yield put({ type: 'save', payload: {userSize,pvuvData, upPage: sankeyData.upPage, downPage: sankeyData.downPage, currentPage: sankeyData.currentPage } });
         yield put({
           type: 'koPlan/saveUserData',
@@ -69,12 +90,23 @@ export default {
       return { ...state, ...payload };
     },
     saveBehaviourData(state, { payload }) {
-      const { behaviourData } = payload;
+      const { behaviourData,currentPage } = payload;
       //  ['name', 'clickNum', 'choiceLessonPercent']数组的字符串跟接口返回的字段一致，否则option那块取值报错
       let newData = []
       if (behaviourData.length) {
-        let newbehaviourData = dealHomeData(behaviourData);
-        newbehaviourData = newbehaviourData.sort((a,b)=>(b.clickNum-a.clickNum ));
+        let newbehaviourData = [];
+        const studyList = [
+          {name:'click_golesson',list:['studypage_click_golesson_-1','studypage_click_golesson_free_-1']},
+          {name:'click_livebroadcast',list:['studypage_click_livebroadcast_free_-1','studypage_click_livebroadcast-1']},
+          {name:'click_record',list:['studypage_click_record_free_-1','studypage_click_record_-1']}
+        ]
+        if(currentPage==='homepage'){
+          newbehaviourData= dealHomeData(behaviourData);
+        } if(currentPage==='studypage'){
+          newbehaviourData=dealStudyPage(behaviourData,studyList)
+       }
+       const newbehaviourData1 = newbehaviourData.length?newbehaviourData:behaviourData;
+       newbehaviourData = newbehaviourData1.sort((a,b)=>(b.clickNum-a.clickNum ));
         newData = getData(newbehaviourData.slice(0, 10), ['name', 'clickNum', 'choiceLessonPercent'])
       }
 
