@@ -62,6 +62,7 @@ export default {
     downPage: {},      // 桑吉图下游数据
     behaviourData: [], // 柱状图
     currentPage: '',   // 当前页面
+    currentActionName: '',   // 当前二级页面名称
     userSize:0,   //用户数量
   },
   effects: {

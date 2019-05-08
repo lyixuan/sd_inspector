@@ -27,7 +27,7 @@ export async function sankeySuperApi({params,formParams,otherParams}) {
       result.data.pvuvData = response2.data.pvuvData?response2.data.pvuvData : {};
       result.data.userSize = response2.data.userSize||0;
       result.data.currentPage = params.page;
-      result.data.currentActionName = otherParams.currentActionName;
+      result.data.currentActionName = otherParams.currentActionName||'';
     } else {
       result.code = -1;
       result.msg = msgF(response2.msg,response2.msgDetail);
