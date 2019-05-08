@@ -15,11 +15,13 @@ function columns() {
       title: '学员',
       dataIndex: 'userName',
       width: 60,
+      fixed: 'left',
     },
     {
       title: '注册',
       dataIndex: 'registerStatus',
       width: 60,
+      fixed: 'left',
       render: (text, record) => {
         return (
           <>
@@ -32,6 +34,7 @@ function columns() {
       title: '选课',
       dataIndex: 'choiceLessonStatus',
       width: 60,
+      fixed: 'left',
       render: (text, record) => {
         return (
           <>
@@ -44,71 +47,108 @@ function columns() {
       title: '选课时间',
       dataIndex: 'choiceLessionTime',
       width: 82,
+      fixed: 'left',
     },
     {
       title: '订单时间',
       dataIndex: 'orderTime',
       width: 82,
+      fixed: 'left',
     },
     {
       title: '出勤数',
       dataIndex: 'attendenceCount',
       width: 60,
+      filters: [
+        { text: '隐藏0', value: '233' },
+      ],
     },
     {
       title: '做题量',
       dataIndex: 'studyExeciseNum',
       width: 60,
+      filters: [
+        { text: '隐藏0', value: '233' },
+      ],
     },
     {
       title: 'IM咨询量',
       dataIndex: 'imDialogueNum',
       width: 72,
+      filters: [
+        { text: '隐藏0', value: '233' },
+      ],
     },
     {
       title: 'IM老师主动量',
       dataIndex: 'imTeacherChatNum',
-      width: 63,
+      width: 70,
+      filters: [
+        { text: '隐藏0', value: '233' },
+      ],
     },
     {
       title: 'IM学员主动量',
       dataIndex: 'imStudentChatNum',
-      width: 63,
+      width: 70,
+      filters: [
+        { text: '隐藏0', value: '233' },
+      ],
     },
     {
       title: '排队数',
       dataIndex: 'imQueueDialogueNum',
       width: 60,
+      filters: [
+        { text: '隐藏0', value: '233' },
+      ],
     },
     {
       title: '留言数',
       dataIndex: 'imMessageDialogueNum',
       width: 60,
+      filters: [
+        { text: '隐藏0', value: '233' },
+      ],
     },
     {
       title: '发帖量',
       dataIndex: 'bbsPostNum',
       width: 60,
+      filters: [
+        { text: '隐藏0', value: '233' },
+      ],
     },
     {
       title: '跟帖量',
       dataIndex: 'bbsFollowNum',
       width: 60,
+      filters: [
+        { text: '隐藏0', value: '233' },
+      ],
     },
     {
       title: '微信咨询量',
       dataIndex: 'wechatDialogueNum',
-      width: 60,
+      width: 75,
+      filters: [
+        { text: '隐藏0', value: '233' },
+      ],
     },
     {
       title: '微信老师主动量',
       dataIndex: 'wechatTeacherChatNum',
       width: 70,
+      filters: [
+        { text: '隐藏0', value: '233' },
+      ],
     },
     {
       title: '微信学员主动量',
       dataIndex: 'wechatStudentChatNum',
-      width: 70,
+      filters: [
+        { text: '隐藏0', value: '233' },
+      ],
     },
   ];
   col.forEach((v) => {
@@ -188,7 +228,8 @@ class UserList extends React.Component {
       type: 'koPlan/pageParams',
     })
   };
-  onPageChange = (currentPage) => {
+  onPageChange = (currentPage,filters) => {
+    console.log(123,filters)
     const { pageParams } = this.state;
     const newPageParams = { ...pageParams, currentPage };
     this.queryData(this.props.tabFromParams, newPageParams);
