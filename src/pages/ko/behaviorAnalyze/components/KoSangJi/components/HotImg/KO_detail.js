@@ -95,6 +95,39 @@ class KoDetailPage extends React.Component {
     const newKeyArr=data.filter(item=>item.actionKey===key);
     return bol?newKeyArr:(newKeyArr.length&&!data.find(item=>item.actionKeyId===id)? data.push(this.sumFn(newKeyArr,id)):null)
   }
+  // 首页展示名字规则：字数超过三行显示省略号
+  dealHomeText = (newKeys)=>{
+    this.chart.selectAll('.textWrap11 .textVal').nodes().map((item,i)=>{
+      return item.setAttribute('data-name',newKeys[i].actionKeyId)
+    })
+    this.chart.selectAll('.textWrap12 .textVal').nodes().map((item,i)=>{
+      return item.setAttribute('data-name',newKeys[i].actionKeyId)
+    })
+    this.chart.selectAll('.textWrap11 .textVal').text(function(){
+      const val = newKeys.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
+      let name='';
+      if(val) {
+        if(val.name.length>4){
+          name=`${val.name.slice(4,8)}`
+        }
+      }
+      return name;
+    })
+    this.chart.selectAll('.textWrap12 .textVal').text(function(){
+      const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
+      let name='';
+      if(val){
+        if(val.name.length>8) {
+          if(val.name.length<12){
+            name=`${val.name.slice(8)}`;
+          }else{
+            name=`${val.name.slice(8,11)}...`;
+          }
+        }
+      }
+      return name;
+    })
+  }
   // 动态添加列表
   dealListDom = (data,actionKey,id,bol)=>{
     let newKeys = this.getActionKeyList(data,actionKey,id,bol);
@@ -117,13 +150,16 @@ class KoDetailPage extends React.Component {
         if(val) {
           let name=val.name;
           if(id==='homepage_ko_item'){
-            // todo
-            name=val.name.length>4?`${val.name.slice(0,3)}...`:val.name
+            name=val.name.length>4?`${val.name.slice(0,4)}`:val.name
           }
           
           return name;
         }
       })
+      if(id==='homepage_ko_item'){
+       this.dealHomeText(newKeys)
+      }
+    
       this.chart.selectAll('.textWrap3 .textVal').text(function(){
         const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
         if(val) return val.clickNumPro.toFixed(2)+'%';
@@ -147,6 +183,8 @@ class KoDetailPage extends React.Component {
       this.chart = d3.select(this.svgDom).html(pages[page]);
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       this.chart.selectAll('.textWrap1 text').attr('dominant-baseline',"inherit").attr('text-anchor',"left");
+      this.chart.selectAll('.textWrap11 text').attr('text-anchor',"start");
+      this.chart.selectAll('.textWrap12 text').attr('text-anchor',"start");
 
       const colorArr = this.getColorFn(data);
 

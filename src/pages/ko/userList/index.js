@@ -59,8 +59,8 @@ function columns() {
     {
       title: '出勤数',
       dataIndex: 'attendenceCount',
-      width: 80,
       filterMultiple: false,
+      width: 82,
       filters: [
         { text: '隐藏0', value: 'attendenceExist', },
       ],
@@ -68,8 +68,8 @@ function columns() {
     {
       title: '做题量',
       dataIndex: 'studyExeciseNum',
-      width: 80,
       filterMultiple: false,
+      width: 82,
       filters: [
         { text: '隐藏0', value: 'execiseExist' },
       ],
@@ -104,8 +104,7 @@ function columns() {
     {
       title: '排队数',
       dataIndex: 'imQueueDialogueNum',
-      width: 80,
-      filterMultiple: false,
+      width: 82,
       filters: [
         { text: '隐藏0', value: 'imQueueDialogueExist' },
       ],
@@ -113,7 +112,7 @@ function columns() {
     {
       title: '留言数',
       dataIndex: 'imMessageDialogueNum',
-      width: 80,
+      width: 82,
       filterMultiple: false,
       filters: [
         { text: '隐藏0', value: 'imMsgExist' },
@@ -122,7 +121,7 @@ function columns() {
     {
       title: '发帖量',
       dataIndex: 'bbsPostNum',
-      width: 80,
+      width: 82,
       filterMultiple: false,
       filters: [
         { text: '隐藏0', value: 'bbsPostExist' },
@@ -131,7 +130,7 @@ function columns() {
     {
       title: '跟帖量',
       dataIndex: 'bbsFollowNum',
-      width: 80,
+      width: 82,
       filterMultiple: false,
       filters: [
         { text: '隐藏0', value: 'bbsFollowExist' },
@@ -140,7 +139,7 @@ function columns() {
     {
       title: '微信咨询量',
       dataIndex: 'wechatDialogueNum',
-      width: 120,
+      width: 110,
       filterMultiple: false,
       filters: [
         { text: '隐藏0', value: 'wechatDialogueExist' },
@@ -158,10 +157,15 @@ function columns() {
     {
       title: '微信学员主动量',
       dataIndex: 'wechatStudentChatNum',
+      width: 130,
       filterMultiple: false,
       filters: [
         { text: '隐藏0', value: 'wechatStudentExist' },
       ],
+    },
+    {
+      title: '',
+      dataIndex: 'duoyukuandu',
     },
   ];
   col.forEach((v) => {
