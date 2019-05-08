@@ -15,11 +15,13 @@ function columns() {
       title: '学员',
       dataIndex: 'userName',
       width: 60,
+      fixed: 'left',
     },
     {
       title: '注册',
       dataIndex: 'registerStatus',
       width: 60,
+      fixed: 'left',
       render: (text, record) => {
         return (
           <>
@@ -32,6 +34,7 @@ function columns() {
       title: '选课',
       dataIndex: 'choiceLessonStatus',
       width: 60,
+      fixed: 'left',
       render: (text, record) => {
         return (
           <>
@@ -43,17 +46,19 @@ function columns() {
     {
       title: '选课时间',
       dataIndex: 'choiceLessionTime',
-      width: 82,
+      width: 110,
+      fixed: 'left',
     },
     {
       title: '订单时间',
       dataIndex: 'orderTime',
-      width: 82,
+      width: 110,
+      fixed: 'left',
     },
     {
       title: '出勤数',
       dataIndex: 'attendenceCount',
-      width: 60,
+      width: 80,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -61,7 +66,7 @@ function columns() {
     {
       title: '做题量',
       dataIndex: 'studyExeciseNum',
-      width: 60,
+      width: 80,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -69,7 +74,7 @@ function columns() {
     {
       title: 'IM咨询量',
       dataIndex: 'imDialogueNum',
-      width: 72,
+      width: 100,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -77,7 +82,7 @@ function columns() {
     {
       title: 'IM老师主动量',
       dataIndex: 'imTeacherChatNum',
-      width: 70,
+      width: 120,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -85,7 +90,7 @@ function columns() {
     {
       title: 'IM学员主动量',
       dataIndex: 'imStudentChatNum',
-      width: 70,
+      width: 120,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -93,7 +98,7 @@ function columns() {
     {
       title: '排队数',
       dataIndex: 'imQueueDialogueNum',
-      width: 60,
+      width: 80,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -101,7 +106,7 @@ function columns() {
     {
       title: '留言数',
       dataIndex: 'imMessageDialogueNum',
-      width: 60,
+      width: 80,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -109,7 +114,7 @@ function columns() {
     {
       title: '发帖量',
       dataIndex: 'bbsPostNum',
-      width: 60,
+      width: 80,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -117,7 +122,7 @@ function columns() {
     {
       title: '跟帖量',
       dataIndex: 'bbsFollowNum',
-      width: 60,
+      width: 80,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -125,7 +130,7 @@ function columns() {
     {
       title: '微信咨询量',
       dataIndex: 'wechatDialogueNum',
-      width: 75,
+      width: 120,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -133,7 +138,7 @@ function columns() {
     {
       title: '微信老师主动量',
       dataIndex: 'wechatTeacherChatNum',
-      width: 70,
+      width: 130,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -141,7 +146,6 @@ function columns() {
     {
       title: '微信学员主动量',
       dataIndex: 'wechatStudentChatNum',
-      width: 70,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -159,7 +163,7 @@ function columns() {
       v.render = v.render || ((text) => {
         return (
           <>
-            <span style={{ cursor: 'pointer' }}>{text}</span>
+            {Number(text) === 0 ?(<span style={{ cursor: 'pointer',color:'#bfbfbf' }}>{text}</span>):(<span style={{ cursor: 'pointer' }}>{text}</span>)}
           </>
         );
       });
@@ -261,10 +265,11 @@ class UserList extends React.Component {
             rowKey={record => { return record.userId + Math.random() * 1000 }}
             dataSource={dataSource} columns={columns()}
             pagination={false} loading={loading}
-            scroll={{ x: 1060 }}
+            scroll={{ x: 1620,y: 570 }}
             size="middle"
           />
           <br />
+          <span style={{color:'#999',fontSize:12}}>注：左右滑动可以查看更多字段</span>
           <BIPagination showQuickJumper defaultPageSize={pageParams.pageSize ? pageParams.pageSize : 30} onChange={this.onPageChange} current={currentPage} total={totalCount} />
         </div>
       </div>
