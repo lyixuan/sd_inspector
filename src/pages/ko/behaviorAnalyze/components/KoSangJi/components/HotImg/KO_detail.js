@@ -183,6 +183,8 @@ class KoDetailPage extends React.Component {
       this.chart = d3.select(this.svgDom).html(pages[page]);
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       this.chart.selectAll('.textWrap1 text').attr('dominant-baseline',"inherit").attr('text-anchor',"left");
+      this.chart.selectAll('.textWrap11 text').attr('text-anchor',"start");
+      this.chart.selectAll('.textWrap12 text').attr('text-anchor',"start");
 
       const colorArr = this.getColorFn(data);
 
