@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Tag, Icon, Divider } from 'antd';
+import { Tag } from 'antd';
 import moment from 'moment';
 import styles from './index.less';
 
@@ -56,7 +55,6 @@ export default class ButtonGroup extends React.Component {
     renderGrouptags = (item, key) => {
         const { isShowFiexd } = this.state;
         const orgName = item.map(item => item.name).join('/');
-        console.log(orgName)
         return orgName ? (<span key={orgName} className={styles.tags}><Tag closable={!isShowFiexd} onClose={() => !isShowFiexd ? this.onClose(key, item) : null}>{orgName}</Tag></span>) : null;
     }
     renderTypeTage = (obj, key, color = '#F4F4F4') => (type) => {
