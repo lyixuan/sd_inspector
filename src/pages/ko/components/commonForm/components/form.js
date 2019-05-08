@@ -22,10 +22,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 var styles = require('./styles/index.less');
+var Greeter = /** @class */ (function () {
+    function Greeter(message) {
+        this.greeting = message;
+    }
+    Greeter.prototype.greet = function (arg) {
+        return this.greeting;
+    };
+    return Greeter;
+}());
 var CommonForm = /** @class */ (function (_super) {
     __extends(CommonForm, _super);
-    function CommonForm() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function CommonForm(props) {
+        return _super.call(this, props) || this;
     }
     CommonForm.prototype.render = function () {
         return (React.createElement("div", { className: styles.formCotainer }, "form\u533A\u57DF"));
