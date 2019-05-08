@@ -9,6 +9,7 @@ import storage from '@/utils/storage';
 import style from './style.less';
 import config from '../../../../config/config';
 
+const filterKeyName = [];
 function columns() {
   const col = [
     {
@@ -58,41 +59,46 @@ function columns() {
     {
       title: '出勤数',
       dataIndex: 'attendenceCount',
+      filterMultiple: false,
       width: 82,
       filters: [
-        { text: '隐藏0', value: '233' },
+        { text: '隐藏0', value: 'attendenceExist', },
       ],
     },
     {
       title: '做题量',
       dataIndex: 'studyExeciseNum',
+      filterMultiple: false,
       width: 82,
       filters: [
-        { text: '隐藏0', value: '233' },
+        { text: '隐藏0', value: 'execiseExist' },
       ],
     },
     {
       title: 'IM咨询量',
       dataIndex: 'imDialogueNum',
       width: 100,
+      filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: '233' },
+        { text: '隐藏0', value: 'imDialogueExist' },
       ],
     },
     {
       title: 'IM老师主动量',
       dataIndex: 'imTeacherChatNum',
       width: 120,
+      filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: '233' },
+        { text: '隐藏0', value: 'imTeacherExist' },
       ],
     },
     {
       title: 'IM学员主动量',
       dataIndex: 'imStudentChatNum',
       width: 120,
+      filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: '233' },
+        { text: '隐藏0', value: 'imStudentExit' },
       ],
     },
     {
@@ -100,55 +106,61 @@ function columns() {
       dataIndex: 'imQueueDialogueNum',
       width: 82,
       filters: [
-        { text: '隐藏0', value: '233' },
+        { text: '隐藏0', value: 'imQueueDialogueExist' },
       ],
     },
     {
       title: '留言数',
       dataIndex: 'imMessageDialogueNum',
       width: 82,
+      filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: '233' },
+        { text: '隐藏0', value: 'imMsgExist' },
       ],
     },
     {
       title: '发帖量',
       dataIndex: 'bbsPostNum',
       width: 82,
+      filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: '233' },
+        { text: '隐藏0', value: 'bbsPostExist' },
       ],
     },
     {
       title: '跟帖量',
       dataIndex: 'bbsFollowNum',
       width: 82,
+      filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: '233' },
+        { text: '隐藏0', value: 'bbsFollowExist' },
       ],
     },
     {
       title: '微信咨询量',
       dataIndex: 'wechatDialogueNum',
       width: 110,
+      filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: '233' },
+        { text: '隐藏0', value: 'wechatDialogueExist' },
       ],
     },
     {
       title: '微信老师主动量',
       dataIndex: 'wechatTeacherChatNum',
       width: 130,
+      filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: '233' },
+        { text: '隐藏0', value: 'wechatTeacherExist' },
       ],
     },
     {
       title: '微信学员主动量',
       dataIndex: 'wechatStudentChatNum',
       width: 130,
+      filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: '233' },
+        { text: '隐藏0', value: 'wechatStudentExist' },
       ],
     },
     {
@@ -164,11 +176,14 @@ function columns() {
         },
       };
     };
+    if (v.filters) {
+      filterKeyName.findIndex(item => item.dataIndex === v.dataIndex) === -1 && filterKeyName.push({ dataIndex: v.dataIndex, filterKey: v.filters[0].value })
+    }
     if (v.dataIndex !== 'orderTime' && v.dataIndex !== 'choiceLessionTime') {
       v.render = v.render || ((text) => {
         return (
           <>
-            {Number(text) === 0 ?(<span style={{ cursor: 'pointer',color:'#bfbfbf' }}>{text}</span>):(<span style={{ cursor: 'pointer' }}>{text}</span>)}
+            {Number(text) === 0 ? (<span style={{ cursor: 'pointer', color: '#bfbfbf' }}>{text}</span>) : (<span style={{ cursor: 'pointer' }}>{text}</span>)}
           </>
         );
       });
@@ -203,6 +218,7 @@ function jump(record, v) {
   userListModel,
   tabFromParams: koPlan.tabFromParams,
   pageParams: userListModel.pageParams,
+  chooseEventData: koPlan.chooseEventData,
   loading: loading.effects['userListModel/getTableList'],
 }))
 class UserList extends React.Component {
@@ -213,6 +229,7 @@ class UserList extends React.Component {
     }
     this.state = {
       pageParams: this.initpage,
+      filterExitParams: {},
 
     };
   };
@@ -224,6 +241,9 @@ class UserList extends React.Component {
     if (JSON.stringify(nextProps.tabFromParams) !== JSON.stringify(this.props.tabFromParams)) {
       this.queryData(nextProps.tabFromParams, this.initpage);
     }
+    if (JSON.stringify(nextProps.chooseEventData) !== JSON.stringify(this.props.chooseEventData)) {
+      this.queryData(undefined, undefined, nextProps.chooseEventData);
+    }
     if (JSON.stringify(nextProps.pageParams) !== JSON.stringify(this.props.pageParams)) {
       this.setState({ pageParams: nextProps.pageParams });
     }
@@ -233,8 +253,8 @@ class UserList extends React.Component {
       type: 'koPlan/pageParams',
     })
   };
-  onPageChange = (currentPage,filters) => {
-    console.log(123,filters)
+  onPageChange = (currentPage, filters) => {
+    console.log(123, filters)
     const { pageParams } = this.state;
     const newPageParams = { ...pageParams, currentPage };
     this.queryData(this.props.tabFromParams, newPageParams);
@@ -244,14 +264,29 @@ class UserList extends React.Component {
     // });
 
   };
-  getLocationParams = () => {
-    const { location: { state = {} } } = this.props;
-    return state
+  tableChange = (...arg) => {
+    const filters = arg[1];
+    const filterExitParams = {};
+    filterKeyName.forEach(item => {
+      const filterArr = filters[item.dataIndex];
+      filterExitParams[item.filterKey] = Array.isArray(filterArr) ? (filterArr.length > 0 ? 1 : 0) : undefined;
+    });
+    this.setState({
+      filterExitParams
+    }, () => {
+      this.queryData(undefined, undefined, undefined, filterExitParams)
+    });
+  }
+  getLocationParams = (chooseEventData = this.props.chooseEventData) => {
+    const obj = chooseEventData[0] || {};
+    return obj.id ? {
+      actionKey: obj.id,
+    } : {}
   };
-  queryData = (params = this.props.tabFromParams, pageParams = this.state.pageParams) => {
+  queryData = (params = this.props.tabFromParams, pageParams = this.state.pageParams, chooseEventData = this.props.chooseEventData, filterExitParams = this.state.filterExitParams) => {
     if (!params || JSON.stringify(params) === '{}') return;
-    const localtionParams = this.getLocationParams()
-    const newParams = { ...params.formParams, ...pageParams, ...localtionParams };
+    const localtionParams = this.getLocationParams(chooseEventData)
+    const newParams = { ...params.formParams, ...pageParams, ...localtionParams, ...filterExitParams };
     this.props.dispatch({
       type: 'userListModel/getTableList',
       payload: { params: newParams },
@@ -267,14 +302,15 @@ class UserList extends React.Component {
       <div>
         <div className={style.contentWrap}>
           <BITable
+            onChange={this.tableChange}
             rowKey={record => { return record.userId + Math.random() * 1000 }}
             dataSource={dataSource} columns={columns()}
             pagination={false} loading={loading}
-            scroll={{ x: 1620,y: 570 }}
+            scroll={{ x: 1620, y: 570 }}
             size="middle"
           />
           <br />
-          <span style={{color:'#999',fontSize:12}}>注：左右滑动可以查看更多字段</span>
+          <span style={{ color: '#999', fontSize: 12 }}>注：左右滑动可以查看更多字段</span>
           <BIPagination showQuickJumper defaultPageSize={pageParams.pageSize ? pageParams.pageSize : 30} onChange={this.onPageChange} current={currentPage} total={totalCount} />
         </div>
       </div>

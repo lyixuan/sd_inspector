@@ -6,6 +6,7 @@ import KoTab from '@/pages/ko/components/KoRadio/KoTab';
 import KoForm from '@/pages/ko/components/KoForm';
 import { handleInitParams, handleFormParams, initRecordTimeListData } from './utils/utils';
 import CommonForm from './components/form';
+import EventGroup from './components/eventGroup';
 
 @connect(({ koPlan, loading }) => ({
   loading,
@@ -17,6 +18,7 @@ import CommonForm from './components/form';
   KOMessage: koPlan.KOMessage,
   pageDetailInfo: koPlan.pageDetailInfo,
   usersData: koPlan.usersData,
+  chooseEventData: koPlan.chooseEventData,
   isLoadEnumData: loading.effects['koPlan/pageParams'],
 }))
 class koPlan extends React.Component {
@@ -71,6 +73,7 @@ class koPlan extends React.Component {
   onSaveTabFromParams = (params, KoDateRange = this.props.pageParams.KoDateRange) => {
     this.handleDateParams(params.formParams, KoDateRange);
     const recordTimeList = this.handleRecordTime(params, KoDateRange);
+    this.clearChooseEvent();
     this.props.dispatch({
       type: 'koPlan/saveTabFromParams',
       payload: { ...params, recordTimeList }
@@ -93,7 +96,21 @@ class koPlan extends React.Component {
     this.onSaveTabFromParams({ formParams, ...newParams });
     this.onSavefFlterActionParams(originParams);
   }
-
+  clearChooseEvent = (obj = {}) => {
+    // let { hooseEventData = [] } = this.props;
+    // const index = hooseEventData.findIndex(item => item.id === obj.id);
+    // if (index >= 0) {
+    //   hooseEventData.splice(index, 1);
+    // } else {
+    //   hooseEventData = [];
+    // }
+    this.props.dispatch({
+      type: 'koPlan/saveChooseEventData',
+      payload: {
+        chooseEventData: [],
+      }
+    });
+  }
   onSubmit = (params, originParams) => {
     const tabFromParams = JSON.parse(JSON.stringify(this.props.tabFromParams));
     const { formParams } = tabFromParams;
@@ -107,7 +124,7 @@ class koPlan extends React.Component {
     });
   };
   render() {
-    const { enumData, pageParams, isLoadEnumData, location: { pathname } } = this.props;
+    const { enumData, pageParams, isLoadEnumData, location: { pathname }, chooseEventData = [] } = this.props;
     const { originParams, filterActionParams } = this.state;
 
     return (
@@ -119,6 +136,10 @@ class koPlan extends React.Component {
           <div className={styles.tabBox}>
             <KoTab {...this.props} />
             {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <KoForm {...this.props} originParams={filterActionParams} onChange={this.changeFilterAction} loading={isLoadEnumData} />}
+            {pathname === '/ko/userList' ? <div>
+              <EventGroup data={chooseEventData} onChange={this.clearChooseEvent} />
+            </div> : null}
+
           </div>
         </>
         }
