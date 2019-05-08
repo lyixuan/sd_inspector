@@ -33,7 +33,6 @@ class Views extends React.Component {
     return (<span className={styles.tooltipTitle}>{title}</span>)
   }
   handleNumber = (num) => {
-    if (!num) return num;
     if (num >= 10000) {
       return Number((num / 10000).toFixed(2)).toLocaleString() + '万';
     } else {
