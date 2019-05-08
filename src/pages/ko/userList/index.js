@@ -15,13 +15,11 @@ function columns() {
       title: '学员',
       dataIndex: 'userName',
       width: 60,
-      fixed: 'left',
     },
     {
       title: '注册',
       dataIndex: 'registerStatus',
       width: 60,
-      fixed: 'left',
       render: (text, record) => {
         return (
           <>
@@ -34,7 +32,6 @@ function columns() {
       title: '选课',
       dataIndex: 'choiceLessonStatus',
       width: 60,
-      fixed: 'left',
       render: (text, record) => {
         return (
           <>
@@ -47,13 +44,11 @@ function columns() {
       title: '选课时间',
       dataIndex: 'choiceLessionTime',
       width: 82,
-      fixed: 'left',
     },
     {
       title: '订单时间',
       dataIndex: 'orderTime',
       width: 82,
-      fixed: 'left',
     },
     {
       title: '出勤数',
@@ -146,6 +141,7 @@ function columns() {
     {
       title: '微信学员主动量',
       dataIndex: 'wechatStudentChatNum',
+      width: 70,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
