@@ -16,7 +16,7 @@ class KoDetailPage extends React.Component {
   }
   componentWillReceiveProps(nextProps){
     if(JSON.stringify(nextProps.behavior.hotDataList)!=='{}'||nextProps.behavior.hotDataList!==this.props.behavior.hotDataList){
-      this.drewLended(nextProps.behavior.hotDataList.newIds,nextProps.behavior.hotDataList.page);
+      this.drewLended(nextProps.behavior.hotDataList,nextProps.behavior.currentPage);
     }
   }
   // 给data增加颜色属性
@@ -56,6 +56,7 @@ class KoDetailPage extends React.Component {
     const newHotData = hotData.filter(item=>item.actionKeyId===id)[0];
     if(newHotData)
     return `<ul class=${styles.tootipPanl}>
+    <li class=${styles.tooltipItem}>${newHotData.name}</li>
     <li class=${styles.tooltipItem}>点击人数：${newHotData.clickPeople}人</li>
     <li class=${styles.tooltipItem}>人数占比：${newHotData.clickPeoplePro.toFixed(2)}%</li>
     <li class=${styles.tooltipItem}>点击次数：${newHotData.clickNum}次</li>
@@ -113,11 +114,19 @@ class KoDetailPage extends React.Component {
       })
       this.chart.selectAll('.textWrap1 .textVal').text(function(){
         const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) return val.name;
+        if(val) {
+          let name=val.name;
+          if(id==='homepage_ko_item'){
+            // todo
+            name=val.name.length>4?`${val.name.slice(0,3)}...`:val.name
+          }
+          
+          return name;
+        }
       })
       this.chart.selectAll('.textWrap3 .textVal').text(function(){
         const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) return val.clickNum;
+        if(val) return val.clickNumPro.toFixed(2)+'%';
       })
       .on('mouseover', KoDetailPage.that.drewTip(data))
       .on('mouseout', tip.hide)
@@ -143,8 +152,9 @@ class KoDetailPage extends React.Component {
 
       // 处理特殊页面
       if(page==='homepage'){
+        this.dealListDom(data,'click_ko_item','homepage_ko_item',true);
         this.specialData(data,['homepage_click_testregion_-1','homepage_Click_city_-1'],'homepage_click_city')
-        this.getActionKeyList(data,'click_ko_item','homepage_add_koitem')
+        // this.getActionKeyList(data,'click_ko_item','homepage_add_koitem')
       }else if(page==='studypage'){
         this.specialData(data,['studypage_click_golesson_-1','studypage_click_golesson_free_-1'],'studypage_click_golesson');
         this.specialData(data,['studypage_click_record_free_-1','studypage_click_record_-1'],'studypage_click_record');
@@ -157,7 +167,7 @@ class KoDetailPage extends React.Component {
       // 修改数据
       this.chart.selectAll('.text').text(function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) return val.clickNum;
+        if(val) return val.clickNumPro.toFixed(2)+'%';
       }).style('font-weight','600')
       .on('mouseover', KoDetailPage.that.drewTip(data))
       .on('mouseout', tip.hide)

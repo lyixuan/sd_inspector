@@ -72,7 +72,7 @@ export default {
       const result = yield call(sankeySuperApi, { params, formParams, otherParams });
       if (result) {
         const { behaviourData = [], sankeyData = {}, pvuvData, userSize } = result.data || [];
-        yield put({ type: 'saveDataList', payload: { hotDataList: sankeyData.currentPageObj  } });
+        yield put({ type: 'saveDataList', payload: { hotDataList: behaviourData,pvuvData,currentPage: sankeyData.currentPage } });
         yield put({ type: 'saveBehaviourData', payload: { behaviourData ,currentPage: sankeyData.currentPage} });
         yield put({ type: 'save', payload: {userSize,pvuvData, upPage: sankeyData.upPage, downPage: sankeyData.downPage, currentPage: sankeyData.currentPage } });
         yield put({
@@ -100,9 +100,10 @@ export default {
           {name:'click_livebroadcast',list:['studypage_click_livebroadcast_free_-1','studypage_click_livebroadcast-1']},
           {name:'click_record',list:['studypage_click_record_free_-1','studypage_click_record_-1']}
         ]
-        if(currentPage==='homepage'){
-          newbehaviourData= dealHomeData(behaviourData);
-        } if(currentPage==='studypage'){
+        // if(currentPage==='homepage'){
+        //   newbehaviourData= dealHomeData(behaviourData);
+        // } 
+        if(currentPage==='studypage'){
           newbehaviourData=dealStudyPage(behaviourData,studyList)
        }
        const newbehaviourData1 = newbehaviourData.length?newbehaviourData:behaviourData;
@@ -113,23 +114,28 @@ export default {
       return { ...state, behaviourData: newData };
     },
     saveDataList(state, { payload }) {
-      const { hotDataList } = payload;
-      const { actionKeyIds } = hotDataList;
-      if (actionKeyIds && actionKeyIds.length) {
-        hotDataList.newIds = [];
-        actionKeyIds.forEach((item, i) => {
-          hotDataList.newIds.push({
-            actionKey: item.actionKey,
-            name: item.actionName,
-            actionKeyId: item.actionKeyId,
-            clickPeople: item.clickPeople,//点击人数
-            clickPeoplePro: item.clickPeoplePro,//人数占比
-            clickNum: item.clickNum,//点击次数
-            clickNumPro: item.clickNumPro,//次数占比
-          })
-        })
-      }
-      return { ...state, hotDataList };
+      const { hotDataList,pvuvData ,currentPage} = payload;
+      // const { actionKeyIds } = hotDataList;
+      // if (actionKeyIds && actionKeyIds.length) {
+      //   hotDataList.newIds = [];
+      //   actionKeyIds.forEach((item, i) => {
+      //     hotDataList.newIds.push({
+      //       actionKey: item.actionKey,
+      //       name: item.actionName,
+      //       actionKeyId: item.actionKeyId,
+      //       clickPeople: item.clickPeople,//点击人数
+      //       clickPeoplePro: item.clickPeoplePro,//人数占比
+      //       clickNum: item.clickNum,//点击次数
+      //       clickNumPro: item.clickNumPro,//次数占比
+      //     })
+      //   })
+      // }
+      hotDataList.forEach(item=>{
+        item.clickPeople = Number(item.choicePerson);
+        item.clickPeoplePro = item.choicePerson&&pvuvData.uv?item.choicePerson/pvuvData.uv*100:0;//人数占比
+        item.clickNumPro = item.clickNum&&pvuvData.pv?item.clickNum/pvuvData.pv*100:0;//次数占比
+      })
+      return { ...state, ...payload };
     }
   },
 
