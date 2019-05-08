@@ -58,7 +58,7 @@ function columns() {
     {
       title: '出勤数',
       dataIndex: 'attendenceCount',
-      width: 80,
+      width: 82,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -66,7 +66,7 @@ function columns() {
     {
       title: '做题量',
       dataIndex: 'studyExeciseNum',
-      width: 80,
+      width: 82,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -98,7 +98,7 @@ function columns() {
     {
       title: '排队数',
       dataIndex: 'imQueueDialogueNum',
-      width: 80,
+      width: 82,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -106,7 +106,7 @@ function columns() {
     {
       title: '留言数',
       dataIndex: 'imMessageDialogueNum',
-      width: 80,
+      width: 82,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -114,7 +114,7 @@ function columns() {
     {
       title: '发帖量',
       dataIndex: 'bbsPostNum',
-      width: 80,
+      width: 82,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -122,7 +122,7 @@ function columns() {
     {
       title: '跟帖量',
       dataIndex: 'bbsFollowNum',
-      width: 80,
+      width: 82,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -130,7 +130,7 @@ function columns() {
     {
       title: '微信咨询量',
       dataIndex: 'wechatDialogueNum',
-      width: 120,
+      width: 110,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
@@ -146,9 +146,14 @@ function columns() {
     {
       title: '微信学员主动量',
       dataIndex: 'wechatStudentChatNum',
+      width: 130,
       filters: [
         { text: '隐藏0', value: '233' },
       ],
+    },
+    {
+      title: '',
+      dataIndex: 'duoyukuandu',
     },
   ];
   col.forEach((v) => {
