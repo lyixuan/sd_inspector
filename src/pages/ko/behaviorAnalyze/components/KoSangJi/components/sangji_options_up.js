@@ -32,7 +32,7 @@ export function getSangJiUpOption(upPage, currentPage) {
         const { pageView = undefined, id = undefined, proportion = undefined,flowValue = undefined } = data;
         if (id) {
           return `<div style='font-size: 12px'><div>pv：${thousandsFormat(pageView)}次</div><div>占比：${proportion*100+'%'}</div></div>`
-        } else if (pageView) {
+        } else {
           return `<div style='font-size: 12px'><div>pv：${thousandsFormat(flowValue)}次</div><div>占比：${proportion*100+'%'}</div></div>`
         }
       }
