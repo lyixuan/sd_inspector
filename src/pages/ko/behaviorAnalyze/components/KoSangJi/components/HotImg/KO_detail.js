@@ -1,6 +1,7 @@
 import React from 'react';
 import * as d3 from 'd3';
 import {HOT_RANGE} from '@/utils/constants';
+import {thousandsFormat} from '@/utils/utils'
 import pages from './SVG';
 import styles from './style.less';
 
@@ -57,9 +58,9 @@ class KoDetailPage extends React.Component {
     if(newHotData)
     return `<ul class=${styles.tootipPanl}>
     <li class=${styles.tooltipItem}>${newHotData.name}</li>
-    <li class=${styles.tooltipItem}>点击人数：${newHotData.clickPeople}人</li>
+    <li class=${styles.tooltipItem}>点击人数：${thousandsFormat(newHotData.clickPeople)}人</li>
     <li class=${styles.tooltipItem}>人数占比：${newHotData.clickPeoplePro.toFixed(2)}%</li>
-    <li class=${styles.tooltipItem}>点击次数：${newHotData.clickNum}次</li>
+    <li class=${styles.tooltipItem}>点击次数：${thousandsFormat(newHotData.clickNum)}次</li>
     <li class=${styles.tooltipItem}>次数占比：${newHotData.clickNumPro.toFixed(2)}%</li>
     </ul>`;
   };
