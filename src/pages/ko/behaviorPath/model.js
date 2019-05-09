@@ -1,5 +1,5 @@
 import {
-  getDateList,
+  getDateRange,
   getDateList2,
   imAct,
   bbsAct,
@@ -24,6 +24,12 @@ export default {
     bbsData: [],
     wechartData: [],
     letterData: [],
+    dateRangeIm: null,
+    imTotal: 0,
+    studyTotal: 0,
+    weChartTotal: 0,
+    bbsTotal: 0,
+    letterTotal: 0
   },
 
   effects: {
@@ -31,7 +37,7 @@ export default {
       const params = payload.params;
       const data = yield call(getDateList2, params);
       const dateFormat =
-        data.data && data.data[0] ? data.data[0].replace(/[\u4e00-\u9fa5]/g, '-').split('-') : null;
+        data.data.list && data.data.list[0] ? data.data.list[0].replace(/[\u4e00-\u9fa5]/g, '-').split('-') : null;
 
       let studyData = {};
       let imData = {};
@@ -63,13 +69,15 @@ export default {
       }
 
       if (data.code === 20000) {
-        const dateList = data.data || [];
+        const dateList = data.data.list || [];
+        const pagerTotal = data.data.total;
         if (params.type == 1) {
           yield put({
             type: 'save',
             payload: {
               dateListStudy: dateList,
               studyData: studyData.data,
+              studyTotal: pagerTotal
             },
           });
         } else if (params.type == 2) {
@@ -78,6 +86,7 @@ export default {
             payload: {
               dateListIm: dateList,
               imData: imData.data,
+              imTotal: pagerTotal
             },
           });
         } else if (params.type == 3) {
@@ -86,6 +95,7 @@ export default {
             payload: {
               dateListWechart: dateList,
               wechartData: wechartData.data,
+              weChartTotal: pagerTotal
             },
           });
         } else if (params.type == 4) {
@@ -94,6 +104,7 @@ export default {
             payload: {
               dateListBbs: dateList,
               bbsData: bbsData.data,
+              bbsTotal: pagerTotal
             },
           });
         } else if (params.type == 5) {
@@ -102,6 +113,7 @@ export default {
             payload: {
               dateListLetter: dateList,
               letterData: letterData.data,
+              letterTotal: pagerTotal
             },
           });
         }
@@ -181,6 +193,15 @@ export default {
       if (result.code === 20000) {
         const letterData = result.data || [];
         yield put({ type: 'save', payload: { letterData } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getDateRange({ payload }, { call, put }) {
+      const result = yield call(getDateRange, {});
+      if (result.code === 20000) {
+        const dateRange = result.data || [];
+        yield put({ type: 'save', payload: { dateRange } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

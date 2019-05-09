@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import styles from '../../style.less';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
+import Pager from '../pager/pager.js';
 
 // 日期条
 function DateBar(props) {
@@ -284,6 +285,7 @@ class PrivateLetter extends React.Component {
   };
 
   render() {
+    const total = this.props.behaviorPath.letterTotal
     return (
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>
@@ -293,7 +295,7 @@ class PrivateLetter extends React.Component {
               <Empty />
             )}
         </Spin>
-        {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
+        <Pager onClick={this.setIndex} type="5" total={total}></Pager>
       </div>
     );
   }

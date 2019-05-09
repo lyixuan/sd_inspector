@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import styles from '../../style.less';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
+import Pager from '../pager/pager.js';
 
 // 日期条
 function DateBar(props) {
@@ -121,7 +122,6 @@ function TeacherOrStudent(props) {
   }
 }
 function UlContent(props) {
-  console.log(124, props.li)
   const layout = props.li.map((item, index) => (
     <ToggleSession li={item} key={index}>
       <SessionContent li={item.contentList} />
@@ -248,7 +248,7 @@ class Wechart extends React.Component {
   };
 
   render() {
-    console.log(251, this.state.dateList)
+    const total = this.props.behaviorPath.weChartTotal
     return (
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>
@@ -258,6 +258,7 @@ class Wechart extends React.Component {
               <Empty />
             )}
         </Spin>
+        <Pager onClick={this.setIndex} type="3" total={total}></Pager>
         {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
       </div>
     );
