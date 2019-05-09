@@ -253,16 +253,10 @@ class UserList extends React.Component {
       type: 'koPlan/pageParams',
     })
   };
-  onPageChange = (currentPage, filters) => {
-    console.log(123, filters)
+  onPageChange = (currentPage) => {
     const { pageParams } = this.state;
     const newPageParams = { ...pageParams, currentPage };
     this.queryData(this.props.tabFromParams, newPageParams);
-    // this.props.dispatch({
-    //   type: 'userListModel/savePageParams',
-    //   payload: { pageParams: newPageParams },
-    // });
-
   };
   tableChange = (...arg) => {
     const filters = arg[1];

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Skeleton } from 'antd';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BISelect from '@/ant_components/BISelect';
 import { BiFilter } from '@/utils/utils';
@@ -65,7 +64,7 @@ export default class KoForm extends React.Component {
     this.onSaveParams({ page });
   }
   changeDetailPage = (currentAction) => {
-    const {key:currentActionKeyId,label:currentActionName} = currentAction;
+    const { key: currentActionKeyId, label: currentActionName } = currentAction;
     let { page } = this.state.tabFromParams;
     const pageObj = PAGE_KEY_ACTION.find(item => item.value === page.value);
     if (currentActionKeyId && pageObj) {
@@ -73,8 +72,8 @@ export default class KoForm extends React.Component {
     } else {
       page = { ...page, actionValue: page.value };
     }
-    this.onChange({ page, currentActionKeyId,currentActionName }, { page, currentActionKeyId,currentActionName });
-    this.onSaveParams({ page, currentActionKeyId,currentActionName });
+    this.onChange({ page, currentActionKeyId, currentActionName }, { page, currentActionKeyId, currentActionName });
+    this.onSaveParams({ page, currentActionKeyId, currentActionName });
   }
   onSaveParams = (params = {}) => {
     const { tabFromParams } = this.state;
@@ -167,7 +166,7 @@ export default class KoForm extends React.Component {
               <>
                 <span className={styles.gutterLabel}>详情页面：</span>
                 <span className={styles.gutterForm}>
-                  <BISelect style={{ width: '70%', minWidth: '140px' }} labelInValue allowClear placeholder="请选择" value={{key:tabFromParams.currentActionKeyId?tabFromParams.currentActionKeyId:''}} onChange={this.changeDetailPage}>
+                  <BISelect style={{ width: '70%', minWidth: '140px' }} labelInValue allowClear placeholder="请选择" value={{ key: tabFromParams.currentActionKeyId ? tabFromParams.currentActionKeyId : '' }} onChange={this.changeDetailPage}>
                     {pageDetails.map(item => (
                       <Option key={item.actionKeyId} id={item.actionKeyId}>
                         {item.actionName}
