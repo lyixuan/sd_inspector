@@ -8,10 +8,7 @@ import TitleName from './component/titleName';
 
 class BarEcharts extends React.Component {
   eConsole = (e) => {
-    this.props.history.push({
-      pathname: '/ko/userList',
-      state: { actionKey: e.data.name.actionKey }
-    });
+    this.props.gotoUserList && this.props.gotoUserList(e);
   };
   dealDate = () => {
     const { tabFromParams = {} } = this.props;
@@ -21,20 +18,20 @@ class BarEcharts extends React.Component {
     }
   }
   render() {
-    const { behaviourData,userSize } = this.props.behavior;
+    const { behaviourData, userSize } = this.props.behavior;
     const date = this.dealDate();
     return (
       <div className={style.barWrap}>
         <TitleName name='用户行为事件分析' />
         <div className={style.barContent}>
-        {
-          Number(userSize)===0?<Empty isEmpty={true}/>:<Echart
-            isEmpty={behaviourData.length}
-            clickEvent={this.eConsole}
-            style={{ width: '100%', height: '267px' }}
-            options={options(behaviourData, date)} />
-        }
-          
+          {
+            Number(userSize) === 0 ? <Empty isEmpty={true} /> : <Echart
+              isEmpty={behaviourData.length}
+              clickEvent={this.eConsole}
+              style={{ width: '100%', height: '267px' }}
+              options={options(behaviourData, date)} />
+          }
+
         </div>
       </div>
     );

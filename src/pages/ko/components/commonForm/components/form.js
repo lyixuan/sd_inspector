@@ -1,11 +1,8 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -22,10 +19,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 var styles = require('./styles/index.less');
+var Greeter = /** @class */ (function () {
+    function Greeter(message) {
+        this.greeting = message;
+    }
+    Greeter.prototype.greet = function (arg) {
+        return this.greeting;
+    };
+    return Greeter;
+}());
 var CommonForm = /** @class */ (function (_super) {
     __extends(CommonForm, _super);
-    function CommonForm() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function CommonForm(props) {
+        return _super.call(this, props) || this;
     }
     CommonForm.prototype.render = function () {
         return (React.createElement("div", { className: styles.formCotainer }, "form\u533A\u57DF"));

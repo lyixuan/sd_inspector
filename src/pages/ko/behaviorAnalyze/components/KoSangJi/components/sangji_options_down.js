@@ -1,4 +1,5 @@
 import { seriesConfig, Config, sangjiColor } from './common_options';
+import { thousandsFormat } from '@/utils/utils';
 
 export function getSangJiDownOption(downPage, currentPage) {
   const { node = [], links = [] } = downPage;
@@ -29,11 +30,11 @@ export function getSangJiDownOption(downPage, currentPage) {
       triggerOn: 'mousemove',
       formatter: function (param) {
         const { data } = param;
-        const { pageView = undefined, zb = undefined, value = undefined } = data;
-        if (zb && value) {
-          return `<div style='font-size: 12px'><div>pv：${value}次</div><div>占比：${zb}</div></div>`
-        } else if (pageView) {
-          return `<div style='font-size: 12px'><div>pv：${pageView}次</div></div>`
+        const { pageView = undefined, id = undefined, proportion = undefined,flowValue = undefined } = data;
+        if (id) {
+          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(pageView)}次</div><div>占比：${proportion*100+'%'}</div></div>`
+        } else {
+          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(flowValue)}次</div><div>占比：${proportion*100+'%'}</div></div>`
         }
       }
     },

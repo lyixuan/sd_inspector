@@ -1,6 +1,7 @@
 import React from 'react';
 import * as d3 from 'd3';
 import {HOT_RANGE} from '@/utils/constants';
+import {thousandsFormat} from '@/utils/utils'
 import pages from './SVG';
 import styles from './style.less';
 
@@ -16,7 +17,7 @@ class KoDetailPage extends React.Component {
   }
   componentWillReceiveProps(nextProps){
     if(JSON.stringify(nextProps.behavior.hotDataList)!=='{}'||nextProps.behavior.hotDataList!==this.props.behavior.hotDataList){
-      this.drewLended(nextProps.behavior.hotDataList.newIds,nextProps.behavior.hotDataList.page);
+      this.drewLended(nextProps.behavior.hotDataList,nextProps.behavior.currentPage,nextProps.behavior.currentActionName);
     }
   }
   // 给data增加颜色属性
@@ -56,9 +57,10 @@ class KoDetailPage extends React.Component {
     const newHotData = hotData.filter(item=>item.actionKeyId===id)[0];
     if(newHotData)
     return `<ul class=${styles.tootipPanl}>
-    <li class=${styles.tooltipItem}>点击人数：${newHotData.clickPeople}人</li>
+    <li class=${styles.tooltipItem}>${newHotData.name}</li>
+    <li class=${styles.tooltipItem}>点击人数：${thousandsFormat(newHotData.clickPeople)}人</li>
     <li class=${styles.tooltipItem}>人数占比：${newHotData.clickPeoplePro.toFixed(2)}%</li>
-    <li class=${styles.tooltipItem}>点击次数：${newHotData.clickNum}次</li>
+    <li class=${styles.tooltipItem}>点击次数：${thousandsFormat(newHotData.clickNum)}次</li>
     <li class=${styles.tooltipItem}>次数占比：${newHotData.clickNumPro.toFixed(2)}%</li>
     </ul>`;
   };
@@ -94,6 +96,39 @@ class KoDetailPage extends React.Component {
     const newKeyArr=data.filter(item=>item.actionKey===key);
     return bol?newKeyArr:(newKeyArr.length&&!data.find(item=>item.actionKeyId===id)? data.push(this.sumFn(newKeyArr,id)):null)
   }
+  // 首页展示名字规则：字数超过三行显示省略号
+  dealHomeText = (newKeys)=>{
+    this.chart.selectAll('.textWrap11 .textVal').nodes().map((item,i)=>{
+      return item.setAttribute('data-name',newKeys[i].actionKeyId)
+    })
+    this.chart.selectAll('.textWrap12 .textVal').nodes().map((item,i)=>{
+      return item.setAttribute('data-name',newKeys[i].actionKeyId)
+    })
+    this.chart.selectAll('.textWrap11 .textVal').text(function(){
+      const val = newKeys.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
+      let name='';
+      if(val) {
+        if(val.name.length>4){
+          name=`${val.name.slice(4,8)}`
+        }
+      }
+      return name;
+    })
+    this.chart.selectAll('.textWrap12 .textVal').text(function(){
+      const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
+      let name='';
+      if(val){
+        if(val.name.length>8) {
+          if(val.name.length<12){
+            name=`${val.name.slice(8)}`;
+          }else{
+            name=`${val.name.slice(8,11)}...`;
+          }
+        }
+      }
+      return name;
+    })
+  }
   // 动态添加列表
   dealListDom = (data,actionKey,id,bol)=>{
     let newKeys = this.getActionKeyList(data,actionKey,id,bol);
@@ -113,11 +148,22 @@ class KoDetailPage extends React.Component {
       })
       this.chart.selectAll('.textWrap1 .textVal').text(function(){
         const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) return val.name;
+        if(val) {
+          let name=val.name;
+          if(id==='homepage_ko_item'){
+            name=val.name.length>4?`${val.name.slice(0,4)}`:val.name
+          }
+          
+          return name;
+        }
       })
+      if(id==='homepage_ko_item'){
+        this.dealHomeText(newKeys)
+      }
+    
       this.chart.selectAll('.textWrap3 .textVal').text(function(){
         const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) return val.clickNum;
+        if(val) return val.clickNumPro.toFixed(2)+'%';
       })
       .on('mouseover', KoDetailPage.that.drewTip(data))
       .on('mouseout', tip.hide)
@@ -133,31 +179,36 @@ class KoDetailPage extends React.Component {
       .on('mousemove', tip.show);
     }
   }
-  drewLended = (data,page) => {
+  drewLended = (data,page,currentActionName) => {
     if(data&&data.length){
       this.chart = d3.select(this.svgDom).html(pages[page]);
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       this.chart.selectAll('.textWrap1 text').attr('dominant-baseline',"inherit").attr('text-anchor',"left");
+      this.chart.selectAll('.textWrap11 text').attr('text-anchor',"start");
+      this.chart.selectAll('.textWrap12 text').attr('text-anchor',"start");
 
       const colorArr = this.getColorFn(data);
 
       // 处理特殊页面
       if(page==='homepage'){
+        this.dealListDom(data,'click_ko_item','homepage_ko_item',true);
         this.specialData(data,['homepage_click_testregion_-1','homepage_Click_city_-1'],'homepage_click_city')
-        this.getActionKeyList(data,'click_ko_item','homepage_add_koitem')
+        // this.getActionKeyList(data,'click_ko_item','homepage_add_koitem')
       }else if(page==='studypage'){
-        this.specialData(data,['studypage_click_golesson_-1','homepage_click_golesson_free_-1'],'studypage_click_golesson');
-        this.specialData(data,['studypage_click_record_free_-1','homepage_click_record_-1'],'studypage_click_record');
-        this.specialData(data,['studypage_click_livebroadcast_free_-1','homepage_click_livebroadcast-1'],'studypage_click_livebroadcast');
+        this.specialData(data,['studypage_click_golesson_-1','studypage_click_golesson_free_-1'],'studypage_click_golesson');
+        this.specialData(data,['studypage_click_record_free_-1','studypage_click_record_-1'],'studypage_click_record');
+        this.specialData(data,['studypage_click_livebroadcast_free_-1','studypage_click_livebroadcast-1'],'studypage_click_livebroadcast');
       }else if(page==='storelist'){
         this.dealListDom(data,'Click_major','storelist_ko_item',true);
       }else if(page==='kolist'){
         this.dealListDom(data,'click_ko_item','kolist_ko_item',true);
+      }else if(page==='livefeedpage'){
+        this.dealListDom(data,'click_change_live','livefeedpage_live_item',true);
       }
       // 修改数据
       this.chart.selectAll('.text').text(function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) return val.clickNum;
+        if(val) return val.clickNumPro.toFixed(2)+'%';
       }).style('font-weight','600')
       .on('mouseover', KoDetailPage.that.drewTip(data))
       .on('mouseout', tip.hide)
@@ -176,6 +227,13 @@ class KoDetailPage extends React.Component {
     }else{
       d3.select(this.svgDom).html(pages[page]);
     }
+    // 展示大标题名字
+    if(currentActionName){
+      this.chart.selectAll('.isShow tspan').text(currentActionName)
+    }else{
+      this.chart.selectAll('.isShow').style('display', 'none')
+    }
+   
   };
   render() {
     return (

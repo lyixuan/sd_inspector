@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, Icon, Divider } from 'antd';
+import { Form, Icon, Divider, Skeleton } from 'antd';
 import memoizeOne from 'memoize-one';
 import BISelect from '@/ant_components/BISelect/formSelect';
 import BIDatePicker from '@/ant_components/BIDatePicker';
@@ -143,6 +143,12 @@ class CommonForm extends React.Component {
   //   }
 
   // }
+  handleDefaultPickerValue = (keyName) => {
+    const { KoDateRange } = this.props.pageParams;
+    const dateArr = handleDateFormParams(KoDateRange)[keyName] || [];
+    const [startTime, endTime] = dateArr;
+    return [moment(startTime), moment(endTime)]
+  }
   renderCascader = (label) => {
     if (Array.isArray(label) && label.length === 0) return;
     let labelStr = label.join('/');
@@ -158,19 +164,20 @@ class CommonForm extends React.Component {
   }
   render() {
     const { expand } = this.state;
-    const { params, usersData } = this.props;
+    const { params, usersData, loading } = this.props;
     const { getFieldDecorator } = this.props.form;
-
     return (
       <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
+
         <Form
           layout="inline"
           className="ant-advanced-search-form"
           onSubmit={this.handleSearch}
         >
-          <div className={styles.rowWrap}>
-            {/* <div className={styles.itemCls}> */}
-            {/* <Form.Item label='来源渠道：'>
+          <Skeleton loading={loading !== false} active>
+            <div className={styles.rowWrap}>
+              {/* <div className={styles.itemCls}> */}
+              {/* <Form.Item label='来源渠道：'>
                 {getFieldDecorator('fromDevice', {
                   rules: [{
                     required: true,
@@ -180,210 +187,214 @@ class CommonForm extends React.Component {
                   <BISelect placeholder="请选择" />
                 )}
               </Form.Item> */}
-            {/* </div> */}
-            <div className={styles.itemCls}>
-              <Form.Item label='来源设备：'>
-                {getFieldDecorator('fromDevice', {
-                  initialValue: params.fromDevice,
-                })(
-                  <BISelect placeholder="请选择" mode="multiple" allowClear showArrow maxTagCount={1} maxTagPlaceholder={(omittedValues) => (<span>{`+${omittedValues.length}`}</span>)}>
-                    {this.filterEnumData(1).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
-                  </BISelect>
-                )}
-              </Form.Item>
+              {/* </div> */}
+              <div className={styles.itemCls}>
+                <Form.Item label='来源设备：'>
+                  {getFieldDecorator('fromDevice', {
+                    initialValue: params.fromDevice,
+                  })(
+                    <BISelect placeholder="请选择" mode="multiple" allowClear showArrow maxTagCount={1} maxTagPlaceholder={(omittedValues) => (<span>{`+${omittedValues.length}`}</span>)}>
+                      {this.filterEnumData(1).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                    </BISelect>
+                  )}
+                </Form.Item>
+              </div>
+              <div className={styles.itemCls}>
+                <Form.Item label='来源应用：'>
+                  {getFieldDecorator('fromApp', {
+                    initialValue: params.fromApp,
+                  })(
+                    <BISelect placeholder="请选择" mode="multiple" allowClear showArrow maxTagCount={1} maxTagPlaceholder={(omittedValues) => (<span>{`+${omittedValues.length}`}</span>)}>
+                      {this.filterEnumData(2).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                    </BISelect>
+                  )}
+                </Form.Item>
+              </div>
+              <div className={styles.itemCls}>
+                <Form.Item label='注册时间：'>
+                  {getFieldDecorator('registerTime', {
+                    initialValue: params.registerTime,
+                  })(
+                    <BIRangePicker
+                      placeholder={["起始时间", "截止时间"]}
+                      format={dateFormat}
+                      defaultPickerValue={this.handleDefaultPickerValue('registerTime')}
+                      disabledDate={(current) => this.disabledDate(current, 'registerTime')}
+                    // onChange={(value) => this.changeDate(value, 'registerTime')} 
+                    />
+                  )}
+                </Form.Item>
+              </div>
+              {/* 空元素占位(待修改) */}
+              <div className={styles.itemCls} />
+              <div className={styles.itemCls} />
             </div>
-            <div className={styles.itemCls}>
-              <Form.Item label='来源应用：'>
-                {getFieldDecorator('fromApp', {
-                  initialValue: params.fromApp,
-                })(
-                  <BISelect placeholder="请选择" mode="multiple" allowClear showArrow maxTagCount={1} maxTagPlaceholder={(omittedValues) => (<span>{`+${omittedValues.length}`}</span>)}>
-                    {this.filterEnumData(2).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
-                  </BISelect>
-                )}
-              </Form.Item>
+            <div className={styles.rowWrap}>
+              <div className={styles.itemCls}>
+                <Form.Item label='选课状态：'>
+                  {getFieldDecorator('choiceLessonStatus', {
+                    initialValue: params.choiceLessonStatus,
+                  })(
+                    <BISelect placeholder="请选择" allowClear>
+                      {this.filterEnumData(3).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                    </BISelect>
+                  )}
+                </Form.Item>
+              </div>
+              <div className={styles.itemCls}>
+                <Form.Item label='公共课：'>
+                  {getFieldDecorator('publicLesson', {
+                    initialValue: params.publicLesson,
+                  })(
+                    <BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass('publicLesson')}>
+                      {this.filterEnumData(4).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                    </BISelect>
+                  )}
+                </Form.Item>
+              </div>
+              <div className={styles.itemCls}>
+                <Form.Item label='选课时间：'>
+                  {getFieldDecorator('publicChoiceLessonTime', {
+                    initialValue: params.publicChoiceLessonTime,
+                  })(
+                    <BIRangePicker
+                      placeholder={["起始时间", "截止时间"]}
+                      format={dateFormat}
+                      disabled={this.checkoutHasChooseClass('publicChoiceLessonTime')}
+                      defaultPickerValue={this.handleDefaultPickerValue('publicChoiceLessonTime')}
+                      disabledDate={(current) => this.disabledDate(current, 'publicChoiceLessonTime')}
+                    // onChange={(value) => this.changeDate(value, 'publicChoiceLessonTime')}
+                    />
+                  )}
+                </Form.Item>
+              </div>
+              <div className={styles.itemCls}>
+                <Form.Item label='资格证课：'>
+                  {getFieldDecorator('certificateChoiceLesson', {
+                    initialValue: params.certificateChoiceLesson,
+                  })(
+                    <BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass('certificateChoiceLesson')}>
+                      <Option key='javascript' value="javascript">无</Option>
+                      {this.filterEnumData(5).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                    </BISelect>
+                  )}
+                </Form.Item>
+              </div>
+              <div className={styles.itemCls}>
+                <Form.Item label='选课时间：'>
+                  {getFieldDecorator('certificateChoiceLessonTime', {
+                    initialValue: params.certificateChoiceLessonTime,
+                  })(
+                    <BIRangePicker
+                      placeholder={["起始时间", "截止时间"]}
+                      format={dateFormat} disabled={this.checkoutHasChooseClass('certificateChoiceLessonTime')}
+                      // onChange={(value) => this.changeDate(value, 'certificateChoiceLessonTime')}
+                      defaultPickerValue={this.handleDefaultPickerValue('certificateChoiceLessonTime')}
+                      disabledDate={(current) => this.disabledDate(current, 'certificateChoiceLessonTime')} />
+                  )}
+                </Form.Item>
+              </div>
             </div>
-            <div className={styles.itemCls}>
-              <Form.Item label='注册时间：'>
-                {getFieldDecorator('registerTime', {
-                  initialValue: params.registerTime,
-                })(
-                  <BIRangePicker
-                    placeholder={["起始时间", "截止时间"]}
-                    format={dateFormat}
-                    disabledDate={(current) => this.disabledDate(current, 'registerTime')}
-                  // onChange={(value) => this.changeDate(value, 'registerTime')} 
-                  />
-                )}
-              </Form.Item>
+            <div className={styles.rowWrap}>
+              <div className={styles.itemCls}>
+                <Form.Item label='学员出勤：'>
+                  {getFieldDecorator('attendanceStatus', {
+                    initialValue: params.attendanceStatus,
+                  })(
+                    <BISelect placeholder="请选择" allowClear >
+                      {this.filterEnumData(6).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                    </BISelect>
+                  )}
+                </Form.Item>
+              </div>
+              <div className={styles.itemCls}>
+                <Form.Item label='出勤次数：'>
+                  {getFieldDecorator('attendanceNum', {
+                    initialValue: params.attendanceNum,
+                  })(
+                    <ConditionSelect placeholder="请选择" disabled={this.checkoutHasAttendanceStatus()} defaultUnit={customData.defaultAttendanceNumUnit} options={customData.defaultAttendanceNumOptions} />
+                  )}
+                </Form.Item>
+              </div>
+              <div className={styles.itemCls}>
+                <Form.Item label='听课时长：'>
+                  {getFieldDecorator('listenLessonTime', {
+                    initialValue: params.listenLessonTime,
+                  })(
+                    <ConditionSelect placeholder="请选择" disabled={this.checkoutHasAttendanceStatus()} defaultUnit={customData.defaultListenLessonTimeUnit} options={customData.defaultListenLessonTimeOptions} unitData={customData.listenLessonTimeUnits} />
+                  )}
+                </Form.Item>
+              </div>
+              <div className={styles.itemCls} />
+              <div className={styles.itemCls} />
             </div>
-            {/* 空元素占位(待修改) */}
-            <div className={styles.itemCls} />
-            <div className={styles.itemCls} />
-          </div>
-          <div className={styles.rowWrap}>
-            <div className={styles.itemCls}>
-              <Form.Item label='选课状态：'>
-                {getFieldDecorator('choiceLessonStatus', {
-                  initialValue: params.choiceLessonStatus,
-                })(
-                  <BISelect placeholder="请选择" allowClear>
-                    {this.filterEnumData(3).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
-                  </BISelect>
-                )}
-              </Form.Item>
-            </div>
-            <div className={styles.itemCls}>
-              <Form.Item label='公共课：'>
-                {getFieldDecorator('publicLesson', {
-                  initialValue: params.publicLesson,
-                })(
-                  <BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass('publicLesson')}>
-                    {this.filterEnumData(4).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
-                  </BISelect>
-                )}
-              </Form.Item>
-            </div>
-            <div className={styles.itemCls}>
-              <Form.Item label='选课时间：'>
-                {getFieldDecorator('publicChoiceLessonTime', {
-                  initialValue: params.publicChoiceLessonTime,
-                })(
-                  <BIRangePicker
-                    placeholder={["起始时间", "截止时间"]}
-                    format={dateFormat}
-                    disabled={this.checkoutHasChooseClass('publicChoiceLessonTime')}
-                    disabledDate={(current) => this.disabledDate(current, 'publicChoiceLessonTime')}
-                  // onChange={(value) => this.changeDate(value, 'publicChoiceLessonTime')}
-                  />
-                )}
-              </Form.Item>
-            </div>
-            <div className={styles.itemCls}>
-              <Form.Item label='资格证课：'>
-                {getFieldDecorator('certificateChoiceLesson', {
-                  initialValue: params.certificateChoiceLesson,
-                })(
-                  <BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass('certificateChoiceLesson')}>
-                    <Option key='javascript' value="javascript">无</Option>
-                    {this.filterEnumData(5).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
-                  </BISelect>
-                )}
-              </Form.Item>
-            </div>
-            <div className={styles.itemCls}>
-              <Form.Item label='选课时间：'>
-                {getFieldDecorator('certificateChoiceLessonTime', {
-                  initialValue: params.certificateChoiceLessonTime,
-                })(
-                  <BIRangePicker
-                    placeholder={["起始时间", "截止时间"]}
-                    format={dateFormat} disabled={this.checkoutHasChooseClass('certificateChoiceLessonTime')}
-                    // onChange={(value) => this.changeDate(value, 'certificateChoiceLessonTime')}
-                    disabledDate={(current) => this.disabledDate(current, 'certificateChoiceLessonTime')} />
-                )}
-              </Form.Item>
-            </div>
-          </div>
-          <div className={styles.rowWrap}>
-            <div className={styles.itemCls}>
-              <Form.Item label='学员出勤：'>
-                {getFieldDecorator('attendanceStatus', {
-                  initialValue: params.attendanceStatus,
-                })(
-                  <BISelect placeholder="请选择" allowClear >
-                    {this.filterEnumData(6).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
-                  </BISelect>
-                )}
-              </Form.Item>
-            </div>
-            <div className={styles.itemCls}>
-              <Form.Item label='出勤次数：'>
-                {getFieldDecorator('attendanceNum', {
-                  initialValue: params.attendanceNum,
-                })(
-                  <ConditionSelect placeholder="请选择" disabled={this.checkoutHasAttendanceStatus()} defaultUnit={customData.defaultAttendanceNumUnit} options={customData.defaultAttendanceNumOptions} />
-                )}
-              </Form.Item>
-            </div>
-            <div className={styles.itemCls}>
-              <Form.Item label='听课时长：'>
-                {getFieldDecorator('listenLessonTime', {
-                  initialValue: params.listenLessonTime,
-                })(
-                  <ConditionSelect placeholder="请选择" disabled={this.checkoutHasAttendanceStatus()} defaultUnit={customData.defaultListenLessonTimeUnit} options={customData.defaultListenLessonTimeOptions} unitData={customData.listenLessonTimeUnits} />
-                )}
-              </Form.Item>
-            </div>
-            <div className={styles.itemCls} />
-            <div className={styles.itemCls} />
-          </div>
-          {
-            expand ? (
-              <>
-                <div className={styles.rowWrap}>
-                  <div className={styles.itemCls}>
-                    <Form.Item label='付费订单：'>
-                      {getFieldDecorator('payOrder', {
-                        initialValue: params.payOrder,
-                      })(
-                        <BISelect placeholder="请选择" allowClear>
-                          {this.filterEnumData(7).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
-                        </BISelect>
-                      )}
-                    </Form.Item>
+            {
+              expand ? (
+                <>
+                  <div className={styles.rowWrap}>
+                    <div className={styles.itemCls}>
+                      <Form.Item label='付费订单：'>
+                        {getFieldDecorator('payOrder', {
+                          initialValue: params.payOrder,
+                        })(
+                          <BISelect placeholder="请选择" allowClear>
+                            {this.filterEnumData(7).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                          </BISelect>
+                        )}
+                      </Form.Item>
+                    </div>
+                    <div className={styles.itemCls}>
+                      <Form.Item label='订单金额：'>
+                        {getFieldDecorator('orderMoney', {
+                          initialValue: params.orderMoney,
+                        })(
+                          <ConditionSelect placeholder="请选择" disabled={this.checkoutHasPayOrder()} defaultUnit={customData.defaultOrderMoneyUnit} />
+                        )}
+                      </Form.Item>
+                    </div>
+                    <div className={styles.itemCls}>
+                      <Form.Item label={this.labelTxt('与KO单间隔')}>
+                        {getFieldDecorator('koOrderGap', {
+                          initialValue: params.koOrderGap,
+                        })(
+                          <ConditionSelect placeholder="请选择" defaultUnit={customData.defaultKoOrderGapUnit} disabled={this.checkoutHasPayOrder()} options={customData.defaultKoOrderGapOptions} unitData={customData.KoOrderGapunits} />
+                        )}
+                      </Form.Item>
+                    </div>
+                    <div className={styles.itemCls} />
+                    <div className={styles.itemCls} />
                   </div>
-                  <div className={styles.itemCls}>
-                    <Form.Item label='订单金额：'>
-                      {getFieldDecorator('orderMoney', {
-                        initialValue: params.orderMoney,
-                      })(
-                        <ConditionSelect placeholder="请选择" disabled={this.checkoutHasPayOrder()} defaultUnit={customData.defaultOrderMoneyUnit} />
-                      )}
-                    </Form.Item>
+                  <div className={styles.rowWrap}>
+                    <div className={styles.itemCls}>
+                      <Form.Item label='前端归属：'>
+                        {getFieldDecorator('frontBelong', {
+                          initialValue: params.frontBelong,
+                        })(
+                          <BICascader placeholder="请选择" changeOnSelect options={this.filterEnumData(8)} fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }} displayRender={this.renderCascader} />
+                        )}
+                      </Form.Item>
+                    </div>
+                    <div className={styles.itemCls}>
+                      <Form.Item label='后端归属：'>
+                        {getFieldDecorator('backBelong', {
+                          initialValue: params.backBelong,
+                        })(
+                          <BICascader placeholder="请选择" changeOnSelect options={this.filterEnumData(9)} fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }} displayRender={this.renderCascader} />
+                        )}
+                      </Form.Item>
+                    </div>
+                    <div className={styles.itemCls} />
+                    <div className={styles.itemCls} />
+                    <div className={styles.itemCls} />
                   </div>
-                  <div className={styles.itemCls}>
-                    <Form.Item label={this.labelTxt('与KO单间隔')}>
-                      {getFieldDecorator('koOrderGap', {
-                        initialValue: params.koOrderGap,
-                      })(
-                        <ConditionSelect placeholder="请选择" defaultUnit={customData.defaultKoOrderGapUnit} disabled={this.checkoutHasPayOrder()} options={customData.defaultKoOrderGapOptions} unitData={customData.KoOrderGapunits} />
-                      )}
-                    </Form.Item>
-                  </div>
-                  <div className={styles.itemCls} />
-                  <div className={styles.itemCls} />
-                </div>
-                <div className={styles.rowWrap}>
-                  <div className={styles.itemCls}>
-                    <Form.Item label='前端归属：'>
-                      {getFieldDecorator('frontBelong', {
-                        initialValue: params.frontBelong,
-                      })(
-                        <BICascader placeholder="请选择" changeOnSelect options={this.filterEnumData(8)} fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }} displayRender={this.renderCascader} />
-                      )}
-                    </Form.Item>
-                  </div>
-                  <div className={styles.itemCls}>
-                    <Form.Item label='后端归属：'>
-                      {getFieldDecorator('backBelong', {
-                        initialValue: params.backBelong,
-                      })(
-                        <BICascader placeholder="请选择" changeOnSelect options={this.filterEnumData(9)} fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }} displayRender={this.renderCascader} />
-                      )}
-                    </Form.Item>
-                  </div>
-                  <div className={styles.itemCls} />
-                  <div className={styles.itemCls} />
-                  <div className={styles.itemCls} />
-                </div>
 
-              </>
-            ) : null
-          }
-          <Divider className={styles.collapCls} dashed >
-            <span className={styles.expand} onClick={this.toggle}>{expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} /></span>
-          </Divider>
+                </>
+              ) : null
+            }
+            <Divider className={styles.collapCls} dashed >
+              <span className={styles.expand} onClick={this.toggle}>{expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} /></span>
+            </Divider>
+          </Skeleton>
           {/* 已选项设置 */}
           <div className={styles.rowWrap}>{
             this.renderButtonGroup()

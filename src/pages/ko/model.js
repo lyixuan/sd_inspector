@@ -19,6 +19,7 @@ export default {
     KOMessage: {},
     pageDetailInfo: [],
     usersData: {},
+    chooseEventData: [],
   },
 
   effects: {
@@ -120,7 +121,11 @@ export default {
     },
     saveUserData(state, { payload }) {
       return { ...state, ...payload };
+    },
+    saveChooseEventData(state, { payload }) {
+      return { ...state, ...payload };
     }
+
   },
   subscriptions: {},
 };

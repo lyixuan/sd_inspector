@@ -8,6 +8,7 @@
     height: 70px;
     margin-right: 100px;
     .nameCls{
+      display: inline-block;
       margin-bottom: 10px;
       font-size: 14px;
       color: #787A7F;
@@ -28,4 +29,18 @@
       color: #18191A;
     }
   }
+}
+.tooltipTitle{
+  display: inline-block;
+  width: 175px;
+  color: #999;
+  font-size: 12px;
+}
+.overlayClassName{
+  :global(.ant-tooltip-inner){
+background: #fff;
+  }
+  :global(.ant-tooltip-arrow){
+    border-top-color: #fff;
+      }
 }

@@ -28,6 +28,18 @@ class behavior extends React.Component {
       type: 'koPlan/getPageList',
     });
   };
+  gotoUserList = (params) => {
+    this.props.dispatch({
+      type: 'koPlan/saveChooseEventData',
+      payload: {
+        chooseEventData: [{ id: params.data.name.actionKey, name: params.data.name.name }],
+      }
+    });
+    this.props.history.push({
+      pathname: '/ko/userList'
+    });
+  }
+
   getData = (params = this.props.tabFromParams) => {
     if (JSON.stringify(params) === '{}') return;
     const { formParams = {}, page, belongApp, ...others } = params;
@@ -41,13 +53,13 @@ class behavior extends React.Component {
     const { upPage, downPage, currentPage } = this.props.behavior;
     return (
       <div>
-        <Spin tip="Loading..."  spinning={this.props.loading}>
+        <Spin tip="Loading..." spinning={this.props.loading}>
           {/*------- 图1 桑吉 部分 --------*/}
           <KoSangJi {...this.props} upPage={upPage} downPage={downPage} currentPage={currentPage}></KoSangJi>
         </Spin>
         {/*------- 图2 柱状 部分 --------*/}
-        <Spin tip="Loading..."  spinning={this.props.loading}>
-          <BarEcharts {...this.props} />
+        <Spin tip="Loading..." spinning={this.props.loading}>
+          <BarEcharts {...this.props} gotoUserList={this.gotoUserList} />
         </Spin>
       </div>
     );
