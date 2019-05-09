@@ -71,11 +71,11 @@ export default {
       const formParams = payload.formParams;
       const otherParams = payload.otherParams;
       const result = yield call(sankeySuperApi, { params, formParams, otherParams });
-      if (result) {
-        const { behaviourData = [], sankeyData = {}, pvuvData, currentPage,currentActionName,userSize } = result.data || [];
+      if (result&&result.code === 20000) {
+        const { behaviourData = [], upPage = {}, downPage = {}, pvuvData, currentPage,currentActionName,userSize } = result.data || [];
         yield put({ type: 'saveDataList', payload: { hotDataList: behaviourData,pvuvData,currentPage,currentActionName } });
         yield put({ type: 'saveBehaviourData', payload: { behaviourData ,currentPage} });
-        yield put({ type: 'save', payload: {userSize,pvuvData, upPage: sankeyData.upPage, downPage: sankeyData.downPage, currentPage} });
+        yield put({ type: 'save', payload: {userSize,pvuvData, upPage, downPage, currentPage} });
         yield put({
           type: 'koPlan/saveUserData',
           payload: { usersData: { totalCount: userSize } }
