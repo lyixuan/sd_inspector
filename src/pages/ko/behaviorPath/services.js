@@ -1,8 +1,8 @@
 import request from '@/utils/request';
 
-export async function getDateList() {
-  return request('/userTrack/getEffectDateList');
-}
+// export async function getDateList() {
+//   return request('/userTrack/getEffectDateList');
+// }
 // im
 export async function imAct(params) {
   return request('/userTrack/imAct', { method: 'post', data: params });
@@ -25,5 +25,9 @@ export async function learningAct(params) {
 }
 // 获取日期列表
 export async function getDateList2(params) {
-  return request('/userTrack/getDateList', { params });
+  return request('/userTrack/getDateList', { method: 'post', data: params });
+}
+// 获取日期范围
+export async function getDateRange() {
+  return request('/userTrack/getEffectiveDateRange');
 }
