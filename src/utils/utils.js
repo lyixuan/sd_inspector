@@ -188,3 +188,9 @@ export function downBlob(blob, name) {
   document.body.removeChild(downloadElement); // 下载完成移除元素
   window.URL.revokeObjectURL(href); // 释放掉blob对象
 }
+
+export function thousandsFormat (num) {
+  // 千分位分割
+  var reg=/\d{1,3}(?=(\d{3})+$)/g;
+  return (num + '').replace(reg, '$&,');
+}
