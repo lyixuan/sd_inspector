@@ -1,6 +1,7 @@
 import React from 'react';
 import * as d3 from 'd3';
 import {HOT_RANGE} from '@/utils/constants';
+import {thousandsFormat} from '@/utils/utils'
 import pages from './SVG';
 import styles from './style.less';
 
@@ -16,7 +17,7 @@ class KoDetailPage extends React.Component {
   }
   componentWillReceiveProps(nextProps){
     if(JSON.stringify(nextProps.behavior.hotDataList)!=='{}'||nextProps.behavior.hotDataList!==this.props.behavior.hotDataList){
-      this.drewLended(nextProps.behavior.hotDataList,nextProps.behavior.currentPage);
+      this.drewLended(nextProps.behavior.hotDataList,nextProps.behavior.currentPage,nextProps.behavior.currentActionName);
     }
   }
   // 给data增加颜色属性
@@ -57,9 +58,9 @@ class KoDetailPage extends React.Component {
     if(newHotData)
     return `<ul class=${styles.tootipPanl}>
     <li class=${styles.tooltipItem}>${newHotData.name}</li>
-    <li class=${styles.tooltipItem}>点击人数：${newHotData.clickPeople}人</li>
+    <li class=${styles.tooltipItem}>点击人数：${thousandsFormat(newHotData.clickPeople)}人</li>
     <li class=${styles.tooltipItem}>人数占比：${newHotData.clickPeoplePro.toFixed(2)}%</li>
-    <li class=${styles.tooltipItem}>点击次数：${newHotData.clickNum}次</li>
+    <li class=${styles.tooltipItem}>点击次数：${thousandsFormat(newHotData.clickNum)}次</li>
     <li class=${styles.tooltipItem}>次数占比：${newHotData.clickNumPro.toFixed(2)}%</li>
     </ul>`;
   };
@@ -157,7 +158,7 @@ class KoDetailPage extends React.Component {
         }
       })
       if(id==='homepage_ko_item'){
-       this.dealHomeText(newKeys)
+        this.dealHomeText(newKeys)
       }
     
       this.chart.selectAll('.textWrap3 .textVal').text(function(){
@@ -178,7 +179,7 @@ class KoDetailPage extends React.Component {
       .on('mousemove', tip.show);
     }
   }
-  drewLended = (data,page) => {
+  drewLended = (data,page,currentActionName) => {
     if(data&&data.length){
       this.chart = d3.select(this.svgDom).html(pages[page]);
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
@@ -201,6 +202,8 @@ class KoDetailPage extends React.Component {
         this.dealListDom(data,'Click_major','storelist_ko_item',true);
       }else if(page==='kolist'){
         this.dealListDom(data,'click_ko_item','kolist_ko_item',true);
+      }else if(page==='livefeedpage'){
+        this.dealListDom(data,'click_change_live','livefeedpage_live_item',true);
       }
       // 修改数据
       this.chart.selectAll('.text').text(function(){
@@ -224,6 +227,13 @@ class KoDetailPage extends React.Component {
     }else{
       d3.select(this.svgDom).html(pages[page]);
     }
+    // 展示大标题名字
+    if(currentActionName){
+      this.chart.selectAll('.isShow tspan').text(currentActionName)
+    }else{
+      this.chart.selectAll('.isShow').style('display', 'none')
+    }
+   
   };
   render() {
     return (

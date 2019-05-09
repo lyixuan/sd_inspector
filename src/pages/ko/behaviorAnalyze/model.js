@@ -73,7 +73,7 @@ export default {
       const result = yield call(sankeySuperApi, { params, formParams, otherParams });
       if (result) {
         const { behaviourData = [], sankeyData = {}, pvuvData, currentPage,currentActionName,userSize } = result.data || [];
-        yield put({ type: 'saveDataList', payload: { hotDataList: behaviourData,pvuvData,currentPage } });
+        yield put({ type: 'saveDataList', payload: { hotDataList: behaviourData,pvuvData,currentPage,currentActionName } });
         yield put({ type: 'saveBehaviourData', payload: { behaviourData ,currentPage} });
         yield put({ type: 'save', payload: {userSize,pvuvData, upPage: sankeyData.upPage, downPage: sankeyData.downPage, currentPage} });
         yield put({
@@ -115,7 +115,7 @@ export default {
       return { ...state, behaviourData: newData };
     },
     saveDataList(state, { payload }) {
-      const { hotDataList,pvuvData ,currentPage} = payload;
+      const { hotDataList,pvuvData } = payload;
       // const { actionKeyIds } = hotDataList;
       // if (actionKeyIds && actionKeyIds.length) {
       //   hotDataList.newIds = [];
