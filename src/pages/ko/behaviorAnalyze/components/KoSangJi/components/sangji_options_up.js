@@ -1,5 +1,5 @@
 import { seriesConfig, Config, sangjiColor } from '@/pages/ko/behaviorAnalyze/components/KoSangJi/components/common_options';
-
+import {thousandsFormat} from '@/utils/utils';
 
 export function getSangJiUpOption(upPage, currentPage) {
   const { node = [], links = [] } = upPage;
@@ -29,11 +29,11 @@ export function getSangJiUpOption(upPage, currentPage) {
       triggerOn: 'mousemove',
       formatter: function (param) {
         const { data } = param;
-        const { pageView = undefined, zb = undefined, value = undefined } = data;
-        if (zb && value) {
-          return `<div style='font-size: 12px'><div>pv：${value}次</div><div>占比：${zb}</div></div>`
+        const { pageView = undefined, id = undefined, proportion = undefined,flowValue = undefined } = data;
+        if (id) {
+          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(pageView)}次</div><div>占比：${proportion*100+'%'}</div></div>`
         } else if (pageView) {
-          return `<div style='font-size: 12px'><div>pv：${pageView}次</div></div>`
+          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(flowValue)}次</div><div>占比：${proportion*100+'%'}</div></div>`
         }
       }
     },

@@ -190,7 +190,7 @@ export function downBlob(blob, name) {
 }
 
 export function thousandsFormat (num) {
-  // 千分位分割
+  // 千分位分割,接收正整数
   var reg=/\d{1,3}(?=(\d{3})+$)/g;
   return (num + '').replace(reg, '$&,');
 }
