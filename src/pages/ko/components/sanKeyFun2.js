@@ -5,7 +5,7 @@ export function dealSankeyData({ sankey, pvuvData,currentPage }) {
   * 1、取前十；按节点点击量，同一层级取前十。第一层加上全局跳出总共算前十
   * 2、增加全局跳出
   * */
-  const { upPage,downPage1,downPage2  } = sankey;
+  const { upPage={},downPage1={},downPage2={}  } = sankey;
 
   const upPageData = upPageDeal(upPage,currentPage);
   const downPage1Data = downPage1Deal(downPage1,currentPage,pvuvData);
@@ -18,6 +18,7 @@ export function dealSankeyData({ sankey, pvuvData,currentPage }) {
 
 function topTen(pageList,n) {
   // 排序，取前n个
+  if (!pageList) return []
   pageList.sort(function(a, b) {
     if (Number(a.pageView) > Number(b.pageView)) {
       return -1;
@@ -35,7 +36,7 @@ function upPageDeal(upPage,currentPage) {
     node:[],
     links:upPage.links
   };
-  upPage.node.forEach((v,i)=>{
+  upPage.node && upPage.node.forEach((v,i)=>{
     if (v.id === currentPage) {
       upPageData.node.push(upPage.node.splice(i,1));
     }
@@ -61,7 +62,7 @@ function downPage1Deal(downPage1,currentPage,pvuvData) {
     pageView:pvuvData.bounceTimes,
     proportion:pvuvData.bounceTimePercent,
   };
-  downPage1.node.forEach((v,i)=>{
+  downPage1.node && downPage1.node.forEach((v,i)=>{
     if (v.id === currentPage) {
       pageData.node.push(downPage1.node.splice(i,1));
     }
@@ -78,7 +79,7 @@ function downPage2Deal(downPage2) {
     links:downPage2.links
   };
   const listNode = [];
-  downPage2.node.forEach((v1)=>{
+  downPage2.node && downPage2.node.forEach((v1)=>{
     downPage2.links.forEach((v2)=>{
       if (v1.id === v2.target) {
         listNode.push(v1);
