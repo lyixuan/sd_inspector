@@ -14,8 +14,7 @@ export async function sankeySuperApi({params,formParams,otherParams}) {
   const response = await request('/sankey/sankeyMapData', {method: 'post',  data:postParams });
 
   if (response.code === 20000) {
-    // 处理两次结果
-    result.data.sankeyData = dealSankeyData({sankey:response.data.sankey,pvuvData:response.data.pvuvData,currentPage});
+    result.data.sankeyData = dealSankeyData({sankey:response.data.sankeyData,pvuvData:response.data.pvuvData,currentPage});
     result.data.behaviourData = response.data.behaviourData?response.data.behaviourData : [];
     result.data.pvuvData = response.data.pvuvData?response.data.pvuvData : {};
     result.data.userSize = response.data.userSize||0;

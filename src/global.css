@@ -121,3 +121,12 @@ a,a:hover{
   color: #fff;
   font-size: 12px;
 }
+
+/*ant table滚动条兼容 safri和外接显示器*/
+/*https://github.com/ant-design/ant-design/issues/13994*/
+/*.displaynone::-webkit-scrollbar {*/
+  /*display: none !important;*/
+/*}*/
+/*.ant-table-header::-webkit-scrollbar {*/
+  /*opacity: 0!important;*/
+/*}*/
