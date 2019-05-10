@@ -26,7 +26,7 @@ class BarEcharts extends React.Component {
         <div className={style.barContent}>
           {
             Number(userSize) === 0 ? <Empty isEmpty={true} /> : <Echart
-              isEmpty={behaviourData.length}
+              isEmpty={behaviourData||behaviourData.length}
               clickEvent={this.eConsole}
               style={{ width: '100%', height: '267px' }}
               options={options(behaviourData, date)} />
