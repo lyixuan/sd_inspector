@@ -63,8 +63,9 @@ export default class KoForm extends React.Component {
     this.onChange({ page, currentActionKeyId }, { page, currentActionKeyId });
     this.onSaveParams({ page });
   }
-  changeDetailPage = (currentAction) => {
-    const { key: currentActionKeyId, label: currentActionName } = currentAction;
+  changeDetailPage = (...arg) => {
+    const currentAction = arg[1] || {};
+    const { key: currentActionKeyId, props: { children: currentActionName } } = currentAction;
     let { page } = this.state.tabFromParams;
     const pageObj = PAGE_KEY_ACTION.find(item => item.value === page.value);
     if (currentActionKeyId && pageObj) {
@@ -166,10 +167,10 @@ export default class KoForm extends React.Component {
               <>
                 <span className={styles.gutterLabel}>详情页面：</span>
                 <span className={styles.gutterForm}>
-                  <BISelect style={{ width: '70%', minWidth: '140px' }} labelInValue allowClear placeholder="请选择" value={{ key: tabFromParams.currentActionKeyId ? tabFromParams.currentActionKeyId : '' }} onChange={this.changeDetailPage}>
+                  <BISelect style={{ width: '70%', minWidth: '140px' }} allowClear placeholder="请选择" value={tabFromParams.currentActionKeyId} onChange={this.changeDetailPage}>
                     {pageDetails.map(item => (
-                      <Option key={item.actionKeyId} id={item.actionKeyId}>
-                        {item.actionName}
+                      <Option key={item.actionId + item.pageKey} id={item.actionId}>
+                        {item.pageName}
                       </Option>
                     ))}
                   </BISelect>
