@@ -134,13 +134,6 @@ const columns1 = [
   {
     title: '违规等级',
     dataIndex: 'violationLevel',
-    render: (text, record) => {
-      return (
-        <>
-          {BiFilter(`VIOLATION_LEVEL|id:${record.violationLevel}`).name}
-        </>
-      );
-    },
   },
   {
     title: '归属人',
