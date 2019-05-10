@@ -1,12 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.condition = [
     { id: 1, name: '小于', symbol: '<' },
@@ -24,10 +16,10 @@ exports.unitData = [
     { id: 'mm', name: '分钟', type: 'date' },
     { id: 'ss', name: '秒', type: 'date' },
 ];
-exports.handleDateValue = function (option) {
-    var value = option.value, minValue = option.minValue, maxValue = option.maxValue, unit = option.unit, unitName = option.unitName;
-    var timeTmpObj = {};
-    var second = 1;
+exports.handleDateValue = (option) => {
+    const { value, minValue, maxValue, unit, unitName } = option;
+    let timeTmpObj = {};
+    let second = 1;
     switch (unit) {
         case 'dd':
             second = 86400;
@@ -50,26 +42,26 @@ exports.handleDateValue = function (option) {
         minValue: minValue ? minValue / second : minValue,
         maxValue: maxValue ? maxValue / second : maxValue,
     };
-    return __assign({}, option, timeTmpObj);
+    return Object.assign({}, option, timeTmpObj);
 };
-exports.handleOptionsName = function (option, unitOptions) {
-    var type = option.type, value = option.value, minValue = option.minValue, maxValue = option.maxValue, unit = option.unit;
-    var conditionObj = exports.condition.find(function (item) { return item.id === type; });
-    var unitObj = (unitOptions || []).find(function (item) { return item.id === unit; }) || {};
+exports.handleOptionsName = (option, unitOptions) => {
+    const { type, value, minValue, maxValue, unit } = option;
+    const conditionObj = exports.condition.find(item => item.id === type);
+    const unitObj = (unitOptions || []).find((item) => item.id === unit) || {};
     if (!conditionObj)
         return;
-    var label = '';
+    let label = '';
     switch (type) {
         case 1 || 2 || 3 || 4 || 5:
-            label = "" + conditionObj.symbol + value + " " + (unitObj.name || '');
+            label = `${conditionObj.symbol}${value} ${unitObj.name || ''}`;
             break;
         case 6:
-            label = "" + minValue + unitObj.name + conditionObj.symbol + maxValue + " " + (unitObj.name || '');
+            label = `${minValue}${unitObj.name}${conditionObj.symbol}${maxValue} ${unitObj.name || ''}`;
             break;
         default:
-            label = "" + conditionObj.symbol + value + " " + (unitObj.name || '');
+            label = `${conditionObj.symbol}${value} ${unitObj.name || ''}`;
             break;
     }
-    var newOptions = __assign({}, option, { name: label });
+    const newOptions = Object.assign({}, option, { name: label });
     return newOptions;
 };

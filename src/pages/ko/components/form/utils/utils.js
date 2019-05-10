@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var FormParams = /** @class */ (function () {
-    function FormParams() {
+class FormParams {
+    constructor() {
         this.initParams = {
             fromDevice: [],
             fromApp: [],
@@ -21,6 +21,5 @@ var FormParams = /** @class */ (function () {
             backBelong: undefined,
         };
     }
-    return FormParams;
-}());
+}
 exports.FormParams = FormParams;
