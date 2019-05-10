@@ -23,7 +23,9 @@ class BehaviorPath1 extends React.Component {
       im: true,
       weChart: true,
       bbs: true,
-      letter: true
+      letter: true,
+      page: 1,
+      pageSize: 10
     }
   }
 
@@ -64,7 +66,7 @@ class BehaviorPath1 extends React.Component {
     console.log(64, stuId)
     this.props.dispatch({
       type: 'behaviorPath/getDateList',
-      payload: { params: { stuId: stuId, type: type } },
+      payload: { params: { stuId: stuId, type: type, page: this.state.page, pageSize: this.state.pageSize } },
       // payload: { params: { stuId: 10257895, type: type } },
     });
   };
@@ -122,7 +124,7 @@ class BehaviorPath1 extends React.Component {
             </TabPane>
           </BITabs>
         </div>
-        <div style={{ float: 'left' }}>
+        <div style={{ position: "fixed", left: "940px", top: "150px" }}>
           <UserInfo info={locationParams}></UserInfo>
         </div>
       </div>

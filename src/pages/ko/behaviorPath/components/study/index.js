@@ -2,6 +2,7 @@ import React from 'react';
 import { Icon, Empty, Spin } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
+import Pager from '../pager/pager.js';
 // 评价的星星
 function Star(props) {
   if (!props.evaluate && props.evaluate != 0) {
@@ -230,6 +231,11 @@ class Study extends React.Component {
       payload: { params },
     });
   };
+  setIndex = () => {
+    this.setState({
+      currentIndex: 0
+    })
+  }
 
   toggle = index => {
     this.setState({
@@ -252,6 +258,7 @@ class Study extends React.Component {
   };
 
   render() {
+    const total = this.props.behaviorPath.studyTotal
     return (
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>
@@ -261,6 +268,7 @@ class Study extends React.Component {
               <Empty />
             )}
         </Spin>
+        <Pager onClick={this.setIndex} type="1" total={total}></Pager>
       </div>
     );
   }

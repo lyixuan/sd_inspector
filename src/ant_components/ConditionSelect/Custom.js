@@ -1,37 +1,18 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importDefault(require("react"));
-var antd_1 = require("antd");
-var utils_1 = require("./utils/utils");
-var BIButton_1 = __importDefault(require("../BIButton"));
-var styles = require('./styles.less');
-var Option = antd_1.Select.Option;
-var Custom = /** @class */ (function (_super) {
-    __extends(Custom, _super);
-    function Custom() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.state = {
+const react_1 = __importDefault(require("react"));
+const antd_1 = require("antd");
+const utils_1 = require("./utils/utils");
+const BIButton_1 = __importDefault(require("../BIButton"));
+const styles = require('./styles.less');
+const { Option } = antd_1.Select;
+class Custom extends react_1.default.Component {
+    constructor() {
+        super(...arguments);
+        this.state = {
             baseInputValue: '',
             startValue: '',
             endValue: '',
@@ -46,66 +27,66 @@ var Custom = /** @class */ (function (_super) {
                 name: undefined,
             }
         };
-        _this.changeUnit = function (ops) {
-            var unitData = _this.props.unitData || [];
-            var obj = unitData.find(function (item) { return item.id === ops; });
-            obj && _this.onSaveUnit(obj);
+        this.changeUnit = (ops) => {
+            const unitData = this.props.unitData || [];
+            const obj = unitData.find((item) => item.id === ops);
+            obj && this.onSaveUnit(obj);
         };
-        _this.onSaveUnit = function (unit) {
-            var selectedUnit = {
+        this.onSaveUnit = (unit) => {
+            const selectedUnit = {
                 id: undefined,
                 name: undefined,
             };
-            _this.setState({ unit: __assign({}, selectedUnit, unit) });
+            this.setState({ unit: Object.assign({}, selectedUnit, unit) });
         };
-        _this.onChangeCustoms = function (ops) {
-            var obj = utils_1.condition.find(function (item) { return item.id === ops; }) || {};
-            var selected = __assign({}, _this.state.selected, { type: obj.id });
-            _this.setState({
-                selected: selected,
+        this.onChangeCustoms = (ops) => {
+            const obj = utils_1.condition.find(item => item.id === ops) || {};
+            const selected = Object.assign({}, this.state.selected, { type: obj.id });
+            this.setState({
+                selected,
             });
         };
-        _this.inputChange = function (e, key) {
-            var obj = {};
-            var value = e.target.value;
+        this.inputChange = (e, key) => {
+            const obj = {};
+            const value = e.target.value;
             if (isNaN(Number(value)) && value !== '-') {
-                _this.props.onError && _this.props.onError();
+                this.props.onError && this.props.onError();
                 return;
             }
             ;
             obj[key] = e.target.value;
-            var _a = _this.state, baseInputValue = _a.baseInputValue, startValue = _a.startValue, endValue = _a.endValue;
-            _this.setState(__assign({ baseInputValue: baseInputValue, startValue: startValue, endValue: endValue }, obj));
+            const { baseInputValue, startValue, endValue } = this.state;
+            this.setState(Object.assign({ baseInputValue, startValue, endValue }, obj));
             e.stopPropagation();
         };
-        _this.onError = function (meg) {
+        this.onError = (meg) => {
             antd_1.message.warn(meg);
             return;
         };
-        _this.onCancel = function () {
-            _this.props.onCancel && _this.props.onCancel();
+        this.onCancel = () => {
+            this.props.onCancel && this.props.onCancel();
         };
-        _this.onClickOk = function (e) {
-            var selected = _this.state.selected;
+        this.onClickOk = (e) => {
+            const { selected } = this.state;
             if (!selected.type) {
-                _this.onError('请选择过滤条件');
+                this.onError('请选择过滤条件');
                 e.stopPropagation();
                 return;
             }
-            _this.props.onClickOk && _this.hanldData(e, _this.props.onClickOk);
+            this.props.onClickOk && this.hanldData(e, this.props.onClickOk);
         };
-        _this.hanldData = function (e, fun) {
-            var _a = _this.state, baseInputValue = _a.baseInputValue, startValue = _a.startValue, endValue = _a.endValue, selected = _a.selected, unit = _a.unit;
-            var returnObj = {};
+        this.hanldData = (e, fun) => {
+            const { baseInputValue, startValue, endValue, selected, unit } = this.state;
+            let returnObj = {};
             if (selected.type === 6) {
                 if (!startValue || !endValue || startValue === '-' || endValue === '-') {
-                    _this.onError('请输入正确数字');
+                    this.onError('请输入正确数字');
                     e.stopPropagation();
                     return;
                 }
                 ;
                 if (Number(startValue) > Number(endValue)) {
-                    _this.onError('后面数字应大于前面');
+                    this.onError('后面数字应大于前面');
                     e.stopPropagation();
                     return;
                 }
@@ -122,7 +103,7 @@ var Custom = /** @class */ (function (_super) {
             }
             else {
                 if (!baseInputValue || baseInputValue === '-') {
-                    _this.onError('请输入正确数字');
+                    this.onError('请输入正确数字');
                     e.stopPropagation();
                     return;
                 }
@@ -138,63 +119,58 @@ var Custom = /** @class */ (function (_super) {
             }
             return returnObj;
         };
-        _this.renderOptions = function () {
-            var optionsDom = utils_1.condition.map(function (item) {
-                return (react_1.default.createElement(Option, { key: item.id, value: item.id }, item.name));
-            });
+        this.renderOptions = () => {
+            const optionsDom = utils_1.condition.map(item => (react_1.default.createElement(Option, { key: item.id, value: item.id }, item.name)));
             return optionsDom;
         };
-        _this.renderUnitOptions = function () {
-            var unitData = _this.props.unitData || (_this.props.defaultUnit ? [_this.props.defaultUnit] : undefined);
+        this.renderUnitOptions = () => {
+            const unitData = this.props.unitData || (this.props.defaultUnit ? [this.props.defaultUnit] : undefined);
             if (!unitData || !unitData.length)
                 return;
-            return unitData.map(function (item) {
-                return (react_1.default.createElement(Option, { key: item.id, value: item.id }, item.name));
-            });
+            return unitData.map((item) => (react_1.default.createElement(Option, { key: item.id, value: item.id }, item.name)));
         };
-        _this.renderBaseUnitinput = function () {
-            var _a = _this.state, baseInputValue = _a.baseInputValue, unit = _a.unit;
+        this.renderBaseUnitinput = () => {
+            const { baseInputValue, unit } = this.state;
             return react_1.default.createElement(react_1.default.Fragment, null,
                 react_1.default.createElement("span", { className: styles.renderBaseUnitinput },
-                    react_1.default.createElement(antd_1.Input, { value: baseInputValue, onInput: function (e) { return _this.inputChange(e, 'baseInputValue'); } })),
+                    react_1.default.createElement(antd_1.Input, { value: baseInputValue, onInput: (e) => this.inputChange(e, 'baseInputValue') })),
                 react_1.default.createElement("span", { className: styles.betweennessSelect },
                     " ",
-                    react_1.default.createElement(antd_1.Select, { className: 'betweennessSelect', dropdownClassName: "betweennessSelectDropdownClassName", placeholder: "\u8BF7\u9009\u62E9", style: { width: 50 }, value: unit.id, onChange: _this.changeUnit }, _this.renderUnitOptions())));
+                    react_1.default.createElement(antd_1.Select, { className: 'betweennessSelect', dropdownClassName: "betweennessSelectDropdownClassName", placeholder: "\u8BF7\u9009\u62E9", style: { width: 50 }, value: unit.id, onChange: this.changeUnit }, this.renderUnitOptions())));
         };
-        _this.betweenness = function () {
-            var _a = _this.state, startValue = _a.startValue, endValue = _a.endValue, unit = _a.unit;
+        this.betweenness = () => {
+            const { startValue, endValue, unit } = this.state;
             return (react_1.default.createElement(react_1.default.Fragment, null,
                 react_1.default.createElement("span", { className: styles.betweenness },
-                    react_1.default.createElement(antd_1.Input, { value: startValue, onInput: function (e) { return _this.inputChange(e, 'startValue'); } })),
+                    react_1.default.createElement(antd_1.Input, { value: startValue, onInput: (e) => this.inputChange(e, 'startValue') })),
                 react_1.default.createElement("span", { className: styles.betweennessSymbol }, "-"),
                 react_1.default.createElement("span", { className: styles.betweenness },
-                    react_1.default.createElement(antd_1.Input, { value: endValue, onInput: function (e) { return _this.inputChange(e, 'endValue'); } })),
+                    react_1.default.createElement(antd_1.Input, { value: endValue, onInput: (e) => this.inputChange(e, 'endValue') })),
                 react_1.default.createElement("span", { className: styles.betweennessSelect },
                     " ",
-                    react_1.default.createElement(antd_1.Select, { className: 'betweennessSelect', dropdownClassName: "betweennessSelectDropdownClassName", placeholder: "\u8BF7\u9009\u62E9", style: { width: 50 }, value: unit.id, onChange: _this.changeUnit }, _this.renderUnitOptions()))));
+                    react_1.default.createElement(antd_1.Select, { className: 'betweennessSelect', dropdownClassName: "betweennessSelectDropdownClassName", placeholder: "\u8BF7\u9009\u62E9", style: { width: 50 }, value: unit.id, onChange: this.changeUnit }, this.renderUnitOptions()))));
         };
-        _this.renderInputPanle = function () {
-            var selected = _this.state.selected;
+        this.renderInputPanle = () => {
+            const { selected } = this.state;
             return (react_1.default.createElement(react_1.default.Fragment, null,
-                selected.type === 6 ? _this.betweenness() : null,
-                selected.type !== 6 ? _this.renderBaseUnitinput() : null));
+                selected.type === 6 ? this.betweenness() : null,
+                selected.type !== 6 ? this.renderBaseUnitinput() : null));
         };
-        return _this;
     }
-    Custom.prototype.componentDidMount = function () {
-        var defaultUnit = this.props.defaultUnit;
+    componentDidMount() {
+        const { defaultUnit } = this.props;
         defaultUnit && this.onSaveUnit(defaultUnit);
-    };
-    Custom.prototype.render = function () {
-        var options = this.renderOptions();
-        var renderInputPanle = this.renderInputPanle();
+    }
+    render() {
+        const options = this.renderOptions();
+        const renderInputPanle = this.renderInputPanle();
         return (react_1.default.createElement("div", { className: styles.customBox, id: "customBox" },
             react_1.default.createElement("span", { className: styles.symbolIcon },
                 react_1.default.createElement(antd_1.Icon, { type: "caret-left" })),
             react_1.default.createElement("div", { className: styles.customChooseBox },
-                react_1.default.createElement("div", { className: styles.selectPanle, onClick: function (e) { e.stopPropagation(); } },
+                react_1.default.createElement("div", { className: styles.selectPanle, onClick: (e) => { e.stopPropagation(); } },
                     react_1.default.createElement(antd_1.Select, { className: 'conditionSelect', placeholder: "\u8BF7\u9009\u62E9\u6761\u4EF6", style: { width: 180 }, onChange: this.onChangeCustoms }, options)),
-                react_1.default.createElement("div", { className: "inputPanle " + styles.inputPanle, onClick: function (e) { e.stopPropagation(); } }, renderInputPanle),
+                react_1.default.createElement("div", { className: `inputPanle ${styles.inputPanle}`, onClick: (e) => { e.stopPropagation(); } }, renderInputPanle),
                 react_1.default.createElement("div", { className: styles.buttonGroup },
                     react_1.default.createElement("span", { className: styles.button, onClick: this.onCancel },
                         " ",
@@ -202,7 +178,6 @@ var Custom = /** @class */ (function (_super) {
                     react_1.default.createElement("span", { className: styles.button },
                         " ",
                         react_1.default.createElement(BIButton_1.default, { type: "primary", onClick: this.onClickOk }, "\u786E\u8BA4"))))));
-    };
-    return Custom;
-}(react_1.default.Component));
+    }
+}
 exports.default = Custom;

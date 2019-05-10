@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import styles from '../../style.less';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
+import Pager from '../pager/pager.js';
 
 // 评价的星星
 function Star(props) {
@@ -117,6 +118,7 @@ class ToggleSession extends React.Component {
           </div>
         </li>
         {this.state.expand ? props.children : null}
+
       </>
     );
   }
@@ -287,6 +289,7 @@ class Im extends React.Component {
     ) {
       this.mount(nextProps);
     }
+
   }
   getImList = paramDate => {
     let params = {
@@ -298,6 +301,11 @@ class Im extends React.Component {
       payload: { params },
     });
   };
+  setIndex = () => {
+    this.setState({
+      currentIndex: 0
+    })
+  }
 
   toggle = index => {
     this.setState({
@@ -319,6 +327,7 @@ class Im extends React.Component {
   };
 
   render() {
+    const total = this.props.behaviorPath.imTotal
     return (
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>
@@ -328,7 +337,7 @@ class Im extends React.Component {
               <Empty />
             )}
         </Spin>
-        {/* <Layout dataLists={this.state.dateList} onClick={this.toggle} /> */}
+        <Pager onClick={this.setIndex} type="2" total={total}></Pager>
       </div>
     );
   }

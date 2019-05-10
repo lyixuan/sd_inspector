@@ -2,6 +2,7 @@ import React from 'react';
 import { Icon, Empty, Spin } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
+import Pager from '../pager/pager.js';
 
 
 // 日期条
@@ -220,6 +221,7 @@ class Bbs extends React.Component {
   }
 
   render() {
+    const total = this.props.behaviorPath.bbsTotal
     return (
       <div className={styles.comWrap}>
         <Spin spinning={this.props.isLoading}>
@@ -227,6 +229,7 @@ class Bbs extends React.Component {
             this.state.dateList.length > 0 ? <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> : <Empty></Empty>
           }
         </Spin>
+        <Pager onClick={this.setIndex} type="4" total={total}></Pager>
         {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
       </div >
     );

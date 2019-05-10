@@ -3,7 +3,9 @@
   padding: 0 0 30px;
   overflow: hidden;
   border-radius: 10px;
-  min-width: 1200px;
+  width:100%;
+  // min-height:900px;
+  position:relative;
   .headBar {
     height: 70px;
     line-height: 70px;
@@ -22,10 +24,9 @@
 }
 
 .tabBox {
-  float: left;
   padding-top: 20px;
   padding: 20px 0 0 30px;
-  width: 720px;
+  // width: 720px;
 }
 .tabBox :global .ant-tabs .ant-tabs-bar {
   border: none;
@@ -52,27 +53,60 @@
 /*用户信息*/
 
 .personIntro {
-  width: 230px;
+  width: 360px;
   float: left;
   background: #f5f6f9;
   border: 1px solid #ececec;
   position: relative;
-  padding-top: 10px;
-  margin-left: 120px;
+  // padding-top: 10px;
+  margin-left: 40px;
   margin-top: 40px;
+  color:#262626;
+  .userArea{
+    padding:10px 15px;
+    border-bottom: 1px solid #ddd;
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    .userName{
+      display:flex;
+      .name{
+        font-weight:bold;
+      }
+      p{
+        margin-bottom:0;
+        padding-top:2px;
+        padding-left:15px;
+        min-height:18px;
+      }
+    }
+    .optBtn{
+      display:none;
+      padding-top:5px;
+      .btn{
+        display:inline-block;
+        height:28px;
+        line-height:28px;
+        border:1px solid #52C9C2;
+        border-radius:4px;
+        padding:0 10px;
+        color:#52C9C2;
+        margin-left:10px;
+        cursor:pointer;
+      }
+    }
+  }
 }
 .personIntro .avatar {
   width: 35px;
   height: 35px;
   border-radius: 100px;
-  position: absolute;
-  left: 50%;
-  margin-left: -17px;
-  top: -17px;
 }
 .personIntro .intro {
-  padding: 15px 0;
+  padding: 10px 0;
+  margin:0;
   border-bottom: 1px solid #ddd;
+  
 }
 .personIntro .intro:last-child {
   border: none;
@@ -193,6 +227,7 @@
 .behavior .chatLeft .avatar,
 .behavior .chatRight .avatar {
   text-align: center;
+  height:55px;
 }
 .behavior .chatLeft .avatar img,
 .behavior .chatRight .avatar img {
@@ -399,12 +434,17 @@
 
 .comWrap {
   padding-top: 20px;
-  min-height: 100px;
+  min-height: 600px;
+  position:relative;
+}
+.comWrap :global .ant-spin-nested-loading{
+  padding-bottom:70px;
 }
 .comWrap :global .ant-empty {
   font-size: 12px;
   margin-left: -68px;
   margin-top: -10px;
+  width:480px;
   .ant-empty-image {
     height: 50px;
   }
@@ -423,4 +463,13 @@
 	position:absolute;
 	left:0;
 	top:10px;
+}
+
+.pagers{
+  width:100%;
+  position:absolute;
+  bottom:20px;
+  left:0;
+  box-sizing: border-box;
+  padding-right:30px;
 }

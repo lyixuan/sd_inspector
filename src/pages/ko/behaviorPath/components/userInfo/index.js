@@ -9,64 +9,67 @@ class PathUserInfo extends React.Component {
     const info = this.props.info;
     return (
       <div className={styles.personIntro}>
-        <img className={styles.avatar} src={avatarStudent} />
+        <div className={styles.userArea}>
+          <div className={styles.userName}>
+            <img className={styles.avatar} src={avatarStudent} />
+            <div>
+              <p className={styles.name}>{info.userName}</p>
+              <p>{info.sex.toLowerCase() === 'female' ? '女' : '男'}，{info.age}岁</p>
+            </div>
+          </div>
+          <div className={styles.optBtn}>
+            <div className={styles.btn}>上一个</div>
+            <div className={styles.btn}>下一个</div>
+          </div>
+
+        </div>
         <ul className={styles.intro}>
           <li>
-            <label>学员：</label>
-            <span>{info.userName}</span>
-          </li>
-          <li>
-            <label>性别：</label>
-            <span>{info.sex.toLowerCase() === 'female' ? '女' : '男'}</span>
-          </li>
-          <li>
-            <label>年龄：</label>
-            <span>{info.age}</span>
-          </li>
-          <li>
-            <label>行政所属：</label>
+            <label>前端归属：</label>
             <span>
-              {info.backOrgs}; {info.frontOrgs}
+              {info.frontOrgs}
             </span>
           </li>
-
-          {/* <li>
-            <label>学院：</label>
-            <span>{info.collegeName}</span>
-          </li>
           <li>
-            <label>家族：</label>
-            <span>{info.familyName}</span>
+            <label>后端归属：</label>
+            <span>
+              {info.backOrgs}
+            </span>
           </li>
-          <li>
-            <label>小组：</label>
-            <span>{info.groupName}</span>
-          </li> */}
-        </ul>
-        <ul className={styles.intro}>
-          {/* <li>
-            <label>来源：</label>
-            <span>{info.userFromApp == 1 ? '极速APP' : '主APP'}</span>
-          </li> */}
           <li>
             <label>设备：</label>
             <span>{info.deviceModel ? info.deviceModel : '其他'}</span>
           </li>
           <li>
-            <label>选课前是否已付费：</label>
-            <span>{info.paidFlag ? '选课前已付费' : '选课前未付费'}</span>
+            <label>注册时间：</label>
+            <span>3030033</span>
           </li>
+        </ul>
+        <ul className={styles.intro}>
           <li>
-            <label>注册状态：</label>+<span>{info.registerStatus == 1 ? '已注册' : '未注册'}</span>
-          </li>
-          <li>
-            <label>选课状态：</label>
+            <label>KO选课：</label>
             <span>{info.choiceLessonStatus == 1 ? '已选课' : '未选课'}</span>
           </li>
           <li>
             <label>选课名称：</label>
             <span>{info.choiceLessionName}</span>
           </li>
+        </ul>
+        <ul className={styles.intro}>
+          <li>
+            <label>付费订单：</label>
+            <span>有没有呀</span>
+          </li>
+          <li>
+            <label>是否选课前付费：</label>
+            <span>{info.paidFlag ? '选课前已付费' : '选课前未付费'}</span>
+          </li>
+          <li>
+            <label>产品包名称：</label>
+            <span>dfdf</span>
+          </li>
+        </ul>
+        <ul className={styles.intro}>
           <li>
             <label>出勤次数：</label>
             <span>{info.attendenceCount}次</span>
