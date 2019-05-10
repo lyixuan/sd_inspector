@@ -25,7 +25,7 @@ class KoDetailPage extends React.Component {
     hotData.map(item1=>{
       const val = (!item1.clickNumPro||typeof(item1.clickNumPro)==='number')?item1.clickNumPro:Number(item1.clickNumPro.split('%')[0])
       const colorVal = HOT_RANGE.filter(item2=> val >= item2.minVal && val<=item2.maxVal)[0];
-      if(colorVal) return item1.color=colorVal.color
+      if(colorVal) item1.color=colorVal.color
     });
     return hotData;
   };
@@ -56,7 +56,7 @@ class KoDetailPage extends React.Component {
   tooltipText = (hotData,id) => {
     const newHotData = hotData.filter(item=>item.actionKeyId===id)[0];
     if(newHotData)
-    return `<ul class=${styles.tootipPanl}>
+      return `<ul class=${styles.tootipPanl}>
     <li class=${styles.tooltipItem}>${newHotData.name}</li>
     <li class=${styles.tooltipItem}>点击人数：${thousandsFormat(newHotData.clickPeople)}人</li>
     <li class=${styles.tooltipItem}>人数占比：${newHotData.clickPeoplePro.toFixed(2)}%</li>
@@ -67,24 +67,20 @@ class KoDetailPage extends React.Component {
   // 求和
   sumFn = (newIdArr,id)=>{
     let new_click={clickNum:0,clickPeople:0,clickNumPro:0,clickPeoplePro:0,actionKeyId:id};
-      newIdArr.forEach(item=>{
-        new_click.name=item.name;
-        new_click.clickNum+=Number(item.clickNum);
-        new_click.clickPeople+=Number(item.clickPeople);
-        new_click.clickNumPro+=Number(item.clickNumPro);
-        new_click.clickPeoplePro+=Number(item.clickPeoplePro);
-      })
-      return new_click
+    newIdArr.forEach(item=>{
+      new_click.name=item.name;
+      new_click.clickNum+=Number(item.clickNum);
+      new_click.clickPeople+=Number(item.clickPeople);
+      new_click.clickNumPro+=Number(item.clickNumPro);
+      new_click.clickPeoplePro+=Number(item.clickPeoplePro);
+    })
+    return new_click
   }
   // 处理不同id表示同一模块的actionids
   specialData = (data,keyArr,id)=>{
     const newIdArr = [];
     data.forEach(item=>{
-      keyArr.forEach(el=>{
-        if(item.actionKeyId===el){
-          newIdArr.push(item)
-        }
-      })
+      keyArr.forEach(el=>{ if(item.actionKeyId===el) newIdArr.push(item) })
     })
     if(newIdArr.length&&!data.find(item=>item.actionKeyId===id)){
       data.push(this.sumFn(newIdArr,id))
@@ -98,90 +94,59 @@ class KoDetailPage extends React.Component {
   }
   // 首页展示名字规则：字数超过三行显示省略号
   dealHomeText = (newKeys)=>{
-    this.chart.selectAll('.textWrap11 .textVal').nodes().map((item,i)=>{
-      return item.setAttribute('data-name',newKeys[i].actionKeyId)
+    const domClass = ['.textWrap11 .textVal','.textWrap12 .textVal'];
+    domClass.forEach(classname=>{
+      this.chart.selectAll(classname).nodes().map((item,i)=>item.setAttribute('data-name',newKeys[i].actionKeyId))
     })
-    this.chart.selectAll('.textWrap12 .textVal').nodes().map((item,i)=>{
-      return item.setAttribute('data-name',newKeys[i].actionKeyId)
-    })
-    this.chart.selectAll('.textWrap11 .textVal').text(function(){
+    this.chart.selectAll(domClass[0]).text(function(){
       const val = newKeys.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-      let name='';
-      if(val) {
-        if(val.name.length>4){
-          name=`${val.name.slice(4,8)}`
-        }
-      }
-      return name;
+      if(val) return val.name.length>4?`${val.name.slice(4,8)}`:'';
     })
-    this.chart.selectAll('.textWrap12 .textVal').text(function(){
+    this.chart.selectAll(domClass[1]).text(function(){
       const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-      let name='';
-      if(val){
-        if(val.name.length>8) {
-          if(val.name.length<12){
-            name=`${val.name.slice(8)}`;
-          }else{
-            name=`${val.name.slice(8,11)}...`;
-          }
-        }
-      }
-      return name;
+      if(val){if(val.name.length>8) return val.name.length<12?`${val.name.slice(8)}`:`${val.name.slice(8,11)}...`;}
     })
   }
   // 动态添加列表
   dealListDom = (data,actionKey,id,bol)=>{
-    let newKeys = this.getActionKeyList(data,actionKey,id,bol);
-    newKeys = newKeys.sort((a,b)=>{  
-      return b.clickNum-a.clickNum 
-    })
-    newKeys = newKeys.slice(0,10);
+    const domClass=['.textWrap1 .textVal','.textWrap2 .textVal','.textWrap3 .textVal'],
+      newKeys = this.getActionKeyList(data,actionKey,id,bol).sort((a,b)=>(b.clickNum-a.clickNum)).slice(0,10);
+
     if(newKeys.length){
-      this.chart.selectAll('.textWrap1 .textVal').nodes().map((item,i)=>{
-        return item.setAttribute('data-name',newKeys[i].actionKeyId)
+      // 首页动态加载特殊处理
+      if(id==='homepage_ko_item') this.dealHomeText(newKeys)
+      // 给dom动态添加data-name
+      domClass.forEach(classname=>{
+        this.chart.selectAll(classname).nodes().map((item,i)=>{
+          return item.setAttribute('data-name',newKeys[i].actionKeyId)
+        })
       })
-      this.chart.selectAll('.textWrap2 .textVal').nodes().map((item,i)=>{
-        return item.setAttribute('data-name',newKeys[i].actionKeyId)
-      })
-      this.chart.selectAll('.textWrap3 .textVal').nodes().map((item,i)=>{
-        return item.setAttribute('data-name',newKeys[i].actionKeyId)
-      })
-      this.chart.selectAll('.textWrap1 .textVal').text(function(){
+      // 名字
+      this.chart.selectAll(domClass[0]).text(function(){
         const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) {
-          let name=val.name;
-          if(id==='homepage_ko_item'){
-            name=val.name.length>4?`${val.name.slice(0,4)}`:val.name
-          }
-          
-          return name;
-        }
+        if(val) {if(id==='homepage_ko_item') return val.name.length>4?`${val.name.slice(0,4)}`:val.name; }
       })
-      if(id==='homepage_ko_item'){
-        this.dealHomeText(newKeys)
-      }
-    
-      this.chart.selectAll('.textWrap3 .textVal').text(function(){
+      // 数据
+      this.chart.selectAll(domClass[2]).text(function(){
         const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
         if(val) return val.clickNumPro.toFixed(2)+'%';
       })
-      .on('mouseover', KoDetailPage.that.drewTip(data))
-      .on('mouseout', tip.hide)
-      .on('mousemove', tip.show);
-      this.chart.selectAll('.textWrap2 .textVal').style('fill',function(){
+        .on('mouseover', KoDetailPage.that.drewTip(data))
+        .on('mouseout', tip.hide)
+        .on('mousemove', tip.show);
+      // 颜色
+      this.chart.selectAll(domClass[1]).style('fill',function(){
         const val = newKeys.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) {
-          return val.color;
-        }
+        if(val) return val.color;
       })
-      .on('mouseover', KoDetailPage.that.drewTip(data))
-      .on('mouseout', tip.hide)
-      .on('mousemove', tip.show);
+        .on('mouseover', KoDetailPage.that.drewTip(data))
+        .on('mouseout', tip.hide)
+        .on('mousemove', tip.show);
     }
   }
   drewLended = (data,page,currentActionName) => {
+    this.chart = d3.select(this.svgDom).html(pages[page]);
     if(data&&data.length){
-      this.chart = d3.select(this.svgDom).html(pages[page]);
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       this.chart.selectAll('.textWrap1 text').attr('dominant-baseline',"inherit").attr('text-anchor',"left");
       this.chart.selectAll('.textWrap11 text').attr('text-anchor',"start");
@@ -192,8 +157,7 @@ class KoDetailPage extends React.Component {
       // 处理特殊页面
       if(page==='homepage'){
         this.dealListDom(data,'click_ko_item','homepage_ko_item',true);
-        this.specialData(data,['homepage_click_testregion_-1','homepage_Click_city_-1'],'homepage_click_city')
-        // this.getActionKeyList(data,'click_ko_item','homepage_add_koitem')
+        this.specialData(data,['homepage_click_testregion_-1','homepage_Click_city_-1'],'homepage_click_city');
       }else if(page==='studypage'){
         this.specialData(data,['studypage_click_golesson_-1','studypage_click_golesson_free_-1'],'studypage_click_golesson');
         this.specialData(data,['studypage_click_record_free_-1','studypage_click_record_-1'],'studypage_click_record');
@@ -209,31 +173,24 @@ class KoDetailPage extends React.Component {
       this.chart.selectAll('.text').text(function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
         if(val) return val.clickNumPro.toFixed(2)+'%';
-      }).style('font-weight','600')
-      .on('mouseover', KoDetailPage.that.drewTip(data))
-      .on('mouseout', tip.hide)
-      .on('mousemove', tip.show);
+      })
+        .style('font-weight','600')
+        .on('mouseover', KoDetailPage.that.drewTip(data))
+        .on('mouseout', tip.hide)
+        .on('mousemove', tip.show);
 
       // 修改颜色
       this.chart.selectAll('.mask').style('fill',function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) {
-          return val.color;
-        }
+        if(val) return val.color;
       })
-      .on('mouseover', KoDetailPage.that.drewTip(data))
-      .on('mouseout', tip.hide)
-      .on('mousemove', tip.show);
-    }else{
-      d3.select(this.svgDom).html(pages[page]);
+        .on('mouseover', KoDetailPage.that.drewTip(data))
+        .on('mouseout', tip.hide)
+        .on('mousemove', tip.show);
     }
-    // 展示大标题名字
-    if(currentActionName){
-      this.chart.selectAll('.isShow tspan').text(currentActionName)
-    }else{
-      this.chart.selectAll('.isShow').style('display', 'none')
-    }
-   
+    // 展示详情页标题
+    if(currentActionName) this.chart.selectAll('.isShow tspan').text(currentActionName)
+
   };
   render() {
     return (
