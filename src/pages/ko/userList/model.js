@@ -19,7 +19,6 @@ export default {
       const params = payload.params;
       const result = yield call(getTableList, params);
       const { pageSize, currentPage } = params;
-      console.log(pageSize, currentPage)
       if (result.code === 20000) {
         const data = result.data || {};
         const userList = Array.isArray(data.resultList) ? data.resultList : [];
