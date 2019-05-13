@@ -55,7 +55,7 @@ class behavior extends React.Component {
       <div>
         <Spin tip="Loading..." spinning={this.props.loading}>
           {/*------- 图1 桑吉 部分 --------*/}
-          <KoSangJi {...this.props} upPage={upPage} downPage={downPage} currentPage={currentPage}></KoSangJi>
+          <KoSangJi {...this.props} upPage={upPage} downPage={downPage} currentPage={currentPage+'$-1'}></KoSangJi>
         </Spin>
         {/*------- 图2 柱状 部分 --------*/}
         <Spin tip="Loading..." spinning={this.props.loading}>

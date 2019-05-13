@@ -23,6 +23,9 @@ export function getSangJiDownOption(downPage, currentPage) {
       }
     };
   }
+  links.forEach((v)=>{
+    v.value=v.flowValue;
+  });
   // 桑吉图 下游option
   let option = {
     tooltip: {
@@ -32,9 +35,9 @@ export function getSangJiDownOption(downPage, currentPage) {
         const { data } = param;
         const { pageView = undefined, id = undefined, proportion = undefined,flowValue = undefined } = data;
         if (id) {
-          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(pageView)}次</div><div>占比：${proportion*100+'%'}</div></div>`
+          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(pageView)}次</div><div>占比：${(proportion*100).toFixed(2)+'%'}</div></div>`
         } else {
-          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(flowValue)}次</div><div>占比：${proportion*100+'%'}</div></div>`
+          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(flowValue)}次</div><div>占比：${(proportion*100).toFixed(2)+'%'}</div></div>`
         }
       }
     },

@@ -118,7 +118,7 @@ class KoDetailPage extends React.Component {
       // 给dom动态添加data-name
       domClass.forEach(classname=>{
         this.chart.selectAll(classname).nodes().map((item,i)=>{
-          return item.setAttribute('data-name',newKeys[i].actionKeyId)
+          return newKeys[i]?item.setAttribute('data-name',newKeys[i].actionKeyId):null
         })
       })
       // 名字
