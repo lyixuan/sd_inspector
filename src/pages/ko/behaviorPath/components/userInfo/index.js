@@ -42,7 +42,7 @@ class PathUserInfo extends React.Component {
           </li>
           <li>
             <label>注册时间：</label>
-            <span>3030033</span>
+            <span>{info.registerTime}</span>
           </li>
         </ul>
         <ul className={styles.intro}>
@@ -58,7 +58,7 @@ class PathUserInfo extends React.Component {
         <ul className={styles.intro}>
           <li>
             <label>付费订单：</label>
-            <span>有没有呀</span>
+            <span>{info.payOrder}</span>
           </li>
           <li>
             <label>是否选课前付费：</label>
@@ -66,7 +66,7 @@ class PathUserInfo extends React.Component {
           </li>
           <li>
             <label>产品包名称：</label>
-            <span>dfdf</span>
+            <span>{info.packageName}</span>
           </li>
         </ul>
         <ul className={styles.intro}>
