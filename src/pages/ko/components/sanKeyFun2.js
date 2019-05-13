@@ -55,14 +55,14 @@ function downPage1Deal(downPage1,currentPage,pvuvData) {
   const jumpOutNode = {// 跳出全局
     id:'jumpOut#',
     name:'跳出全局',
-    pageView:1,
-    proportion:1/100,
+    pageView:pvuvData.bounceTimes,
+    proportion:pvuvData.bounceTimePercent.slice(0,pvuvData.bounceTimePercent.length-1)/100,
   };
   const jumpOutLinks = {
     source:currentPage,
     target:'jumpOut#',
-    pageView:1,
-    proportion:1/100,
+    flowValue:pvuvData.bounceTimes,
+    proportion:pvuvData.bounceTimePercent.slice(0,pvuvData.bounceTimePercent.length-1)/100,
   };
   downPage1.node && downPage1.node.forEach((v,i)=>{
     if (v.id === currentPage) {
