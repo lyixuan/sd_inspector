@@ -1,4 +1,4 @@
-
+const actionId='$-1';
 export function dealSankeyData({ sankey, pvuvData,currentPage }) {
   /*
   * 桑吉接口组合，处理数据
@@ -7,9 +7,9 @@ export function dealSankeyData({ sankey, pvuvData,currentPage }) {
   * */
   const { upPage={},downPage1={},downPage2={}  } = sankey;
 
-  const upPageData = upPageDeal(upPage,currentPage);
-  const downPage1Data = downPage1Deal(downPage1,currentPage,pvuvData);
-  const downPage2Data = downPage2Deal(downPage2,currentPage,pvuvData);
+  const upPageData = upPageDeal(upPage,currentPage+actionId);
+  const downPage1Data = downPage1Deal(downPage1,currentPage+actionId,pvuvData);
+  const downPage2Data = downPage2Deal(downPage2,currentPage+actionId,pvuvData);
   const downPageData = downPageDeal(downPage1Data,downPage2Data);
 
   return { upPageData, downPageData };

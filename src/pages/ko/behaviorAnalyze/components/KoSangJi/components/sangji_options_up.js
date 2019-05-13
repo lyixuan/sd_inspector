@@ -4,6 +4,7 @@ import {thousandsFormat} from '@/utils/utils';
 export function getSangJiUpOption(upPage, currentPage) {
   const { node = [], links = [] } = upPage;
   for (let d = 0; d < node.length; d++) {
+    node[d].value=node[d].flowValue;
     if (node[d].id !== currentPage) {
       node[d].itemStyle = {
         normal: {
