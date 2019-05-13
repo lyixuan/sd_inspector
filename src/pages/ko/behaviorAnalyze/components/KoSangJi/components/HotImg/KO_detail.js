@@ -100,7 +100,7 @@ class KoDetailPage extends React.Component {
     })
     this.chart.selectAll(domClass[0]).text(function(){
       const val = newKeys.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-      if(val) return val.name.length>4?`${val.name.slice(4,8)}`:'';
+      if(val) return val.name&&val.name.length>4?`${val.name.slice(4,8)}`:'';
     })
     this.chart.selectAll(domClass[1]).text(function(){
       const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
@@ -111,7 +111,6 @@ class KoDetailPage extends React.Component {
   dealListDom = (data,actionKey,id,bol)=>{
     const domClass=['.textWrap1 .textVal','.textWrap2 .textVal','.textWrap3 .textVal'],
       newKeys = this.getActionKeyList(data,actionKey,id,bol).sort((a,b)=>(b.clickNum-a.clickNum)).slice(0,10);
-
     if(newKeys.length){
       // 首页动态加载特殊处理
       if(id==='homepage_ko_item') this.dealHomeText(newKeys)
@@ -168,6 +167,8 @@ class KoDetailPage extends React.Component {
         this.dealListDom(data,'click_ko_item','kolist_ko_item',true);
       }else if(page==='livefeedpage'){
         this.dealListDom(data,'click_change_live','livefeedpage_live_item',true);
+      }else if(page==='majordetail'){
+        this.specialData(data,['majordetail_click_intro _class$-1','majordetail_click_intro_class$-1'],'majordetail_click_intro_class');
       }
       // 修改数据
       this.chart.selectAll('.text').text(function(){
