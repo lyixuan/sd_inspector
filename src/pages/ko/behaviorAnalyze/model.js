@@ -97,9 +97,9 @@ export default {
       if (behaviourData.length) {
         let newbehaviourData = [];
         const studyList = [
-          {name:'click_golesson',list:['studypage_click_golesson_-1','studypage_click_golesson_free_-1']},
-          {name:'click_livebroadcast',list:['studypage_click_livebroadcast_free_-1','studypage_click_livebroadcast-1']},
-          {name:'click_record',list:['studypage_click_record_free_-1','studypage_click_record_-1']}
+          {name:'click_golesson',list:['studypage_click_golesson$-1','studypage_click_golesson_free$-1']},
+          {name:'click_livebroadcast',list:['studypage_click_livebroadcast_free$-1','studypage_click_livebroadcast-1']},
+          {name:'click_record',list:['studypage_click_record_free$-1','studypage_click_record$-1']}
         ]
         // if(currentPage==='homepage'){
         //   newbehaviourData= dealHomeData(behaviourData);
