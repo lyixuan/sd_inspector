@@ -124,7 +124,7 @@ class BehaviorPath1 extends React.Component {
             </TabPane>
           </BITabs>
         </div>
-        <div style={{ position: "fixed", left: "940px", top: "150px" }}>
+        <div style={{ position: "absolute", left: "720px", top: "108px" }}>
           <UserInfo info={locationParams}></UserInfo>
         </div>
       </div>
