@@ -247,9 +247,11 @@ class Study extends React.Component {
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {
-      let date = this.state.dateList[index].date.replace(/[\u4e00-\u9fa5]/g, '-').split('-');
-      date.length = 3;
-      this.getStudyList(date.join('-'));
+      if (this.state.dateList[index].dialogList.length < 1) {
+        let date = this.state.dateList[index].date.replace(/[\u4e00-\u9fa5]/g, '-').split('-');
+        date.length = 3;
+        this.getStudyList(date.join('-'));
+      }
     }
 
     this.state.dateList[index].collapse = !this.state.dateList[index].collapse;
