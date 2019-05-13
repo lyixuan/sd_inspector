@@ -181,11 +181,9 @@ class Study extends React.Component {
   }
 
   componentDidMount() {
-    console.log(154, this.state.currentIndex);
     this.mount(this.props);
   }
   mount(props) {
-    console.log(157, this.state.currentIndex);
     let list = [];
     if (props.behaviorPath.dateListStudy.length > 0) {
       props.behaviorPath.dateListStudy.map(item => {

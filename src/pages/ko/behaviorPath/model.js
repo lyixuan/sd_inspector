@@ -24,7 +24,7 @@ export default {
     bbsData: [],
     wechartData: [],
     letterData: [],
-    dateRangeIm: null,
+    dateRange: null,
     imTotal: 0,
     studyTotal: 0,
     weChartTotal: 0,
