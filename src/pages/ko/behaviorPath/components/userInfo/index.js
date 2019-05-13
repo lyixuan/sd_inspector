@@ -58,7 +58,7 @@ class PathUserInfo extends React.Component {
         <ul className={styles.intro}>
           <li>
             <label>付费订单：</label>
-            <span>{info.payOrder}</span>
+            <span>{info.hasPaidOrder ? '是' : '否'}</span>
           </li>
           <li>
             <label>是否选课前付费：</label>
