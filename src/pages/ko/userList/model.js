@@ -22,7 +22,7 @@ export default {
       if (result.code === 20000) {
         const data = result.data || {};
         const userList = Array.isArray(data.resultList) ? data.resultList : [];
-        const totalCount = data.totalCount;
+        const totalCount = data.totalUser;
         const currentPage = data.currentPage;
         yield put({ type: 'save', payload: { userList, currentPage, totalCount } });
         yield put({

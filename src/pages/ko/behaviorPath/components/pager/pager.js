@@ -14,7 +14,10 @@ const { BIRangePicker } = BIDatePicker;
 class Pager extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
+      defaultBeginDate: '',
+      defaultEndDate: '',
       beginDate: this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.beginDate : new Date(new Date().getTime()),
       endDate: this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.endDate : new Date(new Date().getTime()),
       total: 0,
@@ -37,6 +40,8 @@ class Pager extends React.Component {
       this.setState({
         beginDate: nextProps.behaviorPath.dateRange.beginDate,
         endDate: nextProps.behaviorPath.dateRange.endDate,
+        defaultBeginDate: nextProps.behaviorPath.dateRange.beginDate,
+        defaultEndDate: nextProps.behaviorPath.dateRange.endDate
       })
     }
 
@@ -80,7 +85,7 @@ class Pager extends React.Component {
   }
   // 时间控件可展示的时间范围
   disabledDate = current => {
-    return current < moment(this.state.beginDate) || current > moment(this.state.endDate);
+    return current < moment(this.state.defaultBeginDate) || current > moment(this.state.defaultEndDate);
   };
   // 日期修改
   dateChange = (value, dateString) => {

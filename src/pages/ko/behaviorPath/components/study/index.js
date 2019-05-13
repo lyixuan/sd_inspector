@@ -181,11 +181,9 @@ class Study extends React.Component {
   }
 
   componentDidMount() {
-    console.log(154, this.state.currentIndex);
     this.mount(this.props);
   }
   mount(props) {
-    console.log(157, this.state.currentIndex);
     let list = [];
     if (props.behaviorPath.dateListStudy.length > 0) {
       props.behaviorPath.dateListStudy.map(item => {
@@ -249,9 +247,11 @@ class Study extends React.Component {
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {
-      let date = this.state.dateList[index].date.replace(/[\u4e00-\u9fa5]/g, '-').split('-');
-      date.length = 3;
-      this.getStudyList(date.join('-'));
+      if (this.state.dateList[index].dialogList.length < 1) {
+        let date = this.state.dateList[index].date.replace(/[\u4e00-\u9fa5]/g, '-').split('-');
+        date.length = 3;
+        this.getStudyList(date.join('-'));
+      }
     }
 
     this.state.dateList[index].collapse = !this.state.dateList[index].collapse;
