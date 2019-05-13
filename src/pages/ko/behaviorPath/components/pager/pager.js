@@ -5,7 +5,6 @@ import { connect } from 'dva';
 import BIPagination from '@/ant_components/BIPagination';
 import BIDatePicker from '@/ant_components/BIDatePicker';;
 const { BIRangePicker } = BIDatePicker;
-const dateFormat = 'YYYY-MM-DD';
 
 @connect(({ behaviorPath, loading }) => ({
   loading,
