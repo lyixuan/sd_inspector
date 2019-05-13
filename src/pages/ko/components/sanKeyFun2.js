@@ -12,7 +12,7 @@ export function dealSankeyData({ sankey, pvuvData,currentPage }) {
   const downPage2Data = downPage2Deal(downPage2,currentPage,pvuvData);
   const downPageData = downPageDeal(downPage1Data,downPage2Data);
 
-  return { upPage:upPageData, downPage:downPageData };
+  return { upPageData, downPageData };
 }
 
 
@@ -28,27 +28,29 @@ function topTen(pageList,n) {
       return 0;
     }
   });
-  return pageList.slice(0, n);
+  const newList = pageList.slice(0, n);
+
+  return newList;
 }
 
 function upPageDeal(upPage,currentPage) {
   let upPageData = {
     node:[],
-    links:upPage.links
+    links: [].concat(upPage.links)
   };
   upPage.node && upPage.node.forEach((v,i)=>{
     if (v.id === currentPage) {
       upPageData.node.push(upPage.node.splice(i,1));
     }
   });
-  upPageData.node.push(topTen(upPage.node,10));
+  upPageData.node = upPageData.node.concat(topTen(upPage.node,10));
   return upPageData;
 }
 
 function downPage1Deal(downPage1,currentPage,pvuvData) {
   let pageData = {
     node:[],
-    links:downPage1.links
+    links:[].concat(downPage1.links)
   };
   const jumpOutNode = {// 跳出全局
     id:'jumpOut#',
@@ -67,7 +69,7 @@ function downPage1Deal(downPage1,currentPage,pvuvData) {
       pageData.node.push(downPage1.node.splice(i,1));
     }
   });
-  pageData.node.push(topTen(downPage1.node,9));
+  pageData.node = pageData.node.concat(topTen(downPage1.node,9));
   pageData.node.push(jumpOutNode);
   pageData.links.push(jumpOutLinks);
   return pageData;
@@ -76,7 +78,7 @@ function downPage1Deal(downPage1,currentPage,pvuvData) {
 function downPage2Deal(downPage2) {
   let pageData = {
     node:[],
-    links:downPage2.links
+    links:[].concat(downPage2.links)
   };
   const listNode = [];
   downPage2.node && downPage2.node.forEach((v1)=>{

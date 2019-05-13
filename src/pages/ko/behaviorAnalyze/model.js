@@ -72,7 +72,9 @@ export default {
       const otherParams = payload.otherParams;
       const result = yield call(sankeySuperApi, { params, formParams, otherParams });
       if (result&&result.code === 20000) {
-        const { behaviourData = [], upPage = {}, downPage = {}, pvuvData, currentPage,currentActionName,userSize } = result.data || [];
+        const { behaviourData = [], sankeyData = {}, pvuvData, currentPage,currentActionName,userSize } = result.data || [];
+        const upPage = sankeyData.upPageData||{};
+        const downPage = sankeyData.downPageData||{};
         yield put({ type: 'saveDataList', payload: { hotDataList: behaviourData,pvuvData,currentPage,currentActionName } });
         yield put({ type: 'saveBehaviourData', payload: { behaviourData ,currentPage} });
         yield put({ type: 'save', payload: {userSize,pvuvData, upPage, downPage, currentPage} });
@@ -97,9 +99,9 @@ export default {
       if (behaviourData.length) {
         let newbehaviourData = [];
         const studyList = [
-          {name:'click_golesson',list:['studypage_click_golesson_-1','studypage_click_golesson_free_-1']},
-          {name:'click_livebroadcast',list:['studypage_click_livebroadcast_free_-1','studypage_click_livebroadcast-1']},
-          {name:'click_record',list:['studypage_click_record_free_-1','studypage_click_record_-1']}
+          {name:'click_golesson',list:['studypage_click_golesson$-1','studypage_click_golesson_free$-1']},
+          {name:'click_livebroadcast',list:['studypage_click_livebroadcast_free$-1','studypage_click_livebroadcast-1']},
+          {name:'click_record',list:['studypage_click_record_free$-1','studypage_click_record$-1']}
         ]
         // if(currentPage==='homepage'){
         //   newbehaviourData= dealHomeData(behaviourData);
