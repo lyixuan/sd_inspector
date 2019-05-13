@@ -9,7 +9,7 @@ export function dealSankeyData({ sankey, pvuvData,currentPage }) {
 
   const upPageData = upPageDeal(upPage,currentPage+actionId);
   const downPage1Data = downPage1Deal(downPage1,currentPage+actionId,pvuvData);
-  const downPage2Data = downPage2Deal(downPage2,currentPage+actionId,pvuvData);
+  const downPage2Data = downPage2Deal(downPage2,downPage1);
   const downPageData = downPageDeal(downPage1Data,downPage2Data);
 
   return { upPageData, downPageData };
@@ -40,7 +40,7 @@ function upPageDeal(upPage,currentPage) {
   };
   upPage.node && upPage.node.forEach((v,i)=>{
     if (v.id === currentPage) {
-      upPageData.node.push(upPage.node.splice(i,1));
+      upPageData.node=upPage.node.splice(i,1)
     }
   });
   upPageData.node = upPageData.node.concat(topTen(upPage.node,10));
@@ -62,11 +62,11 @@ function downPage1Deal(downPage1,currentPage,pvuvData) {
     source:currentPage,
     target:'jumpOut#',
     pageView:pvuvData.bounceTimes,
-    proportion:pvuvData.bounceTimePercent,
+    proportion:pvuvData.bounceTimePercent.slice(0,pvuvData.bounceTimePercent.length-1)/100,
   };
   downPage1.node && downPage1.node.forEach((v,i)=>{
     if (v.id === currentPage) {
-      pageData.node.push(downPage1.node.splice(i,1));
+      pageData.node=downPage1.node.splice(i,1);
     }
   });
   pageData.node = pageData.node.concat(topTen(downPage1.node,9));
@@ -75,20 +75,19 @@ function downPage1Deal(downPage1,currentPage,pvuvData) {
   return pageData;
 }
 
-function downPage2Deal(downPage2) {
+function downPage2Deal(downPage2,downPage1) {
   let pageData = {
     node:[],
     links:[].concat(downPage2.links)
   };
-  const listNode = [];
-  downPage2.node && downPage2.node.forEach((v1)=>{
-    downPage2.links.forEach((v2)=>{
-      if (v1.id === v2.target) {
-        listNode.push(v1);
+  for (let i = downPage2.node.length-1; i >= 0;i--) {
+    downPage1.node.forEach((v)=>{
+      if (downPage2.node[i].id === v.id) {
+        downPage2.node.splice(i,1)
       }
     });
-  });
-  pageData.node = topTen(listNode,10);
+  }
+  pageData.node = topTen(downPage2.node,10);
   return  pageData;
 }
 
@@ -101,5 +100,15 @@ function downPageDeal(downPage1Data,downPage2Data) {
   pageData.node = downPage1Data.node.concat(downPage2Data.node);
   pageData.links = downPage1Data.links.concat(downPage2Data.links);
 
+  // 去重node
+  // const obj = {};
+  // pageData.node.forEach((v)=>{
+  //   if (!obj[v.id]) {
+  //     obj[v.id] = v;
+  //   }
+  // });
+  // Object.keys(obj).forEach((key) => {
+  //   pageData.node.push(obj[key]);
+  // });
   return pageData;
 }

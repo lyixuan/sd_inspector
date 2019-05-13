@@ -4,7 +4,6 @@ import { thousandsFormat } from '@/utils/utils';
 export function getSangJiDownOption(downPage, currentPage) {
   const { node = [], links = [] } = downPage;
   for (let d = 0; d < node.length; d++) {
-    node[d].value=node[d].flowValue;
     if (node[d].id !== currentPage) {
       node[d].itemStyle = {
         normal: {
@@ -24,6 +23,9 @@ export function getSangJiDownOption(downPage, currentPage) {
       }
     };
   }
+  links.forEach((v)=>{
+    v.value=v.flowValue;
+  });
   // 桑吉图 下游option
   let option = {
     tooltip: {
@@ -33,9 +35,9 @@ export function getSangJiDownOption(downPage, currentPage) {
         const { data } = param;
         const { pageView = undefined, id = undefined, proportion = undefined,flowValue = undefined } = data;
         if (id) {
-          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(pageView)}次</div><div>占比：${proportion*100+'%'}</div></div>`
+          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(pageView)}次</div><div>占比：${(proportion*100).toFixed(2)+'%'}</div></div>`
         } else {
-          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(flowValue)}次</div><div>占比：${proportion*100+'%'}</div></div>`
+          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(flowValue)}次</div><div>占比：${(proportion*100).toFixed(2)+'%'}</div></div>`
         }
       }
     },

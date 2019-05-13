@@ -4,7 +4,6 @@ import {thousandsFormat} from '@/utils/utils';
 export function getSangJiUpOption(upPage, currentPage) {
   const { node = [], links = [] } = upPage;
   for (let d = 0; d < node.length; d++) {
-    node[d].value=node[d].flowValue;
     if (node[d].id !== currentPage) {
       node[d].itemStyle = {
         normal: {
@@ -24,6 +23,9 @@ export function getSangJiUpOption(upPage, currentPage) {
       }
     };
   }
+  links.forEach((v)=>{
+    v.value=v.flowValue;
+  });
   let option = {
     tooltip: {
       trigger: 'item',
@@ -32,9 +34,9 @@ export function getSangJiUpOption(upPage, currentPage) {
         const { data } = param;
         const { pageView = undefined, id = undefined, proportion = undefined,flowValue = undefined } = data;
         if (id) {
-          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(pageView)}次</div><div>占比：${proportion*100+'%'}</div></div>`
+          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(pageView)}次</div><div>占比：${(proportion*100).toFixed(2)+'%'}</div></div>`
         } else {
-          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(flowValue)}次</div><div>占比：${proportion*100+'%'}</div></div>`
+          return `<div style='font-size: 12px'><div>pv：${thousandsFormat(flowValue)}次</div><div>占比：${(proportion*100).toFixed(2)+'%'}</div></div>`
         }
       }
     },
