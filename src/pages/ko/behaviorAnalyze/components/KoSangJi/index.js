@@ -25,7 +25,7 @@ class KoSangJi extends React.Component {
             </div>
           )
         }
-        
+
       </div>
     );
   }

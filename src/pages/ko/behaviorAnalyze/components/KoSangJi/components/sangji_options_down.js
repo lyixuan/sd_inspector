@@ -26,6 +26,8 @@ export function getSangJiDownOption(downPage, currentPage) {
   links.forEach((v)=>{
     v.value=v.flowValue;
   });
+  console.log(JSON.stringify(node))
+  console.log(JSON.stringify(links))
   // 桑吉图 下游option
   let option = {
     tooltip: {
@@ -44,7 +46,7 @@ export function getSangJiDownOption(downPage, currentPage) {
     series: {
       data: node,
       links: links,
-      nodeGap: 15,
+      nodeGap: 12,
       label: {
         normal: {
           color: "#000",
