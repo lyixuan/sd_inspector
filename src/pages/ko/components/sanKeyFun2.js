@@ -1,4 +1,7 @@
 const actionId='$-1';
+const detail1="majordetail";
+const detail2="kogoodsdetail";
+
 export function dealSankeyData({ sankey, pvuvData,currentPage }) {
   /*
   * 桑吉接口组合，处理数据
@@ -6,12 +9,25 @@ export function dealSankeyData({ sankey, pvuvData,currentPage }) {
   * 2、增加全局跳出
   * */
   const { upPage={},downPage1={},downPage2={}  } = sankey;
+  let upPageData = {}
+  let downPage1Data = {};
 
-  const upPageData = upPageDeal(upPage,currentPage+actionId);
-  const downPage1Data = downPage1Deal(downPage1,currentPage+actionId,pvuvData);
+  if (currentPage.indexOf(detail1)>-1||currentPage.indexOf(detail2)>-1) {
+    upPageData = upPageDealDetail(upPage,currentPage);
+  } else {
+    upPageData = upPageDeal(upPage,currentPage+actionId);
+  }
+
+  if (currentPage.indexOf(detail1)>-1||currentPage.indexOf(detail2)>-1) {
+    downPage1Data = downPage1DealDetail(upPage,currentPage,pvuvData);
+  } else {
+    downPage1Data = downPage1Deal(downPage1,currentPage+actionId,pvuvData);
+  }
+
   const downPage2Data = downPage2Deal(downPage2,downPage1);
   const downPageData = downPageDeal(downPage1Data,downPage2Data);
-console.log('downPageData',downPageData)
+  console.log('upPageData',upPageData)
+  console.log('downPageData',downPageData)
   return { upPageData, downPageData };
 }
 
@@ -47,6 +63,35 @@ function upPageDeal(upPage,currentPage) {
   return upPageData;
 }
 
+function upPageDealDetail(upPage,currentPage) {
+  let upPageData = {
+    node:[],
+    links: [].concat(upPage.links)
+  };
+
+  upPage.node && upPage.node.forEach((v,i)=>{
+    if (v.id.indexOf(currentPage)>-1) {
+      console.log('v.id',v.id)
+      if (upPageData.node.length===0) {
+        upPageData.node[0]=upPage.node.splice(i,1)[0];
+        upPageData.node[0].id=currentPage+actionId;
+      } else {
+        const arr = upPage.node.splice(i,1);
+        upPageData.node[0].pageView+=arr[0].pageView;
+        upPageData.node[0].proportion+=arr[0].proportion;
+      }
+      console.log(upPageData.node)
+    }
+  });
+  upPageData.node = upPageData.node.concat(topTen(upPage.node,10));
+  upPageData.links.forEach((v)=>{
+    if(v.target.indexOf(currentPage)>-1){
+      v.target = currentPage+actionId;
+    }
+  });
+  return upPageData;
+}
+
 function downPage1Deal(downPage1,currentPage,pvuvData) {
   let pageData = {
     node:[],
@@ -75,18 +120,59 @@ function downPage1Deal(downPage1,currentPage,pvuvData) {
   return pageData;
 }
 
+function downPage1DealDetail(downPage1,currentPage,pvuvData) {
+  let pageData = {
+    node:[],
+    links:[].concat(downPage1.links)
+  };
+  const jumpOutNode = {// 跳出全局
+    id:'jumpOut#',
+    name:'跳出全局',
+    pageView:pvuvData.bounceTimes,
+    proportion:pvuvData.bounceTimePercent.slice(0,pvuvData.bounceTimePercent.length-1)/100,
+  };
+  const jumpOutLinks = {
+    source:currentPage+actionId,
+    target:'jumpOut#',
+    flowValue:pvuvData.bounceTimes,
+    proportion:pvuvData.bounceTimePercent.slice(0,pvuvData.bounceTimePercent.length-1)/100,
+  };
+  downPage1.node && downPage1.node.forEach((v,i)=>{
+    if (v.id.indexOf(currentPage)>-1) {
+      if (pageData.node.length===0) {
+        pageData.node[0]=downPage1.node.splice(i,1)[0];
+        pageData.node[0].id=currentPage+actionId;
+      } else {
+        const arr = downPage1.node.splice(i,1);
+        pageData.node[0].pageView+=arr[0].pageView;
+        pageData.node[0].proportion+=arr[0].proportion;
+      }
+    }
+  });
+  pageData.node = pageData.node.concat(topTen(downPage1.node,9));
+  pageData.node.push(jumpOutNode);
+  pageData.links.push(jumpOutLinks);
+  pageData.links.forEach((v)=>{
+    if(v.source.indexOf(currentPage)>-1){
+      v.source = currentPage+actionId;
+    }
+  });
+  return pageData;
+}
+
 function downPage2Deal(downPage2,downPage1) {
   let pageData = {
     node:[],
     links:[].concat(downPage2.links)
   };
-  for (let i = downPage2.node.length-1; i >= 0;i--) {
     downPage1.node.forEach((v)=>{
-      if (downPage2.node[i].id === v.id) {
-        downPage2.node.splice(i,1)
+      for (let i = downPage2.node.length-1; i >= 0;i--) {
+        if (downPage2.node[i].id === v.id) {
+          downPage2.node.splice(i,1)
+        }
       }
     });
-  }
+
   pageData.node = topTen(downPage2.node,10);
   return  pageData;
 }
