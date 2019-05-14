@@ -95,6 +95,7 @@ function upPageDealDetail(upPage,currentPage) {
     }
   }
   upPageData.node = upPageData.node.concat(topTen(upPage.node,10));
+  // 替换id
   upPageData.links.forEach((v)=>{
     if(v.target.indexOf(currentPage)>-1){
       v.target = currentPage+actionId;
@@ -179,19 +180,22 @@ function downPage1DealDetail(downPage1,currentPage,pvuvData) {
   pageData.node.push(jumpOutNode);
   pageData.links.push(jumpOutLinks);
   pageData.links.forEach((v)=>{
-    if(v.source.indexOf(currentPage)>-1){
-      v.source = currentPage+actionId;
-    }
+      if(v.source.indexOf(currentPage)>-1){
+        v.source = currentPage+actionId;
+      }
   });
   // 去重 links target
   const obj = {};
   pageData.links.forEach((v)=>{
-    if (!obj[v.target]) {
-      obj[v.target] = v;
-    } else {
-      obj[v.target].flowValue += v.flowValue;
-      obj[v.target].proportion += v.proportion;
+    if(v.source.indexOf(currentPage)>-1) {
+      if (!obj[v.target]) {
+        obj[v.target] = v;
+      } else {
+        obj[v.target].flowValue += v.flowValue;
+        obj[v.target].proportion += v.proportion;
+      }
     }
+
   });
   pageData.links = [];
   Object.keys(obj).forEach((key) => {
