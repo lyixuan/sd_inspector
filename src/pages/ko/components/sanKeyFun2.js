@@ -9,10 +9,10 @@ export function dealSankeyData({ sankey, pvuvData,currentPage }) {
 
   const upPageData = upPageDeal(upPage,currentPage+actionId);
   const downPage1Data = downPage1Deal(downPage1,currentPage+actionId,pvuvData);
-  // const downPage2Data = downPage2Deal(downPage2,downPage1);
-  // const downPageData = downPageDeal(downPage1Data,downPage2Data);
-console.log(downPage1Data)
-  return { upPageData, downPageData:downPage1Data };
+  const downPage2Data = downPage2Deal(downPage2,downPage1);
+  const downPageData = downPageDeal(downPage1Data,downPage2Data);
+console.log('downPageData',downPageData)
+  return { upPageData, downPageData };
 }
 
 
