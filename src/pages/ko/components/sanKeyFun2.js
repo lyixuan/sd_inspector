@@ -233,19 +233,24 @@ function delP2Node(downPage1,downPage2) {
       }
     });
 
-    downPage2.node.forEach((v3,i)=>{
-      // 要去掉的节点在down2里只能是source ，没做过target
-      let flag = 0;
-      downPage2.links.forEach((v4,i)=>{
-        if (v1.source === v4.target) {
-          // 这种不去
-          flag=1;
+    if(flag===0){
+      downPage2.node.forEach((v3,i)=>{
+        if (v3.id === v1.source) {
+          let flag2 = 0;
+          downPage2.links.forEach((v4)=>{
+            // 要去掉的节点在down2里只能是source ，没做过target
+            if (v1.source === v4.target) {
+              // 这种不去
+              flag=1;
+            }
+          });
+          if (flag2===0){
+            downPage2.node.splice(i,1)
+          }
+
         }
       });
-      if (v3.id === v1.source&&flag===0) {
-        downPage2.node.splice(i,1)
-      }
-    });
+    }
   });
 
   return  downPage2Node;
