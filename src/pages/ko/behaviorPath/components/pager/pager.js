@@ -3,7 +3,8 @@ import styles from '../../style.less'
 import moment from 'moment';
 import { connect } from 'dva';
 import BIPagination from '@/ant_components/BIPagination';
-import BIDatePicker from '@/ant_components/BIDatePicker';;
+import BIDatePicker from '@/ant_components/BIDatePicker';
+import { message } from 'antd';
 const { BIRangePicker } = BIDatePicker;
 
 @connect(({ behaviorPath, loading }) => ({
@@ -45,7 +46,6 @@ class Pager extends React.Component {
         defaultEndDate: nextProps.behaviorPath.dateRange.endDate
       })
     }
-
   }
   // 每页显示多少条
   onShowSizeChange = (current, size) => {
@@ -73,12 +73,21 @@ class Pager extends React.Component {
     }
     this.refreshData(params)
   }
+  callback = (total) => {
+    if (total < 1) {
+      message.info('该学员在您选择的日期中没有数据');
+
+    } else {
+      message.info(`该学员在您选择的日期中共有${total}天的数据`);
+
+    }
+  }
   refreshData = (params) => {
     let type = this.props.type
     let stuId = JSON.parse(localStorage.getItem("pathParams")).record.userId;
     this.props.dispatch({
       type: 'behaviorPath/getDateList',
-      payload: { params: { stuId: stuId, type: type, startDate: params.beginDate, endDate: params.endDate, page: params.page, pageSize: params.pageSize } },
+      payload: { fn: this.callback, params: { stuId: stuId, type: type, startDate: params.beginDate, endDate: params.endDate, page: params.page, pageSize: params.pageSize } },
     });
   }
   showTotal(total) {
@@ -90,20 +99,20 @@ class Pager extends React.Component {
   };
   // 日期修改
   dateChange = (value, dateString) => {
+    let beginDate = dateString[0] ? dateString[0] : this.state.defaultBeginDate;
+    let endDate = dateString[1] ? dateString[1] : this.state.defaultEndDate
     this.setState({
-      beginDate: dateString[0] ? dateString[0] : this.state.defaultBeginDate,
-      endDate: dateString[1] ? dateString[1] : this.state.defaultEndDate,
+      beginDate: beginDate,
+      endDate: endDate,
       page: 1
     })
-
     let params = {
-      beginDate: dateString[0] ? dateString[0] : this.state.defaultBeginDate,
-      endDate: dateString[1] ? dateString[1] : this.state.defaultEndDate,
+      beginDate: beginDate,
+      endDate: endDate,
       page: 1,
       pageSize: this.state.pageSize
     }
     this.refreshData(params)
-
   };
 
   render() {

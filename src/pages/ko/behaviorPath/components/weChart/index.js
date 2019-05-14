@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import styles from '../../style.less';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
+import miniApp from '@/assets/miniApp.png';
 import Pager from '../pager/pager.js';
 
 // 日期条
@@ -70,6 +71,30 @@ function ListItem(props) {
 // 判断是老师还是学员
 function TeacherOrStudent(props) {
   if (props.item.userType == 1) {
+    if (props.item.appletFlag) {
+      return (
+        <li className={styles.step}>
+          <div className={styles.time}>
+            {props.item.consultTime ? props.item.consultTime.split(' ')[1] : ''}
+          </div>
+          <div className={styles.content}>
+            <div className={styles.bigDot}>
+              <span className={styles.dot} />
+            </div>
+            <div className={styles.chatLeft}>
+              <div className={styles.avatar}>
+                <img src={avatarStudent} />
+                <p>{props.item.userName}</p>
+              </div>
+              <div className={`${styles.chatContent} ${styles.miniApp}`}>
+                <img src={miniApp} />
+                {props.item.message}
+              </div>
+            </div>
+          </div>
+        </li>
+      )
+    }
     return (
       <li className={styles.step}>
         <div className={styles.time}>
@@ -95,6 +120,31 @@ function TeacherOrStudent(props) {
       </li>
     );
   } else {
+    if (props.item.appletFlag) {
+      return (
+        <li className={styles.step}>
+          <div className={styles.time}>
+            {props.item.consultTime ? props.item.consultTime.split(' ')[1] : ''}
+          </div>
+          <div className={styles.content}>
+            <div className={styles.bigDot}>
+              <span className={styles.dot} />
+            </div>
+            <div className={styles.chatRight}>
+              <div className={`${styles.chatContent} ${styles.miniApp}`}>
+                <img src={miniApp} />
+                {props.item.message}
+              </div>
+              <div className={styles.avatar}>
+                <img src={avatarTeacher} />
+                <p>{props.item.userName}</p>
+              </div>
+            </div>
+          </div>
+        </li>
+      )
+    }
+
     return (
       <li className={styles.step}>
         <div className={styles.time}>

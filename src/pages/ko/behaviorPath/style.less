@@ -255,6 +255,7 @@
   position: relative;
   word-break: break-all;
 }
+
 .behavior .chatLeft .triangle {
   display: block;
   width: 0;
@@ -293,6 +294,16 @@
   box-sizing: border-box;
   position: relative;
   word-break: break-all;
+}
+.behavior .chatRight .miniApp, .behavior .chatLeft .miniApp{
+  background:#fff;
+  border: 1px solid #48c2ba;
+  color:#000;
+  padding-top:10px;
+  padding-bottom:10px;
+}
+.behavior .chatRight .miniApp img,  .behavior .chatLeft .miniApp img{
+  margin-right:8px;
 }
 .behavior .chatRight .triangle {
   display: block;
@@ -434,7 +445,7 @@
 
 .comWrap {
   padding-top: 20px;
-  min-height: 800px;
+  min-height: 700px;
   position:relative;
 }
 .comWrap :global .ant-spin-nested-loading{

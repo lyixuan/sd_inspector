@@ -29,7 +29,8 @@ export default {
     studyTotal: 0,
     weChartTotal: 0,
     bbsTotal: 0,
-    letterTotal: 0
+    letterTotal: 0,
+    allTotal: 0
   },
 
   effects: {
@@ -71,6 +72,15 @@ export default {
       if (data.code === 20000) {
         const dateList = data.data.list || [];
         const pagerTotal = data.data.total;
+        if (payload.fn) {
+          yield put({
+            type: 'save',
+            payload: {
+              allTotal: pagerTotal
+            },
+          });
+          payload.fn(pagerTotal)
+        }
         if (params.type == 1) {
           yield put({
             type: 'save',
@@ -98,6 +108,7 @@ export default {
               weChartTotal: pagerTotal
             },
           });
+
         } else if (params.type == 4) {
           yield put({
             type: 'save',

@@ -84,7 +84,7 @@ class PathUserInfo extends React.Component {
           </li>
           <li>
             <label>做题正确率：</label>
-            <span>{info.studyCorrentRate ? info.studyCorrentRate * 100 : '0.00'}%</span>
+            <span>{info.studyCorrentRate ? (info.studyCorrentRate * 100).toFixed(2) : '0.00'}%</span>
           </li>
         </ul>
       </div>
