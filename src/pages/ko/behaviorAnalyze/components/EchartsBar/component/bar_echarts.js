@@ -1,3 +1,5 @@
+
+import {thousandsFormat} from '@/utils/utils' 
 const config = {
   splitLine:{
     lineStyle:{
@@ -47,7 +49,7 @@ export function options(data,date){
         let tipItem='';
         if(params&&params.length){
           for(let i=0;i<params.length;i++){
-          tipItem += `<div class="tipItem"><span class="tipIcon" style="background-color:${params[i].color}"></span><span>${params[i].seriesName}：${params[i].value}${i===0?'次':'%'}</span></div>`
+          tipItem += `<div class="tipItem"><span class="tipIcon" style="background-color:${params[i].color}"></span><span>${params[i].seriesName}：${i===0?thousandsFormat(params[i].value):params[i].value}${i===0?'次':'%'}</span></div>`
           }
         }
         return `<div class="tipWrap"><div>${date}</div><div>${params[0].axisValue}</div>${tipItem}</div>`;

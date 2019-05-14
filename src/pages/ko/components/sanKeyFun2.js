@@ -11,7 +11,7 @@ export function dealSankeyData({ sankey, pvuvData,currentPage }) {
   const downPage1Data = downPage1Deal(downPage1,currentPage+actionId,pvuvData);
   const downPage2Data = downPage2Deal(downPage2,downPage1);
   const downPageData = downPageDeal(downPage1Data,downPage2Data);
-
+console.log('downPageData',downPageData)
   return { upPageData, downPageData };
 }
 
@@ -56,12 +56,12 @@ function downPage1Deal(downPage1,currentPage,pvuvData) {
     id:'jumpOut#',
     name:'跳出全局',
     pageView:pvuvData.bounceTimes,
-    proportion:pvuvData.bounceTimePercent,
+    proportion:pvuvData.bounceTimePercent.slice(0,pvuvData.bounceTimePercent.length-1)/100,
   };
   const jumpOutLinks = {
     source:currentPage,
     target:'jumpOut#',
-    pageView:pvuvData.bounceTimes,
+    flowValue:pvuvData.bounceTimes,
     proportion:pvuvData.bounceTimePercent.slice(0,pvuvData.bounceTimePercent.length-1)/100,
   };
   downPage1.node && downPage1.node.forEach((v,i)=>{

@@ -85,8 +85,21 @@ class koPlan extends React.Component {
   }
   handleDateParams = (params, KoDateRange) => {
     const dateObj = handleFormParams(KoDateRange);
+    const { choiceLessonStatus, publicLesson, certificateChoiceLesson } = params;
     Object.keys(dateObj).forEach(item => {
-      params[item] = params[item] && params[item].length > 0 ? params[item] : dateObj[item];
+      switch (item) {
+        case 'certificateChoiceLessonTime':
+          const certificateChoiceLessonTimeDisable = Number(choiceLessonStatus) === 0 || Number(publicLesson) === 0;
+          params[item] = certificateChoiceLessonTimeDisable ? (params[item] || undefined) : (params[item] && params[item].length > 0 ? params[item] : dateObj[item])
+          break;
+        case 'publicChoiceLessonTime':
+          const publicChoiceLessonTimeDisable = Number(choiceLessonStatus) === 0 || certificateChoiceLesson === 'javascript';
+          params[item] = publicChoiceLessonTimeDisable ? (params[item] || undefined) : (params[item] && params[item].length > 0 ? params[item] : dateObj[item])
+          break;
+        default:
+          params[item] = params[item] && params[item].length > 0 ? params[item] : dateObj[item];
+          break;
+      }
     });
   }
   changeFilterAction = (params, originParams = {}) => {
