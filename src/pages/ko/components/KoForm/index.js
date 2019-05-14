@@ -170,7 +170,7 @@ export default class KoForm extends React.Component {
                 <span className={styles.gutterForm}>
                   <BISelect style={{ width: '70%', minWidth: '140px' }} allowClear placeholder="请选择" value={tabFromParams.currentActionKeyId} onChange={this.changeDetailPage}>
                     {pageDetails.map(item => (
-                      <Option key={item.actionId + item.pageKey} id={item.actionId}>
+                      <Option key={item.actionId} id={item.actionId}>
                         {item.pageName}
                       </Option>
                     ))}
