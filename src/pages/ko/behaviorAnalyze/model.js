@@ -7,7 +7,9 @@ function getData(dataList, dataArr) {
   dataArr.forEach(item => {
     dataObj[item] = [];
     dataList.forEach((item1) => {
+      console.log(item1)
       if(item==='choiceLessonPercent'){
+        console.log(item1)
         item1[item]=item1[item]&&item1[item].split('%')[0]
       }
       dataObj[item].push({ name: item1, value: item1[item] })
@@ -16,16 +18,16 @@ function getData(dataList, dataArr) {
   return dataObj;
 }
 // 学习页：需要把 直播重播等数据求和
-function dealStudyPage (data,dealObj){
+function dealStudyPage (data,dealObj,delItemArr,page){
   let behaviourData = JSON.parse(JSON.stringify(data)) ;
-  const newbehaviourData=[],delItemArr=['studypage_click_golesson','studypage_click_livebroadcast','studypage_click_record','studypage_click_golesson$-1','studypage_click_golesson_free$-1','studypage_click_livebroadcast_free$-1','studypage_click_livebroadcast$-1','studypage_click_record_free$-1','studypage_click_record$-1'];
+  const newbehaviourData=[];
   dealObj.forEach(items=>{
     let newKey = {actionKey:items.name,clickNum:0,choicePerson:0,clickTotalPerson:0};
     items.list.forEach((el)=>{
       behaviourData.forEach((item)=>{
         if(el===item.actionKeyId){
           newKey.name=item.name
-          newKey.actionKeyId = `studypage_${items.name}`
+          newKey.actionKeyId = `${page}_${items.name}`
           newKey.clickNum+=Number(item.clickNum)
           newKey.choicePerson+=Number(item.choicePerson)
           newKey.clickTotalPerson+=Number(item.clickTotalPerson)
@@ -94,8 +96,14 @@ export default {
           {name:'click_livebroadcast',list:['studypage_click_livebroadcast_free$-1','studypage_click_livebroadcast$-1']},
           {name:'click_record',list:['studypage_click_record_free$-1','studypage_click_record$-1']}
         ]
-        if(currentPage==='studypage'){
-          newbehaviourData=dealStudyPage(behaviourData,studyList)
+        const homepageLsit = [{name:'click_testregion',list:['homepage_click_testregion$-1','homepage_Click_city$-1']}];
+        const majordetailLsit = [{name:'click_intro_class',list:['majordetail_click_intro _class$-1','majordetail_click_intro_class$-1']}]
+        if(currentPage==='homepage'){
+          newbehaviourData=dealStudyPage(behaviourData,homepageLsit,['homepage_click_testregion','homepage_click_testregion$-1','homepage_Click_city$-1'],'homepage')
+        }else if(currentPage==='studypage'){
+          newbehaviourData=dealStudyPage(behaviourData,studyList,['studypage_click_golesson','studypage_click_livebroadcast','studypage_click_record','studypage_click_golesson$-1','studypage_click_golesson_free$-1','studypage_click_livebroadcast_free$-1','studypage_click_livebroadcast$-1','studypage_click_record_free$-1','studypage_click_record$-1'],'studypage')
+        }else if(currentPage==='majordetail'){
+          newbehaviourData=dealStudyPage(behaviourData,majordetailLsit,['majordetail_click_intro_class','majordetail_click_intro _class$-1','majordetail_click_intro_class$-1'],'majordetail')
         }else{
           newbehaviourData=behaviourData
         }
