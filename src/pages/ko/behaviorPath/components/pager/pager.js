@@ -14,12 +14,13 @@ const { BIRangePicker } = BIDatePicker;
 class Pager extends React.Component {
   constructor(props) {
     super(props);
-
+    const beginDate = this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.beginDate : new Date(new Date().getTime());
+    const endDate = this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.endDate : new Date(new Date().getTime())
     this.state = {
-      defaultBeginDate: '',
-      defaultEndDate: '',
-      beginDate: this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.beginDate : new Date(new Date().getTime()),
-      endDate: this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.endDate : new Date(new Date().getTime()),
+      defaultBeginDate: beginDate,
+      defaultEndDate: endDate,
+      beginDate: beginDate,
+      endDate: endDate,
       total: 0,
       pageSize: 10,
       page: 1
@@ -90,14 +91,14 @@ class Pager extends React.Component {
   // 日期修改
   dateChange = (value, dateString) => {
     this.setState({
-      beginDate: dateString[0],
-      endDate: dateString[1],
+      beginDate: dateString[0] ? dateString[0] : this.state.defaultBeginDate,
+      endDate: dateString[1] ? dateString[1] : this.state.defaultEndDate,
       page: 1
     })
 
     let params = {
-      beginDate: dateString[0],
-      endDate: dateString[1],
+      beginDate: dateString[0] ? dateString[0] : this.state.defaultBeginDate,
+      endDate: dateString[1] ? dateString[1] : this.state.defaultEndDate,
       page: 1,
       pageSize: this.state.pageSize
     }
@@ -113,7 +114,7 @@ class Pager extends React.Component {
           style={{ width: '230px', textAlign: 'left' }}
           placeholder={['开始日期', '结束日期']}
           onChange={this.dateChange}
-          allowClear={false}
+          allowClear
           defaultValue={[moment(this.state.beginDate, dateFormat), moment(this.state.endDate, dateFormat)]}
           value={[moment(this.state.beginDate, dateFormat), moment(this.state.endDate, dateFormat)]}
           disabledDate={this.disabledDate}
