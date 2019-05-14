@@ -10,7 +10,12 @@ export default class EchartsComponent extends React.Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.options) !== JSON.stringify(this.props.options)) {
-      this.drawChart(nextProps)
+      try{
+        this.drawChart(nextProps)
+      }catch (e) {
+        console.error('echarts data error')
+      }
+
     }
 
     if (JSON.stringify(nextProps.style) !== JSON.stringify(this.props.style)) {
@@ -23,8 +28,13 @@ export default class EchartsComponent extends React.Component {
     this.ID = id;
   };
   initChart = () => {
-    this.myChart = echarts.init(this.ID);
-    this.drawChart();
+    try {
+      this.myChart = echarts.init(this.ID);
+      this.drawChart();
+    }catch (e) {
+      console.error('echarts data error')
+    }
+
   };
   drawChart(nextProps = this.props) {
     const { options } = nextProps;

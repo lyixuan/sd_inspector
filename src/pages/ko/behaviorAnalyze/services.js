@@ -4,7 +4,7 @@ import { msgF } from '@/utils/utils';
 
 // 桑吉图接口1.1
 export async function sankeySuperApi({params,formParams,otherParams}) {
-  const postParams = {...params,...otherParams,...formParams};
+  const postParams = {...params,...otherParams,...formParams,actionId:otherParams.currentActionKeyId};
   const {page:currentPage} = params;
   let result = {
     code: 20000,

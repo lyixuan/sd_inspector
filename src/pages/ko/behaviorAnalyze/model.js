@@ -8,7 +8,7 @@ function getData(dataList, dataArr) {
     dataObj[item] = [];
     dataList.forEach((item1) => {
       if(item==='choiceLessonPercent'){
-        item1[item]=item1[item].split('%')[0]
+        item1[item]=item1[item]&&item1[item].split('%')[0]
       }
       dataObj[item].push({ name: item1, value: item1[item] })
     });
@@ -16,14 +16,16 @@ function getData(dataList, dataArr) {
   return dataObj;
 }
 // 学习页：需要把 直播重播等数据求和
-function dealStudyPage (behaviourData,dealObj){
-  const newbehaviourData=[];
+function dealStudyPage (data,dealObj){
+  let behaviourData = JSON.parse(JSON.stringify(data)) ;
+  const newbehaviourData=[],delItemArr=['studypage_click_golesson','studypage_click_livebroadcast','studypage_click_record','studypage_click_golesson$-1','studypage_click_golesson_free$-1','studypage_click_livebroadcast_free$-1','studypage_click_livebroadcast$-1','studypage_click_record_free$-1','studypage_click_record$-1'];
   dealObj.forEach(items=>{
     let newKey = {actionKey:items.name,clickNum:0,choicePerson:0,clickTotalPerson:0};
     items.list.forEach((el)=>{
       behaviourData.forEach((item)=>{
         if(el===item.actionKeyId){
           newKey.name=item.name
+          newKey.actionKeyId = `studypage_${items.name}`
           newKey.clickNum+=Number(item.clickNum)
           newKey.choicePerson+=Number(item.choicePerson)
           newKey.clickTotalPerson+=Number(item.clickTotalPerson)
@@ -33,7 +35,12 @@ function dealStudyPage (behaviourData,dealObj){
     newKey.choiceLessonPercent = !newKey.clickTotalPerson?'0%':`${((newKey.choicePerson/newKey.clickTotalPerson)*100).toFixed(2)}%`;
     newbehaviourData.push(newKey);
   })
-  return newbehaviourData
+  delItemArr.forEach(el=>{
+    behaviourData.forEach((item,i)=>{
+      if(item.actionKeyId===el) behaviourData.splice(i, 1)
+    })
+  })
+  return behaviourData.concat(newbehaviourData)  
 }
 
 export default {
@@ -84,7 +91,7 @@ export default {
         let newbehaviourData = [];
         const studyList = [
           {name:'click_golesson',list:['studypage_click_golesson$-1','studypage_click_golesson_free$-1']},
-          {name:'click_livebroadcast',list:['studypage_click_livebroadcast_free$-1','studypage_click_livebroadcast-1']},
+          {name:'click_livebroadcast',list:['studypage_click_livebroadcast_free$-1','studypage_click_livebroadcast$-1']},
           {name:'click_record',list:['studypage_click_record_free$-1','studypage_click_record$-1']}
         ]
         if(currentPage==='studypage'){
