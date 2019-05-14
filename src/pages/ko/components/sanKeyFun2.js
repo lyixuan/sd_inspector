@@ -241,7 +241,7 @@ function delP2Node(downPage1,downPage2) {
             // 要去掉的节点在down2里只能是source ，没做过target
             if (v1.source === v4.target) {
               // 这种不去
-              flag=1;
+              flag2=1;
             }
           });
           if (flag2===0){
