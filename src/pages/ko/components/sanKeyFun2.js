@@ -239,7 +239,7 @@ function delP2Node(downPage1,downPage2) {
           let flag2 = 0;
           downPage2.links.forEach((v4)=>{
             // 要去掉的节点在down2里只能是source ，没做过target
-            if (v1.source === v4.target) {
+            if (v3.source === v4.target) {
               // 这种不去
               flag2=1;
             }
