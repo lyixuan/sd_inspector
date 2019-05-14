@@ -42,10 +42,9 @@ function dealStudyPage (behaviourData,dealObj){
       } 
     })
   })
- const filterarr=behaviourData.concat(newbehaviourData)
+  behaviourData=behaviourData.concat(newbehaviourData)
  console.log(behaviourData)
-console.log(filterarr)
-  return filterarr
+  return behaviourData
 }
 
 export default {
