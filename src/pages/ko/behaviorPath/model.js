@@ -6,6 +6,7 @@ import {
   chatMessageAct,
   wechatAct,
   learningAct,
+  userInfo
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -30,7 +31,8 @@ export default {
     weChartTotal: 0,
     bbsTotal: 0,
     letterTotal: 0,
-    allTotal: 0
+    allTotal: 0,
+    userInfo: null
   },
 
   effects: {
@@ -213,6 +215,16 @@ export default {
       if (result.code === 20000) {
         const dateRange = result.data || [];
         yield put({ type: 'save', payload: { dateRange } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *userInfo({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(userInfo, params);
+      if (result.code === 20000) {
+        const userInfo = result.data.resultList;
+        yield put({ type: 'save', payload: { userInfo } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

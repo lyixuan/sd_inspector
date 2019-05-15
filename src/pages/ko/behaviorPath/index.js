@@ -25,12 +25,14 @@ class BehaviorPath1 extends React.Component {
       bbs: true,
       letter: true,
       page: 1,
-      pageSize: 10
+      pageSize: 10,
+      stuId: JSON.parse(this.props.location.query.params).userId
     }
   }
 
   componentDidMount() {
     this.getDateList(this.state.activeKey); // 获取日期列表
+    this.getUserInfo();
   }
   componentWillReceiveProps(nextProps) {
     if ((JSON.stringify(nextProps.behaviorPath.dateListStudy) !== JSON.stringify(this.props.behaviorPath.dateListStudy))) {
@@ -61,15 +63,19 @@ class BehaviorPath1 extends React.Component {
   }
 
   getDateList = (type) => {
-
-    let stuId = JSON.parse(localStorage.getItem("pathParams")).record.userId
-    console.log(64, stuId)
+    let stuId = this.state.stuId
     this.props.dispatch({
       type: 'behaviorPath/getDateList',
       payload: { params: { stuId: stuId, type: type, page: this.state.page, pageSize: this.state.pageSize } },
       // payload: { params: { stuId: 10257895, type: type } },
     });
   };
+  getUserInfo = () => {
+    this.props.dispatch({
+      type: 'behaviorPath/userInfo',
+      payload: { params: { userId: this.state.stuId } },
+    });
+  }
 
   onTabChange = (e) => {
     if (e == "1" && !this.state.study) {
@@ -89,9 +95,9 @@ class BehaviorPath1 extends React.Component {
   }
 
   render() {
-    const pathParams = JSON.parse(localStorage.getItem("pathParams"))
+    const pathParams = JSON.parse(this.props.location.query.params)
     const target = pathParams.target
-    const locationParams = pathParams.record
+    const userInfoParams = this.props.behaviorPath.userInfo
     if (target.indexOf("im") == 0) {
       this.state.activeKey = "2"
     } else if (target.indexOf("bbs") == 0) {
@@ -108,24 +114,26 @@ class BehaviorPath1 extends React.Component {
         <div className={styles.tabBox}>
           <BITabs onChange={this.onTabChange} type="card" animated={false} defaultActiveKey={this.state.activeKey}>
             <TabPane tab="学习" key="1">
-              <Study stuId={locationParams.userId}></Study>
+              <Study stuId={pathParams.userId}></Study>
             </TabPane>
             <TabPane tab="IM" key="2">
-              <Im stuId={locationParams.userId}></Im>
+              <Im stuId={pathParams.userId}></Im>
             </TabPane>
             <TabPane tab="微信" key="3">
-              <WeChart stuId={locationParams.userId}></WeChart>
+              <WeChart stuId={pathParams.userId}></WeChart>
             </TabPane>
             <TabPane tab="BBS" key="4">
-              <Bbs stuId={locationParams.userId}></Bbs>
+              <Bbs stuId={pathParams.userId}></Bbs>
             </TabPane>
             <TabPane tab="私信" key="5">
-              <PrivateLetter stuId={locationParams.userId}></PrivateLetter>
+              <PrivateLetter stuId={pathParams.userId}></PrivateLetter>
             </TabPane>
           </BITabs>
         </div>
         <div style={{ position: "absolute", left: "720px", top: "108px" }}>
-          <UserInfo info={locationParams}></UserInfo>
+          {
+            userInfoParams ? <UserInfo info={userInfoParams}></UserInfo> : null
+          }
         </div>
       </div>
     );

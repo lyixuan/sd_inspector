@@ -6,7 +6,7 @@ class PathUserInfo extends React.Component {
     super(props);
   }
   render() {
-    const info = this.props.info;
+    const info = this.props.info[0];
     return (
       <div className={styles.personIntro}>
         <div className={styles.userArea}>
