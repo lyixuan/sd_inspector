@@ -7,9 +7,7 @@ function getData(dataList, dataArr) {
   dataArr.forEach(item => {
     dataObj[item] = [];
     dataList.forEach((item1) => {
-      console.log(item1)
       if(item==='choiceLessonPercent'){
-        console.log(item1)
         item1[item]=item1[item]&&item1[item].split('%')[0]
       }
       dataObj[item].push({ name: item1, value: item1[item] })
