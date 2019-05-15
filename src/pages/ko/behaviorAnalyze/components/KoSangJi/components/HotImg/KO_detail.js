@@ -23,7 +23,7 @@ class KoDetailPage extends React.Component {
   // 给data增加颜色属性
   getColorFn = (hotData) => {
     hotData.map(item1=>{
-      const val = (!item1.clickNumPro||typeof(item1.clickNumPro)==='number')?item1.clickNumPro:Number(item1.clickNumPro.split('%')[0])
+      const val = (!item1.clickPeoplePro||typeof(item1.clickPeoplePro)==='number')?item1.clickPeoplePro:Number(item1.clickPeoplePro.split('%')[0])
       const colorVal = HOT_RANGE.filter(item2=> val >= item2.minVal && val<=item2.maxVal)[0];
       if(colorVal) item1.color=colorVal.color
     });
@@ -132,7 +132,7 @@ class KoDetailPage extends React.Component {
       // 数据
       this.chart.selectAll(domClass[2]).text(function(){
         const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) return val.clickNumPro.toFixed(2)+'%';
+        if(val) return val.clickPeoplePro.toFixed(2)+'%';
       })
         .on('mouseover', KoDetailPage.that.drewTip(data))
         .on('mouseout', tip.hide)
@@ -178,7 +178,7 @@ class KoDetailPage extends React.Component {
       // 修改数据
       this.chart.selectAll('.text').text(function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) return val.clickNumPro.toFixed(2)+'%';
+        if(val) return val.clickPeoplePro.toFixed(2)+'%';
       })
         .style('font-weight','600')
         .on('mouseover', KoDetailPage.that.drewTip(data))

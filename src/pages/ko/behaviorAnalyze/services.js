@@ -18,6 +18,8 @@ export async function sankeySuperApi({params,formParams,otherParams}) {
     result.data.behaviourData = response.data.behaviourData?response.data.behaviourData : [];
     result.data.pvuvData = response.data.pvuvData?response.data.pvuvData : {};
     result.data.userSize = response.data.userSize||0;
+    result.data.clickPersons = response.data.clickPersons||0;
+    result.data.clickNum = response.data.clickNum||0;
     result.data.currentPage = currentPage;
     result.data.currentActionName = otherParams.currentActionName||'';
   } else {

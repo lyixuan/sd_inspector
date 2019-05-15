@@ -103,6 +103,8 @@ export default {
           newbehaviourData=dealStudyPage(behaviourData,studyList,['studypage_click_golesson','studypage_click_livebroadcast','studypage_click_record','studypage_click_golesson$-1','studypage_click_golesson_free$-1','studypage_click_livebroadcast_free$-1','studypage_click_livebroadcast$-1','studypage_click_record_free$-1','studypage_click_record$-1'],'studypage')
         }else if(currentPage==='majordetail'){
           newbehaviourData=dealStudyPage(behaviourData,majordetailLsit,['majordetail_click_intro_class','majordetail_click_intro _class$-1','majordetail_click_intro_class$-1'],'majordetail')
+        }else if(currentPage==='kolist') {
+          newbehaviourData=behaviourData.filter(item=>item.actionKeyId!=='kolist_click_ko_item$-1')
         }else{
           newbehaviourData=behaviourData
         }
