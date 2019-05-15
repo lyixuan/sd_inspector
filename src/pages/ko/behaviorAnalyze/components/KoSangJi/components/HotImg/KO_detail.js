@@ -82,6 +82,7 @@ class KoDetailPage extends React.Component {
     data.forEach(item=>{
       keyArr.forEach(el=>{ if(item.actionKeyId===el) newIdArr.push(item) })
     })
+   
     if(newIdArr.length&&!data.find(item=>item.actionKeyId===id)){
       data.push(this.sumFn(newIdArr,id))
     }
@@ -150,13 +151,14 @@ class KoDetailPage extends React.Component {
       this.chart.selectAll('.textWrap1 text').attr('dominant-baseline',"inherit").attr('text-anchor',"left");
       this.chart.selectAll('.textWrap11 text').attr('text-anchor',"start");
       this.chart.selectAll('.textWrap12 text').attr('text-anchor',"start");
+      this.chart.selectAll('.isShow').attr('text-anchor',"start");
 
       const colorArr = this.getColorFn(data);
 
       // 处理特殊页面
       if(page==='homepage'){
         this.dealListDom(data,'click_ko_item','homepage_ko_item',true);
-        this.specialData(data,['homepage_click_testregion$-1','homepage_Click_city$-1'],'homepage_click_city');
+        this.specialData(data,['homepage_click_testregion$-1','homepage_Click_city$-1'],'homepage_click_testregion');
       }else if(page==='studypage'){
         this.specialData(data,['studypage_click_golesson$-1','studypage_click_golesson_free$-1'],'studypage_click_golesson');
         this.specialData(data,['studypage_click_record_free$-1','studypage_click_record$-1'],'studypage_click_record');
