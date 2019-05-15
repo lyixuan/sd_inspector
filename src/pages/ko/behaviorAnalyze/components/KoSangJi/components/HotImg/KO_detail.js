@@ -124,7 +124,10 @@ class KoDetailPage extends React.Component {
       // 名字
       this.chart.selectAll(domClass[0]).text(function(){
         const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) {if(id==='homepage_ko_item') return val.name.length>4?`${val.name.slice(0,4)}`:val.name; }
+        if(val) {
+          if(id==='homepage_ko_item'&&val.name.length>4) return `${val.name.slice(0,4)}`;
+          else return val.name;
+         }
       })
       // 数据
       this.chart.selectAll(domClass[2]).text(function(){
