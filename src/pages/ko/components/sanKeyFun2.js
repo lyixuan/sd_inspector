@@ -1,3 +1,4 @@
+import {DeepCopy} from '@/utils/utils'
 const actionId='$-1';
 const detail1="majordetail";
 const detail2="kogoodsdetail";
@@ -220,8 +221,11 @@ function downPage2Deal(downPage2,downPage1) {
   pageData.node = topTen(downPage2.node,10);
   return  pageData;
 }
-
+let ff = 0;
 function delP2Node(downPage1,downPage2) {
+  // const downPage1 = DeepCopy(page1)
+  // const downPage2 = DeepCopy(page2)
+  ff = 1;
   // 删掉第二层的source 在第一层的node不存在的节点
   downPage2.links.forEach((v1)=>{
     let flag = 0;
@@ -243,14 +247,21 @@ function delP2Node(downPage1,downPage2) {
       if (flag2===0){
         downPage2.node.forEach((v4,i)=>{
           if (v4.id === v1.source) {
-              downPage2.node.splice(i,1)
+            ff = 2;
+              downPage2.node.splice(i,1);
+              downPage2.links.forEach((v5,j)=>{
+                if (v1.source===v5.source){
+                  downPage2.links.splice(j,1);
+                }
+              })
           }
         });
       }
     }
   });
-
-  return  downPage2.node;
+  if (ff===2){
+    delP2Node(downPage1,downPage2);
+  }
 }
 
 function downPageDeal(downPage1Data,downPage2Data) {
@@ -259,8 +270,8 @@ function downPageDeal(downPage1Data,downPage2Data) {
     node:[],
     links:[]
   };
-  const downPage2DataNode = delP2Node(downPage1Data,downPage2Data);
-  pageData.node = downPage1Data.node.concat(downPage2DataNode);
+  delP2Node(downPage1Data,downPage2Data);
+  pageData.node = downPage1Data.node.concat(downPage2Data.node);
   pageData.links = downPage1Data.links.concat(downPage2Data.links);
 
   // 去重node
