@@ -1,6 +1,6 @@
 import request from '@/utils/request';
 import { dealSankeyData } from '@/pages/ko/components/sanKeyFun2';
-import { msgF } from '@/utils/utils';
+import { msgF,DeepCopy } from '@/utils/utils';
 
 // 桑吉图接口1.1
 export async function sankeySuperApi({params,formParams,otherParams}) {
@@ -14,9 +14,20 @@ export async function sankeySuperApi({params,formParams,otherParams}) {
   const response = await request('/sankey/sankeyMapData', {method: 'post',  data:postParams });
 
   if (response.code === 20000) {
+    let pv = 0;
+    const node = DeepCopy(response.data.sankeyData.upPage.node);
+    node.forEach((v)=>{
+      console.log(v.id)
+      if (v.id===currentPage+'$-1') {
+        console.log(111)
+        pv = v.pageView;
+      }
+    });
+    console.log(pv)
     result.data.sankeyData = dealSankeyData({sankey:response.data.sankeyData||{},pvuvData:response.data.pvuvData,currentPage});
     result.data.behaviourData = response.data.behaviourData?response.data.behaviourData : [];
     result.data.pvuvData = response.data.pvuvData?response.data.pvuvData : {};
+    result.data.pvuvData.pv = pv;
     result.data.userSize = response.data.userSize||0;
     result.data.clickPersons = response.data.clickPersons||0;
     result.data.clickNum = response.data.clickNum||0;
