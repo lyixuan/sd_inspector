@@ -223,8 +223,6 @@ function downPage2Deal(downPage2,downPage1) {
 
 function delP2Node(downPage1,downPage2) {
   // 删掉第二层的source 在第一层的node不存在的节点
-  const downPage2Node = [];
-
   downPage2.links.forEach((v1)=>{
     let flag = 0;
     downPage1.node.forEach((v2)=>{
@@ -234,26 +232,25 @@ function delP2Node(downPage1,downPage2) {
     });
 
     if(flag===0){
-      downPage2.node.forEach((v3,i)=>{
-        if (v3.id === v1.source) {
-          let flag2 = 0;
-          downPage2.links.forEach((v4)=>{
-            // 要去掉的节点在down2里只能是source ，没做过target
-            if (v3.source === v4.target) {
-              // 这种不去
-              flag2=1;
-            }
-          });
-          if (flag2===0){
-            downPage2.node.splice(i,1)
-          }
-
+      let flag2 = 0;
+      downPage2.links.forEach((v3)=>{
+        // 要去掉的节点在down2里只能是source ，没做过target
+        if (v1.source === v3.target) {
+          // 这种不去
+          flag2=1;
         }
       });
+      if (flag2===0){
+        downPage2.node.forEach((v4,i)=>{
+          if (v4.id === v1.source) {
+              downPage2.node.splice(i,1)
+          }
+        });
+      }
     }
   });
 
-  return  downPage2Node;
+  return  downPage2.node;
 }
 
 function downPageDeal(downPage1Data,downPage2Data) {
