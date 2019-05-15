@@ -31,3 +31,7 @@ export async function getDateList2(params) {
 export async function getDateRange() {
   return request('/userTrack/getEffectiveDateRange');
 }
+// 获取用户基本详情
+export async function userInfo(params) {
+  return request('/homePage/userBaseInfo', { params });
+}
