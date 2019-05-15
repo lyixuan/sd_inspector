@@ -96,6 +96,7 @@ class Pager extends React.Component {
         payload: { params: { stuId: stuId, type: type, startDate: params.beginDate, endDate: params.endDate, page: params.page, pageSize: params.pageSize } },
       });
     }
+    this.props.onClick();
 
   }
   showTotal(total) {

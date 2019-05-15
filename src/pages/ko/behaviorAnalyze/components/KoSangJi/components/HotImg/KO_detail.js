@@ -90,7 +90,7 @@ class KoDetailPage extends React.Component {
   }
   // 处理actionkey相同的子项之和
   getActionKeyList = (data,key,id,bol)=>{
-    const newKeyArr=data.filter(item=>item.actionKey===key);
+    const newKeyArr=data.filter(item=>(item.actionKey===key&&Number(item.actionKeyId.split('$')[1])>-1));
     return bol?newKeyArr:(newKeyArr.length&&!data.find(item=>item.actionKeyId===id)? data.push(this.sumFn(newKeyArr,id)):null)
   }
   // 首页展示名字规则：字数超过三行显示省略号
@@ -124,7 +124,10 @@ class KoDetailPage extends React.Component {
       // 名字
       this.chart.selectAll(domClass[0]).text(function(){
         const val = newKeys.filter((item,i)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) {if(id==='homepage_ko_item') return val.name.length>4?`${val.name.slice(0,4)}`:val.name; }
+        if(val) {
+          if(id==='homepage_ko_item'&&val.name.length>4) return `${val.name.slice(0,4)}`;
+          else return val.name;
+         }
       })
       // 数据
       this.chart.selectAll(domClass[2]).text(function(){
