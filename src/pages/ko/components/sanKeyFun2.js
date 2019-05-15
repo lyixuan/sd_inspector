@@ -261,7 +261,6 @@ function delP2Node(downPage1,downPage2) {
   });
   if (ff===2){
     delP2Node(downPage1,downPage2);
-  } else {
   }
 }
 
