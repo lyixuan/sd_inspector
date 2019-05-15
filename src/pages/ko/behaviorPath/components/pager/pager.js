@@ -58,7 +58,7 @@ class Pager extends React.Component {
       page: current,
       pageSize: size
     }
-    this.refreshData(params)
+    this.refreshData(params, 'pager')
   }
   // 分页切换
   onSizeChange = (page) => {
@@ -71,7 +71,7 @@ class Pager extends React.Component {
       page: page,
       pageSize: this.state.pageSize
     }
-    this.refreshData(params)
+    this.refreshData(params, 'pager')
   }
   callback = (total) => {
     if (total < 1) {
@@ -82,13 +82,21 @@ class Pager extends React.Component {
 
     }
   }
-  refreshData = (params) => {
+  refreshData = (params, source) => {
     let type = this.props.type
     let stuId = JSON.parse(localStorage.getItem("pathParams")).record.userId;
-    this.props.dispatch({
-      type: 'behaviorPath/getDateList',
-      payload: { fn: this.callback, params: { stuId: stuId, type: type, startDate: params.beginDate, endDate: params.endDate, page: params.page, pageSize: params.pageSize } },
-    });
+    if (source == 'dateChange') {
+      this.props.dispatch({
+        type: 'behaviorPath/getDateList',
+        payload: { fn: this.callback, params: { stuId: stuId, type: type, startDate: params.beginDate, endDate: params.endDate, page: params.page, pageSize: params.pageSize } },
+      });
+    } else {
+      this.props.dispatch({
+        type: 'behaviorPath/getDateList',
+        payload: { params: { stuId: stuId, type: type, startDate: params.beginDate, endDate: params.endDate, page: params.page, pageSize: params.pageSize } },
+      });
+    }
+
   }
   showTotal(total) {
     return `共${total}条`
@@ -112,7 +120,7 @@ class Pager extends React.Component {
       page: 1,
       pageSize: this.state.pageSize
     }
-    this.refreshData(params)
+    this.refreshData(params, 'dateChange')
   };
 
   render() {
