@@ -111,7 +111,7 @@ class KoDetailPage extends React.Component {
   // 动态添加列表
   dealListDom = (data,actionKey,id,bol)=>{
     const domClass=['.textWrap1 .textVal','.textWrap2 .textVal','.textWrap3 .textVal'],
-      newKeys = this.getActionKeyList(data,actionKey,id,bol).sort((a,b)=>(b.clickNum-a.clickNum)).slice(0,10);
+      newKeys = this.getActionKeyList(data,actionKey,id,bol).sort((a,b)=>(b.clickPeople-a.clickPeople)).slice(0,10);
     if(newKeys.length){
       // 首页动态加载特殊处理
       if(id==='homepage_ko_item') this.dealHomeText(newKeys)
