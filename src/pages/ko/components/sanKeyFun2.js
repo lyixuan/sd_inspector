@@ -235,9 +235,6 @@ function delP2Node(downPage1,downPage2) {
       let flag2 = 0;
       downPage2.links.forEach((v3)=>{
         // 要去掉的节点在down2里只能是source ，没做过target
-        if (v3.target =="productdetail$-1"){
-          console.log(v1.source)
-        }
         if (v1.source === v3.target) {
           // 这种不去
           flag2=1;
