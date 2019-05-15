@@ -26,8 +26,8 @@ class PathUserInfo extends React.Component {
         <ul className={styles.intro}>
           <li>
             <label>前端归属：</label>
-            <span>
-              {info.frontOrgs}
+            <span dangerouslySetInnerHTML={{ __html: info.frontOrgs.replace(/[;；]/g, "$&<br />") }}>
+              {/* {info.frontOrgs} */}
             </span>
           </li>
           <li>

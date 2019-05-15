@@ -171,7 +171,7 @@ class Bbs extends React.Component {
           dialogList: [],
         });
       });
-
+      console.log(174, this.state.currentIndex)
       list[this.state.currentIndex].collapse = true;
       list[this.state.currentIndex].dialogList = props.behaviorPath.bbsData ? props.behaviorPath.bbsData : [];
       this.state.dateList = list;
@@ -200,6 +200,11 @@ class Bbs extends React.Component {
       payload: { params },
     });
   };
+  setIndex = () => {
+    this.setState({
+      currentIndex: 0
+    })
+  }
 
   toggle = (index) => {
     this.setState({
