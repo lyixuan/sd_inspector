@@ -211,8 +211,8 @@ function jump(record, v) {
   const origin = window.location.origin;
   const url = `${origin}${config.base}ko/behaviorPath`;
   const params = { record, target: v.dataIndex };
-  storage.setItem('pathParams', params);
-  window.open(url);
+  const strParams =encodeURIComponent(JSON.stringify(params));
+  window.open(`${url}?params=${strParams}`);
 }
 @connect(({ userListModel, koPlan, loading }) => ({
   userListModel,
@@ -257,6 +257,7 @@ class UserList extends React.Component {
     const { pageParams } = this.state;
     const newPageParams = { ...pageParams, currentPage };
     this.queryData(this.props.tabFromParams, newPageParams);
+    this.getPopupContainer();
   };
   tableChange = (...arg) => {
     const filters = arg[1];
