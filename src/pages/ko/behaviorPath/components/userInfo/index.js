@@ -32,8 +32,8 @@ class PathUserInfo extends React.Component {
           </li>
           <li>
             <label>后端归属：</label>
-            <span>
-              {info.backOrgs}
+            <span dangerouslySetInnerHTML={{ __html: info.backOrgs.replace(/[;；]/g, "$&<br />") }}>
+              {/* {info.backOrgs ? info.backOrgs.replace(/[;；]/g, "$&\r\n") : info.backOrgs} */}
             </span>
           </li>
           <li>
@@ -66,7 +66,9 @@ class PathUserInfo extends React.Component {
           </li>
           <li>
             <label>产品包名称：</label>
-            <span>{info.packageName}</span>
+            <span dangerouslySetInnerHTML={{ __html: info.packageName.replace(/[;；]/g, "$&<br />") }}>
+              {/* {info.packageName} */}
+            </span>
           </li>
         </ul>
         <ul className={styles.intro}>
