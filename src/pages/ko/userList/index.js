@@ -210,7 +210,7 @@ function columns() {
 function jump(record, v) {
   const origin = window.location.origin;
   const url = `${origin}${config.base}ko/behaviorPath`;
-  const params = { record, target: v.dataIndex };
+  const params = { userId:record.userId, target: v.dataIndex };
   const strParams =encodeURIComponent(JSON.stringify(params));
   window.open(`${url}?params=${strParams}`);
 }
