@@ -65,7 +65,7 @@ export default class KoForm extends React.Component {
     this.onSaveParams({ page });
   }
   changeDetailPage = (...arg) => {
-    const currentAction = arg[1] || {};
+    const currentAction = arg[1] || { key: undefined, props: { children: {} } };
     const { key: currentActionKeyId, props: { children: currentActionName } } = currentAction;
     let { page } = this.state.tabFromParams;
     const pageObj = PAGE_KEY_ACTION.find(item => item.value === page.value);
