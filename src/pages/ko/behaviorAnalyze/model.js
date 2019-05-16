@@ -66,7 +66,7 @@ export default {
         const { behaviourData = [], sankeyData = {}, pvuvData, currentPage,currentActionName,userSize,clickPersons,clickNum } = result.data;
         const upPage = sankeyData.upPageData||{};
         const downPage = sankeyData.downPageData||{};
-        yield put({ type: 'saveDataList', payload: { hotDataList: behaviourData,clickPersons,clickNum,currentPage,currentActionName } });
+        yield put({ type: 'saveDataList', payload: { hotDataList: behaviourData,pvuvData,clickNum,currentPage,currentActionName } });
         yield put({ type: 'saveBehaviourData', payload: { behaviourData ,currentPage} });
         yield put({ type: 'save', payload: {userSize,pvuvData, upPage, downPage, currentPage} });
         yield put({
@@ -114,10 +114,10 @@ export default {
       return { ...state, behaviourData: newData };
     },
     saveDataList(state, { payload }) {
-      const { hotDataList,clickPersons,clickNum } = payload;
+      const { hotDataList,pvuvData,clickNum } = payload;
       hotDataList.forEach(item=>{
         item.clickPeople = Number(item.choicePerson);
-        item.clickPeoplePro = item.choicePerson&&clickPersons?item.choicePerson/clickPersons*100:0;//人数占比
+        item.clickPeoplePro = item.choicePerson&&pvuvData.uv?item.choicePerson/pvuvData.uv*100:0;//人数占比
         item.clickNumPro = item.clickNum&&clickNum?item.clickNum/clickNum*100:0;//次数占比
       })
       return { ...state, ...payload };
