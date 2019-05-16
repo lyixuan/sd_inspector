@@ -210,8 +210,8 @@ function columns() {
 function jump(record, v) {
   const origin = window.location.origin;
   const url = `${origin}${config.base}ko/behaviorPath`;
-  const params = { userId:record.userId, target: v.dataIndex };
-  const strParams =encodeURIComponent(JSON.stringify(params));
+  const params = { userId: record.userId, target: v.dataIndex };
+  const strParams = encodeURIComponent(JSON.stringify(params));
   window.open(`${url}?params=${strParams}`);
 }
 @connect(({ userListModel, koPlan, loading }) => ({
@@ -242,7 +242,7 @@ class UserList extends React.Component {
       this.queryData(nextProps.tabFromParams, this.initpage);
     }
     if (JSON.stringify(nextProps.chooseEventData) !== JSON.stringify(this.props.chooseEventData)) {
-      this.queryData(undefined, undefined, nextProps.chooseEventData);
+      this.queryData(undefined, this.initpage, nextProps.chooseEventData);
     }
     if (JSON.stringify(nextProps.pageParams) !== JSON.stringify(this.props.pageParams)) {
       this.setState({ pageParams: nextProps.pageParams });
