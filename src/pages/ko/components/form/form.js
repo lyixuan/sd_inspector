@@ -274,7 +274,7 @@ class CommonForm extends React.Component {
                     initialValue: params.certificateChoiceLesson,
                   })(
                     <BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass('certificateChoiceLesson')}>
-                      <Option key='javascript' value="javascript">无</Option>
+                      {/* <Option key='javascript' value="javascript">无</Option> */}
                       {this.filterEnumData(5).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                     </BISelect>
                   )}
