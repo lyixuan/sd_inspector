@@ -269,7 +269,7 @@ class Study extends React.Component {
               <Empty />
             )}
         </Spin>
-        <Pager onClick={this.setIndex} type="1" total={total}></Pager>
+        <Pager onClick={this.setIndex} type="1" total={total} stuId={this.props.stuId}></Pager>
       </div>
     );
   }

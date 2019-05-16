@@ -341,7 +341,7 @@ class Im extends React.Component {
               <Empty />
             )}
         </Spin>
-        <Pager onClick={this.setIndex} type="2" total={total}></Pager>
+        <Pager onClick={this.setIndex} type="2" total={total} stuId={this.props.stuId}></Pager>
       </div>
     );
   }

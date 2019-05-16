@@ -314,7 +314,7 @@ class Wechart extends React.Component {
               <Empty />
             )}
         </Spin>
-        <Pager onClick={this.setIndex} type="3" total={total}></Pager>
+        <Pager onClick={this.setIndex} type="3" total={total} stuId={this.props.stuId}></Pager>
         {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
       </div>
     );

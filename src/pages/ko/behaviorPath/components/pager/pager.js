@@ -24,7 +24,8 @@ class Pager extends React.Component {
       endDate: endDate,
       total: 0,
       pageSize: 10,
-      page: 1
+      page: 1,
+      // stuId: JSON.parse(this.props.location.query.params).userId
     }
 
   }
@@ -83,8 +84,8 @@ class Pager extends React.Component {
     }
   }
   refreshData = (params, source) => {
-    let type = this.props.type
-    let stuId = JSON.parse(localStorage.getItem("pathParams")).record.userId;
+    let type = this.props.type;
+    let stuId = this.props.stuId;
     if (source == 'dateChange') {
       this.props.dispatch({
         type: 'behaviorPath/getDateList',

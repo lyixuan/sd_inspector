@@ -304,7 +304,7 @@ class PrivateLetter extends React.Component {
               <Empty />
             )}
         </Spin>
-        <Pager onClick={this.setIndex} type="5" total={total}></Pager>
+        <Pager onClick={this.setIndex} type="5" total={total} stuId={this.props.stuId}></Pager>
       </div>
     );
   }

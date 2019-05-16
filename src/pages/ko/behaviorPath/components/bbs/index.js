@@ -237,7 +237,7 @@ class Bbs extends React.Component {
             this.state.dateList.length > 0 ? <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> : <Empty></Empty>
           }
         </Spin>
-        <Pager onClick={this.setIndex} type="4" total={total}></Pager>
+        <Pager onClick={this.setIndex} type="4" total={total} stuId={this.props.stuId}></Pager>
         {/* <Layout dataLists={this.state.dateList} onClick={this.toggle}></Layout> */}
       </div >
     );
