@@ -62,7 +62,7 @@ function columns() {
       filterMultiple: false,
       width: 82,
       filters: [
-        { text: '隐藏0', value: 'attendenceExist', },
+        { text: '大于0', value: 'attendenceExist', },
       ],
     },
     {
@@ -71,7 +71,7 @@ function columns() {
       filterMultiple: false,
       width: 82,
       filters: [
-        { text: '隐藏0', value: 'execiseExist' },
+        { text: '大于0', value: 'execiseExist' },
       ],
     },
     {
@@ -80,7 +80,7 @@ function columns() {
       width: 100,
       filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: 'imDialogueExist' },
+        { text: '大于0', value: 'imDialogueExist' },
       ],
     },
     {
@@ -89,7 +89,7 @@ function columns() {
       width: 120,
       filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: 'imTeacherExist' },
+        { text: '大于0', value: 'imTeacherExist' },
       ],
     },
     {
@@ -98,7 +98,7 @@ function columns() {
       width: 120,
       filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: 'imStudentExit' },
+        { text: '大于0', value: 'imStudentExit' },
       ],
     },
     {
@@ -106,7 +106,7 @@ function columns() {
       dataIndex: 'imQueueDialogueNum',
       width: 82,
       filters: [
-        { text: '隐藏0', value: 'imQueueDialogueExist' },
+        { text: '大于0', value: 'imQueueDialogueExist' },
       ],
     },
     {
@@ -115,7 +115,7 @@ function columns() {
       width: 82,
       filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: 'imMsgExist' },
+        { text: '大于0', value: 'imMsgExist' },
       ],
     },
     {
@@ -124,7 +124,7 @@ function columns() {
       width: 82,
       filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: 'bbsPostExist' },
+        { text: '大于0', value: 'bbsPostExist' },
       ],
     },
     {
@@ -133,7 +133,7 @@ function columns() {
       width: 82,
       filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: 'bbsFollowExist' },
+        { text: '大于0', value: 'bbsFollowExist' },
       ],
     },
     {
@@ -142,7 +142,7 @@ function columns() {
       width: 110,
       filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: 'wechatDialogueExist' },
+        { text: '大于0', value: 'wechatDialogueExist' },
       ],
     },
     {
@@ -151,7 +151,7 @@ function columns() {
       width: 130,
       filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: 'wechatTeacherExist' },
+        { text: '大于0', value: 'wechatTeacherExist' },
       ],
     },
     {
@@ -160,7 +160,7 @@ function columns() {
       width: 130,
       filterMultiple: false,
       filters: [
-        { text: '隐藏0', value: 'wechatStudentExist' },
+        { text: '大于0', value: 'wechatStudentExist' },
       ],
     },
     {
