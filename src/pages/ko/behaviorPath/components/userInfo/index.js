@@ -1,12 +1,25 @@
 import React from 'react';
 import styles from '../../style.less';
 import avatarStudent from '@/assets/avatarStudent.png';
+function Sex(props) {
+  if (props.sex) {
+    return (
+      <>
+        {props.sex.toLowerCase() === 'female' ? '女' : '男'}，
+      </>
+    )
+  } else {
+    return null;
+  }
+
+}
 class PathUserInfo extends React.Component {
   constructor(props) {
     super(props);
   }
   render() {
     const info = this.props.info[0];
+
     return (
       <div className={styles.personIntro}>
         <div className={styles.userArea}>
@@ -14,7 +27,9 @@ class PathUserInfo extends React.Component {
             <img className={styles.avatar} src={avatarStudent} />
             <div>
               <p className={styles.name}>{info.userName}</p>
-              <p>{info.sex.toLowerCase() === 'female' ? '女' : '男'}，{info.age}岁</p>
+              <p>
+                <Sex sex={info.sex}></Sex>{info.age}岁
+              </p>
             </div>
           </div>
           <div className={styles.optBtn}>
