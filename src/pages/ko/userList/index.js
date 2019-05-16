@@ -257,7 +257,6 @@ class UserList extends React.Component {
     const { pageParams } = this.state;
     const newPageParams = { ...pageParams, currentPage };
     this.queryData(this.props.tabFromParams, newPageParams);
-    this.getPopupContainer();
   };
   tableChange = (...arg) => {
     const filters = arg[1];
