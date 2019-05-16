@@ -29,7 +29,13 @@ export function dealSankeyData({ sankey, pvuvData, currentPage }) {
 
   upPageData.links = dealLinks(upPageData.node, upPageData.links);
   downPageData.links = dealLinks(downPageData.node, downPageData.links);
-  return { upPageData, downPageData };
+  let pv = 0;
+  upPageData.node.forEach((v)=>{
+    if (v.id===currentPage+actionId) {
+      pv = v.pageView;
+    }
+  });
+  return { upPageData, downPageData,pv };
 }
 
 function dealLinks(node, links) {
@@ -140,7 +146,7 @@ function downPage1Deal(downPage1, currentPage, pvuvData) {
       pageData.node = downPage1.node.splice(i, 1);
     }
   });
-  pageData.node = pageData.node.concat(topTen(downPage1.node, 9));
+  pageData.node = pageData.node.concat(topTen(downPage1.node, 10));
   // pageData.node.push(jumpOutNode);
   // pageData.links.push(jumpOutLinks);
   return pageData;
@@ -175,7 +181,7 @@ function downPage1DealDetail(downPage1, currentPage, pvuvData) {
       }
     }
   }
-  pageData.node = pageData.node.concat(topTen(downPage1.node, 9));
+  pageData.node = pageData.node.concat(topTen(downPage1.node, 10));
   // pageData.node.push(jumpOutNode);
   // pageData.links.push(jumpOutLinks);
   pageData.links.forEach((v) => {
@@ -247,6 +253,8 @@ function delP2Node(downPage1, downPage2) {
           if (v4.id === v1.source) {
             ff = 2;
             downPage2.node.splice(i, 1);
+            console.log(v1.source)
+            delP2Node(downPage1, downPage2);
             downPage2.links.forEach((v5, j) => {
               if (v1.source === v5.source) {
                 downPage2.links.splice(j, 1);
@@ -258,7 +266,7 @@ function delP2Node(downPage1, downPage2) {
     }
   });
   if (ff === 2) {
-    delP2Node(downPage1, downPage2);
+
   }
 }
 

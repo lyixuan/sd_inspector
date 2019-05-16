@@ -11,25 +11,19 @@ export async function sankeySuperApi({params,formParams,otherParams}) {
     msg: '成功',
     data: {}
   };
-  const response = await request('/sankey/sankeyMapData', {method: 'post',  data:postParams });
+  const response = await request('http://172.16.31.76:8085/sankey/sankeyMapData', {method: 'post',  data:postParams ,prefix:null});
 
   if (response.code === 20000) {
-    let pv = 0;
-    const node = DeepCopy(response.data.sankeyData.upPage.node);
-    node.forEach((v)=>{
-      if (v.id===currentPage+'$-1') {
-        pv = v.pageView;
-      }
-    });
-    result.data.sankeyData = dealSankeyData({sankey:response.data.sankeyData||{},pvuvData:response.data.pvuvData,currentPage});
+
     result.data.behaviourData = response.data.behaviourData?response.data.behaviourData : [];
     result.data.pvuvData = response.data.pvuvData?response.data.pvuvData : {};
-    result.data.pvuvData.pv = pv;
     result.data.userSize = response.data.userSize||0;
     result.data.clickPersons = response.data.clickPersons||0;
     result.data.clickNum = response.data.clickNum||0;
     result.data.currentPage = currentPage;
     result.data.currentActionName = otherParams.currentActionName||'';
+    result.data.sankeyData = dealSankeyData({sankey:response.data.sankeyData||{},pvuvData:response.data.pvuvData,currentPage});
+    if(result.data.sankeyData && result.data.sankeyData.pv) result.data.pvuvData.pv = result.data.sankeyData.pv;
   } else {
     result.code = response.code;
     result.msg = msgF(response.msg,response.msgDetail);
