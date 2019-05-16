@@ -11,7 +11,7 @@ export async function sankeySuperApi({params,formParams,otherParams}) {
     msg: '成功',
     data: {}
   };
-  const response = await request('http://172.16.31.76:8085/sankey/sankeyMapData', {method: 'post',  data:postParams ,prefix:null});
+  const response = await request('/sankey/sankeyMapData', {method: 'post',  data:postParams});
 
   if (response.code === 20000) {
 
