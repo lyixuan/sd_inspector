@@ -41,7 +41,7 @@ function Prise(props) {
           </div>
           <div className={styles.prise3}>{props.li.subjectName}</div>
           <div style={{ display: "flex", paddingTop: "5px", wordBreak: "break-all" }}>
-            <label>评价内容：</label>
+            <label style={{ flexShrink: "0" }}>评价内容：</label>
             <div>
               <div className={styles.stars}>
                 <Star evaluate={props.li.evaluateStar} />

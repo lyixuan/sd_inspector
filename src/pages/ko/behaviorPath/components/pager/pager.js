@@ -24,8 +24,7 @@ class Pager extends React.Component {
       endDate: endDate,
       total: 0,
       pageSize: 10,
-      page: 1,
-      // stuId: JSON.parse(this.props.location.query.params).userId
+      page: 1
     }
 
   }
