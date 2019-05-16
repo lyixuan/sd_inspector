@@ -196,7 +196,8 @@ function Layout(props) {
                 item.dialogList.length > 0 ? (
                   <Ul item={item} />
                 ) : (
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                    // <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                    <Spin size="small" style={{ textAlign: "center", width: "100%" }} />
                   )
               }
             />
