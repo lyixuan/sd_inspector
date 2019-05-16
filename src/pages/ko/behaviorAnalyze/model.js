@@ -94,10 +94,10 @@ export default {
           {name:'click_livebroadcast',list:['studypage_click_livebroadcast_free$-1','studypage_click_livebroadcast$-1']},
           {name:'click_record',list:['studypage_click_record_free$-1','studypage_click_record$-1']}
         ]
-        const homepageLsit = [{name:'click_testregion',list:['homepage_click_testregion$-1','homepage_Click_city$-1']}];
+        const homepageLsit = [{name:'click_testregion',list:['homepage_click_testregion$-1','homepage_click_city$-1']}];
         const majordetailLsit = [{name:'click_intro_class',list:['majordetail_click_intro _class$-1','majordetail_click_intro_class$-1']}]
         if(currentPage==='homepage'){
-          newbehaviourData=dealStudyPage(behaviourData,homepageLsit,['homepage_click_testregion','homepage_click_testregion$-1','homepage_Click_city$-1'],'homepage')
+          newbehaviourData=dealStudyPage(behaviourData,homepageLsit,['homepage_click_testregion','homepage_click_testregion$-1','homepage_click_city$-1'],'homepage')
           newbehaviourData = newbehaviourData.filter(item=>item.actionKeyId!=='homepage_click_ko_item$-1')
         }else if(currentPage==='studypage'){
           newbehaviourData=dealStudyPage(behaviourData,studyList,['studypage_click_golesson','studypage_click_livebroadcast','studypage_click_record','studypage_click_golesson$-1','studypage_click_golesson_free$-1','studypage_click_livebroadcast_free$-1','studypage_click_livebroadcast$-1','studypage_click_record_free$-1','studypage_click_record$-1'],'studypage')
