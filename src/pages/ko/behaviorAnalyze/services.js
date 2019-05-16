@@ -17,13 +17,10 @@ export async function sankeySuperApi({params,formParams,otherParams}) {
     let pv = 0;
     const node = DeepCopy(response.data.sankeyData.upPage.node);
     node.forEach((v)=>{
-      console.log(v.id)
       if (v.id===currentPage+'$-1') {
-        console.log(111)
         pv = v.pageView;
       }
     });
-    console.log(pv)
     result.data.sankeyData = dealSankeyData({sankey:response.data.sankeyData||{},pvuvData:response.data.pvuvData,currentPage});
     result.data.behaviourData = response.data.behaviourData?response.data.behaviourData : [];
     result.data.pvuvData = response.data.pvuvData?response.data.pvuvData : {};
