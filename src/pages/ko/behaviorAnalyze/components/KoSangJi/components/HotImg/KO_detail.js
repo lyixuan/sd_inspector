@@ -167,7 +167,7 @@ class KoDetailPage extends React.Component {
         this.specialData(data,['studypage_click_record_free$-1','studypage_click_record$-1'],'studypage_click_record');
         this.specialData(data,['studypage_click_livebroadcast_free$-1','studypage_click_livebroadcast-1'],'studypage_click_livebroadcast');
       }else if(page==='storelist'){
-        this.dealListDom(data,'Click_major','storelist_ko_item',true);
+        this.dealListDom(data,'click_major','storelist_ko_item',true);
       }else if(page==='kolist'){
         this.dealListDom(data,'click_ko_item','kolist_ko_item',true);
       }else if(page==='livefeedpage'){
