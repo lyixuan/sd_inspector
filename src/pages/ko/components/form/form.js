@@ -220,16 +220,11 @@ class CommonForm extends React.Component {
                       format={dateFormat}
                       defaultPickerValue={this.handleDefaultPickerValue('registerTime')}
                       disabledDate={(current) => this.disabledDate(current, 'registerTime')}
-                    // onChange={(value) => this.changeDate(value, 'registerTime')}
+                      // onChange={(value) => this.changeDate(value, 'registerTime')}
                     />
                   )}
                 </Form.Item>
               </div>
-              {/* 空元素占位(待修改) */}
-              <div className={styles.itemCls} />
-              <div className={styles.itemCls} />
-            </div>
-            <div className={styles.rowWrap}>
               <div className={styles.itemCls}>
                 <Form.Item label='选课状态：'>
                   {getFieldDecorator('choiceLessonStatus', {
@@ -241,6 +236,11 @@ class CommonForm extends React.Component {
                   )}
                 </Form.Item>
               </div>
+              {/* 空元素占位(待修改) */}
+              <div className={styles.itemCls} />
+            </div>
+            <div className={styles.rowWrap}>
+              <div className={styles.itemCls} />
               <div className={styles.itemCls}>
                 {/*<Form.Item label='公共课：'>*/}
                   {/*{getFieldDecorator('publicLesson', {*/}
