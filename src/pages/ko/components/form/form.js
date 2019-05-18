@@ -147,7 +147,7 @@ class CommonForm extends React.Component {
     const { KoDateRange } = this.props.pageParams;
     const dateArr = handleDateFormParams(KoDateRange)[keyName] || [];
     const [startTime, endTime] = dateArr;
-    return [moment(startTime), moment(endTime)]
+    return [moment(endTime).subtract(1,'months'), moment(endTime)]
   }
   renderCascader = (label) => {
     if (Array.isArray(label) && label.length === 0) return;
@@ -405,7 +405,7 @@ class CommonForm extends React.Component {
             <BIButton type="primary" htmlType="submit">
               查询
               </BIButton>
-            <span className={styles.peopleTotall}>共查询到<i className={styles.peopleNum}>{usersData.totalCount || 0}</i>个用户</span>
+            {/*<span className={styles.peopleTotall}>共查询到<i className={styles.peopleNum}>{usersData.totalCount || 0}</i>个用户</span>*/}
           </div>
         </Form>
       </div>

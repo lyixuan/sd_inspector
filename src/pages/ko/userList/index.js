@@ -4,7 +4,7 @@ import { Popover } from 'antd';
 import BITable from '@/components/BIKoTable';
 import BIButtonText from '@/components/BIButtonText';
 import BIPagination from '@/ant_components/BIPagination';
-import { BiFilter } from '@/utils/utils';
+import { BiFilter,thousandsFormat } from '@/utils/utils';
 import storage from '@/utils/storage';
 import style from './style.less';
 import config from '../../../../config/config';
@@ -15,7 +15,7 @@ function columns() {
     {
       title: '学员',
       dataIndex: 'userName',
-      width: 80,
+      width: 110,
       fixed: 'left',
     },
     {
@@ -105,6 +105,7 @@ function columns() {
       title: '排队数',
       dataIndex: 'imQueueDialogueNum',
       width: 82,
+      filterMultiple: false,
       filters: [
         { text: '大于0', value: 'imQueueDialogueExist' },
       ],
@@ -268,7 +269,7 @@ class UserList extends React.Component {
     this.setState({
       filterExitParams
     }, () => {
-      this.queryData(undefined, undefined, undefined, filterExitParams)
+      this.queryData(undefined, this.initpage, undefined, filterExitParams)
     });
   }
   getLocationParams = (chooseEventData = this.props.chooseEventData) => {
@@ -288,19 +289,20 @@ class UserList extends React.Component {
   };
 
   render() {
-    const { userList, currentPage = 1, totalCount = 0 } = this.props.userListModel;
+    const { userList, currentPage = 1, totalCount = 0 ,totalUser = 0} = this.props.userListModel;
     const { loading } = this.props;
     const { pageParams } = this.state;
     const dataSource = userList;
     return (
       <div>
         <div className={style.contentWrap}>
+          <p style={{fontSize:12}}>共查询到 <span style={{color:"#52C9C2"}}>{thousandsFormat(totalUser)}</span> 个用户</p>
           <BITable
             onChange={this.tableChange}
             rowKey={record => { return record.userId + Math.random() * 1000 }}
             dataSource={dataSource} columns={columns()}
             pagination={false} loading={loading}
-            scroll={{ x: 1630, y: 570 }}
+            scroll={{ x: 1660, y: 570 }}
             size="middle"
           />
           <br />

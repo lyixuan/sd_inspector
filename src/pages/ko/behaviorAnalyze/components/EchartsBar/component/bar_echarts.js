@@ -105,11 +105,11 @@ export function options(data,date){
       barWidth:'16',
       // barWidth: '14%',
       data: data.clickNum,
-    },{
-      name: '转化率',
-      type: 'line',
-      yAxisIndex: 1,
-      data: data.choiceLessonPercent
+    // },{
+    //   name: '转化率',
+    //   type: 'line',
+    //   yAxisIndex: 1,
+    //   data: data.choiceLessonPercent
     }]
   };
 };

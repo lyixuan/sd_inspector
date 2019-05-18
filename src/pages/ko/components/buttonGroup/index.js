@@ -19,12 +19,11 @@ export default class ButtonGroup extends React.Component {
     pageOnscroll = (e) => {
         const pageTop = document.documentElement.scrollTop;
         const { top } = this.props;
-        const { isShowFiexd } = this.state;
-        // 此处应增加防抖操作
-        if (pageTop > top && !isShowFiexd) {
-            this.setState({ isShowFiexd: !isShowFiexd, expand: false });
-        } else if (pageTop <= top && isShowFiexd) {
-            this.setState({ isShowFiexd: !isShowFiexd, expand: false });
+        // 此处应增加防抖操作   
+        if (parseInt(pageTop) > parseInt(top)) {
+            this.setState({ isShowFiexd: true, expand: false });
+        } else if (parseInt(pageTop) <=  parseInt(top)) {
+            this.setState({ isShowFiexd: false, expand: false });
         }
     }
     onClose = (keyName, data) => {
