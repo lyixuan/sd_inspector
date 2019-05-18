@@ -13,6 +13,21 @@ function Sex(props) {
   }
 
 }
+function ListenTime(props) {
+  console.log(17, props)
+  if (props.time) {
+    return (
+      <>
+        {
+          (props.time / 60) < 1 ? `${(props.time).toFixed(2)}秒` : `${(props.time / 60).toFixed(2)}分钟`
+        }
+        {/* {props.time.toLowerCase() === 'female' ? '女' : '男'}， */}
+      </>
+    )
+  } else {
+    return '0秒';
+  }
+}
 class PathUserInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -103,7 +118,10 @@ class PathUserInfo extends React.Component {
           </li>
           <li>
             <label>平均听课时长：</label>
-            <span>{parseInt(info.avgListenTime / 60)}分钟</span>
+            <span>{
+              <ListenTime time={info.avgListenTime}></ListenTime>
+              // (info.avgListenTime / 60) < 1 ? `${(info.avgListenTime).toFixed(2)}秒` : `${(info.avgListenTime / 60).toFixed(2)}分钟`
+            }</span>
           </li>
           <li>
             <label>做题量：</label>
