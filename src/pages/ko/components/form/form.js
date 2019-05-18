@@ -422,6 +422,7 @@ function mapPropsToFields(props) {
       value: params[item],
     });
   })
+
   return returnObj
 }
 function onFieldsChange(props, fields) {
