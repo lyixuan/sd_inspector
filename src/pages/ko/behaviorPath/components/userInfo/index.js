@@ -41,15 +41,21 @@ class PathUserInfo extends React.Component {
         <ul className={styles.intro}>
           <li>
             <label>前端归属：</label>
-            <span dangerouslySetInnerHTML={{ __html: info.frontOrgs.replace(/[;；]/g, "$&<br />") }}>
-              {/* {info.frontOrgs} */}
-            </span>
+            {
+              info.frontOrgs ? <span dangerouslySetInnerHTML={{ __html: info.frontOrgs.replace(/[;；]/g, "$&<br />") }}>
+              </span> : <span>{info.frontOrgs}</span>
+            }
+            {/* <span dangerouslySetInnerHTML={{ __html: info.frontOrgs.replace(/[;；]/g, "$&<br />") }}>
+            </span> */}
           </li>
           <li>
             <label>后端归属：</label>
-            <span dangerouslySetInnerHTML={{ __html: info.backOrgs.replace(/[;；]/g, "$&<br />") }}>
-              {/* {info.backOrgs ? info.backOrgs.replace(/[;；]/g, "$&\r\n") : info.backOrgs} */}
-            </span>
+            {
+              info.backOrgs ? <span dangerouslySetInnerHTML={{ __html: info.backOrgs.replace(/[;；]/g, "$&<br />") }}>
+              </span> : <span>{info.backOrgs}</span>
+            }
+            {/* <span dangerouslySetInnerHTML={{ __html: info.backOrgs.replace(/[;；]/g, "$&<br />") }}>
+            </span> */}
           </li>
           <li>
             <label>设备：</label>
@@ -81,9 +87,13 @@ class PathUserInfo extends React.Component {
           </li>
           <li>
             <label>产品包名称：</label>
-            <span dangerouslySetInnerHTML={{ __html: info.packageName.replace(/[;；]/g, "$&<br />") }}>
-              {/* {info.packageName} */}
-            </span>
+            {
+              info.packageName ? <span dangerouslySetInnerHTML={{ __html: info.packageName.replace(/[;；]/g, "$&<br />") }}>
+              </span> : <span>{info.packageName}</span>
+            }
+            {/* <span dangerouslySetInnerHTML={{ __html: info.packageName.replace(/[;；]/g, "$&<br />") }}>
+
+            </span> */}
           </li>
         </ul>
         <ul className={styles.intro}>
