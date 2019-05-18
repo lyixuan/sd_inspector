@@ -110,7 +110,7 @@ export default class KoForm extends React.Component {
     const { KoDateRange } = this.props.pageParams;
     const recordTimeList = initRecordTimeListData(KoDateRange);
     const [beginTime, endTime] = recordTimeList;
-    return [moment(beginTime), moment(endTime)]
+    return [moment(endTime).subtract(1,'months'), moment(endTime)]
   }
   renderPagaData = () => {
     const { pageDetailInfo = [] } = this.props;

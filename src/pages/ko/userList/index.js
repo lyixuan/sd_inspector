@@ -15,7 +15,7 @@ function columns() {
     {
       title: '学员',
       dataIndex: 'userName',
-      width: 100,
+      width: 110,
       fixed: 'left',
     },
     {
@@ -302,7 +302,7 @@ class UserList extends React.Component {
             rowKey={record => { return record.userId + Math.random() * 1000 }}
             dataSource={dataSource} columns={columns()}
             pagination={false} loading={loading}
-            scroll={{ x: 1650, y: 570 }}
+            scroll={{ x: 1660, y: 570 }}
             size="middle"
           />
           <br />
