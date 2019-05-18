@@ -90,8 +90,7 @@ class KoDetailPage extends React.Component {
   }
   // 处理actionkey相同的子项之和
   getActionKeyList = (data,key,id,bol)=>{
-    // const newKeyArr=data.filter(item=>(item.actionKey===key&&Number(item.actionKeyId.split('$')[1])>-1));
-    const newKeyArr=data.filter(item=>(item.actionKey===key));
+    const newKeyArr=data.filter(item=>(item.actionKey===key&&Number(item.actionKeyId.split('$')[1])>-1));
     return bol?newKeyArr:(newKeyArr.length&&!data.find(item=>item.actionKeyId===id)? data.push(this.sumFn(newKeyArr,id)):null)
   }
   // 首页展示名字规则：字数超过三行显示省略号
