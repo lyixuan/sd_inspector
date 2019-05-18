@@ -23,7 +23,7 @@ export default {
         const data = result.data || {};
         const userList = Array.isArray(data.resultList) ? data.resultList : [];
         const { totalUser, totalCount, currentPage } = data;
-        yield put({ type: 'save', payload: { userList, currentPage, totalCount } });
+        yield put({ type: 'save', payload: { userList, totalUser,currentPage, totalCount } });
         yield put({
           type: 'koPlan/saveUserData',
           payload: { usersData: { totalCount: totalUser } }
