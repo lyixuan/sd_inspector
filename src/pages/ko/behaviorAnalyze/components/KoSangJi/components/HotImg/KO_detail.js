@@ -82,7 +82,7 @@ class KoDetailPage extends React.Component {
     data.forEach(item=>{
       keyArr.forEach(el=>{ if(item.actionKeyId===el) newIdArr.push(item) })
     })
-   
+
     if(newIdArr.length&&!data.find(item=>item.actionKeyId===id)){
       data.push(this.sumFn(newIdArr,id))
     }
@@ -195,7 +195,7 @@ class KoDetailPage extends React.Component {
         .on('mousemove', tip.show);
     }
     // 展示详情页标题
-    if(currentActionName) this.chart.selectAll('.isShow tspan').text(currentActionName)
+    if(currentActionName && typeof currentActionName ==='string') this.chart.selectAll('.isShow tspan').text(currentActionName)
 
   };
   render() {
