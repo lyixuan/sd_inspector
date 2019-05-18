@@ -105,6 +105,7 @@ function columns() {
       title: '排队数',
       dataIndex: 'imQueueDialogueNum',
       width: 82,
+      filterMultiple: false,
       filters: [
         { text: '大于0', value: 'imQueueDialogueExist' },
       ],
