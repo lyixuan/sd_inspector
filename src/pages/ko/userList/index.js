@@ -269,7 +269,7 @@ class UserList extends React.Component {
     this.setState({
       filterExitParams
     }, () => {
-      this.queryData(undefined, undefined, undefined, filterExitParams)
+      this.queryData(undefined, this.initpage, undefined, filterExitParams)
     });
   }
   getLocationParams = (chooseEventData = this.props.chooseEventData) => {
