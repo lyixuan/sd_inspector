@@ -360,12 +360,12 @@ export const CHOISE_STATUS = [
 // 热力图对应的区间取值
 export const HOT_RANGE = [
   { minVal: 0, maxVal: 10, color: '#7B83FF' },
-  { minVal: 11, maxVal: 30, color: '#5AB9FF' },
-  { minVal: 31, maxVal: 40, color: '#7AF5C5' },
-  { minVal: 41, maxVal: 50, color: '#FFE65A' },
-  { minVal: 51, maxVal: 60, color: '#FFCB64' },
-  { minVal: 61, maxVal: 80, color: '#FF9862' },
-  { minVal: 81, maxVal: 100, color: '#FF8383' },
+  { minVal: 10.00001, maxVal: 30, color: '#5AB9FF' },
+  { minVal: 30.00001, maxVal: 40, color: '#7AF5C5' },
+  { minVal: 40.00001, maxVal: 50, color: '#FFE65A' },
+  { minVal: 50.00001, maxVal: 60, color: '#FFCB64' },
+  { minVal: 60.00001, maxVal: 80, color: '#FF9862' },
+  { minVal: 80.00001, maxVal: 100, color: '#FF8383' },
 ];
 export const PAGE_KEY_ACTION = [
   { value: 'storelist', actionValue: 'majordetail' },
