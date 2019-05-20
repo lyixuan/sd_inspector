@@ -51,7 +51,7 @@ class EditQualityNewSheet extends React.Component {
     }
 
     if (Number(appealParam.checkResult) === 1 && !appealParam.appealEndDate) {
-      message.warn('一审截止日期必填');
+      message.warn('一申截止日期必填');
       return;
     }
     const params2 = {

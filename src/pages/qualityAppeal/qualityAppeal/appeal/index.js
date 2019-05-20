@@ -60,18 +60,22 @@ class QualityAppealing extends React.Component {
       message.warn('审核结果为必选项');
       return;
     }
+    if (String(this.query.status) === '4' && Number(appealParam.checkResult) === 1 && !appealParam.appealEndDate) {
+      message.warn('二申截止日期必填');
+      return;
+    }
     const params = {
       qualityId: Number(this.query.id),
       type: String(this.query.status) === '2' || String(this.query.status) === '4' ? 1 : 2,
       checkResult: Number(appealParam.checkResult) === 1 ? 1 : 0,
       isWarn: appealParam.isWarn,
       desc: appealParam.desc ? appealParam.desc : undefined,
-      appealEndDate: String(this.query.status) === '2' ? this.query.firstAppealEndDate : String(this.query.status) === '6'?this.query.secondAppealEndDate:undefined,
+      appealEndDate: String(this.query.status) === '2' ? this.query.firstAppealEndDate : String(this.query.status) === '6' ? this.query.secondAppealEndDate : undefined,
     };
     const that = this;
     confirm({
       className: 'BIConfirm',
-      title: params.checkResult === 1?'提交后，该申诉将被提交给质检主管进行审核。':'确认驳回这条记录吗？',
+      title: params.checkResult === 1 ? '提交后，该申诉将被提交给质检主管进行审核。' : '确认驳回这条记录吗？',
       cancelText: '取消',
       okText: '确定',
       onOk() {
@@ -90,7 +94,7 @@ class QualityAppealing extends React.Component {
       return;
     }
     if (String(this.query.status) === '4' && Number(appealParam.checkResult) === 0 && !appealParam.appealEndDate) {
-      message.warn('二审截止日期必填');
+      message.warn('二申截止日期必填');
       return;
     }
     const appealParamNew = {
@@ -147,13 +151,13 @@ class QualityAppealing extends React.Component {
                   this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
                 }
               >
-                {qualityDetailData.orderNum?(
+                {qualityDetailData.orderNum ? (
                   <div>
                     <div className={styles.divideLine} />
                     <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
                     <SubOrderDetail data={qualityDetailData.orderDetail} />
                   </div>
-                ):null}
+                ) : null}
               </div>
               <div style={{ marginTop: 20 }}>
                 <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={() => this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>

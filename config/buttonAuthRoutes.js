@@ -23,7 +23,7 @@ const urlPathMap = {
     name: '显示质检发起人',
   },
   '/qualityAppeal/qualityAppeal/showQA': {
-    name: '显示质检归属人',
+    name: '质检归属人',
   },
   '/qualityAppeal/qualityNexSheet/edit': {
     name: '质检专员-编辑质检单',
