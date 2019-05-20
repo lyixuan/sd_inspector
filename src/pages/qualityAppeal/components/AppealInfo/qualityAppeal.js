@@ -18,7 +18,7 @@ class QualityAppeal extends React.Component {
             </div>
           ):null
         }
-        {setStateData?<Edit {...this.props} dataName='一审截止日期' showWarn={false} setStateData={setStateData}/>:null}
+        {setStateData?<Edit {...this.props} dataName='一申截止日期' showWarn={false} setStateData={setStateData}/>:null}
       </div>
     );
   }
