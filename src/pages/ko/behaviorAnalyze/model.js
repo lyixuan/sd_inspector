@@ -15,6 +15,20 @@ function getData(dataList, dataArr) {
   })
   return dataObj;
 }
+// 首页：需要把 课程公开计划选项 子项求和计算，重新整合数据源
+function dealHomeData (behaviourData){
+  let newKey = {name:'课程公开计划选项',actionKeyId:'homepage_click_ko_item',clickNum:0,choicePerson:0,clickTotalPerson:0};
+  behaviourData.forEach((item)=>{
+    if(item.actionKey==='click_ko_item'){
+      newKey.clickNum+=Number(item.clickNum)
+      newKey.choicePerson+=Number(item.choicePerson)
+      newKey.clickTotalPerson+=Number(item.clickTotalPerson)
+    }
+  });
+  const newbehaviourData = behaviourData.filter(item=>item.actionKey!=='click_ko_item');
+  newbehaviourData.push(newKey);
+  return newbehaviourData
+}
 // 学习页：需要把 直播重播等数据求和
 function dealStudyPage (data,dealObj,delItemArr,page){
   let behaviourData = JSON.parse(JSON.stringify(data)) ;
@@ -40,7 +54,7 @@ function dealStudyPage (data,dealObj,delItemArr,page){
       if(item.actionKeyId===el) behaviourData.splice(i, 1)
     })
   })
-  return behaviourData.concat(newbehaviourData)  
+  return behaviourData.concat(newbehaviourData)
 }
 
 export default {
@@ -115,12 +129,13 @@ export default {
     },
     saveDataList(state, { payload }) {
       const { hotDataList,pvuvData,clickNum } = payload;
-      hotDataList.forEach(item=>{
+      const newData = dealHomeData(hotDataList);
+      newData.forEach(item=>{
         item.clickPeople = Number(item.clickTotalPerson);
         item.clickPeoplePro = item.clickTotalPerson&&pvuvData.uv?item.clickTotalPerson/pvuvData.uv*100:0;//人数占比
         item.clickNumPro = item.clickNum&&clickNum?item.clickNum/clickNum*100:0;//次数占比
       })
-      return { ...state, ...payload };
+      return { ...state, hotDataList:newData };
     }
   },
 

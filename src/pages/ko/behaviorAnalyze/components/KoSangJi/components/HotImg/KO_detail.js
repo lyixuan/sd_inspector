@@ -24,7 +24,7 @@ class KoDetailPage extends React.Component {
   getColorFn = (hotData) => {
     hotData.map(item1=>{
       const val = (!item1.clickPeoplePro||typeof(item1.clickPeoplePro)==='number')?item1.clickPeoplePro:Number(item1.clickPeoplePro.split('%')[0])
-      const colorVal = HOT_RANGE.filter(item2=> val >= item2.minVal && val<=item2.maxVal)[0];
+      const colorVal = HOT_RANGE.filter(item2=> val >= item2.minVal && val<item2.maxVal)[0];
       if(colorVal) item1.color=colorVal.color
     });
     return hotData;
@@ -160,7 +160,7 @@ class KoDetailPage extends React.Component {
 
       // 处理特殊页面
       if(page==='homepage'){
-        // this.dealListDom(data,'click_ko_item','homepage_ko_item',true);
+        // this.dealListDom(data,'click_ko_item','homepage_ko_item',true);//课程公开计划选项展示前五逻辑
         this.specialData(data,['homepage_click_testregion$-1','homepage_click_city$-1'],'homepage_click_testregion');
       }else if(page==='studypage'){
         this.specialData(data,['studypage_click_golesson$-1','studypage_click_golesson_free$-1'],'studypage_click_golesson');
