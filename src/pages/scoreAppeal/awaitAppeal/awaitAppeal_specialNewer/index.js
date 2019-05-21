@@ -1,5 +1,5 @@
 import React from 'react';
-import BITabs from '@/ant_components/BITabs';
+import CSTab from '@/pages/scoreAppeal/components/CSTab';
 
 class AwaitAppealSpecialNewer extends React.Component {
   constructor(props) {
@@ -13,11 +13,7 @@ class AwaitAppealSpecialNewer extends React.Component {
   render() {
     return (
       <>
-        <BITabs onChange={this.onTabChange} defaultActiveKey={this.state.tabType} animated={false}>
-          <BITabs.TabPane tab="在途质检申诉" key={1}>
-            <div>&优新;</div>
-          </BITabs.TabPane>
-        </BITabs>
+        <CSTab currentIndex={1} currentMenu={'awaitAppeal'}/>
       </>
     );
   }

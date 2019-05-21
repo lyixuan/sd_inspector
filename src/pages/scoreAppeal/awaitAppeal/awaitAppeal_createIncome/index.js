@@ -1,5 +1,5 @@
 import React from 'react';
-
+import CSTab from '@/pages/scoreAppeal/components/CSTab';
 
 class AwaitAppealCreateIncome extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class AwaitAppealCreateIncome extends React.Component {
   render() {
     return (
       <>
-        创收
+        <CSTab currentIndex={5}  currentMenu={'awaitAppeal'}/>
       </>
     );
   }

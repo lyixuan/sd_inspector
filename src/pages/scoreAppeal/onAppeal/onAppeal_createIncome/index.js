@@ -1,7 +1,7 @@
 import React from 'react';
+import CSTab from '@/pages/scoreAppeal/components/CSTab';
 
-
-class NewQualitySheetIndex extends React.Component {
+class OnAppealCreateIncome extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,10 +13,10 @@ class NewQualitySheetIndex extends React.Component {
   render() {
     return (
       <>
-        index
+        <CSTab currentIndex={5}  currentMenu={'onAppeal'} />
       </>
     );
   }
 }
 
-export default NewQualitySheetIndex;
+export default OnAppealCreateIncome;

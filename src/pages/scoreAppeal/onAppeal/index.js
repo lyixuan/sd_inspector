@@ -1,11 +1,10 @@
 import React from 'react';
+import RenderRoute from '@/components/RenderRoute';
 
-
-class NewQualitySheetIndex extends React.Component {
+class OnAppeal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
   componentDidMount() {
   }
@@ -13,10 +12,10 @@ class NewQualitySheetIndex extends React.Component {
   render() {
     return (
       <>
-        index
+        <RenderRoute {...this.props}  />
       </>
     );
   }
 }
 
-export default NewQualitySheetIndex;
+export default OnAppeal;

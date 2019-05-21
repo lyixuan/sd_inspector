@@ -13,7 +13,6 @@ class AwaitAppeal extends React.Component {
   render() {
     return (
       <>
-        待申诉
         <RenderRoute {...this.props} />
       </>
     );

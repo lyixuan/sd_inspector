@@ -1,5 +1,5 @@
 import React from 'react';
-
+import CSTab from '@/pages/scoreAppeal/components/CSTab';
 
 class AwaitAppealIM extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class AwaitAppealIM extends React.Component {
   render() {
     return (
       <>
-        IM
+        <CSTab currentIndex={2} currentMenu={'awaitAppeal'} />
       </>
     );
   }
