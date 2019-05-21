@@ -1,7 +1,7 @@
 import { message } from 'antd/lib/index';
 import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
 import { getQualityDetail } from '@/pages/qualityAppeal/qualityAppeal/appeal/services';
-import BIModal from '@/ant_components/BIModal';
+import BIModal from '@/ant_components/BIModal/index';
 import router from 'umi/router';
 import { downBlob, msgF } from '@/utils/utils';
 
