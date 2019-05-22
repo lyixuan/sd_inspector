@@ -257,11 +257,11 @@ class CreateQualityNewSheet extends React.Component {
         if (isShowPerformance) return this.renderQualityType_performance();
     };
     checkQuality = (rule, value, callback) => {
-        if (value && Number(value) >= 0) {
+        if (value && Number(value) >= 0 && (Number(value)*100).toString().indexOf('.')===-1) {
             callback();
             return;
         }
-        callback('请输入大于0的数字');
+        callback('请输入大于0的数字,最多保留两位小数');
     };
     checkScore = (rule, value, callback) => {
         const reg = /^[0-9]\d*$/;

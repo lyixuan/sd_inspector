@@ -7,10 +7,10 @@ import { STATIC_HOST, FAMILY_TYPE } from '@/utils/constants';
 export default class IllegalInfoComponent extends React.Component {
   render() {
     const { data, masterQualityValue, masterMail } = this.props;
-    const { violationDate, familyType, qualityType, reduceScoreDate, dimension, violationLevelName, qualityValue, attUrl, desc, primaryAssortment, secondAssortment, thirdAssortment ,role} = data;
+    const { violationDate, familyType, qualityType, reduceScoreDate, dimension, violationLevelName, violationLevel,qualityValue, attUrl, desc, primaryAssortment, secondAssortment, thirdAssortment ,role} = data;
     const name = attUrl && attUrl.split('/')[3];
     // 是否显示学院类型
-    const classShow = Number(qualityType) !== 1 && role !=='group' && role !=='class' && role !=='family'
+    const classShow = Number(qualityType) !== 1 && role !=='group' && role !=='class' && role !=='family';
     return (
       <section className={styles.personInfoCon}>
         <div className={styles.container}>
@@ -27,7 +27,7 @@ export default class IllegalInfoComponent extends React.Component {
         </div>
         <div className={styles.container}>
           {
-            Number(qualityType) === 1 ? (
+            Number(qualityType) === 1 && (role === 'csleader' || role==='csofficer') && Number(violationLevel) === 2 ? (
               <>
                 <div className={styles.secRow}>
                   <div>客诉主管邮箱：{masterMail ? `${masterMail}@sunlands.com` : '无'}</div>
@@ -43,7 +43,7 @@ export default class IllegalInfoComponent extends React.Component {
         <div>
           <div className={styles.container}>
 
-              {classShow && ( <div className={styles.secRow}><div>学院类型：{FAMILY_TYPE.find(item => item.id === familyType) ? FAMILY_TYPE.find(item => item.id === familyType).name : ''}</div></div>)}
+              {classShow&& role !== 'others' && ( <div className={styles.secRow}><div>学院类型：{FAMILY_TYPE.find(item => item.id === familyType) ? FAMILY_TYPE.find(item => item.id === familyType).name : ''}</div></div>)}
 
             <div className={styles.secRow}>
               <div><span style={{float:'left'}}>附件：</span> {attUrl ? <DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={() => name} textClassName={styles.downCls} /> : null}</div>
