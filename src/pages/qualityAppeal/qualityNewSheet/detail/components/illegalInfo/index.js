@@ -7,8 +7,10 @@ import { STATIC_HOST, FAMILY_TYPE } from '@/utils/constants';
 export default class IllegalInfoComponent extends React.Component {
   render() {
     const { data, masterQualityValue, masterMail } = this.props;
-    const { violationDate, familyType, qualityType, reduceScoreDate, dimension, violationLevelName, qualityValue, attUrl, desc, primaryAssortment, secondAssortment, thirdAssortment } = data;
+    const { violationDate, familyType, qualityType, reduceScoreDate, dimension, violationLevelName, qualityValue, attUrl, desc, primaryAssortment, secondAssortment, thirdAssortment ,role} = data;
     const name = attUrl && attUrl.split('/')[3];
+    // 是否显示学院类型
+    const classShow = Number(qualityType) !== 1 && role !=='group' && role !=='class' && role !=='family'
     return (
       <section className={styles.personInfoCon}>
         <div className={styles.container}>
@@ -40,9 +42,9 @@ export default class IllegalInfoComponent extends React.Component {
 
         <div>
           <div className={styles.container}>
-            <div className={styles.secRow}>
-              <div>学院类型：{FAMILY_TYPE.find(item => item.id === familyType) ? FAMILY_TYPE.find(item => item.id === familyType).name : ''}</div>
-            </div>
+
+              {classShow && ( <div className={styles.secRow}><div>学院类型：{FAMILY_TYPE.find(item => item.id === familyType) ? FAMILY_TYPE.find(item => item.id === familyType).name : ''}</div></div>)}
+
             <div className={styles.secRow}>
               <div><span style={{float:'left'}}>附件：</span> {attUrl ? <DownLoad loadUrl={`${STATIC_HOST}/${attUrl}`} text={name} fileName={() => name} textClassName={styles.downCls} /> : null}</div>
             </div>
