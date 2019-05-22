@@ -500,8 +500,8 @@ class QualityAppeal extends React.Component {
         );
       },
     }];
-    if (!AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
-      // 非归属人
+    if (AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
+      // 归属人
       const index = columns1.findIndex(item => item.dataIndex === 'userName');
       if (index >= 0) {
         columns1.splice(index, 1);
@@ -515,7 +515,7 @@ class QualityAppeal extends React.Component {
         columns1.splice(index3, 1);
       }
     } else {
-      // 归属人
+      // 非归属人
       const index = columns1.findIndex(item => item.dataIndex === 'qualityType');
       if (index >= 0) {
         columns1.splice(index, 1);
