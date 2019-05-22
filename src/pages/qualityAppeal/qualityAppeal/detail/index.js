@@ -8,6 +8,7 @@ import SubOrderDetail from './../../components/subOrderDetail';
 import SuperiorCheck from './../component/superiorCheck';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
 import router from 'umi/router';
+import IllegalInfo from '../../qualityNewSheet/detail/components/illegalInfo';
 import BIButton from '@/ant_components/BIButton';
 
 @connect(({ appealDetail,loading }) => ({
@@ -88,6 +89,7 @@ class AppealDetail extends React.Component {
     const{appealDetail={}} = this.props;
     const detailData = appealDetail.DetailData;
     const qualityDetailData = appealDetail.QualityDetailData;
+    const { masterQualityValue = '', masterMail = '' } = qualityDetailData;
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.detailContainer}>
@@ -110,6 +112,9 @@ class AppealDetail extends React.Component {
                   <SubOrderDetail data={qualityDetailData.orderDetail} />
                 </div>
               ):null}
+            <div className={styles.divideLine} />
+            {/* 质检违规详情 */}
+            <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail} />
           </section>
           <section className={styles.appealInfoCon}>
             {/* 申诉信息 */}
