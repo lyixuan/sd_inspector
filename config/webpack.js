@@ -4,6 +4,7 @@ const proxyHost = {
     localhost: 'http://127.0.0.1:8096',
     // development: 'http://172.16.117.65:8096', //测试
     development: 'http://172.16.117.64:8098', //测试
+    // development: 'http://172.16.59.142:8098', //本地测试
     production: 'http://api.bd.ministudy.com',
 };
 const proxy_env = proxyHost[process.env.PROXY_ENV];
