@@ -1,5 +1,6 @@
 import React from 'react';
 import CSTab from '@/pages/scoreAppeal/components/CSTab';
+import CSForm from '@/pages/scoreAppeal/components/Form';
 
 class AwaitAppealOrder extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class AwaitAppealOrder extends React.Component {
     return (
       <>
         <CSTab currentIndex={3}  currentMenu={'awaitAppeal'}/>
+        <CSForm {...this.props} menuType={1} tabType={2}></CSForm>
       </>
     );
   }
