@@ -206,6 +206,146 @@ export const routes = [
           },
         ],
       },
+      {
+        path: '/scoreAppeal',
+        component: './scoreAppeal',
+        name: '学分申诉',
+        routes: [
+          /* 待申诉 */
+          {
+            path: '/scoreAppeal/awaitAppeal',
+            component: './scoreAppeal/awaitAppeal',
+            name: '待申诉',
+            pageRedirect: '/scoreAppeal/awaitAppeal/specialNewer',
+            routes:[
+              {
+                path: '/scoreAppeal/awaitAppeal/specialNewer',
+                component: './scoreAppeal/awaitAppeal/awaitAppeal_specialNewer',
+                name: '待申诉',      // -优新
+                commonPath: true,   // 继承父页面
+              },
+              {
+                path: '/scoreAppeal/awaitAppeal/IM',
+                component: './scoreAppeal/awaitAppeal/awaitAppeal_IM',
+                name: '待申诉', //-IM
+                commonPath: true,   // 继承父页面
+              },
+              {
+                path: '/scoreAppeal/awaitAppeal/order',
+                component: './scoreAppeal/awaitAppeal/awaitAppeal_order',
+                name: '待申诉',//-工单
+                commonPath: true,
+              },
+              {
+                path: '/scoreAppeal/awaitAppeal/baseline',
+                component: './scoreAppeal/awaitAppeal/awaitAppeal_baseline',
+                name: '待申诉',//-底线
+                commonPath: true,
+              },
+              {
+                path: '/scoreAppeal/awaitAppeal/createIncome',
+                component: './scoreAppeal/awaitAppeal/awaitAppeal_createIncome',
+                name: '待申诉',//-创收
+                commonPath: true,
+              }
+            ]
+          },
+          /* 在途申诉 */
+          {
+            path: '/scoreAppeal/onAppeal',
+            component: './scoreAppeal/onAppeal',
+            name: '在途申诉',
+            pageRedirect: '/scoreAppeal/onAppeal/specialNewer',
+            routes:[
+              {
+                path: '/scoreAppeal/onAppeal/specialNewer',
+                component: './scoreAppeal/onAppeal/onAppeal_specialNewer',
+                name: '在途申诉', // -优新
+                commonPath: true,
+              },
+              {
+                path: '/scoreAppeal/onAppeal/IM',
+                component: './scoreAppeal/onAppeal/onAppeal_IM',
+                name: '在途申诉', // -IM
+                commonPath: true,
+              },
+              {
+                path: '/scoreAppeal/onAppeal/order',
+                component: './scoreAppeal/onAppeal/onAppeal_order',
+                name: '在途申诉', //-工单
+                commonPath: true,
+              },
+              {
+                path: '/scoreAppeal/onAppeal/baseline',
+                component: './scoreAppeal/onAppeal/onAppeal_baseline',
+                name: '在途申诉', // -底线
+                commonPath: true,
+              },
+              {
+                path: '/scoreAppeal/onAppeal/createIncome',
+                component: './scoreAppeal/onAppeal/onAppeal_createIncome',
+                name: '在途申诉', //-创收
+                commonPath: true,
+              },
+            ]
+          },
+          /* 结案申诉 */
+          {
+            path: '/scoreAppeal/finishAppeal',
+            component: './scoreAppeal/finishAppeal',
+            name: '结案申诉',
+            pageRedirect: '/scoreAppeal/finishAppeal/specialNewer',
+            routes:[
+              {
+                path: '/scoreAppeal/finishAppeal/specialNewer',
+                component: './scoreAppeal/finishAppeal/finishAppeal_specialNewer',
+                name: '结案申诉', // -优新
+                commonPath: true,
+              },
+              {
+                path: '/scoreAppeal/finishAppeal/IM',
+                component: './scoreAppeal/finishAppeal/finishAppeal_IM',
+                name: '结案申诉', //-IM
+                commonPath: true,
+              },
+              {
+                path: '/scoreAppeal/finishAppeal/order',
+                component: './scoreAppeal/finishAppeal/finishAppeal_order',
+                name: '结案申诉', // -工单
+                commonPath: true,
+              },
+              {
+                path: '/scoreAppeal/finishAppeal/baseline',
+                component: './scoreAppeal/finishAppeal/finishAppeal_baseline',
+                name: '结案申诉', //-底线
+                commonPath: true,
+              },
+              {
+                path: '/scoreAppeal/finishAppeal/createIncome',
+                component: './scoreAppeal/finishAppeal/finishAppeal_createIncome',
+                name: '结案申诉', //-创收
+                commonPath: true,
+              },
+            ]
+          },
+          /* 其他 */
+          {
+            path: '/scoreAppeal/appeal_initiate',
+            component: './scoreAppeal/appeal_initiate',
+            name: '发起申诉',
+          },
+          {
+            path: '/scoreAppeal/appeal_detail',
+            component: './scoreAppeal/appeal_detail',
+            name: '申诉详情',
+          },
+          {
+            path: '/scoreAppeal/appeal_check',
+            component: './scoreAppeal/appeal_check',
+            name: '申诉审核',
+          },
+        ],
+      },
     ],
   },
 ];
