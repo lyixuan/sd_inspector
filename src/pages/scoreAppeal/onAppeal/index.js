@@ -11,6 +11,7 @@ class OnAppeal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    console.log(12,this.props)
   }
   componentDidMount() {
   }

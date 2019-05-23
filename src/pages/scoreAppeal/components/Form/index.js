@@ -11,8 +11,12 @@ import BIButtonYellow from '@/components/BIButtonYellow';
 import BIButtonGreen from '@/components/BIButtonGreen';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import styles from './style.less';
+import { connect } from 'dva/index';
 const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
+@connect(({ scoreAppealModel }) => ({
+  scoreAppealModel,
+}))
 class CSForm extends React.Component {
   constructor(props) {
     super(props);
@@ -90,8 +94,9 @@ class CSForm extends React.Component {
   render() {
     // menuType： 1 待申诉 2 在途、结案
     // tabType:  1 优新 2 IM 3 工单 4 底线 5 创收
-    const {orgListTreeData = [],menuType = 1, tabType = 1} = this.props;
-    console.log(orgListTreeData)
+    const {scoreAppealModel={},menuType = 1, tabType = 1} = this.props;
+    const {orgListTreeData = []} = scoreAppealModel;
+    console.log(333,orgListTreeData)
     const {appealBeginDate,appealEndDate,creditBeginDate,creditEndDate,stuId,collegeIdList,familyIdList,groupIdList} = this.state;
     return (
       <div className={styles.newSheetWrap}>
