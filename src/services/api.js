@@ -29,8 +29,7 @@ export async function userChangeRole(data) {
 }
 // 根据userId和token,获取权限列表
 export async function getPrivilegeList(params) {
-  console.log('promiss')
-    return request('/user/getPrivilegeList', { params,prefix: '/promiss', });
+    return request('/user/getPrivilegeList', { params});
 }
 
 
