@@ -42,10 +42,10 @@ class CSForm extends React.Component {
   };
 
   onFormChange = (value,vname)=>{
-    if ('dateRange' === vname ) {
+    if ('creditDate' === vname ) {
       this.setState({
-        beginDate:value[0],
-        endDate:value[1],
+        creditBeginDate:value[0],
+        creditEndDate:value[1],
       });
     } else if ('organization' === vname) {
       const list1 = [];
@@ -91,6 +91,7 @@ class CSForm extends React.Component {
     // menuType： 1 待申诉 2 在途、结案
     // tabType:  1 优新 2 IM 3 工单 4 底线 5 创收
     const {orgListTreeData = [],menuType = 1, tabType = 1} = this.props;
+    console.log(orgListTreeData)
     const {appealBeginDate,appealEndDate,creditBeginDate,creditEndDate,stuId,collegeIdList,familyIdList,groupIdList} = this.state;
     return (
       <div className={styles.newSheetWrap}>

@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import {
   getOrgMapList,
-} from '@/pages/qualityAppeal/services';
+} from '@/pages/scoreAppeal/services';
 import { msgF } from '@/utils/utils';
 
 function toTreeData(orgList) {
