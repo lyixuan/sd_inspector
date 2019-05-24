@@ -6,6 +6,7 @@ import styles from './style.less';
 import CommonForm from '../../components/commonForm';
 import QualityAppeal from '../../components/AppealInfo/qualityAppeal';
 import { message, Spin } from 'antd';
+import { BiFilter } from '@/utils/utils';
 @connect(({ loading, qualityNewSheet, editQualityNewSheet }) => ({
   loading,
   qualityNewSheet,
@@ -45,6 +46,11 @@ class EditQualityNewSheet extends React.Component {
   };
   onSubmit = params => {
     const { appealParam } = this;
+    const { qualityDetail = {} } = this.props.qualityNewSheet;
+    const otherObj = {
+      violationLevelName:BiFilter(`VIOLATION_LEVEL|id:${qualityDetail.violationLevel}`).name,
+      violationName:qualityDetail.dimension,
+    };
     if (Number(appealParam.checkResult) !== 0 && !appealParam.checkResult) {
       message.warn('审核结果为必选项');
       return;
@@ -62,7 +68,7 @@ class EditQualityNewSheet extends React.Component {
     };
     this.props.dispatch({
       type: 'editQualityNewSheet/checkQuality',
-      payload: { ...params, ...params2 },
+      payload: { ...params, ...params2,...otherObj },
     });
   };
 
