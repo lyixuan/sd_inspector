@@ -1,0 +1,112 @@
+.personInfoCon {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.appealInfoCon {
+  margin-left: 20px;
+}
+.container {
+  padding: 20px 18px 0;
+}
+.secRow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 12px;
+  margin-left: 18px;
+}
+.secRow > div {
+  display: inline-block;
+}
+.secRow > div span:last-child {
+  margin-left: 50px;
+}
+.secRow > div {
+  margin-top: 10px;
+}
+.secCol {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 8px;
+  margin-left: 18px;
+  margin-right: 18px;
+}
+.secCol :last-child {
+  flex: 1;
+}
+.secctionTitle {
+  height: 43px;
+  background-color: #f6f7fa;
+  line-height: 43px;
+  padding-left: 18px;
+  font-size: 16px;
+  color: #353535;
+}
+
+.divideLine {
+  height: 1px;
+  background-color: #ebecef;
+  flex: 1;
+  margin: 24px 0 0 12px;
+}
+div.divideLine:last-child {
+  height: 0;
+}
+.appealInfo {
+  height: 20px;
+  line-height: 20px;
+  font-size: 14px;
+  background: #fff;
+  font-weight: bold;
+  margin: 15px 0;
+}
+.appealInfo:before {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 12px;
+  background: #52c9c2;
+  margin: 0 6px 0 5px;
+}
+.appealInfo > span {
+  /*color: #000000;*/
+  font-weight: 400;
+  margin-left: 10px;
+}
+.appealPerson {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d5dae2;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+.secctionTitle {
+  display: block;
+  height: 35px;
+  background-color: #f6f7fa;
+  line-height: 35px;
+  padding-left: 18px;
+  font-weight: bold;
+}
+.appealInfoPanel {
+  float: right;
+  color: #52c9c2 !important;
+  font-size: 20px;
+  cursor: pointer;
+  width: 30px;
+}
+.showPanel {
+  flex: 1;
+}
+.hidePanel {
+  display: none;
+}
+.downCls {
+  cursor: pointer;
+  color: #52c9c2;
+  margin-left: 0 !important;
+  border-bottom: 1px solid;
+}
