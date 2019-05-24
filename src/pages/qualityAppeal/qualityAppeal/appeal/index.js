@@ -9,6 +9,7 @@ import SubOrderDetail from './../../components/subOrderDetail';
 import AppealInfo from '../../components/AppealInfo';
 import router from 'umi/router';
 import { message, Spin } from 'antd';
+import {BiFilter} from '@/utils/utils';
 const confirm = BIModal.confirm;
 
 @connect(({ qualityAppealing, qualityAppealHome, loading }) => ({
@@ -89,6 +90,11 @@ class QualityAppealing extends React.Component {
   };
   handleSubmitMaster = formParams => {
     const { appealParam } = this.state;
+    const { qualityDetailData = {} } = this.props.qualityAppealing;
+    const otherObj = {
+      violationLevelName:BiFilter(`VIOLATION_LEVEL|id:${qualityDetailData.violationLevel}`).name,
+      violationName:qualityDetailData.dimension,
+    }
     if (appealParam.checkResult !== 0 && !appealParam.checkResult) {
       message.warn('审核结果为必选项');
       return;
@@ -107,7 +113,7 @@ class QualityAppealing extends React.Component {
     };
     this.props.dispatch({
       type: 'qualityAppealing/reviewAppeal',
-      payload: { qualityInspectionParam: formParams, appealParam: appealParamNew },
+      payload: { qualityInspectionParam: {...formParams,...otherObj}, appealParam: appealParamNew },
     });
   };
   handleCancel = () => {
