@@ -28,14 +28,16 @@ class NewQualitySheetIndex extends React.Component {
   render() {
     return (
       <div className={styles.detailContainer}>
+        {/* 学分归属人信息 */}
         <ScorePersonInfo />
         <div className={styles.spaceLine} />
+        {/* 子订单详情 */}
         <SubOrderDetail />
         <div className={styles.spaceLine} />
-
+        {/* 申诉基础信息 */}
         <ScoreBasicInfo />
         <div className={styles.spaceLine} />
-
+        {/* 一次申诉 firstCheckResult——对接人 ；secondCheckResult——主管 */}
         <AppealInfo
           firstCheckResult={<FirstCheckResult />}
           secondCheckResult={<SecondCheckResult />}
