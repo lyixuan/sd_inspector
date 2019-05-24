@@ -1,10 +1,17 @@
 import React from 'react';
 import RenderRoute from '@/components/RenderRoute';
+import { connect } from 'dva/index';
 
+
+@connect(({ scoreAppealModel,loading }) => ({
+  scoreAppealModel,
+  loading: loading.effects['qualityNewSheet/getQualityList'],
+}))
 class OnAppeal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    console.log(12,this.props)
   }
   componentDidMount() {
   }

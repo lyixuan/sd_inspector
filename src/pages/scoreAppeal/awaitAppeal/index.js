@@ -1,5 +1,11 @@
 import React from 'react';
 import RenderRoute from '@/components/RenderRoute';
+import { connect } from 'dva/index';
+
+@connect(({ scoreAppealModel,loading }) => ({
+  scoreAppealModel,
+  loading: loading.effects['qualityNewSheet/getQualityList'],
+}))
 
 class AwaitAppeal extends React.Component {
   constructor(props) {
@@ -7,6 +13,7 @@ class AwaitAppeal extends React.Component {
     this.state = {
     };
   }
+
   componentDidMount() {
   }
 
