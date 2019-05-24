@@ -124,21 +124,6 @@ class NewQualitySheet extends React.Component {
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>质检类型</span>：
-                <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} placeholder="请选择" value={qualityType} onChange={(val)=>this.onFormChange(val,'qualityType')}>
-                    <Option key={'all'}>全部</Option>
-                    {BiFilter('QUALITY_TYPE').map(item => (
-                      <Option key={item.id}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </BISelect>
-                </span>
-              </div>
-            </Col>
-            <Col className={styles.gutterCol}  span={8}>
-              <div className={styles.gutterBox3}>
                 <span className={styles.gutterLabel}>申诉状态</span>：
                 <span className={styles.gutterForm}>
                   <BISelect style={{width:230}} allowClear value={status} placeholder="请选择" onChange={(val)=>this.onFormChange(val,'status')}>
@@ -151,13 +136,52 @@ class NewQualitySheet extends React.Component {
                 </span>
               </div>
             </Col>
+            <Col className={styles.gutterCol}  span={8}>
+              {AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA') && (
+                <div className={styles.gutterBox3}>
+                  <span className={styles.gutterLabel}>质检类型</span>：
+                  <span className={styles.gutterForm}>
+                  <BISelect style={{width:230}} placeholder="请选择" value={qualityType} onChange={(val)=>this.onFormChange(val,'qualityType')}>
+                    <Option key={'all'}>全部</Option>
+                    {BiFilter('QUALITY_TYPE').map(item => (
+                      <Option key={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </BISelect>
+                </span>
+                </div>
+              )}
+            </Col>
           </Row>
           {/*第二行*/}
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel}>归属组织</span>：
-                <span className={styles.gutterForm}>
+                <span className={styles.gutterLabel}>质检通过时间</span>：
+                <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} allowClear value={beginDate && [moment(beginDate),moment(endDate)]} onChange={(val)=>this.onFormChange(val,'verifyDate')}/></span>
+              </div>
+            </Col>
+            <Col className={styles.gutterCol}  span={8}>
+              <div className={styles.gutterBox2}>
+                <span className={styles.gutterLabel}>一申截止时间</span>：
+                <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} allowClear value={firstAppealBeginDate && [moment(firstAppealBeginDate),moment(firstAppealEndDate)]}  onChange={(val)=>this.onFormChange(val,'firstAppealDate')}/></span>
+              </div>
+            </Col>
+            <Col className={styles.gutterCol}  span={8}>
+              <div className={styles.gutterBox3}>
+                <span className={styles.gutterLabel}>二申截止时间</span>：
+                <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} allowClear value={secondAppealBeginDate && [moment(secondAppealBeginDate),moment(secondAppealEndDate)]} onChange={(val)=>this.onFormChange(val,'secondAppealDate')}/></span>
+              </div>
+            </Col>
+          </Row>
+          {/*第三行*/}
+          <Row className={styles.gutterRow}>
+            <Col className={styles.gutterCol} span={8}>
+              {AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA') && (
+                <div className={styles.gutterBox1}>
+                  <span className={styles.gutterLabel}>归属组织</span>：
+                  <span className={styles.gutterForm}>
                   <BITreeSelect
                     style={{ width: 230 }}
                     placeholder="请选择"
@@ -170,28 +194,8 @@ class NewQualitySheet extends React.Component {
                     onChange={(val)=>this.onFormChange(val,'organization')}
                   />
                 </span>
-              </div>
-            </Col>
-            <Col className={styles.gutterCol}  span={8}>
-              <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>质检通过时间</span>：
-                <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} allowClear value={beginDate && [moment(beginDate),moment(endDate)]} onChange={(val)=>this.onFormChange(val,'verifyDate')}/></span>
-              </div>
-            </Col>
-            <Col className={styles.gutterCol}  span={8}>
-              <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel}>一申截止时间</span>：
-                <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} allowClear value={firstAppealBeginDate && [moment(firstAppealBeginDate),moment(firstAppealEndDate)]}  onChange={(val)=>this.onFormChange(val,'firstAppealDate')}/></span>
-              </div>
-            </Col>
-          </Row>
-          {/*第三行*/}
-          <Row className={styles.gutterRow}>
-            <Col className={styles.gutterCol} span={8}>
-              <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel}>二申截止时间</span>：
-                <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} allowClear value={secondAppealBeginDate && [moment(secondAppealBeginDate),moment(secondAppealEndDate)]} onChange={(val)=>this.onFormChange(val,'secondAppealDate')}/></span>
-              </div>
+                </div>
+              )}
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <AuthButton authority='/qualityAppeal/qualityAppeal/showQA'>
