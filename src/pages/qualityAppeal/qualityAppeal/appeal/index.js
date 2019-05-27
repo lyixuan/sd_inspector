@@ -94,7 +94,9 @@ class QualityAppealing extends React.Component {
     const otherObj = {
       violationLevelName:BiFilter(`VIOLATION_LEVEL|id:${qualityDetailData.violationLevel}`).name,
       violationName:qualityDetailData.dimension,
-      firstAppealEndDate:this.query.firstAppealEndDate
+      firstAppealEndDate:this.query.firstAppealEndDate,
+      qualityValue:this.query.qualityValue,
+      qualityType:this.query.qualityType,
     }
     if (appealParam.checkResult !== 0 && !appealParam.checkResult) {
       message.warn('审核结果为必选项');
