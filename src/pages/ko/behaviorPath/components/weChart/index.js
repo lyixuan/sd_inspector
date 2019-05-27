@@ -227,9 +227,9 @@ class Wechart extends React.Component {
     };
   }
   componentDidMount() {
-    this.mount(this.props);
+    this.didMount(this.props);
   }
-  mount(props) {
+  didMount(props) {
     let list = [];
     if (props.behaviorPath.dateListWechart.length > 0) {
       props.behaviorPath.dateListWechart.map(item => {
@@ -241,29 +241,60 @@ class Wechart extends React.Component {
       });
 
       list[this.state.currentIndex].collapse = true;
-      list[this.state.currentIndex].dialogList = props.behaviorPath.wechartData
-        ? props.behaviorPath.wechartData
-        : [];
+      list[this.state.currentIndex].dialogList = props.behaviorPath.wechartData;
       this.state.dateList = list;
       this.setState({
         dateList: this.state.dateList,
       });
-    } else {
+    }
+  }
+  mount(props) {
+    if (props.behaviorPath.dateListWechart.length > 0) {
+      this.state.dateList[this.state.currentIndex].dialogList = props.behaviorPath.wechartData;
       this.setState({
-        dateList: [],
+        dateList: this.state.dateList,
       });
     }
+
+    // let list = [];
+    // if (props.behaviorPath.dateListWechart.length > 0) {
+    //   props.behaviorPath.dateListWechart.map(item => {
+    //     list.push({
+    //       date: item,
+    //       collapse: false,
+    //       dialogList: [],
+    //     });
+    //   });
+
+    //   list[this.state.currentIndex].collapse = true;
+    //   list[this.state.currentIndex].dialogList = props.behaviorPath.wechartData
+    //     ? props.behaviorPath.wechartData
+    //     : [];
+    //   this.state.dateList = list;
+    //   this.setState({
+    //     dateList: this.state.dateList,
+    //   });
+    // } else {
+    //   this.setState({
+    //     dateList: [],
+    //   });
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
     if (
-      JSON.stringify(nextProps.behaviorPath.wechartData) !==
-      JSON.stringify(this.props.behaviorPath.wechartData) ||
       JSON.stringify(nextProps.behaviorPath.dateListWechart) !==
       JSON.stringify(this.props.behaviorPath.dateListWechart)
     ) {
+      this.didMount(nextProps);
+    }
+    if (
+      JSON.stringify(nextProps.behaviorPath.wechartData) !==
+      JSON.stringify(this.props.behaviorPath.wechartData)
+    ) {
       this.mount(nextProps);
     }
+
   }
   getWechartList = paramDate => {
     let params = {
@@ -285,11 +316,11 @@ class Wechart extends React.Component {
     this.setState({
       currentIndex: index,
     });
-    this.state.dateList.map((item, i) => {
-      if (i != index) {
-        item.collapse = false;
-      }
-    });
+    // this.state.dateList.map((item, i) => {
+    //   if (i != index) {
+    //     item.collapse = false;
+    //   }
+    // });
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {

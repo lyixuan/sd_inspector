@@ -3,6 +3,8 @@ import { Icon, Empty, Spin } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
 import Pager from '../pager/pager.js';
+import face1 from '@/assets/face1.png';
+import face2 from '@/assets/face2.png';
 
 
 // 日期条
@@ -10,7 +12,24 @@ function DateBar(props) {
   return (
     <div>
       <div className={styles.dateBar} onClick={() => props.list.onClick(props.index)}>
-        <span>{props.date.date.split(" ")[0]}</span>
+        <div className={styles.expression}>
+          <span>{props.date.date.split(" ")[0]}</span>
+          <div className={styles.expressionArea}>
+            <img src={face1} />
+            <div className={styles.progress}>
+              <p className={styles.progressText}>
+                <span>60%</span>
+                <span>40%</span>
+              </p>
+              <div className={styles.progressBar}>
+                <div className={styles.bar1}></div>
+                <div className={styles.bar2}></div>
+              </div>
+            </div>
+            <img src={face2} />
+          </div>
+        </div>
+
         <span>
           <Icon type={props.date.collapse ? "up" : "down"} />
         </span>
@@ -161,7 +180,7 @@ class Bbs extends React.Component {
   componentDidMount() {
     this.mount(this.props);
   }
-  mount(props) {
+  didMount(props) {
     let list = [];
     if (props.behaviorPath.dateListBbs.length > 0) {
       props.behaviorPath.dateListBbs.map(item => {
@@ -171,22 +190,51 @@ class Bbs extends React.Component {
           dialogList: [],
         });
       });
-      console.log(174, this.state.currentIndex)
+
       list[this.state.currentIndex].collapse = true;
-      list[this.state.currentIndex].dialogList = props.behaviorPath.bbsData ? props.behaviorPath.bbsData : [];
+      list[this.state.currentIndex].dialogList = props.behaviorPath.bbsData;
       this.state.dateList = list;
       this.setState({
-        dateList: this.state.dateList
-      });
-    } else {
-      this.setState({
-        dateList: []
+        dateList: this.state.dateList,
       });
     }
   }
+  mount(props) {
+    if (props.behaviorPath.dateListBbs.length > 0) {
+      this.state.dateList[this.state.currentIndex].dialogList = props.behaviorPath.bbsData;
+      this.setState({
+        dateList: this.state.dateList,
+      });
+    }
+
+    // let list = [];
+    // if (props.behaviorPath.dateListBbs.length > 0) {
+    //   props.behaviorPath.dateListBbs.map(item => {
+    //     list.push({
+    //       date: item,
+    //       collapse: false,
+    //       dialogList: [],
+    //     });
+    //   });
+    //   console.log(174, this.state.currentIndex)
+    //   list[this.state.currentIndex].collapse = true;
+    //   list[this.state.currentIndex].dialogList = props.behaviorPath.bbsData ? props.behaviorPath.bbsData : [];
+    //   this.state.dateList = list;
+    //   this.setState({
+    //     dateList: this.state.dateList
+    //   });
+    // } else {
+    //   this.setState({
+    //     dateList: []
+    //   });
+    // }
+  }
 
   componentWillReceiveProps(nextProps) {
-    if ((JSON.stringify(nextProps.behaviorPath.bbsData) !== JSON.stringify(this.props.behaviorPath.bbsData)) || (JSON.stringify(nextProps.behaviorPath.dateListBbs) !== JSON.stringify(this.props.behaviorPath.dateListBbs))) {
+    if ((JSON.stringify(nextProps.behaviorPath.dateListBbs) !== JSON.stringify(this.props.behaviorPath.dateListBbs))) {
+      this.didMount(nextProps);
+    }
+    if ((JSON.stringify(nextProps.behaviorPath.bbsData) !== JSON.stringify(this.props.behaviorPath.bbsData))) {
       this.mount(nextProps);
     }
   }
@@ -210,11 +258,11 @@ class Bbs extends React.Component {
     this.setState({
       currentIndex: index
     })
-    this.state.dateList.map((item, i) => {
-      if (i != index) {
-        item.collapse = false
-      }
-    })
+    // this.state.dateList.map((item, i) => {
+    //   if (i != index) {
+    //     item.collapse = false
+    //   }
+    // })
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {

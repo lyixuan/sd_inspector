@@ -205,24 +205,11 @@ class PrivateLetter extends React.Component {
   }
 
   componentDidMount() {
-    this.mount(this.props);
+    this.didMount(this.props);
   }
-  mount(props) {
+  didMount(props) {
     let list = [];
     if (props.behaviorPath.dateListLetter.length > 0) {
-      if (props.behaviorPath.letterData) {
-        // 根据userId来判断是学员还是老师，如果是学员，在数据中加一个userType
-        props.behaviorPath.letterData.map(item => {
-          item.contentList.map(item => {
-            if (item.userId == this.state.userId) {
-              item.userType = 2;
-            } else {
-              item.userType = 1;
-            }
-          });
-        });
-      }
-
       props.behaviorPath.dateListLetter.map(item => {
         list.push({
           date: item,
@@ -232,25 +219,67 @@ class PrivateLetter extends React.Component {
       });
 
       list[this.state.currentIndex].collapse = true;
-      list[this.state.currentIndex].dialogList = props.behaviorPath.letterData
-        ? props.behaviorPath.letterData
-        : [];
+      list[this.state.currentIndex].dialogList = props.behaviorPath.letterData;
       this.state.dateList = list;
       this.setState({
         dateList: this.state.dateList,
       });
-    } else {
+    }
+  }
+  mount(props) {
+    if (props.behaviorPath.dateListLetter.length > 0) {
+      this.state.dateList[this.state.currentIndex].dialogList = props.behaviorPath.letterData;
       this.setState({
-        dateList: [],
+        dateList: this.state.dateList,
       });
     }
+    // let list = [];
+    // if (props.behaviorPath.dateListLetter.length > 0) {
+    //   if (props.behaviorPath.letterData) {
+    //     // 根据userId来判断是学员还是老师，如果是学员，在数据中加一个userType
+    //     props.behaviorPath.letterData.map(item => {
+    //       item.contentList.map(item => {
+    //         if (item.userId == this.state.userId) {
+    //           item.userType = 2;
+    //         } else {
+    //           item.userType = 1;
+    //         }
+    //       });
+    //     });
+    //   }
+
+    //   props.behaviorPath.dateListLetter.map(item => {
+    //     list.push({
+    //       date: item,
+    //       collapse: false,
+    //       dialogList: [],
+    //     });
+    //   });
+
+    //   list[this.state.currentIndex].collapse = true;
+    //   list[this.state.currentIndex].dialogList = props.behaviorPath.letterData
+    //     ? props.behaviorPath.letterData
+    //     : [];
+    //   this.state.dateList = list;
+    //   this.setState({
+    //     dateList: this.state.dateList,
+    //   });
+    // } else {
+    //   this.setState({
+    //     dateList: [],
+    //   });
+    // }
   }
   componentWillReceiveProps(nextProps) {
     if (
-      JSON.stringify(nextProps.behaviorPath.letterData) !==
-      JSON.stringify(this.props.behaviorPath.letterData) ||
       JSON.stringify(nextProps.behaviorPath.dateListLetter) !==
       JSON.stringify(this.props.behaviorPath.dateListLetter)
+    ) {
+      this.didMount(nextProps);
+    }
+    if (
+      JSON.stringify(nextProps.behaviorPath.letterData) !==
+      JSON.stringify(this.props.behaviorPath.letterData)
     ) {
       this.mount(nextProps);
     }
@@ -275,11 +304,11 @@ class PrivateLetter extends React.Component {
     this.setState({
       currentIndex: index,
     });
-    this.state.dateList.map((item, i) => {
-      if (i != index) {
-        item.collapse = false;
-      }
-    });
+    // this.state.dateList.map((item, i) => {
+    //   if (i != index) {
+    //     item.collapse = false;
+    //   }
+    // });
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {

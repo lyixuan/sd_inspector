@@ -182,9 +182,9 @@ class Study extends React.Component {
   }
 
   componentDidMount() {
-    this.mount(this.props);
+    this.didMount(this.props);
   }
-  mount(props) {
+  didMount(props) {
     let list = [];
     if (props.behaviorPath.dateListStudy.length > 0) {
       props.behaviorPath.dateListStudy.map(item => {
@@ -201,19 +201,51 @@ class Study extends React.Component {
       this.setState({
         dateList: this.state.dateList,
       });
-    } else {
+    }
+  }
+  mount(props) {
+    if (props.behaviorPath.dateListStudy.length > 0) {
+      this.state.dateList[this.state.currentIndex].dialogList = props.behaviorPath.studyData;
       this.setState({
-        dateList: [],
+        dateList: this.state.dateList,
       });
     }
+
+
+    // let list = [];
+    // if (props.behaviorPath.dateListStudy.length > 0) {
+    // props.behaviorPath.dateListStudy.map(item => {
+    //   list.push({
+    //     date: item,
+    //     collapse: false,
+    //     dialogList: [],
+    //   });
+    // });
+
+    //   list[this.state.currentIndex].collapse = true;
+    //   list[this.state.currentIndex].dialogList = props.behaviorPath.studyData;
+    //   this.state.dateList = list;
+    //   this.setState({
+    //     dateList: this.state.dateList,
+    //   });
+    // } else {
+    //   this.setState({
+    //     dateList: [],
+    //   });
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
     if (
-      JSON.stringify(nextProps.behaviorPath.studyData) !==
-      JSON.stringify(this.props.behaviorPath.studyData) ||
-      JSON.stringify(nextProps.behaviorPath.dateList) !==
+      JSON.stringify(nextProps.behaviorPath.dateListStudy) !==
       JSON.stringify(this.props.behaviorPath.dateListStudy)
+    ) {
+      this.didMount(nextProps);
+    }
+
+    if (
+      JSON.stringify(nextProps.behaviorPath.studyData) !==
+      JSON.stringify(this.props.behaviorPath.studyData)
     ) {
       this.mount(nextProps);
     }
@@ -240,11 +272,11 @@ class Study extends React.Component {
     this.setState({
       currentIndex: index,
     });
-    this.state.dateList.map((item, i) => {
-      if (i != index) {
-        item.collapse = false;
-      }
-    });
+    // this.state.dateList.map((item, i) => {
+    //   if (i != index) {
+    //     item.collapse = false;
+    //   }
+    // });
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {
@@ -254,7 +286,6 @@ class Study extends React.Component {
         this.getStudyList(date.join('-'));
       }
     }
-
     this.state.dateList[index].collapse = !this.state.dateList[index].collapse;
   };
 

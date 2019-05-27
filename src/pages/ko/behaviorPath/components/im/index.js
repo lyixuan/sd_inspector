@@ -254,9 +254,9 @@ class Im extends React.Component {
     };
   }
   componentDidMount() {
-    this.mount(this.props);
+    this.didMount(this.props);
   }
-  mount(props) {
+  didMount(props) {
     let list = [];
     if (props.behaviorPath.dateListIm.length > 0) {
       props.behaviorPath.dateListIm.map(item => {
@@ -268,25 +268,55 @@ class Im extends React.Component {
       });
 
       list[this.state.currentIndex].collapse = true;
-      list[this.state.currentIndex].dialogList = props.behaviorPath.imData
-        ? props.behaviorPath.imData
-        : [];
+      list[this.state.currentIndex].dialogList = props.behaviorPath.imData;
       this.state.dateList = list;
       this.setState({
         dateList: this.state.dateList,
       });
-    } else {
+    }
+  }
+  mount(props) {
+    if (props.behaviorPath.dateListIm.length > 0) {
+      this.state.dateList[this.state.currentIndex].dialogList = props.behaviorPath.imData;
       this.setState({
-        dateList: [],
+        dateList: this.state.dateList,
       });
     }
+    // let list = [];
+    // if (props.behaviorPath.dateListIm.length > 0) {
+    //   props.behaviorPath.dateListIm.map(item => {
+    //     list.push({
+    //       date: item,
+    //       collapse: false,
+    //       dialogList: [],
+    //     });
+    //   });
+
+    //   list[this.state.currentIndex].collapse = true;
+    //   list[this.state.currentIndex].dialogList = props.behaviorPath.imData
+    //     ? props.behaviorPath.imData
+    //     : [];
+    //   this.state.dateList = list;
+    //   this.setState({
+    //     dateList: this.state.dateList,
+    //   });
+    // } else {
+    //   this.setState({
+    //     dateList: [],
+    //   });
+    // }
   }
   componentWillReceiveProps(nextProps) {
     if (
-      JSON.stringify(nextProps.behaviorPath.imData) !==
-      JSON.stringify(this.props.behaviorPath.imData) ||
       JSON.stringify(nextProps.behaviorPath.dateListIm) !==
       JSON.stringify(this.props.behaviorPath.dateListIm)
+    ) {
+      this.didMount(nextProps);
+    }
+
+    if (
+      JSON.stringify(nextProps.behaviorPath.imData) !==
+      JSON.stringify(this.props.behaviorPath.imData)
     ) {
       this.mount(nextProps);
     }
@@ -312,11 +342,11 @@ class Im extends React.Component {
     this.setState({
       currentIndex: index,
     });
-    this.state.dateList.map((item, i) => {
-      if (i != index) {
-        item.collapse = false;
-      }
-    });
+    // this.state.dateList.map((item, i) => {
+    //   if (i != index) {
+    //     item.collapse = false;
+    //   }
+    // });
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Icon } from 'antd';
 import styles from '../../style.less';
 import avatarStudent from '@/assets/avatarStudent.png';
 function Sex(props) {
@@ -14,7 +15,6 @@ function Sex(props) {
 
 }
 function ListenTime(props) {
-  console.log(17, props)
   if (props.time) {
     return (
       <>
@@ -54,14 +54,12 @@ class PathUserInfo extends React.Component {
 
         </div>
         <ul className={styles.intro}>
-          <li>
+          {/* <li>
             <label>前端归属：</label>
             {
               info.frontOrgs ? <span dangerouslySetInnerHTML={{ __html: info.frontOrgs.replace(/[;；]/g, "$&<br />") }}>
               </span> : <span>{info.frontOrgs}</span>
             }
-            {/* <span dangerouslySetInnerHTML={{ __html: info.frontOrgs.replace(/[;；]/g, "$&<br />") }}>
-            </span> */}
           </li>
           <li>
             <label>后端归属：</label>
@@ -69,9 +67,7 @@ class PathUserInfo extends React.Component {
               info.backOrgs ? <span dangerouslySetInnerHTML={{ __html: info.backOrgs.replace(/[;；]/g, "$&<br />") }}>
               </span> : <span>{info.backOrgs}</span>
             }
-            {/* <span dangerouslySetInnerHTML={{ __html: info.backOrgs.replace(/[;；]/g, "$&<br />") }}>
-            </span> */}
-          </li>
+          </li> */}
           <li>
             <label>设备：</label>
             <span>{info.deviceModel ? info.deviceModel : '其他'}</span>
@@ -87,11 +83,19 @@ class PathUserInfo extends React.Component {
             <span>{info.choiceLessonStatus == 1 ? '已选课' : '未选课'}</span>
           </li>
           <li>
+            <label>付费订单：</label>
+            <span>{info.hasPaidOrder ? '是' : '否'}</span>
+          </li>
+          <li>
+            <label>是否选课前付费：</label>
+            <span>{info.paidFlag ? '选课前已付费' : '选课前未付费'}</span>
+          </li>
+          {/* <li>
             <label>选课名称：</label>
             <span>{info.choiceLessionName}</span>
-          </li>
+          </li> */}
         </ul>
-        <ul className={styles.intro}>
+        <ul className={styles.intro} style={{ display: 'none' }}>
           <li>
             <label>付费订单：</label>
             <span>{info.hasPaidOrder ? '是' : '否'}</span>
@@ -132,6 +136,86 @@ class PathUserInfo extends React.Component {
             <span>{info.studyCorrentRate ? (info.studyCorrentRate * 100).toFixed(2) : '0.00'}%</span>
           </li>
         </ul>
+        <div className={styles.orderInfo}>
+          <div className={styles.title}>
+            <span>订单信息</span>
+            <span>共10个</span>
+          </div>
+          <ul className={styles.orderList}>
+            <li className={styles.card}>
+              <div className={styles.line}></div>
+              <div className={styles.orderInfo}>
+                <h4>自考公共课</h4>
+                <p>
+                  <span className={styles.price}>0元</span> 已支付 2019-10-10 12:22:23
+                </p>
+              </div>
+              <div className={styles.notice}>
+                <Icon type="info-circle" />
+              </div>
+            </li>
+            <li className={styles.card}>
+              <div className={styles.line}></div>
+              <div className={styles.orderInfo}>
+                <h4>自考公共课</h4>
+                <p>
+                  <span className={styles.price}>0元</span> 已支付 2019-10-10 12:22:23
+                </p>
+              </div>
+              <div className={styles.notice}>
+                <Icon type="info-circle" />
+              </div>
+            </li>
+            <li className={styles.card}>
+              <div className={styles.line}></div>
+              <div className={styles.orderInfo}>
+                <h4>自考公共课</h4>
+                <p>
+                  <span className={styles.price}>0元</span> 已支付 2019-10-10 12:22:23
+                </p>
+              </div>
+              <div className={styles.notice}>
+                <Icon type="info-circle" />
+              </div>
+            </li>
+            <li className={styles.card}>
+              <div className={styles.line}></div>
+              <div className={styles.orderInfo}>
+                <h4>自考公共课</h4>
+                <p>
+                  <span className={styles.price}>0元</span> 已支付 2019-10-10 12:22:23
+                </p>
+              </div>
+              <div className={styles.notice}>
+                <Icon type="info-circle" />
+              </div>
+            </li>
+            <li className={styles.card}>
+              <div className={styles.line}></div>
+              <div className={styles.orderInfo}>
+                <h4>自考公共课</h4>
+                <p>
+                  <span className={styles.price}>0元</span> 已支付 2019-10-10 12:22:23
+                </p>
+              </div>
+              <div className={styles.notice}>
+                <Icon type="info-circle" />
+              </div>
+            </li>
+            <li className={styles.card}>
+              <div className={styles.line}></div>
+              <div className={styles.orderInfo}>
+                <h4>自考公共课</h4>
+                <p>
+                  <span className={styles.price}>0元</span> 已支付 2019-10-10 12:22:23
+                </p>
+              </div>
+              <div className={styles.notice}>
+                <Icon type="info-circle" />
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     );
   }
