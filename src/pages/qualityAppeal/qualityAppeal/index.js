@@ -156,7 +156,7 @@ const columns1 = [
     render: (text, record) => {
       return (
         <>
-          {Number(record.qualityType)===1?record.qualityValue&&`${(Number(record.qualityValue)*100).toFixed(2)}%`:record.qualityValue&&(record.qualityValue).toFixed(2)}
+          {Number(record.qualityType)===1?record.qualityValue&&`${(Number(record.qualityValue)*100).toFixed(2)}%`:record.qualityValue&&(record.qualityValue)}
         </>
       );
     },
@@ -247,7 +247,7 @@ const columns2 = [
     render: (text, record) => {
       return (
         <>
-          {Number(record.qualityType)===1?record.qualityValue&&`${(Number(record.qualityValue)*100).toFixed(2)}%`:record.qualityValue&&(record.qualityValue).toFixed(2)}
+          {Number(record.qualityType)===1?record.qualityValue&&`${(Number(record.qualityValue)*100).toFixed(2)}%`:record.qualityValue&&(record.qualityValue)}
         </>
       );
     },
