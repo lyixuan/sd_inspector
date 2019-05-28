@@ -14,7 +14,7 @@ class OnAppealBaseLine extends React.Component {
     return (
       <>
         <CSTab currentIndex={4}  currentMenu={'onAppeal'}/>
-        <CSForm {...this.props} menuType={2} tabType={5}></CSForm>
+        <CSForm {...this.props} menuType={2} tabType={4}></CSForm>
       </>
     );
   }

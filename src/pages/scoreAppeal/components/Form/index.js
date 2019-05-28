@@ -10,6 +10,7 @@ import BITreeSelect from '@/ant_components/BITreeSelect';
 import BIButtonYellow from '@/components/BIButtonYellow';
 import BIButtonGreen from '@/components/BIButtonGreen';
 import BIDatePicker from '@/ant_components/BIDatePicker';
+import AuthButton from '@/components/AuthButton';
 import styles from './style.less';
 import { connect } from 'dva/index';
 const { BIRangePicker } = BIDatePicker;
@@ -159,10 +160,12 @@ class CSForm extends React.Component {
                 </div>
               </Col>
               <Col className={styles.gutterCol}  span={8}>
-                <div className={styles.gutterBox3}>
-                  <span className={styles.gutterLabel}>申诉日期</span>：
-                  <span className={styles.gutterForm}><BIInput placeholder="请输入" allowClear value={stuId} onChange={(e)=>this.onFormChange(e.target.value,'stuId')}/></span>
-                </div>
+                {tabType!==1&&(
+                  <div className={styles.gutterBox3}>
+                    <span className={styles.gutterLabel}>学分维度</span>：
+                    <span className={styles.gutterForm}><BIInput placeholder="请输入" allowClear value={stuId} onChange={(e)=>this.onFormChange(e.target.value,'stuId')}/></span>
+                  </div>
+                )}
               </Col>
             </Row>
             {/*第二行*/}
@@ -175,27 +178,33 @@ class CSForm extends React.Component {
               </Col>
               <Col className={styles.gutterCol}  span={8}>
                 <div className={styles.gutterBox2}>
-                  <span className={styles.gutterLabel}>学分维度</span>：
+                  <span className={styles.gutterLabel}>申诉日期</span>：
                   <span className={styles.gutterForm}><BIInput placeholder="请输入" allowClear value={stuId} onChange={(e)=>this.onFormChange(e.target.value,'stuId')}/></span>
                 </div>
               </Col>
               <Col className={styles.gutterCol}  span={8}>
-                <div className={styles.gutterBox3}>
-                  <span className={styles.gutterLabel}>归属组织</span>：
-                  <span className={styles.gutterForm}>
-                  <BITreeSelect
-                    style={{ width: 230 }}
-                    placeholder="请选择"
-                    allowClear
-                    value={[...collegeIdList,...familyIdList,...groupIdList]}
-                    multiple
-                    showArrow maxTagCount={1}
-                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                    treeData={orgListTreeData}
-                    onChange={(val)=>this.onFormChange(val,'organization')}
-                  />
-                </span>
-                </div>
+                {(AuthButton.checkPathname('/scoreAppeal/roles/master')
+                ||AuthButton.checkPathname('/scoreAppeal/roles/master2')
+                ||AuthButton.checkPathname('/scoreAppeal/roles/dockingMan')
+                  ||AuthButton.checkPathname('/scoreAppeal/roles/dockingMan2'))&&
+                (
+                  <div className={styles.gutterBox3}>
+                    <span className={styles.gutterLabel}>归属组织</span>：
+                    <span className={styles.gutterForm}>
+                    <BITreeSelect
+                      style={{ width: 230 }}
+                      placeholder="请选择"
+                      allowClear
+                      value={[...collegeIdList,...familyIdList,...groupIdList]}
+                      multiple
+                      showArrow maxTagCount={1}
+                      dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                      treeData={orgListTreeData}
+                      onChange={(val)=>this.onFormChange(val,'organization')}
+                    />
+                    </span>
+                  </div>
+                )}
               </Col>
             </Row>
           </div>

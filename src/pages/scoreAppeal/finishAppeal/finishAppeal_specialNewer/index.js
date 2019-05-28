@@ -1,6 +1,6 @@
 import React from 'react';
 import CSTab from '@/pages/scoreAppeal/components/CSTab';
-
+import CSForm from '@/pages/scoreAppeal/components/Form';
 class FinishAppealSpecialNewer extends React.Component {
   constructor(props) {
     super(props);
@@ -14,6 +14,7 @@ class FinishAppealSpecialNewer extends React.Component {
     return (
       <>
         <CSTab currentIndex={1} currentMenu={'finishAppeal'}/>
+        <CSForm {...this.props} menuType={2} tabType={1}></CSForm>
       </>
     );
   }

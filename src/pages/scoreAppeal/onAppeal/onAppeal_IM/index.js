@@ -14,7 +14,7 @@ class OnAppealIM extends React.Component {
     return (
       <>
         <CSTab currentIndex={2} currentMenu={'onAppeal'}/>
-        <CSForm {...this.props} menuType={2} tabType={3}></CSForm>
+        <CSForm {...this.props} menuType={2} tabType={2}></CSForm>
       </>
     );
   }

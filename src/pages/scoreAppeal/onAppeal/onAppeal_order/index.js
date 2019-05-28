@@ -14,7 +14,7 @@ class OnAppealOrder extends React.Component {
     return (
       <>
         <CSTab currentIndex={3}  currentMenu={'onAppeal'} />
-        <CSForm {...this.props} menuType={2} tabType={2}></CSForm>
+        <CSForm {...this.props} menuType={2} tabType={3}></CSForm>
       </>
     );
   }

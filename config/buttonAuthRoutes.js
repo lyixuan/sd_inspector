@@ -46,6 +46,18 @@ const urlPathMap = {
   '/qualityAppeal/qualityNexSheet/appealDetail': {
     name: '申诉详情',
   },
+  '/scoreAppeal/roles/master': {
+  name: '在途申诉-主管',
+  },
+  '/scoreAppeal/roles/dockingMan': {
+    name: '在途申诉-对接人',
+  },
+  '/scoreAppeal/roles/master2': {
+    name: '结案申诉-主管',
+  },
+  '/scoreAppeal/roles/dockingMan2': {
+    name: '结案申诉-对接人',
+  },
 
 
 };
