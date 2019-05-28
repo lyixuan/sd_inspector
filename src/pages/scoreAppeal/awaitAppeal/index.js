@@ -90,9 +90,10 @@ function dealQuarys(pm) {
   }
   return p;
 };
-@connect(({ scoreAppealModel,loading }) => ({
-  scoreAppealModel,
-  loading: loading.effects['qualityNewSheet/getQualityList'],
+
+@connect(({ awaitAppealModel,loading }) => ({
+  awaitAppealModel,
+  loading: loading.effects['awaitAppealModel/getPreAppealList'],
 }))
 class AwaitAppeal extends React.Component {
   constructor(props) {
@@ -102,50 +103,56 @@ class AwaitAppeal extends React.Component {
       pageSize: 30
     };
   }
-
-
   componentDidMount() {
+    const initCreditType = BiFilter(`DIMENSION_TYPE|url:specialNewer`).id;
+    this.queryData(initCreditType);
   }
 
-  queryData = (pm, pg, isExport) => {
-    this.saveUrlParams = (pm && !isExport) ? JSON.stringify(pm) : undefined;
-    const dealledPm = pm && dealQuarys(pm);
-    let params = { ...this.state };
-    if (dealledPm) {
-      params = { ...params, ...dealledPm };
+  componentWillReceiveProps(nextProps){
+    const {pathname:pathname1} = this.props.location;
+    const {pathname:pathname2} = nextProps.location;
+    if (pathname1!==pathname2) {
+      const initCreditType = BiFilter(`DIMENSION_TYPE|url:${pathname2.slice(pathname2.lastIndexOf('/')+1)}`).id;
+      this.queryData(initCreditType);
     }
+  }
+
+  queryData = (creditType,type, pm, pg) => {
+    // type:1 查询 2切换tab
+    console.log('creditType',creditType)
+    let params = {creditType};
+    if(pm){
+      params = { ...this.state, ...dealQuarys(pm) };
+    }
+
     if (pg) {
       params = { ...params, ...pg };
-      this.saveUrlParams =JSON.stringify({...JSON.parse(this.saveUrlParams),...pg});
       this.setState({
         page: pg.page
       });
     }
 
-    if (isExport) {
-      this.props.dispatch({
-        type: 'qualityNewSheet/exportExcel',
-        payload: { params },
-      });
-    } else {
-      this.props.dispatch({
-        type: 'qualityNewSheet/getQualityList',
-        payload: { params },
-      }).then(() => {
-        router.replace({
-          pathname: this.props.location.pathname,
-          query: this.saveUrlParams ? { p: this.saveUrlParams } : ''
-        })
-      });
-    }
+    const saveUrlParams =JSON.stringify(params);
+
+    // 请求成功后保留查询条件
+    this.props.dispatch({
+      type: 'awaitAppealModel/getPreAppealList',
+      payload: { params },
+    }).then(() => {
+      router.replace({
+        pathname: this.props.location.pathname,
+        query: this.saveUrlParams ? { params: saveUrlParams } : ''
+      })
+    });
   };
 
   render() {
-    const {tableList=[]} = this.props
+    const {loading} = this.props;
+    const {awaitList=[],page} = this.props.awaitAppealModel;
     return (
       <>
-        <RenderRoute {...this.props} />
-        <CSTable dataSource={tableList} columns={columns}></CSTable>
+        <RenderRoute {...this.props}/>
+        <CSTable dataSource={awaitList} columns={columns} loading={loading} page={page}></CSTable>
       </>
     );
   }

@@ -381,11 +381,11 @@ export const CLICK_KO_ITEM = 'click_ko_item';
 
 // 学分维度枚举
 export const DIMENSION_TYPE = [
-  { id: 11, name: '优新' },
-  { id: 14, name: 'IM' },
-  { id: 19, name: '工单' },
-  { id: 23, name: '底线' },
-  { id: 42, name: '创收' },
+  { id: 11, name: '优新',url:'specialNewer' },
+  { id: 14, name: 'IM',url:'IM' },
+  { id: 19, name: '工单',url:'order'  },
+  { id: 23, name: '底线',url:'baseline'  },
+  { id: 42, name: '创收',url:'createIncome'  },
 ];
 
 // 学分维度列表
