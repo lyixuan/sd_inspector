@@ -176,6 +176,23 @@ class CommonForm extends React.Component {
         >
           <Skeleton loading={loading !== false} active>
             <div className={styles.rowWrap}>
+              <div className={styles.itemCls}>
+                <Form.Item label='用户群组：'>
+                  {getFieldDecorator('choiceLessonStatus', {
+                    initialValue: params.choiceLessonStatus,
+                  })(
+                    <BISelect placeholder="请选择" allowClear>
+                      {this.filterEnumData(3).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                    </BISelect>
+                  )}
+                </Form.Item>
+              </div>
+              <div className={styles.itemCls} />
+              <div className={styles.itemCls} />
+              <div className={styles.itemCls} />
+              <div className={styles.itemCls} />
+            </div>
+            <div className={styles.rowWrap}>
               {/* <div className={styles.itemCls}> */}
               {/* <Form.Item label='来源渠道：'>
                 {getFieldDecorator('fromDevice', {
@@ -361,7 +378,17 @@ class CommonForm extends React.Component {
                         )}
                       </Form.Item>
                     </div>
-                    <div className={styles.itemCls} />
+                    <div className={styles.itemCls}>
+                      <Form.Item label='订单状态：'>
+                          {getFieldDecorator('koOrderGap', {
+                            initialValue: params.koOrderGap,
+                          })(
+                            <BISelect placeholder="请选择" allowClear>
+                              {this.filterEnumData(7).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                            </BISelect>
+                          )}
+                        </Form.Item>
+                    </div>
                     <div className={styles.itemCls} />
                   </div>
                   <div className={styles.rowWrap}>
