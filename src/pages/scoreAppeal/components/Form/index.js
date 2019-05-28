@@ -29,7 +29,7 @@ class CSForm extends React.Component {
       stuId: undefined,            // 学员id
       stuName: undefined,          // 学员姓名
       creditType: undefined,       // 学分维度
-      dimensionType: undefined,    // 申诉维度
+      statusList: [],    // 申诉状态
       appealOrderNum: undefined,   // 申诉单号
       collegeIdList: [],
       familyIdList: [],
@@ -96,9 +96,8 @@ class CSForm extends React.Component {
     // menuType： 1 待申诉 2 在途、结案
     // tabType:  1 优新 2 IM 3 工单 4 底线 5 创收
     const {scoreAppealModel={},menuType = 1, tabType = 1} = this.props;
-    const {orgListTreeData = []} = scoreAppealModel;
-    console.log(333,orgListTreeData)
-    const {appealBeginDate,appealEndDate,creditBeginDate,creditEndDate,stuId,collegeIdList,familyIdList,groupIdList} = this.state;
+    const {orgListTreeData = [],creditList=[],statusDropList=[]} = scoreAppealModel;
+    const {appealBeginDate,appealEndDate,creditBeginDate,creditEndDate,stuId,stuName,creditType,statusList,appealOrderNum,collegeIdList,familyIdList,groupIdList} = this.state;
     return (
       <div className={styles.newSheetWrap}>
         {/*form1*/}
@@ -127,14 +126,23 @@ class CSForm extends React.Component {
               <Col className={styles.gutterCol} span={8}>
                 <div className={styles.gutterBox1}>
                   <span className={styles.gutterLabel}>学员姓名</span>：
-                  <span className={styles.gutterForm}><BIInput placeholder="请输入" allowClear value={stuId} onChange={(e)=>this.onFormChange(e.target.value,'stuName')}/></span>
+                  <span className={styles.gutterForm}>
+                    <BIInput placeholder="请输入" allowClear value={stuName} onChange={(e)=>this.onFormChange(e.target.value,'stuName')}/></span>
                 </div>
               </Col>
               <Col className={styles.gutterCol}  span={8}>
                 {tabType!==1&&(
                   <div className={styles.gutterBox2}>
                     <span className={styles.gutterLabel}>学分维度</span>：
-                    <span className={styles.gutterForm}><BIRangePicker allowClear value={creditBeginDate && [moment(creditBeginDate),moment(creditEndDate)]} onChange={(val,valStr)=>this.onFormChange(valStr,'creditDate')}/></span>
+                    <span className={styles.gutterForm}>
+                      <BISelect style={{width:230}} placeholder="请选择" value={creditType} onChange={(val)=>this.onFormChange(val,'creditType')}>
+                        {creditList.map(item => (
+                          <Option key={item.id}>
+                            {item.name}
+                          </Option>
+                        ))}
+                      </BISelect>
+                    </span>
                   </div>
                 )}
               </Col>
@@ -150,20 +158,32 @@ class CSForm extends React.Component {
               <Col className={styles.gutterCol} span={8}>
                 <div className={styles.gutterBox1}>
                   <span className={styles.gutterLabel}>申诉单号</span>：
-                  <span className={styles.gutterForm}><BIRangePicker allowClear value={creditBeginDate && [moment(creditBeginDate),moment(creditEndDate)]} onChange={(val,valStr)=>this.onFormChange(valStr,'creditDate')}/></span>
+                  <span className={styles.gutterForm}>
+                    <BIInput placeholder="请输入" allowClear value={appealOrderNum} onChange={(e)=>this.onFormChange(e.target.value,'appealOrderNum')}/>
+                  </span>
                 </div>
               </Col>
               <Col className={styles.gutterCol}  span={8}>
                 <div className={styles.gutterBox2}>
                   <span className={styles.gutterLabel}>学分日期</span>：
-                  <span className={styles.gutterForm}><BIInput placeholder="请输入" allowClear value={stuId} onChange={(e)=>this.onFormChange(e.target.value,'stuId')}/></span>
+                  <span className={styles.gutterForm}>
+                    <BIRangePicker allowClear value={creditBeginDate && [moment(creditBeginDate),moment(creditEndDate)]} onChange={(val,valStr)=>this.onFormChange(valStr,'creditDate')}/>
+                  </span>
                 </div>
               </Col>
               <Col className={styles.gutterCol}  span={8}>
                 {tabType!==1&&(
                   <div className={styles.gutterBox3}>
                     <span className={styles.gutterLabel}>学分维度</span>：
-                    <span className={styles.gutterForm}><BIInput placeholder="请输入" allowClear value={stuId} onChange={(e)=>this.onFormChange(e.target.value,'stuId')}/></span>
+                    <span className={styles.gutterForm}>
+                      <BISelect style={{width:230}} placeholder="请选择" value={creditType} onChange={(val)=>this.onFormChange(val,'creditType')}>
+                        {creditList.map(item => (
+                          <Option key={item.id}>
+                            {item.name}
+                          </Option>
+                        ))}
+                      </BISelect>
+                    </span>
                   </div>
                 )}
               </Col>
@@ -173,13 +193,23 @@ class CSForm extends React.Component {
               <Col className={styles.gutterCol} span={8}>
                 <div className={styles.gutterBox1}>
                   <span className={styles.gutterLabel}>申诉状态</span>：
-                  <span className={styles.gutterForm}><BIInput placeholder="请输入" allowClear value={stuId} onChange={(e)=>this.onFormChange(e.target.value,'stuId')}/></span>
+                  <span className={styles.gutterForm}>
+                    <BISelect style={{width:230}} placeholder="请选择" value={statusList} onChange={(val)=>this.onFormChange(val,'statusList')}>
+                        {statusDropList.map(item => (
+                          <Option key={item.id}>
+                            {item.name}
+                          </Option>
+                        ))}
+                      </BISelect>
+                  </span>
                 </div>
               </Col>
               <Col className={styles.gutterCol}  span={8}>
                 <div className={styles.gutterBox2}>
                   <span className={styles.gutterLabel}>申诉日期</span>：
-                  <span className={styles.gutterForm}><BIInput placeholder="请输入" allowClear value={stuId} onChange={(e)=>this.onFormChange(e.target.value,'stuId')}/></span>
+                  <span className={styles.gutterForm}>
+                    <BIRangePicker allowClear value={appealBeginDate && [moment(appealBeginDate),moment(appealEndDate)]} onChange={(val,valStr)=>this.onFormChange(valStr,'appealDate')}/>
+                  </span>
                 </div>
               </Col>
               <Col className={styles.gutterCol}  span={8}>
