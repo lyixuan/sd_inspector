@@ -119,6 +119,7 @@ class QualityAppealing extends React.Component {
     const otherObj = {
       violationLevelName:BiFilter(`VIOLATION_LEVEL|id:${formParams.violationLevel}`).name,
       violationName:dimensionName,
+      firstAppealEndDate:this.query.firstAppealEndDate,
     }
     this.props.dispatch({
       type: 'qualityAppealing/reviewAppeal',
