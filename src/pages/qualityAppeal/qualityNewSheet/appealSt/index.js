@@ -7,9 +7,10 @@ import CommonForm from '../../components/commonForm';
 import QualityAppeal from '../../components/AppealInfo/qualityAppeal';
 import { message, Spin } from 'antd';
 import { BiFilter } from '@/utils/utils';
-@connect(({ loading, qualityNewSheet, editQualityNewSheet }) => ({
+@connect(({ loading, qualityNewSheet, editQualityNewSheet,qualityAppealHome }) => ({
   loading,
   qualityNewSheet,
+  qualityAppealHome,
   editQualityNewSheet,
   submitLoading: loading.effects['editQualityNewSheet/checkQuality'],
   pageLoading: loading.effects['qualityNewSheet/getQualityDetail']
@@ -46,11 +47,8 @@ class EditQualityNewSheet extends React.Component {
   };
   onSubmit = params => {
     const { appealParam } = this;
+    const {dimensionList1=[],dimensionList2=[]} = this.props.qualityAppealHome
     const { qualityDetail = {} } = this.props.qualityNewSheet;
-    const otherObj = {
-      violationLevelName:BiFilter(`VIOLATION_LEVEL|id:${qualityDetail.violationLevel}`).name,
-      violationName:qualityDetail.dimension,
-    };
     if (Number(appealParam.checkResult) !== 0 && !appealParam.checkResult) {
       message.warn('审核结果为必选项');
       return;
@@ -66,6 +64,17 @@ class EditQualityNewSheet extends React.Component {
       checkResultDesc: appealParam.desc ? appealParam.desc : undefined,
       firstAppealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
     };
+    let dimensionName = ''
+    dimensionList1.concat(dimensionList2).forEach((v)=>{
+      if (v.id === params.dimensionId) {
+        dimensionName= v.name
+      }
+    });
+    const otherObj = {
+      violationLevelName:BiFilter(`VIOLATION_LEVEL|id:${params.violationLevel}`).name,
+      violationName:dimensionName,
+      firstAppealEndDate:this.query.firstAppealEndDate,
+    }
     this.props.dispatch({
       type: 'editQualityNewSheet/checkQuality',
       payload: { ...params, ...params2,...otherObj },
