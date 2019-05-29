@@ -1,10 +1,12 @@
 import React from 'react';
-import RenderRoute from '@/components/RenderRoute';
 import { connect } from 'dva/index';
 import CSTable from '@/pages/scoreAppeal/components/Table';
 import moment from 'moment/moment';
 import { BiFilter, DeepCopy } from '@/utils/utils';
 import router from 'umi/router';
+import style from './style.less'
+import CSForm from '@/pages/scoreAppeal/awaitAppeal/components/Form';
+import AuthButton from '@/components/AuthButton/index';
 
 const columns = [
   {
@@ -100,27 +102,18 @@ class AwaitAppeal extends React.Component {
     super(props);
     this.state = {
       page: 1,
-      pageSize: 30
+      pageSize: 30,
+      dimensionType: 11
     };
   }
   componentDidMount() {
-    const initCreditType = BiFilter(`DIMENSION_TYPE|url:specialNewer`).id;
-    this.queryData(initCreditType);
+    const {dimensionType} = this.state;
+    // 初始化，只有申诉维度，无参
+    this.queryData(dimensionType,undefined,{page:1});
   }
 
-  componentWillReceiveProps(nextProps){
-    const {pathname:pathname1} = this.props.location;
-    const {pathname:pathname2} = nextProps.location;
-    if (pathname1!==pathname2) {
-      const initCreditType = BiFilter(`DIMENSION_TYPE|url:${pathname2.slice(pathname2.lastIndexOf('/')+1)}`).id;
-      this.queryData(initCreditType);
-    }
-  }
-
-  queryData = (creditType,type, pm, pg) => {
-    // type:1 查询 2切换tab
-    console.log('creditType',creditType)
-    let params = {creditType};
+  queryData = (dimensionType, pm, pg) => {
+    let params = {};
     if(pm){
       params = { ...this.state, ...dealQuarys(pm) };
     }
@@ -132,27 +125,66 @@ class AwaitAppeal extends React.Component {
       });
     }
 
+    if (dimensionType) {
+      params = { ...params, ...{dimensionType} };
+    }
+
     const saveUrlParams =JSON.stringify(params);
 
+    console.log('params',params)
     // 请求成功后保留查询条件
+    router.replace({
+      pathname: this.props.location.pathname,
+      query: saveUrlParams ? { params: saveUrlParams } : {}
+    })
     this.props.dispatch({
       type: 'awaitAppealModel/getPreAppealList',
       payload: { params },
     }).then(() => {
       router.replace({
         pathname: this.props.location.pathname,
-        query: this.saveUrlParams ? { params: saveUrlParams } : ''
+        query: saveUrlParams ? { params: saveUrlParams } : {}
       })
     });
   };
 
+  changeTab(dimensionType){
+    const {params:oldParams} = this.props.location.query;
+    this.setState({
+      dimensionType
+    },()=>this.queryData(dimensionType,oldParams,{page:1}))
+  }
+  formSubmit(dimensionType,params){
+    this.queryData(dimensionType,params)
+  }
+  changePage(dimensionType,params,pg){
+    this.queryData(dimensionType,params,pg)
+  }
   render() {
+    const {dimensionType} = this.state;
     const {loading} = this.props;
     const {awaitList=[],page} = this.props.awaitAppealModel;
     return (
       <>
-        <RenderRoute {...this.props}/>
-        <CSTable dataSource={awaitList} columns={columns} loading={loading} page={page}></CSTable>
+        <p className={style.wrap}>
+          <AuthButton authority='/scoreAppeal/awaitAppeal/specialNewer'>
+            <span onClick={()=>this.changeTab(11)} className={11===dimensionType?style.active:null}>优新</span>
+          </AuthButton>
+          <AuthButton authority='/scoreAppeal/awaitAppeal/IM'>
+            <span onClick={()=>this.changeTab(14)} className={14===dimensionType?style.active:null}>IM</span>
+          </AuthButton>
+          <AuthButton authority='/scoreAppeal/awaitAppeal/order'>
+            <span onClick={()=>this.changeTab(19)}  className={19===dimensionType?style.active:null}>工单</span>
+          </AuthButton>
+          <AuthButton authority='/scoreAppeal/awaitAppeal/baseline'>
+            <span onClick={()=>this.changeTab(23)}  className={23===dimensionType?style.active:null}>底线</span>
+          </AuthButton>
+          <AuthButton authority='/scoreAppeal/awaitAppeal/createIncome'>
+            <span onClick={()=>this.changeTab(42)}  className={42===dimensionType?style.active:null}>创收</span>
+          </AuthButton>
+        </p>
+        <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params)=>{this.formSubmit(undefined,params)}}></CSForm>
+        <CSTable dataSource={awaitList} columns={columns} loading={loading} page={page} onChangePage={(pg)=>{this.changePage(undefined,undefined,pg)}}></CSTable>
       </>
     );
   }

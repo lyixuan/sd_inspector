@@ -10,6 +10,7 @@ export default {
   state: {
     awaitList: [], // 列表
     page:{},
+    searchParams:{}
   },
 
   effects: {
@@ -28,6 +29,9 @@ export default {
 
   reducers: {
     save(state, { payload }) {
+      return { ...state, ...payload };
+    },
+    saveParams(state, { payload }) {
       return { ...state, ...payload };
     },
   },

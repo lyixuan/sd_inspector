@@ -1,6 +1,6 @@
 import React from 'react';
 import CSTab from '@/pages/scoreAppeal/components/CSTab';
-import CSForm from '@/pages/scoreAppeal/components/Form';
+import CSForm from '@/pages/scoreAppeal/awaitAppeal/components/Form';
 class OnAppealOrder extends React.Component {
   constructor(props) {
     super(props);

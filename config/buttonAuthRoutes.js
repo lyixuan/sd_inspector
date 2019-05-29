@@ -46,6 +46,55 @@ const urlPathMap = {
   '/qualityAppeal/qualityNexSheet/appealDetail': {
     name: '申诉详情',
   },
+  // ------------ 学分申诉
+  '/scoreAppeal/awaitAppeal/specialNewer':{
+    name: '待申诉',      // -优新
+  },
+  '/scoreAppeal/awaitAppeal/IM':{
+    name: '待申诉',      // -IM
+  },
+  '/scoreAppeal/awaitAppeal/order':{
+    name: '待申诉',      // -工单
+  },
+  '/scoreAppeal/awaitAppeal/baseline':{
+    name: '待申诉',      // -底线
+  },
+  '/scoreAppeal/awaitAppeal/createIncome':{
+    name: '待申诉',      // -创收
+  },
+  // --
+  '/scoreAppeal/onAppeal/specialNewer':{
+    name: '在途申诉',      // -优新
+  },
+  '/scoreAppeal/onAppeal/IM':{
+    name: '在途申诉',      // -IM
+  },
+  '/scoreAppeal/onAppeal/order':{
+    name: '在途申诉',      // -工单
+  },
+  '/scoreAppeal/onAppeal/baseline':{
+    name: '在途申诉',      // -底线
+  },
+  '/scoreAppeal/onAppeal/createIncome':{
+    name: '在途申诉',      // -创收
+  },
+  // --
+  '/scoreAppeal/finishAppeal/specialNewer':{
+    name: '结案申诉',      // -优新
+  },
+  '/scoreAppeal/finishAppeal/IM':{
+    name: '结案申诉',      // -IM
+  },
+  '/scoreAppeal/finishAppeal/order':{
+    name: '结案申诉',      // -工单
+  },
+  '/scoreAppeal/finishAppeal/baseline':{
+    name: '结案申诉',      // -底线
+  },
+  '/scoreAppeal/finishAppeal/createIncome':{
+    name: '结案申诉',      // -创收
+  },
+  // --
   '/scoreAppeal/roles/master': {
   name: '在途申诉-主管',
   },
@@ -58,7 +107,6 @@ const urlPathMap = {
   '/scoreAppeal/roles/dockingMan2': {
     name: '结案申诉-对接人',
   },
-
 
 };
 export { urlPathMap };
