@@ -86,7 +86,7 @@ class CSForm extends React.Component {
   };
   render() {
     // tabType:  1 优新 2 IM 3 工单 4 底线 5 创收
-    const {scoreAppealModel={}, dimensionType = 1} = this.props;
+    const {scoreAppealModel={}, dimensionType = 11} = this.props;
     const {orgListTreeData = [],creditList=[],statusDropList=[]} = scoreAppealModel;
     const {appealBeginDate,appealEndDate,creditBeginDate,creditEndDate,creditType,statusList,appealOrderNum,collegeIdList,familyIdList,groupIdList} = this.state;
     return (
@@ -113,7 +113,7 @@ class CSForm extends React.Component {
                 </div>
               </Col>
               <Col className={styles.gutterCol}  span={8}>
-                {dimensionType!==1&&(
+                {dimensionType!==11&&(
                   <div className={styles.gutterBox3}>
                     <span className={styles.gutterLabel}>学分维度</span>：
                     <span className={styles.gutterForm}>

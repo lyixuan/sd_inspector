@@ -167,7 +167,7 @@ class FinishAppeal extends React.Component {
   render() {
     const {dimensionType} = this.state;
     const {loading} = this.props;
-    const {finishList=[],page} = this.props.onAppealModel;
+    const {finishList=[],page} = this.props.finishAppealModel;
     return (
       <>
         <p className={style.wrap}>
