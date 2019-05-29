@@ -43,52 +43,15 @@ const columns = [
 ];
 function dealQuarys(pm) {
   const p = DeepCopy(pm);
-  if (p.collegeIdList && p.collegeIdList.length > 0) {
-    p.collegeIdList = p.collegeIdList.map((v) => {
-      return Number(v.replace('a-', ''));
-    })
-  } else {
-    p.collegeIdList = undefined;
+  if (!p.stuName) {
+    p.stuName = undefined
   }
-  if (p.familyIdList && p.familyIdList.length > 0) {
-    p.familyIdList = p.familyIdList.map((v) => {
-      return Number(v.replace('b-', ''));
-    })
-  } else {
-    p.familyIdList = undefined;
+  if (!p.stuId) {
+    p.stuId = undefined
   }
-  if (p.groupIdList && p.groupIdList.length > 0) {
-    p.groupIdList = p.groupIdList.map((v) => {
-      return Number(v.replace('c-', ''));
-    })
-  } else {
-    p.groupIdList = undefined;
-  }
-  if (p.qualityType && p.qualityType !== 'all') {
-    p.qualityType = Number(p.qualityType);
-  } else {
-    p.qualityType = undefined;
-  }
-  if (p.statusList && p.statusList.length > 0) {
-    p.statusList = p.statusList.map(v => Number(v))
-  } else {
-    p.statusList = undefined;
-  }
-  if (p.violationLevelList&&p.violationLevelList.length>0) {
-    p.violationLevelList = p.violationLevelList.map(v => Number(v))
-  } else {
-    p.violationLevelList = undefined;
-  }
-
-  if (p.dimensionIdList&&p.dimensionIdList.length>0) {
-    p.dimensionIdList = p.dimensionIdList.map(v => Number(v))
-  } else {
-    p.dimensionIdList = undefined
-  }
-  if (p.qualityNum && p.qualityNum !== '') {
-    p.qualityNum = p.qualityNum.trim();
-  } else {
-    p.qualityNum = undefined
+  if (!p.creditBeginDate||!p.creditEndDate) {
+    p.creditBeginDate = undefined
+    p.creditEndDate = undefined
   }
   return p;
 };
@@ -113,11 +76,10 @@ class AwaitAppeal extends React.Component {
   }
 
   queryData = (dimensionType, pm, pg) => {
-    let params = {};
+    let params = this.state;
     if(pm){
       params = { ...this.state, ...dealQuarys(pm) };
     }
-
     if (pg) {
       params = { ...params, ...pg };
       this.setState({
@@ -150,12 +112,14 @@ class AwaitAppeal extends React.Component {
 
   changeTab(dimensionType){
     const {params:oldParams} = this.props.location.query;
+    console.log('oldParams',oldParams)
+    const {dimensionType:oldDem,...others} = JSON.parse(oldParams);
     this.setState({
       dimensionType
-    },()=>this.queryData(dimensionType,oldParams,{page:1}))
+    },()=>this.queryData(dimensionType,others,{page:1}))
   }
-  formSubmit(dimensionType,params){
-    this.queryData(dimensionType,params)
+  formSubmit(dimensionType,params,pg){
+    this.queryData(dimensionType,params,pg)
   }
   changePage(dimensionType,params,pg){
     this.queryData(dimensionType,params,pg)
@@ -183,8 +147,8 @@ class AwaitAppeal extends React.Component {
             <span onClick={()=>this.changeTab(42)}  className={42===dimensionType?style.active:null}>创收</span>
           </AuthButton>
         </p>
-        <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params)=>{this.formSubmit(undefined,params)}}></CSForm>
-        <CSTable dataSource={awaitList} columns={columns} loading={loading} page={page} onChangePage={(pg)=>{this.changePage(undefined,undefined,pg)}}></CSTable>
+        <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params,pg)=>{this.formSubmit(undefined,params,pg)}}></CSForm>
+        <CSTable dataSource={awaitList} columns={columns} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}></CSTable>
       </>
     );
   }

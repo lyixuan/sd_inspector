@@ -4,6 +4,9 @@ import { connect } from 'dva/index';
 import router from 'umi/router';
 import CSTable from '@/pages/scoreAppeal/components/Table';
 import { DeepCopy } from '@/utils/utils';
+import style from './style.less'
+import AuthButton from '@/components/AuthButton/index';
+import CSForm from '@/pages/scoreAppeal/components/Form';
 
 const columns = [
   {
@@ -93,56 +96,99 @@ function dealQuarys(pm) {
   }
   return p;
 };
-@connect(({ scoreAppealModel,loading }) => ({
-  scoreAppealModel,
-  loading: loading.effects['qualityNewSheet/getQualityList'],
+
+@connect(({ scoreAppealModel,finishAppealModel,loading }) => ({
+  scoreAppealModel,finishAppealModel,
+  loading: loading.effects['finishAppealModel/getFinishAppealList'],
 }))
 class FinishAppeal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: 1,
+      pageSize: 30,
+      dimensionType: 11
     };
   }
   componentDidMount() {
+    const {dimensionType} = this.state;
+    // 初始化，只有申诉维度，无参
+    this.queryData(dimensionType,undefined,{page:1});
   }
-  queryData = (pm, pg, isExport) => {
-    this.saveUrlParams = (pm && !isExport) ? JSON.stringify(pm) : undefined;
-    const dealledPm = pm && dealQuarys(pm);
-    let params = { ...this.state };
-    if (dealledPm) {
-      params = { ...params, ...dealledPm };
+
+  queryData = (dimensionType, pm, pg) => {
+    let params = this.state;
+    if(pm){
+      params = { ...this.state, ...dealQuarys(pm) };
     }
     if (pg) {
       params = { ...params, ...pg };
-      this.saveUrlParams =JSON.stringify({...JSON.parse(this.saveUrlParams),...pg});
       this.setState({
         page: pg.page
       });
     }
 
-    if (isExport) {
-      this.props.dispatch({
-        type: 'qualityNewSheet/exportExcel',
-        payload: { params },
-      });
-    } else {
-      this.props.dispatch({
-        type: 'qualityNewSheet/getQualityList',
-        payload: { params },
-      }).then(() => {
-        router.replace({
-          pathname: this.props.location.pathname,
-          query: this.saveUrlParams ? { p: this.saveUrlParams } : ''
-        })
-      });
+    if (dimensionType) {
+      params = { ...params, ...{dimensionType} };
     }
+
+    const saveUrlParams =JSON.stringify(params);
+
+    console.log('params',params)
+    // 请求成功后保留查询条件
+    router.replace({
+      pathname: this.props.location.pathname,
+      query: saveUrlParams ? { params: saveUrlParams } : {}
+    })
+    this.props.dispatch({
+      type: 'finishAppealModel/getFinishAppealList',
+      payload: { params },
+    }).then(() => {
+      router.replace({
+        pathname: this.props.location.pathname,
+        query: saveUrlParams ? { params: saveUrlParams } : {}
+      })
+    });
   };
+
+  changeTab(dimensionType){
+    const {params:oldParams} = this.props.location.query;
+    const {dimensionType:oldDem,...others} = JSON.parse(oldParams);
+    this.setState({
+      dimensionType
+    },()=>this.queryData(dimensionType,others,{page:1}))
+  }
+  formSubmit(dimensionType,params,pg){
+    this.queryData(dimensionType,params,pg)
+  }
+  changePage(dimensionType,params,pg){
+    this.queryData(dimensionType,params,pg)
+  }
   render() {
-    const {tableList=[]} = this.props
+    const {dimensionType} = this.state;
+    const {loading} = this.props;
+    const {finishList=[],page} = this.props.onAppealModel;
     return (
       <>
-        <RenderRoute {...this.props} />
-        <CSTable dataSource={tableList} columns={columns}></CSTable>
+        <p className={style.wrap}>
+          <AuthButton authority='/scoreAppeal/finishAppeal/specialNewer'>
+            <span onClick={()=>this.changeTab(11)} className={11===dimensionType?style.active:null}>优新</span>
+          </AuthButton>
+          <AuthButton authority='/scoreAppeal/finishAppeal/IM'>
+            <span onClick={()=>this.changeTab(14)} className={14===dimensionType?style.active:null}>IM</span>
+          </AuthButton>
+          <AuthButton authority='/scoreAppeal/finishAppeal/order'>
+            <span onClick={()=>this.changeTab(19)}  className={19===dimensionType?style.active:null}>工单</span>
+          </AuthButton>
+          <AuthButton authority='/scoreAppeal/finishAppeal/baseline'>
+            <span onClick={()=>this.changeTab(23)}  className={23===dimensionType?style.active:null}>底线</span>
+          </AuthButton>
+          <AuthButton authority='/scoreAppeal/finishAppeal/createIncome'>
+            <span onClick={()=>this.changeTab(42)}  className={42===dimensionType?style.active:null}>创收</span>
+          </AuthButton>
+        </p>
+        <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params,pg)=>{this.formSubmit(undefined,params,pg)}}></CSForm>
+        <CSTable dataSource={finishList} columns={columns} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}></CSTable>
       </>
     );
   }

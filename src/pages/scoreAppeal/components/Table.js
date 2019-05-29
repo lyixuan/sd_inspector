@@ -1,15 +1,10 @@
 import React from 'react';
-import router from 'umi/router';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
 
 class CSTable extends React.Component {
-
-  onJumpPage = (pathname,query) => {
-    router.push({
-      pathname,
-      query
-    });
+  onPageChange = (currentPage)=>{
+    this.props.changePage({page:currentPage});
   };
   render() {
     const {dataSource=[],columns=[],loading,page={}} = this.props;

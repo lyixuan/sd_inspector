@@ -44,11 +44,20 @@ class CSForm extends React.Component {
       });
     }
   };
+  reset = ()=>{
+    this.setState(this.init,()=>{
+      this.props.onSubmit(this.state,{page:1});
+    });
+  };
+
+  search = ()=>{
+    this.props.onSubmit(this.state,undefined);
+  };
   render() {
     // tabType:  11 优新 14 IM 19 工单 23 底线 42 创收
     const {scoreAppealModel={}, dimensionType = 11} = this.props;
     const {orgListTreeData = [],creditList=[],statusDropList=[]} = scoreAppealModel;
-    const {creditBeginDate,creditEndDate,stuId,stuName,creditType,statusList} = this.state;
+    const {creditBeginDate,creditEndDate,stuId,stuName,creditType} = this.state;
     return (
       <div className={styles.newSheetWrap}>
         {/*form1*/}
