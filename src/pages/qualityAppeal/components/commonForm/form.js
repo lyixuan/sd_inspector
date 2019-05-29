@@ -257,11 +257,11 @@ class CreateQualityNewSheet extends React.Component {
         if (isShowPerformance) return this.renderQualityType_performance();
     };
     checkQuality = (rule, value, callback) => {
-        if (value && Number(value) >= 0 && (Number(value)*100).toString().indexOf('.')===-1) {
-            callback();
+        if (value && Number(value) >= 0) {
+            callback('请输入大于0的数字,最多保留两位小数');
             return;
         }
-        callback('请输入大于0的数字,最多保留两位小数');
+        callback();
     };
     checkScore = (rule, value, callback) => {
         const reg = /^[0-9]\d*$/;
@@ -280,7 +280,23 @@ class CreateQualityNewSheet extends React.Component {
                     <span className={styles.i}>*</span><Form.Item label="扣除绩效">
                         {getFieldDecorator('qualityValue', {
                             initialValue: params.qualityValue,
-                            rules: [{ required: true, message: '请输入合法绩效', validator: this.checkQuality }]
+                            rules: [
+                              {
+                                validator(rule, value, callback) {
+                                  if (!value||isNaN(value)||Number(value)<0) {
+                                    callback({ message: '请输入合法绩效' });
+                                  } else if (
+                                    value &&
+                                    String(value).split('.')[1] &&
+                                    String(value).split('.')[1].length > 2
+                                  ) {
+                                    callback({ message: '最多保留两位小数' });
+                                  } else {
+                                    callback();
+                                  }
+                                },
+                              },
+                            ]
                         })(<BIInput placeholder="请输入" style={{ width: 260 }} onChange={e => this.inputChange(e, 'qualityValue')} />)}
                         <span style={{ display: "inline-block", width: "20px", textAlign: "right" }}>%</span>
                     </Form.Item>

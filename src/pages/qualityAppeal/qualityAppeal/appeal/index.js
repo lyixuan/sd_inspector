@@ -15,6 +15,7 @@ const confirm = BIModal.confirm;
 @connect(({ qualityAppealing, qualityAppealHome, loading }) => ({
   qualityAppealing,
   orgList: qualityAppealHome.orgList,
+  qualityAppealHome,
   submitLoading: loading.effects['qualityAppealing/reviewAppeal'],
   submitLoading2: loading.effects['qualityAppealing/sopAppeal'],
   pageLoading: loading.effects['qualityAppealing/getAppealInfo'] || loading.effects['qualityAppealing/getQualityDetailData']
@@ -89,6 +90,7 @@ class QualityAppealing extends React.Component {
     });
   };
   handleSubmitMaster = formParams => {
+    const {dimensionList1=[],dimensionList2=[]} = this.props.qualityAppealHome
     const { appealParam } = this.state;
     const { qualityDetailData = {} } = this.props.qualityAppealing;
     if (appealParam.checkResult !== 0 && !appealParam.checkResult) {
@@ -107,12 +109,16 @@ class QualityAppealing extends React.Component {
       desc: appealParam.desc ? appealParam.desc : undefined,
       appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
     };
+    let dimensionName = ''
+    dimensionList1.concat(dimensionList2).forEach((v)=>{
+      if (v.id === formParams.dimensionId) {
+        dimensionName= v.name
+      }
+    });
     const otherObj = {
       violationLevelName:BiFilter(`VIOLATION_LEVEL|id:${formParams.violationLevel}`).name,
-      violationName:formParams.violationName,
+      violationName:dimensionName,
       firstAppealEndDate:this.query.firstAppealEndDate,
-      // qualityValue:this.query.qualityValue,
-      // qualityType:this.query.qualityType,
     }
     this.props.dispatch({
       type: 'qualityAppealing/reviewAppeal',
