@@ -68,31 +68,13 @@ function dealQuarys(pm) {
   } else {
     p.groupIdList = undefined;
   }
-  if (p.qualityType && p.qualityType !== 'all') {
-    p.qualityType = Number(p.qualityType);
-  } else {
-    p.qualityType = undefined;
+  if (!p.creditBeginDate||!p.creditEndDate) {
+    p.creditBeginDate = undefined
+    p.creditEndDate = undefined
   }
-  if (p.statusList && p.statusList.length > 0) {
-    p.statusList = p.statusList.map(v => Number(v))
-  } else {
-    p.statusList = undefined;
-  }
-  if (p.violationLevelList&&p.violationLevelList.length>0) {
-    p.violationLevelList = p.violationLevelList.map(v => Number(v))
-  } else {
-    p.violationLevelList = undefined;
-  }
-
-  if (p.dimensionIdList&&p.dimensionIdList.length>0) {
-    p.dimensionIdList = p.dimensionIdList.map(v => Number(v))
-  } else {
-    p.dimensionIdList = undefined
-  }
-  if (p.qualityNum && p.qualityNum !== '') {
-    p.qualityNum = p.qualityNum.trim();
-  } else {
-    p.qualityNum = undefined
+  if (!p.appealBeginDate||!p.appealBeginDate) {
+    p.appealBeginDate = undefined
+    p.appealEndDate = undefined
   }
   return p;
 };
