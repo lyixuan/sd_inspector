@@ -237,7 +237,21 @@ class CreateQualityNewSheet extends React.Component {
                         <span className={styles.i}>*</span><Form.Item label="主管扣除绩效：">
                             {getFieldDecorator('masterQualityValue', {
                                 initialValue: params.masterQualityValue,
-                                rules: [{ required: true, message: '请输入主管扣除绩效', validator: this.checkQuality }],
+                                rules: [{
+                                  validator(rule, value, callback) {
+                                    if (!value||isNaN(value)||Number(value)<0) {
+                                      callback({ message: '请输入合法绩效' });
+                                    } else if (
+                                      value &&
+                                      String(value).split('.')[1] &&
+                                      String(value).split('.')[1].length > 2
+                                    ) {
+                                      callback({ message: '最多保留两位小数' });
+                                    } else {
+                                      callback();
+                                    }
+                                  },
+                                }],
                             })(<BIInput placeholder="请输入" style={{ width: 260 }} onChange={e => this.inputChange(e, 'masterQualityValue')} />)}
                             <span style={{ display: "inline-block", width: "20px" }}>%</span>
                         </Form.Item>
