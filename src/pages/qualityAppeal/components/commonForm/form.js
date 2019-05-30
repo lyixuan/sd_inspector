@@ -268,7 +268,9 @@ class CreateQualityNewSheet extends React.Component {
         const isShowCreate = BaseModels.checkoutQualityScore(values);
         const isShowPerformance = BaseModels.checkoutQualityPerfor(values);
         if (isShowCreate) return this.renderQualityType_create();
-        if (isShowPerformance) return this.renderQualityType_performance();
+        if (isShowPerformance) {
+          return this.renderQualityType_performance(100);
+        }
     };
     checkQuality = (rule, value, callback) => {
         if (value && Number(value) >= 0) {
@@ -285,9 +287,10 @@ class CreateQualityNewSheet extends React.Component {
         }
         callback('请输入正整数');
     };
-    renderQualityType_performance = () => {
+    renderQualityType_performance = (value) => {
         const { getFieldDecorator } = this.props.form;
         const { params } = this.props;
+        if (value) {params.qualityValue=params.qualityValue*value}
         return (
             <Row style={{ lineHeight: '40px' }}>
                 <Col className="gutter-row" span={12}>
