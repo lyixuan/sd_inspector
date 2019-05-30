@@ -104,6 +104,7 @@ class CreateQualityNewSheet extends React.Component {
         if (!orderNum) {
             message.error('请输入正确的子订单编号');
         }
+
         if (this.props.getOrderNum) {
             this.props.getOrderNum(orderNum, values)
         }
