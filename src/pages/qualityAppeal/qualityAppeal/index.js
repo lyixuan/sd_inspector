@@ -156,7 +156,7 @@ const columns1 = [
     render: (text, record) => {
       return (
         <>
-          {Number(record.qualityType)===1?record.qualityValue&&`${(Number(record.qualityValue)*100).toFixed(2)}%`:record.qualityValue&&(record.qualityValue).toFixed(2)}
+          {Number(record.qualityType)===1?record.qualityValue&&`${(Number(record.qualityValue)*100).toFixed(2)}%`:record.qualityValue&&(record.qualityValue)}
         </>
       );
     },
@@ -247,7 +247,7 @@ const columns2 = [
     render: (text, record) => {
       return (
         <>
-          {Number(record.qualityType)===1?record.qualityValue&&`${(Number(record.qualityValue)*100).toFixed(2)}%`:record.qualityValue&&(record.qualityValue).toFixed(2)}
+          {Number(record.qualityType)===1?record.qualityValue&&`${(Number(record.qualityValue)*100).toFixed(2)}%`:record.qualityValue&&(record.qualityValue)}
         </>
       );
     },
@@ -450,7 +450,7 @@ class QualityAppeal extends React.Component {
   };
 
   onAppeal = (record) => {
-    this.onJumpPage({ id: record.id, status: changeState(record),firstAppealEndDate:record.firstAppealEndDate ? moment(record.firstAppealEndDate).format('YYYY-MM-DD'):undefined, secondAppealEndDate:record.secondAppealEndDate?moment(record.secondAppealEndDate).format('YYYY-MM-DD'):undefined}, '/qualityAppeal/qualityAppeal/appeal');
+    this.onJumpPage({ id: record.id,qualityValue:record.qualityValue,qualityType:record.qualityType, status: changeState(record),firstAppealEndDate:record.firstAppealEndDate ? moment(record.firstAppealEndDate).format('YYYY-MM-DD'):undefined, secondAppealEndDate:record.secondAppealEndDate?moment(record.secondAppealEndDate).format('YYYY-MM-DD'):undefined}, '/qualityAppeal/qualityAppeal/appeal');
   };
 
   onRepeal = (record,status) => {
