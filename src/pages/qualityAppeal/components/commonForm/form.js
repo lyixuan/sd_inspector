@@ -269,7 +269,7 @@ class CreateQualityNewSheet extends React.Component {
         const isShowPerformance = BaseModels.checkoutQualityPerfor(values);
         if (isShowCreate) return this.renderQualityType_create();
         if (isShowPerformance) {
-          return this.renderQualityType_performance(100);
+          return this.renderQualityType_performance();
         }
     };
     checkQuality = (rule, value, callback) => {
@@ -290,7 +290,6 @@ class CreateQualityNewSheet extends React.Component {
     renderQualityType_performance = (value) => {
         const { getFieldDecorator } = this.props.form;
         const { params } = this.props;
-        if (value) {params.qualityValue=params.qualityValue*value}
         return (
             <Row style={{ lineHeight: '40px' }}>
                 <Col className="gutter-row" span={12}>
