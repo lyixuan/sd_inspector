@@ -153,6 +153,13 @@ const columns1 = [
   {
     title: '扣除学分（绩效）',
     dataIndex: 'qualityValue',
+    render: (text, record) => {
+      return (
+        <>
+          {Number(record.qualityType)===1?record.qualityValue&&`${(Number(record.qualityValue)*100).toFixed(2)}%`:record.qualityValue&&(record.qualityValue)}
+        </>
+      );
+    },
   },
   {
     title: '申诉状态',
@@ -231,6 +238,21 @@ const columns2 = [
     },
   },
   {
+    title: '违规等级',
+    dataIndex: 'violationLevel',
+  },
+  {
+    title: '扣除学分（绩效）',
+    dataIndex: 'qualityValue',
+    render: (text, record) => {
+      return (
+        <>
+          {Number(record.qualityType)===1?record.qualityValue&&`${(Number(record.qualityValue)*100).toFixed(2)}%`:record.qualityValue&&(record.qualityValue)}
+        </>
+      );
+    },
+  },
+  {
     title: '归属组织',
     dataIndex: 'collegeName',
     render: (text, record) => {
@@ -240,10 +262,6 @@ const columns2 = [
         </>
       );
     },
-  },
-  {
-    title: '违规等级',
-    dataIndex: 'violationLevel',
   },
   {
     title: '申诉状态',
@@ -432,7 +450,7 @@ class QualityAppeal extends React.Component {
   };
 
   onAppeal = (record) => {
-    this.onJumpPage({ id: record.id, status: changeState(record),firstAppealEndDate:record.firstAppealEndDate ? moment(record.firstAppealEndDate).format('YYYY-MM-DD'):undefined, secondAppealEndDate:record.secondAppealEndDate?moment(record.secondAppealEndDate).format('YYYY-MM-DD'):undefined}, '/qualityAppeal/qualityAppeal/appeal');
+    this.onJumpPage({ id: record.id,qualityValue:record.qualityValue,qualityType:record.qualityType, status: changeState(record),firstAppealEndDate:record.firstAppealEndDate ? moment(record.firstAppealEndDate).format('YYYY-MM-DD'):undefined, secondAppealEndDate:record.secondAppealEndDate?moment(record.secondAppealEndDate).format('YYYY-MM-DD'):undefined}, '/qualityAppeal/qualityAppeal/appeal');
   };
 
   onRepeal = (record,status) => {
@@ -501,27 +519,27 @@ class QualityAppeal extends React.Component {
       },
     }];
     if (AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
-      // 归属人
-      const index = columns1.findIndex(item => item.dataIndex === 'userName');
-      if (index >= 0) {
-        columns1.splice(index, 1);
-      }
+      // 非归属人
       const index2 = columns1.findIndex(item => item.dataIndex === 'violationLevel');
-      if (index >= 0) {
+      if (index2 >= 0) {
         columns1.splice(index2, 1);
       }
       const index3 = columns1.findIndex(item => item.dataIndex === 'qualityValue');
-      if (index >= 0) {
+      if (index3 >= 0) {
         columns1.splice(index3, 1);
       }
     } else {
-      // 非归属人
+      // 归属人 去掉这些
+      const index3 = columns1.findIndex(item => item.dataIndex === 'userName');
+      if (index3 >= 0) {
+        columns1.splice(index3, 1);
+      }
       const index = columns1.findIndex(item => item.dataIndex === 'qualityType');
       if (index >= 0) {
         columns1.splice(index, 1);
       }
       const index2 = columns1.findIndex(item => item.dataIndex === 'collegeName');
-      if (index >= 0) {
+      if (index2 >= 0) {
         columns1.splice(index2, 1);
       }
     }
@@ -543,6 +561,27 @@ class QualityAppeal extends React.Component {
         );
       },
     }];
+    if (AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
+      // 非归属人
+      const index2 = columns2.findIndex(item => item.dataIndex === 'violationLevel');
+      if (index2 >= 0) {
+        columns2.splice(index2, 1);
+      }
+      const index3 = columns2.findIndex(item => item.dataIndex === 'qualityValue');
+      if (index3 >= 0) {
+        columns2.splice(index3, 1);
+      }
+    } else {
+      // 归属人
+      const index = columns2.findIndex(item => item.dataIndex === 'qualityType');
+      if (index >= 0) {
+        columns2.splice(index, 1);
+      }
+      const index2 = columns2.findIndex(item => item.dataIndex === 'collegeName');
+      if (index >= 0) {
+        columns2.splice(index2, 1);
+      }
+    }
     return [...columns2, ...actionObj];
   };
   render() {
