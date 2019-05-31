@@ -4,6 +4,9 @@ import CSTable from '@/pages/scoreAppeal/components/Table';
 import { connect } from 'dva/index';
 import { DeepCopy } from '@/utils/utils';
 import router from 'umi/router';
+import style from './style.less'
+import AuthButton from '@/components/AuthButton/index';
+import CSForm from '@/pages/scoreAppeal/components/Form';
 
 const columns = [
   {
@@ -65,84 +68,167 @@ function dealQuarys(pm) {
   } else {
     p.groupIdList = undefined;
   }
-  if (p.qualityType && p.qualityType !== 'all') {
-    p.qualityType = Number(p.qualityType);
-  } else {
-    p.qualityType = undefined;
+  if (!p.creditBeginDate||!p.creditEndDate) {
+    p.creditBeginDate = undefined
+    p.creditEndDate = undefined
   }
-  if (p.statusList && p.statusList.length > 0) {
-    p.statusList = p.statusList.map(v => Number(v))
-  } else {
-    p.statusList = undefined;
-  }
-  if (p.violationLevelList&&p.violationLevelList.length>0) {
-    p.violationLevelList = p.violationLevelList.map(v => Number(v))
-  } else {
-    p.violationLevelList = undefined;
-  }
-
-  if (p.dimensionIdList&&p.dimensionIdList.length>0) {
-    p.dimensionIdList = p.dimensionIdList.map(v => Number(v))
-  } else {
-    p.dimensionIdList = undefined
-  }
-  if (p.qualityNum && p.qualityNum !== '') {
-    p.qualityNum = p.qualityNum.trim();
-  } else {
-    p.qualityNum = undefined
+  if (!p.appealBeginDate||!p.appealBeginDate) {
+    p.appealBeginDate = undefined
+    p.appealEndDate = undefined
   }
   return p;
 };
 
-@connect(({ scoreAppealModel,loading }) => ({
-  scoreAppealModel,
-  loading: loading.effects['qualityNewSheet/getQualityList'],
+@connect(({ scoreAppealModel,onAppealModel,loading }) => ({
+  scoreAppealModel,onAppealModel,
+  loading: loading.effects['onAppealModel/getOnAppealList'],
 }))
 class OnAppeal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      page: 1,
+      pageSize: 30,
+      dimensionType: 11
+    };
   }
   componentDidMount() {
+    const {dimensionType} = this.state;
+    // 初始化，只有申诉维度，无参
+    this.queryData(dimensionType,undefined,{page:1});
   }
-  queryData = (pm, pg, isExport) => {
-    this.saveUrlParams = (pm && !isExport) ? JSON.stringify(pm) : undefined;
-    const dealledPm = pm && dealQuarys(pm);
-    let params = { ...this.state };
-    if (dealledPm) {
-      params = { ...params, ...dealledPm };
+
+  queryData = (dimensionType, pm, pg, exp) => {
+    let params = this.state;
+    if(pm){
+      params = { ...this.state, ...dealQuarys(pm) };
     }
     if (pg) {
       params = { ...params, ...pg };
-      this.saveUrlParams =JSON.stringify({...JSON.parse(this.saveUrlParams),...pg});
       this.setState({
         page: pg.page
       });
     }
 
-    if (isExport) {
+    if (dimensionType) {
+      params = { ...params, ...{dimensionType} };
+    }
+
+    const saveUrlParams =JSON.stringify(params);
+
+    console.log('params',params)
+    // 请求成功后保留查询条件
+    router.replace({
+      pathname: this.props.location.pathname,
+      query: saveUrlParams ? { params: saveUrlParams } : {}
+    })
+    if (!exp){
       this.props.dispatch({
-        type: 'qualityNewSheet/exportExcel',
-        payload: { params },
-      });
-    } else {
-      this.props.dispatch({
-        type: 'qualityNewSheet/getQualityList',
+        type: 'onAppealModel/getOnAppealList',
         payload: { params },
       }).then(() => {
         router.replace({
           pathname: this.props.location.pathname,
-          query: this.saveUrlParams ? { p: this.saveUrlParams } : ''
+          query: saveUrlParams ? { params: saveUrlParams } : {}
         })
       });
+    } else {
+
     }
+
   };
+  onJumpPage = (query, pathname) => {
+    router.push({
+      pathname,
+      query
+    });
+  };
+  onDetail = (record) => {
+    this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_detail');
+  };
+  columnsAction = () => {
+    const actionObj = [{
+      title: '操作',
+      dataIndex: 'operation',
+      render: (text, record) => {
+        return (
+          <>
+            <AuthButton authority='/scoreAppeal/onAppeal/detail'>
+              <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
+                详情
+              </span>
+            </AuthButton>
+            <AuthButton authority='/scoreAppeal/onAppeal/appeal'>
+              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+                申诉
+              </span>
+            </AuthButton>
+            <AuthButton authority='/scoreAppeal/onAppeal/repeal'>
+              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+                撤销
+              </span>
+            </AuthButton>
+            <AuthButton authority='/scoreAppeal/appeal/dockingMan'>
+              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+                对接人审核
+              </span>
+            </AuthButton>
+            <AuthButton authority='/scoreAppeal/appeal/master'>
+              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+                主管审核
+              </span>
+            </AuthButton>
+          </>
+        );
+      },
+    }];
+    return [...columns, ...actionObj];
+  };
+  changeTab(dimensionType){
+    const {params:oldParams} = this.props.location.query;
+    const {dimensionType:oldDem,...others} = JSON.parse(oldParams);
+    this.setState({
+      dimensionType
+    },()=>this.queryData(dimensionType,others,{page:1}))
+  }
+  formSubmit(dimensionType,params,pg,exp){
+    this.queryData(dimensionType,params,pg,exp)
+  }
+  changePage(dimensionType,params,pg){
+    this.queryData(dimensionType,params,pg)
+  }
   render() {
-    const {tableList=[]} = this.props
+    const {dimensionType} = this.state;
+    const {loading} = this.props;
+    // const {onList=[],page} = this.props.onAppealModel;
+    const onList = [
+      {id:'1',appealOrderNum:'1233333',creditDate:'2019-09-09',dimensionName:'学分分维',appealDate:'2019-09-11',collegeName:'归属组织。。。。。',secondAppealEndDate:'2029-09-11',status:'111'},
+    ]
+    const page = {
+      total:12,
+      pageNum:1
+    }
     return (
       <>
-        <RenderRoute {...this.props}  />
-        <CSTable dataSource={tableList} columns={columns}></CSTable>
+        <p className={style.wrap}>
+          <AuthButton authority='/scoreAppeal/onAppeal/specialNewer'>
+            <span onClick={()=>this.changeTab(11)} className={11===dimensionType?style.active:null}>优新</span>
+          </AuthButton>
+          <AuthButton authority='/scoreAppeal/onAppeal/IM'>
+            <span onClick={()=>this.changeTab(14)} className={14===dimensionType?style.active:null}>IM</span>
+          </AuthButton>
+          <AuthButton authority='/scoreAppeal/onAppeal/order'>
+            <span onClick={()=>this.changeTab(19)}  className={19===dimensionType?style.active:null}>工单</span>
+          </AuthButton>
+          <AuthButton authority='/scoreAppeal/onAppeal/baseline'>
+            <span onClick={()=>this.changeTab(23)}  className={23===dimensionType?style.active:null}>底线</span>
+          </AuthButton>
+          <AuthButton authority='/scoreAppeal/onAppeal/createIncome'>
+            <span onClick={()=>this.changeTab(42)}  className={42===dimensionType?style.active:null}>创收</span>
+          </AuthButton>
+        </p>
+        <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params,pg,exp)=>{this.formSubmit(undefined,params,pg,exp)}} ></CSForm>
+        <CSTable dataSource={onList} columns={this.columnsAction()} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}></CSTable>
       </>
     );
   }

@@ -379,22 +379,19 @@ export const INDEX_PAGE = 'homepage';
 export const CLICK_KO_ITEM = 'click_ko_item';
 
 
-// 学分维度枚举
+// 申诉维度枚举
 export const DIMENSION_TYPE = [
-  { id: 11, name: '优新' },
-  { id: 14, name: 'IM' },
-  { id: 19, name: '工单' },
-  { id: 23, name: '底线' },
-  { id: 42, name: '创收' },
+  { id: 11, name: '优新',url:'specialNewer' },
+  { id: 14, name: 'IM',url:'IM' },
+  { id: 19, name: '工单',url:'order'  },
+  { id: 23, name: '底线',url:'baseline'  },
+  { id: 42, name: '创收',url:'createIncome'  },
 ];
 
-// 学分维度列表
-export const DIMENSION_LIST = [
-  { id: 12, name: '开班电话' },
-  { id: 17, name: 'IM不及时' },
-  { id: 15, name: 'IM未回复' },
-  { id: 23, name: '底线' },
-  { id: 42, name: '创收' },
+// 申诉状态
+export const SCORE_APPEAL_STATE = [
+  { id: 1, name: '待申诉' },
+  { id: 2, name: '一次对接人待审核' }
 ];
 
 // 需要用于global filter 进行数据筛选的，必须加到default里
@@ -426,7 +423,7 @@ export default {
   REGISTER_STATUS,
   CHOISE_STATUS,
   DIMENSION_TYPE,
-  DIMENSION_LIST
+  SCORE_APPEAL_STATE
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

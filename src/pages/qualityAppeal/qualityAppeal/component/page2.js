@@ -8,6 +8,7 @@ import BIPagination from '@/ant_components/BIPagination';
 import { BiFilter } from '@/utils/utils';
 import { Row, Col } from 'antd';
 import styles from '../../style.less'
+import AuthButton from '@/components/AuthButton';
 const { Option } = BISelect;
 
 @connect(({ newQuality }) => ({
@@ -84,11 +85,11 @@ class NewQualitySheet extends React.Component {
             </Col>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel1}>质检类型</span>：
+                <span className={styles.gutterLabel1}>是否警告</span>：
                 <span className={styles.gutterForm}>
-                  <BISelect style={{ width: 230 }} placeholder="请选择" value={qualityType} onChange={(val) => this.onFormChange(val, 'qualityType')}>
+                  <BISelect style={{ width: 230 }} placeholder="请选择" value={isWarn} onChange={(val) => this.onFormChange(val, 'isWarn')}>
                     <Option key={'all'}>全部</Option>
-                    {BiFilter('QUALITY_TYPE').map(item => (
+                    {BiFilter('ISWARN').map(item => (
                       <Option key={item.id}>
                         {item.name}
                       </Option>
@@ -161,19 +162,21 @@ class NewQualitySheet extends React.Component {
               </div>
             </Col>
             <Col className={styles.gutterCol} span={8}>
-              <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel1}>是否警告</span>：
-                <span className={styles.gutterForm}>
-                  <BISelect style={{ width: 230 }} placeholder="请选择" value={isWarn} onChange={(val) => this.onFormChange(val, 'isWarn')}>
+              {AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA') && (
+                <div className={styles.gutterBox3}>
+                  <span className={styles.gutterLabel1}>质检类型</span>：
+                  <span className={styles.gutterForm}>
+                  <BISelect style={{ width: 230 }} placeholder="请选择" value={qualityType} onChange={(val) => this.onFormChange(val, 'qualityType')}>
                     <Option key={'all'}>全部</Option>
-                    {BiFilter('ISWARN').map(item => (
+                    {BiFilter('QUALITY_TYPE').map(item => (
                       <Option key={item.id}>
                         {item.name}
                       </Option>
                     ))}
                   </BISelect>
                 </span>
-              </div>
+                </div>
+              )}
             </Col>
           </Row>
           {/*第三行*/}

@@ -94,11 +94,11 @@ class CreateQualityNewSheet extends React.Component {
                 type: 'qualityAppealHome/getOrgMapByMail',
                 payload: { mail },
             });
-        });
+        },1);
     }
     getOrderNum = (orderNum, values) => {
         if (!orderNum) return;
-
+      values.isGetOrderNum = true;
         this.saveParams(values, () => {
             this.props.dispatch({
                 type: 'qualityAppealHome/getOrderNum',
@@ -155,8 +155,11 @@ class CreateQualityNewSheet extends React.Component {
     formChange = (params) => {
         this.saveParams(params);
     }
-    saveParams = (nextParams = {}, callback) => {
+    saveParams = (nextParams = {}, callback,isGetOrderNum) => {
         const { formParams } = this.state;
+      if (isGetOrderNum&&formParams.qualityValue && formParams.qualityValue > 0  ) {
+        formParams.qualityValue = (Number(formParams.qualityValue) * 100).toFixed(2)
+      }
         const newParams = { ...formParams };
         for (let item in nextParams) {
             newParams[item] = nextParams[item];
