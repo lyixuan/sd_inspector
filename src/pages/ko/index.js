@@ -20,6 +20,7 @@ import EventGroup from './components/eventGroup';
   usersData: koPlan.usersData,
   chooseEventData: koPlan.chooseEventData,
   isLoadEnumData: loading.effects['koPlan/pageParams'],
+  userGroupListData: koPlan.userGroupListData,
 }))
 class koPlan extends React.Component {
   constructor(props) {
@@ -37,6 +38,9 @@ class koPlan extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.pageParams) !== JSON.stringify(this.props.pageParams)) {
       this.handleOriginParams(nextProps.pageParams);
+    }
+    if (JSON.stringify(nextProps.tabFromParams.page) !== JSON.stringify(this.props.tabFromParams.page)) {
+      this.onSavefFlterActionParams({page : nextProps.tabFromParams.page});
     }
   }
   // componentWillUnmount() {
@@ -60,6 +64,9 @@ class koPlan extends React.Component {
     this.props.dispatch({
       type: 'koPlan/getKOMessage',
     })
+    this.props.dispatch({
+      type: 'koPlan/getUserGroupList'
+    });
   }
   onSaveOriginParams = (params = {}) => {
     const { originParams } = this.state;
@@ -68,7 +75,6 @@ class koPlan extends React.Component {
   onSavefFlterActionParams = (params = {}) => {
     const { filterActionParams } = this.state;
     this.setState({ filterActionParams: { ...filterActionParams, ...params } });
-
   }
   onSaveTabFromParams = (params, KoDateRange = this.props.pageParams.KoDateRange) => {
     this.handleDateParams(params.formParams, KoDateRange);
@@ -137,14 +143,13 @@ class koPlan extends React.Component {
     });
   };
   render() {
-    const { enumData, pageParams, isLoadEnumData, location: { pathname }, chooseEventData = [] } = this.props;
+    const { enumData, pageParams, isLoadEnumData, location: { pathname }, chooseEventData = [], tabFromParams } = this.props;
     const { originParams, filterActionParams } = this.state;
-
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
         {(pathname === '/ko/behaviorPath') ? null : <> <div className={styles.commonBox}>
-          <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} usersData={this.props.usersData} pageParams={pageParams} loading={isLoadEnumData} />
+          <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} usersData={this.props.usersData} pageParams={pageParams} loading={isLoadEnumData} userGroupListData={this.props.userGroupListData} />
         </div>
           <div className={styles.tabBox}>
             <KoTab {...this.props} />

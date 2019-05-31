@@ -2,7 +2,7 @@ import { message } from 'antd';
 import { msgF } from '@/utils/utils';
 import {
   getKOEnumList,
-  getKoDateRange, getKOMessage, getPageDetailInfoList,
+  getKoDateRange, getKOMessage, getPageDetailInfoList, getUserGroupList,
 } from './services';
 
 
@@ -20,6 +20,7 @@ export default {
     pageDetailInfo: [],
     usersData: {},
     chooseEventData: [],
+    userGroupListData: [{value:1, name:'p'}],
   },
 
   effects: {
@@ -86,21 +87,43 @@ export default {
         message.error(msgF(response.msg, response.msgDetail));
       }
     },
-    *getPageList(_, { call, put, select }) {
-      const pageParams = yield select(state => state.koPlan.pageDetailInfo);
-      if (pageParams.length > 0) return;
-      const response = yield call(getPageDetailInfoList);
+    *getPageList({ payload }, { call, put, select }) {
+      // const pageParams = yield select(state => state.koPlan.pageDetailInfo);
+      // if (pageParams.length > 0) return;
+      const response = yield call(getPageDetailInfoList, payload);
       if (response.code === 20000) {
         const pageDetailInfo = response.data || [];
         yield put({
           type: 'save',
           payload: { pageDetailInfo },
-        })
+        });
+        let pageVale = {page: ''};
+        if (pageDetailInfo.length > 0) {
+          pageVale = pageDetailInfo[0];
+        }
+        yield put({
+          type: 'saveTabFromParamsPage',
+          payload: { page: { value: pageVale.page, actionValue: pageVale.page } },
+        });
       } else {
         message.error(response.msg);
       }
 
     },
+    *getUserGroupList({ payload }, { call, put, select }) {
+      const userGroup = yield select(state => state.koPlan.userGroupListData);
+      if (userGroup && userGroup.length > 0) return;
+      const response = yield call(getUserGroupList);
+      if (response.code === 20000) {
+        const groupList = response.data.list.forEach(item => {
+          return { value: item.id, name: item.groupName}
+        });
+        yield put({
+          type: 'save',
+          payload: { userGroupListData: groupList }
+        });
+      }
+    }
   },
 
   reducers: {
@@ -124,8 +147,10 @@ export default {
     },
     saveChooseEventData(state, { payload }) {
       return { ...state, ...payload };
-    }
-
+    },
+    saveTabFromParamsPage(state, { payload }) {
+      return { ...state, tabFromParams: { ...state.tabFromParams, ...payload} };
+    },
   },
   subscriptions: {},
 };

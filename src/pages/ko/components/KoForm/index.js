@@ -142,7 +142,7 @@ export default class KoForm extends React.Component {
           <div className={styles.itemCls}>
             <span className={styles.gutterLabel}>选择应用：</span>
             <span className={styles.gutterForm}>
-              <BISelect style={{ width: '70%', minWidth: '140px' }} placeholder="请选择" disabled value={tabFromParams.belongApp} onChange={(val) => this.onChangeApp(val)}>
+              <BISelect style={{ width: '70%', minWidth: '140px' }} placeholder="请选择" value={tabFromParams.belongApp} onChange={(val) => this.onChangeApp(val)}>
                 {BiFilter('APP_LIST').map(item => (
                   <Option key={item.id}>
                     {item.name}

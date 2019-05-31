@@ -18,15 +18,21 @@ class behavior extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.tabFromParams) !== JSON.stringify(this.props.tabFromParams)) {
       this.getData(nextProps.tabFromParams);
+      if (nextProps.tabFromParams.belongApp !== this.props.tabFromParams.belongApp) {
+        this.props.dispatch({
+          type: 'koPlan/getPageList',
+          payload: { belongApp: nextProps.tabFromParams.belongApp }
+        });
+      }
     }
   }
   getInitParams = () => {
     this.props.dispatch({
       type: 'koPlan/pageParams',
     });
-    this.props.dispatch({
-      type: 'koPlan/getPageList',
-    });
+    // this.props.dispatch({
+    //   type: 'koPlan/getPageList',
+    // });
   };
   gotoUserList = (params) => {
     this.props.dispatch({

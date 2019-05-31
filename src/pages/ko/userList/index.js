@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Popover } from 'antd';
+import { Popover, Tooltip, Progress } from 'antd';
 import BITable from '@/components/BIKoTable';
 import BIButtonText from '@/components/BIButtonText';
 import BIPagination from '@/ant_components/BIPagination';
@@ -60,109 +60,141 @@ function columns() {
       title: '出勤数',
       dataIndex: 'attendenceCount',
       filterMultiple: false,
-      width: 82,
+      width: 94,
       filters: [
         { text: '大于0', value: 'attendenceExist', },
       ],
+      sorter: true,
+    },
+    {
+      title: '听课（分钟）',
+      dataIndex: 'attendenceCount11',
+      filterMultiple: false,
+      width: 130,
+      filters: [
+        { text: '大于0', value: 'attendenceExist', },
+      ],
+      sorter: true,
     },
     {
       title: '做题量',
       dataIndex: 'studyExeciseNum',
       filterMultiple: false,
-      width: 82,
+      width: 94,
       filters: [
         { text: '大于0', value: 'execiseExist' },
       ],
+      sorter: true,
     },
     {
       title: 'IM咨询量',
       dataIndex: 'imDialogueNum',
-      width: 100,
+      width: 112,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 'imDialogueExist' },
       ],
+      sorter: true,
     },
     {
       title: 'IM老师主动量',
       dataIndex: 'imTeacherChatNum',
-      width: 120,
+      width: 132,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 'imTeacherExist' },
       ],
+      sorter: true,
     },
     {
       title: 'IM学员主动量',
       dataIndex: 'imStudentChatNum',
-      width: 120,
+      width: 132,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 'imStudentExit' },
       ],
+      sorter: true,
+    },
+    {
+      title: 'IM情绪值',
+      dataIndex: 'imEmotionValue',
+      width: 132,
+      filterMultiple: false,
+      filters: [
+        { text: '大于0', value: 'imStudentExit' },
+      ],
+      sorter: true,
     },
     {
       title: '排队数',
       dataIndex: 'imQueueDialogueNum',
-      width: 82,
+      width: 94,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 'imQueueDialogueExist' },
       ],
+      sorter: true,
     },
     {
       title: '留言数',
       dataIndex: 'imMessageDialogueNum',
-      width: 82,
+      width: 94,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 'imMsgExist' },
       ],
+      sorter: true,
     },
     {
       title: '发帖量',
       dataIndex: 'bbsPostNum',
-      width: 82,
+      width: 94,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 'bbsPostExist' },
       ],
+      sorter: true,
     },
     {
       title: '跟帖量',
       dataIndex: 'bbsFollowNum',
-      width: 82,
+      width: 94,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 'bbsFollowExist' },
       ],
+      sorter: true,
     },
     {
       title: '微信咨询量',
       dataIndex: 'wechatDialogueNum',
-      width: 110,
+      width: 122,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 'wechatDialogueExist' },
       ],
+      sorter: true,
     },
     {
       title: '微信老师主动量',
       dataIndex: 'wechatTeacherChatNum',
-      width: 130,
+      width: 142,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 'wechatTeacherExist' },
       ],
+      sorter: true,
     },
     {
       title: '微信学员主动量',
       dataIndex: 'wechatStudentChatNum',
-      width: 130,
+      width: 142,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 'wechatStudentExist' },
       ],
+      sorter: true,
     },
     {
       title: '',
@@ -180,7 +212,18 @@ function columns() {
     if (v.filters) {
       filterKeyName.findIndex(item => item.dataIndex === v.dataIndex) === -1 && filterKeyName.push({ dataIndex: v.dataIndex, filterKey: v.filters[0].value })
     }
-    if (v.dataIndex !== 'orderTime' && v.dataIndex !== 'choiceLessionTime') {
+    if (v.dataIndex === 'imEmotionValue') {
+      v.render = v.render || ((text) => {
+        return (
+          <>
+            <div className={style.progressNumShow}><span>{text.positiveMsgNum}</span> <span>{text.negativeMsgNum}</span></div>
+            <Tooltip>
+              <Progress showInfo={false} strokeWidth={4} strokeColor="red" percent={text.negativeMsgNum == 0 ? 0 : 100} successPercent={20} />
+            </Tooltip>
+          </>
+        )
+      })
+    } else if (v.dataIndex !== 'orderTime' && v.dataIndex !== 'choiceLessionTime') {
       v.render = v.render || ((text) => {
         return (
           <>
@@ -302,7 +345,7 @@ class UserList extends React.Component {
             rowKey={record => { return record.userId + Math.random() * 1000 }}
             dataSource={dataSource} columns={columns()}
             pagination={false} loading={loading}
-            scroll={{ x: 1660, y: 570 }}
+            scroll={{ x: 2066, y: 570 }}
             size="middle"
           />
           <br />

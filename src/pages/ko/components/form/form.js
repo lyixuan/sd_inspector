@@ -73,7 +73,7 @@ class CommonForm extends React.Component {
   chooseEnumData = (type) => {
     const { enumData = {} } = this.props;
     let returnData = [];
-    if (type >= 1 && type <= 10) {
+    if (type >= 1 && type <= 11) {
       if (type === 5) {
         return Array.isArray(enumData[type]) ? enumData[type].map(item => ({ ...item, value: item.name })) : [];
       }
@@ -162,10 +162,15 @@ class CommonForm extends React.Component {
       <ButtonGroupCom params={this.props.params} top={top} onDelete={this.onDelete}></ButtonGroupCom>
     )
   }
+  chooseUserGroupSelect = () => {
+    const { UserGroupListData = [] } = this.props;
+    return;
+  }
   render() {
     const { expand } = this.state;
-    const { params, usersData, loading } = this.props;
+    const { params, usersData, loading, userGroupListData = [] } = this.props;
     const { getFieldDecorator } = this.props.form;
+
     return (
       <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
 
@@ -178,11 +183,11 @@ class CommonForm extends React.Component {
             <div className={styles.rowWrap}>
               <div className={styles.itemCls}>
                 <Form.Item label='用户群组：'>
-                  {getFieldDecorator('choiceLessonStatus', {
-                    initialValue: params.choiceLessonStatus,
+                  {getFieldDecorator('userGroup', {
+                    initialValue: params.userGroup,
                   })(
                     <BISelect placeholder="请选择" allowClear>
-                      {this.filterEnumData(3).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                      {userGroupListData.map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                     </BISelect>
                   )}
                 </Form.Item>
@@ -380,11 +385,11 @@ class CommonForm extends React.Component {
                     </div>
                     <div className={styles.itemCls}>
                       <Form.Item label='订单状态：'>
-                          {getFieldDecorator('koOrderGap', {
-                            initialValue: params.koOrderGap,
+                          {getFieldDecorator('orderStatus', {
+                            initialValue: params.orderStatus,
                           })(
                             <BISelect placeholder="请选择" allowClear>
-                              {this.filterEnumData(7).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                              {this.filterEnumData(11).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                             </BISelect>
                           )}
                         </Form.Item>

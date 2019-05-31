@@ -345,7 +345,8 @@ export const UNIT_DATE = [
 export const EmptyContentLayout = [{ path: '/ko', name: 'KO计划' }];
 // 应用类型
 export const APP_LIST = [
-  { id: '1', name: '极速版App' }
+  { id: '1', name: '极速版App' },
+  { id: '2', name: '主App' }
 ];
 // 注册类型
 export const REGISTER_STATUS = [

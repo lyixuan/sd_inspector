@@ -19,7 +19,7 @@ export default class ButtonGroup extends React.Component {
     pageOnscroll = (e) => {
         const pageTop = document.documentElement.scrollTop;
         const { top } = this.props;
-        // 此处应增加防抖操作   
+        // 此处应增加防抖操作
         if (parseInt(pageTop) > parseInt(top)) {
             this.setState({ isShowFiexd: true, expand: false });
         } else if (parseInt(pageTop) <=  parseInt(top)) {
@@ -106,6 +106,12 @@ export default class ButtonGroup extends React.Component {
                 break;
             case 'orderMoney':
                 returnDom = item ? this.renderTypeTage(item, 'orderMoney')('custorm') : null
+                break;
+            case 'userGroup':
+                returnDom = item ? this.renderTypeTage(item, 'userGroup')('custorm') : null
+                break;
+            case 'orderStatus':
+                returnDom = item ? this.renderTypeTage(item, 'orderStatus')('custorm') : null
                 break;
             case 'koOrderGap':
                 returnDom = item ? this.renderTypeTage(item, 'koOrderGap')('custorm') : null

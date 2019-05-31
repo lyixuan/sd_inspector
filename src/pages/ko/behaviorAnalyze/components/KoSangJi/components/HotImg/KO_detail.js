@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import {HOT_RANGE} from '@/utils/constants';
 import {thousandsFormat} from '@/utils/utils'
 import pages from './SVG';
+import mainpages from './mainSVG';
 import styles from './style.less';
 
 let tip={}
@@ -148,7 +149,9 @@ class KoDetailPage extends React.Component {
     }
   }
   drewLended = (data,page,currentActionName) => {
-    this.chart = d3.select(this.svgDom).html(pages[page]);
+    const { belongApp } = this.props.tabFromParams;
+    const currentpages = belongApp == 1 ? pages : mainpages;
+    this.chart = d3.select(this.svgDom).html(currentpages[page]);
     if(data&&data.length){
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       this.chart.selectAll('.textWrap1 text').attr('dominant-baseline',"inherit").attr('text-anchor',"left");
