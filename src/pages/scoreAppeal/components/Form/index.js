@@ -84,6 +84,10 @@ class CSForm extends React.Component {
   search = ()=>{
     this.props.onSubmit(this.state,undefined);
   };
+
+  export = ()=>{
+    this.props.onSubmit(this.state,undefined,true);
+  };
   render() {
     // tabType:  1 优新 2 IM 3 工单 4 底线 5 创收
     const {scoreAppealModel={}, dimensionType = 11} = this.props;
@@ -187,6 +191,9 @@ class CSForm extends React.Component {
           </Col>
           <Col className={styles.gutterCol}  span={8}>
             <div className={styles.gutterBox3}>
+              {(AuthButton.checkPathname('/scoreAppeal/onAppeal/export')||AuthButton.checkPathname('/scoreAppeal/finishAppeal/export'))&&(
+                <span className={styles.gutterBtn1}><BIButtonYellow onClick={this.export} type='primary'>导出申诉单</BIButtonYellow></span>
+              )}
               <span className={styles.gutterBtn1}><BIButton onClick={this.search} type='primary'>搜索</BIButton></span>
               <span className={styles.gutterBtn2}><BIButton onClick={this.reset}>重置</BIButton></span>
             </div>

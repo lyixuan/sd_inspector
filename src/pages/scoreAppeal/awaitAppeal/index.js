@@ -109,7 +109,15 @@ class AwaitAppeal extends React.Component {
       })
     });
   };
-
+  onJumpPage = (query, pathname) => {
+    router.push({
+      pathname,
+      query
+    });
+  };
+  onDetail = (record) => {
+    this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_detail');
+  };
   columnsAction = () => {
     const actionObj = [{
       title: '操作',

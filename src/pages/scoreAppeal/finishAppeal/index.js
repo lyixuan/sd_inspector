@@ -98,7 +98,7 @@ class FinishAppeal extends React.Component {
     this.queryData(dimensionType,undefined,{page:1});
   }
 
-  queryData = (dimensionType, pm, pg) => {
+  queryData = (dimensionType, pm, pg,exp) => {
     let params = this.state;
     if(pm){
       params = { ...this.state, ...dealQuarys(pm) };
@@ -122,17 +122,30 @@ class FinishAppeal extends React.Component {
       pathname: this.props.location.pathname,
       query: saveUrlParams ? { params: saveUrlParams } : {}
     })
-    this.props.dispatch({
-      type: 'finishAppealModel/getFinishAppealList',
-      payload: { params },
-    }).then(() => {
-      router.replace({
-        pathname: this.props.location.pathname,
-        query: saveUrlParams ? { params: saveUrlParams } : {}
-      })
+    if (!exp){
+      this.props.dispatch({
+        type: 'finishAppealModel/getFinishAppealList',
+        payload: { params },
+      }).then(() => {
+        router.replace({
+          pathname: this.props.location.pathname,
+          query: saveUrlParams ? { params: saveUrlParams } : {}
+        })
+      });
+    } else {
+
+    }
+
+  };
+  onJumpPage = (query, pathname) => {
+    router.push({
+      pathname,
+      query
     });
   };
-
+  onDetail = (record) => {
+    this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_detail');
+  };
   columnsAction = () => {
     const actionObj = [{
       title: '操作',
@@ -159,8 +172,8 @@ class FinishAppeal extends React.Component {
       dimensionType
     },()=>this.queryData(dimensionType,others,{page:1}))
   }
-  formSubmit(dimensionType,params,pg){
-    this.queryData(dimensionType,params,pg)
+  formSubmit(dimensionType,params,pg,exp){
+    this.queryData(dimensionType,params,pg,exp)
   }
   changePage(dimensionType,params,pg){
     this.queryData(dimensionType,params,pg)
@@ -195,7 +208,7 @@ class FinishAppeal extends React.Component {
             <span onClick={()=>this.changeTab(42)}  className={42===dimensionType?style.active:null}>创收</span>
           </AuthButton>
         </p>
-        <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params,pg)=>{this.formSubmit(undefined,params,pg)}}></CSForm>
+        <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params,pg,exp)=>{this.formSubmit(undefined,params,pg,exp)}}></CSForm>
         <CSTable dataSource={finishList} columns={this.columnsAction()} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}></CSTable>
       </>
     );

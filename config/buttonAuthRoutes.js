@@ -132,5 +132,11 @@ const urlPathMap = {
   '/scoreAppeal/appeal/master':{
     name: '主管审核',      // -在途
   },
+  '/scoreAppeal/onAppeal/export':{
+    name: '导出',      // -在途
+  },
+  '/scoreAppeal/finishAppeal/export':{
+    name: '导出',      // -结案
+  },
 };
 export { urlPathMap };
