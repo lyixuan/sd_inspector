@@ -8,6 +8,7 @@ import ScorePersonInfo from './components/scorePersonInfo';
 import ScoreBasicInfo from './components/scoreBasicInfo';
 import SubOrderDetail from './components/subOrderDetail';
 import SecondCheckResult from './components/secondCheckResult';
+import UploadImgs from './components/uploadImgs';
 import router from 'umi/router';
 import BIButton from '@/ant_components/BIButton';
 
@@ -39,6 +40,7 @@ class NewQualitySheetIndex extends React.Component {
         <div className={styles.spaceLine} />
         {/* 一次申诉 firstCheckResult——对接人 ；secondCheckResult——主管 */}
         <AppealInfo
+          uploadImgs={<UploadImgs type="preview" />}
           firstCheckResult={<FirstCheckResult />}
           secondCheckResult={<SecondCheckResult />}
         />

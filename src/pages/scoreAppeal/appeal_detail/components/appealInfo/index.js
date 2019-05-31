@@ -17,7 +17,7 @@ export default class AppealInfoComponent extends React.Component {
     return '-';
   }
   render() {
-    const { data = {}, firstCheckResult = null, secondCheckResult } = this.props;
+    const { data = {}, firstCheckResult = null, secondCheckResult, uploadImgs = null } = this.props;
     const { appealEndDate, appealStart = [], type, index, isCollapse } = data;
     const number = Number(type) === 2 ? '二' : '一';
     return (
@@ -30,7 +30,7 @@ export default class AppealInfoComponent extends React.Component {
               <div>
                 <Row className={styles.container}>
                   <Col span={12}>
-                    <span style={{ float: 'left', marginLeft: 0 }}>附件：</span>{' '}
+                    <span style={{ float: 'left', marginLeft: 0 }}>附件：{uploadImgs}</span>
                   </Col>
                   <Col span={4}>
                     <span>执行人：</span>
