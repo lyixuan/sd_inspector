@@ -15,6 +15,7 @@ export default {
     pageList: [],
     tableList: [],
     tabFromParams: {},
+    originParams: {},
     pageParams: {},
     KOMessage: {},
     pageDetailInfo: [],
@@ -118,6 +119,9 @@ export default {
     },
     saveTabFromParams(state, { payload }) {
       return { ...state, tabFromParams: payload };
+    },
+    saveOriginParams(state, { payload }) {
+      return { ...state, originParams: payload };
     },
     saveUserData(state, { payload }) {
       return { ...state, ...payload };

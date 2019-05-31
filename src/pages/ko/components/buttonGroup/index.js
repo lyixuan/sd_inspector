@@ -125,6 +125,7 @@ export default class ButtonGroup extends React.Component {
     }
     renderChooseTags = () => {
         const { params = {} } = this.props;
+        console.log(128, this.props.params)
         const returnNode = Object.keys(params).map(item => {
             return (params[item] !== null || params[item] !== undefined) && this.checkoutTypeTage(item, params[item]);
         });
@@ -155,7 +156,6 @@ export default class ButtonGroup extends React.Component {
         const { isShowFiexd } = this.state;
         const children = this.renderChooseTags();
         const isHasChoose = children.filter(item => item).length > 0;
-
 
         return (
             !isHasChoose ? null :

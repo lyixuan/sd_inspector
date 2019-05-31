@@ -224,6 +224,7 @@ function jump(record, v) {
 @connect(({ userListModel, koPlan, loading }) => ({
   userListModel,
   tabFromParams: koPlan.tabFromParams,
+  originParams: koPlan.originParams,
   pageParams: userListModel.pageParams,
   chooseEventData: koPlan.chooseEventData,
   loading: loading.effects['userListModel/getTableList']
@@ -299,6 +300,94 @@ class UserList extends React.Component {
       payload: { params: newParams },
     });
   };
+  renderDateTags = (date, key, name, index) => {
+    const { isShowFiexd } = this.state;
+    let [startTime, endTime] = date;
+    startTime = moment(startTime).format(dateFormat);
+    endTime = moment(endTime).format(dateFormat);
+    return (<span key={name + index}><Tag closable={!isShowFiexd} onClose={() => !isShowFiexd ? this.onClose(key, date) : null}>{name}:{`${startTime}~${endTime}`}</Tag></span>)
+  }
+  renderGrouptags = (item, key) => {
+    const { isShowFiexd } = this.state;
+    const orgName = item.map(item => item.name).join('/');
+    return orgName ? (<span key={orgName}><Tag closable={!isShowFiexd} onClose={() => !isShowFiexd ? this.onClose(key, item) : null}>{orgName}</Tag></span>) : null;
+  }
+  renderTypeTage = (obj, key, color = '#F4F4F4') => (type) => {
+    const { isShowFiexd } = this.state;
+    if (type === 'custorm' && typeof obj === 'object') {
+      return (<span key={obj.name + obj.value}><Tag closable={!isShowFiexd} color={color} onClose={() => !isShowFiexd ? this.onClose(key, obj) : null}>{obj.name}</Tag></span>)
+    }
+    if (obj.value === null || obj.value === undefined) return null;
+    return (<span key={obj.name + obj.value}><Tag closable={!isShowFiexd} color={color} onClose={() => !isShowFiexd ? this.onClose(key, obj) : null}>{obj.name}</Tag></span>)
+  }
+
+  checkoutTypeTage = (key, item) => {
+    console.log(324, item)
+    let returnDom = null;
+    switch (key) {
+      case 'fromDevice':
+        returnDom = (Array.isArray(item) && item.length > 0) ? item.map(ls => this.renderTypeTage(ls, 'fromDevice', '#E9F4FF')()) : null
+        break;
+      case 'fromApp':
+        returnDom = (Array.isArray(item) && item.length > 0) ? item.map(ls => this.renderTypeTage(ls, 'fromApp', '#FFF9E9')()) : null
+        break;
+      case 'registerTime':
+        returnDom = (Array.isArray(item) && item.length > 0) ? this.renderDateTags(item, 'registerTime', '注册时间', 1) : null
+        break;
+      case 'choiceLessonStatus':
+        returnDom = item ? this.renderTypeTage(item, 'choiceLessonStatus')() : null
+        break;
+      case 'publicLesson':
+        returnDom = item ? this.renderTypeTage(item, 'publicLesson')() : null
+        break;
+      case 'publicChoiceLessonTime':
+        returnDom = (Array.isArray(item) && item.length > 0) ? this.renderDateTags(item, 'publicChoiceLessonTime', '公共课选课时间', 2) : null
+        break;
+      case 'certificateChoiceLesson':
+        returnDom = item ? this.renderTypeTage(item, 'certificateChoiceLesson')() : null
+        break;
+      case 'certificateChoiceLessonTime':
+        returnDom = (Array.isArray(item) && item.length > 0) ? this.renderDateTags(item, 'certificateChoiceLessonTime', '资格证课选课时间', 3) : null
+        break;
+      case 'attendanceStatus':
+        returnDom = item ? this.renderTypeTage(item, 'attendanceStatus')() : null
+        break;
+      case 'attendanceNum':
+        returnDom = item ? this.renderTypeTage(item, 'attendanceNum')('custorm') : null
+        break;
+      case 'listenLessonTime':
+        returnDom = item ? this.renderTypeTage(item, 'listenLessonTime')('custorm') : null
+        break;
+      case 'payOrder':
+        returnDom = item ? this.renderTypeTage(item, 'payOrder')() : null
+        break;
+      case 'orderMoney':
+        returnDom = item ? this.renderTypeTage(item, 'orderMoney')('custorm') : null
+        break;
+      case 'koOrderGap':
+        returnDom = item ? this.renderTypeTage(item, 'koOrderGap')('custorm') : null
+        break;
+      case 'frontBelong':
+        returnDom = item ? this.renderGrouptags(item, 'frontBelong') : null
+        break;
+      case 'backBelong':
+        returnDom = item ? this.renderGrouptags(item, 'backBelong') : null
+        break;
+      default:
+        returnDom = null;
+        break
+    }
+    return returnDom;
+
+  }
+  renderChooseTags = () => {
+    const { params = {} } = this.props.originParams;
+    // console.log(385, params)
+    const returnNode = Object.keys(params).map(item => {
+      return (params[item] !== null || params[item] !== undefined) && this.checkoutTypeTage(item, params[item]);
+    });
+    return returnNode;
+  }
   showPop = () => {
     // return;
     this.props.dispatch({
@@ -337,11 +426,17 @@ class UserList extends React.Component {
         groupName: this.state.groupName,
         userTag: null
       }
-      console.log(331, newParams);
+
+      console.log(428, this.renderChooseTags())
+      return;
       this.props.dispatch({
         type: 'userListModel/userGroupSubmit',
         payload: { params: submitParam },
       });
+      this.setState({
+        visible: false,
+        visible2: true
+      })
     }
 
   }
@@ -358,7 +453,6 @@ class UserList extends React.Component {
     const { pageParams } = this.state;
     const dataSource = userList;
     this.state.totalUser = thousandsFormat(totalUser)
-    console.log(361, this.state.visible2)
     return (
       <div>
         <div className={style.contentWrap}>

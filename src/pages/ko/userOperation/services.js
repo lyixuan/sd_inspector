@@ -3,8 +3,8 @@ import request from '@/utils/request';
 
 
 // 创建用户组
-export async function userGroupList() {
-  return request('http://172.16.109.173:8085/userGroup/list', { method: 'get', prefix: null });
+export async function userGroupList(params) {
+  return request('http://172.16.109.173:8085/userGroup/list', { method: 'get', params, prefix: null });
 }
 
 

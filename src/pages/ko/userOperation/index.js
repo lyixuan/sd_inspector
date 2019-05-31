@@ -6,6 +6,7 @@ import BIPagination from '@/ant_components/BIPagination';
 import InitTable from './component/InitTable';
 import BIModal from '@/ant_components/BIModal';
 import BIInput from '@/ant_components/BIInput';
+import router from 'umi/router';
 import styles from './style.less';
 
 const { TextArea } = BIInput;
@@ -17,7 +18,9 @@ class userOperation extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      userGroupName: ''
+      userGroupName: '',
+      pageSize: 10,
+      page: 1
     }
   }
   componentDidMount() {
@@ -26,8 +29,13 @@ class userOperation extends React.Component {
   getInitData = () => {
     this.props.dispatch({
       type: 'userOperation/userGroupList',
-      payload: { params: { userId: this.state.stuId } },
+      payload: { params: { pageSize: this.state.pageSize, page: this.state.page } },
     })
+  }
+  toCreateUserGroup = () => {
+    router.push({
+      pathname: '/ko/userGroupAdd'
+    });
   }
 
   render() {
@@ -36,7 +44,7 @@ class userOperation extends React.Component {
       <div className={styles.userOperation}>
         <div className={styles.headBar}>用户运营</div>
         <div className={styles.creatBtn}>
-          <BIButton type="primary" onClick={this.showPop}>创建用户组</BIButton>
+          <BIButton type="primary" onClick={this.toCreateUserGroup}>创建用户组</BIButton>
         </div>
         <div className={styles.contentArea}>
           <InitTable list={tableList} />
@@ -50,8 +58,6 @@ class userOperation extends React.Component {
           </div>
 
         </div>
-
-
 
       </div>
 

@@ -12,11 +12,10 @@ export default {
       pageSize: 30
     },
     visible: false,
-    visible2:false,
+    visible2: false,
     groupCheck: true,
     groupSubmit: null
   },
-
   effects: {
     *userGroupSubmit({ payload }, { call, put }) {
       const params = payload.params;
@@ -24,7 +23,7 @@ export default {
       if (result.code === 20000) {
         message.success('提交成功！');
         const groupSubmit = result.data;
-        yield put({ type: 'save', payload: { groupSubmit,visible:false,visible2:true} });
+        yield put({ type: 'save', payload: { groupSubmit, visible: false, visible2: true } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

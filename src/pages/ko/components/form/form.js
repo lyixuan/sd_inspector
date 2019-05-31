@@ -32,7 +32,10 @@ class CommonForm extends React.Component {
       if (this.props.onSubmit) {
         const { payOrder, orderMoney, koOrderGap, frontBelong, backBelong, ...others } = values;
         const newParams = expand ? { ...values } : { ...others };
+        console.log(35, newParams)
         this.props.onSubmit(newParams)
+        console.log(37);
+
       }
     });
   }
@@ -175,7 +178,7 @@ class CommonForm extends React.Component {
           onSubmit={this.handleSearch}
         >
           <Skeleton loading={loading !== false} active>
-            <div className={styles.rowWrap}>
+            <div className={styles.rowWrap} style={{ justifyContent: 'left' }}>
               {/* <div className={styles.itemCls}> */}
               {/* <Form.Item label='来源渠道：'>
                 {getFieldDecorator('fromDevice', {
@@ -188,7 +191,7 @@ class CommonForm extends React.Component {
                 )}
               </Form.Item> */}
               {/* </div> */}
-              <div className={styles.itemCls}>
+              {/* <div className={styles.itemCls}>
                 <Form.Item label='来源设备：'>
                   {getFieldDecorator('fromDevice', {
                     initialValue: params.fromDevice,
@@ -209,7 +212,7 @@ class CommonForm extends React.Component {
                     </BISelect>
                   )}
                 </Form.Item>
-              </div>
+              </div> */}
               <div className={styles.itemCls}>
                 <Form.Item label='注册时间：'>
                   {getFieldDecorator('registerTime', {
@@ -422,7 +425,6 @@ function mapPropsToFields(props) {
       value: params[item],
     });
   })
-
   return returnObj
 }
 function onFieldsChange(props, fields) {

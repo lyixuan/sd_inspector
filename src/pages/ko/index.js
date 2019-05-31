@@ -72,6 +72,8 @@ class koPlan extends React.Component {
   }
   onSaveTabFromParams = (params, KoDateRange = this.props.pageParams.KoDateRange) => {
     this.handleDateParams(params.formParams, KoDateRange);
+    console.log(75, params);
+
     const recordTimeList = this.handleRecordTime(params, KoDateRange);
     this.clearChooseEvent();
     this.props.dispatch({
@@ -126,10 +128,18 @@ class koPlan extends React.Component {
   }
   onSubmit = (params, originParams) => {
     const tabFromParams = JSON.parse(JSON.stringify(this.props.tabFromParams));
+    console.log(129, tabFromParams);
+    console.log(130, originParams);
+
+
     const { formParams } = tabFromParams;
     tabFromParams.formParams = { ...formParams, ...params };
     this.onSaveTabFromParams(tabFromParams)
     this.setState({ originParams: { ...this.state.originParams, ...originParams } });
+    this.props.dispatch({
+      type: 'koPlan/saveOriginParams',
+      payload: { originParams }
+    })
   };
   jumpTo = (pathname) => {
     this.props.history.push({
@@ -139,6 +149,7 @@ class koPlan extends React.Component {
   render() {
     const { enumData, pageParams, isLoadEnumData, location: { pathname }, chooseEventData = [] } = this.props;
     const { originParams, filterActionParams } = this.state;
+
 
     return (
       <div>

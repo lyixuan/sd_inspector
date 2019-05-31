@@ -39,8 +39,7 @@ class InitTable extends Component {
       visible: props.userOperation.visible,
       groupName: undefined,
       rowId: null,
-      pageSize: 10,
-      page: 1
+
     };
   }
   showPop = () => {
@@ -54,9 +53,16 @@ class InitTable extends Component {
     })
   }
   handleDelete = (record) => {
+    let params = {
+      id: record.id,
+      page: {
+        pageSize: this.state.pageSize,
+        page: this.state.page
+      }
+    }
     this.props.dispatch({
       type: 'userOperation/userGroupDelete',
-      payload: { params: { page: this.state.page, pageSize: this.state.pageSize } },
+      payload: { params: params },
     });
   }
   handleOk = () => {
@@ -67,7 +73,11 @@ class InitTable extends Component {
     }
     let params = {
       id: this.state.rowId,
-      groupName: this.state.groupName
+      groupName: this.state.groupName,
+      page: {
+        pageSize: this.state.pageSize,
+        page: this.state.page
+      }
     }
     this.props.dispatch({
       type: 'userOperation/userGroupEdit',
