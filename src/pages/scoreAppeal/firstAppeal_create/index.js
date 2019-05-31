@@ -2,18 +2,16 @@ import React from 'react';
 import styles from './style.less';
 import { connect } from 'dva';
 import { Spin } from 'antd';
-import AppealInfo from '../components/appealInfo';
-import FirstCheckResult from '../components/firstCheckResult';
 import ScorePersonInfo from '../components/scorePersonInfo';
 import ScoreBasicInfo from '../components/scoreBasicInfo';
 import SubOrderDetail from '../components/subOrderDetail';
-import SecondCheckResult from '../components/secondCheckResult';
 import UploadImgs from '../components/uploadImgs';
+import FirstAppealEdit from '../components/firstAppealEdit';
 import router from 'umi/router';
 import BIButton from '@/ant_components/BIButton';
 import Tags from '@/pages/scoreAppeal/components/Tags';
 import ShortcutButton from '@/pages/scoreAppeal/components/ShortcutButton';
-class NewQualitySheetIndex extends React.Component {
+class FirstAppealCreate extends React.Component {
   constructor(props) {
     super(props);
     this.state = { qualityInfoCollapse: true, appealInfoCollapse: [], newId: 1 };
@@ -87,15 +85,11 @@ class NewQualitySheetIndex extends React.Component {
         {/* 申诉基础信息 */}
         <ScoreBasicInfo />
         <div className={styles.spaceLine} />
-        {/* 一次申诉 firstCheckResult——对接人 ；secondCheckResult——主管 */}
-        <AppealInfo
-          uploadImgs={<UploadImgs type="preview" />}
-          firstCheckResult={<FirstCheckResult />}
-          secondCheckResult={<SecondCheckResult />}
-        />
+        <FirstAppealEdit />
         <Tags
           tags={tags}
-          checkedTags={checkedTags}
+          checkedTag
+          s={checkedTags}
           onTagChange={item => this.onTagChangeFun(item)}
         />
         <ShortcutButton
@@ -112,4 +106,4 @@ class NewQualitySheetIndex extends React.Component {
   }
 }
 
-export default NewQualitySheetIndex;
+export default FirstAppealCreate;

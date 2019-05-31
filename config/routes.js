@@ -186,13 +186,13 @@ export const routes = [
             path: '/ko/behaviorAnalyze',
             component: './ko/behaviorAnalyze',
             name: '行为分析',
-            commonPath: true,   // 继承父页面
+            commonPath: true, // 继承父页面
           },
           {
             path: '/ko/userList',
             component: './ko/userList',
             name: '用户列表',
-            commonPath: true,   // 继承父页面
+            commonPath: true, // 继承父页面
           },
           {
             path: '/ko/behaviorInfo',
@@ -239,6 +239,11 @@ export const routes = [
             path: '/scoreAppeal/appeal_detail',
             component: './scoreAppeal/appeal_detail',
             name: '申诉详情',
+          },
+          {
+            path: '/scoreAppeal/firstAppeal',
+            component: './scoreAppeal/firstAppeal_create',
+            name: '发起申诉',
           },
           {
             path: '/scoreAppeal/appeal_check',

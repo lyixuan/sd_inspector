@@ -18,12 +18,6 @@ export default class UploadImgs extends React.Component {
         status: 'done',
         url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
       },
-      {
-        uid: '-3',
-        name: 'xxx.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      },
     ],
   };
 
@@ -40,22 +34,23 @@ export default class UploadImgs extends React.Component {
 
   render() {
     const { previewVisible, previewImage, fileList } = this.state;
+    const { type } = this.props;
     const uploadButton = (
       <div>
         <Icon type="plus" />
       </div>
     );
     return (
-      <div className="clearfix">
+      <div style={{ width: '100%' }}>
         <Upload
           action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
           listType="picture-card"
           fileList={fileList}
-          disabled={true}
+          disabled={false}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
         >
-          {fileList.length >= 3 ? null : uploadButton}
+          {type === 'edit' ? uploadButton : null}
         </Upload>
         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
           <img alt="example" style={{ width: '100%' }} src={previewImage} />

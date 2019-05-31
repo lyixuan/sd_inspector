@@ -113,3 +113,6 @@
 .hidePanel {
   display: none !important;
 }
+.row-gap {
+  height: 10px;
+}
