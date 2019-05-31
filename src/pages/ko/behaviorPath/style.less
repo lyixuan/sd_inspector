@@ -129,6 +129,57 @@
 .personIntro .intro li span {
   text-align: left;
 }
+.personIntro .orderInfo{
+  .title{
+    height:38px;
+    line-height:38px;
+    overflow:hidden;
+    padding:0 16px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .orderList{
+    padding:0 10px;
+    max-height:230px;
+    overflow-y:auto;
+    .card{
+      position:relative;
+      background:#fff;
+      border-radius:6px;
+      list-style:none;
+      overflow:hidden;
+      padding:8px 12px 8px 26px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:10px;
+      :global .anticon{
+        font-size:18px;
+        color:#52C9C2;
+      }
+      p{
+        margin-bottom:0;
+      }
+      .orderInfo{
+        p{
+          color:#7A7C80;
+        }
+        h4, .price{
+          font-weight:bold;
+          color:#1A1C1F;
+        }
+      }
+      .line{
+        width:6px;
+        height:100%;
+        background:#52C9C2;
+        position:absolute;
+        left:0;
+        top:0;
+      }
+    }
+  }
+}
 /*im*/
 .dateBar {
   width: 675px;
@@ -142,6 +193,9 @@
   align-items: center;
   margin-bottom: 10px;
   cursor: pointer;
+}
+.dateBar .expression{
+  display:flex;
 }
 .behavior {
   padding: 10px 0 10px 60px;
@@ -512,4 +566,60 @@
   left:0;
   box-sizing: border-box;
   padding-right:30px;
+}
+.expressionArea{
+  width:140px;
+  height:24px;
+  background:#fff;
+  border-radius:14px;
+  margin-left:20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  box-sizing:border-box;
+  padding:0 4px;
+  .progress{
+    
+    .progressText{
+      font-size:12px;
+      display:flex;
+      justify-content:space-between;
+      color:#262626;
+      margin-bottom:0;
+      line-height:14px;
+    }
+    .progressBar{
+      width:80px;
+      height:4px;
+      border-radius:14px;
+      background:#ccc;
+      overflow:hidden;
+      display:flex;
+      .bar1{
+        height:4px;
+        width:60%;
+        background:#52c9c2;
+      }
+      .bar2{
+        height:4px;
+        width:40%;
+        background:#FF6D6D;
+      }
+    }
+  }
+  img{
+    width:16px;
+    height:16px;
+  }
+}
+.tooltipContent{
+  h4{
+    color:#fff;
+    margin-top:10px;
+  }
+  p{
+    font-size:13px;
+    color:#B8BBBF;
+    margin-bottom:0;
+  }
 }

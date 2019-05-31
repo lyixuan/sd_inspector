@@ -5,10 +5,11 @@ import styles from '../../style.less';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import Pager from '../pager/pager.js';
+import face1 from '@/assets/face1.png';
+import face2 from '@/assets/face2.png';
 
 // 评价的星星
 function Star(props) {
-  console.log(13, props.evaluate)
   const evaluate = props.evaluate;
   const number = [1, 2, 3];
   const starList = number.map((item, index) => (
@@ -51,7 +52,23 @@ function DateBar(props) {
   return (
     <div>
       <div className={styles.dateBar} onClick={() => props.list.onClick(props.index)}>
-        <span>{props.date.date}</span>
+        <div className={styles.expression}>
+          <span>{props.date.date.split(" ")[0]}</span>
+          <div className={styles.expressionArea}>
+            <img src={face1} />
+            <div className={styles.progress}>
+              <p className={styles.progressText}>
+                <span>{props.date.positivePercent}</span>
+                <span>{props.date.negativePercent}</span>
+              </p>
+              <div className={styles.progressBar}>
+                <div className={styles.bar1} style={{ width: props.date.positivePercent }}></div>
+                <div className={styles.bar2} style={{ width: props.date.positivePercent }}></div>
+              </div>
+            </div>
+            <img src={face2} />
+          </div>
+        </div>
         <span>
           <Icon type={props.date.collapse ? 'up' : 'down'} />
         </span>
@@ -254,39 +271,71 @@ class Im extends React.Component {
     };
   }
   componentDidMount() {
-    this.mount(this.props);
+    this.didMount(this.props);
   }
-  mount(props) {
+  didMount(props) {
     let list = [];
     if (props.behaviorPath.dateListIm.length > 0) {
       props.behaviorPath.dateListIm.map(item => {
         list.push({
-          date: item,
+          date: item.fmtCountDate,
+          negativePercent: item.negativePercent,
+          positivePercent: item.positivePercent,
           collapse: false,
           dialogList: [],
         });
       });
 
       list[this.state.currentIndex].collapse = true;
-      list[this.state.currentIndex].dialogList = props.behaviorPath.imData
-        ? props.behaviorPath.imData
-        : [];
+      list[this.state.currentIndex].dialogList = props.behaviorPath.imData;
       this.state.dateList = list;
       this.setState({
         dateList: this.state.dateList,
       });
-    } else {
+    }
+  }
+  mount(props) {
+    if (props.behaviorPath.dateListIm.length > 0) {
+      this.state.dateList[this.state.currentIndex].dialogList = props.behaviorPath.imData;
       this.setState({
-        dateList: [],
+        dateList: this.state.dateList,
       });
     }
+    // let list = [];
+    // if (props.behaviorPath.dateListIm.length > 0) {
+    //   props.behaviorPath.dateListIm.map(item => {
+    //     list.push({
+    //       date: item,
+    //       collapse: false,
+    //       dialogList: [],
+    //     });
+    //   });
+
+    //   list[this.state.currentIndex].collapse = true;
+    //   list[this.state.currentIndex].dialogList = props.behaviorPath.imData
+    //     ? props.behaviorPath.imData
+    //     : [];
+    //   this.state.dateList = list;
+    //   this.setState({
+    //     dateList: this.state.dateList,
+    //   });
+    // } else {
+    //   this.setState({
+    //     dateList: [],
+    //   });
+    // }
   }
   componentWillReceiveProps(nextProps) {
     if (
-      JSON.stringify(nextProps.behaviorPath.imData) !==
-      JSON.stringify(this.props.behaviorPath.imData) ||
       JSON.stringify(nextProps.behaviorPath.dateListIm) !==
       JSON.stringify(this.props.behaviorPath.dateListIm)
+    ) {
+      this.didMount(nextProps);
+    }
+
+    if (
+      JSON.stringify(nextProps.behaviorPath.imData) !==
+      JSON.stringify(this.props.behaviorPath.imData)
     ) {
       this.mount(nextProps);
     }
@@ -312,11 +361,11 @@ class Im extends React.Component {
     this.setState({
       currentIndex: index,
     });
-    this.state.dateList.map((item, i) => {
-      if (i != index) {
-        item.collapse = false;
-      }
-    });
+    // this.state.dateList.map((item, i) => {
+    //   if (i != index) {
+    //     item.collapse = false;
+    //   }
+    // });
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {

@@ -24,20 +24,14 @@ export async function learningAct(params) {
   return request('/userTrack/learningAct', { method: 'post', data: params });
 }
 // 获取日期列表
-// export async function getDateList2(params) {
-//   return request('/userTrack/getDateList', { method: 'post', data: params });
-// }
 export async function getDateList2(params) {
-  return request('http://172.16.109.173:8085/userTrack/getDateList', { method: 'post', data: params, prefix: null });
+  return request('/userTrack/getDateList', { method: 'post', data: params });
 }
 // 获取日期范围
 export async function getDateRange() {
   return request('/userTrack/getEffectiveDateRange');
 }
 // 获取用户基本详情
-// export async function userInfo(params) {
-//   return request('/homePage/userBaseInfo', { params });
-// }
 export async function userInfo(params) {
-  return request('http://172.16.109.173:8085/homePage/userBaseInfo', { params, prefix: null });
+  return request('/homePage/userBaseInfo', { params });
 }

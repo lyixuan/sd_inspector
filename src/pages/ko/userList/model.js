@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { getTableList } from '@/pages/ko/userList/services';
+import { getTableList, userGroupCheck, userGroupSubmit } from '@/pages/ko/userList/services';
 import { msgF } from '@/utils/utils';
 
 export default {
@@ -9,11 +9,35 @@ export default {
     userList: [],
     pageParams: {
       currentPage: 1,
-      pageSize: 30,
-    }
+      pageSize: 30
+    },
+    visible: false,
+    visible2: false,
+    groupCheck: true,
+    groupSubmit: null
   },
-
   effects: {
+    *userGroupSubmit({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(userGroupSubmit, params);
+      if (result.code === 20000) {
+        message.success('提交成功！');
+        const groupSubmit = result.data;
+        yield put({ type: 'save', payload: { groupSubmit, visible: false, visible2: true } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *userGroupCheck({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(userGroupCheck, params);
+      if (result.code === 20000) {
+        const groupCheck = result.data.exist;
+        yield put({ type: 'save', payload: { groupCheck } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     *getTableList({ payload }, { call, put }) {
       // 列表
       const params = payload.params;
@@ -23,7 +47,7 @@ export default {
         const data = result.data || {};
         const userList = Array.isArray(data.resultList) ? data.resultList : [];
         const { totalUser, totalCount, currentPage } = data;
-        yield put({ type: 'save', payload: { userList, totalUser,currentPage, totalCount } });
+        yield put({ type: 'save', payload: { userList, totalUser, currentPage, totalCount } });
         yield put({
           type: 'koPlan/saveUserData',
           payload: { usersData: { totalCount: totalUser } }

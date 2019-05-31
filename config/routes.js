@@ -204,6 +204,21 @@ export const routes = [
             component: './ko/behaviorPath',
             name: '用户行为轨迹',
           },
+          {
+            path: '/ko/userOperation',
+            component: './ko/userOperation',
+            name: '用户运营',
+          },
+          {
+            path: '/ko/userGroupAdd',
+            component: './ko/userGroupAdd',
+            name: '用户运营',
+          },
+          {
+            path: '/ko/userGroupEdit',
+            component: './ko/userGroupEdit',
+            name: '用户运营',
+          },
         ],
       },
     ],
