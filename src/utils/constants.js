@@ -388,6 +388,11 @@ export const DIMENSION_TYPE = [
   { id: 42, name: '创收',url:'createIncome'  },
 ];
 
+// 申诉状态
+export const SCORE_APPEAL_STATE = [
+  { id: 1, name: '待申诉' },
+  { id: 2, name: '一次对接人待审核' }
+];
 
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
@@ -418,6 +423,7 @@ export default {
   REGISTER_STATUS,
   CHOISE_STATUS,
   DIMENSION_TYPE,
+  SCORE_APPEAL_STATE
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

@@ -132,7 +132,44 @@ class OnAppeal extends React.Component {
       })
     });
   };
-
+  columnsAction = () => {
+    const actionObj = [{
+      title: '操作',
+      dataIndex: 'operation',
+      render: (text, record) => {
+        return (
+          <>
+            <AuthButton authority='/scoreAppeal/onAppeal/detail'>
+              <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
+                详情
+              </span>
+            </AuthButton>
+            <AuthButton authority='/scoreAppeal/onAppeal/appeal'>
+              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+                申诉
+              </span>
+            </AuthButton>
+            <AuthButton authority='/scoreAppeal/onAppeal/repeal'>
+              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+                撤销
+              </span>
+            </AuthButton>
+            <AuthButton authority='/scoreAppeal/appeal/dockingMan'>
+              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+                对接人审核
+              </span>
+            </AuthButton>
+            <AuthButton authority='/scoreAppeal/appeal/master'>
+              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+                主管审核
+              </span>
+            </AuthButton>
+          </>
+        );
+      },
+    }];
+    return [...columns, ...actionObj];
+  };
   changeTab(dimensionType){
     const {params:oldParams} = this.props.location.query;
     const {dimensionType:oldDem,...others} = JSON.parse(oldParams);
@@ -149,7 +186,14 @@ class OnAppeal extends React.Component {
   render() {
     const {dimensionType} = this.state;
     const {loading} = this.props;
-    const {onList=[],page} = this.props.onAppealModel;
+    // const {onList=[],page} = this.props.onAppealModel;
+    const onList = [
+      {id:'1',appealOrderNum:'1233333',creditDate:'2019-09-09',dimensionName:'学分分维',appealDate:'2019-09-11',collegeName:'归属组织。。。。。',secondAppealEndDate:'2029-09-11',status:'111'},
+    ]
+    const page = {
+      total:12,
+      pageNum:1
+    }
     return (
       <>
         <p className={style.wrap}>
@@ -170,7 +214,7 @@ class OnAppeal extends React.Component {
           </AuthButton>
         </p>
         <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params,pg)=>{this.formSubmit(undefined,params,pg)}}></CSForm>
-        <CSTable dataSource={onList} columns={columns} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}></CSTable>
+        <CSTable dataSource={onList} columns={this.columnsAction()} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}></CSTable>
       </>
     );
   }

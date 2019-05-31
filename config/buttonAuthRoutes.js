@@ -107,6 +107,30 @@ const urlPathMap = {
   '/scoreAppeal/roles/dockingMan2': {
     name: '结案申诉-对接人',
   },
-
+  // --
+  '/scoreAppeal/awaitAppeal/detail':{
+    name: '详情',      // -待申诉
+  },
+  '/scoreAppeal/onAppeal/detail':{
+    name: '详情',      // -在途
+  },
+  '/scoreAppeal/finishAppeal/detail':{
+    name: '详情',      // -结案
+  },
+  '/scoreAppeal/awaitAppeal/appeal':{
+    name: '申诉',      // -待申诉
+  },
+  '/scoreAppeal/onAppeal/appeal':{
+    name: '申诉',      // -在途
+  },
+  '/scoreAppeal/onAppeal/repeal':{
+    name: '撤销',      // -在途
+  },
+  '/scoreAppeal/appeal/dockingMan':{
+    name: '对接人审核',      // -在途
+  },
+  '/scoreAppeal/appeal/master':{
+    name: '主管审核',      // -在途
+  },
 };
 export { urlPathMap };

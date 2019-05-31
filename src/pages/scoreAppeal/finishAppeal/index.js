@@ -133,6 +133,25 @@ class FinishAppeal extends React.Component {
     });
   };
 
+  columnsAction = () => {
+    const actionObj = [{
+      title: '操作',
+      dataIndex: 'operation',
+      render: (text, record) => {
+        return (
+          <>
+            <AuthButton authority='/scoreAppeal/finishAppeal/detail'>
+              <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
+                详情
+              </span>
+            </AuthButton>
+          </>
+        );
+      },
+    }];
+    return [...columns, ...actionObj];
+  };
+
   changeTab(dimensionType){
     const {params:oldParams} = this.props.location.query;
     const {dimensionType:oldDem,...others} = JSON.parse(oldParams);
@@ -149,7 +168,14 @@ class FinishAppeal extends React.Component {
   render() {
     const {dimensionType} = this.state;
     const {loading} = this.props;
-    const {finishList=[],page} = this.props.finishAppealModel;
+    // const {finishList=[],page} = this.props.finishAppealModel;
+    const finishList = [
+      {id:'1',appealOrderNum:'1233333',creditDate:'2019-09-09',dimensionName:'学分分维',appealDate:'2019-09-11',collegeName:'归属组织。。。。。',secondAppealEndDate:'2029-09-11',status:'111'},
+    ]
+    const page = {
+      total:12,
+      pageNum:1
+    }
     return (
       <>
         <p className={style.wrap}>
@@ -170,7 +196,7 @@ class FinishAppeal extends React.Component {
           </AuthButton>
         </p>
         <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params,pg)=>{this.formSubmit(undefined,params,pg)}}></CSForm>
-        <CSTable dataSource={finishList} columns={columns} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}></CSTable>
+        <CSTable dataSource={finishList} columns={this.columnsAction()} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}></CSTable>
       </>
     );
   }

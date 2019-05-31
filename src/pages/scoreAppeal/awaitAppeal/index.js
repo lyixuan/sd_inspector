@@ -33,7 +33,7 @@ const columns = [
     },
   },
   {
-    title: '学院姓名',
+    title: '学员姓名',
     dataIndex: 'stuName',
   },
   {
@@ -110,6 +110,30 @@ class AwaitAppeal extends React.Component {
     });
   };
 
+  columnsAction = () => {
+    const actionObj = [{
+      title: '操作',
+      dataIndex: 'operation',
+      render: (text, record) => {
+        return (
+          <>
+            <AuthButton authority='/scoreAppeal/awaitAppeal/detail'>
+              <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
+                详情
+              </span>
+            </AuthButton>
+            <AuthButton authority='/scoreAppeal/awaitAppeal/appeal'>
+              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+                申诉
+              </span>
+            </AuthButton>
+          </>
+        );
+      },
+    }];
+    return [...columns, ...actionObj];
+  };
+
   changeTab(dimensionType){
     const {params:oldParams} = this.props.location.query;
     console.log('oldParams',oldParams)
@@ -127,7 +151,14 @@ class AwaitAppeal extends React.Component {
   render() {
     const {dimensionType} = this.state;
     const {loading} = this.props;
-    const {awaitList=[],page} = this.props.awaitAppealModel;
+    // const {awaitList=[],page} = this.props.awaitAppealModel;
+    const awaitList = [
+      {id:'1',creditDate:'2019-09-09',dimensionName:'学分分维',userName:'学分归属人',collegeName:'归属组织。。。。。',stuName:'学员姓名',stuId:'2328323023'},
+    ]
+    const page = {
+      total:12,
+      pageNum:1
+    }
     return (
       <>
         <p className={style.wrap}>
@@ -148,7 +179,7 @@ class AwaitAppeal extends React.Component {
           </AuthButton>
         </p>
         <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params,pg)=>{this.formSubmit(undefined,params,pg)}}></CSForm>
-        <CSTable dataSource={awaitList} columns={columns} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}></CSTable>
+        <CSTable dataSource={awaitList} columns={this.columnsAction()} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}></CSTable>
       </>
     );
   }
