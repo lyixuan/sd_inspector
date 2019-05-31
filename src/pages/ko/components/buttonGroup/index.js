@@ -22,7 +22,7 @@ export default class ButtonGroup extends React.Component {
         // 此处应增加防抖操作   
         if (parseInt(pageTop) > parseInt(top)) {
             this.setState({ isShowFiexd: true, expand: false });
-        } else if (parseInt(pageTop) <=  parseInt(top)) {
+        } else if (parseInt(pageTop) <= parseInt(top)) {
             this.setState({ isShowFiexd: false, expand: false });
         }
     }

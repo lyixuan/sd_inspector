@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'antd';
+import { Icon, Tooltip } from 'antd';
 import styles from '../../style.less';
 import avatarStudent from '@/assets/avatarStudent.png';
 function Sex(props) {
@@ -13,6 +13,37 @@ function Sex(props) {
     return null;
   }
 
+}
+
+function OrderData(props) {
+  const ul = props.info.map((item, index) =>
+    <OrderDataLi key={index} item={item}></OrderDataLi>
+  )
+  return ul
+}
+function OrderDataLi(props) {
+  const text = <div className={styles.tooltipContent}>
+    <h4>前端归属</h4>
+    <p>{props.item.front_business_name}/{props.item.front_legion_name}</p>
+    <h4>后端归属</h4>
+    <p>{props.item.back_college_name}/{props.item.back_family_name}/{props.item.back_group_name}</p>
+  </div>
+  return (
+    <li className={styles.card}>
+      <div className={styles.line}></div>
+      <div className={styles.orderInfo}>
+        <h4>{props.item.second_project_name}</h4>
+        <p>
+          <span className={styles.price}>{props.item.order_amount}元</span> {props.item.status_code == 'PAID' ? '已支付' : '未支付'} {props.item.order_time}
+        </p>
+      </div>
+      <div className={styles.notice}>
+        <Tooltip placement="left" title={text}>
+          <Icon type="info-circle" />
+        </Tooltip>
+      </div>
+    </li>
+  );
 }
 function ListenTime(props) {
   if (props.time) {
@@ -33,8 +64,8 @@ class PathUserInfo extends React.Component {
     super(props);
   }
   render() {
-    const info = this.props.info[0];
-
+    const info = this.props.info.user[0];
+    const orderData = this.props.info.orderData;
     return (
       <div className={styles.personIntro}>
         <div className={styles.userArea}>
@@ -139,81 +170,10 @@ class PathUserInfo extends React.Component {
         <div className={styles.orderInfo}>
           <div className={styles.title}>
             <span>订单信息</span>
-            <span>共10个</span>
+            <span>共{orderData.length}个</span>
           </div>
           <ul className={styles.orderList}>
-            <li className={styles.card}>
-              <div className={styles.line}></div>
-              <div className={styles.orderInfo}>
-                <h4>自考公共课</h4>
-                <p>
-                  <span className={styles.price}>0元</span> 已支付 2019-10-10 12:22:23
-                </p>
-              </div>
-              <div className={styles.notice}>
-                <Icon type="info-circle" />
-              </div>
-            </li>
-            <li className={styles.card}>
-              <div className={styles.line}></div>
-              <div className={styles.orderInfo}>
-                <h4>自考公共课</h4>
-                <p>
-                  <span className={styles.price}>0元</span> 已支付 2019-10-10 12:22:23
-                </p>
-              </div>
-              <div className={styles.notice}>
-                <Icon type="info-circle" />
-              </div>
-            </li>
-            <li className={styles.card}>
-              <div className={styles.line}></div>
-              <div className={styles.orderInfo}>
-                <h4>自考公共课</h4>
-                <p>
-                  <span className={styles.price}>0元</span> 已支付 2019-10-10 12:22:23
-                </p>
-              </div>
-              <div className={styles.notice}>
-                <Icon type="info-circle" />
-              </div>
-            </li>
-            <li className={styles.card}>
-              <div className={styles.line}></div>
-              <div className={styles.orderInfo}>
-                <h4>自考公共课</h4>
-                <p>
-                  <span className={styles.price}>0元</span> 已支付 2019-10-10 12:22:23
-                </p>
-              </div>
-              <div className={styles.notice}>
-                <Icon type="info-circle" />
-              </div>
-            </li>
-            <li className={styles.card}>
-              <div className={styles.line}></div>
-              <div className={styles.orderInfo}>
-                <h4>自考公共课</h4>
-                <p>
-                  <span className={styles.price}>0元</span> 已支付 2019-10-10 12:22:23
-                </p>
-              </div>
-              <div className={styles.notice}>
-                <Icon type="info-circle" />
-              </div>
-            </li>
-            <li className={styles.card}>
-              <div className={styles.line}></div>
-              <div className={styles.orderInfo}>
-                <h4>自考公共课</h4>
-                <p>
-                  <span className={styles.price}>0元</span> 已支付 2019-10-10 12:22:23
-                </p>
-              </div>
-              <div className={styles.notice}>
-                <Icon type="info-circle" />
-              </div>
-            </li>
+            <OrderData info={orderData}></OrderData>
           </ul>
         </div>
       </div>

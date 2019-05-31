@@ -1,13 +1,19 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Popover } from 'antd';
+import { Popover, message, Tag } from 'antd';
 import BITable from '@/components/BIKoTable';
 import BIButtonText from '@/components/BIButtonText';
 import BIPagination from '@/ant_components/BIPagination';
-import { BiFilter,thousandsFormat } from '@/utils/utils';
+import BIButton from '@/ant_components/BIButton';
+import { BiFilter, thousandsFormat } from '@/utils/utils';
+import BIModal from '@/ant_components/BIModal';
+import BIInput from '@/ant_components/BIInput';
+import moment from 'moment';
 import storage from '@/utils/storage';
 import style from './style.less';
 import config from '../../../../config/config';
+const dateFormat = 'YYYY.MM.DD';
+const { TextArea } = BIInput;
 
 const filterKeyName = [];
 function columns() {
@@ -220,17 +226,23 @@ function jump(record, v) {
   tabFromParams: koPlan.tabFromParams,
   pageParams: userListModel.pageParams,
   chooseEventData: koPlan.chooseEventData,
-  loading: loading.effects['userListModel/getTableList'],
+  loading: loading.effects['userListModel/getTableList']
 }))
 class UserList extends React.Component {
   constructor(props) {
     super(props);
+    console.log(234, props)
     this.initpage = {
       currentPage: 1, pageSize: 30
     }
+    const { visible, visible2 } = props.userListModel;
     this.state = {
       pageParams: this.initpage,
+      visible: visible,
+      visible2: visible2,
       filterExitParams: {},
+      groupName: '',
+      totalUser: 0
 
     };
   };
@@ -287,16 +299,74 @@ class UserList extends React.Component {
       payload: { params: newParams },
     });
   };
+  showPop = () => {
+    // return;
+    this.props.dispatch({
+      type: 'userListModel/userGroupCheck',
+      payload: {},
+    });
+    this.setState({
+      visible: true
+    })
+  }
+  handleCancel = () => {
+    this.setState({
+      visible: false,
+      visible2: false
+    })
+  }
+  handleOk = (val) => {
+    if (val == 'check') {
+      this.setState({
+        visible: false
+      })
+    } else {
+      if (!this.state.groupName) {
+        message.info('请输入名称');
+        return;
+      }
+      let params = this.props.tabFromParams,
+        pageParams = this.state.pageParams,
+        chooseEventData = this.props.chooseEventData,
+        filterExitParams = this.state.filterExitParams
+      let localtionParams = this.getLocationParams(chooseEventData)
+      let newParams = { ...params.formParams, ...pageParams, ...localtionParams, ...filterExitParams };
+      let submitParam = {
+        queryParam: newParams,
+        userCount: this.state.totalUser,
+        groupName: this.state.groupName,
+        userTag: null
+      }
+      console.log(331, newParams);
+      this.props.dispatch({
+        type: 'userListModel/userGroupSubmit',
+        payload: { params: submitParam },
+      });
+    }
+
+  }
+  userGroupInput = (e) => {
+    this.setState({
+      groupName: e.target.value
+    })
+  }
 
   render() {
-    const { userList, currentPage = 1, totalCount = 0 ,totalUser = 0} = this.props.userListModel;
+    const { userList, currentPage = 1, totalCount = 0, totalUser = 0, groupCheck } = this.props.userListModel;
+    const { visible, visible2 } = this.state
     const { loading } = this.props;
     const { pageParams } = this.state;
     const dataSource = userList;
+    this.state.totalUser = thousandsFormat(totalUser)
+    console.log(361, this.state.visible2)
     return (
       <div>
         <div className={style.contentWrap}>
-          <p style={{fontSize:12}}>共查询到 <span style={{color:"#52C9C2"}}>{thousandsFormat(totalUser)}</span> 个用户</p>
+          <div style={{ position: 'relative' }}>
+            <p style={{ fontSize: 12 }}>共查询到 <span style={{ color: "#52C9C2" }}>{thousandsFormat(totalUser)}</span> 个用户</p>
+            <BIButton type="primary" style={{ position: 'absolute', right: 0, top: 0 }} onClick={this.showPop}>创建用户组</BIButton>
+          </div>
+
           <BITable
             onChange={this.tableChange}
             rowKey={record => { return record.userId + Math.random() * 1000 }}
@@ -309,6 +379,65 @@ class UserList extends React.Component {
           <span style={{ color: '#999', fontSize: 12 }}>注：左右滑动可以查看更多字段</span>
           <BIPagination showQuickJumper defaultPageSize={pageParams.pageSize ? pageParams.pageSize : 30} onChange={this.onPageChange} current={currentPage} total={totalCount} />
         </div>
+        {/* 别忘了把！去掉 */}
+        {
+          groupCheck ?
+            <BIModal
+              title={'创建用户组'}
+              visible={visible}
+              onOk={() => this.handleOk('check')}
+              onCancel={this.handleCancel}
+              footer={[
+                <BIButton key="submit" type="primary" onClick={() => this.handleOk('check')}>
+                  确定
+            </BIButton>,
+              ]}>
+              <div style={{ textAlign: 'center' }}>
+                <p style={{ paddingBottom: '0' }}>你有一个正在创建的用户组</p>
+                <p style={{ paddingBottom: '0' }}>预计需要5～10分钟</p>
+                <p style={{ paddingBottom: '0' }}>请在用户运营页查看最新的创建状态。</p>
+              </div>
+            </BIModal>
+            : <BIModal
+              title={'创建用户组'}
+              visible={visible}
+              onOk={() => this.handleOk('add')}
+              onCancel={this.handleCancel}
+              footer={[
+                <BIButton key="back" style={{ marginRight: 10 }} onClick={this.handleCancel}>
+                  取消
+            </BIButton>,
+                <BIButton key="submit" type="primary" onClick={() => this.handleOk('add')}>
+                  确定
+            </BIButton>,
+              ]}>
+              <div>
+                <p>保存{thousandsFormat(totalUser)}个学员为一个用户组，请设置用户组名称</p>
+                <TextArea
+                  onChange={this.userGroupInput}
+                  placeholder="输入名称"
+                  maxLength={50}
+                  style={{ resize: 'none' }}
+                  autosize={{ minRows: 2, maxRows: 2 }}
+                />
+              </div>
+            </BIModal>
+        }
+        <BIModal
+          title={'创建用户组'}
+          visible={visible2}
+          onOk={() => this.handleCancel()}
+          footer={[
+            <BIButton key="submit" type="primary" onClick={() => this.handleCancel()}>
+              确定
+            </BIButton>,
+          ]}>
+          <div style={{ textAlign: 'center' }}>
+            <h4 style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '18px' }}>提交成功</h4>
+            <p style={{ paddingBottom: '0' }}>正在保存用户组，预计需要5～10分钟，请在用户运营页查看最新的创建状态。</p>
+          </div>
+        </BIModal>
+
       </div>
     );
   }

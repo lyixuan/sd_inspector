@@ -39,8 +39,14 @@ export default {
     *getDateList({ payload }, { call, put }) {
       const params = payload.params;
       const data = yield call(getDateList2, params);
-      const dateFormat =
-        data.data.list && data.data.list[0] ? data.data.list[0].replace(/[\u4e00-\u9fa5]/g, '-').split('-') : null;
+      let dateFormat;
+      if (params.type != 2) {
+        dateFormat =
+          data.data.list && data.data.list[0] ? data.data.list[0].replace(/[\u4e00-\u9fa5]/g, '-').split('-') : null;
+      } else {
+        dateFormat = data.data.list && data.data.list[0] ? data.data.list[0].fmtCountDate.replace(/[\u4e00-\u9fa5]/g, '-').split('-') : null;
+      }
+
 
       let studyData = {};
       let imData = {};
@@ -223,7 +229,7 @@ export default {
       const params = payload.params;
       const result = yield call(userInfo, params);
       if (result.code === 20000) {
-        const userInfo = result.data.resultList;
+        const userInfo = result.data.map;
         yield put({ type: 'save', payload: { userInfo } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));

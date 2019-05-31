@@ -147,7 +147,7 @@ class CommonForm extends React.Component {
     const { KoDateRange } = this.props.pageParams;
     const dateArr = handleDateFormParams(KoDateRange)[keyName] || [];
     const [startTime, endTime] = dateArr;
-    return [moment(endTime).subtract(1,'months'), moment(endTime)]
+    return [moment(endTime).subtract(1, 'months'), moment(endTime)]
   }
   renderCascader = (label) => {
     if (Array.isArray(label) && label.length === 0) return;
@@ -220,7 +220,7 @@ class CommonForm extends React.Component {
                       format={dateFormat}
                       defaultPickerValue={this.handleDefaultPickerValue('registerTime')}
                       disabledDate={(current) => this.disabledDate(current, 'registerTime')}
-                      // onChange={(value) => this.changeDate(value, 'registerTime')}
+                    // onChange={(value) => this.changeDate(value, 'registerTime')}
                     />
                   )}
                 </Form.Item>
@@ -243,55 +243,55 @@ class CommonForm extends React.Component {
               <div className={styles.itemCls} />
               <div className={styles.itemCls}>
                 {/*<Form.Item label='公共课：'>*/}
-                  {/*{getFieldDecorator('publicLesson', {*/}
-                    {/*initialValue: params.publicLesson,*/}
-                  {/*})(*/}
-                    {/*<BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass('publicLesson')}>*/}
-                      {/*{this.filterEnumData(4).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}*/}
-                    {/*</BISelect>*/}
-                  {/*)}*/}
+                {/*{getFieldDecorator('publicLesson', {*/}
+                {/*initialValue: params.publicLesson,*/}
+                {/*})(*/}
+                {/*<BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass('publicLesson')}>*/}
+                {/*{this.filterEnumData(4).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}*/}
+                {/*</BISelect>*/}
+                {/*)}*/}
                 {/*</Form.Item>*/}
               </div>
               <div className={styles.itemCls}>
                 {/*<Form.Item label='选课时间：'>*/}
-                  {/*{getFieldDecorator('publicChoiceLessonTime', {*/}
-                    {/*initialValue: params.publicChoiceLessonTime,*/}
-                  {/*})(*/}
-                    {/*<BIRangePicker*/}
-                      {/*placeholder={["起始时间", "截止时间"]}*/}
-                      {/*format={dateFormat}*/}
-                      {/*disabled={this.checkoutHasChooseClass('publicChoiceLessonTime')}*/}
-                      {/*defaultPickerValue={this.handleDefaultPickerValue('publicChoiceLessonTime')}*/}
-                      {/*disabledDate={(current) => this.disabledDate(current, 'publicChoiceLessonTime')}*/}
-                    {/*// onChange={(value) => this.changeDate(value, 'publicChoiceLessonTime')}*/}
-                    {/*/>*/}
-                  {/*)}*/}
+                {/*{getFieldDecorator('publicChoiceLessonTime', {*/}
+                {/*initialValue: params.publicChoiceLessonTime,*/}
+                {/*})(*/}
+                {/*<BIRangePicker*/}
+                {/*placeholder={["起始时间", "截止时间"]}*/}
+                {/*format={dateFormat}*/}
+                {/*disabled={this.checkoutHasChooseClass('publicChoiceLessonTime')}*/}
+                {/*defaultPickerValue={this.handleDefaultPickerValue('publicChoiceLessonTime')}*/}
+                {/*disabledDate={(current) => this.disabledDate(current, 'publicChoiceLessonTime')}*/}
+                {/*// onChange={(value) => this.changeDate(value, 'publicChoiceLessonTime')}*/}
+                {/*/>*/}
+                {/*)}*/}
                 {/*</Form.Item>*/}
               </div>
               <div className={styles.itemCls}>
                 {/*<Form.Item label='资格证课：'>*/}
-                  {/*{getFieldDecorator('certificateChoiceLesson', {*/}
-                    {/*initialValue: params.certificateChoiceLesson,*/}
-                  {/*})(*/}
-                    {/*<BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass('certificateChoiceLesson')}>*/}
-                      {/*/!* <Option key='javascript' value="javascript">无</Option> *!/*/}
-                      {/*{this.filterEnumData(5).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}*/}
-                    {/*</BISelect>*/}
-                  {/*)}*/}
+                {/*{getFieldDecorator('certificateChoiceLesson', {*/}
+                {/*initialValue: params.certificateChoiceLesson,*/}
+                {/*})(*/}
+                {/*<BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass('certificateChoiceLesson')}>*/}
+                {/*/!* <Option key='javascript' value="javascript">无</Option> *!/*/}
+                {/*{this.filterEnumData(5).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}*/}
+                {/*</BISelect>*/}
+                {/*)}*/}
                 {/*</Form.Item>*/}
               </div>
               <div className={styles.itemCls}>
                 {/*<Form.Item label='选课时间：'>*/}
-                  {/*{getFieldDecorator('certificateChoiceLessonTime', {*/}
-                    {/*initialValue: params.certificateChoiceLessonTime,*/}
-                  {/*})(*/}
-                    {/*<BIRangePicker*/}
-                      {/*placeholder={["起始时间", "截止时间"]}*/}
-                      {/*format={dateFormat} disabled={this.checkoutHasChooseClass('certificateChoiceLessonTime')}*/}
-                      {/*// onChange={(value) => this.changeDate(value, 'certificateChoiceLessonTime')}*/}
-                      {/*defaultPickerValue={this.handleDefaultPickerValue('certificateChoiceLessonTime')}*/}
-                      {/*disabledDate={(current) => this.disabledDate(current, 'certificateChoiceLessonTime')} />*/}
-                  {/*)}*/}
+                {/*{getFieldDecorator('certificateChoiceLessonTime', {*/}
+                {/*initialValue: params.certificateChoiceLessonTime,*/}
+                {/*})(*/}
+                {/*<BIRangePicker*/}
+                {/*placeholder={["起始时间", "截止时间"]}*/}
+                {/*format={dateFormat} disabled={this.checkoutHasChooseClass('certificateChoiceLessonTime')}*/}
+                {/*// onChange={(value) => this.changeDate(value, 'certificateChoiceLessonTime')}*/}
+                {/*defaultPickerValue={this.handleDefaultPickerValue('certificateChoiceLessonTime')}*/}
+                {/*disabledDate={(current) => this.disabledDate(current, 'certificateChoiceLessonTime')} />*/}
+                {/*)}*/}
                 {/*</Form.Item>*/}
               </div>
             </div>
@@ -432,6 +432,7 @@ function onFieldsChange(props, fields) {
       const { value } = fields[item];
       params[item] = value
     })
+    console.log(435, params)
     props.onChange(params);
   }
 

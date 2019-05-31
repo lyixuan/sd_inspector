@@ -3,8 +3,7 @@ import { Icon, Empty, Spin } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
 import Pager from '../pager/pager.js';
-import face1 from '@/assets/face1.png';
-import face2 from '@/assets/face2.png';
+
 
 
 // 日期条
@@ -12,24 +11,6 @@ function DateBar(props) {
   return (
     <div>
       <div className={styles.dateBar} onClick={() => props.list.onClick(props.index)}>
-        <div className={styles.expression}>
-          <span>{props.date.date.split(" ")[0]}</span>
-          <div className={styles.expressionArea}>
-            <img src={face1} />
-            <div className={styles.progress}>
-              <p className={styles.progressText}>
-                <span>60%</span>
-                <span>40%</span>
-              </p>
-              <div className={styles.progressBar}>
-                <div className={styles.bar1}></div>
-                <div className={styles.bar2}></div>
-              </div>
-            </div>
-            <img src={face2} />
-          </div>
-        </div>
-
         <span>
           <Icon type={props.date.collapse ? "up" : "down"} />
         </span>

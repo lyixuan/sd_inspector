@@ -5,10 +5,11 @@ import styles from '../../style.less';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import Pager from '../pager/pager.js';
+import face1 from '@/assets/face1.png';
+import face2 from '@/assets/face2.png';
 
 // 评价的星星
 function Star(props) {
-  console.log(13, props.evaluate)
   const evaluate = props.evaluate;
   const number = [1, 2, 3];
   const starList = number.map((item, index) => (
@@ -51,7 +52,23 @@ function DateBar(props) {
   return (
     <div>
       <div className={styles.dateBar} onClick={() => props.list.onClick(props.index)}>
-        <span>{props.date.date}</span>
+        <div className={styles.expression}>
+          <span>{props.date.date.split(" ")[0]}</span>
+          <div className={styles.expressionArea}>
+            <img src={face1} />
+            <div className={styles.progress}>
+              <p className={styles.progressText}>
+                <span>{props.date.positivePercent}</span>
+                <span>{props.date.negativePercent}</span>
+              </p>
+              <div className={styles.progressBar}>
+                <div className={styles.bar1} style={{ width: props.date.positivePercent }}></div>
+                <div className={styles.bar2} style={{ width: props.date.positivePercent }}></div>
+              </div>
+            </div>
+            <img src={face2} />
+          </div>
+        </div>
         <span>
           <Icon type={props.date.collapse ? 'up' : 'down'} />
         </span>
@@ -261,7 +278,9 @@ class Im extends React.Component {
     if (props.behaviorPath.dateListIm.length > 0) {
       props.behaviorPath.dateListIm.map(item => {
         list.push({
-          date: item,
+          date: item.fmtCountDate,
+          negativePercent: item.negativePercent,
+          positivePercent: item.positivePercent,
           collapse: false,
           dialogList: [],
         });

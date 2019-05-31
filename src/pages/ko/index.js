@@ -143,7 +143,7 @@ class koPlan extends React.Component {
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
-        {(pathname === '/ko/behaviorPath') ? null : <> <div className={styles.commonBox}>
+        {(pathname === '/ko/behaviorPath') || (pathname === '/ko/userOperation') || (pathname === '/ko/userGroupAdd') || (pathname === '/ko/userGroupEdit') ? null : <> <div className={styles.commonBox}>
           <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} usersData={this.props.usersData} pageParams={pageParams} loading={isLoadEnumData} />
         </div>
           <div className={styles.tabBox}>
