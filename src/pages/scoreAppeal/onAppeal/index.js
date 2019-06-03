@@ -146,6 +146,14 @@ class OnAppeal extends React.Component {
   onDetail = (record) => {
     this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_detail');
   };
+  onCreateAppeal = (record) => {
+    this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_create');
+  };
+  onAppeal = (record) => {
+    this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_check');
+  };
+  onRepeal = (record) => {
+  };
   columnsAction = () => {
     const actionObj = [{
       title: '操作',
@@ -159,22 +167,22 @@ class OnAppeal extends React.Component {
               </span>
             </AuthButton>
             <AuthButton authority='/scoreAppeal/onAppeal/appeal'>
-              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+              <span className={style.actionBtn} onClick={() => this.onCreateAppeal(record)}>
                 申诉
               </span>
             </AuthButton>
             <AuthButton authority='/scoreAppeal/onAppeal/repeal'>
-              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+              <span className={style.actionBtn} onClick={() => this.onRepeal(record)}>
                 撤销
               </span>
             </AuthButton>
             <AuthButton authority='/scoreAppeal/appeal/dockingMan'>
-              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+              <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
                 对接人审核
               </span>
             </AuthButton>
             <AuthButton authority='/scoreAppeal/appeal/master'>
-              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+              <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
                 主管审核
               </span>
             </AuthButton>
@@ -197,6 +205,7 @@ class OnAppeal extends React.Component {
   changePage(dimensionType,params,pg){
     this.queryData(dimensionType,params,pg)
   }
+
   render() {
     const {dimensionType} = this.state;
     const {loading} = this.props;

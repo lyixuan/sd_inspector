@@ -118,10 +118,10 @@ const urlPathMap = {
     name: '详情',      // -结案
   },
   '/scoreAppeal/awaitAppeal/appeal':{
-    name: '申诉',      // -待申诉
+    name: '发起申诉',      // -待申诉
   },
   '/scoreAppeal/onAppeal/appeal':{
-    name: '申诉',      // -在途
+    name: '发起申诉',      // -在途
   },
   '/scoreAppeal/onAppeal/repeal':{
     name: '撤销',      // -在途

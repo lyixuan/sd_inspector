@@ -231,19 +231,14 @@ export const routes = [
           },
           /* 其他 */
           {
-            path: '/scoreAppeal/appeal_initiate',
-            component: './scoreAppeal/appeal_initiate',
+            path: '/scoreAppeal/appeal_create',
+            component: './scoreAppeal/appeal_create',
             name: '发起申诉',
           },
           {
             path: '/scoreAppeal/appeal_detail',
             component: './scoreAppeal/appeal_detail',
             name: '申诉详情',
-          },
-          {
-            path: '/scoreAppeal/firstAppeal',
-            component: './scoreAppeal/firstAppeal_create',
-            name: '发起申诉',
           },
           {
             path: '/scoreAppeal/appeal_check',

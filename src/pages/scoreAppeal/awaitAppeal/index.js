@@ -118,6 +118,9 @@ class AwaitAppeal extends React.Component {
   onDetail = (record) => {
     this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_detail');
   };
+  onCreateAppeal = (record) => {
+    this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_create');
+  };
   columnsAction = () => {
     const actionObj = [{
       title: '操作',
@@ -131,7 +134,7 @@ class AwaitAppeal extends React.Component {
               </span>
             </AuthButton>
             <AuthButton authority='/scoreAppeal/awaitAppeal/appeal'>
-              <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
+              <span className={style.actionBtn} onClick={() => this.onCreateAppeal(record)}>
                 申诉
               </span>
             </AuthButton>

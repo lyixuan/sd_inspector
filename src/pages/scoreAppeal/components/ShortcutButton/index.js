@@ -29,12 +29,12 @@ class ShortcutButton extends React.Component {
 
     return (
       <div>
-        <Button className='smbtn' size="small" onClick={()=>this.changePage(ids,currentId,'up')} >
+        <Button className='smBtn' size="small" onClick={()=>this.changePage(ids,currentId,'up')} >
           <Icon type="left" />
           上一条
         </Button>
         <span onClick={()=>this.jump()} className={styles.sh}>审核</span>
-        <Button className='smbtn' size="small" onClick={()=>this.changePage(ids,currentId,'down')} >
+        <Button className='smBtn' size="small" onClick={()=>this.changePage(ids,currentId,'down')} >
           下一条
           <Icon type="right" />
         </Button>
