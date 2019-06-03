@@ -13,7 +13,7 @@ import BIButton from '@/ant_components/BIButton';
 import imgUp from '@/assets/scoreQuality/up.png';
 import imgdown from '@/assets/scoreQuality/down.png';
 
-class FirstAppealCreate extends React.Component {
+class AppealCreate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -93,4 +93,4 @@ class FirstAppealCreate extends React.Component {
   }
 }
 
-export default FirstAppealCreate;
+export default AppealCreate;

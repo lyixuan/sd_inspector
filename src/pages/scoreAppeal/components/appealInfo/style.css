@@ -110,7 +110,6 @@
 }
 .showPanel {
   flex: 1;
-  margin-top: 20px;
 }
 .hidePanel {
   display: none !important;
