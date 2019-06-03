@@ -6,7 +6,7 @@ import ScorePersonInfo from '../components/scorePersonInfo';
 import ScoreBasicInfo from '../components/scoreBasicInfo';
 import SubOrderDetail from '../components/subOrderDetail';
 import UploadImgs from '../components/uploadImgs';
-import FirstAppealEdit from '../components/firstAppealEdit';
+import CreateAppeal from '../components/createAppeal';
 import router from 'umi/router';
 import BIButton from '@/ant_components/BIButton';
 import Tags from '@/pages/scoreAppeal/components/Tags';
@@ -84,7 +84,8 @@ class FirstAppealCreate extends React.Component {
         {/* 申诉基础信息 */}
         <ScoreBasicInfo/>
         <div className={styles.spaceLine}/>
-        <FirstAppealEdit/>
+        {/* 发起申诉 */}
+        <CreateAppeal/>
         <footer style={{ textAlign: 'right', marginTop: '20px' }}>
           <BIButton onClick={() => router.goBack()}>返回</BIButton>
         </footer>

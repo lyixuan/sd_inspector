@@ -6,7 +6,7 @@ import BIRadio from '@/ant_components/BIRadio/index';
 import BIInput from '@/ant_components/BIInput/index';
 import UploadImgs from '../uploadImgs';
 import styles from './styles.css';
-class Edit extends React.Component {
+class createAppeal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -92,27 +92,22 @@ class Edit extends React.Component {
       (formType && formType === 'appeal' && checkResult === 1);
     return (
       <section className={styles.personInfoCon}>
-        <span className={styles.secctionTitle}>一次申诉</span>
-        <div className={styles.appealInfoCon}>
-          <div className={styles.rowGap} />
-          <Row className="gutter-row">
-            <Col span={24} style={{ display: 'flex' }}>
-              <span style={{ width: 80 }}>&nbsp;申诉证据：</span>
-              <UploadImgs type="edit" />
-            </Col>
-          </Row>
-          <div className={styles.rowGap} />
-
-          <Row className="gutter-row">
-            <Col span={24} style={{ display: 'flex' }}>
-              <span style={{ width: 80 }}>&nbsp;申诉说明：</span>
-              <BIInput.TextArea maxLength={500} onChange={this.onChangeInput} rows={4} />
-            </Col>
-          </Row>
+        <span className={styles.boxTitle}>一次申诉</span>
+        <div className={styles.divideLine}></div>
+        <div className={styles.container}>
+          <div className={styles.secRow} >
+            <span style={{ width: 90 }}>&nbsp;申诉证据：</span>
+            <UploadImgs  type="edit" />
+          </div>
+          <div style={{marginTop:'15px'}}></div>
+          <div  className={styles.secRow}>
+            <span style={{ width: 90 }}>*申诉说明：</span>
+            <BIInput.TextArea  maxLength={500} onChange={this.onChangeInput} rows={4} />
+          </div>
         </div>
       </section>
     );
   }
 }
 
-export default Edit;
+export default createAppeal;
