@@ -31,7 +31,7 @@ export default class SubOrderDetailComponent extends React.Component {
 
     return (
       <section className={styles.subOrderCon}>
-        <span className={styles.secctionTitle}>子订单详情</span>
+        <span className={styles.boxTitle}>子订单详情</span>
         <div className={styles.container}>
           <div className={styles.secRow}>
             <div>学员姓名：</div>
@@ -43,10 +43,10 @@ export default class SubOrderDetailComponent extends React.Component {
             <div>实际支付金额：</div>
             <div>订单状态：</div>
           </div>
-          <div className={styles.secRow} style={{ paddingLeft: '100px' }}>
+          <div className={styles.secRow}>
             <div>报名时间：</div>
             <div>产品包：</div>
-            <div>班主任花名</div>
+            <div>班主任花名：</div>
           </div>
         </div>
       </section>
