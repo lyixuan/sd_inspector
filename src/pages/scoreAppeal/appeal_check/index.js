@@ -4,10 +4,12 @@ import { connect } from 'dva';
 import ScorePersonInfo from '../components/scorePersonInfo';
 import ScoreBasicInfo from '../components/scoreBasicInfo';
 import SubOrderDetail from '../components/subOrderDetail';
-import CreateAppeal from '../components/createAppeal';
-import FirstCheckResult from '../components/firstCheckResult';
-import SecondCheckResult from '../components/secondCheckResult';
-import AppealInfo from '../components/appealInfo';
+import FirstCheckResult from '../components/FirstCheckResult';
+import SecondCheckResult from '../components/SecondCheckResult';
+import CreateAppeaRecord from '../components/CreateAppeaRecord';
+import FirstCheck from '../components/FirstCheck';
+import SecondCheck from '../components/SecondCheck';
+import Tags from '../components/Tags';
 import router from 'umi/router';
 import BIButton from '@/ant_components/BIButton';
 import imgUp from '@/assets/scoreQuality/up.png';
@@ -19,8 +21,8 @@ class AppealCheck extends React.Component {
     this.state = {
       collapse1: true,
       collapse2: true,
-      appealInfoCollapse: [],
-      newId: 1 };
+      appealInfoCollapse: []
+    };
   }
 
   componentDidMount() {
@@ -38,8 +40,11 @@ class AppealCheck extends React.Component {
     }
   }
 
+  onTagChangeFun=()=>{
+
+  }
   render() {
-    const {collapse1,collapse2} = this.state;
+    const {collapse1,collapse2,tags=[{id:1,name:'jdjl'}],checkedTags} = this.state;
     return (
       <div className={styles.appealContainer}>
         {/* 学分归属人信息 */}
@@ -56,35 +61,47 @@ class AppealCheck extends React.Component {
             <span >一次申诉</span>
             <span onClick={()=>this.handleCollapse(1)}><img src={collapse1?imgdown:imgUp} width='18' height='18'/></span>
           </div>
-          <div className={styles.spaceLine}/>
           {/* 申诉内容 */}
           {collapse1&&(
             <div style={{paddingLeft:'15px'}}>
-              <AppealInfo/>
+              <CreateAppeaRecord/>
               <FirstCheckResult />
               <SecondCheckResult />
+              <div className={styles.spaceLine}/>
             </div>
           )}
         </div>
-        <div className={styles.spaceLine}/>
         <div>
           <div className={styles.foldBox}>
             <span >二次申诉</span>
             <span onClick={()=>this.handleCollapse(2)}><img src={collapse2?imgdown:imgUp} width='18' height='18'/></span>
           </div>
-          <div className={styles.spaceLine}/>
           {/* 申诉内容 */}
           {collapse2&&(
             <div style={{paddingLeft:'15px'}}>
-              <AppealInfo/>
+              <CreateAppeaRecord/>
               <FirstCheckResult />
               <SecondCheckResult />
+              <div className={styles.spaceLine}/>
             </div>
           )}
         </div>
+        <div className={styles.foldBox}>
+          <span>对接人审核</span>
+          <span></span>
+        </div>
+        <FirstCheck/>
+        <div className={styles.foldBox}>
+          <span>主管审核</span>
+          <span></span>
+        </div>
+        <SecondCheck/>
+        <Tags tags={tags}
+              checkedTags={checkedTags}
+              onTagChange={item => this.onTagChangeFun(item)}/>
         <footer style={{ textAlign: 'right', marginTop: '20px' }}>
           <BIButton onClick={() => router.goBack()} style={{marginRight:'15px'}}>返回</BIButton>
-          <BIButton type='primary' onClick={() => router.goBack()}>提交申诉</BIButton>
+          <BIButton type='primary' onClick={() => router.goBack()}>提交审核</BIButton>
         </footer>
       </div>
     );

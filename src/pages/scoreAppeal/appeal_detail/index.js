@@ -4,10 +4,10 @@ import { connect } from 'dva';
 import ScorePersonInfo from '../components/scorePersonInfo';
 import ScoreBasicInfo from '../components/scoreBasicInfo';
 import SubOrderDetail from '../components/subOrderDetail';
-import CreateAppeal from '../components/createAppeal';
-import FirstCheckResult from '../components/firstCheckResult';
-import SecondCheckResult from '../components/secondCheckResult';
-import AppealInfo from '../components/appealInfo';
+import CreateAppeal from '../components/CreateAppeal';
+import FirstCheckResult from '../components/FirstCheckResult';
+import SecondCheckResult from '../components/SecondCheckResult';
+import CreateAppeaRecord from '../components/CreateAppeaRecord';
 import router from 'umi/router';
 import BIButton from '@/ant_components/BIButton';
 import imgUp from '@/assets/scoreQuality/up.png';
@@ -60,23 +60,22 @@ class AppealCheck extends React.Component {
           {/* 申诉内容 */}
           {collapse1&&(
             <div style={{paddingLeft:'15px'}}>
-              <AppealInfo/>
+              <CreateAppeaRecord/>
               <FirstCheckResult />
               <SecondCheckResult />
+              <div className={styles.spaceLine}/>
             </div>
           )}
         </div>
-        <div className={styles.spaceLine}/>
         <div>
           <div className={styles.foldBox}>
             <span >二次申诉</span>
             <span onClick={()=>this.handleCollapse(2)}><img src={collapse2?imgdown:imgUp} width='18' height='18'/></span>
           </div>
-          <div className={styles.spaceLine}/>
           {/* 申诉内容 */}
           {collapse2&&(
             <div style={{paddingLeft:'15px'}}>
-              <AppealInfo/>
+              <CreateAppeaRecord/>
               <FirstCheckResult />
               <SecondCheckResult />
             </div>

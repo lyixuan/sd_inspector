@@ -39,7 +39,7 @@
   background-color: #f6f7fa;
   line-height: 43px;
   padding-left: 18px;
-  font-size: 16px;
+  font-size: 14px;
   color: #353535;
 }
 
@@ -110,10 +110,8 @@
 }
 .showPanel {
   flex: 1;
+  margin-top: 20px;
 }
 .hidePanel {
   display: none !important;
-}
-.row-gap {
-  height: 10px;
 }
