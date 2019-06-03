@@ -90,11 +90,11 @@ class FirstCheck extends React.Component {
       <section className={styles.personInfoCon}>
         <div className={styles.container}>
           <div className={styles.secRow} >
-            <span style={{ width: 90 }}>&nbsp;审核结果：</span>
+            <span style={{ width: 90 }}>*审核结果：</span>
           </div>
           <div style={{marginTop:'15px'}}></div>
           <div  className={styles.secRow}>
-            <span style={{ width: 90 }}>*申诉说明：</span>
+            <span style={{ width: 90 }}>&nbsp;申诉说明：</span>
             <BIInput.TextArea  maxLength={500} onChange={this.onChangeInput} rows={4} />
           </div>
         </div>
