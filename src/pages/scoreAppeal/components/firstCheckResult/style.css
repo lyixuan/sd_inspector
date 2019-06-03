@@ -85,26 +85,28 @@
   font-weight: bold;
 }
 .resultDotColor1:before {
-  content: '';
-  position: absolute;
-  top: 42%;
-  left: -10px;
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #52c9c2;
+  /*content: '';*/
+  /*position: absolute;*/
+  /*top: 42%;*/
+  /*left: -10px;*/
+  /*display: inline-block;*/
+  /*width: 5px;*/
+  /*height: 5px;*/
+  /*border-radius: 50%;*/
+  /*background: #52c9c2;*/
+  color: #52c9c2;
 }
 .resultDotColor2::before {
-  content: '';
-  position: absolute;
-  top: 42%;
-  left: -10px;
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #ff0000;
+  /*content: '';*/
+  /*position: absolute;*/
+  /*top: 42%;*/
+  /*left: -10px;*/
+  /*display: inline-block;*/
+  /*width: 5px;*/
+  /*height: 5px;*/
+  /*border-radius: 50%;*/
+  /*background: #ff0000;*/
+  color: #ff0000;
 }
 .showPanel {
   flex: 1;

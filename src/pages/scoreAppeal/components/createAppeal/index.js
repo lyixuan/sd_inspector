@@ -1,11 +1,11 @@
 import React from 'react';
-import { Row, Col, Checkbox } from 'antd';
 import moment from 'moment';
-import BIDatePicker from '@/ant_components/BIDatePicker/index';
-import BIRadio from '@/ant_components/BIRadio/index';
 import BIInput from '@/ant_components/BIInput/index';
 import UploadImgs from '../uploadImgs';
 import styles from './styles.css';
+import BISelect from '@/ant_components/BISelect/index';
+const { Option } = BISelect;
+
 class createAppeal extends React.Component {
   constructor(props) {
     super(props);
@@ -86,18 +86,22 @@ class createAppeal extends React.Component {
   };
   render() {
     const { checkResult } = this.state;
-    const { hideDate, showWarn, formType } = this.props;
-    const isShowDate =
-      (formType && formType === 'quality' && checkResult === 0) ||
-      (formType && formType === 'appeal' && checkResult === 1);
+    const { hideDate, showWarn, formType,creditType } = this.props;
     return (
       <section className={styles.personInfoCon}>
-        <span className={styles.boxTitle}>一次申诉</span>
-        <div className={styles.divideLine}></div>
         <div className={styles.container}>
           <div className={styles.secRow} >
             <span style={{ width: 90 }}>&nbsp;申诉证据：</span>
             <UploadImgs  type="edit" />
+            <a style={{ width: 100 }}>查看证据样例</a>
+          </div>
+          <div style={{marginTop:'15px'}}></div>
+          <div  className={styles.secRow}>
+            <span style={{ width: 90,marginRight:'-8px',lineHeight:'30px' }}>*申诉维度：</span>
+            <BISelect style={{width:230}} placeholder="请选择" value={creditType} onChange={(val)=>this.onFormChange(val,'creditType')}>
+              <Option key={1}>退费</Option>
+              <Option key={2}>退挽</Option>
+            </BISelect>
           </div>
           <div style={{marginTop:'15px'}}></div>
           <div  className={styles.secRow}>

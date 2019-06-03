@@ -3,9 +3,6 @@
   display: flex;
   flex-direction: column;
 }
-.appealInfoCon {
-  margin-left: 20px;
-}
 .container {
   padding: 20px 18px 0;
 }
@@ -15,16 +12,16 @@
   flex-direction: column;
   justify-content: space-between;
   margin-top: 12px;
-  margin-left: 18px;
+  margin-left: 3px;
+}
+.secRow > div {
+  margin-top: 10px;
 }
 .secRow > div {
   display: inline-block;
 }
 .secRow > div span:last-child {
   margin-left: 50px;
-}
-.secRow > div {
-  margin-top: 10px;
 }
 .secCol {
   display: flex;
@@ -50,10 +47,7 @@
   height: 1px;
   background-color: #ebecef;
   flex: 1;
-  margin: 24px 0 0 12px;
-}
-div.divideLine:last-child {
-  height: 0;
+  margin: 24px 12px 0 12px;
 }
 .appealInfo {
   height: 20px;
@@ -69,10 +63,10 @@ div.divideLine:last-child {
   width: 2px;
   height: 12px;
   background: #52c9c2;
-  margin: 0 6px 0 5px;
+  margin: 0 6px 0 22px;
 }
 .appealInfo > span {
-  /*color: #000000;*/
+  color: #000000;
   font-weight: 400;
   margin-left: 10px;
 }
@@ -80,8 +74,7 @@ div.divideLine:last-child {
   display: flex;
   flex-direction: column;
   border: 1px solid #d5dae2;
-  margin-top: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 }
 .secctionTitle {
   display: block;
@@ -91,22 +84,37 @@ div.divideLine:last-child {
   padding-left: 18px;
   font-weight: bold;
 }
-.appealInfoPanel {
-  float: right;
-  color: #52c9c2 !important;
-  font-size: 20px;
-  cursor: pointer;
-  width: 30px;
+.resultDotColor1:before {
+  /*content: '';*/
+  /*position: absolute;*/
+  /*top: 42%;*/
+  /*left: -10px;*/
+  /*display: inline-block;*/
+  /*width: 5px;*/
+  /*height: 5px;*/
+  /*border-radius: 50%;*/
+  /*background: #52c9c2;*/
+  color: #52c9c2;
+}
+.resultDotColor2::before {
+  /*content: '';*/
+  /*position: absolute;*/
+  /*top: 42%;*/
+  /*left: -10px;*/
+  /*display: inline-block;*/
+  /*width: 5px;*/
+  /*height: 5px;*/
+  /*border-radius: 50%;*/
+  /*background: #ff0000;*/
+  color: #ff0000;
 }
 .showPanel {
   flex: 1;
+  margin-top: 20px;
 }
 .hidePanel {
-  display: none;
+  display: none !important;
 }
-.downCls {
-  cursor: pointer;
-  color: #52c9c2;
-  margin-left: 0 !important;
-  border-bottom: 1px solid;
+.row-gap {
+  height: 10px;
 }
