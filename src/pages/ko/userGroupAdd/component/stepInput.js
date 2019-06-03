@@ -13,6 +13,8 @@ const { TextArea } = Input;
 class stepInput extends Component {
   // input双向绑定
   handelChange(e) {
+    console.log(16, e.target.value)
+    return;
     const { getNums, callBackParent } = this.props;
     if (getNums) {
       getNums({ nums: e.target.value });
@@ -35,22 +37,18 @@ class stepInput extends Component {
       nums,
       pageType,
     } = this.props;
-    let valueData = '';
-    if (!faileData) {
-      valueData = nums;
-    } else {
-      valueData = faileData.indexOf('[') < 0 ? faileData : faileData.slice(1, faileData.length - 1);
-    }
+    let valueData = this.props.inputInfo.checkResult.failList.join(" ");
+    console.log(38, this.props.inputInfo)
     return (
       <div className={styles.wrap}>
-        <CheckResult totalSize={100} failSize={100} successSize={100} />
-        {inputTitle ? <div className={styles.inputTitle}>{inputTitle}</div> : null}
-        {inputInfo ? (
+        <CheckResult totalSize={inputInfo.checkResult.total} failSize={inputInfo.checkResult.failCount} successSize={inputInfo.checkResult.successCount} />
+        {/* {inputTitle ? <div className={styles.inputTitle}>{inputTitle}</div> : null} */}
+        {/* {inputInfo.checkResult ? (
           <div className={inputContent ? styles.inputInfo1 : styles.inputInfo}>{inputInfo}</div>
-        ) : null}
+        ) : null} */}
         {inputContent ? (
           <div className={styles.inputContent}>
-            {!inputTip ? <div className={styles.inputContent_title}>搜索失败的编号：</div> : null}
+            {!inputTip ? <div className={styles.inputContent_title}>{inputTitle}</div> : null}
             <TextArea
               className={styles.inputTextArea}
               autosize={{ minRows: 4, maxRows: 4 }}
@@ -60,6 +58,7 @@ class stepInput extends Component {
               }}
               value={valueData}
               disabled={disabled}
+              style={{ border: 'none' }}
             />
           </div>
         ) : null}

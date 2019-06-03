@@ -28,7 +28,7 @@ export async function learningAct(params) {
 //   return request('/userTrack/getDateList', { method: 'post', data: params });
 // }
 export async function getDateList2(params) {
-  return request('http://172.16.109.173:8085/userTrack/getDateList', { method: 'post', data: params, prefix: null });
+  return request('/userTrack/getDateList', { method: 'post', data: params, prefix: null });
 }
 // 获取日期范围
 export async function getDateRange() {
@@ -39,5 +39,5 @@ export async function getDateRange() {
 //   return request('/homePage/userBaseInfo', { params });
 // }
 export async function userInfo(params) {
-  return request('http://172.16.109.173:8085/homePage/userBaseInfo', { params, prefix: null });
+  return request('/homePage/userBaseInfo', { params, prefix: null });
 }

@@ -9,12 +9,25 @@ class StepEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 1
+      updateType: props.updateType ? props.updateType : 1,
+      id: props.queryParam.id,
+      userIdStr: props.faileData ? props.faileData.join(' ') : ''
     }
   }
   // input双向绑定
   handelChange = (e) => {
-    const { callBackParent } = this.props;
+    this.setState({
+      userIdStr: e.target.value
+    })
+    const { getParams, callBackParent } = this.props;
+    let param = {
+      updateType: this.state.updateType,
+      id: this.state.id,
+      userIdStr: e.target.value
+    }
+    if (getParams) {
+      getParams(param);
+    }
     // 文本框没有值，下一步不可点击
     if (e.target.value && callBackParent) {
       callBackParent(false);
@@ -22,36 +35,41 @@ class StepEdit extends Component {
       callBackParent(true);
     }
   }
-  onChange = (e) => {
-    const orgType = e.target.value === 1 ? 'college' : 'family';
+  onChangeRadio = (e) => {
     this.setState({
-      value: e.target.value,
+      updateType: e.target.value,
+    });
+    const { getParams } = this.props;
+    let param = {
+      updateType: e.target.value,
+      id: this.state.id,
+      userIdStr: this.state.userIdStr
     }
-    );
+    if (getParams) {
+      getParams(param);
+    }
+
   }
   render() {
-    const {
-      inputTitle,
-      inputInfo,
-      inputContent,
-      inputTip,
-      disabled,
-      faileData,
-      nums,
-      pageType,
-    } = this.props;
-
+    const { faileData } = this.props;
+    let valueData = '';
+    console.log(56, faileData)
+    if (!faileData) {
+      valueData = '';
+    } else {
+      valueData = faileData.join(" ");
+    }
     return (
       <div className={styles.wrap}>
         <div className={styles.stepEdit}>
           <div className={styles.row}>
             <label>用户组编号：</label>
-            <p>{this.props.code}</p>
+            <p>{this.props.queryParam.code}</p>
           </div>
           <div className={styles.row}>
             <label>选择：</label>
             <div className={styles.option}>
-              <BIRadio onChange={this.onChange} value={this.state.value}>
+              <BIRadio onChange={this.onChangeRadio} value={this.state.updateType}>
                 <BIRadio.Radio value={1}>删除用户</BIRadio.Radio>
                 <BIRadio.Radio value={2}>添加用户</BIRadio.Radio>
               </BIRadio>
@@ -63,6 +81,7 @@ class StepEdit extends Component {
           autosize={{ minRows: 4, maxRows: 4 }}
           placeholder="请输入学生ID，多个ID请用空格隔开"
           onChange={this.handelChange}
+          defaultValue={valueData}
         />
       </div>
     );

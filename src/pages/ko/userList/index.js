@@ -232,7 +232,6 @@ function jump(record, v) {
 class UserList extends React.Component {
   constructor(props) {
     super(props);
-    console.log(234, props)
     this.initpage = {
       currentPage: 1, pageSize: 30
     }
@@ -313,16 +312,10 @@ class UserList extends React.Component {
     return orgName ? (<span key={orgName}><Tag closable={!isShowFiexd} onClose={() => !isShowFiexd ? this.onClose(key, item) : null}>{orgName}</Tag></span>) : null;
   }
   renderTypeTage = (obj, key, color = '#F4F4F4') => (type) => {
-    const { isShowFiexd } = this.state;
-    if (type === 'custorm' && typeof obj === 'object') {
-      return (<span key={obj.name + obj.value}><Tag closable={!isShowFiexd} color={color} onClose={() => !isShowFiexd ? this.onClose(key, obj) : null}>{obj.name}</Tag></span>)
-    }
-    if (obj.value === null || obj.value === undefined) return null;
-    return (<span key={obj.name + obj.value}><Tag closable={!isShowFiexd} color={color} onClose={() => !isShowFiexd ? this.onClose(key, obj) : null}>{obj.name}</Tag></span>)
+    return obj.name
   }
 
   checkoutTypeTage = (key, item) => {
-    console.log(324, item)
     let returnDom = null;
     switch (key) {
       case 'fromDevice':
@@ -381,8 +374,7 @@ class UserList extends React.Component {
 
   }
   renderChooseTags = () => {
-    const { params = {} } = this.props.originParams;
-    // console.log(385, params)
+    const params = this.props.originParams.originParams;
     const returnNode = Object.keys(params).map(item => {
       return (params[item] !== null || params[item] !== undefined) && this.checkoutTypeTage(item, params[item]);
     });
@@ -420,15 +412,19 @@ class UserList extends React.Component {
         filterExitParams = this.state.filterExitParams
       let localtionParams = this.getLocationParams(chooseEventData)
       let newParams = { ...params.formParams, ...pageParams, ...localtionParams, ...filterExitParams };
+      let arr = this.renderChooseTags();
+      let userTag = []
+      arr.map(item => {
+        if (item) {
+          userTag.push(item)
+        }
+      })
       let submitParam = {
         queryParam: newParams,
         userCount: this.state.totalUser,
         groupName: this.state.groupName,
-        userTag: null
+        userTag: userTag.join(",")
       }
-
-      console.log(428, this.renderChooseTags())
-      return;
       this.props.dispatch({
         type: 'userListModel/userGroupSubmit',
         payload: { params: submitParam },
