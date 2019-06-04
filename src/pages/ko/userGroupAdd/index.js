@@ -6,6 +6,8 @@ import StepLayout from './component/stepLayout';
 import StepUpload from './component/stepUpload';
 import StepInput from './component/stepInput';
 import StepSucess from './component/stepSucess';
+import BIModal from '@/ant_components/BIModal';
+import PageHead from '@/components/PageHead/pageHead';
 import styles from './style.less';
 
 @connect(({ userGroupAdd }) => ({
@@ -50,8 +52,6 @@ class userGroupAdd extends React.Component {
   };
   // 校验excel文件
   fetchCheckData = () => {
-    // console.log(47, this.state.params);
-    // return;
     this.props.dispatch({
       type: 'userGroupAdd/selectFile',
       payload: { params: this.state.params },
@@ -78,21 +78,52 @@ class userGroupAdd extends React.Component {
     });
   };
   editLoading = isLoading => {
-    console.log(isLoading);
     this.props.dispatch({
       type: 'userGroupAdd/editLoading',
       payload: { isLoading },
     });
   };
+  fetchCheck = () => {
+    this.showPop();
+    this.editLoading(false)
+  };
+  showPop = () => {
+    this.setState({
+      visible: true
+    })
+  }
+  handleCancel = () => {
+    this.setState({
+      visible: false
+    })
+  }
+  handleOk = () => {
+    let checkResult = this.props.userGroupAdd.checkResult;
+    let params = {
+      uniqueKey: this.state.params.uniqueKey
+    }
+    this.editLoading(false)
+    if (checkResult.successCount >= 0) {
+      this.props.dispatch({
+        type: 'userGroupAdd/checkFile',
+        payload: { params: params },
+      });
+      this.setState({
+        visible: false
+      })
+    }
+  };
 
 
   render() {
     const { isDisabled } = this.state;
-    const { current, checkList, fileList, disableDel, isLoading } = this.props.userGroupAdd;
+    const { current, checkList, fileList, disableDel, checkResult, isLoading } = this.props.userGroupAdd;
     const notice = <div>
       <p>正在创建用户组，预计需要<span style={{ color: "#52C9C2" }}>5-10</span>分钟。</p>
       <p>请在用户运营页查看最新的更新状态。</p>
     </div>
+    const groupName = this.state.params.groupName
+    const uniqueKey = this.state.params.uniqueKey
     const steps = [
       {
         title: '选择Excel',
@@ -103,6 +134,8 @@ class userGroupAdd extends React.Component {
             getParams={param => {
               this.getParams(param);
             }}
+            groupName={groupName}
+            uniqueKey={uniqueKey}
             callBackParent={(bol, params) => {
               this.onChildChange(bol, params);
             }}
@@ -116,6 +149,7 @@ class userGroupAdd extends React.Component {
         title: '校验文件',
         content: (
           <StepInput
+            inputInfo={checkResult}
             inputTitle="搜索失败的编号："
             inputContent="true"
             inputTip="true" />
@@ -129,28 +163,53 @@ class userGroupAdd extends React.Component {
       },
 
     ];
-
+    const routerData = { name: "创建用户组", bread: { name: "用户运营", path: "/ko/userOperation" }, path: "/ko/userGroupAdd" }
     return (
-      <div className={styles.userGroup}>
-        <div className={styles.headBar}>创建用户组</div>
-        <StepLayout
-          callBackParent={bol => {
-            this.onChildChange(bol);
-          }}
-          step1Fetch={() => {
-            this.fetchCheckData();
-          }}
-          current={current}
-          steps={steps}
-          editLoading={loading => {
-            this.editLoading(loading);
-          }}
-          isLoading={isLoading}
-          isDisabled={isDisabled}
-          disableDel={false}
-        />
-      </div>
+      <>
+        <PageHead routerData={routerData}></PageHead>
+        <div className={styles.userGroup}>
+          <div className={styles.headBar}>创建用户组</div>
+          <StepLayout
+            callBackParent={bol => {
+              this.onChildChange(bol);
+            }}
+            step1Fetch={() => {
+              this.fetchCheckData();
+            }}
+            step2Fetch={() => {
+              this.fetchCheck();
+            }}
+            current={current}
+            steps={steps}
+            isLoading={isLoading}
+            editLoading={loading => {
+              this.editLoading(loading);
+            }}
+            editCurrent={param => {
+              this.editCurrent(param);
+            }}
+            isDisabled={isDisabled}
+            disableDel={false}
+          />
+          <BIModal
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer={[
+              <BIButton key="back" style={{ marginRight: 10 }} onClick={this.handleCancel}>
+                取消
+            </BIButton>,
+              <BIButton key="submit" type="primary" onClick={this.handleOk}>
+                确定
+            </BIButton>,
+            ]}>
+            <div className={styles.modalWrap}>
+              <p>是否确定更新用户组？</p>
 
+            </div>
+          </BIModal>
+        </div>
+      </>
     );
   }
 }

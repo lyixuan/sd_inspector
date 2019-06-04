@@ -20,14 +20,26 @@ const contentDel = (
 
 function Status(props) {
   if (props.type == 1) {
-    return "未开始"
+    return "创建中"
   } else if (props.type == 2) {
     return "更新中"
   } else if (props.type == 3) {
-    return "成功"
+    return "已创建"
   } else if (props.type == 4) {
-    return "失败"
+    return "已失败"
   }
+}
+function StudentLabel(props) {
+  if (props.text) {
+    return (
+      < Tooltip placement="bottom" title={props.text} >
+        <span>查看…</span>
+      </Tooltip >
+    )
+  }
+  return null
+
+
 }
 @connect(({ userOperation }) => ({
   userOperation
@@ -93,9 +105,10 @@ class InitTable extends Component {
     })
   }
   handleEditGroup = (record) => {
+    console.log(96, record)
     router.push({
       pathname: '/ko/userGroupEdit',
-      query: { code: record.code, id:record.id }
+      query: { code: record.code, id: record.id }
     });
   }
   edit = (record) => {
@@ -122,7 +135,9 @@ class InitTable extends Component {
         dataIndex: 'groupName',
         key: 'groupName',
         render: (text, record) => (
-          <div> {text} <img src={userEdit} style={{ marginLeft: '25px' }} onClick={() => this.edit(record)} /></div>
+          <div style={{ display: 'flex', justifyItems: 'center' }}>
+            <span style={{ maxWidth: '300px', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{text}</span> <img src={userEdit} style={{ marginLeft: '25px', width: '15px', height: '15px', marginTop: '3px' }} onClick={() => this.edit(record)} />
+          </div>
         ),
       },
       {
@@ -130,9 +145,10 @@ class InitTable extends Component {
         dataIndex: 'userTag',
         key: 'userTag',
         render: (text, record) => (
-          <Tooltip placement="bottom" title={text}>
-            <span>查看…</span>
-          </Tooltip>
+          <StudentLabel text={text}></StudentLabel>
+          // < Tooltip placement="bottom" title={text} >
+          //   <span>查看…</span>
+          // </Tooltip >
 
         ),
       },
@@ -159,11 +175,11 @@ class InitTable extends Component {
         key: 'action',
         render: (text, record) => (
           <div className={styles.options}>
-            <a href="javascript:;" onClick={() => this.handleEditGroup(record)} className={styles.highLight}>编辑</a>
+            <a href="javascript:;" onClick={() => this.handleEditGroup(record)} disabled={record.taskStatus == 1 || record.taskStatus == 2 || record.taskStatus == 4}>编辑</a>
             <Popconfirm className='pop22' placement="top" title={contentDel} onConfirm={() => this.handleDelete(record)} okText="确认" cancelText="取消">
-              <a href="javascript:;" className={styles.highLight}>删除</a>
+              <a href="javascript:;" disabled={record.taskStatus == 1 || record.taskStatus == 2}>删除</a>
             </Popconfirm>
-            <a href="javascript:;">导出</a>
+            <a href="javascript:;" disabled={record.taskStatus == 1 || record.taskStatus == 2 || record.taskStatus == 4}>导出</a>
 
           </div>
         ),

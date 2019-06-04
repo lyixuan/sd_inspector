@@ -37,11 +37,17 @@ class stepInput extends Component {
       nums,
       pageType,
     } = this.props;
-    let valueData = this.props.inputInfo.checkResult.failList.join(" ");
+    let valueData = '';
+    if (this.props.inputInfo.checkResult) {
+      valueData = this.props.inputInfo.checkResult.failList.join(" ");
+    } else {
+      valueData = this.props.inputInfo.failList.join(" ");
+    }
     console.log(38, this.props.inputInfo)
+    let page = inputInfo.checkResult ? inputInfo.checkResult : inputInfo
     return (
       <div className={styles.wrap}>
-        <CheckResult totalSize={inputInfo.checkResult.total} failSize={inputInfo.checkResult.failCount} successSize={inputInfo.checkResult.successCount} />
+        <CheckResult totalSize={page.total} failSize={page.failCount} successSize={page.successCount} />
         {/* {inputTitle ? <div className={styles.inputTitle}>{inputTitle}</div> : null} */}
         {/* {inputInfo.checkResult ? (
           <div className={inputContent ? styles.inputInfo1 : styles.inputInfo}>{inputInfo}</div>

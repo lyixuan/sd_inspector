@@ -18,7 +18,7 @@ export default {
       const result = yield call(selectFile, params);
       if (result.code === 20000) {
         const checkResult = result.data;
-        yield put({ type: 'save', payload: { checkResult, current: 1 } });
+        yield put({ type: 'save', payload: { checkResult, current: 1, isLoading: false } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

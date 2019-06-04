@@ -6,6 +6,8 @@ import StepLayout from '../userGroupAdd/component/stepLayout';
 import StepInput from '../userGroupAdd/component/stepInput';
 import StepSucess from '../userGroupAdd/component/stepSucess';
 import StepEdit from '../userGroupAdd/component/stepEdit1';
+import BIModal from '@/ant_components/BIModal';
+import PageHead from '@/components/PageHead/pageHead';
 import styles from '../userGroupAdd/style.less';
 
 @connect(({ userGroupAdd, userGroupEdit }) => ({
@@ -74,6 +76,20 @@ class userGroupEdit extends React.Component {
     });
   };
   fetchCheck = () => {
+    this.showPop();
+    this.editLoading(false)
+  };
+  showPop = () => {
+    this.setState({
+      visible: true
+    })
+  }
+  handleCancel = () => {
+    this.setState({
+      visible: false
+    })
+  }
+  handleOk = () => {
     let checkResult = this.props.userGroupEdit.checkResult
     let params = {
       uniqueKey: checkResult.uniqueKey
@@ -84,9 +100,10 @@ class userGroupEdit extends React.Component {
         type: 'userGroupEdit/userGroupCheck',
         payload: { params: params },
       });
+      this.setState({
+        visible: false
+      })
     }
-
-
   };
   editCurrent = current => {
     this.props.dispatch({
@@ -106,6 +123,7 @@ class userGroupEdit extends React.Component {
       isDisabled: bol,
     });
   };
+
 
 
   render() {
@@ -167,37 +185,56 @@ class userGroupEdit extends React.Component {
       },
 
     ];
-
+    const routerData = { name: "编辑用户组", bread: { name: "用户运营", path: "/ko/userOperation" }, path: "/ko/userGroupAdd" }
     return (
-      <div className={styles.userGroup}>
-        <div className={styles.headBar}>编辑用户组</div>
-        <StepLayout
-          step1Fetch={() => {
-            this.fetchPreDel();
-          }}
-          step2Fetch={() => {
-            this.fetchCheck();
-          }}
-          current={current}
-          isLoading={isLoading}
-          steps={steps}
-          isDisabled={isDisabled}
-          disableDel={false}
-          initParamsFn={dis => {
-            this.initParamsFn(dis);
-          }}
-          callBackParent={bol => {
-            this.onChildChange(bol);
-          }}
-          editLoading={loading => {
-            this.editLoading(loading);
-          }}
-          editCurrent={param => {
-            this.editCurrent(param);
-          }}
-        />
-      </div>
+      <>
+        <PageHead routerData={routerData}></PageHead>
+        <div className={styles.userGroup}>
+          <div className={styles.headBar}>编辑用户组</div>
+          <StepLayout
+            step1Fetch={() => {
+              this.fetchPreDel();
+            }}
+            step2Fetch={() => {
+              this.fetchCheck();
+            }}
+            current={current}
+            isLoading={isLoading}
+            steps={steps}
+            isDisabled={isDisabled}
+            disableDel={false}
+            initParamsFn={dis => {
+              this.initParamsFn(dis);
+            }}
+            callBackParent={bol => {
+              this.onChildChange(bol);
+            }}
+            editLoading={loading => {
+              this.editLoading(loading);
+            }}
+            editCurrent={param => {
+              this.editCurrent(param);
+            }}
+          />
+          <BIModal
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer={[
+              <BIButton key="back" style={{ marginRight: 10 }} onClick={this.handleCancel}>
+                取消
+            </BIButton>,
+              <BIButton key="submit" type="primary" onClick={this.handleOk}>
+                确定
+            </BIButton>,
+            ]}>
+            <div className={styles.modalWrap}>
+              <p>是否确定更新用户组？</p>
 
+            </div>
+          </BIModal>
+        </div>
+      </>
     );
   }
 }

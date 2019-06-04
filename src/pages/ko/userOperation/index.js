@@ -19,23 +19,33 @@ class userOperation extends React.Component {
     this.state = {
       visible: false,
       userGroupName: '',
-      pageSize: 10,
+      pageSize: 15,
       page: 1
     }
   }
   componentDidMount() {
-    this.getInitData();
+    this.getInitData({ pageSize: this.state.pageSize, page: this.state.page });
   }
-  getInitData = () => {
+  getInitData = (params) => {
     this.props.dispatch({
       type: 'userOperation/userGroupList',
-      payload: { params: { pageSize: this.state.pageSize, page: this.state.page } },
+      payload: { params: params },
     })
   }
   toCreateUserGroup = () => {
     router.push({
       pathname: '/ko/userGroupAdd'
     });
+  }
+  onSizeChange = (page) => {
+    this.setState({
+      page: page
+    })
+    let params = {
+      page: page,
+      pageSize: this.state.pageSize
+    }
+    this.getInitData(params)
   }
 
   render() {
@@ -51,9 +61,10 @@ class userOperation extends React.Component {
           <div className={styles.pager}>
             <BIPagination
               showQuickJumper
-              defaultPageSize={1}
+              defaultPageSize={this.state.pageSize}
               current={this.state.page}
-              total={50}
+              onChange={this.onSizeChange}
+              total={tableList.total}
             />
           </div>
 

@@ -19,8 +19,8 @@ class stepUpload extends Component {
     super(props);
     this.state = {
       fileList: this.props.fileList,
-      uniqueKey: null,
-      groupName: ''
+      uniqueKey: props.uniqueKey ? props.uniqueKey : null,
+      groupName: props.groupName ? props.groupName : '',
     };
   }
   // input双向绑定
@@ -74,7 +74,6 @@ class stepUpload extends Component {
   };
   render() {
     const { uploadUrl } = this.props;
-    console.log(53, this.props)
     const props = {
       beforeUpload(file) {
         isDel = false;
@@ -104,6 +103,7 @@ class stepUpload extends Component {
           <TextArea
             placeholder="输入名称"
             maxLength={50}
+            defaultValue={this.props.groupName}
             style={{ resize: 'none' }}
             onChange={this.groupNameChange}
             autosize={{ minRows: 2, maxRows: 2 }}
