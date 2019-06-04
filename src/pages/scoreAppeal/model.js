@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import {
-  getOrgMapList,
+  getOrgMapList,creditDimensionList
 } from '@/pages/scoreAppeal/services';
 import { msgF } from '@/utils/utils';
 
@@ -33,6 +33,7 @@ export default {
   state: {
     orgList: [], // 保存组织原始结构
     orgListTreeData: [], // 保存组织处理成treeData需要的结构
+    dimensionList: [], // 学分维度列表
   },
 
   effects: {
@@ -43,6 +44,17 @@ export default {
 
       if (result.code === 20000) {
         yield put({ type: 'saveMap', payload: { orgList } });
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    *getCreditDimensionList({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(creditDimensionList, params);
+      const dimensionList = result.data || [];
+
+      if (result.code === 20000) {
+        yield put({ type: 'save', payload: { dimensionList } });
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }

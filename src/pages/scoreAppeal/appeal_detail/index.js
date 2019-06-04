@@ -56,7 +56,6 @@ class AppealCheck extends React.Component {
             <span >一次申诉</span>
             <span onClick={()=>this.handleCollapse(1)}><img src={collapse1?imgdown:imgUp} width='18' height='18'/></span>
           </div>
-          <div className={styles.spaceLine}/>
           {/* 申诉内容 */}
           {collapse1&&(
             <div style={{paddingLeft:'15px'}}>

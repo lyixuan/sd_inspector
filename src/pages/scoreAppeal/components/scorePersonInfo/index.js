@@ -5,9 +5,11 @@ import { BiFilter } from '@/utils/utils';
 
 export default class PersonInfoComponent extends React.Component {
   render() {
-    const { data = {} } = this.props;
-    const { qualityType, verifyDate, mail, role, collegeName, familyName, groupName, name } = data;
+    const { userInfo = {} } = this.props;
+    const { userName, collegeName, familyName, groupName, mail, roleName } = userInfo;
 
+    const groupName2 = groupName ? ` | ${groupName}`:'';
+    const familyName2 = familyName ? ` | ${familyName}`:'';
     return (
       <section className={styles.personInfoCon}>
         <div className={styles.boxTitle}>
@@ -15,12 +17,12 @@ export default class PersonInfoComponent extends React.Component {
         </div>
         <div className={styles.container}>
           <div className={styles.secRow}>
-            <div>归属人：</div>
-            <div>归属人邮箱：</div>
+            <div>归属人：{userName}</div>
+            <div>归属人邮箱：{mail}</div>
           </div>
           <div className={styles.secRow}>
-            <div>归属组织：</div>
-            <div>归属人角色：</div>
+            <div>归属组织：{collegeName}{familyName2}{groupName2}</div>
+            <div>归属人角色：{roleName}</div>
           </div>
           <div className={styles.secRow}>
           </div>

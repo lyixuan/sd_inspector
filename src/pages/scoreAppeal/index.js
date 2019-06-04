@@ -12,6 +12,11 @@ class scoreAppeal extends React.Component {
       type: 'scoreAppealModel/getOrgMapList',
       payload: { params: {} },
     });
+    // 学分维度
+    this.props.dispatch({
+      type: 'scoreAppealModel/getCreditDimensionList',
+      payload: { params: {} },
+    });
   }
   render() {
     return <div>{this.props.children}</div>;
