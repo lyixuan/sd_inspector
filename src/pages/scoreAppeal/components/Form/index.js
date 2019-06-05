@@ -35,7 +35,13 @@ class CSForm extends React.Component {
     this.state = {...this.init,...JSON.parse(params)};
   }
 
-
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if(nextProps.dimensionType!==this.props.dimensionType){
+      this.setState({
+        creditType:undefined
+      })
+    }
+  }
   onFormChange = (value,vname)=>{
     if ('creditDate' === vname ) {
       this.setState({
@@ -87,9 +93,11 @@ class CSForm extends React.Component {
     this.props.onSubmit(this.state,undefined,true);
   };
   render() {
-    // tabType:  1 优新 2 IM 3 工单 4 底线 5 创收
+    // dimensionType:  1 优新 2 IM 3 工单 4 底线 5 创收
     const {scoreAppealModel={}, dimensionType = 11} = this.props;
-    const {orgListTreeData = [],creditList=[],statusDropList=[]} = scoreAppealModel;
+    const {orgListTreeData = [],dimensionList=[],statusDropList=[]} = scoreAppealModel;
+    const dimensionList2 = dimensionList.filter((v)=>v.parentId===dimensionType&&v.id!==47);
+
     const {appealBeginDate,appealEndDate,creditBeginDate,creditEndDate,creditType,statusList,appealOrderNum,collegeIdList,familyIdList,groupIdList} = this.state;
     return (
       <div className={styles.newSheetWrap}>
@@ -120,7 +128,7 @@ class CSForm extends React.Component {
                     <span className={styles.gutterLabel}>学分维度</span>：
                     <span className={styles.gutterForm}>
                       <BISelect style={{width:230}} placeholder="请选择" value={creditType} onChange={(val)=>this.onFormChange(val,'creditType')}>
-                        {creditList.map(item => (
+                        {dimensionList2.map(item => (
                           <Option key={item.id}>
                             {item.name}
                           </Option>

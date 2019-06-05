@@ -45,9 +45,18 @@ function dealQuarys(pm) {
   const p = DeepCopy(pm);
   if (!p.stuName) {
     p.stuName = undefined
+  } else {
+    p.stuName = p.stuName.trim()
   }
-  if (!p.stuId) {
+  if (p.stuId) {
+    p.stuId = parseInt(p.stuId.toString().trim());
+  } else {
     p.stuId = undefined
+  }
+  if (p.creditType) {
+    p.creditType = parseInt(p.creditType);
+  } else {
+    p.creditType = undefined
   }
   if (!p.creditBeginDate||!p.creditEndDate) {
     p.creditBeginDate = undefined
@@ -71,8 +80,8 @@ class AwaitAppeal extends React.Component {
   }
   componentDidMount() {
     const {dimensionType} = this.state;
-    // 初始化，只有申诉维度，无参
-    this.queryData(dimensionType,undefined,{page:1});
+    const {params=null} = this.props.location.query;
+    this.queryData(dimensionType,JSON.parse(params));
   }
 
   queryData = (dimensionType, pm, pg) => {
@@ -92,13 +101,7 @@ class AwaitAppeal extends React.Component {
     }
 
     const saveUrlParams =JSON.stringify(params);
-
-    console.log('params',params)
     // 请求成功后保留查询条件
-    router.replace({
-      pathname: this.props.location.pathname,
-      query: saveUrlParams ? { params: saveUrlParams } : {}
-    })
     this.props.dispatch({
       type: 'awaitAppealModel/getPreAppealList',
       payload: { params },
@@ -116,10 +119,10 @@ class AwaitAppeal extends React.Component {
     });
   };
   onDetail = (record) => {
-    this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_detail');
+    this.onJumpPage({ dimensionId: record.id,dimensionType:record.dimensionType }, '/scoreAppeal/appeal_detail');
   };
   onCreateAppeal = (record) => {
-    this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_create');
+    this.onJumpPage({ dimensionId: record.id,dimensionType:record.dimensionType }, '/scoreAppeal/appeal_create');
   };
   columnsAction = () => {
     const actionObj = [{
@@ -147,11 +150,10 @@ class AwaitAppeal extends React.Component {
 
   changeTab(dimensionType){
     const {params:oldParams} = this.props.location.query;
-    console.log('oldParams',oldParams)
     const {dimensionType:oldDem,...others} = JSON.parse(oldParams);
     this.setState({
       dimensionType
-    },()=>this.queryData(dimensionType,others,{page:1}))
+    },()=>this.queryData(dimensionType,{...others,creditType:undefined},{page:1}))
   }
   formSubmit(dimensionType,params,pg){
     this.queryData(dimensionType,params,pg)
@@ -162,14 +164,7 @@ class AwaitAppeal extends React.Component {
   render() {
     const {dimensionType} = this.state;
     const {loading} = this.props;
-    // const {awaitList=[],page} = this.props.awaitAppealModel;
-    const awaitList = [
-      {id:'1',creditDate:'2019-09-09',dimensionName:'学分分维',userName:'学分归属人',collegeName:'归属组织。。。。。',stuName:'学员姓名',stuId:'2328323023'},
-    ]
-    const page = {
-      total:12,
-      pageNum:1
-    }
+    const {awaitList=[],page} = this.props.awaitAppealModel;
     return (
       <>
         <p className={style.wrap}>
@@ -189,8 +184,8 @@ class AwaitAppeal extends React.Component {
             <span onClick={()=>this.changeTab(42)}  className={42===dimensionType?style.active:null}>创收</span>
           </AuthButton>
         </p>
-        <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params,pg)=>{this.formSubmit(undefined,params,pg)}}></CSForm>
-        <CSTable dataSource={awaitList} columns={this.columnsAction()} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}></CSTable>
+        <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params,pg)=>{this.formSubmit(undefined,params,pg)}}/>
+        <CSTable dataSource={awaitList} columns={this.columnsAction()} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}/>
       </>
     );
   }

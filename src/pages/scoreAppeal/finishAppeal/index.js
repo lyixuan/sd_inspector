@@ -76,6 +76,11 @@ function dealQuarys(pm) {
     p.appealBeginDate = undefined
     p.appealEndDate = undefined
   }
+  if (p.creditType) {
+    p.creditType = parseInt(p.creditType);
+  } else {
+    p.creditType = undefined
+  }
   return p;
 };
 
@@ -94,8 +99,8 @@ class FinishAppeal extends React.Component {
   }
   componentDidMount() {
     const {dimensionType} = this.state;
-    // 初始化，只有申诉维度，无参
-    this.queryData(dimensionType,undefined,{page:1});
+    const {params=null} = this.props.location.query;
+    this.queryData(dimensionType,JSON.parse(params));
   }
 
   queryData = (dimensionType, pm, pg,exp) => {
@@ -118,10 +123,6 @@ class FinishAppeal extends React.Component {
 
     console.log('params',params)
     // 请求成功后保留查询条件
-    router.replace({
-      pathname: this.props.location.pathname,
-      query: saveUrlParams ? { params: saveUrlParams } : {}
-    })
     if (!exp){
       this.props.dispatch({
         type: 'finishAppealModel/getFinishAppealList',
@@ -144,7 +145,7 @@ class FinishAppeal extends React.Component {
     });
   };
   onDetail = (record) => {
-    this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_detail');
+    this.onJumpPage({ dimensionId: record.metaDimensionId,dimensionType:record.dimensionType }, '/scoreAppeal/appeal_detail');
   };
   columnsAction = () => {
     const actionObj = [{
@@ -170,7 +171,7 @@ class FinishAppeal extends React.Component {
     const {dimensionType:oldDem,...others} = JSON.parse(oldParams);
     this.setState({
       dimensionType
-    },()=>this.queryData(dimensionType,others,{page:1}))
+    },()=>this.queryData(dimensionType,{...others,creditType:undefined},{page:1}))
   }
   formSubmit(dimensionType,params,pg,exp){
     this.queryData(dimensionType,params,pg,exp)
@@ -181,14 +182,7 @@ class FinishAppeal extends React.Component {
   render() {
     const {dimensionType} = this.state;
     const {loading} = this.props;
-    // const {finishList=[],page} = this.props.finishAppealModel;
-    const finishList = [
-      {id:'1',appealOrderNum:'1233333',creditDate:'2019-09-09',dimensionName:'学分分维',appealDate:'2019-09-11',collegeName:'归属组织。。。。。',secondAppealEndDate:'2029-09-11',status:'111'},
-    ]
-    const page = {
-      total:12,
-      pageNum:1
-    }
+    const {finishList=[],page} = this.props.finishAppealModel;
     return (
       <>
         <p className={style.wrap}>
@@ -208,8 +202,8 @@ class FinishAppeal extends React.Component {
             <span onClick={()=>this.changeTab(42)}  className={42===dimensionType?style.active:null}>创收</span>
           </AuthButton>
         </p>
-        <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params,pg,exp)=>{this.formSubmit(undefined,params,pg,exp)}}></CSForm>
-        <CSTable dataSource={finishList} columns={this.columnsAction()} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}></CSTable>
+        <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params,pg,exp)=>{this.formSubmit(undefined,params,pg,exp)}}/>
+        <CSTable dataSource={finishList} columns={this.columnsAction()} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}/>
       </>
     );
   }
