@@ -6,8 +6,9 @@ export async function queryOnAppealList(params) {
   return request('/creditAppeal/queryAppealDataPage', { method: 'post', data });
 }
 
-// 发起申诉
-export async function startAppeal(data) {
+// 发起二次申诉
+export async function startAppeal(params) {
+  const data = {...params,...{type:2}};
   return request('/creditAppeal/startAppeal', { method: 'post', data });
 }
 

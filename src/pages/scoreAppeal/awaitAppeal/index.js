@@ -127,7 +127,7 @@ class AwaitAppeal extends React.Component {
   };
   onCreateAppeal = (record) => {
     const {dimensionType} = this.state;
-    this.onJumpPage({ dimensionId: record.id,dimensionType }, '/scoreAppeal/appeal_create');
+    this.onJumpPage({ dimensionId: record.id,dimensionType,type:1 }, '/scoreAppeal/appeal_create');
   };
   columnsAction = () => {
     const actionObj = [{

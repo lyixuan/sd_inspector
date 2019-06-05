@@ -31,7 +31,7 @@ export default {
     },
     // 获取申诉基础详情
     *queryBaseAppealInfo({ payload }, { call, put }) {
-      this.setSate({appealRecord:{}})
+      yield put({ type: 'clearState', payload: { detailInfo:{} } });
       const params = payload.params;
       const result = yield call(getBaseAppealInfo, params);
       if (result.code === 20000) {
@@ -43,7 +43,7 @@ export default {
     },
     // 获取审核记录详情
     *queryAppealInfoCheckList({ payload }, { call, put }) {
-      this.setSate({appealRecord:{}})
+      yield put({ type: 'clearState', payload: { appealRecord:{} } });
       const params = payload.params;
       const result = yield call(getAppealInfoCheckList, params);
       if (result.code === 20000) {
@@ -74,6 +74,9 @@ export default {
     saveMap(state, { payload }) {
       const orgListTreeData = toTreeData(payload.orgList);
       return { ...state, orgList: payload.orgList, orgListTreeData };
+    },
+    clearState(state, { payload }) {
+      return { ...state, ...payload };
     },
   },
 

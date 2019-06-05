@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import {
-  queryPreAppealList,
+  queryPreAppealList,startAppeal
 } from '@/pages/scoreAppeal/awaitAppeal/services';
 import { msgF } from '@/utils/utils';
 
@@ -13,6 +13,7 @@ export default {
   },
 
   effects: {
+    // 获取待审核列表
     *getPreAppealList({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(queryPreAppealList, params);
