@@ -1,9 +1,6 @@
 import React from 'react';
 import styles from './style.less';
 import { connect } from 'dva';
-import ScorePersonInfo from '../components/scorePersonInfo';
-import ScoreBasicInfo from '../components/scoreBasicInfo';
-import SubOrderDetail from '../components/subOrderDetail';
 import FirstCheckResult from '../components/FirstCheckResult';
 import SecondCheckResult from '../components/SecondCheckResult';
 import CreateAppeaRecord from '../components/CreateAppeaRecord';
@@ -14,6 +11,7 @@ import router from 'umi/router';
 import BIButton from '@/ant_components/BIButton';
 import imgUp from '@/assets/scoreQuality/up.png';
 import imgdown from '@/assets/scoreQuality/down.png';
+import BaseInfo from '../components/BaseInfo';
 
 class AppealCheck extends React.Component {
   constructor(props) {
@@ -45,17 +43,11 @@ class AppealCheck extends React.Component {
   }
   render() {
     const {collapse1,collapse2,tags=[{id:1,name:'jdjl'}],checkedTags} = this.state;
+    const {loading,scoreAppealModel={}}=this.props;
+    const {detailInfo={},appealRecord={}}=scoreAppealModel;
     return (
       <div className={styles.appealContainer}>
-        {/* 学分归属人信息 */}
-        <ScorePersonInfo/>
-        <div className={styles.spaceLine}/>
-        {/* 子订单详情 */}
-        <SubOrderDetail/>
-        <div className={styles.spaceLine}/>
-        {/* 申诉基础信息 */}
-        <ScoreBasicInfo/>
-        <div className={styles.spaceLine}/>
+        <BaseInfo detailInfo={detailInfo}/>
         <div>
           <div className={styles.foldBox}>
             <span >一次申诉</span>

@@ -1,9 +1,6 @@
 import React from 'react';
 import styles from './style.less';
 import { connect } from 'dva';
-import ScorePersonInfo from '../components/scorePersonInfo';
-import ScoreBasicInfo from '../components/scoreBasicInfo';
-import SubOrderDetail from '../components/subOrderDetail';
 import CreateAppeal from '../components/CreateAppeal';
 import FirstCheckResult from '../components/FirstCheckResult';
 import SecondCheckResult from '../components/SecondCheckResult';
@@ -14,6 +11,7 @@ import imgUp from '@/assets/scoreQuality/up.png';
 import imgdown from '@/assets/scoreQuality/down.png';
 import { Spin,message } from 'antd';
 import BIModal from '@/ant_components/BIModal';
+import BaseInfo from '../components/BaseInfo';
 
 @connect(({ appealCreateModel,scoreAppealModel,loading }) => ({
   appealCreateModel,scoreAppealModel,
@@ -99,21 +97,12 @@ class AppealCreate extends React.Component {
     const { collapse1, collapse2 } = this.state;
     const {loading,scoreAppealModel={}}=this.props;
     const {detailInfo={},appealRecord={}}=scoreAppealModel;
-    const {userInfo={},orderInfo={},baseAppealInfo={}}=detailInfo;
     const {appealStart=null,sopAppealCheck=null,masterAppealCheck=null}=appealRecord;
     const {query={}} = this.props.location;
     return (
       <Spin spinning={loading}>
       <div className={styles.appealContainer}>
-        {/* 学分归属人信息 */}
-        <ScorePersonInfo userInfo={userInfo}/>
-        <div className={styles.spaceLine}/>
-        {/* 子订单详情 */}
-        {orderInfo&&<SubOrderDetail orderInfo={orderInfo}/>}
-        {orderInfo&&<div className={styles.spaceLine}/>}
-        {/* 申诉基础信息 */}
-        <ScoreBasicInfo baseAppealInfo={baseAppealInfo}/>
-        <div className={styles.spaceLine} />
+        <BaseInfo detailInfo={detailInfo}/>
         {Number(query.type)===1&&(
           <div>
             <div className={styles.foldBox}>
