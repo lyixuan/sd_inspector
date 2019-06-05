@@ -13,7 +13,7 @@ class CSTable extends React.Component {
         <div style={{height:'25px',color:'#333'}}>
           <span style={{float:'right'}}>总条数：{page.total}</span>
         </div>
-        <BITable rowKey={record=>record.id + Math.random()*1000} dataSource={dataSource} columns={columns} pagination={false} loading={loading} />
+        <BITable rowKey={record=>record.id + Math.random()*1000} dataSource={dataSource} columns={columns} pagination={false} loading={loading} locale={{emptyText:'查询结果为空，请调整查询条件'}}/>
         <br/>
         <BIPagination showQuickJumper defaultPageSize={page.pageSize?page.pageSize:30} onChange={this.onPageChange} current={page.pageNum} total={page.total} />
       </div>

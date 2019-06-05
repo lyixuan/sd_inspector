@@ -8,11 +8,11 @@ import { connect } from 'dva/index';
 class scoreAppeal extends React.Component {
   componentDidMount() {
     // 获取组织
-    // this.props.dispatch({
-    //   type: 'scoreAppealModel/getOrgMapList',
-    //   payload: { params: {} },
-    // });
-    // 学分维度
+    this.props.dispatch({
+      type: 'scoreAppealModel/getOrgMapList',
+      payload: { params: {} },
+    });
+    // // 学分维度
     // this.props.dispatch({
     //   type: 'scoreAppealModel/getCreditDimensionList',
     //   payload: { params: {} },
