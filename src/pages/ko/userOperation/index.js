@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-
+import { Spin } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import BIPagination from '@/ant_components/BIPagination';
 import InitTable from './component/InitTable';
@@ -10,8 +10,10 @@ import router from 'umi/router';
 import styles from './style.less';
 
 const { TextArea } = BIInput;
-@connect(({ userOperation }) => ({
-  userOperation
+@connect(({ userOperation, loading }) => ({
+  loading,
+  userOperation,
+  isLoading: loading.effects['userOperation/userGroupList']
 }))
 class userOperation extends React.Component {
   constructor(props) {
@@ -57,7 +59,12 @@ class userOperation extends React.Component {
           <BIButton type="primary" onClick={this.toCreateUserGroup}>创建用户组</BIButton>
         </div>
         <div className={styles.contentArea}>
-          <InitTable list={tableList} />
+          <Spin spinning={this.props.isLoading}>
+            {
+              <InitTable list={tableList} />
+            }
+          </Spin>
+
           <div className={styles.pager}>
             <BIPagination
               showQuickJumper

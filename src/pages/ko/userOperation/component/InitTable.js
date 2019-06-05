@@ -7,13 +7,14 @@ import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
 import BIInput from '@/ant_components/BIInput';
 import userEdit from '@/assets/userEdit.png';
+import { STATIC_HOST } from '@/utils/constants'
 import router from 'umi/router';
 
 const { TextArea } = BIInput;
 
 const contentDel = (
   <div>
-    <p style={{ marginBottom: '7px', color: "#fff" }}>是否确认删除</p>
+    <p style={{ marginBottom: '7px' }}>是否确认删除</p>
   </div>
 );
 
@@ -111,6 +112,12 @@ class InitTable extends Component {
       query: { code: record.code, id: record.id }
     });
   }
+  // 下载任务
+  downloadFn = data => {
+    const a = document.createElement("a");
+    a.href = `${STATIC_HOST}${data.filePath}`;
+    a.click();
+  };
   edit = (record) => {
     this.setState({
       visible: true,
@@ -176,10 +183,11 @@ class InitTable extends Component {
         render: (text, record) => (
           <div className={styles.options}>
             <a href="javascript:;" onClick={() => this.handleEditGroup(record)} disabled={record.taskStatus == 1 || record.taskStatus == 2 || record.taskStatus == 4}>编辑</a>
-            <Popconfirm className='pop22' placement="top" title={contentDel} onConfirm={() => this.handleDelete(record)} okText="确认" cancelText="取消">
+            <Popconfirm placement="top" title={contentDel} onConfirm={() => this.handleDelete(record)} okText="确认" cancelText="取消">
               <a href="javascript:;" disabled={record.taskStatus == 1 || record.taskStatus == 2}>删除</a>
+              {/* <a href="javascript:;">删除</a> */}
             </Popconfirm>
-            <a href="javascript:;" disabled={record.taskStatus == 1 || record.taskStatus == 2 || record.taskStatus == 4}>导出</a>
+            <a href="javascript:;" onClick={() => { this.downloadFn(record) }} disabled={record.taskStatus == 1 || record.taskStatus == 2 || record.taskStatus == 4}>导出</a>
 
           </div>
         ),

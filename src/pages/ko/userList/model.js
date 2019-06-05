@@ -25,6 +25,7 @@ export default {
         const groupSubmit = result.data;
         yield put({ type: 'save', payload: { groupSubmit, visible: false, visible2: true } });
       } else {
+        // yield put({ type: 'save', payload: { visible: false } });
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
