@@ -9,10 +9,11 @@ import delImg from '@/assets/delImg.png';
 class stepSucess extends Component {
   render() {
     const { tipSucess, isDelImg } = this.props;
+    console.log(12, this.props)
     return (
       <div className={styles.wrapSucess}>
         <div className={styles.imgSucess}>
-          <img src={isDelImg === 'true' ? delImg : sucessImg} alt="" />
+          <img src={isDelImg ? delImg : sucessImg} alt="" />
         </div>
         {tipSucess ? <div className={styles.tipSucess}> {tipSucess} </div> : null}
       </div>

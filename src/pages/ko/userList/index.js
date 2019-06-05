@@ -462,15 +462,8 @@ class UserList extends React.Component {
                                                onClose={() => !isShowFiexd ? this.onClose(key, item) : null}>{orgName}</Tag></span>) : null;
   };
   renderTypeTage = (obj, key, color = '#F4F4F4') => (type) => {
-    const { isShowFiexd } = this.state;
-    if (type === 'custorm' && typeof obj === 'object') {
-      return (<span key={obj.name + obj.value}><Tag closable={!isShowFiexd} color={color}
-                                                    onClose={() => !isShowFiexd ? this.onClose(key, obj) : null}>{obj.name}</Tag></span>);
-    }
-    if (obj.value === null || obj.value === undefined) return null;
-    return (<span key={obj.name + obj.value}><Tag closable={!isShowFiexd} color={color}
-                                                  onClose={() => !isShowFiexd ? this.onClose(key, obj) : null}>{obj.name}</Tag></span>);
-  };
+    return obj.name
+  }
 
   checkoutTypeTage = (key, item) => {
     let returnDom = null;
@@ -531,7 +524,7 @@ class UserList extends React.Component {
 
   };
   renderChooseTags = () => {
-    const { params = {} } = this.props.originParams;
+    const params = this.props.originParams.originParams;
     const returnNode = Object.keys(params).map(item => {
       return (params[item] !== null || params[item] !== undefined) && this.checkoutTypeTage(item, params[item]);
     });
@@ -569,13 +562,19 @@ class UserList extends React.Component {
         filterExitParams = this.state.filterExitParams;
       let localtionParams = this.getLocationParams(chooseEventData);
       let newParams = { ...params.formParams, ...pageParams, ...localtionParams, ...filterExitParams };
+      let arr = this.renderChooseTags();
+      let userTag = []
+      arr.map(item => {
+        if (item) {
+          userTag.push(item)
+        }
+      })
       let submitParam = {
         queryParam: newParams,
         userCount: this.state.totalUser,
         groupName: this.state.groupName,
-        userTag: null,
-      };
-      return;
+        userTag: userTag.join(",")
+      }
       this.props.dispatch({
         type: 'userListModel/userGroupSubmit',
         payload: { params: submitParam },

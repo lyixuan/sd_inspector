@@ -13,13 +13,12 @@ import React, { Component } from 'react';
 import { Steps } from 'antd';
 import styles from '../style.less';
 import BIButton from '@/ant_components/BIButton';
+import router from 'umi/router';
 const { Step } = Steps;
 
 class StepLayout extends Component {
   // 下一页
   next() {
-    console.log("next");
-    return;
     const { step1Fetch, step2Fetch, step3Fetch, current, editLoading } = this.props;
     editLoading(true);
     if (current === 0) {
@@ -46,12 +45,12 @@ class StepLayout extends Component {
   }
   // 上一页
   prev() {
-    // const { editCurrent, current, callBackParent, initParamsFn } = this.props;
-    // editCurrent(current - 1);
-    // callBackParent(false);
-    // if (current === 1 && initParamsFn) {
-    //   initParamsFn(null);
-    // }
+    const { editCurrent, current, callBackParent, initParamsFn } = this.props;
+    editCurrent(current - 1);
+    callBackParent(false);
+    if (current === 1 && initParamsFn) {
+      initParamsFn(null);
+    }
   }
 
   // 取消---回到列表页
@@ -61,6 +60,9 @@ class StepLayout extends Component {
   // 确定---回到列表页
   clickOk = () => {
     // this.props.goBack();
+    router.push({
+      pathname: '/ko/userOperation'
+    });
   };
   render() {
     const {
@@ -68,6 +70,7 @@ class StepLayout extends Component {
       baseLayout,
       isDisabled,
       disableDel,
+      isLoading,
       current
     } = this.props;
     const dis = disableDel === null ? isDisabled : disableDel;
@@ -96,6 +99,7 @@ class StepLayout extends Component {
                 <BIButton
                   type="primary"
                   onClick={() => this.next()}
+                  loading={isLoading}
                   disabled={isDisabled}
                 >
                   下一步
