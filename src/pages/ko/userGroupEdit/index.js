@@ -187,7 +187,7 @@ class userGroupEdit extends React.Component {
     ];
     const routerData = { name: "编辑用户组", bread: { name: "用户运营", path: "/ko/userOperation" }, path: "/ko/userGroupAdd" }
     return (
-      <>
+      <div style={{ marginTop: '-28px' }}>
         <PageHead routerData={routerData}></PageHead>
         <div className={styles.userGroup}>
           <div className={styles.headBar}>编辑用户组</div>
@@ -234,7 +234,7 @@ class userGroupEdit extends React.Component {
             </div>
           </BIModal>
         </div>
-      </>
+      </div>
     );
   }
 }
