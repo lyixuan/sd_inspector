@@ -84,6 +84,13 @@
   padding-left: 18px;
   font-weight: bold;
 }
+.resultDotColor{
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+}
 .resultDotColor1:before {
   /*content: '';*/
   /*position: absolute;*/
