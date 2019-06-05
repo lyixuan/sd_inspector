@@ -101,7 +101,6 @@ class AwaitAppeal extends React.Component {
     }
 
     const saveUrlParams =JSON.stringify(params);
-console.log(params)
     // 请求成功后保留查询条件
     this.props.dispatch({
       type: 'awaitAppealModel/getPreAppealList',
@@ -120,10 +119,10 @@ console.log(params)
     });
   };
   onDetail = (record) => {
-    this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_detail');
+    this.onJumpPage({ dimensionId: record.id,dimensionType:record.dimensionType }, '/scoreAppeal/appeal_detail');
   };
   onCreateAppeal = (record) => {
-    this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_create');
+    this.onJumpPage({ dimensionId: record.id,dimensionType:record.dimensionType }, '/scoreAppeal/appeal_create');
   };
   columnsAction = () => {
     const actionObj = [{

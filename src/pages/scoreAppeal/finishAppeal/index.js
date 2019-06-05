@@ -145,7 +145,7 @@ class FinishAppeal extends React.Component {
     });
   };
   onDetail = (record) => {
-    this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_detail');
+    this.onJumpPage({ dimensionId: record.metaDimensionId,dimensionType:record.dimensionType }, '/scoreAppeal/appeal_detail');
   };
   columnsAction = () => {
     const actionObj = [{

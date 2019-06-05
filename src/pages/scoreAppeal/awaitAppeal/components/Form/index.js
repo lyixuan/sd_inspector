@@ -44,7 +44,14 @@ class CSForm extends React.Component {
         creditBeginDate:value[0],
         creditEndDate:value[1],
       });
-    } else {
+    } else if ('stuId' === vname ) {
+      const reg = /^[0-9]*$/;
+      if ((!Number.isNaN(value) && reg.test(value)) || value === '') {
+        this.setState({
+          [vname]:value
+        });
+      }
+    }else {
       this.setState({
         [vname]:value
       });
@@ -81,7 +88,7 @@ class CSForm extends React.Component {
               <Col className={styles.gutterCol}  span={8}>
                 <div className={styles.gutterBox2}>
                   <span className={styles.gutterLabel}>学员ID</span>：
-                  <span className={styles.gutterForm}><BIInput placeholder="请输入" allowClear value={stuId} onChange={(e)=>this.onFormChange(e.target.value,'stuId')}/></span>
+                  <span className={styles.gutterForm}><BIInput placeholder="请输入学院ID(数字类型)" allowClear value={stuId} onChange={(e)=>this.onFormChange(e.target.value,'stuId')}/></span>
                 </div>
               </Col>
               <Col className={styles.gutterCol}  span={8}>

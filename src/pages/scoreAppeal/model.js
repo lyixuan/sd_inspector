@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import {
-  getOrgMapList,creditDimensionList
+  getOrgMapList,creditDimensionList,getAppealInfoCheckList,
+  getBaseAppealInfo,
 } from '@/pages/scoreAppeal/services';
 import { msgF } from '@/utils/utils';
 
@@ -33,6 +34,8 @@ export default {
   state: {
     orgList: [], // 保存组织原始结构
     orgListTreeData: [], // 保存组织处理成treeData需要的结构
+    detailInfo:{},  // 详情
+    appealRecord:{},  // 审核记录
     dimensionList: [
       {id:12,name:'开班电话',parentId:11},
       {id:17,name:'IM不及时',parentId:14},
@@ -52,6 +55,7 @@ export default {
   },
 
   effects: {
+    // 组织列表
     *getOrgMapList({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(getOrgMapList, params);
@@ -63,6 +67,29 @@ export default {
         message.error(msgF(result.msg,result.msgDetail));
       }
     },
+    // 获取申诉基础详情
+    *queryBaseAppealInfo({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getBaseAppealInfo, params);
+      if (result.code === 20000) {
+        const detailInfo = result.data || [];
+        yield put({ type: 'save', payload: { detailInfo } });
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    // 获取审核记录详情
+    *queryAppealInfoCheckList({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getAppealInfoCheckList, params);
+      if (result.code === 20000) {
+        const appealRecord = result.data || [];
+        yield put({ type: 'save', payload: { appealRecord } });
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    // 申诉学分维度
     *getCreditDimensionList({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(creditDimensionList, params);

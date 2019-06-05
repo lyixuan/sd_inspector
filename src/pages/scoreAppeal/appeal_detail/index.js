@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './style.less';
 import { connect } from 'dva';
+import { Spin } from 'antd';
 import ScorePersonInfo from '../components/scorePersonInfo';
 import ScoreBasicInfo from '../components/scoreBasicInfo';
 import SubOrderDetail from '../components/subOrderDetail';
@@ -12,6 +13,10 @@ import BIButton from '@/ant_components/BIButton';
 import imgUp from '@/assets/scoreQuality/up.png';
 import imgdown from '@/assets/scoreQuality/down.png';
 
+@connect(({ scoreAppealModel,loading }) => ({
+  scoreAppealModel,
+  loading: loading.effects['scoreAppealModel/queryBaseAppealInfo'],
+}))
 class AppealCheck extends React.Component {
   constructor(props) {
     super(props);
@@ -20,8 +25,12 @@ class AppealCheck extends React.Component {
       collapse2: true,
     };
   }
-
   componentDidMount() {
+    console.log(this.props)
+    this.props.dispatch({
+      type: 'scoreAppealModel/queryBaseAppealInfo',
+      payload: { params: {} },
+    });
   }
 
   handleCollapse=(type)=> {
@@ -38,7 +47,9 @@ class AppealCheck extends React.Component {
 
   render() {
     const {collapse1,collapse2} = this.state;
+    const {loading}=this.props;
     return (
+      <Spin spinning={loading}>
       <div className={styles.appealContainer}>
         {/* 学分归属人信息 */}
         <ScorePersonInfo/>
@@ -82,6 +93,7 @@ class AppealCheck extends React.Component {
           <BIButton onClick={() => router.goBack()}>返回</BIButton>
         </footer>
       </div>
+      </Spin>
     );
   }
 }
