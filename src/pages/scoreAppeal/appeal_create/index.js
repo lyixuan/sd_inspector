@@ -13,6 +13,10 @@ import BIButton from '@/ant_components/BIButton';
 import imgUp from '@/assets/scoreQuality/up.png';
 import imgdown from '@/assets/scoreQuality/down.png';
 
+@connect(({ uploadFileCreat }) => ({
+  uploadFileCreat
+}))
+
 class AppealCreate extends React.Component {
   constructor(props) {
     super(props);
@@ -20,14 +24,21 @@ class AppealCreate extends React.Component {
       collapse1: true,
       collapse2: true,
       appealInfoCollapse: [],
-      newId: 1 };
+      newId: 1,
+    };
   }
 
-  componentDidMount() {
-  }
+  getFileList = (file) => {
+    let formData = new FormData();
+    formData.append("file", file);
+    this.props.dispatch({
+      type: 'uploadFile/queryuploadMultipleFile',
+      payload: { file },
+    })
+  };
 
-  handleCollapse=(type)=> {
-    if (type === 1){
+  handleCollapse = (type) => {
+    if (type === 1) {
       this.setState({
         collapse1: !this.state.collapse1
       });
@@ -37,54 +48,55 @@ class AppealCreate extends React.Component {
       });
     }
   }
-
   render() {
-    const {collapse1,collapse2} = this.state;
+
+    const { collapse1, collapse2 } = this.state;
     return (
       <div className={styles.appealContainer}>
         {/* 学分归属人信息 */}
-        <ScorePersonInfo/>
-        <div className={styles.spaceLine}/>
+        <ScorePersonInfo />
+        <div className={styles.spaceLine} />
         {/* 子订单详情 */}
-        <SubOrderDetail/>
-        <div className={styles.spaceLine}/>
+        <SubOrderDetail />
+        <div className={styles.spaceLine} />
         {/* 申诉基础信息 */}
-        <ScoreBasicInfo/>
-        <div className={styles.spaceLine}/>
+        <ScoreBasicInfo />
+        <div className={styles.spaceLine} />
         <div>
           <div className={styles.foldBox}>
             <span >一次申诉</span>
-            <span onClick={()=>this.handleCollapse(1)}><img src={collapse1?imgdown:imgUp} width='18' height='18'/></span>
+            <span onClick={() => this.handleCollapse(1)}><img src={collapse1 ? imgdown : imgUp} width='18' height='18' /></span>
+
           </div>
-          <div className={styles.spaceLine}/>
+          <div className={styles.spaceLine} />
           {/* 申诉内容 */}
-          {collapse1&&(
-            <div style={{paddingLeft:'15px'}}>
-              <CreateAppeal/>
-              <CreateAppeaRecord/>
+          {collapse1 && (
+            <div style={{ paddingLeft: '15px' }}>
+              <CreateAppeal {...this.props} getFileList={this.getFileList} />
+              <CreateAppeaRecord />
               <FirstCheckResult />
               <SecondCheckResult />
-              <div className={styles.spaceLine}/>
+              <div className={styles.spaceLine} />
             </div>
           )}
         </div>
         <div>
           <div className={styles.foldBox}>
             <span >二次申诉</span>
-            <span onClick={()=>this.handleCollapse(2)}><img src={collapse2?imgdown:imgUp} width='18' height='18'/></span>
+            <span onClick={() => this.handleCollapse(2)}><img src={collapse2 ? imgdown : imgUp} width='18' height='18' /></span>
           </div>
           {/* 申诉内容 */}
-          {collapse2&&(
-            <div style={{paddingLeft:'15px'}}>
-              <CreateAppeal/>
-              <CreateAppeaRecord/>
+          {collapse2 && (
+            <div style={{ paddingLeft: '15px' }}>
+              <CreateAppeal getFileList={this.getFileList} />
+              <CreateAppeaRecord />
               <FirstCheckResult />
               <SecondCheckResult />
             </div>
           )}
         </div>
         <footer style={{ textAlign: 'right', marginTop: '20px' }}>
-          <BIButton onClick={() => router.goBack()} style={{marginRight:'15px'}}>返回</BIButton>
+          <BIButton onClick={() => router.goBack()} style={{ marginRight: '15px' }}>返回</BIButton>
           <BIButton type='primary' onClick={() => router.goBack()}>提交申诉</BIButton>
         </footer>
       </div>

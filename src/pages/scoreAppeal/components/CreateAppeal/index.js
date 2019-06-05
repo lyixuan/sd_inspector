@@ -1,19 +1,35 @@
 import React from 'react';
 import moment from 'moment';
 import BIInput from '@/ant_components/BIInput/index';
-import UploadImgs from '../uploadImgs';
 import styles from './styles.css';
 import BISelect from '@/ant_components/BISelect/index';
+import UploadImg from '../uploadImgs';
+
 const { Option } = BISelect;
 
 class createAppeal extends React.Component {
   constructor(props) {
     super(props);
+    console.log(this.props, 'CreateAppeal');
     this.state = {
       appealEndDate: null,
       checkResult: null,
       desc: null,
       isWarn: null,
+      fileList: [
+        {
+          uid: '-1',
+          name: 'xxx.png',
+          status: 'done',
+          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        },
+        {
+          uid: '-2',
+          name: 'xxx.png',
+          status: 'done',
+          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        },
+      ]
     };
   }
   onChangeCheckBox = e => {
@@ -84,29 +100,38 @@ class createAppeal extends React.Component {
       }
     );
   };
+  UploadImg = (fileList) => {
+    this.props.getFileList(fileList);
+  };
+
   render() {
     const { checkResult } = this.state;
-    const { hideDate, showWarn, formType,creditType } = this.props;
+    const { hideDate, showWarn, formType, creditType } = this.props;
     return (
       <section className={styles.personInfoCon}>
         <div className={styles.container}>
           <div className={styles.secRow} >
-            <span style={{ width: 90 }}>&nbsp;申诉证据：</span>
-            <UploadImgs  type="edit" />
+            <span style={{ width: 90 }}>&nbsp;申诉证据111：</span>
+            {/* <UploadImgs type="edit" /> */}
+            <UploadImg
+              {...this.props}
+              UploadImg={this.UploadImg}
+              fileList={this.state.fileList}>
+            </UploadImg>
             <a style={{ width: 100 }}>查看证据样例</a>
           </div>
-          <div style={{marginTop:'15px'}}></div>
-          <div  className={styles.secRow}>
-            <span style={{ width: 90,marginRight:'-8px',lineHeight:'30px' }}>*申诉维度：</span>
-            <BISelect style={{width:230}} placeholder="请选择" value={creditType} onChange={(val)=>this.onFormChange(val,'creditType')}>
+          <div style={{ marginTop: '15px' }}></div>
+          <div className={styles.secRow}>
+            <span style={{ width: 90, marginRight: '-8px', lineHeight: '30px' }}>*申诉维度：</span>
+            <BISelect style={{ width: 230 }} placeholder="请选择" value={creditType} onChange={(val) => this.onFormChange(val, 'creditType')}>
               <Option key={1}>退费</Option>
               <Option key={2}>退挽</Option>
             </BISelect>
           </div>
-          <div style={{marginTop:'15px'}}></div>
-          <div  className={styles.secRow}>
+          <div style={{ marginTop: '15px' }}></div>
+          <div className={styles.secRow}>
             <span style={{ width: 90 }}>*申诉说明：</span>
-            <BIInput.TextArea  maxLength={500} onChange={this.onChangeInput} rows={4} />
+            <BIInput.TextArea maxLength={500} onChange={this.onChangeInput} rows={4} />
           </div>
         </div>
       </section>

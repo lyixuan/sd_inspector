@@ -1,0 +1,57 @@
+.uploadImgWrap {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.uploadImg {
+  float: left;
+  background: yellow;
+  max-width: 384px;
+  margin-left: 10px;
+  /* display: inline-block; */
+}
+.listContent {
+  max-width: 384px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ant-upload-list-picture .ant-upload-list-item,
+.ant-upload-list-picture-card .ant-upload-list-item {
+  padding: 0 !important;
+}
+.uploadImgWrap :global(.ant-upload-list-item) {
+  width: 120px;
+  height: 80px;
+  float: left;
+  padding: 0 !important;
+}
+
+.uploadImgWrap :global(.ant-upload.ant-upload-select-picture-card) {
+  width: 120px;
+  height: 80px;
+  display: '' !important;
+}
+
+.uploadImgWrap :global(.ant-upload-list-item-done) {
+  float: left;
+}
+
+.uploadImgWrap :global(.ant-upload.ant-upload-select-picture-card > .ant-upload) {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+.uploadImgWrap :global(.uploadImg > .ant-upload-list-item) {
+  float: left;
+}
+
+.uploadImgWrap :global(.ant-upload-list-item-uploading-text) {
+  margin-left: 20px;
+  margin-top: 25px;
+}
+.uploadImgWrap :global(.ant-upload-list-item-progress) {
+  bottom: 18px;
+  padding-left: 19px;
+}
