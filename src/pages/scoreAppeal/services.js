@@ -20,3 +20,8 @@ export async function getAppealInfoCheckList(params) {
   return request('/creditAppeal/getAppealInfoCheckList', { params });
 }
 
+// 导出
+export async function exportExcel(data) {
+  return request('/creditAppeal/exportExcel', { method: 'post', data });
+}
+

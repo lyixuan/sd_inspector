@@ -4,7 +4,6 @@ import { connect } from 'dva';
 import ScorePersonInfo from '../components/scorePersonInfo';
 import ScoreBasicInfo from '../components/scoreBasicInfo';
 import SubOrderDetail from '../components/subOrderDetail';
-import CreateAppeal from '../components/CreateAppeal';
 import FirstCheckResult from '../components/FirstCheckResult';
 import SecondCheckResult from '../components/SecondCheckResult';
 import CreateAppeaRecord from '../components/CreateAppeaRecord';
@@ -19,8 +18,7 @@ class AppealCheck extends React.Component {
     this.state = {
       collapse1: true,
       collapse2: true,
-      appealInfoCollapse: [],
-      newId: 1 };
+    };
   }
 
   componentDidMount() {
@@ -81,8 +79,7 @@ class AppealCheck extends React.Component {
           )}
         </div>
         <footer style={{ textAlign: 'right', marginTop: '20px' }}>
-          <BIButton onClick={() => router.goBack()} style={{marginRight:'15px'}}>返回</BIButton>
-          <BIButton type='primary' onClick={() => router.goBack()}>提交申诉</BIButton>
+          <BIButton onClick={() => router.goBack()}>返回</BIButton>
         </footer>
       </div>
     );

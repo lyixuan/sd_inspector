@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { msgF } from '@/utils/utils';
-import { getBaseAppealInfo,getAppealInfoCheckList } from '@/pages/scoreAppeal/services';
+import { getBaseAppealInfo,getAppealInfoCheckList,exportExcel } from '@/pages/scoreAppeal/services';
 import { queryOnAppealList,getMasterTagList,startAppeal,sopCheck,masterCheck,cancelAppeal } from '@/pages/scoreAppeal/onAppeal/services';
 export default {
   namespace: 'onAppealModel',
@@ -82,6 +82,14 @@ export default {
     *cancelAppeal({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(cancelAppeal, params);
+      if (result.code === 20000) {
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    *exportExcel({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(exportExcel, params);
       if (result.code === 20000) {
       } else {
         message.error(msgF(result.msg,result.msgDetail));

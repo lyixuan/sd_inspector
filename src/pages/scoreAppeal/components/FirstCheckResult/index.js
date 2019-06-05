@@ -12,14 +12,9 @@ export default class SOPCheckResultComponent extends React.Component {
     };
   }
   componentDidMount() {}
-  getDivideLine(index) {
-    if (this.props.data.sopAppealCheck.length == index + 1) {
-      return <></>;
-    }
-    return <div className={styles.divideLine} />;
-  }
   render() {
-    // let { sopAppealCheck, isCollapse } = this.props.data;
+    const { sopAppealCheck={} } = this.props;
+    const { checkResult,operator, operateDate,operateRole,desc} = sopAppealCheck;
     return (
       <section className={styles.showPanel}>
         <div className={styles.personInfoCon}>
@@ -28,18 +23,21 @@ export default class SOPCheckResultComponent extends React.Component {
             <div>
               <Row className={styles.container}>
                 <Col span={12}>
-                  <div className={styles.resultDotColor1}>审核结果：</div>
+                  <div className={styles.resultDotColor1}>审核结果：{checkResult}</div>
                 </Col>
                 <Col span={4}>
-                  <span>执行人：</span>
+                  <span>执行人：{operator}</span>
                 </Col>
-                <Col span={8}>
-                  <span>操作时间：</span>
+                <Col span={4}>
+                  <span>执行人角色：{operateRole}</span>
+                </Col>
+                <Col span={4}>
+                  <span>操作时间：{operateDate}</span>
                 </Col>
               </Row>
               <Row className={styles.container}>
-                <Col span={12}>
-                  <div>审核说明：</div>
+                <Col span={24}>
+                  <div>审核说明：{desc}</div>
                 </Col>
               </Row>
             </div>
