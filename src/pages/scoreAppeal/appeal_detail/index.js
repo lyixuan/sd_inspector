@@ -26,10 +26,10 @@ class AppealCheck extends React.Component {
     };
   }
   componentDidMount() {
-    console.log(this.props)
+    const {params={}} = this.props.location.query;
     this.props.dispatch({
       type: 'scoreAppealModel/queryBaseAppealInfo',
-      payload: { params: {} },
+      payload: { params },
     });
   }
 

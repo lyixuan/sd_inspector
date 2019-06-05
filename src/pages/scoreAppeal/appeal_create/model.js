@@ -6,7 +6,7 @@ import {
 } from './servers';
 
 export default {
-  namespace: 'uploadFileCreat',
+  namespace: 'appealCreateModel',
 
   state: {
     lunchData: null

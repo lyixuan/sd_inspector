@@ -13,8 +13,8 @@ import BIButton from '@/ant_components/BIButton';
 import imgUp from '@/assets/scoreQuality/up.png';
 import imgdown from '@/assets/scoreQuality/down.png';
 
-@connect(({ uploadFileCreat }) => ({
-  uploadFileCreat
+@connect(({ appealCreateModel }) => ({
+  appealCreateModel
 }))
 
 class AppealCreate extends React.Component {
