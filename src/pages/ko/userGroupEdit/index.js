@@ -19,7 +19,6 @@ class userOperation extends React.Component {
   }
   // 回调
   onChildChange = (bol, checkParams) => {
-    console.log(22, bol, checkParams)
     if (bol) {
       this.setState({
         isDisabled: bol
@@ -33,7 +32,6 @@ class userOperation extends React.Component {
 
 
   render() {
-    console.log(36)
     const { isDisabled } = this.state;
     const current = 0
     const notice = <div>

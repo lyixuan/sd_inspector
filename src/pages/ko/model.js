@@ -18,10 +18,11 @@ export default {
     originParams: {},
     pageParams: {},
     KOMessage: {},
-    pageDetailInfo: [],
+    // pageDetailInfo: [],
     usersData: {},
     chooseEventData: [],
-    userGroupListData: [{value:1, name:'p'}],
+    userGroupListData: [],
+    pageDetailTotal: {},
   },
 
   effects: {
@@ -91,20 +92,19 @@ export default {
     *getPageList({ payload }, { call, put, select }) {
       // const pageParams = yield select(state => state.koPlan.pageDetailInfo);
       // if (pageParams.length > 0) return;
+      const { belongApp } = payload;
+      const pageParams = (yield select(state => state.koPlan.pageDetailTotal))[belongApp];
+      if (pageParams && pageParams.length > 0) {
+        yield put({ type: 'getPageInit', payload: pageParams});
+        return;
+      };
       const response = yield call(getPageDetailInfoList, payload);
       if (response.code === 20000) {
         const pageDetailInfo = response.data || [];
+        yield put({ type: 'getPageInit', payload: pageDetailInfo});
         yield put({
-          type: 'save',
-          payload: { pageDetailInfo },
-        });
-        let pageVale = {page: ''};
-        if (pageDetailInfo.length > 0) {
-          pageVale = pageDetailInfo[0];
-        }
-        yield put({
-          type: 'saveTabFromParamsPage',
-          payload: { page: { value: pageVale.page, actionValue: pageVale.page } },
+          type: 'savePageDetailTotal',
+          payload: { [belongApp]: pageDetailInfo },
         });
       } else {
         message.error(response.msg);
@@ -115,15 +115,26 @@ export default {
       const userGroup = yield select(state => state.koPlan.userGroupListData);
       if (userGroup && userGroup.length > 0) return;
       const response = yield call(getUserGroupList);
-      if (response.code === 20000) {
-        const groupList = response.data.list.forEach(item => {
-          return { value: item.id, name: item.groupName}
+      if (response && response.code === 20000 && response.data) {
+        const groupList = response.data.forEach(item => {
+          return { id: item.id, groupName: item.groupName}
         });
         yield put({
           type: 'save',
           payload: { userGroupListData: groupList }
         });
       }
+    },
+    *getPageInit({ payload }, { call, put,}) {
+      const pageDetailInfo = payload;
+      let pageVale = { page: '' };
+      if (pageDetailInfo.length > 0) {
+        pageVale = pageDetailInfo[0];
+      }
+      yield put({
+        type: 'saveTabFromParamsPage',
+        payload: { page: { value: pageVale.page, actionValue: pageVale.page } },
+      });
     }
   },
 
@@ -154,6 +165,9 @@ export default {
     },
     saveTabFromParamsPage(state, { payload }) {
       return { ...state, tabFromParams: { ...state.tabFromParams, ...payload} };
+    },
+    savePageDetailTotal(state, { payload }) {
+      return { ...state, pageDetailTotal: { ...state.pageDetailTotal, ...payload} };
     },
   },
   subscriptions: {},

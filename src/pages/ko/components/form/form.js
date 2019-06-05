@@ -32,9 +32,7 @@ class CommonForm extends React.Component {
       if (this.props.onSubmit) {
         const { payOrder, orderMoney, koOrderGap, frontBelong, backBelong, ...others } = values;
         const newParams = expand ? { ...values } : { ...others };
-        console.log(35, newParams)
         this.props.onSubmit(newParams)
-        console.log(37);
 
       }
     });
@@ -190,7 +188,7 @@ class CommonForm extends React.Component {
                     initialValue: params.userGroup,
                   })(
                     <BISelect placeholder="请选择" allowClear>
-                      {userGroupListData.map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                      {userGroupListData.map(item => <Option  key={item.id} value={item.id} title={item.groupName}>{item.groupName}</Option>)}
                     </BISelect>
                   )}
                 </Form.Item>
@@ -391,7 +389,7 @@ class CommonForm extends React.Component {
                           {getFieldDecorator('orderStatus', {
                             initialValue: params.orderStatus,
                           })(
-                            <BISelect placeholder="请选择" allowClear>
+                            <BISelect placeholder="请选择" allowClear disabled={this.checkoutHasPayOrder()}>
                               {this.filterEnumData(11).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                             </BISelect>
                           )}
@@ -466,7 +464,6 @@ function onFieldsChange(props, fields) {
       const { value } = fields[item];
       params[item] = value
     })
-    console.log(435, params)
     props.onChange(params);
   }
 

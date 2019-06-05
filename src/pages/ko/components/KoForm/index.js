@@ -22,6 +22,7 @@ export default class KoForm extends React.Component {
       belongApp: undefined,
     }
     this.state = { tabFromParams, pageDatils: [] };
+    this.filterEnumData = memoizeOne(data => this.chooseEnumData(data));
   }
   componentDidMount() {
     const { originParams } = this.props;
@@ -39,10 +40,10 @@ export default class KoForm extends React.Component {
       tabFromParams: newTabFromParams
     });
   }
-  handlePageDetail = memoizeOne((page, pageDetailInfo = this.props.pageDetailInfo) => {
-    const detailObj = pageDetailInfo.find(item => item.page === page) || {};
-    return detailObj.children || [];
-  })
+  // handlePageDetail = memoizeOne((page, pageDetailInfo = this.props.pageDetailInfo) => {
+  //   const detailObj = pageDetailInfo.find(item => item.page === page) || {};
+  //   return detailObj.children || [];
+  // })
   changeDate = (recordTimeList) => {
     if (this.props.onChange) {
       const newDateTime = recordTimeList.length > 0 ? handleDateParams(recordTimeList) : undefined;
@@ -112,15 +113,19 @@ export default class KoForm extends React.Component {
     const [beginTime, endTime] = recordTimeList;
     return [moment(endTime).subtract(1,'months'), moment(endTime)]
   }
-  renderPagaData = () => {
-    const { pageDetailInfo = [] } = this.props;
-    return pageDetailInfo;
+  renderPagaData = (type) => {
+    const { pageDetailTotal = {} } = this.props;
+    return pageDetailTotal[type] || [];
+  }
+  chooseEnumData = (data) => {
+    let returnData = [];
+    returnData = Array.isArray(data) ? data : [];
+    return returnData;
   }
   render() {
     const { tabFromParams } = this.state;
-    const pageDetails = this.handlePageDetail(tabFromParams.page.value);
-    const { loading } = this.props;
-
+    // const pageDetails = this.handlePageDetail(tabFromParams.page.value);
+    const { loading, enumData } = this.props;
     return (
       <div className={`${styles.searchBlock} ${formStyles.formStyle}`}>
         {/*第一行*/}
@@ -143,8 +148,8 @@ export default class KoForm extends React.Component {
             <span className={styles.gutterLabel}>选择应用：</span>
             <span className={styles.gutterForm}>
               <BISelect style={{ width: '70%', minWidth: '140px' }} placeholder="请选择" value={tabFromParams.belongApp} onChange={(val) => this.onChangeApp(val)}>
-                {BiFilter('APP_LIST').map(item => (
-                  <Option key={item.id}>
+                {this.filterEnumData(enumData[2]).map(item => (
+                  <Option key={item.value}>
                     {item.name}
                   </Option>
                 ))}
@@ -155,7 +160,7 @@ export default class KoForm extends React.Component {
             <span className={styles.gutterLabel}>选择页面：</span>
             <span className={styles.gutterForm}>
               <BISelect style={{ width: '70%', minWidth: '140px' }} placeholder="请选择" value={tabFromParams.page.value} onSelect={this.onSelectPage}>
-                {this.renderPagaData().map(item => (
+                {this.renderPagaData(tabFromParams.belongApp).map(item => (
                   <Option key={item.page} id={item.page}>
                     {item.pageName}
                   </Option>

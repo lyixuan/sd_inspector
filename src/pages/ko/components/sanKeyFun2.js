@@ -253,7 +253,6 @@ function delP2Node(downPage1, downPage2) {
           if (v4.id === v1.source) {
             ff = 2;
             downPage2.node.splice(i, 1);
-            console.log(v1.source)
             delP2Node(downPage1, downPage2);
             downPage2.links.forEach((v5, j) => {
               if (v1.source === v5.source) {

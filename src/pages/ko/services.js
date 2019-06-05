@@ -22,8 +22,8 @@ export async function getBarData(params) {
   return request('/homePage/userList', { params });
 }
 
-// 用户组列表
+// 用户组全部数据列表
 export async function getUserGroupList(params) {
-  return request('http://172.16.109.173:8085/userGroup/list', { method: 'get', params, prefix: null });
+  return request('http://172.16.109.173:8085/userGroup/listAll', { method: 'get', params, prefix: null });
 }
 

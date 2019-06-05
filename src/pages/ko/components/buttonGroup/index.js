@@ -108,7 +108,7 @@ export default class ButtonGroup extends React.Component {
                 returnDom = item ? this.renderTypeTage(item, 'orderMoney')('custorm') : null
                 break;
             case 'userGroup':
-                returnDom = item ? this.renderTypeTage(item, 'userGroup')('custorm') : null
+                returnDom = item ? this.renderTypeTage({ value: item.value, name: item.name.substring(0,20)}, 'userGroup')('custorm') : null
                 break;
             case 'orderStatus':
                 returnDom = item ? this.renderTypeTage(item, 'orderStatus')('custorm') : null
@@ -131,7 +131,6 @@ export default class ButtonGroup extends React.Component {
     }
     renderChooseTags = () => {
         const { params = {} } = this.props;
-        console.log(128, this.props.params)
         const returnNode = Object.keys(params).map(item => {
             return (params[item] !== null || params[item] !== undefined) && this.checkoutTypeTage(item, params[item]);
         });

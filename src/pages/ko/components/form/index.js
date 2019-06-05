@@ -22,7 +22,7 @@ class CommonForm extends React.Component {
     }
     handleCustomValue = (obj) => (formula = 1) => {
         const { value, minValue, maxValue } = obj;
-        const returnObj = { value, minValue, maxValue };;
+        const returnObj = { value, minValue, maxValue };
         Object.keys(returnObj).forEach(item => {
             const ls = returnObj[item];
             returnObj[item] = !ls ? ls : Number(ls) * formula;
@@ -145,11 +145,7 @@ class CommonForm extends React.Component {
     }
     onSubmit = (params) => {
         const newParams = { ...this.state.params, ...params };
-        console.log(140, newParams);
-
         const hasHandleParams = this.handleSubmitParams(newParams);
-        console.log(144,hasHandleParams);
-        
         this.onSaveParams(newParams);
         if (this.props.onSubmit) {
             this.props.onSubmit(hasHandleParams, newParams);

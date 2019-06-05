@@ -16,7 +16,7 @@ import EventGroup from './components/eventGroup';
   tabFromParams: koPlan.tabFromParams,
   enumData: koPlan.enumData,
   KOMessage: koPlan.KOMessage,
-  pageDetailInfo: koPlan.pageDetailInfo,
+  pageDetailTotal: koPlan.pageDetailTotal,
   usersData: koPlan.usersData,
   chooseEventData: koPlan.chooseEventData,
   isLoadEnumData: loading.effects['koPlan/pageParams'],
@@ -78,7 +78,7 @@ class koPlan extends React.Component {
   }
   onSaveTabFromParams = (params, KoDateRange = this.props.pageParams.KoDateRange) => {
     this.handleDateParams(params.formParams, KoDateRange);
-    console.log(75, params);
+
 
     const recordTimeList = this.handleRecordTime(params, KoDateRange);
     this.clearChooseEvent();
@@ -134,10 +134,6 @@ class koPlan extends React.Component {
   }
   onSubmit = (params, originParams) => {
     const tabFromParams = JSON.parse(JSON.stringify(this.props.tabFromParams));
-    console.log(129, tabFromParams);
-    console.log(130, originParams);
-
-
     const { formParams } = tabFromParams;
     tabFromParams.formParams = { ...formParams, ...params };
     this.onSaveTabFromParams(tabFromParams)
@@ -158,7 +154,7 @@ class koPlan extends React.Component {
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
-        {(pathname === '/ko/behaviorPath') || (pathname === '/ko/userOperation') || (pathname === '/ko/userGroupAdd') || (pathname === '/ko/userGroupEdit') ? null : <> <div className={styles.commonBox}>
+        {(pathname === '/ko/dailyReport') || (pathname === '/ko/behaviorPath') || (pathname === '/ko/userOperation') || (pathname === '/ko/userGroupAdd') || (pathname === '/ko/userGroupEdit') ? null : <> <div className={styles.commonBox}>
           <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} usersData={this.props.usersData} pageParams={pageParams} loading={isLoadEnumData} userGroupListData={this.props.userGroupListData}/>
         </div>
           <div className={styles.tabBox}>
