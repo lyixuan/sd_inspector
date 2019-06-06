@@ -24,7 +24,7 @@ class createAppeal extends React.Component {
     };
   }
   UploadImg = (fileList) => {
-    this.props.getFileList(fileList);
+    console.log(fileList,'fileList');
   };
   onFormChange = (value,vname)=>{
     this.setState({
