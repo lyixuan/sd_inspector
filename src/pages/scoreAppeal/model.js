@@ -1,9 +1,9 @@
 import { message } from 'antd';
 import {
   getOrgMapList,creditDimensionList,getAppealInfoCheckList,
-  getBaseAppealInfo,
+  getBaseAppealInfo,exportExcel
 } from '@/pages/scoreAppeal/services';
-import { msgF,BiFilter } from '@/utils/utils';
+import { msgF, BiFilter, downBlob } from '@/utils/utils';
 
 export default {
   namespace: 'scoreAppealModel',
@@ -49,6 +49,21 @@ export default {
       if (result.code === 20000) {
         const appealRecord = result.data || {};
         yield put({ type: 'save', payload: { appealRecord } });
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    // 导出
+    *exportExcel({ payload }, { call }) {
+      const params = payload.params;
+      const result = yield call(exportExcel, params);
+      if (result) {
+        const { headers } = result.response || {};
+        const filename = headers.get('content-disposition') || '';
+        const numName = filename.split('filename=')[1]; // 带后缀的文件名
+        const numName2 = numName.split('.')[0];   // 纯文件名
+        downBlob(result.data, `${eval("'"+numName2+"'")}.xlsx`);
+        message.success('导出成功');
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }

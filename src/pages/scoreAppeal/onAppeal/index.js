@@ -7,6 +7,10 @@ import router from 'umi/router';
 import style from './style.less'
 import AuthButton from '@/components/AuthButton/index';
 import CSForm from '@/pages/scoreAppeal/components/Form';
+import BIModal from '@/ant_components/BIModal';
+import {dealQuarys} from '@/utils/utils';
+import { queryOnAppealList } from '@/pages/scoreAppeal/onAppeal/services';
+const confirm = BIModal.confirm;
 
 const columns = [
   {
@@ -45,48 +49,12 @@ const columns = [
     dataIndex: 'status',
   },
 ];
-function dealQuarys(pm) {
-  const p = DeepCopy(pm);
-  if (p.collegeIdList && p.collegeIdList.length > 0) {
-    p.collegeIdList = p.collegeIdList.map((v) => {
-      return Number(v.replace('a-', ''));
-    })
-  } else {
-    p.collegeIdList = undefined;
-  }
-  if (p.familyIdList && p.familyIdList.length > 0) {
-    p.familyIdList = p.familyIdList.map((v) => {
-      return Number(v.replace('b-', ''));
-    })
-  } else {
-    p.familyIdList = undefined;
-  }
-  if (p.groupIdList && p.groupIdList.length > 0) {
-    p.groupIdList = p.groupIdList.map((v) => {
-      return Number(v.replace('c-', ''));
-    })
-  } else {
-    p.groupIdList = undefined;
-  }
-  if (!p.creditBeginDate||!p.creditEndDate) {
-    p.creditBeginDate = undefined
-    p.creditEndDate = undefined
-  }
-  if (!p.appealBeginDate||!p.appealBeginDate) {
-    p.appealBeginDate = undefined
-    p.appealEndDate = undefined
-  }
-  if (p.creditType) {
-    p.creditType = parseInt(p.creditType);
-  } else {
-    p.creditType = undefined
-  }
-  return p;
-};
+
 
 @connect(({ scoreAppealModel,onAppealModel,loading }) => ({
   scoreAppealModel,onAppealModel,
-  loading: loading.effects['onAppealModel/getOnAppealList'],
+  loading: loading.effects['onAppealModel/queryOnAppealList'],
+  exportLoading: loading.effects['onAppealModel/exportExcel'],
 }))
 class OnAppeal extends React.Component {
   constructor(props) {
@@ -105,10 +73,13 @@ class OnAppeal extends React.Component {
 
   queryData = (dimensionType, pm, pg, exp) => {
     let params = this.state;
+    let paramsUrl = this.state;
     if(pm){
+      paramsUrl = { ...this.state, ...pm };
       params = { ...this.state, ...dealQuarys(pm) };
     }
     if (pg) {
+      paramsUrl = { ...paramsUrl, ...pg };
       params = { ...params, ...pg };
       this.setState({
         page: pg.page
@@ -116,19 +87,20 @@ class OnAppeal extends React.Component {
     }
 
     if (dimensionType) {
+      paramsUrl = { ...paramsUrl, ...{dimensionType} };
       params = { ...params, ...{dimensionType} };
       this.setState({
         dimensionType
       });
     }
 
-    const saveUrlParams =JSON.stringify(params);
+    const saveUrlParams =JSON.stringify(paramsUrl);
 
-    console.log('params',params)
     // 请求成功后保留查询条件
+    const that = this;
     if (!exp){
       this.props.dispatch({
-        type: 'onAppealModel/getOnAppealList',
+        type: 'onAppealModel/queryOnAppealList',
         payload: { params },
       }).then(() => {
         router.replace({
@@ -137,9 +109,13 @@ class OnAppeal extends React.Component {
         })
       });
     } else {
-
+      this.props.dispatch({
+        type: 'onAppealModel/exportExcel',
+        payload: { params },
+      }).then(() => {
+        that.componentDidMount()
+      });
     }
-
   };
   onJumpPage = (query, pathname) => {
     router.push({
@@ -149,15 +125,32 @@ class OnAppeal extends React.Component {
   };
   onDetail = (record) => {
     const {dimensionType} = this.state;
-    this.onJumpPage({ dimensionId: record.metaDimensionId,dimensionType }, '/scoreAppeal/appeal_detail');
+    this.onJumpPage({ dimensionId: record.metaDimensionId,dimensionType,isAwait:false }, '/scoreAppeal/appeal_detail');
   };
   onCreateAppeal = (record) => {
-    this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_create');
+    const {dimensionType} = this.state;
+    this.onJumpPage({ dimensionId: record.metaDimensionId,dimensionType,isAwait:false,creditType:record.creditType }, '/scoreAppeal/appeal_create');
   };
   onAppeal = (record) => {
-    this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_check');
+    const {dimensionType} = this.state;
+    this.onJumpPage({ id:record.id,dimensionId: record.metaDimensionId,dimensionType,isAwait:false,creditType:record.creditType }, '/scoreAppeal/appeal_check');
   };
   onRepeal = (record) => {
+    const that = this;
+    confirm({
+      className: 'BIConfirm',
+      title: '是否撤销当前数据状态?',
+      cancelText: '取消',
+      okText: '确定',
+      onOk() {
+        that.props.dispatch({
+          type: 'onAppealModel/cancelAppeal',
+          payload: { params: { id: record.id } },
+        }).then(() => {
+          that.componentDidMount()
+        });
+      },
+    });
   };
   columnsAction = () => {
     const actionObj = [{

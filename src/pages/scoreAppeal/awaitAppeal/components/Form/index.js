@@ -68,7 +68,7 @@ class CSForm extends React.Component {
   };
   render() {
     // dimensionType:  11 优新 14 IM 19 工单 23 底线 42 创收
-    const {scoreAppealModel={}, dimensionType = 11} = this.props;
+    const {scoreAppealModel={}, dimensionType = 11,loading} = this.props;
     const {dimensionList=[]} = scoreAppealModel;
     const dimensionList2 = dimensionList.filter((v)=>v.parentId===dimensionType&&v.id!==47);
     const {creditBeginDate,creditEndDate,stuId,stuName,creditType} = this.state;

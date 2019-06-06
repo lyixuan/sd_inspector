@@ -7,7 +7,7 @@ import { DeepCopy } from '@/utils/utils';
 import style from './style.less'
 import AuthButton from '@/components/AuthButton/index';
 import CSForm from '@/pages/scoreAppeal/components/Form';
-
+import {dealQuarys} from '@/utils/utils';
 const columns = [
   {
     title: '申诉单号',
@@ -45,44 +45,6 @@ const columns = [
     dataIndex: 'status',
   },
 ];
-function dealQuarys(pm) {
-  const p = DeepCopy(pm);
-  if (p.collegeIdList && p.collegeIdList.length > 0) {
-    p.collegeIdList = p.collegeIdList.map((v) => {
-      return Number(v.replace('a-', ''));
-    })
-  } else {
-    p.collegeIdList = undefined;
-  }
-  if (p.familyIdList && p.familyIdList.length > 0) {
-    p.familyIdList = p.familyIdList.map((v) => {
-      return Number(v.replace('b-', ''));
-    })
-  } else {
-    p.familyIdList = undefined;
-  }
-  if (p.groupIdList && p.groupIdList.length > 0) {
-    p.groupIdList = p.groupIdList.map((v) => {
-      return Number(v.replace('c-', ''));
-    })
-  } else {
-    p.groupIdList = undefined;
-  }
-  if (!p.creditBeginDate||!p.creditEndDate) {
-    p.creditBeginDate = undefined
-    p.creditEndDate = undefined
-  }
-  if (!p.appealBeginDate||!p.appealBeginDate) {
-    p.appealBeginDate = undefined
-    p.appealEndDate = undefined
-  }
-  if (p.creditType) {
-    p.creditType = parseInt(p.creditType);
-  } else {
-    p.creditType = undefined
-  }
-  return p;
-};
 
 @connect(({ scoreAppealModel,finishAppealModel,loading }) => ({
   scoreAppealModel,finishAppealModel,
@@ -105,10 +67,13 @@ class FinishAppeal extends React.Component {
 
   queryData = (dimensionType, pm, pg,exp) => {
     let params = this.state;
+    let paramsUrl = this.state;
     if(pm){
+      paramsUrl = { ...this.state, ...pm };
       params = { ...this.state, ...dealQuarys(pm) };
     }
     if (pg) {
+      paramsUrl = { ...paramsUrl, ...pg };
       params = { ...params, ...pg };
       this.setState({
         page: pg.page
@@ -116,13 +81,14 @@ class FinishAppeal extends React.Component {
     }
 
     if (dimensionType) {
+      paramsUrl = { ...paramsUrl, ...{dimensionType} };
       params = { ...params, ...{dimensionType} };
       this.setState({
         dimensionType
       });
     }
 
-    const saveUrlParams =JSON.stringify(params);
+    const saveUrlParams =JSON.stringify(paramsUrl);
 
     console.log('params',params)
     // 请求成功后保留查询条件

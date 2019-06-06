@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { msgF } from '@/utils/utils';
-import { getBaseAppealInfo,exportExcel } from '@/pages/scoreAppeal/services';
+import { exportExcel } from '@/pages/scoreAppeal/services';
 import { queryOnAppealList,startAppeal,sopCheck,masterCheck,cancelAppeal } from '@/pages/scoreAppeal/onAppeal/services';
 export default {
   namespace: 'onAppealModel',
@@ -8,17 +8,21 @@ export default {
   state: {
     onList: [], // 列表
     page:{},
+    idList:[],
+    countPreCheckNum:{},
     masterTagList:{},  // 主管tags
   },
 
   effects: {
-    *getOnAppealList({ payload }, { call, put }) {
+    *queryOnAppealList({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(queryOnAppealList, params);
+      console.log('result',result)
       if (result.code === 20000) {
-        const onList = result.data.list || [];
-        const page = { total: result.data.total ? result.data.total : 0, pageNum: result.data.pageNum ? result.data.pageNum : 1 };
-        yield put({ type: 'save', payload: { onList,page } });
+        const {pageInfo={},idList=[],countPreCheckNum={}} = result.data;
+        const onList = pageInfo.list || [];
+        const page = { total: pageInfo.total ? pageInfo.total : 0, pageNum: pageInfo.pageNum ? pageInfo.pageNum : 1 };
+        yield put({ type: 'save', payload: { onList,page,idList,countPreCheckNum } });
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }
@@ -51,6 +55,7 @@ export default {
       const params = payload.params;
       const result = yield call(cancelAppeal, params);
       if (result.code === 20000) {
+        message.success('撤销成功');
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }

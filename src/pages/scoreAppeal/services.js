@@ -22,6 +22,6 @@ export async function getAppealInfoCheckList(params) {
 
 // 导出
 export async function exportExcel(data) {
-  return request('/creditAppeal/exportExcel', { method: 'post', data });
+  return request('/creditAppeal/exportExcel', { method: 'post', data,responseType:'blob',getResponse: true });
 }
 

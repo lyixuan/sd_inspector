@@ -9,8 +9,8 @@ export default {
   state: {
     finishList: [], // 列表
     page:{},
-    detailInfo:{},  // 详情
-    appealRecord:{},  // 审核记录
+    idList:[],
+    countPreCheckNum:{},
   },
 
   effects: {
@@ -18,9 +18,10 @@ export default {
       const params = payload.params;
       const result = yield call(queryFinishAppealList, params);
       if (result.code === 20000) {
-        const finishList = result.data.list || [];
-        const page = { total: result.data.total ? result.data.total : 0, pageNum: result.data.pageNum ? result.data.pageNum : 1 };
-        yield put({ type: 'save', payload: { finishList,page } });
+        const {pageInfo={},idList=[],countPreCheckNum={}} = result.data;
+        const finishList = pageInfo.list || [];
+        const page = { total: pageInfo.total ? pageInfo.total : 0, pageNum: pageInfo.pageNum ? pageInfo.pageNum : 1 };
+        yield put({ type: 'save', payload: { finishList,page,idList,countPreCheckNum } });
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }
@@ -32,6 +33,5 @@ export default {
       return { ...state, ...payload };
     },
   },
-
   subscriptions: {},
 };

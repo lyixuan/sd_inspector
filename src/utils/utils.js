@@ -194,3 +194,49 @@ export function thousandsFormat (num) {
   var reg=/\d{1,3}(?=(\d{3})+$)/g;
   return (num + '').replace(reg, '$&,');
 }
+// 学分申诉
+export function dealQuarys(pm) {
+  const p = DeepCopy(pm);
+  if (p.collegeIdList && p.collegeIdList.length > 0) {
+    p.collegeIdList = p.collegeIdList.map((v) => {
+      return Number(v.toString().replace('a-', ''));
+    })
+  } else {
+    p.collegeIdList = undefined;
+  }
+  if (p.familyIdList && p.familyIdList.length > 0) {
+    p.familyIdList = p.familyIdList.map((v) => {
+      return Number(v.toString().replace('b-', ''));
+    })
+  } else {
+    p.familyIdList = undefined;
+  }
+  if (p.groupIdList && p.groupIdList.length > 0) {
+    p.groupIdList = p.groupIdList.map((v) => {
+      return Number(v.toString().replace('c-', ''));
+    })
+  } else {
+    p.groupIdList = undefined;
+  }
+  if (!p.creditBeginDate||!p.creditEndDate) {
+    p.creditBeginDate = undefined
+    p.creditEndDate = undefined
+  }
+  if (!p.appealBeginDate||!p.appealBeginDate) {
+    p.appealBeginDate = undefined
+    p.appealEndDate = undefined
+  }
+  if (p.creditType) {
+    p.creditType = parseInt(p.creditType);
+  } else {
+    p.creditType = undefined
+  }
+  if (p.statusList&&p.statusList.length===0) {
+    p.statusList = undefined
+  }
+  if (!p.appealOrderNum) {
+    p.statusList = undefined
+  }
+
+  return p;
+};

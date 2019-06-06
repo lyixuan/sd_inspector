@@ -30,10 +30,10 @@ class AppealCheck extends React.Component {
       type: 'scoreAppealModel/queryBaseAppealInfo',
       payload: { params:{dimensionId:query.dimensionId,dimensionType:query.dimensionType}  },
     });
-    if (query.type!==1){
+    if (!query.isAwait){
       this.props.dispatch({
         type: 'scoreAppealModel/queryAppealInfoCheckList',
-        payload: { params:{creditAppealId:query.dimensionId} },
+        payload: { params:{creditAppealId:query.id} },
       });
     }
   }
@@ -54,12 +54,15 @@ class AppealCheck extends React.Component {
     const {collapse1,collapse2} = this.state;
     const {loading,scoreAppealModel={}}=this.props;
     const {detailInfo={},appealRecord={}}=scoreAppealModel;
-    const {appealStart=null,sopAppealCheck=null,masterAppealCheck=null}=appealRecord;
+    const firstRecord = appealRecord[1];
+    const SecondRecord = appealRecord[2];
+    const { appealStart:appealStart1, sopAppealCheck:sopAppealCheck1, masterAppealCheck:masterAppealCheck1 } = firstRecord||{};
+    const { appealStart:appealStart2, sopAppealCheck:sopAppealCheck2 , masterAppealCheck:masterAppealCheck2 } = SecondRecord||{};
     return (
       <Spin spinning={loading}>
       <div className={styles.appealContainer}>
         <BaseInfo detailInfo={detailInfo}/>
-        {appealStart&&sopAppealCheck&&masterAppealCheck&&(
+        {firstRecord&&(
           <div>
             <div className={styles.foldBox}>
               <span >一次申诉</span>
@@ -67,15 +70,15 @@ class AppealCheck extends React.Component {
             </div>
             {collapse1&&(
               <div style={{paddingLeft:'15px'}}>
-                <CreateAppeaRecord appealStart={appealStart}/>
-                <FirstCheckResult sopAppealCheck={sopAppealCheck}/>
-                <SecondCheckResult masterAppealCheck={masterAppealCheck}/>
+                {appealStart1&&<CreateAppeaRecord appealStart={appealStart1}/>}
+                {sopAppealCheck1&&<FirstCheckResult sopAppealCheck={sopAppealCheck1}/>}
+                {masterAppealCheck1&&<SecondCheckResult masterAppealCheck={masterAppealCheck1}/>}
                 <div className={styles.spaceLine}/>
               </div>
             )}
           </div>
         )}
-        {appealStart&&sopAppealCheck&&masterAppealCheck&&(
+        {SecondRecord&&(
           <div>
             <div className={styles.foldBox}>
               <span >二次申诉</span>
@@ -83,9 +86,9 @@ class AppealCheck extends React.Component {
             </div>
             {collapse2&&(
               <div style={{paddingLeft:'15px'}}>
-                <CreateAppeaRecord appealStart={appealStart}/>
-                <FirstCheckResult sopAppealCheck={sopAppealCheck}/>
-                <SecondCheckResult masterAppealCheck={masterAppealCheck}/>
+                {appealStart2&&<CreateAppeaRecord appealStart={appealStart2}/>}
+                {sopAppealCheck2&&<FirstCheckResult sopAppealCheck={sopAppealCheck2}/>}
+                {masterAppealCheck2&&<SecondCheckResult masterAppealCheck={masterAppealCheck2}/>}
               </div>
             )}
           </div>

@@ -1,6 +1,6 @@
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
-import { uploadMultipleFile,startAppeal } from '@/pages/scoreAppeal/appeal_create/services';
+import { uploadMultipleFile,startFirstAppeal } from '@/pages/scoreAppeal/appeal_create/services';
 
 export default {
   namespace: 'appealCreateModel',
@@ -23,8 +23,9 @@ export default {
     // 发起一次申诉
     *postStartAppeal({ payload }, { call, put }) {
       const params = payload.params;
-      const result = yield call(startAppeal, params);
+      const result = yield call(startFirstAppeal, params);
       if (result.code === 20000) {
+        message.success('申诉成功')
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }

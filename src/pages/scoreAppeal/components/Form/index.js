@@ -94,7 +94,7 @@ class CSForm extends React.Component {
   };
   render() {
     // dimensionType:  1 优新 2 IM 3 工单 4 底线 5 创收
-    const {scoreAppealModel={}, dimensionType = 11} = this.props;
+    const {scoreAppealModel={}, dimensionType = 11,exportLoading,loading} = this.props;
     const {orgListTreeData = [],dimensionList=[],statusDropList=[]} = scoreAppealModel;
     const dimensionList2 = dimensionList.filter((v)=>v.parentId===dimensionType&&v.id!==47);
 
@@ -198,7 +198,7 @@ class CSForm extends React.Component {
           <Col className={styles.gutterCol}  span={8}>
             <div className={styles.gutterBox3}>
               {(AuthButton.checkPathname('/scoreAppeal/onAppeal/export')||AuthButton.checkPathname('/scoreAppeal/finishAppeal/export'))&&(
-                <span className={styles.gutterBtn1}><BIButtonYellow onClick={this.export} type='primary'>导出申诉单</BIButtonYellow></span>
+                <span className={styles.gutterBtn1}><BIButtonYellow loading={exportLoading} onClick={this.export} type='primary'>导出申诉单</BIButtonYellow></span>
               )}
               <span className={styles.gutterBtn1}><BIButton onClick={this.search} type='primary'>搜索</BIButton></span>
               <span className={styles.gutterBtn2}><BIButton onClick={this.reset}>重置</BIButton></span>

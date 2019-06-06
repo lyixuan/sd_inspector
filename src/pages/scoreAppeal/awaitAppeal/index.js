@@ -15,7 +15,7 @@ const columns = [
   },
   {
     title: '学分维度',
-    dataIndex: 'dimensionName',
+    dataIndex: 'creditName',
   },
   {
     title: '学分归属人',
@@ -123,11 +123,11 @@ class AwaitAppeal extends React.Component {
   };
   onDetail = (record) => {
     const {dimensionType} = this.state;
-    this.onJumpPage({ dimensionId: record.id,dimensionType,type:1 }, '/scoreAppeal/appeal_detail');
+    this.onJumpPage({ dimensionId: record.id,dimensionType,isAwait:true }, '/scoreAppeal/appeal_detail');
   };
   onCreateAppeal = (record) => {
     const {dimensionType} = this.state;
-    this.onJumpPage({ dimensionId: record.id,dimensionType,type:1 }, '/scoreAppeal/appeal_create');
+    this.onJumpPage({ dimensionId: record.id,dimensionType,isAwait:true,creditType:record.creditType }, '/scoreAppeal/appeal_create');
   };
   columnsAction = () => {
     const actionObj = [{
