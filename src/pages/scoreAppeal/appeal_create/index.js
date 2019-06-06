@@ -44,12 +44,12 @@ class AppealCreate extends React.Component {
   }
 
   getFileList = (file) => {
-    let formData = new FormData();
-    formData.append('file', file);
-    this.props.dispatch({
-      type: 'uploadFile/queryuploadMultipleFile',
-      payload: { file },
-    });
+      let formData = new FormData();
+      formData.append("file", file);
+      this.props.dispatch({
+        type: 'appealCreateModel/queryuploadMultipleFile',
+        payload: { file },
+      })
   };
   onFormChange = (value, vname) => {
     this.setState({
