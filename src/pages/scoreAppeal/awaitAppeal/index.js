@@ -98,6 +98,9 @@ class AwaitAppeal extends React.Component {
 
     if (dimensionType) {
       params = { ...params, ...{dimensionType} };
+      this.setState({
+        dimensionType
+      });
     }
 
     const saveUrlParams =JSON.stringify(params);
@@ -119,10 +122,12 @@ class AwaitAppeal extends React.Component {
     });
   };
   onDetail = (record) => {
-    this.onJumpPage({ dimensionId: record.id,dimensionType:record.dimensionType }, '/scoreAppeal/appeal_detail');
+    const {dimensionType} = this.state;
+    this.onJumpPage({ dimensionId: record.id,dimensionType,type:1 }, '/scoreAppeal/appeal_detail');
   };
   onCreateAppeal = (record) => {
-    this.onJumpPage({ dimensionId: record.id,dimensionType:record.dimensionType }, '/scoreAppeal/appeal_create');
+    const {dimensionType} = this.state;
+    this.onJumpPage({ dimensionId: record.id,dimensionType,type:1 }, '/scoreAppeal/appeal_create');
   };
   columnsAction = () => {
     const actionObj = [{

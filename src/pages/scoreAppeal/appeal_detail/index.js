@@ -2,12 +2,10 @@ import React from 'react';
 import styles from './style.less';
 import { connect } from 'dva';
 import { Spin } from 'antd';
-import ScorePersonInfo from '../components/scorePersonInfo';
-import ScoreBasicInfo from '../components/scoreBasicInfo';
-import SubOrderDetail from '../components/subOrderDetail';
 import FirstCheckResult from '../components/FirstCheckResult';
 import SecondCheckResult from '../components/SecondCheckResult';
 import CreateAppeaRecord from '../components/CreateAppeaRecord';
+import BaseInfo from '../components/BaseInfo';
 import router from 'umi/router';
 import BIButton from '@/ant_components/BIButton';
 import imgUp from '@/assets/scoreQuality/up.png';
@@ -17,6 +15,7 @@ import imgdown from '@/assets/scoreQuality/down.png';
   scoreAppealModel,
   loading: loading.effects['scoreAppealModel/queryBaseAppealInfo'],
 }))
+
 class AppealCheck extends React.Component {
   constructor(props) {
     super(props);
@@ -26,11 +25,17 @@ class AppealCheck extends React.Component {
     };
   }
   componentDidMount() {
-    const {params={}} = this.props.location.query;
+    const {query={}} = this.props.location;
     this.props.dispatch({
       type: 'scoreAppealModel/queryBaseAppealInfo',
-      payload: { params },
+      payload: { params:{dimensionId:query.dimensionId,dimensionType:query.dimensionType}  },
     });
+    if (query.type!==1){
+      this.props.dispatch({
+        type: 'scoreAppealModel/queryAppealInfoCheckList',
+        payload: { params:{creditAppealId:query.dimensionId} },
+      });
+    }
   }
 
   handleCollapse=(type)=> {
@@ -47,48 +52,44 @@ class AppealCheck extends React.Component {
 
   render() {
     const {collapse1,collapse2} = this.state;
-    const {loading}=this.props;
+    const {loading,scoreAppealModel={}}=this.props;
+    const {detailInfo={},appealRecord={}}=scoreAppealModel;
+    const {appealStart=null,sopAppealCheck=null,masterAppealCheck=null}=appealRecord;
     return (
       <Spin spinning={loading}>
       <div className={styles.appealContainer}>
-        {/* 学分归属人信息 */}
-        <ScorePersonInfo/>
-        <div className={styles.spaceLine}/>
-        {/* 子订单详情 */}
-        <SubOrderDetail/>
-        <div className={styles.spaceLine}/>
-        {/* 申诉基础信息 */}
-        <ScoreBasicInfo/>
-        <div className={styles.spaceLine}/>
-        <div>
-          <div className={styles.foldBox}>
-            <span >一次申诉</span>
-            <span onClick={()=>this.handleCollapse(1)}><img src={collapse1?imgdown:imgUp} width='18' height='18'/></span>
-          </div>
-          {/* 申诉内容 */}
-          {collapse1&&(
-            <div style={{paddingLeft:'15px'}}>
-              <CreateAppeaRecord/>
-              <FirstCheckResult />
-              <SecondCheckResult />
-              <div className={styles.spaceLine}/>
+        <BaseInfo detailInfo={detailInfo}/>
+        {appealStart&&sopAppealCheck&&masterAppealCheck&&(
+          <div>
+            <div className={styles.foldBox}>
+              <span >一次申诉</span>
+              <span onClick={()=>this.handleCollapse(1)}><img src={collapse1?imgdown:imgUp} width='18' height='18'/></span>
             </div>
-          )}
-        </div>
-        <div>
-          <div className={styles.foldBox}>
-            <span >二次申诉</span>
-            <span onClick={()=>this.handleCollapse(2)}><img src={collapse2?imgdown:imgUp} width='18' height='18'/></span>
+            {collapse1&&(
+              <div style={{paddingLeft:'15px'}}>
+                <CreateAppeaRecord appealStart={appealStart}/>
+                <FirstCheckResult sopAppealCheck={sopAppealCheck}/>
+                <SecondCheckResult masterAppealCheck={masterAppealCheck}/>
+                <div className={styles.spaceLine}/>
+              </div>
+            )}
           </div>
-          {/* 申诉内容 */}
-          {collapse2&&(
-            <div style={{paddingLeft:'15px'}}>
-              <CreateAppeaRecord/>
-              <FirstCheckResult />
-              <SecondCheckResult />
+        )}
+        {appealStart&&sopAppealCheck&&masterAppealCheck&&(
+          <div>
+            <div className={styles.foldBox}>
+              <span >二次申诉</span>
+              <span onClick={()=>this.handleCollapse(2)}><img src={collapse2?imgdown:imgUp} width='18' height='18'/></span>
             </div>
-          )}
-        </div>
+            {collapse2&&(
+              <div style={{paddingLeft:'15px'}}>
+                <CreateAppeaRecord appealStart={appealStart}/>
+                <FirstCheckResult sopAppealCheck={sopAppealCheck}/>
+                <SecondCheckResult masterAppealCheck={masterAppealCheck}/>
+              </div>
+            )}
+          </div>
+        )}
         <footer style={{ textAlign: 'right', marginTop: '20px' }}>
           <BIButton onClick={() => router.goBack()}>返回</BIButton>
         </footer>

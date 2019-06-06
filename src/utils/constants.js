@@ -393,7 +393,23 @@ export const SCORE_APPEAL_STATE = [
   { id: 1, name: '待申诉' },
   { id: 2, name: '一次对接人待审核' }
 ];
-
+// 申诉维度
+export const SCORE_APPEAL_DIS = [
+  {id:12,name:'开班电话',parentId:11},
+  {id:17,name:'IM不及时',parentId:14},
+  {id:15,name:'IM未回复',parentId:14},
+  {id:16,name:'IM不满意',parentId:14},
+  {id:20,name:'工单初次减分',parentId:19},
+  {id:21,name:'工单二次减分',parentId:19},
+  {id:22,name:'工单三次减分',parentId:19},
+  {id:24,name:'事件',parentId:23},
+  {id:25,name:'班主任投诉',parentId:23},
+  {id:26,name:'退费',parentId:23},
+  {id:47,name:'退挽',parentId:23},
+  {id:45,name:'60分钟以下',parentId:42},
+  {id:44,name:'60至120分钟',parentId:42},
+  {id:43,name:'120分钟以上',parentId:42},
+]
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -423,7 +439,8 @@ export default {
   REGISTER_STATUS,
   CHOISE_STATUS,
   DIMENSION_TYPE,
-  SCORE_APPEAL_STATE
+  SCORE_APPEAL_STATE,
+  SCORE_APPEAL_DIS,
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

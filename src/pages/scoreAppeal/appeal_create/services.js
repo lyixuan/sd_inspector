@@ -4,3 +4,8 @@ import uploadRequest from '@/utils/uploadRequest'
 export function uploadMultipleFile() {
   return uploadRequest('/creditAppeal/uploadMultipleFile');
 }
+// 发起一次申诉
+export async function startAppeal(params) {
+  const data = {...params,...{type:1}};
+  return request('/creditAppeal/startAppeal', { method: 'post', data });
+}

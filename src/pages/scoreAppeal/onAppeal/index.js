@@ -117,6 +117,9 @@ class OnAppeal extends React.Component {
 
     if (dimensionType) {
       params = { ...params, ...{dimensionType} };
+      this.setState({
+        dimensionType
+      });
     }
 
     const saveUrlParams =JSON.stringify(params);
@@ -145,7 +148,8 @@ class OnAppeal extends React.Component {
     });
   };
   onDetail = (record) => {
-    this.onJumpPage({ dimensionId: record.metaDimensionId,dimensionType:record.dimensionType }, '/scoreAppeal/appeal_detail');
+    const {dimensionType} = this.state;
+    this.onJumpPage({ dimensionId: record.metaDimensionId,dimensionType }, '/scoreAppeal/appeal_detail');
   };
   onCreateAppeal = (record) => {
     this.onJumpPage({ id: record.id }, '/scoreAppeal/appeal_create');
