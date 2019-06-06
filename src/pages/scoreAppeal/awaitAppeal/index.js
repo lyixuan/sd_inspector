@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'dva/index';
 import CSTable from '@/pages/scoreAppeal/components/Table';
-import moment from 'moment/moment';
-import { BiFilter, DeepCopy } from '@/utils/utils';
+import { dealQuarys } from '@/utils/utils';
 import router from 'umi/router';
 import style from './style.less'
 import CSForm from '@/pages/scoreAppeal/awaitAppeal/components/Form';
@@ -41,29 +40,6 @@ const columns = [
     dataIndex: 'stuId',
   },
 ];
-function dealQuarys(pm) {
-  const p = DeepCopy(pm);
-  if (!p.stuName) {
-    p.stuName = undefined
-  } else {
-    p.stuName = p.stuName.trim()
-  }
-  if (p.stuId) {
-    p.stuId = parseInt(p.stuId.toString().trim());
-  } else {
-    p.stuId = undefined
-  }
-  if (p.creditType) {
-    p.creditType = parseInt(p.creditType);
-  } else {
-    p.creditType = undefined
-  }
-  if (!p.creditBeginDate||!p.creditEndDate) {
-    p.creditBeginDate = undefined
-    p.creditEndDate = undefined
-  }
-  return p;
-};
 
 @connect(({ awaitAppealModel,loading }) => ({
   awaitAppealModel,
@@ -75,7 +51,7 @@ class AwaitAppeal extends React.Component {
     this.state = {
       page: 1,
       pageSize: 30,
-      dimensionType: 11
+      dimensionType: 11 // 实时当前大学分维度
     };
   }
   componentDidMount() {
@@ -122,12 +98,24 @@ class AwaitAppeal extends React.Component {
     });
   };
   onDetail = (record) => {
+    // 跳转到待申诉详情
     const {dimensionType} = this.state;
-    this.onJumpPage({ dimensionId: record.id,dimensionType,isAwait:true }, '/scoreAppeal/appeal_detail');
+    const query={
+      dimensionId: record.id, // id
+      dimensionType   // 申诉维度
+    };
+    this.onJumpPage(query, '/scoreAppeal/awaitAppeal_detail');
   };
   onCreateAppeal = (record) => {
+    // 到首次发起申诉。一申、无申诉审核记录
     const {dimensionType} = this.state;
-    this.onJumpPage({ dimensionId: record.id,dimensionType,isAwait:true,creditType:record.creditType }, '/scoreAppeal/appeal_create');
+    const query={
+      type:1,                   // 一申
+      creditType:record.creditType,  // 学分维度
+      dimensionType,            // 申诉维度
+      creditAppealId: record.id,   // 学分申诉id（待申诉数据ID）
+    };
+    this.onJumpPage(query, '/scoreAppeal/firstAppeal_create');
   };
   columnsAction = () => {
     const actionObj = [{

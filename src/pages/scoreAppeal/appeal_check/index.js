@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './style.less';
 import { connect } from 'dva';
-import { Spin } from 'antd';
+import { Spin,message } from 'antd';
 import FirstCheckResult from '../components/FirstCheckResult';
 import SecondCheckResult from '../components/SecondCheckResult';
 import CreateAppeaRecord from '../components/CreateAppeaRecord';
@@ -13,11 +13,12 @@ import BIButton from '@/ant_components/BIButton';
 import imgUp from '@/assets/scoreQuality/up.png';
 import imgdown from '@/assets/scoreQuality/down.png';
 import BaseInfo from '../components/BaseInfo';
+import BIModal from '@/ant_components/BIModal';
 
-@connect(({ scoreAppealModel, loading }) => ({
-  scoreAppealModel,
+@connect(({ scoreAppealModel, loading,onAppealModel }) => ({
+  scoreAppealModel,onAppealModel,
   loading: loading.effects['scoreAppealModel/queryBaseAppealInfo']||loading.effects['scoreAppealModel/queryAppealInfoCheckList'],
-  submitLoading: loading.effects['appealCreateModel/postStartAppeal'],
+  submitLoading: loading.effects['onAppealModel/sopCheck'],
 }))
 class AppealCheck extends React.Component {
   constructor(props) {
@@ -25,7 +26,9 @@ class AppealCheck extends React.Component {
     this.state = {
       collapse1: true,
       collapse2: true,
-      appealInfoCollapse: []
+      visible:false,
+      checkResult:undefined,
+      desc:undefined,
     };
   }
 
@@ -54,7 +57,48 @@ class AppealCheck extends React.Component {
       });
     }
   }
+  onFormChange = (value, vname) => {
+    this.setState({
+      [vname]: value,
+    });
+  };
+  submitCheck = () => {
+    const { checkResult } = this.state;
+    if (!checkResult) {
+      message.warn('请选择审核结果');
+      return;
+    }
+    this.setState({
+      visible: true,
+    });
+  };
+  handleOk = () => {
+    const { query = {} } = this.props.location;
+    const { id, creditType,dimensionType } = query;
+    const { desc, checkResult } = this.state;
+    const params = {
+      type:1,
+      creditAppealId: Number(id),
+      desc,
+      checkResult
+    };
+    const that = this;
+    this.props.dispatch({
+      type: 'onAppealModel/sopCheck',
+      payload: { params },
+    }).then(() => {
+      that.setState({
+        visible: false,
+      });
+      router.goBack();
+    });
 
+  };
+  handleCancel = () => {
+    this.setState({
+      visible: false,
+    });
+  };
   onTagChangeFun=()=>{
 
   }
@@ -78,9 +122,9 @@ class AppealCheck extends React.Component {
           {/* 申诉内容 */}
           {collapse1&&(
             <div style={{paddingLeft:'15px'}}>
-              <CreateAppeaRecord/>
-              <FirstCheckResult />
-              <SecondCheckResult />
+              {appealStart1&&<CreateAppeaRecord appealStart={appealStart1}/>}
+              {sopAppealCheck1&&sopAppealCheck1.length!==0&&<FirstCheckResult sopAppealCheck={sopAppealCheck1}/>}
+              {masterAppealCheck1&&<SecondCheckResult masterAppealCheck={masterAppealCheck1}/>}
               <div className={styles.spaceLine}/>
             </div>
           )}
@@ -93,9 +137,9 @@ class AppealCheck extends React.Component {
           {/* 申诉内容 */}
           {collapse2&&(
             <div style={{paddingLeft:'15px'}}>
-              <CreateAppeaRecord/>
-              <FirstCheckResult />
-              <SecondCheckResult />
+              {appealStart2&&<CreateAppeaRecord appealStart={appealStart2}/>}
+              {sopAppealCheck2&&sopAppealCheck2.length!==0&&<FirstCheckResult sopAppealCheck={sopAppealCheck2}/>}
+              {masterAppealCheck2&&<SecondCheckResult masterAppealCheck={masterAppealCheck2}/>}
               <div className={styles.spaceLine}/>
             </div>
           )}
@@ -105,19 +149,33 @@ class AppealCheck extends React.Component {
           <span>对接人审核</span>
           <span></span>
         </div>
-        <FirstCheck/>
+        <FirstCheck onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
         <div className={styles.foldBox}>
           <span>主管审核</span>
           <span></span>
         </div>
-        <SecondCheck/>
+        <SecondCheck onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
         <Tags tags={tags}
               checkedTags={checkedTags}
               onTagChange={item => this.onTagChangeFun(item)}/>
         <footer style={{ textAlign: 'right', marginTop: '20px' }}>
           <BIButton onClick={() => router.goBack()} style={{marginRight:'15px'}}>返回</BIButton>
-          <BIButton type='primary' onClick={() => router.goBack()}>提交审核</BIButton>
+          <BIButton type='primary' onClick={() => this.submitCheck()}>提交审核</BIButton>
         </footer>
+        <BIModal
+          title="提交确认"
+          visible={this.state.visible}
+          footer={[
+            <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
+              取消
+            </BIButton>,
+            <BIButton type="primary" loading={this.props.submitLoading} onClick={this.handleOk}>
+              确定
+            </BIButton>,
+          ]}
+        >
+          <div className={styles.modalWrap}>是否确认提交？</div>
+        </BIModal>
       </div>
       </Spin>
     );

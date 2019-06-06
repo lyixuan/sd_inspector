@@ -5,8 +5,8 @@ import { BiFilter } from '@/utils/utils';
 
 export default class PersonInfoComponent extends React.Component {
   render() {
-    const { userInfo = {} } = this.props;
-    const { userName, collegeName, familyName, groupName, mail, roleName } = userInfo;
+    const { userInfo } = this.props;
+    const { userName, collegeName, familyName, groupName, mail, roleName } = userInfo||{};
 
     const groupName2 = groupName ? ` | ${groupName}`:'';
     const familyName2 = familyName ? ` | ${familyName}`:'';

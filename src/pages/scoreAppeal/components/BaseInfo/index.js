@@ -6,8 +6,8 @@ import SubOrderDetail from '../subOrderDetail';
 
 export default class PersonInfoComponent extends React.Component {
   render() {
-    const { detailInfo = {} } = this.props;
-    const {userInfo={},orderInfo={},baseAppealInfo={}}=detailInfo;
+    const { detailInfo}  = this.props;
+    const {userInfo={},orderInfo={},baseAppealInfo={}}=detailInfo||{};
     return (
       <>
         {/* 学分归属人信息 */}

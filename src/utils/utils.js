@@ -238,5 +238,15 @@ export function dealQuarys(pm) {
     p.statusList = undefined
   }
 
+  if (!p.stuName) {
+    p.stuName = undefined
+  } else {
+    p.stuName = p.stuName.trim()
+  }
+  if (p.stuId) {
+    p.stuId = parseInt(p.stuId.toString().trim());
+  } else {
+    p.stuId = undefined
+  }
   return p;
 };

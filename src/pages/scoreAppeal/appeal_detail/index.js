@@ -71,7 +71,7 @@ class AppealCheck extends React.Component {
             {collapse1&&(
               <div style={{paddingLeft:'15px'}}>
                 {appealStart1&&<CreateAppeaRecord appealStart={appealStart1}/>}
-                {sopAppealCheck1&&<FirstCheckResult sopAppealCheck={sopAppealCheck1}/>}
+                {sopAppealCheck1&&sopAppealCheck1.length!==0&&<FirstCheckResult sopAppealCheck={sopAppealCheck1}/>}
                 {masterAppealCheck1&&<SecondCheckResult masterAppealCheck={masterAppealCheck1}/>}
                 <div className={styles.spaceLine}/>
               </div>
@@ -87,7 +87,7 @@ class AppealCheck extends React.Component {
             {collapse2&&(
               <div style={{paddingLeft:'15px'}}>
                 {appealStart2&&<CreateAppeaRecord appealStart={appealStart2}/>}
-                {sopAppealCheck2&&<FirstCheckResult sopAppealCheck={sopAppealCheck2}/>}
+                {sopAppealCheck2&&sopAppealCheck2.length!==0&&<FirstCheckResult sopAppealCheck={sopAppealCheck2}/>}
                 {masterAppealCheck2&&<SecondCheckResult masterAppealCheck={masterAppealCheck2}/>}
               </div>
             )}

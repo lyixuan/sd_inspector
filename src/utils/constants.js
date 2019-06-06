@@ -388,11 +388,6 @@ export const DIMENSION_TYPE = [
   { id: 42, name: '创收',url:'createIncome'  },
 ];
 
-// 申诉状态
-export const SCORE_APPEAL_STATE = [
-  { id: 1, name: '待申诉' },
-  { id: 2, name: '一次对接人待审核' }
-];
 // 申诉维度
 export const SCORE_APPEAL_DIS = [
   {id:12,name:'开班电话',parentId:11},
@@ -409,6 +404,20 @@ export const SCORE_APPEAL_DIS = [
   {id:45,name:'60分钟以下',parentId:42},
   {id:44,name:'60至120分钟',parentId:42},
   {id:43,name:'120分钟以上',parentId:42},
+]
+// 申诉状态
+export const SCORE_APPEAL_STATE = [
+  {id:1,name:'一次对接人待审核'},
+  {id:2,name:'二次对接人待审核'},
+  {id:3,name:'一次对接人审核未通过'},
+  {id:4,name:'二次对接人审核未通过'},
+  {id:5,name:'一次主管待审核'},
+  {id:6,name:'二次主管待审核'},
+  {id:7,name:'一次申诉失败'},
+  {id:8,name:'一次申诉成功'},
+  {id:9,name:'二次申诉超时'},
+  {id:10,name:'二次申诉成功'},
+  {id:11,name:'二次申诉失败'},
 ]
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
@@ -441,6 +450,7 @@ export default {
   DIMENSION_TYPE,
   SCORE_APPEAL_STATE,
   SCORE_APPEAL_DIS,
+
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

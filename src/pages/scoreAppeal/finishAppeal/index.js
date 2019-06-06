@@ -3,11 +3,11 @@ import RenderRoute from '@/components/RenderRoute';
 import { connect } from 'dva/index';
 import router from 'umi/router';
 import CSTable from '@/pages/scoreAppeal/components/Table';
-import { DeepCopy } from '@/utils/utils';
+import { BiFilter,dealQuarys } from '@/utils/utils';
 import style from './style.less'
 import AuthButton from '@/components/AuthButton/index';
 import CSForm from '@/pages/scoreAppeal/components/Form';
-import {dealQuarys} from '@/utils/utils';
+
 const columns = [
   {
     title: '申诉单号',
@@ -43,6 +43,13 @@ const columns = [
   {
     title: '申诉状态',
     dataIndex: 'status',
+    render: (text, record) => {
+      return (
+        <>
+          {BiFilter(`SCORE_APPEAL_STATE|id:${text}`).name}
+        </>
+      );
+    },
   },
 ];
 

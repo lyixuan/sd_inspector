@@ -1,22 +1,19 @@
 import React from 'react';
 import styles from './style.less';
 import { connect } from 'dva';
-import CreateAppeal from '../components/CreateAppeal';
-import FirstCheckResult from '../components/FirstCheckResult';
-import SecondCheckResult from '../components/SecondCheckResult';
-import CreateAppeaRecord from '../components/CreateAppeaRecord';
+import CreateAppeal from '../../components/CreateAppeal';
 import router from 'umi/router';
 import BIButton from '@/ant_components/BIButton';
 import imgUp from '@/assets/scoreQuality/up.png';
 import imgdown from '@/assets/scoreQuality/down.png';
 import { Spin, message } from 'antd';
 import BIModal from '@/ant_components/BIModal';
-import BaseInfo from '../components/BaseInfo';
+import BaseInfo from '../../components/BaseInfo';
 
-@connect(({ appealCreateModel, scoreAppealModel, loading }) => ({
-  appealCreateModel, scoreAppealModel,
+@connect(({ awaitAppealCreateModel, scoreAppealModel, loading }) => ({
+  awaitAppealCreateModel, scoreAppealModel,
   loading: loading.effects['scoreAppealModel/queryBaseAppealInfo'],
-  submitLoading: loading.effects['appealCreateModel/postStartAppeal'],
+  submitLoading: loading.effects['awaitAppealCreateModel/firstStartAppeal'],
 }))
 
 class AppealCreate extends React.Component {
@@ -35,27 +32,13 @@ class AppealCreate extends React.Component {
       type: 'scoreAppealModel/queryBaseAppealInfo',
       payload: { params: { dimensionId: query.dimensionId, dimensionType: query.dimensionType } },
     });
-    if (!query.isAwait) {
-      this.props.dispatch({
-        type: 'scoreAppealModel/queryAppealInfoCheckList',
-        payload: { params: { creditAppealId: query.id } },
-      });
-    }
   }
-
-  getFileList = (file) => {
-      let formData = new FormData();
-      formData.append("file", file);
-      this.props.dispatch({
-        type: 'appealCreateModel/queryuploadMultipleFile',
-        payload: { file },
-      })
-  };
   onFormChange = (value, vname) => {
     this.setState({
       [vname]: value,
     });
   };
+
   submitAppeal = () => {
     const { query = {} } = this.props.location;
     const { desc, creditType, attUrlList } = this.state;
@@ -71,6 +54,7 @@ class AppealCreate extends React.Component {
       visible: true,
     });
   };
+
   handleOk = () => {
     const { query = {} } = this.props.location;
     const { dimensionId, creditType,dimensionType } = query;
@@ -97,6 +81,7 @@ class AppealCreate extends React.Component {
     });
 
   };
+
   handleCancel = () => {
     this.setState({
       visible: false,
@@ -117,53 +102,28 @@ class AppealCreate extends React.Component {
   render() {
     const { collapse1, collapse2 } = this.state;
     const { loading, scoreAppealModel = {} } = this.props;
-    const { detailInfo = {}, appealRecord = {} } = scoreAppealModel;
-    const firstRecord = appealRecord[1];
-    const SecondRecord = appealRecord[2];
-    const { appealStart:appealStart1, sopAppealCheck:sopAppealCheck1, masterAppealCheck:masterAppealCheck1 } = firstRecord||{};
-    const { appealStart:appealStart2, sopAppealCheck:sopAppealCheck2 , masterAppealCheck:masterAppealCheck2 } = SecondRecord||{};
+    const { detailInfo = {} } = scoreAppealModel;
     const { query = {} } = this.props.location;
     return (
       <Spin spinning={loading}>
         <div className={styles.appealContainer}>
           <BaseInfo detailInfo={detailInfo}/>
-          {firstRecord&& (
-            <div>
-              <div className={styles.foldBox}>
-                <span>一次申诉</span>
-                <span onClick={() => this.handleCollapse(1)}><img src={collapse1 ? imgdown : imgUp} width='18'
-                                                                  height='18'/></span>
-              </div>
-              <div className={styles.spaceLine}/>
-              {/* 申诉内容 */}
-              {collapse1 && (
-                <div style={{ paddingLeft: '15px' }}>
-                  <CreateAppeal {...this.props} getFileList={this.getFileList} appealStart={appealStart1}
-                                onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
-                  {sopAppealCheck1&&sopAppealCheck1.length!==0 && <FirstCheckResult sopAppealCheck={sopAppealCheck1}/>}
-                  {masterAppealCheck1 && <SecondCheckResult masterAppealCheck={masterAppealCheck1}/>}
-                  <div className={styles.spaceLine}/>
-                </div>
-              )}
+          <div>
+            <div className={styles.foldBox}>
+              <span>一次申诉</span>
+              <span onClick={() => this.handleCollapse(1)}>
+                <img src={collapse1 ? imgdown : imgUp} width='18' height='18'/>
+              </span>
             </div>
-          )}
-          {SecondRecord && (
-            <div>
-              <div className={styles.foldBox}>
-                <span>二次申诉</span>
-                <span onClick={() => this.handleCollapse(2)}><img src={collapse2 ? imgdown : imgUp} width='18'
-                                                                  height='18'/></span>
+            <div className={styles.spaceLine}/>
+            {collapse1 && (
+              <div style={{ paddingLeft: '15px' }}>
+                <CreateAppeal {...this.props} getFileList={this.getFileList}
+                              onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
+                <div className={styles.spaceLine}/>
               </div>
-              {/* 申诉内容 */}
-              {collapse2 && (
-                <div style={{ paddingLeft: '15px' }}>
-                  <CreateAppeal getFileList={this.getFileList}/>
-                  {sopAppealCheck2&&sopAppealCheck2.length!==0 && <FirstCheckResult sopAppealCheck={sopAppealCheck2}/>}
-                  {masterAppealCheck2 && <SecondCheckResult masterAppealCheck={masterAppealCheck2}/>}
-                </div>
-              )}
-            </div>
-          )}
+            )}
+          </div>
           <footer style={{ textAlign: 'right', marginTop: '20px' }}>
             <BIButton onClick={() => router.goBack()} style={{ marginRight: '15px' }}>返回</BIButton>
             <BIButton type='primary' onClick={() => this.submitAppeal()}>提交申诉</BIButton>

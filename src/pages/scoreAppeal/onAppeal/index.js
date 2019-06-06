@@ -2,7 +2,7 @@ import React from 'react';
 import RenderRoute from '@/components/RenderRoute';
 import CSTable from '@/pages/scoreAppeal/components/Table';
 import { connect } from 'dva/index';
-import { DeepCopy } from '@/utils/utils';
+import { BiFilter, DeepCopy } from '@/utils/utils';
 import router from 'umi/router';
 import style from './style.less'
 import AuthButton from '@/components/AuthButton/index';
@@ -47,6 +47,13 @@ const columns = [
   {
     title: '申诉状态',
     dataIndex: 'status',
+    render: (text, record) => {
+      return (
+        <>
+          {BiFilter(`SCORE_APPEAL_STATE|id:${text}`).name}
+        </>
+      );
+    },
   },
 ];
 

@@ -31,6 +31,7 @@ export default {
       const params = payload.params;
       const result = yield call(startAppeal, params);
       if (result.code === 20000) {
+        message.success('提交成功');
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }
@@ -39,6 +40,7 @@ export default {
       const params = payload.params;
       const result = yield call(sopCheck, params);
       if (result.code === 20000) {
+        message.success('提交成功');
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }
@@ -47,6 +49,7 @@ export default {
       const params = payload.params;
       const result = yield call(masterCheck, params);
       if (result.code === 20000) {
+        message.success('提交成功');
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }

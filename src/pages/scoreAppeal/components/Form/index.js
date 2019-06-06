@@ -95,7 +95,7 @@ class CSForm extends React.Component {
   render() {
     // dimensionType:  1 优新 2 IM 3 工单 4 底线 5 创收
     const {scoreAppealModel={}, dimensionType = 11,exportLoading,loading} = this.props;
-    const {orgListTreeData = [],dimensionList=[],statusDropList=[]} = scoreAppealModel;
+    const {orgListTreeData = [],dimensionList=[]} = scoreAppealModel;
     const dimensionList2 = dimensionList.filter((v)=>v.parentId===dimensionType&&v.id!==47);
 
     const {appealBeginDate,appealEndDate,creditBeginDate,creditEndDate,creditType,statusList,appealOrderNum,collegeIdList,familyIdList,groupIdList} = this.state;
@@ -146,7 +146,7 @@ class CSForm extends React.Component {
                   <span className={styles.gutterLabel}>申诉状态</span>：
                   <span className={styles.gutterForm}>
                     <BISelect style={{width:230}} placeholder="请选择" value={statusList} onChange={(val)=>this.onFormChange(val,'statusList')}>
-                        {statusDropList.map(item => (
+                        {BiFilter('SCORE_APPEAL_STATE').map(item => (
                           <Option key={item.id}>
                             {item.name}
                           </Option>

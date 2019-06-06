@@ -1,12 +1,10 @@
 import React from 'react';
 import styles from './style.css';
-import moment from 'moment';
-import { BiFilter } from '@/utils/utils';
 
 export default class BasicInfoComponent extends React.Component {
   render() {
     const { baseAppealInfo = {},dimensionType=11 } = this.props;
-    const { dimensionName,dimensionId,creditDate, completeDate, imConsultId, imNum, workorderStartTime, workorderFlowupFlag, bottomLineChannal, upFlag,score,source } = baseAppealInfo;
+    const { dimensionName,dimensionId,creditDate, completeDate, imConsultId, imNum, workorderStartTime, workorderFlowupFlag, bottomLineChannal, upFlag,score,source } = baseAppealInfo||{};
 
     const IMName = dimensionId === 17?'不及时条数':dimensionId===15?'未回复条数':'不满意条数';
     return (
