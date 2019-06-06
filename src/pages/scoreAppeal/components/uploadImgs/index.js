@@ -5,10 +5,12 @@ import leftImgDisable from '@/assets/scoreQuality/left-moren.png';
 import leftImg from '@/assets/scoreQuality/left-moren1.png';
 import rightImgDisable from '@/assets/scoreQuality/right-moren.png';
 import rightImg from '@/assets/scoreQuality/right-moren1.png';
-import { uploadMultipleFile } from '../../appeal_create/servers';
+import { uploadMultipleFile } from '../../appeal_create/services';
 /*
   * uploadImg 外层回调,上传组件的回调
   * fileList 返回列表
+  * width 图片的宽度，没有默认为128
+  * limitImg 最多上传多少个图片  没有默认为6个
 */
 
 function getBase64(file) {
@@ -25,9 +27,10 @@ class UploadImg extends React.Component {
     super(props);
     this.state = {
       fileList: this.props.fileList || [],
+      limitImg: this.props.limitImg || 6,
       previewVisible: false,
       previewImage: '',
-      width: 128, //元素的宽度
+      width: this.props.width || 128, //元素的宽度
       currentIndex: 0,
     }
   }
@@ -46,23 +49,37 @@ class UploadImg extends React.Component {
   };
 
   handleChange = async ({ file, fileList }) => {
-    console.log(file, fileList);
-
-    const isJPG = file.type === 'image/jpeg';
-    if (!isJPG && file.status !== 'removed') {
-      message.error('只允许上传png/jpg结尾的文件');
-      return false;
+    const { type, status, size, response } = file
+    const { currentIndex } = this.state
+    // eslint-disable-next-line default-case
+    switch (status) {
+      // 上传
+      case 'uploading':
+        if (type !== 'image/jpeg') {
+          message.error('只允许上传png/jpg结尾的文件')
+          return false
+        }
+        if (size / 1024 / 1024 >= 2) {
+          message.error('图片不能超过2MB!')
+          return false
+        }
+        break
+      // 上传完毕
+      case 'done':
+        if (response.code !== 20000) {
+          message.error('code错误')
+          return false
+        } else {
+          this.setIndex(currentIndex + 1)
+        }
+        break
+      case 'removed':
+        this.setIndex(currentIndex - 1)
+        break
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M && file.status !== 'removed') {
-      message.error('图片不能超过2MB!');
-      return false;
-    }
-    if (!file.response || (file.response.code === 20000)) {
-      this.setState({ fileList: [...fileList] });
-    }
+    this.setState({ fileList: [...fileList] })
     return true;
-  };
+  }
 
   handleBefore = (file) => {
     return false;
@@ -70,10 +87,11 @@ class UploadImg extends React.Component {
 
   setIndex(index) {
     const len = this.state.fileList.length;
-    if (len <= 2) return;  // 默认展示2+ 一个upload按钮 所以少于三个不出现按钮
+    // 默认展示2+ 一个upload按钮 所以少于三个不出现按钮
+    if (len <= 2) return;
 
     let nextIndex = (index + len) % len;
-    console.log(len, index, nextIndex);
+
     if (index <= 0) {
       this.setState({ currentIndex: 0 });
       return;
@@ -93,9 +111,10 @@ class UploadImg extends React.Component {
   }
   handleRemove = (file) => {
     const { fileList } = this.state;
-    console.log('remove coming');
-    console.log(fileList.filter(uid => uid !== file.uid));
-    this.setState({ fileList: fileList.filter(uid => uid !== file.uid) });
+
+    this.setState({
+      fileList: fileList.filter(uid => uid !== file.uid)
+    });
   }
 
   render() {
