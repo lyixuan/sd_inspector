@@ -10,7 +10,9 @@ import { uploadMultipleFile } from '../../appeal_create/services';
   * uploadImg 外层回调,上传组件的回调
   * fileList 返回列表
   * width 图片的宽度，没有默认为128
-  * limitImg 最多上传多少个图片  没有默认为6个
+  * limitImgNum 最多上传多少个图片  没有默认为6个
+  * mainNum 展示几个图片 默认展示3个
+  * limit 限制最多可以上传多大尺寸 默认是2m
 */
 
 function getBase64(file) {
@@ -27,11 +29,12 @@ class UploadImg extends React.Component {
     super(props);
     this.state = {
       fileList: this.props.fileList || [],
-      limitImg: this.props.limitImg || 6,
+      limitImgNum: this.props.limitImg || 6,
       previewVisible: false,
       previewImage: '',
       width: this.props.width || 128, //元素的宽度
       currentIndex: 0,
+      mainNum: 3,// 默认展示三个
     }
   }
 
@@ -86,9 +89,10 @@ class UploadImg extends React.Component {
   }
 
   setIndex(index) {
-    const len = this.state.fileList.length;
+    const { limitImgNum, mainNum, fileList } = this.state;
+    const len = fileList.length;
     // 默认展示2+ 一个upload按钮 所以少于三个不出现按钮
-    if (len <= 2) return;
+    if (len <= (mainNum - 1)) return;
 
     let nextIndex = (index + len) % len;
 
@@ -98,7 +102,7 @@ class UploadImg extends React.Component {
     };
 
     //由于有一个框，等于限制的6个，就隐藏掉框所以判断条件不一致
-    if (len === 6) {
+    if (len === limitImgNum) {
       if (len <= index + this.props.fileList.length) {
         return;
       }
@@ -118,27 +122,31 @@ class UploadImg extends React.Component {
   }
 
   render() {
-    const { width, currentIndex, fileList } = this.state;
+    const { width, currentIndex, fileList, mainNum, limitImgNum } = this.state;
 
     const offset = -currentIndex * width;
     const len = this.state.fileList.length;
     const leftButtonStyle = {
       left: 0,
       marginRight: 10,
-      display: len >= 3 ? 'block' : 'none',
+      display: len >= mainNum ? 'block' : 'none',
     };
 
     const rightButtonStyle = {
       right: 0,
-      display: (len >= 3) ? 'block' : 'none',
+      display: (len >= mainNum) ? 'block' : 'none',
     };
 
     const contentStyle = {
-      width: len >= 6 ? width * len : width * len + 130,
+      width: len >= limitImgNum ? width * len : width * len + width,
       height: 80,
       display: 'inline-block',
       marginLeft: offset,
       transition: '.2s'
+    }
+
+    const listContent = {
+      width: mainNum * width
     }
 
     const { previewVisible, previewImage } = this.state;
@@ -159,7 +167,7 @@ class UploadImg extends React.Component {
             href="javscript:void(0)" className={styles.arrowLeft}>
             <Icon type="left-circle" style={{ fontSize: '30px', color: '#ccc' }} />
           </a>
-          <div className={styles.listContent}>
+          <div className={styles.listContent} style={listContent}>
             <div style={contentStyle}>
               <Upload
                 {...uploadMultipleFile()}
@@ -170,7 +178,7 @@ class UploadImg extends React.Component {
                 fileList={fileList}
                 listType="picture-card"
               >
-                {fileList.length >= 6 ? null : uploadButton}
+                {fileList.length >= limitImgNum ? null : uploadButton}
               </Upload>
             </div>
           </div>
