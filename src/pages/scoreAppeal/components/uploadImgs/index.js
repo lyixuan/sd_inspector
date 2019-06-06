@@ -34,7 +34,10 @@ class UploadImg extends React.Component {
       previewImage: '',
       width: this.props.width || 128, //元素的宽度
       currentIndex: 0,
-      mainNum: 3,// 默认展示三个
+      mainNum: 3,// 默认展示三个,
+      hoverLeft: false,
+      hoverRight: false,
+      appealProof: [],
     }
   }
 
@@ -52,7 +55,7 @@ class UploadImg extends React.Component {
   };
 
   handleChange = async ({ file, fileList }) => {
-    const { type, status, size, response } = file
+    const { type, status, size, response, appealProof } = file
     const { currentIndex } = this.state
     // eslint-disable-next-line default-case
     switch (status) {
@@ -73,6 +76,7 @@ class UploadImg extends React.Component {
           message.error('code错误')
           return false
         } else {
+          this.props.UploadImg(response.data.fileUrl);
           this.setIndex(currentIndex + 1)
         }
         break
@@ -121,11 +125,33 @@ class UploadImg extends React.Component {
     });
   }
 
+  toggleHover = () => {
+    this.setState({ hoverLeft: !this.state.hoverLeft, });
+  }
+  toggleHoverRig = () => {
+    this.setState({ hoverRight: !this.state.hoverRight });
+  }
   render() {
-    const { width, currentIndex, fileList, mainNum, limitImgNum } = this.state;
+    const { width, currentIndex, fileList, mainNum, limitImgNum, hoverLeft, hoverRight } = this.state;
 
     const offset = -currentIndex * width;
     const len = this.state.fileList.length;
+
+    let iconLeft;
+    let iconRight;
+
+    if (hoverLeft) {
+      iconLeft = <img src={leftImg} alt='' />
+    } else {
+      iconLeft = <img src={leftImgDisable} alt='' />
+    }
+
+    if (hoverRight) {
+      iconRight = <img src={rightImg} alt='' />
+    } else {
+      iconRight = <img src={rightImgDisable} alt='' />
+    }
+
     const leftButtonStyle = {
       left: 0,
       marginRight: 10,
@@ -164,8 +190,11 @@ class UploadImg extends React.Component {
           <a
             style={leftButtonStyle}
             onClick={() => this.setIndex(currentIndex - 1)}
-            href="javscript:void(0)" className={styles.arrowLeft}>
-            <Icon type="left-circle" style={{ fontSize: '30px', color: '#ccc' }} />
+            href="javscript:void(0)"
+            className={styles.arrowLeft}
+            onMouseOver={this.toggleHover}
+            onMouseOut={this.toggleHover}>
+            {iconLeft}
           </a>
           <div className={styles.listContent} style={listContent}>
             <div style={contentStyle}>
@@ -185,8 +214,10 @@ class UploadImg extends React.Component {
           <a
             style={rightButtonStyle}
             onClick={() => this.setIndex(currentIndex + 1)}
-            href="javscript:void(0)" className={styles.arrowRight}>
-            <Icon type="right-circle" style={{ fontSize: '30px', color: '#ccc' }} />
+            href="javscript:void(0)" className={styles.arrowRight}
+            onMouseOver={this.toggleHoverRig}
+            onMouseOut={this.toggleHoverRig}>
+            {iconRight}
           </a>
         </div>
 
