@@ -1,7 +1,6 @@
 import request from '@/utils/request';
-
+import uploadRequest from '@/utils/uploadRequest'
 // 图片上传
-export async function uploadMultipleFile(data) {
-  return request('/creditAppeal/uploadMultipleFile',{ method: 'post', data });
+export function uploadMultipleFile() {
+  return uploadRequest('/creditAppeal/uploadMultipleFile');
 }
-
