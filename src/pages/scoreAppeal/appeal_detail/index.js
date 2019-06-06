@@ -13,7 +13,7 @@ import imgdown from '@/assets/scoreQuality/down.png';
 
 @connect(({ scoreAppealModel,loading }) => ({
   scoreAppealModel,
-  loading: loading.effects['scoreAppealModel/queryBaseAppealInfo'],
+  loading: loading.effects['scoreAppealModel/queryBaseAppealInfo']||loading.effects['scoreAppealModel/queryAppealInfoCheckList'],
 }))
 
 class AppealCheck extends React.Component {
@@ -30,12 +30,10 @@ class AppealCheck extends React.Component {
       type: 'scoreAppealModel/queryBaseAppealInfo',
       payload: { params:{dimensionId:query.dimensionId,dimensionType:query.dimensionType}  },
     });
-    if (!query.isAwait){
-      this.props.dispatch({
-        type: 'scoreAppealModel/queryAppealInfoCheckList',
-        payload: { params:{creditAppealId:query.id} },
-      });
-    }
+    this.props.dispatch({
+      type: 'scoreAppealModel/queryAppealInfoCheckList',
+      payload: { params:{creditAppealId:query.id} },
+    });
   }
 
   handleCollapse=(type)=> {

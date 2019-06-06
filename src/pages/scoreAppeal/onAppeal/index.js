@@ -132,15 +132,34 @@ class OnAppeal extends React.Component {
   };
   onDetail = (record) => {
     const {dimensionType} = this.state;
-    this.onJumpPage({ dimensionId: record.metaDimensionId,dimensionType,isAwait:false }, '/scoreAppeal/appeal_detail');
+    const query={
+      id: record.id, // 获取审核记录用id
+      dimensionId: record.metaDimensionId, // 获取详情用id
+      dimensionType   // 申诉维度
+    };
+    this.onJumpPage(query, '/scoreAppeal/appeal_detail');
   };
   onCreateAppeal = (record) => {
     const {dimensionType} = this.state;
-    this.onJumpPage({ dimensionId: record.metaDimensionId,dimensionType,isAwait:false,creditType:record.creditType }, '/scoreAppeal/appeal_create');
+    const query={
+      type:1,                          // 一申？对接人驳回 一申 主管驳回 二审
+      creditType:record.creditType,    // 学分维度
+      dimensionType,                    // 申诉维度
+      creditAppealId: record.id,        // 学分申诉id（待申诉数据ID）
+      dimensionId:record.metaDimensionId        // 获取详情用
+    };
+    this.onJumpPage(query, '/scoreAppeal/appeal_create');
   };
   onAppeal = (record) => {
     const {dimensionType} = this.state;
-    this.onJumpPage({ id:record.id,dimensionId: record.metaDimensionId,dimensionType,isAwait:false,creditType:record.creditType }, '/scoreAppeal/appeal_check');
+    const query={
+      id:record.id,
+      dimensionId:record.metaDimensionId,        // 获取详情用
+      creditType:record.creditType,  // 学分维度
+      dimensionType,            // 申诉维度
+      sopOrMaster:1               // 1 sop，2 master
+    };
+    this.onJumpPage(query, '/scoreAppeal/checkAppeal');
   };
   onRepeal = (record) => {
     const that = this;

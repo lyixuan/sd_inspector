@@ -10,10 +10,10 @@ import { Spin, message } from 'antd';
 import BIModal from '@/ant_components/BIModal';
 import BaseInfo from '../../components/BaseInfo';
 
-@connect(({ awaitAppealCreateModel, scoreAppealModel, loading }) => ({
-  awaitAppealCreateModel, scoreAppealModel,
+@connect(({ awaitAppealModel, scoreAppealModel, loading }) => ({
+  awaitAppealModel, scoreAppealModel,
   loading: loading.effects['scoreAppealModel/queryBaseAppealInfo'],
-  submitLoading: loading.effects['awaitAppealCreateModel/firstStartAppeal'],
+  submitLoading: loading.effects['awaitAppealModel/firstStartAppeal'],
 }))
 
 class AppealCreate extends React.Component {
@@ -21,7 +21,6 @@ class AppealCreate extends React.Component {
     super(props);
     this.state = {
       collapse1: true,
-      collapse2: true,
       visible: false,
     };
   }
@@ -40,13 +39,13 @@ class AppealCreate extends React.Component {
   };
 
   submitAppeal = () => {
-    const { query = {} } = this.props.location;
+    const { query={} }  = this.props.location;
     const { desc, creditType, attUrlList } = this.state;
     if (!desc) {
       message.warn('申诉说明必填');
       return;
     }
-    if (query.dimensionId === 26 && !creditType) {
+    if (query.creditType === 26 && !creditType) {
       message.warn('申诉维度必填');
       return;
     }
@@ -57,19 +56,19 @@ class AppealCreate extends React.Component {
 
   handleOk = () => {
     const { query = {} } = this.props.location;
-    const { dimensionId, creditType,dimensionType } = query;
-    const { type = 1, desc, attUrlList,creditType:creditType2 } = this.state;
+    const { type, creditType,dimensionType,creditAppealId } = query||{};
+    const { desc, attUrlList,creditType:creditType2 } = this.state;
     const params = {
-      type,
-      creditAppealId: Number(dimensionId),
+      type,                   // 一申
+      creditType: creditType2?creditType2:creditType ? Number(creditType) : undefined,  // 学分维度
+      dimensionType:Number(dimensionType),            // 申诉维度
+      creditAppealId: Number(creditAppealId),   // 学分申诉id（待申诉数据ID）
       desc,
-      creditType: creditType2?creditType2:creditType ? Number(creditType) : undefined,
-      dimensionType: Number(dimensionType),
       attUrlList,
     };
     const that = this;
     this.props.dispatch({
-      type: 'appealCreateModel/postStartAppeal',
+      type: 'awaitAppealModel/firstStartAppeal',
       payload: { params },
     }).then(() => {
       that.setState({
@@ -79,14 +78,17 @@ class AppealCreate extends React.Component {
         pathname:'/scoreAppeal/onAppeal'
       });
     });
-
   };
 
+  getFileList(){
+
+  }
   handleCancel = () => {
     this.setState({
       visible: false,
     });
   };
+
   handleCollapse = (type) => {
     if (type === 1) {
       this.setState({
@@ -100,9 +102,9 @@ class AppealCreate extends React.Component {
   };
 
   render() {
-    const { collapse1, collapse2 } = this.state;
-    const { loading, scoreAppealModel = {} } = this.props;
-    const { detailInfo = {} } = scoreAppealModel;
+    const { collapse1 } = this.state;
+    const { loading, scoreAppealModel } = this.props;
+    const { detailInfo = {} } = scoreAppealModel||{};
     const { query = {} } = this.props.location;
     return (
       <Spin spinning={loading}>
@@ -118,7 +120,9 @@ class AppealCreate extends React.Component {
             <div className={styles.spaceLine}/>
             {collapse1 && (
               <div style={{ paddingLeft: '15px' }}>
-                <CreateAppeal {...this.props} getFileList={this.getFileList}
+                <CreateAppeal {...this.props}
+                              getFileList={this.getFileList}
+                              creditType={query.creditType}
                               onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
                 <div className={styles.spaceLine}/>
               </div>

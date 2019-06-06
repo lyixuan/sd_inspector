@@ -34,7 +34,7 @@ class createAppeal extends React.Component {
   };
   render() {
     const { creditType, desc } = this.state;
-    const { dimensionId } = this.props.location.query;
+    const { creditType:creditTypePre } = this.props;
     return (
       <section className={styles.personInfoCon}>
         <div className={styles.container}>
@@ -49,7 +49,7 @@ class createAppeal extends React.Component {
             <a style={{ width: 100 }}>查看证据样例</a>
           </div>
           <div style={{ marginTop: '15px' }}/>
-          {dimensionId===26&&(
+          {creditTypePre===26&&(
             <div className={styles.secRow}>
               <span style={{ width: 90, marginRight: '-8px', lineHeight: '30px' }}>*申诉维度：</span>
               <BISelect style={{ width: 230 }} placeholder="请选择" value={creditType} onChange={(val) => this.onFormChange(val, 'creditType')}>

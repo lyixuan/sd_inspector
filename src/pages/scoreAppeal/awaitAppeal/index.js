@@ -114,6 +114,7 @@ class AwaitAppeal extends React.Component {
       creditType:record.creditType,  // 学分维度
       dimensionType,            // 申诉维度
       creditAppealId: record.id,   // 学分申诉id（待申诉数据ID）
+      dimensionId:record.id        // 获取详情用
     };
     this.onJumpPage(query, '/scoreAppeal/firstAppeal_create');
   };

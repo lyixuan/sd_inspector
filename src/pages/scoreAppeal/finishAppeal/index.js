@@ -1,5 +1,4 @@
 import React from 'react';
-import RenderRoute from '@/components/RenderRoute';
 import { connect } from 'dva/index';
 import router from 'umi/router';
 import CSTable from '@/pages/scoreAppeal/components/Table';
@@ -97,7 +96,6 @@ class FinishAppeal extends React.Component {
 
     const saveUrlParams =JSON.stringify(paramsUrl);
 
-    console.log('params',params)
     // 请求成功后保留查询条件
     if (!exp){
       this.props.dispatch({

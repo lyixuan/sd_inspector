@@ -2,18 +2,18 @@ import React from 'react';
 import styles from './style.less';
 import { connect } from 'dva';
 import { Spin,message } from 'antd';
-import FirstCheckResult from '../components/FirstCheckResult';
-import SecondCheckResult from '../components/SecondCheckResult';
-import CreateAppeaRecord from '../components/CreateAppeaRecord';
-import FirstCheck from '../components/FirstCheck';
-import SecondCheck from '../components/SecondCheck';
-import Tags from '../components/Tags';
+import FirstCheckResult from '../../components/FirstCheckResult/index';
+import SecondCheckResult from '../../components/SecondCheckResult/index';
+import CreateAppeaRecord from '../../components/CreateAppeaRecord/index';
+import FirstCheck from '../../components/FirstCheck/index';
+import SecondCheck from '../../components/SecondCheck/index';
+import Tags from '../../components/Tags/index';
 import router from 'umi/router';
-import BIButton from '@/ant_components/BIButton';
+import BIButton from '@/ant_components/BIButton/index';
 import imgUp from '@/assets/scoreQuality/up.png';
 import imgdown from '@/assets/scoreQuality/down.png';
-import BaseInfo from '../components/BaseInfo';
-import BIModal from '@/ant_components/BIModal';
+import BaseInfo from '../../components/BaseInfo/index';
+import BIModal from '@/ant_components/BIModal/index';
 
 @connect(({ scoreAppealModel, loading,onAppealModel }) => ({
   scoreAppealModel,onAppealModel,
@@ -38,12 +38,10 @@ class AppealCheck extends React.Component {
       type: 'scoreAppealModel/queryBaseAppealInfo',
       payload: { params: { dimensionId: query.dimensionId, dimensionType: query.dimensionType } },
     });
-    if (!query.isAwait) {
-      this.props.dispatch({
-        type: 'scoreAppealModel/queryAppealInfoCheckList',
-        payload: { params: { creditAppealId: query.id } },
-      });
-    }
+    this.props.dispatch({
+      type: 'scoreAppealModel/queryAppealInfoCheckList',
+      payload: { params: { creditAppealId: query.id } },
+    });
   }
 
   handleCollapse=(type)=> {
@@ -74,10 +72,10 @@ class AppealCheck extends React.Component {
   };
   handleOk = () => {
     const { query = {} } = this.props.location;
-    const { id, creditType,dimensionType } = query;
+    const { id } = query;
     const { desc, checkResult } = this.state;
     const params = {
-      type:1,
+      type:1,          // 一申 二申
       creditAppealId: Number(id),
       desc,
       checkResult
