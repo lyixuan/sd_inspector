@@ -118,7 +118,9 @@ class InitTable extends Component {
     a.href = `${STATIC_HOST}${data.filePath}`;
     a.click();
   };
+  // 编辑用户组名称
   edit = (record) => {
+    console.log(123, record.groupName)
     this.setState({
       visible: true,
       rowId: record.id,
@@ -198,6 +200,7 @@ class InitTable extends Component {
 
   render() {
     const data = this.props.list.list
+    const defaultValue = this.state.groupName
     return (
       <>
         <Table rowKey={record => record.id} columns={this.columnsData()} dataSource={data} pagination={false} onClick={this.handleEdit} />
@@ -217,7 +220,7 @@ class InitTable extends Component {
           <div className={styles.modalWrap}>
             <p>请设置用户组名称</p>
             <TextArea
-              defaultValue={this.state.groupName}
+              value={defaultValue}
               placeholder="输入名称"
               maxLength={50}
               onChange={this.userGroupInput}

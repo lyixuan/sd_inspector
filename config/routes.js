@@ -179,7 +179,7 @@ export const routes = [
       {
         path: '/ko',
         component: './ko',
-        name: 'KO计划',
+        name: 'KO项目',
         pageRedirect: '/ko/behaviorAnalyze',
         routes: [
           {
@@ -204,23 +204,30 @@ export const routes = [
             component: './ko/behaviorPath',
             name: '用户行为轨迹',
           },
+        ]
+      },
+      {
+        path: '/koUserOperation',
+        name: '用户运营',
+        routes: [
           {
-            path: '/ko/userOperation',
+            path: '/koUserOperation/userOperation',
             component: './ko/userOperation',
             name: '用户运营',
           },
           {
-            path: '/ko/userGroupAdd',
+            path: '/koUserOperation/userGroupAdd',
             component: './ko/userGroupAdd',
-            name: '用户运营',
+            name: '添加用户运营',
           },
           {
-            path: '/ko/userGroupEdit',
+            path: '/koUserOperation/userGroupEdit',
             component: './ko/userGroupEdit',
-            name: '用户运营',
+            name: '编辑用户运营',
           },
         ],
       },
+
     ],
   },
 ];
