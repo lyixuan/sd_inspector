@@ -36,7 +36,7 @@ class userOperation extends React.Component {
   }
   toCreateUserGroup = () => {
     router.push({
-      pathname: '/ko/userGroupAdd'
+      pathname: '/koUserOperation/userGroupAdd'
     });
   }
   onSizeChange = (page) => {
