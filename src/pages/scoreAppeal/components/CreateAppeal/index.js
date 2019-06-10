@@ -4,6 +4,7 @@ import BIInput from '@/ant_components/BIInput/index';
 import styles from './styles.css';
 import BISelect from '@/ant_components/BISelect/index';
 import UploadImg from '../uploadImgs';
+import ExampleImg from '../Example';
 
 const { Option } = BISelect;
 
@@ -12,20 +13,19 @@ class createAppeal extends React.Component {
     super(props);
     const { appealStart = {} } = this.props;
     this.state = {
-      checkResult: appealStart?appealStart.checkResult:null,
-      creditType:appealStart?appealStart.creditType:null,
-      desc: appealStart?appealStart.desc:null,
-      fileList: [
-        // { uid: '-1', url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" },
-        // { uid: '-2', url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" }
-      ],
-      attUrlList: appealStart?appealStart.attUrlList:[],
+      checkResult: appealStart ? appealStart.checkResult : null,
+      creditType: appealStart ? appealStart.creditType : null,
+      desc: appealStart ? appealStart.desc : null,
+      attUrlList: appealStart ? appealStart.appealProof : [],
     };
   }
-  UploadImg = (fileList) => {
+  uploadImg = (fileList) => {
+    if (!fileList) return;
     let attUrlList = [];
     fileList.filter((item) => {
-      return attUrlList.push(item.response.data.fileUrl);
+      if (item.response && item.response.code === 20000) {
+        return attUrlList.push(item.response.data.fileUrl);
+      }
     });
     this.props.getUploadImg(attUrlList);
     this.setState({ attUrlList });
@@ -36,9 +36,19 @@ class createAppeal extends React.Component {
     }, () => this.props.onFormChange(value, vname));
 
   };
+  showExampleImg = () => {
+    console.log('1');
+  }
   render() {
-    const { creditType, desc } = this.state;
+    const { creditType, desc, attUrlList } = this.state;
     const { creditType: creditTypePre } = this.props;
+    let newAttUrlList = [];
+    if (attUrlList) {
+      for (let i = 0; i < attUrlList.length; i++) {
+        newAttUrlList.push({ uid: i, url: attUrlList[i] });
+      }
+    }
+
     return (
       <section className={styles.personInfoCon}>
         <div className={styles.container}>
@@ -47,10 +57,11 @@ class createAppeal extends React.Component {
             {/* <UploadImgs type="edit" /> */}
             <UploadImg
               {...this.props}
-              UploadImg={this.UploadImg}
-              fileList={this.state.fileList}>
+              uploadImg={(fileList) => this.uploadImg(fileList)}
+              fileList={newAttUrlList}>
             </UploadImg>
-            <a className={styles.inspect} style={{ width: 100 }}>查看证据样例</a>
+            <a className={styles.inspect} style={{ width: 100 }}
+              onClick={this.showExampleImg}>查看证据样例</a>
           </div>
           <div style={{ marginTop: '15px' }} />
           {creditTypePre === 26 && (

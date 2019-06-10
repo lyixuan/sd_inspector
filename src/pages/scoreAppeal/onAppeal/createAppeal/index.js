@@ -13,8 +13,8 @@ import { Spin, message } from 'antd';
 import BIModal from '@/ant_components/BIModal';
 import BaseInfo from '../../components/BaseInfo';
 
-@connect(({ appealCreateModel, scoreAppealModel,onAppealModel, loading }) => ({
-  appealCreateModel, scoreAppealModel,onAppealModel,
+@connect(({ appealCreateModel, scoreAppealModel, onAppealModel, loading }) => ({
+  appealCreateModel, scoreAppealModel, onAppealModel,
   loading: loading.effects['scoreAppealModel/queryBaseAppealInfo'],
   submitLoading: loading.effects['appealCreateModel/postStartAppeal'],
 }))
@@ -26,6 +26,7 @@ class AppealCreate extends React.Component {
       collapse1: true,
       collapse2: true,
       visible: false,
+      attUrlList: [],
     };
   }
   componentDidMount() {
@@ -41,12 +42,12 @@ class AppealCreate extends React.Component {
   }
 
   getFileList = (file) => {
-      let formData = new FormData();
-      formData.append("file", file);
-      this.props.dispatch({
-        type: 'appealCreateModel/queryuploadMultipleFile',
-        payload: { file },
-      })
+    let formData = new FormData();
+    formData.append("file", file);
+    this.props.dispatch({
+      type: 'appealCreateModel/queryuploadMultipleFile',
+      payload: { file },
+    })
   };
   onFormChange = (value, vname) => {
     this.setState({
@@ -70,13 +71,13 @@ class AppealCreate extends React.Component {
   };
   handleOk = () => {
     const { query = {} } = this.props.location;
-    const { type,dimensionId, creditType,dimensionType } = query;
-    const { desc, attUrlList,creditType:creditType2 } = this.state;
+    const { type, dimensionId, creditType, dimensionType } = query;
+    const { desc, attUrlList, creditType: creditType2 } = this.state;
     const params = {
       type,
       creditAppealId: Number(dimensionId),
       desc,
-      creditType: creditType2?creditType2:creditType ? Number(creditType) : undefined,
+      creditType: creditType2 ? creditType2 : creditType ? Number(creditType) : undefined,
       dimensionType: Number(dimensionType),
       attUrlList,
     };
@@ -109,35 +110,41 @@ class AppealCreate extends React.Component {
     }
   };
 
+  getUploadImg = (attUrlList) => {
+    this.setState({ attUrlList });
+  };
+
   render() {
     const { collapse1, collapse2 } = this.state;
     const { loading, scoreAppealModel = {} } = this.props;
     const { detailInfo = {}, appealRecord = {} } = scoreAppealModel;
     const firstRecord = appealRecord[1];
     const SecondRecord = appealRecord[2];
-    const { appealStart:appealStart1, sopAppealCheck:sopAppealCheck1, masterAppealCheck:masterAppealCheck1 } = firstRecord||{};
-    const { appealStart:appealStart2, sopAppealCheck:sopAppealCheck2 , masterAppealCheck:masterAppealCheck2 } = SecondRecord||{};
+    const { appealStart: appealStart1, sopAppealCheck: sopAppealCheck1, masterAppealCheck: masterAppealCheck1 } = firstRecord || {};
+    const { appealStart: appealStart2, sopAppealCheck: sopAppealCheck2, masterAppealCheck: masterAppealCheck2 } = SecondRecord || {};
     const { query = {} } = this.props.location;
     return (
       <Spin spinning={loading}>
         <div className={styles.appealContainer}>
-          <BaseInfo detailInfo={detailInfo}/>
-          {firstRecord&& (
+          <BaseInfo detailInfo={detailInfo} />
+          {firstRecord && (
             <div>
               <div className={styles.foldBox}>
                 <span>一次申诉</span>
                 <span onClick={() => this.handleCollapse(1)}><img src={collapse1 ? imgdown : imgUp} width='18'
-                                                                  height='18'/></span>
+                  height='18' /></span>
               </div>
-              <div className={styles.spaceLine}/>
+              <div className={styles.spaceLine} />
               {/* 申诉内容 */}
               {collapse1 && (
                 <div style={{ paddingLeft: '15px' }}>
-                  <CreateAppeal {...this.props} getFileList={this.getFileList} appealStart={appealStart1}
-                                onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
-                  {sopAppealCheck1&&sopAppealCheck1.length!==0 && <FirstCheckResult sopAppealCheck={sopAppealCheck1}/>}
-                  {masterAppealCheck1 && <SecondCheckResult masterAppealCheck={masterAppealCheck1}/>}
-                  <div className={styles.spaceLine}/>
+                  <CreateAppeal {...this.props}
+                    getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
+                    getFileList={this.getFileList} appealStart={appealStart1}
+                    onFormChange={(value, vname) => this.onFormChange(value, vname)} />
+                  {sopAppealCheck1 && sopAppealCheck1.length !== 0 && <FirstCheckResult sopAppealCheck={sopAppealCheck1} />}
+                  {masterAppealCheck1 && <SecondCheckResult masterAppealCheck={masterAppealCheck1} />}
+                  <div className={styles.spaceLine} />
                 </div>
               )}
             </div>
@@ -147,15 +154,17 @@ class AppealCreate extends React.Component {
               <div className={styles.foldBox}>
                 <span>二次申诉</span>
                 <span onClick={() => this.handleCollapse(2)}><img src={collapse2 ? imgdown : imgUp} width='18'
-                                                                  height='18'/></span>
+                  height='18' /></span>
               </div>
               {/* 申诉内容 */}
               {collapse2 && (
                 <div style={{ paddingLeft: '15px' }}>
-                  <CreateAppeal {...this.props} getFileList={this.getFileList} appealStart={appealStart2}
-                                onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
-                  {sopAppealCheck2&&sopAppealCheck2.length!==0 && <FirstCheckResult sopAppealCheck={sopAppealCheck2}/>}
-                  {masterAppealCheck2 && <SecondCheckResult masterAppealCheck={masterAppealCheck2}/>}
+                  <CreateAppeal {...this.props}
+                    getUploadImg={() => this.getUploadImg}
+                    getFileList={this.getFileList} appealStart={appealStart2}
+                    onFormChange={(value, vname) => this.onFormChange(value, vname)} />
+                  {sopAppealCheck2 && sopAppealCheck2.length !== 0 && <FirstCheckResult sopAppealCheck={sopAppealCheck2} />}
+                  {masterAppealCheck2 && <SecondCheckResult masterAppealCheck={masterAppealCheck2} />}
                 </div>
               )}
             </div>

@@ -49,15 +49,15 @@ export const webpackConfig = {
     '@': require('path').resolve(__dirname, 'src'),
   },
   proxy: {
-    '/proxy': {
-      target: 'http://172.16.59.227:8086/', //  区别于self接口
-      changeOrigin: true,
-      pathRewrite:{'/proxy':'/'}
-    },
     // '/proxy': {
-    //   target: proxy_env, //  区别于self接口
+    //   target: 'http://172.16.59.227:8086/', //  区别于self接口
     //   changeOrigin: true,
+    //   pathRewrite:{'/proxy':'/'}
     // },
+    '/proxy': {
+      target: proxy_env, //  区别于self接口
+      changeOrigin: true,
+    },
     '/oldApi': {
       target: proxy_env, //  区别于self接口
       changeOrigin: true,

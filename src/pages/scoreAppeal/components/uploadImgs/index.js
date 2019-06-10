@@ -76,12 +76,12 @@ class UploadImg extends React.Component {
           message.error('code错误')
           return false
         } else {
-          this.props.UploadImg(fileList);
+          this.props.uploadImg(fileList);
           this.setIndex(currentIndex + 1)
         }
         break
       case 'removed':
-        this.props.UploadImg(fileList);
+        this.props.uploadImg(fileList);
         this.setIndex(currentIndex - 1)
         break
     }
@@ -96,7 +96,6 @@ class UploadImg extends React.Component {
   setIndex(index) {
     const { limitImgNum, mainNum, fileList: { length } } = this.state;
     // index小于等于展示数与默认显示数的差,则设置currentIndex
-    console.log(Math.min(limitImgNum, length + 1), mainNum, 'mainNum');
     if (index <= Math.min(limitImgNum, length + 1) - mainNum) {
       // 设置currentIndex为index 或 0 ,
       this.setState({ currentIndex: Math.max(index, 0) });
