@@ -5,7 +5,7 @@ import CreateAppeal from '../../components/CreateAppeal';
 import router from 'umi/router';
 import BIButton from '@/ant_components/BIButton';
 import imgUp from '@/assets/scoreQuality/up.png';
-import imgdown from '@/assets/scoreQuality/down.png';
+import imgDown from '@/assets/scoreQuality/down.png';
 import { Spin, message } from 'antd';
 import BIModal from '@/ant_components/BIModal';
 import BaseInfo from '../../components/BaseInfo';
@@ -75,7 +75,8 @@ class AppealCreate extends React.Component {
         visible: false,
       });
       router.push({
-        pathname:'/scoreAppeal/onAppeal'
+        pathname:'/scoreAppeal/onAppeal',
+        query:{dimensionType:query.dimensionType }
       });
     });
   };
@@ -114,7 +115,7 @@ class AppealCreate extends React.Component {
             <div className={styles.foldBox}>
               <span>一次申诉</span>
               <span onClick={() => this.handleCollapse(1)}>
-                <img src={collapse1 ? imgdown : imgUp} width='18' height='18'/>
+                <img src={collapse1 ? imgDown : imgUp} width='18' height='18'/>
               </span>
             </div>
             <div className={styles.spaceLine}/>
@@ -132,6 +133,7 @@ class AppealCreate extends React.Component {
             <BIButton onClick={() => router.goBack()} style={{ marginRight: '15px' }}>返回</BIButton>
             <BIButton type='primary' onClick={() => this.submitAppeal()}>提交申诉</BIButton>
           </footer>
+          {/*二次确认modal*/}
           <BIModal
             title="提交确认"
             visible={this.state.visible}

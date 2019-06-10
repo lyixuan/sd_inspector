@@ -1,15 +1,13 @@
 import React from 'react';
-import RenderRoute from '@/components/RenderRoute';
 import CSTable from '@/pages/scoreAppeal/components/Table';
 import { connect } from 'dva/index';
-import { BiFilter, DeepCopy } from '@/utils/utils';
+import { BiFilter } from '@/utils/utils';
 import router from 'umi/router';
 import style from './style.less'
 import AuthButton from '@/components/AuthButton/index';
 import CSForm from '@/pages/scoreAppeal/components/Form';
 import BIModal from '@/ant_components/BIModal';
 import {dealQuarys} from '@/utils/utils';
-import { queryOnAppealList } from '@/pages/scoreAppeal/onAppeal/services';
 const confirm = BIModal.confirm;
 
 const columns = [
@@ -66,6 +64,10 @@ const columns = [
 class OnAppeal extends React.Component {
   constructor(props) {
     super(props);
+    const {dimensionType:dimensionTypeQuery} = this.props.location.query;
+    if (dimensionTypeQuery) {
+      this.dimensionType = dimensionTypeQuery;
+    }
     this.state = {
       page: 1,
       pageSize: 30,
@@ -146,18 +148,20 @@ class OnAppeal extends React.Component {
       creditType:record.creditType,    // 学分维度
       dimensionType,                    // 申诉维度
       creditAppealId: record.id,        // 学分申诉id（待申诉数据ID）
-      dimensionId:record.metaDimensionId        // 获取详情用
+      dimensionId:record.metaDimensionId,        // 获取详情用
     };
     this.onJumpPage(query, '/scoreAppeal/appeal_create');
   };
-  onAppeal = (record) => {
+  onCheck = (record) => {
     const {dimensionType} = this.state;
     const query={
       id:record.id,
       dimensionId:record.metaDimensionId,        // 获取详情用
       creditType:record.creditType,  // 学分维度
       dimensionType,            // 申诉维度
-      sopOrMaster:1               // 1 sop，2 master
+      status:record.status,
+      firstOrSec:(record.status === 1||record.status === 5)?1:(record.status === 2||record.status === 6)?2:null,// 1 一申，2 二申
+      sopOrMaster:(record.status === 1||record.status === 2)?1:(record.status === 5||record.status === 6)?2:null,// 1 sop，2 master
     };
     this.onJumpPage(query, '/scoreAppeal/checkAppeal');
   };
@@ -190,26 +194,34 @@ class OnAppeal extends React.Component {
                 详情
               </span>
             </AuthButton>
-            <AuthButton authority='/scoreAppeal/onAppeal/appeal'>
+            {(record.status === 3||record.status === 4||record.status === 7) && (
+              <AuthButton authority='/scoreAppeal/onAppeal/appeal'>
               <span className={style.actionBtn} onClick={() => this.onCreateAppeal(record)}>
                 申诉
               </span>
-            </AuthButton>
-            <AuthButton authority='/scoreAppeal/onAppeal/repeal'>
+              </AuthButton>
+            )}
+            {(record.status === 1||record.status === 2) && (
+              <AuthButton authority='/scoreAppeal/onAppeal/repeal'>
               <span className={style.actionBtn} onClick={() => this.onRepeal(record)}>
                 撤销
               </span>
-            </AuthButton>
-            <AuthButton authority='/scoreAppeal/appeal/dockingMan'>
-              <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
+              </AuthButton>
+            )}
+            {(record.status === 1||record.status === 2) && (
+              <AuthButton authority='/scoreAppeal/appeal/dockingMan'>
+              <span className={style.actionBtn} onClick={() => this.onCheck(record)}>
                 对接人审核
               </span>
-            </AuthButton>
-            <AuthButton authority='/scoreAppeal/appeal/master'>
-              <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
+              </AuthButton>
+            )}
+            {(record.status === 5||record.status === 6) && (
+              <AuthButton authority='/scoreAppeal/appeal/master'>
+              <span className={style.actionBtn} onClick={() => this.onCheck(record)}>
                 主管审核
               </span>
-            </AuthButton>
+              </AuthButton>
+            )}
           </>
         );
       },

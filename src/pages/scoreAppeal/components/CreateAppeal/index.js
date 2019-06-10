@@ -15,8 +15,8 @@ class createAppeal extends React.Component {
       ...appealStart,
       appealEndDate: null,
       checkResult: null,
+      creditType:null,
       desc: null,
-      isWarn: null,
       fileList: [
         { uid: '-1', url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" },
         { uid: '-2', url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" }

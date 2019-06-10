@@ -1,7 +1,6 @@
 import { message } from 'antd';
 import { msgF } from '@/utils/utils';
-import { exportExcel } from '@/pages/scoreAppeal/services';
-import { queryOnAppealList,startAppeal,sopCheck,masterCheck,cancelAppeal } from '@/pages/scoreAppeal/onAppeal/services';
+import { queryOnAppealList,startAppeal,sopCheck,masterCheck,cancelAppeal,getMasterTagList } from '@/pages/scoreAppeal/onAppeal/services';
 export default {
   namespace: 'onAppealModel',
 
@@ -10,14 +9,14 @@ export default {
     page:{},
     idList:[],
     countPreCheckNum:{},
-    masterTagList:{},  // 主管tags
+    tagList:[],  // 主管tags
   },
 
   effects: {
+    // 查询在途列表
     *queryOnAppealList({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(queryOnAppealList, params);
-      console.log('result',result)
       if (result.code === 20000) {
         const {pageInfo={},idList=[],countPreCheckNum={}} = result.data;
         const onList = pageInfo.list || [];
@@ -27,6 +26,7 @@ export default {
         message.error(msgF(result.msg,result.msgDetail));
       }
     },
+    // 发起申诉（非首次一申、二申）
     *startAppeal({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(startAppeal, params);
@@ -63,10 +63,12 @@ export default {
         message.error(msgF(result.msg,result.msgDetail));
       }
     },
-    *exportExcel({ payload }, { call, put }) {
+    *getMasterTagList({ payload }, { call, put }) {
       const params = payload.params;
-      const result = yield call(exportExcel, params);
+      const result = yield call(getMasterTagList, params);
       if (result.code === 20000) {
+        const {tagList=[]} = result.data;
+        yield put({ type: 'save', payload: { tagList} });
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }

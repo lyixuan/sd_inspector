@@ -33,7 +33,7 @@ class FirstCheck extends React.Component {
           </div>
           <div style={{marginTop:'15px'}}/>
           <div  className={styles.secRow}>
-            <span style={{ width: 90 }}>&nbsp;申诉说明：</span>
+            <span style={{ width: 90 }}>&nbsp;审核说明：</span>
             <BIInput.TextArea  maxLength={1000} value={desc} onChange={(e) => this.onFormChange(e.target.value, 'desc')} rows={4} />
           </div>
         </div>

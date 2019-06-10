@@ -30,6 +30,7 @@ class AppealCheck extends React.Component {
       checkResult:undefined,
       desc:undefined,
     };
+    this.checkType = null;
   }
 
   componentDidMount() {
@@ -42,6 +43,12 @@ class AppealCheck extends React.Component {
       type: 'scoreAppealModel/queryAppealInfoCheckList',
       payload: { params: { creditAppealId: query.id } },
     });
+    if (Number(query.sopOrMaster)===2) {
+      this.props.dispatch({
+        type: 'onAppealModel/getMasterTagList',
+        payload: { params: { } },
+      });
+    }
   }
 
   handleCollapse=(type)=> {
@@ -60,12 +67,23 @@ class AppealCheck extends React.Component {
       [vname]: value,
     });
   };
-  submitCheck = () => {
-    const { checkResult } = this.state;
-    if (!checkResult) {
-      message.warn('请选择审核结果');
-      return;
+  submitCheck = (checkType) => {
+    this.checkType = checkType;
+    if (this.checkType === 'sop') {
+      const { checkResult } = this.state;
+      if (!checkResult) {
+        message.warn('请选择审核结果');
+        return;
+      }
     }
+    if (this.checkType === 'master') {
+      const { checkResult } = this.state;
+      if (!checkResult) {
+        message.warn('请选择审核结果');
+        return;
+      }
+    }
+
     this.setState({
       visible: true,
     });
@@ -74,22 +92,27 @@ class AppealCheck extends React.Component {
     const { query = {} } = this.props.location;
     const { id } = query;
     const { desc, checkResult } = this.state;
-    const params = {
-      type:1,          // 一申 二申
-      creditAppealId: Number(id),
-      desc,
-      checkResult
-    };
-    const that = this;
-    this.props.dispatch({
-      type: 'onAppealModel/sopCheck',
-      payload: { params },
-    }).then(() => {
-      that.setState({
-        visible: false,
+    if (this.checkType === 'sop') {
+      const params = {
+        type:Number(query.firstOrSec),          // 1申 2申
+        creditAppealId: Number(id),
+        desc,
+        checkResult
+      };
+      const that = this;
+      this.props.dispatch({
+        type: 'onAppealModel/sopCheck',
+        payload: { params },
+      }).then(() => {
+        that.setState({
+          visible: false,
+        });
+        router.goBack();
       });
-      router.goBack();
-    });
+    }
+    if (this.checkType === 'master') {
+
+    }
 
   };
   handleCancel = () => {
@@ -101,6 +124,7 @@ class AppealCheck extends React.Component {
 
   }
   render() {
+    const { query = {} } = this.props.location;
     const {collapse1,collapse2,tags=[],checkedTags} = this.state;
     const {loading,scoreAppealModel={}}=this.props;
     const {detailInfo={},appealRecord={}}=scoreAppealModel;
@@ -143,23 +167,37 @@ class AppealCheck extends React.Component {
           )}
         </div>
         }
-        <div className={styles.foldBox}>
-          <span>对接人审核</span>
-          <span></span>
-        </div>
-        <FirstCheck onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
-        <div className={styles.foldBox}>
-          <span>主管审核</span>
-          <span></span>
-        </div>
-        <SecondCheck onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
-        <Tags tags={tags}
-              checkedTags={checkedTags}
-              onTagChange={item => this.onTagChangeFun(item)}/>
+        {Number(query.sopOrMaster)===1&&(
+          <div>
+            <div className={styles.foldBox}>
+              <span>对接人审核</span>
+              <span/>
+            </div>
+            <FirstCheck onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
+          </div>
+        )}
+        {Number(query.sopOrMaster)===2&&(
+          <div>
+            <div className={styles.foldBox}>
+              <span>主管审核</span>
+              <span/>
+            </div>
+            <SecondCheck onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
+            <Tags tags={tags}
+                  checkedTags={checkedTags}
+                  onTagChange={item => this.onTagChangeFun(item)}/>
+          </div>
+        )}
         <footer style={{ textAlign: 'right', marginTop: '20px' }}>
           <BIButton onClick={() => router.goBack()} style={{marginRight:'15px'}}>返回</BIButton>
-          <BIButton type='primary' onClick={() => this.submitCheck()}>提交审核</BIButton>
+          {Number(query.sopOrMaster)===1&&(
+            <BIButton type='primary' onClick={() => this.submitCheck('sop')}>提交审核</BIButton>
+          )}
+          {Number(query.sopOrMaster)===2&&(
+            <BIButton type='primary' onClick={() => this.submitCheck('master')}>提交审核</BIButton>
+          )}
         </footer>
+        {/*-----------*/}
         <BIModal
           title="提交确认"
           visible={this.state.visible}
@@ -170,8 +208,7 @@ class AppealCheck extends React.Component {
             <BIButton type="primary" loading={this.props.submitLoading} onClick={this.handleOk}>
               确定
             </BIButton>,
-          ]}
-        >
+          ]}>
           <div className={styles.modalWrap}>是否确认提交？</div>
         </BIModal>
       </div>

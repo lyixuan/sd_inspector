@@ -68,18 +68,18 @@ export default {
         message.error(msgF(result.msg,result.msgDetail));
       }
     },
-    // 申诉学分维度
-    *getCreditDimensionList({ payload }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(creditDimensionList, params);
-      const dimensionList = result.data || [];
-
-      if (result.code === 20000) {
-        yield put({ type: 'save', payload: { dimensionList } });
-      } else {
-        message.error(msgF(result.msg,result.msgDetail));
-      }
-    },
+    // // 申诉学分维度
+    // *getCreditDimensionList({ payload }, { call, put }) {
+    //   const params = payload.params;
+    //   const result = yield call(creditDimensionList, params);
+    //   const dimensionList = result.data || [];
+    //
+    //   if (result.code === 20000) {
+    //     yield put({ type: 'save', payload: { dimensionList } });
+    //   } else {
+    //     message.error(msgF(result.msg,result.msgDetail));
+    //   }
+    // },
   },
 
   reducers: {
