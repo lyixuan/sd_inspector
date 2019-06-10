@@ -55,7 +55,6 @@ class AppealCreate extends React.Component {
   };
 
   handleOk = () => {
-    debugger
     const { query = {} } = this.props.location;
     const { type, creditType, dimensionType, creditAppealId } = query || {};
     const { desc, attUrlList, creditType: creditType2 } = this.state;
