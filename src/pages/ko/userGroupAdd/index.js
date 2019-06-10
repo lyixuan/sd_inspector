@@ -204,8 +204,7 @@ class userGroupAdd extends React.Component {
             </BIButton>,
             ]}>
             <div className={styles.modalWrap}>
-              <p>是否确定更新用户组？</p>
-
+              <p>是否确定创建用户组？</p>
             </div>
           </BIModal>
         </div>

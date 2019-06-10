@@ -94,7 +94,7 @@ class userGroupEdit extends React.Component {
       uniqueKey: checkResult.uniqueKey
     }
     this.editLoading(false)
-    if (checkResult.checkResult.successCount >= 0) {
+    if (checkResult.checkResult.successCount > 0) {
       this.props.dispatch({
         type: 'userGroupEdit/userGroupCheck',
         payload: { params: params },

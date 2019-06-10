@@ -68,7 +68,7 @@ class stepUpload extends Component {
           });
         }
       } else {
-        message.error(info.file.response.msg);
+        message.error(info.file.response.msgDetail);
       }
     }
   };
@@ -83,9 +83,9 @@ class stepUpload extends Component {
           message.error('请上传 Excel 文件！');
         }
 
-        isLt10M = file.size / 1024 / 1024 < 30;
+        isLt10M = file.size / 1024 / 1024 < 20;
         if (!isLt10M) {
-          message.error('文件不能大于 10MB！');
+          message.error('文件不能大于20MB！');
         }
         return isExcel && isLt10M;
       },

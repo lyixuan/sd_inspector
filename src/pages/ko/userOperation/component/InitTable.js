@@ -8,6 +8,7 @@ import BIModal from '@/ant_components/BIModal';
 import BIInput from '@/ant_components/BIInput';
 import userEdit from '@/assets/userEdit.png';
 import { STATIC_HOST } from '@/utils/constants'
+import { thousandsFormat } from '@/utils/utils';
 import router from 'umi/router';
 
 const { TextArea } = BIInput;
@@ -165,6 +166,9 @@ class InitTable extends Component {
         title: '学员数',
         dataIndex: 'userCount',
         key: 'userCount',
+        render: (text, record) => (
+          <span>{thousandsFormat(text)}</span>
+        )
       },
       {
         title: '更新时间',

@@ -11,6 +11,16 @@ import CheckResult from './checkResult';
 const { TextArea } = Input;
 
 class stepInput extends Component {
+  componentDidMount() {
+    if (this.props.inputInfo.checkResult) {
+      if (this.props.inputInfo.checkResult.successCount > 0) {
+        this.props.callBackParent(false);
+      } else {
+        this.props.callBackParent(true);
+      }
+    }
+
+  }
   // input双向绑定
   handelChange(e) {
     console.log(16, e.target.value)
