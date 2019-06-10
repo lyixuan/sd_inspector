@@ -177,7 +177,7 @@ class FinishAppeal extends React.Component {
             <span onClick={()=>this.changeTab(42)}  className={42===dimensionType?style.active:null}>创收</span>
           </AuthButton>
         </p>
-        <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params,pg,exp)=>{this.formSubmit(undefined,params,pg,exp)}}/>
+        <CSForm {...this.props} dimensionType={dimensionType} progress={'finishAppeal'} onSubmit={(params,pg,exp)=>{this.formSubmit(undefined,params,pg,exp)}}/>
         <CSTable dataSource={finishList} columns={this.columnsAction()} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}/>
       </>
     );

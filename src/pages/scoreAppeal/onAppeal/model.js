@@ -67,7 +67,7 @@ export default {
       const params = payload.params;
       const result = yield call(getMasterTagList, params);
       if (result.code === 20000) {
-        const {tagList=[]} = result.data;
+        const tagList = result.data||[];
         yield put({ type: 'save', payload: { tagList} });
       } else {
         message.error(msgF(result.msg,result.msgDetail));

@@ -144,7 +144,7 @@ class OnAppeal extends React.Component {
   onCreateAppeal = (record) => {
     const {dimensionType} = this.state;
     const query={
-      type:record.status === 3||record.status===7?1:2,  // 1:一申 2：二申
+      type:record.status === 3?1:2,  // 1:一申 2：二申
       creditType:record.creditType,    // 学分维度
       dimensionType,                    // 申诉维度
       creditAppealId: record.id,        // 学分申诉id（待申诉数据ID）
@@ -265,7 +265,7 @@ class OnAppeal extends React.Component {
             <span onClick={()=>this.changeTab(42)}  className={42===dimensionType?style.active:null}>创收</span>
           </AuthButton>
         </p>
-        <CSForm {...this.props} dimensionType={dimensionType} onSubmit={(params,pg,exp)=>{this.formSubmit(undefined,params,pg,exp)}} />
+        <CSForm {...this.props} dimensionType={dimensionType} progress={'onAppeal'} onSubmit={(params,pg,exp)=>{this.formSubmit(undefined,params,pg,exp)}} />
         <CSTable dataSource={onList} columns={this.columnsAction()} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}/>
       </>
     );

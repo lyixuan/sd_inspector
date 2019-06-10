@@ -418,7 +418,33 @@ export const SCORE_APPEAL_STATE = [
   {id:9,name:'二次申诉超时'},
   {id:10,name:'二次申诉成功'},
   {id:11,name:'二次申诉失败'},
-]
+];
+// 申诉状态-学分归属人、对接人-在途
+export const SCORE_APPEAL_STATE_ON_OWNER = [
+  {id:1,name:'一次对接人待审核'},
+  {id:2,name:'二次对接人待审核'},
+  {id:3,name:'一次对接人审核未通过'},
+  {id:4,name:'二次对接人审核未通过'},
+  {id:5,name:'一次主管待审核'},
+  {id:6,name:'二次主管待审核'},
+  {id:7,name:'一次申诉失败'},
+];
+// 申诉状态-主管-在途
+export const SCORE_APPEAL_STATE_ON_MASTER = [
+  {id:2,name:'二次对接人待审核'},
+  {id:4,name:'二次对接人审核未通过'},
+  {id:5,name:'一次主管待审核'},
+  {id:6,name:'二次主管待审核'},
+  {id:7,name:'一次申诉失败'},
+];
+// 申诉状态-结案
+export const SCORE_APPEAL_STATE_FIN = [
+  {id:8,name:'一次申诉成功'},
+  {id:9,name:'二次申诉超时'},
+  {id:10,name:'二次申诉成功'},
+  {id:11,name:'二次申诉失败'},
+];
+
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -449,6 +475,9 @@ export default {
   CHOISE_STATUS,
   DIMENSION_TYPE,
   SCORE_APPEAL_STATE,
+  SCORE_APPEAL_STATE_FIN,
+  SCORE_APPEAL_STATE_ON_OWNER,
+  SCORE_APPEAL_STATE_ON_MASTER,
   SCORE_APPEAL_DIS,
 
 };

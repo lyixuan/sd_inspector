@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import styles from './style.css';
-import moment from 'moment/moment';
+import moment from 'moment';
 import ShowImgs from '@/pages/scoreAppeal/components/ShowImgs';
 
 export default class SOPCheckResultComponent extends React.Component {
@@ -28,11 +28,11 @@ export default class SOPCheckResultComponent extends React.Component {
                     <span style={{flex:1}}><ShowImgs imgList = {appealProof}/></span>
                   </div>
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
                   <span>执行人：{operator}</span>
                 </Col>
-                <Col span={4}>
-                  <span>操作时间：{operateDate}</span>
+                <Col span={5}>
+                  <span>操作时间：{moment(new Date(operateDate)).format('YYYY年MM月DD日 HH:mm:ss')}</span>
                 </Col>
               </Row>
               <Row className={styles.container}>

@@ -38,7 +38,7 @@ class SecondCheck extends React.Component {
         <div className={styles.container}>
           <div className={styles.secRow} >
             <div style={{lineHeight:'32px'}}>
-              <span style={{ width: 90 }}>*审核结果：</span>
+              <span style={{ width: 90 }}>*审核结果： </span>
               <BIRadio onChange={(e) => this.onFormChange(e.target.value, 'checkResult')} value={checkResult}>
                 <BIRadio.Radio value={1}>通过</BIRadio.Radio>
                 <BIRadio.Radio value={0}>驳回</BIRadio.Radio>
