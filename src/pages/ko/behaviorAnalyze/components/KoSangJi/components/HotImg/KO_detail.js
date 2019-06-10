@@ -5,10 +5,6 @@ import {thousandsFormat} from '@/utils/utils'
 import pages from './SVG';
 import mainpages from './mainSVG';
 import styles from './style.less';
-import {
-  kogoodslistPage_main,
-  storelistPage_main,
-} from '@/pages/ko/behaviorAnalyze/components/KoSangJi/components/HotImg/mainSVG';
 
 let tip={}
 const currentPagesData = {

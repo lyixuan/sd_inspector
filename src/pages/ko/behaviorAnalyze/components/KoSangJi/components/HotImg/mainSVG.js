@@ -23,9 +23,9 @@ export const homepage_main=`<?xml version="1.0" encoding="UTF-8"?>
                         <rect class='mask' data-name='homepage_main_click_undergraduate$-1' id="矩形" x="1.27897692e-12" y="22" width="50.5050505" height="50" rx="4"></rect>
                         <rect class='mask' data-name='homepage_main_click_specialty$-1' id="矩形" x="60" y="22" width="50.5050505" height="50" rx="4"></rect>
                         <rect class='mask' data-name='homepage_main_click_specialized_edition$-1' id="矩形" x="119" y="22" width="50.5050505" height="50" rx="4"></rect>
-                        <rect class='mask' data-name='' id="矩形" x="179" y="22" width="50.5050505" height="50" rx="4"></rect>
+                        <rect class='mask' data-name='homepage_main_click_firstlist$129' id="矩形" x="179" y="22" width="50.5050505" height="50" rx="4"></rect>
                         <rect class='mask' data-name='homepage_main_click_mba$-1' id="矩形" x="1.30029321e-12" y="85" width="50.5050505" height="50" rx="4"></rect>
-                        <rect class='mask' data-name='' id="矩形" x="60" y="86" width="49.8920107" height="50" rx="4"></rect>
+                        <rect class='mask' data-name='homepage_main_click_firstlist$113' id="矩形" x="60" y="86" width="49.8920107" height="50" rx="4"></rect>
                         <rect class='mask' data-name='homepage_main_click_accounting$-1' id="矩形" x="119" y="86" width="50.5050505" height="50" rx="4"></rect>
                         <rect class='mask' data-name='homepage_main_click_more$-1' id="矩形" x="179" y="86" width="50.5050505" height="50" rx="4"></rect>
                         <rect class='mask' data-name='homepage_main_click_ko_more$-1' id="矩形" x="0" y="156" width="230" height="21.78" rx="4"></rect>
@@ -47,13 +47,13 @@ export const homepage_main=`<?xml version="1.0" encoding="UTF-8"?>
                             <tspan class='text' data-name='homepage_main_click_specialized_edition$-1' x="135" y="50">0</tspan>
                         </text>
                         <text id="0">
-                            <tspan class='text' data-name='' x="195" y="50">0</tspan> 
+                            <tspan class='text' data-name='homepage_main_click_firstlist$129' x="195" y="50">0</tspan> 
                         </text>
                         <text id="0">
                             <tspan class='text' data-name='homepage_main_click_mba$-1' x="16" y="113">0</tspan>
                         </text>
                         <text id="0">
-                            <tspan class='text' data-name='' x="76" y="114">0</tspan> 
+                            <tspan class='text' data-name='homepage_main_click_firstlist$113' x="76" y="114">0</tspan> 
                         </text>
                         <text id="0">
                             <tspan class='text' data-name='homepage_main_click_accounting$-1' x="135" y="114">0</tspan>
