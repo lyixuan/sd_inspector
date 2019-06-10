@@ -115,8 +115,8 @@ a,a:hover{
   vertical-align:6%;
 }
 
-/*ko 模块需要，修改ant-popover浮出框背景为黑色，这个样式是定位到根的，所以需要在全局修改，以后其他地方用到再说*/
-.ant-popover .ant-popover-inner{
+/* ko 模块需要，修改ant-popover浮出框背景为黑色，这个样式是定位到根的，所以需要在全局修改，以后其他地方用到再说 */
+/* .ant-popover .ant-popover-inner{
   background-color: #565656;
 }
 
@@ -130,7 +130,7 @@ a,a:hover{
 .ant-popover-inner-content {
   color: #fff;
   font-size: 12px;
-}
+} */
 
 /*ant table滚动条兼容 safri和外接显示器*/
 /*https://github.com/ant-design/ant-design/issues/13994*/

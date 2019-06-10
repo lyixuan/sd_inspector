@@ -341,7 +341,7 @@ function DateBar(props) {
   return (
     <div>
       <div className={style.expressionArea}>
-        <img src={face1}/>
+        <img src={face1} />
         <div className={style.progress}>
           <p className={style.progressText}>
             <span>{props.text.positiveMsgNum}</span>
@@ -352,7 +352,7 @@ function DateBar(props) {
             <div className={style.bar2} style={{ width: props.text.negativePercent }}></div>
           </div>
         </div>
-        <img src={face2}/>
+        <img src={face2} />
       </div>
     </div>
   );
@@ -422,14 +422,14 @@ class UserList extends React.Component {
       filterExitParams[item.filterKey] = Array.isArray(filterArr) ? (filterArr.length > 0 ? filterArr[0] : 0) : undefined;
     });
     // 排序
-    if (orderSort.columnKey  && orderSort.order) {
+    if (orderSort.columnKey && orderSort.order) {
       orderSortParams.field = sorterKeyName[orderSort.columnKey];
-      orderSortParams.sort = orderSort.order === 'ascend'? 'asc' : 'desc';
+      orderSortParams.sort = orderSort.order === 'ascend' ? 'asc' : 'desc';
     }
     this.setState({
       filterExitParams,
     }, () => {
-      this.queryData(undefined, this.initpage, undefined, filterExitParams, {sortField: orderSortParams});
+      this.queryData(undefined, this.initpage, undefined, filterExitParams, { sortField: orderSortParams });
     });
   };
   getLocationParams = (chooseEventData = this.props.chooseEventData) => {
@@ -453,13 +453,13 @@ class UserList extends React.Component {
     startTime = moment(startTime).format(dateFormat);
     endTime = moment(endTime).format(dateFormat);
     return (<span key={name + index}><Tag closable={!isShowFiexd}
-                                          onClose={() => !isShowFiexd ? this.onClose(key, date) : null}>{name}:{`${startTime}~${endTime}`}</Tag></span>);
+      onClose={() => !isShowFiexd ? this.onClose(key, date) : null}>{name}:{`${startTime}~${endTime}`}</Tag></span>);
   };
   renderGrouptags = (item, key) => {
     const { isShowFiexd } = this.state;
     const orgName = item.map(item => item.name).join('/');
     return orgName ? (<span key={orgName}><Tag closable={!isShowFiexd}
-                                               onClose={() => !isShowFiexd ? this.onClose(key, item) : null}>{orgName}</Tag></span>) : null;
+      onClose={() => !isShowFiexd ? this.onClose(key, item) : null}>{orgName}</Tag></span>) : null;
   };
   renderTypeTage = (obj, key, color = '#F4F4F4') => (type) => {
     return obj.name
@@ -525,10 +525,14 @@ class UserList extends React.Component {
   };
   renderChooseTags = () => {
     const params = this.props.originParams.originParams;
-    const returnNode = Object.keys(params).map(item => {
-      return (params[item] !== null || params[item] !== undefined) && this.checkoutTypeTage(item, params[item]);
-    });
-    return returnNode;
+    if (params) {
+      const returnNode = Object.keys(params).map(item => {
+        return (params[item] !== null || params[item] !== undefined) && this.checkoutTypeTage(item, params[item]);
+      });
+      return returnNode;
+    }
+    return []
+
   };
   showPop = () => {
     // return;
@@ -580,8 +584,8 @@ class UserList extends React.Component {
         payload: { params: submitParam },
       });
       this.setState({
-        visible: false,
-        visible2: true,
+        visible: this.props.userListModel.visible,
+        visible2: this.props.userListModel.visible2,
       });
     }
 
@@ -606,7 +610,7 @@ class UserList extends React.Component {
             <p style={{ fontSize: 12 }}>共查询到 <span style={{ color: '#52C9C2' }}>{thousandsFormat(totalUser)}</span> 个用户
             </p>
             <BIButton type="primary" style={{ position: 'absolute', right: 0, top: 0 }}
-                      onClick={this.showPop}>创建用户组</BIButton>
+              onClick={this.showPop}>创建用户组</BIButton>
           </div>
 
           <BITable
@@ -619,10 +623,10 @@ class UserList extends React.Component {
             scroll={{ x: 2080, y: 570 }}
             size="middle"
           />
-          <br/>
+          <br />
           <span style={{ color: '#999', fontSize: 12 }}>注：左右滑动可以查看更多字段</span>
           <BIPagination showQuickJumper defaultPageSize={pageParams.pageSize ? pageParams.pageSize : 30}
-                        onChange={this.onPageChange} current={currentPage} total={totalCount}/>
+            onChange={this.onPageChange} current={currentPage} total={totalCount} />
         </div>
         {/* 别忘了把！去掉 */}
         {
