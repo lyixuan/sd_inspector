@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 // 页面枚举接口
 export async function getKOEnumList(params) {
-  return request('http://172.16.109.173:8085/homePage/enumList', { method: 'get', params, prefix: null });
+  return request('/homePage/enumList', { method: 'get', params });
 }
 // 获取配置时间接口
 export async function getKoDateRange(params) {
@@ -24,6 +24,6 @@ export async function getBarData(params) {
 
 // 用户组全部数据列表
 export async function getUserGroupList(params) {
-  return request('http://172.16.109.173:8085/userGroup/listAll', { method: 'get', params, prefix: null });
+  return request('/userGroup/listAll', { method: 'get', params });
 }
 

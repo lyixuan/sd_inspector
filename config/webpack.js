@@ -53,7 +53,7 @@ export const webpackConfig = {
     },
     proxy: {
         '/proxy': {
-            target: 'http://172.16.117.65:8085', //  区别于self接口
+            target: 'http://172.16.109.173:8085', //  区别于self接口
             changeOrigin: true,
             pathRewrite: { '/proxy': '/' }
         },
