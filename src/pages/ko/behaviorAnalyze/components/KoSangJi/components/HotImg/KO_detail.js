@@ -191,7 +191,7 @@ class KoDetailPage extends React.Component {
         this.specialData(data,['kogoodslistPage_main_click_goods$-1','kogoodslistPage_main_click_ko_item$-1', 'kogoodslistPage_main_click_product$-1'],'kogoodslistPage_main_click_ko_class');
       } else if (page==='studyPage_main') { // 主-学习页-重播字段相加 重播
         this.specialData(data,['studyPage_main_click_record_free$-1','studyPage_main_click_record$-1'],'studyPage_main_click_record');
-      } else if(page==='majordetailPage_main') {// 主-专业
+      } else if(page==='majordetailPage_main') {// 主-专业详情页-版型介绍相加
         this.specialData(data,['majordetailPage_main_click_intro _class$-1','majordetailPage_main_click_intro_class$-1'],'majordetailPage_main_click_intro_class');
       }
       // 修改数据
