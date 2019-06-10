@@ -22,6 +22,7 @@ class AppealCreate extends React.Component {
     this.state = {
       collapse1: true,
       visible: false,
+      attUrlList: [],
     };
   }
 
@@ -98,6 +99,9 @@ class AppealCreate extends React.Component {
       });
     }
   };
+  getUploadImg = (attUrlList) => {
+    this.setState({ attUrlList });
+  };
 
   render() {
     const { collapse1 } = this.state;
@@ -121,6 +125,7 @@ class AppealCreate extends React.Component {
                 <CreateAppeal
                   {...this.props}
                   creditType={query.creditType}
+                  getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
                   onFormChange={(value, vname) => this.onFormChange(value, vname)} />
                 <div className={styles.spaceLine} />
               </div>
