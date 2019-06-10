@@ -18,12 +18,13 @@ import BIModal from '@/ant_components/BIModal/index';
 @connect(({ scoreAppealModel, loading,onAppealModel }) => ({
   scoreAppealModel,onAppealModel,
   loading: loading.effects['scoreAppealModel/queryBaseAppealInfo']||loading.effects['scoreAppealModel/queryAppealInfoCheckList'],
-  submitLoading: loading.effects['onAppealModel/sopCheck'],
+  submitLoading: loading.effects['onAppealModel/sopCheck']||loading.effects['onAppealModel/masterCheck'],
 }))
 class AppealCheck extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      checkedTags:[],
       collapse1: true,
       collapse2: true,
       visible:false,
@@ -112,7 +113,7 @@ class AppealCheck extends React.Component {
   handleOk = () => {
     const { query = {} } = this.props.location;
     const { id } = query;
-    const { desc, checkResult,secondAppealEndDate,creditDate,appealNum,actualRecommendLevel,score } = this.state;
+    const { desc, checkResult,secondAppealEndDate,creditDate,appealNum,actualRecommendLevel,score,checkedTags } = this.state;
     if (this.checkType === 'sop') {
       const params = {
         type:Number(query.firstOrSec),          // 1申 2申
@@ -135,13 +136,15 @@ class AppealCheck extends React.Component {
       const params = {
         type:Number(query.firstOrSec),          // 1申 2申
         creditAppealId: Number(id),
+        creditType:Number(query.creditType),
         desc,
         checkResult,
         secondAppealEndDate,
         creditDate,
         appealNum,
         actualRecommendLevel,
-        score
+        score,
+        tagList:checkedTags
       };
       const that = this;
       this.props.dispatch({
@@ -154,25 +157,41 @@ class AppealCheck extends React.Component {
         router.goBack();
       });
     }
-
   };
   handleCancel = () => {
     this.setState({
       visible: false,
     });
   };
-  onTagChangeFun=()=>{
-
-  }
+  onTagChangeFun=(item)=>{
+    const {checkedTags} = this.state;
+    const hasIn = checkedTags.some((v,i)=>{
+      if (v === item.id){
+        checkedTags.splice(i,1);
+        this.setState({
+          checkedTags
+        })
+      }
+      return v === item.id
+    });
+    if (!hasIn) {
+      const tmp = checkedTags.concat(item.id);
+      this.setState({
+        checkedTags:tmp
+      })
+    }
+  };
   render() {
     const { query = {} } = this.props.location;
-    const {collapse1,collapse2,tags=[],checkedTags} = this.state;
-    const {loading,scoreAppealModel={}}=this.props;
+    const {collapse1,collapse2,checkedTags=[]} = this.state;
+    const {loading,scoreAppealModel={},onAppealModel={}}=this.props;
+    const {tagList=[]}=onAppealModel;
     const {detailInfo={},appealRecord={}}=scoreAppealModel;
     const firstRecord = appealRecord[1];
     const SecondRecord = appealRecord[2];
     const { appealStart:appealStart1, sopAppealCheck:sopAppealCheck1, masterAppealCheck:masterAppealCheck1 } = firstRecord||{};
     const { appealStart:appealStart2, sopAppealCheck:sopAppealCheck2 , masterAppealCheck:masterAppealCheck2 } = SecondRecord||{};
+    console.log(checkedTags)
     return (
       <Spin spinning={loading}>
       <div className={styles.appealContainer}>
@@ -226,9 +245,8 @@ class AppealCheck extends React.Component {
             <SecondCheck onFormChange={(value, vname) => this.onFormChange(value, vname)}
                          firstOrSec ={Number(query.firstOrSec)===1}
                          creditType={query.creditType}
-                         dimensionType={query.dimensionType}
-            />
-            <Tags tags={tags}
+                         dimensionType={query.dimensionType}/>
+            <Tags tags={tagList}
                   checkedTags={checkedTags}
                   onTagChange={item => this.onTagChangeFun(item)}/>
           </div>

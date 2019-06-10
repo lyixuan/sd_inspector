@@ -70,11 +70,11 @@ class AppealCreate extends React.Component {
   };
   handleOk = () => {
     const { query = {} } = this.props.location;
-    const { type,dimensionId, creditType,dimensionType } = query;
+    const { type,creditAppealId, creditType,dimensionType } = query;
     const { desc, attUrlList,creditType:creditType2 } = this.state;
     const params = {
       type,
-      creditAppealId: Number(dimensionId),
+      creditAppealId: Number(creditAppealId),
       desc,
       creditType: creditType2?creditType2:creditType ? Number(creditType) : undefined,
       dimensionType: Number(dimensionType),
