@@ -61,7 +61,7 @@ class StepLayout extends Component {
   clickOk = () => {
     // this.props.goBack();
     router.push({
-      pathname: '/ko/userOperation'
+      pathname: '/koUserOperation/userOperation'
     });
   };
   render() {

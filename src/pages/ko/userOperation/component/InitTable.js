@@ -108,7 +108,7 @@ class InitTable extends Component {
   handleEditGroup = (record) => {
     console.log(96, record)
     router.push({
-      pathname: '/ko/userGroupEdit',
+      pathname: '/koUserOperation/userGroupEdit',
       query: { code: record.code, id: record.id }
     });
   }
