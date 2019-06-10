@@ -94,30 +94,15 @@ class UploadImg extends React.Component {
   }
 
   setIndex(index) {
-    const { limitImgNum, mainNum, fileList } = this.state;
-    const len = fileList.length;
-    // 默认展示2+ 一个upload按钮 所以少于三个不出现按钮
-    if (len <= (mainNum - 1)) return;
-
-    let nextIndex = (index + len) % len;
-
-    if (index <= 0) {
-      this.setState({ currentIndex: 0 });
-      return;
-    };
-
-    //由于有一个框，等于限制的6个，就隐藏掉框所以判断条件不一致
-    if (len === limitImgNum) {
-      if (len <= index + this.props.fileList.length) {
-        return;
-      }
-    } else {
-      if (len < index + this.props.fileList.length) {
-        return;
-      }
+    const { limitImgNum, mainNum, fileList: { length } } = this.state;
+    // index小于等于展示数与默认显示数的差,则设置currentIndex
+    console.log(Math.min(limitImgNum, length + 1), mainNum, 'mainNum');
+    if (index <= Math.min(limitImgNum, length + 1) - mainNum) {
+      // 设置currentIndex为index 或 0 ,
+      this.setState({ currentIndex: Math.max(index, 0) });
     }
-    this.setState({ currentIndex: nextIndex });
   }
+
   handleRemove = (file) => {
     const { fileList } = this.state;
 
