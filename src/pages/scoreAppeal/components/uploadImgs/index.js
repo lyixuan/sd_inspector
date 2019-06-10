@@ -76,11 +76,12 @@ class UploadImg extends React.Component {
           message.error('code错误')
           return false
         } else {
-          this.props.UploadImg(response.data.fileUrl);
+          this.props.UploadImg(fileList);
           this.setIndex(currentIndex + 1)
         }
         break
       case 'removed':
+        this.props.UploadImg(fileList);
         this.setIndex(currentIndex - 1)
         break
     }

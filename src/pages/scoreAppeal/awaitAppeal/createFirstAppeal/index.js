@@ -39,7 +39,7 @@ class AppealCreate extends React.Component {
   };
 
   submitAppeal = () => {
-    const { query={} }  = this.props.location;
+    const { query = {} } = this.props.location;
     const { desc, creditType, attUrlList } = this.state;
     if (!desc) {
       message.warn('申诉说明必填');
@@ -56,12 +56,14 @@ class AppealCreate extends React.Component {
 
   handleOk = () => {
     const { query = {} } = this.props.location;
-    const { type, creditType,dimensionType,creditAppealId } = query||{};
-    const { desc, attUrlList,creditType:creditType2 } = this.state;
+    const { type, creditType, dimensionType, creditAppealId } = query || {};
+    const { desc, attUrlList, creditType: creditType2 } = this.state;
+
+
     const params = {
       type,                   // 一申
-      creditType: creditType2?creditType2:creditType ? Number(creditType) : undefined,  // 学分维度
-      dimensionType:Number(dimensionType),            // 申诉维度
+      creditType: creditType2 ? creditType2 : creditType ? Number(creditType) : undefined,  // 学分维度
+      dimensionType: Number(dimensionType),            // 申诉维度
       creditAppealId: Number(creditAppealId),   // 学分申诉id（待申诉数据ID）
       desc,
       attUrlList,
@@ -75,14 +77,14 @@ class AppealCreate extends React.Component {
         visible: false,
       });
       router.push({
-        pathname:'/scoreAppeal/onAppeal'
+        pathname: '/scoreAppeal/onAppeal'
       });
     });
   };
 
-  getFileList(){
-
-  }
+  getUploadImg = (attUrlList) => {
+    this.setState({ attUrlList });
+  };
   handleCancel = () => {
     this.setState({
       visible: false,
@@ -104,27 +106,28 @@ class AppealCreate extends React.Component {
   render() {
     const { collapse1 } = this.state;
     const { loading, scoreAppealModel } = this.props;
-    const { detailInfo = {} } = scoreAppealModel||{};
+    const { detailInfo = {} } = scoreAppealModel || {};
     const { query = {} } = this.props.location;
     return (
       <Spin spinning={loading}>
         <div className={styles.appealContainer}>
-          <BaseInfo detailInfo={detailInfo}/>
+          <BaseInfo detailInfo={detailInfo} />
           <div>
             <div className={styles.foldBox}>
               <span>一次申诉</span>
               <span onClick={() => this.handleCollapse(1)}>
-                <img src={collapse1 ? imgdown : imgUp} width='18' height='18'/>
+                <img src={collapse1 ? imgdown : imgUp} width='18' height='18' />
               </span>
             </div>
-            <div className={styles.spaceLine}/>
+            <div className={styles.spaceLine} />
             {collapse1 && (
               <div style={{ paddingLeft: '15px' }}>
-                <CreateAppeal {...this.props}
-                              getFileList={this.getFileList}
-                              creditType={query.creditType}
-                              onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
-                <div className={styles.spaceLine}/>
+                <CreateAppeal
+                  {...this.props}
+                  getUploadImg={this.getUploadImg}
+                  creditType={query.creditType}
+                  onFormChange={(value, vname) => this.onFormChange(value, vname)} />
+                <div className={styles.spaceLine} />
               </div>
             )}
           </div>
