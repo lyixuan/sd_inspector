@@ -12,16 +12,14 @@ class createAppeal extends React.Component {
     super(props);
     const { appealStart = {} } = this.props;
     this.state = {
-      ...appealStart,
-      appealEndDate: null,
-      checkResult: null,
-      creditType:null,
-      desc: null,
+      checkResult: appealStart?appealStart.checkResult:null,
+      creditType:appealStart?appealStart.creditType:null,
+      desc: appealStart?appealStart.desc:null,
       fileList: [
         // { uid: '-1', url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" },
         // { uid: '-2', url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" }
       ],
-      attUrlList: [],
+      attUrlList: appealStart?appealStart.attUrlList:[],
     };
   }
   UploadImg = (fileList) => {

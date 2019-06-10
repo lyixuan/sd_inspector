@@ -234,6 +234,11 @@ export const routes = [
             name: '在途申诉',
           },
           {
+            path: '/scoreAppeal/appeal_create',
+            component: './scoreAppeal/onAppeal/createAppeal',
+            name: '发起申诉',
+          },
+          {
             path: '/scoreAppeal/checkAppeal',
             component: './scoreAppeal/onAppeal/checkAppeal',
             name: '申诉审核',
@@ -243,12 +248,6 @@ export const routes = [
             path: '/scoreAppeal/finishAppeal',
             component: './scoreAppeal/finishAppeal',
             name: '结案申诉',
-          },
-          /* 其他 */
-          {
-            path: '/scoreAppeal/appeal_create',
-            component: './scoreAppeal/appeal_create',
-            name: '发起申诉',
           },
           {
             path: '/scoreAppeal/appeal_detail',

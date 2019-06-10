@@ -68,18 +68,39 @@ class AppealCheck extends React.Component {
     });
   };
   submitCheck = (checkType) => {
+    const { query = {} } = this.props.location;
+    const { checkResult,secondAppealEndDate,creditDate,appealNum,actualRecommendLevel,score } = this.state;
     this.checkType = checkType;
     if (this.checkType === 'sop') {
-      const { checkResult } = this.state;
-      if (!checkResult) {
+      if (checkResult!==0&&!checkResult) {
         message.warn('请选择审核结果');
         return;
       }
     }
     if (this.checkType === 'master') {
       const { checkResult } = this.state;
-      if (!checkResult) {
+      if (checkResult!==0&&!checkResult) {
         message.warn('请选择审核结果');
+        return;
+      }
+      if (Number(query.firstOrSec===1)&&checkResult===0&&!secondAppealEndDate) {
+        message.warn('请选择二申截止日期');
+        return;
+      }
+      if (Number(query.creditType===47)&&checkResult===1&&!creditDate) {
+        message.warn('请选择学分日期');
+        return;
+      }
+      if ((Number(query.creditType===12)||Number(query.creditType===17))&&appealNum!==0&&!appealNum) {
+        message.warn('请输入申诉个数');
+        return;
+      }
+      if (Number(query.dimensionType)===42&&checkResult===1&&!actualRecommendLevel) {
+        message.warn('请选择实际推荐等级');
+        return;
+      }
+      if (Number(query.dimensionType)===42&&checkResult===1&&score!==0&&!score) {
+        message.warn('请填写学分');
         return;
       }
     }
@@ -91,7 +112,7 @@ class AppealCheck extends React.Component {
   handleOk = () => {
     const { query = {} } = this.props.location;
     const { id } = query;
-    const { desc, checkResult } = this.state;
+    const { desc, checkResult,secondAppealEndDate,creditDate,appealNum,actualRecommendLevel,score } = this.state;
     if (this.checkType === 'sop') {
       const params = {
         type:Number(query.firstOrSec),          // 1申 2申
@@ -111,7 +132,27 @@ class AppealCheck extends React.Component {
       });
     }
     if (this.checkType === 'master') {
-
+      const params = {
+        type:Number(query.firstOrSec),          // 1申 2申
+        creditAppealId: Number(id),
+        desc,
+        checkResult,
+        secondAppealEndDate,
+        creditDate,
+        appealNum,
+        actualRecommendLevel,
+        score
+      };
+      const that = this;
+      this.props.dispatch({
+        type: 'onAppealModel/masterCheck',
+        payload: { params },
+      }).then(() => {
+        that.setState({
+          visible: false,
+        });
+        router.goBack();
+      });
     }
 
   };
@@ -182,7 +223,11 @@ class AppealCheck extends React.Component {
               <span>主管审核</span>
               <span/>
             </div>
-            <SecondCheck onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
+            <SecondCheck onFormChange={(value, vname) => this.onFormChange(value, vname)}
+                         firstOrSec ={Number(query.firstOrSec)===1}
+                         creditType={query.creditType}
+                         dimensionType={query.dimensionType}
+            />
             <Tags tags={tags}
                   checkedTags={checkedTags}
                   onTagChange={item => this.onTagChangeFun(item)}/>

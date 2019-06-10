@@ -21,7 +21,7 @@ const columns = [
   },
   {
     title: '学分维度',
-    dataIndex: 'dimensionName',
+    dataIndex: 'creditName',
   },
   {
     title: '归属组织',
@@ -144,7 +144,7 @@ class OnAppeal extends React.Component {
   onCreateAppeal = (record) => {
     const {dimensionType} = this.state;
     const query={
-      type:1,                          // 一申？对接人驳回 一申 主管驳回 二审
+      type:record.status === 3||record.status===7?1:2,  // 1:一申 2：二申
       creditType:record.creditType,    // 学分维度
       dimensionType,                    // 申诉维度
       creditAppealId: record.id,        // 学分申诉id（待申诉数据ID）

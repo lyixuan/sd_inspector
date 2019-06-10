@@ -1,20 +1,20 @@
 import React from 'react';
 import styles from './style.less';
 import { connect } from 'dva';
-import CreateAppeal from '../components/CreateAppeal';
-import FirstCheckResult from '../components/FirstCheckResult';
-import SecondCheckResult from '../components/SecondCheckResult';
-import CreateAppeaRecord from '../components/CreateAppeaRecord';
+import CreateAppeal from '../../components/CreateAppeal';
+import FirstCheckResult from '../../components/FirstCheckResult';
+import SecondCheckResult from '../../components/SecondCheckResult';
+import CreateAppeaRecord from '../../components/CreateAppeaRecord';
 import router from 'umi/router';
 import BIButton from '@/ant_components/BIButton';
 import imgUp from '@/assets/scoreQuality/up.png';
 import imgdown from '@/assets/scoreQuality/down.png';
 import { Spin, message } from 'antd';
 import BIModal from '@/ant_components/BIModal';
-import BaseInfo from '../components/BaseInfo';
+import BaseInfo from '../../components/BaseInfo';
 
-@connect(({ appealCreateModel, scoreAppealModel, loading }) => ({
-  appealCreateModel, scoreAppealModel,
+@connect(({ appealCreateModel, scoreAppealModel,onAppealModel, loading }) => ({
+  appealCreateModel, scoreAppealModel,onAppealModel,
   loading: loading.effects['scoreAppealModel/queryBaseAppealInfo'],
   submitLoading: loading.effects['appealCreateModel/postStartAppeal'],
 }))
@@ -28,19 +28,16 @@ class AppealCreate extends React.Component {
       visible: false,
     };
   }
-
   componentDidMount() {
     const { query = {} } = this.props.location;
     this.props.dispatch({
       type: 'scoreAppealModel/queryBaseAppealInfo',
       payload: { params: { dimensionId: query.dimensionId, dimensionType: query.dimensionType } },
     });
-    if (!query.isAwait) {
-      this.props.dispatch({
-        type: 'scoreAppealModel/queryAppealInfoCheckList',
-        payload: { params: { creditAppealId: query.id } },
-      });
-    }
+    this.props.dispatch({
+      type: 'scoreAppealModel/queryAppealInfoCheckList',
+      payload: { params: { creditAppealId: query.creditAppealId } },
+    });
   }
 
   getFileList = (file) => {
@@ -73,8 +70,8 @@ class AppealCreate extends React.Component {
   };
   handleOk = () => {
     const { query = {} } = this.props.location;
-    const { dimensionId, creditType,dimensionType } = query;
-    const { type = 1, desc, attUrlList,creditType:creditType2 } = this.state;
+    const { type,dimensionId, creditType,dimensionType } = query;
+    const { desc, attUrlList,creditType:creditType2 } = this.state;
     const params = {
       type,
       creditAppealId: Number(dimensionId),
@@ -85,15 +82,13 @@ class AppealCreate extends React.Component {
     };
     const that = this;
     this.props.dispatch({
-      type: 'appealCreateModel/postStartAppeal',
+      type: 'onAppealModel/startAppeal',
       payload: { params },
     }).then(() => {
       that.setState({
         visible: false,
       });
-      router.push({
-        pathname:'/scoreAppeal/onAppeal'
-      });
+      router.goBack();
     });
 
   };
@@ -157,7 +152,8 @@ class AppealCreate extends React.Component {
               {/* 申诉内容 */}
               {collapse2 && (
                 <div style={{ paddingLeft: '15px' }}>
-                  <CreateAppeal getFileList={this.getFileList}/>
+                  <CreateAppeal {...this.props} getFileList={this.getFileList} appealStart={appealStart2}
+                                onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
                   {sopAppealCheck2&&sopAppealCheck2.length!==0 && <FirstCheckResult sopAppealCheck={sopAppealCheck2}/>}
                   {masterAppealCheck2 && <SecondCheckResult masterAppealCheck={masterAppealCheck2}/>}
                 </div>
@@ -168,6 +164,7 @@ class AppealCreate extends React.Component {
             <BIButton onClick={() => router.goBack()} style={{ marginRight: '15px' }}>返回</BIButton>
             <BIButton type='primary' onClick={() => this.submitAppeal()}>提交申诉</BIButton>
           </footer>
+          {/*---------*/}
           <BIModal
             title="提交确认"
             visible={this.state.visible}

@@ -5,7 +5,7 @@ import leftImgDisable from '@/assets/scoreQuality/left-moren.png';
 import leftImg from '@/assets/scoreQuality/left-moren1.png';
 import rightImgDisable from '@/assets/scoreQuality/right-moren.png';
 import rightImg from '@/assets/scoreQuality/right-moren1.png';
-import { uploadMultipleFile } from '../../appeal_create/services';
+import { uploadMultipleFile } from '../../onAppeal/createAppeal/services';
 /*
   * uploadImg 外层回调,上传组件的回调
   * fileList 返回列表
