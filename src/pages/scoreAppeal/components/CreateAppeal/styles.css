@@ -13,7 +13,6 @@
   color: #353535;
 }
 .container {
-
 }
 .secRow {
   flex: 1;
@@ -26,4 +25,9 @@
   background-color: #ebecef;
   flex: 1;
   margin-top: 20px;
+}
+
+.inspect {
+  transform: translate(0,70%);
+  margin-left: auto;
 }

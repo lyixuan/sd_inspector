@@ -81,9 +81,9 @@ class AppealCreate extends React.Component {
     });
   };
 
-  getFileList(){
-
-  }
+  getUploadImg = (attUrlList) => {
+    this.setState({ attUrlList });
+  };
   handleCancel = () => {
     this.setState({
       visible: false,
@@ -105,12 +105,12 @@ class AppealCreate extends React.Component {
   render() {
     const { collapse1 } = this.state;
     const { loading, scoreAppealModel } = this.props;
-    const { detailInfo = {} } = scoreAppealModel||{};
+    const { detailInfo = {} } = scoreAppealModel || {};
     const { query = {} } = this.props.location;
     return (
       <Spin spinning={loading}>
         <div className={styles.appealContainer}>
-          <BaseInfo detailInfo={detailInfo}/>
+          <BaseInfo detailInfo={detailInfo} />
           <div>
             <div className={styles.foldBox}>
               <span>一次申诉</span>
@@ -118,14 +118,15 @@ class AppealCreate extends React.Component {
                 <img src={collapse1 ? imgDown : imgUp} width='18' height='18'/>
               </span>
             </div>
-            <div className={styles.spaceLine}/>
+            <div className={styles.spaceLine} />
             {collapse1 && (
               <div style={{ paddingLeft: '15px' }}>
-                <CreateAppeal {...this.props}
-                              getFileList={this.getFileList}
-                              creditType={query.creditType}
-                              onFormChange={(value, vname) => this.onFormChange(value, vname)}/>
-                <div className={styles.spaceLine}/>
+                <CreateAppeal
+                  {...this.props}
+                  getUploadImg={this.getUploadImg}
+                  creditType={query.creditType}
+                  onFormChange={(value, vname) => this.onFormChange(value, vname)} />
+                <div className={styles.spaceLine} />
               </div>
             )}
           </div>
