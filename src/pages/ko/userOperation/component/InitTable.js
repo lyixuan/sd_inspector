@@ -8,7 +8,8 @@ import BIModal from '@/ant_components/BIModal';
 import BIInput from '@/ant_components/BIInput';
 import userEdit from '@/assets/userEdit.png';
 import { STATIC_HOST } from '@/utils/constants'
-import { thousandsFormat } from '@/utils/utils';
+import { thousandsFormat, downBlob } from '@/utils/utils';
+// import { downBlob, msgF } from '@/utils/utils';
 import router from 'umi/router';
 
 const { TextArea } = BIInput;
@@ -113,11 +114,42 @@ class InitTable extends Component {
       query: { code: record.code, id: record.id }
     });
   }
+  getBlob(url) {
+    return new Promise(resolve => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.responseType = 'blob';
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          resolve(xhr.response);
+        }
+      };
+      xhr.send();
+    });
+  }
+  saveAs(blob, filename) {
+    if (window.navigator.msSaveOrOpenBlob) {
+      navigator.msSaveBlob(blob, filename);
+    } else {
+      const link = document.createElement('a');
+      const body = document.querySelector('body');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = filename;
+      link.style.display = 'none';
+      body.appendChild(link);
+      link.click();
+      body.removeChild(link);
+      window.URL.revokeObjectURL(link.href);
+    }
+  }
   // 下载任务
   downloadFn = data => {
-    const a = document.createElement("a");
-    a.href = `${STATIC_HOST}${data.filePath}`;
-    a.click();
+    const name = `用户组${data.code}`;
+    const url = `${STATIC_HOST}${data.filePath}`; // 创建下载的链接
+    this.getBlob(url).then(blob => {
+      this.saveAs(blob, name);
+    });
+    return;
   };
   // 编辑用户组名称
   edit = (record) => {
@@ -146,8 +178,13 @@ class InitTable extends Component {
         key: 'groupName',
         render: (text, record) => (
           <div style={{ display: 'flex', justifyItems: 'center' }}>
-            <span style={{ maxWidth: '300px', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{text}</span> <img src={userEdit} style={{ marginLeft: '25px', width: '15px', height: '15px', marginTop: '3px' }} onClick={() => this.edit(record)} />
+            <Tooltip placement="bottom" title={text} >
+              <span style={{ maxWidth: '300px', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{text}</span>
+            </Tooltip >
+            <img src={userEdit} style={{ marginLeft: '25px', width: '15px', height: '15px', marginTop: '3px' }} onClick={() => this.edit(record)} />
           </div>
+
+
         ),
       },
       {
