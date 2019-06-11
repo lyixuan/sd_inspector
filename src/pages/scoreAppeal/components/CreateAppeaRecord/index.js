@@ -17,7 +17,7 @@ export default class SOPCheckResultComponent extends React.Component {
     const { appealStart = {} } = this.props;
     const { operator, operateDate, desc, appealProof = [] } = appealStart;
     let newAppealProof = [];
-    if (appealProof) {
+    if (appealProof.length) {
       for (let i = 0; i < appealProof.length; i++) {
         newAppealProof.push(`${STATIC_HOST}/${appealProof[i]}`);
       }
