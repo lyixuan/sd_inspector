@@ -29,7 +29,7 @@ export const homepage_main=`<?xml version="1.0" encoding="UTF-8"?>
                         <rect class='mask' data-name='homepage_main_click_accounting$-1' id="矩形" x="119" y="86" width="50.5050505" height="50" rx="4"></rect>
                         <rect class='mask' data-name='homepage_main_click_more$-1' id="矩形" x="179" y="86" width="50.5050505" height="50" rx="4"></rect>
                         <rect class='mask' data-name='homepage_main_click_ko_more$-1' id="矩形" x="0" y="156" width="230" height="21.78" rx="4"></rect>
-                        <rect class='mask' data-name='homepage_main_click_ko_item$-1' id="矩形" x="0" y="183" width="230" height="112" rx="4"></rect>
+                        <rect class='mask' data-name='homepage_click_ko_item' id="矩形" x="0" y="183" width="230" height="112" rx="4"></rect>
                         <rect class='mask' data-name='homepage_main_click_post$-1' id="矩形" x="0" y="313" width="230" height="112" rx="4"></rect>
                     </g>
                     <g id="分组-64" transform="translate(18.000000, 50.000000)" fill="#000000" font-family="PingFangSC-Regular, PingFang SC" font-size="10" font-weight="normal">
@@ -68,7 +68,7 @@ export const homepage_main=`<?xml version="1.0" encoding="UTF-8"?>
                             <tspan class='text' data-name='homepage_main_slide_ko_item$-1' x="0" y="196">0</tspan> 
                         </text>
                         <text id="0">
-                            <tspan class='text' data-name='homepage_main_click_ko_item$-1' x="106" y="242">0</tspan>
+                            <tspan class='text' data-name='homepage_click_ko_item' x="106" y="242">0</tspan>
                         </text>
                         <text id="0">
                             <tspan class='text' data-name='homepage_main_click_post$-1' x="106" y="372">0</tspan>
@@ -335,7 +335,7 @@ export const studyPage_main=`<?xml version="1.0" encoding="UTF-8"?>
                         <rect id="矩形" x="0" y="28" width="230" height="56" rx="4"></rect>
                         <rect class='mask' data-name='studyPage_main_click_itembank_flex$-1' id="矩形" x="0" y="152" width="230" height="61" rx="4"></rect>
                         <rect class='mask' data-name='studyPage_main_click_lesson$-1' id="矩形" x="0" y="270" width="230" height="52" rx="4"></rect>
-                        <rect class='mask' data-name='studyPage_main_click _classSchedule$-1' id="矩形" x="0" y="393" width="230" height="34" rx="4"></rect>
+                        <rect class='mask' data-name='studyPage_main_click _classschedule$-1' id="矩形" x="0" y="393" width="230" height="34" rx="4"></rect>
                         <rect class='mask' data-name='studyPage_main_click_homeword$-1' id="矩形" x="0" y="329" width="112" height="28" rx="4"></rect>
                         <rect class='mask' data-name='studyPage_main_click_date$-1' id="矩形" x="118" y="329" width="112" height="28" rx="4"></rect>
                         <rect class='mask' data-name='studyPage_main_click_today_lesson$-1' id="矩形" x="0" y="361" width="112" height="28" rx="4"></rect>
@@ -349,7 +349,7 @@ export const studyPage_main=`<?xml version="1.0" encoding="UTF-8"?>
                             <tspan class='text' data-name='studyPage_main_click_homeword$-1' x="19" y="344">0</tspan>
                         </text>
                         <text id="0">
-                            <tspan class='text' data-name='studyPage_main_click _classSchedule$-1' x="78" y="411">0</tspan>
+                            <tspan class='text' data-name='studyPage_main_click _classschedule$-1' x="78" y="411">0</tspan>
                         </text>
                         <text id="0">
                             <tspan  class='text' data-name='studyPage_main_click_estimate_remind$-1' x="1" y="119">0</tspan>

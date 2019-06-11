@@ -16,7 +16,7 @@ function getData(dataList, dataArr) {
   return dataObj;
 }
 
-// 首页：需要把 课程公开计划选项 子项求和计算，重新整合数据源
+// 首页：需要把 课程公开计划选项 子项求和计算，重新整合数据源  极速首页和主首页
 function dealHomeData(behaviourData) {
   let newKey = {
     name: '课程公开计划选项',
