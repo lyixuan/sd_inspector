@@ -249,7 +249,7 @@ class OnAppeal extends React.Component {
   render() {
     const {dimensionType} = this.state;
     const {loading} = this.props;
-    const {onList=[],page} = this.props.onAppealModel;
+    const {onList=[],page,countPreCheckNum} = this.props.onAppealModel;
     return (
       <>
         <p className={style.wrap}>
@@ -270,7 +270,7 @@ class OnAppeal extends React.Component {
           </AuthButton>
         </p>
         <CSForm {...this.props} dimensionType={dimensionType} progress={'onAppeal'} onSubmit={(params,pg,exp)=>{this.formSubmit(undefined,params,pg,exp)}} />
-        <CSTable dataSource={onList} columns={this.columnsAction()} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}/>
+        <CSTable dataSource={onList} columns={this.columnsAction()} loading={loading} page={page} countPreCheckNum={countPreCheckNum} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}/>
       </>
     );
   }

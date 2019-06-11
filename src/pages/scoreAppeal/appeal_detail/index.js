@@ -50,6 +50,8 @@ class AppealCheck extends React.Component {
   };
   onChangePage(ids,currentId,direction){
     let newId = null;
+    let metaDimensionId = null;
+    let status = null;
     if (ids.indexOf(currentId)===-1){
         newId=ids[0]
     } else {
@@ -69,6 +71,8 @@ class AppealCheck extends React.Component {
     }
     const {query={}} = this.props.location;
     query.id = newId;
+    query.dimensionId = metaDimensionId; // 获取详情用id
+    query.status=status;
     router.replace({
       pathname:'/scoreAppeal/appeal_detail',
       query
