@@ -138,10 +138,11 @@ class OnAppeal extends React.Component {
     const query={
       id: record.id, // 获取审核记录用id
       dimensionId: record.metaDimensionId, // 获取详情用id
+      creditType:record.creditType,  // 学分维度
       dimensionType,   // 申诉维度
+      status:record.status,
       isOnAppeal:true,
-      idList:idList.join(),
-      status:record.status
+      idList: JSON.stringify(idList),
     };
     this.onJumpPage(query, '/scoreAppeal/appeal_detail');
   };

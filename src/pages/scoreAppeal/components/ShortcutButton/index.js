@@ -11,6 +11,7 @@ import AuthButton from '@/components/AuthButton/index';
 
 class ShortcutButton extends React.Component {
   changePage = (ids,currentId,direction)=>{
+    console.log(ids)
     if (this.props.onChangePage) {
       this.props.onChangePage(ids,currentId,direction);
     } else {

@@ -11,6 +11,7 @@ import BIButton from '@/ant_components/BIButton';
 import imgUp from '@/assets/scoreQuality/up.png';
 import imgdown from '@/assets/scoreQuality/down.png';
 import ShortcutButton from  '@/pages/scoreAppeal/components/ShortcutButton';
+import AuthButton from '@/components/AuthButton';
 
 @connect(({ scoreAppealModel,loading }) => ({
   scoreAppealModel,
@@ -29,7 +30,7 @@ class AppealCheck extends React.Component {
     const {query={}} = this.props.location;
     this.props.dispatch({
       type: 'scoreAppealModel/queryBaseAppealInfo',
-      payload: { params:{dimensionId:query.dimensionId,dimensionType:query.dimensionType}  },
+      payload: {params:{dimensionId:query.dimensionId,dimensionType:query.dimensionType}},
     });
     this.props.dispatch({
       type: 'scoreAppealModel/queryAppealInfoCheckList',
@@ -52,27 +53,39 @@ class AppealCheck extends React.Component {
     let newId = null;
     let metaDimensionId = null;
     let status = null;
-    if (ids.indexOf(currentId)===-1){
-        newId=ids[0]
-    } else {
+    let creditType = null;
+    let nextItem = null;
+    ids.forEach((item,i)=>{
+      const arr = item.split(',');
+      console.log(arr)
       if (direction==='up'){
-        if (ids.indexOf(currentId)===0){
-            newId = ids[ids.length-1]
+        if (Number(arr[0])===Number(currentId)&&i===0){
+          nextItem=ids[ids.length-1]
         } else {
-            newId =ids[ids.indexOf(currentId)-1]
+          nextItem=ids[i-1];
         }
       } else {
-        if (ids.indexOf(currentId)+1 === ids.length){
-            newId= ids[0]
+        if (Number(arr[0])===Number(currentId)&&i===ids.length-1){
+          nextItem= ids[0]
         } else {
-            newId= ids[ids.indexOf(currentId)+1]
+          nextItem= ids[i+1];
         }
       }
-    }
+      if (nextItem) {
+        const tmpArr = item.split(',');
+        newId=tmpArr[0];
+        metaDimensionId=tmpArr[1];
+        status=tmpArr[2];
+        creditType=tmpArr[3];
+      }
+    });
+
+    console.log('nextItem',nextItem)
     const {query={}} = this.props.location;
-    query.id = newId;
-    query.dimensionId = metaDimensionId; // 获取详情用id
-    query.status=status;
+    query.id = Number(newId);
+    query.dimensionId = Number(metaDimensionId); // 获取详情用id
+    query.status=Number(status);
+    query.creditType=Number(creditType);
     router.replace({
       pathname:'/scoreAppeal/appeal_detail',
       query
@@ -81,7 +94,17 @@ class AppealCheck extends React.Component {
   }
 
   onJumpAppeal(){
-
+    const {query={}} = this.props.location;
+    const checkQuery={
+      id:query.id,
+      dimensionId:query.dimensionId,        // 获取详情用
+      creditType:query.creditType,  // 学分维度
+      dimensionType:query.dimensionType,            // 申诉维度
+      status:query.status,
+      firstOrSec:(Number(query.status) === 1||Number(query.status) === 5)?1:(Number(query.status) === 2||Number(query.status) === 6)?2:null,// 1 一申，2 二申
+      sopOrMaster:(Number(query.status) === 1||Number(query.status) === 2)?1:(Number(query.status) === 5||Number(query.status) === 6)?2:null,// 1 sop，2 master
+    };
+    router.push({query:checkQuery, pathname:'/scoreAppeal/checkAppeal'});
   }
 
   render() {
@@ -93,7 +116,7 @@ class AppealCheck extends React.Component {
     const SecondRecord = appealRecord[2];
     const { appealStart:appealStart1, sopAppealCheck:sopAppealCheck1, masterAppealCheck:masterAppealCheck1 } = firstRecord||{};
     const { appealStart:appealStart2, sopAppealCheck:sopAppealCheck2 , masterAppealCheck:masterAppealCheck2 } = SecondRecord||{};
-    const idList = query.idList.split(',');
+    const idList = query.idList&&JSON.parse(query.idList);
     return (
       <Spin spinning={loading}>
       <div className={styles.appealContainer}>
@@ -129,7 +152,13 @@ class AppealCheck extends React.Component {
             )}
           </div>
         )}
-        {query.isOnAppeal&&<ShortcutButton ids={idList} currentId={query.id}  status={query.status} onChangePage={(ids,currentId,direction)=>this.onChangePage(ids,currentId,direction)} onJumpAppeal={()=>this.onJumpAppeal()}/>}
+        {query.isOnAppeal&&
+        (AuthButton.checkPathname('/scoreAppeal/appeal/dockingMan')||
+          AuthButton.checkPathname('/scoreAppeal/appeal/master'))&&
+        <ShortcutButton ids={idList} currentId={query.id}
+                        status={query.status}
+                        onChangePage={(ids,currentId,direction)=>this.onChangePage(ids,currentId,direction)}
+                        onJumpAppeal={(state)=>this.onJumpAppeal(state)}/>}
         <footer style={{ textAlign: 'right', marginTop: '20px' }}>
           <BIButton onClick={() => router.goBack()}>返回</BIButton>
         </footer>

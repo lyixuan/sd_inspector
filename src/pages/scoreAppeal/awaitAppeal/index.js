@@ -36,7 +36,7 @@ const columns = [
     dataIndex: 'stuName',
   },
   {
-    title: '学院ID',
+    title: '学员ID',
     dataIndex: 'stuId',
   },
 ];

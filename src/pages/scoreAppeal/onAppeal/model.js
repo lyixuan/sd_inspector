@@ -7,7 +7,7 @@ export default {
   state: {
     onList: [], // 列表
     page:{},
-    idList:[],
+    idList:[],  //string按顺序对应： id metaDimensionId  status creditType
     countPreCheckNum:{},
     tagList:[],  // 主管tags
   },

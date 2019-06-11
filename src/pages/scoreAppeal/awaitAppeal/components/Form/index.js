@@ -88,7 +88,7 @@ class CSForm extends React.Component {
               <Col className={styles.gutterCol}  span={8}>
                 <div className={styles.gutterBox2}>
                   <span className={styles.gutterLabel}>学员ID</span>：
-                  <span className={styles.gutterForm}><BIInput placeholder="请输入学院ID(数字类型)" allowClear value={stuId} onChange={(e)=>this.onFormChange(e.target.value,'stuId')}/></span>
+                  <span className={styles.gutterForm}><BIInput placeholder="请输入学员ID(数字类型)" allowClear value={stuId} onChange={(e)=>this.onFormChange(e.target.value,'stuId')}/></span>
                 </div>
               </Col>
               <Col className={styles.gutterCol}  span={8}>
