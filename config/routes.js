@@ -227,7 +227,17 @@ export const routes = [
           },
         ],
       },
-
+      {
+        path: '/koReport',
+        name: 'KO日报',
+        routes: [
+          {
+            path: '/koReport/daily',
+            component: './ko/koDailyReport',
+            name: 'KO日报',
+          },
+        ],
+      },
     ],
   },
 ];
