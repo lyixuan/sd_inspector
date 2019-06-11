@@ -37,7 +37,7 @@ class AppealCreate extends React.Component {
       collapse1: true,
       collapse2: true,
       visible: false,
-      attUrlList: [],
+      attUrlList: appealStart?appealStart.appealProof:[],
       ...appealStart
     };
 
