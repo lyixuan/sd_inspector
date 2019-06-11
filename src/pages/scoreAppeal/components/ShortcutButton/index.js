@@ -31,19 +31,19 @@ class ShortcutButton extends React.Component {
 
     const mid = function() {
       if ((status === 1||status === 2) && AuthButton.checkPathname('/scoreAppeal/appeal/dockingMan')){
-        return <span onClick={()=>this.jump(1)} className={styles.sh}>审核</span>
+        return '审核'
       } else if ((status === 5||status === 6) && AuthButton.checkPathname('/scoreAppeal/appeal/master')) {
-        return <span onClick={()=>this.jump(2)} className={styles.sh}>审核</span>
+        return '审核'
       } else {
-        return <span className={styles.sh}>&nbsp;</span>
+        return ''
       }
-    }
+    };
     return (
       <div style={{width:'100%',textAlign:'center'}}>
         <Button className='smBtn' size="small" onClick={()=>this.changePage(ids,currentId,'up')} >
           <Icon type="left" />上一条
         </Button>
-        {mid()}
+        <span onClick={()=>this.jump(2)} className={styles.sh}>{mid()}</span>
         <Button className='smBtn' size="small" onClick={()=>this.changePage(ids,currentId,'down')} >
           下一条<Icon type="right" />
         </Button>

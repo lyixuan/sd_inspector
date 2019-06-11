@@ -57,38 +57,43 @@ class AppealCheck extends React.Component {
     let nextItem = null;
     ids.forEach((item,i)=>{
       const arr = item.split(',');
-      console.log(arr)
       if (direction==='up'){
-        if (Number(arr[0])===Number(currentId)&&i===0){
-          nextItem=ids[ids.length-1]
-        } else {
-          nextItem=ids[i-1];
+        if (Number(arr[0])===Number(currentId)){
+          if(i===0){
+            nextItem=ids[ids.length-1]
+          }else {
+            nextItem=ids[i-1];
+          }
         }
       } else {
-        if (Number(arr[0])===Number(currentId)&&i===ids.length-1){
-          nextItem= ids[0]
-        } else {
-          nextItem= ids[i+1];
+        if (Number(arr[0])===Number(currentId)){
+          if (i===ids.length-1) {
+            nextItem = ids[0]
+          } else {
+            nextItem = ids[i+1];
+          }
         }
       }
-      if (nextItem) {
-        const tmpArr = item.split(',');
-        newId=tmpArr[0];
-        metaDimensionId=tmpArr[1];
-        status=tmpArr[2];
-        creditType=tmpArr[3];
-      }
     });
-
+    if (nextItem) {
+      const tmpArr = nextItem.split(',');
+      newId=tmpArr[0];
+      metaDimensionId=tmpArr[1];
+      status=tmpArr[2];
+      creditType=tmpArr[3];
+    }
     console.log('nextItem',nextItem)
     const {query={}} = this.props.location;
-    query.id = Number(newId);
-    query.dimensionId = Number(metaDimensionId); // 获取详情用id
-    query.status=Number(status);
-    query.creditType=Number(creditType);
+    const newQuery = {};
+    newQuery.id = Number(newId);
+    newQuery.dimensionId = Number(metaDimensionId); // 获取详情用id
+    newQuery.status=Number(status);
+    newQuery.creditType=Number(creditType);
     router.replace({
       pathname:'/scoreAppeal/appeal_detail',
-      query
+      query:{
+        ...query,...newQuery
+      }
     });
     this.componentDidMount();
   }
