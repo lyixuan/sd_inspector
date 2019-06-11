@@ -59,7 +59,7 @@ const columns = [
 @connect(({ scoreAppealModel,onAppealModel,loading }) => ({
   scoreAppealModel,onAppealModel,
   loading: loading.effects['onAppealModel/queryOnAppealList'],
-  exportLoading: loading.effects['onAppealModel/exportExcel'],
+  exportLoading: loading.effects['scoreAppealModel/exportExcel'],
 }))
 class OnAppeal extends React.Component {
   constructor(props) {
@@ -119,10 +119,10 @@ class OnAppeal extends React.Component {
       });
     } else {
       this.props.dispatch({
-        type: 'onAppealModel/exportExcel',
+        type: 'scoreAppealModel/exportExcel',
         payload: { params },
       }).then(() => {
-        that.componentDidMount()
+        that.componentDidMount();
       });
     }
   };

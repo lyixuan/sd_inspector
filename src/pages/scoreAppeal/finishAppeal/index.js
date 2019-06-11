@@ -55,6 +55,7 @@ const columns = [
 @connect(({ scoreAppealModel,finishAppealModel,loading }) => ({
   scoreAppealModel,finishAppealModel,
   loading: loading.effects['finishAppealModel/getFinishAppealList'],
+  exportLoading: loading.effects['scoreAppealModel/exportExcel'],
 }))
 class FinishAppeal extends React.Component {
   constructor(props) {
@@ -96,6 +97,7 @@ class FinishAppeal extends React.Component {
 
     const saveUrlParams =JSON.stringify(paramsUrl);
 
+    const that = this;
     // 请求成功后保留查询条件
     if (!exp){
       this.props.dispatch({
@@ -108,7 +110,12 @@ class FinishAppeal extends React.Component {
         })
       });
     } else {
-
+      this.props.dispatch({
+        type: 'scoreAppealModel/exportExcel',
+        payload: { params },
+      }).then(() => {
+        that.componentDidMount();
+      });
     }
 
   };
