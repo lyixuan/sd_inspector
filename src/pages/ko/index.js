@@ -40,7 +40,7 @@ class koPlan extends React.Component {
       this.handleOriginParams(nextProps.pageParams);
     }
     if (JSON.stringify(nextProps.tabFromParams.page) !== JSON.stringify(this.props.tabFromParams.page)) {
-      this.onSavefFlterActionParams({page : nextProps.tabFromParams.page});
+      this.onSavefFlterActionParams({ page: nextProps.tabFromParams.page });
     }
   }
   // componentWillUnmount() {
@@ -154,8 +154,8 @@ class koPlan extends React.Component {
     return (
       <div>
         {/*------- 公共 form 部分 --------*/}
-        {(pathname === '/ko/dailyReport') || (pathname === '/ko/behaviorPath') || (pathname === '/ko/userOperation') || (pathname === '/ko/userGroupAdd') || (pathname === '/ko/userGroupEdit') ? null : <> <div className={styles.commonBox}>
-          <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} usersData={this.props.usersData} pageParams={pageParams} loading={isLoadEnumData} userGroupListData={this.props.userGroupListData}/>
+        {(pathname === '/ko/dailyReport') || (pathname === '/ko/behaviorPath') ? null : <> <div className={styles.commonBox}>
+          <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} usersData={this.props.usersData} pageParams={pageParams} loading={isLoadEnumData} userGroupListData={this.props.userGroupListData} />
         </div>
           <div className={styles.tabBox}>
             <KoTab {...this.props} />
