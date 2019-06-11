@@ -11,7 +11,6 @@ export default class SOPCheckRecordsComponent extends React.Component {
   componentDidMount() { }
 
   render() {
-    debugger;
     return (
       <section className={styles.personInfoCon}>
         <div>
