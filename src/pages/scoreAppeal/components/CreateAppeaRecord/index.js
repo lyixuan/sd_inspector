@@ -3,6 +3,7 @@ import { Row, Col } from 'antd';
 import styles from './style.css';
 import moment from 'moment';
 import ShowImgs from '@/pages/scoreAppeal/components/ShowImgs';
+import { STATIC_HOST } from '@/utils/constants';
 
 export default class SOPCheckResultComponent extends React.Component {
   constructor(props) {
@@ -11,10 +12,16 @@ export default class SOPCheckResultComponent extends React.Component {
       data: props.data,
     };
   }
-  componentDidMount() {}
+  componentDidMount() { }
   render() {
-    const { appealStart={} } = this.props;
-    const {operator,operateDate,desc,appealProof=[]} = appealStart;
+    const { appealStart = {} } = this.props;
+    const { operator, operateDate, desc, appealProof = [] } = appealStart;
+    let newAppealProof = [];
+    if (appealProof) {
+      for (let i = 0; i < appealProof.length; i++) {
+        newAppealProof.push(`${STATIC_HOST}/${appealProof[i]}`);
+      }
+    }
     return (
       <section className={styles.showPanel}>
         <div className={styles.personInfoCon}>
@@ -24,8 +31,8 @@ export default class SOPCheckResultComponent extends React.Component {
               <Row className={styles.container}>
                 <Col span={16}>
                   <div className={styles.resultDotColor}>
-                    <span style={{width:75}}>申诉证据：</span>
-                    <span style={{flex:1}}><ShowImgs imgList = {appealProof}/></span>
+                    <span style={{ width: 75 }}>申诉证据：</span>
+                    <span style={{ flex: 1 }}><ShowImgs imgList={newAppealProof} /></span>
                   </div>
                 </Col>
                 <Col span={3}>

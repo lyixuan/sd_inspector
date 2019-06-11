@@ -5,6 +5,7 @@ import styles from './styles.css';
 import BISelect from '@/ant_components/BISelect/index';
 import UploadImg from '../uploadImgs';
 import ExampleImg from '../Example';
+import { STATIC_HOST } from '@/utils/constants';
 
 const { Option } = BISelect;
 
@@ -17,6 +18,7 @@ class createAppeal extends React.Component {
       creditType: appealStart ? appealStart.creditType : null,
       desc: appealStart ? appealStart.desc : null,
       attUrlList: appealStart ? appealStart.appealProof : [],
+      isShowExample: false,
     };
   }
   uploadImg = (fileList) => {
@@ -37,20 +39,32 @@ class createAppeal extends React.Component {
 
   };
   showExampleImg = () => {
-    console.log('1');
+    this.setState({ isShowExample: true });
+  }
+
+  hideExampleImg = () => {
+    this.setState({ isShowExample: false });
   }
   render() {
-    const { creditType, desc, attUrlList } = this.state;
+    const { creditType, desc, attUrlList, isShowExample } = this.state;
     const { creditType: creditTypePre } = this.props;
     let newAttUrlList = [];
     if (attUrlList) {
       for (let i = 0; i < attUrlList.length; i++) {
-        newAttUrlList.push({ uid: i, url: attUrlList[i] });
+        newAttUrlList.push({ uid: i, url: `${STATIC_HOST}/${attUrlList[i]}` });
       }
+    }
+    let showExampleImg;
+    if (isShowExample) {
+      showExampleImg = <ExampleImg
+        visible={isShowExample}
+        showExampleImg={() => this.showExampleImg()}
+        hideExampleImg={() => this.hideExampleImg()}
+      ></ExampleImg >;
     }
 
     return (
-      <section className={styles.personInfoCon}>
+      <section className={styles.personInfoCon} >
         <div className={styles.container}>
           <div className={styles.secRow} >
             <span style={{ width: 90 }}>&nbsp;申诉证据：</span>
@@ -79,6 +93,7 @@ class createAppeal extends React.Component {
             <BIInput.TextArea maxLength={1000} rows={4} value={desc} placeholder={'请输入申诉原因并提供申诉证据'} onChange={(e) => this.onFormChange(e.target.value, 'desc')} />
           </div>
         </div>
+        {showExampleImg}
       </section>
     );
   }
