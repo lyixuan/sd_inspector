@@ -27,7 +27,7 @@ class AppealCreate extends React.Component {
     const firstRecord = appealRecord[1];
     const SecondRecord = appealRecord[2];
     let appealStart = {};
-    if(SecondRecord){
+    if (SecondRecord) {
       appealStart = SecondRecord.appealStart
     } else {
       appealStart = firstRecord.appealStart
@@ -181,7 +181,7 @@ class AppealCreate extends React.Component {
               {collapse2 && (
                 <div style={{ paddingLeft: '15px' }}>
                   <CreateAppeal {...this.props}
-                    getUploadImg={() => this.getUploadImg}
+                    getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
                     getFileList={this.getFileList} appealStart={appealStart2}
                     onFormChange={(value, vname) => this.onFormChange(value, vname)} />
                   {sopAppealCheck2 && sopAppealCheck2.length !== 0 && <FirstCheckResult sopAppealCheck={sopAppealCheck2} />}
