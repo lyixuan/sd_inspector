@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './styles.less';
-import { Modal, Button } from 'antd';
+import BIModal from '@/ant_components/BIModal';
+import BIButton from '@/ant_components/BIButton';
 /*
-  * uploadImg
+  * visible 显示隐藏
 */
 
 class ExampleImg extends React.Component {
@@ -30,19 +31,18 @@ class ExampleImg extends React.Component {
   render() {
     return (
       <div>
-        {/* <Button type="primary" onClick={this.showModal}>
-          Open Modal
-        </Button> */}
-        <Modal
+        <BIModal
           title="Basic Modal"
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
+          footer={[
+            <BIButton type="primary" onClick={this.handleOk}>确定</BIButton>
+          ]}
         >
           <p>Some contents...</p>
           <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Modal >
+        </BIModal>
       </div >
     );
   }
