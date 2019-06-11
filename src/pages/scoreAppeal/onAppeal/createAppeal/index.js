@@ -27,7 +27,7 @@ class AppealCreate extends React.Component {
     const firstRecord = appealRecord[1];
     const SecondRecord = appealRecord[2];
     let appealStart = {};
-    if(SecondRecord){
+    if (SecondRecord) {
       appealStart = SecondRecord.appealStart
     } else {
       appealStart = firstRecord.appealStart
@@ -84,8 +84,8 @@ class AppealCreate extends React.Component {
   };
   handleOk = () => {
     const { query = {} } = this.props.location;
-    const { type,creditAppealId, creditType,dimensionType } = query;
-    const { desc, attUrlList,creditType:creditType2 } = this.state;
+    const { type, creditAppealId, creditType, dimensionType } = query;
+    const { desc, attUrlList, creditType: creditType2 } = this.state;
     const params = {
       type,
       creditAppealId: Number(creditAppealId),
@@ -124,7 +124,15 @@ class AppealCreate extends React.Component {
   };
 
   getUploadImg = (attUrlList) => {
-    this.setState({ attUrlList });
+    let newAttUrlList = [];
+    for (let i = 0; i < attUrlList.length; i++) {
+      if (attUrlList[i].name) {
+        newAttUrlList.push(attUrlList[i].response.data.fileUrl);
+      } else {
+        newAttUrlList.push(attUrlList[i].url.substring(attUrlList[i].url.indexOf('upload')));
+      }
+    }
+    this.setState({ attUrlList: newAttUrlList });
   };
 
   render() {
@@ -173,7 +181,7 @@ class AppealCreate extends React.Component {
               {collapse2 && (
                 <div style={{ paddingLeft: '15px' }}>
                   <CreateAppeal {...this.props}
-                    getUploadImg={() => this.getUploadImg}
+                    getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
                     getFileList={this.getFileList} appealStart={appealStart2}
                     onFormChange={(value, vname) => this.onFormChange(value, vname)} />
                   {sopAppealCheck2 && sopAppealCheck2.length !== 0 && <FirstCheckResult sopAppealCheck={sopAppealCheck2} />}

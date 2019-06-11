@@ -29,7 +29,7 @@ class createAppeal extends React.Component {
         return attUrlList.push(item.response.data.fileUrl);
       }
     });
-    this.props.getUploadImg(attUrlList);
+    this.props.getUploadImg(fileList);
     this.setState({ attUrlList });
   };
   onFormChange = (value, vname) => {
