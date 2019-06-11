@@ -56,12 +56,12 @@ class UploadImg extends React.Component {
 
   handleChange = async ({ file, fileList }) => {
     const { type, status, size, response, appealProof } = file
-    const { currentIndex } = this.state
+    const { currentIndex } = this.state;
     // eslint-disable-next-line default-case
     switch (status) {
       // 上传
       case 'uploading':
-        if (type !== 'image/jpeg') {
+        if (type !== 'image/jpeg' && type !== 'image/png') {
           message.error('只允许上传png/jpg结尾的文件')
           return false
         }
@@ -191,6 +191,7 @@ class UploadImg extends React.Component {
                 onRemove={this.handleRemove}
                 fileList={fileList}
                 listType="picture-card"
+                accept="image/*"
               >
                 {fileList.length >= limitImgNum ? null : uploadButton}
               </Upload>
