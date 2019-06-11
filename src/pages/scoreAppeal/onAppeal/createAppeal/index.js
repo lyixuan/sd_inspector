@@ -71,8 +71,8 @@ class AppealCreate extends React.Component {
   };
   handleOk = () => {
     const { query = {} } = this.props.location;
-    const { type,creditAppealId, creditType,dimensionType } = query;
-    const { desc, attUrlList,creditType:creditType2 } = this.state;
+    const { type, creditAppealId, creditType, dimensionType } = query;
+    const { desc, attUrlList, creditType: creditType2 } = this.state;
     const params = {
       type,
       creditAppealId: Number(creditAppealId),
@@ -111,7 +111,15 @@ class AppealCreate extends React.Component {
   };
 
   getUploadImg = (attUrlList) => {
-    this.setState({ attUrlList });
+    let newAttUrlList = [];
+    for (let i = 0; i < attUrlList.length; i++) {
+      if (attUrlList[i].name) {
+        newAttUrlList.push(attUrlList[i].response.data.fileUrl);
+      } else {
+        newAttUrlList.push(attUrlList[i].url.substring(attUrlList[i].url.indexOf('upload')));
+      }
+    }
+    this.setState({ attUrlList: newAttUrlList });
   };
 
   render() {
