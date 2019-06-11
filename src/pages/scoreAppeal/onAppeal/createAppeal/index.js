@@ -22,12 +22,25 @@ import BaseInfo from '../../components/BaseInfo';
 class AppealCreate extends React.Component {
   constructor(props) {
     super(props);
+    const { scoreAppealModel = {} } = this.props;
+    const { appealRecord = {} } = scoreAppealModel;
+    const firstRecord = appealRecord[1];
+    const SecondRecord = appealRecord[2];
+    let appealStart = {};
+    if(SecondRecord){
+      appealStart = SecondRecord.appealStart
+    } else {
+      appealStart = firstRecord.appealStart
+    }
+
     this.state = {
       collapse1: true,
       collapse2: true,
       visible: false,
       attUrlList: [],
+      ...appealStart
     };
+
   }
   componentDidMount() {
     const { query = {} } = this.props.location;
