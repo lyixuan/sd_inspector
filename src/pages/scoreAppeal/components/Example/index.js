@@ -10,7 +10,8 @@ class ExampleImg extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: this.props.visible
+      visible: this.props.visible,
+      title: '',
     }
   }
 
@@ -28,11 +29,62 @@ class ExampleImg extends React.Component {
     this.props.hideExampleImg();
   };
 
+  formatFn = (dimensionType) => {
+    let params = {
+      dimensionTypeHtml: '',
+      title: ''
+    };
+    // eslint-disable-next-line default-case
+    switch (dimensionType) {
+      // 优新
+      case 12:
+        params.dimensionTypeHtml = '<img />';
+        params.title = '';
+        break;
+
+      // IM
+      case 15:
+      case 16:
+      case 17:
+        params.dimensionTypeHtml = '<img />';
+        params.title = '';
+        break;
+
+      // 工单
+      case 20:
+      case 21:
+      case 22:
+        params.dimensionTypeHtml = '<img />';
+        params.title = '';
+        break;
+
+      // 底线
+      case 24:
+      case 25:
+      case 26:
+      case 47:
+        params.dimensionTypeHtml = '<img />';
+        params.title = '';
+        break;
+      // 创收
+      case 43:
+      case 44:
+      case 45:
+        params.dimensionTypeHtml = '<img />';
+        params.title = '';
+        break;
+    }
+
+    return params;
+  }
   render() {
+    const { dimensionType } = this.props;
+    let dimensionTypeHtml = this.formatFn(dimensionType).dimensionTypeHtml;
+    let title = this.formatFn(dimensionType).title;
     return (
       <div>
         <BIModal
-          title="Basic Modal"
+          title={title}
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
@@ -40,8 +92,7 @@ class ExampleImg extends React.Component {
             <BIButton type="primary" onClick={this.handleOk}>确定</BIButton>
           ]}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          {dimensionTypeHtml}
         </BIModal>
       </div >
     );
