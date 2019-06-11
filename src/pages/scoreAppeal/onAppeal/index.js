@@ -133,12 +133,15 @@ class OnAppeal extends React.Component {
     });
   };
   onDetail = (record) => {
+    const {idList=[]} = this.props.onAppealModel;
     const {dimensionType} = this.state;
     const query={
       id: record.id, // 获取审核记录用id
       dimensionId: record.metaDimensionId, // 获取详情用id
       dimensionType,   // 申诉维度
-      isOnAppeal:true
+      isOnAppeal:true,
+      idList:idList.join(),
+      status:record.status
     };
     this.onJumpPage(query, '/scoreAppeal/appeal_detail');
   };
