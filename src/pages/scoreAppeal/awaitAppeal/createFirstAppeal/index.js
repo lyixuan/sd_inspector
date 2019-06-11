@@ -119,7 +119,6 @@ class AppealCreate extends React.Component {
     // 申诉基础信息-学分维度
     let dimensionType;
     if (scoreAppealModel && scoreAppealModel.detailInfo && scoreAppealModel.detailInfo.baseAppealInfo) {
-      // console.log(scoreAppealModel.detailInfo.baseAppealInfo.dimensionType, 'scoreAppealModel');
       dimensionType = scoreAppealModel.detailInfo.baseAppealInfo.dimensionType;
     }
     return (
