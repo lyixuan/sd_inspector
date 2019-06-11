@@ -133,12 +133,15 @@ class OnAppeal extends React.Component {
     });
   };
   onDetail = (record) => {
+    const {idList=[]} = this.props.onAppealModel;
     const {dimensionType} = this.state;
     const query={
       id: record.id, // 获取审核记录用id
       dimensionId: record.metaDimensionId, // 获取详情用id
       dimensionType,   // 申诉维度
-      isOnAppeal:true
+      isOnAppeal:true,
+      idList:idList.join(),
+      status:record.status
     };
     this.onJumpPage(query, '/scoreAppeal/appeal_detail');
   };
@@ -246,7 +249,7 @@ class OnAppeal extends React.Component {
   render() {
     const {dimensionType} = this.state;
     const {loading} = this.props;
-    const {onList=[],page} = this.props.onAppealModel;
+    const {onList=[],page,countPreCheckNum} = this.props.onAppealModel;
     return (
       <>
         <p className={style.wrap}>
@@ -267,7 +270,7 @@ class OnAppeal extends React.Component {
           </AuthButton>
         </p>
         <CSForm {...this.props} dimensionType={dimensionType} progress={'onAppeal'} onSubmit={(params,pg,exp)=>{this.formSubmit(undefined,params,pg,exp)}} />
-        <CSTable dataSource={onList} columns={this.columnsAction()} loading={loading} page={page} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}/>
+        <CSTable dataSource={onList} columns={this.columnsAction()} loading={loading} page={page} countPreCheckNum={countPreCheckNum} changePage={(pg)=>{this.changePage(undefined,undefined,pg)}}/>
       </>
     );
   }

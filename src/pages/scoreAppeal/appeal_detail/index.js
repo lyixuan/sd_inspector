@@ -50,6 +50,8 @@ class AppealCheck extends React.Component {
   };
   onChangePage(ids,currentId,direction){
     let newId = null;
+    let metaDimensionId = null;
+    let status = null;
     if (ids.indexOf(currentId)===-1){
         newId=ids[0]
     } else {
@@ -69,7 +71,13 @@ class AppealCheck extends React.Component {
     }
     const {query={}} = this.props.location;
     query.id = newId;
-    this.onJumpPage(query, '/scoreAppeal/appeal_detail');
+    query.dimensionId = metaDimensionId; // 获取详情用id
+    query.status=status;
+    router.replace({
+      pathname:'/scoreAppeal/appeal_detail',
+      query
+    });
+    this.componentDidMount();
   }
 
   onJumpAppeal(){
@@ -79,13 +87,13 @@ class AppealCheck extends React.Component {
   render() {
     const {query={}} = this.props.location;
     const {collapse1,collapse2} = this.state;
-    const {loading,scoreAppealModel={},onAppealModel={}}=this.props;
-    const {idList=[]}=onAppealModel;
+    const {loading,scoreAppealModel={}}=this.props;
     const {detailInfo={},appealRecord={}}=scoreAppealModel;
     const firstRecord = appealRecord[1];
     const SecondRecord = appealRecord[2];
     const { appealStart:appealStart1, sopAppealCheck:sopAppealCheck1, masterAppealCheck:masterAppealCheck1 } = firstRecord||{};
     const { appealStart:appealStart2, sopAppealCheck:sopAppealCheck2 , masterAppealCheck:masterAppealCheck2 } = SecondRecord||{};
+    const idList = query.idList.split(',');
     return (
       <Spin spinning={loading}>
       <div className={styles.appealContainer}>
@@ -121,7 +129,7 @@ class AppealCheck extends React.Component {
             )}
           </div>
         )}
-        {query.isOnAppeal&&<ShortcutButton ids={idList} currentId={query.id}  onChangePage={(ids,currentId,direction)=>this.onChangePage(ids,currentId,direction)} onJumpAppeal={()=>this.onJumpAppeal()}/>}
+        {query.isOnAppeal&&<ShortcutButton ids={idList} currentId={query.id}  status={query.status} onChangePage={(ids,currentId,direction)=>this.onChangePage(ids,currentId,direction)} onJumpAppeal={()=>this.onJumpAppeal()}/>}
         <footer style={{ textAlign: 'right', marginTop: '20px' }}>
           <BIButton onClick={() => router.goBack()}>返回</BIButton>
         </footer>
