@@ -22,23 +22,12 @@ import BaseInfo from '../../components/BaseInfo';
 class AppealCreate extends React.Component {
   constructor(props) {
     super(props);
-    const { scoreAppealModel = {} } = this.props;
-    const { appealRecord = {} } = scoreAppealModel;
-    const firstRecord = appealRecord[1];
-    const SecondRecord = appealRecord[2];
-    let appealStart = {};
-    if (SecondRecord) {
-      appealStart = SecondRecord.appealStart
-    } else {
-      appealStart = firstRecord.appealStart
-    }
 
     this.state = {
       collapse1: true,
       collapse2: true,
       visible: false,
-      attUrlList: appealStart?appealStart.appealProof:[],
-      ...appealStart
+      attUrlList: [],
     };
 
   }
@@ -51,6 +40,22 @@ class AppealCreate extends React.Component {
     this.props.dispatch({
       type: 'scoreAppealModel/queryAppealInfoCheckList',
       payload: { params: { creditAppealId: query.creditAppealId } },
+    }).then(()=>{
+      const { scoreAppealModel = {} } = this.props;
+      const { appealRecord = {} } = scoreAppealModel;
+      const firstRecord = appealRecord[1];
+      const SecondRecord = appealRecord[2];
+      let appealStart = {};
+      if (SecondRecord) {
+        appealStart = SecondRecord.appealStart
+      } else if (firstRecord){
+        appealStart = firstRecord.appealStart
+      }
+      this.setState({
+        attUrlList: appealStart?appealStart.appealProof:[],
+        desc: appealStart?appealStart.desc:undefined,
+        creditType: appealStart?appealStart.creditType:undefined,
+      })
     });
   }
 
@@ -155,14 +160,14 @@ class AppealCreate extends React.Component {
                 <span onClick={() => this.handleCollapse(1)}><img src={collapse1 ? imgdown : imgUp} width='18'
                   height='18' /></span>
               </div>
-              <div className={styles.spaceLine} />
               {/* 申诉内容 */}
               {collapse1 && (
                 <div style={{ paddingLeft: '15px' }}>
-                  <CreateAppeal {...this.props}
-                    getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
-                    getFileList={this.getFileList} appealStart={appealStart1}
-                    onFormChange={(value, vname) => this.onFormChange(value, vname)} />
+                  {Number(query.type)===1&&<CreateAppeal {...this.props}
+                                                         getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
+                                                         getFileList={this.getFileList} appealStart={appealStart1}
+                                                         onFormChange={(value, vname) => this.onFormChange(value, vname)} />}
+                  {Number(query.type)===2&&appealStart1&&<CreateAppeaRecord appealStart={appealStart1}/>}
                   {sopAppealCheck1 && sopAppealCheck1.length !== 0 && <FirstCheckResult sopAppealCheck={sopAppealCheck1} />}
                   {masterAppealCheck1 && <SecondCheckResult masterAppealCheck={masterAppealCheck1} />}
                   <div className={styles.spaceLine} />
@@ -170,7 +175,7 @@ class AppealCreate extends React.Component {
               )}
             </div>
           )}
-          {SecondRecord && (
+          {Number(query.type)===2&& (
             <div>
               <div className={styles.foldBox}>
                 <span>二次申诉</span>
