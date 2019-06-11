@@ -60,7 +60,6 @@ class userGroupEdit extends React.Component {
     })
   };
   fetchPreDel = () => {
-    console.log(45, this.state.params)
     if (this.state.params.userIdStr.split(" ").length > 1000) {
       message.warning('不能超过1000个id');
       this.editLoading(false)
@@ -111,7 +110,6 @@ class userGroupEdit extends React.Component {
     });
   };
   editLoading = isLoading => {
-    console.log(61, isLoading);
     this.props.dispatch({
       type: 'userGroupEdit/editLoading',
       payload: { isLoading },
@@ -131,7 +129,6 @@ class userGroupEdit extends React.Component {
     const data = checkResult ? checkResult.checkResult : null;
     const failNums = data ? data.failList : [];
 
-    // console.log(115, checkResult.checkResult.failList)
     let notice = null
     if (this.state.deleteData) {
       notice = <div>
@@ -158,7 +155,7 @@ class userGroupEdit extends React.Component {
               this.onChildChange(bol, params);
             }}
             updateType={this.state.params.updateType}
-            faileData={failNums}
+            faileData={this.state.params.userIdStr}
           />
         ),
       },

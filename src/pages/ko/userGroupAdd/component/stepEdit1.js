@@ -11,7 +11,7 @@ class StepEdit extends Component {
     this.state = {
       updateType: props.updateType ? props.updateType : 1,
       id: props.queryParam.id,
-      userIdStr: props.faileData ? props.faileData.join(' ') : ''
+      userIdStr: props.faileData ? props.faileData : ''
     }
   }
   // input双向绑定
@@ -53,11 +53,10 @@ class StepEdit extends Component {
   render() {
     const { faileData } = this.props;
     let valueData = '';
-    console.log(56, faileData)
     if (!faileData) {
       valueData = '';
     } else {
-      valueData = faileData.join(" ");
+      valueData = faileData;
     }
     return (
       <div className={styles.wrap}>

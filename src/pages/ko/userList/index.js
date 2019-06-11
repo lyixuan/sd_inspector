@@ -358,6 +358,56 @@ function DateBar(props) {
   );
 }
 
+function CreatUserGroupPop(props) {
+  if (props.groupCheck) {
+    return (
+      <BIModal
+        title={'创建用户组'}
+        visible={props.visible}
+        onOk={() => props.handleOk('check')}
+        onCancel={props.handleCancel}
+        footer={[
+          <BIButton key="submit" type="primary" onClick={() => props.handleOk('check')}>
+            确定
+                </BIButton>,
+        ]}>
+        <div style={{ textAlign: 'center' }}>
+          <p style={{ paddingBottom: '0' }}>你有一个正在创建的用户组</p>
+          <p style={{ paddingBottom: '0' }}>预计需要5～10分钟</p>
+          <p style={{ paddingBottom: '0' }}>请在用户运营页查看最新的创建状态。</p>
+        </div>
+      </BIModal>
+    )
+  } else {
+    return (
+      <BIModal
+        title={'创建用户组'}
+        visible={props.visible}
+        onOk={() => props.handleOk('add')}
+        onCancel={props.handleCancel}
+        footer={[
+          <BIButton key="back" style={{ marginRight: 10 }} onClick={props.handleCancel}>
+            取消
+                </BIButton>,
+          <BIButton key="submit" type="primary" onClick={() => props.handleOk('add')}>
+            确定
+                </BIButton>,
+        ]}>
+        <div>
+          <p>保存{thousandsFormat(props.totalUser)}个学员为一个用户组，请设置用户组名称</p>
+          <TextArea
+            onChange={props.userGroupInput}
+            placeholder="输入名称"
+            maxLength={50}
+            style={{ resize: 'none' }}
+            autosize={{ minRows: 2, maxRows: 2 }}
+          />
+        </div>
+      </BIModal>
+    )
+  }
+}
+
 @connect(({ userListModel, koPlan, loading }) => ({
   userListModel,
   tabFromParams: koPlan.tabFromParams,
@@ -365,6 +415,7 @@ function DateBar(props) {
   pageParams: userListModel.pageParams,
   chooseEventData: koPlan.chooseEventData,
   loading: loading.effects['userListModel/getTableList'],
+  loading2: loading.effects['userListModel/userGroupCheck'],
 }))
 class UserList extends React.Component {
   constructor(props) {
@@ -448,18 +499,16 @@ class UserList extends React.Component {
     });
   };
   renderDateTags = (date, key, name, index) => {
-    const { isShowFiexd } = this.state;
     let [startTime, endTime] = date;
     startTime = moment(startTime).format(dateFormat);
     endTime = moment(endTime).format(dateFormat);
-    return (<span key={name + index}><Tag closable={!isShowFiexd}
-      onClose={() => !isShowFiexd ? this.onClose(key, date) : null}>{name}:{`${startTime}~${endTime}`}</Tag></span>);
+    return `${name}:${startTime}~${endTime}`
+
   };
   renderGrouptags = (item, key) => {
     const { isShowFiexd } = this.state;
     const orgName = item.map(item => item.name).join('/');
-    return orgName ? (<span key={orgName}><Tag closable={!isShowFiexd}
-      onClose={() => !isShowFiexd ? this.onClose(key, item) : null}>{orgName}</Tag></span>) : null;
+    return orgName
   };
   renderTypeTage = (obj, key, color = '#F4F4F4') => (type) => {
     return obj.name
@@ -585,7 +634,7 @@ class UserList extends React.Component {
       });
       this.setState({
         visible: this.props.userListModel.visible,
-        visible2: this.props.userListModel.visible2,
+        visible2: true,
       });
     }
 
@@ -599,7 +648,7 @@ class UserList extends React.Component {
   render() {
     const { userList, currentPage = 1, totalCount = 0, totalUser = 0, groupCheck } = this.props.userListModel;
     const { visible, visible2 } = this.state;
-    const { loading } = this.props;
+    const { loading, loading2 } = this.props;
     const { pageParams } = this.state;
     const dataSource = userList;
     this.state.totalUser = thousandsFormat(totalUser);
@@ -628,49 +677,8 @@ class UserList extends React.Component {
           <BIPagination showQuickJumper defaultPageSize={pageParams.pageSize ? pageParams.pageSize : 30}
             onChange={this.onPageChange} current={currentPage} total={totalCount} />
         </div>
-        {/* 别忘了把！去掉 */}
         {
-          groupCheck ?
-            <BIModal
-              title={'创建用户组'}
-              visible={visible}
-              onOk={() => this.handleOk('check')}
-              onCancel={this.handleCancel}
-              footer={[
-                <BIButton key="submit" type="primary" onClick={() => this.handleOk('check')}>
-                  确定
-                </BIButton>,
-              ]}>
-              <div style={{ textAlign: 'center' }}>
-                <p style={{ paddingBottom: '0' }}>你有一个正在创建的用户组</p>
-                <p style={{ paddingBottom: '0' }}>预计需要5～10分钟</p>
-                <p style={{ paddingBottom: '0' }}>请在用户运营页查看最新的创建状态。</p>
-              </div>
-            </BIModal>
-            : <BIModal
-              title={'创建用户组'}
-              visible={visible}
-              onOk={() => this.handleOk('add')}
-              onCancel={this.handleCancel}
-              footer={[
-                <BIButton key="back" style={{ marginRight: 10 }} onClick={this.handleCancel}>
-                  取消
-                </BIButton>,
-                <BIButton key="submit" type="primary" onClick={() => this.handleOk('add')}>
-                  确定
-                </BIButton>,
-              ]}>
-              <div>
-                <p>保存{thousandsFormat(totalUser)}个学员为一个用户组，请设置用户组名称</p>
-                <TextArea
-                  onChange={this.userGroupInput}
-                  placeholder="输入名称"
-                  maxLength={50}
-                  style={{ resize: 'none' }}
-                  autosize={{ minRows: 2, maxRows: 2 }}
-                />
-              </div>
-            </BIModal>
+          loading2 ? null : <CreatUserGroupPop userGroupInput={this.userGroupInput} handleOk={this.handleOk} handleCancel={this.handleCancel} totalUser={totalUser} visible={visible} groupCheck={groupCheck}></CreatUserGroupPop>
         }
         <BIModal
           title={'创建用户组'}
