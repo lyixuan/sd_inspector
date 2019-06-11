@@ -28,7 +28,7 @@ class ShortcutButton extends React.Component {
     const {ids=[],currentId} = this.props;
 
     return (
-      <div>
+      <div style={{width:'100%',textAlign:'center'}}>
         <Button className='smBtn' size="small" onClick={()=>this.changePage(ids,currentId,'up')} >
           <Icon type="left" />
           上一条

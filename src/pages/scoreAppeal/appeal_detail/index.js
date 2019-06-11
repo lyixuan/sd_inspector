@@ -10,6 +10,7 @@ import router from 'umi/router';
 import BIButton from '@/ant_components/BIButton';
 import imgUp from '@/assets/scoreQuality/up.png';
 import imgdown from '@/assets/scoreQuality/down.png';
+import ShortcutButton from  '@/pages/scoreAppeal/components/ShortcutButton';
 
 @connect(({ scoreAppealModel,loading }) => ({
   scoreAppealModel,
@@ -46,11 +47,40 @@ class AppealCheck extends React.Component {
         collapse2: !this.state.collapse2
       });
     }
+  };
+  onChangePage(ids,currentId,direction){
+    let newId = null;
+    if (ids.indexOf(currentId)===-1){
+        newId=ids[0]
+    } else {
+      if (direction==='up'){
+        if (ids.indexOf(currentId)===0){
+            newId = ids[ids.length-1]
+        } else {
+            newId =ids[ids.indexOf(currentId)-1]
+        }
+      } else {
+        if (ids.indexOf(currentId)+1 === ids.length){
+            newId= ids[0]
+        } else {
+            newId= ids[ids.indexOf(currentId)+1]
+        }
+      }
+    }
+    const {query={}} = this.props.location;
+    query.id = newId;
+    this.onJumpPage(query, '/scoreAppeal/appeal_detail');
+  }
+
+  onJumpAppeal(){
+
   }
 
   render() {
+    const {query={}} = this.props.location;
     const {collapse1,collapse2} = this.state;
-    const {loading,scoreAppealModel={}}=this.props;
+    const {loading,scoreAppealModel={},onAppealModel={}}=this.props;
+    const {idList=[]}=onAppealModel;
     const {detailInfo={},appealRecord={}}=scoreAppealModel;
     const firstRecord = appealRecord[1];
     const SecondRecord = appealRecord[2];
@@ -91,6 +121,7 @@ class AppealCheck extends React.Component {
             )}
           </div>
         )}
+        {query.isOnAppeal&&<ShortcutButton ids={idList} currentId={query.id}  onChangePage={(ids,currentId,direction)=>this.onChangePage(ids,currentId,direction)} onJumpAppeal={()=>this.onJumpAppeal()}/>}
         <footer style={{ textAlign: 'right', marginTop: '20px' }}>
           <BIButton onClick={() => router.goBack()}>返回</BIButton>
         </footer>

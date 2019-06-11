@@ -15,6 +15,7 @@ export default class SuperiorCheckComponent extends React.Component {
   render() {
     const { masterAppealCheck } = this.props;
     const { checkResult,operator, operateDate,operateRole,desc,tagList=[]} = masterAppealCheck;
+    const tags = tagList.map((v)=>v.name)
     return (
       <section className={styles.showPanel}>
         <div className={styles.personInfoCon}>
@@ -40,9 +41,9 @@ export default class SuperiorCheckComponent extends React.Component {
                   <div>审核说明：{desc}</div>
               </Col>
             </Row>
-            <Row>
+            <Row className={styles.container}>
               <Col span={24}>
-                  <div>标签列表：{tagList.join()}</div>
+                  <div>审核标签：{tags.join('，')}</div>
               </Col>
             </Row>
             </div>

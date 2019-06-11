@@ -18,7 +18,7 @@ const columns = [
   },
   {
     title: '学分维度',
-    dataIndex: 'dimensionName',
+    dataIndex: 'creditName',
   },
   {
     title: '归属组织',
@@ -120,8 +120,14 @@ class FinishAppeal extends React.Component {
   };
   onDetail = (record) => {
     const {dimensionType} = this.state;
-    this.onJumpPage({ dimensionId: record.metaDimensionId,dimensionType }, '/scoreAppeal/appeal_detail');
+    const query={
+      id: record.id, // 获取审核记录用id
+      dimensionId: record.metaDimensionId, // 获取详情用id
+      dimensionType   // 申诉维度
+    };
+    this.onJumpPage(query, '/scoreAppeal/appeal_detail');
   };
+
   columnsAction = () => {
     const actionObj = [{
       title: '操作',
