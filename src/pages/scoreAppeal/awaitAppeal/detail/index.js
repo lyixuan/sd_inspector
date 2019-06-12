@@ -28,11 +28,12 @@ class AppealAwaitCheck extends React.Component {
   }
   render() {
     const {loading,scoreAppealModel={}}=this.props;
+    const {query={}} = this.props.location;
     const {detailInfo={}}=scoreAppealModel;
     return (
       <Spin spinning={loading}>
       <div className={styles.appealContainer}>
-        <BaseInfo detailInfo={detailInfo}/>
+        <BaseInfo detailInfo={detailInfo} dimensionType={query.dimensionType}/>
         <footer style={{ textAlign: 'right', marginTop: '20px' }}>
           <BIButton onClick={() => router.goBack()}>返回</BIButton>
         </footer>

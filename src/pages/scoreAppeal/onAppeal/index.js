@@ -144,7 +144,7 @@ class OnAppeal extends React.Component {
       isOnAppeal:true,
       idList: JSON.stringify(idList),
     };
-    this.onJumpPage(query, '/scoreAppeal/appeal_detail');
+    this.onJumpPage(query, '/scoreAppeal/onAppeal/detail');
   };
   onCreateAppeal = (record) => {
     const {dimensionType} = this.state;
@@ -155,7 +155,7 @@ class OnAppeal extends React.Component {
       creditAppealId: record.id,        // 学分申诉id（待申诉数据ID）
       dimensionId:record.metaDimensionId,        // 获取详情用
     };
-    this.onJumpPage(query, '/scoreAppeal/appeal_create');
+    this.onJumpPage(query, '/scoreAppeal/onAppeal/appeal');
   };
   onCheck = (record) => {
     const {dimensionType} = this.state;
@@ -168,7 +168,7 @@ class OnAppeal extends React.Component {
       firstOrSec:(record.status === 1||record.status === 5)?1:(record.status === 2||record.status === 6)?2:null,// 1 一申，2 二申
       sopOrMaster:(record.status === 1||record.status === 2)?1:(record.status === 5||record.status === 6)?2:null,// 1 sop，2 master
     };
-    this.onJumpPage(query, '/scoreAppeal/checkAppeal');
+    this.onJumpPage(query, '/scoreAppeal/onAppeal/checkAppeal');
   };
   onRepeal = (record) => {
     const that = this;

@@ -218,14 +218,22 @@ export const routes = [
             name: '待申诉',
           },
           {
-            path: '/scoreAppeal/awaitAppeal_detail',
+            path: '/scoreAppeal/awaitAppeal/detail',
             component: './scoreAppeal/awaitAppeal/detail',
             name: '详情',
+            bread: {
+              name: '待申诉',
+              path: '/scoreAppeal/awaitAppeal',
+            },
           },
           {
-            path: '/scoreAppeal/firstAppeal_create',
+            path: '/scoreAppeal/awaitAppeal/appeal',
             component: './scoreAppeal/awaitAppeal/createFirstAppeal',
             name: '发起申诉',
+            bread: {
+              name: '待申诉',
+              path: '/scoreAppeal/awaitAppeal',
+            },
           },
           /* 在途申诉 */
           {
@@ -234,14 +242,31 @@ export const routes = [
             name: '在途申诉',
           },
           {
-            path: '/scoreAppeal/appeal_create',
+            path: '/scoreAppeal/onAppeal/appeal',
             component: './scoreAppeal/onAppeal/createAppeal',
             name: '发起申诉',
+            bread: {
+              name: '在途申诉',
+              path: '/scoreAppeal/onAppeal',
+            },
           },
           {
-            path: '/scoreAppeal/checkAppeal',
+            path: '/scoreAppeal/onAppeal/checkAppeal',
             component: './scoreAppeal/onAppeal/checkAppeal',
             name: '申诉审核',
+            bread: {
+              name: '在途申诉',
+              path: '/scoreAppeal/onAppeal',
+            },
+          },
+          {
+            path: '/scoreAppeal/onAppeal/detail',
+            component: './scoreAppeal/appeal_detail',
+            name: '申诉详情',
+            bread: {
+              name: '在途申诉',
+              path: '/scoreAppeal/onAppeal',
+            },
           },
           /* 结案申诉 */
           {
@@ -250,10 +275,15 @@ export const routes = [
             name: '结案申诉',
           },
           {
-            path: '/scoreAppeal/appeal_detail',
+            path: '/scoreAppeal/finishAppeal/detail',
             component: './scoreAppeal/appeal_detail',
             name: '申诉详情',
+            bread: {
+              name: '结案申诉',
+              path: '/scoreAppeal/finishAppeal',
+            },
           },
+
         ],
       },
     ],
