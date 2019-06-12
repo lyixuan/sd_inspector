@@ -2,8 +2,9 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import styles from './style.css';
 import moment from 'moment';
-import ShowImgs from '@/pages/scoreAppeal/components/ShowImgs';
+// import ShowImgs from '@/pages/scoreAppeal/components/ShowImgs';
 import { STATIC_HOST } from '@/utils/constants';
+import UploadImg from '../uploadImgs';
 
 export default class SOPCheckResultComponent extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ export default class SOPCheckResultComponent extends React.Component {
     let newAppealProof = [];
     if (appealProof.length) {
       for (let i = 0; i < appealProof.length; i++) {
-        newAppealProof.push(`${STATIC_HOST}/${appealProof[i]}`);
+        newAppealProof.push({ uid: i, url: `${STATIC_HOST}/${appealProof[i]}` });
       }
     }
     return (
@@ -32,7 +33,15 @@ export default class SOPCheckResultComponent extends React.Component {
                 <Col span={16}>
                   <div className={styles.resultDotColor}>
                     <span style={{ width: 75 }}>申诉证据：</span>
-                    <span style={{ flex: 1 }}><ShowImgs imgList={newAppealProof} /></span>
+                    <span>
+                      <UploadImg
+                        fileList={newAppealProof}
+                        limitImg={newAppealProof.length}
+                        showDelBtn={'hide'}
+                      >
+                      </UploadImg>
+                      {/* <ShowImgs imgList={newAppealProof} /> */}
+                    </span>
                   </div>
                 </Col>
                 <Col span={3}>

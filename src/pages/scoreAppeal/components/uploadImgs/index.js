@@ -38,6 +38,7 @@ class UploadImg extends React.Component {
       hoverLeft: false,
       hoverRight: false,
       appealProof: [],
+      isShowDelBtn: this.props.showDelBtn || 'show',
     }
   }
 
@@ -117,7 +118,7 @@ class UploadImg extends React.Component {
     this.setState({ hoverRight: !this.state.hoverRight });
   }
   render() {
-    const { width, currentIndex, fileList, mainNum, limitImgNum, hoverLeft, hoverRight } = this.state;
+    const { width, currentIndex, fileList, mainNum, limitImgNum, hoverLeft, hoverRight, isShowDelBtn } = this.state;
 
     const offset = -currentIndex * width;
     const len = this.state.fileList.length;
@@ -140,12 +141,12 @@ class UploadImg extends React.Component {
     const leftButtonStyle = {
       left: 0,
       marginRight: 10,
-      display: len >= mainNum ? 'block' : 'none',
+      display: isShowDelBtn === 'show' ? (len >= mainNum ? 'block' : 'none') : (len > mainNum ? 'block' : 'none'),
     };
 
     const rightButtonStyle = {
       right: 0,
-      display: (len >= mainNum) ? 'block' : 'none',
+      display: isShowDelBtn === 'show' ? (len >= mainNum ? 'block' : 'none') : (len > mainNum ? 'block' : 'none'),
     };
 
     const contentStyle = {
@@ -168,7 +169,7 @@ class UploadImg extends React.Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     );
-
+    let name = isShowDelBtn === 'show' ? 'showDelBtn' : 'hideDelBtn';
     return (
       <div className="clearfix">
         <div className={styles.uploadImgWrap}>
@@ -184,6 +185,7 @@ class UploadImg extends React.Component {
           <div className={styles.listContent} style={listContent}>
             <div style={contentStyle}>
               <Upload
+                className={name}
                 {...uploadMultipleFile()}
                 onChange={this.handleChange}
                 beforeUpload={this.beforeUpload}
