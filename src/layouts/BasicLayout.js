@@ -220,7 +220,7 @@ class BasicLayout extends React.PureComponent {
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
           </Header>
-          <Content>
+          <Content className="aiWorktable-ant-layout-content">
             <ContentLayout {...this.props} routesData={routesData}>
               <Authorized
                 authority={checkPathname.bind(null, location.patchname)}

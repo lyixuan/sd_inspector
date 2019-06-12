@@ -238,6 +238,29 @@ export const routes = [
           },
         ],
       },
+      {
+        path: '/aiWorktable',
+        component: './ko/aiWorktable',
+        name: 'AI工作台',
+        pageRedirect: '/aiWorktable/im',
+        routes: [
+          {
+            path: '/aiWorktable/im',
+            component: './ko/aiWorktable/imPage',
+            commonPath: true,   // 继承父页面
+          },
+          {
+            path: '/aiWorktable/bbs',
+            component: './ko/aiWorktable/bbsPage',
+            commonPath: true,   // 继承父页面
+          },
+          {
+            path: '/aiWorktable/nps',
+            component: './ko/aiWorktable/npsPage',
+            commonPath: true,   // 继承父页面
+          },
+        ],
+      },
     ],
   },
 ];

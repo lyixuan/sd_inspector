@@ -1,0 +1,34 @@
+@base-green: #52C9C2;
+@base-green-shadow: rgba(82,201,194, 0.2);
+@base-blue: #46A3EF;
+@base-yellow: #F29F38;
+@base-color:rgba(0, 0, 0, 0.65);
+
+:global .tabGroupContainer {
+  background-color: #FFFFFF;
+  .ant-tabs-bar {
+    border-bottom: 1px solid #FFFFFF;
+    margin: 0;
+  }
+  .ant-tabs-ink-bar {
+    background-color: @base-green;
+  }
+  .ant-tabs-nav .ant-tabs-tab-active {
+    color: @base-color;
+  }
+}
+:global .aiWorktable-ant-layout-content {
+  position: relative;
+  overflow: visible;
+}
+
+.aiWorktable {
+  position: absolute;
+  top: 0;
+  left: -18px;
+  right: -18px;
+  .aiWorktableMain {
+    margin: 18px;
+    background-color: #ffffff;
+  }
+}
