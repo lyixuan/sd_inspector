@@ -143,6 +143,7 @@ class OnAppeal extends React.Component {
       status:record.status,
       isOnAppeal:true,
       idList: JSON.stringify(idList),
+      secondAppealEndDate:record.secondAppealEndDate,  // 详情展示
     };
     this.onJumpPage(query, '/scoreAppeal/onAppeal/detail');
   };
@@ -154,6 +155,7 @@ class OnAppeal extends React.Component {
       dimensionType,                    // 申诉维度
       creditAppealId: record.id,        // 学分申诉id（待申诉数据ID）
       dimensionId:record.metaDimensionId,        // 获取详情用
+      secondAppealEndDate:record.secondAppealEndDate,  // 详情展示
     };
     this.onJumpPage(query, '/scoreAppeal/onAppeal/appeal');
   };
@@ -167,6 +169,7 @@ class OnAppeal extends React.Component {
       status:record.status,
       firstOrSec:(record.status === 1||record.status === 5)?1:(record.status === 2||record.status === 6)?2:null,// 1 一申，2 二申
       sopOrMaster:(record.status === 1||record.status === 2)?1:(record.status === 5||record.status === 6)?2:null,// 1 sop，2 master
+      secondAppealEndDate:record.secondAppealEndDate,  // 详情展示
     };
     this.onJumpPage(query, '/scoreAppeal/onAppeal/checkAppeal');
   };

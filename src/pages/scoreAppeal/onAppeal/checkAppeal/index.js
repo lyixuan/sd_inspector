@@ -195,7 +195,7 @@ class AppealCheck extends React.Component {
     return (
       <Spin spinning={loading}>
       <div className={styles.appealContainer}>
-        <BaseInfo detailInfo={detailInfo}/>
+        <BaseInfo detailInfo={detailInfo} dimensionType={query.dimensionType}/>
         {firstRecord&&<div>
           <div className={styles.foldBox}>
             <span >一次申诉</span>
@@ -213,7 +213,7 @@ class AppealCheck extends React.Component {
         </div>}
         {SecondRecord&&<div>
           <div className={styles.foldBox}>
-            <span >二次申诉</span>
+            <span >二次申诉 {query.secondAppealEndDate? `(二次申诉截止日期：${query.secondAppealEndDate})`:''}</span>
             <span onClick={()=>this.handleCollapse(2)}><img src={collapse2?imgdown:imgUp} width='18' height='18'/></span>
           </div>
           {/* 申诉内容 */}

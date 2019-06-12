@@ -44,17 +44,10 @@ class AppealCreate extends React.Component {
       const { scoreAppealModel = {} } = this.props;
       const { appealRecord = {} } = scoreAppealModel;
       const firstRecord = appealRecord[1];
-      const SecondRecord = appealRecord[2];
-      let appealStart = {};
-      if (SecondRecord) {
-        appealStart = SecondRecord.appealStart
-      } else if (firstRecord){
-        appealStart = firstRecord.appealStart
-      }
       this.setState({
-        attUrlList: appealStart?appealStart.appealProof:[],
-        desc: appealStart?appealStart.desc:undefined,
-        creditType: appealStart?appealStart.creditType:undefined,
+        attUrlList: firstRecord?firstRecord.appealProof:[],
+        desc: firstRecord?firstRecord.desc:undefined,
+        creditType: firstRecord?firstRecord.creditType:undefined,
       })
     });
   }
@@ -178,7 +171,7 @@ class AppealCreate extends React.Component {
           {Number(query.type)===2&& (
             <div>
               <div className={styles.foldBox}>
-                <span>二次申诉</span>
+                <span>二次申诉 {query.secondAppealEndDate? `(二次申诉截止日期：${query.secondAppealEndDate})`:''}</span>
                 <span onClick={() => this.handleCollapse(2)}><img src={collapse2 ? imgdown : imgUp} width='18'
                   height='18' /></span>
               </div>
@@ -187,7 +180,7 @@ class AppealCreate extends React.Component {
                 <div style={{ paddingLeft: '15px' }}>
                   <CreateAppeal {...this.props}
                     getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
-                    getFileList={this.getFileList} appealStart={appealStart2}
+                    getFileList={this.getFileList} appealStart={appealStart1}
                     onFormChange={(value, vname) => this.onFormChange(value, vname)} />
                   {sopAppealCheck2 && sopAppealCheck2.length !== 0 && <FirstCheckResult sopAppealCheck={sopAppealCheck2} />}
                   {masterAppealCheck2 && <SecondCheckResult masterAppealCheck={masterAppealCheck2} />}

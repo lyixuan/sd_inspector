@@ -152,7 +152,7 @@ class AppealCheck extends React.Component {
         {SecondRecord&&(
           <div>
             <div className={styles.foldBox}>
-              <span >二次申诉</span>
+              <span >二次申诉 {query.secondAppealEndDate? `(二次申诉截止日期：${query.secondAppealEndDate})`:''}</span>
               <span onClick={()=>this.handleCollapse(2)}><img src={collapse2?imgdown:imgUp} width='18' height='18'/></span>
             </div>
             {collapse2&&(
