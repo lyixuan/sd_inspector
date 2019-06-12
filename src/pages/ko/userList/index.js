@@ -423,11 +423,11 @@ class UserList extends React.Component {
     this.initpage = {
       currentPage: 1, pageSize: 30,
     };
-    const { visible, visible2 } = props.userListModel;
+    const { visible } = props.userListModel;
     this.state = {
       pageParams: this.initpage,
       visible: visible,
-      visible2: visible2,
+      visible2: false,
       filterExitParams: {},
       groupName: '',
       totalUser: 0,
@@ -595,9 +595,9 @@ class UserList extends React.Component {
   };
   handleCancel = () => {
     this.setState({
-      visible: false,
-      visible2: false,
+      visible: false
     });
+    this.editvisible2(false)
   };
   handleOk = (val) => {
     if (val == 'check') {
@@ -633,11 +633,16 @@ class UserList extends React.Component {
         payload: { params: submitParam },
       });
       this.setState({
-        visible: this.props.userListModel.visible,
-        visible2: true,
+        visible: false
       });
     }
 
+  };
+  editvisible2 = current => {
+    this.props.dispatch({
+      type: 'userListModel/editvisible2',
+      payload: { current },
+    });
   };
   userGroupInput = (e) => {
     this.setState({
@@ -647,7 +652,8 @@ class UserList extends React.Component {
 
   render() {
     const { userList, currentPage = 1, totalCount = 0, totalUser = 0, groupCheck } = this.props.userListModel;
-    const { visible, visible2 } = this.state;
+    const { visible } = this.state;
+    const { visible2 } = this.props.userListModel;
     const { loading, loading2 } = this.props;
     const { pageParams } = this.state;
     const dataSource = userList;
@@ -683,9 +689,10 @@ class UserList extends React.Component {
         <BIModal
           title={'创建用户组'}
           visible={visible2}
-          onOk={() => this.handleCancel()}
+          onOk={this.handleCancel}
+          onCancel={this.handleCancel}
           footer={[
-            <BIButton key="submit" type="primary" onClick={() => this.handleCancel()}>
+            <BIButton key="submit" type="primary" onClick={this.handleCancel}>
               确定
             </BIButton>,
           ]}>
