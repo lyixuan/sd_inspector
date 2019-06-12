@@ -6,7 +6,7 @@ import SubOrderDetail from '../subOrderDetail';
 
 export default class PersonInfoComponent extends React.Component {
   render() {
-    const { detailInfo}  = this.props;
+    const { detailInfo,dimensionType}  = this.props;
     const {userInfo={},orderInfo={},baseAppealInfo={}}=detailInfo||{};
     return (
       <>
@@ -17,7 +17,7 @@ export default class PersonInfoComponent extends React.Component {
         {orderInfo&&<SubOrderDetail orderInfo={orderInfo}/>}
         {orderInfo&&<div className={styles.spaceLine}/>}
         {/* 申诉基础信息 */}
-        <ScoreBasicInfo baseAppealInfo={baseAppealInfo}/>
+        <ScoreBasicInfo baseAppealInfo={baseAppealInfo} dimensionType={Number(dimensionType)}/>
         <div className={styles.spaceLine}/>
       </>
     );

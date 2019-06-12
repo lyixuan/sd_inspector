@@ -104,7 +104,7 @@ class AwaitAppeal extends React.Component {
       dimensionId: record.id, // id
       dimensionType   // 申诉维度
     };
-    this.onJumpPage(query, '/scoreAppeal/awaitAppeal_detail');
+    this.onJumpPage(query, '/scoreAppeal/awaitAppeal/detail');
   };
   onCreateAppeal = (record) => {
     // 到首次发起申诉。一申、无申诉审核记录
@@ -116,7 +116,7 @@ class AwaitAppeal extends React.Component {
       creditAppealId: record.id,   // 学分申诉id（待申诉数据ID）
       dimensionId:record.id        // 获取详情用
     };
-    this.onJumpPage(query, '/scoreAppeal/firstAppeal_create');
+    this.onJumpPage(query, '/scoreAppeal/awaitAppeal/appeal');
   };
   columnsAction = () => {
     const actionObj = [{

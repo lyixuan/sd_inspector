@@ -132,7 +132,7 @@ class FinishAppeal extends React.Component {
       dimensionId: record.metaDimensionId, // 获取详情用id
       dimensionType   // 申诉维度
     };
-    this.onJumpPage(query, '/scoreAppeal/appeal_detail');
+    this.onJumpPage(query, '/scoreAppeal/finishAppeal/detail');
   };
 
   columnsAction = () => {

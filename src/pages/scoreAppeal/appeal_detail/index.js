@@ -38,6 +38,14 @@ class AppealCheck extends React.Component {
     });
   }
 
+  UNSAFE_componentWillReceiveProps(nextProps){
+    const {appealRecord:appealRecord1}=this.props.scoreAppealModel;
+    const {appealRecord:appealRecord2}=nextProps.scoreAppealModel;
+    if (appealRecord1[1]&&appealRecord2[1]&&appealRecord2[2]) {
+      this.setState({collapse1:false})
+    }
+  }
+
   handleCollapse=(type)=> {
     if (type === 1){
       this.setState({
@@ -82,7 +90,6 @@ class AppealCheck extends React.Component {
       status=tmpArr[2];
       creditType=tmpArr[3];
     }
-    console.log('nextItem',nextItem)
     const {query={}} = this.props.location;
     const newQuery = {};
     newQuery.id = Number(newId);
@@ -125,7 +132,7 @@ class AppealCheck extends React.Component {
     return (
       <Spin spinning={loading}>
       <div className={styles.appealContainer}>
-        <BaseInfo detailInfo={detailInfo}/>
+        <BaseInfo detailInfo={detailInfo} dimensionType={query.dimensionType}/>
         {firstRecord&&(
           <div>
             <div className={styles.foldBox}>

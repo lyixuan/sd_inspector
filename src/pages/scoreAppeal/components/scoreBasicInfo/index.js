@@ -3,16 +3,16 @@ import styles from './style.css';
 
 export default class BasicInfoComponent extends React.Component {
   render() {
-    const { baseAppealInfo = {},dimensionType=11 } = this.props;
+    const { baseAppealInfo = {},dimensionType } = this.props;
     const { dimensionName,dimensionId,creditDate, completeDate, imConsultId, imNum, workorderStartTime, workorderFlowupFlag, bottomLineChannal, upFlag,score,source } = baseAppealInfo||{};
 
-    const IMName = dimensionId === 17?'不及时条数':dimensionId===15?'未回复条数':'不满意条数';
+    const IMName = Number(dimensionId) === 17?'不及时条数':Number(dimensionId)===15?'未回复条数':'不满意条数';
     return (
       <section className={styles.personInfoCon}>
         <div className={styles.boxTitle}>
           <span>申诉基础信息</span>
         </div>
-        {dimensionType===11&&(
+        {Number(dimensionType)===11&&(
           // 优新
           <div className={styles.container}>
             <div className={styles.secRow}>
@@ -27,7 +27,7 @@ export default class BasicInfoComponent extends React.Component {
             </div>
           </div>
         )}
-        {dimensionType===14&&(
+        {Number(dimensionType)===14&&(
           // IM
           <div className={styles.container}>
             <div className={styles.secRow}>
@@ -42,7 +42,7 @@ export default class BasicInfoComponent extends React.Component {
             </div>
           </div>
         )}
-        {dimensionType===19&&(
+        {Number(dimensionType)===19&&(
           // 工单
           <div className={styles.container}>
             <div className={styles.secRow}>
@@ -58,7 +58,7 @@ export default class BasicInfoComponent extends React.Component {
             </div>
           </div>
         )}
-        {dimensionType===23&&(
+        {Number(dimensionType)===23&&(
           // 底线
           <div className={styles.container}>
             <div className={styles.secRow}>
@@ -73,7 +73,7 @@ export default class BasicInfoComponent extends React.Component {
             </div>
           </div>
         )}
-        {dimensionType===42&&(
+        {Number(dimensionType)===42&&(
           // 创收
           <div className={styles.container}>
             <div className={styles.secRow}>
