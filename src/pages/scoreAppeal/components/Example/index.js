@@ -39,12 +39,14 @@ class ExampleImg extends React.Component {
     // eslint-disable-next-line default-case
     switch (dimensionType) {
       // 优新
+      case 11:
       case 12:
         params.src = `${STATIC_HOST}/${"/upload/credit_appeal/demo/400_call.png"}`;
         params.title = '开班电话申诉 ——— 证据样例';
         break;
 
       // IM
+      case 14:
       case 15:
       case 16:
       case 17:
@@ -53,6 +55,7 @@ class ExampleImg extends React.Component {
         break;
 
       // 工单
+      case 19:
       case 20:
       case 21:
       case 22:
@@ -61,6 +64,7 @@ class ExampleImg extends React.Component {
         break;
 
       // 事件、班投
+      case 23:
       case 24:
       case 25:
         params.src = `${STATIC_HOST}/${"/upload/credit_appeal/demo/event_complaint.png"}`;
@@ -73,6 +77,7 @@ class ExampleImg extends React.Component {
         params.title = '退费、退挽申诉 ——— 证据样例';
         break;
       // 创收
+      case 42:
       case 43:
       case 44:
       case 45:
@@ -84,8 +89,8 @@ class ExampleImg extends React.Component {
   }
   render() {
     const { dimensionType } = this.state;
-    let src = this.formatFn(dimensionType).src;
-    let title = this.formatFn(dimensionType).title;
+    let src = this.formatFn(Number(dimensionType)).src;
+    let title = this.formatFn(Number(dimensionType)).title;
     return (
       <div>
         <BIModal

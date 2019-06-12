@@ -138,7 +138,7 @@ class AppealCreate extends React.Component {
                 <CreateAppeal
                   {...this.props}
                   creditType={query.creditType}
-                  dimensionType={dimensionType}
+                  dimensionType={query.dimensionType}
                   getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
                   onFormChange={(value, vname) => this.onFormChange(value, vname)} />
                 <div className={styles.spaceLine} />
