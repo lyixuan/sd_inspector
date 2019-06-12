@@ -77,7 +77,7 @@ class AppealCreate extends React.Component {
       });
       router.push({
         pathname: '/scoreAppeal/onAppeal',
-        query: { dimensionType: query.dimensionType }
+        query: { params: JSON.stringify({dimensionType: query.dimensionType})  }
       });
     });
   };

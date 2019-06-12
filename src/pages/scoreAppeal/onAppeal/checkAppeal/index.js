@@ -48,9 +48,10 @@ class AppealCheck extends React.Component {
       const { scoreAppealModel = {} } = this.props;
       const { appealRecord = {} } = scoreAppealModel;
       const {masterAppealCheck={}} = appealRecord[1]||{};
+      const {tagList} = masterAppealCheck||{};
       this.setState({
-        checkedTags: masterAppealCheck&&masterAppealCheck.tagList.map((v)=>v.id),
-      })
+        checkedTags: tagList&&tagList.map((v)=>v.id)||[],
+      });
     });
     if (Number(query.sopOrMaster)===2) {
       this.props.dispatch({

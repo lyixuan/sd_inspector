@@ -48,10 +48,13 @@ const columns = [
 class AwaitAppeal extends React.Component {
   constructor(props) {
     super(props);
+    const {params=null} = this.props.location.query;
+    const myParam = JSON.parse(params);
+
     this.state = {
       page: 1,
       pageSize: 30,
-      dimensionType: 11 // 实时当前大学分维度
+      dimensionType: (myParam&&myParam.dimensionType)?myParam.dimensionType:11
     };
   }
   componentDidMount() {

@@ -64,14 +64,12 @@ const columns = [
 class OnAppeal extends React.Component {
   constructor(props) {
     super(props);
-    const {dimensionType:dimensionTypeQuery} = this.props.location.query;
-    if (dimensionTypeQuery) {
-      this.dimensionType = dimensionTypeQuery;
-    }
+    const {params=null} = this.props.location.query;
+    const myParam = JSON.parse(params);
     this.state = {
       page: 1,
       pageSize: 30,
-      dimensionType: 11
+      dimensionType: (myParam&&myParam.dimensionType)?myParam.dimensionType:11
     };
   }
   componentDidMount() {
