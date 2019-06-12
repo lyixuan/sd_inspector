@@ -250,7 +250,7 @@ function columns() {
       title: '微信老师主动量',
       key: 'wechatTeacherChatNum',
       dataIndex: 'wechatTeacherChatNum',
-      width: 142,
+      width: 150,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 1, key: 'wechatTeacherExist' },
@@ -263,7 +263,7 @@ function columns() {
       title: '微信学员主动量',
       key: 'wechatStudentChatNum',
       dataIndex: 'wechatStudentChatNum',
-      width: 142,
+      width: 150,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 1, key: 'wechatStudentExist' },
@@ -669,7 +669,7 @@ class UserList extends React.Component {
             }}
             dataSource={dataSource} columns={columns()}
             pagination={false} loading={loading}
-            scroll={{ x: 2080, y: 570 }}
+            scroll={{ x: 2100, y: 570 }}
             size="middle"
           />
           <br />
