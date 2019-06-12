@@ -65,10 +65,13 @@ class AwaitAppeal extends React.Component {
 
   queryData = (dimensionType, pm, pg) => {
     let params = this.state;
+    let paramsUrl = this.state;
     if(pm){
+      paramsUrl = { ...this.state, ...pm };
       params = { ...this.state, ...dealQuarys(pm) };
     }
     if (pg) {
+      paramsUrl = { ...paramsUrl, ...pg };
       params = { ...params, ...pg };
       this.setState({
         page: pg.page
@@ -76,13 +79,14 @@ class AwaitAppeal extends React.Component {
     }
 
     if (dimensionType) {
+      paramsUrl = { ...paramsUrl, ...{dimensionType} };
       params = { ...params, ...{dimensionType} };
       this.setState({
         dimensionType
       });
     }
 
-    const saveUrlParams =JSON.stringify(params);
+    const saveUrlParams =JSON.stringify(paramsUrl);
     // 请求成功后保留查询条件
     this.props.dispatch({
       type: 'awaitAppealModel/getPreAppealList',
