@@ -22,7 +22,8 @@ export default class PersonInfoComponent extends React.Component {
           </div>
           <div className={styles.secRow}>
             <div>归属组织：{collegeName}{familyName2}{groupName2}</div>
-            <div>归属人角色：{roleName}</div>
+            <div/>
+            {/*<div>归属人角色：{roleName}</div>*/}
           </div>
           <div className={styles.secRow}>
           </div>
