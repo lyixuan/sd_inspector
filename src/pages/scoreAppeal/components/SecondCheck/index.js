@@ -20,7 +20,6 @@ class SecondCheck extends React.Component {
     };
   }
   onFormChange = (value,vname)=>{
-    console.log(value)
     this.setState({
       [vname]:value
     },()=>this.props.onFormChange(value,vname));
@@ -44,13 +43,13 @@ class SecondCheck extends React.Component {
                 <BIRadio.Radio value={0}>驳回</BIRadio.Radio>
               </BIRadio>
             </div>
-            {Number(creditType)===12&&(
+            {Number(creditType)===12&&checkResult===1&&(
               <div>
                 <span style={{ width: 110 }}>*申诉个数：</span>
                 <InputNumber min={0} max={1} step={0.01} value={appealNum} onChange={(val) => this.onFormChange(val, 'appealNum')} />
               </div>
             )}
-            {Number(creditType)===17&&(
+            {Number(creditType)===17&&checkResult===1&&(
               <div>
                 <span style={{ width: 110 }}>*申诉个数：</span>
                 <InputNumber min={0} step={1} value={appealNum} onChange={(val) => this.onFormChange(val, 'appealNum')} />

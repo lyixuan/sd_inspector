@@ -116,7 +116,7 @@ class AppealCheck extends React.Component {
       firstOrSec:(Number(query.status) === 1||Number(query.status) === 5)?1:(Number(query.status) === 2||Number(query.status) === 6)?2:null,// 1 一申，2 二申
       sopOrMaster:(Number(query.status) === 1||Number(query.status) === 2)?1:(Number(query.status) === 5||Number(query.status) === 6)?2:null,// 1 sop，2 master
     };
-    router.push({query:checkQuery, pathname:'/scoreAppeal/checkAppeal'});
+    router.push({query:checkQuery, pathname:'/scoreAppeal/onAppeal/checkAppeal'});
   }
 
   render() {
@@ -152,7 +152,7 @@ class AppealCheck extends React.Component {
         {SecondRecord&&(
           <div>
             <div className={styles.foldBox}>
-              <span >二次申诉 {query.secondAppealEndDate? `(二次申诉截止日期：${query.secondAppealEndDate})`:''}</span>
+              <span >二次申诉 <span style={{fontWeight:'400',fontSize:14}}>{query.secondAppealEndDate? `(二次申诉截止日期：${query.secondAppealEndDate})`:''}</span></span>
               <span onClick={()=>this.handleCollapse(2)}><img src={collapse2?imgdown:imgUp} width='18' height='18'/></span>
             </div>
             {collapse2&&(

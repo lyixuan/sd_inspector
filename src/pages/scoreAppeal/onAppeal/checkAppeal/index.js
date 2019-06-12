@@ -44,12 +44,19 @@ class AppealCheck extends React.Component {
     this.props.dispatch({
       type: 'scoreAppealModel/queryAppealInfoCheckList',
       payload: { params: { creditAppealId: query.id } },
+    }).then(()=>{
+      const { scoreAppealModel = {} } = this.props;
+      const { appealRecord = {} } = scoreAppealModel;
+      const {masterAppealCheck={}} = appealRecord[1]||{};
+      this.setState({
+        checkedTags: masterAppealCheck&&masterAppealCheck.tagList.map((v)=>v.id),
+      })
     });
     if (Number(query.sopOrMaster)===2) {
       this.props.dispatch({
         type: 'onAppealModel/getMasterTagList',
         payload: { params: { } },
-      });
+      })
     }
   }
 
@@ -93,7 +100,7 @@ class AppealCheck extends React.Component {
         message.warn('请选择学分日期');
         return;
       }
-      if ((Number(query.creditType===12)||Number(query.creditType===17))&&appealNum!==0&&!appealNum) {
+      if ((Number(query.creditType===12)||Number(query.creditType===17))&&checkResult===1&&appealNum!==0&&!appealNum) {
         message.warn('请输入申诉个数');
         return;
       }
@@ -192,6 +199,7 @@ class AppealCheck extends React.Component {
     const SecondRecord = appealRecord[2];
     const { appealStart:appealStart1, sopAppealCheck:sopAppealCheck1, masterAppealCheck:masterAppealCheck1 } = firstRecord||{};
     const { appealStart:appealStart2, sopAppealCheck:sopAppealCheck2 , masterAppealCheck:masterAppealCheck2 } = SecondRecord||{};
+    console.log(12,checkedTags)
     return (
       <Spin spinning={loading}>
       <div className={styles.appealContainer}>
@@ -213,7 +221,7 @@ class AppealCheck extends React.Component {
         </div>}
         {SecondRecord&&<div>
           <div className={styles.foldBox}>
-            <span >二次申诉 {query.secondAppealEndDate? `(二次申诉截止日期：${query.secondAppealEndDate})`:''}</span>
+            <span >二次申诉  <span style={{fontWeight:'400',fontSize:14}}>{query.secondAppealEndDate? `(二次申诉截止日期：${query.secondAppealEndDate})`:''}</span></span>
             <span onClick={()=>this.handleCollapse(2)}><img src={collapse2?imgdown:imgUp} width='18' height='18'/></span>
           </div>
           {/* 申诉内容 */}

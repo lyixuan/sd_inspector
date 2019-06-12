@@ -130,7 +130,8 @@ class FinishAppeal extends React.Component {
     const query={
       id: record.id, // 获取审核记录用id
       dimensionId: record.metaDimensionId, // 获取详情用id
-      dimensionType   // 申诉维度
+      dimensionType,   // 申诉维度
+      secondAppealEndDate:record.secondAppealEndDate,  // 详情展示
     };
     this.onJumpPage(query, '/scoreAppeal/finishAppeal/detail');
   };

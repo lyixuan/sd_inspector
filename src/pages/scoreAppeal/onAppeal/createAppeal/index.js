@@ -43,7 +43,7 @@ class AppealCreate extends React.Component {
     }).then(()=>{
       const { scoreAppealModel = {} } = this.props;
       const { appealRecord = {} } = scoreAppealModel;
-      const firstRecord = appealRecord[1];
+      const {appealStart:firstRecord} = appealRecord[1];
       this.setState({
         attUrlList: firstRecord?firstRecord.appealProof:[],
         desc: firstRecord?firstRecord.desc:undefined,
@@ -171,7 +171,7 @@ class AppealCreate extends React.Component {
           {Number(query.type)===2&& (
             <div>
               <div className={styles.foldBox}>
-                <span>二次申诉 {query.secondAppealEndDate? `(二次申诉截止日期：${query.secondAppealEndDate})`:''}</span>
+                <span>二次申诉  <span style={{fontWeight:'400',fontSize:14}}>{query.secondAppealEndDate? `(二次申诉截止日期：${query.secondAppealEndDate})`:''}</span></span>
                 <span onClick={() => this.handleCollapse(2)}><img src={collapse2 ? imgdown : imgUp} width='18'
                   height='18' /></span>
               </div>
