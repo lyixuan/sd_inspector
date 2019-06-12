@@ -29,17 +29,17 @@ export default class SOPCheckResultComponent extends React.Component {
             <div className={styles.secctionTitle}>申诉发起人</div>
             <div>
               <Row className={styles.container}>
-                <Col span={16}>
+                <Col span={15}>
                   <div className={styles.resultDotColor}>
                     <span style={{ width: 75 }}>申诉证据：</span>
                     <span style={{ flex: 1 }}><ShowImgs imgList={newAppealProof} /></span>
                   </div>
                 </Col>
-                <Col span={3}>
+                <Col span={4}>
                   <span>执行人：{operator}</span>
                 </Col>
                 <Col span={5}>
-                  <span>操作时间：{moment(new Date(operateDate)).format('YYYY年MM月DD日 HH:mm:ss')}</span>
+                  <span>操作时间：{moment(new Date(operateDate)).format('YYYY-MM-DD HH:mm:ss')}</span>
                 </Col>
               </Row>
               <Row className={styles.container}>
