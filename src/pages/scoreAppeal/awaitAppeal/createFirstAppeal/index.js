@@ -116,6 +116,11 @@ class AppealCreate extends React.Component {
     const { loading, scoreAppealModel } = this.props;
     const { detailInfo = {} } = scoreAppealModel || {};
     const { query = {} } = this.props.location;
+    // 申诉基础信息-学分维度
+    let dimensionType;
+    if (scoreAppealModel && scoreAppealModel.detailInfo && scoreAppealModel.detailInfo.baseAppealInfo) {
+      dimensionType = scoreAppealModel.detailInfo.baseAppealInfo.dimensionType;
+    }
     return (
       <Spin spinning={loading}>
         <div className={styles.appealContainer}>
@@ -133,6 +138,7 @@ class AppealCreate extends React.Component {
                 <CreateAppeal
                   {...this.props}
                   creditType={query.creditType}
+                  dimensionType={dimensionType}
                   getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
                   onFormChange={(value, vname) => this.onFormChange(value, vname)} />
                 <div className={styles.spaceLine} />
