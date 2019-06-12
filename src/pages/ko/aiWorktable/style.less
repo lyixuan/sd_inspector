@@ -1,8 +1,9 @@
 @base-green: #52C9C2;
 @base-green-shadow: rgba(82,201,194, 0.2);
-@base-blue: #46A3EF;
-@base-yellow: #F29F38;
-@base-color:rgba(0, 0, 0, 0.65);
+@base-blue: #61B8FF;
+@base-yellow: #FFBC00;
+@base-color: rgba(0, 0, 0, 0.65);
+@base-white: rgba(255, 255, 255, 1);
 
 :global .tabGroupContainer {
   background-color: #FFFFFF;
@@ -30,4 +31,51 @@
   .aiWorktableMain {
     margin: 18px;
   }
+}
+
+// 公共表格样式
+.tableContent {
+  background-color: @base-white;
+  padding: 20px;
+  .contentTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px 10px 0;
+    .listTotal {
+      color: #9A9DA1;
+      font-size: 13px;
+    }
+  }
+}
+.exportBtn {
+  width: 90px;
+  height: 34px;
+  color: @base-white;
+  background-color: @base-yellow;
+  border-color: @base-yellow;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  img {width: 14px;margin-right: 2px;}
+}
+.exportBtn:hover {
+  background-color: @base-yellow;
+  border-color: @base-yellow;
+  color: @base-white;
+}
+
+.exportEvaluate {
+  width: 102px;
+  height: 34px;
+  color: @base-white;
+  background-color: @base-blue;
+  border-color: @base-blue;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  margin: 0 6px;
+}
+.exportEvaluate:hover {
+  background-color: @base-blue;
+  border-color: @base-blue;
+  color: @base-white;
 }

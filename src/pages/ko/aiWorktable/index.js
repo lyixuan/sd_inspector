@@ -2,6 +2,7 @@ import React from 'react';
 import RenderRoute from '@/components/RenderRoute';
 import { Tabs } from 'antd';
 import style from './style.less';
+import { connect } from 'dva';
 
 const { TabPane } = Tabs;
 const tabGroup = [{
@@ -14,7 +15,9 @@ const tabGroup = [{
   tab: 'NPS',
   key: '/aiWorktable/nps',
 }];
-
+@connect((workTableModel, loading) => ({
+  workTableModel,
+}))
 class aiWorktable extends React.Component {
   constructor(props) {
     super(props);
