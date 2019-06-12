@@ -56,6 +56,7 @@ class userGroupAdd extends React.Component {
       type: 'userGroupAdd/selectFile',
       payload: { params: this.state.params },
     });
+
   };
   // 保存excel数据
   saveExcelData = params => {
@@ -152,6 +153,9 @@ class userGroupAdd extends React.Component {
             inputInfo={checkResult}
             inputTitle="搜索失败的编号："
             inputContent="true"
+            callBackParent={bol => {
+              this.onChildChange(bol);
+            }}
             inputTip="true" />
         ),
       },

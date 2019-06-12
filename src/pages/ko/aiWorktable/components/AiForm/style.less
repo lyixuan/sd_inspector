@@ -1,28 +1,58 @@
-.searchBlock {
-  margin-top: 30px;
-}
+.formCotainer{
+  position: relative;
+  width: 100%;
+  min-width: 1116px;
+  padding:30px 20px;
+  background-color: #fff;
+  border-radius-topleft:10px;
+  border-radius-topright:10px;
+  .rowWrap{
+    display: flex;
+    margin-bottom: 6px;
+    justify-content: center;
+    .itemCls{
+      width: 20%;
+    }
+    .itemCls:not(:last-child){
+      margin-right: 20px;
+    }
+  }
 
-.gutterLabel{
-  font-size: 12px;
-  width: 60px;
-  line-height: 0;
-  display: inline-block;
-  text-align: justify;
-  color: #333;
-}
-
-.gutterForm {
-  width: calc(100% - 60px);
-}
-
-.rowWrap{
-  display: flex;
-  margin-bottom: 6px;
-  min-width: 1125px;
-  .itemCls{
-    flex: 1;
+  .scaleTxt{
+    display: inline-block;
+    width: 80px;
+    transform: scale(0.75);
+    margin-left: -10px;
+  }
+  .collapCls{
+    font-size: 12px;
+    color: #DCDDE0;
+    :global{
+      .ant-divider-inner-text{
+        cursor: inherit;
+      }
+    }
+    .expand{
+      display: inline-block;
+     padding: 0 10px;
+      cursor: pointer;
+    }
   }
 }
-.itemCls:not(:last-child){
-  margin-right: 20px;
+.buttonGroup{
+  display: flex;
+  justify-items: center;
+  align-items: center;
 }
+.peopleTotall{
+  display: inline-block;
+  padding-left: 10px;
+  font-size: 12px;
+  .peopleNum{
+    font-style: normal;
+    color: #52C9C2;
+  }
+}
+
+
+

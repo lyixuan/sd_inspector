@@ -21,7 +21,7 @@ export default {
       const params = payload.params;
       const result = yield call(userGroupSubmit, params);
       if (result.code === 20000) {
-        message.success('提交成功！');
+        // message.success('提交成功！');
         const groupSubmit = result.data;
         yield put({ type: 'save', payload: { groupSubmit, visible: false, visible2: true } });
       } else {

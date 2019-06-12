@@ -28,7 +28,12 @@ class stepUpload extends Component {
     this.setState({
       groupName: e.target.value
     })
-    const { getParams } = this.props;
+    const { callBackParent, getParams } = this.props;
+    if (!e.target.value || !this.state.uniqueKey) {
+      callBackParent(true, '');
+    } else {
+      callBackParent(false, '');
+    }
     let param = {
       uniqueKey: this.state.uniqueKey,
       groupName: e.target.value
@@ -57,7 +62,10 @@ class stepUpload extends Component {
         this.setState({
           uniqueKey: info.file.response.data.uniqueKey
         })
-        callBackParent(false, info.file.response.data);
+        if (this.state.groupName && this.state.uniqueKey) {
+          callBackParent(false, info.file.response.data);
+        }
+
         if (saveFileList) {
           saveFileList(fileList);
         }

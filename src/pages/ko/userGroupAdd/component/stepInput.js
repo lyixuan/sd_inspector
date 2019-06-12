@@ -18,6 +18,12 @@ class stepInput extends Component {
       } else {
         this.props.callBackParent(true);
       }
+    } else {
+      if (this.props.inputInfo.successCount > 0) {
+        this.props.callBackParent(false);
+      } else {
+        this.props.callBackParent(true);
+      }
     }
 
   }

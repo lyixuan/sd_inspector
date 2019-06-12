@@ -16,6 +16,7 @@ export default {
       const params = payload.params;
       const result = yield call(userGroupDelete, params);
       if (result.code === 20000) {
+        message.success('删除成功！');
         const list = yield call(userGroupList, payload.params.page);
         yield put({ type: 'save', payload: { userGroupList: list.data } });
       } else {
@@ -26,7 +27,7 @@ export default {
       const params = payload.params;
       const result = yield call(userGroupEdit, params);
       if (result.code === 20000) {
-        message.success('编辑成功！');
+        message.success('修改成功！');
         const list = yield call(userGroupList, payload.params.page);
         const groupCheck = result.data.data;
         yield put({ type: 'save', payload: { groupCheck, userGroupList: list.data, visible: false } });
