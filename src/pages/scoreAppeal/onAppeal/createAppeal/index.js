@@ -152,7 +152,7 @@ class AppealCreate extends React.Component {
     return (
       <Spin spinning={loading}>
         <div className={styles.appealContainer}>
-          <BaseInfo detailInfo={detailInfo} />
+          <BaseInfo detailInfo={detailInfo} dimensionType={query.dimensionType}/>
           {firstRecord && (
             <div>
               <div className={styles.foldBox}>

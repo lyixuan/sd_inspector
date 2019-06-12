@@ -124,7 +124,7 @@ class AppealCreate extends React.Component {
     return (
       <Spin spinning={loading}>
         <div className={styles.appealContainer}>
-          <BaseInfo detailInfo={detailInfo} />
+          <BaseInfo detailInfo={detailInfo} dimensionType={query.dimensionType} />
           <div>
             <div className={styles.foldBox}>
               <span>一次申诉</span>
