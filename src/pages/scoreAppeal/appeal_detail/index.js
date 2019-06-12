@@ -41,8 +41,6 @@ class AppealCheck extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps){
     const {appealRecord:appealRecord1}=this.props.scoreAppealModel;
     const {appealRecord:appealRecord2}=nextProps.scoreAppealModel;
-    console.log('appealRecord1',appealRecord1)
-    console.log('appealRecord2',appealRecord2)
     if (appealRecord1[1]&&appealRecord2[1]&&appealRecord2[2]) {
       this.setState({collapse1:false})
     }

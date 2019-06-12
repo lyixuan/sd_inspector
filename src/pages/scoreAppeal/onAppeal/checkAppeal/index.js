@@ -23,9 +23,10 @@ import BIModal from '@/ant_components/BIModal/index';
 class AppealCheck extends React.Component {
   constructor(props) {
     super(props);
+    const { query = {} } = this.props.location;
     this.state = {
       checkedTags:[],
-      collapse1: true,
+      collapse1: Number(query.firstOrSec)===1,
       collapse2: true,
       visible:false,
       checkResult:undefined,
