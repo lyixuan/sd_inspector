@@ -19,6 +19,7 @@ class createAppeal extends React.Component {
       desc: appealStart ? appealStart.desc : null,
       attUrlList: appealStart ? appealStart.appealProof : [],
       isShowExample: false,
+      dimensionType: this.props.dimensionType,
     };
   }
   uploadImg = (fileList) => {
@@ -46,7 +47,8 @@ class createAppeal extends React.Component {
     this.setState({ isShowExample: false });
   }
   render() {
-    const { creditType, desc, attUrlList, isShowExample } = this.state;
+
+    const { creditType, desc, attUrlList, isShowExample, dimensionType } = this.state;
     const { creditType: creditTypePre } = this.props;
     let newAttUrlList = [];
     if (attUrlList) {
@@ -58,11 +60,11 @@ class createAppeal extends React.Component {
     if (isShowExample) {
       showExampleImg = <ExampleImg
         visible={isShowExample}
+        dimensionType={dimensionType}
         showExampleImg={() => this.showExampleImg()}
         hideExampleImg={() => this.hideExampleImg()}
       ></ExampleImg >;
     }
-
     return (
       <section className={styles.personInfoCon} >
         <div className={styles.container}>

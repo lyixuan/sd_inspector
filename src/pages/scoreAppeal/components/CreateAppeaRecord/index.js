@@ -23,6 +23,9 @@ export default class SOPCheckResultComponent extends React.Component {
         newAppealProof.push({ uid: i, url: `${STATIC_HOST}/${appealProof[i]}` });
       }
     }
+    const imgCss = {
+      display: newAppealProof.length > 0 ? 'block' : 'none'
+    }
     return (
       <section className={styles.showPanel}>
         <div className={styles.personInfoCon}>
@@ -33,7 +36,7 @@ export default class SOPCheckResultComponent extends React.Component {
                 <Col span={15}>
                   <div className={styles.resultDotColor}>
                     <span style={{ width: 75 }}>申诉证据：</span>
-                    <span>
+                    <span style={imgCss}>
                       <UploadImg
                         fileList={newAppealProof}
                         limitImg={newAppealProof.length}
