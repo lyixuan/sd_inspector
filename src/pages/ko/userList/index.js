@@ -678,7 +678,7 @@ class UserList extends React.Component {
             }}
             dataSource={dataSource} columns={columns()}
             pagination={false} loading={loading}
-            scroll={{ x: 2120, y: 570 }}
+            scroll={{ x: 2160, y: 570 }}
             size="middle"
           />
           <br />

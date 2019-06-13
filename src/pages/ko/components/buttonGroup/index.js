@@ -108,7 +108,7 @@ export default class ButtonGroup extends React.Component {
                 returnDom = item ? this.renderTypeTage(item, 'orderMoney')('custorm') : null
                 break;
             case 'userGroup':
-                returnDom = item ? this.renderTypeTage({ value: item.value, name: item.name.substring(0,20) + '...'}, 'userGroup')('custorm') : null
+                returnDom = item ? this.renderTypeTage({ value: item.value, name: item.name.substring(0,20) + (item.name.length > 20 ? '...' : '')}, 'userGroup')('custorm') : null
                 break;
             case 'orderStatus':
                 returnDom = item ? this.renderTypeTage(item, 'orderStatus')('custorm') : null
