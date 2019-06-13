@@ -66,7 +66,7 @@ class bbsPage extends React.Component {
   render() {
     return (
       <div>
-        <AiForm {...this.props} originParams={{}} onChange={this.changeFilterAction} loading={true}></AiForm>
+        <AiForm {...this.props} workType={3} originParams={{}} onChange={this.changeFilterAction} loading={true}></AiForm>
         <div className={styles.tableContent}>
           <div className={styles.contentTop}>
             <div>

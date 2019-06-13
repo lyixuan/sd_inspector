@@ -15,9 +15,6 @@ class AiForm extends React.Component {
   constructor(props) {
     super(props);
   }
-  handleSearch() {
-
-  }
   handleDefaultPickerValue = (keyName) => {
     return
     const { KoDateRange } = this.props.pageParams;
@@ -32,8 +29,13 @@ class AiForm extends React.Component {
     const [startTime, endTime] = dateArr;
     return current.isBefore(moment(startTime)) || current.isAfter(moment(endTime))
   }
+  handleSearch = (e) => {
+    e.preventDefault();
+
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { workType } = this.props;
     return (
         <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
           <Form
@@ -59,40 +61,48 @@ class AiForm extends React.Component {
                 </div>
                 <div className={styles.itemCls}>
                   <Form.Item label='后端归属：'>
-                    {getFieldDecorator('attendanceStatus', {
+                    {getFieldDecorator('collegeId', {
                       initialValue: '1',
                     })(
                       <BISelect placeholder="请选择" allowClear >
-                        {/*{[{value: '1', name: 'yyyy'}].map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}*/}
-                        <Option key={1} value={1}>1111</Option>
+                        {[{value: '1', name: 'yyyy'}].map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                       </BISelect>
                     )}
                   </Form.Item>
                 </div>
-                <div className={styles.itemCls}>
+                {workType === 1 && <div className={styles.itemCls}>
                   <Form.Item label='咨询类型：'>
-                    {getFieldDecorator('attendanceStatus', {
+                    {getFieldDecorator('consultType', {
                       initialValue: '1',
                     })(
                       <BISelect placeholder="请选择" allowClear >
-                        {/*{[{value: '1', name: 'yyyy'}].map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}*/}
-                        <Option key={1} value={1}>1111</Option>
+                        {[{value: '1', name: 'yyyy'}].map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                       </BISelect>
                     )}
                   </Form.Item>
-                </div>
+                </div>}
                 <div className={styles.itemCls}>
                   <Form.Item label='原因分类：'>
-                    {getFieldDecorator('attendanceStatus', {
+                    {getFieldDecorator('reasonType', {
                       initialValue: '1',
                     })(
                       <BISelect placeholder="请选择" allowClear >
-                        {/*{[{value: '1', name: 'yyyy'}].map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}*/}
-                        <Option key={1} value={1}>1111</Option>
+                        {[{value: '1', name: 'yyyy'}].map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                       </BISelect>
                     )}
                   </Form.Item>
                 </div>
+                {workType == 3 && <div className={styles.itemCls}>
+                  <Form.Item label='自主评价：'>
+                    {getFieldDecorator('evaluateType', {
+                      initialValue: '1',
+                    })(
+                      <BISelect placeholder="请选择" allowClear >
+                        {[{value: '1', name: 'yyyy'}].map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                      </BISelect>
+                    )}
+                  </Form.Item>
+                </div>}
               </div>
             </Skeleton>
             <div className={`${styles.rowWrap} ${styles.buttonGroup}`}>

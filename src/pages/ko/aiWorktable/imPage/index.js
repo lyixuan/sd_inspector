@@ -78,10 +78,9 @@ class imPage extends React.Component {
   }
   render() {
     const { loading, workTableModel} = this.props;
-    const { userList } = workTableModel;
     return (
       <div>
-        <AiForm {...this.props} originParams={{}} onChange={this.changeFilterAction} loading={true}></AiForm>
+        <AiForm {...this.props} workType={1}></AiForm>
         <div className={styles.tableContent}>
           <div className={styles.contentTop}>
             <BIButton className={styles.exportBtn} size="large">
