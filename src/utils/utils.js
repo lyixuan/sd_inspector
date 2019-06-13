@@ -233,9 +233,12 @@ export function dealQuarys(pm) {
   }
   if (p.statusList&&p.statusList.length===0) {
     p.statusList = undefined
+  } else {
+    p.statusList = p.statusList.map((v)=>Number(v))
   }
+
   if (!p.appealOrderNum) {
-    p.statusList = undefined
+    p.appealOrderNum = undefined
   }
 
   if (!p.stuName) {
