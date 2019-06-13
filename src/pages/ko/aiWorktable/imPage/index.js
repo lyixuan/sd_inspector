@@ -4,29 +4,33 @@ import AiForm from '@/pages/ko/aiWorktable/components/AiForm';
 import AiList from '@/pages/ko/aiWorktable/components/AiList';
 import BIButton from '@/ant_components/BIButton';
 import exportimg from '@/assets/ai/export.png';
-import styles from '../style.less'
+import styles from '../style.less';
 import { connect } from 'dva/index';
 
-@connect(({workTableModel, loading}) => ({
+const workType = 1; //im bbs nps 对应的额type值为1， 2， 3
+@connect(({ workTableModel, loading }) => ({
   workTableModel,
-  loading: loading.effects['workTableModel/getTableList'],
+  currentPage: workTableModel.pageParams[workType],
+  searchParams: workTableModel.searchParams[workType] || {},
 }))
 class imPage extends React.Component {
   constructor(props) {
     super(props);
+    const { currentPage, searchParams } = this.props;
+    this.state = { searchParams, currentPage };
+    console.log(this.props)
   }
+
   componentDidMount() {
     this.queryData();
   }
-  filterActionParams() {}
-  changeFilterAction() {}
-  isLoadEnumData() {}
+
   columnsData = () => {
     const columns = [
       {
         title: '时间',
         dataIndex: 'code',
-        key: 'code'
+        key: 'code',
       },
       {
         title: '内容',
@@ -69,29 +73,35 @@ class imPage extends React.Component {
       },
     ];
     return columns || [];
+  };
+  onSearchChange = (searchParams) => {
+    this.setState({
+      searchParams,
+    }, this.queryData());
+  }
+  onPageChange = (currentPage) => {
+    this.setState({
+      currentPage,
+    }, this.queryData());
   }
   queryData = () => {
+    const { searchParams, currentPage} = this.state;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
-      payload: { params: {} },
+      payload: { params: {...searchParams, currentPage, type: workType} },
     });
   }
+
   render() {
-    const { loading, workTableModel} = this.props;
+    const { searchParams, currentPage } = this.state;
     return (
       <div>
-        <AiForm {...this.props} workType={1}></AiForm>
-        <div className={styles.tableContent}>
-          <div className={styles.contentTop}>
-            <BIButton className={styles.exportBtn} size="large">
-              <img src={exportimg}/> 导出
-            </BIButton>
-            <span className={styles.listTotal}>总数：{} 条</span>
-          </div>
-          <Spin spinning={loading}>
-            <AiList {...this.props} columnsData={this.columnsData}></AiList>
-          </Spin>
-        </div>
+        <AiForm {...this.props} workType={workType} searchParams={searchParams} onSearchChange={this.onSearchChange}></AiForm>
+        <AiList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange} columnsData={this.columnsData}>
+          <BIButton className={styles.exportBtn} size="large">
+            <img src={exportimg}/> 导出
+          </BIButton>
+        </AiList>
       </div>
     );
   }

@@ -3,23 +3,32 @@ import { Spin } from 'antd';
 import AiForm from '@/pages/ko/aiWorktable/components/AiForm';
 import AiList from '@/pages/ko/aiWorktable/components/AiList';
 import BIButton from '@/ant_components/BIButton';
-import exportimg from '@/assets/ai/export.png';
-import styles from '../style.less'
-import { thousandsFormat } from '@/utils/utils';
+import styles from '../style.less';
+import { connect } from 'dva/index';
 
+const workType = 3; //im bbs nps 对应的额type值为1， 2， 3
+@connect(({ workTableModel, loading }) => ({
+  workTableModel,
+  currentPage: workTableModel.pageParams[workType] || 1,
+  searchParams: workTableModel.searchParams[workType] || {},
+}))
 class bbsPage extends React.Component {
   constructor(props) {
     super(props);
+    const { currentPage, searchParams } = this.props;
+    this.state = { searchParams, currentPage };
   }
-  filterActionParams() {}
-  changeFilterAction() {}
-  isLoadEnumData() {}
+
+  componentDidMount() {
+    this.queryData();
+  }
+
   columnsData = () => {
     const columns = [
       {
         title: '时间',
         dataIndex: 'code',
-        key: 'code'
+        key: 'code',
       },
       {
         title: '自主评价',
@@ -62,23 +71,37 @@ class bbsPage extends React.Component {
       },
     ];
     return columns || [];
+  };
+  onSearchChange = (searchParams) => {
+    this.setState({
+      searchParams,
+    }, this.queryData());
   }
+  onPageChange = (currentPage) => {
+    this.setState({
+      currentPage,
+    }, this.queryData());
+  }
+  queryData = () => {
+    const { searchParams, currentPage} = this.state;
+    this.props.dispatch({
+      type: 'workTableModel/getTableList',
+      payload: { params: {...searchParams, currentPage, type: workType} },
+    });
+  }
+
   render() {
+    const { searchParams, currentPage } = this.state;
     return (
       <div>
-        <AiForm {...this.props} workType={3} originParams={{}} onChange={this.changeFilterAction} loading={true}></AiForm>
-        <div className={styles.tableContent}>
-          <div className={styles.contentTop}>
-            <div>
-              <BIButton className={styles.exportBtn}>导出标签</BIButton>
-              <BIButton className={styles.exportEvaluate}>导出自主评价</BIButton>
-            </div>
-            <span className={styles.listTotal}>总数：{} 条</span>
+        <AiForm {...this.props} workType={workType} searchParams={searchParams} onSearchChange={this.onSearchChange}></AiForm>
+
+        <AiList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange} columnsData={this.columnsData}>
+          <div>
+            <BIButton className={styles.exportBtn}>导出标签</BIButton>
+            <BIButton className={styles.exportEvaluate}>导出自主评价</BIButton>
           </div>
-          <Spin spinning={false}>
-            <AiList {...this.props} columnsData={this.columnsData}></AiList>
-          </Spin>
-        </div>
+        </AiList>
       </div>
     );
   }

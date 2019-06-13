@@ -7,61 +7,33 @@ export default {
   namespace: 'workTableModel',
 
   state: {
-    workList: [],
-    pageParams: {
-      currentPage: 1,
-      pageSize: 30
+    pageParams: {// 各列表当前页
     },
-    visible: false,
-    visible2: false,
-    groupCheck: true,
-    groupSubmit: null
+    searchParams: {// 各列表搜索值
+    },
+    workList: [],// 列表数据
+    pageSize: 15,// 每页条数
+    totalCount:0,// 列表总值
   },
   effects: {
-    *userGroupSubmit({ payload }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(userGroupSubmit, params);
-      if (result.code === 20000) {
-        // message.success('提交成功！');
-        const groupSubmit = result.data;
-        yield put({ type: 'save', payload: { groupSubmit, visible: false, visible2: true } });
-      } else {
-        // yield put({ type: 'save', payload: { visible: false } });
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    *userGroupCheck({ payload }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(userGroupCheck, params);
-      if (result.code === 20000) {
-        const groupCheck = result.data.exist;
-        yield put({ type: 'save', payload: { groupCheck } });
-      } else {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    *getTableList({ payload }, { call, put }) {
+    *getTableList({ payload }, { call, put, select }) {
       // 列表
       const params = payload.params;
-      const result = yield call(getTableList, params);
-      const { pageSize, currentPage } = params;
+      const pageSize = yield select(state => state.workTableModel.pageSize);
+      const result = yield call(getTableList, {...params, pageSize});
+      const { currentPage, type, ...others } = params;
       if (result.code === 20000) {
         const data = result.data || {};
         const workList = Array.isArray(data.resultList) ? data.resultList : [];
-        const { totalUser, totalCount, currentPage } = data;
-        yield put({ type: 'save', payload: { workList, totalUser, currentPage, totalCount } });
+        const { totalCount } = data;
+        yield put({ type: 'save', payload: { workList, totalCount} });
         yield put({
-          type: 'koPlan/saveUserData',
-          payload: { usersData: { totalCount: totalUser } }
+          type: 'saveParams',
+          payload: { pageParams: { [type] : currentPage }, searchParams: { [type]: others} },
         })
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
-      yield put({
-        type: 'savePageParams',
-        payload: { pageParams: { pageSize, currentPage } },
-
-      })
     },
   },
 
@@ -69,8 +41,8 @@ export default {
     save(state, { payload }) {
       return { ...state, ...payload };
     },
-    savePageParams(state, { payload }) {
-      return { ...state, ...payload };
+    saveParams(state, { payload }) {
+      return { ...state, pageParams: { ...state.pageParams, ...payload.pageParams }, searchParams: {...state.searchParams, ...payload.searchParams}};
     }
 
   },

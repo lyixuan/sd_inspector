@@ -31,11 +31,18 @@ class AiForm extends React.Component {
   }
   handleSearch = (e) => {
     e.preventDefault();
-
+    const {onSearchChange, form} = this.props;
+    form.validateFields((err, values) => {
+      console.log(values)
+      if (onSearchChange) {
+        const { registerTime, ...others } = values;
+        onSearchChange({...others})
+      }
+    });
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { workType } = this.props;
+    const { workType, searchParams } = this.props;
     return (
         <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
           <Form
@@ -62,10 +69,10 @@ class AiForm extends React.Component {
                 <div className={styles.itemCls}>
                   <Form.Item label='后端归属：'>
                     {getFieldDecorator('collegeId', {
-                      initialValue: '1',
+                      initialValue: searchParams.collegeId,
                     })(
                       <BISelect placeholder="请选择" allowClear >
-                        {[{value: '1', name: 'yyyy'}].map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                        {[{value: '1', name: 'yyyy'}, {value: '3', name: 'yyy'}].map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                       </BISelect>
                     )}
                   </Form.Item>
@@ -73,7 +80,7 @@ class AiForm extends React.Component {
                 {workType === 1 && <div className={styles.itemCls}>
                   <Form.Item label='咨询类型：'>
                     {getFieldDecorator('consultType', {
-                      initialValue: '1',
+                      initialValue: searchParams.consultType,
                     })(
                       <BISelect placeholder="请选择" allowClear >
                         {[{value: '1', name: 'yyyy'}].map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
@@ -84,7 +91,7 @@ class AiForm extends React.Component {
                 <div className={styles.itemCls}>
                   <Form.Item label='原因分类：'>
                     {getFieldDecorator('reasonType', {
-                      initialValue: '1',
+                      initialValue: searchParams.reasonType,
                     })(
                       <BISelect placeholder="请选择" allowClear >
                         {[{value: '1', name: 'yyyy'}].map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
@@ -95,7 +102,7 @@ class AiForm extends React.Component {
                 {workType == 3 && <div className={styles.itemCls}>
                   <Form.Item label='自主评价：'>
                     {getFieldDecorator('evaluateType', {
-                      initialValue: '1',
+                      initialValue: searchParams.evaluateType,
                     })(
                       <BISelect placeholder="请选择" allowClear >
                         {[{value: '1', name: 'yyyy'}].map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}

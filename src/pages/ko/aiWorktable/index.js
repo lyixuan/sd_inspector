@@ -15,28 +15,29 @@ const tabGroup = [{
   tab: 'NPS',
   key: '/aiWorktable/nps',
 }];
-@connect((workTableModel, loading) => ({
+
+@connect((workTableModel) => ({
   workTableModel,
 }))
 class aiWorktable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      radioValue: props.location.pathname || '/aiWorktable/im',
+      defaultValue: props.location.pathname || '/aiWorktable/im',
     };
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.location.pathname !== nextProps.location.pathname) {
       this.setState({
-        radioValue: nextProps.location.pathname,
+        defaultKey: nextProps.location.pathname,
       });
     }
   }
 
   onChangeTab = (key) => {
     this.setState({
-      radioValue: key,
+      defaultKey: key,
     }, function() {
       this.jumpTo(key);
     });
@@ -46,16 +47,22 @@ class aiWorktable extends React.Component {
       pathname,
     });
   };
+  getListData = (params) => {
+    this.props.dispatch({
+      type: 'workTableModel/getTableList',
+      payload: { params: params },
+    });
+  };
 
   render() {
-    const { radioValue } = this.state;
+    const { defaultKey } = this.state;
     return (
       <div className={style.aiWorktable}>
-        <Tabs className="tabGroupContainer" defaultActiveKey={radioValue} onChange={this.onChangeTab}>
+        <Tabs className="tabGroupContainer" defaultActiveKey={defaultKey} onChange={this.onChangeTab}>
           {tabGroup.map(item => <TabPane tab={item.tab} key={item.key}></TabPane>)}
         </Tabs>
         <div className={style.aiWorktableMain}>
-          <RenderRoute {...this.props} />
+          <RenderRoute {...this.props}/>
         </div>
       </div>
     );
