@@ -29,6 +29,10 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+    *editvisible2({ payload }, { put }) {
+      const { visible2 } = payload;
+      yield put({ type: 'save', payload: { visible2 } });
+    },
     *userGroupCheck({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(userGroupCheck, params);

@@ -33,7 +33,7 @@ const sorterKeyName = {
   wechatDialogueNum: 'wechat_dialogue_num',
   wechatTeacherChatNum: 'wechat_teacher_chat_num',
   wechatStudentChatNum: 'wechat_student_chat_num',
-  imEmotionValue: 'positive_msg_num',
+  imEmotionValue: 'negative_msg_num',
 };
 function columns() {
   const col = [
@@ -110,7 +110,8 @@ function columns() {
         { text: '等于0', value: 2, key: 'lessonTime' },
       ],
       sorter: true,
-      sortDirections: ['descend', 'ascend']
+      sortDirections: ['descend', 'ascend'],
+      render: text => (text/60).toFixed(2),
     },
     {
       title: '做题量',
@@ -173,10 +174,8 @@ function columns() {
       filters: [
         { text: '高兴值>=怒气值', value: 1, key: 'emotionValue' },
         { text: '高兴值<怒气值', value: 2, key: 'emotionValue' },
-        { text: '高兴值>0', value: 3, key: 'emotionValue' },
-        { text: '怒气值=0', value: 4, key: 'emotionValue' },
-        { text: '怒气值>0', value: 5, key: 'emotionValue' },
-        { text: '高兴值=0', value: 6, key: 'emotionValue' },
+        { text: '高兴值>0, 怒气值=0', value: 3, key: 'emotionValue' },
+        { text: '怒气值>0, 高兴值=0', value: 4, key: 'emotionValue' },
       ],
       sorter: true,
       sortDirections: ['descend', 'ascend']
@@ -423,14 +422,15 @@ class UserList extends React.Component {
     this.initpage = {
       currentPage: 1, pageSize: 30,
     };
-    const { visible, visible2 } = props.userListModel;
+    const { visible } = props.userListModel;
     this.state = {
       pageParams: this.initpage,
       visible: visible,
-      visible2: visible2,
+      visible2: false,
       filterExitParams: {},
       groupName: '',
       totalUser: 0,
+      orderSortParams: {},
     };
   };
 
@@ -466,7 +466,9 @@ class UserList extends React.Component {
     const filters = arg[1];
     const orderSort = arg[2];
     const filterExitParams = {};
-    const orderSortParams = {};
+    const orderSortParams = {
+      sortField: {}
+    };
     // 筛选
     filterKeyName.forEach(item => {
       const filterArr = filters[item.dataIndex];
@@ -474,13 +476,14 @@ class UserList extends React.Component {
     });
     // 排序
     if (orderSort.columnKey && orderSort.order) {
-      orderSortParams.field = sorterKeyName[orderSort.columnKey];
-      orderSortParams.sort = orderSort.order === 'ascend' ? 'asc' : 'desc';
+      orderSortParams.sortField.field = sorterKeyName[orderSort.columnKey];
+      orderSortParams.sortField.sort = orderSort.order === 'ascend' ? 'asc' : 'desc';
     }
     this.setState({
       filterExitParams,
+      orderSortParams,
     }, () => {
-      this.queryData(undefined, this.initpage, undefined, filterExitParams, { sortField: orderSortParams });
+      this.queryData(undefined, this.initpage, undefined, filterExitParams, orderSortParams);
     });
   };
   getLocationParams = (chooseEventData = this.props.chooseEventData) => {
@@ -489,7 +492,7 @@ class UserList extends React.Component {
       actionKey: obj.id,
     } : {};
   };
-  queryData = (params = this.props.tabFromParams, pageParams = this.state.pageParams, chooseEventData = this.props.chooseEventData, filterExitParams = this.state.filterExitParams, orderSortParams = {}) => {
+  queryData = (params = this.props.tabFromParams, pageParams = this.state.pageParams, chooseEventData = this.props.chooseEventData, filterExitParams = this.state.filterExitParams, orderSortParams = this.state.orderSortParams) => {
     if (!params || JSON.stringify(params) === '{}') return;
     const localtionParams = this.getLocationParams(chooseEventData);
     const newParams = { ...params.formParams, ...pageParams, ...localtionParams, ...filterExitParams, ...orderSortParams };
@@ -595,9 +598,9 @@ class UserList extends React.Component {
   };
   handleCancel = () => {
     this.setState({
-      visible: false,
-      visible2: false,
+      visible: false
     });
+    this.editvisible2(false)
   };
   handleOk = (val) => {
     if (val == 'check') {
@@ -633,11 +636,16 @@ class UserList extends React.Component {
         payload: { params: submitParam },
       });
       this.setState({
-        visible: this.props.userListModel.visible,
-        visible2: true,
+        visible: false
       });
     }
 
+  };
+  editvisible2 = current => {
+    this.props.dispatch({
+      type: 'userListModel/editvisible2',
+      payload: { current },
+    });
   };
   userGroupInput = (e) => {
     this.setState({
@@ -647,7 +655,8 @@ class UserList extends React.Component {
 
   render() {
     const { userList, currentPage = 1, totalCount = 0, totalUser = 0, groupCheck } = this.props.userListModel;
-    const { visible, visible2 } = this.state;
+    const { visible } = this.state;
+    const { visible2 } = this.props.userListModel;
     const { loading, loading2 } = this.props;
     const { pageParams } = this.state;
     const dataSource = userList;
@@ -683,9 +692,10 @@ class UserList extends React.Component {
         <BIModal
           title={'创建用户组'}
           visible={visible2}
-          onOk={() => this.handleCancel()}
+          onOk={this.handleCancel}
+          onCancel={this.handleCancel}
           footer={[
-            <BIButton key="submit" type="primary" onClick={() => this.handleCancel()}>
+            <BIButton key="submit" type="primary" onClick={this.handleCancel}>
               确定
             </BIButton>,
           ]}>
