@@ -63,10 +63,18 @@ class DataClassfy extends React.Component {
         <div className={styles.consultContent}>
           <ul className={styles.consultInput}>
             <li>
-              <label>咨询类型：</label>
+              <label>选择订单：</label>
               <div className={styles.selects}>
-                <BICascader options={options} onChange={this.onChange} placeholder="请选择" />
+                <BISelect style={{ width: '100%' }} placeholder="请选择" value='123'>
+                  <Option key={1}>
+                    333
+                  </Option>
+                </BISelect>
               </div>
+            </li>
+            <li>
+              <label>后端归属：</label>
+              <p>后端归属后端归属后端归属</p>
             </li>
             <li>
               <label>原因分类：</label>
@@ -77,13 +85,6 @@ class DataClassfy extends React.Component {
             <li>
               <label>评价性质：</label>
               <p>负面</p>
-            </li>
-            <li>
-              <label>是否备注：</label>
-              <BIRadio onChange={this.onChangeRadio} defaultValue={2}>
-                <BIRadio.Radio value={1}>删除用户</BIRadio.Radio>
-                <BIRadio.Radio value={2}>添加用户</BIRadio.Radio>
-              </BIRadio>
             </li>
             <li className={styles.textarea}>
               <label>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>

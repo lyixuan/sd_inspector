@@ -10,7 +10,7 @@ li{
 .aiDetail {
   overflow: hidden;
   width:100%;
-  min-height:800px;
+  min-height:600px;
   position:relative;
   display:flex;
   .baseInfo{
@@ -55,10 +55,33 @@ li{
     }
   }
   .label{
-    width:70px;
+    width:80px;
+    text-align:right;
   }
   .name{
     flex:1;
+  }
+  .nameCurrent{
+    color:#48c2ba;
+  }
+  .keyword{
+    color:#FF5959;
+    font-style:normal;
+  }
+  .labels{
+    display:flex;
+    flex-wrap:wrap;
+    em{
+      font-style:normal;
+      background:#F5F8FA;
+      height:32px;
+      line-height:32px;
+      border-radius:6px;
+      margin-right:8px;
+      margin-bottom:8px;
+      flex-shrink: 0;
+      padding:0 8px;
+    }
   }
 }
 
@@ -270,6 +293,59 @@ li{
 // imStyle End
 .consultContent{
   padding:24px;
-  .selects{}
-  .btn{}
+  .consultInput{
+    padding-left:0;
+    li{
+      &.textarea{
+        align-items:flex-start;
+      }
+      display:flex;
+      align-items:center;
+      font-size:13px;
+      padding-bottom:15px;
+      label{
+        width:75px;
+      }
+      p{
+        margin-bottom:0;
+      }
+      :global .ant-radio{
+        vertical-align: middle;
+      }
+      :global .ant-radio-inner{
+        width:12px;
+        height:12px;
+      }
+      :global .ant-radio-inner::after{
+        width:6px;
+        height:6px;
+        left:2px;
+        top:2px;
+      }
+      :global .ant-input{
+        resize:none;
+      }
+    }
+  }
+  .selects{
+    width:304px;
+    :global .ant-cascader-picker{
+      width:304px;
+    }
+  }
+  .btn{
+    text-align:center;
+  }
+  .progress{
+    width:376px;
+    padding-top:150px;
+    :global .ant-progress-bg{
+      background:#48c2ba;
+    }
+    .number{
+      font-size:12px;
+      margin-bottom:0;
+      text-align:right;
+    }
+  }
 }

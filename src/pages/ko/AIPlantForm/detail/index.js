@@ -2,7 +2,11 @@ import React from 'react';
 import copy from 'copy-to-clipboard';
 import { connect } from 'dva';
 import DetailIm from './components/im';
+import DetailBbs from './components/bbs';
+import DetailNps from './components/nps';
 import DataClassfy from './components/im/dataClassfy.js';
+import DataClassfyBbs from './components/bbs/dataClassfy.js';
+import DataClassfyNps from './components/nps/dataClassfy.js';
 import PageHead from '@/components/PageHead/pageHead';
 import styles from './style.less';
 
@@ -32,11 +36,15 @@ class AiDetail extends React.Component {
         <div className={styles.aiDetail}>
           <div className={styles.baseInfo}>
             <div className={styles.headBar}>基本信息</div>
-            <DetailIm></DetailIm>
+            {/* <DetailIm></DetailIm> */}
+            {/* <DetailBbs></DetailBbs> */}
+            <DetailNps></DetailNps>
           </div>
           <div className={styles.dataClassfy}>
             <div className={styles.headBar}>数据分类</div>
-            <DataClassfy></DataClassfy>
+            {/* <DataClassfy></DataClassfy> */}
+            {/* <DataClassfyBbs></DataClassfyBbs> */}
+            <DataClassfyNps></DataClassfyNps>
           </div>
         </div>
       </div>

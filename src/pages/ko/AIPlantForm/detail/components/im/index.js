@@ -25,7 +25,7 @@ class DetailIm extends React.Component {
           <li className={styles.flex}>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员姓名：</span>
-              <span className={styles.name}>玉青龙</span>
+              <span className={styles.name + " " + styles.nameCurrent}>玉青龙</span>
             </div>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员id：</span>
