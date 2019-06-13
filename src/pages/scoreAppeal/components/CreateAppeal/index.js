@@ -56,7 +56,6 @@ class createAppeal extends React.Component {
         newAttUrlList.push({ uid: i, url: `${STATIC_HOST}/${attUrlList[i]}` });
       }
     }
-    console.log(dimensionType, 'dimensionType111');
     let showExampleImg;
     if (isShowExample) {
       showExampleImg = <ExampleImg
