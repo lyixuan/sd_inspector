@@ -224,6 +224,10 @@ class PrivateLetter extends React.Component {
       this.setState({
         dateList: this.state.dateList,
       });
+    } else {
+      this.setState({
+        dateList: [],
+      });
     }
   }
   mount(props) {

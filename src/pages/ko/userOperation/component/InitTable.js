@@ -16,7 +16,7 @@ const { TextArea } = BIInput;
 
 const contentDel = (
   <div>
-    <p style={{ marginBottom: '7px',color:'#fff' }}>是否确认删除</p>
+    <p style={{ marginBottom: '7px' }}>是否确认删除</p>
   </div>
 );
 
