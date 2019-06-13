@@ -40,14 +40,14 @@ class AppealCreate extends React.Component {
     this.props.dispatch({
       type: 'scoreAppealModel/queryAppealInfoCheckList',
       payload: { params: { creditAppealId: query.creditAppealId } },
-    }).then(()=>{
+    }).then(() => {
       const { scoreAppealModel = {} } = this.props;
       const { appealRecord = {} } = scoreAppealModel;
-      const {appealStart:firstRecord} = appealRecord[1];
+      const { appealStart: firstRecord } = appealRecord[1];
       this.setState({
-        attUrlList: firstRecord?firstRecord.appealProof:[],
-        desc: firstRecord?firstRecord.desc:undefined,
-        creditType: firstRecord?firstRecord.creditType:undefined,
+        attUrlList: firstRecord ? firstRecord.appealProof : [],
+        desc: firstRecord ? firstRecord.desc : undefined,
+        creditType: firstRecord ? firstRecord.creditType : undefined,
       })
     });
   }
@@ -142,10 +142,11 @@ class AppealCreate extends React.Component {
     const { appealStart: appealStart1, sopAppealCheck: sopAppealCheck1, masterAppealCheck: masterAppealCheck1 } = firstRecord || {};
     const { appealStart: appealStart2, sopAppealCheck: sopAppealCheck2, masterAppealCheck: masterAppealCheck2 } = SecondRecord || {};
     const { query = {} } = this.props.location;
+    console.log(111);
     return (
       <Spin spinning={loading}>
         <div className={styles.appealContainer}>
-          <BaseInfo detailInfo={detailInfo} dimensionType={query.dimensionType}/>
+          <BaseInfo detailInfo={detailInfo} dimensionType={query.dimensionType} />
           {firstRecord && (
             <div>
               <div className={styles.foldBox}>
@@ -156,11 +157,12 @@ class AppealCreate extends React.Component {
               {/* 申诉内容 */}
               {collapse1 && (
                 <div style={{ paddingLeft: '15px' }}>
-                  {Number(query.type)===1&&<CreateAppeal {...this.props}
-                                                         getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
-                                                         getFileList={this.getFileList} appealStart={appealStart1}
-                                                         onFormChange={(value, vname) => this.onFormChange(value, vname)} />}
-                  {Number(query.type)===2&&appealStart1&&<CreateAppeaRecord appealStart={appealStart1}/>}
+                  {Number(query.type) === 1 && <CreateAppeal {...this.props}
+                    dimensionType={query.dimensionType}
+                    getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
+                    getFileList={this.getFileList} appealStart={appealStart1}
+                    onFormChange={(value, vname) => this.onFormChange(value, vname)} />}
+                  {Number(query.type) === 2 && appealStart1 && <CreateAppeaRecord appealStart={appealStart1} />}
                   {sopAppealCheck1 && sopAppealCheck1.length !== 0 && <FirstCheckResult sopAppealCheck={sopAppealCheck1} />}
                   {masterAppealCheck1 && <SecondCheckResult masterAppealCheck={masterAppealCheck1} />}
                   <div className={styles.spaceLine} />
@@ -168,10 +170,10 @@ class AppealCreate extends React.Component {
               )}
             </div>
           )}
-          {Number(query.type)===2&& (
+          {Number(query.type) === 2 && (
             <div>
               <div className={styles.foldBox}>
-                <span>二次申诉  <span style={{fontWeight:'400',fontSize:14}}>{query.secondAppealEndDate? `(二次申诉截止日期：${query.secondAppealEndDate})`:''}</span></span>
+                <span>二次申诉  <span style={{ fontWeight: '400', fontSize: 14 }}>{query.secondAppealEndDate ? `(二次申诉截止日期：${query.secondAppealEndDate})` : ''}</span></span>
                 <span onClick={() => this.handleCollapse(2)}><img src={collapse2 ? imgdown : imgUp} width='18'
                   height='18' /></span>
               </div>
@@ -179,6 +181,7 @@ class AppealCreate extends React.Component {
               {collapse2 && (
                 <div style={{ paddingLeft: '15px' }}>
                   <CreateAppeal {...this.props}
+                    dimensionType={query.dimensionType}
                     getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
                     getFileList={this.getFileList} appealStart={appealStart1}
                     onFormChange={(value, vname) => this.onFormChange(value, vname)} />
