@@ -275,6 +275,7 @@ class Im extends React.Component {
   }
   didMount(props) {
     let list = [];
+    console.log(278, props.behaviorPath.dateListIm)
     if (props.behaviorPath.dateListIm.length > 0) {
       props.behaviorPath.dateListIm.map(item => {
         list.push({
@@ -291,6 +292,10 @@ class Im extends React.Component {
       this.state.dateList = list;
       this.setState({
         dateList: this.state.dateList,
+      });
+    } else {
+      this.setState({
+        dateList: [],
       });
     }
   }

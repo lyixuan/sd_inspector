@@ -32,7 +32,7 @@ function OrderDataLi(props) {
     <li className={styles.card}>
       <div className={styles.line}></div>
       <div className={styles.orderInfo}>
-        <h4>{props.item.second_project_name}</h4>
+        <h4>{props.item.package_name}</h4>
         <p>
           <span className={styles.price}>{props.item.order_amount}元</span> {props.item.status_code == 'PAID' ? '已支付' : '未支付'} {props.item.order_time}
         </p>
