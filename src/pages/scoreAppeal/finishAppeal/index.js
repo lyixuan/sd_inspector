@@ -6,6 +6,7 @@ import { BiFilter,dealQuarys } from '@/utils/utils';
 import style from './style.less'
 import AuthButton from '@/components/AuthButton/index';
 import CSForm from '@/pages/scoreAppeal/components/Form';
+import storage from '@/utils/storage';
 
 const columns = [
   {
@@ -98,7 +99,13 @@ class FinishAppeal extends React.Component {
     }
 
     const saveUrlParams =JSON.stringify(paramsUrl);
-
+    const score_tab = storage.getSessionItem('score_tab');
+    if (score_tab) {
+      score_tab[paramsUrl.dimensionType] = saveUrlParams;
+      storage.setSessonItem('score_tab',score_tab);
+    } else {
+      storage.setSessonItem('score_tab',{[paramsUrl.dimensionType]:saveUrlParams});
+    }
     const that = this;
     // 请求成功后保留查询条件
     if (!exp){
@@ -158,11 +165,17 @@ class FinishAppeal extends React.Component {
   };
 
   changeTab(dimensionType){
-    const {params:oldParams} = this.props.location.query;
-    const {dimensionType:oldDem,...others} = JSON.parse(oldParams);
-    this.setState({
-      dimensionType
-    },()=>this.queryData(dimensionType,{...others,creditType:undefined},{page:1}))
+    const score_tab = storage.getSessionItem('score_tab');
+    if (score_tab&&score_tab[dimensionType]) {
+      const tabParams = score_tab[dimensionType];
+      this.setState({
+        dimensionType
+      },()=>this.queryData(undefined,JSON.parse(tabParams),undefined))
+    } else {
+      this.setState({
+        dimensionType
+      },()=>this.queryData(dimensionType,undefined,undefined))
+    }
   }
   formSubmit(dimensionType,params,pg,exp){
     this.queryData(dimensionType,params,pg,exp)

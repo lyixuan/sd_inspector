@@ -12,6 +12,17 @@ const storage = {
   removeItem(key) {
     localStorage.removeItem(key);
   },
+
+  getSessionItem(key) {
+    const value = sessionStorage.getItem(key);
+    return value ? JSON.parse(value) : null;
+  },
+  setSessonItem(key, value) {
+    return sessionStorage.setItem(key, JSON.stringify(value));
+  },
+  removeSessonItem(key) {
+    sessionStorage.removeItem(key);
+  },
   /*
   * 获取token
   * */

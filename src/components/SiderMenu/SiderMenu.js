@@ -4,7 +4,7 @@ import pathToRegexp from 'path-to-regexp';
 import { Link } from 'dva/router';
 import styles from './index.less';
 import { urlToList } from '../_utils/pathTools';
-
+import storage from '@/utils/storage';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -64,6 +64,11 @@ export default class SiderMenu extends PureComponent {
       this.setState({
         openKeys: this.getDefaultCollapsedSubMenus(nextProps),
       });
+      console.log(['/scoreAppeal/awaitAppeal','/scoreAppeal/onAppeal','/scoreAppeal/finishAppeal'].indexOf(nextProps.location.pathname))
+      if (['/scoreAppeal/awaitAppeal','/scoreAppeal/onAppeal','/scoreAppeal/finishAppeal'].indexOf(nextProps.location.pathname)>-1&&
+        ['/scoreAppeal/awaitAppeal','/scoreAppeal/onAppeal','/scoreAppeal/finishAppeal'].indexOf(this.props.location.pathname)>-1) {
+        storage.removeSessonItem('score_tab')
+      }
     }
     if (JSON.stringify(nextProps.menuData) !== JSON.stringify(this.props.menuData)) {
       this.flatMenuKeys = getFlatMenuKeys(nextProps.menuData);

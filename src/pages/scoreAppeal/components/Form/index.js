@@ -11,6 +11,8 @@ import BIDatePicker from '@/ant_components/BIDatePicker/index';
 import AuthButton from '@/components/AuthButton/index';
 import styles from './style.less';
 import { connect } from 'dva/index';
+
+
 const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
 @connect(({ scoreAppealModel }) => ({
@@ -36,10 +38,10 @@ class CSForm extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if(nextProps.dimensionType!==this.props.dimensionType){
-      this.setState({
-        creditType:undefined
-      })
+    if(nextProps.location.query!==this.props.location.query){
+      const {params=null} = nextProps.location.query;
+      const obj = {...this.init,...JSON.parse(params)}
+      this.setState(obj)
     }
   }
   onFormChange = (value,vname)=>{

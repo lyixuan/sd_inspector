@@ -6,6 +6,7 @@ import router from 'umi/router';
 import style from './style.less'
 import CSForm from '@/pages/scoreAppeal/awaitAppeal/components/Form';
 import AuthButton from '@/components/AuthButton/index';
+import storage from '@/utils/storage';
 
 const columns = [
   {
@@ -87,6 +88,14 @@ class AwaitAppeal extends React.Component {
     }
 
     const saveUrlParams =JSON.stringify(paramsUrl);
+
+    const score_tab = storage.getSessionItem('score_tab');
+    if (score_tab) {
+      score_tab[paramsUrl.dimensionType] = saveUrlParams;
+      storage.setSessonItem('score_tab',score_tab);
+    } else {
+      storage.setSessonItem('score_tab',{[paramsUrl.dimensionType]:saveUrlParams});
+    }
     // 请求成功后保留查询条件
     this.props.dispatch({
       type: 'awaitAppealModel/getPreAppealList',
@@ -150,11 +159,17 @@ class AwaitAppeal extends React.Component {
   };
 
   changeTab(dimensionType){
-    const {params:oldParams} = this.props.location.query;
-    const {dimensionType:oldDem,...others} = JSON.parse(oldParams);
-    this.setState({
-      dimensionType
-    },()=>this.queryData(dimensionType,{...others,creditType:undefined},{page:1}))
+    const score_tab = storage.getSessionItem('score_tab');
+    if (score_tab&&score_tab[dimensionType]) {
+      const tabParams = score_tab[dimensionType];
+      this.setState({
+        dimensionType
+      },()=>this.queryData(undefined,JSON.parse(tabParams),undefined))
+    } else {
+      this.setState({
+        dimensionType
+      },()=>this.queryData(dimensionType,undefined,undefined))
+    }
   }
   formSubmit(dimensionType,params,pg){
     this.queryData(dimensionType,params,pg)

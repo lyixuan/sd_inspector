@@ -231,10 +231,11 @@ export function dealQuarys(pm) {
   } else {
     p.creditType = undefined
   }
-  if (p.statusList&&p.statusList.length===0) {
-    p.statusList = undefined
-  } else {
+  if (p.statusList&&p.statusList.length>0) {
+
     p.statusList = p.statusList.map((v)=>Number(v))
+  } else {
+    p.statusList = undefined
   }
 
   if (!p.appealOrderNum) {

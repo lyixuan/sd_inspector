@@ -32,10 +32,10 @@ class CSForm extends React.Component {
     this.state = {...this.init,...JSON.parse(params)};
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if(nextProps.dimensionType!==this.props.dimensionType){
-      this.setState({
-        creditType:undefined
-      })
+    if(nextProps.location.query!==this.props.location.query){
+      const {params=null} = nextProps.location.query;
+      const obj = {...this.init,...JSON.parse(params)}
+      this.setState(obj)
     }
   }
   onFormChange = (value,vname)=>{
