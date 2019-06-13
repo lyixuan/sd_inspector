@@ -1,12 +1,14 @@
 import React from 'react';
 import styles from './style.css';
+import {formatDateToWeek} from '@/utils/utils';
 
 export default class BasicInfoComponent extends React.Component {
   render() {
     const { baseAppealInfo = {},dimensionType } = this.props;
-    const { dimensionName,dimensionId,creditDate, completeDate, imConsultId, imNum, workorderStartTime, workorderFlowupFlag, bottomLineChannal, upFlag,score,source } = baseAppealInfo||{};
+    const { dimensionName,dimensionId,creditDate:creditDate1, completeDate, imConsultId, imNum, workorderStartTime, workorderFlowupFlag, bottomLineChannal, upFlag,score,source } = baseAppealInfo||{};
 
     const IMName = Number(dimensionId) === 17?'不及时条数':Number(dimensionId)===15?'未回复条数':'不满意条数';
+    const creditDate = formatDateToWeek(creditDate1);
     return (
       <section className={styles.personInfoCon}>
         <div className={styles.boxTitle}>
@@ -16,7 +18,7 @@ export default class BasicInfoComponent extends React.Component {
           // 优新
           <div className={styles.container}>
             <div className={styles.secRow}>
-              <div>学分纬度：{dimensionName}</div>
+              <div>学分维度：{dimensionName}</div>
               <div>学分日期：{creditDate}</div>
             </div>
             <div className={styles.secRow}>

@@ -48,7 +48,7 @@ export default class SOPCheckResultComponent extends React.Component {
                   </div>
                 </Col>
                 <Col span={4}>
-                  <span>执行人：{operator}</span>
+                  <span>发起人：{operator}</span>
                 </Col>
                 <Col span={5}>
                   <span>操作时间：{moment(new Date(operateDate)).format('YYYY-MM-DD HH:mm:ss')}</span>

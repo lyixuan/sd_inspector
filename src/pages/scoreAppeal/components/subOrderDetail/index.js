@@ -23,7 +23,7 @@ export default class SubOrderDetailComponent extends React.Component {
             <div>订单状态：{orderStatus}</div>
           </div>
           <div className={styles.secRow}>
-            <div>报名时间：{signDate}</div>
+            <div>报名时间：{signDate ? moment(signDate).format('YYYY-MM-DD HH:mm:ss') : ''}</div>
             <div>产品包：{productName}</div>
             <div>班主任花名：{nickName}</div>
           </div>

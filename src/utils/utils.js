@@ -240,6 +240,8 @@ export function dealQuarys(pm) {
 
   if (!p.appealOrderNum) {
     p.appealOrderNum = undefined
+  } else {
+    p.appealOrderNum = p.appealOrderNum.trim()
   }
 
   if (!p.stuName) {

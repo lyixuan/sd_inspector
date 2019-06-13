@@ -63,7 +63,7 @@ class createAppeal extends React.Component {
         dimensionType={dimensionType}
         showExampleImg={() => this.showExampleImg()}
         hideExampleImg={() => this.hideExampleImg()}
-      ></ExampleImg >;
+      />;
     }
     return (
       <section className={styles.personInfoCon} >
