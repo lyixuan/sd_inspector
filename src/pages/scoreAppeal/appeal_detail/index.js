@@ -97,7 +97,7 @@ class AppealCheck extends React.Component {
     newQuery.status=Number(status);
     newQuery.creditType=Number(creditType);
     router.replace({
-      pathname:'/scoreAppeal/appeal_detail',
+      pathname:'/scoreAppeal/onAppeal/detail',
       query:{
         ...query,...newQuery
       }
