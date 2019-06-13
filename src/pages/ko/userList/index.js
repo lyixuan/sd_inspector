@@ -143,7 +143,7 @@ function columns() {
       title: 'IM老师主动量',
       key: 'imTeacherChatNum',
       dataIndex: 'imTeacherChatNum',
-      width: 132,
+      width: 150,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 1, key: 'imTeacherExist' },
@@ -156,7 +156,7 @@ function columns() {
       title: 'IM学员主动量',
       key: 'imStudentChatNum',
       dataIndex: 'imStudentChatNum',
-      width: 132,
+      width: 150,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 1, key: 'imStudentExit' },
@@ -678,7 +678,7 @@ class UserList extends React.Component {
             }}
             dataSource={dataSource} columns={columns()}
             pagination={false} loading={loading}
-            scroll={{ x: 2100, y: 570 }}
+            scroll={{ x: 2120, y: 570 }}
             size="middle"
           />
           <br />
