@@ -63,7 +63,7 @@ function DateBar(props) {
               </p>
               <div className={styles.progressBar}>
                 <div className={styles.bar1} style={{ width: props.date.positivePercent }}></div>
-                <div className={styles.bar2} style={{ width: props.date.positivePercent }}></div>
+                <div className={styles.bar2} style={{ width: props.date.negativePercent }}></div>
               </div>
             </div>
             <img src={face2} />
@@ -275,7 +275,6 @@ class Im extends React.Component {
   }
   didMount(props) {
     let list = [];
-    console.log(278, props.behaviorPath.dateListIm)
     if (props.behaviorPath.dateListIm.length > 0) {
       props.behaviorPath.dateListIm.map(item => {
         list.push({

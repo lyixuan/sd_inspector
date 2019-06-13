@@ -59,7 +59,6 @@ class stepInput extends Component {
     } else {
       valueData = this.props.inputInfo.failList.join(" ");
     }
-    console.log(38, this.props.inputInfo)
     let page = inputInfo.checkResult ? inputInfo.checkResult : inputInfo
     return (
       <div className={styles.wrap}>
