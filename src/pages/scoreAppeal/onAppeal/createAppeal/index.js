@@ -142,7 +142,6 @@ class AppealCreate extends React.Component {
     const { appealStart: appealStart1, sopAppealCheck: sopAppealCheck1, masterAppealCheck: masterAppealCheck1 } = firstRecord || {};
     const { appealStart: appealStart2, sopAppealCheck: sopAppealCheck2, masterAppealCheck: masterAppealCheck2 } = SecondRecord || {};
     const { query = {} } = this.props.location;
-    console.log(111);
     return (
       <Spin spinning={loading}>
         <div className={styles.appealContainer}>
