@@ -28,9 +28,11 @@ function OrderDataLi(props) {
     <h4>后端归属</h4>
     <p>{props.item.back_college_name}/{props.item.back_family_name}/{props.item.back_group_name}</p>
   </div>
+  // 
+  console.log(31, props.item)
   return (
     <li className={styles.card}>
-      <div className={styles.line}></div>
+      <div className={`${styles.line} ${props.item.order_type == 1 ? null : styles.lineYellow}`}></div>
       <div className={styles.orderInfo}>
         <h4>{props.item.package_name}</h4>
         <p>
@@ -66,6 +68,7 @@ class PathUserInfo extends React.Component {
   render() {
     const info = this.props.info.user[0];
     const orderData = this.props.info.orderData;
+    console.log(69, orderData)
     return (
       <div className={styles.personIntro}>
         <div className={styles.userArea}>
