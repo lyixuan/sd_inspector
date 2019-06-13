@@ -29,28 +29,29 @@ class imPage extends React.Component {
     const columns = [
       {
         title: '时间',
-        dataIndex: 'code',
-        key: 'code',
+        dataIndex: 'date',
+        key: 'date',
       },
       {
         title: '内容',
-        dataIndex: 'groupName',
-        key: 'groupName',
+        dataIndex: 'contentList',
+        key: 'contentList',
+        render: test => <span title={'pplflgkhktkh '}>ppppp</span>
       },
       {
         title: '学员姓名',
-        dataIndex: 'userTag',
-        key: 'userTag',
+        dataIndex: 'stuName',
+        key: 'stuName',
       },
       {
         title: '后端归属',
-        dataIndex: 'us1erTag',
-        key: 'us1erTag',
+        dataIndex: 'org',
+        key: 'org',
       },
       {
         title: '操作人',
-        dataIndex: 'userCount',
-        key: 'userCount',
+        dataIndex: 'operator',
+        key: 'operator',
       },
       {
         title: '更新时间',
@@ -59,17 +60,18 @@ class imPage extends React.Component {
       },
       {
         title: '咨询类型',
-        dataIndex: 'taskStatus',
-        key: 'taskStatus',
+        dataIndex: 'consult',
+        key: 'consult',
       },
       {
         title: '原因分类',
-        dataIndex: '1taskStatus',
-        key: '1taskStatus',
+        dataIndex: 'reason',
+        key: 'reason',
       },
       {
         title: '操作',
         key: 'action',
+        render: (text, record) => <span>编辑</span>
       },
     ];
     return columns || [];

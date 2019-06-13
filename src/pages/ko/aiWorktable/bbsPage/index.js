@@ -29,28 +29,28 @@ class bbsPage extends React.Component {
     const columns = [
       {
         title: '时间',
-        dataIndex: 'code',
-        key: 'code',
+        dataIndex: 'date',
+        key: 'date',
       },
       {
         title: '内容',
-        dataIndex: 'groupName',
-        key: 'groupName',
+        dataIndex: 'content',
+        key: 'content',
       },
       {
         title: '学员姓名',
-        dataIndex: 'userTag',
-        key: 'userTag',
+        dataIndex: 'stuName',
+        key: 'stuName',
       },
       {
         title: '后端归属',
-        dataIndex: 'us1erTag',
-        key: 'us1erTag',
+        dataIndex: 'org',
+        key: 'org',
       },
       {
         title: '操作人',
-        dataIndex: 'userCount',
-        key: 'userCount',
+        dataIndex: 'operator',
+        key: 'operator',
       },
       {
         title: '更新时间',
@@ -59,8 +59,8 @@ class bbsPage extends React.Component {
       },
       {
         title: '原因分类',
-        dataIndex: '1taskStatus',
-        key: '1taskStatus',
+        dataIndex: 'reason',
+        key: 'reason',
       },
       {
         title: '操作',
