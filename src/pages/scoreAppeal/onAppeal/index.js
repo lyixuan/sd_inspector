@@ -251,7 +251,7 @@ class OnAppeal extends React.Component {
     } else {
       this.setState({
         dimensionType
-      },()=>this.queryData(dimensionType,undefined,undefined))
+      },()=>this.queryData(dimensionType,undefined,{page:1}))
     }
   }
   formSubmit(dimensionType,params,pg,exp){
