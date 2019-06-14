@@ -65,19 +65,27 @@ class bbsPage extends React.Component {
       {
         title: '操作',
         key: 'action',
+        render: (text, record) => (
+          <div>
+            <a href="javascript:;" onClick={() => this.handleEdit(record)}>编辑</a>
+          </div>
+        ),
       },
     ];
     return columns || [];
   };
+  handleEdit = () => {
+
+  }
   onSearchChange = (searchParams) => {
     this.setState({
       searchParams,
-    }, this.queryData());
+    }, () => this.queryData());
   }
   onPageChange = (currentPage) => {
     this.setState({
       currentPage,
-    }, this.queryData());
+    }, () => this.queryData());
   }
   queryData = () => {
     const { searchParams, currentPage} = this.state;

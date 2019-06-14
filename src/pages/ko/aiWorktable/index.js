@@ -16,14 +16,14 @@ const tabGroup = [{
   key: '/aiWorktable/nps',
 }];
 
-@connect((workTableModel) => ({
+@connect(({ workTableModel }) => ({
   workTableModel,
 }))
 class aiWorktable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      defaultValue: props.location.pathname || '/aiWorktable/im',
+      defaultKey: props.location.pathname || '/aiWorktable/im',
     };
   }
 

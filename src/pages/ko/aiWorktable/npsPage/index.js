@@ -34,7 +34,7 @@ class bbsPage extends React.Component {
         title: '自主评价',
         dataIndex: 'evaluate',
         key: 'evaluate',
-        render: test => <p title={'pplflgkhktkh '}>ppppp</p>
+        render: test => <span onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>ppppp</span>,
       },
       {
         title: '星级',
@@ -69,19 +69,33 @@ class bbsPage extends React.Component {
       {
         title: '操作',
         key: 'action',
+        render: (text, record) => (
+          <div>
+            <a href="javascript:;" onClick={() => this.handleEdit(record)}>编辑</a>
+          </div>
+        ),
       },
     ];
     return columns || [];
   };
+  handleMouseOver = (e) => {
+    console.log(e, 111)
+  }
+  handleMouseOut = (e) => {
+    console.log(e, 222)
+  }
+  handleEdit = () => {
+
+  }
   onSearchChange = (searchParams) => {
     this.setState({
       searchParams,
-    }, this.queryData());
+    }, () => this.queryData());
   }
   onPageChange = (currentPage) => {
     this.setState({
       currentPage,
-    }, this.queryData());
+    }, () => this.queryData());
   }
   queryData = () => {
     const { searchParams, currentPage} = this.state;

@@ -19,10 +19,11 @@ export default {
     *getTableList({ payload }, { call, put, select }) {
       // 列表
       const params = payload.params;
+      const { choiceTime, ...otherParams} = params;
       const pageSize = yield select(state => state.workTableModel.pageSize);
-      const result = yield call(getTableList, {...params, pageSize});
-      const { currentPage, type, ...others } = params;
+      const result = yield call(getTableList, {...otherParams, pageSize});
       if (result.code === 20000) {
+        const { currentPage, type, ...others } = params;
         const data = result.data || {};
         const workList = Array.isArray(data.resultList) ? data.resultList : [];
         const { totalCount } = data;
