@@ -5,8 +5,12 @@ import AiList from '@/pages/ko/aiWorktable/components/AiList';
 import BIButton from '@/ant_components/BIButton';
 import styles from '../style.less';
 import { connect } from 'dva/index';
+import ReactTooltip from 'react-tooltip';
+
 
 const workType = 3; //im bbs nps 对应的额type值为1， 2， 3
+const tests = '测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜';
+
 @connect(({ workTableModel, loading }) => ({
   workTableModel,
   currentPage: workTableModel.pageParams[workType] || 1,
@@ -16,7 +20,11 @@ class bbsPage extends React.Component {
   constructor(props) {
     super(props);
     const { currentPage, searchParams } = this.props;
-    this.state = { searchParams, currentPage };
+    this.state = {
+      searchParams,
+      currentPage,
+      tooltipContent: ''
+    };
   }
 
   componentDidMount() {
@@ -34,7 +42,12 @@ class bbsPage extends React.Component {
         title: '自主评价',
         dataIndex: 'evaluate',
         key: 'evaluate',
-        render: test => <span onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>ppppp</span>,
+        render: (test, record) => (
+          <>
+            <span data-tip={test} ref={ref => this.fooRef = ref}
+                  onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>{test.substring(0, 2)}</span>
+          </>
+        ),
       },
       {
         title: '星级',
@@ -79,39 +92,43 @@ class bbsPage extends React.Component {
     return columns || [];
   };
   handleMouseOver = (e) => {
-    console.log(e, 111)
-  }
+    ReactTooltip.show(this.fooRef);
+  };
   handleMouseOut = (e) => {
-    console.log(e, 222)
-  }
+    ReactTooltip.hide(this.fooRef);
+  };
   handleEdit = () => {
 
-  }
+  };
   onSearchChange = (searchParams) => {
     this.setState({
       searchParams,
     }, () => this.queryData());
-  }
+  };
   onPageChange = (currentPage) => {
     this.setState({
       currentPage,
     }, () => this.queryData());
-  }
+  };
   queryData = () => {
-    const { searchParams, currentPage} = this.state;
+    const { searchParams, currentPage } = this.state;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
-      payload: { params: {...searchParams, currentPage, type: workType} },
+      payload: { params: { ...searchParams, currentPage, type: workType } },
     });
-  }
+  };
 
   render() {
-    const { searchParams, currentPage } = this.state;
+    const { searchParams, currentPage, tooltipContent } = this.state;
     return (
       <div>
-        <AiForm {...this.props} workType={workType} searchParams={searchParams} onSearchChange={this.onSearchChange}></AiForm>
-
-        <AiList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange} columnsData={this.columnsData}>
+        <ReactTooltip delayHide={1000} className={styles.listReactTooltip} place="right"
+                      onMouseOver={this.handleMouseOver} getContent={() => { return }}>
+        </ReactTooltip>
+        <AiForm {...this.props} workType={workType} searchParams={searchParams}
+                onSearchChange={this.onSearchChange}></AiForm>
+        <AiList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
+                columnsData={this.columnsData}>
           <div>
             <BIButton className={styles.exportBtn}>导出标签</BIButton>
             <BIButton className={styles.exportEvaluate}>导出自主评价</BIButton>
