@@ -7,6 +7,7 @@ import avatarStudent from '@/assets/avatarStudent.png';
 import Pager from '../pager/pager.js';
 import face1 from '@/assets/face1.png';
 import face2 from '@/assets/face2.png';
+import robort from '@/assets/robort.png';
 
 // 评价的星星
 function Star(props) {
@@ -63,11 +64,12 @@ function DateBar(props) {
               </p>
               <div className={styles.progressBar}>
                 <div className={styles.bar1} style={{ width: props.date.positivePercent }}></div>
-                <div className={styles.bar2} style={{ width: props.date.positivePercent }}></div>
+                <div className={styles.bar2} style={{ width: props.date.negativePercent }}></div>
               </div>
             </div>
             <img src={face2} />
           </div>
+          <div className={styles.robort}><img src={robort} /></div>
         </div>
         <span>
           <Icon type={props.date.collapse ? 'up' : 'down'} />
@@ -291,6 +293,10 @@ class Im extends React.Component {
       this.state.dateList = list;
       this.setState({
         dateList: this.state.dateList,
+      });
+    } else {
+      this.setState({
+        dateList: [],
       });
     }
   }

@@ -30,9 +30,9 @@ function OrderDataLi(props) {
   </div>
   return (
     <li className={styles.card}>
-      <div className={styles.line}></div>
+      <div className={`${styles.line} ${props.item.order_type == 1 ? null : styles.lineYellow}`}></div>
       <div className={styles.orderInfo}>
-        <h4>{props.item.second_project_name}</h4>
+        <h4>{props.item.package_name}</h4>
         <p>
           <span className={styles.price}>{props.item.order_amount}元</span> {props.item.status_code == 'PAID' ? '已支付' : '未支付'} {props.item.order_time}
         </p>
@@ -78,10 +78,14 @@ class PathUserInfo extends React.Component {
               </p>
             </div>
           </div>
-          <div className={styles.optBtn}>
+          <Tooltip placement="bottom" title='成单意向:S'>
+            <div className={styles.intention + " " + styles.intentionC}></div>
+          </Tooltip>
+
+          {/* <div className={styles.optBtn}>
             <div className={styles.btn}>上一个</div>
             <div className={styles.btn}>下一个</div>
-          </div>
+          </div> */}
 
         </div>
         <ul className={styles.intro}>
