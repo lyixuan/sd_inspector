@@ -99,12 +99,12 @@ class FinishAppeal extends React.Component {
     }
 
     const saveUrlParams =JSON.stringify(paramsUrl);
-    const score_tab = storage.getSessionItem('score_tab');
+    const score_tab = storage.getSessionItem('score_tab3');
     if (score_tab) {
       score_tab[paramsUrl.dimensionType] = saveUrlParams;
-      storage.setSessonItem('score_tab',score_tab);
+      storage.setSessonItem('score_tab3',score_tab);
     } else {
-      storage.setSessonItem('score_tab',{[paramsUrl.dimensionType]:saveUrlParams});
+      storage.setSessonItem('score_tab3',{[paramsUrl.dimensionType]:saveUrlParams});
     }
     const that = this;
     // 请求成功后保留查询条件
@@ -165,7 +165,7 @@ class FinishAppeal extends React.Component {
   };
 
   changeTab(dimensionType){
-    const score_tab = storage.getSessionItem('score_tab');
+    const score_tab = storage.getSessionItem('score_tab3');
     if (score_tab&&score_tab[dimensionType]) {
       const tabParams = score_tab[dimensionType];
       this.setState({

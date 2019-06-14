@@ -64,11 +64,6 @@ export default class SiderMenu extends PureComponent {
       this.setState({
         openKeys: this.getDefaultCollapsedSubMenus(nextProps),
       });
-      if (['/scoreAppeal/awaitAppeal','/scoreAppeal/onAppeal','/scoreAppeal/finishAppeal'].indexOf(nextProps.location.pathname)>-1) {
-        if(['/scoreAppeal/awaitAppeal/detail','/scoreAppeal/awaitAppeal/appeal','/scoreAppeal/onAppeal/appeal','/scoreAppeal/onAppeal/checkAppeal','/scoreAppeal/onAppeal/detail','/scoreAppeal/finishAppeal/detail'].indexOf(this.props.location.pathname)<0){
-          storage.removeSessonItem('score_tab')
-        }
-      }
     }
     if (JSON.stringify(nextProps.menuData) !== JSON.stringify(this.props.menuData)) {
       this.flatMenuKeys = getFlatMenuKeys(nextProps.menuData);

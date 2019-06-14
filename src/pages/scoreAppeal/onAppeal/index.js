@@ -103,12 +103,12 @@ class OnAppeal extends React.Component {
     }
 
     const saveUrlParams =JSON.stringify(paramsUrl);
-    const score_tab = storage.getSessionItem('score_tab');
+    const score_tab = storage.getSessionItem('score_tab2');
     if (score_tab) {
       score_tab[paramsUrl.dimensionType] = saveUrlParams;
-      storage.setSessonItem('score_tab',score_tab);
+      storage.setSessonItem('score_tab2',score_tab);
     } else {
-      storage.setSessonItem('score_tab',{[paramsUrl.dimensionType]:saveUrlParams});
+      storage.setSessonItem('score_tab2',{[paramsUrl.dimensionType]:saveUrlParams});
     }
     // 请求成功后保留查询条件
     const that = this;
@@ -242,7 +242,7 @@ class OnAppeal extends React.Component {
     return [...columns, ...actionObj];
   };
   changeTab(dimensionType){
-    const score_tab = storage.getSessionItem('score_tab');
+    const score_tab = storage.getSessionItem('score_tab2');
     if (score_tab&&score_tab[dimensionType]) {
       const tabParams = score_tab[dimensionType];
       this.setState({
