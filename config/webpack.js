@@ -55,9 +55,9 @@ export const webpackConfig = {
         '/proxy': {
 
             target: proxy_env, //  区别于self接口
-            // target: 'http://172.16.117.65:8085，http://172.16.109.173:8085', //  张晔接口地址
+            target: 'http://172.16.59.42:8085', //  张晔接口地址
             changeOrigin: true,
-            // pathRewrite: { '/proxy': '/' }
+            pathRewrite: { '/proxy': '/' }
         },
         '/oldApi': {
             target: proxy_env, //  区别于self接口

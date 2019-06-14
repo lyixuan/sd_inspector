@@ -17,7 +17,6 @@ class Pager extends React.Component {
     super(props);
     const beginDate = this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.beginDate : new Date(new Date().getTime());
     const endDate = this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.endDate : new Date(new Date().getTime())
-    console.log(20, this.props.behaviorPath)
     this.state = {
       defaultBeginDate: beginDate,
       defaultEndDate: endDate,
