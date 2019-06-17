@@ -116,7 +116,7 @@ export default {
       if (userGroup && userGroup.length > 0) return;
       const response = yield call(getUserGroupList);
       if (response && response.code === 20000 && response.data) {
-        const groupList = response.data.forEach(item => {
+        const groupList = response.data.map(item => {
           return { id: item.id, groupName: item.groupName}
         });
         yield put({
