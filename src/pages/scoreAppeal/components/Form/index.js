@@ -102,33 +102,33 @@ class CSForm extends React.Component {
 
     const {appealBeginDate,appealEndDate,creditBeginDate,creditEndDate,creditType,statusList,appealOrderNum,collegeIdList,familyIdList,groupIdList} = this.state;
     return (
-      <div className={styles.newSheetWrap}>
-        {/*form1*/}
-        <div className={styles.searchBlock}>
-          <div>
-            {/*第一行*/}
-            <Row className={styles.gutterRow}>
-              <Col className={styles.gutterCol} span={8}>
-                <div className={styles.gutterBox1}>
-                  <span className={styles.gutterLabel}>申诉单号</span>：
-                  <span className={styles.gutterForm}>
+        <div className={styles.newSheetWrap}>
+          {/*form1*/}
+          <div className={styles.searchBlock}>
+            <div>
+              {/*第一行*/}
+              <Row className={styles.gutterRow}>
+                <Col className={styles.gutterCol} span={8}>
+                  <div className={styles.gutterBox1}>
+                    <span className={styles.gutterLabel}>申诉单号</span>：
+                    <span className={styles.gutterForm}>
                     <BIInput placeholder="请输入" allowClear value={appealOrderNum} onChange={(e)=>this.onFormChange(e.target.value,'appealOrderNum')}/>
                   </span>
-                </div>
-              </Col>
-              <Col className={styles.gutterCol}  span={8}>
-                <div className={styles.gutterBox2}>
-                  <span className={styles.gutterLabel}>学分日期</span>：
-                  <span className={styles.gutterForm}>
+                  </div>
+                </Col>
+                <Col className={styles.gutterCol}  span={8}>
+                  <div className={styles.gutterBox2}>
+                    <span className={styles.gutterLabel}>学分日期</span>：
+                    <span className={styles.gutterForm}>
                     <BIRangePicker allowClear value={creditBeginDate && [moment(creditBeginDate),moment(creditEndDate)]} onChange={(val,valStr)=>this.onFormChange(valStr,'creditDate')}/>
                   </span>
-                </div>
-              </Col>
-              <Col className={styles.gutterCol}  span={8}>
-                {dimensionType!==11&&(
-                  <div className={styles.gutterBox3}>
-                    <span className={styles.gutterLabel}>学分维度</span>：
-                    <span className={styles.gutterForm}>
+                  </div>
+                </Col>
+                <Col className={styles.gutterCol}  span={8}>
+                  {dimensionType!==11&&(
+                    <div className={styles.gutterBox3}>
+                      <span className={styles.gutterLabel}>学分维度</span>：
+                      <span className={styles.gutterForm}>
                       <BISelect style={{width:230}} placeholder="请选择" value={creditType} onChange={(val)=>this.onFormChange(val,'creditType')}>
                         {dimensionList2.map(item => (
                           <Option key={item.id}>
@@ -137,16 +137,16 @@ class CSForm extends React.Component {
                         ))}
                       </BISelect>
                     </span>
-                  </div>
-                )}
-              </Col>
-            </Row>
-            {/*第二行*/}
-            <Row className={styles.gutterRow}>
-              <Col className={styles.gutterCol} span={8}>
-                <div className={styles.gutterBox1}>
-                  <span className={styles.gutterLabel}>申诉状态</span>：
-                  <span className={styles.gutterForm}>
+                    </div>
+                  )}
+                </Col>
+              </Row>
+              {/*第二行*/}
+              <Row className={styles.gutterRow}>
+                <Col className={styles.gutterCol} span={8}>
+                  <div className={styles.gutterBox1}>
+                    <span className={styles.gutterLabel}>申诉状态</span>：
+                    <span className={styles.gutterForm}>
                     <BISelect style={{width:230}} mode="multiple" allowClear showArrow maxTagCount={1} placeholder="请选择" value={statusList} onChange={(val)=>this.onFormChange(val,'statusList')}>
                         {progress==='finishAppeal'&&BiFilter('SCORE_APPEAL_STATE_FIN').map(item => (
                           <Option key={item.id}>
@@ -165,25 +165,25 @@ class CSForm extends React.Component {
                       ))}
                       </BISelect>
                   </span>
-                </div>
-              </Col>
-              <Col className={styles.gutterCol}  span={8}>
-                <div className={styles.gutterBox2}>
-                  <span className={styles.gutterLabel}>申诉日期</span>：
-                  <span className={styles.gutterForm}>
+                  </div>
+                </Col>
+                <Col className={styles.gutterCol}  span={8}>
+                  <div className={styles.gutterBox2}>
+                    <span className={styles.gutterLabel}>申诉日期</span>：
+                    <span className={styles.gutterForm}>
                     <BIRangePicker allowClear value={appealBeginDate && [moment(appealBeginDate),moment(appealEndDate)]} onChange={(val,valStr)=>this.onFormChange(valStr,'appealDate')}/>
                   </span>
-                </div>
-              </Col>
-              <Col className={styles.gutterCol}  span={8}>
-                {(AuthButton.checkPathname('/scoreAppeal/roles/master')
-                  ||AuthButton.checkPathname('/scoreAppeal/roles/master2')
-                  ||AuthButton.checkPathname('/scoreAppeal/roles/dockingMan')
-                  ||AuthButton.checkPathname('/scoreAppeal/roles/dockingMan2'))&&
-                (
-                  <div className={styles.gutterBox3}>
-                    <span className={styles.gutterLabel}>归属组织</span>：
-                    <span className={styles.gutterForm}>
+                  </div>
+                </Col>
+                <Col className={styles.gutterCol}  span={8}>
+                  {(AuthButton.checkPathname('/scoreAppeal/roles/master')
+                    ||AuthButton.checkPathname('/scoreAppeal/roles/master2')
+                    ||AuthButton.checkPathname('/scoreAppeal/roles/dockingMan')
+                    ||AuthButton.checkPathname('/scoreAppeal/roles/dockingMan2'))&&
+                  (
+                    <div className={styles.gutterBox3}>
+                      <span className={styles.gutterLabel}>归属组织</span>：
+                      <span className={styles.gutterForm}>
                     <BITreeSelect
                       style={{ width: 230 }}
                       placeholder="请选择"
@@ -196,29 +196,29 @@ class CSForm extends React.Component {
                       onChange={(val)=>this.onFormChange(val,'organization')}
                     />
                     </span>
-                  </div>
-                )}
+                    </div>
+                  )}
+                </Col>
+              </Row>
+            </div>
+            {/*第三行*/}
+            <Row className={styles.gutterRow}>
+              <Col className={styles.gutterCol} span={8}>
+              </Col>
+              <Col className={styles.gutterCol}  span={8}>
+              </Col>
+              <Col className={styles.gutterCol}  span={8}>
+                <div className={styles.gutterBox3}>
+                  {(AuthButton.checkPathname('/scoreAppeal/onAppeal/export')||AuthButton.checkPathname('/scoreAppeal/finishAppeal/export'))&&(
+                    <span className={styles.gutterBtn1}><BIButtonYellow loading={exportLoading} onClick={this.export} type='primary'>导出申诉单</BIButtonYellow></span>
+                  )}
+                  <span className={styles.gutterBtn1}><BIButton onClick={this.search} type='primary'>搜索</BIButton></span>
+                  <span className={styles.gutterBtn2}><BIButton onClick={this.reset}>重置</BIButton></span>
+                </div>
               </Col>
             </Row>
           </div>
-        {/*第三行*/}
-        <Row className={styles.gutterRow}>
-          <Col className={styles.gutterCol} span={8}>
-          </Col>
-          <Col className={styles.gutterCol}  span={8}>
-          </Col>
-          <Col className={styles.gutterCol}  span={8}>
-            <div className={styles.gutterBox3}>
-              {(AuthButton.checkPathname('/scoreAppeal/onAppeal/export')||AuthButton.checkPathname('/scoreAppeal/finishAppeal/export'))&&(
-                <span className={styles.gutterBtn1}><BIButtonYellow loading={exportLoading} onClick={this.export} type='primary'>导出申诉单</BIButtonYellow></span>
-              )}
-              <span className={styles.gutterBtn1}><BIButton onClick={this.search} type='primary'>搜索</BIButton></span>
-              <span className={styles.gutterBtn2}><BIButton onClick={this.reset}>重置</BIButton></span>
-            </div>
-          </Col>
-        </Row>
         </div>
-      </div>
     );
   }
 }

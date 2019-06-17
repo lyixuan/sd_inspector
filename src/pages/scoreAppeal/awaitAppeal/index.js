@@ -176,6 +176,17 @@ class AwaitAppeal extends React.Component {
   }
   changePage(dimensionType,params,pg){
     this.queryData(dimensionType,params,pg)
+    const score_tab = storage.getSessionItem('score_tab');
+    if (score_tab&&score_tab[this.state.dimensionType]) {
+      const tabParams = score_tab[this.state.dimensionType];
+      this.setState({
+        dimensionType:this.state.dimensionType
+      },()=>this.queryData(dimensionType,JSON.parse(tabParams),pg))
+    } else {
+      this.setState({
+        dimensionType:this.state.dimensionType
+      },()=>this.queryData(dimensionType,undefined,pg))
+    }
   }
   render() {
     const {dimensionType} = this.state;
