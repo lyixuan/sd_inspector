@@ -26,6 +26,7 @@ class AiForm extends React.Component {
     this.props.dispatch({
       type: 'koPlan/pageParams',
     });
+    this.handleSearch();
   }
   chooseEnumData = (type) => {
     const { enumData = {} } = this.props;
@@ -73,7 +74,7 @@ class AiForm extends React.Component {
   };
   // 查询事件
   handleSearch = (e) => {
-    e.preventDefault();
+    e && e.preventDefault();
     const { onSearchChange, form } = this.props;
     form.validateFields((err, values) => {
       if (onSearchChange) {
@@ -83,6 +84,19 @@ class AiForm extends React.Component {
       }
     });
   };
+  // 重置事件
+  handleReset = () => {
+    const { searchParams } = this.props;
+    for (let k in searchParams) {
+      if (k === 'choiceTime') {
+        searchParams[k] = this.handleDefaultPickerValue('registerTime');
+      } else {
+        searchParams[k] = undefined;
+      }
+    }
+    this.props.form.resetFields();
+    this.props.onSearchChange(searchParams)
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;

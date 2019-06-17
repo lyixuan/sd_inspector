@@ -1,14 +1,14 @@
 import React from 'react';
-import { Spin } from 'antd';
 import AiForm from '@/pages/ko/aiWorktable/components/AiForm';
 import AiList from '@/pages/ko/aiWorktable/components/AiList';
 import BIButton from '@/ant_components/BIButton';
 import exportimg from '@/assets/ai/export.png';
 import styles from '../style.less';
-import { thousandsFormat } from '@/utils/utils';
 import { connect } from 'dva/index';
+import ReactTooltip from 'react-tooltip';
 
 const workType = 2; //im bbs nps 对应的额type值为1， 2， 3
+
 @connect(({ workTableModel, loading }) => ({
   workTableModel,
   currentPage: workTableModel.pageParams[workType],
@@ -19,10 +19,6 @@ class bbsPage extends React.Component {
     super(props);
     const { currentPage, searchParams } = this.props;
     this.state = { searchParams, currentPage };
-  }
-
-  componentDidMount() {
-    this.queryData();
   }
 
   columnsData = () => {
@@ -36,6 +32,12 @@ class bbsPage extends React.Component {
         title: '内容',
         dataIndex: 'content',
         key: 'content',
+        render: text => (
+          <>
+            <span data-tip={text} ref={ref => this.fooRef = ref}
+                  onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>{text.substring(0, 2)}</span>
+          </>
+        ),
       },
       {
         title: '学员姓名',
@@ -74,12 +76,19 @@ class bbsPage extends React.Component {
     ];
     return columns || [];
   };
+  handleMouseOver = (e) => {
+    ReactTooltip.show(this.fooRef);
+  };
+  handleMouseOut = (e) => {
+    ReactTooltip.hide(this.fooRef);
+  };
   handleEdit = () => {
 
-  }
+  };
   onSearchChange = (searchParams) => {
     this.setState({
       searchParams,
+      currentPage: 1,
     }, () => this.queryData());
   }
   onPageChange = (currentPage) => {
@@ -99,6 +108,7 @@ class bbsPage extends React.Component {
     const { searchParams, currentPage } = this.state;
     return (
       <div>
+        <ReactTooltip delayHide={1000} className={styles.listReactTooltip} place="right" />
         <AiForm {...this.props} workType={workType} searchParams={searchParams} onSearchChange={this.onSearchChange}></AiForm>
         <AiList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange} columnsData={this.columnsData}>
           <BIButton className={styles.exportBtn} size="large">

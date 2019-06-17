@@ -1,5 +1,4 @@
 import React from 'react';
-import { Spin } from 'antd';
 import AiForm from '@/pages/ko/aiWorktable/components/AiForm';
 import AiList from '@/pages/ko/aiWorktable/components/AiList';
 import BIButton from '@/ant_components/BIButton';
@@ -7,9 +6,7 @@ import styles from '../style.less';
 import { connect } from 'dva/index';
 import ReactTooltip from 'react-tooltip';
 
-
 const workType = 3; //im bbs nps 对应的额type值为1， 2， 3
-const tests = '测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜测试室护手霜';
 
 @connect(({ workTableModel, loading }) => ({
   workTableModel,
@@ -20,15 +17,7 @@ class bbsPage extends React.Component {
   constructor(props) {
     super(props);
     const { currentPage, searchParams } = this.props;
-    this.state = {
-      searchParams,
-      currentPage,
-      tooltipContent: ''
-    };
-  }
-
-  componentDidMount() {
-    this.queryData();
+    this.state = { searchParams, currentPage};
   }
 
   columnsData = () => {
@@ -42,10 +31,10 @@ class bbsPage extends React.Component {
         title: '自主评价',
         dataIndex: 'evaluate',
         key: 'evaluate',
-        render: (test, record) => (
+        render: text => (
           <>
-            <span data-tip={test} ref={ref => this.fooRef = ref}
-                  onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>{test.substring(0, 2)}</span>
+            <span data-tip={text} ref={ref => this.fooRef = ref}
+                  onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>{text.substring(0, 2)}</span>
           </>
         ),
       },
@@ -103,6 +92,7 @@ class bbsPage extends React.Component {
   onSearchChange = (searchParams) => {
     this.setState({
       searchParams,
+      currentPage: 1,
     }, () => this.queryData());
   };
   onPageChange = (currentPage) => {
@@ -119,14 +109,12 @@ class bbsPage extends React.Component {
   };
 
   render() {
-    const { searchParams, currentPage, tooltipContent } = this.state;
+    const { searchParams, currentPage } = this.state;
     return (
       <div>
-        <ReactTooltip delayHide={1000} className={styles.listReactTooltip} place="right"
-                      onMouseOver={this.handleMouseOver} getContent={() => { return }}>
-        </ReactTooltip>
+        <ReactTooltip delayHide={1000} className={styles.listReactTooltip} place="right"/>
         <AiForm {...this.props} workType={workType} searchParams={searchParams}
-                onSearchChange={this.onSearchChange}></AiForm>
+                onSearchChange={this.onSearchChange} ></AiForm>
         <AiList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
                 columnsData={this.columnsData}>
           <div>
