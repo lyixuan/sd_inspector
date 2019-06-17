@@ -43,8 +43,8 @@ class AiDetail extends React.Component {
           <div className={styles.dataClassfy}>
             <div className={styles.headBar}>数据分类</div>
             <DataClassfy></DataClassfy>
-            <DataClassfyBbs></DataClassfyBbs>
-            <DataClassfyNps></DataClassfyNps>
+            {/* <DataClassfyBbs></DataClassfyBbs>
+            <DataClassfyNps></DataClassfyNps> */}
           </div>
         </div>
       </div>

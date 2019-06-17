@@ -177,7 +177,64 @@ function AllType(props) {
       <div className={styles.cardType}>
         <img src={cardIcon} />
         <div className={styles.cardInfo}>
-          <h4>{props.type.arr[0].province}报考流程</h4>
+          <h4>{props.type.arr[0].province}省报考流程</h4>
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  } else if (props.type.type == 'projectCard') {
+    const li = props.type.arr.map((item, index) =>
+      <h4 key={index}>{item.province}省{item.showProjectName}</h4>
+    );
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          {li}
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  } else if (props.type.type == 'publishRemind') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>{props.type.arr[0].province}省报考时间</h4>
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  } else if (props.type.type == 'subjectexamcard') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>{props.type.arr[0].collegeName}{props.type.arr[0].specialtyName}考试科目</h4>
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  } else if (props.type.type == 'lesson_video' || props.type.type == 'video' || props.type.type == 'img') {
+    return (
+      <img src={props.type.arr[0].imgUrl ? props.type.arr[0].imgUrl : props.type.arr[0].url} style={{ width: '150px', height: 'auto', borderRadius: '10px' }} />
+    )
+  } else if (props.type.type == 'operate') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>尚德学员验证信息 表单</h4>
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  } else if (props.type.type == 'contactoffice') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>{props.type.arr[0].province}{props.type.arr[0].companyName}</h4>
           <p>卡片信息</p>
         </div>
       </div>
@@ -194,7 +251,7 @@ function AllType(props) {
   )
 }
 function MediaType(props) {
-  if (props.type.media.type == "evaluation" || props.type.media.type == "province") {
+  if (props.type.media.type == "evaluation" || props.type.media.type == "province" || props.type.media.type == "projectShowList" || props.type.media.type == "artificial" || props.type.media.type == "customer" || props.type.media.type == "projectButtonCard") {
     return null;
   }
   return (
@@ -208,13 +265,6 @@ function MediaType(props) {
         </div>
         <div className={styles.chatRight}>
           <AllType type={props.type.media}></AllType>
-          {/* <div className={styles.cardType}>
-            <img src={cardIcon} />
-            <div className={styles.cardInfo}>
-              <h4>{props.type.media.type}</h4>
-              <p>卡片信息</p>
-            </div>
-          </div> */}
           <div className={styles.avatar}>
             <img src={robort} />
             <p>{props.info.userName}</p>
@@ -226,6 +276,9 @@ function MediaType(props) {
   )
 }
 function MediaLi(props) {
+  if (props.prop.content == '</p>') {
+    return null
+  }
   if (props.prop.type == 'text') {
     return (
       <li className={styles.step}>
@@ -241,7 +294,9 @@ function MediaLi(props) {
               <span className={styles.triangle}>
                 <em />
               </span>
-              {props.prop.content}
+              <span dangerouslySetInnerHTML={{ __html: props.prop.content }}>
+              </span>
+              {/* {props.prop.content} */}
             </div>
             <div className={styles.avatar}>
               <img src={robort} />
@@ -288,8 +343,11 @@ function TeacherOrStudent(props) {
   } else {
     // 解析卡片类型
     let reg = /##[\s\S]*##/g
-    let answer = props.item.message
-    if (answer.match(reg)) {
+    let answer = props.item.message;
+    if (answer && answer.match(reg)) {
+      // if (!JSON.parseanswer.match(reg)[0]) {
+      //   return <div>999999</div>;
+      // }
       let media = JSON.parse(answer.match(reg)[0].replace(/##/g, ""))
       let content = answer.replace(reg, "##placeholder##")
       let mediaContent = [];
@@ -319,6 +377,9 @@ function TeacherOrStudent(props) {
         message = JSON.parse(props.item.message).content;
       } else {
         message = props.item.message
+      }
+      if (!answer) {
+        return null
       }
       return (
         <li className={styles.step}>
@@ -419,6 +480,10 @@ class Im extends React.Component {
     } else {
       allData = modalImData.robotData
     }
+    // console.log(445, allData)
+    // if (!allData) {
+    //   return;
+    // }
     allData.sort(function (a, b) {
       return Date.parse(a.countDate) - Date.parse(b.countDate);//时间正序
     });
