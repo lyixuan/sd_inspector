@@ -42,7 +42,6 @@ class UploadImg extends React.Component {
       isShowDelBtn: this.props.showDelBtn || 'show',
     };
   }
-
   static propTypes = {
     fileList: PropTypes.array,
     limitImgNum: PropTypes.number,
@@ -65,7 +64,7 @@ class UploadImg extends React.Component {
 
   handleChange = async ({ file, fileList }) => {
     const { type, status, size, response, appealProof } = file;
-    const { currentIndex } = this.state;
+    const { currentIndex , mainNum, fileList:{length}} = this.state;
     // eslint-disable-next-line default-case
     switch (status) {
       // 上传
@@ -91,6 +90,7 @@ class UploadImg extends React.Component {
         break;
       case 'removed':
         this.props.uploadImg(fileList);
+        if(length - currentIndex < mainNum)
         this.setIndex(currentIndex - 1);
         break;
     }
@@ -117,7 +117,6 @@ class UploadImg extends React.Component {
 
   handleRemove = file => {
     const { fileList } = this.state;
-
     this.setState({
       fileList: fileList.filter(uid => uid !== file.uid),
     });
