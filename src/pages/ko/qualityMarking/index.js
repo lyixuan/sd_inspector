@@ -7,13 +7,13 @@ import { connect } from 'dva';
 const { TabPane } = Tabs;
 const tabGroup = [{
   tab: 'IM会话',
-  key: '/aiWorktable/im',
+  key: '/qualityMarking/im',
 }, {
   tab: 'BBS',
-  key: '/aiWorktable/bbs',
+  key: '/qualityMarking/bbs',
 }, {
   tab: 'NPS',
-  key: '/aiWorktable/nps',
+  key: '/qualityMarking/nps',
 }];
 
 @connect(({ workTableModel }) => ({
@@ -23,8 +23,13 @@ class aiWorktable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      defaultKey: props.location.pathname || '/aiWorktable/im',
+      defaultKey: props.location.pathname || '/qualityMarking/im',
     };
+  }
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'workTableModel/getBasicData',
+    });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -45,12 +50,6 @@ class aiWorktable extends React.Component {
   jumpTo = (pathname) => {
     this.props.history.push({
       pathname,
-    });
-  };
-  getListData = (params) => {
-    this.props.dispatch({
-      type: 'workTableModel/getTableList',
-      payload: { params: params },
     });
   };
 

@@ -127,6 +127,19 @@ function columns() {
       sortDirections: ['descend', 'ascend']
     },
     {
+      title: '机器人咨询量',
+      key: 'studyExeciseNum1',
+      dataIndex: 'studyExeciseNum1',
+      filterMultiple: false,
+      width: 140,
+      filters: [
+        { text: '大于0', value: 1, key: 'execiseExist' },
+        { text: '等于0', value: 2, key: 'execiseExist' },
+      ],
+      sorter: true,
+      sortDirections: ['descend', 'ascend']
+    },
+    {
       title: 'IM咨询量',
       key: 'imDialogueNum',
       dataIndex: 'imDialogueNum',
@@ -268,6 +281,14 @@ function columns() {
         { text: '大于0', value: 1, key: 'wechatStudentExist' },
         { text: '等于0', value: 2, key: 'wechatStudentExist' },
       ],
+      sorter: true,
+      sortDirections: ['descend', 'ascend']
+    },
+    {
+      title: '成单意向',
+      key: 'studyExeciseNum2',
+      dataIndex: 'studyExeciseNum2',
+      width: 120,
       sorter: true,
       sortDirections: ['descend', 'ascend']
     },
@@ -684,7 +705,7 @@ class UserList extends React.Component {
             }}
             dataSource={dataSource} columns={columns()}
             pagination={false} loading={loading}
-            scroll={{ x: 2160, y: 570 }}
+            scroll={{ x: 2420, y: 570 }}
             size="middle"
           />
           <br />

@@ -1,6 +1,7 @@
 import React from 'react';
-import AiForm from '@/pages/ko/aiWorktable/components/AiForm';
-import AiList from '@/pages/ko/aiWorktable/components/AiList';
+import MarkForm from '../components/form';
+import MarkList from '../components/list';
+import ModalTip from '../components/modalTip';
 import BIButton from '@/ant_components/BIButton';
 import exportimg from '@/assets/ai/export.png';
 import styles from '../style.less';
@@ -9,19 +10,20 @@ import ReactTooltip from 'react-tooltip';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import miniApp from '@/assets/miniApp.png';
-import { STATIC_HOST } from '@/utils/constants';
 
 
-const workType = 1; //im bbs nps 对应的额type值为1， 2， 3
+const markType = 1; //im bbs nps 对应的额type值为1， 2， 3
+const exportType = 11; // 导出类型：导出类型：11 - IM 21 - BBS 31 - NPS标签 32 - NPS自主评价
 // 悬浮列表
 function Layout(props) {
   const layout = <section>
     <ul className={styles.behavior}>
-        {props.dataLists.map((item, index) => <ListItem li={item} key={index} />)}
+      {props.dataLists.map((item, index) => <ListItem li={item} key={index}/>)}
     </ul>
   </section>;
   return layout;
 }
+
 //对话区域行
 function ListItem(props) {
   if (!props.li) {
@@ -30,6 +32,7 @@ function ListItem(props) {
     return <TeacherOrStudent item={props.li}/>;
   }
 }
+
 // 判断是老师还是学员
 function TeacherOrStudent(props) {
   if (props.item.userType == 1) {
@@ -136,14 +139,22 @@ function TeacherOrStudent(props) {
 
 @connect(({ workTableModel }) => ({
   workTableModel,
-  currentPage: workTableModel.pageParams[workType],
-  searchParams: workTableModel.searchParams[workType] || {},
+  currentPage: workTableModel.pageParams[markType],
+  searchParams: workTableModel.searchParams[markType] || {},
+  collegeList: workTableModel.collegeList,// bbs nps
+  consultList: [{id: 0, name: '空'}].concat(workTableModel.consultList),// im
+  reasonList: workTableModel.reasonList,// im bbs nps
 }))
 class imPage extends React.Component {
   constructor(props) {
     super(props);
-    const { currentPage, searchParams,} = this.props;
-    this.state = { searchParams, currentPage, contentList: [] };
+    const { currentPage, searchParams, } = this.props;
+    this.state = {
+      searchParams,
+      currentPage,
+      contentList: [],
+      visible: false, // 弹框是否显示标志
+    };
   }
 
   columnsData = () => {
@@ -158,8 +169,11 @@ class imPage extends React.Component {
         dataIndex: 'contentList',
         key: 'contentList',
         render: text => {
+          const content = Array.isArray(text) && text[0] ? text[0].message : '';
+          const showText = content.length > 10 ? content.substring(0, 10) + '...' : content;
           return (
-            <span data-tip='' ref={ref => this.fooRef = ref} onMouseOver={this.handleMouseOver.bind(this, text)} onMouseOut={this.handleMouseOut}>wwwwww</span>
+            <span data-tip='' ref={ref => this.fooRef = ref} onMouseOver={this.handleMouseOver.bind(this, text)}
+                  onMouseOut={this.handleMouseOut}>{showText}</span>
           );
         },
       },
@@ -205,12 +219,14 @@ class imPage extends React.Component {
     ];
     return columns || [];
   };
+
   handleMouseOver(text) {
     this.setState({
-      contentList: text || []
-    })
+      contentList: text || [],
+    });
     ReactTooltip.show(this.fooRef);
   };
+
   handleMouseOut = (e) => {
     ReactTooltip.hide(this.fooRef);
   };
@@ -232,47 +248,50 @@ class imPage extends React.Component {
     const { searchParams, currentPage } = this.state;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
-      payload: { params: { ...searchParams, currentPage, type: workType } },
+      payload: { params: { ...searchParams, currentPage, type: markType } },
     });
   };
-  getBlob(obj) {
-    return new Promise(resolve => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('POS', obj.url, true);
-      xhr.setContentType("application/vnd.ms-excel");
-      xhr.setHeader("Content-Disposition", "attachment;filename=文件名");
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          resolve(xhr.response);
-        }
-      };
-      xhr.send(obj.params);
+  handleExport =() => {// 导出类型：11 - IM21 - BBS31 - NPS标签 32 - NPS自主评价
+    this.setState({ visible: true });
+  };
+  handleOk = () => {
+    const { choiceTime, ...others } = this.state.searchParams;
+    this.props.dispatch({
+      type: 'workTableModel/exportExcelData',
+      payload: {
+        params: {
+          data: { ...others, type: exportType },
+          headers: {
+            // 'Content-Disposition': 'attachment;filename=文件名',
+            'Content-Type': 'application/vnd.ms-excel',
+          },
+        },
+      },
+      callback: (res) => {
+        this.handleCancel();
+      },
     });
   }
-  handleExportIm = (data) => {
-    const name = `用户组${data.code}`;
-    const url = `${STATIC_HOST}'workbench/export'`; // 创建下载的链接
-    this.getBlob(url).then(blob => {
-      this.saveAs(blob, name);
-    });
-    return;
+  handleCancel = () => {
+    this.setState({ visible: false });
   }
 
   render() {
-    const { searchParams, currentPage, contentList } = this.state;
+    const { searchParams, currentPage, contentList, visible } = this.state;
     return (
       <div>
         <ReactTooltip delayHide={1000} className={styles.listReactTooltip} place="right">
           {contentList.length > 0 && <Layout dataLists={contentList}></Layout>}
         </ReactTooltip>
-        <AiForm {...this.props} workType={workType} searchParams={searchParams}
-                onSearchChange={this.onSearchChange}></AiForm>
-        <AiList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
+        <MarkForm {...this.props} markType={markType} searchParams={searchParams}
+                onSearchChange={this.onSearchChange}></MarkForm>
+        <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
                 columnsData={this.columnsData}>
-          <BIButton onClick={this.handleExportIm} className={styles.exportBtn} size="large">
+          <BIButton onClick={this.handleExport} className={styles.exportBtn} size="large">
             <img src={exportimg}/> 导出
           </BIButton>
-        </AiList>
+        </MarkList>
+        <ModalTip visible={visible} handleOk={this.handleOk} handleCancel={this.handleCancel}></ModalTip>
       </div>
     );
   }

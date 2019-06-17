@@ -1,7 +1,6 @@
 import React from 'react';
 import { Skeleton, Form } from 'antd';
 import { handleDateFormParams, handleDateParams } from '@/pages/ko/utils/utils';
-import BICascader from '@/ant_components/BICascader/FormCascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect';
@@ -14,8 +13,9 @@ const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
 const dateFormat = 'YYYY.MM.DD';
 
-@connect(({ koPlan, loading }) => ({
+@connect(({ workTableModel, koPlan, loading }) => ({
   koPlanPageParams: koPlan.pageParams,
+  loading: loading.effects['workTableModel/getBasicData'],
 }))
 class AiForm extends React.Component {
   constructor(props) {
@@ -23,11 +23,12 @@ class AiForm extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch({
-      type: 'koPlan/pageParams',
-    });
+    // this.props.dispatch({
+    //   type: 'koPlan/pageParams',
+    // });
     this.handleSearch();
   }
+
   chooseEnumData = (type) => {
     const { enumData = {} } = this.props;
     let returnData = [];
@@ -95,13 +96,15 @@ class AiForm extends React.Component {
       }
     }
     this.props.form.resetFields();
-    this.props.onSearchChange(searchParams)
-  }
+    this.props.onSearchChange(searchParams);
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { workType, searchParams } = this.props;
-    const choiceTimeInit = searchParams.choiceTime || this.handleDefaultPickerValue('registerTime');
+    const { markType, searchParams, collegeList, consultList, reasonList, evaluateList } = this.props;
+    const { loading } = this.props;
+    // const choiceTimeInit = searchParams.choiceTime || this.handleDefaultPickerValue('registerTime');
+    const choiceTimeInit = searchParams.choiceTime;
     return (
       <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
         <Form
@@ -119,7 +122,7 @@ class AiForm extends React.Component {
                     <BIRangePicker
                       placeholder={['起始时间', '截止时间']}
                       format={dateFormat}
-                      disabledDate={(current) => this.disabledDate(current, 'registerTime')}
+                      // disabledDate={(current) => this.disabledDate(current, 'registerTime')}
                     />,
                   )}
                 </Form.Item>
@@ -130,20 +133,18 @@ class AiForm extends React.Component {
                     initialValue: searchParams.collegeId,
                   })(
                     <BISelect placeholder="请选择" allowClear>
-                      {[{ value: '1', name: 'yyyy' }].map(item => <Option key={item.value}
-                                                                          value={item.value}>{item.name}</Option>)}
+                      {collegeList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
                 </Form.Item>
               </div>
-              {workType === 1 && <div className={styles.itemCls}>
+              {markType === 1 && <div className={styles.itemCls}>
                 <Form.Item label='咨询类型：'>
                   {getFieldDecorator('consultType', {
                     initialValue: searchParams.consultType,
                   })(
                     <BISelect placeholder="请选择" allowClear>
-                      {[{ value: '1', name: 'yyyy' }].map(item => <Option key={item.value}
-                                                                          value={item.value}>{item.name}</Option>)}
+                      {consultList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
                 </Form.Item>
@@ -154,20 +155,18 @@ class AiForm extends React.Component {
                     initialValue: searchParams.reasonType,
                   })(
                     <BISelect placeholder="请选择" allowClear>
-                      {[{ value: '1', name: 'yyyy' }].map(item => <Option key={item.value}
-                                                                          value={item.value}>{item.name}</Option>)}
+                      {reasonList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
                 </Form.Item>
               </div>
-              {workType == 3 && <div className={styles.itemCls}>
+              {markType == 3 && <div className={styles.itemCls}>
                 <Form.Item label='自主评价：'>
                   {getFieldDecorator('evaluateType', {
                     initialValue: searchParams.evaluateType,
                   })(
                     <BISelect placeholder="请选择" allowClear>
-                      {[{ value: '1', name: 'yyyy' }].map(item => <Option key={item.value}
-                                                                          value={item.value}>{item.name}</Option>)}
+                      {evaluateList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
                 </Form.Item>

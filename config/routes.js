@@ -239,24 +239,24 @@ export const routes = [
         ],
       },
       {
-        path: '/aiWorktable',
-        component: './ko/aiWorktable',
+        path: '/qualityMarking',
+        component: './ko/qualityMarking',
         name: 'AI工作台',
-        pageRedirect: '/aiWorktable/im',
+        pageRedirect: '/qualityMarking/im',
         routes: [
           {
-            path: '/aiWorktable/im',
-            component: './ko/aiWorktable/imPage',
+            path: '/qualityMarking/im',
+            component: './ko/qualityMarking/im',
             commonPath: true,   // 继承父页面
           },
           {
-            path: '/aiWorktable/bbs',
-            component: './ko/aiWorktable/bbsPage',
+            path: '/qualityMarking/bbs',
+            component: './ko/qualityMarking/bbs',
             commonPath: true,   // 继承父页面
           },
           {
-            path: '/aiWorktable/nps',
-            component: './ko/aiWorktable/npsPage',
+            path: '/qualityMarking/nps',
+            component: './ko/qualityMarking/nps',
             commonPath: true,   // 继承父页面
           },
         ],

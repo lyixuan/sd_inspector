@@ -1,23 +1,32 @@
 import React from 'react';
-import AiForm from '@/pages/ko/aiWorktable/components/AiForm';
-import AiList from '@/pages/ko/aiWorktable/components/AiList';
+import MarkForm from '../components/form';
+import MarkList from '../components/list';
+import ModalTip from '../components/modalTip';
 import BIButton from '@/ant_components/BIButton';
 import styles from '../style.less';
 import { connect } from 'dva/index';
 import ReactTooltip from 'react-tooltip';
 
-const workType = 3; //im bbs nps 对应的额type值为1， 2， 3
-
+const markType = 3; //im bbs nps 对应的额type值为1， 2， 3
+let exportType = ''; // 导出类型：11 - IM 21 - BBS 31 - NPS标签 32 - NPS自主评价
 @connect(({ workTableModel, loading }) => ({
   workTableModel,
-  currentPage: workTableModel.pageParams[workType] || 1,
-  searchParams: workTableModel.searchParams[workType] || {},
+  currentPage: workTableModel.pageParams[markType] || 1,
+  searchParams: workTableModel.searchParams[markType] || {},
+  collegeList: [{id: 0, name: '空'}].concat(workTableModel.collegeList),
+  consultList: workTableModel.consultList,
+  reasonList: workTableModel.reasonList,
+  evaluateList: workTableModel.evaluateList,
 }))
 class bbsPage extends React.Component {
   constructor(props) {
     super(props);
     const { currentPage, searchParams } = this.props;
-    this.state = { searchParams, currentPage};
+    this.state = {
+      searchParams,
+      currentPage,
+      visible: false, // 弹框是否显示标志
+    };
   }
 
   columnsData = () => {
@@ -104,24 +113,51 @@ class bbsPage extends React.Component {
     const { searchParams, currentPage } = this.state;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
-      payload: { params: { ...searchParams, currentPage, type: workType } },
+      payload: { params: { ...searchParams, currentPage, type: markType } },
     });
   };
+  handleExport(type) {
+    exportType = type;
+    this.setState({ visible: true });
+  };
+  handleOk = () => {
+    alert(exportType)
+    const { choiceTime, ...others } = this.state.searchParams;
+    this.props.dispatch({
+      type: 'workTableModel/exportExcelData',
+      payload: {
+        params: {
+          data: { ...others, type: exportType },
+          headers: {
+            // 'Content-Disposition': 'attachment;filename=文件名',
+            'Content-Type': 'application/vnd.ms-excel',
+          },
+        },
+      },
+      callback: (res) => {
+        this.handleCancel();
+      },
+    });
+  }
+  handleCancel = () => {
+    this.setState({ visible: false });
+  }
 
   render() {
-    const { searchParams, currentPage } = this.state;
+    const { searchParams, currentPage, visible } = this.state;
     return (
       <div>
         <ReactTooltip delayHide={1000} className={styles.listReactTooltip} place="right"/>
-        <AiForm {...this.props} workType={workType} searchParams={searchParams}
-                onSearchChange={this.onSearchChange} ></AiForm>
-        <AiList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
+        <MarkForm {...this.props} markType={markType} searchParams={searchParams}
+                onSearchChange={this.onSearchChange} ></MarkForm>
+        <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
                 columnsData={this.columnsData}>
           <div>
-            <BIButton className={styles.exportBtn}>导出标签</BIButton>
-            <BIButton className={styles.exportEvaluate}>导出自主评价</BIButton>
+            <BIButton onClick={() => this.handleExport(31)} className={styles.exportBtn}>导出标签</BIButton>
+            <BIButton onClick={() => this.handleExport(32)} className={styles.exportEvaluate}>导出自主评价</BIButton>
           </div>
-        </AiList>
+        </MarkList>
+        <ModalTip visible={visible} handleOk={this.handleOk} handleCancel={this.handleCancel}></ModalTip>
       </div>
     );
   }
