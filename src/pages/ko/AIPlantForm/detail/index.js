@@ -36,14 +36,14 @@ class AiDetail extends React.Component {
         <div className={styles.aiDetail}>
           <div className={styles.baseInfo}>
             <div className={styles.headBar}>基本信息</div>
-            {/* <DetailIm></DetailIm> */}
+            <DetailIm></DetailIm>
             {/* <DetailBbs></DetailBbs> */}
-            <DetailNps></DetailNps>
+            {/* <DetailNps></DetailNps> */}
           </div>
           <div className={styles.dataClassfy}>
             <div className={styles.headBar}>数据分类</div>
-            {/* <DataClassfy></DataClassfy> */}
-            {/* <DataClassfyBbs></DataClassfyBbs> */}
+            <DataClassfy></DataClassfy>
+            <DataClassfyBbs></DataClassfyBbs>
             <DataClassfyNps></DataClassfyNps>
           </div>
         </div>

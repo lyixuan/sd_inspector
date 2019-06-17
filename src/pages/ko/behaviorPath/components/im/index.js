@@ -160,8 +160,41 @@ function MediaContent(props) {
   const li = props.content.map((item, index) => <MediaLi item={props.li} prop={item} key={index} />);
   return li;
 }
+function AllType(props) {
+  console.log(164, props.type)
+  if (props.type.type == 'cdsCard') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>成绩查询</h4>
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  } else if (props.type.type == 'process') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>{props.type.arr[0].province}报考流程</h4>
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  }
+  return (
+    <div className={styles.cardType}>
+      <img src={cardIcon} />
+      <div className={styles.cardInfo}>
+        {/* <h4>{props.type.media.type}</h4> */}
+        <p>卡片信息</p>
+      </div>
+    </div>
+  )
+}
 function MediaType(props) {
-  if (props.type.media.type == "evaluation") {
+  if (props.type.media.type == "evaluation" || props.type.media.type == "province") {
     return null;
   }
   return (
@@ -174,13 +207,14 @@ function MediaType(props) {
           <span className={styles.dot} />
         </div>
         <div className={styles.chatRight}>
-          <div className={styles.cardType}>
+          <AllType type={props.type.media}></AllType>
+          {/* <div className={styles.cardType}>
             <img src={cardIcon} />
             <div className={styles.cardInfo}>
               <h4>{props.type.media.type}</h4>
               <p>卡片信息</p>
             </div>
-          </div>
+          </div> */}
           <div className={styles.avatar}>
             <img src={robort} />
             <p>{props.info.userName}</p>

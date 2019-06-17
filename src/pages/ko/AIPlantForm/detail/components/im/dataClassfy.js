@@ -16,6 +16,9 @@ class DataClassfy extends React.Component {
 
     };
   }
+  onChangeConsult = (value) => {
+    console.log(20, value)
+  }
   onChange = (value) => {
     console.log(19, value)
   }
@@ -65,7 +68,7 @@ class DataClassfy extends React.Component {
             <li>
               <label>咨询类型：</label>
               <div className={styles.selects}>
-                <BICascader options={options} onChange={this.onChange} placeholder="请选择" />
+                <BICascader options={options} onChange={this.onChangeConsult} placeholder="请选择" />
               </div>
             </li>
             <li>
