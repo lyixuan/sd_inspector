@@ -111,7 +111,7 @@ function columns() {
       ],
       sorter: true,
       sortDirections: ['descend', 'ascend'],
-      render: text => (text/60).toFixed(2),
+      render: text => (text / 60).toFixed(2),
     },
     {
       title: '做题量',
@@ -531,6 +531,12 @@ class UserList extends React.Component {
         break;
       case 'choiceLessonStatus':
         returnDom = item ? this.renderTypeTage(item, 'choiceLessonStatus')() : null;
+        break;
+      case 'userGroup':
+        returnDom = item ? this.renderTypeTage(item, 'userGroup')() : null;
+        break;
+      case 'orderStatus':
+        returnDom = item ? this.renderTypeTage(item, 'orderStatus')() : null;
         break;
       case 'publicLesson':
         returnDom = item ? this.renderTypeTage(item, 'publicLesson')() : null;
