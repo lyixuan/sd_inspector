@@ -147,7 +147,7 @@ class CSForm extends React.Component {
                   <div className={styles.gutterBox1}>
                     <span className={styles.gutterLabel}>申诉状态</span>：
                     <span className={styles.gutterForm}>
-                    <BISelect style={{width:230}} mode="multiple" allowClear showArrow maxTagCount={1} placeholder="请选择" value={statusList} onChange={(val)=>this.onFormChange(val,'statusList')}>
+                    <BISelect style={{width:230}} mode="multiple" allowClear showArrow maxTagCount={1} maxTagTextLength={7} maxTagPlaceholder={(omittedValues) => (<span>{`+${omittedValues.length}`}</span>)} placeholder="请选择" value={statusList} onChange={(val)=>this.onFormChange(val,'statusList')}>
                         {progress==='finishAppeal'&&BiFilter('SCORE_APPEAL_STATE_FIN').map(item => (
                           <Option key={item.id}>
                             {item.name}
@@ -188,6 +188,8 @@ class CSForm extends React.Component {
                       style={{ width: 230 }}
                       placeholder="请选择"
                       allowClear
+                      maxTagTextLength={7}
+                      maxTagPlaceholder={(omittedValues) => (<span>{`+${omittedValues.length}`}</span>)}
                       value={[...collegeIdList,...familyIdList,...groupIdList]}
                       multiple
                       showArrow maxTagCount={1}

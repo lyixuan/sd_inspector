@@ -72,6 +72,7 @@ class FinishAppeal extends React.Component {
   componentDidMount() {
     const {dimensionType} = this.state;
     const {params=null} = this.props.location.query;
+    if(params===null){storage.removeSessonItem('score_tab3')}
     this.queryData(dimensionType,JSON.parse(params));
   }
 

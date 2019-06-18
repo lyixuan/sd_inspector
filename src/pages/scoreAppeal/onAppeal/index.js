@@ -76,6 +76,7 @@ class OnAppeal extends React.Component {
   componentDidMount() {
     const {dimensionType} = this.state;
     const {params=null} = this.props.location.query;
+    if(params===null){storage.removeSessonItem('score_tab2')}
     this.queryData(dimensionType,JSON.parse(params));
   }
 

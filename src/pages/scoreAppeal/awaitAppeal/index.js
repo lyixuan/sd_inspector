@@ -61,6 +61,7 @@ class AwaitAppeal extends React.Component {
   componentDidMount() {
     const {dimensionType} = this.state;
     const {params=null} = this.props.location.query;
+    if(params===null){storage.removeSessonItem('score_tab')}
     this.queryData(dimensionType,JSON.parse(params));
   }
 
