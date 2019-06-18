@@ -56,6 +56,9 @@ class StepLayout extends Component {
   // 取消---回到列表页
   cancel = () => {
     window.history.go(-1);
+    // router.push({
+    //   pathname: '/koUserOperation/userOperation'
+    // });
   };
   // 确定---回到列表页
   clickOk = () => {

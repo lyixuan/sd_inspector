@@ -21,13 +21,17 @@ export default {
       const params = payload.params;
       const result = yield call(userGroupSubmit, params);
       if (result.code === 20000) {
-        message.success('提交成功！');
+        // message.success('提交成功！');
         const groupSubmit = result.data;
         yield put({ type: 'save', payload: { groupSubmit, visible: false, visible2: true } });
       } else {
         // yield put({ type: 'save', payload: { visible: false } });
         message.error(msgF(result.msg, result.msgDetail));
       }
+    },
+    *editvisible2({ payload }, { put }) {
+      const { visible2 } = payload;
+      yield put({ type: 'save', payload: { visible2 } });
     },
     *userGroupCheck({ payload }, { call, put }) {
       const params = payload.params;

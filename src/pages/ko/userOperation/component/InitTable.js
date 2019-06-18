@@ -108,7 +108,6 @@ class InitTable extends Component {
     })
   }
   handleEditGroup = (record) => {
-    console.log(96, record)
     router.push({
       pathname: '/koUserOperation/userGroupEdit',
       query: { code: record.code, id: record.id }
@@ -153,7 +152,6 @@ class InitTable extends Component {
   };
   // 编辑用户组名称
   edit = (record) => {
-    console.log(123, record.groupName)
     this.setState({
       visible: true,
       rowId: record.id,

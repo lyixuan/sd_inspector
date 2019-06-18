@@ -33,7 +33,7 @@ const sorterKeyName = {
   wechatDialogueNum: 'wechat_dialogue_num',
   wechatTeacherChatNum: 'wechat_teacher_chat_num',
   wechatStudentChatNum: 'wechat_student_chat_num',
-  imEmotionValue: 'positive_msg_num',
+  imEmotionValue: 'negative_msg_num',
 };
 function columns() {
   const col = [
@@ -110,7 +110,8 @@ function columns() {
         { text: '等于0', value: 2, key: 'lessonTime' },
       ],
       sorter: true,
-      sortDirections: ['descend', 'ascend']
+      sortDirections: ['descend', 'ascend'],
+      render: text => (text / 60).toFixed(2),
     },
     {
       title: '做题量',
@@ -118,6 +119,19 @@ function columns() {
       dataIndex: 'studyExeciseNum',
       filterMultiple: false,
       width: 94,
+      filters: [
+        { text: '大于0', value: 1, key: 'execiseExist' },
+        { text: '等于0', value: 2, key: 'execiseExist' },
+      ],
+      sorter: true,
+      sortDirections: ['descend', 'ascend']
+    },
+    {
+      title: '机器人咨询量',
+      key: 'studyExeciseNum1',
+      dataIndex: 'studyExeciseNum1',
+      filterMultiple: false,
+      width: 140,
       filters: [
         { text: '大于0', value: 1, key: 'execiseExist' },
         { text: '等于0', value: 2, key: 'execiseExist' },
@@ -142,7 +156,7 @@ function columns() {
       title: 'IM老师主动量',
       key: 'imTeacherChatNum',
       dataIndex: 'imTeacherChatNum',
-      width: 132,
+      width: 150,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 1, key: 'imTeacherExist' },
@@ -155,7 +169,7 @@ function columns() {
       title: 'IM学员主动量',
       key: 'imStudentChatNum',
       dataIndex: 'imStudentChatNum',
-      width: 132,
+      width: 150,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 1, key: 'imStudentExit' },
@@ -173,10 +187,8 @@ function columns() {
       filters: [
         { text: '高兴值>=怒气值', value: 1, key: 'emotionValue' },
         { text: '高兴值<怒气值', value: 2, key: 'emotionValue' },
-        { text: '高兴值>0', value: 3, key: 'emotionValue' },
-        { text: '怒气值=0', value: 4, key: 'emotionValue' },
-        { text: '怒气值>0', value: 5, key: 'emotionValue' },
-        { text: '高兴值=0', value: 6, key: 'emotionValue' },
+        { text: '高兴值>0, 怒气值=0', value: 3, key: 'emotionValue' },
+        { text: '怒气值>0, 高兴值=0', value: 4, key: 'emotionValue' },
       ],
       sorter: true,
       sortDirections: ['descend', 'ascend']
@@ -250,7 +262,7 @@ function columns() {
       title: '微信老师主动量',
       key: 'wechatTeacherChatNum',
       dataIndex: 'wechatTeacherChatNum',
-      width: 142,
+      width: 150,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 1, key: 'wechatTeacherExist' },
@@ -263,12 +275,20 @@ function columns() {
       title: '微信学员主动量',
       key: 'wechatStudentChatNum',
       dataIndex: 'wechatStudentChatNum',
-      width: 142,
+      width: 150,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 1, key: 'wechatStudentExist' },
         { text: '等于0', value: 2, key: 'wechatStudentExist' },
       ],
+      sorter: true,
+      sortDirections: ['descend', 'ascend']
+    },
+    {
+      title: '成单意向',
+      key: 'studyExeciseNum2',
+      dataIndex: 'studyExeciseNum2',
+      width: 120,
       sorter: true,
       sortDirections: ['descend', 'ascend']
     },
@@ -358,6 +378,56 @@ function DateBar(props) {
   );
 }
 
+function CreatUserGroupPop(props) {
+  if (props.groupCheck) {
+    return (
+      <BIModal
+        title={'创建用户组'}
+        visible={props.visible}
+        onOk={() => props.handleOk('check')}
+        onCancel={props.handleCancel}
+        footer={[
+          <BIButton key="submit" type="primary" onClick={() => props.handleOk('check')}>
+            确定
+                </BIButton>,
+        ]}>
+        <div style={{ textAlign: 'center' }}>
+          <p style={{ paddingBottom: '0' }}>你有一个正在创建的用户组</p>
+          <p style={{ paddingBottom: '0' }}>预计需要5～10分钟</p>
+          <p style={{ paddingBottom: '0' }}>请在用户运营页查看最新的创建状态。</p>
+        </div>
+      </BIModal>
+    )
+  } else {
+    return (
+      <BIModal
+        title={'创建用户组'}
+        visible={props.visible}
+        onOk={() => props.handleOk('add')}
+        onCancel={props.handleCancel}
+        footer={[
+          <BIButton key="back" style={{ marginRight: 10 }} onClick={props.handleCancel}>
+            取消
+                </BIButton>,
+          <BIButton key="submit" type="primary" onClick={() => props.handleOk('add')}>
+            确定
+                </BIButton>,
+        ]}>
+        <div>
+          <p>保存{thousandsFormat(props.totalUser)}个学员为一个用户组，请设置用户组名称</p>
+          <TextArea
+            onChange={props.userGroupInput}
+            placeholder="输入名称"
+            maxLength={50}
+            style={{ resize: 'none' }}
+            autosize={{ minRows: 2, maxRows: 2 }}
+          />
+        </div>
+      </BIModal>
+    )
+  }
+}
+
 @connect(({ userListModel, koPlan, loading }) => ({
   userListModel,
   tabFromParams: koPlan.tabFromParams,
@@ -365,6 +435,7 @@ function DateBar(props) {
   pageParams: userListModel.pageParams,
   chooseEventData: koPlan.chooseEventData,
   loading: loading.effects['userListModel/getTableList'],
+  loading2: loading.effects['userListModel/userGroupCheck'],
 }))
 class UserList extends React.Component {
   constructor(props) {
@@ -372,14 +443,15 @@ class UserList extends React.Component {
     this.initpage = {
       currentPage: 1, pageSize: 30,
     };
-    const { visible, visible2 } = props.userListModel;
+    const { visible } = props.userListModel;
     this.state = {
       pageParams: this.initpage,
       visible: visible,
-      visible2: visible2,
+      visible2: false,
       filterExitParams: {},
       groupName: '',
       totalUser: 0,
+      orderSortParams: {},
     };
   };
 
@@ -415,7 +487,9 @@ class UserList extends React.Component {
     const filters = arg[1];
     const orderSort = arg[2];
     const filterExitParams = {};
-    const orderSortParams = {};
+    const orderSortParams = {
+      sortField: {}
+    };
     // 筛选
     filterKeyName.forEach(item => {
       const filterArr = filters[item.dataIndex];
@@ -423,13 +497,14 @@ class UserList extends React.Component {
     });
     // 排序
     if (orderSort.columnKey && orderSort.order) {
-      orderSortParams.field = sorterKeyName[orderSort.columnKey];
-      orderSortParams.sort = orderSort.order === 'ascend' ? 'asc' : 'desc';
+      orderSortParams.sortField.field = sorterKeyName[orderSort.columnKey];
+      orderSortParams.sortField.sort = orderSort.order === 'ascend' ? 'asc' : 'desc';
     }
     this.setState({
       filterExitParams,
+      orderSortParams,
     }, () => {
-      this.queryData(undefined, this.initpage, undefined, filterExitParams, { sortField: orderSortParams });
+      this.queryData(undefined, this.initpage, undefined, filterExitParams, orderSortParams);
     });
   };
   getLocationParams = (chooseEventData = this.props.chooseEventData) => {
@@ -438,7 +513,7 @@ class UserList extends React.Component {
       actionKey: obj.id,
     } : {};
   };
-  queryData = (params = this.props.tabFromParams, pageParams = this.state.pageParams, chooseEventData = this.props.chooseEventData, filterExitParams = this.state.filterExitParams, orderSortParams = {}) => {
+  queryData = (params = this.props.tabFromParams, pageParams = this.state.pageParams, chooseEventData = this.props.chooseEventData, filterExitParams = this.state.filterExitParams, orderSortParams = this.state.orderSortParams) => {
     if (!params || JSON.stringify(params) === '{}') return;
     const localtionParams = this.getLocationParams(chooseEventData);
     const newParams = { ...params.formParams, ...pageParams, ...localtionParams, ...filterExitParams, ...orderSortParams };
@@ -448,18 +523,16 @@ class UserList extends React.Component {
     });
   };
   renderDateTags = (date, key, name, index) => {
-    const { isShowFiexd } = this.state;
     let [startTime, endTime] = date;
     startTime = moment(startTime).format(dateFormat);
     endTime = moment(endTime).format(dateFormat);
-    return (<span key={name + index}><Tag closable={!isShowFiexd}
-      onClose={() => !isShowFiexd ? this.onClose(key, date) : null}>{name}:{`${startTime}~${endTime}`}</Tag></span>);
+    return `${name}:${startTime}~${endTime}`
+
   };
   renderGrouptags = (item, key) => {
     const { isShowFiexd } = this.state;
     const orgName = item.map(item => item.name).join('/');
-    return orgName ? (<span key={orgName}><Tag closable={!isShowFiexd}
-      onClose={() => !isShowFiexd ? this.onClose(key, item) : null}>{orgName}</Tag></span>) : null;
+    return orgName
   };
   renderTypeTage = (obj, key, color = '#F4F4F4') => (type) => {
     return obj.name
@@ -479,6 +552,12 @@ class UserList extends React.Component {
         break;
       case 'choiceLessonStatus':
         returnDom = item ? this.renderTypeTage(item, 'choiceLessonStatus')() : null;
+        break;
+      case 'userGroup':
+        returnDom = item ? this.renderTypeTage(item, 'userGroup')() : null;
+        break;
+      case 'orderStatus':
+        returnDom = item ? this.renderTypeTage(item, 'orderStatus')() : null;
         break;
       case 'publicLesson':
         returnDom = item ? this.renderTypeTage(item, 'publicLesson')() : null;
@@ -546,9 +625,9 @@ class UserList extends React.Component {
   };
   handleCancel = () => {
     this.setState({
-      visible: false,
-      visible2: false,
+      visible: false
     });
+    this.editvisible2(false)
   };
   handleOk = (val) => {
     if (val == 'check') {
@@ -584,11 +663,16 @@ class UserList extends React.Component {
         payload: { params: submitParam },
       });
       this.setState({
-        visible: this.props.userListModel.visible,
-        visible2: this.props.userListModel.visible2,
+        visible: false
       });
     }
 
+  };
+  editvisible2 = current => {
+    this.props.dispatch({
+      type: 'userListModel/editvisible2',
+      payload: { current },
+    });
   };
   userGroupInput = (e) => {
     this.setState({
@@ -598,8 +682,9 @@ class UserList extends React.Component {
 
   render() {
     const { userList, currentPage = 1, totalCount = 0, totalUser = 0, groupCheck } = this.props.userListModel;
-    const { visible, visible2 } = this.state;
-    const { loading } = this.props;
+    const { visible } = this.state;
+    const { visible2 } = this.props.userListModel;
+    const { loading, loading2 } = this.props;
     const { pageParams } = this.state;
     const dataSource = userList;
     this.state.totalUser = thousandsFormat(totalUser);
@@ -620,7 +705,7 @@ class UserList extends React.Component {
             }}
             dataSource={dataSource} columns={columns()}
             pagination={false} loading={loading}
-            scroll={{ x: 2080, y: 570 }}
+            scroll={{ x: 2420, y: 570 }}
             size="middle"
           />
           <br />
@@ -628,56 +713,16 @@ class UserList extends React.Component {
           <BIPagination showQuickJumper defaultPageSize={pageParams.pageSize ? pageParams.pageSize : 30}
             onChange={this.onPageChange} current={currentPage} total={totalCount} />
         </div>
-        {/* 别忘了把！去掉 */}
         {
-          groupCheck ?
-            <BIModal
-              title={'创建用户组'}
-              visible={visible}
-              onOk={() => this.handleOk('check')}
-              onCancel={this.handleCancel}
-              footer={[
-                <BIButton key="submit" type="primary" onClick={() => this.handleOk('check')}>
-                  确定
-                </BIButton>,
-              ]}>
-              <div style={{ textAlign: 'center' }}>
-                <p style={{ paddingBottom: '0' }}>你有一个正在创建的用户组</p>
-                <p style={{ paddingBottom: '0' }}>预计需要5～10分钟</p>
-                <p style={{ paddingBottom: '0' }}>请在用户运营页查看最新的创建状态。</p>
-              </div>
-            </BIModal>
-            : <BIModal
-              title={'创建用户组'}
-              visible={visible}
-              onOk={() => this.handleOk('add')}
-              onCancel={this.handleCancel}
-              footer={[
-                <BIButton key="back" style={{ marginRight: 10 }} onClick={this.handleCancel}>
-                  取消
-                </BIButton>,
-                <BIButton key="submit" type="primary" onClick={() => this.handleOk('add')}>
-                  确定
-                </BIButton>,
-              ]}>
-              <div>
-                <p>保存{thousandsFormat(totalUser)}个学员为一个用户组，请设置用户组名称</p>
-                <TextArea
-                  onChange={this.userGroupInput}
-                  placeholder="输入名称"
-                  maxLength={50}
-                  style={{ resize: 'none' }}
-                  autosize={{ minRows: 2, maxRows: 2 }}
-                />
-              </div>
-            </BIModal>
+          loading2 ? null : <CreatUserGroupPop userGroupInput={this.userGroupInput} handleOk={this.handleOk} handleCancel={this.handleCancel} totalUser={totalUser} visible={visible} groupCheck={groupCheck}></CreatUserGroupPop>
         }
         <BIModal
           title={'创建用户组'}
           visible={visible2}
-          onOk={() => this.handleCancel()}
+          onOk={this.handleCancel}
+          onCancel={this.handleCancel}
           footer={[
-            <BIButton key="submit" type="primary" onClick={() => this.handleCancel()}>
+            <BIButton key="submit" type="primary" onClick={this.handleCancel}>
               确定
             </BIButton>,
           ]}>

@@ -249,6 +249,29 @@ export const routes = [
           },
         ],
       },
+      {
+        path: '/qualityMarking',
+        component: './ko/qualityMarking',
+        name: 'AI工作台',
+        pageRedirect: '/qualityMarking/im',
+        routes: [
+          {
+            path: '/qualityMarking/im',
+            component: './ko/qualityMarking/im',
+            commonPath: true,   // 继承父页面
+          },
+          {
+            path: '/qualityMarking/bbs',
+            component: './ko/qualityMarking/bbs',
+            commonPath: true,   // 继承父页面
+          },
+          {
+            path: '/qualityMarking/nps',
+            component: './ko/qualityMarking/nps',
+            commonPath: true,   // 继承父页面
+          },
+        ],
+      },
     ],
   },
 ];
