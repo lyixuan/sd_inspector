@@ -615,9 +615,7 @@ class UserList extends React.Component {
       type: 'userListModel/userGroupCheck',
       payload: {},
     });
-    this.setState({
-      visible: true,
-    });
+    this.state.visible = true;
   };
   handleCancel = () => {
     this.setState({
@@ -671,9 +669,8 @@ class UserList extends React.Component {
     });
   };
   userGroupInput = (e) => {
-    this.setState({
-      groupName: e.target.value,
-    });
+    console.log(653, e)
+    this.state.groupName = e.target.value
   };
 
   render() {
@@ -684,6 +681,7 @@ class UserList extends React.Component {
     const { pageParams } = this.state;
     const dataSource = userList;
     this.state.totalUser = thousandsFormat(totalUser);
+    console.log(663, groupCheck)
     return (
       <div>
         <div className={style.contentWrap}>

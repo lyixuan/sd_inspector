@@ -152,14 +152,14 @@ class BasicLayout extends React.PureComponent {
   };
 
   getPageTitle() {
-    const { routerData = {}, location } = this.props;
+    const { location } = this.props;
     const { pathname } = location;
     let title = '小德';
     let currRouterData = null;
     // match params path
-    Object.keys(routerData).forEach(key => {
+    Object.keys(routesData).forEach(key => {
       if (pathToRegexp(key).test(pathname)) {
-        currRouterData = routerData[key];
+        currRouterData = routesData[key];
       }
     });
     if (currRouterData && currRouterData.name) {
