@@ -65,7 +65,7 @@ export const homepage_main=`<?xml version="1.0" encoding="UTF-8"?>
                             <tspan class='text' data-name='homepage_main_click_ko_more$-1' x="106" y="170">0</tspan>
                         </text>
                         <text id="0">
-                            <tspan class='text' data-name='homepage_main_slide_ko_item$-1' x="0" y="196">0</tspan> 
+                            <tspan class='text' data-name='homepage_main_slide_ko_item$-1' x="14" y="196">0</tspan> 
                         </text>
                         <text id="0">
                             <tspan class='text' data-name='homepage_click_ko_item' x="106" y="242">0</tspan>
