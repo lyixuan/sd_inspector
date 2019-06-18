@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { message, Tag, Tooltip, Progress, Icon } from 'antd';
+import { message, Tag, Tooltip, Progress, Icon, Spin } from 'antd';
 import BITable from '@/components/BIKoTable';
 import BIButtonText from '@/components/BIButtonText';
 import BIPagination from '@/ant_components/BIPagination';
@@ -375,6 +375,7 @@ function DateBar(props) {
 }
 
 function CreatUserGroupPop(props) {
+  console.log(357, props)
   if (props.groupCheck) {
     return (
       <BIModal
@@ -669,7 +670,6 @@ class UserList extends React.Component {
     });
   };
   userGroupInput = (e) => {
-    console.log(653, e)
     this.state.groupName = e.target.value
   };
 
@@ -681,7 +681,6 @@ class UserList extends React.Component {
     const { pageParams } = this.state;
     const dataSource = userList;
     this.state.totalUser = thousandsFormat(totalUser);
-    console.log(663, groupCheck)
     return (
       <div>
         <div className={style.contentWrap}>
@@ -708,7 +707,7 @@ class UserList extends React.Component {
             onChange={this.onPageChange} current={currentPage} total={totalCount} />
         </div>
         {
-          loading2 ? null : <CreatUserGroupPop userGroupInput={this.userGroupInput} handleOk={this.handleOk} handleCancel={this.handleCancel} totalUser={totalUser} visible={visible} groupCheck={groupCheck}></CreatUserGroupPop>
+          loading2 ? <Spin tip="Loading..." style={{ position: 'fixed', left: '50%', top: '50%', zIndex: 1000 }} /> : <CreatUserGroupPop userGroupInput={this.userGroupInput} handleOk={this.handleOk} handleCancel={this.handleCancel} totalUser={totalUser} visible={visible} groupCheck={groupCheck}></CreatUserGroupPop>
         }
         <BIModal
           title={'创建用户组'}
