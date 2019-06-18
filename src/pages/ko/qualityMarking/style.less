@@ -33,7 +33,7 @@
   }
 }
 
-
+// 导出按钮样式
 .exportBtn {
   width: 90px;
   height: 34px;
@@ -44,12 +44,11 @@
   box-shadow: none;
   img {width: 14px;margin-right: 2px;}
 }
-.exportBtn:hover {
+.exportBtn:hover, .exportBtn:focus {
   background-color: @base-yellow;
   border-color: @base-yellow;
   color: @base-white;
 }
-
 .exportEvaluate {
   width: 102px;
   height: 34px;
@@ -60,12 +59,13 @@
   box-shadow: none;
   margin: 0 6px;
 }
-.exportEvaluate:hover {
+.exportEvaluate:hover, .exportEvaluate:focus {
   background-color: @base-blue;
   border-color: @base-blue;
   color: @base-white;
 }
 
+// 列表悬浮组件样式
 .listReactTooltip {
   max-width: 700px;
   max-height: 500px;
@@ -73,7 +73,7 @@
   pointer-events: auto;
 }
 
-
+// 悬浮框对话样式
 .behavior {
   padding: 10px 0 10px 10px;
   margin-bottom: 0;
@@ -277,226 +277,4 @@
 .step .prise img {
   width: 15px;
   vertical-align: middle;
-}
-
-/*bbs*/
-.behavior .post {
-  width: 340px;
-  padding: 0 0 15px 58px;
-}
-.behavior .post .postHead {
-  font-weight: bold;
-  margin-top: -4px;
-  margin-bottom: 0;
-  color: #000;
-}
-.behavior .post .postBody {
-  color: #595959;
-  line-height: 26px;
-  border-bottom: 1px dashed #e8e8e8;
-  padding: 8px 0;
-  word-break: break-all;
-}
-.behavior .post .postBody:nth-child(2){
-  margin-bottom:8px;
-}
-.behavior .post .postBody:nth-child(3){
-  background:#F6F7FA;
-  border-radius:4px;
-  padding-left:10px;
-  padding-right:10px;
-  position:relative;
-  z-index:2;
-}
-.behavior .post .postBody:nth-child(4){
-  background:#F6F7FA;
-  border-radius:4px;
-  margin-top:-4px;
-  padding-left:10px;
-  padding-right:10px;
-}
-
-.behavior .post .postBody:last-child {
-  border: none;
-}
-.behavior .post .postBody .toggle {
-  color: #52c9c2;
-  margin-left: 40px;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.study .studyTitle {
-  font-weight: bold;
-  color: #000;
-}
-.study .studyTitle .time {
-  color: #000;
-}
-.study .priseBox {
-  flex-wrap: wrap;
-  padding-left: 30px;
-  padding-bottom: 20px;
-}
-.study .prise1 {
-  display: flex;
-  color: #52c9c2;
-}
-.stars i {
-  margin-right: 5px;
-  color: #52c9c2;
-}
-.stars .empty {
-  color: #e8e8e8;
-}
-.study .prise2 {
-  display: flex;
-  padding: 10px 0 0;
-  flex-wrap: wrap;
-  max-width:380px;
-}
-.study .prise2 .label {
-  background: #f6f7fa;
-  border-radius: 4px;
-  height: 24px;
-  line-height: 24px;
-  font-size: 12px;
-  padding: 0 8px;
-  margin-right: 4px;
-  margin-bottom: 4px;
-}
-
-.privateLetter .privateToggle {
-  width: 330px;
-  border-radius: 4px;
-  box-sizing: border-box;
-  display: flex;
-  border: 1px solid #52c9c2;
-  margin: -10px 0 20px 30px;
-  padding: 12px;
-}
-
-.privateLetter .privateToggle {
-  /*margin-top:20px;*/
-}
-.privateLetter .privateToggle .avatar img {
-  width: 35px;
-  height: 35px;
-  border-radius: 100px;
-}
-
-.privateLetter .privateToggle .intro p {
-  font-size: 12px;
-  padding-left: 15px;
-  line-height: 20px;
-  margin-bottom: 0;
-  word-break: break-all;
-}
-.privateLetter .privateToggle .intro .name {
-  font-weight: bold;
-  font-size: 14px;
-  color: #000;
-  margin-bottom: 0;
-}
-.privateLetter .last .content {
-  padding-bottom: 20px;
-}
-
-.comWrap {
-  padding-top: 20px;
-  min-height: 700px;
-  position:relative;
-}
-.comWrap :global .ant-spin-nested-loading{
-  padding-bottom:70px;
-  width:50%;
-}
-.comWrap :global .ant-empty {
-  font-size: 12px;
-  margin-left: -68px;
-  margin-top: -10px;
-  width:480px;
-  .ant-empty-image {
-    height: 50px;
-  }
-}
-
-.prise3{
-  position:relative;
-  padding-left:70px;
-  width:300px;
-  word-break: break-all;
-  line-height:23px;
-  padding-top:8px;
-}
-.prise3::before{
-  content:"评价课程：";
-  position:absolute;
-  left:0;
-  top:10px;
-}
-
-.pagers{
-  width:100%;
-  position:absolute;
-  bottom:20px;
-  left:0;
-  box-sizing: border-box;
-  padding-right:30px;
-}
-.expressionArea{
-  width:140px;
-  height:24px;
-  background:#fff;
-  border-radius:14px;
-  margin-left:20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  box-sizing:border-box;
-  padding:0 4px;
-  .progress{
-
-    .progressText{
-      font-size:12px;
-      display:flex;
-      justify-content:space-between;
-      color:#262626;
-      margin-bottom:0;
-      line-height:14px;
-    }
-    .progressBar{
-      width:80px;
-      height:4px;
-      border-radius:14px;
-      background:#ccc;
-      overflow:hidden;
-      display:flex;
-      .bar1{
-        height:4px;
-        width:60%;
-        background:#52c9c2;
-      }
-      .bar2{
-        height:4px;
-        width:40%;
-        background:#FF6D6D;
-      }
-    }
-  }
-  img{
-    width:16px;
-    height:16px;
-  }
-}
-.tooltipContent{
-  h4{
-    color:#fff;
-    margin-top:10px;
-  }
-  p{
-    font-size:13px;
-    color:#B8BBBF;
-    margin-bottom:0;
-  }
 }
