@@ -30,9 +30,9 @@ class ShortcutButton extends React.Component {
     const {ids=[],currentId,status} = this.props;
 
     const mid = function() {
-      if ((status === 1||status === 2) && AuthButton.checkPathname('/scoreAppeal/appeal/dockingMan')){
+      if ((Number(status) === 1||Number(status) === 2) && AuthButton.checkPathname('/scoreAppeal/appeal/dockingMan')){
         return '审核'
-      } else if ((status === 5||status === 6) && AuthButton.checkPathname('/scoreAppeal/appeal/master')) {
+      } else if ((Number(status) === 5||Number(status) === 6) && AuthButton.checkPathname('/scoreAppeal/appeal/master')) {
         return '审核'
       } else {
         return ''
