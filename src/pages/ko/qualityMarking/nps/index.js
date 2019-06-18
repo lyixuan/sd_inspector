@@ -137,7 +137,6 @@ class bbsPage extends React.Component {
         params: {
           data: { ...others, type: exportType },
           headers: {
-            // 'Content-Disposition': 'attachment;filename=文件名',
             'Content-Type': 'application/vnd.ms-excel',
           },
         },

@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { getCollegeList, getConsultTypeTree, getReasonTypeTree, getTableList, exportData } from './services';
-import { msgF } from '@/utils/utils';
+import { downBlob, msgF } from '@/utils/utils';
 
 
 export default {
@@ -58,12 +58,18 @@ export default {
     },
     * exportExcelData({ payload, callback }, { call }) {
       const result = yield call(exportData, payload.params);
-      if (result.code && result.code !== 20000) {
-        message.error(msgF(result.msg, result.msgDetail));
+      if (result) {
+        const { headers } = result.response || {};
+        const filename = headers.get('content-disposition') || '';
+        const numName = filename.split('filename=')[1]; // 带后缀的文件名
+        const numName2 = numName.split('.')[0];   // 纯文件名
+        downBlob(result.data, `${eval("'"+numName2+"'")}.xlsx`);
+        message.success('导出成功');
       } else {
-        if (callback && typeof callback === 'function') {
-          callback(result); // 返回结果
-        }
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+      if (callback && typeof callback === 'function') {
+        callback(result); // 返回结果
       }
     },
   },
