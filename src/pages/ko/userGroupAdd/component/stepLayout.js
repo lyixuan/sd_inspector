@@ -88,13 +88,13 @@ class StepLayout extends Component {
             <div>{steps[current] ? steps[current].content : null}</div>
             <div className={styles.stepsAction}>
               {current === 0 && (
-                <BIButton onClick={() => this.cancel()}>
+                <BIButton onClick={() => this.cancel()} style={{ width: '75px', boxSizing: 'border-box' }}>
                   取消
                 </BIButton>
               )}
               {current > 0 &&
                 current !== steps.length - 1 && (
-                  <BIButton onClick={() => this.prev()}>
+                  <BIButton onClick={() => this.prev()} style={{ width: '75px', boxSizing: 'border-box' }}>
                     上一步
                   </BIButton>
                 )}
@@ -104,12 +104,13 @@ class StepLayout extends Component {
                   onClick={() => this.next()}
                   loading={isLoading}
                   disabled={isDisabled}
+                  style={{ width: '75px', boxSizing: 'border-box' }}
                 >
                   下一步
                 </BIButton>
               )}
               {current === steps.length - 1 && (
-                <BIButton type="primary" onClick={this.clickOk}>
+                <BIButton type="primary" onClick={this.clickOk} style={{ width: '75px', boxSizing: 'border-box' }}>
                   确定
                 </BIButton>
               )}
