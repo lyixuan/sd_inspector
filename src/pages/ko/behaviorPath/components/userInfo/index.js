@@ -51,7 +51,7 @@ function OrderDataLi(props) {
   if (!props.item.back_college_name && !props.item.back_family_name && !props.item.back_group_name) {
     end = "无"
   } else {
-    end = props.item.back_college_name + '/' + props.item.back_family_name + '/' + props.item.back_group_name
+    end = (props.item.back_college_name ? props.item.back_college_name : '') + '/' + (props.item.back_family_name ? props.item.back_family_name : '') + '/' + (props.item.back_group_name ? props.item.back_group_name : '')
   }
   if (name1 && name2) {
     front = name1 + '/' + name2
