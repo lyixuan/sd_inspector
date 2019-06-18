@@ -10,7 +10,6 @@ import DocPagination from './components/DocPagination';
 import DocDatePicker from './components/DocDatePicker';
 import DocTabs from './components/DocTabs';
 import DocTreeSelect from './components/DocTreeSelect';
-import Model from './Model/index.tsx';
 import ConditionSelect from './components/ConditionSececte';
 import Hooks from './components/hooks';
 
@@ -35,7 +34,6 @@ class Doc extends Component {
           <DocDatePicker />
           <DocTabs />
           <DocTreeSelect />
-          <Model />
           <ConditionSelect />
           <Hooks></Hooks>
         </div>
