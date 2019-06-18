@@ -6,6 +6,7 @@ import BIButton from '@/ant_components/BIButton';
 import styles from '../style.less';
 import { connect } from 'dva/index';
 import ReactTooltip from 'react-tooltip';
+import router from 'umi/router';
 
 const markType = 3; //im bbs nps 对应的额type值为1， 2， 3
 let exportType = ''; // 导出类型：11 - IM 21 - BBS 31 - NPS标签 32 - NPS自主评价
@@ -95,8 +96,11 @@ class bbsPage extends React.Component {
   handleMouseOut = (e) => {
     ReactTooltip.hide(this.fooRef);
   };
-  handleEdit = () => {
-
+  handleEdit = (record) => {
+    router.push({
+      pathname: '/qualityMarking/detail',
+      query: { id: record.id }
+    });
   };
   onSearchChange = (searchParams) => {
     this.setState({

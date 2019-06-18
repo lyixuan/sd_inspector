@@ -239,7 +239,7 @@ export const routes = [
         ],
       },
       {
-        path: '/qualityMarking',
+        path: '/qualityMarking/detail',
         name: 'AI工作台',
         routes: [
           {

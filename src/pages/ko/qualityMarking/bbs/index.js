@@ -7,6 +7,7 @@ import exportimg from '@/assets/ai/export.png';
 import styles from '../style.less';
 import { connect } from 'dva/index';
 import ReactTooltip from 'react-tooltip';
+import router from 'umi/router';
 
 const markType = 2; //im bbs nps 对应的type值为1， 2， 3
 const exportType = 21; // 导出类型：导出类型：11 - IM 21 - BBS 31 - NPS标签 32 - NPS自主评价
@@ -90,8 +91,11 @@ class bbsPage extends React.Component {
   handleMouseOut = (e) => {
     ReactTooltip.hide(this.fooRef);
   };
-  handleEdit = () => {
-
+  handleEdit = (record) => {
+    router.push({
+      pathname: '/qualityMarking/detail',
+      query: { id: record.id }
+    });
   };
   onSearchChange = (searchParams) => {
     this.setState({
