@@ -102,9 +102,11 @@ class AppealCreate extends React.Component {
   getUploadImg = (attUrlList) => {
     let newAttUrlList = [];
     for (let i = 0; i < attUrlList.length; i++) {
-      if (attUrlList[i].response) { // 判断是接口返回的数据还是自己上传的数据，json数据会不同 根据是否有response判断
+      // 判断是接口返回的数据还是自己上传的数据，json数据会不同 根据是否有response判断
+      if (attUrlList[i].response) {
         newAttUrlList.push(attUrlList[i].response.data.fileUrl);
-      } else {
+      }
+      if(attUrlList[i].url) {
         newAttUrlList.push(attUrlList[i].url.substring(attUrlList[i].url.indexOf('upload')));
       }
     }
