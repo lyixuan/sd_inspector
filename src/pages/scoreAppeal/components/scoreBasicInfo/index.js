@@ -52,7 +52,7 @@ export default class BasicInfoComponent extends React.Component {
               <div>学分日期：{creditDate}</div>
             </div>
             <div className={styles.secRow}>
-              <div>咨询ID：{imConsultId}</div>
+              {/*<div>咨询ID：{imConsultId}</div>*/}
               <div>工单发起时间：{workorderStartTime}</div>
             </div>
             <div className={styles.secRow}>
