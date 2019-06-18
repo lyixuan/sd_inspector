@@ -175,7 +175,6 @@ class AwaitAppeal extends React.Component {
     this.queryData(dimensionType,params,pg)
   }
   changePage(dimensionType,params,pg){
-    this.queryData(dimensionType,params,pg)
     const score_tab = storage.getSessionItem('score_tab');
     if (score_tab&&score_tab[this.state.dimensionType]) {
       const tabParams = score_tab[this.state.dimensionType];
