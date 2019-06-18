@@ -15,10 +15,6 @@ export const webpackConfig = {
     // echarts: 'echarts',
     // d3: 'd3',
   },
-  define: {
-    'process.env.LOGIN_TYPE': process.env.LOGIN_TYPE,
-    'process.env.PROXY_ENV': process.env.PROXY_ENV,
-  },
   // chainWebpack(config, { webpack }) {
   //     config.merge({
   //         optimization: {
@@ -52,22 +48,20 @@ export const webpackConfig = {
     '@': require('path').resolve(__dirname, 'src'),
   },
   proxy: {
-    proxy: {
-      '/proxy': {
-        target: proxy_env, //  区别于self接口
-        // target: 'http://172.16.59.42:8085', //  飞哥接口地址
-        target: 'http://172.16.117.65:8097', //  ko1.3测试接口地址
-        changeOrigin: true,
-        pathRewrite: { '/proxy': '/' }
-      },
-      '/oldApi': {
-        target: proxy_env, //  区别于self接口
-        changeOrigin: true,
-      },
-      '/tmpApi': {
-        target: proxy_env, //  区别于self接口
-        changeOrigin: true,
-      },
+    '/proxy': {
+      target: proxy_env, //  区别于self接口
+      // target: 'http://172.16.59.42:8085', //  飞哥接口地址
+      target: 'http://172.16.117.65:8097', //  ko1.3测试接口地址
+      changeOrigin: true,
+      pathRewrite: { '/proxy': '/' }
+    },
+    '/oldApi': {
+      target: proxy_env, //  区别于self接口
+      changeOrigin: true,
+    },
+    '/tmpApi': {
+      target: proxy_env, //  区别于self接口
+      changeOrigin: true,
     },
   },
 };

@@ -16,7 +16,7 @@ class AiDetail extends React.Component {
     super(props);
 
     this.state = {
-
+      type: "im"
     };
   }
   componentDidMount() {
@@ -29,22 +29,24 @@ class AiDetail extends React.Component {
   }
 
   render() {
-    const routerData = { name: "IM会话", bread: { name: "AI工作台", path: "/koUserOperation/userOperation" }, path: "/koUserOperation/userGroupAdd" }
+    const type = this.state.type
+    const routerData = { name: `${type}会话`, bread: { name: "AI工作台", path: "/koUserOperation/userOperation" }, path: "/koUserOperation/userGroupAdd" }
+
     return (
       <div style={{ marginTop: '-28px' }}>
         <PageHead routerData={routerData}></PageHead>
         <div className={styles.aiDetail}>
           <div className={styles.baseInfo}>
             <div className={styles.headBar}>基本信息</div>
-            <DetailIm></DetailIm>
-            {/* <DetailBbs></DetailBbs> */}
-            {/* <DetailNps></DetailNps> */}
+            {type == 'im' ? <DetailIm></DetailIm> : null}
+            {type == 'bbs' ? <DetailBbs></DetailBbs> : null}
+            {type == 'nps' ? <DetailNps></DetailNps> : null}
           </div>
           <div className={styles.dataClassfy}>
             <div className={styles.headBar}>数据分类</div>
-            <DataClassfy></DataClassfy>
-            {/* <DataClassfyBbs></DataClassfyBbs>
-            <DataClassfyNps></DataClassfyNps> */}
+            {type == 'im' ? <DataClassfy></DataClassfy> : null}
+            {type == 'bbs' ? <DataClassfyBbs></DataClassfyBbs> : null}
+            {type == 'nps' ? <DataClassfyNps></DataClassfyNps> : null}
           </div>
         </div>
       </div>
