@@ -21,12 +21,52 @@ function OrderData(props) {
   )
   return ul
 }
+function Paid(props) {
+  if (props.type == 'PAID') {
+    return <>已支付</>
+  } else if (props.type == 'EXPIRED') {
+    return <>已过服务期</>
+  } else if (props.type == 'UNPAID') {
+    return <>未支付</>
+  } else if (props.type == 'CANCELED') {
+    return <>已解约</>
+  } else if (props.type == 'FREEZED') {
+    return <>已冻结</>
+  } else if (props.type == 'REVOKED') {
+    return <>已取消</>
+  } else if (props.type == 'REPEALED') {
+    return <>已作废</>
+  } else if (props.type == 'STUCHANGED') {
+    return <>已转入</>
+  } else if (props.type == 'PRODCHANGED') {
+    return <>已转班</>
+  }
+
+}
 function OrderDataLi(props) {
+  let name1 = props.item.front_business_name,
+    name2 = props.item.front_legion_name
+  let front = null;
+  let end = null
+  if (!props.item.back_college_name && !props.item.back_family_name && !props.item.back_group_name) {
+    end = "无"
+  } else {
+    end = (props.item.back_college_name ? props.item.back_college_name : '') + '/' + (props.item.back_family_name ? props.item.back_family_name : '') + '/' + (props.item.back_group_name ? props.item.back_group_name : '')
+  }
+  if (name1 && name2) {
+    front = name1 + '/' + name2
+  } else if (name1 && !name2) {
+    front = name1
+  } else if (!name1 && name2) {
+    front = name2
+  } else {
+    front = "无"
+  }
   const text = <div className={styles.tooltipContent}>
     <h4>前端归属</h4>
-    <p>{props.item.front_business_name}/{props.item.front_legion_name}</p>
+    <p>{front}</p>
     <h4>后端归属</h4>
-    <p>{props.item.back_college_name}/{props.item.back_family_name}/{props.item.back_group_name}</p>
+    <p>{end}</p>
   </div>
   return (
     <li className={styles.card}>
@@ -34,7 +74,7 @@ function OrderDataLi(props) {
       <div className={styles.orderInfo}>
         <h4>{props.item.package_name}</h4>
         <p>
-          <span className={styles.price}>{props.item.order_amount}元</span> {props.item.status_code == 'PAID' ? '已支付' : '未支付'} {props.item.order_time}
+          <span className={styles.price}>{props.item.order_amount}元</span> <Paid type={props.item.status_code}></Paid> {props.item.order_time}
         </p>
       </div>
       <div className={styles.notice}>

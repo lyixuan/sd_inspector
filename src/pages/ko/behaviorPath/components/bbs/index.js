@@ -11,6 +11,7 @@ function DateBar(props) {
   return (
     <div>
       <div className={styles.dateBar} onClick={() => props.list.onClick(props.index)}>
+        <span>{props.date.date ? props.date.date.split(' ')[0] : ''}</span>
         <span>
           <Icon type={props.date.collapse ? "up" : "down"} />
         </span>
