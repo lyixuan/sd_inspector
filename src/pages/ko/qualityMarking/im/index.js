@@ -4,6 +4,7 @@ import MarkList from '../components/list';
 import ModalTip from '../components/modalTip';
 import BIButton from '@/ant_components/BIButton';
 import exportimg from '@/assets/ai/export.png';
+import router from 'umi/router';
 import styles from '../style.less';
 import { connect } from 'dva/index';
 import ReactTooltip from 'react-tooltip';
@@ -18,7 +19,7 @@ const exportType = 11; // 导出类型：导出类型：11 - IM 21 - BBS 31 - NP
 function Layout(props) {
   const layout = <section>
     <ul className={styles.behavior}>
-      {props.dataLists.map((item, index) => <ListItem li={item} key={index}/>)}
+      {props.dataLists.map((item, index) => <ListItem li={item} key={index} />)}
     </ul>
   </section>;
   return layout;
@@ -29,7 +30,7 @@ function ListItem(props) {
   if (!props.li) {
     return null;
   } else {
-    return <TeacherOrStudent item={props.li}/>;
+    return <TeacherOrStudent item={props.li} />;
   }
 }
 
@@ -44,15 +45,15 @@ function TeacherOrStudent(props) {
           </div>
           <div className={styles.content}>
             <div className={styles.bigDot}>
-              <span className={styles.dot}/>
+              <span className={styles.dot} />
             </div>
             <div className={styles.chatLeft}>
               <div className={styles.avatar}>
-                <img src={avatarStudent}/>
+                <img src={avatarStudent} />
                 <p>{props.item.userName}</p>
               </div>
               <div className={`${styles.chatContent} ${styles.miniApp}`}>
-                <img src={miniApp}/>
+                <img src={miniApp} />
                 {props.item.message}
               </div>
             </div>
@@ -67,16 +68,16 @@ function TeacherOrStudent(props) {
         </div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
-            <span className={styles.dot}/>
+            <span className={styles.dot} />
           </div>
           <div className={styles.chatLeft}>
             <div className={styles.avatar}>
-              <img src={avatarStudent}/>
+              <img src={avatarStudent} />
               <p>{props.item.userName}</p>
             </div>
             <div className={styles.chatContent}>
               <span className={styles.triangle}>
-                <em/>
+                <em />
               </span>
               {props.item.message}
             </div>
@@ -93,15 +94,15 @@ function TeacherOrStudent(props) {
           </div>
           <div className={styles.content}>
             <div className={styles.bigDot}>
-              <span className={styles.dot}/>
+              <span className={styles.dot} />
             </div>
             <div className={styles.chatRight}>
               <div className={`${styles.chatContent} ${styles.miniApp}`}>
-                <img src={miniApp}/>
+                <img src={miniApp} />
                 {props.item.message}
               </div>
               <div className={styles.avatar}>
-                <img src={avatarTeacher}/>
+                <img src={avatarTeacher} />
                 <p>{props.item.userName}</p>
               </div>
             </div>
@@ -117,17 +118,17 @@ function TeacherOrStudent(props) {
         </div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
-            <span className={styles.dot}/>
+            <span className={styles.dot} />
           </div>
           <div className={styles.chatRight}>
             <div className={styles.chatContent}>
               <span className={styles.triangle}>
-                <em/>
+                <em />
               </span>
               {props.item.message}
             </div>
             <div className={styles.avatar}>
-              <img src={avatarTeacher}/>
+              <img src={avatarTeacher} />
               <p>{props.item.userName}</p>
             </div>
           </div>
@@ -142,7 +143,7 @@ function TeacherOrStudent(props) {
   currentPage: workTableModel.pageParams[markType],
   searchParams: workTableModel.searchParams[markType] || {},
   collegeList: workTableModel.collegeList,// bbs nps
-  consultList: [{id: 0, name: '空'}].concat(workTableModel.consultList),// im
+  consultList: [{ id: 0, name: '空' }].concat(workTableModel.consultList),// im
   reasonList: workTableModel.reasonList,// im bbs nps
 }))
 class imPage extends React.Component {
@@ -173,7 +174,7 @@ class imPage extends React.Component {
           const showText = content.length > 10 ? content.substring(0, 10) + '...' : content;
           return (
             <span data-tip='' ref={ref => this.fooRef = ref} onMouseOver={this.handleMouseOver.bind(this, text)}
-                  onMouseOut={this.handleMouseOut}>{showText}</span>
+              onMouseOut={this.handleMouseOut}>{showText}</span>
           );
         },
       },
@@ -230,8 +231,11 @@ class imPage extends React.Component {
   handleMouseOut = (e) => {
     ReactTooltip.hide(this.fooRef);
   };
-  handleEdit = () => {
-
+  handleEdit = (record) => {
+    router.push({
+      pathname: '/qualityMarking/detail',
+      query: { id: record.id }
+    });
   };
   onSearchChange = (searchParams) => {
     this.setState({
@@ -251,7 +255,7 @@ class imPage extends React.Component {
       payload: { params: { ...searchParams, currentPage, type: markType } },
     });
   };
-  handleExport =() => {// 导出类型：11 - IM21 - BBS31 - NPS标签 32 - NPS自主评价
+  handleExport = () => {// 导出类型：11 - IM21 - BBS31 - NPS标签 32 - NPS自主评价
     this.setState({ visible: true });
   };
   handleOk = () => {
@@ -284,11 +288,11 @@ class imPage extends React.Component {
           {contentList.length > 0 && <Layout dataLists={contentList}></Layout>}
         </ReactTooltip>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
-                onSearchChange={this.onSearchChange}></MarkForm>
+          onSearchChange={this.onSearchChange}></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
-                columnsData={this.columnsData}>
+          columnsData={this.columnsData}>
           <BIButton onClick={this.handleExport} className={styles.exportBtn} size="large">
-            <img src={exportimg}/> 导出
+            <img src={exportimg} /> 导出
           </BIButton>
         </MarkList>
         <ModalTip visible={visible} handleOk={this.handleOk} handleCancel={this.handleCancel}></ModalTip>

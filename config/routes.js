@@ -207,17 +207,6 @@ export const routes = [
         ]
       },
       {
-        path: '/koAIPlantform',
-        name: 'AI工作台',
-        routes: [
-          {
-            path: '/koAIPlantForm/detail',
-            component: './ko/AIPlantForm/detail',
-            name: '详情',
-          }
-        ],
-      },
-      {
         path: '/koUserOperation',
         name: '用户运营',
         routes: [
@@ -247,6 +236,16 @@ export const routes = [
             component: './ko/koDailyReport',
             name: 'KO日报',
           },
+        ],
+      },
+      {
+        path: '/qualityMarking',
+        name: 'AI工作台',
+        routes: [
+          {
+            path: '/qualityMarking/detail',
+            component: './ko/qualityMarking/detail',
+          }
         ],
       },
       {
