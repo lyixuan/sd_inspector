@@ -91,10 +91,6 @@ class QualityAppealing extends React.Component {
   handleSubmitMaster = formParams => {
     const { appealParam } = this.state;
     const { qualityDetailData = {} } = this.props.qualityAppealing;
-    const otherObj = {
-      violationLevelName:BiFilter(`VIOLATION_LEVEL|id:${qualityDetailData.violationLevel}`).name,
-      violationName:qualityDetailData.dimension,
-    }
     if (appealParam.checkResult !== 0 && !appealParam.checkResult) {
       message.warn('审核结果为必选项');
       return;
@@ -111,6 +107,13 @@ class QualityAppealing extends React.Component {
       desc: appealParam.desc ? appealParam.desc : undefined,
       appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
     };
+    const otherObj = {
+      violationLevelName:BiFilter(`VIOLATION_LEVEL|id:${formParams.violationLevel}`).name,
+      violationName:formParams.violationName,
+      firstAppealEndDate:this.query.firstAppealEndDate,
+      // qualityValue:this.query.qualityValue,
+      // qualityType:this.query.qualityType,
+    }
     this.props.dispatch({
       type: 'qualityAppealing/reviewAppeal',
       payload: { qualityInspectionParam: {...formParams,...otherObj}, appealParam: appealParamNew },

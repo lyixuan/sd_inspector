@@ -3,9 +3,14 @@ import * as d3 from 'd3';
 import {HOT_RANGE} from '@/utils/constants';
 import {thousandsFormat} from '@/utils/utils'
 import pages from './SVG';
+import mainpages from './mainSVG';
 import styles from './style.less';
 
 let tip={}
+const currentPagesData = {
+  1: pages,
+  2: mainpages,
+}
 class KoDetailPage extends React.Component {
   constructor(props) {
     super(props);
@@ -148,7 +153,9 @@ class KoDetailPage extends React.Component {
     }
   }
   drewLended = (data,page,currentActionName) => {
-    this.chart = d3.select(this.svgDom).html(pages[page]);
+    const { belongApp = 1 } = this.props.tabFromParams;
+    const currentpages = currentPagesData[belongApp];
+    this.chart = d3.select(this.svgDom).html(currentpages[page]);
     if(data&&data.length){
       this.chart.selectAll('text').attr('dominant-baseline',"inherit").attr('text-anchor',"middle");
       this.chart.selectAll('.textWrap1 text').attr('dominant-baseline',"inherit").attr('text-anchor',"left");
@@ -174,6 +181,14 @@ class KoDetailPage extends React.Component {
         this.dealListDom(data,'click_change_live','livefeedpage_live_item',true);
       }else if(page==='majordetail'){
         this.specialData(data,['majordetail_click_intro _class$-1','majordetail_click_intro_class$-1'],'majordetail_click_intro_class');
+      } else if (page==='storelistpage_main') { // 主-商城列表页-列表排序展示前六条
+        this.dealListDom(data,'click_major','storelistpage_main_ko_item',true);
+      } else if (page==='kogoodslistpage_main') {// 主-Ko课程列表页-点击KO课程
+        this.specialData(data,['kogoodslistpage_main_click_goods$-1','kogoodslistpage_main_click_ko_item$-1', 'kogoodslistpage_main_click_product$-1'],'kogoodslistpage_main_click_ko_class');
+      } else if (page==='studypage_main') { // 主-学习页-重播字段相加 重播
+        this.specialData(data,['studypage_main_click_record_free$-1','studypage_main_click_record$-1'],'studypage_main_click_record');
+      } else if(page==='majordetailpage_main') {// 主-专业详情页-班型介绍相加
+        this.specialData(data,['majordetailpage_main_click_intro _class$-1','majordetailpage_main_click_intro_class$-1'],'majordetailpage_main_click_intro_class');
       }
       // 修改数据
       this.chart.selectAll('.text').text(function(){

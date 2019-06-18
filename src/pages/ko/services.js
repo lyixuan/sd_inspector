@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 // 页面枚举接口
 export async function getKOEnumList(params) {
-  return request('/homePage/enumList', { params });
+  return request('/homePage/enumList', { method: 'get', params });
 }
 // 获取配置时间接口
 export async function getKoDateRange(params) {
@@ -20,5 +20,10 @@ export async function getPageDetailInfoList(params) {
 // bar 数据
 export async function getBarData(params) {
   return request('/homePage/userList', { params });
+}
+
+// 用户组全部数据列表
+export async function getUserGroupList(params) {
+  return request('/userGroup/listAll', { method: 'get', params });
 }
 

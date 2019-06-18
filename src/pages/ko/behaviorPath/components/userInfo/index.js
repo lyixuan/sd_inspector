@@ -1,4 +1,5 @@
 import React from 'react';
+import { Icon, Tooltip } from 'antd';
 import styles from '../../style.less';
 import avatarStudent from '@/assets/avatarStudent.png';
 function Sex(props) {
@@ -13,8 +14,78 @@ function Sex(props) {
   }
 
 }
+
+function OrderData(props) {
+  const ul = props.info.map((item, index) =>
+    <OrderDataLi key={index} item={item}></OrderDataLi>
+  )
+  return ul
+}
+function Paid(props) {
+  if (props.type == 'PAID') {
+    return <>已支付</>
+  } else if (props.type == 'EXPIRED') {
+    return <>已过服务期</>
+  } else if (props.type == 'UNPAID') {
+    return <>未支付</>
+  } else if (props.type == 'CANCELED') {
+    return <>已解约</>
+  } else if (props.type == 'FREEZED') {
+    return <>已冻结</>
+  } else if (props.type == 'REVOKED') {
+    return <>已取消</>
+  } else if (props.type == 'REPEALED') {
+    return <>已作废</>
+  } else if (props.type == 'STUCHANGED') {
+    return <>已转入</>
+  } else if (props.type == 'PRODCHANGED') {
+    return <>已转班</>
+  }
+
+}
+function OrderDataLi(props) {
+  let name1 = props.item.front_business_name,
+    name2 = props.item.front_legion_name
+  let front = null;
+  let end = null
+  if (!props.item.back_college_name && !props.item.back_family_name && !props.item.back_group_name) {
+    end = "无"
+  } else {
+    end = (props.item.back_college_name ? props.item.back_college_name : '') + '/' + (props.item.back_family_name ? props.item.back_family_name : '') + '/' + (props.item.back_group_name ? props.item.back_group_name : '')
+  }
+  if (name1 && name2) {
+    front = name1 + '/' + name2
+  } else if (name1 && !name2) {
+    front = name1
+  } else if (!name1 && name2) {
+    front = name2
+  } else {
+    front = "无"
+  }
+  const text = <div className={styles.tooltipContent}>
+    <h4>前端归属</h4>
+    <p>{front}</p>
+    <h4>后端归属</h4>
+    <p>{end}</p>
+  </div>
+  return (
+    <li className={styles.card}>
+      <div className={`${styles.line} ${props.item.order_type == 1 ? null : styles.lineYellow}`}></div>
+      <div className={styles.orderInfo}>
+        <h4>{props.item.package_name}</h4>
+        <p>
+          <span className={styles.price}>{props.item.order_amount}元</span> <Paid type={props.item.status_code}></Paid> {props.item.order_time}
+        </p>
+      </div>
+      <div className={styles.notice}>
+        <Tooltip placement="left" title={text}>
+          <Icon type="info-circle" />
+        </Tooltip>
+      </div>
+    </li>
+  );
+}
 function ListenTime(props) {
-  console.log(17, props)
   if (props.time) {
     return (
       <>
@@ -33,8 +104,8 @@ class PathUserInfo extends React.Component {
     super(props);
   }
   render() {
-    const info = this.props.info[0];
-
+    const info = this.props.info.user[0];
+    const orderData = this.props.info.orderData;
     return (
       <div className={styles.personIntro}>
         <div className={styles.userArea}>
@@ -54,14 +125,12 @@ class PathUserInfo extends React.Component {
 
         </div>
         <ul className={styles.intro}>
-          <li>
+          {/* <li>
             <label>前端归属：</label>
             {
               info.frontOrgs ? <span dangerouslySetInnerHTML={{ __html: info.frontOrgs.replace(/[;；]/g, "$&<br />") }}>
               </span> : <span>{info.frontOrgs}</span>
             }
-            {/* <span dangerouslySetInnerHTML={{ __html: info.frontOrgs.replace(/[;；]/g, "$&<br />") }}>
-            </span> */}
           </li>
           <li>
             <label>后端归属：</label>
@@ -69,9 +138,7 @@ class PathUserInfo extends React.Component {
               info.backOrgs ? <span dangerouslySetInnerHTML={{ __html: info.backOrgs.replace(/[;；]/g, "$&<br />") }}>
               </span> : <span>{info.backOrgs}</span>
             }
-            {/* <span dangerouslySetInnerHTML={{ __html: info.backOrgs.replace(/[;；]/g, "$&<br />") }}>
-            </span> */}
-          </li>
+          </li> */}
           <li>
             <label>设备：</label>
             <span>{info.deviceModel ? info.deviceModel : '其他'}</span>
@@ -87,11 +154,19 @@ class PathUserInfo extends React.Component {
             <span>{info.choiceLessonStatus == 1 ? '已选课' : '未选课'}</span>
           </li>
           <li>
+            <label>付费订单：</label>
+            <span>{info.hasPaidOrder ? '是' : '否'}</span>
+          </li>
+          <li>
+            <label>是否选课前付费：</label>
+            <span>{info.paidFlag ? '选课前已付费' : '选课前未付费'}</span>
+          </li>
+          {/* <li>
             <label>选课名称：</label>
             <span>{info.choiceLessionName}</span>
-          </li>
+          </li> */}
         </ul>
-        <ul className={styles.intro}>
+        <ul className={styles.intro} style={{ display: 'none' }}>
           <li>
             <label>付费订单：</label>
             <span>{info.hasPaidOrder ? '是' : '否'}</span>
@@ -132,6 +207,15 @@ class PathUserInfo extends React.Component {
             <span>{info.studyCorrentRate ? (info.studyCorrentRate * 100).toFixed(2) : '0.00'}%</span>
           </li>
         </ul>
+        <div className={styles.orderInfo}>
+          <div className={styles.title}>
+            <span>订单信息</span>
+            <span>共{orderData.length}个</span>
+          </div>
+          <ul className={styles.orderList}>
+            <OrderData info={orderData}></OrderData>
+          </ul>
+        </div>
       </div>
     );
   }

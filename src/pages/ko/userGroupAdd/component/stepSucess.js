@@ -1,0 +1,24 @@
+/*
+* tipSucess，成功提示
+* imgtype, 图片类型0：删除，1：上传
+* */
+import React, { Component } from 'react';
+import styles from '../style.less';
+import sucessImg from '@/assets/sucessImg.png';
+import delImg from '@/assets/delImg.png';
+class stepSucess extends Component {
+  render() {
+    const { tipSucess, isDelImg } = this.props;
+    console.log(12, this.props)
+    return (
+      <div className={styles.wrapSucess}>
+        <div className={styles.imgSucess}>
+          <img src={isDelImg ? delImg : sucessImg} alt="" />
+        </div>
+        {tipSucess ? <div className={styles.tipSucess}> {tipSucess} </div> : null}
+      </div>
+    );
+  }
+}
+
+export default stepSucess;

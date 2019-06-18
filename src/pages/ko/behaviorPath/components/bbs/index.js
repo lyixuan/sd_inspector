@@ -5,12 +5,13 @@ import styles from '../../style.less';
 import Pager from '../pager/pager.js';
 
 
+
 // 日期条
 function DateBar(props) {
   return (
     <div>
       <div className={styles.dateBar} onClick={() => props.list.onClick(props.index)}>
-        <span>{props.date.date.split(" ")[0]}</span>
+        <span>{props.date.date ? props.date.date.split(' ')[0] : ''}</span>
         <span>
           <Icon type={props.date.collapse ? "up" : "down"} />
         </span>
@@ -161,7 +162,7 @@ class Bbs extends React.Component {
   componentDidMount() {
     this.mount(this.props);
   }
-  mount(props) {
+  didMount(props) {
     let list = [];
     if (props.behaviorPath.dateListBbs.length > 0) {
       props.behaviorPath.dateListBbs.map(item => {
@@ -171,22 +172,55 @@ class Bbs extends React.Component {
           dialogList: [],
         });
       });
-      console.log(174, this.state.currentIndex)
+
       list[this.state.currentIndex].collapse = true;
-      list[this.state.currentIndex].dialogList = props.behaviorPath.bbsData ? props.behaviorPath.bbsData : [];
+      list[this.state.currentIndex].dialogList = props.behaviorPath.bbsData;
       this.state.dateList = list;
       this.setState({
-        dateList: this.state.dateList
+        dateList: this.state.dateList,
       });
     } else {
       this.setState({
-        dateList: []
+        dateList: [],
       });
     }
   }
+  mount(props) {
+    if (props.behaviorPath.dateListBbs.length > 0) {
+      this.state.dateList[this.state.currentIndex].dialogList = props.behaviorPath.bbsData;
+      this.setState({
+        dateList: this.state.dateList,
+      });
+    }
+
+    // let list = [];
+    // if (props.behaviorPath.dateListBbs.length > 0) {
+    //   props.behaviorPath.dateListBbs.map(item => {
+    //     list.push({
+    //       date: item,
+    //       collapse: false,
+    //       dialogList: [],
+    //     });
+    //   });
+    //   console.log(174, this.state.currentIndex)
+    //   list[this.state.currentIndex].collapse = true;
+    //   list[this.state.currentIndex].dialogList = props.behaviorPath.bbsData ? props.behaviorPath.bbsData : [];
+    //   this.state.dateList = list;
+    //   this.setState({
+    //     dateList: this.state.dateList
+    //   });
+    // } else {
+    //   this.setState({
+    //     dateList: []
+    //   });
+    // }
+  }
 
   componentWillReceiveProps(nextProps) {
-    if ((JSON.stringify(nextProps.behaviorPath.bbsData) !== JSON.stringify(this.props.behaviorPath.bbsData)) || (JSON.stringify(nextProps.behaviorPath.dateListBbs) !== JSON.stringify(this.props.behaviorPath.dateListBbs))) {
+    if ((JSON.stringify(nextProps.behaviorPath.dateListBbs) !== JSON.stringify(this.props.behaviorPath.dateListBbs))) {
+      this.didMount(nextProps);
+    }
+    if ((JSON.stringify(nextProps.behaviorPath.bbsData) !== JSON.stringify(this.props.behaviorPath.bbsData))) {
       this.mount(nextProps);
     }
   }
@@ -210,11 +244,11 @@ class Bbs extends React.Component {
     this.setState({
       currentIndex: index
     })
-    this.state.dateList.map((item, i) => {
-      if (i != index) {
-        item.collapse = false
-      }
-    })
+    // this.state.dateList.map((item, i) => {
+    //   if (i != index) {
+    //     item.collapse = false
+    //   }
+    // })
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {

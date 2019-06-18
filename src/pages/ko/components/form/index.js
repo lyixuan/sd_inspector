@@ -9,7 +9,8 @@ class CommonForm extends React.Component {
         this.formInstance = new FormParams();
         const { originParams } = this.props;
         this.state = {
-            params: { ...this.formInstance.initParams, ...originParams },
+            params: { ...this.formInstance.initParams, ...originParams, orderMoney: undefined,
+              userGroup: undefined, },
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -21,7 +22,7 @@ class CommonForm extends React.Component {
     }
     handleCustomValue = (obj) => (formula = 1) => {
         const { value, minValue, maxValue } = obj;
-        const returnObj = { value, minValue, maxValue };;
+        const returnObj = { value, minValue, maxValue };
         Object.keys(returnObj).forEach(item => {
             const ls = returnObj[item];
             returnObj[item] = !ls ? ls : Number(ls) * formula;
@@ -103,6 +104,12 @@ class CommonForm extends React.Component {
             case 'orderMoney':
                 returnItem = item ? item : undefined;
                 break;
+            case 'userGroup':
+                returnItem = item ? item.value : undefined;
+                break;
+            case 'orderStatus':
+                returnItem = item ? item.value : undefined;
+                break;
             case 'koOrderGap':
                 // 时间间隔,处理到秒
                 returnItem = item ? this.handleCustomParams(item) : undefined;
@@ -153,4 +160,4 @@ class CommonForm extends React.Component {
         )
     }
 }
-export default CommonForm 
+export default CommonForm

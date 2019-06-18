@@ -214,7 +214,7 @@ function downPage2Deal(downPage2, downPage1) {
     node: [],
     links: [].concat(downPage2.links),
   };
-  downPage1.node.forEach((v) => {
+  downPage1.node && downPage1.node.forEach((v) => {
     for (let i = downPage2.node.length - 1; i >= 0; i--) {
       if (downPage2.node[i].id === v.id) {
         downPage2.node.splice(i, 1);
@@ -231,7 +231,7 @@ let ff = 0;
 function delP2Node(downPage1, downPage2) {
   ff = 1;
   // 删掉第二层的source 在第一层的node不存在的节点
-  downPage2.links.forEach((v1) => {
+  downPage2 && downPage2.links && downPage2.links[0] && downPage2.links.forEach((v1) => {
     let flag = 0;
     downPage1.node.forEach((v2) => {
       if (v1.source === v2.id) {
@@ -253,7 +253,6 @@ function delP2Node(downPage1, downPage2) {
           if (v4.id === v1.source) {
             ff = 2;
             downPage2.node.splice(i, 1);
-            console.log(v1.source)
             delP2Node(downPage1, downPage2);
             downPage2.links.forEach((v5, j) => {
               if (v1.source === v5.source) {
