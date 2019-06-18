@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Popover, message, Tag, Tooltip, Progress, Icon } from 'antd';
+import { message, Tag, Tooltip, Progress, Icon } from 'antd';
 import BITable from '@/components/BIKoTable';
 import BIButtonText from '@/components/BIButtonText';
 import BIPagination from '@/ant_components/BIPagination';
@@ -12,8 +12,8 @@ import moment from 'moment';
 import storage from '@/utils/storage';
 import style from './style.less';
 import config from '../../../../config/config';
-import face1 from '@/assets/face1.png';
-import face2 from '@/assets/face2.png';
+import face1 from '@/assets/face1.svg';
+import face2 from '@/assets/face2.svg';
 
 const dateFormat = 'YYYY.MM.DD';
 const { TextArea } = BIInput;
@@ -330,16 +330,12 @@ function columns() {
       });
     } else {
       v.render = (text) => {
-        const content = (
-          <div className={style.popover}>
-            {text}
-          </div>
-        );
         return (
           <>
-            <Popover content={content}>
+            {/* Tooltip */}
+            <Tooltip placement="top" title={text}>
               <BIButtonText>{text}</BIButtonText>
-            </Popover>
+            </Tooltip>
           </>
         );
       };

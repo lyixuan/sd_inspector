@@ -6,7 +6,7 @@ import styles from '../style.less';
 import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
 import BIInput from '@/ant_components/BIInput';
-import userEdit from '@/assets/userEdit.png';
+import userEdit from '@/assets/userEdit.svg';
 import { STATIC_HOST } from '@/utils/constants'
 import { thousandsFormat, downBlob } from '@/utils/utils';
 // import { downBlob, msgF } from '@/utils/utils';
