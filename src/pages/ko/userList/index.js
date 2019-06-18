@@ -594,9 +594,7 @@ class UserList extends React.Component {
       type: 'userListModel/userGroupCheck',
       payload: {},
     });
-    this.setState({
-      visible: true,
-    });
+    this.state.visible = true;
   };
   handleCancel = () => {
     this.setState({
@@ -662,6 +660,7 @@ class UserList extends React.Component {
     const { pageParams } = this.state;
     const dataSource = userList;
     this.state.totalUser = thousandsFormat(totalUser);
+    console.log(663, groupCheck)
     return (
       <div>
         <div className={style.contentWrap}>
