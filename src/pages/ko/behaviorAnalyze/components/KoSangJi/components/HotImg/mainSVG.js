@@ -331,7 +331,7 @@ export const studypage_main=`<?xml version="1.0" encoding="UTF-8"?>
                     </g>
                     <g id="中层" transform="translate(12.000000, 35.000000)" fill="#C1C1C1" fill-opacity="0.7" fill-rule="nonzero">
                         <rect class='mask' data-name='studypage_main_click_product$-1' id="矩形" x="0" y="0" width="74" height="20" rx="4"></rect>
-                        <rect class='mask' data-name='studypage_main_click_learningPlanning$-1' id="矩形" x="152" y="0" width="78" height="20" rx="4"></rect>
+                        <rect class='mask' data-name='studypage_main_click_learningplanning$-1' id="矩形" x="152" y="0" width="78" height="20" rx="4"></rect>
                         <rect id="矩形" x="0" y="28" width="230" height="56" rx="4"></rect>
                         <rect class='mask' data-name='studypage_main_click_itembank_flex$-1' id="矩形" x="0" y="152" width="230" height="61" rx="4"></rect>
                         <rect class='mask' data-name='studypage_main_click_lesson$-1' id="矩形" x="0" y="270" width="230" height="52" rx="4"></rect>
@@ -373,7 +373,7 @@ export const studypage_main=`<?xml version="1.0" encoding="UTF-8"?>
                             <tspan class='text' data-name='studypage_main_click_product$-1' x="0" y="11">0</tspan>
                         </text>
                         <text id="0">
-                            <tspan class='text' data-name='studypage_main_click_learningPlanning$-1' x="154" y="11">0</tspan>
+                            <tspan class='text' data-name='studypage_main_click_learningplanning$-1' x="154" y="11">0</tspan>
                         </text>
                         <text id="0">
                             <tspan x="78" y="57"></tspan>
