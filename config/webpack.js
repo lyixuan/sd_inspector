@@ -6,7 +6,8 @@ const proxyHost = {
     // development: 'http://172.16.117.64:8098', //64测试
     // development: 'http://172.16.117.65:8085', //64测试
     // development: 'http://172.16.59.142:8098', //本地测试
-    production: 'http://api.bd.ministudy.com',
+    // production: 'http://api.bd.ministudy.com',
+    production: 'http://172.16.117.64:8098',  // 预演
 };
 const proxy_env = proxyHost[process.env.PROXY_ENV];
 export const webpackConfig = {

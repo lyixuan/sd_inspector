@@ -102,6 +102,7 @@ export class BaseModels {
     getQualityValueFamter = (params) => {
         const { qualityValue } = params;
         const isPerformance = BaseModels.checkoutQualityPerfor(params);
+        console.log('isPerformance',isPerformance)
         return isPerformance && qualityValue && qualityValue > 0 ? (Number(qualityValue) * 100).toFixed(2) : qualityValue;
     }
     getMasterQualityValueFamter = (params) => {
@@ -113,6 +114,7 @@ export class BaseModels {
     setQualityValueFamter = (params) => {
         const { qualityValue } = params;
         const isPerformance = BaseModels.checkoutQualityPerfor(params);
+        console.log(1,isPerformance)
         return isPerformance && qualityValue && qualityValue > 0 ? Number(qualityValue || 0) * 100 / 10000 : qualityValue;
     }
     setMasterQualityValueFamter = (params, violationLevelObj) => {
