@@ -14,7 +14,7 @@ class DetailIm extends React.Component {
   }
   handleClick = (e) => {
     // 复制
-    copy(e.target.value)
+    copy('dddd')
     alert('复制成功', 1)
   }
 
@@ -80,7 +80,7 @@ class DetailIm extends React.Component {
         <div className={styles.imContent}>
           <div className={styles.dateBar}>
             <span>2019-09-09</span>
-            <span className={styles.btn}>
+            <span className={styles.btn} onClick={this.handleClick}>
               <Icon type="copy" />复制会话
             </span>
           </div>

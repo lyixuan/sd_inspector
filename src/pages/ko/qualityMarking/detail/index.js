@@ -10,17 +10,38 @@ import DataClassfyNps from './components/nps/dataClassfy.js';
 import PageHead from '@/components/PageHead/pageHead';
 import styles from './style.less';
 
-
+@connect(({ AiDetail }) => ({
+  AiDetail
+}))
 class AiDetail extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      type: "im"
+      type: "im",
+      id: 10
     };
   }
   componentDidMount() {
-
+    this.getPageData(); //获取页面数据
+  }
+  getPageData = () => {
+    let type = 1
+    if (this.state.type == 'im') {
+      type = 1;
+    } else if (this.state.type == 'bbs') {
+      type = 2;
+    } else {
+      type = 3;
+    }
+    let params = {
+      id: this.state.id,
+      type: type
+    }
+    this.props.dispatch({
+      type: 'AiDetail/edit',
+      payload: { params: params }
+    });
   }
   handleClick = (e) => {
     // 复制

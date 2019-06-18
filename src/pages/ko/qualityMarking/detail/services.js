@@ -8,3 +8,11 @@ export async function getConsultTypeTree() {
 export async function getReasonTypeTree() {
   return request('/workbench/getReasonTypeTree');
 }
+// 编辑
+export async function edit(data) {
+  return request('/workbench/edit', { method: 'post', data });
+}
+// 提交
+export async function submit(data) {
+  return request('/workbench/submit', { method: 'post', data });
+}

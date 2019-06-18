@@ -19,27 +19,26 @@ class DataClassfy extends React.Component {
     super(props);
     this.state = {
       consultTypeId: 91,
-      default: null
+      default: [5, 61]
     };
   }
   componentDidMount() {
     this.getConsultTree();//获取咨询分类树形结构
     this.getResonTree();//获取原因分类树形结构
     console.log(27, this.props.AiDetail)
-
   }
-  componentWillReceiveProps(nextProps) {
-    if (
-      JSON.stringify(nextProps.AiDetail.consultTypeTree) !==
-      JSON.stringify(this.props.AiDetail.consultTypeTree)
-    ) {
+  // componentWillReceiveProps(nextProps) {
+  //   if (
+  //     JSON.stringify(nextProps.AiDetail.consultTypeTree) !==
+  //     JSON.stringify(this.props.AiDetail.consultTypeTree)
+  //   ) {
 
-      this.setState({
-        default: [5, 61]
-      })
-    }
+  //     this.setState({
+  //       default: [5, 61]
+  //     })
+  //   }
 
-  }
+  // }
   getConsultTree = () => {
     this.props.dispatch({
       type: 'AiDetail/getConsultTypeTree',
@@ -60,6 +59,9 @@ class DataClassfy extends React.Component {
   }
   onChangeRadio = (e) => {
     console.log(23, e)
+
+  }
+  submit = () => {
 
   }
   render() {
@@ -114,7 +116,7 @@ class DataClassfy extends React.Component {
             </li>
           </ul>
           <div className={styles.btn}>
-            <BIButton type="primary">
+            <BIButton type="primary" onClick={this.submit}>
               提交，下一条
             </BIButton>
           </div>
