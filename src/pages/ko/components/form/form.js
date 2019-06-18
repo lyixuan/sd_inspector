@@ -261,6 +261,8 @@ class CommonForm extends React.Component {
               </div>
               {/* 空元素占位(待修改) */}
               <div className={styles.itemCls} />
+              <div className={styles.itemCls} />
+              <div className={styles.itemCls} />
             </div>
             <div className={styles.rowWrap}>
               <div className={styles.itemCls} />
