@@ -46,6 +46,9 @@ const urlPathMap = {
   '/qualityAppeal/qualityNexSheet/appealDetail': {
     name: '申诉详情',
   },
+  '/qualityAppeal/qualityAppeal/detail': {
+    name: '删除质检单',
+  },
   // ------------ 学分申诉
   '/scoreAppeal/awaitAppeal/specialNewer':{
     name: '待申诉',      // -优新

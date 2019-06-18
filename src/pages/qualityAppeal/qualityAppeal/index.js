@@ -462,6 +462,7 @@ class QualityAppeal extends React.Component {
   //结案质检申诉 => 删除质检单号  只有结案申诉列表中的申诉单才能删除  待联调
   onDelete = record => {
     const that = this;
+    const { p = null } = this.props.location.query;
     console.log(record.id); // 删除的id
     confirm({
       className: 'BIConfirm',
@@ -470,12 +471,13 @@ class QualityAppeal extends React.Component {
       okText: '确定',
       onOk() {
        const a =  that.props
-        .dispatch({
-          type: 'qualityCheck/deleteAppeal',
-          payload: { params: { id: record.id} },
-        })
+        // that.dispatch({
+        //   type: 'qualityCheck/deleteAppeal',
+        //   payload: { params: { id: record.id} },
+        // })
         message.success('删除成功');
-        console.log(a,'a');
+        that.queryData(JSON.parse(p));
+        // 
       },
       onCancel() {},
     });
@@ -626,7 +628,7 @@ class QualityAppeal extends React.Component {
                   查看详情
                 </span>
               </AuthButton>
-              <AuthButton authority="/qualityAppeal/qualityAppeal/detail">
+              <AuthButton authority="/qualityAppeal/qualityAppeal/delete">
                 <span
                   style={{ marginLeft: '-5px' }}
                   className={style.actionBtn}
