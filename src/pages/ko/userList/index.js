@@ -392,6 +392,7 @@ function CreatUserGroupPop(props) {
           <p>保存{thousandsFormat(props.totalUser)}个学员为一个用户组，请设置用户组名称</p>
           <TextArea
             onChange={props.userGroupInput}
+            defaultValue={props.groupName}
             placeholder="输入名称"
             maxLength={50}
             style={{ resize: 'none' }}
@@ -650,6 +651,7 @@ class UserList extends React.Component {
     });
   };
   userGroupInput = (e) => {
+    console.log(653, e)
     this.setState({
       groupName: e.target.value,
     });
@@ -689,7 +691,7 @@ class UserList extends React.Component {
             onChange={this.onPageChange} current={currentPage} total={totalCount} />
         </div>
         {
-          loading2 ? null : <CreatUserGroupPop userGroupInput={this.userGroupInput} handleOk={this.handleOk} handleCancel={this.handleCancel} totalUser={totalUser} visible={visible} groupCheck={groupCheck}></CreatUserGroupPop>
+          loading2 ? null : <CreatUserGroupPop groupName={this.state.groupName} userGroupInput={this.userGroupInput} handleOk={this.handleOk} handleCancel={this.handleCancel} totalUser={totalUser} visible={visible} groupCheck={groupCheck}></CreatUserGroupPop>
         }
         <BIModal
           title={'创建用户组'}
