@@ -94,7 +94,11 @@ class bbsPage extends React.Component {
   handleEdit = (record) => {
     router.push({
       pathname: '/qualityMarking/detail',
-      query: { id: record.id }
+      query: {
+        id: record.id,
+        idList: record.idList,
+        type: markType,
+      }
     });
   };
   onSearchChange = (searchParams) => {
