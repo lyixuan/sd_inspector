@@ -152,14 +152,14 @@ class BasicLayout extends React.PureComponent {
   };
 
   getPageTitle() {
-    const { routerData = {}, location } = this.props;
+    const { location } = this.props;
     const { pathname } = location;
     let title = '小德';
     let currRouterData = null;
     // match params path
-    Object.keys(routerData).forEach(key => {
+    Object.keys(routesData).forEach(key => {
       if (pathToRegexp(key).test(pathname)) {
-        currRouterData = routerData[key];
+        currRouterData = routesData[key];
       }
     });
     if (currRouterData && currRouterData.name) {
@@ -188,6 +188,10 @@ class BasicLayout extends React.PureComponent {
     this.props.dispatch({
       type: 'login/loginin',
     })
+  };
+  gobalMarkClass() {// 质检标注的几个页面布局 需要改变一下头部的样式
+    const tabGroup = ['/qualityMarking/im', '/qualityMarking/bbs', '/qualityMarking/nps'];
+    return tabGroup.includes(this.props.location.pathname) ? 'aiWorktable-ant-layout-content' : '';
   }
 
   render() {
@@ -220,7 +224,7 @@ class BasicLayout extends React.PureComponent {
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
           </Header>
-          <Content className="aiWorktable-ant-layout-content">
+          <Content className={this.gobalMarkClass()}>
             <ContentLayout {...this.props} routesData={routesData}>
               <Authorized
                 authority={checkPathname.bind(null, location.patchname)}

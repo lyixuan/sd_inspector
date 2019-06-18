@@ -25,7 +25,7 @@ class AiList extends React.Component {
   render() {
     const { pageSize, totalCount, currentPage, loading } = this.props;
     const workList = [
-      {id: 1, evaluate: '1111', content: '1111', contentList: [{
+      {id: 1, evaluate: '1111', content: '1111', idList: [], contentList: [{
       "appletFlag": false,
       "consultTime": "2019-04-29 15:25:43",
       "id": null,

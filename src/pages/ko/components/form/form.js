@@ -198,7 +198,7 @@ class CommonForm extends React.Component {
               <div className={styles.itemCls} />
               <div className={styles.itemCls} />
             </div>
-            <div className={styles.rowWrap} style={{ justifyContent: 'left' }}>
+            <div className={styles.rowWrap}>
               {/* <div className={styles.itemCls}> */}
               {/* <Form.Item label='来源渠道：'>
                 {getFieldDecorator('fromDevice', {
@@ -259,12 +259,13 @@ class CommonForm extends React.Component {
                   )}
                 </Form.Item>
               </div>
-              {/* 空元素占位(待修改) */}
+              <div className={styles.itemCls} />
+              <div className={styles.itemCls} />
               <div className={styles.itemCls} />
             </div>
-            <div className={styles.rowWrap}>
-              <div className={styles.itemCls} />
-              <div className={styles.itemCls}>
+            {/*<div className={styles.rowWrap}>*/}
+              {/*<div className={styles.itemCls} />*/}
+              {/*<div className={styles.itemCls}>*/}
                 {/*<Form.Item label='公共课：'>*/}
                 {/*{getFieldDecorator('publicLesson', {*/}
                 {/*initialValue: params.publicLesson,*/}
@@ -274,8 +275,8 @@ class CommonForm extends React.Component {
                 {/*</BISelect>*/}
                 {/*)}*/}
                 {/*</Form.Item>*/}
-              </div>
-              <div className={styles.itemCls}>
+              {/*</div>*/}
+              {/*<div className={styles.itemCls}>*/}
                 {/*<Form.Item label='选课时间：'>*/}
                 {/*{getFieldDecorator('publicChoiceLessonTime', {*/}
                 {/*initialValue: params.publicChoiceLessonTime,*/}
@@ -286,24 +287,22 @@ class CommonForm extends React.Component {
                 {/*disabled={this.checkoutHasChooseClass('publicChoiceLessonTime')}*/}
                 {/*defaultPickerValue={this.handleDefaultPickerValue('publicChoiceLessonTime')}*/}
                 {/*disabledDate={(current) => this.disabledDate(current, 'publicChoiceLessonTime')}*/}
-                {/*// onChange={(value) => this.changeDate(value, 'publicChoiceLessonTime')}*/}
                 {/*/>*/}
                 {/*)}*/}
                 {/*</Form.Item>*/}
-              </div>
-              <div className={styles.itemCls}>
+              {/*</div>*/}
+              {/*<div className={styles.itemCls}>*/}
                 {/*<Form.Item label='资格证课：'>*/}
                 {/*{getFieldDecorator('certificateChoiceLesson', {*/}
                 {/*initialValue: params.certificateChoiceLesson,*/}
                 {/*})(*/}
                 {/*<BISelect placeholder="请选择" allowClear disabled={this.checkoutHasChooseClass('certificateChoiceLesson')}>*/}
-                {/*/!* <Option key='javascript' value="javascript">无</Option> *!/*/}
                 {/*{this.filterEnumData(5).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}*/}
                 {/*</BISelect>*/}
                 {/*)}*/}
                 {/*</Form.Item>*/}
-              </div>
-              <div className={styles.itemCls}>
+              {/*</div>*/}
+              {/*<div className={styles.itemCls}>*/}
                 {/*<Form.Item label='选课时间：'>*/}
                 {/*{getFieldDecorator('certificateChoiceLessonTime', {*/}
                 {/*initialValue: params.certificateChoiceLessonTime,*/}
@@ -316,8 +315,8 @@ class CommonForm extends React.Component {
                 {/*disabledDate={(current) => this.disabledDate(current, 'certificateChoiceLessonTime')} />*/}
                 {/*)}*/}
                 {/*</Form.Item>*/}
-              </div>
-            </div>
+              {/*</div>*/}
+            {/*</div>*/}
             <div className={styles.rowWrap}>
               <div className={styles.itemCls}>
                 <Form.Item label='学员出勤：'>
@@ -416,7 +415,17 @@ class CommonForm extends React.Component {
                         )}
                       </Form.Item>
                     </div>
-                    <div className={styles.itemCls} />
+                    <div className={styles.itemCls} >
+                      <Form.Item label='成单意向：'>
+                        {getFieldDecorator('intention', {
+                          initialValue: params.intention,
+                        })(
+                          <BISelect placeholder="请选择" allowClear>
+                            {this.filterEnumData(11).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                          </BISelect>
+                        )}
+                      </Form.Item>
+                    </div>
                     <div className={styles.itemCls} />
                     <div className={styles.itemCls} />
                   </div>

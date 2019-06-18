@@ -23,35 +23,17 @@ class AiForm extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.dispatch({
-    //   type: 'koPlan/pageParams',
-    // });
+    this.props.dispatch({
+      type: 'koPlan/pageParams',
+    });
     this.handleSearch();
   }
 
-  chooseEnumData = (type) => {
-    const { enumData = {} } = this.props;
-    let returnData = [];
-    if (type >= 1 && type <= 11) {
-      if (type === 5) {
-        return Array.isArray(enumData[type]) ? enumData[type].map(item => ({ ...item, value: item.name })) : [];
-      }
-      returnData = Array.isArray(enumData[type]) ? enumData[type] : [];
-    }
-    return returnData;
-  };
-  renderCascader = (label) => {
-    if (Array.isArray(label) && label.length === 0) return;
-    let labelStr = label.join('/');
-    labelStr = labelStr.length >= 6 ? `${labelStr.substr(0, 6)}...` : labelStr;
-    return <span>{labelStr}</span>;
-  };
   // 选择时间初始默认时间
-  handleDefaultPickerValue = (keyName) => {
-    const { KoDateRange } = this.props.koPlanPageParams;
-    const dateArr = handleDateFormParams(KoDateRange)[keyName] || [];
-    const [startTime, endTime] = dateArr;
-    return [moment(endTime).subtract(1, 'months'), moment(endTime)];
+  handleDefaultPickerValue = () => {
+    const cTime = new Date().getTime() - 2*24*60*60*1000;
+    const defTime = moment(cTime);
+    return [defTime, defTime];
   };
   // 选择时间可选范围限制
   disabledDate = (current, keyName) => {
@@ -90,7 +72,7 @@ class AiForm extends React.Component {
     const { searchParams } = this.props;
     for (let k in searchParams) {
       if (k === 'choiceTime') {
-        searchParams[k] = this.handleDefaultPickerValue('registerTime');
+        searchParams[k] = this.handleDefaultPickerValue();
       } else {
         searchParams[k] = undefined;
       }
@@ -103,8 +85,7 @@ class AiForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const { markType, searchParams, collegeList, consultList, reasonList, evaluateList } = this.props;
     const { loading } = this.props;
-    // const choiceTimeInit = searchParams.choiceTime || this.handleDefaultPickerValue('registerTime');
-    const choiceTimeInit = searchParams.choiceTime;
+    const choiceTimeInit = searchParams.choiceTime || this.handleDefaultPickerValue();
     return (
       <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
         <Form
@@ -112,7 +93,7 @@ class AiForm extends React.Component {
           className="ant-advanced-search-form"
           onSubmit={this.handleSearch}
         >
-          <Skeleton loading={false} active>
+          <Skeleton loading={loading !== false} active>
             <div className={styles.rowWrap}>
               <div className={styles.itemCls}>
                 <Form.Item label='选择时间：'>
@@ -171,6 +152,8 @@ class AiForm extends React.Component {
                   )}
                 </Form.Item>
               </div>}
+              <div className={styles.itemCls} />
+              {markType == 2 && <div className={styles.itemCls} />}
             </div>
           </Skeleton>
           <div className={`${styles.rowWrap} ${styles.buttonGroup}`}>

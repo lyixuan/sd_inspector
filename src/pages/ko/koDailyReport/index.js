@@ -17,7 +17,7 @@ class metaBase extends React.Component {
         src={iframeUrl}
         frameBorder="0"
         width="100%"
-        height="600"
+        height="2540"
         // allowTransparency
       ></iframe>
     );

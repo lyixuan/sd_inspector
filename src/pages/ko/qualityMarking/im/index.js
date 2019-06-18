@@ -234,7 +234,11 @@ class imPage extends React.Component {
   handleEdit = (record) => {
     router.push({
       pathname: '/qualityMarking/detail',
-      query: { id: record.id }
+      query: {
+        id: record.id,
+        idList: record.idList,
+        type: markType,
+      }
     });
   };
   onSearchChange = (searchParams) => {
@@ -266,7 +270,6 @@ class imPage extends React.Component {
         params: {
           data: { ...others, type: exportType },
           headers: {
-            // 'Content-Disposition': 'attachment;filename=文件名',
             'Content-Type': 'application/vnd.ms-excel',
           },
         },

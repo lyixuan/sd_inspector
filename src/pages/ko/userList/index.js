@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Popover, message, Tag, Tooltip, Progress, Icon } from 'antd';
+import { message, Tag, Tooltip, Progress, Icon, Spin } from 'antd';
 import BITable from '@/components/BIKoTable';
 import BIButtonText from '@/components/BIButtonText';
 import BIPagination from '@/ant_components/BIPagination';
@@ -12,8 +12,8 @@ import moment from 'moment';
 import storage from '@/utils/storage';
 import style from './style.less';
 import config from '../../../../config/config';
-import face1 from '@/assets/face1.png';
-import face2 from '@/assets/face2.png';
+import face1 from '@/assets/face1.svg';
+import face2 from '@/assets/face2.svg';
 
 const dateFormat = 'YYYY.MM.DD';
 const { TextArea } = BIInput;
@@ -330,16 +330,12 @@ function columns() {
       });
     } else {
       v.render = (text) => {
-        const content = (
-          <div className={style.popover}>
-            {text}
-          </div>
-        );
         return (
           <>
-            <Popover content={content}>
+            {/* Tooltip */}
+            <Tooltip placement="top" title={text}>
               <BIButtonText>{text}</BIButtonText>
-            </Popover>
+            </Tooltip>
           </>
         );
       };
@@ -379,6 +375,7 @@ function DateBar(props) {
 }
 
 function CreatUserGroupPop(props) {
+  console.log(357, props)
   if (props.groupCheck) {
     return (
       <BIModal
@@ -619,9 +616,7 @@ class UserList extends React.Component {
       type: 'userListModel/userGroupCheck',
       payload: {},
     });
-    this.setState({
-      visible: true,
-    });
+    this.state.visible = true;
   };
   handleCancel = () => {
     this.setState({
@@ -675,9 +670,7 @@ class UserList extends React.Component {
     });
   };
   userGroupInput = (e) => {
-    this.setState({
-      groupName: e.target.value,
-    });
+    this.state.groupName = e.target.value
   };
 
   render() {
@@ -714,7 +707,7 @@ class UserList extends React.Component {
             onChange={this.onPageChange} current={currentPage} total={totalCount} />
         </div>
         {
-          loading2 ? null : <CreatUserGroupPop userGroupInput={this.userGroupInput} handleOk={this.handleOk} handleCancel={this.handleCancel} totalUser={totalUser} visible={visible} groupCheck={groupCheck}></CreatUserGroupPop>
+          loading2 ? <Spin tip="Loading..." style={{ position: 'fixed', left: '50%', top: '50%', zIndex: 1000 }} /> : <CreatUserGroupPop userGroupInput={this.userGroupInput} handleOk={this.handleOk} handleCancel={this.handleCancel} totalUser={totalUser} visible={visible} groupCheck={groupCheck}></CreatUserGroupPop>
         }
         <BIModal
           title={'创建用户组'}
