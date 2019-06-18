@@ -22,9 +22,9 @@ import BaseInfo from '../../components/BaseInfo';
 class AppealCreate extends React.Component {
   constructor(props) {
     super(props);
-
+    const { query = {} } = this.props.location;
     this.state = {
-      collapse1: true,
+      collapse1: Number(query.type)===1,
       collapse2: true,
       visible: false,
       attUrlList: [],
