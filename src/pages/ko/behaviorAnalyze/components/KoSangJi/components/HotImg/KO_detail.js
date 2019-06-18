@@ -181,14 +181,14 @@ class KoDetailPage extends React.Component {
         this.dealListDom(data,'click_change_live','livefeedpage_live_item',true);
       }else if(page==='majordetail'){
         this.specialData(data,['majordetail_click_intro _class$-1','majordetail_click_intro_class$-1'],'majordetail_click_intro_class');
-      } else if (page==='storelistPage_main') { // 主-商城列表页-列表排序展示前六条
-        this.dealListDom(data,'click_major','storelistPage_main_ko_item',true);
-      } else if (page==='kogoodslistPage_main') {// 主-Ko课程列表页-点击KO课程
-        this.specialData(data,['kogoodslistPage_main_click_goods$-1','kogoodslistPage_main_click_ko_item$-1', 'kogoodslistPage_main_click_product$-1'],'kogoodslistPage_main_click_ko_class');
-      } else if (page==='studyPage_main') { // 主-学习页-重播字段相加 重播
-        this.specialData(data,['studyPage_main_click_record_free$-1','studyPage_main_click_record$-1'],'studyPage_main_click_record');
-      } else if(page==='majordetailPage_main') {// 主-专业详情页-班型介绍相加
-        this.specialData(data,['majordetailPage_main_click_intro _class$-1','majordetailPage_main_click_intro_class$-1'],'majordetailPage_main_click_intro_class');
+      } else if (page==='storelistpage_main') { // 主-商城列表页-列表排序展示前六条
+        this.dealListDom(data,'click_major','storelistpage_main_ko_item',true);
+      } else if (page==='kogoodslistpage_main') {// 主-Ko课程列表页-点击KO课程
+        this.specialData(data,['kogoodslistpage_main_click_goods$-1','kogoodslistpage_main_click_ko_item$-1', 'kogoodslistpage_main_click_product$-1'],'kogoodslistpage_main_click_ko_class');
+      } else if (page==='studypage_main') { // 主-学习页-重播字段相加 重播
+        this.specialData(data,['studypage_main_click_record_free$-1','studypage_main_click_record$-1'],'studypage_main_click_record');
+      } else if(page==='majordetailpage_main') {// 主-专业详情页-班型介绍相加
+        this.specialData(data,['majordetailpage_main_click_intro _class$-1','majordetailpage_main_click_intro_class$-1'],'majordetailpage_main_click_intro_class');
       }
       // 修改数据
       this.chart.selectAll('.text').text(function(){
