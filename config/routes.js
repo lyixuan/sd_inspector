@@ -238,16 +238,16 @@ export const routes = [
           },
         ],
       },
-      // {
-      //   path: '/qualityMarking/detail',
-      //   name: 'AI工作台',
-      //   routes: [
-      //     {
-      //       path: '/qualityMarking/detail',
-      //       component: './ko/qualityMarking/detail',
-      //     }
-      //   ],
-      // },
+      {
+        path: '/qualityMarking/detail',
+        name: 'AI工作台',
+        routes: [
+          {
+            path: '/qualityMarking/detail',
+            component: './ko/qualityMarking/detail',
+          }
+        ],
+      },
       {
         path: '/qualityMarking',
         component: './ko/qualityMarking',
@@ -266,9 +266,6 @@ export const routes = [
             path: '/qualityMarking/nps',
             component: './ko/qualityMarking/nps',
             commonPath: true,   // 继承父页面
-          }, {
-            path: '/qualityMarking/detail',
-            component: './ko/qualityMarking/detail',
           }
         ],
       },
