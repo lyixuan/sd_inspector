@@ -60,6 +60,7 @@ class stepInput extends Component {
       valueData = this.props.inputInfo.failList.join(" ");
     }
     let page = inputInfo.checkResult ? inputInfo.checkResult : inputInfo
+    console.log(63, inputContent)
     return (
       <div className={styles.wrap}>
         <CheckResult totalSize={page.total} failSize={page.failCount} successSize={page.successCount} />
@@ -67,7 +68,7 @@ class stepInput extends Component {
         {/* {inputInfo.checkResult ? (
           <div className={inputContent ? styles.inputInfo1 : styles.inputInfo}>{inputInfo}</div>
         ) : null} */}
-        {inputContent ? (
+        {inputContent && page.failCount > 0 ? (
           <div className={styles.inputContent}>
             {!inputTip ? <div className={styles.inputContent_title}>{inputTitle}</div> : null}
             <TextArea

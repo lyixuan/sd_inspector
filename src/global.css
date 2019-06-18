@@ -140,3 +140,10 @@ a,a:hover{
 /*.ant-table-header::-webkit-scrollbar {*/
   /*opacity: 0!important;*/
 /*}*/
+
+
+:global .ant-popover-inner-content .ant-btn-primary{
+  background:#52C9C2!important;
+  border-color:#52C9C2!important;
+}
+
