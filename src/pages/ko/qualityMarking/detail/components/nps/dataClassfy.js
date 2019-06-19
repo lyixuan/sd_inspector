@@ -24,40 +24,7 @@ class DataClassfy extends React.Component {
 
   }
   render() {
-    const options = [
-      {
-        value: 'zhejiang',
-        label: 'Zhejiang',
-        children: [
-          {
-            value: 'hangzhou',
-            label: 'Hangzhou',
-            children: [
-              {
-                value: 'xihu',
-                label: 'West Lake',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        value: 'jiangsu',
-        label: 'Jiangsu',
-        children: [
-          {
-            value: 'nanjing',
-            label: 'Nanjing',
-            children: [
-              {
-                value: 'zhonghuamen',
-                label: 'Zhong Hua Men',
-              },
-            ],
-          },
-        ],
-      },
-    ];
+    const { consultTypeTree, reasonTypeTree } = this.props.AiDetail;
     return (
       <>
         <div className={styles.consultContent}>
@@ -83,7 +50,7 @@ class DataClassfy extends React.Component {
             <li>
               <label>原因分类：</label>
               <div className={styles.selects}>
-                <BICascader options={options} onChange={this.onChange} placeholder="请选择" />
+                <BICascader options={reasonTypeTree} onChange={this.onChange} placeholder="请选择" />
               </div>
             </li>
             <li>

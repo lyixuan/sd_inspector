@@ -19,56 +19,69 @@ class DataClassfy extends React.Component {
     super(props);
     this.state = {
       consultTypeId: 91,
-      default: [5, 61]
+      consultTypeIdList: [],
+      reasonTypeIdList: [],
+      evaluationFlag: 1,
+      remark: ''
+
     };
   }
   componentDidMount() {
-    this.getConsultTree();//获取咨询分类树形结构
-    this.getResonTree();//获取原因分类树形结构
-    console.log(27, this.props.AiDetail)
-  }
-  // componentWillReceiveProps(nextProps) {
-  //   if (
-  //     JSON.stringify(nextProps.AiDetail.consultTypeTree) !==
-  //     JSON.stringify(this.props.AiDetail.consultTypeTree)
-  //   ) {
 
-  //     this.setState({
-  //       default: [5, 61]
-  //     })
-  //   }
-
-  // }
-  getConsultTree = () => {
-    this.props.dispatch({
-      type: 'AiDetail/getConsultTypeTree',
-      payload: {},
-    });
   }
-  getResonTree = () => {
-    this.props.dispatch({
-      type: 'AiDetail/getReasonTypeTree',
-      payload: {},
-    });
-  }
+  // 咨询类型切换
   onChangeConsult = (value) => {
     console.log(20, value)
+    value.map(item => {
+      this.state.consultTypeIdList.push(item.value)
+    })
   }
+  // 原因切换
   onChangeReson = (value) => {
     console.log(19, value)
+    value.map(item => {
+      this.state.reasonTypeIdList.push(item.value)
+    })
   }
+  // 选择是否质检
   onChangeRadio = (e) => {
-    console.log(23, e)
-
+    this.state.evaluationFlag = e.target.value
   }
+  // 备注
+  handleRemark = (e) => {
+    console.log(52, e.target.value)
+    this.state.remark = e.target.value
+  };
   submit = () => {
-
+    let type = 1;
+    if (this.props.type == 'im') {
+      type = 1;
+    } else if (this.props.type == 'bbs') {
+      type = 2;
+    } else {
+      type = 3;
+    }
+    let params = {
+      type: type,
+      id: this.props.id,
+      result: {
+        consultTypeIdList: this.state.consultTypeIdList, //咨询类型id
+        reasonTypeIdList: this.state.reasonTypeIdList,// 原因分类id
+        evaluationNature: '负面', //评价性质
+        evaluationFlag: this.state.evaluationFlag, //是否质检
+        remark: this.state.remark, //备注
+        orderId: null, //选择订单
+      }
+    };
+    console.log(65, params)
+    return;
+    this.props.dispatch({
+      type: 'AiDetail/submit',
+      payload: { params: params }
+    });
   }
   render() {
     const { consultTypeTree, reasonTypeTree } = this.props.AiDetail;
-    console.log(62, this.state.default)
-    let defaults = ['保险问题', '退保金额']
-    // defaults.push(this.state.default)
     return (
       <>
         <div className={styles.consultContent}>
@@ -79,7 +92,7 @@ class DataClassfy extends React.Component {
                 <BICascader
                   fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
                   options={consultTypeTree}
-                  value={this.state.default}
+                  value={this.state.consultTypeIdList}
                   onChange={this.onChangeConsult}
                   placeholder="请选择" />
               </div>
@@ -99,10 +112,10 @@ class DataClassfy extends React.Component {
               <p>负面</p>
             </li>
             <li>
-              <label>是否备注：</label>
-              <BIRadio onChange={this.onChangeRadio} defaultValue={2}>
-                <BIRadio.Radio value={1}>删除用户</BIRadio.Radio>
-                <BIRadio.Radio value={2}>添加用户</BIRadio.Radio>
+              <label>是否质检：</label>
+              <BIRadio onChange={this.onChangeRadio} defaultValue={1}>
+                <BIRadio.Radio value={1}>否</BIRadio.Radio>
+                <BIRadio.Radio value={2}>是</BIRadio.Radio>
               </BIRadio>
             </li>
             <li className={styles.textarea}>
@@ -111,7 +124,7 @@ class DataClassfy extends React.Component {
                 className={styles.inputTextArea}
                 autosize={{ minRows: 4, maxRows: 4 }}
                 placeholder="请输入"
-                onChange={this.handelChange}
+                onChange={this.handleRemark}
               />
             </li>
           </ul>
@@ -124,7 +137,6 @@ class DataClassfy extends React.Component {
             <p className={styles.number}>100/200</p>
             <Progress percent={50} showInfo={false} />
           </div>
-
         </div>
       </>
     );

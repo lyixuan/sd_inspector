@@ -23,7 +23,21 @@ class AiDetail extends React.Component {
     };
   }
   componentDidMount() {
+    this.getConsultTree();//获取咨询分类树形结构
+    this.getResonTree();//获取原因分类树形结构
     this.getPageData(); //获取页面数据
+  }
+  getConsultTree = () => {
+    this.props.dispatch({
+      type: 'AiDetail/getConsultTypeTree',
+      payload: {},
+    });
+  }
+  getResonTree = () => {
+    this.props.dispatch({
+      type: 'AiDetail/getReasonTypeTree',
+      payload: {},
+    });
   }
   getPageData = () => {
     let type = 1
@@ -50,7 +64,7 @@ class AiDetail extends React.Component {
   }
 
   render() {
-    const type = this.state.type
+    const { type, id } = this.state
     const routerData = { name: `${type}会话`, bread: { name: "AI工作台", path: "/koUserOperation/userOperation" }, path: "/koUserOperation/userGroupAdd" }
 
     return (
@@ -59,15 +73,15 @@ class AiDetail extends React.Component {
         <div className={styles.aiDetail}>
           <div className={styles.baseInfo}>
             <div className={styles.headBar}>基本信息</div>
-            {type == 'im' ? <DetailIm></DetailIm> : null}
-            {type == 'bbs' ? <DetailBbs></DetailBbs> : null}
-            {type == 'nps' ? <DetailNps></DetailNps> : null}
+            {type == 'im' ? <DetailIm type={type} id={id}></DetailIm> : null}
+            {type == 'bbs' ? <DetailBbs type={type} id={id}></DetailBbs> : null}
+            {type == 'nps' ? <DetailNps type={type} id={id}></DetailNps> : null}
           </div>
           <div className={styles.dataClassfy}>
             <div className={styles.headBar}>数据分类</div>
-            {type == 'im' ? <DataClassfy></DataClassfy> : null}
-            {type == 'bbs' ? <DataClassfyBbs></DataClassfyBbs> : null}
-            {type == 'nps' ? <DataClassfyNps></DataClassfyNps> : null}
+            {type == 'im' ? <DataClassfy type={type} id={id}></DataClassfy> : null}
+            {type == 'bbs' ? <DataClassfyBbs type={type} id={id}></DataClassfyBbs> : null}
+            {type == 'nps' ? <DataClassfyNps type={type} id={id}></DataClassfyNps> : null}
           </div>
         </div>
       </div>
