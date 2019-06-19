@@ -1,22 +1,12 @@
 // 处理umi对应的webpack配置
 // 根据API_ENV环境不同分为debugger开发代理(api),development为使用dev的api,production为使用线上api
 const proxyHost = {
-<<<<<<< HEAD
   localhost: 'http://127.0.0.1:8096',
   development: 'http://172.16.117.65:8096', //65测试
   // development: 'http://172.16.117.64:8098', //64测试
   // development: 'http://172.16.117.65:8085', //64测试
   // development: 'http://172.16.59.142:8098', //本地测试
   production: 'http://api.bd.ministudy.com',
-=======
-    localhost: 'http://127.0.0.1:8096',
-    development: 'http://172.16.117.65:8096', //65测试
-    // development: 'http://172.16.117.64:8098', //64测试
-    // development: 'http://172.16.117.65:8085', //64测试
-    // development: 'http://172.16.59.142:8098', //本地测试
-    // production: 'http://api.bd.ministudy.com',
-    production: 'http://172.16.117.64:8098',  // 预演
->>>>>>> master
 };
 const proxy_env = proxyHost[process.env.PROXY_ENV];
 export const webpackConfig = {
