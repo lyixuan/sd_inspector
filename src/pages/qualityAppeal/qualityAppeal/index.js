@@ -472,9 +472,12 @@ class QualityAppeal extends React.Component {
           .dispatch({
             type: 'qualityCheck/deleteQuality',
             payload: { id: record.id },
-          }).then(() => {
-            message.success('删除成功');
-            that.queryData(JSON.parse(p));
+          })
+          .then(res => {
+            if (res) {
+              message.success('删除成功');
+              that.queryData(JSON.parse(p));
+            }
           });
       },
       onCancel() {},
