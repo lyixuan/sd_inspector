@@ -2,7 +2,9 @@ import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
 import {
   getConsultTypeTree,
-  getReasonTypeTree
+  getReasonTypeTree,
+  edit,
+  submit
 } from './services';
 
 export default {
@@ -10,7 +12,8 @@ export default {
 
   state: {
     consultTypeTree: null,
-    reasonTypeTree: null
+    reasonTypeTree: null,
+    pageData: null,
   },
 
   effects: {
@@ -25,10 +28,31 @@ export default {
     },
     *getReasonTypeTree({ payload }, { call, put }) {
       const result = yield call(getReasonTypeTree, {});
-      console.log(16, result)
       if (result.code === 20000) {
         const reasonTypeTree = result.data || [];
         yield put({ type: 'save', payload: { reasonTypeTree } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *edit({ payload }, { call, put }) {
+      const params = payload.params
+      const result = yield call(edit, params);
+      console.log(16, result)
+      if (result.code === 20000) {
+        const pageData = result.data || [];
+        yield put({ type: 'save', payload: { pageData } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *submit({ payload }, { call, put }) {
+      const params = payload.params
+      const result = yield call(submit, params);
+      console.log(16, result)
+      if (result.code === 20000) {
+        const submit = result.data || [];
+        yield put({ type: 'save', payload: { submit } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
