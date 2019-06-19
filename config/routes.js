@@ -185,13 +185,13 @@ export const routes = [
           {
             path: '/ko/behaviorAnalyze',
             component: './ko/behaviorAnalyze',
-            name: '行为分析',
+            name: 'APP统计',
             commonPath: true,   // 继承父页面
           },
           {
             path: '/ko/userList',
             component: './ko/userList',
-            name: '用户列表',
+            name: '用户查询',
             commonPath: true,   // 继承父页面
           },
           {
@@ -220,7 +220,7 @@ export const routes = [
           {
             path: '/koUserOperation/userOperation',
             component: './ko/userOperation',
-            name: '用户运营',
+            name: '群组管理',
           },
           {
             path: '/koUserOperation/userGroupAdd',
