@@ -127,7 +127,7 @@ export default class KoForm extends React.Component {
     // const pageDetails = this.handlePageDetail(tabFromParams.page.value);
     const { loading, enumData } = this.props;
     return (
-      <div className={`${styles.searchBlock} ${formStyles.formStyle}`}>
+      <div className={`${formStyles.formStyle}`}>
         {/*第一行*/}
         <div className={styles.rowWrap}>
           <div className={styles.itemCls}>

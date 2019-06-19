@@ -61,7 +61,7 @@ class behavior extends React.Component {
       }
     });
     this.props.history.push({
-      pathname: '/ko/userList'
+      pathname: '/koUserData/userList'
     });
   }
 

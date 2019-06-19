@@ -188,12 +188,12 @@ export const routes = [
             name: 'APP统计',
             commonPath: true,   // 继承父页面
           },
-          {
-            path: '/ko/userList',
-            component: './ko/userList',
-            name: '用户查询',
-            commonPath: true,   // 继承父页面
-          },
+          // {
+          //   path: '/ko/userList',
+          //   component: './ko/userList',
+          //   name: '用户查询',
+          //   commonPath: true,   // 继承父页面
+          // },
           {
             path: '/ko/behaviorInfo',
             component: './ko/behaviorInfo',
@@ -209,9 +209,16 @@ export const routes = [
       {
         path: '/koUserData',
         component: './ko',
-        name: 'KO项目',
-        pageRedirect: '/ko/userList',
-        routes: []
+        name: '用户查询',
+        pageRedirect: '/koUserData/userList',
+        routes: [
+          {
+            path: '/koUserData/userList',
+            component: './ko/userList',
+            name: '用户查询',
+            commonPath: true,   // 继承父页面
+          },
+        ]
       },
       {
         path: '/koUserOperation',
