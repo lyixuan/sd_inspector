@@ -3,7 +3,7 @@ import {
   getAppealList,
   appealCancelQuality,
   appealExportExcel,
-  deleteAppeal
+  appealDeleteQuality
 } from '@/pages/qualityAppeal/qualityAppeal/services';
 import { downBlob, msgF } from '@/utils/utils';
 
@@ -75,17 +75,15 @@ export default {
       }
     },
     // 结案质检申诉 => 删除质检单号
-    *deleteAppeal({ payload }, { call, put }) {
-      console.log(1,'xxx');
-      const result = yield call(deleteAppeal, {...payload});
-      yield put({ type: 'save', payload: { data: 'success' } });
-      // const result = yield call(deleteAppeal, {...payload});
-      // const deleteAppealData = result.data ? result.data : {};
-      // if (result.code === 20000) {
-      //   yield put({ type: 'save', payload: { deleteAppealData } });
-      // } else {
-      //   message.error(msgF(result.msg, result.msgDetail));
-      // }
+    *deleteQuality({ payload }, { call, put }) {
+      const result = yield call(appealDeleteQuality, {...payload});
+      console.log(result,'result');
+      const deleteAppealData = result.data ? result.data : {};
+      if (result.code === 20000) {
+        yield put({ type: 'save', payload: { deleteAppealData } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
     },
   },
 

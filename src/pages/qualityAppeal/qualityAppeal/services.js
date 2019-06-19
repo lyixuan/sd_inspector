@@ -16,6 +16,6 @@ export async function appealCancelQuality(params) {
 }
 
 // 结案质检申诉 => 删除质检单号 
-export async function deleteAppeal(params) {
-  return request('/appeal/deleteAppeal', { params });
+export async function appealDeleteQuality(params) {
+  return request('/appeal/deleteQuality', { params });
 }

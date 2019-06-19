@@ -364,12 +364,11 @@ function dealQuarys(pm) {
   }
   return p;
 }
-@connect(({ qualityAppealHome, qualityCheck, loading, deleteAppeal }) => ({
+@connect(({ qualityAppealHome, qualityCheck, loading }) => ({
   qualityAppealHome,
   qualityCheck,
   loading: loading.effects['qualityCheck/getAppealList'],
   loading2: loading.effects['qualityCheck/exportExcel'],
-  deleteAppeal,
 }))
 class QualityAppeal extends React.Component {
   constructor(props) {
@@ -463,21 +462,20 @@ class QualityAppeal extends React.Component {
   onDelete = record => {
     const that = this;
     const { p = null } = this.props.location.query;
-    console.log(record.id); // 删除的id
     confirm({
       className: 'BIConfirm',
       title: '删除后数据不可见，请提前导出备份要删除的数据，是否确认删除？',
       cancelText: '取消',
       okText: '确定',
       onOk() {
-       const a =  that.props
-        // that.dispatch({
-        //   type: 'qualityCheck/deleteAppeal',
-        //   payload: { params: { id: record.id} },
-        // })
-        message.success('删除成功');
-        that.queryData(JSON.parse(p));
-        // 
+        that.props
+          .dispatch({
+            type: 'qualityCheck/deleteQuality',
+            payload: { id: record.id },
+          }).then(() => {
+            message.success('删除成功');
+            that.queryData(JSON.parse(p));
+          });
       },
       onCancel() {},
     });
@@ -634,7 +632,7 @@ class QualityAppeal extends React.Component {
                   className={style.actionBtn}
                   onClick={() => this.onDelete(record)}
                 >
-                  删除123
+                  删除
                 </span>
               </AuthButton>
             </>
