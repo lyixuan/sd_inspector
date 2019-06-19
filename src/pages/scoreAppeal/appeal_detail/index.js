@@ -26,8 +26,8 @@ class AppealCheck extends React.Component {
       collapse2: true,
     };
   }
-  componentDidMount() {
-    const {query={}} = this.props.location;
+  componentDidMount(nextProps) {
+    const {query={}} = nextProps?nextProps.location:this.props.location;
     this.props.dispatch({
       type: 'scoreAppealModel/queryBaseAppealInfo',
       payload: {params:{dimensionId:query.dimensionId,dimensionType:query.dimensionType}},
@@ -43,6 +43,11 @@ class AppealCheck extends React.Component {
     const {appealRecord:appealRecord2}=nextProps.scoreAppealModel;
     if (appealRecord1[1]&&appealRecord2[1]&&appealRecord2[2]) {
       this.setState({collapse1:false})
+    }
+    const {query:query1} = this.props.location;
+    const {query:query2} = nextProps.location;
+    if(query1.id!==query2.id) {
+      this.componentDidMount(nextProps);
     }
   }
 
@@ -102,7 +107,6 @@ class AppealCheck extends React.Component {
         ...query,...newQuery
       }
     });
-    this.componentDidMount();
   }
 
   onJumpAppeal(){
