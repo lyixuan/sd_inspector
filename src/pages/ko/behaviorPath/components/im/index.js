@@ -161,7 +161,7 @@ function MediaContent(props) {
   return li;
 }
 function AllType(props) {
-  console.log(164, props.type)
+  // console.log(164, props.type)
   if (props.type.type == 'cdsCard') {
     return (
       <div className={styles.cardType}>
@@ -200,7 +200,7 @@ function AllType(props) {
       <div className={styles.cardType}>
         <img src={cardIcon} />
         <div className={styles.cardInfo}>
-          <h4>{props.type.arr[0].province}省报考时间</h4>
+          <h4>{props.type.arr[0].province == 1 ? '' : props.type.arr[0].province}报考时间</h4>
           <p>卡片信息</p>
         </div>
       </div>
@@ -211,6 +211,16 @@ function AllType(props) {
         <img src={cardIcon} />
         <div className={styles.cardInfo}>
           <h4>{props.type.arr[0].collegeName}{props.type.arr[0].specialtyName}考试科目</h4>
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  } else if (props.type.type == 'examcard') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>{props.type.arr[0].collegeName}{props.type.arr[0].specialtyName}考试安排</h4>
           <p>卡片信息</p>
         </div>
       </div>
@@ -354,10 +364,12 @@ function TeacherOrStudent(props) {
     // 解析卡片类型
     let reg = /##[\s\S]*##/g
     let answer = props.item.message;
+    // 先把答案中的{{}}全部替换成1，错误数据处理
+    if (answer && answer.match(/\{\{(.+?)\}\}/g)) {
+      answer = answer.replace(/\{\{(.+?)\}\}/g, 1)
+    }
+
     if (answer && answer.match(reg)) {
-      // if (!JSON.parseanswer.match(reg)[0]) {
-      //   return <div>999999</div>;
-      // }
       let media = JSON.parse(answer.match(reg)[0].replace(/##/g, ""))
       let content = answer.replace(reg, "##placeholder##")
       let mediaContent = [];
