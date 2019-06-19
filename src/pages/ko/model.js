@@ -2,7 +2,7 @@ import { message } from 'antd';
 import { msgF } from '@/utils/utils';
 import {
   getKOEnumList,
-  getKoDateRange, getKOMessage, getPageDetailInfoList,
+  getKoDateRange, getKOMessage, getPageDetailInfoList, getUserGroupList,
 } from './services';
 
 
@@ -15,11 +15,14 @@ export default {
     pageList: [],
     tableList: [],
     tabFromParams: {},
+    originParams: {},
     pageParams: {},
     KOMessage: {},
-    pageDetailInfo: [],
+    // pageDetailInfo: [],
     usersData: {},
     chooseEventData: [],
+    userGroupListData: [],
+    pageDetailTotal: {},
   },
 
   effects: {
@@ -86,21 +89,53 @@ export default {
         message.error(msgF(response.msg, response.msgDetail));
       }
     },
-    *getPageList(_, { call, put, select }) {
-      const pageParams = yield select(state => state.koPlan.pageDetailInfo);
-      if (pageParams.length > 0) return;
-      const response = yield call(getPageDetailInfoList);
+    *getPageList({ payload }, { call, put, select }) {
+      // const pageParams = yield select(state => state.koPlan.pageDetailInfo);
+      // if (pageParams.length > 0) return;
+      const { belongApp } = payload;
+      const pageParams = (yield select(state => state.koPlan.pageDetailTotal))[belongApp];
+      if (pageParams && pageParams.length > 0) {
+        yield put({ type: 'getPageInit', payload: pageParams});
+        return;
+      };
+      const response = yield call(getPageDetailInfoList, payload);
       if (response.code === 20000) {
         const pageDetailInfo = response.data || [];
+        yield put({ type: 'getPageInit', payload: pageDetailInfo});
         yield put({
-          type: 'save',
-          payload: { pageDetailInfo },
-        })
+          type: 'savePageDetailTotal',
+          payload: { [belongApp]: pageDetailInfo },
+        });
       } else {
         message.error(response.msg);
       }
 
     },
+    *getUserGroupList({ payload }, { call, put, select }) {
+      const userGroup = yield select(state => state.koPlan.userGroupListData);
+      if (userGroup && userGroup.length > 0) return;
+      const response = yield call(getUserGroupList);
+      if (response && response.code === 20000 && response.data) {
+        const groupList = response.data.map(item => {
+          return { id: item.id, groupName: item.groupName}
+        });
+        yield put({
+          type: 'save',
+          payload: { userGroupListData: groupList }
+        });
+      }
+    },
+    *getPageInit({ payload }, { call, put,}) {
+      const pageDetailInfo = payload;
+      let pageVale = { page: '' };
+      if (pageDetailInfo.length > 0) {
+        pageVale = pageDetailInfo[0];
+      }
+      yield put({
+        type: 'saveTabFromParamsPage',
+        payload: { page: { value: pageVale.page, actionValue: pageVale.page } },
+      });
+    }
   },
 
   reducers: {
@@ -119,13 +154,21 @@ export default {
     saveTabFromParams(state, { payload }) {
       return { ...state, tabFromParams: payload };
     },
+    saveOriginParams(state, { payload }) {
+      return { ...state, originParams: payload };
+    },
     saveUserData(state, { payload }) {
       return { ...state, ...payload };
     },
     saveChooseEventData(state, { payload }) {
       return { ...state, ...payload };
-    }
-
+    },
+    saveTabFromParamsPage(state, { payload }) {
+      return { ...state, tabFromParams: { ...state.tabFromParams, ...payload} };
+    },
+    savePageDetailTotal(state, { payload }) {
+      return { ...state, pageDetailTotal: { ...state.pageDetailTotal, ...payload} };
+    },
   },
   subscriptions: {},
 };

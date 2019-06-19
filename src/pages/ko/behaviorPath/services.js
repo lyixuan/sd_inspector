@@ -24,6 +24,9 @@ export async function learningAct(params) {
   return request('/userTrack/learningAct', { method: 'post', data: params });
 }
 // 获取日期列表
+// export async function getDateList2(params) {
+//   return request('/userTrack/getDateList', { method: 'post', data: params });
+// }
 export async function getDateList2(params) {
   return request('/userTrack/getDateList', { method: 'post', data: params });
 }
@@ -32,6 +35,9 @@ export async function getDateRange() {
   return request('/userTrack/getEffectiveDateRange');
 }
 // 获取用户基本详情
+// export async function userInfo(params) {
+//   return request('/homePage/userBaseInfo', { params });
+// }
 export async function userInfo(params) {
   return request('/homePage/userBaseInfo', { params });
 }

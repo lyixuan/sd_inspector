@@ -3,6 +3,25 @@ import { Spin } from 'antd';
 import { connect } from 'dva';
 import KoSangJi from './components/KoSangJi';
 import BarEcharts from './components/EchartsBar'
+const pageDetailTotal = {
+  1: [
+    'homepage',//首页
+    'storelist',//商城
+    'studypage',//学习列表
+    'kogoodsdetail',//ko课程详情
+    'kolist',//ko课程列表
+    'majordetail',// 自考课程（专业）详情
+    'livefeedpage',//直播瀑布流页
+    'livebroadcastpage',//直播
+    'newPage',],
+  2: [
+    'homepage_main',//首页
+    'storelistpage_main',//商城
+    'studypage_main',//学习列表
+    'kogoodsdetailspage_main',//ko课程详情
+    'kogoodslistpage_main',//ko课程列表
+    'majordetailpage_main', ]// 自考课程（专业）详情,
+};
 @connect(({ behavior, koPlan, loading }) => ({
   behavior,
   tabFromParams: koPlan.tabFromParams,
@@ -18,15 +37,21 @@ class behavior extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.tabFromParams) !== JSON.stringify(this.props.tabFromParams)) {
       this.getData(nextProps.tabFromParams);
+      if (nextProps.tabFromParams.belongApp !== this.props.tabFromParams.belongApp) {
+        this.props.dispatch({
+          type: 'koPlan/getPageList',
+          payload: { belongApp: nextProps.tabFromParams.belongApp }
+        });
+      }
     }
   }
   getInitParams = () => {
     this.props.dispatch({
       type: 'koPlan/pageParams',
     });
-    this.props.dispatch({
-      type: 'koPlan/getPageList',
-    });
+    // this.props.dispatch({
+    //   type: 'koPlan/getPageList',
+    // });
   };
   gotoUserList = (params) => {
     this.props.dispatch({
@@ -44,6 +69,7 @@ class behavior extends React.Component {
     if (JSON.stringify(params) === '{}') return;
     const { formParams = {}, page, belongApp, ...others } = params;
     const otherParams = { ...others };
+    if (!pageDetailTotal[belongApp].includes(page.actionValue)) return; // 主-页面对应时在发出请求。
     this.props.dispatch({
       type: 'behavior/getSankeyList',
       payload: { params: { belongApp, page: page.actionValue }, formParams, otherParams }

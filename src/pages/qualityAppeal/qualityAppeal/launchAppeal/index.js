@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './style.less';
-import { Row, Col, Form, Input, Upload, message,Spin } from 'antd';
+import { Row, Col, Form, Input, Upload, message, Spin } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import SubOrderDetail from './../../components/subOrderDetail';
 import PersonInfo from './../../qualityNewSheet/detail/components/personInfo';
@@ -15,16 +15,16 @@ import router from 'umi/router';
 const { TextArea } = Input;
 let isLt10M = false;
 let isZip = false;
-@connect(({ Launch, qualityAppealHome,loading }) => ({
+@connect(({ Launch, qualityAppealHome, loading }) => ({
   Launch,
   qualityAppealHome,
   loading: loading.effects['Launch/launchAppeal'],
-  pageLoading: loading.effects['qualityAppealHome/getDetailData']||loading.effects['qualityAppealHome/getQualityDetailData']
+  pageLoading: loading.effects['qualityAppealHome/getDetailData'] || loading.effects['qualityAppealHome/getQualityDetailData']
 }))
 class Launch extends React.Component {
   constructor(props) {
     super(props);
-    const {id=null}=props.location.query;
+    const { id = null } = props.location.query;
     this.state = {
       paramId: {
         id,
@@ -54,12 +54,12 @@ class Launch extends React.Component {
     });
   }
   handleSubmit = () => {
-    const {secondAppealEndDate}=this.props.location.query;
+    const { secondAppealEndDate } = this.props.location.query;
     let params = this.state.params;
     params.firstAppealEndDate = this.firstAppealEndDate;
-    if(secondAppealEndDate){// 二次提交申诉
-      params.type=2;
-      params.firstAppealEndDate=secondAppealEndDate ;
+    if (secondAppealEndDate) {// 二次提交申诉
+      params.type = 2;
+      params.firstAppealEndDate = secondAppealEndDate;
     }
     if (!this.state.params.desc.replace(/(^\s*)/g, "")) {
       message.error('请填写申诉说明');
@@ -112,7 +112,7 @@ class Launch extends React.Component {
   };
   getAppealInfos(detailData) {
     let domFragment = [];
-    if(detailData.length>0){
+    if (detailData.length > 0) {
       detailData.forEach((item, index) => {
         domFragment.push(
           <div key={index}>
@@ -128,14 +128,14 @@ class Launch extends React.Component {
               onClick={index => this.handleAppealInfoCollapse(index)}
             />
 
-            {item.sopAppealCheck&&item.sopAppealCheck.length>0 ? (
+            {item.sopAppealCheck && item.sopAppealCheck.length > 0 ? (
               <SOPCheckResult
                 data={{
                   sopAppealCheck: item.sopAppealCheck,
                   isCollapse: this.state.appealInfoCollapse[index],
                 }}
               />
-            ):null}
+            ) : null}
 
             {item.masterAppealCheck ? (
               <SuperiorCheck
@@ -144,7 +144,7 @@ class Launch extends React.Component {
                   isCollapse: this.state.appealInfoCollapse[index],
                 }}
               />
-            ): null }
+            ) : null}
           </div>
         );
         this.state.appealInfoCollapse.push(false);
@@ -153,11 +153,11 @@ class Launch extends React.Component {
     return domFragment;
   }
   render() {
-    const {qualityAppealHome = {},loading} = this.props;
+    const { qualityAppealHome = {}, loading } = this.props;
     const qualityDetailData = qualityAppealHome.QualityDetailData;
     this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
-    const {masterQualityValue='',masterMail=''} = qualityDetailData;
-    const {secondAppealEndDate} = this.props.location.query
+    const { masterQualityValue = '', masterMail = '' } = qualityDetailData;
+    const { secondAppealEndDate } = this.props.location.query
 
     return (
       <Spin spinning={this.props.pageLoading}>
@@ -174,29 +174,29 @@ class Launch extends React.Component {
                 this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
               }
             >
-              {qualityDetailData.orderNum?(
+              {qualityDetailData.orderNum ? (
                 <div>
                   <div className={styles.divideLine} />
                   <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
                   <SubOrderDetail data={qualityDetailData.orderDetail} />
                 </div>
-              ):null}
+              ) : null}
 
               {/* 质检违规详情 */}
               <div className={styles.divideLine} />
-              <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail}/>
+              <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail} />
             </article>
           </section>
-          {secondAppealEndDate?
+          {secondAppealEndDate ?
             (
               <div className={styles.info}>
                 {this.getAppealInfos(qualityAppealHome.DetailData)}
                 <div className={styles.appealInfo}>
                   二次申诉
                   <span>
-                二次申诉截止日期：
+                    二次申诉截止日期：
                     {moment(Number(secondAppealEndDate)).format('YYYY-MM-DD')}
-                      </span>
+                  </span>
                 </div>
                 <div className={styles.originator}>申诉发起人</div>
                 <div className={styles.flexStyle}>
@@ -210,7 +210,7 @@ class Launch extends React.Component {
                       fileList={this.state.fileList}
                     >
                       <BIButton type="primary">上传附件</BIButton>
-                      <span style={{color:'#aaa',fontSize:12}}>（请上传10M以内的rar、zip格式文件）</span>
+                      <span style={{ color: '#aaa', fontSize: 12 }}>（请上传10M以内的rar、zip格式文件）</span>
                     </Upload>
                   </div>
                 </div>
@@ -218,11 +218,11 @@ class Launch extends React.Component {
                 <div className={styles.flexStyle}>
                   <div className={styles.label}>*申诉说明:</div>
                   <div className={styles.intro}>
-                    <TextArea maxLength={500}  rows={4} onChange={this.inputChange} />
+                    <TextArea maxLength={500} rows={4} onChange={this.inputChange} />
                   </div>
                 </div>
               </div>
-            ):
+            ) :
             (
               <div className={styles.info}>
                 <div className={styles.title}>申诉信息</div>
@@ -243,7 +243,7 @@ class Launch extends React.Component {
                         fileList={this.state.fileList}
                       >
                         <BIButton type="primary">上传附件</BIButton>
-                        <span style={{color:'#aaa',fontSize:12}}>（请上传10M以内的rar、zip格式文件）</span>
+                        <span style={{ color: '#aaa', fontSize: 12 }}>（请上传10M以内的rar、zip格式文件）</span>
                       </Upload>
                     </div>
                   </div>
@@ -251,7 +251,7 @@ class Launch extends React.Component {
                   <div className={styles.flexStyle}>
                     <div className={styles.label}>*申诉说明:</div>
                     <div className={styles.intro}>
-                      <TextArea maxLength={500}  rows={4} onChange={this.inputChange} />
+                      <TextArea maxLength={500} rows={4} onChange={this.inputChange} />
                     </div>
                   </div>
                 </div>
@@ -261,14 +261,14 @@ class Launch extends React.Component {
           <Row className="gutter-row">
             <Col span={24}>
               <div className={styles.gutterBox1}>
-              <span className={styles.gutterBtn2}>
-                <BIButton onClick={() => router.goBack()}>取消</BIButton>
-              </span>
+                <span className={styles.gutterBtn2}>
+                  <BIButton onClick={() => router.goBack()}>取消</BIButton>
+                </span>
                 <span className={styles.gutterBtn1}>
-                <BIButton type="primary" loading={loading} onClick={this.handleSubmit}>
-                  提交申诉
+                  <BIButton type="primary" loading={loading} onClick={this.handleSubmit}>
+                    提交申诉
                 </BIButton>
-              </span>
+                </span>
               </div>
             </Col>
           </Row>

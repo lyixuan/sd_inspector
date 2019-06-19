@@ -19,10 +19,10 @@ export default class ButtonGroup extends React.Component {
     pageOnscroll = (e) => {
         const pageTop = document.documentElement.scrollTop;
         const { top } = this.props;
-        // 此处应增加防抖操作   
+        // 此处应增加防抖操作
         if (parseInt(pageTop) > parseInt(top)) {
             this.setState({ isShowFiexd: true, expand: false });
-        } else if (parseInt(pageTop) <=  parseInt(top)) {
+        } else if (parseInt(pageTop) <= parseInt(top)) {
             this.setState({ isShowFiexd: false, expand: false });
         }
     }
@@ -107,6 +107,12 @@ export default class ButtonGroup extends React.Component {
             case 'orderMoney':
                 returnDom = item ? this.renderTypeTage(item, 'orderMoney')('custorm') : null
                 break;
+            case 'userGroup':
+                returnDom = item ? this.renderTypeTage({ value: item.value, name: item.name.substring(0,20) + (item.name.length > 20 ? '...' : '')}, 'userGroup')('custorm') : null
+                break;
+            case 'orderStatus':
+                returnDom = item ? this.renderTypeTage(item, 'orderStatus')('custorm') : null
+                break;
             case 'koOrderGap':
                 returnDom = item ? this.renderTypeTage(item, 'koOrderGap')('custorm') : null
                 break;
@@ -155,7 +161,6 @@ export default class ButtonGroup extends React.Component {
         const { isShowFiexd } = this.state;
         const children = this.renderChooseTags();
         const isHasChoose = children.filter(item => item).length > 0;
-
 
         return (
             !isHasChoose ? null :

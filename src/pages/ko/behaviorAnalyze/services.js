@@ -11,10 +11,10 @@ export async function sankeySuperApi({params,formParams,otherParams}) {
     msg: '成功',
     data: {}
   };
+  if (!postParams.page) return;
   const response = await request('/sankey/sankeyMapData', {method: 'post',  data:postParams});
   // const response = await request('http://172.16.58.175:8085/sankey/sankeyMapData', {method: 'post',  data:postParams ,prefix:null});
   if (response.code === 20000) {
-
     result.data.behaviourData = response.data.behaviourData?response.data.behaviourData : [];
     result.data.pvuvData = response.data.pvuvData?response.data.pvuvData : {};
     result.data.userSize = response.data.userSize||0;
