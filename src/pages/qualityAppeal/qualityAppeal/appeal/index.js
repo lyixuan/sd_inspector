@@ -10,11 +10,13 @@ import AppealInfo from '../../components/AppealInfo';
 import router from 'umi/router';
 import { message, Spin } from 'antd';
 import {BiFilter} from '@/utils/utils';
+import IllegalInfo from '../../qualityNewSheet/detail/components/illegalInfo';
 const confirm = BIModal.confirm;
 
 @connect(({ qualityAppealing, qualityAppealHome, loading }) => ({
   qualityAppealing,
   orgList: qualityAppealHome.orgList,
+  qualityAppealHome,
   submitLoading: loading.effects['qualityAppealing/reviewAppeal'],
   submitLoading2: loading.effects['qualityAppealing/sopAppeal'],
   pageLoading: loading.effects['qualityAppealing/getAppealInfo'] || loading.effects['qualityAppealing/getQualityDetailData']
@@ -89,6 +91,7 @@ class QualityAppealing extends React.Component {
     });
   };
   handleSubmitMaster = formParams => {
+    const {dimensionList1=[],dimensionList2=[]} = this.props.qualityAppealHome
     const { appealParam } = this.state;
     const { qualityDetailData = {} } = this.props.qualityAppealing;
     if (appealParam.checkResult !== 0 && !appealParam.checkResult) {
@@ -107,12 +110,16 @@ class QualityAppealing extends React.Component {
       desc: appealParam.desc ? appealParam.desc : undefined,
       appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
     };
+    let dimensionName = ''
+    dimensionList1.concat(dimensionList2).forEach((v)=>{
+      if (v.id === formParams.dimensionId) {
+        dimensionName= v.name
+      }
+    });
     const otherObj = {
       violationLevelName:BiFilter(`VIOLATION_LEVEL|id:${formParams.violationLevel}`).name,
-      violationName:formParams.violationName,
+      violationName:dimensionName,
       firstAppealEndDate:this.query.firstAppealEndDate,
-      // qualityValue:this.query.qualityValue,
-      // qualityType:this.query.qualityType,
     }
     this.props.dispatch({
       type: 'qualityAppealing/reviewAppeal',
@@ -138,6 +145,7 @@ class QualityAppealing extends React.Component {
   render() {
     const { checkResult, appealEndDate } = this.state;
     const { appealShow = [], qualityDetailData = {} } = this.props.qualityAppealing;
+    const { masterQualityValue = '', masterMail = '' } = qualityDetailData;
     const { submitLoading2 } = this.props;
     appealShow.forEach(v => {
       if (v.type === 1) {
@@ -167,6 +175,9 @@ class QualityAppealing extends React.Component {
                     <SubOrderDetail data={qualityDetailData.orderDetail} />
                   </div>
                 ) : null}
+                <div className={styles.divideLine} />
+                {/* 质检违规详情 */}
+                <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail} />
               </div>
               <div style={{ marginTop: 20 }}>
                 <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={() => this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>
