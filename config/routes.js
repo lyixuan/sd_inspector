@@ -207,6 +207,13 @@ export const routes = [
         ]
       },
       {
+        path: '/koUserData',
+        component: './ko',
+        name: 'KO项目',
+        pageRedirect: '/ko/userList',
+        routes: []
+      },
+      {
         path: '/koUserOperation',
         name: '用户运营',
         routes: [
