@@ -15,7 +15,7 @@ export default {
     qualityAppealList2: [],
     page1: {},
     page2: {},
-    deleteAppeal: {},
+    deleteAppealData: {},
   },
 
   effects: {
