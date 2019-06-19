@@ -16,11 +16,11 @@ const pageDetailTotal = {
     'newPage',],
   2: [
     'homepage_main',//首页
-    'storelistPage_main',//商城
-    'studyPage_main',//学习列表
-    'kogoodsdetailsPage_main',//ko课程详情
-    'kogoodslistPage_main',//ko课程列表
-    'majordetailPage_main', ]// 自考课程（专业）详情,
+    'storelistpage_main',//商城
+    'studypage_main',//学习列表
+    'kogoodsdetailspage_main',//ko课程详情
+    'kogoodslistpage_main',//ko课程列表
+    'majordetailpage_main', ]// 自考课程（专业）详情,
 };
 @connect(({ behavior, koPlan, loading }) => ({
   behavior,

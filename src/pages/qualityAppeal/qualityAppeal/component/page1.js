@@ -177,9 +177,19 @@ class NewQualitySheet extends React.Component {
           </Row>
           {/*第三行*/}
           <Row className={styles.gutterRow}>
-            <Col className={styles.gutterCol} span={8}>
-              {AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA') && (
+            <Col className={styles.gutterCol}  span={8}>
+              <AuthButton authority='/qualityAppeal/qualityAppeal/showQA'>
                 <div className={styles.gutterBox1}>
+                  <span className={styles.gutterLabel}>归属人</span>：
+                  <span className={styles.gutterForm}>
+                  <BIInput placeholder="请输入" allowClear value={userName} onChange={(e)=>this.onFormChange(e.target.value,'userName')}/>
+                </span>
+                </div>
+              </AuthButton>
+            </Col>
+            <Col className={styles.gutterCol} span={8}>
+              {AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')&& AuthButton.checkPathname('/qualityAppeal/qualityAppeal/appeal')&& (
+                <div className={styles.gutterBox2}>
                   <span className={styles.gutterLabel}>归属组织</span>：
                   <span className={styles.gutterForm}>
                   <BITreeSelect
@@ -196,16 +206,6 @@ class NewQualitySheet extends React.Component {
                 </span>
                 </div>
               )}
-            </Col>
-            <Col className={styles.gutterCol}  span={8}>
-              <AuthButton authority='/qualityAppeal/qualityAppeal/showQA'>
-              <div className={styles.gutterBox2}>
-                  <span className={styles.gutterLabel}>归属人</span>：
-                  <span className={styles.gutterForm}>
-                  <BIInput placeholder="请输入" allowClear value={userName} onChange={(e)=>this.onFormChange(e.target.value,'userName')}/>
-                </span>
-              </div>
-              </AuthButton>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox3}>

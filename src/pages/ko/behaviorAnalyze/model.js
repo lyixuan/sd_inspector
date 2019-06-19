@@ -139,30 +139,30 @@ export default {
           newbehaviourData = dealStudyPage(behaviourData, majordetailLsit, ['majordetail_click_intro_class', 'majordetail_click_intro _class$-1', 'majordetail_click_intro_class$-1'], 'majordetail');
         } else if (currentPage === 'kolist') {
           newbehaviourData = behaviourData.filter(item => item.actionKeyId !== 'kolist_click_ko_item$-1');
-        } else if (currentPage === 'majordetailPage_main') {// 主-专业详情页-班型介绍相加
+        } else if (currentPage === 'majordetailpage_main') {// 主-专业详情页-班型介绍相加
           var list = [
             {
               name: 'click_intro_class',
-              list: ['majordetailPage_main_click_intro _class$-1', 'majordetailPage_main_click_intro_class$-1'],
+              list: ['majordetailpage_main_click_intro _class$-1', 'majordetailpage_main_click_intro_class$-1'],
             },
           ];
-          newbehaviourData = dealStudyPage(behaviourData, list, ['majordetailPage_main_click_intro_class', 'majordetailPage_main_click_intro _class', 'majordetailPage_main_click_intro_class$-1'], 'majordetailPage_main');
-        } else if (currentPage === 'kogoodslistPage_main') {// 主-ko列表-点击ko课程相加
+          newbehaviourData = dealStudyPage(behaviourData, list, ['majordetailpage_main_click_intro_class', 'majordetailpage_main_click_intro _class', 'majordetailpage_main_click_intro_class$-1'], 'majordetailpage_main');
+        } else if (currentPage === 'kogoodslistpage_main') {// 主-ko列表-点击ko课程相加
           var list = [
             {
               name: 'click_goods',
-              list: ['kogoodslistPage_main_click_goods$-1','kogoodslistPage_main_click_ko_item$-1', 'kogoodslistPage_main_click_product$-1'],
+              list: ['kogoodslistpage_main_click_goods$-1','kogoodslistpage_main_click_ko_item$-1', 'kogoodslistpage_main_click_product$-1'],
             },
           ];
-          newbehaviourData = dealStudyPage(behaviourData, list, ['kogoodslistPage_main_click_goods', 'kogoodslistPage_main_click_goods$-1', 'kogoodslistPage_main_click_ko_item$-1', 'kogoodslistPage_main_click_product$-1'], 'kogoodslistPage_main');
-        } else if (currentPage === 'studyPage_main') {// 主-学习页-重播字段相加
+          newbehaviourData = dealStudyPage(behaviourData, list, ['kogoodslistpage_main_click_goods', 'kogoodslistpage_main_click_goods$-1', 'kogoodslistpage_main_click_ko_item$-1', 'kogoodslistpage_main_click_product$-1'], 'kogoodslistpage_main');
+        } else if (currentPage === 'studypage_main') {// 主-学习页-重播字段相加
           var list = [
             {
               name: 'click_record',
-              list: ['studyPage_main_click_record_free$-1','studyPage_main_click_record$-1'],
+              list: ['studypage_main_click_record_free$-1','studypage_main_click_record$-1'],
             },
           ];
-          newbehaviourData = dealStudyPage(behaviourData, list, ['studyPage_main_click_record', 'studyPage_main_click_record_free$-1','studyPage_main_click_record$-1'], 'studyPage_main');
+          newbehaviourData = dealStudyPage(behaviourData, list, ['studypage_main_click_record', 'studypage_main_click_record_free$-1','studypage_main_click_record$-1'], 'studypage_main');
         } else {
           newbehaviourData = behaviourData;
         }
