@@ -5,6 +5,7 @@
     "start:test": "cross-env NODE_ENV=development PROXY_ENV=development LOGIN_TYPE=localhost umi dev",
     "start:pro": "cross-env NODE_ENV=development PROXY_ENV=production LOGIN_TYPE=production umi dev",
     "build:dev": "cross-env NODE_ENV=production  PROXY_ENV=development LOGIN_TYPE=development umi build",
+    "build:pro": "cross-env NODE_ENV=production  PROXY_ENV=production LOGIN_TYPE=localhost umi build",
     "build": "cross-env NODE_ENV=production  PROXY_ENV=production LOGIN_TYPE=production umi build",
     "test": "umi test",
     "lint": "eslint --ext .js src",
