@@ -126,7 +126,7 @@ class OnAppeal extends React.Component {
     } else {
       this.props.dispatch({
         type: 'scoreAppealModel/exportExcel',
-        payload: { params },
+        payload: {params:{ ...params,...{type:1} }},
       })
     }
   };
