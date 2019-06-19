@@ -124,6 +124,7 @@ class DataClassfy extends React.Component {
                 className={styles.inputTextArea}
                 autosize={{ minRows: 4, maxRows: 4 }}
                 placeholder="请输入"
+                maxLength="100"
                 onChange={this.handleRemark}
               />
             </li>

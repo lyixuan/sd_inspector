@@ -18,7 +18,7 @@ class AiDetail extends React.Component {
     super(props);
 
     this.state = {
-      type: "im",
+      type: "bbs",
       id: 10
     };
   }
@@ -40,7 +40,7 @@ class AiDetail extends React.Component {
     });
   }
   getPageData = () => {
-    let type = 1
+    let type = 1;
     if (this.state.type == 'im') {
       type = 1;
     } else if (this.state.type == 'bbs') {

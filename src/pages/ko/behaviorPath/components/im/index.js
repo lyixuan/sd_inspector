@@ -215,7 +215,17 @@ function AllType(props) {
         </div>
       </div>
     )
-  } else if (props.type.type == 'lesson_video' || props.type.type == 'video' || props.type.type == 'img') {
+  } else if (props.type.type == 'queryScoreCard') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>{props.type.arr[0].data[0].province}{props.type.arr[0].data[0].packageName}{props.type.arr[0].data[0].buttonText}</h4>
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  } else if (props.type.type == 'lesson_video' || props.type.type == 'video' || props.type.type == 'img' || props.type.type == 'emoji') {
     return (
       <img src={props.type.arr[0].imgUrl ? props.type.arr[0].imgUrl : props.type.arr[0].url} style={{ width: '150px', height: 'auto', borderRadius: '10px' }} />
     )
@@ -251,7 +261,7 @@ function AllType(props) {
   )
 }
 function MediaType(props) {
-  if (props.type.media.type == "evaluation" || props.type.media.type == "province" || props.type.media.type == "projectShowList" || props.type.media.type == "artificial" || props.type.media.type == "customer" || props.type.media.type == "projectButtonCard") {
+  if (props.type.media.type == "evaluation" || props.type.media.type == "province" || props.type.media.type == "projectShowList" || props.type.media.type == "artificial" || props.type.media.type == "customer" || props.type.media.type == "shangdeStudent" || props.type.media.type == "projectButtonCard") {
     return null;
   }
   return (

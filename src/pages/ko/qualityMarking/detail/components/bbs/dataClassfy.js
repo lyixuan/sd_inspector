@@ -9,6 +9,9 @@ import styles from '../../style.less';
 
 const { TextArea } = Input;
 const { Option } = BISelect;
+@connect(({ AiDetail }) => ({
+  AiDetail
+}))
 class DataClassfy extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +27,7 @@ class DataClassfy extends React.Component {
 
   }
   render() {
-    const { consultTypeTree, reasonTypeTree } = this.props.AiDetail;
+    const { reasonTypeTree } = this.props.AiDetail;
     return (
       <>
         <div className={styles.consultContent}>
@@ -46,7 +49,10 @@ class DataClassfy extends React.Component {
             <li>
               <label>原因分类：</label>
               <div className={styles.selects}>
-                <BICascader options={reasonTypeTree} onChange={this.onChange} placeholder="请选择" />
+                <BICascader
+                  fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+                  onChange={this.onChangeReson}
+                  options={reasonTypeTree} onChange={this.onChange} placeholder="请选择" />
               </div>
             </li>
             <li>
@@ -59,6 +65,7 @@ class DataClassfy extends React.Component {
                 className={styles.inputTextArea}
                 autosize={{ minRows: 4, maxRows: 4 }}
                 placeholder="请输入"
+                maxLength="100"
                 onChange={this.handelChange}
               />
             </li>
