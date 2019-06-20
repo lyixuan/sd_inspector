@@ -15,9 +15,10 @@ const exportType = 21; // 导出类型：导出类型：11 - IM 21 - BBS 31 - NP
   workTableModel,
   currentPage: workTableModel.pageParams[markType],
   searchParams: workTableModel.searchParams[markType] || {},
-  collegeList: [{id: 0, name: '空'}].concat(workTableModel.collegeList),
+  collegeList: [{ id: 0, name: '空' }].concat(workTableModel.collegeList),
   consultList: workTableModel.consultList,
   reasonList: workTableModel.reasonList,
+  idList: workTableModel.idList
 }))
 class bbsPage extends React.Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class bbsPage extends React.Component {
         render: text => (
           <>
             <span data-tip={text} ref={ref => this.fooRef = ref}
-                  onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>{text.substring(0, 2)}</span>
+              onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>{text.substring(0, 2)}</span>
           </>
         ),
       },
@@ -96,7 +97,6 @@ class bbsPage extends React.Component {
       pathname: '/qualityMarking/detail',
       query: {
         id: record.id,
-        idList: record.idList,
         type: markType,
       }
     });
@@ -113,10 +113,10 @@ class bbsPage extends React.Component {
     }, () => this.queryData());
   }
   queryData = () => {
-    const { searchParams, currentPage} = this.state;
+    const { searchParams, currentPage } = this.state;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
-      payload: { params: {...searchParams, currentPage, type: markType} },
+      payload: { params: { ...searchParams, currentPage, type: markType } },
     });
   }
   handleExport = () => {
@@ -151,7 +151,7 @@ class bbsPage extends React.Component {
         <MarkForm {...this.props} markType={markType} searchParams={searchParams} onSearchChange={this.onSearchChange}></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange} columnsData={this.columnsData}>
           <BIButton onClick={this.handleExport} className={styles.exportBtn} size="large">
-            <img src={exportimg}/> 导出
+            <img src={exportimg} /> 导出
           </BIButton>
         </MarkList>
         <ModalTip visible={visible} handleOk={this.handleOk} handleCancel={this.handleCancel}></ModalTip>
