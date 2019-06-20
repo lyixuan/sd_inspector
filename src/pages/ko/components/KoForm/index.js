@@ -7,7 +7,7 @@ import moment from 'moment';
 import { PAGE_KEY_ACTION } from '@/utils/constants';
 import styles from './style.less';
 import formStyles from '../formCommon.less';
-import { handleDateParams, initRecordTimeListData } from '../../utils/utils';
+import { handleDateParams, initRecordTimeListData, handleRecordTimeParamsNew } from '../../utils/utils';
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY.MM.DD';
 const { Option } = BISelect;
@@ -99,7 +99,8 @@ export default class KoForm extends React.Component {
         typeof item === 'object' && returnArr.push(item);
       }
     });
-    return returnArr;
+    const [sTime, eTime] = this.handleDefaultPickerValue();
+    return returnArr.length === 0 ? [moment(sTime), moment(eTime)] : returnArr;
   }
   disabledDate = (current) => {
     const { KoDateRange } = this.props.pageParams;
@@ -109,9 +110,7 @@ export default class KoForm extends React.Component {
   }
   handleDefaultPickerValue = () => {
     const { KoDateRange } = this.props.pageParams;
-    const recordTimeList = initRecordTimeListData(KoDateRange);
-    const [beginTime, endTime] = recordTimeList;
-    return [moment(endTime).subtract(1,'months'), moment(endTime)]
+    return handleRecordTimeParamsNew(KoDateRange);
   }
   renderPagaData = (type) => {
     const { pageDetailTotal = {} } = this.props;
@@ -140,7 +139,7 @@ export default class KoForm extends React.Component {
                     format={dateFormat}
                     onChange={this.changeDate}
                     value={this.formateDateTime()}
-                    defaultPickerValue={this.handleDefaultPickerValue()}
+                    // defaultPickerValue={this.handleDefaultPickerValue()}
                     disabledDate={this.disabledDate} />
                 </span></>}
           </div>

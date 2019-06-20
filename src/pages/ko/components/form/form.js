@@ -241,7 +241,7 @@ class CommonForm extends React.Component {
                     <BIRangePicker
                       placeholder={["起始时间", "截止时间"]}
                       format={dateFormat}
-                      defaultPickerValue={this.handleDefaultPickerValue('registerTime')}
+                      // defaultPickerValue={this.handleDefaultPickerValue('registerTime')}
                       disabledDate={(current) => this.disabledDate(current, 'registerTime')}
                     // onChange={(value) => this.changeDate(value, 'registerTime')}
                     />
