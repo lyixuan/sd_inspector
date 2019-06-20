@@ -5,9 +5,9 @@ import {formatDateToWeek} from '@/utils/utils';
 export default class BasicInfoComponent extends React.Component {
   render() {
     const { baseAppealInfo = {},dimensionType } = this.props;
-    const { dimensionName,dimensionId,creditDate:creditDate1, completeDate, imConsultId, imNum, workorderStartTime, workorderFlowupFlag, bottomLineChannal, upFlag,score,source } = baseAppealInfo||{};
+    const { dimensionName,dimensionId,dimensionType:creditType,creditDate:creditDate1, completeDate, imConsultId, imNum, workorderStartTime, workorderFlowupFlag, bottomLineChannal, upFlag,score,source } = baseAppealInfo||{};
 
-    const IMName = Number(dimensionId) === 17?'不及时条数':Number(dimensionId)===15?'未回复条数':'不满意条数';
+    const IMName = Number(creditType) === 17?'不及时条数':Number(creditType)===15?'未回复条数':'不满意条数';
     const creditDate = formatDateToWeek(creditDate1);
     return (
       <section className={styles.personInfoCon}>
