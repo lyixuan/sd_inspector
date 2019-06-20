@@ -49,9 +49,10 @@ class behavior extends React.Component {
     this.props.dispatch({
       type: 'koPlan/pageParams',
     });
-    // this.props.dispatch({
-    //   type: 'koPlan/getPageList',
-    // });
+    this.props.dispatch({
+      type: 'koPlan/getPageList',
+      payload: { belongApp: this.props.tabFromParams.belongApp }
+    });
   };
   gotoUserList = (params) => {
     this.props.dispatch({
@@ -61,7 +62,7 @@ class behavior extends React.Component {
       }
     });
     this.props.history.push({
-      pathname: '/ko/userList'
+      pathname: '/koUserData/userList'
     });
   }
 

@@ -157,14 +157,13 @@ class koPlan extends React.Component {
         {(pathname === '/ko/dailyReport') || (pathname === '/ko/behaviorPath') ? null : <> <div className={styles.commonBox}>
           <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} usersData={this.props.usersData} pageParams={pageParams} loading={isLoadEnumData} userGroupListData={this.props.userGroupListData} />
         </div>
-          <div className={styles.tabBox}>
-            <KoTab {...this.props} />
+        {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <div className={styles.tabBox}>
+            {/*<KoTab {...this.props} />*/}
             {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <KoForm {...this.props} originParams={filterActionParams} onChange={this.changeFilterAction} loading={isLoadEnumData} />}
-            {pathname === '/ko/userList' ? <div>
-              <EventGroup data={chooseEventData} onChange={this.clearChooseEvent} />
-            </div> : null}
-
-          </div>
+            {/*{pathname === '/ko/userList' ? <div>*/}
+              {/*<EventGroup data={chooseEventData} onChange={this.clearChooseEvent} />*/}
+            {/*</div> : null}*/}
+          </div>}
         </>
         }
         <RenderRoute {...this.props} />
