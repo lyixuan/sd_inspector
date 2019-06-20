@@ -83,7 +83,7 @@ export default class BasicInfoComponent extends React.Component {
               <div>学分日期：{creditDate}</div>
             </div>
             <div className={styles.secRow}>
-              <div>UP值是否达标：{upFlag}</div>
+              <div>UP值是否达标：{upFlag?'是':'否'}</div>
               <div>学分：{score}</div>
             </div>
             <div className={styles.secRow}>
