@@ -142,6 +142,17 @@ class AppealCheck extends React.Component {
       });
     }
     if (this.checkType === 'master') {
+      const {detailInfo={}}=this.props;
+      const {baseAppealInfo={}}=detailInfo||{};
+      const emailParam = {
+        collegeId:baseAppealInfo.collegeId,
+        collegeName:baseAppealInfo.collegeName,
+        groupId:baseAppealInfo.groupId,
+        groupName:baseAppealInfo.groupName,
+        familyId:baseAppealInfo.familyId,
+        familyName:baseAppealInfo.familyName,
+        userName:baseAppealInfo.userName
+      };
       const params = {
         type:Number(query.firstOrSec),          // 1申 2申
         creditAppealId: Number(id),
@@ -153,7 +164,8 @@ class AppealCheck extends React.Component {
         appealNum,
         actualRecommendLevel,
         score,
-        tagList:checkedTags
+        tagList:checkedTags,
+        ...emailParam
       };
       const that = this;
       this.props.dispatch({
