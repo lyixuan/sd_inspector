@@ -101,7 +101,6 @@ class bbsPage extends React.Component {
       pathname: '/qualityMarking/detail',
       query: {
         id: record.id,
-        idList: record.idList,
         type: markType,
       }
     });
