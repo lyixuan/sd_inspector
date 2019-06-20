@@ -66,6 +66,12 @@ class bbsPage extends React.Component {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
+        render: text => {
+          const l = text ? text.length : 0;
+          return (
+            <span>{l > 20 ? text.substring(0, 20) + '...' : ''}</span>
+          )
+        },
       },
       {
         title: '操作人',

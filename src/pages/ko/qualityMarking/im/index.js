@@ -167,8 +167,8 @@ class imPage extends React.Component {
       },
       {
         title: '内容',
-        dataIndex: 'contentList',
-        key: 'contentList',
+        dataIndex: 'content',
+        key: 'content',
         render: text => {
           const content = Array.isArray(text) && text[0] ? text[0].message : '';
           const showText = content.length > 10 ? content.substring(0, 10) + '...' : content;
