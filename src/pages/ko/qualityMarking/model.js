@@ -16,6 +16,7 @@ export default {
     searchParams: {// 各列表搜索值
     },
     workList: [],// 列表数据
+    idList: [],//idList
     pageSize: 15,// 每页条数
     totalCount: 0,// 列表总值
   },
@@ -32,7 +33,7 @@ export default {
 
       }
       if (reasonResult && reasonResult.code && reasonResult.code === 20000) {
-        yield put({ type: 'save', payload: { reasonList: [{id: 0, name: '空'}].concat(reasonResult.data) } });
+        yield put({ type: 'save', payload: { reasonList: [{ id: 0, name: '空' }].concat(reasonResult.data) } });
 
       }
     },
@@ -46,8 +47,9 @@ export default {
         const { currentPage, type, ...others } = params;
         const data = result.data || {};
         const workList = Array.isArray(data.list) ? data.list : [];
+        const idList = data.idList
         const { totalCount, pageNum } = data;
-        yield put({ type: 'save', payload: { workList, totalCount } });
+        yield put({ type: 'save', payload: { workList, idList, totalCount } });
         yield put({
           type: 'saveParams',
           payload: { pageParams: { [type]: pageNum }, searchParams: { [type]: others } },
@@ -63,10 +65,10 @@ export default {
         const filename = headers.get('content-disposition') || '';
         const numName = filename.split('filename=')[1]; // 带后缀的文件名
         const numName2 = numName.split('.')[0];   // 纯文件名
-        downBlob(result.data, `${eval("'"+numName2+"'")}.xlsx`);
+        downBlob(result.data, `${eval("'" + numName2 + "'")}.xlsx`);
         message.success('导出成功');
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
       if (callback && typeof callback === 'function') {
         callback(result); // 返回结果

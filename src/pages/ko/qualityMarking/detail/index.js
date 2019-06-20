@@ -4,22 +4,21 @@ import { connect } from 'dva';
 import DetailIm from './components/im';
 import DetailBbs from './components/bbs';
 import DetailNps from './components/nps';
-import DataClassfy from './components/im/dataClassfy.js';
-import DataClassfyBbs from './components/bbs/dataClassfy.js';
-import DataClassfyNps from './components/nps/dataClassfy.js';
+import DataClassfy from './components/dataClassfy.js';
 import PageHead from '@/components/PageHead/pageHead';
 import styles from './style.less';
 
-@connect(({ AiDetail }) => ({
-  AiDetail
+@connect(({ AiDetail, workTableModel }) => ({
+  AiDetail,
+  idList: workTableModel.idList
 }))
 class AiDetail extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      type: "bbs",
-      id: 10
+      type: this.props.location.query.type,
+      id: this.props.location.query.id
     };
   }
   componentDidMount() {
@@ -40,17 +39,10 @@ class AiDetail extends React.Component {
     });
   }
   getPageData = () => {
-    let type = 1;
-    if (this.state.type == 'im') {
-      type = 1;
-    } else if (this.state.type == 'bbs') {
-      type = 2;
-    } else {
-      type = 3;
-    }
+
     let params = {
       id: this.state.id,
-      type: type
+      type: this.state.type
     }
     this.props.dispatch({
       type: 'AiDetail/edit',
@@ -64,24 +56,33 @@ class AiDetail extends React.Component {
   }
 
   render() {
+    let tabType = 1;
+    if (this.state.type == 1) {
+      tabType = 'IM';
+    } else if (this.state.type == 2) {
+      tabType = 'BBS';
+    } else {
+      tabType = 'NPS';
+    }
     const { type, id } = this.state
-    const routerData = { name: `${type}会话`, bread: { name: "AI工作台", path: "/koUserOperation/userOperation" }, path: "/koUserOperation/userGroupAdd" }
-
+    const routerData = { name: `${tabType}会话`, bread: { name: "AI工作台", path: "/koUserOperation/userOperation" }, path: "/koUserOperation/userGroupAdd" }
+    console.log(70, this.props)
     return (
       <div style={{ marginTop: '-28px' }}>
         <PageHead routerData={routerData}></PageHead>
         <div className={styles.aiDetail}>
           <div className={styles.baseInfo}>
             <div className={styles.headBar}>基本信息</div>
-            {type == 'im' ? <DetailIm type={type} id={id}></DetailIm> : null}
-            {type == 'bbs' ? <DetailBbs type={type} id={id}></DetailBbs> : null}
-            {type == 'nps' ? <DetailNps type={type} id={id}></DetailNps> : null}
+            {type == 1 ? <DetailIm type={type} id={id}></DetailIm> : null}
+            {type == 2 ? <DetailBbs type={type} id={id}></DetailBbs> : null}
+            {type == 3 ? <DetailNps type={type} id={id}></DetailNps> : null}
           </div>
           <div className={styles.dataClassfy}>
             <div className={styles.headBar}>数据分类</div>
-            {type == 'im' ? <DataClassfy type={type} id={id}></DataClassfy> : null}
+            <DataClassfy type={type} id={id}></DataClassfy>
+            {/* {type == 'im' ? <DataClassfy type={type} id={id}></DataClassfy> : null}
             {type == 'bbs' ? <DataClassfyBbs type={type} id={id}></DataClassfyBbs> : null}
-            {type == 'nps' ? <DataClassfyNps type={type} id={id}></DataClassfyNps> : null}
+            {type == 'nps' ? <DataClassfyNps type={type} id={id}></DataClassfyNps> : null} */}
           </div>
         </div>
       </div>
