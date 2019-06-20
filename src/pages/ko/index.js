@@ -80,11 +80,11 @@ class koPlan extends React.Component {
   onSaveTabFromParams = (params, KoDateRange = this.props.pageParams.KoDateRange) => {
     // this.handleDateParams(params.formParams, KoDateRange);
 
-    const recordTimeList = this.handleRecordTime(params, KoDateRange);
+    // const recordTimeList = this.handleRecordTime(params, KoDateRange);
     this.clearChooseEvent();
     this.props.dispatch({
       type: 'koPlan/saveTabFromParams',
-      payload: { ...params, recordTimeList }
+      payload: { ...params }
     })
   }
   handleRecordTime = (params, KoDateRange) => {
@@ -116,6 +116,7 @@ class koPlan extends React.Component {
     const newParams = { ...others, ...params };
     this.onSaveTabFromParams({ formParams, ...newParams });
     this.onSavefFlterActionParams(originParams);
+
   }
   clearChooseEvent = (obj = {}) => {
     // let { hooseEventData = [] } = this.props;

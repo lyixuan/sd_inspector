@@ -16,9 +16,8 @@ export default class KoForm extends React.Component {
   constructor(props) {
     super(props);
     const { KoDateRange } = this.props.pageParams;
-    const [sTime, eTime] = handleRecordTimeParamsNew(KoDateRange);
     const tabFromParams = {
-      recordTimeList: [moment(sTime), moment(eTime)],
+      recordTimeList: handleRecordTimeParamsNew(KoDateRange),
       page: {},
       pageDetail: {},
       belongApp: undefined,
@@ -33,6 +32,15 @@ export default class KoForm extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.originParams) !== JSON.stringify(this.props.originParams)) {
       this.handleOriginData(nextProps.originParams);
+    }
+    if (JSON.stringify(nextProps.pageParams) !== JSON.stringify(this.props.pageParams)) {
+      const { KoDateRange } = nextProps.pageParams;
+      if (KoDateRange) {
+        const { tabFromParams } = this.state;
+        this.setState({
+          tabFromParams: { ...tabFromParams,  recordTimeList: handleRecordTimeParamsNew(KoDateRange),}
+        })
+      }
     }
   }
   handleOriginData = (params = {}) => {
@@ -113,7 +121,6 @@ export default class KoForm extends React.Component {
     const { KoDateRange } = this.props.pageParams;
     const recordTimeList = initRecordTimeListData(KoDateRange);
     const [beginTime, endTime] = recordTimeList;
-    console.log([moment(endTime).subtract(1,'months'), moment(endTime)])
     return [moment(endTime).subtract(1,'months'), moment(endTime)]
   }
   renderPagaData = (type) => {
