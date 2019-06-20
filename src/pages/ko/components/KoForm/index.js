@@ -15,8 +15,10 @@ const { Option } = BISelect;
 export default class KoForm extends React.Component {
   constructor(props) {
     super(props);
+    const { KoDateRange } = this.props.pageParams;
+    const [sTime, eTime] = handleRecordTimeParamsNew(KoDateRange);
     const tabFromParams = {
-      recordTimeList: undefined,
+      recordTimeList: [moment(sTime), moment(eTime)],
       page: {},
       pageDetail: {},
       belongApp: undefined,
@@ -99,8 +101,7 @@ export default class KoForm extends React.Component {
         typeof item === 'object' && returnArr.push(item);
       }
     });
-    const [sTime, eTime] = this.handleDefaultPickerValue();
-    return returnArr.length === 0 ? [moment(sTime), moment(eTime)] : returnArr;
+    return returnArr;
   }
   disabledDate = (current) => {
     const { KoDateRange } = this.props.pageParams;
@@ -110,7 +111,10 @@ export default class KoForm extends React.Component {
   }
   handleDefaultPickerValue = () => {
     const { KoDateRange } = this.props.pageParams;
-    return handleRecordTimeParamsNew(KoDateRange);
+    const recordTimeList = initRecordTimeListData(KoDateRange);
+    const [beginTime, endTime] = recordTimeList;
+    console.log([moment(endTime).subtract(1,'months'), moment(endTime)])
+    return [moment(endTime).subtract(1,'months'), moment(endTime)]
   }
   renderPagaData = (type) => {
     const { pageDetailTotal = {} } = this.props;
@@ -139,7 +143,7 @@ export default class KoForm extends React.Component {
                     format={dateFormat}
                     onChange={this.changeDate}
                     value={this.formateDateTime()}
-                    // defaultPickerValue={this.handleDefaultPickerValue()}
+                    defaultPickerValue={this.handleDefaultPickerValue()}
                     disabledDate={this.disabledDate} />
                 </span></>}
           </div>
