@@ -155,6 +155,8 @@ class AppealCreate extends React.Component {
           <BIModal
             title="提交确认"
             visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
             footer={[
               <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
                 取消

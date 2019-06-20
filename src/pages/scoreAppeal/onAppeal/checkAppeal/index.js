@@ -142,7 +142,7 @@ class AppealCheck extends React.Component {
       });
     }
     if (this.checkType === 'master') {
-      const {detailInfo={}}=this.props;
+      const {detailInfo={}}=this.props.scoreAppealModel;
       const {baseAppealInfo={}}=detailInfo||{};
       const emailParam = {
         collegeId:baseAppealInfo.collegeId,
@@ -284,6 +284,8 @@ class AppealCheck extends React.Component {
         <BIModal
           title="提交确认"
           visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
           footer={[
             <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
               取消
