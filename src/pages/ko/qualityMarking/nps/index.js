@@ -130,7 +130,7 @@ class bbsPage extends React.Component {
     this.props.dispatch({
       type: 'workTableModel/exportExcelData',
       payload: {
-        params: { others, type: exportType },
+        params: { ...others, type: exportType },
       },
       callback: (res) => {
         this.handleCancel();
