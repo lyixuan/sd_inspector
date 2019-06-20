@@ -33,7 +33,7 @@ class Tags extends React.Component {
   render() {
     const {tags=[], checkedTags = []} = this.props;
     return (
-      <div style={{marginLeft:'20px',marginTop:15}}>
+      <div style={{marginLeft:'20px',marginTop:15,lineHeight:2}}>
         <span style={{width:'90px'}}>可用标签：&nbsp;&nbsp;</span>{this.renderTagItem(tags,checkedTags)}
       </div>
     );
