@@ -136,6 +136,7 @@ function columns() {
       width: 140,
       filters: [
         { text: '大于0', value: 1, key: 'robot_chat_num' },
+        { text: '等于0', value: 2, key: 'robot_chat_num' },
       ],
       sorter: true,
       sortDirections: ['descend', 'ascend']
@@ -290,11 +291,6 @@ function columns() {
       key: 'transactionIntention',
       dataIndex: 'transactionIntention',
       width: 120,
-      filterMultiple: false,
-      filters: [
-        { text: '大于0', value: '{ type:6，minValue:0.1, maxValue:0.5 }', key: 'transactionIntention' },
-        { text: '等于0', value: '{type:3，value:-1}', key: 'transactionIntention' },
-      ],
       sorter: true,
       sortDirections: ['descend', 'ascend']
     },

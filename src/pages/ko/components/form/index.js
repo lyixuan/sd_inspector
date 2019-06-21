@@ -61,7 +61,19 @@ class CommonForm extends React.Component {
         });
         return returnObj;
     }
+    handleIntentionParams = (item) => {
+      const arr = item.value.split(',');
+      if (arr.length === 2) {
+        return {
+          ...item, minValue: arr[0], maxValue: arr[1], type: 6, // 其它是6
+        }
+      } else {
+        return {
+          ...item, type: 3, // 空是3
+        }
+      }
 
+    }
     checkoutParamsType = (key, item) => {
         let returnItem = undefined;
         switch (key) {
@@ -111,7 +123,6 @@ class CommonForm extends React.Component {
                 returnItem = item ? item.value : undefined;
                 break;
             case 'koOrderGap':
-              console.log(item)
                 // 时间间隔,处理到秒
                 returnItem = item ? this.handleCustomParams(item) : undefined;
                 break;
@@ -122,8 +133,7 @@ class CommonForm extends React.Component {
                 returnItem = item ? this.handleOrgParams(item)(['collegeId', 'familyId', 'groupId']) : undefined;
                 break;
             case 'transactionIntention':
-              console.log(item)
-                returnItem = item ? this.handleCustomParams(item) : undefined;
+                returnItem = item ? this.handleIntentionParams(item) : undefined;
                 break;
             default:
                 returnItem = null;

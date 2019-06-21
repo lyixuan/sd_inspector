@@ -61,9 +61,8 @@ class AiForm extends React.Component {
     const { onSearchChange, form } = this.props;
     form.validateFields((err, values) => {
       if (onSearchChange) {
-        const { choiceTime, ...others } = values;
-        const [beginDate, endDate] = this.checkoutParamsType('choiceTime', choiceTime);
-        onSearchChange({ ...others, beginDate, endDate, choiceTime });
+        const [beginDate, endDate] = this.checkoutParamsType('choiceTime', values.choiceTime);
+        onSearchChange({ ...values, beginDate, endDate });
       }
     });
   };
@@ -77,8 +76,9 @@ class AiForm extends React.Component {
         searchParams[k] = undefined;
       }
     }
+    const [beginDate, endDate] = this.checkoutParamsType('choiceTime', searchParams.choiceTime);
     this.props.form.resetFields();
-    this.props.onSearchChange(searchParams);
+    this.props.onSearchChange({...searchParams, beginDate, endDate});
   };
 
   render() {
