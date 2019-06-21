@@ -5,7 +5,7 @@ import {formatDateToWeek} from '@/utils/utils';
 export default class BasicInfoComponent extends React.Component {
   render() {
     const { baseAppealInfo = {},dimensionType } = this.props;
-    const { dimensionName,dimensionId,dimensionType:creditType,creditDate:creditDate1, completeDate, imConsultId, imNum, workorderStartTime, workorderFlowupFlag, bottomLineChannal, upFlag,score,source } = baseAppealInfo||{};
+    const { dimensionName,workorderNumber,dimensionType:creditType,creditDate:creditDate1, completeDate, imConsultId, imNum, workorderStartTime, workorderFlowupFlag, bottomLineChannal, upFlag,score,source } = baseAppealInfo||{};
 
     const IMName = Number(creditType) === 17?'不及时条数':Number(creditType)===15?'未回复条数':'不满意条数';
     const creditDate = formatDateToWeek(creditDate1);
@@ -56,7 +56,7 @@ export default class BasicInfoComponent extends React.Component {
               <div>工单发起时间：{workorderStartTime}</div>
             </div>
             <div className={styles.secRow}>
-              <div>是否跟进：{workorderFlowupFlag}</div>
+              <div>是否跟进：{workorderFlowupFlag?'是':'否'}</div>
             </div>
           </div>
         )}
@@ -68,8 +68,8 @@ export default class BasicInfoComponent extends React.Component {
               <div>学分日期：{creditDate}</div>
             </div>
             <div className={styles.secRow}>
-              <div>工单编号：{imConsultId}</div>
-              <div>{dimensionId!==26?`渠道：${bottomLineChannal}`:''}</div>
+              <div>工单编号：{workorderNumber}</div>
+              <div>{creditType!==26?`渠道：${bottomLineChannal}`:''}</div>
             </div>
             <div className={styles.secRow}>
             </div>

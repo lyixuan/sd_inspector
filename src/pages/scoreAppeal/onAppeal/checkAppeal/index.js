@@ -162,7 +162,7 @@ class AppealCheck extends React.Component {
         secondAppealEndDate,
         creditDate,
         appealNum,
-        actualRecommendLevel,
+        actualRecommendLevel:Number(actualRecommendLevel),
         score,
         tagList:checkedTags,
         ...emailParam

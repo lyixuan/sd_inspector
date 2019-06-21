@@ -66,7 +66,7 @@ class FinishAppeal extends React.Component {
     this.state = {
       page: 1,
       pageSize: 30,
-      dimensionType: (myParam&&myParam.dimensionType)?myParam.dimensionType:11
+      dimensionType: (myParam&&myParam.dimensionType)?myParam.dimensionType:AuthButton.checkPathname('/scoreAppeal/onAppeal/specialNewer')?11:23
     };
   }
   componentDidMount() {

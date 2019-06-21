@@ -17,6 +17,7 @@ class SecondCheck extends React.Component {
       checkResult:undefined,
       desc:undefined,
       appealNum:undefined,
+      score:undefined,
     };
   }
   onFormChange = (value,vname)=>{
@@ -72,7 +73,7 @@ class SecondCheck extends React.Component {
             {Number(dimensionType)===42&&checkResult===1&&(
               <div>
                 <span style={{ width: 110 }}>*学分：</span>
-                <InputNumber min={0} step={1} value={score} onChange={(e) => this.onFormChange(e.target.value, 'score')} />
+                <InputNumber min={0} step={1} value={score} onChange={(val) => this.onFormChange(val, 'score')} />
               </div>
             )}
             {Number(creditType)===47&&checkResult===1&&(
