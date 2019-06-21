@@ -32,7 +32,6 @@ function Detail(props) {
 class AiDetail extends React.Component {
   constructor(props) {
     super(props);
-    console.log(35, this.props)
     this.state = {
       type: this.props.match.params.type,
       id: this.props.match.params.id
@@ -71,6 +70,7 @@ class AiDetail extends React.Component {
     alert('复制成功', 1)
   }
   componentWillReceiveProps(nextProps) {
+    console.log(73, this.props.match.params.id, nextProps.match.params.id)
     if (this.props.match.params.id != nextProps.match.params.id) {
       this.setState({
         id: nextProps.match.params.id

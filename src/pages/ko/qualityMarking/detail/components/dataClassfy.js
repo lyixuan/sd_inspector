@@ -101,7 +101,7 @@ class DataClassfy extends React.Component {
     });
     if (!this.state.nextId) {
       router.push({
-        pathname: '/qualityMarking/' + tabType,
+        pathname: `/qualityMarking/${tabType}`,
       });
     }
   }
@@ -114,12 +114,13 @@ class DataClassfy extends React.Component {
     let percent = 100;
     if (idList) {
       if (!Array.isArray(idList)) {
-        idList = idList.split(",")
+        idList = idList.split(",").map(item => {
+          return +item
+        })
       }
-      currentId = idList.indexOf(this.props.id)
+      currentId = idList.indexOf(Number(this.props.id))
       this.state.nextId = idList[currentId + 1]
-      percent = (currentId + 1) / idList.length
-      console.log(122, currentId + 1 / idList.length)
+      percent = (currentId + 1) / idList.length * 100
     }
 
     return (

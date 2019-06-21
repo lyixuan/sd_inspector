@@ -103,11 +103,7 @@ class bbsPage extends React.Component {
   };
   handleEdit = (record) => {
     router.push({
-      pathname: '/qualityMarking/detail',
-      query: {
-        id: record.id,
-        type: markType,
-      }
+      pathname: `/qualityMarking/detail/${record.id}/${markType}`,
     });
     localStorage.removeItem("idList")
     localStorage.setItem("idList", this.props.idList)

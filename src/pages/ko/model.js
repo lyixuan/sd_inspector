@@ -48,7 +48,7 @@ export default {
         enumData[12] = enumData[12].map(item => {
           const arr = item.value.split(',');
           return {
-              ...item, valueShow: `${arr[0]} ~ ${arr[1]}`
+            ...item, valueShow: `${arr[0]} ~ ${arr[1]}`
           }
         });
         yield put({
@@ -101,13 +101,13 @@ export default {
       const { belongApp = 1 } = payload;
       const pageParams = (yield select(state => state.koPlan.pageDetailTotal))[belongApp];
       if (pageParams && pageParams.length > 0) {
-        yield put({ type: 'getPageInit', payload: pageParams});
+        yield put({ type: 'getPageInit', payload: pageParams });
         return;
       };
       const response = yield call(getPageDetailInfoList, payload);
       if (response.code === 20000) {
         const pageDetailInfo = response.data || [];
-        yield put({ type: 'getPageInit', payload: pageDetailInfo});
+        yield put({ type: 'getPageInit', payload: pageDetailInfo });
         yield put({
           type: 'savePageDetailTotal',
           payload: { [belongApp]: pageDetailInfo },
@@ -123,7 +123,7 @@ export default {
       const response = yield call(getUserGroupList);
       if (response && response.code === 20000 && response.data) {
         const groupList = response.data.map(item => {
-          return { id: item.id, groupName: item.groupName}
+          return { id: item.id, groupName: item.groupName }
         });
         yield put({
           type: 'save',
@@ -131,7 +131,7 @@ export default {
         });
       }
     },
-    *getPageInit({ payload }, { call, put,}) {
+    *getPageInit({ payload }, { call, put, }) {
       const pageDetailInfo = payload;
       let pageVale = { page: '' };
       if (pageDetailInfo.length > 0) {
@@ -170,10 +170,10 @@ export default {
       return { ...state, ...payload };
     },
     saveTabFromParamsPage(state, { payload }) {
-      return { ...state, tabFromParams: { ...state.tabFromParams, ...payload} };
+      return { ...state, tabFromParams: { ...state.tabFromParams, ...payload } };
     },
     savePageDetailTotal(state, { payload }) {
-      return { ...state, pageDetailTotal: { ...state.pageDetailTotal, ...payload} };
+      return { ...state, pageDetailTotal: { ...state.pageDetailTotal, ...payload } };
     },
   },
   subscriptions: {},
