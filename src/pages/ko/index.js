@@ -53,7 +53,8 @@ class koPlan extends React.Component {
     if (JSON.stringify(params) === '{}') return;
     const { KoDateRange } = params;
     const { recordTimeList, ...others } = handleInitParams(params);
-    const tabFromParams = { recordTimeList, ...others, formParams: handleFormParams(KoDateRange) };
+    // const tabFromParams = { recordTimeList, ...others, formParams: handleFormParams(KoDateRange) };
+    const tabFromParams = { recordTimeList, ...others}; // 去掉搜索时间的默认值
     if (JSON.stringify(this.props.tabFromParams) !== JSON.stringify(tabFromParams)) {
       this.onSaveTabFromParams(tabFromParams, KoDateRange);
     }
@@ -77,14 +78,13 @@ class koPlan extends React.Component {
     this.setState({ filterActionParams: { ...filterActionParams, ...params } });
   }
   onSaveTabFromParams = (params, KoDateRange = this.props.pageParams.KoDateRange) => {
-    this.handleDateParams(params.formParams, KoDateRange);
+    // this.handleDateParams(params.formParams, KoDateRange);
 
-
-    const recordTimeList = this.handleRecordTime(params, KoDateRange);
+    // const recordTimeList = this.handleRecordTime(params, KoDateRange);
     this.clearChooseEvent();
     this.props.dispatch({
       type: 'koPlan/saveTabFromParams',
-      payload: { ...params, recordTimeList }
+      payload: { ...params }
     })
   }
   handleRecordTime = (params, KoDateRange) => {
@@ -116,6 +116,7 @@ class koPlan extends React.Component {
     const newParams = { ...others, ...params };
     this.onSaveTabFromParams({ formParams, ...newParams });
     this.onSavefFlterActionParams(originParams);
+
   }
   clearChooseEvent = (obj = {}) => {
     // let { hooseEventData = [] } = this.props;

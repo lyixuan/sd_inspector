@@ -68,7 +68,7 @@ class behavior extends React.Component {
 
   getData = (params = this.props.tabFromParams) => {
     if (JSON.stringify(params) === '{}') return;
-    const { formParams = {}, page, belongApp, ...others } = params;
+    const { formParams = {}, page, belongApp = 1, ...others } = params;
     const otherParams = { ...others };
     if (!pageDetailTotal[belongApp].includes(page.actionValue)) return; // 主-页面对应时在发出请求。
     this.props.dispatch({

@@ -17,6 +17,6 @@ export async function getTableList(data) {
   return request('/workbench/queryPage', { method: 'post', data });
 }
 // 导出数据
-export async function exportData(params) {
-  return request('/workbench/export', { method: 'post', ...params });
+export async function exportData(data) {
+  return request('/workbench/export', { method: 'post', data, responseType:'blob',getResponse: true });
 }

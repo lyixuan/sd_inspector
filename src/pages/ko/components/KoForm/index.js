@@ -7,7 +7,7 @@ import moment from 'moment';
 import { PAGE_KEY_ACTION } from '@/utils/constants';
 import styles from './style.less';
 import formStyles from '../formCommon.less';
-import { handleDateParams, initRecordTimeListData } from '../../utils/utils';
+import { handleDateParams, initRecordTimeListData, handleRecordTimeParamsNew } from '../../utils/utils';
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY.MM.DD';
 const { Option } = BISelect;
@@ -15,8 +15,9 @@ const { Option } = BISelect;
 export default class KoForm extends React.Component {
   constructor(props) {
     super(props);
+    const { KoDateRange } = this.props.pageParams;
     const tabFromParams = {
-      recordTimeList: undefined,
+      recordTimeList: handleRecordTimeParamsNew(KoDateRange),
       page: {},
       pageDetail: {},
       belongApp: undefined,
@@ -31,6 +32,15 @@ export default class KoForm extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.originParams) !== JSON.stringify(this.props.originParams)) {
       this.handleOriginData(nextProps.originParams);
+    }
+    if (JSON.stringify(nextProps.pageParams) !== JSON.stringify(this.props.pageParams)) {
+      const { KoDateRange } = nextProps.pageParams;
+      if (KoDateRange) {
+        const { tabFromParams } = this.state;
+        this.setState({
+          tabFromParams: { ...tabFromParams,  recordTimeList: handleRecordTimeParamsNew(KoDateRange),}
+        })
+      }
     }
   }
   handleOriginData = (params = {}) => {

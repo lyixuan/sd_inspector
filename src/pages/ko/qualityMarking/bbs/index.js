@@ -6,8 +6,8 @@ import BIButton from '@/ant_components/BIButton';
 import exportimg from '@/assets/ai/export.png';
 import styles from '../style.less';
 import { connect } from 'dva/index';
-import ReactTooltip from 'react-tooltip';
 import router from 'umi/router';
+import { Tooltip } from 'antd';
 
 const markType = 2; //im bbs nps 对应的type值为1， 2， 3
 const exportType = 21; // 导出类型：导出类型：11 - IM 21 - BBS 31 - NPS标签 32 - NPS自主评价
@@ -18,7 +18,7 @@ const exportType = 21; // 导出类型：导出类型：11 - IM 21 - BBS 31 - NP
   collegeList: [{ id: 0, name: '空' }].concat(workTableModel.collegeList),
   consultList: workTableModel.consultList,
   reasonList: workTableModel.reasonList,
-  idList: workTableModel.idList
+  idList: workTableModel.idList,
 }))
 class bbsPage extends React.Component {
   constructor(props) {
@@ -42,12 +42,16 @@ class bbsPage extends React.Component {
         title: '内容',
         dataIndex: 'content',
         key: 'content',
-        render: text => (
-          <>
-            <span data-tip={text} ref={ref => this.fooRef = ref}
-              onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>{text.substring(0, 2)}</span>
-          </>
-        ),
+        render: text => {
+          const l = text ? text.length : 0;
+          return (
+            <>
+              <Tooltip overlayClassName={styles.listTooltip} placement="right"  title={text}>
+                <span>{l > 20 ? text.substring(0, 20) + '...' : text}</span>
+              </Tooltip>
+            </>
+          );
+        },
       },
       {
         title: '学员姓名',
@@ -58,6 +62,12 @@ class bbsPage extends React.Component {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
+        render: text => {
+          const l = text ? text.length : 0;
+          return (
+            <span>{l > 20 ? text.substring(0, 20) + '...' : ''}</span>
+          )
+        },
       },
       {
         title: '操作人',
@@ -86,19 +96,13 @@ class bbsPage extends React.Component {
     ];
     return columns || [];
   };
-  handleMouseOver = (e) => {
-    ReactTooltip.show(this.fooRef);
-  };
-  handleMouseOut = (e) => {
-    ReactTooltip.hide(this.fooRef);
-  };
   handleEdit = (record) => {
     router.push({
       pathname: '/qualityMarking/detail',
       query: {
         id: record.id,
         type: markType,
-      }
+      },
     });
     localStorage.setItem("idList", this.props.idList)
   };
@@ -107,19 +111,19 @@ class bbsPage extends React.Component {
       searchParams,
       currentPage: 1,
     }, () => this.queryData());
-  }
+  };
   onPageChange = (currentPage) => {
     this.setState({
       currentPage,
     }, () => this.queryData());
-  }
+  };
   queryData = () => {
     const { searchParams, currentPage } = this.state;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
       payload: { params: { ...searchParams, currentPage, type: markType } },
     });
-  }
+  };
   handleExport = () => {
     this.setState({ visible: true });
   };
@@ -128,31 +132,27 @@ class bbsPage extends React.Component {
     this.props.dispatch({
       type: 'workTableModel/exportExcelData',
       payload: {
-        params: {
-          data: { ...others, type: exportType },
-          headers: {
-            'Content-Type': 'application/vnd.ms-excel',
-          },
-        },
+        params: { ...others, type: exportType , },
       },
       callback: (res) => {
         this.handleCancel();
       },
     });
-  }
+  };
   handleCancel = () => {
     this.setState({ visible: false });
-  }
+  };
 
   render() {
     const { searchParams, currentPage, visible } = this.state;
     return (
       <div>
-        <ReactTooltip delayHide={1000} className={styles.listReactTooltip} place="right" />
-        <MarkForm {...this.props} markType={markType} searchParams={searchParams} onSearchChange={this.onSearchChange}></MarkForm>
-        <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange} columnsData={this.columnsData}>
+        <MarkForm {...this.props} markType={markType} searchParams={searchParams}
+                  onSearchChange={this.onSearchChange}></MarkForm>
+        <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
+                  columnsData={this.columnsData}>
           <BIButton onClick={this.handleExport} className={styles.exportBtn} size="large">
-            <img src={exportimg} /> 导出
+            <img src={exportimg}/> 导出
           </BIButton>
         </MarkList>
         <ModalTip visible={visible} handleOk={this.handleOk} handleCancel={this.handleCancel}></ModalTip>

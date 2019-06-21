@@ -5,8 +5,8 @@ import ModalTip from '../components/modalTip';
 import BIButton from '@/ant_components/BIButton';
 import styles from '../style.less';
 import { connect } from 'dva/index';
-import ReactTooltip from 'react-tooltip';
 import router from 'umi/router';
+import { Tooltip } from 'antd';
 
 const markType = 3; //im bbs nps 对应的额type值为1， 2， 3
 let exportType = ''; // 导出类型：11 - IM 21 - BBS 31 - NPS标签 32 - NPS自主评价
@@ -39,14 +39,18 @@ class bbsPage extends React.Component {
       },
       {
         title: '自主评价',
-        dataIndex: 'evaluate',
-        key: 'evaluate',
-        render: text => (
-          <>
-            <span data-tip={text} ref={ref => this.fooRef = ref}
-                  onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>{text.substring(0, 2)}</span>
-          </>
-        ),
+        dataIndex: 'content',
+        key: 'content',
+        render: text => {
+          const l = text ? text.length : 0;
+          return (
+            <>
+              <Tooltip overlayClassName={styles.listTooltip} placement="right"  title={text}>
+                <span>{l > 20 ? text.substring(0, 20) + '...' : text}</span>
+              </Tooltip>
+            </>
+          );
+        },
       },
       {
         title: '星级',
@@ -62,6 +66,12 @@ class bbsPage extends React.Component {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
+        render: text => {
+          const l = text ? text.length : 0;
+          return (
+            <span>{l > 20 ? text.substring(0, 20) + '...' : ''}</span>
+          )
+        },
       },
       {
         title: '操作人',
@@ -89,12 +99,6 @@ class bbsPage extends React.Component {
       },
     ];
     return columns || [];
-  };
-  handleMouseOver = (e) => {
-    ReactTooltip.show(this.fooRef);
-  };
-  handleMouseOut = (e) => {
-    ReactTooltip.hide(this.fooRef);
   };
   handleEdit = (record) => {
     router.push({
@@ -128,17 +132,11 @@ class bbsPage extends React.Component {
     this.setState({ visible: true });
   };
   handleOk = () => {
-    alert(exportType)
     const { choiceTime, ...others } = this.state.searchParams;
     this.props.dispatch({
       type: 'workTableModel/exportExcelData',
       payload: {
-        params: {
-          data: { ...others, type: exportType },
-          headers: {
-            'Content-Type': 'application/vnd.ms-excel',
-          },
-        },
+        params: { ...others, type: exportType },
       },
       callback: (res) => {
         this.handleCancel();
@@ -153,7 +151,6 @@ class bbsPage extends React.Component {
     const { searchParams, currentPage, visible } = this.state;
     return (
       <div>
-        <ReactTooltip delayHide={1000} className={styles.listReactTooltip} place="right"/>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
                 onSearchChange={this.onSearchChange} ></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}

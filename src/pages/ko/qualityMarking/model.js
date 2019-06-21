@@ -47,14 +47,14 @@ export default {
         const { currentPage, type, ...others } = params;
         const data = result.data || {};
         const workList = Array.isArray(data.list) ? data.list : [];
-        const idList = data.idList
-        const { totalCount, pageNum } = data;
-        yield put({ type: 'save', payload: { workList, idList, totalCount } });
+        const idList = data.idList;
+        const { total, pageNum } = data;
+        yield put({ type: 'save', payload: { workList, idList, totalCount: total } });
         yield put({
           type: 'saveParams',
           payload: { pageParams: { [type]: pageNum }, searchParams: { [type]: others } },
         });
-      } else {
+      } else if(result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
@@ -67,8 +67,10 @@ export default {
         const numName2 = numName.split('.')[0];   // 纯文件名
         downBlob(result.data, `${eval("'" + numName2 + "'")}.xlsx`);
         message.success('导出成功');
-      } else {
+      } else if(result && result instanceof Object) {
         message.error(msgF(result.msg, result.msgDetail));
+      } else {
+        message.error('导出失败');
       }
       if (callback && typeof callback === 'function') {
         callback(result); // 返回结果
