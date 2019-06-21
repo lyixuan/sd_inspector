@@ -6,6 +6,7 @@ import BIButtonText from '@/components/BIButtonText';
 import BIPagination from '@/ant_components/BIPagination';
 import BIButton from '@/ant_components/BIButton';
 import { BiFilter, thousandsFormat } from '@/utils/utils';
+import { getTransactionIntentionValue } from '../utils/utils'
 import BIModal from '@/ant_components/BIModal';
 import BIInput from '@/ant_components/BIInput';
 import moment from 'moment';
@@ -35,316 +36,9 @@ const sorterKeyName = { // 排序对应字段
   wechatStudentChatNum: 'wechat_student_chat_num',
   imEmotionValue: 'negative_msg_num',
   robot_chat_num: 'robot_chat_num',
-  transactionIntention: 'transactionIntention',
+  transactionIntention: 'transaction_intention',
 };
-function columns() {
-  const col = [
-    {
-      title: '学员',
-      key: 'userName',
-      dataIndex: 'userName',
-      width: 110,
-      fixed: 'left',
-    },
-    {
-      title: '注册',
-      key: 'registerStatus',
-      dataIndex: 'registerStatus',
-      width: 60,
-      fixed: 'left',
-      render: (text, record) => {
-        return (
-          <>
-            <span style={{ cursor: 'pointer' }}>{BiFilter(`REGISTER_STATUS|id:${record.registerStatus}`).name}</span>
-          </>
-        );
-      },
-    },
-    {
-      title: '选课',
-      key: 'choiceLessonStatus',
-      dataIndex: 'choiceLessonStatus',
-      width: 60,
-      fixed: 'left',
-      render: (text, record) => {
-        return (
-          <>
-            <span style={{ cursor: 'pointer' }}>{BiFilter(`CHOISE_STATUS|id:${record.choiceLessonStatus}`).name}</span>
-          </>
-        );
-      },
-    },
-    {
-      title: '选课时间',
-      key: 'choiceLessionTime',
-      dataIndex: 'choiceLessionTime',
-      width: 110,
-      fixed: 'left',
-    },
-    {
-      title: '订单时间',
-      key: 'orderTime',
-      dataIndex: 'orderTime',
-      width: 110,
-      fixed: 'left',
-    },
-    {
-      title: '出勤数',
-      key: 'attendenceCount',
-      dataIndex: 'attendenceCount',
-      filterMultiple: false,
-      width: 94,
-      filters: [
-        { text: '大于0', value: 1, key: 'attendenceExist' },
-        { text: '等于0', value: 2, key: 'attendenceExist' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: '听课（分钟）',
-      key: 'listenTime',
-      dataIndex: 'listenTime',
-      filterMultiple: false,
-      width: 130,
-      filters: [
-        { text: '大于0', value: 1, key: 'lessonTime' },
-        { text: '等于0', value: 2, key: 'lessonTime' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend'],
-      render: text => (text / 60).toFixed(2),
-    },
-    {
-      title: '做题量',
-      key: 'studyExeciseNum',
-      dataIndex: 'studyExeciseNum',
-      filterMultiple: false,
-      width: 94,
-      filters: [
-        { text: '大于0', value: 1, key: 'execiseExist' },
-        { text: '等于0', value: 2, key: 'execiseExist' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: '机器人咨询量',
-      key: 'robot_chat_num',
-      dataIndex: 'robot_chat_num',
-      filterMultiple: false,
-      width: 140,
-      filters: [
-        { text: '大于0', value: 1, key: 'robot_chat_num' },
-        { text: '等于0', value: 2, key: 'robot_chat_num' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: 'IM咨询量',
-      key: 'imDialogueNum',
-      dataIndex: 'imDialogueNum',
-      width: 112,
-      filterMultiple: false,
-      filters: [
-        { text: '大于0', value: 1, key: 'imDialogueExist' },
-        { text: '等于0', value: 2, key: 'imDialogueExist' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: 'IM老师主动量',
-      key: 'imTeacherChatNum',
-      dataIndex: 'imTeacherChatNum',
-      width: 150,
-      filterMultiple: false,
-      filters: [
-        { text: '大于0', value: 1, key: 'imTeacherExist' },
-        { text: '等于0', value: 2, key: 'imTeacherExist' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: 'IM学员主动量',
-      key: 'imStudentChatNum',
-      dataIndex: 'imStudentChatNum',
-      width: 150,
-      filterMultiple: false,
-      filters: [
-        { text: '大于0', value: 1, key: 'imStudentExit' },
-        { text: '等于0', value: 2, key: 'imStudentExit' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: 'IM情绪值',
-      key: 'imEmotionValue',
-      dataIndex: 'imEmotionValue',
-      width: 150,
-      filterMultiple: false,
-      filters: [
-        { text: '高兴值>=怒气值', value: 1, key: 'emotionValue' },
-        { text: '高兴值<怒气值', value: 2, key: 'emotionValue' },
-        { text: '高兴值>0, 怒气值=0', value: 3, key: 'emotionValue' },
-        { text: '怒气值>0, 高兴值=0', value: 4, key: 'emotionValue' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: '排队数',
-      key: 'imQueueDialogueNum',
-      dataIndex: 'imQueueDialogueNum',
-      width: 94,
-      filterMultiple: false,
-      filters: [
-        { text: '大于0', value: 1, key: 'imQueueDialogueExist' },
-        { text: '等于0', value: 2, key: 'imQueueDialogueExist' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: '留言数',
-      key: 'imMessageDialogueNum',
-      dataIndex: 'imMessageDialogueNum',
-      width: 94,
-      filterMultiple: false,
-      filters: [
-        { text: '大于0', value: 1, key: 'imMsgExist' },
-        { text: '等于0', value: 2, key: 'imMsgExist' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: '发帖量',
-      key: 'bbsPostNum',
-      dataIndex: 'bbsPostNum',
-      width: 94,
-      filterMultiple: false,
-      filters: [
-        { text: '大于0', value: 1, key: 'bbsPostExist' },
-        { text: '等于0', value: 2, key: 'bbsPostExist' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: '跟帖量',
-      key: 'bbsFollowNum',
-      dataIndex: 'bbsFollowNum',
-      width: 94,
-      filterMultiple: false,
-      filters: [
-        { text: '大于0', value: 1, key: 'bbsFollowExist' },
-        { text: '等于0', value: 2, key: 'bbsFollowExist' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: '微信咨询量',
-      key: 'wechatDialogueNum',
-      dataIndex: 'wechatDialogueNum',
-      width: 122,
-      filterMultiple: false,
-      filters: [
-        { text: '大于0', value: 1, key: 'wechatDialogueExist' },
-        { text: '等于0', value: 2, key: 'wechatDialogueExist' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: '微信老师主动量',
-      key: 'wechatTeacherChatNum',
-      dataIndex: 'wechatTeacherChatNum',
-      width: 150,
-      filterMultiple: false,
-      filters: [
-        { text: '大于0', value: 1, key: 'wechatTeacherExist' },
-        { text: '等于0', value: 2, key: 'wechatTeacherExist' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: '微信学员主动量',
-      key: 'wechatStudentChatNum',
-      dataIndex: 'wechatStudentChatNum',
-      width: 150,
-      filterMultiple: false,
-      filters: [
-        { text: '大于0', value: 1, key: 'wechatStudentExist' },
-        { text: '等于0', value: 2, key: 'wechatStudentExist' },
-      ],
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: '成单意向',
-      key: 'transactionIntention',
-      dataIndex: 'transactionIntention',
-      width: 120,
-      sorter: true,
-      sortDirections: ['descend', 'ascend']
-    },
-    {
-      title: '',
-      dataIndex: 'duoyukuandu',
-    },
-  ];
-  col.forEach((v) => {
-    v.onCell = (record, rowIndex) => {
-      return {
-        onClick: (event) => {
-          jump(record, v);
-        },
-      };
-    };
-    if (v.filters) {
-      filterKeyName.findIndex(item => item.dataIndex === v.dataIndex) === -1 && filterKeyName.push({
-        dataIndex: v.dataIndex,
-        filterKey: v.filters[0].key,
-      });
-    }
-    if (v.dataIndex === 'imEmotionValue') {
-      v.render = v.render || ((text) => {
-        return (
-          <>
-            <DateBar text={text}></DateBar>
-          </>
-        );
-      });
-    } else if (v.dataIndex !== 'orderTime' && v.dataIndex !== 'choiceLessionTime') {
-      v.render = v.render || ((text) => {
-        return (
-          <>
-            {Number(text) === 0 ? (<span style={{ cursor: 'pointer', color: '#bfbfbf' }}>{text}</span>) : (
-              <span style={{ cursor: 'pointer' }}>{text}</span>)}
-          </>
-        );
-      });
-    } else {
-      v.render = (text) => {
-        return (
-          <>
-            {/* Tooltip */}
-            <Tooltip placement="top" title={text}>
-              <BIButtonText>{text}</BIButtonText>
-            </Tooltip>
-          </>
-        );
-      };
-    }
-  });
-  return col;
-};
+
 
 function jump(record, v) {
   const origin = window.location.origin;
@@ -431,6 +125,7 @@ function CreatUserGroupPop(props) {
   userListModel,
   tabFromParams: koPlan.tabFromParams,
   originParams: koPlan.originParams,
+  enumDataIntention: koPlan.enumData[12],
   pageParams: userListModel.pageParams,
   chooseEventData: koPlan.chooseEventData,
   loading: loading.effects['userListModel/getTableList'],
@@ -674,6 +369,315 @@ class UserList extends React.Component {
   userGroupInput = (e) => {
     this.state.groupName = e.target.value
   };
+  columns = () => {
+    const col = [
+      {
+        title: '学员',
+        key: 'userName',
+        dataIndex: 'userName',
+        width: 110,
+        fixed: 'left',
+      },
+      {
+        title: '注册',
+        key: 'registerStatus',
+        dataIndex: 'registerStatus',
+        width: 60,
+        fixed: 'left',
+        render: (text, record) => {
+          return (
+            <>
+              <span style={{ cursor: 'pointer' }}>{BiFilter(`REGISTER_STATUS|id:${record.registerStatus}`).name}</span>
+            </>
+          );
+        },
+      },
+      {
+        title: '选课',
+        key: 'choiceLessonStatus',
+        dataIndex: 'choiceLessonStatus',
+        width: 60,
+        fixed: 'left',
+        render: (text, record) => {
+          return (
+            <>
+              <span style={{ cursor: 'pointer' }}>{BiFilter(`CHOISE_STATUS|id:${record.choiceLessonStatus}`).name}</span>
+            </>
+          );
+        },
+      },
+      {
+        title: '选课时间',
+        key: 'choiceLessionTime',
+        dataIndex: 'choiceLessionTime',
+        width: 110,
+        fixed: 'left',
+      },
+      {
+        title: '订单时间',
+        key: 'orderTime',
+        dataIndex: 'orderTime',
+        width: 110,
+        fixed: 'left',
+      },
+      {
+        title: '出勤数',
+        key: 'attendenceCount',
+        dataIndex: 'attendenceCount',
+        filterMultiple: false,
+        width: 94,
+        filters: [
+          { text: '大于0', value: 1, key: 'attendenceExist' },
+          { text: '等于0', value: 2, key: 'attendenceExist' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend']
+      },
+      {
+        title: '听课（分钟）',
+        key: 'listenTime',
+        dataIndex: 'listenTime',
+        filterMultiple: false,
+        width: 130,
+        filters: [
+          { text: '大于0', value: 1, key: 'lessonTime' },
+          { text: '等于0', value: 2, key: 'lessonTime' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend'],
+        render: text => (text / 60).toFixed(2),
+      },
+      {
+        title: '做题量',
+        key: 'studyExeciseNum',
+        dataIndex: 'studyExeciseNum',
+        filterMultiple: false,
+        width: 94,
+        filters: [
+          { text: '大于0', value: 1, key: 'execiseExist' },
+          { text: '等于0', value: 2, key: 'execiseExist' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend']
+      },
+      {
+        title: '机器人咨询量',
+        key: 'robot_chat_num',
+        dataIndex: 'robot_chat_num',
+        filterMultiple: false,
+        width: 140,
+        filters: [
+          { text: '大于0', value: 1, key: 'robot_chat_num' },
+          { text: '等于0', value: 2, key: 'robot_chat_num' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend']
+      },
+      {
+        title: 'IM咨询量',
+        key: 'imDialogueNum',
+        dataIndex: 'imDialogueNum',
+        width: 112,
+        filterMultiple: false,
+        filters: [
+          { text: '大于0', value: 1, key: 'imDialogueExist' },
+          { text: '等于0', value: 2, key: 'imDialogueExist' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend']
+      },
+      {
+        title: 'IM老师主动量',
+        key: 'imTeacherChatNum',
+        dataIndex: 'imTeacherChatNum',
+        width: 150,
+        filterMultiple: false,
+        filters: [
+          { text: '大于0', value: 1, key: 'imTeacherExist' },
+          { text: '等于0', value: 2, key: 'imTeacherExist' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend']
+      },
+      {
+        title: 'IM学员主动量',
+        key: 'imStudentChatNum',
+        dataIndex: 'imStudentChatNum',
+        width: 150,
+        filterMultiple: false,
+        filters: [
+          { text: '大于0', value: 1, key: 'imStudentExit' },
+          { text: '等于0', value: 2, key: 'imStudentExit' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend']
+      },
+      {
+        title: 'IM情绪值',
+        key: 'imEmotionValue',
+        dataIndex: 'imEmotionValue',
+        width: 150,
+        filterMultiple: false,
+        filters: [
+          { text: '高兴值>=怒气值', value: 1, key: 'emotionValue' },
+          { text: '高兴值<怒气值', value: 2, key: 'emotionValue' },
+          { text: '高兴值>0, 怒气值=0', value: 3, key: 'emotionValue' },
+          { text: '怒气值>0, 高兴值=0', value: 4, key: 'emotionValue' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend']
+      },
+      {
+        title: '排队数',
+        key: 'imQueueDialogueNum',
+        dataIndex: 'imQueueDialogueNum',
+        width: 94,
+        filterMultiple: false,
+        filters: [
+          { text: '大于0', value: 1, key: 'imQueueDialogueExist' },
+          { text: '等于0', value: 2, key: 'imQueueDialogueExist' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend']
+      },
+      {
+        title: '留言数',
+        key: 'imMessageDialogueNum',
+        dataIndex: 'imMessageDialogueNum',
+        width: 94,
+        filterMultiple: false,
+        filters: [
+          { text: '大于0', value: 1, key: 'imMsgExist' },
+          { text: '等于0', value: 2, key: 'imMsgExist' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend']
+      },
+      {
+        title: '发帖量',
+        key: 'bbsPostNum',
+        dataIndex: 'bbsPostNum',
+        width: 94,
+        filterMultiple: false,
+        filters: [
+          { text: '大于0', value: 1, key: 'bbsPostExist' },
+          { text: '等于0', value: 2, key: 'bbsPostExist' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend']
+      },
+      {
+        title: '跟帖量',
+        key: 'bbsFollowNum',
+        dataIndex: 'bbsFollowNum',
+        width: 94,
+        filterMultiple: false,
+        filters: [
+          { text: '大于0', value: 1, key: 'bbsFollowExist' },
+          { text: '等于0', value: 2, key: 'bbsFollowExist' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend']
+      },
+      {
+        title: '微信咨询量',
+        key: 'wechatDialogueNum',
+        dataIndex: 'wechatDialogueNum',
+        width: 122,
+        filterMultiple: false,
+        filters: [
+          { text: '大于0', value: 1, key: 'wechatDialogueExist' },
+          { text: '等于0', value: 2, key: 'wechatDialogueExist' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend']
+      },
+      {
+        title: '微信老师主动量',
+        key: 'wechatTeacherChatNum',
+        dataIndex: 'wechatTeacherChatNum',
+        width: 150,
+        filterMultiple: false,
+        filters: [
+          { text: '大于0', value: 1, key: 'wechatTeacherExist' },
+          { text: '等于0', value: 2, key: 'wechatTeacherExist' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend']
+      },
+      {
+        title: '微信学员主动量',
+        key: 'wechatStudentChatNum',
+        dataIndex: 'wechatStudentChatNum',
+        width: 150,
+        filterMultiple: false,
+        filters: [
+          { text: '大于0', value: 1, key: 'wechatStudentExist' },
+          { text: '等于0', value: 2, key: 'wechatStudentExist' },
+        ],
+        sorter: true,
+        sortDirections: ['descend', 'ascend']
+      },
+      {
+        title: '成单意向',
+        key: 'transactionIntention',
+        dataIndex: 'transactionIntention',
+        width: 120,
+        sorter: true,
+        sortDirections: ['descend', 'ascend'],
+        render: t => getTransactionIntentionValue(this.props.enumDataIntention, 0.8)
+      },
+      {
+        title: '',
+        dataIndex: 'duoyukuandu',
+      },
+    ];
+    col.forEach((v) => {
+      v.onCell = (record, rowIndex) => {
+        return {
+          onClick: (event) => {
+            jump(record, v);
+          },
+        };
+      };
+      if (v.filters) {
+        filterKeyName.findIndex(item => item.dataIndex === v.dataIndex) === -1 && filterKeyName.push({
+          dataIndex: v.dataIndex,
+          filterKey: v.filters[0].key,
+        });
+      }
+      if (v.dataIndex === 'imEmotionValue') {
+        v.render = v.render || ((text) => {
+          return (
+            <>
+              <DateBar text={text}></DateBar>
+            </>
+          );
+        });
+      } else if (v.dataIndex !== 'orderTime' && v.dataIndex !== 'choiceLessionTime') {
+        v.render = v.render || ((text) => {
+          return (
+            <>
+              {Number(text) === 0 ? (<span style={{ cursor: 'pointer', color: '#bfbfbf' }}>{text}</span>) : (
+                <span style={{ cursor: 'pointer' }}>{text}</span>)}
+            </>
+          );
+        });
+      } else {
+        v.render = (text) => {
+          return (
+            <>
+              {/* Tooltip */}
+              <Tooltip placement="top" title={text}>
+                <BIButtonText>{text}</BIButtonText>
+              </Tooltip>
+            </>
+          );
+        };
+      }
+    });
+    return col;
+  };
 
   render() {
     const { userList, currentPage = 1, totalCount = 0, totalUser = 0, groupCheck } = this.props.userListModel;
@@ -698,7 +702,7 @@ class UserList extends React.Component {
             rowKey={record => {
               return record.userId + Math.random() * 1000;
             }}
-            dataSource={dataSource} columns={columns()}
+            dataSource={dataSource} columns={this.columns()}
             pagination={false} loading={loading}
             scroll={{ x: 2420, y: 570 }}
             size="middle"
