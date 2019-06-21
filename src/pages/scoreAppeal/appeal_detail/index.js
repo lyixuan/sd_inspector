@@ -65,7 +65,6 @@ class AppealCheck extends React.Component {
   onChangePage(ids,currentId,direction){
     let newId = null;
     let metaDimensionId = null;
-    let status = null;
     let creditType = null;
     let nextItem = null;
     ids.forEach((item,i)=>{
@@ -92,14 +91,12 @@ class AppealCheck extends React.Component {
       const tmpArr = nextItem.split(',');
       newId=tmpArr[0];
       metaDimensionId=tmpArr[1];
-      status=tmpArr[2];
       creditType=tmpArr[3];
     }
     const {query={}} = this.props.location;
     const newQuery = {};
     newQuery.id = Number(newId);
     newQuery.dimensionId = Number(metaDimensionId); // 获取详情用id
-    newQuery.status=Number(status);
     newQuery.creditType=Number(creditType);
     router.replace({
       pathname:'/scoreAppeal/onAppeal/detail',
@@ -111,14 +108,16 @@ class AppealCheck extends React.Component {
 
   onJumpAppeal(){
     const {query={}} = this.props.location;
+    const {scoreAppealModel={}}=this.props;
+    const {detailInfo={}}=scoreAppealModel;
     const checkQuery={
       id:query.id,
       dimensionId:query.dimensionId,        // 获取详情用
       creditType:query.creditType,  // 学分维度
       dimensionType:query.dimensionType,            // 申诉维度
-      status:query.status,
-      firstOrSec:(Number(query.status) === 1||Number(query.status) === 5)?1:(Number(query.status) === 2||Number(query.status) === 6)?2:null,// 1 一申，2 二申
-      sopOrMaster:(Number(query.status) === 1||Number(query.status) === 2)?1:(Number(query.status) === 5||Number(query.status) === 6)?2:null,// 1 sop，2 master
+      status:detailInfo.status,
+      firstOrSec:(Number(detailInfo.status) === 1||Number(detailInfo.status) === 5)?1:(Number(detailInfo.status) === 2||Number(detailInfo.status) === 6)?2:null,// 1 一申，2 二申
+      sopOrMaster:(Number(detailInfo.status) === 1||Number(detailInfo.status) === 2)?1:(Number(detailInfo.status) === 5||Number(detailInfo.status) === 6)?2:null,// 1 sop，2 master
     };
     router.push({query:checkQuery, pathname:'/scoreAppeal/onAppeal/checkAppeal'});
   }
@@ -172,7 +171,7 @@ class AppealCheck extends React.Component {
         (AuthButton.checkPathname('/scoreAppeal/appeal/dockingMan')||
           AuthButton.checkPathname('/scoreAppeal/appeal/master'))&&
         <ShortcutButton ids={idList} currentId={query.id}
-                        status={query.status}
+                        status={detailInfo.status}
                         onChangePage={(ids,currentId,direction)=>this.onChangePage(ids,currentId,direction)}
                         onJumpAppeal={(state)=>this.onJumpAppeal(state)}/>}
         <footer style={{ textAlign: 'right', marginTop: '20px' }}>
