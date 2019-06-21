@@ -120,11 +120,11 @@ class imPage extends React.Component {
         title: '内容',
         dataIndex: 'contentList',
         key: 'contentList',
-        render: (list, r)=> {
+        render: (list, r) => {
           const l = r.content ? r.content.length : 0;
           const content = list.length > 0 ? <Layout dataMark={r}></Layout> : r.content;
           return (
-            <Tooltip mouseLeaveDelay={100} overlayClassName={styles.listTooltip} placement="right"  title={content}>
+            <Tooltip mouseLeaveDelay={100} overlayClassName={styles.listTooltip} placement="right" title={content}>
               <span>{l > 20 ? r.content.substring(0, 20) : r.content}</span>
             </Tooltip>
           );
@@ -180,11 +180,7 @@ class imPage extends React.Component {
   };
   handleEdit = (record) => {
     router.push({
-      pathname: '/qualityMarking/detail',
-      query: {
-        id: record.id,
-        type: markType,
-      }
+      pathname: `/qualityMarking/detail/${record.id}/${markType}`,
     });
     localStorage.removeItem("idList")
     localStorage.setItem("idList", this.props.idList)

@@ -82,10 +82,6 @@ class DataClassfy extends React.Component {
       id: this.state.nextId,
       type: this.props.type
     }
-    this.props.dispatch({
-      type: 'AiDetail/submit',
-      payload: { params: params, params2: params2 }
-    });
     let tabType = 1;
     if (this.props.type == 1) {
       tabType = 'im';
@@ -94,9 +90,18 @@ class DataClassfy extends React.Component {
     } else {
       tabType = 'nps';
     }
-    if (this.state.idList.length < 1) {
+    this.props.dispatch({
+      type: 'AiDetail/submit',
+      payload: { params: params, params2: params2 },
+      callback: () => {
+        router.push({
+          pathname: `/qualityMarking/detail/${this.state.nextId}/${this.props.type}`,
+        });
+      }
+    });
+    if (!this.state.nextId) {
       router.push({
-        pathname: '/qualityMarking/detail/' + tabType,
+        pathname: '/qualityMarking/' + tabType,
       });
     }
   }
@@ -106,11 +111,17 @@ class DataClassfy extends React.Component {
     pageData = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: 0, org: '' }]
     let idList = this.state.idList
     let currentId = null
-    if (!Array.isArray(idList)) {
-      idList = idList.split(",")
+    let percent = 100;
+    if (idList) {
+      if (!Array.isArray(idList)) {
+        idList = idList.split(",")
+      }
+      currentId = idList.indexOf(this.props.id)
+      this.state.nextId = idList[currentId + 1]
+      percent = (currentId + 1) / idList.length
+      console.log(122, currentId + 1 / idList.length)
     }
-    currentId = idList.indexOf(this.props.id)
-    this.state.nextId = idList[currentId + 1]
+
     return (
       <>
         <div className={styles.consultContent}>
@@ -204,8 +215,8 @@ class DataClassfy extends React.Component {
             </BIButton>
           </div>
           <div className={styles.progress}>
-            <p className={styles.number}>{currentId + 1}/{idList.length}</p>
-            <Progress percent={50} showInfo={false} />
+            <p className={styles.number}>{currentId ? currentId + 1 : 1}/{idList ? idList.length : 1}</p>
+            <Progress percent={percent} showInfo={false} />
           </div>
         </div>
       </>
