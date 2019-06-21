@@ -200,12 +200,12 @@ class UploadImg extends React.Component {
     const uploadButton = (
       <div>
         <Icon type="plus" />
-        <div className="ant-upload-text">Upload</div>
+        <div className="ant-upload-text">上传</div>
       </div>
     );
     let name = isShowDelBtn === 'show' ? 'showDelBtn' : 'hideDelBtn';
     return (
-      <div className="clearfix">
+        <div className="clearfix">
         <div className={styles.uploadImgWrap}>
           <a
             style={leftButtonStyle}
@@ -219,7 +219,7 @@ class UploadImg extends React.Component {
           </a>
           <div className={styles.listContent} style={listContent}>
             <div style={contentStyle}>
-              <Upload
+              <Upload 
                 className={name}
                 {...uploadMultipleFile()}
                 onChange={this.handleChange}
