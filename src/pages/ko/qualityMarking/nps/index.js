@@ -14,10 +14,11 @@ let exportType = ''; // 导出类型：11 - IM 21 - BBS 31 - NPS标签 32 - NPS�
   workTableModel,
   currentPage: workTableModel.pageParams[markType] || 1,
   searchParams: workTableModel.searchParams[markType] || {},
-  collegeList: [{id: 0, name: '空'}].concat(workTableModel.collegeList),
+  collegeList: [{ id: 0, name: '空' }].concat(workTableModel.collegeList),
   consultList: workTableModel.consultList,
   reasonList: workTableModel.reasonList,
   evaluateList: workTableModel.evaluateList,
+  idList: workTableModel.idList,
 }))
 class bbsPage extends React.Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class bbsPage extends React.Component {
           const l = text ? text.length : 0;
           return (
             <>
-              <Tooltip overlayClassName={styles.listTooltip} placement="right"  title={text}>
+              <Tooltip overlayClassName={styles.listTooltip} placement="right" title={text}>
                 <span>{l > 20 ? text.substring(0, 20) + '...' : text}</span>
               </Tooltip>
             </>
@@ -108,6 +109,8 @@ class bbsPage extends React.Component {
         type: markType,
       }
     });
+    localStorage.removeItem("idList")
+    localStorage.setItem("idList", this.props.idList)
   };
   onSearchChange = (searchParams) => {
     this.setState({
@@ -152,9 +155,9 @@ class bbsPage extends React.Component {
     return (
       <div>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
-                onSearchChange={this.onSearchChange} ></MarkForm>
+          onSearchChange={this.onSearchChange} ></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
-                columnsData={this.columnsData}>
+          columnsData={this.columnsData}>
           <div>
             <BIButton onClick={() => this.handleExport(31)} className={styles.exportBtn}>导出标签</BIButton>
             <BIButton onClick={() => this.handleExport(32)} className={styles.exportEvaluate}>导出自主评价</BIButton>

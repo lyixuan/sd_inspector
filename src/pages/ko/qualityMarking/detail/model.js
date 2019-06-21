@@ -38,7 +38,6 @@ export default {
     *edit({ payload }, { call, put }) {
       const params = payload.params
       const result = yield call(edit, params);
-      console.log(16, result)
       if (result.code === 20000) {
         const pageData = result.data || [];
         yield put({ type: 'save', payload: { pageData } });
@@ -48,11 +47,12 @@ export default {
     },
     *submit({ payload }, { call, put }) {
       const params = payload.params
+      console.log(51, payload)
       const result = yield call(submit, params);
-      console.log(16, result)
       if (result.code === 20000) {
-        const submit = result.data || [];
-        yield put({ type: 'save', payload: { submit } });
+        const editResult = yield call(edit, payload.params2);
+        const pageData = editResult.data || [];
+        yield put({ type: 'save', payload: { pageData } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

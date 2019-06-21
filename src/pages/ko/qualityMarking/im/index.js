@@ -145,6 +145,7 @@ function TeacherOrStudent(props) {
   collegeList: workTableModel.collegeList,// bbs nps
   consultList: [{ id: 0, name: '空' }].concat(workTableModel.consultList),// im
   reasonList: workTableModel.reasonList,// im bbs nps
+  idList: workTableModel.idList,
 }))
 class imPage extends React.Component {
   constructor(props) {
@@ -239,6 +240,8 @@ class imPage extends React.Component {
         type: markType,
       }
     });
+    localStorage.removeItem("idList")
+    localStorage.setItem("idList", this.props.idList)
   };
   onSearchChange = (searchParams) => {
     this.setState({

@@ -32,7 +32,6 @@ function Detail(props) {
 class AiDetail extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       type: this.props.location.query.type,
       id: this.props.location.query.id

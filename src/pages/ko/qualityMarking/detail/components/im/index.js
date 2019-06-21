@@ -9,7 +9,7 @@ import avatarStudent from '@/assets/avatarStudent.png';
 
 //对话区域
 function SessionContent(props) {
-  const li = props.li.map((item, index) => <ListItem li={item} key={index} />);
+  const li = props.li.map((item, index) => <ListItem {...props} li={item} key={index} />);
   return li;
 }
 //对话区域行
@@ -17,7 +17,7 @@ function ListItem(props) {
   if (!props.li) {
     return null;
   } else {
-    return <TeacherOrStudent item={props.li} />;
+    return <TeacherOrStudent {...props} item={props.li} />;
   }
 }
 // 判断是老师还是学员
@@ -34,7 +34,7 @@ function TeacherOrStudent(props) {
           </div>
           <div className={`${styles.chat} ${styles.chatLeft}`}>
             <div className={styles.avatar}>
-              {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarStudent} />}
+              {props.stuHeadUrl ? <img src={props.stuHeadUrl} /> : <img src={avatarStudent} />}
               <p>{props.item.userName}</p>
             </div>
             <div className={styles.chatContent}>
@@ -65,7 +65,7 @@ function TeacherOrStudent(props) {
               {props.item.content}
             </div>
             <div className={styles.avatar}>
-              {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarTeacher} />}
+              {props.teacherHeadUrl ? <img src={props.teacherHeadUrl} /> : <img src={avatarTeacher} />}
               <p>{props.item.userName}</p>
             </div>
           </div>
@@ -85,7 +85,6 @@ class DetailIm extends React.Component {
   }
   handleClick = (val) => {
     // 复制
-    console.log(17, val)
     copy(val)
     alert('复制成功')
   }
@@ -162,7 +161,7 @@ class DetailIm extends React.Component {
           </div>
 
           <ul className={styles.behavior}>
-            <SessionContent li={item.contentList}></SessionContent>
+            <SessionContent stuHeadUrl={item.stuHeadUrl} teacherHeadUrl={item.teacherHeadUrl} li={item.contentList}></SessionContent>
             {/* <li className={styles.step}>
               <div className={styles.time}>20：00：00</div>
               <div className={styles.content}>
