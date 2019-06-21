@@ -88,7 +88,7 @@ class CSForm extends React.Component {
   };
 
   search = ()=>{
-    this.props.onSubmit(this.state,undefined);
+    this.props.onSubmit(this.state,{page:1});
   };
 
   export = ()=>{

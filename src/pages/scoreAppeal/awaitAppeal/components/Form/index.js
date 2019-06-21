@@ -64,7 +64,7 @@ class CSForm extends React.Component {
   };
 
   search = ()=>{
-    this.props.onSubmit(this.state,undefined);
+    this.props.onSubmit(this.state,{page:1});
   };
   render() {
     // dimensionType:  11 优新 14 IM 19 工单 23 底线 42 创收
