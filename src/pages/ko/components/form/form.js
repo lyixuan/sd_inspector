@@ -417,11 +417,11 @@ class CommonForm extends React.Component {
                     </div>
                     <div className={styles.itemCls} >
                       <Form.Item label='成单意向：'>
-                        {getFieldDecorator('intention', {
-                          initialValue: params.intention,
+                        {getFieldDecorator('transactionIntention', {
+                          initialValue: params.transactionIntention,
                         })(
                           <BISelect placeholder="请选择" allowClear>
-                            {this.filterEnumData(11).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
+                            {this.filterEnumData(12).map(item => <Option key={item.value} value={item.value}>{item.name}</Option>)}
                           </BISelect>
                         )}
                       </Form.Item>

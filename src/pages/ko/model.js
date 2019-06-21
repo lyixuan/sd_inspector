@@ -23,6 +23,7 @@ export default {
     chooseEventData: [],
     userGroupListData: [],
     pageDetailTotal: {},
+    SingleIntention: {}, // 承担意向搜索及展示对应数据
   },
 
   effects: {
@@ -48,6 +49,18 @@ export default {
         yield put({
           type: 'saveKOEnumList',
           payload: { enumData },
+        })
+        // 成单意向对应的数据
+        const SingleIntention = {};
+        enumData[12].forEach(item => {
+          const arr = item.value.splice(',');
+          SingleIntention[item.name] = {
+            ...item, minValue: arr[0], maxValue: arr[1],
+          }
+        });
+        yield put({
+          type: 'saveKOEnumList',
+          payload: { SingleIntention },
         })
       } else {
         message.error(response.msg);

@@ -19,7 +19,7 @@ const dateFormat = 'YYYY.MM.DD';
 const { TextArea } = BIInput;
 
 const filterKeyName = [];
-const sorterKeyName = {
+const sorterKeyName = { // 排序对应字段
   attendenceCount: 'study_total_attendance_num',
   listenTime: 'study_total_listen_time',
   studyExeciseNum: 'study_exercise_num',
@@ -34,6 +34,8 @@ const sorterKeyName = {
   wechatTeacherChatNum: 'wechat_teacher_chat_num',
   wechatStudentChatNum: 'wechat_student_chat_num',
   imEmotionValue: 'negative_msg_num',
+  robot_chat_num: 'robot_chat_num',
+  transactionIntention: 'transactionIntention',
 };
 function columns() {
   const col = [
@@ -128,13 +130,12 @@ function columns() {
     },
     {
       title: '机器人咨询量',
-      key: 'studyExeciseNum1',
-      dataIndex: 'studyExeciseNum1',
+      key: 'robot_chat_num',
+      dataIndex: 'robot_chat_num',
       filterMultiple: false,
       width: 140,
       filters: [
-        { text: '大于0', value: 1, key: 'execiseExist' },
-        { text: '等于0', value: 2, key: 'execiseExist' },
+        { text: '大于0', value: 1, key: 'robot_chat_num' },
       ],
       sorter: true,
       sortDirections: ['descend', 'ascend']
@@ -286,9 +287,14 @@ function columns() {
     },
     {
       title: '成单意向',
-      key: 'studyExeciseNum2',
-      dataIndex: 'studyExeciseNum2',
+      key: 'transactionIntention',
+      dataIndex: 'transactionIntention',
       width: 120,
+      filterMultiple: false,
+      filters: [
+        { text: '大于0', value: '{ type:6，minValue:0.1, maxValue:0.5 }', key: 'transactionIntention' },
+        { text: '等于0', value: '{type:3，value:-1}', key: 'transactionIntention' },
+      ],
       sorter: true,
       sortDirections: ['descend', 'ascend']
     },

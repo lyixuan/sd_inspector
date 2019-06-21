@@ -111,6 +111,7 @@ class CommonForm extends React.Component {
                 returnItem = item ? item.value : undefined;
                 break;
             case 'koOrderGap':
+              console.log(item)
                 // 时间间隔,处理到秒
                 returnItem = item ? this.handleCustomParams(item) : undefined;
                 break;
@@ -119,6 +120,10 @@ class CommonForm extends React.Component {
                 break;
             case 'backBelong':
                 returnItem = item ? this.handleOrgParams(item)(['collegeId', 'familyId', 'groupId']) : undefined;
+                break;
+            case 'transactionIntention':
+              console.log(item)
+                returnItem = item ? this.handleCustomParams(item) : undefined;
                 break;
             default:
                 returnItem = null;
