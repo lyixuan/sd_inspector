@@ -10,14 +10,17 @@ import styles from '../style.less';
 const { TextArea } = Input;
 const { Option } = BISelect;
 
-@connect(({ AiDetail }) => ({
-  AiDetail
+@connect(({ AiDetail, workTableModel }) => ({
+  AiDetail,
+  idList: workTableModel.idList,
+  pageData: AiDetail.pageData,
 }))
 
 class DataClassfy extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      ordId: this.props.pageData && this.props.pageData.item.ordId ? this.props.pageData.item.ordId : '请选择',
       consultTypeId: 91,
       consultTypeIdList: [],
       reasonTypeIdList: [],
@@ -28,6 +31,12 @@ class DataClassfy extends React.Component {
   }
   componentDidMount() {
 
+  }
+  orderChange = (val) => {
+    console.log(35, val)
+    this.setState({
+      ordId: val.value
+    })
   }
   // 咨询类型切换
   onChangeConsult = (value) => {
@@ -53,24 +62,24 @@ class DataClassfy extends React.Component {
     this.state.remark = e.target.value
   };
   submit = () => {
-    let type = 1;
-    if (this.props.type == 'im') {
-      type = 1;
-    } else if (this.props.type == 'bbs') {
-      type = 2;
-    } else {
-      type = 3;
-    }
+    // let idList = this.props.idList.length > 0 ? this.props.idList : localStorage.getItem('idList')
+    // if (!Array.isArray(idList)) {
+    //   idList = idList.split(",")
+    // }
+    // console.log(65, idList.indexOf(this.props.id))
+
+    return;
     let params = {
-      type: type,
-      id: this.props.id,
+      type: this.props.type,
+      itemId: this.props.id,
       result: {
+        resultId: null,
         consultTypeIdList: this.state.consultTypeIdList, //咨询类型id
         reasonTypeIdList: this.state.reasonTypeIdList,// 原因分类id
         evaluationNature: '负面', //评价性质
         evaluationFlag: this.state.evaluationFlag, //是否质检
         remark: this.state.remark, //备注
-        orderId: null, //选择订单
+        orderId: this.state.ordId, //选择订单
       }
     };
     console.log(65, params)
@@ -81,8 +90,10 @@ class DataClassfy extends React.Component {
     });
   }
   render() {
-    const { consultTypeTree, reasonTypeTree } = this.props.AiDetail;
-    const type = this.props.type
+    let { consultTypeTree, reasonTypeTree, pageData } = this.props.AiDetail;
+    let { type } = this.props
+    pageData = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: 0, org: '' }]
+    console.log(96, this.props.AiDetail, pageData)
     return (
       <>
         <div className={styles.consultContent}>
@@ -93,10 +104,10 @@ class DataClassfy extends React.Component {
                   <li>
                     <label>选择订单：</label>
                     <div className={styles.selects}>
-                      <BISelect style={{ width: '100%' }} placeholder="请选择" value='123'>
-                        <Option key={1}>
-                          333
-                        </Option>
+                      <BISelect style={{ width: '100%' }} value={this.state.ordId} placeholder="请选择" onChange={(val) => { this.orderChange(val) }}>
+                        {pageData.map(item => (
+                          <Option key={item.ordId} value={item.ordId}>{item.org}</Option>)
+                        )}
                       </BISelect>
                     </div>
                   </li>
@@ -120,6 +131,9 @@ class DataClassfy extends React.Component {
               type == 1 ?
                 <li>
                   <label>咨询类型：</label>
+                  {/* {
+                    item.orderList
+                  } */}
                   <div className={styles.selects}>
                     <BICascader
                       fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}

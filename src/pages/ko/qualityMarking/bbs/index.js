@@ -100,6 +100,7 @@ class bbsPage extends React.Component {
         type: markType,
       }
     });
+    localStorage.setItem("idList", this.props.idList)
   };
   onSearchChange = (searchParams) => {
     this.setState({

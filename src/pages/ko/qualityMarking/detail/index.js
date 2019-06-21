@@ -1,6 +1,7 @@
 import React from 'react';
 import copy from 'copy-to-clipboard';
 import { connect } from 'dva';
+import { Spin } from 'antd';
 import DetailIm from './components/im';
 import DetailBbs from './components/bbs';
 import DetailNps from './components/nps';
@@ -8,9 +9,25 @@ import DataClassfy from './components/dataClassfy.js';
 import PageHead from '@/components/PageHead/pageHead';
 import styles from './style.less';
 
-@connect(({ AiDetail, workTableModel }) => ({
+function Detail(props) {
+  if (props.pageData) {
+    if (props.type == 1) {
+      return <DetailIm {...props}></DetailIm>
+    } else if (props.type == 2) {
+      return <DetailBbs {...props}></DetailBbs>
+    } else {
+      return <DetailNps {...props}></DetailNps>
+    }
+  } else {
+    return null
+  }
+}
+@connect(({ AiDetail, workTableModel, loading }) => ({
+  loading,
   AiDetail,
-  idList: workTableModel.idList
+  idList: workTableModel.idList,
+  pageData: AiDetail.pageData,
+  isLoading: loading.effects['AiDetail/edit'],
 }))
 class AiDetail extends React.Component {
   constructor(props) {
@@ -39,7 +56,6 @@ class AiDetail extends React.Component {
     });
   }
   getPageData = () => {
-
     let params = {
       id: this.state.id,
       type: this.state.type
@@ -66,26 +82,23 @@ class AiDetail extends React.Component {
     }
     const { type, id } = this.state
     const routerData = { name: `${tabType}会话`, bread: { name: "AI工作台", path: "/koUserOperation/userOperation" }, path: "/koUserOperation/userGroupAdd" }
-    console.log(70, this.props)
+    const pageData = this.props.pageData
     return (
       <div style={{ marginTop: '-28px' }}>
         <PageHead routerData={routerData}></PageHead>
-        <div className={styles.aiDetail}>
-          <div className={styles.baseInfo}>
-            <div className={styles.headBar}>基本信息</div>
-            {type == 1 ? <DetailIm type={type} id={id}></DetailIm> : null}
-            {type == 2 ? <DetailBbs type={type} id={id}></DetailBbs> : null}
-            {type == 3 ? <DetailNps type={type} id={id}></DetailNps> : null}
+        <Spin spinning={this.props.isLoading}>
+          <div className={styles.aiDetail}>
+            <div className={styles.baseInfo}>
+              <div className={styles.headBar}>基本信息</div>
+              <Detail pageData={pageData} type={type} id={id}></Detail>
+            </div>
+            <div className={styles.dataClassfy}>
+              <div className={styles.headBar}>数据分类</div>
+              <DataClassfy type={type} id={id}></DataClassfy>
+            </div>
           </div>
-          <div className={styles.dataClassfy}>
-            <div className={styles.headBar}>数据分类</div>
-            <DataClassfy type={type} id={id}></DataClassfy>
-            {/* {type == 'im' ? <DataClassfy type={type} id={id}></DataClassfy> : null}
-            {type == 'bbs' ? <DataClassfyBbs type={type} id={id}></DataClassfyBbs> : null}
-            {type == 'nps' ? <DataClassfyNps type={type} id={id}></DataClassfyNps> : null} */}
-          </div>
-        </div>
-      </div>
+        </Spin>
+      </div >
     );
   }
 }
