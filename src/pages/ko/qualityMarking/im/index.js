@@ -6,12 +6,10 @@ import BIButton from '@/ant_components/BIButton';
 import router from 'umi/router';
 import styles from '../style.less';
 import { connect } from 'dva/index';
-import ReactTooltip from 'react-tooltip';
 import exportimg from '@/assets/ai/export.png';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
-import miniApp from '@/assets/miniApp.png';
-
+import { Tooltip } from 'antd';
 
 const markType = 1; //im bbs nps 对应的额type值为1， 2， 3
 const exportType = 11; // 导出类型：导出类型：11 - IM 21 - BBS 31 - NPS标签 32 - NPS自主评价
@@ -19,7 +17,7 @@ const exportType = 11; // 导出类型：导出类型：11 - IM 21 - BBS 31 - NP
 function Layout(props) {
   const layout = <section>
     <ul className={styles.behavior}>
-      {props.dataLists.map((item, index) => <ListItem li={item} key={index} />)}
+      {props.dataMark.contentList.map((item, index) => <ListItem item={item} dataMark={props.dataMark} key={index} />)}
     </ul>
   </section>;
   return layout;
@@ -27,44 +25,22 @@ function Layout(props) {
 
 //对话区域行
 function ListItem(props) {
-  if (!props.li) {
+  if (!props.item) {
     return null;
   } else {
-    return <TeacherOrStudent item={props.li} />;
+    return <TeacherOrStudent {...props} />;
   }
 }
 
 // 判断是老师还是学员
 function TeacherOrStudent(props) {
-  if (props.item.userType == 1) {
-    if (props.item.appletFlag) {
-      return (
-        <li className={styles.step}>
-          <div className={styles.time}>
-            {props.item.consultTime ? props.item.consultTime : ''}
-          </div>
-          <div className={styles.content}>
-            <div className={styles.bigDot}>
-              <span className={styles.dot} />
-            </div>
-            <div className={styles.chatLeft}>
-              <div className={styles.avatar}>
-                <img src={avatarStudent} />
-                <p>{props.item.userName}</p>
-              </div>
-              <div className={`${styles.chatContent} ${styles.miniApp}`}>
-                <img src={miniApp} />
-                {props.item.message}
-              </div>
-            </div>
-          </div>
-        </li>
-      );
-    }
+  props.dataMark.teacherHeadUrl = props.dataMark.teacherHeadUrl || avatarTeacher;
+  props.dataMark.stuHeadUrl = props.dataMark.stuHeadUrl || avatarStudent;
+  if (props.item.type == 1) {
     return (
       <li className={styles.step}>
         <div className={styles.time}>
-          {props.item.consultTime ? props.item.consultTime : ''}
+          {props.item.time ? props.item.time : ''}
         </div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
@@ -72,49 +48,24 @@ function TeacherOrStudent(props) {
           </div>
           <div className={styles.chatLeft}>
             <div className={styles.avatar}>
-              <img src={avatarStudent} />
-              <p>{props.item.userName}</p>
+              <img src={props.dataMark.stuHeadUrl} />
+              <p>{props.dataMark.stuName}</p>
             </div>
             <div className={styles.chatContent}>
               <span className={styles.triangle}>
                 <em />
               </span>
-              {props.item.message}
+              {props.item.content}
             </div>
           </div>
         </div>
       </li>
     );
   } else {
-    if (props.item.appletFlag) {
-      return (
-        <li className={styles.step}>
-          <div className={styles.time}>
-            {props.item.consultTime ? props.item.consultTime : ''}
-          </div>
-          <div className={styles.content}>
-            <div className={styles.bigDot}>
-              <span className={styles.dot} />
-            </div>
-            <div className={styles.chatRight}>
-              <div className={`${styles.chatContent} ${styles.miniApp}`}>
-                <img src={miniApp} />
-                {props.item.message}
-              </div>
-              <div className={styles.avatar}>
-                <img src={avatarTeacher} />
-                <p>{props.item.userName}</p>
-              </div>
-            </div>
-          </div>
-        </li>
-      );
-    }
-
     return (
       <li className={styles.step}>
         <div className={styles.time}>
-          {props.item.consultTime ? props.item.consultTime : ''}
+          {props.item.time ? props.item.time : ''}
         </div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
@@ -125,11 +76,11 @@ function TeacherOrStudent(props) {
               <span className={styles.triangle}>
                 <em />
               </span>
-              {props.item.message}
+              {props.item.content}
             </div>
             <div className={styles.avatar}>
-              <img src={avatarTeacher} />
-              <p>{props.item.userName}</p>
+              <img src={props.dataMark.teacherHeadUrl} />
+              <p>{props.dataMark.teacherName}</p>
             </div>
           </div>
         </div>
@@ -154,7 +105,6 @@ class imPage extends React.Component {
     this.state = {
       searchParams,
       currentPage,
-      contentList: [],
       visible: false, // 弹框是否显示标志
     };
   }
@@ -168,14 +118,15 @@ class imPage extends React.Component {
       },
       {
         title: '内容',
-        dataIndex: 'content',
-        key: 'content',
-        render: text => {
-          const content = Array.isArray(text) && text[0] ? text[0].message : '';
-          const showText = content.length > 10 ? content.substring(0, 10) + '...' : content;
+        dataIndex: 'contentList',
+        key: 'contentList',
+        render: (list, r)=> {
+          const l = r.content ? r.content.length : 0;
+          const content = list.length > 0 ? <Layout dataMark={r}></Layout> : r.content;
           return (
-            <span data-tip='' ref={ref => this.fooRef = ref} onMouseOver={this.handleMouseOver.bind(this, text)}
-              onMouseOut={this.handleMouseOut}>{showText}</span>
+            <Tooltip mouseLeaveDelay={100} overlayClassName={styles.listTooltip} placement="right"  title={content}>
+              <span>{l > 20 ? r.content.substring(0, 20) : r.content}</span>
+            </Tooltip>
           );
         },
       },
@@ -188,6 +139,12 @@ class imPage extends React.Component {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
+        render: text => {
+          const l = text ? text.length : 0;
+          return (
+            <span>{l > 20 ? text.substring(0, 20) + '...' : ''}</span>
+          )
+        },
       },
       {
         title: '操作人',
@@ -220,17 +177,6 @@ class imPage extends React.Component {
       },
     ];
     return columns || [];
-  };
-
-  handleMouseOver(text) {
-    this.setState({
-      contentList: text || [],
-    });
-    ReactTooltip.show(this.fooRef);
-  };
-
-  handleMouseOut = (e) => {
-    ReactTooltip.hide(this.fooRef);
   };
   handleEdit = (record) => {
     router.push({
@@ -281,12 +227,9 @@ class imPage extends React.Component {
   }
 
   render() {
-    const { searchParams, currentPage, contentList, visible } = this.state;
+    const { searchParams, currentPage, visible } = this.state;
     return (
       <div>
-        <ReactTooltip delayHide={1000} className={styles.listReactTooltip} place="right">
-          {contentList.length > 0 && <Layout dataLists={contentList}></Layout>}
-        </ReactTooltip>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
           onSearchChange={this.onSearchChange}></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}

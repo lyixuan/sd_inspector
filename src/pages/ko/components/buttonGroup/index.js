@@ -122,6 +122,9 @@ export default class ButtonGroup extends React.Component {
             case 'backBelong':
                 returnDom = item ? this.renderGrouptags(item, 'backBelong') : null
                 break;
+            case 'transactionIntention':
+                returnDom = item ? this.renderTypeTage(item, 'transactionIntention')('custorm') : null
+                break;
             default:
                 returnDom = null;
                 break
