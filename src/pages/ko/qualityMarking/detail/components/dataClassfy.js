@@ -24,7 +24,6 @@ const { Option } = BISelect;
 class DataClassfy extends React.Component {
   constructor(props) {
     super(props);
-    console.log(27, props)
     this.state = {
       currentId: null,
       idList: this.props.idList.length > 0 ? this.props.idList : localStorage.getItem('idList'),
