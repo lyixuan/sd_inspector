@@ -17,32 +17,57 @@ const { Option } = BISelect;
   AiDetail,
   idList: workTableModel.idList,
   pageData: AiDetail.pageData,
-  submitParam: AiDetail.submitParam,
+  // submitParam: AiDetail.submitParam,
   isLoading: loading.effects['AiDetail/submit']
 }))
 
 class DataClassfy extends React.Component {
   constructor(props) {
     super(props);
+    console.log(27, props)
     this.state = {
       currentId: null,
       idList: this.props.idList.length > 0 ? this.props.idList : localStorage.getItem('idList'),
       submitParam: this.props.submitParam,
       nextId: null,
       visible: false,
-      tabType: 'im'
+      tabType: 'im',
+      org: '',
+      percent: 0,
+      // ordId: undefined
     };
 
   }
+  componentDidMount() {
+    // this.computedId();
+  }
 
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.props.pageData != nextProps.pageData && nextProps.pageData.result.ordIdList.length > 0) {
+  //     nextProps.pageData.result.ordIdList.map(item => {
+  //       if (item.ordId == this.state.submitParam.ordId) {
+  //         this.setState({
+  //           org: item.org
+  //         })
+  //       }
+
+  //     })
+  //   }
+
+  // }
   orderChange = (val) => {
+    console.log(79, val, val.name)
     this.setState({
-      submitParam: { ...this.state.submitParam, ordId: val.value }
+      submitParam: { ...this.state.submitParam, ordId: 3425777 },
+      org: val.value
+    }, () => {
+      console.log(64, this.state.submitParam)
     })
+
+
   }
   // 咨询类型切换
   onChangeConsult = (value) => {
-    console.log(20, value)
     const consultTypeIdList = value.map(item => {
       return item.value
     })
@@ -132,6 +157,7 @@ class DataClassfy extends React.Component {
     });
   }
   render() {
+    this.state.submitParam = this.props.submitParam
     let { consultTypeTree, reasonTypeTree } = this.props.AiDetail;
     let { type, isLoading, pageData } = this.props
     let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: 0, org: '' }]
@@ -160,14 +186,14 @@ class DataClassfy extends React.Component {
                     <div className={styles.selects}>
                       <BISelect style={{ width: '100%' }} value={this.state.submitParam.ordId} placeholder="请选择" onChange={(val) => { this.orderChange(val) }}>
                         {orderList.map(item => (
-                          <Option key={item.ordId} value={item.ordId}>{item.org}</Option>)
+                          <Option key={item.ordId} value={item.org}>{item.ordId}</Option>)
                         )}
                       </BISelect>
                     </div>
                   </li>
                   <li>
                     <label>后端归属：</label>
-                    <p>{pageData.item.org}</p>
+                    <p>{this.state.org}</p>
                   </li>
                 </>
                 : null
@@ -178,12 +204,12 @@ class DataClassfy extends React.Component {
                   <li>
                     <label>选择订单：</label>
                     <div className={styles.selects}>
-                      <p>{orderList && orderList[0] ? orderList[0].org : ''}</p>
+                      <p>{orderList && orderList[0] ? orderList[0].ordId : ''}</p>
                     </div>
                   </li>
                   <li>
                     <label>后端归属：</label>
-                    <p>{pageData && pageData.item ? pageData.item.org : ''}</p>
+                    <p>{orderList && orderList[0] ? orderList[0].org : ''}</p>
                   </li>
                 </>
                 : null
@@ -192,7 +218,7 @@ class DataClassfy extends React.Component {
               type == 3 ?
                 <li>
                   <label>生命周期：</label>
-                  <p>70</p>
+                  <p>{orderList[0].lifeCycle}</p>
                 </li>
                 : null
             }
@@ -219,6 +245,7 @@ class DataClassfy extends React.Component {
                   fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
                   options={reasonTypeTree}
                   onChange={this.onChangeReson}
+                  value={this.state.submitParam.reasonTypeIdList}
                   placeholder="请选择" />
               </div>
             </li>
@@ -256,7 +283,7 @@ class DataClassfy extends React.Component {
           </div>
           <div className={styles.progress}>
             <p className={styles.number}>{this.state.currentId ? this.state.currentId + 1 : 1}/{idList ? idList.length : 1}</p>
-            <Progress percent={percent} showInfo={false} />
+            <Progress percent={this.state.percent} showInfo={false} />
           </div>
         </div>
         <BIModal
