@@ -58,3 +58,13 @@ export function handleDateFormParams(params) {
         publicChoiceLessonTime: HandleData,
     }
 }
+export function getTransactionIntentionValue(data = [], v = -1) {
+  for (let item of Object.values(data)) {
+    if (item.valueType === 3 && item.minValue === v && item.maxValue === v) { // 等于
+      return '-';
+    } else if ((item.valueType === 7 && item.minValue <= v && item.maxValue >= v) || (item.valueType === 8 && item.minValue <= v && item.maxValue > v)) { // 大于等于且小于等于 // 大于等于且小于
+      return item.name;
+    }
+  }
+  return v;
+}

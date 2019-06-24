@@ -124,7 +124,7 @@ class imPage extends React.Component {
           const l = r.content ? r.content.length : 0;
           const content = list.length > 0 ? <Layout dataMark={r}></Layout> : r.content;
           return (
-            <Tooltip mouseLeaveDelay={100} overlayClassName={styles.listTooltip} placement="right" title={content}>
+            <Tooltip overlayClassName={styles.listTooltip} placement="right"  title={content}>
               <span>{l > 20 ? r.content.substring(0, 20) : r.content}</span>
             </Tooltip>
           );

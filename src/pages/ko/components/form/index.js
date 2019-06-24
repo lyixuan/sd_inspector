@@ -62,17 +62,17 @@ class CommonForm extends React.Component {
         return returnObj;
     }
     handleIntentionParams = (item) => {
-      const arr = item.value.split(',');
-      if (arr.length === 2) {
+      const arr1 = item.value.split(';');
+      const arr2 = arr1[0].split(',');
+      if(arr2.length === 1) {
         return {
-          ...item, minValue: arr[0], maxValue: arr[1], type: 6, // 其它是6
+          ...item, value: arr2[0], type: arr1[1],
         }
       } else {
         return {
-          ...item, type: 3, // 空是3
+          ...item, minValue: arr2[0], maxValue: arr2[1], type: arr1[1], value: undefined,
         }
       }
-
     }
     checkoutParamsType = (key, item) => {
         let returnItem = undefined;

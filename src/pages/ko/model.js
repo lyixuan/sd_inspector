@@ -46,9 +46,16 @@ export default {
           enumData[item.type] = item.enumData;
         });
         enumData[12] = enumData[12].map(item => {
-          const arr = item.value.split(',');
-          return {
-            ...item, valueShow: `${arr[0]} ~ ${arr[1]}`
+          const arr1 = item.value.split(';');
+          const arr2 = arr1[0].split(',');
+          if(arr2.length === 1) {
+            return {
+              ...item, minValue: Number(arr2[0]), maxValue: Number(arr2[0]), valueType: Number(arr1[1]),
+            }
+          } else {
+            return {
+              ...item, minValue: Number(arr2[0]), maxValue: Number(arr2[1]), valueType: Number(arr1[1]),
+            }
           }
         });
         yield put({
