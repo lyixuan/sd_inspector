@@ -70,7 +70,6 @@ class AiDetail extends React.Component {
     alert('复制成功', 1)
   }
   componentWillReceiveProps(nextProps) {
-    console.log(73, this.props.match.params.id, nextProps.match.params.id)
     if (this.props.match.params.id != nextProps.match.params.id) {
       this.setState({
         id: nextProps.match.params.id

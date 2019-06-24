@@ -14,6 +14,16 @@ export default {
     consultTypeTree: null,
     reasonTypeTree: null,
     pageData: null,
+    submitParam: {
+      ordId: null,
+      consultTypeId: null,
+      consultTypeIdList: [],
+      reasonTypeIdList: [],
+      evaluationFlag: null,
+      evaluationNature: null,
+      remark: ''
+    },
+
   },
 
   effects: {
@@ -39,8 +49,23 @@ export default {
       const params = payload.params
       const result = yield call(edit, params);
       if (result.code === 20000) {
+        console.log(49, result)
         const pageData = result.data || [];
-        yield put({ type: 'save', payload: { pageData } });
+        const submitParam = {
+          ordId: pageData.result.ordId || undefined,
+          consultTypeId: pageData.result.consultTypeId,
+          consultTypeIdList: pageData.result.consultTypeIdList,
+          reasonTypeIdList: pageData.result.reasonTypeIdList,
+          evaluationFlag: pageData.result.evaluationFlag,
+          evaluationNature: pageData.result.evaluationNature
+        }
+
+        yield put({
+          type: 'save', payload: {
+            pageData,
+            submitParam
+          }
+        });
 
       } else {
         message.error(msgF(result.msg, result.msgDetail));
@@ -58,9 +83,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-
   },
-
   reducers: {
     save(state, action) {
       return { ...state, ...action.payload };
