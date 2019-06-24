@@ -123,7 +123,7 @@ class bbsPage extends React.Component {
     const { searchParams, currentPage } = this.state;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
-      payload: { params: { ...searchParams, currentPage, type: markType } },
+      payload: { params: { ...searchParams, page: currentPage, type: markType } },
     });
   };
   handleExport(type) {

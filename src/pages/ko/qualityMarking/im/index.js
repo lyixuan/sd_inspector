@@ -200,7 +200,7 @@ class imPage extends React.Component {
     const { searchParams, currentPage } = this.state;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
-      payload: { params: { ...searchParams, currentPage, type: markType } },
+      payload: { params: { ...searchParams, page: currentPage, type: markType } },
     });
   };
   handleExport = () => {// 导出类型：11 - IM21 - BBS31 - NPS标签 32 - NPS自主评价
