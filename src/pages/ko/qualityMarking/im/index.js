@@ -10,6 +10,7 @@ import exportimg from '@/assets/ai/export.png';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import { Tooltip } from 'antd';
+import { pathImUrl } from '../../utils/utils'
 
 const markType = 1; //im bbs nps 对应的额type值为1， 2， 3
 const exportType = 11; // 导出类型：导出类型：11 - IM 21 - BBS 31 - NPS标签 32 - NPS自主评价
@@ -34,8 +35,6 @@ function ListItem(props) {
 
 // 判断是老师还是学员
 function TeacherOrStudent(props) {
-  props.dataMark.teacherHeadUrl = props.dataMark.teacherHeadUrl || avatarTeacher;
-  props.dataMark.stuHeadUrl = props.dataMark.stuHeadUrl || avatarStudent;
   if (props.item.type == 1) {
     return (
       <li className={styles.step}>
@@ -48,7 +47,7 @@ function TeacherOrStudent(props) {
           </div>
           <div className={styles.chatLeft}>
             <div className={styles.avatar}>
-              <img src={props.dataMark.stuHeadUrl} />
+              <img src={props.dataMark.stuHeadUrl ? (pathImUrl + props.dataMark.stuHeadUrl) : avatarStudent} />
               <p>{props.dataMark.stuName}</p>
             </div>
             <div className={styles.chatContent}>
@@ -79,7 +78,7 @@ function TeacherOrStudent(props) {
               {props.item.content}
             </div>
             <div className={styles.avatar}>
-              <img src={props.dataMark.teacherHeadUrl} />
+              <img src={props.dataMark.teacherHeadUrl ? (pathImUrl + props.dataMark.teacherHeadUrl) : avatarTeacher} />
               <p>{props.dataMark.teacherName}</p>
             </div>
           </div>

@@ -68,3 +68,4 @@ export function getTransactionIntentionValue(data = [], v = -1) {
   }
   return v;
 }
+export const pathImUrl = 'http://static.sunlands.com';
