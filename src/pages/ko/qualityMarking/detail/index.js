@@ -32,10 +32,9 @@ function Detail(props) {
 class AiDetail extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      type: this.props.location.query.type,
-      id: this.props.location.query.id
+      type: this.props.match.params.type,
+      id: this.props.match.params.id
     };
   }
   componentDidMount() {
@@ -70,6 +69,15 @@ class AiDetail extends React.Component {
     copy(e.target.value)
     alert('复制成功', 1)
   }
+  componentWillReceiveProps(nextProps) {
+    console.log(73, this.props.match.params.id, nextProps.match.params.id)
+    if (this.props.match.params.id != nextProps.match.params.id) {
+      this.setState({
+        id: nextProps.match.params.id
+      })
+    }
+    return;
+  }
 
   render() {
     let tabType = 1;
@@ -81,7 +89,7 @@ class AiDetail extends React.Component {
       tabType = 'NPS';
     }
     const { type, id } = this.state
-    const routerData = { name: `${tabType}会话`, bread: { name: "AI工作台", path: "/koUserOperation/userOperation" }, path: "/koUserOperation/userGroupAdd" }
+    const routerData = { name: `${tabType}会话`, bread: { name: "AI工作台", path: `/qualityMarking/${tabType.toLowerCase}` }, path: "/koUserOperation/userGroupAdd" }
     const pageData = this.props.pageData
     return (
       <div style={{ marginTop: '-28px' }}>

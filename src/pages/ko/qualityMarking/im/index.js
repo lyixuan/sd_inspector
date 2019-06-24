@@ -96,6 +96,7 @@ function TeacherOrStudent(props) {
   collegeList: workTableModel.collegeList,// bbs nps
   consultList: [{ id: 0, name: '空' }].concat(workTableModel.consultList),// im
   reasonList: workTableModel.reasonList,// im bbs nps
+  idList: workTableModel.idList,
 }))
 class imPage extends React.Component {
   constructor(props) {
@@ -119,7 +120,7 @@ class imPage extends React.Component {
         title: '内容',
         dataIndex: 'contentList',
         key: 'contentList',
-        render: (list, r)=> {
+        render: (list, r) => {
           const l = r.content ? r.content.length : 0;
           const content = list.length > 0 ? <Layout dataMark={r}></Layout> : r.content;
           return (
@@ -179,12 +180,10 @@ class imPage extends React.Component {
   };
   handleEdit = (record) => {
     router.push({
-      pathname: '/qualityMarking/detail',
-      query: {
-        id: record.id,
-        type: markType,
-      }
+      pathname: `/qualityMarking/detail/${record.id}/${markType}`,
     });
+    localStorage.removeItem("idList")
+    localStorage.setItem("idList", this.props.idList)
   };
   onSearchChange = (searchParams) => {
     this.setState({

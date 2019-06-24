@@ -6,6 +6,7 @@ import BISelect from '@/ant_components/BISelect/formSelect';
 import BICascader from '@/ant_components/BICascader/FormCascader';
 import BIRadio from '@/ant_components/BIRadio';
 import styles from '../style.less';
+import router from 'umi/router';
 
 const { TextArea } = Input;
 const { Option } = BISelect;
@@ -20,14 +21,18 @@ class DataClassfy extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentId: null,
+      idList: this.props.idList.length > 0 ? this.props.idList : localStorage.getItem('idList'),
       ordId: this.props.pageData && this.props.pageData.item.ordId ? this.props.pageData.item.ordId : '请选择',
       consultTypeId: 91,
       consultTypeIdList: [],
       reasonTypeIdList: [],
       evaluationFlag: 1,
-      remark: ''
-
+      evaluationNature: this.props.pageData && this.props.pageData.result.evaluationNature ? this.props.pageData.result.evaluationNature : null,
+      remark: '',
+      nextId: null
     };
+
   }
   componentDidMount() {
 
@@ -47,7 +52,6 @@ class DataClassfy extends React.Component {
   }
   // 原因切换
   onChangeReson = (value) => {
-    console.log(19, value)
     value.map(item => {
       this.state.reasonTypeIdList.push(item.value)
     })
@@ -58,17 +62,9 @@ class DataClassfy extends React.Component {
   }
   // 备注
   handleRemark = (e) => {
-    console.log(52, e.target.value)
     this.state.remark = e.target.value
   };
   submit = () => {
-    // let idList = this.props.idList.length > 0 ? this.props.idList : localStorage.getItem('idList')
-    // if (!Array.isArray(idList)) {
-    //   idList = idList.split(",")
-    // }
-    // console.log(65, idList.indexOf(this.props.id))
-
-    return;
     let params = {
       type: this.props.type,
       itemId: this.props.id,
@@ -76,24 +72,57 @@ class DataClassfy extends React.Component {
         resultId: null,
         consultTypeIdList: this.state.consultTypeIdList, //咨询类型id
         reasonTypeIdList: this.state.reasonTypeIdList,// 原因分类id
-        evaluationNature: '负面', //评价性质
+        evaluationNature: this.state.evaluationNature, //评价性质
         evaluationFlag: this.state.evaluationFlag, //是否质检
         remark: this.state.remark, //备注
         orderId: this.state.ordId, //选择订单
       }
     };
-    console.log(65, params)
-    return;
+    let params2 = {
+      id: this.state.nextId,
+      type: this.props.type
+    }
+    let tabType = 1;
+    if (this.props.type == 1) {
+      tabType = 'im';
+    } else if (this.props.type == 2) {
+      tabType = 'bbs';
+    } else {
+      tabType = 'nps';
+    }
     this.props.dispatch({
       type: 'AiDetail/submit',
-      payload: { params: params }
+      payload: { params: params, params2: params2 },
+      callback: () => {
+        router.push({
+          pathname: `/qualityMarking/detail/${this.state.nextId}/${this.props.type}`,
+        });
+      }
     });
+    if (!this.state.nextId) {
+      router.push({
+        pathname: `/qualityMarking/${tabType}`,
+      });
+    }
   }
   render() {
     let { consultTypeTree, reasonTypeTree, pageData } = this.props.AiDetail;
     let { type } = this.props
     pageData = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: 0, org: '' }]
-    console.log(96, this.props.AiDetail, pageData)
+    let idList = this.state.idList
+    let currentId = null
+    let percent = 100;
+    if (idList) {
+      if (!Array.isArray(idList)) {
+        idList = idList.split(",").map(item => {
+          return +item
+        })
+      }
+      currentId = idList.indexOf(Number(this.props.id))
+      this.state.nextId = idList[currentId + 1]
+      percent = (currentId + 1) / idList.length * 100
+    }
+
     return (
       <>
         <div className={styles.consultContent}>
@@ -157,7 +186,7 @@ class DataClassfy extends React.Component {
             </li>
             <li>
               <label>评价性质：</label>
-              <p>负面</p>
+              <p>{this.state.evaluationNature}</p>
             </li>
             {
               type == 1 ?
@@ -187,8 +216,8 @@ class DataClassfy extends React.Component {
             </BIButton>
           </div>
           <div className={styles.progress}>
-            <p className={styles.number}>100/200</p>
-            <Progress percent={50} showInfo={false} />
+            <p className={styles.number}>{currentId ? currentId + 1 : 1}/{idList ? idList.length : 1}</p>
+            <Progress percent={percent} showInfo={false} />
           </div>
         </div>
       </>

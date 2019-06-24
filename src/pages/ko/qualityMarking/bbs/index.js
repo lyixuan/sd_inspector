@@ -46,7 +46,7 @@ class bbsPage extends React.Component {
           const l = text ? text.length : 0;
           return (
             <>
-              <Tooltip overlayClassName={styles.listTooltip} placement="right"  title={text}>
+              <Tooltip overlayClassName={styles.listTooltip} placement="right" title={text}>
                 <span>{l > 20 ? text.substring(0, 20) + '...' : text}</span>
               </Tooltip>
             </>
@@ -98,12 +98,9 @@ class bbsPage extends React.Component {
   };
   handleEdit = (record) => {
     router.push({
-      pathname: '/qualityMarking/detail',
-      query: {
-        id: record.id,
-        type: markType,
-      },
+      pathname: `/qualityMarking/detail/${record.id}/${markType}`,
     });
+    localStorage.removeItem("idList")
     localStorage.setItem("idList", this.props.idList)
   };
   onSearchChange = (searchParams) => {
@@ -132,7 +129,7 @@ class bbsPage extends React.Component {
     this.props.dispatch({
       type: 'workTableModel/exportExcelData',
       payload: {
-        params: { ...others, type: exportType , },
+        params: { ...others, type: exportType, },
       },
       callback: (res) => {
         this.handleCancel();
@@ -148,11 +145,11 @@ class bbsPage extends React.Component {
     return (
       <div>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
-                  onSearchChange={this.onSearchChange}></MarkForm>
+          onSearchChange={this.onSearchChange}></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
-                  columnsData={this.columnsData}>
+          columnsData={this.columnsData}>
           <BIButton onClick={this.handleExport} className={styles.exportBtn} size="large">
-            <img src={exportimg}/> 导出
+            <img src={exportimg} /> 导出
           </BIButton>
         </MarkList>
         <ModalTip visible={visible} handleOk={this.handleOk} handleCancel={this.handleCancel}></ModalTip>
