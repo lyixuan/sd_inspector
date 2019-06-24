@@ -98,7 +98,7 @@ class CSForm extends React.Component {
     // dimensionType:  1 优新 2 IM 3 工单 4 底线 5 创收
     const {scoreAppealModel={}, dimensionType = 11,exportLoading,progress} = this.props;
     const {orgListTreeData = [],dimensionList=[]} = scoreAppealModel;
-    const dimensionList2 = dimensionList.filter((v)=>v.parentId===dimensionType&&v.id!==47);
+    const dimensionList2 = dimensionList.filter((v)=>v.parentId===dimensionType);
 
     const {appealBeginDate,appealEndDate,creditBeginDate,creditEndDate,creditType,statusList,appealOrderNum,collegeIdList,familyIdList,groupIdList} = this.state;
     return (
