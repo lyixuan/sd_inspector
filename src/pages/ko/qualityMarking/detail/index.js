@@ -69,7 +69,7 @@ class AiDetail extends React.Component {
       payload: { params },
       callback: (submitParam) => {
         this.setState({
-          submitParam: {...submitParam}
+          submitParam: { ...submitParam }
         })
       }
     })

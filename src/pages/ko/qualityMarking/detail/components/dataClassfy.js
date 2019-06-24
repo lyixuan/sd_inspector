@@ -1,6 +1,7 @@
 import React from 'react';
 import { Input, Progress } from 'antd';
 import { connect } from 'dva';
+import BIModal from '@/ant_components/BIModal';
 import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect/formSelect';
 import BICascader from '@/ant_components/BICascader/FormCascader';
@@ -16,7 +17,7 @@ const { Option } = BISelect;
   AiDetail,
   idList: workTableModel.idList,
   pageData: AiDetail.pageData,
-  // submitParam: AiDetail.submitParam,
+  submitParam: AiDetail.submitParam,
   isLoading: loading.effects['AiDetail/submit']
 }))
 
@@ -27,15 +28,14 @@ class DataClassfy extends React.Component {
       currentId: null,
       idList: this.props.idList.length > 0 ? this.props.idList : localStorage.getItem('idList'),
       submitParam: this.props.submitParam,
-      nextId: null
+      nextId: null,
+      visible: false,
+      tabType: 'im'
     };
 
   }
-  componentDidMount() {
 
-  }
   orderChange = (val) => {
-    console.log(35, val)
     this.setState({
       submitParam: { ...this.state.submitParam, ordId: val.value }
     })
@@ -47,13 +47,16 @@ class DataClassfy extends React.Component {
       return item.value
     })
     this.setState({
-      submitParam: { ...this.state.submitParam, consultTypeIdList},
+      submitParam: { ...this.state.submitParam, consultTypeIdList },
     })
   }
   // 原因切换
   onChangeReson = (value) => {
-    value.map(item => {
-      this.state.submitParam.reasonTypeIdList.push(item.value)
+    const reasonTypeIdList = value.map(item => {
+      return item.value
+    })
+    this.setState({
+      submitParam: { ...this.state.submitParam, reasonTypeIdList }
     })
   }
   // 选择是否质检
@@ -65,33 +68,35 @@ class DataClassfy extends React.Component {
     this.state.submitParam.remark = e.target.value
   };
   submit = () => {
+    if (!this.state.nextId || this.state.nextId == this.state.idList[this.state.currentId]) {
+      this.setState({
+        visible: true
+      })
+      return;
+    }
     let params = {
       type: this.props.type,
       itemId: this.props.id,
       result: this.state.submitParam,
-      // result: {
-      //   resultId: null,
-      //   consultTypeIdList: this.state.consultTypeIdList, //咨询类型id
-      //   reasonTypeIdList: this.state.reasonTypeIdList,// 原因分类id
-      //   evaluationNature: this.state.evaluationNature, //评价性质
-      //   evaluationFlag: this.state.evaluationFlag, //是否质检
-      //   remark: this.state.remark, //备注
-      //   orderId: this.state.ordId, //选择订单
-      // }
     };
     let params2 = {
       id: this.state.nextId,
       type: this.props.type
     }
-    let tabType = 1;
+
     if (this.props.type == 1) {
-      tabType = 'im';
+      this.setState({
+        tabType: 'im'
+      })
     } else if (this.props.type == 2) {
-      tabType = 'bbs';
+      this.setState({
+        tabType: 'bbs'
+      })
     } else {
-      tabType = 'nps';
+      this.setState({
+        tabType: 'nps'
+      })
     }
-    // console.log(106, params)
     this.props.dispatch({
       type: 'AiDetail/submit',
       payload: { params: params, params2: params2 },
@@ -108,49 +113,53 @@ class DataClassfy extends React.Component {
           payload: { params: obj },
           callback: (submitParam) => {
             this.setState({
-              submitParam: {...submitParam}
+              submitParam: { ...submitParam }
             })
           }
         })
-
       }
     });
-    if (!this.state.nextId) {
-      router.push({
-        pathname: `/qualityMarking/${tabType}`,
-      });
-    }
+
+  }
+  handleCancel = () => {
+    this.setState({
+      visible: false
+    })
+  }
+  handleOk = () => {
+    router.push({
+      pathname: `/qualityMarking/${this.state.tabType}`,
+    });
   }
   render() {
-    let { consultTypeTree, reasonTypeTree, pageData } = this.props.AiDetail;
-    let { type, isLoading } = this.props
-    pageData = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: 0, org: '' }]
+    let { consultTypeTree, reasonTypeTree } = this.props.AiDetail;
+    let { type, isLoading, pageData } = this.props
+    let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: 0, org: '' }]
     let idList = this.state.idList
-    let currentId = null
-    let percent = 100;
+    let percent = 0;
     if (idList) {
       if (!Array.isArray(idList)) {
         idList = idList.split(",").map(item => {
           return +item
         })
       }
-      currentId = idList.indexOf(Number(this.props.id))
-      this.state.nextId = idList[currentId + 1]
-      percent = (currentId + 1) / idList.length * 100
+      this.state.idList = idList
+      this.state.currentId = idList.indexOf(Number(this.props.id))
+      this.state.nextId = idList[this.state.currentId + 1] ? idList[this.state.currentId + 1] : idList[idList.length - 1]
+      percent = (this.state.currentId + 1) / idList.length * 100
     }
-    console.log(144, this.props.submitParam.consultTypeIdList)
     return (
       <>
         <div className={styles.consultContent}>
           <ul className={styles.consultInput}>
             {
-              type != 1 ?
+              type != 1 && orderList && orderList.length != 1 ?
                 <>
                   <li>
                     <label>选择订单：</label>
                     <div className={styles.selects}>
                       <BISelect style={{ width: '100%' }} value={this.state.submitParam.ordId} placeholder="请选择" onChange={(val) => { this.orderChange(val) }}>
-                        {pageData.map(item => (
+                        {orderList.map(item => (
                           <Option key={item.ordId} value={item.ordId}>{item.org}</Option>)
                         )}
                       </BISelect>
@@ -158,7 +167,23 @@ class DataClassfy extends React.Component {
                   </li>
                   <li>
                     <label>后端归属：</label>
-                    <p>后端归属后端归属后端归属</p>
+                    <p>{pageData.item.org}</p>
+                  </li>
+                </>
+                : null
+            }
+            {
+              type != 1 && orderList && orderList.length == 1 ?
+                <>
+                  <li>
+                    <label>选择订单：</label>
+                    <div className={styles.selects}>
+                      <p>{orderList && orderList[0] ? orderList[0].org : ''}</p>
+                    </div>
+                  </li>
+                  <li>
+                    <label>后端归属：</label>
+                    <p>{pageData && pageData.item ? pageData.item.org : ''}</p>
                   </li>
                 </>
                 : null
@@ -176,9 +201,6 @@ class DataClassfy extends React.Component {
               type == 1 ?
                 <li>
                   <label>咨询类型：</label>
-                  {/* {
-                    item.orderList
-                  } */}
                   <div className={styles.selects}>
                     <BICascader
                       fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
@@ -233,10 +255,24 @@ class DataClassfy extends React.Component {
             </BIButton>
           </div>
           <div className={styles.progress}>
-            <p className={styles.number}>{currentId ? currentId + 1 : 1}/{idList ? idList.length : 1}</p>
+            <p className={styles.number}>{this.state.currentId ? this.state.currentId + 1 : 1}/{idList ? idList.length : 1}</p>
             <Progress percent={percent} showInfo={false} />
           </div>
         </div>
+        <BIModal
+          visible={this.state.visible}
+          onOk={() => this.state.handleOk()}
+          onCancel={this.handleCancel}
+          closable={false}
+          footer={[
+            <BIButton key="submit" type="primary" onClick={() => this.handleOk()}>
+              确定
+                </BIButton>,
+          ]}>
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ paddingBottom: '0', paddingTop: '20px' }}>厉害啦，数据已全部处理！即将返回首页～</p>
+          </div>
+        </BIModal>
       </>
     );
   }

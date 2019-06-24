@@ -9,7 +9,9 @@ function Keywords(props) {
     const content = props.list.map((items, index) =>
       <em key={index}>{items}</em>
     )
-    return content
+    return content;
+  } else {
+    return null;
   }
 }
 class DetailBbs extends React.Component {

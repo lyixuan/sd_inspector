@@ -5,12 +5,11 @@ import { connect } from 'dva';
 import styles from '../../style.less';
 
 function TagList(props) {
-  console.log(8, props)
   if (props.list.length < 1) {
     return null;
   }
   const li = props.list.map((item, index) =>
-    <li className={styles.flex}>
+    <li className={styles.flex} key={index}>
       <div className={styles.row}>
         <span className={styles.label}>{item.name}：</span>
         <span className={styles.name + " " + styles.labels}>
@@ -23,7 +22,7 @@ function TagList(props) {
 }
 function Label(props) {
   const label = props.label.map((item, index) =>
-    <em>{item}</em>
+    <em key={index}>{item}</em>
   );
   return label
 }
@@ -42,8 +41,8 @@ class DetailNps extends React.Component {
   }
 
   render() {
+    console.log(44, this.props.pageData)
     const { item } = this.props.pageData
-    console.log(23, item)
     return (
       <>
         <ul className={styles.userInfo}>

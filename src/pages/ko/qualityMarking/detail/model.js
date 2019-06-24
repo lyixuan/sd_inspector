@@ -15,8 +15,8 @@ export default {
     reasonTypeTree: null,
     pageData: null,
     submitParam: {
-      ordId: null,
-      consultTypeId: null,
+      ordId: undefined,
+      consultTypeId: undefined,
       consultTypeIdList: [],
       reasonTypeIdList: [],
       evaluationFlag: null,
@@ -49,7 +49,6 @@ export default {
       const params = payload.params
       const result = yield call(edit, params);
       if (result.code === 20000) {
-        console.log(49, result)
         const pageData = result.data || [];
         const submitParam = {
           ordId: pageData.result.ordId || undefined,
@@ -57,7 +56,8 @@ export default {
           consultTypeIdList: pageData.result.consultTypeIdList,
           reasonTypeIdList: pageData.result.reasonTypeIdList,
           evaluationFlag: pageData.result.evaluationFlag,
-          evaluationNature: pageData.result.evaluationNature
+          evaluationNature: pageData.result.evaluationNature,
+          remark: pageData.result.remark
         }
         if (callback) {
           callback(submitParam)
@@ -76,9 +76,6 @@ export default {
       const params = payload.params
       const result = yield call(submit, params);
       if (result.code === 20000) {
-        // const editResult = yield call(edit, payload.params2);
-        // const pageData = editResult.data || [];
-        // yield put({ type: 'save', payload: { pageData } });
         callback();
       } else {
         message.error(msgF(result.msg, result.msgDetail));
