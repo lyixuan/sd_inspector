@@ -151,7 +151,8 @@ class AppealCheck extends React.Component {
         groupName:baseAppealInfo.groupName,
         familyId:baseAppealInfo.familyId,
         familyName:baseAppealInfo.familyName,
-        userName:baseAppealInfo.userName
+        userName:baseAppealInfo.userName,
+        dimensionName:baseAppealInfo.dimensionName
       };
       const params = {
         type:Number(query.firstOrSec),          // 1申 2申
