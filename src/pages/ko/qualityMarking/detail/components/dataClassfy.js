@@ -33,35 +33,54 @@ class DataClassfy extends React.Component {
       visible: false,
       tabType: 'im',
       org: '',
-      percent: 0,
-      // ordId: undefined
+      percent: 0
     };
 
   }
   componentDidMount() {
-    // this.computedId();
+    this.computedId();
+  }
+  computedId() {
+    let idList = this.state.idList
+    if (idList) {
+      if (!Array.isArray(idList)) {
+        idList = idList.split(",").map(item => {
+          return +item
+        })
+      }
+      this.state.idList = idList
+      this.state.currentId = idList.indexOf(Number(this.props.id))
+      this.state.nextId = idList[this.state.currentId + 1] ? idList[this.state.currentId + 1] : idList[idList.length - 1]
+      this.state.percent = (this.state.currentId + 1) / idList.length * 100
+    }
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (this.props.pageData != nextProps.pageData && nextProps.pageData.result.ordIdList.length > 0) {
-  //     nextProps.pageData.result.ordIdList.map(item => {
-  //       if (item.ordId == this.state.submitParam.ordId) {
-  //         this.setState({
-  //           org: item.org
-  //         })
-  //       }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.pageData != nextProps.pageData) {
+      this.computedId();
+      this.setState({
+        submitParam: nextProps.submitParam
+      })
+      if (nextProps.pageData.result.ordIdList.length > 0) {
+        nextProps.pageData.result.ordIdList.map(item => {
+          if (item.ordId == this.state.submitParam.ordId) {
+            this.setState({
+              org: item.org
+            })
+          }
 
-  //     })
-  //   }
+        })
+      }
 
-  // }
+    }
+
+  }
   orderChange = (val) => {
     console.log(79, val, val.name)
+    // this.state.submitParam.ordId = val.name
     this.setState({
-      submitParam: { ...this.state.submitParam, ordId: 3425777 },
+      submitParam: { ...this.state.submitParam, ordId: val.name },
       org: val.value
-    }, () => {
-      console.log(64, this.state.submitParam)
     })
 
 
@@ -71,6 +90,7 @@ class DataClassfy extends React.Component {
     const consultTypeIdList = value.map(item => {
       return item.value
     })
+    // this.state.submitParam.consultTypeIdList = consultTypeIdList
     this.setState({
       submitParam: { ...this.state.submitParam, consultTypeIdList },
     })
@@ -80,6 +100,7 @@ class DataClassfy extends React.Component {
     const reasonTypeIdList = value.map(item => {
       return item.value
     })
+    // this.state.submitParam.reasonTypeIdList = reasonTypeIdList
     this.setState({
       submitParam: { ...this.state.submitParam, reasonTypeIdList }
     })
@@ -90,7 +111,10 @@ class DataClassfy extends React.Component {
   }
   // 备注
   handleRemark = (e) => {
-    this.state.submitParam.remark = e.target.value
+    // this.state.submitParam.remark = e.target.value
+    this.setState({
+      submitParam: { ...this.state.submitParam, remark: e.target.value },
+    })
   };
   submit = () => {
     if (!this.state.nextId || this.state.nextId == this.state.idList[this.state.currentId]) {
@@ -108,6 +132,7 @@ class DataClassfy extends React.Component {
       id: this.state.nextId,
       type: this.props.type
     }
+    // console.log(112, params); return;
 
     if (this.props.type == 1) {
       this.setState({
@@ -157,23 +182,22 @@ class DataClassfy extends React.Component {
     });
   }
   render() {
-    this.state.submitParam = this.props.submitParam
     let { consultTypeTree, reasonTypeTree } = this.props.AiDetail;
     let { type, isLoading, pageData } = this.props
     let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: 0, org: '' }]
     let idList = this.state.idList
     let percent = 0;
-    if (idList) {
-      if (!Array.isArray(idList)) {
-        idList = idList.split(",").map(item => {
-          return +item
-        })
-      }
-      this.state.idList = idList
-      this.state.currentId = idList.indexOf(Number(this.props.id))
-      this.state.nextId = idList[this.state.currentId + 1] ? idList[this.state.currentId + 1] : idList[idList.length - 1]
-      percent = (this.state.currentId + 1) / idList.length * 100
-    }
+    // if (idList) {
+    //   if (!Array.isArray(idList)) {
+    //     idList = idList.split(",").map(item => {
+    //       return +item
+    //     })
+    //   }
+    //   this.state.idList = idList
+    //   this.state.currentId = idList.indexOf(Number(this.props.id))
+    //   this.state.nextId = idList[this.state.currentId + 1] ? idList[this.state.currentId + 1] : idList[idList.length - 1]
+    //   percent = (this.state.currentId + 1) / idList.length * 100
+    // }
     return (
       <>
         <div className={styles.consultContent}>
@@ -267,7 +291,7 @@ class DataClassfy extends React.Component {
             <li className={styles.textarea}>
               <label>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
               <TextArea
-                defaultValue={this.state.submitParam.remark}
+                value={this.state.submitParam.remark}
                 className={styles.inputTextArea}
                 autosize={{ minRows: 4, maxRows: 4 }}
                 placeholder="请输入"

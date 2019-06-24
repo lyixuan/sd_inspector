@@ -14,6 +14,22 @@ function Keywords(props) {
     return null;
   }
 }
+function keywordscolorful(str, key) {
+  var reg = new RegExp("(" + key + ")", "g");
+  var newstr = str.replace(reg, "<font style='background:#ff0;'>$1</font>");
+  return newstr;
+}
+
+function Content(props) {
+  console.log(18, props)
+  const content = props.content;
+  const keywords = props.keyWord.split(',');
+  const label = keywords.map((item, index) =>
+    <i key={index} className={styles.keyword}>{item}</i>
+  )
+  return label
+
+}
 class DetailBbs extends React.Component {
   constructor(props) {
     super(props);
@@ -67,7 +83,8 @@ class DetailBbs extends React.Component {
             <div className={styles.row}>
               <span className={styles.label}>帖子详情：</span>
               <span className={styles.name}>
-                {item.content}
+                <Content content={item.content} keyWord={item.keywords}></Content>
+                {/* {item.content} */}
                 {/* 上课时希望老师<i className={styles.keyword}>不靠谱</i>打比方的 */}
               </span>
             </div>
