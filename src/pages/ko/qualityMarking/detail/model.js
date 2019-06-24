@@ -15,13 +15,13 @@ export default {
     reasonTypeTree: null,
     pageData: null,
     submitParam: {
-      ordId: undefined,
-      consultTypeId: undefined,
-      consultTypeIdList: [],
-      reasonTypeIdList: [],
-      evaluationFlag: null,
-      evaluationNature: null,
-      remark: ''
+      // ordId: undefined,
+      // consultTypeIdList: [],
+      // reasonTypeIdList: [],
+      // evaluationFlag: null,
+      // evaluationNature: null,
+      // remark: '',
+      // resultId: null
     },
 
   },
@@ -51,20 +51,21 @@ export default {
       if (result.code === 20000) {
         const pageData = result.data || [];
         const submitParam = {
+          // ordId: pageData.result.ordId|| 4509117,
           ordId: pageData.result.ordId || undefined,
-          consultTypeId: pageData.result.consultTypeId || undefined,
           consultTypeIdList: pageData.result.consultTypeIdList,
           reasonTypeIdList: pageData.result.reasonTypeIdList,
           evaluationFlag: pageData.result.evaluationFlag,
           evaluationNature: pageData.result.evaluationNature,
-          remark: pageData.result.remark
+          remark: pageData.result.remark,
+          resultId: pageData.result.resultId
         }
         if (callback) {
           callback(submitParam)
         }
         yield put({
           type: 'save', payload: {
-            pageData,
+            pageData
           }
         });
 
