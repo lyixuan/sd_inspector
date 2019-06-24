@@ -120,11 +120,11 @@ class imPage extends React.Component {
         dataIndex: 'contentList',
         key: 'contentList',
         render: (list, r) => {
-          const l = r.content ? r.content.length : 0;
           const content = list.length > 0 ? <Layout dataMark={r}></Layout> : r.content;
+          const t = list.length > 0 ? list[0].content : '';
           return (
             <Tooltip overlayClassName={styles.listTooltip} placement="right"  title={content}>
-              <span>{l > 20 ? r.content.substring(0, 20) : r.content}</span>
+              <span>{t.length > 10 ? t.substring(0, 10) + '...' : t}</span>
             </Tooltip>
           );
         },
@@ -141,7 +141,7 @@ class imPage extends React.Component {
         render: text => {
           const l = text ? text.length : 0;
           return (
-            <span>{l > 20 ? text.substring(0, 20) + '...' : ''}</span>
+            <span>{l > 20 ? text.substring(0, 20) + '...' : text}</span>
           )
         },
       },
@@ -154,6 +154,8 @@ class imPage extends React.Component {
         title: '更新时间',
         dataIndex: 'updateTime',
         key: 'updateTime',
+        render: () => '2019-04-01 10:00:50'
+
       },
       {
         title: '咨询类型',
@@ -181,8 +183,8 @@ class imPage extends React.Component {
     router.push({
       pathname: `/qualityMarking/detail/${record.id}/${markType}`,
     });
-    localStorage.removeItem("idList")
-    localStorage.setItem("idList", this.props.idList)
+    localStorage.removeItem("idList");
+    localStorage.setItem("idList", this.props.idList);
   };
   onSearchChange = (searchParams) => {
     this.setState({

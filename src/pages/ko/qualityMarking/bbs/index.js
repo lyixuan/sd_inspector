@@ -47,7 +47,7 @@ class bbsPage extends React.Component {
           return (
             <>
               <Tooltip overlayClassName={styles.listTooltip} placement="right" title={text}>
-                <span>{l > 20 ? text.substring(0, 20) + '...' : text}</span>
+                <span>{l > 10 ? text.substring(0, 10) + '...' : text}</span>
               </Tooltip>
             </>
           );
@@ -65,7 +65,7 @@ class bbsPage extends React.Component {
         render: text => {
           const l = text ? text.length : 0;
           return (
-            <span>{l > 20 ? text.substring(0, 20) + '...' : ''}</span>
+            <span>{l > 20 ? text.substring(0, 20) + '...' : text}</span>
           )
         },
       },
@@ -100,8 +100,8 @@ class bbsPage extends React.Component {
     router.push({
       pathname: `/qualityMarking/detail/${record.id}/${markType}`,
     });
-    localStorage.removeItem("idList")
-    localStorage.setItem("idList", this.props.idList)
+    localStorage.removeItem("idList");
+    localStorage.setItem("idList", this.props.idList);
   };
   onSearchChange = (searchParams) => {
     this.setState({
