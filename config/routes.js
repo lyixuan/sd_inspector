@@ -252,7 +252,7 @@ export const routes = [
           {
             path: '/scoreAppeal/awaitAppeal/detail',
             component: './scoreAppeal/awaitAppeal/detail',
-            name: '详情',
+            name: '申诉详情',
             bread: {
               name: '待申诉',
               path: '/scoreAppeal/awaitAppeal',

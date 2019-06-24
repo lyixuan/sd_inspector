@@ -33,7 +33,7 @@ export default class BasicInfoComponent extends React.Component {
           // IM
           <div className={styles.container}>
             <div className={styles.secRow}>
-              <div>学分纬度：{dimensionName}</div>
+              <div>学分维度：{dimensionName}</div>
               <div>学分日期：{creditDate}</div>
             </div>
             <div className={styles.secRow}>
@@ -48,7 +48,7 @@ export default class BasicInfoComponent extends React.Component {
           // 工单
           <div className={styles.container}>
             <div className={styles.secRow}>
-              <div>学分纬度：{dimensionName}</div>
+              <div>学分维度：{dimensionName}</div>
               <div>学分日期：{creditDate}</div>
             </div>
             <div className={styles.secRow}>
@@ -64,7 +64,7 @@ export default class BasicInfoComponent extends React.Component {
           // 底线
           <div className={styles.container}>
             <div className={styles.secRow}>
-              <div>学分纬度：{dimensionName}</div>
+              <div>学分维度：{dimensionName}</div>
               <div>学分日期：{creditDate}</div>
             </div>
             <div className={styles.secRow}>
@@ -79,7 +79,7 @@ export default class BasicInfoComponent extends React.Component {
           // 创收
           <div className={styles.container}>
             <div className={styles.secRow}>
-              <div>学分纬度：{dimensionName}</div>
+              <div>学分维度：{dimensionName}</div>
               <div>学分日期：{creditDate}</div>
             </div>
             <div className={styles.secRow}>
