@@ -155,7 +155,7 @@ class AppealCreate extends React.Component {
           {firstRecord && (
             <div>
               <div className={styles.foldBox}>
-                <span>一次申诉1</span>
+                <span>一次申诉</span>
                 <span onClick={() => this.handleCollapse(1)}><img src={collapse1 ? imgdown : imgUp} width='18'
                   height='18' /></span>
               </div>
