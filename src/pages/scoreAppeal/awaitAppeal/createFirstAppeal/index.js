@@ -123,6 +123,13 @@ class AppealCreate extends React.Component {
     if (scoreAppealModel && scoreAppealModel.detailInfo && scoreAppealModel.detailInfo.baseAppealInfo) {
       dimensionType = scoreAppealModel.detailInfo.baseAppealInfo.dimensionType;
     }
+
+    const collapse1Style = {
+      display:
+      collapse1
+          ? 'block'
+          : 'none',
+    };
     return (
       <Spin spinning={loading}>
         <div className={styles.appealContainer}>
@@ -135,17 +142,15 @@ class AppealCreate extends React.Component {
               </span>
             </div>
             <div className={styles.spaceLine} />
-            {collapse1 && (
-              <div style={{ paddingLeft: '15px' }}>
-                <CreateAppeal
-                  {...this.props}
-                  creditType={query.creditType}
-                  dimensionType={query.dimensionType}
-                  getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
-                  onFormChange={(value, vname) => this.onFormChange(value, vname)} />
-                <div className={styles.spaceLine} />
-              </div>
-            )}
+            <div style={{ paddingLeft: '15px' }}  style={ collapse1Style }>
+              <CreateAppeal
+                {...this.props}
+                creditType={query.creditType}
+                dimensionType={query.dimensionType}
+                getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
+                onFormChange={(value, vname) => this.onFormChange(value, vname)} />
+              <div className={styles.spaceLine} />
+            </div>
           </div>
           <footer style={{ textAlign: 'right', marginTop: '20px' }}>
             <BIButton onClick={() => router.goBack()} style={{ marginRight: '15px' }}>返回</BIButton>
