@@ -142,6 +142,12 @@ class AppealCreate extends React.Component {
     const { appealStart: appealStart1, sopAppealCheck: sopAppealCheck1, masterAppealCheck: masterAppealCheck1 } = firstRecord || {};
     const { appealStart: appealStart2, sopAppealCheck: sopAppealCheck2, masterAppealCheck: masterAppealCheck2 } = SecondRecord || {};
     const { query = {} } = this.props.location;
+    const collapse1Style = {
+      display:
+      collapse1
+          ? 'block'
+          : 'none',
+    };
     return (
       <Spin spinning={loading}>
         <div className={styles.appealContainer}>
@@ -154,19 +160,17 @@ class AppealCreate extends React.Component {
                   height='18' /></span>
               </div>
               {/* 申诉内容 */}
-              {collapse1 && (
-                <div style={{ paddingLeft: '15px' }}>
-                  {Number(query.type) === 1 && <CreateAppeal {...this.props}
-                    dimensionType={query.dimensionType}
-                    getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
-                    getFileList={this.getFileList} appealStart={appealStart1}
-                    onFormChange={(value, vname) => this.onFormChange(value, vname)} />}
-                  {Number(query.type) === 2 && appealStart1 && <CreateAppeaRecord appealStart={appealStart1} />}
-                  {sopAppealCheck1 && sopAppealCheck1.length !== 0 && <FirstCheckResult sopAppealCheck={sopAppealCheck1} />}
-                  {masterAppealCheck1 && <SecondCheckResult masterAppealCheck={masterAppealCheck1} />}
-                  <div className={styles.spaceLine} />
-                </div>
-              )}
+              <div style={{ paddingLeft: '15px' }} style={ collapse1Style }>
+                {Number(query.type) === 1 && <CreateAppeal {...this.props}
+                  dimensionType={query.dimensionType}
+                  getUploadImg={(attUrlList) => this.getUploadImg(attUrlList)}
+                  getFileList={this.getFileList} appealStart={appealStart1}
+                  onFormChange={(value, vname) => this.onFormChange(value, vname)} />}
+                {Number(query.type) === 2 && appealStart1 && <CreateAppeaRecord appealStart={appealStart1} />}
+                {sopAppealCheck1 && sopAppealCheck1.length !== 0 && <FirstCheckResult sopAppealCheck={sopAppealCheck1} />}
+                {masterAppealCheck1 && <SecondCheckResult masterAppealCheck={masterAppealCheck1} />}
+                <div className={styles.spaceLine} />
+              </div>
             </div>
           )}
           {Number(query.type) === 2 && (
