@@ -142,7 +142,7 @@ class AppealCheck extends React.Component {
       });
     }
     if (this.checkType === 'master') {
-      const {detailInfo={}}=this.props.scoreAppealModel;
+      const {detailInfo={},appealRecord={}}=this.props.scoreAppealModel;
       const {baseAppealInfo={}}=detailInfo||{};
       const emailParam = {
         collegeId:baseAppealInfo.collegeId,
@@ -166,6 +166,7 @@ class AppealCheck extends React.Component {
         actualRecommendLevel:Number(actualRecommendLevel),
         score,
         tagList:checkedTags,
+        sopRoleId:appealRecord[Number(query.firstOrSec)]&&appealRecord[Number(query.firstOrSec)]['sopAppealCheck']&&appealRecord[Number(query.firstOrSec)]['sopAppealCheck'][0].roleId,
         ...emailParam
       };
       const that = this;
