@@ -5,7 +5,7 @@ import { Spin } from 'antd';
 import DetailIm from './components/im';
 import DetailBbs from './components/bbs';
 import DetailNps from './components/nps';
-import DataClassfy from './components/dataClassfy.js';
+import DataClassfy from './components/dataClassfy';
 import PageHead from '@/components/PageHead/pageHead';
 import styles from './style.less';
 
@@ -101,6 +101,7 @@ class AiDetail extends React.Component {
     const { type, id } = this.state
     const routerData = { name: `${tabType}会话`, bread: { name: "AI工作台", path: `/qualityMarking/${tabType.toLowerCase}` }, path: "/koUserOperation/userGroupAdd" }
     const pageData = this.props.pageData
+    console.log(104, this.state.submitParam)
     return (
       <div style={{ marginTop: '-28px' }}>
         <PageHead routerData={routerData}></PageHead>
