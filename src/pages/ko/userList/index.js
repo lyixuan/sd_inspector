@@ -6,6 +6,7 @@ import BIButtonText from '@/components/BIButtonText';
 import BIPagination from '@/ant_components/BIPagination';
 import BIButton from '@/ant_components/BIButton';
 import { BiFilter, thousandsFormat } from '@/utils/utils';
+import { getTransactionIntentionValue } from '../utils/utils'
 import BIModal from '@/ant_components/BIModal';
 import BIInput from '@/ant_components/BIInput';
 import moment from 'moment';
@@ -35,9 +36,9 @@ const sorterKeyName = { // 排序对应字段
   wechatStudentChatNum: 'wechat_student_chat_num',
   imEmotionValue: 'negative_msg_num',
   robot_chat_num: 'robot_chat_num',
-  transactionIntention: 'transactionIntention',
+  transactionIntention: 'transaction_intention',
 };
-function columns() {
+function columns(enumDataIntention) {
   const col = [
     {
       title: '学员',
@@ -292,7 +293,8 @@ function columns() {
       dataIndex: 'transactionIntention',
       width: 120,
       sorter: true,
-      sortDirections: ['descend', 'ascend']
+      sortDirections: ['descend', 'ascend'],
+      render: t => getTransactionIntentionValue(enumDataIntention, 0.8)
     },
     {
       title: '',
@@ -431,6 +433,7 @@ function CreatUserGroupPop(props) {
   userListModel,
   tabFromParams: koPlan.tabFromParams,
   originParams: koPlan.originParams,
+  enumDataIntention: koPlan.enumData[12],
   pageParams: userListModel.pageParams,
   chooseEventData: koPlan.chooseEventData,
   loading: loading.effects['userListModel/getTableList'],
@@ -698,7 +701,7 @@ class UserList extends React.Component {
             rowKey={record => {
               return record.userId + Math.random() * 1000;
             }}
-            dataSource={dataSource} columns={columns()}
+            dataSource={dataSource} columns={columns(this.props.enumDataIntention)}
             pagination={false} loading={loading}
             scroll={{ x: 2420, y: 570 }}
             size="middle"
