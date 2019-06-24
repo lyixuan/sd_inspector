@@ -45,7 +45,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *edit({ payload }, { call, put }) {
+    *edit({ payload, callback }, { call, put }) {
       const params = payload.params
       const result = yield call(edit, params);
       if (result.code === 20000) {
@@ -53,17 +53,18 @@ export default {
         const pageData = result.data || [];
         const submitParam = {
           ordId: pageData.result.ordId || undefined,
-          consultTypeId: pageData.result.consultTypeId,
+          consultTypeId: pageData.result.consultTypeId || undefined,
           consultTypeIdList: pageData.result.consultTypeIdList,
           reasonTypeIdList: pageData.result.reasonTypeIdList,
           evaluationFlag: pageData.result.evaluationFlag,
           evaluationNature: pageData.result.evaluationNature
         }
-
+        if (callback) {
+          callback(submitParam)
+        }
         yield put({
           type: 'save', payload: {
             pageData,
-            submitParam
           }
         });
 
@@ -75,9 +76,9 @@ export default {
       const params = payload.params
       const result = yield call(submit, params);
       if (result.code === 20000) {
-        const editResult = yield call(edit, payload.params2);
-        const pageData = editResult.data || [];
-        yield put({ type: 'save', payload: { pageData } });
+        // const editResult = yield call(edit, payload.params2);
+        // const pageData = editResult.data || [];
+        // yield put({ type: 'save', payload: { pageData } });
         callback();
       } else {
         message.error(msgF(result.msg, result.msgDetail));

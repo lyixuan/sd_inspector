@@ -16,7 +16,7 @@ const { Option } = BISelect;
   AiDetail,
   idList: workTableModel.idList,
   pageData: AiDetail.pageData,
-  submitParam: AiDetail.submitParam,
+  // submitParam: AiDetail.submitParam,
   isLoading: loading.effects['AiDetail/submit']
 }))
 
@@ -26,7 +26,7 @@ class DataClassfy extends React.Component {
     this.state = {
       currentId: null,
       idList: this.props.idList.length > 0 ? this.props.idList : localStorage.getItem('idList'),
-      submitParam: JSON.parse(JSON.stringify(this.props.submitParam)),
+      submitParam: this.props.submitParam,
       nextId: null
     };
 
@@ -43,10 +43,12 @@ class DataClassfy extends React.Component {
   // 咨询类型切换
   onChangeConsult = (value) => {
     console.log(20, value)
-    value.map(item => {
-      this.state.submitParam.consultTypeIdList.push(item.value)
+    const consultTypeIdList = value.map(item => {
+      return item.value
     })
-
+    this.setState({
+      submitParam: { ...this.state.submitParam, consultTypeIdList},
+    })
   }
   // 原因切换
   onChangeReson = (value) => {
@@ -89,7 +91,7 @@ class DataClassfy extends React.Component {
     } else {
       tabType = 'nps';
     }
-    console.log(106, params)
+    // console.log(106, params)
     this.props.dispatch({
       type: 'AiDetail/submit',
       payload: { params: params, params2: params2 },
@@ -97,12 +99,18 @@ class DataClassfy extends React.Component {
         router.push({
           pathname: `/qualityMarking/detail/${this.state.nextId}/${this.props.type}`,
         });
-        console.log(100, this.props.submitParam)
-        this.setState({
-          ordId: this.props.ordId,
-          submitParam: this.props.submitParam
-        }, () => {
-          console.log(118, this.state.submitParam.consultTypeIdList)
+        let obj = {
+          type: this.props.type,
+          id: this.state.nextId,
+        }
+        this.props.dispatch({
+          type: 'AiDetail/edit',
+          payload: { params: obj },
+          callback: (submitParam) => {
+            this.setState({
+              submitParam: {...submitParam}
+            })
+          }
         })
 
       }

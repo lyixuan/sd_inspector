@@ -34,7 +34,8 @@ class AiDetail extends React.Component {
     super(props);
     this.state = {
       type: this.props.match.params.type,
-      id: this.props.match.params.id
+      id: this.props.match.params.id,
+      submitParam: {}
     };
   }
   componentDidMount() {
@@ -59,10 +60,19 @@ class AiDetail extends React.Component {
       id: this.state.id,
       type: this.state.type
     }
+    // this.props.dispatch({
+    //   type: 'AiDetail/edit',
+    //   payload: { params: params }
+    // });
     this.props.dispatch({
       type: 'AiDetail/edit',
-      payload: { params: params }
-    });
+      payload: { params },
+      callback: (submitParam) => {
+        this.setState({
+          submitParam: {...submitParam}
+        })
+      }
+    })
   }
   handleClick = (e) => {
     // 复制
@@ -101,7 +111,7 @@ class AiDetail extends React.Component {
             </div>
             <div className={styles.dataClassfy}>
               <div className={styles.headBar}>数据分类</div>
-              <DataClassfy type={type} id={id}></DataClassfy>
+              <DataClassfy type={type} id={id} submitParam={this.state.submitParam}></DataClassfy>
             </div>
           </div>
         </Spin>
