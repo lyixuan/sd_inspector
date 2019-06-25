@@ -15,19 +15,30 @@ function Keywords(props) {
   }
 }
 function keywordscolorful(str, key) {
-  var reg = new RegExp("(" + key + ")", "g");
-  var newstr = str.replace(reg, "<font style='background:#ff0;'>$1</font>");
-  return newstr;
+  if (key.length > 0) {
+    key.map(item => {
+      var reg = "/" + item + "/g";
+      str = str.replace(eval(reg), `<i style="color:#f00;font-style:normal;">${item}</i>`)
+    })
+    return str;
+  }
+
+
 }
 
 function Content(props) {
-  console.log(18, props)
   const content = props.content;
   const keywords = props.keyWord.split(',');
-  const label = keywords.map((item, index) =>
-    <i key={index} className={styles.keyword}>{item}</i>
-  )
-  return label
+  if (props.keyWord) {
+    return (
+      <>
+        <span dangerouslySetInnerHTML={{ __html: keywordscolorful(content, keywords) }}></span>
+      </>
+    )
+  } else {
+    return null
+  }
+
 
 }
 class DetailBbs extends React.Component {
