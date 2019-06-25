@@ -147,36 +147,38 @@ class NewQualitySheet extends React.Component {
               </div>
             </Col>
             <Col className={styles.gutterCol} span={8}>
-            <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel1}>分维</span>：
-                <span className={styles.gutterForm}>
-                  {this.canDimension === 1 ? (
-                    <BISelect style={{ width: 230 }} allowClear placeholder="请选择客诉分维" mode="multiple" showArrow maxTagCount={1} value={dimensionIdList} onChange={(val) => this.onFormChange(val, 'dimensionIdList')}>
-                      {dimensionList1.map(item => (
-                        <Option key={item.id}>
-                          {item.name}
-                        </Option>
-                      ))}
-                    </BISelect>
-                  ) : this.canDimension === 2 ? (
-                    <BISelect style={{ width: 230 }} allowClear placeholder="请选择班主任分维" mode="multiple" showArrow maxTagCount={1} value={dimensionIdList} onChange={(val) => this.onFormChange(val, 'dimensionIdList')}>
-                      {dimensionList2.map(item => (
-                        <Option key={item.id}>
-                          {item.name}
-                        </Option>
-                      ))}
-                    </BISelect>
-                  ) : (
-                        <BISelect style={{ width: 230 }} allowClear placeholder="请选择" disabled={true} mode="multiple" showArrow maxTagCount={1} value={dimensionIdList} onChange={(val) => this.onFormChange(val, 'dimensionIdList')}>
-                          {dimensionList2.map(item => (
-                            <Option key={item.id}>
-                              {item.name}
-                            </Option>
-                          ))}
-                        </BISelect>
-                      )}
-                </span>
-              </div>
+              {AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA') && (
+                <div className={styles.gutterBox3}>
+                  <span className={styles.gutterLabel1}>分维</span>：
+                    <span className={styles.gutterForm}>
+                    {this.canDimension === 1 ? (
+                      <BISelect style={{ width: 230 }} allowClear placeholder="请选择客诉分维" mode="multiple" showArrow maxTagCount={1} value={dimensionIdList} onChange={(val) => this.onFormChange(val, 'dimensionIdList')}>
+                        {dimensionList1.map(item => (
+                          <Option key={item.id}>
+                            {item.name}
+                          </Option>
+                        ))}
+                      </BISelect>
+                    ) : this.canDimension === 2 ? (
+                      <BISelect style={{ width: 230 }} allowClear placeholder="请选择班主任分维" mode="multiple" showArrow maxTagCount={1} value={dimensionIdList} onChange={(val) => this.onFormChange(val, 'dimensionIdList')}>
+                        {dimensionList2.map(item => (
+                          <Option key={item.id}>
+                            {item.name}
+                          </Option>
+                        ))}
+                      </BISelect>
+                    ) : (
+                          <BISelect style={{ width: 230 }} allowClear placeholder="请选择" disabled={true} mode="multiple" showArrow maxTagCount={1} value={dimensionIdList} onChange={(val) => this.onFormChange(val, 'dimensionIdList')}>
+                            {dimensionList2.map(item => (
+                              <Option key={item.id}>
+                                {item.name}
+                              </Option>
+                            ))}
+                          </BISelect>
+                        )}
+                  </span>
+                </div>
+              )}
             </Col>
           </Row>
           {/*第三行*/}
