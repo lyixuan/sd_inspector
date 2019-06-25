@@ -18,11 +18,10 @@ function keywordscolorful(str, key) {
   if (key.length > 0) {
     key.map(item => {
       var reg = "/" + item + "/g";
-      str = str.replace(eval(reg), `<i style="color:#f00;font-style:normal;">${item}</i>`)
+      str = str.replace(eval(reg), `<i style="color:#FF5959;font-style:normal;">${item}</i>`)
     })
     return str;
   }
-
 
 }
 

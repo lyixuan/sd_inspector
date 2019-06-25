@@ -1,6 +1,6 @@
 import React from 'react';
 import copy from 'copy-to-clipboard';
-import { Icon } from 'antd';
+import { Icon, message } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
 import avatarTeacher from '@/assets/avatarTeacher.png';
@@ -86,7 +86,7 @@ class DetailIm extends React.Component {
   handleClick = (val) => {
     // 复制
     copy(val)
-    alert('复制成功')
+    message.success('复制成功');
   }
 
   render() {

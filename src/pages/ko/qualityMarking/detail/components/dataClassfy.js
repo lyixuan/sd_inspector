@@ -55,11 +55,19 @@ class DataClassfy extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.pageData != nextProps.pageData) {
+    if (JSON.stringify(this.props.pageData) !== JSON.stringify(nextProps.pageData)) {
+      if (JSON.stringify(this.state.submitParam) != '{}') {
+        this.setState({
+          submitParam: this.state.submitParam
+        })
+      } else {
+        this.setState({
+          submitParam: nextProps.submitParam
+        })
+      }
+
       this.computedId();
-      this.setState({
-        submitParam: nextProps.submitParam
-      })
+      
       if (nextProps.pageData.result.ordIdList.length > 0) {
         nextProps.pageData.result.ordIdList.map(item => {
           if (item.ordId == this.state.submitParam.ordId) {
@@ -185,7 +193,7 @@ class DataClassfy extends React.Component {
     let { type, isLoading, pageData } = this.props
     let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: 0, org: '' }]
     let idList = this.state.idList
-    let percent = 0;
+    // let percent = 0;
     // if (idList) {
     //   if (!Array.isArray(idList)) {
     //     idList = idList.split(",").map(item => {
