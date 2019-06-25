@@ -146,7 +146,9 @@ class AppealCheck extends React.Component {
               <div style={{paddingLeft:'15px'}}>
                 {appealStart1&&<CreateAppeaRecord appealStart={appealStart1}/>}
                 {sopAppealCheck1&&sopAppealCheck1.length!==0&&<FirstCheckResult sopAppealCheck={sopAppealCheck1}/>}
-                {masterAppealCheck1&&<SecondCheckResult masterAppealCheck={masterAppealCheck1}/>}
+                {masterAppealCheck1&&<SecondCheckResult masterAppealCheck={masterAppealCheck1} firstOrSec ={true}
+                                                        creditType={query.creditType}
+                                                        dimensionType={query.dimensionType}/>}
                 <div className={styles.spaceLine}/>
               </div>
             )}
@@ -162,7 +164,10 @@ class AppealCheck extends React.Component {
               <div style={{paddingLeft:'15px'}}>
                 {appealStart2&&<CreateAppeaRecord appealStart={appealStart2}/>}
                 {sopAppealCheck2&&sopAppealCheck2.length!==0&&<FirstCheckResult sopAppealCheck={sopAppealCheck2}/>}
-                {masterAppealCheck2&&<SecondCheckResult masterAppealCheck={masterAppealCheck2}/>}
+                {masterAppealCheck2&&<SecondCheckResult masterAppealCheck={masterAppealCheck2} firstOrSec ={false}
+                                                        creditType={query.creditType}
+                                                        dimensionType={query.dimensionType}/>}
+                <div className={styles.spaceLine}/>
               </div>
             )}
           </div>
