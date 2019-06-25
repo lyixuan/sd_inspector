@@ -1,11 +1,11 @@
 import React from 'react';
+import { Tooltip } from 'antd';
+import { connect } from 'dva/index';
+import { getSubStringValue, jumpMarkingDetails } from '../../utils/utils';
+import ModalTip from '../components/modalTip';
 import MarkForm from '../components/form';
 import MarkList from '../components/list';
-import ModalTip from '../components/modalTip';
 import styles from '../style.less';
-import { connect } from 'dva/index';
-import router from 'umi/router';
-import { Tooltip } from 'antd';
 
 const markType = 2; //im bbs nps 对应的type值为1， 2， 3
 @connect(({ workTableModel }) => ({
@@ -36,13 +36,10 @@ class bbsPage extends React.Component {
         dataIndex: 'content',
         key: 'content',
         render: text => {
-          const l = text ? text.length : 0;
           return (
-            <>
-              <Tooltip overlayClassName={styles.listTooltip} placement="right" title={text}>
-                <span>{l > 10 ? text.substring(0, 10) + '...' : text}</span>
-              </Tooltip>
-            </>
+            <Tooltip overlayClassName={styles.listTooltip} placement="right" title={text}>
+              <span>{getSubStringValue(text)}</span>
+            </Tooltip>
           );
         },
       },
@@ -55,12 +52,7 @@ class bbsPage extends React.Component {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
-        render: text => {
-          const l = text ? text.length : 0;
-          return (
-            <span>{l > 20 ? text.substring(0, 20) + '...' : text}</span>
-          );
-        },
+        render: text => <span>{getSubStringValue(text, 20)}</span>
       },
       {
         title: '操作人',
@@ -76,23 +68,22 @@ class bbsPage extends React.Component {
         title: '原因分类',
         dataIndex: 'reason',
         key: 'reason',
+        render: text => <span>{getSubStringValue(text, 6)}</span>
       },
       {
         title: '操作',
         key: 'action',
         render: (text, record) => (
           <div>
-            <a href="javascript:;" onClick={() => this.handleEdit(record)}>编辑</a>
+            <a href="javascript:;" onClick={() => this.handleEdit(record.id)}>编辑</a>
           </div>
         ),
       },
     ];
     return columns || [];
   };
-  handleEdit = (record) => {
-    router.push({
-      pathname: `/qualityMarking/detail/${record.id}/${markType}`,
-    });
+  handleEdit = (id) => {
+    jumpMarkingDetails(id, markType)
     localStorage.removeItem('idList');
     localStorage.setItem('idList', this.props.idList);
   };

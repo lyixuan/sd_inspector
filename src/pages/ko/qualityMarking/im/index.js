@@ -1,14 +1,14 @@
 import React from 'react';
-import MarkForm from '../components/form';
-import MarkList from '../components/list';
-import ModalTip from '../components/modalTip';
-import router from 'umi/router';
-import styles from '../style.less';
+import { Tooltip } from 'antd';
+// import router from 'umi/router';
 import { connect } from 'dva/index';
+import { pathImUrl, getSubStringValue, jumpMarkingDetails } from '../../utils/utils';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
-import { Tooltip } from 'antd';
-import { pathImUrl } from '../../utils/utils';
+import ModalTip from '../components/modalTip';
+import MarkForm from '../components/form';
+import MarkList from '../components/list';
+import styles from '../style.less';
 
 const markType = 1; //im bbs nps 对应的额type值为1， 2， 3
 // 悬浮列表
@@ -114,10 +114,10 @@ class imPage extends React.Component {
         key: 'contentList',
         render: (list, r) => {
           const content = list.length > 0 ? <Layout dataMark={r}></Layout> : r.content;
-          const t = list.length > 0 ? list[0].content : '';
+          const text = list.length > 0 ? list[0].content : '';
           return (
             <Tooltip overlayClassName={styles.listTooltip} placement="right" title={content}>
-              <span>{t.length > 10 ? t.substring(0, 10) + '...' : t}</span>
+              <span>{getSubStringValue(text)}</span>
             </Tooltip>
           );
         },
@@ -131,12 +131,7 @@ class imPage extends React.Component {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
-        render: text => {
-          const l = text ? text.length : 0;
-          return (
-            <span>{l > 20 ? text.substring(0, 20) + '...' : text}</span>
-          );
-        },
+        render: text => <span>{getSubStringValue(text, 20)}</span>
       },
       {
         title: '操作人',
@@ -152,28 +147,31 @@ class imPage extends React.Component {
         title: '咨询类型',
         dataIndex: 'consult',
         key: 'consult',
+        render: text => <span>{getSubStringValue(text, 6)}</span>
       },
       {
         title: '原因分类',
         dataIndex: 'reason',
         key: 'reason',
+        render: text => <span>{getSubStringValue(text, 6)}</span>
       },
       {
         title: '操作',
         key: 'action',
         render: (text, record) => (
           <div>
-            <a href="javascript:;" onClick={() => this.handleEdit(record)}>编辑</a>
+            <a href="javascript:;" onClick={() => this.handleEdit(record.id)}>编辑</a>
           </div>
         ),
       },
     ];
     return columns || [];
   };
-  handleEdit = (record) => {
-    router.push({
-      pathname: `/qualityMarking/detail/${record.id}/${markType}`,
-    });
+  handleEdit = (id) => {
+    // router.push({
+    //   pathname: `/qualityMarking/detail/${id}/${markType}`,
+    // });
+    jumpMarkingDetails(id, markType);
     localStorage.removeItem('idList');
     localStorage.setItem('idList', this.props.idList);
   };
