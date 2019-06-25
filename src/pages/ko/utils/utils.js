@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { INDEX_PAGE } from '@/utils/constants';
+import config from '../../../../config/config';
 
 
 const commitDateFormat = 'YYYY-MM-DD';
@@ -58,14 +59,27 @@ export function handleDateFormParams(params) {
         publicChoiceLessonTime: HandleData,
     }
 }
-export function getTransactionIntentionValue(data = [], v = -1) {
-  for (let item of Object.values(data)) {
-    if (item.valueType === 3 && item.minValue === v && item.maxValue === v) { // 等于
-      return '-';
-    } else if ((item.valueType === 7 && item.minValue <= v && item.maxValue >= v) || (item.valueType === 8 && item.minValue <= v && item.maxValue > v)) { // 大于等于且小于等于 // 大于等于且小于
-      return item.name;
+export function getTransactionIntentionValue(data = [], v) {
+  if (typeof v !== 'object') {
+    for (let item of Object.values(data)) {
+      if (item.valueType === 3 && item.minValue === v && item.maxValue === v) { // 等于
+        return '-';
+      } else if ((item.valueType === 7 && item.minValue <= v && item.maxValue >= v) || (item.valueType === 8 && item.minValue <= v && item.maxValue > v)) { // 大于等于且小于等于 // 大于等于且小于
+        return item.name;
+      }
     }
   }
+
   return v;
 }
-export const pathImUrl = 'http://static.sunlands.com';
+// 质检标注
+export const pathImUrl = 'http://static.sunlands.com'; // IM等图片的域名
+export function getSubStringValue(v = '', n = 10) { // 多余n个字符显示 n + '...'
+  return (v ? v.length : 0) > n ? v.substring(0, n) + '...' : v;
+}
+export function jumpMarkingDetails(id, type) {
+  const origin = window.location.origin;
+  const url = `${origin}${config.base}qualityMarking/detail/${id}/${type}`;
+  window.open(url);
+}
+

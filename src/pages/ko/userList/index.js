@@ -294,7 +294,7 @@ function columns(enumDataIntention) {
       width: 120,
       sorter: true,
       sortDirections: ['descend', 'ascend'],
-      render: t => getTransactionIntentionValue(enumDataIntention, 0.8)
+      render: t => getTransactionIntentionValue(enumDataIntention, t)
     },
     {
       title: '',

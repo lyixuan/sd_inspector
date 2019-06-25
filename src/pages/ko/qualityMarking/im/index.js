@@ -1,19 +1,16 @@
 import React from 'react';
-import MarkForm from '../components/form';
-import MarkList from '../components/list';
-import ModalTip from '../components/modalTip';
-import BIButton from '@/ant_components/BIButton';
-import router from 'umi/router';
-import styles from '../style.less';
+import { Tooltip } from 'antd';
+// import router from 'umi/router';
 import { connect } from 'dva/index';
-import exportimg from '@/assets/ai/export.png';
+import { pathImUrl, getSubStringValue, jumpMarkingDetails } from '../../utils/utils';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
-import { Tooltip } from 'antd';
-import { pathImUrl } from '../../utils/utils'
+import ModalTip from '../components/modalTip';
+import MarkForm from '../components/form';
+import MarkList from '../components/list';
+import styles from '../style.less';
 
 const markType = 1; //im bbs nps 对应的额type值为1， 2， 3
-const exportType = 11; // 导出类型：导出类型：11 - IM 21 - BBS 31 - NPS标签 32 - NPS自主评价
 // 悬浮列表
 function Layout(props) {
   const layout = <section>
@@ -100,12 +97,8 @@ function TeacherOrStudent(props) {
 class imPage extends React.Component {
   constructor(props) {
     super(props);
-    const { currentPage, searchParams, } = this.props;
-    this.state = {
-      searchParams,
-      currentPage,
-      visible: false, // 弹框是否显示标志
-    };
+    const { currentPage, searchParams } = this.props;
+    this.state = { searchParams, currentPage };
   }
 
   columnsData = () => {
@@ -120,11 +113,11 @@ class imPage extends React.Component {
         dataIndex: 'contentList',
         key: 'contentList',
         render: (list, r) => {
-          const l = r.content ? r.content.length : 0;
           const content = list.length > 0 ? <Layout dataMark={r}></Layout> : r.content;
+          const text = list.length > 0 ? list[0].content : '';
           return (
             <Tooltip overlayClassName={styles.listTooltip} placement="right" title={content}>
-              <span>{l > 20 ? r.content.substring(0, 20) : r.content}</span>
+              <span>{getSubStringValue(text)}</span>
             </Tooltip>
           );
         },
@@ -138,12 +131,7 @@ class imPage extends React.Component {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
-        render: text => {
-          const l = text ? text.length : 0;
-          return (
-            <span>{l > 20 ? text.substring(0, 20) + '...' : ''}</span>
-          )
-        },
+        render: text => <span>{getSubStringValue(text, 20)}</span>
       },
       {
         title: '操作人',
@@ -159,30 +147,33 @@ class imPage extends React.Component {
         title: '咨询类型',
         dataIndex: 'consult',
         key: 'consult',
+        render: text => <span>{getSubStringValue(text, 6)}</span>
       },
       {
         title: '原因分类',
         dataIndex: 'reason',
         key: 'reason',
+        render: text => <span>{getSubStringValue(text, 6)}</span>
       },
       {
         title: '操作',
         key: 'action',
         render: (text, record) => (
           <div>
-            <a href="javascript:;" onClick={() => this.handleEdit(record)}>编辑</a>
+            <a href="javascript:;" onClick={() => this.handleEdit(record.id)}>编辑</a>
           </div>
         ),
       },
     ];
     return columns || [];
   };
-  handleEdit = (record) => {
-    router.push({
-      pathname: `/qualityMarking/detail/${record.id}/${markType}`,
-    });
-    localStorage.removeItem("idList")
-    localStorage.setItem("idList", this.props.idList)
+  handleEdit = (id) => {
+    // router.push({
+    //   pathname: `/qualityMarking/detail/${id}/${markType}`,
+    // });
+    jumpMarkingDetails(id, markType);
+    localStorage.removeItem('idList');
+    localStorage.setItem('idList', this.props.idList);
   };
   onSearchChange = (searchParams) => {
     this.setState({
@@ -202,38 +193,19 @@ class imPage extends React.Component {
       payload: { params: { ...searchParams, page: currentPage, type: markType } },
     });
   };
-  handleExport = () => {// 导出类型：11 - IM21 - BBS31 - NPS标签 32 - NPS自主评价
-    this.setState({ visible: true });
-  };
-  handleOk = () => {
-    const { choiceTime, ...others } = this.state.searchParams;
-    this.props.dispatch({
-      type: 'workTableModel/exportExcelData',
-      payload: {
-        params: { ...others, type: exportType },
-      },
-      callback: (res) => {
-        this.handleCancel();
-      },
-    });
-  }
-  handleCancel = () => {
-    this.setState({ visible: false });
-  }
 
   render() {
-    const { searchParams, currentPage, visible } = this.state;
+    const { searchParams, currentPage } = this.state;
+    const { choiceTime, ...others } = searchParams;
+
     return (
       <div>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
           onSearchChange={this.onSearchChange}></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
           columnsData={this.columnsData}>
-          <BIButton onClick={this.handleExport} className={styles.exportBtn} size="large">
-            <img src={exportimg} /> 导出
-          </BIButton>
+          <ModalTip markType={markType} othersSearch={others}></ModalTip>
         </MarkList>
-        <ModalTip visible={visible} handleOk={this.handleOk} handleCancel={this.handleCancel}></ModalTip>
       </div>
     );
   }
