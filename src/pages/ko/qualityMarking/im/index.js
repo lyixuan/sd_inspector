@@ -147,8 +147,6 @@ class imPage extends React.Component {
         title: '更新时间',
         dataIndex: 'updateTime',
         key: 'updateTime',
-        render: () => '2019-04-01 10:00:50',
-
       },
       {
         title: '咨询类型',
