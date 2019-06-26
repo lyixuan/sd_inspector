@@ -45,11 +45,12 @@ export default class SOPCheckResultComponent extends React.Component {
                       <span>操作时间：{moment(item.operateDate).format('YYYY年MM月DD日 HH:mm:ss')}</span>
                     </Col>
                   </Row>
-                  <Row className={styles.container}>
+                  {/* <Row className={styles.container}>
                     <Col span={12}>
-                      <div>审核说明：{item.desc}</div>
+                     
                     </Col>
-                  </Row>
+                  </Row> */}
+                  <div className={styles.container}>审核说明：{item.desc}</div>
                 </div>
                 {this.getDivideLine(index)}
               </>
