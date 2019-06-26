@@ -116,7 +116,8 @@ class PathUserInfo extends React.Component {
   render() {
     const info = this.props.info.user[0];
     const orderData = this.props.info.orderData;
-    const intent = getTransactionIntentionValue(this.props.enumDataIntention, 0.5);
+    console.log(119, info)
+    const intent = getTransactionIntentionValue(this.props.enumDataIntention);
     return (
       <div className={styles.personIntro}>
         <div className={styles.userArea}>
@@ -129,7 +130,7 @@ class PathUserInfo extends React.Component {
               </p>
             </div>
           </div>
-          <Tooltip placement="bottom" title={`成单意向: ${intent}`}>
+          <Tooltip placement="bottom" title={`成单意向: ${intent} (${info.transactionIntention})`}>
             {intent == 'A' && <div className={styles.intention + " " + styles.intentionA}></div>}
             {intent == 'B' && <div className={styles.intention + " " + styles.intentionB}></div>}
             {intent == 'C' && <div className={styles.intention + " " + styles.intentionC}></div>}

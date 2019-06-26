@@ -101,6 +101,8 @@ class AiDetail extends React.Component {
     const { type, id } = this.state
     const routerData = { name: `${tabType}会话`, bread: { name: "AI工作台", path: `/qualityMarking/${tabType.toLowerCase}` }, path: "/koUserOperation/userGroupAdd" }
     const pageData = this.props.pageData
+    console.log(104, document.body.clientHeight)
+    const scrollHeight = document.body.clientHeight - 190
     return (
       <div style={{ marginTop: '-28px' }}>
         <PageHead routerData={routerData}></PageHead>
@@ -108,7 +110,9 @@ class AiDetail extends React.Component {
           <div className={styles.aiDetail}>
             <div className={styles.baseInfo}>
               <div className={styles.headBar}>基本信息</div>
-              <Detail pageData={pageData} type={type} id={id}></Detail>
+              <div style={{ maxHeight: `${scrollHeight}px`, overflowY: "auto", marginBottom: '-25px' }}>
+                <Detail pageData={pageData} type={type} id={id}></Detail>
+              </div>
             </div>
             <div className={styles.dataClassfy}>
               <div className={styles.headBar}>数据分类</div>

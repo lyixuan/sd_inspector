@@ -2,6 +2,7 @@ import React from 'react';
 import copy from 'copy-to-clipboard';
 import { Icon } from 'antd';
 import { connect } from 'dva';
+import { jumpMarkingDetails } from '../../../../utils/utils';
 import styles from '../../style.less';
 
 function Keywords(props) {
@@ -48,10 +49,8 @@ class DetailBbs extends React.Component {
 
     };
   }
-  handleClick = (e) => {
-    // 复制
-    copy(e.target.value)
-    alert('复制成功', 1)
+  handleNameClick = (id) => {
+    jumpMarkingDetails(id, { target: 'bbs' })
   }
 
   render() {
@@ -62,11 +61,11 @@ class DetailBbs extends React.Component {
           <li className={styles.flex}>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员姓名：</span>
-              <span className={styles.name + " " + styles.nameCurrent}>{item.stuName}</span>
+              <span className={styles.name + " " + styles.nameCurrent} onClick={() => this.handleNameClick(item.stuId)}>{item.stuName}</span>
             </div>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员id：</span>
-              <span className={styles.name}>{item.itemId}</span>
+              <span className={styles.name}>{item.stuId}</span>
             </div>
           </li>
           <li className={styles.flex}>
