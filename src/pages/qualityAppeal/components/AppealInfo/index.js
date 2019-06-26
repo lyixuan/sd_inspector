@@ -24,8 +24,8 @@ class Index extends React.Component {
     }
     const data1 = this.isEmptyObj(dataList1);
     const data2 = this.isEmptyObj(dataList2);
-    const InfoList1 = dataList1.appealStart && dataList1.appealStart.map((v)=><Info type='startAppeal' data={v}/>);
-    const InfoList2 = dataList2.appealStart && dataList2.appealStart.map((v)=><Info type='startAppeal' data={v}/>);
+    const InfoList1 = dataList1.appealStart && dataList1.appealStart.map((v,i)=>{if (i===dataList1.appealStart.length-1) {return <Info type='startAppeal' data={v}/>}});
+    const InfoList2 = dataList2.appealStart && dataList2.appealStart.map((v,i)=>{if (i===dataList2.appealStart.length-1) {return <Info type='startAppeal' data={v}/>}});
     return (
       <div>
         {
