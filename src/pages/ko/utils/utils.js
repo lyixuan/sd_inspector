@@ -5,8 +5,8 @@ import config from '../../../../config/config';
 
 const commitDateFormat = 'YYYY-MM-DD';
 export const handleDateParams = (item) => {
-    const [startTime, endTime] = item;
-    return [startTime, endTime].map((ls) => ls && moment(ls).format(commitDateFormat));
+  const [startTime, endTime] = item;
+  return [startTime, endTime].map((ls) => ls && moment(ls).format(commitDateFormat));
 }
 export const handleRecordTimeParamsNew = (params) => { // 最新初始化桑吉图热力图等  选择时间
   const date = Array.isArray(params) && params.length > 0 ? params[0] : {};
@@ -15,49 +15,49 @@ export const handleRecordTimeParamsNew = (params) => { // 最新初始化桑吉�
   return [bTime, endTime].map((ls) => ls && moment(ls).format(commitDateFormat));
 }
 export function handleInitParams(params = {}) {
-    let returnObj = {
+  let returnObj = {
 
-    };
-    Object.keys(params).forEach(key => {
-        if (key === 'KoDateRange') {
-            // 默认不回显
+  };
+  Object.keys(params).forEach(key => {
+    if (key === 'KoDateRange') {
+      // 默认不回显
 
-            returnObj = {
-                ...returnObj,
-                page: { value: INDEX_PAGE, actionValue: INDEX_PAGE },
-                recordTimeList: handleRecordTimeParamsNew(params[key]),
-                belongApp: '1',
-            };
+      returnObj = {
+        ...returnObj,
+        page: { value: INDEX_PAGE, actionValue: INDEX_PAGE },
+        recordTimeList: handleRecordTimeParamsNew(params[key]),
+        belongApp: '1',
+      };
 
-        }
-    })
+    }
+  })
 
-    return returnObj;
+  return returnObj;
 }
 export function initRecordTimeListData(params) {
-    const date = Array.isArray(params) && params.length > 0 ? params[0] : {};
-    const { beginTime, endTime } = date;
-    return [beginTime, endTime].map(item => item && moment(item).format(commitDateFormat));
+  const date = Array.isArray(params) && params.length > 0 ? params[0] : {};
+  const { beginTime, endTime } = date;
+  return [beginTime, endTime].map(item => item && moment(item).format(commitDateFormat));
 }
 export function handleFormParams(params) {
-    const date = Array.isArray(params) && params.length > 0 ? params[0] : {};
-    const { beginTime, endTime } = date;
-    const HandleData = [beginTime, endTime].map(item => item && moment(item).format(commitDateFormat));
-    return {
-        certificateChoiceLessonTime: HandleData,
-        registerTime: HandleData,
-        publicChoiceLessonTime: HandleData,
-    }
+  const date = Array.isArray(params) && params.length > 0 ? params[0] : {};
+  const { beginTime, endTime } = date;
+  const HandleData = [beginTime, endTime].map(item => item && moment(item).format(commitDateFormat));
+  return {
+    certificateChoiceLessonTime: HandleData,
+    registerTime: HandleData,
+    publicChoiceLessonTime: HandleData,
+  }
 }
 export function handleDateFormParams(params) {
-    const date = Array.isArray(params) && params.length > 0 ? params[0] : {};
-    const { beginTime, endTime } = date;
-    const HandleData = [beginTime, endTime].map(item => item && moment(item));
-    return {
-        certificateChoiceLessonTime: HandleData,
-        registerTime: HandleData,
-        publicChoiceLessonTime: HandleData,
-    }
+  const date = Array.isArray(params) && params.length > 0 ? params[0] : {};
+  const { beginTime, endTime } = date;
+  const HandleData = [beginTime, endTime].map(item => item && moment(item));
+  return {
+    certificateChoiceLessonTime: HandleData,
+    registerTime: HandleData,
+    publicChoiceLessonTime: HandleData,
+  }
 }
 export function getTransactionIntentionValue(data = [], v) {
   if (typeof v !== 'object') {
@@ -79,7 +79,16 @@ export function getSubStringValue(v = '', n = 10) { // 多余n个字符显示 n 
 }
 export function jumpMarkingDetails(id, type) {
   const origin = window.location.origin;
-  const url = `${origin}${config.base}qualityMarking/detail/${id}/${type}`;
-  window.open(url);
+  if (type.target) {
+    const url = `${origin}${config.base}ko/behaviorPath`;
+    const params = { userId: id, target: type.target };
+    const strParams = encodeURIComponent(JSON.stringify(params));
+    window.open(`${url}?params=${strParams}`);
+  } else {
+    const url = `${origin}${config.base}qualityMarking/detail/${id}/${type}`;
+    window.open(url);
+  }
+
 }
+
 

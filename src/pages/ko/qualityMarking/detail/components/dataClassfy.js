@@ -103,6 +103,7 @@ class DataClassfy extends React.Component {
   }
   // 原因切换
   onChangeReson = (value) => {
+    console.log(106, value)
     const reasonTypeIdList = value.map(item => {
       return item.value
     })
@@ -131,7 +132,7 @@ class DataClassfy extends React.Component {
     }
     let params = {
       type: this.props.type,
-      itemId: this.props.id,
+      itemId: this.props.pageData.item.itemId,
       result: this.state.submitParam,
     };
     let params2 = {
@@ -259,6 +260,7 @@ class DataClassfy extends React.Component {
                   <label>咨询类型：</label>
                   <div className={styles.selects}>
                     <BICascader
+                      changeOnSelect
                       fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
                       options={consultTypeTree}
                       value={this.state.submitParam.consultTypeIdList}
@@ -272,6 +274,7 @@ class DataClassfy extends React.Component {
               <label>原因分类：</label>
               <div className={styles.selects}>
                 <BICascader
+                  changeOnSelect
                   fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
                   options={reasonTypeTree}
                   onChange={this.onChangeReson}
@@ -327,7 +330,7 @@ class DataClassfy extends React.Component {
                 </BIButton>,
           ]}>
           <div style={{ textAlign: 'center' }}>
-            <p style={{ paddingBottom: '0', paddingTop: '20px' }}>厉害啦，数据已全部处理！即将返回首页～</p>
+            <p style={{ paddingBottom: '0', paddingTop: '20px' }}>已到达最后一条数据，即将返回首页～</p>
           </div>
         </BIModal>
       </>

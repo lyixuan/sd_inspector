@@ -3,7 +3,8 @@ import copy from 'copy-to-clipboard';
 import { Icon, message } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
-import { pathImUrl } from '../../../../utils/utils';
+import { pathImUrl, jumpMarkingDetails } from '../../../../utils/utils';
+import config from '../../../../../../../config/config';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 
@@ -91,6 +92,9 @@ class DetailIm extends React.Component {
     copy(val)
     message.success('复制成功');
   }
+  handleNameClick = (id) => {
+    jumpMarkingDetails(id, { target: 'im' })
+  }
 
   render() {
     const { item } = this.props.pageData
@@ -100,7 +104,7 @@ class DetailIm extends React.Component {
           <li className={styles.flex}>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员姓名：</span>
-              <span className={styles.name + " " + styles.nameCurrent}>{item.stuName}</span>
+              <span className={styles.name + " " + styles.nameCurrent} onClick={() => this.handleNameClick(item.stuId)}>{item.stuName}</span>
             </div>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员id：</span>
