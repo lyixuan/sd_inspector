@@ -32,7 +32,7 @@ class NewQualitySheet extends React.Component {
     const { p = null } = this.props.location.query;
     this.state = { ...this.init, ...JSON.parse(p) };
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.tabType === '1' && nextProps.tabType === '2') {
       this.reset()
     }
