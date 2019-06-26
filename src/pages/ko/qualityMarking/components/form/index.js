@@ -23,9 +23,6 @@ class AiForm extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch({
-      type: 'koPlan/pageParams',
-    });
     this.handleSearch();
   }
 
