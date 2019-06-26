@@ -1,6 +1,6 @@
 import React from 'react';
-import { Skeleton, Form } from 'antd';
-import { handleDateFormParams, handleDateParams } from '@/pages/ko/utils/utils';
+import { Skeleton, Form, message } from 'antd';
+import { handleDateParams, handleDefaultPickerValueMark } from '@/pages/ko/utils/utils';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect';
@@ -25,20 +25,21 @@ class AiForm extends React.Component {
   componentDidMount() {
     this.handleSearch();
   }
-
-  // 选择时间初始默认时间
-  handleDefaultPickerValue = () => {
-    const cTime = new Date().getTime() - 2*24*60*60*1000;
-    const defTime = moment(cTime);
-    return [defTime, defTime];
-  };
-  // 选择时间可选范围限制
-  disabledDate = (current, keyName) => {
-    const { KoDateRange } = this.props.koPlanPageParams;
-    const dateArr = handleDateFormParams(KoDateRange)[keyName] || [];
-    const [startTime, endTime] = dateArr;
-    return current.isBefore(moment(startTime)) || current.isAfter(moment(endTime));
-  };
+  // 时间间隔不超过七天
+  getChangeTime = (c) => {
+    if (c.length === 0) {
+      message.error('选择时间不能为空！');
+      return false
+    } else {
+      const [sTime, eTime] = c;
+      const day = eTime.diff(sTime, 'day');
+      if (day > 6) {
+        message.error('选择时间间隔不能超过七天！');
+        return false
+      }
+    }
+    return true;
+  }
   // 处理查询数据
   checkoutParamsType = (key, item) => {
     let returnItem = undefined;
@@ -57,6 +58,7 @@ class AiForm extends React.Component {
     e && e.preventDefault();
     const { onSearchChange, form } = this.props;
     form.validateFields((err, values) => {
+      if (!this.getChangeTime(values.choiceTime)) return;
       if (onSearchChange) {
         const [beginDate, endDate] = this.checkoutParamsType('choiceTime', values.choiceTime);
         onSearchChange({ ...values, beginDate, endDate });
@@ -68,7 +70,7 @@ class AiForm extends React.Component {
     const { searchParams } = this.props;
     for (let k in searchParams) {
       if (k === 'choiceTime') {
-        searchParams[k] = this.handleDefaultPickerValue();
+        searchParams[k] = handleDefaultPickerValueMark();
       } else {
         searchParams[k] = undefined;
       }
@@ -82,7 +84,6 @@ class AiForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const { markType, searchParams, collegeList, consultList, reasonList, evaluateList } = this.props;
     const { loading } = this.props;
-    const choiceTimeInit = searchParams.choiceTime || this.handleDefaultPickerValue();
     return (
       <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
         <Form
@@ -95,12 +96,11 @@ class AiForm extends React.Component {
               <div className={styles.itemCls}>
                 <Form.Item label='选择时间：'>
                   {getFieldDecorator('choiceTime', {
-                    initialValue: choiceTimeInit,
+                    initialValue: searchParams.choiceTime,
                   })(
                     <BIRangePicker
                       placeholder={['起始时间', '截止时间']}
                       format={dateFormat}
-                      // disabledDate={(current) => this.disabledDate(current, 'registerTime')}
                     />,
                   )}
                 </Form.Item>

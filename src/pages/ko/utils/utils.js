@@ -59,6 +59,7 @@ export function handleDateFormParams(params) {
     publicChoiceLessonTime: HandleData,
   }
 }
+// 质检标注
 export function getTransactionIntentionValue(data = [], v) {
   if (typeof v !== 'object') {
     for (let item of Object.values(data)) {
@@ -72,7 +73,6 @@ export function getTransactionIntentionValue(data = [], v) {
 
   return v;
 }
-// 质检标注
 export const pathImUrl = 'http://static.sunlands.com'; // IM等图片的域名
 export function getSubStringValue(v = '', n = 10) { // 多余n个字符显示 n + '...'
   return (v ? v.length : 0) > n ? v.substring(0, n) + '...' : v;
@@ -89,6 +89,11 @@ export function jumpMarkingDetails(id, type) {
     window.open(url);
   }
 
+}
+export function handleDefaultPickerValueMark() {
+  const cTime = new Date().getTime() - 2*24*60*60*1000;
+  const defTime = moment(cTime);
+  return [defTime, defTime];
 }
 
 
