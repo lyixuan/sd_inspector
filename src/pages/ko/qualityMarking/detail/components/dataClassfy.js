@@ -67,7 +67,6 @@ class DataClassfy extends React.Component {
       }
 
       this.computedId();
-      
       if (nextProps.pageData.result.ordIdList.length > 0) {
         nextProps.pageData.result.ordIdList.map(item => {
           if (item.ordId == this.state.submitParam.ordId) {

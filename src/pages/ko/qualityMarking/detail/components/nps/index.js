@@ -83,7 +83,7 @@ class DetailNps extends React.Component {
             <div className={styles.row}>
               <span className={styles.label}>自主评价：</span>
               <span className={styles.name}>
-                {item.opinion}
+                {item.content}
               </span>
             </div>
           </li>
