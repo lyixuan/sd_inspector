@@ -136,8 +136,8 @@ function columns(enumDataIntention) {
       filterMultiple: false,
       width: 140,
       filters: [
-        { text: '大于0', value: 1, key: 'robot_chat_num' },
-        { text: '等于0', value: 2, key: 'robot_chat_num' },
+        { text: '大于0', value: 1, key: 'robotChatExist'},
+        { text: '等于0', value: 2, key: 'robotChatExist' },
       ],
       sorter: true,
       sortDirections: ['descend', 'ascend']
@@ -495,7 +495,7 @@ class UserList extends React.Component {
     // 筛选
     filterKeyName.forEach(item => {
       const filterArr = filters[item.dataIndex];
-      filterExitParams[item.filterKey] = Array.isArray(filterArr) ? (filterArr.length > 0 ? filterArr[0] : 0) : undefined;
+      filterExitParams[item.filterKey] = Array.isArray(filterArr) ? (filterArr.length > 0 ? filterArr[0] : undefined) : undefined;
     });
     // 排序
     if (orderSort.columnKey && orderSort.order) {

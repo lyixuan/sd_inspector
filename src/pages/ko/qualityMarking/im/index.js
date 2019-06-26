@@ -9,6 +9,7 @@ import ModalTip from '../components/modalTip';
 import MarkForm from '../components/form';
 import MarkList from '../components/list';
 import styles from '../style.less';
+import { handleDefaultPickerValueMark } from '@/pages/ko/utils/utils';
 
 const markType = 1; //im bbs nps 对应的额type值为1， 2， 3
 // 悬浮列表
@@ -98,7 +99,7 @@ class imPage extends React.Component {
   constructor(props) {
     super(props);
     const { currentPage, searchParams } = this.props;
-    this.state = { searchParams, currentPage };
+    this.state = { searchParams: {choiceTime:handleDefaultPickerValueMark(), ...searchParams}, currentPage };
   }
 
   columnsData = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tooltip } from 'antd';
 import { connect } from 'dva/index';
-import { getSubStringValue, jumpMarkingDetails } from '../../utils/utils';
+import { getSubStringValue, jumpMarkingDetails, handleDefaultPickerValueMark } from '../../utils/utils';
 import ModalTip from '../components/modalTip';
 import MarkForm from '../components/form';
 import MarkList from '../components/list';
@@ -23,7 +23,7 @@ class bbsPage extends React.Component {
   constructor(props) {
     super(props);
     const { currentPage, searchParams } = this.props;
-    this.state = { searchParams, currentPage };
+    this.state = { searchParams: {choiceTime:handleDefaultPickerValueMark(), ...searchParams}, currentPage };
   }
 
   columnsData = () => {
