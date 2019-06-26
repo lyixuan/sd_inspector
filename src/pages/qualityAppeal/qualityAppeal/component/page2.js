@@ -159,8 +159,8 @@ class NewQualitySheet extends React.Component {
               </div>
             </Col>
             <Col className={styles.gutterCol} span={8}>
-            {/* sop 或者 质检主管可看 */}
-            {(AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA') || AuthButton.checkPathname('/qualityAppeal/qualityAppeal/delete') )&& (
+            {/*  质检主管  或者  sop可看 */}
+            {(AuthButton.checkPathname('/qualityAppeal/qualityAppeal/appeal') || AuthButton.checkPathname('/qualityAppeal/qualityAppeal/appealsop') )&& (
               <div className={styles.gutterBox3}>  
                     <span className={styles.gutterLabel1}>归属组织</span>：
                     <span className={styles.gutterForm}>
