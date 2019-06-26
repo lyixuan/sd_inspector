@@ -702,6 +702,7 @@ class QualityAppeal extends React.Component {
               <div className={subStl.tabBlank}>&nbsp;</div>
               <Page2
                 {...this.props}
+                orgList={orgListTreeData}
                 tabType={this.state.tabType}
                 dimensionList1={dimensionList1}
                 dimensionList2={dimensionList2}
