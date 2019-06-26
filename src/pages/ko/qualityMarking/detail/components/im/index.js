@@ -3,6 +3,7 @@ import copy from 'copy-to-clipboard';
 import { Icon, message } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
+import { pathImUrl } from '../../../../utils/utils';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 
@@ -34,7 +35,8 @@ function TeacherOrStudent(props) {
           </div>
           <div className={`${styles.chat} ${styles.chatLeft}`}>
             <div className={styles.avatar}>
-              {props.stuHeadUrl ? <img src={props.stuHeadUrl} /> : <img src={avatarStudent} />}
+              <img src={props.stuHeadUrl ? (pathImUrl + props.stuHeadUrl) : avatarStudent} />
+              {/* {props.stuHeadUrl ? <img src={props.stuHeadUrl} /> : <img src={avatarStudent} />} */}
               <p>{props.item.userName}</p>
             </div>
             <div className={styles.chatContent}>
@@ -65,7 +67,8 @@ function TeacherOrStudent(props) {
               {props.item.content}
             </div>
             <div className={styles.avatar}>
-              {props.teacherHeadUrl ? <img src={props.teacherHeadUrl} /> : <img src={avatarTeacher} />}
+              <img src={props.teacherHeadUrl ? (pathImUrl + props.teacherHeadUrl) : avatarTeacher} />
+              {/* {props.teacherHeadUrl ? <img src={props.teacherHeadUrl} /> : <img src={avatarTeacher} />} */}
               <p>{props.item.userName}</p>
             </div>
           </div>
