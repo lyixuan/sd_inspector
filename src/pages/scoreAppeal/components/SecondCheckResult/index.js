@@ -3,7 +3,7 @@ import styles from './style.css';
 import { Row, Col } from 'antd';
 import moment from 'moment/moment';
 import { BiFilter } from '@/utils/utils';
-
+import AuthButton from '@/components/AuthButton/index';
 export default class SuperiorCheckComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -17,8 +17,6 @@ export default class SuperiorCheckComponent extends React.Component {
     const { masterAppealCheck,creditType,dimensionType,firstOrSec } = this.props;
     const { checkResult,operator, operateDate,operateRole,desc,tagList=[],appealNum,actualRecommendLevel,score,creditDate,secondEndDate} = masterAppealCheck;
     const tags = tagList.map((v)=>v.name)
-    console.log(creditType)
-    console.log(dimensionType)
     return (
       <section className={styles.showPanel}>
         <div className={styles.personInfoCon}>
@@ -68,11 +66,13 @@ export default class SuperiorCheckComponent extends React.Component {
                 )}
               </Col>
             </Row>}
-            <Row className={styles.container}>
-              <Col span={24}>
+            <AuthButton authority='/scoreAppeal/appeal/master'>
+              <Row className={styles.container}>
+                <Col span={24}>
                   <div>审核标签：{tags.join('，')}</div>
-              </Col>
-            </Row>
+                </Col>
+              </Row>
+            </AuthButton>
             </div>
           </article>
         </div>

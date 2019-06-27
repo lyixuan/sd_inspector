@@ -16,7 +16,7 @@ export default class SOPCheckResultComponent extends React.Component {
   componentDidMount() { }
   render() {
     const { appealStart = {} } = this.props;
-    const { operator, operateDate, desc, appealProof = [] } = appealStart;
+    const { operator, operateDate, desc, appealProof = [],creditType } = appealStart;
     let newAppealProof = [];
     if (appealProof.length) {
       for (let i = 0; i < appealProof.length; i++) {
@@ -54,6 +54,13 @@ export default class SOPCheckResultComponent extends React.Component {
                   <span>操作时间：{moment(new Date(operateDate)).format('YYYY-MM-DD HH:mm:ss')}</span>
                 </Col>
               </Row>
+              {(Number(creditType) === 26|| Number(creditType) ===47) && (
+                <Row className={styles.container}>
+                <Col span={5}>
+                  <span>申诉维度：{creditType === 26?'退费':'退挽'}</span>
+                </Col>
+                </Row>
+              )}
               <Row className={styles.container}>
                 <Col span={24}>
                   <div>审核说明：{desc}</div>
