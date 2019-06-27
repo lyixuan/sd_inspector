@@ -21,7 +21,7 @@ export default class AppealInfoComponent extends React.Component {
     const { appealEndDate, appealStart=[], type, index, isCollapse } = data;
     const number = Number(type)===2?'二':'一';
     const InfoList = appealStart.map((v,i)=>{
-        if (i===appealStart.length-1) {
+        if (i===0) {
           return <div>
             <Row className={styles.container}>
               <Col span={12}>
