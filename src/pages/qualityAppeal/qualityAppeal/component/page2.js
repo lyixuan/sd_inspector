@@ -32,7 +32,7 @@ class NewQualitySheet extends React.Component {
     const { p = null } = this.props.location.query;
     this.state = { ...this.init, ...JSON.parse(p) };
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.tabType === '1' && nextProps.tabType === '2') {
       this.reset()
     }
@@ -159,8 +159,8 @@ class NewQualitySheet extends React.Component {
               </div>
             </Col>
             <Col className={styles.gutterCol} span={8}>
-            {/* sop 或者 质检主管可看 */}
-            {(AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA') || AuthButton.checkPathname('/qualityAppeal/qualityAppeal/delete') )&& (
+            {/*  仅质检主管 可看到归属组织 */}
+            {AuthButton.checkPathname('/qualityAppeal/qualityAppeal/appeal') && (
               <div className={styles.gutterBox3}>  
                     <span className={styles.gutterLabel1}>归属组织</span>：
                     <span className={styles.gutterForm}>
