@@ -100,8 +100,7 @@ class AiDetail extends React.Component {
     }
     const { type, id } = this.state
     const routerData = { name: `${tabType}会话`, bread: { name: "AI工作台", path: `/qualityMarking/${tabType.toLowerCase}` }, path: "/koUserOperation/userGroupAdd" }
-    const pageData = this.props.pageData
-    console.log(104, document.body.clientHeight)
+    const pageData = this.props.pageData;
     const scrollHeight = document.body.clientHeight - 190
     return (
       <div style={{ marginTop: '-28px' }}>
