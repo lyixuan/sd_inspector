@@ -223,14 +223,14 @@ class OnAppeal extends React.Component {
             {(record.status === 1||record.status === 2) && (
               <AuthButton authority='/scoreAppeal/appeal/dockingMan'>
               <span className={style.actionBtn} onClick={() => this.onCheck(record)}>
-                对接人审核
+                审核
               </span>
               </AuthButton>
             )}
             {(record.status === 5||record.status === 6) && (
               <AuthButton authority='/scoreAppeal/appeal/master'>
               <span className={style.actionBtn} onClick={() => this.onCheck(record)}>
-                主管审核
+                审核
               </span>
               </AuthButton>
             )}
