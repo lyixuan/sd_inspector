@@ -4,7 +4,6 @@ import { handleDateParams, handleDefaultPickerValueMark } from '@/pages/ko/utils
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect';
-import moment from 'moment/moment';
 import { connect } from 'dva/index';
 import formStyles from '../../../components/formCommon.less';
 import styles from './style.less';
