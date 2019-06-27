@@ -43,7 +43,7 @@ class ExampleImg extends React.Component {
       case 11:
       case 12:
         params.src = `${STATIC_HOST}/${"/upload/credit_appeal/demo/400_call.png"}`;
-        params.title = '开班电话申诉 ——— 证据样例';
+        params.title = '开班电话申诉 —— 证据样例';
         break;
 
       // IM
@@ -52,7 +52,7 @@ class ExampleImg extends React.Component {
       case 16:
       case 17:
         params.src = `${STATIC_HOST}/${"/upload/credit_appeal/demo/im.png"}`;
-        params.title = 'IM申诉 ——— 证据样例';
+        params.title = 'IM申诉 —— 证据样例';
         break;
 
       // 工单
@@ -61,7 +61,7 @@ class ExampleImg extends React.Component {
       case 21:
       case 22:
         params.src = `${STATIC_HOST}/${"/upload/credit_appeal/demo/worker_order.png"}`;
-        params.title = '工单申诉 ——— 证据样例';
+        params.title = '工单申诉 —— 证据样例';
         break;
 
       // 事件、班投
@@ -69,13 +69,13 @@ class ExampleImg extends React.Component {
       case 24:
       case 25:
         params.src = `${STATIC_HOST}/${"/upload/credit_appeal/demo/event_complaint.png"}`;
-        params.title = '事件、班投申诉 ——— 证据样例';
+        params.title = '事件、班投申诉 —— 证据样例';
         break;
       // 退费
       case 26:
       case 47:
         params.src = `${STATIC_HOST}/${"/upload/credit_appeal/demo/event_detention.png"}`;
-        params.title = '退费、退挽申诉 ——— 证据样例';
+        params.title = '退费、退挽申诉 —— 证据样例';
         break;
       // 创收
       case 42:
@@ -83,7 +83,7 @@ class ExampleImg extends React.Component {
       case 44:
       case 45:
         params.src = `${STATIC_HOST}/${"/upload/credit_appeal/demo/stu_recommend.png"}`;
-        params.title = '创收申诉 ——— 证据样例';
+        params.title = '创收申诉 —— 证据样例';
         break;
     }
     return params;
@@ -103,7 +103,7 @@ class ExampleImg extends React.Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
-            <BIButton type="primary" onClick={this.handleOk}>确定</BIButton>
+            <BIButton type="primary" onClick={this.handleOk}>知道了</BIButton>
           ]}
         >
           <p style={{ height: 320, overflowY: 'scroll', }}>

@@ -246,7 +246,7 @@ class UploadImg extends React.Component {
           </a>
         </div>
 
-        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+        <Modal width="70%" visible={previewVisible} footer={null} onCancel={this.handleCancel}>
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         </Modal>
       </div>
