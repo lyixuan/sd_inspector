@@ -391,9 +391,9 @@ export const DIMENSION_TYPE = [
 // 申诉维度
 export const SCORE_APPEAL_DIS = [
   {id:12,name:'开班电话',parentId:11},
-  {id:17,name:'IM不及时',parentId:14},
-  {id:15,name:'IM未回复',parentId:14},
-  {id:16,name:'IM不满意',parentId:14},
+  {id:17,name:'不及时消息',parentId:14},
+  {id:15,name:'未回复会话',parentId:14},
+  {id:16,name:'不满意会话',parentId:14},
   {id:20,name:'工单初次减分',parentId:19},
   {id:21,name:'工单二次减分',parentId:19},
   {id:22,name:'工单三次减分',parentId:19},
