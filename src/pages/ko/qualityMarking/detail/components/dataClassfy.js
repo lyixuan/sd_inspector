@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Progress } from 'antd';
+import { Input, Progress, Cascader } from 'antd';
 import { connect } from 'dva';
 import BIModal from '@/ant_components/BIModal';
 import BIButton from '@/ant_components/BIButton';
@@ -32,7 +32,8 @@ class DataClassfy extends React.Component {
       visible: false,
       tabType: 'im',
       org: '',
-      percent: 0
+      percent: 0,
+      evaluationNature: this.props.submitParam && this.props.submitParam.evaluationNature ? this.props.submitParam.evaluationNature : ''
     };
 
   }
@@ -102,14 +103,13 @@ class DataClassfy extends React.Component {
     })
   }
   // 原因切换
-  onChangeReson = (value) => {
-    console.log(106, value)
-    const reasonTypeIdList = value.map(item => {
-      return item.value
-    })
-    // this.state.submitParam.reasonTypeIdList = reasonTypeIdList
+  onChangeReson = (value, selectedOptions) => {
+    const reasonTypeIdList = value
+    const evaluationNature = selectedOptions[selectedOptions.length - 1]['evaluationNature']
+
     this.setState({
-      submitParam: { ...this.state.submitParam, reasonTypeIdList }
+      evaluationNature: evaluationNature,
+      submitParam: { ...this.state.submitParam, reasonTypeIdList, evaluationNature }
     })
   }
   // 选择是否质检
@@ -139,7 +139,6 @@ class DataClassfy extends React.Component {
       id: this.state.nextId,
       type: this.props.type
     }
-    // console.log(112, params); return;
 
     if (this.props.type == 1) {
       this.setState({
@@ -188,23 +187,12 @@ class DataClassfy extends React.Component {
       pathname: `/qualityMarking/${this.state.tabType}`,
     });
   }
+
   render() {
     let { consultTypeTree, reasonTypeTree } = this.props.AiDetail;
     let { type, isLoading, pageData } = this.props
     let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: 0, org: '' }]
     let idList = this.state.idList
-    // let percent = 0;
-    // if (idList) {
-    //   if (!Array.isArray(idList)) {
-    //     idList = idList.split(",").map(item => {
-    //       return +item
-    //     })
-    //   }
-    //   this.state.idList = idList
-    //   this.state.currentId = idList.indexOf(Number(this.props.id))
-    //   this.state.nextId = idList[this.state.currentId + 1] ? idList[this.state.currentId + 1] : idList[idList.length - 1]
-    //   percent = (this.state.currentId + 1) / idList.length * 100
-    // }
     return (
       <>
         <div className={styles.consultContent}>
@@ -273,9 +261,9 @@ class DataClassfy extends React.Component {
             <li>
               <label>原因分类：</label>
               <div className={styles.selects}>
-                <BICascader
+                <Cascader
                   changeOnSelect
-                  fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+                  fieldNames={{ label: 'name', value: 'id', evaluationNature: 'evaluationNature', children: 'nodeList' }}
                   options={reasonTypeTree}
                   onChange={this.onChangeReson}
                   value={this.state.submitParam.reasonTypeIdList}
