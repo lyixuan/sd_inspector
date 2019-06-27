@@ -15,7 +15,7 @@ export default class SuperiorCheckComponent extends React.Component {
 
   render() {
     const { masterAppealCheck,creditType,dimensionType,firstOrSec } = this.props;
-    const { checkResult,operator, operateDate,operateRole,desc,tagList=[],appealNum,actualRecommendLevel,score,creditDate,secondAppealEndDate} = masterAppealCheck;
+    const { checkResult,operator, operateDate,operateRole,desc,tagList=[],appealNum,actualRecommendLevel,score,creditDate,secondEndDate} = masterAppealCheck;
     const tags = tagList.map((v)=>v.name)
     console.log(creditType)
     console.log(dimensionType)
@@ -31,7 +31,7 @@ export default class SuperiorCheckComponent extends React.Component {
               </Col>
               <Col span={6}>
                 {firstOrSec&&checkResult===0&&(
-                <span>二申截止日期：{secondAppealEndDate}</span>
+                <span>二申截止日期：{moment(secondEndDate).format('YYYY-MM-DD')}</span>
                 )}
               </Col>
               <Col span={3}>

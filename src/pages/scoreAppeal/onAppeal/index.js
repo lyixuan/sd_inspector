@@ -2,6 +2,7 @@ import React from 'react';
 import CSTable from '@/pages/scoreAppeal/components/Table';
 import { connect } from 'dva/index';
 import { BiFilter } from '@/utils/utils';
+import { Popconfirm } from 'antd';
 import router from 'umi/router';
 import style from './style.less'
 import AuthButton from '@/components/AuthButton/index';
@@ -179,19 +180,11 @@ class OnAppeal extends React.Component {
   };
   onRepeal = (record) => {
     const that = this;
-    confirm({
-      className: 'BIConfirm',
-      title: '是否撤销当前数据状态?',
-      cancelText: '取消',
-      okText: '确定',
-      onOk() {
-        that.props.dispatch({
-          type: 'onAppealModel/cancelAppeal',
-          payload: { params: { id: record.id } },
-        }).then(() => {
-          that.componentDidMount()
-        });
-      },
+    that.props.dispatch({
+      type: 'onAppealModel/cancelAppeal',
+      payload: { params: { id: record.id } },
+    }).then(() => {
+      that.componentDidMount()
     });
   };
   columnsAction = () => {
@@ -215,9 +208,16 @@ class OnAppeal extends React.Component {
             )}
             {(record.status === 1||record.status === 2) && (
               <AuthButton authority='/scoreAppeal/onAppeal/repeal'>
-              <span className={style.actionBtn} onClick={() => this.onRepeal(record)}>
-                撤销
-              </span>
+                <Popconfirm
+                  title="是否撤销当前数据状态?"
+                  onConfirm={() => this.onRepeal(record)}
+                  okText="确定"
+                  cancelText="取消"
+                >
+                  <span className={style.actionBtn}>
+                    撤销
+                  </span>
+                </Popconfirm>
               </AuthButton>
             )}
             {(record.status === 1||record.status === 2) && (
