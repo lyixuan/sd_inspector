@@ -27,16 +27,9 @@ class AiForm extends React.Component {
   }
   // 时间间隔不超过七天
   getChangeTime = (c) => {
-    if (c.length === 0) {
-      message.error('选择时间不能为空！');
+    if (c.length === 0 || (c.length === 2 && c[1].diff(c[0], 'day') > 6) ) {
+      message.error('请选择 ≤ 7 天的时间范围');
       return false
-    } else {
-      const [sTime, eTime] = c;
-      const day = eTime.diff(sTime, 'day');
-      if (day > 6) {
-        message.error('选择时间间隔不能超过七天！');
-        return false
-      }
     }
     return true;
   }
