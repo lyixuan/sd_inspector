@@ -80,23 +80,23 @@ class AiDetail extends React.Component {
       }
     })
   }
-  componentWillReceiveProps(nextProps) {
-    console.log(88, this.props.location.query.params, nextProps.location.query.params)
-    if (this.props.location.query.params != nextProps.location.query.params) {
-      this.setState({
-        id: JSON.parse(nextProps.location.query.params).id,
-        // height: document.querySelector(".aiDetail2").offsetHeight
-      })
-    }
-    return;
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.props.location.query.params != nextProps.location.query.params) {
+  //     this.setState({
+  //       id: JSON.parse(nextProps.location.query.params).id,
+  //       // height: document.querySelector(".aiDetail2").offsetHeight
+  //     })
+  //   }
+  //   return;
+  // }
   computedId = (fn) => {
     let idList = this.props.idList
     let id = this.state.id
     const currentId = idList.indexOf(Number(id));
+    console.log(96, idList[currentId + 1])
     if (idList) {
       this.setState({
-        id: idList[currentId + 1] ? idList[currentId + 1] : idList[idList.length - 1],
+        id: idList[currentId + 1]
       }, () => fn())
     }
   }

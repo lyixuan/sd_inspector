@@ -70,8 +70,8 @@ class DetailBbs extends React.Component {
           </li>
           <li className={styles.flex}>
             <div className={styles.row}>
-              <span className={styles.label}>订单id：</span>
-              <span className={styles.name}>{item.ordId}</span>
+              <span className={styles.label}>主贴id：</span>
+              <span className={styles.name}>{item.itemId}</span>
             </div>
           </li>
           <li className={styles.flex}>

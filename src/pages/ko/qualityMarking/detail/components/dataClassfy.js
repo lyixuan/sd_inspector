@@ -24,9 +24,10 @@ const { Option } = BISelect;
 class DataClassfy extends React.Component {
   constructor(props) {
     super(props);
+    console.log(27, this.props.id)
     this.state = {
       // id: props.id,
-      currentId: null,
+      currentId: 0,
       // idList: this.props.idList,
       submitParam: this.props.submitParam,
       nextId: null,
@@ -38,30 +39,8 @@ class DataClassfy extends React.Component {
     };
 
   }
-  componentDidMount() {
-    // this.computedId();
-  }
-  computedId() {
-    // let idList = this.state.idList
-    // let id = this.state.id ? this.state.id : this.props.id
-    // if (idList) {
-    //   this.setState({
-    //     currentId: idList.indexOf(Number(id)),
-    //     nextId: idList[this.state.currentId + 1] ? idList[this.state.currentId + 1] : idList[idList.length - 1],
-    //     percent: (this.state.currentId + 1) / idList.length * 100
-    //   })
-    // }
-  }
 
   componentWillReceiveProps(nextProps) {
-    // if (this.props.idList.join(" ") != nextProps.idList.join(" ")) {
-    //   this.setState({
-    //     idList: nextProps.idList
-    //   }, () => {
-    //     // this.computedId();
-    //   })
-    //
-    // }
     if (JSON.stringify(this.props.pageData) !== JSON.stringify(nextProps.pageData)) {
       if (JSON.stringify(this.state.submitParam) != '{}') {
         this.setState({
@@ -73,7 +52,6 @@ class DataClassfy extends React.Component {
         })
       }
 
-      this.computedId();
       if (nextProps.pageData.result.ordIdList.length > 0) {
         nextProps.pageData.result.ordIdList.map(item => {
           if (item.ordId == this.state.submitParam.ordId) {
@@ -129,7 +107,8 @@ class DataClassfy extends React.Component {
     })
   };
   submit = () => {
-    // if (!this.state.nextId || this.state.nextId == this.state.idList[this.state.currentId]) {
+    console.log(113, this.props.id)
+    // if (this.props.id) {
     //   this.setState({
     //     visible: true
     //   })
@@ -140,10 +119,6 @@ class DataClassfy extends React.Component {
       itemId: this.props.pageData.item.itemId,
       result: this.state.submitParam,
     };
-    let params2 = {
-      id: this.state.nextId,
-      type: this.props.type
-    }
     if (this.props.type == 1) {
       this.setState({
         tabType: 'im'
@@ -158,12 +133,11 @@ class DataClassfy extends React.Component {
       })
     }
     this.props.computedIdNew(() => {
-      console.log(this.props.id)
       const strParams = JSON.stringify({ type: { ...this.props.params }, id: this.props.id });
       const url = `/qualityMarking/detail`;
       this.props.dispatch({
         type: 'AiDetail/submit',
-        payload: { params: params, params2: params2 },
+        payload: { params: params },
         callback: () => {
           router.push({
             pathname: url,
@@ -172,6 +146,12 @@ class DataClassfy extends React.Component {
           let obj = {
             type: this.props.type,
             id: this.props.id,
+          }
+          if (!this.props.id) {
+            this.setState({
+              visible: true
+            })
+            return;
           }
           this.props.dispatch({
             type: 'AiDetail/edit',
@@ -203,6 +183,8 @@ class DataClassfy extends React.Component {
     let { consultTypeTree, reasonTypeTree, idList } = this.props.AiDetail;
     let { type, isLoading, pageData } = this.props
     let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: 0, org: '' }]
+    const currentId = this.props.idList.indexOf(this.props.id) + 1
+    const percent = currentId / this.props.idList.length * 100; 
     return (
       <>
         <div className={styles.consultContent}>
@@ -313,8 +295,8 @@ class DataClassfy extends React.Component {
             </BIButton>
           </div>
           <div className={styles.progress}>
-            <p className={styles.number}>{this.state.currentId ? this.state.currentId + 1 : 1}/{idList ? idList.length : 1}</p>
-            <Progress percent={this.state.percent} showInfo={false} />
+            <p className={styles.number}>{currentId}/{idList ? idList.length : 1}</p>
+            <Progress percent={percent} showInfo={false} />
           </div>
         </div>
         <BIModal
