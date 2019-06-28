@@ -53,7 +53,7 @@ class bbsPage extends React.Component {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
-        render: text => <span>{getSubStringValue(text, 20)}</span>
+        render: text => <Tooltip overlayClassName={styles.listTooltip} placement="right" title={text}><span>{getSubStringValue(text, 6)}</span></Tooltip>
       },
       {
         title: '操作人',
