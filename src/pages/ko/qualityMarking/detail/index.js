@@ -25,16 +25,16 @@ function Detail(props) {
 @connect(({ AiDetail, workTableModel, loading }) => ({
   loading,
   AiDetail,
-  idList: workTableModel.idList,
+  idList: AiDetail.idList,
   pageData: AiDetail.pageData,
-  isLoading: loading.effects['AiDetail/edit'],
+  isLoading: loading.effects['AiDetail/edit']
 }))
 class AiDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: this.props.match.params.type,
-      id: this.props.match.params.id,
+      type: JSON.parse(this.props.location.query.params).type.type,
+      id: JSON.parse(this.props.location.query.params).id,
       submitParam: {}
     };
   }
@@ -42,7 +42,17 @@ class AiDetail extends React.Component {
     this.getConsultTree();//获取咨询分类树形结构
     this.getResonTree();//获取原因分类树形结构
     this.getPageData(); //获取页面数据
+    this.queryData();
+    this.setState({
+      maxHeight: document.body.clientHeight < 600 ? 600 : document.body.clientHeight
+    })
   }
+  queryData = () => {
+    this.props.dispatch({
+      type: 'AiDetail/getIdList',
+      payload: { params: JSON.parse(this.props.location.query.params).type },
+    });
+  };
   getConsultTree = () => {
     this.props.dispatch({
       type: 'AiDetail/getConsultTypeTree',
@@ -68,27 +78,21 @@ class AiDetail extends React.Component {
       type: 'AiDetail/edit',
       payload: { params },
       callback: (submitParam) => {
-        console.log(71, submitParam)
         this.setState({
           submitParam: submitParam
         })
       }
     })
   }
-  handleClick = (e) => {
-    // 复制
-    copy(e.target.value)
-    alert('复制成功', 1)
-  }
   componentWillReceiveProps(nextProps) {
     if (this.props.match.params.id != nextProps.match.params.id) {
       this.setState({
-        id: nextProps.match.params.id
+        id: nextProps.match.params.id,
+        height: document.querySelector(".aiDetail2").offsetHeight
       })
     }
     return;
   }
-
   render() {
     let tabType = 1;
     if (this.state.type == 1) {
@@ -101,12 +105,13 @@ class AiDetail extends React.Component {
     const { type, id } = this.state
     const routerData = { name: `${tabType}会话`, bread: { name: "AI工作台", path: `/qualityMarking/${tabType.toLowerCase}` }, path: "/koUserOperation/userGroupAdd" }
     const pageData = this.props.pageData;
-    const scrollHeight = document.body.clientHeight - 190
+    const scrollHeight = this.state.maxHeight - 200;
+    // console.log(99, document.body.clientHeight, scrollHeight)
     return (
       <div style={{ marginTop: '-28px' }}>
         <PageHead routerData={routerData}></PageHead>
         <Spin spinning={this.props.isLoading}>
-          <div className={styles.aiDetail}>
+          <div className={`${styles.aiDetail} aiDetail2`} style={{ minHeight: `${scrollHeight}px` }}>
             <div className={styles.baseInfo}>
               <div className={styles.headBar}>基本信息</div>
               <div style={{ maxHeight: `${scrollHeight}px`, overflowY: "auto", marginBottom: '-25px' }}>
@@ -115,7 +120,7 @@ class AiDetail extends React.Component {
             </div>
             <div className={styles.dataClassfy}>
               <div className={styles.headBar}>数据分类</div>
-              <DataClassfy type={type} id={id} submitParam={this.state.submitParam}></DataClassfy>
+              <DataClassfy type={type} id={id} params={JSON.parse(this.props.location.query.params).type} idList={this.props.idList} submitParam={this.state.submitParam}></DataClassfy>
             </div>
           </div>
         </Spin>

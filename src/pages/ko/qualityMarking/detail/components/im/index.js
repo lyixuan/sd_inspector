@@ -124,7 +124,7 @@ class DetailIm extends React.Component {
             </div>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>会话老师：</span>
-              <span className={styles.name}>{item.teacherName}</span>
+              <span className={styles.name}>{item.teacherAccount}</span>
             </div>
           </li>
           <li className={styles.flex}>
@@ -142,10 +142,18 @@ class DetailIm extends React.Component {
           <li className={styles.flex}>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>满意度：</span>
-              <span className={styles.name}>{item.evaluate == 0 && '不满意'}</span>
-              <span className={styles.name}>{item.evaluate == 1 && '一般'}</span>
-              <span className={styles.name}>{item.evaluate == 2 && '满意'}</span>
-              <span className={styles.name}>{item.evaluate == 3 && '非常满意'}</span>
+              {
+                item.evaluate == 0 ? <span className={styles.name}>不满意</span> : null
+              }
+              {
+                item.evaluate == 1 ? <span className={styles.name}>一般</span> : null
+              }
+              {
+                item.evaluate == 2 ? <span className={styles.name}>满意</span> : null
+              }
+              {
+                item.evaluate == 3 ? <span className={styles.name}>非常满意</span> : null
+              }
             </div>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>咨询id：</span>

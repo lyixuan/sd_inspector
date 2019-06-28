@@ -16,3 +16,7 @@ export async function edit(data) {
 export async function submit(data) {
   return request('/workbench/submit', { method: 'post', data });
 }
+// table 列表数据
+export async function getIdList(data) {
+  return request('/workbench/getIdList', { method: 'post', data });
+}

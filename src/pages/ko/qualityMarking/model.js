@@ -54,7 +54,7 @@ export default {
           type: 'saveParams',
           payload: { pageParams: { [type]: pageNum }, searchParams: { [type]: others } },
         });
-      } else if(result) {
+      } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
@@ -67,7 +67,7 @@ export default {
         const numName2 = numName.split('.')[0];   // 纯文件名
         downBlob(result.data, `${eval("'" + numName2 + "'")}.xlsx`);
         message.success('导出成功');
-      } else if(result && result instanceof Object) {
+      } else if (result && result instanceof Object) {
         message.error(msgF(result.msg, result.msgDetail));
       } else {
         message.error('导出失败');

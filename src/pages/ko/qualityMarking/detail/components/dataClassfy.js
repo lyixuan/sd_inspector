@@ -8,6 +8,7 @@ import BICascader from '@/ant_components/BICascader/FormCascader';
 import BIRadio from '@/ant_components/BIRadio';
 import styles from '../style.less';
 import router from 'umi/router';
+import config from '@/../config/config';
 
 const { TextArea } = Input;
 const { Option } = BISelect;
@@ -15,7 +16,6 @@ const { Option } = BISelect;
 @connect(({ AiDetail, workTableModel, loading }) => ({
   loading,
   AiDetail,
-  idList: workTableModel.idList,
   pageData: AiDetail.pageData,
   // submitParam: AiDetail.submitParam,
   isLoading: loading.effects['AiDetail/submit']
@@ -26,7 +26,7 @@ class DataClassfy extends React.Component {
     super(props);
     this.state = {
       currentId: null,
-      idList: this.props.idList.length > 0 ? this.props.idList : localStorage.getItem('idList'),
+      idList: props.idList,
       submitParam: this.props.submitParam,
       nextId: null,
       visible: false,
@@ -42,13 +42,15 @@ class DataClassfy extends React.Component {
   }
   computedId() {
     let idList = this.state.idList
+    console.log(45, this.props.id)
     if (idList) {
-      if (!Array.isArray(idList)) {
-        idList = idList.split(",").map(item => {
-          return +item
-        })
-      }
-      this.state.idList = idList
+      // if (!Array.isArray(idList)) {
+      //   idList = idList.split(",").map(item => {
+      //     return +item
+      //   })
+      // }
+      // console.log(51, this.state.idList)
+      // this.state.idList = idList
       this.state.currentId = idList.indexOf(Number(this.props.id))
       this.state.nextId = idList[this.state.currentId + 1] ? idList[this.state.currentId + 1] : idList[idList.length - 1]
       this.state.percent = (this.state.currentId + 1) / idList.length * 100
@@ -56,6 +58,14 @@ class DataClassfy extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (this.props.idList.join(" ") != nextProps.idList.join(" ")) {
+      this.setState({
+        idList: nextProps.idList
+      }, () => {
+        this.computedId();
+      })
+
+    }
     if (JSON.stringify(this.props.pageData) !== JSON.stringify(nextProps.pageData)) {
       if (JSON.stringify(this.state.submitParam) != '{}') {
         this.setState({
@@ -105,7 +115,7 @@ class DataClassfy extends React.Component {
   // 原因切换
   onChangeReson = (value, selectedOptions) => {
     const reasonTypeIdList = value
-    const evaluationNature = selectedOptions[selectedOptions.length - 1]['evaluationNature']
+    const evaluationNature = selectedOptions.length > 0 ? selectedOptions[selectedOptions.length - 1]['evaluationNature'] : ''
 
     this.setState({
       evaluationNature: evaluationNature,
@@ -114,7 +124,9 @@ class DataClassfy extends React.Component {
   }
   // 选择是否质检
   onChangeRadio = (e) => {
-    this.state.submitParam.evaluationFlag = e.target.value
+    this.setState({
+      submitParam: { ...this.state.submitParam, evaluationFlag: e.target.value }
+    })
   }
   // 备注
   handleRemark = (e) => {
@@ -140,6 +152,11 @@ class DataClassfy extends React.Component {
       type: this.props.type
     }
 
+    let params3 = {
+      id: this.state.nextId,
+      type: this.props.params
+    }
+
     if (this.props.type == 1) {
       this.setState({
         tabType: 'im'
@@ -153,12 +170,23 @@ class DataClassfy extends React.Component {
         tabType: 'nps'
       })
     }
+
+    // const params = {
+    //   id: id,
+    //   type: type
+    // }
+    console.log(178, this.props.params, this.state.nextId);
+    const strParams = JSON.stringify({ ...this.props.params, id: this.state.nextId });
+    const url = `/qualityMarking/detail`;
+    // console.log(180, url); return
+
     this.props.dispatch({
       type: 'AiDetail/submit',
       payload: { params: params, params2: params2 },
       callback: () => {
         router.push({
-          pathname: `/qualityMarking/detail/${this.state.nextId}/${this.props.type}`,
+          pathname: url,
+          query: { params: strParams }
         });
         let obj = {
           type: this.props.type,
@@ -189,10 +217,9 @@ class DataClassfy extends React.Component {
   }
 
   render() {
-    let { consultTypeTree, reasonTypeTree } = this.props.AiDetail;
+    let { consultTypeTree, reasonTypeTree, idList } = this.props.AiDetail;
     let { type, isLoading, pageData } = this.props
     let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: 0, org: '' }]
-    let idList = this.state.idList
     return (
       <>
         <div className={styles.consultContent}>
@@ -278,7 +305,7 @@ class DataClassfy extends React.Component {
               type == 1 ?
                 <li>
                   <label>是否质检：</label>
-                  <BIRadio onChange={this.onChangeRadio} defaultValue={1}>
+                  <BIRadio onChange={this.onChangeRadio} value={this.state.submitParam.evaluationFlag}>
                     <BIRadio.Radio value={1}>否</BIRadio.Radio>
                     <BIRadio.Radio value={2}>是</BIRadio.Radio>
                   </BIRadio>

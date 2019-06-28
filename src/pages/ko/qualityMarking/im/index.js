@@ -99,7 +99,7 @@ class imPage extends React.Component {
   constructor(props) {
     super(props);
     const { currentPage, searchParams } = this.props;
-    this.state = { searchParams: {choiceTime:handleDefaultPickerValueMark(), ...searchParams}, currentPage };
+    this.state = { searchParams: { choiceTime: handleDefaultPickerValueMark(), ...searchParams }, currentPage };
   }
 
   columnsData = () => {
@@ -172,9 +172,10 @@ class imPage extends React.Component {
     // router.push({
     //   pathname: `/qualityMarking/detail/${id}/${markType}`,
     // });
-    jumpMarkingDetails(id, markType);
-    localStorage.removeItem('idList');
-    localStorage.setItem('idList', this.props.idList);
+    const { choiceTime, ...others } = this.state.searchParams;
+    jumpMarkingDetails(id, { type: markType, ...others });
+    // localStorage.removeItem('idList');
+    // localStorage.setItem('idList', this.props.idList);
   };
   onSearchChange = (searchParams) => {
     this.setState({

@@ -4,7 +4,8 @@ import {
   getConsultTypeTree,
   getReasonTypeTree,
   edit,
-  submit
+  submit,
+  getIdList
 } from './services';
 
 export default {
@@ -23,6 +24,7 @@ export default {
       // remark: '',
       // resultId: null
     },
+    idList: []
 
   },
 
@@ -45,6 +47,18 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+    * getIdList({ payload, callback }, { call, put, select }) {
+      // 列表
+      const params = payload.params;
+      const result = yield call(getIdList, params);
+      if (result && result.code && result.code === 20000) {
+        const data = result.data || {};
+        const idList = data.idList;
+        yield put({ type: 'save', payload: { idList } });;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     *edit({ payload, callback }, { call, put }) {
       const params = payload.params
       const result = yield call(edit, params);
@@ -55,7 +69,7 @@ export default {
           ordId: pageData.result.ordId || undefined,
           consultTypeIdList: pageData.result.consultTypeIdList,
           reasonTypeIdList: pageData.result.reasonTypeIdList,
-          evaluationFlag: pageData.result.evaluationFlag,
+          evaluationFlag: pageData.result.evaluationFlag ? pageData.result.evaluationFlag : 1,
           evaluationNature: pageData.result.evaluationNature,
           remark: pageData.result.remark,
           resultId: pageData.result.resultId

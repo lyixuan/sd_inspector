@@ -85,13 +85,18 @@ export function jumpMarkingDetails(id, type) {
     const strParams = encodeURIComponent(JSON.stringify(params));
     window.open(`${url}?params=${strParams}`);
   } else {
-    const url = `${origin}${config.base}qualityMarking/detail/${id}/${type}`;
+    const params = {
+      id: id,
+      type: type
+    }
+    const strParams = encodeURIComponent(JSON.stringify(params));
+    const url = `${origin}${config.base}qualityMarking/detail?params=${strParams}`;
     window.open(url);
   }
 
 }
 export function handleDefaultPickerValueMark() {
-  const cTime = new Date().getTime() - 2*24*60*60*1000;
+  const cTime = new Date().getTime() - 2 * 24 * 60 * 60 * 1000;
   const defTime = moment(cTime);
   return [defTime, defTime];
 }

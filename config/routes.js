@@ -253,11 +253,11 @@ export const routes = [
         ],
       },
       {
-        path: '/qualityMarking/detail/:id/:type',
+        path: '/qualityMarking/detail',
         name: 'AI工作台',
         routes: [
           {
-            path: '/qualityMarking/detail/:id/:type',
+            path: '/qualityMarking/detail',
             component: './ko/qualityMarking/detail',
           }
         ],
