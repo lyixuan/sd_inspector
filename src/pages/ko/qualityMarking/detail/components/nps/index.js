@@ -57,10 +57,16 @@ class DetailNps extends React.Component {
           </li>
           <li className={styles.flex}>
             <div className={styles.row}>
+              <span className={styles.label}>评价时间：</span>
+              <span className={styles.name}>{item.date}</span>
+            </div>
+          </li>
+          {/* <li className={styles.flex}>
+            <div className={styles.row}>
               <span className={styles.label}>订&nbsp;&nbsp;单&nbsp;&nbsp;id：</span>
               <span className={styles.name}>{item.ordId}</span>
             </div>
-          </li>
+          </li> */}
           <li className={styles.flex}>
             <div className={styles.row}>
               <span className={styles.label}>星&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;级：</span>
