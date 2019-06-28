@@ -4,6 +4,7 @@ import { Row, Col } from 'antd';
 import moment from 'moment/moment';
 import { BiFilter } from '@/utils/utils';
 import AuthButton from '@/components/AuthButton/index';
+
 export default class SuperiorCheckComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -16,7 +17,8 @@ export default class SuperiorCheckComponent extends React.Component {
   render() {
     const { masterAppealCheck,creditType,dimensionType,firstOrSec } = this.props;
     const { checkResult,operator, operateDate,operateRole,desc,tagList=[],appealNum,recommondLevel,score,creditDate,secondEndDate} = masterAppealCheck;
-    const tags = tagList.map((v)=>v.name)
+    const tags = tagList.map((v)=>v.name);
+    const creditDate1 = moment(creditDate).format('YYYY-MM-DD');
     return (
       <section className={styles.showPanel}>
         <div className={styles.personInfoCon}>
@@ -57,7 +59,7 @@ export default class SuperiorCheckComponent extends React.Component {
                 )}
 
                 {Number(creditType)===47&&checkResult===1&&(
-                  <span>学分日期：{creditDate}</span>
+                  <span>学分日期77：{creditDate1}</span>
                 )}
               </Col>
               <Col span={6}>
