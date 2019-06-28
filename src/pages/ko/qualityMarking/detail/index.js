@@ -90,6 +90,16 @@ class AiDetail extends React.Component {
     }
     return;
   }
+  computedId = (fn) => {
+    let idList = this.props.idList
+    let id = this.state.id
+    const currentId = idList.indexOf(Number(id));
+    if (idList) {
+      this.setState({
+        id: idList[currentId + 1] ? idList[currentId + 1] : idList[idList.length - 1],
+      }, () => fn())
+    }
+  }
   render() {
     let tabType = 1;
     if (this.state.type == 1) {
@@ -117,7 +127,7 @@ class AiDetail extends React.Component {
             </div>
             <div className={styles.dataClassfy}>
               <div className={styles.headBar}>数据分类</div>
-              <DataClassfy type={type} id={id} params={JSON.parse(this.props.location.query.params).type} idList={this.props.idList} submitParam={this.state.submitParam}></DataClassfy>
+              <DataClassfy type={type} computedIdNew={this.computedId} id={this.state.id} params={JSON.parse(this.props.location.query.params).type} idList={this.props.idList} submitParam={this.state.submitParam}></DataClassfy>
             </div>
           </div>
         </Spin>

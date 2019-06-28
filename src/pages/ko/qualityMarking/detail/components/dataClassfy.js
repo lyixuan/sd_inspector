@@ -25,9 +25,9 @@ class DataClassfy extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.id,
+      // id: props.id,
       currentId: null,
-      idList: this.props.idList,
+      // idList: this.props.idList,
       submitParam: this.props.submitParam,
       nextId: null,
       visible: false,
@@ -39,29 +39,29 @@ class DataClassfy extends React.Component {
 
   }
   componentDidMount() {
-    this.computedId();
+    // this.computedId();
   }
   computedId() {
-    let idList = this.state.idList
-    let id = this.state.id ? this.state.id : this.props.id
-    if (idList) {
-      this.setState({
-        currentId: idList.indexOf(Number(id)),
-        nextId: idList[this.state.currentId + 1] ? idList[this.state.currentId + 1] : idList[idList.length - 1],
-        percent: (this.state.currentId + 1) / idList.length * 100
-      })
-    }
+    // let idList = this.state.idList
+    // let id = this.state.id ? this.state.id : this.props.id
+    // if (idList) {
+    //   this.setState({
+    //     currentId: idList.indexOf(Number(id)),
+    //     nextId: idList[this.state.currentId + 1] ? idList[this.state.currentId + 1] : idList[idList.length - 1],
+    //     percent: (this.state.currentId + 1) / idList.length * 100
+    //   })
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.idList.join(" ") != nextProps.idList.join(" ")) {
-      this.setState({
-        idList: nextProps.idList
-      }, () => {
-        this.computedId();
-      })
-
-    }
+    // if (this.props.idList.join(" ") != nextProps.idList.join(" ")) {
+    //   this.setState({
+    //     idList: nextProps.idList
+    //   }, () => {
+    //     // this.computedId();
+    //   })
+    //
+    // }
     if (JSON.stringify(this.props.pageData) !== JSON.stringify(nextProps.pageData)) {
       if (JSON.stringify(this.state.submitParam) != '{}') {
         this.setState({
@@ -129,12 +129,12 @@ class DataClassfy extends React.Component {
     })
   };
   submit = () => {
-    if (!this.state.nextId || this.state.nextId == this.state.idList[this.state.currentId]) {
-      this.setState({
-        visible: true
-      })
-      return;
-    }
+    // if (!this.state.nextId || this.state.nextId == this.state.idList[this.state.currentId]) {
+    //   this.setState({
+    //     visible: true
+    //   })
+    //   return;
+    // }
     let params = {
       type: this.props.type,
       itemId: this.props.pageData.item.itemId,
@@ -157,32 +157,35 @@ class DataClassfy extends React.Component {
         tabType: 'nps'
       })
     }
-    this.computedId();
-    const strParams = JSON.stringify({ type: { ...this.props.params }, id: this.state.nextId });
-    const url = `/qualityMarking/detail`;
-    this.props.dispatch({
-      type: 'AiDetail/submit',
-      payload: { params: params, params2: params2 },
-      callback: () => {
-        router.push({
-          pathname: url,
-          query: { params: strParams }
-        });
-        let obj = {
-          type: this.props.type,
-          id: this.state.nextId,
-        }
-        this.props.dispatch({
-          type: 'AiDetail/edit',
-          payload: { params: obj },
-          callback: (submitParam) => {
-            this.setState({
-              submitParam: { ...submitParam }
-            })
+    this.props.computedIdNew(() => {
+      console.log(this.props.id)
+      const strParams = JSON.stringify({ type: { ...this.props.params }, id: this.props.id });
+      const url = `/qualityMarking/detail`;
+      this.props.dispatch({
+        type: 'AiDetail/submit',
+        payload: { params: params, params2: params2 },
+        callback: () => {
+          router.push({
+            pathname: url,
+            query: { params: strParams }
+          });
+          let obj = {
+            type: this.props.type,
+            id: this.props.id,
           }
-        })
-      }
+          this.props.dispatch({
+            type: 'AiDetail/edit',
+            payload: { params: obj },
+            callback: (submitParam) => {
+              this.setState({
+                submitParam: { ...submitParam }
+              })
+            }
+          })
+        }
+      });
     });
+
 
   }
   handleCancel = () => {
