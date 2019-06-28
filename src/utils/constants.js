@@ -398,7 +398,7 @@ export const SCORE_APPEAL_DIS = [
   {id:21,name:'工单二次减分',parentId:19},
   {id:22,name:'工单三次减分',parentId:19},
   {id:24,name:'事件',parentId:23},
-  {id:25,name:'班主任投诉',parentId:23},
+  {id:25,name:'班投',parentId:23},
   {id:26,name:'退费',parentId:23},
   {id:47,name:'退挽',parentId:23},
   {id:45,name:'60分钟以下',parentId:42},
