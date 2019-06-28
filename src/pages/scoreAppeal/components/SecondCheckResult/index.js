@@ -59,7 +59,7 @@ export default class SuperiorCheckComponent extends React.Component {
                 )}
 
                 {Number(creditType)===47&&checkResult===1&&(
-                  <span>学分日期77：{creditDate1}</span>
+                  <span>学分日期：{creditDate1}</span>
                 )}
               </Col>
               <Col span={6}>
