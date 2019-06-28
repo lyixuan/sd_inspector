@@ -13,7 +13,7 @@ import config from '@/../config/config';
 const { TextArea } = Input;
 const { Option } = BISelect;
 
-@connect(({ AiDetail, workTableModel, loading }) => ({
+@connect(({ AiDetail, loading }) => ({
   loading,
   AiDetail,
   pageData: AiDetail.pageData,
@@ -33,11 +33,36 @@ class DataClassfy extends React.Component {
       nextId: null,
       visible: false,
       tabType: 'im',
-      org: '',
       percent: 0,
       evaluationNature: this.props.submitParam && this.props.submitParam.evaluationNature ? this.props.submitParam.evaluationNature : ''
     };
 
+  }
+  componentDidMount() {
+    console.log(42, this.props.pageData)
+  }
+  setOrg = () => {
+    let org = ''
+    this.props.pageData && this.props.pageData.result.ordIdList.map(item => {
+      if (item.ordId == this.state.submitParam.ordId) {
+        console.log(48, item)
+        org = item.org
+      } else {
+        return ' '
+      }
+    })
+    return org
+  }
+  setLifeCycle = () => {
+    let lifeCycle = ''
+    this.props.pageData && this.props.pageData.result.ordIdList.map(item => {
+      if (item.ordId == this.state.submitParam.ordId) {
+        lifeCycle = item.lifeCycle
+      } else {
+        return ' '
+      }
+    })
+    return lifeCycle
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,25 +77,23 @@ class DataClassfy extends React.Component {
         })
       }
 
-      if (nextProps.pageData.result.ordIdList.length > 0) {
-        nextProps.pageData.result.ordIdList.map(item => {
-          if (item.ordId == this.state.submitParam.ordId) {
-            this.setState({
-              org: item.org
-            })
-          }
+      // if (nextProps.pageData.result.ordIdList.length > 0) {
+      //   nextProps.pageData.result.ordIdList.map(item => {
+      //     if (item.ordId == this.state.submitParam.ordId) {
+      //       this.setState({
+      //         org: item.org
+      //       })
+      //     }
 
-        })
-      }
+      //   })
+      // }
 
     }
 
   }
   orderChange = (val) => {
-    console.log(79, val, val.name)
     this.setState({
-      submitParam: { ...this.state.submitParam, ordId: val.name },
-      org: val.value
+      submitParam: { ...this.state.submitParam, ordId: val.name }
     })
 
 
@@ -182,9 +205,9 @@ class DataClassfy extends React.Component {
   render() {
     let { consultTypeTree, reasonTypeTree, idList } = this.props.AiDetail;
     let { type, isLoading, pageData } = this.props
-    let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: 0, org: '' }]
+    let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: -100, org: '' }]
     const currentId = this.props.idList.indexOf(this.props.id) + 1
-    const percent = currentId / this.props.idList.length * 100; 
+    const percent = currentId / this.props.idList.length * 100
     return (
       <>
         <div className={styles.consultContent}>
@@ -195,16 +218,19 @@ class DataClassfy extends React.Component {
                   <li>
                     <label>选择订单：</label>
                     <div className={styles.selects}>
+
+
                       <BISelect style={{ width: '100%' }} value={this.state.submitParam.ordId} placeholder="请选择" onChange={(val) => { this.orderChange(val) }}>
                         {orderList.map(item => (
-                          <Option key={item.ordId} value={item.org}>{item.ordId}</Option>)
+                          <Option key={item.ordId}>{item.ordId}</Option>)
                         )}
                       </BISelect>
                     </div>
                   </li>
                   <li>
                     <label>后端归属：</label>
-                    <p>{this.state.org}</p>
+                    <p>{this.setOrg()}</p>
+                    {/* <p>{this.state.org}</p> */}
                   </li>
                 </>
                 : null
@@ -229,7 +255,7 @@ class DataClassfy extends React.Component {
               type == 3 ?
                 <li>
                   <label>生命周期：</label>
-                  <p>{orderList[0].lifeCycle}</p>
+                  <p>{this.setLifeCycle()}</p>
                 </li>
                 : null
             }
