@@ -15,7 +15,7 @@ export default class SuperiorCheckComponent extends React.Component {
 
   render() {
     const { masterAppealCheck,creditType,dimensionType,firstOrSec } = this.props;
-    const { checkResult,operator, operateDate,operateRole,desc,tagList=[],appealNum,actualRecommendLevel,score,creditDate,secondEndDate} = masterAppealCheck;
+    const { checkResult,operator, operateDate,operateRole,desc,tagList=[],appealNum,recommondLevel,score,creditDate,secondEndDate} = masterAppealCheck;
     const tags = tagList.map((v)=>v.name)
     return (
       <section className={styles.showPanel}>
@@ -53,7 +53,7 @@ export default class SuperiorCheckComponent extends React.Component {
                   <span>申诉个数：{appealNum}</span>
                 )}
                 {Number(dimensionType)===42&&checkResult===1&&(
-                  <div>实际推荐等级：{BiFilter(`SCORE_APPEAL_DIS|id:${actualRecommendLevel}`).name}</div>
+                  <div>实际推荐等级：{BiFilter(`SCORE_APPEAL_DIS|id:${recommondLevel}`).name}</div>
                 )}
 
                 {Number(creditType)===47&&checkResult===1&&(
