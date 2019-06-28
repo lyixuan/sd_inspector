@@ -64,9 +64,16 @@ export default {
       const result = yield call(edit, params);
       if (result.code === 20000) {
         const pageData = result.data || [];
+        let ordId = undefined;
+
+        if (pageData.result.ordIdList.length == 1) {
+          ordId = pageData.result.ordIdList[0].ordId
+        } else {
+          ordId = pageData.result.ordId || undefined
+        }
         const submitParam = {
           // ordId: pageData.result.ordId|| 4509117,
-          ordId: pageData.result.ordId || undefined,
+          ordId: ordId,
           consultTypeIdList: pageData.result.consultTypeIdList,
           reasonTypeIdList: pageData.result.reasonTypeIdList,
           evaluationFlag: pageData.result.evaluationFlag ? pageData.result.evaluationFlag : 1,
