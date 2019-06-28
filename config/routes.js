@@ -185,15 +185,15 @@ export const routes = [
           {
             path: '/ko/behaviorAnalyze',
             component: './ko/behaviorAnalyze',
-            name: '行为分析',
-            commonPath: true, // 继承父页面
+            name: 'APP统计',
+            commonPath: true,   // 继承父页面
           },
-          {
-            path: '/ko/userList',
-            component: './ko/userList',
-            name: '用户列表',
-            commonPath: true, // 继承父页面
-          },
+          // {
+          //   path: '/ko/userList',
+          //   component: './ko/userList',
+          //   name: '用户查询',
+          //   commonPath: true,   // 继承父页面
+          // },
           {
             path: '/ko/behaviorInfo',
             component: './ko/behaviorInfo',
@@ -207,13 +207,27 @@ export const routes = [
         ]
       },
       {
+        path: '/koUserData',
+        component: './ko',
+        name: '用户查询',
+        pageRedirect: '/koUserData/userList',
+        routes: [
+          {
+            path: '/koUserData/userList',
+            component: './ko/userList',
+            name: '用户查询',
+            commonPath: true,   // 继承父页面
+          },
+        ]
+      },
+      {
         path: '/koUserOperation',
         name: '用户运营',
         routes: [
           {
             path: '/koUserOperation/userOperation',
             component: './ko/userOperation',
-            name: '用户运营',
+            name: '群组管理',
           },
           {
             path: '/koUserOperation/userGroupAdd',

@@ -7,6 +7,12 @@ export const handleDateParams = (item) => {
     const [startTime, endTime] = item;
     return [startTime, endTime].map((ls) => ls && moment(ls).format(commitDateFormat));
 }
+export const handleRecordTimeParamsNew = (params) => { // 最新初始化桑吉图热力图等  选择时间
+  const date = Array.isArray(params) && params.length > 0 ? params[0] : {};
+  const { beginTime, endTime } = date;
+  const bTime = moment(endTime).subtract(6, "days").format(commitDateFormat);
+  return [bTime, endTime].map((ls) => ls && moment(ls).format(commitDateFormat));
+}
 export function handleInitParams(params = {}) {
     let returnObj = {
 
@@ -14,12 +20,11 @@ export function handleInitParams(params = {}) {
     Object.keys(params).forEach(key => {
         if (key === 'KoDateRange') {
             // 默认不回显
-            const date = Array.isArray(params[key]) && params[key].length > 0 ? params[key][0] : {};
-            const { beginTime, endTime } = date;
+
             returnObj = {
                 ...returnObj,
                 page: { value: INDEX_PAGE, actionValue: INDEX_PAGE },
-                recordTimeList: handleDateParams([beginTime, endTime]),
+                recordTimeList: handleRecordTimeParamsNew(params[key]),
                 belongApp: '1',
             };
 

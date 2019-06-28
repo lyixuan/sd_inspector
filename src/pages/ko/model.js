@@ -92,7 +92,7 @@ export default {
     *getPageList({ payload }, { call, put, select }) {
       // const pageParams = yield select(state => state.koPlan.pageDetailInfo);
       // if (pageParams.length > 0) return;
-      const { belongApp } = payload;
+      const { belongApp = 1 } = payload;
       const pageParams = (yield select(state => state.koPlan.pageDetailTotal))[belongApp];
       if (pageParams && pageParams.length > 0) {
         yield put({ type: 'getPageInit', payload: pageParams});

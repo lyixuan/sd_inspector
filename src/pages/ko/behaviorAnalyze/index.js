@@ -49,9 +49,10 @@ class behavior extends React.Component {
     this.props.dispatch({
       type: 'koPlan/pageParams',
     });
-    // this.props.dispatch({
-    //   type: 'koPlan/getPageList',
-    // });
+    this.props.dispatch({
+      type: 'koPlan/getPageList',
+      payload: { belongApp: this.props.tabFromParams.belongApp }
+    });
   };
   gotoUserList = (params) => {
     this.props.dispatch({
@@ -61,13 +62,13 @@ class behavior extends React.Component {
       }
     });
     this.props.history.push({
-      pathname: '/ko/userList'
+      pathname: '/koUserData/userList'
     });
   }
 
   getData = (params = this.props.tabFromParams) => {
     if (JSON.stringify(params) === '{}') return;
-    const { formParams = {}, page, belongApp, ...others } = params;
+    const { formParams = {}, page, belongApp = 1, ...others } = params;
     const otherParams = { ...others };
     if (!pageDetailTotal[belongApp].includes(page.actionValue)) return; // 主-页面对应时在发出请求。
     this.props.dispatch({

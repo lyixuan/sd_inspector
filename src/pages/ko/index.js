@@ -53,7 +53,8 @@ class koPlan extends React.Component {
     if (JSON.stringify(params) === '{}') return;
     const { KoDateRange } = params;
     const { recordTimeList, ...others } = handleInitParams(params);
-    const tabFromParams = { recordTimeList, ...others, formParams: handleFormParams(KoDateRange) };
+    // const tabFromParams = { recordTimeList, ...others, formParams: handleFormParams(KoDateRange) };
+    const tabFromParams = { recordTimeList, ...others}; // 去掉搜索时间的默认值
     if (JSON.stringify(this.props.tabFromParams) !== JSON.stringify(tabFromParams)) {
       this.onSaveTabFromParams(tabFromParams, KoDateRange);
     }
@@ -77,14 +78,13 @@ class koPlan extends React.Component {
     this.setState({ filterActionParams: { ...filterActionParams, ...params } });
   }
   onSaveTabFromParams = (params, KoDateRange = this.props.pageParams.KoDateRange) => {
-    this.handleDateParams(params.formParams, KoDateRange);
+    // this.handleDateParams(params.formParams, KoDateRange);
 
-
-    const recordTimeList = this.handleRecordTime(params, KoDateRange);
+    // const recordTimeList = this.handleRecordTime(params, KoDateRange);
     this.clearChooseEvent();
     this.props.dispatch({
       type: 'koPlan/saveTabFromParams',
-      payload: { ...params, recordTimeList }
+      payload: { ...params }
     })
   }
   handleRecordTime = (params, KoDateRange) => {
@@ -116,6 +116,7 @@ class koPlan extends React.Component {
     const newParams = { ...others, ...params };
     this.onSaveTabFromParams({ formParams, ...newParams });
     this.onSavefFlterActionParams(originParams);
+
   }
   clearChooseEvent = (obj = {}) => {
     // let { hooseEventData = [] } = this.props;
@@ -157,14 +158,13 @@ class koPlan extends React.Component {
         {(pathname === '/ko/dailyReport') || (pathname === '/ko/behaviorPath') || (pathname === '/ko/userOperation') || (pathname === '/ko/userGroupAdd') || (pathname === '/ko/userGroupEdit') ? null : <> <div className={styles.commonBox}>
           <CommonForm onSubmit={this.onSubmit} enumData={enumData} originParams={originParams} usersData={this.props.usersData} pageParams={pageParams} loading={isLoadEnumData} userGroupListData={this.props.userGroupListData}/>
         </div>
-          <div className={styles.tabBox}>
-            <KoTab {...this.props} />
+        {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <div className={styles.tabBox}>
+            {/*<KoTab {...this.props} />*/}
             {(pathname === '/ko/behaviorAnalyze' || pathname === '/ko') && <KoForm {...this.props} originParams={filterActionParams} onChange={this.changeFilterAction} loading={isLoadEnumData} />}
-            {pathname === '/ko/userList' ? <div>
-              <EventGroup data={chooseEventData} onChange={this.clearChooseEvent} />
-            </div> : null}
-
-          </div>
+            {/*{pathname === '/ko/userList' ? <div>*/}
+              {/*<EventGroup data={chooseEventData} onChange={this.clearChooseEvent} />*/}
+            {/*</div> : null}*/}
+          </div>}
         </>
         }
         <RenderRoute {...this.props} />
