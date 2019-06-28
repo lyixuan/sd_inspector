@@ -43,8 +43,13 @@ class AiDetail extends React.Component {
     this.getResonTree();//获取原因分类树形结构
     this.getPageData(); //获取页面数据
     this.queryData();
+    this.pageResize();
+    window.addEventListener('resize', this.pageResize);
+  }
+  pageResize = () => {
+    const maxHeight = document.body.clientHeight < 600 ? 600 : document.body.clientHeight;
     this.setState({
-      maxHeight: document.body.clientHeight < 600 ? 600 : document.body.clientHeight
+      scrollHeight: maxHeight - 190
     })
   }
   queryData = () => {
@@ -80,15 +85,6 @@ class AiDetail extends React.Component {
       }
     })
   }
-  // componentWillReceiveProps(nextProps) {
-  //   if (this.props.location.query.params != nextProps.location.query.params) {
-  //     this.setState({
-  //       id: JSON.parse(nextProps.location.query.params).id,
-  //       // height: document.querySelector(".aiDetail2").offsetHeight
-  //     })
-  //   }
-  //   return;
-  // }
   computedId = (fn) => {
     let idList = this.props.idList
     let id = this.state.id
@@ -109,11 +105,10 @@ class AiDetail extends React.Component {
     } else {
       tabType = 'NPS';
     }
-    const { type, id } = this.state
+    const { type, id, scrollHeight } = this.state
     const routerData = { name: `${tabType}会话`, bread: { name: "AI工作台", path: `/qualityMarking/${tabType.toLowerCase}` }, path: "/koUserOperation/userGroupAdd" }
     const pageData = this.props.pageData;
-    const scrollHeight = this.state.maxHeight - 200;
-    // console.log(99, document.body.clientHeight, scrollHeight)
+
     return (
       <div style={{ marginTop: '-28px' }}>
         <PageHead routerData={routerData}></PageHead>
