@@ -63,7 +63,7 @@ export default class SOPCheckResultComponent extends React.Component {
               )}
               <Row className={styles.container}>
                 <Col span={24}>
-                  <div>审核说明：{desc}</div>
+                  <div>申诉说明：{desc}</div>
                 </Col>
               </Row>
             </div>
