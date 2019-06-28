@@ -22,7 +22,7 @@ function Detail(props) {
     return null
   }
 }
-@connect(({ AiDetail, workTableModel, loading }) => ({
+@connect(({ AiDetail, loading }) => ({
   loading,
   AiDetail,
   idList: AiDetail.idList,
@@ -70,10 +70,6 @@ class AiDetail extends React.Component {
       id: this.state.id,
       type: this.state.type
     }
-    // this.props.dispatch({
-    //   type: 'AiDetail/edit',
-    //   payload: { params: params }
-    // });
     this.props.dispatch({
       type: 'AiDetail/edit',
       payload: { params },
@@ -85,10 +81,11 @@ class AiDetail extends React.Component {
     })
   }
   componentWillReceiveProps(nextProps) {
-    if (this.props.match.params.id != nextProps.match.params.id) {
+    console.log(88, this.props.location.query.params, nextProps.location.query.params)
+    if (this.props.location.query.params != nextProps.location.query.params) {
       this.setState({
-        id: nextProps.match.params.id,
-        height: document.querySelector(".aiDetail2").offsetHeight
+        id: JSON.parse(nextProps.location.query.params).id,
+        // height: document.querySelector(".aiDetail2").offsetHeight
       })
     }
     return;

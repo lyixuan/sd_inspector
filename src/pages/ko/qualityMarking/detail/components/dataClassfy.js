@@ -25,8 +25,9 @@ class DataClassfy extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: props.id,
       currentId: null,
-      idList: props.idList,
+      idList: this.props.idList,
       submitParam: this.props.submitParam,
       nextId: null,
       visible: false,
@@ -42,18 +43,13 @@ class DataClassfy extends React.Component {
   }
   computedId() {
     let idList = this.state.idList
-    console.log(45, this.props.id)
+    let id = this.state.id ? this.state.id : this.props.id
     if (idList) {
-      // if (!Array.isArray(idList)) {
-      //   idList = idList.split(",").map(item => {
-      //     return +item
-      //   })
-      // }
-      // console.log(51, this.state.idList)
-      // this.state.idList = idList
-      this.state.currentId = idList.indexOf(Number(this.props.id))
-      this.state.nextId = idList[this.state.currentId + 1] ? idList[this.state.currentId + 1] : idList[idList.length - 1]
-      this.state.percent = (this.state.currentId + 1) / idList.length * 100
+      this.setState({
+        currentId: idList.indexOf(Number(id)),
+        nextId: idList[this.state.currentId + 1] ? idList[this.state.currentId + 1] : idList[idList.length - 1],
+        percent: (this.state.currentId + 1) / idList.length * 100
+      })
     }
   }
 
@@ -94,7 +90,6 @@ class DataClassfy extends React.Component {
   }
   orderChange = (val) => {
     console.log(79, val, val.name)
-    // this.state.submitParam.ordId = val.name
     this.setState({
       submitParam: { ...this.state.submitParam, ordId: val.name },
       org: val.value
@@ -107,7 +102,6 @@ class DataClassfy extends React.Component {
     const consultTypeIdList = value.map(item => {
       return item.value
     })
-    // this.state.submitParam.consultTypeIdList = consultTypeIdList
     this.setState({
       submitParam: { ...this.state.submitParam, consultTypeIdList },
     })
@@ -130,7 +124,6 @@ class DataClassfy extends React.Component {
   }
   // 备注
   handleRemark = (e) => {
-    // this.state.submitParam.remark = e.target.value
     this.setState({
       submitParam: { ...this.state.submitParam, remark: e.target.value },
     })
@@ -151,12 +144,6 @@ class DataClassfy extends React.Component {
       id: this.state.nextId,
       type: this.props.type
     }
-
-    let params3 = {
-      id: this.state.nextId,
-      type: this.props.params
-    }
-
     if (this.props.type == 1) {
       this.setState({
         tabType: 'im'
@@ -170,16 +157,9 @@ class DataClassfy extends React.Component {
         tabType: 'nps'
       })
     }
-
-    // const params = {
-    //   id: id,
-    //   type: type
-    // }
-    console.log(178, this.props.params, this.state.nextId);
-    const strParams = JSON.stringify({ ...this.props.params, id: this.state.nextId });
+    this.computedId();
+    const strParams = JSON.stringify({ type: { ...this.props.params }, id: this.state.nextId });
     const url = `/qualityMarking/detail`;
-    // console.log(180, url); return
-
     this.props.dispatch({
       type: 'AiDetail/submit',
       payload: { params: params, params2: params2 },

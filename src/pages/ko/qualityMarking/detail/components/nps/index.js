@@ -41,7 +41,6 @@ class DetailNps extends React.Component {
   }
 
   render() {
-    console.log(44, this.props.pageData)
     const { item } = this.props.pageData
     return (
       <>

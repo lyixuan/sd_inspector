@@ -22,7 +22,7 @@ class bbsPage extends React.Component {
   constructor(props) {
     super(props);
     const { currentPage, searchParams } = this.props;
-    this.state = { searchParams: {choiceTime:handleDefaultPickerValueMark(), ...searchParams}, currentPage };
+    this.state = { searchParams: { choiceTime: handleDefaultPickerValueMark(), ...searchParams }, currentPage };
   }
 
   columnsData = () => {
@@ -84,9 +84,13 @@ class bbsPage extends React.Component {
     return columns || [];
   };
   handleEdit = (id) => {
-    jumpMarkingDetails(id, markType)
-    localStorage.removeItem('idList');
-    localStorage.setItem('idList', this.props.idList);
+    // router.push({
+    //   pathname: `/qualityMarking/detail/${id}/${markType}`,
+    // });
+    const { choiceTime, ...others } = this.state.searchParams;
+    jumpMarkingDetails(id, { type: markType, ...others });
+    // localStorage.removeItem('idList');
+    // localStorage.setItem('idList', this.props.idList);
   };
   onSearchChange = (searchParams) => {
     this.setState({
@@ -114,9 +118,9 @@ class bbsPage extends React.Component {
     return (
       <div>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
-                  onSearchChange={this.onSearchChange}></MarkForm>
+          onSearchChange={this.onSearchChange}></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
-                  columnsData={this.columnsData}>
+          columnsData={this.columnsData}>
           <ModalTip markType={markType} othersSearch={others}></ModalTip>
         </MarkList>
       </div>
