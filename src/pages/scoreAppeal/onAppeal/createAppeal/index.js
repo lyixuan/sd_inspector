@@ -91,6 +91,7 @@ class AppealCreate extends React.Component {
       creditType: creditType2 ? creditType2 : creditType ? Number(creditType) : undefined,
       dimensionType: Number(dimensionType),
       attUrlList,
+      appealType: 2,  // 1 待申诉  2 已申诉
     };
     const that = this;
     this.props.dispatch({

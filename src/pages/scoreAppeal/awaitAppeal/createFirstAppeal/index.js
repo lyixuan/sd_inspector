@@ -66,7 +66,9 @@ class AppealCreate extends React.Component {
       creditAppealId: Number(creditAppealId),   // 学分申诉id（待申诉数据ID）
       desc,
       attUrlList,
+      appealType: 1,  // 1 待申诉  2 已申诉
     };
+
     const that = this;
     this.props.dispatch({
       type: 'awaitAppealModel/firstStartAppeal',
