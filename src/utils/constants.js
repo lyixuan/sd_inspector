@@ -36,7 +36,7 @@ export const PAGINATION = {
 // header下拉选
 export const GLOBAL_HEADER_SELECT = [
   { id: 'changeRole', name: '切换角色', icon: 'user' },
-  { id: 'changePwd', name: '修改密码', icon: 'lock' },
+  // { id: 'changePwd', name: '修改密码', icon: 'lock' },  // 修改密码功能暂时去掉
   { id: 'logout', name: '退出登录', icon: 'logout' },
 ];
 
