@@ -4,7 +4,7 @@ import { Icon, message } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
 import { pathImUrl, jumpMarkingDetails } from '../../../../utils/utils';
-import config from '../../../../../../../config/config';
+import moment from 'moment'
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 
@@ -169,7 +169,7 @@ class DetailIm extends React.Component {
         </ul>
         <div className={styles.imContent}>
           <div className={styles.dateBar}>
-            <span>2019-09-09</span>
+            <span>{moment(item.date.split(" ")[0]).format('YYYY年MM月DD日')}</span>
             <span className={styles.btn} onClick={(val) => this.handleClick(item.content)}>
               <Icon type="copy" />复制会话
             </span>
