@@ -137,6 +137,11 @@ class DataClassfy extends React.Component {
     //   })
     //   return;
     // }
+    if (this.state.submitParam.evaluationFlag == 1) {
+      this.state.submitParam.evaluationFlag = false;
+    } else {
+      this.state.submitParam.evaluationFlag = true;
+    }
     let params = {
       type: this.props.type,
       itemId: this.props.pageData.item.itemId,

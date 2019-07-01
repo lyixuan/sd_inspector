@@ -76,7 +76,7 @@ export default {
           ordId: ordId,
           consultTypeIdList: pageData.result.consultTypeIdList,
           reasonTypeIdList: pageData.result.reasonTypeIdList,
-          evaluationFlag: pageData.result.evaluationFlag ? pageData.result.evaluationFlag : 1,
+          evaluationFlag: pageData.result.evaluationFlag ? 2 : 1,
           evaluationNature: pageData.result.evaluationNature,
           remark: pageData.result.remark,
           resultId: pageData.result.resultId
