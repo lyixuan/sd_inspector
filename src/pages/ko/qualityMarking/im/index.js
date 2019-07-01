@@ -127,6 +127,7 @@ class imPage extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
+        render: text => <span>{getSubStringValue(text, 3)}</span>
       },
       {
         title: '后端归属',
