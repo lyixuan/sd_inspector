@@ -1,14 +1,18 @@
 /* eslint-disable no-unused-expressions */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form, Icon } from 'antd';
+import { Form, Icon, Skeleton } from 'antd';
+import BIDatePicker from '@/ant_components/BIDatePicker';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
 import { BiFilter } from '@/utils/utils';
-
-import styles from '../style.less';
+import formStyles from '../../../components/formCommon.less';
+// import styles from '../style.less';
+import styles from './style.less';
 
 const { Option } = BISelect;
+const { BIRangePicker } = BIDatePicker;
+const dateFormat = 'YYYY.MM.DD';
 
 @connect(({ home, dataDetail }) => ({
   home,
@@ -49,6 +53,7 @@ class HorizontalLoginForm extends React.Component {
       payload: { params: undefined },
     });
   }
+
   menuEdit = e => {
     this.props.menuEdit(e);
   };
@@ -78,179 +83,73 @@ class HorizontalLoginForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form layout="inline" onSubmit={this.handleSubmit} className="dxForm">
-        <div className={styles.searchBoxBg}>
-          <div className={styles.row}>
-            {/*第二行*/}
-            <div>
-              <Form.Item label="学员信息" className={styles.formItem}>
-                {getFieldDecorator('collegeId', {
-                  initialValue: this.state.collegeId,
-                })(
-                  <BISelect
-                    allowClear
-                    placeholder="报考省市"
-                    style={{ width: 190 }}
-                    labelInValue
-                    onChange={val => this.formValChange(val, 'collegeId')}
-                  >
-                    {[].map(item => (
-                      <Option key={item.id}>{item.name}</Option>
-                    ))}
-                  </BISelect>,
-                )}
-              </Form.Item>
-              <Form.Item className={styles.formItem}>
-                {getFieldDecorator('familyIdList', {
-                  initialValue: this.state.familyIdList,
-                })(
-                  <BISelect
-                    placeholder="所属学院"
-                    mode="multiple"
-                    allowClear
-                    style={{ width: 190 }}
-                    showArrow
-                    maxTagCount={1}
-                    labelInValue
-                    onChange={val => this.formValChange(val, 'familyIdList')}
-                  >
-                    {[].map(item => (
-                      <Option key={item.id}>{item.name}</Option>
-                    ))}
-                  </BISelect>,
-                )}
-              </Form.Item>
-              <Form.Item className={styles.formItem}>
-                {getFieldDecorator('orderStatus', {
-                  initialValue: this.state.orderStatus,
-                })(
-                  <BISelect
-                    allowClear
-                    placeholder="订单状态"
-                    style={{ width: 190 }}
-                    labelInValue
-                    onChange={val => this.formValChange(val, 'orderStatus')}
-                  >
-                    {BiFilter('ORDER_STATE').map(item => (
-                      <Option value={item.id} key={item.name}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </BISelect>,
-                )}
-              </Form.Item>
-              <Form.Item className={styles.formItem}>
-                {getFieldDecorator('stuType', {
-                  initialValue: this.state.stuType,
-                })(
-                  <BISelect
-                    allowClear
-                    placeholder="是否绑定官微"
-                    style={{ width: 190 }}
-                    labelInValue
-                    onChange={val => this.formValChange(val, 'stuType')}
-                  >
-                    {BiFilter('STUDENT_TYPE').map(item => (
-                      <Option value={item.id} key={item.name}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </BISelect>,
-                )}
-              </Form.Item>
-              <Form.Item>
-                {getFieldDecorator('stuType', {
-                  initialValue: this.state.stuType,
-                })(
-                  <BISelect
-                    allowClear
-                    placeholder="是否绑定官微"
-                    style={{ width: 190 }}
-                    labelInValue
-                    onChange={val => this.formValChange(val, 'stuType')}
-                  >
-                    {BiFilter('STUDENT_TYPE').map(item => (
-                      <Option value={item.id} key={item.name}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </BISelect>,
-                )}
-              </Form.Item>
-            </div>
-            {/* 第三行 */}
-            <div>
-              <Form.Item label="业务信息" className={styles.formItem}>
-                {getFieldDecorator('admissionStatus', {
-                  initialValue: this.state.admissionStatus,
-                })(
-                  <BISelect
-                    allowClear
-                    placeholder="通知类型"
-                    style={{ width: 190 }}
-                    labelInValue
-                    onChange={val => this.formValChange(val, 'admissionStatus')}
-                  >
-                    {BiFilter('TICKET_STATES').map(item => (
-                      <Option value={item.id} key={item.name}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </BISelect>,
-                )}
-              </Form.Item>
-              <Form.Item className={styles.formItem}>
-                {getFieldDecorator('msgStatusList', {
-                  initialValue: this.state.msgStatusList,
-                })(
-                  <BISelect
-                    placeholder="是否通知"
-                    style={{ width: 190 }}
-                    mode="multiple"
-                    showArrow
-                    allowClear
-                    maxTagCount={1}
-                    labelInValue
-                    onChange={val => this.formValChange(val, 'msgStatusList')}
-                  >
-                    {BiFilter('MSG_STATES').map(item => (
-                      <Option key={item.id}>{item.name}</Option>
-                    ))}
-                  </BISelect>,
-                )}
-              </Form.Item>
-              <Form.Item>
-                {getFieldDecorator('stuType', {
-                  initialValue: this.state.stuType,
-                })(
-                  <BISelect
-                    allowClear
-                    placeholder="是否绑定官微"
-                    style={{ width: 190 }}
-                    labelInValue
-                    onChange={val => this.formValChange(val, 'stuType')}
-                  >
-                    {BiFilter('STUDENT_TYPE').map(item => (
-                      <Option value={item.id} key={item.name}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </BISelect>,
-                )}
-              </Form.Item>
-            </div>
-            {/* 第四行 */}
-            <div style={{ marginTop: '40px', marginBottom: 0 }}>
-              <div style={{ float: 'right', marginTop: 3 }}>
-                <BIButton style={{ marginRight: 10 }} type="primary" htmlType="submit">
-                  查询
-                </BIButton>
-                <BIButton onClick={this.handleReset}>重置</BIButton>
+      <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
+        <Form
+          layout="inline"
+          className="ant-advanced-search-form"
+          onSubmit={this.handleSearch}
+        >
+          <Skeleton loading={false} active>
+            <div className={styles.rowWrap}>
+              <div className={styles.itemCls}>
+                <Form.Item label='选择时间：'>
+                  {getFieldDecorator('choiceTime', {
+                  })(
+                    <BIRangePicker
+                      placeholder={['起始时间', '截止时间']}
+                      format={dateFormat}
+                    />,
+                  )}
+                </Form.Item>
+              </div>
+              <div className={styles.itemCls}>
+                <Form.Item>
+                  {getFieldDecorator('collegeId', {
+                  })(
+                    <BISelect placeholder="请选择" allowClear>
+                      {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                    </BISelect>,
+                  )}
+                </Form.Item>
+              </div>
+              <div className={styles.itemCls}>
+                <Form.Item>
+                  {getFieldDecorator('collegeId', {
+                  })(
+                    <BISelect placeholder="请选择" allowClear>
+                      {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                    </BISelect>,
+                  )}
+                </Form.Item>
+              </div>
+              <div className={styles.itemCls}>
+                <Form.Item>
+                  {getFieldDecorator('collegeId', {
+                  })(
+                    <BISelect placeholder="请选择" allowClear>
+                      {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                    </BISelect>,
+                  )}
+                </Form.Item>
+              </div>
+              <div className={styles.itemCls}>
+                <Form.Item>
+                  {getFieldDecorator('collegeId', {
+                  })(
+                    <BISelect placeholder="请选择" allowClear>
+                      {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                    </BISelect>,
+                  )}
+                </Form.Item>
               </div>
             </div>
+          </Skeleton>
+          <div className={`${styles.rowWrap} ${styles.buttonGroup}`}>
+            <BIButton onClick={this.handleReset} style={{ marginRight: '10px' }}>重置</BIButton>
+            <BIButton type="primary" htmlType="submit">查询</BIButton>
           </div>
-        </div>
-      </Form>
+        </Form>
+      </div>
     );
   }
 }
