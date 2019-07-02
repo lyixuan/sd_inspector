@@ -309,7 +309,7 @@ class DataClassfy extends React.Component {
                 : null
             }
             <li className={styles.textarea}>
-              <label>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
+              <label>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
               <TextArea
                 value={this.state.submitParam.remark}
                 className={styles.inputTextArea}

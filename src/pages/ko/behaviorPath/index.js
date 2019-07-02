@@ -98,6 +98,7 @@ class BehaviorPath1 extends React.Component {
     const pathParams = JSON.parse(this.props.location.query.params)
     const target = pathParams.target
     const userInfoParams = this.props.behaviorPath.userInfo
+    console.log(101, pathParams)
     if (target.indexOf("im") == 0) {
       this.state.activeKey = "2"
     } else if (target.indexOf("bbs") == 0) {
