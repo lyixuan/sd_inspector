@@ -1,7 +1,7 @@
 import React from 'react';
 import * as d3 from 'd3';
 import {HOT_RANGE} from '@/utils/constants';
-import {thousandsFormat} from '@/utils/utils'
+import {thousandsFormat, colorRgba} from '@/utils/utils'
 import pages from './SVG';
 import mainpages from './mainSVG';
 import styles from './style.less';
@@ -203,7 +203,7 @@ class KoDetailPage extends React.Component {
       // 修改颜色
       this.chart.selectAll('.mask').style('fill',function(){
         const val = colorArr.filter((item)=>d3.select(this).attr('data-name')===item.actionKeyId)[0];
-        if(val) return val.color;
+        if(val) return colorRgba(val.color, 0.7);
       })
         .on('mouseover', KoDetailPage.that.drewTip(data))
         .on('mouseout', tip.hide)

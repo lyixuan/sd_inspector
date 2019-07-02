@@ -128,11 +128,17 @@ class CommonForm extends React.Component {
     }
     return returnObj
   }
+  // disabledDate = (current, keyName) => {
+  //   const { KoDateRange } = this.props.pageParams;
+  //   const dateArr = handleDateFormParams(KoDateRange)[keyName] || [];
+  //   const [startTime, endTime] = dateArr;
+  //   return current.isBefore(moment(startTime)) || current.isAfter(moment(endTime))
+  // }
   disabledDate = (current, keyName) => {
     const { KoDateRange } = this.props.pageParams;
     const dateArr = handleDateFormParams(KoDateRange)[keyName] || [];
     const [startTime, endTime] = dateArr;
-    return current.isBefore(moment(startTime)) || current.isAfter(moment(endTime))
+    return current.isBefore(moment('2000-1-1')) || current.isAfter(moment(endTime))
   }
   // changeDate = (value, key) => {
   //   if (!value || value.length === 0) {
