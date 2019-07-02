@@ -32,4 +32,16 @@ export async function getPrivilegeList(params) {
     return request('/user/getPrivilegeList', { params});
 }
 
+// 新,获取权限列表
+export async function getPrivilegeList2() {
+  return request('/user/getPrivilegeList');
+}
+
+
+/*
+* 新，用户信息接口
+* */
+export async function userInfo() {
+  return request(`/user/info`);
+}
 

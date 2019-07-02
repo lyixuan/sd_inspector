@@ -97,9 +97,7 @@ class BasicLayout extends React.PureComponent {
     };
   }
   componentWillMount() {
-    // 从url中拿取paramsId参数,包含userId,token,存储在local中
-    //判断缓存中是否有userId;
-    this.checkoutHasAuth();
+    this.initSysItem();
   }
   componentDidMount() {
     this.enquireHandler = enquireScreen(mobile => {
@@ -120,33 +118,33 @@ class BasicLayout extends React.PureComponent {
   }
 
 
-  checkoutHasAuth = () => {
-    // debugger环境下使用url跳转传参
-    if (process.env.LOGIN_TYPE === 'localhost') {
-      this.getAuthToken();
-    }
-    const userInfo = storage.getUserInfo();
-    // 判断是有有用户信息;
-    if (!userInfo) {
-      redirectUrlParams();
-    } else {
-      this.loginInSysItem();
-    }
-  }
-  getAuthToken = () => {
-    const { location: { query = {} } } = this.props;
-    const paramsId = query.paramsId || '';
-    let paramsObj = {}
-
-    if (paramsId) {
-      try {
-        paramsObj = paramsId ? JSON.parse(Base64.decode(paramsId)) : {};
-        storage.setUserInfo(paramsObj);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }
+  // checkoutHasAuth = () => {
+  //   // debugger环境下使用url跳转传参
+  //   if (process.env.LOGIN_TYPE === 'localhost') {
+  //     this.getAuthToken();
+  //   }
+  //   const userInfo = storage.getUserInfo();
+  //   // 判断是有有用户信息;
+  //   if (!userInfo) {
+  //     redirectUrlParams();
+  //   } else {
+  //     this.loginInSysItem();
+  //   }
+  // }
+  // getAuthToken = () => {
+  //   const { location: { query = {} } } = this.props;
+  //   const paramsId = query.paramsId || '';
+  //   let paramsObj = {}
+  //
+  //   if (paramsId) {
+  //     try {
+  //       paramsObj = paramsId ? JSON.parse(Base64.decode(paramsId)) : {};
+  //       storage.setUserInfo(paramsObj);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }
+  // }
   setRedirectData = menuData => {
     menuData.forEach(getRedirect);
   };
@@ -184,11 +182,11 @@ class BasicLayout extends React.PureComponent {
       });
     }
   };
-  loginInSysItem = () => {
+  initSysItem = () => {
     this.props.dispatch({
-      type: 'login/loginin',
+      type: 'login/initSubSystem',
     })
-  }
+  };
 
   render() {
     const { collapsed, fetchingNotices, notices, location, children, isLoginIng } = this.props;
