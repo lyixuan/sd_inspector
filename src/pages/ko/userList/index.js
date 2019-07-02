@@ -76,6 +76,13 @@ function columns(enumDataIntention) {
       },
     },
     {
+      title: '注册时间',
+      key: 'registerTime',
+      dataIndex: 'registerTime',
+      width: 110,
+      fixed: 'left',
+    },
+    {
       title: '选课时间',
       key: 'choiceLessionTime',
       dataIndex: 'choiceLessionTime',
@@ -703,7 +710,7 @@ class UserList extends React.Component {
             }}
             dataSource={dataSource} columns={columns(this.props.enumDataIntention)}
             pagination={false} loading={loading}
-            scroll={{ x: 2420, y: 570 }}
+            scroll={{ x: 2530, y: 570 }}
             size="middle"
           />
           <br />
