@@ -378,6 +378,73 @@ export const INDEX_PAGE = 'homepage';
 // 通过判断改值是否存在于actionKeyId里确实这个节点是否流向 选课 节点
 export const CLICK_KO_ITEM = 'click_ko_item';
 
+
+// 申诉维度枚举
+export const DIMENSION_TYPE = [
+  { id: 11, name: '优新',url:'specialNewer' },
+  { id: 14, name: 'IM',url:'IM' },
+  { id: 19, name: '工单',url:'order'  },
+  { id: 23, name: '底线',url:'baseline'  },
+  { id: 42, name: '创收',url:'createIncome'  },
+];
+
+// 申诉维度
+export const SCORE_APPEAL_DIS = [
+  {id:12,name:'开班电话',parentId:11},
+  {id:17,name:'不及时消息',parentId:14},
+  {id:15,name:'未回复会话',parentId:14},
+  {id:16,name:'不满意会话',parentId:14},
+  {id:20,name:'工单初次减分',parentId:19},
+  {id:21,name:'工单二次减分',parentId:19},
+  {id:22,name:'工单三次减分',parentId:19},
+  {id:24,name:'事件',parentId:23},
+  {id:25,name:'班投',parentId:23},
+  {id:26,name:'退费',parentId:23},
+  {id:47,name:'退挽',parentId:23},
+  {id:45,name:'60分钟以下',parentId:42},
+  {id:44,name:'60至120分钟',parentId:42},
+  {id:43,name:'120分钟以上',parentId:42},
+]
+// 申诉状态
+export const SCORE_APPEAL_STATE = [
+  {id:1,name:'一次对接人待审核'},
+  {id:2,name:'二次对接人待审核'},
+  {id:3,name:'一次对接人审核未通过'},
+  {id:4,name:'二次对接人审核未通过'},
+  {id:5,name:'一次主管待审核'},
+  {id:6,name:'二次主管待审核'},
+  {id:7,name:'一次申诉失败'},
+  {id:8,name:'一次申诉成功'},
+  {id:9,name:'二次申诉超时'},
+  {id:10,name:'二次申诉成功'},
+  {id:11,name:'二次申诉失败'},
+];
+// 申诉状态-学分归属人、对接人-在途
+export const SCORE_APPEAL_STATE_ON_OWNER = [
+  {id:1,name:'一次对接人待审核'},
+  {id:2,name:'二次对接人待审核'},
+  {id:3,name:'一次对接人审核未通过'},
+  {id:4,name:'二次对接人审核未通过'},
+  {id:5,name:'一次主管待审核'},
+  {id:6,name:'二次主管待审核'},
+  {id:7,name:'一次申诉失败'},
+];
+// 申诉状态-主管-在途
+export const SCORE_APPEAL_STATE_ON_MASTER = [
+  {id:2,name:'二次对接人待审核'},
+  {id:4,name:'二次对接人审核未通过'},
+  {id:5,name:'一次主管待审核'},
+  {id:6,name:'二次主管待审核'},
+  {id:7,name:'一次申诉失败'},
+];
+// 申诉状态-结案
+export const SCORE_APPEAL_STATE_FIN = [
+  {id:8,name:'一次申诉成功'},
+  {id:9,name:'二次申诉超时'},
+  {id:10,name:'二次申诉成功'},
+  {id:11,name:'二次申诉失败'},
+];
+
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -406,6 +473,13 @@ export default {
   HOT_RANGE,
   REGISTER_STATUS,
   CHOISE_STATUS,
+  DIMENSION_TYPE,
+  SCORE_APPEAL_STATE,
+  SCORE_APPEAL_STATE_FIN,
+  SCORE_APPEAL_STATE_ON_OWNER,
+  SCORE_APPEAL_STATE_ON_MASTER,
+  SCORE_APPEAL_DIS,
+
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

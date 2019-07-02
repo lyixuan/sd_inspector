@@ -204,7 +204,7 @@ export const routes = [
             component: './ko/behaviorPath',
             name: '用户行为轨迹',
           },
-        ]
+        ],
       },
       {
         path: '/koUserData',
@@ -218,7 +218,7 @@ export const routes = [
             name: '用户查询',
             commonPath: true,   // 继承父页面
           },
-        ]
+        ],
       },
       {
         path: '/koUserOperation',
@@ -253,13 +253,92 @@ export const routes = [
         ],
       },
       {
+        path: '/scoreAppeal',
+        component: './scoreAppeal',
+        name: '学分申诉',
+        routes: [
+          /* 待申诉 */
+          {
+            path: '/scoreAppeal/awaitAppeal',
+            component: './scoreAppeal/awaitAppeal',
+            name: '待申诉',
+          },
+          {
+            path: '/scoreAppeal/awaitAppeal/detail',
+            component: './scoreAppeal/awaitAppeal/detail',
+            name: '申诉详情',
+            bread: {
+              name: '待申诉',
+              path: '/scoreAppeal/awaitAppeal',
+            },
+          },
+          {
+            path: '/scoreAppeal/awaitAppeal/appeal',
+            component: './scoreAppeal/awaitAppeal/createFirstAppeal',
+            name: '发起申诉',
+            bread: {
+              name: '待申诉',
+              path: '/scoreAppeal/awaitAppeal',
+            },
+          },
+          /* 在途申诉 */
+          {
+            path: '/scoreAppeal/onAppeal',
+            component: './scoreAppeal/onAppeal',
+            name: '在途申诉',
+          },
+          {
+            path: '/scoreAppeal/onAppeal/appeal',
+            component: './scoreAppeal/onAppeal/createAppeal',
+            name: '发起申诉',
+            bread: {
+              name: '在途申诉',
+              path: '/scoreAppeal/onAppeal',
+            },
+          },
+          {
+            path: '/scoreAppeal/onAppeal/checkAppeal',
+            component: './scoreAppeal/onAppeal/checkAppeal',
+            name: '申诉审核',
+            bread: {
+              name: '在途申诉',
+              path: '/scoreAppeal/onAppeal',
+            },
+          },
+          {
+            path: '/scoreAppeal/onAppeal/detail',
+            component: './scoreAppeal/appeal_detail',
+            name: '申诉详情',
+            bread: {
+              name: '在途申诉',
+              path: '/scoreAppeal/onAppeal',
+            },
+          },
+          /* 结案申诉 */
+          {
+            path: '/scoreAppeal/finishAppeal',
+            component: './scoreAppeal/finishAppeal',
+            name: '结案申诉',
+          },
+          {
+            path: '/scoreAppeal/finishAppeal/detail',
+            component: './scoreAppeal/appeal_detail',
+            name: '申诉详情',
+            bread: {
+              name: '结案申诉',
+              path: '/scoreAppeal/finishAppeal',
+            },
+          },
+        ],
+      },
+      {
         path: '/qualityMarking/detail',
         name: 'AI工作台',
         routes: [
           {
             path: '/qualityMarking/detail',
             component: './ko/qualityMarking/detail',
-          }
+          },
         ],
       },
       {
@@ -280,7 +359,7 @@ export const routes = [
             path: '/qualityMarking/nps',
             component: './ko/qualityMarking/nps',
             commonPath: true,   // 继承父页面
-          }
+          },
         ],
       },
       {
@@ -292,7 +371,7 @@ export const routes = [
             path: '/entrancePlatform/userList',
             component: './ko/entrancePlatform/userList',
             name: 'AI工作台',
-          }
+          },
         ],
       },
     ],

@@ -9,6 +9,7 @@ import { BiFilter } from '@/utils/utils';
 import { Row, Col } from 'antd';
 import styles from '../../style.less'
 import AuthButton from '@/components/AuthButton';
+import BITreeSelect from '@/ant_components/BITreeSelect';
 const { Option } = BISelect;
 
 @connect(({ newQuality }) => ({
@@ -21,37 +22,50 @@ class NewQualitySheet extends React.Component {
     this.init = {
       qualityNum: undefined,
       qualityType: 'all',
-      dimensionIdList: undefined,
       violationLevel: undefined,
       status: undefined,
       isWarn: 'all',
+      collegeIdList: [],
+      familyIdList: [],
+      groupIdList: [],
     };
     const { p = null } = this.props.location.query;
     this.state = { ...this.init, ...JSON.parse(p) };
-    this.state.qualityType === 'all' ? this.canDimension = false : this.canDimension = Number(this.state.qualityType);
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.tabType === '1' && nextProps.tabType === '2') {
       this.reset()
     }
   }
-  onFormChange = (value, vname) => {
-    this.setState({
-      [vname]: value
-    });
-    if ('qualityType' === vname) {
-      this.setState({
-        dimensionIdList: undefined
-      });
-      if (value === 'all') {
-        this.canDimension = false;
-      }
-      if (value === '1') {
-        this.canDimension = 1;
-      }
-      if (value === '2') {
-        this.canDimension = 2;
-      }
+
+  onFormChange = (value,vname)=>{
+    switch(vname){
+      case 'organization':
+        const list1 = [];
+        const list2 = [];
+        const list3 = [];
+        value.forEach((v)=>{
+          if (v.indexOf('a-')>=0) {
+            list1.push(v);
+          }
+          if (v.indexOf('b-')>=0) {
+            list2.push(v);
+          }
+          if (v.indexOf('c-')>=0) {
+            list3.push(v);
+          }
+        });
+        this.setState({
+          collegeIdList: [...list1],
+          familyIdList: [...list2],
+          groupIdList: [...list3],
+        })
+        break;
+      default:
+        this.setState({
+          [vname]:value
+        });
+        break;
     }
   };
   search = () => {
@@ -62,15 +76,13 @@ class NewQualitySheet extends React.Component {
     this.props.queryData(this.state, { page: currentPage });
   };
   reset = () => {
-    this.canDimension = false;
     this.setState(this.init, () => {
       this.props.queryData(this.state, { page: 1 });
     });
-    this.canDimension = false;
   };
   render() {
-    const { qualityNum, qualityType, dimensionIdList, violationLevel, status, isWarn } = this.state;
-    const { dimensionList1 = [], dimensionList2 = [], dataSource, columns, page, loading } = this.props;
+    const { qualityNum, qualityType, violationLevel, status, isWarn, collegeIdList, familyIdList, groupIdList, } = this.state;
+    const { orgList = [], dataSource, columns, page, loading } = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -99,36 +111,21 @@ class NewQualitySheet extends React.Component {
               </div>
             </Col>
             <Col className={styles.gutterCol} span={8}>
-              <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel1}>分维</span>：
-                <span className={styles.gutterForm}>
-                  {this.canDimension === 1 ? (
-                    <BISelect style={{ width: 230 }} allowClear placeholder="请选择客诉分维" mode="multiple" showArrow maxTagCount={1} value={dimensionIdList} onChange={(val) => this.onFormChange(val, 'dimensionIdList')}>
-                      {dimensionList1.map(item => (
+              {AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA') && (
+                  <div className={styles.gutterBox3}>
+                    <span className={styles.gutterLabel1}>质检类型</span>：
+                    <span className={styles.gutterForm}>
+                    <BISelect style={{ width: 230 }} placeholder="请选择" value={qualityType} onChange={(val) => this.onFormChange(val, 'qualityType')}>
+                      <Option key={'all'}>全部</Option>
+                      {BiFilter('QUALITY_TYPE').map(item => (
                         <Option key={item.id}>
                           {item.name}
                         </Option>
                       ))}
                     </BISelect>
-                  ) : this.canDimension === 2 ? (
-                    <BISelect style={{ width: 230 }} allowClear placeholder="请选择班主任分维" mode="multiple" showArrow maxTagCount={1} value={dimensionIdList} onChange={(val) => this.onFormChange(val, 'dimensionIdList')}>
-                      {dimensionList2.map(item => (
-                        <Option key={item.id}>
-                          {item.name}
-                        </Option>
-                      ))}
-                    </BISelect>
-                  ) : (
-                        <BISelect style={{ width: 230 }} allowClear placeholder="请选择" disabled={true} mode="multiple" showArrow maxTagCount={1} value={dimensionIdList} onChange={(val) => this.onFormChange(val, 'dimensionIdList')}>
-                          {dimensionList2.map(item => (
-                            <Option key={item.id}>
-                              {item.name}
-                            </Option>
-                          ))}
-                        </BISelect>
-                      )}
-                </span>
-              </div>
+                  </span>
+                  </div>
+                )}
             </Col>
           </Row>
           {/*第二行*/}
@@ -162,20 +159,24 @@ class NewQualitySheet extends React.Component {
               </div>
             </Col>
             <Col className={styles.gutterCol} span={8}>
-              {AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA') && (
-                <div className={styles.gutterBox3}>
-                  <span className={styles.gutterLabel1}>质检类型</span>：
-                  <span className={styles.gutterForm}>
-                  <BISelect style={{ width: 230 }} placeholder="请选择" value={qualityType} onChange={(val) => this.onFormChange(val, 'qualityType')}>
-                    <Option key={'all'}>全部</Option>
-                    {BiFilter('QUALITY_TYPE').map(item => (
-                      <Option key={item.id}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </BISelect>
-                </span>
-                </div>
+            {/*  仅质检主管 可看到归属组织 */}
+            {AuthButton.checkPathname('/qualityAppeal/qualityAppeal/appeal') && (
+              <div className={styles.gutterBox3}>  
+                    <span className={styles.gutterLabel1}>归属组织</span>：
+                    <span className={styles.gutterForm}>
+                    <BITreeSelect
+                      style={{ width: 230 }}
+                      placeholder="请选择"
+                      allowClear
+                      value={[...collegeIdList,...familyIdList,...groupIdList]}
+                      multiple
+                      showArrow maxTagCount={1}
+                      dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                      treeData={orgList}
+                      onChange={(val)=>this.onFormChange(val,'organization')}
+                    />
+                  </span>
+              </div>
               )}
             </Col>
           </Row>
