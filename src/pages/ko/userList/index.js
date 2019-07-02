@@ -35,7 +35,7 @@ const sorterKeyName = { // 排序对应字段
   wechatTeacherChatNum: 'wechat_teacher_chat_num',
   wechatStudentChatNum: 'wechat_student_chat_num',
   imEmotionValue: 'negative_msg_num',
-  robot_chat_num: 'robot_chat_num',
+  imRobotChatNum: 'robot_chat_num',
   transactionIntention: 'transaction_intention',
 };
 function columns(enumDataIntention) {
@@ -131,8 +131,8 @@ function columns(enumDataIntention) {
     },
     {
       title: '机器人咨询量',
-      key: 'robot_chat_num',
-      dataIndex: 'robot_chat_num',
+      key: 'imRobotChatNum',
+      dataIndex: 'imRobotChatNum',
       filterMultiple: false,
       width: 140,
       filters: [
