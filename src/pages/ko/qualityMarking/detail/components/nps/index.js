@@ -48,7 +48,7 @@ class DetailNps extends React.Component {
           <li className={styles.flex}>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员姓名：</span>
-              <span className={styles.name + " " + styles.nameCurrent}>{item.stuName}</span>
+              <span className={styles.name}>{item.stuName}</span>
             </div>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员id：</span>
