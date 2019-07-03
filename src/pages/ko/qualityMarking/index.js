@@ -3,6 +3,7 @@ import RenderRoute from '@/components/RenderRoute';
 import { Tabs } from 'antd';
 import style from './style.less';
 import { connect } from 'dva';
+import AuthButton from '@/components/AuthButton';
 
 const { TabPane } = Tabs;
 const tabGroup = [{
@@ -55,10 +56,16 @@ class aiWorktable extends React.Component {
 
   render() {
     const { defaultKey } = this.state;
+    const content = [];
+    tabGroup.forEach(item => {
+      if (AuthButton.checkPathname(item.key)) {
+        content.push(<TabPane tab={item.tab} key={item.key}></TabPane>);
+      }
+    });
     return (
       <div className={style.aiWorktable}>
         <Tabs className="tabGroupContainer" defaultActiveKey={defaultKey} onChange={this.onChangeTab}>
-          {tabGroup.map(item => <TabPane tab={item.tab} key={item.key}></TabPane>)}
+          {content}
         </Tabs>
         <div className={style.aiWorktableMain}>
           <RenderRoute {...this.props}/>
