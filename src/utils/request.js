@@ -3,7 +3,6 @@
  */
 import { extend } from 'umi-request';
 import { routerRedux } from 'dva/router';
-import router from 'umi/router';
 import storage from './storage';
 import { redirectUrlParams } from './routeUtils';
 import { PROXY_PATH } from './constants';
@@ -40,13 +39,13 @@ const errorHandler = error => {
     // routerRedux.push('login/logout');
     // return;
   } else if (status === 403) {
-    router.push('/exception/403');
+    routerRedux.push('/exception/403');
     return;
   } else if (status <= 504 && status >= 500) {
-    router.push('/exception/500');
+    routerRedux.push('/exception/500');
     return;
   } else if (status >= 404 && status < 422) {
-    router.push('/exception/404');
+    routerRedux.push('/exception/404');
     return;
   }
   notification.error({

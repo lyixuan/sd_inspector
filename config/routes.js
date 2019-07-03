@@ -331,21 +331,6 @@ export const routes = [
           },
         ],
       },
-      {
-        path: '/exception/500',
-        component: './exception/500',
-        name: '500',
-      },
-      {
-        path: '/exception/404',
-        component: './exception/404',
-        name: '404',
-      },
-      {
-        path: '/exception/403',
-        component: './exception/403',
-        name: '403',
-      },
     ],
   },
 ];
