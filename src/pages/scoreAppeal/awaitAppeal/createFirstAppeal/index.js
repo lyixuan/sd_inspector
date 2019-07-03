@@ -57,12 +57,13 @@ class AppealCreate extends React.Component {
 
   handleOk = () => {
     const { query = {} } = this.props.location;
-    const { type, creditType, dimensionType, creditAppealId } = query || {};
+    const { type, creditType, dimensionType, creditAppealId,creditDate } = query || {};
     const { desc, attUrlList, creditType: creditType2 } = this.state;
     const params = {
       type,                   // 一申
       creditType: creditType2 ? creditType2 : creditType ? Number(creditType) : undefined,  // 学分维度
       dimensionType: Number(dimensionType),            // 申诉维度
+      creditDate: creditDate,
       creditAppealId: Number(creditAppealId),   // 学分申诉id（待申诉数据ID）
       desc,
       attUrlList,

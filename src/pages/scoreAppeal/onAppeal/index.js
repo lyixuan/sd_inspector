@@ -147,6 +147,7 @@ class OnAppeal extends React.Component {
       dimensionType,   // 申诉维度
       status:record.status,
       isOnAppeal:true,
+      creditDate:record.creditDate,
       idList: JSON.stringify(idList),
       secondAppealEndDate:record.secondAppealEndDate,  // 详情展示
     };
@@ -157,6 +158,7 @@ class OnAppeal extends React.Component {
     const query={
       type:record.status === 3?1:2,  // 1:一申 2：二申
       creditType:record.creditType,    // 学分维度
+      creditDate: record.creditDate,
       dimensionType,                    // 申诉维度
       creditAppealId: record.id,        // 学分申诉id（待申诉数据ID）
       dimensionId:record.metaDimensionId,        // 获取详情用
@@ -182,7 +184,7 @@ class OnAppeal extends React.Component {
     const that = this;
     that.props.dispatch({
       type: 'onAppealModel/cancelAppeal',
-      payload: { params: { id: record.id } },
+      payload: { params: { id: record.id,dimensionType:this.state.dimensionType } },
     }).then(() => {
       that.componentDidMount()
     });
