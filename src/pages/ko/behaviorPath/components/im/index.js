@@ -237,7 +237,7 @@ function AllType(props) {
     )
   } else if (props.type.type == 'lesson_video' || props.type.type == 'video' || props.type.type == 'img' || props.type.type == 'emoji') {
     return (
-      <img src={props.type.arr[0].imgUrl ? props.type.arr[0].imgUrl : props.type.arr[0].url} style={{ width: '150px', height: 'auto', borderRadius: '10px' }} />
+      <img src={props.type.arr[0].imgUrl ? props.type.arr[0].imgUrl : props.type.arr[0].url} style={{ width: '150px', height: 'auto', borderRadius: '10px', marginLeft: '60px' }} />
     )
   } else if (props.type.type == 'operate') {
     return (
