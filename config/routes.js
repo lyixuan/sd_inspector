@@ -362,18 +362,18 @@ export const routes = [
           },
         ],
       },
-      {
-        path: '/entrancePlatform',
-        name: '报考督学平台',
-        pageRedirect: '/entrancePlatform/userList',
-        routes: [
-          {
-            path: '/entrancePlatform/userList',
-            component: './ko/entrancePlatform/userList',
-            name: 'AI工作台',
-          },
-        ],
-      },
+      // {
+      //   path: '/entrancePlatform',
+      //   name: '报考督学平台',
+      //   pageRedirect: '/entrancePlatform/userList',
+      //   routes: [
+      //     {
+      //       path: '/entrancePlatform/userList',
+      //       component: './ko/entrancePlatform/userList',
+      //       name: 'AI工作台',
+      //     },
+      //   ],
+      // },
     ],
   },
 ];
