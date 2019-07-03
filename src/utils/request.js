@@ -3,6 +3,7 @@
  */
 import { extend } from 'umi-request';
 import { routerRedux } from 'dva/router';
+import router from 'umi/router';
 import storage from './storage';
 import { redirectUrlParams } from './routeUtils';
 import { PROXY_PATH } from './constants';
@@ -34,19 +35,18 @@ const errorHandler = error => {
   const { response = {} } = error;
   const errortext = codeMessage[response.status] || response.statusText;
   const { status, url } = response;
-
   if (status === 401) {
     redirectUrlParams(); // 跳转至登录页
     // routerRedux.push('login/logout');
     // return;
   } else if (status === 403) {
-    routerRedux.push('/exception/403');
+    router.push('/exception/403');
     return;
   } else if (status <= 504 && status >= 500) {
-    routerRedux.push('/exception/500');
+    router.push('/exception/500');
     return;
   } else if (status >= 404 && status < 422) {
-    routerRedux.push('/exception/404');
+    router.push('/exception/404');
     return;
   }
   notification.error({
