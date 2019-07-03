@@ -172,6 +172,7 @@ class OnAppeal extends React.Component {
       id:record.id,
       dimensionId:record.metaDimensionId,        // 获取详情用
       creditType:record.creditType,  // 学分维度
+      creditDate: record.creditDate,
       dimensionType,            // 申诉维度
       status:record.status,
       firstOrSec:(record.status === 1||record.status === 5)?1:(record.status === 2||record.status === 6)?2:null,// 1 一申，2 二申
