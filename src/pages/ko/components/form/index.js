@@ -61,7 +61,19 @@ class CommonForm extends React.Component {
         });
         return returnObj;
     }
-
+    handleIntentionParams = (item) => {
+      const arr1 = item.value.split(';');
+      const arr2 = arr1[0].split(',');
+      if(arr2.length === 1) {
+        return {
+          ...item, value: arr2[0], type: arr1[1],
+        }
+      } else {
+        return {
+          ...item, minValue: arr2[0], maxValue: arr2[1], type: arr1[1], value: undefined,
+        }
+      }
+    }
     checkoutParamsType = (key, item) => {
         let returnItem = undefined;
         switch (key) {
@@ -119,6 +131,9 @@ class CommonForm extends React.Component {
                 break;
             case 'backBelong':
                 returnItem = item ? this.handleOrgParams(item)(['collegeId', 'familyId', 'groupId']) : undefined;
+                break;
+            case 'transactionIntention':
+                returnItem = item ? this.handleIntentionParams(item) : undefined;
                 break;
             default:
                 returnItem = null;

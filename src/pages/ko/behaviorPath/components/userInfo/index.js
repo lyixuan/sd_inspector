@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'dva';
 import { Icon, Tooltip } from 'antd';
 import styles from '../../style.less';
 import avatarStudent from '@/assets/avatarStudent.png';
+import { getTransactionIntentionValue } from '../../../utils/utils'
 function Sex(props) {
   if (props.sex) {
     return (
@@ -99,13 +101,23 @@ function ListenTime(props) {
     return '0秒';
   }
 }
+@connect(({ koPlan }) => ({
+  enumDataIntention: koPlan.enumData[12]
+}))
 class PathUserInfo extends React.Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'koPlan/pageParams',
+    });
+  }
   render() {
     const info = this.props.info.user[0];
     const orderData = this.props.info.orderData;
+    console.log(119, info)
+    const intent = getTransactionIntentionValue(this.props.enumDataIntention);
     return (
       <div className={styles.personIntro}>
         <div className={styles.userArea}>
@@ -118,10 +130,18 @@ class PathUserInfo extends React.Component {
               </p>
             </div>
           </div>
-          <div className={styles.optBtn}>
+          <Tooltip placement="bottom" title={`成单意向: ${intent} (${info.transactionIntention})`}>
+            {intent == 'A' && <div className={styles.intention + " " + styles.intentionA}></div>}
+            {intent == 'B' && <div className={styles.intention + " " + styles.intentionB}></div>}
+            {intent == 'C' && <div className={styles.intention + " " + styles.intentionC}></div>}
+            {intent == 'D' && <div className={styles.intention + " " + styles.intentionD}></div>}
+
+          </Tooltip>
+
+          {/* <div className={styles.optBtn}>
             <div className={styles.btn}>上一个</div>
             <div className={styles.btn}>下一个</div>
-          </div>
+          </div> */}
 
         </div>
         <ul className={styles.intro}>
