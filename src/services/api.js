@@ -33,7 +33,7 @@ export async function getPrivilegeList(params) {
 }
 
 // 新,获取权限列表
-export async function getPrivilegeList2() {
+export async function getPrivilegeListNew() {
   return request('/user/getPrivilegeList');
 }
 
@@ -43,5 +43,13 @@ export async function getPrivilegeList2() {
 * */
 export async function userInfo() {
   return request(`/user/info`);
+}
+
+
+/*
+* 新，sso tologin
+* */
+export async function tologin(params) {
+  return request('http://172.16.58.18:8084/tologin',{...params,...{prefix:null}},);
 }
 

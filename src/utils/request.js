@@ -8,6 +8,7 @@ import { redirectUrlParams } from './routeUtils';
 import { PROXY_PATH } from './constants';
 
 import { notification } from 'antd';
+import router from 'umi/router';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -35,10 +36,20 @@ const errorHandler = error => {
   const errortext = codeMessage[response.status] || response.statusText;
   const { status, url } = response;
 
+  console.log(111,status)
+  if (status === 302) {
+    console.log('response',response)
+    console.log(111)
+    return;
+  }
   if (status === 401) {
-    redirectUrlParams(); // 跳转至登录页
-    // routerRedux.push('login/logout');
-    // return;
+    const { origin } = window.location;
+    this.props.dispatch({
+      type: 'login/tologin',
+      payload: { params: {originPage:origin} },
+    });
+    // redirectUrlParams(); // 跳转至登录页
+    return;
   } else if (status === 403) {
     routerRedux.push('/exception/403');
     return;
@@ -68,10 +79,14 @@ const request = extend({
 });
 // 动态添加数据;
 request.interceptors.request.use((url, options) => {
-  options.headers = Object.assign({}, options.headers, { authorization: storage.getToken() });
+  // options.headers = Object.assign({}, options.headers, { authorization: storage.getToken() });
   return {
     url: `${url}`,
     options,
   };
+});
+request.interceptors.response.use((response, options) => {
+  console.log('interceptors', response,options);
+  return response;
 });
 export default request;

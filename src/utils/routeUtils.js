@@ -27,3 +27,4 @@ export function checkPathname(path = '') {
         return true;
     } else return false;
 }
+

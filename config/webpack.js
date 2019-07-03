@@ -50,7 +50,8 @@ export const webpackConfig = {
   },
   proxy: {
     '/proxy': {
-      target: 'http://172.16.59.227:8090/', //  本地开发
+      // target: 'http://172.16.59.227:8090/', //  本地开发
+      target: 'http://172.16.58.18:8090/', //  本地开发
       changeOrigin: true,
       pathRewrite:{'/proxy':'/'}
     },

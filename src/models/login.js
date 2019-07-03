@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { routerRedux } from 'dva/router';
-import { getPrivilegeList,getPrivilegeList2,userInfo, CurrentUserListRole, userChangeRole } from '@/services/api';
+import { getPrivilegeList,getPrivilegeListNew,userInfo, CurrentUserListRole, userChangeRole,tologin } from '@/services/api';
 import storage from '@/utils/storage';
 import { msgF } from '@/utils/utils';
 
@@ -20,21 +20,9 @@ export default {
 
     *initSubSystem(_, { call, put }) {
       // 初始化系统，判断缓存信息是否存在，不存在从接口获取。
-      const admin_user = storage.getItem('admin_user');
-      const admin_auth = storage.getItem('admin_auth');
-      if (!admin_user) {
-        const response = yield call(userInfo);
-        if (response.code === 20000) {
-          const data = response.data || {};
-          const { token, userId, ...others } = data;
-          const saveObj = { token, userId, ...others };
-          storage.setItem('admin_user',saveObj);
-        } else {
-          message.error(msgF(response.msg,response.msgDetail));
-        }
-      }
-      if (!admin_auth) {
-        const response = yield call(getPrivilegeList2);
+      // const admin_user = storage.getItem('admin_user');
+      // const admin_auth = storage.getItem('admin_auth');
+        const response = yield call(getPrivilegeListNew);
         if (response.code === 20000) {
           const data = response.data || {};
           const { privilegeList } = data;
@@ -42,9 +30,19 @@ export default {
         } else {
           message.error(msgF(response.msg,response.msgDetail));
         }
-      }
+        const response2 = yield call(userInfo);
+        if (response2.code === 20000) {
+          const data = response2.data || {};
+          const { token, userId, ...others } = data;
+          const saveObj = { token, userId, ...others };
+          storage.setItem('admin_user',saveObj);
+        } else {
+          message.error(msgF(response2.msg,response2.msgDetail));
+        }
     },
-
+    *tologin({ payload }, { call }) {
+      yield call(tologin,{ ...payload });
+    },
     *loginin(_, { call, put }) {
       const isHasUserInfo = storage.isRepeatLogin();
       const userInfo = storage.getUserInfo();
@@ -106,6 +104,19 @@ export default {
         payload: response,
       });
     },
+
+    // *logout(_, { call }) {
+    //   try {
+    //     yield call(userLogout);
+    //   } finally {
+    //     // todo 修改登出接口地址；主动登出和401时调用，401登出，需传递重定向参数
+    //     yield call(handleSuccess, {
+    //       content: '退出登录',
+    //       pathname: '/userLayout/login',
+    //       time: 0.5,
+    //     });
+    //   }
+    // },
 
   },
 
