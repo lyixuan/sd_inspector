@@ -3,6 +3,7 @@ import RenderRoute from '@/components/RenderRoute';
 import { Tabs } from 'antd';
 import style from './style.less';
 import { connect } from 'dva';
+import AuthButton from '@/components/AuthButton';
 
 const { TabPane } = Tabs;
 const tabGroup = [{
@@ -14,8 +15,8 @@ const tabGroup = [{
 }, {
   tab: 'NPS',
   key: '/qualityMarking/nps',
-}];
-
+}]
+console.log(tabGroup)
 @connect(({ workTableModel }) => ({
   workTableModel,
 }))
@@ -23,7 +24,7 @@ class aiWorktable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      defaultKey: props.location.pathname || '/qualityMarking/im',
+      defaultKey: this.initRoute(props.location.pathname)
     };
   }
   componentDidMount() {
@@ -35,11 +36,25 @@ class aiWorktable extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.location.pathname !== nextProps.location.pathname) {
       this.setState({
-        defaultKey: nextProps.location.pathname,
+        defaultKey: this.initRoute(nextProps.location.pathname),
       });
     }
   }
 
+  initRoute(pathname) {
+    const tabs = tabGroup.find(item => AuthButton.checkPathname(item.key));
+    const flag = AuthButton.checkPathname(pathname);
+    let defaultKey = '';
+    if (flag) {
+      defaultKey = pathname;
+    } else if (tabs){
+      this.jumpTo(tabs.key);
+      defaultKey = tabs.key;
+    } else {
+      this.jumpTo('/indexPage');
+    }
+    return defaultKey
+  }
   onChangeTab = (key) => {
     this.setState({
       defaultKey: key,
@@ -55,10 +70,16 @@ class aiWorktable extends React.Component {
 
   render() {
     const { defaultKey } = this.state;
+    const content = [];
+    tabGroup.forEach(item => {
+      if (AuthButton.checkPathname(item.key)) {
+        content.push(<TabPane tab={item.tab} key={item.key}></TabPane>)
+      }
+    })
     return (
       <div className={style.aiWorktable}>
         <Tabs className="tabGroupContainer" defaultActiveKey={defaultKey} onChange={this.onChangeTab}>
-          {tabGroup.map(item => <TabPane tab={item.tab} key={item.key}></TabPane>)}
+          {content}
         </Tabs>
         <div className={style.aiWorktableMain}>
           <RenderRoute {...this.props}/>

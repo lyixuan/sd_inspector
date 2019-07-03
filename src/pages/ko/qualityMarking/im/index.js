@@ -10,13 +10,14 @@ import MarkForm from '../components/form';
 import MarkList from '../components/list';
 import styles from '../style.less';
 import { handleDefaultPickerValueMark } from '@/pages/ko/utils/utils';
+import AuthButton from '@/components/AuthButton';
 
 const markType = 1; //im bbs nps 对应的额type值为1， 2， 3
 // 悬浮列表
 function Layout(props) {
   const layout = <section>
     <ul className={styles.behavior}>
-      {props.dataMark.contentList.map((item, index) => <ListItem item={item} dataMark={props.dataMark} key={index} />)}
+      {props.dataMark.contentList.map((item, index) => <ListItem item={item} dataMark={props.dataMark} key={index}/>)}
     </ul>
   </section>;
   return layout;
@@ -41,16 +42,16 @@ function TeacherOrStudent(props) {
         </div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
-            <span className={styles.dot} />
+            <span className={styles.dot}/>
           </div>
           <div className={styles.chatLeft}>
             <div className={styles.avatar}>
-              <img src={props.dataMark.stuHeadUrl ? (pathImUrl + props.dataMark.stuHeadUrl) : avatarStudent} />
+              <img src={props.dataMark.stuHeadUrl ? (pathImUrl + props.dataMark.stuHeadUrl) : avatarStudent}/>
               <p>{getSubStringValue(props.dataMark.stuName, 3)}</p>
             </div>
             <div className={styles.chatContent}>
               <span className={styles.triangle}>
-                <em />
+                <em/>
               </span>
               {props.item.content}
             </div>
@@ -66,17 +67,17 @@ function TeacherOrStudent(props) {
         </div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
-            <span className={styles.dot} />
+            <span className={styles.dot}/>
           </div>
           <div className={styles.chatRight}>
             <div className={styles.chatContent}>
               <span className={styles.triangle}>
-                <em />
+                <em/>
               </span>
               {props.item.content}
             </div>
             <div className={styles.avatar}>
-              <img src={props.dataMark.teacherHeadUrl ? (pathImUrl + props.dataMark.teacherHeadUrl) : avatarTeacher} />
+              <img src={props.dataMark.teacherHeadUrl ? (pathImUrl + props.dataMark.teacherHeadUrl) : avatarTeacher}/>
               <p>{getSubStringValue(props.dataMark.teacherName, 3)}</p>
             </div>
           </div>
@@ -127,13 +128,14 @@ class imPage extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: text => getSubStringValue(text, 3)
+        render: text => getSubStringValue(text, 3),
       },
       {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
-        render: text => <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right" title={text}><span>{getSubStringValue(text, 6)}</span></Tooltip>
+        render: text => <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right"
+                                 title={text}><span>{getSubStringValue(text, 6)}</span></Tooltip>,
       },
       {
         title: '操作人',
@@ -149,15 +151,17 @@ class imPage extends React.Component {
         title: '咨询类型',
         dataIndex: 'consult',
         key: 'consult',
-        render: text => getSubStringValue(text, 6)
+        render: text => getSubStringValue(text, 6),
       },
       {
         title: '原因分类',
         dataIndex: 'reason',
         key: 'reason',
-        render: text => getSubStringValue(text, 6)
+        render: text => getSubStringValue(text, 6),
       },
-      {
+    ];
+    if (AuthButton.checkPathname('/qualityMarking/detail')) {
+      columns.push({
         title: '操作',
         key: 'action',
         render: (text, record) => (
@@ -165,18 +169,13 @@ class imPage extends React.Component {
             <a href="javascript:;" onClick={() => this.handleEdit(record.id)}>编辑</a>
           </div>
         ),
-      },
-    ];
+      });
+    }
     return columns || [];
   };
   handleEdit = (id) => {
-    // router.push({
-    //   pathname: `/qualityMarking/detail/${id}/${markType}`,
-    // });
     const { choiceTime, ...others } = this.state.searchParams;
     jumpMarkingDetails(id, { type: markType, ...others });
-    // localStorage.removeItem('idList');
-    // localStorage.setItem('idList', this.props.idList);
   };
   onSearchChange = (searchParams) => {
     this.setState({
@@ -204,9 +203,9 @@ class imPage extends React.Component {
     return (
       <div>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
-          onSearchChange={this.onSearchChange}></MarkForm>
+                  onSearchChange={this.onSearchChange}></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
-          columnsData={this.columnsData}>
+                  columnsData={this.columnsData}>
           <ModalTip markType={markType} othersSearch={others}></ModalTip>
         </MarkList>
       </div>

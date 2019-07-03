@@ -7,6 +7,7 @@ import MarkForm from '../components/form';
 import MarkList from '../components/list';
 import styles from '../style.less';
 import { handleDefaultPickerValueMark } from '@/pages/ko/utils/utils';
+import AuthButton from '@/components/AuthButton';
 
 const markType = 2; //im bbs nps 对应的type值为1， 2， 3
 @connect(({ workTableModel }) => ({
@@ -49,13 +50,14 @@ class bbsPage extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: text => getSubStringValue(text, 3)
+        render: text => getSubStringValue(text, 3),
       },
       {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
-        render: text => <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right" title={text}><span>{getSubStringValue(text, 6)}</span></Tooltip>
+        render: text => <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right"
+                                 title={text}><span>{getSubStringValue(text, 6)}</span></Tooltip>,
       },
       {
         title: '操作人',
@@ -71,9 +73,11 @@ class bbsPage extends React.Component {
         title: '原因分类',
         dataIndex: 'reason',
         key: 'reason',
-        render: text => getSubStringValue(text, 6)
+        render: text => getSubStringValue(text, 6),
       },
-      {
+    ];
+    if (AuthButton.checkPathname('/qualityMarking/detail')) {
+      columns.push({
         title: '操作',
         key: 'action',
         render: (text, record) => (
@@ -81,18 +85,13 @@ class bbsPage extends React.Component {
             <a href="javascript:;" onClick={() => this.handleEdit(record.id)}>编辑</a>
           </div>
         ),
-      },
-    ];
+      });
+    }
     return columns || [];
   };
   handleEdit = (id) => {
-    // router.push({
-    //   pathname: `/qualityMarking/detail/${id}/${markType}`,
-    // });
     const { choiceTime, ...others } = this.state.searchParams;
     jumpMarkingDetails(id, { type: markType, ...others });
-    // localStorage.removeItem('idList');
-    // localStorage.setItem('idList', this.props.idList);
   };
   onSearchChange = (searchParams) => {
     this.setState({
@@ -120,9 +119,9 @@ class bbsPage extends React.Component {
     return (
       <div>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
-          onSearchChange={this.onSearchChange}></MarkForm>
+                  onSearchChange={this.onSearchChange}></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
-          columnsData={this.columnsData}>
+                  columnsData={this.columnsData}>
           <ModalTip markType={markType} othersSearch={others}></ModalTip>
         </MarkList>
       </div>

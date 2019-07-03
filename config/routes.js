@@ -253,6 +253,37 @@ export const routes = [
         ],
       },
       {
+        path: '/qualityMarking/detail',
+        name: 'AI工作台',
+        routes: [
+          {
+            path: '/qualityMarking/detail',
+            component: './ko/qualityMarking/detail',
+          }
+        ],
+      },
+      {
+        path: '/qualityMarking',
+        component: './ko/qualityMarking',
+        name: '质检标注',
+        pageRedirect: '/qualityMarking/im',
+        routes: [
+          {
+            path: '/qualityMarking/im',
+            component: './ko/qualityMarking/im',
+            commonPath: true,   // 继承父页面
+          }, {
+            path: '/qualityMarking/bbs',
+            component: './ko/qualityMarking/bbs',
+            commonPath: true,   // 继承父页面
+          }, {
+            path: '/qualityMarking/nps',
+            component: './ko/qualityMarking/nps',
+            commonPath: true,   // 继承父页面
+          }
+        ]
+      },
+      {
         path: '/scoreAppeal',
         component: './scoreAppeal',
         name: '学分申诉',
@@ -332,48 +363,17 @@ export const routes = [
         ],
       },
       {
-        path: '/qualityMarking/detail',
-        name: 'AI工作台',
+        path: '/entrancePlatform',
+        name: '报考督学平台',
+        pageRedirect: '/entrancePlatform/userList',
         routes: [
           {
-            path: '/qualityMarking/detail',
-            component: './ko/qualityMarking/detail',
+            path: '/entrancePlatform/userList',
+            component: './ko/entrancePlatform/userList',
+            name: 'AI工作台',
           },
         ],
       },
-      {
-        path: '/qualityMarking',
-        component: './ko/qualityMarking',
-        name: '质检标注',
-        pageRedirect: '/qualityMarking/im',
-        routes: [
-          {
-            path: '/qualityMarking/im',
-            component: './ko/qualityMarking/im',
-            commonPath: true,   // 继承父页面
-          }, {
-            path: '/qualityMarking/bbs',
-            component: './ko/qualityMarking/bbs',
-            commonPath: true,   // 继承父页面
-          }, {
-            path: '/qualityMarking/nps',
-            component: './ko/qualityMarking/nps',
-            commonPath: true,   // 继承父页面
-          },
-        ],
-      },
-      // {
-      //   path: '/entrancePlatform',
-      //   name: '报考督学平台',
-      //   pageRedirect: '/entrancePlatform/userList',
-      //   routes: [
-      //     {
-      //       path: '/entrancePlatform/userList',
-      //       component: './ko/entrancePlatform/userList',
-      //       name: 'AI工作台',
-      //     },
-      //   ],
-      // },
     ],
   },
 ];
