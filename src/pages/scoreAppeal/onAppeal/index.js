@@ -209,20 +209,20 @@ class OnAppeal extends React.Component {
               </span>
               </AuthButton>
             )}
-            {(record.status === 1||record.status === 2) && (
-              <AuthButton authority='/scoreAppeal/onAppeal/repeal'>
-                <Popconfirm
-                  title="是否撤销当前数据状态?"
-                  onConfirm={() => this.onRepeal(record)}
-                  okText="确定"
-                  cancelText="取消"
-                >
-                  <span className={style.actionBtn}>
-                    撤销
-                  </span>
-                </Popconfirm>
-              </AuthButton>
-            )}
+            {/*{(record.status === 1||record.status === 2) && (*/}
+              {/*<AuthButton authority='/scoreAppeal/onAppeal/repeal'>*/}
+                {/*<Popconfirm*/}
+                  {/*title="是否撤销当前数据状态?"*/}
+                  {/*onConfirm={() => this.onRepeal(record)}*/}
+                  {/*okText="确定"*/}
+                  {/*cancelText="取消"*/}
+                {/*>*/}
+                  {/*<span className={style.actionBtn}>*/}
+                    {/*撤销*/}
+                  {/*</span>*/}
+                {/*</Popconfirm>*/}
+              {/*</AuthButton>*/}
+            {/*)}*/}
             {(record.status === 1||record.status === 2) && (
               <AuthButton authority='/scoreAppeal/appeal/dockingMan'>
               <span className={style.actionBtn} onClick={() => this.onCheck(record)}>
