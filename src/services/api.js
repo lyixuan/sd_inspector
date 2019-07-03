@@ -50,6 +50,6 @@ export async function userInfo() {
 * 新，sso tologin
 * */
 export async function tologin(params) {
-  return request('http://172.16.58.18:8084/tologin',{...params,...{prefix:null}},);
+  return request('/tologin',params);
 }
 

@@ -3,6 +3,7 @@
  */
 import { extend } from 'umi-request';
 import { routerRedux } from 'dva/router';
+import {tologin} from '@/services/api';
 import storage from './storage';
 import { redirectUrlParams } from './routeUtils';
 import { PROXY_PATH } from './constants';
@@ -39,20 +40,8 @@ const errorHandler = error => {
   const { status, url } = response;
 
   if (status === 401) {
-    // const { origin } = window.location;
-    //
-    // const serverUrl = 'http://172.16.58.18:8090/tologin';
-    // const originPage = `${origin}/inspector/indexPage`;
-    //
-    // console.log(123,`${serverUrl}?originPage=${originPage}`)
-    // window.location.href = `${serverUrl}?originPage=${originPage}`;
-    console.log(123123)
     const { origin } = window.location;
-    this.props.dispatch({
-      type: 'login/tologin',
-      payload: { params: {originPage:origin} },
-    });
-    // redirectUrlParams(); // 跳转至登录页
+    tologin({params:{originPage:origin}});
     return;
   } else if (status === 403) {
     routerRedux.push('/exception/403');

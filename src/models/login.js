@@ -40,10 +40,10 @@ export default {
           message.error(msgF(response2.msg,response2.msgDetail));
         }
     },
-    *tologin({ payload }, { call }) {
-      console.log(444)
-      yield call(tologin,{ ...payload });
-    },
+    // *tologin({ payload }, { call }) {
+    //   console.log(444)
+    //   yield call(tologin,{ ...payload });
+    // },
     *loginin(_, { call, put }) {
       const isHasUserInfo = storage.isRepeatLogin();
       const userInfo = storage.getUserInfo();
