@@ -9,6 +9,8 @@ import { PROXY_PATH } from './constants';
 
 import { notification } from 'antd';
 import router from 'umi/router';
+import { LOGIN_URL } from '@/utils/constants';
+import { Base64 } from 'js-base64';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -36,13 +38,15 @@ const errorHandler = error => {
   const errortext = codeMessage[response.status] || response.statusText;
   const { status, url } = response;
 
-  console.log(111,status)
-  if (status === 302) {
-    console.log('response',response)
-    console.log(111)
-    return;
-  }
   if (status === 401) {
+    // const { origin } = window.location;
+    //
+    // const serverUrl = 'http://172.16.58.18:8090/tologin';
+    // const originPage = `${origin}/inspector/indexPage`;
+    //
+    // console.log(123,`${serverUrl}?originPage=${originPage}`)
+    // window.location.href = `${serverUrl}?originPage=${originPage}`;
+    console.log(123123)
     const { origin } = window.location;
     this.props.dispatch({
       type: 'login/tologin',
@@ -73,7 +77,8 @@ const request = extend({
   errorHandler, // 默认错误处理
   prefix: PROXY_PATH(), // prefix
   headers: {
-    authorization: storage.getToken(),
+    'X-Requested-With':'XMLHttpRequest',
+    // authorization: storage.getToken(),
   },
   // credentials: 'include', // 默认请求是否带上cookie,暂不做处理,如需添加请设置跨域处进行设置
 });
@@ -85,8 +90,5 @@ request.interceptors.request.use((url, options) => {
     options,
   };
 });
-request.interceptors.response.use((response, options) => {
-  console.log('interceptors', response,options);
-  return response;
-});
+
 export default request;

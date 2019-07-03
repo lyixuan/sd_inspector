@@ -41,6 +41,7 @@ export default {
         }
     },
     *tologin({ payload }, { call }) {
+      console.log(444)
       yield call(tologin,{ ...payload });
     },
     *loginin(_, { call, put }) {
