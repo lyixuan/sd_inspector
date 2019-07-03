@@ -1,10 +1,12 @@
 import React from 'react';
-import styles from '../../style.less'
+import styles from '../../style.less';
 import moment from 'moment';
 import { connect } from 'dva';
 import BIPagination from '@/ant_components/BIPagination';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import { message } from 'antd';
+import stylesMine from './style.less';
+
 const { BIRangePicker } = BIDatePicker;
 
 @connect(({ behaviorPath, loading }) => ({
@@ -16,8 +18,8 @@ class Pager extends React.Component {
   constructor(props) {
     super(props);
     const beginDate = this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.beginDate : new Date(new Date().getTime());
-    const endDate = this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.endDate : new Date(new Date().getTime())
-    console.log(20, this.props.behaviorPath)
+    const endDate = this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.endDate : new Date(new Date().getTime());
+    console.log(20, this.props.behaviorPath);
     this.state = {
       defaultBeginDate: beginDate,
       defaultEndDate: endDate,
@@ -25,16 +27,18 @@ class Pager extends React.Component {
       endDate: endDate,
       total: 0,
       pageSize: 10,
-      page: 1
-    }
+      page: 1,
+    };
 
   }
+
   componentDidMount() {
     this.props.dispatch({
       type: 'behaviorPath/getDateRange',
       payload: {},
     });
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       JSON.stringify(nextProps.behaviorPath.dateRange) !==
@@ -44,36 +48,37 @@ class Pager extends React.Component {
         beginDate: nextProps.behaviorPath.dateRange.beginDate,
         endDate: nextProps.behaviorPath.dateRange.endDate,
         defaultBeginDate: nextProps.behaviorPath.dateRange.beginDate,
-        defaultEndDate: nextProps.behaviorPath.dateRange.endDate
-      })
+        defaultEndDate: nextProps.behaviorPath.dateRange.endDate,
+      });
     }
   }
+
   // 每页显示多少条
   onShowSizeChange = (current, size) => {
     this.setState({
-      pageSize: size
-    })
+      pageSize: size,
+    });
     let params = {
       beginDate: this.state.beginDate,
       endDate: this.state.endDate,
       page: current,
-      pageSize: size
-    }
-    this.refreshData(params, 'pager')
-  }
+      pageSize: size,
+    };
+    this.refreshData(params, 'pager');
+  };
   // 分页切换
   onSizeChange = (page) => {
     this.setState({
-      page: page
-    })
+      page: page,
+    });
     let params = {
       beginDate: this.state.beginDate,
       endDate: this.state.endDate,
       page: page,
-      pageSize: this.state.pageSize
-    }
-    this.refreshData(params, 'pager')
-  }
+      pageSize: this.state.pageSize,
+    };
+    this.refreshData(params, 'pager');
+  };
   callback = (total) => {
     if (total < 1) {
       message.info('该学员在您选择的日期中没有数据');
@@ -82,28 +87,49 @@ class Pager extends React.Component {
       message.info(`该学员在您选择的日期中共有${total}天的数据`);
 
     }
-  }
+  };
   refreshData = (params, source) => {
     let type = this.props.type;
     let stuId = this.props.stuId;
-    console.log(88, params)
+    console.log(88, params);
     if (source == 'dateChange') {
       this.props.dispatch({
         type: 'behaviorPath/getDateList',
-        payload: { fn: this.callback, params: { stuId: stuId, type: type, startDate: params.beginDate, endDate: params.endDate, page: params.page, pageSize: params.pageSize } },
+        payload: {
+          fn: this.callback,
+          params: {
+            stuId: stuId,
+            type: type,
+            startDate: params.beginDate,
+            endDate: params.endDate,
+            page: params.page,
+            pageSize: params.pageSize,
+          },
+        },
       });
     } else {
       this.props.dispatch({
         type: 'behaviorPath/getDateList',
-        payload: { params: { stuId: stuId, type: type, startDate: params.beginDate, endDate: params.endDate, page: params.page, pageSize: params.pageSize } },
+        payload: {
+          params: {
+            stuId: stuId,
+            type: type,
+            startDate: params.beginDate,
+            endDate: params.endDate,
+            page: params.page,
+            pageSize: params.pageSize,
+          },
+        },
       });
     }
     this.props.onClick();
 
-  }
+  };
+
   showTotal(total) {
-    return `共${total}条`
+    return `共${total}条`;
   }
+
   // 时间控件可展示的时间范围
   disabledDate = current => {
     return current < moment(this.state.defaultBeginDate) || current > moment(this.state.defaultEndDate);
@@ -111,46 +137,51 @@ class Pager extends React.Component {
   // 日期修改
   dateChange = (value, dateString) => {
     let beginDate = dateString[0] ? dateString[0] : this.state.defaultBeginDate;
-    let endDate = dateString[1] ? dateString[1] : this.state.defaultEndDate
+    let endDate = dateString[1] ? dateString[1] : this.state.defaultEndDate;
     this.setState({
       beginDate: beginDate,
       endDate: endDate,
-      page: 1
-    })
+      page: 1,
+    });
     let params = {
       beginDate: beginDate,
       endDate: endDate,
       page: 1,
-      pageSize: this.state.pageSize
-    }
-    this.refreshData(params, 'dateChange')
+      pageSize: this.state.pageSize,
+    };
+    this.refreshData(params, 'dateChange');
   };
 
   render() {
     const dateFormat = 'YYYY-MM-DD';
     return (
-      <div className={styles.pagers}>
-        {/*<BIRangePicker*/}
-        {/*  style={{ width: '230px', textAlign: 'left' }}*/}
-        {/*  placeholder={['开始日期', '结束日期']}*/}
-        {/*  onChange={this.dateChange}*/}
-        {/*  allowClear*/}
-        {/*  defaultValue={[moment(this.state.beginDate, dateFormat), moment(this.state.endDate, dateFormat)]}*/}
-        {/*  value={[moment(this.state.beginDate, dateFormat), moment(this.state.endDate, dateFormat)]}*/}
-        {/*  disabledDate={this.disabledDate}*/}
-        {/*/>*/}
-        <BIPagination
-          showQuickJumper
-          showSizeChanger
-          showTotal={this.showTotal}
-          defaultPageSize={this.state.pageSize}
-          onShowSizeChange={this.onShowSizeChange}
-          onChange={this.onSizeChange}
-          current={this.state.page}
-          total={this.props.total}
-        />
-      </div>
-
+      <>
+        <div className={stylesMine.daterangeFixed}>
+          <span>
+            <BIRangePicker
+              style={{ width: '230px', textAlign: 'left' }}
+              placeholder={['开始日期', '结束日期']}
+              onChange={this.dateChange}
+              allowClear
+              defaultValue={[moment(this.state.beginDate, dateFormat), moment(this.state.endDate, dateFormat)]}
+              value={[moment(this.state.beginDate, dateFormat), moment(this.state.endDate, dateFormat)]}
+              disabledDate={this.disabledDate}
+            />
+          </span>
+        </div>
+        <div className={styles.pagers}>
+          <BIPagination
+            showQuickJumper
+            showSizeChanger
+            showTotal={this.showTotal}
+            defaultPageSize={this.state.pageSize}
+            onShowSizeChange={this.onShowSizeChange}
+            onChange={this.onSizeChange}
+            current={this.state.page}
+            total={this.props.total}
+          />
+        </div>
+      </>
     );
   }
 }

@@ -112,29 +112,31 @@ class BehaviorPath1 extends React.Component {
     return (
       <div className={styles.behaviorPath}>
         <div className={styles.headBar}>用户行为轨迹</div>
-        <div className={styles.tabBox}>
-          <BITabs onChange={this.onTabChange} type="card" animated={false} defaultActiveKey={this.state.activeKey}>
-            <TabPane tab="学习" key="1">
-              <Study stuId={pathParams.userId}></Study>
-            </TabPane>
-            <TabPane tab="IM" key="2">
-              <Im stuId={pathParams.userId}></Im>
-            </TabPane>
-            <TabPane tab="微信" key="3">
-              <WeChart stuId={pathParams.userId}></WeChart>
-            </TabPane>
-            <TabPane tab="BBS" key="4">
-              <Bbs stuId={pathParams.userId}></Bbs>
-            </TabPane>
-            <TabPane tab="私信" key="5">
-              <PrivateLetter stuId={pathParams.userId}></PrivateLetter>
-            </TabPane>
-          </BITabs>
-        </div>
-        <div style={{ position: "absolute", left: "720px", top: "108px" }}>
-          {
-            userInfoParams ? <UserInfo info={userInfoParams}></UserInfo> : null
-          }
+        <div style={{display: "flex"}}>
+          <div className={styles.tabBox}>
+            <BITabs onChange={this.onTabChange} type="card" animated={false} defaultActiveKey={this.state.activeKey}>
+              <TabPane tab="学习" key="1">
+                <Study stuId={pathParams.userId}></Study>
+              </TabPane>
+              <TabPane tab="IM" key="2">
+                <Im stuId={pathParams.userId}></Im>
+              </TabPane>
+              <TabPane tab="微信" key="3">
+                <WeChart stuId={pathParams.userId}></WeChart>
+              </TabPane>
+              <TabPane tab="BBS" key="4">
+                <Bbs stuId={pathParams.userId}></Bbs>
+              </TabPane>
+              <TabPane tab="私信" key="5">
+                <PrivateLetter stuId={pathParams.userId}></PrivateLetter>
+              </TabPane>
+            </BITabs>
+          </div>
+          <div style={{ marginTop: "40px" }}>
+            {
+              userInfoParams ? <UserInfo info={userInfoParams}></UserInfo> : null
+            }
+          </div>
         </div>
       </div>
     );

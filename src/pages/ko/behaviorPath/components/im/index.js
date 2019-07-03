@@ -5,7 +5,6 @@ import styles from '../../style.less';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import Pager from '../pager/pager.js';
-import Daterange from '../dateRange/index'
 import face1 from '@/assets/face1.png';
 import face2 from '@/assets/face2.png';
 import robort from '@/assets/robort.png';
@@ -355,7 +354,7 @@ function TeacherOrStudent(props) {
               <span className={styles.triangle}>
                 <em />
               </span>
-              {props.item.message}
+              {linkRoute(props.item.message)}
             </div>
           </div>
         </div>
@@ -418,7 +417,7 @@ function TeacherOrStudent(props) {
                 <span className={styles.triangle}>
                   <em />
                 </span>
-                {message}
+                {linkRoute(message)}
               </div>
               <div className={styles.avatar}>
                 {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarTeacher} />}
@@ -475,6 +474,12 @@ function ContentChildren(props) {
   return props.content;
 }
 
+// link route
+function linkRoute(text) {
+  return text.replace(/(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g, function(c) {
+    return <a href={c} target="_blank">{c}</a>
+  })
+}
 @connect(({ behaviorPath, loading }) => ({
   loading,
   behaviorPath,

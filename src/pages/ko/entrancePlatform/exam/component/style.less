@@ -1,0 +1,103 @@
+.formCotainer{
+  position: relative;
+  width: 100%;
+  min-width: 1116px;
+  padding:30px 20px;
+  background-color: #fff;
+  border-radius-topleft:10px;
+  border-radius-topright:10px;
+  :global{
+    .ant-advanced-search-form .ant-form-item{
+      width: 100%;
+    }
+    .ant-form-item-control-wrapper{
+      width: 100%;
+    }
+    .BISelect .ant-select-selection {
+      border-radius: 6px;
+    }
+    .ant-input {
+      border-radius: 6px;
+    }
+    .BIDatePicker .ant-calendar-range-picker-input {
+      transform: scale(1);
+    }
+  }
+  .rowWrap{
+    display: flex;
+    .itemCls{
+      width: 136px;
+      display: flex;
+      align-items: center;
+      margin-right: 16px;
+    }
+    .itemTips {
+      width: 65px;
+      font-size: 13px;
+      margin-right: 0;
+      margin-top: -2px;
+    }
+    .itemDates {
+      width: 288px;
+    }
+  }
+  .rowWrapMar {
+    margin-top: 18px;
+    height: 32px;
+    align-items: center;
+    .itemTips {
+      margin-top: 0px;
+    }
+  }
+  .actionGroup{
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+    .buttonGroup {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+    .updateDate {
+      width: 300px;
+      text-align: right;
+      font-size: 13px;
+      color: #B8BBBF;
+    }
+  }
+  .scaleTxt{
+    display: inline-block;
+    width: 80px;
+    transform: scale(0.75);
+    margin-left: -10px;
+  }
+  .collapCls{
+    font-size: 12px;
+    color: #DCDDE0;
+    :global{
+      .ant-divider-inner-text{
+        cursor: inherit;
+      }
+    }
+    .expand{
+      display: inline-block;
+     padding: 0 10px;
+      cursor: pointer;
+    }
+  }
+}
+
+// 已选条件样式
+.selectedContent {
+  .items {
+    min-width: 20px;
+    border-radius: 6px;
+    padding: 8px;
+    background-color: #FFF4F2;
+    margin-right: 8px;
+    .icons {
+      margin-left: 12px;
+    }
+  }
+}
+

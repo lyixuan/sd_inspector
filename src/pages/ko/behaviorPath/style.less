@@ -26,6 +26,7 @@
 .tabBox {
   padding-top: 20px;
   padding: 20px 0 0 30px;
+  min-width: 720px;
   // width: 720px;
 }
 .tabBox :global .ant-tabs .ant-tabs-bar {
@@ -563,7 +564,7 @@
 }
 .comWrap :global .ant-spin-nested-loading{
   padding-bottom:70px;
-  width:50%;
+  //width:50%;
 }
 .comWrap :global .ant-empty {
   font-size: 12px;
@@ -689,4 +690,9 @@
     font-size:12px;
     color:#7B7C80;
   }
+}
+
+ // tabs 和 左侧内容的容器
+.behaviorContent {
+  display: flex;
 }
