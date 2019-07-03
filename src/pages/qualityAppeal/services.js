@@ -16,7 +16,7 @@ export async function getOrgMapByMail(params) {
 }
 // 获取子订单详情
 export async function getOrderNum(params) {
-  return request('/quality/getOrderNum', { params });
+  return request('/quality/getRealOrderNum', { params });
 }
 // 申诉详情页面
 export async function getAppealDetail(params) {

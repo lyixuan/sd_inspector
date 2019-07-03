@@ -1,0 +1,33 @@
+.personInfoCon {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #DCDDE0;
+  border-radius: 2px;
+}
+.boxTitle {
+  height: 43px;
+  background-color: #f6f7fa;
+  line-height: 43px;
+  padding-left: 18px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #353535;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  padding: 0 20px;
+}
+.secRow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+.secRow > div {
+  height: 30px;
+  line-height: 30px;
+}
+

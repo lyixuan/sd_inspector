@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import {  getAppealInfo, reviewAppeal,getQualityDetail,sopAppeal } from './services';
+import { getAppealInfo, reviewAppeal, getQualityDetail, sopAppeal } from './services';
 import router from 'umi/router';
 import { msgF } from '@/utils/utils';
 
@@ -9,16 +9,16 @@ export default {
   state: {
     appealReview: null,
     appealShow: [],
-    qualityDetailData: {},
+    qualityDetailData: {}
   },
 
   effects: {
     *getAppealInfo({ payload }, { call, put }) {
       const result = yield call(getAppealInfo, { ...payload });
       if (result.code === 20000) {
-        yield put({ type: 'save', payload: { appealShow:result.data } });
+        yield put({ type: 'save', payload: { appealShow: result.data } });
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
     *sopAppeal({ payload }, { call, put }) {
@@ -26,7 +26,7 @@ export default {
       if (result.code === 20000) {
         router.goBack();
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
     *reviewAppeal({ payload }, { call, put }) {
@@ -36,7 +36,7 @@ export default {
         yield put({ type: 'save', payload: { appealReview } });
         router.goBack();
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
     *getQualityDetailData({ payload }, { call, put }) {
@@ -46,7 +46,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { qualityDetailData } });
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
   },
@@ -57,6 +57,5 @@ export default {
     },
   },
 
-  subscriptions: {
-  },
+  subscriptions: {},
 };

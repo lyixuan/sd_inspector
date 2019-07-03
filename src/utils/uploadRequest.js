@@ -9,6 +9,5 @@ export default function uploadRequest(action, params = {}) {
             ...params.headers || {},
             authorization: storage.getToken(),
         },
-
     }
 }

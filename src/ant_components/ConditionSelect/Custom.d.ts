@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import React from 'react';
 import { unitInterface } from './utils/interface';
 export default class Custom extends React.Component<any> {

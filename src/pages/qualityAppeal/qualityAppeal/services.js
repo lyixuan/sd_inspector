@@ -14,3 +14,8 @@ export async function appealExportExcel(params) {
 export async function appealCancelQuality(params) {
   return request('/appeal/cancelAppeal', { params });
 }
+
+// 结案质检申诉 => 删除质检单号 
+export async function appealDeleteQuality(params) {
+  return request('/appeal/deleteQuality', { params });
+}
