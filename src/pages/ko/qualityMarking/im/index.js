@@ -117,7 +117,7 @@ class imPage extends React.Component {
           const content = list.length > 0 ? <Layout dataMark={r}></Layout> : r.content;
           const text = list.length > 0 ? list[0].content : '';
           return (
-            <Tooltip overlayClassName={styles.listTooltip} placement="right" title={content}>
+            <Tooltip overlayClassName="listMarkingTooltip" placement="right" title={content}>
               <span>{getSubStringValue(text)}</span>
             </Tooltip>
           );

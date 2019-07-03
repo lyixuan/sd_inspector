@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 import { connect } from 'dva/index';
 import BIButton from '@/ant_components/BIButton';
 import styles from '../../style.less'
-import exportimg from '@/assets/ai/export.png';
+import exportimg from '@/assets/ai/export.svg';
 
 @connect(({ loading }) => ({
   loading: loading.effects['workTableModel/exportExcelData'],
@@ -59,7 +59,7 @@ class index  extends React.Component {
           <img src={exportimg} /> 导出
         </BIButton>}
         {markType === 3 && <div>
-          <BIButton onClick={() => this.handleExport(1)} className={styles.exportBtn}>导出标签</BIButton>
+          <BIButton onClick={() => this.handleExport(1)} className={styles.exportBtn} style={{ marginRight: '5px' }}>导出标签</BIButton>
           <BIButton onClick={() => this.handleExport(2)} className={styles.exportEvaluate}>导出自主评价</BIButton>
         </div>}
       </>
