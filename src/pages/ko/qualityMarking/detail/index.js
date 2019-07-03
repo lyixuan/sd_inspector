@@ -106,7 +106,7 @@ class AiDetail extends React.Component {
       tabType = 'NPS';
     }
     const { type, id, scrollHeight } = this.state
-    const routerData = { name: `${tabType}会话`, bread: { name: "AI工作台", path: `/qualityMarking/${tabType.toLowerCase}` }, path: "/koUserOperation/userGroupAdd" }
+    const routerData = { name: `${tabType}会话`, bread: { name: "质检标注", path: `/qualityMarking/${tabType.toLowerCase}` }, path: "/koUserOperation/userGroupAdd" }
     const pageData = this.props.pageData;
 
     return (
