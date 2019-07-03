@@ -46,7 +46,7 @@ function TeacherOrStudent(props) {
           <div className={styles.chatLeft}>
             <div className={styles.avatar}>
               <img src={props.dataMark.stuHeadUrl ? (pathImUrl + props.dataMark.stuHeadUrl) : avatarStudent} />
-              <p>{props.dataMark.stuName}</p>
+              <p>{getSubStringValue(props.dataMark.stuName, 3)}</p>
             </div>
             <div className={styles.chatContent}>
               <span className={styles.triangle}>
@@ -77,7 +77,7 @@ function TeacherOrStudent(props) {
             </div>
             <div className={styles.avatar}>
               <img src={props.dataMark.teacherHeadUrl ? (pathImUrl + props.dataMark.teacherHeadUrl) : avatarTeacher} />
-              <p>{props.dataMark.teacherName}</p>
+              <p>{getSubStringValue(props.dataMark.teacherName, 3)}</p>
             </div>
           </div>
         </div>
@@ -127,13 +127,13 @@ class imPage extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: text => <span>{getSubStringValue(text, 3)}</span>
+        render: text => getSubStringValue(text, 3)
       },
       {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
-        render: text => <Tooltip overlayClassName={styles.listTooltip} placement="right" title={text}><span>{getSubStringValue(text, 6)}</span></Tooltip>
+        render: text => <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right" title={text}><span>{getSubStringValue(text, 6)}</span></Tooltip>
       },
       {
         title: '操作人',
@@ -149,13 +149,13 @@ class imPage extends React.Component {
         title: '咨询类型',
         dataIndex: 'consult',
         key: 'consult',
-        render: text => <span>{getSubStringValue(text, 6)}</span>
+        render: text => getSubStringValue(text, 6)
       },
       {
         title: '原因分类',
         dataIndex: 'reason',
         key: 'reason',
-        render: text => <span>{getSubStringValue(text, 6)}</span>
+        render: text => getSubStringValue(text, 6)
       },
       {
         title: '操作',

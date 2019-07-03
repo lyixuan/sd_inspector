@@ -44,6 +44,9 @@
   border-color: @base-yellow;
   -webkit-box-shadow: none;
   box-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   img {width: 14px;margin-right: 2px;}
 }
 .exportBtn:hover, .exportBtn:focus {
@@ -52,14 +55,13 @@
   color: @base-white;
 }
 .exportEvaluate {
-  width: 102px;
+  min-width: 102px;
   height: 34px;
   color: @base-white;
   background-color: @base-blue;
   border-color: @base-blue;
   -webkit-box-shadow: none;
   box-shadow: none;
-  margin: 0 6px;
 }
 .exportEvaluate:hover, .exportEvaluate:focus {
   background-color: @base-blue;
@@ -67,19 +69,16 @@
   color: @base-white;
 }
 
-// 列表悬浮组件样式
-.listReactTooltip {
-  max-width: 700px;
-  max-height: 500px;
-  overflow-y: scroll;
-  pointer-events: auto;
+// IM悬浮框样式
+:global .listMarkingTooltip {
+  max-width: 610px;
+  .ant-tooltip-inner {
+    padding: 14px 0px;
+  }
 }
-//
-
-
 // 悬浮框对话样式
 .behavior {
-  padding: 10px 0 10px 10px;
+  padding: 0px;
   margin-bottom: 0;
   //max-width: 700px;
   max-height: 460px;
@@ -93,7 +92,7 @@
   align-items: flex-start;
 }
 .step .time {
-  width: 170px;
+  min-width: 164px;
   margin-top: -4px;
   color: #ffffff;
   text-align: right;
@@ -287,19 +286,16 @@
   vertical-align: middle;
 }
 
-// 悬浮框样式
-.listMarkingTooltipBbs {
-  max-width: 610px;
-  .behaviorBbs {
-    margin-bottom: 0;
-    max-height: 460px;
-    overflow-y: auto;
-  }
-}
-
-:global .listMarkingTooltip {
+// bbs nps悬浮框样式
+:global .listMarkingTooltipOthers {
   max-width: 610px;
   .ant-tooltip-inner {
-    padding: 20px 8px;
+    padding: 14px 0px;
   }
+}
+.behaviorOthers {
+  margin-bottom: 0;
+  max-height: 460px;
+  overflow-y: auto;
+  padding: 0px 14px;
 }
