@@ -38,9 +38,9 @@ class bbsPage extends React.Component {
         dataIndex: 'content',
         key: 'content',
         render: text => {
-          const content = <div className={styles.behaviorBbs}>{text}</div>;
+          const content = <div className={styles.behaviorOthers}>{text}</div>;
           return (
-            <Tooltip overlayClassName={styles.listMarkingTooltipBbs} placement="right" title={content}>
+            <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right" title={content}>
               <span>{getSubStringValue(text)}</span>
             </Tooltip>
           );
@@ -61,7 +61,7 @@ class bbsPage extends React.Component {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
-        render: text => <Tooltip overlayClassName={styles.listTooltip} placement="right" title={text}><span>{getSubStringValue(text, 6)}</span></Tooltip>,
+        render: text => <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right" title={text}><span>{getSubStringValue(text, 6)}</span></Tooltip>,
       },
       {
         title: '操作人',

@@ -55,11 +55,11 @@ class index  extends React.Component {
           <p style={{textAlign: 'center'}}>是否确定导出搜索出的数据？</p>
           <p style={{textAlign: 'center'}}>（如数据较多，可能需要多等待一会儿哦～）</p>
         </Modal>
-        {markType !== 3 && <BIButton onClick={() => this.handleExport(1)} className={styles.exportBtn} size="large">
+        {markType !== 3 && <BIButton onClick={() => this.handleExport(1)} className={styles.exportBtn}>
           <img src={exportimg} /> 导出
         </BIButton>}
         {markType === 3 && <div>
-          <BIButton onClick={() => this.handleExport(1)} className={styles.exportBtn} style={{ marginRight: '5px' }}>导出标签</BIButton>
+          <BIButton onClick={() => this.handleExport(1)} className={styles.exportBtn} style={{ marginRight: '10px' }}>导出标签</BIButton>
           <BIButton onClick={() => this.handleExport(2)} className={styles.exportEvaluate}>导出自主评价</BIButton>
         </div>}
       </>

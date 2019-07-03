@@ -44,7 +44,10 @@
   border-color: @base-yellow;
   -webkit-box-shadow: none;
   box-shadow: none;
-  img {width: 14px;margin-right: 2px;}
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {width: 14px;margin-right: 6px;}
 }
 .exportBtn:hover, .exportBtn:focus {
   background-color: @base-yellow;
@@ -52,14 +55,13 @@
   color: @base-white;
 }
 .exportEvaluate {
-  width: 102px;
+  min-width: 102px;
   height: 34px;
   color: @base-white;
   background-color: @base-blue;
   border-color: @base-blue;
   -webkit-box-shadow: none;
   box-shadow: none;
-  margin: 0 6px;
 }
 .exportEvaluate:hover, .exportEvaluate:focus {
   background-color: @base-blue;
@@ -67,21 +69,17 @@
   color: @base-white;
 }
 
-// 列表悬浮组件样式
-.listReactTooltip {
-  max-width: 700px;
-  max-height: 500px;
-  overflow-y: scroll;
-  pointer-events: auto;
+// IM悬浮框样式
+:global .listMarkingTooltip {
+  max-width: 610px;
+  .ant-tooltip-inner {
+    padding: 20px 0px;
+  }
 }
-//
-
-
 // 悬浮框对话样式
 .behavior {
-  padding: 10px 0 10px 10px;
+  padding: 0px;
   margin-bottom: 0;
-  //max-width: 700px;
   max-height: 460px;
   overflow-y: auto;
 }
@@ -93,7 +91,7 @@
   align-items: flex-start;
 }
 .step .time {
-  width: 170px;
+  min-width: 170px;
   margin-top: -4px;
   color: #ffffff;
   text-align: right;
@@ -101,7 +99,7 @@
   flex-shrink:0;
 }
 .step .content {
-  border-left: 1px solid #cff0ee;
+  border-left: 1px solid #00CCC3;
   padding-left: 10px;
   position: relative;
   padding-bottom: 5px;
@@ -230,8 +228,8 @@
 }
 .behavior .chatRight .chatContent {
   max-width: 246px;
-  background: #48c2ba;
-  border: 1px solid #48c2ba;
+  background: #00CCC3;
+  border: 1px solid #00CCC3;
   border-radius: 5px;
   // margin-right: 15px;
   padding: 6px 10px;
@@ -256,7 +254,7 @@
   height: 0;
   border-width: 5px 0 5px 5px;
   border-style: solid;
-  border-color: transparent transparent transparent #48c2ba;
+  border-color: transparent transparent transparent #00CCC3;
   position: absolute;
   top: 10px;
   right: -5px;
@@ -267,7 +265,7 @@
   height: 0;
   border-width: 5px 0 5px 5px;
   border-style: solid;
-  border-color: transparent transparent transparent #48c2ba;
+  border-color: transparent transparent transparent #00CCC3;
   position: absolute;
   top: -5px;
   right: 2px;
@@ -287,19 +285,15 @@
   vertical-align: middle;
 }
 
-// 悬浮框样式
-.listMarkingTooltipBbs {
-  max-width: 610px;
-  .behaviorBbs {
-    margin-bottom: 0;
-    max-height: 460px;
-    overflow-y: auto;
-  }
-}
-
-:global .listMarkingTooltip {
+// bbs nps悬浮框样式
+:global .listMarkingTooltipOthers {
   max-width: 610px;
   .ant-tooltip-inner {
-    padding: 20px 8px;
+    padding: 14px;
   }
+}
+.behaviorOthers {
+  margin-bottom: 0;
+  max-height: 460px;
+  overflow-y: auto;
 }
