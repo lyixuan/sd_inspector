@@ -130,15 +130,15 @@ class Pager extends React.Component {
     const dateFormat = 'YYYY-MM-DD';
     return (
       <div className={styles.pagers}>
-        <BIRangePicker
-          style={{ width: '230px', textAlign: 'left' }}
-          placeholder={['开始日期', '结束日期']}
-          onChange={this.dateChange}
-          allowClear
-          defaultValue={[moment(this.state.beginDate, dateFormat), moment(this.state.endDate, dateFormat)]}
-          value={[moment(this.state.beginDate, dateFormat), moment(this.state.endDate, dateFormat)]}
-          disabledDate={this.disabledDate}
-        />
+        {/*<BIRangePicker*/}
+        {/*  style={{ width: '230px', textAlign: 'left' }}*/}
+        {/*  placeholder={['开始日期', '结束日期']}*/}
+        {/*  onChange={this.dateChange}*/}
+        {/*  allowClear*/}
+        {/*  defaultValue={[moment(this.state.beginDate, dateFormat), moment(this.state.endDate, dateFormat)]}*/}
+        {/*  value={[moment(this.state.beginDate, dateFormat), moment(this.state.endDate, dateFormat)]}*/}
+        {/*  disabledDate={this.disabledDate}*/}
+        {/*/>*/}
         <BIPagination
           showQuickJumper
           showSizeChanger

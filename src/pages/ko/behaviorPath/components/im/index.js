@@ -5,6 +5,7 @@ import styles from '../../style.less';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import Pager from '../pager/pager.js';
+import Daterange from '../dateRange/index'
 import face1 from '@/assets/face1.png';
 import face2 from '@/assets/face2.png';
 import robort from '@/assets/robort.png';
