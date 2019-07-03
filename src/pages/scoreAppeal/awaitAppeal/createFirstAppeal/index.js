@@ -64,7 +64,7 @@ class AppealCreate extends React.Component {
       creditType: creditType2 ? creditType2 : creditType ? Number(creditType) : undefined,  // 学分维度
       dimensionType: Number(dimensionType),            // 申诉维度
       creditDate: creditDate,
-      creditAppealId: Number(creditAppealId),   // 学分申诉id（待申诉数据ID）
+      creditAppealId: creditAppealId,   // 学分申诉id（待申诉数据ID）
       desc,
       attUrlList,
       appealType: 1,  // 1 待申诉  2 已申诉

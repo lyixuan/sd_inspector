@@ -86,7 +86,7 @@ class AppealCreate extends React.Component {
     const { desc, attUrlList, creditType: creditType2 } = this.state;
     const params = {
       type,
-      creditAppealId: Number(creditAppealId),
+      creditAppealId: creditAppealId,
       desc,
       creditType: creditType2 ? creditType2 : creditType ? Number(creditType) : undefined,
       creditDate: creditDate,
