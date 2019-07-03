@@ -5,8 +5,10 @@ import styles from '../../style.less';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import Pager from '../pager/pager.js';
-import face1 from '@/assets/face1.svg';
-import face2 from '@/assets/face2.svg';
+import face1 from '@/assets/face1.png';
+import face2 from '@/assets/face2.png';
+import robort from '@/assets/robort.png';
+import cardIcon from '@/assets/cardIcon.png';
 
 // 评价的星星
 function Star(props) {
@@ -68,6 +70,7 @@ function DateBar(props) {
             </div>
             <img src={face2} />
           </div>
+          <div className={styles.robort}>{props.date.robotSign == 1 ? <img src={robort} /> : null}</div>
         </div>
         <span>
           <Icon type={props.date.collapse ? 'up' : 'down'} />
@@ -153,41 +156,150 @@ function ListItem(props) {
     return <TeacherOrStudent item={props.li} />;
   }
 }
-// 判断是老师还是学员
-function TeacherOrStudent(props) {
-  let message = "";
-  // 检测文本中是否包含 { }
-  if (/\{([^\}]+)\}/.test(props.item.message)) {
-    message = JSON.parse(props.item.message).content;
-  } else {
-    message = props.item.message
-  }
-  if (props.item.userType == 1) {
+function MediaContent(props) {
+  const li = props.content.map((item, index) => <MediaLi item={props.li} prop={item} key={index} />);
+  return li;
+}
+function AllType(props) {
+  // console.log(164, props.type)
+  if (props.type.type == 'cdsCard') {
     return (
-      <li className={styles.step}>
-        <div className={styles.time}>
-          {props.item.consultTime ? props.item.consultTime.split(' ')[1] : ''}
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>成绩查询</h4>
+          <p>卡片信息</p>
         </div>
-        <div className={styles.content}>
-          <div className={styles.bigDot}>
-            <span className={styles.dot} />
-          </div>
-          <div className={styles.chatLeft}>
-            <div className={styles.avatar}>
-              <img src={avatarStudent} />
-              <p>{props.item.userName}</p>
-            </div>
-            <div className={styles.chatContent}>
-              <span className={styles.triangle}>
-                <em />
-              </span>
-              {message}
-            </div>
-          </div>
+      </div>
+    )
+  } else if (props.type.type == 'process') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>{props.type.arr[0].province}省报考流程</h4>
+          <p>卡片信息</p>
         </div>
-      </li>
+      </div>
+    )
+  } else if (props.type.type == 'projectCard') {
+    const li = props.type.arr.map((item, index) =>
+      <h4 key={index}>{item.province}省{item.showProjectName}</h4>
     );
-  } else {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          {li}
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  } else if (props.type.type == 'publishRemind') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>{props.type.arr[0].province == 1 ? '' : props.type.arr[0].province}报考时间</h4>
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  } else if (props.type.type == 'subjectexamcard') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>{props.type.arr[0].collegeName}{props.type.arr[0].specialtyName}考试科目</h4>
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  } else if (props.type.type == 'examcard') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>{props.type.arr[0].collegeName}{props.type.arr[0].specialtyName}考试安排</h4>
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  } else if (props.type.type == 'queryScoreCard') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>{props.type.arr[0].data[0].province}{props.type.arr[0].data[0].packageName}{props.type.arr[0].data[0].buttonText}</h4>
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  } else if (props.type.type == 'lesson_video' || props.type.type == 'video' || props.type.type == 'img' || props.type.type == 'emoji') {
+    return (
+      <img src={props.type.arr[0].imgUrl ? props.type.arr[0].imgUrl : props.type.arr[0].url} style={{ width: '150px', height: 'auto', borderRadius: '10px', marginLeft: '60px' }} />
+    )
+  } else if (props.type.type == 'operate') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>尚德学员验证信息 表单</h4>
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  } else if (props.type.type == 'contactoffice') {
+    return (
+      <div className={styles.cardType}>
+        <img src={cardIcon} />
+        <div className={styles.cardInfo}>
+          <h4>{props.type.arr[0].province}{props.type.arr[0].companyName}</h4>
+          <p>卡片信息</p>
+        </div>
+      </div>
+    )
+  }
+  return (
+    <div className={styles.cardType}>
+      <img src={cardIcon} />
+      <div className={styles.cardInfo}>
+        {/* <h4>{props.type.media.type}</h4> */}
+        <p>卡片信息</p>
+      </div>
+    </div>
+  )
+}
+function MediaType(props) {
+  if (props.type.media.type == "evaluation" || props.type.media.type == "province" || props.type.media.type == "projectShowList" || props.type.media.type == "artificial" || props.type.media.type == "customer" || props.type.media.type == "shangdeStudent" || props.type.media.type == "projectButtonCard") {
+    return null;
+  }
+  return (
+    <li className={styles.step}>
+      <div className={styles.time}>
+        {props.info.consultTime ? props.info.consultTime.split(' ')[1] : ''}
+      </div>
+      <div className={styles.content}>
+        <div className={styles.bigDot}>
+          <span className={styles.dot} />
+        </div>
+        <div className={styles.chatRight}>
+          <AllType type={props.type.media}></AllType>
+          <div className={styles.avatar}>
+            <img src={robort} />
+            <p>{props.info.userName}</p>
+          </div>
+        </div>
+      </div>
+    </li>
+
+  )
+}
+function MediaLi(props) {
+  if (props.prop.content == '</p>') {
+    return null
+  }
+  if (props.prop.type == 'text') {
     return (
       <li className={styles.step}>
         <div className={styles.time}>
@@ -202,16 +314,122 @@ function TeacherOrStudent(props) {
               <span className={styles.triangle}>
                 <em />
               </span>
-              {message}
+              <span dangerouslySetInnerHTML={{ __html: props.prop.content }}>
+              </span>
+              {/* {props.prop.content} */}
             </div>
             <div className={styles.avatar}>
-              <img src={avatarTeacher} />
+              <img src={robort} />
               <p>{props.item.userName}</p>
             </div>
           </div>
         </div>
       </li>
+    )
+  }
+  return (
+    <MediaType type={props.prop} info={props.item}></MediaType>
+
+  )
+
+}
+// 判断是老师还是学员
+function TeacherOrStudent(props) {
+  if (props.item.userType == 1) {
+    return (
+      <li className={styles.step}>
+        <div className={styles.time}>
+          {props.item.consultTime ? props.item.consultTime.split(' ')[1] : ''}
+        </div>
+        <div className={styles.content}>
+          <div className={styles.bigDot}>
+            <span className={styles.dot} />
+          </div>
+          <div className={styles.chatLeft}>
+            <div className={styles.avatar}>
+              {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarStudent} />}
+              <p>{props.item.userName}</p>
+            </div>
+            <div className={styles.chatContent}>
+              <span className={styles.triangle}>
+                <em />
+              </span>
+              {props.item.message}
+            </div>
+          </div>
+        </div>
+      </li>
     );
+  } else {
+    // 解析卡片类型
+    let reg = /##[\s\S]*##/g
+    let answer = props.item.message;
+    // 先把答案中的{{}}全部替换成1，错误数据处理
+    if (answer && answer.match(/\{\{(.+?)\}\}/g)) {
+      answer = answer.replace(/\{\{(.+?)\}\}/g, 1)
+    }
+
+    if (answer && answer.match(reg)) {
+      let media = JSON.parse(answer.match(reg)[0].replace(/##/g, ""))
+      let content = answer.replace(reg, "##placeholder##")
+      let mediaContent = [];
+      content = content.split(/##/g);
+      content.forEach((item, index) => {
+        if (item) {
+          if (item == "placeholder") {
+            mediaContent.push({
+              type: "media",
+              media: media
+            })
+          } else {
+            mediaContent.push({
+              type: "text",
+              content: item
+            })
+          }
+        }
+      })
+      return (
+        <MediaContent li={props.item} content={mediaContent}></MediaContent>
+      )
+    } else {
+      let message = "";
+      // 检测文本中是否包含 { }
+      if (/\{([^\}]+)\}/.test(props.item.message)) {
+        message = JSON.parse(props.item.message).content;
+      } else {
+        message = props.item.message
+      }
+      if (!answer) {
+        return null
+      }
+      return (
+        <li className={styles.step}>
+          <div className={styles.time}>
+            {props.item.consultTime ? props.item.consultTime.split(' ')[1] : ''}
+          </div>
+          <div className={styles.content}>
+            <div className={styles.bigDot}>
+              <span className={styles.dot} />
+            </div>
+            <div className={styles.chatRight}>
+              <div className={styles.chatContent}>
+                <span className={styles.triangle}>
+                  <em />
+                </span>
+                {message}
+              </div>
+              <div className={styles.avatar}>
+                {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarTeacher} />}
+                <p>{props.item.userName}</p>
+              </div>
+            </div>
+          </div>
+        </li>
+      );
+    }
+
+
   }
 }
 function UlContent(props) {
@@ -273,6 +491,27 @@ class Im extends React.Component {
   componentDidMount() {
     this.didMount(this.props);
   }
+  processData(props) {
+    // 把imData和robortData组合然后排序
+    let modalImData = props.behaviorPath.imData
+    let allData = [];
+    if (modalImData.imData && modalImData.robotData) {
+      allData = modalImData.imData.concat(modalImData.robotData)
+    } else if (modalImData.imData) {
+      allData = modalImData.imData
+    } else {
+      allData = modalImData.robotData
+    }
+    // console.log(445, allData)
+    // if (!allData) {
+    //   return;
+    // }
+    allData.sort(function (a, b) {
+      return Date.parse(a.countDate) - Date.parse(b.countDate);//时间正序
+    });
+    return allData
+  }
+
   didMount(props) {
     let list = [];
     if (props.behaviorPath.dateListIm.length > 0) {
@@ -281,13 +520,15 @@ class Im extends React.Component {
           date: item.fmtCountDate,
           negativePercent: item.negativePercent,
           positivePercent: item.positivePercent,
+          robotSign: item.robotSign,
           collapse: false,
           dialogList: [],
         });
       });
 
       list[this.state.currentIndex].collapse = true;
-      list[this.state.currentIndex].dialogList = props.behaviorPath.imData;
+      // list[this.state.currentIndex].dialogList = props.behaviorPath.imData.imData;
+      list[this.state.currentIndex].dialogList = this.processData(props);
       this.state.dateList = list;
       this.setState({
         dateList: this.state.dateList,
@@ -299,8 +540,10 @@ class Im extends React.Component {
     }
   }
   mount(props) {
+
     if (props.behaviorPath.dateListIm.length > 0) {
-      this.state.dateList[this.state.currentIndex].dialogList = props.behaviorPath.imData;
+      // this.state.dateList[this.state.currentIndex].dialogList = props.behaviorPath.imData.imData;
+      this.state.dateList[this.state.currentIndex].dialogList = this.processData(props);
       this.setState({
         dateList: this.state.dateList,
       });

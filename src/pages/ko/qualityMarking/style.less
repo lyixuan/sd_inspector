@@ -1,0 +1,299 @@
+@base-green: #52C9C2;
+@base-green-shadow: rgba(82,201,194, 0.2);
+@base-blue: #61B8FF;
+@base-yellow: #FFBC00;
+@base-color: rgba(0, 0, 0, 0.65);
+@base-white: rgba(255, 255, 255, 1);
+
+:global .tabGroupContainer {
+  background-color: #FFFFFF;
+  margin-right: 10px;
+  padding-left: 20px;
+  .ant-tabs-bar {
+    border-bottom: 1px solid #FFFFFF;
+    margin: 0;
+  }
+  .ant-tabs-ink-bar {
+    background-color: @base-green;
+  }
+  .ant-tabs-nav .ant-tabs-tab-active {
+    color: @base-color;
+  }
+}
+:global .aiWorktable-ant-layout-content {
+  position: relative;
+  overflow: visible;
+}
+
+.aiWorktable {
+  position: absolute;
+  top: 0;
+  left: -18px;
+  right: -18px;
+  .aiWorktableMain {
+    margin: 18px;
+  }
+}
+
+// 导出按钮样式
+.exportBtn {
+  width: 90px;
+  height: 34px;
+  color: @base-white;
+  background-color: @base-yellow;
+  border-color: @base-yellow;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {width: 14px;margin-right: 6px;}
+}
+.exportBtn:hover, .exportBtn:focus {
+  background-color: @base-yellow;
+  border-color: @base-yellow;
+  color: @base-white;
+}
+.exportEvaluate {
+  min-width: 102px;
+  height: 34px;
+  color: @base-white;
+  background-color: @base-blue;
+  border-color: @base-blue;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.exportEvaluate:hover, .exportEvaluate:focus {
+  background-color: @base-blue;
+  border-color: @base-blue;
+  color: @base-white;
+}
+
+// IM悬浮框样式
+:global .listMarkingTooltip {
+  max-width: 610px;
+  .ant-tooltip-inner {
+    padding: 20px 0px;
+  }
+}
+// 悬浮框对话样式
+.behavior {
+  padding: 0px;
+  margin-bottom: 0;
+  max-height: 460px;
+  overflow-y: auto;
+}
+.behavior li:last-child .content {
+  border: none;
+}
+.step {
+  display: flex;
+  align-items: flex-start;
+}
+.step .time {
+  min-width: 170px;
+  margin-top: -4px;
+  color: #ffffff;
+  text-align: right;
+  padding-right: 10px;
+  flex-shrink:0;
+}
+.step .content {
+  border-left: 1px solid #00CCC3;
+  padding-left: 10px;
+  position: relative;
+  padding-bottom: 5px;
+  flex: 1;
+}
+.step .content .text {
+  padding-bottom: 30px;
+  margin-top: -4px;
+  padding-left: 30px;
+}
+.step .content .bigDot {
+  width: 12px;
+  height: 12px;
+  background: #48c2ba;
+  border-radius: 50px;
+  position: absolute;
+  left: -6px;
+  top: 0;
+}
+.step .content .bigDot .dot {
+  width: 4px;
+  height: 4px;
+  display: block;
+  border-radius: 50px;
+  margin: 4px auto 0;
+  background: #fff;
+}
+.behavior .title .text,
+.behavior .title .time {
+  margin-top: -2px;
+  color: #000;
+  font-weight: bold;
+}
+.behavior .title .bigDot {
+  width: 17px;
+  height: 17px;
+  background: #fff;
+  border: 2px solid #48c2ba;
+  left: -8px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.behavior .title .bigDot .dot::before {
+  content: '-';
+  position: absolute;
+  left: 1px;
+  top: -8px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #48c2ba;
+}
+.behavior .title .plus .dot::before {
+  content: '+';
+  position: absolute;
+  left: 2px;
+  top: -5px;
+  font-size: 14px;
+  color: #48c2ba;
+}
+.behavior .title .plus .dot {
+  width: 8px;
+  height: 8px;
+}
+.behavior .chatLeft .avatar,
+.behavior .chatRight .avatar {
+  text-align: center;
+  // height:55px;
+  min-width:70px;
+}
+.behavior .chatLeft .avatar img,
+.behavior .chatRight .avatar img {
+  width: 32px;
+  height: 32px;
+  border-radius: 100px;
+}
+.behavior .chatLeft .avatar p,
+.behavior .chatRight .avatar p {
+  font-size: 12px;
+  transform: scale(0.9);
+  margin-bottom:0;
+}
+.behavior .chatLeft,
+.behavior .chatRight {
+  display: flex;
+  align-items: flex-start;
+  padding-bottom:10px;
+}
+.behavior .chatLeft .chatContent {
+  max-width: 246px;
+  background: #f6f7fa;
+  border: 1px solid #e8e8e8;
+  border-radius: 5px;
+  padding: 6px 10px;
+  position: relative;
+  word-break: break-all;
+  color: #595959;
+}
+
+.behavior .chatLeft .triangle {
+  display: block;
+  width: 0;
+  height: 0;
+  border-width: 5px 5px 5px 0;
+  border-style: solid;
+  border-color: transparent #e8e8e8 transparent transparent;
+  position: absolute;
+  top: 10px;
+  left: -5px;
+}
+.behavior .chatLeft .triangle em {
+  display: block;
+  width: 0;
+  height: 0;
+  border-width: 5px 5px 5px 0;
+  border-style: solid;
+  border-color: transparent #f6f7fa transparent transparent;
+  position: absolute;
+  top: -5px;
+  left: 2px;
+}
+
+.behavior .chatRight {
+  padding-left: 90px;
+  padding-bottom: 10px;
+  float: right;
+}
+.behavior .chatRight .chatContent {
+  max-width: 246px;
+  background: #00CCC3;
+  border: 1px solid #00CCC3;
+  border-radius: 5px;
+  // margin-right: 15px;
+  padding: 6px 10px;
+  color: #fff;
+  box-sizing: border-box;
+  position: relative;
+  word-break: break-all;
+}
+.behavior .chatRight .miniApp, .behavior .chatLeft .miniApp{
+  background:#fff;
+  border: 1px solid #48c2ba;
+  color:#000;
+  padding-top:10px;
+  padding-bottom:10px;
+}
+.behavior .chatRight .miniApp img,  .behavior .chatLeft .miniApp img{
+  margin-right:8px;
+}
+.behavior .chatRight .triangle {
+  display: block;
+  width: 0;
+  height: 0;
+  border-width: 5px 0 5px 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent #00CCC3;
+  position: absolute;
+  top: 10px;
+  right: -5px;
+}
+.behavior .chatRight .triangle em {
+  display: block;
+  width: 0;
+  height: 0;
+  border-width: 5px 0 5px 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent #00CCC3;
+  position: absolute;
+  top: -5px;
+  right: 2px;
+}
+.step .prise {
+  display: flex;
+  padding-left: 30px;
+  color: #52c9c2;
+  padding-bottom: 20px;
+}
+.step .prise .stars {
+  padding-left: 10px;
+}
+
+.step .prise img {
+  width: 15px;
+  vertical-align: middle;
+}
+
+// bbs nps悬浮框样式
+:global .listMarkingTooltipOthers {
+  max-width: 610px;
+  .ant-tooltip-inner {
+    padding: 14px;
+  }
+}
+.behaviorOthers {
+  margin-bottom: 0;
+  max-height: 460px;
+  overflow-y: auto;
+}
