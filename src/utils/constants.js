@@ -13,6 +13,13 @@ export const STATIC_HOST = {
   development: 'http://172.16.117.65',
   production: 'http://api.bd.ministudy.com/download',
 }[process.env.PROXY_ENV];
+
+export const SERVER_HOST = {
+  production: 'http://api.bd.ministudy.com/apis',
+  //development: 'http://172.16.117.65:8085', // 65
+  development: 'http://172.16.117.65:8086', // 64
+}[process.env.PROXY_ENV]
+
 // 设置domain域名
 export const DOMAIN_HOST = '.ministudy.com';
 // export const DOMAIN_HOST = 'localhost';

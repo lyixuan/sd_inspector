@@ -10,7 +10,7 @@ import { PROXY_PATH } from './constants';
 
 import { notification } from 'antd';
 import router from 'umi/router';
-import { LOGIN_URL } from '@/utils/constants';
+import { SERVER_HOST } from '@/utils/constants';
 import { Base64 } from 'js-base64';
 
 const codeMessage = {
@@ -40,8 +40,9 @@ const errorHandler = error => {
   const { status, url } = response;
 
   if (status === 401) {
-    const { origin } = window.location;
-    tologin({params:{originPage:origin}});
+    const { href } = window.location;
+    const serverUrl = `${SERVER_HOST}/tologin`;
+    window.location.href = `${serverUrl}?originPage=${href}`;
     return;
   } else if (status === 403) {
     routerRedux.push('/exception/403');
@@ -65,15 +66,16 @@ const errorHandler = error => {
 const request = extend({
   errorHandler, // 默认错误处理
   prefix: PROXY_PATH(), // prefix
-  headers: {
-    'X-Requested-With':'XMLHttpRequest',
-    // authorization: storage.getToken(),
-  },
+  // headers: {
+  //   // 'X-Requested-With':'XMLHttpRequest',
+  //   // authorization: storage.getToken(),
+  // },
   // credentials: 'include', // 默认请求是否带上cookie,暂不做处理,如需添加请设置跨域处进行设置
 });
 // 动态添加数据;
 request.interceptors.request.use((url, options) => {
-  // options.headers = Object.assign({}, options.headers, { authorization: storage.getToken() });
+  options.headers = Object.assign({}, options.headers, { 'X-Requested-With':'XMLHttpRequest' });
+
   return {
     url: `${url}`,
     options,
