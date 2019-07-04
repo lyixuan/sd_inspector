@@ -1,15 +1,4 @@
-function date(){
-  let nowDate = new Date();
-  let year = nowDate.getFullYear();
-  let month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1): nowDate.getMonth() + 1;
-  let day = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate();
-  let hours = nowDate.getHours() < 10 ? "0" + nowDate.getHours() : nowDate.getHours();
-  let minutes = nowDate.getMinutes() < 10 ? "0" + nowDate.getMinutes() : nowDate.getMinutes();
-  let seconds = nowDate.getSeconds() < 10 ? "0" + nowDate.getSeconds() : nowDate.getSeconds();
-  let dateStr = year + '' + month  + day +'_'+ hours +':'+ minutes +':'+ seconds;
-  return dateStr;
-}
-
+import moment from 'moment';
 export const plugins = [['umi-plugin-react', {
   antd: true,
   dva: true,
@@ -21,7 +10,7 @@ export const plugins = [['umi-plugin-react', {
   chunks: ['vendors', 'umi'],
   dll: true,
   metas: [
-    { name: date() },
+    { updateTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss') },
   ],
   routes: {
     exclude: [
