@@ -6,15 +6,13 @@ const proxyHost = {
   development: 'http://172.16.117.64:8098', //64测试
   production: 'http://api.bd.ministudy.com',
 };
+
 const proxy_env = proxyHost[process.env.PROXY_ENV];
+
 export const webpackConfig = {
   externals: {
     // echarts: 'echarts',
     // d3: 'd3',
-  },
-  define: {
-    'process.env.LOGIN_TYPE': process.env.LOGIN_TYPE,
-    'process.env.PROXY_ENV': process.env.PROXY_ENV,
   },
   // chainWebpack(config, { webpack }) {
   //     config.merge({

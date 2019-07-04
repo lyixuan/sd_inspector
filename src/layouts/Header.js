@@ -37,9 +37,10 @@ class SelfHeader extends PureComponent {
     };
     handleMenuClick = ({ key }) => {
         switch (key) {
-            case 'changePwd':
-                redirectOldSysHosts('/changePwd/changePassword');
-                break;
+            // 修改密码功能暂时
+            // case 'changePwd':
+            //     redirectOldSysHosts('/changePwd/changePassword');
+            //     break;
             case 'logout':
                 redirectOldSysHosts('/userLayout/login');
                 break;

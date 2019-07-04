@@ -33,7 +33,6 @@ const errorHandler = error => {
   const { response = {} } = error;
   const errortext = codeMessage[response.status] || response.statusText;
   const { status, url } = response;
-
   if (status === 401) {
     const { href } = window.location;
     const serverUrl = `${SERVER_HOST}/tologin`;

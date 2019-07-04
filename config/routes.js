@@ -329,7 +329,6 @@ export const routes = [
               path: '/scoreAppeal/finishAppeal',
             },
           },
-
         ],
       },
     ],
