@@ -1,8 +1,22 @@
+// 全局样式
+:global .aiWorktable-ant-layout-content {
+  position: relative;
+  overflow: visible;
+}
+// 外层平铺容器
+.reportExamTable {
+  position: absolute;
+  top: 0;
+  left: -18px;
+  right: -18px;
+  border-top: 1px solid #F5F8FA;
+}
+// 搜索框样式
 .formCotainer{
   position: relative;
   width: 100%;
   min-width: 1116px;
-  padding:30px 20px;
+  padding:16px 32px 24px 32px;
   background-color: #fff;
   border-radius-topleft:10px;
   border-radius-topright:10px;
@@ -53,51 +67,47 @@
     justify-content: center;
     align-items: center;
     margin-top: 24px;
-    .buttonGroup {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
+    position: relative;
+    justify-content: center;
     .updateDate {
-      width: 300px;
+      position: absolute;
+      right: 0;
       text-align: right;
       font-size: 13px;
       color: #B8BBBF;
     }
   }
-  .scaleTxt{
-    display: inline-block;
-    width: 80px;
-    transform: scale(0.75);
-    margin-left: -10px;
-  }
-  .collapCls{
-    font-size: 12px;
-    color: #DCDDE0;
-    :global{
-      .ant-divider-inner-text{
-        cursor: inherit;
+  // 已选条件样式
+  .selectedContent {
+    .items {
+      min-width: 20px;
+      border-radius: 6px;
+      padding: 8px;
+      background-color: #FFF4F2;
+      margin-right: 8px;
+      .icons {
+        margin-left: 12px;
       }
-    }
-    .expand{
-      display: inline-block;
-     padding: 0 10px;
-      cursor: pointer;
     }
   }
 }
 
-// 已选条件样式
-.selectedContent {
-  .items {
-    min-width: 20px;
-    border-radius: 6px;
-    padding: 8px;
-    background-color: #FFF4F2;
-    margin-right: 8px;
-    .icons {
-      margin-left: 12px;
+// 搜索结果
+.searchResult {
+  display: flex;
+  height: 80px;
+  margin: 16px;
+  padding: 0 16px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 6px;
+  background-color: #ffffff;
+  .totalNumber {
+    font-size: 13px;
+    > span {
+      color: #00CCC3;
     }
+
   }
 }
 

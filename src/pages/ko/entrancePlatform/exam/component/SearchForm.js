@@ -7,7 +7,7 @@ import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
 import { BiFilter } from '@/utils/utils';
 import formStyles from '../../../components/formCommon.less';
-// import styles from '../style.less';
+import btnStyles from '../../commom.less';
 import styles from './style.less';
 
 const { Option } = BISelect;
@@ -53,108 +53,119 @@ class HorizontalLoginForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const { searchPramas } = this.props;
     return (
-      <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
-        <Form
-          layout="inline"
-          className="ant-advanced-search-form"
-          onSubmit={this.handleSearch}
-        >
-          <Skeleton loading={false} active>
-            <div className={styles.rowWrap}>
-              <div className={`${styles.itemCls} ${styles.itemTips}`}>学员信息：</div>
-              <div className={styles.itemCls}>
-                <Form.Item>
-                  {getFieldDecorator('collegeId', {
-                    initialValue: searchPramas.collegeId,
-                  })(
-                    <BISelect placeholder="报考省市" allowClear>
-                      {[{ id: 1, name: 'ppppp' }].map(item => <Option key={item.id}
-                                                                      value={item.id}>{item.name}</Option>)}
-                    </BISelect>,
-                  )}
-                </Form.Item>
-              </div>
-              <div className={styles.itemCls}>
-                <Form.Item>
-                  {getFieldDecorator('collegeId', {})(
-                    <BISelect placeholder="后端归属" allowClear>
-                      {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                    </BISelect>,
-                  )}
-                </Form.Item>
-              </div>
-              <div className={styles.itemCls}>
-                <Form.Item>
-                  {getFieldDecorator('collegeId', {})(
-                    <BISelect placeholder="订单状态" allowClear>
-                      {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                    </BISelect>,
-                  )}
-                </Form.Item>
-              </div>
-              <div className={`${styles.itemCls} ${styles.itemDates}`}>
-                <Form.Item>
-                  {getFieldDecorator('choiceTime', {})(
-                    <BIRangePicker
-                      placeholder={['开始日期', '结束日期']}
-                      format={dateFormat}
-                    />,
-                  )}
-                </Form.Item>
-              </div>
-              <div className={styles.itemCls}>
-                <Form.Item>
-                  {getFieldDecorator('collegeId', {})(
-                    <BISelect placeholder="是否绑定官微" allowClear>
-                      {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                    </BISelect>,
-                  )}
-                </Form.Item>
-              </div>
+      <div>
+        <div className={styles.reportExamTable}>
+          <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
+            <Form
+              layout="inline"
+              className="ant-advanced-search-form"
+              onSubmit={this.handleSearch}
+            >
+              <Skeleton loading={false} active>
+                <div className={styles.rowWrap}>
+                  <div className={`${styles.itemCls} ${styles.itemTips}`}>学员信息：</div>
+                  <div className={styles.itemCls}>
+                    <Form.Item>
+                      {getFieldDecorator('collegeId', {
+                        initialValue: searchPramas.collegeId,
+                      })(
+                        <BISelect placeholder="报考省市" allowClear>
+                          {[{ id: 1, name: 'ppppp' }].map(item => <Option key={item.id}
+                                                                          value={item.id}>{item.name}</Option>)}
+                        </BISelect>,
+                      )}
+                    </Form.Item>
+                  </div>
+                  <div className={styles.itemCls}>
+                    <Form.Item>
+                      {getFieldDecorator('collegeId', {})(
+                        <BISelect placeholder="后端归属" allowClear>
+                          {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                        </BISelect>,
+                      )}
+                    </Form.Item>
+                  </div>
+                  <div className={styles.itemCls}>
+                    <Form.Item>
+                      {getFieldDecorator('collegeId', {})(
+                        <BISelect placeholder="订单状态" allowClear>
+                          {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                        </BISelect>,
+                      )}
+                    </Form.Item>
+                  </div>
+                  <div className={`${styles.itemCls} ${styles.itemDates}`}>
+                    <Form.Item>
+                      {getFieldDecorator('choiceTime', {})(
+                        <BIRangePicker
+                          placeholder={['开始日期', '结束日期']}
+                          format={dateFormat}
+                        />,
+                      )}
+                    </Form.Item>
+                  </div>
+                  <div className={styles.itemCls}>
+                    <Form.Item>
+                      {getFieldDecorator('collegeId', {})(
+                        <BISelect placeholder="是否绑定官微" allowClear>
+                          {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                        </BISelect>,
+                      )}
+                    </Form.Item>
+                  </div>
+                </div>
+                <div className={styles.rowWrap}>
+                  <div className={`${styles.itemCls} ${styles.itemTips}`}>通知信息：</div>
+                  <div className={styles.itemCls}>
+                    <Form.Item>
+                      {getFieldDecorator('collegeId', {})(
+                        <BISelect placeholder="通知类型" allowClear>
+                          {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                        </BISelect>,
+                      )}
+                    </Form.Item>
+                  </div>
+                  <div className={styles.itemCls}>
+                    <Form.Item>
+                      {getFieldDecorator('collegeId', {})(
+                        <BISelect placeholder="是否通知" allowClear>
+                          {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                        </BISelect>,
+                      )}
+                    </Form.Item>
+                  </div>
+                  <div className={styles.itemCls}>
+                    <Form.Item>
+                      {getFieldDecorator('collegeId', {})(
+                        <BISelect placeholder="通知打开状态" allowClear>
+                          {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                        </BISelect>,
+                      )}
+                    </Form.Item>
+                  </div>
+                </div>
+                {this.props.children && <div className={`${styles.rowWrap} ${styles.rowWrapMar}`}>
+                  {this.props.children}
+                </div>}
+                <div className={`${styles.rowWrap} ${styles.actionGroup}`}>
+                  <BIButton onClick={this.handleReset} style={{ marginRight: '10px' }}>重置</BIButton>
+                  <BIButton type="primary" htmlType="submit">查询</BIButton>
+                  <span className={styles.updateDate}>数据更新时间：2019-01-08 01:03:21</span>
+                </div>
+              </Skeleton>
+            </Form>
+          </div>
+          <div className={styles.searchResult}>
+            <div className={styles.totalNumber}>查询结果：共查找出 <span>10,000</span> 个学员</div>
+            <div>
+              <BIButton className={btnStyles.btnYellow} onClick={this.handleReset} style={{ marginRight: '10px' }}>创建/导出用户群</BIButton>
+              <BIButton className={btnStyles.btnBlue} htmlType="submit">查看/导出用户群</BIButton>
             </div>
-            <div className={styles.rowWrap}>
-              <div className={`${styles.itemCls} ${styles.itemTips}`}>通知信息：</div>
-              <div className={styles.itemCls}>
-                <Form.Item>
-                  {getFieldDecorator('collegeId', {})(
-                    <BISelect placeholder="通知类型" allowClear>
-                      {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                    </BISelect>,
-                  )}
-                </Form.Item>
-              </div>
-              <div className={styles.itemCls}>
-                <Form.Item>
-                  {getFieldDecorator('collegeId', {})(
-                    <BISelect placeholder="是否通知" allowClear>
-                      {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                    </BISelect>,
-                  )}
-                </Form.Item>
-              </div>
-              <div className={styles.itemCls}>
-                <Form.Item>
-                  {getFieldDecorator('collegeId', {})(
-                    <BISelect placeholder="通知打开状态" allowClear>
-                      {[].map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                    </BISelect>,
-                  )}
-                </Form.Item>
-              </div>
-            </div>
-            {this.props.children && <div className={`${styles.rowWrap} ${styles.rowWrapMar}`}>
-              {this.props.children}
-            </div>}
-            <div className={`${styles.rowWrap} ${styles.actionGroup}`}>
-              <div className={styles.buttonGroup}>
-                <BIButton onClick={this.handleReset} style={{ marginRight: '10px' }}>重置</BIButton>
-                <BIButton type="primary" htmlType="submit">查询</BIButton>
-              </div>
-              <span className={styles.updateDate}>数据更新时间：2019-01-08 01:03:21</span>
-            </div>
-          </Skeleton>
-        </Form>
+          </div>
+        </div>
       </div>
+
+
     );
   }
 }
@@ -207,14 +218,6 @@ class SearchForm extends Component {
     this.tId = undefined;
     this.formRef = undefined;
   }
-
-  updateCheckedConditions = val => {
-    this.setState({
-      checkedConditionList: val,
-    });
-    console.log(val, '------', this.state.checkedConditionList);
-    this.props.updateCheckedConditions(val);
-  };
   deleteFilterItem = e => {
     //删除已选条件
     const delItem = { id: e.currentTarget.id, name: e.currentTarget.dataset.name };
@@ -244,12 +247,7 @@ class SearchForm extends Component {
     const getCheckedList = this.getCheckedConditionList();
     return (
       <div>
-        <WrappedHorizontalLoginForm
-          {...this.props}
-          updateFormItem={this.state.itemName}
-          wrappedComponentRef={inst => (this.formRef = inst)}
-          updateCC={p => this.updateCheckedConditions(p)}
-        >
+        <WrappedHorizontalLoginForm {...this.props}>
           {getCheckedList.length > 0 ? (<>
               <div className={`${styles.itemCls} ${styles.itemTips}`}>已选条件：</div>
               <div className={styles.selectedContent}>
