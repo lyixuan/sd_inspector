@@ -23,7 +23,7 @@ class AppealAwaitCheck extends React.Component {
     const {query={}} = this.props.location;
     this.props.dispatch({
       type: 'scoreAppealModel/queryBaseAppealInfo',
-      payload: { params:{dimensionId:query.dimensionId,dimensionType:query.dimensionType}  },
+      payload: { params:{dimensionId:query.dimensionId,dimensionType:query.dimensionType,creditDate:query.creditDate,creditType:query.creditType}  },
     });
   }
   render() {

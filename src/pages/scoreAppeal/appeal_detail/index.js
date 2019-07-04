@@ -30,7 +30,7 @@ class AppealCheck extends React.Component {
     const {query={}} = nextProps?nextProps.location:this.props.location;
     this.props.dispatch({
       type: 'scoreAppealModel/queryBaseAppealInfo',
-      payload: {params:{dimensionId:query.dimensionId,dimensionType:query.dimensionType}},
+      payload: {params:{dimensionId:query.dimensionId,dimensionType:query.dimensionType,creditDate:query.creditDate,creditType:query.creditType}},
     });
     this.props.dispatch({
       type: 'scoreAppealModel/queryAppealInfoCheckList',
@@ -114,6 +114,7 @@ class AppealCheck extends React.Component {
       id:query.id,
       dimensionId:query.dimensionId,        // 获取详情用
       creditType:query.creditType,  // 学分维度
+      creditDate: query.creditDate,
       dimensionType:query.dimensionType,            // 申诉维度
       status:detailInfo.status,
       firstOrSec:(Number(detailInfo.status) === 1||Number(detailInfo.status) === 5)?1:(Number(detailInfo.status) === 2||Number(detailInfo.status) === 6)?2:null,// 1 一申，2 二申

@@ -147,6 +147,7 @@ class OnAppeal extends React.Component {
       dimensionType,   // 申诉维度
       status:record.status,
       isOnAppeal:true,
+      creditDate:record.creditDate,
       idList: JSON.stringify(idList),
       secondAppealEndDate:record.secondAppealEndDate,  // 详情展示
     };
@@ -157,6 +158,7 @@ class OnAppeal extends React.Component {
     const query={
       type:record.status === 3?1:2,  // 1:一申 2：二申
       creditType:record.creditType,    // 学分维度
+      creditDate: record.creditDate,
       dimensionType,                    // 申诉维度
       creditAppealId: record.id,        // 学分申诉id（待申诉数据ID）
       dimensionId:record.metaDimensionId,        // 获取详情用
@@ -170,6 +172,7 @@ class OnAppeal extends React.Component {
       id:record.id,
       dimensionId:record.metaDimensionId,        // 获取详情用
       creditType:record.creditType,  // 学分维度
+      creditDate: record.creditDate,
       dimensionType,            // 申诉维度
       status:record.status,
       firstOrSec:(record.status === 1||record.status === 5)?1:(record.status === 2||record.status === 6)?2:null,// 1 一申，2 二申
@@ -182,7 +185,7 @@ class OnAppeal extends React.Component {
     const that = this;
     that.props.dispatch({
       type: 'onAppealModel/cancelAppeal',
-      payload: { params: { id: record.id } },
+      payload: { params: { id: record.id,dimensionType:this.state.dimensionType } },
     }).then(() => {
       that.componentDidMount()
     });
@@ -206,20 +209,20 @@ class OnAppeal extends React.Component {
               </span>
               </AuthButton>
             )}
-            {(record.status === 1||record.status === 2) && (
-              <AuthButton authority='/scoreAppeal/onAppeal/repeal'>
-                <Popconfirm
-                  title="是否撤销当前数据状态?"
-                  onConfirm={() => this.onRepeal(record)}
-                  okText="确定"
-                  cancelText="取消"
-                >
-                  <span className={style.actionBtn}>
-                    撤销
-                  </span>
-                </Popconfirm>
-              </AuthButton>
-            )}
+            {/*{(record.status === 1||record.status === 2) && (*/}
+              {/*<AuthButton authority='/scoreAppeal/onAppeal/repeal'>*/}
+                {/*<Popconfirm*/}
+                  {/*title="是否撤销当前数据状态?"*/}
+                  {/*onConfirm={() => this.onRepeal(record)}*/}
+                  {/*okText="确定"*/}
+                  {/*cancelText="取消"*/}
+                {/*>*/}
+                  {/*<span className={style.actionBtn}>*/}
+                    {/*撤销*/}
+                  {/*</span>*/}
+                {/*</Popconfirm>*/}
+              {/*</AuthButton>*/}
+            {/*)}*/}
             {(record.status === 1||record.status === 2) && (
               <AuthButton authority='/scoreAppeal/appeal/dockingMan'>
               <span className={style.actionBtn} onClick={() => this.onCheck(record)}>

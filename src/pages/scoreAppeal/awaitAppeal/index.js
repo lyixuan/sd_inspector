@@ -118,7 +118,9 @@ class AwaitAppeal extends React.Component {
     // 跳转到待申诉详情
     const {dimensionType} = this.state;
     const query={
-      dimensionId: record.id, // id
+      dimensionId: record.metaDimensionId, // id
+      creditDate: record.creditDate,
+      creditType: record.creditType,
       dimensionType   // 申诉维度
     };
     this.onJumpPage(query, '/scoreAppeal/awaitAppeal/detail');
@@ -129,9 +131,10 @@ class AwaitAppeal extends React.Component {
     const query={
       type:1,                   // 一申
       creditType:record.creditType,  // 学分维度
+      creditDate: record.creditDate,
       dimensionType,            // 申诉维度
-      creditAppealId: record.id,   // 学分申诉id（待申诉数据ID）
-      dimensionId:record.id        // 获取详情用
+      creditAppealId: record.metaDimensionId,   // 学分申诉id（待申诉数据ID）
+      dimensionId:record.metaDimensionId        // 获取详情用
     };
     this.onJumpPage(query, '/scoreAppeal/awaitAppeal/appeal');
   };
