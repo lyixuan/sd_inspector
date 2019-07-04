@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { routerRedux } from 'dva/router';
-import { getPrivilegeList,getPrivilegeListNew,userInfo, CurrentUserListRole, userChangeRole,tologin } from '@/services/api';
+import { getPrivilegeList,getPrivilegeListNew,userInfo, CurrentUserListRole, userChangeRole } from '@/services/api';
 import storage from '@/utils/storage';
 import { msgF } from '@/utils/utils';
 
@@ -40,10 +40,6 @@ export default {
           message.error(msgF(response2.msg,response2.msgDetail));
         }
     },
-    // *tologin({ payload }, { call }) {
-    //   console.log(444)
-    //   yield call(tologin,{ ...payload });
-    // },
     *loginin(_, { call, put }) {
       const isHasUserInfo = storage.isRepeatLogin();
       const userInfo = storage.getUserInfo();

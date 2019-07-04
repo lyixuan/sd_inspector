@@ -44,12 +44,3 @@ export async function getPrivilegeListNew() {
 export async function userInfo() {
   return request(`/user/info`);
 }
-
-
-/*
-* 新，sso tologin
-* */
-export async function tologin(params) {
-  return request('/tologin',params);
-}
-
