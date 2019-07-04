@@ -1,3 +1,4 @@
+import moment from 'moment';
 export const plugins = [['umi-plugin-react', {
   antd: true,
   dva: true,
@@ -8,6 +9,9 @@ export const plugins = [['umi-plugin-react', {
   title: 'sd_inspector_admin',
   chunks: ['vendors', 'umi'],
   dll: true,
+  metas: [
+    { updateTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss') },
+  ],
   routes: {
     exclude: [
       /models\//,
