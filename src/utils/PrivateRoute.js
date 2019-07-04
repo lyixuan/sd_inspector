@@ -22,10 +22,11 @@ function authority(props) {
   }
 
   if (!allow && path === '/smartPlatform') {
+    console.log(7898777)
     // inspector smartPlatform模块级别没有权限，跳转登录
-    const redirectUrl = redirectUrlParams(props);
+    // const redirectUrl = redirectUrlParams(props);
 
-    window.location.href = `${LOGIN_URL}?redirectUrl=${redirectUrl}`;
+    // window.location.href = `${LOGIN_URL}?redirectUrl=${redirectUrl}`;
   } else {
     // 模块下的其他页面没有权限
     router.push('/exception/403');

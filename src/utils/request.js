@@ -3,11 +3,10 @@
  */
 import { extend } from 'umi-request';
 import { routerRedux } from 'dva/router';
-import storage from './storage';
-import { redirectUrlParams } from './routeUtils';
 import { PROXY_PATH } from './constants';
 
 import { notification } from 'antd';
+import { SERVER_HOST } from '@/utils/constants';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -35,9 +34,10 @@ const errorHandler = error => {
   const errortext = codeMessage[response.status] || response.statusText;
   const { status, url } = response;
   if (status === 401) {
-    redirectUrlParams(); // 跳转至登录页
-    // routerRedux.push('login/logout');
-    // return;
+    const { href } = window.location;
+    const serverUrl = `${SERVER_HOST}/tologin`;
+    window.location.href = `${serverUrl}?originPage=${href}`;
+    return;
   } else if (status === 403) {
     routerRedux.push('/exception/403');
     return;
@@ -60,17 +60,20 @@ const errorHandler = error => {
 const request = extend({
   errorHandler, // 默认错误处理
   prefix: PROXY_PATH(), // prefix
-  headers: {
-    authorization: storage.getToken(),
-  },
+  // headers: {
+  //   // 'X-Requested-With':'XMLHttpRequest',
+  //   // authorization: storage.getToken(),
+  // },
   // credentials: 'include', // 默认请求是否带上cookie,暂不做处理,如需添加请设置跨域处进行设置
 });
 // 动态添加数据;
 request.interceptors.request.use((url, options) => {
-  options.headers = Object.assign({}, options.headers, { authorization: storage.getToken() });
+  options.headers = Object.assign({}, options.headers, { 'X-Requested-With':'XMLHttpRequest' });
+
   return {
     url: `${url}`,
     options,
   };
 });
+
 export default request;
