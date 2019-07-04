@@ -56,9 +56,7 @@ class bbsPage extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: text => {
-          getSubStringValue(text, 3);
-        },
+        render: text => getSubStringValue(text, 3)
       },
       {
         title: '后端归属',
@@ -81,9 +79,7 @@ class bbsPage extends React.Component {
         title: '原因分类',
         dataIndex: 'reason',
         key: 'reason',
-        render: text => {
-          getSubStringValue(text, 6);
-        },
+        render: text => getSubStringValue(text, 6)
       },
     ];
     if (AuthButton.checkPathname('/qualityMarking/detail')) {
