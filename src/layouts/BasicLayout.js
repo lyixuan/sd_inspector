@@ -186,11 +186,6 @@ class BasicLayout extends React.PureComponent {
     this.props.dispatch({
       type: 'login/initSubSystem',
     })
-    // const { origin } = window.location;
-    // this.props.dispatch({
-    //   type: 'login/tologin',
-    //   payload: { params: {originPage:origin} },
-    // })
   };
 
   render() {
