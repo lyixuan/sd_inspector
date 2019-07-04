@@ -3,15 +3,10 @@
  */
 import { extend } from 'umi-request';
 import { routerRedux } from 'dva/router';
-import {tologin} from '@/services/api';
-import storage from './storage';
-import { redirectUrlParams } from './routeUtils';
 import { PROXY_PATH } from './constants';
 
 import { notification } from 'antd';
-import router from 'umi/router';
 import { SERVER_HOST } from '@/utils/constants';
-import { Base64 } from 'js-base64';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
