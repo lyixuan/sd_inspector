@@ -11,6 +11,7 @@ export const plugins = [['umi-plugin-react', {
   dll: true,
   metas: [
     { updateTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss') },
+    { name: 'test' },
   ],
   routes: {
     exclude: [
