@@ -41,9 +41,7 @@ const storage = {
   * return object || null
   * */
   getUserInfo() {
-    // 优先从督学模块拿取cookie参数,其次再去local中去取
-    const userInfo = Cookies.get(ADMIN_USER);
-    return userInfo ? JSON.parse(userInfo) : this.getItem(ADMIN_USER);
+    return this.getItem(ADMIN_USER);
   },
   // 存储用户信息
   setUserInfo(token) {

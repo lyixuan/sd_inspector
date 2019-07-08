@@ -7,7 +7,6 @@ import { ContainerQuery } from 'react-container-query';
 import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
-import { Base64 } from 'js-base64';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { LocaleProvider } from 'antd';
 import ContentLayout from '@/layouts/ContentLayout';
@@ -17,6 +16,7 @@ import logo from '../assets/logo.png';
 import storage from '../utils/storage';
 import HeaderLayout from './Header';
 import { query } from './utils/query';
+import { checkoutLogin } from './utils/checkoutUserAuthInfo';
 
 import { redirectUrlParams, checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
@@ -97,7 +97,9 @@ class BasicLayout extends React.PureComponent {
     };
   }
   componentWillMount() {
-    this.initSysItem();
+    if(!checkoutLogin()){
+      this.initSysItem();
+    };
   }
   componentDidMount() {
     this.enquireHandler = enquireScreen(mobile => {
@@ -166,8 +168,8 @@ class BasicLayout extends React.PureComponent {
     return title;
   }
   handleUserInfo = () => {
-    const { userName = '小德' } = storage.getUserInfo() || {};
-    return { name: userName };
+    const { userName = '小德',userId } = storage.getItem('admin_auth') || {};
+    return { name: userName,userId };
   };
   handleMenuCollapse = collapsed => {
     this.props.dispatch({

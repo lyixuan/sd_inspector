@@ -34,13 +34,13 @@ export async function getPrivilegeList(params) {
 
 // 新,获取权限列表
 export async function getPrivilegeListNew() {
-  return request('/user/getPrivilegeList');
+  return request('/getPrivilegeList');
 }
 
 
 /*
 * 新，用户信息接口
 * */
-export async function userInfo() {
-  return request(`/user/info`);
+export async function getUserInfoNew() {
+  return request(`/getUserInfo`);
 }

@@ -6,7 +6,7 @@ import { routerRedux } from 'dva/router';
 import { PROXY_PATH } from './constants';
 
 import { notification } from 'antd';
-import { SERVER_HOST } from '@/utils/constants';
+import { redirectToLogin } from './routeUtils';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -34,10 +34,7 @@ const errorHandler = error => {
   const errortext = codeMessage[response.status] || response.statusText;
   const { status, url } = response;
   if (status === 401) {
-    const { href } = window.location;
-    const serverUrl = `${SERVER_HOST}/tologin`;
-    window.location.href = `${serverUrl}?originPage=${href}`;
-    return;
+    redirectToLogin();
   } else if (status === 403) {
     routerRedux.push('/exception/403');
     return;
