@@ -6,6 +6,8 @@ export function redirectToLogin() {
 
 export function casLogout() {
   const { origin } = window.location;
-  const serverUrl = `${origin}/ew/caslogout`;
-  window.location.href = `${serverUrl}`;
+  const logoutUrl = `${origin}/ew/caslogout`;
+  const service = `service=${origin}?originPage=${origin}`;
+
+  window.location.href = `${logoutUrl}?${service}`;
 }
