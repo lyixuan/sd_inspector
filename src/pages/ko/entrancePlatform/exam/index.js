@@ -1,29 +1,17 @@
 import React from 'react';
-import SearchForm from './component/SearchForm'
-import { connect } from 'dva';
+import CreateGroup from './component/CreateGroup/index'
+import GroupStatistics from './component/GroupStatistics/index'
+import styles from './style.less';
 
-@connect(({ workTableModel }) => ({
-  workTableModel,
-}))
 class aiWorktable extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      searchPramas: {}
-    };
   }
-  fn = (f) => {
-    this.setState({
-      searchPramas: f
-    }, function() {
-      
-    })
-  }
-
   render() {
     return (
-      <div>
-        <SearchForm onChange={this.fn} searchPramas={this.state.searchPramas}></SearchForm>
+      <div className={styles.reportExamTable}>
+        <CreateGroup></CreateGroup>
+        <GroupStatistics></GroupStatistics>
       </div>
     );
   }

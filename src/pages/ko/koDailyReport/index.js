@@ -1,25 +1,52 @@
 import React from 'react';
 import jwt from 'jsonwebtoken'
+import { connect } from 'dva';
+import { initRecordTimeListData } from '../utils/utils'
+import { Skeleton } from 'antd';
 
 const METABASE_SITE_URL = "http://m-bd.ministudy.com";
 const METABASE_SECRET_KEY = "361bab48a014bcfca3f2290216eea29d6842ba567a9a0f8f79c60cb3435bb8a9";
-const payload = {
-  resource: { dashboard: 101 },
-  params: {}
-};
-const token = jwt.sign(payload, METABASE_SECRET_KEY);
-const iframeUrl = METABASE_SITE_URL + "/embed/dashboard/" + token + "#bordered=true&titled=true";
 
+@connect(({ koDailyReportModal, loading }) => ({
+  koDailyReportModal,
+  loading: loading.effects['koDailyReportModal/getKoDateRange'],
+}))
 class metaBase extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      iframeUrl: ''
+    };
+  }
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'koDailyReportModal/getKoDateRange',
+      callback: res => {
+        const [startdate, enddate] = initRecordTimeListData(res);
+        const payload = {
+          resource: { dashboard: 101 },
+          params: { startdate, enddate }
+        };
+        console.log(payload)
+        const token = jwt.sign(payload, METABASE_SECRET_KEY);
+        this.setState({
+          iframeUrl: METABASE_SITE_URL + "/embed/dashboard/" + token + "#bordered=true&titled=true"
+        })
+      }
+    });
+  }
   render() {
+    const { iframeUrl } = this.state;
     return (
-      <iframe
-        src={iframeUrl}
-        frameBorder="0"
-        width="100%"
-        height="2540"
-        // allowTransparency
-      ></iframe>
+      <Skeleton loading={this.props.loading !== false} active>
+        {iframeUrl && <iframe
+          src={this.state.iframeUrl}
+          frameBorder="0"
+          width="100%"
+          height="2540"
+          // allowTransparency
+        ></iframe>}
+      </Skeleton>
     );
   }
 }

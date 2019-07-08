@@ -1,6 +1,6 @@
 import { } from './services';
 import { message } from 'antd/lib/index';
-import { userGroupList, userGroupEdit, userGroupDelete } from './services';
+import { userGroupList, userGroupEdit, userGroupDelete, userGroupUpdate } from './services';
 import { msgF } from '@/utils/utils';
 
 export default {
@@ -40,6 +40,18 @@ export default {
       if (result.code === 20000) {
         const userGroupList = result.data;
         yield put({ type: 'save', payload: { userGroupList } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *userGroupUpdate({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(userGroupUpdate, params);
+      if (result.code === 20000) {
+        message.success('编辑成功！');
+        if (callback && typeof callback === 'function') {
+          callback()
+        }
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

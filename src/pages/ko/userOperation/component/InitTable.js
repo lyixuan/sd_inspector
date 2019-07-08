@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Tooltip, Popconfirm, message, Button } from 'antd';
+import { Table, Tooltip, Popconfirm, message, Button, Switch, Input } from 'antd';
 import styles from '../style.less';
 import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
@@ -163,12 +163,36 @@ class InitTable extends Component {
       groupName: e.target.value
     })
   }
+  onPushedChange = (id, pushed)=> {
+    this.props.dispatch({
+      type: 'userOperation/userGroupUpdate',
+      payload: { params: {id, pushed} },
+      callback: () => {
+        this.props.getInitData();
+      }
+    })
+  }
+  updateUserGroup = (record, type, e) => {
+    if (e && e.target && e.target.value === record.text) return;
+    e && e.target && this.props.dispatch({
+      type: 'userOperation/userGroupUpdate',
+      payload: { params: {id: record.id, [type] : e.target.value} },
+      callback: () => {
+        this.props.getInitData();
+      }
+    })
+  }
   columnsData = () => {
     const columns = [
       {
         title: '编号',
         dataIndex: 'code',
         key: 'code'
+      },
+      {
+        title: '用户群类型',
+        dataIndex: 'groupType',
+        key: 'groupType'
       },
       {
         title: '用户组名称',
@@ -180,7 +204,6 @@ class InitTable extends Component {
             <Tooltip placement="bottom" title={text} >
               <span style={{ maxWidth: '300px', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{text}</span>
             </Tooltip >
-
           </div>
 
 
@@ -220,6 +243,24 @@ class InitTable extends Component {
         ),
       },
       {
+        title: '是否推送',
+        dataIndex: 'pushed',
+        key: 'pushed',
+        render: (text, record) => <Switch defaultChecked={text} onChange={this.onPushedChange.bind(undefined, record.id)}></Switch>
+      },
+      {
+        title: '推送人',
+        dataIndex: 'pusher',
+        key: 'pusher',
+        render: (text, record) => <Input placeholder="请输入263账号前缀" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'pusher')}/>
+      },
+      {
+        title: '用户来源码',
+        dataIndex: 'sourceCode',
+        key: 'sourceCode',
+        render: (text, record)=> <Input placeholder="推送模版落地页为尚小德时，此项必填" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'sourceCode')}/>
+      },
+      {
         title: '操作',
         key: 'action',
         render: (text, record) => (
@@ -237,7 +278,6 @@ class InitTable extends Component {
     ];
     return columns || [];
   }
-
   render() {
     const data = this.props.list.list
     const defaultValue = this.state.groupName
