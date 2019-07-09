@@ -1,5 +1,4 @@
 import pathToRegexp from 'path-to-regexp';
-import { stringify } from 'qs';
 
 import storage from './storage';
 
