@@ -7,6 +7,10 @@ export const routes = [
     path: '/doc',
     component: './doc',
   },
+  // {
+  //   path: '/exception/403',
+  //   component: './exception/403',
+  // },
   {
     path: '/',
     component: '../layouts/BasicLayout',
