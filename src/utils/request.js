@@ -68,7 +68,7 @@ request.interceptors.request.use((url, options) => {
   options.headers = Object.assign({}, options.headers, { 'X-Requested-With':'XMLHttpRequest' });
 
   return {
-    url: `${url}`,
+    url:`'http://test.xd.admin.ministudy.com'${PROXY_PATH()}${url}`,
     options,
   };
 });

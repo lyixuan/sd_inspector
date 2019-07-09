@@ -4,14 +4,14 @@ import storage from './storage';
 
 export function redirectToLogin() {
   const { href, origin } = window.location;
-  const serverUrl = `${origin}/tologin`;
+  const serverUrl = `${origin}/inspector-tologin`;
   window.location.href = `${serverUrl}?originPage=${href}`;
 }
 
 export function casLogout() {
   const { origin } = window.location;
   const logoutUrl = `${origin}/inspectorapis/caslogout?`;
-  const pageUrl = `pageUrl=${origin}/tologin?originPage=${origin}`;
+  const pageUrl = `pageUrl=${origin}/inspector-tologin?originPage=${origin}`;
 
   window.location.href = `${logoutUrl}${pageUrl}`;
 }
