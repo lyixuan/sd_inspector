@@ -16,7 +16,7 @@ import logo from '../assets/logo.png';
 import storage from '../utils/storage';
 import HeaderLayout from './Header';
 import { query } from './utils/query';
-import { checkoutLogin } from './utils/checkoutUserAuthInfo';
+import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
 
 import { redirectUrlParams, checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';

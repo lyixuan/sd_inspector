@@ -1,4 +1,3 @@
-import { getAuthority } from './authority';
 import storage from './storage';
 
 export function checkoutLogin() {
@@ -9,8 +8,3 @@ export function checkoutLogin() {
   } else return false;
 }
 
-export function checkoutAuthRoute(authority) {
-  const authData = getAuthority('admin_auth') || [];
-  const isHasPath = authData.find(item => item.resourceUrl === authority);
-  return isHasPath;
-}
