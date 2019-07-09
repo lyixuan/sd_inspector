@@ -56,7 +56,7 @@ const errorHandler = error => {
  */
 const request = extend({
   errorHandler, // 默认错误处理
-  prefix: null, // prefix
+  prefix: null // PROXY_PATH()
   // headers: {
   //   // 'X-Requested-With':'XMLHttpRequest',
   //   // authorization: storage.getToken(),
@@ -68,7 +68,7 @@ request.interceptors.request.use((url, options) => {
   options.headers = Object.assign({}, options.headers, { 'X-Requested-With':'XMLHttpRequest' });
 
   return {
-    url:`'http://test.xd.admin.ministudy.com'${PROXY_PATH()}${url}`,
+    url:`http://test.xd.admin.ministudy.com${PROXY_PATH()}${url}`,
     options,
   };
 });
