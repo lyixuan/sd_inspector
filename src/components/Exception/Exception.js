@@ -7,14 +7,12 @@ import img403 from '../../assets/403img.png';
 import warning from '../../assets/warning.png';
 import { redirectToLogin } from '../../utils/routeUtils';
 
-console.log(1111);
 export default class Exception extends React.Component {
 
   gotoLogin = () => {
     redirectToLogin();
   };
   render() {
-    console.log(22);
     const { type } = this.props;
     switch (type) {
       case '403':
