@@ -248,12 +248,9 @@ class BasicLayout extends React.PureComponent {
     return (
       <LocaleProvider locale={zhCN}>
         <DocumentTitle title={this.getPageTitle()}>
-          <Spin tip="Loading..." spinning={isLoginIng}>
             <ContainerQuery query={query}>
               {params => <div className={classNames(params)}>{layout}</div>}
             </ContainerQuery>
-          </Spin>
-
         </DocumentTitle>
       </LocaleProvider>
     );
