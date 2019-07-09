@@ -10,7 +10,7 @@ export function redirectToLogin() {
 
 export function casLogout() {
   const { origin } = window.location;
-  const logoutUrl = `${origin}/ew/caslogout?`;
+  const logoutUrl = `${origin}/inspectorapis/caslogout?`;
   const pageUrl = `pageUrl=${origin}/tologin?originPage=${origin}`;
 
   window.location.href = `${logoutUrl}${pageUrl}`;
