@@ -15,7 +15,7 @@ export const STATIC_HOST = {
 }[process.env.PROXY_ENV];
 
 export const SERVER_HOST = {
-  production: 'http://api.bd.ministudy.com/apis',
+  production: 'http://api.bd.ministudy.com',
   localhost: 'http://172.16.58.18:8090', // 本地
   //development: 'http://172.16.117.65:8085', // 65
   development: 'http://172.16.117.65:8086', // 64
@@ -24,13 +24,19 @@ export const SERVER_HOST = {
 // 设置domain域名
 export const DOMAIN_HOST = '.ministudy.com';
 // export const DOMAIN_HOST = 'localhost';
-export const PROXY_PATH = () => '/proxy/ew/';
+export const PROXY_PATH = () => '/proxy/inspectorapis/';
 
 // 登录页面地址配置
 export const LOGIN_URL = {
   development: 'http://test.xd.admin.ministudy.com',
   production: 'http://bd.ministudy.com',
 }[process.env.PROXY_ENV];
+
+export const ADMIN_URL = {
+  development: 'http://test.xd.admin.ministudy.com',
+  production: 'http://bd.ministudy.com',
+}[process.env.PROXY_ENV];
+
 
 // 分页配置
 export const PAGINATION = {
