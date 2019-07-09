@@ -107,6 +107,7 @@ class BasicLayout extends React.PureComponent {
         isMobile: mobile,
       });
     });
+    this.MenuData();
     this.setRedirectData(this.props.menuData);
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -185,9 +186,20 @@ class BasicLayout extends React.PureComponent {
     }
   };
   initSysItem = () => {
+    const that = this;
     this.props.dispatch({
       type: 'login/initSubSystem',
-    })
+    }).then(() => {
+      that.MenuData()
+    });
+  };
+
+  MenuData = () => {
+    const routeData = storage.getItem('admin_auth') || {};
+    this.props.dispatch({
+      type: 'menu/getMenu',
+      payload: { routeData },
+    });
   };
 
   render() {
@@ -250,7 +262,6 @@ class BasicLayout extends React.PureComponent {
 
 export default connect(({ global, menu, login, loading }) => ({
   // currentUser: login.currentUser,
-  isLoginIng: loading.effects['login/initSubSystem'],
   login: login,
   menuData: menu.menuData,
   collapsed: global.collapsed,
