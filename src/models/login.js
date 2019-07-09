@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import { routerRedux } from 'dva/router';
+import router from 'umi/router';
 import { getPrivilegeList,getPrivilegeListNew,getUserInfoNew, CurrentUserListRole, userChangeRole } from '@/services/api';
 import storage from '@/utils/storage';
 import { msgF } from '@/utils/utils';
@@ -30,7 +31,7 @@ export default {
           storage.setItem('admin_user', saveObj);
           break;
         case codeMsg403:
-          yield put(routerRedux.push('/exception/403'));
+          yield put(router.push('/exception/403'));
           break;
         default:
           message.error(response2.msg);
