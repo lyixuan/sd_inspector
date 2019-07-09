@@ -39,7 +39,7 @@ export default {
       }
       const response = yield call(getPrivilegeListNew);
       if (!response) return;
-      if (response && response.code === 20000) {
+      if (response.code === 20000) {
         const data = response.data || {};
         storage.setItem('admin_auth', data);
         yield put(routerRedux.push('/'));
