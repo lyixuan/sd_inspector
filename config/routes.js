@@ -16,6 +16,14 @@ export const routes = [
         component: './indexPage',
       },
       {
+        path: '/exception/403',
+        component: './exception/403',
+      },
+      {
+        path: '/exception/404',
+        component: './exception/404',
+      },
+      {
         path: '/smartPlatform',
         component: './smartPlatform',
         name: '督学平台',
