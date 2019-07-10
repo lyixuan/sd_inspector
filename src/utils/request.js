@@ -3,7 +3,7 @@
  */
 import { extend } from 'umi-request';
 import { routerRedux } from 'dva/router';
-import { PROXY_PATH } from './constants';
+import { SERVER_HOST,PROXY_PATH } from './constants';
 
 import { notification } from 'antd';
 import { redirectToLogin } from './routeUtils';
@@ -56,7 +56,7 @@ const errorHandler = error => {
  */
 const request = extend({
   errorHandler, // 默认错误处理
-  prefix: PROXY_PATH()
+  prefix: null
   // headers: {
   //   // 'X-Requested-With':'XMLHttpRequest',
   //   // authorization: storage.getToken(),
@@ -66,9 +66,10 @@ const request = extend({
 // 动态添加数据;
 request.interceptors.request.use((url, options) => {
   options.headers = Object.assign({}, options.headers, { 'X-Requested-With':'XMLHttpRequest' });
+  const isOld = url.indexOf('apis')>-1;
 
   return {
-    url:`${url}`,
+    url:`${SERVER_HOST}${PROXY_PATH(isOld)}${url}`,
     options,
   };
 });

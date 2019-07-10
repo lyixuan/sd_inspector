@@ -1,9 +1,8 @@
 // 处理umi对应的webpack配置
 // 根据API_ENV环境不同分为debugger开发代理(api),development为使用dev的api,production为使用线上api
 const proxyHost = {
-  localhost: 'http://127.0.0.1:8096',
-  development: 'http://172.16.117.65:8096', //65测试
-  // development: 'http://172.16.117.64:8098', //64测试
+  localhost: 'http://test.xd.admin.ministudy.com',
+  development: 'http://test.xd.admin.ministudy.com',
   production: 'http://api.bd.ministudy.com',
 };
 
@@ -46,24 +45,24 @@ export const webpackConfig = {
   alias: {
     '@': require('path').resolve(__dirname, 'src'),
   },
-  proxy: {
-    // '/proxy': {
-    //   // target: 'http://172.16.59.227:8090/', //  本地开发
-    //   target: 'http://172.16.58.18:8090/', //  本地开发
-    //   changeOrigin: true,
-    //   pathRewrite:{'/proxy':'/'}
-    // },
-    '/proxy': {
-      target: proxy_env, //  区别于self接口
-      changeOrigin: true,
-    },
-    '/oldApi': {
-      target: proxy_env, //  区别于self接口
-      changeOrigin: true,
-    },
-    '/tmpApi': {
-      target: proxy_env, //  区别于self接口
-      changeOrigin: true,
-    },
-  },
+  // proxy: {
+  //   // '/proxy': {
+  //   //   // target: 'http://172.16.59.227:8090/', //  本地开发
+  //   //   target: 'http://172.16.58.18:8090/', //  本地开发
+  //   //   changeOrigin: true,
+  //   //   pathRewrite:{'/proxy':'/'}
+  //   // },
+  //   '/proxy': {
+  //     target: proxy_env, //  区别于self接口
+  //     changeOrigin: true,
+  //   },
+  //   '/oldApi': {
+  //     target: proxy_env, //  区别于self接口
+  //     changeOrigin: true,
+  //   },
+  //   '/tmpApi': {
+  //     target: proxy_env, //  区别于self接口
+  //     changeOrigin: true,
+  //   },
+  // },
 };
