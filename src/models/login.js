@@ -114,8 +114,8 @@ export default {
     },
 
     *logout( ) {
-      storage.removeStorge('admin_user');
-      storage.removeStorge('admin_auth');
+      storage.removeSessonItem('admin_user');
+      storage.removeSessonItem('admin_auth');
       casLogout();
     },
 
