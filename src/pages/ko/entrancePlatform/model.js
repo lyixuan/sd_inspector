@@ -1,13 +1,16 @@
-import { message } from 'antd/lib/index';
+import { queryUserCount, exportData, getTableList, getUserGroupList, createUserGroup} from './services';
+import { getKOEnumList, getKoDateRange } from '@/pages/ko/services';
+import { userGroupCheck } from '@/pages/ko/userList/services';
 import { downBlob, msgF } from '@/utils/utils';
-import { queryUserCount, exportData, getTableList, getKOEnumList, getUserGroupList, createUserGroup} from './services';
-
+import { message } from 'antd/lib/index';
 export default {
   namespace: 'examPlatformModal',
 
   state: {
     userCount: 0,
     collegeList: [],
+    groupCheckFlag:false,
+    koDateRange: {},
     userConfigData: {
       province: [
         '湖南', '山东', '新疆维吾尔自治区', '浙江', '辽宁', '山西', '广东', '江苏', '四川',
@@ -19,7 +22,7 @@ export default {
       pushed: ['未通知', '已通知'],
       pushOpenStatus: ['未读', '已读'],
     }, // 以上是用户变量
-    pageSize: 15,
+    pageSize: 10,
     dataStatisticsList: [],
     statisticsCount: 0, // 总条数
     exportTypeList: [
@@ -33,12 +36,19 @@ export default {
 
   effects: {
     *getKOEnumList({ payload }, { call, put }) {
-      const response = yield call(getKOEnumList, {type: 9});
-      if (response.code === 20000) {
-        const data = Array.isArray(response.data) ? response.data : [];
+      const res1 = yield call(getKOEnumList, {type: 9});
+      const res2 = yield call(getKoDateRange);
+      if (res1.code === 20000) {
+        const data = Array.isArray(res1.data) ? res1.data : [];
         yield put({ type: 'saveOrgIdList', payload: { orgIdList: data[0].enumData } });
       } else {
-        message.error(msgF(response.msg, response.msgDetail));
+        message.error(msgF(res1.msg, res1.msgDetail));
+      }
+      if (res2.code === 2000) {
+        const data = Array.isArray(res2.data) ? res2.data : [];
+        yield put({ type: 'save', payload: { koDateRange: data } });
+      } else {
+        message.error(msgF(res2.msg, res2.msgDetail));
       }
     },
     *getUserCount({ payload }, { call, put }) {
@@ -53,10 +63,17 @@ export default {
     },
     *createGroup({ payload, callback }, { call, put }) {
       // 列表
-      const result = yield call(createUserGroup, { ...payload.params, groupType: 1}); // 1 - 报考通知 2 - KO运营
+      const params = payload.params;
+      if (!params.groupName) {
+        message.error('用户群名称不能为空');
+        return ;
+      }
+      const result = yield call(createUserGroup, { ...params, groupType: 1}); // 1 - 报考通知 2 - KO运营
       if (result && result.code && result.code === 20000) {
         yield put({ type: 'getUserGroupList'}); // 创建用户组成功后更新配置信息
         if (callback && typeof callback === 'function') callback()
+      } else if (result && result.code && result.code === 20003) {
+        message.error('该用户群名称已经存在，请修改后再保存');
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -69,7 +86,7 @@ export default {
         });
         yield put({
           type: 'save',
-          payload: { userGroupListConfig: groupList }
+          payload: { userGroupConfig: groupList }
         });
       }
     },
@@ -98,6 +115,19 @@ export default {
         message.error('导出失败');
       }
     },
+    *userGroupCheck({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(userGroupCheck, params);
+      if (result.code === 20000) {
+        const groupCheckFlag = result.data.exist;
+        yield put({ type: 'save', payload: { groupCheckFlag } });
+        if (callback && typeof callback === 'function') {
+          callback();
+        }
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    }
   },
   reducers: {
     save(state, action) {

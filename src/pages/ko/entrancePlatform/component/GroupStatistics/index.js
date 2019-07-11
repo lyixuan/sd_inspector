@@ -1,11 +1,17 @@
-import React, { Component } from 'react';
-import BITable from '@/ant_components/BITable';
-import styles from '../style.less';
+import React from 'react';
+import { Skeleton } from 'antd';
 import { connect } from 'dva/index';
-import { Skeleton, Table } from 'antd';
+
+import moment from 'moment';
+import BITable from '@/ant_components/BITable';
 import BISelect from '@/ant_components/BISelect';
 import BIDatePicker from '@/ant_components/BIDatePicker';
-import { getSubStringValue } from '../../../../utils/utils';
+import {
+  getSubStringValue,
+  handleDefaultPickerExamValue,
+  handleTNDateValue,
+} from '../../../utils/utils';
+import styles from '../style.less';
 
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
@@ -141,25 +147,26 @@ function addRecursion(arr) {
   return count;
 }
 
-@connect(({ examPlatformModal, loading }) => ({
+@connect(({ examPlatformModal, koPlan, loading }) => ({
   dataStatisticsList: examPlatformModal.dataStatisticsList,
   pageSize: examPlatformModal.pageSize,
   statisticsCount: examPlatformModal.statisticsCount,
   exportTypeList: examPlatformModal.exportTypeList,
   userGroupConfig: examPlatformModal.userGroupConfig,
+  currentServiceTime: koPlan.currentServiceTime,
   configloading: loading.effects['examPlatformModal/getUserGroupList'],
   listloading: loading.effects['examPlatformModal/getDataStatistics'],
 }))
-class Index extends Component {
+class GroupStatistics extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userPramas: {
         page: 1,
         pageSize: this.props.pageSize,
-        type: 1
       },
       selectedList: [],
+      exportType: undefined,
     }
   }
   componentDidMount() {
@@ -187,13 +194,14 @@ class Index extends Component {
   onChangeDate = (dateTime) => {
     this.setState({
       userPramas: {...this.state.userPramas, ...this.formateDateTime(dateTime)},
+      exportType: undefined,
       dateTime
     }, () => this.handleSearch())
   }
   onChangeGroup = (userGroupIdList) => {
-    console.log(userGroupIdList)
     this.setState({
-      userPramas: {...this.state.userPramas, userGroupIdList}
+      userPramas: {...this.state.userPramas, userGroupIdList},
+      exportType: undefined,
     }, () => this.handleSearch())
   }
   onChangeSize = (page) => {
@@ -203,7 +211,7 @@ class Index extends Component {
   onChangeExport = (exportType) => {
     this.setState({
       exportType
-    })
+    });
     if (exportType == 11 || exportType == 21) {
       const { userGroupIdList, beginDate, endDate} = this.state.userPramas;
       this.props.dispatch({
@@ -222,11 +230,15 @@ class Index extends Component {
       selectedList
     })
   }
+  // 时间置灰
+  dateDisabledDate = (current) => {
+    return current.isBefore(moment('2019-04-23')) || current.isAfter(moment('2019-10-31'));
+  }
 
   render() {
     const { userPramas, dateTime = [], exportType} = this.state;
     const { page } = userPramas;
-    const {statisticsCount, pageSize, dataStatisticsList, exportTypeList, userGroupConfig, configloading, listloading} = this.props;
+    const {statisticsCount, pageSize, dataStatisticsList, exportTypeList, userGroupConfig, configloading, listloading, currentServiceTime} = this.props;
     return (
       <div className={styles.userGroup}>
         <div className={`${styles.formStyle} ${styles.formCotainer} ${styles.userGroupForm}`}>
@@ -235,15 +247,17 @@ class Index extends Component {
               <div className={`${styles.itemCls} ${styles.itemTips}`}>数据统计：</div>
               <div className={`${styles.itemCls} ${styles.itemDates}`}>
                 <BIRangePicker placeholder={["通知起始时间", "通知截止时间"]}
-                               format="YYYY-MM-DD"
+                               format={dateFormat}
                                onChange={this.onChangeDate}
-                               value={dateTime}/>
+                               value={dateTime}
+                               defaultPickerValue={handleDefaultPickerExamValue(currentServiceTime)}
+                               disabledDate={this.dateDisabledDate}/>
               </div>
               <div className={`${styles.itemCls} ${styles.itemDates}`}>
                 <BISelect mode="multiple" placeholder="选择用户群组" value={userPramas.userGroupIdList} onChange={this.onChangeGroup} allowClear>
                   {userGroupConfig.map(item => (
-                    <Option title={item.name} key={item.id} id={item.id}>
-                      {getSubStringValue(item.name, 6)}
+                    <Option title={item.groupName} key={item.id} id={item.id}>
+                      {getSubStringValue(item.groupName, 6)}
                     </Option>
                   ))}
                 </BISelect>
@@ -251,29 +265,31 @@ class Index extends Component {
               <div className={styles.itemCls}>
                 <BISelect placeholder="导出数据" value={exportType} onChange={this.onChangeExport} allowClear>
                   {exportTypeList.map(item => (
-                    <Option key={item.id} id={item.id}>
+                    <Option title={item.name} key={item.id} id={item.id}>
                       {item.name}
                     </Option>
                   ))}
                 </BISelect>
               </div>
-              <div className={styles.updateDate}>数据更新时间：2019-01-08 01:03:21</div>
+              <div className={styles.updateDate}>数据更新时间：{handleTNDateValue(1, currentServiceTime)}</div>
             </div>
           </Skeleton>
         </div>
         <div className={styles.tableWrap}>
-          <Table
+          <BITable
             dataSource={dataStatisticsList}
             columns={columns}
             pagination={{
               onChange: this.onChangeSize,
               defaultPageSize: pageSize,
               current: page,
-              total: statisticsCount
+              total: statisticsCount,
+              showQuickJumper: true,
             }}
             loading={listloading}
             scroll={{ x: slidingValue + 600}}
             bordered
+            size="middle"
             rowSelection={{
               onChange: this.onRowChange
             }}
@@ -285,4 +301,4 @@ class Index extends Component {
   }
 }
 
-export default Index;
+export default GroupStatistics;

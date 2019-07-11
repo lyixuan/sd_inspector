@@ -223,13 +223,11 @@ class DataClassfy extends React.Component {
                   <li>
                     <label>选择订单：</label>
                     <div className={styles.selects}>
-
-
-                      <BISelect style={{ width: '100%' }} value={this.state.submitParam.ordId} placeholder="请选择" onChange={(val) => { this.orderChange(val) }}>
+                      {orderList instanceof Array && orderList.length > 0 ? <BISelect style={{ width: '100%' }} value={this.state.submitParam.ordId} placeholder="请选择" onChange={(val) => { this.orderChange(val) }}>
                         {orderList.map(item => (
                           <Option key={item.ordId}>{item.ordId}</Option>)
                         )}
-                      </BISelect>
+                      </BISelect> : '--'}
                     </div>
                   </li>
                   <li>

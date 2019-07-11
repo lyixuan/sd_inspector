@@ -15,7 +15,7 @@ const tabGroup = [{
 }, {
   tab: 'NPS',
   key: '/qualityMarking/nps',
-}]
+}];
 @connect(({ workTableModel }) => ({
   workTableModel,
 }))

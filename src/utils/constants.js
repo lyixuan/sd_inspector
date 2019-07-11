@@ -21,6 +21,7 @@ export const PROXY_PATH = () => '/proxy';
 // 登录页面地址配置
 export const LOGIN_URL = {
   development: 'http://test.xd.admin.ministudy.com',
+  // development: 'http://test.xd-copy.admin.ministudy.com',
   production: 'http://bd.ministudy.com',
 }[process.env.PROXY_ENV];
 

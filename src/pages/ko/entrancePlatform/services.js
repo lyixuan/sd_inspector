@@ -1,9 +1,5 @@
 import request from '@/utils/request';
 
-// 页面枚举接口
-export async function getKOEnumList(params) {
-  return request('/homePage/enumList', { method: 'get', params });
-}
 // 用户组全部数据列表
 export async function getUserGroupList(params) {
   return request('/userGroup/listAll', { method: 'get', params });

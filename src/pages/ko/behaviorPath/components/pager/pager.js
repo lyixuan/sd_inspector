@@ -6,20 +6,21 @@ import BIPagination from '@/ant_components/BIPagination';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import { message } from 'antd';
 import stylesMine from './style.less';
+import { handleTNDateValue } from '@/pages/ko/utils/utils'
 
 const { BIRangePicker } = BIDatePicker;
 
-@connect(({ behaviorPath, loading }) => ({
+@connect(({ behaviorPath, koPlan, loading }) => ({
   loading,
   behaviorPath,
+  currentServiceTime: koPlan.currentServiceTime,
   isLoading: loading.effects['behaviorPath/getDateList'],
 }))
 class Pager extends React.Component {
   constructor(props) {
     super(props);
     const beginDate = this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.beginDate : new Date(new Date().getTime());
-    const endDate = this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.endDate : new Date(new Date().getTime());
-    console.log(20, this.props.behaviorPath);
+    const endDate = handleTNDateValue(1, this.props.currentServiceTime);
     this.state = {
       defaultBeginDate: beginDate,
       defaultEndDate: endDate,

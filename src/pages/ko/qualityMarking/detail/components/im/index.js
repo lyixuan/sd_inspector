@@ -79,6 +79,18 @@ function TeacherOrStudent(props) {
   }
 }
 
+const ordStatusConfig = {
+  UNPAID: '未支付',
+  PAID: '已支付',
+  CANCELED: '已解约',
+  FREEZED: '已冻结',
+  REVOKED: '已取消',
+  REPEALED: '已作废',
+  STUCHANGED: '已转人',
+  PRODCHANGED: '已转班',
+  EXPIRED: '已过服务期'
+};
+
 class DetailIm extends React.Component {
   constructor(props) {
     super(props);
@@ -128,9 +140,15 @@ class DetailIm extends React.Component {
             </div>
           </li>
           <li className={styles.flex}>
-            <div className={styles.row}>
+            <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>订单id：</span>
               <span className={styles.name}>{item.ordId}</span>
+            </div>
+          </li>
+          <li className={styles.flex}>
+            <div className={`${styles.row} ${styles.width50}`}>
+              <span className={styles.label}>订单状态：</span>
+              <span className={styles.name}>{ordStatusConfig[item.ordStatus]}</span>
             </div>
           </li>
           <li className={styles.flex}>

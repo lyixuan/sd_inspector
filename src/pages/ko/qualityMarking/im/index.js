@@ -87,20 +87,22 @@ function TeacherOrStudent(props) {
   }
 }
 
-@connect(({ workTableModel }) => ({
+@connect(({ workTableModel, koPlan }) => ({
   workTableModel,
   currentPage: workTableModel.pageParams[markType],
   searchParams: workTableModel.searchParams[markType] || {},
   collegeList: workTableModel.collegeList,// bbs nps
   consultList: [{ id: 0, name: '空' }].concat(workTableModel.consultList),// im
-  reasonList: workTableModel.reasonList,// im bbs nps
+  reasonList: workTableModel.reasonList,// im
+  operatorList: workTableModel.operatorList,// im bbs nps
   idList: workTableModel.idList,
+  currentServiceTime: koPlan.currentServiceTime
 }))
 class imPage extends React.Component {
   constructor(props) {
     super(props);
-    const { currentPage, searchParams } = this.props;
-    this.state = { searchParams: { choiceTime: handleDefaultPickerValueMark(), ...searchParams }, currentPage };
+    const { currentPage, searchParams, currentServiceTime } = this.props;
+    this.state = { searchParams: { choiceTime: handleDefaultPickerValueMark(2, currentServiceTime), ...searchParams }, currentPage };
   }
 
   columnsData = () => {
@@ -114,12 +116,14 @@ class imPage extends React.Component {
         title: '内容',
         dataIndex: 'contentList',
         key: 'contentList',
+        width: 130,
+        className: styles.contentListWith,
         render: (list, r) => {
           const content = list.length > 0 ? <Layout dataMark={r}></Layout> : r.content;
           const text = list.length > 0 ? list[0].content : '';
           return (
             <Tooltip overlayClassName="listMarkingTooltip" placement="right" title={content}>
-              <span>{getSubStringValue(text)}</span>
+              <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>
             </Tooltip>
           );
         },
@@ -128,7 +132,7 @@ class imPage extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: text => getSubStringValue(text, 3),
+        render: text => <span className={styles.textEllipsis}>{text}</span>,
       },
       {
         title: '后端归属',

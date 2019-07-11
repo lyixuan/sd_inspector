@@ -1,6 +1,8 @@
 import { message } from 'antd';
-import { getCollegeList, getConsultTypeTree, getReasonTypeTree, getTableList, exportData } from './services';
+import { getOperatorList, getConsultTypeTree, getReasonTypeTree, getTableList, exportData } from './services';
 import { downBlob, msgF } from '@/utils/utils';
+import { getKOEnumList } from '@/pages/ko/services';
+
 
 
 export default {
@@ -10,6 +12,7 @@ export default {
     collegeList: [],
     consultList: [],
     reasonList: [],
+    operatorList: [],
     evaluateList: [{ id: 0, name: '空' }, { id: 1, name: '非空' }],// 以上都是 搜索框基本信息
     pageParams: {// 各列表当前页
     },
@@ -21,12 +24,13 @@ export default {
     totalCount: 0,// 列表总值
   },
   effects: {
-    * getBasicData({ payload }, { call, put, select }) {
-      const collegeResult = yield call(getCollegeList);
+    *getBasicData({ payload }, { call, put, select }) {
+      const collegeResult = yield call(getKOEnumList, {type: 9});
       const consultResult = yield call(getConsultTypeTree);
       const reasonResult = yield call(getReasonTypeTree);
       if (collegeResult && collegeResult.code && collegeResult.code === 20000) {
-        yield put({ type: 'save', payload: { collegeList: collegeResult.data } });
+        const data = Array.isArray(collegeResult.data) ? collegeResult.data : [];
+        yield put({ type: 'save', payload: { collegeList: data[0].enumData } });
       }
       if (consultResult && consultResult.code && consultResult.code === 20000) {
         yield put({ type: 'save', payload: { consultList: consultResult.data } });
@@ -37,7 +41,7 @@ export default {
 
       }
     },
-    * getTableList({ payload, callback }, { call, put, select }) {
+    *getTableList({ payload, callback }, { call, put, select }) {
       // 列表
       const params = payload.params;
       const { choiceTime, ...otherParams } = params;
@@ -58,7 +62,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    * exportExcelData({ payload, callback }, { call }) {
+    *exportExcelData({ payload, callback }, { call }) {
       const result = yield call(exportData, payload.params);
       if (result) {
         const { headers } = result.response || {};
@@ -76,6 +80,14 @@ export default {
         callback(result); // 返回结果
       }
     },
+    *getOperatorList({ payload, callback }, { call, put }) {
+      const result = yield call(exportData, payload.params);
+      if (result && result.code && result.code === 20000) {
+        yield put({ type: 'save', payload: { operatorList: result.data } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    }
   },
 
   reducers: {

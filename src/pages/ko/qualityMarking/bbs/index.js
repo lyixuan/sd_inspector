@@ -10,7 +10,7 @@ import { handleDefaultPickerValueMark } from '@/pages/ko/utils/utils';
 import AuthButton from '@/components/AuthButton';
 
 const markType = 2; //im bbs nps 对应的type值为1， 2， 3
-@connect(({ workTableModel }) => ({
+@connect(({ workTableModel, koPlan }) => ({
   workTableModel,
   currentPage: workTableModel.pageParams[markType],
   searchParams: workTableModel.searchParams[markType] || {},
@@ -18,12 +18,13 @@ const markType = 2; //im bbs nps 对应的type值为1， 2， 3
   consultList: workTableModel.consultList,
   reasonList: workTableModel.reasonList,
   idList: workTableModel.idList,
+  currentServiceTime: koPlan.currentServiceTime
 }))
 class bbsPage extends React.Component {
   constructor(props) {
     super(props);
-    const { currentPage, searchParams } = this.props;
-    this.state = { searchParams: { choiceTime: handleDefaultPickerValueMark(), ...searchParams }, currentPage };
+    const { currentPage, searchParams, currentServiceTime } = this.props;
+    this.state = { searchParams: { choiceTime: handleDefaultPickerValueMark(2, currentServiceTime), ...searchParams }, currentPage };
   }
 
   columnsData = () => {

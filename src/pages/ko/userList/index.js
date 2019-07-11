@@ -47,34 +47,34 @@ function columns(enumDataIntention) {
       width: 110,
       fixed: 'left',
     },
-    {
-      title: '注册',
-      key: 'registerStatus',
-      dataIndex: 'registerStatus',
-      width: 60,
-      fixed: 'left',
-      render: (text, record) => {
-        return (
-          <>
-            <span style={{ cursor: 'pointer' }}>{BiFilter(`REGISTER_STATUS|id:${record.registerStatus}`).name}</span>
-          </>
-        );
-      },
-    },
-    {
-      title: '选课',
-      key: 'choiceLessonStatus',
-      dataIndex: 'choiceLessonStatus',
-      width: 60,
-      fixed: 'left',
-      render: (text, record) => {
-        return (
-          <>
-            <span style={{ cursor: 'pointer' }}>{BiFilter(`CHOISE_STATUS|id:${record.choiceLessonStatus}`).name}</span>
-          </>
-        );
-      },
-    },
+    // {
+    //   title: '注册',
+    //   key: 'registerStatus',
+    //   dataIndex: 'registerStatus',
+    //   width: 60,
+    //   fixed: 'left',
+    //   render: (text, record) => {
+    //     return (
+    //       <>
+    //         <span style={{ cursor: 'pointer' }}>{BiFilter(`REGISTER_STATUS|id:${record.registerStatus}`).name}</span>
+    //       </>
+    //     );
+    //   },
+    // },
+    // {
+    //   title: '选课',
+    //   key: 'choiceLessonStatus',
+    //   dataIndex: 'choiceLessonStatus',
+    //   width: 60,
+    //   fixed: 'left',
+    //   render: (text, record) => {
+    //     return (
+    //       <>
+    //         <span style={{ cursor: 'pointer' }}>{BiFilter(`CHOISE_STATUS|id:${record.choiceLessonStatus}`).name}</span>
+    //       </>
+    //     );
+    //   },
+    // },
     {
       title: '注册时间',
       key: 'registerTime',
@@ -386,7 +386,6 @@ function DateBar(props) {
 }
 
 function CreatUserGroupPop(props) {
-  console.log(357, props)
   if (props.groupCheck) {
     return (
       <BIModal
@@ -468,6 +467,12 @@ class UserList extends React.Component {
     this.getInitParams();
     this.queryData();
   }
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'koPlan/saveTabFromParamsPage',
+      payload: { formParams: { } },
+    });
+  }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.tabFromParams) !== JSON.stringify(this.props.tabFromParams)) {
@@ -523,7 +528,7 @@ class UserList extends React.Component {
     } : {};
   };
   queryData = (params = this.props.tabFromParams, pageParams = this.state.pageParams, chooseEventData = this.props.chooseEventData, filterExitParams = this.state.filterExitParams, orderSortParams = this.state.orderSortParams) => {
-    if (!params || JSON.stringify(params) === '{}') return;
+    // if (!params || JSON.stringify(params) === '{}') return;
     const localtionParams = this.getLocationParams(chooseEventData);
     const newParams = { ...params.formParams, ...pageParams, ...localtionParams, ...filterExitParams, ...orderSortParams };
     this.props.dispatch({

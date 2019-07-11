@@ -173,8 +173,11 @@ class InitTable extends Component {
     })
   }
   updateUserGroup = (record, type, e) => {
-    if (e && e.target && e.target.value === record.text) return;
-    e && e.target && this.props.dispatch({
+    if (!e || !e.target) return;
+    const v = e.target.value || '';
+    const t = record[type] || '';
+    if (v === t) return;
+    this.props.dispatch({
       type: 'userOperation/userGroupUpdate',
       payload: { params: {id: record.id, [type] : e.target.value} },
       callback: () => {
@@ -187,32 +190,36 @@ class InitTable extends Component {
       {
         title: '编号',
         dataIndex: 'code',
-        key: 'code'
+        key: 'code',
+        fixed: 'left',
+        width: 160,
       },
       {
         title: '用户群类型',
         dataIndex: 'groupType',
-        key: 'groupType'
+        key: 'groupType',
+        width: 120,
+        render: (text) => text === 1 ? '报考通知' : 'KO运营'
       },
       {
         title: '用户组名称',
         dataIndex: 'groupName',
         key: 'groupName',
+        width: 120,
         render: (text, record) => (
           <div style={{ display: 'flex', justifyItems: 'center' }}>
             <img src={userEdit} style={{ marginRight: '15px', width: '15px', height: '15px', marginTop: '3px', cursor: "pointer" }} onClick={() => this.edit(record)} />
             <Tooltip placement="bottom" title={text} >
-              <span style={{ maxWidth: '300px', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{text}</span>
+              <span style={{ maxWidth: '100px', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{text}</span>
             </Tooltip >
           </div>
-
-
         ),
       },
       {
         title: '学员标签',
         dataIndex: 'userTag',
         key: 'userTag',
+        width: 120,
         render: (text, record) => (
           <StudentLabel text={text}></StudentLabel>
           // < Tooltip placement="bottom" title={text} >
@@ -225,6 +232,7 @@ class InitTable extends Component {
         title: '学员数',
         dataIndex: 'userCount',
         key: 'userCount',
+        width: 120,
         render: (text, record) => (
           <span>{thousandsFormat(text)}</span>
         )
@@ -233,11 +241,13 @@ class InitTable extends Component {
         title: '更新时间',
         dataIndex: 'updateTime',
         key: 'updateTime',
+        width: 200,
       },
       {
         title: '状态',
         dataIndex: 'taskStatus',
         key: 'taskStatus',
+        width: 120,
         render: (text, record) => (
           <div><Status type={text}></Status></div>
         ),
@@ -246,23 +256,27 @@ class InitTable extends Component {
         title: '是否推送',
         dataIndex: 'pushed',
         key: 'pushed',
+        width: 120,
         render: (text, record) => <Switch defaultChecked={text} onChange={this.onPushedChange.bind(undefined, record.id)}></Switch>
       },
       {
         title: '推送人',
         dataIndex: 'pusher',
         key: 'pusher',
-        render: (text, record) => <Input placeholder="请输入263账号前缀" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'pusher')}/>
+        width: 200,
+        render: (text, record) => <Input maxLength={50} className={styles.tableInput} placeholder="请输入263账号前缀" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'pusher')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'pusher')}/>
       },
       {
         title: '用户来源码',
         dataIndex: 'sourceCode',
         key: 'sourceCode',
-        render: (text, record)=> <Input placeholder="推送模版落地页为尚小德时，此项必填" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'sourceCode')}/>
+        render: (text, record)=> <Input maxLength={50} className={styles.tableInput} placeholder="推送模版落地页为尚小德时，此项必填" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'sourceCode')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'sourceCode')}/>
       },
       {
         title: '操作',
         key: 'action',
+        fixed: 'right',
+        width: 200,
         render: (text, record) => (
           <div className={styles.options}>
             <a href="javascript:;" onClick={() => this.handleEditGroup(record)} disabled={record.taskStatus == 1 || record.taskStatus == 2 || record.taskStatus == 4}>编辑</a>
@@ -279,11 +293,18 @@ class InitTable extends Component {
     return columns || [];
   }
   render() {
-    const data = this.props.list.list
-    const defaultValue = this.state.groupName
+    const data = this.props.list.list;
+    const defaultValue = this.state.groupName;
     return (
       <>
-        <Table rowKey={record => record.id} columns={this.columnsData()} dataSource={data} pagination={false} onClick={this.handleEdit} />
+        <Table
+          rowKey={record => record.id}
+          columns={this.columnsData()}
+          dataSource={data}
+          pagination={false}
+          onClick={this.handleEdit}
+          scroll={{ x: 1800}}
+        />
         <BIModal
           title={'用户组名称'}
           visible={this.state.visible}

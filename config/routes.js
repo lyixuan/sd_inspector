@@ -365,11 +365,11 @@ export const routes = [
       {
         path: '/entrancePlatform',
         name: '报考督学平台',
-        pageRedirect: '/entrancePlatform/exam',
+        pageRedirect: '/entrancePlatform/statistics',
         routes: [
           {
-            path: '/entrancePlatform/exam',
-            component: './ko/entrancePlatform/exam',
+            path: '/entrancePlatform/statistics',
+            component: './ko/entrancePlatform',
           },
         ],
       },

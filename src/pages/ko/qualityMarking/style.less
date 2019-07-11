@@ -7,7 +7,6 @@
 
 :global .tabGroupContainer {
   background-color: #FFFFFF;
-  margin-right: 10px;
   padding-left: 20px;
   .ant-tabs-bar {
     border-bottom: 1px solid #FFFFFF;
@@ -32,41 +31,21 @@
   right: -18px;
   .aiWorktableMain {
     margin: 18px;
+    border-radius: 6px;
   }
 }
 
 // 导出按钮样式
 .exportBtn {
-  width: 90px;
-  height: 34px;
-  color: @base-white;
-  background-color: @base-yellow;
-  border-color: @base-yellow;
-  -webkit-box-shadow: none;
-  box-shadow: none;
   display: flex;
   justify-content: center;
   align-items: center;
   img {width: 14px;margin-right: 6px;}
 }
 .exportBtn:hover, .exportBtn:focus {
+  color: @base-white;
   background-color: @base-yellow;
-  border-color: @base-yellow;
-  color: @base-white;
-}
-.exportEvaluate {
-  min-width: 102px;
-  height: 34px;
-  color: @base-white;
-  background-color: @base-blue;
-  border-color: @base-blue;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.exportEvaluate:hover, .exportEvaluate:focus {
-  background-color: @base-blue;
-  border-color: @base-blue;
-  color: @base-white;
+  border-color: @base-yellow!important;
 }
 
 // IM悬浮框样式
@@ -296,4 +275,21 @@
   margin-bottom: 0;
   max-height: 460px;
   overflow-y: auto;
+}
+
+.textEllipsis {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.textEllipsisContent {
+  width: 220px;
+  height: 26px;
+  line-height: 26px;
+  border-radius: 6px;
+  background-color: #F6F7FA;
+  color: #1B1C20;
+  padding: 0 6px;
 }

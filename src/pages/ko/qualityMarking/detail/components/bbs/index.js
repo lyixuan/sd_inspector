@@ -54,7 +54,7 @@ class DetailBbs extends React.Component {
   }
 
   render() {
-    const { item } = this.props.pageData
+    const { item } = this.props.pageData;
     return (
       <>
         <ul className={styles.userInfo}>

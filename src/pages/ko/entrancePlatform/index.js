@@ -1,6 +1,6 @@
 import React from 'react';
-import CreateGroup from './component/CreateGroup/index'
-import GroupStatistics from './component/GroupStatistics/index'
+import CreateGroup from './component/CreateGroup'
+import GroupStatistics from './component/GroupStatistics'
 import styles from './style.less';
 
 class aiWorktable extends React.Component {

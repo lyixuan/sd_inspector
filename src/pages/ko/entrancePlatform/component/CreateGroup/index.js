@@ -1,14 +1,20 @@
-import React, { Component } from 'react';
-import { Form, Icon, Skeleton } from 'antd';
-import BIDatePicker from '@/ant_components/BIDatePicker';
-import BISelect from '@/ant_components/BISelect';
-import BIButton from '@/ant_components/BIButton/index';
-import CreateModal from '../CreateModal/index';
-import btnStyles from '../../../commom.less';
-import styles from '../style.less';
-import BICascader from '@/ant_components/BICascader/FormCascader';
+import React from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
+import { Form, Icon, Skeleton, Button } from 'antd';
+import {
+  handleDefaultPickerExamValue,
+  handleTNDateValue,
+  initRecordTimeListData,
+} from '../../../utils/utils';
+import BICascader from '@/ant_components/BICascader/FormCascader';
+import BIDatePicker from '@/ant_components/BIDatePicker';
+import AuthButton from '@/components/AuthButton';
+import BISelect from '@/ant_components/BISelect';
+import CreateModal from '../CreateModal';
+import btnStyles from '../../btnstyles.less';
+import styles from '../style.less';
+import moment from 'moment';
 
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
@@ -20,14 +26,20 @@ function onFieldsChange(props, fields) {
     Object.keys(fields).forEach(item => {
       const { value } = fields[item];
       params[item] = value;
+      if (item === 'pushed' && value === 0) {
+        params.pushOpenStatus = undefined;
+        props.form.setFieldsValue({pushOpenStatus: undefined})
+      }
     });
     props.onChange(params);
   }
 }
 
-@connect(({ examPlatformModal, loading }) => ({
+@connect(({ examPlatformModal, koPlan, loading,  }) => ({
   userCount: examPlatformModal.userCount,
   userConfigData: examPlatformModal.userConfigData,
+  koDateRange: examPlatformModal.koDateRange,
+  currentServiceTime: koPlan.currentServiceTime,
   configloading: loading.effects['examPlatformModal/getKOEnumList'],
   queryloading: loading.effects['examPlatformModal/getUserCount'],
 }))
@@ -61,10 +73,11 @@ class BasicForm extends React.Component {
   // 已选条件
   getCheckedConditionList = () => {
     const { queryCondition, userConfigData } = this.props;
-    const list = []
+    const list = [];
     Object.keys(queryCondition).map(name => {
       const val = queryCondition[name];
-      if (val !== undefined) {
+      const bul = val instanceof Array;
+      if ((bul && val.length > 0) ||  (!bul && val !== undefined)) {
         let label = '';
         const config = userConfigData[name];
         if (name === 'orgIdList') {
@@ -102,18 +115,28 @@ class BasicForm extends React.Component {
   handleReset = () => {
     this.props.form.resetFields();
   };
-  format (num) {
+  // 千分展示数值
+  userCountformat = (num) => {
     var reg=/\d{1,3}(?=(\d{3})+$)/g;
     return (num + '').replace(reg, '$&,');
   }
-  onHandleRoute () {
-    router.push({
-      pathname: '/koUserOperation/userOperation',
-    });
+  // 权限允许，则跳转到群组管理
+  onHandleRoute = () => {
+    const pathname = '/koUserOperation/userOperation';
+    if (AuthButton.checkPathname(pathname)) {
+      router.push({ pathname });
+    }
+  }
+  // 时间置灰
+  dateDisabledDate = (current) => {
+    const { koDateRange } = this.props;
+    const recordTimeList = initRecordTimeListData(koDateRange);
+    const [beginTime, endTime] = recordTimeList;
+    return current.isBefore(moment('2015-01-01')) || current.isAfter(moment(endTime))
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { queryCondition, userCount, userConfigData, configloading, queryloading} = this.props;
+    const { queryCondition, userCount, userConfigData, configloading, queryloading, currentServiceTime} = this.props;
     const getCheckedList = this.getCheckedConditionList();
     return (
       <>
@@ -162,11 +185,14 @@ class BasicForm extends React.Component {
                 </div>
                 <div className={`${styles.itemCls} ${styles.itemDates}`}>
                   <Form.Item>
-                    {getFieldDecorator('choiceTime', {})(
+                    {getFieldDecorator('choiceTime', {
+                      initialValue: queryCondition.choiceTime,
+                    })(
                       <BIRangePicker
                         placeholder={['订单起始时间', '订单截止时间']}
                         format={dateFormat}
-                      />,
+                        defaultPickerValue={handleDefaultPickerExamValue(currentServiceTime)}
+                        disabledDate={this.dateDisabledDate}/>,
                     )}
                   </Form.Item>
                 </div>
@@ -197,7 +223,9 @@ class BasicForm extends React.Component {
                 </div>
                 <div className={styles.itemCls}>
                   <Form.Item>
-                    {getFieldDecorator('pushed', {})(
+                    {getFieldDecorator('pushed', {
+                      initialValue: queryCondition.pushed,
+                    })(
                       <BISelect placeholder="是否通知" allowClear>
                         {userConfigData.pushed.map((item, index) => <Option key={index} value={index}>{item}</Option>)}
                       </BISelect>,
@@ -206,8 +234,10 @@ class BasicForm extends React.Component {
                 </div>
                 <div className={styles.itemCls}>
                   <Form.Item>
-                    {getFieldDecorator('pushOpenStatus', {})(
-                      <BISelect placeholder="通知打开状态" allowClear>
+                    {getFieldDecorator('pushOpenStatus', {
+                      initialValue: queryCondition.pushOpenStatus,
+                    })(
+                      <BISelect placeholder="通知打开状态" disabled={queryCondition.pushed === 0} allowClear>
                         {userConfigData.pushOpenStatus.map((item, index) => <Option key={index} value={index}>{item}</Option>)}
                       </BISelect>,
                     )}
@@ -232,18 +262,20 @@ class BasicForm extends React.Component {
                   </div>
                 )}
               <div className={`${styles.rowWrap} ${styles.actionGroup}`}>
-                <BIButton onClick={this.handleReset} style={{ marginRight: '10px' }}>重置</BIButton>
-                <BIButton type="primary" htmlType="submit" loading={queryloading}>查询</BIButton>
-                <span className={styles.updateDate}>数据更新时间：2019-01-08 01:03:21</span>
+                <Button className={btnStyles.btnCancel} onClick={this.handleReset} style={{ marginRight: '10px' }}>{'重'}{'置'}</Button>
+                <Button className={btnStyles.btnPrimary} htmlType="submit" loading={queryloading}>{'查'}{'询'}</Button>
+                <span className={styles.updateDate}>数据更新时间：{handleTNDateValue(2, currentServiceTime)}</span>
               </div>
             </Skeleton>
           </Form>
         </div>
         <div className={styles.searchResult}>
-          <div className={styles.totalNumber}>查询结果：共查找出 <span>{this.format(userCount)}</span> 个学员</div>
+          <div className={styles.totalNumber}>查询结果：共查找出 <span>{this.userCountformat(userCount)}</span> 个学员</div>
           <div>
-            <CreateModal queryloading={queryloading} handlePramas={this.handlePramas} queryCondition={queryCondition} userCount={userCount}></CreateModal>
-            <BIButton onClick={this.onHandleRoute} className={btnStyles.btnBlue}>查看/导出用户群</BIButton>
+            <CreateModal onHandleRoute={this.onHandleRoute} queryloading={queryloading} handlePramas={this.handlePramas} queryCondition={queryCondition} userCount={userCount}></CreateModal>
+            <AuthButton authority='/koUserOperation/userOperation'>
+              <Button onClick={this.onHandleRoute} className={btnStyles.btnBlue}>查看/导出用户群</Button>
+            </AuthButton>
           </div>
         </div>
       </>

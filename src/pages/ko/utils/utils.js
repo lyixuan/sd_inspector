@@ -95,10 +95,13 @@ export function jumpMarkingDetails(id, type) {
   }
 
 }
-export function handleDefaultPickerValueMark() {
-  const cTime = new Date().getTime() - 2 * 24 * 60 * 60 * 1000;
-  const defTime = moment(cTime);
+export function handleDefaultPickerValueMark(n = 2, cTime = moment()) {
+  const defTime = cTime.subtract(n, 'days');
   return [defTime, defTime];
 }
-
-
+export function handleDefaultPickerExamValue(cTime = moment()) {
+  return [cTime.subtract(1, 'months'), cTime]
+}
+export function handleTNDateValue(n = 1, cTime = moment()) {
+  return cTime.subtract(n, 'days').format(commitDateFormat)
+}

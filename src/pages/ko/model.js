@@ -2,7 +2,7 @@ import { message } from 'antd';
 import { msgF } from '@/utils/utils';
 import {
   getKOEnumList,
-  getKoDateRange, getKOMessage, getPageDetailInfoList, getUserGroupList,
+  getKoDateRange, getKOMessage, getPageDetailInfoList, getUserGroupList, getCurrentTime
 } from './services';
 
 
@@ -23,6 +23,7 @@ export default {
     chooseEventData: [],
     userGroupListData: [],
     pageDetailTotal: {},
+    currentServiceTime: '' // 当前服器时间
   },
 
   effects: {
@@ -148,7 +149,19 @@ export default {
         type: 'saveTabFromParamsPage',
         payload: { page: { value: pageVale.page, actionValue: pageVale.page } },
       });
-    }
+    },
+    *getCurrentTime(_, { call, put }) {
+      const response = yield call(getCurrentTime);
+      if (response.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: { currentServiceTime: response.data.currentTime },
+        })
+      } else {
+        message.error(response.msg)
+      }
+
+    },
   },
 
   reducers: {
