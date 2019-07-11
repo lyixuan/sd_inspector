@@ -45,7 +45,6 @@ const storage = {
   },
   // 存储用户信息
   setUserInfo(token) {
-    Cookies.set(ADMIN_USER, { ...token }, { expires: 365, domain: DOMAIN_HOST });
     this.setItem(ADMIN_USER, token);
   },
   // 清除用户信息
