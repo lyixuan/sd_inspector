@@ -7,6 +7,7 @@ import { SERVER_HOST,PROXY_PATH } from './constants';
 
 import { notification } from 'antd';
 import { redirectToLogin } from './routeUtils';
+import storage from './storage';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -56,11 +57,11 @@ const errorHandler = error => {
  */
 const request = extend({
   errorHandler, // 默认错误处理
-  prefix: null
-  // headers: {
-  //   // 'X-Requested-With':'XMLHttpRequest',
-  //   // authorization: storage.getToken(),
-  // },
+  prefix: null,
+  headers: {
+    // 'X-Requested-With':'XMLHttpRequest',
+    authorization: storage.getToken(),
+  },
   // credentials: 'include', // 默认请求是否带上cookie,暂不做处理,如需添加请设置跨域处进行设置
 });
 // 动态添加数据;

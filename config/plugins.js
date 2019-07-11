@@ -10,7 +10,7 @@ export const plugins = [['umi-plugin-react', {
   chunks: ['vendors', 'umi'],
   dll: true,
   metas: [
-    { updateTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss') },
+    { buildTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss') },
   ],
   routes: {
     exclude: [
