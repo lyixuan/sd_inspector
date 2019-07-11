@@ -58,15 +58,15 @@ const errorHandler = error => {
 const request = extend({
   errorHandler, // 默认错误处理
   prefix: null,
-  headers: {
-    // 'X-Requested-With':'XMLHttpRequest',
-    authorization: storage.getToken(),
-  },
+  // headers: {
+  //   // 'X-Requested-With':'XMLHttpRequest',
+  //   authorization: storage.getToken(),
+  // },
   // credentials: 'include', // 默认请求是否带上cookie,暂不做处理,如需添加请设置跨域处进行设置
 });
 // 动态添加数据;
 request.interceptors.request.use((url, options) => {
-  options.headers = Object.assign({}, options.headers, { 'X-Requested-With':'XMLHttpRequest' });
+  options.headers = Object.assign({}, options.headers, { 'X-Requested-With':'XMLHttpRequest',authorization: storage.getToken() });
   const isOld = url.indexOf('apis')>-1;
 
   return {
