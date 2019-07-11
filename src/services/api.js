@@ -13,7 +13,7 @@ export async function getUserAuthList(data) {
 * params：{userId}
 * */
 export async function CurrentUserListRole(params) {
-    return request('apis/account/listRole', { params });
+    return request('/apis/account/listRole', { params });
 }
 
 /*
@@ -21,7 +21,7 @@ export async function CurrentUserListRole(params) {
 * params：{userId}
 * */
 export async function userChangeRole(data) {
-    return request(`apis/account/changeRole`, {
+    return request(`/apis/account/changeRole`, {
         method: 'POST',
         data,
     });
@@ -41,5 +41,5 @@ export async function getPrivilegeListNew() {
 * 新，用户信息接口
 * */
 export async function getUserInfoNew() {
-  return request(`apis/getUserInfo`);
+  return request(`/apis/getUserInfo`);
 }

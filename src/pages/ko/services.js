@@ -6,11 +6,11 @@ export async function getKOEnumList(params) {
 }
 // 获取配置时间接口
 export async function getKoDateRange(params) {
-  return request('apis/time/getKoDateRange', { params });
+  return request('/apis/time/getKoDateRange', { params });
 }
 // 获取配置文案接口
 export async function getKOMessage(params) {
-  return request('apis/certificationItem/getKOMessage', { params });
+  return request('/apis/certificationItem/getKOMessage', { params });
 }
 // 页面下拉二级列表
 export async function getPageDetailInfoList(params) {
