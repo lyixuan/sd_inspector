@@ -23,7 +23,7 @@ export const SERVER_HOST = {
 export const CAS_HOST = {
   development: 'http://test.xd.admin.ministudy.com',
   production: 'http://bd.ministudy.com',
-}[process.env.LOGIN_HOST];
+}[process.env.LOGIN_TYPE];
 
 // 设置domain域名
 export const DOMAIN_HOST = '.ministudy.com';
