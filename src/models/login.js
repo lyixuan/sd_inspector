@@ -20,27 +20,31 @@ export default {
   effects: {
     *initSubSystem(_, { call, put }) {
 
-      const response2 = yield call(getUserInfoNew);
+      const response = yield call(getUserInfoNew);
+      if (!response) return;
       const codeMsg403 = 10300;
-      if (!response2) return;
-      switch (response2.code) {
+      const data = response.data || {};
+      const { userName, userId, mail, positionCount,token } = data;
+      const saveObj = { userName, userId, mail, positionCount,token };
+
+      switch (response.code) {
         case 20000:
-          const data = response2.data || {};
-          const { userName, userId, mail, positionCount } = data;
-          const saveObj = { userName, userId, mail, positionCount };
           storage.setItem('admin_user', saveObj);
+          yield put({ type: 'getProvilege', payload: { params: {} } });
           break;
         case codeMsg403:
           yield put(router.push('/exception/403'));
           break;
         default:
-          message.error(response2.msg);
+          message.error(response.msg);
           break;
       }
+    },
+    *getProvilege(_, { call, put }){
       const response = yield call(getPrivilegeListNew);
       if (!response) return;
       if (response.code === 20000) {
-        const data = response.data || {};
+        const data = response.data || null;
         storage.setItem('admin_auth', data);
         yield put(routerRedux.push('/'));
       } else {

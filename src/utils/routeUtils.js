@@ -3,15 +3,15 @@ import pathToRegexp from 'path-to-regexp';
 import storage from './storage';
 
 export function redirectToLogin() {
-  const { href, origin } = window.location;
-  const serverUrl = `${origin}/inspector-tologin`;
-  window.location.href = `${serverUrl}?originPage=${href}`;
+  const { origin } = window.location;
+  const serverUrl = `${origin}/tologin`;
+  window.location.href = `${serverUrl}?originPage=${origin}`;
 }
 
 export function casLogout() {
   const { origin } = window.location;
-  const logoutUrl = `${origin}/inspectorapis/caslogout?`;
-  const pageUrl = `pageUrl=${origin}/inspector-tologin?originPage=${origin}`;
+  const logoutUrl = `${origin}/apis/caslogout?`;
+  const pageUrl = `pageUrl=${origin}/tologin?originPage=${origin}`;
 
   window.location.href = `${logoutUrl}${pageUrl}`;
 }

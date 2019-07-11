@@ -13,7 +13,7 @@ export async function getUserAuthList(data) {
 * params：{userId}
 * */
 export async function CurrentUserListRole(params) {
-    return request('/account/listRole', { params, prefix: '/oldApi' });
+    return request('/apis/account/listRole', { params });
 }
 
 /*
@@ -21,10 +21,9 @@ export async function CurrentUserListRole(params) {
 * params：{userId}
 * */
 export async function userChangeRole(data) {
-    return request(`/account/changeRole`, {
+    return request(`/apis/account/changeRole`, {
         method: 'POST',
         data,
-        prefix: '/oldApi',
     });
 }
 // 根据userId和token,获取权限列表
@@ -42,5 +41,5 @@ export async function getPrivilegeListNew() {
 * 新，用户信息接口
 * */
 export async function getUserInfoNew() {
-  return request(`/getUserInfo`);
+  return request(`/apis/getUserInfo`);
 }
