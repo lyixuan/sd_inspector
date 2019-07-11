@@ -1,5 +1,4 @@
-import { ADMIN_AUTH, ADMIN_USER, DOMAIN_HOST } from './constants';
-import Cookies from 'js-cookie';
+import { ADMIN_AUTH, ADMIN_USER } from './constants';
 
 const storage = {
   getItem(key) {
@@ -34,6 +33,7 @@ const storage = {
       userId = info.userId;
       token = info.token;
     }
+    console.log('newToken',`${userId}_${token}`);
     return `${userId}_${token}`;
   },
   /*
