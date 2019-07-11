@@ -28,7 +28,7 @@ export default {
       const saveObj = { userName, userId, mail, positionCount,token };
 
       switch (response.code) {
-        case 20000:
+        case 2000:
           storage.setItem('admin_user', saveObj);
           yield put({ type: 'getProvilege', payload: { params: {} } });
           break;
