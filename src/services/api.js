@@ -33,7 +33,7 @@ export async function getPrivilegeList(params) {
 
 // 新,获取权限列表
 export async function getPrivilegeListNew() {
-  return request('/getPrivilegeList');
+  return request('/apis/getPrivilegeList');
 }
 
 

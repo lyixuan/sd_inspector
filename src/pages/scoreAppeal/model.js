@@ -31,7 +31,6 @@ export default {
     },
     // 获取申诉基础详情
     *queryBaseAppealInfo({ payload }, { call, put }) {
-      alert(JSON.stringify(params));
       yield put({ type: 'clearState', payload: { detailInfo:{} } });
       const params = payload.params;
       const result = yield call(getBaseAppealInfo, params);
