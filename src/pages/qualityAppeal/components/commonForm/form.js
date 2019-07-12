@@ -226,10 +226,10 @@ class CreateQualityNewSheet extends React.Component {
             return (
                 <Row style={{ lineHeight: '40px' }}>
                     <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
-                        <span className={styles.i}>*</span><Form.Item label="客诉主管邮箱：">
+                        <span className={styles.i}></span><Form.Item label="客诉主管邮箱：">
                             {getFieldDecorator('masterMail', {
                                 initialValue: params.masterMail,
-                                rules: [{ required: true, message: '请输入主管邮箱' }],
+                                // rules: [{ required: true, message: '请输入主管邮箱' }],
                             })(<BIInput placeholder="请输入" style={{ width: 170 }} onChange={e => this.inputChange(e, 'masterMail')} />)}
                         </Form.Item>
                         <div className={styles.text}>@sunlands.com</div>
@@ -240,10 +240,9 @@ class CreateQualityNewSheet extends React.Component {
                                 initialValue: params.masterQualityValue,
                                 rules: [{
                                   validator(rule, value, callback) {
-                                    if (!value||isNaN(value)||Number(value)<0) {
+                                    if (value!==0&&(!value||isNaN(value)||Number(value)<0)) {
                                       callback({ message: '请输入合法绩效' });
                                     } else if (
-                                      value &&
                                       String(value).split('.')[1] &&
                                       String(value).split('.')[1].length > 2
                                     ) {

@@ -30,7 +30,7 @@ class CommonForm extends React.Component {
     const { expand } = this.state;
     this.props.form.validateFields((err, values) => {
       if (this.props.onSubmit) {
-        const { payOrder, orderMoney, koOrderGap, frontBelong, backBelong, ...others } = values;
+        const { payOrder, orderMoney, koOrderGap, frontBelong, backBelong, transactionIntention, orderStatus, ...others } = values;
         const newParams = expand ? { ...values } : { ...others };
         this.props.onSubmit(newParams)
 
@@ -74,7 +74,7 @@ class CommonForm extends React.Component {
   chooseEnumData = (type) => {
     const { enumData = {} } = this.props;
     let returnData = [];
-    if (type >= 1 && type <= 11) {
+    if (type >= 1 && type <= 12) {
       if (type === 5) {
         return Array.isArray(enumData[type]) ? enumData[type].map(item => ({ ...item, value: item.name })) : [];
       }
@@ -415,7 +415,17 @@ class CommonForm extends React.Component {
                         )}
                       </Form.Item>
                     </div>
-                    <div className={styles.itemCls} />
+                    <div className={styles.itemCls} >
+                      <Form.Item label='成单意向：'>
+                        {getFieldDecorator('transactionIntention', {
+                          initialValue: params.transactionIntention,
+                        })(
+                          <BISelect placeholder="请选择" allowClear>
+                            {this.filterEnumData(12).map(item => <Option key={item.id} value={item.value}>{item.name}</Option>)}
+                          </BISelect>
+                        )}
+                      </Form.Item>
+                    </div>
                     <div className={styles.itemCls} />
                     <div className={styles.itemCls} />
                   </div>

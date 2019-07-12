@@ -17,7 +17,7 @@ export default class SubOrderDetailComponent extends React.Component {
       stuId,
       mobile,
       packageName,
-      amount,
+      trainingAmount,
       classTeacherName,
       groupName,
     } = this.state.data ? this.state.data : {};
@@ -33,7 +33,7 @@ export default class SubOrderDetailComponent extends React.Component {
           <div className={styles.secRow}>
             <div>联系方式：{mobile}</div>
             <div>产品包：{packageName}</div>
-            <div>缴费金额：{amount}</div>
+            <div>缴费金额：{trainingAmount}</div>
           </div>
           <div className={styles.secRow}>
             <div>班主任：{classTeacherName}</div>

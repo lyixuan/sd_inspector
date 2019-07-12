@@ -207,7 +207,10 @@ class BasicLayout extends React.PureComponent {
       payload: { routeData },
     });
   };
-
+  gobalMarkClass() {// 质检标注的几个页面布局 需要改变一下头部的样式
+    const tabGroup = ['/qualityMarking/im', '/qualityMarking/bbs', '/qualityMarking/nps'];
+    return tabGroup.includes(this.props.location.pathname) ? 'aiWorktable-ant-layout-content' : '';
+  }
   render() {
     const { collapsed, fetchingNotices, notices, location, children, isLoginIng } = this.props;
     const { menuData } = this.props;
@@ -238,7 +241,7 @@ class BasicLayout extends React.PureComponent {
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
           </Header>
-          <Content>
+          <Content className={this.gobalMarkClass()}>
             <ContentLayout {...this.props} routesData={routesData}>
               <Authorized
                 authority={checkPathname.bind(null, location.patchname)}

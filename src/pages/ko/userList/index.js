@@ -6,6 +6,7 @@ import BIButtonText from '@/components/BIButtonText';
 import BIPagination from '@/ant_components/BIPagination';
 import BIButton from '@/ant_components/BIButton';
 import { BiFilter, thousandsFormat } from '@/utils/utils';
+import { getTransactionIntentionValue } from '../utils/utils'
 import BIModal from '@/ant_components/BIModal';
 import BIInput from '@/ant_components/BIInput';
 import moment from 'moment';
@@ -19,7 +20,7 @@ const dateFormat = 'YYYY.MM.DD';
 const { TextArea } = BIInput;
 
 const filterKeyName = [];
-const sorterKeyName = {
+const sorterKeyName = { // 排序对应字段
   attendenceCount: 'study_total_attendance_num',
   listenTime: 'study_total_listen_time',
   studyExeciseNum: 'study_exercise_num',
@@ -34,8 +35,10 @@ const sorterKeyName = {
   wechatTeacherChatNum: 'wechat_teacher_chat_num',
   wechatStudentChatNum: 'wechat_student_chat_num',
   imEmotionValue: 'negative_msg_num',
+  imRobotChatNum: 'robot_chat_num',
+  transactionIntention: 'transaction_intention',
 };
-function columns() {
+function columns(enumDataIntention) {
   const col = [
     {
       title: '学员',
@@ -122,6 +125,19 @@ function columns() {
       filters: [
         { text: '大于0', value: 1, key: 'execiseExist' },
         { text: '等于0', value: 2, key: 'execiseExist' },
+      ],
+      sorter: true,
+      sortDirections: ['descend', 'ascend']
+    },
+    {
+      title: '机器人咨询量',
+      key: 'imRobotChatNum',
+      dataIndex: 'imRobotChatNum',
+      filterMultiple: false,
+      width: 140,
+      filters: [
+        { text: '大于0', value: 1, key: 'robotChatExist'},
+        { text: '等于0', value: 2, key: 'robotChatExist' },
       ],
       sorter: true,
       sortDirections: ['descend', 'ascend']
@@ -272,6 +288,15 @@ function columns() {
       sortDirections: ['descend', 'ascend']
     },
     {
+      title: '成单意向',
+      key: 'transactionIntention',
+      dataIndex: 'transactionIntention',
+      width: 120,
+      sorter: true,
+      sortDirections: ['descend', 'ascend'],
+      render: t => getTransactionIntentionValue(enumDataIntention, t)
+    },
+    {
       title: '',
       dataIndex: 'duoyukuandu',
     },
@@ -408,6 +433,7 @@ function CreatUserGroupPop(props) {
   userListModel,
   tabFromParams: koPlan.tabFromParams,
   originParams: koPlan.originParams,
+  enumDataIntention: koPlan.enumData[12],
   pageParams: userListModel.pageParams,
   chooseEventData: koPlan.chooseEventData,
   loading: loading.effects['userListModel/getTableList'],
@@ -469,7 +495,7 @@ class UserList extends React.Component {
     // 筛选
     filterKeyName.forEach(item => {
       const filterArr = filters[item.dataIndex];
-      filterExitParams[item.filterKey] = Array.isArray(filterArr) ? (filterArr.length > 0 ? filterArr[0] : 0) : undefined;
+      filterExitParams[item.filterKey] = Array.isArray(filterArr) ? (filterArr.length > 0 ? filterArr[0] : undefined) : undefined;
     });
     // 排序
     if (orderSort.columnKey && orderSort.order) {
@@ -675,9 +701,9 @@ class UserList extends React.Component {
             rowKey={record => {
               return record.userId + Math.random() * 1000;
             }}
-            dataSource={dataSource} columns={columns()}
+            dataSource={dataSource} columns={columns(this.props.enumDataIntention)}
             pagination={false} loading={loading}
-            scroll={{ x: 2160, y: 570 }}
+            scroll={{ x: 2420, y: 570 }}
             size="middle"
           />
           <br />

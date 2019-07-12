@@ -22,7 +22,7 @@ export default class SubOrderDetailComponent extends React.Component {
       stuId,
       mobile,
       packageName,
-      amount,
+      trainingAmount,
       classTeacherName,
       collegeName,
       familyName,
@@ -45,7 +45,7 @@ export default class SubOrderDetailComponent extends React.Component {
           </div>
           <div className={styles.secRow} style={{paddingLeft:'100px'}}>
             <div>学员id：{stuId}</div>
-            <div>缴费金额：{amount}</div>
+            <div>缴费金额：{trainingAmount}</div>
             <div>&nbsp;</div>
           </div>
         </div>

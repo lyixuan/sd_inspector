@@ -35,7 +35,7 @@ class AppealCreate extends React.Component {
     const { query = {} } = this.props.location;
     this.props.dispatch({
       type: 'scoreAppealModel/queryBaseAppealInfo',
-      payload: { params: { dimensionId: query.dimensionId, dimensionType: query.dimensionType } },
+      payload: { params: { dimensionId: query.dimensionId, dimensionType: query.dimensionType,creditDate:query.creditDate,creditType:query.creditType } },
     });
     this.props.dispatch({
       type: 'scoreAppealModel/queryAppealInfoCheckList',
@@ -82,13 +82,14 @@ class AppealCreate extends React.Component {
   };
   handleOk = () => {
     const { query = {} } = this.props.location;
-    const { type, creditAppealId, creditType, dimensionType } = query;
+    const { type, creditAppealId, creditType, dimensionType,creditDate } = query;
     const { desc, attUrlList, creditType: creditType2 } = this.state;
     const params = {
       type,
-      creditAppealId: Number(creditAppealId),
+      creditAppealId: creditAppealId,
       desc,
       creditType: creditType2 ? creditType2 : creditType ? Number(creditType) : undefined,
+      creditDate: creditDate,
       dimensionType: Number(dimensionType),
       attUrlList,
       appealType: 2,  // 1 待申诉  2 已申诉
