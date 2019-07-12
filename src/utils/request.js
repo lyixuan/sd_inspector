@@ -36,6 +36,7 @@ const errorHandler = error => {
   const { status, url } = response;
   if (status === 401) {
     redirectToLogin();
+    return
   } else if (status === 403) {
     routerRedux.push('/exception/403');
     return;

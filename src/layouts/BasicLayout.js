@@ -20,6 +20,7 @@ import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
 
 import { redirectUrlParams, checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
+// import router from 'umi/router';
 const { Content, Header } = Layout;
 /**
  * 根据菜单取得重定向地址.
@@ -99,7 +100,12 @@ class BasicLayout extends React.PureComponent {
   componentWillMount() {
     if(!checkoutLogin()){
       this.initSysItem();
-    };
+    }
+    // else {
+    //   router.push({
+    //     pathname:'/indexPage'
+    //   });
+    // }
   }
   componentDidMount() {
     this.enquireHandler = enquireScreen(mobile => {
@@ -169,7 +175,7 @@ class BasicLayout extends React.PureComponent {
     return title;
   }
   handleUserInfo = () => {
-    const { userName = '小德',userId } = storage.getItem('admin_auth') || {};
+    const { userName = '小德',userId } = storage.getItem('admin_user') || {};
     return { name: userName,userId };
   };
   handleMenuCollapse = collapsed => {

@@ -19,7 +19,6 @@ export default {
 
   effects: {
     *initSubSystem(_, { call, put }) {
-
       const response = yield call(getUserInfoNew);
       if (!response) return;
       const codeMsg403 = 10300;
@@ -30,6 +29,7 @@ export default {
       switch (response.code) {
         case 2000:
           storage.setItem('admin_user', saveObj);
+
           yield put({ type: 'getProvilege', payload: { params: {} } });
           break;
         case codeMsg403:
@@ -46,7 +46,7 @@ export default {
       if (response.code === 20000) {
         const data = response.data || null;
         storage.setItem('admin_auth', data);
-        yield put(routerRedux.push('/'));
+        yield put(routerRedux.push('/indexPage'));
       } else {
         message.error(response.msg);
       }
