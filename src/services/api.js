@@ -40,6 +40,6 @@ export async function getPrivilegeListNew() {
 /*
 * 新，用户信息接口
 * */
-export async function getUserInfoNew() {
-  return request(`/apis/getUserInfo`);
+export async function getUserInfoNew(params) {
+  return request(`/apis/getUserInfo`,{params});
 }

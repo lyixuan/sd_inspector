@@ -8,6 +8,11 @@
 export const ADMIN_AUTH = 'admin_auth';
 // 当前用户信息
 export const ADMIN_USER = 'admin_user';
+
+export const DEBUGGER_USER = {
+  localhost: 'liuyixuan02',
+}[process.env.LOGIN_TYPE];
+
 // 静态文件host
 export const STATIC_HOST = {
   development: 'http://172.16.117.65',
@@ -19,6 +24,7 @@ export const SERVER_HOST = {
   localhost: 'http://test.xd.admin.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
 }[process.env.LOGIN_TYPE]
+
 
 export const CAS_HOST = {
   development: 'http://test.xd.admin.ministudy.com',
