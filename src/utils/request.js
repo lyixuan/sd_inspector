@@ -34,6 +34,7 @@ const errorHandler = error => {
   const { response = {} } = error;
   const errortext = codeMessage[response.status] || response.statusText;
   const { status, url } = response;
+
   if (status === 401) {
     redirectToLogin();
     return
@@ -63,7 +64,7 @@ const request = extend({
   //   // 'X-Requested-With':'XMLHttpRequest',
   //   authorization: storage.getToken(),
   // },
-  // credentials: 'include', // 默认请求是否带上cookie,暂不做处理,如需添加请设置跨域处进行设置
+  credentials: 'include',
 });
 // 动态添加数据;
 request.interceptors.request.use((url, options) => {
@@ -75,5 +76,4 @@ request.interceptors.request.use((url, options) => {
     options,
   };
 });
-
 export default request;

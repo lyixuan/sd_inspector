@@ -10,7 +10,7 @@ export const ADMIN_AUTH = 'admin_auth';
 export const ADMIN_USER = 'admin_user';
 
 export const DEBUGGER_USER = {
-  localhost: 'liuyixuan02',
+  localhost: 'duchunjing',
 }[process.env.LOGIN_TYPE];
 
 // 静态文件host
@@ -21,12 +21,13 @@ export const STATIC_HOST = {
 
 export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
-  localhost: 'http://test.xd.admin.ministudy.com',
+  localhost: 'http://172.16.58.18:8084',
   development: 'http://test.xd.admin.ministudy.com',
 }[process.env.LOGIN_TYPE]
 
 
 export const CAS_HOST = {
+  localhost: 'http://test.xd.admin.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   production: 'http://bd.ministudy.com',
 }[process.env.LOGIN_TYPE];
