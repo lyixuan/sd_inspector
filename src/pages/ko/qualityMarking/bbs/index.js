@@ -41,9 +41,11 @@ class bbsPage extends React.Component {
         render: text => {
           const content = <div className={styles.behaviorOthers}>{text}</div>;
           return (
-            <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right" title={content}>
-              <span>{getSubStringValue(text)}</span>
-            </Tooltip>
+            <>
+            {text ? <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right" title={content}>
+              <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>
+            </Tooltip> : <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>}
+            </>
           );
         },
       },
@@ -51,14 +53,14 @@ class bbsPage extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: text => getSubStringValue(text, 3),
+        render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'bbs' })} className={`${styles.textEllipsis} ${styles.textname}`}>{text}</span>
       },
       {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
         render: text => <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right"
-                                 title={text}><span>{getSubStringValue(text, 6)}</span></Tooltip>,
+                                 title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
       },
       {
         title: '操作人',

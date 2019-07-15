@@ -154,7 +154,6 @@ class CommonForm extends React.Component {
     const { KoDateRange } = this.props.pageParams;
     const dateArr = handleDateFormParams(KoDateRange)[keyName] || [];
     const [startTime, endTime] = dateArr;
-    console.log(endTime, moment(endTime))
     return [moment(endTime).subtract(1, 'months'), moment(endTime)]
   }
   renderCascader = (label) => {

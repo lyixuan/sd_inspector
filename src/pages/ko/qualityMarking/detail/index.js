@@ -85,15 +85,15 @@ class AiDetail extends React.Component {
       }
     })
   }
-  computedId = (fn) => {
-    let idList = this.props.idList
-    let id = this.state.id
+  computedId = (fn, action) => { // action 1-上一条  2-下一条 3-跳过
+    let idList = this.props.idList;
+    let id = this.state.id;
     const currentId = idList.indexOf(Number(id));
-    console.log(96, idList[currentId + 1])
+    // console.log(96, idList[currentId + 1])
     if (idList) {
       this.setState({
-        id: idList[currentId + 1]
-      }, () => fn())
+        id: action === 1 ? idList[currentId - 1] : idList[currentId + 1]
+      }, () => fn(action))
     }
   }
   render() {

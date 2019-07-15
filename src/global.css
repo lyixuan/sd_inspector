@@ -147,3 +147,6 @@ a,a:hover{
   border-color:#52C9C2!important;
 }
 
+body > a {
+  display: none;
+}

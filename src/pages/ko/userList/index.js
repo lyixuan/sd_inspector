@@ -475,7 +475,7 @@ class UserList extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (JSON.stringify(nextProps.tabFromParams) !== JSON.stringify(this.props.tabFromParams)) {
+    if (JSON.stringify(nextProps.tabFromParams.formParams) !== JSON.stringify(this.props.tabFromParams.formParams)) {
       this.queryData(nextProps.tabFromParams, this.initpage);
     }
     if (JSON.stringify(nextProps.chooseEventData) !== JSON.stringify(this.props.chooseEventData)) {

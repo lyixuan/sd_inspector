@@ -1,9 +1,8 @@
 import React from 'react';
 import copy from 'copy-to-clipboard';
 import { Icon, message } from 'antd';
-import { connect } from 'dva';
 import styles from '../../style.less';
-import { pathImUrl, jumpMarkingDetails } from '../../../../utils/utils';
+import { pathImUrl, jumpMarkingDetails, linkRoute, linkImgRouteBul } from '../../../../utils/utils';
 import moment from 'moment'
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
@@ -40,11 +39,11 @@ function TeacherOrStudent(props) {
               {/* {props.stuHeadUrl ? <img src={props.stuHeadUrl} /> : <img src={avatarStudent} />} */}
               <p>{props.item.userName}</p>
             </div>
-            <div className={styles.chatContent}>
+            <div className={`${styles.chatContent} ${linkImgRouteBul(props.item.content) ? styles.chatContentImg : ''}`}>
               <span className={styles.triangle}>
                 <em />
               </span>
-              {props.item.content}
+              <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.content, styles.linkRoute) }}></span>
             </div>
           </div>
         </div>
@@ -61,11 +60,11 @@ function TeacherOrStudent(props) {
             <span className={styles.dot} />
           </div>
           <div className={`${styles.chat} ${styles.chatRight}`}>
-            <div className={styles.chatContent}>
+            <div className={`${styles.chatContent} ${linkImgRouteBul(props.item.content) ? styles.chatContentImg : ''}`}>
               <span className={styles.triangle}>
                 <em />
               </span>
-              {props.item.content}
+              <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.content, styles.linkRoute) }}></span>
             </div>
             <div className={styles.avatar}>
               <img src={props.teacherHeadUrl ? (pathImUrl + props.teacherHeadUrl) : avatarTeacher} />
@@ -144,8 +143,6 @@ class DetailIm extends React.Component {
               <span className={styles.label}>订单id：</span>
               <span className={styles.name}>{item.ordId}</span>
             </div>
-          </li>
-          <li className={styles.flex}>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>订单状态：</span>
               <span className={styles.name}>{ordStatusConfig[item.ordStatus]}</span>
@@ -243,3 +240,29 @@ class DetailIm extends React.Component {
 
 export default DetailIm;
 
+function keywordscolorful(str, key) {
+  if (key.length > 0) {
+    key.map(item => {
+      var reg = "/" + item + "/g";
+      str = str.replace(eval(reg), `<i style="color:#FF5959;font-style:normal;">${item}</i>`)
+    })
+    return str;
+  }
+
+}
+
+function Content(props) {
+  const content = props.content;
+  const keywords = props.keyWord.split(',');
+  if (props.keyWord) {
+    return (
+      <>
+        <span dangerouslySetInnerHTML={{ __html: keywordscolorful(content, keywords) }}></span>
+      </>
+    )
+  } else {
+    return null
+  }
+
+
+}

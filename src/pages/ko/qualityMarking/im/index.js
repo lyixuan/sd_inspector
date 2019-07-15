@@ -1,16 +1,16 @@
 import React from 'react';
-import { Tooltip } from 'antd';
+import { Tooltip, Row, Col } from 'antd';
 // import router from 'umi/router';
 import { connect } from 'dva/index';
-import { pathImUrl, getSubStringValue, jumpMarkingDetails } from '../../utils/utils';
+import { handleDefaultPickerValueMark, pathImUrl, getSubStringValue, jumpMarkingDetails} from '@/pages/ko/utils/utils';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
+import AuthButton from '@/components/AuthButton';
 import ModalTip from '../components/modalTip';
 import MarkForm from '../components/form';
 import MarkList from '../components/list';
 import styles from '../style.less';
-import { handleDefaultPickerValueMark } from '@/pages/ko/utils/utils';
-import AuthButton from '@/components/AuthButton';
+
 
 const markType = 1; //im bbs nps 对应的额type值为1， 2， 3
 // 悬浮列表
@@ -132,14 +132,14 @@ class imPage extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: text => <span className={styles.textEllipsis}>{text}</span>,
+        render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'im' })} className={`${styles.textEllipsis} ${styles.textname}`}>{text}</span>,
       },
       {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
         render: text => <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right"
-                                 title={text}><span>{getSubStringValue(text, 6)}</span></Tooltip>,
+                                 title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
       },
       {
         title: '操作人',

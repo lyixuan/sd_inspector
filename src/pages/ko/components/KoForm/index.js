@@ -8,19 +8,27 @@ import { PAGE_KEY_ACTION } from '@/utils/constants';
 import styles from './style.less';
 import formStyles from '../formCommon.less';
 import { handleDateParams, initRecordTimeListData, handleRecordTimeParamsNew } from '../../utils/utils';
+import { connect } from 'dva';
+import { Skeleton } from 'antd';
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY.MM.DD';
 const { Option } = BISelect;
 
-export default class KoForm extends React.Component {
+@connect(({ koPlan, loading }) => ({
+  loading: loading.effects['koPlan/getEnumData'],
+  pageloading: loading.effects['koPlan/getPageList'],
+}))
+class KoForm extends React.Component {
   constructor(props) {
     super(props);
     const { KoDateRange } = this.props.pageParams;
     const tabFromParams = {
       recordTimeList: handleRecordTimeParamsNew(KoDateRange),
-      page: {},
+      page: {
+        value: 'homepage'
+      },
       pageDetail: {},
-      belongApp: undefined,
+      belongApp: "1",
     }
     this.state = { tabFromParams, pageDatils: [] };
     this.filterEnumData = memoizeOne(data => this.chooseEnumData(data));
@@ -135,72 +143,75 @@ export default class KoForm extends React.Component {
   render() {
     const { tabFromParams } = this.state;
     // const pageDetails = this.handlePageDetail(tabFromParams.page.value);
-    const { loading, enumData } = this.props;
+    const { loading, enumData, pageloading } = this.props;
     return (
-      <div className={`${formStyles.formStyle}`}>
-        {/*第一行*/}
-        <div className={styles.rowWrap}>
-          <div className={styles.itemCls}>
-            {loading ? null :
-              <>
-                <span className={styles.gutterLabel}>选择时间：</span>
-                <span className={styles.gutterForm}>
+      <Skeleton loading={loading} active>
+        <div className={`${formStyles.formStyle}`}>
+          {/*第一行*/}
+          <div className={styles.rowWrap}>
+            <div className={styles.itemCls}>
+              {loading ? null :
+                <>
+                  <span className={styles.gutterLabel}>选择时间：</span>
+                  <span className={styles.gutterForm}>
 
-                  <BIRangePicker style={{ width: '70%', minWidth: '140px' }} placeholder={["起始时间", "截止时间"]}
-                    format={dateFormat}
-                    onChange={this.changeDate}
-                    value={this.formateDateTime()}
-                    defaultPickerValue={this.handleDefaultPickerValue()}
-                    disabledDate={this.disabledDate} />
-                </span></>}
-          </div>
-          <div className={styles.itemCls}>
-            <span className={styles.gutterLabel}>选择应用：</span>
-            <span className={styles.gutterForm}>
-              <BISelect style={{ width: '70%', minWidth: '140px' }} placeholder="请选择" value={tabFromParams.belongApp} onChange={(val) => this.onChangeApp(val)}>
-                {this.filterEnumData(enumData[2]).map(item => (
-                  <Option key={item.value}>
-                    {item.name}
-                  </Option>
-                ))}
-              </BISelect>
-            </span>
-          </div>
-          <div className={styles.itemCls}>
-            <span className={styles.gutterLabel}>选择页面：</span>
-            <span className={styles.gutterForm}>
-              <BISelect style={{ width: '70%', minWidth: '140px' }} placeholder="请选择" value={tabFromParams.page.value} onSelect={this.onSelectPage}>
-                {this.renderPagaData(tabFromParams.belongApp).map(item => (
-                  <Option key={item.page} id={item.page}>
-                    {item.pageName}
-                  </Option>
-                ))}
-              </BISelect>
-            </span>
-          </div>
-          <div className={styles.itemCls}>
-            {/*{pageDetails.length === 0 ? null :*/}
-              {/*<>*/}
-                {/*<span className={styles.gutterLabel}>详情页面：</span>*/}
-                {/*<span className={styles.gutterForm}>*/}
-                  {/*<BISelect style={{ width: '70%', minWidth: '140px' }} allowClear placeholder="请选择" value={tabFromParams.currentActionKeyId} onChange={this.changeDetailPage}>*/}
-                    {/*{pageDetails.map(item => (*/}
-                      {/*<Option key={item.actionId} id={item.actionId}>*/}
-                        {/*{item.pageName}*/}
-                      {/*</Option>*/}
-                    {/*))}*/}
-                  {/*</BISelect>*/}
-                {/*</span>*/}
-              {/*</>*/}
-            {/*}*/}
+                    <BIRangePicker style={{ width: '70%', minWidth: '140px' }} placeholder={["起始时间", "截止时间"]}
+                      format={dateFormat}
+                      onChange={this.changeDate}
+                      value={this.formateDateTime()}
+                      defaultPickerValue={this.handleDefaultPickerValue()}
+                      disabledDate={this.disabledDate}
+                    />
+                  </span></>}
+            </div>
+            <div className={styles.itemCls}>
+              <span className={styles.gutterLabel}>选择应用：</span>
+              <span className={styles.gutterForm}>
+                <BISelect style={{ width: '70%', minWidth: '140px' }} placeholder="请选择" value={tabFromParams.belongApp} onChange={(val) => this.onChangeApp(val)}>
+                  {this.filterEnumData(enumData[2]).map(item => (
+                    <Option key={item.value}>
+                      {item.name}
+                    </Option>
+                  ))}
+                </BISelect>
+              </span>
+            </div>
+            <div className={styles.itemCls}>
+              <span className={styles.gutterLabel}>选择页面：</span>
+              <span className={styles.gutterForm}>
+                <BISelect loading={pageloading} style={{ width: '70%', minWidth: '140px' }} placeholder="请选择" value={tabFromParams.page.value} onSelect={this.onSelectPage}>
+                  {this.renderPagaData(tabFromParams.belongApp).map(item => (
+                    <Option key={item.page} id={item.page}>
+                      {item.pageName}
+                    </Option>
+                  ))}
+                </BISelect>
+              </span>
+            </div>
+            <div className={styles.itemCls}>
+              {/*{pageDetails.length === 0 ? null :*/}
+                {/*<>*/}
+                  {/*<span className={styles.gutterLabel}>详情页面：</span>*/}
+                  {/*<span className={styles.gutterForm}>*/}
+                    {/*<BISelect style={{ width: '70%', minWidth: '140px' }} allowClear placeholder="请选择" value={tabFromParams.currentActionKeyId} onChange={this.changeDetailPage}>*/}
+                      {/*{pageDetails.map(item => (*/}
+                        {/*<Option key={item.actionId} id={item.actionId}>*/}
+                          {/*{item.pageName}*/}
+                        {/*</Option>*/}
+                      {/*))}*/}
+                    {/*</BISelect>*/}
+                  {/*</span>*/}
+                {/*</>*/}
+              {/*}*/}
 
-          </div>
-          <div className={styles.itemCls}>
-            &nbsp;
+            </div>
+            <div className={styles.itemCls}>
+              &nbsp;
+            </div>
           </div>
         </div>
-      </div>
-
+      </Skeleton>
     );
   }
 }
+export default KoForm

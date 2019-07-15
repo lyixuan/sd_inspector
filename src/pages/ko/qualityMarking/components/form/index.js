@@ -27,7 +27,7 @@ class AiForm extends React.Component {
   }
   // 时间间隔不超过四十天
   getChangeTime = (c) => {
-    if (c.length === 0 || (c.length === 2 && c[1].diff(c[0], 'day') > 40) ) {
+    if (c.length === 0 || (c.length === 2 && c[1].diff(c[0], 'day') > 39) ) {
       message.error('请选择 ≤ 40 天的时间范围');
       return false
     }
@@ -103,7 +103,7 @@ class AiForm extends React.Component {
                   {getFieldDecorator('collegeId', {
                     initialValue: searchParams.collegeId,
                   })(
-                    <BISelect placeholder="请选择" allowClear>
+                    <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
                       {collegeList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
@@ -114,7 +114,7 @@ class AiForm extends React.Component {
                   {getFieldDecorator('consultType', {
                     initialValue: searchParams.consultType,
                   })(
-                    <BISelect placeholder="请选择" allowClear>
+                    <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
                       {consultList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
@@ -125,31 +125,35 @@ class AiForm extends React.Component {
                   {getFieldDecorator('reasonType', {
                     initialValue: searchParams.reasonType,
                   })(
-                    <BISelect placeholder="请选择" allowClear>
+                    <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
                       {reasonList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
                 </Form.Item>
               </div>
-              {markType == 3 &&
+              {markType == 3 && <div className={styles.itemCls}>
+                  <Form.Item label='自主评价：'>
+                    {getFieldDecorator('evaluateType', {
+                      initialValue: searchParams.evaluateType,
+                    })(
+                      <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
+                        {evaluateList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                      </BISelect>,
+                    )}
+                  </Form.Item>
+                </div>
+              }
+            </div>
+            <div className={styles.rowWrap}>
+              {
+                markType == 1 &&
                 <>
-                  <div className={styles.itemCls}>
-                    <Form.Item label='自主评价：'>
-                      {getFieldDecorator('evaluateType', {
-                        initialValue: searchParams.evaluateType,
-                      })(
-                        <BISelect placeholder="请选择" allowClear>
-                          {evaluateList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                        </BISelect>,
-                      )}
-                    </Form.Item>
-                  </div>
                   <div className={styles.itemCls}>
                     <Form.Item label='操作人：'>
                       {getFieldDecorator('operatorId', {
                         initialValue: searchParams.operatorId,
                       })(
-                        <BISelect placeholder="请选择" allowClear>
+                        <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
                           {operatorList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                         </BISelect>,
                       )}
@@ -160,7 +164,7 @@ class AiForm extends React.Component {
                       {getFieldDecorator('evaluate', {
                         initialValue: searchParams.evaluate,
                       })(
-                        <BISelect placeholder="请选择" allowClear>
+                        <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
                           {['不满意', '一般'].map((item, index) => <Option key={item} value={index}>{item}</Option>)}
                         </BISelect>,
                       )}
@@ -168,8 +172,6 @@ class AiForm extends React.Component {
                   </div>
                 </>
               }
-              <div className={styles.itemCls} />
-              {markType == 2 && <div className={styles.itemCls} />}
             </div>
           </Skeleton>
           <div className={`${styles.rowWrap} ${styles.buttonGroup}`}>

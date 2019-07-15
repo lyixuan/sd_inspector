@@ -30,6 +30,9 @@ class aiWorktable extends React.Component {
     this.props.dispatch({
       type: 'workTableModel/getBasicData',
     });
+    this.props.dispatch({
+      type: 'koPlan/getCurrentTime'
+    });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {

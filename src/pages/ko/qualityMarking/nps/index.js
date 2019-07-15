@@ -1,15 +1,17 @@
 import React from 'react';
-import { Tooltip, Rate } from 'antd';
+import { Tooltip } from 'antd';
 import { connect } from 'dva/index';
 import { getSubStringValue, jumpMarkingDetails, handleDefaultPickerValueMark } from '../../utils/utils';
+import AuthButton from '@/components/AuthButton';
 import ModalTip from '../components/modalTip';
 import MarkForm from '../components/form';
 import MarkList from '../components/list';
 import styles from '../style.less';
-import AuthButton from '@/components/AuthButton';
-
+import shapecolor from '@/assets/ai/shapecolor.svg'
+import shape from '@/assets/ai/shape.svg';
 
 const markType = 3; //im bbs nps 对应的额type值为1， 2， 3
+const shapeArr = Array.from(Array(5), (v,k) =>k);
 @connect(({ workTableModel, koPlan }) => ({
   workTableModel,
   currentPage: workTableModel.pageParams[markType] || 1,
@@ -42,9 +44,11 @@ class bbsPage extends React.Component {
         render: text => {
           const content = <div className={styles.behaviorOthers}>{text}</div>;
           return (
-            <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right" title={content}>
-              <span>{getSubStringValue(text)}</span>
-            </Tooltip>
+            <>
+              {text ? <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right" title={content}>
+                <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>
+              </Tooltip> : <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>}
+            </>
           );
         },
       },
@@ -52,20 +56,26 @@ class bbsPage extends React.Component {
         title: '星级',
         dataIndex: 'starLevel',
         key: 'starLevel',
-        render: text => <Rate allowHalf defaultValue={Number(text)} />
+        render: text => {
+          return (
+            <>
+              {shapeArr.map((item, index) => <img className={styles.shapeMargin} key={index} src={index < Number(text)  ?  shapecolor : shape}/>)}
+            </>
+          )
+        }
       },
       {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: text => getSubStringValue(text, 3)
+        render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'study' })} className={`${styles.textEllipsis} ${styles.textname}`}>{text}</span>
       },
       {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
         render: text => <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right"
-                                 title={text}><span>{getSubStringValue(text, 6)}</span></Tooltip>,
+                                 title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
       },
       {
         title: '操作人',

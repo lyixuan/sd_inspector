@@ -276,7 +276,7 @@
   max-height: 460px;
   overflow-y: auto;
 }
-
+// 表格宽度自适应
 .textEllipsis {
   display: inline-block;
   max-width: 100%;
@@ -284,12 +284,50 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
+@media screen and (min-width: 0) and (max-width: 1200px) {
+  .textEllipsisContent {
+    width: 180px;
+  }
+  .textorg {
+    width: 120px;
+  }
+  .textname {
+    width: 60px;
+  }
+}
+@media screen and (min-width: 1200px) and (max-width: 1500px) {
+  .textEllipsisContent {
+    width: 210px;
+  }
+  .textorg {
+    width: 180px;
+  }
+  .textname {
+    width: 60px;
+  }
+}
+@media screen and (min-width: 1500px) and (max-width: 2200px) {
+  .textEllipsisContent {
+    width: 300px;
+  }
+  .textname {
+    width: 100px;
+  }
+}
 .textEllipsisContent {
-  width: 220px;
+  //width: 220px;
   height: 26px;
   line-height: 26px;
   border-radius: 6px;
   background-color: #F6F7FA;
   color: #1B1C20;
   padding: 0 6px;
+}
+.textname {
+  color: #00CCC3;
+  cursor: pointer;
+}
+// 星星的颜色
+.shapeMargin {
+  margin: 0 2px;
 }
