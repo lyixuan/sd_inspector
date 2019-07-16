@@ -1,5 +1,5 @@
 import storage from '@/utils/storage';
-import { LOGIN_URL } from '@/utils/constants';
+import { ADMIN_URL } from '@/utils/constants';
 
 function getAuthData(data1) {
     const newArr = filterMenu(data1).sort((a, b) => a.sortFlag - b.sortFlag);
@@ -16,7 +16,7 @@ function removeInspector(itemPath) {
     if (isInspector) {
         return itemPath.replace('/inspector', '')
     } else {
-        return `${LOGIN_URL}${itemPath}`;
+        return `${ADMIN_URL}${itemPath}`;
     }
 
 };

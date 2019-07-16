@@ -1,8 +1,11 @@
 import { message } from 'antd';
 import { routerRedux } from 'dva/router';
-import { getPrivilegeList, CurrentUserListRole, userChangeRole } from '@/services/api';
+import router from 'umi/router';
+import { getPrivilegeList,getPrivilegeListNew,getUserInfoNew, CurrentUserListRole, userChangeRole } from '@/services/api';
 import storage from '@/utils/storage';
 import { msgF } from '@/utils/utils';
+import { redirectToLogin, casLogout, casLogoutDev } from '@/utils/routeUtils';
+import {DEBUGGER_USER} from '@/utils/constants';
 
 export default {
   namespace: 'login',
@@ -16,6 +19,40 @@ export default {
   },
 
   effects: {
+    *initSubSystem({payload}, { call, put }) {
+      const response = yield call(getUserInfoNew, { ...payload });
+      if (!response) return;
+      const codeMsg403 = 10300;
+      const data = response.data || {};
+      const { userName, userId, mail, positionCount,token } = data;
+      const saveObj = { userName, userId, mail, positionCount,token };
+
+      switch (response.code) {
+        case 2000:
+          storage.setItem('admin_user', saveObj);
+
+          return yield put({ type: 'getProvilege', payload: { params: {} } });
+          break;
+        case codeMsg403:
+          yield put(router.push('/exception/403'));
+          break;
+        default:
+          message.error(response.msg);
+          break;
+      }
+    },
+    *getProvilege(_, { call, put }){
+      const response = yield call(getPrivilegeListNew);
+      if (!response) return false;
+      if (response.code === 2000) {
+        const data = response.data || null;
+        storage.setItem('admin_auth', data);
+        yield put(routerRedux.push('/indexPage'));
+        return true
+      } else {
+        message.error(response.msg);
+      }
+    },
     *loginin(_, { call, put }) {
       const isHasUserInfo = storage.isRepeatLogin();
       const userInfo = storage.getUserInfo();
@@ -76,6 +113,17 @@ export default {
         type: 'changeLoginStatus',
         payload: response,
       });
+    },
+
+    *logout( ) {
+      storage.removeItem('admin_user');
+      storage.removeItem('admin_auth');
+      if(DEBUGGER_USER){
+        casLogoutDev();
+      } else {
+        casLogout();
+      }
+
     },
 
   },

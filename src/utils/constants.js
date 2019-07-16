@@ -8,15 +8,34 @@
 export const ADMIN_AUTH = 'admin_auth';
 // 当前用户信息
 export const ADMIN_USER = 'admin_user';
+
+export const DEBUGGER_USER = {
+  localhost: 'zhanglulu02',
+}[process.env.LOGIN_TYPE];
+
 // 静态文件host
 export const STATIC_HOST = {
   development: 'http://172.16.117.65',
-  production: 'http://api.bd.ministudy.com/download',
+  production: 'http://bd.ministudy.com/download',
 }[process.env.PROXY_ENV];
+
+export const SERVER_HOST = {
+  production: 'http://bd.ministudy.com',
+  localhost: 'http://dev.xd.admin.ministudy.com',
+  development: 'http://test.xd.admin.ministudy.com',
+}[process.env.LOGIN_TYPE]
+
+
+export const CAS_HOST = {
+  localhost: 'http://test.xd.admin.ministudy.com',
+  development: 'http://test.xd.admin.ministudy.com',
+  production: 'http://bd.ministudy.com',
+}[process.env.LOGIN_TYPE];
+
 // 设置domain域名
 export const DOMAIN_HOST = '.ministudy.com';
 // export const DOMAIN_HOST = 'localhost';
-export const PROXY_PATH = () => '/proxy';
+export const PROXY_PATH = (isOld) => {return isOld ?'':'/inspectorapis'};
 
 // 登录页面地址配置
 export const LOGIN_URL = {
@@ -24,6 +43,12 @@ export const LOGIN_URL = {
   development: 'http://test.xd-copy.admin.ministudy.com',
   production: 'http://bd.ministudy.com',
 }[process.env.PROXY_ENV];
+
+export const ADMIN_URL = {
+  development: 'http://test.xd.admin.ministudy.com',
+  production: 'http://bd.ministudy.com',
+}[process.env.PROXY_ENV];
+
 
 // 分页配置
 export const PAGINATION = {
@@ -37,7 +62,7 @@ export const PAGINATION = {
 // header下拉选
 export const GLOBAL_HEADER_SELECT = [
   { id: 'changeRole', name: '切换角色', icon: 'user' },
-  { id: 'changePwd', name: '修改密码', icon: 'lock' },
+  // { id: 'changePwd', name: '修改密码', icon: 'lock' },  // 修改密码功能暂时去掉
   { id: 'logout', name: '退出登录', icon: 'logout' },
 ];
 

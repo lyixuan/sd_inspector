@@ -1,5 +1,4 @@
-import { ADMIN_AUTH, ADMIN_USER, DOMAIN_HOST } from './constants';
-import Cookies from 'js-cookie';
+import { ADMIN_AUTH, ADMIN_USER } from './constants';
 
 const storage = {
   getItem(key) {
@@ -41,13 +40,10 @@ const storage = {
   * return object || null
   * */
   getUserInfo() {
-    // 优先从督学模块拿取cookie参数,其次再去local中去取
-    const userInfo = Cookies.get(ADMIN_USER);
-    return userInfo ? JSON.parse(userInfo) : this.getItem(ADMIN_USER);
+    return this.getItem(ADMIN_USER);
   },
   // 存储用户信息
   setUserInfo(token) {
-    Cookies.set(ADMIN_USER, { ...token }, { expires: 365, domain: DOMAIN_HOST });
     this.setItem(ADMIN_USER, token);
   },
   // 清除用户信息

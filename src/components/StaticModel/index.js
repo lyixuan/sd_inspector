@@ -7,7 +7,6 @@ class StaticModel {
         StaticModel.show = this.show;
     }
     show = () => {
-        console.log(123)
         Modal.info({
             title: '<div>fjsdjfshfsh</div>',
             content: (

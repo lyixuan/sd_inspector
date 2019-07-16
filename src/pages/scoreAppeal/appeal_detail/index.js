@@ -67,6 +67,7 @@ class AppealCheck extends React.Component {
     let metaDimensionId = null;
     let creditType = null;
     let nextItem = null;
+    let creditDate = null;
     ids.forEach((item,i)=>{
       const arr = item.split(',');
       if (direction==='up'){
@@ -92,12 +93,14 @@ class AppealCheck extends React.Component {
       newId=tmpArr[0];
       metaDimensionId=tmpArr[1];
       creditType=tmpArr[3];
+      creditDate=tmpArr[4];
     }
     const {query={}} = this.props.location;
     const newQuery = {};
     newQuery.id = Number(newId);
     newQuery.dimensionId = Number(metaDimensionId); // 获取详情用id
     newQuery.creditType=Number(creditType);
+    newQuery.creditDate=creditDate;
     router.replace({
       pathname:'/scoreAppeal/onAppeal/detail',
       query:{

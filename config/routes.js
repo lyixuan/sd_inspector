@@ -7,6 +7,10 @@ export const routes = [
     path: '/doc',
     component: './doc',
   },
+  // {
+  //   path: '/exception/403',
+  //   component: './exception/403',
+  // },
   {
     path: '/',
     component: '../layouts/BasicLayout',
@@ -14,6 +18,14 @@ export const routes = [
       {
         path: '/indexPage',
         component: './indexPage',
+      },
+      {
+        path: '/exception/403',
+        component: './exception/403',
+      },
+      {
+        path: '/exception/404',
+        component: './exception/404',
       },
       {
         path: '/smartPlatform',

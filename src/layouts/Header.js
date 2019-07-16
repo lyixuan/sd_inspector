@@ -23,7 +23,7 @@ class SelfHeader extends PureComponent {
         super(props);
         this.state = {
             visible: false,
-            roleSelected: this.getUserInfo().userId,
+            roleSelected: props.currentUser && props.currentUser.userId,
         };
     }
     getUserInfo = () => {
@@ -37,11 +37,12 @@ class SelfHeader extends PureComponent {
     };
     handleMenuClick = ({ key }) => {
         switch (key) {
-            case 'changePwd':
-                redirectOldSysHosts('/changePwd/changePassword');
-                break;
+            // 修改密码功能暂时
+            // case 'changePwd':
+            //     redirectOldSysHosts('/changePwd/changePassword');
+            //     break;
             case 'logout':
-                redirectOldSysHosts('/userLayout/login');
+              this.props.dispatch({ type: 'login/logout' });
                 break;
             case 'changeRole':
                 this.showModal(true);

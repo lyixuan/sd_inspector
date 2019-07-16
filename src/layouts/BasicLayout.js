@@ -7,7 +7,6 @@ import { ContainerQuery } from 'react-container-query';
 import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
-import { Base64 } from 'js-base64';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { LocaleProvider } from 'antd';
 import ContentLayout from '@/layouts/ContentLayout';
@@ -17,9 +16,12 @@ import logo from '../assets/logo.png';
 import storage from '../utils/storage';
 import HeaderLayout from './Header';
 import { query } from './utils/query';
-
+import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
 import { redirectUrlParams, checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
+import {DEBUGGER_USER} from '@/utils/constants';
+
+// import router from 'umi/router';
 const { Content, Header } = Layout;
 /**
  * 根据菜单取得重定向地址.
@@ -97,9 +99,14 @@ class BasicLayout extends React.PureComponent {
     };
   }
   componentWillMount() {
-    // 从url中拿取paramsId参数,包含userId,token,存储在local中
-    //判断缓存中是否有userId;
-    this.checkoutHasAuth();
+    if(!checkoutLogin()){
+      this.initSysItem();
+    }
+    // else {
+    //   router.push({
+    //     pathname:'/indexPage'
+    //   });
+    // }
   }
   componentDidMount() {
     this.enquireHandler = enquireScreen(mobile => {
@@ -107,6 +114,7 @@ class BasicLayout extends React.PureComponent {
         isMobile: mobile,
       });
     });
+    this.MenuData();
     this.setRedirectData(this.props.menuData);
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -120,33 +128,33 @@ class BasicLayout extends React.PureComponent {
   }
 
 
-  checkoutHasAuth = () => {
-    // debugger环境下使用url跳转传参
-    if (process.env.LOGIN_TYPE === 'localhost') {
-      this.getAuthToken();
-    }
-    const userInfo = storage.getUserInfo();
-    // 判断是有有用户信息;
-    if (!userInfo) {
-      redirectUrlParams();
-    } else {
-      this.loginInSysItem();
-    }
-  }
-  getAuthToken = () => {
-    const { location: { query = {} } } = this.props;
-    const paramsId = query.paramsId || '';
-    let paramsObj = {}
-
-    if (paramsId) {
-      try {
-        paramsObj = paramsId ? JSON.parse(Base64.decode(paramsId)) : {};
-        storage.setUserInfo(paramsObj);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }
+  // checkoutHasAuth = () => {
+  //   // debugger环境下使用url跳转传参
+  //   if (process.env.LOGIN_TYPE === 'localhost') {
+  //     this.getAuthToken();
+  //   }
+  //   const userInfo = storage.getUserInfo();
+  //   // 判断是有有用户信息;
+  //   if (!userInfo) {
+  //     redirectUrlParams();
+  //   } else {
+  //     this.loginInSysItem();
+  //   }
+  // }
+  // getAuthToken = () => {
+  //   const { location: { query = {} } } = this.props;
+  //   const paramsId = query.paramsId || '';
+  //   let paramsObj = {}
+  //
+  //   if (paramsId) {
+  //     try {
+  //       paramsObj = paramsId ? JSON.parse(Base64.decode(paramsId)) : {};
+  //       storage.setUserInfo(paramsObj);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }
+  // }
   setRedirectData = menuData => {
     menuData.forEach(getRedirect);
   };
@@ -168,8 +176,8 @@ class BasicLayout extends React.PureComponent {
     return title;
   }
   handleUserInfo = () => {
-    const { userName = '小德' } = storage.getUserInfo() || {};
-    return { name: userName };
+    const { userName = '小德',userId } = storage.getItem('admin_user') || {};
+    return { name: userName,userId };
   };
   handleMenuCollapse = collapsed => {
     this.props.dispatch({
@@ -184,16 +192,27 @@ class BasicLayout extends React.PureComponent {
       });
     }
   };
-  loginInSysItem = () => {
+  initSysItem = () => {
+    const that = this;
     this.props.dispatch({
-      type: 'login/loginin',
-    })
+      type: 'login/initSubSystem',
+      payload: {userName:DEBUGGER_USER},
+    }).then(() => {
+      that.MenuData()
+    });
+  };
+
+  MenuData = () => {
+    const routeData = storage.getItem('admin_auth') || {};
+    this.props.dispatch({
+      type: 'menu/getMenu',
+      payload: { routeData },
+    });
   };
   gobalMarkClass() {// 质检标注的几个页面布局 需要改变一下头部的样式
     const tabGroup = ['/qualityMarking/im', '/qualityMarking/bbs', '/qualityMarking/nps', '/entrancePlatform/statistics'];
     return tabGroup.includes(this.props.location.pathname) ? 'aiWorktable-ant-layout-content' : '';
   }
-
   render() {
     const { collapsed, fetchingNotices, notices, location, children, isLoginIng } = this.props;
     const { menuData } = this.props;
@@ -240,21 +259,17 @@ class BasicLayout extends React.PureComponent {
     return (
       <LocaleProvider locale={zhCN}>
         <DocumentTitle title={this.getPageTitle()}>
-          <Spin tip="Loading..." spinning={isLoginIng}>
             <ContainerQuery query={query}>
               {params => <div className={classNames(params)}>{layout}</div>}
             </ContainerQuery>
-          </Spin>
-
         </DocumentTitle>
       </LocaleProvider>
     );
   }
 }
 
-export default connect(({ global, menu, login, loading }) => ({
-  // currentUser: login.currentUser,
-  isLoginIng: loading.effects['login/loginin'],
+export default connect(({ global, menu, login }) => ({
+  currentUser: login.currentUser,
   login: login,
   menuData: menu.menuData,
   collapsed: global.collapsed,

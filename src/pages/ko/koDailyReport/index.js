@@ -2,7 +2,8 @@ import React from 'react';
 import jwt from 'jsonwebtoken'
 import { Skeleton } from 'antd';
 
-const METABASE_SITE_URL = "http://m-bd.ministudy.com";
+// const METABASE_SITE_URL = "http://m-bd.ministudy.com";
+const METABASE_SITE_URL = "http://s.bd.ministudy.com";
 const METABASE_SECRET_KEY = "361bab48a014bcfca3f2290216eea29d6842ba567a9a0f8f79c60cb3435bb8a9";
 
 class metaBase extends React.Component {

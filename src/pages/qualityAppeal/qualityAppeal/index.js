@@ -28,8 +28,13 @@ function changeState(record) {
   if (record.status === 1 && record.appealType === 1) {
     myStatue = 2; // 一次SOP待审核
   }
-  if (record.status === 2 && record.appealType === 1) {
+  if (record.status === 2 && record.appealType === 1 && record.firstAppealEndDate &&
+    record.firstAppealEndDate > record.nowTime) {
     myStatue = 3; // 一次SOP已驳回
+  }
+  if (record.status === 2 && record.appealType === 1 && record.firstAppealEndDate &&
+    record.firstAppealEndDate <= record.nowTime) {
+    myStatue = 10; // 一次SOP待审核--转为 一申超时
   }
   if (record.status === 3 && record.appealType === 1) {
     myStatue = 4; // 一次质检主管待审核
@@ -40,8 +45,13 @@ function changeState(record) {
   if (record.status === 1 && record.appealType === 2) {
     myStatue = 6; // 二次SOP待审核
   }
-  if (record.status === 2 && record.appealType === 2) {
+  if (record.status === 2 && record.appealType === 2 && record.secondAppealEndDate &&
+  record.secondAppealEndDate > record.nowTime) {
     myStatue = 7; // 二次SOP已驳回
+  }
+  if (record.status === 2 && record.appealType === 2 && record.secondAppealEndDate &&
+    record.secondAppealEndDate <= record.nowTime) {
+    myStatue = 13; // 二次SOP已驳回 --> 转为 二申超时
   }
   if (record.status === 3 && record.appealType === 2) {
     myStatue = 8; // 二次质检主管待审核
