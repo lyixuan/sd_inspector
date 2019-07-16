@@ -18,8 +18,8 @@ export default {
   },
 
   effects: {
-    *initSubSystem(_, { call, put }) {
-      const response = yield call(getUserInfoNew);
+    *initSubSystem({payload}, { call, put }) {
+      const response = yield call(getUserInfoNew, { ...payload });
       if (!response) return;
       const codeMsg403 = 10300;
       const data = response.data || {};
