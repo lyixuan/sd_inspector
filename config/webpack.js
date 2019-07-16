@@ -46,27 +46,6 @@ export const webpackConfig = {
   alias: {
     '@': require('path').resolve(__dirname, 'src'),
   },
-{/*<<<<<<< HEAD*/}
-{/*  proxy: {*/}
-{/*    '/proxy': {*/}
-{/*      // target: proxy_env, //  区别于self接口*/}
-{/*      // target: 'http://172.16.59.42:8085', //  飞哥接口地址*/}
-{/*      target: 'http://172.16.117.65:8097', //  ko1.3测试接口地址*/}
-{/*      // target: 'http://172.16.59.230:8085', //  ko1.3测试接口地址*/}
-{/*      changeOrigin: true,*/}
-{/*      pathRewrite: { '/proxy': '/' }*/}
-{/*    },*/}
-{/*    '/oldApi': {*/}
-{/*      target: 'http://172.16.117.65:10010', //  区别于self接口*/}
-{/*      changeOrigin: true,*/}
-{/*      pathRewrite: { '/oldApi': '/' }*/}
-{/*    },*/}
-{/*    '/tmpApi': {*/}
-{/*      target: proxy_env, //  区别于self接口*/}
-{/*      changeOrigin: true,*/}
-{/*    },*/}
-{/*  },*/}
-{/*=======*/}
   // proxy: {
   //   // '/proxy': {
   //   //   // target: 'http://172.16.59.227:8090/', //  本地开发
@@ -87,5 +66,4 @@ export const webpackConfig = {
   //     changeOrigin: true,
   //   },
   // },
->>>>>>> master
 };
