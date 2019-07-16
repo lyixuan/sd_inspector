@@ -4,7 +4,8 @@ import router from 'umi/router';
 import { getPrivilegeList,getPrivilegeListNew,getUserInfoNew, CurrentUserListRole, userChangeRole } from '@/services/api';
 import storage from '@/utils/storage';
 import { msgF } from '@/utils/utils';
-import { redirectToLogin ,casLogout} from '@/utils/routeUtils';
+import { redirectToLogin, casLogout, casLogoutDev } from '@/utils/routeUtils';
+import {DEBUGGER_USER} from '@/utils/constants';
 
 export default {
   namespace: 'login',
@@ -30,7 +31,7 @@ export default {
         case 2000:
           storage.setItem('admin_user', saveObj);
 
-          yield put({ type: 'getProvilege', payload: { params: {} } });
+          return yield put({ type: 'getProvilege', payload: { params: {} } });
           break;
         case codeMsg403:
           yield put(router.push('/exception/403'));
@@ -42,11 +43,12 @@ export default {
     },
     *getProvilege(_, { call, put }){
       const response = yield call(getPrivilegeListNew);
-      if (!response) return;
-      if (response.code === 20000) {
+      if (!response) return false;
+      if (response.code === 2000) {
         const data = response.data || null;
         storage.setItem('admin_auth', data);
         yield put(routerRedux.push('/indexPage'));
+        return true
       } else {
         message.error(response.msg);
       }
@@ -116,7 +118,12 @@ export default {
     *logout( ) {
       storage.removeItem('admin_user');
       storage.removeItem('admin_auth');
-      casLogout();
+      if(DEBUGGER_USER){
+        casLogoutDev();
+      } else {
+        casLogout();
+      }
+
     },
 
   },

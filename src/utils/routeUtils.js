@@ -15,7 +15,10 @@ export function casLogout() {
 
   window.location.href = `${logoutUrl}${pageUrl}`;
 }
-
+export function casLogoutDev() {
+  const { origin } = window.location;
+  window.location.href = `${origin}`;
+}
 export function checkPathname(path = '') {
   const data1 = storage.getUserAuth() || [];
   const pathRegexp = pathToRegexp(path);
