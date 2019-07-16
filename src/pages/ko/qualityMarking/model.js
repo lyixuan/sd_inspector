@@ -34,11 +34,9 @@ export default {
       }
       if (consultResult && consultResult.code && consultResult.code === 20000) {
         yield put({ type: 'save', payload: { consultList: consultResult.data } });
-
       }
       if (reasonResult && reasonResult.code && reasonResult.code === 20000) {
         yield put({ type: 'save', payload: { reasonList: [{ id: 0, name: '空' }].concat(reasonResult.data) } });
-
       }
     },
     *getTableList({ payload, callback }, { call, put, select }) {
@@ -80,10 +78,13 @@ export default {
         callback(result); // 返回结果
       }
     },
-    *getOperatorList({ payload, callback }, { call, put }) {
-      const result = yield call(exportData, payload.params);
+    *getOperatorList({ payload, callback }, { call, put, select }) {
+      const result = yield call(getOperatorList, payload.params);
       if (result && result.code && result.code === 20000) {
         yield put({ type: 'save', payload: { operatorList: result.data } });
+        if (callback && typeof callback === 'function') {
+          callback();
+        }
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

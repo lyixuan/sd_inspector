@@ -16,31 +16,27 @@ const tabGroup = [{
   tab: 'NPS',
   key: '/qualityMarking/nps',
 }];
-@connect(({ workTableModel }) => ({
+@connect(({ workTableModel, koPlan }) => ({
   workTableModel,
 }))
 class aiWorktable extends React.Component {
   constructor(props) {
     super(props);
+    const content = [];
+    tabGroup.forEach(item => {
+      if (AuthButton.checkPathname(item.key)) {
+        content.push(<TabPane tab={item.tab} key={item.key}></TabPane>)
+      }
+    });
     this.state = {
-      defaultKey: this.initRoute(props.location.pathname)
+      defaultKey: this.initRoute(props.location.pathname),
+      content: content
     };
   }
   componentDidMount() {
     this.props.dispatch({
       type: 'workTableModel/getBasicData',
     });
-    this.props.dispatch({
-      type: 'koPlan/getCurrentTime'
-    });
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.location.pathname !== nextProps.location.pathname) {
-      this.setState({
-        defaultKey: this.initRoute(nextProps.location.pathname),
-      });
-    }
   }
 
   initRoute(pathname) {
@@ -60,9 +56,7 @@ class aiWorktable extends React.Component {
   onChangeTab = (key) => {
     this.setState({
       defaultKey: key,
-    }, function() {
-      this.jumpTo(key);
-    });
+    }, () => this.jumpTo(key));
   };
   jumpTo = (pathname) => {
     this.props.history.push({
@@ -71,16 +65,10 @@ class aiWorktable extends React.Component {
   };
 
   render() {
-    const { defaultKey } = this.state;
-    const content = [];
-    tabGroup.forEach(item => {
-      if (AuthButton.checkPathname(item.key)) {
-        content.push(<TabPane tab={item.tab} key={item.key}></TabPane>)
-      }
-    })
+    const { defaultKey, content } = this.state;
     return (
       <div className={style.aiWorktable}>
-        <Tabs className="tabGroupContainer" defaultActiveKey={defaultKey} onChange={this.onChangeTab}>
+        <Tabs className={style.tabGroupContainer} defaultActiveKey={defaultKey} onChange={this.onChangeTab}>
           {content}
         </Tabs>
         <div className={style.aiWorktableMain}>

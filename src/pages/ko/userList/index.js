@@ -79,7 +79,7 @@ function columns(enumDataIntention) {
       title: '注册时间',
       key: 'registerTime',
       dataIndex: 'registerTime',
-      width: 110,
+      width: 180,
       fixed: 'left',
     },
     {
@@ -330,7 +330,7 @@ function columns(enumDataIntention) {
           </>
         );
       });
-    } else if (v.dataIndex !== 'orderTime' && v.dataIndex !== 'choiceLessionTime') {
+    } else if (v.dataIndex !== 'orderTime' && v.dataIndex !== 'choiceLessionTime' && v.dataIndex !== 'registerTime') {
       v.render = v.render || ((text) => {
         return (
           <>

@@ -89,7 +89,6 @@ class AiDetail extends React.Component {
     let idList = this.props.idList;
     let id = this.state.id;
     const currentId = idList.indexOf(Number(id));
-    // console.log(96, idList[currentId + 1])
     if (idList) {
       this.setState({
         id: action === 1 ? idList[currentId - 1] : idList[currentId + 1]

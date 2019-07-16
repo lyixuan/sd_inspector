@@ -2,7 +2,13 @@ import React from 'react';
 import { Tooltip, Row, Col } from 'antd';
 // import router from 'umi/router';
 import { connect } from 'dva/index';
-import { handleDefaultPickerValueMark, pathImUrl, getSubStringValue, jumpMarkingDetails} from '@/pages/ko/utils/utils';
+import {
+  handleDefaultPickerValueMark,
+  pathImUrl,
+  getSubStringValue,
+  jumpMarkingDetails,
+  linkRoute, linkImgRouteBul,
+} from '@/pages/ko/utils/utils';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import AuthButton from '@/components/AuthButton';
@@ -49,11 +55,12 @@ function TeacherOrStudent(props) {
               <img src={props.dataMark.stuHeadUrl ? (pathImUrl + props.dataMark.stuHeadUrl) : avatarStudent}/>
               <p>{getSubStringValue(props.dataMark.stuName, 3)}</p>
             </div>
-            <div className={styles.chatContent}>
+            <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent}>
               <span className={styles.triangle}>
                 <em/>
               </span>
-              {props.item.content}
+              {/*{props.item.content}*/}
+              <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.content, styles.linkRoute) }}></span>
             </div>
           </div>
         </div>
@@ -70,11 +77,12 @@ function TeacherOrStudent(props) {
             <span className={styles.dot}/>
           </div>
           <div className={styles.chatRight}>
-            <div className={styles.chatContent}>
+            <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent}>
               <span className={styles.triangle}>
                 <em/>
               </span>
-              {props.item.content}
+              {/*{props.item.content}*/}
+              <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.content, styles.linkRoute) }}></span>
             </div>
             <div className={styles.avatar}>
               <img src={props.dataMark.teacherHeadUrl ? (pathImUrl + props.dataMark.teacherHeadUrl) : avatarTeacher}/>
@@ -122,7 +130,7 @@ class imPage extends React.Component {
           const content = list.length > 0 ? <Layout dataMark={r}></Layout> : r.content;
           const text = list.length > 0 ? list[0].content : '';
           return (
-            <Tooltip overlayClassName="listMarkingTooltip" placement="right" title={content}>
+            <Tooltip overlayClassName={styles.listMarkingTooltip} placement="right" title={content}>
               <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>
             </Tooltip>
           );
@@ -138,7 +146,7 @@ class imPage extends React.Component {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
-        render: text => <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right"
+        render: text => <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right"
                                  title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
       },
       {
@@ -199,6 +207,11 @@ class imPage extends React.Component {
       payload: { params: { ...searchParams, page: currentPage, type: markType } },
     });
   };
+  changeOperatorId = (key, v) => {
+    this.setState({
+      searchParams: {...this.state.searchParams, [key]: v}
+    });
+  };
 
   render() {
     const { searchParams, currentPage } = this.state;
@@ -207,7 +220,7 @@ class imPage extends React.Component {
     return (
       <div>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
-                  onSearchChange={this.onSearchChange}></MarkForm>
+                  onSearchChange={this.onSearchChange} changeOperatorId={this.changeOperatorId}></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
                   columnsData={this.columnsData}>
           <ModalTip markType={markType} othersSearch={others}></ModalTip>

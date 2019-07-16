@@ -39,7 +39,7 @@ function TeacherOrStudent(props) {
               {/* {props.stuHeadUrl ? <img src={props.stuHeadUrl} /> : <img src={avatarStudent} />} */}
               <p>{props.item.userName}</p>
             </div>
-            <div className={`${styles.chatContent} ${linkImgRouteBul(props.item.content) ? styles.chatContentImg : ''}`}>
+            <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent}>
               <span className={styles.triangle}>
                 <em />
               </span>
@@ -60,7 +60,7 @@ function TeacherOrStudent(props) {
             <span className={styles.dot} />
           </div>
           <div className={`${styles.chat} ${styles.chatRight}`}>
-            <div className={`${styles.chatContent} ${linkImgRouteBul(props.item.content) ? styles.chatContentImg : ''}`}>
+            <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg: styles.chatContent}>
               <span className={styles.triangle}>
                 <em />
               </span>
@@ -108,7 +108,7 @@ class DetailIm extends React.Component {
   }
 
   render() {
-    const { item } = this.props.pageData
+    const { item } = this.props.pageData;
     return (
       <>
         <ul className={styles.userInfo}>

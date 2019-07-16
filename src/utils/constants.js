@@ -343,7 +343,8 @@ export const UNIT_DATE = [
 ];
 
 // 空ContentLayout页面名单
-export const EmptyContentLayout = [{ path: '/ko', name: 'KO计划' }, { path: '/qualityMarking', name: '质检标注' }];
+export const EmptyContentLayout = [{ path: '/ko', name: 'KO计划' }, { path: '/qualityMarking', name: '质检标注' },
+  { path: '/qualityReport', name: '质检图表'}];
 // 应用类型
 export const APP_LIST = [
   { id: '1', name: '极速版App' }

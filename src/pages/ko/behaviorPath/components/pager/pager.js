@@ -47,9 +47,9 @@ class Pager extends React.Component {
     ) {
       this.setState({
         beginDate: nextProps.behaviorPath.dateRange.beginDate,
-        endDate: nextProps.behaviorPath.dateRange.endDate,
+        endDate: this.state.endDate,
         defaultBeginDate: nextProps.behaviorPath.dateRange.beginDate,
-        defaultEndDate: nextProps.behaviorPath.dateRange.endDate,
+        defaultEndDate: this.state.endDate,
       });
     }
   }
@@ -92,7 +92,6 @@ class Pager extends React.Component {
   refreshData = (params, source) => {
     let type = this.props.type;
     let stuId = this.props.stuId;
-    console.log(88, params);
     if (source == 'dateChange') {
       this.props.dispatch({
         type: 'behaviorPath/getDateList',

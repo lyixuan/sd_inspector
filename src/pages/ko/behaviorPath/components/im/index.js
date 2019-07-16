@@ -9,6 +9,7 @@ import face1 from '@/assets/face1.png';
 import face2 from '@/assets/face2.png';
 import robort from '@/assets/robort.png';
 import cardIcon from '@/assets/cardIcon.png';
+import { linkImgRouteBul, linkRoute } from '@/pages/ko/utils/utils';
 
 // 评价的星星
 function Star(props) {
@@ -350,11 +351,12 @@ function TeacherOrStudent(props) {
               {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarStudent} />}
               <p>{props.item.userName}</p>
             </div>
-            <div className={styles.chatContent}>
+            <div className={linkImgRouteBul(props.item.message) ? styles.chatContentImg : styles.chatContent}>
               <span className={styles.triangle}>
                 <em />
               </span>
-              {linkRoute(props.item.message)}
+              {/*{props.item.message}*/}
+              <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.message, styles.linkRoute) }}></span>
             </div>
           </div>
         </div>
@@ -413,11 +415,12 @@ function TeacherOrStudent(props) {
               <span className={styles.dot} />
             </div>
             <div className={styles.chatRight}>
-              <div className={styles.chatContent}>
+              <div className={linkImgRouteBul(message) ? styles.chatContentImg : styles.chatContent}>
                 <span className={styles.triangle}>
                   <em />
                 </span>
-                {linkRoute(message)}
+                {/*{message}*/}
+                <span dangerouslySetInnerHTML={{ __html: linkRoute(message, styles.linkRoute) }}></span>
               </div>
               <div className={styles.avatar}>
                 {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarTeacher} />}
@@ -474,12 +477,6 @@ function ContentChildren(props) {
   return props.content;
 }
 
-// link route
-function linkRoute(text) {
-  return text.replace(/(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g, function(c) {
-    return <a href={c} target="_blank">{c}</a>
-  })
-}
 @connect(({ behaviorPath, loading }) => ({
   loading,
   behaviorPath,

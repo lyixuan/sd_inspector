@@ -13,13 +13,13 @@ class metaBase extends React.Component {
   }
   componentDidMount() {
     const payload = {
-      resource: { dashboard: 101 },
-      params: { }
+      resource: { dashboard: 417 },
+      params: {}
     };
     const token = jwt.sign(payload, METABASE_SECRET_KEY);
     this.setState({
       iframeUrl: METABASE_SITE_URL + "/embed/dashboard/" + token + "#bordered=true&titled=true"
-    })
+    });
   }
   render() {
     const { iframeUrl } = this.state;
