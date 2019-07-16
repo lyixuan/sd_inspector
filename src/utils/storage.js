@@ -33,7 +33,6 @@ const storage = {
       userId = info.userId;
       token = info.token;
     }
-    console.log('newToken',`${userId}_${token}`);
     return `${userId}_${token}`;
   },
   /*

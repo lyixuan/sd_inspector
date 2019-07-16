@@ -10,13 +10,13 @@ export const ADMIN_AUTH = 'admin_auth';
 export const ADMIN_USER = 'admin_user';
 
 export const DEBUGGER_USER = {
-  localhost: 'liuyixuan02',
+  localhost: 'zhanglulu02',
 }[process.env.LOGIN_TYPE];
 
 // 静态文件host
 export const STATIC_HOST = {
   development: 'http://172.16.117.65',
-  production: 'http://api.bd.ministudy.com/download',
+  production: 'http://bd.ministudy.com/download',
 }[process.env.PROXY_ENV];
 
 export const SERVER_HOST = {
