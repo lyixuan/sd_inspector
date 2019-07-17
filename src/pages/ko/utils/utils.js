@@ -97,16 +97,16 @@ export function jumpMarkingDetails(id, type) {
   }
 
 }
-export function handleDefaultPickerValueMark(n = 2, cTime = moment()) {
+export function handleDefaultPickerValueMark(n = 2, cTime) {
   cTime = cTime ? moment(cTime) : moment();
   const defTime = cTime.subtract(n, 'days');
   return [defTime, defTime];
 }
-export function handleDefaultPickerExamValue(cTime = moment()) {
+export function handleDefaultPickerExamValue(cTime) {
   cTime = cTime ? moment(cTime) : moment();
   return [cTime.subtract(1, 'months'), cTime]
 }
-export function handleTNDateValue(n = 1, cTime = moment()) {
+export function handleTNDateValue(n = 1, cTime) {
   cTime = cTime ? moment(cTime) : moment('2019-09-08');
   return cTime.subtract(n, 'days').format(commitDateFormat)
 }
