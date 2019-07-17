@@ -54,7 +54,6 @@ class InitTable extends Component {
       visible: props.userOperation.visible,
       groupName: undefined,
       rowId: null,
-
     };
   }
   showPop = () => {
@@ -81,7 +80,6 @@ class InitTable extends Component {
     });
   }
   handleOk = () => {
-    console.log('ok')
     if (!this.state.groupName) {
       message.info('请输入名称');
       return;
@@ -185,7 +183,11 @@ class InitTable extends Component {
       }
     })
   }
-  columnsData = () => {
+  doubleClick = (record, key) => {
+    console.log(record, key)
+    // record[key] = false;
+  }
+  columnsData = (record, key) => {
     const columns = [
       {
         title: '编号',
@@ -264,13 +266,13 @@ class InitTable extends Component {
         dataIndex: 'pusher',
         key: 'pusher',
         width: 200,
-        render: (text, record) => <Input maxLength={50} className={styles.tableInput} placeholder="请输入263账号前缀" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'pusher')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'pusher')}/>
+        render: (text, record) => <div ><Input onDoubleClick={() => this.doubleClick.bind(record, 'pusherDis')} disabled={record.pusherDis} maxLength={50} className={styles.tableInput} placeholder="请输入263账号前缀" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'pusher')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'pusher')}/></div>
       },
       {
         title: '用户来源码',
         dataIndex: 'sourceCode',
         key: 'sourceCode',
-        render: (text, record)=> <Input maxLength={50} className={styles.tableInput} placeholder="推送模版落地页为尚小德时，此项必填" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'sourceCode')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'sourceCode')}/>
+        render: (text, record)=> <div onDoubleClick={() => this.doubleClick(record, 'sourceCodeDis')}><Input disabled={record.sourceCodeDis} maxLength={50} className={styles.tableInput} placeholder="推送模版落地页为尚小德时，此项必填" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'sourceCode')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'sourceCode')}/></div>
       },
       {
         title: '操作',
