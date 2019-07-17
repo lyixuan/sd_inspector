@@ -8,10 +8,12 @@ import Bbs from './components/bbs';
 import WeChart from './components/weChart';
 import UserInfo from './components/userInfo';
 import PrivateLetter from './components/privateLetter';
+import { handleTNDateValue } from '@/pages/ko/utils/utils';
 const TabPane = BITabs.TabPane;
 
-@connect(({ behaviorPath }) => ({
-  behaviorPath
+@connect(({ behaviorPath, koPlan }) => ({
+  behaviorPath,
+  currentServiceTime: koPlan.currentServiceTime,
 }))
 
 class BehaviorPath1 extends React.Component {
@@ -31,8 +33,19 @@ class BehaviorPath1 extends React.Component {
   }
 
   componentDidMount() {
-    this.getDateList(this.state.activeKey); // 获取日期列表
-    this.getUserInfo();
+    if (!this.props.currentServiceTime) {
+      this.props.dispatch({
+        type: 'koPlan/getCurrentTime',
+        callback: () => {
+          this.getDateList(this.state.activeKey); // 获取日期列表
+          this.getUserInfo();
+        }
+      });
+    } else {
+      this.getDateList(this.state.activeKey); // 获取日期列表
+      this.getUserInfo();
+    }
+
   }
   componentWillReceiveProps(nextProps) {
     if ((JSON.stringify(nextProps.behaviorPath.dateListStudy) !== JSON.stringify(this.props.behaviorPath.dateListStudy))) {
@@ -63,10 +76,21 @@ class BehaviorPath1 extends React.Component {
   }
 
   getDateList = (type) => {
-    let stuId = this.state.stuId
+    let stuId = this.state.stuId;
+    const beginDate = this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.beginDate : new Date(new Date().getTime());
+    const endDate = handleTNDateValue(1, this.props.currentServiceTime);
     this.props.dispatch({
       type: 'behaviorPath/getDateList',
-      payload: { params: { stuId: stuId, type: type, page: this.state.page, pageSize: this.state.pageSize } },
+      payload: {
+        params: {
+          stuId,
+          type,
+          page: this.state.page,
+          pageSize: this.state.pageSize,
+          beginDate,
+          endDate,
+        }
+      },
       // payload: { params: { stuId: 10257895, type: type } },
     });
   };
