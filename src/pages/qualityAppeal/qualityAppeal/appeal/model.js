@@ -27,6 +27,9 @@ export default {
         router.goBack();
       } else {
         message.error(msgF(result.msg, result.msgDetail));
+        if(Number(result.code) === 20005){
+          window.history.go(-1);
+        }
       }
     },
     *reviewAppeal({ payload }, { call, put }) {
