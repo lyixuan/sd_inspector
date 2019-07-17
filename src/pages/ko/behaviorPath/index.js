@@ -45,7 +45,6 @@ class BehaviorPath1 extends React.Component {
       this.getDateList(this.state.activeKey); // 获取日期列表
       this.getUserInfo();
     }
-
   }
   componentWillReceiveProps(nextProps) {
     if ((JSON.stringify(nextProps.behaviorPath.dateListStudy) !== JSON.stringify(this.props.behaviorPath.dateListStudy))) {
@@ -91,7 +90,6 @@ class BehaviorPath1 extends React.Component {
           endDate,
         }
       },
-      // payload: { params: { stuId: 10257895, type: type } },
     });
   };
   getUserInfo = () => {

@@ -156,13 +156,13 @@ export default {
         yield put({
           type: 'save',
           payload: { currentServiceTime: response.data.currentTime },
-        })
+        });
         if (callback && typeof callback === 'function') {
           callback(response.data.currentTime)
         }
         return;
-      } else if (response) {
-        message.error(response.msg);
+      } else if(response) {
+        message.error(response.msg)
       }
       if (callback && typeof callback === 'function') {
         callback()
