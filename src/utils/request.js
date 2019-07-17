@@ -81,12 +81,5 @@ request.interceptors.request.use((url, options) => {
     options,
   };
 });
-request.interceptors.response.use(async (response) => {
-  const data = await response.clone().json();
-  if (data&&data.code === 20002) {
-    redirectToLogin();
-    return
-  }
-  return response;
-});
+
 export default request;
