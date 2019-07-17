@@ -51,7 +51,7 @@ class userOperation extends React.Component {
   }
 
   render() {
-    const tableList = this.props.userOperation.userGroupList
+    const tableList = this.props.userOperation.userGroupList;
     return (
       <div className={styles.userOperation}>
         <div className={styles.headBar}>用户运营</div>

@@ -54,7 +54,8 @@ class InitTable extends Component {
       visible: props.userOperation.visible,
       groupName: undefined,
       rowId: null,
-
+      sourceCode: {},
+      pusher: {}
     };
   }
   showPop = () => {
@@ -81,7 +82,6 @@ class InitTable extends Component {
     });
   }
   handleOk = () => {
-    console.log('ok')
     if (!this.state.groupName) {
       message.info('请输入名称');
       return;
@@ -173,19 +173,33 @@ class InitTable extends Component {
     })
   }
   updateUserGroup = (record, type, e) => {
-    if (!e || !e.target) return;
     const v = e.target.value || '';
     const t = record[type] || '';
-    if (v === t) return;
+    if (v === t) {
+      this.setState({
+        sourceCode: {},
+        pusher: {}
+      })
+      return
+    }
     this.props.dispatch({
       type: 'userOperation/userGroupUpdate',
       payload: { params: {id: record.id, [type] : e.target.value} },
       callback: () => {
-        this.props.getInitData();
+        this.setState({
+          sourceCode: {},
+          pusher: {}
+        }, () => this.props.getInitData())
       }
     })
   }
-  columnsData = () => {
+  doubleClick = (record, key) => {
+    this.setState({
+      [key] : {[record.id]: true}
+    })
+  }
+  columnsData = (record, key) => {
+    const {sourceCode, pusher} = this.state;
     const columns = [
       {
         title: '编号',
@@ -264,13 +278,13 @@ class InitTable extends Component {
         dataIndex: 'pusher',
         key: 'pusher',
         width: 200,
-        render: (text, record) => <Input maxLength={50} className={styles.tableInput} placeholder="请输入263账号前缀" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'pusher')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'pusher')}/>
+        render: (text, record) => <div onDoubleClick={() => this.doubleClick(record, 'pusher')} className={styles.tableDis}><Input disabled={!pusher[record.id]} maxLength={50} className={styles.tableInput} placeholder="请输入263账号前缀" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'pusher')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'pusher')}/></div>
       },
       {
         title: '用户来源码',
         dataIndex: 'sourceCode',
         key: 'sourceCode',
-        render: (text, record)=> <Input maxLength={50} className={styles.tableInput} placeholder="推送模版落地页为尚小德时，此项必填" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'sourceCode')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'sourceCode')}/>
+        render: (text, record)=> <div onDoubleClick={() => this.doubleClick(record, 'sourceCode')} className={styles.tableDis}><Input disabled={!sourceCode[record.id]} maxLength={50} className={styles.tableInput} placeholder="推送模版落地页为尚小德时，此项必填" defaultValue={'ppppp'} onBlur={this.updateUserGroup.bind(undefined, record, 'sourceCode')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'sourceCode')}/></div>
       },
       {
         title: '操作',
