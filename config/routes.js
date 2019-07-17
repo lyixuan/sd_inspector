@@ -392,6 +392,7 @@ export const routes = [
       {
         path: '/qualityReport',
         name: '质检图表',
+        pageRedirect: '/qualityReport/data',
         routes: [
           {
             path: '/qualityReport/data',
