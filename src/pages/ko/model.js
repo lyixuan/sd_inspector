@@ -152,18 +152,21 @@ export default {
     },
     *getCurrentTime( { callback }, { call, put }) {
       const response = yield call(getCurrentTime);
-      if (response.code === 20000) {
+      if (response && response.code === 20000) {
         yield put({
           type: 'save',
           payload: { currentServiceTime: response.data.currentTime },
-        })
+        });
         if (callback && typeof callback === 'function') {
           callback(response.data.currentTime)
         }
-      } else {
+        return;
+      } else if(response) {
         message.error(response.msg)
       }
-
+      if (callback && typeof callback === 'function') {
+        callback()
+      }
     },
   },
 

@@ -52,6 +52,11 @@ class Pager extends React.Component {
         defaultEndDate: this.state.endDate,
       });
     }
+    if (nextProps.currentServiceTime !== this.props.currentServiceTime) {
+      this.setState({
+        endDate: handleTNDateValue(1, nextProps.currentServiceTime),
+      })
+    }
   }
 
   // 每页显示多少条
