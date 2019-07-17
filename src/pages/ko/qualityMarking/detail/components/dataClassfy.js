@@ -151,9 +151,7 @@ class DataClassfy extends React.Component {
     //     tabType: 'nps'
     //   })
     // }
-    if (action === 3) { // 跳过不提交，请求下一条的详情
-      this.props.computedIdNew(this.detailEditData, action);
-    } else { // 上一条 下一条，提交数据后请求上或下一条的详情
+    if (action === 2) { // 提交, 下一条，提交数据后请求上或下一条的详情
       let params = {
         type: this.props.type,
         itemId: this.props.pageData.item.itemId,
@@ -168,14 +166,15 @@ class DataClassfy extends React.Component {
           }
         });
       }, action);
+    } else { // 上一条 跳过不提交，请求下一条的详情
+      this.props.computedIdNew(this.detailEditData, action);
     }
-
   }
   detailEditData = () => { // 请求详情数据
     const { id, type, params } = this.props;
     if (!id) {
       this.setState({ // 按钮状态标志
-        visible: this.state.action === 1 ? 'stop' : 'none'
+        visible: true
       });
       return;
     }
@@ -324,7 +323,7 @@ class DataClassfy extends React.Component {
             </li>
           </ul>
           <div className={styles.btn}>
-            <Button className={btnStyles.btnWhite} disabled={visible === 'stop'} onClick={() => this.submit(1)} loading={isLoading && action === 1}>
+            <Button className={btnStyles.btnWhite} disabled={currentId === 1} onClick={() => this.submit(1)} loading={isLoading && action === 1}>
               上一条
             </Button>
             <Button className={btnStyles.btnPrimary} style={{margin: '0 8px'}} onClick={() => this.submit(2)} loading={isLoading && action === 2}>
@@ -340,7 +339,7 @@ class DataClassfy extends React.Component {
           </div>
         </div>
         <BIModal
-          visible={visible === 'none'}
+          visible={visible}
           onOk={() => this.state.handleOk()}
           onCancel={this.handleCancel}
           closable={false}

@@ -15,7 +15,7 @@ const dateFormat = 'YYYY.MM.DD';
 @connect(({ koPlan, loading }) => ({
   koPlanPageParams: koPlan.pageParams,
   currentServiceTime: koPlan.currentServiceTime,
-  loading: loading.effects['workTableModel/getBasicData'],
+  loading: loading.effects['workTableModel/getBasicData'] || loading.effects['koPlan/getCurrentTime'],
 }))
 class AiForm extends React.Component {
   constructor(props) {
@@ -23,7 +23,20 @@ class AiForm extends React.Component {
   }
 
   componentDidMount() {
-    this.handleSearch();
+    if (!this.props.currentServiceTime) {
+      this.props.dispatch({
+        type: 'koPlan/getCurrentTime',
+        callback: (res) => {
+          this.props.changeOperatorId('choiceTime', handleDefaultPickerValueMark(res));
+          this.handleSearch();
+          this.onChangeTime(this.props.searchParams.choiceTime)
+        }
+      });
+    } else {
+      this.handleSearch();
+      this.onChangeTime(this.props.searchParams.choiceTime)
+    }
+
   }
   // 时间间隔不超过四十天
   getChangeTime = (c) => {
@@ -72,6 +85,21 @@ class AiForm extends React.Component {
     this.props.form.resetFields();
     this.props.onSearchChange({...searchParams, beginDate, endDate});
   };
+  //操作ID
+  onChangeTime = (value, flag) => {
+    if (!this.getChangeTime(value)) return;
+    const [beginDate, endDate] = this.checkoutParamsType('choiceTime', value);
+    this.props.dispatch({
+      type: 'workTableModel/getOperatorList',
+      payload: { params: { beginDate, endDate, type: this.props.markType } },
+      callback: () => {
+        if (this.props.changeOperatorId && flag) {
+          this.props.changeOperatorId('operatorId');
+          this.props.form.setFieldsValue({operatorId: undefined});
+        }
+      }
+    });
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -94,6 +122,7 @@ class AiForm extends React.Component {
                     <BIRangePicker
                       placeholder={['起始时间', '截止时间']}
                       format={dateFormat}
+                      onChange={this.onChangeTime}
                     />,
                   )}
                 </Form.Item>
@@ -145,32 +174,30 @@ class AiForm extends React.Component {
               }
             </div>
             <div className={styles.rowWrap}>
+              <div className={styles.itemCls}>
+                <Form.Item label='操作人：'>
+                  {getFieldDecorator('operatorId', {
+                    initialValue: searchParams.operatorId,
+                  })(
+                    <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
+                      {operatorList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                    </BISelect>,
+                  )}
+                </Form.Item>
+              </div>
               {
                 markType == 1 &&
-                <>
-                  <div className={styles.itemCls}>
-                    <Form.Item label='操作人：'>
-                      {getFieldDecorator('operatorId', {
-                        initialValue: searchParams.operatorId,
-                      })(
-                        <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
-                          {operatorList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                        </BISelect>,
-                      )}
-                    </Form.Item>
-                  </div>
-                  <div className={styles.itemCls}>
-                    <Form.Item label='满意度：'>
-                      {getFieldDecorator('evaluate', {
-                        initialValue: searchParams.evaluate,
-                      })(
-                        <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
-                          {['不满意', '一般'].map((item, index) => <Option key={item} value={index}>{item}</Option>)}
-                        </BISelect>,
-                      )}
-                    </Form.Item>
-                  </div>
-                </>
+                <div className={styles.itemCls}>
+                  <Form.Item label='满意度：'>
+                    {getFieldDecorator('evaluate', {
+                      initialValue: searchParams.evaluate,
+                    })(
+                      <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
+                        {['不满意', '一般'].map((item, index) => <Option key={item} value={index}>{item}</Option>)}
+                      </BISelect>,
+                    )}
+                  </Form.Item>
+                </div>
               }
             </div>
           </Skeleton>

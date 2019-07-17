@@ -2,7 +2,7 @@ import moment from 'moment';
 import { INDEX_PAGE } from '@/utils/constants';
 import config from '../../../../config/config';
 import React from 'react';
-
+import deImg from '@/assets/ai/de.png'
 
 const commitDateFormat = 'YYYY-MM-DD';
 export const handleDateParams = (item) => {
@@ -97,17 +97,17 @@ export function jumpMarkingDetails(id, type) {
   }
 
 }
-export function handleDefaultPickerValueMark(n = 2, cTime = moment()) {
+export function handleDefaultPickerValueMark(n = 2, cTime) {
   cTime = cTime ? moment(cTime) : moment();
   const defTime = cTime.subtract(n, 'days');
   return [defTime, defTime];
 }
-export function handleDefaultPickerExamValue(cTime = moment()) {
+export function handleDefaultPickerExamValue(cTime) {
   cTime = cTime ? moment(cTime) : moment();
   return [cTime.subtract(1, 'months'), cTime]
 }
-export function handleTNDateValue(n = 1, cTime = moment()) {
-  cTime = cTime ? moment(cTime) : moment();
+export function handleTNDateValue(n = 1, cTime) {
+  cTime = cTime ? moment(cTime) : moment('2019-09-08');
   return cTime.subtract(n, 'days').format(commitDateFormat)
 }
 export function jumpQualityRoute(path, params) {
@@ -117,9 +117,10 @@ export function jumpQualityRoute(path, params) {
 }
 // link route
 export function linkRoute(text, classname) {
+  if (!text) return;
   const regurl = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
   if(regurl.test(text) && /\.?(pic\.manager|jpg|jpeg|png|GIF|JPG|PNG|bm)/g.test(text)) {
-    return `<img src="${text}" alt="111"/>`
+    return `<a class="${classname}" href="${text}" target="_blank"><img src="${text}" onerror="this.onerror='';this.src='${deImg}';this.style.width='100px'" /></a>`
   } else {
     return text.replace(regurl, (c) => `<a class="${classname}" href="${c}" target="_blank">${c}</a>`);
   }
@@ -127,6 +128,6 @@ export function linkRoute(text, classname) {
 // link img
 export function linkImgRouteBul(text) {
   const regurl = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
-  console.log(text)
-  return regurl.test(text) && /\.?(pic\.manager|jpg|jpeg|png|GIF|JPG|PNG|bm)/g.test(text)
+  const bul = regurl.test(text) && /\.?(pic\.manager|jpg|jpeg|png|GIF|JPG|PNG|bm)/g.test(text);
+  return bul;
 }

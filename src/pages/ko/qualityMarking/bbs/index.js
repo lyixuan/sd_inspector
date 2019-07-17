@@ -18,6 +18,7 @@ const markType = 2; //im bbs nps 对应的type值为1， 2， 3
   consultList: workTableModel.consultList,
   reasonList: workTableModel.reasonList,
   idList: workTableModel.idList,
+  operatorList: workTableModel.operatorList,// im bbs nps
   currentServiceTime: koPlan.currentServiceTime
 }))
 class bbsPage extends React.Component {
@@ -42,7 +43,7 @@ class bbsPage extends React.Component {
           const content = <div className={styles.behaviorOthers}>{text}</div>;
           return (
             <>
-            {text ? <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right" title={content}>
+            {text ? <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right" title={content}>
               <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>
             </Tooltip> : <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>}
             </>
@@ -59,7 +60,7 @@ class bbsPage extends React.Component {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
-        render: text => <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right"
+        render: text => <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right"
                                  title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
       },
       {
@@ -114,6 +115,11 @@ class bbsPage extends React.Component {
       payload: { params: { ...searchParams, page: currentPage, type: markType } },
     });
   };
+  changeOperatorId = (v) => {
+    this.setState({
+      searchParams: {...this.state.searchParams, 'operatorId': v}
+    });
+  };
 
   render() {
     const { searchParams, currentPage } = this.state;
@@ -122,7 +128,7 @@ class bbsPage extends React.Component {
     return (
       <div>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
-                  onSearchChange={this.onSearchChange}></MarkForm>
+                  onSearchChange={this.onSearchChange} changeOperatorId={this.changeOperatorId}></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
                   columnsData={this.columnsData}>
           <ModalTip markType={markType} othersSearch={others}></ModalTip>

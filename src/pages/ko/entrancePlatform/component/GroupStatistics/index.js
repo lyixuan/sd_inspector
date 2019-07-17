@@ -251,10 +251,12 @@ class GroupStatistics extends React.Component {
                                onChange={this.onChangeDate}
                                value={dateTime}
                                defaultPickerValue={handleDefaultPickerExamValue(currentServiceTime)}
-                               disabledDate={this.dateDisabledDate}/>
+                               disabledDate={this.dateDisabledDate}
+                               dropdownClassName={styles.popupClassName}
+                />
               </div>
               <div className={`${styles.itemCls} ${styles.itemDates}`}>
-                <BISelect mode="multiple" placeholder="选择用户群组" value={userPramas.userGroupIdList} onChange={this.onChangeGroup} allowClear>
+                <BISelect mode="multiple" placeholder="选择用户群组" dropdownClassName={styles.popupClassName} value={userPramas.userGroupIdList} onChange={this.onChangeGroup} allowClear>
                   {userGroupConfig.map(item => (
                     <Option title={item.groupName} key={item.id} id={item.id}>
                       {getSubStringValue(item.groupName, 6)}

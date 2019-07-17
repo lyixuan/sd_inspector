@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
-import { Form, Icon, Skeleton, Button } from 'antd';
+import { Form, Icon, Skeleton, Button, Cascader } from 'antd';
 import {
   handleDefaultPickerExamValue,
   handleTNDateValue,
@@ -71,33 +71,33 @@ class BasicForm extends React.Component {
     }
   }
   // 已选条件
-  getCheckedConditionList = () => {
-    const { queryCondition, userConfigData } = this.props;
-    const list = [];
-    Object.keys(queryCondition).map(name => {
-      const val = queryCondition[name];
-      const bul = val instanceof Array;
-      if ((bul && val.length > 0) ||  (!bul && val !== undefined)) {
-        let label = '';
-        const config = userConfigData[name];
-        if (name === 'orgIdList') {
-          if (val instanceof Array) {
-            val.forEach((item, index) => label+= item.name + (index === val.length -1 ? '' : '/'))
-          }
-        } else if (name === 'ordStatusCode') {
-          label = config.find(item => val === item.id).name;
-        } else if (name === 'choiceTime') {
-          label = `订单时间：${val[0].format(dateFormat)} ~ ${val[0].format(dateFormat)}`
-        } else if (name !== 'province'){
-          label = config[val];
-        } else {
-          label = val
-        }
-        list.push({key: name, label: label})
-      }
-    });
-    return list;
-  };
+  // getCheckedConditionList = () => {
+  //   const { queryCondition, userConfigData } = this.props;
+  //   const list = [];
+  //   Object.keys(queryCondition).map(name => {
+  //     const val = queryCondition[name];
+  //     const bul = val instanceof Array;
+  //     if ((bul && val.length > 0) ||  (!bul && val !== undefined)) {
+  //       let label = '';
+  //       const config = userConfigData[name];
+  //       if (name === 'orgIdList') {
+  //         if (val instanceof Array) {
+  //           val.forEach((item, index) => label+= item.name + (index === val.length -1 ? '' : '/'))
+  //         }
+  //       } else if (name === 'ordStatusCode') {
+  //         label = config.find(item => val === item.id).name;
+  //       } else if (name === 'choiceTime') {
+  //         label = `订单时间：${val[0].format(dateFormat)} ~ ${val[0].format(dateFormat)}`
+  //       } else if (name !== 'province'){
+  //         label = config[val];
+  //       } else {
+  //         label = val
+  //       }
+  //       list.push({key: name, label: label})
+  //     }
+  //   });
+  //   return list;
+  // };
   // 删除已选条件
   deleteFilterItem = e => {
     //删除已选条件
@@ -136,8 +136,7 @@ class BasicForm extends React.Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { queryCondition, userCount, userConfigData, configloading, queryloading, currentServiceTime} = this.props;
-    const getCheckedList = this.getCheckedConditionList();
+    const { queryCondition, userCount, userConfigData, configloading, queryloading, currentServiceTime, querySelected} = this.props;
     return (
       <>
         <div className={`${styles.formStyle} ${styles.formCotainer}`}>
@@ -154,7 +153,7 @@ class BasicForm extends React.Component {
                     {getFieldDecorator('province', {
                       initialValue: queryCondition.province,
                     })(
-                      <BISelect placeholder="报考省市" allowClear>
+                      <BISelect placeholder="报考省市" dropdownClassName={styles.popupClassName} allowClear>
                         {userConfigData.province.map(item => <Option key={item} value={item}>{item}</Option>)}
                       </BISelect>,
                     )}
@@ -165,7 +164,7 @@ class BasicForm extends React.Component {
                     {getFieldDecorator('orgIdList', {
                       initialValue: queryCondition.orgIdList,
                     })(
-                      <BICascader placeholder="后端归属" changeOnSelect options={userConfigData.orgIdList}
+                      <BICascader placeholder="后端归属" popupClassName={styles.popupClassName} changeOnSelect options={userConfigData.orgIdList}
                                   fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
                                   displayRender={this.renderCascader}/>,
                     )}
@@ -176,7 +175,7 @@ class BasicForm extends React.Component {
                     {getFieldDecorator('ordStatusCode', {
                       initialValue: queryCondition.ordStatusCode,
                     })(
-                      <BISelect placeholder="订单状态" allowClear>
+                      <BISelect placeholder="订单状态" dropdownClassName={styles.popupClassName} allowClear>
                         {userConfigData.ordStatusCode.map(item => <Option key={item.id}
                                                                           value={item.id}>{item.name}</Option>)}
                       </BISelect>,
@@ -192,7 +191,9 @@ class BasicForm extends React.Component {
                         placeholder={['订单起始时间', '订单截止时间']}
                         format={dateFormat}
                         defaultPickerValue={handleDefaultPickerExamValue(currentServiceTime)}
-                        disabledDate={this.dateDisabledDate}/>,
+                        disabledDate={this.dateDisabledDate}
+                        dropdownClassName={styles.popupClassName}
+                      />,
                     )}
                   </Form.Item>
                 </div>
@@ -201,7 +202,7 @@ class BasicForm extends React.Component {
                     {getFieldDecorator('wechatBinded', {
                       initialValue: queryCondition.wechatBinded,
                     })(
-                      <BISelect placeholder="是否绑定官微" allowClear>
+                      <BISelect placeholder="是否绑定官微" dropdownClassName={styles.popupClassName} allowClear>
                         {userConfigData.wechatBinded.map((item, index) => <Option key={index} value={index}>{item}</Option>)}
                       </BISelect>,
                     )}
@@ -215,7 +216,7 @@ class BasicForm extends React.Component {
                     {getFieldDecorator('pushType', {
                       initialValue: queryCondition.pushType,
                     })(
-                      <BISelect placeholder="通知类型" allowClear>
+                      <BISelect placeholder="通知类型" dropdownClassName={styles.popupClassName} allowClear>
                         {userConfigData.pushType.map((item, index) => <Option key={index} value={index}>{item}</Option>)}
                       </BISelect>,
                     )}
@@ -226,7 +227,7 @@ class BasicForm extends React.Component {
                     {getFieldDecorator('pushed', {
                       initialValue: queryCondition.pushed,
                     })(
-                      <BISelect placeholder="是否通知" allowClear>
+                      <BISelect placeholder="是否通知" dropdownClassName={styles.popupClassName} allowClear>
                         {userConfigData.pushed.map((item, index) => <Option key={index} value={index}>{item}</Option>)}
                       </BISelect>,
                     )}
@@ -237,7 +238,7 @@ class BasicForm extends React.Component {
                     {getFieldDecorator('pushOpenStatus', {
                       initialValue: queryCondition.pushOpenStatus,
                     })(
-                      <BISelect placeholder="通知打开状态" disabled={queryCondition.pushed === 0} allowClear>
+                      <BISelect placeholder="通知打开状态" dropdownClassName={styles.popupClassName} disabled={queryCondition.pushed === 0} allowClear>
                         {userConfigData.pushOpenStatus.map((item, index) => <Option key={index} value={index}>{item}</Option>)}
                       </BISelect>,
                     )}
@@ -245,12 +246,12 @@ class BasicForm extends React.Component {
                 </div>
               </div>
               {
-                getCheckedList.length > 0 && (
+                querySelected.length > 0 && (
                   <div className={`${styles.rowWrap} ${styles.rowWrapMar}`}>
                     <div className={`${styles.itemCls} ${styles.itemTips}`}>已选条件：</div>
                     <div className={styles.selectedContent}>
                       {
-                        getCheckedList.map(v =>
+                        querySelected.map(v =>
                           <span className={styles.items} key={v.key}>
                             {v.label}
                             <Icon className={styles.icons} id={v.key} data-name={v.label}
@@ -286,12 +287,15 @@ class BasicForm extends React.Component {
 const SearchForm = Form.create({ name: 'BasicForm', onFieldsChange })(BasicForm);
 
 // 数据提取
-@connect(({ examPlatformModal, loading }) => ({}))
+@connect(({ examPlatformModal }) => ({
+  userConfigData: examPlatformModal.userConfigData,
+}))
 class CreateGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       queryCondition: {},
+      querySelected: []
     };
   }
 
@@ -301,15 +305,44 @@ class CreateGroup extends React.Component {
     });
   }
 
+  // 已选条件
+  getCheckedConditionList = (paramas) => {
+    const { userConfigData } = this.props;
+    const { querySelected } = this.state;
+    const currentKey = Object.keys(paramas)[0];
+    const list = [];
+    const val = paramas[currentKey];
+    const bul = val instanceof Array;
+    if (currentKey && (bul && val.length > 0) ||  (!bul && val !== undefined)) {
+      let label = '';
+      const config = userConfigData[currentKey];
+      if (currentKey === 'orgIdList') {
+        if (val instanceof Array) {
+          val.forEach((item, index) => label+= item.name + (index === val.length -1 ? '' : '/'))
+        }
+      } else if (currentKey === 'ordStatusCode') {
+        label = config.find(item => val === item.id).name;
+      } else if (currentKey === 'choiceTime') {
+        label = `订单时间：${val[0].format(dateFormat)} ~ ${val[0].format(dateFormat)}`
+      } else if (currentKey !== 'province'){
+        label = config[val];
+      } else {
+        label = val
+      }
+      list.push({key: currentKey, label: label})
+    }
+    return querySelected.filter(item => item.key != currentKey).concat(list);
+  };
   onChange = (paramas) => {
     this.setState({
       queryCondition: { ...this.state.queryCondition, ...paramas },
+      querySelected: this.getCheckedConditionList(paramas)
     });
   };
 
   render() {
     return (
-      <SearchForm onChange={this.onChange} queryCondition={this.state.queryCondition}></SearchForm>
+      <SearchForm onChange={this.onChange} querySelected={this.state.querySelected} queryCondition={this.state.queryCondition}></SearchForm>
     );
   }
 }

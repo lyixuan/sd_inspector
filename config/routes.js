@@ -271,6 +271,7 @@ export const routes = [
           {
             path: '/qualityMarking/detail',
             component: './ko/qualityMarking/detail',
+            name: '质检标注'
           }
         ],
       },
@@ -385,6 +386,17 @@ export const routes = [
           {
             path: '/entrancePlatform/statistics',
             component: './ko/entrancePlatform',
+          },
+        ],
+      },
+      {
+        path: '/qualityReport',
+        name: '质检图表',
+        routes: [
+          {
+            path: '/qualityReport/data',
+            component: './ko/qualityReport',
+            name: '质检图表',
           },
         ],
       },

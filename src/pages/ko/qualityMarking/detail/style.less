@@ -131,7 +131,7 @@ li{
   }
 }
 .behavior{
-	padding:10px 0px 10px 74px;
+	padding:10px 0px 10px 10%;
 }
 .behavior li:last-child .content{
 	border:none;
@@ -146,10 +146,24 @@ li{
 	color:#999;
 }
 .step .content{
-	border-left:1px solid #cff0ee;
+	//border-left:1px solid #cff0ee;
 	padding-left:15px;
 	position:relative;
-	padding-bottom:5px;
+	padding-bottom:10px;
+  flex: 1;
+  max-width: 400px;
+  //max-width: 500px;
+}
+.step .content:after {
+  content: '';
+  position: absolute;
+  left: 0px;
+  top: 10px;
+  border-left: 1px solid #cff0ee;
+  height: 100%;
+}
+.step:last-child .content:after {
+  border: none;
 }
 .step .content .text{
 	padding-bottom:30px;
@@ -163,8 +177,8 @@ li{
 	border-radius:50px;
 	position:absolute;
 	left:-6px;
-	top:0;
-
+	top:10px;
+  z-index: 99;
 }
 .step .content .bigDot .dot{
 	width:4px;
@@ -216,15 +230,16 @@ li{
 	text-align:center;
 }
 .behavior .chat .avatar img{
-	width:35px;
-	height:35px;
+	width:32px;
+	height:32px;
 	border-radius:100px;
 }
 .behavior .chat .avatar p{
 	font-size:12px;
 }
 .behavior .chatLeft .chatContent{
-	width:175px;
+	//width:175px;
+  max-width: 254px;
 	background:#f6f7fa;
 	border:1px solid #E8E8E8;
 	border-radius:5px;
@@ -236,12 +251,26 @@ li{
     color: #52C9C2;
     text-decoration: underline;
   }
+}
+.behavior .chatLeft .chatContentImg {
+  //max-width: 260px;
+  //width: 260px;
+  padding: 3px;
+  text-align: center;
+  border: 1px solid #E8E8E8;
+  border-radius: 6px;
+  margin-left: 15px;
   img {
     width: 254px;
   }
-}
-.behavior .chatLeft .chatContentImg {
-
+  .triangle {
+    border-color:transparent #E8E8E8 transparent transparent;
+    top: 10px;
+    left: 57px;
+  }
+  .triangle em{
+    border-color:transparent #FFFFFF transparent transparent;
+  }
 }
 .behavior .chatLeft .triangle{
     display:block; 
@@ -268,10 +297,12 @@ li{
 
 .behavior .chatRight{
 	padding-left:90px;
-	padding-bottom:10px;
+  float: right;
+	//padding-bottom:10px;
 }
 .behavior .chatRight .chatContent{
-	width:210px;
+	//width:210px;
+  max-width: 254px;
 	background:#48c2ba;
 	border:1px solid #48c2ba;
 	border-radius:5px;
@@ -285,12 +316,26 @@ li{
     color: #fff;
     text-decoration: underline;
   }
+}
+.behavior .chatRight .chatContentImg {
+  //max-width: 260px;
+  //width: 260px;
+  text-align: center;
+  padding: 3px;
+  border: 1px solid #E8E8E8;
+  margin-right: 15px;
+  border-radius: 6px;
   img {
     width: 254px;
   }
-}
-.behavior .chatRight .chatContentImg {
-
+  .triangle {
+    border-color:transparent transparent transparent #E8E8E8;
+    top:10px;
+    right:42px;
+  }
+  .triangle em{
+    border-color:transparent transparent transparent #FFFFFF;
+  }
 }
 .behavior .chatRight .triangle{
     display:block; 
