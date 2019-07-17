@@ -107,7 +107,7 @@ export function handleDefaultPickerExamValue(cTime) {
   return [cTime.subtract(1, 'months'), cTime]
 }
 export function handleTNDateValue(n = 1, cTime) {
-  cTime = cTime ? moment(cTime) : moment('2019-09-08');
+  cTime = cTime ? moment(cTime) : moment();
   return cTime.subtract(n, 'days').format(commitDateFormat)
 }
 export function jumpQualityRoute(path, params) {
