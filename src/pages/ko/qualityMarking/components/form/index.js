@@ -27,7 +27,7 @@ class AiForm extends React.Component {
       this.props.dispatch({
         type: 'koPlan/getCurrentTime',
         callback: (res) => {
-          this.props.changeOperatorId('choiceTime', handleDefaultPickerValueMark(res));
+          this.props.changeOperatorId('choiceTime', handleDefaultPickerValueMark(2, res));
           this.handleSearch();
           this.onChangeTime(this.props.searchParams.choiceTime)
         }
