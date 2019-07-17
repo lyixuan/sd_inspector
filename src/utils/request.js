@@ -47,6 +47,11 @@ const errorHandler = error => {
   } else if (status >= 404 && status < 422) {
     routerRedux.push('/exception/404');
     return;
+  } else if (!status){
+    notification.error({
+      message: '服务器返回信息为空',
+    });
+    return
   }
   notification.error({
     message: `请求错误 ${status}: ${url}`,
@@ -75,5 +80,13 @@ request.interceptors.request.use((url, options) => {
     url:`${SERVER_HOST}${PROXY_PATH(isOld)}${url}`,
     options,
   };
+});
+request.interceptors.response.use(async (response) => {
+  const data = await response.clone().json();
+  if (data&&data.code === 20002) {
+    redirectToLogin();
+    return
+  }
+  return response;
 });
 export default request;
