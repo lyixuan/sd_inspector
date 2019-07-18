@@ -116,8 +116,6 @@ export default {
     },
 
     *logout( ) {
-      storage.removeItem('admin_user');
-      storage.removeItem('admin_auth');
       if(DEBUGGER_USER){
         casLogoutDev();
       } else {
