@@ -115,9 +115,9 @@ class bbsPage extends React.Component {
       payload: { params: { ...searchParams, page: currentPage, type: markType } },
     });
   };
-  changeOperatorId = (v) => {
+  changeOperatorId = (key, v) => {
     this.setState({
-      searchParams: {...this.state.searchParams, 'operatorId': v}
+      searchParams: {...this.state.searchParams, [key]: v}
     });
   };
 
