@@ -273,7 +273,9 @@ class DataClassfy extends React.Component {
                       options={consultTypeTree}
                       value={this.state.submitParam.consultTypeIdList}
                       onChange={this.onChangeConsult}
-                      placeholder="请选择" />
+                      placeholder="请选择"
+                      popupClassName={styles.reasontype}
+                    />
                   </div>
                 </li>
                 : null

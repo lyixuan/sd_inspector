@@ -1,5 +1,4 @@
 import React from 'react';
-import copy from 'copy-to-clipboard';
 import { connect } from 'dva';
 import { Spin } from 'antd';
 import DetailIm from './components/im';
