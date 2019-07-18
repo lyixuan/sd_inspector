@@ -22,6 +22,7 @@ export const STATIC_HOST = {
 export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
   localhost: 'http://dev.xd.admin.ministudy.com',
+  // localhost: 'http://test.dx.ministudy.com',
   // development: 'http://test.xd.admin.ministudy.com',
   development: 'http://test.dx.ministudy.com',
 }[process.env.LOGIN_TYPE]
