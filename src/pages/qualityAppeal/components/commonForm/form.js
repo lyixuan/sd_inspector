@@ -26,7 +26,8 @@ class CreateQualityNewSheet extends React.Component {
         this.state = {
             level: null,   // 展示层级
             violationLevelObj: {},
-            fileList: []
+            fileList: [],
+            showMore:false
         };
     }
     componentWillReceiveProps(next) {
@@ -216,50 +217,179 @@ class CreateQualityNewSheet extends React.Component {
 
         });
     }
-    renderGovernorComponent = () => {
+    renderGovernorComponent = (showMore) => {
         const { getFieldDecorator } = this.props.form;
         const { params } = this.props;
         const values = this.props.form.getFieldsValue();
         const { violationLevelObj } = this.props;
-        const isShowMasterMail = BaseModels.checkoutQualityMaster(values, violationLevelObj)
+        // const isShowMasterMail = BaseModels.checkoutQualityMaster(values, violationLevelObj)
+        const isShowMasterMail = true;
         if (isShowMasterMail) {
             return (
+              <div>
                 <Row style={{ lineHeight: '40px' }}>
-                    <Col className="gutter-row" span={12} style={{ display: 'flex' }}>
-                        <span className={styles.i}></span><Form.Item label="客诉主管邮箱：">
-                            {getFieldDecorator('masterMail', {
-                                initialValue: params.masterMail,
-                                // rules: [{ required: true, message: '请输入主管邮箱' }],
-                            })(<BIInput placeholder="请输入" style={{ width: 170 }} onChange={e => this.inputChange(e, 'masterMail')} />)}
-                        </Form.Item>
-                        <div className={styles.text}>@sunlands.com</div>
-                    </Col>
-                    <Col className="gutter-row txRight" span={12}>
-                        <span className={styles.i}>*</span><Form.Item label="主管扣除绩效：">
-                            {getFieldDecorator('masterQualityValue', {
-                                initialValue: params.masterQualityValue,
-                                rules: [{
-                                  validator(rule, value, callback) {
-                                    if (value!==0&&(!value||isNaN(value)||Number(value)<0)) {
-                                      callback({ message: '请输入合法绩效' });
-                                    } else if (
-                                      String(value).split('.')[1] &&
-                                      String(value).split('.')[1].length > 2
-                                    ) {
-                                      callback({ message: '最多保留两位小数' });
-                                    } else {
-                                      callback();
-                                    }
-                                  },
-                                }],
-                            })(<BIInput placeholder="请输入" style={{ width: 260 }} onChange={e => this.inputChange(e, 'masterQualityValue')} />)}
-                            <span style={{ display: "inline-block", width: "20px" }}>%</span>
-                        </Form.Item>
-                    </Col>
+                  <Col className="gutter-row" span={24} style={{ display: 'flex' }}>
+                    <span className={styles.i}>&nbsp;</span>
+                    <Form.Item label="连带责任人：">
+                      {getFieldDecorator('masterRole', {
+                        initialValue: params.masterRole,
+                      })(<BIInput placeholder="请输入角色" style={{ width: 100,marginRight:'10px' }} onChange={e => this.inputChange(e, 'masterRole')} />)}
+                    </Form.Item>
+                    <Form.Item label="">
+                      {getFieldDecorator('masterMail', {
+                        initialValue: params.masterMail,
+                      })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail')} />)}
+                    </Form.Item>
+                    <div className={styles.text}>@sunlands.com</div>
+                    <span className={styles.i}></span>
+                    <Form.Item label="">
+                      {getFieldDecorator('masterQualityValue', {
+                        initialValue: params.masterQualityValue,
+                        rules: [{
+                          validator(rule, value, callback) {
+                            if (value!==0&&(!value||isNaN(value)||Number(value)<0)) {
+                              callback({ message: '请输入合法绩效' });
+                            } else if (
+                              String(value).split('.')[1] &&
+                              String(value).split('.')[1].length > 2
+                            ) {
+                              callback({ message: '最多保留两位小数' });
+                            } else {
+                              callback();
+                            }
+                          },
+                        }],
+                      })(<BIInput placeholder="请输入扣除绩效" style={{ width: 130 }} onChange={e => this.inputChange(e, 'masterQualityValue')} />)}
+                      <span style={{ display: "inline-block", width: "20px" }}>%</span>
+                    </Form.Item>
+                  </Col>
                 </Row>
+                <Row style={{ lineHeight: '40px' }}>
+                  <Col className="gutter-row" span={24} style={{ display: 'flex' }}>
+                    <span className={`${styles.i} ${styles.blockLabel}`}>&nbsp;</span>
+                    <Form.Item label="">
+                      {getFieldDecorator('masterRole2', {
+                        initialValue: params.masterRole2,
+                      })(<BIInput placeholder="请输入角色" style={{ width: 100,marginRight:'10px' }} onChange={e => this.inputChange(e, 'masterRole2')} />)}
+                    </Form.Item>
+                    <Form.Item label="">
+                      {getFieldDecorator('masterMail2', {
+                        initialValue: params.masterMail2,
+                      })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail2')} />)}
+                    </Form.Item>
+                    <div className={styles.text}>@sunlands.com</div>
+                    <span className={styles.i}></span>
+                    <Form.Item label="">
+                      {getFieldDecorator('masterQualityValue2', {
+                        initialValue: params.masterQualityValue2,
+                        rules: [{
+                          validator(rule, value, callback) {
+                            if (value!==0&&(!value||isNaN(value)||Number(value)<0)) {
+                              callback({ message: '请输入合法绩效' });
+                            } else if (
+                              String(value).split('.')[1] &&
+                              String(value).split('.')[1].length > 2
+                            ) {
+                              callback({ message: '最多保留两位小数' });
+                            } else {
+                              callback();
+                            }
+                          },
+                        }],
+                      })(<BIInput placeholder="请输入扣除绩效" style={{ width: 130 }} onChange={e => this.inputChange(e, 'masterQualityValue2')} />)}
+                      <span style={{ display: "inline-block", width: "20px" }}>%</span>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                {showMore&&(
+                  <Row style={{ lineHeight: '40px' }}>
+                    <Col className="gutter-row" span={24} style={{ display: 'flex' }}>
+                      <span className={`${styles.i} ${styles.blockLabel}`}>&nbsp;</span>
+                      <Form.Item label="">
+                        {getFieldDecorator('masterRole3', {
+                          initialValue: params.masterRole3,
+                        })(<BIInput placeholder="请输入角色" style={{ width: 100,marginRight:'10px' }} onChange={e => this.inputChange(e, 'masterRole3')} />)}
+                      </Form.Item>
+                      <Form.Item label="">
+                        {getFieldDecorator('masterMail3', {
+                          initialValue: params.masterMail3,
+                        })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail3')} />)}
+                      </Form.Item>
+                      <div className={styles.text}>@sunlands.com</div>
+                      <span className={styles.i}></span>
+                      <Form.Item label="">
+                        {getFieldDecorator('masterQualityValue3', {
+                          initialValue: params.masterQualityValue3,
+                          rules: [{
+                            validator(rule, value, callback) {
+                              if (value!==0&&(!value||isNaN(value)||Number(value)<0)) {
+                                callback({ message: '请输入合法绩效' });
+                              } else if (
+                                String(value).split('.')[1] &&
+                                String(value).split('.')[1].length > 2
+                              ) {
+                                callback({ message: '最多保留两位小数' });
+                              } else {
+                                callback();
+                              }
+                            },
+                          }],
+                        })(<BIInput placeholder="请输入扣除绩效" style={{ width: 130 }} onChange={e => this.inputChange(e, 'masterQualityValue3')} />)}
+                        <span style={{ display: "inline-block", width: "20px" }}>%</span>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                )}
+                {showMore&&(
+                  <Row style={{ lineHeight: '40px' }}>
+                    <Col className="gutter-row" span={24} style={{ display: 'flex' }}>
+                      <span className={`${styles.i} ${styles.blockLabel}`}>&nbsp;</span>
+                      <Form.Item label="">
+                        {getFieldDecorator('masterRole4', {
+                          initialValue: params.masterRole4,
+                        })(<BIInput placeholder="请输入角色" style={{ width: 100,marginRight:'10px' }} onChange={e => this.inputChange(e, 'masterRole4')} />)}
+                      </Form.Item>
+                      <Form.Item label="">
+                        {getFieldDecorator('masterMail4', {
+                          initialValue: params.masterMail4,
+                        })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail4')} />)}
+                      </Form.Item>
+                      <div className={styles.text}>@sunlands.com</div>
+                      <span className={styles.i}></span>
+                      <Form.Item label="">
+                        {getFieldDecorator('masterQualityValue4', {
+                          initialValue: params.masterQualityValue4,
+                          rules: [{
+                            validator(rule, value, callback) {
+                              if (value!==0&&(!value||isNaN(value)||Number(value)<0)) {
+                                callback({ message: '请输入合法绩效' });
+                              } else if (
+                                String(value).split('.')[1] &&
+                                String(value).split('.')[1].length > 2
+                              ) {
+                                callback({ message: '最多保留两位小数' });
+                              } else {
+                                callback();
+                              }
+                            },
+                          }],
+                        })(<BIInput placeholder="请输入扣除绩效" style={{ width: 130 }} onChange={e => this.inputChange(e, 'masterQualityValue4')} />)}
+                        <span style={{ display: "inline-block", width: "20px" }}>%</span>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                )}
+                {showMore?<Row style={{ marginBottom:10 }}><Col span={24}><span onClick={this.changeShowMore} className={styles.more}>收起更多</span></Col></Row>:
+                  <Row style={{ marginBottom:10 }}><Col span={24}><span onClick={this.changeShowMore} className={styles.more}>展开更多</span></Col></Row>}
+              </div>
             )
         } else return null;
     }
+    changeShowMore = () =>{
+      this.setState({
+        showMore:!this.state.showMore
+      });
+    };
     renderQualityValue = () => {
         const values = this.props.form.getFieldsValue();
         // const { qualityType, role } = values || {};
@@ -287,6 +417,7 @@ class CreateQualityNewSheet extends React.Component {
         }
         callback('请输入正整数');
     };
+
     renderQualityType_performance = (value) => {
         const { getFieldDecorator } = this.props.form;
         const { params } = this.props;
@@ -570,7 +701,7 @@ class CreateQualityNewSheet extends React.Component {
                                 </Form.Item>
                             </Col>
                         </Row>
-                        {this.renderGovernorComponent()}
+                        {this.renderGovernorComponent(this.state.showMore)}
                         {this.renderQualityValue()}
                         {/* 当在非编辑状态下进行下载 */}
                         <Row className="gutter-row">
