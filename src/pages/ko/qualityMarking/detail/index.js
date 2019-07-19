@@ -36,17 +36,19 @@ class AiDetail extends React.Component {
       id: JSON.parse(this.props.location.query.params).id,
       submitParam: {}
     };
-    console.log('ooooo')
   }
   componentDidMount() {
+    console.log('调试', 'kkkkkk')
     this.getConsultTree();//获取咨询分类树形结构
     this.getResonTree();//获取原因分类树形结构
     this.getPageData(); //获取页面数据
     this.queryData();
     this.pageResize();
     window.addEventListener('resize', this.pageResize);
+    console.log('调试结束', 'kkkkkk')
   }
   pageResize = () => {
+    console.log('调试结束', 'jjjjjjjjj')
     const maxHeight = document.body.clientHeight < 600 ? 600 : document.body.clientHeight;
     this.setState({
       scrollHeight: maxHeight - 190
