@@ -203,7 +203,7 @@ class CreateQualityNewSheet extends React.Component {
     }
     inputChange = (e, key) => {
         const values = this.props.form.getFieldsValue();
-        values[key] = e.currentTarget.value;
+        values[key] = e.currentTarget.value?e.currentTarget.value:null;
         this.formChange(values)
     }
     formChange = (params) => {
@@ -233,7 +233,7 @@ class CreateQualityNewSheet extends React.Component {
         const { violationLevelObj } = this.props;
         const isShowMasterMail = BaseModels.checkoutQualityMaster(values, violationLevelObj)
         // const isShowMasterMail = true;
-      if(params.masterRole3||params.masterRole4){
+      if(params.masterMail3||params.masterMail4||params.masterQualityValue3||params.masterQualityValue4){
         showMore = true;
       }
         if (isShowMasterMail) {
