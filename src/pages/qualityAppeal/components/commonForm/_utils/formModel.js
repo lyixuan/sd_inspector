@@ -13,10 +13,20 @@ export class FormModels extends BaseModels {
             reduceScoreDate: null,     // @params(Moment)质检扣分日期
             dimensionId: null,         // @params(Number)分维ID
             dimension: [],             // @params(Array)违规分类
+            masterRole: '',            // @params(String)客诉主管邮箱
+            masterRole2: '',            // @params(String)客诉主管邮箱
+            masterRole3: '',            // @params(String)客诉主管邮箱
+            masterRole4: '',            // @params(String)客诉主管邮箱
             masterMail: '',            // @params(String)客诉主管邮箱
+            masterMail2: '',            // @params(String)客诉主管邮箱
+            masterMail3: '',            // @params(String)客诉主管邮箱
+            masterMail4: '',            // @params(String)客诉主管邮箱
             masterQualityValue: null,   // @params(Number)客诉主管扣分绩效
+            masterQualityValue2: null,   // @params(Number)客诉主管扣分绩效
+            masterQualityValue3: null,   // @params(Number)客诉主管扣分绩效
+            masterQualityValue4: null,   // @params(Number)客诉主管扣分绩效
             qualityValue: null,        // @params(Number)扣除学分/绩效
-            attUrl: '',                // @params(String)附件地址	
+            attUrl: '',                // @params(String)附件地址
             desc: '',                  // @params(String)违规详情
             familyType: null,          // @params(Number)自考壁垒
             userId: null,              // @params(number) 用户id
@@ -49,6 +59,9 @@ export class FormModels extends BaseModels {
         const handleQualityObj = {
             qualityValue: this.setQualityValueFamter(params),
             masterQualityValue: this.setMasterQualityValueFamter(params, violationLevelObj),
+            masterQualityValue2: this.setMasterQualityValueFamter2(params, violationLevelObj),
+            masterQualityValue3: this.setMasterQualityValueFamter3(params, violationLevelObj),
+            masterQualityValue4: this.setMasterQualityValueFamter4(params, violationLevelObj),
             violationLevelName: violationLevelObj.title,
         }
         const newParams = { ...others, ...dateTimeObj, ...handleQualityObj, primaryAssortmentId, secondAssortmentId, thirdAssortmentId, collegeId, familyId, groupId };

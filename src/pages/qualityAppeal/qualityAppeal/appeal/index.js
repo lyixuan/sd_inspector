@@ -145,7 +145,10 @@ class QualityAppealing extends React.Component {
   render() {
     const { checkResult, appealEndDate } = this.state;
     const { appealShow = [], qualityDetailData = {} } = this.props.qualityAppealing;
-    const { masterQualityValue = '', masterMail = '' } = qualityDetailData;
+    const { masterRole = '',masterQualityValue = '', masterMail = '',
+      masterRole2 = '',masterQualityValue2 = '', masterMail2 = '',
+      masterRole3 = '',masterQualityValue3 = '', masterMail3 = '',
+      masterRole4 = '',masterQualityValue4 = '', masterMail4 = '' } = qualityDetailData;
     const { submitLoading2 } = this.props;
     appealShow.forEach(v => {
       if (v.type === 1) {
@@ -177,7 +180,11 @@ class QualityAppealing extends React.Component {
                 ) : null}
                 <div className={styles.divideLine} />
                 {/* 质检违规详情 */}
-                <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail} />
+                <IllegalInfo data={qualityDetailData}
+                             masterRole={masterRole} masterQualityValue={masterQualityValue} masterMail={masterMail}
+                             masterRole2={masterRole2} masterQualityValue2={masterQualityValue2} masterMail2={masterMail2}
+                             masterRole3={masterRole3} masterQualityValue3={masterQualityValue3} masterMail3={masterMail3}
+                             masterRole4={masterRole4} masterQualityValue4={masterQualityValue4} masterMail4={masterMail4}/>
               </div>
               <div style={{ marginTop: 20 }}>
                 <div className={styles.title} >申诉信息 <span className={styles.iconCls} onClick={() => this.handleAppeal()}> {this.getAppealStatus()}</span>  </div>

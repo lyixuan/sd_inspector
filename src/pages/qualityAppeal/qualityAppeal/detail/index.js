@@ -89,7 +89,11 @@ class AppealDetail extends React.Component {
     const{appealDetail={}} = this.props;
     const detailData = appealDetail.DetailData;
     const qualityDetailData = appealDetail.QualityDetailData;
-    const { masterQualityValue = '', masterMail = '' } = qualityDetailData;
+    const { masterRole = '',masterQualityValue = '', masterMail = '',
+      masterRole2 = '',masterQualityValue2 = '', masterMail2 = '',
+      masterRole3 = '',masterQualityValue3 = '', masterMail3 = '',
+      masterRole4 = '',masterQualityValue4 = '', masterMail4 = '' } = qualityDetailData;
+
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.detailContainer}>
@@ -114,7 +118,11 @@ class AppealDetail extends React.Component {
               ):null}
             <div className={styles.divideLine} />
             {/* 质检违规详情 */}
-            <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail} />
+            <IllegalInfo data={qualityDetailData}
+                         masterRole={masterRole} masterQualityValue={masterQualityValue} masterMail={masterMail}
+                         masterRole2={masterRole2} masterQualityValue2={masterQualityValue2} masterMail2={masterMail2}
+                         masterRole3={masterRole3} masterQualityValue3={masterQualityValue3} masterMail3={masterMail3}
+                         masterRole4={masterRole4} masterQualityValue4={masterQualityValue4} masterMail4={masterMail4}/>
           </section>
           <section className={styles.appealInfoCon}>
             {/* 申诉信息 */}

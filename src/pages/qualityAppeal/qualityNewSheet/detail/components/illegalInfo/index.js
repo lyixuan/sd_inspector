@@ -6,7 +6,10 @@ import { STATIC_HOST, FAMILY_TYPE } from '@/utils/constants';
 
 export default class IllegalInfoComponent extends React.Component {
   render() {
-    const { data, masterQualityValue, masterMail } = this.props;
+    const { data, masterRole = '',masterQualityValue = '', masterMail = '',
+      masterRole2 = '',masterQualityValue2 = '', masterMail2 = '',
+      masterRole3 = '',masterQualityValue3 = '', masterMail3 = '',
+      masterRole4 = '',masterQualityValue4 = '', masterMail4 = '' } = this.props;
     const { violationDate, familyType, qualityType, reduceScoreDate, dimension, violationLevelName, violationLevel,qualityValue, attUrl, desc, primaryAssortment, secondAssortment, thirdAssortment ,role} = data;
     const name = attUrl && attUrl.split('/')[3];
     // 是否显示学院类型
@@ -25,16 +28,35 @@ export default class IllegalInfoComponent extends React.Component {
             <div>违规等级：{violationLevelName} {Number(qualityValue)!==0 ?Number(qualityType) !== 1 ? '（扣除学分' : '(扣除绩效':''}{Number(qualityValue)!==0 ?Number(qualityType) !== 1 ? qualityValue+')' : `${(qualityValue * 100).toFixed(2)}%)`:''}</div>
           </div>
         </div>
-        <div className={styles.container}>
+        <div className={styles.container2}>
           {
             Number(qualityType) === 1 && (role === 'csleader' || role==='csofficer') && Number(violationLevel) === 2 ? (
               <>
-                <div className={styles.secRow}>
-                  <div>客诉主管邮箱：{masterMail ? `${masterMail}@sunlands.com` : '无'}</div>
+                <div style={{marginBottom:10,width:'100%'}}>
+                    <span>连带责任人：角色：{masterRole}</span> |
+                    <span> 邮箱：{`${masterMail}@sunlands.com`}</span> |
+                    <span> 扣除绩效：{(masterQualityValue * 100).toFixed(2)}%</span>
                 </div>
-                <div className={styles.secRow}>
-                  <div>主管扣除绩效：{(masterQualityValue * 100).toFixed(2)}%</div>
+                {masterRole2&&
+                <div style={{marginBottom:10,width:'100%'}}>
+                  <span style={{marginLeft:85}}> 角色：{masterRole2}</span> |
+                  <span> 邮箱：{`${masterMail2}@sunlands.com`}</span> |
+                  <span> 扣除绩效：{(masterQualityValue2 * 100).toFixed(2)}%</span>
+                </div>}
+                {masterRole3&&
+                <div style={{marginBottom:10,width:'100%'}}>
+                  <span style={{marginLeft:85}}> 角色：{masterRole3}</span> |
+                  <span> 邮箱：{`${masterMail3}@sunlands.com`}</span> |
+                  <span> 扣除绩效：{(masterQualityValue3 * 100).toFixed(2)}%</span>
                 </div>
+                }
+                {masterRole4&&
+                <div style={{marginBottom:10,width:'100%'}}>
+                  <span style={{marginLeft:85}}> 角色：{masterRole4}</span> |
+                  <span> 邮箱：{`${masterMail4}@sunlands.com`}</span> |
+                  <span> 扣除绩效：{(masterQualityValue4 * 100).toFixed(2)}%</span>
+                </div>
+                }
               </>
             ) : null
           }

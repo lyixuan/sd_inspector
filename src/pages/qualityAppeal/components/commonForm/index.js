@@ -209,10 +209,10 @@ class CreateQualityNewSheet extends React.Component {
     }
     onSubmit = (params) => {
         // 单独处理qualityValue
-        const { qualityValue = null, masterQualityValue = null, familyType = null } = params;
+        const { qualityValue = null, masterQualityValue = null, masterQualityValue2 = null, masterQualityValue3 = null, masterQualityValue4 = null, familyType = null } = params;
         const { formParams, violationLevelObj, violationName } = this.state;
         const { actionType, checkResult, appealEndDate, formType, appealStatus } = this.props;
-        const assginObject = Object.assign({}, formParams, params, { qualityValue, masterQualityValue, familyType, violationName });
+        const assginObject = Object.assign({}, formParams, params, { qualityValue, masterQualityValue,masterQualityValue2,masterQualityValue3,masterQualityValue4, familyType, violationName });
         const newParams = this.formModels.transFormParams(assginObject, violationLevelObj);
         this.tmpParams = newParams;
         this.saveParams(params);

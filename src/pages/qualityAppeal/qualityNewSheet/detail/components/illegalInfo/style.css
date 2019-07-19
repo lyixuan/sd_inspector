@@ -8,6 +8,10 @@
   display: flex;
   flex-direction: row;
 }
+.container2 {
+  display: flex;
+  flex-direction: column;
+}
 .secRow {
   flex: 1;
   display: flex;

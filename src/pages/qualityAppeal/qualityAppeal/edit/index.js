@@ -131,8 +131,10 @@ class EditAppeal extends React.Component {
     const detailData = qualityAppealHome.DetailData;
     const qualityDetailData = qualityAppealHome.QualityDetailData;
 
-    const {masterQualityValue='',masterMail=''} = qualityAppealHome;
-
+    const { masterRole = '',masterQualityValue = '', masterMail = '',
+      masterRole2 = '',masterQualityValue2 = '', masterMail2 = '',
+      masterRole3 = '',masterQualityValue3 = '', masterMail3 = '',
+      masterRole4 = '',masterQualityValue4 = '', masterMail4 = '' } = qualityAppealHome;
     this.appealEndDate = detailData[detailData.length - 1] ? detailData[detailData.length - 1].appealEndDate : '';
     this.type = detailData[detailData.length - 1] ? detailData[detailData.length - 1].type : '';
 
@@ -154,7 +156,11 @@ class EditAppeal extends React.Component {
               {/* 质检违规详情 */}
               <section>{/* 质检审核 */}</section>
               <div className={styles.divideLine} />
-              <IllegalInfo data={qualityDetailData} masterQualityValue={masterQualityValue} masterMail={masterMail}/>
+              <IllegalInfo data={qualityDetailData}
+                           masterRole={masterRole} masterQualityValue={masterQualityValue} masterMail={masterMail}
+                           masterRole2={masterRole2} masterQualityValue2={masterQualityValue2} masterMail2={masterMail2}
+                           masterRole3={masterRole3} masterQualityValue3={masterQualityValue3} masterMail3={masterMail3}
+                           masterRole4={masterRole4} masterQualityValue4={masterQualityValue4} masterMail4={masterMail4}/>
             </>
           </div>
 

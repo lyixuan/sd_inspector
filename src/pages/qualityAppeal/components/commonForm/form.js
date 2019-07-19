@@ -62,7 +62,10 @@ class CreateQualityNewSheet extends React.Component {
         if (this.props.onChangedimensionTree) {
             this.props.onChangedimensionTree({
                 violationLevelObj: {}, dimension: [], dimensionId: undefined, qualityType,
-                masterQualityValue: null, masterMail: null, qualityValue: null,
+              masterRole:null,masterQualityValue: null, masterMail: null,
+              masterRole2:null,masterQualityValue2: null, masterMail2: null,
+              masterRole3:null,masterQualityValue3: null, masterMail3: null,
+              masterRole4:null,masterQualityValue4: null, masterMail4: null, qualityValue: null,
             });
         }
     }
@@ -76,7 +79,10 @@ class CreateQualityNewSheet extends React.Component {
             level
         });
         if (this.props.onChangeRole) {
-            this.props.onChangeRole({ ...values, role, organize: [], qualityValue: null, masterQualityValue: null, masterMail: null })
+            this.props.onChangeRole({ ...values, role, organize: [], qualityValue: null, masterRole:null,masterQualityValue: null, masterMail: null,
+              masterRole2:null,masterQualityValue2: null, masterMail2: null,
+              masterRole3:null,masterQualityValue3: null, masterMail3: null,
+              masterRole4:null,masterQualityValue4: null, masterMail4: null })
         }
     }
     changeOrg = (...argu) => {
@@ -130,7 +136,10 @@ class CreateQualityNewSheet extends React.Component {
         if (this.props.onChangedimensionTree) {
             this.props.onChangedimensionTree({
                 violationLevelObj, dimension: value,
-                masterQualityValue: null, masterMail: null,
+              masterRole:null,masterQualityValue: null, masterMail: null,
+              masterRole2:null,masterQualityValue2: null, masterMail2: null,
+              masterRole3:null,masterQualityValue3: null, masterMail3: null,
+              masterRole4:null,masterQualityValue4: null, masterMail4: null,
             });
         }
     }
@@ -222,8 +231,11 @@ class CreateQualityNewSheet extends React.Component {
         const { params } = this.props;
         const values = this.props.form.getFieldsValue();
         const { violationLevelObj } = this.props;
-        // const isShowMasterMail = BaseModels.checkoutQualityMaster(values, violationLevelObj)
-        const isShowMasterMail = true;
+        const isShowMasterMail = BaseModels.checkoutQualityMaster(values, violationLevelObj)
+        // const isShowMasterMail = true;
+      if(params.masterRole3||params.masterRole4){
+        showMore = true;
+      }
         if (isShowMasterMail) {
             return (
               <div>
@@ -247,13 +259,20 @@ class CreateQualityNewSheet extends React.Component {
                         initialValue: params.masterQualityValue,
                         rules: [{
                           validator(rule, value, callback) {
-                            if (value!==0&&(!value||isNaN(value)||Number(value)<0)) {
+                            if((!value && !params.masterRole && !params.masterRole)){
+                              callback();
+                            }
+                            if(!(value && params.masterRole && params.masterRole)){
+                              callback({ message: '请输入同时填写角色、邮箱和绩效，或不填写' });
+                            } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
                               callback({ message: '请输入合法绩效' });
                             } else if (
                               String(value).split('.')[1] &&
                               String(value).split('.')[1].length > 2
                             ) {
                               callback({ message: '最多保留两位小数' });
+                            } else if(value == 0){
+                              callback({ message: '请输入大于0的绩效' });
                             } else {
                               callback();
                             }
@@ -284,13 +303,20 @@ class CreateQualityNewSheet extends React.Component {
                         initialValue: params.masterQualityValue2,
                         rules: [{
                           validator(rule, value, callback) {
-                            if (value!==0&&(!value||isNaN(value)||Number(value)<0)) {
+                            if((!value && !params.masterRole2 && !params.masterRole2)){
+                              callback();
+                            }
+                            if(!(value && params.masterRole2 && params.masterRole2)){
+                              callback({ message: '请输入同时填写角色、邮箱和绩效，或不填写' });
+                            } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
                               callback({ message: '请输入合法绩效' });
                             } else if (
                               String(value).split('.')[1] &&
                               String(value).split('.')[1].length > 2
                             ) {
                               callback({ message: '最多保留两位小数' });
+                            } else if(value == 0){
+                              callback({ message: '请输入大于0的绩效' });
                             } else {
                               callback();
                             }
@@ -322,13 +348,20 @@ class CreateQualityNewSheet extends React.Component {
                           initialValue: params.masterQualityValue3,
                           rules: [{
                             validator(rule, value, callback) {
-                              if (value!==0&&(!value||isNaN(value)||Number(value)<0)) {
+                              if((!value && !params.masterRole3 && !params.masterRole3)){
+                                callback();
+                              }
+                              if(!(value && params.masterRole3 && params.masterRole3)){
+                                callback({ message: '请输入同时填写角色、邮箱和绩效，或不填写' });
+                              } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
                                 callback({ message: '请输入合法绩效' });
                               } else if (
                                 String(value).split('.')[1] &&
                                 String(value).split('.')[1].length > 2
                               ) {
                                 callback({ message: '最多保留两位小数' });
+                              } else if(value == 0){
+                                callback({ message: '请输入大于0的绩效' });
                               } else {
                                 callback();
                               }
@@ -361,13 +394,20 @@ class CreateQualityNewSheet extends React.Component {
                           initialValue: params.masterQualityValue4,
                           rules: [{
                             validator(rule, value, callback) {
-                              if (value!==0&&(!value||isNaN(value)||Number(value)<0)) {
+                              if((!value && !params.masterRole4 && !params.masterRole4)){
+                                callback();
+                              }
+                              if(!(value && params.masterRole4 && params.masterRole4)){
+                                callback({ message: '请输入同时填写角色、邮箱和绩效，或不填写' });
+                              } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
                                 callback({ message: '请输入合法绩效' });
                               } else if (
                                 String(value).split('.')[1] &&
                                 String(value).split('.')[1].length > 2
                               ) {
                                 callback({ message: '最多保留两位小数' });
+                              } else if(value == 0){
+                                callback({ message: '请输入大于0的绩效' });
                               } else {
                                 callback();
                               }
