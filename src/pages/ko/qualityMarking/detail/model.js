@@ -16,13 +16,13 @@ export default {
     reasonTypeTree: null,
     pageData: null,
     submitParam: {
-      // ordId: undefined,
-      // consultTypeIdList: [],
-      // reasonTypeIdList: [],
-      // evaluationFlag: null,
-      // evaluationNature: null,
-      // remark: '',
-      // resultId: null
+      ordId: undefined,
+      consultTypeIdList: [],
+      reasonTypeIdList: [],
+      evaluationFlag: null,
+      evaluationNature: null,
+      remark: '',
+      resultId: null
     },
     idList: []
 

@@ -55,7 +55,7 @@ class DataClassfy extends React.Component {
   }
   setLifeCycle = () => {
     let lifeCycle = ''
-    this.props.pageData && this.props.pageData.result.ordIdList.map(item => {
+    this.props.pageData  && this.props.pageData.result && this.props.pageData.result.ordIdList && this.props.pageData.result.ordIdList.map(item => {
       if (item.ordId == this.state.submitParam.ordId) {
         lifeCycle = item.lifeCycle
       } else {
@@ -206,14 +206,13 @@ class DataClassfy extends React.Component {
   }
 
   render() {
-    console.log(this.props.idList, 'idList')
     let { consultTypeTree, reasonTypeTree, idList } = this.props.AiDetail;
     let { type, isLoading, pageData } = this.props;
     let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: -100, org: '' }];
     const currentId = this.props.idList.indexOf(this.props.id) + 1;
     const percent = currentId / this.props.idList.length * 100;
     const { visible, action } = this.state;
-    console.log(this.props.idList, 'idList')
+    console.log(this.state.submitParam, 'this.state.submitParam')
     return (
       <>
         <div className={styles.consultContent}>
