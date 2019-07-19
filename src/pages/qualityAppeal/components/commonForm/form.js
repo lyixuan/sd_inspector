@@ -233,7 +233,7 @@ class CreateQualityNewSheet extends React.Component {
         const { violationLevelObj } = this.props;
         const isShowMasterMail = BaseModels.checkoutQualityMaster(values, violationLevelObj)
         // const isShowMasterMail = true;
-      if(params.masterMail3||params.masterMail4||params.masterQualityValue3||params.masterQualityValue4){
+      if(params.masterRole3||params.masterRole4||params.masterMail3||params.masterMail4||params.masterQualityValue3||params.masterQualityValue4){
         showMore = true;
       }
         if (isShowMasterMail) {
