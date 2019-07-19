@@ -36,6 +36,7 @@ class AiDetail extends React.Component {
       id: JSON.parse(this.props.location.query.params).id,
       submitParam: {}
     };
+    console.log('ooooo')
   }
   componentDidMount() {
     this.getConsultTree();//获取咨询分类树形结构
