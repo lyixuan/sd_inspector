@@ -114,13 +114,13 @@ class AiDetail extends React.Component {
           <div className={`${styles.aiDetail} aiDetail2`} style={{ minHeight: `${scrollHeight}px` }}>
             <div className={styles.baseInfo}>
               <div className={styles.headBar}>基本信息</div>
-              {/*<div style={{ maxHeight: `${scrollHeight}px`, overflowY: "auto", marginBottom: '-25px' }}>*/}
-              {/*  <Detail pageData={pageData} type={type} id={id}></Detail>*/}
-              {/*</div>*/}
+              <div style={{ maxHeight: `${scrollHeight}px`, overflowY: "auto", marginBottom: '-25px' }}>
+                <Detail pageData={pageData} type={type} id={id}></Detail>
+              </div>
             </div>
             <div className={styles.dataClassfy}>
               <div className={styles.headBar}>数据分类</div>
-              <DataClassfy type={type} computedIdNew={this.computedId} id={this.state.id} params={JSON.parse(this.props.location.query.params).type} idList={this.props.idList} submitParam={this.state.submitParam}></DataClassfy>
+              {/*<DataClassfy type={type} computedIdNew={this.computedId} id={this.state.id} params={JSON.parse(this.props.location.query.params).type} idList={this.props.idList} submitParam={this.state.submitParam}></DataClassfy>*/}
             </div>
           </div>
         </Spin>
