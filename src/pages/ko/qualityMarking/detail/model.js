@@ -12,7 +12,7 @@ export default {
   namespace: 'AiDetail',
 
   state: {
-    consultTypeTree: null,
+    consultTypeTree: [],
     reasonTypeTree: [],
     pageData: null,
     submitParam: {
@@ -66,7 +66,7 @@ export default {
         const pageData = result.data || [];
         let ordId = undefined;
 
-        if (pageData && pageData.result && pageData.result.ordIdList && pageData.result.ordIdList instanceof Array && pageData.result.ordIdList.length == 1) {
+        if (pageData.result.ordIdList.length == 1) {
           ordId = pageData.result.ordIdList[0].ordId
         } else {
           ordId = pageData.result.ordId || undefined

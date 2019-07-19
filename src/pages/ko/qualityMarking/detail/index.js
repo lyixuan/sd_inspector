@@ -95,7 +95,6 @@ class AiDetail extends React.Component {
     }
   }
   render() {
-    console.log('kkkkkk')
     let tabType = 1;
     if (this.state.type == 1) {
       tabType = 'IM';
@@ -111,7 +110,7 @@ class AiDetail extends React.Component {
     return (
       <div style={{ marginTop: '-28px' }}>
         <PageHead routerData={routerData}></PageHead>
-        <Spin spinning={false}>
+        <Spin spinning={this.props.isLoading}>
           <div className={`${styles.aiDetail} aiDetail2`} style={{ minHeight: `${scrollHeight}px` }}>
             <div className={styles.baseInfo}>
               <div className={styles.headBar}>基本信息</div>
