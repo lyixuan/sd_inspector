@@ -205,14 +205,14 @@ class DataClassfy extends React.Component {
   }
 
   render() {
-    let { consultTypeTree, reasonTypeTree, idList } = this.props.AiDetail;
+    let { consultTypeTree, reasonTypeTree = [], idList } = this.props.AiDetail;
     let { type, isLoading, pageData } = this.props;
     let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: -100, org: '' }];
     const currentId = this.props.idList.indexOf(this.props.id) + 1;
     const percent = currentId / this.props.idList.length * 100;
     const { visible, action } = this.state;
     const { reasonTypeIdList =[] } = this.props.submitParam;
-    console.log(reasonTypeIdList)
+    console.log(reasonTypeTree, 'reasonTypeTree')
     return (
       <>
         {/*<div className={styles.consultContent}>*/}
@@ -289,7 +289,7 @@ class DataClassfy extends React.Component {
                   fieldNames={{ label: 'name', value: 'id', evaluationNature: 'evaluationNature', children: 'nodeList' }}
                   options={reasonTypeTree}
                   onChange={this.onChangeReson}
-                  value={reasonTypeIdList}
+                  value={this.state.submitParam.reasonTypeIdList}
                   placeholder="请选择"
                   popupClassName={styles.reasontype}
                 />
