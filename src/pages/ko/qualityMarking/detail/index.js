@@ -95,7 +95,7 @@ class AiDetail extends React.Component {
     }
   }
   render() {
-    console.log('mmmmmmm')
+    console.log('oooooooo')
     let tabType = 1;
     if (this.state.type == 1) {
       tabType = 'IM';

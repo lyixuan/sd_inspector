@@ -279,20 +279,20 @@ class DataClassfy extends React.Component {
         {/*        </li>*/}
         {/*        : null*/}
         {/*    }*/}
-        {/*    <li>*/}
-        {/*      <label>原因分类：</label>*/}
-        {/*      <div className={styles.selects}>*/}
-        {/*        <Cascader*/}
-        {/*          changeOnSelect*/}
-        {/*          fieldNames={{ label: 'name', value: 'id', evaluationNature: 'evaluationNature', children: 'nodeList' }}*/}
-        {/*          options={reasonTypeTree}*/}
-        {/*          onChange={this.onChangeReson}*/}
-        {/*          value={this.state.submitParam.reasonTypeIdList}*/}
-        {/*          placeholder="请选择"*/}
-        {/*          popupClassName={styles.reasontype}*/}
-        {/*        />*/}
-        {/*      </div>*/}
-        {/*    </li>*/}
+            <li>
+              <label>原因分类：</label>
+              <div className={styles.selects}>
+                <Cascader
+                  changeOnSelect
+                  fieldNames={{ label: 'name', value: 'id', evaluationNature: 'evaluationNature', children: 'nodeList' }}
+                  options={reasonTypeTree}
+                  onChange={this.onChangeReson}
+                  value={this.state.submitParam.reasonTypeIdList}
+                  placeholder="请选择"
+                  popupClassName={styles.reasontype}
+                />
+              </div>
+            </li>
         {/*    <li>*/}
         {/*      <label>评价性质：</label>*/}
         {/*      <p>{this.state.submitParam.evaluationNature}</p>*/}
