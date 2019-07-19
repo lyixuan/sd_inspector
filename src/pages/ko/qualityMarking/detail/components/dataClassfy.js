@@ -26,7 +26,6 @@ const { Option } = BISelect;
 class DataClassfy extends React.Component {
   constructor(props) {
     super(props);
-    console.log(27, this.props.id)
     this.state = {
       // id: props.id,
       // idList: this.props.idList,
@@ -55,7 +54,7 @@ class DataClassfy extends React.Component {
   }
   setLifeCycle = () => {
     let lifeCycle = ''
-    this.props.pageData  && this.props.pageData.result && this.props.pageData.result.ordIdList && this.props.pageData.result.ordIdList.map(item => {
+    this.props.pageData && this.props.pageData.result.ordIdList.map(item => {
       if (item.ordId == this.state.submitParam.ordId) {
         lifeCycle = item.lifeCycle
       } else {
@@ -213,74 +212,76 @@ class DataClassfy extends React.Component {
     const percent = currentId / this.props.idList.length * 100;
     const { visible, action } = this.state;
     console.log(this.state.submitParam, 'this.state.submitParam')
+    const { reasonTypeIdList } = this.state.submitParam;
+    console.log(reasonTypeIdList, 'reasonTypeIdList')
     return (
       <>
         <div className={styles.consultContent}>
           <ul className={styles.consultInput}>
-            {
-              type != 1 && orderList && orderList.length != 1 ?
-                <>
-                  <li>
-                    <label>选择订单：</label>
-                    <div className={styles.selects}>
-                      {orderList instanceof Array && orderList.length > 0 ? <BISelect style={{ width: '100%' }} value={this.state.submitParam.ordId} placeholder="请选择" onChange={(val) => { this.orderChange(val) }}>
-                        {orderList.map(item => (
-                          <Option key={item.ordId}>{item.ordId}</Option>)
-                        )}
-                      </BISelect> : '--'}
-                    </div>
-                  </li>
-                  <li>
-                    <label>后端归属：</label>
-                    <p>{this.setOrg()}</p>
-                    {/* <p>{this.state.org}</p> */}
-                  </li>
-                </>
-                : null
-            }
-            {
-              type != 1 && orderList && orderList.length == 1 ?
-                <>
-                  <li>
-                    <label>选择订单：</label>
-                    <div className={styles.selects}>
-                      <p>{orderList && orderList[0] ? orderList[0].ordId : ''}</p>
-                    </div>
-                  </li>
-                  <li>
-                    <label>后端归属：</label>
-                    <p>{orderList && orderList[0] ? orderList[0].org : ''}</p>
-                  </li>
-                </>
-                : null
-            }
-            {
-              type == 3 ?
-                <li>
-                  <label>生命周期：</label>
-                  <p>{this.setLifeCycle()}</p>
-                </li>
-                : null
-            }
+            {/*{*/}
+            {/*  type != 1 && orderList && orderList.length != 1 ?*/}
+            {/*    <>*/}
+            {/*      <li>*/}
+            {/*        <label>选择订单：</label>*/}
+            {/*        <div className={styles.selects}>*/}
+            {/*          {orderList instanceof Array && orderList.length > 0 ? <BISelect style={{ width: '100%' }} value={this.state.submitParam.ordId} placeholder="请选择" onChange={(val) => { this.orderChange(val) }}>*/}
+            {/*            {orderList.map(item => (*/}
+            {/*              <Option key={item.ordId}>{item.ordId}</Option>)*/}
+            {/*            )}*/}
+            {/*          </BISelect> : '--'}*/}
+            {/*        </div>*/}
+            {/*      </li>*/}
+            {/*      <li>*/}
+            {/*        <label>后端归属：</label>*/}
+            {/*        <p>{this.setOrg()}</p>*/}
+            {/*        /!* <p>{this.state.org}</p> *!/*/}
+            {/*      </li>*/}
+            {/*    </>*/}
+            {/*    : null*/}
+            {/*}*/}
+            {/*{*/}
+            {/*  type != 1 && orderList && orderList.length == 1 ?*/}
+            {/*    <>*/}
+            {/*      <li>*/}
+            {/*        <label>选择订单：</label>*/}
+            {/*        <div className={styles.selects}>*/}
+            {/*          <p>{orderList && orderList[0] ? orderList[0].ordId : ''}</p>*/}
+            {/*        </div>*/}
+            {/*      </li>*/}
+            {/*      <li>*/}
+            {/*        <label>后端归属：</label>*/}
+            {/*        <p>{orderList && orderList[0] ? orderList[0].org : ''}</p>*/}
+            {/*      </li>*/}
+            {/*    </>*/}
+            {/*    : null*/}
+            {/*}*/}
+            {/*{*/}
+            {/*  type == 3 ?*/}
+            {/*    <li>*/}
+            {/*      <label>生命周期：</label>*/}
+            {/*      <p>{this.setLifeCycle()}</p>*/}
+            {/*    </li>*/}
+            {/*    : null*/}
+            {/*}*/}
 
-            {
-              type == 1 ?
-                <li>
-                  <label>咨询类型：</label>
-                  <div className={styles.selects}>
-                    <BICascader
-                      changeOnSelect
-                      fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
-                      options={consultTypeTree}
-                      value={this.state.submitParam.consultTypeIdList}
-                      onChange={this.onChangeConsult}
-                      placeholder="请选择"
-                      popupClassName={styles.reasontype}
-                    />
-                  </div>
-                </li>
-                : null
-            }
+            {/*{*/}
+            {/*  type == 1 ?*/}
+            {/*    <li>*/}
+            {/*      <label>咨询类型：</label>*/}
+            {/*      <div className={styles.selects}>*/}
+            {/*        <BICascader*/}
+            {/*          changeOnSelect*/}
+            {/*          fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}*/}
+            {/*          options={consultTypeTree}*/}
+            {/*          value={this.state.submitParam.consultTypeIdList}*/}
+            {/*          onChange={this.onChangeConsult}*/}
+            {/*          placeholder="请选择"*/}
+            {/*          popupClassName={styles.reasontype}*/}
+            {/*        />*/}
+            {/*      </div>*/}
+            {/*    </li>*/}
+            {/*    : null*/}
+            {/*}*/}
             <li>
               <label>原因分类：</label>
               <div className={styles.selects}>
@@ -289,53 +290,53 @@ class DataClassfy extends React.Component {
                   fieldNames={{ label: 'name', value: 'id', evaluationNature: 'evaluationNature', children: 'nodeList' }}
                   options={reasonTypeTree}
                   onChange={this.onChangeReson}
-                  value={this.state.submitParam.reasonTypeIdList}
+                  value={reasonTypeIdList}
                   placeholder="请选择"
                   popupClassName={styles.reasontype}
                 />
               </div>
             </li>
-            <li>
-              <label>评价性质：</label>
-              <p>{this.state.submitParam.evaluationNature}</p>
-            </li>
-            {
-              type == 1 ?
-                <li>
-                  <label>是否质检：</label>
-                  <BIRadio onChange={this.onChangeRadio} value={this.state.submitParam.evaluationFlag}>
-                    <BIRadio.Radio value={1}>否</BIRadio.Radio>
-                    <BIRadio.Radio value={2}>是</BIRadio.Radio>
-                  </BIRadio>
-                  {this.state.submitParam.evaluationFlag === 2 && <Link className={styles.routeQuality} to={'/qualityAppeal/qualityNewSheet/create'} target="_blank">
-                    <span>创建质检单</span>
-                    <img src={create} alt=""/></Link>}
-                </li>
-                : null
-            }
-            <li className={styles.textarea}>
-              <label>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
-              <TextArea
-                value={this.state.submitParam.remark}
-                className={styles.inputTextArea}
-                autosize={{ minRows: 4, maxRows: 4 }}
-                placeholder="请输入"
-                maxLength="100"
-                onChange={this.handleRemark}
-              />
-            </li>
+            {/*<li>*/}
+            {/*  <label>评价性质：</label>*/}
+            {/*  <p>{this.state.submitParam.evaluationNature}</p>*/}
+            {/*</li>*/}
+            {/*{*/}
+            {/*  type == 1 ?*/}
+            {/*    <li>*/}
+            {/*      <label>是否质检：</label>*/}
+            {/*      <BIRadio onChange={this.onChangeRadio} value={this.state.submitParam.evaluationFlag}>*/}
+            {/*        <BIRadio.Radio value={1}>否</BIRadio.Radio>*/}
+            {/*        <BIRadio.Radio value={2}>是</BIRadio.Radio>*/}
+            {/*      </BIRadio>*/}
+            {/*      {this.state.submitParam.evaluationFlag === 2 && <Link className={styles.routeQuality} to={'/qualityAppeal/qualityNewSheet/create'} target="_blank">*/}
+            {/*        <span>创建质检单</span>*/}
+            {/*        <img src={create} alt=""/></Link>}*/}
+            {/*    </li>*/}
+            {/*    : null*/}
+            {/*}*/}
+            {/*<li className={styles.textarea}>*/}
+            {/*  <label>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>*/}
+            {/*  <TextArea*/}
+            {/*    value={this.state.submitParam.remark}*/}
+            {/*    className={styles.inputTextArea}*/}
+            {/*    autosize={{ minRows: 4, maxRows: 4 }}*/}
+            {/*    placeholder="请输入"*/}
+            {/*    maxLength="100"*/}
+            {/*    onChange={this.handleRemark}*/}
+            {/*  />*/}
+            {/*</li>*/}
           </ul>
-          <div className={styles.btn}>
-            <Button className={btnStyles.btnWhite} disabled={currentId === 1} onClick={() => this.submit(1)} loading={isLoading && action === 1}>
-              上一条
-            </Button>
-            <Button className={btnStyles.btnPrimary} style={{margin: '0 8px'}} onClick={() => this.submit(2)} loading={isLoading && action === 2}>
-              提交，下一条
-            </Button>
-            <Button className={btnStyles.btnYellow} onClick={() => this.submit(3)}>
-              {'跳'}{'过'}
-            </Button>
-          </div>
+          {/*<div className={styles.btn}>*/}
+          {/*  <Button className={btnStyles.btnWhite} disabled={currentId === 1} onClick={() => this.submit(1)} loading={isLoading && action === 1}>*/}
+          {/*    上一条*/}
+          {/*  </Button>*/}
+          {/*  <Button className={btnStyles.btnPrimary} style={{margin: '0 8px'}} onClick={() => this.submit(2)} loading={isLoading && action === 2}>*/}
+          {/*    提交，下一条*/}
+          {/*  </Button>*/}
+          {/*  <Button className={btnStyles.btnYellow} onClick={() => this.submit(3)}>*/}
+          {/*    {'跳'}{'过'}*/}
+          {/*  </Button>*/}
+          {/*</div>*/}
           <div className={styles.progress}>
             <p className={styles.number}>{currentId}/{idList ? idList.length : 1}</p>
             <Progress percent={percent} showInfo={false} />
