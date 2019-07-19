@@ -31,6 +31,7 @@ function onFieldsChange(props, fields) {
         props.form.setFieldsValue({pushOpenStatus: undefined})
       }
     });
+    console.log(params)
     props.onChange(params);
   }
 }
@@ -102,6 +103,7 @@ class BasicForm extends React.Component {
   deleteFilterItem = e => {
     //删除已选条件
     this.props.form.setFieldsValue({[e.currentTarget.id]: undefined})
+    this.props.onChange({[e.currentTarget.id]: undefined})
   };
   // 查询
   handleSearch = (e) => {
@@ -129,10 +131,7 @@ class BasicForm extends React.Component {
   }
   // 时间置灰
   dateDisabledDate = (current) => {
-    const { koDateRange } = this.props;
-    const recordTimeList = initRecordTimeListData(koDateRange);
-    const [beginTime, endTime] = recordTimeList;
-    return current.isBefore(moment('2015-01-01')) || current.isAfter(moment(endTime))
+    return current.isBefore(moment('2015-01-01')) || current.isAfter(moment(handleTNDateValue(1, this.props.currentServiceTime)))
   }
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -308,30 +307,32 @@ class CreateGroup extends React.Component {
   // 已选条件
   getCheckedConditionList = (paramas) => {
     const { userConfigData } = this.props;
-    const { querySelected } = this.state;
-    const currentKey = Object.keys(paramas)[0];
     const list = [];
-    const val = paramas[currentKey];
-    const bul = val instanceof Array;
-    if (currentKey && (bul && val.length > 0) ||  (!bul && val !== undefined)) {
-      let label = '';
-      const config = userConfigData[currentKey];
-      if (currentKey === 'orgIdList') {
-        if (val instanceof Array) {
-          val.forEach((item, index) => label+= item.name + (index === val.length -1 ? '' : '/'))
+    let querySelectedNew = this.state.querySelected;
+    Object.keys(paramas).map(currentKey => {
+      const val = paramas[currentKey];
+      const bul = val instanceof Array;
+      if (currentKey && (bul && val.length > 0) ||  (!bul && val !== undefined)) {
+        let label = '';
+        const config = userConfigData[currentKey];
+        if (currentKey === 'orgIdList') {
+          if (val instanceof Array) {
+            val.forEach((item, index) => label+= item.name + (index === val.length -1 ? '' : '/'))
+          }
+        } else if (currentKey === 'ordStatusCode') {
+          label = config.find(item => val === item.id).name;
+        } else if (currentKey === 'choiceTime') {
+          label = `订单时间：${val[0].format(dateFormat)} ~ ${val[0].format(dateFormat)}`
+        } else if (currentKey !== 'province'){
+          label = config[val];
+        } else {
+          label = val
         }
-      } else if (currentKey === 'ordStatusCode') {
-        label = config.find(item => val === item.id).name;
-      } else if (currentKey === 'choiceTime') {
-        label = `订单时间：${val[0].format(dateFormat)} ~ ${val[0].format(dateFormat)}`
-      } else if (currentKey !== 'province'){
-        label = config[val];
-      } else {
-        label = val
+        list.push({key: currentKey, label: label});
       }
-      list.push({key: currentKey, label: label})
-    }
-    return querySelected.filter(item => item.key != currentKey).concat(list);
+      querySelectedNew = querySelectedNew.filter(item => item.key !== currentKey);
+    })
+    return querySelectedNew.concat(list);
   };
   onChange = (paramas) => {
     this.setState({

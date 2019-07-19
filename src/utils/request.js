@@ -70,7 +70,6 @@ const request = extend({
 request.interceptors.request.use((url, options) => {
   options.headers = Object.assign({}, options.headers, { 'X-Requested-With':'XMLHttpRequest',authorization: storage.getToken() });
   const isOld = url.indexOf('apis')>-1;
-  console.log(SERVER_HOST, 'kkkkkkkkkkkk')
   return {
     url:`${SERVER_HOST}${PROXY_PATH(isOld)}${url}`,
     options,

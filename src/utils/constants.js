@@ -21,13 +21,11 @@ export const STATIC_HOST = {
 
 export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
-  // localhost: 'http://dev.xd.admin.ministudy.com',
-  localhost: 'http://test.dx.ministudy.com',
+  localhost: 'http://dev.xd.admin.ministudy.com',
+  // localhost: 'http://test.dx.ministudy.com',
   // development: 'http://test.xd.admin.ministudy.com',
   development: 'http://test.dx.ministudy.com',
 }[process.env.LOGIN_TYPE]
-console.log(process.env.LOGIN_TYPE, 'lllllllllll')
-console.log(process.env.LOGIN_TYPE, 'lllllllllll')
 
 export const CAS_HOST = {
   localhost: 'http://test.xd.admin.ministudy.com',
