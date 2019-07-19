@@ -6,7 +6,7 @@ import styles from '../../style.less';
 import { jumpMarkingDetails } from '@/pages/ko/utils/utils';
 
 function TagList(props) {
-  if (props.list.length < 1) {
+  if (props.list && props.list instanceof Array &&props.list.length < 1) {
     return null;
   }
   const li = props.list.map((item, index) =>

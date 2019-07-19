@@ -6,7 +6,7 @@ import { jumpMarkingDetails } from '../../../../utils/utils';
 import styles from '../../style.less';
 
 function Keywords(props) {
-  if (props.list.length > 0) {
+  if (props.list && props.list instanceof Array && props.list.length > 0) {
     const content = props.list.map((items, index) =>
       <em key={index}>{items}</em>
     )
@@ -16,7 +16,7 @@ function Keywords(props) {
   }
 }
 function keywordscolorful(str, key) {
-  if (key.length > 0) {
+  if (key instanceof Array && key.length > 0) {
     key.map(item => {
       var reg = "/" + item + "/g";
       str = str.replace(eval(reg), `<i style="color:#FF5959;font-style:normal;">${item}</i>`)

@@ -110,7 +110,7 @@ class DataClassfy extends React.Component {
   // 原因切换
   onChangeReson = (value, selectedOptions) => {
     const reasonTypeIdList = value
-    const evaluationNature = selectedOptions.length > 0 ? selectedOptions[selectedOptions.length - 1]['evaluationNature'] : ''
+    const evaluationNature = selectedOptions instanceof Array && selectedOptions.length > 0 ? selectedOptions[selectedOptions.length - 1]['evaluationNature'] : ''
 
     this.setState({
       evaluationNature: evaluationNature,

@@ -241,7 +241,7 @@ class DetailIm extends React.Component {
 export default DetailIm;
 
 function keywordscolorful(str, key) {
-  if (key.length > 0) {
+  if (key instanceof Array && key.length > 0) {
     key.map(item => {
       var reg = "/" + item + "/g";
       str = str.replace(eval(reg), `<i style="color:#FF5959;font-style:normal;">${item}</i>`)
