@@ -211,6 +211,8 @@ class DataClassfy extends React.Component {
     const currentId = this.props.idList.indexOf(this.props.id) + 1;
     const percent = currentId / this.props.idList.length * 100;
     const { visible, action } = this.state;
+    const { reasonTypeIdList =[] } = this.props.submitParam;
+    console.log(reasonTypeIdList)
     return (
       <>
         {/*<div className={styles.consultContent}>*/}
@@ -287,7 +289,7 @@ class DataClassfy extends React.Component {
                   fieldNames={{ label: 'name', value: 'id', evaluationNature: 'evaluationNature', children: 'nodeList' }}
                   options={reasonTypeTree}
                   onChange={this.onChangeReson}
-                  value={this.state.submitParam.reasonTypeIdList}
+                  value={reasonTypeIdList}
                   placeholder="请选择"
                   popupClassName={styles.reasontype}
                 />
