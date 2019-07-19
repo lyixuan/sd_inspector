@@ -186,7 +186,7 @@ class GroupStatistics extends React.Component {
   // time conversion
   formateDateTime = (dateTime = []) => {
     if (dateTime.length > 0) {
-      return {beginDate: dateTime[0].format(dateFormat), endDate: dateTime[0].format(dateFormat)};
+      return {beginDate: dateTime[0].format(dateFormat), endDate: dateTime[1].format(dateFormat)};
     } else {
       return {beginDate: undefined, endDate: undefined}
     }

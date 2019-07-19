@@ -284,7 +284,7 @@ class InitTable extends Component {
         title: '用户来源码',
         dataIndex: 'sourceCode',
         key: 'sourceCode',
-        render: (text, record)=> <div onDoubleClick={() => this.doubleClick(record, 'sourceCode')} className={styles.tableDis}><Input disabled={!sourceCode[record.id]} maxLength={50} className={styles.tableInput} placeholder="推送模版落地页为尚小德时，此项必填" defaultValue={'ppppp'} onBlur={this.updateUserGroup.bind(undefined, record, 'sourceCode')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'sourceCode')}/></div>
+        render: (text, record)=> <div onDoubleClick={() => this.doubleClick(record, 'sourceCode')} className={styles.tableDis}><Input disabled={!sourceCode[record.id]} maxLength={50} className={styles.tableInput} placeholder="推送模版落地页为尚小德时，此项必填" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'sourceCode')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'sourceCode')}/></div>
       },
       {
         title: '操作',
