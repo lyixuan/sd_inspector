@@ -110,7 +110,7 @@ class DataClassfy extends React.Component {
   // 原因切换
   onChangeReson = (value, selectedOptions) => {
     const reasonTypeIdList = value
-    const evaluationNature = selectedOptions instanceof Array && selectedOptions.length > 0 ? selectedOptions[selectedOptions.length - 1]['evaluationNature'] : ''
+    const evaluationNature = selectedOptions.length > 0 ? selectedOptions[selectedOptions.length - 1]['evaluationNature'] : ''
 
     this.setState({
       evaluationNature: evaluationNature,
@@ -206,12 +206,14 @@ class DataClassfy extends React.Component {
   }
 
   render() {
+    console.log(this.props.idList, 'idList')
     let { consultTypeTree, reasonTypeTree, idList } = this.props.AiDetail;
     let { type, isLoading, pageData } = this.props;
     let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: -100, org: '' }];
     const currentId = this.props.idList.indexOf(this.props.id) + 1;
     const percent = currentId / this.props.idList.length * 100;
     const { visible, action } = this.state;
+    console.log(this.props.idList, 'idList')
     return (
       <>
         <div className={styles.consultContent}>

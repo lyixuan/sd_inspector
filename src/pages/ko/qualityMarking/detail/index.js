@@ -38,12 +38,12 @@ class AiDetail extends React.Component {
     };
   }
   componentDidMount() {
-    this.getConsultTree();//获取咨询分类树形结构
-    this.getResonTree();//获取原因分类树形结构
-    this.getPageData(); //获取页面数据
-    this.queryData();
-    this.pageResize();
-    window.addEventListener('resize', this.pageResize);
+    // this.getConsultTree();//获取咨询分类树形结构
+    // this.getResonTree();//获取原因分类树形结构
+    // this.getPageData(); //获取页面数据
+    // this.queryData();
+    // this.pageResize();
+    // window.addEventListener('resize', this.pageResize);
   }
   pageResize = () => {
     const maxHeight = document.body.clientHeight < 600 ? 600 : document.body.clientHeight;
@@ -110,7 +110,7 @@ class AiDetail extends React.Component {
     return (
       <div style={{ marginTop: '-28px' }}>
         <PageHead routerData={routerData}></PageHead>
-        <Spin spinning={this.props.isLoading}>
+        <Spin spinning={false}>
           <div className={`${styles.aiDetail} aiDetail2`} style={{ minHeight: `${scrollHeight}px` }}>
             <div className={styles.baseInfo}>
               <div className={styles.headBar}>基本信息</div>
