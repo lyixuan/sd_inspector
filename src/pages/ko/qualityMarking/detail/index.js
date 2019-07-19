@@ -116,7 +116,7 @@ class AiDetail extends React.Component {
             <div className={styles.baseInfo}>
               <div className={styles.headBar}>基本信息</div>
               <div style={{ maxHeight: `${scrollHeight}px`, overflowY: "auto", marginBottom: '-25px' }}>
-                <Detail pageData={pageData} type={type} id={id}></Detail>
+                {/*<Detail pageData={pageData} type={type} id={id}></Detail>*/}
               </div>
             </div>
             <div className={styles.dataClassfy}>

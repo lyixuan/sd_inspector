@@ -212,11 +212,11 @@ class DataClassfy extends React.Component {
     const percent = currentId / this.props.idList.length * 100;
     const { visible, action } = this.state;
     console.log(this.state.submitParam, 'this.state.submitParam')
-    const { reasonTypeIdList } = this.state.submitParam;
+    const { reasonTypeIdList = [] } = this.state.submitParam;
     console.log(reasonTypeIdList, 'reasonTypeIdList')
     return (
       <>
-        <div className={styles.consultContent}>
+        {/*<div className={styles.consultContent}>*/}
           <ul className={styles.consultInput}>
             {/*{*/}
             {/*  type != 1 && orderList && orderList.length != 1 ?*/}
@@ -337,25 +337,25 @@ class DataClassfy extends React.Component {
           {/*    {'跳'}{'过'}*/}
           {/*  </Button>*/}
           {/*</div>*/}
-          <div className={styles.progress}>
-            <p className={styles.number}>{currentId}/{idList ? idList.length : 1}</p>
-            <Progress percent={percent} showInfo={false} />
-          </div>
-        </div>
-        <BIModal
-          visible={visible}
-          onOk={() => this.state.handleOk()}
-          onCancel={this.handleCancel}
-          closable={false}
-          footer={[
-            <BIButton key="submit" type="primary" onClick={() => this.handleOk()}>
-              确定
-                </BIButton>,
-          ]}>
-          <div style={{ textAlign: 'center' }}>
-            <p style={{ paddingBottom: '0', paddingTop: '20px' }}>已到达最后一条数据，即将返回首页～</p>
-          </div>
-        </BIModal>
+        {/*  <div className={styles.progress}>*/}
+        {/*    <p className={styles.number}>{currentId}/{idList ? idList.length : 1}</p>*/}
+        {/*    <Progress percent={percent} showInfo={false} />*/}
+        {/*  </div>*/}
+        {/*</div>*/}
+        {/*<BIModal*/}
+        {/*  visible={visible}*/}
+        {/*  onOk={() => this.state.handleOk()}*/}
+        {/*  onCancel={this.handleCancel}*/}
+        {/*  closable={false}*/}
+        {/*  footer={[*/}
+        {/*    <BIButton key="submit" type="primary" onClick={() => this.handleOk()}>*/}
+        {/*      确定*/}
+        {/*        </BIButton>,*/}
+        {/*  ]}>*/}
+        {/*  <div style={{ textAlign: 'center' }}>*/}
+        {/*    <p style={{ paddingBottom: '0', paddingTop: '20px' }}>已到达最后一条数据，即将返回首页～</p>*/}
+        {/*  </div>*/}
+        {/*</BIModal>*/}
       </>
     );
   }
