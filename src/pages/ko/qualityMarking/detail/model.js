@@ -13,7 +13,7 @@ export default {
 
   state: {
     consultTypeTree: null,
-    reasonTypeTree: null,
+    reasonTypeTree: [],
     pageData: null,
     submitParam: {
       // ordId: undefined,

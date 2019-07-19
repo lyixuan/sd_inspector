@@ -205,7 +205,7 @@ class DataClassfy extends React.Component {
   }
 
   render() {
-    let { consultTypeTree, reasonTypeTree = [], idList } = this.props.AiDetail;
+    let { consultTypeTree, reasonTypeTree, idList } = this.props.AiDetail;
     let { type, isLoading, pageData } = this.props;
     let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: -100, org: '' }];
     const currentId = this.props.idList.indexOf(this.props.id) + 1;
