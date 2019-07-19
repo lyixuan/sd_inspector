@@ -16,6 +16,7 @@ import styles from '../style.less';
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
+const pushTypeConfig  = ['报考', '新生注册', '现场确认', '补报名', '缴费'];
 const columns = [
   {
     title: '通知时间',
@@ -44,9 +45,10 @@ const columns = [
     key: 'pushType',
     width: 100,
     fixed: 'left',
+    render: text => pushTypeConfig[Number(text)]
   },
   {
-    title: '通知人数',
+    title: '送达人数',
     dataIndex: 'totalPushCount',
     key: 'totalPushCount',
     width: 100,
@@ -63,6 +65,7 @@ const columns = [
     dataIndex: 'totalReadRatio',
     key: 'totalReadRatio',
     width: 140,
+    render: text => `${text}%`
   },
   {
     title: '未读人数',
