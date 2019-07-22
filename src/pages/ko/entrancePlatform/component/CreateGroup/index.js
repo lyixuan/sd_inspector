@@ -152,7 +152,11 @@ class BasicForm extends React.Component {
                     {getFieldDecorator('province', {
                       initialValue: queryCondition.province,
                     })(
-                      <BISelect placeholder="报考省市" dropdownClassName={styles.popupClassName} allowClear>
+                      <BISelect
+                        placeholder="报考省市"
+                        dropdownClassName={styles.popupClassName}
+                        getPopupContainer={triggerNode => triggerNode.parentNode}
+                        allowClear>
                         {userConfigData.province.map(item => <Option key={item} value={item}>{item}</Option>)}
                       </BISelect>,
                     )}
@@ -163,8 +167,11 @@ class BasicForm extends React.Component {
                     {getFieldDecorator('orgIdList', {
                       initialValue: queryCondition.orgIdList,
                     })(
-                      <BICascader placeholder="后端归属" popupClassName={styles.popupClassName} changeOnSelect options={userConfigData.orgIdList}
+                      <BICascader placeholder="后端归属"
+                                  popupClassName={styles.popupClassName}
+                                  changeOnSelect options={userConfigData.orgIdList}
                                   fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+                                  getPopupContainer={triggerNode => triggerNode.parentNode}
                                   displayRender={this.renderCascader}/>,
                     )}
                   </Form.Item>
@@ -174,7 +181,10 @@ class BasicForm extends React.Component {
                     {getFieldDecorator('ordStatusCode', {
                       initialValue: queryCondition.ordStatusCode,
                     })(
-                      <BISelect placeholder="订单状态" dropdownClassName={styles.popupClassName} allowClear>
+                      <BISelect placeholder="订单状态"
+                                dropdownClassName={styles.popupClassName}
+                                getPopupContainer={triggerNode => triggerNode.parentNode}
+                                allowClear>
                         {userConfigData.ordStatusCode.map(item => <Option key={item.id}
                                                                           value={item.id}>{item.name}</Option>)}
                       </BISelect>,
@@ -192,6 +202,7 @@ class BasicForm extends React.Component {
                         defaultPickerValue={handleDefaultPickerExamValue(currentServiceTime)}
                         disabledDate={this.dateDisabledDate}
                         dropdownClassName={styles.popupClassName}
+                        getCalendarContainer={triggerNode => triggerNode.parentNode}
                       />,
                     )}
                   </Form.Item>
@@ -201,7 +212,11 @@ class BasicForm extends React.Component {
                     {getFieldDecorator('wechatBinded', {
                       initialValue: queryCondition.wechatBinded,
                     })(
-                      <BISelect placeholder="是否绑定官微" dropdownClassName={styles.popupClassName} allowClear>
+                      <BISelect
+                        placeholder="是否绑定官微"
+                        dropdownClassName={styles.popupClassName}
+                        getPopupContainer={triggerNode => triggerNode.parentNode}
+                        allowClear>
                         {userConfigData.wechatBinded.map((item, index) => <Option key={index} value={index}>{item}</Option>)}
                       </BISelect>,
                     )}
@@ -215,7 +230,11 @@ class BasicForm extends React.Component {
                     {getFieldDecorator('pushType', {
                       initialValue: queryCondition.pushType,
                     })(
-                      <BISelect placeholder="通知类型" dropdownClassName={styles.popupClassName} allowClear>
+                      <BISelect
+                        placeholder="通知类型"
+                        dropdownClassName={styles.popupClassName}
+                        getPopupContainer={triggerNode => triggerNode.parentNode}
+                        allowClear>
                         {userConfigData.pushType.map((item, index) => <Option key={index} value={index}>{item}</Option>)}
                       </BISelect>,
                     )}
@@ -226,7 +245,11 @@ class BasicForm extends React.Component {
                     {getFieldDecorator('pushed', {
                       initialValue: queryCondition.pushed,
                     })(
-                      <BISelect placeholder="是否通知" dropdownClassName={styles.popupClassName} allowClear>
+                      <BISelect
+                        placeholder="是否通知"
+                        dropdownClassName={styles.popupClassName}
+                        getPopupContainer={triggerNode => triggerNode.parentNode}
+                        allowClear>
                         {userConfigData.pushed.map((item, index) => <Option key={index} value={index}>{item}</Option>)}
                       </BISelect>,
                     )}
@@ -237,7 +260,12 @@ class BasicForm extends React.Component {
                     {getFieldDecorator('pushOpenStatus', {
                       initialValue: queryCondition.pushOpenStatus,
                     })(
-                      <BISelect placeholder="通知打开状态" dropdownClassName={styles.popupClassName} disabled={queryCondition.pushed === 0} allowClear>
+                      <BISelect
+                        placeholder="通知打开状态"
+                        dropdownClassName={styles.popupClassName}
+                        disabled={queryCondition.pushed === 0}
+                        getPopupContainer={triggerNode => triggerNode.parentNode}
+                        allowClear>
                         {userConfigData.pushOpenStatus.map((item, index) => <Option key={index} value={index}>{item}</Option>)}
                       </BISelect>,
                     )}

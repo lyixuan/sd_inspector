@@ -123,6 +123,7 @@ class AiForm extends React.Component {
                       placeholder={['起始时间', '截止时间']}
                       format={dateFormat}
                       onChange={this.onChangeTime}
+                      getCalendarContainer={triggerNode => triggerNode.parentNode}
                     />,
                   )}
                 </Form.Item>
@@ -132,7 +133,11 @@ class AiForm extends React.Component {
                   {getFieldDecorator('collegeId', {
                     initialValue: searchParams.collegeId,
                   })(
-                    <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
+                    <BISelect
+                      placeholder="请选择"
+                      dropdownClassName={styles.popupClassName}
+                      getPopupContainer={triggerNode => triggerNode.parentNode}
+                      allowClear>
                       {collegeList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
@@ -143,7 +148,11 @@ class AiForm extends React.Component {
                   {getFieldDecorator('consultType', {
                     initialValue: searchParams.consultType,
                   })(
-                    <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
+                    <BISelect
+                      placeholder="请选择"
+                      dropdownClassName={styles.popupClassName}
+                      getPopupContainer={triggerNode => triggerNode.parentNode}
+                      allowClear>
                       {consultList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
@@ -154,7 +163,10 @@ class AiForm extends React.Component {
                   {getFieldDecorator('reasonType', {
                     initialValue: searchParams.reasonType,
                   })(
-                    <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
+                    <BISelect placeholder="请选择"
+                              dropdownClassName={styles.popupClassName}
+                              getPopupContainer={triggerNode => triggerNode.parentNode}
+                              allowClear>
                       {reasonList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
@@ -165,7 +177,11 @@ class AiForm extends React.Component {
                     {getFieldDecorator('evaluateType', {
                       initialValue: searchParams.evaluateType,
                     })(
-                      <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
+                      <BISelect
+                        placeholder="请选择"
+                        dropdownClassName={styles.popupClassName}
+                        getPopupContainer={triggerNode => triggerNode.parentNode}
+                        allowClear>
                         {evaluateList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                       </BISelect>,
                     )}
@@ -179,7 +195,11 @@ class AiForm extends React.Component {
                   {getFieldDecorator('operatorId', {
                     initialValue: searchParams.operatorId,
                   })(
-                    <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
+                    <BISelect
+                      placeholder="请选择"
+                      dropdownClassName={styles.popupClassName}
+                      getPopupContainer={triggerNode => triggerNode.parentNode}
+                      allowClear>
                       {operatorList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
@@ -192,7 +212,11 @@ class AiForm extends React.Component {
                     {getFieldDecorator('evaluate', {
                       initialValue: searchParams.evaluate,
                     })(
-                      <BISelect placeholder="请选择" dropdownClassName={styles.popupClassName} allowClear>
+                      <BISelect
+                        placeholder="请选择"
+                        dropdownClassName={styles.popupClassName}
+                        getPopupContainer={triggerNode => triggerNode.parentNode}
+                        allowClear>
                         {['不满意', '一般'].map((item, index) => <Option key={item} value={index}>{item}</Option>)}
                       </BISelect>,
                     )}

@@ -113,7 +113,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *exportExcelData({ payload }, { call }) {
+    *exportExcelData({ payload, callback }, { call }) {
       const result = yield call(exportData, payload.params);
       if (result) {
         const { headers } = result.response || {};
@@ -122,6 +122,9 @@ export default {
         const numName2 = numName.split('.')[0];   // 纯文件名
         downBlob(result.data, `${eval('\'' + numName2 + '\'')}.xlsx`);
         message.success('导出成功');
+        if (callback && typeof  callback === 'function') {
+          callback();
+        }
       } else if (result && result instanceof Object) {
         message.error(msgF(result.msg, result.msgDetail));
       } else {

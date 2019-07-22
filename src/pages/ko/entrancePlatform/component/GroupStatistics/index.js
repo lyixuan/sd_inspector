@@ -1,5 +1,5 @@
 import React from 'react';
-import { Skeleton } from 'antd';
+import { Skeleton, message, Tooltip } from 'antd';
 import { connect } from 'dva/index';
 
 import moment from 'moment';
@@ -29,8 +29,10 @@ const columns = [
     title: '用户群组名称',
     dataIndex: 'userGroupName',
     key: 'userGroupName',
-    width: 120,
+    width: 200,
     fixed: 'left',
+    render: text => <Tooltip placement="right"
+                             title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
   },
   {
     title: '用户群组人数',
@@ -123,7 +125,7 @@ const columns = [
         dataIndex: 'appReadRatio',
         key: 'appReadRatio',
         width: 200,
-        render: text => `${text * 100}%`
+        render: text => `${text * 100}%`,
       },
       {
         title: '未读人数',
@@ -214,19 +216,30 @@ class GroupStatistics extends React.Component {
     this.handleSearch();
   }
   onChangeExport = (exportType) => {
-    this.setState({
-      exportType
-    });
     if (exportType == 11 || exportType == 21) {
       const { userGroupIdList, beginDate, endDate} = this.state.userPramas;
       this.props.dispatch({
         type: 'examPlatformModal/exportExcelData',
-        payload: { params: { queryCondition: { userGroupIdList, beginDate, endDate }, exportType } }
+        payload: { params: { queryCondition: { userGroupIdList, beginDate, endDate }, exportType } },
+        callback: () => {
+          this.setState({
+            exportType
+          });
+        }
       });
     } else if (exportType == 12 || exportType == 22) {
+      if (this.state.selectedList.length <= 0) {
+        message.error('请先选中要导出的数据');
+        return;
+      }
       this.props.dispatch({
         type: 'examPlatformModal/exportExcelData',
-        payload: { params: { exportType, selectedList: this.state.selectedList} }
+        payload: { params: { exportType, selectedList: this.state.selectedList} },
+        callback: () => {
+          this.setState({
+            exportType
+          });
+        }
       });
     }
   }
@@ -258,10 +271,18 @@ class GroupStatistics extends React.Component {
                                defaultPickerValue={handleDefaultPickerExamValue(currentServiceTime)}
                                disabledDate={this.dateDisabledDate}
                                dropdownClassName={styles.popupClassName}
+                               getCalendarContainer={triggerNode => triggerNode.parentNode}
+
                 />
               </div>
               <div className={`${styles.itemCls} ${styles.itemDates}`}>
-                <BISelect mode="multiple" placeholder="选择用户群组" dropdownClassName={styles.popupClassName} value={userPramas.userGroupIdList} onChange={this.onChangeGroup} allowClear>
+                <BISelect mode="multiple"
+                          placeholder="选择用户群组"
+                          dropdownClassName={styles.popupClassName}
+                          value={userPramas.userGroupIdList}
+                          onChange={this.onChangeGroup}
+                          getPopupContainer={triggerNode => triggerNode.parentNode}
+                          allowClear>
                   {userGroupConfig.map(item => (
                     <Option title={item.groupName} key={item.id} id={item.id}>
                       {getSubStringValue(item.groupName, 6)}
@@ -270,7 +291,13 @@ class GroupStatistics extends React.Component {
                 </BISelect>
               </div>
               <div className={styles.itemCls}>
-                <BISelect placeholder="导出数据" value={exportType} onChange={this.onChangeExport} allowClear>
+                <BISelect placeholder="导出数据"
+                          dropdownClassName={styles.popupClassName}
+                          value={exportType}
+                          onChange={this.onChangeExport}
+                          getPopupContainer={triggerNode => triggerNode.parentNode}
+                          allowClear
+                >
                   {exportTypeList.map(item => (
                     <Option title={item.name} key={item.id} id={item.id}>
                       {item.name}
@@ -294,7 +321,7 @@ class GroupStatistics extends React.Component {
               showQuickJumper: true,
             }}
             loading={listloading}
-            scroll={{ x: slidingValue + 600}}
+            scroll={{ x: slidingValue + 700}}
             bordered
             size="middle"
             rowSelection={{
