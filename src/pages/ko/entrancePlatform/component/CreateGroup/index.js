@@ -31,7 +31,6 @@ function onFieldsChange(props, fields) {
         props.form.setFieldsValue({pushOpenStatus: undefined})
       }
     });
-    console.log(params)
     props.onChange(params);
   }
 }
@@ -58,7 +57,7 @@ class BasicForm extends React.Component {
   // handle date
   handleFormatDate = (dateTime = []) => {
     if (dateTime.length > 0) {
-      return {beginDate: dateTime[0].format(dateFormat), endDate: dateTime[0].format(dateFormat)};
+      return {beginDate: dateTime[0].format(dateFormat), endDate: dateTime[1].format(dateFormat)};
     }
     return {}
   }
@@ -350,7 +349,7 @@ class CreateGroup extends React.Component {
         } else if (currentKey === 'ordStatusCode') {
           label = config.find(item => val === item.id).name;
         } else if (currentKey === 'choiceTime') {
-          label = `订单时间：${val[0].format(dateFormat)} ~ ${val[0].format(dateFormat)}`
+          label = `订单时间：${val[0].format(dateFormat)} ~ ${val[1].format(dateFormat)}`
         } else if (currentKey !== 'province'){
           label = config[val];
         } else {
