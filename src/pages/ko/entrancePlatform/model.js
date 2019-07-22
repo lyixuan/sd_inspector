@@ -63,6 +63,7 @@ export default {
       } else {
         message.error(msgF(res2.msg, res2.msgDetail));
       }
+      yield put({ type: 'save', payload: { userCount: 0 } });
     },
     *getUserCount({ payload }, { call, put }) {
       // 列表
