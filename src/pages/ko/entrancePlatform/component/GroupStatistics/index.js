@@ -269,7 +269,7 @@ class GroupStatistics extends React.Component {
           <Skeleton loading={configloading} active>
             <div className={styles.rowWrap}>
               <div className={`${styles.itemCls} ${styles.itemTips}`}>数据统计：</div>
-              <div className={`${styles.itemCls} ${styles.itemDates}`}>
+              <div className={`${styles.itemCls} ${styles.itemDates}`} style={{ position: 'relative' }} id="areas">
                 <BIRangePicker placeholder={["通知起始时间", "通知截止时间"]}
                                format={dateFormat}
                                onChange={this.onChangeDate}
@@ -277,7 +277,7 @@ class GroupStatistics extends React.Component {
                                defaultPickerValue={handleDefaultPickerExamValue(currentServiceTime)}
                                disabledDate={this.dateDisabledDate}
                                dropdownClassName={styles.popupClassName}
-                               getCalendarContainer={triggerNode => triggerNode.parentNode}
+                               getCalendarContainer={() => document.getElementById('areas')}
 
                 />
               </div>

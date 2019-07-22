@@ -190,7 +190,7 @@ class BasicForm extends React.Component {
                     )}
                   </Form.Item>
                 </div>
-                <div className={`${styles.itemCls} ${styles.itemDates}`}>
+                <div className={`${styles.itemCls} ${styles.itemDates}`} style={{ position: 'relative' }} id="area">
                   <Form.Item>
                     {getFieldDecorator('choiceTime', {
                       initialValue: queryCondition.choiceTime,
@@ -201,7 +201,7 @@ class BasicForm extends React.Component {
                         defaultPickerValue={handleDefaultPickerExamValue(currentServiceTime)}
                         disabledDate={this.dateDisabledDate}
                         dropdownClassName={styles.popupClassName}
-                        getCalendarContainer={triggerNode => triggerNode.parentNode}
+                        getCalendarContainer={() => document.getElementById('area')}
                       />,
                     )}
                   </Form.Item>
