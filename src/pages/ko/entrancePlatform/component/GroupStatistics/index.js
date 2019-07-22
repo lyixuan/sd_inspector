@@ -218,12 +218,15 @@ class GroupStatistics extends React.Component {
   onChangeExport = (exportType) => {
     if (exportType == 11 || exportType == 21) {
       const { userGroupIdList, beginDate, endDate} = this.state.userPramas;
+      this.setState({
+        exportType
+      });
       this.props.dispatch({
         type: 'examPlatformModal/exportExcelData',
         payload: { params: { queryCondition: { userGroupIdList, beginDate, endDate }, exportType } },
         callback: () => {
           this.setState({
-            exportType
+            exportType: undefined
           });
         }
       });
@@ -232,12 +235,15 @@ class GroupStatistics extends React.Component {
         message.error('请先选中要导出的数据');
         return;
       }
+      this.setState({
+        exportType
+      });
       this.props.dispatch({
         type: 'examPlatformModal/exportExcelData',
         payload: { params: { exportType, selectedList: this.state.selectedList} },
         callback: () => {
           this.setState({
-            exportType
+            exportType: undefined
           });
         }
       });

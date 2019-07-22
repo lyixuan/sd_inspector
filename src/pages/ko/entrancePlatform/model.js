@@ -122,13 +122,14 @@ export default {
         const numName2 = numName.split('.')[0];   // 纯文件名
         downBlob(result.data, `${eval('\'' + numName2 + '\'')}.xlsx`);
         message.success('导出成功');
-        if (callback && typeof  callback === 'function') {
-          callback();
-        }
+        return
       } else if (result && result instanceof Object) {
         message.error(msgF(result.msg, result.msgDetail));
       } else {
         message.error('导出失败');
+      }
+      if (callback && typeof  callback === 'function') {
+        callback();
       }
     },
     *userGroupCheck({ payload, callback }, { call, put }) {
