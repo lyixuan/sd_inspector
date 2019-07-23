@@ -133,6 +133,7 @@ export function linkImgRouteBul(text) {
 }
 // 浮点乘法
 export function accMul(arg1,arg2) {
+  if(arg1 === undefined) return '';
   var m=0,s1=arg1.toString(),s2=arg2.toString();
   try{m+=s1.split(".")[1].length}catch(e){}
   try{m+=s2.split(".")[1].length}catch(e){}
