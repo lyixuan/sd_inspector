@@ -45,7 +45,6 @@ class DataClassfy extends React.Component {
     let org = ''
     this.props.pageData && this.props.pageData.result.ordIdList.map(item => {
       if (item.ordId == this.state.submitParam.ordId) {
-        console.log(48, item)
         org = item.org
       } else {
         return ' '
