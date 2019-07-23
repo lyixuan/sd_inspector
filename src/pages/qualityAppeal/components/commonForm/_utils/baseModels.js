@@ -184,7 +184,10 @@ export class BaseModels {
         }
         const handleQualityObj = {
             qualityValue: this.getQualityValueFamter(params),
-            masterQualityValue: this.getMasterQualityValueFamter(params)
+            masterQualityValue: this.getMasterQualityValueFamter(params),
+            masterQualityValue2: this.getMasterQualityValueFamter2(params),
+            masterQualityValue3: this.getMasterQualityValueFamter3(params),
+            masterQualityValue4: this.getMasterQualityValueFamter4(params),
         }
         return { ...others, ...dateTimeObj, ...groupObj, ...handleQualityObj, dimension, organizeName, organize };
     }
