@@ -259,10 +259,10 @@ class CreateQualityNewSheet extends React.Component {
                         initialValue: params.masterQualityValue,
                         rules: [{
                           validator(rule, value, callback) {
-                            if((!value && !params.masterRole && !params.masterRole)){
+                            if((!value && !params.masterMail && !params.masterRole)){
                               callback();
                             }
-                            if(!(value && params.masterRole && params.masterRole)){
+                            if(!(value && params.masterMail && params.masterRole)){
                               callback({ message: '请输入同时填写角色、邮箱和绩效，或不填写' });
                             } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
                               callback({ message: '请输入合法绩效' });
@@ -303,10 +303,10 @@ class CreateQualityNewSheet extends React.Component {
                         initialValue: params.masterQualityValue2,
                         rules: [{
                           validator(rule, value, callback) {
-                            if((!value && !params.masterRole2 && !params.masterRole2)){
+                            if((!value && !params.masterMail2 && !params.masterRole2)){
                               callback();
                             }
-                            if(!(value && params.masterRole2 && params.masterRole2)){
+                            if(!(value && params.masterMail2 && params.masterRole2)){
                               callback({ message: '请输入同时填写角色、邮箱和绩效，或不填写' });
                             } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
                               callback({ message: '请输入合法绩效' });
@@ -348,10 +348,10 @@ class CreateQualityNewSheet extends React.Component {
                           initialValue: params.masterQualityValue3,
                           rules: [{
                             validator(rule, value, callback) {
-                              if((!value && !params.masterRole3 && !params.masterRole3)){
+                              if((!value && !params.masterMail3 && !params.masterRole3)){
                                 callback();
                               }
-                              if(!(value && params.masterRole3 && params.masterRole3)){
+                              if(!(value && params.masterMail3 && params.masterRole3)){
                                 callback({ message: '请输入同时填写角色、邮箱和绩效，或不填写' });
                               } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
                                 callback({ message: '请输入合法绩效' });
@@ -394,10 +394,10 @@ class CreateQualityNewSheet extends React.Component {
                           initialValue: params.masterQualityValue4,
                           rules: [{
                             validator(rule, value, callback) {
-                              if((!value && !params.masterRole4 && !params.masterRole4)){
+                              if((!value && !params.masterMail4 && !params.masterRole4)){
                                 callback();
                               }
-                              if(!(value && params.masterRole4 && params.masterRole4)){
+                              if(!(value && params.masterMail4 && params.masterRole4)){
                                 callback({ message: '请输入同时填写角色、邮箱和绩效，或不填写' });
                               } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
                                 callback({ message: '请输入合法绩效' });
