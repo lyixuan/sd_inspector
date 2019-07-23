@@ -23,12 +23,14 @@ export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
   localhost: 'http://dev.xd.admin.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
+  development2: 'http://test.xd.admin.quality.ministudy.com',
 }[process.env.LOGIN_TYPE]
 
 
 export const CAS_HOST = {
   localhost: 'http://test.xd.admin.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
+  development2: 'http://test.xd.admin.ministudy.com',
   production: 'http://bd.ministudy.com',
 }[process.env.LOGIN_TYPE];
 
