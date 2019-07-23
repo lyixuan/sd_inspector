@@ -12,7 +12,10 @@ import {
   handleTNDateValue,
 } from '../../../utils/utils';
 import styles from '../style.less';
-
+function percentage(num, n = 2) {
+  const str = num + '';
+  return str.substr(0, str.length - n) + '.' + str.substr(-n)
+}
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -67,7 +70,7 @@ const columns = [
     dataIndex: 'totalReadRatio',
     key: 'totalReadRatio',
     width: 140,
-    render: text => `${text * 100}%`
+    render: text => percentage(text),
   },
   {
     title: '未读人数',
@@ -95,7 +98,7 @@ const columns = [
         dataIndex: 'wechatReadRatio',
         key: 'wechatReadRatio',
         width: 200,
-        render: text => `${text * 100}%`
+        render: text => percentage(text),
       },
       {
         title: '未读人数',
@@ -125,7 +128,7 @@ const columns = [
         dataIndex: 'appReadRatio',
         key: 'appReadRatio',
         width: 200,
-        render: text => `${text * 100}%`,
+        render: text => percentage(text),
       },
       {
         title: '未读人数',
