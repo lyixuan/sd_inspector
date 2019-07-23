@@ -68,7 +68,7 @@ const columns = [
     dataIndex: 'totalReadRatio',
     key: 'totalReadRatio',
     width: 140,
-    render: text => `${accMul(text, 100)}%`
+    // render: text => `${accMul(Number(text), 100)}%`
   },
   {
     title: '未读人数',
@@ -96,7 +96,7 @@ const columns = [
         dataIndex: 'wechatReadRatio',
         key: 'wechatReadRatio',
         width: 200,
-        render: text => `${accMul(text, 100)}%`
+        // render: text => `${accMul(Number(text), 100)}%`
       },
       {
         title: '未读人数',
@@ -126,7 +126,7 @@ const columns = [
         dataIndex: 'appReadRatio',
         key: 'appReadRatio',
         width: 200,
-        render: text => `${accMul(text, 100)}%`,
+        // render: text => `${accMul(Number(text), 100)}%`,
       },
       {
         title: '未读人数',
