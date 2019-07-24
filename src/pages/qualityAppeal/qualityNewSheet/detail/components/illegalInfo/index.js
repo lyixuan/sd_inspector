@@ -32,11 +32,14 @@ export default class IllegalInfoComponent extends React.Component {
           {
             Number(qualityType) === 1 && (role === 'csleader' || role==='csofficer') && Number(violationLevel) === 2 ? (
               <>
-                <div style={{marginBottom:10,width:'100%'}}>
+                {
+                  masterRole&&
+                  <div style={{marginBottom:10,width:'100%'}}>
                     <span>连带责任人：角色：{masterRole}</span> |
                     <span> 邮箱：{`${masterMail}@sunlands.com`}</span> |
                     <span> 扣除绩效：{(masterQualityValue * 100).toFixed(2)}%</span>
-                </div>
+                  </div>
+                }
                 {masterRole2&&
                 <div style={{marginBottom:10,width:'100%'}}>
                   <span style={{marginLeft:85}}> 角色：{masterRole2}</span> |
