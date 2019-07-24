@@ -18,6 +18,19 @@ export default class SOPCheckResultComponent extends React.Component {
     }
     return <div className={styles.divideLine} />;
   }
+
+  getSopResult(checkResult) {
+    const result = Number(checkResult);
+    const [reject, pass, timeout ] = [0, 1, 2];
+    switch (result) {
+      case reject:
+        return '不通过';
+      case pass:
+        return '通过';
+      case timeout:
+        return '超时';
+    }
+  }
   render() {
     let { sopAppealCheck, isCollapse } = this.props.data;
     return (
@@ -35,14 +48,16 @@ export default class SOPCheckResultComponent extends React.Component {
                           item.checkResult ? styles.resultDotColor1 : styles.resultDotColor2
                         }
                       >
-                        审核结果：{Number(item.checkResult) === 1 ? '通过' : '不通过'}
+                        审核结果：{this.getSopResult(item.checkResult)}
                       </div>
                     </Col>
                     <Col span={4}>
                       <span>执行人：{item.operator}</span>
                     </Col>
                     <Col span={8}>
-                      <span>操作时间：{moment(item.operateDate).format('YYYY年MM月DD日 HH:mm:ss')}</span>
+                      <span>
+                        操作时间：{moment(item.operateDate).format('YYYY年MM月DD日 HH:mm:ss')}
+                      </span>
                     </Col>
                   </Row>
                   {/* <Row className={styles.container}>
