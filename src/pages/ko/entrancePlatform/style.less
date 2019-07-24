@@ -1,8 +1,12 @@
 // 全局样式
-:global .aiWorktable-ant-layout-content {
-  position: relative;
-  overflow: visible;
+:global {
+  .aiWorktable-ant-layout-content {
+    position: relative;
+    overflow: visible;
+  }
+  .aiWorktable-ant-layout-content::-webkit-scrollbar { width: 0 !important }
 }
+
 // 外层平铺容器
 .reportExamTable {
   position: absolute;
