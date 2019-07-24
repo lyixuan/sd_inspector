@@ -148,6 +148,9 @@ export default {
         callback.call(null, response.data || {})
       } else {
         message.error(msgF(response.msg,response.msgDetail));
+        if(response.code === 20005){
+          window.history.go(-1);
+        }
       }
     }
   },
