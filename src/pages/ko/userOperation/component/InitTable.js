@@ -194,6 +194,7 @@ class InitTable extends Component {
     })
   }
   doubleClick = (record, key) => {
+    if (!record.pushed) return;
     this.setState({
       [key] : {[record.id]: true}
     })

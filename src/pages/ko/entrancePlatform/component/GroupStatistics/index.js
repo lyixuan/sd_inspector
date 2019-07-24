@@ -284,6 +284,8 @@ class GroupStatistics extends React.Component {
               </div>
               <div className={`${styles.itemCls} ${styles.itemDates}`}>
                 <BISelect mode="multiple"
+                          maxTagCount={1}
+                          maxTagTextLength={12}
                           placeholder="选择用户群组"
                           dropdownClassName={styles.popupClassName}
                           value={userPramas.userGroupIdList}
@@ -292,7 +294,7 @@ class GroupStatistics extends React.Component {
                           allowClear>
                   {userGroupConfig.map(item => (
                     <Option title={item.groupName} key={item.id} id={item.id}>
-                      {getSubStringValue(item.groupName, 6)}
+                      {item.groupName}
                     </Option>
                   ))}
                 </BISelect>
