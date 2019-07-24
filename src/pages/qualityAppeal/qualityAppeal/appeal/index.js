@@ -132,7 +132,7 @@ class QualityAppealing extends React.Component {
   setStateData = (val) => {
     this.setState({
       appealParam: val,
-      checkResult: Number(val.checkResult),
+      checkResult: val.checkResult===null?null: Number(val.checkResult),
       appealEndDate: val.appealEndDate
     });
   };
