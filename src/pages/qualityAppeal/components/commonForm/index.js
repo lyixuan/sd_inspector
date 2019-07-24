@@ -216,10 +216,11 @@ class CreateQualityNewSheet extends React.Component {
         const newParams = this.formModels.transFormParams(assginObject, violationLevelObj);
         this.tmpParams = newParams;
         this.saveParams(params);
-        if (checkResult === undefined && actionType === 'appeal') {
+        if ((checkResult === undefined || checkResult === null) && actionType === 'appeal') {
             message.warn('请选择审核结果');
             return;
         }
+
         if (!appealEndDate && actionType === 'appeal' && formType === 'appeal' && appealStatus === 4 && checkResult === 0) {
             message.warn('请填写截止日期');
             return;

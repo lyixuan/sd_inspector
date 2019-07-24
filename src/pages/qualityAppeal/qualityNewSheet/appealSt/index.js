@@ -41,7 +41,7 @@ class EditQualityNewSheet extends React.Component {
   setStateData = val => {
     this.appealParam = val;
     this.setState({
-      checkResult: Number(val.checkResult),
+      checkResult: val.checkResult===null?null: Number(val.checkResult),
       appealEndDate: val.appealEndDate
     })
   };
