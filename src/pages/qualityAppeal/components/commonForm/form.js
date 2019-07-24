@@ -245,11 +245,33 @@ class CreateQualityNewSheet extends React.Component {
                     <Form.Item label="连带责任人：">
                       {getFieldDecorator('masterRole', {
                         initialValue: params.masterRole,
+                        rules: [{
+                          validator(rule, value, callback) {
+                            if(value || params.masterMail || params.masterQualityValue){
+                              if(!(value && params.masterMail && params.masterQualityValue)){
+                                callback({ message: '请完善连带责任人信息' });
+                              } else {
+                                callback();
+                              }
+                            } else {
+                              callback();
+                            }
+                          },
+                        }],
                       })(<BIInput placeholder="请输入角色" style={{ width: 100,marginRight:'10px' }} onChange={e => this.inputChange(e, 'masterRole')} />)}
                     </Form.Item>
                     <Form.Item label="">
                       {getFieldDecorator('masterMail', {
                         initialValue: params.masterMail,
+                        rules: [{
+                          validator(rule, value, callback) {
+                            if((!value && (params.masterRole || params.masterQualityValue))){
+                              callback({ message: ' ' });
+                            } else {
+                              callback();
+                            }
+                          },
+                        }],
                       })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail')} />)}
                     </Form.Item>
                     <div className={styles.text}>@sunlands.com</div>
@@ -259,11 +281,8 @@ class CreateQualityNewSheet extends React.Component {
                         initialValue: params.masterQualityValue,
                         rules: [{
                           validator(rule, value, callback) {
-                            if((!value && !params.masterMail && !params.masterRole)){
-                              callback();
-                            }
-                            if(!(value && params.masterMail && params.masterRole)){
-                              callback({ message: '请输入同时填写角色、邮箱和绩效，或不填写' });
+                            if(!value && (params.masterMail || params.masterRole)){
+                              callback({ message: ' ' });
                             } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
                               callback({ message: '请输入合法绩效' });
                             } else if (
@@ -289,11 +308,33 @@ class CreateQualityNewSheet extends React.Component {
                     <Form.Item label="">
                       {getFieldDecorator('masterRole2', {
                         initialValue: params.masterRole2,
+                        rules: [{
+                          validator(rule, value, callback) {
+                            if(value || params.masterMail2 || params.masterQualityValue2){
+                              if(!(value && params.masterMail2 && params.masterQualityValue2)){
+                                callback({ message: '请完善连带责任人信息' });
+                              } else {
+                                callback();
+                              }
+                            } else {
+                              callback();
+                            }
+                          },
+                        }],
                       })(<BIInput placeholder="请输入角色" style={{ width: 100,marginRight:'10px' }} onChange={e => this.inputChange(e, 'masterRole2')} />)}
                     </Form.Item>
                     <Form.Item label="">
                       {getFieldDecorator('masterMail2', {
                         initialValue: params.masterMail2,
+                        rules: [{
+                          validator(rule, value, callback) {
+                            if((!value && (params.masterRole2 || params.masterQualityValue2))){
+                              callback({ message: ' ' });
+                            } else {
+                              callback();
+                            }
+                          },
+                        }],
                       })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail2')} />)}
                     </Form.Item>
                     <div className={styles.text}>@sunlands.com</div>
@@ -303,11 +344,8 @@ class CreateQualityNewSheet extends React.Component {
                         initialValue: params.masterQualityValue2,
                         rules: [{
                           validator(rule, value, callback) {
-                            if((!value && !params.masterMail2 && !params.masterRole2)){
-                              callback();
-                            }
-                            if(!(value && params.masterMail2 && params.masterRole2)){
-                              callback({ message: '请输入同时填写角色、邮箱和绩效，或不填写' });
+                            if(!value && (params.masterMail2 || params.masterRole2)){
+                              callback({ message: ' ' });
                             } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
                               callback({ message: '请输入合法绩效' });
                             } else if (
@@ -334,11 +372,33 @@ class CreateQualityNewSheet extends React.Component {
                       <Form.Item label="">
                         {getFieldDecorator('masterRole3', {
                           initialValue: params.masterRole3,
+                          rules: [{
+                            validator(rule, value, callback) {
+                              if(value || params.masterMail3 || params.masterQualityValue3){
+                                if(!(value && params.masterMail3 && params.masterQualityValue3)){
+                                  callback({ message: '请完善连带责任人信息' });
+                                } else {
+                                  callback();
+                                }
+                              } else {
+                                callback();
+                              }
+                            },
+                          }],
                         })(<BIInput placeholder="请输入角色" style={{ width: 100,marginRight:'10px' }} onChange={e => this.inputChange(e, 'masterRole3')} />)}
                       </Form.Item>
                       <Form.Item label="">
                         {getFieldDecorator('masterMail3', {
                           initialValue: params.masterMail3,
+                          rules: [{
+                            validator(rule, value, callback) {
+                              if((!value && (params.masterRole3 || params.masterQualityValue3))){
+                                callback({ message: ' ' });
+                              } else {
+                                callback();
+                              }
+                            },
+                          }],
                         })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail3')} />)}
                       </Form.Item>
                       <div className={styles.text}>@sunlands.com</div>
@@ -348,11 +408,8 @@ class CreateQualityNewSheet extends React.Component {
                           initialValue: params.masterQualityValue3,
                           rules: [{
                             validator(rule, value, callback) {
-                              if((!value && !params.masterMail3 && !params.masterRole3)){
-                                callback();
-                              }
-                              if(!(value && params.masterMail3 && params.masterRole3)){
-                                callback({ message: '请输入同时填写角色、邮箱和绩效，或不填写' });
+                              if(!value && (params.masterMail3 || params.masterRole3)){
+                                callback({ message: ' ' });
                               } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
                                 callback({ message: '请输入合法绩效' });
                               } else if (
@@ -380,11 +437,33 @@ class CreateQualityNewSheet extends React.Component {
                       <Form.Item label="">
                         {getFieldDecorator('masterRole4', {
                           initialValue: params.masterRole4,
+                          rules: [{
+                            validator(rule, value, callback) {
+                              if(value || params.masterMail4 || params.masterQualityValue4){
+                                if(!(value && params.masterMail4 && params.masterQualityValue4)){
+                                  callback({ message: '请完善连带责任人信息' });
+                                } else {
+                                  callback();
+                                }
+                              } else {
+                                callback();
+                              }
+                            },
+                          }],
                         })(<BIInput placeholder="请输入角色" style={{ width: 100,marginRight:'10px' }} onChange={e => this.inputChange(e, 'masterRole4')} />)}
                       </Form.Item>
                       <Form.Item label="">
                         {getFieldDecorator('masterMail4', {
                           initialValue: params.masterMail4,
+                          rules: [{
+                            validator(rule, value, callback) {
+                              if((!value && (params.masterRole4 || params.masterQualityValue4))){
+                                callback({ message: ' ' });
+                              } else {
+                                callback();
+                              }
+                            },
+                          }],
                         })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail4')} />)}
                       </Form.Item>
                       <div className={styles.text}>@sunlands.com</div>
@@ -394,11 +473,8 @@ class CreateQualityNewSheet extends React.Component {
                           initialValue: params.masterQualityValue4,
                           rules: [{
                             validator(rule, value, callback) {
-                              if((!value && !params.masterMail4 && !params.masterRole4)){
-                                callback();
-                              }
-                              if(!(value && params.masterMail4 && params.masterRole4)){
-                                callback({ message: '请输入同时填写角色、邮箱和绩效，或不填写' });
+                              if(!value && (params.masterMail4 || params.masterRole4)){
+                                callback({ message: ' ' });
                               } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
                                 callback({ message: '请输入合法绩效' });
                               } else if (
