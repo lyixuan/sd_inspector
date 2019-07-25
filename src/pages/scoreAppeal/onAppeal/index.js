@@ -139,6 +139,7 @@ class OnAppeal extends React.Component {
   };
   onDetail = (record) => {
     const {idList=[]} = this.props.onAppealModel;
+    sessionStorage.setItem("idList", JSON.stringify(idList));
     const {dimensionType} = this.state;
     const query={
       id: record.id, // 获取审核记录用id
@@ -148,7 +149,7 @@ class OnAppeal extends React.Component {
       status:record.status,
       isOnAppeal:true,
       creditDate:record.creditDate,
-      idList: JSON.stringify(idList),
+      // idList: JSON.stringify(idList),
       secondAppealEndDate:record.secondAppealEndDate,  // 详情展示
     };
     this.onJumpPage(query, '/scoreAppeal/onAppeal/detail');
