@@ -79,7 +79,7 @@ function columns(enumDataIntention) {
       title: '注册时间',
       key: 'registerTime',
       dataIndex: 'registerTime',
-      width: 180,
+      width: 110,
       fixed: 'left',
     },
     {
