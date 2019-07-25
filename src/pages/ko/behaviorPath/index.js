@@ -8,10 +8,12 @@ import Bbs from './components/bbs';
 import WeChart from './components/weChart';
 import UserInfo from './components/userInfo';
 import PrivateLetter from './components/privateLetter';
+import { handleTNDateValue } from '@/pages/ko/utils/utils';
 const TabPane = BITabs.TabPane;
 
-@connect(({ behaviorPath }) => ({
-  behaviorPath
+@connect(({ behaviorPath, koPlan }) => ({
+  behaviorPath,
+  currentServiceTime: koPlan.currentServiceTime,
 }))
 
 class BehaviorPath1 extends React.Component {
@@ -31,8 +33,18 @@ class BehaviorPath1 extends React.Component {
   }
 
   componentDidMount() {
-    this.getDateList(this.state.activeKey); // 获取日期列表
-    this.getUserInfo();
+    if (!this.props.currentServiceTime) {
+      this.props.dispatch({
+        type: 'koPlan/getCurrentTime',
+        callback: () => {
+          this.getDateList(this.state.activeKey); // 获取日期列表
+          this.getUserInfo();
+        }
+      });
+    } else {
+      this.getDateList(this.state.activeKey); // 获取日期列表
+      this.getUserInfo();
+    }
   }
   componentWillReceiveProps(nextProps) {
     if ((JSON.stringify(nextProps.behaviorPath.dateListStudy) !== JSON.stringify(this.props.behaviorPath.dateListStudy))) {
@@ -63,11 +75,21 @@ class BehaviorPath1 extends React.Component {
   }
 
   getDateList = (type) => {
-    let stuId = this.state.stuId
+    let stuId = this.state.stuId;
+    const beginDate = this.props.behaviorPath.dateRange ? this.props.behaviorPath.dateRange.beginDate : new Date(new Date().getTime());
+    const endDate = handleTNDateValue(1, this.props.currentServiceTime);
     this.props.dispatch({
       type: 'behaviorPath/getDateList',
-      payload: { params: { stuId: stuId, type: type, page: this.state.page, pageSize: this.state.pageSize } },
-      // payload: { params: { stuId: 10257895, type: type } },
+      payload: {
+        params: {
+          stuId,
+          type,
+          page: this.state.page,
+          pageSize: this.state.pageSize,
+          beginDate,
+          endDate,
+        }
+      },
     });
   };
   getUserInfo = () => {
@@ -112,29 +134,31 @@ class BehaviorPath1 extends React.Component {
     return (
       <div className={styles.behaviorPath}>
         <div className={styles.headBar}>用户行为轨迹</div>
-        <div className={styles.tabBox}>
-          <BITabs onChange={this.onTabChange} type="card" animated={false} defaultActiveKey={this.state.activeKey}>
-            <TabPane tab="学习" key="1">
-              <Study stuId={pathParams.userId}></Study>
-            </TabPane>
-            <TabPane tab="IM" key="2">
-              <Im stuId={pathParams.userId}></Im>
-            </TabPane>
-            <TabPane tab="微信" key="3">
-              <WeChart stuId={pathParams.userId}></WeChart>
-            </TabPane>
-            <TabPane tab="BBS" key="4">
-              <Bbs stuId={pathParams.userId}></Bbs>
-            </TabPane>
-            <TabPane tab="私信" key="5">
-              <PrivateLetter stuId={pathParams.userId}></PrivateLetter>
-            </TabPane>
-          </BITabs>
-        </div>
-        <div style={{ position: "absolute", left: "720px", top: "108px" }}>
-          {
-            userInfoParams ? <UserInfo info={userInfoParams}></UserInfo> : null
-          }
+        <div style={{display: "flex"}}>
+          <div className={styles.tabBox}>
+            <BITabs onChange={this.onTabChange} type="card" animated={false} defaultActiveKey={this.state.activeKey}>
+              <TabPane tab="学习" key="1">
+                <Study stuId={pathParams.userId}></Study>
+              </TabPane>
+              <TabPane tab="IM" key="2">
+                <Im stuId={pathParams.userId}></Im>
+              </TabPane>
+              <TabPane tab="微信" key="3">
+                <WeChart stuId={pathParams.userId}></WeChart>
+              </TabPane>
+              <TabPane tab="BBS" key="4">
+                <Bbs stuId={pathParams.userId}></Bbs>
+              </TabPane>
+              <TabPane tab="私信" key="5">
+                <PrivateLetter stuId={pathParams.userId}></PrivateLetter>
+              </TabPane>
+            </BITabs>
+          </div>
+          <div style={{ marginTop: "40px" }}>
+            {
+              userInfoParams ? <UserInfo info={userInfoParams}></UserInfo> : null
+            }
+          </div>
         </div>
       </div>
     );

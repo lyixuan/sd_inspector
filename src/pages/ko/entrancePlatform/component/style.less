@@ -1,0 +1,212 @@
+// 用户
+.formStyle {
+  :global{
+    .ant-form-inline .ant-form-item{
+      display: flex;
+    }
+    .ant-form-item-label{
+      width: 60px;
+    }
+    .ant-form-item label{
+      font-size: 12px;
+      width: 51px!important;
+    }
+    .ant-form-item-label > label::after{
+      left: 50px!important;
+    }
+    .ant-advanced-search-form .ant-form-item{
+      margin-bottom: 0;
+    }
+    .ant-form-item-control{
+      min-width: 140px;
+    }
+    .ant-input{
+      padding-left: 10px;
+      padding-right: 7px;
+      font-size: 12px;
+    }
+    .ant-select {
+      font-size: 12px;
+    }
+    .ant-select-selection__rendered{
+      margin: auto 10px;
+    }
+    // 时间
+    .ant-select-selection__placeholder, .ant-select-search__field__placeholder{
+      font-size: 12px;
+      margin-left: 0;
+    }
+    .BIDatePicker .ant-calendar-picker-clear, .BIDatePicker .ant-calendar-picker-icon{
+      right: 5px;
+      color: rgba(0, 0, 0, 0.25)
+    }
+    .ant-calendar-range-picker-separator{
+      margin:0 3px 0 -6px;
+      min-width: 6px;
+      padding: 0;
+    }
+    .ant-cascader-picker-arrow{
+      color: rgba(0, 0, 0, 0.25)
+    }
+    .BIDatePicker .ant-calendar-picker{
+      width: 100%;
+    }
+    @media screen and (min-width: 1551px) {
+      .BIDatePicker .ant-calendar-range-picker-input{
+        transform: scale(.85);
+        width: 75px;
+      }
+    }
+
+    @media screen and (min-width: 1700px) {
+      .BIDatePicker .ant-calendar-range-picker-input{
+        transform: scale(1);
+        width: 88px;
+      }
+    }
+  }
+}
+
+// 搜索框样式
+.formCotainer{
+  position: relative;
+  width: 100%;
+  //min-width: 1116px;
+  padding:16px 32px 24px 32px;
+  background-color: #fff;
+  border-radius-topleft:10px;
+  border-radius-topright:10px;
+  :global{
+    .ant-advanced-search-form .ant-form-item{
+      width: 100%;
+    }
+    .ant-form-item-control-wrapper, .BISelect, .BISelect .ant-select, .BIDatePicker{
+      width: 100%;
+    }
+    .BISelect .ant-select-selection {
+      border-radius: 6px;
+    }
+    .ant-input {
+      border-radius: 6px;
+    }
+  }
+  .rowWrap{
+    display: flex;
+    .itemCls{
+      width: 136px;
+      display: flex;
+      align-items: center;
+      margin-right: 16px;
+    }
+    .itemTips {
+      width: 65px;
+      font-size: 13px;
+      margin-right: 0;
+      margin-top: -2px;
+    }
+    .itemDates {
+      width: 288px;
+    }
+  }
+  .rowWrapMar {
+    margin-top: 18px;
+    height: 32px;
+    align-items: center;
+    .itemTips {
+      margin-top: 0px;
+    }
+  }
+  .actionGroup{
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+    position: relative;
+    justify-content: center;
+    .updateDate {
+      position: absolute;
+      right: 0;
+      text-align: right;
+      font-size: 13px;
+      color: #B8BBBF;
+    }
+  }
+  // 已选条件样式
+  .selectedContent {
+    .items {
+      min-width: 20px;
+      padding: 8px;
+      border-radius: 6px;
+      background-color: #F6F7FA;
+      margin-right: 8px;
+      font-size: 13px;
+      color: #56595E;
+      .icons {
+        margin-left: 12px;
+      }
+    }
+  }
+}
+// 搜索结果
+.searchResult {
+  min-width: 1116px;
+  display: flex;
+  height: 80px;
+  margin: 16px;
+  padding: 0 16px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 6px;
+  background-color: #ffffff;
+  .totalNumber {
+    font-size: 13px;
+    > span {
+      color: #00CCC3;
+    }
+  }
+}
+
+// 用户组样式
+.userGroup {
+  min-width: 1116px;
+  margin: 16px;
+  padding: 24px 16px 16px;
+  margin-top: 0px;
+  border-radius: 6px;
+  background-color: #ffffff;
+  .userGroupForm {
+    padding: 0 0 24px 0;
+    .itemDates {
+      width: 288px;
+    }
+    .updateDate {
+      flex: 1;
+      font-size: 13px;
+      color: #B8BBBF;
+      text-align: right;
+      line-height: 34px;
+    }
+  }
+  //列表样式
+  .tableWrap {
+    table {
+      font-size: 12px;
+    }
+  }
+}
+// 下拉框的样式
+.popupClassName {
+  font-size:13px;
+  :global {
+    .ant-calendar-input {
+      font-size: 13px;
+    }
+  }
+}
+// 表格宽度自适应
+.textEllipsis {
+  width: 200px;
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

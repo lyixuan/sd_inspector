@@ -26,6 +26,7 @@
 .tabBox {
   padding-top: 20px;
   padding: 20px 0 0 30px;
+  min-width: 720px;
   // width: 720px;
 }
 .tabBox :global .ant-tabs .ant-tabs-bar {
@@ -158,8 +159,8 @@
   }
   .orderList{
     padding:0 10px;
-    max-height:230px;
-    overflow-y:auto;
+    //max-height:230px;
+    //overflow-y:auto;
     .card{
       position:relative;
       background:#fff;
@@ -251,6 +252,7 @@
   padding-left: 15px;
   position: relative;
   padding-bottom: 5px;
+  min-width: 370px;
 }
 .step .content .text {
   padding-bottom: 30px;
@@ -345,8 +347,31 @@
   // word-break: break-all;
   word-wrap:break-word;
   word-break: break-word;
+  .linkRoute {
+    color: #52C9C2;
+    text-decoration: underline;
+  }
 }
-
+.behavior .chatLeft .chatContentImg {
+  //max-width: 260px;
+  //width: 260px;
+  text-align: center;
+  padding: 3px;
+  border: 1px solid #E8E8E8;
+  border-radius: 6px;
+  //margin-left: 15px;
+  img {
+    width: 254px;
+  }
+  .triangle {
+    border-color:transparent #E8E8E8 transparent transparent;
+    top:10px;
+    left:80px;
+  }
+  .triangle em{
+    border-color:transparent #FFFFFF transparent transparent;
+  }
+}
 .behavior .chatLeft .triangle {
   display: block;
   width: 0;
@@ -373,6 +398,7 @@
 .behavior .chatRight {
   padding-left: 90px;
   padding-bottom: 10px;
+  float: right;
 }
 .behavior .chatRight .chatContent {
   width: 210px;
@@ -385,6 +411,30 @@
   box-sizing: border-box;
   position: relative;
   word-break: break-all;
+  .linkRoute {
+    color: #fff;
+    text-decoration: underline;
+  }
+}
+.behavior .chatRight .chatContentImg {
+  //max-width: 260px;
+  //width: 260px;
+  text-align: center;
+  padding: 3px;
+  border: 1px solid #E8E8E8;
+  border-radius: 6px;
+  //margin-right: 15px;
+  img {
+    width: 254px;
+  }
+  .triangle {
+    border-color :transparent transparent transparent #E8E8E8;
+    top: 10px;
+    right: 65px;
+  }
+  .triangle em{
+    border-color:transparent transparent transparent #FFFFFF;
+  }
 }
 .behavior .chatRight .miniApp, .behavior .chatLeft .miniApp{
   background:#fff;
@@ -563,7 +613,7 @@
 }
 .comWrap :global .ant-spin-nested-loading{
   padding-bottom:70px;
-  width:50%;
+  //width:50%;
 }
 .comWrap :global .ant-empty {
   font-size: 12px;
@@ -597,6 +647,8 @@
   left:0;
   box-sizing: border-box;
   padding-right:30px;
+  display: flex;
+  justify-content: flex-start;
 }
 .expressionArea{
   width:140px;
@@ -687,4 +739,14 @@
     font-size:12px;
     color:#7B7C80;
   }
+}
+
+ // tabs 和 左侧内容的容器
+.behaviorContent {
+  display: flex;
+}
+// a 链接标签样式
+.linkRoute {
+  color: #52C9C2;
+  text-decoration: underline;
 }

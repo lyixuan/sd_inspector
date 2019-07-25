@@ -1,10 +1,10 @@
 import React from 'react';
-import { Skeleton, Form, message } from 'antd';
+import { Skeleton, Form, message, Button } from 'antd';
 import { handleDateParams, handleDefaultPickerValueMark } from '@/pages/ko/utils/utils';
 import BIDatePicker from '@/ant_components/BIDatePicker';
-import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect';
 import { connect } from 'dva/index';
+import btnStyles from '../../../entrancePlatform/btnstyles.less';
 import formStyles from '../../../components/formCommon.less';
 import styles from './style.less';
 
@@ -12,9 +12,10 @@ const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
 const dateFormat = 'YYYY.MM.DD';
 
-@connect(({ workTableModel, koPlan, loading }) => ({
+@connect(({ koPlan, loading }) => ({
   koPlanPageParams: koPlan.pageParams,
-  loading: loading.effects['workTableModel/getBasicData'],
+  currentServiceTime: koPlan.currentServiceTime,
+  loading: loading.effects['workTableModel/getBasicData'] || loading.effects['koPlan/getCurrentTime'],
 }))
 class AiForm extends React.Component {
   constructor(props) {
@@ -22,12 +23,25 @@ class AiForm extends React.Component {
   }
 
   componentDidMount() {
-    this.handleSearch();
+    if (!this.props.currentServiceTime) {
+      this.props.dispatch({
+        type: 'koPlan/getCurrentTime',
+        callback: (res) => {
+          this.props.changeOperatorId('choiceTime', handleDefaultPickerValueMark(2, res));
+          this.handleSearch();
+          this.onChangeTime(this.props.searchParams.choiceTime)
+        }
+      });
+    } else {
+      this.handleSearch();
+      this.onChangeTime(this.props.searchParams.choiceTime)
+    }
+
   }
-  // 时间间隔不超过七天
+  // 时间间隔不超过四十天
   getChangeTime = (c) => {
-    if (c.length === 0 || (c.length === 2 && c[1].diff(c[0], 'day') > 6) ) {
-      message.error('请选择 ≤ 7 天的时间范围');
+    if (c.length === 0 || (c.length === 2 && c[1].diff(c[0], 'day') > 39) ) {
+      message.error('请选择 ≤ 40 天的时间范围');
       return false
     }
     return true;
@@ -59,10 +73,10 @@ class AiForm extends React.Component {
   };
   // 重置事件
   handleReset = () => {
-    const { searchParams } = this.props;
+    const { searchParams, currentServiceTime } = this.props;
     for (let k in searchParams) {
       if (k === 'choiceTime') {
-        searchParams[k] = handleDefaultPickerValueMark();
+        searchParams[k] = handleDefaultPickerValueMark(2, currentServiceTime);
       } else {
         searchParams[k] = undefined;
       }
@@ -71,10 +85,25 @@ class AiForm extends React.Component {
     this.props.form.resetFields();
     this.props.onSearchChange({...searchParams, beginDate, endDate});
   };
+  //操作ID
+  onChangeTime = (value, flag) => {
+    if (!this.getChangeTime(value)) return;
+    const [beginDate, endDate] = this.checkoutParamsType('choiceTime', value);
+    this.props.dispatch({
+      type: 'workTableModel/getOperatorList',
+      payload: { params: { beginDate, endDate, type: this.props.markType } },
+      callback: () => {
+        if (this.props.changeOperatorId && flag) {
+          this.props.changeOperatorId('operatorId');
+          this.props.form.setFieldsValue({operatorId: undefined});
+        }
+      }
+    });
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { markType, searchParams, collegeList, consultList, reasonList, evaluateList } = this.props;
+    const { markType, searchParams, collegeList, consultList, reasonList, evaluateList, operatorList } = this.props;
     const { loading } = this.props;
     return (
       <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
@@ -93,6 +122,8 @@ class AiForm extends React.Component {
                     <BIRangePicker
                       placeholder={['起始时间', '截止时间']}
                       format={dateFormat}
+                      onChange={this.onChangeTime}
+                      getCalendarContainer={triggerNode => triggerNode.parentNode}
                     />,
                   )}
                 </Form.Item>
@@ -102,7 +133,11 @@ class AiForm extends React.Component {
                   {getFieldDecorator('collegeId', {
                     initialValue: searchParams.collegeId,
                   })(
-                    <BISelect placeholder="请选择" allowClear>
+                    <BISelect
+                      placeholder="请选择"
+                      dropdownClassName={styles.popupClassName}
+                      getPopupContainer={triggerNode => triggerNode.parentNode}
+                      allowClear>
                       {collegeList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
@@ -113,7 +148,11 @@ class AiForm extends React.Component {
                   {getFieldDecorator('consultType', {
                     initialValue: searchParams.consultType,
                   })(
-                    <BISelect placeholder="请选择" allowClear>
+                    <BISelect
+                      placeholder="请选择"
+                      dropdownClassName={styles.popupClassName}
+                      getPopupContainer={triggerNode => triggerNode.parentNode}
+                      allowClear>
                       {consultList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
@@ -124,30 +163,71 @@ class AiForm extends React.Component {
                   {getFieldDecorator('reasonType', {
                     initialValue: searchParams.reasonType,
                   })(
-                    <BISelect placeholder="请选择" allowClear>
+                    <BISelect placeholder="请选择"
+                              dropdownClassName={styles.popupClassName}
+                              getPopupContainer={triggerNode => triggerNode.parentNode}
+                              allowClear>
                       {reasonList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
                 </Form.Item>
               </div>
               {markType == 3 && <div className={styles.itemCls}>
-                <Form.Item label='自主评价：'>
-                  {getFieldDecorator('evaluateType', {
-                    initialValue: searchParams.evaluateType,
+                  <Form.Item label='自主评价：'>
+                    {getFieldDecorator('evaluateType', {
+                      initialValue: searchParams.evaluateType,
+                    })(
+                      <BISelect
+                        placeholder="请选择"
+                        dropdownClassName={styles.popupClassName}
+                        getPopupContainer={triggerNode => triggerNode.parentNode}
+                        allowClear>
+                        {evaluateList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                      </BISelect>,
+                    )}
+                  </Form.Item>
+                </div>
+              }
+            </div>
+            <div className={styles.rowWrap}>
+              <div className={styles.itemCls}>
+                <Form.Item label='操作人：'>
+                  {getFieldDecorator('operatorId', {
+                    initialValue: searchParams.operatorId,
                   })(
-                    <BISelect placeholder="请选择" allowClear>
-                      {evaluateList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                    <BISelect
+                      placeholder="请选择"
+                      dropdownClassName={styles.popupClassName}
+                      getPopupContainer={triggerNode => triggerNode.parentNode}
+                      allowClear>
+                      {operatorList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
                 </Form.Item>
-              </div>}
-              <div className={styles.itemCls} />
-              {markType == 2 && <div className={styles.itemCls} />}
+              </div>
+              {
+                markType == 1 &&
+                <div className={styles.itemCls}>
+                  <Form.Item label='满意度：'>
+                    {getFieldDecorator('evaluate', {
+                      initialValue: searchParams.evaluate,
+                    })(
+                      <BISelect
+                        placeholder="请选择"
+                        dropdownClassName={styles.popupClassName}
+                        getPopupContainer={triggerNode => triggerNode.parentNode}
+                        allowClear>
+                        {['不满意', '一般'].map((item, index) => <Option key={item} value={index}>{item}</Option>)}
+                      </BISelect>,
+                    )}
+                  </Form.Item>
+                </div>
+              }
             </div>
           </Skeleton>
           <div className={`${styles.rowWrap} ${styles.buttonGroup}`}>
-            <BIButton onClick={this.handleReset} style={{ marginRight: '10px' }}>重置</BIButton>
-            <BIButton type="primary" htmlType="submit">查询</BIButton>
+            <Button className={btnStyles.btnCancel} onClick={this.handleReset} style={{ marginRight: '10px' }}>{'重'}{'置'}</Button>
+            <Button className={btnStyles.btnPrimary} htmlType="submit">{'查'}{'询'}</Button>
           </div>
         </Form>
       </div>

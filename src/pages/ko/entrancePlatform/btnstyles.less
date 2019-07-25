@@ -1,0 +1,63 @@
+@base-blue: #61B8FF;
+@base-yellow: #FFBC00;
+@base-primary: #00CCC3;
+@base-cancel: #E8EBED;
+@base-white: rgba(255, 255, 255, 1);
+@base-color: #56595E;
+@base-border: #D5D8DB;
+// common
+.btnCommon {
+  min-width: 80px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 6px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  font-size: 14px;
+}
+// 黄色
+.btnYellow{
+  .btnCommon();
+}
+.btnYellow, .btnYellow:hover, .btnYellow:focus {
+  color: @base-white;
+  background-color: @base-yellow;
+  border-color: @base-yellow!important;
+}
+// 蓝色
+.btnBlue {
+  .btnCommon();
+}
+.btnBlue, .btnBlue:hover, .btnBlue:focus {
+  color: @base-white;
+  background-color: @base-blue;
+  border-color: @base-blue!important;
+}
+// primary
+.btnPrimary {
+  .btnCommon();
+}
+.btnPrimary, .btnPrimary:hover, .btnPrimary:focus {
+  color: @base-white;
+  background-color: @base-primary;
+  border-color: @base-primary!important;
+}
+// cancel
+.btnCancel {
+  .btnCommon();
+}
+.btnCancel, .btnCancel:hover, .btnCancel:focus {
+  color: @base-color;
+  background-color: @base-cancel;
+  border-color: @base-cancel!important;
+}
+
+// 白色
+.btnWhite {
+  .btnCommon();
+}
+.btnWhite, .btnWhite:hover, .btnWhite:focus {
+  color: @base-color;
+  background-color: @base-white;
+  border: 1px solid @base-border!important;
+}

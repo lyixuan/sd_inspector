@@ -47,33 +47,40 @@ function columns(enumDataIntention) {
       width: 110,
       fixed: 'left',
     },
+    // {
+    //   title: '注册',
+    //   key: 'registerStatus',
+    //   dataIndex: 'registerStatus',
+    //   width: 60,
+    //   fixed: 'left',
+    //   render: (text, record) => {
+    //     return (
+    //       <>
+    //         <span style={{ cursor: 'pointer' }}>{BiFilter(`REGISTER_STATUS|id:${record.registerStatus}`).name}</span>
+    //       </>
+    //     );
+    //   },
+    // },
+    // {
+    //   title: '选课',
+    //   key: 'choiceLessonStatus',
+    //   dataIndex: 'choiceLessonStatus',
+    //   width: 60,
+    //   fixed: 'left',
+    //   render: (text, record) => {
+    //     return (
+    //       <>
+    //         <span style={{ cursor: 'pointer' }}>{BiFilter(`CHOISE_STATUS|id:${record.choiceLessonStatus}`).name}</span>
+    //       </>
+    //     );
+    //   },
+    // },
     {
-      title: '注册',
-      key: 'registerStatus',
-      dataIndex: 'registerStatus',
-      width: 60,
+      title: '注册时间',
+      key: 'registerTime',
+      dataIndex: 'registerTime',
+      width: 180,
       fixed: 'left',
-      render: (text, record) => {
-        return (
-          <>
-            <span style={{ cursor: 'pointer' }}>{BiFilter(`REGISTER_STATUS|id:${record.registerStatus}`).name}</span>
-          </>
-        );
-      },
-    },
-    {
-      title: '选课',
-      key: 'choiceLessonStatus',
-      dataIndex: 'choiceLessonStatus',
-      width: 60,
-      fixed: 'left',
-      render: (text, record) => {
-        return (
-          <>
-            <span style={{ cursor: 'pointer' }}>{BiFilter(`CHOISE_STATUS|id:${record.choiceLessonStatus}`).name}</span>
-          </>
-        );
-      },
     },
     {
       title: '选课时间',
@@ -323,7 +330,7 @@ function columns(enumDataIntention) {
           </>
         );
       });
-    } else if (v.dataIndex !== 'orderTime' && v.dataIndex !== 'choiceLessionTime') {
+    } else if (v.dataIndex !== 'orderTime' && v.dataIndex !== 'choiceLessionTime' && v.dataIndex !== 'registerTime') {
       v.render = v.render || ((text) => {
         return (
           <>
@@ -379,7 +386,6 @@ function DateBar(props) {
 }
 
 function CreatUserGroupPop(props) {
-  console.log(357, props)
   if (props.groupCheck) {
     return (
       <BIModal
@@ -461,9 +467,15 @@ class UserList extends React.Component {
     this.getInitParams();
     this.queryData();
   }
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'koPlan/saveTabFromParamsPage',
+      payload: { formParams: { } },
+    });
+  }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (JSON.stringify(nextProps.tabFromParams) !== JSON.stringify(this.props.tabFromParams)) {
+    if (JSON.stringify(nextProps.tabFromParams.formParams) !== JSON.stringify(this.props.tabFromParams.formParams)) {
       this.queryData(nextProps.tabFromParams, this.initpage);
     }
     if (JSON.stringify(nextProps.chooseEventData) !== JSON.stringify(this.props.chooseEventData)) {
@@ -516,7 +528,7 @@ class UserList extends React.Component {
     } : {};
   };
   queryData = (params = this.props.tabFromParams, pageParams = this.state.pageParams, chooseEventData = this.props.chooseEventData, filterExitParams = this.state.filterExitParams, orderSortParams = this.state.orderSortParams) => {
-    if (!params || JSON.stringify(params) === '{}') return;
+    // if (!params || JSON.stringify(params) === '{}') return;
     const localtionParams = this.getLocationParams(chooseEventData);
     const newParams = { ...params.formParams, ...pageParams, ...localtionParams, ...filterExitParams, ...orderSortParams };
     this.props.dispatch({
@@ -596,6 +608,9 @@ class UserList extends React.Component {
         break;
       case 'backBelong':
         returnDom = item ? this.renderGrouptags(item, 'backBelong') : null;
+        break;
+      case 'transactionIntention':
+        returnDom = item ? this.renderTypeTage(item, 'transactionIntention')('custorm') : null
         break;
       default:
         returnDom = null;
@@ -703,7 +718,7 @@ class UserList extends React.Component {
             }}
             dataSource={dataSource} columns={columns(this.props.enumDataIntention)}
             pagination={false} loading={loading}
-            scroll={{ x: 2420, y: 570 }}
+            scroll={{ x: 2530, y: 570 }}
             size="middle"
           />
           <br />

@@ -13,6 +13,7 @@ li{
   min-height:600px;
   position:relative;
   display:flex;
+  margin-bottom: 18px;
   .baseInfo{
     background: #fff;
     padding: 0 0 30px;
@@ -30,10 +31,10 @@ li{
 }
 
 .headBar {
-  height: 70px; 
-  line-height: 70px;
+  height: 50px;
+  line-height: 50px;
   border-bottom: 1px solid #ebecef;
-  padding-left: 28px;
+  padding-left: 22px;
   font-size: 16px;
   color:#1A1C1F;
 }
@@ -42,11 +43,12 @@ li{
   display:flex;
 }
 .userInfo{
-  padding:20px;
+  padding:24px;
+  padding-bottom: 0px;
   .flex{
     display:flex;
     font-size:13px;
-    padding-top:10px;
+    //padding-top:10px;
     .width50{
       width:50%;
     }
@@ -101,6 +103,7 @@ li{
 // imStyle
 .imContent{
   padding:20px;
+  padding-top: 0px;
 }
 /*im*/
 .dateBar{
@@ -130,7 +133,7 @@ li{
   }
 }
 .behavior{
-	padding:10px 0 10px 120px;
+	padding:10px 0px 10px 10%;
 }
 .behavior li:last-child .content{
 	border:none;
@@ -145,10 +148,24 @@ li{
 	color:#999;
 }
 .step .content{
-	border-left:1px solid #cff0ee;
+	//border-left:1px solid #cff0ee;
 	padding-left:15px;
 	position:relative;
-	padding-bottom:5px;
+	padding-bottom:10px;
+  flex: 1;
+  max-width: 400px;
+  //max-width: 500px;
+}
+.step .content:after {
+  content: '';
+  position: absolute;
+  left: 0px;
+  top: 10px;
+  border-left: 1px solid #cff0ee;
+  height: 100%;
+}
+.step:last-child .content:after {
+  border: none;
 }
 .step .content .text{
 	padding-bottom:30px;
@@ -162,8 +179,8 @@ li{
 	border-radius:50px;
 	position:absolute;
 	left:-6px;
-	top:0;
-
+	top:10px;
+  z-index: 99;
 }
 .step .content .bigDot .dot{
 	width:4px;
@@ -215,15 +232,16 @@ li{
 	text-align:center;
 }
 .behavior .chat .avatar img{
-	width:35px;
-	height:35px;
+	width:32px;
+	height:32px;
 	border-radius:100px;
 }
 .behavior .chat .avatar p{
 	font-size:12px;
 }
 .behavior .chatLeft .chatContent{
-	width:175px;
+	//width:175px;
+  max-width: 254px;
 	background:#f6f7fa;
 	border:1px solid #E8E8E8;
 	border-radius:5px;
@@ -231,6 +249,30 @@ li{
 	padding:6px 10px;
   position:relative;
   word-break:break-all;
+  .linkRoute {
+    color: #52C9C2;
+    text-decoration: underline;
+  }
+}
+.behavior .chatLeft .chatContentImg {
+  //max-width: 260px;
+  //width: 260px;
+  padding: 3px;
+  text-align: center;
+  border: 1px solid #E8E8E8;
+  border-radius: 6px;
+  margin-left: 15px;
+  img {
+    width: 254px;
+  }
+  .triangle {
+    border-color:transparent #E8E8E8 transparent transparent;
+    top: 10px;
+    left: 57px;
+  }
+  .triangle em{
+    border-color:transparent #FFFFFF transparent transparent;
+  }
 }
 .behavior .chatLeft .triangle{
     display:block; 
@@ -257,10 +299,12 @@ li{
 
 .behavior .chatRight{
 	padding-left:90px;
-	padding-bottom:10px;
+  float: right;
+	//padding-bottom:10px;
 }
 .behavior .chatRight .chatContent{
-	width:210px;
+	//width:210px;
+  max-width: 254px;
 	background:#48c2ba;
 	border:1px solid #48c2ba;
 	border-radius:5px;
@@ -270,6 +314,30 @@ li{
 	box-sizing: border-box;
   position:relative;
   word-break:break-all;
+  .linkRoute {
+    color: #fff;
+    text-decoration: underline;
+  }
+}
+.behavior .chatRight .chatContentImg {
+  //max-width: 260px;
+  //width: 260px;
+  text-align: center;
+  padding: 3px;
+  border: 1px solid #E8E8E8;
+  margin-right: 15px;
+  border-radius: 6px;
+  img {
+    width: 254px;
+  }
+  .triangle {
+    border-color:transparent transparent transparent #E8E8E8;
+    top:10px;
+    right:42px;
+  }
+  .triangle em{
+    border-color:transparent transparent transparent #FFFFFF;
+  }
 }
 .behavior .chatRight .triangle{
     display:block; 
@@ -345,6 +413,7 @@ li{
       }
       :global .ant-input{
         resize:none;
+        border-radius: 4px;
       }
     }
   }
@@ -357,9 +426,13 @@ li{
       width:304px;
       font-size:13px;
     }
+    :global .ant-cascader-menu {
+      min-width: 180px;
+    }
   }
   .btn{
     text-align:center;
+    margin-top: 70px;
   }
   .progress{
     width:376px;
@@ -371,6 +444,26 @@ li{
       font-size:12px;
       margin-bottom:0;
       text-align:right;
+    }
+  }
+  .routeQuality {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    span {
+      text-decoration: underline;
+    }
+    img {
+      width: 12px;
+      margin-left: 6px;
+    }
+  }
+}
+// 原因浮层的高度
+.reasontype {
+  :global {
+    .ant-cascader-menu {
+      height: 230px;
     }
   }
 }

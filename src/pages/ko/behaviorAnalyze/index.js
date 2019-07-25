@@ -45,6 +45,13 @@ class behavior extends React.Component {
       }
     }
   }
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'koPlan/saveTabFromParamsPage',
+      payload: { formParams: { } },
+    });
+  }
+
   getInitParams = () => {
     this.props.dispatch({
       type: 'koPlan/pageParams',
@@ -70,7 +77,7 @@ class behavior extends React.Component {
     if (JSON.stringify(params) === '{}') return;
     const { formParams = {}, page, belongApp = 1, ...others } = params;
     const otherParams = { ...others };
-    if (!pageDetailTotal[belongApp].includes(page.actionValue)) return; // 主-页面对应时在发出请求。
+    if (!page || !pageDetailTotal[belongApp].includes(page.actionValue)) return; // 主-页面对应时在发出请求。
     this.props.dispatch({
       type: 'behavior/getSankeyList',
       payload: { params: { belongApp, page: page.actionValue }, formParams, otherParams }

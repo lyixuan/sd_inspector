@@ -20,3 +20,7 @@ export async function getTableList(data) {
 export async function exportData(data) {
   return request('/workbench/export', { method: 'post', data, responseType:'blob',getResponse: true });
 }
+// 工作台 - 获取操作人列表
+export async function getOperatorList(data) {
+  return request('/workbench/getOperatorList', { method: 'post', data });
+}

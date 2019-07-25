@@ -68,6 +68,9 @@ class koPlan extends React.Component {
     this.props.dispatch({
       type: 'koPlan/getUserGroupList'
     });
+    this.props.dispatch({
+      type: 'koPlan/getCurrentTime'
+    });
   }
   onSaveOriginParams = (params = {}) => {
     const { originParams } = this.state;

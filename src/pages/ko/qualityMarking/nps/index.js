@@ -2,15 +2,17 @@ import React from 'react';
 import { Tooltip } from 'antd';
 import { connect } from 'dva/index';
 import { getSubStringValue, jumpMarkingDetails, handleDefaultPickerValueMark } from '../../utils/utils';
+import AuthButton from '@/components/AuthButton';
 import ModalTip from '../components/modalTip';
 import MarkForm from '../components/form';
 import MarkList from '../components/list';
 import styles from '../style.less';
-import AuthButton from '@/components/AuthButton';
-
+import shapecolor from '@/assets/ai/shapecolor.svg'
+import shape from '@/assets/ai/shape.svg';
 
 const markType = 3; //im bbs nps 对应的额type值为1， 2， 3
-@connect(({ workTableModel }) => ({
+const shapeArr = Array.from(Array(5), (v,k) =>k);
+@connect(({ workTableModel, koPlan }) => ({
   workTableModel,
   currentPage: workTableModel.pageParams[markType] || 1,
   searchParams: workTableModel.searchParams[markType] || {},
@@ -19,12 +21,14 @@ const markType = 3; //im bbs nps 对应的额type值为1， 2， 3
   reasonList: workTableModel.reasonList,
   evaluateList: workTableModel.evaluateList,
   idList: workTableModel.idList,
+  operatorList: workTableModel.operatorList,// im bbs nps
+  currentServiceTime: koPlan.currentServiceTime
 }))
 class bbsPage extends React.Component {
   constructor(props) {
     super(props);
-    const { currentPage, searchParams } = this.props;
-    this.state = { searchParams: { choiceTime: handleDefaultPickerValueMark(), ...searchParams }, currentPage };
+    const { currentPage, searchParams, currentServiceTime } = this.props;
+    this.state = { searchParams: { choiceTime: handleDefaultPickerValueMark(2, currentServiceTime), ...searchParams }, currentPage };
   }
 
   columnsData = () => {
@@ -41,9 +45,11 @@ class bbsPage extends React.Component {
         render: text => {
           const content = <div className={styles.behaviorOthers}>{text}</div>;
           return (
-            <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right" title={content}>
-              <span>{getSubStringValue(text)}</span>
-            </Tooltip>
+            <>
+              {text ? <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right" title={content}>
+                <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>
+              </Tooltip> : <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>}
+            </>
           );
         },
       },
@@ -51,19 +57,26 @@ class bbsPage extends React.Component {
         title: '星级',
         dataIndex: 'starLevel',
         key: 'starLevel',
+        render: text => {
+          return (
+            <>
+              {shapeArr.map((item, index) => <img className={styles.shapeMargin} key={index} src={index < Number(text)  ?  shapecolor : shape}/>)}
+            </>
+          )
+        }
       },
       {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: text => getSubStringValue(text, 3)
+        render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'study' })} className={`${styles.textEllipsis} ${styles.textname}`}>{text}</span>
       },
       {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
-        render: text => <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right"
-                                 title={text}><span>{getSubStringValue(text, 6)}</span></Tooltip>,
+        render: text => <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right"
+                                 title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
       },
       {
         title: '操作人',
@@ -117,6 +130,11 @@ class bbsPage extends React.Component {
       payload: { params: { ...searchParams, page: currentPage, type: markType } },
     });
   };
+  changeOperatorId = (key, v) => {
+    this.setState({
+      searchParams: {...this.state.searchParams, [key]: v}
+    });
+  };
 
   render() {
     const { searchParams, currentPage } = this.state;
@@ -125,7 +143,7 @@ class bbsPage extends React.Component {
     return (
       <div>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
-                  onSearchChange={this.onSearchChange}></MarkForm>
+                  onSearchChange={this.onSearchChange} changeOperatorId={this.changeOperatorId}></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
                   columnsData={this.columnsData}>
           <ModalTip markType={markType} othersSearch={others}></ModalTip>

@@ -1,7 +1,8 @@
 import moment from 'moment';
 import { INDEX_PAGE } from '@/utils/constants';
 import config from '../../../../config/config';
-
+import React from 'react';
+import deImg from '@/assets/ai/de.png'
 
 const commitDateFormat = 'YYYY-MM-DD';
 export const handleDateParams = (item) => {
@@ -78,6 +79,7 @@ export function getSubStringValue(v = '', n = 10) { // 多余n个字符显示 n 
   return (v ? v.length : 0) > n ? v.substring(0, n) + '...' : v;
 }
 export function jumpMarkingDetails(id, type) {
+  // alert(id)
   const origin = window.location.origin;
   if (type.target) {
     const url = `${origin}${config.base}ko/behaviorPath`;
@@ -95,10 +97,45 @@ export function jumpMarkingDetails(id, type) {
   }
 
 }
-export function handleDefaultPickerValueMark() {
-  const cTime = new Date().getTime() - 2 * 24 * 60 * 60 * 1000;
-  const defTime = moment(cTime);
+export function handleDefaultPickerValueMark(n = 2, cTime) {
+  cTime = cTime ? moment(cTime) : moment();
+  const defTime = cTime.subtract(n, 'days');
   return [defTime, defTime];
 }
-
-
+export function handleDefaultPickerExamValue(cTime) {
+  cTime = cTime ? moment(cTime) : moment();
+  return [cTime.subtract(1, 'months'), cTime]
+}
+export function handleTNDateValue(n = 1, cTime) {
+  cTime = cTime ? moment(cTime) : moment();
+  return cTime.subtract(n, 'days').format(commitDateFormat)
+}
+export function jumpQualityRoute(path, params) {
+  const parameter = params ? `?params=${encodeURIComponent(JSON.stringify(params))}` : '';
+  const url = `${origin}${config.base}${path}${parameter}`;
+  window.open(url);
+}
+// link route
+export function linkRoute(text, classname) {
+  if (!text) return;
+  const regurl = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+  if(regurl.test(text) && /\.?(pic\.manager|jpg|jpeg|png|GIF|JPG|PNG|bm)/g.test(text)) {
+    return `<a class="${classname}" href="${text}" target="_blank"><img src="${text}" onerror="this.onerror='';this.src='${deImg}';this.style.width='100px'" /></a>`
+  } else {
+    return text.replace(regurl, (c) => `<a class="${classname}" href="${c}" target="_blank">${c}</a>`);
+  }
+}
+// link img
+export function linkImgRouteBul(text) {
+  const regurl = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+  const bul = regurl.test(text) && /\.?(pic\.manager|jpg|jpeg|png|GIF|JPG|PNG|bm)/g.test(text);
+  return bul;
+}
+// 浮点乘法
+export function accMul(arg1,arg2) {
+  if(!arg1) return '0.00%';
+  var m=0,s1=arg1.toString(),s2=arg2.toString();
+  try{m+=s1.split(".")[1].length}catch(e){}
+  try{m+=s2.split(".")[1].length}catch(e){}
+  return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+}

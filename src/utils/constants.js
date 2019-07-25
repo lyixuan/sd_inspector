@@ -10,7 +10,7 @@ export const ADMIN_AUTH = 'admin_auth';
 export const ADMIN_USER = 'admin_user';
 
 export const DEBUGGER_USER = {
-  localhost: 'zhanglulu02',
+  localhost: 'dengjinglei',
 }[process.env.LOGIN_TYPE];
 
 // 静态文件host
@@ -26,7 +26,6 @@ export const SERVER_HOST = {
   development2: 'http://test.xd.admin.quality.ministudy.com',
 }[process.env.LOGIN_TYPE]
 
-
 export const CAS_HOST = {
   localhost: 'http://test.xd.admin.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
@@ -41,7 +40,8 @@ export const PROXY_PATH = (isOld) => {return isOld ?'':'/inspectorapis'};
 
 // 登录页面地址配置
 export const LOGIN_URL = {
-  development: 'http://test.xd.admin.ministudy.com',
+  // development: 'http://test.xd.admin.ministudy.com',
+  development: 'http://test.xd-copy.admin.ministudy.com',
   production: 'http://bd.ministudy.com',
 }[process.env.PROXY_ENV];
 
@@ -369,7 +369,8 @@ export const UNIT_DATE = [
 ];
 
 // 空ContentLayout页面名单
-export const EmptyContentLayout = [{ path: '/ko', name: 'KO计划' }];
+export const EmptyContentLayout = [{ path: '/ko', name: 'KO计划' }, { path: '/qualityMarking', name: '质检标注' },
+  { path: '/qualityReport', name: '质检图表'}];
 // 应用类型
 export const APP_LIST = [
   { id: '1', name: '极速版App' }

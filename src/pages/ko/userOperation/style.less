@@ -39,5 +39,17 @@
 .pager{
   padding-top:50px;
 }
-
+.tableInput::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  font-size: 12px;
+}
+.tableDis {
+  :global {
+    .ant-input[disabled] {
+      cursor: pointer;
+    }
+    .ant-input-disabled {
+      cursor: pointer;
+    }
+  }
+}
 

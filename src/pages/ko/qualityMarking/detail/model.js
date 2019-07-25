@@ -8,12 +8,24 @@ import {
   getIdList
 } from './services';
 
+function setLifeCycle(pageData, ordId) {
+  let lifeCycle = ''
+  pageData && pageData.result.ordIdList.map(item => {
+    if (item.ordId == ordId) {
+      lifeCycle = item.lifeCycle
+    } else {
+      return ' '
+    }
+  })
+  return lifeCycle
+}
+
 export default {
   namespace: 'AiDetail',
 
   state: {
-    consultTypeTree: null,
-    reasonTypeTree: null,
+    consultTypeTree: [],
+    reasonTypeTree: [],
     pageData: null,
     submitParam: {
       // ordId: undefined,
@@ -79,7 +91,8 @@ export default {
           evaluationFlag: pageData.result.evaluationFlag ? 2 : 1,
           evaluationNature: pageData.result.evaluationNature,
           remark: pageData.result.remark,
-          resultId: pageData.result.resultId
+          resultId: pageData.result.resultId,
+          lifeCycle: setLifeCycle(pageData, ordId),
         }
         if (callback) {
           callback(submitParam)

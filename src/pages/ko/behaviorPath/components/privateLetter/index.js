@@ -5,6 +5,7 @@ import styles from '../../style.less';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import Pager from '../pager/pager.js';
+import { linkImgRouteBul, linkRoute } from '@/pages/ko/utils/utils';
 
 // 日期条
 function DateBar(props) {
@@ -110,11 +111,12 @@ function TeacherOrStudent(props) {
               <img src={avatarStudent} />
               <p>{props.item.userName}</p>
             </div>
-            <div className={styles.chatContent}>
+            <div className={linkImgRouteBul(props.item.message) ? styles.chatContentImg : styles.chatContent}>
               <span className={styles.triangle}>
                 <em />
               </span>
-              {props.item.message}
+              {/*{props.item.message}*/}
+              <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.message, styles.linkRoute) }}></span>
             </div>
           </div>
         </div>
@@ -131,11 +133,12 @@ function TeacherOrStudent(props) {
             <span className={styles.dot} />
           </div>
           <div className={styles.chatRight}>
-            <div className={styles.chatContent}>
+            <div className={linkImgRouteBul(props.item.message) ? styles.chatContentImg : styles.chatContent}>
               <span className={styles.triangle}>
                 <em />
               </span>
-              {props.item.message}
+              <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.message, styles.linkRoute) }}></span>
+              {/*{props.item.message}*/}
             </div>
             <div className={styles.avatar}>
               <img src={avatarTeacher} />

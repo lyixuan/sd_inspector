@@ -28,7 +28,7 @@ class userOperation extends React.Component {
   componentDidMount() {
     this.getInitData({ pageSize: this.state.pageSize, page: this.state.page });
   }
-  getInitData = (params) => {
+  getInitData = (params = { pageSize: this.state.pageSize, page: this.state.page }) => {
     this.props.dispatch({
       type: 'userOperation/userGroupList',
       payload: { params: params },
@@ -51,7 +51,7 @@ class userOperation extends React.Component {
   }
 
   render() {
-    const tableList = this.props.userOperation.userGroupList
+    const tableList = this.props.userOperation.userGroupList;
     return (
       <div className={styles.userOperation}>
         <div className={styles.headBar}>用户运营</div>
@@ -61,7 +61,7 @@ class userOperation extends React.Component {
         <div className={styles.contentArea}>
           <Spin spinning={this.props.isLoading}>
             {
-              <InitTable list={tableList} />
+              <InitTable getInitData={this.getInitData} list={tableList} />
             }
           </Spin>
 

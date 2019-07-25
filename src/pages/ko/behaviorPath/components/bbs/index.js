@@ -3,6 +3,7 @@ import { Icon, Empty, Spin } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
 import Pager from '../pager/pager.js';
+import { linkRoute } from '@/pages/ko/utils/utils';
 
 
 
@@ -51,10 +52,22 @@ class EachItem extends React.Component {
     if (l <= n) return str;
     return str.slice(0, l - (l - 100)) + "...";
   }
+  getContent = (text) => {
+    if (!text) return
+    let { expand } = this.state;
+    const content = expand ? linkRoute(this.processStr(text, 100), styles.linkRoute) : linkRoute(text, styles.linkRoute)
+    return (
+      <div className={styles.postBody}>
+        <span dangerouslySetInnerHTML={{ __html: content }}></span>
+        {text.length > 100 ? <span className={styles.toggle} onClick={this.toggleSession}>
+          {!expand ? '收起' : '展开'} <Icon type={!expand ? 'up' : 'down'} /></span> : null}
+      </div>
+    )
+  }
 
   render() {
-    let props = this.props.item
-    let { expand } = this.state
+    let props = this.props.item;
+    let { expand } = this.state;
     return (
       <li className={styles.step}>
         <div className={styles.time}>{props.countDate ? props.countDate.split(" ")[1] : ''}</div>
@@ -64,45 +77,48 @@ class EachItem extends React.Component {
           </div>
           <div className={styles.post}>
             <p className={styles.postHead}>{sessionType(props.postType)}</p>
-            {
-              props.replayPostContent ? (
-                <div className={styles.postBody}>
-                  {
-                    expand ? this.processStr(props.replayPostContent, 100) : props.replayPostContent
-                  }
-                  {
-                    props.replayPostContent.length > 100 ? <span className={styles.toggle} onClick={this.toggleSession}>{!expand ? '收起' : '展开'} <Icon type={!expand ? 'up' : 'down'} /></span> : null
-                  }
+            {this.getContent(props.replayPostContent)}
+            {this.getContent(props.slavePostContent)}
+            {this.getContent(props.masterPostContent)}
+            {/*{*/}
+            {/*  props.replayPostContent ? (*/}
+            {/*    <div className={styles.postBody}>*/}
+            {/*      {*/}
+            {/*        expand ? this.processStr(props.replayPostContent, 100) : props.replayPostContent*/}
+            {/*      }*/}
+            {/*      {*/}
+            {/*        props.replayPostContent.length > 100 ? <span className={styles.toggle} onClick={this.toggleSession}>{!expand ? '收起' : '展开'} <Icon type={!expand ? 'up' : 'down'} /></span> : null*/}
+            {/*      }*/}
 
-                </div>
-              ) : null
-            }
-            {
-              props.slavePostContent ? (
-                <div className={styles.postBody}>
-                  {
-                    expand ? this.processStr(props.slavePostContent, 100) : props.slavePostContent
-                  }
-                  {
-                    props.slavePostContent.length > 100 ? <span className={styles.toggle} onClick={this.toggleSession}>{!expand ? '收起' : '展开'} <Icon type={!expand ? 'up' : 'down'} /></span> : null
-                  }
+            {/*    </div>*/}
+            {/*  ) : null*/}
+            {/*}*/}
+            {/*{*/}
+            {/*  props.slavePostContent ? (*/}
+            {/*    <div className={styles.postBody}>*/}
+            {/*      {*/}
+            {/*        expand ? this.processStr(props.slavePostContent, 100) : props.slavePostContent*/}
+            {/*      }*/}
+            {/*      {*/}
+            {/*        props.slavePostContent.length > 100 ? <span className={styles.toggle} onClick={this.toggleSession}>{!expand ? '收起' : '展开'} <Icon type={!expand ? 'up' : 'down'} /></span> : null*/}
+            {/*      }*/}
 
-                </div>
-              ) : null
-            }
-            {
-              props.masterPostContent ? (
-                <div className={styles.postBody}>
-                  {
-                    expand ? this.processStr(props.masterPostContent, 100) : props.masterPostContent
-                  }
-                  {
-                    props.masterPostContent.length > 100 ? <span className={styles.toggle} onClick={this.toggleSession}>{!expand ? '收起' : '展开'} <Icon type={!expand ? 'up' : 'down'} /></span> : null
-                  }
+            {/*    </div>*/}
+            {/*  ) : null*/}
+            {/*}*/}
+            {/*{*/}
+            {/*  props.masterPostContent ? (*/}
+            {/*    <div className={styles.postBody}>*/}
+            {/*      {*/}
+            {/*        expand ? this.processStr(props.masterPostContent, 100) : props.masterPostContent*/}
+            {/*      }*/}
+            {/*      {*/}
+            {/*        props.masterPostContent.length > 100 ? <span className={styles.toggle} onClick={this.toggleSession}>{!expand ? '收起' : '展开'} <Icon type={!expand ? 'up' : 'down'} /></span> : null*/}
+            {/*      }*/}
 
-                </div>
-              ) : null
-            }
+            {/*    </div>*/}
+            {/*  ) : null*/}
+            {/*}*/}
           </div>
         </div>
       </li>

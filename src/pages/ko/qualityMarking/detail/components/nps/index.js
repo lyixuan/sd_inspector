@@ -3,9 +3,10 @@ import copy from 'copy-to-clipboard';
 import { Icon } from 'antd';
 import { connect } from 'dva';
 import styles from '../../style.less';
+import { jumpMarkingDetails } from '@/pages/ko/utils/utils';
 
 function TagList(props) {
-  if (props.list.length < 1) {
+  if (props.list && props.list instanceof Array &&props.list.length < 1) {
     return null;
   }
   const li = props.list.map((item, index) =>
@@ -39,6 +40,9 @@ class DetailNps extends React.Component {
     copy(e.target.value)
     alert('复制成功', 1)
   }
+  handleNameClick = (id) => {
+    jumpMarkingDetails(id, { target: 'study' })
+  }
 
   render() {
     const { item } = this.props.pageData
@@ -48,7 +52,7 @@ class DetailNps extends React.Component {
           <li className={styles.flex}>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员姓名：</span>
-              <span className={styles.name}>{item.stuName}</span>
+              <span className={styles.name + " " + styles.nameCurrent} onClick={() => this.handleNameClick(item.stuId)}>{item.stuName}</span>
             </div>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员id：</span>

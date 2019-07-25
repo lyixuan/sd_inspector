@@ -216,7 +216,7 @@ export const routes = [
             component: './ko/behaviorPath',
             name: '用户行为轨迹',
           },
-        ]
+        ],
       },
       {
         path: '/koUserData',
@@ -230,7 +230,7 @@ export const routes = [
             name: '用户查询',
             commonPath: true,   // 继承父页面
           },
-        ]
+        ],
       },
       {
         path: '/koUserOperation',
@@ -271,6 +271,7 @@ export const routes = [
           {
             path: '/qualityMarking/detail',
             component: './ko/qualityMarking/detail',
+            name: '质检标注'
           }
         ],
       },
@@ -284,14 +285,17 @@ export const routes = [
             path: '/qualityMarking/im',
             component: './ko/qualityMarking/im',
             commonPath: true,   // 继承父页面
+            name: 'IM会话标注',
           }, {
             path: '/qualityMarking/bbs',
             component: './ko/qualityMarking/bbs',
             commonPath: true,   // 继承父页面
+            name: 'BBS标注',
           }, {
             path: '/qualityMarking/nps',
             component: './ko/qualityMarking/nps',
             commonPath: true,   // 继承父页面
+            name: 'NPS标注',
           }
         ]
       },
@@ -371,6 +375,29 @@ export const routes = [
               name: '结案申诉',
               path: '/scoreAppeal/finishAppeal',
             },
+          },
+        ],
+      },
+      {
+        path: '/entrancePlatform',
+        name: '报考督学平台',
+        pageRedirect: '/entrancePlatform/statistics',
+        routes: [
+          {
+            path: '/entrancePlatform/statistics',
+            component: './ko/entrancePlatform',
+          },
+        ],
+      },
+      {
+        path: '/qualityReport',
+        name: '质检图表',
+        pageRedirect: '/qualityReport/data',
+        routes: [
+          {
+            path: '/qualityReport/data',
+            component: './ko/qualityReport',
+            name: '质检图表',
           },
         ],
       },

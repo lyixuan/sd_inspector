@@ -27,3 +27,7 @@ export async function getUserGroupList(params) {
   return request('/userGroup/listAll', { method: 'get', params });
 }
 
+// 获取服务器当前时间
+export async function getCurrentTime(params) {
+  return request('/common/getCurrentTime', { method: 'get', params });
+}

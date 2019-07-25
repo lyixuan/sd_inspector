@@ -1,16 +1,22 @@
 import React from 'react';
-import { Tooltip } from 'antd';
+import { Tooltip, Row, Col } from 'antd';
 // import router from 'umi/router';
 import { connect } from 'dva/index';
-import { pathImUrl, getSubStringValue, jumpMarkingDetails } from '../../utils/utils';
+import {
+  handleDefaultPickerValueMark,
+  pathImUrl,
+  getSubStringValue,
+  jumpMarkingDetails,
+  linkRoute, linkImgRouteBul,
+} from '@/pages/ko/utils/utils';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
+import AuthButton from '@/components/AuthButton';
 import ModalTip from '../components/modalTip';
 import MarkForm from '../components/form';
 import MarkList from '../components/list';
 import styles from '../style.less';
-import { handleDefaultPickerValueMark } from '@/pages/ko/utils/utils';
-import AuthButton from '@/components/AuthButton';
+
 
 const markType = 1; //im bbs nps 对应的额type值为1， 2， 3
 // 悬浮列表
@@ -49,11 +55,12 @@ function TeacherOrStudent(props) {
               <img src={props.dataMark.stuHeadUrl ? (pathImUrl + props.dataMark.stuHeadUrl) : avatarStudent}/>
               <p>{getSubStringValue(props.dataMark.stuName, 3)}</p>
             </div>
-            <div className={styles.chatContent}>
+            <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent}>
               <span className={styles.triangle}>
                 <em/>
               </span>
-              {props.item.content}
+              {/*{props.item.content}*/}
+              <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.content, styles.linkRoute) }}></span>
             </div>
           </div>
         </div>
@@ -70,11 +77,12 @@ function TeacherOrStudent(props) {
             <span className={styles.dot}/>
           </div>
           <div className={styles.chatRight}>
-            <div className={styles.chatContent}>
+            <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent}>
               <span className={styles.triangle}>
                 <em/>
               </span>
-              {props.item.content}
+              {/*{props.item.content}*/}
+              <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.content, styles.linkRoute) }}></span>
             </div>
             <div className={styles.avatar}>
               <img src={props.dataMark.teacherHeadUrl ? (pathImUrl + props.dataMark.teacherHeadUrl) : avatarTeacher}/>
@@ -87,20 +95,22 @@ function TeacherOrStudent(props) {
   }
 }
 
-@connect(({ workTableModel }) => ({
+@connect(({ workTableModel, koPlan }) => ({
   workTableModel,
   currentPage: workTableModel.pageParams[markType],
   searchParams: workTableModel.searchParams[markType] || {},
   collegeList: workTableModel.collegeList,// bbs nps
   consultList: [{ id: 0, name: '空' }].concat(workTableModel.consultList),// im
-  reasonList: workTableModel.reasonList,// im bbs nps
+  reasonList: workTableModel.reasonList,// im
+  operatorList: workTableModel.operatorList,// im bbs nps
   idList: workTableModel.idList,
+  currentServiceTime: koPlan.currentServiceTime
 }))
 class imPage extends React.Component {
   constructor(props) {
     super(props);
-    const { currentPage, searchParams } = this.props;
-    this.state = { searchParams: { choiceTime: handleDefaultPickerValueMark(), ...searchParams }, currentPage };
+    const { currentPage, searchParams, currentServiceTime } = this.props;
+    this.state = { searchParams: { choiceTime: handleDefaultPickerValueMark(2, currentServiceTime), ...searchParams }, currentPage };
   }
 
   columnsData = () => {
@@ -114,12 +124,14 @@ class imPage extends React.Component {
         title: '内容',
         dataIndex: 'contentList',
         key: 'contentList',
+        width: 130,
+        className: styles.contentListWith,
         render: (list, r) => {
           const content = list.length > 0 ? <Layout dataMark={r}></Layout> : r.content;
           const text = list.length > 0 ? list[0].content : '';
           return (
-            <Tooltip overlayClassName="listMarkingTooltip" placement="right" title={content}>
-              <span>{getSubStringValue(text)}</span>
+            <Tooltip overlayClassName={styles.listMarkingTooltip} placement="right" title={content}>
+              <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>
             </Tooltip>
           );
         },
@@ -128,14 +140,14 @@ class imPage extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: text => getSubStringValue(text, 3),
+        render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'im' })} className={`${styles.textEllipsis} ${styles.textname}`}>{text}</span>,
       },
       {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
-        render: text => <Tooltip overlayClassName="listMarkingTooltipOthers" placement="right"
-                                 title={text}><span>{getSubStringValue(text, 6)}</span></Tooltip>,
+        render: text => <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right"
+                                 title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
       },
       {
         title: '操作人',
@@ -195,6 +207,11 @@ class imPage extends React.Component {
       payload: { params: { ...searchParams, page: currentPage, type: markType } },
     });
   };
+  changeOperatorId = (key, v) => {
+    this.setState({
+      searchParams: {...this.state.searchParams, [key]: v}
+    });
+  };
 
   render() {
     const { searchParams, currentPage } = this.state;
@@ -203,7 +220,7 @@ class imPage extends React.Component {
     return (
       <div>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
-                  onSearchChange={this.onSearchChange}></MarkForm>
+                  onSearchChange={this.onSearchChange} changeOperatorId={this.changeOperatorId}></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
                   columnsData={this.columnsData}>
           <ModalTip markType={markType} othersSearch={others}></ModalTip>

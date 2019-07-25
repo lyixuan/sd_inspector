@@ -12,13 +12,14 @@ export const seriesConfig = {
   lineStyle: {
     normal: {   // 流量样式
       color: 'source',
-      curveness: 0.5
+      curveness: 0.5,
+      opacity: 0.4,
     }
   },
   itemStyle: {
     normal: {    // 节点样式
       borderWidth: 1,
-      borderColor: '#000'
+      borderColor: '#000',
     }
   },
 };

@@ -1,14 +1,16 @@
 import React from 'react';
-import { Input, Progress, Cascader } from 'antd';
+import { Input, Progress, Cascader, Button } from 'antd';
 import { connect } from 'dva';
 import BIModal from '@/ant_components/BIModal';
 import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect/formSelect';
 import BICascader from '@/ant_components/BICascader/FormCascader';
 import BIRadio from '@/ant_components/BIRadio';
+import create from '@/assets/ai/create.png'
+import btnStyles from '../../../entrancePlatform/btnstyles.less'
 import styles from '../style.less';
 import router from 'umi/router';
-import config from '@/../config/config';
+import { Link } from 'dva/router';
 
 const { TextArea } = Input;
 const { Option } = BISelect;
@@ -27,25 +29,22 @@ class DataClassfy extends React.Component {
     console.log(27, this.props.id)
     this.state = {
       // id: props.id,
-      currentId: 0,
       // idList: this.props.idList,
+      // nextId: null,
+      // tabType: 'im',
+      // percent: 0,
+      // currentId: 0,
       submitParam: this.props.submitParam,
-      nextId: null,
       visible: false,
-      tabType: 'im',
-      percent: 0,
-      evaluationNature: this.props.submitParam && this.props.submitParam.evaluationNature ? this.props.submitParam.evaluationNature : ''
+      evaluationNature: this.props.submitParam && this.props.submitParam.evaluationNature ? this.props.submitParam.evaluationNature : '',
+      action: '' // // action 1-上一条  2-下一条 3-跳过
     };
 
-  }
-  componentDidMount() {
-    console.log(42, this.props.pageData)
   }
   setOrg = () => {
     let org = ''
     this.props.pageData && this.props.pageData.result.ordIdList.map(item => {
       if (item.ordId == this.state.submitParam.ordId) {
-        console.log(48, item)
         org = item.org
       } else {
         return ' '
@@ -129,72 +128,68 @@ class DataClassfy extends React.Component {
       submitParam: { ...this.state.submitParam, remark: e.target.value },
     })
   };
-  submit = () => {
-    console.log(113, this.props.id)
-    // if (this.props.id) {
-    //   this.setState({
-    //     visible: true
-    //   })
-    //   return;
-    // }
+  submit = (action) => { // action 1-上一条  2-下一条 3-跳过
     if (this.state.submitParam.evaluationFlag == 1) {
       this.state.submitParam.evaluationFlag = false;
     } else {
       this.state.submitParam.evaluationFlag = true;
     }
-    let params = {
-      type: this.props.type,
-      itemId: this.props.pageData.item.itemId,
-      result: this.state.submitParam,
-    };
-    if (this.props.type == 1) {
-      this.setState({
-        tabType: 'im'
-      })
-    } else if (this.props.type == 2) {
-      this.setState({
-        tabType: 'bbs'
-      })
-    } else {
-      this.setState({
-        tabType: 'nps'
-      })
+    this.setState({ action });
+
+
+    // if (this.props.type == 1) {
+    //   this.setState({
+    //     tabType: 'im'
+    //   })
+    // } else if (this.props.type == 2) {
+    //   this.setState({
+    //     tabType: 'bbs'
+    //   })
+    // } else {
+    //   this.setState({
+    //     tabType: 'nps'
+    //   })
+    // }
+    if (action === 2) { // 提交, 下一条，提交数据后请求上或下一条的详情
+      let params = {
+        type: this.props.type,
+        itemId: this.props.pageData.item.itemId,
+        result: this.state.submitParam,
+      };
+      this.props.computedIdNew(() => {
+        this.props.dispatch({
+          type: 'AiDetail/submit',
+          payload: { params: params },
+          callback: () => {
+            this.detailEditData();
+          }
+        });
+      }, action);
+    } else { // 上一条 跳过不提交，请求下一条的详情
+      this.props.computedIdNew(this.detailEditData, action);
     }
-    this.props.computedIdNew(() => {
-      const strParams = JSON.stringify({ type: { ...this.props.params }, id: this.props.id });
-      const url = `/qualityMarking/detail`;
-      this.props.dispatch({
-        type: 'AiDetail/submit',
-        payload: { params: params },
-        callback: () => {
-          router.push({
-            pathname: url,
-            query: { params: strParams }
-          });
-          let obj = {
-            type: this.props.type,
-            id: this.props.id,
-          }
-          if (!this.props.id) {
-            this.setState({
-              visible: true
-            })
-            return;
-          }
-          this.props.dispatch({
-            type: 'AiDetail/edit',
-            payload: { params: obj },
-            callback: (submitParam) => {
-              this.setState({
-                submitParam: { ...submitParam }
-              })
-            }
-          })
-        }
+  }
+  detailEditData = () => { // 请求详情数据
+    const { id, type, params } = this.props;
+    if (!id) {
+      this.setState({ // 按钮状态标志
+        visible: true
       });
+      return;
+    }
+    router.push({
+      pathname: '/qualityMarking/detail',
+      query: { params: JSON.stringify({ type: params, id}) }
     });
-
-
+    this.props.dispatch({
+      type: 'AiDetail/edit',
+      payload: { params: {id, type} },
+      callback: (submitParam) => {
+        this.setState({
+          submitParam: { ...submitParam }
+        })
+      }
+    })
   }
   handleCancel = () => {
     this.setState({
@@ -202,17 +197,20 @@ class DataClassfy extends React.Component {
     })
   }
   handleOk = () => {
+    const { type } = this.props;
+    const tabType = type == 3 ? 'nps' : (type == 2 ? 'bbs' : 'im');
     router.push({
-      pathname: `/qualityMarking/${this.state.tabType}`,
+      pathname: `/qualityMarking/${tabType}`,
     });
   }
 
   render() {
     let { consultTypeTree, reasonTypeTree, idList } = this.props.AiDetail;
-    let { type, isLoading, pageData } = this.props
-    let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: -100, org: '' }]
-    const currentId = this.props.idList.indexOf(this.props.id) + 1
-    const percent = currentId / this.props.idList.length * 100
+    let { type, isLoading, pageData } = this.props;
+    let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: -100, org: '' }];
+    const currentId = this.props.idList.indexOf(this.props.id) + 1;
+    const percent = currentId / this.props.idList.length * 100;
+    const { visible, action } = this.state;
     return (
       <>
         <div className={styles.consultContent}>
@@ -223,13 +221,11 @@ class DataClassfy extends React.Component {
                   <li>
                     <label>选择订单：</label>
                     <div className={styles.selects}>
-
-
-                      <BISelect style={{ width: '100%' }} value={this.state.submitParam.ordId} placeholder="请选择" onChange={(val) => { this.orderChange(val) }}>
+                      {orderList instanceof Array && orderList.length > 0 ? <BISelect style={{ width: '100%' }} value={this.state.submitParam.ordId} placeholder="请选择" onChange={(val) => { this.orderChange(val) }}>
                         {orderList.map(item => (
                           <Option key={item.ordId}>{item.ordId}</Option>)
                         )}
-                      </BISelect>
+                      </BISelect> : '--'}
                     </div>
                   </li>
                   <li>
@@ -276,7 +272,9 @@ class DataClassfy extends React.Component {
                       options={consultTypeTree}
                       value={this.state.submitParam.consultTypeIdList}
                       onChange={this.onChangeConsult}
-                      placeholder="请选择" />
+                      placeholder="请选择"
+                      popupClassName={styles.reasontype}
+                    />
                   </div>
                 </li>
                 : null
@@ -290,7 +288,9 @@ class DataClassfy extends React.Component {
                   options={reasonTypeTree}
                   onChange={this.onChangeReson}
                   value={this.state.submitParam.reasonTypeIdList}
-                  placeholder="请选择" />
+                  placeholder="请选择"
+                  popupClassName={styles.reasontype}
+                />
               </div>
             </li>
             <li>
@@ -305,6 +305,9 @@ class DataClassfy extends React.Component {
                     <BIRadio.Radio value={1}>否</BIRadio.Radio>
                     <BIRadio.Radio value={2}>是</BIRadio.Radio>
                   </BIRadio>
+                  {this.state.submitParam.evaluationFlag === 2 && <Link className={styles.routeQuality} to={'/qualityAppeal/qualityNewSheet/create'} target="_blank">
+                    <span>创建质检单</span>
+                    <img src={create} alt=""/></Link>}
                 </li>
                 : null
             }
@@ -321,9 +324,15 @@ class DataClassfy extends React.Component {
             </li>
           </ul>
           <div className={styles.btn}>
-            <BIButton type="primary" onClick={this.submit} loading={isLoading}>
+            <Button className={btnStyles.btnWhite} disabled={currentId === 1} onClick={() => this.submit(1)} loading={isLoading && action === 1}>
+              上一条
+            </Button>
+            <Button className={btnStyles.btnPrimary} style={{margin: '0 8px'}} onClick={() => this.submit(2)} loading={isLoading && action === 2}>
               提交，下一条
-            </BIButton>
+            </Button>
+            <Button className={btnStyles.btnYellow} onClick={() => this.submit(3)}>
+              {'跳'}{'过'}
+            </Button>
           </div>
           <div className={styles.progress}>
             <p className={styles.number}>{currentId}/{idList ? idList.length : 1}</p>
@@ -331,7 +340,7 @@ class DataClassfy extends React.Component {
           </div>
         </div>
         <BIModal
-          visible={this.state.visible}
+          visible={visible}
           onOk={() => this.state.handleOk()}
           onCancel={this.handleCancel}
           closable={false}

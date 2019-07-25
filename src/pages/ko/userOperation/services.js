@@ -15,3 +15,8 @@ export async function userGroupEdit(data) {
 export async function userGroupDelete(data) {
   return request('/userGroup/delete', { method: 'post', data });
 }
+
+// 用户组更新
+export async function userGroupUpdate(data) {
+  return request('/userGroup/update', { method: 'post', data });
+}
