@@ -98,7 +98,7 @@ class AppealCheck extends React.Component {
     const {query={}} = this.props.location;
     const newQuery = {};
     newQuery.id = Number(newId);
-    newQuery.dimensionId = Number(metaDimensionId); // 获取详情用id
+    newQuery.dimensionId = metaDimensionId; // 获取详情用id
     newQuery.creditType=Number(creditType);
     newQuery.creditDate=creditDate;
     router.replace({
