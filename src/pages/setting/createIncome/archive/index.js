@@ -3,9 +3,16 @@ import { Table } from 'antd';
 import styles from './style.less';
 import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect';
+import moment from 'moment';
 
 const { Option } = BISelect;
 class Archive extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      changeValue: '',
+    };
+  }
   columnsData = () => {
     const columns = [
       {
@@ -38,6 +45,22 @@ class Archive extends React.Component {
     ];
     return columns;
   };
+
+  // 存档
+  handleArchive = () => {
+    // 请求
+    const { changeValue } = this.state;
+    const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    const user = localStorage.getItem('admin_user') && JSON.parse(localStorage.getItem('admin_user')).userName;
+    console.log(currentTime, changeValue, user);
+  };
+
+  // 获取绩效包周期
+  formValChange = (val, key) => {
+    this.setState({
+      changeValue: '2019-08-29至2019-09-28',
+    });
+  };
   render() {
     const dataSource = [
       {
@@ -64,14 +87,15 @@ class Archive extends React.Component {
               placeholder="学院"
               style={{ width: 190, margin: '0 30px 0 10px' }}
               labelInValue
-              onChange={val => this.formValChange(val, 'collegeId')}
+              onChange={val => this.formValChange(val)}
             >
               <Option key={1}>1</Option>
+              <Option key={2}>3</Option>
             </BISelect>
-            <BIButton onClick={this.handleCancel} style={{ padding: '0 25px', marginRight: 10 }}>
+            <BIButton onClick={this.handleArchive} style={{ padding: '0 25px', marginRight: 10 }}>
               存档
             </BIButton>
-            <BIButton type="primary" onClick={this.handleSubmitSop}>
+            <BIButton type="primary" onClick={this.handleArchiveStop}>
               取消存档
             </BIButton>
           </div>
