@@ -401,6 +401,18 @@ export const routes = [
           },
         ],
       },
+      {
+        path: '/setting',
+        component: './setting/createIncome',
+        name: '配置',
+        routes: [
+          {
+            path: '/setting/createIncome',
+            component: './setting/createIncome',
+            name: '创收绩效管理',
+          },
+        ],
+      },
     ],
   },
 ];
