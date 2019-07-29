@@ -23,16 +23,6 @@ export default {
       }
     },
 
-    // 获取创收绩效存档包内容
-    *getArchiveList({ payload }, { call, put }) {
-      const result = yield call(getArchiveList);
-      if (result.code === 20000) {
-        const { list: archiveList } = result.data;
-        yield put({ type: 'save', payload: { getArchiveList } });
-      } else {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
     // 获取绩效时间管理
     *getTimeRange({ payload }, { call, put }) {
       console.log(1232)
