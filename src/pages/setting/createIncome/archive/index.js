@@ -11,6 +11,7 @@ class Archive extends React.Component {
     super(props);
     this.state = {
       changeValue: '',
+      disabled: true,
     };
   }
   columnsData = () => {
@@ -48,20 +49,26 @@ class Archive extends React.Component {
 
   // 存档
   handleArchive = () => {
+    const { disabled } = this.state;
+    if (disabled) return;
     // 请求
     const { changeValue } = this.state;
     const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-    const user = localStorage.getItem('admin_user') && JSON.parse(localStorage.getItem('admin_user')).userName;
+    const user =
+      localStorage.getItem('admin_user') && JSON.parse(localStorage.getItem('admin_user')).userName;
     console.log(currentTime, changeValue, user);
+    this.setState({ disabled: true });
   };
 
   // 获取绩效包周期
   formValChange = (val, key) => {
     this.setState({
       changeValue: '2019-08-29至2019-09-28',
+      disabled: false,
     });
   };
   render() {
+    const { disabled } = this.state;
     const dataSource = [
       {
         key: '1',
@@ -84,7 +91,7 @@ class Archive extends React.Component {
           <div>
             <span>需存档的绩效包:</span>
             <BISelect
-              placeholder="学院"
+              placeholder="清选择绩效月"
               style={{ width: 190, margin: '0 30px 0 10px' }}
               labelInValue
               onChange={val => this.formValChange(val)}
@@ -92,7 +99,12 @@ class Archive extends React.Component {
               <Option key={1}>1</Option>
               <Option key={2}>3</Option>
             </BISelect>
-            <BIButton onClick={this.handleArchive} style={{ padding: '0 25px', marginRight: 10 }}>
+            <BIButton
+              disabled={disabled}
+              type="primary"
+              onClick={this.handleArchive}
+              style={{ padding: '0 25px', marginRight: 10 }}
+            >
               存档
             </BIButton>
             <BIButton type="primary" onClick={this.handleArchiveStop}>
