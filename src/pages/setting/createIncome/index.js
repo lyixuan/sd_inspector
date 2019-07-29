@@ -3,14 +3,15 @@ import { connect } from 'dva';
 import { Spin } from 'antd';
 import TimeManage from '../createIncome/timeManage';
 import Archive from '../createIncome/archive';
+import styles from './style.less';
 
 // @connect(({ loading }) => ({
 //   loading: loading.models.examOrg,
 // }))
-class AppealCheck extends React.Component {
+class CreateIncome extends React.Component {
   render() {
     return (
-      <div>
+      <div className={styles.createIncomeWrap}>
         <TimeManage />
         <Archive />
       </div>
@@ -18,4 +19,4 @@ class AppealCheck extends React.Component {
   }
 }
 
-export default AppealCheck;
+export default CreateIncome;
