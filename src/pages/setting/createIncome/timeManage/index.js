@@ -6,12 +6,12 @@ import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect';
 import style from './style.less';
 import { BiFilter } from '@/utils/utils';
+import moment from 'moment/moment';
 
 const { Option } = BISelect;
 
-@connect(({ timeManage, loading }) => ({
-  timeManage,
-  loading: loading.models.examOrg,
+@connect(({ createIncome }) => ({
+  createIncome
 }))
 class TimeManage extends React.Component {
   constructor(props) {
@@ -25,28 +25,34 @@ class TimeManage extends React.Component {
 
   componentDidMount() {
     this.props.dispatch({
-      type: 'timeManage/getTimeRange',
+      type: 'createIncome/getTimeRange',
       payload: { params: {} },
     });
   }
-  onFormChange = (value, vname) => {
-    this.setState({
-      [vname]: value,
+  onTimeChange = (value, vname) => {
+    console.log(vname)
+    this.props.dispatch({
+      type: 'createIncome/saveTime',
+      payload: { [vname]:value },
     });
   };
 
   render() {
-    const {beginDate,endDate} = this.props.timeManage||{};
+    const {startDate,endDate} = this.props.createIncome||{};
     const {dayDownload,monthDownload} = this.state;
     return (
       <Spin spinning={false}>
         <div className={style.box}>
           <div className={style.title}>创收绩效时间管理</div>
           <div className={style.line}><span>开始日期：</span>
-            <BIDatePicker style={{ width: 230 }} onChange={(val, valStr) => this.onFormChange(valStr, 'beginDate')}/>
+            <BIDatePicker style={{ width: 230 }}
+                          value={startDate?moment(startDate):undefined}
+                          onChange={(val, valStr) => this.onTimeChange(valStr, 'startDate')}/>
           </div>
           <div className={style.line}><span>结束日期：</span>
-            <BIDatePicker style={{ width: 230 }} onChange={(val, valStr) => this.onFormChange(valStr, 'endDate')}/>&nbsp;&nbsp;
+            <BIDatePicker style={{ width: 230 }}
+                          value={endDate?moment(endDate):undefined}
+                          onChange={(val, valStr) => this.onTimeChange(valStr, 'endDate')}/>&nbsp;&nbsp;
             <BIButton type="primary">保存</BIButton></div>
         </div>
 
