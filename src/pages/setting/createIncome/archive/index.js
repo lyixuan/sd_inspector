@@ -52,13 +52,25 @@ class Archive extends React.Component {
   handleArchive = () => {
     const { disabled } = this.state;
     if (disabled) return;
-    // 请求
+
+    // 点击存档，取消存档按钮可点
+    this.setState({ archiveStop: false });
+    // 请求返回结果 取消存档不可点
+    setTimeout(() => {
+      this.setState({ archiveStop: true });
+    }, 2000);
     const { changeValue } = this.state;
     const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const user =
       localStorage.getItem('admin_user') && JSON.parse(localStorage.getItem('admin_user')).userName;
     console.log(currentTime, changeValue, user);
-    this.setState({ disabled: true });
+    this.setState({ disabled: true, archiveStop: false });
+  };
+
+  // 取消存档
+  handleArchiveStop = () => {
+    // 请求接口
+    
   };
 
   // 获取绩效包周期
