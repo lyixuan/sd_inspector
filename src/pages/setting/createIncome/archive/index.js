@@ -12,6 +12,7 @@ class Archive extends React.Component {
     this.state = {
       changeValue: '',
       disabled: true,
+      archiveStop: true,
     };
   }
   columnsData = () => {
@@ -68,7 +69,7 @@ class Archive extends React.Component {
     });
   };
   render() {
-    const { disabled } = this.state;
+    const { disabled, archiveStop } = this.state;
     const dataSource = [
       {
         key: '1',
@@ -107,7 +108,7 @@ class Archive extends React.Component {
             >
               存档
             </BIButton>
-            <BIButton type="primary" onClick={this.handleArchiveStop}>
+            <BIButton disabled={archiveStop} type="primary" onClick={this.handleArchiveStop}>
               取消存档
             </BIButton>
           </div>
