@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'dva';
 import { Table } from 'antd';
 import styles from './style.less';
 import BIButton from '@/ant_components/BIButton';
@@ -6,6 +7,11 @@ import BISelect from '@/ant_components/BISelect';
 import moment from 'moment';
 
 const { Option } = BISelect;
+
+@connect(({ createIncome, loading }) => ({
+  createIncome,
+  loading: loading.effects['createIncome/getAchievementList'],
+}))
 class Archive extends React.Component {
   constructor(props) {
     super(props);
@@ -15,6 +21,14 @@ class Archive extends React.Component {
       archiveStop: true,
     };
   }
+
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'createIncome/getBatchLogList',
+      payload: { params: {} },
+    });
+  }
+
   columnsData = () => {
     const columns = [
       {
@@ -70,8 +84,9 @@ class Archive extends React.Component {
   // 取消存档
   handleArchiveStop = () => {
     // 请求接口
-    
   };
+
+  // 获取记录列表
 
   // 获取绩效包周期
   formValChange = (val, key) => {
@@ -82,6 +97,7 @@ class Archive extends React.Component {
   };
   render() {
     const { disabled, archiveStop } = this.state;
+    const { batchLogList } = this.props.createIncome;
     const dataSource = [
       {
         key: '1',
