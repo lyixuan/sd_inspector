@@ -5,7 +5,6 @@ export async function getAchievementList(params) {
   return request('/orgMap/getOrgMapList', { params });
 }
 
-
 export async function getTimeRange() {
   return request('/incomeOrder/dateRangeList' );
 }
