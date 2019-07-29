@@ -17,8 +17,8 @@ class TimeManage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dayDownload: null,
-      monthDownload: null,
+      dayDownload: undefined,
+      monthDownload: undefined,
     };
     console.log(this.props)
   }
@@ -42,11 +42,11 @@ class TimeManage extends React.Component {
       <Spin spinning={false}>
         <div className={style.box}>
           <div className={style.title}>创收绩效时间管理</div>
-          <div className={style.line}><span>开始日期：</span><BIDatePicker style={{ width: 230 }}
-                                                                      onChange={(val, valStr) => this.onFormChange(valStr, 'beginDate')}/>
+          <div className={style.line}><span>开始日期：</span>
+            <BIDatePicker style={{ width: 230 }} onChange={(val, valStr) => this.onFormChange(valStr, 'beginDate')}/>
           </div>
-          <div className={style.line}><span>结束日期：</span><BIDatePicker style={{ width: 230 }}
-                                                                      onChange={(val, valStr) => this.onFormChange(valStr, 'endDate')}/>&nbsp;&nbsp;
+          <div className={style.line}><span>结束日期：</span>
+            <BIDatePicker style={{ width: 230 }} onChange={(val, valStr) => this.onFormChange(valStr, 'endDate')}/>&nbsp;&nbsp;
             <BIButton type="primary">保存</BIButton></div>
         </div>
 
