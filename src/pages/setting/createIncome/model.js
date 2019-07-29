@@ -25,7 +25,6 @@ export default {
 
     // 获取绩效时间管理
     *getTimeRange({ payload }, { call, put }) {
-      console.log(1232)
       const result = yield call(getTimeRange);
       if (result.code === 20000) {
         const {startDate,endDate} = result.data;

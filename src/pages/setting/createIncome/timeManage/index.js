@@ -5,7 +5,6 @@ import BIDatePicker from '@/ant_components/BIDatePicker';
 import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect';
 import style from './style.less';
-import { BiFilter } from '@/utils/utils';
 import moment from 'moment/moment';
 
 const { Option } = BISelect;
