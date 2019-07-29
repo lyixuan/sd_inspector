@@ -20,7 +20,6 @@ class TimeManage extends React.Component {
       dayDownload: undefined,
       monthDownload: undefined,
     };
-    console.log(this.props)
   }
 
   componentDidMount() {
@@ -30,7 +29,6 @@ class TimeManage extends React.Component {
     });
   }
   onTimeChange = (value, vname) => {
-    console.log(vname)
     this.props.dispatch({
       type: 'createIncome/saveTime',
       payload: { [vname]:value },
@@ -39,6 +37,7 @@ class TimeManage extends React.Component {
 
   render() {
     const {startDate,endDate} = this.props.createIncome||{};
+    const {achievementList} = this.props;
     const {dayDownload,monthDownload} = this.state;
     return (
       <Spin spinning={false}>
@@ -46,11 +45,13 @@ class TimeManage extends React.Component {
           <div className={style.title}>创收绩效时间管理</div>
           <div className={style.line}><span>开始日期：</span>
             <BIDatePicker style={{ width: 230 }}
+                          allowClear={false}
                           value={startDate?moment(startDate):undefined}
                           onChange={(val, valStr) => this.onTimeChange(valStr, 'startDate')}/>
           </div>
           <div className={style.line}><span>结束日期：</span>
             <BIDatePicker style={{ width: 230 }}
+                          allowClear={false}
                           value={endDate?moment(endDate):undefined}
                           onChange={(val, valStr) => this.onTimeChange(valStr, 'endDate')}/>&nbsp;&nbsp;
             <BIButton type="primary">保存</BIButton></div>
@@ -59,9 +60,9 @@ class TimeManage extends React.Component {
         <div className={style.box}>
           <div className={style.title}>创收绩效底表下载</div>
           <div className={style.line}><span>日报下载：</span>
-            <BISelect style={{ width: 230 }} placeholder="请选择" value={dayDownload}
+            <BISelect style={{ width: 230 }} placeholder="请选择绩效包" value={dayDownload}
                       onChange={(val) => this.onFormChange(val, 'dayDownload')}>
-              {BiFilter('QUALITY_TYPE').map(item => (
+              {achievementList.map(item => (
                 <Option key={item.id}>
                   {item.name}
                 </Option>
@@ -70,9 +71,9 @@ class TimeManage extends React.Component {
             &nbsp;&nbsp;
             <BIButton type="primary">下载</BIButton></div>
           <div className={style.line}><span>月报下载：</span>
-            <BISelect style={{ width: 230 }} placeholder="请选择" value={monthDownload}
+            <BISelect style={{ width: 230 }} placeholder="请选择绩效包" value={monthDownload}
                       onChange={(val) => this.onFormChange(val, 'monthDownload')}>
-              {BiFilter('QUALITY_TYPE').map(item => (
+              {achievementList.map(item => (
                 <Option key={item.id}>
                   {item.name}
                 </Option>

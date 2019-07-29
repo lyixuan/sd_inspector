@@ -12,7 +12,6 @@ export default {
   namespace: 'createIncome',
 
   state: {
-    achievementList: [], // 绩效包列表
     archiveList: [],
     startDate: undefined,
     endDate: undefined,
@@ -75,7 +74,6 @@ export default {
       return { ...state, ...action.payload };
     },
     saveTime(state, action) {
-      console.log(...action.payload);
       return { ...state, ...action.payload };
     },
   },
