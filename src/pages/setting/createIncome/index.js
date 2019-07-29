@@ -4,8 +4,9 @@ import TimeManage from '../createIncome/timeManage';
 import Archive from '../createIncome/archive';
 import styles from './style.less';
 
-@connect(({ createIncome }) => ({
-  createIncome
+@connect(({ createIncome, loading }) => ({
+  createIncome,
+  loading: loading.effects['createIncome/getAchievementList'],
 }))
 class CreateIncome extends React.Component {
   componentDidMount() {
@@ -16,11 +17,11 @@ class CreateIncome extends React.Component {
     });
   }
   render() {
-    const {achievementList=[]} = this.props.createIncome||{};
+    const {achievementList=[],loading} = this.props.createIncome||{};
     return (
       <div className={styles.createIncomeWrap}>
-        <TimeManage {...this.props} achievementList={achievementList}/>
-        <Archive achievementList={achievementList}/>
+        <TimeManage {...this.props} achievementList={achievementList} loading={loading}/>
+        <Archive achievementList={achievementList} loading={loading}/>
       </div>
     );
   }
