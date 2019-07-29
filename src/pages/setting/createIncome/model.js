@@ -3,7 +3,7 @@ import { getAchievementList } from './services';
 import { msgF } from '@/utils/utils';
 
 export default {
-  namespace: 'createImcome',
+  namespace: 'createIncome',
 
   state: {
     achievementList: [], // 绩效包列表

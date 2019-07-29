@@ -4,19 +4,19 @@ import TimeManage from '../createIncome/timeManage';
 import Archive from '../createIncome/archive';
 import styles from './style.less';
 
-@connect(({ createImcome }) => ({
-  createImcome
+@connect(({ createIncome }) => ({
+  createIncome
 }))
 class CreateIncome extends React.Component {
   componentDidMount() {
     // 获取绩效包列表
     this.props.dispatch({
-      type: 'createImcome/getAchievementList',
+      type: 'createIncome/getAchievementList',
       payload: { params: {} },
     });
   }
   render() {
-    const {achievementList=[]} = this.props.createImcome;
+    const {achievementList=[]} = this.props.createIncome;
     return (
       <div className={styles.createIncomeWrap}>
         <TimeManage achievementList={achievementList}/>
