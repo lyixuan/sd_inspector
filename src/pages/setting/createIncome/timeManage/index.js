@@ -20,8 +20,15 @@ class TimeManage extends React.Component {
       dayDownload: null,
       monthDownload: null,
     };
+    console.log(this.props)
   }
 
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'timeManage/getTimeRange',
+      payload: { params: {} },
+    });
+  }
   onFormChange = (value, vname) => {
     this.setState({
       [vname]: value,
@@ -29,7 +36,8 @@ class TimeManage extends React.Component {
   };
 
   render() {
-    const {beginDate,endDate,dayDownload,monthDownload} = this.props.timeManage;
+    const {beginDate,endDate} = this.props.timeManage||{};
+    const {dayDownload,monthDownload} = this.state;
     return (
       <Spin spinning={false}>
         <div className={style.box}>

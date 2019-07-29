@@ -19,7 +19,7 @@ class CreateIncome extends React.Component {
     const {achievementList=[]} = this.props.createIncome;
     return (
       <div className={styles.createIncomeWrap}>
-        <TimeManage achievementList={achievementList}/>
+        <TimeManage {...this.props} achievementList={achievementList}/>
         <Archive achievementList={achievementList}/>
       </div>
     );
