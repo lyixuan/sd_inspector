@@ -26,7 +26,7 @@ export default {
       const result = yield call(getArchiveList);
       if (result.code === 20000) {
         const { list: archiveList } = result.data;
-        yield put({ type: 'save', payload: { getArchiveList } });
+        yield put({ type: 'save', payload: { archiveList } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

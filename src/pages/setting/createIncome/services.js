@@ -6,7 +6,6 @@ export async function getAchievementList(params) {
 }
 
 // 获取绩效包
-export async function getArchiveList(params) {
-  // return request('/orgMap/getOrgMapList', { params });
+export async function getArchiveList() {
+  return request('/incomeOrder/dateRange');
 }
-
