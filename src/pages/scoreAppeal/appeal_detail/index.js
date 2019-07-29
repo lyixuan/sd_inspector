@@ -98,7 +98,7 @@ class AppealCheck extends React.Component {
     const {query={}} = this.props.location;
     const newQuery = {};
     newQuery.id = Number(newId);
-    newQuery.dimensionId = Number(metaDimensionId); // 获取详情用id
+    newQuery.dimensionId = metaDimensionId; // 获取详情用id
     newQuery.creditType=Number(creditType);
     newQuery.creditDate=creditDate;
     router.replace({
@@ -135,7 +135,7 @@ class AppealCheck extends React.Component {
     const SecondRecord = appealRecord[2];
     const { appealStart:appealStart1, sopAppealCheck:sopAppealCheck1, masterAppealCheck:masterAppealCheck1 } = firstRecord||{};
     const { appealStart:appealStart2, sopAppealCheck:sopAppealCheck2 , masterAppealCheck:masterAppealCheck2 } = SecondRecord||{};
-    const idList = query.idList&&JSON.parse(query.idList);
+    const idList = sessionStorage.getItem('idList') &&  JSON.parse(sessionStorage.getItem('idList')); // &&  query.idList&&JSON.parse(query.idList);
     return (
       <Spin spinning={loading}>
       <div className={styles.appealContainer}>
