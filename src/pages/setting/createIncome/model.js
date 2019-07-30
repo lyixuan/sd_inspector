@@ -22,7 +22,6 @@ export default {
     batchLogList: [],
     saveBatchLogData: [],
     cacelBatchLogData: [],
-    findKpiPackageDateList: [],
   },
 
   effects: {
@@ -32,17 +31,6 @@ export default {
       if (result.code === 20000) {
         const { list: archiveList } = result.data;
         yield put({ type: 'save', payload: { archiveList } });
-      } else {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-
-    // 创收绩效存档-获取所有绩效周期列表
-    *getFindKpiPackageDateList({ payload }, { call, put }) {
-      const result = yield call(getFindKpiPackageDateList);
-      if (result.code === 20000) {
-        const { list: findKpiPackageDateList } = result.data;
-        yield put({ type: 'save', payload: { findKpiPackageDateList } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
