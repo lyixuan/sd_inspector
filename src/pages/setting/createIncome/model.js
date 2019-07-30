@@ -8,7 +8,6 @@ import {
   getBatchLogList,
   saveBatchLog,
   cacelBatchLog,
-  getFindKpiPackageDateList,
 } from './services';
 import { msgF } from '@/utils/utils';
 
@@ -29,7 +28,7 @@ export default {
     *getArchiveList({ payload }, { call, put }) {
       const result = yield call(getArchiveList);
       if (result.code === 20000) {
-        const { findKpiPackageDateList: archiveList } = result.data;
+        const { kpiLevelPackageList: archiveList } = result.data;
         yield put({ type: 'save', payload: { archiveList } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
