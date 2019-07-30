@@ -22,7 +22,6 @@ function authority(props) {
   }
 
   if (!allow && path === '/smartPlatform') {
-    console.log(7898777)
     // inspector smartPlatform模块级别没有权限，跳转登录
     // const redirectUrl = redirectUrlParams(props);
 
