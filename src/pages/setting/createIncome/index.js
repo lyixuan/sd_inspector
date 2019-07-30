@@ -15,13 +15,19 @@ class CreateIncome extends React.Component {
       type: 'createIncome/getAchievementList',
       payload: { params: {} },
     });
+    // 创收绩效存档-获取所有绩效周期列表
+    this.props.dispatch({
+      type: 'createIncome/getFindKpiPackageDateList',
+      payload: { params: {} },
+    });
   }
   render() {
-    const {achievementList=[],loading} = this.props.createIncome||{};
+    const { achievementList = [], loading, findKpiPackageDateList = [] } =
+      this.props.createIncome || {};
     return (
       <div className={styles.createIncomeWrap}>
-        <TimeManage {...this.props} achievementList={achievementList} loading={loading}/>
-        <Archive achievementList={achievementList} loading={loading}/>
+        <TimeManage {...this.props} achievementList={achievementList} loading={loading} />
+        <Archive findKpiPackageDateList={findKpiPackageDateList} loading={loading} />
       </div>
     );
   }

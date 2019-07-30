@@ -27,3 +27,8 @@ export async function getTimeRange() {
 export async function updateTimeRange(data) {
   return request('/incomeOrder/updateDateRange', { method: 'post', data });
 }
+
+// 创收绩效存档-获取所有绩效周期列表
+export async function getFindKpiPackageDateList(data) {
+  return request('/incomeOrder/findKpiPackageDateList');
+}

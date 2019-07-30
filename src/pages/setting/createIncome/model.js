@@ -8,6 +8,7 @@ import {
   getBatchLogList,
   saveBatchLog,
   cacelBatchLog,
+  getFindKpiPackageDateList,
 } from './services';
 import { msgF } from '@/utils/utils';
 
@@ -21,6 +22,7 @@ export default {
     batchLogList: [],
     saveBatchLogData: [],
     cacelBatchLogData: [],
+    findKpiPackageDateList: [],
   },
 
   effects: {
@@ -35,7 +37,18 @@ export default {
       }
     },
 
-    // 获取存档历史记录列表 
+    // 创收绩效存档-获取所有绩效周期列表
+    *getFindKpiPackageDateList({ payload }, { call, put }) {
+      const result = yield call(getFindKpiPackageDateList);
+      if (result.code === 20000) {
+        const { list: findKpiPackageDateList } = result.data;
+        yield put({ type: 'save', payload: { findKpiPackageDateList } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    // 获取存档历史记录列表
     *getBatchLogList({ payload }, { call, put }) {
       const result = yield call(getBatchLogList);
       if (result.code === 20000) {

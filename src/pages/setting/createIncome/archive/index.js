@@ -120,7 +120,7 @@ class Archive extends React.Component {
   };
   render() {
     const { disabled, archiveStop } = this.state;
-    const { achievementList, batchLogList } = this.props;
+    const { findKpiPackageDateList, batchLogList } = this.props;
     const dataSource = batchLogList;
 
     return (
@@ -135,7 +135,7 @@ class Archive extends React.Component {
               labelInValue
               onChange={val => this.formValChange(val)}
             >
-              {achievementList.map(item => (
+              {findKpiPackageDateList.map(item => (
                 <Option key={item.id}>{item.name}</Option>
               ))}
             </BISelect>
@@ -147,9 +147,10 @@ class Archive extends React.Component {
             >
               存档
             </BIButton>
-            <BIButton disabled={archiveStop} type="primary" onClick={this.handleArchiveStop}>
+            {/* <BIButton disabled={archiveStop} type="primary" onClick={this.handleArchiveStop}>
               取消存档
-            </BIButton>
+              取消存档功能暂时不做
+            </BIButton> */}
           </div>
           <div className={styles.archiveTable}>
             <Table
