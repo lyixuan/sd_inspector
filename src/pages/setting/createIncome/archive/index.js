@@ -120,7 +120,7 @@ class Archive extends React.Component {
   };
   render() {
     const { disabled, archiveStop } = this.state;
-    const { findKpiPackageDateList, batchLogList } = this.props;
+    const { achievementList, batchLogList } = this.props;
     const dataSource = batchLogList;
 
     return (
@@ -135,7 +135,7 @@ class Archive extends React.Component {
               labelInValue
               onChange={val => this.formValChange(val)}
             >
-              {findKpiPackageDateList.map(item => (
+              {achievementList.map(item => (
                 <Option key={item.id}>{item.name}</Option>
               ))}
             </BISelect>
