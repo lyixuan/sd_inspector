@@ -7,7 +7,11 @@ import BISelect from '@/ant_components/BISelect';
 import moment from 'moment';
 
 const { Option } = BISelect;
-
+const archiveStatus = {
+  archiving: 1,
+  archiveSuccess: 2,
+  archiveFail: 3,
+};
 @connect(({ createIncome, loading }) => ({
   createIncome,
   loading: loading.effects['createIncome/getAchievementList'],
@@ -19,39 +23,37 @@ class Archive extends React.Component {
       changeValue: '',
       disabled: true,
       archiveStop: true,
+      getBatchLogList: [],
     };
   }
 
   componentDidMount() {
-    this.props.dispatch({
-      type: 'createIncome/getArchiveList',
-      payload: { params: {} },
-    });
+    this.getBatchLogList();
   }
 
   columnsData = () => {
     const columns = [
       {
         title: '存档时间',
-        dataIndex: 'effectMonth',
+        dataIndex: 'batchStartTime',
         width: 200,
-        key: 'effectMonth',
+        key: 'batchStartTime',
       },
       {
         title: '已存档绩效包',
-        dataIndex: 'isShow',
+        dataIndex: 'archiveTime',
         width: 200,
-        key: 'isShow1',
+        key: 'archiveTime',
       },
       {
         title: '操作人',
-        dataIndex: 'isShow',
+        dataIndex: 'operator',
         width: 100,
-        key: 'isShow2',
+        key: 'operator',
       },
       {
         title: '状态',
-        dataIndex: 'operation',
+        dataIndex: 'batchStatus',
         render: (text, record) => {
           // const { isShowState } = record;
           // const titleObj = { 1: '是否设置为前端不可查看?', 0: '是否设置为前端可查看?' };
@@ -103,7 +105,7 @@ class Archive extends React.Component {
   };
 
   // 获取存档历史记录列表
-  getLogList = () => {
+  getBatchLogList = () => {
     this.props.dispatch({
       type: 'createIncome/getBatchLogList',
     });
@@ -118,21 +120,8 @@ class Archive extends React.Component {
   };
   render() {
     const { disabled, archiveStop } = this.state;
-    const { batchLogList } = this.props.createIncome;
-    const dataSource = [
-      {
-        key: '1',
-        name: '胡彦斌',
-        age: 32,
-        address: '西湖区湖底公园1号',
-      },
-      {
-        key: '2',
-        name: '胡彦祖',
-        age: 42,
-        address: '西湖区湖底公园1号',
-      },
-    ];
+    const { achievementList, batchLogList } = this.props;
+    const dataSource = batchLogList;
 
     return (
       <div className={styles.archiveWrap}>
@@ -146,8 +135,9 @@ class Archive extends React.Component {
               labelInValue
               onChange={val => this.formValChange(val)}
             >
-              <Option key={1}>1</Option>
-              <Option key={2}>3</Option>
+              {achievementList.map(item => (
+                <Option key={item.id}>{item.name}</Option>
+              ))}
             </BISelect>
             <BIButton
               disabled={disabled}
