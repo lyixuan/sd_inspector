@@ -1,6 +1,6 @@
 import request from '@/utils/request';
 
-// 获取绩效包
+// 获取绩效包时间列表
 export async function getArchiveList() {
   return request('/incomeOrder/dateRange');
 }

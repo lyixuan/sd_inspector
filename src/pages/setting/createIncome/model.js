@@ -24,7 +24,7 @@ export default {
   },
 
   effects: {
-    // 获取创收绩效存档包内容
+    // 获取创收绩效存档包列表
     *getArchiveList({ payload }, { call, put }) {
       const result = yield call(getArchiveList);
       if (result.code === 20000) {
@@ -35,7 +35,7 @@ export default {
       }
     },
 
-    // 获取存档历史记录列表 /incomeOrder/batchLogList
+    // 获取存档历史记录列表 
     *getBatchLogList({ payload }, { call, put }) {
       const result = yield call(getBatchLogList);
       if (result.code === 20000) {

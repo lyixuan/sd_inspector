@@ -24,7 +24,7 @@ class Archive extends React.Component {
 
   componentDidMount() {
     this.props.dispatch({
-      type: 'createIncome/getBatchLogList',
+      type: 'createIncome/getArchiveList',
       payload: { params: {} },
     });
   }
@@ -41,13 +41,13 @@ class Archive extends React.Component {
         title: '已存档绩效包',
         dataIndex: 'isShow',
         width: 200,
-        key: 'isShow',
+        key: 'isShow1',
       },
       {
         title: '操作人',
         dataIndex: 'isShow',
         width: 100,
-        key: 'isShow',
+        key: 'isShow2',
       },
       {
         title: '状态',
@@ -64,16 +64,24 @@ class Archive extends React.Component {
 
   // 存档
   handleArchive = () => {
-    const { disabled } = this.state;
+    const { disabled, changeValue } = this.state;
+    const params = {};
     if (disabled) return;
-
     // 点击存档，取消存档按钮可点
     this.setState({ archiveStop: false });
     // 请求返回结果 取消存档不可点
     setTimeout(() => {
       this.setState({ archiveStop: true });
     }, 2000);
-    const { changeValue } = this.state;
+
+    params.kpiPackageStartTime = changeValue;
+    params.kpiPackageEndTime = changeValue;
+
+    this.props.dispatch({
+      type: 'createIncome/saveBatchLog',
+      payload: { params },
+    });
+
     const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const user =
       localStorage.getItem('admin_user') && JSON.parse(localStorage.getItem('admin_user')).userName;
@@ -83,10 +91,23 @@ class Archive extends React.Component {
 
   // 取消存档
   handleArchiveStop = () => {
+    const { disabled, changeValue } = this.state;
+    const params = {};
+    params.kpiPackageStartTime = changeValue;
+    params.kpiPackageEndTime = changeValue;
     // 请求接口
+    this.props.dispatch({
+      type: 'createIncome/cacelBatchLog',
+      payload: { params },
+    });
   };
 
-  // 获取记录列表
+  // 获取存档历史记录列表
+  getLogList = () => {
+    this.props.dispatch({
+      type: 'createIncome/getBatchLogList',
+    });
+  };
 
   // 获取绩效包周期
   formValChange = (val, key) => {
