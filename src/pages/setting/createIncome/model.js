@@ -92,10 +92,14 @@ export default {
       if (result) {
         const { headers } = result.response || {};
         const filename = headers.get('content-disposition') || '';
-        const numName = filename.split('filename=')[1]; // 带后缀的文件名
-        const numName2 = numName.split('.')[0]; // 纯文件名
-        const numNameTail = numName.split('.')[1]; // 后缀
-        downBlob(result.data, `${eval("'" + numName2 + "'")}.${numNameTail}`);
+        if(filename) {
+          const numName = filename.split('filename=')[1]; // 带后缀的文件名
+          const numName2 = numName.split('.')[0]; // 纯文件名
+          const numNameTail = numName.split('.')[1]; // 后缀
+          downBlob(result.data, `${eval("'" + numName2 + "'")}.${numNameTail}`);
+        } else {
+          downBlob(result.data, `${eval("'file'")}.xlsx`);
+        }
         message.success('导出成功');
       } else {
         message.error(msgF(result.msg, result.msgDetail));
