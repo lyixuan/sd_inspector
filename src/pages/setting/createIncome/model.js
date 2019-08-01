@@ -3,13 +3,12 @@ import {
   getArchiveList,
   getTimeRange,
   updateTimeRange,
-  getDayDownload,
-  getMonthDownload,
+  reportExcelDownload,
   getBatchLogList,
   saveBatchLog,
   cacelBatchLog,
 } from './services';
-import { msgF } from '@/utils/utils';
+import { downBlob, msgF } from '@/utils/utils';
 
 export default {
   namespace: 'createIncome',
@@ -80,28 +79,24 @@ export default {
     },
     // 保存绩效时间管理
     *putTimeRange({ payload }, { call, put }) {
-      const { startDate, endDate } = this.state;
-      const result = yield call(updateTimeRange, { startDate, endDate });
+      const result = yield call(updateTimeRange, payload);
       if (result.code === 20000) {
         message.success('保存成功');
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    // 日报下载
-    *getDayDownload({ payload }, { call, put }) {
-      const result = yield call(getDayDownload);
-      if (result.code === 20000) {
-        message.success('日报下载成功');
-      } else {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    // 月报下载
-    *getMonthDownload({ payload }, { call, put }) {
-      const result = yield call(getMonthDownload);
-      if (result.code === 20000) {
-        message.success('月报下载成功');
+    // 日月报下载
+    *reportDownload({ payload }, { call }) {
+      const result = yield call(reportExcelDownload,payload);
+      if (result) {
+        const { headers } = result.response || {};
+        const filename = headers.get('content-disposition') || '';
+        const numName = filename.split('filename=')[1]; // 带后缀的文件名
+        const numName2 = numName.split('.')[0]; // 纯文件名
+        const numNameTail = numName.split('.')[1]; // 后缀
+        downBlob(result.data, `${eval("'" + numName2 + "'")}.${numNameTail}`);
+        message.success('导出成功');
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

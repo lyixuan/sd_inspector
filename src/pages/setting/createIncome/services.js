@@ -27,3 +27,8 @@ export async function getTimeRange() {
 export async function updateTimeRange(data) {
   return request('/incomeOrder/updateDateRange', { method: 'post', data });
 }
+// 日报月报下载
+export async function reportExcelDownload(data) {
+  return request('/incomeOrder/reportExcelDownload', { method: 'post', data,responseType:'blob',getResponse: true  });
+}
+
