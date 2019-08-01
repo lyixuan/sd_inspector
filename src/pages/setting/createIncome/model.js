@@ -15,9 +15,9 @@ export default {
 
   state: {
     archiveList: [],
+    batchLogListData: [],
     startDate: undefined,
     endDate: undefined,
-    batchLogList: [],
     saveBatchLogData: [],
     cacelBatchLogData: [],
   },
@@ -38,8 +38,8 @@ export default {
     *getBatchLogList({ payload }, { call, put }) {
       const result = yield call(getBatchLogList);
       if (result.code === 20000) {
-        const { list: batchLogList } = result.data;
-        yield put({ type: 'save', payload: { batchLogList } });
+        const batchLogListData = result.data;
+        yield put({ type: 'save', payload: { batchLogListData } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -47,10 +47,12 @@ export default {
 
     // 添加存档
     *saveBatchLog({ payload }, { call, put }) {
-      const result = yield call(saveBatchLog);
+      const params = payload.params;
+      const result = yield call(saveBatchLog, params);
       if (result.code === 20000) {
         const { list: saveBatchLogData } = result.data;
-        yield put({ type: 'save', payload: { saveBatchLogData } });
+        yield put({ type: 'save', payload: { saveBatchLogData} });
+        return saveBatchLogData;
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -88,11 +90,11 @@ export default {
     },
     // 日月报下载
     *reportDownload({ payload }, { call }) {
-      const result = yield call(reportExcelDownload,payload);
+      const result = yield call(reportExcelDownload, payload);
       if (result) {
         const { headers } = result.response || {};
         const filename = headers.get('content-disposition') || '';
-        if(filename) {
+        if (filename) {
           const numName = filename.split('filename=')[1]; // 带后缀的文件名
           const numName2 = numName.split('.')[0]; // 纯文件名
           const numNameTail = numName.split('.')[1]; // 后缀
