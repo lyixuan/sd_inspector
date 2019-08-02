@@ -12,6 +12,7 @@ const archiveStatus = {
   archiveSuccess: 2,
   archiveFail: 3,
 };
+
 @connect(({ createIncome, loading }) => ({
   createIncome,
   loadingTime: loading.effects['createIncome/getBatchLogList'],
@@ -21,7 +22,7 @@ class Archive extends React.Component {
     super(props);
     this.state = {
       changeValue: '',
-      disabled: true,
+      disabled: true, // 存档按钮是否可点击
       archiveStop: true,
     };
   }
@@ -98,8 +99,10 @@ class Archive extends React.Component {
       })
       .then(res => {
         if (res) {
+          this.setState({ disabled: false });
           message.success('存档成功');
           this.getBatchLogList();
+          return;
         }
       });
     this.setState({ disabled: true });

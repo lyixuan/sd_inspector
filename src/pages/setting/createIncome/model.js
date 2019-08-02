@@ -55,6 +55,7 @@ export default {
         return saveBatchLogData;
       } else {
         message.error(msgF(result.msg, result.msgDetail));
+        return false;
       }
     },
 
