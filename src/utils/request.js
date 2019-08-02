@@ -74,9 +74,9 @@ const request = extend({
 // 动态添加数据;
 request.interceptors.request.use((url, options) => {
   options.headers = Object.assign({}, options.headers, { 'X-Requested-With':'XMLHttpRequest',authorization: storage.getToken() });
-  const isOld = url.indexOf('apis')>-1;
+  const hasSelfPri = url.indexOf('/apis')>-1||url.indexOf('/shinecollege')>-1;
   return {
-    url:`${SERVER_HOST}${PROXY_PATH(isOld)}${url}`,
+    url:`${SERVER_HOST}${PROXY_PATH(hasSelfPri)}${url}`,
     options,
   };
 });

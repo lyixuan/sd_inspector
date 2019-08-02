@@ -23,20 +23,20 @@ export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
   localhost: 'http://dev.xd.admin.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
-  development2: 'http://test.xd.admin.quality.ministudy.com',
+  development2: 'http://172.16.109.198:8081',
 }[process.env.LOGIN_TYPE]
 
 export const CAS_HOST = {
   localhost: 'http://test.xd.admin.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
-  development2: 'http://test.xd.admin.ministudy.com',
+  development2: 'http://172.16.109.198:8081',
   production: 'http://bd.ministudy.com',
 }[process.env.LOGIN_TYPE];
 
 // 设置domain域名
 export const DOMAIN_HOST = '.ministudy.com';
 // export const DOMAIN_HOST = 'localhost';
-export const PROXY_PATH = (isOld) => {return isOld ?'':'/inspectorapis'};
+export const PROXY_PATH = (hasSelfPri) => {return hasSelfPri ?'':'/inspectorapis'};
 
 // 登录页面地址配置
 export const LOGIN_URL = {

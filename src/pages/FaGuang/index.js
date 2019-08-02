@@ -1,25 +1,18 @@
 import React from 'react';
 import { connect } from 'dva';
 
-@connect(({ qualityAppealHome }) => ({
-  qualityAppealHome,
+@connect(({ faguang }) => ({
+  faguang,
 }))
-class qualityAppeal extends React.Component {
+class faguang extends React.Component {
   componentDidMount() {
-    // 获取组织
     this.props.dispatch({
-      type: 'qualityAppealHome/getOrgMapList',
-      payload: { params: {} },
+      type: 'faguang/getCollegeList',
+      payload: { },
     });
-    // 获取分维（客诉）
     this.props.dispatch({
-      type: 'qualityAppealHome/getDimensionList',
-      payload: { params: { qualityType: 1 } },
-    });
-    // 获取分维（班主任）
-    this.props.dispatch({
-      type: 'qualityAppealHome/getDimensionList',
-      payload: { params: { qualityType: 2 } },
+      type: 'faguang/getCourseType',
+      payload: {  },
     });
   }
   render() {
@@ -27,4 +20,4 @@ class qualityAppeal extends React.Component {
   }
 }
 
-export default qualityAppeal;
+export default faguang;

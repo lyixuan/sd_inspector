@@ -1,8 +1,8 @@
 import request from '@/utils/request';
 
-// 查询质检列表
-export async function getQualityList(params) {
-  return request('/quality/queryQualityDataPage', { method: 'post', data: params });
+// 查询列表
+export async function getList(params) {
+  return request('/shinecollege/videos/list', { params });
 }
 // 查询质检列表 - 导出结果
 export async function qualityExportExcel(params) {

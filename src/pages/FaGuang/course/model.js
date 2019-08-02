@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
+import { getList, qualityExportExcel, qualityCancelQuality, addQuality } from './services';
 import { getQualityDetail } from '@/pages/qualityAppeal/qualityAppeal/appeal/services';
 import BIModal from '@/ant_components/BIModal';
 import router from 'umi/router';
@@ -8,24 +8,25 @@ import { downBlob, msgF } from '@/utils/utils';
 const confirm = BIModal.confirm;
 
 export default {
-  namespace: 'qualityNewSheet',
+  namespace: 'course',
 
   state: {
-    qualityList: [],
+    dataList: [],
+    page: {},
     qualityDetail: {},
     dimensionTreeList: [],
     originAllDimensionTreeList: {},
-    page: {}
+
   },
 
   effects: {
-    *getQualityList({ payload }, { call, put }) {
+    *getList({ payload }, { call, put }) {
       const params = payload.params;
-      const result = yield call(getQualityList, params);
+      const result = yield call(getList, params);
       if (result.code === 20000) {
-        const qualityList = result.data.list ? result.data.list : [];
+        const dataList = result.data.list ? result.data.list : [];
         const page = { total: result.data.total ? result.data.total : 0, pageNum: result.data.pageNum ? result.data.pageNum : 1 };
-        yield put({ type: 'save', payload: { qualityList, page } });
+        yield put({ type: 'save', payload: { dataList, page } });
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }

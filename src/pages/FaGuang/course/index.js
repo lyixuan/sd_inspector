@@ -12,12 +12,12 @@ import moment from 'moment/moment';
 const confirm = BIModal.confirm;
 const columns = [
   {
-    title: '质检单号',
-    dataIndex: 'qualityNum',
+    title: '课程编号',
+    dataIndex: 'id',
   },
   {
-    title: '质检类型',
-    dataIndex: 'qualityType',
+    title: '课程分类',
+    dataIndex: 'videoType',
     render: (text, record) => {
       return (
         <>
@@ -27,12 +27,12 @@ const columns = [
     },
   },
   {
-    title: '分维',
-    dataIndex: 'violationName',
+    title: '课程名称',
+    dataIndex: 'videoName',
   },
   {
-    title: '归属组织',
-    dataIndex: 'collegeName',
+    title: '课程简介',
+    dataIndex: 'videoDesc',
     render: (text, record) => {
       return (
         <>
@@ -42,27 +42,16 @@ const columns = [
     },
   },
   {
-    title: '质检扣分日期',
-    dataIndex: 'reduceScoreDate',
-    render: (text, record) => {
-      return (
-        <>
-          {record.reduceScoreDate ? moment(record.reduceScoreDate).format('YYYY-MM-DD') : '-'}
-        </>
-      );
-    },
+    title: '讲师',
+    dataIndex: 'videoRealname',
   },
   {
-    title: '质检发起人',
-    dataIndex: 'operateName',
+    title: '讲师组织',
+    dataIndex: 'videoUserCollege',
   },
   {
-    title: '违规等级',
-    dataIndex: 'violationLevel',
-  },
-  {
-    title: '质检状态',
-    dataIndex: 'status',
+    title: '讲师角色',
+    dataIndex: 'videoUserRole',
     render: (text, record) => {
       function dot() {
         let rt = null;
@@ -87,6 +76,10 @@ const columns = [
         </>
       );
     },
+  },
+  {
+    title: '课程顺序',
+    dataIndex: 'sort',
   },
 ];
 
@@ -142,30 +135,26 @@ function dealQuarys(pm) {
   return p;
 };
 
-@connect(({ qualityAppealHome, qualityNewSheet, loading }) => ({
-  qualityAppealHome,
-  qualityNewSheet,
-  loading: loading.effects['qualityNewSheet/getQualityList'],
+@connect(({ faguang, course, loading }) => ({
+  faguang,
+  course,
+  loading: loading.effects['course/getList'],
   loading2: loading.effects['qualityNewSheet/exportExcel']
 }))
 
-class NewQualitySheetIndex extends React.Component {
+class Course extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       page: 1,
       pageSize: 30
     };
-    this.saveUrlParams = undefined;
-    // this.columnsAction = this.columnsAction()
   }
   componentDidMount() {
-    const { p = null } = this.props.location.query;
-    this.queryData(JSON.parse(p));
+    this.queryData();
   }
 
-  queryData = (pm, pg, isExport) => {
-    this.saveUrlParams = (pm && !isExport) ? JSON.stringify(pm) : undefined;
+  queryData = (pm, pg) => {
     const dealledPm = pm && dealQuarys(pm);
     let params = { ...this.state };
     if (dealledPm) {
@@ -173,28 +162,14 @@ class NewQualitySheetIndex extends React.Component {
     }
     if (pg) {
       params = { ...params, ...pg };
-      this.saveUrlParams =JSON.stringify({...JSON.parse(this.saveUrlParams),...pg});
       this.setState({
         page: pg.page
       });
     }
-
-    if (isExport) {
-      this.props.dispatch({
-        type: 'qualityNewSheet/exportExcel',
-        payload: { params },
-      });
-    } else {
-      this.props.dispatch({
-        type: 'qualityNewSheet/getQualityList',
-        payload: { params },
-      }).then(() => {
-        router.replace({
-          pathname: this.props.location.pathname,
-          query: this.saveUrlParams ? { p: this.saveUrlParams } : ''
-        })
-      });
-    }
+    this.props.dispatch({
+      type: 'course/getList',
+      payload: { params },
+    });
   };
 
   onRepeal = (record) => {
@@ -202,12 +177,12 @@ class NewQualitySheetIndex extends React.Component {
     const { p = null } = this.props.location.query;
     confirm({
       className: 'BIConfirm',
-      title: '是否撤销当前数据状态?',
+      title: '是否删除当前数据状态?',
       cancelText: '取消',
       okText: '确定',
       onOk() {
         that.props.dispatch({
-          type: 'qualityNewSheet/cancelQuality',
+          type: 'course/cancelQuality',
           payload: { params: { id: record.id } },
         }).then(() => {
           that.queryData(JSON.parse(p))
@@ -224,80 +199,38 @@ class NewQualitySheetIndex extends React.Component {
       render: (text, record) => {
         return (
           <>
-            <AuthButton authority='/qualityAppeal/qualityNewSheet/detail'>
-              <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
-                查看详情
-              </span>
-            </AuthButton>
-            {record.status === 1 || record.status === 3 ? (
-              <AuthButton authority='/qualityAppeal/qualityNewSheet/edit'>
+            <AuthButton authority='/qualityAppeal/qualityNewSheet/edit'>
                 <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
                   编辑
                 </span>
-              </AuthButton>
-            ) : null}
-            {record.status === 2 ? (
-              <AuthButton authority='/qualityAppeal/qualityNewSheet/repeal'>
+            </AuthButton>
+            <AuthButton authority='/qualityAppeal/qualityNewSheet/repeal'>
                 <span className={style.actionBtn} onClick={() => this.onRepeal(record)}>
-                  撤销
+                  删除
               </span>
-              </AuthButton>
-            ) : null}
-            {record.status === 2 ? (
-              <AuthButton authority='/qualityAppeal/qualityNewSheet/appealSt'>
-                <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
-                  审核
-                </span>
-              </AuthButton>
-            ) : null}
+            </AuthButton>
           </>
         );
       },
     }];
-    if (!AuthButton.checkPathname('/qualityAppeal/qualityNewSheet/showQR')) {
-      const index = columns.findIndex(item => item.dataIndex === 'operateName');
-      if (index >= 0) {
-        columns.splice(index, 1);
-      }
-    }
     return [...columns, ...actionObj];
   };
 
-  onJumpPage = (query, pathname) => {
-    router.push({
-      pathname,
-      query
-    });
-  };
-  onDetail = (record) => {
-    this.onJumpPage({ id: record.id }, '/qualityAppeal/qualityNewSheet/detail');
-  };
-
-  onEdit = (record) => {
-    this.onJumpPage({ id: record.id }, '/qualityAppeal/qualityNewSheet/edit');
-  };
-
-  onAppeal = (record) => {
-    this.onJumpPage({ id: record.id }, '/qualityAppeal/qualityNewSheet/appealSt');
-  };
   render() {
-    const { orgListTreeData = [], dimensionList1 = [], dimensionList2 = [] } = this.props.qualityAppealHome;
-    const { qualityList = [], page } = this.props.qualityNewSheet;
+    const { collegeList = [],courseList=[] } = this.props.faguang||{};
+    const { dataList = [], page } = this.props.course;
     return (
       <>
         <Page
           {...this.props}
           columns={this.columnsAction()}
-          dataSource={qualityList}
+          dataSource={dataList}
           page={page}
-          orgList={orgListTreeData}
-          dimensionList1={dimensionList1}
-          dimensionList2={dimensionList2}
-          queryData={(params, page, isExport) => this.queryData(params, page, isExport)}
-          onJumpPage={(query, pathname) => this.onJumpPage(query, pathname)} />
+          courseList={courseList}
+          queryData={(params, page) => this.queryData(params, page)}/>
       </>
     );
   }
 }
 
-export default NewQualitySheetIndex;
+export default Course;
