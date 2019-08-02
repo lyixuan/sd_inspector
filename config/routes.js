@@ -413,6 +413,48 @@ export const routes = [
           },
         ],
       },
+      {
+        path: '/FaGuang',
+        component: './FaGuang',
+        name: '发光研究所',
+        routes: [
+          {
+            path: '/FaGuang/course',
+            component: './FaGuang/course',
+            name: '课程管理',
+          },
+          {
+            path: '/FaGuang/courseFile',
+            component: './FaGuang/courseFile',
+            name: '课程资料',
+          },
+          {
+            path: '/FaGuang/classTest',
+            component: './FaGuang/classTest',
+            name: '随堂考',
+          },
+          {
+            path: '/FaGuang/evaluate',
+            component: './FaGuang/evaluate',
+            name: '评价管理',
+          },
+          {
+            path: '/FaGuang/exam',
+            component: './FaGuang/exam',
+            name: '练习通道',
+          },
+          {
+            path: '/FaGuang/expaper',
+            component: './FaGuang/expaper',
+            name: '考卷管理',
+          },
+          {
+            path: '/FaGuang/smallPro',
+            component: './FaGuang/smallPro',
+            name: '小程序管理',
+          },
+        ],
+      },
     ],
   },
 ];
