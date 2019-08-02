@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Spin } from 'antd';
-import { Table } from 'antd';
+import { Spin, message, Table } from 'antd';
 import styles from './style.less';
 import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect';
@@ -98,8 +97,8 @@ class Archive extends React.Component {
         payload: { params },
       })
       .then(res => {
-        console.log(res, 'res');
         if (res) {
+          message.success('存档成功');
           this.getBatchLogList();
         }
       });

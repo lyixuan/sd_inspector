@@ -50,8 +50,8 @@ export default {
       const params = payload.params;
       const result = yield call(saveBatchLog, params);
       if (result.code === 20000) {
-        const { list: saveBatchLogData } = result.data;
-        yield put({ type: 'save', payload: { saveBatchLogData} });
+        const saveBatchLogData = result.data;
+        yield put({ type: 'save', payload: { saveBatchLogData } });
         return saveBatchLogData;
       } else {
         message.error(msgF(result.msg, result.msgDetail));
