@@ -65,8 +65,8 @@ export default {
       if (result) {
         const { headers } = result.response || {};
         const filename = headers.get('content-disposition') || '';
-        const numName = filename.split('filename=')[1]; // 带后缀的文件名
-        const numName2 = numName.split('.')[0];   // 纯文件名
+        const numName = filename ? filename.split('filename=')[1] : ''; // 带后缀的文件名
+        const numName2 = numName ? numName.split('.')[0] : 'excel';   // 纯文件名
         downBlob(result.data, `${eval("'" + numName2 + "'")}.xlsx`);
         message.success('导出成功');
       } else if (result && result instanceof Object) {

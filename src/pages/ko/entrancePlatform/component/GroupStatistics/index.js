@@ -7,7 +7,6 @@ import BITable from '@/ant_components/BITable';
 import BISelect from '@/ant_components/BISelect';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import {
-  getSubStringValue,
   handleDefaultPickerExamValue,
   handleTNDateValue, accMul
 } from '../../../utils/utils';
