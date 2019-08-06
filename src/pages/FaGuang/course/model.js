@@ -1,11 +1,6 @@
 import { message } from 'antd/lib/index';
-import { getList, qualityExportExcel, qualityCancelQuality, addQuality } from './services';
-import { getQualityDetail } from '@/pages/qualityAppeal/qualityAppeal/appeal/services';
-import BIModal from '@/ant_components/BIModal';
-import router from 'umi/router';
-import { downBlob, msgF } from '@/utils/utils';
-
-const confirm = BIModal.confirm;
+import { getList, delelte, addData,updateData,getCourseTypeChildren,sortData } from './services';
+import { msgF } from '@/utils/utils';
 
 export default {
   namespace: 'course',
@@ -13,10 +8,7 @@ export default {
   state: {
     dataList: [],
     page: {},
-    qualityDetail: {},
-    dimensionTreeList: [],
-    originAllDimensionTreeList: {},
-
+    sortList:[]
   },
 
   effects: {
@@ -31,47 +23,49 @@ export default {
         message.error(msgF(result.msg,result.msgDetail));
       }
     },
-    *cancelQuality({ payload }, { call }) {
+    *delelte({ payload }, { call }) {
       const params = payload.params;
-      const result = yield call(qualityCancelQuality, params);
+      const result = yield call(delelte, params);
       if (result.code === 20000) {
-        message.success('撤销成功');
+        message.success('删除成功');
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }
     },
-    *exportExcel({ payload }, { call }) {
-      const params = payload.params;
-      const result = yield call(qualityExportExcel, params);
-      if (result) {
-        const { headers } = result.response || {};
-        const filename = headers.get('content-disposition') || '';
-        const numName = filename.split('filename=')[1]; // 带后缀的文件名
-        const numName2 = numName.split('.')[0];   // 纯文件名
-        // console.log(11,window.decodeURI(numName2))
-        downBlob(result.data, `${eval("'"+numName2+"'")}.xlsx`);
-        message.success('导出成功');
-      } else {
-        message.error(msgF(result.msg,result.msgDetail));
-      }
-    },
-    *addQuality({ payload }, { call, put }) {
-      const response = yield call(addQuality, payload);
+    *addData({ payload }, { call, put }) {
+      const response = yield call(addData, payload);
       if (response.code === 20000) {
-        yield put(router.push('/qualityAppeal/qualityNewSheet'));
-
+        message.success('保存成功');
+        return true
       } else {
         message.error(msgF(response.msg,response.msgDetail))
       }
     },
-    *getQualityDetail({ payload }, { call, put }) {
-      //质检详情数据
-      const result = yield call(getQualityDetail, { ...payload });
+    *updateData({ payload }, { call, put }) {
+      const response = yield call(updateData, payload);
+      if (response.code === 20000) {
+        message.success('保存成功');
+        return true
+      } else {
+        message.error(msgF(response.msg,response.msgDetail))
+      }
+    },
+    *getCourseTypeChildren({ payload }, { call, put }) {
+      const result = yield call(getCourseTypeChildren, payload);
       if (result.code === 20000) {
-        const qualityDetail = result.data ? result.data : {};
-        yield put({ type: 'save', payload: { qualityDetail } });
+        const sortList = result.data ? result.data : [];
+        return sortList.sort((a, b) => a.sort - b.sort);
       } else {
         message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    *sortData({ payload }, { call, put }) {
+      const response = yield call(sortData, payload);
+      if (response.code === 20000) {
+        message.success('保存成功');
+        return true
+      } else {
+        message.error(msgF(response.msg,response.msgDetail))
       }
     },
   },

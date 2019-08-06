@@ -1,31 +1,19 @@
 import React from 'react';
 import { connect } from 'dva';
-import { DeepCopy, BiFilter } from '@/utils/utils';
-import AuthButton from '@/components/AuthButton';
+import { DeepCopy } from '@/utils/utils';
+import { Tooltip,Icon } from 'antd';
+import BIButtonInTable from '@/components/BIButtonInTable';
+import BIInput from '@/ant_components/BIInput';
+import BISelect from '@/ant_components/BISelect';
 import Page from './component/page';
-import style from '@/pages/qualityAppeal/style.less';
-import subStl from '@/pages/qualityAppeal/qualityNewSheet/style.less';
-import router from 'umi/router';
+import BIButton from '@/ant_components/BIButton';
+import styles from './style.less';
 import BIModal from '@/ant_components/BIModal';
-import moment from 'moment/moment';
+import BICascader from '@/ant_components/BICascader';
+const { Option } = BISelect;
 
 const confirm = BIModal.confirm;
 const columns = [
-  {
-    title: '课程编号',
-    dataIndex: 'id',
-  },
-  {
-    title: '课程分类',
-    dataIndex: 'videoType',
-    render: (text, record) => {
-      return (
-        <>
-          {BiFilter(`QUALITY_TYPE|id:${record.qualityType}`).name}
-        </>
-      );
-    },
-  },
   {
     title: '课程名称',
     dataIndex: 'videoName',
@@ -36,14 +24,17 @@ const columns = [
     render: (text, record) => {
       return (
         <>
-          {`${record.collegeName ? record.collegeName : ''} ${record.familyName ? `| ${record.familyName}` : ''}  ${record.groupName ? `| ${record.groupName}` : ''}`}
+          {/* Tooltip */}
+          <Tooltip placement="top" title={text}>
+            <BIButtonInTable>{text}</BIButtonInTable>
+          </Tooltip>
         </>
       );
     },
   },
   {
     title: '讲师',
-    dataIndex: 'videoRealname',
+    dataIndex: 'videoRealName',
   },
   {
     title: '讲师组织',
@@ -52,85 +43,13 @@ const columns = [
   {
     title: '讲师角色',
     dataIndex: 'videoUserRole',
-    render: (text, record) => {
-      function dot() {
-        let rt = null;
-        if (record.status === 2) {
-          rt = <span className={subStl.dotStl} style={{ background: '#FAAC14' }}></span>
-        }
-        if (record.status === 4) {
-          rt = <span className={subStl.dotStl} style={{ background: '#52C9C2' }}></span>
-        }
-        if (record.status === 3) {
-          rt = <span className={subStl.dotStl} style={{ background: '#D9D9D9' }}></span>
-        }
-        if (record.status === 1) {
-          rt = <span className={subStl.dotStl} style={{ background: '#FF0000' }}></span>
-        }
-        return rt;
-      }
-      return (
-        <>
-          {dot()}
-          {BiFilter(`QUALITY_STATE|id:${record.status}`).name}
-        </>
-      );
-    },
-  },
-  {
-    title: '课程顺序',
-    dataIndex: 'sort',
   },
 ];
 
 function dealQuarys(pm) {
   const p = DeepCopy(pm);
-  if (p.collegeIdList && p.collegeIdList.length > 0) {
-    p.collegeIdList = p.collegeIdList.map((v) => {
-      return Number(v.replace('a-', ''));
-    })
-  } else {
-    p.collegeIdList = undefined;
-  }
-  if (p.familyIdList && p.familyIdList.length > 0) {
-    p.familyIdList = p.familyIdList.map((v) => {
-      return Number(v.replace('b-', ''));
-    })
-  } else {
-    p.familyIdList = undefined;
-  }
-  if (p.groupIdList && p.groupIdList.length > 0) {
-    p.groupIdList = p.groupIdList.map((v) => {
-      return Number(v.replace('c-', ''));
-    })
-  } else {
-    p.groupIdList = undefined;
-  }
-  if (p.qualityType && p.qualityType !== 'all') {
-    p.qualityType = Number(p.qualityType);
-  } else {
-    p.qualityType = undefined;
-  }
-  if (p.statusList && p.statusList.length > 0) {
-    p.statusList = p.statusList.map(v => Number(v))
-  } else {
-    p.statusList = undefined;
-  }
-  if (p.violationLevelList&&p.violationLevelList.length>0) {
-    p.violationLevelList = p.violationLevelList.map(v => Number(v))
-  } else {
-    p.violationLevelList = undefined;
-  }
-
-  if (p.dimensionIdList&&p.dimensionIdList.length>0) {
-    p.dimensionIdList = p.dimensionIdList.map(v => Number(v))
-  } else {
-    p.dimensionIdList = undefined
-  }
-  if (p.qualityNum && p.qualityNum !== '') {
-    p.qualityNum = p.qualityNum.trim();
-  } else {
-    p.qualityNum = undefined
+  if (p.videoType) {
+    delete p.videoType
   }
   return p;
 };
@@ -139,85 +58,312 @@ function dealQuarys(pm) {
   faguang,
   course,
   loading: loading.effects['course/getList'],
-  loading2: loading.effects['qualityNewSheet/exportExcel']
+  loading3: loading.effects['course/sortData'],
+  loading2: loading.effects['course/addData']||loading.effects['course/updateData']
 }))
 
 class Course extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
-      pageSize: 30
+      visible: false,
+      visible2: false,
+      disableSubmit:true,
+      pagination:{
+        page:1,
+        pageSize:30
+      },
+      params:{},
+      formParams:{},
+      sortParams:[],
+      sortParamsTitle:''
     };
   }
   componentDidMount() {
     this.queryData();
   }
-
   queryData = (pm, pg) => {
     const dealledPm = pm && dealQuarys(pm);
-    let params = { ...this.state };
+    let params = { ...this.state.pagination };
     if (dealledPm) {
-      params = { ...params, ...dealledPm };
+      params = {...params,...dealledPm };
+    } else {
+      params = {...params,...this.state.params}
     }
     if (pg) {
       params = { ...params, ...pg };
-      this.setState({
-        page: pg.page
-      });
     }
+    this.setState({
+      params
+    });
     this.props.dispatch({
       type: 'course/getList',
       payload: { params },
     });
   };
-
-  onRepeal = (record) => {
+  onDel = (record) => {
     const that = this;
-    const { p = null } = this.props.location.query;
     confirm({
       className: 'BIConfirm',
-      title: '是否删除当前数据状态?',
+      okType: 'danger',
+      title: '是否删除当前记录?',
       cancelText: '取消',
       okText: '确定',
       onOk() {
         that.props.dispatch({
-          type: 'course/cancelQuality',
+          type: 'course/delelte',
           payload: { params: { id: record.id } },
         }).then(() => {
-          that.queryData(JSON.parse(p))
+          that.queryData()
         });
       },
       onCancel() { },
     });
   };
-
+  showModal = (record) => {
+    // 添加、编辑
+    let formView = {...record};
+    formView.videoTypeId = [formView.parentId,formView.videoTypeId]
+    this.setState({
+      visible: true,
+      disableSubmit:false,
+      formParams:record?formView:{}
+    });
+  };
+  showSortModal=(record)=>{
+    this.props.dispatch({
+      type: 'course/getCourseTypeChildren',
+      payload: { videoTypeId:record.videoTypeId },
+    }).then((sortList)=>{
+      if (sortList) {
+        this.setState({
+          visible2: true,
+          sortParams:sortList,
+          sortParamsTitle:record.videoType
+        });
+      }
+    });
+  };
+  handleCancel = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+  handleSortCancel = () => {
+    this.setState({
+      visible2: false,
+    });
+  };
+  handleSubmitSort=()=>{
+    const that = this;
+    const {sortParams} = this.state;
+    this.props.dispatch({
+      type:'course/sortData',
+      payload: { sortData:sortParams },
+    }).then((res)=>{
+      if(res) {
+        that.setState({
+          visible2: false,
+        });
+        that.queryData();
+      }
+    });
+  };
+  handleSubmit = () => {
+    const that = this;
+    const {formParams} = this.state;
+    formParams.videoTypeId = formParams.videoTypeId[1];
+    this.delEmpty(formParams);
+    let type = 'course/addData';
+    if(formParams.id) {
+      type='course/updateData'
+    }
+    this.props.dispatch({
+      type,
+      payload: { ...formParams },
+    }).then((res)=>{
+      if(res) {
+        that.setState({
+          visible: false,
+        });
+        that.queryData();
+      }
+    });
+  };
+  onFormChange = (value,vname)=>{
+    let oldParams = {...this.state.formParams};
+    let obj = {[vname]:value};
+    if(vname==='videoType'){
+      this.setState({
+        disableSubmit:!(value && this.state.formParams.videoName)
+      })
+    } if (vname==='videoName'){
+      this.setState({
+        disableSubmit:!(this.state.formParams.videoTypeId && obj.videoName)
+      })
+    }
+    this.setState({formParams:{...oldParams,...obj}});
+  };
   columnsAction = () => {
+    const actionCol = [{
+      title: '课程编号',
+      dataIndex: 'id',
+      },
+      {
+        title: '课程分类',
+        dataIndex: 'videoType',
+        render: (text, record) => {
+          return (
+            <>
+              {<div style={{cursor: 'pointer'}} onClick={()=>this.showSortModal(record)}>{text}</div>}
+            </>
+          );
+        },
+      }];
     const actionObj = [{
       title: '操作',
       dataIndex: 'operation',
       render: (text, record) => {
         return (
           <>
-            <AuthButton authority='/qualityAppeal/qualityNewSheet/edit'>
-                <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
-                  编辑
-                </span>
-            </AuthButton>
-            <AuthButton authority='/qualityAppeal/qualityNewSheet/repeal'>
-                <span className={style.actionBtn} onClick={() => this.onRepeal(record)}>
-                  删除
-              </span>
-            </AuthButton>
+            <span className={styles.actionBtn} onClick={() => this.showModal(record)}>
+              编辑
+            </span>
+            <span className={styles.actionBtn} onClick={() => this.onDel(record)}>
+              删除
+            </span>
           </>
         );
       },
     }];
-    return [...columns, ...actionObj];
+    return [...actionCol,...columns, ...actionObj];
   };
-
+  delEmpty = (params)=>{
+    for (const key in params) {
+      if (params[key]===''||params[key]===undefined||params[key]===null||params[key].length === 0) {
+        delete  params[key];
+      }
+    }
+  };
+  up=(item)=>{
+    const {sortParams}= this.state;
+    sortParams.forEach((val,idx)=>{
+      if(item.id === val.id){
+        const vSort = val.sort;
+        val.sort = sortParams[idx-1].sort;
+        sortParams[idx-1].sort = vSort;
+      }
+    });
+    this.setState({
+      sortParams:sortParams.sort((a, b) => a.sort - b.sort)
+    });
+  };
+  down=(item)=>{
+    const {sortParams}= this.state;
+    sortParams.forEach((val,idx)=>{
+      if(item.id === val.id){
+        const vSort = val.sort;
+        val.sort = sortParams[idx+1].sort;
+        sortParams[idx+1].sort = vSort;
+      }
+    });
+    this.setState({
+      sortParams:sortParams.sort((a, b) => a.sort - b.sort)
+    });
+  };
   render() {
     const { collegeList = [],courseList=[] } = this.props.faguang||{};
+
+    const {formParams,disableSubmit,sortParams,sortParamsTitle} = this.state;
+    const {videoTypeId,videoName,videoRealName,videoUserCollege,videoUserRole,videoDesc} = formParams||{};
+    const ModalContent = (
+      <div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>*课程分类:</span>
+            <span className={styles.gutterForm}>
+                <BICascader
+                  placeholder='请选择'
+                  allowClear={false}
+                  options={courseList}
+                  value={videoTypeId}
+                  fieldNames={{ label: 'name', value: 'id', children: 'children' }}
+                  style={{ width: 180 }}
+                  onChange={(val)=>this.onFormChange(val,'videoTypeId')}
+                />
+              </span>
+          </div>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>*课程名称:</span>
+            <span className={styles.gutterForm}>
+              <BIInput placeholder="请输入"
+                       style={{ width: 180 }}
+                       value={videoName}
+                       onChange={(e) => this.onFormChange(e.target.value, 'videoName')}/></span>
+          </div>
+        </div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>讲师名字:</span>
+            <span className={styles.gutterForm}>
+                <BIInput placeholder="请输入"
+                         style={{ width: 180 }}
+                         value={videoRealName}
+                         onChange={(e) => this.onFormChange(e.target.value, 'videoRealName')}/></span>
+          </div>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>讲师组织:</span>
+            <span className={styles.gutterForm}>
+              <BISelect style={{ width: 180 }} placeholder="请选择"
+                        value={videoUserCollege}
+                        onChange={(val) => this.onFormChange(val, 'videoUserCollege')}>
+                  {collegeList.map(item => (
+                    <Option key={item.collegeName}>
+                      {item.collegeName}
+                    </Option>
+                  ))}
+                </BISelect></span>
+          </div>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>讲师角色:</span>
+            <span className={styles.gutterForm}>
+              <BIInput placeholder="请输入"
+                       style={{ width: 180 }}
+                       value={videoUserRole}
+                       onChange={(e) => this.onFormChange(e.target.value, 'videoUserRole')}/></span>
+          </div>
+        </div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel} style={{verticalAlign: 'top'}}>课程简介:</span>
+            <span className={styles.gutterForm} style={{width: 750}}>
+              <BIInput.TextArea maxLength={100} rows={2} value={videoDesc} placeholder={'请输入课程简介'} onChange={(e) => this.onFormChange(e.target.value, 'videoDesc')} />
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+    const sortDiv = sortParams.map((v,idx)=>(
+      <div className={styles.row} key={v.id}>
+        <span className={styles.sortLf}>{idx+1} </span><span className={styles.sortRt}>{v.videoName}</span>
+        {idx===0?
+          <span className={styles.sortRtIcon}><Icon style={{color:'#ccc'}} type="up-circle"/></span>:
+          <span className={styles.sortRtIcon} onClick={()=>this.up(v)}><Icon type="up-circle" className={styles.icon}/></span>}
+        {idx===sortParams.length-1?
+          <span className={styles.sortRtIcon}><Icon style={{color:'#ccc'}} type="down-circle"/></span>:
+          <span className={styles.sortRtIcon} onClick={()=>this.down(v)}><Icon type="down-circle" className={styles.icon}/></span>
+        }
+      </div>
+    ));
+    const SortContent = (
+      <div>
+        <div className={styles.sortTitle}>{sortParamsTitle}</div>
+        <div className={styles.row}>
+          <span className={styles.sortTitleLf}>顺序</span><span className={styles.sortTitleRt}>课程名称</span>
+        </div>
+        {sortDiv}
+      </div>
+    );
     const { dataList = [], page } = this.props.course;
     return (
       <>
@@ -227,7 +373,44 @@ class Course extends React.Component {
           dataSource={dataList}
           page={page}
           courseList={courseList}
+          onAdd={this.showModal}
           queryData={(params, page) => this.queryData(params, page)}/>
+
+        <BIModal
+          title="添加课程"
+          width={940}
+          visible={this.state.visible}
+          onOk={this.handleSubmit}
+          onCancel={this.handleCancel}
+          footer={[
+            <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
+              取消
+            </BIButton>,
+            <BIButton type="primary" loading={this.props.loading2} onClick={this.handleSubmit} disabled={disableSubmit}>
+              保存
+            </BIButton>,
+          ]}
+        >
+          {ModalContent}
+        </BIModal>
+
+        <BIModal
+          title="调整课程顺序"
+          width={440}
+          visible={this.state.visible2}
+          onOk={this.handleSubmitSort}
+          onCancel={this.handleSortCancel}
+          footer={[
+            <BIButton style={{ marginRight: 10 }} onClick={this.handleSortCancel}>
+              取消
+            </BIButton>,
+            <BIButton type="primary" loading={this.props.loading3} onClick={this.handleSubmitSort}>
+              保存
+            </BIButton>,
+          ]}
+        >
+          {SortContent}
+        </BIModal>
       </>
     );
   }

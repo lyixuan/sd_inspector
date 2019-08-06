@@ -1,27 +1,36 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import BIInput from '@/ant_components/BIInput';
-import BISelect from '@/ant_components/BISelect';
+import BICascader from '@/ant_components/BICascader';
 import BIButton from '@/ant_components/BIButton';
 import BIButtonGreen from '@/components/BIButtonGreen';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
 import styles from '../../style.less';
-const { Option } = BISelect;
 
 class NewQualitySheet extends React.Component {
   constructor(props) {
     super(props);
     this.init = {
-      videoType: undefined,
+      videoType:[],
       videoName: undefined,
+      parentId:undefined,
+      videoTypeId:undefined,
     };
     this.state = {...this.init};
   }
   onFormChange = (value,vname)=>{
+    if(vname==='videoType'){
+      this.setState({
+        parentId:value[0],
+        videoTypeId:value[1],
+        videoType:value,
+      });
+    } else {
       this.setState({
         [vname]:value
       });
+    }
   };
 
   reset = ()=>{
@@ -31,15 +40,15 @@ class NewQualitySheet extends React.Component {
   };
 
   search = ()=>{
-    this.props.queryData(this.state);
+    this.props.queryData(this.state,{page:1});
   };
 
   onPageChange = (currentPage)=>{
     this.props.queryData(this.state,{page:currentPage});
   };
 
-  createe = ()=>{
-    this.props.onJumpPage({},'/qualityAppeal/qualityNewSheet/create');
+  add = ()=>{
+    this.props.onAdd();
   };
 
   render() {
@@ -47,6 +56,7 @@ class NewQualitySheet extends React.Component {
     const {courseList = [],dataSource,page,columns,loading} = this.props;
     return (
       <div className={styles.newSheetWrap}>
+
         {/*form*/}
         <div className={styles.searchBlock}>
           {/*第一行*/}
@@ -55,20 +65,22 @@ class NewQualitySheet extends React.Component {
               <div className={styles.gutterBox1}>
                 <span className={styles.gutterLabel1}>课程分类</span>：
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} placeholder="请选择" value={videoType} onChange={(val)=>this.onFormChange(val,'videoType')}>
-                    {courseList.map(item => (
-                      <Option key={item.id}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </BISelect>
+                  <BICascader
+                    placeholder='请选择'
+                    options={courseList}
+                    value={videoType}
+                    changeOnSelect
+                    fieldNames={{ label: 'name', value: 'id', children: 'children' }}
+                    style={{ width: 230 }}
+                    onChange={(val)=>this.onFormChange(val,'videoType')}
+                  />
                 </span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
                 <span className={styles.gutterLabel1}>课程名称</span>：
-                <span className={styles.gutterForm}><BIInput allowClear placeholder="请输入" value={videoName} onChange={(e)=>this.onFormChange(e.target.value,'videoName')}/></span>
+                <span className={styles.gutterForm}><BIInput placeholder="请输入" value={videoName} onChange={(e)=>this.onFormChange(e.target.value,'videoName')}/></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
@@ -79,12 +91,13 @@ class NewQualitySheet extends React.Component {
             </Col>
           </Row>
         </div>
+
         {/*table*/}
         <div className={styles.tableBlock}>
           <Row className={styles.gutterRow1}>
             <Col className={styles.gutterCol} span={12}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterBtn1}><BIButtonGreen type='primary' onClick={this.createe} >+ 添加</BIButtonGreen></span>
+                <span className={styles.gutterBtn1}><BIButtonGreen type='primary' onClick={this.add} >+ 添加</BIButtonGreen></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={12}>

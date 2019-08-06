@@ -4,25 +4,29 @@ import request from '@/utils/request';
 export async function getList(params) {
   return request('/shinecollege/videos/list', { params });
 }
-// 查询质检列表 - 导出结果
-export async function qualityExportExcel(params) {
-  return request('/quality/exportExcel', { method: 'post', data: params, responseType: 'blob', getResponse: true });
+
+// 删除
+export async function delelte(params) {
+  return request('/shinecollege/videos/delete', { params });
+}
+//  添加
+export async function addData(data) {
+  return request('/shinecollege/videos/add', { method: 'post', data });
 }
 
-// 查询质检列表 - 撤销
-export async function qualityCancelQuality(params) {
-  return request('/quality/cancelQuality', { params });
+//  编辑
+export async function updateData(data) {
+  return request('/shinecollege/videos/update', { method: 'post', data });
 }
-//  添加质检接口
-export async function addQuality(data) {
-  return request('/quality/addQuality', { method: 'post', data });
-}
-// 质检详情页面
-export async function getQualityDetail(params) {
-  return request('/quality/getQualityInfo', { params });
+
+// 获取课程分类下的课程
+export async function getCourseTypeChildren(params) {
+  return request('/shinecollege/videos/findData', { params });
 }
 
 
-
-
+//  课程排序
+export async function sortData(data) {
+  return request('/shinecollege/videos/sortVideo', { method: 'post', data });
+}
 

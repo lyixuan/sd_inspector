@@ -49,7 +49,7 @@ const errorHandler = error => {
     return;
   } else if (!status){
     notification.error({
-      message: '服务器返回信息为空',
+      message: '连接服务器失败',
     });
     return
   }
