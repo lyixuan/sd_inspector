@@ -252,19 +252,7 @@ export const routes = [
             name: '编辑用户运营',
           },
         ],
-      },
-      {
-        path: '/koReport',
-        name: 'KO日报',
-        routes: [
-          {
-            path: '/koReport/daily',
-            component: './ko/koDailyReport',
-            name: 'KO日报',
-          },
-        ],
-      },
-      {
+      }, {
         path: '/qualityMarking/detail',
         name: 'AI工作台',
         routes: [
@@ -386,18 +374,6 @@ export const routes = [
           {
             path: '/entrancePlatform/statistics',
             component: './ko/entrancePlatform',
-          },
-        ],
-      },
-      {
-        path: '/qualityReport',
-        name: '质检图表',
-        pageRedirect: '/qualityReport/data',
-        routes: [
-          {
-            path: '/qualityReport/data',
-            component: './ko/qualityReport',
-            name: '质检图表',
           },
         ],
       }, {
