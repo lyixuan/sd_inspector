@@ -400,6 +400,15 @@ export const routes = [
             name: '质检图表',
           },
         ],
+      }, {
+        path: '/allReport',
+        name: '报表',
+        routes: [
+          {
+            path: '/allReport/:siteKey',
+            component: './allReport',
+          },
+        ],
       },
     ],
   },
