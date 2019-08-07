@@ -17,13 +17,11 @@ class metaBase extends React.Component {
     this.getReportMessage();
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     if (JSON.stringify(nextProps.match) !== JSON.stringify(this.props.match)) {
       this.getReportMessage(nextProps.match.params.siteKey);
     }
   }
   getReportMessage = (siteKey = this.props.match.params.siteKey) => {
-    console.log(this.props.match.params.siteKey)
     this.props.dispatch({
       type: 'reportPlan/getReportMessage',
       payload: { siteKey },
