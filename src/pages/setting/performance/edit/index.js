@@ -23,6 +23,7 @@ class detail extends React.Component {
     console.log(value, vname, 'vname');
   };
   render() {
+    console.log(this.props.location, 'pathname');
     const columns = [
       {
         title: 'ID',
@@ -83,6 +84,7 @@ class detail extends React.Component {
     const data = [];
     return (
       <div className={styles.editWrap}>
+        <p>创收绩效包 / 绩效包详情</p>
         <div className={styles.header}>
           <span style={{ marginRight: '10px' }}>生效周期:</span>
           <BIRangePicker
