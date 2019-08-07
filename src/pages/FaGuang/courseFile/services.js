@@ -14,3 +14,7 @@ export async function addData(data) {
   return request('/shinecollege/courseware/delete', { method: 'post', data });
 }
 
+
+export async function getPPTList(params) {
+  return request('/shinecollege/courseware/pptlist', { params });
+}

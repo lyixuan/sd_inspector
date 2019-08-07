@@ -5,6 +5,7 @@ import Page from './component/page';
 import BIButton from '@/ant_components/BIButton';
 import styles from './style.less';
 import BIModal from '@/ant_components/BIModal';
+import BICarousel from '@/ant_components/BICarousel';
 import moment from 'moment/moment';
 
 const confirm = BIModal.confirm;
@@ -46,6 +47,7 @@ function dealQuarys(pm) {
   faguang,
   courseFile,
   loading: loading.effects['courseFile/getList'],
+  loading2: loading.effects['courseFile/getPPTList'],
 }))
 
 class Course extends React.Component {
@@ -100,6 +102,24 @@ class Course extends React.Component {
       onCancel() { },
     });
   };
+  showModal = (record) => {
+    const that = this;
+    this.props.dispatch({
+      type: 'courseFile/getPPTList',
+      payload: { videoId:record.id },
+    }).then((res)=>{
+      if(res){
+        that.setState({
+          visible: true,
+        });
+      }
+    });
+  };
+  handleOk = () => {
+    this.setState({
+      visible: false,
+    });
+  };
   columnsAction = () => {
     const actionObj = [{
       title: '操作',
@@ -121,7 +141,8 @@ class Course extends React.Component {
   };
   render() {
     const { courseList=[] } = this.props.faguang||{};
-    const { dataList = [], page } = this.props.courseFile;
+    const { dataList = [], page,pptList=[] } = this.props.courseFile;
+    const pptPicList = pptList.map((v,i)=>(<img alt="example" style={{ width: '100%' }} src={pptList[i]} />));
     return (
       <>
         <Page
@@ -133,20 +154,22 @@ class Course extends React.Component {
           queryData={(params, page) => this.queryData(params, page)}/>
 
         <BIModal
-          title="添加课程"
-          width={940}
+          title="预览"
+          width={740}
           visible={this.state.visible}
-          onOk={this.handleSubmit}
-          onCancel={this.handleCancel}
+          onCancel={this.handleOk}
+          onOk={this.handleOk}
           footer={[
-            <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
-              取消
-            </BIButton>,
-            <BIButton type="primary" loading={this.props.loading2} onClick={this.handleSubmit}>
-              保存
+            <BIButton type="primary" loading={this.props.loading2} onClick={this.handleOk}>
+              关闭
             </BIButton>,
           ]}
         >
+          <BICarousel style={{marginBottom:20}}>
+            {pptPicList}
+          </BICarousel>
+          <br/>
+          <br/>
         </BIModal>
       </>
     );

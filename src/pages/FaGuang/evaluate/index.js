@@ -36,7 +36,7 @@ const columns = [
   {
     title: '星级',
     dataIndex: 'starLevel',
-    width:120,
+    width:130,
     render: (text, record) => {
       return (
         <>

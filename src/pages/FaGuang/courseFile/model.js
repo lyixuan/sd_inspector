@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { getList, delelte, addData } from './services';
+import { getList, delelte, addData,getPPTList } from './services';
 import { msgF } from '@/utils/utils';
 
 export default {
@@ -18,6 +18,16 @@ export default {
         const dataList = result.data.list ? result.data.list : [];
         const page = { total: result.data.total ? result.data.total : 0, pageNum: result.data.pageNum ? result.data.pageNum : 1 };
         yield put({ type: 'save', payload: { dataList, page } });
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    *getPPTList({ payload }, { call, put }) {
+      const result = yield call(getPPTList, payload);
+      if (result.code === 20000) {
+        const pptList = result.data ? result.data : [];
+        yield put({ type: 'save', payload: { pptList } });
+        return pptList;
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }

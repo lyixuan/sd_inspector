@@ -1,222 +1,226 @@
 import React from 'react';
 import { connect } from 'dva';
-import { DeepCopy, BiFilter } from '@/utils/utils';
-import AuthButton from '@/components/AuthButton';
+import { Upload,message ,Icon} from 'antd';
+import { DeepCopy } from '@/utils/utils';
+import BIInput from '@/ant_components/BIInput';
+import BISelect from '@/ant_components/BISelect';
 import Page from './component/page';
-import style from '@/pages/qualityAppeal/style.less';
-import subStl from '@/pages/qualityAppeal/qualityNewSheet/style.less';
-import router from 'umi/router';
+import BIButton from '@/ant_components/BIButton';
+import styles from './style.less';
 import BIModal from '@/ant_components/BIModal';
-import moment from 'moment/moment';
+import {SERVER_HOST} from '@/utils/constants';
+const { Option } = BISelect;
 
 const confirm = BIModal.confirm;
 const columns = [
   {
-    title: '质检单号',
-    dataIndex: 'qualityNum',
+    title: '编号',
+    dataIndex: 'id',
   },
   {
-    title: '质检类型',
-    dataIndex: 'qualityType',
-    render: (text, record) => {
-      return (
-        <>
-          {BiFilter(`QUALITY_TYPE|id:${record.qualityType}`).name}
-        </>
-      );
-    },
-  },
-  {
-    title: '分维',
-    dataIndex: 'violationName',
-  },
-  {
-    title: '归属组织',
+    title: '学院',
     dataIndex: 'collegeName',
-    render: (text, record) => {
-      return (
-        <>
-          {`${record.collegeName ? record.collegeName : ''} ${record.familyName ? `| ${record.familyName}` : ''}  ${record.groupName ? `| ${record.groupName}` : ''}`}
-        </>
-      );
-    },
   },
   {
-    title: '质检扣分日期',
-    dataIndex: 'reduceScoreDate',
-    render: (text, record) => {
-      return (
-        <>
-          {record.reduceScoreDate ? moment(record.reduceScoreDate).format('YYYY-MM-DD') : '-'}
-        </>
-      );
-    },
+    title: '练习通道名称',
+    dataIndex: 'practiceName',
   },
   {
-    title: '质检发起人',
-    dataIndex: 'operateName',
+    title: '练习通道地址',
+    dataIndex: 'practiceUrl',
   },
   {
-    title: '违规等级',
-    dataIndex: 'violationLevel',
-  },
-  {
-    title: '质检状态',
-    dataIndex: 'status',
-    render: (text, record) => {
-      function dot() {
-        let rt = null;
-        if (record.status === 2) {
-          rt = <span className={subStl.dotStl} style={{ background: '#FAAC14' }}></span>
-        }
-        if (record.status === 4) {
-          rt = <span className={subStl.dotStl} style={{ background: '#52C9C2' }}></span>
-        }
-        if (record.status === 3) {
-          rt = <span className={subStl.dotStl} style={{ background: '#D9D9D9' }}></span>
-        }
-        if (record.status === 1) {
-          rt = <span className={subStl.dotStl} style={{ background: '#FF0000' }}></span>
-        }
-        return rt;
-      }
-      return (
-        <>
-          {dot()}
-          {BiFilter(`QUALITY_STATE|id:${record.status}`).name}
-        </>
-      );
-    },
+    title: '适用组织',
+    dataIndex: 'familys',
   },
 ];
 
 function dealQuarys(pm) {
   const p = DeepCopy(pm);
-  if (p.collegeIdList && p.collegeIdList.length > 0) {
-    p.collegeIdList = p.collegeIdList.map((v) => {
-      return Number(v.replace('a-', ''));
-    })
-  } else {
-    p.collegeIdList = undefined;
-  }
-  if (p.familyIdList && p.familyIdList.length > 0) {
-    p.familyIdList = p.familyIdList.map((v) => {
-      return Number(v.replace('b-', ''));
-    })
-  } else {
-    p.familyIdList = undefined;
-  }
-  if (p.groupIdList && p.groupIdList.length > 0) {
-    p.groupIdList = p.groupIdList.map((v) => {
-      return Number(v.replace('c-', ''));
-    })
-  } else {
-    p.groupIdList = undefined;
-  }
-  if (p.qualityType && p.qualityType !== 'all') {
-    p.qualityType = Number(p.qualityType);
-  } else {
-    p.qualityType = undefined;
-  }
-  if (p.statusList && p.statusList.length > 0) {
-    p.statusList = p.statusList.map(v => Number(v))
-  } else {
-    p.statusList = undefined;
-  }
-  if (p.violationLevelList&&p.violationLevelList.length>0) {
-    p.violationLevelList = p.violationLevelList.map(v => Number(v))
-  } else {
-    p.violationLevelList = undefined;
-  }
-
-  if (p.dimensionIdList&&p.dimensionIdList.length>0) {
-    p.dimensionIdList = p.dimensionIdList.map(v => Number(v))
-  } else {
-    p.dimensionIdList = undefined
-  }
-  if (p.qualityNum && p.qualityNum !== '') {
-    p.qualityNum = p.qualityNum.trim();
-  } else {
-    p.qualityNum = undefined
-  }
   return p;
 };
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
 
-@connect(({ qualityAppealHome, qualityNewSheet, loading }) => ({
-  qualityAppealHome,
-  qualityNewSheet,
-  loading: loading.effects['qualityNewSheet/getQualityList'],
-  loading2: loading.effects['qualityNewSheet/exportExcel']
+
+@connect(({ faguang, exam, loading }) => ({
+  faguang,
+  exam,
+  loading: loading.effects['exam/getList'],
+  loading3: loading.effects['exam/sortData'],
+  loading2: loading.effects['exam/addData']||loading.effects['exam/updateData']
 }))
 
-class NewQualitySheetIndex extends React.Component {
+class Course extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
-      pageSize: 30
+      visible: false,
+      loading:false,
+      disableSubmit:true,
+      pagination:{
+        page:1,
+        pageSize:30
+      },
+      params:{},
+      formParams:{},
+      modalTitle:'',
+      imgUrl:undefined
     };
-    this.saveUrlParams = undefined;
-    // this.columnsAction = this.columnsAction()
   }
   componentDidMount() {
-    const { p = null } = this.props.location.query;
-    this.queryData(JSON.parse(p));
+    this.queryData();
   }
-
-  queryData = (pm, pg, isExport) => {
-    this.saveUrlParams = (pm && !isExport) ? JSON.stringify(pm) : undefined;
+  queryData = (pm, pg) => {
     const dealledPm = pm && dealQuarys(pm);
-    let params = { ...this.state };
+    let params = { ...this.state.pagination };
     if (dealledPm) {
-      params = { ...params, ...dealledPm };
+      params = {...params,...dealledPm };
+    } else {
+      params = {...params,...this.state.params}
     }
     if (pg) {
       params = { ...params, ...pg };
-      this.saveUrlParams =JSON.stringify({...JSON.parse(this.saveUrlParams),...pg});
-      this.setState({
-        page: pg.page
-      });
     }
-
-    if (isExport) {
-      this.props.dispatch({
-        type: 'qualityNewSheet/exportExcel',
-        payload: { params },
-      });
-    } else {
-      this.props.dispatch({
-        type: 'qualityNewSheet/getQualityList',
-        payload: { params },
-      }).then(() => {
-        router.replace({
-          pathname: this.props.location.pathname,
-          query: this.saveUrlParams ? { p: this.saveUrlParams } : ''
-        })
-      });
-    }
+    this.setState({
+      params
+    });
+    this.props.dispatch({
+      type: 'exam/getList',
+      payload: { params },
+    });
   };
-
-  onRepeal = (record) => {
+  onDel = (record) => {
     const that = this;
-    const { p = null } = this.props.location.query;
     confirm({
       className: 'BIConfirm',
-      title: '是否撤销当前数据状态?',
+      okType: 'danger',
+      title: '是否删除当前记录?',
       cancelText: '取消',
       okText: '确定',
       onOk() {
         that.props.dispatch({
-          type: 'qualityNewSheet/cancelQuality',
-          payload: { params: { id: record.id } },
+          type: 'exam/delelte',
+          payload: { params: { practiceId: record.id } },
         }).then(() => {
-          that.queryData(JSON.parse(p))
+          that.queryData()
         });
       },
       onCancel() { },
     });
   };
+  showModal = (record) => {
+    // 添加、编辑
+    let formView = {};
+    if(record){
+      if(record.collegeId){
+        this.props.dispatch({
+          type: 'exam/getFamilyList',
+          payload: { collegeId:record.collegeId },
+        });
+      }
+      formView.family =record.familyIds.split(',');
+      formView.collegeId = record.collegeId.toString();
+      formView.practiceUrl = record.practiceUrl;
+      formView.practiceName = record.practiceName;
+    }
+    this.setState({
+      visible: true,
+      disableSubmit:record?false:true,
+      formParams:record?formView:{},
+      imgUrl:record?record.imgUrl:undefined,
+      id:record?record.id:undefined
+    });
+  };
+  handleCancel = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+  handleSubmit = () => {
+    const that = this;
+    const {formParams,imgUrl,id} = this.state;
+    if(!imgUrl) {
+      message.warn('请上传练习通道图标');
+      return
+    }
+    const params = {
+      collegeId:Number(formParams.collegeId),
+      collegeName:this.getOrgName(formParams.collegeId),
+      familys:this.getFamilyName(formParams.family),
+      imgUrl,
+      practiceName:formParams.practiceName,
+      practiceUrl:formParams.practiceUrl,
+      id
+    };
 
+    let type = 'exam/addData';
+    if(id) {
+      type='exam/updateData'
+    }
+    this.props.dispatch({
+      type,
+      payload: { ...params },
+    }).then((res)=>{
+      if(res) {
+        that.setState({
+          visible: false,
+        });
+        that.queryData();
+      }
+    });
+  };
+  getFamilyName = (ids)=>{
+    const { familyList=[] } = this.props.exam;
+    const arr = [];
+    familyList.forEach((v1)=>{
+      ids.forEach((v2)=>{
+        if(Number(v1.id)===Number(v2)){
+          arr.push({id:v1.id,name:v1.name})
+        }
+      })
+    });
+    return arr;
+  };
+  getOrgName = (id)=>{
+    const { collegeList = [] } = this.props.faguang||{};
+    let name = '';
+    collegeList.forEach((v1)=>{
+      if(Number(id) === Number(v1.collegeId)){
+        name = v1.collegeName;
+      }
+    });
+    return name;
+  };
+  onFormChange = (value,vname)=>{
+    let obj = {...this.state.formParams,...{[vname]:value}};
+    if(vname==='collegeId'){
+      this.props.dispatch({
+        type: 'exam/getFamilyList',
+        payload: { collegeId:value },
+      });
+      obj.family=[]
+    }
+    let disableSubmit = true;
+    if(Object.keys(obj).length===4){
+      let conut = 0;
+      for(const key in obj ){
+        if (obj[key] && (typeof obj[key]==='string' || typeof obj[key]==='object'&& obj[key].length>0)){
+          conut++
+        }
+      }
+      if(conut===4){
+        disableSubmit=false;
+      }
+    }
+    this.setState({
+      disableSubmit
+    });
+    this.setState({formParams:obj});
+  };
   columnsAction = () => {
     const actionObj = [{
       title: '操作',
@@ -224,80 +228,153 @@ class NewQualitySheetIndex extends React.Component {
       render: (text, record) => {
         return (
           <>
-            <AuthButton authority='/qualityAppeal/qualityNewSheet/detail'>
-              <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
-                查看详情
-              </span>
-            </AuthButton>
-            {record.status === 1 || record.status === 3 ? (
-              <AuthButton authority='/qualityAppeal/qualityNewSheet/edit'>
-                <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
-                  编辑
-                </span>
-              </AuthButton>
-            ) : null}
-            {record.status === 2 ? (
-              <AuthButton authority='/qualityAppeal/qualityNewSheet/repeal'>
-                <span className={style.actionBtn} onClick={() => this.onRepeal(record)}>
-                  撤销
-              </span>
-              </AuthButton>
-            ) : null}
-            {record.status === 2 ? (
-              <AuthButton authority='/qualityAppeal/qualityNewSheet/appealSt'>
-                <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
-                  审核
-                </span>
-              </AuthButton>
-            ) : null}
+            <span className={styles.actionBtn} onClick={() => this.showModal(record)}>
+              编辑
+            </span>
+            <span className={styles.actionBtn} onClick={() => this.onDel(record)}>
+              删除
+            </span>
           </>
         );
       },
     }];
-    if (!AuthButton.checkPathname('/qualityAppeal/qualityNewSheet/showQR')) {
-      const index = columns.findIndex(item => item.dataIndex === 'operateName');
-      if (index >= 0) {
-        columns.splice(index, 1);
-      }
-    }
     return [...columns, ...actionObj];
   };
-
-  onJumpPage = (query, pathname) => {
-    router.push({
-      pathname,
-      query
-    });
+  beforeUpload=(file) =>{
+    const isJpgOrPng = file.type === 'image/jpg' ||file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('请上传 JPG/PNG/JPEG 类型的文件!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('文件大小不能超过 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
   };
-  onDetail = (record) => {
-    this.onJumpPage({ id: record.id }, '/qualityAppeal/qualityNewSheet/detail');
-  };
-
-  onEdit = (record) => {
-    this.onJumpPage({ id: record.id }, '/qualityAppeal/qualityNewSheet/edit');
-  };
-
-  onAppeal = (record) => {
-    this.onJumpPage({ id: record.id }, '/qualityAppeal/qualityNewSheet/appealSt');
+  handleChange = info => {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      this.setState({
+        imgUrl:info.file.response.data,
+        loading: false,
+      })
+    }
   };
   render() {
-    const { orgListTreeData = [], dimensionList1 = [], dimensionList2 = [] } = this.props.qualityAppealHome;
-    const { qualityList = [], page } = this.props.qualityNewSheet;
+    const { collegeList = [] } = this.props.faguang||{};
+    const { dataList = [], page,familyList=[] } = this.props.exam||{};
+    const {formParams,disableSubmit,imgUrl} = this.state;
+    const {collegeId,practiceUrl,practiceName,family} = formParams||{};
+    const uploadButton = (
+      <div>
+        <Icon type={this.state.loading ? 'loading' : 'plus'} />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
+    const ModalContent = (
+      <div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>*学院:</span>
+            <span className={styles.gutterForm}>
+              <BISelect style={{ width: 320 }} placeholder="请选择"
+                        value={collegeId}
+                        onChange={(val) => this.onFormChange(val, 'collegeId')}>
+                  {collegeList.map(item => (
+                    <Option key={item.collegeId}>
+                      {item.collegeName}
+                    </Option>
+                  ))}
+                </BISelect></span>
+          </div>
+        </div>
+        <div className={styles.gutterRow} style={{height: 110}}>
+          <div className={styles.gutterBox} >
+            <span className={styles.gutterLabel} style={{verticalAlign:'top'}}>*联系通道图标:</span>
+            <span className={styles.gutterForm}>
+              <Upload
+                name="file"
+                listType="picture-card"
+                showUploadList={false}
+                action={`${SERVER_HOST}/shinecollege/practice/uploadIcon`}
+                beforeUpload={this.beforeUpload}
+                onChange={this.handleChange}
+              >
+              {imgUrl ? <img src={imgUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+            </Upload>
+            </span>
+          </div>
+        </div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>*练习通道名称:</span>
+            <span className={styles.gutterForm}>
+              <BIInput placeholder="请输入"
+                       style={{ width: 320 }}
+                       value={practiceName}
+                       onChange={(e) => this.onFormChange(e.target.value, 'practiceName')}/></span>
+          </div>
+        </div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>*练习通道地址:</span>
+            <span className={styles.gutterForm}>
+              <BIInput placeholder="请输入"
+                       style={{ width: 320 }}
+                       value={practiceUrl}
+                       onChange={(e) => this.onFormChange(e.target.value, 'practiceUrl')}/></span>
+          </div>
+        </div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>*适用组织:</span>
+            <span className={styles.gutterForm}>
+              <BISelect style={{width:320}} allowClear placeholder="请选择"  mode="multiple" showArrow maxTagCount={1}  value={family} onChange={(val)=>this.onFormChange(val,'family')}>
+                  {familyList.map(item => (
+                    <Option key={item.id}>
+                      {item.name}
+                    </Option>
+                  ))}
+                    </BISelect></span>
+          </div>
+        </div>
+      </div>
+    );
+
     return (
       <>
         <Page
           {...this.props}
           columns={this.columnsAction()}
-          dataSource={qualityList}
+          dataSource={dataList}
           page={page}
-          orgList={orgListTreeData}
-          dimensionList1={dimensionList1}
-          dimensionList2={dimensionList2}
-          queryData={(params, page, isExport) => this.queryData(params, page, isExport)}
-          onJumpPage={(query, pathname) => this.onJumpPage(query, pathname)} />
+          collegeList={collegeList}
+          onAdd={this.showModal}
+          queryData={(params, page) => this.queryData(params, page)}/>
+
+        <BIModal
+          title={this.state.formParams.id?"编辑练习通道":"添加练习通道"}
+          width={540}
+          visible={this.state.visible}
+          onOk={this.handleSubmit}
+          onCancel={this.handleCancel}
+          footer={[
+            <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
+              取消
+            </BIButton>,
+            <BIButton type="primary" loading={this.props.loading2} onClick={this.handleSubmit} disabled={disableSubmit}>
+              保存
+            </BIButton>,
+          ]}
+        >
+          {ModalContent}
+        </BIModal>
       </>
     );
   }
 }
 
-export default NewQualitySheetIndex;
+export default Course;

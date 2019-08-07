@@ -11,7 +11,6 @@ export default {
 
   state: {
     collegeList: [],
-    familyList: [],
     courseList: [],
   },
 
@@ -25,15 +24,7 @@ export default {
         message.error(msgF(result.msg,result.msgDetail));
       }
     },
-    *getFamilyList({ payload }, { call, put }) {
-      const result = yield call(getFamilyList, {payload});
-      const familyList = result.data || [];
-      if (result.code === 20000) {
-        yield put({ type: 'save', payload: { familyList } });
-      } else {
-        message.error(msgF(result.msg,result.msgDetail));
-      }
-    },
+
     *getCourseType({ payload }, { call, put }) {
       const result = yield call(getCourseType, {payload});
       const courseList = result.data || [];

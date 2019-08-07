@@ -123,11 +123,13 @@ class Course extends React.Component {
   showModal = (record) => {
     // 添加、编辑
     let formView = {...record};
-    formView.videoTypeId = [formView.parentId,formView.videoTypeId]
+    if(record){
+      formView.videoTypeId = [formView.parentId,formView.videoTypeId]
+    }
     this.setState({
       visible: true,
-      disableSubmit:false,
-      formParams:record?formView:{}
+      disableSubmit:record?false:true,
+      formParams:formView
     });
   };
   showSortModal=(record)=>{
@@ -377,7 +379,7 @@ class Course extends React.Component {
           queryData={(params, page) => this.queryData(params, page)}/>
 
         <BIModal
-          title="添加课程"
+          title={this.state.formParams.id?"编辑课程":"添加课程"}
           width={940}
           visible={this.state.visible}
           onOk={this.handleSubmit}
