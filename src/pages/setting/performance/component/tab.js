@@ -19,28 +19,18 @@ class NewQualitySheet extends React.Component {
   };
 
   render() {
-    const { dataSource, page, columns, loading } = this.props;
-    const total = page.total;
+    const { dataSource, columns, loading } = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*table*/}
         <div className={styles.tableBlock}>
           <BITable
-            key={record => record.id}
             rowKey={record => record.id}
             dataSource={dataSource}
             columns={columns}
             pagination={false}
             loading={loading}
           />
-          <br />
-          {total && <BIPagination
-            showQuickJumper
-            defaultPageSize={page.pageSize ? page.pageSize : 30}
-            onChange={this.onPageChange}
-            current={page.pageNum}
-            total={page.total}
-          />}
         </div>
       </div>
     );

@@ -422,6 +422,19 @@ export const routes = [
             path: '/setting/performance/detail',
             component: './setting/performance/detail',
             name: '创收绩效包详情',
+            bread: {
+              name: '创收绩效包',
+              path: '/setting/performance/list',
+            },
+          },
+          {
+            path: '/setting/performance/edit',
+            component: './setting/performance/edit',
+            name: '创收绩效包详情',
+            bread: {
+              name: '创收绩效包',
+              path: '/setting/performance/list',
+            },
           },
         ],
       },
