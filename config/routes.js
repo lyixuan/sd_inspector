@@ -252,7 +252,28 @@ export const routes = [
             name: '编辑用户运营',
           },
         ],
-      }, {
+      },
+      {
+        path: '/knowledge',
+        name: '知识库',
+        routes: [
+          {
+            path: '/knowledge/knowledge',
+            component: './ko/knowledge',
+          },
+        ],
+      },
+      {
+        path: '/sessionReport',
+        name: '会话记录',
+        routes: [
+          {
+            path: '/sessionReport/sessionReport',
+            component: './ko/sessionReport',
+          },
+        ],
+      },
+      {
         path: '/qualityMarking/detail',
         name: 'AI工作台',
         routes: [
