@@ -13,112 +13,51 @@ const { BIRangePicker } = BIDatePicker;
 class detail extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      defaultBeginDate: String(new Date().getTime()),
-      defaultEndDate: new Date().getTime(),
-      beginDate: new Date().getTime(),
-      endDate: new Date().getTime(),
+    this.state = {};
+
+    this.initModel = {
+      effectiveDate: '',
+      expiryDate: '',
+      positionPercent: '',
+      renewalKpi: '',
+      financeNetFlowRatioList: [
+        {
+          levelLowerLimit: null,
+          levelUpperLimit: null,
+          upperClose: null,
+          lowerClose: null,
+          levelValue: '',
+        },
+      ],
     };
   }
-  onFormChange = (value, vname) => {
-    console.log(value, vname, 'vname');
-  };
-
-  momentFormat = (date, way) => {
-    return moment(Number(date))
-      .format(way)
-      .replace(/-/g, '/');
-  };
 
   checkChange = () => {
     console.log('1');
   };
 
-  render() {
-    console.log(this.props.location, 'pathname');
-    const columns = [
-      {
-        title: '听课时间(分钟)',
-        dataIndex: 'date',
-        width: 500,
-        render: (text, record) => {
-          return (
-            <>
-              <p style={{ float: 'left', margin: '0' }}>
-                <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
-                  <BIInput placeholder="请输入" />
-                </span>
-                <span>%</span>
-                <Checkbox style={{ marginLeft: '5px' }} onChange={this.checkChange}>
-                  闭区间
-                </Checkbox>
-              </p>
-              <span style={{ float: 'left', margin: '0 20px', lineHeight: '30px' }}>~</span>
-              <p style={{ float: 'left', margin: '0' }}>
-                <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
-                  <BIInput placeholder="请输入" />
-                </span>
-                <span>%</span>
-                <Checkbox style={{ marginLeft: '5px' }} onChange={this.checkChange}>
-                  闭区间
-                </Checkbox>
-              </p>
-            </>
-          );
-        },
-      },
-      {
-        title: '好推净流水系数',
-        dataIndex: 'createDate',
-        render: (text, record) => {
-          return (
-            <>
-              <p style={{ margin: '0', textAlign: 'center' }}>
-                <span>系数</span>
-                <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
-                  <BIInput placeholder="请输入" />
-                </span>
-                <span>%</span>
-              </p>
-            </>
-          );
-        },
-      },
-      {
-        title: '操作',
-        dataIndex: 'operator',
-        render: (text, record) => {
-          return (
-            <>
-              <p style={{ margin: '0', textAlign: 'center' }}>
-                <span className={styles.btn} onClick={this.edit}>
-                  删除
-                </span>
-              </p>
-            </>
-          );
-        },
-      },
-    ];
+  // 添加好推绩效列表
+  addItem = () => {};
 
-    const dateFormat = 'YYYY-MM-DD';
-    const data = [
-      {
-        effectiveDate: '1565232306052',
-        expiryDate: '1565232315842',
-        positionPercent: '50',
-        renewalKpi: '2',
-        financeNetFlowRatioList: [
-          {
-            levelLowerLimit: 10,
-            levelUpperLimit: 90,
-            upperClose: false,
-            lowerClose: true,
-            levelValue: '19',
-          },
-        ],
-      },
-    ];
+  // 删除好推绩效列表
+  delItem = () => {};
+
+  render() {
+    const itemList = {
+      effectiveDate: '1565232306052',
+      expiryDate: '1565232315842',
+      positionPercent: '50',
+      renewalKpi: '2',
+      financeNetFlowRatioList: [
+        {
+          levelLowerLimit: 10,
+          levelUpperLimit: 90,
+          upperClose: false,
+          lowerClose: true,
+          levelValue: '19',
+        },
+      ],
+    };
     return (
       <div className={styles.editWrap}>
         <p>创收绩效包 / 绩效包详情</p>
@@ -136,13 +75,58 @@ class detail extends React.Component {
           <h2 className={styles.title}>好推绩效</h2>
           <div className={styles.goodPerWrap}>
             <p className={styles.smallPerformance}>好推净流水系数梯度表</p>
-            <Tab
-              style={{ paddingBottom: '40px' }}
-              {...this.props}
-              columns={columns}
-              dataSource={data}
-            ></Tab>
-            <p className={styles.addTable}>添加区间</p>
+            <div className={styles.border}>
+              <p className={styles.meta}>
+                <span className={styles.itemLeft}>听课时间(分钟)</span>
+                <span className={styles.itemMiddle}>好推净流水系数</span>
+                <span className={styles.itemRight}>操作</span>
+              </p>
+              <Tab itemList={itemList.financeNetFlowRatioList} />
+              {/* <ul className={styles.listItem}> */}
+
+              {/* <li>
+                  <div className={styles.itemLeft}>
+                    <p style={{ float: 'left', margin: '0' }}>
+                      <span
+                        style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}
+                      >
+                        <BIInput placeholder="请输入" />
+                      </span>
+                      <span>%</span>
+                      <Checkbox style={{ marginLeft: '5px' }} onChange={this.checkChange}>
+                        闭区间
+                      </Checkbox>
+                    </p>
+                    <span style={{ float: 'left', margin: '0 20px', lineHeight: '30px' }}>~</span>
+                    <p style={{ float: 'left', margin: '0' }}>
+                      <span
+                        style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}
+                      >
+                        <BIInput placeholder="请输入" />
+                      </span>
+                      <span>%</span>
+                      <Checkbox style={{ marginLeft: '5px' }} onChange={this.checkChange}>
+                        闭区间
+                      </Checkbox>
+                    </p>
+                  </div>
+                  <div className={styles.itemMiddle}>
+                    <span>系数</span>
+                    <span
+                      style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}
+                    >
+                      <BIInput placeholder="请输入" />
+                    </span>
+                    <span>%</span>
+                  </div>
+                  <div className={styles.itemRight}>
+                    <span className={styles.btn} onClick={this.delItem}>
+                      删除
+                    </span>
+                  </div>
+                </li> */}
+              {/* </ul> */}
+            </div>
           </div>
           <div className={styles.precentWrap}>
             <p className={styles.smallPerformance}>
