@@ -39,11 +39,6 @@ function dealQuarys(pm) {
   const p = DeepCopy(pm);
   return p;
 };
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
 
 
 @connect(({ faguang, exam, loading }) => ({
