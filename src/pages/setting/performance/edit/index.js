@@ -1,6 +1,8 @@
 import React from 'react';
+import router from 'umi/router';
 import { connect } from 'dva';
 import moment from 'moment';
+import BIModal from '@/ant_components/BIModal';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import styles from './style.less';
 import Tab from '../component/tab';
@@ -13,7 +15,9 @@ const { BIRangePicker } = BIDatePicker;
 class detail extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      visible: false,
+    };
 
     this.initModel = {
       effectiveDate: '',
@@ -32,16 +36,17 @@ class detail extends React.Component {
     };
   }
 
-  checkChange = () => {
-    console.log('1');
+  goHistory = () => {
+    this.setState({ visible: true });
+  };
+  handleOk = () => {
+    const pathname = '/setting/performance/list';
+    router.push({ pathname });
   };
 
-  // 添加好推绩效列表
-  addItem = () => {};
-
-  // 删除好推绩效列表
-  delItem = () => {};
-
+  handleCancel = () => {
+    this.setState({ visible: false });
+  };
   render() {
     const itemList = {
       effectiveDate: '1565232306052',
@@ -54,7 +59,7 @@ class detail extends React.Component {
           levelUpperLimit: 90,
           upperClose: false,
           lowerClose: true,
-          levelValue: '19',
+          levelValue: 19,
         },
       ],
     };
@@ -82,50 +87,6 @@ class detail extends React.Component {
                 <span className={styles.itemRight}>操作</span>
               </p>
               <Tab itemList={itemList.financeNetFlowRatioList} />
-              {/* <ul className={styles.listItem}> */}
-
-              {/* <li>
-                  <div className={styles.itemLeft}>
-                    <p style={{ float: 'left', margin: '0' }}>
-                      <span
-                        style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}
-                      >
-                        <BIInput placeholder="请输入" />
-                      </span>
-                      <span>%</span>
-                      <Checkbox style={{ marginLeft: '5px' }} onChange={this.checkChange}>
-                        闭区间
-                      </Checkbox>
-                    </p>
-                    <span style={{ float: 'left', margin: '0 20px', lineHeight: '30px' }}>~</span>
-                    <p style={{ float: 'left', margin: '0' }}>
-                      <span
-                        style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}
-                      >
-                        <BIInput placeholder="请输入" />
-                      </span>
-                      <span>%</span>
-                      <Checkbox style={{ marginLeft: '5px' }} onChange={this.checkChange}>
-                        闭区间
-                      </Checkbox>
-                    </p>
-                  </div>
-                  <div className={styles.itemMiddle}>
-                    <span>系数</span>
-                    <span
-                      style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}
-                    >
-                      <BIInput placeholder="请输入" />
-                    </span>
-                    <span>%</span>
-                  </div>
-                  <div className={styles.itemRight}>
-                    <span className={styles.btn} onClick={this.delItem}>
-                      删除
-                    </span>
-                  </div>
-                </li> */}
-              {/* </ul> */}
             </div>
           </div>
           <div className={styles.precentWrap}>
@@ -151,11 +112,29 @@ class detail extends React.Component {
           </div>
         </div>
         <p style={{ textAlign: 'right', marginTop: '10px' }}>
-          <BIButton onClick={this.toCreat}>返回</BIButton>
+          <BIButton onClick={this.goHistory}>返回</BIButton>
           <BIButton style={{ marginLeft: '8px' }} type="primary" onClick={this.toCreat}>
             提交
           </BIButton>
         </p>
+        <BIModal
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          title="警告"
+          footer={[
+            <BIButton key="back" style={{ marginRight: 10 }} onClick={this.handleCancel}>
+              取消
+            </BIButton>,
+            <BIButton key="submit" type="primary" onClick={this.handleOk}>
+              确定
+            </BIButton>,
+          ]}
+        >
+          <div className={styles.modalWrap}>
+            <p>此操作将不保存已录入的信息，是否确认离开？</p>
+          </div>
+        </BIModal>
       </div>
     );
   }
