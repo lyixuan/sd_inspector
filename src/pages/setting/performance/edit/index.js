@@ -6,6 +6,7 @@ import styles from './style.less';
 import Tab from '../component/tab';
 import BIInput from '@/ant_components/BIInput';
 import BIButton from '@/ant_components/BIButton';
+import { Checkbox } from 'antd';
 
 const { BIRangePicker } = BIDatePicker;
 
@@ -22,44 +23,65 @@ class detail extends React.Component {
   onFormChange = (value, vname) => {
     console.log(value, vname, 'vname');
   };
+
+  momentFormat = (date, way) => {
+    return moment(Number(date))
+      .format(way)
+      .replace(/-/g, '/');
+  };
+
+  checkChange = () => {
+    console.log('1');
+  };
+
   render() {
     console.log(this.props.location, 'pathname');
     const columns = [
       {
-        title: 'ID',
-        dataIndex: 'id',
-      },
-      {
-        title: '生效周期',
+        title: '听课时间(分钟)',
         dataIndex: 'date',
+        width: 500,
         render: (text, record) => {
           return (
-            <>{`${this.momentFormat(record.effectiveDate, 'YYYY-MM-DD')} - ${this.momentFormat(
-              record.expiryDate,
-              'YYYY-MM-DD'
-            )}`}</>
+            <>
+              <p style={{ float: 'left', margin: '0' }}>
+                <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
+                  <BIInput placeholder="请输入" />
+                </span>
+                <span>%</span>
+                <Checkbox style={{ marginLeft: '5px' }} onChange={this.checkChange}>
+                  闭区间
+                </Checkbox>
+              </p>
+              <span style={{ float: 'left', margin: '0 20px', lineHeight: '30px' }}>~</span>
+              <p style={{ float: 'left', margin: '0' }}>
+                <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
+                  <BIInput placeholder="请输入" />
+                </span>
+                <span>%</span>
+                <Checkbox style={{ marginLeft: '5px' }} onChange={this.checkChange}>
+                  闭区间
+                </Checkbox>
+              </p>
+            </>
           );
         },
       },
       {
-        title: '创建时间',
+        title: '好推净流水系数',
         dataIndex: 'createDate',
         render: (text, record) => {
-          return <>{this.momentFormat(record.createDate, 'YYYY-MM-DD HH:mm:ss')}</>;
-        },
-      },
-      {
-        title: '更新时间',
-        dataIndex: 'modifyDate',
-        render: (text, record) => {
-          return <>{this.momentFormat(record.modifyDate, 'YYYY-MM-DD HH:mm:ss')}</>;
-        },
-      },
-      {
-        title: '操作人',
-        dataIndex: 'operator',
-        render: (text, record) => {
-          return <>1111</>;
+          return (
+            <>
+              <p style={{ margin: '0', textAlign: 'center' }}>
+                <span>系数</span>
+                <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
+                  <BIInput placeholder="请输入" />
+                </span>
+                <span>%</span>
+              </p>
+            </>
+          );
         },
       },
       {
@@ -68,12 +90,11 @@ class detail extends React.Component {
         render: (text, record) => {
           return (
             <>
-              <span className={styles.btn} onClick={this.copy}>
-                复制
-              </span>
-              <span className={styles.btn} onClick={this.edit}>
-                编辑
-              </span>
+              <p style={{ margin: '0', textAlign: 'center' }}>
+                <span className={styles.btn} onClick={this.edit}>
+                  删除
+                </span>
+              </p>
             </>
           );
         },
@@ -81,7 +102,23 @@ class detail extends React.Component {
     ];
 
     const dateFormat = 'YYYY-MM-DD';
-    const data = [];
+    const data = [
+      {
+        effectiveDate: '1565232306052',
+        expiryDate: '1565232315842',
+        positionPercent: '50',
+        renewalKpi: '2',
+        financeNetFlowRatioList: [
+          {
+            levelLowerLimit: 10,
+            levelUpperLimit: 90,
+            upperClose: false,
+            lowerClose: true,
+            levelValue: '19',
+          },
+        ],
+      },
+    ];
     return (
       <div className={styles.editWrap}>
         <p>创收绩效包 / 绩效包详情</p>
@@ -99,7 +136,13 @@ class detail extends React.Component {
           <h2 className={styles.title}>好推绩效</h2>
           <div className={styles.goodPerWrap}>
             <p className={styles.smallPerformance}>好推净流水系数梯度表</p>
-            <Tab {...this.props} columns={columns} dataSource={data}></Tab>
+            <Tab
+              style={{ paddingBottom: '40px' }}
+              {...this.props}
+              columns={columns}
+              dataSource={data}
+            ></Tab>
+            <p className={styles.addTable}>添加区间</p>
           </div>
           <div className={styles.precentWrap}>
             <p className={styles.smallPerformance}>
