@@ -15,8 +15,8 @@ const performanceType = {
   teacher: '3',
 };
 
-@connect(({ PerformanceModel, loading }) => ({
-  PerformanceModel,
+@connect(({ performanceModel, loading }) => ({
+  performanceModel,
   isLoading: loading.effects['PerformanceModel/getPerformanceList'],
 }))
 class Performance extends React.Component {
@@ -63,7 +63,7 @@ class Performance extends React.Component {
     router.push({ pathname: '/setting/performance/edit' });
   };
   render() {
-    const { listData = [] } = this.props;
+    const { listData = [] } = this.props.performanceModel;
     const { page } = { page: 1 };
     const columns = [
       {
@@ -100,7 +100,7 @@ class Performance extends React.Component {
         title: '操作人',
         dataIndex: 'operator',
         render: (text, record) => {
-          return <>1111</>;
+          return <>{record.operator}</>;
         },
       },
       {
@@ -163,7 +163,7 @@ class Performance extends React.Component {
                   <Page
                     {...this.props}
                     columns={columns}
-                    dataSource={data}
+                    dataSource={listData.list}
                     page={page}
                     queryData={(params, page, isExport) => this.queryData(params, page, isExport)}
                     onJumpPage={(query, pathname) => this.onJumpPage(query, pathname)}

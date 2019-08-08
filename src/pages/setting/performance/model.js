@@ -6,7 +6,7 @@ export default {
   namespace: 'performanceModel',
 
   state: {
-    performanceList: [], // 保存组织处理成treeData需要的结构
+    listData: [], // 保存组织处理成treeData需要的结构
   },
   effects: {
     // 获取列表数据
@@ -15,6 +15,7 @@ export default {
       const result = yield call(performanceList, params);
       const listData = result.data || [];
       if (result.code === 20000) {
+        console.log(listData, 'listData');
         yield put({ type: 'save', payload: { listData } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
@@ -23,8 +24,8 @@ export default {
   },
 
   reducers: {
-    save(state, { payload }) {
-      return { ...state, ...payload };
+    save(state, action) {
+      return { ...state, ...action.payload };
     },
   },
 

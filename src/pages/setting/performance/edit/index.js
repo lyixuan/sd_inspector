@@ -47,6 +47,10 @@ class detail extends React.Component {
   handleCancel = () => {
     this.setState({ visible: false });
   };
+
+  submitMes = () => {
+    console.log('提交信息');
+  };
   render() {
     const itemList = {
       effectiveDate: '1565232306052',
@@ -113,7 +117,7 @@ class detail extends React.Component {
         </div>
         <p style={{ textAlign: 'right', marginTop: '10px' }}>
           <BIButton onClick={this.goHistory}>返回</BIButton>
-          <BIButton style={{ marginLeft: '8px' }} type="primary" onClick={this.toCreat}>
+          <BIButton style={{ marginLeft: '8px' }} type="primary" onClick={this.submitMes}>
             提交
           </BIButton>
         </p>
