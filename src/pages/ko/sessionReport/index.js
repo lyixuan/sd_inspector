@@ -4,7 +4,8 @@ import jwt from 'jsonwebtoken'
 const localItem = JSON.parse(localStorage.getItem("admin_user"));
 const userId = localItem.userId;
 const token = localItem.token
-const METABASE_SITE_URL = "http://172.16.109.87:38080/#/sessionRecord";
+// const METABASE_SITE_URL = "http://172.16.109.87:38080/#/sessionRecord";
+const METABASE_SITE_URL = "http://sscp.ministudy.com/college_learn/#/sessionRecord";
 class knowledge extends React.Component {
   constructor(props) {
     super(props);
