@@ -1,6 +1,7 @@
 import React from 'react';
 import router from 'umi/router';
 import { connect } from 'dva';
+import { Link } from 'dva/router';
 import moment from 'moment';
 import { handleDateParams, handleDateFormParams } from '@/pages/ko/utils/utils';
 import BIModal from '@/ant_components/BIModal';
@@ -9,7 +10,7 @@ import styles from './style.less';
 import Tab from '../component/tab';
 import BIInput from '@/ant_components/BIInput';
 import BIButton from '@/ant_components/BIButton';
-import { Checkbox } from 'antd';
+import { message } from 'antd';
 
 const { BIRangePicker } = BIDatePicker;
 
@@ -97,7 +98,6 @@ class detail extends React.Component {
     this.setState({ visible: true });
   };
   handleOk = () => {
-    const pathname = '/setting/performance/list';
     const query = this.props.location.query;
     router.push({
       pathname: '/setting/performance/list',
@@ -113,7 +113,10 @@ class detail extends React.Component {
     const { data, status } = this.state;
     const query = this.props.location.query;
     const params = data;
-    // this.isEmpty(params);
+    if (!this.isEmpty(params)) {
+      message.error('请完善所有信息');
+      return;
+    }
     params.packageType = query.packageType;
     if (status === TYPE.edit) {
       params.id = query.id;
@@ -148,9 +151,27 @@ class detail extends React.Component {
     }
   };
 
-  isEmpty = isEmpty => {
-    console.log(isEmpty, 'isEmpty');
+  isEmpty = item => {
+    console.log(item, 'item');
+    let bflag = false;
+    item.financeNetFlowRatioList.forEach(val => {
+      console.log(val, 'val');
+      bflag = val.levelLowerLimit && val.levelUpperLimit && val.levelValue;
+    });
+    return (
+      item.effectiveDate && item.expiryDate && item.positionPercent && item.renewalKpi && bflag
+    );
   };
+
+  // function fieldCheck(filed, value, cal) {
+  //   // 字段判空校验
+  //   filed.forEach(val => {
+  //     if (value[val] === null || value[val] === '') {
+  //       if (cal) cal();
+  //       return false;
+  //     }
+  //   });
+  // }
 
   renderInput = (obj = {}, keyName) => {
     return (
@@ -209,7 +230,12 @@ class detail extends React.Component {
     const { data } = this.state;
     return (
       <div className={styles.editWrap}>
-        <p>创收绩效包 / 绩效包详情</p>
+        <p>
+          <Link to="/setting/performance/list" style={{ color: 'rgba(0, 0, 0, 0.65)' }}>
+            创收绩效包
+          </Link>
+          / 绩效包详情
+        </p>
         <div className={styles.header}>
           <span style={{ marginRight: '10px' }}>生效周期:</span>
           <BIRangePicker

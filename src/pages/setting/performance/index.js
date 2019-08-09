@@ -83,7 +83,7 @@ class Performance extends React.Component {
   };
   render() {
     const { listData = [] } = this.props.performanceModel;
-    console.log(listData, 'listData');
+    console.log(this.state.packageType, 'this.state.packageType');
     const tableTitle = ['家族长', '运营长', '班主任'];
     const pageData = {
       pageNum: listData.pageNum,

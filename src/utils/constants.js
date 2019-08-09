@@ -381,6 +381,8 @@ export const EmptyContentLayout = [
   { path: '/qualityReport', name: '质检图表' },
   { path: '/setting/performance/list', name: '创收绩效包' },
   { path: '/setting/performance/edit', name: '创收绩效包详情' },
+  { path: '/setting/performance/create', name: '创收绩效包详情' },
+  { path: '/setting/performance/copy', name: '创收绩效包详情' },
 ];
 // 应用类型
 export const APP_LIST = [{ id: '1', name: '极速版App' }];
