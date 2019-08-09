@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, Table } from 'antd';
 import moment from 'moment';
 import BISelect from '@/ant_components/BISelect';
 import BIDatePicker from '@/ant_components/BIDatePicker';
@@ -23,14 +23,15 @@ class NewQualitySheet extends React.Component {
   };
 
   render() {
-    const { dataSource, page, columns, loading } = this.props;
+    const { dataSource, columns, loading } = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*table*/}
         <div className={styles.tableBlock}>
           <BITable
-            key={record => record.id}
-            rowKey={record => record.id}
+            rowKey={record => {
+              return record.id;
+            }}
             dataSource={dataSource}
             columns={columns}
             pagination={false}

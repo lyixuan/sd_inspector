@@ -36,9 +36,9 @@ class Performance extends React.Component {
       .format(way)
       .replace(/-/g, '/');
   };
-  getPerformanceList = (val,currentPage) => {
+  getPerformanceList = (val, currentPage) => {
     let params = {
-      packageType: Number(val) || Number(this.state.packageType)
+      packageType: Number(val) || Number(this.state.packageType),
     };
     this.props.dispatch({
       type: 'performanceModel/getListData',
@@ -84,14 +84,15 @@ class Performance extends React.Component {
       total: listData.total,
       size: 15,
     };
-    console.log(listData, 'listDatalistDatalistDatalistData');
     const columns = [
       {
         title: 'ID',
         dataIndex: 'id',
+        key: '1',
       },
       {
         title: '生效周期',
+        key: '2',
         dataIndex: 'date',
         render: (text, record) => {
           return (
@@ -104,6 +105,7 @@ class Performance extends React.Component {
       },
       {
         title: '创建时间',
+        key: '3',
         dataIndex: 'createDate',
         render: (text, record) => {
           return <>{this.momentFormat(record.createDate, 'YYYY-MM-DD HH:mm:ss')}</>;
@@ -111,6 +113,7 @@ class Performance extends React.Component {
       },
       {
         title: '更新时间',
+        key: '4',
         dataIndex: 'modifyDate',
         render: (text, record) => {
           return <>{this.momentFormat(record.modifyDate, 'YYYY-MM-DD HH:mm:ss')}</>;
@@ -118,6 +121,7 @@ class Performance extends React.Component {
       },
       {
         title: '操作人',
+        key: '5',
         dataIndex: 'operator',
         render: (text, record) => {
           return <>{record.operator}</>;
@@ -125,6 +129,7 @@ class Performance extends React.Component {
       },
       {
         title: '操作',
+        key: '6',
         dataIndex: 'operator',
         render: (text, record) => {
           return (
@@ -161,7 +166,7 @@ class Performance extends React.Component {
               columns={columns}
               dataSource={listData.list}
               pageData={pageData}
-              queryData={(currentPage) => this.queryDataFn(currentPage)}
+              queryData={currentPage => this.queryDataFn(currentPage)}
             ></Page>
           </div>
         </TabPane>
