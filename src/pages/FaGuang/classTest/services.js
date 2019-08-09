@@ -1,16 +1,16 @@
 import request from '@/utils/request';
 
 // 查询列表
-export async function getList() {
-  return request('/shinecollege/classExam/list' );
+export async function getList(params) {
+  return request('/shinecollege/classExam/list', { params } );
 }
 
-// 获取前端角色
-export async function getRole() {
-  return request('/shinecollege/role/list' );
+// 删除
+export async function delelte(params) {
+  return request('shinecollege/classExam/delete', { params });
 }
 
 //  编辑
 export async function updateData(data) {
-  return request('/shinecollege/exam/update', { method: 'post', data });
+  return request('/shinecollege/classExam/update', { method: 'post', data });
 }

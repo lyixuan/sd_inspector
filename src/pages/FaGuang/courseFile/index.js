@@ -142,7 +142,7 @@ class Course extends React.Component {
   render() {
     const { courseList=[] } = this.props.faguang||{};
     const { dataList = [], page,pptList=[] } = this.props.courseFile;
-    const pptPicList = pptList.map((v,i)=>(<img alt="example" style={{ width: '100%' }} src={pptList[i]} />));
+    const pptPicList = pptList.map((v,i)=>(<img alt="图片地址错误" style={{ width: '100%' }} src={pptList[i]} />));
     return (
       <>
         <Page

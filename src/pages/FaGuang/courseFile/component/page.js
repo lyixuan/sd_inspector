@@ -136,22 +136,22 @@ class NewQualitySheet extends React.Component {
         </div>
 
         <BIModal
-          title="错误信息"
-          width={740}
+          title="批量导入失败"
+          width={440}
           visible={this.state.visible}
           onCancel={this.handleOk}
           onOk={this.handleOk}
           footer={[
             <BIButton type="primary" onClick={this.handleOk}>
-              关闭
+              确定
             </BIButton>,
           ]}
         >
           {failList.map((v,i)=>(
             <div key={i}>
-              <span>{v.rowIndex}</span>
-              <span>{v.videoIdResult}</span>
-              <span>{v.pptUrlResult}</span>
+              <span>行数：{v.rowIndex}&nbsp;&nbsp;&nbsp; </span>
+              <span>问题：{v.videoIdResult}， </span>
+              <span>{v.pptUrlResult} </span>
             </div>
           ))}
 

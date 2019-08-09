@@ -9,7 +9,7 @@ import BIButton from '@/ant_components/BIButton';
 import styles from './style.less';
 import { message } from 'antd/lib/index';
 const { Option } = BISelect;
-
+const confirm = BIModal.confirm;
 function dealQuarys(pm) {
   const p = DeepCopy(pm);
   return p;
@@ -54,24 +54,30 @@ class Evaluate extends React.Component {
       payload: { params },
     });
   };
+  onDel = (record) => {
+    const that = this;
+    confirm({
+      className: 'BIConfirm',
+      okType: 'danger',
+      title: '是否删除当前记录?',
+      cancelText: '取消',
+      okText: '确定',
+      onOk() {
+        that.props.dispatch({
+          type: 'classTest/delelte',
+          payload: { params: { questionId: record.questionId } },
+        }).then(() => {
+          that.queryData()
+        });
+      },
+      onCancel() { },
+    });
+  };
   columnsAction = () => {
     const columns = [
       {
         title: '课程编号',
         dataIndex: 'id',
-        // render: (value, row, index) => {
-        //   const obj = {
-        //     children: value,
-        //     props: {rowSpan: 0},
-        //   };
-        //   const arr = [0];
-        //   arr.forEach((v,i)=>{
-        //     if (index === v) {
-        //       obj.props.rowSpan = arr[i+1]-arr[i];
-        //     }
-        //   });
-        //   return obj;
-        // },
       },
       {
         title: '课程名称',
@@ -84,45 +90,45 @@ class Evaluate extends React.Component {
       {
         title: '选项',
         dataIndex: 'examSubjects',
+        render: (text, record) => {
+          return (
+            <div style={{margin:'-12px'}}>
+              <div className={styles.btmline}>{record.aOption} {record.aContent}</div>
+              <div className={styles.btmline}>{record.bOption} {record.bContent}</div>
+              <div className={styles.btmline}>{record.cOption} {record.cContent}</div>
+              <div className={styles.btmlinelast}>{record.dOption} {record.dContent}</div>
+            </div>
+          );
+        },
       },
       {
         title: '正确选项',
-        dataIndex: 'examSubjects',
+        dataIndex: 'correctOptionValue',
       },
-      // {
-      //   title: '操作',
-      //   dataIndex: 'operation',
-      //   render: (value, record, index) => {
-      //     const obj = {
-      //       children: <>
-      //         <span  className={styles.actionBtn} onClick={() => this.showModal(record)}>
-      //         编辑
-      //       </span>
-      //       </>,
-      //       props: {rowSpan: 0},
-      //     };
-      //     const arr = [0];
-      //     rowGroup.forEach((v,i)=>{
-      //       arr.push(arr[i]+v);
-      //     });
-      //     arr.forEach((v,i)=>{
-      //       if (index === v) {
-      //         obj.props.rowSpan = arr[i+1]-arr[i];
-      //       }
-      //     });
-      //     return obj;
-      //   },
-      // }
+      {
+        title: '操作',
+        dataIndex: 'operation',
+        render: (text, record) => {
+          return (
+            <>
+              <span className={styles.actionBtn} onClick={() => this.showModal(record)}>
+              编辑
+            </span>
+              <span className={styles.actionBtn} onClick={() => this.onDel(record)}>
+              删除
+            </span>
+            </>
+          );
+        },
+      }
     ];
     return columns;
   };
 
   showModal = (record) => {
-    const { srcData } = this.props.expaper;
     this.setState({
       visible: true,
-      formParams:DeepCopy(srcData[record.examTypeName])||[],
-      examTypeName:record.examTypeName
+      formParams:DeepCopy(record)||[],
     });
   };
   handleCancel = () => {
@@ -133,29 +139,8 @@ class Evaluate extends React.Component {
   handleSubmit = () => {
     const {formParams=[]} = this.state;
     const param = DeepCopy(formParams);
-    let role = [];
-    if(param.length<1){
-      message.warn('至少添加一个考卷信息');
-      return;
-    }
-    for(let i = 0; i < param.length; i++){
-      param[i].examSubjects = param[i].examSubjects.split(',');
-      role=role.concat(param[i].examSubjects)
-      if(param[i].examUrl === undefined || param[i].examUrl === null||param[i].examUrl === '') {
-        message.warn('请输入考卷地址');
-        return;
-      }
-      if(param[i].examSubjects === undefined || param[i].examSubjects === null||param[i].examSubjects.length===0) {
-        message.warn('请输入选择考试对象');
-        return;
-      }
-    }
-    if(new Set(role).size !== role.length){
-      message.warn('同一考试对象只可参加一个考试');
-      return;
-    }
     this.props.dispatch({
-      type:'expaper/updateData',
+      type:'classTest/updateData',
       payload: { list: param },
     }).then((res)=>{
       if(res) {
@@ -218,6 +203,7 @@ class Evaluate extends React.Component {
           {...this.props}
           columns={this.columnsAction()}
           dataSource={dataList}
+          page={page}
           queryData={(params, page) => this.queryData(params, page)}/>
 
         <BIModal
