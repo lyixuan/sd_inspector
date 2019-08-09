@@ -99,7 +99,7 @@ class Evaluate extends React.Component {
         render: (value, record, index) => {
           const obj = {
             children: <>
-              <span className={styles.actionBtn} onClick={() => this.showModal(record)}>
+              <span  className={styles.actionBtn} onClick={() => this.showModal(record)}>
               编辑
             </span>
             </>,
@@ -125,7 +125,7 @@ class Evaluate extends React.Component {
     const { srcData } = this.props.expaper;
     this.setState({
       visible: true,
-      formParams:srcData[record.examTypeName]||[],
+      formParams:DeepCopy(srcData[record.examTypeName])||[],
       examTypeName:record.examTypeName
     });
   };
@@ -136,23 +136,31 @@ class Evaluate extends React.Component {
   };
   handleSubmit = () => {
     const {formParams=[]} = this.state;
-    if(formParams.length<1){
+    const param = DeepCopy(formParams);
+    let role = [];
+    if(param.length<1){
       message.warn('至少添加一个考卷信息');
       return;
     }
-    for(let i = 0; i < formParams.length; i++){
-      if(formParams[i].examUrl === undefined || formParams[i].examUrl === null||formParams[i].examUrl === '') {
+    for(let i = 0; i < param.length; i++){
+      param[i].examSubjects = param[i].examSubjects.split(',');
+      role=role.concat(param[i].examSubjects)
+      if(param[i].examUrl === undefined || param[i].examUrl === null||param[i].examUrl === '') {
         message.warn('请输入考卷地址');
         return;
       }
-      if(formParams[i].examSubjects === undefined || formParams[i].examSubjects === null||formParams[i].examSubjects.length===0) {
+      if(param[i].examSubjects === undefined || param[i].examSubjects === null||param[i].examSubjects.length===0) {
         message.warn('请输入选择考试对象');
         return;
       }
     }
+    if(new Set(role).size !== role.length){
+      message.warn('同一考试对象只可参加一个考试');
+      return;
+    }
     this.props.dispatch({
       type:'expaper/updateData',
-      payload: { list: formParams },
+      payload: { list: param },
     }).then((res)=>{
       if(res) {
         this.setState({
@@ -174,10 +182,29 @@ class Evaluate extends React.Component {
       formParams: arr,
     });
   };
+  minus=(v,i)=>{
+    const {formParams=[]} = this.state;
+    formParams.splice(i,1);
+    this.setState({
+      formParams,
+    });
+  };
+  plus=(v,i)=>{
+    const {formParams=[]} = this.state;
+    const obj = {...formParams[0]};
+    obj.examName = '';
+    obj.examUrl = '';
+    obj.examSubjects = '';
+    const arr1 = formParams.slice(0,i+1);
+    const arr2 = [obj];
+    const arr3 = formParams.slice(i+1);
+    this.setState({
+      formParams:arr1.concat(arr2,arr3),
+    });
+  };
   render() {
     const { dataList = [],rowGroup=[],roleList=[] } = this.props.expaper;
     const {formParams=[],examTypeName} = this.state;
-    console.log(formParams)
 
     const ModalContent = (
       <div  className={styles.wrap}>
@@ -191,21 +218,18 @@ class Evaluate extends React.Component {
               <span className={styles.titleLeft}>{idx===0?'考试信息：':(<span>&nbsp;</span>)}</span>
               <div className={styles.rightCon}>
                 <BIInput placeholder="请输入考卷名称" style={{ width: 180 }} value={v.examName} onChange={(e) => this.onFormChange(e.target.value, 'examName',idx)}/>&nbsp;&nbsp;
-                <BIInput placeholder="请输入考卷地址，必填项" style={{ width: 280 }} value={v.examUrl} onChange={(e) => this.onFormChange(e.target.value, 'examUrl',idx)}/>&nbsp;&nbsp;
-                <BISelect style={{width:210}} allowClear placeholder="请选择"  mode="multiple" showArrow maxTagCount={1}  value={examSubjects} onChange={(val)=>this.onFormChange(val,'examSubjects',idx)}>
+                <BIInput placeholder="请输入考卷地址，必填项" style={{ width: 300 }} value={v.examUrl} onChange={(e) => this.onFormChange(e.target.value, 'examUrl',idx)}/>&nbsp;&nbsp;
+                <BISelect style={{width:250}} allowClear placeholder="请选择"  mode="multiple" showArrow maxTagCount={1}  value={examSubjects} onChange={(val)=>this.onFormChange(val,'examSubjects',idx)}>
                   {roleList.map(item => (
                     <Option key={item.name}>
                       {item.name}
                     </Option>
                   ))}
                 </BISelect>
-                {/*{idx===0?*/}
-                {/*<span className={styles.sortRtIcon}><Icon style={{color:'#ccc'}} type="up-circle"/></span>:*/}
-                {/*<span className={styles.sortRtIcon} onClick={()=>this.up(v)}><Icon type="up-circle" className={styles.icon}/></span>}*/}
-                {/*{idx===sortParams.length-1?*/}
-                {/*<span className={styles.sortRtIcon}><Icon style={{color:'#ccc'}} type="down-circle"/></span>:*/}
-                {/*<span className={styles.sortRtIcon} onClick={()=>this.down(v)}><Icon type="down-circle" className={styles.icon}/></span>*/}
-                {/*}*/}
+                <span className={styles.sortRtIcon} onClick={()=>this.plus(v,idx)}><Icon type="plus-circle" className={styles.icon}/></span>
+                {formParams.length===1?
+                <span className={styles.sortRtIcon}><Icon style={{color:'#ccc'}} type="minus-circle"/></span>:
+                <span className={styles.sortRtIcon} onClick={()=>this.minus(v,idx)}><Icon type="minus-circle" className={styles.icon}/></span>}
               </div>
             </div>
           )

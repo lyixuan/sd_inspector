@@ -1,303 +1,239 @@
 import React from 'react';
 import { connect } from 'dva';
-import { DeepCopy, BiFilter } from '@/utils/utils';
-import AuthButton from '@/components/AuthButton';
-import Page from './component/page';
-import style from '@/pages/qualityAppeal/style.less';
-import subStl from '@/pages/qualityAppeal/qualityNewSheet/style.less';
-import router from 'umi/router';
+import { Icon,Row,Col,InputNumber} from 'antd';
+import BIInput from '@/ant_components/BIInput';
+import BISelect from '@/ant_components/BISelect';
+import BIButton from '@/ant_components/BIButton';
+import BIButtonYellow from '@/components/BIButtonYellow'
+import moment from 'moment';
 import BIModal from '@/ant_components/BIModal';
-import moment from 'moment/moment';
+import style from './style.less'
+import { message } from 'antd/lib/index';
 
-const confirm = BIModal.confirm;
-const columns = [
-  {
-    title: '质检单号',
-    dataIndex: 'qualityNum',
-  },
-  {
-    title: '质检类型',
-    dataIndex: 'qualityType',
-    render: (text, record) => {
-      return (
-        <>
-          {BiFilter(`QUALITY_TYPE|id:${record.qualityType}`).name}
-        </>
-      );
-    },
-  },
-  {
-    title: '分维',
-    dataIndex: 'violationName',
-  },
-  {
-    title: '归属组织',
-    dataIndex: 'collegeName',
-    render: (text, record) => {
-      return (
-        <>
-          {`${record.collegeName ? record.collegeName : ''} ${record.familyName ? `| ${record.familyName}` : ''}  ${record.groupName ? `| ${record.groupName}` : ''}`}
-        </>
-      );
-    },
-  },
-  {
-    title: '质检扣分日期',
-    dataIndex: 'reduceScoreDate',
-    render: (text, record) => {
-      return (
-        <>
-          {record.reduceScoreDate ? moment(record.reduceScoreDate).format('YYYY-MM-DD') : '-'}
-        </>
-      );
-    },
-  },
-  {
-    title: '质检发起人',
-    dataIndex: 'operateName',
-  },
-  {
-    title: '违规等级',
-    dataIndex: 'violationLevel',
-  },
-  {
-    title: '质检状态',
-    dataIndex: 'status',
-    render: (text, record) => {
-      function dot() {
-        let rt = null;
-        if (record.status === 2) {
-          rt = <span className={subStl.dotStl} style={{ background: '#FAAC14' }}></span>
-        }
-        if (record.status === 4) {
-          rt = <span className={subStl.dotStl} style={{ background: '#52C9C2' }}></span>
-        }
-        if (record.status === 3) {
-          rt = <span className={subStl.dotStl} style={{ background: '#D9D9D9' }}></span>
-        }
-        if (record.status === 1) {
-          rt = <span className={subStl.dotStl} style={{ background: '#FF0000' }}></span>
-        }
-        return rt;
-      }
-      return (
-        <>
-          {dot()}
-          {BiFilter(`QUALITY_STATE|id:${record.status}`).name}
-        </>
-      );
-    },
-  },
-];
+const { Option } = BISelect;
 
-function dealQuarys(pm) {
-  const p = DeepCopy(pm);
-  if (p.collegeIdList && p.collegeIdList.length > 0) {
-    p.collegeIdList = p.collegeIdList.map((v) => {
-      return Number(v.replace('a-', ''));
-    })
-  } else {
-    p.collegeIdList = undefined;
-  }
-  if (p.familyIdList && p.familyIdList.length > 0) {
-    p.familyIdList = p.familyIdList.map((v) => {
-      return Number(v.replace('b-', ''));
-    })
-  } else {
-    p.familyIdList = undefined;
-  }
-  if (p.groupIdList && p.groupIdList.length > 0) {
-    p.groupIdList = p.groupIdList.map((v) => {
-      return Number(v.replace('c-', ''));
-    })
-  } else {
-    p.groupIdList = undefined;
-  }
-  if (p.qualityType && p.qualityType !== 'all') {
-    p.qualityType = Number(p.qualityType);
-  } else {
-    p.qualityType = undefined;
-  }
-  if (p.statusList && p.statusList.length > 0) {
-    p.statusList = p.statusList.map(v => Number(v))
-  } else {
-    p.statusList = undefined;
-  }
-  if (p.violationLevelList&&p.violationLevelList.length>0) {
-    p.violationLevelList = p.violationLevelList.map(v => Number(v))
-  } else {
-    p.violationLevelList = undefined;
-  }
 
-  if (p.dimensionIdList&&p.dimensionIdList.length>0) {
-    p.dimensionIdList = p.dimensionIdList.map(v => Number(v))
-  } else {
-    p.dimensionIdList = undefined
-  }
-  if (p.qualityNum && p.qualityNum !== '') {
-    p.qualityNum = p.qualityNum.trim();
-  } else {
-    p.qualityNum = undefined
-  }
-  return p;
-};
-
-@connect(({ qualityAppealHome, qualityNewSheet, loading }) => ({
-  qualityAppealHome,
-  qualityNewSheet,
-  loading: loading.effects['qualityNewSheet/getQualityList'],
-  loading2: loading.effects['qualityNewSheet/exportExcel']
+@connect(({ smallPro,loading }) => ({
+  smallPro,
+  loading1: loading.effects['smallPro/updateData'],
+  loading2: loading.effects['smallPro/updateData2'],
 }))
 
-class NewQualitySheetIndex extends React.Component {
+class Evaluate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
-      pageSize: 30
+      img:'',
+      visible:false,
     };
-    this.saveUrlParams = undefined;
-    // this.columnsAction = this.columnsAction()
   }
   componentDidMount() {
-    const { p = null } = this.props.location.query;
-    this.queryData(JSON.parse(p));
+    this.queryData();
   }
-
-  queryData = (pm, pg, isExport) => {
-    this.saveUrlParams = (pm && !isExport) ? JSON.stringify(pm) : undefined;
-    const dealledPm = pm && dealQuarys(pm);
-    let params = { ...this.state };
-    if (dealledPm) {
-      params = { ...params, ...dealledPm };
-    }
-    if (pg) {
-      params = { ...params, ...pg };
-      this.saveUrlParams =JSON.stringify({...JSON.parse(this.saveUrlParams),...pg});
-      this.setState({
-        page: pg.page
-      });
-    }
-
-    if (isExport) {
-      this.props.dispatch({
-        type: 'qualityNewSheet/exportExcel',
-        payload: { params },
-      });
-    } else {
-      this.props.dispatch({
-        type: 'qualityNewSheet/getQualityList',
-        payload: { params },
-      }).then(() => {
-        router.replace({
-          pathname: this.props.location.pathname,
-          query: this.saveUrlParams ? { p: this.saveUrlParams } : ''
-        })
-      });
-    }
-  };
-
-  onRepeal = (record) => {
-    const that = this;
-    const { p = null } = this.props.location.query;
-    confirm({
-      className: 'BIConfirm',
-      title: '是否撤销当前数据状态?',
-      cancelText: '取消',
-      okText: '确定',
-      onOk() {
-        that.props.dispatch({
-          type: 'qualityNewSheet/cancelQuality',
-          payload: { params: { id: record.id } },
-        }).then(() => {
-          that.queryData(JSON.parse(p))
-        });
-      },
-      onCancel() { },
+  queryData = () => {
+    this.props.dispatch({
+      type: 'smallPro/getList1',
+      payload: { },
+    });
+    this.props.dispatch({
+      type: 'smallPro/getList2',
+      payload: { },
     });
   };
-
-  columnsAction = () => {
-    const actionObj = [{
-      title: '操作',
-      dataIndex: 'operation',
-      render: (text, record) => {
-        return (
-          <>
-            <AuthButton authority='/qualityAppeal/qualityNewSheet/detail'>
-              <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
-                查看详情
-              </span>
-            </AuthButton>
-            {record.status === 1 || record.status === 3 ? (
-              <AuthButton authority='/qualityAppeal/qualityNewSheet/edit'>
-                <span className={style.actionBtn} onClick={() => this.onEdit(record)}>
-                  编辑
-                </span>
-              </AuthButton>
-            ) : null}
-            {record.status === 2 ? (
-              <AuthButton authority='/qualityAppeal/qualityNewSheet/repeal'>
-                <span className={style.actionBtn} onClick={() => this.onRepeal(record)}>
-                  撤销
-              </span>
-              </AuthButton>
-            ) : null}
-            {record.status === 2 ? (
-              <AuthButton authority='/qualityAppeal/qualityNewSheet/appealSt'>
-                <span className={style.actionBtn} onClick={() => this.onAppeal(record)}>
-                  审核
-                </span>
-              </AuthButton>
-            ) : null}
-          </>
-        );
-      },
-    }];
-    if (!AuthButton.checkPathname('/qualityAppeal/qualityNewSheet/showQR')) {
-      const index = columns.findIndex(item => item.dataIndex === 'operateName');
-      if (index >= 0) {
-        columns.splice(index, 1);
+  minus=(v,i,list,listname)=>{
+    list.splice(i,1);
+    this.props.dispatch({
+      type: 'smallPro/saveList',
+      payload: { [listname]: list},
+    });
+  };
+  plus=(v,i,list,listname)=>{
+    const obj = {};
+    obj.bannerImgUrl = '';
+    obj.bannerLinkUrl = '';
+    obj.sort = undefined;
+    const arr1 = list.slice(0,i+1);
+    const arr2 = [obj];
+    const arr3 = list.slice(i+1);
+    this.props.dispatch({
+      type: 'smallPro/saveList',
+      payload: { [listname]: arr1.concat(arr2,arr3)},
+    });
+  };
+  onFormChange=(val,vname,idx,list,listname)=>{
+    const arr = [...list];
+    arr[idx][vname] = val;
+    this.props.dispatch({
+      type: 'smallPro/saveList',
+      payload: { [listname]: arr},
+    });
+  };
+  handleSubmit = (list,type) => {
+    const param = list;
+    if(param.length>10){
+      message.warn('最多录入10条信息');
+      return;
+    }
+    for(let i = 0; i < param.length; i++){
+      if(!param[i].bannerImgUrl || !param[i].bannerLinkUrl ||param[i].sort === undefined||param[i].sort === null) {
+        message.warn('请填写完整信息');
+        return;
       }
+      param[i]['bannerType'] = type;
     }
-    return [...columns, ...actionObj];
-  };
-
-  onJumpPage = (query, pathname) => {
-    router.push({
-      pathname,
-      query
+    this.props.dispatch({
+      type:type===1?'smallPro/updateData':'smallPro/updateData2',
+      payload: { list: param },
+    }).then((res)=>{
+      if(res) {
+        this.queryData();
+      }
     });
   };
-  onDetail = (record) => {
-    this.onJumpPage({ id: record.id }, '/qualityAppeal/qualityNewSheet/detail');
+  showModal = (img) => {
+    this.setState({
+      visible: true,
+      img
+    });
   };
-
-  onEdit = (record) => {
-    this.onJumpPage({ id: record.id }, '/qualityAppeal/qualityNewSheet/edit');
-  };
-
-  onAppeal = (record) => {
-    this.onJumpPage({ id: record.id }, '/qualityAppeal/qualityNewSheet/appealSt');
+  handleOk = () => {
+    this.setState({
+      visible: false,
+    });
   };
   render() {
-    const { orgListTreeData = [], dimensionList1 = [], dimensionList2 = [] } = this.props.qualityAppealHome;
-    const { qualityList = [], page } = this.props.qualityNewSheet;
+    const { dataList1 = [],  dataList2 = [] } = this.props.smallPro;
+    const {collegeId} = this.state;
+    const sellist = [{ id:1,name:'学员' },{ id:2,name:'课程' }];
     return (
       <>
-        <Page
-          {...this.props}
-          columns={this.columnsAction()}
-          dataSource={qualityList}
-          page={page}
-          orgList={orgListTreeData}
-          dimensionList1={dimensionList1}
-          dimensionList2={dimensionList2}
-          queryData={(params, page, isExport) => this.queryData(params, page, isExport)}
-          onJumpPage={(query, pathname) => this.onJumpPage(query, pathname)} />
+        <div className={style.box}>
+          <div className={style.title}>学习数据导出</div>
+          <div className={style.cont}>
+            统计维度：<BISelect style={{ width: 180 }} placeholder="请选择"
+                      value={collegeId}
+                      onChange={(val) => this.onFormChange123(val, 'collegeId')}>
+              {sellist.map(item => (
+                <Option key={item.id}>
+                  {item.name}
+                </Option>
+              ))}
+            </BISelect>
+            <span style={{float:'right'}} >
+              <BIButtonYellow  type="primary" loading={this.props.loading2} onClick={this.handleExport}>
+              <Icon type="download" />导出
+            </BIButtonYellow>
+            </span>
+          </div>
+        </div>
+
+        <div className={style.box}>
+          <div className={style.title}>首页Banner</div>
+          <div className={style.cont}>
+            {dataList1.map((item,idx)=>(
+              <Row gutter={1} key={idx}>
+                <Col span={2}>
+                  <div>{idx===0?'Banner图信息:':''}</div>
+                </Col>
+                <Col span={9}>
+                  <BIInput placeholder="Banner图地址"
+                           style={{ width: '95%' }}
+                           value={item.bannerImgUrl}
+                           onChange={(e) => this.onFormChange(e.target.value, 'bannerImgUrl',idx,dataList1,'dataList1')}/>
+                </Col>
+                <Col span={10}>
+                  <BIInput placeholder="点击跳转地址"
+                           style={{ width: '95%' }}
+                           value={item.bannerLinkUrl}
+                           onChange={(e) => this.onFormChange(e.target.value, 'bannerLinkUrl',idx,dataList1,'dataList1')}/>
+                </Col>
+                <Col span={1}>
+                  <InputNumber placeholder="顺序"
+                           style={{ width: '100%' }}
+                               min={1} max={10000} step={1}
+                           value={item.sort}
+                           onChange={(value) => this.onFormChange(value, 'sort',idx,dataList1,'dataList1')}/>
+                </Col>
+                <Col span={2}>
+                  <span className={style.sortRtText} onClick={()=>this.showModal(item.bannerImgUrl)}>预览</span>
+                  <span className={style.sortRtIcon} onClick={()=>this.plus(item,idx,dataList1,'dataList1')}><Icon type="plus-circle" className={style.icon}/></span>
+                  {dataList1.length===1?
+                    <span className={style.sortRtIcon}><Icon style={{color:'#ccc'}} type="minus-circle"/></span>:
+                    <span className={style.sortRtIcon} onClick={()=>this.minus(item,idx,dataList1,'dataList1')}><Icon type="minus-circle" className={style.icon}/></span>}
+                </Col>
+              </Row>
+            ))}
+            <div style={{width:'100%',textAlign:'right'}}>
+              <span className={style.text}>最近一次更新：{moment(dataList1[0]?dataList1[0].createTime:null).format('YYYY-MM-DD HH:mm:ss')} &nbsp;</span>
+              <BIButton type="primary" loading={this.props.loading1} onClick={()=>this.handleSubmit(dataList1,1)}>
+                保存
+              </BIButton>
+            </div>
+          </div>
+        </div>
+
+        <div className={style.box}>
+          <div className={style.title}>考试公告</div>
+          <div className={style.cont}>
+            {dataList2.map((item,idx)=>(
+              <Row gutter={1} key={idx}>
+                <Col span={2}>
+                  <div>{idx===0?'Banner图信息:':''}</div>
+                </Col>
+                <Col span={9}>
+                  <BIInput placeholder="Banner图地址"
+                           style={{ width: '95%' }}
+                           value={item.bannerImgUrl}
+                           onChange={(e) => this.onFormChange(e.target.value, 'bannerImgUrl',idx,dataList2,'dataList2')}/>
+                </Col>
+                <Col span={10}>
+                  <BIInput placeholder="点击跳转地址"
+                           style={{ width: '95%' }}
+                           value={item.bannerLinkUrl}
+                           onChange={(e) => this.onFormChange(e.target.value, 'bannerLinkUrl',idx,dataList2,'dataList2')}/>
+                </Col>
+                <Col span={1}>
+                  <InputNumber placeholder="顺序"
+                               style={{ width: '100%' }}
+                               min={1} max={10000} step={1}
+                               value={item.sort}
+                               onChange={(value) => this.onFormChange(value, 'sort',idx,dataList2,'dataList2')}/>
+                </Col>
+                <Col span={2}>
+                  <span className={style.sortRtText} onClick={()=>this.showModal(item.bannerImgUrl)}>预览</span>
+                  <span className={style.sortRtIcon} onClick={()=>this.plus(item,idx,dataList2,'dataList2')}><Icon type="plus-circle" className={style.icon}/></span>
+                  {dataList2.length===1?
+                    <span className={style.sortRtIcon}><Icon style={{color:'#ccc'}} type="minus-circle"/></span>:
+                    <span className={style.sortRtIcon} onClick={()=>this.minus(item,idx,dataList2,'dataList2')}><Icon type="minus-circle" className={style.icon}/></span>}
+                </Col>
+              </Row>
+            ))}
+            <div style={{width:'100%',textAlign:'right'}}>
+              <span className={style.text}>最近一次更新：{moment(dataList2[0]?dataList2[0].createTime:null).format('YYYY-MM-DD HH:mm:ss')} &nbsp;</span>
+              <BIButton type="primary" loading={this.props.loading2} onClick={()=>this.handleSubmit(dataList2,2)}>
+                保存
+              </BIButton>
+            </div>
+          </div>
+        </div>
+
+        <BIModal
+          title="预览"
+          width={740}
+          visible={this.state.visible}
+          onCancel={this.handleOk}
+          onOk={this.handleOk}
+          footer={[
+            <BIButton type="primary" loading={this.props.loading2} onClick={this.handleOk}>
+              关闭
+            </BIButton>,
+          ]}
+        >
+          <img alt="图片地址无效" style={{ width: '100%' }} src={this.state.img} />
+        </BIModal>
       </>
     );
   }
 }
 
-export default NewQualitySheetIndex;
+export default Evaluate;
