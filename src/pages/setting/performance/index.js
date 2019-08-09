@@ -36,7 +36,7 @@ class Performance extends React.Component {
       .format(way)
       .replace(/-/g, '/');
   };
-  getPerformanceList = (val, currentPage) => {
+  getPerformanceList = val => {
     let params = {
       packageType: Number(val) || Number(this.state.packageType),
     };
@@ -72,15 +72,21 @@ class Performance extends React.Component {
     });
   };
 
-  queryDataFn = currentPage => {
-    this.setState({ currentPage });
-    this.getPerformanceList();
+  queryDataFn = page => {
+    let params = {};
+    params.page = page;
+    params.packageType = Number(this.state.packageType);
+    this.props.dispatch({
+      type: 'performanceModel/getListData',
+      payload: { params },
+    });
   };
   render() {
     const { listData = [] } = this.props.performanceModel;
+    console.log(listData, 'listData');
     const tableTitle = ['家族长', '运营长', '班主任'];
     const pageData = {
-      currentPage: listData.currentPage,
+      pageNum: listData.pageNum,
       total: listData.total,
       size: 15,
     };
@@ -165,8 +171,8 @@ class Performance extends React.Component {
               {...this.props}
               columns={columns}
               dataSource={listData.list}
-              pageData={pageData}
-              queryData={currentPage => this.queryDataFn(currentPage)}
+              page={pageData}
+              queryData={page => this.queryDataFn(page)}
             ></Page>
           </div>
         </TabPane>

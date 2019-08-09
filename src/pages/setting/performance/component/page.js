@@ -18,12 +18,13 @@ class NewQualitySheet extends React.Component {
     const { p = null } = this.props.location.query;
   }
 
-  onPageChange = currentPage => {
-    this.props.queryData(this.state, { page: currentPage });
+  onPageChange = page => {
+    this.props.queryData(page);
   };
 
   render() {
-    const { dataSource, columns, loading } = this.props;
+    const { dataSource, columns, page, loading } = this.props;
+    console.log(page, 'page');
     return (
       <div className={styles.newSheetWrap}>
         {/*table*/}
@@ -41,10 +42,10 @@ class NewQualitySheet extends React.Component {
           {
             <BIPagination
               showQuickJumper
-              defaultPageSize={14}
+              defaultPageSize={page.pageSize ? page.pageSize : 15}
               onChange={this.onPageChange}
-              current={1}
-              total={10}
+              current={page.pageNum}
+              total={page.total}
             />
           }
         </div>

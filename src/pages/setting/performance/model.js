@@ -19,10 +19,13 @@ export default {
     *getListData({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(performanceList, params);
+      console.log(params, 'parmas');
       const listData = result.data || [];
+      const { total, pageNum } = params;
+      console.log(pageNum, 'pagepage');
       if (result.code === 20000) {
         console.log(listData, 'listData');
-        yield put({ type: 'save', payload: { listData } });
+        yield put({ type: 'save', payload: { listData, pageNum, total } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
