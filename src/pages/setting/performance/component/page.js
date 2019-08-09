@@ -8,6 +8,10 @@ import BIPagination from '@/ant_components/BIPagination';
 import styles from '../style.less';
 const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
+
+// @connect(({ performanceModel }) => ({
+//   performanceModel,
+// }))
 class NewQualitySheet extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +24,6 @@ class NewQualitySheet extends React.Component {
 
   render() {
     const { dataSource, page, columns, loading } = this.props;
-    const total = page.total;
     return (
       <div className={styles.newSheetWrap}>
         {/*table*/}
@@ -34,17 +37,18 @@ class NewQualitySheet extends React.Component {
             loading={loading}
           />
           <br />
-          {total && <BIPagination
-            showQuickJumper
-            defaultPageSize={page.pageSize ? page.pageSize : 30}
-            onChange={this.onPageChange}
-            current={page.pageNum}
-            total={page.total}
-          />}
+          {
+            <BIPagination
+              showQuickJumper
+              defaultPageSize={14}
+              onChange={this.onPageChange}
+              current={1}
+              total={10}
+            />
+          }
         </div>
       </div>
     );
   }
 }
-
 export default NewQualitySheet;

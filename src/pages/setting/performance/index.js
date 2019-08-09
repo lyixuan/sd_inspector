@@ -23,7 +23,7 @@ class Performance extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      packageType: performanceType.family,
+      packageType: this.props.location.query.packageType || performanceType.family,
     };
   }
 
@@ -36,35 +36,55 @@ class Performance extends React.Component {
       .format(way)
       .replace(/-/g, '/');
   };
-  getPerformanceList = val => {
+  getPerformanceList = (val,currentPage) => {
     let params = {
-      packageType: Number(val) || Number(this.state.packageType),
+      packageType: Number(val) || Number(this.state.packageType)
     };
-    console.log(this.state.packageType, 'this.state.packageType');
     this.props.dispatch({
       type: 'performanceModel/getListData',
       payload: { params },
     });
   };
+
   onTabChange = val => {
     this.setState({ packageType: val });
     this.getPerformanceList(val);
   };
 
-  copy = () => {
-    console.log('copy');
+  copy = (idx, id) => {
+    router.push({
+      pathname: '/setting/performance/copy',
+      query: { packageType: idx, id },
+    });
   };
 
-  edit = () => {
-    console.log('edit');
+  edit = (idx, id) => {
+    router.push({
+      pathname: '/setting/performance/edit',
+      query: { packageType: idx, id },
+    });
   };
   // 跳转新建页面
-  toCreat = () => {
-    router.push({ pathname: '/setting/performance/edit' });
+  toCreat = idx => {
+    router.push({
+      pathname: '/setting/performance/create',
+      query: { packageType: idx },
+    });
+  };
+
+  queryDataFn = currentPage => {
+    this.setState({ currentPage });
+    this.getPerformanceList();
   };
   render() {
     const { listData = [] } = this.props.performanceModel;
-    const { page } = { page: 1 };
+    const tableTitle = ['家族长', '运营长', '班主任'];
+    const pageData = {
+      currentPage: listData.currentPage,
+      total: listData.total,
+      size: 15,
+    };
+    console.log(listData, 'listDatalistDatalistDatalistData');
     const columns = [
       {
         title: 'ID',
@@ -109,10 +129,16 @@ class Performance extends React.Component {
         render: (text, record) => {
           return (
             <>
-              <span className={styles.btn} onClick={this.copy}>
+              <span
+                className={styles.btn}
+                onClick={() => this.copy(this.state.packageType, record.id)}
+              >
                 复制
               </span>
-              <span className={styles.btn} onClick={this.edit}>
+              <span
+                className={styles.btn}
+                onClick={() => this.edit(this.state.packageType, record.id)}
+              >
                 编辑
               </span>
             </>
@@ -120,25 +146,28 @@ class Performance extends React.Component {
         },
       },
     ];
+    const tabpane = tableTitle.map((item, idx) => {
+      return (
+        <TabPane tab={item} key={idx + 1}>
+          <div>
+            <p className={styles.createBtn}>
+              <BIButton type="primary" onClick={() => this.toCreat(idx + 1)}>
+                <Icon type="plus" />
+                创建
+              </BIButton>
+            </p>
+            <Page
+              {...this.props}
+              columns={columns}
+              dataSource={listData.list}
+              pageData={pageData}
+              queryData={(currentPage) => this.queryDataFn(currentPage)}
+            ></Page>
+          </div>
+        </TabPane>
+      );
+    });
 
-    const data = [
-      {
-        id: 1,
-        effectiveDate: '1565160861867',
-        expiryDate: '1565160917859',
-        createDate: '1565160917859',
-        modifyDate: '1565160928750',
-        operator: 'admin',
-      },
-      {
-        id: 2,
-        effectiveDate: '1565160861867',
-        expiryDate: '1565160917859',
-        createDate: '1565160917859',
-        modifyDate: '1565160928750',
-        operator: 'admin',
-      },
-    ];
     return (
       <div>
         <div className={styles.aiWorktable}>
@@ -152,30 +181,7 @@ class Performance extends React.Component {
               defaultActiveKey={this.state.packageType}
               animated={false}
             >
-              <TabPane tab="家族长" key="1">
-                <div>
-                  <p className={styles.createBtn}>
-                    <BIButton type="primary" onClick={this.toCreat}>
-                      <Icon type="plus" />
-                      创建
-                    </BIButton>
-                  </p>
-                  <Page
-                    {...this.props}
-                    columns={columns}
-                    dataSource={listData.list}
-                    page={page}
-                    queryData={(params, page, isExport) => this.queryData(params, page, isExport)}
-                    onJumpPage={(query, pathname) => this.onJumpPage(query, pathname)}
-                  ></Page>
-                </div>
-              </TabPane>
-              <TabPane tab="运营长" key="2">
-                <div className={styles.content}>22222</div>
-              </TabPane>
-              <TabPane tab="班主任" key="3">
-                <div className={styles.content}>11111</div>
-              </TabPane>
+              {tabpane}
             </BITabs>
           </div>
         </div>

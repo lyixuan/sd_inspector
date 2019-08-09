@@ -21,7 +21,7 @@ export const STATIC_HOST = {
 
 export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
-  localhost: 'http://dev.xd.admin.ministudy.com',
+  localhost: 'http://172.16.59.227:8086', // 'http://dev.xd.admin.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   development2: 'http://test.xd.admin.quality.ministudy.com',
 }[process.env.LOGIN_TYPE];
@@ -37,7 +37,8 @@ export const CAS_HOST = {
 export const DOMAIN_HOST = '.ministudy.com';
 // export const DOMAIN_HOST = 'localhost';
 export const PROXY_PATH = isOld => {
-  return isOld ? '' : '/inspectorapis';
+  return isOld ? '' : '';
+  // return isOld ? '' : '/inspectorapis';
 };
 
 // 登录页面地址配置

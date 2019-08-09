@@ -11,37 +11,37 @@ class Tab extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      itemList: this.props.itemList,
+      itemList: [],
     };
     this.initModel = {
       index: 0,
       levelLowerLimit: null,
       levelUpperLimit: null,
-      upperClose: null,
-      lowerClose: null,
+      upperClose: false,
+      lowerClose: false,
       levelValue: '',
     };
   }
 
-  checkChangeLower = (item, e) => {
-    console.log(e.target.checked);
-    return 'checked' == (item.lowerClose || e.target.checked);
-  };
+  componentDidMount() {
+    this.setState({ itemList: this.props.itemList });
+  }
 
-  checkChangeUpper = (item, e) => {
-    return 'checked' == (item.upperClose || e.target.checked);
-  };
   // 添加好推绩效列表
   addItem = () => {
-    const { itemList = [] } = this.state;
+    // debugger;
+    // const { itemList = [] } = this.state;
+    const itemList = this.props.itemList || [];
     const newAddObject = { ...this.initModel };
     const indexArr = itemList.map((list, index) => {
       return (list.index = index);
     });
     newAddObject.index = indexArr.length > 0 ? Math.max.apply(null, indexArr) + 1 : 1;
     itemList.push(newAddObject);
-    this.setState({ itemList });
+    // this.setState({ itemList });
+    this.onChange(itemList);
   };
+
   renderInput = (obj = {}, keyName, classname = '') => {
     return (
       <BIInput
@@ -91,7 +91,7 @@ class Tab extends React.Component {
         break;
       }
     }
-    this.setState({ itemList });
+    this.onChange(itemList);
   };
   // 删除好推绩效列表
   delItem = item => {
@@ -100,7 +100,6 @@ class Tab extends React.Component {
       console.warn('默认一条数据');
       return;
     }
-    console.log(itemList, 'itemList');
     itemList.splice(
       itemList.findIndex(list => {
         console.log(list, item);
@@ -108,12 +107,15 @@ class Tab extends React.Component {
       }),
       1
     );
-    this.setState({ itemList });
+    this.onChange(itemList);
   };
 
+  onChange = itemList => {
+    this.setState({ itemList });
+    this.props.onChange(itemList);
+  };
   render() {
-    const { itemList = [] } = this.state;
-    console.log(itemList, 'itemList');
+    const itemList = this.props.itemList;
     return (
       <>
         <ul className={styles.listItem}>

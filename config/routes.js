@@ -419,9 +419,18 @@ export const routes = [
             name: '创收绩效包',
           },
           {
-            path: '/setting/performance/detail',
-            component: './setting/performance/detail',
-            name: '创收绩效包详情',
+            path: '/setting/performance/create',
+            component: './setting/performance/edit',
+            name: '创建创收绩效包',
+            bread: {
+              name: '创收绩效包',
+              path: '/setting/performance/list',
+            },
+          },
+          {
+            path: '/setting/performance/copy',
+            component: './setting/performance/edit',
+            name: '复制创收绩效包',
             bread: {
               name: '创收绩效包',
               path: '/setting/performance/list',
@@ -430,7 +439,7 @@ export const routes = [
           {
             path: '/setting/performance/edit',
             component: './setting/performance/edit',
-            name: '创收绩效包详情',
+            name: '编辑创收绩效包',
             bread: {
               name: '创收绩效包',
               path: '/setting/performance/list',
