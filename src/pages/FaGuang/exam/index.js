@@ -9,6 +9,7 @@ import BIButton from '@/ant_components/BIButton';
 import styles from './style.less';
 import BIModal from '@/ant_components/BIModal';
 import {SERVER_HOST} from '@/utils/constants';
+import storage from '@/utils/storage';
 const { Option } = BISelect;
 
 const confirm = BIModal.confirm;
@@ -263,6 +264,7 @@ class Course extends React.Component {
     const { dataList = [], page,familyList=[] } = this.props.exam||{};
     const {formParams,disableSubmit,imgUrl} = this.state;
     const {collegeId,practiceUrl,practiceName,family} = formParams||{};
+    const headerObj = { authorization: storage.getToken()};
     const uploadButton = (
       <div>
         <Icon type={this.state.loading ? 'loading' : 'plus'} />
@@ -292,6 +294,7 @@ class Course extends React.Component {
             <span className={styles.gutterForm}>
               <Upload
                 name="file"
+                headers={headerObj}
                 listType="picture-card"
                 showUploadList={false}
                 action={`${SERVER_HOST}/shinecollege/practice/uploadIcon`}
