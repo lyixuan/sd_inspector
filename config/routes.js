@@ -254,13 +254,22 @@ export const routes = [
         ],
       },
       {
-        path: '/koReport',
-        name: 'KO日报',
+        path: '/knowledge',
+        name: '知识库',
         routes: [
           {
-            path: '/koReport/daily',
-            component: './ko/koDailyReport',
-            name: 'KO日报',
+            path: '/knowledge/knowledge',
+            component: './ko/knowledge',
+          },
+        ],
+      },
+      {
+        path: '/sessionReport',
+        name: '会话记录',
+        routes: [
+          {
+            path: '/sessionReport/sessionReport',
+            component: './ko/sessionReport',
           },
         ],
       },
@@ -390,16 +399,13 @@ export const routes = [
             component: './ko/entrancePlatform',
           },
         ],
-      },
-      {
-        path: '/qualityReport',
-        name: '质检图表',
-        pageRedirect: '/qualityReport/data',
+      }, {
+        path: '/allReport',
+        name: '报表',
         routes: [
           {
-            path: '/qualityReport/data',
-            component: './ko/qualityReport',
-            name: '质检图表',
+            path: '/allReport/:siteKey',
+            component: './allReport',
           },
         ],
       },

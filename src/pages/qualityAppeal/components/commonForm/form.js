@@ -769,7 +769,7 @@ class CreateQualityNewSheet extends React.Component {
                                     {getFieldDecorator('reduceScoreDate', {
                                         initialValue: params.reduceScoreDate,
                                         rules: [{ required: true, message: '请选择质检扣分日期' }],
-                                    })(<BIDatePicker disabledDate={this.disabledDate} style={{ width: 280 }} format={format} onChange={val => this.datePackerChange(val, 'reduceScoreDate')} />)}
+                                    })(<BIDatePicker style={{ width: 280 }} format={format} onChange={val => this.datePackerChange(val, 'reduceScoreDate')} />)}
                                 </Form.Item>
                             </Col>
                         </Row>
