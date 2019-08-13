@@ -83,7 +83,6 @@ class NewQualitySheet extends React.Component {
 
   exportRt = () => {
     const { p = null } = this.props.location.query;
-    console.log(p,'p');
     this.props.queryData(JSON.parse(p), null, true);
   };
   render() {
