@@ -12,13 +12,14 @@ function filterMenu(data) {
     );
 }
 function removeInspector(itemPath) {
-    const isInspector = /^\/inspector\/(\w+\/?)+$/.test(itemPath);
-    if (isInspector) {
-        return itemPath.replace('/inspector', '')
-    } else {
-        return `${ADMIN_URL}${itemPath}`;
-    }
-
+  // todo hebing daimai shi huifu
+    // const isInspector = /^\/inspector\/(\w+\/?)+$/.test(itemPath);
+    // if (isInspector) {
+    //     return itemPath.replace('/inspector', '')
+    // } else {
+    //     return `${ADMIN_URL}${itemPath}`;
+    // }
+  return `${ADMIN_URL}${itemPath}`;
 };
 
 function formatter(data, parentId) {
