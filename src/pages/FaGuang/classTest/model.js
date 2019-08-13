@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { getList,updateData,delelte } from './services';
+import { getList,updateData,del } from './services';
 import { msgF } from '@/utils/utils';
 
 export default {
@@ -13,7 +13,6 @@ export default {
   effects: {
     *getList({ payload }, { call, put }) {
       const params = payload.params;
-      console.log(params)
       const result = yield call(getList, params);
       if (result.code === 20000) {
         const dataList = result.data.list ? result.data.list : [];
@@ -23,9 +22,9 @@ export default {
         message.error(msgF(result.msg,result.msgDetail));
       }
     },
-    *delelte({ payload }, { call }) {
+    *del({ payload }, { call }) {
       const params = payload.params;
-      const result = yield call(delelte, params);
+      const result = yield call(del, params);
       if (result.code === 20000) {
         message.success('删除成功');
         return true

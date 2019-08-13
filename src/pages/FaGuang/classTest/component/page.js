@@ -141,7 +141,7 @@ class NewQualitySheet extends React.Component {
 
         <BIModal
           title="错误信息"
-          width={740}
+          width={440}
           visible={this.state.visible}
           onCancel={this.handleOk}
           onOk={this.handleOk}

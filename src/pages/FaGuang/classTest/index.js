@@ -4,11 +4,9 @@ import { DeepCopy } from '@/utils/utils';
 import Page from './component/page';
 import BIModal from '@/ant_components/BIModal';
 import BIInput from '@/ant_components/BIInput';
-import BISelect from '@/ant_components/BISelect';
+import BIRadio from '@/ant_components/BIRadio';
 import BIButton from '@/ant_components/BIButton';
 import styles from './style.less';
-import { message } from 'antd/lib/index';
-const { Option } = BISelect;
 const confirm = BIModal.confirm;
 function dealQuarys(pm) {
   const p = DeepCopy(pm);
@@ -29,7 +27,8 @@ class Evaluate extends React.Component {
         pageSize:30
       },
       params:{},
-      visible:false
+      visible:false,
+      disableSubmit:false
     };
   }
   componentDidMount() {
@@ -64,7 +63,7 @@ class Evaluate extends React.Component {
       okText: '确定',
       onOk() {
         that.props.dispatch({
-          type: 'classTest/delelte',
+          type: 'classTest/del',
           payload: { params: { questionId: record.questionId } },
         }).then(() => {
           that.queryData()
@@ -137,11 +136,57 @@ class Evaluate extends React.Component {
     });
   };
   handleSubmit = () => {
-    const {formParams=[]} = this.state;
-    const param = DeepCopy(formParams);
+    const {formParams={}} = this.state;
+    let current = {};
+    if(formParams.correctOptionValue === 'A') {
+      current.Content=formParams.aContent;
+      current.correctOptionId=formParams.aId
+    }
+    if(formParams.correctOptionValue === 'B') {
+      current.Content=formParams.bContent;
+      current.correctOptionId=formParams.bId
+    }
+    if(formParams.correctOptionValue === 'C') {
+      current.Content=formParams.cContent;
+      current.correctOptionId=formParams.cId
+    }
+    if(formParams.correctOptionValue === 'D') {
+      current.Content=formParams.dContent;
+      current.correctOptionId=formParams.dId
+    }
+    const aiShinecollegeQuestion ={
+      id:formParams.questionId,
+      question:formParams.question,
+      videoId:formParams.videoId,
+      correctOptionValue:formParams.correctOptionValue,
+      correctOptionText:current.Content,
+      correctOptionId:current.correctOptionId,
+      correctExplain:formParams.correctExplain,
+    };
+    const aiShinecollegeQuestionOptions=[{
+      questionId:formParams.questionId,
+      id:formParams.aId,
+      optionValue:formParams.aOption,
+      content:formParams.aContent,
+    },{
+      questionId:formParams.questionId,
+      id:formParams.bId,
+      optionValue:formParams.bOption,
+      content:formParams.bContent,
+    },{
+      questionId:formParams.questionId,
+      id:formParams.cId,
+      optionValue:formParams.cOption,
+      content:formParams.cContent,
+    },{
+      questionId:formParams.questionId,
+      id:formParams.dId,
+      optionValue:formParams.dOption,
+      content:formParams.dContent,
+    }];
     this.props.dispatch({
       type:'classTest/updateData',
-      payload: { list: param },
+      payload: { aiShinecollegeQuestion,aiShinecollegeQuestionOptions },
     }).then((res)=>{
       if(res) {
         this.setState({
@@ -151,52 +196,126 @@ class Evaluate extends React.Component {
       }
     });
   };
-  onFormChange=(val,vname,idx)=>{
-    const {formParams=[]} = this.state;
-    const arr = [...formParams];
-    if(vname==='examSubjects') {
-      arr[idx][vname] = val.join(',');
-    } else {
-      arr[idx][vname] = val;
+  onFormChange=(val,vname)=>{
+    const {formParams={}} = this.state;
+    const obj = {...formParams};
+    obj[vname] = val;
+
+    let disableSubmit = true;
+    if (obj.question!==''&&obj.aContent!==''&&obj.bContent!==''&&obj.cContent!==''&&obj.dContent!==''){
+      disableSubmit=false;
     }
     this.setState({
-      formParams: arr,
+      formParams: obj,
+      disableSubmit
+    });
+  };
+  onChange=(e)=>{
+    const {formParams={}} = this.state;
+    formParams.correctOptionValue=e.target.value;
+    this.setState({
+      formParams,
     });
   };
   render() {
     const { dataList = [],page } = this.props.classTest;
-    const {formParams=[],examTypeName} = this.state;
+    const {formParams={},disableSubmit} = this.state;
+    const {videoName,question,aContent,bContent,cContent,dContent,aOption,bOption,cOption,dOption,correctOptionValue,correctExplain} = formParams||{};
 
-    // const ModalContent = (
-    //   <div  className={styles.wrap}>
-    //     <div className={styles.line}>
-    //       <span className={styles.titleLeft}>考试类型：</span><span className={styles.rightCon}>{examTypeName}</span>
-    //     </div>
-    //     {formParams.map((v,idx)=>{
-    //       const examSubjects = v.examSubjects?v.examSubjects.split(',').map((v)=>String(v)):[];
-    //       return (
-    //         <div  className={styles.line2} key={idx}>
-    //           <span className={styles.titleLeft}>{idx===0?'考试信息：':(<span>&nbsp;</span>)}</span>
-    //           <div className={styles.rightCon}>
-    //             <BIInput placeholder="请输入考卷名称" style={{ width: 180 }} value={v.examName} onChange={(e) => this.onFormChange(e.target.value, 'examName',idx)}/>&nbsp;&nbsp;
-    //             <BIInput placeholder="请输入考卷地址，必填项" style={{ width: 300 }} value={v.examUrl} onChange={(e) => this.onFormChange(e.target.value, 'examUrl',idx)}/>&nbsp;&nbsp;
-    //             <BISelect style={{width:250}} allowClear placeholder="请选择"  mode="multiple" showArrow maxTagCount={1}  value={examSubjects} onChange={(val)=>this.onFormChange(val,'examSubjects',idx)}>
-    //               {roleList.map(item => (
-    //                 <Option key={item.name}>
-    //                   {item.name}
-    //                 </Option>
-    //               ))}
-    //             </BISelect>
-    //             <span className={styles.sortRtIcon} onClick={()=>this.plus(v,idx)}><Icon type="plus-circle" className={styles.icon}/></span>
-    //             {formParams.length===1?
-    //             <span className={styles.sortRtIcon}><Icon style={{color:'#ccc'}} type="minus-circle"/></span>:
-    //             <span className={styles.sortRtIcon} onClick={()=>this.minus(v,idx)}><Icon type="minus-circle" className={styles.icon}/></span>}
-    //           </div>
-    //         </div>
-    //       )
-    //     })}
-    //   </div>
-    // );
+    const ModalContent = (
+      <div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>课&nbsp;&nbsp;程:</span>
+            <span className={styles.gutterForm}>
+              {videoName}</span>
+          </div>
+        </div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>*题&nbsp;&nbsp;目:</span>
+            <span className={styles.gutterForm}>
+              <BIInput placeholder="请输入"
+                       style={{ width: 550 }}
+                       value={question}
+                       maxLength={100}
+                       onChange={(e) => this.onFormChange(e.target.value, 'question')}/></span>
+            <span className={styles.gutterEx}>
+              正确选项
+            </span>
+          </div>
+        </div>
+        <BIRadio value={correctOptionValue} onChange={this.onChange} >
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>*选项A:</span>
+            <span className={styles.gutterForm}>
+              <BIInput placeholder="请输入"
+                       style={{ width: 550 }}
+                       value={aContent}
+                       maxLength={100}
+                       onChange={(e) => this.onFormChange(e.target.value, 'aContent')}/></span>
+            <span className={styles.gutterEx}>
+              <BIRadio.Radio value={aOption}/>
+            </span>
+          </div>
+        </div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>*选项B:</span>
+            <span className={styles.gutterForm}>
+              <BIInput placeholder="请输入"
+                       style={{ width: 550 }}
+                       value={bContent}
+                       maxLength={100}
+                       onChange={(e) => this.onFormChange(e.target.value, 'bContent')}/></span>
+            <span className={styles.gutterEx}>
+              <BIRadio.Radio value={bOption}/>
+            </span>
+          </div>
+        </div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>*选项C:</span>
+            <span className={styles.gutterForm}>
+              <BIInput placeholder="请输入"
+                       style={{ width: 550 }}
+                       value={cContent}
+                       maxLength={100}
+                       onChange={(e) => this.onFormChange(e.target.value, 'cContent')}/></span>
+            <span className={styles.gutterEx}>
+              <BIRadio.Radio value={cOption}/>
+            </span>
+          </div>
+        </div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>*选项D:</span>
+            <span className={styles.gutterForm}>
+              <BIInput placeholder="请输入"
+                       style={{ width: 550 }}
+                       value={dContent}
+                       maxLength={100}
+                       onChange={(e) => this.onFormChange(e.target.value, 'dContent')}/></span>
+            <span className={styles.gutterEx}>
+              <BIRadio.Radio value={dOption}/>
+            </span>
+          </div>
+        </div>
+        </BIRadio>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>解&nbsp;&nbsp;析:</span>
+            <span className={styles.gutterForm}>
+              <BIInput placeholder="请输入"
+                       style={{ width: 550 }}
+                       value={correctExplain}
+                       onChange={(e) => this.onFormChange(e.target.value, 'correctExplain')}/></span>
+          </div>
+        </div>
+      </div>
+    );
+
     return (
       <>
         <Page
@@ -207,8 +326,8 @@ class Evaluate extends React.Component {
           queryData={(params, page) => this.queryData(params, page)}/>
 
         <BIModal
-          title='编辑考卷'
-          width={940}
+          title='编辑随堂考'
+          width={800}
           visible={this.state.visible}
           onOk={this.handleSubmit}
           onCancel={this.handleCancel}
@@ -216,12 +335,12 @@ class Evaluate extends React.Component {
             <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
               取消
             </BIButton>,
-            <BIButton type="primary" loading={this.props.loading2} onClick={this.handleSubmit}>
+            <BIButton type="primary" loading={this.props.loading2} onClick={this.handleSubmit}  disabled={disableSubmit}>
               保存
             </BIButton>,
           ]}
         >
-          {/*{ModalContent}*/}
+          {ModalContent}
         </BIModal>
       </>
     );

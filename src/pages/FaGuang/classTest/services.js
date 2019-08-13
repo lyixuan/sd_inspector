@@ -6,8 +6,8 @@ export async function getList(params) {
 }
 
 // 删除
-export async function delelte(params) {
-  return request('shinecollege/classExam/delete', { params });
+export async function del(params) {
+  return request('/shinecollege/classExam/delete', { params });
 }
 
 //  编辑
