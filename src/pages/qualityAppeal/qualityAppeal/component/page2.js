@@ -256,9 +256,6 @@ class NewQualitySheet extends React.Component {
               </div>
             </Col>
             <Col className={styles.gutterCol} span={12}>
-              <div className={styles.gutterBox1}></div>
-            </Col>
-            <Col className={styles.gutterCol} span={12}>
               <div className={styles.gutterBox3}>总条数：{page.total}</div>
             </Col>
           </Row>
