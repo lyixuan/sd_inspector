@@ -125,10 +125,10 @@ body > a {
   display: none;
 }
 .circleTable .ant-table-thead > tr:first-child > th:first-child{
-  border-radius: 10px 0 0 10px;
+  border-radius: 6px 0 0 6px;
 }
 .circleTable .ant-table-thead > tr:first-child > th:last-child {
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 6px 6px 0;
 }
 .circleTable .ant-table-thead > tr > th{
   border-bottom:none;
