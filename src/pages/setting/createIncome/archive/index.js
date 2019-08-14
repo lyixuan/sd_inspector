@@ -76,7 +76,10 @@ class Archive extends React.Component {
         title: '状态',
         dataIndex: 'batchStatus',
         render: (text, record) => {
-          let value = record.batchStatus ? '存档成功' : '存档失败';
+          let value = '';
+          if (record.batchStatus === 1) return (value = '存档中');
+          if (record.batchStatus === 2) return (value = '存档成功');
+          if (record.batchStatus === 3) return (value = '存档失败');
           return <div>{value}</div>;
         },
       },
