@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Icon,Row,Col,InputNumber} from 'antd';
+import { Icon,Row,Col,InputNumber,Spin} from 'antd';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
@@ -17,6 +17,8 @@ const { Option } = BISelect;
   smallPro,
   loading1: loading.effects['smallPro/updateData'],
   loading2: loading.effects['smallPro/updateData2'],
+  loading3: loading.effects['smallPro/getList1'],
+  loading4: loading.effects['smallPro/getList2'],
 }))
 
 class Evaluate extends React.Component {
@@ -25,6 +27,7 @@ class Evaluate extends React.Component {
     this.state = {
       img:'',
       visible:false,
+      type:1
     };
   }
   componentDidMount() {
@@ -68,6 +71,11 @@ class Evaluate extends React.Component {
       payload: { [listname]: arr},
     });
   };
+  onSelChange=(val)=>{
+    this.setState({
+      type:val
+    })
+  };
   handleSubmit = (list,type) => {
     const param = list;
     if(param.length>10){
@@ -101,9 +109,19 @@ class Evaluate extends React.Component {
       visible: false,
     });
   };
+  handleExport = () => {
+    const {type} =  this.state;
+    this.props.dispatch({
+      type: 'smallPro/exportData',
+      payload: { type: Number(type) },
+    }).then((res)=>{
+      if(res) {
+      }
+    });
+  };
   render() {
     const { dataList1 = [],  dataList2 = [] } = this.props.smallPro;
-    const {collegeId} = this.state;
+    const {type} = this.state;
     const sellist = [{ id:1,name:'学员' },{ id:2,name:'课程' }];
     return (
       <>
@@ -111,8 +129,8 @@ class Evaluate extends React.Component {
           <div className={style.title}>学习数据导出</div>
           <div className={style.cont}>
             统计维度：<BISelect style={{ width: 180 }} placeholder="请选择"
-                      value={collegeId}
-                      onChange={(val) => this.onFormChange123(val, 'collegeId')}>
+                      value={String(type)}
+                      onChange={(val) => this.onSelChange(val)}>
               {sellist.map(item => (
                 <Option key={item.id}>
                   {item.name}
@@ -127,6 +145,7 @@ class Evaluate extends React.Component {
           </div>
         </div>
 
+        <Spin spinning={this.props.loading3}>
         <div className={style.box}>
           <div className={style.title}>首页Banner</div>
           <div className={style.cont}>
@@ -171,7 +190,8 @@ class Evaluate extends React.Component {
             </div>
           </div>
         </div>
-
+        </Spin>
+        <Spin spinning={this.props.loading4}>
         <div className={style.box}>
           <div className={style.title}>考试公告</div>
           <div className={style.cont}>
@@ -216,7 +236,7 @@ class Evaluate extends React.Component {
             </div>
           </div>
         </div>
-
+        </Spin>
         <BIModal
           title="预览"
           width={740}

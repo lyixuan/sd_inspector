@@ -55,7 +55,7 @@ class NewQualitySheet extends React.Component {
     const that = this;
     const props = {
       name: 'file',
-      action:`${SERVER_HOST}/shinecollege/courseware/import`,
+      action:`${SERVER_HOST}/shinecollege/classExam/importQuestion`,
       headers: {
         authorization: storage.getToken(),
       },
@@ -71,6 +71,32 @@ class NewQualitySheet extends React.Component {
             message.success('上传完成');
             that.search();
           } else if(response.code===20003) {
+            let str = '';
+            response.data.failList.forEach((v)=>{
+              if(v.videoIdResult){
+                str+=`课程编号${v.videoIdResult}`
+              }
+              if(v.questionResult){
+                str+=`,问题${v.questionResult}`
+              }
+              if(v.correctOptionResult){
+                str+=`,正确选项${v.correctOptionResult}`
+              }
+              if(v.optionAResult){
+                str+=`,选项A${v.optionAResult}`
+              }
+              if(v.optionBResult){
+                str+=`,选项B${v.optionBResult}`
+              }
+              if(v.optionCResult){
+                str+=`,选项C${v.optionCResult}`
+              }
+              if(v.optionDResult){
+                str+=`,选项D${v.optionDResult}`
+              }
+              v.str = str;
+              str=''
+            });
             that.setState({ visible:true,failList: response.data.failList});
           } else {
             message.error(msgF(response.msg,response.msgDetail));
@@ -141,7 +167,7 @@ class NewQualitySheet extends React.Component {
 
         <BIModal
           title="错误信息"
-          width={440}
+          width={600}
           visible={this.state.visible}
           onCancel={this.handleOk}
           onOk={this.handleOk}
@@ -153,9 +179,8 @@ class NewQualitySheet extends React.Component {
         >
           {failList.map((v,i)=>(
             <div key={i}>
-              <span>行数：{v.rowIndex}&nbsp;&nbsp;&nbsp; </span>
-              <span>问题：{v.videoIdResult}， </span>
-              <span>{v.pptUrlResult} </span>
+              <span>行数：{v.rowIndex+1}&nbsp;&nbsp;&nbsp; </span>
+              <span>错误信息：{v.str}</span>
             </div>
           ))}
 

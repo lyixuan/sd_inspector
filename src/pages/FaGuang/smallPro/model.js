@@ -1,6 +1,6 @@
 import { message } from 'antd/lib/index';
-import { getList1,getList2,updateData } from './services';
-import { msgF } from '@/utils/utils';
+import { getList1,getList2,updateData,exportData } from './services';
+import { downBlob, msgF } from '@/utils/utils';
 
 export default {
   namespace: 'smallPro',
@@ -59,6 +59,24 @@ export default {
         return true
       } else {
         message.error(msgF(response.msg,response.msgDetail))
+      }
+    },
+    *exportData({ payload }, { call, put }) {
+      const result = yield call(exportData, payload);
+      if (result) {
+          const { headers } = result.response || {};
+          if(headers){
+            const filename = headers.get('content-disposition') || '';
+            const numName = filename.split('filename=')[1]; // 带后缀的文件名
+            const numName2 = numName.split('.')[0]; // 纯文件名
+            downBlob(result, `${eval("'" + numName2 + "'")}.xlsx`);
+          } else {
+            downBlob(result, `未命名.xlsx`);
+          }
+          message.success('导出成功');
+          return true
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
   },

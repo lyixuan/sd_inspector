@@ -12,3 +12,7 @@ export async function getList2() {
 export async function updateData(data) {
   return request('/shinecollege/banner/update', { method: 'post', data });
 }
+// 导出
+export async function exportData(params) {
+  return request('/shinecollege/exportData/all',{params} );
+}
