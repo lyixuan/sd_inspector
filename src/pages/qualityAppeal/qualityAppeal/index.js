@@ -91,7 +91,7 @@ function changeState(record) {
   }
   if (
     (record.status === 6 && record.appealType === 2) ||
-    (record.status === 5 &&
+    (record.status === 5 && record.appealType === 1 &&  
       record.secondAppealEndDate &&
       record.secondAppealEndDate < record.nowTime)
   ) {
