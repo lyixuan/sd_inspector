@@ -13,6 +13,8 @@ export async function updateData(data) {
   return request('/shinecollege/banner/update', { method: 'post', data });
 }
 // 导出
-export async function exportData(params) {
-  return request('/shinecollege/exportData/all',{params} );
+export async function exportData(data) {
+  return request('/shinecollege/exportData/all',{method:'post',data,responseType:'blob',getResponse: true} );
 }
+
+

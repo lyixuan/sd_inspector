@@ -115,32 +115,6 @@ a,a:hover{
   vertical-align:6%;
 }
 
-/* ko 模块需要，修改ant-popover浮出框背景为黑色，这个样式是定位到根的，所以需要在全局修改，以后其他地方用到再说 */
-/* .ant-popover .ant-popover-inner{
-  background-color: #565656;
-}
-
-
-.ant-popover-placement-top > .ant-popover-content > .ant-popover-arrow{
-  border-right-color: #565656;
-  border-bottom-color: #565656;
-  background-color: #565656;
-}
-
-.ant-popover-inner-content {
-  color: #fff;
-  font-size: 12px;
-} */
-
-/*ant table滚动条兼容 safri和外接显示器*/
-/*https://github.com/ant-design/ant-design/issues/13994*/
-/*.displaynone::-webkit-scrollbar {*/
-  /*display: none !important;*/
-/*}*/
-/*.ant-table-header::-webkit-scrollbar {*/
-  /*opacity: 0!important;*/
-/*}*/
-
 
 :global .ant-popover-inner-content .ant-btn-primary{
   background:#52C9C2!important;
@@ -149,4 +123,15 @@ a,a:hover{
 
 body > a {
   display: none;
+}
+.circleTable .ant-table-thead > tr:first-child > th:first-child{
+  border-radius: 10px 0 0 10px;
+}
+.circleTable .ant-table-thead > tr:first-child > th:last-child {
+  border-radius: 0 10px 10px 0;
+}
+.circleTable .ant-table-thead > tr > th{
+  border-bottom:none;
+  color: #818181;
+  font-weight: normal;
 }

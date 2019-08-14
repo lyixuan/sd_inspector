@@ -65,13 +65,13 @@ export default {
       const result = yield call(exportData, payload);
       if (result) {
           const { headers } = result.response || {};
-          if(headers){
-            const filename = headers.get('content-disposition') || '';
+          const filename = headers.get('content-disposition') || '';
+          if(filename){
             const numName = filename.split('filename=')[1]; // 带后缀的文件名
             const numName2 = numName.split('.')[0]; // 纯文件名
-            downBlob(result, `${eval("'" + numName2 + "'")}.xlsx`);
+            downBlob(result.data, `${eval("'" + numName2 + "'")}.xlsx`);
           } else {
-            downBlob(result, `未命名.xlsx`);
+            downBlob(result.data, `未命名.xlsx`);
           }
           message.success('导出成功');
           return true

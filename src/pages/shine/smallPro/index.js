@@ -27,8 +27,10 @@ class Evaluate extends React.Component {
     this.state = {
       img:'',
       visible:false,
-      type:1
+      type:1,
+      timer:0,
     };
+    this.timesRun=null;
   }
   componentDidMount() {
     this.queryData();
@@ -110,6 +112,19 @@ class Evaluate extends React.Component {
     });
   };
   handleExport = () => {
+    this.setState({
+      timer:60
+    });
+    const that = this;
+    this.timesRun = setInterval(function() {
+      if(that.state.timer>0){
+        that.setState({
+          timer:that.state.timer-1
+        });
+      } else {
+        clearInterval(this.timesRun)
+      }
+    },1000);
     const {type} =  this.state;
     this.props.dispatch({
       type: 'smallPro/exportData',
@@ -121,7 +136,7 @@ class Evaluate extends React.Component {
   };
   render() {
     const { dataList1 = [],  dataList2 = [] } = this.props.smallPro;
-    const {type} = this.state;
+    const {type,timer} = this.state;
     const sellist = [{ id:1,name:'学员' },{ id:2,name:'课程' }];
     return (
       <>
@@ -138,9 +153,17 @@ class Evaluate extends React.Component {
               ))}
             </BISelect>
             <span style={{float:'right'}} >
-              <BIButtonYellow  type="primary" loading={this.props.loading2} onClick={this.handleExport}>
-              <Icon type="download" />导出
-            </BIButtonYellow>
+              {timer===0?(
+                <span>
+                  <BIButtonYellow  type="primary" loading={this.props.loading2} onClick={this.handleExport}>
+                  <Icon type="download" />导出
+              </BIButtonYellow>
+                </span>
+              ):(
+                <BIButtonYellow  type="primary">
+                  <Icon type="download" />{`${timer}s`}
+                </BIButtonYellow>
+              )}
             </span>
           </div>
         </div>

@@ -23,7 +23,8 @@ export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
   localhost: 'http://dev.xd.admin.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
-  development2: 'http://172.16.109.87:28081',
+  // development2: 'http://172.16.109.87:28081',
+  development2: 'http://172.16.109.198:8081',
 }[process.env.LOGIN_TYPE]
 
 export const CAS_HOST = {
@@ -370,7 +371,7 @@ export const UNIT_DATE = [
 
 // 空ContentLayout页面名单
 export const EmptyContentLayout = [{ path: '/ko', name: 'KO计划' }, { path: '/qualityMarking', name: '质检标注' },
-  { path: '/qualityReport', name: '质检图表'},  { path: '/FaGuang/smallPro', name: '小程序管理'}];
+  { path: '/qualityReport', name: '质检图表'},  { path: '/shine/smallPro', name: '小程序管理'}];
 // 应用类型
 export const APP_LIST = [
   { id: '1', name: '极速版App' }
