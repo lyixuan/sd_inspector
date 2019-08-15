@@ -68,6 +68,7 @@ class NewQualitySheet extends React.Component {
                   <BICascader
                     placeholder='请选择'
                     options={courseList}
+                    allowClear
                     value={videoType}
                     changeOnSelect
                     fieldNames={{ label: 'name', value: 'id', children: 'children' }}

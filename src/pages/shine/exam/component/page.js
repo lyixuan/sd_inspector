@@ -58,6 +58,7 @@ class NewQualitySheet extends React.Component {
                 <span className={styles.gutterForm}>
                   <BISelect style={{ width: 230 }} placeholder="请选择"
                             value={collegeId}
+                            allowClear
                             onChange={(val) => this.onFormChange(val, 'collegeId')}>
                   {collegeList.map(item => (
                     <Option key={item.collegeId}>
