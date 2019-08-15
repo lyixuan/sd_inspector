@@ -1,0 +1,100 @@
+.performanceWrap {
+  margin: 18px;
+  border-radius: 6px;
+  .content {
+    margin-top: 10px;
+    background: #fff;
+    padding: 0 18px 30px;
+    border-radius: 6px;
+
+    .createBtn {
+      margin-top: 30px;
+    }
+  }
+
+  .tableBlock {
+    padding: 0;
+  }
+
+  .btn {
+    color: #52c9c2;
+    cursor: pointer;
+    padding: 0 10px;
+  }
+
+  :global .BITabs {
+    .ant-tabs-top-bar {
+      background: #fff;
+    }
+    .ant-tabs-bar {
+      margin-bottom: 0;
+      .ant-tabs-tab {
+        margin: 0 -10px 0 17px;
+      }
+    }
+    .ant-tabs-ink-bar {
+      background-color: #00ccc3;
+      width: 75px !important;
+      left: 0;
+    }
+    .ant-btn-primary {
+      padding: 0 20px;
+    }
+    .ant-table-thead > tr > th {
+      border-bottom: none;
+    }
+    .ant-table-tbody > tr > td {
+      border-bottom: 1px solid #eff3f6;
+    }
+    .BIButton .ant-btn-primary {
+      color: #fff;
+      background-color: #00ccc3;
+      border-color: #00ccc3;
+      box-shadow: none;
+    }
+    .ant-table-thead > tr:first-child > th:first-child {
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+    }
+    .ant-table-thead > tr:first-child > th:last-child {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+  }
+}
+// :global .aiWorktable-ant-layout-content {
+//   //position: relative;
+//   overflow: visible;
+// }
+
+.aiWorktable {
+  //position: absolute;
+  //top: 0;
+  //left: -18px;
+  //right: -18px;
+  margin: -28px -18px 0 -18px;
+  .aiWorktableMain {
+    margin: 18px;
+    border-radius: 6px;
+  }
+
+  .title {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    border-top: 1px solid #eff3f6;
+    height: 50px;
+    line-height: 50px;
+    margin-top: -28px;
+    font-size: 16px;
+  }
+  .title:before {
+    content: '';
+    display: inline-block;
+    width: 2px;
+    height: 12px;
+    background: #52c9c2;
+    margin: 0 6px 0 22px;
+  }
+}

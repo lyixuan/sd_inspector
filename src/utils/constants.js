@@ -10,7 +10,7 @@ export const ADMIN_AUTH = 'admin_auth';
 export const ADMIN_USER = 'admin_user';
 
 export const DEBUGGER_USER = {
-  localhost: 'dengjinglei',
+  localhost: 'zhanglulu02',
 }[process.env.LOGIN_TYPE];
 
 // 静态文件host
@@ -24,7 +24,7 @@ export const SERVER_HOST = {
   localhost: 'http://dev.xd.admin.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   development2: 'http://test.xd.admin.quality.ministudy.com',
-}[process.env.LOGIN_TYPE]
+}[process.env.LOGIN_TYPE];
 
 export const CAS_HOST = {
   localhost: 'http://test.xd.admin.ministudy.com',
@@ -36,7 +36,9 @@ export const CAS_HOST = {
 // 设置domain域名
 export const DOMAIN_HOST = '.ministudy.com';
 // export const DOMAIN_HOST = 'localhost';
-export const PROXY_PATH = (isOld) => { return isOld ? '' : '/inspectorapis' };
+export const PROXY_PATH = isOld => {
+  return isOld ? '' : '/inspectorapis';
+};
 
 // 登录页面地址配置
 export const LOGIN_URL = {
@@ -49,7 +51,6 @@ export const ADMIN_URL = {
   development: 'http://test.xd.admin.ministudy.com',
   production: 'http://bd.ministudy.com',
 }[process.env.PROXY_ENV];
-
 
 // 分页配置
 export const PAGINATION = {
@@ -357,7 +358,11 @@ export const FRONT_ROLE_TYPE_LIST = [
 // 学院类型
 export const FAMILY_TYPE = [{ id: 0, name: '自考' }, { id: 1, name: '壁垒' }];
 // 学院类型
-export const APPEAL_RESULT_TYPE = [{ id: 1, name: '通过' }, { id: 0, name: '驳回' }, { id: 2, name: '超时' }];
+export const APPEAL_RESULT_TYPE = [
+  { id: 1, name: '通过' },
+  { id: 0, name: '驳回' },
+  { id: 2, name: '超时' },
+];
 // 质检上传类型
 export const QUALITY_UPLOAD_TYPE = [{ id: 1, name: 'quality' }, { id: 2, name: 'appeal' }];
 // 过滤单位
@@ -369,21 +374,21 @@ export const UNIT_DATE = [
 ];
 
 // 空ContentLayout页面名单
-export const EmptyContentLayout = [{ path: '/ko', name: 'KO计划' }, { path: '/qualityMarking', name: '质检标注' },
-{ path: '/qualityReport', name: '质检图表' }];
+export const EmptyContentLayout = [
+  { path: '/ko', name: 'KO计划' },
+  { path: '/qualityMarking', name: '质检标注' },
+  { path: '/qualityReport', name: '质检图表' },
+  { path: '/setting/performance/list', name: '创收绩效包' },
+  { path: '/setting/performance/edit', name: '创收绩效包详情' },
+  { path: '/setting/performance/create', name: '创收绩效包详情' },
+  { path: '/setting/performance/copy', name: '创收绩效包详情' },
+];
 // 应用类型
-export const APP_LIST = [
-  { id: '1', name: '极速版App' }
-];
+export const APP_LIST = [{ id: '1', name: '极速版App' }];
 // 注册类型
-export const REGISTER_STATUS = [
-  { id: 1, name: '已注册' }
-];
+export const REGISTER_STATUS = [{ id: 1, name: '已注册' }];
 // 选课状态
-export const CHOISE_STATUS = [
-  { id: 0, name: '未选课' },
-  { id: 1, name: '已选课' }
-];
+export const CHOISE_STATUS = [{ id: 0, name: '未选课' }, { id: 1, name: '已选课' }];
 
 // 热力图对应的区间取值
 export const HOT_RANGE = [
@@ -398,14 +403,12 @@ export const HOT_RANGE = [
 export const PAGE_KEY_ACTION = [
   { value: 'storelist', actionValue: 'majordetail' },
   { value: 'kolist', actionValue: 'kogoodsdetail' },
-]
+];
 export const KO_LIST = 'KoList';
-
 
 export const INDEX_PAGE = 'homepage';
 // 通过判断改值是否存在于actionKeyId里确实这个节点是否流向 选课 节点
 export const CLICK_KO_ITEM = 'click_ko_item';
-
 
 // 申诉维度枚举
 export const DIMENSION_TYPE = [
@@ -432,7 +435,7 @@ export const SCORE_APPEAL_DIS = [
   { id: 45, name: '60分钟以下', parentId: 42 },
   { id: 44, name: '60至120分钟', parentId: 42 },
   { id: 43, name: '120分钟以上', parentId: 42 },
-]
+];
 // 申诉状态
 export const SCORE_APPEAL_STATE = [
   { id: 1, name: '一次对接人待审核' },
@@ -507,7 +510,6 @@ export default {
   SCORE_APPEAL_STATE_ON_OWNER,
   SCORE_APPEAL_STATE_ON_MASTER,
   SCORE_APPEAL_DIS,
-
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
