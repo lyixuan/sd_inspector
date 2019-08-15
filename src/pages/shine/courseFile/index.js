@@ -88,7 +88,7 @@ class Course extends React.Component {
     confirm({
       className: 'BIConfirm',
       okType: 'danger',
-      title: '是否删除当前记录?',
+      title: '删除课程资料后，小程序端该课程下的所有ppt资料将不再显示，是否确认删除?',
       cancelText: '取消',
       okText: '确定',
       onOk() {

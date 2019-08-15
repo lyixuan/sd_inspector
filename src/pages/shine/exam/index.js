@@ -94,7 +94,7 @@ class Course extends React.Component {
     confirm({
       className: 'BIConfirm',
       okType: 'danger',
-      title: '是否删除当前记录?',
+      title: '是否确认删除该练习通道?',
       cancelText: '取消',
       okText: '确定',
       onOk() {

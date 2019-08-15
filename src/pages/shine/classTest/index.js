@@ -58,7 +58,7 @@ class Evaluate extends React.Component {
     confirm({
       className: 'BIConfirm',
       okType: 'danger',
-      title: '是否删除当前记录?',
+      title: '此操作将删除该随堂考，是否确认?',
       cancelText: '取消',
       okText: '确定',
       onOk() {
