@@ -147,7 +147,7 @@ class Archive extends React.Component {
                 <span>需存档的绩效包:</span>
                 <BISelect
                   placeholder="请选择绩效月"
-                  style={{ width: 190, margin: '0 30px 0 10px' }}
+                  style={{ width: 240, margin: '0 30px 0 10px' }}
                   labelInValue
                   onChange={val => this.formValChange(val)}
                 >
