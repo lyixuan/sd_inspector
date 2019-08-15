@@ -135,3 +135,7 @@ body > a {
   color: #7B7C80;
   font-weight: normal;
 }
+.shine .anticon-plus + div {
+  color: transparent;
+  font-size: 0;
+}

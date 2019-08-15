@@ -126,13 +126,13 @@ class NewQualitySheet extends React.Component {
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox1}>
                 <span className={styles.gutterLabel1}>课程名称</span>：
-                <span className={styles.gutterForm}><BIInput placeholder="请输入" value={videoName} onChange={(e)=>this.onFormChange(e.target.value,'videoName')}/></span>
+                <span className={styles.gutterForm}><BIInput allowClear placeholder="请输入" value={videoName} onChange={(e)=>this.onFormChange(e.target.value,'videoName')}/></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>
               <div className={styles.gutterBox2}>
                 <span className={styles.gutterLabel1}>题目</span>：
-                <span className={styles.gutterForm}><BIInput placeholder="请输入" value={questionName} onChange={(e)=>this.onFormChange(e.target.value,'questionName')}/></span>
+                <span className={styles.gutterForm}><BIInput allowClear placeholder="请输入" value={questionName} onChange={(e)=>this.onFormChange(e.target.value,'questionName')}/></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={8}>

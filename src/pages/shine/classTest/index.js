@@ -77,6 +77,7 @@ class Evaluate extends React.Component {
       {
         title: '课程编号',
         dataIndex: 'id',
+        width:85
       },
       {
         title: '课程名称',
@@ -103,6 +104,7 @@ class Evaluate extends React.Component {
       {
         title: '正确选项',
         dataIndex: 'correctOptionValue',
+        width:85
       },
       {
         title: '操作',
