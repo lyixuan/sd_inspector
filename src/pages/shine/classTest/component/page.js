@@ -74,25 +74,25 @@ class NewQualitySheet extends React.Component {
             let str = '';
             response.data.failList.forEach((v)=>{
               if(v.videoIdResult){
-                str+=`课程编号${v.videoIdResult}`
+                str+=` 课程编号${v.videoIdResult} `
               }
               if(v.questionResult){
-                str+=`,问题${v.questionResult}`
+                str+=` 问题${v.questionResult} `
               }
               if(v.correctOptionResult){
-                str+=`,正确选项${v.correctOptionResult}`
+                str+=` 正确选项${v.correctOptionResult} `
               }
               if(v.optionAResult){
-                str+=`,选项A${v.optionAResult}`
+                str+=` 选项A${v.optionAResult} `
               }
               if(v.optionBResult){
-                str+=`,选项B${v.optionBResult}`
+                str+=` 选项B${v.optionBResult} `
               }
               if(v.optionCResult){
-                str+=`,选项C${v.optionCResult}`
+                str+=` 选项C${v.optionCResult} `
               }
               if(v.optionDResult){
-                str+=`,选项D${v.optionDResult}`
+                str+=` 选项D${v.optionDResult} `
               }
               v.str = str;
               str=''

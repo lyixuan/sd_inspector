@@ -155,7 +155,7 @@ class Course extends React.Component {
 
         <BIModal
           title="预览"
-          width={740}
+          width={840}
           visible={this.state.visible}
           onCancel={this.handleOk}
           onOk={this.handleOk}

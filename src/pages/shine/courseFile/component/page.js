@@ -150,8 +150,8 @@ class NewQualitySheet extends React.Component {
           {failList.map((v,i)=>(
             <div key={i}>
               <span>行数：{v.rowIndex}&nbsp;&nbsp;&nbsp; </span>
-              <span>问题：{v.videoIdResult}， </span>
-              <span>{v.pptUrlResult} </span>
+              <span>错误原因：{v.videoIdResult?`课程编号${v.videoIdResult}`:''} &nbsp;&nbsp;&nbsp;</span>
+              <span> {v.pptUrlResult?`ppt地址${v.pptUrlResult}`:''} </span>
             </div>
           ))}
 
