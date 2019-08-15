@@ -64,6 +64,7 @@ export default {
     *exportData({ payload }, { call, put }) {
       const result = yield call(exportData, payload);
       if (result) {
+        console.log(result.response)
           const { headers } = result.response || {};
           const filename = headers.get('content-disposition') || '';
           if(filename){
