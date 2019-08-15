@@ -143,7 +143,7 @@ class Evaluate extends React.Component {
       return;
     }
     for(let i = 0; i < param.length; i++){
-      param[i].examSubjects = param[i].examSubjects.split(',');
+      param[i].examSubjects = param[i].examSubjects?param[i].examSubjects.split(','):[];
       role=role.concat(param[i].examSubjects)
       if(param[i].examUrl === undefined || param[i].examUrl === null||param[i].examUrl === '') {
         message.warn('请输入考卷地址');
