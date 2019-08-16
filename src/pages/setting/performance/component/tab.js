@@ -126,7 +126,7 @@ class Tab extends React.Component {
                   <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
                     {this.renderInput(item, 'levelLowerLimit')}
                   </span>
-                  <span style={{ margin: '0 10px 0 0' }}>%</span>
+                  {/* <span style={{ margin: '0 10px 0 0' }}>%</span> */}
                   {this.renderCheckBox(item, 'lowerClose')}
                   <span>闭区间</span>
                 </p>
@@ -135,7 +135,7 @@ class Tab extends React.Component {
                   <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
                     {this.renderInput(item, 'levelUpperLimit')}
                   </span>
-                  <span style={{ margin: '0 10px 0 0' }}>%</span>
+                  {/* <span style={{ margin: '0 10px 0 0' }}>%</span> */}
                   {this.renderCheckBox(item, 'upperClose')}
                   <span>闭区间</span>
                 </p>
@@ -145,7 +145,7 @@ class Tab extends React.Component {
                 <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
                   {this.renderInput(item, 'levelValue')}
                 </span>
-                <span>%</span>
+                {/* <span>%</span> */}
               </div>
               <div className={styles.itemRight}>
                 <span className={styles.btn} onClick={() => this.delItem(item)}>
