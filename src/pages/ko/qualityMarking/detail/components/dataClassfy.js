@@ -154,7 +154,7 @@ class DataClassfy extends React.Component {
       let params = {
         type: this.props.type,
         itemId: this.props.pageData.item.itemId,
-        result: this.state.submitParam,
+        result: {...this.state.submitParam, lifeCycle: this.setLifeCycle()},
       };
       this.props.computedIdNew(() => {
         this.props.dispatch({

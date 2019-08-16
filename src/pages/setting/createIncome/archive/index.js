@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table } from 'antd';
+import { Spin, message, Table } from 'antd';
 import styles from './style.less';
 import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect';
@@ -12,18 +12,18 @@ const archiveStatus = {
   archiveSuccess: 2,
   archiveFail: 3,
 };
+
 @connect(({ createIncome, loading }) => ({
   createIncome,
-  loading: loading.effects['createIncome/getAchievementList'],
+  loadingTime: loading.effects['createIncome/getBatchLogList'],
 }))
 class Archive extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       changeValue: '',
-      disabled: true,
+      disabled: true, // 存档按钮是否可点击
       archiveStop: true,
-      getBatchLogList: [],
     };
   }
 
@@ -31,36 +31,60 @@ class Archive extends React.Component {
     this.getBatchLogList();
   }
 
+  getBatchLogList = () => {
+    this.props.dispatch({
+      type: 'createIncome/getBatchLogList',
+    });
+  };
+
+  formatData = (time, YYYYMMDD) => {
+    if (YYYYMMDD) {
+      return moment(time).format('YYYY-MM-DD');
+    }
+    return moment(time).format('YYYY-MM-DD HH:mm:ss');
+  };
   columnsData = () => {
     const columns = [
       {
         title: '存档时间',
+        width: '180px',
         dataIndex: 'batchStartTime',
-        width: 200,
-        key: 'batchStartTime',
+        render: (text, record) => {
+          let value = this.formatData(record.batchStartTime);
+          return <div>{value}</div>;
+        },
       },
       {
         title: '已存档绩效包',
-        dataIndex: 'archiveTime',
-        width: 200,
-        key: 'archiveTime',
+        width: '300px',
+        dataIndex: 'effectiveDate',
+        render: (text, record) => {
+          return (
+            <div>{`${this.formatData(record.kpiPackageStartDate, 'YYYYMMDD')} 至 ${this.formatData(
+              record.kpiPackageEndDate,
+              'YYYYMMDD'
+            )}`}</div>
+          );
+        },
       },
       {
         title: '操作人',
+        width: '100px',
         dataIndex: 'operator',
-        width: 100,
-        key: 'operator',
       },
       {
         title: '状态',
         dataIndex: 'batchStatus',
         render: (text, record) => {
-          // const { isShowState } = record;
-          // const titleObj = { 1: '是否设置为前端不可查看?', 0: '是否设置为前端可查看?' };
-          return <div>11</div>;
+          let value = '';
+          if (record.batchStatus === 1) return (value = '存档中');
+          if (record.batchStatus === 2) return (value = '存档成功');
+          if (record.batchStatus === 3) return (value = '存档失败');
+          return <div>{value}</div>;
         },
       },
     ];
+
     return columns;
   };
 
@@ -69,101 +93,103 @@ class Archive extends React.Component {
     const { disabled, changeValue } = this.state;
     const params = {};
     if (disabled) return;
-    // 点击存档，取消存档按钮可点
-    this.setState({ archiveStop: false });
-    // 请求返回结果 取消存档不可点
-    setTimeout(() => {
-      this.setState({ archiveStop: true });
-    }, 2000);
-
-    params.kpiPackageStartTime = changeValue;
-    params.kpiPackageEndTime = changeValue;
-
-    this.props.dispatch({
-      type: 'createIncome/saveBatchLog',
-      payload: { params },
-    });
-
-    const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-    const user =
-      localStorage.getItem('admin_user') && JSON.parse(localStorage.getItem('admin_user')).userName;
-    console.log(currentTime, changeValue, user);
-    this.setState({ disabled: true, archiveStop: false });
+    params.kpiPackageStartDate = changeValue.split('至')[0];
+    params.kpiPackageEndDate = changeValue.split('至')[1];
+    this.props
+      .dispatch({
+        type: 'createIncome/saveBatchLog',
+        payload: { params },
+      })
+      .then(res => {
+        if (res) {
+          this.setState({ disabled: false });
+          message.success('存档成功');
+          this.getBatchLogList();
+          return;
+        }
+      });
+    this.setState({ disabled: true });
   };
 
-  // 取消存档
-  handleArchiveStop = () => {
-    const { disabled, changeValue } = this.state;
-    const params = {};
-    params.kpiPackageStartTime = changeValue;
-    params.kpiPackageEndTime = changeValue;
-    // 请求接口
-    this.props.dispatch({
-      type: 'createIncome/cacelBatchLog',
-      payload: { params },
-    });
-  };
-
-  // 获取存档历史记录列表
-  getBatchLogList = () => {
-    this.props.dispatch({
-      type: 'createIncome/getBatchLogList',
-    });
-  };
+  // // 暂定不做取消存档
+  // handleArchiveStop = () => {
+  //   const { disabled, changeValue } = this.state;
+  //   const params = {};
+  //   params.kpiPackageStartTime = changeValue;
+  //   params.kpiPackageEndTime = changeValue;
+  //   // 请求接口
+  //   this.props.dispatch({
+  //     type: 'createIncome/cacelBatchLog',
+  //     payload: { params },
+  //   });
+  // };
 
   // 获取绩效包周期
   formValChange = (val, key) => {
     this.setState({
-      changeValue: '2019-08-29至2019-09-28',
+      changeValue: val.key,
       disabled: false,
     });
   };
   render() {
-    const { disabled, archiveStop } = this.state;
-    const { achievementList, batchLogList } = this.props;
-    const dataSource = batchLogList;
+    const { disabled } = this.state;
+    const { achievementList, loadingTime } = this.props;
+    const { batchLogListData = [] } = this.props.createIncome;
+    const dataSource = batchLogListData;
 
     return (
-      <div className={styles.archiveWrap}>
-        <h2 className={styles.title}>创收绩效存档</h2>
-        <div className={styles.line}>
-          <div>
-            <span>需存档的绩效包:</span>
-            <BISelect
-              placeholder="清选择绩效月"
-              style={{ width: 190, margin: '0 30px 0 10px' }}
-              labelInValue
-              onChange={val => this.formValChange(val)}
-            >
-              {achievementList.map(item => (
-                <Option key={item.id}>{item.name}</Option>
-              ))}
-            </BISelect>
-            <BIButton
-              disabled={disabled}
-              type="primary"
-              onClick={this.handleArchive}
-              style={{ padding: '0 25px', marginRight: 10 }}
-            >
-              存档
-            </BIButton>
-            {/* <BIButton disabled={archiveStop} type="primary" onClick={this.handleArchiveStop}>
+      <>
+        <Spin spinning={loadingTime}>
+          <div className={styles.archiveWrap}>
+            <h2 className={styles.title}>创收绩效存档</h2>
+            <div className={styles.line}>
+              <div>
+                <span>需存档的绩效包:</span>
+                <BISelect
+                  placeholder="请选择绩效月"
+                  style={{ width: 240, margin: '0 30px 0 10px' }}
+                  labelInValue
+                  onChange={val => this.formValChange(val)}
+                >
+                  {achievementList.map(item => (
+                    <Option
+                      key={`${moment(item.effectiveDate).format('YYYY-MM-DD')}至${moment(
+                        item.expiryDate
+                      ).format('YYYY-MM-DD')}`}
+                    >
+                      {`${moment(item.effectiveDate).format('YYYY-MM-DD')}至${moment(
+                        item.expiryDate
+                      ).format('YYYY-MM-DD')}`}
+                    </Option>
+                  ))}
+                </BISelect>
+                <BIButton
+                  disabled={disabled}
+                  type="primary"
+                  onClick={this.handleArchive}
+                  style={{ padding: '0 25px', marginRight: 10 }}
+                >
+                  存档
+                </BIButton>
+                {/* <BIButton disabled={archiveStop} type="primary" onClick={this.handleArchiveStop}>
               取消存档
               取消存档功能暂时不做
             </BIButton> */}
+              </div>
+              <div className={styles.archiveTable}>
+                <Table
+                  bordered
+                  dataSource={dataSource}
+                  columns={this.columnsData()}
+                  useFixedHeader
+                  scroll={{ y: 300 }}
+                  pagination={false}
+                />
+              </div>
+            </div>
           </div>
-          <div className={styles.archiveTable}>
-            <Table
-              bordered
-              dataSource={dataSource}
-              columns={this.columnsData()}
-              useFixedHeader
-              scroll={{ y: 300 }}
-              pagination={false}
-            />
-          </div>
-        </div>
-      </div>
+        </Spin>
+      </>
     );
   }
 }

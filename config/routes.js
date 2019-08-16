@@ -198,7 +198,7 @@ export const routes = [
             path: '/ko/behaviorAnalyze',
             component: './ko/behaviorAnalyze',
             name: 'APP统计',
-            commonPath: true,   // 继承父页面
+            commonPath: true, // 继承父页面
           },
           // {
           //   path: '/ko/userList',
@@ -228,7 +228,7 @@ export const routes = [
             path: '/koUserData/userList',
             component: './ko/userList',
             name: '用户查询',
-            commonPath: true,   // 继承父页面
+            commonPath: true, // 继承父页面
           },
         ],
       },
@@ -254,13 +254,22 @@ export const routes = [
         ],
       },
       {
-        path: '/koReport',
-        name: 'KO日报',
+        path: '/knowledge',
+        name: '知识库',
         routes: [
           {
-            path: '/koReport/daily',
-            component: './ko/koDailyReport',
-            name: 'KO日报',
+            path: '/knowledge/knowledge',
+            component: './ko/knowledge',
+          },
+        ],
+      },
+      {
+        path: '/sessionReport',
+        name: '会话记录',
+        routes: [
+          {
+            path: '/sessionReport/sessionReport',
+            component: './ko/sessionReport',
           },
         ],
       },
@@ -271,8 +280,8 @@ export const routes = [
           {
             path: '/qualityMarking/detail',
             component: './ko/qualityMarking/detail',
-            name: '质检标注'
-          }
+            name: '质检标注',
+          },
         ],
       },
       {
@@ -284,20 +293,22 @@ export const routes = [
           {
             path: '/qualityMarking/im',
             component: './ko/qualityMarking/im',
-            commonPath: true,   // 继承父页面
+            commonPath: true, // 继承父页面
             name: 'IM会话标注',
-          }, {
+          },
+          {
             path: '/qualityMarking/bbs',
             component: './ko/qualityMarking/bbs',
-            commonPath: true,   // 继承父页面
+            commonPath: true, // 继承父页面
             name: 'BBS标注',
-          }, {
+          },
+          {
             path: '/qualityMarking/nps',
             component: './ko/qualityMarking/nps',
-            commonPath: true,   // 继承父页面
+            commonPath: true, // 继承父页面
             name: 'NPS标注',
-          }
-        ]
+          },
+        ],
       },
       {
         path: '/scoreAppeal',
@@ -388,28 +399,57 @@ export const routes = [
             component: './ko/entrancePlatform',
           },
         ],
-      },
-      {
-        path: '/qualityReport',
-        name: '质检图表',
-        pageRedirect: '/qualityReport/data',
+      }, {
+        path: '/allReport',
+        name: '报表',
         routes: [
           {
-            path: '/qualityReport/data',
-            component: './ko/qualityReport',
-            name: '质检图表',
+            path: '/allReport/:siteKey',
+            component: './allReport',
           },
         ],
       },
       {
         path: '/setting',
-        component: './setting/createIncome',
+        component: './setting',
         name: '配置',
         routes: [
           {
             path: '/setting/createIncome',
             component: './setting/createIncome',
             name: '创收绩效管理',
+          },
+          {
+            path: '/setting/performance/list',
+            component: './setting/performance',
+            name: '创收绩效包',
+          },
+          {
+            path: '/setting/performance/create',
+            component: './setting/performance/edit',
+            name: '创建创收绩效包',
+            bread: {
+              name: '创收绩效包',
+              path: '/setting/performance/list',
+            },
+          },
+          {
+            path: '/setting/performance/copy',
+            component: './setting/performance/edit',
+            name: '复制创收绩效包',
+            bread: {
+              name: '创收绩效包',
+              path: '/setting/performance/list',
+            },
+          },
+          {
+            path: '/setting/performance/edit',
+            component: './setting/performance/edit',
+            name: '编辑创收绩效包',
+            bread: {
+              name: '创收绩效包',
+              path: '/setting/performance/list',
+            },
           },
         ],
       },

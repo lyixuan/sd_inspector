@@ -18,7 +18,7 @@ class CreateIncome extends React.Component {
   }
   render() {
     const { archiveList = [] } = this.props.createIncome || {};
-    const {loading} = this.props;
+    const { loading } = this.props;
     return (
       <div className={styles.createIncomeWrap}>
         <TimeManage achievementList={archiveList} loading={loading} />

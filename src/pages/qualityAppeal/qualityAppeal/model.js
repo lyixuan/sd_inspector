@@ -61,7 +61,7 @@ export default {
     },
     *exportExcel({ payload }, { call }) {
       const params = payload.params;
-      delete params.type;
+      // delete params.type;
       const result = yield call(appealExportExcel, params);
       if (result) {
         const { headers } = result.response || {};

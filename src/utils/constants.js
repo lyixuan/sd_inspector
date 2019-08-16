@@ -51,7 +51,6 @@ export const ADMIN_URL = {
   production: 'http://bd.ministudy.com',
 }[process.env.PROXY_ENV];
 
-
 // 分页配置
 export const PAGINATION = {
   showSizeChanger: true,
@@ -358,7 +357,11 @@ export const FRONT_ROLE_TYPE_LIST = [
 // 学院类型
 export const FAMILY_TYPE = [{ id: 0, name: '自考' }, { id: 1, name: '壁垒' }];
 // 学院类型
-export const APPEAL_RESULT_TYPE = [{ id: 1, name: '通过' }, { id: 0, name: '驳回' },{ id: 2, name: '超时' }];
+export const APPEAL_RESULT_TYPE = [
+  { id: 1, name: '通过' },
+  { id: 0, name: '驳回' },
+  { id: 2, name: '超时' },
+];
 // 质检上传类型
 export const QUALITY_UPLOAD_TYPE = [{ id: 1, name: 'quality' }, { id: 2, name: 'appeal' }];
 // 过滤单位
@@ -369,22 +372,26 @@ export const UNIT_DATE = [
   { id: 'ss', name: '秒' },
 ];
 
-// 空ContentLayout页面名单
-export const EmptyContentLayout = [{ path: '/ko', name: 'KO计划' }, { path: '/qualityMarking', name: '质检标注' },
-  { path: '/qualityReport', name: '质检图表'},  { path: '/shine/smallPro', name: '小程序管理'}];
+
 // 应用类型
 export const APP_LIST = [
   { id: '1', name: '极速版App' }
+  ]
+// 空ContentLayout页面名单
+export const EmptyContentLayout = [
+  { path: '/ko', name: 'KO计划' },
+  { path: '/qualityMarking', name: '质检标注' },
+  { path: '/qualityReport', name: '质检图表' },
+  { path: '/shine/smallPro', name: '小程序管理'},
+  { path: '/setting/performance/list', name: '创收绩效包' },
+  { path: '/setting/performance/edit', name: '创收绩效包详情' },
+  { path: '/setting/performance/create', name: '创收绩效包详情' },
+  { path: '/setting/performance/copy', name: '创收绩效包详情' },
 ];
 // 注册类型
-export const REGISTER_STATUS = [
-  { id: 1, name: '已注册' }
-];
+export const REGISTER_STATUS = [{ id: 1, name: '已注册' }];
 // 选课状态
-export const CHOISE_STATUS = [
-  { id: 0, name: '未选课' },
-  { id: 1, name: '已选课' }
-];
+export const CHOISE_STATUS = [{ id: 0, name: '未选课' }, { id: 1, name: '已选课' }];
 
 // 热力图对应的区间取值
 export const HOT_RANGE = [
@@ -399,79 +406,77 @@ export const HOT_RANGE = [
 export const PAGE_KEY_ACTION = [
   { value: 'storelist', actionValue: 'majordetail' },
   { value: 'kolist', actionValue: 'kogoodsdetail' },
-]
+];
 export const KO_LIST = 'KoList';
-
 
 export const INDEX_PAGE = 'homepage';
 // 通过判断改值是否存在于actionKeyId里确实这个节点是否流向 选课 节点
 export const CLICK_KO_ITEM = 'click_ko_item';
 
-
 // 申诉维度枚举
 export const DIMENSION_TYPE = [
-  { id: 11, name: '优新',url:'specialNewer' },
-  { id: 14, name: 'IM',url:'IM' },
-  { id: 19, name: '工单',url:'order'  },
-  { id: 23, name: '底线',url:'baseline'  },
-  { id: 42, name: '创收',url:'createIncome'  },
+  { id: 11, name: '优新', url: 'specialNewer' },
+  { id: 14, name: 'IM', url: 'IM' },
+  { id: 19, name: '工单', url: 'order' },
+  { id: 23, name: '底线', url: 'baseline' },
+  { id: 42, name: '创收', url: 'createIncome' },
 ];
 
 // 申诉维度
 export const SCORE_APPEAL_DIS = [
-  {id:12,name:'开班电话',parentId:11},
-  {id:17,name:'不及时消息',parentId:14},
-  {id:15,name:'未回复会话',parentId:14},
-  {id:16,name:'不满意会话',parentId:14},
-  {id:20,name:'工单初次减分',parentId:19},
-  {id:21,name:'工单二次减分',parentId:19},
-  {id:22,name:'工单三次减分',parentId:19},
-  {id:24,name:'事件',parentId:23},
-  {id:25,name:'班投',parentId:23},
-  {id:26,name:'退费',parentId:23},
-  {id:47,name:'退挽',parentId:23},
-  {id:45,name:'60分钟以下',parentId:42},
-  {id:44,name:'60至120分钟',parentId:42},
-  {id:43,name:'120分钟以上',parentId:42},
-]
+  { id: 12, name: '开班电话', parentId: 11 },
+  { id: 17, name: '不及时消息', parentId: 14 },
+  { id: 15, name: '未回复会话', parentId: 14 },
+  { id: 16, name: '不满意会话', parentId: 14 },
+  { id: 20, name: '工单初次减分', parentId: 19 },
+  { id: 21, name: '工单二次减分', parentId: 19 },
+  { id: 22, name: '工单三次减分', parentId: 19 },
+  { id: 24, name: '事件', parentId: 23 },
+  { id: 25, name: '班投', parentId: 23 },
+  { id: 26, name: '退费', parentId: 23 },
+  { id: 47, name: '退挽', parentId: 23 },
+  { id: 45, name: '60分钟以下', parentId: 42 },
+  { id: 44, name: '60至120分钟', parentId: 42 },
+  { id: 43, name: '120分钟以上', parentId: 42 },
+];
 // 申诉状态
 export const SCORE_APPEAL_STATE = [
-  {id:1,name:'一次对接人待审核'},
-  {id:2,name:'二次对接人待审核'},
-  {id:3,name:'一次对接人审核未通过'},
-  {id:4,name:'二次对接人审核未通过'},
-  {id:5,name:'一次主管待审核'},
-  {id:6,name:'二次主管待审核'},
-  {id:7,name:'一次申诉失败'},
-  {id:8,name:'一次申诉成功'},
-  {id:9,name:'二次申诉超时'},
-  {id:10,name:'二次申诉成功'},
-  {id:11,name:'二次申诉失败'},
+  { id: 1, name: '一次对接人待审核' },
+  { id: 2, name: '二次对接人待审核' },
+  { id: 3, name: '一次对接人审核未通过' },
+  { id: 4, name: '二次对接人审核未通过' },
+  { id: 5, name: '一次主管待审核' },
+  { id: 6, name: '二次主管待审核' },
+  { id: 7, name: '一次申诉失败' },
+  { id: 8, name: '一次申诉成功' },
+  { id: 9, name: '二次申诉超时' },
+  { id: 10, name: '二次申诉成功' },
+  { id: 11, name: '二次申诉失败' },
 ];
 // 申诉状态-学分归属人、对接人-在途
 export const SCORE_APPEAL_STATE_ON_OWNER = [
-  {id:1,name:'一次对接人待审核'},
-  {id:2,name:'二次对接人待审核'},
-  {id:3,name:'一次对接人审核未通过'},
-  {id:4,name:'二次对接人审核未通过'},
-  {id:5,name:'一次主管待审核'},
-  {id:6,name:'二次主管待审核'},
-  {id:7,name:'一次申诉失败'},
+  { id: 1, name: '一次对接人待审核' },
+  { id: 2, name: '二次对接人待审核' },
+  { id: 3, name: '一次对接人审核未通过' },
+  { id: 4, name: '二次对接人审核未通过' },
+  { id: 5, name: '一次主管待审核' },
+  { id: 6, name: '二次主管待审核' },
+  { id: 7, name: '一次申诉失败' },
 ];
 // 申诉状态-主管-在途
 export const SCORE_APPEAL_STATE_ON_MASTER = [
-  {id:2,name:'二次对接人待审核'},
-  {id:4,name:'二次对接人审核未通过'},
-  {id:5,name:'一次主管待审核'},
-  {id:6,name:'二次主管待审核'},
-  {id:7,name:'一次申诉失败'},
+  { id: 2, name: '二次对接人待审核' },
+  { id: 4, name: '二次对接人审核未通过' },
+  { id: 5, name: '一次主管待审核' },
+  { id: 6, name: '二次主管待审核' },
+  { id: 7, name: '一次申诉失败' },
 ];
 // 申诉状态-结案
 export const SCORE_APPEAL_STATE_FIN = [
-  {id:8,name:'一次申诉成功'},
-  {id:9,name:'二次申诉超时'},
-  {id:10,name:'二次申诉成功'},
-  {id:11,name:'二次申诉失败'},
+  { id: 8, name: '一次申诉成功' },
+  { id: 9, name: '二次申诉超时' },
+  { id: 10, name: '二次申诉成功' },
+  { id: 11, name: '二次申诉失败' },
 ];
 
 // 需要用于global filter 进行数据筛选的，必须加到default里
@@ -508,7 +513,6 @@ export default {
   SCORE_APPEAL_STATE_ON_OWNER,
   SCORE_APPEAL_STATE_ON_MASTER,
   SCORE_APPEAL_DIS,
-
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
