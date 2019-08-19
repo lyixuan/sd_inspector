@@ -47,13 +47,6 @@ export default {
       let getKpiPackageData = result.data || [];
 
       if (result.code === 20000) {
-        getKpiPackageData.positionPercent =
-          getKpiPackageData.positionPercent && getKpiPackageData.positionPercent * 100;
-        getKpiPackageData.renewalKpi =
-          getKpiPackageData.renewalKpi && getKpiPackageData.renewalKpi * 100;
-        getKpiPackageData.financeNetFlowRatioList.map(item => {
-          return (item.levelValue = item.levelValue && item.levelValue * 100);
-        });
         yield put({ type: 'save', payload: { getKpiPackageData } });
         return getKpiPackageData;
       } else {
