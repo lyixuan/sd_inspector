@@ -1,37 +1,25 @@
 <!doctype html>
 <html>
-
 <head>
     <meta charset="utf-8" />
-    <meta faguang />
     <title>督学平台</title>
-  <!--&lt;!&ndash; GrowingIO Analytics code version 2.1 &ndash;&gt;-->
-
-  <!--<script type='text/javascript'>-->
-    <!--!function(e,t,n,g,i){e[i]=e[i]||function(){(e[i].q=e[i].q||[]).push(arguments)},n=t.createElement("script"),tag=t.getElementsByTagName("script")[0],n.async=1,n.src=('https:'==document.location.protocol?'https://':'http://')+g,tag.parentNode.insertBefore(n,tag)}(window,document,"script","assets.growingio.com/2.1/gio.js","gio");-->
-    <!--gio('init','ad1af5408f920689', {});-->
-
-    <!--//custom page code begin here-->
-    <!--gio('config', {'hashtag':true});-->
-    <!--//custom page code end here-->
-
-    <!--gio('send');-->
-
-  <!--</script>-->
-
-  <!--&lt;!&ndash; End GrowingIO Analytics code version: 2.1 &ndash;&gt;-->
-  <style>
-    body>a {
-      position: absolute;
-      color: transparent;
-    }
-  </style>
+    <link rel="icon" type="image/x-icon" href="http://bd.ministudy.com/favicon.png" />
+    <style>
+      body>a {
+        position: absolute;
+        color: transparent;
+      }
+    </style>
 </head>
-<link rel="icon" type="image/x-icon" href="http://bd.ministudy.com/favicon.png" />
-<!-- <script src="https://cdn.bootcss.com/d3/5.9.2/d3.min.js"></script>
-<script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts-en.common.min.js"></script> -->
+
 <body>
     <div id="root"></div>
+    <script type="text/javascript" src="http://172.16.59.247:37225/LocationHandler/BuryPointHandler.js"></script>
+    <script>
+        const admin_user = localStorage.getItem('admin_user');
+        const userId = JSON.parse(admin_user)?JSON.parse(admin_user).userId:null;
+        xd('config',{userId,site:1});
+    </script>
     <script type="text/javascript" src="https://s5.cnzz.com/z_stat.php?id=1277653889&web_id=1277653889"></script>
 </body>
 </html>
