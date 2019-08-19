@@ -19,12 +19,9 @@ export default {
     *getListData({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(performanceList, params);
-      console.log(params, 'parmas');
       const listData = result.data || [];
       const { total, pageNum } = params;
-      console.log(pageNum, 'pagepage');
       if (result.code === 20000) {
-        console.log(listData, 'listData');
         yield put({ type: 'save', payload: { listData, pageNum, total } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
@@ -47,8 +44,16 @@ export default {
     *getKpiPackage({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(getKpiPackage, params);
-      const getKpiPackageData = result.data || [];
+      let getKpiPackageData = result.data || [];
+
       if (result.code === 20000) {
+        getKpiPackageData.positionPercent =
+          getKpiPackageData.positionPercent && getKpiPackageData.positionPercent * 100;
+        getKpiPackageData.renewalKpi =
+          getKpiPackageData.renewalKpi && getKpiPackageData.renewalKpi * 100;
+        getKpiPackageData.financeNetFlowRatioList.map(item => {
+          return (item.levelValue = item.levelValue && item.levelValue * 100);
+        });
         yield put({ type: 'save', payload: { getKpiPackageData } });
         return getKpiPackageData;
       } else {
