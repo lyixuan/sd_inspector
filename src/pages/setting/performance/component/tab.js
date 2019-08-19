@@ -33,7 +33,9 @@ class Tab extends React.Component {
   mapOriginData = arr => {
     const itemList = Array.isArray(arr) ? arr : [];
     itemList.map((item, index) => {
-      return (item.index = index);
+      item.levelValue = item.levelValue * 100;
+      item.index = index;
+      return item;
     });
     return itemList;
   };
@@ -74,6 +76,7 @@ class Tab extends React.Component {
   };
 
   changeInputValue = (key = '', item = {}, e) => {
+    debugger;
     const target = e.currentTarget;
     const newObj = { ...item };
     let inputValue = target.value || '';
@@ -153,6 +156,7 @@ class Tab extends React.Component {
                 <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
                   {this.renderInput(item, 'levelValue')}
                 </span>
+                <span style={{ margin: '0 10px 0 0' }}>%</span>
               </div>
               <div className={styles.itemRight}>
                 <span className={styles.btn} onClick={() => this.delItem(item)}>
