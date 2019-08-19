@@ -27,7 +27,7 @@ class Evaluate extends React.Component {
     this.state = {
       img:'',
       visible:false,
-      type:1,
+      type:undefined,
       timer:0,
     };
     this.timesRun=null;
@@ -80,8 +80,8 @@ class Evaluate extends React.Component {
   };
   handleSubmit = (list,type) => {
     const param = list;
-    if(param.length>10){
-      message.warn('最多录入10条信息');
+    if(param.length>6){
+      message.warn('最多录入6条信息');
       return;
     }
     for(let i = 0; i < param.length; i++){
@@ -112,6 +112,11 @@ class Evaluate extends React.Component {
     });
   };
   handleExport = () => {
+    const {type} =  this.state;
+    if(!type) {
+      message.warn('请选择统计维度');
+      return
+    };
     this.setState({
       timer:60
     });
@@ -125,7 +130,6 @@ class Evaluate extends React.Component {
         clearInterval(this.timesRun)
       }
     },1000);
-    const {type} =  this.state;
     this.props.dispatch({
       type: 'smallPro/exportData',
       payload: { type: Number(type) },
@@ -143,9 +147,11 @@ class Evaluate extends React.Component {
         <div className={style.box}>
           <div className={style.title}>学习数据导出</div>
           <div className={style.cont}>
-            统计维度：<BISelect style={{ width: 180 }} placeholder="请选择"
-                      value={String(type)}
-                      onChange={(val) => this.onSelChange(val)}>
+            统计维度：<BISelect style={{ width: 180 }}
+                           placeholder="请选择"
+                           allowClear
+                          value={type?String(type):type}
+                          onChange={(val) => this.onSelChange(val)}>
               {sellist.map(item => (
                 <Option key={item.id}>
                   {item.name}

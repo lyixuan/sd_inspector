@@ -290,7 +290,7 @@ class Course extends React.Component {
         </div>
         <div className={styles.gutterRow} style={{height: 110}}>
           <div className={styles.gutterBox} >
-            <span className={styles.gutterLabel} style={{verticalAlign:'top'}}>*联系通道图标:</span>
+            <span className={styles.gutterLabel} style={{verticalAlign:'top'}}>*练习通道图标:</span>
             <span className={styles.gutterForm}>
               <Upload
                 className='shine'
@@ -303,7 +303,6 @@ class Course extends React.Component {
                 onChange={this.handleChange}
               >
               {imgUrl ? <img src={imgUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-                <p className="ant-upload-text">上传</p>
             </Upload>
             </span>
           </div>

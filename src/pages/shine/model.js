@@ -28,6 +28,11 @@ export default {
     *getCourseType({ payload }, { call, put }) {
       const result = yield call(getCourseType, {payload});
       const courseList = result.data || [];
+      courseList.forEach((item)=>{
+        item.children.forEach((v)=>{
+          delete v.children;
+        });
+      });
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { courseList } });
       } else {
