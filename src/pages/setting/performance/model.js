@@ -46,7 +46,6 @@ export default {
     // 获取绩效包数据
     *getKpiPackage({ payload }, { call, put }) {
       const params = payload.params;
-      console.log(payload, 'payload');
       const result = yield call(getKpiPackage, params);
       const getKpiPackageData = result.data || [];
       if (result.code === 20000) {
