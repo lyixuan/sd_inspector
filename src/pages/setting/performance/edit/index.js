@@ -257,7 +257,10 @@ class detail extends React.Component {
                 <span className={styles.itemMiddle}>好推净流水系数</span>
                 <span className={styles.itemRight}>操作</span>
               </p>
-              <Tab onChange={data => this.onChange(data)} itemList={data.financeNetFlowRatioList} />
+              <Tab
+                onChange={data => this.onChange(data)}
+                itemList={data.financeNetFlowRatioList.length && data.financeNetFlowRatioList}
+              />
             </div>
           </div>
           <div className={styles.precentWrap}>
