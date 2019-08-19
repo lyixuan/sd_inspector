@@ -33,7 +33,6 @@ class Tab extends React.Component {
   mapOriginData = arr => {
     const itemList = Array.isArray(arr) ? arr : [];
     itemList.map((item, index) => {
-      item.levelValue = item.levelValue * 100;
       item.index = index;
       return item;
     });
