@@ -50,11 +50,13 @@ const columns = [
     title: '评价内容',
     dataIndex: 'commentaryContent',
     render: (text, record) => {
+      const str1 = text.slice(0,56);
+      const str2 = text.length>50?'...':'';
       return (
         <>
           {/* Tooltip */}
-          <Tooltip placement="top" title={text} overlayStyle={{top:'10px'}}>
-            <span className={style.twoline}>{text}</span>
+          <Tooltip placement="top" title={text} getPopupContainer={(triggerNode) => triggerNode}>
+            <span className='evaluate'>{str1+str2}</span>
           </Tooltip>
         </>
       );
