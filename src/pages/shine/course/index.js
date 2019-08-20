@@ -300,6 +300,7 @@ class Course extends React.Component {
             <span className={styles.gutterForm}>
               <BIInput placeholder="请输入"
                        style={{ width: 180 }}
+                       maxLength={20}
                        value={videoName}
                        onChange={(e) => this.onFormChange(e.target.value, 'videoName')}/></span>
           </div>
@@ -310,6 +311,7 @@ class Course extends React.Component {
             <span className={styles.gutterForm}>
                 <BIInput placeholder="请输入"
                          style={{ width: 180 }}
+                         maxLength={10}
                          value={videoRealName}
                          onChange={(e) => this.onFormChange(e.target.value, 'videoRealName')}/></span>
           </div>
@@ -332,6 +334,7 @@ class Course extends React.Component {
               <BIInput placeholder="请输入"
                        style={{ width: 180 }}
                        value={videoUserRole}
+                       maxLength={10}
                        onChange={(e) => this.onFormChange(e.target.value, 'videoUserRole')}/></span>
           </div>
         </div>
