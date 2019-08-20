@@ -476,7 +476,7 @@ export const routes = [
           {
             path: '/shine/evaluate',
             component: './shine/evaluate',
-            name: '评价管理',
+            name: '用户评价',
           },
           {
             path: '/shine/exam',

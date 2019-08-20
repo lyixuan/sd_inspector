@@ -80,10 +80,7 @@ class Evaluate extends React.Component {
   };
   handleSubmit = (list,type) => {
     const param = list;
-    if(param.length>6){
-      message.warn('最多录入6条信息');
-      return;
-    }
+
     for(let i = 0; i < param.length; i++){
       if(!param[i].bannerImgUrl || !param[i].bannerLinkUrl ||param[i].sort === undefined||param[i].sort === null) {
         message.warn('请填写完整信息');

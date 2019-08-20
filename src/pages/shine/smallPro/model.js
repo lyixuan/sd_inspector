@@ -46,7 +46,7 @@ export default {
     *updateData({ payload }, { call, put }) {
       const response = yield call(updateData, payload);
       if (response.code === 20000) {
-        message.success('保存成功');
+        message.success('首页banner图信息保存成功');
         return true
       } else {
         message.error(msgF(response.msg,response.msgDetail))
@@ -55,7 +55,7 @@ export default {
     *updateData2({ payload }, { call, put }) {
       const response = yield call(updateData, payload);
       if (response.code === 20000) {
-        message.success('保存成功');
+        message.success('考试公告信息保存成功');
         return true
       } else {
         message.error(msgF(response.msg,response.msgDetail))

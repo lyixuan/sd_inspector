@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Rate } from 'antd';
+import { Rate,Tooltip } from 'antd';
 import { DeepCopy } from '@/utils/utils';
 import Page from './component/page';
 import moment from 'moment/moment';
+import style from './style.less';
 
 const columns = [
   {
@@ -51,7 +52,10 @@ const columns = [
     render: (text, record) => {
       return (
         <>
-          {text}
+          {/* Tooltip */}
+          <Tooltip placement="top" title={text} overlayStyle={{top:'10px'}}>
+            <span className={style.twoline}>{text}</span>
+          </Tooltip>
         </>
       );
     },
