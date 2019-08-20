@@ -204,7 +204,8 @@ class Evaluate extends React.Component {
                 </Col>
                 <Col span={2}>
                   <span className={style.sortRtText} onClick={()=>this.showModal(item.bannerImgUrl)}>预览</span>
-                  <span className={style.sortRtIcon} onClick={()=>this.plus(item,idx,dataList1,'dataList1')}><Icon type="plus-circle" className={style.icon}/></span>
+                  {dataList1.length>=6?<span className={style.sortRtIcon}><Icon style={{color:'#ccc'}} type="plus-circle"/></span>:
+                    <span className={style.sortRtIcon} onClick={()=>this.plus(item,idx,dataList1,'dataList1')}><Icon type="plus-circle" className={style.icon}/></span>}
                   {dataList1.length===1?
                     <span className={style.sortRtIcon}><Icon style={{color:'#ccc'}} type="minus-circle"/></span>:
                     <span className={style.sortRtIcon} onClick={()=>this.minus(item,idx,dataList1,'dataList1')}><Icon type="minus-circle" className={style.icon}/></span>}
@@ -250,7 +251,9 @@ class Evaluate extends React.Component {
                 </Col>
                 <Col span={2}>
                   <span className={style.sortRtText} onClick={()=>this.showModal(item.bannerImgUrl)}>预览</span>
-                  <span className={style.sortRtIcon} onClick={()=>this.plus(item,idx,dataList2,'dataList2')}><Icon type="plus-circle" className={style.icon}/></span>
+                  {dataList2.length>=6?<span className={style.sortRtIcon}><Icon style={{color:'#ccc'}} type="plus-circle"/></span>:
+                    <span className={style.sortRtIcon} onClick={()=>this.plus(item,idx,dataList2,'dataList2')}><Icon type="plus-circle" className={style.icon}/></span>}
+
                   {dataList2.length===1?
                     <span className={style.sortRtIcon}><Icon style={{color:'#ccc'}} type="minus-circle"/></span>:
                     <span className={style.sortRtIcon} onClick={()=>this.minus(item,idx,dataList2,'dataList2')}><Icon type="minus-circle" className={style.icon}/></span>}
