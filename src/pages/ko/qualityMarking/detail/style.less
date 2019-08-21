@@ -74,6 +74,16 @@ li{
   .name{
     flex:1;
     color:#55595E;
+    flex-wrap: wrap;
+    > span {
+      display: inline-block;
+      white-space: normal;
+      word-wrap: break-word;
+      word-break: break-all;
+    }
+    i {
+      display: inline-block;
+    }
   }
   .nameCurrent{
     color:#48c2ba;
