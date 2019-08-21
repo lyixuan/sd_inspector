@@ -77,11 +77,13 @@ class Evaluate extends React.Component {
       {
         title: '课程编号',
         dataIndex: 'id',
-        width:85
+        width:85,
+        align:'center'
       },
       {
         title: '课程名称',
         dataIndex: 'videoName',
+        width:200
       },
       {
         title: '题目',
@@ -104,16 +106,18 @@ class Evaluate extends React.Component {
       {
         title: '正确选项',
         dataIndex: 'correctOptionValue',
-        width:85
+        width:85,
+        align:'center'
       },
       {
         title: '操作',
         dataIndex: 'operation',
-        width:60,
+        width:90,
+        align:'center',
         render: (text, record) => {
           return (
             <>
-              <span className={styles.actionBtn} onClick={() => this.showModal(record)}>
+              <span className={styles.actionBtn} style={{marginRight:5}} onClick={() => this.showModal(record)}>
               编辑
             </span>
               <span className={styles.actionBtn} onClick={() => this.onDel(record)}>

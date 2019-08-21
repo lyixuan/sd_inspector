@@ -37,11 +37,11 @@ const columns = [
   {
     title: '星级',
     dataIndex: 'starLevel',
-    width:130,
+    width:136,
     render: (text, record) => {
       return (
         <>
-          {<Rate disabled defaultValue={text} style={{fontSize:13}}/>}
+          {<Rate disabled defaultValue={text} style={{fontSize:14,color:'#FDBB2C'}}/>}
         </>
       );
     },
