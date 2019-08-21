@@ -109,6 +109,7 @@ class Evaluate extends React.Component {
       {
         title: '操作',
         dataIndex: 'operation',
+        width:60,
         render: (text, record) => {
           return (
             <>
