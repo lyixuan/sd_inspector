@@ -195,11 +195,12 @@ class Course extends React.Component {
   onFormChange = (value,vname)=>{
     let oldParams = {...this.state.formParams};
     let obj = {[vname]:value};
-    if(vname==='videoType'){
+    if(vname==='videoTypeId'){
       this.setState({
         disableSubmit:!(value && this.state.formParams.videoName)
       })
-    } if (vname==='videoName'){
+    }
+    if (vname==='videoName'){
       this.setState({
         disableSubmit:!(this.state.formParams.videoTypeId && obj.videoName)
       })
@@ -361,7 +362,7 @@ class Course extends React.Component {
       </div>
     ));
     const SortContent = (
-      <div>
+      <div style={{height:400,overflow:'auto'}}>
         <div className={styles.sortTitle}>{sortParamsTitle}</div>
         <div className={styles.row}>
           <span className={styles.sortTitleLf}>顺序</span><span className={styles.sortTitleRt}>课程名称</span>
@@ -401,7 +402,7 @@ class Course extends React.Component {
 
         <BIModal
           title="调整课程顺序"
-          width={440}
+          width={560}
           visible={this.state.visible2}
           onOk={this.handleSubmitSort}
           onCancel={this.handleSortCancel}
