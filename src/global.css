@@ -139,3 +139,10 @@ body > a {
 .evaluate .ant-tooltip {
   max-width: 70%;
 }
+
+.agc  .ant-input-number-handler-wrap{
+  opacity: 0!important;
+}
+.agc {
+  border-radius: 1px;
+}

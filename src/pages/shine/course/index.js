@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { DeepCopy } from '@/utils/utils';
-import { Tooltip,Icon } from 'antd';
+import { Tooltip,Icon,InputNumber } from 'antd';
 import BIButtonInTable from '@/components/BIButtonInTable';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
@@ -159,6 +159,9 @@ class Course extends React.Component {
   handleSubmitSort=()=>{
     const that = this;
     const {sortParams} = this.state;
+    sortParams.forEach((v)=>{
+      delete  v.parentId;
+    });
     this.props.dispatch({
       type:'course/sortData',
       payload: { sortData:sortParams },
@@ -178,6 +181,7 @@ class Course extends React.Component {
     this.delEmpty(formParams);
     let type = 'course/addData';
     if(formParams.id) {
+      delete formParams.parentId;
       type='course/updateData'
     }
     this.props.dispatch({
@@ -195,14 +199,14 @@ class Course extends React.Component {
   onFormChange = (value,vname)=>{
     let oldParams = {...this.state.formParams};
     let obj = {[vname]:value};
-    if(vname==='videoTypeId'){
+    const testObj = {...oldParams,...obj}
+    if(testObj.videoTypeId&&testObj.videoName&&testObj.videoHeadImg&&testObj.coverPath&&testObj.videoUrl&&(testObj.videoSeconds||testObj.videoSeconds===0)){
       this.setState({
-        disableSubmit:!(value && this.state.formParams.videoName)
+        disableSubmit:false
       })
-    }
-    if (vname==='videoName'){
+    } else {
       this.setState({
-        disableSubmit:!(this.state.formParams.videoTypeId && obj.videoName)
+        disableSubmit:true
       })
     }
     this.setState({formParams:{...oldParams,...obj}});
@@ -278,7 +282,7 @@ class Course extends React.Component {
     const { collegeList = [],courseList=[] } = this.props.faguang||{};
 
     const {formParams,disableSubmit,sortParams,sortParamsTitle} = this.state;
-    const {videoTypeId,videoName,videoRealName,videoUserCollege,videoUserRole,videoDesc} = formParams||{};
+    const {videoTypeId,videoName,videoRealName,videoUserCollege,videoUserRole,videoDesc,videoHeadImg,coverPath,videoUrl,videoSeconds} = formParams||{};
     const ModalContent = (
       <div>
         <div className={styles.gutterRow}>
@@ -337,6 +341,43 @@ class Course extends React.Component {
                        value={videoUserRole}
                        maxLength={10}
                        onChange={(e) => this.onFormChange(e.target.value, 'videoUserRole')}/></span>
+          </div>
+        </div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel} style={{verticalAlign: 'top'}}>*讲师头像:</span>
+            <span className={styles.gutterForm} style={{width: 750}}>
+              <BIInput placeholder="请输入讲师头像地址"
+                       value={videoHeadImg}
+                       onChange={(e) => this.onFormChange(e.target.value, 'videoHeadImg')}/>
+            </span>
+          </div>
+        </div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel} style={{verticalAlign: 'top'}}>*封面地址:</span>
+            <span className={styles.gutterForm} style={{width: 750}}>
+              <BIInput placeholder="请输入课程封面地址"
+                       value={coverPath}
+                       onChange={(e) => this.onFormChange(e.target.value, 'coverPath')}/>
+            </span>
+          </div>
+        </div>
+        <div className={styles.gutterRow}>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>*课程地址:</span>
+            <span className={styles.gutterForm2}>
+                <BIInput placeholder="请输入课程地址"
+                         style={{ width: 470 }}
+                         value={videoUrl}
+                         onChange={(e) => this.onFormChange(e.target.value, 'videoUrl')}/>
+              </span>
+          </div>
+          <div className={styles.gutterBox}>
+            <span className={styles.gutterLabel}>*课程时长:</span>
+            <span className={styles.gutterForm}>
+              <InputNumber className='agc' placeholder="请输入时长" min={0} max={100000} step={1} style={{ width: 150 }} value={videoSeconds} onChange={(value) => this.onFormChange(value, 'videoSeconds')} />
+              &nbsp;秒 </span>
           </div>
         </div>
         <div className={styles.gutterRow}>
