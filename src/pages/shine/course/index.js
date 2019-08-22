@@ -215,6 +215,7 @@ class Course extends React.Component {
     const actionCol = [{
       title: '课程编号',
       dataIndex: 'id',
+      width:80,
       },
       {
         title: '课程分类',
@@ -376,7 +377,7 @@ class Course extends React.Component {
           <div className={styles.gutterBox}>
             <span className={styles.gutterLabel}>*课程时长:</span>
             <span className={styles.gutterForm}>
-              <InputNumber className='agc' placeholder="请输入时长" min={0} max={100000} step={1} style={{ width: 150 }} value={videoSeconds} onChange={(value) => this.onFormChange(value, 'videoSeconds')} />
+              <InputNumber className='agc' placeholder="请输入时长" min={0} max={100000} step={1} style={{ width: 160 }} value={videoSeconds} onChange={(value) => this.onFormChange(value, 'videoSeconds')} />
               &nbsp;秒 </span>
           </div>
         </div>
