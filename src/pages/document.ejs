@@ -1,10 +1,9 @@
 <!doctype html>
 <html>
-
 <head>
     <meta charset="utf-8" />
-    <meta faguang />
     <title>督学平台</title>
+    <link rel="icon" type="image/x-icon" href="http://bd.ministudy.com/favicon.png" />
     <style>
       body>a {
         position: absolute;
@@ -12,11 +11,15 @@
       }
     </style>
 </head>
-<link rel="icon" type="image/x-icon" href="http://bd.ministudy.com/favicon.png" />
-<!-- <script src="https://cdn.bootcss.com/d3/5.9.2/d3.min.js"></script>
-<script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts-en.common.min.js"></script> -->
+
 <body>
     <div id="root"></div>
+    <script type="text/javascript" src='http://bd.ministudy.com/trace/trace_sdk.js'></script>
+    <script>
+        const admin_user = localStorage.getItem('admin_user');
+        const userId = JSON.parse(admin_user)?JSON.parse(admin_user).userId:null;
+        xd('config',{userId,site:1});
+    </script>
     <script type="text/javascript" src="https://s5.cnzz.com/z_stat.php?id=1277653889&web_id=1277653889"></script>
 </body>
 </html>
