@@ -177,16 +177,17 @@ class Course extends React.Component {
   handleSubmit = () => {
     const that = this;
     const {formParams} = this.state;
-    formParams.videoTypeId = formParams.videoTypeId[1];
-    this.delEmpty(formParams);
+    const params = DeepCopy(formParams);
+    params.videoTypeId = formParams.videoTypeId[1];
+    delete params.parentId;
+    this.delEmpty(params);
     let type = 'course/addData';
-    if(formParams.id) {
-      delete formParams.parentId;
+    if(params.id) {
       type='course/updateData'
     }
     this.props.dispatch({
       type,
-      payload: { ...formParams },
+      payload: { ...params },
     }).then((res)=>{
       if(res) {
         that.setState({

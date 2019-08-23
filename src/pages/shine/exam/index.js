@@ -17,22 +17,33 @@ const columns = [
   {
     title: '编号',
     dataIndex: 'id',
+    width:80,
   },
   {
     title: '学院',
     dataIndex: 'collegeName',
+    width:120,
   },
   {
     title: '练习通道名称',
     dataIndex: 'practiceName',
+    width:200,
   },
   {
     title: '练习通道地址',
     dataIndex: 'practiceUrl',
+    render: (text, record) => {
+      return (
+        <>
+          <span className={styles.url}>{text}</span>
+        </>
+      );
+    },
   },
   {
     title: '适用组织',
     dataIndex: 'familys',
+    width:200,
   },
 ];
 
@@ -221,6 +232,7 @@ class Course extends React.Component {
     const actionObj = [{
       title: '操作',
       dataIndex: 'operation',
+      width:120,
       render: (text, record) => {
         return (
           <>
@@ -312,6 +324,7 @@ class Course extends React.Component {
             <span className={styles.gutterLabel}>*练习通道名称:</span>
             <span className={styles.gutterForm}>
               <BIInput placeholder="请输入"
+                       maxLength={12}
                        style={{ width: 320 }}
                        value={practiceName}
                        onChange={(e) => this.onFormChange(e.target.value, 'practiceName')}/></span>
