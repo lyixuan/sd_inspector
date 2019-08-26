@@ -152,26 +152,20 @@ class detail extends React.Component {
   };
 
   isEmpty = item => {
-    console.log(item, 'item');
     let bflag = false;
     item.financeNetFlowRatioList.forEach(val => {
-      console.log(val, 'val');
-      bflag = val.levelLowerLimit && val.levelUpperLimit && val.levelValue;
+      bflag =
+        this.fieldCheck(val.levelLowerLimit) &&
+        this.fieldCheck(val.levelUpperLimit) &&
+        this.fieldCheck(val.levelValue);
     });
-    return (
-      item.effectiveDate && item.expiryDate && item.positionPercent && item.renewalKpi && bflag
-    );
+    bflag = this.fieldCheck(item.positionPercent) && this.fieldCheck(item.renewalKpi);
+    return item.effectiveDate && item.expiryDate && bflag;
   };
 
-  // function fieldCheck(filed, value, cal) {
-  //   // 字段判空校验
-  //   filed.forEach(val => {
-  //     if (value[val] === null || value[val] === '') {
-  //       if (cal) cal();
-  //       return false;
-  //     }
-  //   });
-  // }
+  fieldCheck = val => {
+    return val === null || val === '' ? false : true;
+  };
 
   renderInput = (obj = {}, keyName) => {
     return (

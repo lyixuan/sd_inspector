@@ -75,7 +75,6 @@ class Tab extends React.Component {
   };
 
   changeInputValue = (key = '', item = {}, e) => {
-    debugger;
     const target = e.currentTarget;
     const newObj = { ...item };
     let inputValue = target.value || '';
