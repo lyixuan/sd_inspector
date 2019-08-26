@@ -243,7 +243,7 @@ class BasicLayout extends React.PureComponent {
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
           </Header>
-          <Content className={this.gobalMarkClass()}>
+          <Content style={{margin: '0 16px!important'}} className={this.gobalMarkClass()}>
             <ContentLayout {...this.props} routesData={routesData}>
               <Authorized
                 authority={checkPathname.bind(null, location.patchname)}

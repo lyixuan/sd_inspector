@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input } from 'antd';
-import './style.less';
+import styles from './style.less';
 
 const { TextArea } = Input;
 /*
@@ -14,7 +14,7 @@ class BIInput extends React.Component {
 
   render() {
     return (
-      <span className='BIInput'>
+      <span className={styles.BIInput}>
         <Input {...this.props} />
       </span>
     );

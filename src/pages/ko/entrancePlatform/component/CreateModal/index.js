@@ -1,8 +1,8 @@
 import React from 'react';
-import { Input, Modal, Button} from 'antd';
+import { Input, Modal} from 'antd';
 import { connect } from 'dva/index';
 import styles from './style.less';
-import btnStyles from '@/pages/ko/entrancePlatform/btnstyles.less';
+import BIButton from '@/ant_components/BIButton';
 
 const { TextArea } = Input;
 
@@ -65,9 +65,9 @@ class CreateModal extends React.Component {
           onOk={this.handleOk}
           onCancel={this.handleToggle}
           centered={true}
-          footer={groupCheckFlag ? [<Button className={btnStyles.btnPrimary} key="back" onClick={this.handleToggle}>{'确'}{'定'}</Button>] : [
-            <Button className={btnStyles.btnWhite} key="back" onClick={this.handleToggle} style={{ marginRight: '10px' }}>{'取'}{'消'}</Button>,
-            <Button className={btnStyles.btnPrimary} key="submit" onClick={this.handleOk} loading={loading}>{'确'}{'定'}</Button>,
+          footer={groupCheckFlag ? [<BIButton key="back" onClick={this.handleToggle}>{'确'}{'定'}</BIButton>] : [
+            <BIButton key="back" onClick={this.handleToggle} style={{ marginRight: '10px' }}>{'取'}{'消'}</BIButton>,
+            <BIButton type='primary' key="submit" onClick={this.handleOk} loading={loading}>{'确'}{'定'}</BIButton>,
           ]}
         >
           {!groupCheckFlag && <div className={styles.modalContent}>
@@ -91,7 +91,7 @@ class CreateModal extends React.Component {
             <p>请在用户运营页查看最新的创建状态。</p>
           </div>}
         </Modal>
-        {userCount != 0 && <Button className={btnStyles.btnYellow} loading={checkloading} disabled={queryloading} onClick={this.handleCreate} style={{ marginRight: '10px' }}>创建/导出用户群</Button>}
+        {userCount != 0 && <BIButton type="warning" loading={checkloading} disabled={queryloading} onClick={this.handleCreate} style={{ marginRight: '8px' }}>创建/导出用户群</BIButton>}
       </>
     );
   }

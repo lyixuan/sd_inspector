@@ -1,32 +1,20 @@
 @import "../config.less";
-
-:global .BISelect {
-  .ant-select-selection {
-    border: 1px solid #DCDDE0;
-    border-radius: 2px;
+.BISelect {
+  :global {
+    .ant-select-selection:focus, .ant-select-selection:active, .ant-select-open .ant-select-selection{
+      box-shadow: none;
+    }
+    .ant-select-selection--multiple .ant-select-selection__choice {
+      margin-right: 1px;
+    }
+    .ant-select-selection--multiple{
+      padding-bottom: 0;
+    }
+    .ant-select-disabled .ant-select-selection {
+      background-color: @base-disabled-color;
+    }
+    .ant-select-selection__placeholder, .ant-select-search__field__placeholder {
+      color: @base-placeholder-color;
+    }
   }
-  .ant-select-selection--single:hover{
-    border-color: @base-green;
-  }
-  .ant-select-selection:focus{
-    border-color: @base-green;
-    box-shadow: none;
-  }
-  .ant-select-selection:active{
-    border-color: @base-green;
-    box-shadow: none;
-  }
-  .ant-select-open .ant-select-selection{
-    border-color: @base-green;
-    box-shadow: none;
-  }
-  .ant-select-selection--multiple .ant-select-selection__choice {
-    margin-right: 1px;
-  }
-  .ant-select-selection--multiple{
-    padding-bottom: 0;
-  }
-
 }
-
-

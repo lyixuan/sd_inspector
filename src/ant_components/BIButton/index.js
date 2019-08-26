@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
-import './style.less';
+import styles from './style.less';
 
 /*
 * Button 组件
@@ -10,11 +10,15 @@ import './style.less';
 * */
 
 class BIButton extends React.Component {
-
+  
   render() {
+    let {radiused, children, ...others } = this.props;
+    if (typeof children === 'string' && children.length === 2) {
+      children = ' ' + children + ' ';
+    }
     return (
-      <span className='BIButton'>
-        <Button {...this.props}></Button>
+      <span className={`${styles.BIButton} ${radiused ? styles.BIRadius: '' }`}>
+        <Button size="large" {...others} children={children}></Button>
       </span>
     );
   }

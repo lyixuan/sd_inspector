@@ -1,18 +1,19 @@
 import React from 'react';
 import { Table } from 'antd';
-import './style.less';
+import styles from './style.less';
 
 /*
- * Table 组件
- *
- * 基于原 ant Table
- * 只扩展自定义样式
- * */
+* Table 组件
+*
+* 基于原 ant Table
+* 只扩展自定义样式
+* */
 
 class BITable extends React.Component {
   render() {
+    console.log(this.props)
     return (
-      <div className="BITable">
+      <div className={`${styles.BITable} ${this.props.bordered ? '' : styles.BINone}`}>
         <Table {...this.props} />
       </div>
     );

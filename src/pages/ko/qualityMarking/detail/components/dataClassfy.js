@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Progress, Cascader, Button } from 'antd';
+import { Input, Progress, Cascader } from 'antd';
 import { connect } from 'dva';
 import BIModal from '@/ant_components/BIModal';
 import BIButton from '@/ant_components/BIButton';
@@ -7,7 +7,6 @@ import BISelect from '@/ant_components/BISelect/formSelect';
 import BICascader from '@/ant_components/BICascader/FormCascader';
 import BIRadio from '@/ant_components/BIRadio';
 import create from '@/assets/ai/create.png'
-import btnStyles from '../../../entrancePlatform/btnstyles.less'
 import styles from '../style.less';
 import router from 'umi/router';
 import { Link } from 'dva/router';
@@ -324,15 +323,15 @@ class DataClassfy extends React.Component {
             </li>
           </ul>
           <div className={styles.btn}>
-            <Button className={btnStyles.btnWhite} disabled={currentId === 1} onClick={() => this.submit(1)} loading={isLoading && action === 1}>
+            <BIButton disabled={currentId === 1} onClick={() => this.submit(1)} loading={isLoading && action === 1}>
               上一条
-            </Button>
-            <Button className={btnStyles.btnPrimary} style={{margin: '0 8px'}} onClick={() => this.submit(2)} loading={isLoading && action === 2}>
+            </BIButton>
+            <BIButton type='primary' style={{margin: '0 8px'}} onClick={() => this.submit(2)} loading={isLoading && action === 2}>
               提交，下一条
-            </Button>
-            <Button className={btnStyles.btnYellow} onClick={() => this.submit(3)}>
+            </BIButton>
+            <BIButton type='warning' onClick={() => this.submit(3)}>
               {'跳'}{'过'}
-            </Button>
+            </BIButton>
           </div>
           <div className={styles.progress}>
             <p className={styles.number}>{currentId}/{idList ? idList.length : 1}</p>

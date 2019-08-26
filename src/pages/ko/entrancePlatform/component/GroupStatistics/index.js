@@ -331,7 +331,7 @@ class GroupStatistics extends React.Component {
             loading={listloading}
             scroll={{ x: slidingValue + 700}}
             bordered
-            size="middle"
+            // size="middle"
             rowSelection={{
               onChange: this.onRowChange
             }}
