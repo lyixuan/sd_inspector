@@ -11,7 +11,6 @@ import styles from './style.less';
 
 class BITable extends React.Component {
   render() {
-    console.log(this.props)
     return (
       <div className={`${styles.BITable} ${this.props.bordered ? '' : styles.BINone}`}>
         <Table {...this.props} />

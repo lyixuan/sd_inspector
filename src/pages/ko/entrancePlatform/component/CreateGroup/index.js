@@ -69,34 +69,6 @@ class BasicForm extends React.Component {
       ...this.handleFormatDate(choiceTime)
     }
   }
-  // 已选条件
-  // getCheckedConditionList = () => {
-  //   const { queryCondition, userConfigData } = this.props;
-  //   const list = [];
-  //   Object.keys(queryCondition).map(name => {
-  //     const val = queryCondition[name];
-  //     const bul = val instanceof Array;
-  //     if ((bul && val.length > 0) ||  (!bul && val !== undefined)) {
-  //       let label = '';
-  //       const config = userConfigData[name];
-  //       if (name === 'orgIdList') {
-  //         if (val instanceof Array) {
-  //           val.forEach((item, index) => label+= item.name + (index === val.length -1 ? '' : '/'))
-  //         }
-  //       } else if (name === 'ordStatusCode') {
-  //         label = config.find(item => val === item.id).name;
-  //       } else if (name === 'choiceTime') {
-  //         label = `订单时间：${val[0].format(dateFormat)} ~ ${val[0].format(dateFormat)}`
-  //       } else if (name !== 'province'){
-  //         label = config[val];
-  //       } else {
-  //         label = val
-  //       }
-  //       list.push({key: name, label: label})
-  //     }
-  //   });
-  //   return list;
-  // };
   // 删除已选条件
   deleteFilterItem = e => {
     //删除已选条件

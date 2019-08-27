@@ -146,7 +146,11 @@ a,a:hover{
   background:#52C9C2!important;
   border-color:#52C9C2!important;
 }
-
+/* 数据统计 */
 body > a {
   display: none;
+}
+/* 头部平铺 */
+:global .ant-layout-content.aiWorktable-ant-layout-content {
+  overflow: visible;
 }

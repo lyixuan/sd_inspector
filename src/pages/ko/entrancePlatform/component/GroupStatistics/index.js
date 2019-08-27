@@ -304,6 +304,7 @@ class GroupStatistics extends React.Component {
                           value={exportType}
                           onChange={this.onChangeExport}
                           getPopupContainer={triggerNode => triggerNode.parentNode}
+                          style={{with: '100%'}}
                           allowClear
                 >
                   {exportTypeList.map(item => (
