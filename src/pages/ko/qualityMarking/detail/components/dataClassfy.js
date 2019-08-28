@@ -1,6 +1,7 @@
 import React from 'react';
 import { Input, Progress, Cascader } from 'antd';
 import { connect } from 'dva';
+import BIInput from '@/ant_components/BIInput';
 import BIModal from '@/ant_components/BIModal';
 import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect/formSelect';
@@ -11,7 +12,7 @@ import styles from '../style.less';
 import router from 'umi/router';
 import { Link } from 'dva/router';
 
-const { TextArea } = Input;
+const { TextArea } = BIInput;
 const { Option } = BISelect;
 
 @connect(({ AiDetail, loading }) => ({
@@ -280,7 +281,7 @@ class DataClassfy extends React.Component {
             }
             <li>
               <label>原因分类：</label>
-              <div className={styles.selects}>
+              <div className={`${styles.selects} ${styles.ZJCascader}`}>
                 <Cascader
                   changeOnSelect
                   fieldNames={{ label: 'name', value: 'id', evaluationNature: 'evaluationNature', children: 'nodeList' }}

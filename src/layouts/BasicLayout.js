@@ -20,7 +20,6 @@ import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
 import { checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
 import {DEBUGGER_USER} from '@/utils/constants';
-import styles from './ContentLayout.less';
 
 // import router from 'umi/router';
 const { Content, Header } = Layout;
@@ -244,7 +243,7 @@ class BasicLayout extends React.PureComponent {
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
           </Header>
-          <Content className={this.gobalMarkClass()}>
+          <Content className={`antContent ${this.gobalMarkClass()}`}>
             <ContentLayout {...this.props} routesData={routesData}>
               <Authorized
                 authority={checkPathname.bind(null, location.patchname)}
@@ -259,7 +258,7 @@ class BasicLayout extends React.PureComponent {
 
     return (
       <LocaleProvider locale={zhCN}>
-        <DocumentTitle title={`${styles.antContent} ${this.getPageTitle()}`}>
+        <DocumentTitle title={this.getPageTitle()}>
             <ContainerQuery query={query}>
               {params => <div className={classNames(params)}>{layout}</div>}
             </ContainerQuery>

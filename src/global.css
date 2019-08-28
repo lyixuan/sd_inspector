@@ -134,18 +134,18 @@ a,a:hover{
 
 /*ant table滚动条兼容 safri和外接显示器*/
 /*https://github.com/ant-design/ant-design/issues/13994*/
-/*.displaynone::-webkit-scrollbar {*/
-  /*display: none !important;*/
-/*}*/
-/*.ant-table-header::-webkit-scrollbar {*/
-  /*opacity: 0!important;*/
-/*}*/
+.displaynone::-webkit-scrollbar {
+  display: none !important;
+}
+.ant-table-header::-webkit-scrollbar {
+  opacity: 0!important;
+}
 
 
-:global .ant-popover-inner-content .ant-btn-primary{
+/* :global .ant-popover-inner-content .ant-btn-primary{
   background:#52C9C2!important;
   border-color:#52C9C2!important;
-}
+} */
 /* 数据统计 */
 body > a {
   display: none;
@@ -153,4 +153,7 @@ body > a {
 /* 头部平铺 */
 :global .ant-layout-content.aiWorktable-ant-layout-content {
   overflow: visible;
+}
+:global .ant-layout-content.antContent {
+  margin: 0 16px !important;
 }

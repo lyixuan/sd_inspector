@@ -18,9 +18,6 @@ const dateFormat = 'YYYY.MM.DD';
   loading: loading.effects['workTableModel/getBasicData'] || loading.effects['koPlan/getCurrentTime'],
 }))
 class AiForm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     if (!this.props.currentServiceTime) {

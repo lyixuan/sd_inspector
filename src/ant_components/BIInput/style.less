@@ -14,5 +14,20 @@
     }
   }
 }
+.BITextArea {
+  width: 100%;
+  :global  {
+    .ant-input[disabled], .ant-input[disabled]:hover {
+      background-color: @base-disabled-color;
+      border: 1px solid #E8EBED;
+    }
+    .ant-input::-webkit-input-placeholder {
+      color: @base-placeholder-color;
+    }
+    .ant-input:focus, ant-input:hover {
+      box-shadow: none;
+    }
+  }
+}
 
 
