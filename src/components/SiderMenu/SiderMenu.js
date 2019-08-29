@@ -73,6 +73,9 @@ export default class SiderMenu extends PureComponent {
       this.setState({
         menus: nextProps.menuData,
       });
+      this.setState({
+        ...this.getDefaultCollapsedSubMenus(nextProps)
+      });
     }
   }
 
@@ -84,7 +87,11 @@ export default class SiderMenu extends PureComponent {
   getDefaultCollapsedSubMenus(props) {
     const { location: { pathname } } = props || this.props;
     const open = getMenuMatchKeys(this.flatMenuKeys, urlToList(pathname));
-    return {openMenu: open.length > 0 ? open[0].parentId : '', openKeys: open.map(item => item.path)}
+    const openMenu = open.length > 0 ? open[open.length - 1].parentId : ''
+    if (this.props.collapsed && openMenu) {
+      this.props.onCollapse(false);
+    }
+    return {openMenu, openKeys: open.map(item => item.path)}
   }
 
   /**
@@ -171,7 +178,6 @@ export default class SiderMenu extends PureComponent {
   // Get the currently selected menu
   getSelectedMenuKeys = () => {
     const { location: { pathname } } = this.props;
-    console.log(this.flatMenuKeys)
     return getMenuMatchKeys(this.flatMenuKeys, urlToList(pathname));
   };
   // conversion Path
@@ -230,25 +236,12 @@ export default class SiderMenu extends PureComponent {
   }
   render() {
     const { logo, collapsed } = this.props;
-    const { openKeys } = this.state;
-    /*
-     *  待优化
-    * */
-    // Don't show popup menu when it is been collapsed
-    // if pathname can't match, use the nearest parent's key
-    let selectedKeys = this.getSelectedMenuKeys().map(item => item.path);
-    if (!selectedKeys.length && openKeys.length > 0) {
-      selectedKeys = [openKeys[openKeys.length - 1]];
-    }
-    console.log(openKeys, selectedKeys)
     return (
       <div className={styles.menuPart}>
         <Sider
         trigger={null}
         collapsible
-        // collapsed={collapsed}
         breakpoint="lg"
-        // onCollapse={onCollapse}
         width={80}
         className={styles.sider}>
           <div className={styles.logo} key="logo">
@@ -265,7 +258,7 @@ export default class SiderMenu extends PureComponent {
           theme="light"
           mode="inline"
           onOpenChange={this.handleOpenChange}
-          selectedKeys={selectedKeys}
+          selectedKeys={this.state.openKeys}
         >
           {
              this.getNavMenuItems(this.getCurrentMenu())

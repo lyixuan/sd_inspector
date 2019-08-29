@@ -155,5 +155,6 @@ body > a {
   overflow: visible;
 }
 :global .ant-layout-content.antContent {
-  margin: 0 16px !important;
+  margin: 0 !important;
+  padding: 0 16px;
 }
