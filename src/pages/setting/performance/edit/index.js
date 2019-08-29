@@ -35,6 +35,7 @@ class detail extends React.Component {
         effectiveDate: '',
         expiryDate: '',
         positionPercent: '',
+        replayLecturesTime: '',
         renewalKpi: '',
         adultExamSpecialKpi:'',
         financeNetFlowRatioList: [
@@ -166,7 +167,7 @@ class detail extends React.Component {
         this.fieldCheck(val.levelUpperLimit) &&
         this.fieldCheck(val.levelValue);
     });
-    bflag2 = this.fieldCheck(item.positionPercent) && this.fieldCheck(item.renewalKpi)&& this.fieldCheck(item.adultExamSpecialKpi);
+    bflag2 = this.fieldCheck(item.positionPercent) &&this.fieldCheck(item.replayLecturesTime) && this.fieldCheck(item.renewalKpi)&& this.fieldCheck(item.adultExamSpecialKpi);
     return item.effectiveDate && item.expiryDate && bflag1&& bflag2;
   };
 
@@ -284,6 +285,16 @@ class detail extends React.Component {
                 itemList={data.financeNetFlowRatioList2.length && data.financeNetFlowRatioList2}
               />
             </div>
+          </div>
+          <div className={styles.precentWrap2}>
+            <p style={{ color: '#1A1C1F' }}>获得直播加成条件</p>
+            <p className={styles.smallPerformance}>
+              <span style={{ color: '#1A1C1F' }}>重播时长</span>
+              <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
+                {this.renderInput(data, 'replayLecturesTime')}
+              </span>
+              <span>分钟</span>
+            </p>
           </div>
           <div className={styles.precentWrap}>
             <p className={styles.smallPerformance}>
