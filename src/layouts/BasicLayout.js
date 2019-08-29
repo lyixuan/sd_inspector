@@ -230,8 +230,10 @@ class BasicLayout extends React.PureComponent {
           onClick={({ item, key, keyPath }) => { console.log(item, key); window.location.href = 'www.baidu.com' }}
         />
         <Layout>
-          <Header style={{ padding: 0 }}>
-            <HeaderLayout
+          {/* <Header style={{ padding: 0 }}>
+            
+          </Header> */}
+          <HeaderLayout
               {...this.props}
               logo={biIcon}
               currentUser={currentUser}
@@ -242,7 +244,6 @@ class BasicLayout extends React.PureComponent {
               onCollapse={this.handleMenuCollapse}
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
-          </Header>
           <Content className={`antContent ${this.gobalMarkClass()}`}>
             <ContentLayout {...this.props} routesData={routesData}>
               <Authorized
