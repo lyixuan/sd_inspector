@@ -23,22 +23,21 @@ export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
   localhost: 'http://dev.xd.admin.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
-  development2: 'http://test.xd.admin.quality.ministudy.com',
-}[process.env.LOGIN_TYPE];
+  // development2: 'http://172.16.109.87:28081',
+  development2: 'http://172.16.109.198:8081',
+}[process.env.LOGIN_TYPE]
 
 export const CAS_HOST = {
   localhost: 'http://test.xd.admin.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
-  development2: 'http://test.xd.admin.ministudy.com',
+  development2: 'http://172.16.109.87:28081',
   production: 'http://bd.ministudy.com',
 }[process.env.LOGIN_TYPE];
 
 // 设置domain域名
 export const DOMAIN_HOST = '.ministudy.com';
 // export const DOMAIN_HOST = 'localhost';
-export const PROXY_PATH = isOld => {
-  return isOld ? '' : '/inspectorapis';
-};
+export const PROXY_PATH = (hasSelfPri) => {return hasSelfPri ?'':'/inspectorapis'};
 
 // 登录页面地址配置
 export const LOGIN_URL = {
@@ -373,18 +372,22 @@ export const UNIT_DATE = [
   { id: 'ss', name: '秒' },
 ];
 
+
+// 应用类型
+export const APP_LIST = [
+  { id: '1', name: '极速版App' }
+  ]
 // 空ContentLayout页面名单
 export const EmptyContentLayout = [
   { path: '/ko', name: 'KO计划' },
   { path: '/qualityMarking', name: '质检标注' },
   { path: '/qualityReport', name: '质检图表' },
+  { path: '/shine/smallPro', name: '小程序管理'},
   { path: '/setting/performance/list', name: '创收绩效包' },
   { path: '/setting/performance/edit', name: '创收绩效包详情' },
   { path: '/setting/performance/create', name: '创收绩效包详情' },
   { path: '/setting/performance/copy', name: '创收绩效包详情' },
 ];
-// 应用类型
-export const APP_LIST = [{ id: '1', name: '极速版App' }];
 // 注册类型
 export const REGISTER_STATUS = [{ id: 1, name: '已注册' }];
 // 选课状态

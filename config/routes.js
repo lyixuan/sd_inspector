@@ -453,6 +453,48 @@ export const routes = [
           },
         ],
       },
+      {
+        path: '/shine',
+        component: './shine',
+        name: '发光研究所',
+        routes: [
+          {
+            path: '/shine/course',
+            component: './shine/course',
+            name: '课程管理',
+          },
+          {
+            path: '/shine/courseFile',
+            component: './shine/courseFile',
+            name: '课程资料',
+          },
+          {
+            path: '/shine/classTest',
+            component: './shine/classTest',
+            name: '随堂考',
+          },
+          {
+            path: '/shine/evaluate',
+            component: './shine/evaluate',
+            name: '用户评价',
+          },
+          {
+            path: '/shine/exam',
+            component: './shine/exam',
+            name: '练习通道',
+          },
+          {
+            path: '/shine/expaper',
+            component: './shine/expaper',
+            name: '考卷管理',
+          },
+          {
+            path: '/shine/smallProgram',
+            component: './shine/smallPro',
+            name: '小程序管理',
+          },
+        ],
+      },
     ],
   },
 ];

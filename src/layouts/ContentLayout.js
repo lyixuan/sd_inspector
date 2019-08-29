@@ -36,7 +36,8 @@ class ContentLayout extends Component {
               <div className={styles.bread}>
                 {bread && bread.path && <PageHead routerData={routeObj} />}
               </div>
-              {name && <div className={styles.title}>{name}</div>}
+              {name && path.indexOf('shine')>-1 && <div className={styles.titleCircular}>{name}</div>}
+              {name && path.indexOf('shine')===-1 && <div className={styles.title}>{name}</div>}
               <div>{this.props.children && { ...this.props.children }}</div>
             </div>
           )}

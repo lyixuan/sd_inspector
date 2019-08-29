@@ -115,6 +115,7 @@ a,a:hover{
   vertical-align:6%;
 }
 
+<<<<<<< HEAD
 /* ko 模块需要，修改ant-popover浮出框背景为黑色，这个样式是定位到根的，所以需要在全局修改，以后其他地方用到再说 */
 /* .ant-popover .ant-popover-inner{
   background-color: #565656;
@@ -141,6 +142,8 @@ a,a:hover{
   opacity: 0!important;
 }
 
+=======
+>>>>>>> master
 
 /* :global .ant-popover-inner-content .ant-btn-primary{
   background:#52C9C2!important;
@@ -157,4 +160,26 @@ body > a {
 :global .ant-layout-content.antContent {
   margin: 0 !important;
   padding: 0 16px;
+}
+.circleTable .ant-table-thead > tr:first-child > th:first-child{
+  border-radius: 6px 0 0 6px;
+}
+.circleTable .ant-table-thead > tr:first-child > th:last-child {
+  border-radius: 0 6px 6px 0;
+}
+.circleTable .ant-table-thead > tr > th{
+  border-bottom:none;
+  color: #7B7C80;
+  font-weight: normal;
+}
+
+.evaluate .ant-tooltip {
+  max-width: 70%;
+}
+
+.agc  .ant-input-number-handler-wrap{
+  opacity: 0!important;
+}
+.agc {
+  border-radius: 1px;
 }

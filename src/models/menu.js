@@ -16,7 +16,7 @@ function removeInspector(itemPath) {
     if (isInspector) {
         return itemPath.replace('/inspector', '')
     } else {
-        return `${ADMIN_URL}${itemPath}`;
+  return `${ADMIN_URL}${itemPath}`;
     }
 
 };
