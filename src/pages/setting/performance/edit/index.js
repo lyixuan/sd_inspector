@@ -11,6 +11,7 @@ import Tab from '../component/tab';
 import BIInput from '@/ant_components/BIInput';
 import BIButton from '@/ant_components/BIButton';
 import { message } from 'antd';
+import { DeepCopy } from '@/utils/utils';
 
 const { BIRangePicker } = BIDatePicker;
 
@@ -35,6 +36,7 @@ class detail extends React.Component {
         expiryDate: '',
         positionPercent: '',
         renewalKpi: '',
+        adultExamSpecialKpi:'',
         financeNetFlowRatioList: [
           {
             levelLowerLimit: null,
@@ -42,26 +44,21 @@ class detail extends React.Component {
             upperClose: false,
             lowerClose: false,
             levelValue: '',
+            levelType:2
+          },
+        ],
+        financeNetFlowRatioList2: [
+          {
+            levelLowerLimit: null,
+            levelUpperLimit: null,
+            upperClose: false,
+            lowerClose: false,
+            levelValue: '',
+            levelType:1
           },
         ],
       },
       id: this.props.location.query.id,
-    };
-
-    this.initModel = {
-      effectiveDate: '',
-      expiryDate: '',
-      positionPercent: '',
-      renewalKpi: '',
-      financeNetFlowRatioList: [
-        {
-          levelLowerLimit: null,
-          levelUpperLimit: null,
-          upperClose: false,
-          lowerClose: false,
-          levelValue: '',
-        },
-      ],
     };
   }
 
@@ -77,6 +74,13 @@ class detail extends React.Component {
         payload: { params },
       })
       .then(res => {
+        res.financeNetFlowRatioList2 = [];
+        for(let i = res.financeNetFlowRatioList.length-1;i>=0;i--){
+          if(res.financeNetFlowRatioList[i].levelType&&res.financeNetFlowRatioList[i].levelType===1){
+            res.financeNetFlowRatioList2.push(res.financeNetFlowRatioList[i]);
+            res.financeNetFlowRatioList.splice(i,1)
+          }
+        }
         this.setState({ data: res });
       });
   };
@@ -88,7 +92,6 @@ class detail extends React.Component {
     if (name.indexOf('edit') !== -1) status = TYPE.edit;
     if (name.indexOf('copy') !== -1) status = TYPE.copy;
     if (status === TYPE.edit || status === TYPE.copy) {
-      console.log(status, 'status');
       this.getList();
     }
     this.setState({ status });
@@ -112,12 +115,15 @@ class detail extends React.Component {
   submitMes = () => {
     const { data, status } = this.state;
     const query = this.props.location.query;
-    const params = data;
+    const params = DeepCopy(data);
+    params.financeNetFlowRatioList = params.financeNetFlowRatioList.concat(params.financeNetFlowRatioList2);
+    delete params.financeNetFlowRatioList2;
     if (!this.isEmpty(params)) {
       message.error('请完善所有信息');
       return;
     }
     params.packageType = query.packageType;
+
     if (status === TYPE.edit) {
       params.id = query.id;
       this.props
@@ -152,15 +158,16 @@ class detail extends React.Component {
   };
 
   isEmpty = item => {
-    let bflag = false;
+    let bflag1 = false;
+    let bflag2 = false;
     item.financeNetFlowRatioList.forEach(val => {
-      bflag =
+      bflag1 =
         this.fieldCheck(val.levelLowerLimit) &&
         this.fieldCheck(val.levelUpperLimit) &&
         this.fieldCheck(val.levelValue);
     });
-    bflag = this.fieldCheck(item.positionPercent) && this.fieldCheck(item.renewalKpi);
-    return item.effectiveDate && item.expiryDate && bflag;
+    bflag2 = this.fieldCheck(item.positionPercent) && this.fieldCheck(item.renewalKpi)&& this.fieldCheck(item.adultExamSpecialKpi);
+    return item.effectiveDate && item.expiryDate && bflag1&& bflag2;
   };
 
   fieldCheck = val => {
@@ -191,9 +198,14 @@ class detail extends React.Component {
     this.setState({ data: newObj });
   };
 
-  onChange = itemList => {
+  onChange = (itemList,type) => {
     const { data } = this.state;
-    data.financeNetFlowRatioList = itemList;
+    if(type===2){
+      data.financeNetFlowRatioList = itemList;
+    } else {
+      data.financeNetFlowRatioList2 = itemList;
+    }
+
     this.setState({ data });
   };
 
@@ -222,6 +234,7 @@ class detail extends React.Component {
 
   render() {
     const { data } = this.state;
+    console.log(23,data)
     return (
       <div className={styles.editWrap}>
         <p>
@@ -244,16 +257,31 @@ class detail extends React.Component {
         <div className={styles.goodPerformance}>
           <h2 className={styles.title}>好推绩效</h2>
           <div className={styles.goodPerWrap}>
-            <p className={styles.smallPerformance}>好推净流水系数梯度表</p>
+            <p className={styles.smallPerformance}>好推净流水系数梯度表（重播）</p>
             <div className={styles.border}>
               <p className={styles.meta}>
-                <span className={styles.itemLeft}>听课时间(分钟)</span>
+                <span className={styles.itemLeft}>重播听课时长(单位：分钟)</span>
                 <span className={styles.itemMiddle}>好推净流水系数</span>
                 <span className={styles.itemRight}>操作</span>
               </p>
               <Tab
-                onChange={data => this.onChange(data)}
+                onChange={data => this.onChange(data,2)}
                 itemList={data.financeNetFlowRatioList.length && data.financeNetFlowRatioList}
+              />
+            </div>
+          </div>
+          <br/>
+          <div className={styles.goodPerWrap}>
+            <p className={styles.smallPerformance}>好推净流水梯度表（直播）</p>
+            <div className={styles.border}>
+              <p className={styles.meta}>
+                <span className={styles.itemLeft}>直播听课时间(单位：分钟)</span>
+                <span className={styles.itemMiddle}>好推净流水系数</span>
+                <span className={styles.itemRight}>操作</span>
+              </p>
+              <Tab
+                onChange={data => this.onChange(data,1)}
+                itemList={data.financeNetFlowRatioList2.length && data.financeNetFlowRatioList2}
               />
             </div>
           </div>
@@ -274,6 +302,12 @@ class detail extends React.Component {
               <span style={{ color: '#1A1C1F' }}>续报岗位提点</span>
               <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
                 {this.renderInput(data, 'renewalKpi')}
+              </span>
+              <span>%</span>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span style={{ color: '#1A1C1F' }}>成考专本套专项绩效</span>
+              <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
+                {this.renderInput(data, 'adultExamSpecialKpi')}
               </span>
               <span>%</span>
             </p>
