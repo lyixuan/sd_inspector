@@ -235,7 +235,12 @@ class detail extends React.Component {
 
   render() {
     const { data } = this.state;
-    console.log(23,data)
+    if(!data.financeNetFlowRatioList){
+      data.financeNetFlowRatioList = []
+    }
+    if(!data.financeNetFlowRatioList2){
+      data.financeNetFlowRatioList2 = []
+    }
     return (
       <div className={styles.editWrap}>
         <p>
@@ -267,7 +272,7 @@ class detail extends React.Component {
               </p>
               <Tab
                 onChange={data => this.onChange(data,2)}
-                itemList={data.financeNetFlowRatioList.length && data.financeNetFlowRatioList}
+                itemList={data.financeNetFlowRatioList}
               />
             </div>
           </div>
@@ -282,7 +287,7 @@ class detail extends React.Component {
               </p>
               <Tab
                 onChange={data => this.onChange(data,1)}
-                itemList={data.financeNetFlowRatioList2.length && data.financeNetFlowRatioList2}
+                itemList={data.financeNetFlowRatioList2}
               />
             </div>
           </div>
