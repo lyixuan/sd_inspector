@@ -12,7 +12,7 @@ import { LocaleProvider } from 'antd';
 import ContentLayout from '@/layouts/ContentLayout';
 import SiderMenu from '../components/SiderMenu';
 import biIcon from '../assets/biIcon.png';
-import logo from '../assets/logo.png';
+import logo from '../assets/menu/logo.png';
 import storage from '../utils/storage';
 import HeaderLayout from './Header';
 import { query } from './utils/query';
