@@ -1,18 +1,17 @@
 import React from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
-import { Form, Icon, Skeleton, Button, Cascader } from 'antd';
+import { Form, Icon, Skeleton} from 'antd';
 import {
   handleDefaultPickerExamValue,
   handleTNDateValue,
-  initRecordTimeListData,
 } from '../../../utils/utils';
 import BICascader from '@/ant_components/BICascader/FormCascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import AuthButton from '@/components/AuthButton';
 import BISelect from '@/ant_components/BISelect';
+import BIButton from '@/ant_components/BIButton';
 import CreateModal from '../CreateModal';
-import btnStyles from '../../btnstyles.less';
 import styles from '../style.less';
 import moment from 'moment';
 
@@ -70,34 +69,6 @@ class BasicForm extends React.Component {
       ...this.handleFormatDate(choiceTime)
     }
   }
-  // 已选条件
-  // getCheckedConditionList = () => {
-  //   const { queryCondition, userConfigData } = this.props;
-  //   const list = [];
-  //   Object.keys(queryCondition).map(name => {
-  //     const val = queryCondition[name];
-  //     const bul = val instanceof Array;
-  //     if ((bul && val.length > 0) ||  (!bul && val !== undefined)) {
-  //       let label = '';
-  //       const config = userConfigData[name];
-  //       if (name === 'orgIdList') {
-  //         if (val instanceof Array) {
-  //           val.forEach((item, index) => label+= item.name + (index === val.length -1 ? '' : '/'))
-  //         }
-  //       } else if (name === 'ordStatusCode') {
-  //         label = config.find(item => val === item.id).name;
-  //       } else if (name === 'choiceTime') {
-  //         label = `订单时间：${val[0].format(dateFormat)} ~ ${val[0].format(dateFormat)}`
-  //       } else if (name !== 'province'){
-  //         label = config[val];
-  //       } else {
-  //         label = val
-  //       }
-  //       list.push({key: name, label: label})
-  //     }
-  //   });
-  //   return list;
-  // };
   // 删除已选条件
   deleteFilterItem = e => {
     //删除已选条件
@@ -289,8 +260,8 @@ class BasicForm extends React.Component {
                   </div>
                 )}
               <div className={`${styles.rowWrap} ${styles.actionGroup}`}>
-                <Button className={btnStyles.btnCancel} onClick={this.handleReset} style={{ marginRight: '10px' }}>{'重'}{'置'}</Button>
-                <Button className={btnStyles.btnPrimary} htmlType="submit" loading={queryloading}>{'查'}{'询'}</Button>
+                <BIButton type='reset' onClick={this.handleReset} style={{ marginRight: '8px' }}>重置</BIButton>
+                <BIButton type='primary' htmlType="submit" loading={queryloading}>查询</BIButton>
                 <span className={styles.updateDate}>数据更新时间：{handleTNDateValue(2, currentServiceTime)}</span>
               </div>
             </Skeleton>
@@ -301,7 +272,7 @@ class BasicForm extends React.Component {
           <div>
             <CreateModal onHandleRoute={this.onHandleRoute} queryloading={queryloading} handlePramas={this.handlePramas} queryCondition={queryCondition} userCount={userCount}></CreateModal>
             <AuthButton authority='/koUserOperation/userOperation'>
-              <Button onClick={this.onHandleRoute} className={btnStyles.btnBlue}>查看/导出用户群</Button>
+              <BIButton type='primary' onClick={this.onHandleRoute}>查看/导出用户群</BIButton>
             </AuthButton>
           </div>
         </div>

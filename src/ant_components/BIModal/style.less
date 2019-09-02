@@ -1,15 +1,58 @@
 @import "../config.less";
-
-:global .BIModal {
-  .ant-modal-footer {
-    text-align: center;
-  }
+:global(.ant-modal-footer){
+  text-align: center;
 }
-
-
-:global .BIModalWrap {
-  .ant-modal-footer {
-    text-align: center;
+.BIModalWrap {
+  :global {
+    .ant-modal-header {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border-bottom-color: #F5F8FA;;
+    }
+    .ant-modal-title {
+      font-size: 16px;
+    }
+    .ant-modal-close-x {
+      width: 60px;
+      height: 52px;
+      line-height: 52px;
+      svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+    .ant-modal-footer {
+      padding-top: 16px;
+      padding-bottom: 16px;
+      border-top-color: #F5F8FA;
+    }
+    // 底部按钮
+    .ant-btn {
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      height: 32px;
+      min-width: 80px;
+      font-size: 14px;
+      padding: 0 14px;
+    }
+    // 点击时阴影删除
+    .ant-btn[ant-click-animating-without-extra-node]:after {
+      border: 0 none;
+      opacity: 0;
+      animation:none 0 ease 0 1 normal;
+    }
+    // default 
+    .ant-btn-disabled, .ant-btn.disabled, .ant-btn[disabled], .ant-btn-disabled:hover, .ant-btn.disabled:hover, .ant-btn[disabled]:hover, .ant-btn-disabled:focus, .ant-btn.disabled:focus, .ant-btn[disabled]:focus, .ant-btn-disabled:active, .ant-btn.disabled:active, .ant-btn[disabled]:active, .ant-btn-disabled.active, .ant-btn.disabled.active, .ant-btn[disabled].active {
+      background-color: @base-new-color;
+    }
+    // primary 
+    .ant-btn-primary {
+      border-width: 0px!important;
+    }
+    .ant-btn-primary-disabled, .ant-btn-primary.disabled, .ant-btn-primary[disabled], .ant-btn-primary-disabled:hover, .ant-btn-primary.disabled:hover, .ant-btn-primary[disabled]:hover, .ant-btn-primary-disabled:focus, .ant-btn-primary.disabled:focus, .ant-btn-primary[disabled]:focus, .ant-btn-primary-disabled:active, .ant-btn-primary.disabled:active, .ant-btn-primary[disabled]:active, .ant-btn-primary-disabled.active, .ant-btn-primary.disabled.active, .ant-btn-primary[disabled].active {
+      color: @base-new-color;
+      background-color: rgba(0, 204, 195, .4);
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Select } from 'antd';
-import './style.less';
+import styles from './style.less';
 const Option = Select.Option;
 /*
 * Select 组件
@@ -13,7 +13,7 @@ class BISelect extends React.Component {
 
   render() {
     return (
-      <span className='BISelect'>
+      <span className={styles.BISelect}>
         <Select {...this.props}>
           {this.props.children}
         </Select>

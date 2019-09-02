@@ -1,15 +1,14 @@
 /* eslint-disable no-unused-expressions */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Tooltip, Popconfirm, message, Button, Switch, Input } from 'antd';
+import { Table, Tooltip, Popconfirm, message, Switch, Input } from 'antd';
 import styles from '../style.less';
 import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
 import BIInput from '@/ant_components/BIInput';
 import userEdit from '@/assets/userEdit.svg';
 import { STATIC_HOST } from '@/utils/constants'
-import { thousandsFormat, downBlob } from '@/utils/utils';
-// import { downBlob, msgF } from '@/utils/utils';
+import { thousandsFormat } from '@/utils/utils';
 import router from 'umi/router';
 
 const { TextArea } = BIInput;
@@ -199,7 +198,7 @@ class InitTable extends Component {
       [key] : {[record.id]: true}
     })
   }
-  columnsData = (record, key) => {
+  columnsData = () => {
     const {sourceCode, pusher} = this.state;
     const columns = [
       {
@@ -279,13 +278,19 @@ class InitTable extends Component {
         dataIndex: 'pusher',
         key: 'pusher',
         width: 200,
-        render: (text, record) => <div onDoubleClick={() => this.doubleClick(record, 'pusher')} className={styles.tableDis}><Input disabled={!pusher[record.id]} maxLength={50} className={styles.tableInput} placeholder="请输入263账号前缀" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'pusher')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'pusher')}/></div>
+        render: (text, record) => {
+          const bul = pusher[record.id] ? false: true;
+          return <div onDoubleClick={() => this.doubleClick(record, 'pusher')} className={bul ? styles.tableDis : ''}><Input readOnly={bul} maxLength={50} className={styles.tableInput} placeholder="请输入263账号前缀" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'pusher')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'pusher')}/></div>
+        }
       },
       {
         title: '用户来源码',
         dataIndex: 'sourceCode',
         key: 'sourceCode',
-        render: (text, record)=> <div onDoubleClick={() => this.doubleClick(record, 'sourceCode')} className={styles.tableDis}><Input disabled={!sourceCode[record.id]} maxLength={50} className={styles.tableInput} placeholder="推送模版落地页为尚小德时，此项必填" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'sourceCode')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'sourceCode')}/></div>
+        render: (text, record)=> {
+          const bul = sourceCode[record.id] ? false: true;
+          return <div onDoubleClick={() => this.doubleClick(record, 'sourceCode')} className={bul ? styles.tableDis : ''}><Input readOnly={bul} maxLength={50} className={styles.tableInput} placeholder="推送模版落地页为尚小德时，此项必填" defaultValue={text} onBlur={this.updateUserGroup.bind(undefined, record, 'sourceCode')} onPressEnter={this.updateUserGroup.bind(undefined, record, 'sourceCode')}/></div>
+        }
       },
       {
         title: '操作',

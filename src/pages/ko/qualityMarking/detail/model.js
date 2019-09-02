@@ -76,13 +76,14 @@ export default {
       const result = yield call(edit, params);
       if (result.code === 20000) {
         const pageData = result.data || [];
-        let ordId = undefined;
+        let ordId = pageData.result.ordId;
 
-        if (pageData.result.ordIdList.length == 1) {
+        if (!ordId && pageData.result.ordIdList.length >= 1) {
           ordId = pageData.result.ordIdList[0].ordId
-        } else {
-          ordId = pageData.result.ordId || undefined
         }
+        //  else {
+        //   ordId = pageData.result.ordId || undefined
+        // }
         const submitParam = {
           // ordId: pageData.result.ordId|| 4509117,
           ordId: ordId,
