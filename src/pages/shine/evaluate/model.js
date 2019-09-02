@@ -12,7 +12,7 @@ export default {
 
   effects: {
     *getList({ payload }, { call, put }) {
-      const result = yield call(getList, payload);
+      const result = yield call(getList, payload.params);
       if (result.code === 20000) {
         const dataList = result.data.list ? result.data.list : [];
         const page = { total: result.data.total ? result.data.total : 0, pageNum: result.data.pageNum ? result.data.pageNum : 1 };
