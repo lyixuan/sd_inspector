@@ -6,9 +6,20 @@
   background-color: #fff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  :global {
+    .ant-form-item-label {
+      line-height: 32px;
+    }
+    .ant-form-item-control {
+      line-height: 32px;
+    }
+    .ant-row {
+      padding-bottom: 8px;
+    }
+  }
   .rowWrap{
     display: flex;
-    margin-bottom: 6px;
+    // margin-bottom: 6px;
     .itemCls{
       width: 20%;
     }
@@ -47,6 +58,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 8px;
 }
 //
 .popupClassName {
