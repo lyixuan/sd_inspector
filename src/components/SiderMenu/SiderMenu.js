@@ -252,7 +252,7 @@ export default class SiderMenu extends PureComponent {
             }
           </ul>
         </Sider>
-        {!collapsed && <Menu
+        {!collapsed && this.state.openMenu && <Menu
           key="Menu"
           theme="light"
           mode="inline"

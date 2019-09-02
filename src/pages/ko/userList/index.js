@@ -114,7 +114,7 @@ function columns(enumDataIntention) {
       key: 'listenTime',
       dataIndex: 'listenTime',
       filterMultiple: false,
-      width: 136,
+      width: 140,
       filters: [
         { text: '大于0', value: 1, key: 'lessonTime' },
         { text: '等于0', value: 2, key: 'lessonTime' },
