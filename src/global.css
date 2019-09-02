@@ -133,6 +133,7 @@ a,a:hover{
   font-size: 12px;
 } */
 
+
 /*ant table滚动条兼容 safri和外接显示器*/
 /*https://github.com/ant-design/ant-design/issues/13994*/
 .displaynone::-webkit-scrollbar {
@@ -141,7 +142,6 @@ a,a:hover{
 .ant-table-header::-webkit-scrollbar {
   opacity: 0!important;
 }
-
 
 
 /* :global .ant-popover-inner-content .ant-btn-primary{
@@ -153,6 +153,10 @@ body > a {
   display: none;
 }
 
+/* 头部平铺 */
+:global .ant-layout-content.aiWorktable-ant-layout-content {
+  overflow: visible;
+}
 .circleTable .ant-table-thead > tr:first-child > th:first-child{
   border-radius: 6px 0 0 6px;
 }
