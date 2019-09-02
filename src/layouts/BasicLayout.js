@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Layout, Spin } from 'antd';
+import { Layout } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { ContainerQuery } from 'react-container-query';
@@ -17,7 +17,7 @@ import storage from '../utils/storage';
 import HeaderLayout from './Header';
 import { query } from './utils/query';
 import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
-import { redirectUrlParams, checkPathname } from '../utils/routeUtils';
+import { checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
 import {DEBUGGER_USER} from '@/utils/constants';
 
@@ -243,7 +243,7 @@ class BasicLayout extends React.PureComponent {
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
           </Header>
-          <Content className={this.gobalMarkClass()}>
+          <Content className={`antContent ${this.gobalMarkClass()}`}>
             <ContentLayout {...this.props} routesData={routesData}>
               <Authorized
                 authority={checkPathname.bind(null, location.patchname)}

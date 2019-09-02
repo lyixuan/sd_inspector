@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'dva';
-import { message, Tag, Tooltip, Progress, Icon, Spin } from 'antd';
-import BITable from '@/components/BIKoTable';
+import { message, Tooltip, Spin } from 'antd';
+// import BITable from '@/components/BIKoTable';
+import BITable from '@/ant_components/BITable';
 import BIButtonText from '@/components/BIButtonText';
 import BIPagination from '@/ant_components/BIPagination';
 import BIButton from '@/ant_components/BIButton';
-import { BiFilter, thousandsFormat } from '@/utils/utils';
+import { thousandsFormat } from '@/utils/utils';
 import { getTransactionIntentionValue } from '../utils/utils'
 import BIModal from '@/ant_components/BIModal';
 import BIInput from '@/ant_components/BIInput';
 import moment from 'moment';
-import storage from '@/utils/storage';
 import style from './style.less';
 import config from '../../../../config/config';
 import face1 from '@/assets/face1.svg';
@@ -101,7 +101,7 @@ function columns(enumDataIntention) {
       key: 'attendenceCount',
       dataIndex: 'attendenceCount',
       filterMultiple: false,
-      width: 94,
+      width: 100,
       filters: [
         { text: '大于0', value: 1, key: 'attendenceExist' },
         { text: '等于0', value: 2, key: 'attendenceExist' },
@@ -114,7 +114,7 @@ function columns(enumDataIntention) {
       key: 'listenTime',
       dataIndex: 'listenTime',
       filterMultiple: false,
-      width: 130,
+      width: 136,
       filters: [
         { text: '大于0', value: 1, key: 'lessonTime' },
         { text: '等于0', value: 2, key: 'lessonTime' },
@@ -128,7 +128,7 @@ function columns(enumDataIntention) {
       key: 'studyExeciseNum',
       dataIndex: 'studyExeciseNum',
       filterMultiple: false,
-      width: 94,
+      width: 100,
       filters: [
         { text: '大于0', value: 1, key: 'execiseExist' },
         { text: '等于0', value: 2, key: 'execiseExist' },
@@ -207,7 +207,7 @@ function columns(enumDataIntention) {
       title: '排队数',
       key: 'imQueueDialogueNum',
       dataIndex: 'imQueueDialogueNum',
-      width: 94,
+      width: 100,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 1, key: 'imQueueDialogueExist' },
@@ -220,7 +220,7 @@ function columns(enumDataIntention) {
       title: '留言数',
       key: 'imMessageDialogueNum',
       dataIndex: 'imMessageDialogueNum',
-      width: 94,
+      width: 100,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 1, key: 'imMsgExist' },
@@ -233,7 +233,7 @@ function columns(enumDataIntention) {
       title: '发帖量',
       key: 'bbsPostNum',
       dataIndex: 'bbsPostNum',
-      width: 94,
+      width: 100,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 1, key: 'bbsPostExist' },
@@ -246,7 +246,7 @@ function columns(enumDataIntention) {
       title: '跟帖量',
       key: 'bbsFollowNum',
       dataIndex: 'bbsFollowNum',
-      width: 94,
+      width: 100,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 1, key: 'bbsFollowExist' },
@@ -259,7 +259,7 @@ function columns(enumDataIntention) {
       title: '微信咨询量',
       key: 'wechatDialogueNum',
       dataIndex: 'wechatDialogueNum',
-      width: 122,
+      width: 130,
       filterMultiple: false,
       filters: [
         { text: '大于0', value: 1, key: 'wechatDialogueExist' },
@@ -334,7 +334,7 @@ function columns(enumDataIntention) {
       v.render = v.render || ((text) => {
         return (
           <>
-            {Number(text) === 0 ? (<span style={{ cursor: 'pointer', color: '#bfbfbf' }}>{text}</span>) : (
+            {Number(text) === 0 ? (<span style={{ cursor: 'pointer', /* color: '#bfbfbf'*/ }}>{text}</span>) : (
               <span style={{ cursor: 'pointer' }}>{text}</span>)}
           </>
         );
@@ -705,7 +705,7 @@ class UserList extends React.Component {
       <div>
         <div className={style.contentWrap}>
           <div style={{ position: 'relative' }}>
-            <p style={{ fontSize: 12 }}>共查询到 <span style={{ color: '#52C9C2' }}>{thousandsFormat(totalUser)}</span> 个用户
+            <p style={{ fontSize: 14, color: '#1B1C20' }}>共查询到 <span style={{ color: '#00CCC3' }}>{thousandsFormat(totalUser)}</span> 个用户
             </p>
             <BIButton type="primary" style={{ position: 'absolute', right: 0, top: 0 }}
               onClick={this.showPop}>创建用户组</BIButton>
@@ -722,7 +722,7 @@ class UserList extends React.Component {
             size="middle"
           />
           <br />
-          <span style={{ color: '#999', fontSize: 12 }}>注：左右滑动可以查看更多字段</span>
+          <span style={{ color: '#9A9DA1', fontSize: 12 }}>注：左右滑动可以查看更多字段</span>
           <BIPagination showQuickJumper defaultPageSize={pageParams.pageSize ? pageParams.pageSize : 30}
             onChange={this.onPageChange} current={currentPage} total={totalCount} />
         </div>
