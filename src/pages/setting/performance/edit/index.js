@@ -29,32 +29,37 @@ class detail extends React.Component {
     super(props);
     this.state = {
       visible: false,
+      zbShow:false,
+      cbShow:false,
+      cbtimeShow:false,
+      fpShow:false,
+      xbShow:false,
       // 默认进入的页面编辑/复制/创建
       status: 1,
       data: {
         effectiveDate: '',
         expiryDate: '',
-        positionPercent: '',
-        replayLecturesTime: '',
-        renewalKpi: '',
-        adultExamSpecialKpi:'',
+        positionPercent: '0.00',
+        replayLecturesTime: '0.00',
+        renewalKpi: '0.00',
+        adultExamSpecialKpi:'0.00',
         financeNetFlowRatioList: [
           {
-            levelLowerLimit: null,
-            levelUpperLimit: null,
+            levelLowerLimit: '0.00',
+            levelUpperLimit: '0.00',
             upperClose: false,
             lowerClose: false,
-            levelValue: '',
+            levelValue: '0.00',
             levelType:2
           },
         ],
         financeNetFlowRatioList2: [
           {
-            levelLowerLimit: null,
-            levelUpperLimit: null,
+            levelLowerLimit: '0.00',
+            levelUpperLimit: '0.00',
             upperClose: false,
             lowerClose: false,
-            levelValue: '',
+            levelValue: '0.00',
             levelType:1
           },
         ],
@@ -116,13 +121,24 @@ class detail extends React.Component {
   submitMes = () => {
     const { data, status } = this.state;
     const query = this.props.location.query;
+    if(!this.checkData(data)){
+      return
+    }
     const params = DeepCopy(data);
+    params.financeNetFlowRatioList.forEach((item)=>{
+      item.levelType=2
+    });
+    params.financeNetFlowRatioList2.forEach((item)=>{
+      item.levelType=1
+    });
+
     params.financeNetFlowRatioList = params.financeNetFlowRatioList.concat(params.financeNetFlowRatioList2);
     delete params.financeNetFlowRatioList2;
-    if (!this.isEmpty(params)) {
-      message.error('请完善所有信息');
-      return;
-    }
+    // if (!this.isEmpty(params)) {
+    //   message.error('请完善所有信息');
+    //   return;
+    // }
+
     params.packageType = query.packageType;
 
     if (status === TYPE.edit) {
@@ -157,7 +173,101 @@ class detail extends React.Component {
         });
     }
   };
+  checkData = (obj)=>{
+    console.log(obj)
+    this.setState({
+      cbtimeShow:false,
+      zbShow:false,
+      cbShow:false,
+      fpShow:false,
+      xbShow:false,
+    });
+    let pass = true; // 1:  2:
+    if(!obj.effectiveDate){
+      pass = false;
+      message.error('请选择生效周期');
+    }
 
+    if(!String(obj.replayLecturesTime)) {
+      pass = false;
+      this.setState({
+        cbtimeShow:true,
+      });
+      message.error('请输入重播时长');
+    }
+    if(!String(obj.positionPercent)) {
+      pass = false;
+      this.setState({
+        fpShow:true,
+      });
+      message.error('请输入好岗位分配比');
+    }
+    if(!String(obj.renewalKpi)) {
+      pass = false;
+      this.setState({
+        xbShow:true,
+      });
+      message.error('续报岗位提点');
+    }
+    if(!String(obj.adultExamSpecialKpi)) {
+      pass = false;
+      this.setState({
+        xbShow:true,
+      });
+      message.error('成考专本套专项绩效');
+    }
+    const list1 = obj.financeNetFlowRatioList;
+    for(let i = 0;i<list1.length;i++){
+      if(list1[i].levelLowerLimit>=list1[i].levelUpperLimit){
+        pass = false;
+        this.setState({
+          cbShow:true,
+        });
+        message.error('重播听课时长 右区间要大于区间');
+      }
+      if(i>0 && Number(list1[i].levelLowerLimit) !== Number(list1[i-1].levelUpperLimit)) {
+        pass = false;
+        this.setState({
+          cbShow:true,
+        });
+        message.error('重播听课时长 连续两个范围的左右区间应该连续');
+      }
+
+      if(i>0 && list1[i].lowerClose && list1[i-1].upperClose) {
+        pass = false;
+        this.setState({
+          cbShow:true,
+        });
+        message.error('重播听课时长 连续两个范围的左右区间不能同时闭合');
+      }
+    }
+    const list2 = obj.financeNetFlowRatioList2;
+    for(let k = 0;k<list2.length;k++){
+      if(list2[k].levelLowerLimit>=list2[k].levelUpperLimit){
+        pass = false;
+        this.setState({
+          zbShow:true
+        });
+        message.error('直播听课时长 右区间要大于区间');
+      }
+      if(k>0 && Number(list2[k].levelLowerLimit) !== Number(list2[k-1].levelUpperLimit)) {
+        pass = false;
+        this.setState({
+          zbShow:true,
+        });
+        message.error('直播听课时长 连续两个范围的左右区间应该连续');
+      }
+      if(k>0 && list2[k].lowerClose && list2[k-1].upperClose) {
+        pass = false;
+        this.setState({
+          zbShow:true,
+        });
+        message.error('直播听课时长 连续两个范围的左右区间不能同时闭合');
+      }
+    }
+
+    return pass;
+  };
   isEmpty = item => {
     let bflag1 = false;
     let bflag2 = false;
@@ -264,7 +374,7 @@ class detail extends React.Component {
           <h2 className={styles.title}>好推绩效</h2>
           <div className={styles.goodPerWrap}>
             <p className={styles.smallPerformance}>好推净流水系数梯度表（重播）</p>
-            <div className={styles.border}>
+            <div className={this.state.cbShow?styles.border2:styles.border}>
               <p className={styles.meta}>
                 <span className={styles.itemLeft}>重播听课时长(单位：分钟)</span>
                 <span className={styles.itemMiddle}>好推净流水系数</span>
@@ -279,7 +389,7 @@ class detail extends React.Component {
           <br/>
           <div className={styles.goodPerWrap}>
             <p className={styles.smallPerformance}>好推净流水梯度表（直播）</p>
-            <div className={styles.border}>
+            <div className={this.state.zbShow?styles.border2:styles.border}>
               <p className={styles.meta}>
                 <span className={styles.itemLeft}>直播听课时间(单位：分钟)</span>
                 <span className={styles.itemMiddle}>好推净流水系数</span>
@@ -291,7 +401,7 @@ class detail extends React.Component {
               />
             </div>
           </div>
-          <div className={styles.precentWrap2}>
+          <div className={this.state.cbtimeShow?styles.precentWrap3:styles.precentWrap2}>
             <p style={{ color: '#1A1C1F' }}>获得直播加成条件</p>
             <p className={styles.smallPerformance}>
               <span style={{ color: '#1A1C1F' }}>重播时长</span>
@@ -301,7 +411,7 @@ class detail extends React.Component {
               <span>分钟</span>
             </p>
           </div>
-          <div className={styles.precentWrap}>
+          <div className={this.state.fpShow?styles.precentWrap1:styles.precentWrap}>
             <p className={styles.smallPerformance}>
               <span style={{ color: '#1A1C1F' }}>好推岗位分配比</span>
               <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
@@ -313,7 +423,7 @@ class detail extends React.Component {
         </div>
         <div className={styles.goodPerformance}>
           <h2 className={styles.title}>续报绩效</h2>
-          <div className={styles.precentWrap}>
+          <div className={this.state.xbShow?styles.precentWrap1:styles.precentWrap}>
             <p className={styles.smallPerformance}>
               <span style={{ color: '#1A1C1F' }}>续报岗位提点</span>
               <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
@@ -325,7 +435,7 @@ class detail extends React.Component {
               <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
                 {this.renderInput(data, 'adultExamSpecialKpi')}
               </span>
-              <span>%</span>
+              <span>元/单</span>
             </p>
           </div>
         </div>
