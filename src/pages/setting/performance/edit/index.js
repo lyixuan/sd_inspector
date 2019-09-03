@@ -139,10 +139,6 @@ class detail extends React.Component {
       params.financeNetFlowRatioList2
     );
     delete params.financeNetFlowRatioList2;
-    // if (!this.isEmpty(params)) {
-    //   message.error('请完善所有信息');
-    //   return;
-    // }
 
     params.packageType = query.packageType;
 
@@ -283,22 +279,6 @@ class detail extends React.Component {
     }
 
     return pass;
-  };
-  isEmpty = item => {
-    let bflag1 = false;
-    let bflag2 = false;
-    item.financeNetFlowRatioList.forEach(val => {
-      bflag1 =
-        this.fieldCheck(val.levelLowerLimit) &&
-        this.fieldCheck(val.levelUpperLimit) &&
-        this.fieldCheck(val.levelValue);
-    });
-    bflag2 =
-      this.fieldCheck(item.positionPercent) &&
-      this.fieldCheck(item.replayLecturesTime) &&
-      this.fieldCheck(item.renewalKpi) &&
-      this.fieldCheck(item.adultExamSpecialKpi);
-    return item.effectiveDate && item.expiryDate && bflag1 && bflag2;
   };
 
   fieldCheck = val => {
