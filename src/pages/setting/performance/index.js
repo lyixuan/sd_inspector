@@ -83,7 +83,6 @@ class Performance extends React.Component {
   };
   render() {
     const { listData = [] } = this.props.performanceModel;
-    console.log(this.state.packageType, 'this.state.packageType');
     const tableTitle = ['家族长', '运营长', '班主任'];
     const pageData = {
       pageNum: listData.pageNum,
@@ -189,7 +188,7 @@ class Performance extends React.Component {
             <BITabs
               className={styles.content}
               onChange={this.onTabChange}
-              defaultActiveKey={this.state.packageType}
+              defaultActiveKey={String(this.state.packageType)}
               animated={false}
             >
               {tabpane}

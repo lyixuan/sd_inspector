@@ -17,11 +17,11 @@ class Tab extends React.Component {
     };
     this.initModel = {
       index: 0,
-      levelLowerLimit: null,
-      levelUpperLimit: null,
+      levelLowerLimit: '0.00',
+      levelUpperLimit: '0.00',
       upperClose: false,
       lowerClose: false,
-      levelValue: '',
+      levelValue: '0.00',
     };
   }
 
@@ -42,6 +42,9 @@ class Tab extends React.Component {
   addItem = () => {
     // debugger;
     const { itemList = [] } = this.state;
+    if(itemList.length>0 && itemList[itemList.length-1].levelUpperLimit){
+      this.initModel.levelLowerLimit = itemList[itemList.length-1].levelUpperLimit;
+    }
     const newAddObject = { ...this.initModel };
     const indexArr = itemList.map((list, index) => {
       return (list.index = index);
@@ -129,7 +132,7 @@ class Tab extends React.Component {
     return (
       <>
         <ul className={styles.listItem}>
-          {itemList.map((item, idx) => (
+          {itemList&&itemList.map((item, idx) => (
             <li key={idx}>
               <div className={styles.itemLeft}>
                 <p style={{ float: 'left', margin: '0' }}>
@@ -156,11 +159,15 @@ class Tab extends React.Component {
                 </span>
                 <span style={{ margin: '0 10px 0 0' }}>%</span>
               </div>
-              <div className={styles.itemRight}>
+              {itemList.length===1?<div className={styles.itemRight}>
+                <span style={{color:'#ccc'}}>
+                  删除
+                </span></div>:
+                <div className={styles.itemRight}>
                 <span className={styles.btn} onClick={() => this.delItem(item)}>
                   删除
                 </span>
-              </div>
+                </div>}
             </li>
           ))}
         </ul>
