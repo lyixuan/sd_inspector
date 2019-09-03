@@ -229,8 +229,8 @@ class BasicLayout extends React.PureComponent {
           onCollapse={this.handleMenuCollapse}
           onClick={({ item, key, keyPath }) => { console.log(item, key); window.location.href = 'www.baidu.com' }}
         />
-        <Layout>
-        <HeaderLayout
+        <Layout style={{backgroundColor: '#F5F8FA'}}>
+          <HeaderLayout
               {...this.props}
               logo={biIcon}
               currentUser={currentUser}
