@@ -150,7 +150,6 @@ class detail extends React.Component {
           payload: { params },
         })
         .then(res => {
-          console.log(res, 'res');
           if (res) {
             router.push({
               pathname: '/setting/performance/list',
@@ -224,6 +223,15 @@ class detail extends React.Component {
     }
     const list1 = obj.financeNetFlowRatioList;
     for (let i = 0; i < list1.length; i++) {
+      if (!list1[i].levelValue) {
+        pass = false;
+        this.setState({
+          cbShow: true,
+        });
+        message.error('请输入好推净流水系数');
+        return pass;
+      }
+
       if (list1[i].levelLowerLimit >= list1[i].levelUpperLimit) {
         pass = false;
         this.setState({
@@ -252,6 +260,15 @@ class detail extends React.Component {
     }
     const list2 = obj.financeNetFlowRatioList2;
     for (let k = 0; k < list2.length; k++) {
+      if (!list2[k].levelValue) {
+        pass = false;
+        this.setState({
+          zbShow: true,
+        });
+        message.error('请输入好推净流水系数');
+        return pass;
+      }
+
       if (list2[k].levelLowerLimit >= list2[k].levelUpperLimit) {
         pass = false;
         this.setState({
