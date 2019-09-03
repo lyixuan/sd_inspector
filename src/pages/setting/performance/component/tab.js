@@ -17,11 +17,11 @@ class Tab extends React.Component {
     };
     this.initModel = {
       index: 0,
-      levelLowerLimit: null,
-      levelUpperLimit: null,
+      levelLowerLimit: '0.00',
+      levelUpperLimit: '0.00',
       upperClose: false,
       lowerClose: false,
-      levelValue: '',
+      levelValue: '0.00',
     };
   }
 
@@ -42,6 +42,9 @@ class Tab extends React.Component {
   addItem = () => {
     // debugger;
     const { itemList = [] } = this.state;
+    if(itemList.length>0 && itemList[itemList.length-1].levelUpperLimit){
+      this.initModel. levelLowerLimit = itemList[itemList.length-1].levelUpperLimit;
+    }
     const newAddObject = { ...this.initModel };
     const indexArr = itemList.map((list, index) => {
       return (list.index = index);
