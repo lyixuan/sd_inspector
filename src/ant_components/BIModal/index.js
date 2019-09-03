@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal } from 'antd';
-import './style.less';
+import styles from './style.less';
 
 const confirm = Modal.confirm;
 /*
@@ -14,8 +14,8 @@ class BIModal extends React.Component {
 
   render() {
     return (
-      <span className='BIModal'>
-        <Modal {...this.props} wrapClassName='BIModalWrap'>
+      <span className={styles.BIModal}>
+        <Modal width={504} {...this.props} wrapClassName={styles.BIModalWrap}>
           {this.props.children}
         </Modal>
       </span>

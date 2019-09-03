@@ -1,18 +1,18 @@
 import React from 'react';
-import { Input, Progress, Cascader, Button } from 'antd';
+import { Input, Progress, Cascader } from 'antd';
 import { connect } from 'dva';
+import BIInput from '@/ant_components/BIInput';
 import BIModal from '@/ant_components/BIModal';
 import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect/formSelect';
 import BICascader from '@/ant_components/BICascader/FormCascader';
 import BIRadio from '@/ant_components/BIRadio';
 import create from '@/assets/ai/create.png'
-import btnStyles from '../../../entrancePlatform/btnstyles.less'
 import styles from '../style.less';
 import router from 'umi/router';
 import { Link } from 'dva/router';
 
-const { TextArea } = Input;
+const { TextArea } = BIInput;
 const { Option } = BISelect;
 
 @connect(({ AiDetail, loading }) => ({
@@ -154,7 +154,7 @@ class DataClassfy extends React.Component {
       let params = {
         type: this.props.type,
         itemId: this.props.pageData.item.itemId,
-        result: this.state.submitParam,
+        result: {...this.state.submitParam, lifeCycle: this.setLifeCycle()},
       };
       this.props.computedIdNew(() => {
         this.props.dispatch({
@@ -281,7 +281,7 @@ class DataClassfy extends React.Component {
             }
             <li>
               <label>原因分类：</label>
-              <div className={styles.selects}>
+              <div className={`${styles.selects} ${styles.ZJCascader}`}>
                 <Cascader
                   changeOnSelect
                   fieldNames={{ label: 'name', value: 'id', evaluationNature: 'evaluationNature', children: 'nodeList' }}
@@ -324,15 +324,15 @@ class DataClassfy extends React.Component {
             </li>
           </ul>
           <div className={styles.btn}>
-            <Button className={btnStyles.btnWhite} disabled={currentId === 1} onClick={() => this.submit(1)} loading={isLoading && action === 1}>
+            <BIButton disabled={currentId === 1} onClick={() => this.submit(1)} loading={isLoading && action === 1}>
               上一条
-            </Button>
-            <Button className={btnStyles.btnPrimary} style={{margin: '0 8px'}} onClick={() => this.submit(2)} loading={isLoading && action === 2}>
+            </BIButton>
+            <BIButton type='primary' style={{margin: '0 8px'}} onClick={() => this.submit(2)} loading={isLoading && action === 2}>
               提交，下一条
-            </Button>
-            <Button className={btnStyles.btnYellow} onClick={() => this.submit(3)}>
+            </BIButton>
+            <BIButton type='warning' onClick={() => this.submit(3)}>
               {'跳'}{'过'}
-            </Button>
+            </BIButton>
           </div>
           <div className={styles.progress}>
             <p className={styles.number}>{currentId}/{idList ? idList.length : 1}</p>

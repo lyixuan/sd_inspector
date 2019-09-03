@@ -81,13 +81,12 @@ a,a:hover{
 }
 
 /*!*兼容windows 固定高度的 scroll问题*!*/
-/*.ant-table-fixed-header .ant-table-scroll .ant-table-header {*/
-  /*overflow-x: hidden!important;*/
-  /*overflow-y: scroll!important;*/
-  /*margin-bottom:0;*/
-  /*padding-bottom: 0;*/
-/*}*/
-
+.ant-table-fixed-header .ant-table-scroll .ant-table-header {
+  overflow-x: hidden!important;
+  overflow-y: scroll!important;
+  margin-bottom:0!important;
+  padding-bottom: 0!important;
+}
 .ant-upload-list-item-info .anticon-loading, .ant-upload-list-item-info .anticon-paper-clip{
   color: #52C9C2;
 }
@@ -115,6 +114,7 @@ a,a:hover{
   vertical-align:6%;
 }
 
+
 /* ko 模块需要，修改ant-popover浮出框背景为黑色，这个样式是定位到根的，所以需要在全局修改，以后其他地方用到再说 */
 /* .ant-popover .ant-popover-inner{
   background-color: #565656;
@@ -132,21 +132,56 @@ a,a:hover{
   font-size: 12px;
 } */
 
+
 /*ant table滚动条兼容 safri和外接显示器*/
 /*https://github.com/ant-design/ant-design/issues/13994*/
-/*.displaynone::-webkit-scrollbar {*/
-  /*display: none !important;*/
-/*}*/
-/*.ant-table-header::-webkit-scrollbar {*/
-  /*opacity: 0!important;*/
-/*}*/
-
-
-:global .ant-popover-inner-content .ant-btn-primary{
-  background:#52C9C2!important;
-  border-color:#52C9C2!important;
+.displaynone::-webkit-scrollbar {
+  display: none !important;
+}
+.ant-table-header::-webkit-scrollbar {
+  opacity: 0!important;
 }
 
+
+/* :global .ant-popover-inner-content .ant-btn-primary{
+  background:#52C9C2!important;
+  border-color:#52C9C2!important;
+} */
+/* 数据统计 */
 body > a {
   display: none;
+}
+
+/* 头部平铺 */
+:global .ant-layout-content.aiWorktable-ant-layout-content {
+  overflow: visible;
+}
+.circleTable .ant-table-thead > tr:first-child > th:first-child{
+  border-radius: 6px 0 0 6px;
+}
+.circleTable .ant-table-thead > tr:first-child > th:last-child {
+  border-radius: 0 6px 6px 0;
+}
+.circleTable .ant-table-thead > tr > th{
+  border-bottom:none;
+  color: #7B7C80;
+  font-weight: normal;
+}
+
+.evaluate .ant-tooltip {
+  max-width: 70%;
+}
+
+.agc  .ant-input-number-handler-wrap{
+  opacity: 0!important;
+}
+.agc {
+  border-radius: 1px;
+}
+/* 头部平铺 */
+:global .ant-layout-content.aiWorktable-ant-layout-content {
+  overflow: visible;
+}
+:global .ant-layout-content.antContent {
+  margin: 0 16px !important;
 }

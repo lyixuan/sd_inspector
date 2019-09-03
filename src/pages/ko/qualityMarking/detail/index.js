@@ -108,7 +108,7 @@ class AiDetail extends React.Component {
     const pageData = this.props.pageData;
 
     return (
-      <div style={{ marginTop: '-28px' }}>
+      <div style={{ marginTop: '-16px' }}>
         <PageHead routerData={routerData}></PageHead>
         <Spin spinning={this.props.isLoading}>
           <div className={`${styles.aiDetail} aiDetail2`} style={{ minHeight: `${scrollHeight}px` }}>

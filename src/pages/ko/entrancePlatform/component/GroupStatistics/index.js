@@ -7,7 +7,6 @@ import BITable from '@/ant_components/BITable';
 import BISelect from '@/ant_components/BISelect';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import {
-  getSubStringValue,
   handleDefaultPickerExamValue,
   handleTNDateValue, accMul
 } from '../../../utils/utils';
@@ -305,6 +304,7 @@ class GroupStatistics extends React.Component {
                           value={exportType}
                           onChange={this.onChangeExport}
                           getPopupContainer={triggerNode => triggerNode.parentNode}
+                          style={{with: '100%'}}
                           allowClear
                 >
                   {exportTypeList.map(item => (
@@ -332,7 +332,7 @@ class GroupStatistics extends React.Component {
             loading={listloading}
             scroll={{ x: slidingValue + 700}}
             bordered
-            size="middle"
+            // size="middle"
             rowSelection={{
               onChange: this.onRowChange
             }}

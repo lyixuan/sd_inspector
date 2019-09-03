@@ -7,8 +7,10 @@ const react_1 = __importDefault(require("react"));
 const antd_1 = require("antd");
 const utils_1 = require("./utils/utils");
 const BIButton_1 = __importDefault(require("../BIButton"));
+const BISelect_1 = __importDefault(require("../BISelect"));
+const BIInput_1 = __importDefault(require("../BIInput"));
 const styles = require('./styles.less');
-const { Option } = antd_1.Select;
+const { Option } = BISelect_1.default;
 class Custom extends react_1.default.Component {
     constructor() {
         super(...arguments);
@@ -133,22 +135,22 @@ class Custom extends react_1.default.Component {
             const { baseInputValue, unit } = this.state;
             return react_1.default.createElement(react_1.default.Fragment, null,
                 react_1.default.createElement("span", { className: styles.renderBaseUnitinput },
-                    react_1.default.createElement(antd_1.Input, { value: baseInputValue, onInput: (e) => this.inputChange(e, 'baseInputValue') })),
+                    react_1.default.createElement(BIInput_1.default, { value: baseInputValue, onInput: (e) => this.inputChange(e, 'baseInputValue') })),
                 react_1.default.createElement("span", { className: styles.betweennessSelect },
                     " ",
-                    react_1.default.createElement(antd_1.Select, { className: 'betweennessSelect', dropdownClassName: "betweennessSelectDropdownClassName", placeholder: "\u8BF7\u9009\u62E9", style: { width: 50 }, value: unit.id, onChange: this.changeUnit }, this.renderUnitOptions())));
+                    react_1.default.createElement(BISelect_1.default, { className: 'betweennessSelect', dropdownClassName: "betweennessSelectDropdownClassName", placeholder: "\u8BF7\u9009\u62E9", style: { width: 50 }, value: unit.id, onChange: this.changeUnit }, this.renderUnitOptions())));
         };
         this.betweenness = () => {
             const { startValue, endValue, unit } = this.state;
             return (react_1.default.createElement(react_1.default.Fragment, null,
                 react_1.default.createElement("span", { className: styles.betweenness },
-                    react_1.default.createElement(antd_1.Input, { value: startValue, onInput: (e) => this.inputChange(e, 'startValue') })),
+                    react_1.default.createElement(BIInput_1.default, { value: startValue, onInput: (e) => this.inputChange(e, 'startValue') })),
                 react_1.default.createElement("span", { className: styles.betweennessSymbol }, "-"),
                 react_1.default.createElement("span", { className: styles.betweenness },
-                    react_1.default.createElement(antd_1.Input, { value: endValue, onInput: (e) => this.inputChange(e, 'endValue') })),
+                    react_1.default.createElement(BIInput_1.default, { value: endValue, onInput: (e) => this.inputChange(e, 'endValue') })),
                 react_1.default.createElement("span", { className: styles.betweennessSelect },
                     " ",
-                    react_1.default.createElement(antd_1.Select, { className: 'betweennessSelect', dropdownClassName: "betweennessSelectDropdownClassName", placeholder: "\u8BF7\u9009\u62E9", style: { width: 50 }, value: unit.id, onChange: this.changeUnit }, this.renderUnitOptions()))));
+                    react_1.default.createElement(BISelect_1.default, { className: 'betweennessSelect', dropdownClassName: "betweennessSelectDropdownClassName", placeholder: "\u8BF7\u9009\u62E9", style: { width: 50 }, value: unit.id, onChange: this.changeUnit }, this.renderUnitOptions()))));
         };
         this.renderInputPanle = () => {
             const { selected } = this.state;
@@ -169,7 +171,7 @@ class Custom extends react_1.default.Component {
                 react_1.default.createElement(antd_1.Icon, { type: "caret-left" })),
             react_1.default.createElement("div", { className: styles.customChooseBox },
                 react_1.default.createElement("div", { className: styles.selectPanle, onClick: (e) => { e.stopPropagation(); } },
-                    react_1.default.createElement(antd_1.Select, { className: 'conditionSelect', placeholder: "\u8BF7\u9009\u62E9\u6761\u4EF6", style: { width: 180 }, onChange: this.onChangeCustoms }, options)),
+                    react_1.default.createElement(BISelect_1.default, { className: 'conditionSelect', placeholder: "\u8BF7\u9009\u62E9\u6761\u4EF6", style: { width: 180 }, onChange: this.onChangeCustoms }, options)),
                 react_1.default.createElement("div", { className: `inputPanle ${styles.inputPanle}`, onClick: (e) => { e.stopPropagation(); } }, renderInputPanle),
                 react_1.default.createElement("div", { className: styles.buttonGroup },
                     react_1.default.createElement("span", { className: styles.button, onClick: this.onCancel },
