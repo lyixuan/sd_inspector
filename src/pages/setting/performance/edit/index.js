@@ -37,7 +37,7 @@ class detail extends React.Component {
         positionPercent: '0.00',
         replayLecturesTime: '0.00',
         renewalKpi: '0.00',
-        adultExamSpecialKpi:'0.00',
+        adultExamSpecialKpi: '0.00',
         financeNetFlowRatioList: [
           {
             levelLowerLimit: '0.00',
@@ -45,7 +45,7 @@ class detail extends React.Component {
             upperClose: false,
             lowerClose: false,
             levelValue: '0.00',
-            levelType:2
+            levelType: 2,
           },
         ],
         financeNetFlowRatioList2: [
@@ -55,7 +55,7 @@ class detail extends React.Component {
             upperClose: false,
             lowerClose: false,
             levelValue: '0.00',
-            levelType:1
+            levelType: 1,
           },
         ],
       },
@@ -76,10 +76,13 @@ class detail extends React.Component {
       })
       .then(res => {
         res.financeNetFlowRatioList2 = [];
-        for(let i = res.financeNetFlowRatioList.length-1;i>=0;i--){
-          if(res.financeNetFlowRatioList[i].levelType&&res.financeNetFlowRatioList[i].levelType===1){
+        for (let i = res.financeNetFlowRatioList.length - 1; i >= 0; i--) {
+          if (
+            res.financeNetFlowRatioList[i].levelType &&
+            res.financeNetFlowRatioList[i].levelType === 1
+          ) {
             res.financeNetFlowRatioList2.push(res.financeNetFlowRatioList[i]);
-            res.financeNetFlowRatioList.splice(i,1)
+            res.financeNetFlowRatioList.splice(i, 1);
           }
         }
         this.setState({ data: res });
@@ -116,18 +119,20 @@ class detail extends React.Component {
   submitMes = () => {
     const { data, status } = this.state;
     const query = this.props.location.query;
-    if(!this.checkData(data)){
-      return
+    if (!this.checkData(data)) {
+      return;
     }
     const params = DeepCopy(data);
-    params.financeNetFlowRatioList.forEach((item)=>{
-      item.levelType=2
+    params.financeNetFlowRatioList.forEach(item => {
+      item.levelType = 2;
     });
-    params.financeNetFlowRatioList2.forEach((item)=>{
-      item.levelType=1
+    params.financeNetFlowRatioList2.forEach(item => {
+      item.levelType = 1;
     });
 
-    params.financeNetFlowRatioList = params.financeNetFlowRatioList.concat(params.financeNetFlowRatioList2);
+    params.financeNetFlowRatioList = params.financeNetFlowRatioList.concat(
+      params.financeNetFlowRatioList2
+    );
     delete params.financeNetFlowRatioList2;
     // if (!this.isEmpty(params)) {
     //   message.error('请完善所有信息');
@@ -168,63 +173,61 @@ class detail extends React.Component {
         });
     }
   };
-  checkData = (obj)=>{
-    console.log(obj)
+  checkData = obj => {
+    console.log(obj);
     let pass = true; // 1:  2:
-    if(!obj.effectiveDate){
+    if (!obj.effectiveDate) {
       pass = false;
       message.error('请选择生效周期');
     }
 
-    if(!String(obj.replayLecturesTime)) {
+    if (!String(obj.replayLecturesTime)) {
       pass = false;
       message.error('请输入重播时长');
     }
-    if(!String(obj.positionPercent)) {
+    if (!String(obj.positionPercent)) {
       pass = false;
       message.error('请输入好岗位分配比');
     }
-    if(!String(obj.renewalKpi)) {
+    if (!String(obj.renewalKpi)) {
       pass = false;
       message.error('续报岗位提点');
     }
-    if(!String(obj.adultExamSpecialKpi)) {
+    if (!String(obj.adultExamSpecialKpi)) {
       pass = false;
       message.error('成考专本套专项绩效');
     }
     const list1 = obj.financeNetFlowRatioList;
-    for(let i = 0;i<list1.length;i++){
-      if(list1[i].levelLowerLimit>=list1[i].levelUpperLimit){
+    for (let i = 0; i < list1.length; i++) {
+      if (list1[i].levelLowerLimit >= list1[i].levelUpperLimit) {
         pass = false;
         message.error('重播听课时长 左区间不能大于右区间');
       }
-      if(i>0 && Number(list1[i].levelLowerLimit) !== Number(list1[i-1].levelUpperLimit)) {
+      if (i > 0 && Number(list1[i].levelLowerLimit) !== Number(list1[i - 1].levelUpperLimit)) {
         pass = false;
         message.error('重播听课时长 连续两个范围的左右区间应该连续');
       }
 
-      if(i>0 && list1[i].lowerClose && list1[i-1].upperClose) {
+      if (i > 0 && list1[i].lowerClose && list1[i - 1].upperClose) {
         pass = false;
         message.error('重播听课时长 连续两个范围的左右区间不能同时闭合');
       }
-
     }
     const list2 = obj.financeNetFlowRatioList2;
-    for(let k = 0;k<list2.length;k++){
-      if(list1[k].levelLowerLimit>=list1[k].levelUpperLimit){
+    for (let k = 0; k < list2.length; k++) {
+      if (list1[k].levelLowerLimit >= list1[k].levelUpperLimit) {
         pass = false;
         message.error('直播听课时长左区间不能大于右区间');
       }
-      if(k>0 && Number(list1[k].levelLowerLimit) !== Number(list1[k-1].levelUpperLimit)) {
+      if (k > 0 && Number(list1[k].levelLowerLimit) !== Number(list1[k - 1].levelUpperLimit)) {
         pass = false;
         message.error('直播听课时长连续两个范围的左右区间应该连续');
       }
-      if(k>0 && list1[k].lowerClose && list1[k-1].upperClose) {
+      if (k > 0 && list1[k].lowerClose && list1[k - 1].upperClose) {
         pass = false;
         message.error('直播听课时长 连续两个范围的左右区间不能同时闭合');
       }
     }
-
 
     return pass;
   };
@@ -237,8 +240,12 @@ class detail extends React.Component {
         this.fieldCheck(val.levelUpperLimit) &&
         this.fieldCheck(val.levelValue);
     });
-    bflag2 = this.fieldCheck(item.positionPercent) &&this.fieldCheck(item.replayLecturesTime) && this.fieldCheck(item.renewalKpi)&& this.fieldCheck(item.adultExamSpecialKpi);
-    return item.effectiveDate && item.expiryDate && bflag1&& bflag2;
+    bflag2 =
+      this.fieldCheck(item.positionPercent) &&
+      this.fieldCheck(item.replayLecturesTime) &&
+      this.fieldCheck(item.renewalKpi) &&
+      this.fieldCheck(item.adultExamSpecialKpi);
+    return item.effectiveDate && item.expiryDate && bflag1 && bflag2;
   };
 
   fieldCheck = val => {
@@ -269,9 +276,9 @@ class detail extends React.Component {
     this.setState({ data: newObj });
   };
 
-  onChange = (itemList,type) => {
+  onChange = (itemList, type) => {
     const { data } = this.state;
-    if(type===2){
+    if (type === 2) {
       data.financeNetFlowRatioList = itemList;
     } else {
       data.financeNetFlowRatioList2 = itemList;
@@ -305,19 +312,19 @@ class detail extends React.Component {
 
   render() {
     const { data } = this.state;
-    if(!data.financeNetFlowRatioList){
-      data.financeNetFlowRatioList = []
+    if (!data.financeNetFlowRatioList) {
+      data.financeNetFlowRatioList = [];
     }
-    if(!data.financeNetFlowRatioList2){
-      data.financeNetFlowRatioList2 = []
+    if (!data.financeNetFlowRatioList2) {
+      data.financeNetFlowRatioList2 = [];
     }
     return (
       <div className={styles.editWrap}>
         <p>
-          <Link to="/setting/performance/list" style={{ color: 'rgba(0, 0, 0, 0.65)' }}>
-            创收绩效包
+          <Link to="/setting/performance/list" style={{ color: '#9A9DA1' }}>
+            创收绩效包/
           </Link>
-          / 绩效包详情
+          <span style={{ color: '#000000' }}>绩效包详情</span>
         </p>
         <div className={styles.header}>
           <span style={{ marginRight: '10px' }}>生效周期:</span>
@@ -341,12 +348,12 @@ class detail extends React.Component {
                 <span className={styles.itemRight}>操作</span>
               </p>
               <Tab
-                onChange={data => this.onChange(data,2)}
+                onChange={data => this.onChange(data, 2)}
                 itemList={data.financeNetFlowRatioList}
               />
             </div>
           </div>
-          <br/>
+          <br />
           <div className={styles.goodPerWrap}>
             <p className={styles.smallPerformance}>好推净流水梯度表（直播）</p>
             <div className={styles.border}>
@@ -356,7 +363,7 @@ class detail extends React.Component {
                 <span className={styles.itemRight}>操作</span>
               </p>
               <Tab
-                onChange={data => this.onChange(data,1)}
+                onChange={data => this.onChange(data, 1)}
                 itemList={data.financeNetFlowRatioList2}
               />
             </div>
