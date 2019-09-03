@@ -237,7 +237,7 @@ class detail extends React.Component {
         this.setState({
           cbShow: true,
         });
-        message.error('重播听课时长 右区间要大于区间');
+        message.error('重播听课时长 右区间要大于左区间');
         return pass;
       }
       if (i > 0 && Number(list1[i].levelLowerLimit) !== Number(list1[i - 1].levelUpperLimit)) {
@@ -274,7 +274,7 @@ class detail extends React.Component {
         this.setState({
           zbShow: true,
         });
-        message.error('直播听课时长 右区间要大于区间');
+        message.error('直播听课时长 右区间要大于左区间');
         return pass;
       }
       if (k > 0 && Number(list2[k].levelLowerLimit) !== Number(list2[k - 1].levelUpperLimit)) {
