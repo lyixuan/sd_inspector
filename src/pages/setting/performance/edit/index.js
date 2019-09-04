@@ -232,7 +232,7 @@ class detail extends React.Component {
         return pass;
       }
 
-      if (list1[i].levelLowerLimit >= list1[i].levelUpperLimit) {
+      if (Number(list1[i].levelLowerLimit) >= Number(list1[i].levelUpperLimit)) {
         pass = false;
         this.setState({
           cbShow: true,
@@ -269,7 +269,7 @@ class detail extends React.Component {
         return pass;
       }
 
-      if (list2[k].levelLowerLimit >= list2[k].levelUpperLimit) {
+      if (Number(list2[k].levelLowerLimit) >= Number(list2[k].levelUpperLimit)) {
         pass = false;
         this.setState({
           zbShow: true,
