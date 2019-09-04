@@ -158,9 +158,9 @@ class Evaluate extends React.Component {
             <span style={{float:'right'}} >
               {timer===0?(
                 <span>
-                  <BIButtonYellow  type="primary" loading={this.props.loading2} onClick={this.handleExport}>
+                  <BIButton  type="warning" loading={this.props.loading2} onClick={this.handleExport}>
                   <Icon type="download" />导出
-              </BIButtonYellow>
+              </BIButton>
                 </span>
               ):(
                 <BIButtonYellow  type="primary">

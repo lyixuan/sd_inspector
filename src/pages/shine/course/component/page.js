@@ -3,7 +3,6 @@ import { Row, Col } from 'antd';
 import BIInput from '@/ant_components/BIInput';
 import BICascader from '@/ant_components/BICascader';
 import BIButton from '@/ant_components/BIButton';
-import BIButtonGreen from '@/components/BIButtonGreen';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
 import styles from '../../style.less';
@@ -98,7 +97,7 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow1}>
             <Col className={styles.gutterCol} span={12}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterBtn1}><BIButtonGreen type='primary' onClick={this.add} >+ 添加</BIButtonGreen></span>
+                <span className={styles.gutterBtn1}><BIButton type='primary' onClick={this.add} >+ 添加</BIButton></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={12}>

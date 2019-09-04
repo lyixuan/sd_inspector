@@ -150,7 +150,7 @@ class NewQualitySheet extends React.Component {
             <Col className={styles.gutterCol} span={12}>
               <div className={styles.gutterBox1}>
                 <Upload {...props}>
-                  <span className={styles.gutterBtn1}><BIButtonGreen loading={loading2} type='primary'>+ 批量添加</BIButtonGreen></span>
+                  <span className={styles.gutterBtn1}><BIButton loading={loading2} type='primary'>+ 批量添加</BIButton></span>
                 </Upload>
               </div>
             </Col>

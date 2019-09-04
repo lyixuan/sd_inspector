@@ -3,7 +3,6 @@ import { Row, Col,Upload ,message} from 'antd';
 import BIInput from '@/ant_components/BIInput';
 import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
-import BIButtonGreen from '@/components/BIButtonGreen';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
 import {SERVER_HOST} from '@/utils/constants';
@@ -120,7 +119,7 @@ class NewQualitySheet extends React.Component {
             <Col className={styles.gutterCol} span={12}>
               <div className={styles.gutterBox1}>
                 <Upload {...props}>
-                  <span className={styles.gutterBtn1}><BIButtonGreen loading={loading2} type='primary'>+ 批量添加</BIButtonGreen></span>
+                  <span className={styles.gutterBtn1}><BIButton loading={loading2} type='primary'>+ 批量添加</BIButton></span>
                 </Upload>
               </div>
             </Col>
