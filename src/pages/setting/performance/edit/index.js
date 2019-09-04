@@ -189,7 +189,7 @@ class detail extends React.Component {
       return pass;
     }
 
-    if (!obj.replayLecturesTime || !String(obj.replayLecturesTime)) {
+    if (obj.replayLecturesTime===null || obj.replayLecturesTime === '') {
       pass = false;
       this.setState({
         cbtimeShow: true,
@@ -197,7 +197,7 @@ class detail extends React.Component {
       message.error('请输入重播时长');
       return pass;
     }
-    if (!obj.positionPercent || !String(obj.positionPercent)) {
+    if (obj.positionPercent ===null|| obj.positionPercent==='') {
       pass = false;
       this.setState({
         fpShow: true,
@@ -205,7 +205,7 @@ class detail extends React.Component {
       message.error('请输入好岗位分配比');
       return pass;
     }
-    if (!obj.renewalKpi || !String(obj.renewalKpi)) {
+    if (obj.renewalKpi===null || obj.renewalKpi==='') {
       pass = false;
       this.setState({
         xbShow: true,
@@ -213,7 +213,7 @@ class detail extends React.Component {
       message.error('续报岗位提点');
       return pass;
     }
-    if (!obj.adultExamSpecialKpi || !String(obj.adultExamSpecialKpi)) {
+    if (obj.adultExamSpecialKpi===null || obj.adultExamSpecialKpi==='') {
       pass = false;
       this.setState({
         xbShow: true,
@@ -223,7 +223,7 @@ class detail extends React.Component {
     }
     const list1 = obj.financeNetFlowRatioList;
     for (let i = 0; i < list1.length; i++) {
-      if (!list1[i].levelValue) {
+      if (list1[i].levelValue===''||list1[i].levelValue===null) {
         pass = false;
         this.setState({
           cbShow: true,
@@ -237,7 +237,7 @@ class detail extends React.Component {
         this.setState({
           cbShow: true,
         });
-        message.error('重播听课时长 右区间要大于左区间');
+        message.error('重播听课时长左区间要小于右区间');
         return pass;
       }
       if (i > 0 && Number(list1[i].levelLowerLimit) !== Number(list1[i - 1].levelUpperLimit)) {
@@ -245,7 +245,7 @@ class detail extends React.Component {
         this.setState({
           cbShow: true,
         });
-        message.error('重播听课时长 连续两个范围的左右区间应该连续');
+        message.error('重播听课时长上下区间应该连续');
         return pass;
       }
 
@@ -254,13 +254,21 @@ class detail extends React.Component {
         this.setState({
           cbShow: true,
         });
-        message.error('重播听课时长 连续两个范围的左右区间不能同时闭合');
+        message.error('重播听课时长上下区间闭合不能重复');
+        return pass;
+      }
+      if (i > 0 && !list1[i].lowerClose && !list1[i - 1].upperClose) {
+        pass = false;
+        this.setState({
+          cbShow: true,
+        });
+        message.error('重播听课时长上下区间至少闭合一个');
         return pass;
       }
     }
     const list2 = obj.financeNetFlowRatioList2;
     for (let k = 0; k < list2.length; k++) {
-      if (!list2[k].levelValue) {
+      if (list2[k].levelValue===''||list2[k].levelValue===null) {
         pass = false;
         this.setState({
           zbShow: true,
@@ -274,7 +282,7 @@ class detail extends React.Component {
         this.setState({
           zbShow: true,
         });
-        message.error('直播听课时长 右区间要大于左区间');
+        message.error('直播听课时长左区间要小于右区间');
         return pass;
       }
       if (k > 0 && Number(list2[k].levelLowerLimit) !== Number(list2[k - 1].levelUpperLimit)) {
@@ -282,7 +290,7 @@ class detail extends React.Component {
         this.setState({
           zbShow: true,
         });
-        message.error('直播听课时长 连续两个范围的左右区间应该连续');
+        message.error('直播听课时长上下区间应该连续');
         return pass;
       }
       if (k > 0 && list2[k].lowerClose && list2[k - 1].upperClose) {
@@ -290,7 +298,15 @@ class detail extends React.Component {
         this.setState({
           zbShow: true,
         });
-        message.error('直播听课时长 连续两个范围的左右区间不能同时闭合');
+        message.error('直播听课时长上下区间闭合不能重复');
+        return pass;
+      }
+      if (k > 0 && !list2[k].lowerClose && !list2[k - 1].upperClose) {
+        pass = false;
+        this.setState({
+          zbShow: true,
+        });
+        message.error('直播听课时长上下区间至少闭合一个');
         return pass;
       }
     }
