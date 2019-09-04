@@ -494,7 +494,17 @@ export const routes = [
             name: '小程序管理',
           },
         ],
-      },
+      }, {
+        path: '/xdWorkbench',
+        name: '小德工作台',
+        routes: [
+          {
+            path: '/xdWorkbench/index',
+            component: './xdWorkbench',
+            name: '小德工作台',
+          }, 
+        ]
+      }
     ],
   },
 ];

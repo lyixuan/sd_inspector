@@ -387,6 +387,7 @@ export const EmptyContentLayout = [
   { path: '/setting/performance/edit', name: '创收绩效包详情' },
   { path: '/setting/performance/create', name: '创收绩效包详情' },
   { path: '/setting/performance/copy', name: '创收绩效包详情' },
+  { path: '/xdWorkbench', name: '小德工作台' },
 ];
 // 注册类型
 export const REGISTER_STATUS = [{ id: 1, name: '已注册' }];
