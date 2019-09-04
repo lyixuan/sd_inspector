@@ -156,6 +156,13 @@ body > a {
 :global .ant-layout-content.aiWorktable-ant-layout-content {
   overflow: visible;
 }
+/* 分页 */
+.ant-pagination-item {
+  border-radius: 3px;
+}
+.ant-pagination-options .ant-pagination-options-quick-jumper input {
+  border-radius: 3px;
+}
 .circleTable .ant-table-thead > tr:first-child > th:first-child{
   border-radius: 6px 0 0 6px;
 }
