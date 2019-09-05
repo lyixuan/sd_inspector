@@ -85,20 +85,20 @@ export default class GlobalHeader extends PureComponent {
           onClick={this.toggle}
         />
         <ul className={styles.certification}>
-          <li><img src={c} class="bigImg" /></li>
+          <li><img src={c} className="bigImg" /></li>
           <li><img src={bIcon1} /></li>
           <li><img src={bIcon2} /></li>
           <li><img src={bIcon3} /></li>
-          <li><img src={b} class="bigImg" /></li>
+          <li><img src={b} className="bigImg" /></li>
           <li><img src={aIcon1} /></li>
           <li><img src={aIcon2} /></li>
           <li><img src={aIcon3} /></li>
           <li><img src={aIcon4} /></li>
-          <li><img src={a} class="bigImg" /></li>
+          <li><img src={a} className="bigImg" /></li>
           <li><img src={sIcon1} /></li>
           <li><img src={sIcon2} /></li>
           <li><img src={sIcon3} /></li>
-          <li><img src={s} class="bigImg" /></li>
+          <li><img src={s} className="bigImg" /></li>
         </ul>
         <div className={styles.right}>
           {currentUser.name ? (

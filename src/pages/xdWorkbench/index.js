@@ -13,6 +13,9 @@ class xdWorkbench extends React.Component {
   render() {
     return (
       <div className={styles.workbench}>
+        <div className={styles.performanceAppel}>
+          <PerformanceDetail></PerformanceDetail>
+        </div>
         <div className={styles.qualityAppel}>
           <Quality />
           <Appeal />
