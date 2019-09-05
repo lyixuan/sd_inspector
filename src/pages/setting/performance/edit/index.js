@@ -11,6 +11,7 @@ import Tab from '../component/tab';
 import BIInput from '@/ant_components/BIInput';
 import BIButton from '@/ant_components/BIButton';
 import { message } from 'antd';
+import { DeepCopy } from '@/utils/utils';
 
 const { BIRangePicker } = BIDatePicker;
 
@@ -28,40 +29,42 @@ class detail extends React.Component {
     super(props);
     this.state = {
       visible: false,
+      zbShow: false,
+      cbShow: false,
+      cbtimeShow: false,
+      fpShow: false,
+      xbShow: false,
       // 默认进入的页面编辑/复制/创建
       status: 1,
       data: {
         effectiveDate: '',
         expiryDate: '',
-        positionPercent: '',
-        renewalKpi: '',
+        positionPercent: '0.00',
+        replayLecturesTime: '0.00',
+        renewalKpi: '0.00',
+        adultExamSpecialKpi: '0.00',
         financeNetFlowRatioList: [
           {
-            levelLowerLimit: null,
-            levelUpperLimit: null,
+            levelLowerLimit: '0.00',
+            levelUpperLimit: '0.00',
             upperClose: false,
             lowerClose: false,
-            levelValue: '',
+            levelValue: '0.00',
+            levelType: 2,
+          },
+        ],
+        financeNetFlowRatioList2: [
+          {
+            levelLowerLimit: '0.00',
+            levelUpperLimit: '0.00',
+            upperClose: false,
+            lowerClose: false,
+            levelValue: '0.00',
+            levelType: 1,
           },
         ],
       },
       id: this.props.location.query.id,
-    };
-
-    this.initModel = {
-      effectiveDate: '',
-      expiryDate: '',
-      positionPercent: '',
-      renewalKpi: '',
-      financeNetFlowRatioList: [
-        {
-          levelLowerLimit: null,
-          levelUpperLimit: null,
-          upperClose: false,
-          lowerClose: false,
-          levelValue: '',
-        },
-      ],
     };
   }
 
@@ -77,6 +80,16 @@ class detail extends React.Component {
         payload: { params },
       })
       .then(res => {
+        res.financeNetFlowRatioList2 = [];
+        for (let i = res.financeNetFlowRatioList.length - 1; i >= 0; i--) {
+          if (
+            res.financeNetFlowRatioList[i].levelType &&
+            res.financeNetFlowRatioList[i].levelType === 1
+          ) {
+            res.financeNetFlowRatioList2.unshift(res.financeNetFlowRatioList[i]);
+            res.financeNetFlowRatioList.splice(i, 1);
+          }
+        }
         this.setState({ data: res });
       });
   };
@@ -88,7 +101,6 @@ class detail extends React.Component {
     if (name.indexOf('edit') !== -1) status = TYPE.edit;
     if (name.indexOf('copy') !== -1) status = TYPE.copy;
     if (status === TYPE.edit || status === TYPE.copy) {
-      console.log(status, 'status');
       this.getList();
     }
     this.setState({ status });
@@ -112,12 +124,24 @@ class detail extends React.Component {
   submitMes = () => {
     const { data, status } = this.state;
     const query = this.props.location.query;
-    const params = data;
-    if (!this.isEmpty(params)) {
-      message.error('请完善所有信息');
+    if (!this.checkData(data)) {
       return;
     }
+    const params = DeepCopy(data);
+    params.financeNetFlowRatioList.forEach(item => {
+      item.levelType = 2;
+    });
+    params.financeNetFlowRatioList2.forEach(item => {
+      item.levelType = 1;
+    });
+
+    params.financeNetFlowRatioList = params.financeNetFlowRatioList.concat(
+      params.financeNetFlowRatioList2
+    );
+    delete params.financeNetFlowRatioList2;
+
     params.packageType = query.packageType;
+
     if (status === TYPE.edit) {
       params.id = query.id;
       this.props
@@ -126,7 +150,6 @@ class detail extends React.Component {
           payload: { params },
         })
         .then(res => {
-          console.log(res, 'res');
           if (res) {
             router.push({
               pathname: '/setting/performance/list',
@@ -150,28 +173,150 @@ class detail extends React.Component {
         });
     }
   };
-
-  isEmpty = item => {
-    console.log(item, 'item');
-    let bflag = false;
-    item.financeNetFlowRatioList.forEach(val => {
-      console.log(val, 'val');
-      bflag = val.levelLowerLimit && val.levelUpperLimit && val.levelValue;
+  checkData = obj => {
+    console.log(obj);
+    this.setState({
+      cbtimeShow: false,
+      zbShow: false,
+      cbShow: false,
+      fpShow: false,
+      xbShow: false,
     });
-    return (
-      item.effectiveDate && item.expiryDate && item.positionPercent && item.renewalKpi && bflag
-    );
+    let pass = true; // 1:  2:
+    if (!obj.effectiveDate) {
+      pass = false;
+      message.error('请选择生效周期');
+      return pass;
+    }
+
+    if (obj.replayLecturesTime===null || obj.replayLecturesTime === '') {
+      pass = false;
+      this.setState({
+        cbtimeShow: true,
+      });
+      message.error('请输入重播时长');
+      return pass;
+    }
+    if (obj.positionPercent ===null|| obj.positionPercent==='') {
+      pass = false;
+      this.setState({
+        fpShow: true,
+      });
+      message.error('请输入好岗位分配比');
+      return pass;
+    }
+    if (obj.renewalKpi===null || obj.renewalKpi==='') {
+      pass = false;
+      this.setState({
+        xbShow: true,
+      });
+      message.error('续报岗位提点');
+      return pass;
+    }
+    if (obj.adultExamSpecialKpi===null || obj.adultExamSpecialKpi==='') {
+      pass = false;
+      this.setState({
+        xbShow: true,
+      });
+      message.error('成考专本套专项绩效');
+      return pass;
+    }
+    const list1 = obj.financeNetFlowRatioList;
+    for (let i = 0; i < list1.length; i++) {
+      if (list1[i].levelValue===''||list1[i].levelValue===null) {
+        pass = false;
+        this.setState({
+          cbShow: true,
+        });
+        message.error('请输入好推净流水系数');
+        return pass;
+      }
+
+      if (Number(list1[i].levelLowerLimit) >= Number(list1[i].levelUpperLimit)) {
+        pass = false;
+        this.setState({
+          cbShow: true,
+        });
+        message.error('重播听课时长左区间要小于右区间');
+        return pass;
+      }
+      if (i > 0 && Number(list1[i].levelLowerLimit) !== Number(list1[i - 1].levelUpperLimit)) {
+        pass = false;
+        this.setState({
+          cbShow: true,
+        });
+        message.error('重播听课时长上下区间应该连续');
+        return pass;
+      }
+
+      if (i > 0 && list1[i].lowerClose && list1[i - 1].upperClose) {
+        pass = false;
+        this.setState({
+          cbShow: true,
+        });
+        message.error('重播听课时长上下区间闭合不能重复');
+        return pass;
+      }
+      if (i > 0 && !list1[i].lowerClose && !list1[i - 1].upperClose) {
+        pass = false;
+        this.setState({
+          cbShow: true,
+        });
+        message.error('重播听课时长上下区间至少闭合一个');
+        return pass;
+      }
+    }
+    const list2 = obj.financeNetFlowRatioList2;
+    for (let k = 0; k < list2.length; k++) {
+      if (list2[k].levelValue===''||list2[k].levelValue===null) {
+        pass = false;
+        this.setState({
+          zbShow: true,
+        });
+        message.error('请输入好推净流水系数');
+        return pass;
+      }
+
+      if (Number(list2[k].levelLowerLimit) >= Number(list2[k].levelUpperLimit)) {
+        pass = false;
+        this.setState({
+          zbShow: true,
+        });
+        message.error('直播听课时长左区间要小于右区间');
+        return pass;
+      }
+      if (k > 0 && Number(list2[k].levelLowerLimit) !== Number(list2[k - 1].levelUpperLimit)) {
+        pass = false;
+        this.setState({
+          zbShow: true,
+        });
+        message.error('直播听课时长上下区间应该连续');
+        return pass;
+      }
+      if (k > 0 && list2[k].lowerClose && list2[k - 1].upperClose) {
+        pass = false;
+        this.setState({
+          zbShow: true,
+        });
+        message.error('直播听课时长上下区间闭合不能重复');
+        return pass;
+      }
+      if (k > 0 && !list2[k].lowerClose && !list2[k - 1].upperClose) {
+        pass = false;
+        this.setState({
+          zbShow: true,
+        });
+        message.error('直播听课时长上下区间至少闭合一个');
+        return pass;
+      }
+    }
+
+    return pass;
   };
 
-  // function fieldCheck(filed, value, cal) {
-  //   // 字段判空校验
-  //   filed.forEach(val => {
-  //     if (value[val] === null || value[val] === '') {
-  //       if (cal) cal();
-  //       return false;
-  //     }
-  //   });
-  // }
+  fieldCheck = val => {
+    return val === null || val === '' ? false : true;
+  };
 
   renderInput = (obj = {}, keyName) => {
     return (
@@ -197,9 +342,14 @@ class detail extends React.Component {
     this.setState({ data: newObj });
   };
 
-  onChange = itemList => {
+  onChange = (itemList, type) => {
     const { data } = this.state;
-    data.financeNetFlowRatioList = itemList;
+    if (type === 2) {
+      data.financeNetFlowRatioList = itemList;
+    } else {
+      data.financeNetFlowRatioList2 = itemList;
+    }
+
     this.setState({ data });
   };
 
@@ -228,13 +378,19 @@ class detail extends React.Component {
 
   render() {
     const { data } = this.state;
+    if (!data.financeNetFlowRatioList) {
+      data.financeNetFlowRatioList = [];
+    }
+    if (!data.financeNetFlowRatioList2) {
+      data.financeNetFlowRatioList2 = [];
+    }
     return (
       <div className={styles.editWrap}>
         <p>
-          <Link to="/setting/performance/list" style={{ color: 'rgba(0, 0, 0, 0.65)' }}>
-            创收绩效包
+          <Link to="/setting/performance/list" style={{ color: '#9A9DA1' }}>
+            创收绩效包/
           </Link>
-          / 绩效包详情
+          <span style={{ color: '#000000' }}>绩效包详情</span>
         </p>
         <div className={styles.header}>
           <span style={{ marginRight: '10px' }}>生效周期:</span>
@@ -250,17 +406,45 @@ class detail extends React.Component {
         <div className={styles.goodPerformance}>
           <h2 className={styles.title}>好推绩效</h2>
           <div className={styles.goodPerWrap}>
-            <p className={styles.smallPerformance}>好推净流水系数梯度表</p>
-            <div className={styles.border}>
+            <p className={styles.smallPerformance}>好推净流水系数梯度表（重播）</p>
+            <div className={this.state.cbShow ? styles.border2 : styles.border}>
               <p className={styles.meta}>
-                <span className={styles.itemLeft}>听课时间(分钟)</span>
+                <span className={styles.itemLeft}>重播听课时长(单位：分钟)</span>
                 <span className={styles.itemMiddle}>好推净流水系数</span>
                 <span className={styles.itemRight}>操作</span>
               </p>
-              <Tab onChange={data => this.onChange(data)} itemList={data.financeNetFlowRatioList} />
+              <Tab
+                onChange={data => this.onChange(data, 2)}
+                itemList={data.financeNetFlowRatioList}
+              />
             </div>
           </div>
-          <div className={styles.precentWrap}>
+          <br />
+          <div className={styles.goodPerWrap}>
+            <p className={styles.smallPerformance}>好推净流水梯度表（直播）</p>
+            <div className={this.state.zbShow ? styles.border2 : styles.border}>
+              <p className={styles.meta}>
+                <span className={styles.itemLeft}>直播听课时间(单位：分钟)</span>
+                <span className={styles.itemMiddle}>好推净流水系数</span>
+                <span className={styles.itemRight}>操作</span>
+              </p>
+              <Tab
+                onChange={data => this.onChange(data, 1)}
+                itemList={data.financeNetFlowRatioList2}
+              />
+            </div>
+          </div>
+          <div className={this.state.cbtimeShow ? styles.precentWrap3 : styles.precentWrap2}>
+            <p style={{ color: '#1A1C1F' }}>获得直播加成条件</p>
+            <p className={styles.smallPerformance}>
+              <span style={{ color: '#1A1C1F' }}>重播时长</span>
+              <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
+                {this.renderInput(data, 'replayLecturesTime')}
+              </span>
+              <span>分钟</span>
+            </p>
+          </div>
+          <div className={this.state.fpShow ? styles.precentWrap1 : styles.precentWrap}>
             <p className={styles.smallPerformance}>
               <span style={{ color: '#1A1C1F' }}>好推岗位分配比</span>
               <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
@@ -272,13 +456,19 @@ class detail extends React.Component {
         </div>
         <div className={styles.goodPerformance}>
           <h2 className={styles.title}>续报绩效</h2>
-          <div className={styles.precentWrap}>
+          <div className={this.state.xbShow ? styles.precentWrap1 : styles.precentWrap}>
             <p className={styles.smallPerformance}>
               <span style={{ color: '#1A1C1F' }}>续报岗位提点</span>
               <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
                 {this.renderInput(data, 'renewalKpi')}
               </span>
               <span>%</span>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span style={{ color: '#1A1C1F' }}>成考专本套专项绩效</span>
+              <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
+                {this.renderInput(data, 'adultExamSpecialKpi')}
+              </span>
+              <span>元/单</span>
             </p>
           </div>
         </div>
