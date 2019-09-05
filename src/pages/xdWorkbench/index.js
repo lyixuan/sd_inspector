@@ -4,6 +4,7 @@ import PerformanceDetail from './performanceDetail';
 import Appeal from './appeal';
 import Quality from './quality';
 import styles from './style.less';
+import CurrentCredit from './currentCredit'
 
 @connect(() => ({
 
@@ -16,6 +17,7 @@ class xdWorkbench extends React.Component {
         <div className={styles.performanceAppel}>
           <PerformanceDetail></PerformanceDetail>
         </div>
+        <CurrentCredit></CurrentCredit>
         <div className={styles.qualityAppel}>
           <Quality />
           <Appeal />
