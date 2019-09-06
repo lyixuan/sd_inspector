@@ -85,91 +85,92 @@ class performanceDetail extends React.Component {
       >
         <div className={styles.performanceDetail}>
           <div ref={this.createRef} className={styles.chart}></div>
-          <div className={styles.performancePanel}>
-            <Tooltip placement="bottom" title={text}>
-              <div className={styles.details}>
-                <div>
-                  <p>学分收入</p>
-                  <p className={styles.big}>￥4,700</p>
+          <div className={styles.panelBox}>
+            <div className={styles.performancePanel}>
+              <Tooltip placement="bottom" title={text}>
+                <div className={styles.details}>
+                  <div>
+                    <p>学分收入</p>
+                    <p className={styles.big}>￥4,700</p>
+                  </div>
+                  <div className={styles.txtRight}>
+                    <p>小组学分：40</p>
+                    <p>排名系数：2</p>
+                  </div>
                 </div>
-                <div className={styles.txtRight}>
-                  <p>小组学分：40</p>
-                  <p>排名系数：2</p>
+                <div className={styles.progressBar}>
+                  <div className={styles.title}>
+                    <span>系数2 (20分)</span>
+                    <span>系数3 (60分)</span>
+                  </div>
+                  <Progress strokeColor="#00CCC3" percent={40} strokeWidth={4} showInfo={false} />
                 </div>
-              </div>
-              <div className={styles.progressBar}>
-                <div className={styles.title}>
-                  <span>系数2 (20分)</span>
-                  <span>系数3 (60分)</span>
+              </Tooltip>
+            </div>
+            <div className={`${styles.performancePanel} ${styles.performancePanel2}`}>
+              <Tooltip placement="bottom" title={text}>
+                <div className={styles.details}>
+                  <div>
+                    <p>好推收入</p>
+                    <p className={styles.big}>￥4,700</p>
+                  </div>
+                  <div className={styles.txtRight}>
+                    <p>绩效流水：￥50,000</p>
+                    <p>系数均值：3%</p>
+                  </div>
                 </div>
-                <Progress strokeColor="#00CCC3" percent={40} strokeWidth={4} showInfo={false} />
-              </div>
-            </Tooltip>
+                <div className={styles.progressBar}>
+                  <div className={styles.title}>
+                    <span> </span>
+                    <span>第一名(￥80,000)</span>
+                  </div>
+                  <Progress strokeColor="#FFBC00" percent={40} strokeWidth={4} showInfo={false} />
+                </div>
+              </Tooltip>
+            </div>
+            <div className={`${styles.performancePanel} ${styles.performancePanel3}`}>
+              <Tooltip placement="bottom" title={text}>
+                <div className={styles.details}>
+                  <div>
+                    <p>续报收入</p>
+                    <p className={styles.big}>￥4,700</p>
+                  </div>
+                  <div className={styles.txtRight}>
+                    <p>绩效流水：￥50,000</p>
+                    <p>岗位提点：3%</p>
+                  </div>
+                </div>
+                <div className={styles.progressBar}>
+                  <div className={styles.title}>
+                    <span></span>
+                    <span>第一名(￥80,000)</span>
+                  </div>
+                  <Progress strokeColor="#FF626A" percent={40} strokeWidth={4} showInfo={false} />
+                </div>
+              </Tooltip>
+            </div>
+            <div className={`${styles.performancePanel} ${styles.performancePanel4}`}>
+              <Tooltip placement="bottom" title={text}>
+                <div className={styles.details}>
+                  <div>
+                    <p>成考专本套收入</p>
+                    <p className={styles.big}>￥4,700</p>
+                  </div>
+                  <div className={styles.txtRight}>
+                    <p>绩效流水：￥50,000</p>
+                    <p>岗位提点：3%</p>
+                  </div>
+                </div>
+                <div className={styles.progressBar}>
+                  <div className={styles.title}>
+                    <span>单量 (10单)</span>
+                    <span>第一名 (15单)</span>
+                  </div>
+                  <Progress strokeColor="#4EB5EB" percent={40} strokeWidth={4} showInfo={false} />
+                </div>
+              </Tooltip>
+            </div>
           </div>
-          <div className={`${styles.performancePanel} ${styles.performancePanel2}`}>
-            <Tooltip placement="bottom" title={text}>
-              <div className={styles.details}>
-                <div>
-                  <p>好推收入</p>
-                  <p className={styles.big}>￥4,700</p>
-                </div>
-                <div className={styles.txtRight}>
-                  <p>绩效流水：￥50,000</p>
-                  <p>系数均值：3%</p>
-                </div>
-              </div>
-              <div className={styles.progressBar}>
-                <div className={styles.title}>
-                  <span> </span>
-                  <span>第一名(￥80,000)</span>
-                </div>
-                <Progress strokeColor="#FFBC00" percent={40} strokeWidth={4} showInfo={false} />
-              </div>
-            </Tooltip>
-          </div>
-          <div className={`${styles.performancePanel} ${styles.performancePanel3}`}>
-            <Tooltip placement="bottom" title={text}>
-              <div className={styles.details}>
-                <div>
-                  <p>续报收入</p>
-                  <p className={styles.big}>￥4,700</p>
-                </div>
-                <div className={styles.txtRight}>
-                  <p>绩效流水：￥50,000</p>
-                  <p>岗位提点：3%</p>
-                </div>
-              </div>
-              <div className={styles.progressBar}>
-                <div className={styles.title}>
-                  <span></span>
-                  <span>第一名(￥80,000)</span>
-                </div>
-                <Progress strokeColor="#FF626A" percent={40} strokeWidth={4} showInfo={false} />
-              </div>
-            </Tooltip>
-          </div>
-          <div className={`${styles.performancePanel} ${styles.performancePanel4}`}>
-            <Tooltip placement="bottom" title={text}>
-              <div className={styles.details}>
-                <div>
-                  <p>成考专本套收入</p>
-                  <p className={styles.big}>￥4,700</p>
-                </div>
-                <div className={styles.txtRight}>
-                  <p>绩效流水：￥50,000</p>
-                  <p>岗位提点：3%</p>
-                </div>
-              </div>
-              <div className={styles.progressBar}>
-                <div className={styles.title}>
-                  <span>单量 (10单)</span>
-                  <span>第一名 (15单)</span>
-                </div>
-                <Progress strokeColor="#4EB5EB" percent={40} strokeWidth={4} showInfo={false} />
-              </div>
-            </Tooltip>
-          </div>
-
 
         </div>
       </Container>
