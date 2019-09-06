@@ -71,13 +71,62 @@ class performanceDetail extends React.Component {
     this.myChart.setOption(option);
 
   }
-
-  render() {
+  dataDetail() {
+    const data = [{
+      id: 1,
+      credit: '4700',
+      score: 40,
+      coefficient: 2
+    }, {
+      id: 2,
+      credit: '4700',
+      turnOver: 50000,
+      coefficient: 3
+    }, {
+      id: 3,
+      credit: '4700',
+      turnOver: 50000,
+      coefficient: 3
+    }, {
+      id: 4,
+      credit: '4700',
+      turnOver: 50000,
+      coefficient: 3
+    }]
+    return data;
+  }
+  block(item) {
+    console.log(99, item);
     const text = <div className={styles.tooltipContent}>
-      <h4>好推绩效流水第一名</h4>
+      <h4>{item.turnOver || null}</h4>
       <p>绩效流水：￥80,000</p>
       <p>好推收入：￥6,200</p>
     </div>
+    return <div className={`${styles.performancePanel} ${styles['performancePanel' + item.id]}`}>
+      <Tooltip placement="bottom" title={text}>
+        <div className={styles.details}>
+          <div>
+            <p>学分收入</p>
+            <p className={styles.big}>￥4,700</p>
+          </div>
+          <div className={styles.txtRight}>
+            <p>小组学分：40</p>
+            <p>排名系数：2</p>
+          </div>
+        </div>
+        <div className={styles.progressBar}>
+          <div className={styles.title}>
+            <span>系数2 (20分)</span>
+            <span>系数3 (60分)</span>
+          </div>
+          <Progress strokeColor="#00CCC3" percent={40} strokeWidth={4} showInfo={false} />
+        </div>
+      </Tooltip>
+    </div>
+  }
+
+  render() {
+
     return (
       <Container
         title='绩效详情'
@@ -86,7 +135,8 @@ class performanceDetail extends React.Component {
         <div className={styles.performanceDetail}>
           <div ref={this.createRef} className={styles.chart}></div>
           <div className={styles.panelBox}>
-            <div className={styles.performancePanel}>
+            {this.dataDetail().map(item => this.block(item))}
+            {/* <div className={styles.performancePanel}>
               <Tooltip placement="bottom" title={text}>
                 <div className={styles.details}>
                   <div>
@@ -106,8 +156,8 @@ class performanceDetail extends React.Component {
                   <Progress strokeColor="#00CCC3" percent={40} strokeWidth={4} showInfo={false} />
                 </div>
               </Tooltip>
-            </div>
-            <div className={`${styles.performancePanel} ${styles.performancePanel2}`}>
+            </div> */}
+            {/* <div className={`${styles.performancePanel} ${styles.performancePanel2}`}>
               <Tooltip placement="bottom" title={text}>
                 <div className={styles.details}>
                   <div>
@@ -169,7 +219,7 @@ class performanceDetail extends React.Component {
                   <Progress strokeColor="#4EB5EB" percent={40} strokeWidth={4} showInfo={false} />
                 </div>
               </Tooltip>
-            </div>
+            </div> */}
           </div>
 
         </div>
