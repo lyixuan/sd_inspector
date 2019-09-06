@@ -42,7 +42,7 @@ class SelfHeader extends PureComponent {
             //     redirectOldSysHosts('/changePwd/changePassword');
             //     break;
             case 'logout':
-              this.props.dispatch({ type: 'login/logout' });
+                this.props.dispatch({ type: 'login/logout' });
                 break;
             case 'changeRole':
                 this.showModal(true);
