@@ -65,7 +65,7 @@ class  currentCreditRight extends React.Component {
         title:'学分',
         dataIndex:'creditNum',
         key:'creditNum',
-        render: creditNum => {
+        render: (creditNum ,data)=> {
           return (
             <div
               style={{
@@ -75,7 +75,7 @@ class  currentCreditRight extends React.Component {
             >
               <span style={{ fontSize: '13px',color:'#1B1C20' }}>{creditNum}</span>
               <Progress
-                percent={90}
+                percent={data.progress}
                 strokeColor={'#00CCC3'}
                 showInfo={false}
                 strokeWidth={4}
@@ -130,15 +130,14 @@ class  currentCreditRight extends React.Component {
     }
     return className
   }
-  setColumnClassName = () =>{
 
-  }
   onClickRow = (record) => {
     return {
       onClick: () => {
         this.setState({
           rowId: record.id,
         });
+        this.props.clickRow(record)
       },
     };
   }
@@ -155,21 +154,45 @@ class  currentCreditRight extends React.Component {
     },{
       id:2,
       num:3,
-      org:'自变量/法律一组',
-      rankNum:1,
-      creditNum:'6.11',
-      progress:90,
-      studentNums:1300
+      org:'芝士/英语3组',
+      rankNum:2,
+      creditNum:'5.05',
+      progress:70,
+      studentNums:1200
     },{
       id:3,
-      num:2,
+      num:3,
       org:'自变量/法律一组',
-      rankNum:1,
-      creditNum:'6.11',
-      progress:90,
+      rankNum:3,
+      creditNum:'4.00',
+      progress:40,
       studentNums:1300
     },{
       id:4,
+      num:2,
+      org:'芝士/英语3组',
+      rankNum:4,
+      creditNum:'3.11',
+      progress:30,
+      studentNums:1200
+    },{
+      id:5,
+      num:2,
+      org:'自变量/法律一组',
+      rankNum:4,
+      creditNum:'3.11',
+      progress:50,
+      studentNums:1200
+    },{
+      id:6,
+      num:1,
+      org:'芝士/英语3组',
+      rankNum:1,
+      creditNum:'6.11',
+      progress:65,
+      studentNums:1300
+    },{
+      id:7,
       num:1,
       org:'自变量/法律一组',
       rankNum:1,
@@ -177,7 +200,15 @@ class  currentCreditRight extends React.Component {
       progress:90,
       studentNums:1300
     },{
-      id:5,
+      id:8,
+      num:0.8,
+      org:'芝士/英语3组',
+      rankNum:1,
+      creditNum:'6.11',
+      progress:90,
+      studentNums:1300
+    },{
+      id:9,
       num:0.8,
       org:'自变量/法律一组',
       rankNum:1,
@@ -185,7 +216,7 @@ class  currentCreditRight extends React.Component {
       progress:90,
       studentNums:1300
     },{
-      id:6,
+      id:9,
       num:0.5,
       org:'自变量/法律一组',
       rankNum:1,
