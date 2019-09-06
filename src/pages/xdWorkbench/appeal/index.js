@@ -1,34 +1,71 @@
 import React from 'react';
+import { connect } from 'dva';
 import router from 'umi/router';
 import Container from '../components/container';
+import constants from '@/utils/constants';
 import styles from './style.less';
 
-
+const appealObj = ['', '质检', '底线', 'IM', '工单', '优新', '创收', ];
+@connect(({ loading}) => ({
+  loading: loading.effects['xdWorkModal/getCountAppealRecord'],
+}))
 class appeal extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      appealList: [{appealType:1}, {appealType:2}, {appealType:3}, {appealType:4}, {appealType:5}, {appealType:6}]
+    }
+  }
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'xdWorkModal/getCountAppealRecord',
+      payload: { params: { userId: 1453 } },
+      callback: (appealList) => this.setState({ appealList }),
+    });
+  }
+
   block = (item) => {
-    return <div key={item.id} className={styles.block}>
-      <div className={`${styles.title} ${styles['bgTitle' + item.id]}`}>质检</div>
+    return <div key={item.appealType} className={styles.block}>
+      <div className={`${styles.title} ${styles['bgTitle' + item.appealType]}`}>{appealObj[item.appealType]}</div>
       <div className={styles.content}>
-        <p onClick={() => this.routerHandle(item)}>未申诉：2</p>
-        <p onClick={() => this.routerHandle(item)}>被驳回：3</p>
-        <p onClick={() => this.routerHandle(item)}>审核中：1</p>
+        <p onClick={() => this.routerHandle(item, 'unAppealNumber')}>未申诉：{item.unAppealNumber}</p>
+        <p onClick={() => this.routerHandle(item, 'rejectAppealNumber')}>被驳回：{item.rejectAppealNumber}</p>
+        <p onClick={() => this.routerHandle(item, 'checkingAppealNumber')}>审核中：{item.checkingAppealNumber}</p>
       </div>
     </div>
   }
-  routerHandle = (item) => {
-    router.push({
-      pathname: '/qualityAppeal/qualityAppeal'
-    });
+  routerHandle = (item, op) => {
+    if (!item[op]) return;
+    if (item.appealType === 1) { // 质检
+      const params = JSON.stringify({"status":"2"});
+      router.push({
+        pathname: '/qualityAppeal/qualityAppeal',
+        query: { params }
+      });
+    } else { // 其它
+      if (op === 'unAppealNumber') { // 未申诉
+        router.push({
+          pathname: '/scoreAppeal/awaitAppeal',
+        });
+      } else { // 其它状态
+        const dimensionType = constants.DIMENSION_TYPE.find(item => item.name === appealObj[item.appealType]).id;
+        const statusList = op === 'rejectAppealNumber' ? [3, 4, 7] : [1, 2, 5, 6];
+        const params = JSON.stringify({"page": 1, "pageSize": 30, "dimensionType": dimensionType ? dimensionType.id : constants.DIMENSION_TYPE[0].id, statusList});
+        router.push({
+          pathname: '/scoreAppeal/onAppeal',
+          query: { params }
+        });
+      }
+    }
   }
   render() {
-    const { appealList = [{id:1}, {id:2}, {id:3}, {id:4}, {id:5}, {id:6}] } = this.props;
     return (
       <Container 
       title='我的申诉'
       style={{width: '824px'}}
       propStyle={{paddingLeft: '16px'}}
       >
-        <div className={styles.appeal}>{appealList.map(item => this.block(item))}</div>
+        <div className={styles.appeal}>{this.state.appealList.map(item => this.block(item))}</div>
       </Container>
     );
   }
