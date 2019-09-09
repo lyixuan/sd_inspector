@@ -24,7 +24,7 @@ class Proportion extends React.Component {
 
   proporContent = () => {
     const { leftNum, rightNum, iconed, leftCollege, rightCollege } = this.props;
-    const flag = this.getFlag(); 
+    const flag = this.getFlag();
     return <div className={styles.proporContent} style={this.props.style}>
       <div className={styles.propTop}>
         {iconed ? <img src={leftImgObj[flag]}/> : <span>{leftCollege}</span> }
@@ -65,7 +65,7 @@ class Proportion extends React.Component {
 
   render() {
     const { iconed } = this.props;
-    const flag = this.getFlag(); 
+    const flag = this.getFlag();
     return (
       <>
         {
@@ -76,8 +76,8 @@ class Proportion extends React.Component {
           </div>
         }
       </>
-      
-      
+
+
     );
   }
 }

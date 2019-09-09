@@ -10,7 +10,7 @@ class  currentCredit extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      PkName:''
+      PkName:'请选择对比对象'
 
     }
   }
