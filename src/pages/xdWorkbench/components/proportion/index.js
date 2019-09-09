@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './style.less'
+import { thousandsFormat } from '@/utils/utils'
 import pkImg from '@/assets/xdwork/pk.png';
 import lose1 from '@/assets/xdwork/lose1.png';
 import lose2 from '@/assets/xdwork/lose2.png';
@@ -14,12 +15,12 @@ const leftImgObj = {
   1: win1,
   2: lose1,
   3: win
-}
+};
 const rightImgObj = {
   1: lose2,
   2: win2,
   3: win
-}
+};
 class Proportion extends React.Component {
 
   proporContent = () => {
@@ -38,11 +39,13 @@ class Proportion extends React.Component {
     </div>
   }
   getPercentage = () => {
-    const { leftNum, rightNum } = this.props;
+    const leftNum = Number(this.props.leftNum);
+    const rightNum = Number(this.props.rightNum);
     return (leftNum / (leftNum + rightNum)) * 100 + '%';
   }
   getFlag = () => {
-    const { leftNum, rightNum } = this.props;
+    const leftNum = Number(this.props.leftNum);
+    const rightNum = Number(this.props.rightNum);
     let flag = 3;
     if (leftNum > rightNum) { // 大于
       flag = 1;
@@ -51,14 +54,9 @@ class Proportion extends React.Component {
     }
     return flag;
   }
-  // 千分展示数值
-  userCountformat = (num) => {
-    var reg=/\d{1,3}(?=(\d{3})+$)/g;
-    return (num + '').replace(reg, '$&,');
-  }
   getNumber = (n) => {
     if (this.props.iconed) {
-      return '￥' + this.userCountformat(n);
+      return '￥' + thousandsFormat(n);
     }
     return n;
   }

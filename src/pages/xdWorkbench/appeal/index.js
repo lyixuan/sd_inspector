@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Skeleton } from 'antd'
 import router from 'umi/router';
 import Container from '../components/container';
 import constants from '@/utils/constants';
@@ -19,7 +20,7 @@ class appeal extends React.Component {
   componentDidMount() {
     this.props.dispatch({
       type: 'xdWorkModal/getCountAppealRecord',
-      payload: { params: { userId: 1453 } },
+      payload: { params: { id: this.props.userId } },
       callback: (appealList) => this.setState({ appealList }),
     });
   }
@@ -28,28 +29,28 @@ class appeal extends React.Component {
     return <div key={item.appealType} className={styles.block}>
       <div className={`${styles.title} ${styles['bgTitle' + item.appealType]}`}>{appealObj[item.appealType]}</div>
       <div className={styles.content}>
-        <p onClick={() => this.routerHandle(item, 'unAppealNumber')}>未申诉：{item.unAppealNumber}</p>
-        <p onClick={() => this.routerHandle(item, 'rejectAppealNumber')}>被驳回：{item.rejectAppealNumber}</p>
-        <p onClick={() => this.routerHandle(item, 'checkingAppealNumber')}>审核中：{item.checkingAppealNumber}</p>
+        <p onClick={() => this.routerHandle(item, 'nonAppealNum')}>未申诉：{item.nonAppealNum}</p>
+        <p onClick={() => this.routerHandle(item, 'rejectedAppealNum')}>被驳回：{item.rejectedAppealNum}</p>
+        <p onClick={() => this.routerHandle(item, 'auditingAppealNum')}>审核中：{item.auditingAppealNum}</p>
       </div>
     </div>
   }
   routerHandle = (item, op) => {
     if (!item[op]) return;
     if (item.appealType === 1) { // 质检
-      const params = JSON.stringify({"status":"2"});
+      const params = op === 'nonAppealNum' ? JSON.stringify({"status":"2"}) : '';
       router.push({
         pathname: '/qualityAppeal/qualityAppeal',
         query: { params }
       });
     } else { // 其它
-      if (op === 'unAppealNumber') { // 未申诉
+      if (op === 'nonAppealNum') { // 未申诉
         router.push({
           pathname: '/scoreAppeal/awaitAppeal',
         });
       } else { // 其它状态
         const dimensionType = constants.DIMENSION_TYPE.find(item => item.name === appealObj[item.appealType]).id;
-        const statusList = op === 'rejectAppealNumber' ? [3, 4, 7] : [1, 2, 5, 6];
+        const statusList = op === 'rejectedAppealNum' ? [3, 4, 7] : [1, 2, 5, 6];
         const params = JSON.stringify({"page": 1, "pageSize": 30, "dimensionType": dimensionType ? dimensionType.id : constants.DIMENSION_TYPE[0].id, statusList});
         router.push({
           pathname: '/scoreAppeal/onAppeal',
@@ -65,7 +66,9 @@ class appeal extends React.Component {
       style={{width: '824px'}}
       propStyle={{paddingLeft: '16px'}}
       >
-        <div className={styles.appeal}>{this.state.appealList.map(item => this.block(item))}</div>
+        <Skeleton loading={this.props.loading} >
+          <div className={styles.appeal}>{this.state.appealList.map(item => this.block(item))}</div>
+        </Skeleton>
       </Container>
     );
   }

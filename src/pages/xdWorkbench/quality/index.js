@@ -14,13 +14,23 @@ class Quality extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      dataSource: []
+      dataSource: [
+        {
+          violationLevel: 1,
+          violationNumber: 0,
+          reduceScore: 0
+        }, {
+          violationLevel: 2,
+          violationNumber: 2,
+          reduceScore: 80
+        }
+      ]
     }
   }
   componentDidMount() {
     this.props.dispatch({
       type: 'xdWorkModal/getCountCurrentQuality',
-      payload: { params: { userId: 1453 } },
+      payload: { params: { id: this.props.userId } },
       callback: (dataSource) => this.setState({ dataSource }),
     });
   }
@@ -36,10 +46,12 @@ class Quality extends React.Component {
         title: '违规数量',
         dataIndex: 'violationNumber',
         key: 'violationNumber',
+        render: text => text > 0 ? <span style={{color: '#FF626A'}}>{text}</span> : text
       }, {
         title: '违规扣除',
         dataIndex: 'reduceScore',
         key: 'reduceScore',
+        render: text => text > 0 ? <span style={{color: '#FF626A'}}>{text}</span> : text
       }, {
         title: '操作',
         dataIndex: 'action',

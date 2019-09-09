@@ -1,85 +1,174 @@
 import React from 'react';
 import { connect } from 'dva';
-import BITable from '@/ant_components/BITable';
+import { Skeleton } from 'antd';
+import Proportion from '../../components/proportion';
 import BIRadio from '@/ant_components/BIRadio';
+import gradeA from '@/assets/workBench/a.png';
+import gradeB from '@/assets/workBench/b.png';
+import gradeC from '@/assets/workBench/c.png';
+import gradeS from '@/assets/workBench/s.png';
+import { thousandsFormat } from '@/utils/utils'
 import styles from '../style.less';
 
+const pkTypeObj = ['综合对比', '好推绩效', '续报绩效', '成考专本套'];
+const gradeImg = { // 等级
+  A: gradeA,
+  B: gradeB,
+  C: gradeC,
+  S: gradeS,
+}
+const unitType = [, '', '元', '%', '单'];
+const pathImUrl = 'http://bi-admin.ministudy.com'
 @connect(({ loading}) => ({
-  loading: loading.effects['xdWorkModal/getCountCurrentQuality'],
+  loading: loading.effects['xdWorkModal/getIncomeKpiPersonInfo'] || loading.effects['xdWorkModal/getContrastIncomeKpiPkList'],
 }))
 class profitList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mode: 1,
-      profitData: []
+      pkType: 1,
+      profitData: {
+        selfValue: 202,
+        pkUserValue: 201,
+        subItem: [{
+          subItemName: '创收绩效名次',
+          subSelfValue: 2000,
+          subPkUserValue: 3000,
+          subValueType: 2,	
+        }, {
+          subItemName: '创收绩效名次',
+          subSelfValue: 3000,
+          subPkUserValue: 3000,
+          subValueType: 2,	
+        }, {
+          subItemName: '创收绩效名次',
+          subSelfValue: 4000,
+          subPkUserValue: 3000,
+          subValueType: 2,	
+        }]
+      },
+      profitPersonData: {
+        self: {
+          userName: '李四',
+          userGrade: 'A',
+          org: '自变量学院',
+          certificationGradeList: [{
+            certificationCode: '1',
+            certificationIconUrl: '/staticFile/classFile/upload/certificationIcon/originalIcon/2PtgHH7EycIQWJXjFn5i_0523.png'
+          }]
+        },
+        pkUser: {
+          userName: 'o四',
+          userGrade: 'C',
+          org: '自变量学院',
+          certificationGradeList: [{
+            certificationCode: '1',
+            certificationIconUrl: '/staticFile/classFile/upload/certificationIcon/originalIcon/2PtgHH7EycIQWJXjFn5i_0523.png'
+          }]
+        }
+      }
     }
   }
   componentDidMount() {
-    this.getData();
+    this.getPkmsg();
+    this.getPkList();
+  }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.pkUser !== this.props.pkUser) {
+      this.getPkmsg();
+      this.getPkList();
+    }
   }
 
-  columns = () => {
-    const columns = [
-      {
-        title: '违规等级',
-        dataIndex: 'date',
-        key: 'date',
-      }, {
-        title: '违规数量',
-        dataIndex: 'operator',
-        key: 'operator',
-      }, {
-        title: '违规扣除',
-        dataIndex: 'operator1',
-        key: 'operator',
-      }
-    ];
-    return columns || [];
-  };
-  handleModeChange = (e) => {
+  handlePkTypeChange = (e) => {
     this.setState({
-      mode: e.target.value
-    })
+      pkType: e.target.value
+    }, () => this.getPkList());
+    
   }
-  getData = () => {
-    const { mode } = this.state;
-    let dispatchParams = '';
-    if (mode === 1) {
-      dispatchParams = 'getIncomeKpiPkAll';
-    } else if (2) {
-      dispatchParams = 'getIncomeKpiPkGoodpush';
-    } else if (3) {
-      dispatchParams = 'getinComeKpiPkRenewal';
-    } else {
-      dispatchParams = 'getIncomeKpiPkExamZbt';
-    }
+  // pk信息
+  getPkmsg = () => {
     this.props.dispatch({
-      type: `xdWorkModal/${dispatchParams}`,
+      type: `xdWorkModal/getIncomeKpiPersonInfo`,
       payload: { params: { pkUser: this.props.pkUser } },
+      callback: (profitPersonData) => this.setState({ profitPersonData }),
+    });
+  }
+  // 对比列表
+  getPkList = () => {
+    this.props.dispatch({
+      type: `xdWorkModal/getContrastIncomeKpiPkList`,
+      payload: { params: { pkUser: this.props.pkUser,  pkType: this.state.pkType} },
       callback: (profitData) => this.setState({ profitData }),
     });
   }
+  getSizeStyle = ({subSelfValue, subPkUserValue}) => {
+    if (subSelfValue > subPkUserValue) {
+      return '#00CCC3';
+    } else if (subSelfValue < subPkUserValue) {
+      return '#FF626A';
+    }
+    return '';
+  }
 
   render() {
-    const { loading, dataSource=[{id:1}] } = this.props;
+    const { profitPersonData, profitData } = this.state;
     return (
       <div className={styles.profitTabs}>
-        <BIRadio onChange={this.handleModeChange} value={this.state.mode} style={{ marginBottom: 16 }}>
-          <BIRadio.Radio.Button value={1} key="1">综合对比</BIRadio.Radio.Button>
-          <BIRadio.Radio.Button value={2} key="2">好推绩效</BIRadio.Radio.Button>
-          <BIRadio.Radio.Button value={3} key="3">续报绩效</BIRadio.Radio.Button>
-          <BIRadio.Radio.Button value={4} key="4">成考专本套绩效</BIRadio.Radio.Button>
+        <BIRadio onChange={this.handlePkTypeChange} value={this.state.pkType} style={{ marginBottom: 16 }}>
+          {pkTypeObj.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}>{item}</BIRadio.Radio.Button>)}
         </BIRadio>
-        <BITable
-          columns={this.columns()} 
-          dataSource={[]}
-          rowKey={record => record.id}
-          pagination={false}
-          loading={loading}
-        />
-      </div>
-      
+        <Skeleton loading={this.props.loading} >
+          <div className={styles.tabContent}>
+            <div className={styles.tabBody}>
+              <div className={styles.tabOneTh}>
+                <span style={{color: '#7A7C80', fontSize: '12px'}}>对比项</span>
+                <span style={{color: '#1A1C1F', fontWeight: 'bold'}}>创收绩效</span>
+              </div>
+              <div className={styles.tabOneTd}>
+                <div className={styles.tabMine}>
+                  <div className={styles.msg}>
+                    <img src={gradeImg[profitPersonData.self.userGrade]} style={{marginRight: '16px'}}/>
+                    <div>
+                      <span style={{color: '#1A1C1F', fontWeight: 'bold'}}>{profitPersonData.self.userName}</span>
+                      <span>{profitPersonData.self.org}</span>
+                    </div>
+                  </div>
+                  <div className={styles.imgs}>
+                    {profitPersonData.self.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{marginRight: '10px'}}/>)}
+                  </div>
+                </div>
+                <div className={styles.tabPkUser}>
+                  <div className={styles.msg}>
+                    <img src={gradeImg[profitPersonData.pkUser.userGrade]} style={{marginRight: '16px'}}/>
+                    <div>
+                      <span style={{color: '#1A1C1F', fontWeight: 'bold'}}>{profitPersonData.pkUser.userName}</span>
+                      <span>{profitPersonData.pkUser.org}</span>
+                    </div>
+                  </div>
+                  <div className={styles.imgs}>
+                    {profitPersonData.pkUser.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{marginRight: '10px'}}/>)}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.tabBody}>
+              <div className={styles.tabTwoTh}><span>绩效</span></div>
+              <div className={styles.tabTwoTd}>
+                <Proportion leftNum={profitData.selfValue} rightNum={profitData.pkUserValue} iconed={true}/>
+              </div>
+            </div>
+            <div className={styles.tabBody}>
+              <div className={styles.tabThreeTh}>
+                {profitData.subItem.map((item, index) => <span key={index + '' + this.state.pkType}  style={{marginLeft: '36px'}}>{item.subItemName}</span>)}
+              </div>
+              <div className={styles.tabThreeTd}>
+                {profitData.subItem.map((item, index) =><div><span key={index + '' + this.state.pkType} style={{color: this.getSizeStyle(item)}}>{thousandsFormat(item.subSelfValue)}{unitType[item.subValueType]}</span><span>{thousandsFormat(item.subPkUserValue)}{unitType[item.subValueType]}</span></div>)}
+              </div>
+            </div>
+          </div>
+        </Skeleton>
+      </div>  
     );
   }
 }

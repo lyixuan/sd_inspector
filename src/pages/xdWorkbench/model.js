@@ -1,9 +1,7 @@
 import {
-  getIncomeKpiPkAll,
-  getIncomeKpiPkGoodpush,
-  getinComeKpiPkRenewal,
-  getIncomeKpiPkExamZbt,
+  getContrastIncomeKpiPkList,
   getIncomeKpiPkList,
+  getIncomeKpiPersonInfo,
   getCountCurrentQuality,
   getCountAppealRecord,
 } from './services';
@@ -14,50 +12,13 @@ export default {
   namespace: 'xdWorkModal',
 
   state: {
-    
   },
 
   effects: {
     // 本期创收
-    *getIncomeKpiPkAll({ payload, callback }, { call }) {
+    *getContrastIncomeKpiPkList({ payload, callback }, { call }) {
       const params = payload.params;
-      const result = yield call(getIncomeKpiPkAll, params);
-      if (result.code === 20000) {
-        message.success('保存成功！');
-        if (callback && typeof callback === 'function') {
-          callback();
-        }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    *getIncomeKpiPkGoodpush({ payload, callback }, { call }) {
-      const params = payload.params;
-      const result = yield call(getIncomeKpiPkGoodpush, params);
-      if (result.code === 20000) {
-        message.success('保存成功！');
-        if (callback && typeof callback === 'function') {
-          callback();
-        }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    *getinComeKpiPkRenewal({ payload, callback }, { call }) {
-      const params = payload.params;
-      const result = yield call(getinComeKpiPkRenewal, params);
-      if (result.code === 20000) {
-        message.success('保存成功！');
-        if (callback && typeof callback === 'function') {
-          callback();
-        }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    *getIncomeKpiPkExamZbt({ payload, callback }, { call }) {
-      const params = payload.params;
-      const result = yield call(getIncomeKpiPkExamZbt, params);
+      const result = yield call(getContrastIncomeKpiPkList, params);
       if (result.code === 20000) {
         message.success('保存成功！');
         if (callback && typeof callback === 'function') {
@@ -70,6 +31,18 @@ export default {
     *getIncomeKpiPkList({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(getIncomeKpiPkList, params);
+      if (result.code === 20000) {
+        message.success('保存成功！');
+        if (callback && typeof callback === 'function') {
+          callback();
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getIncomeKpiPersonInfo({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(getIncomeKpiPersonInfo, params);
       if (result.code === 20000) {
         message.success('保存成功！');
         if (callback && typeof callback === 'function') {
