@@ -1,5 +1,6 @@
 import React from 'react';
 import { Progress, Tooltip } from 'antd';
+import { thousandsFormat } from '@/utils/utils';
 import echarts from 'echarts';
 import Container from '../components/container';
 import styles from './index.less';
@@ -74,22 +75,22 @@ class performanceDetail extends React.Component {
   dataDetail() {
     const data = [{
       id: 1,
-      credit: '4700',
+      credit: 47900,
       score: 40,
       coefficient: 2
     }, {
       id: 2,
-      credit: '4700',
+      credit: 4700,
       turnOver: 50000,
       coefficient: 3
     }, {
       id: 3,
-      credit: '4700',
+      credit: 4700,
       turnOver: 50000,
       coefficient: 3
     }, {
       id: 4,
-      credit: '4700',
+      credit: 4700,
       turnOver: 50000,
       coefficient: 3
     }]
@@ -102,12 +103,12 @@ class performanceDetail extends React.Component {
       <p>绩效流水：￥80,000</p>
       <p>好推收入：￥6,200</p>
     </div>
-    return <div className={`${styles.performancePanel} ${styles['performancePanel' + item.id]}`}>
+    return <div key={item.id} className={`${styles.performancePanel} ${styles['performancePanel' + item.id]}`}>
       <Tooltip placement="bottom" title={text}>
         <div className={styles.details}>
           <div>
             <p>学分收入</p>
-            <p className={styles.big}>￥4,700</p>
+            <p className={styles.big}>￥{thousandsFormat(item.credit)}</p>
           </div>
           <div className={styles.txtRight}>
             <p>小组学分：40</p>
