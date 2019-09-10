@@ -56,6 +56,9 @@ class profitList extends React.Component {
       this.getScrollFn(e.target.scrollTop)
     } 
   }
+  componentWillUnmount() {
+    document.querySelector("#scroll .ant-table-body").onscroll = '';
+  }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
     if (scrollTop > userLocation && scrollTop < userLocation + 400) {
@@ -174,7 +177,6 @@ class profitList extends React.Component {
               scroll={{ x: 0, y: 420 }}
             />
           </div>
-          
         </div>
       </div>
       
