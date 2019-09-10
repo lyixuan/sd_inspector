@@ -181,7 +181,7 @@ class  currentCreditLeft extends React.Component {
 
  const {PkName} = this.props
     return (
-          <div style = {{width: 'calc(100% - 496px)'}} className={styles.creditLeft}>
+          <div className={styles.creditLeft}>
             <div className={styles.proMain}>
               <Proportion
                 leftNum={8.11}
@@ -199,6 +199,8 @@ class  currentCreditLeft extends React.Component {
               expandIcon={CustomExpandIcon}
               rowClassName={this.setRowClassName}
               pagination = {false}
+              scroll={{x:0,y:408}}
+              rowKey={record => record.name}
             >
             </BITable>
           </div>

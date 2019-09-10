@@ -20,3 +20,10 @@ export async function getCountCurrentQuality(params) {
 export async function getCountAppealRecord(params) {
     return request('/classWorkbench/countAppealRecord', { method: 'get', params });
 }
+
+
+// 本期学分
+// 人均在服学员列表
+export async function kpiLevelList(params) {
+  return request('/scorePk/kpiLevel/list',{method:'get',params})
+}

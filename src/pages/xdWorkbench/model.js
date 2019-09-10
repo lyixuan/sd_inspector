@@ -4,6 +4,7 @@ import {
   getIncomeKpiPersonInfo,
   getCountCurrentQuality,
   getCountAppealRecord,
+  kpiLevelList,
 } from './services';
 import { message } from 'antd/lib/index';
 import {msgF} from "@/utils/utils";
@@ -12,6 +13,7 @@ export default {
   namespace: 'xdWorkModal',
 
   state: {
+    kpiLevelList:null
   },
 
   effects: {
@@ -52,6 +54,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+
     // 本期质检
     *getCountCurrentQuality({ payload, callback }, { call }) {
       const params = payload.params;
@@ -74,6 +77,17 @@ export default {
         if (callback && typeof callback === 'function') {
           callback();
         }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    //本期学分列表页
+    *kpiLevelList({payload},{call,put}){
+      const params = payload.params;
+      const result = yield call(kpiLevelList,params)
+      if (result.code === 20000) {
+        const kpiLevelList = result.data || {};
+        yield put({ type: 'save', payload: { kpiLevelList} });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

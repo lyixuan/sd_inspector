@@ -10,19 +10,19 @@ class  currentCredit extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      PkName:'请选择对比对象'
+      PkName:'请选择对比对象',
+      PkSelfId:1
 
     }
   }
   clickRow = (data) =>{
-    console.log(17,data)
     this.setState({
       PkName:data.org
     })
 
   }
   render() {
-    const {PkName} = this.state
+    const {PkName,PkSelfId} = this.state
     return (
      <Container
        title='本期学分'
@@ -30,7 +30,7 @@ class  currentCredit extends React.Component {
       >
        <div className={styles.creditContainer}>
          <CurrentCreditLeft  PkName={PkName}/>
-         <CurrentCreditRight clickRow = {this.clickRow} />
+         <CurrentCreditRight PkSelfId={PkSelfId} clickRow = {this.clickRow} />
        </div>
      </Container>
     );
