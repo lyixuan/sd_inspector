@@ -112,10 +112,22 @@
     .pkUser {
       > td {
         color: #00CCC3;
+        cursor: not-allowed !important;
       }
     }
     .tableContent {
-      max-height: 500px;
       overflow-x: auto;
+      position: relative;
+      .suspension {
+        width: 100%;
+        position: absolute;
+        top: 48px;
+        z-index: 1;
+        :global { 
+          .ant-table-tbody > tr > td {
+            border-bottom: none;
+          }
+        }
+      }
     }
 }
