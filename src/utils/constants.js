@@ -10,7 +10,7 @@ export const ADMIN_AUTH = 'admin_auth';
 export const ADMIN_USER = 'admin_user';
 
 export const DEBUGGER_USER = {
-  localhost: 'zhanglulu02',
+  localhost: 'ligang02_1',
 }[process.env.LOGIN_TYPE];
 
 // 静态文件host
@@ -37,7 +37,7 @@ export const CAS_HOST = {
 // 设置domain域名
 export const DOMAIN_HOST = '.ministudy.com';
 // export const DOMAIN_HOST = 'localhost';
-export const PROXY_PATH = (hasSelfPri) => { return hasSelfPri ? '' : '/inspectorapis' };
+export const PROXY_PATH = (hasSelfPri) => {return hasSelfPri ?'':''};// /inspectorapis
 
 // 登录页面地址配置
 export const LOGIN_URL = {
@@ -376,13 +376,13 @@ export const UNIT_DATE = [
 // 应用类型
 export const APP_LIST = [
   { id: '1', name: '极速版App' }
-]
+  ]
 // 空ContentLayout页面名单
 export const EmptyContentLayout = [
   { path: '/ko', name: 'KO计划' },
   { path: '/qualityMarking', name: '质检标注' },
   { path: '/qualityReport', name: '质检图表' },
-  { path: '/shine/smallPro', name: '小程序管理' },
+  { path: '/shine/smallPro', name: '小程序管理'},
   { path: '/setting/performance/list', name: '创收绩效包' },
   { path: '/setting/performance/edit', name: '创收绩效包详情' },
   { path: '/setting/performance/create', name: '创收绩效包详情' },

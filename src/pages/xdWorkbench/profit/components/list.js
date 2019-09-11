@@ -14,9 +14,7 @@ class profitList extends React.Component {
   constructor(props)  {
     super(props);
     this.state = {
-      profitList: [
-        { sort: 123, userId: 1, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-      ],
+      profitList: [],
       userMsg: '',
       userFlag: false,
       userLocation: ''
@@ -24,7 +22,6 @@ class profitList extends React.Component {
   }
   componentDidMount() {
     this.getData();
-    this.getScrollFn();
     // 表格添加滚动事件
     document.querySelector("#scroll .ant-table-body").onscroll = (e) => {
       this.getScrollFn(e.target.scrollTop)
@@ -48,14 +45,15 @@ class profitList extends React.Component {
     }
   }
   columns = () => {
+    const total = this.state.profitList && this.state.profitList[0] ? this.state.profitList[0].incomeKpi : 0
     const columns = [
       {
-        width: '20%',
+        width: '10%',
         title: '排名',
         dataIndex: 'sort',
         key: 'sort',
       }, {
-        width: '20%',
+        width: '50%',
         title: '组织',
         dataIndex: 'org',
         key: 'org',
@@ -68,20 +66,23 @@ class profitList extends React.Component {
         title: '绩效收入',
         dataIndex: 'incomeKpi',
         key: 'incomeKpi',
-        render: text => <div
-            style={{
-              cursor: 'pointer',
-              height: '24px'
-            }}
-          >
-            <span style={{ position: 'relative', top: '-2px'}}>{10000}</span>
-            <Progress
-              percent={90}
-              strokeColor={'#00CCC3'}
-              showInfo={false}
-              strokeWidth={4}
-            ></Progress>
-          </div>
+        render: text => {
+          const percent = text/total * 100;
+          return <div
+          style={{
+            cursor: 'pointer',
+            height: '24px'
+          }}
+        >
+          <span style={{ position: 'relative', top: '-2px'}}>{text}</span>
+          <Progress
+            percent={percent}
+            strokeColor={'#00CCC3'}
+            showInfo={false}
+            strokeWidth={4}
+          ></Progress>
+        </div>
+        }
       }
     ];
     return columns || [];
@@ -96,20 +97,24 @@ class profitList extends React.Component {
   }
   getRowClassName = (record, index) => {
     if (this.props.userId === record.userId) {
-      this.state.userMsg = this.state.profitList[index];
+      this.state.userMsg = record;
       this.state.userLocation = 40 * (index + 1) - 430;
       return styles.pkUser;
     };
   }
   onChangeParams = (v) => {
     this.getData(v);
+    document.querySelector("#scroll .ant-table-body").scrollTop = 0;
     this.props.changePkListType(v);
   }
   getData = (pkListType = this.props.pkListType) => {
     this.props.dispatch({
       type: 'xdWorkModal/getIncomeKpiPkList',
       payload: { params: { pkListType } },
-      callback: (dataSource) => this.setState({ dataSource }),
+      callback: (profitList) => {
+        this.setState({ profitList }) 
+        this.getScrollFn();
+      },
     });
   }
 
@@ -140,13 +145,13 @@ class profitList extends React.Component {
             rowClassName={this.getRowClassName}
           />
           </div>}
-          <div id='scroll' className={styles.scrollTable}>
+          <div id='scroll' className={`${styles.scrollTable} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
             <BITable
               columns={this.columns()}
               dataSource={profitList}
               pagination={false}
               loading={this.props.loading}
-              rowKey={record => record.userId}
+              rowKey={(record, index) => record.userId + '' + index}
               onRow= {this.onClickRow}
               rowClassName={this.getRowClassName}
               scroll={{ x: 0, y: 420 }}

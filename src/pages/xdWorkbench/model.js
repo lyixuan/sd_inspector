@@ -22,9 +22,8 @@ export default {
       const params = payload.params;
       const result = yield call(getContrastIncomeKpiPkList, params);
       if (result.code === 20000) {
-        message.success('保存成功！');
         if (callback && typeof callback === 'function') {
-          callback();
+          callback(result.data);
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
@@ -34,9 +33,9 @@ export default {
       const params = payload.params;
       const result = yield call(getIncomeKpiPkList, params);
       if (result.code === 20000) {
-        message.success('保存成功！');
+        console.log(result.data, 'llll')
         if (callback && typeof callback === 'function') {
-          callback();
+          callback(result.data);
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
@@ -46,9 +45,8 @@ export default {
       const params = payload.params;
       const result = yield call(getIncomeKpiPersonInfo, params);
       if (result.code === 20000) {
-        message.success('保存成功！');
         if (callback && typeof callback === 'function') {
-          callback();
+          callback(result.data);
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
@@ -60,9 +58,8 @@ export default {
       const params = payload.params;
       const result = yield call(getCountCurrentQuality, params);
       if (result.code === 20000) {
-        message.success('保存成功！');
         if (callback && typeof callback === 'function') {
-          callback();
+          callback(result.data);
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
@@ -73,9 +70,8 @@ export default {
       const params = payload.params;
       const result = yield call(getCountAppealRecord, params);
       if (result.code === 20000) {
-        message.success('保存成功！');
         if (callback && typeof callback === 'function') {
-          callback();
+          callback(result.data);
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));

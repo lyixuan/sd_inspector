@@ -76,22 +76,10 @@ class profitList extends React.Component {
       },
       profitPersonData: {
         self: {
-          userName: '李四',
-          userGrade: 'A',
-          org: '自变量学院',
-          certificationGradeList: [{
-            certificationCode: '1',
-            certificationIconUrl: '/staticFile/classFile/upload/certificationIcon/originalIcon/2PtgHH7EycIQWJXjFn5i_0523.png'
-          }]
+          certificationGradeList: []
         },
         pkUser: {
-          userName: 'o四',
-          userGrade: 'C',
-          org: '自变量学院',
-          certificationGradeList: [{
-            certificationCode: '1',
-            certificationIconUrl: '/staticFile/classFile/upload/certificationIcon/originalIcon/2PtgHH7EycIQWJXjFn5i_0523.png'
-          }]
+          certificationGradeList: []
         }
       }
     }
@@ -102,7 +90,7 @@ class profitList extends React.Component {
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.pkUser !== this.props.pkUser) {
-      this.getPkmsg();
+      this.getPkmsg(nextProps.pkUser);
       this.getPkList();
     }
   }
@@ -111,14 +99,16 @@ class profitList extends React.Component {
     this.setState({
       pkType: e.target.value
     }, () => this.getPkList());
-    
   }
   // pk信息
-  getPkmsg = () => {
+  getPkmsg = (pkUser = this.props.pkUser) => {
     this.props.dispatch({
       type: 'xdWorkModal/getIncomeKpiPersonInfo',
-      payload: { params: { pkUser: this.props.pkUser } },
-      callback: (profitPersonData) => this.setState({ profitPersonData }),
+      payload: { params: { pkUser } },
+      callback: (profitPersonData) => {
+        console.log(profitPersonData, 'llllll')
+        this.setState({ profitPersonData })
+      },
     });
   }
   // 对比列表
@@ -132,7 +122,7 @@ class profitList extends React.Component {
           pkListType: this.props.pkListType
         } 
       },
-      callback: (profitData) => this.setState({ profitData }),
+      // callback: (profitData) => this.setState({ profitData }),
     });
   }
   getSizeStyle = ({subSelfValue, subPkUserValue}) => {
@@ -163,7 +153,7 @@ class profitList extends React.Component {
               </div>
               <div className={styles.tabOneTd}>
                 <div className={`${styles.tabMine} ${pkUser ? '' : styles.tabMineLine}`}>
-                  <div className={styles.msg}>
+                  <div className={styles.msg}>{profitPersonData.self.userGrade}
                     <img src={gradeImg[profitPersonData.self.userGrade]} style={{marginRight: '16px'}}/>
                     <div>
                       <span style={{color: '#1A1C1F', fontWeight: 'bold'}}>{profitPersonData.self.userName}</span>
@@ -176,7 +166,7 @@ class profitList extends React.Component {
                 </div>
                 <div className={`${pkUser ? '' : styles.tabUserLine}`}>
                   {
-                    pkUser ?  
+                    pkUser && profitPersonData.pkUser?  
                     <>
                       <div className={styles.msg}>
                         <img src={gradeImg[profitPersonData.pkUser.userGrade]} style={{marginRight: '16px'}}/>

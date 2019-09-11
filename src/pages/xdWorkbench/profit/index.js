@@ -2,6 +2,7 @@ import React from 'react';
 import Container from '../components/container';
 import ProfitList from './components/list';
 import ProfitTabs from './components/tabs';
+import { Alert } from 'antd';
 
 class Profit extends React.Component {
   constructor(props)  {
@@ -20,10 +21,11 @@ class Profit extends React.Component {
   }
 
   render() {
+    const { pkUser, pkListType} = this.state;
     return (
       <Container title='本期创收' propStyle={{display: 'flex'}}>
-        <ProfitTabs {...this.props} {...this.state}/>
-        <ProfitList {...this.props} {...this.state} changePkListType={this.changePkListType} changeSelected={this.changeSelected}/>
+        <ProfitTabs {...this.props} pkUser={pkUser} pkListType={pkListType}/>
+        <ProfitList {...this.props} pkUser={pkUser} pkListType={pkListType} changePkListType={this.changePkListType} changeSelected={this.changeSelected}/>
       </Container>
     );
   }
