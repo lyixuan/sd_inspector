@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 // 班主任分层 - 本期创收 - 综合对比
 export async function getContrastIncomeKpiPkList(params) {
-    return request('/workbenchIncomeKpi/incomeKpiPkList', { method: 'get', params });
+    return request('/deskapi/workbenchIncomeKpi/incomeKpiPkList', { method: 'get', params });
 }
 // 班主任分层 - 本期创收 - 查询对比小组
 export async function getIncomeKpiPkList(params) {
