@@ -26,6 +26,10 @@ class SelfHeader extends PureComponent {
             roleSelected: props.currentUser && props.currentUser.userId,
         };
     }
+    componentDidMount() {
+        console.log(30, this.props.login)
+        this.getCertificationList();
+    }
     getUserInfo = () => {
         return storage.getUserInfo() || {};
     }
@@ -35,6 +39,12 @@ class SelfHeader extends PureComponent {
             payload: { userId: this.getUserInfo().userId },
         });
     };
+    getCertificationList = () => {
+        console.log(39)
+        this.props.dispatch({
+            type: 'login/getCertificationList'
+        });
+    }
     handleMenuClick = ({ key }) => {
         switch (key) {
             // 修改密码功能暂时
@@ -104,6 +114,7 @@ class SelfHeader extends PureComponent {
     render() {
         const { visible } = this.state;
         const selectedGroup = this.handleMenuList();
+        console.log(107, this.props)
         return (
             <Header style={{ padding: 0, height: '54px', lineHeight: '54px' }}>
                 <GlobalHeader

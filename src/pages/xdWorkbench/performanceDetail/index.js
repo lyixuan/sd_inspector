@@ -10,6 +10,12 @@ import { connect } from 'dva';
 
 }))
 class performanceDetail extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
   componentDidMount() {
     this.drawChart()
   }
