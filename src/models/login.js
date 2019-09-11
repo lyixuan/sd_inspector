@@ -16,6 +16,7 @@ export default {
     currentUser: {},
     authList: [],
     roleList: [],
+    certificationList: []
   },
 
   effects: {
@@ -92,14 +93,17 @@ export default {
         message.error(msgF(response.msg, response.msgDetail));
       }
     },
-    *getCertificationList({ payload }, { call, put }) {
+    *getCertificationList({ payload, callback }, { call, put }) {
       const response = yield call(getCertificationList);
-      if (response.code === 2000) {
+      if (response.code === 20000) {
         console.log(98, response.data)
-        // yield put({
-        //   type: 'saveRoleList',
-        //   payload: { roleList: Array.isArray(response.data) ? response.data : [] },
-        // });
+        yield put({
+          type: 'saveRoleList',
+          payload: { certificationList: response.data },
+        });
+        if (callback) {
+          callback(response.data);
+        }
       } else {
         message.error(msgF(response.msg, response.msgDetail));
       }
