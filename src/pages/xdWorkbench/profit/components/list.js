@@ -18,30 +18,7 @@ class profitList extends React.Component {
       profitList: [
         { sort: 123, userId: 1, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
         { sort: 123, userId: 2, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 1456, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 4, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 5, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 6, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 7, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 8, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 9, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 10, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 2222, userId:11, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 12, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 15, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
+        { sort: 123, userId: 3, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
       ],
       userMsg: '',
       userFlag: false,
@@ -54,7 +31,7 @@ class profitList extends React.Component {
     // 表格添加滚动事件
     document.querySelector("#scroll .ant-table-body").onscroll = (e) => {
       this.getScrollFn(e.target.scrollTop)
-    } 
+    }
   }
   componentWillUnmount() {
     document.querySelector("#scroll .ant-table-body").onscroll = '';
@@ -66,7 +43,7 @@ class profitList extends React.Component {
         this.setState({
           userFlag: false
         })
-      } 
+      }
     } else if (userFlag === false){
       this.setState({
         userFlag: true
@@ -122,7 +99,7 @@ class profitList extends React.Component {
   }
   getRowClassName = (record, index) => {
     if (this.props.userId === record.userId) {
-      this.state.userMsg = this.state.profitList[index]; 
+      this.state.userMsg = this.state.profitList[index];
       this.state.userLocation = 40 * (index + 1) - 430;
       return styles.pkUser;
     };
@@ -149,29 +126,29 @@ class profitList extends React.Component {
             placeholder="请选择"
             onChange={this.onChangeParams}
             style={{width: '136px', marginLeft: '8px'}}
-            allowClear 
+            allowClear
           >
             {pkTypeconfig.map((item, index) => <Option key={index} value={index + 1}>{item}</Option>)}
           </BISelect>
         </div>
         <div className={styles.tableContent}>
-          {userFlag && userMsg && <div className={styles.suspension}>
+          {userFlag && userMsg && <div className={styles.suspenTable}>
             <BITable
             showHeader={false}
-            columns={this.columns()} 
+            columns={this.columns()}
             dataSource={[userMsg]}
             pagination={false}
-            rowKey={record => record.userId} 
+            rowKey={record => record.userId}
             rowClassName={this.getRowClassName}
           />
           </div>}
-          <div id='scroll'>
+          <div id='scroll' className={styles.scrollTable}>
             <BITable
-              columns={this.columns()} 
+              columns={this.columns()}
               dataSource={profitList}
               pagination={false}
               loading={this.props.loading}
-              rowKey={record => record.userId} 
+              rowKey={record => record.userId}
               onRow= {this.onClickRow}
               rowClassName={this.getRowClassName}
               scroll={{ x: 0, y: 420 }}
@@ -179,7 +156,7 @@ class profitList extends React.Component {
           </div>
         </div>
       </div>
-      
+
     );
   }
 }
