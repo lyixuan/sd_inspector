@@ -1,11 +1,11 @@
 import { message } from 'antd';
 import { routerRedux } from 'dva/router';
 import router from 'umi/router';
-import { getPrivilegeList,getPrivilegeListNew,getUserInfoNew, CurrentUserListRole, userChangeRole } from '@/services/api';
+import { getPrivilegeList, getPrivilegeListNew, getUserInfoNew, CurrentUserListRole, userChangeRole, getCertificationList } from '@/services/api';
 import storage from '@/utils/storage';
 import { msgF } from '@/utils/utils';
 import { redirectToLogin, casLogout, casLogoutDev } from '@/utils/routeUtils';
-import {DEBUGGER_USER} from '@/utils/constants';
+import { DEBUGGER_USER } from '@/utils/constants';
 
 export default {
   namespace: 'login',
@@ -19,13 +19,13 @@ export default {
   },
 
   effects: {
-    *initSubSystem({payload}, { call, put }) {
+    *initSubSystem({ payload }, { call, put }) {
       const response = yield call(getUserInfoNew, { ...payload });
       if (!response) return;
       const codeMsg403 = 10300;
       const data = response.data || {};
-      const { userName, userId, mail, positionCount,token } = data;
-      const saveObj = { userName, userId, mail, positionCount,token };
+      const { userName, userId, mail, positionCount, token } = data;
+      const saveObj = { userName, userId, mail, positionCount, token };
 
       switch (response.code) {
         case 2000:
@@ -41,7 +41,7 @@ export default {
           break;
       }
     },
-    *getProvilege(_, { call, put }){
+    *getProvilege(_, { call, put }) {
       const response = yield call(getPrivilegeListNew);
       if (!response) return false;
       if (response.code === 2000) {
@@ -68,7 +68,7 @@ export default {
           storage.setUserAuth(privilegeList);
         } else {
           loginState = false;
-          message.error(msgF(response.msg,response.msgDetail));
+          message.error(msgF(response.msg, response.msgDetail));
         }
       } else {
         loginState = true;
@@ -89,7 +89,19 @@ export default {
           payload: { roleList: Array.isArray(response.data) ? response.data : [] },
         });
       } else {
-        message.error(msgF(response.msg,response.msgDetail));
+        message.error(msgF(response.msg, response.msgDetail));
+      }
+    },
+    *getCertificationList({ payload }, { call, put }) {
+      const response = yield call(getCertificationList);
+      if (response.code === 2000) {
+        console.log(98, response.data)
+        // yield put({
+        //   type: 'saveRoleList',
+        //   payload: { roleList: Array.isArray(response.data) ? response.data : [] },
+        // });
+      } else {
+        message.error(msgF(response.msg, response.msgDetail));
       }
     },
     *changeRole({ payload }, { call, put }) {
@@ -107,7 +119,7 @@ export default {
         });
         yield put(routerRedux.push('/'));
       } else {
-        message.error(msgF(response.msg,response.msgDetail));
+        message.error(msgF(response.msg, response.msgDetail));
       }
       yield put({
         type: 'changeLoginStatus',
@@ -115,8 +127,8 @@ export default {
       });
     },
 
-    *logout( ) {
-      if(DEBUGGER_USER){
+    *logout() {
+      if (DEBUGGER_USER) {
         casLogoutDev();
       } else {
         casLogout();
