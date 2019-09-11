@@ -7,7 +7,7 @@ import { Progress } from 'antd';
 const { Option } = BISelect;
 @connect(({xdWorkModal, loading}) => ({
   xdWorkModal,
-  levelList:xdWorkModal.kpiLevelList,
+  studentsOptions:xdWorkModal.kpiLevelList,
   loading: loading.effects['xdWorkModal/kpiLevelList'],
 }))
 class  currentCreditRight extends React.Component {
@@ -31,13 +31,6 @@ class  currentCreditRight extends React.Component {
       },{
         id:3,
         name:'本家族'
-      }],
-      studentsOptions:[{
-        id:1,
-        name:'1200-1400'
-      },{
-        id:2,
-        name:'1400-1600'
       }],
       secondOptions:[],
       studentValue:'1200-1400',
@@ -136,15 +129,22 @@ class  currentCreditRight extends React.Component {
     this.getScrollFn();
     // 表格添加滚动事件
     document.querySelector("#scroll1 .ant-table-body").onscroll = (e) => {
-      console.log(57)
       this.getScrollFn(e.target.scrollTop)
+    }
+
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.studentsOptions !== nextProps.studentsOptions) {
+      this.setState({
+        secondOptions:nextProps.studentsOptions,
+        studentValue:nextProps.studentsOptions[0].name
+      })
     }
   }
   componentWillUnmount() {
     document.querySelector("#scroll1 .ant-table-body").onscroll = '';
   }
   getScrollFn = (scrollTop = 0) => {
-    console.log(64,scrollTop)
     const { userLocation, userFlag } = this.state;
     if (scrollTop > userLocation && scrollTop < userLocation + 400) {
       if (userFlag === true) {
@@ -208,7 +208,8 @@ class  currentCreditRight extends React.Component {
     return columns || [];
   }
   onFormChange = (value,vname)=>{
-    const {orgSecondOptions,studentsOptions} = this.state
+    const {orgSecondOptions} = this.state
+    const {studentsOptions} = this.props
     if(vname ==='oneLevel'){
       this.setState({
         orgValue:value
@@ -236,7 +237,6 @@ class  currentCreditRight extends React.Component {
     if (this.props.PkSelfId === record.id) {
       this.state.userMsg = this.state.dataSource[index];
       this.state.userLocation = 40 * (index + 1) - 430;
-      console.log(150,this.state.userLocation)
       taClassName = "rowHover"
     }
     if(record.num === 3){
@@ -264,10 +264,7 @@ class  currentCreditRight extends React.Component {
     };
   }
   render() {
-    const {levelList} = this.props
-    console.log(151,levelList)
-    const {orgOptions,orgValue,secondOptions,studentValue,userFlag,userMsg,dataSource} = this.state;
-    console.log(183,userMsg,userFlag)
+    const {orgOptions,orgValue,studentValue,userFlag,userMsg,dataSource,secondOptions} = this.state;
     return (
         <div className={styles.creditRight}>
           <div className={styles.creditSelect}>
@@ -281,7 +278,7 @@ class  currentCreditRight extends React.Component {
             </BISelect>
             <BISelect style={{width:222,marginLeft:12}} placeholder="请选择" value={studentValue} onChange={(val)=>this.onFormChange(val,'secondLevel')}>
               {secondOptions.map(item => (
-                <Option key={item.kpiLevelId}>
+                <Option key={item.id}>
                   {item.name}
                 </Option>
               ))}

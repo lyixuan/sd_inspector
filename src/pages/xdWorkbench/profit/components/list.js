@@ -53,7 +53,6 @@ class profitList extends React.Component {
     this.getScrollFn();
     // 表格添加滚动事件
     document.querySelector("#scroll .ant-table-body").onscroll = (e) => {
-      console.log(56,e)
       this.getScrollFn(e.target.scrollTop)
     }
   }
@@ -61,7 +60,6 @@ class profitList extends React.Component {
     document.querySelector("#scroll .ant-table-body").onscroll = '';
   }
   getScrollFn = (scrollTop = 0) => {
-    console.log(64,scrollTop)
     const { userLocation, userFlag } = this.state;
     if (scrollTop > userLocation && scrollTop < userLocation + 400) {
       if (userFlag === true) {
@@ -142,7 +140,6 @@ class profitList extends React.Component {
 
   render() {
     const { pkListType, profitList, userMsg, userFlag } = this.state;
-    console.log(143,userMsg,userFlag)
     return (
       <div className={styles.profitList}>
         <div className={styles.form}>

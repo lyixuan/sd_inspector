@@ -97,7 +97,6 @@ class performanceDetail extends React.Component {
     return data;
   }
   block(item) {
-    console.log(99, item);
     const text = <div className={styles.tooltipContent}>
       <h4>{item.turnOver || null}</h4>
       <p>绩效流水：￥80,000</p>

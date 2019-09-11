@@ -81,7 +81,8 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    //本期学分列表页
+    // 以下是本期学分相关的接口
+    // 本期学分人均在服人员下拉里面的数据
     *kpiLevelList({payload},{call,put}){
       const params = payload.params;
       const result = yield call(kpiLevelList,params)
@@ -92,6 +93,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+  //
   },
 
   reducers: {

@@ -4,6 +4,7 @@ import styles from './style.less'
 import BITable from '@/ant_components/BITable'
 import { Progress } from 'antd';
 import Proportion from '../components/proportion';
+import pkImg from '@/assets/xdwork/pk.png';
 function CustomExpandIcon(props) {
   return (
     <a/>
@@ -17,8 +18,10 @@ class  currentCreditLeft extends React.Component {
         title: '学分维度',
         dataIndex: 'name',
         key: 'name',
+        width:'30%'
       }, {
         title: '环比（%）',
+        width:'20%',
         dataIndex: 'precent',
         key: 'precent',
       }, {
@@ -120,7 +123,7 @@ class  currentCreditLeft extends React.Component {
         myNum: "8.11",
         contrastGroup:"10.38",
         oneLevel:1,
-        isShowPro:true,
+        isShowPro:false,
         progress:'',
         children: [
           {
@@ -140,7 +143,7 @@ class  currentCreditLeft extends React.Component {
                 myNum: "3.61",
                 contrastGroup:"3.61",
                 oneLevel:3,
-                isShowPro:true,
+                isShowPro:false,
                 progress:'',
                 children:[{
                   key: 123,
@@ -149,7 +152,7 @@ class  currentCreditLeft extends React.Component {
                   myNum: "2.78",
                   contrastGroup:"3.49",
                   oneLevel:4,
-                  isShowPro:true,
+                  isShowPro:false,
                   progress:'',
                 },{
                   key: 124,
@@ -158,7 +161,7 @@ class  currentCreditLeft extends React.Component {
                   myNum: "0.83",
                   contrastGroup:"1.41",
                   oneLevel:4,
-                  isShowPro:true,
+                  isShowPro:false,
                   progress:'',
                 }]
               },
@@ -169,10 +172,20 @@ class  currentCreditLeft extends React.Component {
                 myNum: "3.69",
                 contrastGroup:"3.05",
                 oneLevel:3,
-                isShowPro:true,
+                isShowPro:false,
                 progress:'',
               },
             ],
+          },
+          {
+            key: 13,
+            name: '负面均分',
+            precent: "5.31",
+            myNum: "6.80",
+            contrastGroup:"12.70",
+            oneLevel:2,
+            isShowPro:true,
+            progress:'',
           }
         ],
       },
@@ -183,15 +196,17 @@ class  currentCreditLeft extends React.Component {
     return (
           <div className={styles.creditLeft}>
             <div className={styles.proMain}>
-              <Proportion
+              {PkName?<Proportion
                 leftNum={8.11}
                 rightNum={10.38}
                 leftCollege={'自变量/法律一组'}
                 rightCollege={PkName}
                 style={{width: 'calc(100% - 200px)'}}
-              />
+              />:<div className={styles.proNone}>
+                <img src={pkImg} style={{ width: '32px'}}/>
+                <span>快从右边选择一个小组进行学分PK吧！</span>
+              </div>}
             </div>
-
             <BITable
               columns={this.columns()}
               dataSource={data}
