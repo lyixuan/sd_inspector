@@ -5,15 +5,18 @@ import {
   getCountCurrentQuality,
   getCountAppealRecord,
   kpiLevelList,
+  groupList,
+  groupPkList
 } from './services';
 import { message } from 'antd/lib/index';
 import {msgF} from "@/utils/utils";
 
 export default {
   namespace: 'xdWorkModal',
-
   state: {
-    kpiLevelList:null
+    kpiLevelList:null,
+    groupList:null,
+    groupPkList:null
   },
 
   effects: {
@@ -93,6 +96,28 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+    // 获取右侧的列表数据
+    *groupList({payload},{call,put}){
+      const params = payload.params;
+      const result = yield call(groupList,params)
+      if(result.code === 20000){
+        const groupList = result.data || {};
+        yield put({type:'save',payload:{groupList}});
+      }else if(result){
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+  //  获取左侧的列表数据
+    *groupPkList({payload},{call,put}){
+      const params = payload.params;
+      const result = yield call(groupPkList,params)
+      if(result.code === 20000){
+        const groupPkList = result.data || {};
+        yield put({type:'save',payload:{groupPkList}});
+      }else if(result){
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    }
   //
   },
 
