@@ -7,7 +7,7 @@ class Profit extends React.Component {
   constructor(props)  {
     super(props);
     this.state = {
-      pkUser: 6,
+      pkUser: '',
     }
   }
 

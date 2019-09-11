@@ -7,6 +7,8 @@ import gradeA from '@/assets/workBench/a.png';
 import gradeB from '@/assets/workBench/b.png';
 import gradeC from '@/assets/workBench/c.png';
 import gradeS from '@/assets/workBench/s.png';
+import xdGif from '@/assets/workBench/xdpk.png';
+import pkImg from '@/assets/xdwork/pk.png';
 import { thousandsFormat } from '@/utils/utils'
 import styles from '../style.less';
 
@@ -28,7 +30,7 @@ class profitList extends React.Component {
     this.state = {
       pkType: 1,
       profitData: {
-        selfValue: 202,
+        selfValue: 2222202,
         pkUserValue: 201,
         subItem: [{
           subItemName: '创收绩效名次',
@@ -38,6 +40,31 @@ class profitList extends React.Component {
         }, {
           subItemName: '创收绩效名次',
           subSelfValue: 3000,
+          subPkUserValue: 3000,
+          subValueType: 2,	
+        }, {
+          subItemName: '创收绩效名次',
+          subSelfValue: 4000,
+          subPkUserValue: 3000,
+          subValueType: 2,	
+        }, {
+          subItemName: '创收绩效名次',
+          subSelfValue: 4000,
+          subPkUserValue: 3000,
+          subValueType: 2,	
+        }, {
+          subItemName: '创收绩效名次',
+          subSelfValue: 4000,
+          subPkUserValue: 3000,
+          subValueType: 2,	
+        }, {
+          subItemName: '创收绩效名次',
+          subSelfValue: 4000,
+          subPkUserValue: 3000,
+          subValueType: 2,	
+        }, {
+          subItemName: '创收绩效名次',
+          subSelfValue: 4000,
           subPkUserValue: 3000,
           subValueType: 2,	
         }, {
@@ -113,6 +140,7 @@ class profitList extends React.Component {
 
   render() {
     const { profitPersonData, profitData } = this.state;
+    const { pkUser } = this.props;
     return (
       <div className={styles.profitTabs}>
         <BIRadio onChange={this.handlePkTypeChange} value={this.state.pkType} style={{ marginBottom: 16 }}>
@@ -120,6 +148,8 @@ class profitList extends React.Component {
         </BIRadio>
         <Skeleton loading={this.props.loading} >
           <div className={styles.tabContent}>
+            <img src={xdGif}/>
+            {/* 第一行 */}
             <div className={styles.tabBody}>
               <div className={styles.tabOneTh}>
                 <span style={{color: '#7A7C80', fontSize: '12px'}}>对比项</span>
@@ -138,32 +168,47 @@ class profitList extends React.Component {
                     {profitPersonData.self.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{marginRight: '10px'}}/>)}
                   </div>
                 </div>
-                <div className={styles.tabPkUser}>
-                  <div className={styles.msg}>
-                    <img src={gradeImg[profitPersonData.pkUser.userGrade]} style={{marginRight: '16px'}}/>
-                    <div>
-                      <span style={{color: '#1A1C1F', fontWeight: 'bold'}}>{profitPersonData.pkUser.userName}</span>
-                      <span>{profitPersonData.pkUser.org}</span>
+                <div className={`${pkUser ? '' : styles.tabLine}`}>
+                  {pkUser ? <>
+                    <div className={styles.msg}>
+                      <img src={gradeImg[profitPersonData.pkUser.userGrade]} style={{marginRight: '16px'}}/>
+                      <div>
+                        <span style={{color: '#1A1C1F', fontWeight: 'bold'}}>{profitPersonData.pkUser.userName}</span>
+                        <span>{profitPersonData.pkUser.org}</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className={styles.imgs}>
-                    {profitPersonData.pkUser.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{marginRight: '10px'}}/>)}
-                  </div>
+                    <div className={styles.imgs}>
+                      {profitPersonData.pkUser.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{marginRight: '10px'}}/>)}
+                    </div></> : <div className={styles.nonePk}>
+                      <img src={pkImg} style={{marginRight: '16px'}}/>
+                      <span>请从右边选择一个小组进行绩效PK吧！</span>
+                    </div>
+                  }
                 </div>
               </div>
             </div>
-            <div className={styles.tabBody}>
+            {/* 第二行 */}
+            <div className={styles.tabBody} style={{height: '72px'}}>
               <div className={styles.tabTwoTh}><span>绩效</span></div>
               <div className={styles.tabTwoTd}>
-                <Proportion leftNum={profitData.selfValue} rightNum={profitData.pkUserValue} iconed={true}/>
+                {
+                  pkUser ? <Proportion leftNum={profitData.selfValue} rightNum={profitData.pkUserValue} iconed={true}/> 
+                  : <div className={styles.tabTwoNone}><div>￥{thousandsFormat(profitData.selfValue)}</div></div>
+                }
               </div>
             </div>
-            <div className={styles.tabBody}>
+            {/* 第三行 */}
+            <div className={`${styles.tabBody} ${styles.tabThreeBody}`}>
               <div className={styles.tabThreeTh}>
                 {profitData.subItem.map((item, index) => <span key={index + '' + this.state.pkType}  style={{marginLeft: '36px'}}>{item.subItemName}</span>)}
               </div>
               <div className={styles.tabThreeTd}>
-                {profitData.subItem.map((item, index) =><div><span key={index + '' + this.state.pkType} style={{color: this.getSizeStyle(item)}}>{thousandsFormat(item.subSelfValue)}{unitType[item.subValueType]}</span><span>{thousandsFormat(item.subPkUserValue)}{unitType[item.subValueType]}</span></div>)}
+                {
+                  profitData.subItem.map((item, index) =><div>
+                  <span key={index + '' + this.state.pkType} style={{color: this.getSizeStyle(item)}}>{thousandsFormat(item.subSelfValue)}{unitType[item.subValueType]}</span>
+                  <span>{pkUser ? <span>{thousandsFormat(item.subPkUserValue)}{unitType[item.subValueType]}</span> : ''}</span>
+                  </div>)
+                }
               </div>
             </div>
           </div>

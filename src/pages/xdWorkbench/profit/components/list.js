@@ -18,30 +18,7 @@ class profitList extends React.Component {
       profitList: [
         { sort: 123, userId: 1, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
         { sort: 123, userId: 2, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 1456, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 4, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 5, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 6, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 7, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 8, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 9, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 10, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 2222, userId:11, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 12, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 13, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 15, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
+        { sort: 123, userId: 3, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
       ],
       userMsg: '',
       userFlag: false,
@@ -155,7 +132,7 @@ class profitList extends React.Component {
           </BISelect>
         </div>
         <div className={styles.tableContent}>
-          {userFlag && userMsg && <div className={styles.suspension}>
+          {userFlag && userMsg && <div className={styles.suspenTable}>
             <BITable
             showHeader={false}
             columns={this.columns()} 
@@ -165,7 +142,7 @@ class profitList extends React.Component {
             rowClassName={this.getRowClassName}
           />
           </div>}
-          <div id='scroll'>
+          <div id='scroll' className={styles.scrollTable}>
             <BITable
               columns={this.columns()} 
               dataSource={profitList}
