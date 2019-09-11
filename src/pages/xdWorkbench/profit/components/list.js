@@ -14,11 +14,8 @@ class profitList extends React.Component {
   constructor(props)  {
     super(props);
     this.state = {
-      pkListType: 5,
       profitList: [
         { sort: 123, userId: 1, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 2, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
-        { sort: 123, userId: 3, org: '组织', userName: '邓嘟嘟', incomeKpi: '111'},
       ],
       userMsg: '',
       userFlag: false,
@@ -105,24 +102,25 @@ class profitList extends React.Component {
     };
   }
   onChangeParams = (v) => {
-    this.setState({ pkListType : v}, () => this.getData());
+    this.getData(v);
+    this.props.changePkListType(v);
   }
-  getData = () => {
+  getData = (pkListType = this.props.pkListType) => {
     this.props.dispatch({
       type: 'xdWorkModal/getIncomeKpiPkList',
-      payload: { params: { pkListType: this.state.pkListType } },
+      payload: { params: { pkListType } },
       callback: (dataSource) => this.setState({ dataSource }),
     });
   }
 
   render() {
-    const { pkListType, profitList, userMsg, userFlag } = this.state;
+    const { profitList, userMsg, userFlag } = this.state;
     return (
       <div className={styles.profitList}>
         <div className={styles.form}>
           选择对比小组：
           <BISelect
-            value={pkListType}
+            value={this.props.pkListType}
             placeholder="请选择"
             onChange={this.onChangeParams}
             style={{width: '136px', marginLeft: '8px'}}

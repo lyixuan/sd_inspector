@@ -69,7 +69,12 @@
         .tabMine {
           border-right: 1px solid #E8EBED;
         }
-        .tabLine {
+        .tabMineLine {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        .tabUserLine {
           display: flex;
           align-items: center;
         }
@@ -95,6 +100,7 @@
       // 第三行
       .tabThreeTh {
         flex-direction: column;
+        height: 100%;
         > span{
           height: 40px;
           line-height: 40px;
@@ -120,7 +126,6 @@
     .tabThreeBody {
       max-height: 240px;
       overflow-y: auto;
-      background-color: #F6F7FA;
     }
     .nonePk {
       display: flex;

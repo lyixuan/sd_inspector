@@ -30,7 +30,7 @@ class profitList extends React.Component {
     this.state = {
       pkType: 1,
       profitData: {
-        selfValue: 2222202,
+        selfValue: 44,
         pkUserValue: 201,
         subItem: [{
           subItemName: '创收绩效名次',
@@ -116,7 +116,7 @@ class profitList extends React.Component {
   // pk信息
   getPkmsg = () => {
     this.props.dispatch({
-      type: `xdWorkModal/getIncomeKpiPersonInfo`,
+      type: 'xdWorkModal/getIncomeKpiPersonInfo',
       payload: { params: { pkUser: this.props.pkUser } },
       callback: (profitPersonData) => this.setState({ profitPersonData }),
     });
@@ -124,8 +124,14 @@ class profitList extends React.Component {
   // 对比列表
   getPkList = () => {
     this.props.dispatch({
-      type: `xdWorkModal/getContrastIncomeKpiPkList`,
-      payload: { params: { pkUser: this.props.pkUser,  pkType: this.state.pkType} },
+      type: 'xdWorkModal/getContrastIncomeKpiPkList',
+      payload: { 
+        params: { 
+          pkUser: this.props.pkUser,
+          tabType: this.state.pkType, 
+          pkListType: this.props.pkListType
+        } 
+      },
       callback: (profitData) => this.setState({ profitData }),
     });
   }
@@ -148,15 +154,15 @@ class profitList extends React.Component {
         </BIRadio>
         <Skeleton loading={this.props.loading} >
           <div className={styles.tabContent}>
-            <img src={xdGif}/>
+            {!pkUser && <img src={xdGif}/>}
             {/* 第一行 */}
-            <div className={styles.tabBody}>
+            <div className={styles.tabBody} style={{height: '136px'}}>
               <div className={styles.tabOneTh}>
                 <span style={{color: '#7A7C80', fontSize: '12px'}}>对比项</span>
                 <span style={{color: '#1A1C1F', fontWeight: 'bold'}}>创收绩效</span>
               </div>
               <div className={styles.tabOneTd}>
-                <div className={styles.tabMine}>
+                <div className={`${styles.tabMine} ${pkUser ? '' : styles.tabMineLine}`}>
                   <div className={styles.msg}>
                     <img src={gradeImg[profitPersonData.self.userGrade]} style={{marginRight: '16px'}}/>
                     <div>
@@ -168,18 +174,23 @@ class profitList extends React.Component {
                     {profitPersonData.self.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{marginRight: '10px'}}/>)}
                   </div>
                 </div>
-                <div className={`${pkUser ? '' : styles.tabLine}`}>
-                  {pkUser ? <>
-                    <div className={styles.msg}>
-                      <img src={gradeImg[profitPersonData.pkUser.userGrade]} style={{marginRight: '16px'}}/>
-                      <div>
-                        <span style={{color: '#1A1C1F', fontWeight: 'bold'}}>{profitPersonData.pkUser.userName}</span>
-                        <span>{profitPersonData.pkUser.org}</span>
+                <div className={`${pkUser ? '' : styles.tabUserLine}`}>
+                  {
+                    pkUser ?  
+                    <>
+                      <div className={styles.msg}>
+                        <img src={gradeImg[profitPersonData.pkUser.userGrade]} style={{marginRight: '16px'}}/>
+                        <div>
+                          <span style={{color: '#1A1C1F', fontWeight: 'bold'}}>{profitPersonData.pkUser.userName}</span>
+                          <span>{profitPersonData.pkUser.org}</span>
+                        </div>
                       </div>
-                    </div>
-                    <div className={styles.imgs}>
-                      {profitPersonData.pkUser.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{marginRight: '10px'}}/>)}
-                    </div></> : <div className={styles.nonePk}>
+                      <div className={styles.imgs}>
+                        {profitPersonData.pkUser.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{marginRight: '10px'}}/>)}
+                      </div>
+                    </> 
+                    : 
+                    <div className={styles.nonePk}>
                       <img src={pkImg} style={{marginRight: '16px'}}/>
                       <span>请从右边选择一个小组进行绩效PK吧！</span>
                     </div>
