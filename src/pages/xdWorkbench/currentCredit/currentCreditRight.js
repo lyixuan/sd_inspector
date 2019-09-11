@@ -5,7 +5,11 @@ import BITable from '@/ant_components/BITable'
 import BISelect from '@/ant_components/BISelect'
 import { Progress } from 'antd';
 const { Option } = BISelect;
-
+@connect(({xdWorkModal, loading}) => ({
+  xdWorkModal,
+  studentsOptions:xdWorkModal.kpiLevelList,
+  loading: loading.effects['xdWorkModal/kpiLevelList'],
+}))
 class  currentCreditRight extends React.Component {
   constructor(props) {
     super(props);
@@ -28,40 +32,152 @@ class  currentCreditRight extends React.Component {
         id:3,
         name:'本家族'
       }],
-      studentsOptions:[{
-        id:1,
-        name:'1200-1400'
-      },{
-        id:2,
-        name:'1400-1600'
-      }],
       secondOptions:[],
       studentValue:'1200-1400',
-      rowId:0
+      rowId:0,
+      userFlag: false,
+      userLocation: '',
+      userMsg: '',
+      dataSource : [{
+        id:1,
+        num:3,
+        org:'自变量/法律一组',
+        rankNum:1,
+        creditNum:'6.11',
+        progress:90,
+        studentNums:1300
+      },{
+        id:2,
+        num:3,
+        org:'芝士/英语3组',
+        rankNum:2,
+        creditNum:'5.05',
+        progress:70,
+        studentNums:1200
+      },{
+        id:3,
+        num:3,
+        org:'自变量/法律一组',
+        rankNum:3,
+        creditNum:'4.00',
+        progress:40,
+        studentNums:1300
+      },{
+        id:4,
+        num:2,
+        org:'芝士/英语3组',
+        rankNum:4,
+        creditNum:'3.11',
+        progress:30,
+        studentNums:1200
+      },{
+        id:5,
+        num:2,
+        org:'自变量/法律一组',
+        rankNum:4,
+        creditNum:'3.11',
+        progress:50,
+        studentNums:1200
+      },{
+        id:6,
+        num:1,
+        org:'芝士/英语3组',
+        rankNum:1,
+        creditNum:'6.11',
+        progress:65,
+        studentNums:1300
+      },{
+        id:7,
+        num:1,
+        org:'自变量/法律一组',
+        rankNum:1,
+        creditNum:'6.11',
+        progress:90,
+        studentNums:1300
+      },{
+        id:8,
+        num:0.8,
+        org:'芝士/英语3组',
+        rankNum:1,
+        creditNum:'6.11',
+        progress:90,
+        studentNums:1300
+      },{
+        id:9,
+        num:0.8,
+        org:'自变量/法律一组',
+        rankNum:1,
+        creditNum:'6.11',
+        progress:90,
+        studentNums:1300
+      },{
+        id:10,
+        num:0.5,
+        org:'自变量/法律一组',
+        rankNum:1,
+        creditNum:'6.11',
+        progress:90,
+        studentNums:1300
+      }]
     };
   }
   componentDidMount() {
-    const {studentsOptions,studentValue} = this.state
-    this.setState({
-      secondOptions:studentsOptions,
-      studentValue:studentsOptions[0].name
-    })
+    this.props.dispatch({
+      type: 'xdWorkModal/kpiLevelList',
+      payload: { params: {} },
+    });
+    this.getScrollFn();
+    // 表格添加滚动事件
+    document.querySelector("#scroll1 .ant-table-body").onscroll = (e) => {
+      this.getScrollFn(e.target.scrollTop)
+    }
+
   }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.studentsOptions !== nextProps.studentsOptions) {
+      this.setState({
+        secondOptions:nextProps.studentsOptions,
+        studentValue:nextProps.studentsOptions[0].name
+      })
+    }
+  }
+  componentWillUnmount() {
+    document.querySelector("#scroll1 .ant-table-body").onscroll = '';
+  }
+  getScrollFn = (scrollTop = 0) => {
+    const { userLocation, userFlag } = this.state;
+    if (scrollTop > userLocation && scrollTop < userLocation + 400) {
+      if (userFlag === true) {
+        this.setState({
+          userFlag: false
+        })
+      }
+    } else if (userFlag === false){
+      this.setState({
+        userFlag: true
+      })
+    }
+  }
+
   columnsRight = () =>{
     const columns = [
       {
+        width: '20%',
         title:'排名系数',
         dataIndex:'num',
         key:'num'
       },{
+        width: '24%',
         title:'组织',
         dataIndex:'org',
         key:'org'
       },{
+        width: '14%',
         title:'排名',
         dataIndex:'rankNum',
         key:'rankNum'
       },{
+        width: '20%',
         title:'学分',
         dataIndex:'creditNum',
         key:'creditNum',
@@ -92,7 +208,8 @@ class  currentCreditRight extends React.Component {
     return columns || [];
   }
   onFormChange = (value,vname)=>{
-    const {orgSecondOptions,studentsOptions} = this.state
+    const {orgSecondOptions} = this.state
+    const {studentsOptions} = this.props
     if(vname ==='oneLevel'){
       this.setState({
         orgValue:value
@@ -114,9 +231,14 @@ class  currentCreditRight extends React.Component {
       })
     }else{}
   };
-  setRowClassName = (record) => {
+  setRowClassName = (record,index) => {
     let className = ''
-    let taClassName = record.id === this.state.rowId?"rowHover":""
+    let taClassName = ""
+    if (this.props.PkSelfId === record.id) {
+      this.state.userMsg = this.state.dataSource[index];
+      this.state.userLocation = 40 * (index + 1) - 430;
+      taClassName = "rowHover"
+    }
     if(record.num === 3){
       className = "background1 "+taClassName
     }else if(record.num === 2){
@@ -142,88 +264,7 @@ class  currentCreditRight extends React.Component {
     };
   }
   render() {
-    const {orgOptions,orgValue,secondOptions,studentValue} = this.state;
-    const dataSource = [{
-      id:1,
-      num:3,
-      org:'自变量/法律一组',
-      rankNum:1,
-      creditNum:'6.11',
-      progress:90,
-      studentNums:1300
-    },{
-      id:2,
-      num:3,
-      org:'芝士/英语3组',
-      rankNum:2,
-      creditNum:'5.05',
-      progress:70,
-      studentNums:1200
-    },{
-      id:3,
-      num:3,
-      org:'自变量/法律一组',
-      rankNum:3,
-      creditNum:'4.00',
-      progress:40,
-      studentNums:1300
-    },{
-      id:4,
-      num:2,
-      org:'芝士/英语3组',
-      rankNum:4,
-      creditNum:'3.11',
-      progress:30,
-      studentNums:1200
-    },{
-      id:5,
-      num:2,
-      org:'自变量/法律一组',
-      rankNum:4,
-      creditNum:'3.11',
-      progress:50,
-      studentNums:1200
-    },{
-      id:6,
-      num:1,
-      org:'芝士/英语3组',
-      rankNum:1,
-      creditNum:'6.11',
-      progress:65,
-      studentNums:1300
-    },{
-      id:7,
-      num:1,
-      org:'自变量/法律一组',
-      rankNum:1,
-      creditNum:'6.11',
-      progress:90,
-      studentNums:1300
-    },{
-      id:8,
-      num:0.8,
-      org:'芝士/英语3组',
-      rankNum:1,
-      creditNum:'6.11',
-      progress:90,
-      studentNums:1300
-    },{
-      id:9,
-      num:0.8,
-      org:'自变量/法律一组',
-      rankNum:1,
-      creditNum:'6.11',
-      progress:90,
-      studentNums:1300
-    },{
-      id:9,
-      num:0.5,
-      org:'自变量/法律一组',
-      rankNum:1,
-      creditNum:'6.11',
-      progress:90,
-      studentNums:1300
-    }]
+    const {orgOptions,orgValue,studentValue,userFlag,userMsg,dataSource,secondOptions} = this.state;
     return (
         <div className={styles.creditRight}>
           <div className={styles.creditSelect}>
@@ -243,16 +284,35 @@ class  currentCreditRight extends React.Component {
               ))}
             </BISelect>
           </div>
-          <BITable
-            columns={this.columnsRight()}
-            dataSource = {dataSource}
-            pagination = {false}
-            rowClassName={this.setRowClassName}
-            onRow={this.onClickRow}
-            className = {this.setColumnClassName}
-          >
+          <div className={styles.tableContent}>
+            {userFlag}
+            {userFlag && userMsg && <div className={styles.suspension}>
+              <BITable
+                showHeader={false}
+                columns={this.columnsRight()}
+                dataSource={[userMsg]}
+                pagination={false}
+                rowKey={record => record.userId}
+                rowClassName={this.setRowClassName}
+                className = {this.setColumnClassName}
+              />
+            </div>}
+            <div id="scroll1">
+              <BITable
+                columns={this.columnsRight()}
+                dataSource = {dataSource}
+                pagination = {false}
+                rowClassName={this.setRowClassName}
+                onRow={this.onClickRow}
+                className = {this.setColumnClassName}
+                scroll={{x:0,y:408}}
+                rowKey={record => record.id}
+              >
 
-          </BITable>
+              </BITable>
+            </div>
+          </div>
+
         </div>
     );
   }
