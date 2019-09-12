@@ -75,7 +75,6 @@ const request = extend({
 request.interceptors.request.use((url, options) => {
   options.headers = Object.assign({}, options.headers, { 'X-Requested-With': 'XMLHttpRequest', authorization: storage.getToken() });
   const hasSelfPri = url.indexOf('/apis') > -1 || url.indexOf('/shinecollege') > -1 || url.indexOf('/deskapi') > -1 || url.indexOf('/deskperfpcapi') > -1;
-  console.log(78, url)
   return {
     url: `${SERVER_HOST}${PROXY_PATH(hasSelfPri)}${url}`,
     options,

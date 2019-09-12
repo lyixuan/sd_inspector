@@ -13,15 +13,27 @@ class performanceDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      kpiInfo: {}
     }
   }
   componentDidMount() {
     this.drawChart()
+    this.getApiInfo();
   }
   createRef = id => {
     this.ID = id;
   };
+  getApiInfo() {
+    this.props.dispatch({
+      type: 'xdWorkModal/getKpiInfo',
+      callback: (data) => {
+        this.setState({
+          kpiInfo: data
+        })
+        console.log(30, data)
+      },
+    });
+  }
   drawChart() {
     let option = {
       calculable: true,
@@ -132,11 +144,13 @@ class performanceDetail extends React.Component {
   }
 
   render() {
-
+    const { kpiInfo } = this.state;
+    // const { kpiStartDate, kpiEndDate } = kpiInfo
+    console.log(149, kpiInfo)
     return (
       <Container
         title='绩效详情'
-        right="2019.07.29 - 2019.08.10 (最新学分日期)"
+      // right={`${kpiStartDate}~${kpiEndDate}(最新学分日期)`}
       >
         <div className={styles.performanceDetail}>
           <div ref={this.createRef} className={styles.chart}></div>
