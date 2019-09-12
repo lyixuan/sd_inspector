@@ -12,6 +12,13 @@ import pkImg from '@/assets/xdwork/pk.png';
 import { thousandsFormat } from '@/utils/utils'
 import styles from '../style.less';
 
+const thousandsFormatAll = (n, u) => {
+  if (n !== null) {
+    return thousandsFormat(n) + '' + u
+  } else {
+    return ' '
+  }
+}
 const pkTypeObj = ['综合对比', '好推绩效', '续报绩效', '成考专本套'];
 const gradeImg = { // 等级
   A: gradeA,
@@ -31,12 +38,12 @@ class profitList extends React.Component {
       pkType: 1,
       profitData: [],
       profitPersonData: {
-        // self: {
-        //   certificationGradeList: []
-        // },
-        // pkUser: {
-        //   certificationGradeList: []
-        // }
+        self: {
+          certificationGradeList: []
+        },
+        pkUser: {
+          certificationGradeList: []
+        }
       }
     }
   }
@@ -61,7 +68,9 @@ class profitList extends React.Component {
     this.props.dispatch({
       type: 'xdWorkModal/getIncomeKpiPersonInfo',
       payload: { params: { pkUser } },
-      callback: (profitPersonData) => this.setState({ profitPersonData }),
+      callback: (profitPersonData) => {
+        if (profitPersonData) this.setState({ profitPersonData })
+      },
     });
   }
   // 对比列表
@@ -75,7 +84,9 @@ class profitList extends React.Component {
           pkListType: this.props.pkListType
         }
       },
-      callback: (profitData) => this.setState({ profitData }),
+      callback: (profitData) => {
+        if (profitData) this.setState({ profitData })
+      },
     });
   }
   getSizeStyle = ({ subSelfValue, subPkUserValue }) => {
@@ -91,14 +102,13 @@ class profitList extends React.Component {
     const { profitPersonData, profitData } = this.state;
     const { pkUser } = this.props;
     const profitDataOther = profitData && profitData.filter((item, index) => index !== 0);
-    console.log(profitData, profitDataOther)
     return (
       <div className={styles.profitTabs}>
         <BIRadio onChange={this.handlePkTypeChange} value={this.state.pkType} style={{ marginBottom: 16 }}>
           {pkTypeObj.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}>{item}</BIRadio.Radio.Button>)}
         </BIRadio>
         <Skeleton loading={this.props.loading} >
-          <div className={styles.tabContent}>
+          {profitData && profitData[0] && profitPersonData && <div className={styles.tabContent}>
             {!pkUser && <img src={xdGif} />}
             {/* 第一行 */}
             <div className={styles.tabBody} style={{ height: '136px' }}>
@@ -148,8 +158,8 @@ class profitList extends React.Component {
               <div className={styles.tabTwoTh}><span>绩效</span></div>
               <div className={styles.tabTwoTd}>
                 {
-                  pkUser && profitData && profitData[0] ? <Proportion leftNum={profitData[0].selfValue} rightNum={profitData[0].pkUserValue} iconed={true} />
-                    : <div className={styles.tabTwoNone}><div>￥{thousandsFormat(profitData.selfValue)}</div></div>
+                  pkUser ? <Proportion leftNum={profitData[0].selfValue} rightNum={profitData[0].pkUserValue} iconed={true} />
+                    : <div className={styles.tabTwoNone}><div>￥{thousandsFormat(profitData[0].selfValue)}</div></div>
                 }
               </div>
             </div>
@@ -162,14 +172,14 @@ class profitList extends React.Component {
                 <div className={styles.tabThreeTd}>
                   {
                     profitDataOther && profitDataOther.map((item, index) => <div>
-                      <span key={index + '' + this.state.pkType} style={{ color: this.getSizeStyle(item) }}>{thousandsFormat(item.selfValue)}{unitType[item.valueType]}</span>
-                      <span>{pkUser ? <span>{thousandsFormat(item.pkUserValue)}{unitType[item.valueType]}</span> : ' '}</span>
+                      <span key={index + '' + this.state.pkType} style={{ color: this.getSizeStyle(item) }}>{thousandsFormatAll(item.selfValue, unitType[item.valueType])}{}</span>
+                      <span>{pkUser ? <span>{thousandsFormatAll(item.pkUserValue, unitType[item.valueType])}</span> : ' '}</span>
                     </div>)
                   }
                 </div>
               </div>
             </div>
-          </div>
+          </div>}
         </Skeleton>
       </div>
     );
