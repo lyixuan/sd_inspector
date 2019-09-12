@@ -245,9 +245,7 @@ class  currentCreditRight extends React.Component {
   };
   render() {
     const {orgOptions,orgValue,studentValue,userFlag,userMsg,secondOptions,groupList} = this.state;
-    console.log(245,groupList)
     const dataSource = groupList?this.fillDataSource(groupList):[]
-    console.log(242,userFlag,userMsg)
     return (
         <div className={styles.creditRight}>
           <div className={styles.creditSelect}>

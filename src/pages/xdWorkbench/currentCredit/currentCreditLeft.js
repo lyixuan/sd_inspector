@@ -13,6 +13,7 @@ function CustomExpandIcon(props) {
 }
 @connect(({xdWorkModal, loading}) => ({
   xdWorkModal,
+  loading:loading.effects['xdWorkModal/groupPkList'],
 }))
 class  currentCreditLeft extends React.Component {
   constructor(props) {
@@ -21,16 +22,11 @@ class  currentCreditLeft extends React.Component {
       groupPkList:[]
     }
   }
-  componentDidMount() {
-
-
-  }
+  componentDidMount() {}
   componentWillReceiveProps(nextProps) {
     if(this.props.groupId !== nextProps.groupId){
       this.getGroupPkData(nextProps.groupId)
     }
-
-
   }
   //获取左侧列表数据的方法
   getGroupPkData = (groupId) =>{
@@ -62,7 +58,6 @@ class  currentCreditLeft extends React.Component {
           return(
             <div className={isFlag?`${styles.titleGreen}`:`${styles.titleRed}`}>{myScoreRatio}</div>
           )
-
         }
       }, {
         title: '我的',
@@ -71,8 +66,8 @@ class  currentCreditLeft extends React.Component {
         width:80,
         render:(myScore,data)=>{
           const isFlag = myScore>data.groupScore?1:myScore<data.groupScore?2:3
-          console.log(74,data.dimensionName)
-          const myScoreName = data.dimensionName === "学分均分"?myScore.toFixed(2):myScore
+          const isDecimal = String(myScore).indexOf(".") + 1
+          const myScoreName = isDecimal >0 ? myScore.toFixed(2):myScore
           return(
             <div className={isFlag===1?`${styles.titleGreen}`:isFlag===2?`${styles.titleRed}`:`${styles.titleBlack}`}>{myScoreName}</div>
           )
@@ -84,8 +79,10 @@ class  currentCreditLeft extends React.Component {
         key: 'groupScore',
         render: (groupScore,data) => {
           const isFlag = data.myScore>data.groupScore?1:data.myScore<data.groupScore?2:3
+          const isDecimal = String(groupScore).indexOf(".") + 1
+          const groupScoreName = isDecimal > 0 ? groupScore.toFixed(2):groupScore
           return (
-            data.dimensionName ==="正面均分"?
+            data.dimensionName === "正面均分"|| data.isShowPro?
             <div className={styles.pkRankMain}>
               <div
                 style={{
@@ -105,7 +102,7 @@ class  currentCreditLeft extends React.Component {
 
                 </div>
               </div>
-              <div>{groupScore}</div>
+              <div>{groupScoreName}</div>
             </div>:<div className={styles.pkRankMain}>
                 <div
                   style={{
@@ -117,7 +114,7 @@ class  currentCreditLeft extends React.Component {
                   }}
                 >
                 </div>
-                <div>{groupScore}</div>
+                <div>{groupScoreName}</div>
               </div>
           );
         },
@@ -162,132 +159,29 @@ class  currentCreditLeft extends React.Component {
       groupScore:params.groupAverageStudentNumber
     })
     data = params.dimensionList && data.concat(params.dimensionList[0])
-    console.log(163,data)
+    params.dimensionList && params.dimensionList[0].children.map((item)=>{
+      if(item.dimensionName === "正面均分"){
+        this.serverArray(item.children)
+      }
+    })
     return data
 
   }
+ serverArray = (arr) =>{
+    for(var item = 0;item < arr.length;item++){
+        if(arr[item].children){
+          arr[item].isShowPro = true
+          this.serverArray(arr[item].children)
+        }
+    }
+    return arr
+  }
 
   render() {
-
-    const data = [
-      {
-        key: 1,
-        name: "绩效排名系数",
-        precent: "",
-        myNum: 2,
-        contrastGroup:4,
-        oneLevel:1,
-        isShowPro:false,
-        progress:''
-      },{
-        key: 2,
-        name: "集团排名",
-        precent: "",
-        myNum: 2,
-        contrastGroup:4,
-        oneLevel:1,
-        isShowPro:false,
-        progress:''
-      },{
-        key: 1,
-        name: "家族内排名",
-        precent: "",
-        myNum: 2,
-        contrastGroup:4,
-        oneLevel:1,
-        isShowPro:false,
-        progress:''
-      },{
-        key: 1,
-        name: "人均在服学员",
-        precent: "",
-        myNum: 2,
-        contrastGroup:4,
-        oneLevel:1,
-        isShowPro:false,
-        progress:''
-      },
-      {
-        key: 1,
-        name: '学分均分',
-        precent: "-5.31",
-        myNum: "8.11",
-        contrastGroup:"10.38",
-        oneLevel:1,
-        isShowPro:false,
-        progress:'',
-        children: [
-          {
-            key: 12,
-            name: '正面均分',
-            precent: "5.31",
-            myNum: "6.80",
-            contrastGroup:"12.70",
-            oneLevel:2,
-            isShowPro:true,
-            progress:'',
-            children: [
-              {
-                key: 121,
-                name: '有效出勤',
-                precent: "5.31",
-                myNum: "3.61",
-                contrastGroup:"3.61",
-                oneLevel:3,
-                isShowPro:false,
-                progress:'',
-                children:[{
-                  key: 123,
-                  name: '有效直播',
-                  precent: "",
-                  myNum: "2.78",
-                  contrastGroup:"3.49",
-                  oneLevel:4,
-                  isShowPro:false,
-                  progress:'',
-                },{
-                  key: 124,
-                  name: '有效重播',
-                  precent: "",
-                  myNum: "0.83",
-                  contrastGroup:"1.41",
-                  oneLevel:4,
-                  isShowPro:false,
-                  progress:'',
-                }]
-              },
-              {
-                key: 122,
-                name: '有效做题',
-                precent: "",
-                myNum: "3.69",
-                contrastGroup:"3.05",
-                oneLevel:3,
-                isShowPro:false,
-                progress:'',
-              },
-            ],
-          },
-          {
-            key: 13,
-            name: '负面均分',
-            precent: "5.31",
-            myNum: "6.80",
-            contrastGroup:"12.70",
-            oneLevel:2,
-            isShowPro:true,
-            progress:'',
-          }
-        ],
-      },
-
-    ];
-
     const {PkName,selfName} = this.props
+    console.log(182,this.props.loading)
     const {groupPkList} = this.state
     const dataSource = groupPkList?this.fillDataSource(groupPkList):[]
-    console.log(262,dataSource)
-
     return (
           <div className={styles.creditLeft}>
             <div className={styles.proMain}>
@@ -303,19 +197,23 @@ class  currentCreditLeft extends React.Component {
               </div>}
             </div>
             <div className={styles.tableContainer}>
-              <BITable
-                columns={this.columns()}
-                dataSource={dataSource}
-                defaultExpandAllRows={true}
-                expandIcon={CustomExpandIcon}
-                rowClassName={this.setRowClassName}
-                pagination = {false}
-                scroll={{x:0,y:408}}
-                rowKey={record => record.id}
-              >
-              </BITable>
               {
-                PkName?null:<div className={styles.tableImg}><img src={xdPkImg}/></div>
+                dataSource && <BITable
+                  columns={this.columns()}
+                  dataSource={dataSource}
+                  defaultExpandAllRows={true}
+                  expandIcon={CustomExpandIcon}
+                  rowClassName={this.setRowClassName}
+                  pagination = {false}
+                  scroll={{x:0,y:408}}
+                  rowKey={record => record.id}
+                  loading={this.props.loading}
+                >
+                </BITable>
+              }
+
+              {
+                PkName && <div className={styles.tableImg}><img src={xdPkImg}/></div>
               }
 
             </div>

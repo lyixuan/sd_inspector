@@ -18,6 +18,14 @@ class  currentCredit extends React.Component {
       selfName:''
     }
   }
+  componentDidMount() {
+    const localName = localStorage.getItem('orgName')
+    if(localName){
+      this.setState({
+        PkName:localName
+      })
+    }
+  }
   clickRow = (data) =>{
     console.log(19,data)
     if(data.isMyGroup){
@@ -30,6 +38,7 @@ class  currentCredit extends React.Component {
         PkName:data.orgName,
         groupId:data.groupId
       })
+      localStorage.setItem('orgName',data.orgName);
     }
   }
 
