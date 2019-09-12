@@ -43,7 +43,7 @@ class Tab extends React.Component {
     // debugger;
     const { itemList = [] } = this.state;
     if(itemList.length>0 && itemList[itemList.length-1].levelUpperLimit){
-      this.initModel. levelLowerLimit = itemList[itemList.length-1].levelUpperLimit;
+      this.initModel.levelLowerLimit = itemList[itemList.length-1].levelUpperLimit;
     }
     const newAddObject = { ...this.initModel };
     const indexArr = itemList.map((list, index) => {

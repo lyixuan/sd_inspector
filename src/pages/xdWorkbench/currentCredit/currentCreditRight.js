@@ -53,12 +53,14 @@ class  currentCreditRight extends React.Component {
     document.querySelector("#scroll1 .ant-table-body").onscroll = (e) => {
       this.getScrollFn(e.target.scrollTop)
     }
-  }
-  componentWillReceiveProps(nextProps) {
     this.setState({
       secondOptions:this.state.orgSecondOptions,
       studentValue:this.state.studentValue
     })
+  }
+  componentWillReceiveProps(nextProps) {
+
+
   }
   componentWillUnmount() {
     document.querySelector("#scroll1 .ant-table-body").onscroll = '';
@@ -269,7 +271,7 @@ class  currentCreditRight extends React.Component {
                 className = {this.setColumnClassName}
               />
             </div>}
-            <div id="scroll1">
+            <div id="scroll1" className={`${styles.scrollTable} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
               <BITable
                 columns={this.columnsRight()}
                 dataSource = {dataSource}

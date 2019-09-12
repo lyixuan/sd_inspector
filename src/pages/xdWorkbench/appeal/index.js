@@ -41,7 +41,7 @@ class appeal extends React.Component {
       const params = op === 'nonAppealNum' ? JSON.stringify({"status":"2"}) : '';
       router.push({
         pathname: '/qualityAppeal/qualityAppeal',
-        query: { params }
+        query: { p: params }
       });
     } else { // 其它
       if (op === 'nonAppealNum') { // 未申诉
@@ -49,9 +49,11 @@ class appeal extends React.Component {
           pathname: '/scoreAppeal/awaitAppeal',
         });
       } else { // 其它状态
-        const dimensionType = constants.DIMENSION_TYPE.find(item => item.name === appealObj[item.appealType]).id;
-        const statusList = op === 'rejectedAppealNum' ? [3, 4, 7] : [1, 2, 5, 6];
+        const dimensionType = constants.DIMENSION_TYPE.find(op => op.name === appealObj[item.appealType]);
+        const statusList = op === 'rejectedAppealNum' ? ['3', '4', '7'] : ['1', '2', '5', '6'];
         const params = JSON.stringify({"page": 1, "pageSize": 30, "dimensionType": dimensionType ? dimensionType.id : constants.DIMENSION_TYPE[0].id, statusList});
+        console.log({"page": 1, "pageSize": 30, "dimensionType": dimensionType ? dimensionType.id : constants.DIMENSION_TYPE[0].id, statusList})
+        // return
         router.push({
           pathname: '/scoreAppeal/onAppeal',
           query: { params }

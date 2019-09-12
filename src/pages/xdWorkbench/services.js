@@ -12,6 +12,7 @@ export async function getIncomeKpiPkList(params) {
 export async function getIncomeKpiPersonInfo(params) {
   return request('/deskperfpcapi/workbenchIncomeKpi/incomeKpiPersonInfo', { method: 'get', params });
 }
+
 // 班主任工作台 - 本期质检统计
 export async function getCountCurrentQuality(params) {
   return request('/classWorkbench/countCurrentQuality', { method: 'get', params });
