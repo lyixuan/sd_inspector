@@ -24,7 +24,6 @@ class NewQualitySheet extends React.Component {
 
   render() {
     const { dataSource, columns, page, loading } = this.props;
-    console.log(page, 'page');
     return (
       <div className={styles.newSheetWrap}>
         {/*table*/}

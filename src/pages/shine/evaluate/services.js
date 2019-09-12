@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
 // 查询列表
-export async function getList() {
-  return request('/shinecollege/comment/list' );
+export async function getList(params) {
+  return request('/shinecollege/comment/list',{params} );
 }
 
