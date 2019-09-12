@@ -21,104 +21,25 @@ class  currentCreditRight extends React.Component {
         id:2,
         name:'人均在服学员'
       }],
-      orgValue:'人均在服人员',
+      orgValue:'组织',
       orgSecondOptions:[{
-        id:1,
+        id:'group',
         name:'集团'
       },{
-        id:2,
+        id:'college',
         name:'本学院'
       },{
-        id:3,
+        id:'family',
         name:'本家族'
       }],
       secondOptions:[],
-      studentValue:'1200-1400',
+      studentValue:'本学院',
       rowId:0,
       userFlag: false,
       userLocation: '',
       userMsg: '',
-      dataSource : [{
-        id:1,
-        num:3,
-        org:'自变量/法律一组',
-        rankNum:1,
-        creditNum:'6.11',
-        progress:90,
-        studentNums:1300
-      },{
-        id:2,
-        num:3,
-        org:'芝士/英语3组',
-        rankNum:2,
-        creditNum:'5.05',
-        progress:70,
-        studentNums:1200
-      },{
-        id:3,
-        num:3,
-        org:'自变量/法律一组',
-        rankNum:3,
-        creditNum:'4.00',
-        progress:40,
-        studentNums:1300
-      },{
-        id:4,
-        num:2,
-        org:'芝士/英语3组',
-        rankNum:4,
-        creditNum:'3.11',
-        progress:30,
-        studentNums:1200
-      },{
-        id:5,
-        num:2,
-        org:'自变量/法律一组',
-        rankNum:4,
-        creditNum:'3.11',
-        progress:50,
-        studentNums:1200
-      },{
-        id:6,
-        num:1,
-        org:'芝士/英语3组',
-        rankNum:1,
-        creditNum:'6.11',
-        progress:65,
-        studentNums:1300
-      },{
-        id:7,
-        num:1,
-        org:'自变量/法律一组',
-        rankNum:1,
-        creditNum:'6.11',
-        progress:90,
-        studentNums:1300
-      },{
-        id:8,
-        num:0.8,
-        org:'芝士/英语3组',
-        rankNum:1,
-        creditNum:'6.11',
-        progress:90,
-        studentNums:1300
-      },{
-        id:9,
-        num:0.8,
-        org:'自变量/法律一组',
-        rankNum:1,
-        creditNum:'6.11',
-        progress:90,
-        studentNums:1300
-      },{
-        id:10,
-        num:0.5,
-        org:'自变量/法律一组',
-        rankNum:1,
-        creditNum:'6.11',
-        progress:90,
-        studentNums:1300
-      }]
+      groupType:'college',
+      kpiLevelId:""
     };
   }
   componentDidMount() {
@@ -126,23 +47,27 @@ class  currentCreditRight extends React.Component {
       type: 'xdWorkModal/kpiLevelList',
       payload: { params: {} },
     });
+    this.getGroupList()
     this.getScrollFn();
     // 表格添加滚动事件
     document.querySelector("#scroll1 .ant-table-body").onscroll = (e) => {
       this.getScrollFn(e.target.scrollTop)
     }
-
   }
   componentWillReceiveProps(nextProps) {
-    if (this.props.studentsOptions !== nextProps.studentsOptions) {
-      this.setState({
-        secondOptions:nextProps.studentsOptions,
-        studentValue:nextProps.studentsOptions[0].name
-      })
-    }
+    this.setState({
+      secondOptions:this.state.orgSecondOptions,
+      studentValue:this.state.studentValue
+    })
   }
   componentWillUnmount() {
     document.querySelector("#scroll1 .ant-table-body").onscroll = '';
+  }
+  getGroupList = ()=>{
+    this.props.dispatch({
+      type:'xdWorkModal/groupList',
+      payload:{params:{groupType:this.state.groupType,kpiLevelId:this.state.kpiLevelId}}
+    })
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
@@ -164,8 +89,8 @@ class  currentCreditRight extends React.Component {
       {
         width: '20%',
         title:'排名系数',
-        dataIndex:'num',
-        key:'num'
+        dataIndex:'creditRankingCoefficient',
+        key:'creditRankingCoefficient'
       },{
         width: '24%',
         title:'组织',
@@ -174,24 +99,23 @@ class  currentCreditRight extends React.Component {
       },{
         width: '14%',
         title:'排名',
-        dataIndex:'rankNum',
-        key:'rankNum'
+        dataIndex:'creditRanking',
+        key:'creditRanking'
       },{
         width: '20%',
         title:'学分',
-        dataIndex:'creditNum',
-        key:'creditNum',
-        render: (creditNum ,data)=> {
+        dataIndex:'credit',
+        key:'credit',
+        render: (credit ,data)=> {
           return (
             <div
               style={{
-                color: '#52C9C2',
                 cursor: 'pointer',
               }}
             >
-              <span style={{ fontSize: '13px',color:'#1B1C20' }}>{creditNum}</span>
+              <span style={{ fontSize: '13px'}}>{credit}</span>
               <Progress
-                percent={data.progress}
+                percent={Number(credit)}
                 strokeColor={'#00CCC3'}
                 showInfo={false}
                 strokeWidth={4}
@@ -201,8 +125,8 @@ class  currentCreditRight extends React.Component {
         },
       },{
         title:'人均在服学员',
-        dataIndex:'studentNums',
-        key:'studentNums'
+        dataIndex:'averageStudentNumber',
+        key:'averageStudentNumber'
       }
     ]
     return columns || [];
@@ -217,35 +141,59 @@ class  currentCreditRight extends React.Component {
       if(value == 1){
         this.setState({
           secondOptions:orgSecondOptions,
-          studentValue:orgSecondOptions[0].name
+          studentValue:'请选择'
         })
       }else{
         this.setState({
           secondOptions:studentsOptions,
-          studentValue:studentsOptions[0].name
+          studentValue:'请选择'
         })
       }
     }else if(vname === 'secondLevel'){
-      this.setState({
-        studentValue:value
-      })
+      if(value == "college"){
+        this.setState({
+          groupType:'college',
+          kpiLevelId:'',
+          studentValue:value
+        })
+      }else if(value == "family"){
+        this.setState({
+          groupType:'family',
+          kpiLevelId:'',
+          studentValue:value
+        })
+      }else if(value == "group"){
+        this.setState({
+          groupType:'',
+          kpiLevelId:'',
+          studentValue:value
+        })
+      }else{
+        this.setState({
+          kpiLevelId:value,
+          groupType:'',
+          studentValue:value
+        })
+      }
+      this.getGroupList()
     }else{}
   };
   setRowClassName = (record,index) => {
     let className = ''
     let taClassName = ""
-    if (this.props.PkSelfId === record.id) {
-      this.state.userMsg = this.state.dataSource[index];
+    if (record.isMyGroup) {
+      this.state.userMsg = record;
       this.state.userLocation = 40 * (index + 1) - 430;
       taClassName = "rowHover"
+      this.props.clickRow(record)
     }
-    if(record.num === 3){
+    if(record.creditRankingCoefficient === 3){
       className = "background1 "+taClassName
-    }else if(record.num === 2){
+    }else if(record.creditRankingCoefficient === 2){
       className = "background2 "+taClassName
-    }else if(record.num === 1){
+    }else if(record.creditRankingCoefficient === 1){
       className = "background3 "+taClassName
-    }else if(record.num === 0.8){
+    }else if(record.creditRankingCoefficient === 0.8){
       className = "background4 "+taClassName
     }else{
       className = "background5 "+taClassName
@@ -257,14 +205,38 @@ class  currentCreditRight extends React.Component {
     return {
       onClick: () => {
         this.setState({
-          rowId: record.id,
+          rowId: record.groupId,
         });
         this.props.clickRow(record)
       },
     };
   }
+  // 初始化tabale 列数据
+  fillDataSource = val => {
+    const data = [];
+    val.map((item, index) =>
+      data.push({
+        key: index + 1,
+        averageStudentNumber: item.averageStudentNumber,
+        collegeId: item.collegeId,
+        orgName:
+          item.groupName && item.familyName
+            ? `${item.collegeName} | ${item.familyName} | ${item.groupName}`
+            : null,
+        credit: item.credit.toFixed(2),
+        familyId:item.familyId,
+        groupId:item.groupId,
+        creditRankingCoefficient: item.creditRankingCoefficient,
+        creditRanking: item.creditRanking,
+        isMyGroup: item.myGroup,
+      })
+    );
+    return data;
+  };
   render() {
-    const {orgOptions,orgValue,studentValue,userFlag,userMsg,dataSource,secondOptions} = this.state;
+    const {orgOptions,orgValue,studentValue,userFlag,userMsg,secondOptions} = this.state;
+    const {groupList} = this.props.xdWorkModal
+    const dataSource = groupList?this.fillDataSource(groupList):[]
     return (
         <div className={styles.creditRight}>
           <div className={styles.creditSelect}>
@@ -306,9 +278,8 @@ class  currentCreditRight extends React.Component {
                 onRow={this.onClickRow}
                 className = {this.setColumnClassName}
                 scroll={{x:0,y:408}}
-                rowKey={record => record.id}
+                rowKey={record => record.groupId}
               >
-
               </BITable>
             </div>
           </div>

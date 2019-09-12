@@ -29,5 +29,9 @@ export async function kpiLevelList(params) {
 }
 //右侧对比小组的列表页
 export async function groupList(params) {
-  return request('/scorePk/group/list',{method:'POST',params})
+  return request('/scorePk/group/list',{method:'POST',data:params})
+}
+// 左侧学分pk对象的数据
+export async function groupPkList(params) {
+  return request('/scorePk/group/pk',{method:'get',params})
 }

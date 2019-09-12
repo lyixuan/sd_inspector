@@ -5,13 +5,38 @@ import BITable from '@/ant_components/BITable'
 import { Progress } from 'antd';
 import Proportion from '../components/proportion';
 import pkImg from '@/assets/xdwork/pk.png';
+import xdPkImg from '@/assets/workBench/xdpk.png';
 function CustomExpandIcon(props) {
   return (
     <a/>
   );
 }
-
+@connect(({xdWorkModal, loading}) => ({
+  xdWorkModal,
+}))
 class  currentCreditLeft extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {}
+  }
+  componentDidMount() {
+
+
+  }
+  componentWillReceiveProps(nextProps) {
+    if(this.props.groupId !== nextProps.groupId){
+      this.getGroupPkData(nextProps.groupId)
+    }
+
+
+  }
+  //获取左侧列表数据的方法
+  getGroupPkData = (groupId) =>{
+    this.props.dispatch({
+      type: 'xdWorkModal/groupPkList',
+      payload: { params: {pkGroup:groupId} },
+    });
+  }
   columns = () => {
     const columns = [
       {
@@ -207,17 +232,23 @@ class  currentCreditLeft extends React.Component {
                 <span>快从右边选择一个小组进行学分PK吧！</span>
               </div>}
             </div>
-            <BITable
-              columns={this.columns()}
-              dataSource={data}
-              defaultExpandAllRows={true}
-              expandIcon={CustomExpandIcon}
-              rowClassName={this.setRowClassName}
-              pagination = {false}
-              scroll={{x:0,y:408}}
-              rowKey={record => record.name}
-            >
-            </BITable>
+            <div className={styles.tableContainer}>
+              <BITable
+                columns={this.columns()}
+                dataSource={data}
+                defaultExpandAllRows={true}
+                expandIcon={CustomExpandIcon}
+                rowClassName={this.setRowClassName}
+                pagination = {false}
+                scroll={{x:0,y:408}}
+                rowKey={record => record.name}
+              >
+              </BITable>
+              {
+                PkName?null:<div className={styles.tableImg}><img src={xdPkImg}/></div>
+              }
+
+            </div>
           </div>
     );
   }

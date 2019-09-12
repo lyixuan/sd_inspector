@@ -8,9 +8,30 @@ import storage from '../utils/storage';
 import { GLOBAL_HEADER_SELECT } from '../utils/constants';
 import { redirectOldSysHosts } from '../utils/routeUtils';
 
+import c from '@/assets/workBench/c.png';
+import b from '@/assets/workBench/b.png';
+import a from '@/assets/workBench/a.png';
+import s from '@/assets/workBench/s.png';
+import cGray from '@/assets/workBench/c2.png';
+import bGray from '@/assets/workBench/b2.png';
+import aGray from '@/assets/workBench/a2.png';
+import sGray from '@/assets/workBench/s2.png';
+
 const { Header } = Layout;
 const RadioGroup = Radio.Group;
 
+const gradeImg = { // 等级
+    C: c,
+    B: b,
+    A: a,
+    S: s,
+}
+const gradeImgGray = { // 等级
+    C: cGray,
+    B: bGray,
+    A: aGray,
+    S: sGray,
+}
 @connect(({ login = {}, loading }) => ({
     login,
     loading,
@@ -24,10 +45,10 @@ class SelfHeader extends PureComponent {
         this.state = {
             visible: false,
             roleSelected: props.currentUser && props.currentUser.userId,
+            certificationList: []
         };
     }
     componentDidMount() {
-        console.log(30, this.props.login)
         this.getCertificationList();
     }
     getUserInfo = () => {
@@ -40,9 +61,32 @@ class SelfHeader extends PureComponent {
         });
     };
     getCertificationList = () => {
-        console.log(39)
         this.props.dispatch({
-            type: 'login/getCertificationList'
+            type: 'login/getCertificationList',
+            callback: (dataSource) => {
+                let arrs = [
+                    { child: [], imgUrl: null, grade: "C" },
+                    { child: [], imgUrl: null, grade: "B" },
+                    { child: [], imgUrl: null, grade: "A" },
+                    { child: [], imgUrl: null, grade: "S" }
+                ];
+                arrs.map(item => {
+                    if (item.grade < dataSource.currentGradeCode) {
+                        item.imgUrl = gradeImgGray[item.grade]
+                    } else {
+                        item.imgUrl = gradeImg[item.grade]
+                    }
+                    if (dataSource.currentGradeCode == "S") {
+                        item.imgUrl = gradeImg[item.grade]
+                    } else if (item.grade == "S") {
+                        item.imgUrl = gradeImgGray[item.grade]
+                    }
+                    item.child = dataSource.certificationList.filter(item2 => item2.gradeCode === item.grade)
+                })
+                this.setState({
+                    certificationList: arrs
+                })
+            },
         });
     }
     handleMenuClick = ({ key }) => {
@@ -112,13 +156,13 @@ class SelfHeader extends PureComponent {
         );
     };
     render() {
-        const { visible } = this.state;
+        const { visible, certificationList } = this.state;
         const selectedGroup = this.handleMenuList();
-        console.log(107, this.props)
         return (
             <Header style={{ padding: 0, height: '54px', lineHeight: '54px' }}>
                 <GlobalHeader
                     {...this.props}
+                    certificationList={certificationList}
                     onMenuClick={this.handleMenuClick}
                     selectedGroup={selectedGroup}
                 />

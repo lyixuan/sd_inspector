@@ -8,6 +8,10 @@ import c from '../../assets/workBench/c.png';
 import b from '../../assets/workBench/b.png';
 import a from '../../assets/workBench/a.png';
 import s from '../../assets/workBench/s.png';
+import cGray from '../../assets/workBench/c2.png';
+import bGray from '../../assets/workBench/b2.png';
+import aGray from '../../assets/workBench/a2.png';
+import sGray from '../../assets/workBench/s2.png';
 import bIcon1 from '../../assets/workBench/b-icon1.png';
 import bIcon2 from '../../assets/workBench/b-icon2.png';
 import bIcon3 from '../../assets/workBench/b-icon3.png';
@@ -30,6 +34,7 @@ import sIcon3 from '../../assets/workBench/s-icon3.png';
 import sIcon1Gray from '../../assets/workBench/s-icon1-gray.png';
 import sIcon2Gray from '../../assets/workBench/s-icon2-gray.png';
 import sIcon3Gray from '../../assets/workBench/s-icon3-gray.png';
+import { nullLiteral } from '@babel/types';
 
 export default class GlobalHeader extends PureComponent {
   componentWillUnmount() {
@@ -58,6 +63,7 @@ export default class GlobalHeader extends PureComponent {
       onMenuClick,
       onNoticeClear,
       selectedGroup,
+      certificationList
     } = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
@@ -71,6 +77,7 @@ export default class GlobalHeader extends PureComponent {
         ))}
       </Menu>
     );
+
     return (
       <div className={styles.header}>
         {isMobile && [
@@ -85,20 +92,20 @@ export default class GlobalHeader extends PureComponent {
           onClick={this.toggle}
         />
         <ul className={styles.certification}>
-          <li><img src={c} className="bigImg" /></li>
-          <li><img src={bIcon1} /></li>
-          <li><img src={bIcon2} /></li>
-          <li><img src={bIcon3} /></li>
-          <li><img src={b} className="bigImg" /></li>
-          <li><img src={aIcon1} /></li>
-          <li><img src={aIcon2} /></li>
-          <li><img src={aIcon3} /></li>
-          <li><img src={aIcon4} /></li>
-          <li><img src={a} className="bigImg" /></li>
-          <li><img src={sIcon1} /></li>
-          <li><img src={sIcon2} /></li>
-          <li><img src={sIcon3} /></li>
-          <li><img src={s} className="bigImg" /></li>
+          {
+            certificationList.map(item => {
+              return (
+                <>
+                  {
+                    item.child.map(item2 => (
+                      item2.obtained ? <li key={item2.id}><img src={item2.obtainedIcon} /></li> : <li key={item2.id}><img src={item2.originalIcon} /></li>
+                    ))
+                  }
+                  <li key={item.id}><img src={item.imgUrl} className="bigImg" /></li>
+                </>
+              )
+            })
+          }
         </ul>
         <div className={styles.right}>
           {currentUser.name ? (
