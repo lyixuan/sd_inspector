@@ -53,7 +53,7 @@ class appeal extends React.Component {
         const statusList = op === 'rejectedAppealNum' ? [3, 4, 7] : [1, 2, 5, 6];
         const params = JSON.stringify({"page": 1, "pageSize": 30, "dimensionType": dimensionType ? dimensionType.id : constants.DIMENSION_TYPE[0].id, statusList});
         console.log({"page": 1, "pageSize": 30, "dimensionType": dimensionType ? dimensionType.id : constants.DIMENSION_TYPE[0].id, statusList})
-        return
+        // return
         router.push({
           pathname: '/scoreAppeal/onAppeal',
           query: { params }

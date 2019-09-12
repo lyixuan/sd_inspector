@@ -21,7 +21,7 @@ const gradeImg = { // 等级
 }
 const unitType = [, '', '元', '%', '单'];
 const pathImUrl = 'http://bi-admin.ministudy.com'
-@connect(({ loading}) => ({
+@connect(({ loading }) => ({
   loading: loading.effects['xdWorkModal/getIncomeKpiPersonInfo'] || loading.effects['xdWorkModal/getContrastIncomeKpiPkList'],
 }))
 class profitList extends React.Component {
@@ -68,17 +68,17 @@ class profitList extends React.Component {
   getPkList = (pkUser = this.props.pkUser) => {
     this.props.dispatch({
       type: 'xdWorkModal/getContrastIncomeKpiPkList',
-      payload: { 
-        params: { 
+      payload: {
+        params: {
           pkUser,
-          tabType: this.state.pkType, 
+          tabType: this.state.pkType,
           pkListType: this.props.pkListType
-        } 
+        }
       },
       callback: (profitData) => this.setState({ profitData }),
     });
   }
-  getSizeStyle = ({subSelfValue, subPkUserValue}) => {
+  getSizeStyle = ({ subSelfValue, subPkUserValue }) => {
     if (subSelfValue > subPkUserValue) {
       return '#00CCC3';
     } else if (subSelfValue < subPkUserValue) {
@@ -90,7 +90,7 @@ class profitList extends React.Component {
   render() {
     const { profitPersonData, profitData } = this.state;
     const { pkUser } = this.props;
-    const profitDataOther = profitData && profitData.filter((item, index)=> index !== 0);
+    const profitDataOther = profitData && profitData.filter((item, index) => index !== 0);
     console.log(profitData, profitDataOther)
     return (
       <div className={styles.profitTabs}>
@@ -99,77 +99,79 @@ class profitList extends React.Component {
         </BIRadio>
         <Skeleton loading={this.props.loading} >
           <div className={styles.tabContent}>
-            {!pkUser && <img src={xdGif}/>}
+            {!pkUser && <img src={xdGif} />}
             {/* 第一行 */}
-            <div className={styles.tabBody} style={{height: '136px'}}>
+            <div className={styles.tabBody} style={{ height: '136px' }}>
               <div className={styles.tabOneTh}>
-                <span style={{color: '#7A7C80', fontSize: '12px'}}>对比项</span>
-                <span style={{color: '#1A1C1F', fontWeight: 'bold'}}>创收绩效</span>
+                <span style={{ color: '#7A7C80', fontSize: '12px' }}>对比项</span>
+                <span style={{ color: '#1A1C1F', fontWeight: 'bold' }}>创收绩效</span>
               </div>
               <div className={styles.tabOneTd}>
                 <div className={`${styles.tabMine} ${pkUser ? '' : styles.tabMineLine}`}>
                   <div className={styles.msg}>{profitPersonData.self.userGrade}
-                    <img src={gradeImg[profitPersonData.self.userGrade]} style={{marginRight: '16px'}}/>
+                    <img src={gradeImg[profitPersonData.self.userGrade]} style={{ marginRight: '16px' }} />
                     <div>
-                      <span style={{color: '#1A1C1F', fontWeight: 'bold'}}>{profitPersonData.self.userName}</span>
+                      <span style={{ color: '#1A1C1F', fontWeight: 'bold' }}>{profitPersonData.self.userName}</span>
                       <span>{profitPersonData.self.org}</span>
                     </div>
                   </div>
                   <div className={styles.imgs}>
-                    {profitPersonData.self.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{marginRight: '10px'}}/>)}
+                    {profitPersonData.self.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{ marginRight: '10px' }} />)}
                   </div>
                 </div>
                 <div className={`${pkUser ? '' : styles.tabUserLine}`}>
                   {
-                    pkUser && profitPersonData.pkUser?  
-                    <>
-                      <div className={styles.msg}>
-                        <img src={gradeImg[profitPersonData.pkUser.userGrade]} style={{marginRight: '16px'}}/>
-                        <div>
-                          <span style={{color: '#1A1C1F', fontWeight: 'bold'}}>{profitPersonData.pkUser.userName}</span>
-                          <span>{profitPersonData.pkUser.org}</span>
+                    pkUser && profitPersonData.pkUser ?
+                      <>
+                        <div className={styles.msg}>
+                          <img src={gradeImg[profitPersonData.pkUser.userGrade]} style={{ marginRight: '16px' }} />
+                          <div>
+                            <span style={{ color: '#1A1C1F', fontWeight: 'bold' }}>{profitPersonData.pkUser.userName}</span>
+                            <span>{profitPersonData.pkUser.org}</span>
+                          </div>
                         </div>
+                        <div className={styles.imgs}>
+                          {profitPersonData.pkUser.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{ marginRight: '10px' }} />)}
+                        </div>
+                      </>
+                      :
+                      <div className={styles.nonePk}>
+                        <img src={pkImg} style={{ marginRight: '16px' }} />
+                        <span>请从右边选择一个小组进行绩效PK吧！</span>
                       </div>
-                      <div className={styles.imgs}>
-                        {profitPersonData.pkUser.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{marginRight: '10px'}}/>)}
-                      </div>
-                    </> 
-                    : 
-                    <div className={styles.nonePk}>
-                      <img src={pkImg} style={{marginRight: '16px'}}/>
-                      <span>请从右边选择一个小组进行绩效PK吧！</span>
-                    </div>
                   }
                 </div>
               </div>
             </div>
             {/* 第二行 */}
-            <div className={styles.tabBody} style={{height: '72px'}}>
+            <div className={styles.tabBody} style={{ height: '72px' }}>
               <div className={styles.tabTwoTh}><span>绩效</span></div>
               <div className={styles.tabTwoTd}>
                 {
-                  pkUser && profitData && profitData[0]? <Proportion leftNum={profitData[0].selfValue} rightNum={profitData[0].pkUserValue} iconed={true}/> 
-                  : <div className={styles.tabTwoNone}><div>￥{thousandsFormat(profitData.selfValue)}</div></div>
+                  pkUser && profitData && profitData[0] ? <Proportion leftNum={profitData[0].selfValue} rightNum={profitData[0].pkUserValue} iconed={true} />
+                    : <div className={styles.tabTwoNone}><div>￥{thousandsFormat(profitData.selfValue)}</div></div>
                 }
               </div>
             </div>
             {/* 第三行 */}
-            <div className={`${styles.tabBody} ${styles.tabThreeBody}`}>
-              <div className={styles.tabThreeTh}>
-                {profitDataOther && profitDataOther.map((item, index) => <span key={index + '' + this.state.pkType}  style={{marginLeft: item.itemType === 2 ? '36px' : '12px'}}>{item.itemName}</span>)}
-              </div>
-              <div className={styles.tabThreeTd}>
-                {
-                  profitDataOther && profitDataOther.map((item, index) =><div>
-                  <span key={index + '' + this.state.pkType} style={{color: this.getSizeStyle(item)}}>{thousandsFormat(item.selfValue)}{unitType[item.valueType]}</span>
-                  <span>{pkUser ? <span>{thousandsFormat(item.pkUserValue)}{unitType[item.valueType]}</span> : ' '}</span>
-                  </div>)
-                }
+            <div className={styles.tabThreeBody}>
+              <div className={styles.tabBody}>
+                <div className={styles.tabThreeTh}>
+                  {profitDataOther && profitDataOther.map((item, index) => <span key={index + '' + this.state.pkType} style={{ marginLeft: item.itemType === 2 ? '36px' : '12px' }}>{item.itemName}</span>)}
+                </div>
+                <div className={styles.tabThreeTd}>
+                  {
+                    profitDataOther && profitDataOther.map((item, index) => <div>
+                      <span key={index + '' + this.state.pkType} style={{ color: this.getSizeStyle(item) }}>{thousandsFormat(item.selfValue)}{unitType[item.valueType]}</span>
+                      <span>{pkUser ? <span>{thousandsFormat(item.pkUserValue)}{unitType[item.valueType]}</span> : ' '}</span>
+                    </div>)
+                  }
+                </div>
               </div>
             </div>
           </div>
         </Skeleton>
-      </div>  
+      </div>
     );
   }
 }

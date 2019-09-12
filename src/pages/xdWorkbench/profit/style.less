@@ -23,7 +23,7 @@
       color: #56595E;
       > div:first-child {
         display: flex;
-        width: 20%;
+        width: 200px;
         background-color: #F6F7FA;
         border-right: 1px solid #E8EBED;
         > span {
@@ -123,9 +123,12 @@
     .tabBody:last-child {
       border-bottom: none;
     }
-    .tabThreeBody {
-      height: 240px;
-      overflow-y: auto;
+    .tabThreeBody{
+      height:240px;
+      overflow-y:auto;
+      .tabThreeTh{
+        min-height:240px;
+      }
     }
     .nonePk {
       display: flex;
