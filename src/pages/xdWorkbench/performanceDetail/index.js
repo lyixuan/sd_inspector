@@ -113,17 +113,36 @@ class performanceDetail extends React.Component {
     if (id == 1) {
       return (
         <div className={styles.tooltipContent}>
-          <h4></h4>
-          <p>绩效流水：￥80,000</p>
-          <p>好推收入：￥6,200</p>
+          <h4>系数{prop.pkSortValue}学分最后一名</h4>
+          <p>小组学分：{prop.pkGroupScore.toFixed(2)}</p>
+          <p>学分收入：￥{thousandsFormat(parseInt(prop.pkScoreKpi))}</p>
         </div>
       )
     } else if (id == 2) {
-      return <div>222</div>
+      return (
+        <div className={styles.tooltipContent}>
+          <h4>好推绩效流水第一名</h4>
+          <p>绩效流水：￥{thousandsFormat(parseInt(prop.firstKpiFlow))}</p>
+          <p>好推收入：￥{thousandsFormat(parseInt(prop.firstIncomeKpi))}</p>
+        </div>
+      )
     } else if (id == 3) {
-
+      return (
+        <div className={styles.tooltipContent}>
+          <h4>续报绩效流水第一名</h4>
+          <p>绩效流水：￥{thousandsFormat(parseInt(prop.firstKpiFlow))}</p>
+          <p>好推收入：￥{thousandsFormat(parseInt(prop.firstIncomeKpi))}</p>
+        </div>
+      )
     } else if (id == 4) {
-
+      return (
+        <div className={styles.tooltipContent}>
+          <h4>成考专本套单量第一名</h4>
+          <p>单量：{prop.firstOrderCount}单</p>
+          <p>绩效流水：￥{thousandsFormat(parseInt(prop.firstKpiFlow))}</p>
+          <p>成考专本套收入：￥{thousandsFormat(parseInt(prop.firstIncomeKpi))}</p>
+        </div>
+      )
     }
 
   }
@@ -144,38 +163,42 @@ class performanceDetail extends React.Component {
             <div className={styles.panelBox}>
               {/* {this.dataDetail().map(item => this.block(item))} */}
               <div className={styles.performancePanel}>
-                <Tooltip placement="bottom" title={this.tooltip(scoreKpiInfo, 1)}>
-                  <div className={styles.details}>
-                    <div>
-                      <p>学分收入</p>
-                      <p className={styles.big}>￥{thousandsFormat(parseInt(scoreKpiInfo.scoreKpi))}</p>
-                    </div>
-                    <div className={styles.txtRight}>
-                      <p>小组学分：{scoreKpiInfo.groupScore.toFixed(2)}</p>
-                      <p>排名系数：{scoreKpiInfo.soreValue}</p>
-                    </div>
+                {/* <Tooltip placement="bottom" title={this.tooltip(scoreKpiInfo, 1)}> */}
+                <div className={styles.details}>
+                  <div>
+                    <p>学分收入</p>
+                    <p className={styles.big}>￥{thousandsFormat(parseInt(scoreKpiInfo.scoreKpi))}</p>
                   </div>
+                  <div className={styles.txtRight}>
+                    <p>小组学分：{scoreKpiInfo.groupScore.toFixed(2)}</p>
+                    <p>排名系数：{scoreKpiInfo.soreValue}</p>
+                  </div>
+                </div>
+                <Tooltip placement="bottom" title={this.tooltip(scoreKpiInfo, 1)}>
                   <div className={styles.progressBar}>
                     <div className={styles.title}>
                       <span>系数{scoreKpiInfo.soreValue} ({scoreKpiInfo.groupScore.toFixed(2)}分)</span>
                       <span>系数{scoreKpiInfo.pkSortValue} ({scoreKpiInfo.pkGroupScore.toFixed(2)}分)</span>
                     </div>
+
                     <Progress strokeColor="#00CCC3" percent={scoreKpiInfo.groupScore / scoreKpiInfo.pkGroupScore * 100} strokeWidth={4} showInfo={false} />
                   </div>
                 </Tooltip>
+                {/* </Tooltip> */}
               </div>
               <div className={`${styles.performancePanel} ${styles.performancePanel2}`}>
-                <Tooltip placement="bottom" title={this.tooltip(goodpushKpiInfo, 2)}>
-                  <div className={styles.details}>
-                    <div>
-                      <p>好推收入</p>
-                      <p className={styles.big}>￥{thousandsFormat(goodpushKpiInfo.incomeKpi)}</p>
-                    </div>
-                    <div className={styles.txtRight}>
-                      <p>绩效流水：￥{thousandsFormat(parseInt(goodpushKpiInfo.kpiFlow))}</p>
-                      <p>系数均值：{goodpushKpiInfo.theValue.toFixed(2)}%</p>
-                    </div>
+
+                <div className={styles.details}>
+                  <div>
+                    <p>好推收入</p>
+                    <p className={styles.big}>￥{thousandsFormat(goodpushKpiInfo.incomeKpi)}</p>
                   </div>
+                  <div className={styles.txtRight}>
+                    <p>绩效流水：￥{thousandsFormat(parseInt(goodpushKpiInfo.kpiFlow))}</p>
+                    <p>系数均值：{goodpushKpiInfo.theValue.toFixed(2)}%</p>
+                  </div>
+                </div>
+                <Tooltip placement="bottom" title={this.tooltip(goodpushKpiInfo, 2)}>
                   <div className={styles.progressBar}>
                     <div className={styles.title}>
                       <span> </span>
@@ -186,44 +209,46 @@ class performanceDetail extends React.Component {
                 </Tooltip>
               </div>
               <div className={`${styles.performancePanel} ${styles.performancePanel3}`}>
-                <Tooltip placement="bottom" title={this.tooltip(renewalKpiInfo, 3)}>
-                  <div className={styles.details}>
-                    <div>
-                      <p>续报收入</p>
-                      <p className={styles.big}>￥4,700</p>
-                    </div>
-                    <div className={styles.txtRight}>
-                      <p>绩效流水：￥50,000</p>
-                      <p>岗位提点：3%</p>
-                    </div>
+
+                <div className={styles.details}>
+                  <div>
+                    <p>续报收入</p>
+                    <p className={styles.big}>￥{thousandsFormat(parseInt(renewalKpiInfo.incomeKpi))}</p>
                   </div>
+                  <div className={styles.txtRight}>
+                    <p>绩效流水：￥{thousandsFormat(parseInt(renewalKpiInfo.kpiFlow))}</p>
+                    <p>岗位提点：{renewalKpiInfo.theValue}%</p>
+                  </div>
+                </div>
+                <Tooltip placement="bottom" title={this.tooltip(renewalKpiInfo, 3)}>
                   <div className={styles.progressBar}>
                     <div className={styles.title}>
                       <span></span>
-                      <span>第一名(￥80,000)</span>
+                      <span>第一名(￥{thousandsFormat(parseInt(renewalKpiInfo.firstKpiFlow))})</span>
                     </div>
-                    <Progress strokeColor="#FF626A" percent={40} strokeWidth={4} showInfo={false} />
+                    <Progress strokeColor="#FF626A" percent={renewalKpiInfo.kpiFlow / renewalKpiInfo.firstKpiFlow * 100} strokeWidth={4} showInfo={false} />
                   </div>
                 </Tooltip>
               </div>
               <div className={`${styles.performancePanel} ${styles.performancePanel4}`}>
-                <Tooltip placement="bottom" title={this.tooltip(examZbtKpiInfo, 4)}>
-                  <div className={styles.details}>
-                    <div>
-                      <p>成考专本套收入</p>
-                      <p className={styles.big}>￥4,700</p>
-                    </div>
-                    <div className={styles.txtRight}>
-                      <p>绩效流水：￥50,000</p>
-                      <p>岗位提点：3%</p>
-                    </div>
+
+                <div className={styles.details}>
+                  <div>
+                    <p>成考专本套收入</p>
+                    <p className={styles.big}>￥{thousandsFormat(parseInt(examZbtKpiInfo.incomeKpi))}</p>
                   </div>
+                  <div className={styles.txtRight}>
+                    <p>绩效流水：￥{thousandsFormat(parseInt(examZbtKpiInfo.kpiFlow))}</p>
+                    <p>岗位提点：{examZbtKpiInfo.theValue}%</p>
+                  </div>
+                </div>
+                <Tooltip placement="bottom" title={this.tooltip(examZbtKpiInfo, 4)}>
                   <div className={styles.progressBar}>
                     <div className={styles.title}>
-                      <span>单量 (10单)</span>
-                      <span>第一名 (15单)</span>
+                      <span>单量 ({examZbtKpiInfo.orderCount}单)</span>
+                      <span>第一名 ({examZbtKpiInfo.firstOrderCount}单)</span>
                     </div>
-                    <Progress strokeColor="#4EB5EB" percent={40} strokeWidth={4} showInfo={false} />
+                    <Progress strokeColor="#4EB5EB" percent={examZbtKpiInfo.orderCount / examZbtKpiInfo.firstOrderCount * 100} strokeWidth={4} showInfo={false} />
                   </div>
                 </Tooltip>
               </div>
