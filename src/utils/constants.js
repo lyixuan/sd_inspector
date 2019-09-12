@@ -10,7 +10,7 @@ export const ADMIN_AUTH = 'admin_auth';
 export const ADMIN_USER = 'admin_user';
 
 export const DEBUGGER_USER = {
-  localhost: 'ligang02_1',
+  localhost: 'zhangqiang09',
 }[process.env.LOGIN_TYPE];
 
 // 静态文件host

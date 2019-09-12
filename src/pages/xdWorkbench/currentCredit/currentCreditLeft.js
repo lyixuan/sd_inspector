@@ -5,7 +5,7 @@ import BITable from '@/ant_components/BITable'
 import { Progress } from 'antd';
 import Proportion from '../components/proportion';
 import pkImg from '@/assets/xdwork/pk.png';
-import xdPkImg from '@/assets/workBench/xdpk.png';
+import xdPkImg from '@/assets/workBench/xdpk.gif';
 function CustomExpandIcon(props) {
   return (
     <a/>

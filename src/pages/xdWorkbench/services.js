@@ -33,5 +33,5 @@ export async function groupList(params) {
 }
 // 左侧学分pk对象的数据
 export async function groupPkList(params) {
-  return request('/scorePk/group/pk',{method:'get',params})
+  return request('/scorePk/group/pk',{method:'POST',data:params})
 }
