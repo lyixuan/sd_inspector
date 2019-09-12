@@ -6,17 +6,19 @@ import {
   getCountAppealRecord,
   kpiLevelList,
   groupList,
-  groupPkList
+  groupPkList,
+  getKpiInfo
 } from './services';
 import { message } from 'antd/lib/index';
-import {msgF} from "@/utils/utils";
+import { msgF } from "@/utils/utils";
 
 export default {
   namespace: 'xdWorkModal',
   state: {
-    kpiLevelList:null,
-    groupList:null,
-    groupPkList:null
+    kpiLevelList: null,
+    groupList: null,
+    groupPkList: null,
+    kipInfo: null
   },
 
   effects: {
@@ -68,7 +70,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-     // 我的申诉
+    // 我的申诉
     *getCountAppealRecord({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(getCountAppealRecord, params);
@@ -82,39 +84,48 @@ export default {
     },
     // 以下是本期学分相关的接口
     // 本期学分人均在服人员下拉里面的数据
-    *kpiLevelList({payload},{call,put}){
+    *kpiLevelList({ payload }, { call, put }) {
       const params = payload.params;
-      const result = yield call(kpiLevelList,params)
+      const result = yield call(kpiLevelList, params)
       if (result.code === 20000) {
         const kpiLevelList = result.data || {};
-        yield put({ type: 'save', payload: { kpiLevelList} });
+        yield put({ type: 'save', payload: { kpiLevelList } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
     // 获取右侧的列表数据
-    *groupList({payload},{call,put}){
+    *groupList({ payload }, { call, put }) {
       const params = payload.params;
-      const result = yield call(groupList,params)
-      if(result.code === 20000){
+      const result = yield call(groupList, params)
+      if (result.code === 20000) {
         const groupList = result.data || {};
-        yield put({type:'save',payload:{groupList}});
-      }else if(result){
+        yield put({ type: 'save', payload: { groupList } });
+      } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-  //  获取左侧的列表数据
-    *groupPkList({payload},{call,put}){
+    //  获取左侧的列表数据
+    *groupPkList({ payload }, { call, put }) {
       const params = payload.params;
-      const result = yield call(groupPkList,params)
-      if(result.code === 20000){
+      const result = yield call(groupPkList, params)
+      if (result.code === 20000) {
         const groupPkList = result.data || {};
-        yield put({type:'save',payload:{groupPkList}});
-      }else if(result){
+        yield put({ type: 'save', payload: { groupPkList } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getKpiInfo({ callback }, { call, put }) {
+      const result = yield call(getKpiInfo, {})
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     }
-  //
   },
 
   reducers: {
