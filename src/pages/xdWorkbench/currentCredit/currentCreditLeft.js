@@ -17,7 +17,9 @@ function CustomExpandIcon(props) {
 class  currentCreditLeft extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      groupPkList:[]
+    }
   }
   componentDidMount() {
 
@@ -35,59 +37,90 @@ class  currentCreditLeft extends React.Component {
     this.props.dispatch({
       type: 'xdWorkModal/groupPkList',
       payload: { params: {pkGroup:groupId} },
+      callback:(groupPkList)=>{
+        this.setState({
+          groupPkList
+        })
+
+      }
     });
   }
   columns = () => {
     const columns = [
       {
         title: '学分维度',
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'dimensionName',
+        key: 'dimensionName',
         width:'30%'
       }, {
         title: '环比（%）',
         width:'20%',
-        dataIndex: 'precent',
-        key: 'precent',
+        dataIndex: 'myScoreRatio',
+        key: 'myScoreRatio',
+        render:(myScoreRatio)=>{
+          const isFlag = myScoreRatio>=0?true:false
+          return(
+            <div className={isFlag?`${styles.titleGreen}`:`${styles.titleRed}`}>{myScoreRatio}</div>
+          )
+
+        }
       }, {
         title: '我的',
-        dataIndex: 'myNum',
-        key: 'myNum',
+        dataIndex: 'myScore',
+        key: 'myScore',
         width:80,
-      },{
-        title: '',
-        dataIndex: 'progress',
-        key: 'progress',
-        width: 210,
-        render: (progress,data) => {
-          const isFlag = data.myNum>data.contrastGroup?1:data.myNum<data.contrastGroup?2:3
-          return (
-            data.isShowPro?
-            <div
-              style={{
-                color: '#52C9C2',
-                cursor: 'pointer',
-                width:'177px',
-                display:'flex',
-                justifyContent:'center'
-              }}
-            >
-              <div style={{width:'60%',position:'relative'}}>
-                <div className={isFlag === 1 ? `${styles.progressWin}` : isFlag === 2?`${styles.progressLose}`:`${styles.progressLose}`} style={{width:'100%'}}>
-                  <div className={isFlag === 1 ? `${styles.progressLose}` : isFlag === 2?`${styles.progressWin}`:`${styles.progressWin}`} style={{width:'30%'}}>
+        render:(myScore,data)=>{
+          const isFlag = myScore>data.groupScore?1:myScore<data.groupScore?2:3
+          console.log(74,data.dimensionName)
+          const myScoreName = data.dimensionName === "学分均分"?myScore.toFixed(2):myScore
+          return(
+            <div className={isFlag===1?`${styles.titleGreen}`:isFlag===2?`${styles.titleRed}`:`${styles.titleBlack}`}>{myScoreName}</div>
+          )
 
-                  </div>
-                </div>
-
-              </div>
-            </div>
-              :null
-          );
-        },
+        }
       },{
         title: '对比小组',
-        dataIndex: 'contrastGroup',
-        key: 'contrastGroup',
+        dataIndex: 'groupScore',
+        key: 'groupScore',
+        render: (groupScore,data) => {
+          const isFlag = data.myScore>data.groupScore?1:data.myScore<data.groupScore?2:3
+          return (
+            data.dimensionName ==="正面均分"?
+            <div className={styles.pkRankMain}>
+              <div
+                style={{
+                  color: '#52C9C2',
+                  cursor: 'pointer',
+                  width:'177px',
+                  display:'flex',
+                  justifyContent:'center'
+                }}
+              >
+                <div style={{width:'60%',position:'relative'}}>
+                  <div className={isFlag === 1 ? `${styles.progressWin}` : isFlag === 2?`${styles.progressLose}`:`${styles.progressLose}`} style={{width:'100%'}}>
+                    <div className={isFlag === 1 ? `${styles.progressLose}` : isFlag === 2?`${styles.progressWin}`:`${styles.progressWin}`} style={{width:'30%'}}>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div>{groupScore}</div>
+            </div>:<div className={styles.pkRankMain}>
+                <div
+                  style={{
+                    color: '#52C9C2',
+                    cursor: 'pointer',
+                    width:'177px',
+                    display:'flex',
+                    justifyContent:'center'
+                  }}
+                >
+                </div>
+                <div>{groupScore}</div>
+              </div>
+          );
+        },
       }
     ];
     return columns || [];
@@ -101,6 +134,39 @@ class  currentCreditLeft extends React.Component {
     }
     return className
   }
+  fillDataSource = (params) =>{
+    let data = []
+    data.push({
+      id:100001,
+      dimensionName:'绩效排名系数',
+      myScoreRatio:params.myRankingCoefficientRatio,
+      myScore:params.myRankingCoefficient,
+      groupScore:params.groupRankingCoefficient
+    },{
+      id:100002,
+      dimensionName:'集团排名',
+      myScoreRatio:params.myCompanyRankingRatio,
+      myScore:params.myCompanyRanking,
+      groupScore:params.groupCompanyRanking
+    },{
+      id:100003,
+      dimensionName:'家族内排名',
+      myScoreRatio:params.myFamilyRankingRatio,
+      myScore:params.myFamilyRanking,
+      groupScore:params.groupFmailyRanking
+    },{
+      id:100004,
+      dimensionName:'人均在服学员',
+      myScoreRatio:params.myAverageStudentNumberRatio,
+      myScore:params.myAverageStudentNumber,
+      groupScore:params.groupAverageStudentNumber
+    })
+    data = params.dimensionList && data.concat(params.dimensionList[0])
+    console.log(163,data)
+    return data
+
+  }
+
   render() {
 
     const data = [
@@ -217,14 +283,18 @@ class  currentCreditLeft extends React.Component {
 
     ];
 
- const {PkName} = this.props
+    const {PkName,selfName} = this.props
+    const {groupPkList} = this.state
+    const dataSource = groupPkList?this.fillDataSource(groupPkList):[]
+    console.log(262,dataSource)
+
     return (
           <div className={styles.creditLeft}>
             <div className={styles.proMain}>
               {PkName?<Proportion
                 leftNum={8.11}
                 rightNum={10.38}
-                leftCollege={'自变量/法律一组'}
+                leftCollege={selfName}
                 rightCollege={PkName}
                 style={{width: 'calc(100% - 200px)'}}
               />:<div className={styles.proNone}>
@@ -235,13 +305,13 @@ class  currentCreditLeft extends React.Component {
             <div className={styles.tableContainer}>
               <BITable
                 columns={this.columns()}
-                dataSource={data}
+                dataSource={dataSource}
                 defaultExpandAllRows={true}
                 expandIcon={CustomExpandIcon}
                 rowClassName={this.setRowClassName}
                 pagination = {false}
                 scroll={{x:0,y:408}}
-                rowKey={record => record.name}
+                rowKey={record => record.id}
               >
               </BITable>
               {

@@ -15,10 +15,10 @@ import { msgF } from "@/utils/utils";
 export default {
   namespace: 'xdWorkModal',
   state: {
-    kpiLevelList: null,
-    groupList: null,
-    groupPkList: null,
-    kipInfo: null
+    kipInfo: null,
+    kpiLevelList:null,
+    groupList:null,
+    groupPkList:{}
   },
 
   effects: {
@@ -38,7 +38,6 @@ export default {
       const params = payload.params;
       const result = yield call(getIncomeKpiPkList, params);
       if (result.code === 20000) {
-        console.log(result.data, 'llll')
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
@@ -95,23 +94,25 @@ export default {
       }
     },
     // 获取右侧的列表数据
-    *groupList({ payload }, { call, put }) {
+    *groupList({ payload,callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(groupList, params)
       if (result.code === 20000) {
-        const groupList = result.data || {};
-        yield put({ type: 'save', payload: { groupList } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
     //  获取左侧的列表数据
-    *groupPkList({ payload }, { call, put }) {
+    *groupPkList({ payload,callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(groupPkList, params)
       if (result.code === 20000) {
-        const groupPkList = result.data || {};
-        yield put({ type: 'save', payload: { groupPkList } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

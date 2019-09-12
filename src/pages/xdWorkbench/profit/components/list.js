@@ -120,6 +120,7 @@ class profitList extends React.Component {
 
   render() {
     const { profitList, userMsg, userFlag } = this.state;
+    console.log(123,userMsg,userFlag)
     return (
       <div className={styles.profitList}>
         <div className={styles.form}>

@@ -14,27 +14,34 @@ class  currentCredit extends React.Component {
     this.state={
       PkName:'',
       PkSelfId:1,
-      groupId:null
+      groupId:null,
+      selfName:''
     }
   }
   clickRow = (data) =>{
     console.log(19,data)
-    this.setState({
-      PkName:data.org,
-      groupId:data.groupId
-    })
-
+    if(data.isMyGroup){
+      this.setState({
+        selfName:data.orgName,
+        groupId:data.groupId
+      })
+    }else{
+      this.setState({
+        PkName:data.orgName,
+        groupId:data.groupId
+      })
+    }
   }
 
   render() {
-    const {PkName,PkSelfId,groupId} = this.state
+    const {PkName,PkSelfId,groupId,selfName} = this.state
     return (
      <Container
        title='本期学分'
        style={{width:'100%',marginBottom:'16px'}}
       >
        <div className={styles.creditContainer}>
-         <CurrentCreditLeft  PkName={PkName} groupId={groupId}/>
+         <CurrentCreditLeft  PkName={PkName} groupId={groupId} selfName={selfName}/>
          <CurrentCreditRight PkSelfId={PkSelfId} clickRow = {this.clickRow} />
        </div>
      </Container>

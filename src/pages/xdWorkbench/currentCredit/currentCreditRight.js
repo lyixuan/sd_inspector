@@ -39,16 +39,13 @@ class  currentCreditRight extends React.Component {
       userLocation: '',
       userMsg: '',
       groupType:'college',
-      kpiLevelId:""
+      kpiLevelId:"",
+      groupList:[]
     };
   }
   componentDidMount() {
-    this.props.dispatch({
-      type: 'xdWorkModal/kpiLevelList',
-      payload: { params: {} },
-    });
+   this.getKpiLevelList()
     this.getGroupList()
-    this.getScrollFn();
     // 表格添加滚动事件
     document.querySelector("#scroll1 .ant-table-body").onscroll = (e) => {
       this.getScrollFn(e.target.scrollTop)
@@ -59,16 +56,26 @@ class  currentCreditRight extends React.Component {
     })
   }
   componentWillReceiveProps(nextProps) {
-
-
   }
   componentWillUnmount() {
     document.querySelector("#scroll1 .ant-table-body").onscroll = '';
   }
+  //获取人均在服学员的下来数据方法
+  getKpiLevelList = () =>{
+    this.props.dispatch({
+      type: 'xdWorkModal/kpiLevelList',
+      payload: { params: {} },
+    });
+  }
+  //获取对比小组的列表页
   getGroupList = ()=>{
     this.props.dispatch({
       type:'xdWorkModal/groupList',
-      payload:{params:{groupType:this.state.groupType,kpiLevelId:this.state.kpiLevelId}}
+      payload:{params:{groupType:this.state.groupType,kpiLevelId:this.state.kpiLevelId}},
+      callback: (groupList) => {
+        this.setState({ groupList })
+        this.getScrollFn();
+      },
     })
   }
   getScrollFn = (scrollTop = 0) => {
@@ -96,8 +103,8 @@ class  currentCreditRight extends React.Component {
       },{
         width: '24%',
         title:'组织',
-        dataIndex:'org',
-        key:'org'
+        dataIndex:'orgName',
+        key:'orgName'
       },{
         width: '14%',
         title:'排名',
@@ -178,6 +185,7 @@ class  currentCreditRight extends React.Component {
         })
       }
       this.getGroupList()
+      document.querySelector("#scroll .ant-table-body").scrollTop = 0;
     }else{}
   };
   setRowClassName = (record,index) => {
@@ -222,8 +230,8 @@ class  currentCreditRight extends React.Component {
         averageStudentNumber: item.averageStudentNumber,
         collegeId: item.collegeId,
         orgName:
-          item.groupName && item.familyName
-            ? `${item.collegeName} | ${item.familyName} | ${item.groupName}`
+          item.groupName || item.familyName
+            ? `${item.familyName} | ${item.groupName}`
             : null,
         credit: item.credit.toFixed(2),
         familyId:item.familyId,
@@ -236,9 +244,10 @@ class  currentCreditRight extends React.Component {
     return data;
   };
   render() {
-    const {orgOptions,orgValue,studentValue,userFlag,userMsg,secondOptions} = this.state;
-    const {groupList} = this.props.xdWorkModal
+    const {orgOptions,orgValue,studentValue,userFlag,userMsg,secondOptions,groupList} = this.state;
+    console.log(245,groupList)
     const dataSource = groupList?this.fillDataSource(groupList):[]
+    console.log(242,userFlag,userMsg)
     return (
         <div className={styles.creditRight}>
           <div className={styles.creditSelect}>
@@ -259,8 +268,8 @@ class  currentCreditRight extends React.Component {
             </BISelect>
           </div>
           <div className={styles.tableContent}>
-            {userFlag}
             {userFlag && userMsg && <div className={styles.suspension}>
+
               <BITable
                 showHeader={false}
                 columns={this.columnsRight()}
@@ -271,11 +280,12 @@ class  currentCreditRight extends React.Component {
                 className = {this.setColumnClassName}
               />
             </div>}
-            <div id="scroll1" className={`${styles.scrollTable} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
+            <div id="scroll1">
               <BITable
                 columns={this.columnsRight()}
                 dataSource = {dataSource}
                 pagination = {false}
+                loading={this.props.loading}
                 rowClassName={this.setRowClassName}
                 onRow={this.onClickRow}
                 className = {this.setColumnClassName}
