@@ -7,7 +7,7 @@ import gradeA from '@/assets/workBench/a.png';
 import gradeB from '@/assets/workBench/b.png';
 import gradeC from '@/assets/workBench/c.png';
 import gradeS from '@/assets/workBench/s.png';
-import xdGif from '@/assets/workBench/xdpk.png';
+import xdGif from '@/assets/workBench/xdpk.gif';
 import pkImg from '@/assets/xdwork/pk.png';
 import { thousandsFormat } from '@/utils/utils'
 import styles from '../style.less';
@@ -29,51 +29,7 @@ class profitList extends React.Component {
     super(props);
     this.state = {
       pkType: 1,
-      profitData: {
-        selfValue: 44,
-        pkUserValue: 201,
-        subItem: [{
-          subItemName: '创收绩效名次',
-          subSelfValue: 2000,
-          subPkUserValue: 3000,
-          subValueType: 2,	
-        }, {
-          subItemName: '创收绩效名次',
-          subSelfValue: 3000,
-          subPkUserValue: 3000,
-          subValueType: 2,	
-        }, {
-          subItemName: '创收绩效名次',
-          subSelfValue: 4000,
-          subPkUserValue: 3000,
-          subValueType: 2,	
-        }, {
-          subItemName: '创收绩效名次',
-          subSelfValue: 4000,
-          subPkUserValue: 3000,
-          subValueType: 2,	
-        }, {
-          subItemName: '创收绩效名次',
-          subSelfValue: 4000,
-          subPkUserValue: 3000,
-          subValueType: 2,	
-        }, {
-          subItemName: '创收绩效名次',
-          subSelfValue: 4000,
-          subPkUserValue: 3000,
-          subValueType: 2,	
-        }, {
-          subItemName: '创收绩效名次',
-          subSelfValue: 4000,
-          subPkUserValue: 3000,
-          subValueType: 2,	
-        }, {
-          subItemName: '创收绩效名次',
-          subSelfValue: 4000,
-          subPkUserValue: 3000,
-          subValueType: 2,	
-        }]
-      },
+      profitData: [],
       profitPersonData: {
         self: {
           certificationGradeList: []
@@ -91,7 +47,7 @@ class profitList extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.pkUser !== this.props.pkUser) {
       this.getPkmsg(nextProps.pkUser);
-      this.getPkList();
+      this.getPkList(nextProps.pkUser);
     }
   }
 
@@ -105,24 +61,21 @@ class profitList extends React.Component {
     this.props.dispatch({
       type: 'xdWorkModal/getIncomeKpiPersonInfo',
       payload: { params: { pkUser } },
-      callback: (profitPersonData) => {
-        console.log(profitPersonData, 'llllll')
-        this.setState({ profitPersonData })
-      },
+      callback: (profitPersonData) => this.setState({ profitPersonData }),
     });
   }
   // 对比列表
-  getPkList = () => {
+  getPkList = (pkUser = this.props.pkUser) => {
     this.props.dispatch({
       type: 'xdWorkModal/getContrastIncomeKpiPkList',
       payload: { 
         params: { 
-          pkUser: this.props.pkUser,
+          pkUser,
           tabType: this.state.pkType, 
           pkListType: this.props.pkListType
         } 
       },
-      // callback: (profitData) => this.setState({ profitData }),
+      callback: (profitData) => this.setState({ profitData }),
     });
   }
   getSizeStyle = ({subSelfValue, subPkUserValue}) => {
@@ -137,6 +90,8 @@ class profitList extends React.Component {
   render() {
     const { profitPersonData, profitData } = this.state;
     const { pkUser } = this.props;
+    const profitDataOther = profitData && profitData.filter((item, index)=> index !== 0);
+    console.log(profitData, profitDataOther)
     return (
       <div className={styles.profitTabs}>
         <BIRadio onChange={this.handlePkTypeChange} value={this.state.pkType} style={{ marginBottom: 16 }}>
@@ -193,7 +148,7 @@ class profitList extends React.Component {
               <div className={styles.tabTwoTh}><span>绩效</span></div>
               <div className={styles.tabTwoTd}>
                 {
-                  pkUser ? <Proportion leftNum={profitData.selfValue} rightNum={profitData.pkUserValue} iconed={true}/> 
+                  pkUser && profitData && profitData[0]? <Proportion leftNum={profitData[0].selfValue} rightNum={profitData[0].pkUserValue} iconed={true}/> 
                   : <div className={styles.tabTwoNone}><div>￥{thousandsFormat(profitData.selfValue)}</div></div>
                 }
               </div>
@@ -201,13 +156,13 @@ class profitList extends React.Component {
             {/* 第三行 */}
             <div className={`${styles.tabBody} ${styles.tabThreeBody}`}>
               <div className={styles.tabThreeTh}>
-                {profitData.subItem.map((item, index) => <span key={index + '' + this.state.pkType}  style={{marginLeft: '36px'}}>{item.subItemName}</span>)}
+                {profitDataOther && profitDataOther.map((item, index) => <span key={index + '' + this.state.pkType}  style={{marginLeft: item.itemType === 2 ? '36px' : '12px'}}>{item.itemName}</span>)}
               </div>
               <div className={styles.tabThreeTd}>
                 {
-                  profitData.subItem.map((item, index) =><div>
-                  <span key={index + '' + this.state.pkType} style={{color: this.getSizeStyle(item)}}>{thousandsFormat(item.subSelfValue)}{unitType[item.subValueType]}</span>
-                  <span>{pkUser ? <span>{thousandsFormat(item.subPkUserValue)}{unitType[item.subValueType]}</span> : ''}</span>
+                  profitDataOther && profitDataOther.map((item, index) =><div>
+                  <span key={index + '' + this.state.pkType} style={{color: this.getSizeStyle(item)}}>{thousandsFormat(item.selfValue)}{unitType[item.valueType]}</span>
+                  <span>{pkUser ? <span>{thousandsFormat(item.pkUserValue)}{unitType[item.valueType]}</span> : ' '}</span>
                   </div>)
                 }
               </div>
