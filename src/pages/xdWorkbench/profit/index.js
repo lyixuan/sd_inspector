@@ -2,7 +2,6 @@ import React from 'react';
 import Container from '../components/container';
 import ProfitList from './components/list';
 import ProfitTabs from './components/tabs';
-import { Alert } from 'antd';
 
 class Profit extends React.Component {
   constructor(props)  {

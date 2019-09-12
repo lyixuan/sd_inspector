@@ -31,12 +31,12 @@ class profitList extends React.Component {
       pkType: 1,
       profitData: [],
       profitPersonData: {
-        self: {
-          certificationGradeList: []
-        },
-        pkUser: {
-          certificationGradeList: []
-        }
+        // self: {
+        //   certificationGradeList: []
+        // },
+        // pkUser: {
+        //   certificationGradeList: []
+        // }
       }
     }
   }
@@ -107,7 +107,7 @@ class profitList extends React.Component {
                 <span style={{ color: '#1A1C1F', fontWeight: 'bold' }}>创收绩效</span>
               </div>
               <div className={styles.tabOneTd}>
-                <div className={`${styles.tabMine} ${pkUser ? '' : styles.tabMineLine}`}>
+                {profitPersonData.self && <div className={`${styles.tabMine} ${pkUser ? '' : styles.tabMineLine}`}>
                   <div className={styles.msg}>{profitPersonData.self.userGrade}
                     <img src={gradeImg[profitPersonData.self.userGrade]} style={{ marginRight: '16px' }} />
                     <div>
@@ -118,7 +118,7 @@ class profitList extends React.Component {
                   <div className={styles.imgs}>
                     {profitPersonData.self.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{ marginRight: '10px' }} />)}
                   </div>
-                </div>
+                </div>}
                 <div className={`${pkUser ? '' : styles.tabUserLine}`}>
                   {
                     pkUser && profitPersonData.pkUser ?
