@@ -25,8 +25,8 @@ export default {
       if (!response) return;
       const codeMsg403 = 10300;
       const data = response.data || {};
-      const { userName, userId, mail, positionCount, token } = data;
-      const saveObj = { userName, userId, mail, positionCount, token };
+      const { userName, userId, mail, positionCount,token,userType } = data;
+      const saveObj = { userName, userId, mail, positionCount,token,userType };
 
       switch (response.code) {
         case 2000:

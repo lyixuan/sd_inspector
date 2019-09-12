@@ -10,35 +10,48 @@ const { BIRangePicker } = BIDatePicker;
 class Tab extends React.Component {
   constructor(props) {
     super(props);
+    const value = props.itemList || [];
+    const itemList = this.mapOriginData(Array.isArray(value) ? value : []);
     this.state = {
-      itemList: [],
+      itemList,
     };
     this.initModel = {
       index: 0,
-      levelLowerLimit: null,
-      levelUpperLimit: null,
+      levelLowerLimit: '0.00',
+      levelUpperLimit: '0.00',
       upperClose: false,
       lowerClose: false,
-      levelValue: '',
+      levelValue: '0.00',
     };
   }
 
-  componentDidMount() {
-    this.setState({ itemList: this.props.itemList });
+  componentWillReceiveProps(nextProps) {
+    this.mapOriginData(nextProps.itemList);
+    this.setState({ itemList: nextProps.itemList });
   }
 
+  mapOriginData = arr => {
+    const itemList = Array.isArray(arr) ? arr : [];
+    itemList.map((item, index) => {
+      item.index = index;
+      return item;
+    });
+    return itemList;
+  };
   // 添加好推绩效列表
   addItem = () => {
     // debugger;
-    // const { itemList = [] } = this.state;
-    const itemList = this.props.itemList || [];
+    const { itemList = [] } = this.state;
+    if(itemList.length>0 && itemList[itemList.length-1].levelUpperLimit){
+      this.initModel. levelLowerLimit = itemList[itemList.length-1].levelUpperLimit;
+    }
     const newAddObject = { ...this.initModel };
     const indexArr = itemList.map((list, index) => {
       return (list.index = index);
     });
     newAddObject.index = indexArr.length > 0 ? Math.max.apply(null, indexArr) + 1 : 1;
     itemList.push(newAddObject);
-    // this.setState({ itemList });
+    this.setState({ itemList });
     this.onChange(itemList);
   };
 
@@ -96,13 +109,13 @@ class Tab extends React.Component {
   // 删除好推绩效列表
   delItem = item => {
     const { itemList = [] } = this.state;
+    console.log(itemList, 'itemList');
     if (itemList.length === 1) {
       console.warn('默认一条数据');
       return;
     }
     itemList.splice(
       itemList.findIndex(list => {
-        console.log(list, item);
         return list.index === item.index;
       }),
       1
@@ -115,18 +128,18 @@ class Tab extends React.Component {
     this.props.onChange(itemList);
   };
   render() {
-    const itemList = this.props.itemList;
+    const itemList = this.state.itemList;
     return (
       <>
         <ul className={styles.listItem}>
-          {itemList.map((item, idx) => (
+          {itemList&&itemList.map((item, idx) => (
             <li key={idx}>
               <div className={styles.itemLeft}>
                 <p style={{ float: 'left', margin: '0' }}>
                   <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
                     {this.renderInput(item, 'levelLowerLimit')}
                   </span>
-                  <span style={{ margin: '0 10px 0 0' }}>%</span>
+                  {/* <span style={{ margin: '0 10px 0 0' }}>%</span> */}
                   {this.renderCheckBox(item, 'lowerClose')}
                   <span>闭区间</span>
                 </p>
@@ -135,7 +148,6 @@ class Tab extends React.Component {
                   <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
                     {this.renderInput(item, 'levelUpperLimit')}
                   </span>
-                  <span style={{ margin: '0 10px 0 0' }}>%</span>
                   {this.renderCheckBox(item, 'upperClose')}
                   <span>闭区间</span>
                 </p>
@@ -145,13 +157,17 @@ class Tab extends React.Component {
                 <span style={{ width: '100px', display: 'inline-block', margin: '0 5px 0 8px' }}>
                   {this.renderInput(item, 'levelValue')}
                 </span>
-                <span>%</span>
+                <span style={{ margin: '0 10px 0 0' }}>%</span>
               </div>
-              <div className={styles.itemRight}>
+              {itemList.length===1?<div className={styles.itemRight}>
+                <span style={{color:'#ccc'}}>
+                  删除
+                </span></div>:
+                <div className={styles.itemRight}>
                 <span className={styles.btn} onClick={() => this.delItem(item)}>
                   删除
                 </span>
-              </div>
+                </div>}
             </li>
           ))}
         </ul>
