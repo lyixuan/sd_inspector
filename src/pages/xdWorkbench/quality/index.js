@@ -60,7 +60,7 @@ class Quality extends React.Component {
           {
             record.violationNumber !== 0 &&
             <AuthButton authority='/qualityAppeal/qualityAppeal'>
-              <Link  to={`/qualityAppeal/qualityAppeal?params=${params}`}>申诉</Link>
+              <Link  to={`/qualityAppeal/qualityAppeal?p=${params}`}>申诉</Link>
             </AuthButton>
           }
         </>
