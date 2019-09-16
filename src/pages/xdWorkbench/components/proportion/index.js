@@ -24,7 +24,10 @@ const rightImgObj = {
 class Proportion extends React.Component {
 
   proporContent = () => {
+
     const { leftNum, rightNum, iconed, leftCollege, rightCollege } = this.props;
+    const isEqual = this.isEqualAndminus()
+    console.log(29,isEqual)
     const flag = this.getFlag();
     return <div className={styles.proporContent} style={this.props.style}>
       <div className={styles.propTop}>
@@ -32,11 +35,24 @@ class Proportion extends React.Component {
         <img src={pkImg} style={{ width: '32px'}}/>
         {iconed ? <img src={rightImgObj[flag]}/> : <span>{ rightCollege }</span> }
       </div>
-      <div className={`${styles.progress} ${flag === 1 ? styles.lose : styles.win}`}>
-        <div style={{width: `calc(${this.getPercentage()})`}} className={`${styles.left} ${flag === 1 ? styles.win : styles.lose}`}>{this.getNumber(leftNum)}</div>
+      <div className={`${isEqual?styles.progress:styles.progressNone} ${!isEqual?'':(flag === 1 ? styles.lose : styles.win)}`}>
+        <div style={{width: `calc(${isEqual?this.getPercentage():'30%'})`}} className={`${styles.left} ${!isEqual?'':(flag === 1 ? styles.win : styles.lose)}`}>{this.getNumber(leftNum)}</div>
         <div className={styles.right}>{this.getNumber(rightNum)}</div>
       </div>
     </div>
+  }
+  isEqualAndminus = () =>{
+    const leftNum = this.props.leftNum;
+    const rightNum =this.props.rightNum;
+    let isEqual = false
+    if(leftNum === rightNum){
+      isEqual = false
+    }else if(leftNum<0||rightNum<0){
+      isEqual = false
+    }else{
+      isEqual = true
+    }
+    return isEqual
   }
   getPercentage = () => {
     const leftNum = Number(this.props.leftNum);
@@ -51,6 +67,8 @@ class Proportion extends React.Component {
       flag = 1;
     }  else if (leftNum < rightNum){ // 小于
       flag = 2;
+    }else if (leftNum === rightNum){
+      flag = 4
     }
     return flag;
   }
