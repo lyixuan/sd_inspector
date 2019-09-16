@@ -90,7 +90,6 @@ class ProfitList extends React.Component {
   onClickRow = (record) => {
     return {
       onClick: () => {
-        if (this.props.userId === record.userId) return;
         this.props.changeSelected(record.userId)
       }
     };

@@ -67,7 +67,7 @@ class appeal extends React.Component {
       propStyle={{paddingLeft: '16px'}}
       >
         <Skeleton loading={this.props.loading} >
-          <div className={styles.appeal}>{this.state.appealList.map(item => this.block(item))}</div>
+          <div className={styles.appeal}>{this.state.appealList.map(item => item && this.block(item))}</div>
         </Skeleton>
       </Container>
     );

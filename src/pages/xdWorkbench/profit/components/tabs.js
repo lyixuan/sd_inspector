@@ -56,9 +56,6 @@ class ProfitTbas extends React.Component {
       this.getPkmsg(nextProps.pkUser);
       this.getPkList(nextProps.pkUser);
     }
-    if (nextProps.pkListType !== this.props.pkListType) {
-      this.getPkList(nextProps.pkUser, nextProps.pkListType);
-    }
   }
 
   handlePkTypeChange = (e) => {
@@ -77,14 +74,14 @@ class ProfitTbas extends React.Component {
     });
   }
   // 对比列表
-  getPkList = (pkUser = this.props.pkUser, pkListType = this.props.pkListType) => {
+  getPkList = (pkUser = this.props.pkUser) => {
     this.props.dispatch({
       type: 'xdWorkModal/getContrastIncomeKpiPkList',
       payload: {
         params: {
           pkUser,
           tabType: this.state.pkType,
-          pkListType
+          pkListType: this.props.pkListType,
         }
       },
       callback: (profitData) => {
