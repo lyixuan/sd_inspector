@@ -98,10 +98,10 @@ export default class GlobalHeader extends PureComponent {
                 <>
                   {
                     item.child.map(item2 => (
-                      item2.obtained ? <li key={item2.id}><img src={item2.obtainedIcon} /></li> : <li key={item2.id}><img src={item2.originalIcon} /></li>
+                      item2.obtained ? <li key={item2.id}><img src={item2.obtainedIcon} className={styles.gradeImg} /></li> : <li key={item2.id}><img src={item2.originalIcon} /></li>
                     ))
                   }
-                  <li key={item.id}><img src={item.imgUrl} className="bigImg" /></li>
+                  <li key={item.id}><img src={item.imgUrl} className={styles.bigImg} /></li>
                 </>
               )
             })

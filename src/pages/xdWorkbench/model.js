@@ -38,7 +38,6 @@ export default {
       const params = payload.params;
       const result = yield call(getIncomeKpiPkList, params);
       if (result.code === 20000) {
-        console.log(result.data, 'llll')
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }

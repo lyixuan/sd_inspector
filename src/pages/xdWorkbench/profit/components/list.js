@@ -10,7 +10,7 @@ const pkTypeconfig = ['集团排行', '学院内排行', '家族内排行', '同
 @connect(({ loading}) => ({
   loading: loading.effects['xdWorkModal/getIncomeKpiPkList'],
 }))
-class profitList extends React.Component {
+class ProfitList extends React.Component {
   constructor(props)  {
     super(props);
     this.state = {
@@ -164,4 +164,4 @@ class profitList extends React.Component {
   }
 }
 
-export default profitList;
+export default ProfitList;
