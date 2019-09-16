@@ -38,8 +38,8 @@ export default class GlobalHeader extends PureComponent {
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
     console.log(40, userType)
-    // const url = 'http://test.xd.admin.ministudy.com'
-    const url = 'http://bi-admin.ministudy.com'
+    const url = 'http://172.16.117.65'
+    // const url = 'http://bi-admin.ministudy.com'
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         {selectedGroup.map(item => (
@@ -77,7 +77,7 @@ export default class GlobalHeader extends PureComponent {
                         item2.obtained ? <li key={item2.id}><img src={`${url}${item2.obtainedIcon}`} /></li> : <li key={item2.id}><img src={`${url}${item2.originalIcon}`} /></li>
                       ))
                     }
-                    <li key={item.grade + 1}><img src={item.imgUrl} className="bigImg" /></li>
+                    <li key={item.grade + 1}><img src={item.imgUrl} className={styles.bigImg} /></li>
                   </>
                 )
               })
