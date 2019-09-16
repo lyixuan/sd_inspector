@@ -42,6 +42,7 @@ class  currentCreditLeft extends React.Component {
     });
   }
   columns = () => {
+    let denominatorNumber = ""
     const columns = [
       {
         title: '学分维度',
@@ -81,6 +82,19 @@ class  currentCreditLeft extends React.Component {
           const isFlag = data.myScore>data.groupScore?1:data.myScore<data.groupScore?2:3
           const isDecimal = String(groupScore).indexOf(".") + 1
           const groupScoreName = isDecimal > 0 ? groupScore.toFixed(2):groupScore
+          //循环判断进度条的换算开始
+          let maxWidth = ''
+          let groupScoreNum = ''
+          if(data.dimensionName === "正面均分"){
+            denominatorNumber= ((Number(data.myScore)+Number(groupScoreName))*100).toFixed(2)
+          }
+          if(data.dimensionName === "正面均分"|| data.isShowPro){
+            const deNumber = ((data.myScore+Number(groupScoreName))*100).toFixed(2)
+            const moleculeNumber = ((data.myScore+Number(groupScoreName))*100).toFixed(2)
+             maxWidth =denominatorNumber? parseInt(117*(moleculeNumber/denominatorNumber)):0
+             groupScoreNum = maxWidth>0 ? Math.ceil(data.groupScore*100/deNumber*maxWidth):0
+          }
+          //循环判断进度条的换算结束
           return (
             data.dimensionName === "正面均分"|| data.isShowPro?
             <div className={styles.pkRankMain}>
@@ -88,33 +102,33 @@ class  currentCreditLeft extends React.Component {
                 style={{
                   color: '#52C9C2',
                   cursor: 'pointer',
-                  width:'177px',
+                  width:'117px',
                   display:'flex',
                   justifyContent:'center'
                 }}
               >
-                <div style={{width:'60%',position:'relative'}}>
+                <div style={{width:maxWidth+'px',position:'relative'}}>
                   <div className={isFlag === 1 ? `${styles.progressWin}` : isFlag === 2?`${styles.progressLose}`:`${styles.progressLose}`} style={{width:'100%'}}>
-                    <div className={isFlag === 1 ? `${styles.progressLose}` : isFlag === 2?`${styles.progressWin}`:`${styles.progressWin}`} style={{width:'30%'}}>
+                    <div style={{width:groupScoreNum+'px'}} className={isFlag === 1 ? `${styles.progressLose}` : isFlag === 2?`${styles.progressWin}`:`${styles.progressWin}`} >
 
                     </div>
                   </div>
 
                 </div>
               </div>
-              <div>{groupScoreName}</div>
+              <div style={{marginLeft:'30px'}}>{groupScoreName}</div>
             </div>:<div className={styles.pkRankMain}>
                 <div
                   style={{
                     color: '#52C9C2',
                     cursor: 'pointer',
-                    width:'177px',
+                    width:'117px',
                     display:'flex',
                     justifyContent:'center'
                   }}
                 >
                 </div>
-                <div>{groupScoreName}</div>
+                <div style={{marginLeft:'30px'}}>{groupScoreName}</div>
               </div>
           );
         },
@@ -179,15 +193,15 @@ class  currentCreditLeft extends React.Component {
 
   render() {
     const {PkName,selfName} = this.props
-    console.log(182,this.props.loading)
+    console.log(182,PkName)
     const {groupPkList} = this.state
     const dataSource = groupPkList?this.fillDataSource(groupPkList):[]
     return (
           <div className={styles.creditLeft}>
             <div className={styles.proMain}>
               {PkName?<Proportion
-                leftNum={8.11}
-                rightNum={10.38}
+                leftNum={-8.11}
+                rightNum={-8.11}
                 leftCollege={selfName}
                 rightCollege={PkName}
                 style={{width: 'calc(100% - 200px)'}}
@@ -213,7 +227,7 @@ class  currentCreditLeft extends React.Component {
               }
 
               {
-                PkName && <div className={styles.tableImg}><img src={xdPkImg}/></div>
+                !PkName && <div className={styles.tableImg}><img src={xdPkImg}/></div>
               }
 
             </div>

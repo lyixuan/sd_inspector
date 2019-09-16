@@ -3,6 +3,7 @@
     display: flex;
     height: 48px;
     align-items: center;
+    justify-content: center;
     > img {
         height: 32px;
     }
@@ -30,6 +31,24 @@
             height: 100%;
         }
     }
+  .progressNone{
+    display: flex;
+    height: 12px;
+    color: #1A1C1F;
+    border-radius: 6px;
+    line-height: 12px;
+    .left{
+      width: 30%;
+      height: 100%;
+      border-radius: 6px;
+      text-align: center
+    }
+    .right {
+      //text-align: center;
+      flex: 1;
+      padding-left:50%;
+    }
+  }
     .progress{
         display: flex;
         height: 12px;
@@ -46,5 +65,5 @@
             text-align: center;
             flex: 1;
         }
-    }  
+    }
 }
