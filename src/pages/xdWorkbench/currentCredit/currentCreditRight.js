@@ -103,8 +103,8 @@ class  currentCreditRight extends React.Component {
       },{
         width: '24%',
         title:'组织',
-        dataIndex:'orgName',
-        key:'orgName'
+        dataIndex:'groupName',
+        key:'groupName'
       },{
         width: '14%',
         title:'排名',
@@ -229,10 +229,7 @@ class  currentCreditRight extends React.Component {
         key: index + 1,
         averageStudentNumber: item.averageStudentNumber,
         collegeId: item.collegeId,
-        orgName:
-          item.groupName || item.familyName
-            ? `${item.familyName} | ${item.groupName}`
-            : null,
+        groupName: item.groupName,
         credit: item.credit.toFixed(2),
         familyId:item.familyId,
         groupId:item.groupId,

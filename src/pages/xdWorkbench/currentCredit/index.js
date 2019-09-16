@@ -29,13 +29,15 @@ class  currentCredit extends React.Component {
   clickRow = (data) =>{
     console.log(19,data)
     if(data.isMyGroup){
+    console.log(32)
       this.setState({
-        selfName:data.orgName,
-        groupId:data.groupId
+        selfName:data.groupName,
+        groupId:0
       })
     }else{
+      console.log(38)
       this.setState({
-        PkName:data.orgName,
+        PkName:data.groupName,
         groupId:data.groupId
       })
       localStorage.setItem('orgName',data.orgName);

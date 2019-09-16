@@ -19,23 +19,32 @@ class  currentCreditLeft extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      groupPkList:[]
+      groupPkList: [],
+      myGroup:{},
+      leftNum:'',
+      rightNum:''
+
     }
   }
-  componentDidMount() {}
+  componentDidMount(){
+  }
   componentWillReceiveProps(nextProps) {
+    console.log(28,this.props.groupId,nextProps.groupId)
     if(this.props.groupId !== nextProps.groupId){
+
       this.getGroupPkData(nextProps.groupId)
     }
   }
   //获取左侧列表数据的方法
   getGroupPkData = (groupId) =>{
+    console.log('groupId',groupId)
     this.props.dispatch({
       type: 'xdWorkModal/groupPkList',
       payload: { params: {pkGroup:groupId} },
       callback:(groupPkList)=>{
         this.setState({
-          groupPkList
+          groupPkList:groupPkList.dimensionList,
+          myGroup:groupPkList.myGroup
         })
 
       }
@@ -67,8 +76,12 @@ class  currentCreditLeft extends React.Component {
         width:80,
         render:(myScore,data)=>{
           const isFlag = myScore>data.groupScore?1:myScore<data.groupScore?2:3
-          const isDecimal = String(myScore).indexOf(".") + 1
-          const myScoreName = isDecimal >0 ? myScore.toFixed(2):myScore
+          let isDecimal = false
+          let myScoreName = ""
+          if(myScore !== null){
+            // isDecimal = String(myScore).indexOf(".") + 1
+            myScoreName = myScore
+          }
           return(
             <div className={isFlag===1?`${styles.titleGreen}`:isFlag===2?`${styles.titleRed}`:`${styles.titleBlack}`}>{myScoreName}</div>
           )
@@ -79,22 +92,29 @@ class  currentCreditLeft extends React.Component {
         dataIndex: 'groupScore',
         key: 'groupScore',
         render: (groupScore,data) => {
-          const isFlag = data.myScore>data.groupScore?1:data.myScore<data.groupScore?2:3
-          const isDecimal = String(groupScore).indexOf(".") + 1
-          const groupScoreName = isDecimal > 0 ? groupScore.toFixed(2):groupScore
-          //循环判断进度条的换算开始
+          let isFlag =''
           let maxWidth = ''
           let groupScoreNum = ''
-          if(data.dimensionName === "正面均分"){
-            denominatorNumber= ((Number(data.myScore)+Number(groupScoreName))*100).toFixed(2)
+          let groupScoreName = ""
+          if(groupScore !== null ){
+            isFlag = data.myScore>data.groupScore?1:data.myScore<data.groupScore?2:3
+           groupScoreName = groupScore
+            //循环判断进度条的换算开始
+
+            if(data.dimensionName === "正面均分"){
+              denominatorNumber= ((Number(data.myScore)+Number(groupScoreName))*100).toFixed(2)
+            }
+            if(data.dimensionName === "正面均分"|| data.isShowPro){
+              const deNumber = ((data.myScore+Number(groupScoreName))*100).toFixed(2)
+              const moleculeNumber = ((data.myScore+Number(groupScoreName))*100).toFixed(2)
+              maxWidth =denominatorNumber? parseInt(117*(moleculeNumber/denominatorNumber)):0
+              groupScoreNum = maxWidth>0 ? Math.ceil(data.groupScore*100/deNumber*maxWidth):0
+            }
+            //循环判断进度条的换算结束
+          }else{
+
           }
-          if(data.dimensionName === "正面均分"|| data.isShowPro){
-            const deNumber = ((data.myScore+Number(groupScoreName))*100).toFixed(2)
-            const moleculeNumber = ((data.myScore+Number(groupScoreName))*100).toFixed(2)
-             maxWidth =denominatorNumber? parseInt(117*(moleculeNumber/denominatorNumber)):0
-             groupScoreNum = maxWidth>0 ? Math.ceil(data.groupScore*100/deNumber*maxWidth):0
-          }
-          //循环判断进度条的换算结束
+
           return (
             data.dimensionName === "正面均分"|| data.isShowPro?
             <div className={styles.pkRankMain}>
@@ -146,36 +166,17 @@ class  currentCreditLeft extends React.Component {
     return className
   }
   fillDataSource = (params) =>{
+    console.log(157,params)
     let data = []
-    data.push({
-      id:100001,
-      dimensionName:'绩效排名系数',
-      myScoreRatio:params.myRankingCoefficientRatio,
-      myScore:params.myRankingCoefficient,
-      groupScore:params.groupRankingCoefficient
-    },{
-      id:100002,
-      dimensionName:'集团排名',
-      myScoreRatio:params.myCompanyRankingRatio,
-      myScore:params.myCompanyRanking,
-      groupScore:params.groupCompanyRanking
-    },{
-      id:100003,
-      dimensionName:'家族内排名',
-      myScoreRatio:params.myFamilyRankingRatio,
-      myScore:params.myFamilyRanking,
-      groupScore:params.groupFmailyRanking
-    },{
-      id:100004,
-      dimensionName:'人均在服学员',
-      myScoreRatio:params.myAverageStudentNumberRatio,
-      myScore:params.myAverageStudentNumber,
-      groupScore:params.groupAverageStudentNumber
-    })
-    data = params.dimensionList && data.concat(params.dimensionList[0])
-    params.dimensionList && params.dimensionList[0].children.map((item)=>{
-      if(item.dimensionName === "正面均分"){
-        this.serverArray(item.children)
+    data = params
+    console.log(151,data)
+    data.map((item)=>{
+      if(item.dimensionName === "学分均分"){
+        item.children.map((subItem,subIndex)=>{
+          if(subItem.dimensionName == "正面均分"){
+            this.serverArray(item.children)
+          }
+        })
       }
     })
     return data
@@ -188,14 +189,19 @@ class  currentCreditLeft extends React.Component {
           this.serverArray(arr[item].children)
         }
     }
+    console.log(180,arr)
     return arr
   }
 
   render() {
+    console.log(185,this.props.groupId)
     const {PkName,selfName} = this.props
-    console.log(182,PkName)
-    const {groupPkList} = this.state
-    const dataSource = groupPkList?this.fillDataSource(groupPkList):[]
+    console.log(180,PkName)
+    const {groupPkList,myGroup} = this.state
+    const  dataSource = groupPkList && this.fillDataSource(groupPkList)
+    const leftNum = myGroup && myGroup.score
+    const rightNum =
+    console.log(199,dataSource)
     return (
           <div className={styles.creditLeft}>
             <div className={styles.proMain}>
@@ -212,7 +218,7 @@ class  currentCreditLeft extends React.Component {
             </div>
             <div className={styles.tableContainer}>
               {
-                dataSource && <BITable
+                dataSource.length>0 && <BITable
                   columns={this.columns()}
                   dataSource={dataSource}
                   defaultExpandAllRows={true}
