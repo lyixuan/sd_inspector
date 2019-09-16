@@ -6,8 +6,8 @@ import BISelect from '@/ant_components/BISelect'
 import styles from '../style.less';
 
 const { Option } = BISelect;
-const pkTypeconfig = ['集团排行', '学院内排行', '家族内排行', '同期入职排行', '同级排行', ];
-@connect(({ loading}) => ({
+const pkTypeconfig = ['集团排行', '学院内排行', '家族内排行', '同期入职排行', '同级排行',];
+@connect(({ loading }) => ({
   loading: loading.effects['xdWorkModal/getIncomeKpiPkList'],
 }))
 class ProfitList extends React.Component {
@@ -38,7 +38,7 @@ class ProfitList extends React.Component {
           userFlag: false
         })
       }
-    } else if (userFlag === false){
+    } else if (userFlag === false) {
       this.setState({
         userFlag: true
       })
@@ -67,21 +67,21 @@ class ProfitList extends React.Component {
         dataIndex: 'incomeKpi',
         key: 'incomeKpi',
         render: text => {
-          const percent = text/total * 100;
+          const percent = text / total * 100;
           return <div
-          style={{
-            cursor: 'pointer',
-            height: '24px'
-          }}
-        >
-          <span style={{ position: 'relative', top: '-2px'}}>{text}</span>
-          <Progress
-            percent={percent}
-            strokeColor={'#00CCC3'}
-            showInfo={false}
-            strokeWidth={4}
-          ></Progress>
-        </div>
+            style={{
+              cursor: 'pointer',
+              height: '24px'
+            }}
+          >
+            <span style={{ position: 'relative', top: '-2px' }}>{text}</span>
+            <Progress
+              percent={percent}
+              strokeColor={'#00CCC3'}
+              showInfo={false}
+              strokeWidth={4}
+            ></Progress>
+          </div>
         }
       }
     ];
@@ -112,7 +112,7 @@ class ProfitList extends React.Component {
       type: 'xdWorkModal/getIncomeKpiPkList',
       payload: { params: { pkListType } },
       callback: (profitList) => {
-        this.setState({ profitList }) 
+        this.setState({ profitList })
         this.getScrollFn();
       },
     });
@@ -128,7 +128,7 @@ class ProfitList extends React.Component {
             value={this.props.pkListType}
             placeholder="请选择"
             onChange={this.onChangeParams}
-            style={{width: '136px', marginLeft: '8px'}}
+            style={{ width: '136px', marginLeft: '8px' }}
             allowClear
           >
             {pkTypeconfig.map((item, index) => <Option key={index} value={index + 1}>{item}</Option>)}
@@ -137,13 +137,13 @@ class ProfitList extends React.Component {
         <div className={styles.tableContent}>
           {userFlag && userMsg && <div className={styles.suspenTable}>
             <BITable
-            showHeader={false}
-            columns={this.columns()}
-            dataSource={[userMsg]}
-            pagination={false}
-            rowKey={record => record.userId}
-            rowClassName={this.getRowClassName}
-          />
+              showHeader={false}
+              columns={this.columns()}
+              dataSource={[userMsg]}
+              pagination={false}
+              rowKey={record => record.userId}
+              rowClassName={this.getRowClassName}
+            />
           </div>}
           <div id='scroll' className={`${styles.scrollTable} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
             <BITable
@@ -152,7 +152,7 @@ class ProfitList extends React.Component {
               pagination={false}
               loading={this.props.loading}
               rowKey={(record, index) => record.userId + '' + index}
-              onRow= {this.onClickRow}
+              onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
               scroll={{ x: 0, y: 420 }}
             />
