@@ -27,11 +27,11 @@ const gradeImg = { // 等级
   S: gradeS,
 }
 const unitType = [, '', '元', '%', '单'];
-const pathImUrl = 'http://bi-admin.ministudy.com'
+const pathImUrl = 'http://172.16.117.65';
 @connect(({ loading }) => ({
   loading: loading.effects['xdWorkModal/getIncomeKpiPersonInfo'] || loading.effects['xdWorkModal/getContrastIncomeKpiPkList'],
 }))
-class profitList extends React.Component {
+class ProfitTbas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -81,7 +81,7 @@ class profitList extends React.Component {
         params: {
           pkUser,
           tabType: this.state.pkType,
-          pkListType: this.props.pkListType
+          pkListType: this.props.pkListType,
         }
       },
       callback: (profitData) => {
@@ -118,7 +118,7 @@ class profitList extends React.Component {
               </div>
               <div className={styles.tabOneTd}>
                 {profitPersonData.self && <div className={`${styles.tabMine} ${pkUser ? '' : styles.tabMineLine}`}>
-                  <div className={styles.msg}>{profitPersonData.self.userGrade}
+                  <div className={styles.msg}>
                     <img src={gradeImg[profitPersonData.self.userGrade]} style={{ marginRight: '16px' }} />
                     <div>
                       <span style={{ color: '#1A1C1F', fontWeight: 'bold' }}>{profitPersonData.self.userName}</span>
@@ -167,12 +167,12 @@ class profitList extends React.Component {
             <div className={styles.tabThreeBody}>
               <div className={styles.tabBody}>
                 <div className={styles.tabThreeTh}>
-                  {profitDataOther && profitDataOther.map((item, index) => <span key={index + '' + this.state.pkType} style={{ marginLeft: item.itemType === 2 ? '36px' : '12px' }}>{item.itemName}</span>)}
+                  {profitDataOther && profitDataOther.map((item, index) => <span key={index} style={{ marginLeft: item.itemType === 2 ? '36px' : '12px' }}>{item.itemName}</span>)}
                 </div>
                 <div className={styles.tabThreeTd}>
                   {
-                    profitDataOther && profitDataOther.map((item, index) => <div>
-                      <span key={index + '' + this.state.pkType} style={{ color: this.getSizeStyle(item) }}>{thousandsFormatAll(item.selfValue, unitType[item.valueType])}{}</span>
+                    profitDataOther && profitDataOther.map((item, index) => <div key={index}>
+                      <span style={{ color: this.getSizeStyle(item) }}>{thousandsFormatAll(item.selfValue, unitType[item.valueType])}{}</span>
                       <span>{pkUser ? <span>{thousandsFormatAll(item.pkUserValue, unitType[item.valueType])}</span> : ' '}</span>
                     </div>)
                   }
@@ -186,4 +186,4 @@ class profitList extends React.Component {
   }
 }
 
-export default profitList;
+export default ProfitTbas;

@@ -38,8 +38,7 @@ export const CAS_HOST = {
 export const DOMAIN_HOST = '.ministudy.com';
 // export const DOMAIN_HOST = 'localhost';
 
-// export const PROXY_PATH = (hasSelfPri) => { return hasSelfPri ? '' : '/inspectorapis' };
-export const PROXY_PATH = (hasSelfPri) => {return hasSelfPri ?'':'/deskperfpcapi'};
+export const PROXY_PATH = (hasSelfPri) => { return hasSelfPri ? '' : '/inspectorapis' };
 
 // 登录页面地址配置
 export const LOGIN_URL = {

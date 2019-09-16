@@ -84,7 +84,6 @@ export default class GlobalHeader extends PureComponent {
             }
           </ul> : null
         }
-
         <div className={styles.right}>
           {currentUser.name ? (
             <Dropdown overlay={menu}>

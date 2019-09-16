@@ -10,8 +10,8 @@ const pkTypeconfig = ['集团排行', '学院内排行', '家族内排行', '同
 @connect(({ loading }) => ({
   loading: loading.effects['xdWorkModal/getIncomeKpiPkList'],
 }))
-class profitList extends React.Component {
-  constructor(props) {
+class ProfitList extends React.Component {
+  constructor(props)  {
     super(props);
     this.state = {
       profitList: [],
@@ -90,7 +90,6 @@ class profitList extends React.Component {
   onClickRow = (record) => {
     return {
       onClick: () => {
-        if (this.props.userId === record.userId) return;
         this.props.changeSelected(record.userId)
       }
     };
@@ -164,4 +163,4 @@ class profitList extends React.Component {
   }
 }
 
-export default profitList;
+export default ProfitList;
