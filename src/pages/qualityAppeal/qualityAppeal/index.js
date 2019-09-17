@@ -91,7 +91,7 @@ function changeState(record) {
   }
   if (
     (record.status === 6 && record.appealType === 2) ||
-    (record.status === 5 && record.appealType === 1 &&  
+    (record.status === 5 && record.appealType === 1 &&
       record.secondAppealEndDate &&
       record.secondAppealEndDate < record.nowTime)
   ) {
@@ -575,7 +575,7 @@ class QualityAppeal extends React.Component {
                   查看详情
                 </span>
               </AuthButton>
-              {status === 1 || status === 3 || status === 5 || status === 7 ? (
+              {Number(record.appealFlag) === 1 && (status === 1 || status === 3 || status === 5 || status === 7) ? (
                 <AuthButton authority="/qualityAppeal/qualityAppeal/launch">
                   <span
                     className={style.actionBtn}
