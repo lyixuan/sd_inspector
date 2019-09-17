@@ -8,8 +8,7 @@ import styles from './style.less';
 import CurrentCredit from './currentCredit'
 import storage from '../../utils/storage';
 
-@connect((xdWorkModal) => ({
-  userId: xdWorkModal.userId
+@connect(() => ({
 }))
 class xdWorkbench extends React.Component {
   constructor(props) {

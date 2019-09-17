@@ -79,7 +79,7 @@ class Quality extends React.Component {
           dataSource={this.state.dataSource}
           pagination={false}
           loading={this.props.loading}
-          rowKey={record => record.id} 
+          rowKey={record => record.violationLevel} 
         />
       </Container>
     );
