@@ -22,17 +22,25 @@ class  currentCreditLeft extends React.Component {
       groupPkList: [],
       myGroup:{},
       leftNum:'',
-      rightNum:''
+      rightNum:'',
+      groupId:'',
+      pkGroup:{}
 
     }
   }
   componentDidMount(){
+    console.log(32,this.props.groupId)
+    if(this.props.groupId === 0){
+      this.getGroupPkData(this.props.groupId)
+    }
+
   }
   componentWillReceiveProps(nextProps) {
-    console.log(28,this.props.groupId,nextProps.groupId)
     if(this.props.groupId !== nextProps.groupId){
-
       this.getGroupPkData(nextProps.groupId)
+      this.setState({
+        groupId:nextProps.groupId
+      })
     }
   }
   //获取左侧列表数据的方法
@@ -44,14 +52,18 @@ class  currentCreditLeft extends React.Component {
       callback:(groupPkList)=>{
         this.setState({
           groupPkList:groupPkList.dimensionList,
-          myGroup:groupPkList.myGroup
+          myGroup:groupPkList.myGroup,
+          pkGroup:groupPkList.pkGroup,
         })
 
       }
     });
   }
+
   columns = () => {
-    let denominatorNumber = ""
+    let maxNumMyScore = ""
+    let maxNumGroupScore = ""
+
     const columns = [
       {
         title: '学分维度',
@@ -88,68 +100,120 @@ class  currentCreditLeft extends React.Component {
 
         }
       },{
-        title: '对比小组',
-        dataIndex: 'groupScore',
-        key: 'groupScore',
-        render: (groupScore,data) => {
-          let isFlag =''
-          let maxWidth = ''
-          let groupScoreNum = ''
-          let groupScoreName = ""
-          if(groupScore !== null ){
-            isFlag = data.myScore>data.groupScore?1:data.myScore<data.groupScore?2:3
-           groupScoreName = groupScore
-            //循环判断进度条的换算开始
-
+        title:'',
+        dataIndex:'myScore',
+        key:'leftNum',
+        width:58.5,
+        render: (myScore,data) => {
+          const {groupName} = this.state.pkGroup
+          // console.log(109,groupName,this.state.pkGroup)
+          let isFlag=""
+          let leftProgress =""
+          if(groupName){
+            isFlag = myScore>data.groupScore?1:myScore<data.groupScore?2:3
             if(data.dimensionName === "正面均分"){
-              denominatorNumber= ((Number(data.myScore)+Number(groupScoreName))*100).toFixed(2)
+              // console.log(115,myScore,data.groupScore)
+              if(myScore>data.groupScore){
+                maxNumGroupScore = Number(myScore)
+              }else{
+                maxNumGroupScore = Number(data.groupScore)
+              }
             }
             if(data.dimensionName === "正面均分"|| data.isShowPro){
-              const deNumber = ((data.myScore+Number(groupScoreName))*100).toFixed(2)
-              const moleculeNumber = ((data.myScore+Number(groupScoreName))*100).toFixed(2)
-              maxWidth =denominatorNumber? parseInt(117*(moleculeNumber/denominatorNumber)):0
-              groupScoreNum = maxWidth>0 ? Math.ceil(data.groupScore*100/deNumber*maxWidth):0
+              leftProgress = (Number(myScore)/maxNumMyScore)*100+'%'
+              // console.log(108,leftProgress,maxNumMyScore)
             }
-            //循环判断进度条的换算结束
-          }else{
-
           }
-
           return (
-            data.dimensionName === "正面均分"|| data.isShowPro?
-            <div className={styles.pkRankMain}>
-              <div
-                style={{
-                  color: '#52C9C2',
-                  cursor: 'pointer',
-                  width:'117px',
-                  display:'flex',
-                  justifyContent:'center'
-                }}
-              >
-                <div style={{width:maxWidth+'px',position:'relative'}}>
-                  <div className={isFlag === 1 ? `${styles.progressWin}` : isFlag === 2?`${styles.progressLose}`:`${styles.progressLose}`} style={{width:'100%'}}>
-                    <div style={{width:groupScoreNum+'px'}} className={isFlag === 1 ? `${styles.progressLose}` : isFlag === 2?`${styles.progressWin}`:`${styles.progressWin}`} >
-
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-              <div style={{marginLeft:'30px'}}>{groupScoreName}</div>
-            </div>:<div className={styles.pkRankMain}>
+            data.dimensionName === "正面均分"|| data.isShowPro && groupName?
+              <div className={styles.pkRankMain} style={{justifyContent:'flex-end',marginRight:'-9px'}}>
                 <div
                   style={{
                     color: '#52C9C2',
                     cursor: 'pointer',
-                    width:'117px',
+                    width:'58.5px',
                     display:'flex',
-                    justifyContent:'center'
+                    justifyContent:'flex-end'
+                  }}
+                >
+                  <div style={{width:leftProgress}} className={`${styles.progress} ${isFlag === 1 ? styles.progressWin : (isFlag === 2?styles.progressLose:styles.progressWin)}`}>
+                  </div>
+                </div>
+              </div>:<div className={styles.pkRankMain} style={{justifyContent:'flex-end',marginRight:'-8px'}}>
+                <div
+                  style={{
+                    color: '#52C9C2',
+                    cursor: 'pointer',
+                    width:'58.5px',
+                    display:'flex',
+                    justifyContent:'flex-end'
                   }}
                 >
                 </div>
-                <div style={{marginLeft:'30px'}}>{groupScoreName}</div>
               </div>
+          );
+        }
+      },{
+        title:'',
+        dataIndex:'groupScore',
+        key:'rightNum',
+        width:58.5,
+        render: (groupScore,data) => {
+          const {groupName} = this.state.pkGroup
+          let isFlag=""
+          let leftProgress =""
+          if(groupName){
+            isFlag = data.myScore>groupScore?1:data.myScore<groupScore?2:3
+            if(data.dimensionName === "正面均分"){
+              if(data.myScore>groupScore){
+                maxNumGroupScore = Number(data.myScore)
+              }else{
+                maxNumGroupScore = Number(groupScore)
+              }
+            }
+            if(data.dimensionName === "正面均分"|| data.isShowPro && groupName){
+              leftProgress = (Number(groupScore)/maxNumGroupScore)*100+'%'
+            }
+          }
+
+          return (
+            data.dimensionName === "正面均分"|| data.isShowPro?
+              <div className={styles.pkRankMain} style={{justifyContent:'flex-start',marginLeft:'-8px'}}>
+                <div
+                  style={{
+                    color: '#52C9C2',
+                    cursor: 'pointer',
+                    width:'58.5px',
+                    display:'flex',
+                    justifyContent:'flex-start'
+                  }}
+                >
+                  <div style={{width:leftProgress}} className={`${styles.progress} ${isFlag === 1 ? styles.progressLose : (isFlag === 2?styles.progressWin:styles.progressWin)}`}>
+                  </div>
+                </div>
+              </div>:<div className={styles.pkRankMain} style={{justifyContent:'flex-start',marginRight:'-8px'}}>
+                <div
+                  style={{
+                    color: '#52C9C2',
+                    cursor: 'pointer',
+                    width:'58.5px',
+                    display:'flex',
+                    justifyContent:'flex-start'
+                  }}
+                >
+                </div>
+              </div>
+          );
+        }
+      },{
+        title: '对比小组',
+        dataIndex: 'groupScore',
+        key: 'groupScore',
+        render: (groupScore,data) => {
+          return (
+            <div className={styles.pkRankMain}>
+              <div style={{marginLeft:'30px'}}>{groupScore}</div>
+            </div>
           );
         },
       }
@@ -166,10 +230,9 @@ class  currentCreditLeft extends React.Component {
     return className
   }
   fillDataSource = (params) =>{
-    console.log(157,params)
+    console.log(222,params)
     let data = []
     data = params
-    console.log(151,data)
     data.map((item)=>{
       if(item.dimensionName === "学分均分"){
         item.children.map((subItem,subIndex)=>{
@@ -179,6 +242,7 @@ class  currentCreditLeft extends React.Component {
         })
       }
     })
+    console.log(234,data)
     return data
 
   }
@@ -189,26 +253,25 @@ class  currentCreditLeft extends React.Component {
           this.serverArray(arr[item].children)
         }
     }
-    console.log(180,arr)
     return arr
   }
 
   render() {
-    console.log(185,this.props.groupId)
-    const {PkName,selfName} = this.props
-    console.log(180,PkName)
-    const {groupPkList,myGroup} = this.state
+    const {groupId} = this.props
+    const {groupPkList,myGroup,pkGroup} = this.state
     const  dataSource = groupPkList && this.fillDataSource(groupPkList)
     const leftNum = myGroup && myGroup.score
-    const rightNum =
-    console.log(199,dataSource)
+    const userName = myGroup && myGroup.groupName
+    const rightNum = pkGroup && pkGroup.score
+    const PkName = pkGroup && pkGroup.groupName
+
     return (
           <div className={styles.creditLeft}>
             <div className={styles.proMain}>
-              {PkName?<Proportion
-                leftNum={-8.11}
-                rightNum={-8.11}
-                leftCollege={selfName}
+              {groupId!==0?<Proportion
+                leftNum={leftNum}
+                rightNum={rightNum}
+                leftCollege={userName}
                 rightCollege={PkName}
                 style={{width: 'calc(100% - 200px)'}}
               />:<div className={styles.proNone}>
@@ -233,7 +296,7 @@ class  currentCreditLeft extends React.Component {
               }
 
               {
-                !PkName && <div className={styles.tableImg}><img src={xdPkImg}/></div>
+                groupId === 0 && <div className={styles.tableImg}><img src={xdPkImg}/></div>
               }
 
             </div>

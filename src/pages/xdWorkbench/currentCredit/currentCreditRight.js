@@ -195,7 +195,6 @@ class  currentCreditRight extends React.Component {
       this.state.userMsg = record;
       this.state.userLocation = 40 * (index + 1) - 430;
       taClassName = "rowHover"
-      this.props.clickRow(record)
     }
     if(record.creditRankingCoefficient === 3){
       className = "background1 "+taClassName
@@ -230,7 +229,7 @@ class  currentCreditRight extends React.Component {
         averageStudentNumber: item.averageStudentNumber,
         collegeId: item.collegeId,
         groupName: item.groupName,
-        credit: item.credit.toFixed(2),
+        credit: item.credit,
         familyId:item.familyId,
         groupId:item.groupId,
         creditRankingCoefficient: item.creditRankingCoefficient,

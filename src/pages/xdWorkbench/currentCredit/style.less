@@ -68,7 +68,7 @@
     }
     .background5{
       background: #F7FFF9;
-
+      cursor: pointer;
     }
     .rowHover{
       > td {
@@ -152,7 +152,10 @@
     }
     :global{
       .ant-table-thead > tr:first-child > th:last-child{
-        padding-left:160px;
+        padding-left:48px;
+      }
+      .ant-table-tbody > tr> td:last-child{
+        padding-left:0px;
       }
     }
     .titleGreen{
@@ -167,8 +170,21 @@
   }
   .pkRankMain{
     display: flex;
-    justify-content: flex-start;
     align-items: center;
+  }
+  .progress{
+    display: flex;
+    height: 4px;
+    color: #FFFFFF;
+    border-radius: 3px;
+    .left {
+      width: 30%;
+      height: 100%;
+      border-radius: 3px;
+    }
+    .right {
+      flex: 1;
+    }
   }
 
 }

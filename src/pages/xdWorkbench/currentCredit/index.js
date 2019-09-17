@@ -14,45 +14,42 @@ class  currentCredit extends React.Component {
     this.state={
       PkName:'',
       PkSelfId:1,
-      groupId:null,
-      selfName:''
+      groupId:"",
+      selfName:'',
+      selfSource:'',
+      pkGroupSource:''
     }
   }
   componentDidMount() {
-    const localName = localStorage.getItem('orgName')
-    if(localName){
+    const pkGroup = JSON.parse(localStorage.getItem('pkGroup'))
+    console.log(25,pkGroup)
+    if(pkGroup){
       this.setState({
-        PkName:localName
+        PkName:pkGroup.groupName,
+        groupId:pkGroup.groupId?pkGroup.groupId:0,
+        pkGroupSource:pkGroup.credit
       })
     }
   }
   clickRow = (data) =>{
-    console.log(19,data)
-    if(data.isMyGroup){
-    console.log(32)
-      this.setState({
-        selfName:data.groupName,
-        groupId:0
-      })
-    }else{
-      console.log(38)
-      this.setState({
-        PkName:data.groupName,
-        groupId:data.groupId
-      })
-      localStorage.setItem('orgName',data.orgName);
+    this.setState({
+      groupId:data && data.groupId?data.groupId:0,
+    })
+
+    if(data && data.groupId){
+      localStorage.setItem('pkGroup',JSON.stringify(data))
     }
   }
 
   render() {
-    const {PkName,PkSelfId,groupId,selfName} = this.state
+    const {PkName,PkSelfId,groupId,selfName,selfSource,pkGroupSource} = this.state
     return (
      <Container
        title='本期学分'
        style={{width:'100%',marginBottom:'16px'}}
       >
        <div className={styles.creditContainer}>
-         <CurrentCreditLeft  PkName={PkName} groupId={groupId} selfName={selfName}/>
+         <CurrentCreditLeft   groupId={groupId} selfName={selfName} selfSource = {selfSource} userData = {this.userData}/>
          <CurrentCreditRight PkSelfId={PkSelfId} clickRow = {this.clickRow} />
        </div>
      </Container>
