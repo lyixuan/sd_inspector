@@ -110,7 +110,7 @@ class imPage extends React.Component {
   constructor(props) {
     super(props);
     const { currentPage, searchParams, currentServiceTime } = this.props;
-    this.state = { searchParams: { choiceTime: handleDefaultPickerValueMark(2, currentServiceTime), ...searchParams }, currentPage };
+    this.state = { searchParams: { choiceTime: handleDefaultPickerValueMark(2, currentServiceTime), robot: 0, ...searchParams }, currentPage };
   }
 
   columnsData = () => {
