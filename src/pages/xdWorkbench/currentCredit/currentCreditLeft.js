@@ -130,7 +130,7 @@ class  currentCreditLeft extends React.Component {
           }
           return (
             data.dimensionName === "正面均分"|| data.isShowPro && groupName?
-              <div className={styles.pkRankMain} style={{justifyContent:'flex-end',marginRight:'-9px'}}>
+              <div className={styles.pkRankMain} style={{justifyContent:'flex-end',marginRight:'-8px'}}>
                 <div
                   style={{
                     color: '#52C9C2',
@@ -140,7 +140,7 @@ class  currentCreditLeft extends React.Component {
                     justifyContent:'flex-end'
                   }}
                 >
-                  <div style={{width:leftProgress}} className={`${styles.progress} ${isFlag === 1 ? styles.progressWin : (isFlag === 2?styles.progressLose:styles.progressWin)}`}>
+                  <div style={{width:leftProgress}} className={`${styles.progress} ${isFlag === 1 ? styles.progressWin : (isFlag === 2?styles.progressLose:styles.progressLose)}`}>
                   </div>
                 </div>
               </div>:<div className={styles.pkRankMain} style={{justifyContent:'flex-end',marginRight:'-8px'}}>
@@ -199,7 +199,7 @@ class  currentCreditLeft extends React.Component {
                     justifyContent:'flex-start'
                   }}
                 >
-                  <div style={{width:leftProgress}} className={`${styles.progress} ${isFlag === 1 ? styles.progressLose : (isFlag === 2?styles.progressWin:styles.progressLose)}`}>
+                  <div style={{width:leftProgress}} className={`${styles.rightProgress} ${isFlag === 1 ? styles.progressLose : (isFlag === 2?styles.progressWin:styles.progressWin)}`}>
                   </div>
                 </div>
               </div>:<div className={styles.pkRankMain} style={{justifyContent:'flex-start',marginRight:'-8px'}}>
