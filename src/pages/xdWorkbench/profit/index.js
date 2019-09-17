@@ -7,7 +7,7 @@ class Profit extends React.Component {
   constructor(props)  {
     super(props);
     this.state = {
-      pkUser: 251, // 选中的pk者
+      pkUser: '', // 选中的pk者
       pkListType: 5, // 列表选项--同级排行
     }
   }
