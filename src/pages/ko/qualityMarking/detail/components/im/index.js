@@ -7,7 +7,7 @@ import moment from 'moment'
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 
-
+const robotConfig = ['班主任会话', '机器人会话'];
 //对话区域
 function SessionContent(props) {
   const li = props.li.map((item, index) => <ListItem {...props} li={item} key={index} />);
@@ -126,6 +126,12 @@ class DetailIm extends React.Component {
             <div className={styles.row}>
               <span className={styles.label}>后端归属：</span>
               <span className={styles.name}>{item.org}</span>
+            </div>
+          </li>
+          <li className={styles.flex}>
+            <div className={styles.row}>
+              <span className={styles.label}>会话类型：</span>
+              <span className={styles.name}>{robotConfig[item.robot ? item.robot : 0]}</span>
             </div>
           </li>
           <li className={styles.flex}>
