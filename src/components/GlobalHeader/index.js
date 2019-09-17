@@ -37,7 +37,6 @@ export default class GlobalHeader extends PureComponent {
     } = this.props;
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
-    console.log(40, userType)
     const url = 'http://172.16.117.65'
     // const url = 'http://bi-admin.ministudy.com'
     const menu = (

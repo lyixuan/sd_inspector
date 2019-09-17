@@ -22,14 +22,20 @@ class  currentCredit extends React.Component {
   }
   componentDidMount() {
     const pkGroup = JSON.parse(localStorage.getItem('pkGroup'))
-    console.log(25,pkGroup)
-    if(pkGroup){
+    this.setState({
+      PkName:pkGroup && pkGroup.groupName,
+      groupId:pkGroup ?pkGroup.groupId:0,
+      pkGroupSource:pkGroup && pkGroup.credit
+    })
+
+  }
+  componentWillMount() {
+    const pkGroup = JSON.parse(localStorage.getItem('pkGroup'))
       this.setState({
-        PkName:pkGroup.groupName,
-        groupId:pkGroup.groupId?pkGroup.groupId:0,
-        pkGroupSource:pkGroup.credit
+        PkName:pkGroup && pkGroup.groupName,
+        groupId:pkGroup ?pkGroup.groupId:0,
+        pkGroupSource:pkGroup && pkGroup.credit
       })
-    }
   }
   clickRow = (data) =>{
     this.setState({

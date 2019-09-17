@@ -29,11 +29,13 @@ class  currentCreditLeft extends React.Component {
     }
   }
   componentDidMount(){
-    console.log(32,this.props.groupId)
-    if(this.props.groupId === 0){
-      this.getGroupPkData(this.props.groupId)
-    }
-
+    // console.log(32,this.props.groupId)
+    // if(this.props.groupId === 0){
+    //   this.getGroupPkData(this.props.groupId)
+    // }
+  }
+  componentWillMount(){
+    this.getGroupPkData(this.props.groupId)
   }
   componentWillReceiveProps(nextProps) {
     if(this.props.groupId !== nextProps.groupId){
@@ -45,7 +47,6 @@ class  currentCreditLeft extends React.Component {
   }
   //获取左侧列表数据的方法
   getGroupPkData = (groupId) =>{
-    console.log('groupId',groupId)
     this.props.dispatch({
       type: 'xdWorkModal/groupPkList',
       payload: { params: {pkGroup:groupId} },
@@ -63,7 +64,6 @@ class  currentCreditLeft extends React.Component {
   columns = () => {
     let maxNumMyScore = ""
     let maxNumGroupScore = ""
-
     const columns = [
       {
         title: '学分维度',
@@ -106,22 +106,26 @@ class  currentCreditLeft extends React.Component {
         width:58.5,
         render: (myScore,data) => {
           const {groupName} = this.state.pkGroup
-          // console.log(109,groupName,this.state.pkGroup)
           let isFlag=""
           let leftProgress =""
+          let myScoreLefNum = ""
+          let myScoreRightNum = ""
           if(groupName){
             isFlag = myScore>data.groupScore?1:myScore<data.groupScore?2:3
+            if(data.dimensionName === "正面均分"|| data.isShowPro) {
+              myScoreLefNum = Number(myScore)
+              myScoreRightNum = Number(data.groupScore)
+            }
             if(data.dimensionName === "正面均分"){
-              // console.log(115,myScore,data.groupScore)
-              if(myScore>data.groupScore){
-                maxNumGroupScore = Number(myScore)
+
+              if(myScoreLefNum>myScoreRightNum){
+                maxNumMyScore = myScoreLefNum
               }else{
-                maxNumGroupScore = Number(data.groupScore)
+                maxNumMyScore = myScoreRightNum
               }
             }
             if(data.dimensionName === "正面均分"|| data.isShowPro){
-              leftProgress = (Number(myScore)/maxNumMyScore)*100+'%'
-              // console.log(108,leftProgress,maxNumMyScore)
+              leftProgress = ((myScoreLefNum/maxNumMyScore)*100).toFixed(2)+'%'
             }
           }
           return (
@@ -162,17 +166,24 @@ class  currentCreditLeft extends React.Component {
           const {groupName} = this.state.pkGroup
           let isFlag=""
           let leftProgress =""
+          let lefNum = ""
+          let rightNum = ""
           if(groupName){
             isFlag = data.myScore>groupScore?1:data.myScore<groupScore?2:3
+            if(data.dimensionName === "正面均分"|| data.isShowPro) {
+              lefNum = Number(groupScore)
+              rightNum = Number(data.myScore)
+            }
             if(data.dimensionName === "正面均分"){
-              if(data.myScore>groupScore){
-                maxNumGroupScore = Number(data.myScore)
+
+              if(lefNum>rightNum){
+                maxNumGroupScore = lefNum
               }else{
-                maxNumGroupScore = Number(groupScore)
+                maxNumGroupScore = rightNum
               }
             }
             if(data.dimensionName === "正面均分"|| data.isShowPro && groupName){
-              leftProgress = (Number(groupScore)/maxNumGroupScore)*100+'%'
+              leftProgress = (lefNum/maxNumGroupScore)*100+'%'
             }
           }
 
@@ -188,7 +199,7 @@ class  currentCreditLeft extends React.Component {
                     justifyContent:'flex-start'
                   }}
                 >
-                  <div style={{width:leftProgress}} className={`${styles.progress} ${isFlag === 1 ? styles.progressLose : (isFlag === 2?styles.progressWin:styles.progressWin)}`}>
+                  <div style={{width:leftProgress}} className={`${styles.progress} ${isFlag === 1 ? styles.progressLose : (isFlag === 2?styles.progressWin:styles.progressLose)}`}>
                   </div>
                 </div>
               </div>:<div className={styles.pkRankMain} style={{justifyContent:'flex-start',marginRight:'-8px'}}>
@@ -230,7 +241,6 @@ class  currentCreditLeft extends React.Component {
     return className
   }
   fillDataSource = (params) =>{
-    console.log(222,params)
     let data = []
     data = params
     data.map((item)=>{
@@ -242,7 +252,6 @@ class  currentCreditLeft extends React.Component {
         })
       }
     })
-    console.log(234,data)
     return data
 
   }

@@ -27,7 +27,6 @@ class Proportion extends React.Component {
 
     const { leftNum, rightNum, iconed, leftCollege, rightCollege } = this.props;
     const isEqual = this.isEqualAndminus()
-    console.log(29,isEqual)
     const flag = this.getFlag();
     return <div className={styles.proporContent} style={this.props.style}>
       <div className={styles.propTop}>
