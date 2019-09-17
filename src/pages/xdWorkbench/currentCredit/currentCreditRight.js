@@ -184,7 +184,9 @@ class  currentCreditRight extends React.Component {
           studentValue:value
         })
       }
-      this.getGroupList()
+      setTimeout(()=>{
+        this.getGroupList()
+      },200)
       document.querySelector("#scroll .ant-table-body").scrollTop = 0;
     }else{}
   };
