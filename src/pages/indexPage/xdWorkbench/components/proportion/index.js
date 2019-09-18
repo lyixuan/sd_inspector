@@ -8,7 +8,6 @@ import win from '@/assets/xdwork/win.png';
 import win1 from '@/assets/xdwork/win1.png';
 import win2 from '@/assets/xdwork/win2.png';
 
-
 // leftNum 左侧数值, leftCollege左侧数据   rightNum右侧数值 rightCollege右侧数据
 // iconed 样式不用---上方显示图标  默认左右两侧显示图标
 const leftImgObj = {

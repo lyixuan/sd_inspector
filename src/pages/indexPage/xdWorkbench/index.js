@@ -6,13 +6,13 @@ import Appeal from './appeal';
 import Quality from './quality';
 import styles from './style.less';
 import CurrentCredit from './currentCredit'
-import storage from '../../utils/storage';
+import storage from '../../../utils/storage';
 
 @connect(( xdWorkModal) => ({
   xdWorkModal,
 }))
 // Current credits
-class xdWorkbench extends React.Component {
+class XdWorkbench extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -50,4 +50,4 @@ class xdWorkbench extends React.Component {
   }
 }
 
-export default xdWorkbench;
+export default XdWorkbench;
