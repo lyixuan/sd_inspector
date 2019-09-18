@@ -14,7 +14,11 @@ import styles from '../style.less';
 
 const thousandsFormatAll = (n, u) => {
   if (n !== null) {
-    return thousandsFormat(n) + '' + u
+    if (u === '%') {
+      return (n * 100).toFixed(2) + u
+    } else {
+      return thousandsFormat(n) + '' + u
+    }
   } else {
     return ' '
   }
@@ -89,10 +93,11 @@ class ProfitTbas extends React.Component {
       },
     });
   }
-  getSizeStyle = ({ subSelfValue, subPkUserValue }) => {
-    if (subSelfValue > subPkUserValue) {
+  getSizeStyle = ({ selfValue, pkUserValue }) => {
+    if (!this.props.pkUser) return ''
+    if (selfValue > pkUserValue) {
       return '#00CCC3';
-    } else if (subSelfValue < subPkUserValue) {
+    } else if (selfValue < pkUserValue) {
       return '#FF626A';
     }
     return '';
