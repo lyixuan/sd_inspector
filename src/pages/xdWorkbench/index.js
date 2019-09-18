@@ -21,9 +21,7 @@ class xdWorkbench extends React.Component {
     const { userId } = this.state;
     return (
       <div className={styles.workbench}>
-        <div className={styles.performanceAppel}>
-          <PerformanceDetail></PerformanceDetail>
-        </div>
+        <PerformanceDetail></PerformanceDetail>
         <CurrentCredit></CurrentCredit>
         <Profit userId={userId} />
         <div className={styles.qualityAppel}>
