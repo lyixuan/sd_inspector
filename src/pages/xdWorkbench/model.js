@@ -31,6 +31,10 @@ export default {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
+      } else if (result.code === 50000) {
+        if (callback && typeof callback === 'function') {
+          callback();
+        }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -42,6 +46,10 @@ export default {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
+      } else if (result.code === 50000) {
+        if (callback && typeof callback === 'function') {
+          callback();
+        }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -51,7 +59,7 @@ export default {
       const result = yield call(getIncomeKpiPersonInfo, params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
-          callback(result.data);
+          callback(result.data === null ? '' : result.data);
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
@@ -140,7 +148,7 @@ export default {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
-      } else if (result) {
+      } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     }
