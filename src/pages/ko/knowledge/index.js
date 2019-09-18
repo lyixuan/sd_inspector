@@ -1,11 +1,13 @@
 import React from 'react';
 import jwt from 'jsonwebtoken'
+import {knowledgeURL} from '@/utils/constants';
 
 const localItem = JSON.parse(localStorage.getItem("admin_user"));
 const userId = localItem.userId;
-const token = localItem.token
+const token = localItem.token;
+const METABASE_SITE_URL = knowledgeURL;
 // const METABASE_SITE_URL = "http://172.16.109.87:38080/#/questions";
-const METABASE_SITE_URL = "http://sscp.ministudy.com/college_learn/#/questions";
+// const METABASE_SITE_URL = "http://sscp.ministudy.com/college_learn/#/questions";
 
 class knowledge extends React.Component {
   constructor(props) {
