@@ -28,12 +28,12 @@ export async function userChangeRole(data) {
 }
 // 根据userId和token,获取权限列表
 export async function getPrivilegeList(params) {
-    return request('/user/getPrivilegeList', { params});
+    return request('/user/getPrivilegeList', { params });
 }
 
 // 新,获取权限列表
 export async function getPrivilegeListNew() {
-  return request('/apis/getPrivilegeList');
+    return request('/apis/getPrivilegeList');
 }
 
 
@@ -41,5 +41,10 @@ export async function getPrivilegeListNew() {
 * 新，用户信息接口
 * */
 export async function getUserInfoNew(params) {
-  return request(`/apis/getUserInfo`,{params});
+    return request(`/apis/getUserInfo`, { params });
+}
+
+
+export async function getCertificationList() {
+    return request('/deskapi/classStratification/getCertificationList', {});
 }
