@@ -248,7 +248,7 @@ class  currentCreditRight extends React.Component {
     const dataSource = groupList?this.fillDataSource(groupList):[]
     return (
         <div className={styles.creditRight}>
-          <div className={styles.creditSelect}>
+          <div className={styles.creditSelect} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
             <span className={styles.title}>选择对比小组:</span>
             <BISelect style={{width:136,marginLeft:12}} placeholder="请选择" value={orgValue} onChange={(val)=>this.onFormChange(val,'oneLevel')}>
               {orgOptions.map(item => (
@@ -266,7 +266,7 @@ class  currentCreditRight extends React.Component {
             </BISelect>
           </div>
           <div className={styles.tableContent}>
-            {userFlag && userMsg && <div className={styles.suspension}>
+            {userFlag && userMsg && <div className={styles.suspension} data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>
 
               <BITable
                 showHeader={false}
