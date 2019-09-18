@@ -17,7 +17,7 @@ export const routes = [
     routes: [
       {
         path: '/indexPage',
-        component: './indexPage',
+        component: './xdWorkbench',
       },
       {
         path: '/exception/403',
