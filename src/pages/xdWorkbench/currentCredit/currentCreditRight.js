@@ -94,6 +94,7 @@ class  currentCreditRight extends React.Component {
   }
 
   columnsRight = () =>{
+    const total = this.state.groupList && this.state.groupList[0] ? this.state.groupList[0].credit : 0
     const columns = [
       {
         width: '20%',
@@ -116,6 +117,7 @@ class  currentCreditRight extends React.Component {
         dataIndex:'credit',
         key:'credit',
         render: (credit ,data)=> {
+          const percent = credit / total * 100;
           return (
             <div
               style={{
@@ -124,7 +126,7 @@ class  currentCreditRight extends React.Component {
             >
               <span style={{ fontSize: '13px'}}>{credit}</span>
               <Progress
-                percent={Number(credit)}
+                percent={Number(percent)}
                 strokeColor={'#00CCC3'}
                 showInfo={false}
                 strokeWidth={4}

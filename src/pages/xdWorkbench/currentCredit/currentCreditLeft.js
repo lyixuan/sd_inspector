@@ -87,11 +87,12 @@ class  currentCreditLeft extends React.Component {
         key: 'myScore',
         width:80,
         render:(myScore,data)=>{
-          const isFlag = myScore>data.groupScore?1:myScore<data.groupScore?2:3
-          let isDecimal = false
+          let isFlag = 3
+          if(data.dimensionName !== "绩效排名系数"&&data.dimensionName !== "集团排名"&&data.dimensionName !== "家族内排名"&&data.dimensionName !== "人均在服学员"){
+            isFlag = myScore>data.groupScore?1:myScore<data.groupScore?2:3
+          }
           let myScoreName = ""
           if(myScore !== null){
-            // isDecimal = String(myScore).indexOf(".") + 1
             myScoreName = myScore
           }
           return(
@@ -130,7 +131,7 @@ class  currentCreditLeft extends React.Component {
           }
           return (
             data.dimensionName === "正面均分"|| data.isShowPro && groupName?
-              <div className={styles.pkRankMain} style={{justifyContent:'flex-end',marginRight:'-8px'}}>
+              <div className={styles.pkRankMain} style={{justifyContent:'flex-end',marginRight:'-18px'}}>
                 <div
                   style={{
                     color: '#52C9C2',
@@ -143,7 +144,7 @@ class  currentCreditLeft extends React.Component {
                   <div style={{width:leftProgress}} className={`${styles.progress} ${isFlag === 1 ? styles.progressWin : (isFlag === 2?styles.progressLose:styles.progressLose)}`}>
                   </div>
                 </div>
-              </div>:<div className={styles.pkRankMain} style={{justifyContent:'flex-end',marginRight:'-8px'}}>
+              </div>:<div className={styles.pkRankMain} style={{justifyContent:'flex-end',marginRight:'-18px'}}>
                 <div
                   style={{
                     color: '#52C9C2',
@@ -189,7 +190,7 @@ class  currentCreditLeft extends React.Component {
 
           return (
             data.dimensionName === "正面均分"|| data.isShowPro?
-              <div className={styles.pkRankMain} style={{justifyContent:'flex-start',marginLeft:'-8px'}}>
+              <div className={styles.pkRankMain} style={{justifyContent:'flex-start',marginLeft:'-18px'}}>
                 <div
                   style={{
                     color: '#52C9C2',
@@ -202,7 +203,7 @@ class  currentCreditLeft extends React.Component {
                   <div style={{width:leftProgress}} className={`${styles.rightProgress} ${isFlag === 1 ? styles.progressLose : (isFlag === 2?styles.progressWin:styles.progressWin)}`}>
                   </div>
                 </div>
-              </div>:<div className={styles.pkRankMain} style={{justifyContent:'flex-start',marginRight:'-8px'}}>
+              </div>:<div className={styles.pkRankMain} style={{justifyContent:'flex-start',marginRight:'-18px'}}>
                 <div
                   style={{
                     color: '#52C9C2',
