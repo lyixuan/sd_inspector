@@ -24,6 +24,12 @@ const thousandsFormatAll = (n, u) => {
   }
 }
 const pkTypeObj = ['综合对比', '好推绩效', '续报绩效', '成考专本套'];
+const pkTypeTrace = [
+  '{"widgetName":"本期创收-综合对比","traceName":"小德工作台/本期创收/综合对比"}',
+  '{"widgetName":"本期创收-好推绩效","traceName":"小德工作台/本期创收/好推绩效"}',
+  '{"widgetName":"本期创收-续报绩效","traceName":"小德工作台/本期创收/续报绩效"}',
+  '{"widgetName":"本期创收-成考专本套","traceName":"小德工作台/本期创收/成考专本套"}',
+];
 const gradeImg = { // 等级
   A: gradeA,
   B: gradeB,
@@ -110,7 +116,7 @@ class ProfitTbas extends React.Component {
     return (
       <div className={styles.profitTabs}>
         <BIRadio onChange={this.handlePkTypeChange} value={this.state.pkType} style={{ marginBottom: 16 }}>
-          {pkTypeObj.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}>{item}</BIRadio.Radio.Button>)}
+          {pkTypeObj.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace={pkTypeTrace[index]}>{item}</div></BIRadio.Radio.Button>)}
         </BIRadio>
         <Skeleton loading={this.props.loading} >
           {profitData && profitData[0] && profitPersonData && <div className={styles.tabContent}>

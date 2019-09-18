@@ -495,17 +495,17 @@ export const routes = [
           },
         ],
       }, 
-      {
-        path: '/xdWorkbench',
-        name: '小德工作台',
-        routes: [
-          {
-            path: '/xdWorkbench/index',
-            component: './xdWorkbench',
-            name: '小德工作台',
-          },
-        ]
-      }
+      // {
+      //   path: '/xdWorkbench',
+      //   name: '小德工作台',
+      //   routes: [
+      //     {
+      //       path: '/xdWorkbench/index',
+      //       component: './xdWorkbench',
+      //       name: '小德工作台',
+      //     },
+      //   ]
+      // }
     ],
   },
 ];

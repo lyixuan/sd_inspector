@@ -7,6 +7,15 @@ import constants from '@/utils/constants';
 import styles from './style.less';
 
 const appealObj = ['', '质检', '底线', 'IM', '工单', '优新', '创收', ];
+const appealTrace = [
+  '',
+  '{"widgetName":"我的申诉-质检卡片","traceName":"小德工作台/我的申诉/综合对比"}',
+  '{"widgetName":"我的申诉-IM卡片","traceName":"小德工作台/我的申诉/IM卡片"}',
+  '{"widgetName":"我的申诉-底线卡片","traceName":"小德工作台/我的申诉/底线卡片"}',
+  '{"widgetName":"我的申诉-工单卡片","traceName":"小德工作台/我的申诉/工单卡片"}',
+  '{"widgetName":"我的申诉-优新卡片","traceName":"小德工作台/我的申诉/优新卡片"}',
+  '{"widgetName":"我的申诉-创收卡片","traceName":"小德工作台/我的申诉/创收卡片"}',
+];
 @connect(({ loading}) => ({
   loading: loading.effects['xdWorkModal/getCountAppealRecord'],
 }))
@@ -26,7 +35,7 @@ class appeal extends React.Component {
   }
 
   block = (item) => {
-    return <div key={item.appealType} className={styles.block}>
+    return <div key={item.appealType} className={styles.block} data-trace={appealTrace[item.appealType]}>
       <div className={`${styles.title} ${styles['bgTitle' + item.appealType]}`}>{appealObj[item.appealType]}</div>
       <div className={styles.content}>
         <p onClick={() => this.routerHandle(item, 'nonAppealNum')}>未申诉：{item.nonAppealNum}</p>

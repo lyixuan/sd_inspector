@@ -130,7 +130,6 @@ export default {
     *isShowPermission({payload,callback},{call,put}){
       const params = payload.params;
       const result = yield call(isShowPermission,params)
-      console.log(125,result)
       if(result.code === 20000){
         if (callback && typeof callback === 'function') {
           callback(result);
