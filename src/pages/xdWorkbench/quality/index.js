@@ -74,13 +74,15 @@ class Quality extends React.Component {
       title='本期质检'
       style={{width: 'calc(100% - 840px)'}}
       >
-        <BITable  
-          columns={this.columns()} 
-          dataSource={this.state.dataSource}
-          pagination={false}
-          loading={this.props.loading}
-          rowKey={record => record.violationLevel} 
-        />
+        <div className={this.props.className}>
+          <BITable  
+            columns={this.columns()} 
+            dataSource={this.state.dataSource}
+            pagination={false}
+            loading={this.props.loading}
+            rowKey={record => record.violationLevel} 
+          />
+        </div>
       </Container>
     );
   }
