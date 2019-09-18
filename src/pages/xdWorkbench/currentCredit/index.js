@@ -48,7 +48,7 @@ class  currentCredit extends React.Component {
   }
 
   render() {
-    const {PkName,PkSelfId,groupId,selfName,selfSource,pkGroupSource} = this.state
+    const {PkSelfId,groupId,selfName,selfSource} = this.state
     return (
      <Container
        title='本期学分'
