@@ -17,7 +17,7 @@ export const routes = [
     routes: [
       {
         path: '/indexPage',
-        component: './xdWorkbench',
+        component: './indexPage',
       },
       {
         path: '/exception/403',
@@ -494,7 +494,8 @@ export const routes = [
             name: '小程序管理',
           },
         ],
-      }, {
+      }, 
+      {
         path: '/xdWorkbench',
         name: '小德工作台',
         routes: [

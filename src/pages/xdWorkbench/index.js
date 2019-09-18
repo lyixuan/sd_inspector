@@ -21,12 +21,10 @@ class xdWorkbench extends React.Component {
     }
   }
   componentDidMount(){
-   console.log(23)
     this.props.dispatch({
       type: 'xdWorkModal/isShowPermission',
       payload: { params: {} },
       callback:(data)=>{
-        console.log(29,data)
         this.setState({
           isShowCredits:data.code
         })
@@ -44,7 +42,7 @@ class xdWorkbench extends React.Component {
 
         <Profit userId={userId} />
         <div className={styles.qualityAppel}>
-          <Quality userId={userId} />
+          <Quality userId={userId}  className={styles.qualityTable}/>
           <Appeal userId={userId} />
         </div>
       </div>
