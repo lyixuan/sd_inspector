@@ -50,7 +50,7 @@ class aiWorktable extends React.Component {
       this.jumpTo(tabs.key);
       defaultKey = tabs.key;
     } else {
-      this.jumpTo('/indexPage');
+      this.jumpTo('/xdWorkbench/index');
     }
     return defaultKey
   }
