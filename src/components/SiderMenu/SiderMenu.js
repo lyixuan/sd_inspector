@@ -244,7 +244,7 @@ export default class SiderMenu extends PureComponent {
         width={80}
         className={styles.sider}>
           <div className={styles.logo} key="logo">
-            <Link to="/xdWorkbench/index"><img src={logo} alt="logo" /></Link>
+            <Link to="/"><img src={logo} alt="logo" /></Link>
           </div>
           <ul className={styles.menuUl}>
             {
@@ -263,7 +263,7 @@ export default class SiderMenu extends PureComponent {
              this.getNavMenuItems(this.getCurrentMenu())
           }
         </Menu>}
-      </div>  
+      </div>
     );
   }
 }

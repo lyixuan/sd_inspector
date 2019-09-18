@@ -1,7 +1,7 @@
 export const routes = [
   {
     path: '/',
-    redirect: '/xdWorkbench/index',
+    redirect: '/indexPage',
   },
   {
     path: '/doc',
@@ -502,7 +502,7 @@ export const routes = [
             path: '/xdWorkbench/index',
             component: './xdWorkbench',
             name: '小德工作台',
-          }, 
+          },
         ]
       }
     ],

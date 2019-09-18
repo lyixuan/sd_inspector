@@ -50,7 +50,7 @@ class aiWorktable extends React.Component {
       this.jumpTo(tabs.key);
       defaultKey = tabs.key;
     } else {
-      this.jumpTo('/xdWorkbench/index');
+      this.jumpTo('/indexPage');
     }
     return defaultKey
   }
@@ -73,7 +73,7 @@ class aiWorktable extends React.Component {
           <Tabs className={style.tabGroupContainer} defaultActiveKey={defaultKey} onChange={this.onChangeTab}>
             {content}
           </Tabs>
-        }> 
+        }>
         <RenderRoute {...this.props}/>
       </BIContent>
     );
