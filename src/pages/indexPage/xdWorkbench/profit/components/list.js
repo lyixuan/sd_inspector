@@ -122,7 +122,7 @@ class ProfitList extends React.Component {
     const { profitList, userMsg, userFlag } = this.state;
     return (
       <div className={styles.profitList}>
-        <div className={styles.form}>
+        <div className={styles.form} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>
           选择对比小组：
           <BISelect
             value={this.props.pkListType}
@@ -145,7 +145,7 @@ class ProfitList extends React.Component {
               rowClassName={this.getRowClassName}
             />
           </div>}
-          <div id='scroll' className={`${styles.scrollTable} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
+          <div id='scroll'  data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}' className={`${styles.scrollTable} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
             <BITable
               columns={this.columns()}
               dataSource={profitList}
