@@ -1,7 +1,7 @@
 export const routes = [
   {
     path: '/',
-    redirect: '/xdWorkbench/index',
+    redirect: '/indexPage',
   },
   {
     path: '/doc',

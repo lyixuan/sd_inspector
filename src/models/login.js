@@ -25,8 +25,8 @@ export default {
       if (!response) return;
       const codeMsg403 = 10300;
       const data = response.data || {};
-      const { userName, userId, mail, positionCount,token,userType } = data;
-      const saveObj = { userName, userId, mail, positionCount,token,userType };
+      const { userName, userId, mail, positionCount, token, userType } = data;
+      const saveObj = { userName, userId, mail, positionCount, token, userType };
 
       switch (response.code) {
         case 2000:
@@ -48,7 +48,7 @@ export default {
       if (response.code === 2000) {
         const data = response.data || null;
         storage.setItem('admin_auth', data);
-        yield put(routerRedux.push('/xdWorkbench/index'));
+        yield put(routerRedux.push('/indexPage'));
         return true
       } else {
         message.error(response.msg);

@@ -29,7 +29,7 @@ const getIcon = icon => {
  */
 export const getFlatMenuKeys = menu =>
   menu.reduce((keys, item) => {
-    keys.push({path:item.path, parentId: item.parentId});
+    keys.push({ path: item.path, parentId: item.parentId });
     if (item.children) {
       return keys.concat(getFlatMenuKeys(item.children));
     }
@@ -45,9 +45,10 @@ export const getMenuMatchKeys = (flatMenuKeys, paths) =>
   paths.reduce(
     (matchKeys, path) =>
       matchKeys.concat(flatMenuKeys.filter(item => pathToRegexp(item.path.replace('/inspector', '')).test(path)).map((item2) => {
-        return {...item2, path: item2.path.replace('/inspector', '')
-      }
-    })),
+        return {
+          ...item2, path: item2.path.replace('/inspector', '')
+        }
+      })),
     []
   );
 
@@ -90,7 +91,7 @@ export default class SiderMenu extends PureComponent {
     if (this.props.collapsed && openMenu) {
       this.props.onCollapse(false);
     }
-    return {openMenu, openKeys: open.map(item => item.path)}
+    return { openMenu, openKeys: open.map(item => item.path) }
   }
 
   /**
@@ -150,7 +151,7 @@ export default class SiderMenu extends PureComponent {
           >
             {childrenItems}
           </SubMenu>
-          );
+        );
       }
       return null;
     } else {
@@ -238,13 +239,13 @@ export default class SiderMenu extends PureComponent {
     return (
       <div className={styles.menuPart}>
         <Sider
-        trigger={null}
-        collapsible
-        breakpoint="lg"
-        width={80}
-        className={styles.sider}>
+          trigger={null}
+          collapsible
+          breakpoint="lg"
+          width={80}
+          className={styles.sider}>
           <div className={styles.logo} key="logo">
-            <Link to="/xdWorkbench/index"><img src={logo} alt="logo" /></Link>
+            <Link to="/"><img src={logo} alt="logo" /></Link>
           </div>
           <ul className={styles.menuUl}>
             {
@@ -260,10 +261,10 @@ export default class SiderMenu extends PureComponent {
           selectedKeys={this.state.openKeys}
         >
           {
-             this.getNavMenuItems(this.getCurrentMenu())
+            this.getNavMenuItems(this.getCurrentMenu())
           }
         </Menu>}
-      </div>  
+      </div>
     );
   }
 }
