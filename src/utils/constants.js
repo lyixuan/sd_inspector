@@ -518,3 +518,15 @@ export default {
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
+
+// ko-sessionReport，跳转URL
+export const sessionReportURL = {
+  development: "http://172.16.109.87:38080/#/sessionRecord",
+  production: "http://sscp.ministudy.com/college_learn/#/sessionRecord"
+}[process.env.PROXY_ENV];
+
+// ko-knowledge，跳转URL
+export const knowledgeURL = {
+  development: "http://172.16.109.87:38080/#/questions",
+  production: "http://sscp.ministudy.com/college_learn/#/questions"
+}[process.env.PROXY_ENV];
