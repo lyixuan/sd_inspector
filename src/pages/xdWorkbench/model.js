@@ -7,7 +7,8 @@ import {
   kpiLevelList,
   groupList,
   groupPkList,
-  getKpiInfo
+  getKpiInfo,
+  isShowPermission
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -115,6 +116,22 @@ export default {
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    //判断是否显示本期学分的模块
+    *isShowPermission({payload,callback},{call,put}){
+      const params = payload.params;
+      const result = yield call(isShowPermission,params)
+      console.log(125,result)
+      if(result.code === 20000){
+        if (callback && typeof callback === 'function') {
+          callback(result);
+        }
+      }else if(result.code === 20002){
+        if (callback && typeof callback === 'function') {
+          callback(result);
+        }
+        // message.error(msgF(result.msg, result.msgDetail));
       }
     },
     *getKpiInfo({ callback }, { call, put }) {
