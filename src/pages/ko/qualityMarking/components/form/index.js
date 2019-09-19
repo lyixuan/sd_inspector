@@ -220,6 +220,24 @@ class AiForm extends React.Component {
                   </Form.Item>
                 </div>
               }
+              {
+                markType == 1 &&
+                <div className={styles.itemCls}>
+                  <Form.Item label='会话类型：'>
+                    {getFieldDecorator('robot', {
+                      initialValue: searchParams.robot,
+                    })(
+                      <BISelect
+                        placeholder="请选择"
+                        dropdownClassName={styles.popupClassName}
+                        getPopupContainer={triggerNode => triggerNode.parentNode}
+                        allowClear>
+                        {['班主任会话', '机器人会话'].map((item, index) => <Option key={item} value={index}>{item}</Option>)}
+                      </BISelect>,
+                    )}
+                  </Form.Item>
+                </div>
+              }
             </div>
           </Skeleton>
           <div className={`${styles.rowWrap} ${styles.buttonGroup}`}>
