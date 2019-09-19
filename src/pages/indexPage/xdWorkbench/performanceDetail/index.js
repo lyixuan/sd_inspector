@@ -38,7 +38,6 @@ class performanceDetail extends React.Component {
   drawChart(data) {
     let option = {
       calculable: true,
-
       graphic: [{
         type: 'text',
         left: 'center',
@@ -69,6 +68,7 @@ class performanceDetail extends React.Component {
       series: [
         {
           name: '访问来源',
+          cursor: 'default',
           type: 'pie',
           radius: ['80%', '100%'],
           color: ["#00CCC3", "#FFBC00", "#FF626A", "#4EB5EB"],
