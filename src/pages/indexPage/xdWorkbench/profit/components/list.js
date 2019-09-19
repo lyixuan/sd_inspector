@@ -53,7 +53,7 @@ class ProfitList extends React.Component {
         dataIndex: 'sort',
         key: 'sort',
       }, {
-        width: '45%',
+        width: '50%',
         title: '组织',
         dataIndex: 'org',
         key: 'org',
@@ -63,7 +63,7 @@ class ProfitList extends React.Component {
         dataIndex: 'userName',
         key: 'userName',
       }, {
-        title: '绩效收入（元）',
+        title: '绩效收入',
         dataIndex: 'incomeKpi',
         key: 'incomeKpi',
         render: text => {
@@ -120,6 +120,7 @@ class ProfitList extends React.Component {
 
   render() {
     const { profitList, userMsg, userFlag } = this.state;
+    const yScrollFlag = profitList && profitList.length > 0;
     return (
       <div className={styles.profitList}>
         <div className={styles.form} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>
@@ -145,7 +146,7 @@ class ProfitList extends React.Component {
               rowClassName={this.getRowClassName}
             />
           </div>}
-          <div id='scroll'  data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}' className={`${styles.scrollTable} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
+          <div id='scroll'  data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}' className={`${yScrollFlag ? styles.scrollTable : ''} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
             <BITable
               columns={this.columns()}
               dataSource={profitList}
@@ -154,7 +155,7 @@ class ProfitList extends React.Component {
               rowKey={(record, index) => record.userId + '' + index}
               onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
-              scroll={{ x: 0, y: profitList ? 420 : 0 }}
+              scroll={{ x: 0, y: 420 }}
             />
           </div>
         </div>
