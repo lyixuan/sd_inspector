@@ -1,9 +1,10 @@
 import React from 'react';
-import RenderRoute from '@/components/RenderRoute';
 import { Tabs } from 'antd';
-import style from './style.less';
 import { connect } from 'dva';
+import RenderRoute from '@/components/RenderRoute';
+import BIContent from '@/ant_components/BIContent';
 import AuthButton from '@/components/AuthButton';
+import style from './style.less';
 
 const { TabPane } = Tabs;
 const tabGroup = [{
@@ -16,7 +17,7 @@ const tabGroup = [{
   tab: 'NPS',
   key: '/qualityMarking/nps',
 }];
-@connect(({ workTableModel, koPlan }) => ({
+@connect(({ workTableModel }) => ({
   workTableModel,
 }))
 class aiWorktable extends React.Component {
@@ -67,14 +68,14 @@ class aiWorktable extends React.Component {
   render() {
     const { defaultKey, content } = this.state;
     return (
-      <div className={style.aiWorktable}>
-        <Tabs className={style.tabGroupContainer} defaultActiveKey={defaultKey} onChange={this.onChangeTab}>
-          {content}
-        </Tabs>
-        <div className={style.aiWorktableMain}>
-          <RenderRoute {...this.props}/>
-        </div>
-      </div>
+      <BIContent
+        head={
+          <Tabs className={style.tabGroupContainer} defaultActiveKey={defaultKey} onChange={this.onChangeTab}>
+            {content}
+          </Tabs>
+        }>
+        <RenderRoute {...this.props}/>
+      </BIContent>
     );
   }
 }

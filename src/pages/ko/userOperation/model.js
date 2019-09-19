@@ -47,13 +47,15 @@ export default {
     *userGroupUpdate({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(userGroupUpdate, params);
-      if (result.code === 20000) {
+      if (result && result.code === 20000) {
         message.success('编辑成功！');
         if (callback && typeof callback === 'function') {
           callback()
         }
-      } else {
+      } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
+      } else {
+        message.error('更新失败');
       }
     },
   },

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Cascader } from 'antd';
-import './style.less';
+import styles from './style.less';
 
 /*
 * Cascader 组件
@@ -54,7 +54,7 @@ class BICascader extends React.Component {
     render() {
         const { value } = this.state;
         return (
-            <div className='BICascader'>
+            <div className={styles.BICascader}>
                 <Cascader {...this.props} onChange={this.onChange} value={value} />
             </div>
         );

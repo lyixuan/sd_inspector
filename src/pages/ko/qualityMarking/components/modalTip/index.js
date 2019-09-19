@@ -1,7 +1,7 @@
 import React from 'react';
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 import { connect } from 'dva/index'
-import btnStyles from '@/pages/ko/entrancePlatform/btnstyles.less'
+import BIButton from '@/ant_components/BIButton';
 import exportimg from '@/assets/ai/export.svg';
 import styles from '../../style.less'
 
@@ -48,19 +48,19 @@ class index  extends React.Component {
           onCancel={this.handleCancel}
           centered={true}
           footer={[
-            <Button className={btnStyles.btnWhite} key="back" onClick={this.handleCancel} style={{ marginRight: '10px' }}>{'取'}{'消'}</Button>,
-            <Button className={btnStyles.btnPrimary} key="submit" onClick={this.handleOk} loading={loading}>{'确'}{'定'}</Button>,
+            <BIButton key="back" onClick={this.handleCancel} style={{ marginRight: '10px' }}>{'取'}{'消'}</BIButton>,
+            <BIButton type='primary' key="submit" onClick={this.handleOk} loading={loading}>{'确'}{'定'}</BIButton>,
           ]}
         >
           <p style={{textAlign: 'center'}}>是否确定导出搜索出的数据？</p>
           <p style={{textAlign: 'center'}}>（如数据较多，可能需要多等待一会儿哦～）</p>
         </Modal>
-        {markType !== 3 && <Button className={`${btnStyles.btnYellow} ${styles.exportBtn}`} onClick={() => this.handleExport(1)}>
+        {markType !== 3 && <BIButton type='warning' className={styles.exportBtn} onClick={() => this.handleExport(1)}>
           <img src={exportimg} /> 导出
-        </Button>}
+        </BIButton>}
         {markType === 3 && <div style={{display: 'flex'}}>
-          <Button onClick={() => this.handleExport(1)} className={btnStyles.btnYellow} style={{ marginRight: '10px' }}>导出标签</Button>
-          <Button onClick={() => this.handleExport(2)} className={btnStyles.btnBlue}>导出自主评价</Button>
+          <BIButton type='warning' onClick={() => this.handleExport(1)} style={{ marginRight: '8px' }}>导出标签</BIButton>
+          <BIButton type='primary' onClick={() => this.handleExport(2)} >导出自主评价</BIButton>
         </div>}
       </>
     )

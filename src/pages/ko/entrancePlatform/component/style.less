@@ -80,14 +80,20 @@
     .ant-advanced-search-form .ant-form-item{
       width: 100%;
     }
-    .ant-form-item-control-wrapper, .BISelect, .BISelect .ant-select, .BIDatePicker{
+    .ant-form-item-control-wrapper, .BIDatePicker{
       width: 100%;
     }
-    .BISelect .ant-select-selection {
-      border-radius: 6px;
+    .ant-select {
+      width: 100%;
     }
-    .ant-input {
-      border-radius: 6px;
+    .ant-form-item-label {
+      line-height: 32px;
+    }
+    .ant-form-item-control {
+      line-height: 32px;
+    }
+    .ant-row {
+      padding-bottom: 8px;
     }
   }
   .rowWrap{
@@ -102,14 +108,15 @@
       width: 65px;
       font-size: 13px;
       margin-right: 0;
-      margin-top: -2px;
+      line-height: 32px;
+      height: 32px;
     }
     .itemDates {
       width: 288px;
     }
   }
   .rowWrapMar {
-    margin-top: 18px;
+    margin-top: 16px;
     height: 32px;
     align-items: center;
     .itemTips {
@@ -119,7 +126,7 @@
   .actionGroup{
     justify-content: center;
     align-items: center;
-    margin-top: 24px;
+    margin-top: 16px;
     position: relative;
     justify-content: center;
     .updateDate {
@@ -190,6 +197,11 @@
   .tableWrap {
     table {
       font-size: 12px;
+    }
+    :global {
+      .ant-table-fixed-left, .ant-table-fixed-left table {
+        border-radius: 0px;
+      }
     }
   }
 }

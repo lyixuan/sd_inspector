@@ -5,9 +5,17 @@
   padding:30px 20px;
   background-color: #fff;
   border-radius:10px; 
+  :global {
+    .ant-form-item-label {
+      line-height: 32px;
+    }
+    .ant-form-item-control {
+      line-height: 32px;
+    }
+  }
   .rowWrap{
     display: flex;
-    margin-bottom: 6px;
+    margin-bottom: 2px;
     justify-content: center;
     .itemCls{
       width: 20%;
@@ -20,7 +28,8 @@
   .scaleTxt{
     display: inline-block;
     width: 80px;
-    transform: scale(0.75);
+    // transform: scale(0.75);
+    transform: scale(0.7);
     margin-left: -10px;
   }
   .collapCls{
