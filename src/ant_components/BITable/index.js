@@ -12,7 +12,7 @@ import styles from './style.less';
 class BITable extends React.Component {
   render() {
     return (
-      <div className={`${styles.BITable} ${this.props.bordered ? '' : styles.BINone}`}>
+      <div className={`${styles.BITable} ${this.props.bordered ? '' : styles.BINone} ${this.props.smalled ? styles.BISmall : ''}`}>
         <Table {...this.props} />
       </div>
     );

@@ -1,59 +1,31 @@
-// 渐变色加阴影
-.bg_color (@c1, @c2, @c3){
-    box-shadow: 0 4px 8px @c3;
-    background: -webkit-linear-gradient(left, @c1, @c2); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(right, @c1, @c2); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(right, @c1, @c2); /* Firefox 3.6 - 15 */
-    background: linear-gradient(to right, @c1, @c2); /* 标准的语法（必须放在最后） */
-    box-shadow: 0 4px 8px @c3;
+.greenColor {
+    color: #00CCC3;    
 }
-.appeal {
-    display: flex;
-    .block {
-        width: 120px;
-        margin-right: 12px;
-        .title {
-            height: 48px;
-            line-height: 48px;
-            padding-left: 16px; 
-            color: #FFFFFF;
-            font-size: 16px;
-            font-weight: bold;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+.redColor {
+    color: #FF626A;
+}
+.dimension {
+    width: 40%;
+    // 维度不同背景色
+    .rowBg1 {
+        background-color: #FFF9F9;
+    }
+    .rowBg2 {
+        background-color: #F5FBFF;
+    }
+    .rowBg3 {
+        background-color: #FAFFFF;
+    }
+    // 可点击行
+    .clickRow {
+       cursor: pointer;
+       .rowBg3;
+    }
+    // 选中行
+    .selectedRow {
+        > td {
+           .greenColor;
+           .rowBg3;
         }
-        .bgTitle1 {
-            .bg_color(#07DCD3, #32E7BF, rgba(0, 204, 195, .2))
-        }
-        .bgTitle2 {
-            .bg_color(#FFB32B, #FFD500, rgba(255, 188, 0, .2))
-        }
-        .bgTitle3 {
-            .bg_color(#FF6F6F, #FF93C7, rgba(255, 98, 106, .2))
-        }
-        .bgTitle4 {
-            .bg_color(#4AC0FF, #77DDFF, rgba(78, 181, 235, .2))
-        }
-        .bgTitle5 {
-            .bg_color(#E173FF, #FF8DFA, rgba(228, 118, 254, .2))
-        }
-        .bgTitle6 {
-            .bg_color(#FF7474, #FFB57B, rgba(255, 121, 117, .2))
-        }
-        .content {
-            height: 152px;
-            padding: 33px 0 0 16px;
-            box-shadow: 0 4px 8px rgba(26, 28, 31, .05);
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-            > p {
-                margin: 0;
-                margin-bottom: 8px;
-                cursor: pointer;
-            }
-        }
-    } 
-    .block:last-child {
-        margin-right: 0;
     }
 }
