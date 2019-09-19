@@ -53,7 +53,7 @@ class ProfitList extends React.Component {
         dataIndex: 'sort',
         key: 'sort',
       }, {
-        width: '50%',
+        width: '45%',
         title: '组织',
         dataIndex: 'org',
         key: 'org',
@@ -63,7 +63,7 @@ class ProfitList extends React.Component {
         dataIndex: 'userName',
         key: 'userName',
       }, {
-        title: '绩效收入',
+        title: '绩效收入（元）',
         dataIndex: 'incomeKpi',
         key: 'incomeKpi',
         render: text => {
@@ -154,7 +154,7 @@ class ProfitList extends React.Component {
               rowKey={(record, index) => record.userId + '' + index}
               onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
-              scroll={{ x: 0, y: 420 }}
+              scroll={{ x: 0, y: profitList ? 420 : 0 }}
             />
           </div>
         </div>
