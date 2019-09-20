@@ -148,16 +148,25 @@ class performanceDetail extends React.Component {
   }
 
   render() {
-    const { kpiInfo } = this.state;
+    const kpiInfo = this.state.kpiInfo ? this.state.kpiInfo : {
+      kpiStartDate: '',
+      kpiEndDate: '',
+      scoreKpiInfo: '',
+      goodpushKpiInfo: '',
+      renewalKpiInfo: '',
+      examZbtKpiInfo: ''
+    }
     const { kpiStartDate, kpiEndDate } = kpiInfo
     const { scoreKpiInfo, goodpushKpiInfo, renewalKpiInfo, examZbtKpiInfo } = kpiInfo
+    const date1 = kpiStartDate ? moment(kpiStartDate).format('YYYY.MM.DD') : ''
+    const date2 = kpiEndDate ? moment(kpiEndDate).format('YYYY.MM.DD') : ''
     return (
       <Container
         title='绩效详情'
-        right={`${moment(kpiStartDate).format('YYYY.MM.DD')}~${moment(kpiEndDate).format('YYYY.MM.DD')}(最新学分日期)`}
+        right={`${date1}~${date2}(最新学分日期)`}
       >
         {
-          scoreKpiInfo &&
+          kpiInfo && scoreKpiInfo &&
           <div className={styles.performanceDetail}>
             <div ref={this.createRef} className={styles.chart}></div>
             <div className={styles.panelBox}>
