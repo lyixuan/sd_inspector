@@ -22,14 +22,13 @@ export const STATIC_HOST = {
 export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
   localhost: 'http://dev.xd.admin.ministudy.com',
-  development: 'http://test.xd.admin.ministudy.com',
-  // development2: 'http://172.16.109.87:28081',
+  development: 'http://test.xd.temp.ministudy.com',
   development2: 'http://172.16.109.198:8081',
 }[process.env.LOGIN_TYPE]
 
 export const CAS_HOST = {
-  localhost: 'http://test.xd.admin.ministudy.com',
-  development: 'http://test.xd.admin.ministudy.com',
+  localhost: 'http://test.xd.temp.ministudy.com',
+  development: 'http://test.xd.temp.ministudy.com',
   development2: 'http://172.16.109.87:28081',
   production: 'http://bd.ministudy.com',
 }[process.env.LOGIN_TYPE];
@@ -41,13 +40,13 @@ export const PROXY_PATH = (hasSelfPri) => {return hasSelfPri ?'':'/inspectorapis
 
 // 登录页面地址配置
 export const LOGIN_URL = {
-  // development: 'http://test.xd.admin.ministudy.com',
+  // development: 'http://test.xd.temp.ministudy.com',
   development: 'http://test.xd-copy.admin.ministudy.com',
   production: 'http://bd.ministudy.com',
 }[process.env.PROXY_ENV];
 
 export const ADMIN_URL = {
-  development: 'http://test.xd.admin.ministudy.com',
+  development: 'http://test.xd.temp.ministudy.com',
   production: 'http://bd.ministudy.com',
 }[process.env.PROXY_ENV];
 
