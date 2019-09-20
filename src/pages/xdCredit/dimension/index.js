@@ -13,45 +13,6 @@ function CustomExpandIcon(props) {
   loading:loading.effects['xdWorkModal/groupPkList'],
 }))
 class  Dimension extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      groupPkList: [],
-      myGroup:{},
-      leftNum:'',
-      rightNum:'',
-      groupId:'',
-      pkGroup:{}
-
-    }
-  }
-  componentWillMount(){
-    this.getGroupPkData(this.props.groupId)
-  }
-  componentWillReceiveProps(nextProps) {
-    if(this.props.groupId !== nextProps.groupId){
-      this.getGroupPkData(nextProps.groupId)
-      this.setState({
-        groupId:nextProps.groupId
-      })
-    }
-  }
-  //获取左侧列表数据的方法
-  getGroupPkData = (groupId) =>{
-    this.props.dispatch({
-      type: 'xdWorkModal/groupPkList',
-      payload: { params: {pkGroup:groupId} },
-      callback:(groupPkList)=>{
-        this.setState({
-          groupPkList:groupPkList.dimensionList,
-          myGroup:groupPkList.myGroup,
-          pkGroup:groupPkList.pkGroup,
-        })
-
-      }
-    });
-  }
-
   columns = () => {
     const columns = [
       {
@@ -130,11 +91,11 @@ class  Dimension extends React.Component {
   }
 
   render() {
-    const  dataSource = this.fillDataSource(this.state.groupPkList);
+    const  dataSource = this.fillDataSource(this.props.dimensionList);
     return (
           <div className={styles.dimension}>
             {
-                dataSource.length > 0 && <BITable
+                <BITable
                   columns={this.columns()}
                   dataSource={dataSource}
                   defaultExpandAllRows={true}
