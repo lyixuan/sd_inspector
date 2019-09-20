@@ -170,7 +170,7 @@ class ProfitTbas extends React.Component {
               <div className={styles.tabTwoTd}>
                 {
                   pkUser ? <Proportion leftNum={profitData[0].selfValue} rightNum={profitData[0].pkUserValue} iconed={true} />
-                    : <div className={styles.tabTwoNone}><div>￥{thousandsFormat(profitData[0].selfValue)}</div></div>
+                    : <div className={styles.tabTwoNone}><div>{thousandsFormat(profitData[0].selfValue)}元</div></div>
                 }
               </div>
             </div>

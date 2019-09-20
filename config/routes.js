@@ -511,7 +511,7 @@ export const routes = [
       //   routes: [
       //     {
       //       path: '/xdWorkbench/index',
-      //       component: './xdWorkbench',
+      //       component: './indexPage/xdWorkbench',
       //       name: '小德工作台',
       //     },
       //   ]
