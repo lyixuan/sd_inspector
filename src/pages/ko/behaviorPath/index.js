@@ -1,4 +1,5 @@
 import React from 'react';
+import { Input } from 'antd';
 import { connect } from 'dva';
 import BITabs from '@/ant_components/BITabs';
 import styles from './style.less';
@@ -10,6 +11,7 @@ import UserInfo from './components/userInfo';
 import PrivateLetter from './components/privateLetter';
 import { handleTNDateValue } from '@/pages/ko/utils/utils';
 const TabPane = BITabs.TabPane;
+const { Search } = Input;
 
 @connect(({ behaviorPath, koPlan }) => ({
   behaviorPath,
@@ -115,12 +117,21 @@ class BehaviorPath1 extends React.Component {
     }
 
   }
+  changeUserId(e) {
+    console.log(120, e)
+    this.setState({
+      stuId: e
+    }, () => {
+      this.getDateList(this.state.activeKey); // 获取日期列表
+      this.getUserInfo();
+    })
+
+  }
 
   render() {
     const pathParams = JSON.parse(this.props.location.query.params)
     const target = pathParams.target
     const userInfoParams = this.props.behaviorPath.userInfo
-    console.log(101, pathParams)
     if (target.indexOf("im") == 0) {
       this.state.activeKey = "2"
     } else if (target.indexOf("bbs") == 0) {
@@ -134,8 +145,16 @@ class BehaviorPath1 extends React.Component {
     return (
       <div className={styles.behaviorPath}>
         <div className={styles.headBar}>用户行为轨迹</div>
-        <div style={{display: "flex"}}>
+        <div style={{ display: "flex", position: "relative" }}>
           <div className={styles.tabBox}>
+            <div className={styles.inputBox}>
+              <Search
+                allowClear
+                placeholder="输入学员ID"
+                onSearch={value => this.changeUserId(value)}
+              />
+              {/* <Input placeholder="输入学员ID" allowClear onChange={this.changeUserId} /> */}
+            </div>
             <BITabs onChange={this.onTabChange} type="card" animated={false} defaultActiveKey={this.state.activeKey}>
               <TabPane tab="学习" key="1">
                 <Study stuId={pathParams.userId}></Study>
