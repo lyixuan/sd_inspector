@@ -96,7 +96,7 @@ class  currentCreditLeft extends React.Component {
             myScoreName = myScore
           }
           return(
-            <div className={isFlag===1?`${styles.titleGreen}`:isFlag===2?`${styles.titleRed}`:`${styles.titleBlack}`}>{myScoreName}</div>
+            <div className={isFlag===1 && data.isShowPro?`${styles.titleGreen}`:isFlag===2 && data.isShowPro?`${styles.titleRed}`:`${styles.titleBlack}`}>{myScoreName}</div>
           )
 
         }
@@ -247,9 +247,10 @@ class  currentCreditLeft extends React.Component {
     data.map((item)=>{
       if(item.dimensionName === "学分均分"){
         item.children.map((subItem,subIndex)=>{
-          if(subItem.dimensionName == "正面均分"){
-            this.serverArray(item.children)
+          if(subItem.dimensionName === "正面均分"){
+            this.serverArray(subItem.children)
           }
+
         })
       }
     })
