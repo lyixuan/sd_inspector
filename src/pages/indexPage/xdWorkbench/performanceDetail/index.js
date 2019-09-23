@@ -131,7 +131,7 @@ class performanceDetail extends React.Component {
         <div className={styles.tooltipContent}>
           <h4>续报绩效流水第一名</h4>
           <p>绩效流水：￥{thousandsFormat(parseInt(prop.firstKpiFlow))}</p>
-          <p>好推收入：￥{thousandsFormat(parseInt(prop.firstIncomeKpi))}</p>
+          <p>续报收入：￥{thousandsFormat(parseInt(prop.firstIncomeKpi))}</p>
         </div>
       )
     } else if (id == 4) {
@@ -211,7 +211,7 @@ class performanceDetail extends React.Component {
                   <div className={styles.progressBar}>
                     <div className={styles.title}>
                       <span> </span>
-                      <span>第一名(￥{thousandsFormat(goodpushKpiInfo.firstKpiFlow)})</span>
+                      <span>第一名(￥{thousandsFormat(parseInt(goodpushKpiInfo.firstKpiFlow))})</span>
                     </div>
                     <Progress strokeColor="#FFBC00" percent={goodpushKpiInfo.kpiFlow / goodpushKpiInfo.firstKpiFlow * 100} strokeWidth={4} showInfo={false} />
                   </div>

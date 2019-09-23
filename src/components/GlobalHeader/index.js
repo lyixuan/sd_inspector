@@ -4,6 +4,7 @@ import Debounce from 'lodash-decorators/debounce';
 import { Link } from 'dva/router';
 import styles from './index.less';
 import bilogo from '../../assets/logo.png';
+import { STATIC_HOST } from '@/utils/constants'
 import { nullLiteral } from '@babel/types';
 
 export default class GlobalHeader extends PureComponent {
@@ -37,7 +38,7 @@ export default class GlobalHeader extends PureComponent {
     } = this.props;
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
-    const url = 'http://172.16.117.65'
+    const url = STATIC_HOST
     // const url = 'http://bi-admin.ministudy.com'
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
