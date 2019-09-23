@@ -64,7 +64,7 @@ class CreditDetials extends React.Component {
     const dataSource = this.props.detailsData.data || [];
     const { pageSize = 10, totalCount, currentPage } = this.props;
     return (
-      <div className={styles.detials}>
+      <div className={`${styles.detials} ${dataSource.length > 0 ? '' : styles.noneData}`}>
         {
           dataSource.length > 0 ? <BITable
             columns={this.columns()}
@@ -80,15 +80,8 @@ class CreditDetials extends React.Component {
             rowKey={record => record.id}
             loading={this.props.loading}
             smalled={true}
-          /> : <div className={styles.noneData}>
-              <img src={creditImg} alt='权限' />
-            </div>
+          /> : <img src={creditImg} alt='权限' />
         }
-        {/* {
-          dataSource.length > 0 ? '' : <div className={styles.noneData}>
-            <img src={creditImg} alt='权限' />
-          </div>
-        } */}
       </div>
     );
   }
