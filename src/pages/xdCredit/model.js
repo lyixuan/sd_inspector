@@ -63,11 +63,16 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getKpiDateRange(_, { call, put }) {
+    *getKpiDateRange({ callback }, { call, put }) {
       const result = yield call(getKpiDateRange);
       if (result.code === 20000) {
         const res = result.data;
-        if (res && res !== null) yield put({ type: 'save', payload: { kpiDateRange: res } });
+        if (res && res !== null){
+          yield put({ type: 'save', payload: { kpiDateRange: res } });
+          if (callback && typeof callback === 'function') {
+            callback(res);
+          }
+        }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
