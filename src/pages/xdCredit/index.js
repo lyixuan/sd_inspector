@@ -30,8 +30,8 @@ class XdCredit extends React.Component {
       dementionId: '',
       // startTime: '',
       // endTime: '',
-      pageSize: '',
-      pageIndex: '',
+      pageSize: 10,
+      pageIndex: 0,
     }
   }
   componentDidMount() {
@@ -84,18 +84,16 @@ class XdCredit extends React.Component {
   // 详情
   getDimensionDetail = () => {
     const param = {
-      groupId: this.getGroupId(this.state.groupId),
+      groupId: this.getGroupId(),
       dementionId: this.state.dementionId,
       startTime: this.state.startTime,
       endTime: this.state.endTime,
-      pageSize: 10,
-      pageIndex: 1
+      pageSize: this.state.pageSize,
+      pageIndex: this.state.pageIndex
     }
-    console.log(87, param);
-    return;
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionDetail',
-      payload: { params: {} },
+      payload: { params: param },
     });
   }
   // 参数groupId
@@ -152,8 +150,16 @@ class XdCredit extends React.Component {
       startTime: this.props.kpiDateRange.endDate,
       endTime: this.props.kpiDateRange.endDate,
       groupId: this.getResetGroupId()
-    }, () => this.getDimensionList())
+    }, () => {
+      this.getDimensionList();
+      this.onChangeParams('', 'dementionId')
+    })
   }
+  onPageChange = (currentPage) => {
+    this.setState({
+      pageIndex: currentPage,
+    }, () => this.getDimensionDetail());
+  };
   render() {
     const { groupId, extendFlag, userOrgConfig } = this.state;
     const { infoLoading, kpiDateRange } = this.props;
@@ -200,6 +206,9 @@ class XdCredit extends React.Component {
                 dimensionList={this.props.dimensionList}
               />
               <CreditDetials
+                onPageChange={this.onPageChange}
+                pageSize={this.state.pageSize}
+                totalCount={this.props.dimensionDetails.total}
                 detailsData={this.props.dimensionDetails}
               />
             </div> </> : <>

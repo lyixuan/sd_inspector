@@ -14,9 +14,9 @@ export default {
     dimensionList: [],
     dimensionDetails: {
       data: [],
-      titleOne: '1',
-      titleTwo: '1',
-      titleThree: '1',
+      titleOne: '',
+      titleTwo: '',
+      titleThree: '',
     },
     kpiDateRange: {},
   },
@@ -32,7 +32,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getUserOrgList( { callback } , { call, put }) {
+    *getUserOrgList({ callback }, { call, put }) {
       const result = yield call(getUserOrgList);
       if (result.code === 20000) {
         const res = result.data;
@@ -67,7 +67,7 @@ export default {
       const result = yield call(getKpiDateRange);
       if (result.code === 20000) {
         const res = result.data;
-        if (res && res !== null){
+        if (res && res !== null) {
           yield put({ type: 'save', payload: { kpiDateRange: res } });
           if (callback && typeof callback === 'function') {
             callback(res);
