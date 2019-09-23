@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Skeleton } from 'antd';
 import BITable from '@/ant_components/BITable';
 import styles from './style.less'
 
@@ -65,25 +66,27 @@ class  Dimension extends React.Component {
 
   render() {
     const dataSource = this.fillDataSource(this.props.dimensionList);
-    console.log(dataSource)
     return (
-          <div className={styles.dimension}>
-            {
-               dataSource.length > 0 && <BITable
-                  columns={this.columns()}
-                  dataSource={dataSource}
-                  defaultExpandAllRows={true}
-                  rowClassName={this.setRowClassName}
-                  expandIcon={() => <a/>}
-                  pagination = {false}
-                  onRow={this.onClickRow}
-                  rowKey={record => record.id}
-                  loading={this.props.loading}
-                  scroll={{ x: 0, y: 408}}
-                  smalled={true}
-                />
-              }
-          </div>
+      <div className={styles.dimension}>
+        <Skeleton loading={this.props.loading} > 
+          {
+            dataSource.length > 0 && <BITable
+              columns={this.columns()}
+              dataSource={dataSource}
+              defaultExpandAllRows={true}
+              rowClassName={this.setRowClassName}
+              expandIcon={() => <a/>}
+              pagination = {false}
+              onRow={this.onClickRow}
+              rowKey={record => record.id}
+              loading={this.props.loading}
+              scroll={{ x: 0, y: 408}}
+              smalled={true}
+            />
+          }
+        </Skeleton>
+      </div>
+      
     );
   }
 }

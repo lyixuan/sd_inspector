@@ -139,3 +139,11 @@ export function accMul(arg1,arg2) {
   try{m+=s2.split(".")[1].length}catch(e){}
   return Number(s1.replace(".","")) * Number(s2.replace(".",""))/Math.pow(10,m);
 }
+// 转成年月日
+export function initTimeData(params) {
+  if (Array.isArray(params) && params.length > 0) {
+    return params.map(item => item && moment(item).format(commitDateFormat));
+  } else {
+    return [];
+  }
+}

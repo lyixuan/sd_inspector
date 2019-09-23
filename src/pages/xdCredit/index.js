@@ -8,6 +8,8 @@ import extentImg from '@/assets/xdcredit/extent.png'
 import Dimension from './dimension';
 import CreditDetials from './details'
 import styles from './style.less';
+import moment from 'moment';
+import { initTimeData } from '../ko/utils/utils'
 
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -45,17 +47,16 @@ class XdCredit extends React.Component {
       }
     });
   }
-  // 组织
+  // 组织 - 时间
   getUserOrgList = (groupId) => {
     this.props.dispatch({
       type: 'xdCreditModal/getUserOrgList',
       payload: { params: { pkGroup: groupId } },
       callback: res => {
         if (res && res.length > 0) {
-          const item = res[0];
           this.setState({
             userOrgConfig: res,
-            groupId: [{ name: item.name, value: item.id }]
+            groupId: this.getResetGroupId(res),
           }, () => this.getDimensionList())
         } else {
           this.getDimensionList();
@@ -64,14 +65,20 @@ class XdCredit extends React.Component {
     });
     this.props.dispatch({
       type: 'xdCreditModal/getKpiDateRange',
+      callback: res => {
+        this.setState({
+          startTime: res.endDate,
+          endTime: res.endDate,
+        });
+      }
     })
   }
   // 列表
   getDimensionList = () => {
-    const { groupId, startTime, endTime } = this.state;
+    const { startTime, endTime } = this.state;
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionList',
-      payload: { params: { groupId: this.getGroupId(groupId), startTime, endTime } },
+      payload: { params: { groupId: this.getGroupId(), startTime, endTime } },
     });
   }
   // 详情
@@ -91,10 +98,28 @@ class XdCredit extends React.Component {
       payload: { params: {} },
     });
   }
+  // 参数groupId
+  getGroupId = () => {
+    const { groupId } = this.state;
+    if (groupId && groupId.length > 0) {
+      return groupId[groupId.length - 1].value;
+    } else {
+      return undefined;
+    }
+  }
+  // reset groupId数组
+  getResetGroupId = (arr = this.state.userOrgConfig) => {
+    if (arr && arr.length > 0) {
+      const item = arr[0];
+      return [{ name: item.name, value: item.id }]
+    } else {
+      return [];
+    }
+  }
   // date
   getDate = () => {
     const { startTime, endTime } = this.state;
-    return startTime && endTime ? [startTime, endTime] : [];
+    return startTime && endTime ? [moment(startTime), moment(endTime)] : [];
   }
   // 多级渲染
   renderCascader = (label) => {
@@ -103,10 +128,6 @@ class XdCredit extends React.Component {
     labelStr = labelStr.length >= 10 ? `${labelStr.substr(0, 10)}...` : labelStr;
     return <span>{labelStr}</span>;
   };
-  // groupId数组
-  getGroupId = groupId => {
-    return groupId[groupId.length - 1].value;
-  }
   // 左侧维度id
   onChangeParams = (v, type) => {
     this.setState({ [type]: v }, () => {
@@ -120,19 +141,17 @@ class XdCredit extends React.Component {
   }
   // 选择时间
   onDateChange = (v) => {
-    this.setState({
-      startTime: v[0],
-      endTime: v[1]
-    })
+    const [startTime, endTime] = initTimeData(v);
+    this.setState({ startTime, endTime, });
   }
   handleClick = () => {
     this.getDimensionList();
   }
   handleReset = () => {
     this.setState({
-      startTime: undefined,
-      endTime: undefined,
-      groupId: []
+      startTime: this.props.kpiDateRange.endDate,
+      endTime: this.props.kpiDateRange.endDate,
+      groupId: this.getResetGroupId()
     }, () => this.getDimensionList())
   }
   render() {
@@ -157,6 +176,7 @@ class XdCredit extends React.Component {
                     displayRender={this.renderCascader}
                     value={groupId}
                     onChange={this.onChangeSelect}
+                    allowClear={false}
                   />
                 </span>
               }
@@ -167,6 +187,7 @@ class XdCredit extends React.Component {
                   placeholder={['选择起始时间', '选择截止时间']}
                   format={dateFormat}
                   onChange={this.onDateChange}
+                  allowClear={false}
                 />
               </span>
               <BIButton type='reset' onClick={this.handleReset} style={{ marginRight: '8px' }}>重置</BIButton>
