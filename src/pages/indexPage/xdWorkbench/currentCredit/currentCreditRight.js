@@ -220,7 +220,12 @@ class  currentCreditRight extends React.Component {
         this.setState({
           rowId: record.groupId,
         });
-        this.props.clickRow(record)
+        if(this.state.userMsg === record){
+          return
+        }else{
+          this.props.clickRow(record)
+        }
+
       },
     };
   }
@@ -275,10 +280,9 @@ class  currentCreditRight extends React.Component {
                 pagination={false}
                 rowKey={record => record.userId}
                 rowClassName={this.setRowClassName}
-                className = {this.setColumnClassName}
               />
             </div>}
-            <div id="scroll1">
+            <div id="scroll1" data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>
               <BITable
                 columns={this.columnsRight()}
                 dataSource = {dataSource}
@@ -286,7 +290,6 @@ class  currentCreditRight extends React.Component {
                 loading={this.props.loading}
                 rowClassName={this.setRowClassName}
                 onRow={this.onClickRow}
-                className = {this.setColumnClassName}
                 scroll={{x:0,y:408}}
                 rowKey={record => record.groupId}
               >
