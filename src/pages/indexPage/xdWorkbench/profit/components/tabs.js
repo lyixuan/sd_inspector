@@ -125,7 +125,7 @@ class ProfitTbas extends React.Component {
             <div className={styles.tabBody} style={{ height: '136px' }}>
               <div className={styles.tabOneTh}>
                 <span style={{ color: '#7A7C80', fontSize: '12px' }}>对比项</span>
-                <span style={{ color: '#1A1C1F', fontWeight: 'bold' }}>创收绩效</span>
+                <span style={{ color: '#1A1C1F', fontWeight: 'bold' }}>{this.state.pkType === 1 ? '创收绩效' : pkTypeObj[this.state.pkType - 1]}</span>
               </div>
               <div className={styles.tabOneTd}>
                 {profitPersonData.self && <div className={`${styles.tabMine} ${pkUser ? '' : styles.tabMineLine}`}>
