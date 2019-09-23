@@ -4,7 +4,7 @@ import BITable from '@/ant_components/BITable';
 import styles from './style.less'
 
 @connect(( { loading } ) => ({
-  loading: loading.effects['xdCreditModal/getUserOrgList'],
+  loading: loading.effects['xdCreditModal/getDimensionList'],
 }))
 class  Dimension extends React.Component {
   columns = () => {
@@ -38,43 +38,22 @@ class  Dimension extends React.Component {
     ];
     return columns || [];
   };
-  setRowClassName = (r, c, b) => {
+  setRowClassName = (r) => {
     if (this.props.dementionId === r.id)  {
       return styles.selectedRow;
     } else if (r.level === 4 && r.num) {
       return styles.clickRow;
     }
-    return styles['rowBg' + b]
+    return styles['rowBg' + r.level]
   }
-  fillDataSource = (params = []) =>{
-    params.map((item)=>{
-      item.name = item.dimensionName;
-      item.scoreRatio = '10';
-      // item.num = '99990';
-      item.score = item.myScore
-      if(item.dimensionName === '学分均分'){
-        item.children.map(subItem => {
-          if(subItem.dimensionName === '正面均分'){
-            this.serverArray(item.children)
-          }
-        })
+  fillDataSource = (params = [], n = 1) =>{
+    params.map(item => {
+      item.level = n;
+      if(item.children && item.children.length > 0){
+        this.fillDataSource(item.children, n + 1);
       }
     })
     return params
-
-  }
- serverArray = (arr, n = 2) =>{
-    for(var item = 0;item < arr.length;item++){
-        arr[item].name = arr[item].dimensionName;
-        arr[item].scoreRatio = '-10';
-        arr[item].num = '999909';
-        arr[item].score = arr[item].myScore;
-        arr[item].level = n;
-        if(arr[item].children){
-          this.serverArray(arr[item].children, n+1);
-        }
-    }
-    return arr
   }
   onClickRow = (record) => {
     return {
@@ -85,20 +64,22 @@ class  Dimension extends React.Component {
   }
 
   render() {
-    const  dataSource = this.fillDataSource(this.props.dimensionList);
+    const dataSource = this.fillDataSource(this.props.dimensionList);
+    console.log(dataSource)
     return (
           <div className={styles.dimension}>
             {
-                <BITable
+               dataSource.length > 0 && <BITable
                   columns={this.columns()}
                   dataSource={dataSource}
                   defaultExpandAllRows={true}
                   rowClassName={this.setRowClassName}
+                  expandIcon={() => <a/>}
                   pagination = {false}
                   onRow={this.onClickRow}
                   rowKey={record => record.id}
                   loading={this.props.loading}
-                  scroll={{x:0,y:408}}
+                  scroll={{ x: 0, y: 408}}
                   smalled={true}
                 />
               }

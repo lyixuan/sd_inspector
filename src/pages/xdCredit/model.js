@@ -3,6 +3,7 @@ import {
   getUserOrgList,
   getDimensionList,
   getDimensionDetail,
+  getKpiDateRange,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -10,43 +11,33 @@ import { msgF } from "@/utils/utils";
 export default {
   namespace: 'xdCreditModal',
   state: {
-    userOrgConfig: [],
     dimensionList: [],
     dimensionDetails: {
-      // data: [{
-      //   valOne: '111',
-      //   valTwo: '2222',
-      //   valThree: '123Z',
-      //   valFour: '111'
-      // }],
       data: [],
       titleOne: '1',
       titleTwo: '1',
       titleThree: '1',
-    }
+    },
+    kpiDateRange: {},
   },
 
   effects: {
     *getUserInfo({ callback }, { call }) {
       const result = yield call(getUserInfo);
-      if (result.code === 20000) {
+      if (result.code === 20000 && result.data) {
         if (callback && typeof callback === 'function') {
-          callback(true);
+          callback(result.data.scoreView);
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getUserOrgList({ payload, callback }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(getUserOrgList, params);
+    *getUserOrgList( { callback } , { call, put }) {
+      const result = yield call(getUserOrgList);
       if (result.code === 20000) {
         const res = result.data;
-        if (res && res !== null && res.data.length > 0) {
-          yield put({ type: 'save', payload: { userOrgConfig: res } });
-          if (callback && typeof callback === 'function') {
-            callback(true);
-          }
+        if (callback && typeof callback === 'function') {
+          callback(res);
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
@@ -68,6 +59,15 @@ export default {
       if (result.code === 20000) {
         const res = result.data;
         if (res && res !== null) yield put({ type: 'save', payload: { dimensionDetails: res } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getKpiDateRange(_, { call, put }) {
+      const result = yield call(getKpiDateRange);
+      if (result.code === 20000) {
+        const res = result.data;
+        if (res && res !== null) yield put({ type: 'save', payload: { kpiDateRange: res } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

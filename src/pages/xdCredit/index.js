@@ -12,9 +12,9 @@ import styles from './style.less';
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
 @connect(( { xdCreditModal, loading } ) => ({
-  userOrgConfig: xdCreditModal.userOrgConfig,
   dimensionList: xdCreditModal.dimensionList,
   dimensionDetails: xdCreditModal.dimensionDetails,
+  kpiDateRange: xdCreditModal.kpiDateRange,
   infoLoading: loading.effects['xdCreditModal/getUserInfo'],
 }))
 // Current credits
@@ -22,10 +22,12 @@ class XdCredit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userOrgConfig: [],
       extendFlag: false, // 权限
+      groupId: [],
       dementionId: '' ,
-      startTime: '',
-      endTime: '',
+      // startTime: '',
+      // endTime: '',
       pageSize: '',
       pageIndex: '',
     }
@@ -37,9 +39,9 @@ class XdCredit extends React.Component {
   getUserInfo = () =>{
     this.props.dispatch({
       type: 'xdCreditModal/getUserInfo',
-      callback: extendFlag =>{
+      callback: extendFlag => {
         this.setState({ extendFlag });
-        if (extendFlag) this.getDimensionList();
+        if (extendFlag) this.getUserOrgList();
       }
     });
   }
@@ -48,16 +50,28 @@ class XdCredit extends React.Component {
     this.props.dispatch({
       type: 'xdCreditModal/getUserOrgList',
       payload: { params: {pkGroup:groupId} },
-      callback: res =>{
-        this.getDimensionList();
+      callback: res => {
+        if (res && res.length > 0) {
+          const item = res[0];
+          this.setState({
+            userOrgConfig: res,
+            groupId: [{ name: item.name, value: item.id }]
+          }, () => this.getDimensionList())
+        } else  {
+          this.getDimensionList();
+        }
       }
     });
+    this.props.dispatch({
+      type: 'xdCreditModal/getKpiDateRange',
+    })
   }
   // 列表
   getDimensionList = () => {
+    const { groupId, startTime, endTime } = this.state;
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionList',
-      payload: { params: { } },
+      payload: { params: { groupId: this.getGroupId(groupId), startTime, endTime } },
     });
   }
   // 详情
@@ -76,14 +90,24 @@ class XdCredit extends React.Component {
   renderCascader = (label) => {
     if (Array.isArray(label) && label.length === 0) return;
     let labelStr = label.join('/');
-    labelStr = labelStr.length >= 6 ? `${labelStr.substr(0, 6)}...` : labelStr;
+    labelStr = labelStr.length >= 10 ? `${labelStr.substr(0, 10)}...` : labelStr;
     return <span>{labelStr}</span>;
   };
+  // groupId数组
+  getGroupId = groupId => {
+    return groupId[groupId.length - 1].value;
+  }
+  // 左侧维度id
   onChangeParams = (v, type)=> {
     this.setState({ [type]: v }, () => {
       if (type === 'dementionId') this.getDimensionDetail();
     })
   }
+  // 对比小组
+  onChangeSelect = groupId => {
+    this.setState({ groupId })
+  }
+  // 选择时间
   onDateChange = (v) => {
     this.setState({
       startTime: v[0],
@@ -95,20 +119,20 @@ class XdCredit extends React.Component {
   }
   handleReset = () => {
     this.setState({
-      startTime: '',
-      endTime: '',
-      groupId: undefined
+      startTime: undefined,
+      endTime: undefined,
+      groupId: []
     }, () => this.getDimensionList())
   }
   render() {
-    const { extendFlag } = this.state;
-    const { userOrgConfig, infoLoading } = this.props;
+    const { groupId, extendFlag, userOrgConfig } = this.state;
+    const { infoLoading, kpiDateRange } = this.props;
     return (
       <div className={`${styles.credit} ${extendFlag ? '' : styles.extent}`}>
         <Skeleton loading={infoLoading} >
         {extendFlag ? <>
           <div className={styles.form} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>
-            <span className={styles.date}>2019.08.29～2019.09.18</span>
+            <span className={styles.date}>{kpiDateRange.startDate}～{kpiDateRange.endDate}</span>
             {
               userOrgConfig.length > 0 && <span className={styles.change}>
                 选择对比小组：
@@ -119,7 +143,10 @@ class XdCredit extends React.Component {
                   options={userOrgConfig}
                   fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
                   getPopupContainer={triggerNode => triggerNode.parentNode}
-                  displayRender={this.renderCascader}/> 
+                  displayRender={this.renderCascader}
+                  value={groupId}
+                  onChange={this.onChangeSelect}
+                  /> 
               </span>
             }
             <span className={styles.change}>

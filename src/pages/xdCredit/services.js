@@ -6,13 +6,17 @@ export async function getUserOrgList(params) {
 }
 // 学分—小组维度列表
 export async function getDimensionList(data) {
-  return request('/credit/dimension/list', { method: 'post', data });
+  return request('/deskperfpcapi/credit/dimension/list', { method: 'post', data });
 }
 // 学分—维度详情
 export async function getDimensionDetail(data) {
-  return request('/credit/dimension/detail', { method: 'post', data });
+  return request('/deskperfpcapi/credit/dimension/detail', { method: 'post', data });
 }
 // 学分—权限
 export async function getUserInfo(params) {
-  return request('/user/info', { method: 'get', params });
+  return request('/deskperfpcapi/user/info', { method: 'get', params });
+}
+// 学分—日期
+export async function getKpiDateRange(params) {
+  return request('/deskperfpcapi/credit/dimension/kpiDateRange', { method: 'get', params });
 }

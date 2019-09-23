@@ -55,6 +55,7 @@ class  CreditDetials extends React.Component {
 
   render() {
     const  dataSource = this.props.detailsData.data;
+    console.log(this.props.loading)
     return (
           <div className={styles.detials}>
               <BITable
