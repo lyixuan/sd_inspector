@@ -7,21 +7,22 @@ import styles from './style.less';
 @connect(({ loading }) => ({
   loading: loading.effects['xdCreditModal/getDimensionDetail'],
 }))
-class  CreditDetials extends React.Component {
+class CreditDetials extends React.Component {
   columns = () => {
     const { detailsData } = this.props;
+    console.log(13, detailsData)
     const columns = [
       {
         title: '序号',
         dataIndex: 'numOrder',
         key: 'numOrder',
-        render: (text, r , i) => i + 1
+        render: (text, r, i) => i + 1
       }, {
         title: detailsData.titleOne,
         dataIndex: 'valOne',
         key: 'valOne',
       }, {
-        title: detailsData.titleOne,
+        title: detailsData.titleTwo,
         dataIndex: 'valTwo',
         key: 'valTwo',
       }, {
@@ -45,33 +46,50 @@ class  CreditDetials extends React.Component {
     return columns || [];
   };
   setRowClassName = (r, c, b) => {
-    if (this.props.dementionId === r.id)  {
+    if (this.props.dementionId === r.id) {
       return styles.selectedRow;
     } else if (r.level === 4 && r.num) {
       return styles.clickRow;
     }
     return styles['rowBg' + b]
   }
+  onChangeSize = (currentPage) => {
+    const { onPageChange } = this.props;
+    if (onPageChange) {
+      onPageChange(currentPage);
+    }
+  };
 
   render() {
-    const  dataSource = this.props.detailsData.data;
+    const dataSource = this.props.detailsData.data || [];
+    const { pageSize = 10, totalCount, currentPage } = this.props;
     return (
-          <div className={styles.detials}>
-              <BITable
-                columns={this.columns()}
-                dataSource={dataSource}
-                rowClassName={this.setRowClassName}
-                pagination = {false}
-                rowKey={record => record.id}
-                loading={this.props.loading}
-                smalled={true}
-              />
-              {
-                dataSource.length > 0 ? '' : <div className={styles.noneData}>
-                  <img src={creditImg} alt='权限'/>
-                </div> 
-              }
+      <div className={styles.detials}>
+        {
+          dataSource.length > 0 ? <BITable
+            columns={this.columns()}
+            dataSource={dataSource}
+            rowClassName={this.setRowClassName}
+            pagination={{
+              onChange: this.onChangeSize,
+              defaultPageSize: pageSize,
+              current: currentPage,
+              total: totalCount,
+              showQuickJumper: true,
+            }}
+            rowKey={record => record.id}
+            loading={this.props.loading}
+            smalled={true}
+          /> : <div className={styles.noneData}>
+              <img src={creditImg} alt='权限' />
+            </div>
+        }
+        {/* {
+          dataSource.length > 0 ? '' : <div className={styles.noneData}>
+            <img src={creditImg} alt='权限' />
           </div>
+        } */}
+      </div>
     );
   }
 }
