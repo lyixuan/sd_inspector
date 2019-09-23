@@ -11,7 +11,7 @@ import styles from './style.less';
 
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
-@connect(( { xdCreditModal, loading } ) => ({
+@connect(({ xdCreditModal, loading }) => ({
   dimensionList: xdCreditModal.dimensionList,
   dimensionDetails: xdCreditModal.dimensionDetails,
   kpiDateRange: xdCreditModal.kpiDateRange,
@@ -25,18 +25,18 @@ class XdCredit extends React.Component {
       userOrgConfig: [],
       extendFlag: false, // 权限
       groupId: [],
-      dementionId: '' ,
+      dementionId: '',
       // startTime: '',
       // endTime: '',
       pageSize: '',
       pageIndex: '',
     }
   }
-  componentDidMount(){
+  componentDidMount() {
     this.getUserInfo();
   }
   // 权限
-  getUserInfo = () =>{
+  getUserInfo = () => {
     this.props.dispatch({
       type: 'xdCreditModal/getUserInfo',
       callback: extendFlag => {
@@ -46,10 +46,10 @@ class XdCredit extends React.Component {
     });
   }
   // 组织
-  getUserOrgList = (groupId) =>{
+  getUserOrgList = (groupId) => {
     this.props.dispatch({
       type: 'xdCreditModal/getUserOrgList',
-      payload: { params: {pkGroup:groupId} },
+      payload: { params: { pkGroup: groupId } },
       callback: res => {
         if (res && res.length > 0) {
           const item = res[0];
@@ -57,7 +57,7 @@ class XdCredit extends React.Component {
             userOrgConfig: res,
             groupId: [{ name: item.name, value: item.id }]
           }, () => this.getDimensionList())
-        } else  {
+        } else {
           this.getDimensionList();
         }
       }
@@ -76,14 +76,24 @@ class XdCredit extends React.Component {
   }
   // 详情
   getDimensionDetail = () => {
+    const param = {
+      groupId: this.getGroupId(this.state.groupId),
+      dementionId: this.state.dementionId,
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+      pageSize: 10,
+      pageIndex: 1
+    }
+    console.log(87, param);
+    return;
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionDetail',
-      payload: { params: { } },
+      payload: { params: {} },
     });
   }
   // date
   getDate = () => {
-    const {startTime, endTime} = this.state;
+    const { startTime, endTime } = this.state;
     return startTime && endTime ? [startTime, endTime] : [];
   }
   // 多级渲染
@@ -98,8 +108,9 @@ class XdCredit extends React.Component {
     return groupId[groupId.length - 1].value;
   }
   // 左侧维度id
-  onChangeParams = (v, type)=> {
+  onChangeParams = (v, type) => {
     this.setState({ [type]: v }, () => {
+      console.log()
       if (type === 'dementionId') this.getDimensionDetail();
     })
   }
@@ -130,50 +141,50 @@ class XdCredit extends React.Component {
     return (
       <div className={`${styles.credit} ${extendFlag ? '' : styles.extent}`}>
         <Skeleton loading={infoLoading} >
-        {extendFlag ? <>
-          <div className={styles.form} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>
-            <span className={styles.date}>{kpiDateRange.startDate}～{kpiDateRange.endDate}</span>
-            {
-              userOrgConfig.length > 0 && <span className={styles.change}>
-                选择对比小组：
-                <BICascader 
-                  placeholder="选择组织"
-                  popupClassName={styles.popupClassName}
-                  changeOnSelect 
-                  options={userOrgConfig}
-                  fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
-                  getPopupContainer={triggerNode => triggerNode.parentNode}
-                  displayRender={this.renderCascader}
-                  value={groupId}
-                  onChange={this.onChangeSelect}
-                  /> 
-              </span>
-            }
-            <span className={styles.change}>
-              选择时间：
+          {extendFlag ? <>
+            <div className={styles.form} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>
+              <span className={styles.date}>{kpiDateRange.startDate}～{kpiDateRange.endDate}</span>
+              {
+                userOrgConfig.length > 0 && <span className={styles.change}>
+                  选择对比小组：
+                <BICascader
+                    placeholder="选择组织"
+                    popupClassName={styles.popupClassName}
+                    changeOnSelect
+                    options={userOrgConfig}
+                    fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+                    getPopupContainer={triggerNode => triggerNode.parentNode}
+                    displayRender={this.renderCascader}
+                    value={groupId}
+                    onChange={this.onChangeSelect}
+                  />
+                </span>
+              }
+              <span className={styles.change}>
+                选择时间：
               <BIRangePicker
-                value={this.getDate()}
-                placeholder={['选择起始时间', '选择截止时间']}
-                format={dateFormat}
-                onChange={this.onDateChange}
+                  value={this.getDate()}
+                  placeholder={['选择起始时间', '选择截止时间']}
+                  format={dateFormat}
+                  onChange={this.onDateChange}
+                />
+              </span>
+              <BIButton type='reset' onClick={this.handleReset} style={{ marginRight: '8px' }}>重置</BIButton>
+              <BIButton type='primary' onClick={this.handleClick} htmlType="submit">查询</BIButton>
+            </div>
+            <div className={styles.dataShow}>
+              <Dimension
+                dementionId={this.state.dementionId}
+                onChangeParams={this.onChangeParams}
+                dimensionList={this.props.dimensionList}
               />
-            </span>
-            <BIButton type='reset' onClick={this.handleReset} style={{ marginRight: '8px' }}>重置</BIButton>
-            <BIButton type='primary' onClick={this.handleClick} htmlType="submit">查询</BIButton>
-          </div>
-          <div className={styles.dataShow}>
-            <Dimension 
-              dementionId={this.state.dementionId} 
-              onChangeParams={this.onChangeParams}
-              dimensionList={this.props.dimensionList}
-            />
-            <CreditDetials 
-              detailsData={this.props.dimensionDetails}
-            />
-          </div> </> : <>
-            <img src={extentImg} alt='权限'/>
-            <span>你没有权限查看该页面，请联系系统管理员</span>
-          </> }
+              <CreditDetials
+                detailsData={this.props.dimensionDetails}
+              />
+            </div> </> : <>
+              <img src={extentImg} alt='权限' />
+              <span>你没有权限查看该页面，请联系系统管理员</span>
+            </>}
         </Skeleton>
       </div>
     );
