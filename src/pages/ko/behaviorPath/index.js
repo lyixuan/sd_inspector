@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from 'antd';
+import { Input, message } from 'antd';
 import { connect } from 'dva';
 import BITabs from '@/ant_components/BITabs';
 import styles from './style.less';
@@ -30,7 +30,9 @@ class BehaviorPath1 extends React.Component {
       letter: true,
       page: 1,
       pageSize: 10,
-      stuId: JSON.parse(this.props.location.query.params).userId
+      inputStuId: '',
+      stuId: JSON.parse(this.props.location.query.params).userId,
+      searchType: null
     }
   }
 
@@ -102,6 +104,10 @@ class BehaviorPath1 extends React.Component {
   }
 
   onTabChange = (e) => {
+    console.log(107, e, this.state.im)
+    this.setState({
+      searchType: e
+    })
     if (e == "1" && !this.state.study) {
       return;
     } else if (e == "2" && !this.state.im) {
@@ -117,12 +123,23 @@ class BehaviorPath1 extends React.Component {
     }
 
   }
-  changeUserId(e) {
-    console.log(120, e)
+  onChange(e) {
+    const value = e.target.value.replace(/[^\d]/g, '')
     this.setState({
-      stuId: e
+      inputStuId: value
+    })
+  }
+  onSearchUser(e) {
+    const value = e.replace(/[^\d]/g, '')
+    if (!value) {
+      message.error('请输入学员id');
+      return;
+    }
+    this.setState({
+      stuId: value
     }, () => {
-      this.getDateList(this.state.activeKey); // 获取日期列表
+      const param = this.state.searchType ? this.state.searchType : this.state.activeKey
+      this.getDateList(param); // 获取日期列表
       this.getUserInfo();
     })
 
@@ -151,7 +168,9 @@ class BehaviorPath1 extends React.Component {
               <Search
                 allowClear
                 placeholder="输入学员ID"
-                onSearch={value => this.changeUserId(value)}
+                value={this.state.inputStuId}
+                onChange={value => this.onChange(value)}
+                onSearch={value => this.onSearchUser(value)}
               />
               {/* <Input placeholder="输入学员ID" allowClear onChange={this.changeUserId} /> */}
             </div>
