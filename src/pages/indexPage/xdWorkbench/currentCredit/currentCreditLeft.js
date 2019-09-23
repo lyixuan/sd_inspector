@@ -248,6 +248,7 @@ class  currentCreditLeft extends React.Component {
       if(item.dimensionName === "学分均分"){
         item.children.map((subItem,subIndex)=>{
           if(subItem.dimensionName === "正面均分"){
+            subItem.isShowPro = true
             this.serverArray(subItem.children)
           }
 
