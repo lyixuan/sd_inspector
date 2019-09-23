@@ -11,7 +11,9 @@ import { msgF } from "@/utils/utils";
 export default {
   namespace: 'xdCreditModal',
   state: {
-    dimensionList: [],
+    dimensionData: {
+      data: [],
+    },
     dimensionDetails: {
       data: [],
       titleOne: '1',
@@ -48,7 +50,7 @@ export default {
       const result = yield call(getDimensionList, params);
       if (result.code === 20000) {
         const res = result.data;
-        if (res && res !== null) yield put({ type: 'save', payload: { dimensionList: res } });
+        if (res && res !== null) yield put({ type: 'save', payload: { dimensionData: res } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

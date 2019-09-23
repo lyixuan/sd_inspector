@@ -11,7 +11,7 @@ class  Dimension extends React.Component {
   columns = () => {
     const columns = [
       {
-        title: 'pppp',
+        title: this.props.dimensionData.groupFullName,
         dataIndex: 'name',
         key: 'name',
         width:'40%'
@@ -39,6 +39,7 @@ class  Dimension extends React.Component {
     ];
     return columns || [];
   };
+  // 组织row
   setRowClassName = (r) => {
     if (this.props.dementionId === r.id)  {
       return styles.selectedRow;
@@ -65,7 +66,7 @@ class  Dimension extends React.Component {
   }
 
   render() {
-    const dataSource = this.fillDataSource(this.props.dimensionList);
+    const dataSource = this.fillDataSource(this.props.dimensionData.dimensionList);
     return (
       <div className={styles.dimension}>
         <Skeleton loading={this.props.loading} > 
@@ -80,7 +81,7 @@ class  Dimension extends React.Component {
               onRow={this.onClickRow}
               rowKey={record => record.id}
               loading={this.props.loading}
-              scroll={{ x: 0, y: 408}}
+              scroll={{ x: 0, y: 640}}
               smalled={true}
             />
           }

@@ -14,12 +14,11 @@ import { initTimeData } from '../ko/utils/utils'
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
 @connect(({ xdCreditModal, loading }) => ({
-  dimensionList: xdCreditModal.dimensionList,
+  dimensionData: xdCreditModal.dimensionData,
   dimensionDetails: xdCreditModal.dimensionDetails,
   kpiDateRange: xdCreditModal.kpiDateRange,
   infoLoading: loading.effects['xdCreditModal/getUserInfo'],
 }))
-// Current credits
 class XdCredit extends React.Component {
   constructor(props) {
     super(props);
@@ -128,6 +127,10 @@ class XdCredit extends React.Component {
     labelStr = labelStr.length >= 10 ? `${labelStr.substr(0, 10)}...` : labelStr;
     return <span>{labelStr}</span>;
   };
+  // 时间控件可展示的时间范围
+  disabledDate = current => {
+    return current > moment(this.props.kpiDateRange.endDate);
+  };
   // 左侧维度id
   onChangeParams = (v, type) => {
     this.setState({ [type]: v }, () => {
@@ -188,6 +191,7 @@ class XdCredit extends React.Component {
                   format={dateFormat}
                   onChange={this.onDateChange}
                   allowClear={false}
+                  disabledDate={this.disabledDate}
                 />
               </span>
               <BIButton type='reset' onClick={this.handleReset} style={{ marginRight: '8px' }}>重置</BIButton>
@@ -197,7 +201,8 @@ class XdCredit extends React.Component {
               <Dimension
                 dementionId={this.state.dementionId}
                 onChangeParams={this.onChangeParams}
-                dimensionList={this.props.dimensionList}
+                dimensionData={this.props.dimensionData}
+                groupId={groupId}
               />
               <CreditDetials
                 detailsData={this.props.dimensionDetails}
