@@ -4,9 +4,8 @@ import BITable from '@/ant_components/BITable';
 import creditImg from '@/assets/xdcredit/credit.gif'
 import styles from './style.less';
 
-@connect(({xdWorkModal, loading}) => ({
-  xdWorkModal,
-  loading:loading.effects['xdWorkModal/groupPkList'],
+@connect(({ loading }) => ({
+  loading: loading.effects['xdCreditModal/getDimensionDetail'],
 }))
 class  CreditDetials extends React.Component {
   columns = () => {

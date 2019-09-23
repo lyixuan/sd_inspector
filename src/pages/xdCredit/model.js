@@ -1,4 +1,5 @@
 import {
+  getUserInfo,
   getUserOrgList,
   getDimensionList,
   getDimensionDetail,
@@ -26,6 +27,16 @@ export default {
   },
 
   effects: {
+    *getUserInfo({ callback }, { call }) {
+      const result = yield call(getUserInfo);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(true);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     *getUserOrgList({ payload, callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(getUserOrgList, params);

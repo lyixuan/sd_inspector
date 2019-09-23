@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import BISelect from '@/ant_components/BISelect';
+import { Skeleton } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import BICascader from '@/ant_components/BICascader/FormCascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
@@ -11,17 +11,18 @@ import styles from './style.less';
 
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
-@connect(( { xdCreditModal } ) => ({
+@connect(( { xdCreditModal, loading } ) => ({
   userOrgConfig: xdCreditModal.userOrgConfig,
   dimensionList: xdCreditModal.dimensionList,
-  dimensionDetails: xdCreditModal.dimensionDetails
+  dimensionDetails: xdCreditModal.dimensionDetails,
+  infoLoading: loading.effects['xdCreditModal/getUserInfo'],
 }))
 // Current credits
 class XdCredit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      extendFlag: false,
+      extendFlag: false, // 权限
       dementionId: '' ,
       startTime: '',
       endTime: '',
@@ -30,7 +31,17 @@ class XdCredit extends React.Component {
     }
   }
   componentDidMount(){
-    this.getUserOrgList();
+    this.getUserInfo();
+  }
+  // 权限
+  getUserInfo = () =>{
+    this.props.dispatch({
+      type: 'xdCreditModal/getUserInfo',
+      callback: extendFlag =>{
+        this.setState({ extendFlag });
+        if (extendFlag) this.getDimensionList();
+      }
+    });
   }
   // 组织
   getUserOrgList = (groupId) =>{
@@ -91,9 +102,10 @@ class XdCredit extends React.Component {
   }
   render() {
     const { extendFlag } = this.state;
-    const { userOrgConfig } = this.props;
+    const { userOrgConfig, infoLoading } = this.props;
     return (
       <div className={`${styles.credit} ${extendFlag ? '' : styles.extent}`}>
+        <Skeleton loading={infoLoading} >
         {extendFlag ? <>
           <div className={styles.form} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>
             <span className={styles.date}>2019.08.29～2019.09.18</span>
@@ -135,6 +147,7 @@ class XdCredit extends React.Component {
             <img src={extentImg} alt='权限'/>
             <span>你没有权限查看该页面，请联系系统管理员</span>
           </> }
+        </Skeleton>
       </div>
     );
   }

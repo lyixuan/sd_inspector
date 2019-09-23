@@ -12,3 +12,7 @@ export async function getDimensionList(data) {
 export async function getDimensionDetail(data) {
   return request('/credit/dimension/detail', { method: 'post', data });
 }
+// 学分—权限
+export async function getUserInfo(params) {
+  return request('/user/info', { method: 'get', params });
+}

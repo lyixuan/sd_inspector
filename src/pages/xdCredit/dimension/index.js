@@ -3,14 +3,8 @@ import { connect } from 'dva';
 import BITable from '@/ant_components/BITable';
 import styles from './style.less'
 
-function CustomExpandIcon(props) {
-  return (
-    <a/>
-  );
-}
-@connect(({xdWorkModal, loading}) => ({
-  xdWorkModal,
-  loading:loading.effects['xdWorkModal/groupPkList'],
+@connect(( { loading } ) => ({
+  loading: loading.effects['xdCreditModal/getUserOrgList'],
 }))
 class  Dimension extends React.Component {
   columns = () => {
@@ -99,7 +93,6 @@ class  Dimension extends React.Component {
                   columns={this.columns()}
                   dataSource={dataSource}
                   defaultExpandAllRows={true}
-                  expandIcon={CustomExpandIcon}
                   rowClassName={this.setRowClassName}
                   pagination = {false}
                   onRow={this.onClickRow}
