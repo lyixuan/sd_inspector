@@ -9,7 +9,8 @@ import gradeC from '@/assets/workBench/c.png';
 import gradeS from '@/assets/workBench/s.png';
 import xdGif from '@/assets/workBench/xdpk.gif';
 import pkImg from '@/assets/xdwork/pk.png';
-import { thousandsFormat } from '@/utils/utils'
+import { thousandsFormat } from '@/utils/utils';
+import { STATIC_HOST } from '@/utils/constants'
 import styles from '../style.less';
 
 const thousandsFormatAll = (n, u) => {
@@ -37,7 +38,6 @@ const gradeImg = { // 等级
   S: gradeS,
 }
 const unitType = [, '', '元', '%', '单'];
-const pathImUrl = 'http://172.16.117.65';
 @connect(({ loading }) => ({
   loading: loading.effects['xdWorkModal/getIncomeKpiPersonInfo'] || loading.effects['xdWorkModal/getContrastIncomeKpiPkList'],
 }))
@@ -125,7 +125,7 @@ class ProfitTbas extends React.Component {
             <div className={styles.tabBody} style={{ height: '136px' }}>
               <div className={styles.tabOneTh}>
                 <span style={{ color: '#7A7C80', fontSize: '12px' }}>对比项</span>
-                <span style={{ color: '#1A1C1F', fontWeight: 'bold' }}>创收绩效</span>
+                <span style={{ color: '#1A1C1F', fontWeight: 'bold' }}>{this.state.pkType === 1 ? '创收绩效' : pkTypeObj[this.state.pkType - 1]}</span>
               </div>
               <div className={styles.tabOneTd}>
                 {profitPersonData.self && <div className={`${styles.tabMine} ${pkUser ? '' : styles.tabMineLine}`}>
@@ -137,7 +137,7 @@ class ProfitTbas extends React.Component {
                     </div>
                   </div>
                   <div className={styles.imgs}>
-                    {profitPersonData.self.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{ marginRight: '10px' }} />)}
+                    {profitPersonData.self.certificationGradeList.map(item => <img key={item.certificationCode} src={STATIC_HOST + item.certificationIconUrl} style={{ marginRight: '10px' }} />)}
                   </div>
                 </div>}
                 <div className={`${pkUser ? '' : styles.tabUserLine}`}>
@@ -152,7 +152,7 @@ class ProfitTbas extends React.Component {
                           </div>
                         </div>
                         <div className={styles.imgs}>
-                          {profitPersonData.pkUser.certificationGradeList.map(item => <img key={item.certificationCode} src={pathImUrl + item.certificationIconUrl} style={{ marginRight: '10px' }} />)}
+                          {profitPersonData.pkUser.certificationGradeList.map(item => <img key={item.certificationCode} src={STATIC_HOST + item.certificationIconUrl} style={{ marginRight: '10px' }} />)}
                         </div>
                       </>
                       :

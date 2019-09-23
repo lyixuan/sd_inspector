@@ -131,7 +131,7 @@ class performanceDetail extends React.Component {
         <div className={styles.tooltipContent}>
           <h4>续报绩效流水第一名</h4>
           <p>绩效流水：￥{thousandsFormat(parseInt(prop.firstKpiFlow))}</p>
-          <p>好推收入：￥{thousandsFormat(parseInt(prop.firstIncomeKpi))}</p>
+          <p>续报收入：￥{thousandsFormat(parseInt(prop.firstIncomeKpi))}</p>
         </div>
       )
     } else if (id == 4) {
@@ -148,16 +148,25 @@ class performanceDetail extends React.Component {
   }
 
   render() {
-    const { kpiInfo } = this.state;
+    const kpiInfo = this.state.kpiInfo ? this.state.kpiInfo : {
+      kpiStartDate: '',
+      kpiEndDate: '',
+      scoreKpiInfo: '',
+      goodpushKpiInfo: '',
+      renewalKpiInfo: '',
+      examZbtKpiInfo: ''
+    }
     const { kpiStartDate, kpiEndDate } = kpiInfo
     const { scoreKpiInfo, goodpushKpiInfo, renewalKpiInfo, examZbtKpiInfo } = kpiInfo
+    const date1 = kpiStartDate ? moment(kpiStartDate).format('YYYY.MM.DD') : ''
+    const date2 = kpiEndDate ? moment(kpiEndDate).format('YYYY.MM.DD') : ''
     return (
       <Container
         title='绩效详情'
-        right={`${moment(kpiStartDate).format('YYYY.MM.DD')}~${moment(kpiEndDate).format('YYYY.MM.DD')}(最新学分日期)`}
+        right={`${date1}~${date2}(最新学分日期)`}
       >
         {
-          scoreKpiInfo &&
+          kpiInfo && scoreKpiInfo &&
           <div className={styles.performanceDetail}>
             <div ref={this.createRef} className={styles.chart}></div>
             <div className={styles.panelBox}>
@@ -202,7 +211,7 @@ class performanceDetail extends React.Component {
                   <div className={styles.progressBar}>
                     <div className={styles.title}>
                       <span> </span>
-                      <span>第一名(￥{thousandsFormat(goodpushKpiInfo.firstKpiFlow)})</span>
+                      <span>第一名(￥{thousandsFormat(parseInt(goodpushKpiInfo.firstKpiFlow))})</span>
                     </div>
                     <Progress strokeColor="#FFBC00" percent={goodpushKpiInfo.kpiFlow / goodpushKpiInfo.firstKpiFlow * 100} strokeWidth={4} showInfo={false} />
                   </div>
