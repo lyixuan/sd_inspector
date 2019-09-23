@@ -53,12 +53,14 @@ class appeal extends React.Component {
         query: { p: params }
       });
     } else { // 其它
+      const dimensionType = constants.DIMENSION_TYPE.find(op => op.name === appealObj[item.appealType]);
       if (op === 'nonAppealNum') { // 未申诉
+        const params = JSON.stringify({"page": 1, "pageSize": 30, "dimensionType": dimensionType ? dimensionType.id : constants.DIMENSION_TYPE[0].id});
         router.push({
           pathname: '/scoreAppeal/awaitAppeal',
+          query: { params }
         });
       } else { // 其它状态
-        const dimensionType = constants.DIMENSION_TYPE.find(op => op.name === appealObj[item.appealType]);
         const statusList = op === 'rejectedAppealNum' ? ['3', '4', '7'] : ['1', '2', '5', '6'];
         const params = JSON.stringify({"page": 1, "pageSize": 30, "dimensionType": dimensionType ? dimensionType.id : constants.DIMENSION_TYPE[0].id, statusList});
         router.push({
