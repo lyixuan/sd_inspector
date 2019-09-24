@@ -10,12 +10,12 @@ export const ADMIN_AUTH = 'admin_auth';
 export const ADMIN_USER = 'admin_user';
 
 export const DEBUGGER_USER = {
-  localhost: 'ligang02_1',
+  localhost: 'haorunwei',
 }[process.env.LOGIN_TYPE];
 
 // 静态文件host
 export const STATIC_HOST = {
-  development: 'http://172.16.117.65',
+  development: 'http://bd.ministudy.com/download',
   production: 'http://bd.ministudy.com/download',
 }[process.env.PROXY_ENV];
 
@@ -23,8 +23,6 @@ export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
   localhost: 'http://dev.xd.admin.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
-  // development2: 'http://172.16.109.87:28081',
-  development2: 'http://172.16.109.198:8081',
 }[process.env.LOGIN_TYPE]
 
 export const CAS_HOST = {
@@ -389,6 +387,7 @@ export const EmptyContentLayout = [
   { path: '/setting/performance/create', name: '创收绩效包详情' },
   { path: '/setting/performance/copy', name: '创收绩效包详情' },
   { path: '/xdWorkbench', name: '小德工作台' },
+  { path: '/xdCredit/index', name: '小德学分' }
 ];
 // 注册类型
 export const REGISTER_STATUS = [{ id: 1, name: '已注册' }];
@@ -518,3 +517,15 @@ export default {
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
+
+// ko-sessionReport，跳转URL
+export const sessionReportURL = {
+  development: "http://172.16.109.87:38080/#/sessionRecord",
+  production: "http://sscp.ministudy.com/college_learn/#/sessionRecord"
+}[process.env.PROXY_ENV];
+
+// ko-knowledge，跳转URL
+export const knowledgeURL = {
+  development: "http://172.16.109.87:38080/#/questions",
+  production: "http://sscp.ministudy.com/college_learn/#/questions"
+}[process.env.PROXY_ENV];
