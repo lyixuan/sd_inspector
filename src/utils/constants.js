@@ -15,7 +15,7 @@ export const DEBUGGER_USER = {
 
 // 静态文件host
 export const STATIC_HOST = {
-  development: 'http://172.16.117.65',
+  development: 'http://bd.ministudy.com/download',
   production: 'http://bd.ministudy.com/download',
 }[process.env.PROXY_ENV];
 
@@ -386,6 +386,7 @@ export const EmptyContentLayout = [
   { path: '/setting/performance/create', name: '创收绩效包详情' },
   { path: '/setting/performance/copy', name: '创收绩效包详情' },
   { path: '/xdWorkbench', name: '小德工作台' },
+  { path: '/xdCredit/index', name: '小德学分' }
 ];
 // 注册类型
 export const REGISTER_STATUS = [{ id: 1, name: '已注册' }];
