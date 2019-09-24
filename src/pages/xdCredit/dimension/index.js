@@ -58,7 +58,6 @@ class Dimension extends React.Component {
     return params
   }
   onClickRow = (record) => {
-    console.log(61, record)
     return {
       onClick: () => {
         if (record.level === 4 && record.num) this.props.onChangeParams(record.id, 'dementionId');
