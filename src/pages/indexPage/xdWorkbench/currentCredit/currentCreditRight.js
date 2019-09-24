@@ -100,17 +100,32 @@ class  currentCreditRight extends React.Component {
         width: '20%',
         title:'排名系数',
         dataIndex:'creditRankingCoefficient',
-        key:'creditRankingCoefficient'
+        key:'creditRankingCoefficient',
+        render:(creditRankingCoefficient)=>{
+          return(
+            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{creditRankingCoefficient}</div>
+          )
+        }
       },{
         width: '24%',
         title:'组织',
         dataIndex:'groupName',
-        key:'groupName'
+        key:'groupName',
+        render:(groupName)=>{
+          return(
+            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{groupName}</div>
+          )
+        }
       },{
         width: '14%',
         title:'排名',
         dataIndex:'creditRanking',
-        key:'creditRanking'
+        key:'creditRanking',
+        render:(creditRanking)=>{
+          return(
+            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{creditRanking}</div>
+          )
+        }
       },{
         width: '20%',
         title:'学分',
@@ -123,6 +138,7 @@ class  currentCreditRight extends React.Component {
               style={{
                 cursor: 'pointer',
               }}
+              data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'
             >
               <span style={{ fontSize: '13px'}}>{credit}</span>
               <Progress
@@ -253,25 +269,25 @@ class  currentCreditRight extends React.Component {
     const dataSource = groupList?this.fillDataSource(groupList):[]
     return (
         <div className={styles.creditRight}>
-          <div className={styles.creditSelect} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
+          <div className={styles.creditSelect} >
             <span className={styles.title}>选择对比小组:</span>
             <BISelect style={{width:136,marginLeft:12}} placeholder="请选择" value={orgValue} onChange={(val)=>this.onFormChange(val,'oneLevel')}>
               {orgOptions.map(item => (
-                <Option key={item.id}>
+                <Option key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
                   {item.name}
                 </Option>
               ))}
             </BISelect>
-            <BISelect style={{width:222,marginLeft:12}} placeholder="请选择" value={studentValue} onChange={(val)=>this.onFormChange(val,'secondLevel')}>
+            <BISelect style={{width:222,marginLeft:12}} placeholder="请选择" value={studentValue} onChange={(val)=>this.onFormChange(val,'secondLevel')} >
               {secondOptions.map(item => (
-                <Option key={item.id}>
+                <Option key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
                   {item.name}
                 </Option>
               ))}
             </BISelect>
           </div>
           <div className={styles.tableContent}>
-            {userFlag && userMsg && <div className={styles.suspension} data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>
+            {userFlag && userMsg && <div className={styles.suspension} >
 
               <BITable
                 showHeader={false}
