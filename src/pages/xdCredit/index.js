@@ -34,22 +34,24 @@ class XdCredit extends React.Component {
     }
   }
   componentDidMount() {
-    const { params } = this.props.location.query;
-    if (params) {
-      const value = JSON.parse(params);
-      this.setState({
-        dementionId: value ? value.dementionId : ''
-      }, () => this.getDimensionDetail())
-    }
-    this.getUserInfo();
-  }
-  // 权限
-  getUserInfo = () => {
+    // 权限
     this.props.dispatch({
       type: 'xdCreditModal/getUserInfo',
       callback: extendFlag => {
         this.setState({ extendFlag });
-        if (extendFlag) this.getUserOrgList();
+        if (extendFlag) {
+          const { params } = this.props.location.query;
+          if (params) {
+            const { dementionId, startTime, endTime} = params ? JSON.parse(params) : {};
+            this.setState({
+              dementionId,
+              startTime,
+              endTime,
+            }, () => this.getUserOrgList())
+          } else {
+            this.getUserOrgList()
+          }   
+        };
       }
     });
   }
@@ -67,15 +69,18 @@ class XdCredit extends React.Component {
         } else {
           this.getDimensionList();
         }
+        if (this.state.dementionId) this.getDimensionDetail();
       }
     });
     this.props.dispatch({
       type: 'xdCreditModal/getKpiDateRange',
       callback: res => {
-        this.setState({
-          startTime: res.endDate,
-          endTime: res.endDate,
-        });
+        if (!this.state.startTime || !this.state.endTime) {
+          this.setState({
+            startTime: res.endDate,
+            endTime: res.endDate,
+          });
+        }  
       }
     })
   }

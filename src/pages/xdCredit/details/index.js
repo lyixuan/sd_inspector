@@ -63,6 +63,7 @@ class CreditDetials extends React.Component {
   render() {
     const { dementionId, detailsData, pageSize = 10, totalCount, currentPage } = this.props;
     const dataSource = detailsData.data || [];
+    console.log(currentPage, 'ppppp')
     return (
       <div className={`${styles.detials} ${dementionId ? '' : styles.noneData}`}>
         {
@@ -77,7 +78,7 @@ class CreditDetials extends React.Component {
               total: totalCount,
               showQuickJumper: true,
             }}
-            rowKey={record => record.id}
+            rowKey={(record, index) => record.id + '' + index}
             loading={this.props.loading}
             smalled={true}
           /> : <img src={creditImg} alt='权限' />
