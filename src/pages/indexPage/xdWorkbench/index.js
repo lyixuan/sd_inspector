@@ -44,7 +44,7 @@ class XdWorkbench extends React.Component {
 
         <Profit userId={userId} />
         <div className={styles.qualityAppel}>
-          <Quality userId={userId} className={styles.qualityTable} />
+          <Quality userId={userId}/>
           <Appeal userId={userId} />
         </div>
       </div>
