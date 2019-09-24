@@ -224,7 +224,7 @@ class XdCredit extends React.Component {
               <CreditDetials
                 onPageChange={this.onPageChange}
                 pageSize={this.state.pageSize}
-                totalCount={this.props.dimensionDetails.total}
+                currentPage={this.state.pageIndex}
                 detailsData={this.props.dimensionDetails}
                 dementionId={dementionId}
               />

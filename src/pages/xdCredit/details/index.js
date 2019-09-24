@@ -61,8 +61,9 @@ class CreditDetials extends React.Component {
   };
 
   render() {
-    const { dementionId, detailsData, pageSize = 10, totalCount, currentPage } = this.props;
+    const { dementionId, detailsData, pageSize = 10, currentPage } = this.props;
     const dataSource = detailsData.data || [];
+    const totalCount = detailsData.total || 0;
     return (
       <div className={`${styles.detials} ${dementionId ? '' : styles.noneData}`}>
         {
