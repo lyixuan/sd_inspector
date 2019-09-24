@@ -61,12 +61,12 @@ class CreditDetials extends React.Component {
   };
 
   render() {
-    const dataSource = this.props.detailsData.data || [];
-    const { pageSize = 10, totalCount, currentPage } = this.props;
+    const { dementionId, detailsData, pageSize = 10, totalCount, currentPage } = this.props;
+    const dataSource = detailsData.data || [];
     return (
-      <div className={`${styles.detials} ${dataSource.length > 0 ? '' : styles.noneData}`}>
+      <div className={`${styles.detials} ${dementionId ? '' : styles.noneData}`}>
         {
-          dataSource.length > 0 ? <BITable
+          dementionId ? <BITable
             columns={this.columns()}
             dataSource={dataSource}
             rowClassName={this.setRowClassName}

@@ -132,7 +132,6 @@ class XdCredit extends React.Component {
   // 左侧维度id
   onChangeParams = (v, type) => {
     this.setState({ [type]: v }, () => {
-      console.log()
       if (type === 'dementionId') this.getDimensionDetail();
     })
   }
@@ -164,14 +163,14 @@ class XdCredit extends React.Component {
     }, () => this.getDimensionDetail());
   };
   render() {
-    const { groupId, extendFlag, userOrgConfig } = this.state;
-    const { infoLoading, kpiDateRange } = this.props;
+    const { dementionId, groupId, extendFlag, userOrgConfig, startTime, endTime } = this.state;
+    const { infoLoading } = this.props;
     return (
       <div className={`${styles.credit} ${extendFlag ? '' : styles.extent}`}>
         <Skeleton loading={infoLoading} >
           {extendFlag ? <>
             <div className={styles.form} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>
-              <span className={styles.date}>{kpiDateRange.startDate}～{kpiDateRange.endDate}</span>
+              <span className={styles.date}>{startTime}～{endTime}</span>
               {
                 userOrgConfig.length > 0 && <span className={styles.change}>
                   选择对比小组：
@@ -205,7 +204,7 @@ class XdCredit extends React.Component {
             </div>
             <div className={styles.dataShow}>
               <Dimension
-                dementionId={this.state.dementionId}
+                dementionId={dementionId}
                 onChangeParams={this.onChangeParams}
                 dimensionData={this.props.dimensionData}
                 groupId={groupId}
@@ -215,6 +214,7 @@ class XdCredit extends React.Component {
                 pageSize={this.state.pageSize}
                 totalCount={this.props.dimensionDetails.total}
                 detailsData={this.props.dimensionDetails}
+                dementionId={dementionId}
               />
             </div> </> : <>
               <img src={extentImg} alt='权限' />

@@ -16,9 +16,6 @@ export default {
     },
     dimensionDetails: {
       data: [],
-      titleOne: '',
-      titleTwo: '',
-      titleThree: '',
     },
     kpiDateRange: {},
   },
