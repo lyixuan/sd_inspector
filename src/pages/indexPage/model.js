@@ -12,6 +12,7 @@ import {
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
+import moment from 'moment';
 
 export default {
   namespace: 'xdWorkModal',
@@ -19,7 +20,8 @@ export default {
     kipInfo: null,
     kpiLevelList:null,
     groupList:null,
-    groupPkList:{}
+    groupPkList:{},
+    kpiTimes:null
   },
 
   effects: {
@@ -144,6 +146,11 @@ export default {
     *getKpiInfo({ callback }, { call, put }) {
       const result = yield call(getKpiInfo, {})
       if (result.code === 20000) {
+        const params = {
+          startTime:moment(result.data.kpiStartDate).format('YYYY-MM-DD'),
+          endTime:moment(result.data.kpiEndDate).format('YYYY-MM-DD')
+        }
+        yield put({ type: 'save', payload: { kpiTimes:params } });
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }

@@ -30,10 +30,6 @@ class  currentCreditLeft extends React.Component {
     }
   }
   componentDidMount(){
-    // console.log(32,this.props.groupId)
-    // if(this.props.groupId === 0){
-    //   this.getGroupPkData(this.props.groupId)
-    // }
   }
   componentWillMount(){
     this.getGroupPkData(this.props.groupId)
@@ -67,7 +63,6 @@ class  currentCreditLeft extends React.Component {
     let maxNumGroupScore = ""
     const {pkGroup} = this.state
     const PkName = pkGroup && pkGroup.groupName
-    console.log(68,PkName == true)
     const columns = [
       {
         title: '学分维度',
@@ -92,7 +87,6 @@ class  currentCreditLeft extends React.Component {
         width:90,
         render:(myScore,data)=>{
           const isEnd = data.children.length>0?false:true
-          console.log(94,isEnd,data.dimensionName)
           let isFlag = 3
           if(data.dimensionName !== "绩效排名系数"&&data.dimensionName !== "集团排名"&&data.dimensionName !== "家族内排名"&&data.dimensionName !== "人均在服学员"){
             isFlag = myScore>data.groupScore?1:myScore<data.groupScore?2:3
@@ -100,7 +94,6 @@ class  currentCreditLeft extends React.Component {
           let myScoreName = ""
           if(myScore !== null){
             myScoreName = myScore
-            console.log(102,myScoreName,data.dimensionName)
           }
 
           return(
@@ -243,7 +236,6 @@ class  currentCreditLeft extends React.Component {
     return columns || [];
   };
   setRowClassName = (record) => {
-    console.log(246,record)
     let className = ''
     if(record.oneLevel === 4  && Number(record.myScore) !==0){
       className = "oneLevelBgColor"
@@ -272,7 +264,6 @@ class  currentCreditLeft extends React.Component {
         })
       }
     })
-    console.log(269,data)
     return data
 
   }
@@ -286,8 +277,8 @@ class  currentCreditLeft extends React.Component {
     return arr
   }
   onClickRow = (record) => {
-    console.log(287,record)
-    const params = JSON.stringify({"groupId": [], "dementionId":  record.id, "startTime":'', endTime: ''});
+    const {startTime,endTime} = this.props.xdWorkModal.kpiTimes
+    const params = JSON.stringify({"dementionId":  record.id, startTime, endTime});
     return {
       onClick: () => {
         if(record.level === 4 && Number(record.myScore)){
