@@ -66,7 +66,6 @@ class  currentCreditLeft extends React.Component {
     let maxNumGroupScore = ""
     const {pkGroup} = this.state
     const PkName = pkGroup && pkGroup.groupName
-    console.log(68,PkName == true)
     const columns = [
       {
         title: '学分维度',
@@ -98,7 +97,6 @@ class  currentCreditLeft extends React.Component {
           if(myScore !== null){
             myScoreName = myScore
           }
-          console.log(100,isFlag===1 && data.isShowPro && PkName,isFlag===2 && data.isShowPro && PkName)
           return(
             <div className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>{myScoreName}</div>
           )
