@@ -13,6 +13,7 @@ export default {
   state: {
     dimensionData: {
       data: [],
+      dimensionList: []
     },
     dimensionDetails: {
       data: [],

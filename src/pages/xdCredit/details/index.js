@@ -10,7 +10,6 @@ import styles from './style.less';
 class CreditDetials extends React.Component {
   columns = () => {
     const { detailsData } = this.props;
-    console.log(13, detailsData)
     const columns = [
       {
         title: '序号',

@@ -169,12 +169,13 @@ class XdCredit extends React.Component {
       <div className={`${styles.credit} ${extendFlag ? '' : styles.extent}`}>
         <Skeleton loading={infoLoading} >
           {extendFlag ? <>
-            <div className={styles.form} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>
+            <div className={styles.form}>
               <span className={styles.date}>{startTime}～{endTime}</span>
               {
                 userOrgConfig.length > 0 && <span className={styles.change}>
                   选择对比小组：
                 <BICascader
+                    data-trace='{"widgetName":"数据服务-学分明细","traceName":"数据服务/学分明细/选择对比小组"}'
                     placeholder="选择组织"
                     popupClassName={styles.popupClassName}
                     changeOnSelect
@@ -191,6 +192,7 @@ class XdCredit extends React.Component {
               <span className={styles.change}>
                 选择时间：
               <BIRangePicker
+                  data-trace='{"widgetName":"数据服务-学分明细","traceName":"数据服务/学分明细/选择时间"}'
                   value={this.getDate()}
                   placeholder={['选择起始时间', '选择截止时间']}
                   format={dateFormat}
@@ -202,26 +204,28 @@ class XdCredit extends React.Component {
               <BIButton type='reset' onClick={this.handleReset} style={{ marginRight: '8px' }}>重置</BIButton>
               <BIButton type='primary' onClick={this.handleClick} htmlType="submit">查询</BIButton>
             </div>
-            <div className={styles.dataShow}>
-              <Dimension
-                dementionId={dementionId}
-                onChangeParams={this.onChangeParams}
-                dimensionData={this.props.dimensionData}
-                groupId={groupId}
-              />
-              <CreditDetials
-                onPageChange={this.onPageChange}
-                pageSize={this.state.pageSize}
-                totalCount={this.props.dimensionDetails.total}
-                detailsData={this.props.dimensionDetails}
-                dementionId={dementionId}
-              />
-            </div> </> : <>
+            {
+              this.props.dimensionData.dimensionList.length > 0 && < div className={styles.dataShow}>
+                <Dimension
+                  dementionId={dementionId}
+                  onChangeParams={this.onChangeParams}
+                  dimensionData={this.props.dimensionData}
+                  groupId={groupId}
+                />
+                <CreditDetials
+                  onPageChange={this.onPageChange}
+                  pageSize={this.state.pageSize}
+                  totalCount={this.props.dimensionDetails.total}
+                  detailsData={this.props.dimensionDetails}
+                  dementionId={dementionId}
+                />
+              </div>
+            } </> : <>
               <img src={extentImg} alt='权限' />
               <span>你没有权限查看该页面，请联系系统管理员</span>
             </>}
         </Skeleton>
-      </div>
+      </div >
     );
   }
 }

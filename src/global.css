@@ -167,3 +167,6 @@ body > a {
 .agc {
   border-radius: 1px;
 }
+:global .ant-input-clear-icon{
+  color:#ccc;
+}

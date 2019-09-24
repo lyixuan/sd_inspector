@@ -4,17 +4,17 @@ import { Skeleton } from 'antd';
 import BITable from '@/ant_components/BITable';
 import styles from './style.less'
 
-@connect(( { loading } ) => ({
+@connect(({ loading }) => ({
   loading: loading.effects['xdCreditModal/getDimensionList'],
 }))
-class  Dimension extends React.Component {
+class Dimension extends React.Component {
   columns = () => {
     const columns = [
       {
         title: this.props.dimensionData.groupFullName,
         dataIndex: 'name',
         key: 'name',
-        width:'40%'
+        width: '40%'
       }, {
         title: '我的',
         dataIndex: 'score',
@@ -32,32 +32,33 @@ class  Dimension extends React.Component {
         dataIndex: 'num',
         key: 'num',
         render: (text, record) => <div>
-            {text > 99999 ? 99999 + '+': text}{record.unit} 
-            {text && record.level === 4 && <span className={styles.greenColor} style={{marginLeft: '16px'}}>></span>}
-          </div>
+          {text > 99999 ? 99999 + '+' : text}{record.unit}
+          {text && record.level === 4 && <span className={styles.greenColor} style={{ marginLeft: '16px' }}>></span>}
+        </div>
       }
     ];
     return columns || [];
   };
   // 组织row
   setRowClassName = (r) => {
-    if (this.props.dementionId === r.id)  {
+    if (this.props.dementionId === r.id) {
       return styles.selectedRow;
     } else if (r.level === 4 && r.num) {
       return styles.clickRow;
     }
     return styles['rowBg' + r.level]
   }
-  fillDataSource = (params = [], n = 1) =>{
+  fillDataSource = (params = [], n = 1) => {
     params.map(item => {
       item.level = n;
-      if(item.children && item.children.length > 0){
+      if (item.children && item.children.length > 0) {
         this.fillDataSource(item.children, n + 1);
       }
     })
     return params
   }
   onClickRow = (record) => {
+    console.log(61, record)
     return {
       onClick: () => {
         if (record.level === 4 && record.num) this.props.onChangeParams(record.id, 'dementionId');
@@ -69,25 +70,25 @@ class  Dimension extends React.Component {
     const dataSource = this.fillDataSource(this.props.dimensionData.dimensionList);
     return (
       <div className={styles.dimension}>
-        <Skeleton loading={this.props.loading} > 
+        <Skeleton loading={this.props.loading} >
           {
             dataSource.length > 0 && <BITable
               columns={this.columns()}
               dataSource={dataSource}
               defaultExpandAllRows={true}
               rowClassName={this.setRowClassName}
-              expandIcon={() => <a/>}
-              pagination = {false}
+              expandIcon={() => <a />}
+              pagination={false}
               onRow={this.onClickRow}
               rowKey={record => record.id}
               loading={this.props.loading}
-              scroll={{ x: 0, y: 640}}
+              scroll={{ x: 0, y: 640 }}
               smalled={true}
             />
           }
         </Skeleton>
       </div>
-      
+
     );
   }
 }
