@@ -34,6 +34,13 @@ class XdCredit extends React.Component {
     }
   }
   componentDidMount() {
+    const { params } = this.props.location.query;
+    if (params) {
+      const value = JSON.parse(params);
+      this.setState({
+        dementionId: value ? value.dementionId : ''
+      }, () => this.getDimensionDetail())
+    }
     this.getUserInfo();
   }
   // 权限
