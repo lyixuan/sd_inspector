@@ -77,7 +77,7 @@ export default class GlobalHeader extends PureComponent {
                         item2.obtained ? <li key={item2.id}><img src={`${url}${item2.obtainedIcon}`} /></li> : <li key={item2.id}><img src={`${url}${item2.originalIcon}`} /></li>
                       ))
                     }
-                    <li key={item.grade + 1}><img src={item.imgUrl} className={styles.bigImg} /></li>
+                    <li className={styles.bigImgLi} key={item.grade + 1}><img src={item.imgUrl} className={styles.bigImg} /></li>
                   </>
                 )
               })
