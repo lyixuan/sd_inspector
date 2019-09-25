@@ -12,16 +12,16 @@ export const STATIC_HOST = {
 
 export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
-  localhost: 'http://test.xd.admin.ministudy.com ',
-  localhost2: 'http://test.xd.admin2.ministudy.com ',
+  localhost: 'http://test.xd.admin.ministudy.com',
+  localhost2: 'http://test.xd.admin2.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   development2: 'http://test.xd.admin2.ministudy.com',
 }[process.env.ENV_TYPE];
 
 export const CAS_HOST = {
   production: 'http://bd.ministudy.com',
-  localhost: 'http://test.xd.admin.ministudy.com ',
-  localhost2: 'http://test.xd.admin2.ministudy.com ',
+  localhost: 'http://test.xd.admin.ministudy.com',
+  localhost2: 'http://test.xd.admin2.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   development2: 'http://test.xd.admin2.ministudy.com',
 }[process.env.ENV_TYPE];
