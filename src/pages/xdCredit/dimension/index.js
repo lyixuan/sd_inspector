@@ -81,7 +81,7 @@ class Dimension extends React.Component {
               onRow={this.onClickRow}
               rowKey={record => record.id}
               loading={this.props.loading}
-              scroll={{ x: 0, y: 640 }}
+              scroll={{ x: 0, y: 615 }}
               smalled={true}
             />
           }

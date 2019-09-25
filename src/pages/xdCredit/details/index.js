@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tooltip } from 'antd';
 import { connect } from 'dva';
 import BITable from '@/ant_components/BITable';
 import creditImg from '@/assets/xdcredit/credit.gif'
@@ -33,7 +34,7 @@ function ListItem(props) {
 
 // 判断是老师还是学员
 function TeacherOrStudent(props) {
-  console.log(36, props)
+  // console.log(36, props)
   if (props.item.type == 1) {
     return (
       <li className={styles.step}>
@@ -88,31 +89,6 @@ function TeacherOrStudent(props) {
     );
   }
 }
-const datas = {
-  contentList: [{
-    appletFlag: false,
-    time: "2019-09-10 10:36:31",
-    id: null,
-    imageUrl: "http://static.sunlands.com/user_center/newUserImagePath/1904764/1904764.jpg",
-    message: "http://wx.sunlands.com/bonus/indexPage",
-    userId: null,
-    userName: null,
-    type: 1
-  },
-  {
-    appletFlag: false,
-    time: "2019-09-10 10:36:39",
-    id: null,
-    imageUrl: "http://static.sunlands.com/user_center/newUserImagePath/1904764/1904764.jpg",
-    message: "[咖啡]",
-    userId: null,
-    userName: "袁延锋",
-    type: 2
-  }]
-}
-
-
-
 
 
 @connect(({ loading }) => ({
@@ -143,19 +119,35 @@ class CreditDetials extends React.Component {
         title: detailsData.titleFour,
         dataIndex: 'valFour',
         key: 'valFour',
-        render: (text, r, i) => {
-          console.log(147, text, r)
+        render: (text, r) => {
+          console.log(123, text, r)
+          if (detailsData.titleFour == '操作') {
+            return (
+              <Tooltip overlayClassName={styles.listMarkingTooltip2} placement="top" title={text}>
+                <span style={{ color: "#00CCC3" }}>查看</span>
+              </Tooltip>
+            );
+          } else {
+            return <span>{text}</span>
+          }
         }
       },
     ];
-    // if (detailsData.status === 1) {
-    //   columns.push({
-    //     title: '操作',
-    //     dataIndex: 'action',
-    //     key: 'action',
-    //     render: () => 1
-    //   })
-    // }
+    if (detailsData.titleFive) {
+      columns.push({
+        title: detailsData.titleFive,
+        dataIndex: 'action',
+        key: 'action',
+        render: (list, r) => {
+          const content = r.contentList ? <Layout dataMark={r}></Layout> : r.content;
+          return (
+            <Tooltip overlayClassName={styles.listMarkingTooltip} placement="right" title={content}>
+              <span style={{ color: "#00CCC3" }}>查看</span>
+            </Tooltip>
+          );
+        }
+      })
+    }
     return columns || [];
   };
   setRowClassName = (r, c, b) => {
@@ -174,7 +166,7 @@ class CreditDetials extends React.Component {
   };
 
   render() {
-    const { dementionId, detailsData, pageSize = 10, currentPage } = this.props;
+    const { dementionId, detailsData, pageSize = 15, currentPage } = this.props;
     const dataSource = detailsData.data || [];
     const totalCount = detailsData.total || 0;
     return (
@@ -196,7 +188,6 @@ class CreditDetials extends React.Component {
             smalled={true}
           /> : <img src={creditImg} alt='权限' />
         }
-        {/* <Layout dataMark={datas}></Layout> */}
       </div>
     );
   }

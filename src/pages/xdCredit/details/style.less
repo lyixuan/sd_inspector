@@ -12,6 +12,34 @@
         width: 241px;
     }
 }
+// IM悬浮框样式
+.listMarkingTooltip {
+    max-width: 520px;
+    width: 520px;
+    :global {
+      .ant-tooltip-arrow {
+        border-right-color: #ffffff!important;
+        //border-color: transparent transparent #fff #fff;
+      }
+      .ant-tooltip-inner {
+        padding: 20px 10px 20px 0px;
+        background-color: #ffffff;
+      }
+    }
+}
+.listMarkingTooltip2{
+    :global {
+        .ant-tooltip-arrow {
+          border-right-color: #ffffff!important;
+        //   border-color: transparent transparent #fff #fff;
+        }
+        .ant-tooltip-inner {
+        //   padding: 20px 10px 20px 0px;
+          background-color: #ffffff;
+          color:#000;
+        }
+      }
+}
 // // 悬浮框对话样式
 .behavior {
     padding: 0px;
@@ -48,7 +76,7 @@
     position: absolute;
     left: 0px;
     top: 10px;
-    border-left: 1px solid #00CCC3;
+    border-left: 2px solid #00CCC3;
     height: 100%;
   }
   .step:last-child .content:after {

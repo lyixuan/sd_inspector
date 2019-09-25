@@ -29,7 +29,7 @@ class XdCredit extends React.Component {
       dementionId: '',
       // startTime: '',
       // endTime: '',
-      pageSize: 10,
+      pageSize: 15,
       pageIndex: 0,
     }
   }
