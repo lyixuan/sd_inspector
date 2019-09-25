@@ -30,7 +30,7 @@ class XdCredit extends React.Component {
       // startTime: '',
       // endTime: '',
       pageSize: 15,
-      pageIndex: 0,
+      page: 1,
     }
   }
   componentDidMount() {
@@ -100,7 +100,7 @@ class XdCredit extends React.Component {
       startTime: this.state.startTime,
       endTime: this.state.endTime,
       pageSize: this.state.pageSize,
-      pageIndex: this.state.pageIndex
+      page: this.state.page
     }
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionDetail',
@@ -172,7 +172,7 @@ class XdCredit extends React.Component {
   }
   onPageChange = (currentPage) => {
     this.setState({
-      pageIndex: currentPage,
+      page: currentPage,
     }, () => this.getDimensionDetail());
   };
   render() {
@@ -228,7 +228,7 @@ class XdCredit extends React.Component {
                 <CreditDetials
                   onPageChange={this.onPageChange}
                   pageSize={this.state.pageSize}
-                  currentPage={this.state.pageIndex}
+                  currentPage={this.state.page}
                   detailsData={this.props.dimensionDetails}
                   dementionId={dementionId}
                 />
