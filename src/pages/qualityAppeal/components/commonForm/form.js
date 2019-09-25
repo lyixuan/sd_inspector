@@ -195,6 +195,11 @@ class CreateQualityNewSheet extends React.Component {
         values['familyType'] = value;
         this.formChange(values)
     }
+    changePunishType = (value) => {
+      const values = this.props.form.getFieldsValue();
+      values['punishType'] = value;
+      this.formChange(values)
+  }
     datePackerChange = (value, key) => {
         const values = this.props.form.getFieldsValue();
         values[key] = value;
