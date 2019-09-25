@@ -6,22 +6,23 @@
 
 // 静态文件host
 export const STATIC_HOST = {
-  development: 'http://172.16.117.65',
   production: 'http://bd.ministudy.com/download',
+  development: 'http://172.16.117.65',
+  development2: 'http://172.16.117.65',
 }[process.env.ENV_TYPE];
 
 export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
-  localhost: 'http://test.xd.admin.ministudy.com ',
-  localhost2: 'http://test.xd.admin2.ministudy.com ',
+  localhost: 'http://test.xd.admin.ministudy.com',
+  localhost2: 'http://test.xd.admin2.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   development2: 'http://test.xd.admin2.ministudy.com',
 }[process.env.ENV_TYPE];
 
 export const CAS_HOST = {
   production: 'http://bd.ministudy.com',
-  localhost: 'http://test.xd.admin.ministudy.com ',
-  localhost2: 'http://test.xd.admin2.ministudy.com ',
+  localhost: 'http://test.xd.admin.ministudy.com',
+  localhost2: 'http://test.xd.admin2.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   development2: 'http://test.xd.admin2.ministudy.com',
 }[process.env.ENV_TYPE];
