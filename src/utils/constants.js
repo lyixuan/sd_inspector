@@ -213,6 +213,7 @@ export const provinceJson = [
     name: '台湾省',
   },
 ];
+
 // 报考步骤
 export const PROVINCE_STEP = [
   { id: 0, name: '新生注册' },
