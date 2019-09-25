@@ -158,7 +158,7 @@ class XdCredit extends React.Component {
   }
   handleClick = () => {
     this.getDimensionList();
-    this.onChangeParams('', 'dementionId');
+    
   }
   handleReset = () => {
     this.setState({
@@ -218,7 +218,7 @@ class XdCredit extends React.Component {
               <BIButton type='primary' onClick={this.handleClick} htmlType="submit">查询</BIButton>
             </div>
             {
-              this.props.dimensionData.dimensionList.length > 0 && < div className={styles.dataShow}>
+              < div className={styles.dataShow}>
                 <Dimension
                   dementionId={dementionId}
                   onChangeParams={this.onChangeParams}

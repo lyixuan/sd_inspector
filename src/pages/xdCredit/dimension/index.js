@@ -74,7 +74,7 @@ class Dimension extends React.Component {
       <div className={styles.dimension}>
         <Skeleton loading={this.props.loading} >
           {
-            dataSource.length > 0 && <BITable
+            dataSource.length > 0 ? <BITable
               columns={this.columns()}
               dataSource={dataSource}
               defaultExpandAllRows={true}
@@ -83,10 +83,14 @@ class Dimension extends React.Component {
               pagination={false}
               onRow={this.onClickRow}
               rowKey={record => record.id}
-              loading={this.props.loading}
               scroll={{ x: 0, y: 615 }}
               smalled={true}
-            />
+            /> : <BITable
+            columns={this.columns()}
+            pagination={false}
+            onRow={this.onClickRow}
+            rowKey={record => record.id}
+          />
           }
         </Skeleton>
       </div>
