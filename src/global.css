@@ -192,3 +192,7 @@ body > a {
 :global .ant-layout-content.antContent {
   margin: 0 16px !important;
 }
+:global .ant-input-clear-icon{
+  color:#ccc;
+}
+

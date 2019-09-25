@@ -494,6 +494,16 @@ export const routes = [
             name: '小程序管理',
           },
         ],
+      }, {
+        path: '/xdCredit',
+        name: '小德工作台',
+        routes: [
+          {
+            path: '/xdCredit/index',
+            component: './xdCredit',
+            name: '小德学分',
+          },
+        ]
       },
       // {
       //   path: '/xdWorkbench',

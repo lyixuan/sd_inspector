@@ -6,6 +6,7 @@ import { Progress } from 'antd';
 import Proportion from '../components/proportion';
 import pkImg from '@/assets/xdwork/pk.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
+import router from 'umi/router';
 function CustomExpandIcon(props) {
   return (
     <a/>
@@ -29,10 +30,6 @@ class  currentCreditLeft extends React.Component {
     }
   }
   componentDidMount(){
-    // console.log(32,this.props.groupId)
-    // if(this.props.groupId === 0){
-    //   this.getGroupPkData(this.props.groupId)
-    // }
   }
   componentWillMount(){
     this.getGroupPkData(this.props.groupId)
@@ -87,8 +84,9 @@ class  currentCreditLeft extends React.Component {
         title: '我的',
         dataIndex: 'myScore',
         key: 'myScore',
-        width:80,
+        width:90,
         render:(myScore,data)=>{
+          const isEnd = data.children.length>0?false:true
           let isFlag = 3
           if(data.dimensionName !== "绩效排名系数"&&data.dimensionName !== "集团排名"&&data.dimensionName !== "家族内排名"&&data.dimensionName !== "人均在服学员"){
             isFlag = myScore>data.groupScore?1:myScore<data.groupScore?2:3
@@ -97,10 +95,12 @@ class  currentCreditLeft extends React.Component {
           if(myScore !== null){
             myScoreName = myScore
           }
-          return(
-            <div className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>{myScoreName}</div>
-          )
 
+          return(
+            <div className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>{myScoreName}
+              {data.level === 4 && Number(myScoreName) !==0?<span className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}> > </span>:null}
+            </div>
+          )
         }
       },{
         title:'',
@@ -236,16 +236,22 @@ class  currentCreditLeft extends React.Component {
   };
   setRowClassName = (record) => {
     let className = ''
-    if(record.oneLevel === 1){
+    if(record.oneLevel === 4  && Number(record.myScore) !==0){
       className = "oneLevelBgColor"
     }else{
       className = "otherLevelBgColor"
     }
     return className
   }
-  fillDataSource = (params) =>{
+  fillDataSource = (params,n=1) =>{
     let data = []
     data = params
+    data.map(item => {
+      item.level = n;
+      if (item.children && item.children.length > 0) {
+        this.fillDataSource(item.children, n + 1);
+      }
+    })
     data.map((item)=>{
       if(item.dimensionName === "学分均分"){
         item.children.map((subItem,subIndex)=>{
@@ -268,6 +274,21 @@ class  currentCreditLeft extends React.Component {
         }
     }
     return arr
+  }
+  onClickRow = (record) => {
+    const {startTime,endTime} = this.props.xdWorkModal.kpiTimes
+    const params = JSON.stringify({"dementionId":  record.id, startTime, endTime});
+    return {
+      onClick: () => {
+        if(record.level === 4 && Number(record.myScore)){
+          router.push({
+            pathname: '/xdCredit/index',
+            query: { params: params }
+          });
+        }
+
+      }
+    };
   }
 
   render() {
@@ -305,6 +326,7 @@ class  currentCreditLeft extends React.Component {
                   scroll={{x:0,y:408}}
                   rowKey={record => record.id}
                   loading={this.props.loading}
+                  onRow={this.onClickRow}
                 >
                 </BITable>
               }

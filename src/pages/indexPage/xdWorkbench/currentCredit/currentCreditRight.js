@@ -278,7 +278,7 @@ class  currentCreditRight extends React.Component {
                 </Option>
               ))}
             </BISelect>
-            <BISelect style={{width:222,marginLeft:12}} placeholder="请选择" value={studentValue} onChange={(val)=>this.onFormChange(val,'secondLevel')}>
+            <BISelect style={{width:222,marginLeft:12}} placeholder="请选择" value={studentValue} onChange={(val)=>this.onFormChange(val,'secondLevel')} >
               {secondOptions.map(item => (
                 <Option key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
                   {item.name}
