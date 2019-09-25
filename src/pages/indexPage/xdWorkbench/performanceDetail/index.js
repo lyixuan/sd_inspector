@@ -113,7 +113,7 @@ class performanceDetail extends React.Component {
     if (id == 1) {
       return (
         <div className={styles.tooltipContent}>
-          <h4>系数{prop.pkSortValue}学分最后一名</h4>
+          <h4>系数{prop.pkSortValue}的学分最后一名</h4>
           <p>小组学分：{prop.pkGroupScore.toFixed(2)}</p>
           <p>学分收入：￥{thousandsFormat(parseInt(prop.pkScoreKpi))}</p>
         </div>
@@ -163,7 +163,7 @@ class performanceDetail extends React.Component {
     return (
       <Container
         title='绩效详情'
-        right={`${date1}~${date2}(最新学分日期)`}
+        right={`${date1} ~ ${date2} (最新学分日期)`}
       >
         {
           kpiInfo && scoreKpiInfo &&
