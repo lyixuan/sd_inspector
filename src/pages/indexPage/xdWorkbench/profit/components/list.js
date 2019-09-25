@@ -64,7 +64,7 @@ class ProfitList extends React.Component {
         title: '班主任',
         dataIndex: 'userName',
         key: 'userName',
-        render: text => <div data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</div>
+        render: text => <div style={{marginLeft: '-8px'}} data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</div>
       }, {
         title: '绩效收入',
         dataIndex: 'incomeKpi',
@@ -74,7 +74,8 @@ class ProfitList extends React.Component {
           return <div
             style={{
               cursor: 'pointer',
-              height: '24px'
+              height: '24px',
+              marginLeft: '-8px'
             }}
             data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'
           >
