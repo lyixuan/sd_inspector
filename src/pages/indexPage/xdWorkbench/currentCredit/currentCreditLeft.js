@@ -235,6 +235,7 @@ class  currentCreditLeft extends React.Component {
     return columns || [];
   };
   setRowClassName = (record) => {
+    console.log(238,record)
     let className = ''
     if(record.level === 1 && record.dimensionName ==="学分均分"){
       className = "oneLevelBgColor"
@@ -245,9 +246,15 @@ class  currentCreditLeft extends React.Component {
     }
     return className
   }
-  fillDataSource = (params) =>{
+  fillDataSource = (params,n=1) =>{
     let data = []
     data = params
+    data.map(item => {
+      item.level = n;
+      if (item.children && item.children.length > 0) {
+        this.fillDataSource(item.children, n + 1);
+      }
+    })
     data.map((item)=>{
       if(item.dimensionName === "学分均分"){
         item.children.map((subItem,subIndex)=>{
