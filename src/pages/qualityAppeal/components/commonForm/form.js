@@ -567,6 +567,71 @@ class CreateQualityNewSheet extends React.Component {
             </Row>
         )
     }
+
+    renderOwnComonent = () => {
+      // 根据已选 质检类型+归属人角色+违规等级 回显 处罚力度
+      // 处罚方式=扣除绩效 或 扣除挽留金额 或 扣除人均挽留金额，单位：元；处罚方式=扣除学分，单位：分  处罚方式未选择时，单位不显示
+      const { getFieldDecorator } = this.props.form;
+      const { params } = this.props;
+      // const isShowMasterMail = true;
+      return (
+        <Row className="gutter-row">
+          <Col span={12} style={{ width: '100%' }}>
+            <span className={styles.i}>*</span>
+            <Form.Item label="责任人处罚：">
+              {getFieldDecorator('punishType', {
+                initialValue: params.punishType || undefined,
+                rules: [{ required: true, message: '请选择处罚方式' }],
+              })(
+                <BISelect
+                  allowClear
+                  placeholder="请选择"
+                  notFoundContent="请选择处罚方式"
+                  onChange={this.changePunishType}
+                  style={{ width: 280 }}
+                >
+                  {BiFilter('PUNISH_TYPE').map(item => (
+                    <Option value={item.value} key={item.value}>
+                      {item.name}
+                    </Option>
+                  ))}
+                </BISelect>
+              )}
+            </Form.Item>
+            <Form.Item label="">
+              {getFieldDecorator('qualityValue', {
+                initialValue: params.qualityValue,
+                rules: [
+                  {
+                    validator(rule, value, callback) {
+                      if (!value || isNaN(value) || Number(value) < 0) {
+                        callback({ message: '请输入处罚力度' });
+                      } else if (
+                        value &&
+                        String(value).split('.')[1] &&
+                        String(value).split('.')[1].length > 2
+                      ) {
+                        callback({ message: '最多保留两位小数' });
+                      } else {
+                        callback();
+                      }
+                    },
+                  },
+                ],
+              })(
+                <BIInput
+                  placeholder="请输入处罚力度"
+                  style={{ width: 260, marginLeft: '10px' }}
+                  onChange={e => this.inputChange(e, 'qualityValue')}
+                />
+              )}
+              <span style={{ display: 'inline-block', width: '20px', textAlign: 'right' }}>%</span>
+            </Form.Item>
+          </Col>
+        </Row>
+      );
+    };
+  
     renderQualityType_create = () => {
         const { getFieldDecorator } = this.props.form;
         const { params } = this.props;
@@ -817,6 +882,7 @@ class CreateQualityNewSheet extends React.Component {
                                 </Form.Item>
                             </Col>
                         </Row>
+                        {this.renderOwnComonent()}
                         {this.renderGovernorComponent(this.state.showMore)}
                         {this.renderQualityValue()}
                         {/* 当在非编辑状态下进行下载 */}
