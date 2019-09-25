@@ -204,7 +204,7 @@ class performanceDetail extends React.Component {
                   </div>
                   <div className={styles.txtRight}>
                     <p>绩效流水：￥{thousandsFormat(parseInt(goodpushKpiInfo.kpiFlow))}</p>
-                    <p>系数均值：{goodpushKpiInfo.theValue.toFixed(2)}%</p>
+                    <p>系数均值：{(goodpushKpiInfo.theValue * 100).toFixed(2)}%</p>
                   </div>
                 </div>
                 <Tooltip placement="bottom" title={this.tooltip(goodpushKpiInfo, 2)}>
