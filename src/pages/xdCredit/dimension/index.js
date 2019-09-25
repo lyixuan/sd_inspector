@@ -14,24 +14,27 @@ class Dimension extends React.Component {
         title: this.props.dimensionData.groupFullName,
         dataIndex: 'name',
         key: 'name',
-        width: '40%'
+        width: '50%',
       }, {
+        width: '16%',
         title: '我的',
         dataIndex: 'score',
         key: 'score',
+        render: text => <span style={{marginLeft: '-8px'}}>{text}</span>
       }, {
+        width: '20%',
         title: '环比（%）',
         dataIndex: 'scoreRatio',
         key: 'scoreRatio',
         render: text => {
           const num = Number(text);
-          return num === 0 ? text : <span className={num > 0 ? styles.greenColor : styles.redColor}>{text}</span>
+        return <div style={{marginLeft: '-8px'}}>{num === 0 ? text : <span className={num > 0 ? styles.greenColor : styles.redColor}>{text}</span>}</div>
         }
       }, {
         title: '数量',
         dataIndex: 'num',
         key: 'num',
-        render: (text, record) => <div>
+        render: (text, record) => <div style={{marginLeft: '-8px'}}>
           {text > 99999 ? 99999 + '+' : text}{record.unit}
           {text && record.level === 4 && <span className={styles.greenColor} style={{ marginLeft: '16px' }}>></span>}
         </div>

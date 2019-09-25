@@ -158,6 +158,7 @@ class XdCredit extends React.Component {
   }
   handleClick = () => {
     this.getDimensionList();
+    this.onChangeParams('', 'dementionId');
   }
   handleReset = () => {
     this.setState({
@@ -166,7 +167,7 @@ class XdCredit extends React.Component {
       groupId: this.getResetGroupId()
     }, () => {
       this.getDimensionList();
-      this.onChangeParams('', 'dementionId')
+      this.onChangeParams('', 'dementionId');
     })
   }
   onPageChange = (currentPage) => {
