@@ -4,8 +4,7 @@ import router from 'umi/router';
 import { getPrivilegeList, getPrivilegeListNew, getUserInfoNew, CurrentUserListRole, userChangeRole, getCertificationList } from '@/services/api';
 import storage from '@/utils/storage';
 import { msgF } from '@/utils/utils';
-import { redirectToLogin, casLogout, casLogoutDev } from '@/utils/routeUtils';
-import { DEBUGGER_USER } from '@/utils/constants';
+import { redirectToLogin, casLogout } from '@/utils/routeUtils';
 
 export default {
   namespace: 'login',
@@ -132,12 +131,7 @@ export default {
     },
 
     *logout() {
-      if (DEBUGGER_USER) {
-        casLogoutDev();
-      } else {
-        casLogout();
-      }
-
+      casLogout();
     },
 
   },

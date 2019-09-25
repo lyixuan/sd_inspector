@@ -19,7 +19,6 @@ import { query } from './utils/query';
 import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
 import { redirectUrlParams, checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
-import {DEBUGGER_USER} from '@/utils/constants';
 
 // import router from 'umi/router';
 const { Content, Header } = Layout;
@@ -196,7 +195,7 @@ class BasicLayout extends React.PureComponent {
     const that = this;
     this.props.dispatch({
       type: 'login/initSubSystem',
-      payload: {userName:DEBUGGER_USER},
+      payload: { },
     }).then(() => {
       that.MenuData()
     });

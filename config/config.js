@@ -9,7 +9,7 @@ export default {
   /**
    * build时用于非根目录
    */
-  publicPath: process.env.NODE_ENV === 'development' ? '/inspector/' : '/inspector/',
+  publicPath: '/inspector/',
   outputPath: './inspector',    //   ../sd_node/inspector
   // outputPath: '../sd_node/inspector',
   /**
