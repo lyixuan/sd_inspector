@@ -25,8 +25,8 @@ export default {
       if (!response) return;
       const codeMsg403 = 10300;
       const data = response.data || {};
-      const { userName, userId, mail, positionCount,token,userType } = data;
-      const saveObj = { userName, userId, mail, positionCount,token,userType };
+      const { userName, userId, mail, positionCount, token, userType } = data;
+      const saveObj = { userName, userId, mail, positionCount, token, userType };
 
       switch (response.code) {
         case 2000:
@@ -96,7 +96,7 @@ export default {
     *getCertificationList({ payload, callback }, { call, put }) {
       const response = yield call(getCertificationList);
       if (response.code === 20000) {
-        console.log(98, response.data)
+        // console.log(98, response.data)
         yield put({
           type: 'saveRoleList',
           payload: { certificationList: response.data },
@@ -105,7 +105,7 @@ export default {
           callback(response.data);
         }
       } else {
-        message.error(msgF(response.msg, response.msgDetail));
+        // message.error(msgF(response.msg, response.msgDetail));
       }
     },
     *changeRole({ payload }, { call, put }) {
