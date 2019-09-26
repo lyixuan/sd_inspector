@@ -100,9 +100,9 @@ class currentCreditLeft extends React.Component {
           console.log(isFlag===1 , data.isShowPro, 'llllll')
           return(
             <div className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>
-              {data.level === 4 && Number(myScoreName) !==0?<Link to={`/xdCredit/index?params=${params}`} target="_blank">
-                <span className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>{myScoreName} ></span>
-              </Link> : myScoreName
+              {data.level === 4 && Number(myScoreName) !==0?<Link to={`/xdCredit/index?params=${params}`} target="_blank" className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>
+                <IndentNum>{myScoreName}</IndentNum> >
+              </Link>:<IndentNum>{myScoreName}</IndentNum>
               }
             </div>
           )
