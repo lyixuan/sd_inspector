@@ -22,7 +22,7 @@ class Dimension extends React.Component {
         title: '我的',
         dataIndex: 'score',
         key: 'score',
-        render: text => <IndentNum valueNum={-16}>{text}</IndentNum>
+        render: text => <IndentNum data-trace='{"widgetName":"学分明细-选择明细","traceName":"小德工作台/学分明细/选择明细"}' value-num={-16}>{text}</IndentNum>
       }, {
         width: '20%',
         title: '环比（%）',
@@ -30,13 +30,13 @@ class Dimension extends React.Component {
         key: 'scoreRatio',
         render: text => {
           const num = Number(text);
-        return <Indent>{num === 0 ? text : <IndentNum className={num > 0 ? styles.greenColor : styles.redColor}>{text}</IndentNum>}</Indent>
+          return <Indent>{num === 0 ? text : <IndentNum data-trace='{"widgetName":"学分明细-选择明细","traceName":"小德工作台/学分明细/选择明细"}' className={num > 0 ? styles.greenColor : styles.redColor}>{text}</IndentNum>}</Indent>
         }
       }, {
         title: '数量',
         dataIndex: 'num',
         key: 'num',
-        render: (text, record) => <Indent>
+        render: (text, record) => <Indent data-trace='{"widgetName":"学分明细-选择明细","traceName":"小德工作台/学分明细/选择明细"}'>
           {text > 99999 ? 99999 + '+' : text}{record.unit}
           {text && record.level === 4 && <span className={styles.greenColor} style={{ marginLeft: '16px' }}>></span>}
         </Indent>
@@ -88,11 +88,11 @@ class Dimension extends React.Component {
               scroll={{ x: 0, y: 615 }}
               smalled={true}
             /> : <BITable
-            columns={this.columns()}
-            pagination={false}
-            onRow={this.onClickRow}
-            rowKey={record => record.id}
-          />
+                columns={this.columns()}
+                pagination={false}
+                onRow={this.onClickRow}
+                rowKey={record => record.id}
+              />
           }
         </Skeleton>
       </div>

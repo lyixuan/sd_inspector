@@ -208,7 +208,6 @@ class XdCredit extends React.Component {
                 userOrgConfig.length > 0 && <span className={styles.change}>
                   选择组织：
                 <BICascader
-                    data-trace='{"widgetName":"数据服务-学分明细","traceName":"数据服务/学分明细/≠"}'
                     placeholder="选择组织"
                     changeOnSelect
                     options={userOrgConfig}
@@ -225,7 +224,6 @@ class XdCredit extends React.Component {
               <span className={styles.change}>
                 选择时间：
               <BIRangePicker
-                  data-trace='{"widgetName":"数据服务-学分明细","traceName":"数据服务/学分明细/选择时间"}'
                   value={this.getDate()}
                   placeholder={['选择起始时间', '选择截止时间']}
                   format={dateFormat}
