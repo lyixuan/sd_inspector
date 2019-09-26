@@ -517,7 +517,10 @@ function TeacherOrStudent(props) {
                     <em />
                   </span>
                   {/*{message}*/}
-                  <span dangerouslySetInnerHTML={{ __html: linkRoute(message, styles.linkRoute) }}></span>
+                  {
+                    message.indexOf("<iframe") > -1 ? <span>{message}</span> : <span dangerouslySetInnerHTML={{ __html: linkRoute(message, styles.linkRoute) }}></span>
+                  }
+                  {/* <span dangerouslySetInnerHTML={{ __html: linkRoute(message, styles.linkRoute) }}></span> */}
                 </div>
                 <div className={styles.avatar}>
                   {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarTeacher} />}

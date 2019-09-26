@@ -108,7 +108,7 @@ class  currentCreditRight extends React.Component {
           )
         }
       },{
-        width: '34%',
+        width: '36%',
         title:'组织',
         dataIndex:'groupName',
         key:'groupName',
@@ -159,23 +159,11 @@ class  currentCreditRight extends React.Component {
             </Indent>
           );
         },
-      },{
+      },
+      {
         title:'人均在服学员',
         dataIndex:'averageStudentNumber',
         key:'averageStudentNumber',
-        render:(averageStudentNumber)=>{
-          return(
-              <div
-                style={{
-                  cursor: 'pointer',
-                }}
-                data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'
-              >
-                {averageStudentNumber}
-              </div>
-          )
-
-    }
       }
     ]
     return columns || [];
@@ -328,7 +316,7 @@ class  currentCreditRight extends React.Component {
                 loading={this.props.loading}
                 rowClassName={this.setRowClassName}
                 onRow={this.onClickRow}
-                scroll={{x:0,y:408}}
+                scroll={{y:408}}
                 rowKey={record => record.groupId}
               >
               </BITable>
