@@ -158,6 +158,8 @@ class BehaviorPath1 extends React.Component {
     } else if (target.indexOf("study") == 0) {
       this.state.activeKey = "1"
     }
+    console.log(162, this.state.inputStuId)
+    const sutId = this.state.inputStuId || pathParams.userId
 
     return (
       <div className={styles.behaviorPath}>
@@ -176,19 +178,19 @@ class BehaviorPath1 extends React.Component {
             </div>
             <BITabs onChange={this.onTabChange} type="card" animated={false} defaultActiveKey={this.state.activeKey}>
               <TabPane tab="学习" key="1">
-                <Study stuId={pathParams.userId}></Study>
+                <Study stuId={sutId}></Study>
               </TabPane>
               <TabPane tab="IM" key="2">
-                <Im stuId={pathParams.userId}></Im>
+                <Im stuId={sutId}></Im>
               </TabPane>
               <TabPane tab="微信" key="3">
-                <WeChart stuId={pathParams.userId}></WeChart>
+                <WeChart stuId={sutId}></WeChart>
               </TabPane>
               <TabPane tab="BBS" key="4">
-                <Bbs stuId={pathParams.userId}></Bbs>
+                <Bbs stuId={sutId}></Bbs>
               </TabPane>
               <TabPane tab="私信" key="5">
-                <PrivateLetter stuId={pathParams.userId}></PrivateLetter>
+                <PrivateLetter stuId={sutId}></PrivateLetter>
               </TabPane>
             </BITabs>
           </div>
