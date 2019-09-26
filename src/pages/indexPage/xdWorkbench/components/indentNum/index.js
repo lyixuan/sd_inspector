@@ -11,7 +11,7 @@ class IndentNum extends React.Component {
   }
   render() {
     return (
-      <div style={{ marginLeft: this.getMarNum()}} {...this.props}>{this.props.children}{this.props.unit}</div>
+      <div style={{ marginLeft: this.getMarNum(),display:'inline-block'}} {...this.props}>{this.props.children}{this.props.unit}</div>
     );
   }
 }

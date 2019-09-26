@@ -77,7 +77,7 @@ class currentCreditLeft extends React.Component {
         render: (myScoreRatio) => {
           const isFlag = myScoreRatio >= 0 ? true : false
           return (
-            <div className={isFlag ? `${styles.titleGreen}` : `${styles.titleRed}`}>{myScoreRatio}</div>
+            <div className={isFlag ? `${styles.titleGreen}` : `${styles.titleRed}`}><IndentNum>{myScoreRatio}</IndentNum></div>
           )
         }
       }, {
