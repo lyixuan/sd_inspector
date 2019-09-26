@@ -128,22 +128,22 @@ class XdCredit extends React.Component {
     console.log(groupId, groupTypeArr)
     if (groupId && groupId.length > 0) {
       const index = groupId.length - 1;
-      return {groupId: groupId[index], groupType: groupTypeArr[index].groupType };
+      return { groupId: groupId[index], groupType: groupTypeArr[index].groupType };
     } else {
       return {};
     }
   }
   // reset groupId数组 getResetGroupId
-  getResetGroupMsg= (arr = this.state.userOrgConfig) => {
+  getResetGroupMsg = (arr = this.state.userOrgConfig) => {
     if (arr && arr.length > 0) {
       const item = arr[0];
       if (item.groupType === 'college' && item.nodeList && item.nodeList.length > 0) {
         const node = item.nodeList[0];
-        return {groupId: [item.id, node.id], groupTypeArr: [item, node] };
+        return { groupId: [item.id, node.id], groupTypeArr: [item, node] };
       }
-      return {groupId: [item.id], groupTypeArr: [item] };
+      return { groupId: [item.id], groupTypeArr: [item] };
     } else {
-      return { groupId: [],  groupTypeArr: [] };
+      return { groupId: [], groupTypeArr: [] };
     }
   }
   // date
@@ -178,7 +178,7 @@ class XdCredit extends React.Component {
     this.setState({ startTime, endTime, });
   }
   handleClick = () => {
-    this.getDimensionList(); 
+    this.getDimensionList();
   }
   handleReset = () => {
     this.setState({
@@ -208,7 +208,7 @@ class XdCredit extends React.Component {
                 userOrgConfig.length > 0 && <span className={styles.change}>
                   选择组织：
                 <BICascader
-                    data-trace='{"widgetName":"数据服务-学分明细","traceName":"数据服务/学分明细/选择对比小组"}'
+                    data-trace='{"widgetName":"数据服务-学分明细","traceName":"数据服务/学分明细/≠"}'
                     placeholder="选择组织"
                     changeOnSelect
                     options={userOrgConfig}
@@ -218,7 +218,7 @@ class XdCredit extends React.Component {
                     value={groupId}
                     onChange={this.onChangeSelect}
                     allowClear={false}
-                    style={{width: '136px'}}
+                    style={{ width: '136px' }}
                   />
                 </span>
               }
@@ -232,7 +232,7 @@ class XdCredit extends React.Component {
                   onChange={this.onDateChange}
                   allowClear={false}
                   disabledDate={this.disabledDate}
-                  style={{width: '224px'}}
+                  style={{ width: '224px' }}
                 />
               </span>
               <BIButton type='reset' onClick={this.handleReset} style={{ marginRight: '8px' }}>重置</BIButton>
