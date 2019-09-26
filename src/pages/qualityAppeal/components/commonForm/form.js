@@ -283,7 +283,7 @@ class CreateQualityNewSheet extends React.Component {
       }
         if (isShowMasterMail) {
             return (
-              <div>
+              <div className="zhijian">
                 <Form.Item style={{ display: 'none' }}>
                   {getFieldDecorator('masterRole', {
                   })(<Input disabled />)}
@@ -304,7 +304,7 @@ class CreateQualityNewSheet extends React.Component {
                 <Row style={{ lineHeight: '40px' }}>
                   <Col className="gutter-row" span={24} style={{ display: 'flex' }}>
                     <span className={styles.i}>&nbsp;</span>
-                    <Form.Item label="连带责任人：">
+                    <Form.Item label="连带责任人处罚：">
                       {getFieldDecorator('masterRoleA', {
                         initialValue: params.masterRole?params.masterRole.split(',')[0]:undefined,
                       })(
@@ -320,7 +320,7 @@ class CreateQualityNewSheet extends React.Component {
                     <Form.Item label="">
                       {getFieldDecorator('masterMail', {
                         initialValue: params.masterMail,
-                      })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail')} />)}
+                      })(<BIInput placeholder="请输入邮箱前缀" allowClear style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail')} />)}
                     </Form.Item>
                     <div className={styles.text}>@sunlands.com</div>
                     <Form.Item label="">
@@ -373,7 +373,7 @@ class CreateQualityNewSheet extends React.Component {
                     <Form.Item label="">
                       {getFieldDecorator('masterMail2', {
                         initialValue: params.masterMail2,
-                      })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail2')} />)}
+                      })(<BIInput placeholder="请输入邮箱前缀" allowClear style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail2')} />)}
                     </Form.Item>
                     <div className={styles.text}>@sunlands.com</div>
                     <Form.Item label="">
@@ -426,7 +426,7 @@ class CreateQualityNewSheet extends React.Component {
                       <Form.Item label="">
                         {getFieldDecorator('masterMail3', {
                           initialValue: params.masterMail3,
-                        })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail3')} />)}
+                        })(<BIInput placeholder="请输入邮箱前缀" allowClear style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail3')} />)}
                       </Form.Item>
                       <div className={styles.text}>@sunlands.com</div>
                       <Form.Item label="">
@@ -480,7 +480,7 @@ class CreateQualityNewSheet extends React.Component {
                       <Form.Item label="">
                         {getFieldDecorator('masterMail4', {
                           initialValue: params.masterMail4,
-                        })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail4')} />)}
+                        })(<BIInput placeholder="请输入邮箱前缀" allowClear style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail4')} />)}
                       </Form.Item>
                       <div className={styles.text}>@sunlands.com</div>
                       <Form.Item label="">
