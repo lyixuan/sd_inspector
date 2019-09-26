@@ -1,5 +1,4 @@
 import React from 'react';
-import { thousandsFormat } from '@/utils/utils';
 
 class IndentNum extends React.Component {
   getMarNum = () => {
