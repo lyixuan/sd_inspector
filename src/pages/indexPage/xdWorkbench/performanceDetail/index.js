@@ -249,7 +249,8 @@ class performanceDetail extends React.Component {
                   </div>
                   <div className={styles.txtRight}>
                     <p>绩效流水：￥{thousandsFormat(parseInt(examZbtKpiInfo.kpiFlow))}</p>
-                    <p>岗位提点：{examZbtKpiInfo.theValue}%</p>
+                    <p>岗位提点：{(examZbtKpiInfo.theValue * 100).toFixed(2)}%</p>
+
                   </div>
                 </div>
                 <Tooltip placement="bottom" title={this.tooltip(examZbtKpiInfo, 4)}>
