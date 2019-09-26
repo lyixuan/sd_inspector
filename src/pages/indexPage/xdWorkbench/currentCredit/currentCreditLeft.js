@@ -2,13 +2,11 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less'
 import BITable from '@/ant_components/BITable'
-import { Progress } from 'antd';
 import Proportion from '../components/proportion';
+import IndentNum from '../components/indentNum';
 import pkImg from '@/assets/xdwork/pk.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
 import router from 'umi/router';
-import IndentNum from '../components/indentNum';
-
 function CustomExpandIcon(props) {
   return (
     <a/>
@@ -99,9 +97,6 @@ class  currentCreditLeft extends React.Component {
           }
 
           return(
-            // <div className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>{myScoreName}
-            //   {data.level === 4 && Number(myScoreName) !==0?<span className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}> > </span>:null}
-            // </div>
             <div className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}><IndentNum>{myScoreName}</IndentNum></div>
           )
         }

@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import { Skeleton } from 'antd';
 import BITable from '@/ant_components/BITable';
+import Indent from '../../indexPage/xdWorkbench/components/indent';
+import IndentNum from '../../indexPage/xdWorkbench/components/indentNum';
 import styles from './style.less'
 
 @connect(({ loading }) => ({
@@ -20,7 +22,7 @@ class Dimension extends React.Component {
         title: '我的',
         dataIndex: 'score',
         key: 'score',
-        render: text => <span style={{marginLeft: '-8px'}}>{text}</span>
+        render: text => <IndentNum valueNum={-16}>{text}</IndentNum>
       }, {
         width: '20%',
         title: '环比（%）',
@@ -28,16 +30,16 @@ class Dimension extends React.Component {
         key: 'scoreRatio',
         render: text => {
           const num = Number(text);
-        return <div style={{marginLeft: '-8px'}}>{num === 0 ? text : <span className={num > 0 ? styles.greenColor : styles.redColor}>{text}</span>}</div>
+        return <Indent>{num === 0 ? text : <IndentNum className={num > 0 ? styles.greenColor : styles.redColor}>{text}</IndentNum>}</Indent>
         }
       }, {
         title: '数量',
         dataIndex: 'num',
         key: 'num',
-        render: (text, record) => <div style={{marginLeft: '-8px'}}>
+        render: (text, record) => <Indent>
           {text > 99999 ? 99999 + '+' : text}{record.unit}
           {text && record.level === 4 && <span className={styles.greenColor} style={{ marginLeft: '16px' }}>></span>}
-        </div>
+        </Indent>
       }
     ];
     return columns || [];

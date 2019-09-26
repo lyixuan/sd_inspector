@@ -2,61 +2,53 @@
  * 静态数据和全局配置
  * */
 
-// =========================================== host =========
-
-// 静态文件host
-export const STATIC_HOST = {
-  development: 'http://172.16.117.65',
-  production: 'http://bd.ministudy.com/download',
-}[process.env.ENV_TYPE];
-
-export const SERVER_HOST = {
-  production: 'http://bd.ministudy.com',
-  localhost: 'http://test.xd.admin.ministudy.com',
-  localhost2: 'http://test.xd.admin2.ministudy.com',
-  development: 'http://test.xd.admin.ministudy.com',
-  development2: 'http://test.xd.admin2.ministudy.com',
-}[process.env.ENV_TYPE];
-
-export const CAS_HOST = {
-  production: 'http://bd.ministudy.com',
-  localhost: 'http://test.xd.admin.ministudy.com',
-  localhost2: 'http://test.xd.admin2.ministudy.com',
-  development: 'http://test.xd.admin.ministudy.com',
-  development2: 'http://test.xd.admin2.ministudy.com',
-}[process.env.ENV_TYPE];
-
-export const ADMIN_URL = {
-  production: 'http://bd.ministudy.com',
-  development: 'http://test.xd.admin.ministudy.com',
-  development2: 'http://test.xd.admin2.ministudy.com',
-}[process.env.ENV_TYPE];
-
-
-// ko-sessionReport，跳转URL
-export const sessionReportURL = {
-  production: "http://sscp.ministudy.com/college_learn/#/sessionRecord",
-  development: "http://172.16.109.87:38080/#/sessionRecord",
-  development2: "http://172.16.109.87:38080/#/sessionRecord",
-}[process.env.ENV_TYPE];
-
-// ko-knowledge，跳转URL
-export const knowledgeURL = {
-  production: "http://sscp.ministudy.com/college_learn/#/questions",
-  development: "http://172.16.109.87:38080/#/questions",
-  development2: "http://172.16.109.87:38080/#/questions",
-}[process.env.ENV_TYPE];
-
-export const PROXY_PATH = (hasSelfPri) => { return hasSelfPri ? '' : '/inspectorapis' };
-
-// =========================================== host =========
-
+// localStorage Keys
 
 // 当前用户权限
 export const ADMIN_AUTH = 'admin_auth';
 // 当前用户信息
 export const ADMIN_USER = 'admin_user';
 
+export const DEBUGGER_USER = {
+  localhost: 'ligang02',
+}[process.env.LOGIN_TYPE];
+
+// 静态文件host
+export const STATIC_HOST = {
+  development: 'http://bd.ministudy.com/download',
+  production: 'http://bd.ministudy.com/download',
+}[process.env.PROXY_ENV];
+
+export const SERVER_HOST = {
+  production: 'http://bd.ministudy.com',
+  localhost: 'http://dev.xd.admin.ministudy.com',
+  development: 'http://test.xd.admin.ministudy.com',
+}[process.env.LOGIN_TYPE]
+
+export const CAS_HOST = {
+  localhost: 'http://test.xd.admin.ministudy.com',
+  development: 'http://test.xd.admin.ministudy.com',
+  development2: 'http://172.16.109.87:28081',
+  production: 'http://bd.ministudy.com',
+}[process.env.LOGIN_TYPE];
+
+// 设置domain域名
+export const DOMAIN_HOST = '.ministudy.com';
+// export const DOMAIN_HOST = 'localhost';
+
+export const PROXY_PATH = (hasSelfPri) => { return hasSelfPri ? '' : '/inspectorapis' };
+
+// 登录页面地址配置
+export const LOGIN_URL = {
+  // development: 'http://test.xd.admin.ministudy.com',
+  development: 'http://test.xd-copy.admin.ministudy.com',
+  production: 'http://bd.ministudy.com',
+}[process.env.PROXY_ENV];
+
+export const ADMIN_URL = {
+  development: 'http://test.xd.admin.ministudy.com',
+  production: 'http://bd.ministudy.com',
+}[process.env.PROXY_ENV];
 
 // 分页配置
 export const PAGINATION = {
@@ -526,3 +518,14 @@ export default {
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
 
+// ko-sessionReport，跳转URL
+export const sessionReportURL = {
+  development: "http://172.16.109.87:38080/#/sessionRecord",
+  production: "http://sscp.ministudy.com/college_learn/#/sessionRecord"
+}[process.env.PROXY_ENV];
+
+// ko-knowledge，跳转URL
+export const knowledgeURL = {
+  development: "http://172.16.109.87:38080/#/questions",
+  production: "http://sscp.ministudy.com/college_learn/#/questions"
+}[process.env.PROXY_ENV];
