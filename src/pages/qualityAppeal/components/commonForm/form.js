@@ -211,7 +211,32 @@ class CreateQualityNewSheet extends React.Component {
   inputChange = (e, key) => {
     const values = this.props.form.getFieldsValue();
     values[key] = e.currentTarget.value ? e.currentTarget.value : null;
-    this.formChange(values);
+      this.formChange(values)
+    }
+
+  masterSelectChange = (val, key)=>{
+    const values = this.props.form.getFieldsValue();
+
+    if(key==='masterRoleA'){
+      values['masterRole'] = `${val},${values['masterRole']?values['masterRole'].split(',')[1]:''}`;
+    } else if(key==='masterRoleA2'){
+      values['masterRole2'] = `${val},${values['masterRole2']?values['masterRole2'].split(',')[1]:''}`;
+    } else if(key==='masterRoleA3'){
+      values['masterRole3'] = `${val},${values['masterRole3']?values['masterRole3'].split(',')[1]:''}`;
+    } else if(key==='masterRoleA4'){
+      values['masterRole4'] = `${val},${values['masterRole4']?values['masterRole4'].split(',')[1]:''}`;
+    }
+    if(key==='masterRoleB'){
+      values['masterRole'] = `${values['masterRole']?values['masterRole'].split(',')[0]:''},${val}`;
+    } else if(key==='masterRoleB2'){
+      values['masterRole2'] = `${values['masterRole2']?values['masterRole2'].split(',')[0]:''},${val}`;
+    } else if(key==='masterRoleB3'){
+      values['masterRole3'] = `${values['masterRole3']?values['masterRole3'].split(',')[0]:''},${val}`;
+    } else if(key==='masterRoleB4'){
+      values['masterRole4'] = `${values['masterRole4']?values['masterRole4'].split(',')[0]:''},${val}`;
+    }
+    values[key] =val;
+    this.formChange(values)
   };
   formChange = params => {
     if (this.props.formChange) {
@@ -324,7 +349,7 @@ class CreateQualityNewSheet extends React.Component {
                           },
                         }],
                       })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 150 }} onChange={e => this.inputChange(e, 'masterQualityValue')} />)}
-                      <span style={{ display: "inline-block", width: "10px" }}> %</span>
+                      <span style={{ display: "inline-block", width: "10px" }}> {params.masterRoleB? params.masterRoleB===2?'分':'元':''}</span>
                     </Form.Item>
                   </Col>
                 </Row>
@@ -377,7 +402,7 @@ class CreateQualityNewSheet extends React.Component {
                           },
                         }],
                       })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 150 }} onChange={e => this.inputChange(e, 'masterQualityValue2')} />)}
-                      <span style={{ display: "inline-block", width: "20px" }}>%</span>
+                      <span style={{ display: "inline-block", width: "20px" }}>{params.masterRoleB2? params.masterRoleB2===2?'分':'元':''}</span>
                     </Form.Item>
                   </Col>
                 </Row>
@@ -430,7 +455,7 @@ class CreateQualityNewSheet extends React.Component {
                             },
                           }],
                         })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 150 }} onChange={e => this.inputChange(e, 'masterQualityValue3')} />)}
-                        <span style={{ display: "inline-block", width: "20px" }}>%</span>
+                        <span style={{ display: "inline-block", width: "20px" }}>{params.masterRoleB3? params.masterRoleB3===2?'分':'元':''}</span>
                       </Form.Item>
                     </Col>
                   </Row>
@@ -484,7 +509,7 @@ class CreateQualityNewSheet extends React.Component {
                             },
                           }],
                         })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 150 }} onChange={e => this.inputChange(e, 'masterQualityValue4')} />)}
-                        <span style={{ display: "inline-block", width: "20px" }}>%</span>
+                        <span style={{ display: "inline-block", width: "20px" }}>{params.masterRoleB4? params.masterRoleB4===2?'分':'元':''}</span>
                       </Form.Item>
                     </Col>
                   </Row>
