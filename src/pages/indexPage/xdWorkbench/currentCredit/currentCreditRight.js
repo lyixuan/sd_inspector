@@ -117,7 +117,7 @@ class  currentCreditRight extends React.Component {
           )
         }
       },{
-        width: '14%',
+        width: '10%',
         title:'排名',
         dataIndex:'creditRanking',
         key:'creditRanking',
