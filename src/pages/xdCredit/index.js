@@ -234,7 +234,7 @@ class XdCredit extends React.Component {
                 />
               </span>
               <BIButton type='reset' onClick={this.handleReset} style={{ marginRight: '8px' }}>重置</BIButton>
-              <BIButton type='primary' onClick={this.handleClick} htmlType="submit">查询</BIButton>
+              <BIButton data-trace='{"widgetName":"查询","traceName":"数据服务/学分明细/查询"}' type='primary' onClick={this.handleClick} htmlType="submit">查询</BIButton>
             </div>
             {
               < div className={styles.dataShow}>
