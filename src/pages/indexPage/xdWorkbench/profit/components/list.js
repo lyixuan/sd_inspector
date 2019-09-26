@@ -53,27 +53,32 @@ class ProfitList extends React.Component {
         title: '排名',
         dataIndex: 'sort',
         key: 'sort',
+        render: text => <div data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</div>
       }, {
         width: '50%',
         title: '组织',
         dataIndex: 'org',
         key: 'org',
+        render: text => <div data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</div>
       }, {
         width: '20%',
         title: '班主任',
         dataIndex: 'userName',
         key: 'userName',
+        render: text => <Indent data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</Indent>
       }, {
         title: '绩效收入',
         dataIndex: 'incomeKpi',
         key: 'incomeKpi',
         render: text => {
           const percent = text / total * 100;
-          return <div
+          return <Indent
             style={{
               cursor: 'pointer',
-              height: '24px'
+              height: '24px',
+              marginLeft: '-8px'
             }}
+            data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'
           >
             <span style={{ position: 'relative', top: '-2px' }}>{text}</span>
             <Progress
@@ -82,7 +87,7 @@ class ProfitList extends React.Component {
               showInfo={false}
               strokeWidth={4}
             ></Progress>
-          </div>
+          </Indent>
         }
       }
     ];
@@ -93,7 +98,7 @@ class ProfitList extends React.Component {
       onClick: () => {
         if (this.props.userId === record.userId) return;
         this.props.changeSelected(record.userId)
-      }
+      },
     };
   }
   getRowClassName = (record, index) => {
@@ -124,7 +129,7 @@ class ProfitList extends React.Component {
     const yScrollFlag = profitList && profitList.length > 0;
     return (
       <div className={styles.profitList}>
-        <div className={styles.form} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>
+        <div className={styles.form}>
           选择对比小组：
           <BISelect
             value={this.props.pkListType}
@@ -133,7 +138,7 @@ class ProfitList extends React.Component {
             style={{ width: '136px', marginLeft: '8px' }}
             allowClear
           >
-            {pkTypeconfig.map((item, index) => <Option key={index} value={index + 1}>{item}</Option>)}
+            {pkTypeconfig.map((item, index) => <Option key={index} value={index + 1}  data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>{item}</Option>)}
           </BISelect>
         </div>
         <div className={styles.tableContent}>
@@ -147,7 +152,7 @@ class ProfitList extends React.Component {
               rowClassName={this.getRowClassName}
             />
           </div>}
-          <div id='scroll'  data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}' className={`${yScrollFlag ? styles.scrollTable : ''} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
+          <div id='scroll' className={`${yScrollFlag ? styles.scrollTable : ''} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
             <BITable
               columns={this.columns()}
               dataSource={profitList}
