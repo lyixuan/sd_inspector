@@ -96,9 +96,15 @@ class  currentCreditLeft extends React.Component {
             myScoreName = myScore
           }
 
+            const {startTime,endTime} = this.props.xdWorkModal.kpiTimes
+            const params = JSON.stringify({"dementionId":  data.id, startTime, endTime});
+          console.log(101,params)
           return(
-            <div className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>{myScoreName}
-              {data.level === 4 && Number(myScoreName) !==0?<span className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}> > </span>:null}
+            <div className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>
+              {data.level === 4 && Number(myScoreName) !==0?<a href={`/xdCredit/index?params=${params}`} target="_blank" className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>
+                {myScoreName} >
+              </a>:myScoreName
+              }
             </div>
           )
 
@@ -279,21 +285,21 @@ class  currentCreditLeft extends React.Component {
     }
     return arr
   }
-  onClickRow = (record) => {
-    const {startTime,endTime} = this.props.xdWorkModal.kpiTimes
-    const params = JSON.stringify({"dementionId":  record.id, startTime, endTime});
-    return {
-      onClick: () => {
-        if(record.level === 4 && Number(record.myScore)){
-          router.push({
-            pathname: '/xdCredit/index',
-            query: { params: params }
-          });
-        }
-
-      }
-    };
-  }
+  // onClickRow = (record) => {
+  //   const {startTime,endTime} = this.props.xdWorkModal.kpiTimes
+  //   const params = JSON.stringify({"dementionId":  record.id, startTime, endTime});
+  //   return {
+  //     onClick: () => {
+  //       if(record.level === 4 && Number(record.myScore)){
+  //         router.push({
+  //           pathname: '/xdCredit/index',
+  //           query: { params: params }
+  //         });
+  //       }
+  //
+  //     }
+  //   };
+  // }
 
   render() {
     const {groupId} = this.props
@@ -330,7 +336,6 @@ class  currentCreditLeft extends React.Component {
                   scroll={{x:0,y:408}}
                   rowKey={record => record.id}
                   loading={this.props.loading}
-                  onRow={this.onClickRow}
                 >
                 </BITable>
               }
