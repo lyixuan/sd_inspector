@@ -120,7 +120,6 @@ class CreditDetials extends React.Component {
         dataIndex: 'valFour',
         key: 'valFour',
         render: (text, r) => {
-          console.log(123, text, r)
           if (detailsData.titleFour == '操作') {
             return (
               <Tooltip overlayClassName={styles.listMarkingTooltip2} placement="top" title={text}>
