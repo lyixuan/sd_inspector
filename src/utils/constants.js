@@ -6,8 +6,7 @@
 
 // 静态文件host
 export const STATIC_HOST = {
-  // development: 'http://172.16.117.65',
-  development: 'http://bd.ministudy.com/download',
+  development: 'http://172.16.117.65',
   production: 'http://bd.ministudy.com/download',
 }[process.env.ENV_TYPE];
 
