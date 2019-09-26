@@ -6,7 +6,7 @@ import Proportion from '../components/proportion';
 import IndentNum from '../components/indentNum';
 import pkImg from '@/assets/xdwork/pk.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
-import router from 'umi/router';
+import { Link } from 'dva/router';
 function CustomExpandIcon(props) {
   return (
     <a/>
@@ -98,12 +98,11 @@ class  currentCreditLeft extends React.Component {
 
             const {startTime,endTime} = this.props.xdWorkModal.kpiTimes
             const params = JSON.stringify({"dementionId":  data.id, startTime, endTime});
-          console.log(101,params)
           return(
             <div className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>
-              {data.level === 4 && Number(myScoreName) !==0?<a href={`/xdCredit/index?params=${params}`} target="_blank" className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>
+              {data.level === 4 && Number(myScoreName) !==0?<Link to={`/xdCredit/index?params=${params}`} target="_blank" className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>
                 {myScoreName} >
-              </a>:myScoreName
+              </Link>:myScoreName
               }
             </div>
           )
