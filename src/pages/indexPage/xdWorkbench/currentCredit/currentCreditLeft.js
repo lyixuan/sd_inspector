@@ -97,6 +97,7 @@ class currentCreditLeft extends React.Component {
           }
           const {startTime,endTime} = this.props.xdWorkModal.kpiTimes
           const params = JSON.stringify({"dementionId":  data.id, startTime, endTime});
+          console.log(isFlag===1 , data.isShowPro, 'llllll')
           return(
             <div className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>
               {data.level === 4 && Number(myScoreName) !==0?<Link to={`/xdCredit/index?params=${params}`} target="_blank">
