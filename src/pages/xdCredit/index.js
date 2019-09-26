@@ -2,14 +2,18 @@ import React from 'react';
 import { connect } from 'dva';
 import { Skeleton } from 'antd';
 import BIButton from '@/ant_components/BIButton';
-import BICascader from '@/ant_components/BICascader/FormCascader';
+import BICascader from '@/ant_components/BICascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
-import extentImg from '@/assets/xdcredit/extent.png'
+import extentImg from '@/assets/xdcredit/extent.png';
+import { initTimeData } from '../ko/utils/utils';
+import { message } from 'antd/lib/index';
 import Dimension from './dimension';
 import CreditDetials from './details'
 import styles from './style.less';
 import moment from 'moment';
-import { initTimeData } from '../ko/utils/utils'
+
+
+
 
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -26,6 +30,7 @@ class XdCredit extends React.Component {
       userOrgConfig: [],
       extendFlag: false, // 权限
       groupId: [],
+      groupTypeArr: [],
       dementionId: '',
       // startTime: '',
       // endTime: '',
@@ -64,7 +69,7 @@ class XdCredit extends React.Component {
         if (res && res.length > 0) {
           this.setState({
             userOrgConfig: res,
-            groupId: this.getResetGroupId(res),
+            ...this.getResetGroupMsg(res),
           }, () => this.getDimensionList())
         } else {
           this.getDimensionList();
@@ -86,16 +91,26 @@ class XdCredit extends React.Component {
   }
   // 列表
   getDimensionList = () => {
+    const groupMsg = this.getGroupMsg();
+    if (groupMsg.groupType === 'college') {
+      message.error('请选择家族或小组');
+      return;
+    }
     const { startTime, endTime } = this.state;
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionList',
-      payload: { params: { groupId: this.getGroupId(), startTime, endTime } },
+      payload: { params: { ...this.getGroupMsg(), startTime, endTime } },
     });
   }
   // 详情
   getDimensionDetail = () => {
+    const groupMsg = this.getGroupMsg();
+    if (groupMsg.groupType === 'college') {
+      message.error('请选择家族或小组');
+      return;
+    }
     const param = {
-      groupId: this.getGroupId(),
+      ...groupMsg,
       dementionId: this.state.dementionId,
       startTime: this.state.startTime,
       endTime: this.state.endTime,
@@ -108,21 +123,27 @@ class XdCredit extends React.Component {
     });
   }
   // 参数groupId
-  getGroupId = () => {
-    const { groupId } = this.state;
+  getGroupMsg = () => {
+    const { groupId, groupTypeArr } = this.state;
+    console.log(groupId, groupTypeArr)
     if (groupId && groupId.length > 0) {
-      return groupId[groupId.length - 1].value;
+      const index = groupId.length - 1;
+      return {groupId: groupId[index], groupType: groupTypeArr[index].groupType };
     } else {
-      return undefined;
+      return {};
     }
   }
-  // reset groupId数组
-  getResetGroupId = (arr = this.state.userOrgConfig) => {
+  // reset groupId数组 getResetGroupId
+  getResetGroupMsg= (arr = this.state.userOrgConfig) => {
     if (arr && arr.length > 0) {
       const item = arr[0];
-      return [{ name: item.name, value: item.id }]
+      if (item.groupType === 'college' && item.nodeList && item.nodeList.length > 0) {
+        const node = item.nodeList[0];
+        return {groupId: [item.id, node.id], groupTypeArr: [item, node] };
+      }
+      return {groupId: [item.id], groupTypeArr: [item] };
     } else {
-      return [];
+      return { groupId: [],  groupTypeArr: [] };
     }
   }
   // date
@@ -134,7 +155,7 @@ class XdCredit extends React.Component {
   renderCascader = (label) => {
     if (Array.isArray(label) && label.length === 0) return;
     let labelStr = label.join('/');
-    labelStr = labelStr.length >= 10 ? `${labelStr.substr(0, 10)}...` : labelStr;
+    labelStr = labelStr.length >= 8 ? `${labelStr.substr(0, 6)}...` : labelStr;
     return <span>{labelStr}</span>;
   };
   // 时间控件可展示的时间范围
@@ -147,9 +168,9 @@ class XdCredit extends React.Component {
       if (type === 'dementionId') this.getDimensionDetail();
     })
   }
-  // 对比小组
-  onChangeSelect = groupId => {
-    this.setState({ groupId })
+  // 选择组织
+  onChangeSelect = (groupId, groupTypeArr) => {
+    this.setState({ groupId, groupTypeArr });
   }
   // 选择时间
   onDateChange = (v) => {
@@ -157,14 +178,13 @@ class XdCredit extends React.Component {
     this.setState({ startTime, endTime, });
   }
   handleClick = () => {
-    this.getDimensionList();
-    
+    this.getDimensionList(); 
   }
   handleReset = () => {
     this.setState({
       startTime: this.props.kpiDateRange.endDate,
       endTime: this.props.kpiDateRange.endDate,
-      groupId: this.getResetGroupId()
+      ...this.getResetGroupMsg()
     }, () => {
       this.getDimensionList();
       this.onChangeParams('', 'dementionId');
@@ -186,11 +206,10 @@ class XdCredit extends React.Component {
               <span className={styles.date}>{startTime}～{endTime}</span>
               {
                 userOrgConfig.length > 0 && <span className={styles.change}>
-                  选择对比小组：
+                  选择组织：
                 <BICascader
                     data-trace='{"widgetName":"数据服务-学分明细","traceName":"数据服务/学分明细/选择对比小组"}'
                     placeholder="选择组织"
-                    popupClassName={styles.popupClassName}
                     changeOnSelect
                     options={userOrgConfig}
                     fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
@@ -199,6 +218,7 @@ class XdCredit extends React.Component {
                     value={groupId}
                     onChange={this.onChangeSelect}
                     allowClear={false}
+                    style={{width: '136px'}}
                   />
                 </span>
               }
@@ -212,6 +232,7 @@ class XdCredit extends React.Component {
                   onChange={this.onDateChange}
                   allowClear={false}
                   disabledDate={this.disabledDate}
+                  style={{width: '224px'}}
                 />
               </span>
               <BIButton type='reset' onClick={this.handleReset} style={{ marginRight: '8px' }}>重置</BIButton>
