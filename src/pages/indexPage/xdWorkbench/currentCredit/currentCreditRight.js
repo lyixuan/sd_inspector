@@ -4,7 +4,6 @@ import styles from './style.less'
 import BITable from '@/ant_components/BITable'
 import BISelect from '@/ant_components/BISelect'
 import { Progress } from 'antd';
-import Indent from '../components/indent';
 const { Option } = BISelect;
 @connect(({xdWorkModal, loading}) => ({
   xdWorkModal,
@@ -124,11 +123,7 @@ class  currentCreditRight extends React.Component {
         key:'creditRanking',
         render:(creditRanking)=>{
           return(
-            <Indent style={{
-              marginLeft: '-8px'
-            }}>
             <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{creditRanking}</div>
-            </Indent>
           )
         }
       },{
@@ -139,9 +134,6 @@ class  currentCreditRight extends React.Component {
         render: (credit ,data)=> {
           const percent = credit / total * 100;
           return (
-            <Indent style={{
-              marginLeft: '-8px'
-            }}>
             <div
               style={{
                 cursor: 'pointer',
@@ -156,7 +148,6 @@ class  currentCreditRight extends React.Component {
                 strokeWidth={4}
               ></Progress>
             </div>
-            </Indent>
           );
         },
       },{
