@@ -146,22 +146,22 @@ export class BaseModels {
     setMasterQualityValueFamter = (params, violationLevelObj) => {
         const { masterQualityValue } = params;
         // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-        return masterQualityValue && masterQualityValue > 0 ? Number(masterQualityValue || 0) * 100 / 10000 : masterQualityValue;
+        return Number(masterQualityValue);
     }
   setMasterQualityValueFamter2 = (params, violationLevelObj) => {
     const { masterQualityValue2 } = params;
     // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-    return masterQualityValue2 && masterQualityValue2 > 0 ? Number(masterQualityValue2 || 0) * 100 / 10000 : masterQualityValue2;
+    return Number(masterQualityValue2) ;
   }
   setMasterQualityValueFamter3 = (params, violationLevelObj) => {
     const { masterQualityValue3 } = params;
     // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-    return masterQualityValue3 && masterQualityValue3 > 0 ? Number(masterQualityValue3 || 0) * 100 / 10000 : masterQualityValue3;
+    return Number(masterQualityValue3) ;
   }
   setMasterQualityValueFamter4 = (params, violationLevelObj) => {
     const { masterQualityValue4 } = params;
     // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-    return masterQualityValue4 && masterQualityValue4 > 0 ? Number(masterQualityValue4 || 0) * 100 / 10000 : masterQualityValue4;
+    return Number(masterQualityValue4);
   }
     transOriginParams = (params = {}) => {
         const newParams = {};
