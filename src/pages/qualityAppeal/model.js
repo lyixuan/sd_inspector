@@ -8,6 +8,7 @@ import {
   getOrderNum,
   queryDimensionTreeList,
   checkRepeatQualityInspection,
+  getPunishInfoList,
 } from '@/pages/qualityAppeal/services';
 import { msgF } from '@/utils/utils';
 
@@ -44,7 +45,8 @@ export default {
     orgMapByMailData: {}, // 根据邮箱获取用户组织信息
     DetailData: [], // 申诉详情页数据
     QualityDetailData: {}, // 质检详情页数据
-    orderNumData: null,   // 根据子订单编号获取订单详情数据
+    orderNumData: null, // 根据子订单编号获取订单详情数据
+    punishInfoList: {},
   },
 
   effects: {
@@ -56,7 +58,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveMap', payload: { orgList } });
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
     *getDimensionList({ payload }, { call, put }) {
@@ -74,7 +76,7 @@ export default {
           yield put({ type: 'save', payload: { dimensionList2 } });
         }
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
     *getOrgMapByMail({ payload }, { call, put }) {
@@ -85,10 +87,10 @@ export default {
         orgMapByMailData.upDateTime = new Date().valueOf();
         yield put({
           type: 'saveOrgMapByMailData',
-          payload: { orgMapByMailData, },
+          payload: { orgMapByMailData },
         });
       } else {
-        message.error(msgF(response.msg,response.msgDetail));
+        message.error(msgF(response.msg, response.msgDetail));
       }
     },
     *getDetailData({ payload }, { call, put }) {
@@ -99,7 +101,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveDetailData', payload: { DetailData } });
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
     *getQualityDetailData({ payload }, { call, put }) {
@@ -110,7 +112,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveQualityDetailData', payload: { QualityDetailData } });
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
     *getOrderNum({ payload }, { call, put }) {
@@ -120,11 +122,10 @@ export default {
         yield put({
           type: 'saveOrderNumData',
           payload: { orderNumData },
-        })
+        });
       } else {
-        message.error(msgF(response.msg,response.msgDetail));
+        message.error(msgF(response.msg, response.msgDetail));
       }
-
     },
     *queryDimensionTreeList({ payload }, { call, put }) {
       const response = yield call(queryDimensionTreeList, payload);
@@ -133,26 +134,34 @@ export default {
 
         yield put({
           type: 'saveDimensionTreeList',
-          payload: { dimensionTreeList }
-        })
-
+          payload: { dimensionTreeList },
+        });
       } else {
-        message.error(msgF(response.msg,response.msgDetail));
+        message.error(msgF(response.msg, response.msgDetail));
       }
-
     },
     *checkRepeatQualityInspection({ payload }, { call, put }) {
-      const { callback, params } = payload
+      const { callback, params } = payload;
       const response = yield call(checkRepeatQualityInspection, params);
       if (response.code === 20000) {
-        callback.call(null, response.data || {})
+        callback.call(null, response.data || {});
       } else {
-        message.error(msgF(response.msg,response.msgDetail));
-        if(response.code === 20005){
+        message.error(msgF(response.msg, response.msgDetail));
+        if (response.code === 20005) {
           window.history.go(-1);
         }
       }
-    }
+    },
+    *getPunishInfoList({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getPunishInfoList, params);
+      if (result.code === 20000) {
+        const data = result.data;
+        yield put({ type: 'save', payload: { data } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
   },
 
   reducers: {
@@ -187,7 +196,7 @@ export default {
     clearOrderNumData(state, { payload }) {
       const orderNumData = null;
       return { ...state, orderNumData };
-    }
+    },
   },
 
   subscriptions: {},

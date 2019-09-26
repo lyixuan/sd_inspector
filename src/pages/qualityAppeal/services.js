@@ -39,4 +39,8 @@ export async function queryDimensionTreeList(params) {
 export async function checkRepeatQualityInspection(data) {
   return request('/quality/checkRepeatQualityInspection', { method: 'post', data });
 }
+//  质检-获取责任人处罚力度
+export async function getPunishInfoList(data) {
+  return request('/quality/getPunishInfoList', { method: 'post', data });
+}
 
