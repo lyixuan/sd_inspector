@@ -493,8 +493,9 @@ function TeacherOrStudent(props) {
               <div className={styles.chatRight}>
                 <IMType answer={answer}></IMType>
                 <div className={styles.avatar}>
-                  {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarTeacher} />}
-                  <p>{props.item.userName}</p>
+                  {/* {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarTeacher} />} */}
+                  <img src={robort2} />
+                  <p>IM机器人</p>
                 </div>
               </div>
             </div>
@@ -607,10 +608,16 @@ class Im extends React.Component {
     // if (!allData) {
     //   return;
     // }
-    allData.sort(function (a, b) {
-      return Date.parse(a.countDate) - Date.parse(b.countDate);//时间正序
-    });
-    return allData
+    // 
+    if (allData.length > 0) {
+      allData.sort(function (a, b) {
+        return Date.parse(a.countDate) - Date.parse(b.countDate);//时间正序
+      });
+      return allData
+    } else {
+      return null
+    }
+
   }
 
   didMount(props) {
