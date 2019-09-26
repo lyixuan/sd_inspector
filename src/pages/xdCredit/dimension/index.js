@@ -16,13 +16,13 @@ class Dimension extends React.Component {
         dataIndex: 'name',
         key: 'name',
         width: '50%',
-        render: text => <span data-trace='{"widgetName":"学分明细-选择明细","traceName":"小德工作台/学分明细/选择明细"}'>{text}</span>
+        render: text => <span data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>{text}</span>
       }, {
         width: '16%',
         title: '我的',
         dataIndex: 'score',
         key: 'score',
-        render: text => <IndentNum data-trace='{"widgetName":"学分明细-选择明细","traceName":"小德工作台/学分明细/选择明细"}'>{text}</IndentNum>
+        render: text => <IndentNum data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>{text}</IndentNum>
       }, {
         width: '20%',
         title: '环比（%）',
@@ -30,13 +30,13 @@ class Dimension extends React.Component {
         key: 'scoreRatio',
         render: text => {
           const num = Number(text);
-          return <div data-trace='{"widgetName":"学分明细-选择明细","traceName":"小德工作台/学分明细/选择明细"}'>{num === 0 ? text : <IndentNum className={num > 0 ? styles.greenColor : styles.redColor}>{text}</IndentNum>}</div>
+          return <div data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>{num === 0 ? text : <IndentNum className={num > 0 ? styles.greenColor : styles.redColor}>{text}</IndentNum>}</div>
         }
       }, {
         title: '数量',
         dataIndex: 'num',
         key: 'num',
-        render: (text, record) => <div data-trace='{"widgetName":"学分明细-选择明细","traceName":"小德工作台/学分明细/选择明细"}'>
+        render: (text, record) => <div data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>
           {text > 99999 ? 99999 + '+' : text}{record.unit}
           {text && record.level === 4 && <span className={styles.greenColor} style={{ marginLeft: '16px' }}>></span>}
         </div>
