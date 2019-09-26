@@ -523,7 +523,10 @@ function TeacherOrStudent(props) {
                   {/* <span dangerouslySetInnerHTML={{ __html: linkRoute(message, styles.linkRoute) }}></span> */}
                 </div>
                 <div className={styles.avatar}>
-                  {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarTeacher} />}
+                  {
+                    props.item.userName == '尚小德' ? <img src={robort} /> : props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarTeacher} />
+                  }
+                  {/* {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarTeacher} />} */}
                   <p>{props.item.userName}</p>
                 </div>
               </div>
