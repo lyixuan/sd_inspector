@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less'
 import BITable from '@/ant_components/BITable'
-import { Progress } from 'antd';
 import Proportion from '../components/proportion';
+import IndentNum from '../components/indentNum';
 import pkImg from '@/assets/xdwork/pk.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
 import router from 'umi/router';
@@ -227,7 +227,7 @@ class  currentCreditLeft extends React.Component {
         render: (groupScore,data) => {
           return (
             <div className={styles.pkRankMain}>
-              <div style={{marginLeft:'30px'}}>{groupScore}</div>
+              <div style={{marginLeft:'30px'}}><IndentNum>{groupScore}</IndentNum></div>
             </div>
           );
         },
@@ -236,11 +236,14 @@ class  currentCreditLeft extends React.Component {
     return columns || [];
   };
   setRowClassName = (record) => {
+    console.log(238,record)
     let className = ''
     if(record.oneLevel === 4  && Number(record.myScore) !==0){
       className = "oneLevelBgColor"
-    }else{
+    }else if(record.level === 1 && record.dimensionName !=="学分均分"){
       className = "otherLevelBgColor"
+    }else{
+      className = "otherLevelBgColor1"
     }
     return className
   }

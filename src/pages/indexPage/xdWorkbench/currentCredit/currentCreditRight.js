@@ -97,7 +97,7 @@ class  currentCreditRight extends React.Component {
     const total = this.state.groupList && this.state.groupList[0] ? this.state.groupList[0].credit : 0
     const columns = [
       {
-        width: '20%',
+        width: '18%',
         title:'排名系数',
         dataIndex:'creditRankingCoefficient',
         key:'creditRankingCoefficient',
@@ -107,7 +107,7 @@ class  currentCreditRight extends React.Component {
           )
         }
       },{
-        width: '24%',
+        width: '36%',
         title:'组织',
         dataIndex:'groupName',
         key:'groupName',
@@ -127,7 +127,7 @@ class  currentCreditRight extends React.Component {
           )
         }
       },{
-        width: '20%',
+        width: '14%',
         title:'学分',
         dataIndex:'credit',
         key:'credit',

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less'
 import Container from '../components/container'
-import BITable from '@/ant_components/BITable'
 import CurrentCreditLeft from  './currentCreditLeft'
 import CurrentCreditRight from './currentCreditRight'
 @connect(({xdWorkModal, loading}) => ({

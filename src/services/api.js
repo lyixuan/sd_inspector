@@ -46,5 +46,5 @@ export async function getUserInfoNew(params) {
 
 
 export async function getCertificationList() {
-    return request('/deskapi/classStratification/getCertificationList', {});
+    return request('/inspectorapis/classStratification/getCertificationList', {});
 }

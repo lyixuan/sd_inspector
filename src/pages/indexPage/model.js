@@ -105,7 +105,7 @@ export default {
       }
     },
     // 获取右侧的列表数据
-    *groupList({ payload,callback }, { call, put }) {
+    *groupList({ payload, callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(groupList, params)
       if (result.code === 20000) {
@@ -117,7 +117,7 @@ export default {
       }
     },
     //  获取左侧的列表数据
-    *groupPkList({ payload,callback }, { call, put }) {
+    *groupPkList({ payload, callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(groupPkList, params)
       if (result.code === 20000) {
@@ -129,14 +129,14 @@ export default {
       }
     },
     //判断是否显示本期学分的模块
-    *isShowPermission({payload,callback},{call,put}){
+    *isShowPermission({ payload, callback }, { call, put }) {
       const params = payload.params;
-      const result = yield call(isShowPermission,params)
-      if(result.code === 20000){
+      const result = yield call(isShowPermission, params)
+      if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result);
         }
-      }else if(result.code === 20002){
+      } else if (result.code === 20002) {
         if (callback && typeof callback === 'function') {
           callback(result);
         }
@@ -155,7 +155,7 @@ export default {
           callback(result.data);
         }
       } else if (result && result.code !== 50000) {
-        message.error(msgF(result.msg, result.msgDetail));
+        // message.error(msgF(result.msg, result.msgDetail));
       }
     }
   },
