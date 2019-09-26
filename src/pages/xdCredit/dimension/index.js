@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'dva';
 import { Skeleton } from 'antd';
 import BITable from '@/ant_components/BITable';
-import Indent from '../../indexPage/xdWorkbench/components/indent';
 import IndentNum from '../../indexPage/xdWorkbench/components/indentNum';
 import styles from './style.less'
 
