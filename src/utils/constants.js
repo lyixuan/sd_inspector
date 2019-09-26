@@ -10,7 +10,7 @@ export const ADMIN_AUTH = 'admin_auth';
 export const ADMIN_USER = 'admin_user';
 
 export const DEBUGGER_USER = {
-  localhost: 'zhanglulu02',
+  localhost: 'ligang02',
 }[process.env.LOGIN_TYPE];
 
 // 静态文件host
@@ -25,7 +25,7 @@ export const SERVER_HOST = {
   development: 'http://test.xd.admin.ministudy.com',
   // development2: 'http://172.16.109.87:28081',
   development2: 'http://172.16.109.198:8081',
-}[process.env.LOGIN_TYPE]
+}[process.env.LOGIN_TYPE];
 
 export const CAS_HOST = {
   localhost: 'http://test.xd.admin.ministudy.com',
@@ -37,7 +37,9 @@ export const CAS_HOST = {
 // 设置domain域名
 export const DOMAIN_HOST = '.ministudy.com';
 // export const DOMAIN_HOST = 'localhost';
-export const PROXY_PATH = (hasSelfPri) => {return hasSelfPri ?'':'/inspectorapis'};
+export const PROXY_PATH = hasSelfPri => {
+  return hasSelfPri ? '' : '/inspectorapis';
+};
 
 // 登录页面地址配置
 export const LOGIN_URL = {
@@ -421,7 +423,25 @@ export const DIMENSION_TYPE = [
   { id: 23, name: '底线', url: 'baseline' },
   { id: 42, name: '创收', url: 'createIncome' },
 ];
-
+// 责任人处罚分类
+export const PUNISH_TYPE = [
+  {
+    name: '扣除绩效',
+    value: 1,
+  },
+  {
+    name: '扣除学分',
+    value: 2,
+  },
+  {
+    name: '扣除挽留金额',
+    value: 3,
+  },
+  {
+    name: '扣除人均挽留金额',
+    value: 4,
+  },
+];
 // 申诉维度
 export const SCORE_APPEAL_DIS = [
   { id: 12, name: '开班电话', parentId: 11 },
@@ -521,6 +541,7 @@ export default {
   SCORE_APPEAL_STATE_ON_MASTER,
   SCORE_APPEAL_DIS,
   PUNISH_LIST,
+  PUNISH_TYPE,
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
