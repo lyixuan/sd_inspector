@@ -170,6 +170,7 @@ class BehaviorPath1 extends React.Component {
               <Search
                 allowClear
                 placeholder="输入学员ID"
+                maxLength="10"
                 value={this.state.inputStuId}
                 onChange={value => this.onChange(value)}
                 onSearch={value => this.onSearchUser(value)}
