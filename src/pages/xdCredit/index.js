@@ -160,7 +160,7 @@ class XdCredit extends React.Component {
   };
   // 时间控件可展示的时间范围
   disabledDate = current => {
-    return current > moment(this.props.kpiDateRange.endDate);
+    return current > moment(this.props.kpiDateRange.endDate) || current < moment(this.props.kpiDateRange.startDate);
   };
   // 左侧维度id
   onChangeParams = (v, type) => {
