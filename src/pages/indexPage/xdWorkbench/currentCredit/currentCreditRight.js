@@ -107,7 +107,7 @@ class  currentCreditRight extends React.Component {
           )
         }
       },{
-        width: '36%',
+        width: '34%',
         title:'组织',
         dataIndex:'groupName',
         key:'groupName',
@@ -153,7 +153,20 @@ class  currentCreditRight extends React.Component {
       },{
         title:'人均在服学员',
         dataIndex:'averageStudentNumber',
-        key:'averageStudentNumber'
+        key:'averageStudentNumber',
+        render:(averageStudentNumber)=>{
+          return(
+              <div
+                style={{
+                  cursor: 'pointer',
+                }}
+                data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'
+              >
+                {averageStudentNumber}
+              </div>
+          )
+
+    }
       }
     ]
     return columns || [];
