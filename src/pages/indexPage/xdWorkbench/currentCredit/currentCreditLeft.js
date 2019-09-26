@@ -243,13 +243,12 @@ class currentCreditLeft extends React.Component {
     return columns || [];
   };
   setRowClassName = (record) => {
-    console.log(238, record)
     let className = ''
-    if (record.oneLevel === 4 && Number(record.myScore) !== 0) {
+    if(record.level === 1 && record.dimensionName ==="学分均分"){
       className = "oneLevelBgColor"
-    } else if (record.level === 1 && record.dimensionName !== "学分均分") {
+    }else if(record.level === 1 && record.dimensionName !=="学分均分"){
       className = "otherLevelBgColor"
-    } else {
+    }else{
       className = "otherLevelBgColor1"
     }
     return className
