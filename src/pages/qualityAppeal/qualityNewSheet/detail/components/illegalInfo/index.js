@@ -3,6 +3,7 @@ import moment from 'moment';
 import DownLoad from '@/components/DownLoad';
 import styles from './style.css';
 import { STATIC_HOST, FAMILY_TYPE } from '@/utils/constants';
+import { BiFilter } from '@/utils/utils';
 
 export default class IllegalInfoComponent extends React.Component {
   render() {
@@ -30,38 +31,42 @@ export default class IllegalInfoComponent extends React.Component {
         </div>
         <div className={styles.container2}>
           {
-            Number(qualityType) === 1 && (role === 'csleader' || role==='csofficer') && Number(violationLevel) === 2 ? (
+            // Number(qualityType) === 1 && (role === 'csleader' || role==='csofficer') && Number(violationLevel) === 2 ? (
               <>
                 {
                   (masterRole||masterMail||masterQualityValue||Number(masterQualityValue)===0)&&
                   <div style={{marginBottom:10,width:'100%'}}>
-                    <span>连带责任人：角色：{masterRole}</span> |
-                    <span> 邮箱：{`${masterMail}@sunlands.com`}</span> |
-                    <span> 扣除绩效：{(masterQualityValue * 100).toFixed(2)}%</span>
+                    <span>连带责任人：{masterRole?BiFilter(`FRONT_ROLE_TYPE_LIST|${masterRole.split(',')[0]}`).name:'角色未填'}</span>，
+                    <span> {`${masterMail?masterMail:'未填'}@sunlands.com`}</span>，
+                    <span>{masterRole?BiFilter(`PUNISH_LIST|${masterRole.split(',')[1]}`).name:'处罚方式未填'}</span>，
+                    <span> {masterQualityValue?masterQualityValue:'处罚力度未填'}</span>
                   </div>
                 }
                 {masterRole2&&
                 <div style={{marginBottom:10,width:'100%'}}>
-                  <span style={{marginLeft:85}}> 角色：{masterRole2}</span> |
-                  <span> 邮箱：{`${masterMail2}@sunlands.com`}</span> |
-                  <span> 扣除绩效：{(masterQualityValue2 * 100).toFixed(2)}%</span>
+                  <span>连带责任人：{masterRole2?BiFilter(`FRONT_ROLE_TYPE_LIST|${masterRole2.split(',')[0]}`).name:'角色未填'}</span>，
+                  <span> {`${masterMail2?masterMail2:'未填'}@sunlands.com`}</span>，
+                  <span>{masterRole2?BiFilter(`PUNISH_LIST|${masterRole2.split(',')[1]}`).name:'处罚方式未填'}</span>，
+                  <span> {masterQualityValue2?masterQualityValue2:'处罚力度未填'}</span>
                 </div>}
                 {masterRole3&&
                 <div style={{marginBottom:10,width:'100%'}}>
-                  <span style={{marginLeft:85}}> 角色：{masterRole3}</span> |
-                  <span> 邮箱：{`${masterMail3}@sunlands.com`}</span> |
-                  <span> 扣除绩效：{(masterQualityValue3 * 100).toFixed(2)}%</span>
+                  <span>连带责任人：{masterRole3?BiFilter(`FRONT_ROLE_TYPE_LIST|${masterRole3.split(',')[0]}`).name:'角色未填'}</span>，
+                  <span> {`${masterMail3?masterMail3:'未填'}@sunlands.com`}</span>，
+                  <span>{masterRole3?BiFilter(`PUNISH_LIST|${masterRole3.split(',')[1]}`).name:'处罚方式未填'}</span>，
+                  <span> {masterQualityValue3?masterQualityValue3:'处罚力度未填'}</span>
                 </div>
                 }
                 {masterRole4&&
                 <div style={{marginBottom:10,width:'100%'}}>
-                  <span style={{marginLeft:85}}> 角色：{masterRole4}</span> |
-                  <span> 邮箱：{`${masterMail4}@sunlands.com`}</span> |
-                  <span> 扣除绩效：{(masterQualityValue4 * 100).toFixed(2)}%</span>
+                  <span>连带责任人：{masterRole4?BiFilter(`FRONT_ROLE_TYPE_LIST|${masterRole4.split(',')[0]}`).name:'角色未填'}</span>，
+                  <span> {`${masterMail4?masterMail4:'未填'}@sunlands.com`}</span>，
+                  <span>{masterRole4?BiFilter(`PUNISH_LIST|${masterRole4.split(',')[1]}`).name:'处罚方式未填'}</span>，
+                  <span> {masterQualityValue4?masterQualityValue4:'处罚力度未填'}</span>
                 </div>
                 }
               </>
-            ) : null
+            // ) : null
           }
         </div>
 
