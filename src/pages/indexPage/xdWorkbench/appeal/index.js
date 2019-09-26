@@ -47,11 +47,16 @@ class appeal extends React.Component {
   routerHandle = (item, op) => {
     if (!item[op]) return;
     if (item.appealType === 1) { // 质检
-      const params = op === 'nonAppealNum' ? JSON.stringify({"status": '1'}) : '';
-      router.push({
-        pathname: '/qualityAppeal/qualityAppeal',
-        query: { p: params }
-      });
+      if (op === 'nonAppealNum') {
+        router.push({
+          pathname: '/qualityAppeal/qualityAppeal',
+          query: { p: JSON.stringify({"status": '1'}) }
+        });
+      } else {
+        router.push({
+          pathname: '/qualityAppeal/qualityAppeal',
+        });
+      }
     } else { // 其它
       const dimensionType = constants.DIMENSION_TYPE.find(op => op.name === appealObj[item.appealType]);
       if (op === 'nonAppealNum') { // 未申诉
