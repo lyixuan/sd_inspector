@@ -77,7 +77,9 @@ class currentCreditLeft extends React.Component {
         render: (myScoreRatio) => {
           const isFlag = myScoreRatio >= 0 ? true : false
           return (
-            <div className={isFlag ? `${styles.titleGreen}` : `${styles.titleRed}`}><IndentNum>{myScoreRatio}</IndentNum></div>
+            <div className={isFlag ? `${styles.titleGreen}` : `${styles.titleRed}`}>
+              <IndentNum>{myScoreRatio}</IndentNum>
+            </div>
           )
         }
       }, {
@@ -86,7 +88,6 @@ class currentCreditLeft extends React.Component {
         key: 'myScore',
         width: 90,
         render: (myScore, data) => {
-          const isEnd = data.children.length > 0 ? false : true
           let isFlag = 3
           if (data.dimensionName !== "绩效排名系数" && data.dimensionName !== "集团排名" && data.dimensionName !== "家族内排名" && data.dimensionName !== "人均在服学员") {
             isFlag = myScore > data.groupScore ? 1 : myScore < data.groupScore ? 2 : 3
@@ -95,15 +96,17 @@ class currentCreditLeft extends React.Component {
           if (myScore !== null) {
             myScoreName = myScore
           }
-          const {startTime,endTime} = this.props.xdWorkModal.kpiTimes
-          const params = JSON.stringify({"dementionId":  data.id, startTime, endTime});
-          console.log(isFlag===1 , data.isShowPro, 'llllll')
-          return(
-            <div className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>
-              {data.level === 4 && Number(myScoreName) !==0?<Link to={`/xdCredit/index?params=${params}`} target="_blank" className={isFlag===1 && data.isShowPro && PkName?`${styles.titleGreen}`:isFlag===2 && data.isShowPro && PkName?`${styles.titleRed}`:`${styles.titleBlack}`}>
+          const { startTime, endTime } = this.props.xdWorkModal.kpiTimes
+          const params = JSON.stringify({ "dementionId": data.id, startTime, endTime });
+          console.log(isFlag === 1, data.isShowPro, 'llllll')
+          return (
+            <div className={isFlag === 1 && data.isShowPro && PkName ? `${styles.titleGreen}` : isFlag === 2 && data.isShowPro && PkName ? `${styles.titleRed}` : `${styles.titleBlack}`}>
+
+              {data.level === 4 && Number(myScoreName) !== 0 ? <Link to={`/xdCredit/index?params=${params}`} target="_blank" className={isFlag === 1 && data.isShowPro && PkName ? `${styles.titleGreen}` : isFlag === 2 && data.isShowPro && PkName ? `${styles.titleRed}` : `${styles.titleBlack}`}>
                 <IndentNum>{myScoreName}</IndentNum> >
-              </Link>:<IndentNum>{myScoreName}</IndentNum>
+              </Link> : <IndentNum>{myScoreName}</IndentNum>
               }
+
             </div>
           )
         }

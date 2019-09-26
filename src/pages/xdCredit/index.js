@@ -125,7 +125,7 @@ class XdCredit extends React.Component {
   // 参数groupId
   getGroupMsg = () => {
     const { groupId, groupTypeArr } = this.state;
-    console.log(groupId, groupTypeArr)
+    // console.log(groupId, groupTypeArr)
     if (groupId && groupId.length > 0) {
       const index = groupId.length - 1;
       return { groupId: groupId[index], groupType: groupTypeArr[index].groupType };
@@ -164,7 +164,7 @@ class XdCredit extends React.Component {
   };
   // 左侧维度id
   onChangeParams = (v, type) => {
-    this.setState({ [type]: v }, () => {
+    this.setState({ [type]: v, page: 1 }, () => {
       if (type === 'dementionId') this.getDimensionDetail();
     })
   }
