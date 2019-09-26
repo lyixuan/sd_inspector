@@ -62,6 +62,9 @@ class CreateQualityNewSheet extends React.Component {
         if (this.props.onChangedimensionTree) {
             this.props.onChangedimensionTree({
                 violationLevelObj: {}, dimension: [], dimensionId: undefined, qualityType,
+              masterRoleA:undefined,masterRoleA2: undefined, masterRoleA3: undefined,
+              masterRoleA4:undefined,masterRoleB: undefined, masterRoleB2: undefined,
+              masterRoleB3:undefined,masterRoleB4: undefined,
               masterRole:null,masterQualityValue: null, masterMail: null,
               masterRole2:null,masterQualityValue2: null, masterMail2: null,
               masterRole3:null,masterQualityValue3: null, masterMail3: null,
@@ -204,8 +207,33 @@ class CreateQualityNewSheet extends React.Component {
     inputChange = (e, key) => {
         const values = this.props.form.getFieldsValue();
         values[key] = e.currentTarget.value?e.currentTarget.value:null;
-        this.formChange(values)
+      this.formChange(values)
     }
+
+  masterSelectChange = (val, key)=>{
+    const values = this.props.form.getFieldsValue();
+
+    if(key==='masterRoleA'){
+      values['masterRole'] = `${val},${values['masterRole']?values['masterRole'].split(',')[1]:''}`;
+    } else if(key==='masterRoleA2'){
+      values['masterRole2'] = `${val},${values['masterRole2']?values['masterRole2'].split(',')[1]:''}`;
+    } else if(key==='masterRoleA3'){
+      values['masterRole3'] = `${val},${values['masterRole3']?values['masterRole3'].split(',')[1]:''}`;
+    } else if(key==='masterRoleA4'){
+      values['masterRole4'] = `${val},${values['masterRole4']?values['masterRole4'].split(',')[1]:''}`;
+    }
+    if(key==='masterRoleB'){
+      values['masterRole'] = `${values['masterRole']?values['masterRole'].split(',')[0]:''},${val}`;
+    } else if(key==='masterRoleB2'){
+      values['masterRole2'] = `${values['masterRole2']?values['masterRole2'].split(',')[0]:''},${val}`;
+    } else if(key==='masterRoleB3'){
+      values['masterRole3'] = `${values['masterRole3']?values['masterRole3'].split(',')[0]:''},${val}`;
+    } else if(key==='masterRoleB4'){
+      values['masterRole4'] = `${values['masterRole4']?values['masterRole4'].split(',')[0]:''},${val}`;
+    }
+    values[key] =val;
+    this.formChange(values)
+  };
     formChange = (params) => {
         if (this.props.formChange) {
             this.props.formChange(params);
@@ -229,138 +257,147 @@ class CreateQualityNewSheet extends React.Component {
     renderGovernorComponent = (showMore) => {
         const { getFieldDecorator } = this.props.form;
         const { params } = this.props;
-        const values = this.props.form.getFieldsValue();
-        const { violationLevelObj } = this.props;
-        const isShowMasterMail = BaseModels.checkoutQualityMaster(values, violationLevelObj)
-        // const isShowMasterMail = true;
+        let listRole = [];
+        if (params.qualityType===1) {
+          // 客诉
+          listRole=[
+            { id: 'cssupervisor', name: '客诉主管', level: '1', isPerformance: 0 },
+            { id: 'csleader', name: '客诉组长', level: '1', isPerformance: 0 },
+          ]
+        } else {
+          listRole=[
+            { id: 'family', name: '家族长', level: '2', isPerformance: 1 },
+            { id: 'group', name: '运营长', level: '3', isPerformance: 1 },
+          ]
+        }
+        // const values = this.props.form.getFieldsValue();
+        // const { violationLevelObj } = this.props;
+        // const isShowMasterMail = BaseModels.checkoutQualityMaster(values, violationLevelObj)
+        const isShowMasterMail = true;
       if(params.masterRole3||params.masterRole4||params.masterMail3||params.masterMail4||params.masterQualityValue3||params.masterQualityValue4){
         showMore = true;
       }
         if (isShowMasterMail) {
             return (
               <div>
+                <Form.Item style={{ display: 'none' }}>
+                  {getFieldDecorator('masterRole', {
+                  })(<Input disabled />)}
+                </Form.Item>
+                <Form.Item style={{ display: 'none' }}>
+                  {getFieldDecorator('masterRole2', {
+                  })(<Input disabled />)}
+                </Form.Item>
+                <Form.Item style={{ display: 'none' }}>
+                  {getFieldDecorator('masterRole3', {
+                  })(<Input disabled />)}
+                </Form.Item>
+                <Form.Item style={{ display: 'none' }}>
+                  {getFieldDecorator('masterRole4', {
+                  })(<Input disabled />)}
+                </Form.Item>
+
                 <Row style={{ lineHeight: '40px' }}>
                   <Col className="gutter-row" span={24} style={{ display: 'flex' }}>
                     <span className={styles.i}>&nbsp;</span>
                     <Form.Item label="连带责任人：">
-                      {getFieldDecorator('masterRole', {
-                        initialValue: params.masterRole,
-                        rules: [{
-                          validator(rule, value, callback) {
-                            if(value || params.masterMail || params.masterQualityValue){
-                              if(!(value && params.masterMail && params.masterQualityValue)){
-                                callback({ message: '请完善连带责任人信息' });
-                              } else {
-                                callback();
-                              }
-                            } else {
-                              callback();
-                            }
-                          },
-                        }],
-                      })(<BIInput placeholder="请输入角色" style={{ width: 100,marginRight:'10px' }} onChange={e => this.inputChange(e, 'masterRole')} />)}
+                      {getFieldDecorator('masterRoleA', {
+                        initialValue: params.masterRole?params.masterRole.split(',')[0]:undefined,
+                      })(
+                        <BISelect placeholder="请选择角色" allowClear style={{ width: 280,marginRight:'10px' }}  onChange={e => this.masterSelectChange(e, 'masterRoleA')}>
+                          {listRole.map(item => (
+                            <Option value={item.id} key={item.name}>
+                              {item.name}
+                            </Option>
+                          ))}
+                        </BISelect>
+                        )}
                     </Form.Item>
                     <Form.Item label="">
                       {getFieldDecorator('masterMail', {
                         initialValue: params.masterMail,
-                        rules: [{
-                          validator(rule, value, callback) {
-                            if((!value && (params.masterRole || params.masterQualityValue))){
-                              callback({ message: ' ' });
-                            } else {
-                              callback();
-                            }
-                          },
-                        }],
                       })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail')} />)}
                     </Form.Item>
                     <div className={styles.text}>@sunlands.com</div>
-                    <span className={styles.i}></span>
+                    <Form.Item label="">
+                      {getFieldDecorator('masterRoleB', {
+                        initialValue: params.masterRole?params.masterRole.split(',')[1]:undefined,
+                      })(
+                        <BISelect placeholder="请选择处罚方式" allowClear style={{ width: 210,marginLeft:'15px',marginRight:'10px' }}  onChange={e => this.masterSelectChange(e, 'masterRoleB')}>
+                          {BiFilter('PUNISH_LIST').map(item => (
+                            <Option value={item.id} key={item.name}>
+                              {item.name}
+                            </Option>
+                          ))}
+                        </BISelect>
+                      )}
+                    </Form.Item>
                     <Form.Item label="">
                       {getFieldDecorator('masterQualityValue', {
                         initialValue: params.masterQualityValue,
                         rules: [{
                           validator(rule, value, callback) {
-                            if(!value && (params.masterMail || params.masterRole)){
-                              callback({ message: ' ' });
-                            } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
-                              callback({ message: '请输入合法绩效' });
-                            } else if (
-                              String(value).split('.')[1] &&
-                              String(value).split('.')[1].length > 2
-                            ) {
-                              callback({ message: '最多保留两位小数' });
-                            } else if(value == 0){
-                              callback({ message: '请输入大于0的绩效' });
+                            if (isNaN(value)) {
+                              callback({ message: '请输入合法数据' });
                             } else {
                               callback();
                             }
                           },
                         }],
-                      })(<BIInput placeholder="请输入扣除绩效" style={{ width: 130 }} onChange={e => this.inputChange(e, 'masterQualityValue')} />)}
-                      <span style={{ display: "inline-block", width: "20px" }}>%</span>
+                      })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 150 }} onChange={e => this.inputChange(e, 'masterQualityValue')} />)}
+                      <span style={{ display: "inline-block", width: "10px" }}> %</span>
                     </Form.Item>
                   </Col>
                 </Row>
+
                 <Row style={{ lineHeight: '40px' }}>
                   <Col className="gutter-row" span={24} style={{ display: 'flex' }}>
                     <span className={`${styles.i} ${styles.blockLabel}`}>&nbsp;</span>
                     <Form.Item label="">
-                      {getFieldDecorator('masterRole2', {
-                        initialValue: params.masterRole2,
-                        rules: [{
-                          validator(rule, value, callback) {
-                            if(value || params.masterMail2 || params.masterQualityValue2){
-                              if(!(value && params.masterMail2 && params.masterQualityValue2)){
-                                callback({ message: '请完善连带责任人信息' });
-                              } else {
-                                callback();
-                              }
-                            } else {
-                              callback();
-                            }
-                          },
-                        }],
-                      })(<BIInput placeholder="请输入角色" style={{ width: 100,marginRight:'10px' }} onChange={e => this.inputChange(e, 'masterRole2')} />)}
+                      {getFieldDecorator('masterRoleA2', {
+                        initialValue: params.masterRole2?params.masterRole2.split(',')[0]:undefined,
+                      })(
+                        <BISelect placeholder="请选择角色" allowClear style={{ width: 280,marginRight:'10px' }}  onChange={e => this.masterSelectChange(e, 'masterRoleA2')}>
+                          {listRole.map(item => (
+                            <Option value={item.id} key={item.name}>
+                              {item.name}
+                            </Option>
+                          ))}
+                        </BISelect>
+                      )}
                     </Form.Item>
                     <Form.Item label="">
                       {getFieldDecorator('masterMail2', {
                         initialValue: params.masterMail2,
-                        rules: [{
-                          validator(rule, value, callback) {
-                            if((!value && (params.masterRole2 || params.masterQualityValue2))){
-                              callback({ message: ' ' });
-                            } else {
-                              callback();
-                            }
-                          },
-                        }],
                       })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail2')} />)}
                     </Form.Item>
                     <div className={styles.text}>@sunlands.com</div>
-                    <span className={styles.i}></span>
+                    <Form.Item label="">
+                      {getFieldDecorator('masterRoleB2', {
+                        initialValue: params.masterRole2?params.masterRole2.split(',')[1]:undefined,
+                      })(
+                        <BISelect placeholder="请选择处罚方式" allowClear style={{ width: 210,marginLeft:'15px',marginRight:'10px' }}  onChange={e => this.masterSelectChange(e, 'masterRoleB2')}>
+                          {BiFilter('PUNISH_LIST').map(item => (
+                            <Option value={item.id} key={item.name}>
+                              {item.name}
+                            </Option>
+                          ))}
+                        </BISelect>
+                      )}
+                    </Form.Item>
                     <Form.Item label="">
                       {getFieldDecorator('masterQualityValue2', {
                         initialValue: params.masterQualityValue2,
                         rules: [{
                           validator(rule, value, callback) {
-                            if(!value && (params.masterMail2 || params.masterRole2)){
-                              callback({ message: ' ' });
-                            } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
-                              callback({ message: '请输入合法绩效' });
-                            } else if (
-                              String(value).split('.')[1] &&
-                              String(value).split('.')[1].length > 2
-                            ) {
-                              callback({ message: '最多保留两位小数' });
-                            } else if(value == 0){
-                              callback({ message: '请输入大于0的绩效' });
+                            if (isNaN(value)) {
+                              callback({ message: '请输入合法数据' });
                             } else {
                               callback();
                             }
                           },
                         }],
-                      })(<BIInput placeholder="请输入扣除绩效" style={{ width: 130 }} onChange={e => this.inputChange(e, 'masterQualityValue2')} />)}
+                      })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 150 }} onChange={e => this.inputChange(e, 'masterQualityValue2')} />)}
                       <span style={{ display: "inline-block", width: "20px" }}>%</span>
                     </Form.Item>
                   </Col>
@@ -370,61 +407,50 @@ class CreateQualityNewSheet extends React.Component {
                     <Col className="gutter-row" span={24} style={{ display: 'flex' }}>
                       <span className={`${styles.i} ${styles.blockLabel}`}>&nbsp;</span>
                       <Form.Item label="">
-                        {getFieldDecorator('masterRole3', {
-                          initialValue: params.masterRole3,
-                          rules: [{
-                            validator(rule, value, callback) {
-                              if(value || params.masterMail3 || params.masterQualityValue3){
-                                if(!(value && params.masterMail3 && params.masterQualityValue3)){
-                                  callback({ message: '请完善连带责任人信息' });
-                                } else {
-                                  callback();
-                                }
-                              } else {
-                                callback();
-                              }
-                            },
-                          }],
-                        })(<BIInput placeholder="请输入角色" style={{ width: 100,marginRight:'10px' }} onChange={e => this.inputChange(e, 'masterRole3')} />)}
+                        {getFieldDecorator('masterRoleA3', {
+                          initialValue: params.masterRole3?params.masterRole3.split(',')[0]:undefined,
+                        })(
+                          <BISelect placeholder="请选择角色" allowClear style={{ width: 280,marginRight:'10px' }}  onChange={e => this.masterSelectChange(e, 'masterRoleA3')}>
+                            {listRole.map(item => (
+                              <Option value={item.id} key={item.name}>
+                                {item.name}
+                              </Option>
+                            ))}
+                          </BISelect>
+                        )}
                       </Form.Item>
                       <Form.Item label="">
                         {getFieldDecorator('masterMail3', {
                           initialValue: params.masterMail3,
-                          rules: [{
-                            validator(rule, value, callback) {
-                              if((!value && (params.masterRole3 || params.masterQualityValue3))){
-                                callback({ message: ' ' });
-                              } else {
-                                callback();
-                              }
-                            },
-                          }],
                         })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail3')} />)}
                       </Form.Item>
                       <div className={styles.text}>@sunlands.com</div>
-                      <span className={styles.i}></span>
+                      <Form.Item label="">
+                        {getFieldDecorator('masterRoleB3', {
+                          initialValue: params.masterRole3?params.masterRole3.split(',')[1]:undefined,
+                        })(
+                          <BISelect placeholder="请选择处罚方式" allowClear style={{ width: 210,marginLeft:'15px',marginRight:'10px' }}  onChange={e => this.masterSelectChange(e, 'masterRoleB3')}>
+                            {BiFilter('PUNISH_LIST').map(item => (
+                              <Option value={item.id} key={item.name}>
+                                {item.name}
+                              </Option>
+                            ))}
+                          </BISelect>
+                        )}
+                      </Form.Item>
                       <Form.Item label="">
                         {getFieldDecorator('masterQualityValue3', {
                           initialValue: params.masterQualityValue3,
                           rules: [{
                             validator(rule, value, callback) {
-                              if(!value && (params.masterMail3 || params.masterRole3)){
-                                callback({ message: ' ' });
-                              } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
-                                callback({ message: '请输入合法绩效' });
-                              } else if (
-                                String(value).split('.')[1] &&
-                                String(value).split('.')[1].length > 2
-                              ) {
-                                callback({ message: '最多保留两位小数' });
-                              } else if(value == 0){
-                                callback({ message: '请输入大于0的绩效' });
+                              if (isNaN(value)) {
+                                callback({ message: '请输入合法数据' });
                               } else {
                                 callback();
                               }
                             },
                           }],
-                        })(<BIInput placeholder="请输入扣除绩效" style={{ width: 130 }} onChange={e => this.inputChange(e, 'masterQualityValue3')} />)}
+                        })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 150 }} onChange={e => this.inputChange(e, 'masterQualityValue3')} />)}
                         <span style={{ display: "inline-block", width: "20px" }}>%</span>
                       </Form.Item>
                     </Col>
@@ -435,61 +461,50 @@ class CreateQualityNewSheet extends React.Component {
                     <Col className="gutter-row" span={24} style={{ display: 'flex' }}>
                       <span className={`${styles.i} ${styles.blockLabel}`}>&nbsp;</span>
                       <Form.Item label="">
-                        {getFieldDecorator('masterRole4', {
-                          initialValue: params.masterRole4,
-                          rules: [{
-                            validator(rule, value, callback) {
-                              if(value || params.masterMail4 || params.masterQualityValue4){
-                                if(!(value && params.masterMail4 && params.masterQualityValue4)){
-                                  callback({ message: '请完善连带责任人信息' });
-                                } else {
-                                  callback();
-                                }
-                              } else {
-                                callback();
-                              }
-                            },
-                          }],
-                        })(<BIInput placeholder="请输入角色" style={{ width: 100,marginRight:'10px' }} onChange={e => this.inputChange(e, 'masterRole4')} />)}
+                        {getFieldDecorator('masterRoleA4', {
+                          initialValue: params.masterRole4?params.masterRole4.split(',')[0]:undefined,
+                        })(
+                          <BISelect placeholder="请选择角色" allowClear style={{ width: 280,marginRight:'10px' }}  onChange={e => this.masterSelectChange(e, 'masterRoleA4')}>
+                            {listRole.map(item => (
+                              <Option value={item.id} key={item.name}>
+                                {item.name}
+                              </Option>
+                            ))}
+                          </BISelect>
+                        )}
                       </Form.Item>
                       <Form.Item label="">
                         {getFieldDecorator('masterMail4', {
                           initialValue: params.masterMail4,
-                          rules: [{
-                            validator(rule, value, callback) {
-                              if((!value && (params.masterRole4 || params.masterQualityValue4))){
-                                callback({ message: ' ' });
-                              } else {
-                                callback();
-                              }
-                            },
-                          }],
                         })(<BIInput placeholder="请输入邮箱前缀" style={{ width: 140 }} onChange={e => this.inputChange(e, 'masterMail4')} />)}
                       </Form.Item>
                       <div className={styles.text}>@sunlands.com</div>
-                      <span className={styles.i}></span>
+                      <Form.Item label="">
+                        {getFieldDecorator('masterRoleB4', {
+                          initialValue: params.masterRole4?params.masterRole4.split(',')[1]:undefined,
+                        })(
+                          <BISelect placeholder="请选择处罚方式" allowClear style={{ width: 210,marginLeft:'15px',marginRight:'10px' }}  onChange={e => this.masterSelectChange(e, 'masterRoleB4')}>
+                            {BiFilter('PUNISH_LIST').map(item => (
+                              <Option value={item.id} key={item.name}>
+                                {item.name}
+                              </Option>
+                            ))}
+                          </BISelect>
+                        )}
+                      </Form.Item>
                       <Form.Item label="">
                         {getFieldDecorator('masterQualityValue4', {
                           initialValue: params.masterQualityValue4,
                           rules: [{
                             validator(rule, value, callback) {
-                              if(!value && (params.masterMail4 || params.masterRole4)){
-                                callback({ message: ' ' });
-                              } else if (value!==0&&(isNaN(value)||Number(value)<0)) {
-                                callback({ message: '请输入合法绩效' });
-                              } else if (
-                                String(value).split('.')[1] &&
-                                String(value).split('.')[1].length > 2
-                              ) {
-                                callback({ message: '最多保留两位小数' });
-                              } else if(value == 0){
-                                callback({ message: '请输入大于0的绩效' });
+                              if (isNaN(value)) {
+                                callback({ message: '请输入合法数据' });
                               } else {
                                 callback();
                               }
                             },
                           }],
-                        })(<BIInput placeholder="请输入扣除绩效" style={{ width: 130 }} onChange={e => this.inputChange(e, 'masterQualityValue4')} />)}
+                        })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 150 }} onChange={e => this.inputChange(e, 'masterQualityValue4')} />)}
                         <span style={{ display: "inline-block", width: "20px" }}>%</span>
                       </Form.Item>
                     </Col>
