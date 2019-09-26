@@ -18,10 +18,10 @@ export default {
   namespace: 'xdWorkModal',
   state: {
     kipInfo: null,
-    kpiLevelList:null,
-    groupList:null,
-    groupPkList:{},
-    kpiTimes:null
+    kpiLevelList: null,
+    groupList: null,
+    groupPkList: {},
+    kpiTimes: null
   },
 
   effects: {
@@ -147,15 +147,15 @@ export default {
       const result = yield call(getKpiInfo, {})
       if (result.code === 20000) {
         const params = {
-          startTime:moment(result.data.kpiStartDate).format('YYYY-MM-DD'),
-          endTime:moment(result.data.kpiEndDate).format('YYYY-MM-DD')
+          startTime: moment(result.data.kpiStartDate).format('YYYY-MM-DD'),
+          endTime: moment(result.data.kpiEndDate).format('YYYY-MM-DD')
         }
-        yield put({ type: 'save', payload: { kpiTimes:params } });
+        yield put({ type: 'save', payload: { kpiTimes: params } });
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
       } else if (result && result.code !== 50000) {
-        // message.error(msgF(result.msg, result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     }
   },
