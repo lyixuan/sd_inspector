@@ -6,8 +6,9 @@
 
 // 静态文件host
 export const STATIC_HOST = {
-  development: 'http://172.16.117.65',
   production: 'http://bd.ministudy.com/download',
+  development: 'http://172.16.117.65',
+  development2: 'http://172.16.117.65',
 }[process.env.ENV_TYPE];
 
 export const SERVER_HOST = {
@@ -213,6 +214,7 @@ export const provinceJson = [
     name: '台湾省',
   },
 ];
+
 // 报考步骤
 export const PROVINCE_STEP = [
   { id: 0, name: '新生注册' },
@@ -525,4 +527,5 @@ export default {
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
+
 
