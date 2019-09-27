@@ -505,6 +505,17 @@ export const routes = [
           },
         ]
       },
+      {
+        path: '/xdFamilyBench',
+        name: '家族长工作台',
+        routes: [
+          {
+            path: '/xdFamilyBench/index',
+            component: './indexPage/xdFamilyBench',
+            name: '家族长工作台',
+          },
+        ]
+      }
       // {
       //   path: '/xdWorkbench',
       //   name: '小德工作台',

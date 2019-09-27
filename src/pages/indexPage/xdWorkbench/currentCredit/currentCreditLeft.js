@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less'
 import BITable from '@/ant_components/BITable'
-import Proportion from '../components/proportion';
-import IndentNum from '../components/indentNum';
+import Proportion from '../../components/proportion';
+import IndentNum from '../../components/indentNum';
 import pkImg from '@/assets/xdwork/pk.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
 import { Link } from 'dva/router';
@@ -244,11 +244,11 @@ class currentCreditLeft extends React.Component {
   };
   setRowClassName = (record) => {
     let className = ''
-    if(record.level === 1 && record.dimensionName ==="学分均分"){
+    if (record.level === 1 && record.dimensionName === "学分均分") {
       className = "oneLevelBgColor"
-    }else if(record.level === 1 && record.dimensionName !=="学分均分"){
+    } else if (record.level === 1 && record.dimensionName !== "学分均分") {
       className = "otherLevelBgColor"
-    }else{
+    } else {
       className = "otherLevelBgColor1"
     }
     return className
