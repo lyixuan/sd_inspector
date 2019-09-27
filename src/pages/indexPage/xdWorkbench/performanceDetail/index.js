@@ -113,7 +113,7 @@ class performanceDetail extends React.Component {
     if (id == 1) {
       return (
         <div className={styles.tooltipContent}>
-          <h4>系数{prop.pkSortValue}学分最后一名</h4>
+          <h4>系数{prop.pkSortValue}的学分最后一名</h4>
           <p>小组学分：{prop.pkGroupScore.toFixed(2)}</p>
           <p>学分收入：￥{thousandsFormat(parseInt(prop.pkScoreKpi))}</p>
         </div>
@@ -163,7 +163,7 @@ class performanceDetail extends React.Component {
     return (
       <Container
         title='绩效详情'
-        right={`${date1}~${date2}(最新学分日期)`}
+        right={`${date1} ~ ${date2} (最新学分日期)`}
       >
         {
           kpiInfo && scoreKpiInfo &&
@@ -204,7 +204,7 @@ class performanceDetail extends React.Component {
                   </div>
                   <div className={styles.txtRight}>
                     <p>绩效流水：￥{thousandsFormat(parseInt(goodpushKpiInfo.kpiFlow))}</p>
-                    <p>系数均值：{goodpushKpiInfo.theValue.toFixed(2)}%</p>
+                    <p>系数均值：{(goodpushKpiInfo.theValue * 100).toFixed(2)}%</p>
                   </div>
                 </div>
                 <Tooltip placement="bottom" title={this.tooltip(goodpushKpiInfo, 2)}>
@@ -226,7 +226,8 @@ class performanceDetail extends React.Component {
                   </div>
                   <div className={styles.txtRight}>
                     <p>绩效流水：￥{thousandsFormat(parseInt(renewalKpiInfo.kpiFlow))}</p>
-                    <p>岗位提点：{renewalKpiInfo.theValue}%</p>
+                    <p>岗位提点：{(renewalKpiInfo.theValue * 100).toFixed(2)}%</p>
+
                   </div>
                 </div>
                 <Tooltip placement="bottom" title={this.tooltip(renewalKpiInfo, 3)}>
@@ -248,7 +249,8 @@ class performanceDetail extends React.Component {
                   </div>
                   <div className={styles.txtRight}>
                     <p>绩效流水：￥{thousandsFormat(parseInt(examZbtKpiInfo.kpiFlow))}</p>
-                    <p>岗位提点：{examZbtKpiInfo.theValue}%</p>
+                    <p>岗位提点：{(examZbtKpiInfo.theValue * 100).toFixed(2)}%</p>
+
                   </div>
                 </div>
                 <Tooltip placement="bottom" title={this.tooltip(examZbtKpiInfo, 4)}>

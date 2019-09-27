@@ -1,0 +1,32 @@
+.greenColor {
+    color: #00CCC3;    
+}
+.redColor {
+    color: #FF626A;
+}
+.dimension {
+    width: 46%;
+    margin-right: 24px;
+    // 维度不同背景色
+    .rowBg2 {
+        background-color: #FFF9F9;
+    }
+    .rowBg3 {
+        background-color: #F5FBFF;
+    }
+    .rowBg4 {
+        background-color: #FAFFFF;
+    }
+    // 可点击行
+    .clickRow {
+       cursor: pointer;
+       .rowBg4;
+    }
+    // 选中行
+    .selectedRow {
+        > td {
+           .greenColor;
+           .rowBg4;
+        }
+    }
+}

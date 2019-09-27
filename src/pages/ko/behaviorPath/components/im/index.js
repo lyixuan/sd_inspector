@@ -8,6 +8,7 @@ import Pager from '../pager/pager.js';
 import face1 from '@/assets/face1.png';
 import face2 from '@/assets/face2.png';
 import robort from '@/assets/robort.png';
+import robort2 from '@/assets/robort2.png';
 import cardIcon from '@/assets/cardIcon.png';
 import { linkImgRouteBul, linkRoute } from '@/pages/ko/utils/utils';
 
@@ -72,6 +73,7 @@ function DateBar(props) {
             <img src={face2} />
           </div>
           <div className={styles.robort}>{props.date.robotSign == 1 ? <img src={robort} /> : null}</div>
+          <div className={styles.robort}>{props.date.robot == 1 ? <img src={robort2} /> : null}</div>
         </div>
         <span>
           <Icon type={props.date.collapse ? 'up' : 'down'} />
@@ -162,7 +164,6 @@ function MediaContent(props) {
   return li;
 }
 function AllType(props) {
-  // console.log(164, props.type)
   if (props.type.type == 'cdsCard') {
     return (
       <div className={styles.cardType}>
@@ -297,8 +298,48 @@ function MediaType(props) {
   )
 }
 function MediaLi(props) {
+  console.log(302, props)
   if (props.prop.content == '</p>') {
     return null
+  }
+  if (props.prop.type == 'imType') {
+    return (
+      <li className={styles.step}>
+        <div className={styles.time}>
+          {props.item.consultTime ? props.item.consultTime.split(' ')[1] : ''}
+        </div>
+        <div className={styles.content}>
+          <div className={styles.bigDot}>
+            <span className={styles.dot} />
+          </div>
+          <div className={styles.chatRight}>
+            <div className={styles.chatContent}>
+              <span className={styles.triangle}>
+                <em />
+              </span>
+              <span dangerouslySetInnerHTML={{ __html: props.prop.content.answer }}>
+              </span>
+            </div>
+
+            <div className={styles.avatar}>
+              <img src={robort} />
+              <p>{props.item.userName}</p>
+            </div>
+          </div>
+          <div className={styles.chatRight}>
+            <div style={{ minWidth: '210px' }}>
+              <div className={`${styles.chatContentImg}`} style={{ float: 'right' }}>
+                <span dangerouslySetInnerHTML={{ __html: linkRoute(props.prop.media.arr[0].url, styles.linkRoute) }}></span>
+                {/* <img src={props.prop.media.arr[0].imgUrl ? props.prop.media.arr[0].imgUrl : props.prop.media.arr[0].url} style={{ width: '150px', height: 'auto', borderRadius: '10px', marginLeft: '60px' }} /> */}
+
+              </div>
+            </div>
+            <div className={styles.avatar}></div>
+          </div>
+
+        </div>
+      </li>
+    )
   }
   if (props.prop.type == 'text') {
     return (
@@ -317,7 +358,6 @@ function MediaLi(props) {
               </span>
               <span dangerouslySetInnerHTML={{ __html: props.prop.content }}>
               </span>
-              {/* {props.prop.content} */}
             </div>
             <div className={styles.avatar}>
               <img src={robort} />
@@ -334,8 +374,33 @@ function MediaLi(props) {
   )
 
 }
+function IMType(props) {
+  if (props.answer.answerType == 100) {
+    return (
+      <div className={styles.cardType}>
+        <div className={styles.cardInfo}>
+          <h4>哎呀不巧，超纲了，同学可以点击下方转人工，火速联系班主任</h4>
+          <p className={styles.contactClass}>立即连线班主任</p>
+        </div>
+      </div>
+    )
+  } else {
+    return (
+      <div className={styles.chatContent}>
+        <span className={styles.triangle}>
+          <em />
+        </span>
+        <span dangerouslySetInnerHTML={{ __html: props.answer.answer }}>
+        </span>
+        {/* {props.prop.content} */}
+      </div>
+    )
+  }
+
+}
 // 判断是老师还是学员
 function TeacherOrStudent(props) {
+  // console.log(343, props)
   if (props.item.userType == 1) {
     return (
       <li className={styles.step}>
@@ -370,27 +435,37 @@ function TeacherOrStudent(props) {
     if (answer && answer.match(/\{\{(.+?)\}\}/g)) {
       answer = answer.replace(/\{\{(.+?)\}\}/g, 1)
     }
-
+    // console.log(400, answer)
     if (answer && answer.match(reg)) {
-      let media = JSON.parse(answer.match(reg)[0].replace(/##/g, ""))
+      let media = JSON.parse(answer.match(reg)[0].replace(/##/g, "").replace(/\\"/g, '"'));
       let content = answer.replace(reg, "##placeholder##")
       let mediaContent = [];
-      content = content.split(/##/g);
-      content.forEach((item, index) => {
-        if (item) {
-          if (item == "placeholder") {
-            mediaContent.push({
-              type: "media",
-              media: media
-            })
-          } else {
-            mediaContent.push({
-              type: "text",
-              content: item
-            })
+      if (content.indexOf("answerType") > -1) {
+        content = answer.replace(reg, "")
+        mediaContent.push({
+          type: "imType",
+          media: media,
+          content: JSON.parse(content)
+        })
+      } else {
+        content = content.split(/##/g);
+        content.forEach((item, index) => {
+          if (item) {
+            if (item == "placeholder") {
+              mediaContent.push({
+                type: "media",
+                media: media
+              })
+            } else {
+              mediaContent.push({
+                type: "text",
+                content: item
+              })
+            }
           }
-        }
-      })
+        })
+      }
+
       return (
         <MediaContent li={props.item} content={mediaContent}></MediaContent>
       )
@@ -404,32 +479,62 @@ function TeacherOrStudent(props) {
       }
       if (!answer) {
         return null
+      } else if (answer.indexOf('answerType') > -1) {
+        answer = JSON.parse(answer.replace(/“/g, "'").replace(/”/g, "'").replace(/\\/g, ""))
+        return (
+          <li className={styles.step}>
+            <div className={styles.time}>
+              {props.item.consultTime ? props.item.consultTime.split(' ')[1] : ''}
+            </div>
+            <div className={styles.content}>
+              <div className={styles.bigDot}>
+                <span className={styles.dot} />
+              </div>
+              <div className={styles.chatRight}>
+                <IMType answer={answer}></IMType>
+                <div className={styles.avatar}>
+                  {/* {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarTeacher} />} */}
+                  <img src={robort2} />
+                  <p>IM机器人</p>
+                </div>
+              </div>
+            </div>
+          </li>
+        )
+      } else {
+        return (
+          <li className={styles.step}>
+            <div className={styles.time}>
+              {props.item.consultTime ? props.item.consultTime.split(' ')[1] : ''}
+            </div>
+            <div className={styles.content}>
+              <div className={styles.bigDot}>
+                <span className={styles.dot} />
+              </div>
+              <div className={styles.chatRight}>
+                <div className={linkImgRouteBul(message) ? styles.chatContentImg : styles.chatContent}>
+                  <span className={styles.triangle}>
+                    <em />
+                  </span>
+                  {/*{message}*/}
+                  {
+                    message.indexOf("<iframe") > -1 ? <span>{message}</span> : <span dangerouslySetInnerHTML={{ __html: linkRoute(message, styles.linkRoute) }}></span>
+                  }
+                  {/* <span dangerouslySetInnerHTML={{ __html: linkRoute(message, styles.linkRoute) }}></span> */}
+                </div>
+                <div className={styles.avatar}>
+                  {
+                    props.item.userName == '尚小德' ? <img src={robort} /> : props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarTeacher} />
+                  }
+                  {/* {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarTeacher} />} */}
+                  <p>{props.item.userName}</p>
+                </div>
+              </div>
+            </div>
+          </li>
+        );
       }
-      return (
-        <li className={styles.step}>
-          <div className={styles.time}>
-            {props.item.consultTime ? props.item.consultTime.split(' ')[1] : ''}
-          </div>
-          <div className={styles.content}>
-            <div className={styles.bigDot}>
-              <span className={styles.dot} />
-            </div>
-            <div className={styles.chatRight}>
-              <div className={linkImgRouteBul(message) ? styles.chatContentImg : styles.chatContent}>
-                <span className={styles.triangle}>
-                  <em />
-                </span>
-                {/*{message}*/}
-                <span dangerouslySetInnerHTML={{ __html: linkRoute(message, styles.linkRoute) }}></span>
-              </div>
-              <div className={styles.avatar}>
-                {props.item.imageUrl ? <img src={props.item.imageUrl} /> : <img src={avatarTeacher} />}
-                <p>{props.item.userName}</p>
-              </div>
-            </div>
-          </div>
-        </li>
-      );
+
     }
 
 
@@ -509,10 +614,16 @@ class Im extends React.Component {
     // if (!allData) {
     //   return;
     // }
-    allData.sort(function (a, b) {
-      return Date.parse(a.countDate) - Date.parse(b.countDate);//时间正序
-    });
-    return allData
+    // 
+    if (allData.length > 0) {
+      allData.sort(function (a, b) {
+        return Date.parse(a.countDate) - Date.parse(b.countDate);//时间正序
+      });
+      return allData
+    } else {
+      return null
+    }
+
   }
 
   didMount(props) {
@@ -524,6 +635,7 @@ class Im extends React.Component {
           negativePercent: item.negativePercent,
           positivePercent: item.positivePercent,
           robotSign: item.robotSign,
+          robot: item.robot,
           collapse: false,
           dialogList: [],
         });

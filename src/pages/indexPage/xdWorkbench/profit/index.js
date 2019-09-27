@@ -6,13 +6,15 @@ import ProfitTabs from './components/tabs';
 class Profit extends React.Component {
   constructor(props)  {
     super(props);
+    const pkUser = localStorage.getItem('pkUser');
     this.state = {
-      pkUser: '', // 选中的pk者
+      pkUser: pkUser ? Number(pkUser) : '', // 选中的pk者
       pkListType: 5, // 列表选项--同级排行
     }
   }
 
   changeSelected = (id) => {
+    localStorage.setItem('pkUser', id);
     this.setState({pkUser: id});
   }
   changePkListType = (v) => {

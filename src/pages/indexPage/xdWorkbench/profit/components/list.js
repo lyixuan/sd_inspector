@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Progress } from 'antd';
-import BITable from '@/ant_components/BITable'
-import BISelect from '@/ant_components/BISelect'
+import BITable from '@/ant_components/BITable';
+import BISelect from '@/ant_components/BISelect';
+import Indent from '../../components/indent';
 import styles from '../style.less';
 
 const { Option } = BISelect;
@@ -64,17 +65,18 @@ class ProfitList extends React.Component {
         title: '班主任',
         dataIndex: 'userName',
         key: 'userName',
-        render: text => <div data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</div>
+        render: text => <Indent data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</Indent>
       }, {
         title: '绩效收入',
         dataIndex: 'incomeKpi',
         key: 'incomeKpi',
         render: text => {
           const percent = text / total * 100;
-          return <div
+          return <Indent
             style={{
               cursor: 'pointer',
-              height: '24px'
+              height: '24px',
+              marginLeft: '-8px'
             }}
             data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'
           >
@@ -85,7 +87,7 @@ class ProfitList extends React.Component {
               showInfo={false}
               strokeWidth={4}
             ></Progress>
-          </div>
+          </Indent>
         }
       }
     ];

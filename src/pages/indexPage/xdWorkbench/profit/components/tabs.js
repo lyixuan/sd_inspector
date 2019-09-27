@@ -99,9 +99,16 @@ class ProfitTbas extends React.Component {
       },
     });
   }
-  getSizeStyle = ({ selfValue, pkUserValue }) => {
+  getSizeStyle = ({ selfValue, pkUserValue }, index) => {
     if (!this.props.pkUser) return ''
-    if (selfValue > pkUserValue) {
+    if (index === 0) {
+      if (selfValue < pkUserValue ) {
+        return '#00CCC3';
+      } else if (selfValue > pkUserValue) {
+        return '#FF626A';
+      }
+    }
+    if (selfValue > pkUserValue ) {
       return '#00CCC3';
     } else if (selfValue < pkUserValue) {
       return '#FF626A';
@@ -183,7 +190,7 @@ class ProfitTbas extends React.Component {
                 <div className={styles.tabThreeTd}>
                   {
                     profitDataOther && profitDataOther.map((item, index) => <div key={index}>
-                      <span style={{ color: this.getSizeStyle(item) }}>{thousandsFormatAll(item.selfValue, unitType[item.valueType])}{}</span>
+                      <span style={{ color: this.getSizeStyle(item, index) }}>{thousandsFormatAll(item.selfValue, unitType[item.valueType])}</span>
                       <span>{pkUser ? <span>{thousandsFormatAll(item.pkUserValue, unitType[item.valueType])}</span> : ' '}</span>
                     </div>)
                   }

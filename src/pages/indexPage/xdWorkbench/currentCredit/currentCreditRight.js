@@ -4,6 +4,7 @@ import styles from './style.less'
 import BITable from '@/ant_components/BITable'
 import BISelect from '@/ant_components/BISelect'
 import { Progress } from 'antd';
+import Indent from '../components/indent';
 const { Option } = BISelect;
 @connect(({xdWorkModal, loading}) => ({
   xdWorkModal,
@@ -97,7 +98,7 @@ class  currentCreditRight extends React.Component {
     const total = this.state.groupList && this.state.groupList[0] ? this.state.groupList[0].credit : 0
     const columns = [
       {
-        width: '20%',
+        width: '18%',
         title:'排名系数',
         dataIndex:'creditRankingCoefficient',
         key:'creditRankingCoefficient',
@@ -107,7 +108,7 @@ class  currentCreditRight extends React.Component {
           )
         }
       },{
-        width: '24%',
+        width: '36%',
         title:'组织',
         dataIndex:'groupName',
         key:'groupName',
@@ -117,23 +118,30 @@ class  currentCreditRight extends React.Component {
           )
         }
       },{
-        width: '14%',
+        width: '10%',
         title:'排名',
         dataIndex:'creditRanking',
         key:'creditRanking',
         render:(creditRanking)=>{
           return(
+            <Indent style={{
+              marginLeft: '-8px'
+            }}>
             <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{creditRanking}</div>
+            </Indent>
           )
         }
       },{
-        width: '20%',
+        width: '14%',
         title:'学分',
         dataIndex:'credit',
         key:'credit',
         render: (credit ,data)=> {
           const percent = credit / total * 100;
           return (
+            <Indent style={{
+              marginLeft: '-8px'
+            }}>
             <div
               style={{
                 cursor: 'pointer',
@@ -148,12 +156,14 @@ class  currentCreditRight extends React.Component {
                 strokeWidth={4}
               ></Progress>
             </div>
+            </Indent>
           );
         },
-      },{
+      },
+      {
         title:'人均在服学员',
         dataIndex:'averageStudentNumber',
-        key:'averageStudentNumber'
+        key:'averageStudentNumber',
       }
     ]
     return columns || [];
@@ -272,13 +282,13 @@ class  currentCreditRight extends React.Component {
           <div className={styles.creditSelect} >
             <span className={styles.title}>选择对比小组:</span>
             <BISelect style={{width:136,marginLeft:12}} placeholder="请选择" value={orgValue} onChange={(val)=>this.onFormChange(val,'oneLevel')}>
-              {orgOptions.map(item => (
+              {orgOptions.map((item,index) => (
                 <Option key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
                   {item.name}
                 </Option>
               ))}
             </BISelect>
-            <BISelect style={{width:222,marginLeft:12}} placeholder="请选择" value={studentValue} onChange={(val)=>this.onFormChange(val,'secondLevel')}>
+            <BISelect style={{width:222,marginLeft:12}} placeholder="请选择" value={studentValue} onChange={(val)=>this.onFormChange(val,'secondLevel')} >
               {secondOptions.map(item => (
                 <Option key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
                   {item.name}
@@ -306,7 +316,7 @@ class  currentCreditRight extends React.Component {
                 loading={this.props.loading}
                 rowClassName={this.setRowClassName}
                 onRow={this.onClickRow}
-                scroll={{x:0,y:408}}
+                scroll={{y:408}}
                 rowKey={record => record.groupId}
               >
               </BITable>
