@@ -374,14 +374,17 @@ export const UNIT_DATE = [
   { id: 'ss', name: '秒' },
 ];
 
+
 // 应用类型
-export const APP_LIST = [{ id: '1', name: '极速版App' }];
+export const APP_LIST = [
+  { id: '1', name: '极速版App' }
+  ]
 // 空ContentLayout页面名单
 export const EmptyContentLayout = [
   { path: '/ko', name: 'KO计划' },
   { path: '/qualityMarking', name: '质检标注' },
   { path: '/qualityReport', name: '质检图表' },
-  { path: '/shine/smallPro', name: '小程序管理' },
+  { path: '/shine/smallPro', name: '小程序管理'},
   { path: '/setting/performance/list', name: '创收绩效包' },
   { path: '/setting/performance/edit', name: '创收绩效包详情' },
   { path: '/setting/performance/create', name: '创收绩效包详情' },
@@ -495,6 +498,13 @@ export const SCORE_APPEAL_STATE_FIN = [
   { id: 10, name: '二次申诉成功' },
   { id: 11, name: '二次申诉失败' },
 ];
+// 处罚方式
+const PUNISH_LIST = [
+  {id:1,name:'扣除绩效'},
+  {id:2,name:'扣除学分'},
+  {id:3,name:'扣除挽留金额'},
+  {id:4,name:'扣除人均挽留金额'},
+];
 
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
@@ -530,6 +540,7 @@ export default {
   SCORE_APPEAL_STATE_ON_OWNER,
   SCORE_APPEAL_STATE_ON_MASTER,
   SCORE_APPEAL_DIS,
+  PUNISH_LIST,
   PUNISH_TYPE,
 };
 // 质检审核-审核状态
@@ -537,12 +548,12 @@ export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '
 
 // ko-sessionReport，跳转URL
 export const sessionReportURL = {
-  development: 'http://172.16.109.87:38080/#/sessionRecord',
-  production: 'http://sscp.ministudy.com/college_learn/#/sessionRecord',
+  development: "http://172.16.109.87:38080/#/sessionRecord",
+  production: "http://sscp.ministudy.com/college_learn/#/sessionRecord"
 }[process.env.PROXY_ENV];
 
 // ko-knowledge，跳转URL
 export const knowledgeURL = {
-  development: 'http://172.16.109.87:38080/#/questions',
-  production: 'http://sscp.ministudy.com/college_learn/#/questions',
+  development: "http://172.16.109.87:38080/#/questions",
+  production: "http://sscp.ministudy.com/college_learn/#/questions"
 }[process.env.PROXY_ENV];
