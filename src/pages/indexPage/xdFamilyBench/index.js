@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-import PerformanceDetail from './performanceDetail';
+// import PerformanceDetail from './performanceDetail';
 import styles from './style.less';
+import FamilyAndGroup from './familyAndGroup';
+import Income from './income';
+import Quality from './quality';
+import Appeal from './appeal';
 @connect((xdWorkModal) => ({
   xdWorkModal,
 }))
@@ -19,7 +23,13 @@ class XdFamily extends React.Component {
   render() {
     return (
       <div className={styles.familyBench}>
-        <PerformanceDetail></PerformanceDetail>
+        {/*<PerformanceDetail></PerformanceDetail>*/}
+        <FamilyAndGroup></FamilyAndGroup>
+        <Income/>
+        <div className={styles.qualityAppel}>
+          <Appeal userId={1247} />
+          <Quality userId={1247} />
+        </div>
       </div>
     );
   }
