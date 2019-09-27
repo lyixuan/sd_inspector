@@ -38,7 +38,8 @@ export class FormModels extends BaseModels {
             collegeName: null,             // 学院名
             familyName: null,              // 家族名
             groupName: null,                // 小组名
-
+            violationLevel: null,           // 分维等级
+            punishType:null,                // 处罚方式
         };
     }
 
@@ -70,5 +71,11 @@ export class FormModels extends BaseModels {
     violationLevel = (params = {}) => {
         const { violationLevelName, violationLevel } = params;
         return { violationLevelName, violationLevel }
+    }
+    
+    changePunishValue = (params = {}) => {
+        console.log(params,'params');
+        const { punishType, qualityValue } = params;
+        return { punishType, qualityValue }
     }
 }

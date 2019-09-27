@@ -15,6 +15,7 @@ import styles from './style.less';
 
 @connect(({ createQualityNewSheet1, qualityAppealHome, loading }) => ({
   createQualityNewSheet1,
+  qualityAppealHome,
   orgList: qualityAppealHome.orgList,
   orgMapByMailData: qualityAppealHome.orgMapByMailData,
   orderNumData: qualityAppealHome.orderNumData,
@@ -145,6 +146,7 @@ class CreateQualityNewSheet extends React.Component {
         organizeName: '',
       };
     }
+    this.getPunishInfoListFn1({ ...values, ...newParams });
     this.saveParams({ ...values, ...newParams });
   };
   onChangeOrg = orgObj => {
@@ -156,8 +158,10 @@ class CreateQualityNewSheet extends React.Component {
       ...violationLevelObj,
       violationLevelName: violationLevelObj.violationLevelname,
     };
+    const violationLevel = violationLevelObj.violationLevel;
     this.setState({ violationLevelObj: newviolationLevelObj });
-    this.saveParams({ ...others });
+    this.getPunishInfoListFn1({ violationLevel, ...others });
+    this.saveParams({ violationLevel, ...others });
   };
   setAttUrl = (attUrl, newParams) => {
     this.saveParams({ ...newParams, attUrl });
@@ -174,10 +178,50 @@ class CreateQualityNewSheet extends React.Component {
     for (let item in nextParams) {
       newParams[item] = nextParams[item];
     }
+
     this.setState({ formParams: newParams }, () => {
       if (callback) callback();
     });
   };
+
+  getPunishInfoListFn1(nextParams = {}) {
+    const { formParams } = this.state;
+    const newParams = { ...formParams };
+    for (let item in nextParams) {
+      newParams[item] = nextParams[item];
+    }
+
+    if (newParams.violationLevel && newParams.role && newParams.qualityType) {
+      this.getPunishInfoListFn(newParams.violationLevel, newParams.role, newParams.qualityType);
+    }
+  }
+  getPunishInfoListFn(violationLevel, role, qualityType) {
+    const params = {
+      violationLevel: violationLevel,
+      userType: role,
+      qualityType: qualityType,
+    };
+    this.props
+      .dispatch({
+        type: 'qualityAppealHome/getPunishInfoList',
+        payload: { params },
+      })
+      .then(res => {
+        console.log(res);
+        const params = {
+          punishType: res.punishType,
+          qualityValue: res.qualityValue,
+        };
+        this.saveParams(params);
+        // const { punishType, qualityValue } = data;
+        // const params = {
+        //   punishType,
+        //   qualityValue,
+        // };
+        // const newParams = this.formModels.changePunishValue(params);
+        // this.upDateFormParams(newParams);
+      });
+  }
 
   changeOrderNumConfirmModel = bol => {
     this.setState({ isShowOrderNumConfirmModel: bol });
@@ -282,6 +326,7 @@ class CreateQualityNewSheet extends React.Component {
   render() {
     const { formParams, isShowOrderNumConfirmModel, msgDetail, buttonText } = this.state;
     const { orgList, children, submitLoading } = this.props;
+    // const { punishInfoList } = this.props.qualityAppealHome;
     return (
       <div>
         {/* form区域 */}

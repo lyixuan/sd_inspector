@@ -71,7 +71,7 @@ class CreateQualityNewSheet extends React.Component {
         masterRole: null, masterQualityValue: null, masterMail: null,
         masterRole2: null, masterQualityValue2: null, masterMail2: null,
         masterRole3: null, masterQualityValue3: null, masterMail3: null,
-        masterRole4: null, masterQualityValue4: null, masterMail4: null, qualityValue: null,
+        masterRole4: null, masterQualityValue4: null, masterMail4: null
       });
     }
   };
@@ -86,10 +86,22 @@ class CreateQualityNewSheet extends React.Component {
     });
     if (this.props.onChangeRole) {
       this.props.onChangeRole({
-        ...values, role, organize: [], qualityValue: null, masterRole: null, masterQualityValue: null, masterMail: null,
-        masterRole2: null, masterQualityValue2: null, masterMail2: null,
-        masterRole3: null, masterQualityValue3: null, masterMail3: null,
-        masterRole4: null, masterQualityValue4: null, masterMail4: null,
+        ...values,
+        role,
+        organize: [],
+        // qualityValue: null,
+        masterRole: null,
+        masterQualityValue: null,
+        masterMail: null,
+        masterRole2: null,
+        masterQualityValue2: null,
+        masterMail2: null,
+        masterRole3: null,
+        masterQualityValue3: null,
+        masterMail3: null,
+        masterRole4: null,
+        masterQualityValue4: null,
+        masterMail4: null,
       });
     }
   };
@@ -566,11 +578,11 @@ class CreateQualityNewSheet extends React.Component {
     // const isShowCreate = qualityType === 2 && role !== 'class' && role !== 'group' && role !== 'family';
     // const isShowPerformance = qualityType === 1 && role !== 'csleader' && role !== 'csofficer';
     const isShowCreate = BaseModels.checkoutQualityScore(values);
-    const isShowPerformance = BaseModels.checkoutQualityPerfor(values);
+    // const isShowPerformance = BaseModels.checkoutQualityPerfor(values);
     if (isShowCreate) return this.renderQualityType_create();
-    if (isShowPerformance) {
-      return this.renderQualityType_performance();
-    }
+    // if (isShowPerformance) {  不显示扣除绩效
+    //   return this.renderQualityType_performance();
+    // }
   };
   checkQuality = (rule, value, callback) => {
     if (value && Number(value) >= 0) {
@@ -588,53 +600,53 @@ class CreateQualityNewSheet extends React.Component {
     callback('请输入正整数');
   };
 
-  renderQualityType_performance = value => {
-    const { getFieldDecorator } = this.props.form;
-    const { params } = this.props;
-    return (
-      <Row style={{ lineHeight: '40px' }}>
-        <Col className="gutter-row" span={12}>
-          <span className={styles.i}>*</span>
-          <Form.Item label="扣除绩效">
-            {getFieldDecorator('qualityValue', {
-              initialValue: params.qualityValue,
-              rules: [
-                {
-                  validator(rule, value, callback) {
-                    if (!value || isNaN(value) || Number(value) < 0) {
-                      callback({ message: '请输入合法绩效' });
-                    } else if (
-                      value &&
-                      String(value).split('.')[1] &&
-                      String(value).split('.')[1].length > 2
-                    ) {
-                      callback({ message: '最多保留两位小数' });
-                    } else {
-                      callback();
-                    }
-                  },
-                },
-              ],
-            })(
-              <BIInput
-                placeholder="请输入"
-                style={{ width: 260 }}
-                onChange={e => this.inputChange(e, 'qualityValue')}
-              />,
-            )}
-            <span style={{ display: 'inline-block', width: '20px', textAlign: 'right' }}>%</span>
-          </Form.Item>
-        </Col>
-      </Row>
-    );
-  };
+  // renderQualityType_performance = value => {
+  //   const { getFieldDecorator } = this.props.form;
+  //   const { params } = this.props;
+  //   return (
+  //     <Row style={{ lineHeight: '40px' }}>
+  //       <Col className="gutter-row" span={12}>
+  //         <span className={styles.i}>*</span>
+  //         <Form.Item label="扣除绩效">
+  //           {getFieldDecorator('qualityValue', {
+  //             initialValue: params.qualityValue,
+  //             rules: [
+  //               {
+  //                 validator(rule, value, callback) {
+  //                   if (!value || isNaN(value) || Number(value) < 0) {
+  //                     callback({ message: '请输入合法绩效' });
+  //                   } else if (
+  //                     value &&
+  //                     String(value).split('.')[1] &&
+  //                     String(value).split('.')[1].length > 2
+  //                   ) {
+  //                     callback({ message: '最多保留两位小数' });
+  //                   } else {
+  //                     callback();
+  //                   }
+  //                 },
+  //               },
+  //             ],
+  //           })(
+  //             <BIInput
+  //               placeholder="请输入"
+  //               style={{ width: 260 }}
+  //               onChange={e => this.inputChange(e, 'qualityValue')}
+  //             />
+  //           )}
+  //           <span style={{ display: 'inline-block', width: '20px', textAlign: 'right' }}>%</span>
+  //         </Form.Item>
+  //       </Col>
+  //     </Row>
+  //   );
+  // };
 
   renderOwnComonent = () => {
     // 根据已选 质检类型+归属人角色+违规等级 回显 处罚力度
     // 处罚方式=扣除绩效 或 扣除挽留金额 或 扣除人均挽留金额，单位：元；处罚方式=扣除学分，单位：分  处罚方式未选择时，单位不显示
     const { getFieldDecorator } = this.props.form;
     const { params } = this.props;
-    // const isShowMasterMail = true;
+    console.log(params.punishType, 'params.punishType');
     return (
       <Row className="gutter-row">
         <Col span={12} style={{ width: '100%' }}>
@@ -661,18 +673,12 @@ class CreateQualityNewSheet extends React.Component {
           </Form.Item>
           <Form.Item label="">
             {getFieldDecorator('qualityValue', {
-              initialValue: params.qualityValue,
+              initialValue: params.qualityType || undefined,
               rules: [
                 {
                   validator(rule, value, callback) {
                     if (!value || isNaN(value) || Number(value) < 0) {
                       callback({ message: '请输入处罚力度' });
-                    } else if (
-                      value &&
-                      String(value).split('.')[1] &&
-                      String(value).split('.')[1].length > 2
-                    ) {
-                      callback({ message: '最多保留两位小数' });
                     } else {
                       callback();
                     }
@@ -686,7 +692,9 @@ class CreateQualityNewSheet extends React.Component {
                 onChange={e => this.inputChange(e, 'qualityValue')}
               />,
             )}
-            <span style={{ display: 'inline-block', width: '20px', textAlign: 'right' }}>%</span>
+            <span style={{ display: 'inline-block', width: '20px', textAlign: 'right' }}>
+              {params.punishType ? (params.punishType === 2 ? '分' : '元') : ''}
+            </span>
           </Form.Item>
         </Col>
       </Row>
@@ -698,7 +706,7 @@ class CreateQualityNewSheet extends React.Component {
     const { params } = this.props;
     return (
       <>
-        <Row style={{ lineHeight: '40px' }}>
+        {/* <Row style={{ lineHeight: '40px' }}>
           <Col className="gutter-row" span={12}>
             <span className={styles.i}>*</span>
             <Form.Item label="扣除学分">
@@ -715,7 +723,7 @@ class CreateQualityNewSheet extends React.Component {
               <span style={{ display: 'inline-block', width: '20px', textAlign: 'right' }}></span>
             </Form.Item>
           </Col>
-        </Row>
+        </Row> */}
         <Row className="gutter-row">
           <Col className="gutter-row" span={12}>
             <span className={styles.i}>*</span>

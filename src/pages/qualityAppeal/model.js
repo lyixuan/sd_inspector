@@ -154,12 +154,20 @@ export default {
     },
     *getPunishInfoList({ payload }, { call, put }) {
       const params = payload.params;
+      // const punishInfoList = {
+      //   punishType: 1,
+      //   qualityValue: '2000',
+      // };
+      // console.log(punishInfoList,'punishInfoList');
+      // yield put({ type: 'saveDetailData', payload: { punishInfoList } });
       const result = yield call(getPunishInfoList, params);
       if (result.code === 20000) {
         const data = result.data;
         yield put({ type: 'save', payload: { data } });
+        return data;
       } else {
         message.error(msgF(result.msg, result.msgDetail));
+        return false;
       }
     },
   },

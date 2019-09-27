@@ -281,7 +281,7 @@ class NewQualitySheetIndex extends React.Component {
     this.onJumpPage({ id: record.id }, '/qualityAppeal/qualityNewSheet/appealSt');
   };
   render() {
-    const { orgListTreeData = [], dimensionList1 = [], dimensionList2 = [] } = this.props.qualityAppealHome;
+    const { orgListTreeData = [], dimensionList1 = [], dimensionList2 = []} = this.props.qualityAppealHome;
     const { qualityList = [], page } = this.props.qualityNewSheet;
     return (
       <>
