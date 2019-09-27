@@ -7,6 +7,8 @@
 // 静态文件host
 export const STATIC_HOST = {
   production: 'http://bd.ministudy.com/download',
+  localhost: 'http://172.16.117.65',
+  localhost2: 'http://172.16.117.65',
   development: 'http://172.16.117.65',
   development2: 'http://172.16.117.65',
 }[process.env.ENV_TYPE];
@@ -29,6 +31,8 @@ export const CAS_HOST = {
 
 export const ADMIN_URL = {
   production: 'http://bd.ministudy.com',
+  localhost: 'http://test.xd.admin.ministudy.com',
+  localhost2: 'http://test.xd.admin2.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   development2: 'http://test.xd.admin2.ministudy.com',
 }[process.env.ENV_TYPE];
@@ -37,6 +41,8 @@ export const ADMIN_URL = {
 // ko-sessionReport，跳转URL
 export const sessionReportURL = {
   production: "http://sscp.ministudy.com/college_learn/#/sessionRecord",
+  localhost: "http://172.16.109.87:38080/#/sessionRecord",
+  localhost2: "http://172.16.109.87:38080/#/sessionRecord",
   development: "http://172.16.109.87:38080/#/sessionRecord",
   development2: "http://172.16.109.87:38080/#/sessionRecord",
 }[process.env.ENV_TYPE];
@@ -44,6 +50,8 @@ export const sessionReportURL = {
 // ko-knowledge，跳转URL
 export const knowledgeURL = {
   production: "http://sscp.ministudy.com/college_learn/#/questions",
+  localhost: "http://172.16.109.87:38080/#/questions",
+  localhost2: "http://172.16.109.87:38080/#/questions",
   development: "http://172.16.109.87:38080/#/questions",
   development2: "http://172.16.109.87:38080/#/questions",
 }[process.env.ENV_TYPE];
