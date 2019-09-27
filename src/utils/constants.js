@@ -2,7 +2,6 @@
  * 静态数据和全局配置
  * */
 
-<<<<<<< HEAD
 // localStorage Keys
 
 // 当前用户权限
@@ -13,9 +12,6 @@ export const ADMIN_USER = 'admin_user';
 export const DEBUGGER_USER = {
   localhost: 'ligang02',
 }[process.env.LOGIN_TYPE];
-=======
-// =========================================== host =========
->>>>>>> release2
 
 // 静态文件host
 export const STATIC_HOST = {
@@ -28,34 +24,21 @@ export const STATIC_HOST = {
 
 export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
-<<<<<<< HEAD
-  localhost: 'http://dev.xd.admin.ministudy.com',
-  // development: 'http://test.xd.temp.ministudy.com',
-  // development2: 'http://172.16.109.87:28081',
-  development: 'http://172.16.59.227:8086',
-}[process.env.LOGIN_TYPE];
-=======
   localhost: 'http://test.xd.admin.ministudy.com',
   localhost2: 'http://test.xd.admin2.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   development2: 'http://test.xd.admin2.ministudy.com',
 }[process.env.ENV_TYPE];
->>>>>>> release2
 
 export const CAS_HOST = {
   production: 'http://bd.ministudy.com',
   localhost: 'http://test.xd.admin.ministudy.com',
-<<<<<<< HEAD
-  development: 'http://test.xd.temp.ministudy.com',
-  // development2: 'http://172.16.109.87:28081',
-=======
   localhost2: 'http://test.xd.admin2.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   development2: 'http://test.xd.admin2.ministudy.com',
 }[process.env.ENV_TYPE];
 
 export const ADMIN_URL = {
->>>>>>> release2
   production: 'http://bd.ministudy.com',
   localhost: 'http://test.xd.admin.ministudy.com',
   localhost2: 'http://test.xd.admin2.ministudy.com',
@@ -63,15 +46,6 @@ export const ADMIN_URL = {
   development2: 'http://test.xd.admin2.ministudy.com',
 }[process.env.ENV_TYPE];
 
-<<<<<<< HEAD
-// 设置domain域名
-export const DOMAIN_HOST = '.ministudy.com';
-// export const DOMAIN_HOST = 'localhost';
-export const PROXY_PATH = hasSelfPri => {
-  return hasSelfPri ? '' : '';
-};
-=======
->>>>>>> release2
 
 // ko-sessionReport，跳转URL
 export const sessionReportURL = {
@@ -94,13 +68,6 @@ export const knowledgeURL = {
 export const PROXY_PATH = (hasSelfPri) => { return hasSelfPri ? '' : '/inspectorapis' };
 
 // =========================================== host =========
-
-
-// 当前用户权限
-export const ADMIN_AUTH = 'admin_auth';
-// 当前用户信息
-export const ADMIN_USER = 'admin_user';
-
 
 // 分页配置
 export const PAGINATION = {
