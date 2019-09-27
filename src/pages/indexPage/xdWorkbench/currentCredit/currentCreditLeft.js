@@ -326,7 +326,7 @@ class currentCreditLeft extends React.Component {
         </div>
         <div className={styles.tableContainer}>
           {
-            dataSource.length > 0 && <BITable
+            dataSource && dataSource.length > 0 && <BITable
               columns={this.columns()}
               dataSource={dataSource}
               defaultExpandAllRows={true}
