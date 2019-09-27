@@ -41,6 +41,6 @@ export async function checkRepeatQualityInspection(data) {
 }
 //  质检-获取责任人处罚力度
 export async function getPunishInfoList(data) {
-  return request('/quality/getPunishInfoList', { method: 'post', data });
+  return request('/qualityRole/getPunishInfoList', { method: 'post', data });
 }
 
