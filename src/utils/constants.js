@@ -22,15 +22,15 @@ export const STATIC_HOST = {
 export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
   localhost: 'http://dev.xd.admin.ministudy.com',
-  development: 'http://test.xd.temp.ministudy.com',
+  // development: 'http://test.xd.temp.ministudy.com',
   // development2: 'http://172.16.109.87:28081',
-  development2: 'http://172.16.109.198:8081',
+  development: 'http://172.16.59.227:8086',
 }[process.env.LOGIN_TYPE];
 
 export const CAS_HOST = {
   localhost: 'http://test.xd.admin.ministudy.com',
   development: 'http://test.xd.temp.ministudy.com',
-  development2: 'http://172.16.109.87:28081',
+  // development2: 'http://172.16.109.87:28081',
   production: 'http://bd.ministudy.com',
 }[process.env.LOGIN_TYPE];
 
@@ -38,7 +38,7 @@ export const CAS_HOST = {
 export const DOMAIN_HOST = '.ministudy.com';
 // export const DOMAIN_HOST = 'localhost';
 export const PROXY_PATH = hasSelfPri => {
-  return hasSelfPri ? '' : '/inspectorapis';
+  return hasSelfPri ? '' : '';
 };
 
 // 登录页面地址配置
