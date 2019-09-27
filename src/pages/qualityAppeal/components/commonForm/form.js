@@ -321,7 +321,7 @@ class CreateQualityNewSheet extends React.Component {
                 {getFieldDecorator('masterRoleA', {
                   initialValue: params.masterRole ? params.masterRole.split(',')[0] : undefined,
                 })(
-                  <BISelect placeholder="请选择角色" allowClear style={{ width: 280, marginRight: '10px' }}
+                  <BISelect placeholder="请选择角色" allowClear style={{ width: 160, marginRight: '10px' }}
                             onChange={e => this.masterSelectChange(e, 'masterRoleA')}>
                     {listRole.map(item => (
                       <Option value={item.id} key={item.name}>
@@ -334,7 +334,7 @@ class CreateQualityNewSheet extends React.Component {
               <Form.Item label="">
                 {getFieldDecorator('masterMail', {
                   initialValue: params.masterMail,
-                })(<BIInput placeholder="请输入邮箱前缀" allowClear style={{ width: 140 }}
+                })(<BIInput placeholder="请输入邮箱前缀" allowClear style={{ width: 160 }}
                             onChange={e => this.inputChange(e, 'masterMail')}/>)}
               </Form.Item>
               <div className={styles.text}>@sunlands.com</div>
@@ -343,7 +343,7 @@ class CreateQualityNewSheet extends React.Component {
                   initialValue: params.masterRole ? params.masterRole.split(',')[1] : undefined,
                 })(
                   <BISelect placeholder="请选择处罚方式" allowClear
-                            style={{ width: 210, marginLeft: '15px', marginRight: '10px' }}
+                            style={{ width: 160, marginLeft: '15px', marginRight: '10px' }}
                             onChange={e => this.masterSelectChange(e, 'masterRoleB')}>
                     {BiFilter('PUNISH_LIST').map(item => (
                       <Option value={item.id} key={item.name}>
@@ -365,7 +365,7 @@ class CreateQualityNewSheet extends React.Component {
                       }
                     },
                   }],
-                })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 150 }}
+                })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 160 }}
                             onChange={e => this.inputChange(e, 'masterQualityValue')}/>)}
                 <span style={{
                   display: 'inline-block',
@@ -382,7 +382,7 @@ class CreateQualityNewSheet extends React.Component {
                 {getFieldDecorator('masterRoleA2', {
                   initialValue: params.masterRole2 ? params.masterRole2.split(',')[0] : undefined,
                 })(
-                  <BISelect placeholder="请选择角色" allowClear style={{ width: 280, marginRight: '10px' }}
+                  <BISelect placeholder="请选择角色" allowClear style={{ width: 160, marginRight: '10px' }}
                             onChange={e => this.masterSelectChange(e, 'masterRoleA2')}>
                     {listRole.map(item => (
                       <Option value={item.id} key={item.name}>
@@ -395,7 +395,7 @@ class CreateQualityNewSheet extends React.Component {
               <Form.Item label="">
                 {getFieldDecorator('masterMail2', {
                   initialValue: params.masterMail2,
-                })(<BIInput placeholder="请输入邮箱前缀" allowClear style={{ width: 140 }}
+                })(<BIInput placeholder="请输入邮箱前缀" allowClear style={{ width: 160 }}
                             onChange={e => this.inputChange(e, 'masterMail2')}/>)}
               </Form.Item>
               <div className={styles.text}>@sunlands.com</div>
@@ -404,7 +404,7 @@ class CreateQualityNewSheet extends React.Component {
                   initialValue: params.masterRole2 ? params.masterRole2.split(',')[1] : undefined,
                 })(
                   <BISelect placeholder="请选择处罚方式" allowClear
-                            style={{ width: 210, marginLeft: '15px', marginRight: '10px' }}
+                            style={{ width: 160, marginLeft: '15px', marginRight: '10px' }}
                             onChange={e => this.masterSelectChange(e, 'masterRoleB2')}>
                     {BiFilter('PUNISH_LIST').map(item => (
                       <Option value={item.id} key={item.name}>
@@ -426,7 +426,7 @@ class CreateQualityNewSheet extends React.Component {
                       }
                     },
                   }],
-                })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 150 }}
+                })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 160 }}
                             onChange={e => this.inputChange(e, 'masterQualityValue2')}/>)}
                 <span style={{
                   display: 'inline-block',
@@ -443,7 +443,7 @@ class CreateQualityNewSheet extends React.Component {
                   {getFieldDecorator('masterRoleA3', {
                     initialValue: params.masterRole3 ? params.masterRole3.split(',')[0] : undefined,
                   })(
-                    <BISelect placeholder="请选择角色" allowClear style={{ width: 280, marginRight: '10px' }}
+                    <BISelect placeholder="请选择角色" allowClear style={{ width: 160, marginRight: '10px' }}
                               onChange={e => this.masterSelectChange(e, 'masterRoleA3')}>
                       {listRole.map(item => (
                         <Option value={item.id} key={item.name}>
@@ -456,7 +456,7 @@ class CreateQualityNewSheet extends React.Component {
                 <Form.Item label="">
                   {getFieldDecorator('masterMail3', {
                     initialValue: params.masterMail3,
-                  })(<BIInput placeholder="请输入邮箱前缀" allowClear style={{ width: 140 }}
+                  })(<BIInput placeholder="请输入邮箱前缀" allowClear style={{ width: 160 }}
                               onChange={e => this.inputChange(e, 'masterMail3')}/>)}
                 </Form.Item>
                 <div className={styles.text}>@sunlands.com</div>
@@ -465,7 +465,7 @@ class CreateQualityNewSheet extends React.Component {
                     initialValue: params.masterRole3 ? params.masterRole3.split(',')[1] : undefined,
                   })(
                     <BISelect placeholder="请选择处罚方式" allowClear
-                              style={{ width: 210, marginLeft: '15px', marginRight: '10px' }}
+                              style={{ width: 160, marginLeft: '15px', marginRight: '10px' }}
                               onChange={e => this.masterSelectChange(e, 'masterRoleB3')}>
                       {BiFilter('PUNISH_LIST').map(item => (
                         <Option value={item.id} key={item.name}>
@@ -487,7 +487,7 @@ class CreateQualityNewSheet extends React.Component {
                         }
                       },
                     }],
-                  })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 150 }}
+                  })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 160 }}
                               onChange={e => this.inputChange(e, 'masterQualityValue3')}/>)}
                   <span style={{
                     display: 'inline-block',
@@ -505,7 +505,7 @@ class CreateQualityNewSheet extends React.Component {
                   {getFieldDecorator('masterRoleA4', {
                     initialValue: params.masterRole4 ? params.masterRole4.split(',')[0] : undefined,
                   })(
-                    <BISelect placeholder="请选择角色" allowClear style={{ width: 280, marginRight: '10px' }}
+                    <BISelect placeholder="请选择角色" allowClear style={{ width: 160, marginRight: '10px' }}
                               onChange={e => this.masterSelectChange(e, 'masterRoleA4')}>
                       {listRole.map(item => (
                         <Option value={item.id} key={item.name}>
@@ -518,7 +518,7 @@ class CreateQualityNewSheet extends React.Component {
                 <Form.Item label="">
                   {getFieldDecorator('masterMail4', {
                     initialValue: params.masterMail4,
-                  })(<BIInput placeholder="请输入邮箱前缀" allowClear style={{ width: 140 }}
+                  })(<BIInput placeholder="请输入邮箱前缀" allowClear style={{ width: 160 }}
                               onChange={e => this.inputChange(e, 'masterMail4')}/>)}
                 </Form.Item>
                 <div className={styles.text}>@sunlands.com</div>
@@ -527,7 +527,7 @@ class CreateQualityNewSheet extends React.Component {
                     initialValue: params.masterRole4 ? params.masterRole4.split(',')[1] : undefined,
                   })(
                     <BISelect placeholder="请选择处罚方式" allowClear
-                              style={{ width: 210, marginLeft: '15px', marginRight: '10px' }}
+                              style={{ width: 160, marginLeft: '15px', marginRight: '10px' }}
                               onChange={e => this.masterSelectChange(e, 'masterRoleB4')}>
                       {BiFilter('PUNISH_LIST').map(item => (
                         <Option value={item.id} key={item.name}>
@@ -549,7 +549,7 @@ class CreateQualityNewSheet extends React.Component {
                         }
                       },
                     }],
-                  })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 150 }}
+                  })(<BIInput placeholder="请输入处罚力度" allowClear style={{ width: 160 }}
                               onChange={e => this.inputChange(e, 'masterQualityValue4')}/>)}
                   <span style={{
                     display: 'inline-block',
