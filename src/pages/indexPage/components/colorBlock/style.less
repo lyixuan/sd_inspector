@@ -1,0 +1,51 @@
+// 渐变色加阴影
+.bg_color (@c1, @c2, @c3){
+    box-shadow: 0 4px 8px @c3;
+    background: -webkit-linear-gradient(left, @c1, @c2); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, @c1, @c2); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, @c1, @c2); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, @c1, @c2); /* 标准的语法（必须放在最后） */
+    box-shadow: 0 4px 8px @c3;
+}
+.colorBlock {
+    display: flex;
+    .block {
+        flex: 1;
+        width: 215px;
+        height: 132px;
+        color: #212145;
+        font-size: 32px;
+        text-align: center;
+        margin-right: 16px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(26, 28, 31, .05);
+        .title {
+            height: 54px;
+            line-height: 54px;
+            text-align: center;
+            color: #FFFFFF;
+            font-size: 16px;
+            margin-bottom: 18px;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+        }
+        .bg_color0 {
+            .bg_color(#0DD8CF, #64F5A5, rgba(0, 204, 195, .2))
+        }
+        .bg_color1 {
+            .bg_color(#FFB32B, #FFE000, rgba(204, 141, 0, .2))
+        }
+        .bg_color2 {
+            .bg_color(#FF6F6F, #FF93C7, rgba(204, 42, 0, .2))
+        }
+        .bg_color3 {
+            .bg_color(#4AC0FF, #B0B0FF, rgba(0, 138, 240, .2))
+        }
+        .bg_color4 {
+            .bg_color(#E173FF, #FF8DFA, rgba(204, 0, 180, .2))
+        }
+    }
+    .block:last-child {
+        margin-right: 0;
+    }
+}

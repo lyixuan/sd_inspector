@@ -3,7 +3,6 @@ import styles from './style.less'
 
 class Container extends React.Component {
   render() {
-    console.log(6, this.props)
     return (
       <div className={styles.container} style={this.props.style}>
         {
