@@ -2,6 +2,7 @@
  * 静态数据和全局配置
  * */
 
+<<<<<<< HEAD
 // localStorage Keys
 
 // 当前用户权限
@@ -12,46 +13,94 @@ export const ADMIN_USER = 'admin_user';
 export const DEBUGGER_USER = {
   localhost: 'ligang02',
 }[process.env.LOGIN_TYPE];
+=======
+// =========================================== host =========
+>>>>>>> release2
 
 // 静态文件host
 export const STATIC_HOST = {
-  development: 'http://172.16.117.65',
   production: 'http://bd.ministudy.com/download',
-}[process.env.PROXY_ENV];
+  localhost: 'http://172.16.117.65',
+  localhost2: 'http://172.16.117.65',
+  development: 'http://172.16.117.65',
+  development2: 'http://172.16.117.65',
+}[process.env.ENV_TYPE];
 
 export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
+<<<<<<< HEAD
   localhost: 'http://dev.xd.admin.ministudy.com',
   // development: 'http://test.xd.temp.ministudy.com',
   // development2: 'http://172.16.109.87:28081',
   development: 'http://172.16.59.227:8086',
 }[process.env.LOGIN_TYPE];
+=======
+  localhost: 'http://test.xd.admin.ministudy.com',
+  localhost2: 'http://test.xd.admin2.ministudy.com',
+  development: 'http://test.xd.admin.ministudy.com',
+  development2: 'http://test.xd.admin2.ministudy.com',
+}[process.env.ENV_TYPE];
+>>>>>>> release2
 
 export const CAS_HOST = {
+  production: 'http://bd.ministudy.com',
   localhost: 'http://test.xd.admin.ministudy.com',
+<<<<<<< HEAD
   development: 'http://test.xd.temp.ministudy.com',
   // development2: 'http://172.16.109.87:28081',
-  production: 'http://bd.ministudy.com',
-}[process.env.LOGIN_TYPE];
+=======
+  localhost2: 'http://test.xd.admin2.ministudy.com',
+  development: 'http://test.xd.admin.ministudy.com',
+  development2: 'http://test.xd.admin2.ministudy.com',
+}[process.env.ENV_TYPE];
 
+export const ADMIN_URL = {
+>>>>>>> release2
+  production: 'http://bd.ministudy.com',
+  localhost: 'http://test.xd.admin.ministudy.com',
+  localhost2: 'http://test.xd.admin2.ministudy.com',
+  development: 'http://test.xd.admin.ministudy.com',
+  development2: 'http://test.xd.admin2.ministudy.com',
+}[process.env.ENV_TYPE];
+
+<<<<<<< HEAD
 // 设置domain域名
 export const DOMAIN_HOST = '.ministudy.com';
 // export const DOMAIN_HOST = 'localhost';
 export const PROXY_PATH = hasSelfPri => {
   return hasSelfPri ? '' : '';
 };
+=======
+>>>>>>> release2
 
-// 登录页面地址配置
-export const LOGIN_URL = {
-  // development: 'http://test.xd.admin.ministudy.com',
-  development: 'http://test.xd-copy.admin.ministudy.com',
-  production: 'http://bd.ministudy.com',
-}[process.env.PROXY_ENV];
+// ko-sessionReport，跳转URL
+export const sessionReportURL = {
+  production: "http://sscp.ministudy.com/college_learn/#/sessionRecord",
+  localhost: "http://172.16.109.87:38080/#/sessionRecord",
+  localhost2: "http://172.16.109.87:38080/#/sessionRecord",
+  development: "http://172.16.109.87:38080/#/sessionRecord",
+  development2: "http://172.16.109.87:38080/#/sessionRecord",
+}[process.env.ENV_TYPE];
 
-export const ADMIN_URL = {
-  development: 'http://test.xd.admin.ministudy.com',
-  production: 'http://bd.ministudy.com',
-}[process.env.PROXY_ENV];
+// ko-knowledge，跳转URL
+export const knowledgeURL = {
+  production: "http://sscp.ministudy.com/college_learn/#/questions",
+  localhost: "http://172.16.109.87:38080/#/questions",
+  localhost2: "http://172.16.109.87:38080/#/questions",
+  development: "http://172.16.109.87:38080/#/questions",
+  development2: "http://172.16.109.87:38080/#/questions",
+}[process.env.ENV_TYPE];
+
+export const PROXY_PATH = (hasSelfPri) => { return hasSelfPri ? '' : '/inspectorapis' };
+
+// =========================================== host =========
+
+
+// 当前用户权限
+export const ADMIN_AUTH = 'admin_auth';
+// 当前用户信息
+export const ADMIN_USER = 'admin_user';
+
 
 // 分页配置
 export const PAGINATION = {
@@ -208,6 +257,7 @@ export const provinceJson = [
     name: '台湾省',
   },
 ];
+
 // 报考步骤
 export const PROVINCE_STEP = [
   { id: 0, name: '新生注册' },
@@ -378,17 +428,19 @@ export const UNIT_DATE = [
 // 应用类型
 export const APP_LIST = [
   { id: '1', name: '极速版App' }
-  ]
+]
 // 空ContentLayout页面名单
 export const EmptyContentLayout = [
   { path: '/ko', name: 'KO计划' },
   { path: '/qualityMarking', name: '质检标注' },
   { path: '/qualityReport', name: '质检图表' },
-  { path: '/shine/smallPro', name: '小程序管理'},
+  { path: '/shine/smallPro', name: '小程序管理' },
   { path: '/setting/performance/list', name: '创收绩效包' },
   { path: '/setting/performance/edit', name: '创收绩效包详情' },
   { path: '/setting/performance/create', name: '创收绩效包详情' },
   { path: '/setting/performance/copy', name: '创收绩效包详情' },
+  { path: '/xdWorkbench', name: '小德工作台' },
+  { path: '/xdCredit/index', name: '小德学分' }
 ];
 // 注册类型
 export const REGISTER_STATUS = [{ id: 1, name: '已注册' }];
@@ -546,14 +598,4 @@ export default {
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
 
-// ko-sessionReport，跳转URL
-export const sessionReportURL = {
-  development: "http://172.16.109.87:38080/#/sessionRecord",
-  production: "http://sscp.ministudy.com/college_learn/#/sessionRecord"
-}[process.env.PROXY_ENV];
 
-// ko-knowledge，跳转URL
-export const knowledgeURL = {
-  development: "http://172.16.109.87:38080/#/questions",
-  production: "http://sscp.ministudy.com/college_learn/#/questions"
-}[process.env.PROXY_ENV];

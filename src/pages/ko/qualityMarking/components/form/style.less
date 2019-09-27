@@ -4,19 +4,22 @@
   min-width: 1116px;
   padding:30px 20px;
   background-color: #fff;
-  border-top-left-radius:6px;
-  border-bottom-right-radius:6px;
-  :global{
-    .BISelect .ant-select-selection {
-      border-radius: 6px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  :global {
+    .ant-form-item-label {
+      line-height: 32px;
     }
-    .ant-input {
-      border-radius: 6px;
+    .ant-form-item-control {
+      line-height: 32px;
+    }
+    .ant-row {
+      padding-bottom: 8px;
     }
   }
   .rowWrap{
     display: flex;
-    margin-bottom: 6px;
+    // margin-bottom: 6px;
     .itemCls{
       width: 20%;
     }
@@ -55,6 +58,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 8px;
 }
 //
 .popupClassName {

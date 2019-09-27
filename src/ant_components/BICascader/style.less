@@ -1,27 +1,24 @@
 @import "../config.less";
-
-:global .BICascader {
-  .ant-cascader-picker,.ant-input {
-    border-radius: 2px;
-  }
-  .ant-calendar-picker:hover .ant-calendar-picker-input:not(.ant-input-disabled){
-    border-color: #52C9C2 !important;
-    -webkit-box-shadow: 0 0 0 2px @base-green-shadow;
-    box-shadow: 0 0 0 2px @base-green-shadow;
-  }
-
-  .ant-calendar-picker:focus .ant-calendar-picker-input:not(.ant-input-disabled){
-    border-color: @base-green;
-    outline: 0;
-    -webkit-box-shadow: 0 0 0 2px @base-green-shadow;
-    box-shadow: 0 0 0 2px @base-green-shadow;
-  }
-
-  .ant-calendar-picker-clear, .ant-calendar-picker-icon {
-    right: 16px;
-  }
-  .ant-input:hover{
-    border-color: @base-green;
+.BICascader {
+  :global {
+    .ant-calendar-picker-clear, .ant-calendar-picker-icon {
+      right: 16px;
+    }
+    .ant-cascader-picker-label:hover + .ant-cascader-input, .ant-cascader-picker:focus .ant-cascader-input {
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+    // disabled状态
+    .ant-cascader-picker-disabled {
+      background-color: @base-disabled-color;
+    }
+    // placeholder颜色
+    .ant-input::-webkit-input-placeholder, .ant-cascader-input::-webkit-input-placeholder  {
+      color: @base-placeholder-color;
+    }
+    .ant-cascader-picker-label {
+      text-align: left;
+    }
   }
 }
 

@@ -4,6 +4,8 @@ import Debounce from 'lodash-decorators/debounce';
 import { Link } from 'dva/router';
 import styles from './index.less';
 import bilogo from '../../assets/logo.png';
+import { STATIC_HOST } from '@/utils/constants'
+import { nullLiteral } from '@babel/types';
 
 export default class GlobalHeader extends PureComponent {
   componentWillUnmount() {
@@ -32,7 +34,12 @@ export default class GlobalHeader extends PureComponent {
       onMenuClick,
       onNoticeClear,
       selectedGroup,
+      certificationList
     } = this.props;
+    const admin_user = localStorage.getItem('admin_user');
+    const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
+    const url = STATIC_HOST
+    // const url = 'http://bi-admin.ministudy.com'
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         {selectedGroup.map(item => (
@@ -45,6 +52,7 @@ export default class GlobalHeader extends PureComponent {
         ))}
       </Menu>
     );
+
     return (
       <div className={styles.header}>
         {isMobile && [
@@ -58,6 +66,24 @@ export default class GlobalHeader extends PureComponent {
           type={collapsed ? 'menu-unfold' : 'menu-fold'}
           onClick={this.toggle}
         />
+        {
+          userType == 'class' ? <ul className={styles.certification}>
+            {
+              certificationList.map(item => {
+                return (
+                  <>
+                    {
+                      item.child.map(item2 => (
+                        item2.obtained ? <li key={item2.id}><img src={`${url}${item2.obtainedIcon}`} /></li> : <li key={item2.id}><img src={`${url}${item2.originalIcon}`} /></li>
+                      ))
+                    }
+                    <li className={styles.bigImgLi} key={item.grade + 1}><img src={item.imgUrl} className={styles.bigImg} /></li>
+                  </>
+                )
+              })
+            }
+          </ul> : null
+        }
         <div className={styles.right}>
           {currentUser.name ? (
             <Dropdown overlay={menu}>
@@ -67,8 +93,8 @@ export default class GlobalHeader extends PureComponent {
               </span>
             </Dropdown>
           ) : (
-            <Spin size="small" style={{ marginLeft: 8 }} />
-          )}
+              <Spin size="small" style={{ marginLeft: 8 }} />
+            )}
         </div>
       </div>
     );

@@ -4,12 +4,9 @@ import { Spin } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import BIPagination from '@/ant_components/BIPagination';
 import InitTable from './component/InitTable';
-import BIModal from '@/ant_components/BIModal';
-import BIInput from '@/ant_components/BIInput';
 import router from 'umi/router';
 import styles from './style.less';
 
-const { TextArea } = BIInput;
 @connect(({ userOperation, loading }) => ({
   loading,
   userOperation,

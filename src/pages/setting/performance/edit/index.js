@@ -313,7 +313,6 @@ class detail extends React.Component {
 
     return pass;
   };
-
   fieldCheck = val => {
     return val === null || val === '' ? false : true;
   };

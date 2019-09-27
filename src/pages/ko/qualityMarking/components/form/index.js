@@ -1,10 +1,10 @@
 import React from 'react';
-import { Skeleton, Form, message, Button } from 'antd';
+import { Skeleton, Form, message } from 'antd';
 import { handleDateParams, handleDefaultPickerValueMark } from '@/pages/ko/utils/utils';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BISelect from '@/ant_components/BISelect';
+import BIButton from '@/ant_components/BIButton';
 import { connect } from 'dva/index';
-import btnStyles from '../../../entrancePlatform/btnstyles.less';
 import formStyles from '../../../components/formCommon.less';
 import styles from './style.less';
 
@@ -18,9 +18,6 @@ const dateFormat = 'YYYY.MM.DD';
   loading: loading.effects['workTableModel/getBasicData'] || loading.effects['koPlan/getCurrentTime'],
 }))
 class AiForm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     if (!this.props.currentServiceTime) {
@@ -244,8 +241,8 @@ class AiForm extends React.Component {
             </div>
           </Skeleton>
           <div className={`${styles.rowWrap} ${styles.buttonGroup}`}>
-            <Button className={btnStyles.btnCancel} onClick={this.handleReset} style={{ marginRight: '10px' }}>{'重'}{'置'}</Button>
-            <Button className={btnStyles.btnPrimary} htmlType="submit">{'查'}{'询'}</Button>
+            <BIButton type='reset' onClick={this.handleReset} style={{ marginRight: '8px' }}>{'重'}{'置'}</BIButton>
+            <BIButton type='primary' htmlType="submit">{'查'}{'询'}</BIButton>
           </div>
         </Form>
       </div>

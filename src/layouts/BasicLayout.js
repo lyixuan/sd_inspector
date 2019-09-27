@@ -12,14 +12,13 @@ import { LocaleProvider } from 'antd';
 import ContentLayout from '@/layouts/ContentLayout';
 import SiderMenu from '../components/SiderMenu';
 import biIcon from '../assets/biIcon.png';
-import logo from '../assets/logo.png';
+import logo from '../assets/menu/logo.png';
 import storage from '../utils/storage';
 import HeaderLayout from './Header';
 import { query } from './utils/query';
 import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
 import { redirectUrlParams, checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
-import {DEBUGGER_USER} from '@/utils/constants';
 
 // import router from 'umi/router';
 const { Content, Header } = Layout;
@@ -196,7 +195,7 @@ class BasicLayout extends React.PureComponent {
     const that = this;
     this.props.dispatch({
       type: 'login/initSubSystem',
-      payload: {userName:DEBUGGER_USER},
+      payload: { },
     }).then(() => {
       that.MenuData()
     });
@@ -229,9 +228,8 @@ class BasicLayout extends React.PureComponent {
           onCollapse={this.handleMenuCollapse}
           onClick={({ item, key, keyPath }) => { console.log(item, key); window.location.href = 'www.baidu.com' }}
         />
-        <Layout>
-          <Header style={{ padding: 0 }}>
-            <HeaderLayout
+        <Layout style={{backgroundColor: '#F5F8FA'}}>
+          <HeaderLayout
               {...this.props}
               logo={biIcon}
               currentUser={currentUser}
@@ -242,8 +240,7 @@ class BasicLayout extends React.PureComponent {
               onCollapse={this.handleMenuCollapse}
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
-          </Header>
-          <Content className={this.gobalMarkClass()}>
+           <Content className={this.gobalMarkClass()}>
             <ContentLayout {...this.props} routesData={routesData}>
               <Authorized
                 authority={checkPathname.bind(null, location.patchname)}

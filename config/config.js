@@ -9,7 +9,7 @@ export default {
   /**
    * build时用于非根目录
    */
-  publicPath: process.env.NODE_ENV === 'development' ? '/inspector/' : '/inspector/',
+  publicPath: '/inspector/',
   outputPath: './inspector',    //   ../sd_node/inspector
   // outputPath: '../sd_node/inspector',
   /**
@@ -27,4 +27,14 @@ export default {
   /*
   * 皮肤相关
   */
+  theme: {
+    'primary-color': '#00CCC3',
+    'link-color': '#00CCC3',
+    'warning-color': '#FF4A53',
+    'heading-color': '#1A1C1F',
+    'text-color': '#56595E',
+    'font-size-base': '13px',
+    'border-radius-base': '6px', // 组件浮层圆角
+    'border-color-base': '#E8EBED',
+  },
 }

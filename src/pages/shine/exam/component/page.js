@@ -89,7 +89,7 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow1}>
             <Col className={styles.gutterCol} span={12}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterBtn1}><BIButtonGreen type='primary' onClick={this.add} >+ 添加</BIButtonGreen></span>
+                <span className={styles.gutterBtn1}><BIButton type='primary' onClick={this.add} >+ 添加</BIButton></span>
               </div>
             </Col>
             <Col className={styles.gutterCol}  span={12}>

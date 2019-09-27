@@ -4,16 +4,25 @@
     margin-bottom: 20px;
     background-color: #fff;
   }
-  .ant-radio-wrapper:hover .ant-radio, .ant-radio:hover .ant-radio-inner, .ant-radio-input:focus + .ant-radio-inner,.ant-radio-checked .ant-radio-inner{
-    border-color: @base-green!important;
+  // .ant-radio-wrapper:hover .ant-radio, .ant-radio:hover .ant-radio-inner, .ant-radio-input:focus + .ant-radio-inner,.ant-radio-checked .ant-radio-inner{
+  //   border-color: @base-green!important;
+  // }
+  // .ant-radio-inner::after{
+  //   background-color: @base-green;
+  // }
+  // .ant-radio-checked::after{
+  //   border: 1px solid @base-green;
+  // }
+  .ant-radio-wrapper:hover .ant-radio, .ant-radio:hover .ant-radio-inner, .ant-radio-input:focus + .ant-radio-inner {
+    box-shadow: none;
   }
-  .ant-radio-inner::after{
-    background-color: @base-green;
+  .ant-radio-checked:after {
+    animation: none;
   }
-  .ant-radio-checked::after{
-    border: 1px solid @base-green;
+  .ant-radio-button-wrapper {
+    width: 130px;
+    text-align: center;
   }
-
 }
 
 

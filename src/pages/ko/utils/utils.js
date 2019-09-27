@@ -133,9 +133,17 @@ export function linkImgRouteBul(text) {
 }
 // 浮点乘法
 export function accMul(arg1,arg2) {
-  if(!arg1) return '0.00%';
+  if(!arg1) return '0.00';
   var m=0,s1=arg1.toString(),s2=arg2.toString();
   try{m+=s1.split(".")[1].length}catch(e){}
   try{m+=s2.split(".")[1].length}catch(e){}
-  return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+  return Number(s1.replace(".","")) * Number(s2.replace(".",""))/Math.pow(10,m);
+}
+// 转成年月日
+export function initTimeData(params) {
+  if (Array.isArray(params) && params.length > 0) {
+    return params.map(item => item && moment(item).format(commitDateFormat));
+  } else {
+    return [];
+  }
 }

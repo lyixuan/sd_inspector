@@ -3,7 +3,7 @@
  */
 import { extend } from 'umi-request';
 import { routerRedux } from 'dva/router';
-import { SERVER_HOST,PROXY_PATH } from './constants';
+import { SERVER_HOST, PROXY_PATH } from './constants';
 
 import { notification } from 'antd';
 import { redirectToLogin } from './routeUtils';
@@ -47,7 +47,7 @@ const errorHandler = error => {
   } else if (status >= 404 && status < 422) {
     routerRedux.push('/exception/404');
     return;
-  } else if (!status){
+  } else if (!status) {
     notification.error({
       message: '连接服务器失败',
     });
@@ -73,10 +73,10 @@ const request = extend({
 });
 // 动态添加数据;
 request.interceptors.request.use((url, options) => {
-  options.headers = Object.assign({}, options.headers, { 'X-Requested-With':'XMLHttpRequest',authorization: storage.getToken() });
-  const hasSelfPri = url.indexOf('/apis')>-1||url.indexOf('/shinecollege')>-1;
+  options.headers = Object.assign({}, options.headers, { 'X-Requested-With': 'XMLHttpRequest', authorization: storage.getToken() });
+  const hasSelfPri = url.indexOf('/apis') > -1 || url.indexOf('/shinecollege') > -1 || url.indexOf('/inspectorapis') > -1 || url.indexOf('/deskperfpcapi') > -1;
   return {
-    url:`${SERVER_HOST}${PROXY_PATH(hasSelfPri)}${url}`,
+    url: `${SERVER_HOST}${PROXY_PATH(hasSelfPri)}${url}`,
     options,
   };
 });
