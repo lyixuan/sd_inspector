@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-// import styles from '../../style.less';
+import FamilyScoreLeft from "./familyScoreLeft"
+import FamilyScoreRight from "./familyScoreRight"
+import styles from '../style.less';
 @connect((xdWorkModal) => ({
   xdWorkModal,
 }))
@@ -16,7 +18,10 @@ class FamilyScore extends React.Component {
   }
   render() {
     return (
-      <div style={{padding:'16px 24px'}}>familyScore</div>
+      <div className={styles.creditContainer}>
+        <FamilyScoreLeft className={styles.familyLeft}/>
+        <FamilyScoreRight className={styles.familyRight}/>
+      </div>
     );
   }
 }

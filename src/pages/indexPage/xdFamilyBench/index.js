@@ -23,7 +23,7 @@ class XdFamily extends React.Component {
   render() {
     return (
       <div className={styles.familyBench}>
-        {/* <PerformanceDetail></PerformanceDetail> */}
+        {/*<PerformanceDetail></PerformanceDetail>*/}
         <FamilyAndGroup></FamilyAndGroup>
         <Income/>
         <div className={styles.qualityAppel}>
