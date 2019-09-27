@@ -89,8 +89,8 @@ class currentCreditLeft extends React.Component {
         width: 90,
         render: (myScore, data) => {
           let isFlag = 3
-          if (data.dimensionName !== "绩效排名系数" && data.dimensionName !== "集团排名" && data.dimensionName !== "家族内排名" && data.dimensionName !== "人均在服学员") {
-            isFlag = myScore > data.groupScore ? 1 : myScore < data.groupScore ? 2 : 3
+          if (data.dimensionName !== "绩效排名系数" && data.dimensionName !== "集团排名" && data.dimensionName !== "家族内排名" && data.dimensionName !== "人均在服学员" && data.dimensionName !== "学分均分") {
+            isFlag = Number(myScore) > Number(data.groupScore) ? 1 : Number(myScore) < Number(data.groupScore) ? 2 : 3
           }
           let myScoreName = ""
           if (myScore !== null) {
@@ -98,10 +98,8 @@ class currentCreditLeft extends React.Component {
           }
           const { startTime, endTime } = this.props.xdWorkModal.kpiTimes
           const params = JSON.stringify({ "dementionId": data.id, startTime, endTime });
-          console.log(isFlag === 1, data.isShowPro, 'llllll')
           return (
             <div className={isFlag === 1 && data.isShowPro && PkName ? `${styles.titleGreen}` : isFlag === 2 && data.isShowPro && PkName ? `${styles.titleRed}` : `${styles.titleBlack}`}>
-
               {data.level === 4 && Number(myScoreName) !== 0 ? <Link to={`/xdCredit/index?params=${params}`} target="_blank" className={isFlag === 1 && data.isShowPro && PkName ? `${styles.titleGreen}` : isFlag === 2 && data.isShowPro && PkName ? `${styles.titleRed}` : `${styles.titleBlack}`}>
                 <IndentNum>{myScoreName}</IndentNum> >
               </Link> : <IndentNum>{myScoreName}</IndentNum>
@@ -122,13 +120,12 @@ class currentCreditLeft extends React.Component {
           let myScoreLefNum = ""
           let myScoreRightNum = ""
           if (groupName) {
-            isFlag = myScore > data.groupScore ? 1 : myScore < data.groupScore ? 2 : 3
             if (data.dimensionName === "正面均分" || data.isShowPro) {
+              isFlag = Number(myScore) > Number(data.groupScore) ? 1 : Number(myScore) < Number(data.groupScore) ? 2 : 3
               myScoreLefNum = Number(myScore)
               myScoreRightNum = Number(data.groupScore)
             }
             if (data.dimensionName === "正面均分") {
-
               if (myScoreLefNum > myScoreRightNum) {
                 maxNumMyScore = myScoreLefNum
               } else {
@@ -180,7 +177,7 @@ class currentCreditLeft extends React.Component {
           let lefNum = ""
           let rightNum = ""
           if (groupName) {
-            isFlag = data.myScore > groupScore ? 1 : data.myScore < groupScore ? 2 : 3
+            isFlag = Number(data.myScore) > Number(groupScore) ? 1 : Number(data.myScore) < Number(groupScore) ? 2 : 3
             if (data.dimensionName === "正面均分" || data.isShowPro) {
               lefNum = Number(groupScore)
               rightNum = Number(data.myScore)
