@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import PerformanceDetail from './performanceDetail';
 import styles from './style.less';
 @connect((xdWorkModal) => ({
   xdWorkModal,
@@ -18,7 +19,7 @@ class XdFamily extends React.Component {
   render() {
     return (
       <div className={styles.familyBench}>
-        here
+        <PerformanceDetail></PerformanceDetail>
       </div>
     );
   }
