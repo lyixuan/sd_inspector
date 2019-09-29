@@ -10,7 +10,7 @@ function CustomExpandIcon(props) {
 @connect((xdWorkModal) => ({
   xdWorkModal,
 }))
-class GroupScore extends React.Component {
+class GroupIncome extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -261,4 +261,4 @@ class GroupScore extends React.Component {
   }
 }
 
-export default GroupScore;
+export default GroupIncome;

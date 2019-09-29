@@ -4,6 +4,7 @@ import PerformanceDetail from './performanceDetail';
 import RankList from './rankList';
 import styles from './style.less';
 import FamilyAndGroup from './familyAndGroup';
+import FamilyAndGroupIncome from './familyAndGroupIncome';
 import Income from './income';
 import CurrentCredit from './currentCredit';
 import Quality from './quality';
@@ -28,8 +29,9 @@ class XdFamily extends React.Component {
         <PerformanceDetail></PerformanceDetail>
         <RankList></RankList>
         <CurrentCredit></CurrentCredit>
-        <FamilyAndGroup></FamilyAndGroup>
+        <FamilyAndGroup />
         <Income />
+        <FamilyAndGroupIncome />
         <div className={styles.qualityAppel}>
           <Appeal userId={1247} />
           <Quality userId={1247} />

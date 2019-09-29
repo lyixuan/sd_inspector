@@ -9,43 +9,84 @@
 }
 .colorBlock {
     display: flex;
-    .block {
+    .blockOption {
         flex: 1;
-        width: 215px;
-        height: 132px;
-        color: #212145;
-        font-size: 32px;
-        text-align: center;
         margin-right: 16px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(26, 28, 31, .05);
-        .title {
-            height: 54px;
-            line-height: 54px;
+        .block {
+            height: 132px;
+            color: #212145;
+            font-size: 32px;
             text-align: center;
-            color: #FFFFFF;
-            font-size: 16px;
-            margin-bottom: 18px;
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(26, 28, 31, .05);
+            .title {
+                height: 54px;
+                line-height: 54px;
+                text-align: center;
+                color: #FFFFFF;
+                font-size: 16px;
+                margin-bottom: 18px;
+                border-top-right-radius: 10px;
+                border-top-left-radius: 10px;
+            }
+            .bg_color0 {
+                .bg_color(#0DD8CF, #64F5A5, rgba(0, 204, 195, .2))
+            }
+            .bg_color1 {
+                .bg_color(#FFB32B, #FFE000, rgba(204, 141, 0, .2))
+            }
+            .bg_color2 {
+                .bg_color(#FF6F6F, #FF93C7, rgba(204, 42, 0, .2))
+            }
+            .bg_color3 {
+                .bg_color(#4AC0FF, #B0B0FF, rgba(0, 138, 240, .2))
+            }
+            .bg_color4 {
+                .bg_color(#E173FF, #FF8DFA, rgba(204, 0, 180, .2))
+            }
         }
-        .bg_color0 {
-            .bg_color(#0DD8CF, #64F5A5, rgba(0, 204, 195, .2))
+        .block:last-child {
+            margin-right: 0;
         }
-        .bg_color1 {
-            .bg_color(#FFB32B, #FFE000, rgba(204, 141, 0, .2))
-        }
-        .bg_color2 {
-            .bg_color(#FF6F6F, #FF93C7, rgba(204, 42, 0, .2))
-        }
-        .bg_color3 {
-            .bg_color(#4AC0FF, #B0B0FF, rgba(0, 138, 240, .2))
-        }
-        .bg_color4 {
-            .bg_color(#E173FF, #FF8DFA, rgba(204, 0, 180, .2))
+        .tips {
+            position: relative;
+            box-shadow: 0 2px 8px rgba(26, 28, 31, .05);
+            background-color: #FFFFFF;
+            height: 40px;
+            padding: 10px 12px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            margin-top: 10px;
+            div {
+                display: flex;
+                align-items: center;
+                img {
+                    margin-right: 8px;
+                }
+            }
+            .arrow {
+                display: block;
+                width: 0px;
+                height: 0px;
+                border-width: 0px 6px 6px 6px;
+                border-style: solid;
+                border-color: transparent transparent #CFCFCF transparent;
+                position: absolute;
+                top: -6px;
+                right: -50%;
+                em {
+                    display: block;
+                    width: 0;
+                    height: 0;
+                    border-width: 0px 6px 6px 6px;
+                    border-style: solid;
+                    border-color: transparent transparent #FFFFFF transparent;
+                    position: absolute;
+                    top: 0px;
+                    right: -6px;
+                }
+            }
         }
     }
-    .block:last-child {
-        margin-right: 0;
-    }
+
 }
