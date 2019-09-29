@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-// import PerformanceDetail from './performanceDetail';
+import PerformanceDetail from './performanceDetail';
+import RankList from './rankList';
 import styles from './style.less';
 import FamilyAndGroup from './familyAndGroup';
 import Income from './income';
@@ -23,9 +24,10 @@ class XdFamily extends React.Component {
   render() {
     return (
       <div className={styles.familyBench}>
-        {/*<PerformanceDetail></PerformanceDetail>*/}
+        <PerformanceDetail></PerformanceDetail>
+        <RankList></RankList>
         <FamilyAndGroup></FamilyAndGroup>
-        <Income/>
+        <Income />
         <div className={styles.qualityAppel}>
           <Appeal userId={1247} />
           <Quality userId={1247} />
