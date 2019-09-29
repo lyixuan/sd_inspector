@@ -5,6 +5,7 @@ import RankList from './rankList';
 import styles from './style.less';
 import FamilyAndGroup from './familyAndGroup';
 import Income from './income';
+import CurrentCredit from './currentCredit';
 import Quality from './quality';
 import Appeal from './appeal';
 @connect((xdWorkModal) => ({
@@ -26,6 +27,7 @@ class XdFamily extends React.Component {
       <div className={styles.familyBench}>
         <PerformanceDetail></PerformanceDetail>
         <RankList></RankList>
+        <CurrentCredit></CurrentCredit>
         <FamilyAndGroup></FamilyAndGroup>
         <Income />
         <div className={styles.qualityAppel}>

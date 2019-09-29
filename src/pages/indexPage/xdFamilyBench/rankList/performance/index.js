@@ -155,6 +155,7 @@ class Performance extends React.Component {
           <BITable
             columns={columns}
             dataSource={dataSource}
+            pagination={false}
           >
           </BITable>
         </div>
