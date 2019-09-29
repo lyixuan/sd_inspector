@@ -231,9 +231,15 @@ class CreateQualityNewSheet extends React.Component {
     this.formChange(values);
   };
 
-  masterSelectChange = (val, key) => {
+  masterSelectChange = (value, key) => {
     const values = this.props.form.getFieldsValue();
 
+    let val = '';
+    if(value===undefined){
+      val=''
+    } else {
+      val = value;
+    }
     if (key === 'masterRoleA') {
       values['masterRole'] = `${val},${values['masterRole'] ? values['masterRole'].split(',')[1] : ''}`;
     } else if (key === 'masterRoleA2') {
