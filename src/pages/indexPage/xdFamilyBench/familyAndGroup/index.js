@@ -16,11 +16,13 @@ class FamilyAndGroup extends React.Component {
       tabParams:[{
         name:'家族学分对比',
         key:'1',
-        children: <FamilyScore/>
+        children: <FamilyScore/>,
+        isShowBtn:false
       },{
         name:'小组学分对比',
         key:'2',
-        children:  <GroupScore/>
+        children:  <GroupScore/>,
+        isShowBtn:true
       }]
     }
   }

@@ -15,6 +15,46 @@
     padding: 11px 24px;
     margin-bottom: 16px;
   }
+  .tableContainer{
+    position: relative;
+    height:448px;
+  }
+  .pkRankMain{
+    display: flex;
+    align-items: center;
+  }
+  .progress{
+    display: flex;
+    height: 4px;
+    color: #FFFFFF;
+    border-radius: 3px 0 0 3px;
+  }
+  .rightProgress{
+    display: flex;
+    height: 4px;
+    color: #FFFFFF;
+    border-radius: 0 3px 3px 0;
+  }
+  .titleGreen{
+    color: #00CCC3;
+  }
+  .titleRed{
+    color: #FF626A;
+  }
+  .titleBlack{
+    color: #1B1C20;
+  }
+  :global{
+    .oneLevelBgColor{
+      background: #FFFDF8;
+    }
+    .otherLevelBgColor{
+      background: #FAFFFF;
+    }
+    .otherLevelBgColor1{
+      background: #F5FBFF;
+    }
+  }
 }
 .familyRight{
   width:40%;
@@ -26,6 +66,15 @@
       font-size: 13px;
       color: #1A1C1F;
     }
+  }
+  .progressBg{
+    width:44px;
+    height:10px;
+    background: #E8EBF2;
+  }
+  .progressCenter{
+    height:10px;
+    background: linear-gradient(to right,rgba(0, 232, 206, 1), rgba(0, 232, 206, 0) );
   }
   :global{
     .background1{
