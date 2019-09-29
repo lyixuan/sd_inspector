@@ -25,18 +25,26 @@ class TopTabs extends React.Component {
   render() {
     const { keye } = this.state;
     const { tabParams = [] } = this.props;
-
+    {tabParams.map((item, index) => {
+      const key = item.key || index + 1;
+      return (
+        <TabPane tab={item.name} key={key}>
+          <div keye={key}>{item.children}</div>
+        </TabPane>
+      )
+    })}
     return (
       <div className={styles.topTab}>
         <BITabs onChange={this.onTabChange} type="card" activeKey={keye}>
-          {tabParams.map((item, index) =>
-            <TabPane tab={item.name} key={item.key}>
-              <div keye={item.key}>{item.children}</div>
+          {tabParams.map((item, index) =>{
+            const key = item.key || index + 1;
+            return ( <TabPane tab={item.name} key={key}>
+              <div keye={key}>{item.children}</div>
               {item.isShowBtn?<div className={styles.topBtn}>
                 <BIButton type='primary'>设置对比项</BIButton>
               </div>:null}
-
             </TabPane>
+            )}
           )}
         </BITabs>
 
