@@ -37,7 +37,10 @@ class Dimension extends React.Component {
         dataIndex: 'num',
         key: 'num',
         render: (text, record) => <div data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>   
-          {record.level === 4 ? <>{text > 99999 ? 99999 + '+' : text}{record.unit}<span className={styles.greenColor} style={{ marginLeft: '16px' }}>></span></> : ''}
+          {record.level === 4 && <>
+            {text > 99999 ? 99999 + '+' : text}{record.unit}
+            {text ? <span className={styles.greenColor} style={{ marginLeft: '16px' }}>></span> : ''}
+            </>}
         </div>
       }
     ];
