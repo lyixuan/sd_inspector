@@ -378,7 +378,7 @@ class CreateQualityNewSheet extends React.Component {
                 <span style={{
                   display: 'inline-block',
                   width: '10px',
-                }}> {params.masterRole.split(',')[1] ? String(params.masterRole.split(',')[1])  === '2' ? '分' : '元' : ''}</span>
+                }}> {params.masterRole&&params.masterRole.split(',')[1] ? String(params.masterRole.split(',')[1])  === '2' ? '分' : '元' : ''}</span>
               </Form.Item>
             </Col>
           </Row>
@@ -439,7 +439,7 @@ class CreateQualityNewSheet extends React.Component {
                 <span style={{
                   display: 'inline-block',
                   width: '20px',
-                }}>{params.masterRole2.split(',')[1] ? String(params.masterRole2.split(',')[1])  === '2' ? '分' : '元' : ''}</span>
+                }}>{params.masterRole2&&params.masterRole2.split(',')[1] ? String(params.masterRole2.split(',')[1])  === '2' ? '分' : '元' : ''}</span>
               </Form.Item>
             </Col>
           </Row>
@@ -500,7 +500,7 @@ class CreateQualityNewSheet extends React.Component {
                   <span style={{
                     display: 'inline-block',
                     width: '20px',
-                  }}>{params.masterRole3.split(',')[1] ? String(params.masterRole3.split(',')[1])  === '2' ? '分' : '元' : ''}</span>
+                  }}>{params.masterRole3&&params.masterRole3.split(',')[1] ? String(params.masterRole3.split(',')[1])  === '2' ? '分' : '元' : ''}</span>
                 </Form.Item>
               </Col>
             </Row>
@@ -562,7 +562,7 @@ class CreateQualityNewSheet extends React.Component {
                   <span style={{
                     display: 'inline-block',
                     width: '20px',
-                  }}>{params.masterRole4.split(',')[1] ? String(params.masterRole4.split(',')[1])  === '2' ? '分' : '元' : ''}</span>
+                  }}>{params.masterRole4&&params.masterRole4.split(',')[1] ? String(params.masterRole4.split(',')[1])  === '2' ? '分' : '元' : ''}</span>
                 </Form.Item>
               </Col>
             </Row>
