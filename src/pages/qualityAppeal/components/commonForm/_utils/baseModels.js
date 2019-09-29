@@ -146,22 +146,22 @@ export class BaseModels {
     setMasterQualityValueFamter = (params, violationLevelObj) => {
         const { masterQualityValue } = params;
         // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-        return Number(masterQualityValue);
+        return masterQualityValue===''||masterQualityValue===null?'':Number(masterQualityValue);
     }
   setMasterQualityValueFamter2 = (params, violationLevelObj) => {
     const { masterQualityValue2 } = params;
     // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-    return Number(masterQualityValue2) ;
+    return masterQualityValue2===''||masterQualityValue2===null?'':Number(masterQualityValue2) ;
   }
   setMasterQualityValueFamter3 = (params, violationLevelObj) => {
     const { masterQualityValue3 } = params;
     // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-    return Number(masterQualityValue3) ;
+    return masterQualityValue3===''||masterQualityValue3===null?'':Number(masterQualityValue3) ;
   }
   setMasterQualityValueFamter4 = (params, violationLevelObj) => {
     const { masterQualityValue4 } = params;
     // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-    return Number(masterQualityValue4);
+    return masterQualityValue4===''||masterQualityValue4===null?'':Number(masterQualityValue4);
   }
     transOriginParams = (params = {}) => {
         const newParams = {};
