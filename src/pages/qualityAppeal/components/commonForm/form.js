@@ -304,6 +304,8 @@ class CreateQualityNewSheet extends React.Component {
     if (params.masterRole3 || params.masterRole4 || params.masterMail3 || params.masterMail4 || params.masterQualityValue3 || params.masterQualityValue4) {
       showMore = true;
     }
+
+
     if (isShowMasterMail) {
       return (
         <div className="zhijian">
@@ -376,7 +378,7 @@ class CreateQualityNewSheet extends React.Component {
                 <span style={{
                   display: 'inline-block',
                   width: '10px',
-                }}> {params.masterRoleB ? params.masterRoleB === 2 ? '分' : '元' : ''}</span>
+                }}> {params.masterRole.split(',')[1] ? String(params.masterRole.split(',')[1])  === '2' ? '分' : '元' : ''}</span>
               </Form.Item>
             </Col>
           </Row>
@@ -437,7 +439,7 @@ class CreateQualityNewSheet extends React.Component {
                 <span style={{
                   display: 'inline-block',
                   width: '20px',
-                }}>{params.masterRoleB2 ? params.masterRoleB2 === 2 ? '分' : '元' : ''}</span>
+                }}>{params.masterRole2.split(',')[1] ? String(params.masterRole2.split(',')[1])  === '2' ? '分' : '元' : ''}</span>
               </Form.Item>
             </Col>
           </Row>
@@ -498,7 +500,7 @@ class CreateQualityNewSheet extends React.Component {
                   <span style={{
                     display: 'inline-block',
                     width: '20px',
-                  }}>{params.masterRoleB3 ? params.masterRoleB3 === 2 ? '分' : '元' : ''}</span>
+                  }}>{params.masterRole3.split(',')[1] ? String(params.masterRole3.split(',')[1])  === '2' ? '分' : '元' : ''}</span>
                 </Form.Item>
               </Col>
             </Row>
@@ -560,7 +562,7 @@ class CreateQualityNewSheet extends React.Component {
                   <span style={{
                     display: 'inline-block',
                     width: '20px',
-                  }}>{params.masterRoleB4 ? params.masterRoleB4 === 2 ? '分' : '元' : ''}</span>
+                  }}>{params.masterRole4.split(',')[1] ? String(params.masterRole4.split(',')[1])  === '2' ? '分' : '元' : ''}</span>
                 </Form.Item>
               </Col>
             </Row>
