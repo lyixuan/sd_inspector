@@ -17,7 +17,8 @@ class Income extends React.Component {
   render() {
     const arr = [{
       title1: '家族经流水',
-      num: 20000
+      num: 20000,
+      tip:'本绩效周期内用户所在家族的学分在所有家族中的排名'
     }, {
       title1: '家族经流水',
       num: 20000
