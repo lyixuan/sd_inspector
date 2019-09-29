@@ -11,8 +11,9 @@ export default class IllegalInfoComponent extends React.Component {
       masterRole2 = '',masterQualityValue2 = '', masterMail2 = '',
       masterRole3 = '',masterQualityValue3 = '', masterMail3 = '',
       masterRole4 = '',masterQualityValue4 = '', masterMail4 = '' } = this.props;
-    const { violationDate, familyType, qualityType, reduceScoreDate, dimension, violationLevelName, violationLevel,qualityValue, attUrl, desc, primaryAssortment, secondAssortment, thirdAssortment ,role} = data;
+    const { violationDate, familyType, qualityType, reduceScoreDate, dimension, violationLevelName, violationLevel,qualityValue, attUrl, desc, primaryAssortment, secondAssortment, thirdAssortment ,role, punishType} = data;
     const name = attUrl && attUrl.split('/')[3];
+    console.log(BiFilter('PUNISH_LIST')[punishType],'2');
     // 是否显示学院类型
     const classShow = Number(qualityType) !== 1 && role !=='group' && role !=='class' && role !=='family';
     return (
@@ -27,13 +28,17 @@ export default class IllegalInfoComponent extends React.Component {
           <div className={styles.secRow}>
             <div>质检扣分日期：{reduceScoreDate ? moment(reduceScoreDate).format('YYYY-MM-DD') : null}</div>
             {/* <div>违规等 级：{violationLevelName} {Number(qualityValue)!==0 ?Number(qualityType) !== 1 ? '（扣除学分' : '(扣除绩效':''}{Number(qualityValue)!==0 ?Number(qualityType) !== 1 ? qualityValue+')' : `${(qualityValue * 100).toFixed(2)}%)`:''}</div> */}
-            <div>违规等级：{violationLevelName} {qualityValue}{qualityValue ? Number(qualityValue)===2 ? '分' : '元' :''}</div>
+            <div>违规等级：{violationLevelName}</div>
           </div>
         </div>
         <div className={styles.container2}>
           {
             // Number(qualityType) === 1 && (role === 'csleader' || role==='csofficer') && Number(violationLevel) === 2 ? (
               <>
+                <div  style={{marginBottom:10,width:'100%'}}>
+                    <div>责任人处罚：{punishType && BiFilter('PUNISH_LIST')[punishType].name}  {qualityValue}{qualityValue ? Number(qualityValue)===2 ? '分' : '元' :''}</div>
+                    {/* <div>违规等 级：{violationLevelName} {Number(qualityValue)!==0 ?Number(qualityType) !== 1 ? '（扣除学分' : '(扣除绩效':''}{Number(qualityValue)!==0 ?Number(qualityType) !== 1 ? qualityValue+')' : `${(qualityValue * 100).toFixed(2)}%)`:''}</div> */}
+                </div>
                 <div style={{marginBottom:10,width:'100%'}}>
                   <span>连带责任人处罚：{masterRole&&masterRole.split(',')[0]?BiFilter(`FRONT_ROLE_TYPE_LIST|id:${masterRole&&masterRole.split(',')[0]}`).name:'角色未填写'}</span>，
                   <span> {`${masterMail?masterMail:'--'}@sunlands.com`}</span>，
