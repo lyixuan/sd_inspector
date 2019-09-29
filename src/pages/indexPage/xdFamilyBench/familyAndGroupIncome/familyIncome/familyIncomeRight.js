@@ -9,7 +9,7 @@ const { Option } = BISelect;
   xdWorkModal,
 }))
 
-class FamilyScoreRight extends React.Component {
+class FamilyIncomeRight extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -182,4 +182,4 @@ class FamilyScoreRight extends React.Component {
   }
 }
 
-export default FamilyScoreRight;
+export default FamilyIncomeRight;

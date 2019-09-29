@@ -3,8 +3,8 @@ import { connect } from 'dva';
 import styles from './style.less';
 import Container from '../../components/container'
 import TopTabs from '../../components/topTabs'
-import FamilyScore from './familyScore'
-import GroupScore from './groupScore'
+import FamilyIncome from './familyIncome'
+import GroupIncome from './groupIncome'
 @connect((xdWorkModal) => ({
   xdWorkModal,
 }))
@@ -14,15 +14,15 @@ class FamilyAndGroup extends React.Component {
     this.state = {
       keye: '1',
       tabParams:[{
-        name:'家族学分对比',
+        name:'家族创收对比',
         key:'1',
-        children: <FamilyScore/>,
+        children: <FamilyIncome/>,
         isShowBtn:false
       },{
-        name:'小组学分对比',
+        name:'小组创收对比',
         key:'2',
-        children:  <GroupScore/>,
-        isShowBtn:true
+        children:  <GroupIncome/>,
+        isShowBtn:false
       }]
     }
   }
