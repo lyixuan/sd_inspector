@@ -15,7 +15,7 @@ class RankList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      keye: '1',
+      keye: '2',
       tabParams: [{
         name: '本期绩效总排行榜',
         key: '1',

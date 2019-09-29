@@ -10,21 +10,21 @@ class TopTabs extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      keye: '1'
+      keye: '2'
     }
   }
   componentDidMount() {
 
   }
   onTabChange = (val) => {
-    console.log(20,val)
+    console.log(20, val)
     this.setState({
       keye: val
     })
   };
   render() {
-    const {keye} = this.state;
-    const {tabParams} = this.props;
+    const { keye } = this.state;
+    const { tabParams } = this.props;
 
     return (
       <div className={styles.topTab}>

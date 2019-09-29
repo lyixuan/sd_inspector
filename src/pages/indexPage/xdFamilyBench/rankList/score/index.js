@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Progress, Tooltip } from 'antd';
+import Wrap from './components/wrap'
 import styles from './index.less';
 import { connect } from 'dva';
 
@@ -26,7 +26,10 @@ class Score extends React.Component {
 
   render() {
     return (
-      <div>score</div>
+      <div className={styles.scroeWrap}>
+        <Wrap></Wrap>
+      </div>
+
     );
   }
 }
