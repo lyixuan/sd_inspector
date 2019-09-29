@@ -41,8 +41,8 @@ export class BaseModels {
             collegeName: null,             // 学院名
             familyName: null,              // 家族名
             groupName: null,                // 小组名
-            qualityNum: null                 // 质检单号
-
+            qualityNum: null,              // 质检单号
+            punishType:null,                // 处罚方式
         };
         this.modelData = this.handleInitData(qualityDetail);
     }
