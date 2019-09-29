@@ -190,7 +190,7 @@ class GroupScore extends React.Component {
         title:'学分维度',
         dataIndex:'dimensionName',
         key:'dimensionName',
-        width:"20%"
+        width:"16%"
       },{
         title:'全工商/一组',
         dataIndex:'shangOne',
@@ -219,7 +219,8 @@ class GroupScore extends React.Component {
       },{
         title:'行管/二组',
         dataIndex:'guanTwo',
-        key:'guanTwo'
+        key:'guanTwo',
+        width:'14%'
       }
     ]
     return columns || []

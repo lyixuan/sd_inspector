@@ -91,7 +91,7 @@ class FamilyIncomeRight extends React.Component {
           )
         }
       }, {
-        width: '36%',
+        width: '40%',
         title: '组织',
         dataIndex: 'groupName',
         key: 'groupName',
@@ -101,7 +101,7 @@ class FamilyIncomeRight extends React.Component {
           )
         }
       }, {
-        width: '18%',
+        width: '25%',
         title: '创收绩效',
         dataIndex: 'incomeNum',
         key: 'incomeNum',
@@ -119,6 +119,7 @@ class FamilyIncomeRight extends React.Component {
         title: '人均绩效在服学员',
         dataIndex: 'averageStudentNumber',
         key: 'averageStudentNumber',
+        width:'25%',
         render: (averageStudentNumber) => {
           return (
             <Indent style={{
