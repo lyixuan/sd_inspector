@@ -9,20 +9,22 @@ class Progress extends React.Component {
   componentDidMount() {
   }
   render() {
-    const { leftNumber,data ,PkName,maxNumMyScore} = this.props
+    const { leftNumber,data ,PkName,maxNumMyScore,isIncome} = this.props
+    console.log(13,maxNumMyScore)
     let isFlag = ""
     let leftProgress = ""
     let myScoreLefNum = ""
     let myScoreRightNum = ""
     if (PkName) {
       isFlag = Number(data.myScore) > Number(data.groupScore) ? 1 : Number(data.myScore) < Number(data.groupScore) ? 2 : 3
-      if (data.dimensionName === "正面均分" || data.isShowPro) {
+      if (data.dimensionName === "正面均分" || data.isShowPro || isIncome) {
         myScoreLefNum = Number(data.myScore)
         myScoreRightNum = Number(data.groupScore)
       }
-      if (data.dimensionName === "正面均分" || data.isShowPro) {
+      if (data.dimensionName === "正面均分" || data.isShowPro || isIncome) {
         leftProgress = (((leftNumber?myScoreLefNum:myScoreRightNum )/ maxNumMyScore) * 100).toFixed(2) + '%'
       }
+      console.log(26,maxNumMyScore,leftProgress)
     }
     return (
         <div className={`${styles.pkRankMain} ${leftNumber?styles.progressLeft:styles.progressRight}`} >
