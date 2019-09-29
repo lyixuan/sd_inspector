@@ -519,10 +519,10 @@ export const SCORE_APPEAL_STATE_FIN = [
 ];
 // 处罚方式
 const PUNISH_LIST = [
-  {id:1,name:'扣除绩效'},
-  {id:2,name:'扣除学分'},
-  {id:3,name:'扣除挽留金额'},
-  {id:4,name:'扣除人均挽留金额'},
+  {id:'1',name:'扣除绩效'},
+  {id:'2',name:'扣除学分'},
+  {id:'3',name:'扣除挽留金额'},
+  {id:'4',name:'扣除人均挽留金额'},
 ];
 
 // 需要用于global filter 进行数据筛选的，必须加到default里

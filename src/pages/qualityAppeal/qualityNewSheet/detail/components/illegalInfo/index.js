@@ -48,7 +48,7 @@ export default class IllegalInfoComponent extends React.Component {
                 <div style={{marginBottom:10,width:'100%'}}>
                   <span style={{marginLeft:112}}>{masterRole2&&masterRole2.split(',')[0]?BiFilter(`FRONT_ROLE_TYPE_LIST|id:${masterRole2&&masterRole2.split(',')[0]}`).name:'角色未填写'}</span>，
                   <span> {`${masterMail2?masterMail2:'--'}@sunlands.com`}</span>，
-                  <span>{masterRole2&&masterRole2.split(',')[1].split(',')[1]?BiFilter(`PUNISH_LIST|id:${masterRole2&&masterRole2.split(',')[1]}`).name:'处罚方式未填'}</span>：
+                  <span>{masterRole2&&masterRole2.split(',')[1]?BiFilter(`PUNISH_LIST|id:${masterRole2&&masterRole2.split(',')[1]}`).name:'处罚方式未填'}</span>：
                   <span> {masterQualityValue2||masterQualityValue2===0?masterQualityValue2:'--'} {masterRole?Number(masterRole.split(',')[1])===Number(2)?'分':'元':''}</span>
                 </div>
                 <div style={{marginBottom:10,width:'100%'}}>
