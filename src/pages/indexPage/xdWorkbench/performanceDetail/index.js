@@ -115,7 +115,7 @@ class performanceDetail extends React.Component {
         <div className={styles.tooltipContent}>
           <h4>系数{prop.pkSortValue}的学分最后一名</h4>
           <p>小组学分：{prop.pkGroupScore.toFixed(2)}</p>
-          <p>学分收入：￥{thousandsFormat(parseInt(prop.pkScoreKpi))}</p>
+          {/* <p>学分收入：￥{thousandsFormat(parseInt(prop.pkScoreKpi))}</p> */}
         </div>
       )
     } else if (id == 2) {

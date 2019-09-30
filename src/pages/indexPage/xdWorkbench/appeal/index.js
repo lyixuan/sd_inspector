@@ -35,12 +35,12 @@ class appeal extends React.Component {
   }
 
   block = (item) => {
-    return <div key={item.appealType} className={styles.block} data-trace={appealTrace[item.appealType]}>
+    return <div key={item.appealType} className={styles.block}>
       <div className={`${styles.title} ${styles['bgTitle' + item.appealType]}`}>{appealObj[item.appealType]}</div>
       <div className={styles.content}>
-        <p onClick={() => this.routerHandle(item, 'nonAppealNum')}>未申诉：{item.nonAppealNum}</p>
-        <p onClick={() => this.routerHandle(item, 'rejectedAppealNum')}>被驳回：{item.rejectedAppealNum}</p>
-        <p onClick={() => this.routerHandle(item, 'auditingAppealNum')}>审核中：{item.auditingAppealNum}</p>
+        <p data-trace={appealTrace[item.appealType]} onClick={() => this.routerHandle(item, 'nonAppealNum')}>未申诉：{item.nonAppealNum}</p>
+        <p data-trace={appealTrace[item.appealType]} onClick={() => this.routerHandle(item, 'rejectedAppealNum')}>被驳回：{item.rejectedAppealNum}</p>
+        <p data-trace={appealTrace[item.appealType]} onClick={() => this.routerHandle(item, 'auditingAppealNum')}>审核中：{item.auditingAppealNum}</p>
       </div>
     </div>
   }

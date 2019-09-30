@@ -7,9 +7,10 @@ class Profit extends React.Component {
   constructor(props)  {
     super(props);
     const pkUser = localStorage.getItem('pkUser');
+    const pkListType = localStorage.getItem('pkListType');
     this.state = {
       pkUser: pkUser ? Number(pkUser) : '', // 选中的pk者
-      pkListType: 5, // 列表选项--同级排行
+      pkListType: pkListType ? Number(pkListType) : 5, // 列表选项--同级排行
     }
   }
 
@@ -18,6 +19,7 @@ class Profit extends React.Component {
     this.setState({pkUser: id});
   }
   changePkListType = (v) => {
+    localStorage.setItem('pkListType', v);
     this.setState({pkListType: v});
   }
 
