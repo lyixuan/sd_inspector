@@ -7,22 +7,22 @@ import { thousandsFormat } from '@/utils/utils';
 
 class ColorBlock extends React.Component {
   render() {
-    const {dataSet, title = 'title', num = 'num', tip = 'tip'} = this.props;
+    const { dataSet, title = 'title', num = 'num', tip = 'tip' } = this.props;
     return (
       <div className={styles.colorBlock}>
-        {dataSet && dataSet.map((item, index) => <Tooltip key={index} placement="bottom" title={item[tip]}>
+        {dataSet && dataSet.map((item, index) =>
           <div className={styles.blockOption}>
-            <div className={styles.block}>
-              <div className={`${styles.title} ${styles['bg_color' + index%5]}`}>{item[title]}</div>
-              {thousandsFormat(item[num])}
-            </div>
+            <Tooltip key={index} placement="bottom" title={item[tip]}>
+              <div className={styles.block}>
+                <div className={`${styles.title} ${styles['bg_color' + index % 5]}`}>{item[title]}</div>
+                {thousandsFormat(item[num])}
+              </div>
+            </Tooltip>
             {item.rank && <div className={styles.tips}>
               <span className={styles.arrow}><em></em></span>
-              <div><img src={face1} alt="icon"/>{item.rankTip}</div>
+              <div className={styles.rankTip}><img src={face1} alt="icon" />{item.rankTip}</div>
             </div>}
-          </div>
-          
-        </Tooltip>)}
+          </div>)}
       </div>
     );
   }

@@ -17,19 +17,26 @@ class CurrentCredit extends React.Component {
   render() {
     const arr = [{
       title1: '集团均分',
-      num: 20000
+      num: 20000,
+      tip: 111
     }, {
       title1: '家族均分',
-      num: 20000
+      num: 20000,
+      tip: 222
     }, {
       title1: '家族排名',
-      num: 20000
+      num: 20000,
+      tip: 333
     }, {
       title1: '家族系数排名',
-      num: 20000
+      num: 20000,
+      rank: 11,
+      rankTip: '排名再下滑1位，系数将掉档',
+      tip: 444
     }, {
       title1: '人均绩效在服学员',
-      num: 20000
+      num: 20000,
+      tip: 555
     }]
     const tabParams = [{
       name: '本期学分',
