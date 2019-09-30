@@ -18,7 +18,6 @@ class Income extends React.Component {
     const arr = [{
       title1: '家族经流水',
       num: 20000,
-      tip:'本绩效周期内用户所在家族的学分在所有家族中的排名'
     }, {
       title1: '家族经流水',
       num: 20000
@@ -34,10 +33,10 @@ class Income extends React.Component {
     }]
     const tabParams = [{
       name: '小组创收',
-      children: <TableList tabKey="1"/>
+      children: <TableList />
     }, {
       name: '班主任创收',
-      children: <TableList tabKey="2"/>
+      children: <TableList tabKey="1"/>
     }]
     return (
       <div className={styles.income}>

@@ -45,3 +45,16 @@ export async function  isShowPermission(params) {
 export async function getKpiInfo(params) {
   return request('/deskperfpcapi/workbenchIncomeKpi/getKpiInfo', { method: 'get', data: params })
 }
+
+
+// ===========================家族==========
+
+// 绩效详情
+// 本期创收明细-小组创收明细
+export async function getCurrentIncomeGroup(params) {
+  return request('/incomeFamily/currentIncomeGroup', { method: 'get', data: params })
+}
+// 本期创收明细-班主任创收明细
+export async function getCurrentIncomeClass(params) {
+  return request('/incomeFamily/currentIncomeClass', { method: 'get', data: params })
+}
