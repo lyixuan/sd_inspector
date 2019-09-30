@@ -22,17 +22,18 @@ class TopTabs extends React.Component {
       keye: val
     })
   };
+  setContrast = (item) =>{
+    console.log(26,item)
+    if(item.visible === "visible"){
+      item.changeModal()
+    }else if(item.visible === "incomeVisible"){
+      item.changeModal()
+    }
+
+  }
   render() {
     const { keye } = this.state;
     const { tabParams = [] } = this.props;
-    {tabParams.map((item, index) => {
-      const key = item.key || index + 1;
-      return (
-        <TabPane tab={item.name} key={key}>
-          <div keye={key}>{item.children}</div>
-        </TabPane>
-      )
-    })}
     return (
       <div className={styles.topTab}>
         <BITabs onChange={this.onTabChange} type="card" activeKey={keye}>
@@ -41,7 +42,7 @@ class TopTabs extends React.Component {
             return ( <TabPane tab={item.name} key={key}>
               <div keye={key}>{item.children}</div>
               {item.isShowBtn?<div className={styles.topBtn}>
-                <BIButton type='primary'>设置对比项</BIButton>
+                <BIButton type='primary' onClick={() => this.setContrast(item)}>设置对比项</BIButton>
               </div>:null}
             </TabPane>
             )}

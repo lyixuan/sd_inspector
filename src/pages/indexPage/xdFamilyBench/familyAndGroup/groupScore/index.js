@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from '../style.less';
 import BITable from '@/ant_components/BITable'
+
 function CustomExpandIcon(props) {
   return (
     <a />
@@ -256,7 +257,6 @@ class GroupScore extends React.Component {
           >
           </BITable>
         }
-
       </div>
     );
   }
