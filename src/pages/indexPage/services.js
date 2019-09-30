@@ -49,7 +49,10 @@ export async function getKpiInfo(params) {
 
 // ===========================家族==========
 
-// 绩效详情
+// 本期创收明细-关键指标
+export async function getCurrentIncomeTarget(params) {
+  return request('/incomeFamily/currentIncomeTarget', { method: 'get', data: params })
+}
 // 本期创收明细-小组创收明细
 export async function getCurrentIncomeGroup(params) {
   return request('/incomeFamily/currentIncomeGroup', { method: 'get', data: params })

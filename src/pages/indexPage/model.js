@@ -8,7 +8,10 @@ import {
   groupList,
   groupPkList,
   getKpiInfo,
-  isShowPermission
+  isShowPermission,
+  getCurrentIncomeGroup,
+  getCurrentIncomeClass,
+  getCurrentIncomeTarget
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -21,7 +24,23 @@ export default {
     kpiLevelList: null,
     groupList: null,
     groupPkList: {},
-    kpiTimes: null
+    kpiTimes: null,
+    inCometarget: [{
+      title1: '家族净流水',
+      num: 2000,
+    }, {
+      title1: '绩效排名',
+      num: 2000
+    }, {
+      title1: '好推绩效',
+      num: 2000
+    }, {
+      title1: '续报绩效',
+      num: 2000
+    }, {
+      title1: '成本套绩效',
+      num: 2000
+    }], // 以下是家族值
   },
 
   effects: {
@@ -151,6 +170,56 @@ export default {
           endTime: moment(result.data.kpiEndDate).format('YYYY-MM-DD')
         }
         yield put({ type: 'save', payload: { kpiTimes: params } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // ====================家族
+    // 创收明细
+    *getCurrentIncomeTarget(_, { call, put }) {
+      const result = yield call(getCurrentIncomeTarget)
+      if (result.code === 20000) {
+        const data = result.data;
+        const inCometarget = [{
+          title1: '家族净流水',
+          num: data.kpiFlow,
+        }, {
+          title1: '绩效排名',
+          num: data.ranking
+        }, {
+          title1: '好推绩效',
+          num: data.goodpushKpi
+        }, {
+          title1: '续报绩效',
+          num: data.renewalKpi
+        }, {
+          title1: '成本套绩效',
+          num: data.examZbtKpi
+        }]
+        
+        yield put({ type: 'save', payload: { inCometarget } });
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getCurrentIncomeGroup({ callback }, { call }) {
+      const result = yield call(getCurrentIncomeGroup)
+      if (result.code === 20000) {
+
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getCurrentIncomeClass({ callback }, { call }) {
+      const result = yield call(getCurrentIncomeClass)
+      if (result.code === 20000) {
+
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
