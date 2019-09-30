@@ -35,7 +35,7 @@ export default class IllegalInfoComponent extends React.Component {
             // Number(qualityType) === 1 && (role === 'csleader' || role==='csofficer') && Number(violationLevel) === 2 ? (
               <>
                 <div  style={{marginBottom:10,width:'100%'}}>
-                    <div>责任人处罚：{punishType && BiFilter('PUNISH_LIST')[Number(punishType)-1].name}  {qualityValue}{qualityType ? Number(qualityType)===2 ? '分' : '元' :''}</div>
+                    <div>责任人处罚：{punishType && BiFilter('PUNISH_LIST')[Number(punishType)-1].name}  {qualityValue}{punishType ? Number(punishType)===2 ? '分' : '元' :''}</div>
                     {/* <div>违规等 级：{violationLevelName} {Number(qualityValue)!==0 ?Number(qualityType) !== 1 ? '（扣除学分' : '(扣除绩效':''}{Number(qualityValue)!==0 ?Number(qualityType) !== 1 ? qualityValue+')' : `${(qualityValue * 100).toFixed(2)}%)`:''}</div> */}
                 </div>
                 <div style={{marginBottom:10,width:'100%'}}>
