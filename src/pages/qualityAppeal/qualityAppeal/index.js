@@ -195,7 +195,7 @@ const columns1 = [
     render: (text, record) => {
       return (
         <>
-        {record.qualityValue}{record.qualityValue ? Number(record.qualityValue)===2 ? '分' : '元' :''}
+        {record.qualityValue}{record.qualityType ? Number(record.qualityType)===2 ? '分' : '元' :''}
           {/* {Number(record.qualityType) === 1
             ? record.qualityValue
             : record.qualityValue && record.qualityValue} */}
@@ -278,14 +278,12 @@ const columns2 = [
     dataIndex: 'violationLevel',
   },
   {
-    title: '扣除学分（绩效）',
+    title: '处罚力度',
     dataIndex: 'qualityValue',
     render: (text, record) => {
       return (
         <>
-          {Number(record.qualityType) === 1
-            ? record.qualityValue && `${(Number(record.qualityValue) * 100).toFixed(2)}%`
-            : record.qualityValue && record.qualityValue}
+          {record.qualityValue}{record.qualityType ? Number(record.qualityType)===2 ? '分' : '元' :''}
         </>
       );
     },

@@ -156,10 +156,11 @@ class CreateQualityNewSheet extends React.Component {
     if (this.props.onChangedimensionTree) {
       this.props.onChangedimensionTree({
         violationLevelObj, dimension: value,
-        masterRole: null, masterQualityValue: null, masterMail: null,
-        masterRole2: null, masterQualityValue2: null, masterMail2: null,
-        masterRole3: null, masterQualityValue3: null, masterMail3: null,
-        masterRole4: null, masterQualityValue4: null, masterMail4: null,
+        // 注销掉违规分类跟连带责任人的联动
+        // masterRole: null, masterQualityValue: null, masterMail: null,
+        // masterRole2: null, masterQualityValue2: null, masterMail2: null,
+        // masterRole3: null, masterQualityValue3: null, masterMail3: null,
+        // masterRole4: null, masterQualityValue4: null, masterMail4: null,
       });
     }
   };
@@ -654,7 +655,6 @@ class CreateQualityNewSheet extends React.Component {
     // 处罚方式=扣除绩效 或 扣除挽留金额 或 扣除人均挽留金额，单位：元；处罚方式=扣除学分，单位：分  处罚方式未选择时，单位不显示
     const { getFieldDecorator } = this.props.form;
     const { params } = this.props;
-    console.log(params.punishType, 'params.punishType');
     return (
       <Row className="gutter-row">
         <Col span={12} style={{ width: '100%' }}>

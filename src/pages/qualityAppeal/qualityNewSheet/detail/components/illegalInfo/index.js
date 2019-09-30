@@ -35,7 +35,7 @@ export default class IllegalInfoComponent extends React.Component {
             // Number(qualityType) === 1 && (role === 'csleader' || role==='csofficer') && Number(violationLevel) === 2 ? (
               <>
                 <div  style={{marginBottom:10,width:'100%'}}>
-                    <div>责任人处罚：{punishType && BiFilter('PUNISH_LIST')[Number(punishType)-1].name}  {qualityValue}{qualityValue ? Number(qualityValue)===2 ? '分' : '元' :''}</div>
+                    <div>责任人处罚：{punishType && BiFilter('PUNISH_LIST')[Number(punishType)-1].name}  {qualityValue}{qualityType ? Number(qualityType)===2 ? '分' : '元' :''}</div>
                     {/* <div>违规等 级：{violationLevelName} {Number(qualityValue)!==0 ?Number(qualityType) !== 1 ? '（扣除学分' : '(扣除绩效':''}{Number(qualityValue)!==0 ?Number(qualityType) !== 1 ? qualityValue+')' : `${(qualityValue * 100).toFixed(2)}%)`:''}</div> */}
                 </div>
                 <div style={{marginBottom:10,width:'100%'}}>
@@ -46,21 +46,21 @@ export default class IllegalInfoComponent extends React.Component {
                 </div>
                 <div style={{marginBottom:10,width:'100%'}}>
                   <span style={{marginLeft:112}}>{masterRole2&&masterRole2.split(',')[0]?BiFilter(`FRONT_ROLE_TYPE_LIST|id:${masterRole2&&masterRole2.split(',')[0]}`).name:'角色未填写'}</span>，
-                  <span> {`${masterMail2?masterMail2:'--'}@sunlands.com`}</span>，
+                  <span>{`${masterMail2?masterMail2:'--'}@sunlands.com`}</span>，
                   <span>{masterRole2&&masterRole2.split(',')[1]?BiFilter(`PUNISH_LIST|id:${masterRole2&&masterRole2.split(',')[1]}`).name:'处罚方式未填'}</span>：
-                  <span> {masterQualityValue2||masterQualityValue2===0?masterQualityValue2:'--'} {masterRole?Number(masterRole.split(',')[1])===Number(2)?'分':'元':''}</span>
+                  <span> {masterQualityValue2||masterQualityValue2===0?masterQualityValue2:'--'} {masterRole2?Number(masterRole2.split(',')[1])===Number(2)?'分':'元':''}</span>
                 </div>
                 <div style={{marginBottom:10,width:'100%'}}>
                   <span style={{marginLeft:112}}>{masterRole3&&masterRole3.split(',')[0]?BiFilter(`FRONT_ROLE_TYPE_LIST|id:${masterRole3&&masterRole3.split(',')[0]}`).name:'角色未填写'}</span>，
-                  <span> {`${masterMail3?masterMail3:'--'}@sunlands.com`}</span>，
+                  <span>{`${masterMail3?masterMail3:'--'}@sunlands.com`}</span>，
                   <span>{masterRole3&&masterRole3.split(',')[1]?BiFilter(`PUNISH_LIST|id:${masterRole3&&masterRole3.split(',')[1]}`).name:'处罚方式未填'}</span>：
-                  <span> {masterQualityValue3||masterQualityValue3===0?masterQualityValue3:'--'} {masterRole?Number(masterRole.split(',')[1])===Number(2)?'分':'元':''}</span>
+                  <span> {masterQualityValue3||masterQualityValue3===0?masterQualityValue3:'--'} {masterRole3?Number(masterRole3.split(',')[1])===Number(2)?'分':'元':''}</span>
                 </div>
                 <div style={{marginBottom:10,width:'100%'}}>
                   <span style={{marginLeft:112}}>{masterRole4&&masterRole4.split(',')[0]?BiFilter(`FRONT_ROLE_TYPE_LIST|id:${masterRole4&&masterRole4.split(',')[0]}`).name:'角色未填写'}</span>，
                   <span> {`${masterMail4?masterMail4:'--'}@sunlands.com`}</span>，
                   <span>{masterRole4&&masterRole4.split(',')[1]?BiFilter(`PUNISH_LIST|id:${masterRole4&&masterRole4.split(',')[1]}`).name:'处罚方式未填'}</span>：
-                  <span> {masterQualityValue4||masterQualityValue4===0?masterQualityValue4:'--'} {masterRole?Number(masterRole.split(',')[1])===Number(2)?'分':'元':''}</span>
+                  <span> {masterQualityValue4||masterQualityValue4===0?masterQualityValue4:'--'} {masterRole4?Number(masterRole4.split(',')[1])===Number(2)?'分':'元':''}</span>
                 </div>
               </>
             // ) : null

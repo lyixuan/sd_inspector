@@ -207,19 +207,11 @@ class CreateQualityNewSheet extends React.Component {
         payload: { params },
       })
       .then(res => {
-        console.log(res);
         const params = {
           punishType: res.punishType,
           qualityValue: res.qualityValue,
         };
         this.saveParams(params);
-        // const { punishType, qualityValue } = data;
-        // const params = {
-        //   punishType,
-        //   qualityValue,
-        // };
-        // const newParams = this.formModels.changePunishValue(params);
-        // this.upDateFormParams(newParams);
       });
   }
 
