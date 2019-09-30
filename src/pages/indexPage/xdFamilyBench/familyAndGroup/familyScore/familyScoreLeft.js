@@ -301,7 +301,6 @@ class FamilyScoreLeft extends React.Component {
   render() {
     const {data} = this.state
     const dataSource = data && data.dimensionList.length>0 && this.fillDataSource(data.dimensionList)
-    console.log(225,dataSource)
     return (
       <div className={styles.familyLeft}>
         <div className={styles.proMain}>

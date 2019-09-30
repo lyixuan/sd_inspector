@@ -23,13 +23,11 @@ class TopTabs extends React.Component {
     })
   };
   setContrast = (item) =>{
-    console.log(26,item)
-    if(item.visible === "visible"){
+    if(item && item.visible === "visible"){
       item.changeModal()
-    }else if(item.visible === "incomeVisible"){
+    }else if(item && item.visible === "incomeVisible"){
       item.changeModal()
     }
-
   }
   render() {
     const { keye } = this.state;
