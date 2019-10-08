@@ -54,3 +54,7 @@ export async function getFamilykpiInfo(params) {
 export async function scoreDetail(params) {
   return request('/family/score/detail', { method: 'get', data: params })
 }
+// 查询组织架构
+export async function getOrgMapList(params) {
+  return request('/orgMap/getOrgMapList', { params });
+}
