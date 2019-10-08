@@ -4,6 +4,7 @@ import styles from '../style.less';
 import BISelect from '@/ant_components/BISelect'
 import BITable from '@/ant_components/BITable'
 import Indent from '../../../components/indent';
+import SmallProgress from '../../../components/smallProgress'
 const { Option } = BISelect;
 @connect((xdWorkModal) => ({
   xdWorkModal,
@@ -100,7 +101,9 @@ class FamilyScoreRight extends React.Component {
         dataIndex: 'credit',
         key: 'credit',
         render: (credit, data) => {
-          const percent = credit / total * 100+'%';
+          const percent = '25%'
+          const isColor="green"
+          // const percent = credit / total * 100+'%';
           return (
             <Indent style={{
               marginLeft: '-8px'
@@ -112,10 +115,7 @@ class FamilyScoreRight extends React.Component {
                 data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'
               >
                 <span style={{ fontSize: '13px' }}>{credit}</span>
-                <div className={styles.progressBg}>
-                  <div className ={styles.progressCenter} style={{width:percent}}></div>
-                </div>
-
+                <SmallProgress percent={percent} isColor={isColor}></SmallProgress>
               </div>
             </Indent>
           );
