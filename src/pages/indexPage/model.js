@@ -11,7 +11,8 @@ import {
   isShowPermission,
   getCurrentIncomeGroup,
   getCurrentIncomeClass,
-  getCurrentIncomeTarget
+  getCurrentIncomeTarget,
+  getOrgMapList
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -41,6 +42,8 @@ export default {
       title1: '成本套绩效',
       num: 2000
     }], // 以下是家族值
+    orgList: [], // 保存组织原始结构
+    orgListTreeData: [], // 保存组织处理成treeData需要的结构
   },
 
   effects: {
@@ -226,13 +229,51 @@ export default {
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
-    }
+    },
+    // 组织列表
+    *getOrgMapList({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getOrgMapList, params);
+      const orgList = result.data || [];
+
+      if (result.code === 20000) {
+        yield put({ type: 'saveMap', payload: { orgList } });
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
   },
 
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
     },
+    saveMap(state, { payload }) {
+      const orgListTreeData = toTreeData(payload.orgList);
+      return { ...state, orgList: payload.orgList, orgListTreeData };
+    },
   },
   subscriptions: {},
 };
+function toTreeData(orgList) {
+  const treeData = [];
+  orgList.forEach(v => {
+    const o = { title: v.name, value: `a-${v.id}`, key: v.id, lv: 1 };
+    if (v.nodeList.length > 0) {
+      o.children = [];
+      v.nodeList.forEach(v1 => {
+        const o1 = { title: v1.name, value: `b-${v1.id}`, key: v1.id + 1000, lv: 2 };
+        o.children.push(o1);
+        if (v1.nodeList.length > 0) {
+          o1.children = [];
+          v1.nodeList.forEach(v2 => {
+            const o2 = { title: v2.name, value: `c-${v2.id}`, key: v2.id + 100000, lv: 3 };
+            o1.children.push(o2);
+          });
+        }
+      });
+    }
+    treeData.push(o);
+  });
+  return treeData;
+}

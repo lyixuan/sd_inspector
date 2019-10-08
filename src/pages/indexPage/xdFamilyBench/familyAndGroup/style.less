@@ -77,13 +77,14 @@
     }
   }
   .progressBg{
-    width:44px;
-    height:10px;
-    background: #E8EBF2;
-  }
+       width:44px;
+       height:10px;
+       background: #E8EBF2;
+     }
   .progressCenter{
     height:10px;
     background: linear-gradient(to right,rgba(0, 232, 206, 1), rgba(0, 232, 206, 0) );
+    border:0.5px solid #00CCC3;
   }
   :global{
     .background1{
@@ -106,5 +107,27 @@
       background: #F7FFF9;
       cursor: pointer;
     }
+  }
+}
+.myGroup{
+  width:100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .titleName{
+    margin-right:24px;
+  }
+  .titleName:nth-child(1){
+    width:91px;
+    display:inline-block;
+    text-align:right;
+    margin-right:16px;
+  }
+}
+.pkGroup{
+  margin-top:16px;
+  .titleName:nth-child(1){
+    text-align:left;
+    margin-right:10px;
   }
 }

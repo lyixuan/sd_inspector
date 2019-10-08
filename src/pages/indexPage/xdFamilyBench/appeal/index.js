@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Tooltip } from 'antd';
 import BIRadio from '@/ant_components/BIRadio';
 import BITable from '@/ant_components/BITable';
 import Container from '../../components/container';
+import rankWarn from '@/assets/xdFamily/rankWarn.png';
+import styles from './style.less';
 
 const tabsMsg = [{
   title: '未申诉',
@@ -40,28 +43,29 @@ class appeal extends React.Component {
         key: 'violationNumber',
       }, {
         title: '质检',
-        dataIndex: 'violationNumber',
-        key: 'violationNumber',
+        dataIndex: 'violationNumber1',
+        key: 'violationNumber1',
+        render: text => <>{text === 1 ? <div className={styles.rankMark}>{text}{<Tooltip placement="bottom" title='含一级违规'><img src={rankWarn} alt='icon' /></Tooltip>}</div> : text}</>
       }, {
         title: '底线',
-        dataIndex: 'violationNumber',
-        key: 'violationNumber',
+        dataIndex: 'violationNumber2',
+        key: 'violationNumber2',
       }, {
         title: 'IM',
-        dataIndex: 'violationNumber',
-        key: 'violationNumber',
+        dataIndex: 'violationNumber3',
+        key: 'violationNumber3',
       }, {
         title: '工单',
-        dataIndex: 'violationNumber',
-        key: 'violationNumber',
+        dataIndex: 'violationNumber4',
+        key: 'violationNumber4',
       } , {
         title: '优新',
-        dataIndex: 'violationNumber',
-        key: 'violationNumber',
+        dataIndex: 'violationNumber5',
+        key: 'violationNumber5',
       } , {
         title: '创收',
-        dataIndex: 'violationNumber',
-        key: 'violationNumber',
+        dataIndex: 'violationNumber6',
+        key: 'violationNumber6',
       } 
  
     ];
@@ -85,7 +89,7 @@ class appeal extends React.Component {
         </BIRadio>
         <BITable
           columns={this.columns()}
-          dataSource={[]}
+          dataSource={[{id: 1, violationNumber1: 1}]}
           pagination={false}
           loading={this.props.loading}
           rowKey={(record, index) => index}

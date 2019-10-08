@@ -27,7 +27,7 @@ class IndexPage extends Component {
               <img src={homeText} alt="首页文字" />
             </div>
           </div>
-        </div >}
+        </div>}
       </>
     );
   }

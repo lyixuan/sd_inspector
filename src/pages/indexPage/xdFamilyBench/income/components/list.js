@@ -38,10 +38,6 @@ class ProfitList extends React.Component {
         dataIndex: 'groupName',
         key: 'groupName',
       }, {
-        title: this.props.tabKey === '1' ? '运营长' : '班主任',
-        dataIndex: 'userName',
-        key: 'userName',
-      }, {
         title: '总绩效',
         dataIndex: 'incomeKpi',
         key: 'incomeKpi',
@@ -92,6 +88,13 @@ class ProfitList extends React.Component {
         className: styles.row3,
       }
     ];
+    if (this.props.tabKey === '1') {
+      columns.splice(2, 0, {
+        title: '班主任',
+        dataIndex: 'userName',
+        key: 'userName',
+      })
+    }
     return columns || [];
   };
   getData = () => {
