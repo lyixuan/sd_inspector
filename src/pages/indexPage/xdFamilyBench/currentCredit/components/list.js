@@ -5,13 +5,10 @@ import styles from './style.less';
 import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
 import normal from '@/assets/xdFamily/rankNormal.png';
-import rank1 from '@/assets/xdFamily/rank1.png';
-import rank2 from '@/assets/xdFamily/rank2.png';
-import rank3 from '@/assets/xdFamily/rank3.png';
 import SmallProgress from '@/pages/indexPage/components/smallProgress'
 
-@connect(({ loading }) => ({
-  // loading: loading.effects['xdWorkModal/getIncomeKpiPkList'],
+@connect(({ xdWorkModal }) => ({
+  xdWorkModal
 }))
 class ProfitList extends React.Component {
   constructor(props) {
@@ -1402,8 +1399,15 @@ class ProfitList extends React.Component {
     }
   }
   componentDidMount() {
+    this.getScoreStatistics();
 
-
+  }
+  getScoreStatistics() {
+    this.props.dispatch({
+      type: 'xdWorkModal/scoreDetail',
+      payload: {},
+      callback: (profitList) => this.setState({ profitList }),
+    });
   }
   fillDataSource() {
     this.state.profitList.map(item => {
@@ -1426,6 +1430,7 @@ class ProfitList extends React.Component {
         } else {
           result.push(...this.flatTree(data, flag, result, id, level + 1))
         }
+        console.log(1433, result)
         // result.push(...this.flatTree(data, result, id, level + 1))
         return result
       }, result)
@@ -1443,9 +1448,9 @@ class ProfitList extends React.Component {
         render: (text, record) => {
           let src = null;
           let className = '';
-          if (record.rankingFlag == 1) {
+          if (record.rankingFlag > 0) {
             src = up
-          } else if (record.rankingFlag == 2) {
+          } else if (record.rankingFlag < 0) {
             src = down
           } else {
             className = 'normal'
@@ -1458,33 +1463,27 @@ class ProfitList extends React.Component {
           )
         },
         width: 80,
-        className:styles.padding,
+        className: styles.padding,
       }, {
         title: '小组',
         dataIndex: 'groupName',
         key: 'groupName',
         fixed: 'left',
         width: 100,
-        className:styles.padding,
-      }, {
-        title: '运营长',
-        dataIndex: 'cpName',
-        key: 'cpName',
-        fixed: 'left',
-        width: 80,
-        className:styles.padding,
+        className: styles.padding,
       }, {
         title: '排名系数',
         fixed: 'left',
         dataIndex: 'creditRankingCoefficient',
         key: 'creditRankingCoefficient',
         width: 80,
-        className:styles.padding,
+        className: styles.padding,
       },
     ];
     if (this.fillDataSource().length > 0) {
       const arr = this.fillDataSource()[0].child
-      let className = styles.padding
+      let className = styles.padding;
+      let className2 = ''
       arr.map(item => {
         if (item.level >= 4) return;
         if (item.flag == 1 && item.level != 1) {
@@ -1492,13 +1491,16 @@ class ProfitList extends React.Component {
         } else if (item.flag == 2) {
           className = styles.bgColor2
         }
+
+        item.level == 3 ? className2 = styles.cursor : className2 = ''
+        if (item.name == '调增学分' || item.name == '调减学分') return; //去掉调增调减学分
         columns.push({
-          title: item.name,
+          title: `${item.name}abc${item.level}`,
           dataIndex: item.id,
           key: item.id,
           width: 100,
           fixed: item.name == '学分均分' ? 'left' : '',
-          className: className,
+          className: `${className} ${className2}`,
           render: (text, record) => {
             if (record.obj[item.id].name == '正面均分') {
               return <div>
@@ -1512,7 +1514,7 @@ class ProfitList extends React.Component {
                 isColor = 'red';
               }
               return <div>
-                <div style={{ paddingLeft: '40px' }}>{record.obj[item.id].score}</div>
+                <div style={{ paddingLeft: '20px' }}>{record.obj[item.id].score}</div>
                 <div style={{ display: 'flex' }}>
                   <div style={{ width: '44px' }}>{record.obj[item.id].score < 0 ? <SmallProgress isColor={isColor} percent="20%"></SmallProgress> : null}</div>
                   <div style={{ width: '44px' }}>{record.obj[item.id].score > 0 ? <SmallProgress isColor={isColor} percent="20%"></SmallProgress> : null}</div>

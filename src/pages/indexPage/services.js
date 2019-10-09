@@ -68,7 +68,7 @@ export async function getFamilykpiInfo(params) {
 }
 //本期学分-明细
 export async function scoreDetail(params) {
-  return request('/family/score/detail', { method: 'get', data: params })
+  return request('/deskperfpcapi/family/score/detail', { method: 'get', data: params })
 }
 // 本期学分—汇总
 export async function scoreStatistics(params) {

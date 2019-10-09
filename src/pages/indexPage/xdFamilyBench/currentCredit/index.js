@@ -5,9 +5,8 @@ import TopTabs from '../../components/topTabs';
 import TableList from './components/list';
 import styles from './index.less';
 
-@connect(({ xdWorkModal, loading }) => ({
-  xdWorkModal,
-  loading: loading.effects['xdWorkModal/groupPkList'],
+@connect(({ xdWorkModal }) => ({
+  xdWorkModal
 }))
 class CurrentCredit extends React.Component {
   constructor(props) {
@@ -31,7 +30,7 @@ class CurrentCredit extends React.Component {
     const { scoreData } = this.state
     const arr = [{
       title1: '集团均分',
-      num: scoreData.companyCredit,
+      num: scoreData.companyCredit || '',
       tip: '本绩效周期内集团学分均分'
     }, {
       title1: '家族均分',

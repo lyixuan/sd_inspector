@@ -67,6 +67,7 @@ export default {
     *scoreDetail({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(scoreDetail, params);
+      console.log(70)
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
