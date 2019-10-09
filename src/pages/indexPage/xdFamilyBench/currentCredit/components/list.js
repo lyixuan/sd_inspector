@@ -11,7 +11,7 @@ import rank3 from '@/assets/xdFamily/rank3.png';
 import SmallProgress from '@/pages/indexPage/components/smallProgress'
 
 @connect(({ loading }) => ({
-  loading: loading.effects['xdWorkModal/getIncomeKpiPkList'],
+  // loading: loading.effects['xdWorkModal/getIncomeKpiPkList'],
 }))
 class ProfitList extends React.Component {
   constructor(props) {
@@ -1406,7 +1406,6 @@ class ProfitList extends React.Component {
 
   }
   fillDataSource() {
-    const arr = [];
     this.state.profitList.map(item => {
       item.child = this.flatTree(item.dimensionList[0])
       item.obj = {};
@@ -1418,15 +1417,19 @@ class ProfitList extends React.Component {
     return this.state.profitList
   }
 
-  flatTree({ id, name, score, children }, result = [], pid = "", level = 1) {
-    result = [{ id, name, score, pid, level }]
+  flatTree({ id, name, score, children }, flag = 1, result = [], pid = "", level = 1) {
+    result = [{ id, name, score, pid, level, flag }]
     if (Array.isArray(children) && children.length) {
-      children.reduce((result, data) => {
-        result.push(...this.flatTree(data, result, id, level + 1))
+      children.reduce((result, data, currentIndex, arr) => {
+        if (data.name === '负面均分') {
+          result.push(...this.flatTree(data, 2, result, id, level + 1))
+        } else {
+          result.push(...this.flatTree(data, flag, result, id, level + 1))
+        }
+        // result.push(...this.flatTree(data, result, id, level + 1))
         return result
       }, result)
     }
-    console.log(1588, result)
     return result
   }
 
@@ -1435,12 +1438,11 @@ class ProfitList extends React.Component {
       {
         title: '集团排名',
         dataIndex: 'creditRanking',
+        fixed: 'left',
         key: 'creditRanking',
         render: (text, record) => {
-          console.log(196, record)
           let src = null;
           let className = '';
-          let rank = 1;
           if (record.rankingFlag == 1) {
             src = up
           } else if (record.rankingFlag == 2) {
@@ -1448,13 +1450,6 @@ class ProfitList extends React.Component {
           } else {
             className = 'normal'
             src = normal
-          }
-          if (record.rank == 1) {
-            rank = rank1
-          } else if (record.rank == 2) {
-            rank = rank2
-          } else if (record.rank == 3) {
-            rank = rank3
           }
           return (
             <div className={`${styles.rankColumn} ${styles[className]}`}>
@@ -1467,31 +1462,39 @@ class ProfitList extends React.Component {
         title: '小组',
         dataIndex: 'groupName',
         key: 'groupName',
-        width: 70
+        fixed: 'left',
+        width: 100
       }, {
         title: '运营长',
         dataIndex: 'cpName',
         key: 'cpName',
-        width: 70
+        fixed: 'left',
+        width: 80
       }, {
         title: '排名系数',
+        fixed: 'left',
         dataIndex: 'creditRankingCoefficient',
         key: 'creditRankingCoefficient',
-        width: 70
+        width: 80
       },
     ];
     if (this.fillDataSource().length > 0) {
-      console.log(1643, this.fillDataSource()[0].child)
-      // const arr = Object.values(this.fillDataSource()[0].obj)
       const arr = this.fillDataSource()[0].child
+      let className = ''
       arr.map(item => {
         if (item.level >= 4) return;
+        if (item.flag == 1 && item.level != 1) {
+          className = styles.bgColor
+        } else if (item.flag == 2) {
+          className = styles.bgColor2
+        }
         columns.push({
           title: item.name,
           dataIndex: item.id,
           key: item.id,
-          width: 88,
-          className: item.level && item.level != 1 ? styles.bgColor : '',
+          width: 100,
+          fixed: item.name == '学分均分' ? 'left' : '',
+          className: className,
           render: (text, record) => {
             if (record.obj[item.id].name == '正面均分') {
               return <div>
@@ -1532,7 +1535,7 @@ class ProfitList extends React.Component {
           pagination={false}
           loading={this.props.loading}
           rowKey={record => record.id}
-          scroll={{ x: '130%', y: 420 }}
+          scroll={{ x: 'max-content', y: 420 }}
         />
       </div>
 
