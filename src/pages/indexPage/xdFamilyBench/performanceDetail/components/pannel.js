@@ -15,16 +15,17 @@ class Pannel extends React.Component {
   }
 
   render() {
+    const prop = this.props;
     return (
-      <div className={`${styles.performancePanel} ${styles[this.props.className]}`}>
+      <div className={`${styles.performancePanel} ${styles[prop.className]}`}>
         <div className={styles.circle}></div>
         <div className={`${styles.circle} ${styles.circle2}`}></div>
         <div className={styles.details}>
           <div className={styles.top}>
             <span style={{ fontSize: '20px' }}>￥<em className={styles.num}>47,000</em></span>
-            <span>排名系数：2</span>
+            <span>{prop.label}：2</span>
           </div>
-          <div className={styles.bottom}>学分</div>
+          <div className={styles.bottom}>{prop.name}</div>
         </div>
       </div>
     );

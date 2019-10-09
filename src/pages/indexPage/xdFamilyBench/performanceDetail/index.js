@@ -107,9 +107,9 @@ class performanceDetail extends React.Component {
           <div className={styles.performanceDetail}>
             <div ref={this.createRef} className={styles.chart}></div>
             <div className={styles.panelBox}>
-              <Pannel></Pannel>
-              <Pannel className='performancePanel2'></Pannel>
-              <Pannel className='performancePanel3'></Pannel>
+              <Pannel name='学分收入' label='排名系数'></Pannel>
+              <Pannel name='创收收入' label='创收排名' className='performancePanel2'></Pannel>
+              <Pannel name='质检扣款' label='均值' className='performancePanel3'></Pannel>
             </div>
 
           </div>
