@@ -1457,30 +1457,34 @@ class ProfitList extends React.Component {
             </div>
           )
         },
-        width: 80
+        width: 80,
+        className:styles.padding,
       }, {
         title: '小组',
         dataIndex: 'groupName',
         key: 'groupName',
         fixed: 'left',
-        width: 100
+        width: 100,
+        className:styles.padding,
       }, {
         title: '运营长',
         dataIndex: 'cpName',
         key: 'cpName',
         fixed: 'left',
-        width: 80
+        width: 80,
+        className:styles.padding,
       }, {
         title: '排名系数',
         fixed: 'left',
         dataIndex: 'creditRankingCoefficient',
         key: 'creditRankingCoefficient',
-        width: 80
+        width: 80,
+        className:styles.padding,
       },
     ];
     if (this.fillDataSource().length > 0) {
       const arr = this.fillDataSource()[0].child
-      let className = ''
+      let className = styles.padding
       arr.map(item => {
         if (item.level >= 4) return;
         if (item.flag == 1 && item.level != 1) {

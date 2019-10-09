@@ -15,6 +15,8 @@ import {
   getOrgMapList,
   getFamilyRecord,
   getFamilyQuality,
+  scoreStatistics,
+  scoreDetail,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -61,6 +63,30 @@ export default {
   },
 
   effects: {
+    // 本期学分明细
+    *scoreDetail({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(scoreDetail, params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 本期学分汇总
+    *scoreStatistics({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(scoreStatistics, params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     // 本期创收
     *getContrastIncomeKpiPkList({ payload, callback }, { call }) {
       const params = payload.params;
@@ -216,7 +242,7 @@ export default {
           title: '成本套绩效',
           num: data.examZbtKpi
         }]
-        
+
         yield put({ type: 'save', payload: { inCometarget } });
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
@@ -253,7 +279,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveMap', payload: { orgList } });
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
     // 本期申诉
