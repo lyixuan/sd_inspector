@@ -303,7 +303,7 @@ class currentCreditLeft extends React.Component {
 
   render() {
     const { groupId } = this.props
-    const { groupPkList, myGroup, pkGroup } = this.state
+    const { groupPkList=[], myGroup, pkGroup } = this.state
     const dataSource = groupPkList && this.fillDataSource(groupPkList)
     const leftNum = myGroup && myGroup.score
     const userName = myGroup && myGroup.groupName
