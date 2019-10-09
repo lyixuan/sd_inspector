@@ -83,5 +83,9 @@ export async function getFamilyRecord(params) {
 }
 // 本期质检 - 质检统计
 export async function getFamilyQuality(params) {
-  return request('/classWorkbench/family/countCurrentQuality', { method: 'get', data: params })
+  return request('/classWorkbench/family/countCurrentQuality', {method: 'get', data: params})
+}
+//家族学分对比
+export async function getFamilyScorePk(params) {
+  return request('/family/score/pk',  { method: 'get', data: params });
 }
