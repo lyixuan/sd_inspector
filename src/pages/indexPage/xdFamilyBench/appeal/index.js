@@ -17,7 +17,13 @@ const tabsMsg = [{
   title: '审核中',
   dataTrace: '{"widgetName":"本期创收-综合对比","traceName":"小德工作台/本期创收/综合对比"}',
 }];
-@connect(({ loading }) => ({
+const tabSource = {
+  1: 'nonAppealList',
+  2: 'rejectedAppealList',
+  3: 'auditingAppealList'
+}
+@connect(({ xdWorkModal, loading }) => ({
+  familyAppeal: xdWorkModal.familyAppeal,
   loading: loading.effects['xdWorkModal/getCountAppealRecord'],
 }))
 class appeal extends React.Component {
@@ -28,7 +34,10 @@ class appeal extends React.Component {
     }
   }
   componentDidMount() {
-  
+    this.props.dispatch({
+      type: 'xdWorkModal/getFamilyRecord',
+      payload: { params: { id: this.props.userId } },
+    });
   }
 
   columns = () => {
@@ -76,8 +85,12 @@ class appeal extends React.Component {
       appealType: e.target.value
     });
   }
+  getDataSource = () => {
+   
+  }
 
   render() {
+    const dataSource = this.props.familyAppeal[tabSource[this.state.appealType]] || [{id: 1, violationNumber1: 1}]
     return (
       <Container
         title='本期申诉'
@@ -89,7 +102,7 @@ class appeal extends React.Component {
         </BIRadio>
         <BITable
           columns={this.columns()}
-          dataSource={[{id: 1, violationNumber1: 1}]}
+          dataSource={dataSource}
           pagination={false}
           loading={this.props.loading}
           rowKey={(record, index) => index}

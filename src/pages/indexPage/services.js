@@ -65,3 +65,11 @@ export async function getCurrentIncomeClass(params) {
 export async function getOrgMapList(params) {
   return request('/orgMap/getOrgMapList', { params });
 }
+// 本期申诉 - 申诉统计
+export async function getFamilyRecord(params) {
+  return request('/classWorkbench/family/countAppealRecord', { method: 'get', data: params })
+}
+// 本期质检 - 质检统计
+export async function getFamilyQuality(params) {
+  return request('/classWorkbench/family/countCurrentQuality', { method: 'get', data: params })
+}

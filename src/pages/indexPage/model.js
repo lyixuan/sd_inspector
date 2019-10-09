@@ -12,7 +12,9 @@ import {
   getCurrentIncomeGroup,
   getCurrentIncomeClass,
   getCurrentIncomeTarget,
-  getOrgMapList
+  getOrgMapList,
+  getFamilyRecord,
+  getFamilyQuality,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -27,23 +29,35 @@ export default {
     groupPkList: {},
     kpiTimes: null,
     inCometarget: [{
-      title1: '家族净流水',
+      title: '家族净流水',
       num: 2000,
     }, {
-      title1: '绩效排名',
+      title: '绩效排名',
       num: 2000
     }, {
-      title1: '好推绩效',
+      title: '好推绩效',
       num: 2000
     }, {
-      title1: '续报绩效',
+      title: '续报绩效',
       num: 2000
     }, {
-      title1: '成本套绩效',
+      title: '成本套绩效',
       num: 2000
     }], // 以下是家族值
     orgList: [], // 保存组织原始结构
     orgListTreeData: [], // 保存组织处理成treeData需要的结构
+    familyAppeal: {}, // 申诉
+    familyQuality: [
+      {
+        violationLevel: 1,
+        violationNumber: 0,
+        reduceScore: 0
+      }, {
+        violationLevel: 2,
+        violationNumber: 2,
+        reduceScore: 80
+      }
+    ] // 质检
   },
 
   effects: {
@@ -187,19 +201,19 @@ export default {
       if (result.code === 20000) {
         const data = result.data;
         const inCometarget = [{
-          title1: '家族净流水',
+          title: '家族净流水',
           num: data.kpiFlow,
         }, {
-          title1: '绩效排名',
+          title: '绩效排名',
           num: data.ranking
         }, {
-          title1: '好推绩效',
+          title: '好推绩效',
           num: data.goodpushKpi
         }, {
-          title1: '续报绩效',
+          title: '续报绩效',
           num: data.renewalKpi
         }, {
-          title1: '成本套绩效',
+          title: '成本套绩效',
           num: data.examZbtKpi
         }]
         
@@ -240,6 +254,26 @@ export default {
         yield put({ type: 'saveMap', payload: { orgList } });
       } else {
         message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    // 本期申诉
+    *getFamilyRecord({ payload }, { call, put }) {
+      const result = yield call(getFamilyRecord, payload.params)
+      if (result.code === 20000) {
+        const familyAppeal = result.data;
+        yield put({ type: 'save', payload: { familyAppeal } });
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 本期质检 - 质检统计
+    *getFamilyQuality({ payload }, { call, put }) {
+      const result = yield call(getFamilyQuality, payload.params)
+      if (result.code === 20000) {
+        const familyQuality = result.data;
+        yield put({ type: 'save', payload: { familyQuality } });
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
   },
