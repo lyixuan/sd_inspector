@@ -46,6 +46,21 @@ export async function getKpiInfo(params) {
   return request('/deskperfpcapi/workbenchIncomeKpi/getKpiInfo', { method: 'get', data: params })
 }
 
+
+// ===========================家族==========
+
+// 本期创收明细-关键指标
+export async function getCurrentIncomeTarget(params) {
+  return request('/incomeFamily/currentIncomeTarget', { method: 'get', data: params })
+}
+// 本期创收明细-小组创收明细
+export async function getCurrentIncomeGroup(params) {
+  return request('/incomeFamily/currentIncomeGroup', { method: 'get', data: params })
+}
+// 本期创收明细-班主任创收明细
+export async function getCurrentIncomeClass(params) {
+  return request('/incomeFamily/currentIncomeClass', { method: 'get', data: params })
+}
 // 工作台—绩效详情
 export async function getFamilykpiInfo(params) {
   return request('/family/kpiInfo', { method: 'get', data: params })
@@ -61,4 +76,16 @@ export async function scoreStatistics(params) {
 // 查询组织架构
 export async function getOrgMapList(params) {
   return request('/orgMap/getOrgMapList', { params });
+}
+// 本期申诉 - 申诉统计
+export async function getFamilyRecord(params) {
+  return request('/classWorkbench/family/countAppealRecord', { method: 'get', data: params })
+}
+// 本期质检 - 质检统计
+export async function getFamilyQuality(params) {
+  return request('/classWorkbench/family/countCurrentQuality', {method: 'get', data: params})
+}
+//家族学分对比
+export async function getFamilyScorePk(params) {
+  return request('/family/score/pk',  { method: 'get', data: params });
 }

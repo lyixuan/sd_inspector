@@ -141,7 +141,7 @@ class FamilyScoreLeft extends React.Component {
 
   }
   fillDataSource = (params, n = 1) => {
-    let data = params
+    let data = params;
     data.map(item => {
       item.level = n;
       if (item.children && item.children.length > 0) {

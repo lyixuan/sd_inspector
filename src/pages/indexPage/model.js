@@ -9,7 +9,12 @@ import {
   groupPkList,
   getKpiInfo,
   isShowPermission,
-  getOrgMapList
+  getCurrentIncomeGroup,
+  getCurrentIncomeClass,
+  getCurrentIncomeTarget,
+  getOrgMapList,
+  getFamilyRecord,
+  getFamilyQuality,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -23,8 +28,36 @@ export default {
     groupList: null,
     groupPkList: {},
     kpiTimes: null,
+    inCometarget: [{
+      title: '家族净流水',
+      num: 2000,
+    }, {
+      title: '绩效排名',
+      num: 2000
+    }, {
+      title: '好推绩效',
+      num: 2000
+    }, {
+      title: '续报绩效',
+      num: 2000
+    }, {
+      title: '成本套绩效',
+      num: 2000
+    }], // 以下是家族值
     orgList: [], // 保存组织原始结构
     orgListTreeData: [], // 保存组织处理成treeData需要的结构
+    familyAppeal: {}, // 申诉
+    familyQuality: [
+      {
+        violationLevel: 1,
+        violationNumber: 0,
+        reduceScore: 0
+      }, {
+        violationLevel: 2,
+        violationNumber: 2,
+        reduceScore: 80
+      }
+    ] // 质检
   },
 
   effects: {
@@ -161,6 +194,56 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+    // ====================家族
+    // 创收明细
+    *getCurrentIncomeTarget(_, { call, put }) {
+      const result = yield call(getCurrentIncomeTarget)
+      if (result.code === 20000) {
+        const data = result.data;
+        const inCometarget = [{
+          title: '家族净流水',
+          num: data.kpiFlow,
+        }, {
+          title: '绩效排名',
+          num: data.ranking
+        }, {
+          title: '好推绩效',
+          num: data.goodpushKpi
+        }, {
+          title: '续报绩效',
+          num: data.renewalKpi
+        }, {
+          title: '成本套绩效',
+          num: data.examZbtKpi
+        }]
+        
+        yield put({ type: 'save', payload: { inCometarget } });
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getCurrentIncomeGroup({ callback }, { call }) {
+      const result = yield call(getCurrentIncomeGroup)
+      if (result.code === 20000) {
+
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getCurrentIncomeClass({ callback }, { call }) {
+      const result = yield call(getCurrentIncomeClass)
+      if (result.code === 20000) {
+
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     // 组织列表
     *getOrgMapList({ payload }, { call, put }) {
       const params = payload.params;
@@ -171,6 +254,26 @@ export default {
         yield put({ type: 'saveMap', payload: { orgList } });
       } else {
         message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    // 本期申诉
+    *getFamilyRecord({ payload }, { call, put }) {
+      const result = yield call(getFamilyRecord, payload.params)
+      if (result.code === 20000) {
+        const familyAppeal = result.data;
+        yield put({ type: 'save', payload: { familyAppeal } });
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 本期质检 - 质检统计
+    *getFamilyQuality({ payload }, { call, put }) {
+      const result = yield call(getFamilyQuality, payload.params)
+      if (result.code === 20000) {
+        const familyQuality = result.data;
+        yield put({ type: 'save', payload: { familyQuality } });
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
   },
