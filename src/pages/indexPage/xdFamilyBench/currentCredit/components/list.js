@@ -17,143 +17,1387 @@ class ProfitList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // profitList: [],
+
       profitList: [{
-        groupId: 1,
-        groupName: '小组名称1',
-        cpName: '运营长名称',
-        creditRankingCoefficient: '排名系数',
-        creditRanking: '排名',
-        rankingFlag: '1', //1降低 0持平 1上升
-        dimensionList: [{
-          "children": [{
-            "dimensionName": "正面均分",
-            "groupScore": "4.93",
-            "id": 2,
-            "myNum": 0,
-            "myScore": "11.81",
-            "myScoreRatio": "14.15",
-            "parentId": 1,
-            "unit": "",
-            "children": [{
-              "children": [{
-                "children": [],
-                "dimensionName": "有效直播",
-                "groupScore": "1.70",
-                "id": 37,
-                "myNum": 5049,
-                "myScore": "3.63",
-                "myScoreRatio": "6.80",
-                "parentId": 36,
-                "unit": "个"
-              }, {
-                "children": [],
-                "dimensionName": "有效重播",
-                "groupScore": "0.64",
-                "id": 38,
-                "myNum": 4023,
-                "myScore": "1.46",
-                "myScoreRatio": "49.41",
-                "parentId": 36,
-                "unit": "个"
-              }],
-              "dimensionName": "有效出勤",
-              "groupScore": "2.34",
-              "id": 36,
-              "myNum": 0,
-              "myScore": "5.09",
-              "myScoreRatio": "16.31",
-              "parentId": 2,
-              "unit": ""
-            }, {
-              "dimensionName": "有效做题",
-              "groupScore": "2.47",
-              "id": 39,
-              "myNum": 0,
-              "myScore": "5.19",
-              "myScoreRatio": "35.49",
-              "parentId": 2,
-              "unit": "",
-              children: []
-            }],
-          }],
-          "dimensionName": "学分均分",
-          "groupScore": "3.80",
-          "id": 1,
-          "myNum": 0,
-          "myScore": "11.16",
-          "myScoreRatio": "4.95",
-          "parentId": 0,
-          "unit": ""
-        }],
-      }, {
-        groupId: 1,
-        groupName: '小组名称1',
-        cpName: '运营长名称',
-        creditRankingCoefficient: '排名系数',
-        creditRanking: '排名',
-        rankingFlag: '1', //1降低 0持平 1上升
-        dimensionList: [{
+        "cpName": "",
+        "creditRankingCoefficient": 0.5,
+        "dimensionList": [{
           "children": [{
             "children": [{
               "children": [{
                 "children": [],
-                "dimensionName": "有效直播",
-                "groupScore": "1.70",
                 "id": 37,
-                "myNum": 5049,
-                "myScore": "3.63",
-                "myScoreRatio": "6.80",
-                "parentId": 36,
+                "name": "有效直播",
+                "num": 233,
+                "score": "1.19",
+                "scoreRatio": "",
                 "unit": "个"
               }, {
                 "children": [],
-                "dimensionName": "有效重播",
-                "groupScore": "0.64",
                 "id": 38,
-                "myNum": 4023,
-                "myScore": "1.46",
-                "myScoreRatio": "49.41",
-                "parentId": 36,
+                "name": "有效重播",
+                "num": 323,
+                "score": "0.83",
+                "scoreRatio": "",
                 "unit": "个"
               }],
-              "dimensionName": "有效出勤",
-              "groupScore": "2.34",
               "id": 36,
-              "myNum": 0,
-              "myScore": "5.09",
-              "myScoreRatio": "16.31",
-              "parentId": 2,
+              "name": "有效出勤",
+              "num": 0,
+              "score": "2.02",
+              "scoreRatio": "",
               "unit": ""
             }, {
-              "dimensionName": "有效做题",
-              "groupScore": "2.47",
+              "children": [{
+                "children": [],
+                "id": 40,
+                "name": "课后作业",
+                "num": 653,
+                "score": "3.34",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 41,
+                "name": "智能推题",
+                "num": 122,
+                "score": "0.00",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
               "id": 39,
-              "myNum": 0,
-              "myScore": "5.19",
-              "myScoreRatio": "35.49",
-              "parentId": 2,
-              "unit": "",
-              children: []
+              "name": "有效做题",
+              "num": 0,
+              "score": "3.34",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 33,
+                "name": "主帖",
+                "num": 20,
+                "score": "0.02",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 34,
+                "name": "跟帖",
+                "num": 8,
+                "score": "0.00",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 8,
+              "name": "社区运营",
+              "num": 0,
+              "score": "0.02",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 43,
+                "name": "听课最高档",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 44,
+                "name": "听课中间档",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 45,
+                "name": "听课最低档",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 42,
+              "name": "创收学分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 49,
+                "name": "调增学分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 48,
+              "name": "调增学分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
             }],
-            "dimensionName": "正面均分",
-            "groupScore": "4.93",
             "id": 2,
-            "myNum": 0,
-            "myScore": "11.81",
-            "myScoreRatio": "14.15",
-            "parentId": 1,
+            "name": "正面均分",
+            "num": 0,
+            "score": "5.38",
+            "scoreRatio": "",
+            "unit": ""
+          }, {
+            "children": [{
+              "children": [{
+                "children": [],
+                "id": 20,
+                "name": "工单初次减分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 21,
+                "name": "工单二次减分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 22,
+                "name": "工单三次减分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 19,
+              "name": "工单减分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 24,
+                "name": "事件",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "次"
+              }, {
+                "children": [],
+                "id": 25,
+                "name": "班投",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "次"
+              }, {
+                "children": [],
+                "id": 26,
+                "name": "退费",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "次"
+              }, {
+                "children": [],
+                "id": 27,
+                "name": "投诉",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }],
+              "id": 23,
+              "name": "底线减分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 47,
+                "name": "退挽",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 46,
+              "name": "退挽",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 12,
+                "name": "开班电话",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 13,
+                "name": "随堂考",
+                "num": 16,
+                "score": "1.52",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 11,
+              "name": "优新学分",
+              "num": 0,
+              "score": "1.52",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 29,
+                "name": "一级质检",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }, {
+                "children": [],
+                "id": 30,
+                "name": "二级质检",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }, {
+                "children": [],
+                "id": 31,
+                "name": "三级质检",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }],
+              "id": 28,
+              "name": "质检减分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 15,
+                "name": "未回复会话",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 16,
+                "name": "不满意会话",
+                "num": 1,
+                "score": "-0.38",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 17,
+                "name": "不及时消息",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 14,
+              "name": "IM减分",
+              "num": 0,
+              "score": "-0.38",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 51,
+                "name": "调减学分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 50,
+              "name": "调减学分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }],
+            "id": 10,
+            "name": "负面均分",
+            "num": 0,
+            "score": "1.14",
+            "scoreRatio": "",
             "unit": ""
           }],
-          "dimensionName": "学分均分",
-          "groupScore": "3.80",
           "id": 1,
-          "myNum": 0,
-          "myScore": "11.16",
-          "myScoreRatio": "4.95",
-          "parentId": 0,
+          "name": "学分均分",
+          "num": 0,
+          "score": "6.52",
+          "scoreRatio": "",
           "unit": ""
         }],
+        "groupId": 139,
+        "groupName": "狐逻财经1组",
+        "primaryKey": 139,
+        "ranking": 16,
+        "rankingFlag": 0
+      }, {
+        "cpName": "",
+        "creditRankingCoefficient": 2,
+        "dimensionList": [{
+          "children": [{
+            "children": [{
+              "children": [{
+                "children": [],
+                "id": 37,
+                "name": "有效直播",
+                "num": 50,
+                "score": "3.45",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 38,
+                "name": "有效重播",
+                "num": 100,
+                "score": "3.45",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 36,
+              "name": "有效出勤",
+              "num": 0,
+              "score": "6.90",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 40,
+                "name": "课后作业",
+                "num": 198,
+                "score": "13.66",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 41,
+                "name": "智能推题",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 39,
+              "name": "有效做题",
+              "num": 0,
+              "score": "13.66",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 33,
+                "name": "主帖",
+                "num": 27,
+                "score": "0.03",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 34,
+                "name": "跟帖",
+                "num": 9,
+                "score": "0.01",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 8,
+              "name": "社区运营",
+              "num": 0,
+              "score": "0.04",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 43,
+                "name": "听课最高档",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 44,
+                "name": "听课中间档",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 45,
+                "name": "听课最低档",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 42,
+              "name": "创收学分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 49,
+                "name": "调增学分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 48,
+              "name": "调增学分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }],
+            "id": 2,
+            "name": "正面均分",
+            "num": 0,
+            "score": "20.59",
+            "scoreRatio": "",
+            "unit": ""
+          }, {
+            "children": [{
+              "children": [{
+                "children": [],
+                "id": 20,
+                "name": "工单初次减分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 21,
+                "name": "工单二次减分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 22,
+                "name": "工单三次减分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 19,
+              "name": "工单减分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 24,
+                "name": "事件",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "次"
+              }, {
+                "children": [],
+                "id": 25,
+                "name": "班投",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "次"
+              }, {
+                "children": [],
+                "id": 26,
+                "name": "退费",
+                "num": 1,
+                "score": "-0.09",
+                "scoreRatio": "",
+                "unit": "次"
+              }, {
+                "children": [],
+                "id": 27,
+                "name": "投诉",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }],
+              "id": 23,
+              "name": "底线减分",
+              "num": 0,
+              "score": "-0.09",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 47,
+                "name": "退挽",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 46,
+              "name": "退挽",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 12,
+                "name": "开班电话",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 13,
+                "name": "随堂考",
+                "num": 18,
+                "score": "1.64",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 11,
+              "name": "优新学分",
+              "num": 0,
+              "score": "1.64",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 29,
+                "name": "一级质检",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }, {
+                "children": [],
+                "id": 30,
+                "name": "二级质检",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }, {
+                "children": [],
+                "id": 31,
+                "name": "三级质检",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }],
+              "id": 28,
+              "name": "质检减分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 15,
+                "name": "未回复会话",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 16,
+                "name": "不满意会话",
+                "num": 4,
+                "score": "-1.20",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 17,
+                "name": "不及时消息",
+                "num": 3,
+                "score": "-0.49",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 14,
+              "name": "IM减分",
+              "num": 0,
+              "score": "-1.69",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 51,
+                "name": "调减学分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 50,
+              "name": "调减学分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }],
+            "id": 10,
+            "name": "负面均分",
+            "num": 0,
+            "score": "-0.14",
+            "scoreRatio": "",
+            "unit": ""
+          }],
+          "id": 1,
+          "name": "学分均分",
+          "num": 0,
+          "score": "20.45",
+          "scoreRatio": "",
+          "unit": ""
+        }],
+        "groupId": 140,
+        "groupName": "狐逻财经2组",
+        "primaryKey": 140,
+        "ranking": 3,
+        "rankingFlag": -2
+      }, {
+        "cpName": "",
+        "creditRankingCoefficient": 0.5,
+        "dimensionList": [{
+          "children": [{
+            "children": [{
+              "children": [{
+                "children": [],
+                "id": 37,
+                "name": "有效直播",
+                "num": 177,
+                "score": "0.87",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 38,
+                "name": "有效重播",
+                "num": 313,
+                "score": "0.77",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 36,
+              "name": "有效出勤",
+              "num": 0,
+              "score": "1.63",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 40,
+                "name": "课后作业",
+                "num": 622,
+                "score": "3.05",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 41,
+                "name": "智能推题",
+                "num": 1443,
+                "score": "0.03",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 39,
+              "name": "有效做题",
+              "num": 0,
+              "score": "3.08",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 33,
+                "name": "主帖",
+                "num": 13,
+                "score": "0.01",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 34,
+                "name": "跟帖",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 8,
+              "name": "社区运营",
+              "num": 0,
+              "score": "0.01",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 43,
+                "name": "听课最高档",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 44,
+                "name": "听课中间档",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 45,
+                "name": "听课最低档",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 42,
+              "name": "创收学分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 49,
+                "name": "调增学分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 48,
+              "name": "调增学分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }],
+            "id": 2,
+            "name": "正面均分",
+            "num": 0,
+            "score": "4.73",
+            "scoreRatio": "",
+            "unit": ""
+          }, {
+            "children": [{
+              "children": [{
+                "children": [],
+                "id": 20,
+                "name": "工单初次减分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 21,
+                "name": "工单二次减分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 22,
+                "name": "工单三次减分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 19,
+              "name": "工单减分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 24,
+                "name": "事件",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "次"
+              }, {
+                "children": [],
+                "id": 25,
+                "name": "班投",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "次"
+              }, {
+                "children": [],
+                "id": 26,
+                "name": "退费",
+                "num": 3,
+                "score": "-0.19",
+                "scoreRatio": "",
+                "unit": "次"
+              }, {
+                "children": [],
+                "id": 27,
+                "name": "投诉",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }],
+              "id": 23,
+              "name": "底线减分",
+              "num": 0,
+              "score": "-0.19",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 47,
+                "name": "退挽",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 46,
+              "name": "退挽",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 12,
+                "name": "开班电话",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 13,
+                "name": "随堂考",
+                "num": 17,
+                "score": "1.54",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 11,
+              "name": "优新学分",
+              "num": 0,
+              "score": "1.54",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 29,
+                "name": "一级质检",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }, {
+                "children": [],
+                "id": 30,
+                "name": "二级质检",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }, {
+                "children": [],
+                "id": 31,
+                "name": "三级质检",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }],
+              "id": 28,
+              "name": "质检减分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 15,
+                "name": "未回复会话",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 16,
+                "name": "不满意会话",
+                "num": 5,
+                "score": "-1.01",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 17,
+                "name": "不及时消息",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 14,
+              "name": "IM减分",
+              "num": 0,
+              "score": "-1.01",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 51,
+                "name": "调减学分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 50,
+              "name": "调减学分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }],
+            "id": 10,
+            "name": "负面均分",
+            "num": 0,
+            "score": "0.33",
+            "scoreRatio": "",
+            "unit": ""
+          }],
+          "id": 1,
+          "name": "学分均分",
+          "num": 0,
+          "score": "5.06",
+          "scoreRatio": "",
+          "unit": ""
+        }],
+        "groupId": 141,
+        "groupName": "狐逻财经3组",
+        "primaryKey": 141,
+        "ranking": 17,
+        "rankingFlag": 0
+      }, {
+        "cpName": "",
+        "creditRankingCoefficient": 0.8,
+        "dimensionList": [{
+          "children": [{
+            "children": [{
+              "children": [{
+                "children": [],
+                "id": 37,
+                "name": "有效直播",
+                "num": 231,
+                "score": "1.53",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 38,
+                "name": "有效重播",
+                "num": 354,
+                "score": "1.17",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 36,
+              "name": "有效出勤",
+              "num": 0,
+              "score": "2.70",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 40,
+                "name": "课后作业",
+                "num": 646,
+                "score": "4.27",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 41,
+                "name": "智能推题",
+                "num": 1894,
+                "score": "0.04",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 39,
+              "name": "有效做题",
+              "num": 0,
+              "score": "4.31",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 33,
+                "name": "主帖",
+                "num": 21,
+                "score": "0.02",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 34,
+                "name": "跟帖",
+                "num": 5,
+                "score": "0.00",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 8,
+              "name": "社区运营",
+              "num": 0,
+              "score": "0.02",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 43,
+                "name": "听课最高档",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 44,
+                "name": "听课中间档",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 45,
+                "name": "听课最低档",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 42,
+              "name": "创收学分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 49,
+                "name": "调增学分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 48,
+              "name": "调增学分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }],
+            "id": 2,
+            "name": "正面均分",
+            "num": 0,
+            "score": "7.03",
+            "scoreRatio": "",
+            "unit": ""
+          }, {
+            "children": [{
+              "children": [{
+                "children": [],
+                "id": 20,
+                "name": "工单初次减分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 21,
+                "name": "工单二次减分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 22,
+                "name": "工单三次减分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 19,
+              "name": "工单减分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 24,
+                "name": "事件",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "次"
+              }, {
+                "children": [],
+                "id": 25,
+                "name": "班投",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "次"
+              }, {
+                "children": [],
+                "id": 26,
+                "name": "退费",
+                "num": 2,
+                "score": "-0.13",
+                "scoreRatio": "",
+                "unit": "次"
+              }, {
+                "children": [],
+                "id": 27,
+                "name": "投诉",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }],
+              "id": 23,
+              "name": "底线减分",
+              "num": 0,
+              "score": "-0.13",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 47,
+                "name": "退挽",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 46,
+              "name": "退挽",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 12,
+                "name": "开班电话",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 13,
+                "name": "随堂考",
+                "num": 19,
+                "score": "1.22",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 11,
+              "name": "优新学分",
+              "num": 0,
+              "score": "1.22",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 29,
+                "name": "一级质检",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }, {
+                "children": [],
+                "id": 30,
+                "name": "二级质检",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }, {
+                "children": [],
+                "id": 31,
+                "name": "三级质检",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "分"
+              }],
+              "id": 28,
+              "name": "质检减分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 15,
+                "name": "未回复会话",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 16,
+                "name": "不满意会话",
+                "num": 1,
+                "score": "-0.21",
+                "scoreRatio": "",
+                "unit": "个"
+              }, {
+                "children": [],
+                "id": 17,
+                "name": "不及时消息",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 14,
+              "name": "IM减分",
+              "num": 0,
+              "score": "-0.21",
+              "scoreRatio": "",
+              "unit": ""
+            }, {
+              "children": [{
+                "children": [],
+                "id": 51,
+                "name": "调减学分",
+                "num": 0,
+                "score": "0",
+                "scoreRatio": "",
+                "unit": "个"
+              }],
+              "id": 50,
+              "name": "调减学分",
+              "num": 0,
+              "score": "0",
+              "scoreRatio": "",
+              "unit": ""
+            }],
+            "id": 10,
+            "name": "负面均分",
+            "num": 0,
+            "score": "0.89",
+            "scoreRatio": "",
+            "unit": ""
+          }],
+          "id": 1,
+          "name": "学分均分",
+          "num": 0,
+          "score": "7.91",
+          "scoreRatio": "",
+          "unit": ""
+        }],
+        "groupId": 215,
+        "groupName": "狐逻财经4组",
+        "primaryKey": 215,
+        "ranking": 14,
+        "rankingFlag": 0
       }]
     }
   }
@@ -163,8 +1407,8 @@ class ProfitList extends React.Component {
   }
   fillDataSource() {
     const arr = [];
-
     this.state.profitList.map(item => {
+      item.child = this.flatTree(item.dimensionList[0])
       item.obj = {};
       this.flatTree(item.dimensionList[0]).map(item2 => {
         item.obj[item2.id] = item2
@@ -174,15 +1418,15 @@ class ProfitList extends React.Component {
     return this.state.profitList
   }
 
-  flatTree({ id, dimensionName, myScore, children }, result = [], pid = "", level = 1) {
-    result = [{ id, dimensionName, myScore, pid, level }]
+  flatTree({ id, name, score, children }, result = [], pid = "", level = 1) {
+    result = [{ id, name, score, pid, level }]
     if (Array.isArray(children) && children.length) {
       children.reduce((result, data) => {
-        console.log(177, result, data)
         result.push(...this.flatTree(data, result, id, level + 1))
         return result
       }, result)
     }
+    console.log(1588, result)
     return result
   }
 
@@ -218,43 +1462,58 @@ class ProfitList extends React.Component {
             </div>
           )
         },
-        width: '6.66%'
+        width: 80
       }, {
         title: '小组',
         dataIndex: 'groupName',
         key: 'groupName',
-        width: '6.66%'
+        width: 70
       }, {
         title: '运营长',
         dataIndex: 'cpName',
         key: 'cpName',
-        width: '6.66%'
+        width: 70
       }, {
         title: '排名系数',
         dataIndex: 'creditRankingCoefficient',
         key: 'creditRankingCoefficient',
-        width: '6.66%'
+        width: 70
       },
     ];
     if (this.fillDataSource().length > 0) {
-      const arr = Object.values(this.fillDataSource()[0].obj)
+      console.log(1643, this.fillDataSource()[0].child)
+      // const arr = Object.values(this.fillDataSource()[0].obj)
+      const arr = this.fillDataSource()[0].child
       arr.map(item => {
         if (item.level >= 4) return;
         columns.push({
-          title: item.dimensionName,
+          title: item.name,
           dataIndex: item.id,
           key: item.id,
-          width: '6.67%',
-          className: item.level ? styles.bgColor : '',
+          width: 88,
+          className: item.level && item.level != 1 ? styles.bgColor : '',
           render: (text, record) => {
-            console.log(310, record.obj[item.id])
-            if (record.obj[item.id].dimensionName == '正面均分') {
+            if (record.obj[item.id].name == '正面均分') {
               return <div>
-                <div>{record.obj[item.id].myScore}</div>
+                <div>{record.obj[item.id].score}</div>
                 <SmallProgress isColor="green" percent="20%"></SmallProgress>
               </div>
             }
-            return <div className={record.obj[item.id].level ? styles.bgColor : ''}>{record.obj[item.id].myScore}</div>
+            if (record.obj[item.id].name == '负面均分') {
+              let isColor = 'green';
+              if (record.obj[item.id].score < 0) {
+                isColor = 'red';
+              }
+              return <div>
+                <div style={{ paddingLeft: '40px' }}>{record.obj[item.id].score}</div>
+                <div style={{ display: 'flex' }}>
+                  <div style={{ width: '44px' }}>{record.obj[item.id].score < 0 ? <SmallProgress isColor={isColor} percent="20%"></SmallProgress> : null}</div>
+                  <div style={{ width: '44px' }}>{record.obj[item.id].score > 0 ? <SmallProgress isColor={isColor} percent="20%"></SmallProgress> : null}</div>
+                </div>
+
+              </div>
+            }
+            return <div>{record.obj[item.id].score}</div>
           }
         })
       })
@@ -273,7 +1532,7 @@ class ProfitList extends React.Component {
           pagination={false}
           loading={this.props.loading}
           rowKey={record => record.id}
-          scroll={{ x: 0, y: 420 }}
+          scroll={{ x: '130%', y: 420 }}
         />
       </div>
 
