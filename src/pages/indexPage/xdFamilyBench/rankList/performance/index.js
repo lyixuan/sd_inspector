@@ -10,6 +10,7 @@ import normal from '@/assets/xdFamily/rankNormal.png';
 import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
+import SmallProgress from '@/pages/indexPage/components/smallProgress'
 import { connect } from 'dva';
 
 const rankType = ['本学院排行', '集团排行'];
@@ -79,47 +80,68 @@ const columns = [
         </div>
       )
 
-    }
+    },
+    width: '11%'
   },
   {
     title: '家族',
     dataIndex: 'age',
     key: 'age',
+    width: '11%'
   },
   {
     title: '家族长',
     dataIndex: 'address',
     key: 'address',
+    width: '11%'
   },
   {
     title: '总绩效',
     dataIndex: 'address',
     key: 'address',
+    render: (text, record) => {
+      return <div>
+        <div>{text}</div>
+        <SmallProgress isColor="green" percent="40%"></SmallProgress>
+      </div>
+    },
+    width: '11%'
   },
   {
     title: '学分绩效',
     dataIndex: 'address',
     key: 'address',
+    render: (text, record) => {
+      return <div>
+        <div>{text}</div>
+        <SmallProgress isColor="green" percent="20%"></SmallProgress>
+      </div>
+    },
+    width: '11%'
   },
   {
     title: '创收绩效',
     dataIndex: 'address',
     key: 'address',
+    width: '11%'
   },
   {
     title: '好推绩效',
     dataIndex: 'address',
     key: 'address',
+    width: '11%'
   },
   {
     title: '续报绩效',
     dataIndex: 'address',
     key: 'address',
+    width: '11%'
   },
   {
     title: '成本套绩效',
     dataIndex: 'address',
     key: 'address',
+    width: '12%'
   },
 ];
 
@@ -156,6 +178,7 @@ class Performance extends React.Component {
             columns={columns}
             dataSource={dataSource}
             pagination={false}
+            scroll={{ x: 0, y: 200 }}
           >
           </BITable>
         </div>
