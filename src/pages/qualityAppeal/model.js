@@ -118,13 +118,17 @@ export default {
     *getOrderNum({ payload }, { call, put }) {
       const response = yield call(getOrderNum, payload);
       if (response.code === 20000) {
-        const orderNumData = response.data || {};
+        const orderNumData = response.data;
         yield put({
           type: 'saveOrderNumData',
           payload: { orderNumData },
         });
       } else {
-        message.error(msgF(response.msg, response.msgDetail));
+        yield put({
+          type: 'saveOrderNumData',
+          payload: { orderNumData:null },
+        });
+        message.error(response.msgDetail);
       }
     },
     *queryDimensionTreeList({ payload }, { call, put }) {
