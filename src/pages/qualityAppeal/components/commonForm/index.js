@@ -228,20 +228,14 @@ class CreateQualityNewSheet extends React.Component {
     if (code === 20000) {
       if (roleId === 49 && actionType === 'appeal') {
         // 只有主管才有审核权限
-        msgDetail =
-          checkResult === 1
-            ? '该条记录将提交到小德后台并修改归属人学分(绩效) , 确认提交吗?'
-            : '确认驳回该条记录吗?';
+        msgDetail = checkResult === 1 ? '该条记录将提交到小德后台并修改归属人学分(绩效) , 确认提交吗?' : '确认驳回该条记录吗?';
       } else if (roleId === 70) {
         msgDetail = '该条记录将被提交给质检主管进行审核,确认提交吗?';
       }
       buttonText = '确定';
     } else {
       if (roleId === 49 && actionType === 'appeal') {
-        msgDetail =
-          checkResult === 1
-            ? '该条记录将提交到小德后台并修改归属人学分(绩效) , 确认提交吗?'
-            : '确认驳回该条记录吗?';
+        msgDetail = checkResult === 1 ? '该条记录将提交到小德后台并修改归属人学分(绩效) , 确认提交吗?' : '确认驳回该条记录吗?';
         buttonText = '确定';
       } else {
         msgDetail = msg;

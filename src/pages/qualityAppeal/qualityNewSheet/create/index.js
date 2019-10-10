@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import CommonForm from '../../components/commonForm';
+import BaseForm from '@/pages/qualityAppeal/components/BaseForm/form';
 import styles from './style.less';
+
 @connect(({ loading }) => ({
   loading,
   submitLoading: loading.effects['qualityNewSheet/addQuality'],
@@ -19,12 +20,12 @@ class CreateQualityNewSheet extends React.Component {
       type: 'qualityNewSheet/addQuality',
       payload: { ...params },
     })
-  }
+  };
+
   render() {
     return (
       <div className={styles.qualityContainter}>
-      <CommonForm {...this.props} onSubmit={this.onSubmit} formType="quality" actionType="create">
-      </CommonForm>
+      <BaseForm {...this.props} params={{}} onSubmit={this.onSubmit}/>
     </div>)
   }
 }
