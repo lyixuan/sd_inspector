@@ -139,7 +139,6 @@ class FamilyScoreRight extends React.Component {
     document.querySelector("#scroll .ant-table-body").scrollTop = 0;
   };
   setRowClassName = (record, index) => {
-    console.log(104,record,record.myFamily)
     let className = ''
     let taClassName = ""
     if (record.myFamily) {

@@ -242,7 +242,6 @@ class GroupScore extends React.Component {
     return columns || []
   }
   setRowClassName = (record) => {
-    console.log()
     let className = ''
     if (record.level === 1 && record.dimensionName === "学分均分") {
       className = "oneLevelBgColor"
