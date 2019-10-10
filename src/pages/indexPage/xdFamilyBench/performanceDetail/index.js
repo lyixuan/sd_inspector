@@ -8,8 +8,8 @@ import Pannel from './components/pannel'
 import styles from './index.less';
 import { connect } from 'dva';
 
-@connect(() => ({
-
+@connect(({ xdWorkModal }) => ({
+  xdWorkModal
 }))
 class performanceDetail extends React.Component {
   constructor(props) {
@@ -19,6 +19,7 @@ class performanceDetail extends React.Component {
     }
   }
   componentDidMount() {
+    this.qualityChargeCount();
     this.getApiInfo();
   }
   createRef = id => {
@@ -26,6 +27,13 @@ class performanceDetail extends React.Component {
   };
   getApiInfo() {
     this.drawChart()
+  }
+  qualityChargeCount() {
+    this.props.dispatch({
+      type: 'xdWorkModal/qualityChargeCount',
+      payload: {},
+      callback: (incomeData) => this.setState({ incomeData }),
+    });
   }
   drawChart() {
     let option = {

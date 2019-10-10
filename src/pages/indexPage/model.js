@@ -19,7 +19,10 @@ import {
   scoreDetail,
   incomeCollegeRankList,
   incomeCompanyRankList,
+  collegeRankList,
+  companyRankList,
   achievementList,
+  qualityChargeCount,
   getFamilyScorePk,
   getFamilyRankList,
   getGroupPkList,
@@ -55,11 +58,46 @@ export default {
   },
 
   effects: {
+    // 本期预估绩效 - 质检扣款金额统计
+    *qualityChargeCount({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(qualityChargeCount, params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 本期学分—集团学分排名 
+    *companyRankList({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(companyRankList, params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 本期学分—本学院学分排名 
+    *collegeRankList({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(collegeRankList, params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     // 本期绩效—排行榜
     *achievementList({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(achievementList, params);
-      console.log(70)
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);

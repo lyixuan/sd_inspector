@@ -11,7 +11,7 @@ class ColorBlock extends React.Component {
     return (
       <div className={styles.colorBlock}>
         {dataSet && dataSet.map((item, index) =>
-          <div className={styles.blockOption}>
+          <div key={index} className={styles.blockOption}>
             <Tooltip key={index} placement="bottom" title={item[tip]}>
               <div className={styles.block}>
                 <div className={`${styles.title} ${styles['bg_color' + index % 5]}`}>{item[title]}</div>

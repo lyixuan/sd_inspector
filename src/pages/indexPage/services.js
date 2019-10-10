@@ -72,15 +72,15 @@ export async function scoreDetail(params) {
 }
 // 本期学分—汇总
 export async function scoreStatistics(params) {
-  return request('/deskperfpcapi/family/score/statistics', { method: 'get', data: params });
+  return request('/deskperfpcapi/family/score/statistics', { method: 'get', params });
 }
 // 本期学分—本学院学分排名
 export async function collegeRankList(params) {
-  return request('/family/score/collegeRankList', { method: 'get', params });
+  return request('/deskperfpcapi/family/score/collegeRankList', { method: 'get', params });
 }
 // 本期学分—集团学分排名
 export async function companyRankList(params) {
-  return request('/family/score/companyRankList', { method: 'get', params });
+  return request('/deskperfpcapi/family/score/companyRankList', { method: 'get', params });
 }
 // 本期创收-学院排名
 export async function incomeCollegeRankList(params) {
@@ -93,6 +93,10 @@ export async function incomeCompanyRankList(params) {
 // 本期绩效—排行榜
 export async function achievementList(params) {
   return request('/deskperfpcapi/family/score/achievementList', { method: 'get', params });
+}
+// 本期预估绩效 - 质检扣款金额统计
+export async function qualityChargeCount(params) {
+  return request('/classWorkbench/family/qualityChargeCount', { method: 'get', params });
 }
 // ====小树end====
 // 查询组织架构
@@ -109,19 +113,19 @@ export async function getFamilyQuality(params) {
 }
 //家族学分对比
 export async function getFamilyScorePk(params) {
-  return request('/deskperfpcapi/family/score/pk',  { method: 'get', params });
+  return request('/deskperfpcapi/family/score/pk', { method: 'get', params });
 }
 //家族学分对比右侧集团学分排名
 export async function getFamilyRankList(params) {
-  return request('/deskperfpcapi/family/score/familyRankList',  { method: 'get', params });
+  return request('/deskperfpcapi/family/score/familyRankList', { method: 'get', params });
 }
 //获取家族学分对比右侧下拉筛选的数据
 export async function getCollegeList(params) {
-  return request('/deskperfpcapi/organization/collegeList',  { method: 'get', params });
+  return request('/deskperfpcapi/organization/collegeList', { method: 'get', params });
 }
 //小组学分对比
 export async function getGroupPkList(params) {
-  return request('/deskperfpcapi/family/score/groupPk',  { method: 'get', params });
+  return request('/deskperfpcapi/family/score/groupPk', { method: 'get', params });
 }
 //小组学分对比设置对比项的我的小组数据
 export async function myFamilyGroupList(params) {
@@ -129,9 +133,9 @@ export async function myFamilyGroupList(params) {
 }
 //家族创收对比
 export async function getIncomeFamilyList(params) {
-  return request('/deskperfpcapi/incomeFamily/getFamilyPk',  { method: 'get', params });
+  return request('/deskperfpcapi/incomeFamily/getFamilyPk', { method: 'get', params });
 }
 //家族创收对比的家族绩效列表
 export async function getFamilyList(params) {
-  return request('/deskperfpcapi/incomeFamily/getFamilyList',  { method: 'get', params });
+  return request('/deskperfpcapi/incomeFamily/getFamilyList', { method: 'get', params });
 }

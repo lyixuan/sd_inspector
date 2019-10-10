@@ -7,95 +7,46 @@ import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
 import { connect } from 'dva';
 
-const dataSource = [
-  {
-    key: '1',
-    name: '胡彦斌',
-    rank: 1,
-    age: 32,
-    rankChange: 1,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '2',
-    name: '胡彦斌',
-    rank: 1,
-    age: 32,
-    rankChange: 1,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '3',
-    name: '胡彦斌',
-    rank: 1,
-    age: 32,
-    rankChange: 1,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '4',
-    name: '胡彦斌',
-    rank: 1,
-    age: 32,
-    rankChange: 1,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '5',
-    name: '胡彦斌',
-    rank: 1,
-    age: 32,
-    rankChange: 1,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '6',
-    name: '胡彦斌',
-    rank: 1,
-    age: 32,
-    rankChange: 1,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '7',
-    name: '胡彦斌',
-    rank: 1,
-    age: 32,
-    rankChange: 1,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '8',
-    name: '胡彦斌',
-    rank: 1,
-    age: 32,
-    rankChange: 1,
-    address: '西湖区湖底公园1号',
-  },
-];
 const columns = [
   {
     title: '排名',
-    dataIndex: 'key',
-    key: 'name',
-    width: '25%'
+    dataIndex: 'creditRanking',
+    key: 'creditRanking',
+    width: '25%',
+    render: (text, record) => {
+      let className = '';
+      let rank = 1;
+      if (record.creditRanking == 1) {
+        rank = rank1
+      } else if (record.creditRanking == 2) {
+        rank = rank2
+      } else if (record.creditRanking == 3) {
+        rank = rank3
+      }
+      return (
+        <div className={`${styles.rankColumn} ${styles[className]}`}>
+          {record.creditRanking > 3 ? <span className={styles.rankSpan}>{record.creditRanking}</span> : <img className={styles.rank} src={rank} />}
+        </div>
+      )
+
+    },
   },
   {
     title: '家族',
-    dataIndex: 'age',
-    key: 'age',
+    dataIndex: 'familyName',
+    key: 'familyName',
     width: '25%'
   },
   {
     title: '小组',
-    dataIndex: 'address',
-    key: 'address',
+    dataIndex: 'groupName',
+    key: 'groupName',
     width: '25%'
   },
   {
     title: '学分',
-    dataIndex: 'address',
-    key: 'address',
+    dataIndex: 'credit',
+    key: 'credit',
     width: '25%'
   },
 ];
@@ -104,24 +55,41 @@ const columns2 = [
     title: '排名',
     dataIndex: 'key',
     key: 'name',
-    width: '25%'
+    width: '25%',
+    render: (text, record) => {
+      let className = '';
+      let rank = 1;
+      if (record.creditRanking == 1) {
+        rank = rank1
+      } else if (record.creditRanking == 2) {
+        rank = rank2
+      } else if (record.creditRanking == 3) {
+        rank = rank3
+      }
+      return (
+        <div className={`${styles.rankColumn} ${styles[className]}`}>
+          {record.creditRanking > 3 ? <span className={styles.rankSpan}>{record.creditRanking}</span> : <img className={styles.rank} src={rank} />}
+        </div>
+      )
+
+    },
   },
   {
     title: '学院',
-    dataIndex: 'age',
-    key: 'age',
+    dataIndex: 'collegeName',
+    key: 'collegeName',
     width: '25%'
   },
   {
     title: '家族',
-    dataIndex: 'address',
-    key: 'address',
+    dataIndex: 'familyName',
+    key: 'familyName',
     width: '25%'
   },
   {
     title: '学分',
-    dataIndex: 'address',
-    key: 'address',
+    dataIndex: 'credit',
+    key: 'credit',
     width: '25%'
   },
 ];
@@ -244,8 +212,10 @@ class Score extends React.Component {
     super(props);
     this.state = {
       keye: 1,
+      scoreData: [],
       incomeData: [],
       incomeCompanyData: [],
+      companyScoreData: []
     }
   }
   onTabChange = (val) => {
@@ -256,6 +226,8 @@ class Score extends React.Component {
   componentDidMount() {
     this.incomeCollegeRankList();
     this.incomeCompanyRankList();
+    this.collegeRankList();
+    this.companyRankList();
   }
   incomeCollegeRankList() {
     this.props.dispatch({
@@ -271,15 +243,29 @@ class Score extends React.Component {
       callback: (incomeCompanyData) => this.setState({ incomeCompanyData }),
     });
   }
+  collegeRankList() {
+    this.props.dispatch({
+      type: 'xdWorkModal/collegeRankList',
+      payload: {},
+      callback: (scoreData) => this.setState({ scoreData }),
+    });
+  }
+  companyRankList() {
+    this.props.dispatch({
+      type: 'xdWorkModal/collegeRankList',
+      payload: {},
+      callback: (companyScoreData) => this.setState({ companyScoreData }),
+    });
+  }
 
 
   render() {
-    const { incomeData, incomeCompanyData } = this.state;
+    const { incomeData, incomeCompanyData, scoreData, companyScoreData } = this.state;
     return (
       <div className={styles.scoreWrap}>
         <div className={styles.tableWrap}>
-          <div className={styles.table}><Wrap columns={columns} dataSource={dataSource} title='本学院学分排名'></Wrap></div>
-          <div className={styles.table}><Wrap columns={columns2} dataSource={dataSource} title='集团学分排名' className='bg2'></Wrap></div>
+          <div className={styles.table}><Wrap columns={columns} dataSource={scoreData} title='本学院学分排名'></Wrap></div>
+          <div className={styles.table}><Wrap columns={columns2} dataSource={companyScoreData} title='集团学分排名' className='bg2'></Wrap></div>
         </div>
         <div className={styles.tableWrap}>
           <div className={styles.table}><Wrap columns={columns3} dataSource={incomeData} title='本学院创收排名' className='bg3'></Wrap></div>
