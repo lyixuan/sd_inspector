@@ -23,7 +23,7 @@ const tabSource = {
   3: 'auditingAppealList'
 }
 @connect(({ xdWorkModal, loading }) => ({
-  familyAppeal: xdWorkModal.familyAppeal,
+  familyAppeal: xdWorkModal.familyAppeal || {},
   loading: loading.effects['xdWorkModal/getFamilyRecord'],
 }))
 class appeal extends React.Component {
@@ -44,37 +44,33 @@ class appeal extends React.Component {
     const columns = [
       {
         title: '家族小组',
-        dataIndex: 'violationLevel',
-        key: 'violationLevel',
-      }, {
-        title: '运营长',
-        dataIndex: 'violationNumber',
-        key: 'violationNumber',
+        dataIndex: 'groupName',
+        key: 'groupName',
       }, {
         title: '质检',
-        dataIndex: 'violationNumber1',
-        key: 'violationNumber1',
-        render: text => <>{text === 1 ? <div className={styles.rankMark}>{text}{<Tooltip placement="bottom" title='含一级违规'><img src={rankWarn} alt='icon' /></Tooltip>}</div> : text}</>
+        dataIndex: 'qualityNum',
+        key: 'qualityNum',
+        render: (text, record)=> <>{record.primaryViolationFlag ? <div className={styles.rankMark}>{text}{<Tooltip placement="bottom" title='含一级违规'><img src={rankWarn} alt='icon' /></Tooltip>}</div> : text}</>
       }, {
         title: '底线',
-        dataIndex: 'violationNumber2',
-        key: 'violationNumber2',
+        dataIndex: 'bottomLineNum',
+        key: 'bottomLineNum',
       }, {
         title: 'IM',
-        dataIndex: 'violationNumber3',
-        key: 'violationNumber3',
+        dataIndex: 'imNum',
+        key: 'imNum',
       }, {
         title: '工单',
-        dataIndex: 'violationNumber4',
-        key: 'violationNumber4',
+        dataIndex: 'orderNum',
+        key: 'orderNum',
       } , {
         title: '优新',
-        dataIndex: 'violationNumber5',
-        key: 'violationNumber5',
+        dataIndex: 'newExcellentNum',
+        key: 'newExcellentNum',
       } , {
         title: '创收',
-        dataIndex: 'violationNumber6',
-        key: 'violationNumber6',
+        dataIndex: 'incomeNum',
+        key: 'incomeNum',
       } 
  
     ];
@@ -87,7 +83,7 @@ class appeal extends React.Component {
   }
 
   render() {
-    const dataSource = this.props.familyAppeal[tabSource[this.state.appealType]] || [{id: 1, violationNumber1: 1}]
+    const dataSource = this.props.familyAppeal[tabSource[this.state.appealType]] || []
     return (
       <Container
         title='本期申诉'

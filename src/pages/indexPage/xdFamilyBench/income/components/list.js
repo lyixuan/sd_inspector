@@ -20,10 +20,11 @@ class ProfitList extends React.Component {
     this.getData();
   }
   columns = () => {
+    const { tabKey } = this.props;
+    const widthVal = tabKey === '1' ? '8%' : '7%';
     const columns = [
       {
-        width: 110,
-        fixed: 'left',
+        width: '9%',
         title: '集团排名',
         dataIndex: 'ranking',
         key: 'ranking',
@@ -31,81 +32,74 @@ class ProfitList extends React.Component {
           {text} <img className={styles.sortImg} src={rankImg[record.rankingFlag + 1]} />
         </div>
       }, {
-        width: 110,
-        fixed: 'left',
+        width: '9%',
         title: '小组',
         dataIndex: 'groupName',
         key: 'groupName',
       }, {
-        width: 110,
-        fixed: 'left',
+        width: '9%',
         title: '总绩效',
         dataIndex: 'incomeKpi',
         key: 'incomeKpi',
       }, {
-        width: '8%',
+        width: '9%',
         title: '好推绩效',
         dataIndex: 'goodpushKpi',
         key: 'goodpushKpi',
         className: styles.row1,
       }, {
-        width: '8%',
+        width: widthVal,
         title: '好推单量',
         dataIndex: 'goodpushOrderCount',
         key: 'goodpushOrderCount',
         className: styles.row1,
       }, {
-        width: '8%',
+        width: '9%',
         title: '好推流水',
         dataIndex: 'goodpushFlow',
         key: 'goodpushFlow',
         className: styles.row1,
       }, {
-        width: '8%',
+        width: widthVal,
         title: '续报绩效',
         dataIndex: 'renewalKpi',
         key: 'renewalKpi',
         className: styles.row2,
       }, {
-        width: '8%',
+        width: widthVal,
         title: '续报单量',
         dataIndex: 'renewalOrderCount',
         key: 'renewalOrderCount',
         className: styles.row2,
       }, {
-        width: '8%',
+        width: widthVal,
         title: '续报流水',
         dataIndex: 'renewalFlow',
         key: 'renewalFlow',
         className: styles.row2,
       }, {
-        width: '8%',
+        width: widthVal,
         title: '成本套绩效',
         dataIndex: 'examZbtKpi',
         key: 'examZbtKpi',
         className: styles.row3,
       }, {
-        width: '8%',
+        width: widthVal,
         title: '成本套当量',
         dataIndex: 'examZbtOrderCount',
         key: 'examZbtOrderCount',
         className: styles.row3,
       }, {
-        width: '10%',
+        // width: tabKey === '1' ? '12%': '16%',
         title: '成本套流水',
         dataIndex: 'examZbtFlow',
         key: 'examZbtFlow',
         className: styles.row3,
-      }, {
-        className: styles.row3,
-        title: '',
-        dataIndex: 'duoyukuandu',
       },
     ];
-    if (this.props.tabKey === '1') {
+    if (this.props.tabKey === '2') {
       columns.splice(2, 0, {
-        width: 110,
-        fixed: 'left',
+        width: widthVal,
         title: '班主任',
         dataIndex: 'userName',
         key: 'userName',
@@ -114,13 +108,13 @@ class ProfitList extends React.Component {
     return columns || [];
   };
   getData = () => {
-    if (this.props.tabKey) { // 班主任
-      this.props.dispatch({
-        type: 'xdWorkModal/getCurrentIncomeClass',
-      });
-    } else {
+    if (this.props.tabKey === '1') { // 小组
       this.props.dispatch({
         type: 'xdWorkModal/getCurrentIncomeGroup',
+      });
+    } else if (this.props.tabKey === '2') {
+      this.props.dispatch({
+        type: 'xdWorkModal/getCurrentIncomeClass',
       });
     } 
   }

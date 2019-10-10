@@ -7,10 +7,10 @@ import styles from './style.less';
 
 const tabParams = [{
   name: '小组创收',
-  children: <TableList />
+  children: <TableList tabKey="1"/>
 }, {
   name: '班主任创收',
-  children: <TableList tabKey="1"/>
+  children: <TableList tabKey="2"/>
 }]
 @connect(({ xdWorkModal }) => ({
   inCometarget: xdWorkModal.inCometarget,

@@ -89,11 +89,11 @@ export async function getOrgMapList(params) {
 }
 // 本期申诉 - 申诉统计
 export async function getFamilyRecord(params) {
-  return request('/classWorkbench/family/countAppealRecord', { method: 'get', data: params })
+  return request('/classWorkbench/family/countAppealRecord', { method: 'get', params })
 }
 // 本期质检 - 质检统计
 export async function getFamilyQuality(params) {
-  return request('/classWorkbench/family/countCurrentQuality', { method: 'get', data: params })
+  return request('/classWorkbench/family/countCurrentQuality', { method: 'get', params })
 }
 //家族学分对比
 export async function getFamilyScorePk(params) {

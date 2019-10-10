@@ -5,7 +5,7 @@ import BITable from '@/ant_components/BITable'
 
 const levelObj = ['', '特级违规', '一级违规', '二级违规', '三级违规'];
 @connect(({ xdWorkModal, loading }) => ({
-  familyQuality: xdWorkModal.familyQuality,
+  familyQuality: xdWorkModal.familyQuality || [],
   loading: loading.effects['xdWorkModal/getFamilyQuality'],
 }))
 class Quality extends React.Component {

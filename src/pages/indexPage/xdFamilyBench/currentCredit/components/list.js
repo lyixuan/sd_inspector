@@ -1430,7 +1430,6 @@ class ProfitList extends React.Component {
         } else {
           result.push(...this.flatTree(data, flag, result, id, level + 1))
         }
-        console.log(1433, result)
         // result.push(...this.flatTree(data, result, id, level + 1))
         return result
       }, result)

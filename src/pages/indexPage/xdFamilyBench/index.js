@@ -9,6 +9,8 @@ import Income from './income';
 import CurrentCredit from './currentCredit';
 import Quality from './quality';
 import Appeal from './appeal';
+import storage from '../../../utils/storage';
+
 @connect((xdWorkModal) => ({
   xdWorkModal,
 }))
@@ -17,13 +19,14 @@ class XdFamily extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-
+      userId: storage.getItem('admin_user').userId,
     }
   }
   componentDidMount() {
 
   }
   render() {
+    const { userId } = this.state;
     return (
       <div className={styles.familyBench}>
         <PerformanceDetail></PerformanceDetail>
@@ -33,8 +36,8 @@ class XdFamily extends React.Component {
         <Income />
         <FamilyAndGroupIncome />
         <div className={styles.qualityAppel}>
-          <Appeal userId={1247} />
-          <Quality userId={1247} />
+          <Appeal userId={userId} />
+          <Quality userId={userId} />
         </div>
       </div>
     );
