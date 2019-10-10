@@ -3,8 +3,8 @@
   "scripts": {
     "start": "cross-env ENV_TYPE=localhost umi dev",
     "start2": "cross-env ENV_TYPE=localhost2 umi dev",
-    "build:dev": "cross-env ENV_TYPE=development umi build",
-    "build:dev2": "cross-env ENV_TYPE=development2 umi build",
+    "build:test": "cross-env ENV_TYPE=development umi build",
+    "build:test2": "cross-env ENV_TYPE=development2 umi build",
     "build": "cross-env ENV_TYPE=production  umi build",
     "test": "umi test",
     "lint": "eslint --ext .js src",

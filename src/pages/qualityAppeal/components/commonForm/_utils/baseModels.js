@@ -41,8 +41,8 @@ export class BaseModels {
             collegeName: null,             // 学院名
             familyName: null,              // 家族名
             groupName: null,                // 小组名
-            qualityNum: null                 // 质检单号
-
+            qualityNum: null,              // 质检单号
+            punishType:null,                // 处罚方式
         };
         this.modelData = this.handleInitData(qualityDetail);
     }
@@ -118,25 +118,25 @@ export class BaseModels {
         const { masterQualityValue } = params;
         // 暂不对其做处理
         // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-        return masterQualityValue && masterQualityValue > 0 ? (Number(masterQualityValue) * 100).toFixed(2) : masterQualityValue;
+        return masterQualityValue;
     }
   getMasterQualityValueFamter2 = (params) => {
     const { masterQualityValue2 } = params;
     // 暂不对其做处理
     // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-    return masterQualityValue2 && masterQualityValue2 > 0 ? (Number(masterQualityValue2) * 100).toFixed(2) : masterQualityValue2;
+    return masterQualityValue2 ;
   }
   getMasterQualityValueFamter3 = (params) => {
     const { masterQualityValue3 } = params;
     // 暂不对其做处理
     // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-    return masterQualityValue3 && masterQualityValue3 > 0 ? (Number(masterQualityValue3) * 100).toFixed(2) : masterQualityValue3;
+    return masterQualityValue3 ;
   }
   getMasterQualityValueFamter4 = (params) => {
     const { masterQualityValue4 } = params;
     // 暂不对其做处理
     // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-    return masterQualityValue4 && masterQualityValue4> 0 ? (Number(masterQualityValue4) * 100).toFixed(2) : masterQualityValue4;
+    return masterQualityValue4 ;
   }
     setQualityValueFamter = (params) => {
         const { qualityValue } = params;
@@ -146,22 +146,22 @@ export class BaseModels {
     setMasterQualityValueFamter = (params, violationLevelObj) => {
         const { masterQualityValue } = params;
         // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-        return masterQualityValue && masterQualityValue > 0 ? Number(masterQualityValue || 0) * 100 / 10000 : masterQualityValue;
+        return masterQualityValue===''||masterQualityValue===null?'':Number(masterQualityValue);
     }
   setMasterQualityValueFamter2 = (params, violationLevelObj) => {
     const { masterQualityValue2 } = params;
     // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-    return masterQualityValue2 && masterQualityValue2 > 0 ? Number(masterQualityValue2 || 0) * 100 / 10000 : masterQualityValue2;
+    return masterQualityValue2===''||masterQualityValue2===null?'':Number(masterQualityValue2) ;
   }
   setMasterQualityValueFamter3 = (params, violationLevelObj) => {
     const { masterQualityValue3 } = params;
     // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-    return masterQualityValue3 && masterQualityValue3 > 0 ? Number(masterQualityValue3 || 0) * 100 / 10000 : masterQualityValue3;
+    return masterQualityValue3===''||masterQualityValue3===null?'':Number(masterQualityValue3) ;
   }
   setMasterQualityValueFamter4 = (params, violationLevelObj) => {
     const { masterQualityValue4 } = params;
     // const isMasterPerformance = BaseModels.checkoutQualityMaster(params);
-    return masterQualityValue4 && masterQualityValue4 > 0 ? Number(masterQualityValue4 || 0) * 100 / 10000 : masterQualityValue4;
+    return masterQualityValue4===''||masterQualityValue4===null?'':Number(masterQualityValue4);
   }
     transOriginParams = (params = {}) => {
         const newParams = {};

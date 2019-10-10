@@ -2,12 +2,24 @@
  * 静态数据和全局配置
  * */
 
-// =========================================== host =========
+// localStorage Keys
+
+// 当前用户权限
+export const ADMIN_AUTH = 'admin_auth';
+// 当前用户信息
+export const ADMIN_USER = 'admin_user';
+
+export const DEBUGGER_USER = {
+  localhost: 'ligang02',
+}[process.env.LOGIN_TYPE];
 
 // 静态文件host
 export const STATIC_HOST = {
-  development: 'http://172.16.117.65',
   production: 'http://bd.ministudy.com/download',
+  localhost: 'http://172.16.117.65',
+  localhost2: 'http://172.16.117.65',
+  development: 'http://172.16.117.65',
+  development2: 'http://172.16.117.65',
 }[process.env.ENV_TYPE];
 
 export const SERVER_HOST = {
@@ -28,6 +40,8 @@ export const CAS_HOST = {
 
 export const ADMIN_URL = {
   production: 'http://bd.ministudy.com',
+  localhost: 'http://test.xd.admin.ministudy.com',
+  localhost2: 'http://test.xd.admin2.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   development2: 'http://test.xd.admin2.ministudy.com',
 }[process.env.ENV_TYPE];
@@ -36,6 +50,8 @@ export const ADMIN_URL = {
 // ko-sessionReport，跳转URL
 export const sessionReportURL = {
   production: "http://sscp.ministudy.com/college_learn/#/sessionRecord",
+  localhost: "http://172.16.109.87:38080/#/sessionRecord",
+  localhost2: "http://172.16.109.87:38080/#/sessionRecord",
   development: "http://172.16.109.87:38080/#/sessionRecord",
   development2: "http://172.16.109.87:38080/#/sessionRecord",
 }[process.env.ENV_TYPE];
@@ -43,6 +59,8 @@ export const sessionReportURL = {
 // ko-knowledge，跳转URL
 export const knowledgeURL = {
   production: "http://sscp.ministudy.com/college_learn/#/questions",
+  localhost: "http://172.16.109.87:38080/#/questions",
+  localhost2: "http://172.16.109.87:38080/#/questions",
   development: "http://172.16.109.87:38080/#/questions",
   development2: "http://172.16.109.87:38080/#/questions",
 }[process.env.ENV_TYPE];
@@ -50,13 +68,6 @@ export const knowledgeURL = {
 export const PROXY_PATH = (hasSelfPri) => { return hasSelfPri ? '' : '/inspectorapis' };
 
 // =========================================== host =========
-
-
-// 当前用户权限
-export const ADMIN_AUTH = 'admin_auth';
-// 当前用户信息
-export const ADMIN_USER = 'admin_user';
-
 
 // 分页配置
 export const PAGINATION = {
@@ -213,6 +224,7 @@ export const provinceJson = [
     name: '台湾省',
   },
 ];
+
 // 报考步骤
 export const PROVINCE_STEP = [
   { id: 0, name: '新生注册' },
@@ -431,7 +443,25 @@ export const DIMENSION_TYPE = [
   { id: 23, name: '底线', url: 'baseline' },
   { id: 42, name: '创收', url: 'createIncome' },
 ];
-
+// 责任人处罚分类
+export const PUNISH_TYPE = [
+  {
+    name: '扣除绩效',
+    value: 1,
+  },
+  {
+    name: '扣除学分',
+    value: 2,
+  },
+  {
+    name: '扣除挽留金额',
+    value: 3,
+  },
+  {
+    name: '扣除人均挽留金额',
+    value: 4,
+  },
+];
 // 申诉维度
 export const SCORE_APPEAL_DIS = [
   { id: 12, name: '开班电话', parentId: 11 },
@@ -488,6 +518,13 @@ export const SCORE_APPEAL_STATE_FIN = [
   { id: 10, name: '二次申诉成功' },
   { id: 11, name: '二次申诉失败' },
 ];
+// 处罚方式
+const PUNISH_LIST = [
+  {id:'1',name:'扣除绩效'},
+  {id:'2',name:'扣除学分'},
+  {id:'3',name:'扣除挽留金额'},
+  {id:'4',name:'扣除人均挽留金额'},
+];
 
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
@@ -523,7 +560,10 @@ export default {
   SCORE_APPEAL_STATE_ON_OWNER,
   SCORE_APPEAL_STATE_ON_MASTER,
   SCORE_APPEAL_DIS,
+  PUNISH_LIST,
+  PUNISH_TYPE,
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
+
 

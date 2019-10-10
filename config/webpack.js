@@ -41,8 +41,6 @@ export const webpackConfig = {
 
   // },
   define: {
-    'process.env.LOGIN_TYPE': process.env.LOGIN_TYPE,
-    'process.env.PROXY_ENV': process.env.PROXY_ENV,
     'process.env.ENV_TYPE': process.env.ENV_TYPE,
   },
   alias: {
