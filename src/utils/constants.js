@@ -16,10 +16,10 @@ export const DEBUGGER_USER = {
 // 静态文件host
 export const STATIC_HOST = {
   production: 'http://bd.ministudy.com/download',
-  localhost: 'http://172.16.117.65',
-  localhost2: 'http://172.16.117.65',
-  development: 'http://172.16.117.65',
-  development2: 'http://172.16.117.65',
+  localhost: 'http://172.16.109.99:29180',
+  localhost2: 'http://172.16.109.99:29180',
+  development: 'http://172.16.109.99:29180',
+  development2: 'http://172.16.109.99:29180',
 }[process.env.ENV_TYPE];
 
 export const SERVER_HOST = {
