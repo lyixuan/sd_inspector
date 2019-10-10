@@ -29,9 +29,11 @@ class performanceDetail extends React.Component {
     this.drawChart()
   }
   qualityChargeCount() {
+    const admin_user = localStorage.getItem('admin_user');
+    const userId = JSON.parse(admin_user) ? JSON.parse(admin_user).userId : null;
     this.props.dispatch({
       type: 'xdWorkModal/qualityChargeCount',
-      payload: {},
+      payload: { params: { id: userId } },
       callback: (incomeData) => this.setState({ incomeData }),
     });
   }
