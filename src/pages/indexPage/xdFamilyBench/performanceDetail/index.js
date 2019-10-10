@@ -102,7 +102,10 @@ class performanceDetail extends React.Component {
 
   render() {
     return (
-      <Container head="none">
+      <Container
+        title='绩效详情'
+        right={`11 ~ 22 (最新学分日期)`}
+      >
         {
           <div className={styles.performanceDetail}>
             <div ref={this.createRef} className={styles.chart}></div>

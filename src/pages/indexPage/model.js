@@ -17,6 +17,9 @@ import {
   getFamilyQuality,
   scoreStatistics,
   scoreDetail,
+  incomeCollegeRankList,
+  incomeCompanyRankList,
+  achievementList,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -63,11 +66,47 @@ export default {
   },
 
   effects: {
+    // 本期绩效—排行榜
+    *achievementList({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(achievementList, params);
+      console.log(70)
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 本期创收-集团排名
+    *incomeCompanyRankList({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(incomeCompanyRankList, params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 本学院创收排名
+    *incomeCollegeRankList({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(incomeCollegeRankList, params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     // 本期学分明细
     *scoreDetail({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(scoreDetail, params);
-      console.log(70)
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
