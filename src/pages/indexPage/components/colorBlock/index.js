@@ -18,9 +18,13 @@ class ColorBlock extends React.Component {
                 {thousandsFormat(item[num])}
               </div>
             </Tooltip>
-            {item.rank && <div className={styles.tips}>
+            {item.rank == 'green' && <div className={styles.tips}>
               <span className={styles.arrow}><em></em></span>
               <div className={styles.rankTip}><img src={face1} alt="icon" />{item.rankTip}</div>
+            </div>}
+            {item.rank == 'red' && <div className={styles.tips}>
+              <span className={styles.arrow}><em></em></span>
+              <div className={`${styles.rankTip} ${styles.rankTipError}`}><img src={face2} alt="icon" />{item.rankTip}</div>
             </div>}
           </div>)}
       </div>

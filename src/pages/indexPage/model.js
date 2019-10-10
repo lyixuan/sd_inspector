@@ -15,6 +15,14 @@ import {
   getOrgMapList,
   getFamilyRecord,
   getFamilyQuality,
+  scoreStatistics,
+  scoreDetail,
+  getFamilyScorePk,
+  getFamilyRankList,
+  getGroupPkList,
+  getIncomeFamilyList,
+  getFamilyList,
+  getCollegeList
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -33,10 +41,41 @@ export default {
     orgListTreeData: [], // 保存组织处理成treeData需要的结构
     familyIncome: [], // 创收
     familyAppeal: {}, // 申诉
-    familyQuality: [] // 质检
+    familyQuality: [], // 质检
+    familyScoreList:{
+      dimensionList:[],
+      myGroup:{},
+      pkGroup:{}
+    },
+    familyRankList:[]
   },
 
   effects: {
+    // 本期学分明细
+    *scoreDetail({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(scoreDetail, params);
+      console.log(70)
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 本期学分汇总
+    *scoreStatistics({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(scoreStatistics, params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     // 本期创收
     *getContrastIncomeKpiPkList({ payload, callback }, { call }) {
       const params = payload.params;
@@ -197,7 +236,7 @@ export default {
           num: data.examZbtKpi,
           tip: '本绩效周期内用户所在家族成本套绩效'
         }]
-        
+
         yield put({ type: 'save', payload: { inCometarget } });
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
@@ -228,7 +267,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveMap', payload: { orgList } });
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
     // 本期申诉
@@ -247,6 +286,71 @@ export default {
       if (result.code === 20000) {
         const familyQuality = result.data;
         yield put({ type: 'save', payload: { familyQuality } });
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+  //  家族学分对比
+    *getFamilyScorePk({ payload }, { call, put }){
+      const result = yield call(getFamilyScorePk, payload.params)
+      if (result.code === 20000) {
+        const familyScoreList = result.data;
+        yield put({ type: 'save', payload: { familyScoreList } });
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+  //  家族学分对比右侧家族学分排名
+    *getFamilyRankList({ payload,callback }, { call, put }){
+      const result = yield call(getFamilyRankList, payload.params)
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+  //  家族学分对比的学院列表
+    *getCollegeList({payload,callback},{call,put}){
+      const result = yield call(getCollegeList,payload.params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+  //  小组学分对比
+    *getGroupPkList({payload,callback},{call,put}){
+      const result = yield call(getGroupPkList,payload.params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+  //  家族创收对比
+    *getIncomeFamilyList({payload,callback},{call,put}){
+      const result = yield call(getIncomeFamilyList,payload.params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+  //  家族创收对比右侧的家族绩效列表
+    *getFamilyList({payload,callback},{call,put}){
+      const result = yield call(getFamilyList,payload.params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }

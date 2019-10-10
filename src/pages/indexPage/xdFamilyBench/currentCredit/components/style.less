@@ -15,11 +15,42 @@
 		.bgColor2{
 			background:#F5FBFF;
 		}
+		.cursor{
+			cursor:pointer;
+		}
 		:global{
 			.ant-table-tbody > tr > td{
-				padding-bottom:1px;
+				height:40px;
+				padding-top:0;
+				padding-bottom:0;
 			}
 		}
+}
+
+.rankColumn{
+	.rankSpan{
+		width:20px;
+		height:20px;
+		text-align:center;
+		display:inline-block;
+		margin-right:7px;
+	}
+	.rank{
+		width:20px;
+		height:14px;
+		margin-right:7px;
+	}
+	.changes{
+		width:10px;
+		height:12px;
+		vertical-align:-2px;
+		margin-left:13px;
+	}
+}
+.normal .changes{
+	width:10px;
+	height:1px;
+	vertical-align:middle;
 }
 
 
