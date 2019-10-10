@@ -79,9 +79,10 @@ class Performance extends React.Component {
         dataIndex: 'totalAchievement',
         key: 'totalAchievement',
         render: (text, record) => {
+          const percent = text / this.state.totalAchievementMax * 100
           return <div>
             <div>{text}</div>
-            <SmallProgress isColor="green" percent="40%"></SmallProgress>
+            <SmallProgress isColor="green" percent={`${percent}%`}></SmallProgress>
           </div>
         },
         width: width
@@ -91,9 +92,10 @@ class Performance extends React.Component {
         dataIndex: 'achievement',
         key: 'achievement',
         render: (text, record) => {
+          const percent = text / this.state.achievementMax * 100
           return <div>
             <div>{text}</div>
-            <SmallProgress isColor="green" percent="20%"></SmallProgress>
+            <SmallProgress isColor="green" percent={`${percent}%`}></SmallProgress>
           </div>
         },
         width: width
@@ -103,9 +105,10 @@ class Performance extends React.Component {
         dataIndex: 'incomeKpi',
         key: 'incomeKpi',
         render: (text, record) => {
+          const percent = text / this.state.incomeKpiMax * 100
           return <div>
             <div>{text}</div>
-            <SmallProgress isColor="green" percent="20%"></SmallProgress>
+            <SmallProgress isColor="green" percent={`${percent}%`}></SmallProgress>
           </div>
         },
         width: width
@@ -129,9 +132,7 @@ class Performance extends React.Component {
         width: '12%'
       },
     ];
-    if (this.state.rankType == 1) {
-
-    } else {
+    if (this.state.rankType == 2) {
       columns.splice(1, 0, {
         title: '学院',
         dataIndex: 'collegeName',
@@ -149,8 +150,22 @@ class Performance extends React.Component {
     this.props.dispatch({
       type: 'xdWorkModal/achievementList',
       payload: { params: { groupType } },
-      callback: (dataSource) => this.setState({ dataSource }),
+      callback: (dataSource) => {
+        this.setState({
+          dataSource,
+          totalAchievementMax: Math.max.apply(Math, dataSource.map(item => item.totalAchievement)),
+          achievementMax: Math.max.apply(Math, dataSource.map(item => item.achievement)),
+          incomeKpiMax: Math.max.apply(Math, dataSource.map(item => item.incomeKpi))
+        })
+      },
     });
+  }
+  getmaxscore(arr) {
+    let maxi = 0;
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[maxi].totalAchievement <= arr[i].totalAchievement) maxi = i;
+    }
+    return maxi
   }
   handleRankChange = (e) => {
     // console.log(160, e.target.value)
