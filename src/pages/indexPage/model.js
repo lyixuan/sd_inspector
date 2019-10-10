@@ -28,36 +28,12 @@ export default {
     groupList: null,
     groupPkList: {},
     kpiTimes: null,
-    inCometarget: [{
-      title: '家族净流水',
-      num: 2000,
-    }, {
-      title: '绩效排名',
-      num: 2000
-    }, {
-      title: '好推绩效',
-      num: 2000
-    }, {
-      title: '续报绩效',
-      num: 2000
-    }, {
-      title: '成本套绩效',
-      num: 2000
-    }], // 以下是家族值
+    inCometarget: [], // 以下是家族值
     orgList: [], // 保存组织原始结构
     orgListTreeData: [], // 保存组织处理成treeData需要的结构
+    familyIncome: [], // 创收
     familyAppeal: {}, // 申诉
-    familyQuality: [
-      {
-        violationLevel: 1,
-        violationNumber: 0,
-        reduceScore: 0
-      }, {
-        violationLevel: 2,
-        violationNumber: 2,
-        reduceScore: 80
-      }
-    ] // 质检
+    familyQuality: [] // 质检
   },
 
   effects: {
@@ -203,18 +179,23 @@ export default {
         const inCometarget = [{
           title: '家族净流水',
           num: data.kpiFlow,
+          tip: '本绩效周期内用户所在家族的创收净流水'
         }, {
           title: '绩效排名',
-          num: data.ranking
+          num: `${data.familyCount}/${data.ranking}`,
+          tip: '本绩效周期内用户所在家族创收绩效在集团所有家族中的净流水的排名'
         }, {
           title: '好推绩效',
-          num: data.goodpushKpi
+          num: data.goodpushKpi,
+          tip: '本绩效周期内用户所在家族好推绩效'
         }, {
           title: '续报绩效',
-          num: data.renewalKpi
+          num: data.renewalKpi,
+          tip: '本绩效周期内用户所在家族续报绩效'
         }, {
           title: '成本套绩效',
-          num: data.examZbtKpi
+          num: data.examZbtKpi,
+          tip: '本绩效周期内用户所在家族成本套绩效'
         }]
         
         yield put({ type: 'save', payload: { inCometarget } });
@@ -222,24 +203,18 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getCurrentIncomeGroup({ callback }, { call }) {
+    *getCurrentIncomeGroup(_, { put, call }) {
       const result = yield call(getCurrentIncomeGroup)
       if (result.code === 20000) {
-
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
+        yield put({ type: 'save', payload: { familyIncome: result.data } });
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getCurrentIncomeClass({ callback }, { call }) {
+    *getCurrentIncomeClass(_, { put, call }) {
       const result = yield call(getCurrentIncomeClass)
       if (result.code === 20000) {
-
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
+        yield put({ type: 'save', payload: { familyIncome: result.data } });
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }

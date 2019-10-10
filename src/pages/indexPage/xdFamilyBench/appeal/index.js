@@ -24,7 +24,7 @@ const tabSource = {
 }
 @connect(({ xdWorkModal, loading }) => ({
   familyAppeal: xdWorkModal.familyAppeal,
-  loading: loading.effects['xdWorkModal/getCountAppealRecord'],
+  loading: loading.effects['xdWorkModal/getFamilyRecord'],
 }))
 class appeal extends React.Component {
   constructor(props) {
@@ -84,9 +84,6 @@ class appeal extends React.Component {
     this.setState({
       appealType: e.target.value
     });
-  }
-  getDataSource = () => {
-   
   }
 
   render() {

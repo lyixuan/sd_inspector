@@ -51,15 +51,15 @@ export async function getKpiInfo(params) {
 
 // 本期创收明细-关键指标
 export async function getCurrentIncomeTarget(params) {
-  return request('/incomeFamily/currentIncomeTarget', { method: 'get', data: params })
+  return request('/deskperfpcapi/incomeFamily/currentIncomeTarget', { method: 'get', data: params })
 }
 // 本期创收明细-小组创收明细
 export async function getCurrentIncomeGroup(params) {
-  return request('/incomeFamily/currentIncomeGroup', { method: 'get', data: params })
+  return request('/deskperfpcapi/incomeFamily/currentIncomeGroup', { method: 'get', data: params })
 }
 // 本期创收明细-班主任创收明细
 export async function getCurrentIncomeClass(params) {
-  return request('/incomeFamily/currentIncomeClass', { method: 'get', data: params })
+  return request('/deskperfpcapi/incomeFamily/currentIncomeClass', { method: 'get', data: params })
 }
 // 工作台—绩效详情
 export async function getFamilykpiInfo(params) {
