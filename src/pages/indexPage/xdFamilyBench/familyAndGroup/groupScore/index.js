@@ -168,12 +168,27 @@ class GroupScore extends React.Component {
           "myScoreRatio": "4.95",
           "parentId": 0,
           "unit": ""
-        }]
+        }],
+        groupList:[],
+        pkGroupIds:null
       }
     }
   }
   componentDidMount() {
+    this.getGroupPkList()
 
+
+  }
+  getGroupPkList=()=>{
+    this.props.dispatch({
+      type:'xdWorkModal/getGroupPkList',
+      payload: { params: {pkGroupIds:this.state.pkGroupIds} },
+      callback: (data) => {
+        this.setState({
+          groupList: data
+        })
+      }
+    })
   }
   fillDataSource = (params, n = 1) => {
     let data = params
@@ -227,7 +242,6 @@ class GroupScore extends React.Component {
     return columns || []
   }
   setRowClassName = (record) => {
-    console.log()
     let className = ''
     if (record.level === 1 && record.dimensionName === "学分均分") {
       className = "oneLevelBgColor"
