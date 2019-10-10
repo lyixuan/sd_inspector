@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from '../style.less';
 import BITable from '@/ant_components/BITable'
-// import pkImg from '@/assets/xdwork/pk.png';
-// import xdPkImg from '@/assets/workBench/xdpk.gif';
+import pkImg from '@/assets/xdwork/pk.png';
+import xdPkImg from '@/assets/workBench/xdpk.gif';
 import Proportion from '../../../components/proportion';
 import Progress from '../../../components/progress'
 import IndentNum from '../../../components/indentNum'
@@ -135,6 +135,7 @@ class FamilyScoreLeft extends React.Component {
     }
   }
   componentDidMount() {
+
     this.setState({
       pkGroup:this.state.data.pkGroup
     })
@@ -172,10 +173,9 @@ class FamilyScoreLeft extends React.Component {
     return arr
   }
   columns = () => {
-    const { pkGroup } = this.state
-    const PkName = pkGroup && pkGroup.groupName
     let maxNumMyScore = ""
-
+    const {familyScoreList} = this.props
+    const PkName = familyScoreList.pkGroup.familyName
     const columns = [{
       title: '学分维度',
       dataIndex: 'dimensionName',
@@ -228,7 +228,7 @@ class FamilyScoreLeft extends React.Component {
           }
         }
         return (
-          data.dimensionName === "正面均分" || data.isShowPro && PkName ? <Progress leftNumber = {true} data ={data} PkName={PkName} maxNumMyScore={maxNumMyScore}/>:<div className={styles.pkRankMain} style={{ justifyContent: 'flex-end', marginRight: '-18px' }}>
+         data.isShowPro && PkName ? <Progress leftNumber = {true} data ={data} PkName={PkName} maxNumMyScore={maxNumMyScore}/>:<div className={styles.pkRankMain} style={{ justifyContent: 'flex-end', marginRight: '-18px' }}>
             <div
               style={{
                 color: '#52C9C2',
@@ -256,7 +256,7 @@ class FamilyScoreLeft extends React.Component {
           }
         }
         return (
-          data.dimensionName === "正面均分" || data.isShowPro && PkName ? <Progress leftNumber={false} data ={data} PkName={PkName} maxNumMyScore={maxNumMyScore}/>:<div className={styles.pkRankMain} style={{ justifyContent: 'flex-satrt', marginRight: '-18px' }}>
+          data.isShowPro && PkName ? <Progress leftNumber={false} data ={data} PkName={PkName} maxNumMyScore={maxNumMyScore}/>:<div className={styles.pkRankMain} style={{ justifyContent: 'flex-satrt', marginRight: '-18px' }}>
             <div
               style={{
                 color: '#52C9C2',
@@ -271,7 +271,7 @@ class FamilyScoreLeft extends React.Component {
         );
       }
     },{
-      title: '法律',
+      title: '对比小组',
       dataIndex: 'groupScore',
       key: 'groupScore',
       width: '10%',
@@ -299,18 +299,25 @@ class FamilyScoreLeft extends React.Component {
     return className
   }
   render() {
-    const {data} = this.state
-    const dataSource = data && data.dimensionList.length>0 && this.fillDataSource(data.dimensionList)
+    const {familyScoreList} = this.props
+    const dataSource = familyScoreList && familyScoreList.dimensionList.length>0 && this.fillDataSource(familyScoreList.dimensionList)
+    const leftNum = familyScoreList.myGroup.score
+    const userName = familyScoreList.myGroup.familyName
+    const rightNum = familyScoreList.pkGroup.score
+    const PkName = familyScoreList.pkGroup.familyName
     return (
       <div className={styles.familyLeft}>
         <div className={styles.proMain}>
-          <Proportion
-            leftNum={8.11}
-            rightNum={10.38}
-            leftCollege={"全国工商管理"}
-            rightCollege={"法律"}
+          {PkName ? <Proportion
+            leftNum={leftNum}
+            rightNum={rightNum}
+            leftCollege={userName}
+            rightCollege={PkName}
             style={{ width: 'calc(100% - 200px)' }}
-          />
+          /> : <div className={styles.proNone}>
+            <img src={pkImg} style={{ width: '32px' }} />
+            <span>快从右边选择一个小组进行学分PK吧！</span>
+          </div>}
         </div>
         <div className={styles.tableContainer}>
           {
@@ -328,9 +335,9 @@ class FamilyScoreLeft extends React.Component {
             </BITable>
           }
 
-          {/*{*/}
-            {/*groupId === 0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>*/}
-          {/*}*/}
+          {
+            !PkName && <div className={styles.tableImg}><img src={xdPkImg} /></div>
+          }
 
         </div>
       </div>

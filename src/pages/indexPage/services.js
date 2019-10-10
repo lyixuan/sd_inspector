@@ -97,5 +97,25 @@ export async function getFamilyQuality(params) {
 }
 //家族学分对比
 export async function getFamilyScorePk(params) {
-  return request('/family/score/pk', { method: 'get', data: params });
+  return request('/deskperfpcapi/family/score/pk',  { method: 'get', params });
+}
+//家族学分对比右侧集团学分排名
+export async function getFamilyRankList(params) {
+  return request('/deskperfpcapi/family/score/familyRankList',  { method: 'get', params });
+}
+//获取家族学分对比右侧下拉筛选的数据
+export async function getCollegeList(params) {
+  return request('/deskperfpcapi/organization/collegeList',  { method: 'get', params });
+}
+//小组学分对比
+export async function getGroupPkList(params) {
+  return request('/deskperfpcapi/family/score/groupPk',  { method: 'get', params });
+}
+//家族创收对比
+export async function getIncomeFamilyList(params) {
+  return request('/deskperfpcapi/incomeFamily/getFamilyPk',  { method: 'get', params });
+}
+//家族创收对比的家族绩效列表
+export async function getFamilyList(params) {
+  return request('/deskperfpcapi/incomeFamily/getFamilyList',  { method: 'get', params });
 }

@@ -14,52 +14,54 @@ class FamilyScoreRight extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      orgOptions: [{
-        id: 1,
-        name: '组织'
-      }, {
-        id: 2,
-        name: '人均在服学员'
-      }],
-      orgValue: '组织',
-      dataSource : [{
-        averageStudentNumber: 520,
-        collegeId: 100,
-        credit: "16.84",
-        creditRanking: 1,
-        creditRankingCoefficient: 3,
-        familyId: 171,
-        groupId: 73,
-        groupName: "自变量/汉语言专科5组",
-        myGroup: false
-      },{
-        averageStudentNumber: 1740,
-        collegeId: 100,
-        credit: "15.53",
-        creditRanking: 3,
-        creditRankingCoefficient: 3,
-        familyId: 200,
-        groupId: 65,
-        groupName: "自变量/学前教育2组",
-        myGroup: false
-      },{
-        averageStudentNumber: 1703,
-        collegeId: 100,
-        credit: "13.08",
-        creditRanking: 14,
-        creditRankingCoefficient: 2,
-        familyId: 200,
-        groupId: 66,
-        groupName: "自变量/学前教育3组",
-        myGroup: false
-      }]
+      orgValue: '全部',
+      userFlag: false,
+      userLocation: '',
+      userMsg: '',
+      collegeId:null,
+      familyRankList:[]
     }
   }
   componentDidMount() {
-
+    this.getFamilyRankList()
+    // 表格添加滚动事件
+    document.querySelector("#scroll .ant-table-body").onscroll = (e) => {
+      this.getScrollFn(e.target.scrollTop)
+    }
   }
+  componentWillUnmount() {
+    document.querySelector("#scroll .ant-table-body").onscroll = '';
+  }
+  getScrollFn = (scrollTop = 0) => {
+    const { userLocation, userFlag } = this.state;
+    if (scrollTop > userLocation && scrollTop < userLocation + 400) {
+      if (userFlag === true) {
+        this.setState({
+          userFlag: false
+        })
+      }
+    } else if (userFlag === false) {
+      this.setState({
+        userFlag: true
+      })
+    }
+  }
+  //获取右侧家族排名的列表
+  getFamilyRankList=(collegeId)=>{
+    this.props.dispatch({
+      type: 'xdWorkModal/getFamilyRankList',
+      payload: { params: {collegeId:collegeId?collegeId:this.state.collegeId} },
+      callback:(data)=>{
+        this.setState({
+          familyRankList:data
+        })
+        this.getScrollFn();
+      }
+    });
+  };
   columnsRight = () => {
-    const total = this.state.groupList && this.state.groupList[0] ? this.state.groupList[0].credit : 0
+    const {familyRankList=[]} = this.state;
+    const total = familyRankList.length>0 ? familyRankList[0].credit : 0
     const columns = [
       {
         width: '18%',
@@ -74,11 +76,11 @@ class FamilyScoreRight extends React.Component {
       }, {
         width: '36%',
         title: '组织',
-        dataIndex: 'groupName',
-        key: 'groupName',
-        render: (groupName) => {
+        dataIndex: 'familyName',
+        key: 'familyName',
+        render: (familyName) => {
           return (
-            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{groupName}</div>
+            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{familyName}</div>
           )
         }
       }, {
@@ -101,9 +103,9 @@ class FamilyScoreRight extends React.Component {
         dataIndex: 'credit',
         key: 'credit',
         render: (credit, data) => {
-          const percent = '25%'
+          // const percent = '25%'
           const isColor="green"
-          // const percent = credit / total * 100+'%';
+          const percent = credit / total * 100+'%';
           return (
             <Indent style={{
               marginLeft: '-8px'
@@ -133,49 +135,79 @@ class FamilyScoreRight extends React.Component {
     this.setState({
       orgValue: value
     })
-      // document.querySelector("#scroll .ant-table-body").scrollTop = 0;
+    this.getFamilyRankList(value)
+    document.querySelector("#scroll .ant-table-body").scrollTop = 0;
   };
   setRowClassName = (record, index) => {
+    console.log(104,record,record.myFamily)
     let className = ''
+    let taClassName = ""
+    if (record.myFamily) {
+      this.state.userMsg = record;
+      this.state.userLocation = 40 * (index + 1) - 430;
+      taClassName = "rowHover"
+    }
     if (record.creditRankingCoefficient === 3) {
-      className = "background1 "
+      className = "background1 "+taClassName
     } else if (record.creditRankingCoefficient === 2) {
-      className = "background2 "
+      className = "background2 "+taClassName
     } else if (record.creditRankingCoefficient === 1) {
-      className = "background3 "
+      className = "background3 "+taClassName
     } else if (record.creditRankingCoefficient === 0.8) {
-      className = "background4 "
+      className = "background4 "+taClassName
     } else {
-      className = "background5 "
+      className = "background5 "+taClassName
     }
     return className
   }
+  onClickRow = (record) => {
+    return {
+      onClick: () => {
+        if (Number(this.props.familyId) === record.familyId) return;
+        this.props.getFamilyList(record.familyId)
+      },
+    };
+  }
   render() {
-    const {orgOptions,orgValue,dataSource} = this.state
+    const {orgValue,userFlag, userMsg,familyRankList=[]} = this.state
+    const {collegeList=[]} = this.props;
+    const dataSource = familyRankList.length>0&&familyRankList
     return (
       <div className={styles.familyRight}>
         <div className={styles.creditSelect} >
           <span className={styles.title}>选择对比小组:</span>
           <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
-            {orgOptions.map((item, index) => (
+            {collegeList.map((item, index) => (
               <Option key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
                 {item.name}
               </Option>
             ))}
           </BISelect>
         </div>
-        <div id="scroll1" data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>
-          <BITable
-            columns={this.columnsRight()}
-            dataSource={dataSource}
-            pagination={false}
-            loading={this.props.loading}
-            rowClassName={this.setRowClassName}
-            onRow={this.onClickRow}
-            scroll={{ y: 408 }}
-            rowKey={record => record.groupId}
-          >
-          </BITable>
+        <div className={styles.tableContent}>
+          {userFlag && userMsg && <div className={styles.suspension} >
+            <BITable
+              showHeader={false}
+              columns={this.columnsRight()}
+              dataSource={[userMsg]}
+              pagination={false}
+              rowKey={record => record.familyId}
+              rowClassName={this.setRowClassName}
+            />
+          </div>}
+          <div id="scroll" >
+            <BITable
+              columns={this.columnsRight()}
+              dataSource={dataSource}
+              pagination={false}
+              loading={this.props.loading}
+              rowClassName={this.setRowClassName}
+              onRow={this.onClickRow}
+              scroll={{ y: 408 }}
+              rowKey={record => record.familyId}
+            >
+            </BITable>
+          </div>
         </div>
       </div>
     );

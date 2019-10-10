@@ -36,6 +36,7 @@ class FamilyAndGroup extends React.Component {
       PkCollegeIdList: [],
       PkFamilyIdList: [],
       PkGroupIdList: [],
+
     }
   }
   componentDidMount() {
@@ -45,7 +46,6 @@ class FamilyAndGroup extends React.Component {
       payload: { params: {} },
     });
   }
-
   changeModal = () =>{
     this.setState({
       visible:true
