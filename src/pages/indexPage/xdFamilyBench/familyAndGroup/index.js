@@ -8,6 +8,8 @@ import GroupScore from './groupScore'
 import BIModal from '@/ant_components/BIModal'
 import BIButton from '@/ant_components/BIButton';
 import BITreeSelect from '@/ant_components/BITreeSelect'
+import BISelect from '@/ant_components/BISelect'
+const { Option } = BISelect;
 @connect((xdWorkModal) => ({
   xdWorkModal,
 }))
@@ -36,6 +38,8 @@ class FamilyAndGroup extends React.Component {
       PkCollegeIdList: [],
       PkFamilyIdList: [],
       PkGroupIdList: [],
+      myFamilyGroupList:[],
+      myGroupValue:[]
 
     }
   }
@@ -45,6 +49,7 @@ class FamilyAndGroup extends React.Component {
       type: 'xdWorkModal/getOrgMapList',
       payload: { params: {} },
     });
+    this.myFamilyGroupList()
   }
   changeModal = () =>{
     this.setState({
@@ -61,26 +66,23 @@ class FamilyAndGroup extends React.Component {
       visible: false,
     });
   };
+  myFamilyGroupList = () =>{
+    this.props.dispatch({
+      type:'xdWorkModal/myFamilyGroupList',
+      payload:{params:{}},
+      callback:(data)=>{
+        this.setState({
+          myFamilyGroupList:data
+        })
+      }
+    })
+  }
   onFormChange = (value,vname)=>{
     if ('myGroup' === vname) {
       const list1 = [];
-      const list2 = [];
-      const list3 = [];
-      value.forEach((v)=>{
-        if (v.indexOf('a-')>=0) {
-          list1.push(v);
-        }
-        if (v.indexOf('b-')>=0) {
-          list2.push(v);
-        }
-        if (v.indexOf('c-')>=0) {
-          list3.push(v);
-        }
-      });
+      list1.push(value)
       this.setState({
-        collegeIdList: [...list1],
-        familyIdList: [...list2],
-        groupIdList: [...list3],
+        myGroupValue: [...list1],
       })
     }else if('PkGroup' === vname){
       const list1 = [];
@@ -110,7 +112,7 @@ class FamilyAndGroup extends React.Component {
   };
   render() {
     const {orgListTreeData = []} = this.props.xdWorkModal.xdWorkModal;
-    console.log(60,this.props.xdWorkModal.xdWorkModal)
+    const {myFamilyGroupList,myGroupValue} = this.state
     return (
       <Container
         style={{ width: '100%', marginBottom: '16px' }}
@@ -137,18 +139,31 @@ class FamilyAndGroup extends React.Component {
           >
             <div className={styles.modalWrap}>
               <div className={styles.myGroup}>
-                <span className={styles.titleName} style={{}}>添加我的小组：</span>
+                <span className={styles.titleName} style={{width:'91px'}}>添加我的小组：</span>
                 <span className={styles.titleName}>芒格学院</span>
                 <span className={styles.titleName}>英语</span>
-                <BITreeSelect style={{ width: 314 }}
-                              placeholder="请选择小组"
-                              multiple
-                              showArrow
-                              maxTagCount={2}
-                              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                              treeData={orgListTreeData}
-                              onChange={(val)=>this.onFormChange(val,'myGroup')}
-                ></BITreeSelect>
+                <BISelect
+                  placeholder="请选择小组"
+                  mode="multiple"
+                  style={{width:314}}
+                  defaultValue={myGroupValue}
+                  onChange={(val) => this.onFormChange(val,'myGroup')}
+                >
+                  {myFamilyGroupList.map((item, index) => (
+                    <Option key={item.id}>
+                      {item.name}
+                    </Option>
+                  ))}
+                </BISelect>
+                {/*<BISelect style={{ width: 314 }}*/}
+                              {/*placeholder="请选择小组"*/}
+                              {/*multiple*/}
+                              {/*showArrow*/}
+                              {/*maxTagCount={2}*/}
+                              {/*dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}*/}
+                              {/*treeData={orgListTreeData}*/}
+                              {/*onChange={(val)=>this.onFormChange(val,'myGroup')}*/}
+                {/*></BISelect>*/}
               </div>
               <div className={`${styles.myGroup} ${styles.pkGroup}`}>
                 <span className={styles.titleName} style={{width:'91px',display:'inline-block',textAlign:'right'}}>对比小组：</span>

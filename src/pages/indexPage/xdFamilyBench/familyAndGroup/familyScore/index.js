@@ -44,7 +44,6 @@ class FamilyScore extends React.Component {
     const {familyScoreList={}} = this.props.xdWorkModal.xdWorkModal
     const {collegeList=[]} = this.state
     const familyId = familyScoreList&&familyScoreList.myGroup.familyId
-    console.log(28,familyScoreList)
     return (
       <div className={styles.creditContainer}>
         <FamilyScoreLeft className={styles.familyLeft} familyScoreList={familyScoreList}/>
