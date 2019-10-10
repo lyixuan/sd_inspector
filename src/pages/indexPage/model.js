@@ -25,7 +25,8 @@ import {
   getGroupPkList,
   getIncomeFamilyList,
   getFamilyList,
-  getCollegeList
+  getCollegeList,
+  myFamilyGroupList
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -397,9 +398,20 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    //  家族创收对比
-    *getIncomeFamilyList({ payload, callback }, { call, put }) {
-      const result = yield call(getIncomeFamilyList, payload.params);
+  //  小组学分设置对比下拉
+    *myFamilyGroupList({payload,callback},{call,put}){
+      const result = yield call(myFamilyGroupList,payload.params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+  //  家族创收对比
+    *getIncomeFamilyList({payload,callback},{call,put}){
+      const result = yield call(getIncomeFamilyList,payload.params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);

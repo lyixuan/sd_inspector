@@ -123,6 +123,10 @@ export async function getCollegeList(params) {
 export async function getGroupPkList(params) {
   return request('/deskperfpcapi/family/score/groupPk',  { method: 'get', params });
 }
+//小组学分对比设置对比项的我的小组数据
+export async function myFamilyGroupList(params) {
+  return request('/deskperfpcapi/organization/myFamilyGroupList',{method:'get',params})
+}
 //家族创收对比
 export async function getIncomeFamilyList(params) {
   return request('/deskperfpcapi/incomeFamily/getFamilyPk',  { method: 'get', params });
