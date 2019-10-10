@@ -162,6 +162,13 @@ const columns1 = [
     dataIndex: 'qualityNum',
   },
   {
+    title: '质检扣分日期',
+    dataIndex: 'qualityType1',
+    render: (text, record) => {
+      return <>{BiFilter(`QUALITY_TYPE|id:${record.qualityType}`).name}</>;
+    },
+  },
+  {
     title: '质检类型',
     dataIndex: 'qualityType',
     render: (text, record) => {
@@ -169,7 +176,7 @@ const columns1 = [
     },
   },
   {
-    title: '违规等级',
+    title: '违规分类',
     dataIndex: 'violationLevel',
   },
   {
@@ -185,20 +192,6 @@ const columns1 = [
           {`${record.collegeName ? record.collegeName : ''} ${
             record.familyName ? `| ${record.familyName}` : ''
           }  ${record.groupName ? `| ${record.groupName}` : ''}`}
-        </>
-      );
-    },
-  },
-  {
-    title: '处罚力度',
-    dataIndex: 'qualityValue',
-    render: (text, record) => {
-      return (
-        <>
-        {record.qualityValue}{record.qualityType ? Number(record.qualityType)===2 ? '分' : '元' :''}
-          {/* {Number(record.qualityType) === 1
-            ? record.qualityValue
-            : record.qualityValue && record.qualityValue} */}
         </>
       );
     },
@@ -225,37 +218,6 @@ const columns1 = [
         <>
           {dot()}
           {BiFilter(`APPEAL_STATE|id:${myStatue}`).name}
-        </>
-      );
-    },
-  },
-  {
-    title: '质检通过时间',
-    dataIndex: 'verifyDate',
-    render: (text, record) => {
-      return <>{record.verifyDate ? moment(record.verifyDate).format('YYYY-MM-DD') : '-'}</>;
-    },
-  },
-  {
-    title: '一申截止时间',
-    dataIndex: 'firstAppealEndDate',
-    render: (text, record) => {
-      return (
-        <>
-          {record.firstAppealEndDate ? moment(record.firstAppealEndDate).format('YYYY-MM-DD') : '-'}
-        </>
-      );
-    },
-  },
-  {
-    title: '二申截止时间',
-    dataIndex: 'secondAppealEndDate',
-    render: (text, record) => {
-      return (
-        <>
-          {record.secondAppealEndDate
-            ? moment(record.secondAppealEndDate).format('YYYY-MM-DD')
-            : '-'}
         </>
       );
     },
@@ -610,31 +572,32 @@ class QualityAppeal extends React.Component {
         },
       },
     ];
-    if (AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
-      // 非归属人
-      const index2 = columns1.findIndex(item => item.dataIndex === 'violationLevel');
-      if (index2 >= 0) {
-        columns1.splice(index2, 1);
-      }
-      const index3 = columns1.findIndex(item => item.dataIndex === 'qualityValue');
-      if (index3 >= 0) {
-        columns1.splice(index3, 1);
-      }
-    } else {
-      // 归属人 去掉这些
-      const index3 = columns1.findIndex(item => item.dataIndex === 'userName');
-      if (index3 >= 0) {
-        columns1.splice(index3, 1);
-      }
-      const index = columns1.findIndex(item => item.dataIndex === 'qualityType');
-      if (index >= 0) {
-        columns1.splice(index, 1);
-      }
-      const index2 = columns1.findIndex(item => item.dataIndex === 'collegeName');
-      if (index2 >= 0) {
-        columns1.splice(index2, 1);
-      }
-    }
+    // 新的一期权限都不控制
+    // if (AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
+    //   // 非归属人
+    //   const index2 = columns1.findIndex(item => item.dataIndex === 'violationLevel');
+    //   if (index2 >= 0) {
+    //     columns1.splice(index2, 1);
+    //   }
+    //   const index3 = columns1.findIndex(item => item.dataIndex === 'qualityValue');
+    //   if (index3 >= 0) {
+    //     columns1.splice(index3, 1);
+    //   }
+    // } else {
+    //   // 归属人 去掉这些
+    //   const index3 = columns1.findIndex(item => item.dataIndex === 'userName');
+    //   if (index3 >= 0) {
+    //     columns1.splice(index3, 1);
+    //   }
+    //   const index = columns1.findIndex(item => item.dataIndex === 'qualityType');
+    //   if (index >= 0) {
+    //     columns1.splice(index, 1);
+    //   }
+    //   const index2 = columns1.findIndex(item => item.dataIndex === 'collegeName');
+    //   if (index2 >= 0) {
+    //     columns1.splice(index2, 1);
+    //   }
+    // }
     return [...columns1, ...actionObj];
   };
   columnsAction2 = () => {
@@ -668,28 +631,28 @@ class QualityAppeal extends React.Component {
         },
       },
     ];
-    if (AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
-      // 非归属人
-      const index2 = columns2.findIndex(item => item.dataIndex === 'violationLevel');
-      if (index2 >= 0) {
-        columns2.splice(index2, 1);
-      }
-      const index3 = columns2.findIndex(item => item.dataIndex === 'qualityValue');
-      if (index3 >= 0) {
-        columns2.splice(index3, 1);
-      }
-    } else {
-      // 归属人
-      const index = columns2.findIndex(item => item.dataIndex === 'qualityType');
-      if (index >= 0) {
-        columns2.splice(index, 1);
-      }
-      const index2 = columns2.findIndex(item => item.dataIndex === 'collegeName');
-      if (index >= 0) {
-        columns2.splice(index2, 1);
-      }
-    }
-    return [...columns2, ...actionObj];
+    // if (AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
+    //   // 非归属人
+    //   const index2 = columns2.findIndex(item => item.dataIndex === 'violationLevel');
+    //   if (index2 >= 0) {
+    //     columns2.splice(index2, 1);
+    //   }
+    //   const index3 = columns2.findIndex(item => item.dataIndex === 'qualityValue');
+    //   if (index3 >= 0) {
+    //     columns2.splice(index3, 1);
+    //   }
+    // } else {
+    //   // 归属人
+    //   const index = columns2.findIndex(item => item.dataIndex === 'qualityType');
+    //   if (index >= 0) {
+    //     columns2.splice(index, 1);
+    //   }
+    //   const index2 = columns2.findIndex(item => item.dataIndex === 'collegeName');
+    //   if (index >= 0) {
+    //     columns2.splice(index2, 1);
+    //   }
+    // }
+    return [...columns1, ...actionObj];
   };
   render() {
     const {
