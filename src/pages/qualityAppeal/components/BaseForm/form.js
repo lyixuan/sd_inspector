@@ -1,18 +1,23 @@
 import React from 'react';
-import {Input, Form ,message} from 'antd';
+import {Input, Form ,message,Upload} from 'antd';
 import { BiFilter } from '@/utils/utils';
 import BIButton from '@/ant_components/BIButton';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BICascader from '@/ant_components/BICascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
+import DownLoad from '@/components/DownLoad';
+import { uploadAttachment } from '@/pages/qualityAppeal/services';
 import Box from './box';
 import BoxItem from './boxItem';
 import SubOrder from './subOrder';
 import styles from './form.less';
 import moment from 'moment/moment';
 
+import { STATIC_HOST } from '@/utils/constants';
+
 const { Option } = BISelect;
+const { TextArea } = Input;
 
 const BaseForm = Form.create({ name: 'base_form' })(
   class extends React.Component {
@@ -77,10 +82,39 @@ const BaseForm = Form.create({ name: 'base_form' })(
       //   });
       // }
     };
+    renderUpload = () => {
+      const { formType,upLoadType } = this.props;
+      const upLoadTypeObj = BiFilter('QUALITY_UPLOAD_TYPE').find(item => item.name === upLoadType) || {};
+      const { attUrl = '' } = this.props||{};
+      const name = attUrl && attUrl.split('/')[3];
+      if (upLoadType !== 'appeal') {
+        return (
+          <Upload
+            {...uploadAttachment()}
+            fileList={[]}
+            data={{ type: upLoadTypeObj.id || 1 }}
+            onChange={this.uploadChange}
+            beforeUpload={this.beforeUpload}
+          >
+            <BIButton type="primary">上传附件</BIButton>
+            <span style={{ color: '#aaa', fontSize: 12 }}>（请上传10M以内的rar、zip格式文件）</span>
+          </Upload>
+        );
+      } else {
+        return attUrl ? (
+          <DownLoad
+            loadUrl={`${STATIC_HOST}/${attUrl}`}
+            text={name}
+            fileName={() => name}
+            textClassName={styles.downCls}
+          />
+        ) : null;
+      }
+    };
     render() {
       const { form, params,orgList,orderNumLoading,orderNumData={} } = this.props;
       const { mail, role, name, organize, orderNum, orderId, violationDate, reduceScoreDate,qualityType,familyType,
-        dimensionId,dimension,violationLevel,id } = params||{};
+        dimensionId,dimension,violationLevel,desc,id } = params||{};
       const { getFieldDecorator } = form;
 
       const dimensionList = this.chooseDimensionList();
@@ -277,18 +311,18 @@ const BaseForm = Form.create({ name: 'base_form' })(
             </div>
           </Box>
           {/*第四部分*/}
-          <Box title="违规基础信息">
+          <Box title="违规详情">
             <div className={styles.formRow}>
               <BoxItem label="附件" oneRow>
-                <div></div>
+                <div style={{width:300,display:'inline-block'}}>{this.renderUpload()}</div>
               </BoxItem>
             </div>
             <div className={styles.formRow}>
               <BoxItem label="违规详情" required oneRow>
-                <Form.Item className={styles.formItem}>
-                  {getFieldDecorator('orderId', {
-                    initialValue: orderId,
-                  })(<Input style={{ width: 230, marginRight: '6px' }}/>)}
+                <Form.Item className={styles.textArea}>
+                  {getFieldDecorator('desc', {
+                    initialValue: desc,rules: [{ required: true, message: '请输入违规详情' }],
+                  })(<TextArea maxLength={1000} rows="4" placeholder="请输入违规详情"/>)}
                 </Form.Item>
               </BoxItem>
             </div>

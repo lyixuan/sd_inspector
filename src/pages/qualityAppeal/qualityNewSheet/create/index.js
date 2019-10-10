@@ -43,7 +43,9 @@ class CreateQualityNewSheet extends React.Component {
     const { orderNumData,dimensionList1,dimensionList2,dimensionTreeList } = qualityAppealHome || {};
     return (
       <div className={styles.qualityContainter}>
-        <BaseForm orgList={orgList}
+        <BaseForm formType="create"
+                  upLoadType="upLoadType"
+                  orgList={orgList}
                   orderNumData={orderNumData}
                   dimensionList1={dimensionList1}
                   dimensionList2={dimensionList2}

@@ -761,8 +761,7 @@ class CreateQualityNewSheet extends React.Component {
   };
   renderUpload = () => {
     const { formType, actionType } = this.props;
-    const upLoadTypeObj =
-      BiFilter('QUALITY_UPLOAD_TYPE').find(item => item.name === formType) || {};
+    const upLoadTypeObj = BiFilter('QUALITY_UPLOAD_TYPE').find(item => item.name === formType) || {};
     const { attUrl = '' } = this.props.params;
     const name = attUrl && attUrl.split('/')[3];
     if (actionType !== 'appeal') {
