@@ -14,156 +14,151 @@ import SmallProgress from '@/pages/indexPage/components/smallProgress'
 import { connect } from 'dva';
 
 const rankType = ['本学院排行', '集团排行'];
-const dataSource = [
-  {
-    key: '1',
-    name: '胡彦斌',
-    rank: 1,
-    age: 32,
-    rankChange: 1,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '1',
-    name: '胡彦斌',
-    rank: 2,
-    age: 32,
-    rankChange: 1,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '1',
-    name: '胡彦斌',
-    rank: 3,
-    age: 32,
-    rankChange: 2,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '1',
-    name: '胡彦斌',
-    rank: 4,
-    age: 32,
-    rankChange: 0,
-    address: '西湖区湖底公园1号',
-  },
-];
 
-const columns = [
-  {
-    title: '排名',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text, record) => {
-      let src = null;
-      let className = '';
-      let rank = 1;
-      if (record.rankChange == 1) {
-        src = up
-      } else if (record.rankChange == 2) {
-        src = down
-      } else {
-        className = 'normal'
-        src = normal
-      }
-      if (record.rank == 1) {
-        rank = rank1
-      } else if (record.rank == 2) {
-        rank = rank2
-      } else if (record.rank == 3) {
-        rank = rank3
-      }
-      return (
-        <div className={`${styles.rankColumn} ${styles[className]}`}>
-          {record.rank > 3 ? <span className={styles.rankSpan}>{record.rank}</span> : <img className={styles.rank} src={rank} />}
-          {text}<img className={styles.changes} src={src} />
-        </div>
-      )
-
-    },
-    width: '11%'
-  },
-  {
-    title: '家族',
-    dataIndex: 'age',
-    key: 'age',
-    width: '11%'
-  },
-  {
-    title: '家族长',
-    dataIndex: 'address',
-    key: 'address',
-    width: '11%'
-  },
-  {
-    title: '总绩效',
-    dataIndex: 'address',
-    key: 'address',
-    render: (text, record) => {
-      return <div>
-        <div>{text}</div>
-        <SmallProgress isColor="green" percent="40%"></SmallProgress>
-      </div>
-    },
-    width: '11%'
-  },
-  {
-    title: '学分绩效',
-    dataIndex: 'address',
-    key: 'address',
-    render: (text, record) => {
-      return <div>
-        <div>{text}</div>
-        <SmallProgress isColor="green" percent="20%"></SmallProgress>
-      </div>
-    },
-    width: '11%'
-  },
-  {
-    title: '创收绩效',
-    dataIndex: 'address',
-    key: 'address',
-    width: '11%'
-  },
-  {
-    title: '好推绩效',
-    dataIndex: 'address',
-    key: 'address',
-    width: '11%'
-  },
-  {
-    title: '续报绩效',
-    dataIndex: 'address',
-    key: 'address',
-    width: '11%'
-  },
-  {
-    title: '成本套绩效',
-    dataIndex: 'address',
-    key: 'address',
-    width: '12%'
-  },
-];
-
-
-@connect(() => ({
-
+@connect(({ xdWorkModal }) => ({
+  xdWorkModal
 }))
 class Performance extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rankType: 1
+      rankType: 1,
+      dataSource: [],
     }
   }
-  handleRankChange = (e) => {
-    this.setState({
-      rankType: e.target.value
-    }, () => console.log(21));
+  columns() {
+    const width = this.state.rankType == 1 ? '11%' : '10%';
+    const columns = [
+      {
+        title: '排名',
+        dataIndex: 'name',
+        key: 'name',
+        render: (text, record) => {
+          let src = null;
+          let className = '';
+          let rank = 1;
+          if (record.rankingFlag > 0) {
+            src = up
+          } else if (record.rankingFlag < 0) {
+            src = down
+          } else {
+            className = 'normal'
+            src = normal
+          }
+          if (record.creditRanking == 1) {
+            rank = rank1
+          } else if (record.rank == 2) {
+            rank = rank2
+          } else if (record.rank == 3) {
+            rank = rank3
+          }
+          return (
+            <div className={`${styles.rankColumn} ${styles[className]}`}>
+              {record.creditRanking > 3 ? <span className={styles.rankSpan}>{record.creditRanking}</span> : <img className={styles.rank} src={rank} />}
+              {text}<img className={styles.changes} src={src} />
+            </div>
+          )
+
+        },
+        width: width
+      },
+      {
+        title: '家族',
+        dataIndex: 'familyName',
+        key: 'familyName',
+        width: width
+      },
+      {
+        title: '家族长',
+        dataIndex: 'cpName',
+        key: 'cpName',
+        width: width
+      },
+      {
+        title: '总绩效',
+        dataIndex: 'totalAchievement',
+        key: 'totalAchievement',
+        render: (text, record) => {
+          return <div>
+            <div>{text}</div>
+            <SmallProgress isColor="green" percent="40%"></SmallProgress>
+          </div>
+        },
+        width: width
+      },
+      {
+        title: '学分绩效',
+        dataIndex: 'achievement',
+        key: 'achievement',
+        render: (text, record) => {
+          return <div>
+            <div>{text}</div>
+            <SmallProgress isColor="green" percent="20%"></SmallProgress>
+          </div>
+        },
+        width: width
+      },
+      {
+        title: '创收绩效',
+        dataIndex: 'incomeKpi',
+        key: 'incomeKpi',
+        render: (text, record) => {
+          return <div>
+            <div>{text}</div>
+            <SmallProgress isColor="green" percent="20%"></SmallProgress>
+          </div>
+        },
+        width: width
+      },
+      {
+        title: '好推绩效',
+        dataIndex: 'goodpushKpi',
+        key: 'goodpushKpi',
+        width: width
+      },
+      {
+        title: '续报绩效',
+        dataIndex: 'renewalKpi',
+        key: 'renewalKpi',
+        width: width
+      },
+      {
+        title: '成本套绩效',
+        dataIndex: 'examZbtKpi',
+        key: 'examZbtKpi',
+        width: '12%'
+      },
+    ];
+    if (this.state.rankType == 1) {
+
+    } else {
+      columns.splice(1, 0, {
+        title: '学院',
+        dataIndex: 'collegeName',
+        key: 'collegeName',
+      })
+    }
+    return columns || []
   }
 
   componentDidMount() {
-
+    this.achievementList();
+  }
+  achievementList() {
+    const groupType = this.state.rankType == 1 ? 'college' : '';
+    this.props.dispatch({
+      type: 'xdWorkModal/achievementList',
+      payload: { params: { groupType } },
+      callback: (dataSource) => this.setState({ dataSource }),
+    });
+  }
+  handleRankChange = (e) => {
+    // console.log(160, e.target.value)
+    this.setState({
+      rankType: e.target.value
+    }, () => {
+      this.achievementList();
+    });
   }
 
 
@@ -175,8 +170,8 @@ class Performance extends React.Component {
         </BIRadio>
         <div className={styles.tableContainer}>
           <BITable
-            columns={columns}
-            dataSource={dataSource}
+            columns={this.columns()}
+            dataSource={this.state.dataSource}
             pagination={false}
             scroll={{ x: 0, y: 200 }}
           >

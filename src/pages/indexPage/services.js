@@ -76,11 +76,23 @@ export async function scoreStatistics(params) {
 }
 // 本期学分—本学院学分排名
 export async function collegeRankList(params) {
-  return request('/family/score/collegeRankList', { method: 'get', data: params });
+  return request('/family/score/collegeRankList', { method: 'get', params });
 }
 // 本期学分—集团学分排名
 export async function companyRankList(params) {
-  return request('/family/score/companyRankList', { method: 'get', data: params });
+  return request('/family/score/companyRankList', { method: 'get', params });
+}
+// 本期创收-学院排名
+export async function incomeCollegeRankList(params) {
+  return request('/deskperfpcapi/incomeFamily/collegeRankList', { method: 'get', params });
+}
+// 本期创收-集团排名
+export async function incomeCompanyRankList(params) {
+  return request('/deskperfpcapi/incomeFamily/companyRankList', { method: 'get', params });
+}
+// 本期绩效—排行榜
+export async function achievementList(params) {
+  return request('/deskperfpcapi/family/score/achievementList', { method: 'get', params });
 }
 // ====小树end====
 // 查询组织架构
@@ -110,6 +122,10 @@ export async function getCollegeList(params) {
 //小组学分对比
 export async function getGroupPkList(params) {
   return request('/deskperfpcapi/family/score/groupPk',  { method: 'get', params });
+}
+//小组学分对比设置对比项的我的小组数据
+export async function myFamilyGroupList(params) {
+  return request('/deskperfpcapi/organization/myFamilyGroupList',{method:'get',params})
 }
 //家族创收对比
 export async function getIncomeFamilyList(params) {

@@ -20,12 +20,7 @@ class GroupScore extends React.Component {
         "dimensionList": [{
           "children": [],
           "dimensionName": "绩效排名系数",
-          "shangOne": "2",
-          "shangTwo": "2",
-          "hanOne": "2",
-          "hanTwo": "2",
-          "guanOne": "2",
-          "guanTwo": "2",
+          "shangOne": ["2","3","4","5"],
           "id": -1,
           "myNum": 0,
           "parentId": 0,
@@ -33,24 +28,14 @@ class GroupScore extends React.Component {
         }, {
           "children": [],
           "dimensionName": "集团排名",
-          "shangOne": "50/93",
-          "shangTwo": "50/93",
-          "hanOne": "50/93",
-          "hanTwo": "50/93",
-          "guanOne": "50/93",
-          "guanTwo": "50/93",
+          "shangOne": ["50/93","50/92","50/94","50/95"],
           "id": -2,
           "parentId": 0,
           "unit": null
         }, {
           "children": [],
           "dimensionName": "家族内排名",
-          "shangOne": "3355",
-          "shangTwo": "3355",
-          "hanOne": "3355",
-          "hanTwo": "3355",
-          "guanOne": "3355",
-          "guanTwo": "3355",
+          "shangOne": [3355,333,444,555],
           "id": -3,
           "myNum": 0,
           "myScore": "13/28",
@@ -60,12 +45,7 @@ class GroupScore extends React.Component {
         }, {
           "children": [],
           "dimensionName": "人均在服学员",
-          "shangOne": "8.11",
-          "shangTwo": "8.11",
-          "hanOne": "8.11",
-          "hanTwo": "8.11",
-          "guanOne": "8.11",
-          "guanTwo": "8.11",
+          "shangOne": [8.11,8.11,8.11,8.11],
           "id": -4,
           "myNum": 0,
           "myScore": "1672",
@@ -78,12 +58,7 @@ class GroupScore extends React.Component {
               "children": [{
                 "children": [],
                 "dimensionName": "有效直播",
-                "shangOne": "2.78",
-                "shangTwo": "2.78",
-                "hanOne": "2.78",
-                "hanTwo": "2.78",
-                "guanOne": "2.78",
-                "guanTwo": "2.78",
+                "shangOne": [2.78,2.78,2.78,2.78,],
                 "id": 37,
                 "myNum": 5049,
                 "myScore": "3.63",
@@ -102,12 +77,7 @@ class GroupScore extends React.Component {
                 "unit": "个"
               }],
               "dimensionName": "有效出勤",
-              "shangOne": "3.61",
-              "shangTwo": "3.61",
-              "hanOne": "3.61",
-              "hanTwo": "3.61",
-              "guanOne": "3.61",
-              "guanTwo": "3.61",
+              "shangOne": [2.78,2.78,2.78,2.78,],
               "id": 36,
               "myNum": 0,
               "myScore": "5.09",
@@ -116,12 +86,7 @@ class GroupScore extends React.Component {
               "unit": ""
             }, {
               "dimensionName": "有效做题",
-              "shangOne": "3.69",
-              "shangTwo": "3.69",
-              "hanOne": "3.69",
-              "hanTwo": "3.69",
-              "guanOne": "3.69",
-              "guanTwo": "3.69",
+              "shangOne": [2.78,2.78,2.78,2.78,],
               "id": 39,
               "myNum": 0,
               "myScore": "5.19",
@@ -131,12 +96,7 @@ class GroupScore extends React.Component {
               children:[]
             }],
             "dimensionName": "正面均分",
-            "shangOne": "6.80",
-            "shangTwo": "6.80",
-            "hanOne": "6.80",
-            "hanTwo": "6.80",
-            "guanOne": "6.80",
-            "guanTwo": "6.80",
+            "shangOne": [2.78,2.78,2.78,2.78,],
             "id": 2,
             "myNum": 0,
             "myScore":"11.81" ,
@@ -145,23 +105,13 @@ class GroupScore extends React.Component {
             "unit": ""
           },{
             "dimensionName": "负面均分",
-            "shangOne": "-5.11",
-            "shangTwo": "-5.11",
-            "hanOne": "-5.11",
-            "hanTwo": "-5.11",
-            "guanOne": "-5.11",
-            "guanTwo": "-5.11",
+            "shangOne": [-5.11,-5.11,-5.11,-5.11,],
             "parentId": 0,
             "unit": "",
             id:'-1'
           }],
           "dimensionName": "学分均分",
-          "shangOne": "8.11",
-          "shangTwo": "8.11",
-          "hanOne": "8.11",
-          "hanTwo": "8.11",
-          "guanOne": "8.11",
-          "guanTwo": "8.11",
+          "shangOne": [2.78,2.78,2.78,2.78,],
           "id": 1,
           "myNum": 0,
           "myScore": "11.16",
@@ -169,15 +119,15 @@ class GroupScore extends React.Component {
           "parentId": 0,
           "unit": ""
         }],
-        groupList:[],
-        pkGroupIds:null
-      }
+        mygroup:[{id:1,familyName:'狐逻&泰罗/狐逻会计'},{id:2,familyName:'狐逻&泰罗/狐逻会计'},{id:3,familyName:'狐逻&泰罗/狐逻会计'},{id:4,familyName:'狐逻&泰罗/狐逻会计'}]
+      },
+      groupList:[],
+      pkGroupIds:null,
+      myFamilyGroupList:[]
     }
   }
   componentDidMount() {
-    this.getGroupPkList()
-
-
+    this.getGroupPkList();
   }
   getGroupPkList=()=>{
     this.props.dispatch({
@@ -190,6 +140,7 @@ class GroupScore extends React.Component {
       }
     })
   }
+
   fillDataSource = (params, n = 1) => {
     let data = params
     data.map(item => {
@@ -201,48 +152,33 @@ class GroupScore extends React.Component {
     return data
   }
   columns = () =>{
+    const {mygroup} = this.state.data
     const columns = [
       {
         title:'学分维度',
         dataIndex:'dimensionName',
         key:'dimensionName',
         width:"16%"
-      },{
-        title:'全工商/一组',
-        dataIndex:'shangOne',
-        key:'shangOne',
-        width:'14%'
-      },{
-        title:'全工商/二组',
-        dataIndex:'shangTwo',
-        key:'shangTwo',
-        width:'14%'
-      },{
-        title:'汉专/一组',
-        dataIndex:'hanOne',
-        key:'hanOne',
-        width:'14%'
-      },{
-        title:'汉专/二组',
-        dataIndex:'hanTwo',
-        key:'hanTwo',
-        width:'14%'
-      },{
-        title:'行管/一组',
-        dataIndex:'guanOne',
-        key:'guanOne',
-        width:'14%'
-      },{
-        title:'行管/二组',
-        dataIndex:'guanTwo',
-        key:'guanTwo',
-        width:'14%'
       }
     ]
+    mygroup.map((item,index)=>{
+      columns.push({
+        title:item.familyName,
+        dataIndex:item.id,
+        key:item.id,
+        render:(text,record)=>{
+          return(
+          <div>
+            {record.shangOne&&record.shangOne[index]}
+            </div>
+          )
+        }
+      })
+    })
+
     return columns || []
   }
   setRowClassName = (record) => {
-    console.log()
     let className = ''
     if (record.level === 1 && record.dimensionName === "学分均分") {
       className = "oneLevelBgColor"

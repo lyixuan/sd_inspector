@@ -30,25 +30,25 @@ class CurrentCredit extends React.Component {
     const { scoreData } = this.state
     const arr = [{
       title1: '集团均分',
-      num: scoreData.companyCredit || '',
+      num: scoreData.companyCredit || 0,
       tip: '本绩效周期内集团学分均分'
     }, {
       title1: '家族均分',
-      num: scoreData.familyCredit,
+      num: scoreData.familyCredit || 0,
       tip: '本绩效周期内用户所在家族的学分均分'
     }, {
       title1: '家族排名',
-      num: scoreData.creditRanking,
+      num: scoreData.creditRanking || 0,
       tip: '本绩效周期内用户所在家族的学分在集团所有家族中的排名'
     }, {
       title1: '家族系数排名',
-      num: scoreData.creditRankingCoefficient,
+      num: scoreData.creditRankingCoefficient || 0,
       rank: scoreData.msgColor,
       rankTip: scoreData.msg,
       tip: '本绩效周期内用户所在家族在集团所有家族中的排名系数'
     }, {
       title1: '人均绩效在服学员',
-      num: scoreData.averageStudentNumber,
+      num: scoreData.averageStudentNumber || 0,
       tip: '本绩效周期内用户所在家族的人均在服学员数'
     }]
     const tabParams = [{

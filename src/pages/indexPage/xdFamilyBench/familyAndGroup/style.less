@@ -82,17 +82,7 @@
   .titleBlack{
     color: #1B1C20;
   }
-  :global{
-    .oneLevelBgColor{
-      background: #FFFDF8;
-    }
-    .otherLevelBgColor{
-      background: #FAFFFF;
-    }
-    .otherLevelBgColor1{
-      background: #F5FBFF;
-    }
-  }
+
 }
 .familyRight{
   width:40%;
@@ -177,12 +167,11 @@
 }
 .myGroup{
   width:100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+
   .titleName{
     margin-right:24px;
   }
+
   .titleName:nth-child(1){
     width:91px;
     display:inline-block;
@@ -191,9 +180,27 @@
   }
 }
 .pkGroup{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   margin-top:16px;
   .titleName:nth-child(1){
     text-align:left;
     margin-right:10px;
   }
+}
+.BISelect{
+  width:auto
+}
+:global{
+  .oneLevelBgColor{
+    background: #FFFDF8;
+  }
+  .otherLevelBgColor{
+    background: #FAFFFF;
+  }
+  .otherLevelBgColor1{
+    background: #F5FBFF;
+  }
+
 }

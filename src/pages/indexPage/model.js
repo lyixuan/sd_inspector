@@ -17,12 +17,16 @@ import {
   getFamilyQuality,
   scoreStatistics,
   scoreDetail,
+  incomeCollegeRankList,
+  incomeCompanyRankList,
+  achievementList,
   getFamilyScorePk,
   getFamilyRankList,
   getGroupPkList,
   getIncomeFamilyList,
   getFamilyList,
-  getCollegeList
+  getCollegeList,
+  myFamilyGroupList
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -47,15 +51,51 @@ export default {
       myGroup:{},
       pkGroup:{}
     },
-    familyRankList:[]
+    familyRankList: []
   },
 
   effects: {
+    // 本期绩效—排行榜
+    *achievementList({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(achievementList, params);
+      console.log(70)
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 本期创收-集团排名
+    *incomeCompanyRankList({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(incomeCompanyRankList, params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 本学院创收排名
+    *incomeCollegeRankList({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(incomeCollegeRankList, params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     // 本期学分明细
     *scoreDetail({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(scoreDetail, params);
-      console.log(70)
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -290,8 +330,8 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-  //  家族学分对比
-    *getFamilyScorePk({ payload }, { call, put }){
+    //  家族学分对比
+    *getFamilyScorePk({ payload }, { call, put }) {
       const result = yield call(getFamilyScorePk, payload.params)
       if (result.code === 20000) {
         const familyScoreList = result.data;
@@ -300,8 +340,8 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-  //  家族学分对比右侧家族学分排名
-    *getFamilyRankList({ payload,callback }, { call, put }){
+    //  家族学分对比右侧家族学分排名
+    *getFamilyRankList({ payload, callback }, { call, put }) {
       const result = yield call(getFamilyRankList, payload.params)
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
@@ -311,9 +351,9 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-  //  家族学分对比的学院列表
-    *getCollegeList({payload,callback},{call,put}){
-      const result = yield call(getCollegeList,payload.params);
+    //  家族学分对比的学院列表
+    *getCollegeList({ payload, callback }, { call, put }) {
+      const result = yield call(getCollegeList, payload.params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -322,9 +362,20 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-  //  小组学分对比
-    *getGroupPkList({payload,callback},{call,put}){
-      const result = yield call(getGroupPkList,payload.params);
+    //  小组学分对比
+    *getGroupPkList({ payload, callback }, { call, put }) {
+      const result = yield call(getGroupPkList, payload.params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+  //  小组学分设置对比下拉
+    *myFamilyGroupList({payload,callback},{call,put}){
+      const result = yield call(myFamilyGroupList,payload.params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -344,9 +395,9 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-  //  家族创收对比右侧的家族绩效列表
-    *getFamilyList({payload,callback},{call,put}){
-      const result = yield call(getFamilyList,payload.params);
+    //  家族创收对比右侧的家族绩效列表
+    *getFamilyList({ payload, callback }, { call, put }) {
+      const result = yield call(getFamilyList, payload.params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
