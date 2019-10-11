@@ -100,7 +100,6 @@ class XdCredit extends React.Component {
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionList',
       payload: { params: { ...this.getGroupMsg(), startTime, endTime } },
-      
     });
   }
   // 详情

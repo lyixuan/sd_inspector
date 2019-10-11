@@ -48,7 +48,7 @@ class GroupIncome extends React.Component {
             pagination={false}
             loading={this.props.loading}
             rowKey={record => record.id}
-            scroll={{ y: 400 }}
+            scroll={{ y: 208 }}
             smalled
           >
           </BITable>

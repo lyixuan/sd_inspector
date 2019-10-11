@@ -10,8 +10,8 @@ class FamilyIncome extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      pkFamilyId: 246,
-      familyList: [],
+      // pkFamilyId: 246,
+      familyList: {},
     }
   }
   componentDidMount() {
@@ -28,9 +28,10 @@ class FamilyIncome extends React.Component {
     this.setState({ pkFamilyId }, () => this.getIncomeFamilyList());
   }
   render() {
+    const { familyList, pkFamilyId } = this.state;
     return (
       <div className={styles.creditContainer}>
-        <FamilyIncomeLeft className={styles.familyLeft} familyList={this.state.familyList}/>
+        <FamilyIncomeLeft className={styles.familyLeft} familyList={familyList} pkFamilyId={pkFamilyId}/>
         <FamilyIncomeRight className={styles.familyRight} changeSelected={this.changeSelected}/>
       </div>
     );

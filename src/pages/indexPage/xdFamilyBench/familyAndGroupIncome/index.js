@@ -28,7 +28,8 @@ class FamilyAndGroup extends React.Component {
         isShowBtn: true,
         visible: "incomeVisible",
         changeModal: this.changeIncomeModal
-      }]
+      }],
+      groupIdList: [], // 小组创收参数
     }
   }
   componentDidMount() {
