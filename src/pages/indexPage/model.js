@@ -55,7 +55,8 @@ export default {
       myGroup: {},
       pkGroup: {}
     },
-    familyRankList: []
+    familyRankList: [],
+    familyGroupPkList:{}
   },
 
   effects: {
@@ -82,7 +83,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    // 本期学分—集团学分排名 
+    // 本期学分—集团学分排名
     *companyRankList({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(companyRankList, params);
@@ -94,7 +95,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    // 本期学分—本学院学分排名 
+    // 本期学分—本学院学分排名
     *collegeRankList({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(collegeRankList, params);
@@ -415,10 +416,9 @@ export default {
     //  小组学分对比
     *getGroupPkList({ payload, callback }, { call, put }) {
       const result = yield call(getGroupPkList, payload.params);
+      const familyGroupPkList = result.data;
       if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
+        yield put({ type: 'save', payload: { familyGroupPkList } });
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -472,11 +472,11 @@ export default {
 function toTreeData(orgList) {
   const treeData = [];
   orgList.forEach(v => {
-    const o = { title: v.name, value: `a-${v.id}`, key: v.id, lv: 1 };
+    const o = { title: v.name, value: `a-${v.id}`, key: v.id,selectable:false, lv: 1 };
     if (v.nodeList.length > 0) {
       o.children = [];
       v.nodeList.forEach(v1 => {
-        const o1 = { title: v1.name, value: `b-${v1.id}`, key: v1.id + 1000, lv: 2 };
+        const o1 = { title: v1.name, value: `b-${v1.id}`, key: v1.id + 1000,selectable:false, lv: 2 };
         o.children.push(o1);
         if (v1.nodeList.length > 0) {
           o1.children = [];

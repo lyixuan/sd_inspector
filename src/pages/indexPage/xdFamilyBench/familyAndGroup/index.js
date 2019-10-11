@@ -9,6 +9,8 @@ import BIModal from '@/ant_components/BIModal'
 import BIButton from '@/ant_components/BIButton';
 import BITreeSelect from '@/ant_components/BITreeSelect'
 import BISelect from '@/ant_components/BISelect'
+import { message } from 'antd';
+import { Select, Radio } from 'antd';
 const { Option } = BISelect;
 @connect((xdWorkModal) => ({
   xdWorkModal,
@@ -39,7 +41,8 @@ class FamilyAndGroup extends React.Component {
       PkFamilyIdList: [],
       PkGroupIdList: [],
       myFamilyGroupList:[],
-      myGroupValue:[]
+      myGroupValue:[],
+      pkGroupIds:[]
 
     }
   }
@@ -50,22 +53,30 @@ class FamilyAndGroup extends React.Component {
       payload: { params: {} },
     });
     this.myFamilyGroupList()
+    this.getGroupPkList()
+  }
+  getGroupPkList=()=>{
+    this.props.dispatch({
+      type:'xdWorkModal/getGroupPkList',
+      payload: { params: {pkGroupIds:this.state.pkGroupIds} },
+    })
+  }
+  componentWillReceiveProps(nextProps) {
+    const {familyGroupPkList={}} = this.props.xdWorkModal.xdWorkModal;
+    const nextPropsList = this.props.xdWorkModal.xdWorkModal.familyGroupPkList
+    if (nextPropsList !== {}) {
+      const myGroupList= familyGroupPkList&&familyGroupPkList.groupList
+      this.setState({
+        myGroupValue:myGroupList&&myGroupList.length>0 && this.mapGroupIdValus(myGroupList)
+      })
+    }
   }
   changeModal = () =>{
     this.setState({
       visible:true
     })
   }
-  handleOk = () => {
-    this.setState({
-      visible: false,
-    });
-  };
-  handleCancel = () => {
-    this.setState({
-      visible: false,
-    });
-  };
+
   myFamilyGroupList = () =>{
     this.props.dispatch({
       type:'xdWorkModal/myFamilyGroupList',
@@ -78,16 +89,21 @@ class FamilyAndGroup extends React.Component {
     })
   }
   onFormChange = (value,vname)=>{
+    this.setState({
+      pkGroupIds:[]
+    })
+    console.log(110,this.state.pkGroupIds)
     if ('myGroup' === vname) {
-      const list1 = [];
-      list1.push(value)
       this.setState({
-        myGroupValue: [...list1],
+        myGroupValue: value,
       })
+      console.log(100,this.state.myGroupValue)
     }else if('PkGroup' === vname){
+      console.log(92,value)
       const list1 = [];
       const list2 = [];
       const list3 = [];
+      let ids=[]
       value.forEach((v)=>{
         if (v.indexOf('a-')>=0) {
           list1.push(v);
@@ -96,23 +112,61 @@ class FamilyAndGroup extends React.Component {
           list2.push(v);
         }
         if (v.indexOf('c-')>=0) {
-          list3.push(v);
+          list3.length<=5 && list3.push(v);
         }
       });
+      console.log(117,ids,list3)
+
+      list3.length>0 && list3.map((item)=>{
+        ids.push(item.split('-')[1])
+      })
+      console.log(127,list3,ids,this.state.myGroupValue)
+
       this.setState({
         PkCollegeIdList: [...list1],
         PkFamilyIdList: [...list2],
         PkGroupIdList: [...list3],
+        pkGroupIds:this.unique(this.state.myGroupValue.concat(ids))
       })
+      console.log(112,list1,list2,list3,this.state.PkGroupIdList,this.state.pkGroupIds)
     } else {
       this.setState({
         [vname]:value
       });
     }
   };
+  unique=(arr)=>{
+    return arr.reduce((prev,cur) => prev.includes(cur) ? prev : [...prev,cur],[]);
+  }
+  handleOk = () => {
+    setTimeout(()=>{
+      console.log(80,this.state.pkGroupIds)
+    },100)
+
+    if(this.state.pkGroupIds.length>6){
+      message.warning('小组最多只能选择6个');
+      return
+    }
+    this.setState({
+      visible: false,
+    });
+    this.getGroupPkList(this.state.pkGroupIds)
+  };
+  handleCancel = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+  mapGroupIdValus=(groupArr)=>{
+    let groupIds=[]
+    groupArr.length>0 && groupArr.map((item)=>{
+      groupIds.push(String(item.groupId))
+    })
+    return groupIds
+  }
   render() {
     const {orgListTreeData = []} = this.props.xdWorkModal.xdWorkModal;
-    const {myFamilyGroupList,myGroupValue} = this.state
+    const {myFamilyGroupList,myGroupValue,PkCollegeIdList ,PkFamilyIdList, PkGroupIdList} = this.state
     return (
       <Container
         style={{ width: '100%', marginBottom: '16px' }}
@@ -172,6 +226,7 @@ class FamilyAndGroup extends React.Component {
                               multiple
                               showArrow
                               maxTagCount={3}
+                              value={[...PkGroupIdList]}
                               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                               treeData={orgListTreeData}
                               onChange={(val)=>this.onFormChange(val,'PkGroup')}

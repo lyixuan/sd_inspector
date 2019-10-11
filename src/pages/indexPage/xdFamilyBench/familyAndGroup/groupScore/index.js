@@ -22,20 +22,7 @@ class GroupScore extends React.Component {
     }
   }
   componentDidMount() {
-    this.getGroupPkList();
   }
-  getGroupPkList=()=>{
-    this.props.dispatch({
-      type:'xdWorkModal/getGroupPkList',
-      payload: { params: {pkGroupIds:this.state.pkGroupIds} },
-      callback: (data) => {
-        this.setState({
-          groupList: data
-        })
-      }
-    })
-  }
-
   fillDataSource = (params, n = 1) => {
     let data = params
     data.map(item => {
@@ -47,7 +34,7 @@ class GroupScore extends React.Component {
     return data
   }
   columns = () =>{
-    const {groupList} = this.state.groupList
+    const {familyGroupPkList} = this.props.xdWorkModal.xdWorkModal
     const columns = [
       {
         title:'学分维度',
@@ -56,7 +43,7 @@ class GroupScore extends React.Component {
         width:"16%"
       }
     ]
-    groupList.map((item,index)=>{
+    familyGroupPkList.groupList.map((item,index)=>{
       columns.push({
         title:item.groupName,
         dataIndex:item.groupId,
@@ -85,9 +72,9 @@ class GroupScore extends React.Component {
     return className
   }
   render() {
-    const {groupList} = this.state
-    console.log(194,groupList)
-    const dataSource = groupList && groupList.dimensionList&&groupList.dimensionList.length > 0 && this.fillDataSource(groupList.dimensionList)
+    console.log(83,this.props.nums)
+    const {familyGroupPkList} = this.props.xdWorkModal.xdWorkModal
+    const dataSource = familyGroupPkList && familyGroupPkList.dimensionList&&familyGroupPkList.dimensionList.length > 0 && this.fillDataSource(familyGroupPkList.dimensionList)
     return (
       <div className={styles.creditContainer} style={{display:'block'}}>
         {

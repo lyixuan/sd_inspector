@@ -56,6 +56,7 @@ class CSForm extends React.Component {
         appealEndDate:value[1],
       });
     } else if ('organization' === vname) {
+      console.log(59,value)
       const list1 = [];
       const list2 = [];
       const list3 = [];
