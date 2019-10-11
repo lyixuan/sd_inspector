@@ -29,7 +29,9 @@ import {
   getIncomeFamilyList,
   getFamilyList,
   getCollegeList,
-  myFamilyGroupList
+  myFamilyGroupList,
+  getIncomeCollegeList,
+  getIncomeFamilyGroupPk,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -54,7 +56,8 @@ export default {
       myGroup:{},
       pkGroup:{}
     },
-    familyRankList: []
+    familyRankList: [],
+    familyIncomeGroup: [],
   },
 
   effects: {
@@ -423,7 +426,7 @@ export default {
       }
     },
   //  家族创收对比
-    *getIncomeFamilyList({payload,callback},{call,put}){
+    *getIncomeFamilyList({payload,callback},{ call }){
       const result = yield call(getIncomeFamilyList,payload.params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
@@ -433,13 +436,33 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    //  家族创收对比右侧的家族绩效列表
+    // 家族创收对比右侧的家族绩效列表
     *getFamilyList({ payload, callback }, { call, put }) {
       const result = yield call(getFamilyList, payload.params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 家族创收对比右侧的学院列表
+    *getIncomeCollegeList({ callback }, { call }) {
+      const result = yield call(getIncomeCollegeList);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 家族创收对比-小组创收对比
+    *getIncomeFamilyGroupPk({ payload }, { call, put }) {
+      const result = yield call(getIncomeFamilyGroupPk, payload.params);
+      if (result.code === 20000) {
+        yield put({ type: 'save', payload: { familyIncomeGroup: result.data } });
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }

@@ -17,22 +17,28 @@ class FamilyAndGroup extends React.Component {
       keye: '1',
       incomeVisible:false,
       tabParams:[{
-        name:'家族创收对比',
-        key:'1',
+        name: '家族创收对比',
+        key: '1',
         children: <FamilyIncome/>,
-        isShowBtn:false
+        isShowBtn: false
       },{
         name:'小组创收对比',
         key:'2',
-        children:  <GroupIncome/>,
-        isShowBtn:true,
-        visible:"incomeVisible",
-        changeModal:this.changeIncomeModal
+        children:  <GroupIncome getIncomeFamilyGroupPk={this.getIncomeFamilyGroupPk}/>,
+        isShowBtn: true,
+        visible: "incomeVisible",
+        changeModal: this.changeIncomeModal
       }]
     }
   }
   componentDidMount() {
-
+  }
+  // 小组创收
+  getIncomeFamilyGroupPk = () => {
+    this.props.dispatch({
+      type: 'xdWorkModal/getIncomeFamilyGroupPk',
+      payload: { params: { groupIdList: [] } },
+    });
   }
   changeIncomeModal = () =>{
     this.setState({
@@ -43,6 +49,7 @@ class FamilyAndGroup extends React.Component {
     this.setState({
       incomeVisible: false,
     });
+    this.getIncomeFamilyGroupPk();
   };
   handleCancel = () => {
     this.setState({

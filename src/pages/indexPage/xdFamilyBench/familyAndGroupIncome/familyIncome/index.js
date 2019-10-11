@@ -10,45 +10,28 @@ class FamilyIncome extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      keye: '1',
-      pkfamilyId:null,
-      familyList:{},
-      collegeId:104,
-      incomeFamilyList:{}
+      pkFamilyId: 246,
+      familyList: [],
     }
   }
   componentDidMount() {
-    this.getIncomeFamilyList()
-
+    this.getIncomeFamilyList();
   }
   getIncomeFamilyList =()=>{
     this.props.dispatch({
       type:"xdWorkModal/getIncomeFamilyList",
-      payload:{params:{pkfamilyId:this.state.pkfamilyId}},
-      callback:(data)=>{
-        this.setState({
-          familyList:data
-        })
-      }
+      payload:{params:{ pkFamilyId: this.state.pkFamilyId }},
+      callback: familyList => this.setState({ familyList })
     })
   }
-  getFamilyList=()=>{
-    this.props.dispatch({
-      type:'xdWorkModal/getFamilyList',
-      payload:{params:{collegeId:this.state.collegeId}},
-      callback:(data)=>{
-        this.setState({
-          incomeFamilyList:data
-        })
-      }
-    })
+  changeSelected = (pkFamilyId) => {
+    this.setState({ pkFamilyId }, () => this.getIncomeFamilyList());
   }
   render() {
-    const {familyList,incomeFamilyList} = this.state
     return (
       <div className={styles.creditContainer}>
-        <FamilyIncomeLeft className={styles.familyLeft} familyList={familyList}/>
-        <FamilyIncomeRight className={styles.familyRight} incomeFamilyList={incomeFamilyList}/>
+        <FamilyIncomeLeft className={styles.familyLeft} familyList={this.state.familyList}/>
+        <FamilyIncomeRight className={styles.familyRight} changeSelected={this.changeSelected}/>
       </div>
     );
   }
