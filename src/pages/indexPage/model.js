@@ -22,6 +22,7 @@ import {
   collegeRankList,
   companyRankList,
   achievementList,
+  familyAchievement,
   qualityChargeCount,
   getFamilyScorePk,
   getFamilyRankList,
@@ -49,15 +50,26 @@ export default {
     familyIncome: [], // 创收
     familyAppeal: {}, // 申诉
     familyQuality: [], // 质检
-    familyScoreList:{
-      dimensionList:[],
-      myGroup:{},
-      pkGroup:{}
+    familyScoreList: {
+      dimensionList: [],
+      myGroup: {},
+      pkGroup: {}
     },
     familyRankList: []
   },
 
   effects: {
+    // 家族长工作台-绩效详情
+    *familyAchievement({ payload, callback }, { call }) {
+      const result = yield call(familyAchievement);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     // 本期预估绩效 - 质检扣款金额统计
     *qualityChargeCount({ payload, callback }, { call }) {
       const params = payload.params;
@@ -411,9 +423,9 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-  //  小组学分设置对比下拉
-    *myFamilyGroupList({payload,callback},{call,put}){
-      const result = yield call(myFamilyGroupList,payload.params);
+    //  小组学分设置对比下拉
+    *myFamilyGroupList({ payload, callback }, { call, put }) {
+      const result = yield call(myFamilyGroupList, payload.params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -422,9 +434,9 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-  //  家族创收对比
-    *getIncomeFamilyList({payload,callback},{call,put}){
-      const result = yield call(getIncomeFamilyList,payload.params);
+    //  家族创收对比
+    *getIncomeFamilyList({ payload, callback }, { call, put }) {
+      const result = yield call(getIncomeFamilyList, payload.params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);

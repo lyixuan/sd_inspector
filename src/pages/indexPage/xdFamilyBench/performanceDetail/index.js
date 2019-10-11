@@ -9,35 +9,47 @@ import styles from './index.less';
 import { connect } from 'dva';
 
 @connect(({ xdWorkModal }) => ({
-  xdWorkModal
+  xdWorkModal,
 }))
 class performanceDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      chargeCount: {},
       kpiInfo: {}
     }
   }
   componentDidMount() {
-    this.qualityChargeCount();
     this.getApiInfo();
   }
   createRef = id => {
     this.ID = id;
   };
   getApiInfo() {
-    this.drawChart()
-  }
-  qualityChargeCount() {
     const admin_user = localStorage.getItem('admin_user');
     const userId = JSON.parse(admin_user) ? JSON.parse(admin_user).userId : null;
     this.props.dispatch({
       type: 'xdWorkModal/qualityChargeCount',
       payload: { params: { id: userId } },
-      callback: (incomeData) => this.setState({ incomeData }),
+      callback: (chargeCount) => {
+        this.setState({ chargeCount })
+        this.props.dispatch({
+          type: 'xdWorkModal/familyAchievement',
+          callback: (kpiInfo) => {
+            this.setState({ kpiInfo })
+            this.drawChart(kpiInfo, chargeCount)
+          },
+        });
+      },
     });
+
   }
-  drawChart() {
+  qualityChargeCount() {
+
+  }
+
+  drawChart(data1, data2) {
+    console.log(52, data1, data2)
     let option = {
       calculable: true,
       graphic: [{
@@ -58,7 +70,7 @@ class performanceDetail extends React.Component {
         left: 'center',
         top: '52%',
         style: {
-          text: 52400,
+          text: thousandsFormat(parseInt(data1.achievement + data1.incomeKpi - data2.amount)),
           textAlign: 'center',
           fill: '#00CCC3',
           fontSize: '20',
@@ -87,8 +99,8 @@ class performanceDetail extends React.Component {
             }
           },
           data: [
-            100,
-            200
+            data1.achievement,
+            data1.incomeKpi
           ]
         }
       ]
@@ -111,18 +123,26 @@ class performanceDetail extends React.Component {
   }
 
   render() {
+    const { chargeCount } = this.state;
+    const { kpiInfo } = this.state
+    const { kpiStartDate = '', kpiEndDate = '' } = this.state.kpiInfo;
+    const date1 = kpiStartDate ? moment(kpiStartDate).format('YYYY.MM.DD') : '';
+    const date2 = kpiEndDate ? moment(kpiEndDate).format('YYYY.MM.DD') : '';
+    const charge = chargeCount.emptyFlag ? thousandsFormat(parseInt(kpiInfo.achievement)) : chargeCount.amount ? `-${thousandsFormat(parseInt(chargeCount.amount))}` : 0
+
     return (
       <Container
         title='绩效详情'
-        right={`11 ~ 22 (最新学分日期)`}
+        right={`${date1} ~ ${date2} (最新学分日期)`}
       >
         {
+          kpiInfo && chargeCount &&
           <div className={styles.performanceDetail}>
             <div ref={this.createRef} className={styles.chart}></div>
             <div className={styles.panelBox}>
-              <Pannel name='学分收入' label='排名系数'></Pannel>
-              <Pannel name='创收收入' label='创收排名' className='performancePanel2'></Pannel>
-              <Pannel name='质检扣款' label='均值' className='performancePanel3'></Pannel>
+              <Pannel name='学分收入' label='排名系数' level={kpiInfo.creditRankingCoefficient} income={thousandsFormat(parseInt(kpiInfo.achievement))}></Pannel>
+              <Pannel name='创收收入' label='创收排名' level={kpiInfo.incomeRanking} income={thousandsFormat(parseInt(kpiInfo.incomeKpi))} className='performancePanel2'></Pannel>
+              <Pannel name='质检扣款' label='均值' level={chargeCount.avgAmount} income={charge} className='performancePanel3'></Pannel>
             </div>
 
           </div>

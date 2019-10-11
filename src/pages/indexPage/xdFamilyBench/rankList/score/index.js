@@ -5,6 +5,7 @@ import styles from './index.less';
 import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
+import storage from '@/utils/storage';
 import { connect } from 'dva';
 
 const columns = [
@@ -211,6 +212,7 @@ class Score extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: storage.getItem('admin_user').userId,
       keye: 1,
       scoreData: [],
       incomeData: [],
@@ -252,7 +254,7 @@ class Score extends React.Component {
   }
   companyRankList() {
     this.props.dispatch({
-      type: 'xdWorkModal/collegeRankList',
+      type: 'xdWorkModal/companyRankList',
       payload: {},
       callback: (companyScoreData) => this.setState({ companyScoreData }),
     });
@@ -260,16 +262,16 @@ class Score extends React.Component {
 
 
   render() {
-    const { incomeData, incomeCompanyData, scoreData, companyScoreData } = this.state;
+    const { incomeData, incomeCompanyData, scoreData, companyScoreData, userId } = this.state;
     return (
       <div className={styles.scoreWrap}>
         <div className={styles.tableWrap}>
-          <div className={styles.table}><Wrap columns={columns} dataSource={scoreData} title='本学院学分排名'></Wrap></div>
-          <div className={styles.table}><Wrap columns={columns2} dataSource={companyScoreData} title='集团学分排名' className='bg2'></Wrap></div>
+          <div className={styles.table}><Wrap rowId='scroll1' userId={userId} columns={columns} dataSource={scoreData} title='本学院学分排名'></Wrap></div>
+          <div className={styles.table}><Wrap rowId='scroll2' userId={userId} columns={columns2} dataSource={companyScoreData} title='集团学分排名' className='bg2'></Wrap></div>
         </div>
         <div className={styles.tableWrap}>
-          <div className={styles.table}><Wrap columns={columns3} dataSource={incomeData} title='本学院创收排名' className='bg3'></Wrap></div>
-          <div className={styles.table}><Wrap columns={columns4} dataSource={incomeCompanyData} title='集团创收排名' className='bg4'></Wrap></div>
+          <div className={styles.table}><Wrap rowId='scroll3' userId={userId} columns={columns3} dataSource={incomeData} title='本学院创收排名' className='bg3'></Wrap></div>
+          <div className={styles.table}><Wrap rowId='scroll4' userId={userId} columns={columns4} dataSource={incomeCompanyData} title='集团创收排名' className='bg4'></Wrap></div>
         </div>
 
       </div>

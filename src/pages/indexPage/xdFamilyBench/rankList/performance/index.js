@@ -47,9 +47,9 @@ class Performance extends React.Component {
           }
           if (record.creditRanking == 1) {
             rank = rank1
-          } else if (record.rank == 2) {
+          } else if (record.creditRanking == 2) {
             rank = rank2
-          } else if (record.rank == 3) {
+          } else if (record.creditRanking == 3) {
             rank = rank3
           }
           return (
@@ -189,6 +189,7 @@ class Performance extends React.Component {
             dataSource={this.state.dataSource}
             pagination={false}
             scroll={{ x: 0, y: 200 }}
+            smalled
           >
           </BITable>
         </div>
