@@ -44,6 +44,7 @@ export default {
     groupList: null,
     groupPkList: {},
     kpiTimes: null,
+    familyKpiTimes: {},
     inCometarget: [], // 以下是家族值
     orgList: [], // 保存组织原始结构
     orgListTreeData: [], // 保存组织处理成treeData需要的结构
@@ -60,12 +61,17 @@ export default {
 
   effects: {
     // 家族长工作台-绩效详情
-    *familyAchievement({ payload, callback }, { call }) {
+    *familyAchievement({ payload, callback }, { call, put }) {
       const result = yield call(familyAchievement);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
+        const params = {
+          startTime: moment(result.data.kpiStartDate).format('YYYY-MM-DD'),
+          endTime: moment(result.data.kpiEndDate).format('YYYY-MM-DD')
+        }
+        yield put({ type: 'save', payload: { familyKpiTimes: params } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

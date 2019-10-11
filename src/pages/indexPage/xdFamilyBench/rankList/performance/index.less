@@ -1,6 +1,24 @@
 .performanceRank{
   padding:16px 24px;
-  
+  position:relative;
+  box-sizing: border-box;
+  .suspenTable {
+    width: 100%;
+    position: absolute;
+    top: 112px;
+    z-index: 1;
+    // :global {
+    //   .ant-table-tbody > tr > td {
+    //     border-bottom: none;
+    //   }
+    // }
+  }
+  .pkUser {
+    > td {
+      color: #00CCC3;
+      // cursor: not-allowed !important;
+    }
+  }
   :global{
     .ant-table-tbody > tr > td{
       padding-bottom:1px;

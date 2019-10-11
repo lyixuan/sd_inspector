@@ -9,21 +9,20 @@ class Wrap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userMsg: {},
+      userMsg: '',
       userFlag: false,
       userLocation: ''
     }
   }
 
   componentDidMount() {
-    const id = `#${this.props.rowId} .ant-table-body`
-    // console.log(20, id)
+    const id = `#${this.props.rowId} .ant-table-body`;
     document.querySelector(id).onscroll = (e) => {
       this.getScrollFn(e.target.scrollTop)
     }
   }
   componentWillUnmount() {
-    document.querySelector("#scroll .ant-table-body").onscroll = '';
+    document.querySelector(`#${this.props.rowId} .ant-table-body`).onscroll = '';
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
@@ -49,12 +48,10 @@ class Wrap extends React.Component {
 
   render() {
     const { userMsg, userFlag } = this.state;
-    console.log(50, userFlag, userMsg)
     return (
       <div className={styles.scoreTable}>
         <div className={`${styles.header} ${styles[this.props.className]}`}>{this.props.title}</div>
         {userFlag && userMsg && <div className={styles.suspenTable}>
-          {/* <div>999999</div> */}
           <BITable
             showHeader={false}
             columns={this.props.columns}
@@ -62,6 +59,8 @@ class Wrap extends React.Component {
             pagination={false}
             rowKey={record => record.userId}
             rowClassName={this.getRowClassName}
+            scroll={{ x: 0, y: 200 }}
+            smalled
           />
         </div>}
         <div id={this.props.rowId} className={styles.tableBorder}>
