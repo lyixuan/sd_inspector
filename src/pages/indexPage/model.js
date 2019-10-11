@@ -22,6 +22,7 @@ import {
   collegeRankList,
   companyRankList,
   achievementList,
+  familyAchievement,
   qualityChargeCount,
   getFamilyScorePk,
   getFamilyRankList,
@@ -51,16 +52,28 @@ export default {
     familyIncome: [], // 创收
     familyAppeal: {}, // 申诉
     familyQuality: [], // 质检
-    familyScoreList:{
-      dimensionList:[],
-      myGroup:{},
-      pkGroup:{}
+    familyScoreList: {
+      dimensionList: [],
+      myGroup: {},
+      pkGroup: {}
     },
     familyRankList: [],
     familyIncomeGroup: [],
+    familyGroupPkList:{}
   },
 
   effects: {
+    // 家族长工作台-绩效详情
+    *familyAchievement({ payload, callback }, { call }) {
+      const result = yield call(familyAchievement);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     // 本期预估绩效 - 质检扣款金额统计
     *qualityChargeCount({ payload, callback }, { call }) {
       const params = payload.params;
@@ -73,7 +86,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    // 本期学分—集团学分排名 
+    // 本期学分—集团学分排名
     *companyRankList({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(companyRankList, params);
@@ -85,7 +98,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    // 本期学分—本学院学分排名 
+    // 本期学分—本学院学分排名
     *collegeRankList({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(collegeRankList, params);
@@ -406,17 +419,16 @@ export default {
     //  小组学分对比
     *getGroupPkList({ payload, callback }, { call, put }) {
       const result = yield call(getGroupPkList, payload.params);
+      const familyGroupPkList = result.data;
       if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
+        yield put({ type: 'save', payload: { familyGroupPkList } });
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-  //  小组学分设置对比下拉
-    *myFamilyGroupList({payload,callback},{call,put}){
-      const result = yield call(myFamilyGroupList,payload.params);
+    //  小组学分设置对比下拉
+    *myFamilyGroupList({ payload, callback }, { call, put }) {
+      const result = yield call(myFamilyGroupList, payload.params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -483,11 +495,11 @@ export default {
 function toTreeData(orgList) {
   const treeData = [];
   orgList.forEach(v => {
-    const o = { title: v.name, value: `a-${v.id}`, key: v.id, lv: 1 };
+    const o = { title: v.name, value: `a-${v.id}`, key: v.id,selectable:false, lv: 1 };
     if (v.nodeList.length > 0) {
       o.children = [];
       v.nodeList.forEach(v1 => {
-        const o1 = { title: v1.name, value: `b-${v1.id}`, key: v1.id + 1000, lv: 2 };
+        const o1 = { title: v1.name, value: `b-${v1.id}`, key: v1.id + 1000,selectable:false, lv: 2 };
         o.children.push(o1);
         if (v1.nodeList.length > 0) {
           o1.children = [];

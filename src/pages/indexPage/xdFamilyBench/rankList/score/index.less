@@ -11,8 +11,34 @@
 .scoreWrap{
   padding:16px 0;
 }
+
 .scoreTable{
   width:100%;
+  position:relative;
+  .suspenTable {
+    width: 100%;
+    position: absolute;
+    top: 96px;
+    z-index: 1;
+    :global {
+      .ant-table-tbody > tr > td {
+        border-bottom: none;
+      }
+    }
+  }
+  .pkUser {
+    > td {
+      color: #00CCC3;
+      cursor: not-allowed !important;
+    }
+  }
+  .scrollTable {
+    :global {
+      .ant-table-body {
+        height: 420px;
+      }
+    }
+  }
   .header{
     height:48px;
     line-height:48px;

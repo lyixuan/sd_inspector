@@ -22,8 +22,8 @@ class Pannel extends React.Component {
         <div className={`${styles.circle} ${styles.circle2}`}></div>
         <div className={styles.details}>
           <div className={styles.top}>
-            <span style={{ fontSize: '20px' }}>￥<em className={styles.num}>47,000</em></span>
-            <span>{prop.label}：2</span>
+            <span style={{ fontSize: '20px' }}>￥<em className={styles.num}>{prop.income}</em></span>
+            <span>{prop.label}：{prop.level}</span>
           </div>
           <div className={styles.bottom}>{prop.name}</div>
         </div>

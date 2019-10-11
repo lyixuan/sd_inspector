@@ -98,6 +98,10 @@ export async function achievementList(params) {
 export async function qualityChargeCount(params) {
   return request('/classWorkbench/family/qualityChargeCount', { method: 'get', params });
 }
+// 工作台—绩效详情
+export async function familyAchievement(params) {
+  return request('/deskperfpcapi/family/score/achievement', { method: 'get', params });
+}
 // ====小树end====
 
 // 本期申诉 - 申诉统计
@@ -131,7 +135,7 @@ export async function getGroupPkList(params) {
 }
 //小组学分对比设置对比项的我的小组数据
 export async function myFamilyGroupList(params) {
-  return request('/deskperfpcapi/organization/myFamilyGroupList',{method:'get',params})
+  return request('/deskperfpcapi/organization/myFamilyGroupList', { method: 'get', params })
 }
 //家族创收对比
 export async function getIncomeFamilyList(params) {
