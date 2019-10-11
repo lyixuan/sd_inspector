@@ -117,6 +117,8 @@ class FamilyIncomeLeft extends React.Component {
     return arr
   }
   columns = () => {
+    const {familyList} = this.props
+    const pkFamiy = familyList.familyList
     const { pkGroup } = this.state
     const PkName = pkGroup && pkGroup.groupName
     let maxNumMyScore = ""
@@ -133,7 +135,7 @@ class FamilyIncomeLeft extends React.Component {
       width: '14%',
       render: (myScoreRatio,data) => {
         let isFlag = 3
-        if (PkName && data.isShowPro) {
+        if (pkFamiy && data.isShowPro) {
           isFlag = myScoreRatio >= 0 ? 1 : 2
         }
 
@@ -150,7 +152,7 @@ class FamilyIncomeLeft extends React.Component {
       width: '14%',
       render:(myScore,data)=>{
         let isFlag = 3
-        if (PkName && data.isShowPro) {
+        if (pkFamiy && data.isShowPro) {
           isFlag = Number(myScore) > Number(data.groupScore) ? 1 : Number(myScore) < Number(data.groupScore) ? 2 : 3
         }
         return (
@@ -166,7 +168,7 @@ class FamilyIncomeLeft extends React.Component {
       width: 58.5,
       render: (myScore, data) => {
         const isIncome = data.isShowPro
-        if(PkName && data.isShowPro){
+        if(pkFamiy && data.isShowPro){
           if (Number(data.myScore) > Number(data.groupScore)) {
             maxNumMyScore = Number(data.myScore)
           } else {
@@ -174,7 +176,7 @@ class FamilyIncomeLeft extends React.Component {
           }
         }
         return (
-          data.isShowPro && PkName ? <Progress leftNumber = {true} data ={data} PkName={PkName} maxNumMyScore={maxNumMyScore} isIncome={isIncome}/>:<div className={styles.pkRankMain} style={{ justifyContent: 'flex-end', marginRight: '-18px' }}>
+          data.isShowPro && pkFamiy ? <Progress leftNumber = {true} data ={data} PkName={pkFamiy} maxNumMyScore={maxNumMyScore} isIncome={isIncome}/>:<div className={styles.pkRankMain} style={{ justifyContent: 'flex-end', marginRight: '-18px' }}>
             <div
               style={{
                 color: '#52C9C2',
@@ -194,7 +196,7 @@ class FamilyIncomeLeft extends React.Component {
       key: 'rightNum',
       width: 58.5,
       render: (groupScore, data) => {
-        if(PkName && data.isShowpro){
+        if(pkFamiy && data.isShowpro){
           if (Number(data.myScore) > Number(data.groupScore)) {
             maxNumMyScore = Number(data.myScore)
           } else {
@@ -202,7 +204,7 @@ class FamilyIncomeLeft extends React.Component {
           }
         }
         return (
-         data.isShowPro && PkName ? <Progress leftNumber={false} data ={data} PkName={PkName} maxNumMyScore={maxNumMyScore}/>:<div className={styles.pkRankMain} style={{ justifyContent: 'flex-satrt', marginRight: '-18px' }}>
+         data.isShowPro && pkFamiy ? <Progress leftNumber={false} data ={data} PkName={pkFamiy} maxNumMyScore={maxNumMyScore}/>:<div className={styles.pkRankMain} style={{ justifyContent: 'flex-satrt', marginRight: '-18px' }}>
             <div
               style={{
                 color: '#52C9C2',

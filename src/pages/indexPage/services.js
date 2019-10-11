@@ -99,10 +99,7 @@ export async function qualityChargeCount(params) {
   return request('/classWorkbench/family/qualityChargeCount', { method: 'get', params });
 }
 // ====小树end====
-// 查询组织架构
-export async function getOrgMapList(params) {
-  return request('/orgMap/getOrgMapList', { params });
-}
+
 // 本期申诉 - 申诉统计
 export async function getFamilyRecord(params) {
   return request('/classWorkbench/family/countAppealRecord', { method: 'get', params })
@@ -110,6 +107,11 @@ export async function getFamilyRecord(params) {
 // 本期质检 - 质检统计
 export async function getFamilyQuality(params) {
   return request('/classWorkbench/family/countCurrentQuality', { method: 'get', params })
+}
+//=====文静start======
+// 查询组织架构
+export async function getOrgMapList(params) {
+  return request('/orgMap/getOrgMapList', { params });
 }
 //家族学分对比
 export async function getFamilyScorePk(params) {
@@ -139,3 +141,4 @@ export async function getIncomeFamilyList(params) {
 export async function getFamilyList(params) {
   return request('/deskperfpcapi/incomeFamily/getFamilyList', { method: 'get', params });
 }
+//=====文静end======
