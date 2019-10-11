@@ -32,9 +32,8 @@ const BaseForm = Form.create({ name: 'base_form' })(
         }
       });
     };
-    onMailChange = e => {
-      const mail = e.currentTarget.value ? e.currentTarget.value : null;
-      this.props.onMailChange(mail);
+    getOrgMapByMail = () => {
+      this.props.getOrgMapByMail(this.props.form.getFieldValue('mail'));
     };
 
     onFormChange=(val) =>{
