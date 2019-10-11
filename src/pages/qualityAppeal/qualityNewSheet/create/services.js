@@ -1,7 +1,7 @@
 
 import request from '@/utils/request';
 
-// 任务列表
+// 根据邮箱获取基本信息
 export async function getOrgMapList(params) {
   return request('/orgMap/getTaskPage', { params });
 }
