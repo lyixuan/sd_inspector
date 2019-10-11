@@ -52,22 +52,39 @@ class FamilyAndGroup extends React.Component {
       type: 'xdWorkModal/getOrgMapList',
       payload: { params: {} },
     });
+    let pkGroupIds = localStorage.getItem('pkGroupIds');
+    let myGroupIds = localStorage.getItem('myGroupIds');
     this.myFamilyGroupList()
-    this.getGroupPkList()
+    this.getGroupPkList(pkGroupIds,myGroupIds)
   }
-  getGroupPkList=()=>{
+  getGroupPkList=(arr,arr1)=>{
     this.props.dispatch({
       type:'xdWorkModal/getGroupPkList',
-      payload: { params: {pkGroupIds:this.state.pkGroupIds} },
+      payload: { params: {pkGroupIds:arr?arr:this.state.pkGroupIds,myGroupIds:arr1?arr1:this.state.myGroupValue} },
     })
+    let pkGroupIds = arr?arr:this.state.pkGroupIds
+    let myGroupIds = arr1?arr1:this.state.myGroupValue
+    localStorage.setItem('pkGroupIds', pkGroupIds);
+    localStorage.setItem('myGroupIds', myGroupIds);
   }
   componentWillReceiveProps(nextProps) {
     const {familyGroupPkList={}} = this.props.xdWorkModal.xdWorkModal;
     const nextPropsList = this.props.xdWorkModal.xdWorkModal.familyGroupPkList
     if (nextPropsList !== {}) {
       const myGroupList= familyGroupPkList&&familyGroupPkList.groupList
+      const myGroupLists=[]
+      const pkGroupLists=[]
+      myGroupList && myGroupList.map((item)=>{
+        if(item.myGroup){
+          myGroupLists.push(item);
+        }else{
+          pkGroupLists.push(item)
+        }
+
+      })
       this.setState({
-        myGroupValue:myGroupList&&myGroupList.length>0 && this.mapGroupIdValus(myGroupList)
+        myGroupValue:myGroupLists && myGroupLists.length>0 && this.mapGroupIdValus(myGroupLists),
+        pkGroupIds:pkGroupLists && pkGroupLists.length>0 && this.mapGroupIdValus(pkGroupLists),
       })
     }
   }
@@ -126,7 +143,8 @@ class FamilyAndGroup extends React.Component {
         PkCollegeIdList: [...list1],
         PkFamilyIdList: [...list2],
         PkGroupIdList: [...list3],
-        pkGroupIds:this.unique(this.state.myGroupValue.concat(ids))
+        pkGroupIds:this.unique(ids),
+        myGroupValue:this.unique(this.state.myGroupValue)
       })
       console.log(112,list1,list2,list3,this.state.PkGroupIdList,this.state.pkGroupIds)
     } else {
@@ -140,7 +158,7 @@ class FamilyAndGroup extends React.Component {
   }
   handleOk = () => {
     setTimeout(()=>{
-      console.log(80,this.state.pkGroupIds)
+      console.log(80,this.state.pkGroupIds,this.state.myGroupValue)
     },100)
 
     if(this.state.pkGroupIds.length>6){
@@ -150,7 +168,7 @@ class FamilyAndGroup extends React.Component {
     this.setState({
       visible: false,
     });
-    this.getGroupPkList(this.state.pkGroupIds)
+    this.getGroupPkList(this.state.pkGroupIds,this.state.myGroupValue)
   };
   handleCancel = () => {
     this.setState({
