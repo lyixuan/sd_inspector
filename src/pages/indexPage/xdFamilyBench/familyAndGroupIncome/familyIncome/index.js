@@ -11,7 +11,7 @@ class FamilyIncome extends React.Component {
     super(props)
     this.state = {
       keye: '1',
-      pkfamilyId:104,
+      pkfamilyId:null,
       familyList:{},
       collegeId:104,
       incomeFamilyList:{}
