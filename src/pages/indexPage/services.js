@@ -145,4 +145,15 @@ export async function getIncomeFamilyList(params) {
 export async function getFamilyList(params) {
   return request('/deskperfpcapi/incomeFamily/getFamilyList', { method: 'get', params });
 }
+//家族创收对比的学院列表
+export async function getIncomeCollegeList(params) {
+  return request('/deskperfpcapi/incomeFamily/getCollegeList', { method: 'get', params });
+}
+// 家族创收对比-小组创收对比
+export async function getIncomeFamilyGroupPk(data) {
+  return request('/deskperfpcapi/incomeFamily/getGroupPk', { method: 'POST', data })
+}
+export async function getUserInfo(params) {
+  return request('/deskperfpcapi/user/info', { method: 'get', params });
+}
 //=====文静end======

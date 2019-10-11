@@ -23,6 +23,11 @@ class Progress extends React.Component {
       if (data.dimensionName === "正面均分" || data.isShowPro || isIncome) {
         leftProgress = (((leftNumber?myScoreLefNum:myScoreRightNum )/ maxNumMyScore) * 100).toFixed(2) + '%'
       }
+    } else {
+      myScoreLefNum = Number(data.myScore);
+      myScoreRightNum = Number(data.groupScore);
+      const max = myScoreLefNum > myScoreRightNum ? myScoreLefNum : myScoreRightNum
+      leftProgress = (((leftNumber?myScoreLefNum:myScoreRightNum )/ max) * 100).toFixed(2) + '%'
     }
     return (
         <div className={`${styles.pkRankMain} ${leftNumber?styles.progressLeft:styles.progressRight}`} >

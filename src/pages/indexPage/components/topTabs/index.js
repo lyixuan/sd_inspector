@@ -22,6 +22,7 @@ class TopTabs extends React.Component {
       keye: val
     })
   };
+
   setContrast = (item) =>{
     if(item && item.visible === "visible"){
       item.changeModal()

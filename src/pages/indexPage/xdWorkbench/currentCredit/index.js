@@ -26,7 +26,6 @@ class currentCredit extends React.Component {
       groupId: pkGroup ? pkGroup.groupId : 0,
       pkGroupSource: pkGroup && pkGroup.credit
     })
-
   }
   componentWillMount() {
     const pkGroup = JSON.parse(localStorage.getItem('pkGroup'))

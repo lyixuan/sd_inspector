@@ -28,10 +28,39 @@
     border-radius: 6px;
     padding: 11px 24px;
     margin-bottom: 16px;
+    .proNone{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      img{
+        margin:9px 16px;
+      }
+      span{
+        font-size: 16px;
+        color: #1A1C1F;
+      }
+    }
   }
   .tableContainer{
     position: relative;
     height:248px;
+    .tableImg{
+      position: absolute;
+      right:24px;
+      bottom:24px;
+      width:144px;
+      height:144px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow:0 4px 8px 0 rgba(26,28,31,.05) ;
+      img{
+        width:128px;
+        height:128px;
+      }
+    }
   }
   .pkRankMain{
     display: flex;
@@ -96,7 +125,34 @@
       cursor: pointer;
     }
   }
+}
+.myGroup{
+  width:100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .titleName{
+    margin-right:24px;
+  }
 
-
+  .titleName:nth-child(1){
+    width:91px;
+    display:inline-block;
+    text-align:right;
+    margin-right:16px;
+  }
+}
+.pkGroup{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top:16px;
+  .titleName:nth-child(1){
+    text-align:left;
+    margin-right:10px;
+  }
+}
+.BISelect{
+  width:auto
 }
 

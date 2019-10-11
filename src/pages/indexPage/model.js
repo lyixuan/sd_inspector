@@ -30,7 +30,10 @@ import {
   getIncomeFamilyList,
   getFamilyList,
   getCollegeList,
-  myFamilyGroupList
+  myFamilyGroupList,
+  getIncomeCollegeList,
+  getIncomeFamilyGroupPk,
+  getUserInfo
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -56,7 +59,9 @@ export default {
       myGroup: {},
       pkGroup: {}
     },
-    familyRankList: []
+    familyRankList: [],
+    familyIncomeGroup: [],
+    familyGroupPkList:{},
   },
 
   effects: {
@@ -88,7 +93,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    // 本期学分—集团学分排名 
+    // 本期学分—集团学分排名
     *companyRankList({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(companyRankList, params);
@@ -100,7 +105,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    // 本期学分—本学院学分排名 
+    // 本期学分—本学院学分排名
     *collegeRankList({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(collegeRankList, params);
@@ -421,10 +426,9 @@ export default {
     //  小组学分对比
     *getGroupPkList({ payload, callback }, { call, put }) {
       const result = yield call(getGroupPkList, payload.params);
+      const familyGroupPkList = result.data;
       if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
+        yield put({ type: 'save', payload: { familyGroupPkList } });
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -440,9 +444,9 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    //  家族创收对比
-    *getIncomeFamilyList({ payload, callback }, { call, put }) {
-      const result = yield call(getIncomeFamilyList, payload.params);
+  //  家族创收对比
+    *getIncomeFamilyList({payload,callback},{ call }){
+      const result = yield call(getIncomeFamilyList,payload.params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -451,7 +455,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    //  家族创收对比右侧的家族绩效列表
+    // 家族创收对比右侧的家族绩效列表
     *getFamilyList({ payload, callback }, { call, put }) {
       const result = yield call(getFamilyList, payload.params);
       if (result.code === 20000) {
@@ -459,6 +463,36 @@ export default {
           callback(result.data);
         }
       } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 家族创收对比右侧的学院列表
+    *getIncomeCollegeList({ callback }, { call }) {
+      const result = yield call(getIncomeCollegeList);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 家族创收对比-小组创收对比
+    *getIncomeFamilyGroupPk({ payload }, { call, put }) {
+      const result = yield call(getIncomeFamilyGroupPk, payload.params);
+      if (result.code === 20000) {
+        yield put({ type: 'save', payload: { familyIncomeGroup: result.data } });
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getUserInfo({ callback }, { call }) {
+      const result = yield call(getUserInfo);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
@@ -478,11 +512,11 @@ export default {
 function toTreeData(orgList) {
   const treeData = [];
   orgList.forEach(v => {
-    const o = { title: v.name, value: `a-${v.id}`, key: v.id, lv: 1 };
+    const o = { title: v.name, value: `a-${v.id}`, key: v.id,selectable:false, lv: 1 };
     if (v.nodeList.length > 0) {
       o.children = [];
       v.nodeList.forEach(v1 => {
-        const o1 = { title: v1.name, value: `b-${v1.id}`, key: v1.id + 1000, lv: 2 };
+        const o1 = { title: v1.name, value: `b-${v1.id}`, key: v1.id + 1000,selectable:false, lv: 2 };
         o.children.push(o1);
         if (v1.nodeList.length > 0) {
           o1.children = [];
