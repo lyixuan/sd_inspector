@@ -609,46 +609,6 @@ class CreateQualityNewSheet extends React.Component {
     callback('请输入正整数');
   };
 
-  // renderQualityType_performance = value => {
-  //   const { getFieldDecorator } = this.props.form;
-  //   const { params } = this.props;
-  //   return (
-  //     <Row style={{ lineHeight: '40px' }}>
-  //       <Col className="gutter-row" span={12}>
-  //         <span className={styles.i}>*</span>
-  //         <Form.Item label="扣除绩效">
-  //           {getFieldDecorator('qualityValue', {
-  //             initialValue: params.qualityValue,
-  //             rules: [
-  //               {
-  //                 validator(rule, value, callback) {
-  //                   if (!value || isNaN(value) || Number(value) < 0) {
-  //                     callback({ message: '请输入合法绩效' });
-  //                   } else if (
-  //                     value &&
-  //                     String(value).split('.')[1] &&
-  //                     String(value).split('.')[1].length > 2
-  //                   ) {
-  //                     callback({ message: '最多保留两位小数' });
-  //                   } else {
-  //                     callback();
-  //                   }
-  //                 },
-  //               },
-  //             ],
-  //           })(
-  //             <BIInput
-  //               placeholder="请输入"
-  //               style={{ width: 260 }}
-  //               onChange={e => this.inputChange(e, 'qualityValue')}
-  //             />
-  //           )}
-  //           <span style={{ display: 'inline-block', width: '20px', textAlign: 'right' }}>%</span>
-  //         </Form.Item>
-  //       </Col>
-  //     </Row>
-  //   );
-  // };
 
   renderOwnComonent = () => {
     // 根据已选 质检类型+归属人角色+违规等级 回显 处罚力度

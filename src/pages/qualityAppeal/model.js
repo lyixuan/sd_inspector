@@ -83,7 +83,6 @@ export default {
       const response = yield call(getOrgMapByMail, payload);
       if (response.code === 20000) {
         const orgMapByMailData = response.data || {};
-        // 强制触发更新
         orgMapByMailData.upDateTime = new Date().valueOf();
         yield put({
           type: 'saveOrgMapByMailData',
@@ -92,6 +91,7 @@ export default {
       } else {
         message.error(msgF(response.msg, response.msgDetail));
       }
+      return response.data;
     },
     *getDetailData({ payload }, { call, put }) {
       //申诉详情页数据
