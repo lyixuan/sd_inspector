@@ -153,4 +153,7 @@ export async function getIncomeCollegeList(params) {
 export async function getIncomeFamilyGroupPk(data) {
   return request('/deskperfpcapi/incomeFamily/getGroupPk', { method: 'POST', data })
 }
+export async function getUserInfo(params) {
+  return request('/deskperfpcapi/user/info', { method: 'get', params });
+}
 //=====文静end======

@@ -18,10 +18,12 @@ class GroupScore extends React.Component {
       keye: '1',
       groupList:{},
       pkGroupIds:null,
-      myFamilyGroupList:[]
+      myFamilyGroupList:[],
+      userInfo:{}
     }
   }
   componentDidMount() {
+
   }
   fillDataSource = (params, n = 1) => {
     let data = params

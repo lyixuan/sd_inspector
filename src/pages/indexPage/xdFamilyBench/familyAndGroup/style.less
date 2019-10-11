@@ -167,7 +167,9 @@
 }
 .myGroup{
   width:100%;
-
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   .titleName{
     margin-right:24px;
   }
@@ -189,9 +191,7 @@
     margin-right:10px;
   }
 }
-.BISelect{
-  width:auto
-}
+
 :global{
   .oneLevelBgColor{
     background: #FFFDF8;
@@ -202,5 +202,8 @@
   .otherLevelBgColor1{
     background: #F5FBFF;
   }
-
+  .BISelect{
+    width:auto;
+    flex: 1;
+  }
 }

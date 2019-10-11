@@ -33,6 +33,7 @@ import {
   myFamilyGroupList,
   getIncomeCollegeList,
   getIncomeFamilyGroupPk,
+  getUserInfo
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -59,7 +60,7 @@ export default {
     },
     familyRankList: [],
     familyIncomeGroup: [],
-    familyGroupPkList:{}
+    familyGroupPkList:{},
   },
 
   effects: {
@@ -476,6 +477,16 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { familyIncomeGroup: result.data } });
       } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getUserInfo({ callback }, { call }) {
+      const result = yield call(getUserInfo);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
