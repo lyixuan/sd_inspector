@@ -57,7 +57,7 @@ class Wrap extends React.Component {
             columns={this.props.columns}
             dataSource={[userMsg]}
             pagination={false}
-            rowKey={record => record.userId}
+            rowKey={(record, index) => index}
             rowClassName={this.getRowClassName}
             scroll={{ x: 0, y: 200 }}
             smalled
@@ -67,6 +67,7 @@ class Wrap extends React.Component {
           <BITable
             columns={this.props.columns}
             dataSource={this.props.dataSource}
+            rowKey={(record, index) => index}
             rowClassName={this.getRowClassName}
             pagination={false}
             scroll={{ x: 0, y: 200 }}

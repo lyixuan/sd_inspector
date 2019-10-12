@@ -89,13 +89,13 @@ class ProfitList extends React.Component {
         dataIndex: 'groupName',
         key: 'groupName',
         fixed: 'left',
-        width: 100,
+        width: 120,
       }, {
         title: '排名系数',
         fixed: 'left',
         dataIndex: 'creditRankingCoefficient',
         key: 'creditRankingCoefficient',
-        width: 80,
+        width: 100,
       },
     ];
     if (this.fillDataSource().length > 0) {
@@ -122,7 +122,7 @@ class ProfitList extends React.Component {
           title: item.name,
           dataIndex: item.id,
           key: item.id,
-          width: 100,
+          width: 110,
           fixed: item.name == '学分均分' ? 'left' : '',
           className: `${className} ${className2}`,
           render: (text, record) => {
@@ -170,7 +170,8 @@ class ProfitList extends React.Component {
           dataSource={profitList}
           pagination={false}
           loading={this.props.loading}
-          rowKey={record => record.id}
+          // rowKey={record => record.id}
+          rowKey={(record, index) => index}
           scroll={{ x: 'max-content', y: 420 }}
         />
       </div>
