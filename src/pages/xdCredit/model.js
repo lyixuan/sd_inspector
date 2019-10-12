@@ -4,6 +4,7 @@ import {
   getDimensionList,
   getDimensionDetail,
   getKpiDateRange,
+  getAppealType
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -69,6 +70,19 @@ export default {
         const res = result.data;
         if (res && res !== null) {
           yield put({ type: 'save', payload: { kpiDateRange: res } });
+          if (callback && typeof callback === 'function') {
+            callback(res);
+          }
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getAppealType({ payload, callback }, { call, }) {
+      const result = yield call(getAppealType, payload.params);
+      if (result.code === 20000) {
+        const res = result.data;
+        if (res && res !== null) {
           if (callback && typeof callback === 'function') {
             callback(res);
           }

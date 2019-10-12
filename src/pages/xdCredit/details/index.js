@@ -34,7 +34,6 @@ function ListItem(props) {
 
 // 判断是老师还是学员
 function TeacherOrStudent(props) {
-  // console.log(36, props)
   if (props.item.type == 1) {
     return (
       <li className={styles.step}>
@@ -93,6 +92,7 @@ function TeacherOrStudent(props) {
 
 @connect(({ loading }) => ({
   loading: loading.effects['xdCreditModal/getDimensionDetail'],
+  loadingAppeal: loading.effects['xdCreditModal/getDimensionDetail'],
 }))
 class CreditDetials extends React.Component {
   columns = () => {
@@ -122,9 +122,7 @@ class CreditDetials extends React.Component {
         render: (text, r) => {
           if (detailsData.titleFour == '操作') {
             return (
-              <Tooltip overlayClassName={styles.listMarkingTooltip2} placement="top" title={text}>
-                <span style={{ color: "#00CCC3" }}>查看</span>
-              </Tooltip>
+              <span style={{ color: "#00CCC3" }}>申诉</span>
             );
           } else {
             return <span>{text}</span>
@@ -132,7 +130,18 @@ class CreditDetials extends React.Component {
         }
       },
     ];
-    if (detailsData.titleFive) {
+    if (detailsData.titleFive === '申诉') {
+      columns.push({
+        title: '操作',
+        dataIndex: 'action',
+        key: 'action',
+        render: (list, r) => {
+          return (
+            <span onClick={() => this.getAppeal(r)} style={{ color: "#00CCC3", cursor: 'pointer' }}>申诉</span>
+          );
+        }
+      })
+    } else if (detailsData.titleFive) {
       columns.push({
         title: detailsData.titleFive,
         dataIndex: 'action',
@@ -163,6 +172,25 @@ class CreditDetials extends React.Component {
       onPageChange(currentPage);
     }
   };
+  getAppeal = (r) => {
+    const { dimensionType, appealNo } = r;
+    const params = { dimensionType };
+    if (dimensionType === 1) {
+      params.qualityNum = appealNo;
+    } else if (dimensionType === 1) {
+      params.bottomLineNum = appealNo;
+      params.bottomLineType = r.bottomLineType;
+    } else {
+      params.id = appealNo;
+    }
+    this.props.dispatch({
+      type: 'xdCreditModal/getAppealType',
+      payload: { params },
+      callback: res => {
+        console.log(res)
+      }
+    });
+  }
 
   render() {
     const { dementionId, detailsData, pageSize = 15, currentPage } = this.props;
