@@ -1,48 +1,43 @@
 import React from 'react';
-import { Input, Form, message, Upload } from 'antd';
-import { BiFilter, DeepCopy } from '@/utils/utils';
+import { Input, Form, message, Upload,Icon } from 'antd';
+import { BiFilter, msgF } from '@/utils/utils';
 import BIButton from '@/ant_components/BIButton';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BICascader from '@/ant_components/BICascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
-import DownLoad from '@/components/DownLoad';
 import { uploadAttachment } from '@/pages/qualityAppeal/services';
-import { STATIC_HOST } from '@/utils/constants';
+import BIModal from '@/ant_components/BIModal';
 import Box from './box';
 import BoxItem from './boxItem';
 import SubOrder from './subOrder';
 import styles from './form.less';
 import moment from 'moment/moment';
+import router from 'umi/router';
+
 
 const { Option } = BISelect;
 const { TextArea } = Input;
+const confirm = BIModal.confirm;
+let isZip = false;
+let isLt10M = false;
 
 const BaseForm = Form.create({ name: 'base_form' })(
   class extends React.Component {
-    handleCancel = () => {
-      this.props.onCancel();
-    };
-
-    handleSubmit = e => {
-      e.preventDefault();
-      this.props.form.validateFields((err, values) => {
-        if (!err) {
-          this.props.onSubmit(values);
-        }
-      });
-    };
-
+    constructor(props) {
+      super(props);
+      this.state = {
+        showMore: false,
+        fileList:[],
+        attUrl:''
+      };
+    }
     getOrgMapByMail = () => {
-      this.props.getOrgMapByMail(this.props.form.getFieldValue('mail'));
+      this.props.getOrgMapByMail(this.props.form.getFieldValue('mail'),this.props.form);
     };
 
     getSubOrderDetail = () => {
       this.props.getSubOrderDetail(this.props.form.getFieldValue('orderNum'));
-    };
-
-    disabledDate = current => {
-      return current && current > moment().endOf('day');
     };
 
     dimensionIdList = () => {
@@ -68,15 +63,19 @@ const BaseForm = Form.create({ name: 'base_form' })(
       let violationLevelObj = objArr.slice(-1);
       violationLevelObj = violationLevelObj.length > 0 ? violationLevelObj[0] : {};
       const qualityType = this.props.form.getFieldValue('qualityType');
-      this.props.changeDimensionTree({ qualityType, ...violationLevelObj });
-      console.log(1, violationLevelObj);
+      const role = this.props.form.getFieldValue('role');
+      this.props.changeDimensionTree({ qualityType, role, form:this.props.form,...violationLevelObj });
+      console.log('违规分类选择', violationLevelObj);
+    };
+
+    onChangeViolationLevel = (value) => {
+      this.props.changeViolationLevel(value,this.props.form);
     };
 
     attachedRoleList = () => {
       const qualityType = this.props.form.getFieldValue('qualityType');
       let listRole = [];
-      if (qualityType === 1) {
-        // 客诉
+      if (qualityType === 1) {// 客诉
         listRole = [{ id: 'cssupervisor', name: '客诉主管' }, { id: 'csleader', name: '客诉组长' }];
       } else if(qualityType===2){
         listRole = [{ id: 'family', name: '家族长' }, { id: 'group', name: '运营长' }];
@@ -84,43 +83,25 @@ const BaseForm = Form.create({ name: 'base_form' })(
       return listRole;
     };
 
-    renderUpload = () => {
-      const { formType, upLoadType } = this.props;
-      const upLoadTypeObj = BiFilter('QUALITY_UPLOAD_TYPE').find(item => item.name === upLoadType) || {};
-      const { attUrl = '' } = this.props || {};
-      const name = attUrl && attUrl.split('/')[3];
-      if (upLoadType !== 'appeal') {
-        return (
-          <Upload
-            {...uploadAttachment()}
-            fileList={[]}
-            data={{ type: upLoadTypeObj.id || 1 }}
-            onChange={this.uploadChange}
-            beforeUpload={this.beforeUpload}
-          >
-            <BIButton type="primary">上传附件</BIButton>
-            <span style={{ color: '#aaa', fontSize: 12 }}>（请上传10M以内的rar、zip格式文件）</span>
-          </Upload>
-        );
-      } else {
-        return attUrl ? (
-          <DownLoad
-            loadUrl={`${STATIC_HOST}/${attUrl}`}
-            text={name}
-            fileName={() => name}
-            textClassName={styles.downCls}
-          />
-        ) : null;
-      }
+    changeShowMore = () => {
+      this.setState({
+        showMore: !this.state.showMore,
+      });
     };
 
-    renderAttachedPersonList = (attachedPersonList, attachedRoleList, expand) => {
+    renderAttachedPersonList = (attachedPersonListSrc, attachedRoleList,showMore) => {
+      const { form } = this.props;
       const { getFieldDecorator } = this.props.form;
-      const count = expand ? 4 : 2;
+      const count = showMore ? 4 : 2;
+      const attachedPersonList = [{},{},{},{}];
+      attachedPersonListSrc.forEach((v,i)=>{
+        attachedPersonList[i] = v;
+        form.setFields(`punishTypeUnit-${i}`,v.punishType?v.punishType===2?'分':'元':'--')
+      });
       const children = [];
       for (let i = 0; i < attachedPersonList.length; i++) {
         children.push(
-          <div className={styles.formRow} style={{ display: i < count ? 'block' : 'none' }}>
+          <div className={styles.formRow} style={{ display: i < count ? 'block' : 'none' }} key={i}>
             <BoxItem label={i===0?"连带责任人处罚":""} oneRow noSemicolon={i!==0}>
               <Form.Item className={styles.formItem} style={{ width: 140 }}>
                 {getFieldDecorator(`roleName-${i}`, {
@@ -148,24 +129,39 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 </BISelect>)}
               </Form.Item> &nbsp;
               <Form.Item className={styles.formItem} style={{ width: 140 }}>
-                {getFieldDecorator(`reduceScore-${i}`, {
-                  initialValue: attachedPersonList[i].reduceScore || undefined,
+                {getFieldDecorator(`qualityValue-${i}`, {
+                  initialValue: attachedPersonList[i].qualityValue || undefined,
                   rules: [{
                     validator(rule, value, callback) {
-                      if (isNaN(value)) {
+                      if (value&&isNaN(value)) {
                         callback({ message: '请输入合法数据' });
                       } else {
                         callback();
                       }
                     },
                   }],
-                })(<BIInput placeholder="处罚力度" allowClear  addonAfter={'元'}/>)}
+                })(<BIInput placeholder="处罚力度" allowClear  addonAfter={form.getFieldValue(`punishType-${i}`)?form.getFieldValue(`punishType-${i}`)===2?'分':'元':'--'}/>)}
               </Form.Item>
             </BoxItem>
-          </div>,
+          </div>
         );
       }
       return children;
+    };
+
+    renderUpload = () => {
+      return (
+        <Upload
+          {...uploadAttachment()}
+          fileList={this.state.fileList}
+          data={{ type: 1 }}
+          onChange={this.uploadChange}
+          beforeUpload={this.beforeUpload}
+        >
+          <BIButton type="primary"><Icon type="upload" />上传附件</BIButton>
+          <span style={{ color: '#aaa', fontSize: 12 }}>（请上传10M以内的rar、zip格式文件）</span>
+        </Upload>
+      );
     };
 
     render() {
@@ -174,12 +170,14 @@ const BaseForm = Form.create({ name: 'base_form' })(
         mail, role, name, organize, orderNum, violationDate, reduceScoreDate, qualityType, familyType,
         dimensionId, dimension, violationLevel, punishType, qualityValue, attachedPersonList = [], desc, id,
       } = params || {};
+
       const { getFieldDecorator } = form;
 
       const dimensionIdList = this.dimensionIdList();
       const dimensionTreeList = this.dimensionTreeList();
       const attachedRoleList = this.attachedRoleList();
 
+      const punishTypeUnit = form.getFieldValue('punishType');
       return (
         <Form className="baseForm" onSubmit={this.handleSubmit}>
 
@@ -333,7 +331,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 <Form.Item className={styles.formItem}>
                   {getFieldDecorator('violationLevel', {
                     initialValue: violationLevel || undefined, rules: [{ required: true, message: '请选择违规等级' }],
-                  })(<BISelect allowClear placeholder="请选择">
+                  })(<BISelect allowClear placeholder="请选择" onChange={this.onChangeViolationLevel}>
                     {BiFilter('VIOLATION_LEVEL').map(item => (
                       <Option value={item.id} key={item.name}>
                         {item.name}
@@ -363,7 +361,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                   )}
                 </Form.Item> &nbsp;
                 <Form.Item className={styles.formItem}>
-                  {getFieldDecorator('qualityValue', {
+                  {getFieldDecorator('ownQualityValue', {
                     initialValue: qualityValue || undefined, rules: [{
                       validator(rule, value, callback) {
                         if (isNaN(value)) {
@@ -373,20 +371,22 @@ const BaseForm = Form.create({ name: 'base_form' })(
                         }
                       },
                     }],
-                  })(<BIInput placeholder="处罚力度" addonAfter={'元'}/>)}
+                  })(<BIInput placeholder="处罚力度" addonAfter={punishTypeUnit?punishTypeUnit===2?'分':'元':'--'}/>)}
                 </Form.Item>
               </BoxItem>
             </div>
-            {this.renderAttachedPersonList(attachedPersonList, attachedRoleList, false)}
+            {this.renderAttachedPersonList(attachedPersonList, attachedRoleList, this.state.showMore)}
+            {this.state.showMore ? <span onClick={this.changeShowMore} className={styles.more}>&lt;&lt;收起更多</span>:
+              <span onClick={this.changeShowMore} className={styles.more}>&gt;&gt;填写更多</span>}
           </Box>
           {/*第四部分*/}
           <Box title="违规详情">
-            <div className={styles.formRow}>
+            <div className={styles.formRow} style={{}}>
               <BoxItem label="附件" oneRow>
-                <div style={{ width: 300, display: 'inline-block' }}>{this.renderUpload()}</div>
+                <div style={{ width: 500,display:'inline-flex'}} >{this.renderUpload()}</div>
               </BoxItem>
             </div>
-            <div className={styles.formRow}>
+            <div className={styles.formRow} style={{marginTop:20}}>
               <BoxItem label="违规详情" required oneRow>
                 <Form.Item className={styles.textArea}>
                   {getFieldDecorator('desc', {
@@ -396,10 +396,76 @@ const BaseForm = Form.create({ name: 'base_form' })(
               </BoxItem>
             </div>
           </Box>
+          <div style={{textAlign:'right'}}>
+            <BIButton onClick={this.onCancel} >取消</BIButton> &nbsp;&nbsp;
+            <BIButton type="primary" htmlType="submit">提交</BIButton>
+          </div>
         </Form>
       );
     };
 
+    onCancel = () => {
+      confirm({
+        className: 'BIConfirm',
+        title: '此操作将不保存已录入内容，是否确认？',
+        cancelText: '取消',
+        okText: '确定',
+        onOk() {
+          router.goBack();
+        },
+        onCancel() {},
+      });
+    };
+
+    handleSubmit = e => {
+      e.preventDefault();
+      this.props.form.validateFields((err, values) => {
+        if (!err) {
+          this.props.onSubmit(values);
+        }
+      });
+    };
+
+    // 文件预上传判断
+    beforeUpload = file => {
+      const arr = file.name.split('.');
+      isZip = arr[arr.length - 1] === 'zip' || arr[arr.length - 1] === 'rar';
+      if (!isZip) {
+        message.error('文件仅支持zip或rar格式!');
+      }
+      isLt10M = file.size / 1024 / 1024 < 10;
+      if (!isLt10M) {
+        message.error('文件不能大于10MB！');
+      }
+      return isZip && isLt10M;
+    };
+
+    uploadChange = info => {
+      let { fileList = [], file = {} } = info || {};
+      if (isLt10M) {
+        fileList = fileList.slice(-1);
+        if (isZip) {
+          this.setState({ fileList });
+        }
+      }
+      let attUrl = '';
+      if (fileList.length > 0) {
+        const { response = null } = file || {};
+        if (response) {
+          if (response.code === 20000) {
+            attUrl = response.data.fileUrl;
+            this.setState({ fileList,attUrl });
+          } else {
+            this.setState({ fileList: [] });
+            message.error(msgF(response.msg, response.msgDetail));
+          }
+        }
+      }
+    };
+
+    disabledDate = current => {
+      return current && current > moment().endOf('day');
+    };
   },
 );
 
