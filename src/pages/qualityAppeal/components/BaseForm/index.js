@@ -80,34 +80,20 @@ class FormIndex extends React.Component {
       console.log(1, { ...form.getFieldsValue(), ...res });
       // 需要对分裂的字段分别初始化，使更新能全部覆盖
       let obj = {
-        'roleName-0':undefined,
-        'roleName-1':undefined,
-        'roleName-2':undefined,
-        'roleName-3':undefined,
-        'userName-0':undefined,
-        'userName-1':undefined,
-        'userName-2':undefined,
-        'userName-3':undefined,
-        'punishType-0':undefined,
-        'punishType-1':undefined,
-        'punishType-2':undefined,
-        'punishType-3':undefined,
-        'qualityValue-0':undefined,
-        'qualityValue-1':undefined,
-        'qualityValue-2':undefined,
-        'qualityValue-3':undefined,
-        'punishTypeUnit-0':'--',
-        'punishTypeUnit-1':'--',
-        'punishTypeUnit-2':'--',
-        'punishTypeUnit-3':'--',
+        'roleName-0': undefined, 'roleName-1': undefined, 'roleName-2': undefined, 'roleName-3': undefined,
+        'userName-0': undefined, 'userName-1': undefined, 'userName-2': undefined, 'userName-3': undefined,
+        'punishType-0': undefined, 'punishType-1': undefined, 'punishType-2': undefined, 'punishType-3': undefined,
+        'qualityValue-0': undefined, 'qualityValue-1': undefined, 'qualityValue-2': undefined,
+        'qualityValue-3': undefined,
+        'punishTypeUnit-0': '--', 'punishTypeUnit-1': '--', 'punishTypeUnit-2': '--', 'punishTypeUnit-3': '--',
       };
       if (res && res.attachedPersonList) {
-        res.attachedPersonList.forEach((v,i)=>{
+        res.attachedPersonList.forEach((v, i) => {
           obj[`roleName-${i}`] = v.roleName;
           obj[`userName-${i}`] = v.userName;
           obj[`punishType-${i}`] = v.punishType;
           obj[`qualityValue-${i}`] = v.qualityValue;
-          obj[`'punishTypeUnit'-${i}`] = v.punishType?v.punishType===2?'分':'元':'--';
+          obj[`'punishTypeUnit'-${i}`] = v.punishType ? v.punishType === 2 ? '分' : '元' : '--';
         });
       }
       form.setFieldsValue({ ...form.getFieldsValue(), ...res, ...obj });
