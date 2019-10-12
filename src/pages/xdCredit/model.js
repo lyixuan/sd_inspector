@@ -44,12 +44,17 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getDimensionList({ payload }, { call, put }) {
+    *getDimensionList({ payload, callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(getDimensionList, params);
       if (result.code === 20000) {
         const res = result.data;
-        if (res && res !== null) yield put({ type: 'save', payload: { dimensionData: res } });
+        if (res && res !== null) {
+          if (callback && typeof callback === 'function') {
+            callback(res);
+          }
+          yield put({ type: 'save', payload: { dimensionData: res } });
+        }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

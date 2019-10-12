@@ -44,12 +44,7 @@ class performanceDetail extends React.Component {
     });
 
   }
-  qualityChargeCount() {
-
-  }
-
   drawChart(data1, data2) {
-    console.log(52, data1, data2)
     let option = {
       calculable: true,
       graphic: [{
@@ -70,7 +65,7 @@ class performanceDetail extends React.Component {
         left: 'center',
         top: '52%',
         style: {
-          text: thousandsFormat(parseInt(data1.achievement + data1.incomeKpi - data2.amount)),
+          text: `￥${thousandsFormat(parseInt(data1.achievement + data1.incomeKpi - data2.amount))}`,
           textAlign: 'center',
           fill: '#00CCC3',
           fontSize: '20',
@@ -105,18 +100,12 @@ class performanceDetail extends React.Component {
         }
       ]
     };
-    // if (data.scoreKpiInfo.scoreKpi == 0) {
-    //   option.series[0].color[0] = '#ebebeb'
-    // }
-    // if (data.goodpushKpiInfo.incomeKpi == 0) {
-    //   option.series[0].color[1] = '#ebebeb'
-    // }
-    // if (data.renewalKpiInfo.incomeKpi == 0) {
-    //   option.series[0].color[2] = '#ebebeb'
-    // }
-    // if (data.examZbtKpiInfo.incomeKpi == 0) {
-    //   option.series[0].color[3] = '#ebebeb'
-    // }
+    if (data1.achievement == 0) {
+      option.series[0].color[0] = '#ebebeb'
+    }
+    if (data1.incomeKpi == 0) {
+      option.series[0].color[1] = '#ebebeb'
+    }
     this.myChart = echarts.init(this.ID);
     this.myChart.setOption(option);
 
@@ -136,7 +125,7 @@ class performanceDetail extends React.Component {
         right={`${date1} ~ ${date2} (最新学分日期)`}
       >
         {
-          kpiInfo && chargeCount &&
+          kpiInfo.kpiStartDate && chargeCount &&
           <div className={styles.performanceDetail}>
             <div ref={this.createRef} className={styles.chart}></div>
             <div className={styles.panelBox}>

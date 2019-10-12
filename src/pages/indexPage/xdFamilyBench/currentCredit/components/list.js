@@ -128,8 +128,8 @@ class ProfitList extends React.Component {
           render: (text, record) => {
             const percent1 = (numOneScorePositive / record.obj[item.id].score * 100).toFixed(2);
             const percent2 = numOneScoreNegative / record.obj[item.id].score * 100 > 100 ? 100 : (numOneScoreNegative / record.obj[item.id].score * 100).toFixed(2);
-            const params = {};
-            // const params = JSON.stringify({ "dementionId": data.id, startTime, endTime });
+            const { startTime, endTime } = this.props.xdWorkModal.familyKpiTimes
+            const params = JSON.stringify({ "dementionId": record.obj[item.id].id, startTime, endTime, pageFrom: 'family' });
             if (record.obj[item.id].name == '正面均分') {
               return <div>
                 <div>{record.obj[item.id].score}</div>

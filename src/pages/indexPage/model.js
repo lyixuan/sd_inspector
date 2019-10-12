@@ -33,6 +33,7 @@ import {
   myFamilyGroupList,
   getIncomeCollegeList,
   getIncomeFamilyGroupPk,
+  getUserInfo
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -46,6 +47,7 @@ export default {
     groupList: null,
     groupPkList: {},
     kpiTimes: null,
+    familyKpiTimes: {},
     inCometarget: [], // 以下是家族值
     orgList: [], // 保存组织原始结构
     orgListTreeData: [], // 保存组织处理成treeData需要的结构
@@ -59,17 +61,22 @@ export default {
     },
     familyRankList: [],
     familyIncomeGroup: [],
-    familyGroupPkList:{}
+    familyGroupPkList:{},
   },
 
   effects: {
     // 家族长工作台-绩效详情
-    *familyAchievement({ payload, callback }, { call }) {
+    *familyAchievement({ payload, callback }, { call, put }) {
       const result = yield call(familyAchievement);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
+        const params = {
+          startTime: moment(result.data.kpiStartDate).format('YYYY-MM-DD'),
+          endTime: moment(result.data.kpiEndDate).format('YYYY-MM-DD')
+        }
+        yield put({ type: 'save', payload: { familyKpiTimes: params } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -476,6 +483,16 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { familyIncomeGroup: result.data } });
       } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getUserInfo({ callback }, { call }) {
+      const result = yield call(getUserInfo);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },

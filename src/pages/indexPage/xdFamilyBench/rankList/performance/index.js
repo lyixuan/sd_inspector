@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import { Progress, Tooltip } from 'antd';
 import BIRadio from '@/ant_components/BIRadio';
 import BITable from '@/ant_components/BITable'
 import styles from './index.less';
@@ -24,6 +23,9 @@ class Performance extends React.Component {
     this.state = {
       rankType: 1,
       dataSource: [],
+      userMsg: '',
+      userFlag: false,
+      userLocation: ''
     }
   }
   columns() {
@@ -144,7 +146,32 @@ class Performance extends React.Component {
 
   componentDidMount() {
     this.achievementList();
+    document.querySelector("#scroller .ant-table-body").onscroll = (e) => {
+      this.getScrollFn(e.target.scrollTop)
+    }
   }
+  getScrollFn = (scrollTop = 0) => {
+    const { userLocation, userFlag } = this.state;
+    if (scrollTop > userLocation && scrollTop < userLocation + 200) {
+      if (userFlag === true) {
+        this.setState({
+          userFlag: false
+        })
+      }
+    } else if (userFlag === false) {
+      this.setState({
+        userFlag: true
+      })
+    }
+  }
+  getRowClassName = (record, index) => {
+    if (record.myFamily) {
+      this.state.userMsg = record;
+      this.state.userLocation = 40 * (index + 1) - 230;
+      return styles.pkUser;
+    };
+  }
+
   achievementList() {
     const groupType = this.state.rankType == 1 ? 'college' : '';
     this.props.dispatch({
@@ -160,15 +187,8 @@ class Performance extends React.Component {
       },
     });
   }
-  getmaxscore(arr) {
-    let maxi = 0;
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[maxi].totalAchievement <= arr[i].totalAchievement) maxi = i;
-    }
-    return maxi
-  }
+
   handleRankChange = (e) => {
-    // console.log(160, e.target.value)
     this.setState({
       rankType: e.target.value
     }, () => {
@@ -178,17 +198,32 @@ class Performance extends React.Component {
 
 
   render() {
+    const { userMsg, userFlag } = this.state;
+    console.log(205, userMsg, userFlag)
     return (
       <div className={styles.performanceRank}>
         <BIRadio onChange={this.handleRankChange} value={this.state.rankType} style={{ marginBottom: 16 }}>
           {rankType.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div>{item}</div></BIRadio.Radio.Button>)}
         </BIRadio>
-        <div className={styles.tableContainer}>
+        {userFlag && userMsg && <div className={styles.suspenTable}>
+          <BITable
+            showHeader={false}
+            columns={this.columns()}
+            dataSource={[userMsg]}
+            pagination={false}
+            rowKey={record => record.userId}
+            rowClassName={this.getRowClassName}
+            scroll={{ x: 0, y: 200 }}
+            smalled
+          />
+        </div>}
+        <div id="scroller" className={styles.tableContainer} style={{ height: '248px' }}>
           <BITable
             columns={this.columns()}
             dataSource={this.state.dataSource}
             pagination={false}
             scroll={{ x: 0, y: 200 }}
+            rowClassName={this.getRowClassName}
             smalled
           >
           </BITable>
