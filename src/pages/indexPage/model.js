@@ -62,22 +62,22 @@ export default {
     familyRankList: [],
     familyIncomeGroup: [],
     familyGroupPkList: {},
-    familyKpiInfo: {}
+    familyKpiInfo: {},
+    chargeCount: {}
   },
 
   effects: {
     // 家族长工作台-绩效详情
     *familyAchievement({ payload, callback }, { call, put }) {
+      const params = payload.params;
       const result = yield call(familyAchievement);
+      const result2 = yield call(qualityChargeCount, params);
       if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
         const params = {
           startTime: moment(result.data.kpiStartDate).format('YYYY-MM-DD'),
           endTime: moment(result.data.kpiEndDate).format('YYYY-MM-DD')
         }
-        yield put({ type: 'save', payload: { familyKpiInfo: result.data, familyKpiTimes: params } });
+        yield put({ type: 'save', payload: { chargeCount: result2.data, familyKpiInfo: result.data, familyKpiTimes: params } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
