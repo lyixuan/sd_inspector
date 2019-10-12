@@ -20,3 +20,8 @@ export async function getUserInfo(params) {
 export async function getKpiDateRange(params) {
   return request('/deskperfpcapi/credit/dimension/kpiDateRange', { method: 'get', params });
 }
+
+// 详情 申诉-点击
+export async function getAppealType(data) {
+  return request('/classWorkbench/getAppealType', { method: 'post', data });
+}
