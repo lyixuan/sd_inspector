@@ -199,7 +199,6 @@ class Performance extends React.Component {
 
   render() {
     const { userMsg, userFlag } = this.state;
-    console.log(205, userMsg, userFlag)
     return (
       <div className={styles.performanceRank}>
         <BIRadio onChange={this.handleRankChange} value={this.state.rankType} style={{ marginBottom: 16 }}>
@@ -211,7 +210,7 @@ class Performance extends React.Component {
             columns={this.columns()}
             dataSource={[userMsg]}
             pagination={false}
-            rowKey={record => record.userId}
+            rowKey={(record, index) => index}
             rowClassName={this.getRowClassName}
             scroll={{ x: 0, y: 200 }}
             smalled
@@ -223,6 +222,7 @@ class Performance extends React.Component {
             dataSource={this.state.dataSource}
             pagination={false}
             scroll={{ x: 0, y: 200 }}
+            rowKey={(record, index) => index}
             rowClassName={this.getRowClassName}
             smalled
           >
