@@ -87,10 +87,8 @@ export default {
       const result = yield call(getAppealType, payload.params);
       if (result.code === 20000) {
         const res = result.data;
-        if (res && res !== null) {
-          if (callback && typeof callback === 'function') {
-            callback(res);
-          }
+        if (callback && typeof callback === 'function') {
+          callback(res);
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
