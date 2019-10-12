@@ -61,7 +61,8 @@ export default {
     },
     familyRankList: [],
     familyIncomeGroup: [],
-    familyGroupPkList:{},
+    familyGroupPkList: {},
+    familyKpiInfo: {}
   },
 
   effects: {
@@ -76,7 +77,7 @@ export default {
           startTime: moment(result.data.kpiStartDate).format('YYYY-MM-DD'),
           endTime: moment(result.data.kpiEndDate).format('YYYY-MM-DD')
         }
-        yield put({ type: 'save', payload: { familyKpiTimes: params } });
+        yield put({ type: 'save', payload: { familyKpiInfo: result.data, familyKpiTimes: params } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -444,9 +445,9 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-  //  家族创收对比
-    *getIncomeFamilyList({payload,callback},{ call }){
-      const result = yield call(getIncomeFamilyList,payload.params);
+    //  家族创收对比
+    *getIncomeFamilyList({ payload, callback }, { call }) {
+      const result = yield call(getIncomeFamilyList, payload.params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -512,11 +513,11 @@ export default {
 function toTreeData(orgList) {
   const treeData = [];
   orgList.forEach(v => {
-    const o = { title: v.name, value: `a-${v.id}`, key: v.id,selectable:false, lv: 1 };
+    const o = { title: v.name, value: `a-${v.id}`, key: v.id, selectable: false, lv: 1 };
     if (v.nodeList.length > 0) {
       o.children = [];
       v.nodeList.forEach(v1 => {
-        const o1 = { title: v1.name, value: `b-${v1.id}`, key: v1.id + 1000,selectable:false, lv: 2 };
+        const o1 = { title: v1.name, value: `b-${v1.id}`, key: v1.id + 1000, selectable: false, lv: 2 };
         o.children.push(o1);
         if (v1.nodeList.length > 0) {
           o1.children = [];

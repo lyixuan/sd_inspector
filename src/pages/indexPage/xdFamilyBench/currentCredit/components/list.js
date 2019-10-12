@@ -67,6 +67,7 @@ class ProfitList extends React.Component {
         fixed: 'left',
         key: 'creditRanking',
         render: (text, record) => {
+          console.log(70, record)
           let src = null;
           let className = '';
           if (record.rankingFlag > 0) {
@@ -79,11 +80,11 @@ class ProfitList extends React.Component {
           }
           return (
             <div className={`${styles.rankColumn} ${styles[className]}`}>
-              {text}<img className={styles.changes} src={src} />
+              {text}/{record.totalGroup}<img className={styles.changes} src={src} />
             </div>
           )
         },
-        width: 80,
+        width: 110,
       }, {
         title: '小组',
         dataIndex: 'groupName',
@@ -173,6 +174,7 @@ class ProfitList extends React.Component {
           // rowKey={record => record.id}
           rowKey={(record, index) => index}
           scroll={{ x: 'max-content', y: 420 }}
+          smalled
         />
       </div>
 

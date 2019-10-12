@@ -259,8 +259,6 @@ class Score extends React.Component {
       callback: (companyScoreData) => this.setState({ companyScoreData }),
     });
   }
-
-
   render() {
     const { incomeData, incomeCompanyData, scoreData, companyScoreData, userId } = this.state;
     return (
@@ -273,9 +271,7 @@ class Score extends React.Component {
           <div className={styles.table}><Wrap rowId='scroll3' userId={userId} columns={columns3} dataSource={incomeData} title='本学院创收排名' className='bg3'></Wrap></div>
           <div className={styles.table}><Wrap rowId='scroll4' userId={userId} columns={columns4} dataSource={incomeCompanyData} title='集团创收排名' className='bg4'></Wrap></div>
         </div>
-
       </div>
-
     );
   }
 }
