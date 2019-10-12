@@ -50,10 +50,10 @@ export default {
       if (result.code === 20000) {
         const res = result.data;
         if (res && res !== null) {
+          yield put({ type: 'save', payload: { dimensionData: res } });
           if (callback && typeof callback === 'function') {
             callback(res);
           }
-          yield put({ type: 'save', payload: { dimensionData: res } });
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));

@@ -32,6 +32,7 @@ class XdCredit extends React.Component {
       groupId: [],
       groupTypeArr: [],
       dementionId: '',
+      pageFrom: '',
       // startTime: '',
       // endTime: '',
       pageSize: 15,
@@ -47,11 +48,12 @@ class XdCredit extends React.Component {
         if (extendFlag) {
           const { params } = this.props.location.query;
           if (params) {
-            const { dementionId, startTime, endTime } = params ? JSON.parse(params) : {};
+            const { dementionId, startTime, endTime, pageFrom } = params ? JSON.parse(params) : {};
             this.setState({
               dementionId,
               startTime,
               endTime,
+              pageFrom
             }, () => this.getUserOrgList())
           } else {
             this.getUserOrgList()
@@ -101,10 +103,9 @@ class XdCredit extends React.Component {
       type: 'xdCreditModal/getDimensionList',
       payload: { params: { ...this.getGroupMsg(), startTime, endTime } },
       callback: (data) => {
-        if (JSON.parse(this.props.location.query.params).pageFrom) {
+        if (this.state.pageFrom) {
           this.fillDataSource(data.dimensionList)
         }
-
       }
     });
   }
@@ -117,7 +118,7 @@ class XdCredit extends React.Component {
       }
     })
     data.map((item) => {
-      if (item.id === JSON.parse(this.props.location.query.params).dementionId) {
+      if (item.id === this.state.dementionId) {
         this.setState({
           dementionId: item.children[0].id
         }, () => {
@@ -224,6 +225,7 @@ class XdCredit extends React.Component {
   render() {
     const { dementionId, groupId, extendFlag, userOrgConfig, startTime, endTime } = this.state;
     const { infoLoading } = this.props;
+    console.log(227, this.props.dimensionData)
     return (
       <div className={`${styles.credit} ${extendFlag ? '' : styles.extent}`}>
         <Skeleton loading={infoLoading} >
