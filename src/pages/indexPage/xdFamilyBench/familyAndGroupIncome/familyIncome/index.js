@@ -36,7 +36,7 @@ class FamilyIncome extends React.Component {
     return (
       <div className={styles.creditContainer}>
         <FamilyIncomeLeft className={styles.familyLeft} familyList={familyList} pkFamilyId={pkFamilyId}/>
-        <FamilyIncomeRight className={styles.familyRight} changeSelected={this.changeSelected}/>
+        <FamilyIncomeRight className={styles.familyRight} familyList={familyList} changeSelected={this.changeSelected}/>
       </div>
     );
   }

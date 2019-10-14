@@ -3,8 +3,8 @@ import { connect } from 'dva';
 import FamilyScoreLeft from "./familyScoreLeft"
 import FamilyScoreRight from "./familyScoreRight"
 import styles from '../style.less';
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+@connect((xdWorkModal,loading) => ({
+  xdWorkModal
 }))
 class FamilyScore extends React.Component {
   constructor(props) {
@@ -49,7 +49,7 @@ class FamilyScore extends React.Component {
     const familyId = familyScoreList&&familyScoreList.myGroup.familyId
     return (
       <div className={styles.creditContainer}>
-        <FamilyScoreLeft className={styles.familyLeft} familyScoreList={familyScoreList}/>
+        <FamilyScoreLeft className={styles.familyLeft} familyScoreList={familyScoreList} />
         <FamilyScoreRight className={styles.familyRight}  collegeList={collegeList}  familyId={familyId} getFamilyList={this.getFamilyList}/>
       </div>
     );

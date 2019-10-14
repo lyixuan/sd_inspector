@@ -6,8 +6,9 @@ import BITable from '@/ant_components/BITable'
 import Indent from '../../../components/indent';
 import SmallProgress from '../../../components/smallProgress'
 const { Option } = BISelect;
-@connect((xdWorkModal) => ({
+@connect(({xdWorkModal,loading}) => ({
   xdWorkModal,
+  loading: loading.effects['xdWorkModal/getFamilyRankList'],
 }))
 
 class FamilyScoreRight extends React.Component {

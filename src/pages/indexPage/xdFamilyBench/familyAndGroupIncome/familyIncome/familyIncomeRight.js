@@ -126,8 +126,9 @@ class FamilyIncomeRight extends React.Component {
     };
   }
   setRowClassName = (record, index) => {
+    const {familyList}=this.props
     let className = ''
-    if (record.myFamily) {
+    if (record.familyId == familyList.selfFamilyId) {
       this.state.userMsg = record;
       this.state.userLocation = 40 * (index + 1) - 208;
       className = "rowHover"

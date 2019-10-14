@@ -12,8 +12,10 @@ function CustomExpandIcon(props) {
     <a />
   );
 }
-@connect((xdWorkModal) => ({
+@connect(({xdWorkModal,loading}) => ({
   xdWorkModal,
+  loading: loading.effects['xdWorkModal/getFamilyScorePk'],
+
 }))
 class FamilyScoreLeft extends React.Component {
   constructor(props) {
@@ -21,124 +23,9 @@ class FamilyScoreLeft extends React.Component {
     this.state = {
       keye: '1',
       pkGroup:null,
-      "data": {
-        "dimensionList": [{
-          "children": [],
-          "dimensionName": "绩效排名系数",
-          "groupScore": "0.5",
-          "id": -1,
-          "myNum": 0,
-          "myScore": "2.0",
-          "myScoreRatio": "0.00",
-          "parentId": 0,
-          "unit": null
-        }, {
-          "children": [],
-          "dimensionName": "集团排名",
-          "groupScore": "88/90",
-          "id": -2,
-          "myNum": 0,
-          "myScore": "29/90",
-          "myScoreRatio": "0.00",
-          "parentId": 0,
-          "unit": null
-        }, {
-          "children": [],
-          "dimensionName": "家族内排名",
-          "groupScore": "16/18",
-          "id": -3,
-          "myNum": 0,
-          "myScore": "13/28",
-          "myScoreRatio": null,
-          "parentId": 0,
-          "unit": null
-        }, {
-          "children": [],
-          "dimensionName": "人均在服学员",
-          "groupScore": "1356",
-          "id": -4,
-          "myNum": 0,
-          "myScore": "1672",
-          "myScoreRatio": "0.00",
-          "parentId": 0,
-          "unit": null
-        }, {
-          "children": [{
-            "children": [{
-              "children": [{
-                "children": [],
-                "dimensionName": "有效直播",
-                "groupScore": "1.70",
-                "id": 37,
-                "myNum": 5049,
-                "myScore": "3.63",
-                "myScoreRatio": "6.80",
-                "parentId": 36,
-                "unit": "个"
-              }, {
-                "children": [],
-                "dimensionName": "有效重播",
-                "groupScore": "0.64",
-                "id": 38,
-                "myNum": 4023,
-                "myScore": "1.46",
-                "myScoreRatio": "49.41",
-                "parentId": 36,
-                "unit": "个"
-              }],
-              "dimensionName": "有效出勤",
-              "groupScore": "2.34",
-              "id": 36,
-              "myNum": 0,
-              "myScore": "5.09",
-              "myScoreRatio": "16.31",
-              "parentId": 2,
-              "unit": ""
-            }, {
-              "dimensionName": "有效做题",
-              "groupScore": "2.47",
-              "id": 39,
-              "myNum": 0,
-              "myScore": "5.19",
-              "myScoreRatio": "35.49",
-              "parentId": 2,
-              "unit": "",
-              children:[]
-            }],
-            "dimensionName": "正面均分",
-            "groupScore": "4.93",
-            "id": 2,
-            "myNum": 0,
-            "myScore":"11.81" ,
-            "myScoreRatio": "14.15",
-            "parentId": 1,
-            "unit": ""
-          }],
-          "dimensionName": "学分均分",
-          "groupScore": "3.80",
-          "id": 1,
-          "myNum": 0,
-          "myScore": "11.16",
-          "myScoreRatio": "4.95",
-          "parentId": 0,
-          "unit": ""
-        }],
-        "myGroup": {
-          "score": "11.16",
-          "groupName": "自变量/全国工商1组"
-        },
-        "pkGroup": {
-          "score": "3.80",
-          "groupName": "芝士/英语2•1组"
-        }
-      }
     }
   }
   componentDidMount() {
-
-    this.setState({
-      pkGroup:this.state.data.pkGroup
-    })
 
   }
   fillDataSource = (params, n = 1) => {
