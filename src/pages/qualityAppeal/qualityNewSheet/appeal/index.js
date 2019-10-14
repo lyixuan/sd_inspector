@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Spin } from 'antd';
-import BaseDetail from '@spages/qualityAppeal/components/BaseDetail';
+import BaseDetail from '@/pages/qualityAppeal/components/BaseDetail';
 import styles from './style.less';
 
 @connect(({ loading, qualityNewSheet }) => ({
