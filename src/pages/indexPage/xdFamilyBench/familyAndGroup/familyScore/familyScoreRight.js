@@ -71,7 +71,7 @@ class FamilyScoreRight extends React.Component {
         key: 'creditRankingCoefficient',
         render: (creditRankingCoefficient) => {
           return (
-            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{creditRankingCoefficient}</div>
+            <div>{creditRankingCoefficient}</div>
           )
         }
       }, {
@@ -81,7 +81,7 @@ class FamilyScoreRight extends React.Component {
         key: 'familyName',
         render: (familyName) => {
           return (
-            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{familyName}</div>
+            <div>{familyName}</div>
           )
         }
       }, {
@@ -94,7 +94,7 @@ class FamilyScoreRight extends React.Component {
             <Indent style={{
               marginLeft: '-8px'
             }}>
-              <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{creditRanking}</div>
+              <div>{creditRanking}</div>
             </Indent>
           )
         }
@@ -115,7 +115,6 @@ class FamilyScoreRight extends React.Component {
                 style={{
                   cursor: 'pointer',
                 }}
-                data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'
               >
                 <span style={{ fontSize: '13px' }}>{credit}</span>
                 <SmallProgress percent={percent} isColor={isColor}></SmallProgress>
@@ -178,7 +177,7 @@ class FamilyScoreRight extends React.Component {
           <span className={styles.title}>选择对比组织:</span>
           <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
             {collegeList.map((item, index) => (
-              <Option key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
+              <Option key={item.id}>
                 {item.name}
               </Option>
             ))}

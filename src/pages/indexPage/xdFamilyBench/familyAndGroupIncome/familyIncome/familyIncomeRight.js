@@ -29,16 +29,16 @@ class FamilyIncomeRight extends React.Component {
     });
     this.getFamilyList();
     // 表格添加滚动事件
-    document.querySelector("#scroll .ant-table-body").onscroll = (e) => {
+    document.querySelector("#scrollIncome .ant-table-body").onscroll = (e) => {
       this.getScrollFn(e.target.scrollTop)
     }
   }
   componentWillUnmount() {
-    document.querySelector("#scroll .ant-table-body").onscroll = '';
+    document.querySelector("#scrollIncome .ant-table-body").onscroll = '';
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
-    if (scrollTop > userLocation && scrollTop < userLocation + 208) {
+    if (scrollTop > userLocation && scrollTop < userLocation + 168) {
       if (userFlag === true) {
         this.setState({
           userFlag: false
@@ -56,6 +56,7 @@ class FamilyIncomeRight extends React.Component {
       payload: { params: { collegeId } },
       callback: dataSource => {
         this.setState({ dataSource });
+        this.getScrollFn();
       },
     });
   }
@@ -68,7 +69,7 @@ class FamilyIncomeRight extends React.Component {
         key: 'ranking',
         render: text => {
           return (
-            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{text}</div>
+            <div>{text}</div>
           )
         }
       }, {
@@ -78,7 +79,7 @@ class FamilyIncomeRight extends React.Component {
         key: 'familyName',
         render: text => {
           return (
-            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{text}</div>
+            <div>{text}</div>
           )
         }
       }, {
@@ -91,7 +92,7 @@ class FamilyIncomeRight extends React.Component {
             <Indent style={{
               marginLeft: '-8px'
             }}>
-              <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{text}</div>
+              <div>{text}</div>
             </Indent>
           )
         }
@@ -106,7 +107,7 @@ class FamilyIncomeRight extends React.Component {
             <Indent style={{
               marginLeft: '-8px'
             }}>
-              <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{text}</div>
+              <div>{text}</div>
             </Indent>
           )
         }
@@ -128,7 +129,9 @@ class FamilyIncomeRight extends React.Component {
   setRowClassName = (record, index) => {
     const {familyList}=this.props
     let className = ''
+    console.log(131,record.familyId,familyList.selfFamilyId)
     if (record.familyId == familyList.selfFamilyId) {
+
       this.state.userMsg = record;
       this.state.userLocation = 40 * (index + 1) - 208;
       className = "rowHover"
@@ -149,7 +152,7 @@ class FamilyIncomeRight extends React.Component {
             allowClear
             >
             {orgOptions.map(item => (
-              <Option key={item.collegeId} value={item.collegeId} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
+              <Option key={item.collegeId} value={item.collegeId}>
                 {item.collegeName}
               </Option>
             ))}
@@ -167,7 +170,7 @@ class FamilyIncomeRight extends React.Component {
                 rowClassName={this.setRowClassName}
               />
             </div>}
-            <div id="scroll" >
+            <div id="scrollIncome" >
               <BITable
                 columns={this.columnsRight()}
                 dataSource={dataSource}
@@ -176,6 +179,7 @@ class FamilyIncomeRight extends React.Component {
                 scroll={{ y: 208 }}
                 onRow={this.onClickRow}
                 rowKey={record => record.familyId}
+                rowClassName={this.setRowClassName}
               >
               </BITable>
             </div>
