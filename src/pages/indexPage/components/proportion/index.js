@@ -84,9 +84,9 @@ class Proportion extends React.Component {
       <>
         {
           iconed ? this.proporContent() : <div className={styles.proportion}>
-            <img src={leftImgObj[flag]} style={{marginRight: '24px'}}/>
+            {leftImgObj[flag] && <img src={leftImgObj[flag]} style={{marginRight: '24px'}}/>}
             {this.proporContent()}
-            <img src={rightImgObj[flag]} style={{marginLeft: '24px'}}/>
+            {rightImgObj[flag] && <img src={rightImgObj[flag]} style={{marginLeft: '24px'}}/>}
           </div>
         }
       </>

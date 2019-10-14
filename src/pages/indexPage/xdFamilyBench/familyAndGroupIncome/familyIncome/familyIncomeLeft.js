@@ -139,7 +139,7 @@ class FamilyIncomeLeft extends React.Component {
             leftNum={familyList.selfIncomeKpi}
             rightNum={familyList.pkFamilyKpi}
             leftCollege={familyList.selfFamilyName}
-            rightCollege={familyList.pkFamilyKpi}
+            rightCollege={familyList.pkFamilyName}
             style={{ width: 'calc(100% - 200px)' }}
           /> : <div className={styles.proNone}>
           <img src={pkImg} style={{ width: '32px' }} />

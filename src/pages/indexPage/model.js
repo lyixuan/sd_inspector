@@ -42,6 +42,7 @@ import moment from 'moment';
 export default {
   namespace: 'xdWorkModal',
   state: {
+    userInfo: {}, // 全局值
     kipInfo: null,
     kpiLevelList: null,
     groupList: null,
@@ -60,7 +61,7 @@ export default {
       pkGroup: {}
     },
     familyRankList: [],
-    familyIncomeGroup: [],
+    familyIncomeGroup: {}, // 创收对比小组的数据
     familyGroupPkList: {},
     familyKpiInfo: {},
     chargeCount: {}
@@ -479,17 +480,21 @@ export default {
       }
     },
     // 家族创收对比-小组创收对比
-    *getIncomeFamilyGroupPk({ payload }, { call, put }) {
+    *getIncomeFamilyGroupPk({ payload, callback }, { call, put }) {
       const result = yield call(getIncomeFamilyGroupPk, payload.params);
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { familyIncomeGroup: result.data } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data.colName);
+        }
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getUserInfo({ callback }, { call }) {
+    *getUserInfo({ callback }, { call, put }) {
       const result = yield call(getUserInfo);
       if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { userInfo: result.data } });
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }

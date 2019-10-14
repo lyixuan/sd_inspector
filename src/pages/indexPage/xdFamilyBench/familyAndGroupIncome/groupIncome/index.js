@@ -3,26 +3,29 @@ import { connect } from 'dva';
 import styles from '../style.less';
 import BITable from '@/ant_components/BITable'
 @connect(({ xdWorkModal, loading }) => ({
-  profitList: xdWorkModal.familyIncomeGroup || [],
+  familyIncomeGroup: xdWorkModal.familyIncomeGroup,
   loading: loading.effects['xdWorkModal/getIncomeFamilyGroupPk'],
 }))
 class GroupIncome extends React.Component {
   componentDidMount() {
-    this.props.getIncomeFamilyGroupPk();
-  }
-  fillDataSource = () => {
-    const [ _, ...others] = this.props.profitList;
-    return others;
+    this.props.getIncomeFamilyGroupPk(true);
   }
   columns = () =>{
-    const { profitList } = this.props;
-    const columns = [];
-    if (profitList && profitList.length > 0) {
-      profitList[0].map((item, index) => columns.push({
-        title: item,
-        dataIndex: item,
-        key: item,
-        render: (text, record) => record[index],
+    const { colName = [] } = this.props.familyIncomeGroup;
+    const columns = [{
+        title: '创收维度',
+        dataIndex: '创收维度',
+        key: '创收维度',
+        render: (text, record) => record[0],
+      }];
+    
+    if (colName && colName.length > 0) {
+      colName.map(({ groupName, groupId }, index) => columns.push({
+        title: groupName,
+        dataIndex: groupName,
+        key: groupName,
+        className: this.getTdClass(groupId),
+        render: (text, record) => record[index + 1],
       }))  
     }
     return columns || []
@@ -38,13 +41,23 @@ class GroupIncome extends React.Component {
     }
     return className
   }
+  getTdClass = (groupId) => {
+    if (this.props.familyAndGroup) {
+      const { myGroupValue = [] } = this.props.familyAndGroup.state;
+      if (myGroupValue.includes(String(groupId))) {
+        return styles.row1;
+      } else {
+        return styles.row2;
+      }
+    }
+  }
   render() {
     return (
       <div className={styles.creditContainer} style={{display:'block'}}>
         {
           <BITable
             columns={this.columns()}
-            dataSource={this.fillDataSource()}
+            dataSource={this.props.familyIncomeGroup.data || []}
             pagination={false}
             loading={this.props.loading}
             rowKey={record => record.id}

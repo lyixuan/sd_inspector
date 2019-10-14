@@ -74,7 +74,6 @@ class GroupScore extends React.Component {
     return className
   }
   render() {
-    console.log(83,this.props.nums)
     const {familyGroupPkList} = this.props.xdWorkModal.xdWorkModal
     const dataSource = familyGroupPkList && familyGroupPkList.dimensionList&&familyGroupPkList.dimensionList.length > 0 && this.fillDataSource(familyGroupPkList.dimensionList)
     return (

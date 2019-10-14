@@ -9,10 +9,12 @@ import BIModal from '@/ant_components/BIModal'
 import BIButton from '@/ant_components/BIButton';
 import BITreeSelect from '@/ant_components/BITreeSelect'
 import BISelect from '@/ant_components/BISelect'
-import { message } from 'antd';
 const { Option } = BISelect;
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+
+@connect(({ xdWorkModal }) => ({
+  userInfo: xdWorkModal.userInfo,
+  orgListTreeData: xdWorkModal.orgListTreeData,
+  familyIncomeGroup: xdWorkModal.familyIncomeGroup,
 }))
 class FamilyAndGroup extends React.Component {
   constructor(props) {
@@ -28,30 +30,38 @@ class FamilyAndGroup extends React.Component {
       },{
         name:'小组创收对比',
         key:'2',
-        children:  <GroupIncome getIncomeFamilyGroupPk={this.getIncomeFamilyGroupPk}/>,
+        children:  <GroupIncome familyAndGroup={this} getIncomeFamilyGroupPk={this.getIncomeFamilyGroupPk}/>,
         isShowBtn: true,
         visible: "incomeVisible",
         changeModal: this.changeIncomeModal
       }],
       groupIdList: [], // 小组创收参数,
       myFamilyGroupList:[],
-      PkGroupIdList:[],
-      myGroupValue:[],
-      userInfo:{}
+      PkGroupIdList:[], // 小组创收对比PK值
+      myGroupValue:[], // 小组创收mine值
     }
   }
   componentDidMount() {
     this.myFamilyGroupList()
-    this.setState({
-      userInfo:JSON.parse(localStorage.getItem("userInfo"))
-    })
   }
   // 小组创收
-  getIncomeFamilyGroupPk = () => {
+  getIncomeFamilyGroupPk = (flag) => {
     this.props.dispatch({
       type: 'xdWorkModal/getIncomeFamilyGroupPk',
-      payload: { params: { groupIdList: [] } },
+      payload: { params: { pkGroupIds: this.getParamas(),  selfGroupIds: this.state.myGroupValue} },
+      callback: res =>  {
+        if (flag) {
+          this.setState({ myGroupValue: res.map(item => String(item.groupId))});
+        }
+      }
     });
+  }
+  // 小组创收参数处理
+  getParamas = () => {
+    const { PkGroupIdList } = this.state;
+    const groupIdList = [];
+    PkGroupIdList.map(item => groupIdList.push(item.replace("c-", '')))
+    return groupIdList;
   }
   changeIncomeModal = () =>{
     this.setState({
@@ -75,46 +85,19 @@ class FamilyAndGroup extends React.Component {
       payload:{params:{}},
       callback:(data)=>{
         this.setState({
-          myFamilyGroupList:data
+          myFamilyGroupList: data
         })
       }
     })
   }
-  onFormChange = (value,vname)=>{
+  onFormChange = (value, vname)=>{
     this.setState({
-      pkGroupIds:[]
-    })
-    if ('myGroup' === vname) {
-      this.setState({
-        myGroupValue: value,
-      })
-    }else if('PkGroup' === vname){
-      const list3 = [];
-      let ids=[]
-      value.forEach((v)=>{
-        if (v.indexOf('c-')>=0) {
-          list3.length<=5 && list3.push(v);
-        }
-      });
-      list3.length>0 && list3.map((item)=>{
-        ids.push(item.split('-')[1])
-      })
-      console.log(127,list3,ids,this.state.myGroupValue)
-
-      this.setState({
-        PkGroupIdList: [...list3],
-        pkGroupIds:this.unique(ids),
-        myGroupValue:this.unique(this.state.myGroupValue)
-      })
-    } else {
-      this.setState({
-        [vname]:value
-      });
-    }
+      [vname]: value
+    });
   };
   render() {
-    const {orgListTreeData = []} = this.props.xdWorkModal.xdWorkModal;
-    const {myFamilyGroupList,myGroupValue,PkGroupIdList,userInfo} = this.state
+    const { orgListTreeData = [], userInfo } = this.props;
+    const {myFamilyGroupList, myGroupValue, PkGroupIdList} = this.state
     return (
       <Container
         style={{ width: '100%', marginBottom: '16px' }}
@@ -148,8 +131,8 @@ class FamilyAndGroup extends React.Component {
                   placeholder="请选择小组"
                   mode="multiple"
                   style={{width:'100%'}}
-                  defaultValue={myGroupValue}
-                  onChange={(val) => this.onFormChange(val,'myGroup')}
+                  value={myGroupValue}
+                  onChange={(val) => this.onFormChange(val,'myGroupValue')}
                 >
                   {myFamilyGroupList.map((item, index) => (
                     <Option key={item.id}>
@@ -160,16 +143,17 @@ class FamilyAndGroup extends React.Component {
               </div>
               <div className={`${styles.myGroup} ${styles.pkGroup}`}>
                 <span className={styles.titleName} style={{width:'91px',display:'inline-block',textAlign:'right'}}>对比小组：</span>
-                <BITreeSelect style={{ width: 445 }}
-                              placeholder="请选择对比小组"
-                              multiple
-                              showArrow
-                              maxTagCount={3}
-                              value={[...PkGroupIdList]}
-                              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                              treeData={orgListTreeData}
-                              onChange={(val)=>this.onFormChange(val,'PkGroup')}
-                ></BITreeSelect>
+                <BITreeSelect 
+                  style={{ width: 445 }}
+                  placeholder="请选择对比小组"
+                  multiple
+                  showArrow
+                  maxTagCount={3}
+                  value={PkGroupIdList}
+                  dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                  treeData={orgListTreeData}
+                  onChange={(val)=>this.onFormChange(val,'PkGroupIdList')}
+                />
               </div>
             </div>
           </BIModal>
