@@ -55,12 +55,15 @@ class GroupIncome extends React.Component {
     }
   }
   render() {
+    console.log(58,this.props.familyIncomeGroup)
+    const dataSource = this.props.familyIncomeGroup &&this.props.familyIncomeGroup.data
+    const colName = this.props.familyIncomeGroup && this.props.familyIncomeGroup.colName
     return (
       <div className={styles.creditContainer} style={{display:'block'}}>
         {
           <BITable
             columns={this.columns()}
-            dataSource={this.props.familyIncomeGroup.data || []}
+            dataSource={dataSource}
             pagination={false}
             loading={this.props.loading}
             rowKey={record => record.id}
@@ -70,7 +73,7 @@ class GroupIncome extends React.Component {
           </BITable>
         }
         {
-          this.props.familyIncomeGroup.colName.length <=0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
+          colName.length <=0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
         }
       </div>
     );
