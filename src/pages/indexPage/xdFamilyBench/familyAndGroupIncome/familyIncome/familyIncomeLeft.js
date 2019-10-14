@@ -17,8 +17,8 @@ const JudgeNumFn = (n, m = 0, flag) => {
   if (n > m) {
     return flag ? styles.titleRed : styles.titleGreen;
   } else if (n < m) {
-    return flag ? styles.titleGreen : styles.titleRed;  
-  } 
+    return flag ? styles.titleGreen : styles.titleRed;
+  }
   return
 }
 @connect(({ loading }) => ({
@@ -86,7 +86,7 @@ class FamilyIncomeLeft extends React.Component {
       width: 58.5,
       render: (text, record, index) => {
         return (
-          pkFamilyId && index > 2 ? <Progress leftNumber = {true} data={{myScore: text, groupScore: record.familyPk}}/> 
+          pkFamilyId && index > 2 ? <Progress leftNumber = {true} data={{myScore: text, groupScore: record.familyPk}}/>
           : <div className={styles.pkRankMain} style={{ justifyContent: 'flex-end', marginRight: '-18px' }}>
               <div
                 style={{
@@ -143,7 +143,7 @@ class FamilyIncomeLeft extends React.Component {
             style={{ width: 'calc(100% - 200px)' }}
           /> : <div className={styles.proNone}>
           <img src={pkImg} style={{ width: '32px' }} />
-          <span>快从右边选择一个小组进行学分PK吧！</span>
+          <span>快从右边选择一个家族进行学分PK吧！</span>
         </div>}
         </div>
         <div className={styles.tableContainer}>

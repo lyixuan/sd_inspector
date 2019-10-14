@@ -11,7 +11,7 @@ class FamilyScore extends React.Component {
     super(props)
     this.state = {
       keye: '1',
-      familyId:0,
+      familyId:localStorage.getItem("pkFamilyScore")?JSON.parse(localStorage.getItem("pkFamilyScore")).familyId:0,
       collegeList:[]
     }
   }
@@ -20,11 +20,14 @@ class FamilyScore extends React.Component {
     this.getCollegeList()
   }
   //获取左侧家族的列表
-  getFamilyList=(familyId)=>{
+  getFamilyList=(record,familyId)=>{
     this.props.dispatch({
       type: 'xdWorkModal/getFamilyScorePk',
       payload: { params: { pkFamily: familyId?familyId:this.state.familyId} },
     });
+    if (record) {
+      localStorage.setItem('pkFamilyScore', JSON.stringify(record))
+    }
   };
 
   //获取右侧家族排名下拉筛选的数据

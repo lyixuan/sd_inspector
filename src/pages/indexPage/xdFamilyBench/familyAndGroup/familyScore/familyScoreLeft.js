@@ -271,7 +271,7 @@ class FamilyScoreLeft extends React.Component {
         );
       }
     },{
-      title: '对比小组',
+      title: '对比家族',
       dataIndex: 'groupScore',
       key: 'groupScore',
       width: '10%',
@@ -301,22 +301,19 @@ class FamilyScoreLeft extends React.Component {
   render() {
     const {familyScoreList} = this.props
     const dataSource = familyScoreList && familyScoreList.dimensionList.length>0 && this.fillDataSource(familyScoreList.dimensionList)
-    const leftNum = familyScoreList.myGroup.score
-    const userName = familyScoreList.myGroup.familyName
-    const rightNum = familyScoreList.pkGroup.score
     const PkName = familyScoreList.pkGroup.familyName
     return (
       <div className={styles.familyLeft}>
         <div className={styles.proMain}>
           {PkName ? <Proportion
-            leftNum={leftNum}
-            rightNum={rightNum}
-            leftCollege={userName}
+            leftNum={familyScoreList.myGroup.score}
+            rightNum={familyScoreList.pkGroup.score}
+            leftCollege={familyScoreList.myGroup.familyName}
             rightCollege={PkName}
             style={{ width: 'calc(100% - 200px)' }}
           /> : <div className={styles.proNone}>
             <img src={pkImg} style={{ width: '32px' }} />
-            <span>快从右边选择一个小组进行学分PK吧！</span>
+            <span>快从右边选择一个家族进行学分PK吧！</span>
           </div>}
         </div>
         <div className={styles.tableContainer}>

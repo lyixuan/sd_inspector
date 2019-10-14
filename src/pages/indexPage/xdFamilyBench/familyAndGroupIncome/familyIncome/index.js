@@ -12,6 +12,7 @@ class FamilyIncome extends React.Component {
     this.state = {
       // pkFamilyId: 246,
       familyList: {},
+      pkFamilyId:localStorage.getItem("pkFamilyIncome")?JSON.parse(localStorage.getItem("pkFamilyIncome")).familyId:"",
     }
   }
   componentDidMount() {
@@ -24,8 +25,11 @@ class FamilyIncome extends React.Component {
       callback: familyList => this.setState({ familyList })
     })
   }
-  changeSelected = (pkFamilyId) => {
+  changeSelected = (record,pkFamilyId) => {
     this.setState({ pkFamilyId }, () => this.getIncomeFamilyList());
+    if (record) {
+      localStorage.setItem('pkFamilyIncome', JSON.stringify(record))
+    }
   }
   render() {
     const { familyList, pkFamilyId } = this.state;

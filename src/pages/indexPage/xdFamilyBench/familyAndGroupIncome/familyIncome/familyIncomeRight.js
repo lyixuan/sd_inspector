@@ -14,7 +14,10 @@ class FamilyIncomeRight extends React.Component {
     this.state = {
       orgOptions: [],
       collegeId: undefined,
-      dataSource : []
+      dataSource : [],
+      userFlag: false,
+      userLocation: '',
+      userMsg: '',
     }
   }
   componentDidMount() {
@@ -25,6 +28,27 @@ class FamilyIncomeRight extends React.Component {
       },
     });
     this.getFamilyList();
+    // 表格添加滚动事件
+    document.querySelector("#scroll .ant-table-body").onscroll = (e) => {
+      this.getScrollFn(e.target.scrollTop)
+    }
+  }
+  componentWillUnmount() {
+    document.querySelector("#scroll .ant-table-body").onscroll = '';
+  }
+  getScrollFn = (scrollTop = 0) => {
+    const { userLocation, userFlag } = this.state;
+    if (scrollTop > userLocation && scrollTop < userLocation + 208) {
+      if (userFlag === true) {
+        this.setState({
+          userFlag: false
+        })
+      }
+    } else if (userFlag === false) {
+      this.setState({
+        userFlag: true
+      })
+    }
   }
   getFamilyList = (collegeId) =>  {
     this.props.dispatch({
@@ -97,21 +121,30 @@ class FamilyIncomeRight extends React.Component {
   onClickRow = (record) => {
     return {
       onClick: () => {
-        this.props.changeSelected(record.familyId)
+        this.props.changeSelected(record,record.familyId)
       },
     };
   }
+  setRowClassName = (record, index) => {
+    let className = ''
+    if (record.myFamily) {
+      this.state.userMsg = record;
+      this.state.userLocation = 40 * (index + 1) - 208;
+      className = "rowHover"
+    }
+    return className
+  }
   render() {
-    const {orgOptions, collegeId, dataSource} = this.state
+    const {orgOptions, collegeId, dataSource,userFlag, userMsg,} = this.state
     return (
       <div className={styles.familyRight}>
         <div className={styles.creditSelect} >
-          <span className={styles.title}>选择对比小组:</span>
-          <BISelect 
-            style={{ width: 136, marginLeft: 12 }} 
-            placeholder="全部" 
-            value={collegeId} 
-            onChange={this.onFormChange} 
+          <span className={styles.title}>选择对比组织:</span>
+          <BISelect
+            style={{ width: 136, marginLeft: 12 }}
+            placeholder="全部"
+            value={collegeId}
+            onChange={this.onFormChange}
             allowClear
             >
             {orgOptions.map(item => (
@@ -122,16 +155,31 @@ class FamilyIncomeRight extends React.Component {
           </BISelect>
         </div>
         <div>
-          <BITable
-            columns={this.columnsRight()}
-            dataSource={dataSource}
-            pagination={false}
-            loading={this.props.loading}
-            scroll={{ y: 208 }}
-            onRow={this.onClickRow}
-            rowKey={record => record.groupId}
-          >
-          </BITable>
+          <div className={styles.tableContent}>
+            {userFlag && userMsg && <div className={styles.suspension} >
+              <BITable
+                showHeader={false}
+                columns={this.columnsRight()}
+                dataSource={[userMsg]}
+                pagination={false}
+                rowKey={record => record.familyId}
+                rowClassName={this.setRowClassName}
+              />
+            </div>}
+            <div id="scroll" >
+              <BITable
+                columns={this.columnsRight()}
+                dataSource={dataSource}
+                pagination={false}
+                loading={this.props.loading}
+                scroll={{ y: 208 }}
+                onRow={this.onClickRow}
+                rowKey={record => record.familyId}
+              >
+              </BITable>
+            </div>
+          </div>
+
         </div>
       </div>
     );

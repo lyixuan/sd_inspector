@@ -25,12 +25,12 @@ class FamilyScoreRight extends React.Component {
   componentDidMount() {
     this.getFamilyRankList()
     // 表格添加滚动事件
-    document.querySelector("#scroll .ant-table-body").onscroll = (e) => {
+    document.querySelector("#scrollScore .ant-table-body").onscroll = (e) => {
       this.getScrollFn(e.target.scrollTop)
     }
   }
   componentWillUnmount() {
-    document.querySelector("#scroll .ant-table-body").onscroll = '';
+    document.querySelector("#scrollScore .ant-table-body").onscroll = '';
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
@@ -136,7 +136,7 @@ class FamilyScoreRight extends React.Component {
       orgValue: value
     })
     this.getFamilyRankList(value)
-    document.querySelector("#scroll .ant-table-body").scrollTop = 0;
+    document.querySelector("#scrollScore .ant-table-body").scrollTop = 0;
   };
   setRowClassName = (record, index) => {
     let className = ''
@@ -163,18 +163,18 @@ class FamilyScoreRight extends React.Component {
     return {
       onClick: () => {
         if (Number(this.props.familyId) === record.familyId) return;
-        this.props.getFamilyList(record.familyId)
+        this.props.getFamilyList(record,record.familyId)
       },
     };
   }
   render() {
     const {orgValue,userFlag, userMsg,familyRankList=[]} = this.state
     const {collegeList=[]} = this.props;
-    const dataSource = familyRankList.length>0&&familyRankList
+    const dataSource = familyRankList.length>0 && familyRankList
     return (
       <div className={styles.familyRight}>
         <div className={styles.creditSelect} >
-          <span className={styles.title}>选择对比小组:</span>
+          <span className={styles.title}>选择对比组织:</span>
           <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
             {collegeList.map((item, index) => (
               <Option key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
@@ -194,7 +194,7 @@ class FamilyScoreRight extends React.Component {
               rowClassName={this.setRowClassName}
             />
           </div>}
-          <div id="scroll" >
+          <div id="scrollScore" >
             <BITable
               columns={this.columnsRight()}
               dataSource={dataSource}
