@@ -32,6 +32,7 @@ class QualityAppeal extends React.Component {
           {/* 质检单详情 */}
           <BaseDetail data={{...others}}/>
           {/* 审核详情 */}
+
         </div>
       </Spin>
     );
