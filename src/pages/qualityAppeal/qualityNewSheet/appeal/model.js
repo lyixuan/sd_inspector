@@ -4,7 +4,7 @@ import router from 'umi/router';
 import { msgF } from '@/utils/utils';
 
 export default {
-  namespace: 'editQualityNewSheet',
+  namespace: 'newQualityAppeal',
 
   state: {
 
