@@ -102,7 +102,6 @@ class ProfitList extends React.Component {
       let arrNegative1 = [];
       let arrNegative2 = [];
       let arrPositiVe = [];
-      let numOneScoreNegative = 0;
       let className = '';
       let className2 = ''
       // this.fillDataSource()[0].child.filter(item => {
@@ -127,8 +126,6 @@ class ProfitList extends React.Component {
           fixed: item.name == '学分均分' ? 'left' : '',
           className: `${className} ${className2}`,
           render: (text, record) => {
-            // const percent1 = (record.obj[item.id].score / numOneScorePositive * 100).toFixed(2);
-            const percent2 = numOneScoreNegative / record.obj[item.id].score * 100 > 100 ? 100 : (numOneScoreNegative / record.obj[item.id].score * 100).toFixed(2);
             const { startTime, endTime } = this.props.xdWorkModal.familyKpiTimes
             const params = JSON.stringify({ "dementionId": record.obj[item.id].id, startTime, endTime, pageFrom: 'family' });
             if (record.obj[item.id].name == '正面均分') {
@@ -141,9 +138,9 @@ class ProfitList extends React.Component {
               </div>
             }
             if (record.obj[item.id].name == '负面均分') {
-              record.obj[item.id].score >= 0 ? arrNegative1.push(record.obj[item.id].score) : arrNegative2.push(record.obj[item.id].score)
+              record.obj[item.id].score >= 0 ? arrNegative1.push(record.obj[item.id].score) : arrNegative2.push(Math.abs(record.obj[item.id].score))
               const numOneScoreNegative1 = Math.max.apply(Math, arrNegative1.map(item => item)); //正值
-              const numOneScoreNegative2 = Math.abs(Math.max.apply(Math, arrNegative2.map(item => item))); //负值
+              const numOneScoreNegative2 = Math.max.apply(Math, arrNegative2.map(item => item)); //负值
               const percent2 = (record.obj[item.id].score / numOneScoreNegative1 * 100).toFixed(2); //正值
               const percent3 = (Math.abs(record.obj[item.id].score) / numOneScoreNegative2 * 100).toFixed(2);//负值
               return <div>
