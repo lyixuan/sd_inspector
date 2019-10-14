@@ -126,7 +126,6 @@ class FamilyAndGroup extends React.Component {
       list3.length>0 && list3.map((item)=>{
         ids.push(item.split('-')[1])
       })
-      console.log(127,list3,ids,this.state.myGroupValue)
 
       this.setState({
         PkGroupIdList: [...list3],

@@ -67,7 +67,6 @@ class ProfitList extends React.Component {
         fixed: 'left',
         key: 'creditRanking',
         render: (text, record) => {
-          console.log(70, record)
           let src = null;
           let className = '';
           if (record.rankingFlag > 0) {

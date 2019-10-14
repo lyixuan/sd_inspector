@@ -31,7 +31,6 @@ class performanceDetail extends React.Component {
           kpiInfo: data
         })
         this.drawChart(data)
-        console.log(30, data)
       },
     });
   }
