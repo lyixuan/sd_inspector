@@ -125,17 +125,41 @@
       padding: 16px 12px 16px 24px;
     }
   }
-  .progressWin{
-    height:4px;
-    background: #4EB5EB;
-    border-radius: 3px;
+  //.progressWin{
+  //  height:4px;
+  //  background: #4EB5EB;
+  //  border-radius: 3px;
+  //  overflow: hidden;
+  //}
+  //.progressLose{
+  //  height:4px;
+  //  background: #FF626A;
+  //  border-radius: 3px;
+  //  overflow: hidden;
+  //}
+  .progressLeftLose{
+    height:10px;
+    background: linear-gradient(to right,rgba(255, 121, 128, 0), rgba(255, 121, 128, 1) );
     overflow: hidden;
+    border:1px solid #FF5959;
   }
-  .progressLose{
-    height:4px;
-    background: #FF626A;
-    border-radius: 3px;
+  .progressLeftWin{
+    height:10px;
+    background: linear-gradient(to right,rgba(78, 181, 235, 0), rgba(78, 181, 235, 1) );
     overflow: hidden;
+    border:1px solid #4EB5EB;
+  }
+  .progressRightLose{
+    height:10px;
+    background: linear-gradient(to right,rgba(255, 121, 128, 1), rgba(255, 121, 128, 0) );
+    overflow: hidden;
+    border:1px solid #FF5959;
+  }
+  .progressRightWin{
+    height:10px;
+    background: linear-gradient(to right,rgba(78, 181, 235, 1), rgba(78, 181, 235, 0) );
+    overflow: hidden;
+    border:1px solid #4EB5EB;
   }
   .proMain{
     border:1px solid #E8EBED;
@@ -203,15 +227,11 @@
   }
   .progress{
     display: flex;
-    height: 4px;
-    color: #FFFFFF;
-    border-radius: 3px 0 0 3px;
+    height: 10px;
   }
   .rightProgress{
     display: flex;
-    height: 4px;
-    color: #FFFFFF;
-    border-radius: 0 3px 3px 0;
+    height: 10px;
   }
 
 

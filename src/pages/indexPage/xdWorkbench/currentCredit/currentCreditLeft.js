@@ -148,7 +148,7 @@ class currentCreditLeft extends React.Component {
                     justifyContent: 'flex-end'
                   }}
                 >
-                  <div style={{ width: leftProgress }} className={`${styles.progress} ${isFlag === 1 ? styles.progressWin : (isFlag === 2 ? styles.progressLose : styles.progressLose)}`}>
+                  <div style={{ width: leftProgress }} className={`${styles.progress} ${isFlag === 1 ? styles.progressLeftWin : (isFlag === 2 ? styles.progressLeftLose : styles.progressLeftLose)}`}>
                   </div>
                 </div>
               </div> : <div className={styles.pkRankMain} style={{ justifyContent: 'flex-end', marginRight: '-18px' }}>
@@ -207,7 +207,7 @@ class currentCreditLeft extends React.Component {
                     justifyContent: 'flex-start'
                   }}
                 >
-                  <div style={{ width: leftProgress }} className={`${styles.rightProgress} ${isFlag === 1 ? styles.progressLose : (isFlag === 2 ? styles.progressWin : styles.progressWin)}`}>
+                  <div style={{ width: leftProgress }} className={`${styles.rightProgress} ${isFlag === 1 ? styles.progressRightLose : (isFlag === 2 ? styles.progressRightWin : styles.progressRightWin)}`}>
                   </div>
                 </div>
               </div> : <div className={styles.pkRankMain} style={{ justifyContent: 'flex-start', marginRight: '-18px' }}>
