@@ -15,7 +15,7 @@ class Dimension extends React.Component {
         title: this.props.dimensionData.groupFullName,
         dataIndex: 'name',
         key: 'name',
-        width: '50%',
+        width: '45%',
         render: text => <span data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>{text}</span>
       }, {
         width: '16%',
