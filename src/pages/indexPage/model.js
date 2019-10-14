@@ -483,7 +483,6 @@ export default {
     *getIncomeFamilyGroupPk({ payload, callback }, { call, put }) {
       const result = yield call(getIncomeFamilyGroupPk, payload.params);
       if (result.code === 20000) {
-        console.log(result.data, 'lllllll')
         yield put({ type: 'save', payload: { familyIncomeGroup: result.data } });
         if (callback && typeof callback === 'function') {
           callback(result.data.colName);
