@@ -39,14 +39,13 @@ class ProfitList extends React.Component {
         item.obj[item2.id] = item2
       })
     })
-
     return this.state.profitList
   }
 
   flatTree({ id, name, score, children }, flag = 1, result = [], pid = "", level = 1) {
     result = [{ id, name, score, pid, level, flag }]
     if (Array.isArray(children) && children.length) {
-      children.reduce((result, data, currentIndex, arr) => {
+      children.reduce((result, data) => {
         if (data.name === '负面均分') {
           result.push(...this.flatTree(data, 2, result, id, level + 1))
         } else {
@@ -100,14 +99,16 @@ class ProfitList extends React.Component {
     ];
     if (this.fillDataSource().length > 0) {
       const arr = this.fillDataSource()[0].child;
-      let numOneScorePositive = 0;
+      let arrNegative1 = [];
+      let arrNegative2 = [];
+      let arrPositiVe = [];
       let numOneScoreNegative = 0;
       let className = '';
       let className2 = ''
-      this.fillDataSource()[0].child.filter(item => {
-        if (item.name == '正面均分') numOneScorePositive = item.score;
-        if (item.name == '负面均分') numOneScoreNegative = item.score;
-      }) //获取第一名的正面均分和负面均分值
+      // this.fillDataSource()[0].child.filter(item => {
+      //   if (item.name == '正面均分') numOneScorePositive = item.score;
+      //   if (item.name == '负面均分') numOneScoreNegative = item.score;
+      // }) //获取第一名的正面均分和负面均分值
       arr.map(item => {
         if (item.level >= 4) return; //大于四级的不显示
         if (item.flag == 1 && item.level != 1) {
@@ -126,24 +127,31 @@ class ProfitList extends React.Component {
           fixed: item.name == '学分均分' ? 'left' : '',
           className: `${className} ${className2}`,
           render: (text, record) => {
-            const percent1 = (numOneScorePositive / record.obj[item.id].score * 100).toFixed(2);
+            // const percent1 = (record.obj[item.id].score / numOneScorePositive * 100).toFixed(2);
             const percent2 = numOneScoreNegative / record.obj[item.id].score * 100 > 100 ? 100 : (numOneScoreNegative / record.obj[item.id].score * 100).toFixed(2);
             const { startTime, endTime } = this.props.xdWorkModal.familyKpiTimes
             const params = JSON.stringify({ "dementionId": record.obj[item.id].id, startTime, endTime, pageFrom: 'family' });
             if (record.obj[item.id].name == '正面均分') {
+              arrPositiVe.push(record.obj[item.id].score)
+              const numOneScorePositive = Math.max.apply(Math, arrPositiVe.map(item => item));
+              const percent1 = (record.obj[item.id].score / numOneScorePositive * 100).toFixed(2);
               return <div>
                 <div>{record.obj[item.id].score}</div>
                 <SmallProgress isColor="green" percent={`${percent1}%`}></SmallProgress>
               </div>
             }
             if (record.obj[item.id].name == '负面均分') {
+              record.obj[item.id].score >= 0 ? arrNegative1.push(record.obj[item.id].score) : arrNegative2.push(record.obj[item.id].score)
+              const numOneScoreNegative1 = Math.max.apply(Math, arrNegative1.map(item => item)); //正值
+              const numOneScoreNegative2 = Math.abs(Math.max.apply(Math, arrNegative2.map(item => item))); //负值
+              const percent2 = (record.obj[item.id].score / numOneScoreNegative1 * 100).toFixed(2); //正值
+              const percent3 = (Math.abs(record.obj[item.id].score) / numOneScoreNegative2 * 100).toFixed(2);//负值
               return <div>
                 <div style={{ paddingLeft: '20px' }}>{record.obj[item.id].score}</div>
                 <div style={{ display: 'flex' }}>
-                  <div style={{ width: '44px' }}>{record.obj[item.id].score < 0 ? <SmallProgress isColor={'red'} percent={`${percent2}%`}></SmallProgress> : null}</div>
+                  <div style={{ width: '44px' }}>{record.obj[item.id].score < 0 ? <SmallProgress isColor={'red'} percent={`${percent3}%`}></SmallProgress> : null}</div>
                   <div style={{ width: '44px' }}>{record.obj[item.id].score > 0 ? <SmallProgress isColor={'green'} percent={`${percent2}%`}></SmallProgress> : null}</div>
                 </div>
-
               </div>
             }
             return <div>

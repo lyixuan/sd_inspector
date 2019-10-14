@@ -12,7 +12,7 @@ class IndexPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      userInfo:{}
+      userInfo: {}
     }
   }
   componentDidMount() {
@@ -23,17 +23,18 @@ class IndexPage extends Component {
         this.setState({
           userInfo: data
         })
-        localStorage.setItem('userInfo',JSON.stringify(data))
+        localStorage.setItem('userInfo', JSON.stringify(data))
       }
     });
   }
   getPageDom = () => {
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
+    const { userInfo } = this.state;
     if (userType === 'class' || userType === 'group') {
       return <XdWorkbench />
-    } else if (userType === 'family') {
-      return <XdFamilyBench />
+    } else if (userType === 'family' && userInfo.privilegeView && userInfo.moreView) {
+      return <XdFamilyBench /> //前端角色是家族长（family）角色 且 权限中勾选了 学分绩效 或 创收绩效 的用户显示页面
     }
     return false
   }
