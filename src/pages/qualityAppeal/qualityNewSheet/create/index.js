@@ -3,10 +3,9 @@ import { connect } from 'dva';
 import FormIndex from '@/pages/qualityAppeal/components/BaseForm/index';
 import styles from './style.less';
 
-@connect(({ loading, qualityAppealHome }) => ({
+@connect(({ loading, qualityNewSheet }) => ({
   loading,
-  qualityAppealHome,
-  submitLoading: loading.effects['qualityNewSheet/addQuality'],
+  qualityNewSheet,
 }))
 
 class CreateQualityNewSheet extends React.Component {

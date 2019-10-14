@@ -106,7 +106,7 @@ export const routes = [
           },
           {
             path: '/qualityAppeal/qualityNewSheet/appealSt',
-            component: './qualityAppeal/qualityNewSheet/appealSt',
+            component: './qualityAppeal/qualityNewSheet/appeal',
             name: '审核',
             bread: {
               name: '新质检单管理',

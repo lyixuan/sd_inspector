@@ -1,11 +1,8 @@
 import { message } from 'antd/lib/index';
 import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
 import { getQualityDetail } from '@/pages/qualityAppeal/qualityAppeal/appeal/services';
-import BIModal from '@/ant_components/BIModal';
 import router from 'umi/router';
 import { downBlob, msgF } from '@/utils/utils';
-
-const confirm = BIModal.confirm;
 
 export default {
   namespace: 'qualityNewSheet',
@@ -47,7 +44,6 @@ export default {
         const filename = headers.get('content-disposition') || '';
         const numName = filename.split('filename=')[1]; // 带后缀的文件名
         const numName2 = numName.split('.')[0];   // 纯文件名
-        // console.log(11,window.decodeURI(numName2))
         downBlob(result.data, `${eval("'"+numName2+"'")}.xlsx`);
         message.success('导出成功');
       } else {
@@ -57,8 +53,8 @@ export default {
     *addQuality({ payload }, { call, put }) {
       const response = yield call(addQuality, payload);
       if (response.code === 20000) {
+        message.success("创建成功")
         yield put(router.push('/qualityAppeal/qualityNewSheet'));
-
       } else {
         message.error(msgF(response.msg,response.msgDetail))
       }
@@ -68,6 +64,8 @@ export default {
       const result = yield call(getQualityDetail, { ...payload });
       if (result.code === 20000) {
         const qualityDetail = result.data ? result.data : {};
+        qualityDetail.ownQualityValue = qualityDetail.qualityValue;
+        delete qualityDetail.qualityValue;
         yield put({ type: 'save', payload: { qualityDetail } });
       } else {
         message.error(msgF(result.msg,result.msgDetail));

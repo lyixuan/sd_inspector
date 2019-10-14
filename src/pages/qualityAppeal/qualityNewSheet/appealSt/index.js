@@ -30,9 +30,7 @@ class EditQualityNewSheet extends React.Component {
     this.getQualityDetailData();
   }
   getQualityDetailData = () => {
-    const {
-      location: { query },
-    } = this.props;
+    const { location: { query }, } = this.props;
     this.props.dispatch({
       type: 'qualityNewSheet/getQualityDetail',
       payload: query,

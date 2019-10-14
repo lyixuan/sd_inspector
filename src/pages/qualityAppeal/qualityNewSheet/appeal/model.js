@@ -1,5 +1,5 @@
-import { message } from 'antd/lib/index';
-import { updateQuality } from './services';
+import { message } from 'antd';
+import { checkQuality } from './services';
 import router from 'umi/router';
 import { msgF } from '@/utils/utils';
 
@@ -11,8 +11,8 @@ export default {
   },
 
   effects: {
-    *updateQuality({ payload }, { call, put }) {
-      const result = yield call(updateQuality, { ...payload });
+    *checkQuality({ payload }, { call, put }) {
+      const result = yield call(checkQuality, { ...payload });
       if (result.code === 20000) {
         message.success('提交成功');
         yield put(router.push('/qualityAppeal/qualityNewSheet'));

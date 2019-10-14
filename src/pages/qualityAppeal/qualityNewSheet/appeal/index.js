@@ -1,49 +1,41 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Spin } from 'antd';
-import FormIndex from '@/pages/qualityAppeal/components/BaseForm/index';
+import BaseDetail from '@spages/qualityAppeal/components/BaseDetail';
 import styles from './style.less';
 
-@connect(({ loading, qualityNewSheet, editQualityNewSheet }) => ({
+@connect(({ loading, qualityNewSheet }) => ({
   loading,
   qualityNewSheet,
-  editQualityNewSheet,
   pageLoading: loading.effects['qualityNewSheet/getQualityDetail']
 }))
-class EditQualityNewSheet extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+class QualityAppeal extends React.Component {
   componentDidMount() {
     this.getQualityDetailData();
   }
+
   getQualityDetailData = () => {
-    const { location: { query }} = this.props;
+    const { location: { query }, } = this.props;
     this.props.dispatch({
       type: 'qualityNewSheet/getQualityDetail',
       payload: query,
     });
   };
-  onSubmit = params => {
-    this.props.dispatch({
-      type: 'editQualityNewSheet/updateQuality',
-      payload: { ...params },
-    });
-  };
 
   render() {
     const { qualityDetail = {} } = this.props.qualityNewSheet;
-    const { qualityAudit, ...others } = qualityDetail;
+    const { qualityAudit = [], ...others } = qualityDetail;
+
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.qualityContainter}>
-          <FormIndex params={{ ...others }}
-                     onSubmit={this.onSubmit}/>
+          {/* 质检单详情 */}
+          <BaseDetail data={{...others}}/>
+          {/* 审核详情 */}
         </div>
       </Spin>
     );
   }
 }
 
-export default EditQualityNewSheet;
+export default QualityAppeal;

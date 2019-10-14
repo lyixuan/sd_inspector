@@ -14,6 +14,7 @@ import SubOrder from './subOrder';
 import styles from './form.less';
 import moment from 'moment/moment';
 import router from 'umi/router';
+import { STATIC_HOST } from '@/utils/constants';
 
 const { Option } = BISelect;
 const { TextArea } = Input;
@@ -31,6 +32,23 @@ const BaseForm = Form.create({ name: 'base_form' })(
         attUrl:'',
       };
     }
+
+    componentWillReceiveProps(next) {
+      const newAttUrl = next.params.attUrl;
+      const oldAttUrl = this.props.params.attUrl;
+      console.log(newAttUrl,oldAttUrl)
+      if (newAttUrl && newAttUrl !== oldAttUrl) {
+        this.setState({
+          fileList: [{
+            uid: '-1',
+            name: newAttUrl.split('/')[3],
+            status: 'done',
+            url: `${STATIC_HOST}/${newAttUrl}`,
+          }]
+        })
+      }
+    }
+
     getOrgMapByMail = () => {
       this.props.getOrgMapByMail(this.props.form.getFieldValue('mail'),this.props.form);
     };
@@ -417,10 +435,11 @@ const BaseForm = Form.create({ name: 'base_form' })(
     };
 
     handleSubmit = e => {
+      const { fileList, attUrl } = this.state;
       e.preventDefault();
       this.props.form.validateFields((err, values) => {
         if (!err) {
-          this.props.onSubmit({...values,...{attUrl:this.state.attUrl}});
+          this.props.onSubmit({ ...values, ...{ attUrl: fileList.length > 0 ? attUrl : null } });
         }
       });
     };

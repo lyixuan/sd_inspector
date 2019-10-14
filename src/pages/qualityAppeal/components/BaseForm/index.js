@@ -16,6 +16,14 @@ const confirm = BIModal.confirm;
 
 class FormIndex extends React.Component {
 
+  componentWillReceiveProps(next) {
+    const newDimensionId = next.params.dimensionId;
+    const oldDimensionId = this.props.params.dimensionId;
+    if (newDimensionId !== oldDimensionId) {
+      this.getDimensionTreeList(newDimensionId, next.params.qualityType);
+    }
+  }
+
   // 根据邮箱获取基本信息
   getOrgMapByMail = (mail, form) => {
     this.props.dispatch({
@@ -85,15 +93,17 @@ class FormIndex extends React.Component {
       type: 'qualityAppealHome/getPunishInfoList',
       payload: { params },
     }).then(res => {
-      // 需要对分裂的字段分别初始化，使更新能全部覆盖
-      let obj = {
-        'roleName-0': undefined, 'roleName-1': undefined, 'roleName-2': undefined, 'roleName-3': undefined,
-        'userName-0': undefined, 'userName-1': undefined, 'userName-2': undefined, 'userName-3': undefined,
-        'punishType-0': undefined, 'punishType-1': undefined, 'punishType-2': undefined, 'punishType-3': undefined,
-        'qualityValue-0': undefined, 'qualityValue-1': undefined, 'qualityValue-2': undefined,
-        'qualityValue-3': undefined,
-        'punishTypeUnit-0': '--', 'punishTypeUnit-1': '--', 'punishTypeUnit-2': '--', 'punishTypeUnit-3': '--',
-      };
+      // 对分裂的字段分别初始化
+      let obj = {};
+      for (let i = 0;i < 4; i++) {
+        obj[`roleName-${i}`] = undefined;
+        obj[`userName-${i}`] = undefined;
+        obj[`punishType-${i}`] = undefined;
+        obj[`qualityValue-${i}`] = undefined;
+        obj[`punishTypeUnit-${i}`] = '--';
+      }
+
+      // 赋值
       if (res && res.attachedPersonList) {
         res.attachedPersonList.forEach((v, i) => {
           obj[`roleName-${i}`] = v.roleName;
@@ -103,10 +113,7 @@ class FormIndex extends React.Component {
           obj[`'punishTypeUnit'-${i}`] = v.punishType ? v.punishType === 2 ? '分' : '元' : '--';
         });
       }
-      if (res && !res.punishType) {
-        res.punishType = undefined;
-      }
-      console.log(12, { ...form.getFieldsValue(), ...res, ...obj });
+      if (res && !res.punishType) res.punishType = undefined;
       form.setFieldsValue({ ...form.getFieldsValue(), ...res, ...obj });
     });
   }
@@ -146,10 +153,10 @@ class FormIndex extends React.Component {
     const orgList = this.props.qualityAppealHome.orgList || [];
     for (let i = 0; i < 4; i++) {
       arr.push({
-        roleName: srcData[`roleName-${i}`]||null,
-        userName: srcData[`userName-${i}`]||null,
-        punishType: srcData[`punishType-${i}`]||null,
-        qualityValue: Number(srcData[`qualityValue-${i}`])||null,
+        roleName: srcData[`roleName-${i}`] || null,
+        userName: srcData[`userName-${i}`] || null,
+        punishType: srcData[`punishType-${i}`] || null,
+        qualityValue: Number(srcData[`qualityValue-${i}`]) || null,
       });
     }
 
@@ -160,35 +167,35 @@ class FormIndex extends React.Component {
       collegeId: srcData.organize[0],            // 学院ID
       familyId: srcData.organize[1],             // 家族ID
       groupId: srcData.organize[2],              // 小组ID
-      collegeName: null,             // 学院名
-      familyName: null,              // 家族名
-      groupName: null,                // 小组名
-      familyType: srcData.familyType,           // 学院类型
-      orderNum: srcData.orderNum,             // 子订单编号
+      collegeName: null,                          // 学院名
+      familyName: null,                           // 家族名
+      groupName: null,                            // 小组名
+      familyType: srcData.familyType,             // 学院类型
+      orderNum: srcData.orderNum,                 // 子订单编号
       violationDate: moment(srcData.violationDate).format('YYYY-MM-DD'),          // 质检违规日期
       reduceScoreDate: moment(srcData.reduceScoreDate).format('YYYY-MM-DD'),        // 质检扣分日期
-      qualityType: srcData.qualityType,          // 质检类型
-      dimensionId: srcData.dimensionId,          // 分维ID
-      primaryAssortmentId: srcData.dimension[0],  // 一级违规分类
-      secondAssortmentId: srcData.dimension[1],   // 二级违规分类
-      thirdAssortmentId: srcData.dimension[2],    // 三级违规分类
-      attUrl: srcData.attUrl,                 // 附件地址
-      desc: srcData.desc,                   // 违规详情
+      qualityType: srcData.qualityType,             // 质检类型
+      dimensionId: srcData.dimensionId,             // 分维ID
+      primaryAssortmentId: srcData.dimension[0],    // 一级违规分类
+      secondAssortmentId: srcData.dimension[1],     // 二级违规分类
+      thirdAssortmentId: srcData.dimension[2],      // 三级违规分类
+      attUrl: srcData.attUrl,                       // 附件地址
+      desc: srcData.desc,                           // 违规详情
       punishType: srcData.punishType,                // 处罚方式
       qualityValue: srcData.ownQualityValue,          // 责任人处罚力度
       attachedPersonList: arr,
-      id: srcData.id,                     // 质检单id
-      qualityNum: null,             // 质检单号
+      id: srcData.id,                                 // 质检单id
+      qualityNum: null,                               // 质检单号
       violationLevel: srcData.violationLevel,
     };
-    orgList.forEach((v)=>{
-      if(v.id ===params.collegeId) {
+    orgList.forEach((v) => {
+      if (v.id === params.collegeId) {
         params.collegeName = v.name;
-        v.nodeList.forEach((v2)=>{
-          if(v2.id ===params.familyId) {
+        v['nodeList'].forEach((v2) => {
+          if (v2.id === params.familyId) {
             params.familyName = v2.name;
-            v2.nodeList.forEach((v3)=>{
-              if(v3.id ===params.groupId) {
+            v2['nodeList'].forEach((v3) => {
+              if (v3.id === params.groupId) {
                 params.groupName = v3.name;
               }
             });
@@ -203,7 +210,10 @@ class FormIndex extends React.Component {
     const { formType, upLoadType, params, loadingMail, loadingOrder } = this.props || {};
     const { orgList, orgMapByMailData, orderNumData, dimensionList1, dimensionList2, dimensionTreeList }
       = this.props.qualityAppealHome || {};
-
+    params.organize = [params.collegeId, params.familyId, params.groupId];
+    params.dimension = [params.primaryAssortmentId, params.secondAssortmentId, params.thirdAssortmentId];
+    params.violationDate = moment(params.violationDate);
+    params.reduceScoreDate = moment(params.reduceScoreDate);
     return (
       <BaseForm formType={formType}
                 upLoadType={upLoadType}
