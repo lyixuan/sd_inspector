@@ -120,6 +120,35 @@
 .familyRight{
   width:40%;
   margin-top:40px;
+  .tableContent {
+    position: relative;
+    background: #FAFFFF;
+    .suspension {
+      width: 100%;
+      position: absolute;
+      top: 48px;
+      z-index: 1;
+      :global {
+        .ant-table-tbody > tr > td {
+          border-bottom: none;
+        }
+      }
+    }
+    .scrollTable {
+      :global {
+        .ant-table-body {
+          height: 430px;
+        }
+      }
+    }
+    .scrollMineTable {
+      :global {
+        .ant-table-body {
+          padding-top: 40px;
+        }
+      }
+    }
+  }
   .creditSelect{
     width:100%;
     margin-bottom:16px;
