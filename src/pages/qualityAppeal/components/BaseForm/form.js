@@ -33,10 +33,9 @@ const BaseForm = Form.create({ name: 'base_form' })(
       };
     }
 
-    componentWillReceiveProps(next) {
+    UNSAFE_componentWillReceiveProps(next) {
       const newAttUrl = next.params.attUrl;
       const oldAttUrl = this.props.params.attUrl;
-      console.log(newAttUrl,oldAttUrl)
       if (newAttUrl && newAttUrl !== oldAttUrl) {
         this.setState({
           fileList: [{

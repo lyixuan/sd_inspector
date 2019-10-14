@@ -67,6 +67,7 @@ export default {
         qualityDetail.ownQualityValue = qualityDetail.qualityValue;
         delete qualityDetail.qualityValue;
         yield put({ type: 'save', payload: { qualityDetail } });
+        return qualityDetail;
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }

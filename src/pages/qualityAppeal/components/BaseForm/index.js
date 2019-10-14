@@ -16,7 +16,7 @@ const confirm = BIModal.confirm;
 
 class FormIndex extends React.Component {
 
-  componentWillReceiveProps(next) {
+  UNSAFE_componentWillReceiveProps(next) {
     const newDimensionId = next.params.dimensionId;
     const oldDimensionId = this.props.params.dimensionId;
     if (newDimensionId !== oldDimensionId) {
@@ -207,18 +207,18 @@ class FormIndex extends React.Component {
   };
 
   render() {
-    const { formType, upLoadType, params, loadingMail, loadingOrder } = this.props || {};
+    const { upLoadType, params, loadingMail, loadingOrder } = this.props || {};
     const { orgList, orgMapByMailData, orderNumData, dimensionList1, dimensionList2, dimensionTreeList }
       = this.props.qualityAppealHome || {};
     params.organize = [params.collegeId, params.familyId, params.groupId];
     params.dimension = [params.primaryAssortmentId, params.secondAssortmentId, params.thirdAssortmentId];
     params.violationDate = moment(params.violationDate);
     params.reduceScoreDate = moment(params.reduceScoreDate);
+
     return (
-      <BaseForm formType={formType}
-                upLoadType={upLoadType}
+      <BaseForm upLoadType={upLoadType}
                 orgList={orgList}
-                orderNumData={orderNumData}
+                orderNumData={ orderNumData }
                 dimensionList1={dimensionList1}
                 dimensionList2={dimensionList2}
                 dimensionTreeList={dimensionTreeList}
