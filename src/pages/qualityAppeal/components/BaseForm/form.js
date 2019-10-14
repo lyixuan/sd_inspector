@@ -15,7 +15,6 @@ import styles from './form.less';
 import moment from 'moment/moment';
 import router from 'umi/router';
 
-
 const { Option } = BISelect;
 const { TextArea } = Input;
 const confirm = BIModal.confirm;
@@ -29,7 +28,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
       this.state = {
         showMore: false,
         fileList:[],
-        attUrl:''
+        attUrl:'',
       };
     }
     getOrgMapByMail = () => {
@@ -168,7 +167,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
       const { form, params, orgList, orderNumData = {} } = this.props;
       const {
         mail, role, name, organize, orderNum, violationDate, reduceScoreDate, qualityType, familyType,
-        dimensionId, dimension, violationLevel, punishType, qualityValue, attachedPersonList = [], desc, id,
+        dimensionId, dimension, violationLevel, punishType, ownQualityValue, attachedPersonList = [], desc, id
       } = params || {};
 
       const { getFieldDecorator } = form;
@@ -362,7 +361,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 </Form.Item> &nbsp;
                 <Form.Item className={styles.formItem}>
                   {getFieldDecorator('ownQualityValue', {
-                    initialValue: qualityValue || undefined, rules: [{
+                    initialValue: ownQualityValue || undefined, rules: [{
                       validator(rule, value, callback) {
                         if (isNaN(value)) {
                           callback({ message: '请输入合法数据' });
@@ -409,7 +408,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
         className: 'BIConfirm',
         title: '此操作将不保存已录入内容，是否确认？',
         cancelText: '取消',
-        okText: '确定',
+        okText: '确认',
         onOk() {
           router.goBack();
         },
@@ -421,7 +420,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
       e.preventDefault();
       this.props.form.validateFields((err, values) => {
         if (!err) {
-          this.props.onSubmit(values);
+          this.props.onSubmit({...values,...{attUrl:this.state.attUrl}});
         }
       });
     };

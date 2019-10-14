@@ -20,9 +20,7 @@ class CreateQualityNewSheet extends React.Component {
   render() {
     return (
       <div className={styles.qualityContainter}>
-        <FormIndex formType="create"
-                  upLoadType="upLoadType"
-                  params={{name:123333333}}
+        <FormIndex params={{}}
                   onSubmit={this.onSubmit}/>
       </div>);
   }

@@ -145,15 +145,13 @@ export default {
       }
     },
     *checkRepeatQualityInspection({ payload }, { call, put }) {
-      const { callback, params } = payload;
+      const { params } = payload;
       const response = yield call(checkRepeatQualityInspection, params);
       if (response.code === 20000) {
-        callback.call(null, response.data || {});
+        return response.data;
       } else {
         message.error(msgF(response.msg, response.msgDetail));
-        if (response.code === 20005) {
-          window.history.go(-1);
-        }
+        return false;
       }
     },
     *getPunishInfoList({ payload }, { call, put }) {

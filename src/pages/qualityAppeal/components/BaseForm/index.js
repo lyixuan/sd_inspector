@@ -2,6 +2,10 @@ import React from 'react';
 import { connect } from 'dva';
 import { message } from 'antd';
 import BaseForm from '@/pages/qualityAppeal/components/BaseForm/form';
+import BIModal from '@/ant_components/BIModal';
+import moment from 'moment/moment';
+
+const confirm = BIModal.confirm;
 
 @connect(({ loading, qualityAppealHome }) => ({
   loading,
@@ -18,9 +22,13 @@ class FormIndex extends React.Component {
       type: 'qualityAppealHome/getOrgMapByMail',
       payload: { mail },
     }).then((res) => {
-      let obj = { role: undefined, name: undefined, organize: undefined };
+      let obj = { role: undefined, name: undefined, organize: undefined, userId: undefined };
       if (res) {
-        obj = { role: res.userType, name: res.name, organize: [res.collegeId, res.familyId, res.groupId] };
+        obj = {
+          role: res.userType,
+          name: res.name,
+          organize: [res.collegeId, res.familyId, res.groupId],
+        };
       }
       form.setFieldsValue({ ...form.getFieldsValue(), ...obj });
     });
@@ -77,7 +85,6 @@ class FormIndex extends React.Component {
       type: 'qualityAppealHome/getPunishInfoList',
       payload: { params },
     }).then(res => {
-      console.log(1, { ...form.getFieldsValue(), ...res });
       // 需要对分裂的字段分别初始化，使更新能全部覆盖
       let obj = {
         'roleName-0': undefined, 'roleName-1': undefined, 'roleName-2': undefined, 'roleName-3': undefined,
@@ -96,12 +103,100 @@ class FormIndex extends React.Component {
           obj[`'punishTypeUnit'-${i}`] = v.punishType ? v.punishType === 2 ? '分' : '元' : '--';
         });
       }
+      if (res && !res.punishType) {
+        res.punishType = undefined;
+      }
+      console.log(12, { ...form.getFieldsValue(), ...res, ...obj });
       form.setFieldsValue({ ...form.getFieldsValue(), ...res, ...obj });
     });
   }
 
-  onSubmit = (params) => {
-    this.props.onSubmit(params);
+  onSubmit = (paramsBf) => {
+    const that = this;
+    const params = this.processData(paramsBf);
+    this.props.dispatch({
+      type: 'qualityAppealHome/checkRepeatQualityInspection',
+      payload: { params },
+    }).then((res) => {
+      if (res) {
+        const { code, msg } = res || {};
+        let msgDetail = '是否确认提交?';
+        let buttonText = '确认';
+        if (code !== 20000) {
+          msgDetail = msg;
+          buttonText = '继续提交';
+        }
+        confirm({
+          className: 'BIConfirm',
+          title: msgDetail,
+          cancelText: '取消',
+          okText: buttonText,
+          onOk() {
+            that.props.onSubmit(params);
+          },
+          onCancel() {
+          },
+        });
+      }
+    });
+  };
+
+  processData = (srcData) => {
+    const arr = [];
+    const orgList = this.props.qualityAppealHome.orgList || [];
+    for (let i = 0; i < 4; i++) {
+      arr.push({
+        roleName: srcData[`roleName-${i}`]||null,
+        userName: srcData[`userName-${i}`]||null,
+        punishType: srcData[`punishType-${i}`]||null,
+        qualityValue: Number(srcData[`qualityValue-${i}`])||null,
+      });
+    }
+
+    const params = {
+      mail: srcData.mail,                   // 邮箱
+      role: srcData.role,                   // 归属人角色
+      name: srcData.name,                   // 归属人
+      collegeId: srcData.organize[0],            // 学院ID
+      familyId: srcData.organize[1],             // 家族ID
+      groupId: srcData.organize[2],              // 小组ID
+      collegeName: null,             // 学院名
+      familyName: null,              // 家族名
+      groupName: null,                // 小组名
+      familyType: srcData.familyType,           // 学院类型
+      orderNum: srcData.orderNum,             // 子订单编号
+      violationDate: moment(srcData.violationDate).format('YYYY-MM-DD'),          // 质检违规日期
+      reduceScoreDate: moment(srcData.reduceScoreDate).format('YYYY-MM-DD'),        // 质检扣分日期
+      qualityType: srcData.qualityType,          // 质检类型
+      dimensionId: srcData.dimensionId,          // 分维ID
+      primaryAssortmentId: srcData.dimension[0],  // 一级违规分类
+      secondAssortmentId: srcData.dimension[1],   // 二级违规分类
+      thirdAssortmentId: srcData.dimension[2],    // 三级违规分类
+      attUrl: srcData.attUrl,                 // 附件地址
+      desc: srcData.desc,                   // 违规详情
+      punishType: srcData.punishType,                // 处罚方式
+      qualityValue: srcData.ownQualityValue,          // 责任人处罚力度
+      attachedPersonList: arr,
+      id: srcData.id,                     // 质检单id
+      qualityNum: null,             // 质检单号
+      violationLevel: srcData.violationLevel,
+    };
+    orgList.forEach((v)=>{
+      if(v.id ===params.collegeId) {
+        params.collegeName = v.name;
+        v.nodeList.forEach((v2)=>{
+          if(v2.id ===params.familyId) {
+            params.familyName = v2.name;
+            v2.nodeList.forEach((v3)=>{
+              if(v3.id ===params.groupId) {
+                params.groupName = v3.name;
+              }
+            });
+          }
+        });
+      }
+    });
+    return params;
   };
 
   render() {
