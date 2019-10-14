@@ -431,6 +431,9 @@ export default {
       const familyGroupPkList = result.data;
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { familyGroupPkList } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data.groupList);
+        }
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }

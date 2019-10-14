@@ -282,22 +282,6 @@ class currentCreditLeft extends React.Component {
     }
     return arr
   }
-  // onClickRow = (record) => {
-  //   const {startTime,endTime} = this.props.xdWorkModal.kpiTimes
-  //   const params = JSON.stringify({"dementionId":  record.id, startTime, endTime});
-  //   return {
-  //     onClick: () => {
-  //       if(record.level === 4 && Number(record.myScore)){
-  //         router.push({
-  //           pathname: '/xdCredit/index',
-  //           query: { params: params }
-  //         });
-  //       }
-  //
-  //     }
-  //   };
-  // }
-
   render() {
     const { groupId } = this.props
     const { groupPkList=[], myGroup, pkGroup } = this.state

@@ -28,7 +28,7 @@ class FamilyAndGroup extends React.Component {
       },{
         name:'小组学分对比',
         key:'2',
-        children:  <GroupScore/>,
+        children:  <GroupScore familyAndGroup={this} getGroupPkList={this.getGroupPkList}/>,
         isShowBtn:true,
         changeModal:this.changeModal,
         visible:"visible"
@@ -38,11 +38,10 @@ class FamilyAndGroup extends React.Component {
       groupIdList: [],
       PkCollegeIdList: [],
       PkFamilyIdList: [],
-      PkGroupIdList: [],
       myFamilyGroupList:[],
-      myGroupValue:[],
+      PkGroupIdList:localStorage.getItem('pkGroupIds')?JSON.parse(localStorage.getItem('pkGroupIds')):[], // 小组创收对比PK值
+      myGroupValue:localStorage.getItem('myGroupIds')?JSON.parse(localStorage.getItem('myGroupIds')):[], // 小组创收mine值
       pkGroupIds:[],
-      userInfo:{}
     }
   }
   componentDidMount() {
@@ -51,51 +50,35 @@ class FamilyAndGroup extends React.Component {
       type: 'xdWorkModal/getOrgMapList',
       payload: { params: {} },
     });
-    let pkGroupIds = localStorage.getItem('pkGroupIds');
-    let myGroupIds = localStorage.getItem('myGroupIds');
     this.myFamilyGroupList()
-    this.getGroupPkList(pkGroupIds,myGroupIds)
-    this.setState({
-      userInfo:JSON.parse(localStorage.getItem("userInfo"))
-    })
+    this.getGroupPkList()
   }
-  getGroupPkList=(arr,arr1)=>{
+  getGroupPkList=(flag)=>{
     this.props.dispatch({
       type:'xdWorkModal/getGroupPkList',
-      payload: { params: {pkGroupIds:arr?arr:this.state.pkGroupIds,myGroupIds:arr1?arr1:this.state.myGroupValue} },
-    })
-    let pkGroupIds = arr?arr:this.state.pkGroupIds
-    let myGroupIds = arr1?arr1:this.state.myGroupValue
-    localStorage.setItem('pkGroupIds', pkGroupIds);
-    localStorage.setItem('myGroupIds', myGroupIds);
-  }
-  componentWillReceiveProps(nextProps) {
-    const {familyGroupPkList={}} = this.props.xdWorkModal.xdWorkModal;
-    const nextPropsList = this.props.xdWorkModal.xdWorkModal.familyGroupPkList
-    if (nextPropsList !== {}) {
-      const myGroupList= familyGroupPkList&&familyGroupPkList.groupList
-      const myGroupLists=[]
-      const pkGroupLists=[]
-      myGroupList && myGroupList.map((item)=>{
-        if(item.myGroup){
-          myGroupLists.push(item);
-        }else{
-          pkGroupLists.push(item)
+      payload: { params: {pkGroupIds:this.getParamas(),myGroupIds:this.state.myGroupValue} },
+      callback: res =>  {
+        if (flag && this.state.PkGroupIdList.length<=0) {
+          this.setState({
+            myGroupValue: res.map(item => String(item.groupId))
+          });
         }
-
-      })
-      this.setState({
-        myGroupValue:myGroupLists && myGroupLists.length>0 && this.mapGroupIdValus(myGroupLists),
-        pkGroupIds:pkGroupLists && pkGroupLists.length>0 && this.mapGroupIdValus(pkGroupLists),
-      })
-    }
+      }
+    })
   }
+
   changeModal = () =>{
     this.setState({
       visible:true
     })
   }
-
+  // 小组创收参数处理
+  getParamas = () => {
+    const { PkGroupIdList } = this.state;
+    const groupIdList = [];
+    PkGroupIdList.map(item => groupIdList.push(item.replace("c-", '')))
+    return groupIdList;
+  }
   myFamilyGroupList = () =>{
     this.props.dispatch({
       type:'xdWorkModal/myFamilyGroupList',
@@ -109,51 +92,25 @@ class FamilyAndGroup extends React.Component {
   }
   onFormChange = (value,vname)=>{
     this.setState({
-      pkGroupIds:[]
-    })
-    if ('myGroup' === vname) {
-      this.setState({
-        myGroupValue: value,
-      })
-    }else if('PkGroup' === vname){
-      const list3 = [];
-      let ids=[]
-      value.forEach((v)=>{
-        if (v.indexOf('c-')>=0) {
-          list3.length<=5 && list3.push(v);
-        }
-      });
-      list3.length>0 && list3.map((item)=>{
-        ids.push(item.split('-')[1])
-      })
-
-      this.setState({
-        PkGroupIdList: [...list3],
-        pkGroupIds:this.unique(ids),
-        myGroupValue:this.unique(this.state.myGroupValue)
-      })
-    } else {
-      this.setState({
-        [vname]:value
-      });
-    }
+      [vname]:value
+    });
   };
   unique=(arr)=>{
     return arr.reduce((prev,cur) => prev.includes(cur) ? prev : [...prev,cur],[]);
   }
   handleOk = () => {
-    setTimeout(()=>{
-      console.log(80,this.state.pkGroupIds,this.state.myGroupValue)
-    },100)
-
-    if(this.state.pkGroupIds.length>6){
+    console.log(102,this.state.PkGroupIdList.concat(this.state.myGroupValue))
+    if(this.state.PkGroupIdList.concat(this.state.myGroupValue).length>6){
       message.warning('小组最多只能选择6个');
       return
     }
     this.setState({
       visible: false,
     });
-    this.getGroupPkList(this.state.pkGroupIds,this.state.myGroupValue)
+    this.getGroupPkList();
+    localStorage.setItem('pkGroupIds', JSON.stringify(this.state.PkGroupIdList));
+    localStorage.setItem('myGroupIds', JSON.stringify(this.state.myGroupValue));
+
   };
   handleCancel = () => {
     this.setState({
@@ -168,8 +125,8 @@ class FamilyAndGroup extends React.Component {
     return groupIds
   }
   render() {
-    const {orgListTreeData = []} = this.props.xdWorkModal.xdWorkModal;
-    const {myFamilyGroupList,myGroupValue,PkGroupIdList,userInfo} = this.state
+    const {orgListTreeData = [],userInfo} = this.props.xdWorkModal.xdWorkModal;
+    const {myFamilyGroupList,myGroupValue,PkGroupIdList} = this.state
     return (
       <Container
         style={{ width: '100%', marginBottom: '16px' }}
@@ -204,7 +161,7 @@ class FamilyAndGroup extends React.Component {
                   mode="multiple"
                   style={{width:'100%'}}
                   defaultValue={myGroupValue}
-                  onChange={(val) => this.onFormChange(val,'myGroup')}
+                  onChange={(val) => this.onFormChange(val,'myGroupValue')}
                 >
                   {myFamilyGroupList.map((item, index) => (
                     <Option key={item.id}>
@@ -220,10 +177,10 @@ class FamilyAndGroup extends React.Component {
                               multiple
                               showArrow
                               maxTagCount={3}
-                              value={[...PkGroupIdList]}
+                              value={PkGroupIdList}
                               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                               treeData={orgListTreeData}
-                              onChange={(val)=>this.onFormChange(val,'PkGroup')}
+                              onChange={(val)=>this.onFormChange(val,'PkGroupIdList')}
                 ></BITreeSelect>
               </div>
             </div>

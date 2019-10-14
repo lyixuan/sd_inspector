@@ -9,6 +9,7 @@ import BIModal from '@/ant_components/BIModal'
 import BIButton from '@/ant_components/BIButton';
 import BITreeSelect from '@/ant_components/BITreeSelect'
 import BISelect from '@/ant_components/BISelect'
+import { message } from 'antd';
 const { Option } = BISelect;
 
 @connect(({ xdWorkModal }) => ({
@@ -37,8 +38,8 @@ class FamilyAndGroup extends React.Component {
       }],
       groupIdList: [], // 小组创收参数,
       myFamilyGroupList:[],
-      PkGroupIdList:[], // 小组创收对比PK值
-      myGroupValue:[], // 小组创收mine值
+      PkGroupIdList:localStorage.getItem('incomePkGroupIds')?JSON.parse(localStorage.getItem('incomePkGroupIds')):[], // 小组创收对比PK值
+      myGroupValue:localStorage.getItem('incomeMyGroupIds')?JSON.parse(localStorage.getItem('incomeMyGroupIds')):[], // 小组创收mine值
     }
   }
   componentDidMount() {
@@ -50,7 +51,7 @@ class FamilyAndGroup extends React.Component {
       type: 'xdWorkModal/getIncomeFamilyGroupPk',
       payload: { params: { pkGroupIds: this.getParamas(),  selfGroupIds: this.state.myGroupValue} },
       callback: res =>  {
-        if (flag) {
+        if (flag && this.state.PkGroupIdList.length<=0) {
           this.setState({ myGroupValue: res.map(item => String(item.groupId))});
         }
       }
@@ -69,10 +70,17 @@ class FamilyAndGroup extends React.Component {
     })
   }
   handleOk = () => {
+    if(this.state.myGroupValue.concat(this.state.PkGroupIdList).length>6){
+      message.warning('小组最多只能选择6个');
+      return;
+
+    }
     this.setState({
       incomeVisible: false,
     });
     this.getIncomeFamilyGroupPk();
+    localStorage.setItem('incomePkGroupIds', JSON.stringify(this.state.PkGroupIdList));
+    localStorage.setItem('incomeMyGroupIds', JSON.stringify(this.state.myGroupValue));
   };
   handleCancel = () => {
     this.setState({
@@ -143,7 +151,7 @@ class FamilyAndGroup extends React.Component {
               </div>
               <div className={`${styles.myGroup} ${styles.pkGroup}`}>
                 <span className={styles.titleName} style={{width:'91px',display:'inline-block',textAlign:'right'}}>对比小组：</span>
-                <BITreeSelect 
+                <BITreeSelect
                   style={{ width: 445 }}
                   placeholder="请选择对比小组"
                   multiple

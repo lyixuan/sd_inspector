@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from '../style.less';
 import BITable from '@/ant_components/BITable'
+import xdPkImg from '@/assets/workBench/xdpk.gif';
 @connect(({ xdWorkModal, loading }) => ({
   familyIncomeGroup: xdWorkModal.familyIncomeGroup,
   loading: loading.effects['xdWorkModal/getIncomeFamilyGroupPk'],
@@ -16,17 +17,19 @@ class GroupIncome extends React.Component {
         title: '创收维度',
         dataIndex: '创收维度',
         key: '创收维度',
+        width:"12%",
         render: (text, record) => record[0],
       }];
-    
+
     if (colName && colName.length > 0) {
       colName.map(({ groupName, groupId }, index) => columns.push({
         title: groupName,
         dataIndex: groupName,
         key: groupName,
         className: this.getTdClass(groupId),
+        width:'13%',
         render: (text, record) => record[index + 1],
-      }))  
+      }))
     }
     return columns || []
   }
@@ -66,7 +69,9 @@ class GroupIncome extends React.Component {
           >
           </BITable>
         }
-
+        {
+          this.props.familyIncomeGroup.colName.length <=0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
+        }
       </div>
     );
   }

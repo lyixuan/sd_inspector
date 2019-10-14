@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from '../style.less';
 import BITable from '@/ant_components/BITable'
-
+import xdPkImg from '@/assets/workBench/xdpk.gif';
 function CustomExpandIcon(props) {
   return (
     <a />
@@ -23,7 +23,7 @@ class GroupScore extends React.Component {
     }
   }
   componentDidMount() {
-
+    this.props.getGroupPkList(true);
   }
   fillDataSource = (params, n = 1) => {
     let data = params
@@ -42,7 +42,7 @@ class GroupScore extends React.Component {
         title:'学分维度',
         dataIndex:'dimensionName',
         key:'dimensionName',
-        width:"16%"
+        width:"12%"
       }
     ]
     familyGroupPkList.groupList.map((item,index)=>{
@@ -50,6 +50,7 @@ class GroupScore extends React.Component {
         title:item.groupName,
         dataIndex:item.groupId,
         key:item.groupId,
+        width:'13%',
         render:(text,record)=>{
           return(
           <div>
@@ -91,6 +92,9 @@ class GroupScore extends React.Component {
             loading={this.props.loading}
           >
           </BITable>
+        }
+        {
+          familyGroupPkList && familyGroupPkList.groupList <=0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
         }
       </div>
     );

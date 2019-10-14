@@ -23,7 +23,6 @@ class IndexPage extends Component {
         this.setState({
           userInfo: data
         })
-        localStorage.setItem('userInfo', JSON.stringify(data))
       }
     });
   }
