@@ -141,7 +141,7 @@ class FamilyAndGroup extends React.Component {
                   style={{width:'100%'}}
                   value={myGroupValue}
                   onChange={(val) => this.onFormChange(val,'myGroupValue')}
-                  maxTagCount={3}
+                  maxTagCount={2}
                 >
                   {myFamilyGroupList.map((item, index) => (
                     <Option key={item.id}>
