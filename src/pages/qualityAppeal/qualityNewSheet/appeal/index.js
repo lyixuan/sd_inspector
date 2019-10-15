@@ -31,6 +31,7 @@ class QualityAppeal extends React.Component {
         <div className={styles.qualityContainter}>
           {/* 质检单详情 */}
           <BaseDetail data={{...others}}/>
+          <div>编辑违规信息</div>
           {/* 审核详情 */}
 
         </div>

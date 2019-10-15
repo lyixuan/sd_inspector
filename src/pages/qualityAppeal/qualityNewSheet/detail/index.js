@@ -28,6 +28,7 @@ class QualityDetail extends React.Component {
         <div className={styles.qualityContainter}>
           {/* 质检单详情 */}
           <BaseDetail data={{...others}}/>
+
         </div>
       </Spin>
     );
