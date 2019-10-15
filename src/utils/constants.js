@@ -500,33 +500,6 @@ export const SCORE_APPEAL_STATE_FIN = [
   { id: 11, name: '二次申诉失败' },
 ];
 // 归属人处罚方式
-const PUNISH_LIST = [
-  {id:'1',name:'扣除绩效'},
-  {id:'2',name:'扣除学分'},
-  {id:'3',name:'扣除挽留金额'},
-  {id:'4',name:'扣除人均挽留金额'},
-];
-
-// 责任人处罚分类
-export const PUNISH_TYPE = [
-  {
-    name: '扣除绩效',
-    value: 1,
-  },
-  {
-    name: '扣除学分',
-    value: 2,
-  },
-  {
-    name: '扣除挽留金额',
-    value: 3,
-  },
-  {
-    name: '扣除人均挽留金额',
-    value: 4,
-  },
-];
-// 归属人处罚方式
 export const PUNISH_TYPE_LIST = [
   {id:1,name:'扣除绩效'},
   {id:2,name:'扣除学分'},
@@ -568,8 +541,6 @@ export default {
   SCORE_APPEAL_STATE_ON_OWNER,
   SCORE_APPEAL_STATE_ON_MASTER,
   SCORE_APPEAL_DIS,
-  PUNISH_LIST,
-  PUNISH_TYPE,
   PUNISH_TYPE_LIST
 };
 // 质检审核-审核状态
