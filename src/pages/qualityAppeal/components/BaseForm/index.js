@@ -16,6 +16,10 @@ const confirm = BIModal.confirm;
 
 class FormIndex extends React.Component {
 
+  componentDidMount() {
+    this.getDimensionTreeList(this.props.params.dimensionId, this.props.params.qualityType);
+  }
+
   UNSAFE_componentWillReceiveProps(next) {
     const newDimensionId = next.params.dimensionId;
     const oldDimensionId = this.props.params.dimensionId;
@@ -185,7 +189,6 @@ class FormIndex extends React.Component {
       qualityValue: srcData.ownQualityValue,          // 责任人处罚力度
       attachedPersonList: arr,
       id: srcData.id,                                 // 质检单id
-      qualityNum: null,                               // 质检单号
       violationLevel: srcData.violationLevel,
     };
     orgList.forEach((v) => {
@@ -207,7 +210,7 @@ class FormIndex extends React.Component {
   };
 
   render() {
-    const { upLoadType, params, loadingMail, loadingOrder } = this.props || {};
+    const { params, loadingMail, loadingOrder } = this.props || {};
     const { orgList, orgMapByMailData, orderNumData, dimensionList1, dimensionList2, dimensionTreeList }
       = this.props.qualityAppealHome || {};
     params.organize = [params.collegeId, params.familyId, params.groupId];
@@ -216,8 +219,7 @@ class FormIndex extends React.Component {
     params.reduceScoreDate = moment(params.reduceScoreDate);
 
     return (
-      <BaseForm upLoadType={upLoadType}
-                orgList={orgList}
+      <BaseForm orgList={orgList}
                 orderNumData={ orderNumData }
                 dimensionList1={dimensionList1}
                 dimensionList2={dimensionList2}

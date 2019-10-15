@@ -17,7 +17,10 @@ export async function qualityCancelQuality(params) {
 export async function addQuality(data) {
   return request('/quality/addQuality', { method: 'post', data });
 }
-
+// 质检编辑
+export async function updateQuality(params) {
+  return request('/quality/updateQuality', { method: 'post', data: params });
+}
 
 
 

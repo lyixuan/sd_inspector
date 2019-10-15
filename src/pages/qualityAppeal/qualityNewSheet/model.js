@@ -1,6 +1,5 @@
 import { message } from 'antd/lib/index';
-import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
-import { getQualityDetail } from '@/pages/qualityAppeal/qualityAppeal/appeal/services';
+import { getQualityList, qualityExportExcel, qualityCancelQuality, addQuality,updateQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
 import router from 'umi/router';
 import { downBlob, msgF } from '@/utils/utils';
 
@@ -54,9 +53,18 @@ export default {
       const response = yield call(addQuality, payload);
       if (response.code === 20000) {
         message.success("创建成功")
-        yield put(router.push('/qualityAppeal/qualityNewSheet'));
+        return true
       } else {
         message.error(msgF(response.msg,response.msgDetail))
+      }
+    },
+    *updateQuality({ payload }, { call, put }) {
+      const result = yield call(updateQuality, { ...payload });
+      if (result.code === 20000) {
+        message.success('提交成功');
+        return true
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
   },

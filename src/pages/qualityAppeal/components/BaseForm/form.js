@@ -81,7 +81,6 @@ const BaseForm = Form.create({ name: 'base_form' })(
       const qualityType = this.props.form.getFieldValue('qualityType');
       const role = this.props.form.getFieldValue('role');
       this.props.changeDimensionTree({ qualityType, role, form:this.props.form,...violationLevelObj });
-      console.log('违规分类选择', violationLevelObj);
     };
 
     onChangeViolationLevel = (value) => {
@@ -112,7 +111,6 @@ const BaseForm = Form.create({ name: 'base_form' })(
       const attachedPersonList = [{},{},{},{}];
       attachedPersonListSrc.forEach((v,i)=>{
         attachedPersonList[i] = v;
-        form.setFields(`punishTypeUnit-${i}`,v.punishType?v.punishType===2?'分':'元':'--')
       });
       const children = [];
       for (let i = 0; i < attachedPersonList.length; i++) {

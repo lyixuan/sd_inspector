@@ -9,9 +9,6 @@ import BaseDetail from '@/pages/qualityAppeal/components/BaseDetail';
   pageLoading: loading.effects['qualityAppealHome/getQualityDetailData']
 }))
 class QualityDetail extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   componentDidMount() {
     const { location: { query }} = this.props;
     this.props.dispatch({

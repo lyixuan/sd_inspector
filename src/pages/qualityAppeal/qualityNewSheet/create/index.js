@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import FormIndex from '@/pages/qualityAppeal/components/BaseForm/index';
 import styles from './style.less';
+import router from 'umi/router';
 
 @connect(({ loading, qualityNewSheet }) => ({
   loading,
@@ -13,6 +14,8 @@ class CreateQualityNewSheet extends React.Component {
     this.props.dispatch({
       type: 'qualityNewSheet/addQuality',
       payload: { ...params },
+    }).then((res)=>{
+      res && router.goBack();
     });
   };
 
