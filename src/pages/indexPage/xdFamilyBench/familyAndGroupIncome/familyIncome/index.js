@@ -33,9 +33,10 @@ class FamilyIncome extends React.Component {
   }
   render() {
     const { familyList, pkFamilyId } = this.state;
+    const {userInfo} = this.props.xdWorkModal.xdWorkModal
     return (
       <div className={styles.creditContainer}>
-        <FamilyIncomeLeft className={styles.familyLeft} familyList={familyList} pkFamilyId={pkFamilyId}/>
+        <FamilyIncomeLeft className={styles.familyLeft} familyList={familyList} userInfo={userInfo} pkFamilyId={pkFamilyId}/>
         <FamilyIncomeRight className={styles.familyRight} familyList={familyList} changeSelected={this.changeSelected}/>
       </div>
     );

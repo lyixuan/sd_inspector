@@ -61,7 +61,7 @@ class FamilyScoreLeft extends React.Component {
   }
   columns = () => {
     let maxNumMyScore = ""
-    const {familyScoreList} = this.props
+    const {familyScoreList,userInfo} = this.props
     const PkName = familyScoreList.pkGroup.familyName
     const columns = [{
       title: '学分维度',
@@ -69,7 +69,7 @@ class FamilyScoreLeft extends React.Component {
       key: 'dimensionName',
       width: '30%'
     },{
-      title: '环比',
+      title: '环比(%)',
       dataIndex: 'myScoreRatio',
       key: 'myScoreRatio',
       width: '14%',
@@ -86,7 +86,7 @@ class FamilyScoreLeft extends React.Component {
         )
       }
     },{
-      title: '全国工商管理',
+      title: userInfo.familyName,
       dataIndex: 'myScore',
       key: 'myScore',
       width: '14%',
