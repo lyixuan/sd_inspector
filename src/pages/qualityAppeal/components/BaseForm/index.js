@@ -185,7 +185,6 @@ class FormIndex extends React.Component {
       qualityValue: srcData.ownQualityValue,          // 责任人处罚力度
       attachedPersonList: arr,
       id: srcData.id,                                 // 质检单id
-      qualityNum: null,                               // 质检单号
       violationLevel: srcData.violationLevel,
     };
     orgList.forEach((v) => {

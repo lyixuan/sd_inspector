@@ -4,12 +4,13 @@ import { Spin } from 'antd';
 import FormIndex from '@/pages/qualityAppeal/components/BaseForm/index';
 import styles from './style.less';
 
-@connect(({ loading, qualityAppealHome, editQualityNewSheet }) => ({
+@connect(({ loading, qualityAppealHome, qualityNewSheet }) => ({
   loading,
   qualityAppealHome,
-  editQualityNewSheet,
+  qualityNewSheet,
   pageLoading: loading.effects['qualityAppealHome/getQualityDetailData']
 }))
+
 class EditQualityNewSheet extends React.Component {
   constructor(props) {
     super(props);
@@ -34,7 +35,7 @@ class EditQualityNewSheet extends React.Component {
   };
   onSubmit = params => {
     this.props.dispatch({
-      type: 'editQualityNewSheet/updateQuality',
+      type: 'qualityNewSheet/updateQuality',
       payload: { ...params },
     });
   };
@@ -46,8 +47,7 @@ class EditQualityNewSheet extends React.Component {
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.qualityContainter}>
-          <FormIndex formType="edit"
-                     params={{ ...others }}
+          <FormIndex params={{ ...others }}
                      onSubmit={this.onSubmit}/>
         </div>
       </Spin>
