@@ -4,7 +4,6 @@ import { Spin,Icon } from 'antd';
 import BaseDetail from '@/pages/qualityAppeal/components/BaseDetail';
 import BIModal from '@/ant_components/BIModal';
 import styles from './style.less';
-import BIButton from '@/ant_components/BIButton';
 import FormIndex from '@/pages/qualityAppeal/components/BaseForm/index';
 
 @connect(({ loading, qualityNewSheet,qualityAppealHome }) => ({
@@ -43,6 +42,19 @@ class QualityAppeal extends React.Component {
     this.props.dispatch({
       type: 'qualityNewSheet/updateQuality',
       payload: { ...params },
+    }).then((res)=>{
+      if(res){
+        this.setState({
+          visible:false
+        });
+        this.getQualityDetailData();
+      }
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      visible: false,
     });
   };
 
@@ -62,6 +74,8 @@ class QualityAppeal extends React.Component {
           title="编辑质检信息"
           width={1200}
           visible={this.state.visible}
+          onCancel={this.handleCancel}
+          footer={null}
         >
           <FormIndex params={{ ...others }}
                      onSubmit={this.onSubmit}/>

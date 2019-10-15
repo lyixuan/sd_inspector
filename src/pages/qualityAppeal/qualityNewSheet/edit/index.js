@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Spin } from 'antd';
 import FormIndex from '@/pages/qualityAppeal/components/BaseForm/index';
 import styles from './style.less';
+import router from 'umi/router';
 
 @connect(({ loading, qualityAppealHome, qualityNewSheet }) => ({
   loading,
@@ -37,6 +38,8 @@ class EditQualityNewSheet extends React.Component {
     this.props.dispatch({
       type: 'qualityNewSheet/updateQuality',
       payload: { ...params },
+    }).then((res)=>{
+      res && router.goBack();
     });
   };
 

@@ -53,7 +53,7 @@ export default {
       const response = yield call(addQuality, payload);
       if (response.code === 20000) {
         message.success("创建成功")
-        yield put(router.push('/qualityAppeal/qualityNewSheet'));
+        return true
       } else {
         message.error(msgF(response.msg,response.msgDetail))
       }
@@ -62,7 +62,7 @@ export default {
       const result = yield call(updateQuality, { ...payload });
       if (result.code === 20000) {
         message.success('提交成功');
-        yield put(router.push('/qualityAppeal/qualityNewSheet'));
+        return true
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }
