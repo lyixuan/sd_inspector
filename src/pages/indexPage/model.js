@@ -325,19 +325,19 @@ export default {
           tip: '本绩效周期内用户所在家族的创收净流水'
         }, {
           title: '绩效排名',
-          num: `${data.familyCount}/${data.ranking}`,
+          num: `${data.ranking}/${data.familyCount}`,
           tip: '本绩效周期内用户所在家族创收绩效在集团所有家族中的净流水的排名'
         }, {
           title: '好推绩效',
-          num: data.goodpushKpi,
+          num: thousandsFormat(Math.floor(data.goodpushKpi)),
           tip: '本绩效周期内用户所在家族好推绩效'
         }, {
           title: '续报绩效',
-          num: data.renewalKpi,
+          num: thousandsFormat(Math.floor(data.renewalKpi)),
           tip: '本绩效周期内用户所在家族续报绩效'
         }, {
           title: '成本套绩效',
-          num: data.examZbtKpi,
+          num: thousandsFormat(Math.floor(data.examZbtKpi)),
           tip: '本绩效周期内用户所在家族成本套绩效'
         }]
 
