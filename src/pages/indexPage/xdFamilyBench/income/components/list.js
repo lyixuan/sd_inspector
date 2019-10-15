@@ -4,6 +4,7 @@ import BITable from '@/ant_components/BITable';
 import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
 import normal from '@/assets/xdFamily/rankNormal.png';
+import SmallProgress from '@/pages/indexPage/components/smallProgress'
 import styles from './style.less';
 
 const rankImg = {
@@ -12,10 +13,15 @@ const rankImg = {
   2: up,
 }
 @connect(({ xdWorkModal, loading }) => ({
-  familyIncome: xdWorkModal.familyIncome,
   loading: loading.effects['xdWorkModal/getCurrentIncomeClass'] || loading.effects['xdWorkModal/getCurrentIncomeGroup'],
 }))
 class ProfitList extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      familyIncome: [],
+    }
+  }
   componentDidMount() {
     this.getData();
   }
@@ -29,7 +35,7 @@ class ProfitList extends React.Component {
         dataIndex: 'ranking',
         key: 'ranking',
         render: (text, record) => <div className={styles.sort}>
-          {text} <img className={styles.sortImg} src={rankImg[record.rankingFlag + 1]} />
+          {text}/{record.classCount} <img src={rankImg[record.rankingFlag + 1]} />
         </div>
       }, {
         width: '9%',
@@ -47,6 +53,7 @@ class ProfitList extends React.Component {
         dataIndex: 'goodpushKpi',
         key: 'goodpushKpi',
         className: styles.row1,
+        render: text => <>{text}<SmallProgress isColor="green" percent={`${30}%`}></SmallProgress></>
       }, {
         width: widthVal,
         title: '好推单量',
@@ -65,6 +72,7 @@ class ProfitList extends React.Component {
         dataIndex: 'renewalKpi',
         key: 'renewalKpi',
         className: styles.row2,
+        render: text => <>{text}<SmallProgress isColor="green" percent={`${30}%`}></SmallProgress></>
       }, {
         width: widthVal,
         title: '续报单量',
@@ -83,6 +91,7 @@ class ProfitList extends React.Component {
         dataIndex: 'examZbtKpi',
         key: 'examZbtKpi',
         className: styles.row3,
+        render: text => <>{text}<SmallProgress isColor="green" percent={`${30}%`}></SmallProgress></>
       }, {
         width: widthVal,
         title: '成本套当量',
@@ -111,25 +120,27 @@ class ProfitList extends React.Component {
     if (this.props.tabKey === '1') { // 小组
       this.props.dispatch({
         type: 'xdWorkModal/getCurrentIncomeGroup',
+        callback: familyIncome => this.setState({ familyIncome })
       });
     } else if (this.props.tabKey === '2') {
       this.props.dispatch({
         type: 'xdWorkModal/getCurrentIncomeClass',
+        callback: familyIncome => this.setState({ familyIncome })
       });
     } 
   }
 
   render() {
+    console.log(this.props.tabKey)
     return (
       <div className={styles.tableList}>
         <BITable
           columns={this.columns()}
-          dataSource={this.props.familyIncome}
+          dataSource={this.state.familyIncome}
           pagination={false}
           loading={this.props.loading}
           rowKey={record => record.id}
           scroll={{ x: 'max-content', y: 400 }}
-          smalled
         />
       </div>
 

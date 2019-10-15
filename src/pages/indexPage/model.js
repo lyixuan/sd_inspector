@@ -321,7 +321,7 @@ export default {
         const data = result.data;
         const inCometarget = [{
           title: '家族净流水',
-          num: thousandsFormat(data.kpiFlow),
+          num: thousandsFormat(Math.floor(data.kpiFlow)),
           tip: '本绩效周期内用户所在家族的创收净流水'
         }, {
           title: '绩效排名',
@@ -346,18 +346,23 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getCurrentIncomeGroup(_, { put, call }) {
-      const result = yield call(getCurrentIncomeGroup)
+    *getCurrentIncomeGroup({ callback }, { call }) {
+      const result = yield call(getCurrentIncomeGroup);
       if (result.code === 20000) {
-        yield put({ type: 'save', payload: { familyIncome: result.data } });
+        result.data && result.data.map(item =>item.classCount = item.groupCount)
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getCurrentIncomeClass(_, { put, call }) {
+    *getCurrentIncomeClass({ callback }, { call }) {
       const result = yield call(getCurrentIncomeClass)
       if (result.code === 20000) {
-        yield put({ type: 'save', payload: { familyIncome: result.data } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
