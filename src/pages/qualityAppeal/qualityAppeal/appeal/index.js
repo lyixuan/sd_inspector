@@ -5,6 +5,7 @@ import { Spin,Icon } from 'antd';
 import BaseDetail from '@/pages/qualityAppeal/components/BaseDetail';
 import BIModal from '@/ant_components/BIModal';
 import FormIndex from '@/pages/qualityAppeal/components/BaseForm/index';
+import AuthButton from '@/components/AuthButton';
 
 @connect(({ qualityAppealing, qualityAppealHome,loading }) => ({
   qualityAppealing,
@@ -78,7 +79,9 @@ class QualityAppealing extends React.Component {
         <div className={styles.detailContainer}>
           {/*质检详情*/}
           <BaseDetail data={QualityDetailData}/>
-          <div className={styles.editButton} onClick={this.edit}><Icon type="edit" /> 编辑违规信息</div>
+          <AuthButton authority="/qualityAppeal/qualityAppeal/editQuality">
+            <div className={styles.editButton} onClick={this.edit}><Icon type="edit" /> 编辑违规信息</div>
+          </AuthButton>
           {/* 申诉信息 */}
           {/*{this.getAppealInfos(DetailData)}*/}
         </div>
