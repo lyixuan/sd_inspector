@@ -38,6 +38,7 @@ import {
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
 import moment from 'moment';
+import { thousandsFormat } from '@/utils/utils';
 
 export default {
   namespace: 'xdWorkModal',
@@ -320,7 +321,7 @@ export default {
         const data = result.data;
         const inCometarget = [{
           title: '家族净流水',
-          num: data.kpiFlow,
+          num: thousandsFormat(data.kpiFlow),
           tip: '本绩效周期内用户所在家族的创收净流水'
         }, {
           title: '绩效排名',
