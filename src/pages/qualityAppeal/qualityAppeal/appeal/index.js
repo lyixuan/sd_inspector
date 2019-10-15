@@ -58,7 +58,7 @@ class QualityAppealing extends React.Component {
         this.setState({
           visible:false
         });
-        this.componentDidMount();
+        this.getQualityInfo();
       }
     });
   };
