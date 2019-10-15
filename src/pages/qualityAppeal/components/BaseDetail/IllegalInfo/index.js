@@ -5,6 +5,18 @@ import moment from 'moment/moment';
 
 
 export default class IllegalInfo extends React.Component {
+  renderAttached = ()=>{
+    const { data } = this.props;
+    const { attachedPersonList = []} = data || {};
+    attachedPersonList && attachedPersonList.map((v)=>{
+      return <div>
+        <span>{v.roleName?v.roleName:'--'}</span>
+        <span>{v.userName?v.userName:'--'}@sunlands.com</span>
+        <span>{v.punishType?v.punishType:''}</span>
+        <span>{v.qualityValue?v.qualityValue:'--'}</span>
+      </div>
+    });
+  };
   render() {
     const { data } = this.props;
     return (
@@ -31,8 +43,8 @@ export default class IllegalInfo extends React.Component {
         <div style={{padding:'10px 20px'}}><div className={styles.line}></div></div>
         <div className={styles.container}>
           <div className={styles.secRow}>
-            <div><span className={styles.spanLabel}>责任人处罚</span>：{moment(data.violationDate).format('YYYY-MM-DD')}</div>
-            <div><span className={styles.spanLabel}>连带责任人处罚</span>：{moment(data.reduceScoreDate).format('YYYY-MM-DD')}</div>
+            <div><span className={styles.spanLabel}>责任人处罚</span>：{BiFilter(`PUNISH_TYPE_LIST|id:${data.qualityType}`).name} {data.ownQualityValue}{data.qualityType?data.qualityType===2?'元':'分':''}</div>
+            <div><span className={styles.spanLabel}>连带责任人处罚</span>：{this.renderAttached()}</div>
           </div>
         </div>
       </section>

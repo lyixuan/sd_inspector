@@ -24,7 +24,7 @@ export default class CheckInfoComponent extends React.Component {
   }
   getOperateName=(code) =>{
     return CHECKSTATUS[code];
-  }
+  };
   render() {
     const {firstAppealEndDate,data=[],checkResultsCollapse} = this.props;
     return (

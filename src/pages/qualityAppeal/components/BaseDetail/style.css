@@ -11,4 +11,13 @@
   text-align-last: justify;
 }
 
+.firstTitle {
+  height: 43px;
+  background-color: #f6f7fa;
+  line-height: 43px;
+  padding-left: 18px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #353535;
+}
 
