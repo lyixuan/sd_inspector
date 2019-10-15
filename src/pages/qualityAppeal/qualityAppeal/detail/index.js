@@ -43,7 +43,7 @@ class AppealDetail extends React.Component {
           {/*质检详情*/}
           <BaseDetail data={QualityDetailData} />
           {/* 申诉信息 */}
-          <AppealInfoDetail dataList={qualityAudit} />
+          <AppealInfoDetail dataList={DetailData} />
           {/*{this.getAppealInfos(DetailData)}*/}
           <section style={{ textAlign: 'right', marginTop: '20px' }}>
             <BIButton onClick={() => router.goBack()}>返回</BIButton>

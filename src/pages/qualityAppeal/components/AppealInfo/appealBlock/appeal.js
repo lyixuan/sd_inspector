@@ -73,7 +73,7 @@ class Appeal extends React.Component {
             </div>
           </>
         ) : null}
-        {data2 && (status === 6 || status === 8) ? (
+        {data2 ? (
           <div className={styles.appealWrap}>
             <div className={styles.s1_title}>
               二次申诉
