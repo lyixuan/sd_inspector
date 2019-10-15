@@ -3,19 +3,21 @@ import { connect } from 'dva';
 import styles from './style.less';
 import { Spin } from 'antd';
 import BaseDetail from '@/pages/qualityAppeal/components/BaseDetail';
+import Appeal from '@/pages/qualityAppeal/components/AppealInfo/Appeal';
 
-@connect(({ qualityAppealing, qualityAppealHome,loading }) => ({
+@connect(({ qualityAppealing, qualityAppealHome, loading }) => ({
   qualityAppealing,
   qualityAppealHome,
   submitLoading: loading.effects['qualityAppealing/reviewAppeal'],
   submitLoading2: loading.effects['qualityAppealing/sopAppeal'],
-  pageLoading: loading.effects['qualityAppealing/getAppealInfo'] || loading.effects['qualityAppealHome/getQualityDetailData']
+  pageLoading:
+    loading.effects['qualityAppealing/getAppealInfo'] ||
+    loading.effects['qualityAppealHome/getQualityDetailData'],
 }))
 class QualityAppealing extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
     const { query = {} } = this.props.location;
     this.query = query;
   }
@@ -36,16 +38,16 @@ class QualityAppealing extends React.Component {
     });
   };
   render() {
-    const {DetailData={}} = this.props.qualityAppealing||{};
-
-    const {QualityDetailData={}} = this.props.qualityAppealHome||{};
-
+    const { DetailData = {}, appealShow } = this.props.qualityAppealing || {};
+    const { QualityDetailData = {} } = this.props.qualityAppealHome || {};
+    console.log(QualityDetailData, 'qualityDetailData');
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.detailContainer}>
           {/*质检详情*/}
-          <BaseDetail data={QualityDetailData}/>
+          <BaseDetail data={QualityDetailData} />
           {/* 申诉信息 */}
+          <Appeal {...this.props} appealShow={appealShow} QualityDetailData={QualityDetailData} />
           {/*{this.getAppealInfos(DetailData)}*/}
         </div>
       </Spin>
