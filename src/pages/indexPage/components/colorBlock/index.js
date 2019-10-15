@@ -3,7 +3,7 @@ import { Tooltip } from 'antd';
 import styles from './style.less';
 import face1 from '@/assets/xdFamily/face1.png';
 import face2 from '@/assets/xdFamily/face2.png';
-import { thousandsFormat } from '@/utils/utils';
+
 
 class ColorBlock extends React.Component {
   render() {
@@ -15,7 +15,7 @@ class ColorBlock extends React.Component {
             <Tooltip key={index} placement="bottom" title={item[tip]}>
               <div className={styles.block}>
                 <div className={`${styles.title} ${styles['bg_color' + index % 5]}`}>{item[title]}</div>
-                {thousandsFormat(item[num])}
+                {item[num]}
               </div>
             </Tooltip>
             {item.rank == 'green' && <div className={styles.tips}>

@@ -152,7 +152,7 @@ class Performance extends React.Component {
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
-    if (scrollTop > userLocation && scrollTop < userLocation + 200) {
+    if (scrollTop > userLocation && scrollTop < userLocation + 400) {
       if (userFlag === true) {
         this.setState({
           userFlag: false
@@ -167,7 +167,7 @@ class Performance extends React.Component {
   getRowClassName = (record, index) => {
     if (record.myFamily) {
       this.state.userMsg = record;
-      this.state.userLocation = 40 * (index + 1) - 230;
+      this.state.userLocation = 40 * (index + 1) - 430;
       return styles.pkUser;
     };
   }
@@ -216,12 +216,12 @@ class Performance extends React.Component {
             smalled
           />
         </div>}
-        <div id="scroller" className={styles.tableContainer} style={{ height: '248px' }}>
+        <div id="scroller" className={styles.tableContainer}>
           <BITable
             columns={this.columns()}
             dataSource={this.state.dataSource}
             pagination={false}
-            scroll={{ x: 0, y: 200 }}
+            scroll={{ x: 0, y: 400 }}
             rowKey={(record, index) => index}
             rowClassName={this.getRowClassName}
             smalled

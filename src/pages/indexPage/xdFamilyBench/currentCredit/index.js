@@ -58,8 +58,7 @@ class CurrentCredit extends React.Component {
     return (
       <div className={styles.currentCredit}>
         <ColorBlock dataSet={arr} title='title1' num='num' />
-        <div style={{ height: '24px' }}></div>
-        <TopTabs tabParams={tabParams} />
+        <TopTabs tabParams={tabParams} style={{ marginTop: '-20px' }} />
       </div>
     );
   }
