@@ -61,21 +61,21 @@ class FamilyIncomeLeft extends React.Component {
     return arr
   }
   columns = () => {
-    const { pkFamilyId } = this.props;
+    const { pkFamilyId,userInfo } = this.props;
     const columns = [{
-      width: '20%',
+      width: '25%',
       title: '创收维度',
       dataIndex: 'dim',
       key: 'dim',
     },{
-      width: '15%',
-      title: '环比',
+      width: '14%',
+      title: '环比(%)',
       dataIndex: 'ringPk',
       key: 'ringPk',
       render: text => <IndentNum className={JudgeNumFn(text)}>{text}</IndentNum>
     },{
-      width: '20%',
-      title: '全国工商管理',
+      width: '14%',
+      title: userInfo.familyName,
       dataIndex: 'selfValue',
       key: 'selfValue',
       render:(text, record, index)=> <IndentNum className={pkFamilyId ? JudgeNumFn(Number(text), Number(record.familyPk), index === 0 ? true : false) : ''}>{text}</IndentNum>
@@ -83,7 +83,7 @@ class FamilyIncomeLeft extends React.Component {
       title: '',
       dataIndex: 'selfValue',
       key: 'leftNum',
-      width: 58.5,
+      width: 51,
       render: (text, record, index) => {
         return (
           pkFamilyId && index > 2 ? <Progress leftNumber = {true} data={{myScore: text, groupScore: record.familyPk}}/>
@@ -104,7 +104,7 @@ class FamilyIncomeLeft extends React.Component {
       title: '',
       dataIndex: 'familyPk',
       key: 'rightNum',
-      width: 58.5,
+      width: 51,
       render: (text, record, index) => {
         return (
           pkFamilyId && index > 2  ? <Progress data={{myScore: record.selfValue, groupScore: text}}/>
@@ -126,6 +126,7 @@ class FamilyIncomeLeft extends React.Component {
       title: '对比家族',
       dataIndex: 'familyPk',
       key: 'familyPk',
+      width:'25%',
       render:(text, record, index)=> <IndentNum className={pkFamilyId ? JudgeNumFn(Number(text), Number(record.selfValue), index === 0 ? true : false) : ''}>{text ? text : ''}</IndentNum>
     }]
     return columns || [];

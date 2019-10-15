@@ -23,7 +23,8 @@ class GroupScore extends React.Component {
     }
   }
   componentDidMount() {
-    this.props.getGroupPkList(true);
+    console.log(26,this.props.this)
+    this.props.getGroupPkList(false);
   }
   fillDataSource = (params, n = 1) => {
     let data = params

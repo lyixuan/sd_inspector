@@ -33,23 +33,21 @@ class FamilyScore extends React.Component {
   //获取右侧家族排名下拉筛选的数据
   getCollegeList=()=>{
     this.props.dispatch({
-      type: 'xdWorkModal/getCollegeList',
-      payload: { params: {} },
-      callback:(data)=>{
-        this.setState({
-          collegeList:data
-        })
-      }
+      type: 'xdWorkModal/getIncomeCollegeList',
+      callback: (orgOptions) => {
+        console.log(38,orgOptions)
+        this.setState({ collegeList:orgOptions });
+      },
     });
   };
 
   render() {
-    const {familyScoreList={}} = this.props.xdWorkModal.xdWorkModal
+    const {familyScoreList={},userInfo} = this.props.xdWorkModal.xdWorkModal
     const {collegeList=[]} = this.state
     const familyId = familyScoreList&&familyScoreList.myGroup.familyId
     return (
       <div className={styles.creditContainer}>
-        <FamilyScoreLeft className={styles.familyLeft} familyScoreList={familyScoreList} />
+        <FamilyScoreLeft className={styles.familyLeft} familyScoreList={familyScoreList} userInfo={userInfo}/>
         <FamilyScoreRight className={styles.familyRight}  collegeList={collegeList}  familyId={familyId} getFamilyList={this.getFamilyList}/>
       </div>
     );

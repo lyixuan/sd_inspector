@@ -129,7 +129,6 @@ class FamilyIncomeRight extends React.Component {
   setRowClassName = (record, index) => {
     const {familyList}=this.props
     let className = ''
-    console.log(131,record.familyId,familyList.selfFamilyId)
     if (record.familyId == familyList.selfFamilyId) {
 
       this.state.userMsg = record;

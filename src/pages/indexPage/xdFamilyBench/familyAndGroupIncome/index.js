@@ -103,6 +103,15 @@ class FamilyAndGroup extends React.Component {
       [vname]: value
     });
   };
+  sliceArr=(arr)=>{
+    let array = []
+    if(arr.length>6){
+      array = arr.splice(0,4);
+    }else{
+      array = arr
+    }
+    return array
+  }
   render() {
     const { orgListTreeData = [], userInfo } = this.props;
     const {myFamilyGroupList, myGroupValue, PkGroupIdList} = this.state
@@ -139,7 +148,7 @@ class FamilyAndGroup extends React.Component {
                   placeholder="请选择小组"
                   mode="multiple"
                   style={{width:'100%'}}
-                  value={myGroupValue}
+                  value={this.sliceArr(myGroupValue)}
                   onChange={(val) => this.onFormChange(val,'myGroupValue')}
                   maxTagCount={2}
                 >

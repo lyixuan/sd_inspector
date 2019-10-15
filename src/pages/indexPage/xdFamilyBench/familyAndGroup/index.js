@@ -42,6 +42,7 @@ class FamilyAndGroup extends React.Component {
       PkGroupIdList:localStorage.getItem('pkGroupIds')?JSON.parse(localStorage.getItem('pkGroupIds')):[], // 小组创收对比PK值
       myGroupValue:localStorage.getItem('myGroupIds')?JSON.parse(localStorage.getItem('myGroupIds')):[], // 小组创收mine值
       pkGroupIds:[],
+      showFamilyGroup:localStorage.getItem('pkGroupIds')||localStorage.getItem('myGroupIds')?false:true
     }
   }
   componentDidMount() {
@@ -51,14 +52,15 @@ class FamilyAndGroup extends React.Component {
       payload: { params: {} },
     });
     this.myFamilyGroupList()
-    this.getGroupPkList()
+    this.getGroupPkList(this.state.showFamilyGroup)
   }
   getGroupPkList=(flag)=>{
     this.props.dispatch({
       type:'xdWorkModal/getGroupPkList',
-      payload: { params: {pkGroupIds:this.getParamas(),myGroupIds:this.state.myGroupValue} },
+      payload: { params: {pkGroupIds:this.getParamas(),myGroupIds:this.state.myGroupValue,showFamilyGroup:flag} },
       callback: res =>  {
         if (flag && this.state.PkGroupIdList.length<=0) {
+          console.log(63,flag,this.state.PkGroupIdList)
           this.setState({
             myGroupValue: res.map(item => String(item.groupId))
           });
@@ -99,15 +101,17 @@ class FamilyAndGroup extends React.Component {
     return arr.reduce((prev,cur) => prev.includes(cur) ? prev : [...prev,cur],[]);
   }
   handleOk = () => {
-    console.log(102,this.state.PkGroupIdList.concat(this.state.myGroupValue))
     if(this.state.PkGroupIdList.concat(this.state.myGroupValue).length>6){
       message.warning('小组最多只能选择6个');
       return
     }
     this.setState({
       visible: false,
+      showFamilyGroup: false,
     });
-    this.getGroupPkList();
+    setTimeout(()=>{
+      this.getGroupPkList(this.state.showFamilyGroup);
+    },300)
     localStorage.setItem('pkGroupIds', JSON.stringify(this.state.PkGroupIdList));
     localStorage.setItem('myGroupIds', JSON.stringify(this.state.myGroupValue));
 
