@@ -43,7 +43,7 @@ export default class IllegalInfo extends React.Component {
         <div style={{padding:'10px 20px'}}><div className={styles.line}></div></div>
         <div className={styles.container}>
           <div className={styles.secRow}>
-            <div><span className={styles.spanLabel}>责任人处罚</span>：{BiFilter(`PUNISH_TYPE_LIST|id:${data.qualityType}`).name} {data.ownQualityValue}{data.qualityType?data.qualityType===2?'元':'分':''}</div>
+            <div><span className={styles.spanLabel}>责任人处罚</span>：{BiFilter(`PUNISH_TYPE_LIST|id:${data.qualityType}`).name} {data.ownQualityValue}{data.qualityType?data.qualityType===2?'分':'元':''}</div>
             <div><span className={styles.spanLabel}>连带责任人处罚</span>：{this.renderAttached()}</div>
           </div>
         </div>

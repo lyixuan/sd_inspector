@@ -4,9 +4,9 @@ import { connect } from 'dva';
 import { Spin } from 'antd';
 import BaseDetail from '@/pages/qualityAppeal/components/BaseDetail';
 
-@connect(({ qualityNewSheet, loading }) => ({
-  qualityNewSheet,
-  pageLoading: loading.effects['qualityNewSheet/getQualityDetail']
+@connect(({ qualityAppealHome, loading }) => ({
+  qualityAppealHome,
+  pageLoading: loading.effects['qualityAppealHome/getQualityDetailData']
 }))
 class QualityDetail extends React.Component {
   constructor(props) {
@@ -15,14 +15,14 @@ class QualityDetail extends React.Component {
   componentDidMount() {
     const { location: { query }} = this.props;
     this.props.dispatch({
-      type: 'qualityNewSheet/getQualityDetail',
+      type: 'qualityAppealHome/getQualityDetailData',
       payload: query,
     });
   }
 
   render() {
-    const { qualityDetail = {} } = this.props.qualityNewSheet;
-    const { qualityAudit, ...others } = qualityDetail;
+    const { QualityDetailData = {} } = this.props.qualityAppealHome;
+    const { qualityAudit, ...others } = QualityDetailData;
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.qualityContainter}>

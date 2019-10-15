@@ -4,12 +4,11 @@ import { Spin } from 'antd';
 import FormIndex from '@/pages/qualityAppeal/components/BaseForm/index';
 import styles from './style.less';
 
-@connect(({ loading, qualityAppealHome,qualityNewSheet, editQualityNewSheet }) => ({
+@connect(({ loading, qualityAppealHome, editQualityNewSheet }) => ({
   loading,
   qualityAppealHome,
-  qualityNewSheet,
   editQualityNewSheet,
-  pageLoading: loading.effects['qualityNewSheet/getQualityDetail']
+  pageLoading: loading.effects['qualityAppealHome/getQualityDetailData']
 }))
 class EditQualityNewSheet extends React.Component {
   constructor(props) {
@@ -22,7 +21,7 @@ class EditQualityNewSheet extends React.Component {
   getQualityDetailData = () => {
     const { location: { query }} = this.props;
     this.props.dispatch({
-      type: 'qualityNewSheet/getQualityDetail',
+      type: 'qualityAppealHome/getQualityDetailData',
       payload: query,
     }).then((res)=>{
       if(res) {
@@ -41,8 +40,9 @@ class EditQualityNewSheet extends React.Component {
   };
 
   render() {
-    const { qualityDetail = {} } = this.props.qualityNewSheet;
-    const { qualityAudit, ...others } = qualityDetail;
+    const { QualityDetailData = {} } = this.props.qualityAppealHome;
+    const { qualityAudit, ...others } = QualityDetailData;
+
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.qualityContainter}>

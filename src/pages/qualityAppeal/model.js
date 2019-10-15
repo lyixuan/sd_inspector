@@ -105,14 +105,16 @@ export default {
       }
     },
     *getQualityDetailData({ payload }, { call, put }) {
-      //质检详情页数据
+      //质检详情数据
       const result = yield call(getQualityDetail, { ...payload });
-      const QualityDetailData = result.data ? result.data : {};
-
       if (result.code === 20000) {
-        yield put({ type: 'saveQualityDetailData', payload: { QualityDetailData } });
+        const QualityDetailData = result.data ? result.data : {};
+        QualityDetailData.ownQualityValue = QualityDetailData.qualityValue;
+        delete QualityDetailData.qualityValue;
+        yield put({ type: 'save', payload: { QualityDetailData } });
+        return QualityDetailData;
       } else {
-        message.error(msgF(result.msg, result.msgDetail));
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
     *getOrderNum({ payload }, { call, put }) {

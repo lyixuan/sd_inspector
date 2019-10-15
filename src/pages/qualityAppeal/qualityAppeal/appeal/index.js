@@ -1,17 +1,15 @@
 import React from 'react';
 import { connect } from 'dva';
-import BIButton from '@/ant_components/BIButton';
 import styles from './style.less';
-import router from 'umi/router';
-import { message, Spin } from 'antd';
+import { Spin } from 'antd';
+import BaseDetail from '@/pages/qualityAppeal/components/BaseDetail';
 
-@connect(({ qualityAppealing, qualityAppealHome, loading }) => ({
+@connect(({ qualityAppealing, qualityAppealHome,loading }) => ({
   qualityAppealing,
-  orgList: qualityAppealHome.orgList,
   qualityAppealHome,
   submitLoading: loading.effects['qualityAppealing/reviewAppeal'],
   submitLoading2: loading.effects['qualityAppealing/sopAppeal'],
-  pageLoading: loading.effects['qualityAppealing/getAppealInfo'] || loading.effects['qualityAppealing/getQualityDetailData']
+  pageLoading: loading.effects['qualityAppealing/getAppealInfo'] || loading.effects['qualityAppealHome/getQualityDetailData']
 }))
 class QualityAppealing extends React.Component {
   constructor(props) {
@@ -33,24 +31,22 @@ class QualityAppealing extends React.Component {
   };
   getQualityInfo = () => {
     this.props.dispatch({
-      type: 'qualityAppealing/getQualityDetailData',
+      type: 'qualityAppealHome/getQualityDetailData',
       payload: { id: this.query.id },
     });
   };
   render() {
-    const {qualityAppealing={}} = this.props;
-    const {QualityDetailData={},DetailData={}} = qualityAppealing;
+    const {DetailData={}} = this.props.qualityAppealing||{};
+
+    const {QualityDetailData={}} = this.props.qualityAppealHome||{};
 
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.detailContainer}>
           {/*质检详情*/}
-
+          <BaseDetail data={QualityDetailData}/>
           {/* 申诉信息 */}
           {/*{this.getAppealInfos(DetailData)}*/}
-          <section style={{ textAlign: 'right', marginTop: '20px' }}>
-            <BIButton onClick={() => router.goBack()}>返回</BIButton>
-          </section>
         </div>
       </Spin>
     );

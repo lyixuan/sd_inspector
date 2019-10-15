@@ -6,10 +6,12 @@ import router from 'umi/router';
 import BIButton from '@/ant_components/BIButton';
 import BaseDetail from '@/pages/qualityAppeal/components/BaseDetail';
 
-@connect(({ appealDetail,loading }) => ({
+@connect(({ appealDetail,qualityAppealHome,loading }) => ({
   appealDetail,
-  pageLoading: loading.effects['appealDetail/getDetailData']||loading.effects['appealDetail/getQualityDetailData']
+  qualityAppealHome,
+  pageLoading: loading.effects['appealDetail/getDetailData']||loading.effects['qualityAppealHome/getQualityDetailData']
 }))
+
 class AppealDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -25,13 +27,14 @@ class AppealDetail extends React.Component {
       payload: this.state.params,
     });
     this.props.dispatch({
-      type: 'appealDetail/getQualityDetailData',
+      type: 'qualityAppealHome/getQualityDetailData',
       payload: this.state.params,
     });
   }
   render() {
-    const{qualityAppealHome={}} = this.props;
-    const {QualityDetailData={},DetailData={}} = qualityAppealHome;
+    const {DetailData={}} = this.props.appealDetail;
+    const { QualityDetailData = {} } = this.props.qualityAppealHome;
+    const { qualityAudit, ...others } = QualityDetailData;
 
     return (
       <Spin spinning={this.props.pageLoading}>

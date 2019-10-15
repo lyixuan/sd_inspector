@@ -59,19 +59,6 @@ export default {
         message.error(msgF(response.msg,response.msgDetail))
       }
     },
-    *getQualityDetail({ payload }, { call, put }) {
-      //质检详情数据
-      const result = yield call(getQualityDetail, { ...payload });
-      if (result.code === 20000) {
-        const qualityDetail = result.data ? result.data : {};
-        qualityDetail.ownQualityValue = qualityDetail.qualityValue;
-        delete qualityDetail.qualityValue;
-        yield put({ type: 'save', payload: { qualityDetail } });
-        return qualityDetail;
-      } else {
-        message.error(msgF(result.msg,result.msgDetail));
-      }
-    },
   },
   reducers: {
     save(state, action) {
