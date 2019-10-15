@@ -4,7 +4,6 @@ import Appeal from '../appealBlock/appeal';
 class Index extends React.Component {
   render() {
     const { dataList, setStateData } = this.props;
-    console.log(dataList,'dataList');
     return (
       <div style={{ marginTop: 20 }}>
         <div>
