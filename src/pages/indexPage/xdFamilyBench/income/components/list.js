@@ -12,7 +12,7 @@ const rankImg = {
   1: normal,
   2: up,
 }
-@connect(({ xdWorkModal, loading }) => ({
+@connect(({ loading }) => ({
   loading: loading.effects['xdWorkModal/getCurrentIncomeClass'] || loading.effects['xdWorkModal/getCurrentIncomeGroup'],
 }))
 class ProfitList extends React.Component {
