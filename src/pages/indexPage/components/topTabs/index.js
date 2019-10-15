@@ -23,10 +23,10 @@ class TopTabs extends React.Component {
     })
   };
 
-  setContrast = (item) =>{
-    if(item && item.visible === "visible"){
+  setContrast = (item) => {
+    if (item && item.visible === "visible") {
       item.changeModal()
-    }else if(item && item.visible === "incomeVisible"){
+    } else if (item && item.visible === "incomeVisible") {
       item.changeModal()
     }
   }
@@ -34,17 +34,18 @@ class TopTabs extends React.Component {
     const { keye } = this.state;
     const { tabParams = [] } = this.props;
     return (
-      <div className={styles.topTab}>
+      <div className={styles.topTab} style={this.props.style}>
         <BITabs onChange={this.onTabChange} type="card" activeKey={keye}>
-          {tabParams.map((item, index) =>{
+          {tabParams.map((item, index) => {
             const key = item.key || index + 1;
-            return ( <TabPane tab={item.name} key={key}>
+            return (<TabPane tab={item.name} key={key}>
               <div keye={key}>{item.children}</div>
-              {item.isShowBtn?<div className={styles.topBtn}>
+              {item.isShowBtn ? <div className={styles.topBtn}>
                 <BIButton type='primary' onClick={() => this.setContrast(item)}>设置对比项</BIButton>
-              </div>:null}
+              </div> : null}
             </TabPane>
-            )}
+            )
+          }
           )}
         </BITabs>
 
