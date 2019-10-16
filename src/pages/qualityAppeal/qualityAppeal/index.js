@@ -164,9 +164,9 @@ const columns1 = [
   },
   {
     title: '质检扣分日期',
-    dataIndex: 'qualityType1',
+    dataIndex: 'reduceScoreDate',
     render: (text, record) => {
-      return <>{BiFilter(`QUALITY_TYPE|id:${record.qualityType}`).name}</>;
+      return <>{record.reduceScoreDate ? moment(record.reduceScoreDate).format('YYYY-MM-DD') : '-'}</>;
     },
   },
   {
@@ -178,7 +178,7 @@ const columns1 = [
   },
   {
     title: '违规分类',
-    dataIndex: 'violationLevel',
+    dataIndex: 'violationType',
   },
   {
     title: '归属人',
