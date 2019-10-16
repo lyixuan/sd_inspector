@@ -5,6 +5,8 @@ import BITable from '@/ant_components/BITable'
 import BISelect from '@/ant_components/BISelect'
 import { Progress } from 'antd';
 import Indent from '../../components/indent';
+import BIContrastCell from '@/components/BIContrastCell';
+
 const { Option } = BISelect;
 @connect(({ xdWorkModal, loading }) => ({
   xdWorkModal,
@@ -166,6 +168,14 @@ class currentCreditRight extends React.Component {
         key: 'averageStudentNumber',
       }
     ]
+    // ['1111', '22222', '3333', '44444', '6666', '999999', 'ppppp'].map(item => {
+    //   columns.push({
+    //     title: item,
+    //     dataIndex: 'averageStudentNumber',
+    //     key: 'averageStudentNumber',
+    //     render: (text, record) => BIContrastCell.colorContrast([1,2,3,4,5,0,9])
+    //   })
+    // })
     return columns || [];
   }
   onFormChange = (value, vname) => {

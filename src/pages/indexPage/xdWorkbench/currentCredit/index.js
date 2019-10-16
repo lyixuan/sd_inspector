@@ -3,7 +3,9 @@ import { connect } from 'dva';
 import styles from './style.less'
 import Container from '../../components/container'
 import CurrentCreditLeft from './currentCreditLeft'
-import CurrentCreditRight from './currentCreditRight'
+import CurrentCreditRight from './currentCreditRight';
+import BIContrastCell from '@/components/BIContrastCell';
+
 @connect(({ xdWorkModal, loading }) => ({
   xdWorkModal,
 }))
@@ -51,7 +53,7 @@ class currentCredit extends React.Component {
       <Container
         title='本期学分'
         style={{ width: '100%', marginBottom: '16px' }}
-      >
+      >{BIContrastCell.colorContrast([1,2,3,4,5,0,9])}
         <div className={styles.creditContainer}>
           <CurrentCreditLeft groupId={groupId} selfName={selfName} selfSource={selfSource} userData={this.userData} />
           <CurrentCreditRight PkSelfId={PkSelfId} clickRow={this.clickRow} />
