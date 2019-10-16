@@ -2,14 +2,15 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from '../style.less';
 import BITable from '@/ant_components/BITable'
-import xdPkImg from '@/assets/workBench/xdpk.gif';
+import xdPkImg from '@/assets/workBench/incomeImg.gif';
 @connect(({ xdWorkModal, loading }) => ({
   familyIncomeGroup: xdWorkModal.familyIncomeGroup,
   loading: loading.effects['xdWorkModal/getIncomeFamilyGroupPk'],
 }))
 class GroupIncome extends React.Component {
   componentDidMount() {
-    this.props.getIncomeFamilyGroupPk(true);
+    console.log(11,this.props.familyAndGroup)
+    this.props.getIncomeFamilyGroupPk(this.props.familyAndGroup.state.groupPkInitFlag);
   }
   columns = () =>{
     const { colName = [] } = this.props.familyIncomeGroup;
@@ -55,6 +56,7 @@ class GroupIncome extends React.Component {
     }
   }
   render() {
+
     const dataSource = this.props.familyIncomeGroup && this.props.familyIncomeGroup.data
     const colName = this.props.familyIncomeGroup && this.props.familyIncomeGroup.colName
     return (

@@ -67,12 +67,12 @@ class FamilyScoreLeft extends React.Component {
       title: '学分维度',
       dataIndex: 'dimensionName',
       key: 'dimensionName',
-      width: '30%'
+      width: '24%'
     },{
       title: '环比(%)',
       dataIndex: 'myScoreRatio',
       key: 'myScoreRatio',
-      width: '14%',
+      width: '15%',
       render: (myScoreRatio,data) => {
         let isFlag = 3
         if (PkName && data.isShowPro) {
@@ -161,7 +161,7 @@ class FamilyScoreLeft extends React.Component {
       title: '对比家族',
       dataIndex: 'groupScore',
       key: 'groupScore',
-      width: '10%',
+      width: '15%',
       render: (groupScore,) => {
         return (
           <div className={styles.pkRankMain}>

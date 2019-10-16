@@ -75,7 +75,7 @@ class FamilyScoreRight extends React.Component {
           )
         }
       }, {
-        width: '36%',
+        width: '26%',
         title: '组织',
         dataIndex: 'familyName',
         key: 'familyName',
@@ -85,7 +85,7 @@ class FamilyScoreRight extends React.Component {
           )
         }
       }, {
-        width: '10%',
+        width: '14%',
         title: '排名',
         dataIndex: 'creditRanking',
         key: 'creditRanking',

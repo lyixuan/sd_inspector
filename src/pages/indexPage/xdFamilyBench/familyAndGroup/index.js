@@ -60,7 +60,6 @@ class FamilyAndGroup extends React.Component {
       payload: { params: {pkGroupIds:this.getParamas(),myGroupIds:this.state.myGroupValue,showFamilyGroup:flag} },
       callback: res =>  {
         if (flag && this.state.PkGroupIdList.length<=0) {
-          console.log(63,flag,this.state.PkGroupIdList)
           this.setState({
             myGroupValue: res.map(item => String(item.groupId))
           });
