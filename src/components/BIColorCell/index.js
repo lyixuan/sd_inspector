@@ -1,23 +1,21 @@
 import React from 'react';
 import BICell from './BICell';
+import styles from './style.less';
 
+const colorObj = [1, 0.8, 0.6, 0.5, 0.4, 0.3];
 class BIColorCell extends React.Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
-      text: 'ppp',
-      color: 'red',
-
+      bgColor: `rgba(75, 253, 255,)`,
     }
   }
-  onClick = obj => {
-    if (this.props.onClick && typeof this.props.onClick === 'function') {
-      this.props.onClick(obj);
-    }
+  getAttribute = type => {
+    return this.props[type] ? this.props[type] : this.state[type];
   }
   render() {
     return (
-      <BICell/>
+      <BICell styles={{backgroundColor: this.getAttribute('bgColor') }} {...this.props}/>
     );
   }
 }

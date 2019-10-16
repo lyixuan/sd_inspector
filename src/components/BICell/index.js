@@ -2,11 +2,9 @@ import React from 'react';
 
 class BICell extends React.Component {
   constructor(props) {
-    super(props);
+    super();
     this.state = {
-      text: 'ppp',
       color: 'red',
-
     }
   }
   onClick = obj => {
@@ -14,11 +12,13 @@ class BICell extends React.Component {
       this.props.onClick(obj);
     }
   }
+  getAttribute = type => {
+    return this.props[type] ? this.props[type] : this.state[type];
+  }
   render() {
-    const { text, color } = this.state;
     return (
-      <div onClick={this.onClick} style={{color}} {...this.props}>
-        {text}
+      <div onClick={this.onClick} style={{color: this.getAttribute('color')}} {...this.props}>
+        {this.props.children}
       </div>
     );
   }
