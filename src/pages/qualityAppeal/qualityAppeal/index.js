@@ -378,11 +378,20 @@ class QualityAppeal extends React.Component {
     const { p = null } = this.props.location.query;
     this.queryData(JSON.parse(p));
     this.getOrgTreeData();
+    this.findStartManListData();
   }
 
   getOrgTreeData = () => {
     this.props.dispatch({
       type: 'qualityAppealHome/getOrgMapTree',
+    });
+  };
+  findStartManListData = () => {
+    const { p = null } = this.props.location.query;
+    console.log(p, 'p');
+    this.props.dispatch({
+      type: 'qualityCheck/findStartManList',
+      payload: { type: (p && p.type) || 1 },
     });
   };
 
@@ -401,11 +410,6 @@ class QualityAppeal extends React.Component {
         page: pg.page,
       });
     }
-
-    this.props.dispatch({
-      type: 'qualityCheck/findStartManList',
-      payload: { type: (pm && pm.type) || 1 },
-    });
 
     if (isExport) {
       this.props.dispatch({
@@ -691,7 +695,7 @@ class QualityAppeal extends React.Component {
             defaultActiveKey={this.state.tabType}
             animated={false}
           >
-            <TabPane tab="在途质检申诉" key={1}>
+            <TabPane tab="在途申诉" key={1}>
               <div className={subStl.tabBlank}>&nbsp;</div>
               <Page1
                 {...this.props}
@@ -704,7 +708,7 @@ class QualityAppeal extends React.Component {
                 queryData={(params, page, isExport) => this.queryData(params, page, isExport)}
               />
             </TabPane>
-            <TabPane tab="结案质检申诉" key={2}>
+            <TabPane tab="结案申诉" key={2}>
               <div className={subStl.tabBlank}>&nbsp;</div>
               <Page2
                 {...this.props}

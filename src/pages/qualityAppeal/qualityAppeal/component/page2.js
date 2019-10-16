@@ -53,10 +53,7 @@ class NewQualitySheet extends React.Component {
   componentDidMount() {
     document.body.addEventListener('keypress', e => {
       if (e.keyCode === 13) {
-        //主要区别就是这里，可以直接获取到keyCode的值
-        // alert(1);
-        console.log(this.state, 'state');
-        this.props.queryData(this.state);
+        this.search();
       }
     });
   }
