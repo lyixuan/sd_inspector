@@ -38,8 +38,8 @@ class NewQualitySheet extends React.Component {
       familyIdList: [],
       groupIdList: [],
       startManList: [],
-      reduceScoreBeginDate:null,
-      reduceScoreEndDate:null,
+      reduceScoreBeginDate: null,
+      reduceScoreEndDate: null,
       stuId: null,
     };
     const { p = null } = this.props.location.query;
@@ -49,6 +49,20 @@ class NewQualitySheet extends React.Component {
     if (this.props.tabType === '2' && nextProps.tabType === '1') {
       this.reset();
     }
+  }
+  componentDidMount() {
+    document.body.addEventListener('keypress', e => {
+      if (e.keyCode === 13) {
+        //主要区别就是这里，可以直接获取到keyCode的值
+        // alert(1);
+        console.log(this.state, 'state');
+        this.props.queryData(this.state);
+      }
+    });
+  }
+
+  componentWillMount() {
+    document.body.removeEventListener('keypress', () => {});
   }
 
   onFormChange = (value, vname) => {
@@ -117,13 +131,7 @@ class NewQualitySheet extends React.Component {
       collegeIdList,
       familyIdList,
       groupIdList,
-      beginDate,
-      endDate,
-      firstAppealBeginDate,
-      firstAppealEndDate,
       status,
-      secondAppealBeginDate,
-      secondAppealEndDate,
       userName,
       violationLevelList,
       startManList,
