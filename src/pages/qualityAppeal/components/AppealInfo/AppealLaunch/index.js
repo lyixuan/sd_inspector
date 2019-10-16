@@ -133,7 +133,6 @@ class Launch extends React.Component {
     const qualityDetailData = qualityAppealHome.QualityDetailData;
     this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
     const { secondAppealEndDate } = this.props.location.query;
-    console.log(qualityDetailData, 'qualityDetailDataqualityDetailData');
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.launchContainer}>

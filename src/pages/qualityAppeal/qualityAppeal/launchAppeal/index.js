@@ -46,10 +46,6 @@ class Launch extends React.Component {
           <BaseDetail data={QualityDetailData} />
           {/* 申诉信息 */}
           <AppealLaunch {...this.props} />
-          {/*{this.getAppealInfos(DetailData)}*/}
-          <section style={{ textAlign: 'right', marginTop: '20px' }}>
-            <BIButton onClick={() => router.goBack()}>返回</BIButton>
-          </section>
         </div>
       </Spin>
     );
