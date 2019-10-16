@@ -28,7 +28,12 @@ const BaseForm = Form.create({ name: 'base_form' })(
       super(props);
       this.state = {
         showMore: false,
-        fileList:[],
+        fileList:props.params.attUrl ?[{
+          uid: '-1',
+          name:  props.params.attUrl.split('/')[3],
+          status: 'done',
+          url: `${STATIC_HOST}/${props.params.attUrl}`,
+        }]:[],
         attUrl:'',
       };
     }

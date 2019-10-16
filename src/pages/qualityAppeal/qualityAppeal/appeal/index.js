@@ -54,7 +54,7 @@ class QualityAppealing extends React.Component {
 
   onSubmit = params => {
     this.props.dispatch({
-      type: 'qualityNewSheet/updateQuality',
+      type: 'qualityAppealHome/updateQuality',
       payload: { ...params },
     }).then((res)=>{
       if(res){

@@ -12,6 +12,7 @@ import {
   getPunishInfoList,
 } from '@/pages/qualityAppeal/services';
 import { msgF } from '@/utils/utils';
+import { updateQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
 
 function toTreeData(orgList) {
   const treeData = [];
@@ -181,6 +182,15 @@ export default {
       } else {
         message.error(msgF(result.msg, result.msgDetail));
         return false;
+      }
+    },
+    *updateQuality({ payload }, { call, put }) {
+      const result = yield call(updateQuality, { ...payload });
+      if (result.code === 20000) {
+        message.success('提交成功');
+        return true
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
   },
