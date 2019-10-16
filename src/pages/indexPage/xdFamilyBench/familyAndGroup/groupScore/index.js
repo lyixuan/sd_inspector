@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from '../style.less';
 import BITable from '@/ant_components/BITable'
-import xdPkImg from '@/assets/workBench/xdpk.gif';
+import xdPkImg from '@/assets/workBench/incomeImg.gif';
 function CustomExpandIcon(props) {
   return (
     <a />
@@ -23,8 +23,7 @@ class GroupScore extends React.Component {
     }
   }
   componentDidMount() {
-    console.log(26,this.props.this)
-    this.props.getGroupPkList(false);
+    this.props.getGroupPkList(this.props.familyAndGroup.state.showFamilyGroup);
   }
   fillDataSource = (params, n = 1) => {
     let data = params

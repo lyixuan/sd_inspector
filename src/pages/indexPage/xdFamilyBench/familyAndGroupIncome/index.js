@@ -40,6 +40,7 @@ class FamilyAndGroup extends React.Component {
       myFamilyGroupList:[],
       PkGroupIdList:localStorage.getItem('incomePkGroupIds')?JSON.parse(localStorage.getItem('incomePkGroupIds')):[], // 小组创收对比PK值
       myGroupValue:localStorage.getItem('incomeMyGroupIds')?JSON.parse(localStorage.getItem('incomeMyGroupIds')):[], // 小组创收mine值
+      groupPkInitFlag:localStorage.getItem('incomePkGroupIds')||localStorage.getItem('incomeMyGroupIds')?false:true
     }
   }
   componentDidMount() {
@@ -49,8 +50,9 @@ class FamilyAndGroup extends React.Component {
   getIncomeFamilyGroupPk = (flag) => {
     this.props.dispatch({
       type: 'xdWorkModal/getIncomeFamilyGroupPk',
-      payload: { params: { pkGroupIds: this.getParamas(),  selfGroupIds: this.state.myGroupValue} },
+      payload: { params: { pkGroupIds: this.getParamas(),  selfGroupIds: this.state.myGroupValue,groupPkInitFlag:flag} },
       callback: res =>  {
+        console.log(56,res)
         if (flag && this.state.PkGroupIdList.length<=0) {
           this.setState({ myGroupValue: res.map(item => String(item.groupId))});
         }
@@ -73,12 +75,13 @@ class FamilyAndGroup extends React.Component {
     if(this.state.myGroupValue.concat(this.state.PkGroupIdList).length>6){
       message.warning('小组最多只能选择6个');
       return;
-
     }
     this.setState({
       incomeVisible: false,
     });
-    this.getIncomeFamilyGroupPk();
+    setTimeout(()=>{
+      this.getIncomeFamilyGroupPk(false);
+    },300)
     localStorage.setItem('incomePkGroupIds', JSON.stringify(this.state.PkGroupIdList));
     localStorage.setItem('incomeMyGroupIds', JSON.stringify(this.state.myGroupValue));
   };
