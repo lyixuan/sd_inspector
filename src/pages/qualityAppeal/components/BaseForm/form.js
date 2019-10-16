@@ -420,13 +420,19 @@ const BaseForm = Form.create({ name: 'base_form' })(
     };
 
     onCancel = () => {
+      const {backType} = this.props;
+      const that = this;
       confirm({
         className: 'BIConfirm',
         title: '此操作将不保存已录入内容，是否确认？',
         cancelText: '取消',
         okText: '确认',
         onOk() {
-          router.goBack();
+          if(backType==="closeModal"){
+            that.props.onCancel();
+          } else {
+            router.goBack();
+          }
         },
         onCancel() {},
       });

@@ -152,6 +152,10 @@ class FormIndex extends React.Component {
     });
   };
 
+  onCancel = ()=>{
+    this.props.onCancel();
+  };
+
   processData = (srcData) => {
     const arr = [];
     const orgList = this.props.qualityAppealHome.orgList || [];
@@ -210,7 +214,7 @@ class FormIndex extends React.Component {
   };
 
   render() {
-    const { params, loadingMail, loadingOrder } = this.props || {};
+    const { params, backType, loadingMail, loadingOrder } = this.props || {};
     const { orgList, orgMapByMailData, orderNumData, dimensionList1, dimensionList2, dimensionTreeList }
       = this.props.qualityAppealHome || {};
     params.organize = (params.collegeId || params.familyId || params.groupId) ? [params.collegeId, params.familyId, params.groupId]:[];
@@ -219,7 +223,8 @@ class FormIndex extends React.Component {
     params.reduceScoreDate = moment(params.reduceScoreDate);
 
     return (
-      <BaseForm orgList={orgList}
+      <BaseForm backType={backType}
+                orgList={orgList}
                 orderNumData={ orderNumData }
                 dimensionList1={dimensionList1}
                 dimensionList2={dimensionList2}
@@ -233,6 +238,7 @@ class FormIndex extends React.Component {
                 getDimensionTreeList={this.getDimensionTreeList}
                 changeDimensionTree={this.changeDimensionTree}
                 changeViolationLevel={this.changeViolationLevel}
+                onCancel={this.onCancel}
                 onSubmit={this.onSubmit}/>
     );
   }

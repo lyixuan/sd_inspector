@@ -32,6 +32,15 @@
   line-height: 30px;
 }
 
+.secRow1 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+
 .spanLabel {
   height: 30px;
   line-height: 30px;
