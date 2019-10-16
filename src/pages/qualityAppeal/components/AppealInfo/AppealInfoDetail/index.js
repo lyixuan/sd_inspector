@@ -6,10 +6,12 @@ class Index extends React.Component {
     const { dataList, setStateData } = this.props;
     return (
       <div style={{ marginTop: 20 }}>
-        <div>
-          申诉信息
-          <span onClick={() => this.handleAppeal()}>{/* {this.getAppealStatus()} */}</span>
-        </div>
+        {dataList && dataList.length > 0 && (
+          <div>
+            申诉信息
+            <span onClick={() => this.handleAppeal()}>{/* {this.getAppealStatus()} */}</span>
+          </div>
+        )}
         <div>
           <Appeal {...this.props} dataList={dataList} />
         </div>
