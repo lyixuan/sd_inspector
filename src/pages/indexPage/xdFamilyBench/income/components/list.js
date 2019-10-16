@@ -12,6 +12,9 @@ const rankImg = {
   1: normal,
   2: up,
 }
+const getPercentFn = (m, d) => {
+  return (d ? m/d * 100 : 0) + '%';
+}
 @connect(({ loading }) => ({
   loading: loading.effects['xdWorkModal/getCurrentIncomeClass'] || loading.effects['xdWorkModal/getCurrentIncomeGroup'],
 }))
@@ -20,12 +23,16 @@ class ProfitList extends React.Component {
     super(props)
     this.state = {
       familyIncome: [],
+      goodpushKpiMax: 0,
+      renewalKpiMax: 0,
+      examZbtKpiMax: 0
     }
   }
   componentDidMount() {
     this.getData();
   }
   columns = () => {
+    const { goodpushKpiMax, renewalKpiMax, examZbtKpiMax} = this.state;
     const { tabKey } = this.props;
     const widthVal = tabKey === '1' ? '8%' : '7%';
     const columns = [
@@ -53,7 +60,7 @@ class ProfitList extends React.Component {
         dataIndex: 'goodpushKpi',
         key: 'goodpushKpi',
         className: styles.row1,
-        render: text => <>{text}<SmallProgress isColor="green" percent={`${30}%`}></SmallProgress></>
+        render: text => <>{text}<SmallProgress isColor="green" percent={getPercentFn(text, goodpushKpiMax)}></SmallProgress></>
       }, {
         width: widthVal,
         title: '好推单量',
@@ -72,7 +79,7 @@ class ProfitList extends React.Component {
         dataIndex: 'renewalKpi',
         key: 'renewalKpi',
         className: styles.row2,
-        render: text => <>{text}<SmallProgress isColor="green" percent={`${30}%`}></SmallProgress></>
+        render: text => <>{text}<SmallProgress isColor="green" percent={getPercentFn(text, renewalKpiMax)}></SmallProgress></>
       }, {
         width: widthVal,
         title: '续报单量',
@@ -91,7 +98,7 @@ class ProfitList extends React.Component {
         dataIndex: 'examZbtKpi',
         key: 'examZbtKpi',
         className: styles.row3,
-        render: text => <>{text}<SmallProgress isColor="green" percent={`${30}%`}></SmallProgress></>
+        render: text => <>{text}<SmallProgress isColor="green" percent={getPercentFn(text, examZbtKpiMax)}></SmallProgress></>
       }, {
         width: widthVal,
         title: '成本套当量',
@@ -120,18 +127,24 @@ class ProfitList extends React.Component {
     if (this.props.tabKey === '1') { // 小组
       this.props.dispatch({
         type: 'xdWorkModal/getCurrentIncomeGroup',
-        callback: familyIncome => this.setState({ familyIncome })
+        callback: familyIncome => this.dispatchCallback(familyIncome)
       });
     } else if (this.props.tabKey === '2') {
       this.props.dispatch({
         type: 'xdWorkModal/getCurrentIncomeClass',
-        callback: familyIncome => this.setState({ familyIncome })
+        callback: familyIncome => this.dispatchCallback(familyIncome)
       });
     } 
   }
-
+  dispatchCallback = familyIncome => {
+    this.setState({ 
+      familyIncome,
+      goodpushKpiMax: Math.max.apply(Math, familyIncome.map(item => item.goodpushKpi)),
+      renewalKpiMax: Math.max.apply(Math, familyIncome.map(item => item.renewalKpi)),
+      examZbtKpiMax: Math.max.apply(Math, familyIncome.map(item => item.examZbtKpi)),
+    })
+  }
   render() {
-    console.log(this.props.tabKey)
     return (
       <div className={styles.tableList}>
         <BITable
