@@ -25,12 +25,22 @@ class NewQualitySheet extends React.Component {
     this.init = {
       qualityNum: undefined,
       qualityType: 'all',
-      violationLevel: undefined,
+      beginDate: undefined,
+      endDate: undefined,
+      firstAppealBeginDate: undefined,
+      firstAppealEndDate: undefined,
+      secondAppealBeginDate: undefined,
+      secondAppealEndDate: undefined,
       status: undefined,
-      isWarn: 'all',
+      violationLevelList: undefined,
+      userName: undefined,
       collegeIdList: [],
       familyIdList: [],
       groupIdList: [],
+      startManList: [],
+      reduceScoreBeginDate:null,
+      reduceScoreEndDate:null,
+      stuId: null,
     };
     const { p = null } = this.props.location.query;
     this.state = { ...this.init, ...JSON.parse(p) };
@@ -42,33 +52,45 @@ class NewQualitySheet extends React.Component {
   }
 
   onFormChange = (value, vname) => {
-    switch (vname) {
-      case 'organization':
-        const list1 = [];
-        const list2 = [];
-        const list3 = [];
-        value.forEach(v => {
-          if (v.indexOf('a-') >= 0) {
-            list1.push(v);
-          }
-          if (v.indexOf('b-') >= 0) {
-            list2.push(v);
-          }
-          if (v.indexOf('c-') >= 0) {
-            list3.push(v);
-          }
-        });
-        this.setState({
-          collegeIdList: [...list1],
-          familyIdList: [...list2],
-          groupIdList: [...list3],
-        });
-        break;
-      default:
-        this.setState({
-          [vname]: value,
-        });
-        break;
+    if ('dateRange' === vname) {
+      this.setState({
+        reduceScoreBeginDate: value[0],
+        reduceScoreEndDate: value[1],
+      });
+    } else if ('firstAppealDate' === vname) {
+      this.setState({
+        firstAppealBeginDate: value[0],
+        firstAppealEndDate: value[1],
+      });
+    } else if ('secondAppealDate' === vname) {
+      this.setState({
+        secondAppealBeginDate: value[0],
+        secondAppealEndDate: value[1],
+      });
+    } else if ('organization' === vname) {
+      const list1 = [];
+      const list2 = [];
+      const list3 = [];
+      value.forEach(v => {
+        if (v.indexOf('a-') >= 0) {
+          list1.push(v);
+        }
+        if (v.indexOf('b-') >= 0) {
+          list2.push(v);
+        }
+        if (v.indexOf('c-') >= 0) {
+          list3.push(v);
+        }
+      });
+      this.setState({
+        collegeIdList: [...list1],
+        familyIdList: [...list2],
+        groupIdList: [...list3],
+      });
+    } else {
+      this.setState({
+        [vname]: value,
+      });
     }
   };
   search = () => {
@@ -95,17 +117,23 @@ class NewQualitySheet extends React.Component {
       collegeIdList,
       familyIdList,
       groupIdList,
-      beginDate,
-      endDate,
-      firstAppealBeginDate,
-      firstAppealEndDate,
       status,
-      secondAppealBeginDate,
-      secondAppealEndDate,
       userName,
       violationLevelList,
+      startManList,
+      stuId,
+      reduceScoreBeginDate,
+      reduceScoreEndDate,
     } = this.state;
-    const { orgList = [], dataSource, columns, page, loading, loading2 } = this.props;
+    const {
+      orgList = [],
+      dataSource,
+      columns,
+      page,
+      loading,
+      loading2,
+      findStartManListData,
+    } = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -118,7 +146,12 @@ class NewQualitySheet extends React.Component {
                 <span className={styles.gutterForm}>
                   <BIRangePicker
                     allowClear
-                    value={beginDate && [moment(beginDate), moment(endDate)]}
+                    value={
+                      reduceScoreBeginDate && [
+                        moment(reduceScoreBeginDate),
+                        moment(reduceScoreEndDate),
+                      ]
+                    }
                     onChange={(val, valStr) => this.onFormChange(valStr, 'dateRange')}
                   />
                 </span>
@@ -173,6 +206,7 @@ class NewQualitySheet extends React.Component {
                   <BISelect
                     style={{ width: 230 }}
                     allowClear
+                    maxTagCount={1}
                     value={status}
                     placeholder="请选择"
                     onChange={val => this.onFormChange(val, 'status')}
@@ -200,7 +234,20 @@ class NewQualitySheet extends React.Component {
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox3}>
                 <span className={styles.gutterLabel}>质检发起人</span>：
-                <span className={styles.gutterForm}>1</span>
+                <span className={styles.gutterForm}>
+                  <BISelect
+                    style={{ width: 230 }}
+                    allowClear
+                    mode="multiple"
+                    value={startManList}
+                    placeholder="请选择"
+                    onChange={val => this.onFormChange(val, 'startManList')}
+                  >
+                    {findStartManListData.map(item => (
+                      <Option key={item}>{item}</Option>
+                    ))}
+                  </BISelect>
+                </span>
               </div>
             </Col>
           </Row>
@@ -213,8 +260,8 @@ class NewQualitySheet extends React.Component {
                   <BIInput
                     placeholder="请输入"
                     allowClear
-                    value={userName}
-                    onChange={e => this.onFormChange(e.target.value, 'userName')}
+                    value={stuId}
+                    onChange={e => this.onFormChange(e.target.value, 'stuId')}
                   />
                 </span>
               </div>

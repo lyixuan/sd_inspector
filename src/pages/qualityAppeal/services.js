@@ -5,6 +5,10 @@ import uploadRequest from '@/utils/uploadRequest';
 export async function getOrgMapList(params) {
   return request('/orgMap/getOrgMapList', { params });
 }
+// 查询质检申诉管理归属组织架构
+export async function getOrgMapTree(params) {
+  return request('/orgMap/getOrgMapTree');
+}
 
 // 查询分维
 export async function getDimensionList(params) {
@@ -44,4 +48,3 @@ export async function checkRepeatQualityInspection(data) {
 export async function getPunishInfoList(data) {
   return request('/qualityRole/getPunishInfoList', { method: 'post', data });
 }
-
