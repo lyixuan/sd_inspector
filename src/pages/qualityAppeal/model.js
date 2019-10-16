@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import {
   getOrgMapList,
+  getOrgMapTree,
   getDimensionList,
   getOrgMapByMail,
   getAppealDetail,
@@ -47,6 +48,8 @@ export default {
     QualityDetailData: {}, // 质检详情页数据
     orderNumData: null, // 根据子订单编号获取订单详情数据
     punishInfoList: {},
+    appealOrgList: [],
+    appealOrgListTreeData: [],
   },
 
   effects: {
@@ -57,6 +60,16 @@ export default {
 
       if (result.code === 20000) {
         yield put({ type: 'saveMap', payload: { orgList } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 质检申诉管理内归属组织修改
+    *getOrgMapTree({ payload }, { call, put }) {
+      const result = yield call(getOrgMapTree);
+      const appealOrgList = result.data || [];
+      if (result.code === 20000) {
+        yield put({ type: 'saveAppealMap', payload: { appealOrgList } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -114,7 +127,7 @@ export default {
         yield put({ type: 'save', payload: { QualityDetailData } });
         return QualityDetailData;
       } else {
-        message.error(msgF(result.msg,result.msgDetail));
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
     *getOrderNum({ payload }, { call, put }) {
@@ -128,7 +141,7 @@ export default {
       } else {
         yield put({
           type: 'saveOrderNumData',
-          payload: { orderNumData:null },
+          payload: { orderNumData: null },
         });
         message.error(response.msgDetail);
       }
@@ -179,6 +192,10 @@ export default {
     saveMap(state, { payload }) {
       const orgListTreeData = toTreeData(payload.orgList);
       return { ...state, orgList: payload.orgList, orgListTreeData };
+    },
+    saveAppealMap(state, { payload }) {
+      const appealOrgListTreeData = toTreeData(payload.appealOrgList);
+      return { ...state, appealOrgList: payload.appealOrgList, appealOrgListTreeData };
     },
     saveOrgMapByMailData(state, { payload }) {
       return { ...state, ...payload };

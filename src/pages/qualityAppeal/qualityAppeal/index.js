@@ -91,7 +91,8 @@ function changeState(record) {
   }
   if (
     (record.status === 6 && record.appealType === 2) ||
-    (record.status === 5 && record.appealType === 1 &&
+    (record.status === 5 &&
+      record.appealType === 1 &&
       record.secondAppealEndDate &&
       record.secondAppealEndDate < record.nowTime)
   ) {
@@ -245,7 +246,8 @@ const columns2 = [
     render: (text, record) => {
       return (
         <>
-          {record.qualityValue}{record.qualityType ? Number(record.qualityType)===2 ? '分' : '元' :''}
+          {record.qualityValue}
+          {record.qualityType ? (Number(record.qualityType) === 2 ? '分' : '元') : ''}
         </>
       );
     },
@@ -375,7 +377,14 @@ class QualityAppeal extends React.Component {
   componentDidMount() {
     const { p = null } = this.props.location.query;
     this.queryData(JSON.parse(p));
+    this.getOrgTreeData();
   }
+
+  getOrgTreeData = () => {
+    this.props.dispatch({
+      type: 'qualityAppealHome/getOrgMapTree',
+    });
+  };
 
   queryData = (pm, pg, isExport) => {
     this.saveUrlParams = pm && !isExport ? JSON.stringify(pm) : undefined;
@@ -392,6 +401,12 @@ class QualityAppeal extends React.Component {
         page: pg.page,
       });
     }
+
+    this.props.dispatch({
+      type: 'qualityCheck/findStartManList',
+      payload: { type: (pm && pm.type) || 1 },
+    });
+
     if (isExport) {
       this.props.dispatch({
         type: 'qualityCheck/exportExcel',
@@ -536,7 +551,8 @@ class QualityAppeal extends React.Component {
                   查看详情
                 </span>
               </AuthButton>
-              {Number(record.appealFlag) === 1 && (status === 1 || status === 3 || status === 5 || status === 7) ? (
+              {Number(record.appealFlag) === 1 &&
+              (status === 1 || status === 3 || status === 5 || status === 7) ? (
                 <AuthButton authority="/qualityAppeal/qualityAppeal/launch">
                   <span
                     className={style.actionBtn}
@@ -656,7 +672,7 @@ class QualityAppeal extends React.Component {
   };
   render() {
     const {
-      orgListTreeData = [],
+      appealOrgListTreeData = [],
       dimensionList1 = [],
       dimensionList2 = [],
     } = this.props.qualityAppealHome;
@@ -665,6 +681,7 @@ class QualityAppeal extends React.Component {
       qualityAppealList2 = [],
       page1,
       page2,
+      findStartManListData,
     } = this.props.qualityCheck;
     return (
       <>
@@ -680,9 +697,10 @@ class QualityAppeal extends React.Component {
                 {...this.props}
                 tabType={this.state.tabType}
                 columns={this.c1}
-                orgList={orgListTreeData}
+                orgList={appealOrgListTreeData}
                 dataSource={qualityAppealList1}
                 page={page1}
+                findStartManListData={findStartManListData}
                 queryData={(params, page, isExport) => this.queryData(params, page, isExport)}
               />
             </TabPane>
@@ -690,7 +708,8 @@ class QualityAppeal extends React.Component {
               <div className={subStl.tabBlank}>&nbsp;</div>
               <Page2
                 {...this.props}
-                orgList={orgListTreeData}
+                findStartManListData={findStartManListData}
+                orgList={appealOrgListTreeData}
                 tabType={this.state.tabType}
                 dimensionList1={dimensionList1}
                 dimensionList2={dimensionList2}
