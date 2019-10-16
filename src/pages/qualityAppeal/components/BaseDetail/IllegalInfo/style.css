@@ -47,3 +47,9 @@
 .line {
   border-bottom: 1px dashed #bcbcbc;
 }
+
+
+.listWrap {
+  display: inline-block;
+  vertical-align: text-top;
+}

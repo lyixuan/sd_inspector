@@ -114,7 +114,7 @@ class FormIndex extends React.Component {
           obj[`userName-${i}`] = v.userName;
           obj[`punishType-${i}`] = v.punishType;
           obj[`qualityValue-${i}`] = v.qualityValue;
-          obj[`'punishTypeUnit'-${i}`] = v.punishType ? v.punishType === 2 ? '分' : '元' : '--';
+          obj[`punishTypeUnit-${i}`] = v.punishType ? v.punishType === 2 ? '分' : '元' : '--';
         });
       }
       if (res && !res.punishType) res.punishType = undefined;
@@ -213,8 +213,8 @@ class FormIndex extends React.Component {
     const { params, loadingMail, loadingOrder } = this.props || {};
     const { orgList, orgMapByMailData, orderNumData, dimensionList1, dimensionList2, dimensionTreeList }
       = this.props.qualityAppealHome || {};
-    params.organize = [params.collegeId, params.familyId, params.groupId];
-    params.dimension = [params.primaryAssortmentId, params.secondAssortmentId, params.thirdAssortmentId];
+    params.organize = (params.collegeId || params.familyId || params.groupId) ? [params.collegeId, params.familyId, params.groupId]:[];
+    params.dimension = (params.primaryAssortmentId || params.secondAssortmentId || params.thirdAssortmentId) ? [params.primaryAssortmentId, params.secondAssortmentId, params.thirdAssortmentId]:[];
     params.violationDate = moment(params.violationDate);
     params.reduceScoreDate = moment(params.reduceScoreDate);
 

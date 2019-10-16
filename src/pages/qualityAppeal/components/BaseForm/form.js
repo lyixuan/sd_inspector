@@ -58,8 +58,9 @@ const BaseForm = Form.create({ name: 'base_form' })(
 
     dimensionIdList = () => {
       const { dimensionList1, dimensionList2 } = this.props;
-      const qualityType = this.props.form.getFieldValue('qualityType');
-      return qualityType === 1 ? dimensionList1 : qualityType === 2 ? dimensionList2 : [];
+      return dimensionList1.concat(dimensionList2)
+      // const qualityType = this.props.form.getFieldValue('qualityType');
+      // return qualityType === 1 ? dimensionList1 : qualityType === 2 ? dimensionList2 : [];
     };
 
     onChangeDimensionId = (dimensionId) => {
@@ -107,7 +108,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
     renderAttachedPersonList = (attachedPersonListSrc, attachedRoleList,showMore) => {
       const { form } = this.props;
       const { getFieldDecorator } = this.props.form;
-      const count = showMore ? 4 : 2;
+      const count = showMore||attachedPersonListSrc.length>2 ? 4 : 2;
       const attachedPersonList = [{},{},{},{}];
       attachedPersonListSrc.forEach((v,i)=>{
         attachedPersonList[i] = v;
@@ -317,7 +318,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 <Form.Item className={styles.formItem}>
                   {getFieldDecorator('dimensionId', {
                     initialValue: dimensionId || undefined, rules: [{ required: true, message: '请选择分维' }],
-                  })(<BISelect allowClear placeholder="请选择" notFoundContent="先选择质检类型"
+                  })(<BISelect allowClear placeholder="请选择"
                                onChange={this.onChangeDimensionId}>
                     {dimensionIdList.map(item => (
                       <Option value={item.id} key={item.name}>
@@ -332,9 +333,9 @@ const BaseForm = Form.create({ name: 'base_form' })(
               <BoxItem label="违规分类" required>
                 <Form.Item className={styles.formItem}>
                   {getFieldDecorator('dimension', {
-                    initialValue: dimension || undefined, rules: [{ required: true, message: '请选择违规分类' }],
+                    initialValue: dimension, rules: [{ required: true, message: '请选择违规分类' }],
                   })(<BICascader placeholder="请选择" options={dimensionTreeList}
-                                 notFoundContent="先选择分维"
+                                 notFoundContent="先选择质检类型和分维"
                                  fieldNames={{ label: 'title', value: 'key', children: 'children' }}
                                  displayRender={label => label[label.length - 1]}
                                  onChange={this.onChangeDimensionTree}
