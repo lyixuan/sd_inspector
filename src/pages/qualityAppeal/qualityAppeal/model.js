@@ -3,7 +3,8 @@ import {
   getAppealList,
   appealCancelQuality,
   appealExportExcel,
-  appealDeleteQuality
+  appealDeleteQuality,
+  findStartManList,
 } from '@/pages/qualityAppeal/qualityAppeal/services';
 import { downBlob, msgF } from '@/utils/utils';
 
@@ -16,6 +17,7 @@ export default {
     page1: {},
     page2: {},
     deleteAppealData: {},
+    findStartManListData: [],
   },
 
   effects: {
@@ -76,11 +78,24 @@ export default {
     },
     // 结案质检申诉 => 删除质检单号
     *deleteQuality({ payload }, { call, put }) {
-      const result = yield call(appealDeleteQuality, {...payload});
+      const result = yield call(appealDeleteQuality, { ...payload });
       const deleteAppealData = result.data ? result.data : {};
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { deleteAppealData } });
         return deleteAppealData;
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 质检发起人list
+    *findStartManList({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(findStartManList, {...payload});
+      if (result.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: { findStartManListData: result.data },
+        });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

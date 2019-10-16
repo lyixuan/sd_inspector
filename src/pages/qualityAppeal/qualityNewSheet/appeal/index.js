@@ -5,6 +5,7 @@ import BaseDetail from '@/pages/qualityAppeal/components/BaseDetail';
 import BIModal from '@/ant_components/BIModal';
 import styles from './style.less';
 import FormIndex from '@/pages/qualityAppeal/components/BaseForm/index';
+import QualityNewSheetAppealSt from '@/pages/qualityAppeal/components/QualityNewSheetInfo/AppealSt';
 
 @connect(({ loading, qualityNewSheet,qualityAppealHome }) => ({
   loading,
@@ -61,7 +62,6 @@ class QualityAppeal extends React.Component {
   render() {
     const { QualityDetailData = {} } = this.props.qualityAppealHome;
     const { qualityAudit, ...others } = QualityDetailData;
-
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.qualityContainter}>
@@ -69,6 +69,7 @@ class QualityAppeal extends React.Component {
           <BaseDetail data={{...others}}/>
           <div className={styles.editButton} onClick={this.edit}><Icon type="edit" /> 编辑违规信息</div>
           {/* 审核详情 */}
+          <QualityNewSheetAppealSt {...this.props} qualityDetailData={QualityDetailData}/>
         </div>
         <BIModal
           title="编辑质检信息"

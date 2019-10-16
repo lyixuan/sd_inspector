@@ -3,14 +3,17 @@ import styles from './style.less';
 import { connect } from 'dva';
 import { Spin } from 'antd';
 import BaseDetail from '@/pages/qualityAppeal/components/BaseDetail';
+import QualityNewSheetDetail from '@/pages/qualityAppeal/components/QualityNewSheetInfo/Detail';
 
 @connect(({ qualityAppealHome, loading }) => ({
   qualityAppealHome,
-  pageLoading: loading.effects['qualityAppealHome/getQualityDetailData']
+  pageLoading: loading.effects['qualityAppealHome/getQualityDetailData'],
 }))
 class QualityDetail extends React.Component {
   componentDidMount() {
-    const { location: { query }} = this.props;
+    const {
+      location: { query },
+    } = this.props;
     this.props.dispatch({
       type: 'qualityAppealHome/getQualityDetailData',
       payload: query,
@@ -24,8 +27,8 @@ class QualityDetail extends React.Component {
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.qualityContainter}>
           {/* 质检单详情 */}
-          <BaseDetail data={{...others}}/>
-
+          <BaseDetail data={{ ...others }} />
+          <QualityNewSheetDetail qualityDetailData={QualityDetailData} />
         </div>
       </Spin>
     );

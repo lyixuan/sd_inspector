@@ -19,3 +19,9 @@ export async function appealCancelQuality(params) {
 export async function appealDeleteQuality(params) {
   return request('/appeal/deleteQuality', { params });
 }
+
+// 质检发起人list
+export async function findStartManList(params) {
+  console.log(params,'dddd');
+  return request('/appeal/findStartManList', { params });
+}
