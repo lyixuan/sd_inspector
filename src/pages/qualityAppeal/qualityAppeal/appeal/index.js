@@ -96,7 +96,9 @@ class QualityAppealing extends React.Component {
           footer={null}
           onCancel={this.handleCancel}
         >
-          <FormIndex params={QualityDetailData}
+          <FormIndex backType="closeModal"
+                     params={QualityDetailData}
+                     onCancel={this.handleCancel}
                      onSubmit={this.onSubmit}/>
         </BIModal>
       </Spin>

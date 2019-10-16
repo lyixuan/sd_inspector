@@ -18,7 +18,7 @@ export default class PersonInfoComponent extends React.Component {
           </div>
           <div className={styles.secRow}>
             <div><span className={styles.spanLabel}>角色</span>：{BiFilter(`FRONT_ROLE_TYPE_LIST|id:${data.role}`).name}</div>
-            <div><span className={styles.spanLabel}>组织架构</span>：{data.collegeName} {data.familyName && '|'} {data.familyName} {data.familyName && '|'} {data.groupName}</div>
+            <div><span className={styles.spanLabel}>组织架构</span>：{data.collegeName} {data.familyName && '|'} {data.familyName} {data.groupName && '|'} {data.groupName}</div>
           </div>
         </div>
       </section>

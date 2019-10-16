@@ -8,8 +8,8 @@ export default class IllegalInfo extends React.Component {
   renderAttached = ()=>{
     const { data } = this.props;
     const { attachedPersonList = []} = data || {};
-    return attachedPersonList && attachedPersonList.map((v)=>{
-      return <div >
+    return attachedPersonList && attachedPersonList.map((v,i)=>{
+      return <div key={i}>
         <span>{v.roleName?BiFilter(`FRONT_ROLE_TYPE_LIST|id:${v.roleName}`).name:'--'}</span>，
         <span>{v.userName?v.userName:'--'}@sunlands.com</span>，
         <span>{v.punishType?BiFilter(`PUNISH_TYPE_LIST|id:${v.punishType}`).name:'--'}</span>，
@@ -45,7 +45,7 @@ export default class IllegalInfo extends React.Component {
         <div className={styles.container}>
           <div className={styles.secRow}>
             <div><span className={styles.spanLabel}>责任人处罚</span>：{BiFilter(`PUNISH_TYPE_LIST|id:${data.qualityType}`).name} {data.ownQualityValue}{data.qualityType?data.qualityType===2?'分':'元':''}</div>
-            <p><span className={styles.spanLabel}>连带责任人处罚</span>：<div className={styles.listWrap}>{this.renderAttached()}</div></p>
+            <span><span className={styles.spanLabel}>连带责任人处罚</span>：<span className={styles.listWrap}>{this.renderAttached()}</span></span>
           </div>
         </div>
       </section>
