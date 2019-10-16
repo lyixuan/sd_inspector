@@ -9,12 +9,11 @@ import { message, Spin } from 'antd';
 import { BiFilter } from '@/utils/utils';
 const confirm = BIModal.confirm;
 
-@connect(({ loading, qualityNewSheet, editQualityNewSheet, qualityAppealHome }) => ({
+@connect(({ loading, newQualityAppeal, qualityAppealHome }) => ({
   loading,
-  qualityNewSheet,
   qualityAppealHome,
-  editQualityNewSheet,
-  submitLoading: loading.effects['editQualityNewSheet/checkQuality'],
+  newQualityAppeal,
+  submitLoading: loading.effects['newQualityAppeal/checkQuality'],
   pageLoading: loading.effects['qualityNewSheet/getQualityDetail'],
 }))
 class QualityNewSheetAppealSt extends React.Component {
@@ -40,9 +39,8 @@ class QualityNewSheetAppealSt extends React.Component {
     this.props.history.goBack();
   };
   onSubmit = params => {
-    debugger;
+    const { qualityDetailData = {} } = this.props;
     const { appealParam } = this;
-    const { qualityDetail = {} } = this.props.qualityNewSheet;
     if (Number(appealParam.checkResult) !== 0 && !appealParam.checkResult) {
       message.warn('审核结果为必选项');
       return;
@@ -58,14 +56,10 @@ class QualityNewSheetAppealSt extends React.Component {
       checkResultDesc: appealParam.desc ? appealParam.desc : undefined,
       firstAppealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
     };
-    let dimensionName = '';
-    const otherObj = {
-      violationLevelName: BiFilter(`VIOLATION_LEVEL|id:${params.violationLevel}`).name,
-      violationName: dimensionName,
-    };
+    console.log(params2, 'params2');
     this.props.dispatch({
-      type: 'editQualityNewSheet/checkQuality',
-      payload: { ...params, ...params2, ...otherObj },
+      type: 'newQualityAppeal/checkQuality',
+      payload: { ...qualityDetailData, ...params2 },
     });
   };
 

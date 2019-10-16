@@ -62,7 +62,6 @@ class QualityAppeal extends React.Component {
   render() {
     const { QualityDetailData = {} } = this.props.qualityAppealHome;
     const { qualityAudit, ...others } = QualityDetailData;
-
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.qualityContainter}>
