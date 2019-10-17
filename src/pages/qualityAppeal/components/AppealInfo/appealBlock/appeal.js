@@ -44,6 +44,9 @@ class Appeal extends React.Component {
                 </span>
               </div>
               <OwnLaunchDetail dataList={dataList1} />
+              {dataList1.sopAppealCheck && dataList1.sopAppealCheck.length === 0 ? null : (
+                <SopLaunchDetail dataList={dataList1} />
+              )}
               {status === 2 ? (
                 <div
                   className={styles.masterContent}
@@ -58,9 +61,6 @@ class Appeal extends React.Component {
                   />
                 </div>
               ) : null}
-              {dataList1.sopAppealCheck && dataList1.sopAppealCheck.length === 0 ? null : (
-                <SopLaunchDetail dataList={dataList1} />
-              )}
               {dataList1.masterAppealCheck && dataList1.masterAppealCheck.length === 0 ? null : (
                 <MasterLaunchDetail dataList={dataList1} />
               )}
@@ -86,6 +86,9 @@ class Appeal extends React.Component {
               </span>
             </div>
             <OwnLaunchDetail dataList={dataList2} />
+            {dataList2.sopAppealCheck && dataList2.sopAppealCheck.length === 0 ? null : (
+              <SopLaunchDetail dataList={dataList2} />
+            )}
             {status === 6 ? (
               <div
                 className={styles.masterContent}
@@ -95,9 +98,6 @@ class Appeal extends React.Component {
                 <AppealEdit {...this.props} hideDate showWarn={false} setStateData={setStateData} />
               </div>
             ) : null}
-            {dataList2.sopAppealCheck && dataList2.sopAppealCheck.length === 0 ? null : (
-              <SopLaunchDetail dataList={dataList2} />
-            )}
             {!dataList2.masterAppealCheck ? null : <MasterLaunchDetail dataList={dataList2} />}
             {status === 8 ? (
               <div className={styles.masterContent}>

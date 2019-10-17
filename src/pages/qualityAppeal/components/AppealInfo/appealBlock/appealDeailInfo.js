@@ -7,7 +7,7 @@ class Index extends React.Component {
     return (
       <div style={{ marginTop: 20 }}>
         <div className={styles.title}>
-          申诉信息(审核)
+          申诉信息
           <span className={styles.iconCls} onClick={() => this.handleAppeal()}></span>
         </div>
         <div>

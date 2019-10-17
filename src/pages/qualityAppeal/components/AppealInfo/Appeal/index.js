@@ -8,14 +8,14 @@ import router from 'umi/router';
 import { message, Spin } from 'antd';
 const confirm = BIModal.confirm;
 
-@connect(({ qualityAppealing, qualityAppealHome, loading }) => ({
-  qualityAppealing,
-  orgList: qualityAppealHome.orgList,
-  qualityAppealHome,
-  submitLoading: loading.effects['qualityAppealing/reviewAppeal'],
-  submitLoading2: loading.effects['qualityAppealing/sopAppeal'],
-  pageLoading: loading.effects['qualityAppealing/getAppealInfo'],
-}))
+// @connect(({ qualityAppealing, qualityAppealHome, loading }) => ({
+//   qualityAppealing,
+//   orgList: qualityAppealHome.orgList,
+//   qualityAppealHome,
+//   submitLoading: loading.effects['qualityAppealing/reviewAppeal'],
+//   submitLoading2: loading.effects['qualityAppealing/sopAppeal'],
+//   pageLoading: loading.effects['qualityAppealing/getAppealInfo'],
+// }))
 class QualityAppealing extends React.Component {
   constructor(props) {
     super(props);
@@ -25,6 +25,7 @@ class QualityAppealing extends React.Component {
       appealParam: {},
       checkResult: undefined,
       appealEndDate: undefined,
+      visible: false,
     };
     const { query = {} } = this.props.location;
     this.query = query;
@@ -36,24 +37,62 @@ class QualityAppealing extends React.Component {
   handleAppeal() {
     this.setState({ appealIsShow: !this.state.appealIsShow });
   }
-  componentDidMount() {
-    this.getQualityInfo();
-    this.getAppealInfo();
-  }
-  getAppealInfo = () => {
-    this.props.dispatch({
-      type: 'qualityAppealing/getAppealInfo',
-      payload: { id: this.query.id },
-    });
-  };
-  getQualityInfo = () => {
-    this.props.dispatch({
-      type: 'qualityAppealing/getQualityDetailData',
-      payload: { id: this.query.id },
-    });
-  };
+  // componentDidMount() {
+  //   this.getQualityInfo();
+  //   this.getAppealInfo();
+  // }
+  // getAppealInfo = () => {
+  //   this.props.dispatch({
+  //     type: 'qualityAppealing/getAppealInfo',
+  //     payload: { id: this.query.id },
+  //   });
+  // };
+  // getQualityInfo = () => {
+  //   this.props.dispatch({
+  //     type: 'qualityAppealing/getQualityDetailData',
+  //     payload: { id: this.query.id },
+  //   });
+  // };
 
   handleSubmitSop = () => {
+    const { appealParam } = this.state;
+    if (Number(appealParam.checkResult) !== 0 && !appealParam.checkResult) {
+      message.warn('审核结果为必选项');
+      return;
+    }
+    if (
+      String(this.query.status) === '4' &&
+      Number(appealParam.checkResult) === 1 &&
+      !appealParam.appealEndDate
+    ) {
+      message.warn('二申截止日期必填');
+      return;
+    }
+    this.setState({ visible: true });
+    // const that = this;
+    // confirm({
+    //   className: 'BIConfirm',
+    //   title:
+    //     params.checkResult === 1
+    //       ? '提交后，该申诉将被提交给质检主管进行审核。'
+    //       : '确认驳回这条记录吗？',
+    //   cancelText: '取消',
+    //   okText: '确定',
+    //   onOk() {
+    //     that.props.dispatch({
+    //       type: 'qualityAppealing/sopAppeal',
+    //       payload: { params },
+    //     });
+    //   },
+    //   onCancel() {},
+    // });
+  };
+
+  handleSopCancel = () => {
+    this.setState({ visible: false });
+  };
+
+  submitSop = () => {
     const { appealParam } = this.state;
     if (Number(appealParam.checkResult) !== 0 && !appealParam.checkResult) {
       message.warn('审核结果为必选项');
@@ -80,23 +119,12 @@ class QualityAppealing extends React.Component {
           ? this.query.secondAppealEndDate
           : undefined,
     };
-    const that = this;
-    confirm({
-      className: 'BIConfirm',
-      title:
-        params.checkResult === 1
-          ? '提交后，该申诉将被提交给质检主管进行审核。'
-          : '确认驳回这条记录吗？',
-      cancelText: '取消',
-      okText: '确定',
-      onOk() {
-        that.props.dispatch({
-          type: 'qualityAppealing/sopAppeal',
-          payload: { params },
-        });
-      },
-      onCancel() {},
+    this.props.dispatch({
+      type: 'qualityAppealing/sopAppeal',
+      payload: { params },
     });
+
+    this.setState({ visible: false });
   };
   handleSubmitMaster = formParams => {
     const { appealShow = [], QualityDetailData = {} } = this.props;
@@ -146,7 +174,7 @@ class QualityAppealing extends React.Component {
     return '+';
   }
   render() {
-    const { checkResult, appealEndDate } = this.state;
+    const { visible, checkResult, appealEndDate } = this.state;
     const { appealShow = [], QualityDetailData = {} } = this.props;
     const { submitLoading2 } = this.props;
     if (appealShow) {
@@ -179,7 +207,7 @@ class QualityAppealing extends React.Component {
               </div>
             </section>
           ) : (
-            <div style={{ marginLeft: '-20px' }}>
+            <div>
               <AppealInfo
                 {...this.props}
                 dataList={appealShow}
@@ -200,18 +228,18 @@ class QualityAppealing extends React.Component {
           <BIModal
             title="提交确认"
             visible={this.state.visible}
-            onOk={this.handleOk}
+            onOk={this.submitSop}
             onCancel={this.handleCancel}
             footer={[
-              <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
+              <BIButton style={{ marginRight: 10 }} onClick={this.handleSopCancel}>
                 取消
               </BIButton>,
-              <BIButton type="primary" onClick={this.handleOk}>
+              <BIButton type="primary" onClick={this.submitSop}>
                 确定
               </BIButton>,
             ]}
           >
-            <div className={styles.modalWrap}>该条记录将被提交给质检主管进行审核，确定提交吗？</div>
+            <div className={styles.modalWrap}>是否确认提交?</div>
           </BIModal>
         </div>
       </Spin>
