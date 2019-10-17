@@ -7,7 +7,16 @@ class Index extends React.Component {
     return (
       <div style={{ marginTop: 20 }}>
         {dataList && dataList.length > 0 && (
-          <div>
+          <div
+            style={{
+              height: '43px',
+              backgroundColor: '#f6f7fa',
+              lineHeight: '43px',
+              paddingLeft: '18px',
+              fontWeight: 'bold',
+              fontSize: '16px',
+            }}
+          >
             申诉信息
             <span onClick={() => this.handleAppeal()}>{/* {this.getAppealStatus()} */}</span>
           </div>
