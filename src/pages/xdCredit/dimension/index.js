@@ -36,11 +36,11 @@ class Dimension extends React.Component {
         title: '数量',
         dataIndex: 'num',
         key: 'num',
-        render: (text, record) => <div data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>   
+        render: (text, record) => <div data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>
           {record.level === 4 && <>
             {text > 99999 ? 99999 + '+' : text}{record.unit}
             {text ? <span className={styles.greenColor} style={{ marginLeft: '16px' }}>></span> : ''}
-            </>}
+          </>}
         </div>
       }
     ];
@@ -87,7 +87,6 @@ class Dimension extends React.Component {
               pagination={false}
               onRow={this.onClickRow}
               rowKey={record => record.id}
-              scroll={{ x: 0, y: 615 }}
               smalled={true}
             /> : <BITable
                 columns={this.columns()}

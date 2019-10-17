@@ -1,10 +1,12 @@
 import React from 'react';
+import styles from './style.less';
 
 class BICell extends React.Component {
   constructor(props) {
     super();
     this.state = {
       color: 'red',
+      width: '85px'
     }
   }
   onClick = obj => {
@@ -17,7 +19,7 @@ class BICell extends React.Component {
   }
   render() {
     return (
-      <div onClick={this.onClick} style={{color: this.getAttribute('color')}} {...this.props}>
+      <div className={styles.BICell} onClick={this.onClick} style={{ color: this.getAttribute('color'), width: this.getAttribute('width') }} {...this.props}>
         {this.props.children}
       </div>
     );
