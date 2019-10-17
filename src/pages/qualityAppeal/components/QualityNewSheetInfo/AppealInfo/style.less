@@ -1,118 +1,116 @@
-.appealWrap{
+.appealWrap {
+  font-family: PingFangSC-Regular;
+  color: #353535;
+  padding-left: 18px;
+  line-height: 25px;
+  border: 1px solid #ccc;
+  padding-bottom: 30px;
+  margin-bottom: 20px;
+  .txtCls {
     font-family: PingFangSC-Regular;
-    color: #353535;
-    padding-left: 18px;
-    line-height:25px;
-    .txtCls{
-      font-family: PingFangSC-Regular;
-    }
-    .s1_title{
-      font-family: PingFangSC-Semibold;
-      line-height: 66px;
-    }
-    .s1_title:before{
-      content: '';
-      display: inline-block;
-      width: 2px;
-      height: 12px;
-      background: #52c9c2;
-      margin-right: 7px;
-    }
-    .resultWrap{
-      margin-bottom: 20px;
-      border: 1px solid #DCDDE0;
-      border-radius: 2px;
-  
-      .s2_title{
-        font-family: PingFangSC-Semibold;
-        color: #262626;
-        background: #F6F7FA;
-        padding-left: 22px;
-        width: 100%;
-        line-height: 35px;
-      }
-  
-    }
-    .mtitle{
-      margin-left: -18px;
-      background: #F6F7FA;
-      height:43px;
-      line-height:43px;
-      padding-left:18px;
-      font-size: 16px;
-      color: #353535;
-      margin-bottom: 20px;
-      font-family: PingFangSC-Semibold;
-      .passTimeCls{
-        font-size: 14px;
-        color: #353535;
-      }
-    }
   }
-  .commonBottomLine{
+  .s1_title {
+    font-family: PingFangSC-Semibold;
+    line-height: 66px;
+  }
+  .s1_title:before {
     content: '';
     display: inline-block;
-    width: 100%;
-    height: 1px;
-    background: #EBECEF;
-  }
-  .infoCls:not(:last-child):after{
-    &:extend(.commonBottomLine);
-    margin:10px 0;
-  }
-  .appealWrap:not(:first-child):before{
-    &:extend(.commonBottomLine);
-    margin:20px 0 7px;
-  }
-  .commonIcon{
-    content: '';
-    position: absolute;
-    top: 42%;
-    left: -10px;
-    display: inline-block;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-  }
-  .greenIcon:before{
-    &:extend(.commonIcon);
+    width: 2px;
+    height: 12px;
     background: #52c9c2;
+    margin-right: 7px;
   }
-  .redIcon:before{
-    &:extend(.commonIcon);
-    background: #ff0000;
-  }
-  .masterContent{
-    padding:10px 0 0 18px;
-    font-size: 14px;
-    font-family: PingFangSC-Regular;
-    .appealTitle{
+  .resultWrap {
+    margin-bottom: 20px;
+    border: 1px solid #dcdde0;
+    border-radius: 2px;
+
+    .s2_title {
       font-family: PingFangSC-Semibold;
-      margin-bottom:18px;
-      font-size: 14px;
       color: #262626;
+      background: #f6f7fa;
+      padding-left: 22px;
+      width: 100%;
+      line-height: 35px;
     }
   }
-  
-  .itemInfo{
-    font-family: PingFangSC-Regular;
-    //color: #262626;
-    padding:20px 22px 8px;
+  .mtitle {
+    margin-left: -18px;
+    background: #f6f7fa;
+    height: 43px;
+    line-height: 43px;
+    padding-left: 18px;
+    font-size: 16px;
+    color: #353535;
+    margin-bottom: 20px;
+    font-family: PingFangSC-Semibold;
+    .passTimeCls {
+      font-size: 14px;
+      color: #353535;
+    }
   }
-  .itemInfo:not(:last-child):after{
-    content: '';
-    display: inline-block;
-    width: 100%;
-    height: 1px;
-    background: #EBECEF;
+}
+.commonBottomLine {
+  content: '';
+  display: inline-block;
+  width: 100%;
+  height: 1px;
+  background: #ebecef;
+}
+.infoCls:not(:last-child):after {
+  &:extend(.commonBottomLine);
+  margin: 10px 0;
+}
+.appealWrap:not(:first-child):before {
+  &:extend(.commonBottomLine);
+  margin: 20px 0 7px;
+}
+.commonIcon {
+  content: '';
+  position: absolute;
+  top: 42%;
+  left: -10px;
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+.greenIcon:before {
+  &:extend(.commonIcon);
+  background: #52c9c2;
+}
+.redIcon:before {
+  &:extend(.commonIcon);
+  background: #ff0000;
+}
+.masterContent {
+  padding: 10px 0 0 18px;
+  font-size: 14px;
+  font-family: PingFangSC-Regular;
+  .appealTitle {
+    font-family: PingFangSC-Semibold;
+    margin-bottom: 18px;
+    font-size: 14px;
+    color: #262626;
   }
-  
-  
-  .downCls{
-    cursor: pointer;
-    color:#52C9C2;
-    border-bottom: 1px solid;
-  }
-  
-  
-  
+}
+
+.itemInfo {
+  font-family: PingFangSC-Regular;
+  //color: #262626;
+  padding: 20px 22px 8px;
+}
+.itemInfo:not(:last-child):after {
+  content: '';
+  display: inline-block;
+  width: 100%;
+  height: 1px;
+  background: #ebecef;
+}
+
+.downCls {
+  cursor: pointer;
+  color: #52c9c2;
+  border-bottom: 1px solid;
+}

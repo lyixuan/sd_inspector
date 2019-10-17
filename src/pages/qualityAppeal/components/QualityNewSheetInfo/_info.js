@@ -10,7 +10,7 @@ class Info extends React.Component {
   renderDom = (data, type, i = 0) => {
     const name = data.attUrl && data.attUrl.split('/')[3];
     return (
-      <div key={i} className={styles.infoCls}>
+      <div key={i} className={styles.infoCls} style={{ padding: '20px' }}>
         <Row>
           <Col span={12}>
             {type === 'startAppeal' ? (
