@@ -453,6 +453,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
           if(backType==="closeModal"){
             that.props.onCancel();
           } else {
+            this.props.form.resetFields();
             router.goBack();
           }
         },

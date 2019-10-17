@@ -144,7 +144,9 @@ export default {
           type: 'saveOrderNumData',
           payload: { orderNumData: null },
         });
-        message.error(response.msgDetail);
+        if(payload.orderNum) {
+          message.warn("子订单号无效");
+        }
       }
     },
     *queryDimensionTreeList({ payload }, { call, put }) {
