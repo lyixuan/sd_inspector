@@ -22,12 +22,12 @@ function getColor(colors = colorsArr, order = 0) {
 // 单个
 function colorContrastSingle({nums = [], text = 0, isReversed, colors, ...props}) {
   const orderNums = orderFn(nums, isReversed);
-  return <BICell  bgColor={getColor(colors, orderNums.indexOf(text))} {...props}>{text}</BICell>
+  return <BICell textAlign={'right'} bgColor={getColor(colors, orderNums.indexOf(text))} {...props}>{text}</BICell>
 }
 // all
 function colorContrast({nums = [], isReversed, colors, ...props}) {
   const orderNums = orderFn([...nums], isReversed);
-  return nums.map(item => <BICell bgColor={getColor(colors, orderNums.indexOf(item))} {...props}>{item}</BICell>)
+  return nums.map(item => <BICell textAlign={'right'} bgColor={getColor(colors, orderNums.indexOf(item))} {...props}>{item}</BICell>)
 }
 class BIContrastCell extends React.Component {
   render() {

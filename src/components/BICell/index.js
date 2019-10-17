@@ -14,12 +14,15 @@ class BICell extends React.Component {
   }
   getStyles = () => {
     const styles = {};
-    const { color, bgColor} = this.props;
+    const { color, bgColor, textAlign } = this.props;
     if (color) { 
       styles.color = color;
     }
     if (bgColor) {
       styles.backgroundColor = bgColor;
+    }
+    if (textAlign) {
+      styles.textAlign = textAlign;
     }
     return styles;
   }
