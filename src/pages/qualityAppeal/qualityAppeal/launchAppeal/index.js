@@ -38,7 +38,6 @@ class Launch extends React.Component {
   render() {
     const { qualityAppealHome = {} } = this.props;
     const { QualityDetailData = {}, DetailData = {} } = qualityAppealHome || {};
-
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.detailContainer}>

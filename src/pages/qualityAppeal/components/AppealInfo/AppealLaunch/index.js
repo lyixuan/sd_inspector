@@ -42,16 +42,16 @@ class Launch extends React.Component {
     };
     this.firstAppealEndDate = null;
   }
-  componentDidMount() {
-    this.props.dispatch({
-      type: 'qualityAppealHome/getDetailData',
-      payload: this.state.paramId,
-    });
-    this.props.dispatch({
-      type: 'qualityAppealHome/getQualityDetailData',
-      payload: this.state.paramId,
-    });
-  }
+  // componentDidMount() {
+  //   this.props.dispatch({
+  //     type: 'qualityAppealHome/getDetailData',
+  //     payload: this.state.paramId,
+  //   });
+  //   this.props.dispatch({
+  //     type: 'qualityAppealHome/getQualityDetailData',
+  //     payload: this.state.paramId,
+  //   });
+  // }
   handleSubmit = () => {
     const { secondAppealEndDate } = this.props.location.query;
     let params = this.state.params;
@@ -157,7 +157,7 @@ class Launch extends React.Component {
           ) : (
             <div className={styles.info}>
               <div className={styles.title}>申诉信息</div>
-              <div>
+              <div className={styles.appealInfoWrap}>
                 <div className={styles.appealInfo}>
                   一次申诉
                   <span>

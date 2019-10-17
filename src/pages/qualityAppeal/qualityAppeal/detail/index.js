@@ -36,7 +36,6 @@ class AppealDetail extends React.Component {
   render() {
     const { DetailData = {} } = this.props.appealDetail;
     const { QualityDetailData = {} } = this.props.qualityAppealHome;
-    const { qualityAudit, ...others } = QualityDetailData;
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.detailContainer}>

@@ -15,7 +15,6 @@ export default class MasterLaunchDetail extends React.Component {
 
   render() {
     const { masterAppealCheck } = this.props.dataList ? this.props.dataList : {};
-    console.log(this.props.dataList, 'masterAppealCheck');
     if (!masterAppealCheck) {
       return <div></div>;
     }
