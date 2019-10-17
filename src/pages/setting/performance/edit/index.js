@@ -13,7 +13,7 @@ import BIButton from '@/ant_components/BIButton';
 import { message } from 'antd';
 import { DeepCopy } from '@/utils/utils';
 
-const { BIRangePicker } = BIDatePicker;
+const { BIRangePicker, BIMonthPicker } = BIDatePicker;
 
 const TYPE = {
   create: 1, // 创建
@@ -189,7 +189,7 @@ class detail extends React.Component {
       return pass;
     }
 
-    if (obj.replayLecturesTime===null || obj.replayLecturesTime === '') {
+    if (obj.replayLecturesTime === null || obj.replayLecturesTime === '') {
       pass = false;
       this.setState({
         cbtimeShow: true,
@@ -197,7 +197,7 @@ class detail extends React.Component {
       message.error('请输入重播时长');
       return pass;
     }
-    if (obj.positionPercent ===null|| obj.positionPercent==='') {
+    if (obj.positionPercent === null || obj.positionPercent === '') {
       pass = false;
       this.setState({
         fpShow: true,
@@ -205,7 +205,7 @@ class detail extends React.Component {
       message.error('请输入好岗位分配比');
       return pass;
     }
-    if (obj.renewalKpi===null || obj.renewalKpi==='') {
+    if (obj.renewalKpi === null || obj.renewalKpi === '') {
       pass = false;
       this.setState({
         xbShow: true,
@@ -213,7 +213,7 @@ class detail extends React.Component {
       message.error('续报岗位提点');
       return pass;
     }
-    if (obj.adultExamSpecialKpi===null || obj.adultExamSpecialKpi==='') {
+    if (obj.adultExamSpecialKpi === null || obj.adultExamSpecialKpi === '') {
       pass = false;
       this.setState({
         xbShow: true,
@@ -223,7 +223,7 @@ class detail extends React.Component {
     }
     const list1 = obj.financeNetFlowRatioList;
     for (let i = 0; i < list1.length; i++) {
-      if (list1[i].levelValue===''||list1[i].levelValue===null) {
+      if (list1[i].levelValue === '' || list1[i].levelValue === null) {
         pass = false;
         this.setState({
           cbShow: true,
@@ -268,7 +268,7 @@ class detail extends React.Component {
     }
     const list2 = obj.financeNetFlowRatioList2;
     for (let k = 0; k < list2.length; k++) {
-      if (list2[k].levelValue===''||list2[k].levelValue===null) {
+      if (list2[k].levelValue === '' || list2[k].levelValue === null) {
         pass = false;
         this.setState({
           zbShow: true,
@@ -361,6 +361,13 @@ class detail extends React.Component {
     this.setState({ data: newObj });
   };
 
+  //
+  monthChange = (value, dateString) => {
+    const { data } = this.state;
+    data.kpiMonth = dateString;
+    this.setState({ data });
+  };
+
   // 处理查询数据
   checkoutParamsType = (key, item) => {
     let returnItem = undefined;
@@ -399,6 +406,15 @@ class detail extends React.Component {
             onChange={this.dateChange}
             allowClear
             value={data.effectiveDate && [moment(data.effectiveDate), moment(data.expiryDate)]}
+            disabledDate={this.disabledDate}
+          />
+          <span style={{ marginLeft: '30px', marginRight: '10px' }}>绩效月份:</span>
+          <BIMonthPicker
+            placeholder="选择月份"
+            style={{ width: '230px', textAlign: 'left' }}
+            onChange={this.monthChange}
+            allowClear
+            value={data.kpiMonth && moment(data.kpiMonth)}
             disabledDate={this.disabledDate}
           />
         </div>
