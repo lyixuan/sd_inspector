@@ -27,6 +27,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
     constructor(props) {
       super(props);
       this.state = {
+        familyType:true,
         showMore: false,
         fileList:props.params.attUrl ?[{
           uid: '-1',
@@ -91,6 +92,19 @@ const BaseForm = Form.create({ name: 'base_form' })(
 
     onChangeViolationLevel = (value) => {
       this.props.changeViolationLevel(value,this.props.form);
+    };
+
+    onChangeOrganize = (val)=>{
+      if(val.length>1){
+        this.setState({
+          familyType:false
+        })
+      } else {
+        this.setState({
+          familyType:true
+        })
+      }
+
     };
 
     attachedRoleList = () => {
@@ -247,6 +261,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                   {getFieldDecorator('organize', {
                     initialValue: organize, rules: [{ required: true, message: '请选择归属组织' }],
                   })(<BICascader placeholder='请选择' changeOnSelect options={orgList}
+                                 onChange={this.onChangeOrganize}
                                  fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
                   />)}
                 </Form.Item>
@@ -304,19 +319,21 @@ const BaseForm = Form.create({ name: 'base_form' })(
                   </BISelect>)}
                 </Form.Item>
               </BoxItem>
-              <BoxItem label="学院类型" required>
-                <Form.Item className={styles.formItem}>
-                  {getFieldDecorator('familyType', {
-                    initialValue: familyType, rules: [{ required: true, message: '请选择学院类型' }],
-                  })(<BISelect allowClear placeholder="请选择">
-                    {BiFilter('FAMILY_TYPE').map(item => (
-                      <Option value={item.id} key={item.name}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </BISelect>)}
-                </Form.Item>
-              </BoxItem>
+              {
+                this.state.familyType&&<BoxItem label="学院类型" required>
+                  <Form.Item className={styles.formItem}>
+                    {getFieldDecorator('familyType', {
+                      initialValue: familyType, rules: [{ required: true, message: '请选择学院类型' }],
+                    })(<BISelect allowClear placeholder="请选择">
+                      {BiFilter('FAMILY_TYPE').map(item => (
+                        <Option value={item.id} key={item.name}>
+                          {item.name}
+                        </Option>
+                      ))}
+                    </BISelect>)}
+                  </Form.Item>
+                </BoxItem>
+              }
             </div>
             <div className={styles.formRow}>
               <BoxItem label="分维" required>
