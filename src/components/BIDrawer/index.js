@@ -1,6 +1,8 @@
 import React from 'react';
-import { Drawer } from 'antd';
 import styles from './style.less';
+import closeImg from '@/assets/component/close.png';
+import openImg from '@/assets/component/open.png'
+
 
 class BIDrawer extends React.Component {
   onClose = () => {
@@ -21,14 +23,26 @@ class BIDrawer extends React.Component {
       <div className={`${styles.BIDrawer} ${visible ? styles.BIDrawerOpen : ''}`}>
         <div className={styles.openWrapper}>
           <div onClick={this.onClose} class={styles.drawerMask}></div>
-          <div className={styles.drawer}>
-            <span onClick={this.onClose} className={styles.toggleClose}>收起PK小组 {'<'}</span>
-            <div className={styles.drawerBody} style={drawerStyle}>
+          <div className={styles.drawer} style={drawerStyle}>
+            <span onClick={this.onClose} className={styles.toggleClose}>
+              <span>收</span>
+              <span>起</span>
+              <span>PK</span>
+              <span>小</span>
+              <span>组</span> 
+              <img src={closeImg} alt=''/></span>
+            <div className={styles.drawerBody}>
               {this.props.children}
             </div>
           </div>
         </div>
-        {!visible ? <span onClick={this.onOpen} className={styles.toggleOpen}>展开PK小组 {'>'}</span> : ''}
+        {!visible ? <span onClick={this.onOpen} className={styles.toggleOpen}>
+          <span>展</span>
+          <span>开</span>
+          <span>PK</span>
+          <span>小</span>
+          <span>组</span> 
+          <img src={openImg} alt=''/></span> : ''}
       </div>    
     );
   }

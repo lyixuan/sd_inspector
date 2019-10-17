@@ -36,12 +36,10 @@ class Profit extends React.Component {
       <Container title='本期创收' propStyle={{ display: 'flex', position: 'relative' }}>
         <ProfitTabs {...this.props} pkUser={pkUser} pkListType={pkListType} />
         <BIDrawer
-          placement="right"
-          closable={false}
           onClose={() => this.toggleDrawer(false)}
           onOpen={() => this.toggleDrawer(true)}
           visible={visible}
-          getContainer={false}
+          drawerStyle={{width: '40%'}}
         >
           <ProfitList {...this.props} pkUser={pkUser} pkListType={pkListType} changePkListType={this.changePkListType} changeSelected={this.changeSelected} />
         </BIDrawer>
