@@ -6,7 +6,7 @@ class BICell extends React.Component {
     super();
     this.state = {
       color: 'red',
-      width: '85px'
+      bgColor: ''
     }
   }
   onClick = obj => {
@@ -19,7 +19,7 @@ class BICell extends React.Component {
   }
   render() {
     return (
-      <div className={styles.BICell} onClick={this.onClick} style={{ color: this.getAttribute('color'), width: this.getAttribute('width') }} {...this.props}>
+      <div onClick={this.onClick} style={{ color: this.getAttribute('color'), backgroundColor: this.getAttribute('bgColor') }} {...this.props}>
         {this.props.children}
       </div>
     );
