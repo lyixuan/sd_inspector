@@ -4,7 +4,6 @@ import { Progress } from 'antd';
 import BITable from '@/ant_components/BITable';
 import BISelect from '@/ant_components/BISelect';
 import Indent from '../../../components/indent';
-import BILoading from '@/components/BILoading'
 import styles from '../style.less';
 
 const { Option } = BISelect;
@@ -142,35 +141,31 @@ class ProfitList extends React.Component {
             {pkTypeconfig.map((item, index) => <Option key={index} value={index + 1} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>{item}</Option>)}
           </BISelect>
         </div>
-        {
-          this.props.loading?<BILoading isLoading={this.props.loading} />:<div className={styles.tableContent}>
-            {userFlag && userMsg && <div className={styles.suspenTable}>
-              <BITable
-                showHeader={false}
-                columns={this.columns()}
-                dataSource={[userMsg]}
-                pagination={false}
-                rowKey={record => record.userId}
-                rowClassName={this.getRowClassName}
-              />
-            </div>}
-            <div id='scroll' className={`${yScrollFlag ? styles.scrollTable : ''} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
-              <BITable
-                columns={this.columns()}
-                dataSource={profitList}
-                pagination={false}
-                loading={this.props.loading}
-                rowKey={(record, index) => record.userId + '' + index}
-                onRow={this.onClickRow}
-                rowClassName={this.getRowClassName}
-                scroll={{ x: 1000, y: 420 }}
-              />
-            </div>
+        <div className={styles.tableContent}>
+          {userFlag && userMsg && <div className={styles.suspenTable}>
+            <BITable
+              showHeader={false}
+              columns={this.columns()}
+              dataSource={[userMsg]}
+              pagination={false}
+              rowKey={record => record.userId}
+              rowClassName={this.getRowClassName}
+            />
+          </div>}
+          <div id='scroll' className={`${yScrollFlag ? styles.scrollTable : ''} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
+            <BITable
+              columns={this.columns()}
+              dataSource={profitList}
+              pagination={false}
+              loading={this.props.loading}
+              rowKey={(record, index) => record.userId + '' + index}
+              onRow={this.onClickRow}
+              rowClassName={this.getRowClassName}
+              scroll={{ y: 420 }}
+            />
           </div>
-        }
-
+        </div>
       </div>
-
     );
   }
 }
