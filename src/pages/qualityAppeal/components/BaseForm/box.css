@@ -1,0 +1,19 @@
+
+.boxWrap {
+  border: 1px solid #dcdde0;
+  border-radius: 2px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.boxWrap2 {
+  padding: 15px;
+}
+.title {
+  height: 43px;
+  background-color: #f6f7fa;
+  line-height: 43px;
+  padding-left: 15px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #353535;
+}

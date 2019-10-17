@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import {
   getOrgMapList,
+  getOrgMapTree,
   getDimensionList,
   getOrgMapByMail,
   getAppealDetail,
@@ -11,6 +12,7 @@ import {
   getPunishInfoList,
 } from '@/pages/qualityAppeal/services';
 import { msgF } from '@/utils/utils';
+import { updateQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
 
 function toTreeData(orgList) {
   const treeData = [];
@@ -47,6 +49,8 @@ export default {
     QualityDetailData: {}, // 质检详情页数据
     orderNumData: null, // 根据子订单编号获取订单详情数据
     punishInfoList: {},
+    appealOrgList: [],
+    appealOrgListTreeData: [],
   },
 
   effects: {
@@ -57,6 +61,16 @@ export default {
 
       if (result.code === 20000) {
         yield put({ type: 'saveMap', payload: { orgList } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 质检申诉管理内归属组织修改
+    *getOrgMapTree({ payload }, { call, put }) {
+      const result = yield call(getOrgMapTree);
+      const appealOrgList = result.data || [];
+      if (result.code === 20000) {
+        yield put({ type: 'saveAppealMap', payload: { appealOrgList } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -83,7 +97,6 @@ export default {
       const response = yield call(getOrgMapByMail, payload);
       if (response.code === 20000) {
         const orgMapByMailData = response.data || {};
-        // 强制触发更新
         orgMapByMailData.upDateTime = new Date().valueOf();
         yield put({
           type: 'saveOrgMapByMailData',
@@ -92,6 +105,7 @@ export default {
       } else {
         message.error(msgF(response.msg, response.msgDetail));
       }
+      return response.data;
     },
     *getDetailData({ payload }, { call, put }) {
       //申诉详情页数据
@@ -105,12 +119,14 @@ export default {
       }
     },
     *getQualityDetailData({ payload }, { call, put }) {
-      //质检详情页数据
+      //质检详情数据
       const result = yield call(getQualityDetail, { ...payload });
-      const QualityDetailData = result.data ? result.data : {};
-
       if (result.code === 20000) {
-        yield put({ type: 'saveQualityDetailData', payload: { QualityDetailData } });
+        const QualityDetailData = result.data ? result.data : {};
+        QualityDetailData.ownQualityValue = QualityDetailData.qualityValue;
+        delete QualityDetailData.qualityValue;
+        yield put({ type: 'save', payload: { QualityDetailData } });
+        return QualityDetailData;
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -118,13 +134,19 @@ export default {
     *getOrderNum({ payload }, { call, put }) {
       const response = yield call(getOrderNum, payload);
       if (response.code === 20000) {
-        const orderNumData = response.data || {};
+        const orderNumData = response.data;
         yield put({
           type: 'saveOrderNumData',
           payload: { orderNumData },
         });
       } else {
-        message.error(msgF(response.msg, response.msgDetail));
+        yield put({
+          type: 'saveOrderNumData',
+          payload: { orderNumData: null },
+        });
+        if(payload.orderNum) {
+          message.warn("子订单号无效");
+        }
       }
     },
     *queryDimensionTreeList({ payload }, { call, put }) {
@@ -141,33 +163,36 @@ export default {
       }
     },
     *checkRepeatQualityInspection({ payload }, { call, put }) {
-      const { callback, params } = payload;
+      const { params } = payload;
       const response = yield call(checkRepeatQualityInspection, params);
       if (response.code === 20000) {
-        callback.call(null, response.data || {});
+        return response.data;
       } else {
         message.error(msgF(response.msg, response.msgDetail));
-        if (response.code === 20005) {
-          window.history.go(-1);
-        }
+        return false;
       }
     },
     *getPunishInfoList({ payload }, { call, put }) {
       const params = payload.params;
-      // const punishInfoList = {
-      //   punishType: 1,
-      //   qualityValue: '2000',
-      // };
-      // console.log(punishInfoList,'punishInfoList');
-      // yield put({ type: 'saveDetailData', payload: { punishInfoList } });
+
       const result = yield call(getPunishInfoList, params);
       if (result.code === 20000) {
         const data = result.data;
-        yield put({ type: 'save', payload: { data } });
+        data.ownQualityValue = data.qualityValue;
+        delete data.qualityValue;
         return data;
       } else {
         message.error(msgF(result.msg, result.msgDetail));
         return false;
+      }
+    },
+    *updateQuality({ payload }, { call, put }) {
+      const result = yield call(updateQuality, { ...payload });
+      if (result.code === 20000) {
+        message.success('提交成功');
+        return true
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
       }
     },
   },
@@ -179,6 +204,10 @@ export default {
     saveMap(state, { payload }) {
       const orgListTreeData = toTreeData(payload.orgList);
       return { ...state, orgList: payload.orgList, orgListTreeData };
+    },
+    saveAppealMap(state, { payload }) {
+      const appealOrgListTreeData = toTreeData(payload.appealOrgList);
+      return { ...state, appealOrgList: payload.appealOrgList, appealOrgListTreeData };
     },
     saveOrgMapByMailData(state, { payload }) {
       return { ...state, ...payload };
