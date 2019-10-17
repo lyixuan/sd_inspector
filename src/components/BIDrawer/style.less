@@ -1,0 +1,77 @@
+
+.BIDrawer{
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  .openWrapper {
+    display: flex;
+    overflow: hidden;
+    width: 0;
+    height: 100%;
+    .drawerMask {
+      flex: 1;
+      background-color: rgba(0, 0, 0, 0);
+      height: 100%;
+      cursor: pointer;
+    }
+    .drawer{
+      display: flex;
+      align-items: center;
+      background-color: #FFFFFF;
+      min-width: 256px;
+      height: 100%;
+      position: relative;
+      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+      .toggleClose {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        width: 32px;
+        height: 128px;
+        color: #FFFFFF;
+        font-size: 12px;
+        box-sizing: border-box;
+        padding: 0 6px 0 7px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        background-color: #00CCC3;
+        left: -32px;
+        cursor: pointer;
+      }
+      .drawerBody {
+        height: 100%;
+        width: calc(100% - 32px);
+        padding: 24px 24px 0 24px;
+      }
+    }
+  }
+  .toggleOpen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 99999;
+    width: 32px;
+    height: 128px;
+    color: #FFFFFF;
+    font-size: 12px;
+    box-sizing: border-box;
+    padding: 0 6px 0 7px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: #00CCC3;
+    cursor: pointer;
+    right: 0;
+  }
+}
+.BIDrawerOpen {
+  width: 100%;
+  transition: transform 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
+  .openWrapper {
+    width: 100%;
+  }
+}
