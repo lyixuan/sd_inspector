@@ -29,7 +29,7 @@ class Performance extends React.Component {
     }
   }
   columns() {
-    const width = this.state.rankType == 1 ? '11%' : '10%';
+    const width = this.state.rankType == 1 ? '12.5%' : '11%';
     const columns = [
       {
         title: '排名',
@@ -70,12 +70,12 @@ class Performance extends React.Component {
         key: 'familyName',
         width: width
       },
-      {
-        title: '家族长',
-        dataIndex: 'cpName',
-        key: 'cpName',
-        width: width
-      },
+      // {
+      //   title: '家族长',
+      //   dataIndex: 'cpName',
+      //   key: 'cpName',
+      //   width: width
+      // },
       {
         title: '总绩效',
         dataIndex: 'totalAchievement',
