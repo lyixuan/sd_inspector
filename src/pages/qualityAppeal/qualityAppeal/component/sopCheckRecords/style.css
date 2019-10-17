@@ -36,9 +36,9 @@
   flex: 1;
 }
 .secctionTitle {
-  height: 43px;
+  height: 35px;
   background-color: #f6f7fa;
-  line-height: 43px;
+  line-height: 35px;
   padding-left: 18px;
   font-size: 16px;
   color: #353535;
@@ -82,9 +82,9 @@ div.divideLine:last-child {
 }
 .secctionTitle {
   display: block;
-  height: 43px;
+  height: 35px;
   background-color: #f6f7fa;
-  line-height: 43px;
+  line-height: 35px;
   padding-left: 18px;
   font-weight: bold;
 }
