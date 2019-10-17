@@ -13,14 +13,14 @@ const { TextArea } = Input;
 let isLt10M = false;
 let isZip = false;
 
-@connect(({ Launch, qualityAppealHome, loading }) => ({
-  Launch,
-  qualityAppealHome,
-  loading: loading.effects['Launch/launchAppeal'],
-  pageLoading:
-    loading.effects['qualityAppealHome/getDetailData'] ||
-    loading.effects['qualityAppealHome/getQualityDetailData'],
-}))
+// @connect(({ Launch, qualityAppealHome, loading }) => ({
+//   Launch,
+//   qualityAppealHome,
+//   loading: loading.effects['Launch/launchAppeal'],
+//   pageLoading:
+//     loading.effects['qualityAppealHome/getDetailData'] ||
+//     loading.effects['qualityAppealHome/getQualityDetailData'],
+// }))
 class AppealUpload extends React.Component {
   // 发起申诉
   constructor(props) {
@@ -44,16 +44,16 @@ class AppealUpload extends React.Component {
     };
     this.firstAppealEndDate = null;
   }
-  componentDidMount() {
-    this.props.dispatch({
-      type: 'qualityAppealHome/getDetailData',
-      payload: this.state.paramId,
-    });
-    this.props.dispatch({
-      type: 'qualityAppealHome/getQualityDetailData',
-      payload: this.state.paramId,
-    });
-  }
+  // componentDidMount() {
+  //   this.props.dispatch({
+  //     type: 'qualityAppealHome/getDetailData',
+  //     payload: this.state.paramId,
+  //   });
+  //   this.props.dispatch({
+  //     type: 'qualityAppealHome/getQualityDetailData',
+  //     payload: this.state.paramId,
+  //   });
+  // }
 
   inputChange = e => {
     e.persist();
@@ -91,13 +91,13 @@ class AppealUpload extends React.Component {
   };
 
   render() {
-    const { qualityAppealHome = {}, loading } = this.props;
-    const qualityDetailData = qualityAppealHome.QualityDetailData;
+    const { qualityDetailData = {}, loading, detailData } = this.props;
+    // const qualityDetailData = qualityAppealHome.QualityDetailData;
     this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
     const { secondAppealEndDate } = this.props.location.query;
     return (
-      <div className={styles.launchContainer}>
-        <div>
+      <div className={styles.launchContainer} style={{ paddingLeft: '20px', marginTop: '20px' }}>
+        <div style={{ border: '1px solid #ccc', padding: '20px' }}>
           <div className={styles.originator}>申诉发起人</div>
           <div className={styles.flexStyle}>
             <div className={styles.label}>附件:</div>

@@ -86,6 +86,9 @@ class Appeal extends React.Component {
               </span>
             </div>
             <OwnLaunchDetail dataList={dataList2} />
+            {dataList2.sopAppealCheck && dataList2.sopAppealCheck.length === 0 ? null : (
+              <SopLaunchDetail dataList={dataList2} />
+            )}
             {status === 6 ? (
               <div
                 className={styles.masterContent}
@@ -95,9 +98,6 @@ class Appeal extends React.Component {
                 <AppealEdit {...this.props} hideDate showWarn={false} setStateData={setStateData} />
               </div>
             ) : null}
-            {dataList2.sopAppealCheck && dataList2.sopAppealCheck.length === 0 ? null : (
-              <SopLaunchDetail dataList={dataList2} />
-            )}
             {!dataList2.masterAppealCheck ? null : <MasterLaunchDetail dataList={dataList2} />}
             {status === 8 ? (
               <div className={styles.masterContent}>

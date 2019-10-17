@@ -137,7 +137,7 @@ class Launch extends React.Component {
           {secondAppealEndDate ? (
             <div className={styles.info}>
               {this.getAppealInfos(detailData)}
-              <div className={styles.appealInfo}>
+              <div className={styles.appealInfo} style={{ marginTop: '20px', background: 'none' }}>
                 二次申诉
                 <span>
                   二次申诉截止日期：
@@ -146,6 +146,8 @@ class Launch extends React.Component {
               </div>
               <AppealUpload
                 {...this.props}
+                qualityDetailData={qualityDetailData}
+                detailData={detailData}
                 inputChange={desc => this.inputChange(desc)}
                 uploadFileChange={attUrl => {
                   this.uploadFileChange(attUrl);
@@ -166,6 +168,8 @@ class Launch extends React.Component {
                 {this.getAppealInfos(detailData)}
                 <AppealUpload
                   {...this.props}
+                  qualityDetailData={qualityDetailData}
+                  detailData={detailData}
                   inputChange={desc => this.inputChange(desc)}
                   uploadFileChange={attUrl => {
                     this.uploadFileChange(attUrl);
