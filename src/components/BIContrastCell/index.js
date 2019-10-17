@@ -1,7 +1,8 @@
 import React from 'react';
-import BIColorCell from '../BIColorCell';
-import BICell from '../BICell'
+import BICell from '../BICell';
 
+const colorsArr = ['rgba(75, 193, 255, 1)', 'rgba(75, 193, 255, 0.8)', 'rgba(75, 193, 255, 0.6)', 'rgba(75, 193, 255, 0.5)', 'rgba(75, 193, 255, 0.4)', 'rgba(75, 193, 255, 0.3)'];
+// 排序
 function orderFn(nums = [], isReversed) {
   const arr = nums.sort(function(a,b){
     return b-a;
@@ -11,20 +12,22 @@ function orderFn(nums = [], isReversed) {
   } 
   return arr;
 }
-function getColor(colors, order = 0) {
+function getColor(colors = colorsArr, order = 0) {
   if (Object.prototype.toString.call(colors)==='[object Array]') {
     return colors[order];
   } else if (Object.prototype.toString.call(colors)==='[object String]'){
     return colors;
   }
 }
+// 单个
 function colorContrastSingle({nums = [], text = 0, isReversed, colors, ...props}) {
   const orderNums = orderFn(nums, isReversed);
-  return <>{text === 0 ? <BICell>{text}</BICell> : <BIColorCell order={orderNums.indexOf(text)} bgColor={getColor(colors)} {...props}>{text}</BIColorCell>}</>
+  return <BICell  bgColor={getColor(colors, orderNums.indexOf(text))} {...props}>{text}</BICell>
 }
+// all
 function colorContrast({nums = [], isReversed, colors, ...props}) {
   const orderNums = orderFn(nums, isReversed);
-  return nums.map(item => <>{item === 0 ? <BICell>{item}</BICell> : <BIColorCell order={orderNums.indexOf(item)} bgColor={getColor(colors, orderNums.indexOf(item))} {...props}>{item}</BIColorCell>}</>)
+  return nums.map(item => <BICell bgColor={getColor(colors, orderNums.indexOf(item))} {...props}>{item}</BICell>)
 }
 class BIContrastCell extends React.Component {
   render() {

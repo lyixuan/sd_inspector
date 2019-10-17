@@ -2,7 +2,6 @@ import React from 'react';
 import Container from '../../components/container';
 import ProfitList from './components/list';
 import ProfitTabs from './components/tabs';
-import { Drawer } from 'antd';
 
 class Profit extends React.Component {
   constructor(props) {
@@ -29,17 +28,7 @@ class Profit extends React.Component {
     return (
       <Container title='本期创收' propStyle={{ display: 'flex' }}>
         <ProfitTabs {...this.props} pkUser={pkUser} pkListType={pkListType} />
-        <Drawer
-          title="Basic Drawer"
-          placement="right"
-          closable={false}
-          onClose={this.onClose}
-          visible={this.state.visible}
-          getContainer={false}
-          style={{ position: 'absolute' }}
-        >
-          <ProfitList {...this.props} pkUser={pkUser} pkListType={pkListType} changePkListType={this.changePkListType} changeSelected={this.changeSelected} />
-        </Drawer>
+        <ProfitList {...this.props} pkUser={pkUser} pkListType={pkListType} changePkListType={this.changePkListType} changeSelected={this.changeSelected} />
       </Container>
     );
   }

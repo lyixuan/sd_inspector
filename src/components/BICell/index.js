@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './style.less';
 
 class BICell extends React.Component {
   constructor(props) {
@@ -10,9 +11,6 @@ class BICell extends React.Component {
     if (this.props.onClick && typeof this.props.onClick === 'function') {
       this.props.onClick(obj);
     }
-  }
-  getAttribute = type => {
-    return this.props[type] ? this.props[type] : this.state[type];
   }
   getStyles = () => {
     const styles = {};
@@ -27,7 +25,7 @@ class BICell extends React.Component {
   }
   render() {
     return (
-      <div onClick={this.onClick} style={this.getStyles()} {...this.props}>
+      <div className={styles.styles} onClick={this.onClick} style={this.getStyles()} {...this.props}>
         {this.props.children}
       </div>
     );

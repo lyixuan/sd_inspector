@@ -4,6 +4,7 @@ import { Skeleton } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import BICascader from '@/ant_components/BICascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
+import BISelect from '@/ant_components/BISelect'
 import extentImg from '@/assets/xdcredit/extent.png';
 import { initTimeData } from '../ko/utils/utils';
 import { message } from 'antd/lib/index';
@@ -14,9 +15,16 @@ import moment from 'moment';
 
 
 
-
+const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
+const collegeType = [{
+  id: 0,
+  name: '自考'
+}, {
+  id: 0,
+  name: '壁垒'
+}]
 @connect(({ xdCreditModal, loading }) => ({
   dimensionData: xdCreditModal.dimensionData,
   dimensionDetails: xdCreditModal.dimensionDetails,
@@ -35,7 +43,7 @@ class XdCredit extends React.Component {
       pageFrom: '',
       // startTime: '',
       // endTime: '',
-      pageSize: 15,
+      pageSize: 40,
       page: 1,
     }
   }
@@ -94,10 +102,10 @@ class XdCredit extends React.Component {
   // 列表
   getDimensionList = () => {
     const groupMsg = this.getGroupMsg();
-    if (groupMsg.groupType === 'college') {
-      message.error('请选择家族或小组');
-      return;
-    }
+    // if (groupMsg.groupType === 'college') {
+    //   message.error('请选择家族或小组');
+    //   return;
+    // }
     const { startTime, endTime } = this.state;
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionList',
@@ -132,10 +140,10 @@ class XdCredit extends React.Component {
   // 详情
   getDimensionDetail = () => {
     const groupMsg = this.getGroupMsg();
-    if (groupMsg.groupType === 'college') {
-      message.error('请选择家族或小组');
-      return;
-    }
+    // if (groupMsg.groupType === 'college') {
+    //   message.error('请选择家族或小组');
+    //   return;
+    // }
     const param = {
       ...groupMsg,
       dementionId: this.state.dementionId,
@@ -197,6 +205,7 @@ class XdCredit extends React.Component {
   }
   // 选择组织
   onChangeSelect = (groupId, groupTypeArr) => {
+    console.log(208, groupId, groupTypeArr)
     this.setState({ groupId, groupTypeArr });
   }
   // 选择时间
@@ -222,10 +231,13 @@ class XdCredit extends React.Component {
       page: currentPage,
     }, () => this.getDimensionDetail());
   };
+  onSelectChange = val => {
+    console.log(234, val)
+  }
   render() {
     const { dementionId, groupId, extendFlag, userOrgConfig, startTime, endTime } = this.state;
     const { infoLoading } = this.props;
-    console.log(227, this.props.dimensionData)
+    console.log(240, this.state.groupTypeArr)
     return (
       <div className={`${styles.credit} ${extendFlag ? '' : styles.extent}`}>
         <Skeleton loading={infoLoading} >
@@ -249,6 +261,25 @@ class XdCredit extends React.Component {
                   />
                 </span>
               }
+              {
+                this.state.groupTypeArr.length == 1 && this.state.groupTypeArr[0].groupType == 'college' &&
+                <span className={styles.change}>
+                  学院类型：
+              <BISelect
+                    defaultValue={collegeType[0].name}
+                    placeholder="请选择小组"
+                    style={{ width: '136px' }}
+                    onChange={this.onSelectChange}
+                  >
+                    {collegeType.map((item, index) => (
+                      <Option key={index}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </BISelect>
+                </span>
+              }
+
               <span className={styles.change}>
                 选择时间：
               <BIRangePicker
