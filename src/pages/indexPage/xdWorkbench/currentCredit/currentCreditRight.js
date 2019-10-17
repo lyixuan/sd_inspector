@@ -5,7 +5,6 @@ import BITable from '@/ant_components/BITable'
 import BISelect from '@/ant_components/BISelect'
 import { Progress } from 'antd';
 import Indent from '../../components/indent';
-import BIContrastCell from '@/components/BIContrastCell';
 
 const { Option } = BISelect;
 @connect(({ xdWorkModal, loading }) => ({

@@ -53,7 +53,10 @@ class currentCredit extends React.Component {
       <Container
         title='本期学分'
         style={{ width: '100%', marginBottom: '16px' }}
-      >{BIContrastCell.colorContrast([1,2,3,4,5,0,9])}
+      >
+      {BIContrastCell.colorContrast({nums:[1,1,1,2,3,4,5,5,0,9] })}
+      {BIContrastCell.colorContrast({nums:[-0.55, -4.50, -1.10, -1.62, 0, -5.23], isReversed: true })}
+      <BIContrastCell nums={[-0.55, -4.50, -1.10, -1.62, 0, -5.23]}  text={-5.23}/>
         <div className={styles.creditContainer}>
           <CurrentCreditLeft groupId={groupId} selfName={selfName} selfSource={selfSource} userData={this.userData} />
           <CurrentCreditRight PkSelfId={PkSelfId} clickRow={this.clickRow} />

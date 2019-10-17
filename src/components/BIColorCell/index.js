@@ -6,18 +6,22 @@ class BIColorCell extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bgColor: `rgba(75, 253, 255, ${this.getOpacity()})`,
+      bgColor: `rgba(75, 193, 255, ${this.getOpacity()})`,
+      order: 0,
     }
   }
   getAttribute = type => {
     return this.props[type] ? this.props[type] : this.state[type];
   }
   getOpacity = () => {
-    return this.props.order ? colorObj[this.props.order] : colorObj[0];
+    const order = this.props.order ? this.props.order : 0;
+    return colorObj[order];
   }
+
   render() {
+    const {bgColor, order, ...props} = this.props;
     return (
-      <BICell bgColor={this.getAttribute('bgColor')} {...this.props}/>
+      <BICell bgColor={this.getAttribute('bgColor')} {...props}/>
     );
   }
 }

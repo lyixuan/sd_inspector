@@ -7,10 +7,6 @@ import IndentNum from '../../components/indentNum';
 import pkImg from '@/assets/xdwork/pk.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
 import { Link } from 'dva/router';
-import BIContrastCell from '@/components/BIContrastCell';
-
-const colorContrast = BIContrastCell.colorContrast;
-console.log(colorContrast([1,2,3,4,5,0,9]), 'kkkkkkkk')
 
 function CustomExpandIcon(props) {
   return (
@@ -297,7 +293,6 @@ class currentCreditLeft extends React.Component {
     const PkName = pkGroup && pkGroup.groupName;
     return (
       <div className={styles.creditLeft}>
-        {colorContrast([1,2,3,4,5,0,9]).map=(item => item)}
         <div className={styles.proMain}>
           {groupId !== 0 ? <Proportion
             leftNum={leftNum}
