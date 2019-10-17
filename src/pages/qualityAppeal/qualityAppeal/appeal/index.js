@@ -91,6 +91,8 @@ class QualityAppealing extends React.Component {
         <BIModal
           title="编辑质检信息"
           width={1200}
+          style={{top:0}}
+          destroyOnClose
           visible={this.state.visible}
           footer={null}
           onCancel={this.handleCancel}

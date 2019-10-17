@@ -74,8 +74,10 @@ class QualityAppeal extends React.Component {
         <BIModal
           title="编辑质检信息"
           width={1200}
+          style={{top:0}}
           visible={this.state.visible}
           onCancel={this.handleCancel}
+          destroyOnClose
           footer={null}
         >
           <FormIndex backType="closeModal"

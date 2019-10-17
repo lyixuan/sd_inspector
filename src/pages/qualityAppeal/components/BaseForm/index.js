@@ -18,6 +18,7 @@ class FormIndex extends React.Component {
 
   componentDidMount() {
     this.getDimensionTreeList(this.props.params.dimensionId, this.props.params.qualityType);
+    this.getSubOrderDetail(this.props.params.orderNum);
   }
 
   UNSAFE_componentWillReceiveProps(next) {
