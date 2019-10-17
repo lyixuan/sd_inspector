@@ -388,7 +388,6 @@ class QualityAppeal extends React.Component {
   };
   findStartManListData = () => {
     const { p = null } = this.props.location.query;
-    console.log(p, 'p');
     this.props.dispatch({
       type: 'qualityCheck/findStartManList',
       payload: { type: (p && p.type) || 1 },

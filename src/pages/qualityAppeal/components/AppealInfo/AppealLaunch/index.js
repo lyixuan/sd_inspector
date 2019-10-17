@@ -11,15 +11,15 @@ import moment from 'moment';
 import router from 'umi/router';
 const { TextArea } = Input;
 let isLt10M = false;
-let isZip = false;
-@connect(({ Launch, qualityAppealHome, loading }) => ({
-  Launch,
-  qualityAppealHome,
-  loading: loading.effects['Launch/launchAppeal'],
-  pageLoading:
-    loading.effects['qualityAppealHome/getDetailData'] ||
-    loading.effects['qualityAppealHome/getQualityDetailData'],
-}))
+// let isZip = false;
+// @connect(({ Launch, qualityAppealHome, loading }) => ({
+//   Launch,
+//   qualityAppealHome,
+//   loading: loading.effects['Launch/launchAppeal'],
+//   pageLoading:
+//     loading.effects['qualityAppealHome/getDetailData'] ||
+//     loading.effects['qualityAppealHome/getQualityDetailData'],
+// }))
 class Launch extends React.Component {
   constructor(props) {
     super(props);
@@ -86,10 +86,8 @@ class Launch extends React.Component {
 
   getAppealInfos(detailData) {
     let domFragment = [];
-    console.log(detailData, 'detailData');
     if (detailData.length > 0) {
       detailData.forEach((item, index) => {
-        console.log(item, item.type, 'type');
         domFragment.push(
           <div key={index}>
             <AppealInfoComponent
@@ -129,8 +127,8 @@ class Launch extends React.Component {
     return domFragment;
   }
   render() {
-    const { qualityAppealHome = {}, loading } = this.props;
-    const qualityDetailData = qualityAppealHome.QualityDetailData;
+    const { qualityDetailData = {}, loading, detailData } = this.props;
+    // const qualityDetailData = qualityAppealHome.QualityDetailData;
     this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
     const { secondAppealEndDate } = this.props.location.query;
     return (
@@ -138,7 +136,7 @@ class Launch extends React.Component {
         <div className={styles.launchContainer}>
           {secondAppealEndDate ? (
             <div className={styles.info}>
-              {this.getAppealInfos(qualityAppealHome.DetailData)}
+              {this.getAppealInfos(detailData)}
               <div className={styles.appealInfo}>
                 二次申诉
                 <span>
@@ -158,13 +156,14 @@ class Launch extends React.Component {
             <div className={styles.info}>
               <div className={styles.title}>申诉信息</div>
               <div className={styles.appealInfoWrap}>
-                <div className={styles.appealInfo}>
+                {/* <div className={styles.appealInfo}>
                   一次申诉
                   <span>
                     （一次申诉截止日期：
                     {moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD')}）
                   </span>
-                </div>
+                </div> */}
+                {this.getAppealInfos(detailData)}
                 <AppealUpload
                   {...this.props}
                   inputChange={desc => this.inputChange(desc)}

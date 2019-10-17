@@ -8,14 +8,14 @@ import router from 'umi/router';
 import { message, Spin } from 'antd';
 const confirm = BIModal.confirm;
 
-@connect(({ qualityAppealing, qualityAppealHome, loading }) => ({
-  qualityAppealing,
-  orgList: qualityAppealHome.orgList,
-  qualityAppealHome,
-  submitLoading: loading.effects['qualityAppealing/reviewAppeal'],
-  submitLoading2: loading.effects['qualityAppealing/sopAppeal'],
-  pageLoading: loading.effects['qualityAppealing/getAppealInfo'],
-}))
+// @connect(({ qualityAppealing, qualityAppealHome, loading }) => ({
+//   qualityAppealing,
+//   orgList: qualityAppealHome.orgList,
+//   qualityAppealHome,
+//   submitLoading: loading.effects['qualityAppealing/reviewAppeal'],
+//   submitLoading2: loading.effects['qualityAppealing/sopAppeal'],
+//   pageLoading: loading.effects['qualityAppealing/getAppealInfo'],
+// }))
 class QualityAppealing extends React.Component {
   constructor(props) {
     super(props);
@@ -36,22 +36,22 @@ class QualityAppealing extends React.Component {
   handleAppeal() {
     this.setState({ appealIsShow: !this.state.appealIsShow });
   }
-  componentDidMount() {
-    this.getQualityInfo();
-    this.getAppealInfo();
-  }
-  getAppealInfo = () => {
-    this.props.dispatch({
-      type: 'qualityAppealing/getAppealInfo',
-      payload: { id: this.query.id },
-    });
-  };
-  getQualityInfo = () => {
-    this.props.dispatch({
-      type: 'qualityAppealing/getQualityDetailData',
-      payload: { id: this.query.id },
-    });
-  };
+  // componentDidMount() {
+  //   this.getQualityInfo();
+  //   this.getAppealInfo();
+  // }
+  // getAppealInfo = () => {
+  //   this.props.dispatch({
+  //     type: 'qualityAppealing/getAppealInfo',
+  //     payload: { id: this.query.id },
+  //   });
+  // };
+  // getQualityInfo = () => {
+  //   this.props.dispatch({
+  //     type: 'qualityAppealing/getQualityDetailData',
+  //     payload: { id: this.query.id },
+  //   });
+  // };
 
   handleSubmitSop = () => {
     const { appealParam } = this.state;
@@ -179,7 +179,7 @@ class QualityAppealing extends React.Component {
               </div>
             </section>
           ) : (
-            <div style={{ marginLeft: '-20px' }}>
+            <div>
               <AppealInfo
                 {...this.props}
                 dataList={appealShow}

@@ -21,9 +21,9 @@ export default class AppealInfoComponent extends React.Component {
     const number = Number(type) === 2 ? '二' : '一';
     return (
       <section className={styles.personInfoCon}>
-        <span className={[Number(index) === 0 ? styles.secctionTitle : `${styles.hidePanel}`]}>
+        {/* <span className={[Number(index) === 0 ? styles.secctionTitle : `${styles.hidePanel}`]}>
           申诉信息
-        </span>
+        </span> */}
         <div className={styles.appealInfoCon}>
           <div className={styles.appealInfo}>
             {number}次申诉
