@@ -174,7 +174,6 @@ class detail extends React.Component {
     }
   };
   checkData = obj => {
-    console.log(obj);
     this.setState({
       cbtimeShow: false,
       zbShow: false,
