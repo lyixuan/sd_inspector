@@ -1,5 +1,6 @@
 import React from 'react';
 import BICell from '../BICell';
+import styles from './style.less'
 
 const colorsArr = ['rgba(75, 193, 255, 1)', 'rgba(75, 193, 255, 0.8)', 'rgba(75, 193, 255, 0.6)', 'rgba(75, 193, 255, 0.5)', 'rgba(75, 193, 255, 0.4)', 'rgba(75, 193, 255, 0.3)'];
 // 排序
@@ -22,12 +23,12 @@ function getColor(colors = colorsArr, order = 0) {
 // 单个
 function colorContrastSingle({nums = [], text = 0, isReversed, colors, ...props}) {
   const orderNums = orderFn(nums, isReversed);
-  return <BICell textAlign={'right'} bgColor={getColor(colors, orderNums.indexOf(text))} {...props}>{text}</BICell>
+  return <BICell className={styles.BIContrastCell} bgColor={getColor(colors, orderNums.indexOf(text))} {...props}>{text}</BICell>
 }
 // all
 function colorContrast({nums = [], isReversed, colors, ...props}) {
   const orderNums = orderFn([...nums], isReversed);
-  return nums.map(item => <BICell textAlign={'right'} bgColor={getColor(colors, orderNums.indexOf(item))} {...props}>{item}</BICell>)
+  return nums.map(item => <BICell className={styles.BIContrastCell} bgColor={getColor(colors, orderNums.indexOf(item))} {...props}>{item}</BICell>)
 }
 class BIContrastCell extends React.Component {
   render() {
