@@ -77,7 +77,7 @@ class Quality extends React.Component {
         propStyle={{height:'240px'}}
       >
         {
-          this.props.loading?<BILoading isLoading={this.props.loading}></BILoading>:<BITable
+          this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
             columns={this.columns()}
             dataSource={this.state.dataSource}
             pagination={false}
