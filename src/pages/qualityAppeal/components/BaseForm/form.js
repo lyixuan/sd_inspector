@@ -35,7 +35,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
           status: 'done',
           url: `${STATIC_HOST}/${props.params.attUrl}`,
         }]:[],
-        attUrl:'',
+        attUrl:props.params.attUrl?props.params.attUrl:'',
       };
     }
 
