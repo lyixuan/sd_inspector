@@ -54,7 +54,7 @@ class currentCredit extends React.Component {
         title='本期学分'
         style={{ width: '100%', marginBottom: '16px' }}
       >
-      {BIContrastCell.colorContrast({nums:[1,1,1,2,3,4,5,5,0,9] })}
+      {BIContrastCell.colorContrast({nums:[1,1,1,2,3,4,5,5,0,9]})}
       {BIContrastCell.colorContrast({nums:[-0.55, -4.50, -1.10, -1.62, 0, -5.23], isReversed: true })}
       <BIContrastCell nums={[-0.55, -4.50, -1.10, -1.62, 0, -5.23]} isReversed={true} text={-5.23}/>
         <div className={styles.creditContainer}>
