@@ -11,6 +11,7 @@ import xdGif from '@/assets/workBench/xdpk.gif';
 import pkImg from '@/assets/xdwork/pk.png';
 import { thousandsFormat } from '@/utils/utils';
 import { STATIC_HOST } from '@/utils/constants'
+import BILoading from '@/components/BILoading'
 import styles from '../style.less';
 
 const thousandsFormatAll = (n, u) => {
@@ -125,8 +126,8 @@ class ProfitTbas extends React.Component {
         <BIRadio onChange={this.handlePkTypeChange} value={this.state.pkType} style={{ marginBottom: 16 }}>
           {pkTypeObj.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace={pkTypeTrace[index]}>{item}</div></BIRadio.Radio.Button>)}
         </BIRadio>
-        <Skeleton loading={this.props.loading} >
-          {profitData && profitData[0] && profitPersonData && <div className={styles.tabContent}>
+        {
+          this.props.loading?<BILoading isLoading={this.props.loading} />:profitData && profitData[0] && profitPersonData && <div className={styles.tabContent}>
             {!pkUser && <img src={xdGif} />}
             {/* 第一行 */}
             <div className={styles.tabBody} style={{ height: '136px' }}>
@@ -151,16 +152,16 @@ class ProfitTbas extends React.Component {
                   {
                     pkUser && profitPersonData.pkUser ?
                       <>
-                        <div className={styles.msg}>
-                          <img src={gradeImg[profitPersonData.pkUser.userGrade]} style={{ marginRight: '16px' }} />
-                          <div>
-                            <span style={{ color: '#1A1C1F', fontWeight: 'bold' }}>{profitPersonData.pkUser.userName}</span>
-                            <span>{profitPersonData.pkUser.org}</span>
-                          </div>
+                      <div className={styles.msg}>
+                        <img src={gradeImg[profitPersonData.pkUser.userGrade]} style={{ marginRight: '16px' }} />
+                        <div>
+                          <span style={{ color: '#1A1C1F', fontWeight: 'bold' }}>{profitPersonData.pkUser.userName}</span>
+                          <span>{profitPersonData.pkUser.org}</span>
                         </div>
-                        <div className={styles.imgs}>
-                          {profitPersonData.pkUser.certificationGradeList.map(item => <img key={item.certificationCode} src={STATIC_HOST + item.certificationIconUrl} style={{ marginRight: '10px' }} />)}
-                        </div>
+                      </div>
+                      <div className={styles.imgs}>
+                        {profitPersonData.pkUser.certificationGradeList.map(item => <img key={item.certificationCode} src={STATIC_HOST + item.certificationIconUrl} style={{ marginRight: '10px' }} />)}
+                      </div>
                       </>
                       :
                       <div className={styles.nonePk}>
@@ -197,8 +198,9 @@ class ProfitTbas extends React.Component {
                 </div>
               </div>
             </div>
-          </div>}
-        </Skeleton>
+          </div>
+        }
+
       </div>
     );
   }

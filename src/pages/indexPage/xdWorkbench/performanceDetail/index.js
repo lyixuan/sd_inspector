@@ -4,11 +4,12 @@ import { Progress, Tooltip } from 'antd';
 import { thousandsFormat } from '@/utils/utils';
 import echarts from 'echarts';
 import Container from '../../components/container';
+import BILoading from '@/components/BILoading'
 import styles from './index.less';
 import { connect } from 'dva';
 
-@connect(() => ({
-
+@connect(({loading}) => ({
+  loading: loading.effects['xdWorkModal/getKpiInfo'],
 }))
 class performanceDetail extends React.Component {
   constructor(props) {
@@ -165,7 +166,7 @@ class performanceDetail extends React.Component {
         right={`${date1} ~ ${date2} (最新学分日期)`}
       >
         {
-          kpiInfo && scoreKpiInfo &&
+          this.props.loading?<BILoading isLoading={this.props.loading} />:kpiInfo && scoreKpiInfo &&
           <div className={styles.performanceDetail}>
             <div ref={this.createRef} className={styles.chart}></div>
             <div className={styles.panelBox}>
