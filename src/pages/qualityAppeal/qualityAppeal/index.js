@@ -166,7 +166,9 @@ const columns1 = [
     title: '质检扣分日期',
     dataIndex: 'reduceScoreDate',
     render: (text, record) => {
-      return <>{record.reduceScoreDate ? moment(record.reduceScoreDate).format('YYYY-MM-DD') : '-'}</>;
+      return (
+        <>{record.reduceScoreDate ? moment(record.reduceScoreDate).format('YYYY-MM-DD') : '-'}</>
+      );
     },
   },
   {
