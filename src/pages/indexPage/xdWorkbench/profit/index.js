@@ -27,7 +27,7 @@ class Profit extends React.Component {
     const { pkUser, pkListType } = this.state;
     return (
       <Container title='本期创收' propStyle={{ display: 'flex' }}>
-        <ProfitTabs {...this.props} pkUser={pkUser} pkListType={pkListType} />
+        {/* <ProfitTabs {...this.props} pkUser={pkUser} pkListType={pkListType} /> */}
         <ProfitList {...this.props} pkUser={pkUser} pkListType={pkListType} changePkListType={this.changePkListType} changeSelected={this.changeSelected} />
       </Container>
     );
