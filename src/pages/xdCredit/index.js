@@ -10,6 +10,7 @@ import { initTimeData } from '../ko/utils/utils';
 import { message } from 'antd/lib/index';
 import Dimension from './dimension';
 import CreditDetials from './details'
+import CreditImDetials from './imDetails'
 import styles from './style.less';
 import moment from 'moment';
 
@@ -237,7 +238,6 @@ class XdCredit extends React.Component {
   render() {
     const { dementionId, groupId, extendFlag, userOrgConfig, startTime, endTime } = this.state;
     const { infoLoading } = this.props;
-    console.log(240, this.state.groupTypeArr)
     return (
       <div className={`${styles.credit} ${extendFlag ? '' : styles.extent}`}>
         <Skeleton loading={infoLoading} >
@@ -303,13 +303,14 @@ class XdCredit extends React.Component {
                   dimensionData={this.props.dimensionData}
                   groupId={groupId}
                 />
-                <CreditDetials
+                <CreditImDetials></CreditImDetials>
+                {/* <CreditDetials
                   onPageChange={this.onPageChange}
                   pageSize={this.state.pageSize}
                   currentPage={this.state.page}
                   detailsData={this.props.dimensionDetails}
                   dementionId={dementionId}
-                />
+                /> */}
               </div>
             } </> : <>
               <img src={extentImg} alt='权限' />
