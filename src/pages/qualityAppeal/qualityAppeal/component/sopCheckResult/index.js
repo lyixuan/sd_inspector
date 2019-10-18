@@ -60,11 +60,6 @@ export default class SOPCheckResultComponent extends React.Component {
                       </span>
                     </Col>
                   </Row>
-                  {/* <Row className={styles.container}>
-                    <Col span={12}>
-                     
-                    </Col>
-                  </Row> */}
                   <div className={styles.container}>审核说明：{item.desc}</div>
                 </div>
                 {this.getDivideLine(index)}
