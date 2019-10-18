@@ -19,19 +19,18 @@ function getColor(colors = colorsArr, order = 0) {
     return colors;
   }
 }
-// 单个
-function colorContrastSingle({ nums = [], text = 0, isReversed, colors, ...props }) {
-  const orderNums = orderFn([...nums], isReversed);
-  return <BIFillCell bgColor={getColor(colors, orderNums.indexOf(text))} {...props}>{text}</BIFillCell>
-}
 // all
 function colorContrast({ nums = [], isReversed, colors, ...props }) {
   const orderNums = orderFn([...nums], isReversed);
   return nums.map(item => <BIFillCell bgColor={getColor(colors, orderNums.indexOf(item))} {...props}>{item}</BIFillCell>)
 }
 class BIContrastCell extends React.Component {
+  colorContrastSingle = ({ nums = [], text = 0, isReversed, colors, ...props }) => {
+    const orderNums = orderFn([...nums], isReversed);
+    return <BIFillCell bgColor={getColor(colors, orderNums.indexOf(text))} {...props}>{text}</BIFillCell>
+  }
   render() {
-    const content = colorContrastSingle(this.props);
+    const content = this.colorContrastSingle(this.props);
     return (
       <>{content}</>
     );
@@ -40,4 +39,3 @@ class BIContrastCell extends React.Component {
 
 export default BIContrastCell;
 BIContrastCell.colorContrast = colorContrast;
-BIContrastCell.colorContrastSingle = colorContrastSingle;
