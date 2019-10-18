@@ -91,7 +91,8 @@ function changeState(record) {
   }
   if (
     (record.status === 6 && record.appealType === 2) ||
-    (record.status === 5 && record.appealType === 1 &&
+    (record.status === 5 &&
+      record.appealType === 1 &&
       record.secondAppealEndDate &&
       record.secondAppealEndDate < record.nowTime)
   ) {
@@ -162,6 +163,13 @@ const columns1 = [
     dataIndex: 'qualityNum',
   },
   {
+    title: '质检扣分日期',
+    dataIndex: 'reduceScoreDate',
+    render: (text, record) => {
+      return <>{record.reduceScoreDate ? moment(record.reduceScoreDate).format('YYYY-MM-DD') : '-'}</>;
+    },
+  },
+  {
     title: '质检类型',
     dataIndex: 'qualityType',
     render: (text, record) => {
@@ -169,8 +177,8 @@ const columns1 = [
     },
   },
   {
-    title: '违规等级',
-    dataIndex: 'violationLevel',
+    title: '违规分类',
+    dataIndex: 'violationType',
   },
   {
     title: '归属人',
@@ -185,20 +193,6 @@ const columns1 = [
           {`${record.collegeName ? record.collegeName : ''} ${
             record.familyName ? `| ${record.familyName}` : ''
           }  ${record.groupName ? `| ${record.groupName}` : ''}`}
-        </>
-      );
-    },
-  },
-  {
-    title: '处罚力度',
-    dataIndex: 'qualityValue',
-    render: (text, record) => {
-      return (
-        <>
-        {record.qualityValue}{record.qualityType ? Number(record.qualityType)===2 ? '分' : '元' :''}
-          {/* {Number(record.qualityType) === 1
-            ? record.qualityValue
-            : record.qualityValue && record.qualityValue} */}
         </>
       );
     },
@@ -229,37 +223,6 @@ const columns1 = [
       );
     },
   },
-  {
-    title: '质检通过时间',
-    dataIndex: 'verifyDate',
-    render: (text, record) => {
-      return <>{record.verifyDate ? moment(record.verifyDate).format('YYYY-MM-DD') : '-'}</>;
-    },
-  },
-  {
-    title: '一申截止时间',
-    dataIndex: 'firstAppealEndDate',
-    render: (text, record) => {
-      return (
-        <>
-          {record.firstAppealEndDate ? moment(record.firstAppealEndDate).format('YYYY-MM-DD') : '-'}
-        </>
-      );
-    },
-  },
-  {
-    title: '二申截止时间',
-    dataIndex: 'secondAppealEndDate',
-    render: (text, record) => {
-      return (
-        <>
-          {record.secondAppealEndDate
-            ? moment(record.secondAppealEndDate).format('YYYY-MM-DD')
-            : '-'}
-        </>
-      );
-    },
-  },
 ];
 const columns2 = [
   {
@@ -283,7 +246,8 @@ const columns2 = [
     render: (text, record) => {
       return (
         <>
-          {record.qualityValue}{record.qualityType ? Number(record.qualityType)===2 ? '分' : '元' :''}
+          {record.qualityValue}
+          {record.qualityType ? (Number(record.qualityType) === 2 ? '分' : '元') : ''}
         </>
       );
     },
@@ -413,7 +377,22 @@ class QualityAppeal extends React.Component {
   componentDidMount() {
     const { p = null } = this.props.location.query;
     this.queryData(JSON.parse(p));
+    this.getOrgTreeData();
+    this.findStartManListData();
   }
+
+  getOrgTreeData = () => {
+    this.props.dispatch({
+      type: 'qualityAppealHome/getOrgMapTree',
+    });
+  };
+  findStartManListData = () => {
+    const { p = null } = this.props.location.query;
+    this.props.dispatch({
+      type: 'qualityCheck/findStartManList',
+      payload: { type: (p && p.type) || 1 },
+    });
+  };
 
   queryData = (pm, pg, isExport) => {
     this.saveUrlParams = pm && !isExport ? JSON.stringify(pm) : undefined;
@@ -430,6 +409,7 @@ class QualityAppeal extends React.Component {
         page: pg.page,
       });
     }
+
     if (isExport) {
       this.props.dispatch({
         type: 'qualityCheck/exportExcel',
@@ -574,7 +554,8 @@ class QualityAppeal extends React.Component {
                   查看详情
                 </span>
               </AuthButton>
-              {Number(record.appealFlag) === 1 && (status === 1 || status === 3 || status === 5 || status === 7) ? (
+              {Number(record.appealFlag) === 1 &&
+              (status === 1 || status === 3 || status === 5 || status === 7) ? (
                 <AuthButton authority="/qualityAppeal/qualityAppeal/launch">
                   <span
                     className={style.actionBtn}
@@ -610,31 +591,32 @@ class QualityAppeal extends React.Component {
         },
       },
     ];
-    if (AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
-      // 非归属人
-      const index2 = columns1.findIndex(item => item.dataIndex === 'violationLevel');
-      if (index2 >= 0) {
-        columns1.splice(index2, 1);
-      }
-      const index3 = columns1.findIndex(item => item.dataIndex === 'qualityValue');
-      if (index3 >= 0) {
-        columns1.splice(index3, 1);
-      }
-    } else {
-      // 归属人 去掉这些
-      const index3 = columns1.findIndex(item => item.dataIndex === 'userName');
-      if (index3 >= 0) {
-        columns1.splice(index3, 1);
-      }
-      const index = columns1.findIndex(item => item.dataIndex === 'qualityType');
-      if (index >= 0) {
-        columns1.splice(index, 1);
-      }
-      const index2 = columns1.findIndex(item => item.dataIndex === 'collegeName');
-      if (index2 >= 0) {
-        columns1.splice(index2, 1);
-      }
-    }
+    // 新的一期权限都不控制
+    // if (AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
+    //   // 非归属人
+    //   const index2 = columns1.findIndex(item => item.dataIndex === 'violationLevel');
+    //   if (index2 >= 0) {
+    //     columns1.splice(index2, 1);
+    //   }
+    //   const index3 = columns1.findIndex(item => item.dataIndex === 'qualityValue');
+    //   if (index3 >= 0) {
+    //     columns1.splice(index3, 1);
+    //   }
+    // } else {
+    //   // 归属人 去掉这些
+    //   const index3 = columns1.findIndex(item => item.dataIndex === 'userName');
+    //   if (index3 >= 0) {
+    //     columns1.splice(index3, 1);
+    //   }
+    //   const index = columns1.findIndex(item => item.dataIndex === 'qualityType');
+    //   if (index >= 0) {
+    //     columns1.splice(index, 1);
+    //   }
+    //   const index2 = columns1.findIndex(item => item.dataIndex === 'collegeName');
+    //   if (index2 >= 0) {
+    //     columns1.splice(index2, 1);
+    //   }
+    // }
     return [...columns1, ...actionObj];
   };
   columnsAction2 = () => {
@@ -668,32 +650,32 @@ class QualityAppeal extends React.Component {
         },
       },
     ];
-    if (AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
-      // 非归属人
-      const index2 = columns2.findIndex(item => item.dataIndex === 'violationLevel');
-      if (index2 >= 0) {
-        columns2.splice(index2, 1);
-      }
-      const index3 = columns2.findIndex(item => item.dataIndex === 'qualityValue');
-      if (index3 >= 0) {
-        columns2.splice(index3, 1);
-      }
-    } else {
-      // 归属人
-      const index = columns2.findIndex(item => item.dataIndex === 'qualityType');
-      if (index >= 0) {
-        columns2.splice(index, 1);
-      }
-      const index2 = columns2.findIndex(item => item.dataIndex === 'collegeName');
-      if (index >= 0) {
-        columns2.splice(index2, 1);
-      }
-    }
-    return [...columns2, ...actionObj];
+    // if (AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')) {
+    //   // 非归属人
+    //   const index2 = columns2.findIndex(item => item.dataIndex === 'violationLevel');
+    //   if (index2 >= 0) {
+    //     columns2.splice(index2, 1);
+    //   }
+    //   const index3 = columns2.findIndex(item => item.dataIndex === 'qualityValue');
+    //   if (index3 >= 0) {
+    //     columns2.splice(index3, 1);
+    //   }
+    // } else {
+    //   // 归属人
+    //   const index = columns2.findIndex(item => item.dataIndex === 'qualityType');
+    //   if (index >= 0) {
+    //     columns2.splice(index, 1);
+    //   }
+    //   const index2 = columns2.findIndex(item => item.dataIndex === 'collegeName');
+    //   if (index >= 0) {
+    //     columns2.splice(index2, 1);
+    //   }
+    // }
+    return [...columns1, ...actionObj];
   };
   render() {
     const {
-      orgListTreeData = [],
+      appealOrgListTreeData = [],
       dimensionList1 = [],
       dimensionList2 = [],
     } = this.props.qualityAppealHome;
@@ -702,6 +684,7 @@ class QualityAppeal extends React.Component {
       qualityAppealList2 = [],
       page1,
       page2,
+      findStartManListData,
     } = this.props.qualityCheck;
     return (
       <>
@@ -711,23 +694,25 @@ class QualityAppeal extends React.Component {
             defaultActiveKey={this.state.tabType}
             animated={false}
           >
-            <TabPane tab="在途质检申诉" key={1}>
+            <TabPane tab="在途申诉" key={1}>
               <div className={subStl.tabBlank}>&nbsp;</div>
               <Page1
                 {...this.props}
                 tabType={this.state.tabType}
                 columns={this.c1}
-                orgList={orgListTreeData}
+                orgList={appealOrgListTreeData}
                 dataSource={qualityAppealList1}
                 page={page1}
+                findStartManListData={findStartManListData}
                 queryData={(params, page, isExport) => this.queryData(params, page, isExport)}
               />
             </TabPane>
-            <TabPane tab="结案质检申诉" key={2}>
+            <TabPane tab="结案申诉" key={2}>
               <div className={subStl.tabBlank}>&nbsp;</div>
               <Page2
                 {...this.props}
-                orgList={orgListTreeData}
+                findStartManListData={findStartManListData}
+                orgList={appealOrgListTreeData}
                 tabType={this.state.tabType}
                 dimensionList1={dimensionList1}
                 dimensionList2={dimensionList2}

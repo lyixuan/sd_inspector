@@ -1,7 +1,7 @@
 import { message } from 'antd/lib/index';
 import { routerRedux } from 'dva/router';
 import { msgF } from '@/utils/utils';
-import { launchAppeal, uploadFile } from './services';
+import { launchAppeal } from './services';
 
 export default {
   namespace: 'Launch',
@@ -11,14 +11,6 @@ export default {
   },
 
   effects: {
-    *uploadFile({ payload }, { call, put }) {
-      const result = yield call(uploadFile, { ...payload });
-      if (result.code === 20000) {
-        yield put({ type: 'save' });
-      } else {
-        message.error(msgF(result.msg,result.msgDetail));
-      }
-    },
     *launchAppeal({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(launchAppeal, params);
