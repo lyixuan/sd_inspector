@@ -13,7 +13,7 @@ export default class PersonInfoComponent extends React.Component {
         </div>
         <div className={styles.container}>
           <div className={styles.secRow}>
-            <div><span className={styles.spanLabel}>邮箱</span>：{data.mail}</div>
+            <div><span className={styles.spanLabel}>邮箱</span>：{data.mail}@sunlands.com</div>
             <div><span className={styles.spanLabel}>姓名</span>：{data.name}</div>
           </div>
           <div className={styles.secRow}>
