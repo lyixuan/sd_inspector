@@ -5,6 +5,7 @@ import BISelect from '@/ant_components/BISelect'
 import BITable from '@/ant_components/BITable'
 import Indent from '../../../components/indent';
 import SmallProgress from '../../../components/smallProgress'
+import BILoading from '@/components/BILoading'
 const { Option } = BISelect;
 @connect(({xdWorkModal,loading}) => ({
   xdWorkModal,
@@ -195,7 +196,7 @@ class FamilyScoreRight extends React.Component {
             />
           </div>}
           <div id="scrollScore" >
-            <BITable
+            {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
               columns={this.columnsRight()}
               dataSource={dataSource}
               pagination={false}
@@ -204,8 +205,7 @@ class FamilyScoreRight extends React.Component {
               onRow={this.onClickRow}
               scroll={{ y: 408 }}
               rowKey={record => record.familyId}
-            >
-            </BITable>
+            />}
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import styles from '../style.less';
 import BITable from '@/ant_components/BITable'
 import xdPkImg from '@/assets/workBench/incomeImg.gif';
+import BILoading from '@/components/BILoading'
 @connect(({ xdWorkModal, loading }) => ({
   familyIncomeGroup: xdWorkModal.familyIncomeGroup,
   loading: loading.effects['xdWorkModal/getIncomeFamilyGroupPk'],
@@ -62,7 +63,7 @@ class GroupIncome extends React.Component {
     return (
       <div className={styles.creditContainer} style={{display:'block'}}>
         {
-          <BITable
+          this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
             columns={this.columns()}
             dataSource={dataSource||[]}
             pagination={false}
@@ -74,7 +75,7 @@ class GroupIncome extends React.Component {
           </BITable>
         }
         {
-          (colName || []).length <=0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
+          (colName || []).length <=0 && !this.props.loading && <div className={styles.tableImg}><img src={xdPkImg} /></div>
         }
       </div>
     );

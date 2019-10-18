@@ -6,6 +6,7 @@ import BITable from '@/ant_components/BITable';
 import Container from '../../components/container';
 import rankWarn from '@/assets/xdFamily/rankWarn.png';
 import styles from './style.less';
+import BILoading from '@/components/BILoading'
 
 const tabsMsg = [{
   title: '未申诉',
@@ -71,8 +72,8 @@ class appeal extends React.Component {
         title: '创收',
         dataIndex: 'incomeNum',
         key: 'incomeNum',
-      } 
- 
+      }
+
     ];
     return columns || [];
   };
@@ -93,14 +94,14 @@ class appeal extends React.Component {
         <BIRadio onChange={this.handleChange} value={this.state.appealType} style={{ marginBottom: 16 }}>
           {tabsMsg.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace={item.dataTrace}>{item.title}</div></BIRadio.Radio.Button>)}
         </BIRadio>
-        <BITable
+        {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
           columns={this.columns()}
           dataSource={dataSource}
           pagination={false}
           loading={this.props.loading}
           rowKey={(record, index) => index}
           smalled
-        />
+        />}
       </Container>
     );
   }

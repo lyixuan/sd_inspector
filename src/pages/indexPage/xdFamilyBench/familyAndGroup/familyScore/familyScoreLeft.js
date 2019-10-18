@@ -7,6 +7,7 @@ import xdPkImg from '@/assets/workBench/xdpk.gif';
 import Proportion from '../../../components/proportion';
 import Progress from '../../../components/progress'
 import IndentNum from '../../../components/indentNum'
+import BILoading from '@/components/BILoading'
 function CustomExpandIcon(props) {
   return (
     <a />
@@ -192,7 +193,7 @@ class FamilyScoreLeft extends React.Component {
     return (
       <div className={styles.familyLeft}>
         <div className={styles.proMain}>
-          {PkName ? <Proportion
+          {PkName? <Proportion
             leftNum={familyScoreList.myGroup.score}
             rightNum={familyScoreList.pkGroup.score}
             leftCollege={familyScoreList.myGroup.familyName}
@@ -205,7 +206,7 @@ class FamilyScoreLeft extends React.Component {
         </div>
         <div className={styles.tableContainer}>
           {
-            dataSource && dataSource.length > 0 && <BITable
+            this.props.loading?<BILoading isLoading={this.props.loading} />:dataSource && dataSource.length > 0 && <BITable
               columns={this.columns()}
               dataSource={dataSource}
               defaultExpandAllRows={true}
@@ -220,7 +221,7 @@ class FamilyScoreLeft extends React.Component {
           }
 
           {
-            !PkName && <div className={styles.tableImg}><img src={xdPkImg} /></div>
+            !PkName && !this.props.loading && <div className={styles.tableImg}><img src={xdPkImg} /></div>
           }
 
         </div>
