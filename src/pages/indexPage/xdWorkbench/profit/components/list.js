@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Progress } from 'antd';
 import BITable from '@/ant_components/BITable';
 import BISelect from '@/ant_components/BISelect';
-import Indent from '../../../components/indent';
+import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import styles from '../style.less';
 
 const { Option } = BISelect;
@@ -65,39 +64,24 @@ class ProfitList extends React.Component {
         title: '班主任',
         dataIndex: 'userName',
         key: 'userName',
-        render: text => <Indent data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</Indent>
+        render: text => <div data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</div>
       }, {
         title: '绩效收入',
         dataIndex: 'incomeKpi',
         key: 'incomeKpi',
-        render: text => {
-          const percent = text / total * 100;
-          return <Indent
-            style={{
-              cursor: 'pointer',
-              height: '24px',
-              marginLeft: '-8px'
-            }}
-            data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'
-          >
-            <span style={{ position: 'relative', top: '-2px' }}>{text}</span>
-            <Progress
-              percent={percent}
-              strokeColor={'#00CCC3'}
-              showInfo={false}
-              strokeWidth={4}
-            ></Progress>
-          </Indent>
+        render: (text, record) => {
+          const percent = text / total * 100 + '%';
+          return <BIWrapperProgress text={text} percent={percent} iconed={this.getIncludes(record.userId)} propsStyle={{flex: 'inherit',width: '60px'}}/>
         }
       }
     ];
     return columns || [];
   };
-  onClickRow = (record) => {
+  onClickRow = (record, index) => {
     return {
       onClick: () => {
         if (this.props.userId === record.userId) return;
-        this.props.changeSelected(record.userId)
+        this.props.changeSelected(record.userId);
       },
     };
   }
@@ -105,8 +89,12 @@ class ProfitList extends React.Component {
     if (this.props.userId === record.userId) {
       this.state.userMsg = record;
       this.state.userLocation = 40 * (index + 1) - 430;
-      return styles.pkUser;
+      return styles.pkMine;
     };
+    if (this.getIncludes(record.userId)) return styles.pkUser;
+  }
+  getIncludes = (id) => {
+    return this.props.pkUsers && this.props.pkUsers.includes(id);
   }
   onChangeParams = (v) => {
     this.getData(v);
