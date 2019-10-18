@@ -165,7 +165,7 @@ class FormIndex extends React.Component {
         roleName: srcData[`roleName-${i}`] || null,
         userName: srcData[`userName-${i}`] || null,
         punishType: srcData[`punishType-${i}`] || null,
-        qualityValue: Number(srcData[`qualityValue-${i}`]) || null,
+        qualityValue: (Number(srcData[`qualityValue-${i}`]) || Number(srcData[`qualityValue-${i}`]) === 0) ? Number(srcData[`qualityValue-${i}`]): null,
       });
     }
 
