@@ -96,7 +96,7 @@ class AppealUpload extends React.Component {
     this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
     const { secondAppealEndDate } = this.props.location.query;
     return (
-      <div className={styles.launchContainer} style={{ paddingLeft: '20px', marginTop: '20px' }}>
+      <div className={styles.launchContainer} style={{ paddingLeft: '20px' }}>
         <div style={{ border: '1px solid #ccc', padding: '20px' }}>
           <div className={styles.originator}>申诉发起人</div>
           <div className={styles.flexStyle}>
