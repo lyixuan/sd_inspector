@@ -73,6 +73,11 @@ class Dimension extends React.Component {
   onClickRow = (record) => {
     return {
       onClick: () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        })
+        // document.body.scrollTop = document.documentElement.scrollTop = 0;
         if (record.level === 4 && record.num) this.props.onChangeParams(record.id, 'dementionId');
       }
     };
