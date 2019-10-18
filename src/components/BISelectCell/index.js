@@ -1,15 +1,14 @@
 import React from 'react';
-import BICell from './BICell';
+import BICell from '../BICell';
 import styles from './style.less';
+import checkIcon from '../../assets/xdcredit/checkIcon.png';
 
 class BISelectCell extends React.Component {
   constructor(props) {
     super();
     this.state = {
       text: '',
-      rightIcon: '',
-      width: '84px',
-      height: '43px'
+      rightIcon: <img src={checkIcon} />,
     }
   }
   onClick = obj => {
@@ -21,12 +20,11 @@ class BISelectCell extends React.Component {
     return this.props[type] ? this.props[type] : this.state[type];
   }
   render() {
-    const { text } = this.state
     return (
       <BICell>
-        <div className={styles.BISelects}>
+        <div className={styles.BISelects} onClick={this.onClick}>
           {this.getAttribute('text')}
-          <div style={{ width: this.getAttribute('width'), height: this.getAttribute('height') }}>{this.getAttribute('rightIcon')}</div>
+          <div className={styles.icon}>{this.getAttribute('rightIcon')}</div>
         </div>
       </BICell>
     );

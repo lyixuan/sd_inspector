@@ -2,6 +2,7 @@ import React from 'react';
 import { Tooltip } from 'antd';
 import { connect } from 'dva';
 import BITable from '@/ant_components/BITable';
+import BIClassifyTable from '@/components/BIClassifyTable';
 import creditImg from '@/assets/xdcredit/credit.gif';
 import router from 'umi/router';
 import styles from './style.less';
@@ -13,6 +14,58 @@ import {
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import constants from '@/utils/constants';
+
+const dataSource = [
+  {
+    key: '1',
+    name: '胡彦斌',
+    age: 32,
+    address: '西湖区湖底公园1号',
+  },
+  {
+    key: '2',
+    name: '胡彦祖',
+    age: 42,
+    address: '西湖区湖底公园1号',
+  },
+];
+const columns = [
+  {
+    title: '姓名',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: '年龄',
+    dataIndex: 'age',
+    key: 'age',
+  },
+  {
+    title: '住址',
+    dataIndex: 'address',
+    key: 'address',
+  },
+  {
+    title: '姓名',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: '年龄',
+    dataIndex: 'age',
+    key: 'age',
+  },
+  {
+    title: '住址',
+    dataIndex: 'address',
+    key: 'address',
+  },
+  {
+    title: '住址',
+    dataIndex: 'address',
+    key: 'address',
+  },
+];
 
 function Layout(props) {
   const layout = <section>
@@ -95,7 +148,7 @@ function TeacherOrStudent(props) {
   loading: loading.effects['xdCreditModal/getDimensionDetail'],
   loadingAppeal: loading.effects['xdCreditModal/getDimensionDetail'],
 }))
-class CreditDetials extends React.Component {
+class CreditImDetials extends React.Component {
   columns = () => {
 
     const { detailsData } = this.props;
@@ -220,31 +273,19 @@ class CreditDetials extends React.Component {
   }
 
   render() {
-    const { dementionId, detailsData, pageSize = 15, currentPage } = this.props;
-    const dataSource = detailsData.data || [];
-    const totalCount = detailsData.total || 0;
     return (
-      <div className={`${styles.detials} ${dementionId ? '' : styles.noneData}`}>
-        {
-          dementionId ? <BITable
-            columns={this.columns()}
-            dataSource={dataSource}
-            rowClassName={this.setRowClassName}
-            pagination={{
-              onChange: this.onChangeSize,
-              defaultPageSize: pageSize,
-              current: currentPage,
-              total: totalCount,
-              showQuickJumper: true,
-            }}
-            rowKey={(record, index) => record.id + '' + index}
-            loading={this.props.loading}
-            smalled={true}
-          /> : <img src={creditImg} alt='权限' />
-        }
+      <div className={`${styles.detials}`}>
+        <div className={styles.classityBox}>
+          <BIClassifyTable></BIClassifyTable>
+        </div>
+        <BITable
+          columns={columns}
+          dataSource={dataSource}
+          rowClassName={this.setRowClassName}
+        />
       </div>
     );
   }
 }
 
-export default CreditDetials;
+export default CreditImDetials;

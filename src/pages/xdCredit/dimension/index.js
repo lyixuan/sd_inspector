@@ -15,31 +15,37 @@ class Dimension extends React.Component {
         title: this.props.dimensionData.groupFullName,
         dataIndex: 'name',
         key: 'name',
-        width: '45%',
+        width: '160px',
         render: text => <span data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>{text}</span>
       }, {
-        width: '16%',
+        width: '80px',
         title: '我的',
         dataIndex: 'score',
         key: 'score',
-        render: text => <IndentNum data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>{text}</IndentNum>
+        className: 'txRight',
+        render: text => {
+          return <div data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>{text}</div>
+        }
       }, {
-        width: '20%',
-        title: '环比（%）',
+        width: '80px',
+        title: '环比(%)',
         dataIndex: 'scoreRatio',
+        className: 'txRight',
         key: 'scoreRatio',
         render: text => {
           const num = Number(text);
           return <div data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>{num === 0 ? text : <IndentNum className={num > 0 ? styles.greenColor : styles.redColor}>{text}</IndentNum>}</div>
         }
       }, {
+        width: '95px',
         title: '数量',
         dataIndex: 'num',
+        className: 'txRight',
         key: 'num',
-        render: (text, record) => <div data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>
+        render: (text, record) => <div style={{ whiteSpace: 'nowrap' }} data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>
           {record.level === 4 && <>
             {text > 99999 ? 99999 + '+' : text}{record.unit}
-            {text ? <span className={styles.greenColor} style={{ marginLeft: '16px' }}>></span> : ''}
+            {text ? <span className={styles.greenColor} style={{ marginLeft: '5px' }}>></span> : ''}
           </>}
         </div>
       }
@@ -80,12 +86,14 @@ class Dimension extends React.Component {
           {
             dataSource.length > 0 ? <BITable
               columns={this.columns()}
+              bordered
               dataSource={dataSource}
               defaultExpandAllRows={true}
               rowClassName={this.setRowClassName}
               expandIcon={() => <a />}
               pagination={false}
               onRow={this.onClickRow}
+              indentSize={10}
               rowKey={record => record.id}
               smalled={true}
             /> : <BITable
