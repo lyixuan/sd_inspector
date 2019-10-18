@@ -3,24 +3,9 @@ import styles from './launch.less';
 import { Row, Col, Form, Input, Upload, message, Spin } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import { uploadAttachment } from '../../../../qualityAppeal/services';
-import AppealInfo from '../../../qualityAppeal/component/appealInfo';
-import SOPCheckResult from '../../../qualityAppeal/component/sopCheckResult';
-import SuperiorCheck from '../../../qualityAppeal/component/superiorCheck';
-import { connect } from 'dva';
-import moment from 'moment';
-import router from 'umi/router';
 const { TextArea } = Input;
 let isLt10M = false;
 let isZip = false;
-
-// @connect(({ Launch, qualityAppealHome, loading }) => ({
-//   Launch,
-//   qualityAppealHome,
-//   loading: loading.effects['Launch/launchAppeal'],
-//   pageLoading:
-//     loading.effects['qualityAppealHome/getDetailData'] ||
-//     loading.effects['qualityAppealHome/getQualityDetailData'],
-// }))
 class AppealUpload extends React.Component {
   // 发起申诉
   constructor(props) {
@@ -44,22 +29,10 @@ class AppealUpload extends React.Component {
     };
     this.firstAppealEndDate = null;
   }
-  // componentDidMount() {
-  //   this.props.dispatch({
-  //     type: 'qualityAppealHome/getDetailData',
-  //     payload: this.state.paramId,
-  //   });
-  //   this.props.dispatch({
-  //     type: 'qualityAppealHome/getQualityDetailData',
-  //     payload: this.state.paramId,
-  //   });
-  // }
-
   inputChange = e => {
     e.persist();
     this.state.params.desc = e.target.value;
     this.props.inputChange(this.state.params.desc);
-    // this.setState({ params: this.state.params });
   };
   // 上传附件
   // 文件预上传判断
@@ -92,7 +65,6 @@ class AppealUpload extends React.Component {
 
   render() {
     const { qualityDetailData = {}, loading, detailData } = this.props;
-    // const qualityDetailData = qualityAppealHome.QualityDetailData;
     this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
     const { secondAppealEndDate } = this.props.location.query;
     return (
