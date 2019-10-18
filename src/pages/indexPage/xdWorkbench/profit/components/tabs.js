@@ -14,8 +14,7 @@ import BILoading from '@/components/BILoading'
 import styles from '../style.less';
 import BITable from '@/ant_components/BITable';
 import SmallProgress from '@/pages/indexPage/components/smallProgress';
-import BIContrastCell from '@/components/BIContrastCell'
-
+import BIFillCell from '@/components/BIFillCell';
 
 
 const thousandsFormatAll = (n, u) => {
@@ -51,10 +50,11 @@ class ProfitTbas extends React.Component {
     this.state = {
       pkType: 1,
       profitData: {
-        colNames: ['创收绩效'],
+        colNames: ['创收绩效', '排名', '绩效流水'],
         data: [{
           name: '邓静雷',
-          rowMsg: [3000]
+          rowMsg: [3000, 6, 900000],
+          org: '邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟'
         }]
       },
     }
@@ -129,16 +129,15 @@ class ProfitTbas extends React.Component {
     ];
     profitData.colNames.map((item, index) => {
       columns.push({
-        width: '50%',
         title: item,
         dataIndex: item,
         key: item,
         render: (text, record) => {
           return ( 
-            <BIContrastCell>
-              <span>{record.rowMsg[index]}</span>
-              <SmallProgress isColor="green" percent={'30%'}></SmallProgress>
-            </BIContrastCell>
+            <BIFillCell className={styles.fillCell}>
+              <span>{thousandsFormat(record.rowMsg[index])}</span>
+              <SmallProgress isColor="green" percent={'30%'} style={{width: '100%', marginTop: '10px'}}></SmallProgress>
+            </BIFillCell>
           )
         }
       })

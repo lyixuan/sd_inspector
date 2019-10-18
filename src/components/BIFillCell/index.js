@@ -2,13 +2,14 @@ import React from 'react';
 import BICell from '../BICell';
 import styles from './style.less'
 
-class BIContrastCell extends React.Component {
+class BIFillCell extends React.Component {
   render() {
+    const { className, ...props} = this.props;
     return (
-      <BICell/>
+      <BICell className={`${styles.BIFillCell} ${className}`} {...props}/>
     );
   }
 }
 
-export default BIContrastCell;
+export default BIFillCell;
 
