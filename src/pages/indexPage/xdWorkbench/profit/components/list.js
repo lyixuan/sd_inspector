@@ -161,7 +161,7 @@ class ProfitList extends React.Component {
               rowKey={(record, index) => record.userId + '' + index}
               onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
-              scroll={{ y: 420 }}
+              scroll={{ y: 410 }}
             />
           </div>
         </div>
