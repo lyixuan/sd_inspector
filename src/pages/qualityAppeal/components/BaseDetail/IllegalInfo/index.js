@@ -30,7 +30,7 @@ export default class IllegalInfo extends React.Component {
             <div><span className={styles.spanLabel}>违规日期</span>：{moment(data.violationDate).format('YYYY-MM-DD')}</div>
             <div><span className={styles.spanLabel}>扣分日期</span>：{moment(data.reduceScoreDate).format('YYYY-MM-DD')}</div>
             <div><span className={styles.spanLabel}>质检类型</span>：{BiFilter(`QUALITY_TYPE|id:${data.qualityType}`).name}</div>
-            <div><span className={styles.spanLabel}>分维</span>：{data.dimension}</div>
+            <div><span className={styles.spanLabel}>分维</span>：{data.violationName}</div>
             <div><span className={styles.spanLabel}>违规分类</span>：{data.thirdAssortment||data.secondAssortment||data.primaryAssortment}</div>
           </div>
           <div className={styles.secRow}>
