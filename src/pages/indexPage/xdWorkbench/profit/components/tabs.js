@@ -1,22 +1,18 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Skeleton } from 'antd';
-import Proportion from '../../../components/proportion';
 import BIWrapperTable from '../../../components/BIWrapperTable'
 import BIRadio from '@/ant_components/BIRadio';
 import gradeA from '@/assets/workBench/a.png';
 import gradeB from '@/assets/workBench/b.png';
 import gradeC from '@/assets/workBench/c.png';
 import gradeS from '@/assets/workBench/s.png';
-import xdGif from '@/assets/workBench/xdpk.gif';
 import pkImg from '@/assets/xdwork/pk.png';
 import { thousandsFormat } from '@/utils/utils';
 import BILoading from '@/components/BILoading'
 import styles from '../style.less';
-import BITable from '@/ant_components/BITable';
-import SmallProgress from '@/pages/indexPage/components/smallProgress';
-import BIFillCell from '@/components/BIFillCell';
 import BIIcon from '@/components/BIIcon';
+import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+
 
 const thousandsFormatAll = (n, u) => {
   if (n !== null) {
@@ -53,6 +49,12 @@ class ProfitTbas extends React.Component {
       profitData: {
         colNames: ['创收绩效', '排名', '绩效流水'],
         data: [{
+          userId: 1744,
+          name: '邓静雷',
+          rowMsg: [3000, 6, 900000],
+          org: '邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟'
+        }, {
+          userId: 1627,
           name: '邓静雷',
           rowMsg: [3000, 6, 900000],
           org: '邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟'
@@ -64,7 +66,7 @@ class ProfitTbas extends React.Component {
     this.getPkList();
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (JSON.stringify(nextProps.pkUsers) !== JSON.stringify(this.props.pkUsers)) {
+    if (nextProps.pkUsers !== this.props.pkUsers) {
       this.getPkList(nextProps.pkUsers);
     }
   }
@@ -113,17 +115,17 @@ class ProfitTbas extends React.Component {
         title: 'PK 对象',
         dataIndex: 'org',
         key: 'org',
-        render: text => {
+        render: (text, record) => {
           return (
             <>
               <div className={styles.pkMsg}>
                 <img src={pkImg} alt=''/>
                 <span>
                   李三
-                  <span>自变量学院</span>
+                  <span style={{color: '#56595E', fontWeight: 'normal'}}>自变量学院</span>
                 </span>
               </div>
-              <BIIcon/>
+              <BIIcon onClick={() => this.props.changeSelected(record.userId)}/>
             </>
           )
         }
@@ -136,17 +138,13 @@ class ProfitTbas extends React.Component {
         key: item,
         render: (text, record) => {
           return ( 
-            <BIFillCell className={styles.fillCell}>
-              <span>{thousandsFormat(record.rowMsg[index])}</span>
-              <SmallProgress isColor="green" percent={'30%'} style={{width: '100%', marginTop: '10px'}}></SmallProgress>
-            </BIFillCell>
+            <BIWrapperProgress text={thousandsFormat(record.rowMsg[index])} isColor="green" percent={'30%'} style={{marginLeft: '-8px'}}/>
           )
         }
       })
     })
     return columns || [];
   };
-
   render() {
     const { profitData } = this.state;
     const { pkUser } = this.props;
@@ -163,7 +161,6 @@ class ProfitTbas extends React.Component {
           rowKey={(record, index) => record.userId + '' + index}
           onRow={this.onClickRow}
           rowClassName={this.getRowClassName}
-          // scroll={{ y: 420 }}
           bordered={true}
         />
 

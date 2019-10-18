@@ -4,6 +4,7 @@ import ProfitList from './components/list';
 import ProfitTabs from './components/tabs';
 import BIDrawer from '@/components/BIDrawer';
 
+
 class Profit extends React.Component {
   constructor(props) {
     super(props);
@@ -15,16 +16,20 @@ class Profit extends React.Component {
       visible: false
     }
   }
+  // PK数组
   changeSelected = (id) => {
     const { pkUsers } = this.state;
-    if (pkUsers instanceof Array) {
-      pkUsers.push(id);
-    } else {
-      pkUsers = [id];
+    if (pkUsers instanceof Object) {
+      if (pkUsers.includes(id)) {
+        pkUsers.splice(pkUsers.indexOf(id), 1);
+      } else {
+        pkUsers.push(id);
+      }
     }
     localStorage.setItem('pkUsers', JSON.stringify(pkUsers));
-    this.setState({ pkUsers });
+    this.setState({ pkUsers: [...pkUsers] });
   }
+  // 对比小组筛选条件
   changePkListType = (v) => {
     localStorage.setItem('pkListType', v);
     this.setState({pkListType: v});
@@ -39,7 +44,7 @@ class Profit extends React.Component {
     const { pkUsers, pkListType, visible } = this.state;
     return (
       <Container title='本期创收' propStyle={{ display: 'flex', height: '540px', position: 'relative' }}>
-        <ProfitTabs {...this.props} pkUsers={pkUsers} pkListType={pkListType} />
+        <ProfitTabs {...this.props} pkUsers={pkUsers} pkListType={pkListType} changeSelected={this.changeSelected}/>
         <BIDrawer
           onClose={() => this.toggleDrawer(false)}
           onOpen={() => this.toggleDrawer(true)}

@@ -154,12 +154,14 @@
     > span {
       display: flex;
       flex-direction: column;
+      font-weight: bold;
     }
   }
   .fillCell {
     flex-direction: column;
     align-items: flex-end;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-top: 8px;
     padding-right: 16px;
   }
 }
@@ -181,10 +183,15 @@
           background: #D5D8DB;
         }
     }
-    .pkUser {
+    .pkMine {
       > td {
         color: #00CCC3;
         cursor: not-allowed !important;
+      }
+    }
+    .pkUser {
+      > td {
+        color: #00CCC3;
       }
     }
     .tableContent {
@@ -213,6 +220,18 @@
           .ant-table-body {
             padding-top: 40px;
           }
+        }
+      }
+      // 表格内容
+      .incomeKpi {
+        display: flex;
+        .pro {
+          text-align: right;
+          width: 100px;
+        }
+        >img {
+          width: 10px;
+          height: 10px;
         }
       }
     }

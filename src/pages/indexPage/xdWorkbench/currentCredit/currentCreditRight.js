@@ -307,7 +307,6 @@ class currentCreditRight extends React.Component {
         </div>
         <div className={styles.tableContent}>
           {userFlag && userMsg && <div className={styles.suspension} >
-
             <BITable
               showHeader={false}
               columns={this.columnsRight()}
