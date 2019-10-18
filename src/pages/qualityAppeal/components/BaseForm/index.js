@@ -42,6 +42,7 @@ class FormIndex extends React.Component {
           name: res.name,
           organize: [res.collegeId, res.familyId, res.groupId],
         };
+
       }
       form.setFieldsValue({ ...form.getFieldsValue(), ...obj });
     });

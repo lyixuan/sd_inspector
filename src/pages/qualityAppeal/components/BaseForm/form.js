@@ -212,6 +212,12 @@ const BaseForm = Form.create({ name: 'base_form' })(
       const attachedRoleList = this.attachedRoleList();
 
       const punishTypeUnit = form.getFieldValue('punishType');
+
+      const temp = form.getFieldValue('organize');
+      const familyTypeShow = [];
+      temp && temp.forEach((v)=>{
+        if(v){familyTypeShow.push(v)}
+      });
       return (
         <Form className="baseForm" onSubmit={this.handleSubmit}>
 
@@ -320,7 +326,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 </Form.Item>
               </BoxItem>
               {
-                this.state.familyType&&<BoxItem label="学院类型" required>
+                familyTypeShow.length ===1&&<BoxItem label="学院类型" required>
                   <Form.Item className={styles.formItem}>
                     {getFieldDecorator('familyType', {
                       initialValue: familyType, rules: [{ required: true, message: '请选择学院类型' }],
@@ -387,8 +393,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                   {getFieldDecorator('punishType', {
                     initialValue: punishType || undefined, rules: [{ required: true, message: '请选择处罚方式' }],
                   })(
-                    <BISelect allowClear placeholder="处罚方式" notFoundContent="先选择违规分类"
-                              onChange={this.onChangePunishType}>
+                    <BISelect allowClear placeholder="处罚方式" notFoundContent="先选择违规分类">
                       {BiFilter('PUNISH_TYPE_LIST').map(item => (
                         <Option value={item.id} key={item.id}>
                           {item.name}
