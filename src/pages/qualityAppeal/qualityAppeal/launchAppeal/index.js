@@ -38,7 +38,8 @@ class Launch extends React.Component {
   render() {
     const { qualityAppealHome = {} } = this.props;
     const { QualityDetailData = {}, DetailData = {} } = qualityAppealHome || {};
-    console.log(DetailData, 'DetailData');
+    // 转换字段
+    QualityDetailData.qualityValue = QualityDetailData.ownQualityValue;
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.detailContainer}>

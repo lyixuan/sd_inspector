@@ -119,12 +119,22 @@ class QualityAppealing extends React.Component {
           ? this.query.secondAppealEndDate
           : undefined,
     };
-    this.props.dispatch({
-      type: 'qualityAppealing/sopAppeal',
-      payload: { params },
-    });
+    const that = this;
+    confirm({
+      className: 'BIConfirm',
+      title: '是否确认提交？',
+      cancelText: '取消',
+      okText: '确认',
+      onOk() {
+        that.props.dispatch({
+          type: 'qualityAppealing/sopAppeal',
+          payload: { params },
+        });
 
-    this.setState({ visible: false });
+        that.setState({ visible: false });
+      },
+      onCancel() {},
+    });
   };
   handleSubmitMaster = formParams => {
     const { appealShow = [], QualityDetailData = {} } = this.props;
@@ -149,16 +159,36 @@ class QualityAppealing extends React.Component {
       desc: appealParam.desc ? appealParam.desc : undefined,
       appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
     };
-    this.props.dispatch({
-      type: 'qualityAppealing/reviewAppeal',
-      payload: {
-        qualityInspectionParam: QualityDetailData,
-        appealParam: appealParamNew,
+    const that = this;
+    confirm({
+      className: 'BIConfirm',
+      title: '是否确认提交？',
+      cancelText: '取消',
+      okText: '确认',
+      onOk() {
+        that.props.dispatch({
+          type: 'qualityAppealing/reviewAppeal',
+          payload: {
+            qualityInspectionParam: QualityDetailData,
+            appealParam: appealParamNew,
+          },
+        });
       },
+      onCancel() {},
     });
   };
   handleCancel = () => {
-    router.goBack();
+    const that = this;
+    confirm({
+      className: 'BIConfirm',
+      title: '此操作将不保存已录入内容，是否确认？',
+      cancelText: '取消',
+      okText: '确认',
+      onOk() {
+        router.goBack();
+      },
+      onCancel() {},
+    });
   };
   setStateData = val => {
     this.setState({

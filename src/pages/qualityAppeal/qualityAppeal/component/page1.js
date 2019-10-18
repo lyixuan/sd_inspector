@@ -196,7 +196,6 @@ class NewQualitySheet extends React.Component {
                     placeholder="请选择"
                     allowClear
                     mode="multiple"
-                    showArrow
                     maxTagCount={1}
                     value={violationLevelList}
                     onChange={val => this.onFormChange(val, 'violationLevelList')}

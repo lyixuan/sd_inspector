@@ -23,6 +23,8 @@ class QualityDetail extends React.Component {
   render() {
     const { QualityDetailData = {} } = this.props.qualityAppealHome;
     const { qualityAudit, ...others } = QualityDetailData;
+     // 转换字段
+     QualityDetailData.qualityValue = QualityDetailData.ownQualityValue;
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.qualityContainter}>
