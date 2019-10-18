@@ -216,7 +216,7 @@ class Performance extends React.Component {
             smalled
           />
         </div>}
-        <div id="scroller" className={styles.tableContainer}>
+        <div id="scroller" className={`${userFlag && userMsg ? styles.tbodyMarTop : ''}`} >
           <BITable
             columns={this.columns()}
             dataSource={this.state.dataSource}
@@ -228,7 +228,7 @@ class Performance extends React.Component {
           >
           </BITable>
         </div>
-      </div>
+      </div >
     );
   }
 }
