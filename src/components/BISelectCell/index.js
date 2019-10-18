@@ -13,7 +13,6 @@ class BISelectCell extends React.Component {
     }
   }
   onClick = obj => {
-    console.log(1666)
     if (this.props.onClick && typeof this.props.onClick === 'function') {
       this.props.onClick(obj);
     }
@@ -25,8 +24,6 @@ class BISelectCell extends React.Component {
     return this.props[type] ? this.props[type] : this.state[type];
   }
   render() {
-
-    console.log(300, this.props)
     return (
       <>
         {/* {

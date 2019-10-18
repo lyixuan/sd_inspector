@@ -3,6 +3,8 @@ import { connect } from 'dva';
 import { Skeleton } from 'antd';
 import BITable from '@/ant_components/BITable';
 import IndentNum from '../../indexPage/components/indentNum';
+import up from '@/assets/xdFamily/rankUp.png';
+import down from '@/assets/xdFamily/rankDown.png';
 import styles from './style.less'
 
 @connect(({ loading }) => ({
@@ -34,7 +36,12 @@ class Dimension extends React.Component {
         key: 'scoreRatio',
         render: text => {
           const num = Number(text);
-          return <div data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>{num === 0 ? text : <IndentNum className={num > 0 ? styles.greenColor : styles.redColor}>{text}</IndentNum>}</div>
+          const imgSrc = num > 0 ? up : down;
+          return (
+            <div data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>
+              {num == 0 ? { text } : <span>{text}<img style={{ marginLeft: '3px' }} src={imgSrc} /></span>}
+            </div>
+          )
         }
       }, {
         width: '95px',
