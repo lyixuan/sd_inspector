@@ -18,18 +18,14 @@ class BIDrawer extends React.Component {
     }
   }
   render() {
-    const { visible, drawerStyle = {} } = this.props;
+    const { visible, drawerStyle = {}, openValue='展开PK小组', closeValue='收起PK小组'} = this.props;
     return (
       <div className={`${styles.BIDrawer} ${visible ? styles.BIDrawerOpen : ''}`}>
         <div className={styles.openWrapper}>
-          <div onClick={this.onClose} class={styles.drawerMask}></div>
+          <div onClick={this.onClose} className={styles.drawerMask}></div>
           <div className={styles.drawer} style={drawerStyle}>
             <span onClick={this.onClose} className={styles.toggleClose}>
-              <span>收</span>
-              <span>起</span>
-              <span>PK</span>
-              <span>小</span>
-              <span>组</span> 
+              {closeValue}
               <img src={closeImg} alt=''/></span>
             <div className={styles.drawerBody}>
               {this.props.children}
@@ -37,11 +33,7 @@ class BIDrawer extends React.Component {
           </div>
         </div>
         {!visible ? <span onClick={this.onOpen} className={styles.toggleOpen}>
-          <span>展</span>
-          <span>开</span>
-          <span>PK</span>
-          <span>小</span>
-          <span>组</span> 
+          {openValue}
           <img src={openImg} alt=''/></span> : ''}
       </div>    
     );

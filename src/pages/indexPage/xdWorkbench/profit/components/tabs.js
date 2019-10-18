@@ -10,9 +10,13 @@ import gradeS from '@/assets/workBench/s.png';
 import xdGif from '@/assets/workBench/xdpk.gif';
 import pkImg from '@/assets/xdwork/pk.png';
 import { thousandsFormat } from '@/utils/utils';
-import { STATIC_HOST } from '@/utils/constants'
 import BILoading from '@/components/BILoading'
 import styles from '../style.less';
+import BITable from '@/ant_components/BITable';
+import SmallProgress from '@/pages/indexPage/components/smallProgress';
+import BIContrastCell from '@/components/BIContrastCell'
+
+
 
 const thousandsFormatAll = (n, u) => {
   if (n !== null) {
@@ -38,7 +42,6 @@ const gradeImg = { // 等级
   C: gradeC,
   S: gradeS,
 }
-const unitType = [, '', '元', '%', '单'];
 @connect(({ loading }) => ({
   loading: loading.effects['xdWorkModal/getIncomeKpiPersonInfo'] || loading.effects['xdWorkModal/getContrastIncomeKpiPkList'],
 }))
@@ -47,15 +50,13 @@ class ProfitTbas extends React.Component {
     super(props);
     this.state = {
       pkType: 1,
-      profitData: [],
-      profitPersonData: {
-        self: {
-          certificationGradeList: []
-        },
-        pkUser: {
-          certificationGradeList: []
-        }
-      }
+      profitData: {
+        colNames: ['创收绩效'],
+        data: [{
+          name: '邓静雷',
+          rowMsg: [3000]
+        }]
+      },
     }
   }
   componentDidMount() {
@@ -95,9 +96,9 @@ class ProfitTbas extends React.Component {
           pkListType: this.props.pkListType,
         }
       },
-      callback: (profitData) => {
-        if (profitData) this.setState({ profitData })
-      },
+      // callback: (profitData) => {
+      //   if (profitData) this.setState({ profitData })
+      // },
     });
   }
   getSizeStyle = ({ selfValue, pkUserValue }, index) => {
@@ -116,90 +117,54 @@ class ProfitTbas extends React.Component {
     }
     return '';
   }
+  columns = () => {
+    const { profitData } = this.state;
+    const columns = [ {
+        width: '50%',
+        title: 'PK 对象',
+        dataIndex: 'org',
+        key: 'org',
+        render: text => <div data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</div>
+      }
+    ];
+    profitData.colNames.map((item, index) => {
+      columns.push({
+        width: '50%',
+        title: item,
+        dataIndex: item,
+        key: item,
+        render: (text, record) => {
+          return ( 
+            <BIContrastCell>
+              <span>{record.rowMsg[index]}</span>
+              <SmallProgress isColor="green" percent={'30%'}></SmallProgress>
+            </BIContrastCell>
+          )
+        }
+      })
+    })
+    return columns || [];
+  };
 
   render() {
-    const { profitPersonData, profitData } = this.state;
+    const { profitData } = this.state;
     const { pkUser } = this.props;
-    const profitDataOther = profitData && profitData.filter((item, index) => index !== 0);
     return (
       <div className={styles.profitTabs}>
         <BIRadio onChange={this.handlePkTypeChange} value={this.state.pkType} style={{ marginBottom: 16 }}>
           {pkTypeObj.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace={pkTypeTrace[index]}>{item}</div></BIRadio.Radio.Button>)}
         </BIRadio>
-        {
-          this.props.loading?<BILoading isLoading={this.props.loading} />:profitData && profitData[0] && profitPersonData && <div className={styles.tabContent}>
-            {!pkUser && <img src={xdGif} />}
-            {/* 第一行 */}
-            <div className={styles.tabBody} style={{ height: '136px' }}>
-              <div className={styles.tabOneTh}>
-                <span style={{ color: '#7A7C80', fontSize: '12px' }}>对比项</span>
-                <span style={{ color: '#1A1C1F', fontWeight: 'bold' }}>{this.state.pkType === 1 ? '创收绩效' : pkTypeObj[this.state.pkType - 1]}</span>
-              </div>
-              <div className={styles.tabOneTd}>
-                {profitPersonData.self && <div className={`${styles.tabMine} ${pkUser ? '' : styles.tabMineLine}`}>
-                  <div className={styles.msg}>
-                    <img src={gradeImg[profitPersonData.self.userGrade]} style={{ marginRight: '16px' }} />
-                    <div>
-                      <span style={{ color: '#1A1C1F', fontWeight: 'bold' }}>{profitPersonData.self.userName}</span>
-                      <span>{profitPersonData.self.org}</span>
-                    </div>
-                  </div>
-                  <div className={styles.imgs}>
-                    {profitPersonData.self.certificationGradeList.map(item => <img key={item.certificationCode} src={STATIC_HOST + item.certificationIconUrl} style={{ marginRight: '10px' }} />)}
-                  </div>
-                </div>}
-                <div className={`${pkUser ? '' : styles.tabUserLine}`}>
-                  {
-                    pkUser && profitPersonData.pkUser ?
-                      <>
-                      <div className={styles.msg}>
-                        <img src={gradeImg[profitPersonData.pkUser.userGrade]} style={{ marginRight: '16px' }} />
-                        <div>
-                          <span style={{ color: '#1A1C1F', fontWeight: 'bold' }}>{profitPersonData.pkUser.userName}</span>
-                          <span>{profitPersonData.pkUser.org}</span>
-                        </div>
-                      </div>
-                      <div className={styles.imgs}>
-                        {profitPersonData.pkUser.certificationGradeList.map(item => <img key={item.certificationCode} src={STATIC_HOST + item.certificationIconUrl} style={{ marginRight: '10px' }} />)}
-                      </div>
-                      </>
-                      :
-                      <div className={styles.nonePk}>
-                        <img src={pkImg} style={{ marginRight: '16px' }} />
-                        <span>请从右边选择一个小组进行绩效PK吧！</span>
-                      </div>
-                  }
-                </div>
-              </div>
-            </div>
-            {/* 第二行 */}
-            <div className={styles.tabBody} style={{ height: '72px' }}>
-              <div className={styles.tabTwoTh}><span>绩效</span></div>
-              <div className={styles.tabTwoTd}>
-                {
-                  pkUser ? <Proportion leftNum={profitData[0].selfValue} rightNum={profitData[0].pkUserValue} iconed={true} />
-                    : <div className={styles.tabTwoNone}><div>{thousandsFormat(profitData[0].selfValue)}元</div></div>
-                }
-              </div>
-            </div>
-            {/* 第三行 */}
-            <div className={styles.tabThreeBody}>
-              <div className={styles.tabBody}>
-                <div className={styles.tabThreeTh}>
-                  {profitDataOther && profitDataOther.map((item, index) => <span key={index} style={{ marginLeft: item.itemType === 2 ? '36px' : '12px' }}>{item.itemName}</span>)}
-                </div>
-                <div className={styles.tabThreeTd}>
-                  {
-                    profitDataOther && profitDataOther.map((item, index) => <div key={index}>
-                      <span style={{ color: this.getSizeStyle(item, index) }}>{thousandsFormatAll(item.selfValue, unitType[item.valueType])}</span>
-                      <span>{pkUser ? <span>{thousandsFormatAll(item.pkUserValue, unitType[item.valueType])}</span> : ' '}</span>
-                    </div>)
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
-        }
+        <BITable
+          columns={this.columns()}
+          dataSource={profitData.data}
+          pagination={false}
+          loading={this.props.loading}
+          rowKey={(record, index) => record.userId + '' + index}
+          onRow={this.onClickRow}
+          rowClassName={this.getRowClassName}
+          // scroll={{ y: 420 }}
+          bordered={true}
+        />
 
       </div>
     );

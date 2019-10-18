@@ -10,15 +10,15 @@ class Profit extends React.Component {
     const pkUser = localStorage.getItem('pkUser');
     const pkListType = localStorage.getItem('pkListType');
     this.state = {
-      pkUser: pkUser ? Number(pkUser) : '', // 选中的pk者
+      pkUser: pkUser ? JSON.parse(pkUser) : [], // 选中的pk者
       pkListType: pkListType ? Number(pkListType) : 5, // 列表选项--同级排行
       visible: false
     }
   }
-
   changeSelected = (id) => {
-    localStorage.setItem('pkUser', id);
-    this.setState({ pkUser: id });
+    const pkUser = this.state.pkUser.push(id);
+    localStorage.setItem('pkUser', JSON.stringify(pkUser));
+    this.setState({ pkUser: pkUser });
   }
   changePkListType = (v) => {
     localStorage.setItem('pkListType', v);
