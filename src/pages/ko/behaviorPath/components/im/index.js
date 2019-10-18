@@ -435,7 +435,6 @@ function TeacherOrStudent(props) {
     if (answer && answer.match(/\{\{(.+?)\}\}/g)) {
       answer = answer.replace(/\{\{(.+?)\}\}/g, 1)
     }
-    // console.log(400, answer)
     if (answer && answer.match(reg)) {
       let media = JSON.parse(answer.match(reg)[0].replace(/##/g, "").replace(/\\"/g, '"'));
       let content = answer.replace(reg, "##placeholder##")
@@ -470,6 +469,7 @@ function TeacherOrStudent(props) {
         <MediaContent li={props.item} content={mediaContent}></MediaContent>
       )
     } else {
+
       let message = "";
       // 检测文本中是否包含 { }
       if (/\{([^\}]+)\}/.test(props.item.message)) {
@@ -477,10 +477,12 @@ function TeacherOrStudent(props) {
       } else {
         message = props.item.message
       }
+      console.log(480, answer)
+      if (!message) message = props.item.message
       if (!answer) {
         return null
       } else if (answer.indexOf('answerType') > -1) {
-        answer = JSON.parse(answer.replace(/“/g, "'").replace(/”/g, "'").replace(/\\/g, ""))
+        answer = JSON.parse(answer.replace(/\\"/g, "").replace(/“/g, "'").replace(/”/g, "'").replace(/\\/g, "").replace(/\\"/g, ""))
         return (
           <li className={styles.step}>
             <div className={styles.time}>
@@ -518,7 +520,7 @@ function TeacherOrStudent(props) {
                   </span>
                   {/*{message}*/}
                   {
-                    message.indexOf("<iframe") > -1 ? <span>{message}</span> : <span dangerouslySetInnerHTML={{ __html: linkRoute(message, styles.linkRoute) }}></span>
+                    message && message.indexOf("<iframe") > -1 ? <span>{message}</span> : <span dangerouslySetInnerHTML={{ __html: linkRoute(message, styles.linkRoute) }}></span>
                   }
                   {/* <span dangerouslySetInnerHTML={{ __html: linkRoute(message, styles.linkRoute) }}></span> */}
                 </div>
