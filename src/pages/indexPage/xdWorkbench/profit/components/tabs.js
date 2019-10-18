@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Skeleton } from 'antd';
 import Proportion from '../../../components/proportion';
+import BIWrapperTable from '../../../components/BIWrapperTable'
 import BIRadio from '@/ant_components/BIRadio';
 import gradeA from '@/assets/workBench/a.png';
 import gradeB from '@/assets/workBench/b.png';
@@ -15,7 +16,7 @@ import styles from '../style.less';
 import BITable from '@/ant_components/BITable';
 import SmallProgress from '@/pages/indexPage/components/smallProgress';
 import BIFillCell from '@/components/BIFillCell';
-
+import BIIcon from '@/components/BIIcon';
 
 const thousandsFormatAll = (n, u) => {
   if (n !== null) {
@@ -42,7 +43,7 @@ const gradeImg = { // 等级
   S: gradeS,
 }
 @connect(({ loading }) => ({
-  loading: loading.effects['xdWorkModal/getIncomeKpiPersonInfo'] || loading.effects['xdWorkModal/getContrastIncomeKpiPkList'],
+  loading: loading.effects['xdWorkModal/getContrastIncomeKpiPkList'],
 }))
 class ProfitTbas extends React.Component {
   constructor(props) {
@@ -60,13 +61,11 @@ class ProfitTbas extends React.Component {
     }
   }
   componentDidMount() {
-    this.getPkmsg();
     this.getPkList();
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.pkUser !== this.props.pkUser) {
-      this.getPkmsg(nextProps.pkUser);
-      this.getPkList(nextProps.pkUser);
+    if (JSON.stringify(nextProps.pkUsers) !== JSON.stringify(this.props.pkUsers)) {
+      this.getPkList(nextProps.pkUsers);
     }
   }
 
@@ -75,23 +74,13 @@ class ProfitTbas extends React.Component {
       pkType: e.target.value
     }, () => this.getPkList());
   }
-  // pk信息
-  getPkmsg = (pkUser = this.props.pkUser) => {
-    this.props.dispatch({
-      type: 'xdWorkModal/getIncomeKpiPersonInfo',
-      payload: { params: { pkUser } },
-      callback: (profitPersonData) => {
-        if (profitPersonData) this.setState({ profitPersonData })
-      },
-    });
-  }
   // 对比列表
-  getPkList = (pkUser = this.props.pkUser) => {
+  getPkList = (pkUsers = this.props.pkUsers) => {
     this.props.dispatch({
       type: 'xdWorkModal/getContrastIncomeKpiPkList',
       payload: {
         params: {
-          pkUser,
+          pkUsers,
           tabType: this.state.pkType,
           pkListType: this.props.pkListType,
         }
@@ -124,7 +113,20 @@ class ProfitTbas extends React.Component {
         title: 'PK 对象',
         dataIndex: 'org',
         key: 'org',
-        render: text => <div data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</div>
+        render: text => {
+          return (
+            <>
+              <div className={styles.pkMsg}>
+                <img src={pkImg} alt=''/>
+                <span>
+                  李三
+                  <span>自变量学院</span>
+                </span>
+              </div>
+              <BIIcon/>
+            </>
+          )
+        }
       }
     ];
     profitData.colNames.map((item, index) => {
@@ -153,7 +155,7 @@ class ProfitTbas extends React.Component {
         <BIRadio onChange={this.handlePkTypeChange} value={this.state.pkType} style={{ marginBottom: 16 }}>
           {pkTypeObj.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace={pkTypeTrace[index]}>{item}</div></BIRadio.Radio.Button>)}
         </BIRadio>
-        <BITable
+        <BIWrapperTable
           columns={this.columns()}
           dataSource={profitData.data}
           pagination={false}

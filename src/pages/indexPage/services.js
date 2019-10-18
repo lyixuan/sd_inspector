@@ -8,10 +8,6 @@ export async function getContrastIncomeKpiPkList(params) {
 export async function getIncomeKpiPkList(params) {
   return request('/deskperfpcapi/workbenchIncomeKpi/getIncomeKpiPkList', { method: 'get', params });
 }
-// 班主任分层 - 本期创收 - 个人信息
-export async function getIncomeKpiPersonInfo(params) {
-  return request('/deskperfpcapi/workbenchIncomeKpi/incomeKpiPersonInfo', { method: 'get', params });
-}
 
 // 班主任工作台 - 本期质检统计
 export async function getCountCurrentQuality(params) {

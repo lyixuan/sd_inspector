@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './style.less';
 import closeImg from '@/assets/component/close.png';
-import openImg from '@/assets/component/open.png'
+import openImg from '@/assets/component/open.png';
 
 
 class BIDrawer extends React.Component {

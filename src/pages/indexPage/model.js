@@ -1,7 +1,6 @@
 import {
   getContrastIncomeKpiPkList,
   getIncomeKpiPkList,
-  getIncomeKpiPersonInfo,
   getCountCurrentQuality,
   getCountAppealRecord,
   kpiLevelList,
@@ -206,17 +205,6 @@ export default {
       } else if (result.code === 50000) {
         if (callback && typeof callback === 'function') {
           callback();
-        }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    *getIncomeKpiPersonInfo({ payload, callback }, { call }) {
-      const params = payload.params;
-      const result = yield call(getIncomeKpiPersonInfo, params);
-      if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data === null ? '' : result.data);
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
