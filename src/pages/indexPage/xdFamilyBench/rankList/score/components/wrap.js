@@ -63,7 +63,7 @@ class Wrap extends React.Component {
             smalled
           />
         </div>}
-        <div id={this.props.rowId} className={styles.tableBorder}>
+        <div id={this.props.rowId} className={`${styles.tableBorder}} ${userFlag && userMsg ? styles.tbodyMarTop : ''}`} >
           <BITable
             columns={this.props.columns}
             dataSource={this.props.dataSource}
