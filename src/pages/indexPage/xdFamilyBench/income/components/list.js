@@ -6,6 +6,7 @@ import down from '@/assets/xdFamily/rankDown.png';
 import normal from '@/assets/xdFamily/rankNormal.png';
 import SmallProgress from '@/pages/indexPage/components/smallProgress'
 import styles from './style.less';
+import BILoading from '@/components/BILoading'
 
 const rankImg = {
   0: down,
@@ -134,10 +135,10 @@ class ProfitList extends React.Component {
         type: 'xdWorkModal/getCurrentIncomeClass',
         callback: familyIncome => this.dispatchCallback(familyIncome)
       });
-    } 
+    }
   }
   dispatchCallback = familyIncome => {
-    this.setState({ 
+    this.setState({
       familyIncome,
       goodpushKpiMax: Math.max.apply(Math, familyIncome.map(item => item.goodpushKpi)),
       renewalKpiMax: Math.max.apply(Math, familyIncome.map(item => item.renewalKpi)),
@@ -147,14 +148,14 @@ class ProfitList extends React.Component {
   render() {
     return (
       <div className={styles.tableList}>
-        <BITable
+        {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
           columns={this.columns()}
           dataSource={this.state.familyIncome}
           pagination={false}
           loading={this.props.loading}
           rowKey={record => record.id}
           scroll={{ x: 'max-content', y: 400 }}
-        />
+        />}
       </div>
 
     );

@@ -11,11 +11,13 @@ import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
 import SmallProgress from '@/pages/indexPage/components/smallProgress'
 import { connect } from 'dva';
+import BILoading from '@/components/BILoading'
 
 const rankType = ['本学院排行', '集团排行'];
 
-@connect(({ xdWorkModal }) => ({
-  xdWorkModal
+@connect(({ xdWorkModal,loading }) => ({
+  xdWorkModal,
+  loading: loading.effects['xdWorkModal/achievementList'],
 }))
 class Performance extends React.Component {
   constructor(props) {
@@ -204,7 +206,7 @@ class Performance extends React.Component {
         <BIRadio onChange={this.handleRankChange} value={this.state.rankType} style={{ marginBottom: 16 }}>
           {rankType.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div>{item}</div></BIRadio.Radio.Button>)}
         </BIRadio>
-        {userFlag && userMsg && <div className={styles.suspenTable}>
+        {this.props.loading?<BILoading isLoading={this.props.loading} />:userFlag && userMsg && <div className={styles.suspenTable}>
           <BITable
             showHeader={false}
             columns={this.columns()}

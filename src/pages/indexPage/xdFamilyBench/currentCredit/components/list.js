@@ -7,6 +7,7 @@ import down from '@/assets/xdFamily/rankDown.png';
 import normal from '@/assets/xdFamily/rankNormal.png';
 import SmallProgress from '@/pages/indexPage/components/smallProgress'
 import { Link } from 'dva/router';
+import BILoading from '@/components/BILoading'
 
 @connect(({ xdWorkModal, loading }) => ({
   xdWorkModal,
@@ -170,7 +171,7 @@ class ProfitList extends React.Component {
     const { profitList = [] } = this.state;
     return (
       <div className={styles.tableList}>
-        <BITable
+        {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
           columns={this.columns()}
           dataSource={profitList}
           pagination={false}
@@ -179,7 +180,7 @@ class ProfitList extends React.Component {
           rowKey={(record, index) => index}
           scroll={{ x: 'max-content', y: 420 }}
           smalled
-        />
+        />}
       </div>
 
     );

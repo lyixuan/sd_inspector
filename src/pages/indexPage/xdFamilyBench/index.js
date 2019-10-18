@@ -29,9 +29,9 @@ class XdFamily extends React.Component {
     const { userId } = this.state;
     return (
       <div className={styles.familyBench}>
-        <PerformanceDetail ></PerformanceDetail>
-        <RankList></RankList>
-        <CurrentCredit></CurrentCredit>
+        <PerformanceDetail />
+        <RankList/>
+        <CurrentCredit/>
         <FamilyAndGroup />
         <Income />
         <FamilyAndGroupIncome />

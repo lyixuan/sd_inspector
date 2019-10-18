@@ -5,8 +5,10 @@ import TopTabs from '../../components/topTabs';
 import TableList from './components/list';
 import styles from './index.less';
 
-@connect(({ xdWorkModal }) => ({
-  xdWorkModal
+@connect(({ xdWorkModal,loading }) => ({
+  xdWorkModal,
+  loading: loading.effects['xdWorkModal/getCountCurrentQuality'],
+
 }))
 class CurrentCredit extends React.Component {
   constructor(props) {
