@@ -58,7 +58,7 @@ const columns = [
   },
   {
     title: '违规等级',
-    dataIndex: 'violationLevel',
+    dataIndex: 'violationLevelName',
   },
   {
     title: '质检状态',

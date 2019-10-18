@@ -13,7 +13,7 @@ export default class IllegalInfo extends React.Component {
         <span>{v.roleName?BiFilter(`FRONT_ROLE_TYPE_LIST|id:${v.roleName}`).name:'--'}</span>，
         <span>{v.userName?v.userName:'--'}@sunlands.com</span>，
         <span>{v.punishType?BiFilter(`PUNISH_TYPE_LIST|id:${v.punishType}`).name:'--'}</span>，
-        <span>{v.qualityValue||v.qualityValue===0?v.qualityValue:'--'}</span>
+        <span>{v.qualityValue?v.qualityValue:'--'}</span>
         <span>{v.punishType?v.punishType===2?'分':'元':'--'}</span>
       </div>
     });
