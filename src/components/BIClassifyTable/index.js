@@ -4,37 +4,39 @@ import BIContrastCell from '@/components/BIContrastCell';
 import BISelectCell from '@/components/BISelectCell';
 import styles from './style.less';
 
+const titleList = ['所有分类', '产品方向', '产品使用', '产品使用']
+const titleList2 = ['版本更新1', '版本更新2', '版本更新3', '版本更新4', '版本更新4']
 const dataSource = [{
-  key: 1,
-  name: 'Johwn',
-  age: 12,
-  street: 'Lake Park',
-  building: 'C',
-  number: 2035,
-  companyAddress: 'Lake Street 42',
-  companyName: 'SoftLake Co',
-  gender: 'M',
+  orgId: 1,
+  orgName: '组织名称1',
+  groupType: 'group',
+  values: [12, 3.4, 55, 34, 55],
+  total: 340
 }, {
-  key: 2,
-  name: 'John Brown',
-  age: 13,
-  street: 'Lake Park',
-  building: 'C',
-  number: 2035,
-  companyAddress: 'Lake Street 42',
-  companyName: 'SoftLaa',
-  gender: 'M',
+  orgId: 2,
+  orgName: '组织名称2',
+  groupType: 'group',
+  values: [12, 3.4, 55, 34, 55],
+  total: 340
 }, {
-  key: 3,
-  name: 'John Brown',
-  age: 14,
-  street: 'Lake Park',
-  building: 'C',
-  number: 2035,
-  companyAddress: 'Lake Street 42',
-  companyName: 'SoftL',
-  gender: 'M',
-}];
+  orgId: 3,
+  orgName: '组织名称3',
+  groupType: 'group',
+  values: [12, 3.4, 55, 34, 55],
+  total: 340
+}, {
+  orgId: 4,
+  orgName: '组织名称4',
+  groupType: 'group',
+  values: [12, 3.4, 55, 34, 55],
+  total: 340
+}, {
+  orgId: 5,
+  orgName: '组织名称4',
+  groupType: 'group',
+  values: [12, 3.4, 55, 34, 55],
+  total: 340
+}]
 
 
 class BIClassifyTable extends React.Component {
@@ -46,7 +48,12 @@ class BIClassifyTable extends React.Component {
   }
   title = () => {
     return (
-      <div>选择分类：所有分类/产品方向/产品使用/产品使用/<span style={{ cursor: 'pointer', color: '#00CCC3' }} onClick={this.handleClassifyClick}>aaa</span></div>
+      <div>
+        {titleList.map(item => {
+          return <span onClick={this.handleClassifyClick} style={{ cursor: 'pointer', color: '#00CCC3' }}>{item}/</span>
+        })}
+        <span></span>
+      </div>
     )
   }
   handleClassifyClick = () => {
@@ -54,75 +61,50 @@ class BIClassifyTable extends React.Component {
   }
   cellClick = (e) => {
     console.log(55, e)
-    this.setState({
-      checked: !this.state.checked
-    })
+    // this.setState({
+    //   checked: !this.state.checked
+    // })
   }
 
   columns = () => {
+    const children = [];
+    console.log(65, dataSource)
+    titleList2.map((item, index) => {
+      children.push({
+        title: item,
+        dataIndex: 'index',
+        key: 'index',
+        width: 85,
+        className: styles.txRight,
+        render: (text, record) => {
+          console.log(1112, record)
+          return (
+            <BIContrastCell onClick={this.cellClick} nums={dataSource[index].values} text={dataSource[index].values[index]} />
+            // this.state.checked ? <BISelectCell text={text} onClick={this.cellClick} /> : <BIContrastCell onClick={this.cellClick} nums={dataSource[index].values} text={dataSource[index].values[index]} />
+          )
+        },
+      })
+    })
+    children.push({
+      title: '-',
+      dataIndex: 'companyName',
+      className: styles.txRight,
+      key: 'companyName',
+      render: (text, record) => {
+        return <BISelectCell>-</BISelectCell>
+      },
+    })
     const columns = [
       {
         title: '组织',
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'orgName',
+        key: 'orgName',
         width: 105,
         fixed: 'left'
       },
       {
         title: this.title(),
-        children: [
-          {
-            title: '版本更新',
-            dataIndex: 'companyAddress',
-            key: 'companyAddress',
-            width: 85,
-            className: styles.txRight,
-            render: (text, record) => {
-              return (
-                this.state.checked ? <BISelectCell text={text} onClick={this.cellClick} /> : <BIContrastCell onClick={this.cellClick} nums={[-0.55, 4.50, -1.10, -1.62, 0, 5.23]} text={5.23} />
-              )
-            },
-          },
-          {
-            title: '版本更新2',
-            dataIndex: 'companyName',
-            width: 85,
-            className: styles.txRight,
-            key: 'companyName',
-            render: (text, record) => {
-              return <BIContrastCell nums={[-0.55, 4.50, -1.10, -1.62, 0, 5.23]} text={4.50} />
-            },
-          },
-          {
-            title: '版本更新3',
-            dataIndex: 'companyName',
-            width: 85,
-            className: styles.txRight,
-            key: 'companyName',
-            render: (text, record) => {
-              return <BISelectCell text={13} />
-            },
-          },
-          {
-            title: '版本更新2',
-            dataIndex: 'companyName',
-            width: 85,
-            className: styles.txRight,
-            key: 'companyName',
-            render: (text, record) => {
-              return <BIContrastCell nums={[-0.55, 4.50, -1.10, -1.62, 0, 5.23]} text={4.50} />
-            },
-          },
-          {
-            title: '版本更新2',
-            dataIndex: 'companyName',
-            className: styles.txRight,
-            key: 'companyName',
-            render: (text, record) => {
-              return <BIContrastCell nums={[-0.55, 4.50, -1.10, -1.62, 0, 5.23]} text={4.50} />
-            },
-          },
-        ],
+        children: children,
       },
       {
         title: '汇总',
@@ -134,6 +116,9 @@ class BIClassifyTable extends React.Component {
       }
     ]
     return columns;
+  }
+  onCellClick() {
+    console.log(1166)
   }
   render() {
     return (
