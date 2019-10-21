@@ -5,6 +5,7 @@ import Container from '../../components/container'
 import CurrentCreditLeft from './currentCreditLeft'
 import CurrentCreditRight from './currentCreditRight';
 import BIDrawer from '@/components/BIDrawer';
+import BIButton from '@/ant_components/BIButton';
 
 @connect(({ xdWorkModal, loading }) => ({
   xdWorkModal,
@@ -19,15 +20,19 @@ class currentCredit extends React.Component {
       selfName: '',
       selfSource: '',
       pkGroupSource: '',
-      visible: false
+      visible: false,
+      pkGroupList: [],
+      hasData: true,
     }
   }
   componentDidMount() {
     const pkGroup = JSON.parse(localStorage.getItem('pkGroup'))
+    const pkGroupList = JSON.parse(localStorage.getItem('pkGroupList'));
     this.setState({
       PkName: pkGroup && pkGroup.groupName,
       groupId: pkGroup ? pkGroup.groupId : 0,
-      pkGroupSource: pkGroup && pkGroup.credit
+      pkGroupSource: pkGroup && pkGroup.credit,
+      pkGroupList: pkGroupList ? pkGroupList : []
     })
   }
   componentWillMount() {
@@ -38,15 +43,25 @@ class currentCredit extends React.Component {
       pkGroupSource: pkGroup && pkGroup.credit
     })
   }
-  clickRow = (data) => {
-    this.setState({
-      groupId: data && data.groupId ? data.groupId : 0,
-    })
-
-    if (data && data.groupId) {
-      localStorage.setItem('pkGroup', JSON.stringify(data))
+  clickRow = (id) => {
+    const { pkGroupList } = this.state;
+    if (pkGroupList instanceof Object) {
+      if (pkGroupList.includes(id)) {
+        pkGroupList.splice(pkGroupList.indexOf(id), 1);
+      } else {
+        pkGroupList.push(id);
+      }
     }
+    localStorage.setItem('groupId', JSON.stringify(pkGroupList));
+    this.setState({ pkUsers: [...pkGroupList] });
   }
+  // 显示隐藏数据
+  toggleData = () => {
+    this.setState({
+      hasData: !this.state.hasData,
+    });
+  };
+  // 抽屉
   toggleDrawer = (bul) => {
     this.setState({
       visible: bul,
@@ -54,14 +69,23 @@ class currentCredit extends React.Component {
   };
 
   render() {
-    const { PkSelfId, groupId, selfName, selfSource, visible } = this.state
+    const { PkSelfId, groupId, selfName, selfSource, visible, hasData } = this.state
     return (
       <Container
         title='本期学分'
         style={{ width: '100%', marginBottom: '16px', position: 'relative' }}
+        right={<BIButton onClick={this.toggleData} type="online">{hasData ? '隐藏' : '显示'}基础信息</BIButton>}
       >
         <div className={styles.creditContainer}>
-          <CurrentCreditLeft groupId={groupId} selfName={selfName} selfSource={selfSource} userData={this.userData} />
+          <CurrentCreditLeft 
+          toggleDrawer={this.toggleDrawer} 
+          groupId={groupId} 
+          selfName={selfName} 
+          selfSource={selfSource} 
+          userData={this.userData}
+          changePkFn={this.clickRow}
+          hasData={hasData}
+          />
           <BIDrawer
           onClose={() => this.toggleDrawer(false)}
           onOpen={() => this.toggleDrawer(true)}

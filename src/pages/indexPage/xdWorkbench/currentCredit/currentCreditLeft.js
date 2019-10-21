@@ -7,8 +7,9 @@ import IndentNum from '../../components/indentNum';
 import pkImg from '@/assets/xdwork/pk.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
 import BIWrapperTable from '../../components/BIWrapperTable';
-import BIIcon from '@/components/BIIcon';
 import BIContrastCell from '@/components/BIContrastCell';
+import BIIcon from '@/components/BIIcon';
+import pluscircle from '@/assets/xdwork/pluscircle.png';
 import { Link } from 'dva/router';
 
 function CustomExpandIcon(props) {
@@ -88,17 +89,29 @@ class currentCreditLeft extends React.Component {
         }
       },
     ];
-    ['我的', '自变量', '自变量'].map((item, index) => {
+    ['我的', '自变量', '自变量', '我的', '自变量', '自变量'].map((item, index) => {
       columns.push({
+        width: '150px',
         title: <div>
           {item}
-          <BIIcon onClick={() => this.props.changeSelected()}/>
+          <BIIcon onClick={() => this.props.changePkFn(123)}/>
         </div>,
         dataIndex: 'myScoreRatio',
         key: 'myScoreRatio',
-        render: (text, record) => <BIContrastCell nums={record.nums} text={record.nums[index]}/>
+        render: (text, record) => {
+          const others = index === 0 && record.nums[index] ? <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span> : <span style={{marginLeft: '8px'}}></span>;
+          return <BIContrastCell nums={record.nums} text={record.nums[index]} others={others}/>
+        }
       })
     })
+    for (var i = 0; i< 6 - ['我的', '自变量', '自变量', '自变量', '自变量'].length; i++) {
+      columns.push({
+        width: '150px',
+        title: <div className={styles.pluscircle} onClick={() => this.props.toggleDrawer(true)}><img src={pluscircle} alt='icon'/>添加PK对象</div>,
+        dataIndex: '添加PK对象' + i,
+        key: '添加PK对象' + i,
+      })
+    }
     return columns || [];
   };
   setRowClassName = (record) => {
@@ -144,19 +157,55 @@ class currentCreditLeft extends React.Component {
     }
     return arr
   }
+  getDataSource = () => {
+    const { hasData } = this.props;
+    const data = [{
+      id: 123,
+      userId: 8888,
+      nums: [0,1,2, 1.32, 7.46, 200]
+    }, {
+      id: 123,
+      userId: 8888,
+      nums: [0,1,2, 1.32, 7.46, 200]
+    }, {
+      id: 123,
+      userId: 8888,
+      nums: [39,1,2, 1.32, 0, 200]
+    }, {
+      id: 123,
+      userId: 8888,
+      nums: [39,1,2, 1.32, 7.46, 200]
+    }, {
+      id: 123,
+      userId: 8888,
+      nums: [39,1,2, 1.32, 7.46, 201]
+    }, {
+      id: 123,
+      userId: 8888,
+      nums: [39,1,2, 1.32, 7.46, 100.78]
+    }, {
+      id: 123,
+      userId: 8888,
+      nums: [39,1,2, 1.32, 7.46, 100.78]
+    }, {
+      id: 123,
+      userId: 8888,
+      nums: [39,1,2, 1.32, 7.46, 100.78]
+    }]
+    if (hasData) {
+      return data;
+    } else {
+      return data.splice(4);
+    }
+  }
   render() {
     const { groupId } = this.props
     const { groupPkList=[], myGroup, pkGroup } = this.state
-    // const dataSource = groupPkList && this.fillDataSource(groupPkList)
     const leftNum = myGroup && myGroup.score
     const userName = myGroup && myGroup.groupName
     const rightNum = pkGroup && pkGroup.score
     const PkName = pkGroup && pkGroup.groupName;
-    const dataSource = [{
-      id: 123,
-      userId: 8888,
-      nums: [39,1,2,]
-    }]
+    const dataSource = this.getDataSource();
     return (
       <div className={styles.creditLeft}>
         <div className={styles.proMain}>
