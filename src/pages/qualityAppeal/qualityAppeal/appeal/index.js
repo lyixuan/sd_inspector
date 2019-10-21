@@ -56,7 +56,7 @@ class QualityAppealing extends React.Component {
     this.props
       .dispatch({
         type: 'qualityAppealHome/updateQuality',
-        payload: { ...params },
+        payload: { ...params,...{modifyType: 'qualityAppeal'} },
       })
       .then(res => {
         if (res) {
