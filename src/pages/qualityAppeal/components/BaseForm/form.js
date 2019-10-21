@@ -191,6 +191,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
           data={{ type: 1 }}
           onChange={this.uploadChange}
           beforeUpload={this.beforeUpload}
+          onRemove={this.onRemove}
         >
           <BIButton type="primary"><Icon type="upload" />上传附件</BIButton>
           <span style={{ color: '#aaa', fontSize: 12 }}>（请上传10M以内的rar、zip格式文件）</span>
@@ -490,6 +491,14 @@ const BaseForm = Form.create({ name: 'base_form' })(
       return isZip && isLt10M;
     };
 
+    onRemove = ()=>{
+      console.log(123,this.state)
+      this.setState({
+        attUrl:"",
+        fileList:[]
+
+      })
+    };
     uploadChange = info => {
       let { fileList = [], file = {} } = info || {};
       if (isLt10M) {
