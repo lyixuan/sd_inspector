@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tooltip } from 'antd';
 import styles from './style.less'
 
 class Container extends React.Component {
@@ -7,7 +8,11 @@ class Container extends React.Component {
       <div className={styles.container} style={this.props.style}>
         {
           this.props.head !== 'none' ? <div className={styles.head}>
-            <span className={styles.title}>{this.props.title}</span>
+            <span className={styles.title}>
+              {
+                this.props.toolTip ? <Tooltip placement="right" title={this.props.toolTip}>{this.props.title}</Tooltip> : this.props.title
+              }
+            </span>
             <div>{this.props.right}</div>
           </div> : null
         }

@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import ColorBlock from '../../components/colorBlock';
 import TopTabs from '../../components/topTabs';
 import TableList from './components/list';
+import Container from '../../components/container';
 import styles from './index.less';
 
 @connect(({ xdWorkModal }) => ({
@@ -58,7 +59,13 @@ class CurrentCredit extends React.Component {
     return (
       <div className={styles.currentCredit}>
         <ColorBlock dataSet={arr} title='title1' num='num' />
-        <TopTabs tabParams={tabParams} />
+        {/* <TopTabs tabParams={tabParams} /> */}
+        <Container
+          toolTip="本绩效周期内本家族所有小组的学分排名"
+          title='本期学分'
+        >
+          <TableList tabKey="1" />
+        </Container>
       </div>
     );
   }

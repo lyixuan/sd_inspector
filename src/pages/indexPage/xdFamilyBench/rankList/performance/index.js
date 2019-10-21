@@ -190,7 +190,8 @@ class Performance extends React.Component {
 
   handleRankChange = (e) => {
     this.setState({
-      rankType: e.target.value
+      rankType: e.target.value,
+      userFlag: false
     }, () => {
       this.achievementList();
     });
