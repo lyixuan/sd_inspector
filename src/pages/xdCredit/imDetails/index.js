@@ -271,11 +271,14 @@ class CreditImDetials extends React.Component {
       }
     });
   }
+  componentDidMount() {
+    // console.log(275, document.getElementById("classityBox").offsetHeight)
+  }
 
   render() {
     return (
       <div className={`${styles.detials}`}>
-        <div className={styles.classityBox}>
+        <div className={styles.classityBox} id="classityBox">
           <BIClassifyTable></BIClassifyTable>
         </div>
         <BITable
