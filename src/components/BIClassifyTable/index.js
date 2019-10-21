@@ -24,31 +24,31 @@ const dataSource = [{
   orgId: 1,
   orgName: '组织名称1',
   groupType: 'group',
-  values: [12, 3.4, 55, 34, 45],
+  values: [1, 3.43, 15, 34, 45],
   total: 340
 }, {
   orgId: 2,
   orgName: '组织名称2',
   groupType: 'group',
-  values: [12, 3.4, 55, 34, 45],
+  values: [2, 3.41, 55, 34, 45],
   total: 340
 }, {
   orgId: 3,
   orgName: '组织名称3',
   groupType: 'group',
-  values: [12, 3.4, 55, 34, 55],
+  values: [3, 3.4, 55, 34, 55],
   total: 340
 }, {
   orgId: 4,
   orgName: '组织名称4',
   groupType: 'group',
-  values: [12, 3.4, 55, 34, 55],
+  values: [4, 3.4, 55, 34, 55],
   total: 340
 }, {
   orgId: 5,
   orgName: '组织名称4',
   groupType: 'group',
-  values: [12, 3.4, 55, 34, 55],
+  values: [5, 3.4, 55, 34, 55],
   total: 340
 }]
 class BIClassifyTable extends React.Component {
@@ -64,19 +64,20 @@ class BIClassifyTable extends React.Component {
       <div>
         {reasonTypeList.map((item, index) => {
           const condition = index === reasonTypeList.length - 1;
-          return <span key={index} onClick={condition ? null : this.handleClassifyClick} className={condition ? styles.titleCurrent : styles.title}>{item.typeName}{condition ? '' : '/'}</span>
+          return <span key={index} onClick={condition ? null : (e) => this.handleClassifyClick(item, e)} className={condition ? styles.titleCurrent : styles.title}>{item.typeName}{condition ? '' : '/'}</span>
         })}
         <span></span>
       </div>
     )
   }
-  handleClassifyClick = () => {
-    console.log(53)
+  handleClassifyClick = (item) => {
+    this.props.classifyClick(item);
   }
-  cellClick = (e, record) => {
-    console.log(55, record)
+  cellClick = (record, index, e) => {
+    console.log(55, record, index, e.target)
     this.setState({
-      checked: !this.state.checked
+      currentIndex: index,
+      checked: record.orgId
     })
   }
 
@@ -93,9 +94,10 @@ class BIClassifyTable extends React.Component {
         key: index,
         width: 85,
         className: styles.txRight,
-        render: (text, record) => {
+        render: (text, record, indexs) => {
+          console.log(98, record.orgId, this.state.currentIndex)
           return (
-            this.state.checked ? <BISelectCell key={index} text={dataSource[index].values[index]} onClick={this.cellClick} /> : <BIContrastCell key={index} colors={colors} onClick={this.cellClick} nums={dataSource[index].values} text={dataSource[index].values[index]} />
+            this.state.checked == record.orgId && this.state.currentIndex == index ? <BISelectCell key={index} text={dataSource[indexs].values[index]} onClick={(e) => { this.cellClick(record, index, e) }} /> : <BIContrastCell key={index} colors={colors} onClick={(e) => { this.cellClick(record, index, e) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
           )
         },
       })
@@ -137,9 +139,6 @@ class BIClassifyTable extends React.Component {
       }
     ]
     return columns;
-  }
-  onCellClick() {
-    console.log(1166)
   }
   componentDidMount() {
     const tableWidth = document.getElementById("tableWrap").offsetWidth;
