@@ -46,7 +46,6 @@ export default {
     kipInfo: null,
     kpiLevelList: null,
     groupList: null,
-    groupPkList: {},
     kpiTimes: null,
     familyKpiTimes: {},
     inCometarget: [], // 以下是家族值
@@ -426,7 +425,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { familyGroupPkList } });
         if (callback && typeof callback === 'function') {
-          callback(result.data.groupList);
+          callback(result.data);
         }
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));

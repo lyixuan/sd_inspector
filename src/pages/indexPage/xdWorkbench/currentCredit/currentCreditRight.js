@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-import styles from './style.less'
-import BITable from '@/ant_components/BITable'
-import BISelect from '@/ant_components/BISelect'
 import { Progress } from 'antd';
+import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import BISelect from '@/ant_components/BISelect'
+import BITable from '@/ant_components/BITable'
 import Indent from '../../components/indent';
+import styles from './style.less';
 
 const { Option } = BISelect;
 @connect(({ xdWorkModal, loading }) => ({
@@ -36,7 +37,6 @@ class currentCreditRight extends React.Component {
       }],
       secondOptions: [],
       studentValue: '本学院',
-      rowId: 0,
       userFlag: false,
       userLocation: '',
       userMsg: '',
@@ -99,26 +99,6 @@ class currentCreditRight extends React.Component {
     const total = this.state.groupList && this.state.groupList[0] ? this.state.groupList[0].credit : 0
     const columns = [
       {
-        width: '18%',
-        title: '排名系数',
-        dataIndex: 'creditRankingCoefficient',
-        key: 'creditRankingCoefficient',
-        render: (creditRankingCoefficient) => {
-          return (
-            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{creditRankingCoefficient}</div>
-          )
-        }
-      }, {
-        width: '36%',
-        title: '组织',
-        dataIndex: 'groupName',
-        key: 'groupName',
-        render: (groupName) => {
-          return (
-            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{groupName}</div>
-          )
-        }
-      }, {
         width: '10%',
         title: '排名',
         dataIndex: 'creditRanking',
@@ -133,11 +113,31 @@ class currentCreditRight extends React.Component {
           )
         }
       }, {
+        width: '36%',
+        title: '组织',
+        dataIndex: 'groupName',
+        key: 'groupName',
+        render: (groupName) => {
+          return (
+            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{groupName}</div>
+          )
+        }
+      }, {
+        width: '18%',
+        title: '排名系数',
+        dataIndex: 'creditRankingCoefficient',
+        key: 'creditRankingCoefficient',
+        render: (creditRankingCoefficient) => {
+          return (
+            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{creditRankingCoefficient}</div>
+          )
+        }
+      }, {
         width: '14%',
         title: '学分',
         dataIndex: 'credit',
         key: 'credit',
-        render: (credit, data) => {
+        render: (credit, record) => {
           const percent = credit / total * 100;
           return (
             <Indent style={{
@@ -157,24 +157,12 @@ class currentCreditRight extends React.Component {
                   strokeWidth={4}
                 ></Progress>
               </div>
+              <BIWrapperProgress text={credit} percent={percent} iconed={this.getIncludes(record.userId)} propsStyle={{flex: 'inherit',width: '60px'}}/>
             </Indent>
           );
         },
       },
-      {
-        title: '人均在服学员',
-        dataIndex: 'averageStudentNumber',
-        key: 'averageStudentNumber',
-      }
     ]
-    // ['1111', '22222', '3333', '44444', '6666', '999999', 'ppppp'].map(item => {
-    //   columns.push({
-    //     title: item,
-    //     dataIndex: 'averageStudentNumber',
-    //     key: 'averageStudentNumber',
-    //     render: (text, record) => BIContrastCell.colorContrast([1,2,3,4,5,0,9])
-    //   })
-    // })
     return columns || [];
   }
   onFormChange = (value, vname) => {
@@ -252,15 +240,8 @@ class currentCreditRight extends React.Component {
   onClickRow = (record) => {
     return {
       onClick: () => {
-        this.setState({
-          rowId: record.groupId,
-        });
-        if (this.state.userMsg === record) {
-          return
-        } else {
-          this.props.clickRow(record)
-        }
-
+        // 做个自己的判断 ？？？？
+        this.props.clickRow(record.id);
       },
     };
   }

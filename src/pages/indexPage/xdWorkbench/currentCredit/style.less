@@ -96,8 +96,10 @@
 
 }
 .creditLeft{
-  flex:1;
-  margin-right:32px;
+  width: 100%;
+  overflow: hidden;
+  height: 460px;
+  position: relative;
   :global{
     .oneLevelBgColor{
       background: #FFFDF8;
@@ -122,67 +124,15 @@
       height:40px;
     }
     .ant-table-thead > tr > th{
-      padding: 16px 12px 16px 24px;
+      padding: 16px 16px 16px 24px;
+      text-align: right;
+      
     }
-  }
-  //.progressWin{
-  //  height:4px;
-  //  background: #4EB5EB;
-  //  border-radius: 3px;
-  //  overflow: hidden;
-  //}
-  //.progressLose{
-  //  height:4px;
-  //  background: #FF626A;
-  //  border-radius: 3px;
-  //  overflow: hidden;
-  //}
-  .progressLeftLose{
-    height:10px;
-    background: linear-gradient(to right,rgba(255, 121, 128, 0), rgba(255, 121, 128, 1) );
-    overflow: hidden;
-    border:1px solid #FF5959;
-  }
-  .progressLeftWin{
-    height:10px;
-    background: linear-gradient(to right,rgba(78, 181, 235, 0), rgba(78, 181, 235, 1) );
-    overflow: hidden;
-    border:1px solid #4EB5EB;
-  }
-  .progressRightLose{
-    height:10px;
-    background: linear-gradient(to right,rgba(255, 121, 128, 1), rgba(255, 121, 128, 0) );
-    overflow: hidden;
-    border:1px solid #FF5959;
-  }
-  .progressRightWin{
-    height:10px;
-    background: linear-gradient(to right,rgba(78, 181, 235, 1), rgba(78, 181, 235, 0) );
-    overflow: hidden;
-    border:1px solid #4EB5EB;
-  }
-  .proMain{
-    border:1px solid #E8EBED;
-    box-sizing: border-box;
-    border-radius: 6px;
-    padding: 11px 24px;
-    margin-bottom: 16px;
-  }
-  .proNone{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    img{
-      margin:9px 16px;
-    }
-    span{
-      font-size: 16px;
-      color: #1A1C1F;
+    .ant-table-thead > tr >th:first-child {
+      text-align: left; 
     }
   }
   .tableContainer{
-    position: relative;
-    height:448px;
     .tableImg{
       position: absolute;
       right:150px;
@@ -200,17 +150,6 @@
         height:128px;
       }
     }
-    :global{
-      .ant-table-thead > tr:first-child > th:last-child{
-        padding-left:68px;
-      }
-      .ant-table-thead > tr:first-child > th:nth-child(3){
-        padding-left:28px;
-      }
-      .ant-table-tbody > tr> td:last-child{
-        padding-left:0px;
-      }
-    }
     .titleGreen{
       color: #00CCC3;
     }
@@ -220,18 +159,6 @@
     .titleBlack{
       color: #1B1C20;
     }
-  }
-  .pkRankMain{
-    display: flex;
-    align-items: center;
-  }
-  .progress{
-    display: flex;
-    height: 10px;
-  }
-  .rightProgress{
-    display: flex;
-    height: 10px;
   }
   // 表头
   .pluscircle {

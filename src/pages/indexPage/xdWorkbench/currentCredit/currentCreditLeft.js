@@ -1,16 +1,14 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less'
-import BITable from '@/ant_components/BITable'
-import Proportion from '../../components/proportion';
 import IndentNum from '../../components/indentNum';
-import pkImg from '@/assets/xdwork/pk.png';
-import xdPkImg from '@/assets/workBench/xdpk.gif';
 import BIWrapperTable from '../../components/BIWrapperTable';
 import BIContrastCell from '@/components/BIContrastCell';
+import BICell from '@/components/BICell';
 import BIIcon from '@/components/BIIcon';
 import pluscircle from '@/assets/xdwork/pluscircle.png';
-import { Link } from 'dva/router';
+import xdPkImg from '@/assets/workBench/xdpk.gif';
+import BILoading from '@/components/BILoading'
 
 function CustomExpandIcon(props) {
   return (
@@ -19,55 +17,38 @@ function CustomExpandIcon(props) {
 }
 @connect(({ xdWorkModal, loading }) => ({
   xdWorkModal,
-  loading: loading.effects['xdWorkModal/groupPkList'],
+  // loading: loading.effects['xdWorkModal/groupPkList'],
+  loading: loading.effects['xdWorkModal/getGroupPkList'],
 }))
 class currentCreditLeft extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      groupPkList: [],
-      myGroup: {},
-      leftNum: '',
-      rightNum: '',
-      groupId: '',
-      pkGroup: {}
-
+      groupPkList: {
+        groupList: [],
+        dimensionList: []
+      },
     }
   }
   componentDidMount() {
-  }
-  componentWillMount() {
-    this.getGroupPkData(this.props.groupId)
+    this.getGroupPkData();
   }
   componentWillReceiveProps(nextProps) {
-    if (this.props.groupId !== nextProps.groupId) {
-      this.getGroupPkData(nextProps.groupId)
-      this.setState({
-        groupId: nextProps.groupId
-      })
+    if (this.props.pkGroupList !== nextProps.pkGroupList) {
+      this.getGroupPkData(nextProps.pkGroupList);
     }
   }
   //获取左侧列表数据的方法
-  getGroupPkData = (groupId) => {
+  getGroupPkData = (pkGroupList = this.props.pkGroupList) => {
     this.props.dispatch({
-      type: 'xdWorkModal/groupPkList',
-      payload: { params: { pkGroup: groupId } },
-      callback: (groupPkList) => {
-        this.setState({
-          groupPkList: groupPkList.dimensionList,
-          myGroup: groupPkList.myGroup,
-          pkGroup: groupPkList.pkGroup,
-        })
-
-      }
+      type: 'xdWorkModal/getGroupPkList',
+      payload: { params: { myGroupIds: 272,showFamilyGroup: true } },
+      callback: (groupPkList) => this.setState({ groupPkList })
     });
   }
 
   columns = () => {
-    let maxNumMyScore = ""
-    let maxNumGroupScore = ""
-    const { pkGroup } = this.state
-    const PkName = pkGroup && pkGroup.groupName
+    const { groupPkList } = this.state;
     const columns = [
       {
         title: '学分维度',
@@ -79,32 +60,25 @@ class currentCreditLeft extends React.Component {
         width: '20%',
         dataIndex: 'myScoreRatio',
         key: 'myScoreRatio',
-        render: (myScoreRatio) => {
-          const isFlag = myScoreRatio >= 0 ? true : false
-          return (
-            <div className={isFlag ? `${styles.titleGreen}` : `${styles.titleRed}`}>
-              <IndentNum>{myScoreRatio}</IndentNum>
-            </div>
-          )
-        }
       },
     ];
-    ['我的', '自变量', '自变量', '我的', '自变量', '自变量'].map((item, index) => {
+    groupPkList && groupPkList.groupList.map((item, index) => {
       columns.push({
         width: '150px',
         title: <div>
-          {item}
-          <BIIcon onClick={() => this.props.changePkFn(123)}/>
+          {item.groupName}
+          <BIIcon onClick={() => this.props.changePkFn(item.groupId)}/>
         </div>,
-        dataIndex: 'myScoreRatio',
-        key: 'myScoreRatio',
+        dataIndex: item.groupId,
+        key: item.groupId,
         render: (text, record) => {
-          const others = index === 0 && record.nums[index] ? <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span> : <span style={{marginLeft: '8px'}}></span>;
-          return <BIContrastCell nums={record.nums} text={record.nums[index]} others={others}/>
+          // const others = index === 0 && record.values[index] ? <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span> : <span style={{marginLeft: '8px'}}></span>;
+          // return <BIContrastCell nums={record.values} text={record.values[index]} others={others}/>
+          return text;
         }
       })
     })
-    for (var i = 0; i< 6 - ['我的', '自变量', '自变量', '自变量', '自变量'].length; i++) {
+    for (var i = 0; i < 6 - groupPkList.groupList.length; i++) {
       columns.push({
         width: '150px',
         title: <div className={styles.pluscircle} onClick={() => this.props.toggleDrawer(true)}><img src={pluscircle} alt='icon'/>添加PK对象</div>,
@@ -114,6 +88,10 @@ class currentCreditLeft extends React.Component {
     }
     return columns || [];
   };
+  // 是否存在
+  getIncludes = (id) => {
+    return this.props.pkUsers && this.props.pkUsers.includes(id);
+  }
   setRowClassName = (record) => {
     let className = ''
     if (record.level === 1 && record.dimensionName === "学分均分") {
@@ -125,29 +103,6 @@ class currentCreditLeft extends React.Component {
     }
     return className
   }
-  fillDataSource = (params, n = 1) => {
-    let data = []
-    data = params
-    data.map(item => {
-      item.level = n;
-      if (item.children && item.children.length > 0) {
-        this.fillDataSource(item.children, n + 1);
-      }
-    })
-    data.map((item) => {
-      if (item.dimensionName === "学分均分") {
-        item.children.map((subItem, subIndex) => {
-          if (subItem.dimensionName === "正面均分") {
-            subItem.isShowPro = true
-            this.serverArray(subItem.children)
-          }
-
-        })
-      }
-    })
-    return data
-
-  }
   serverArray = (arr) => {
     for (var item = 0; item < arr.length; item++) {
       if (arr[item].children) {
@@ -157,70 +112,31 @@ class currentCreditLeft extends React.Component {
     }
     return arr
   }
+  fillDataSource = (params = [], n = 1) => {
+    params.map(item => {
+      item.level = n;
+      if (item.children && item.children.length > 0) {
+        this.fillDataSource(item.children, n + 1);
+      }
+    })
+    return params
+  }
   getDataSource = () => {
-    const { hasData } = this.props;
-    const data = [{
-      id: 123,
-      userId: 8888,
-      nums: [0,1,2, 1.32, 7.46, 200]
-    }, {
-      id: 123,
-      userId: 8888,
-      nums: [0,1,2, 1.32, 7.46, 200]
-    }, {
-      id: 123,
-      userId: 8888,
-      nums: [39,1,2, 1.32, 0, 200]
-    }, {
-      id: 123,
-      userId: 8888,
-      nums: [39,1,2, 1.32, 7.46, 200]
-    }, {
-      id: 123,
-      userId: 8888,
-      nums: [39,1,2, 1.32, 7.46, 201]
-    }, {
-      id: 123,
-      userId: 8888,
-      nums: [39,1,2, 1.32, 7.46, 100.78]
-    }, {
-      id: 123,
-      userId: 8888,
-      nums: [39,1,2, 1.32, 7.46, 100.78]
-    }, {
-      id: 123,
-      userId: 8888,
-      nums: [39,1,2, 1.32, 7.46, 100.78]
-    }]
-    if (hasData) {
-      return data;
+    const { groupPkList } = this.state;
+    const data = groupPkList.dimensionList ? JSON.parse(JSON.stringify(groupPkList.dimensionList)) : [];
+    if (this.props.hasData) {
+      return this.fillDataSource(data.splice(0));
     } else {
-      return data.splice(4);
+      return this.fillDataSource(data.splice(2));
     }
   }
   render() {
-    const { groupId } = this.props
-    const { groupPkList=[], myGroup, pkGroup } = this.state
-    const leftNum = myGroup && myGroup.score
-    const userName = myGroup && myGroup.groupName
-    const rightNum = pkGroup && pkGroup.score
-    const PkName = pkGroup && pkGroup.groupName;
+    const { pkGroupList } = this.props
     const dataSource = this.getDataSource();
+    console.log(dataSource, 'kkkkk')
     return (
       <div className={styles.creditLeft}>
-        <div className={styles.proMain}>
-          {groupId !== 0 ? <Proportion
-            leftNum={leftNum}
-            rightNum={rightNum}
-            leftCollege={userName}
-            rightCollege={PkName}
-            style={{ width: 'calc(100% - 200px)' }}
-          /> : <div className={styles.proNone}>
-              <img src={pkImg} style={{ width: '32px' }} />
-              <span>快从右边选择一个小组进行学分PK吧！</span>
-            </div>}
-        </div>
-        <div className={styles.tableContainer}>
+        {this.props.loading ? <BILoading isLoading={this.props.loading}/> : <div className={styles.tableContainer}>  
           {
             dataSource && dataSource.length > 0 && <BIWrapperTable
               columns={this.columns()}
@@ -232,14 +148,14 @@ class currentCreditLeft extends React.Component {
               rowKey={record => record.id}
               loading={this.props.loading}
               bordered={true}
+              scroll={{ x: 'max-content', y: 400 }}
             />
           }
 
           {
-            groupId === 0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
+            pkGroupList && pkGroupList.length <5 ? <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} /></div> : ''
           }
-
-        </div>
+      </div>}
       </div>
     );
   }

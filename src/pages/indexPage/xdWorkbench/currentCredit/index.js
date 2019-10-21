@@ -14,35 +14,20 @@ class currentCredit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      PkName: '',
-      PkSelfId: 1,
-      groupId: "",
-      selfName: '',
-      selfSource: '',
-      pkGroupSource: '',
-      visible: false,
-      pkGroupList: [],
-      hasData: true,
+      visible: false, // 抽屉切换
+      ...this.getLocalValue(), 
     }
   }
-  componentDidMount() {
-    const pkGroup = JSON.parse(localStorage.getItem('pkGroup'))
+  // 初始化数据
+  getLocalValue = () => {
     const pkGroupList = JSON.parse(localStorage.getItem('pkGroupList'));
-    this.setState({
-      PkName: pkGroup && pkGroup.groupName,
-      groupId: pkGroup ? pkGroup.groupId : 0,
-      pkGroupSource: pkGroup && pkGroup.credit,
-      pkGroupList: pkGroupList ? pkGroupList : []
-    })
+    const  hasData = JSON.parse(localStorage.getItem('hasDataCredit'));
+    return { 
+      pkGroupList: pkGroupList ? pkGroupList : [], // 选中PK数组
+      hasData: hasData && hasData === 2 ? false : true // 学分基础信息切换显示
+    };
   }
-  componentWillMount() {
-    const pkGroup = JSON.parse(localStorage.getItem('pkGroup'))
-    this.setState({
-      PkName: pkGroup && pkGroup.groupName,
-      groupId: pkGroup ? pkGroup.groupId : 0,
-      pkGroupSource: pkGroup && pkGroup.credit
-    })
-  }
+  // 增减PK者
   clickRow = (id) => {
     const { pkGroupList } = this.state;
     if (pkGroupList instanceof Object) {
@@ -52,16 +37,18 @@ class currentCredit extends React.Component {
         pkGroupList.push(id);
       }
     }
-    localStorage.setItem('groupId', JSON.stringify(pkGroupList));
-    this.setState({ pkUsers: [...pkGroupList] });
+    localStorage.setItem('pkGroupList', JSON.stringify(pkGroupList));
+    this.setState({ pkGroupList: [...pkGroupList] });
   }
   // 显示隐藏数据
   toggleData = () => {
+    const hasData = !this.state.hasData;
+    localStorage.setItem('hasDataCredit', hasData ? 1 : 2);
     this.setState({
-      hasData: !this.state.hasData,
+      hasData: hasData,
     });
   };
-  // 抽屉
+  // 抽屉切换
   toggleDrawer = (bul) => {
     this.setState({
       visible: bul,
@@ -69,7 +56,7 @@ class currentCredit extends React.Component {
   };
 
   render() {
-    const { PkSelfId, groupId, selfName, selfSource, visible, hasData } = this.state
+    const { pkGroupList, visible, hasData } = this.state
     return (
       <Container
         title='本期学分'
@@ -79,21 +66,19 @@ class currentCredit extends React.Component {
         <div className={styles.creditContainer}>
           <CurrentCreditLeft 
           toggleDrawer={this.toggleDrawer} 
-          groupId={groupId} 
-          selfName={selfName} 
-          selfSource={selfSource} 
-          userData={this.userData}
+          // userData={this.userData}
           changePkFn={this.clickRow}
           hasData={hasData}
+          pkGroupList={pkGroupList}
           />
           <BIDrawer
           onClose={() => this.toggleDrawer(false)}
           onOpen={() => this.toggleDrawer(true)}
           visible={visible}
           drawerStyle={{width: '40%'}}
-        >
-          <CurrentCreditRight PkSelfId={PkSelfId} clickRow={this.clickRow} />
-        </BIDrawer>
+          >
+            <CurrentCreditRight pkGroupList={pkGroupList} clickRow={this.clickRow} />
+          </BIDrawer>
         </div>
       </Container>
     );
