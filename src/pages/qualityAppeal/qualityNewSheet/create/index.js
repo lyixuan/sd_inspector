@@ -1,31 +1,31 @@
 import React from 'react';
 import { connect } from 'dva';
-import CommonForm from '../../components/commonForm';
+import FormIndex from '@/pages/qualityAppeal/components/BaseForm/index';
 import styles from './style.less';
-@connect(({ loading }) => ({
-  loading,
-  submitLoading: loading.effects['qualityNewSheet/addQuality'],
-}))
-class CreateQualityNewSheet extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      params: {},
-    };
-  }
+import router from 'umi/router';
 
+@connect(({ loading, qualityNewSheet }) => ({
+  loading,
+  qualityNewSheet,
+}))
+
+class CreateQualityNewSheet extends React.Component {
   onSubmit = (params) => {
     this.props.dispatch({
       type: 'qualityNewSheet/addQuality',
       payload: { ...params },
-    })
-  }
+    }).then((res)=>{
+      res && router.goBack();
+    });
+  };
+
   render() {
     return (
       <div className={styles.qualityContainter}>
-      <CommonForm {...this.props} onSubmit={this.onSubmit} formType="quality" actionType="create">
-      </CommonForm>
-    </div>)
+        <FormIndex params={{}}
+                  onSubmit={this.onSubmit}/>
+      </div>);
   }
 }
+
 export default CreateQualityNewSheet;

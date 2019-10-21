@@ -1,108 +1,36 @@
 import React from 'react';
 import styles from './style.less';
 import { connect } from 'dva';
-import SubOrderDetail from './../../components/subOrderDetail';
-import PersonInfo from './components/personInfo';
-import IllegalInfo from './components/illegalInfo';
-import CheckInfo from './components/checkInfo';
-import { Form, Row, Col, Spin } from 'antd';
-import BIButton from '@/ant_components/BIButton';
-import router from 'umi/router';
+import { Spin } from 'antd';
+import BaseDetail from '@/pages/qualityAppeal/components/BaseDetail';
+import QualityNewSheetDetail from '@/pages/qualityAppeal/components/QualityNewSheetInfo/Detail';
 
-@connect(({ qualityDetail, loading }) => ({
-  qualityDetail,
-  pageLoading: loading.effects['qualityDetail/getQualityDetailData']
+@connect(({ qualityAppealHome, loading }) => ({
+  qualityAppealHome,
+  pageLoading: loading.effects['qualityAppealHome/getQualityDetailData'],
 }))
 class QualityDetail extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      params: {
-        id: this.props.location.query.id || 1,
-      },
-      qualityInfoCollapse: true,
-      checkResultsCollapse: true,
-    };
-  }
   componentDidMount() {
+    const {
+      location: { query },
+    } = this.props;
     this.props.dispatch({
-      type: 'qualityDetail/getQualityDetailData',
-      payload: this.state.params,
+      type: 'qualityAppealHome/getQualityDetailData',
+      payload: query,
     });
   }
-  handleCollapse() {
-    this.setState({ qualityInfoCollapse: !this.state.qualityInfoCollapse });
-  }
-  handleCheckResultsCollapse() {
-    this.setState({ checkResultsCollapse: !this.state.checkResultsCollapse });
-  }
+
   render() {
-    const { qualityDetail = {} } = this.props;
-    const qualityDetailData = qualityDetail.QualityDetailData || {};
-    const { masterRole = '',masterQualityValue = '', masterMail = '',
-      masterRole2 = '',masterQualityValue2 = '', masterMail2 = '',
-      masterRole3 = '',masterQualityValue3 = '', masterMail3 = '',
-      masterRole4 = '',masterQualityValue4 = '', masterMail4 = '' } = qualityDetailData;
+    const { QualityDetailData = {} } = this.props.qualityAppealHome;
+    const { qualityAudit, ...others } = QualityDetailData;
+     // 转换字段
+     QualityDetailData.qualityValue = QualityDetailData.ownQualityValue;
     return (
       <Spin spinning={this.props.pageLoading}>
-        <div className={styles.detailContainer}>
-          <section>
-            {/* 质检违规人员信息 */}
-            <PersonInfo
-              data={qualityDetailData}
-              qualityInfoCollapse={this.state.qualityInfoCollapse}
-              onClick={() => this.handleCollapse()}
-            />
-            <article
-              className={
-                this.state.qualityInfoCollapse ? `${styles.showPanel} ` : `${styles.hidePanel}`
-              }
-            >
-              {qualityDetailData.orderNum?(
-                <div>
-                  <div className={styles.divideLine} />
-                  <div className={styles.subOrderNum}>子订单编号：{qualityDetailData.orderNum}</div>
-                  <SubOrderDetail data={qualityDetailData.orderDetail} />
-                </div>
-              ):null}
-              <div className={styles.divideLine} />
-              {/* 质检违规详情 */}
-              <IllegalInfo data={qualityDetailData}
-                           masterRole={masterRole} masterQualityValue={masterQualityValue} masterMail={masterMail}
-                           masterRole2={masterRole2} masterQualityValue2={masterQualityValue2} masterMail2={masterMail2}
-                           masterRole3={masterRole3} masterQualityValue3={masterQualityValue3} masterMail3={masterMail3}
-                           masterRole4={masterRole4} masterQualityValue4={masterQualityValue4} masterMail4={masterMail4}/>
-            </article>
-          </section>
-          {qualityDetailData.qualityAudit && qualityDetailData.qualityAudit.length>0?(
-            <section>
-              {/* 质检审核 */}
-              <CheckInfo
-                firstAppealEndDate={qualityDetailData.firstAppealEndDate}
-                data={qualityDetailData.qualityAudit}
-                checkResultsCollapse={this.state.checkResultsCollapse}
-                onClick={() => this.handleCheckResultsCollapse()}
-              />
-            </section>
-          ):null}
-          <section>
-            <Form layout="inline" className={styles.formBox}>
-              <div className={styles.content}>
-                <Row className="gutter-row">
-                  <Col span={24}>
-                    <div className={styles.gutterBox1}>
-                      <span className={styles.gutterBtn2}>
-                        <BIButton onClick={() => router.goBack()}>返回</BIButton>
-                      </span>
-                      {/* <span className={styles.gutterBtn1}>
-                      <BIButton type="primary">提交</BIButton>
-                    </span> */}
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-            </Form>
-          </section>
+        <div className={styles.qualityContainter}>
+          {/* 质检单详情 */}
+          <BaseDetail data={{ ...others }} />
+          <QualityNewSheetDetail qualityDetailData={QualityDetailData} />
         </div>
       </Spin>
     );

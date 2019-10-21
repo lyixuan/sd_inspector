@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import BIInput from '@/ant_components/BIInput';
 import BISelect from '@/ant_components/BISelect';
 import BIButtonYellow from '@/components/BIButtonYellow';
+import BIDatePicker from '@/ant_components/BIDatePicker';
 import BIButton from '@/ant_components/BIButton';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
@@ -11,7 +12,9 @@ import { Row, Col } from 'antd';
 import styles from '../../style.less';
 import AuthButton from '@/components/AuthButton';
 import BITreeSelect from '@/ant_components/BITreeSelect';
+import moment from 'moment/moment';
 const { Option } = BISelect;
+const { BIRangePicker } = BIDatePicker;
 
 @connect(({ newQuality }) => ({
   newQuality,
@@ -22,12 +25,22 @@ class NewQualitySheet extends React.Component {
     this.init = {
       qualityNum: undefined,
       qualityType: 'all',
-      violationLevel: undefined,
+      beginDate: undefined,
+      endDate: undefined,
+      firstAppealBeginDate: undefined,
+      firstAppealEndDate: undefined,
+      secondAppealBeginDate: undefined,
+      secondAppealEndDate: undefined,
       status: undefined,
-      isWarn: 'all',
+      violationLevelList: undefined,
+      userName: undefined,
       collegeIdList: [],
       familyIdList: [],
       groupIdList: [],
+      startManList: [],
+      reduceScoreBeginDate: null,
+      reduceScoreEndDate: null,
+      stuId: null,
     };
     const { p = null } = this.props.location.query;
     this.state = { ...this.init, ...JSON.parse(p) };
@@ -39,33 +52,45 @@ class NewQualitySheet extends React.Component {
   }
 
   onFormChange = (value, vname) => {
-    switch (vname) {
-      case 'organization':
-        const list1 = [];
-        const list2 = [];
-        const list3 = [];
-        value.forEach(v => {
-          if (v.indexOf('a-') >= 0) {
-            list1.push(v);
-          }
-          if (v.indexOf('b-') >= 0) {
-            list2.push(v);
-          }
-          if (v.indexOf('c-') >= 0) {
-            list3.push(v);
-          }
-        });
-        this.setState({
-          collegeIdList: [...list1],
-          familyIdList: [...list2],
-          groupIdList: [...list3],
-        });
-        break;
-      default:
-        this.setState({
-          [vname]: value,
-        });
-        break;
+    if ('dateRange' === vname) {
+      this.setState({
+        reduceScoreBeginDate: value[0],
+        reduceScoreEndDate: value[1],
+      });
+    } else if ('firstAppealDate' === vname) {
+      this.setState({
+        firstAppealBeginDate: value[0],
+        firstAppealEndDate: value[1],
+      });
+    } else if ('secondAppealDate' === vname) {
+      this.setState({
+        secondAppealBeginDate: value[0],
+        secondAppealEndDate: value[1],
+      });
+    } else if ('organization' === vname) {
+      const list1 = [];
+      const list2 = [];
+      const list3 = [];
+      value.forEach(v => {
+        if (v.indexOf('a-') >= 0) {
+          list1.push(v);
+        }
+        if (v.indexOf('b-') >= 0) {
+          list2.push(v);
+        }
+        if (v.indexOf('c-') >= 0) {
+          list3.push(v);
+        }
+      });
+      this.setState({
+        collegeIdList: [...list1],
+        familyIdList: [...list2],
+        groupIdList: [...list3],
+      });
+    } else {
+      this.setState({
+        [vname]: value,
+      });
     }
   };
   search = () => {
@@ -89,14 +114,26 @@ class NewQualitySheet extends React.Component {
     const {
       qualityNum,
       qualityType,
-      violationLevel,
-      status,
-      isWarn,
       collegeIdList,
       familyIdList,
       groupIdList,
+      status,
+      userName,
+      violationLevelList,
+      startManList,
+      stuId,
+      reduceScoreBeginDate,
+      reduceScoreEndDate,
     } = this.state;
-    const { orgList = [], dataSource, columns, page, loading, loading2 } = this.props;
+    const {
+      orgList = [],
+      dataSource,
+      columns,
+      page,
+      loading,
+      loading2,
+      findStartManListData,
+    } = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -105,29 +142,33 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel1}>质检单号</span>：
+                <span className={styles.gutterLabel}>扣分日期</span>：
                 <span className={styles.gutterForm}>
-                  <BIInput
-                    placeholder="请输入"
+                  <BIRangePicker
                     allowClear
-                    value={qualityNum}
-                    onChange={e => this.onFormChange(e.target.value, 'qualityNum')}
+                    value={
+                      reduceScoreBeginDate && [
+                        moment(reduceScoreBeginDate),
+                        moment(reduceScoreEndDate),
+                      ]
+                    }
+                    onChange={(val, valStr) => this.onFormChange(valStr, 'dateRange')}
                   />
                 </span>
               </div>
             </Col>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel1}>是否警告</span>：
+                <span className={styles.gutterLabel}>质检类型</span>：
                 <span className={styles.gutterForm}>
                   <BISelect
                     style={{ width: 230 }}
                     placeholder="请选择"
-                    value={isWarn}
-                    onChange={val => this.onFormChange(val, 'isWarn')}
+                    value={qualityType}
+                    onChange={val => this.onFormChange(val, 'qualityType')}
                   >
                     <Option key={'all'}>全部</Option>
-                    {BiFilter('ISWARN').map(item => (
+                    {BiFilter('QUALITY_TYPE').map(item => (
                       <Option key={item.id}>{item.name}</Option>
                     ))}
                   </BISelect>
@@ -135,31 +176,8 @@ class NewQualitySheet extends React.Component {
               </div>
             </Col>
             <Col className={styles.gutterCol} span={8}>
-              {AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA') && (
-                <div className={styles.gutterBox3}>
-                  <span className={styles.gutterLabel1}>质检类型</span>：
-                  <span className={styles.gutterForm}>
-                    <BISelect
-                      style={{ width: 230 }}
-                      placeholder="请选择"
-                      value={qualityType}
-                      onChange={val => this.onFormChange(val, 'qualityType')}
-                    >
-                      <Option key={'all'}>全部</Option>
-                      {BiFilter('QUALITY_TYPE').map(item => (
-                        <Option key={item.id}>{item.name}</Option>
-                      ))}
-                    </BISelect>
-                  </span>
-                </div>
-              )}
-            </Col>
-          </Row>
-          {/*第二行*/}
-          <Row className={styles.gutterRow}>
-            <Col className={styles.gutterCol} span={8}>
-              <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel1}>违规等级</span>：
+              <div className={styles.gutterBox3}>
+                <span className={styles.gutterLabel}>违规等级</span>：
                 <span className={styles.gutterForm}>
                   <BISelect
                     style={{ width: 230 }}
@@ -168,8 +186,8 @@ class NewQualitySheet extends React.Component {
                     mode="multiple"
                     showArrow
                     maxTagCount={1}
-                    value={violationLevel}
-                    onChange={val => this.onFormChange(val, 'violationLevel')}
+                    value={violationLevelList}
+                    onChange={val => this.onFormChange(val, 'violationLevelList')}
                   >
                     {BiFilter('VIOLATION_LEVEL').map(item => (
                       <Option key={item.id}>{item.name}</Option>
@@ -178,56 +196,120 @@ class NewQualitySheet extends React.Component {
                 </span>
               </div>
             </Col>
+          </Row>
+          {/*第二行*/}
+          <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
-              <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel1}>申诉状态</span>：
+              <div className={styles.gutterBox1}>
+                <span className={styles.gutterLabel}>申诉状态</span>：
                 <span className={styles.gutterForm}>
                   <BISelect
                     style={{ width: 230 }}
                     allowClear
+                    maxTagCount={1}
                     value={status}
                     placeholder="请选择"
                     onChange={val => this.onFormChange(val, 'status')}
                   >
                     {BiFilter('APPEAL_STATE').map(
-                      item => item.type === 2 && <Option key={item.id}>{item.name}</Option>
+                      item => item.type === 1 && <Option key={item.id}>{item.name}</Option>
                     )}
                   </BISelect>
                 </span>
               </div>
             </Col>
             <Col className={styles.gutterCol} span={8}>
-              {/*  仅质检主管 可看到归属组织 */}
-              {AuthButton.checkPathname('/qualityAppeal/qualityAppeal/appeal') && (
-                <div className={styles.gutterBox3}>
-                  <span className={styles.gutterLabel1}>归属组织</span>：
-                  <span className={styles.gutterForm}>
-                    <BITreeSelect
-                      style={{ width: 230 }}
-                      placeholder="请选择"
-                      allowClear
-                      value={[...collegeIdList, ...familyIdList, ...groupIdList]}
-                      multiple
-                      showArrow
-                      maxTagCount={1}
-                      dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                      treeData={orgList}
-                      onChange={val => this.onFormChange(val, 'organization')}
-                    />
-                  </span>
-                </div>
-              )}
+              <div className={styles.gutterBox2}>
+                <span className={styles.gutterLabel}>归属人</span>：
+                <span className={styles.gutterForm}>
+                  <BIInput
+                    placeholder="请输入"
+                    allowClear
+                    value={userName}
+                    onPressEnter={() => {
+                      this.search();
+                    }}
+                    onChange={e => this.onFormChange(e.target.value, 'userName')}
+                  />
+                </span>
+              </div>
+            </Col>
+            <Col className={styles.gutterCol} span={8}>
+              <div className={styles.gutterBox3}>
+                <span className={styles.gutterLabel}>质检发起人</span>：
+                <span className={styles.gutterForm}>
+                  <BISelect
+                    style={{ width: 230 }}
+                    allowClear
+                    mode="multiple"
+                    value={startManList}
+                    placeholder="请选择"
+                    onChange={val => this.onFormChange(val, 'startManList')}
+                  >
+                    {findStartManListData.map(item => (
+                      <Option key={item}>{item}</Option>
+                    ))}
+                  </BISelect>
+                </span>
+              </div>
             </Col>
           </Row>
           {/*第三行*/}
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
-              <div className={styles.gutterBox1}></div>
+              <div className={styles.gutterBox1}>
+                <span className={styles.gutterLabel}>学员ID</span>：
+                <span className={styles.gutterForm}>
+                  <BIInput
+                    placeholder="请输入"
+                    allowClear
+                    value={stuId}
+                    onPressEnter={() => {
+                      this.search();
+                    }}
+                    onChange={e => this.onFormChange(e.target.value, 'stuId')}
+                  />
+                </span>
+              </div>
             </Col>
             <Col className={styles.gutterCol} span={8}>
-              <div className={styles.gutterBox2}></div>
+              <div className={styles.gutterBox2}>
+                <span className={styles.gutterLabel}>归属人组织</span>：
+                <span className={styles.gutterForm}>
+                  <BITreeSelect
+                    style={{ width: 230 }}
+                    placeholder="请选择"
+                    allowClear
+                    value={[...collegeIdList, ...familyIdList, ...groupIdList]}
+                    multiple
+                    showArrow
+                    maxTagCount={1}
+                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                    treeData={orgList}
+                    onChange={val => this.onFormChange(val, 'organization')}
+                  />
+                </span>
+              </div>
             </Col>
             <Col className={styles.gutterCol} span={8}>
+              <div className={styles.gutterBox3}>
+                <span className={styles.gutterLabel}>质检单号</span>：
+                <span className={styles.gutterForm}>
+                  <BIInput
+                    placeholder="请输入"
+                    allowClear
+                    onPressEnter={() => {
+                      this.search();
+                    }}
+                    value={qualityNum}
+                    onChange={e => this.onFormChange(e.target.value, 'qualityNum')}
+                  />
+                </span>
+              </div>
+            </Col>
+          </Row>
+          <Row style={{ textAlign: 'right', marginTop: ' 12px' }}>
+            <Col className={styles.gutterCol} span={24}>
               <div className={styles.gutterBox3}>
                 <span className={styles.gutterBtn1}>
                   <BIButton onClick={this.search} type="primary">
