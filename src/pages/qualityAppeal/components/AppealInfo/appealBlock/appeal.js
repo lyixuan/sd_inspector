@@ -34,7 +34,7 @@ class Appeal extends React.Component {
           <>
             <div className={styles.appealWrap}>
               <div className={styles.s1_title}>
-                一次申诉(审核页面)
+                一次申诉
                 <span className={styles.txtCls}>
                   （一次申诉截止日期：
                   {dataList1.appealEndDate

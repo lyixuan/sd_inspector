@@ -139,9 +139,10 @@ class Launch extends React.Component {
     const { secondAppealEndDate } = this.props.location.query;
     return (
       <Spin spinning={this.props.pageLoading}>
-        <div>
+        <div className={styles.launchContainer}>
           {secondAppealEndDate ? (
             <div className={styles.info}>
+              <div className={styles.title}>申诉信息</div>
               {this.getAppealInfos(detailData)}
               <div className={styles.appealInfo} style={{ marginTop: '20px', background: 'none' }}>
                 二次申诉
