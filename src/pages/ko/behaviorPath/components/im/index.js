@@ -298,7 +298,6 @@ function MediaType(props) {
   )
 }
 function MediaLi(props) {
-  console.log(302, props)
   if (props.prop.content == '</p>') {
     return null
   }
@@ -616,7 +615,7 @@ class Im extends React.Component {
     // if (!allData) {
     //   return;
     // }
-    // 
+    //
     if (allData.length > 0) {
       allData.sort(function (a, b) {
         return Date.parse(a.countDate) - Date.parse(b.countDate);//时间正序

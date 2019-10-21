@@ -297,14 +297,14 @@ class Study extends React.Component {
     const total = this.props.behaviorPath.studyTotal
     return (
       <div className={styles.comWrap}>
-        <Spin spinning={this.props.isLoading}>
-          {this.state.dateList.length > 0 ? (
-            <Layout dataLists={this.state.dateList} onClick={this.toggle} />
-          ) : (
+          <Spin spinning={this.props.isLoading}>
+            {this.state.dateList.length > 0 ? (
+              <Layout dataLists={this.state.dateList} onClick={this.toggle} />
+            ) : (
               <Empty />
             )}
-        </Spin>
-        <Pager onClick={this.setIndex} type="1" total={total} stuId={this.props.stuId}></Pager>
+          </Spin>
+          <Pager onClick={this.setIndex} type="1" total={total} stuId={this.props.stuId}></Pager>
       </div>
     );
   }

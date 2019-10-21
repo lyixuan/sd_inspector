@@ -1,8 +1,7 @@
 import React from 'react';
 import { Input, message } from 'antd';
 import { connect } from 'dva';
-import BITabs from '@/ant_components/BITabs';
-import styles from './style.less';
+import BhTabs from './components/BhTabs';
 import Study from './components/study';
 import Im from './components/im';
 import Bbs from './components/bbs';
@@ -10,7 +9,9 @@ import WeChart from './components/weChart';
 import UserInfo from './components/userInfo';
 import PrivateLetter from './components/privateLetter';
 import { handleTNDateValue } from '@/pages/ko/utils/utils';
-const TabPane = BITabs.TabPane;
+import styles from './style.less';
+
+const TabPane = BhTabs.TabPane;
 const { Search } = Input;
 
 @connect(({ behaviorPath, koPlan }) => ({
@@ -22,7 +23,7 @@ class BehaviorPath1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeKey: "1",
+      activeKey: "6",
       study: true,
       im: true,
       weChart: true,
@@ -104,9 +105,8 @@ class BehaviorPath1 extends React.Component {
   }
 
   onTabChange = (e) => {
-    console.log(107, e, this.state.im)
     this.setState({
-      searchType: e
+      searchType: e,
     })
     if (e == "1" && !this.state.study) {
       return;
@@ -117,6 +117,8 @@ class BehaviorPath1 extends React.Component {
     } else if (e == "4" && !this.state.bbs) {
       return;
     } else if (e == "5" && !this.state.letter) {
+      return;
+    } else if (e == "6") {
       return;
     } else {
       this.getDateList(e)
@@ -157,48 +159,54 @@ class BehaviorPath1 extends React.Component {
       this.state.activeKey = "3"
     } else if (target.indexOf("study") == 0) {
       this.state.activeKey = "1"
+    } else {
+      this.state.activeKey = "6"
     }
     const sutId = this.state.inputStuId || pathParams.userId
 
     return (
       <div className={styles.behaviorPath}>
-        <div className={styles.headBar}>用户行为轨迹</div>
-        <div style={{ display: "flex", position: "relative" }}>
-          <div className={styles.tabBox}>
-            <div className={styles.inputBox}>
-              <Search
-                allowClear
-                placeholder="输入学员ID"
-                maxLength={10}
-                value={this.state.inputStuId}
-                onChange={value => this.onChange(value)}
-                onSearch={value => this.onSearchUser(value)}
-              />
-              {/* <Input placeholder="输入学员ID" allowClear onChange={this.changeUserId} /> */}
+        <div className={styles.headBar}>用户档案</div>
+        <div className={styles.tabBlank}>&nbsp;</div>
+        <div className={styles.layoutbg} >
+            <div className={styles.tabBox}>
+              <div className={styles.inputBox}>
+                <Search
+                  allowClear
+                  placeholder="输入学员ID"
+                  maxLength={10}
+                  value={this.state.inputStuId}
+                  onChange={value => this.onChange(value)}
+                  onSearch={value => this.onSearchUser(value)}
+                />
+                {/* <Input placeholder="输入学员ID" allowClear onChange={this.changeUserId} /> */}
+              </div>
+              <BhTabs onChange={this.onTabChange} animated={false} defaultActiveKey={this.state.activeKey}>
+                <TabPane tab="画像" key="6">
+                  <div>djslafjsl</div>
+                </TabPane>
+                <TabPane tab="学习" key="1">
+                  <Study stuId={sutId}></Study>
+                </TabPane>
+                <TabPane tab="IM" key="2">
+                  <Im stuId={sutId}></Im>
+                </TabPane>
+                <TabPane tab="微信" key="3">
+                  <WeChart stuId={sutId}></WeChart>
+                </TabPane>
+                <TabPane tab="BBS" key="4">
+                  <Bbs stuId={sutId}></Bbs>
+                </TabPane>
+                <TabPane tab="私信" key="5">
+                  <PrivateLetter stuId={sutId}></PrivateLetter>
+                </TabPane>
+              </BhTabs>
             </div>
-            <BITabs onChange={this.onTabChange} type="card" animated={false} defaultActiveKey={this.state.activeKey}>
-              <TabPane tab="学习" key="1">
-                <Study stuId={sutId}></Study>
-              </TabPane>
-              <TabPane tab="IM" key="2">
-                <Im stuId={sutId}></Im>
-              </TabPane>
-              <TabPane tab="微信" key="3">
-                <WeChart stuId={sutId}></WeChart>
-              </TabPane>
-              <TabPane tab="BBS" key="4">
-                <Bbs stuId={sutId}></Bbs>
-              </TabPane>
-              <TabPane tab="私信" key="5">
-                <PrivateLetter stuId={sutId}></PrivateLetter>
-              </TabPane>
-            </BITabs>
-          </div>
-          <div style={{ marginTop: "40px" }}>
-            {
-              userInfoParams ? <UserInfo info={userInfoParams}></UserInfo> : null
-            }
-          </div>
+            <div style={{ marginTop: "40px" }}>
+              {
+                userInfoParams && this.state.searchType!== '6' ? <UserInfo info={userInfoParams}></UserInfo> : null
+              }
+            </div>
         </div>
       </div>
     );
