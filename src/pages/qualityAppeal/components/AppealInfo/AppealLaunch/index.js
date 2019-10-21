@@ -139,7 +139,7 @@ class Launch extends React.Component {
     const { secondAppealEndDate } = this.props.location.query;
     return (
       <Spin spinning={this.props.pageLoading}>
-        <div className={styles.launchContainer}>
+        <div>
           {secondAppealEndDate ? (
             <div className={styles.info}>
               {this.getAppealInfos(detailData)}
