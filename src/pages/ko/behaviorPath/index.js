@@ -151,6 +151,8 @@ class BehaviorPath1 extends React.Component {
     const pathParams = JSON.parse(this.props.location.query.params)
     const target = pathParams.target
     const userInfoParams = this.props.behaviorPath.userInfo
+    console.log(11,this.state.activeKey)
+    console.log(12,this.state.searchType)
     if (target.indexOf("im") == 0) {
       this.state.activeKey = "2"
     } else if (target.indexOf("bbs") == 0) {
@@ -165,50 +167,58 @@ class BehaviorPath1 extends React.Component {
     const sutId = this.state.inputStuId || pathParams.userId
 
     return (
+      <>
       <div className={styles.behaviorPath}>
         <div className={styles.headBar}>用户档案</div>
         <div className={styles.tabBlank}>&nbsp;</div>
         <div className={styles.layoutbg} >
-            <div className={styles.tabBox}>
-              <div className={styles.inputBox}>
-                <Search
-                  allowClear
-                  placeholder="输入学员ID"
-                  maxLength={10}
-                  value={this.state.inputStuId}
-                  onChange={value => this.onChange(value)}
-                  onSearch={value => this.onSearchUser(value)}
-                />
-                {/* <Input placeholder="输入学员ID" allowClear onChange={this.changeUserId} /> */}
-              </div>
-              <BhTabs onChange={this.onTabChange} animated={false} defaultActiveKey={this.state.activeKey}>
-                <TabPane tab="画像" key="6">
-                  <div>djslafjsl</div>
-                </TabPane>
-                <TabPane tab="学习" key="1">
-                  <Study stuId={sutId}></Study>
-                </TabPane>
-                <TabPane tab="IM" key="2">
-                  <Im stuId={sutId}></Im>
-                </TabPane>
-                <TabPane tab="微信" key="3">
-                  <WeChart stuId={sutId}></WeChart>
-                </TabPane>
-                <TabPane tab="BBS" key="4">
-                  <Bbs stuId={sutId}></Bbs>
-                </TabPane>
-                <TabPane tab="私信" key="5">
-                  <PrivateLetter stuId={sutId}></PrivateLetter>
-                </TabPane>
-              </BhTabs>
+          <div className={styles.tabBox}>
+            <div className={styles.inputBox}>
+              <Search
+                allowClear
+                placeholder="输入学员ID"
+                maxLength={10}
+                value={this.state.inputStuId}
+                onChange={value => this.onChange(value)}
+                onSearch={value => this.onSearchUser(value)}
+              />
+              {/* <Input placeholder="输入学员ID" allowClear onChange={this.changeUserId} /> */}
             </div>
-            <div style={{ marginTop: "40px" }}>
-              {
-                userInfoParams && this.state.searchType!== '6' ? <UserInfo info={userInfoParams}></UserInfo> : null
-              }
-            </div>
+            <BhTabs onChange={this.onTabChange} animated={false} defaultActiveKey={this.state.activeKey}>
+              <TabPane tab="画像" key="6">
+                <div>djslafjsl</div>
+              </TabPane>
+              <TabPane tab="学习" key="1">
+                <Study stuId={sutId}></Study>
+              </TabPane>
+              <TabPane tab="IM" key="2">
+                <Im stuId={sutId}></Im>
+              </TabPane>
+              <TabPane tab="微信" key="3">
+                <WeChart stuId={sutId}></WeChart>
+              </TabPane>
+              <TabPane tab="BBS" key="4">
+                <Bbs stuId={sutId}></Bbs>
+              </TabPane>
+              <TabPane tab="私信" key="5">
+                <PrivateLetter stuId={sutId}></PrivateLetter>
+              </TabPane>
+            </BhTabs>
+          </div>
+          <div style={{ marginTop: "40px" }}>
+            {
+              ((this.state.searchType && this.state.searchType=== '6') || (!this.state.searchType && this.state.activeKey==='6'))? null : userInfoParams  ? <UserInfo info={userInfoParams}></UserInfo> : null
+            }
+          </div>
         </div>
       </div>
+        {
+          ((this.state.searchType && this.state.searchType=== '6') || (!this.state.searchType && this.state.activeKey==='6'))?
+            <div className={styles.userPortarit}>
+            均分冻死了附近了
+          </div>:null
+        }
+      </>
     );
   }
 }
