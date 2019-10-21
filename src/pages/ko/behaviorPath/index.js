@@ -8,6 +8,8 @@ import Bbs from './components/bbs';
 import WeChart from './components/weChart';
 import UserInfo from './components/userInfo';
 import PrivateLetter from './components/privateLetter';
+import UserPortary from './components/userPortary';
+
 import { handleTNDateValue } from '@/pages/ko/utils/utils';
 import styles from './style.less';
 
@@ -173,7 +175,7 @@ class BehaviorPath1 extends React.Component {
         <div className={styles.tabBlank}>&nbsp;</div>
         <div className={styles.layoutbg} >
           <div className={styles.tabBox}>
-            <div className={styles.inputBox}>
+            <div className={((this.state.searchType && this.state.searchType=== '6') || (!this.state.searchType && this.state.activeKey==='6'))?styles.inputBox2:styles.inputBox}>
               <Search
                 allowClear
                 placeholder="输入学员ID"
@@ -186,7 +188,6 @@ class BehaviorPath1 extends React.Component {
             </div>
             <BhTabs onChange={this.onTabChange} animated={false} defaultActiveKey={this.state.activeKey}>
               <TabPane tab="画像" key="6">
-                <div>djslafjsl</div>
               </TabPane>
               <TabPane tab="学习" key="1">
                 <Study stuId={sutId}></Study>
@@ -214,9 +215,7 @@ class BehaviorPath1 extends React.Component {
       </div>
         {
           ((this.state.searchType && this.state.searchType=== '6') || (!this.state.searchType && this.state.activeKey==='6'))?
-            <div className={styles.userPortarit}>
-            均分冻死了附近了
-          </div>:null
+            <UserPortary stuId={sutId}/> :null
         }
       </>
     );

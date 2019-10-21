@@ -1,0 +1,9 @@
+.userPortarit {
+  border: 1px solid red;
+  margin-top: 10px;
+  height: 100px;
+  border-radius: 10px;
+  margin-left: 16px;
+  margin-right: 16px;
+  position: relative;
+}
