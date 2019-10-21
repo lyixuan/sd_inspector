@@ -221,8 +221,8 @@ class FormIndex extends React.Component {
       = this.props.qualityAppealHome || {};
     params.organize = (params.collegeId || params.familyId || params.groupId) ? [params.collegeId, params.familyId, params.groupId]:[];
     params.dimension = (params.primaryAssortmentId || params.secondAssortmentId || params.thirdAssortmentId) ? [params.primaryAssortmentId, params.secondAssortmentId, params.thirdAssortmentId]:[];
-    params.violationDate = moment(params.violationDate);
-    params.reduceScoreDate = moment(params.reduceScoreDate);
+    params.violationDate = params.violationDate && moment(params.violationDate);
+    params.reduceScoreDate = params.reduceScoreDate && moment(params.reduceScoreDate);
 
     return (
       <BaseForm backType={backType}
