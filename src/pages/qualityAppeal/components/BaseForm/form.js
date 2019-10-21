@@ -164,7 +164,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
               </Form.Item> &nbsp;
               <Form.Item className={styles.formItem} style={{ width: 140 }}>
                 {getFieldDecorator(`qualityValue-${i}`, {
-                  initialValue: attachedPersonList[i].qualityValue || undefined,
+                  initialValue: attachedPersonList[i].qualityValue|| (attachedPersonList[i].qualityValue===0?0:undefined),
                   rules: [{
                     validator(rule, value, callback) {
                       if (value&&isNaN(value)) {
@@ -218,6 +218,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
       temp && temp.forEach((v)=>{
         if(v){familyTypeShow.push(v)}
       });
+
       return (
         <Form className="baseForm" onSubmit={this.handleSubmit}>
 
@@ -404,7 +405,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 </Form.Item> &nbsp;
                 <Form.Item className={styles.formItem}>
                   {getFieldDecorator('ownQualityValue', {
-                    initialValue: ownQualityValue || undefined, rules: [{
+                    initialValue: ownQualityValue || (ownQualityValue == 0?0:undefined), rules: [{
                       validator(rule, value, callback) {
                         if (isNaN(value)) {
                           callback({ message: '请输入合法数据' });
