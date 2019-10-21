@@ -43,7 +43,11 @@ class Profit extends React.Component {
   render() {
     const { pkUsers, pkListType, visible } = this.state;
     return (
-      <Container title='本期创收' propStyle={{ display: 'flex', height: '540px', position: 'relative' }}>
+      <Container 
+      title='本期创收' 
+      // right={<a>创收详情</a>}
+      propStyle={{ display: 'flex', height: '540px', position: 'relative' }}
+      >
         <ProfitTabs {...this.props} pkUsers={pkUsers} pkListType={pkListType} changeSelected={this.changeSelected}/>
         <BIDrawer
           onClose={() => this.toggleDrawer(false)}
