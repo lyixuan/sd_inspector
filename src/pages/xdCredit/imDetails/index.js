@@ -18,52 +18,78 @@ import constants from '@/utils/constants';
 const dataSource = [
   {
     key: '1',
-    name: '胡彦斌',
+    valOne: '2019-09-29',
+    valTwo: '姚晨',
+    valThree: '后端归属11',
+    content: '我要投诉我要投诉我要投诉我要投诉我要投诉',
+    teacherName: '赵紫晶',
+    reason: '退学分类',
     age: 32,
     address: '西湖区湖底公园1号',
   },
   {
-    key: '2',
-    name: '胡彦祖',
-    age: 42,
+    key: '1',
+    valOne: '2019-09-29',
+    valTwo: '姚晨',
+    valThree: '后端归属11',
+    content: '我要投诉我要投诉我要投诉我要投诉我要投诉',
+    teacherName: '赵紫晶',
+    reason: '退学分类',
+    age: 32,
     address: '西湖区湖底公园1号',
   },
 ];
 const columns = [
   {
-    title: '姓名',
-    dataIndex: 'name',
-    key: 'name',
+    title: '时间',
+    dataIndex: 'valOne',
+    key: 'valOne',
+    width: 100
   },
   {
-    title: '年龄',
-    dataIndex: 'age',
-    key: 'age',
+    title: '内容',
+    dataIndex: 'content',
+    key: 'content',
+    // ellipsis: true,
+    render: (text, record) => {
+      return (
+        <div className={styles.content}>{text}</div>
+      )
+    },
+    width: 170
   },
   {
-    title: '住址',
+    title: '学员姓名',
+    dataIndex: 'valTwo',
+    key: 'valTwo',
+    width: 80
+  },
+  {
+    title: '后端归属',
+    dataIndex: 'valThree',
+    key: 'valThree',
+    width: 180
+  },
+  {
+    title: '会话老师',
+    dataIndex: 'teacherName',
+    key: 'teacherName',
+    width: 70
+  },
+  {
+    title: '原因分类',
+    dataIndex: 'reason',
+    key: 'reason',
+    width: 70
+  },
+  {
+    title: '操作',
     dataIndex: 'address',
     key: 'address',
-  },
-  {
-    title: '姓名',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: '年龄',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: '住址',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: '住址',
-    dataIndex: 'address',
-    key: 'address',
+    render: () => {
+      return <span style={{ color: "#00CCC3", cursor: 'pointer' }}>申诉</span>
+    },
+    width: 50
   },
 ];
 
@@ -179,7 +205,7 @@ class CreditImDetials extends React.Component {
           if (detailsData.titleFour === '操作') {
             return (
               <Tooltip overlayClassName={styles.listMarkingTooltip2} placement="top" title={text}>
-                <span style={{ color: "#00CCC3" }}>查看</span>
+                <span style={{ color: "#00CCC3" }}>申诉</span>
               </Tooltip>
             );
           } else {
@@ -271,6 +297,12 @@ class CreditImDetials extends React.Component {
       }
     });
   }
+  classifyClick(type) {
+    console.log(301, type)
+  }
+  cellClick() {
+
+  }
   componentDidMount() {
     // console.log(275, document.getElementById("classityBox").offsetHeight)
   }
@@ -279,9 +311,13 @@ class CreditImDetials extends React.Component {
     return (
       <div className={`${styles.detials}`}>
         <div className={styles.classityBox} id="classityBox">
-          <BIClassifyTable></BIClassifyTable>
+          <BIClassifyTable
+            cellClick={this.cellClick}
+            classifyClick={this.classifyClick}
+          ></BIClassifyTable>
         </div>
         <BITable
+          ellipsis={true}
           columns={columns}
           dataSource={dataSource}
           rowClassName={this.setRowClassName}
