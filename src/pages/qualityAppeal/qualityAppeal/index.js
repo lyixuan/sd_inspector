@@ -232,6 +232,15 @@ const columns2 = [
     dataIndex: 'qualityNum',
   },
   {
+    title: '质检扣分日期',
+    dataIndex: 'reduceScoreDate',
+    render: (text, record) => {
+      return (
+        <>{record.reduceScoreDate ? moment(record.reduceScoreDate).format('YYYY-MM-DD') : '-'}</>
+      );
+    },
+  },
+  {
     title: '质检类型',
     dataIndex: 'qualityType',
     render: (text, record) => {
@@ -239,20 +248,12 @@ const columns2 = [
     },
   },
   {
-    title: '违规等级',
-    dataIndex: 'violationLevel',
+    title: '违规分类',
+    dataIndex: 'violationType',
   },
   {
-    title: '处罚力度',
-    dataIndex: 'qualityValue',
-    render: (text, record) => {
-      return (
-        <>
-          {record.qualityValue}
-          {record.qualityType ? (Number(record.qualityType) === 2 ? '分' : '元') : ''}
-        </>
-      );
-    },
+    title: '归属人',
+    dataIndex: 'userName',
   },
   {
     title: '归属组织',
@@ -271,15 +272,16 @@ const columns2 = [
     title: '申诉状态',
     dataIndex: 'status',
     render: (text, record) => {
+      // 后端拆分状态转前端状态
       let myStatue = changeState(record);
       function dot() {
         let rt = null;
-        if (myStatue === 9 || myStatue === 11) {
-          rt = <span className={subStl.dotStl} style={{ background: '#52C9C2' }}></span>;
-        } else if (myStatue === 10 || myStatue === 13) {
-          rt = <span className={subStl.dotStl} style={{ background: '#FAAC14' }}></span>;
-        } else {
+        // 3 一次SOP已驳回 5一次申诉失败 7二次SOP已驳回
+        if (myStatue === 3 || myStatue === 5 || myStatue === 7) {
           rt = <span className={subStl.dotStl} style={{ background: '#FF0000' }}></span>;
+        } else {
+          // 1待申诉 2一次SOP待审核 4一次质检主管待审核 6二次SOP待审核 8 二次质检主管待审核
+          rt = <span className={subStl.dotStl} style={{ background: '#FAAC14' }}></span>;
         }
         return rt;
       }
@@ -289,13 +291,6 @@ const columns2 = [
           {BiFilter(`APPEAL_STATE|id:${myStatue}`).name}
         </>
       );
-    },
-  },
-  {
-    title: '是否警告',
-    dataIndex: 'isWarn',
-    render: (text, record) => {
-      return <>{record.isWarn ? BiFilter(`ISWARN|id:${record.isWarn}`).name : '否'}</>;
     },
   },
 ];
@@ -411,6 +406,7 @@ class QualityAppeal extends React.Component {
         page: pg.page,
       });
     }
+    console.log(params, 'params');
 
     if (isExport) {
       this.props.dispatch({
@@ -673,7 +669,7 @@ class QualityAppeal extends React.Component {
     //     columns2.splice(index2, 1);
     //   }
     // }
-    return [...columns1, ...actionObj];
+    return [...columns2, ...actionObj];
   };
   render() {
     const {
