@@ -375,7 +375,6 @@ class QualityAppeal extends React.Component {
     const { p = null } = this.props.location.query;
     this.queryData(JSON.parse(p));
     this.getOrgTreeData();
-    this.findStartManListData();
   }
 
   getOrgTreeData = () => {
@@ -385,9 +384,10 @@ class QualityAppeal extends React.Component {
   };
   findStartManListData = () => {
     const { p = null } = this.props.location.query;
+    console.log(JSON.parse(p), p && p.type, 'p && p.type');
     this.props.dispatch({
       type: 'qualityCheck/findStartManList',
-      payload: { type: (p && p.type) || 1 },
+      payload: { type: (p && JSON.parse(p).type) || 1 },
     });
   };
 
@@ -406,8 +406,7 @@ class QualityAppeal extends React.Component {
         page: pg.page,
       });
     }
-    console.log(params, 'params');
-
+    this.findStartManListData();
     if (isExport) {
       this.props.dispatch({
         type: 'qualityCheck/exportExcel',
