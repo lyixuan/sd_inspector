@@ -320,9 +320,9 @@ export default {
       if (result.code === 20000) {
         const data = result.data;
         const inCometarget = [{
-          title: '家族净流水',
+          title: '家族绩效流水',
           num: thousandsFormat(Math.floor(data.kpiFlow)),
-          tip: '本绩效周期内用户所在家族的创收净流水'
+          tip: '本绩效周期内用户所在家族的创收绩效流水'
         }, {
           title: '绩效排名',
           num: `${data.ranking}/${data.familyCount}`,
@@ -349,7 +349,7 @@ export default {
     *getCurrentIncomeGroup({ callback }, { call }) {
       const result = yield call(getCurrentIncomeGroup);
       if (result.code === 20000) {
-        result.data && result.data.map(item =>item.classCount = item.groupCount)
+        result.data && result.data.map(item => item.classCount = item.groupCount)
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
