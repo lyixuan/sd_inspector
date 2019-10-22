@@ -186,10 +186,7 @@ class CreditDetials extends React.Component {
       callback: res => {
         const { type } = res;
         if (dimensionType === 1) { // 质检
-          router.push({
-            pathname: '/qualityAppeal/qualityAppeal',
-            query: { p: JSON.stringify({ "tabType": type, type,  qualityNum: appealNo, }) }
-          });
+          window.open(`/qualityAppeal/qualityAppeal?p=${JSON.stringify({ "tabType": type, type,  qualityNum: appealNo, })}`);
         } else { // 其它
           const dimensionData = constants.DIMENSION_TYPE.find(op => op.name === appealObj[dimensionType]);
           const params = { "page": 1, "pageSize": 30, "dimensionType": dimensionData ? dimensionData.id : constants.DIMENSION_TYPE[0].id };
@@ -197,22 +194,14 @@ class CreditDetials extends React.Component {
             params.creditBeginDate = r.bizDate;
             params.creditEndDate = r.bizDate;
             params.stuId = r.stuId;
-            router.push({
-              pathname: '/scoreAppeal/awaitAppeal',
-              query: { params: JSON.stringify(params) }
-            });
+            window.open(`/scoreAppeal/awaitAppeal?params=${JSON.stringify(params)}`);
+
           } else if (type === 1) { // 其它状态
             params.appealOrderNum = res.appealNum;
-            router.push({
-              pathname: '/scoreAppeal/onAppeal',
-              query: { params: JSON.stringify(params) }
-            });
+            window.open(`/scoreAppeal/onAppeal?params=${JSON.stringify(params)}`);
           } else if (type === 2) {
             params.appealOrderNum = res.appealNum;
-            router.push({
-              pathname: '/scoreAppeal/finishAppeal',
-              query: { params: JSON.stringify(params) }
-            });
+            window.open(`/scoreAppeal/finishAppeal?params=${JSON.stringify(params)}`);
           }
         }
       }
