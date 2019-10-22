@@ -4,12 +4,20 @@ import styles from './style.less'
 import IndentNum from '../../components/indentNum';
 import BIWrapperTable from '../../components/BIWrapperTable';
 import BIContrastCell from '@/components/BIContrastCell';
-import BICell from '@/components/BICell';
+import BILoading from '@/components/BILoading';
+import BIFillCell from '@/components/BIFillCell';
 import BIIcon from '@/components/BIIcon';
 import pluscircle from '@/assets/xdwork/pluscircle.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
-import BILoading from '@/components/BILoading'
+import up from '@/assets/xdFamily/rankUp.png';
+import down from '@/assets/xdFamily/rankDown.png';
+import normal from '@/assets/xdFamily/rankNormal.png';
 
+const rankImg = {
+  0: down,
+  1: normal,
+  2: up,
+}
 function CustomExpandIcon(props) {
   return (
     <a />
@@ -54,12 +62,14 @@ class currentCreditLeft extends React.Component {
         title: '学分维度',
         dataIndex: 'dimensionName',
         key: 'dimensionName',
-        width: '30%'
+        width: '20%'
       }, {
         title: '环比（%）',
-        width: '20%',
         dataIndex: 'myScoreRatio',
         key: 'myScoreRatio',
+        render: (text, record) => <BIFillCell>
+          -5.31 <img src={rankImg[0]} alt=""/>
+        </BIFillCell>
       },
     ];
     groupPkList && groupPkList.groupList.map((item, index) => {

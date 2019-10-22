@@ -157,7 +157,7 @@ class currentCreditRight extends React.Component {
                   strokeWidth={4}
                 ></Progress>
               </div>
-              <BIWrapperProgress text={credit} percent={percent} iconed={this.getIncludes(record.userId)} propsStyle={{flex: 'inherit',width: '60px'}}/>
+              {/* <BIWrapperProgress text={credit} percent={percent} iconed={this.getIncludes(record.userId)} propsStyle={{flex: 'inherit',width: '60px'}}/> */}
             </Indent>
           );
         },
