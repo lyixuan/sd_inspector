@@ -36,7 +36,9 @@ export default class IllegalInfo extends React.Component {
           <div className={styles.secRow}>
             <div>&nbsp;</div>
             <div>&nbsp;</div>
-            <div><span className={styles.spanLabel}>学院类型</span>：{BiFilter(`FAMILY_TYPE|id:${data.familyType}`).name}</div>
+            <div>{!data.familyName && !data.groupName?
+              (<span><span className={styles.spanLabel}>学院类型</span>：{BiFilter(`FAMILY_TYPE|id:${data.familyType}`).name}</span>):null}
+              </div>
             <div>&nbsp;</div>
             <div><span className={styles.spanLabel}>违规等级</span>：{data.violationLevelName}</div>
           </div>
