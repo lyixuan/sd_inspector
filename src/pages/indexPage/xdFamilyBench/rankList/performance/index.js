@@ -10,10 +10,11 @@ import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
 import SmallProgress from '@/pages/indexPage/components/smallProgress'
+import { thousandsFormat } from '@/utils/utils';
 import { connect } from 'dva';
 
 const rankType = ['本学院排行', '集团排行'];
-
+const dataTrace = ['{"widgetName":"本学院排行","traceName":"家族长工作台/本学院排行"}', '{"widgetName":"集团排行","traceName":"家族长工作台/集团排行"}'];
 @connect(({ xdWorkModal }) => ({
   xdWorkModal
 }))
@@ -83,7 +84,7 @@ class Performance extends React.Component {
         render: (text, record) => {
           const percent = text / this.state.totalAchievementMax * 100
           return <div>
-            <div>{text}</div>
+            <div>{thousandsFormat(parseInt(text))}</div>
             <SmallProgress isColor="green" percent={`${percent}%`}></SmallProgress>
           </div>
         },
@@ -96,7 +97,7 @@ class Performance extends React.Component {
         render: (text, record) => {
           const percent = text / this.state.achievementMax * 100
           return <div>
-            <div>{text}</div>
+            <div>{thousandsFormat(parseInt(text))}</div>
             <SmallProgress isColor="green" percent={`${percent}%`}></SmallProgress>
           </div>
         },
@@ -109,7 +110,7 @@ class Performance extends React.Component {
         render: (text, record) => {
           const percent = text / this.state.incomeKpiMax * 100
           return <div>
-            <div>{text}</div>
+            <div>{thousandsFormat(parseInt(text))}</div>
             <SmallProgress isColor="green" percent={`${percent}%`}></SmallProgress>
           </div>
         },
@@ -119,19 +120,28 @@ class Performance extends React.Component {
         title: '好推绩效',
         dataIndex: 'goodpushKpi',
         key: 'goodpushKpi',
-        width: width
+        width: width,
+        render: (text, record) => {
+          return <div>{thousandsFormat(parseInt(text))}</div>
+        }
       },
       {
         title: '续报绩效',
         dataIndex: 'renewalKpi',
         key: 'renewalKpi',
-        width: width
+        width: width,
+        render: (text, record) => {
+          return <div>{thousandsFormat(parseInt(text))}</div>
+        }
       },
       {
         title: '成本套绩效',
         dataIndex: 'examZbtKpi',
         key: 'examZbtKpi',
-        width: '12%'
+        width: '12%',
+        render: (text, record) => {
+          return <div>{thousandsFormat(parseInt(text))}</div>
+        }
       },
     ];
     if (this.state.rankType == 2) {
@@ -203,7 +213,7 @@ class Performance extends React.Component {
     return (
       <div className={styles.performanceRank}>
         <BIRadio onChange={this.handleRankChange} value={this.state.rankType} style={{ marginBottom: 16 }}>
-          {rankType.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div>{item}</div></BIRadio.Radio.Button>)}
+          {rankType.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace={dataTrace[index]}>{item}</div></BIRadio.Radio.Button>)}
         </BIRadio>
         {userFlag && userMsg && <div className={styles.suspenTable}>
           <BITable

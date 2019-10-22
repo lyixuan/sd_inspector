@@ -6,11 +6,11 @@ import TableList from './components/list';
 import styles from './style.less';
 
 const tabParams = [{
-  name: '小组创收',
-  children: <TableList tabKey="1"/>
+  name: <span data-trace='{"widgetName":"小组创收","traceName":"家族长工作台/小组创收"}'>小组创收</span>,
+  children: <TableList tabKey="1" />
 }, {
-  name: '班主任创收',
-  children: <TableList tabKey="2"/>
+  name: <span data-trace='{"widgetName":"班主任创收","traceName":"家族长工作台/班主任创收"}'>班主任创收</span>,
+  children: <TableList tabKey="2" />
 }]
 @connect(({ xdWorkModal }) => ({
   inCometarget: xdWorkModal.inCometarget,
@@ -25,9 +25,9 @@ class Income extends React.Component {
     const { inCometarget } = this.props;
     return (
       <div className={styles.income}>
-        <ColorBlock dataSet={inCometarget}/>
-        <div style={{height: '24px'}}></div>
-        <TopTabs  tabParams={tabParams}/>
+        <ColorBlock dataSet={inCometarget} />
+        <div style={{ height: '24px' }}></div>
+        <TopTabs tabParams={tabParams} />
       </div>
     );
   }

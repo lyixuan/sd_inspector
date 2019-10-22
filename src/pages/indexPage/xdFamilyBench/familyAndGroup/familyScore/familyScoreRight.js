@@ -6,7 +6,7 @@ import BITable from '@/ant_components/BITable'
 import Indent from '../../../components/indent';
 import SmallProgress from '../../../components/smallProgress'
 const { Option } = BISelect;
-@connect(({xdWorkModal,loading}) => ({
+@connect(({ xdWorkModal, loading }) => ({
   xdWorkModal,
   loading: loading.effects['xdWorkModal/getFamilyRankList'],
 }))
@@ -19,8 +19,8 @@ class FamilyScoreRight extends React.Component {
       userFlag: false,
       userLocation: '',
       userMsg: '',
-      collegeId:null,
-      familyRankList:[]
+      collegeId: null,
+      familyRankList: []
     }
   }
   componentDidMount() {
@@ -48,21 +48,21 @@ class FamilyScoreRight extends React.Component {
     }
   }
   //获取右侧家族排名的列表
-  getFamilyRankList=(collegeId)=>{
+  getFamilyRankList = (collegeId) => {
     this.props.dispatch({
       type: 'xdWorkModal/getFamilyRankList',
-      payload: { params: {collegeId:collegeId?collegeId:this.state.collegeId} },
-      callback:(data)=>{
+      payload: { params: { collegeId: collegeId ? collegeId : this.state.collegeId } },
+      callback: (data) => {
         this.setState({
-          familyRankList:data
+          familyRankList: data
         })
         this.getScrollFn();
       }
     });
   };
   columnsRight = () => {
-    const {familyRankList=[]} = this.state;
-    const total = familyRankList.length>0 ? familyRankList[0].credit : 0
+    const { familyRankList = [] } = this.state;
+    const total = familyRankList.length > 0 ? familyRankList[0].credit : 0
     const columns = [
       {
         width: '18%',
@@ -105,8 +105,8 @@ class FamilyScoreRight extends React.Component {
         key: 'credit',
         render: (credit, data) => {
           // const percent = '25%'
-          const isColor="green"
-          const percent = credit / total * 100+'%';
+          const isColor = "green"
+          const percent = credit / total * 100 + '%';
           return (
             <Indent style={{
               marginLeft: '-8px'
@@ -147,37 +147,40 @@ class FamilyScoreRight extends React.Component {
       taClassName = "rowHover"
     }
     if (record.creditRankingCoefficient === 3) {
-      className = "background1 "+taClassName
+      className = "background1 " + taClassName
     } else if (record.creditRankingCoefficient === 2) {
-      className = "background2 "+taClassName
+      className = "background2 " + taClassName
     } else if (record.creditRankingCoefficient === 1) {
-      className = "background3 "+taClassName
+      className = "background3 " + taClassName
     } else if (record.creditRankingCoefficient === 0.8) {
-      className = "background4 "+taClassName
+      className = "background4 " + taClassName
     } else {
-      className = "background5 "+taClassName
+      className = "background5 " + taClassName
     }
     return className
   }
   onClickRow = (record) => {
+    const obj = { widgetName: '学分组织选择', traceName: '家族长工作台/学分组织选择' };
+    const { BI = {} } = window;
     return {
       onClick: () => {
         if (Number(this.props.familyId) === record.familyId) return;
-        this.props.getFamilyList(record,record.familyId)
+        this.props.getFamilyList(record, record.familyId)
+        BI.traceV && BI.traceV(obj);
       },
     };
   }
   render() {
-    const {orgValue,userFlag, userMsg,familyRankList=[]} = this.state
-    const {collegeList=[]} = this.props;
-    const dataSource = familyRankList.length>0 && familyRankList
+    const { orgValue, userFlag, userMsg, familyRankList = [] } = this.state
+    const { collegeList = [] } = this.props;
+    const dataSource = familyRankList.length > 0 && familyRankList
     return (
       <div className={styles.familyRight}>
         <div className={styles.creditSelect} >
           <span className={styles.title}>选择对比组织:</span>
           <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
             {collegeList.map((item, index) => (
-              <Option key={item.collegeId}>
+              <Option key={item.collegeId} data-trace='{"widgetName":"选择学分对比组织","traceName":"家族长工作台/选择学分对比组织"}'>
                 {item.collegeName}
               </Option>
             ))}

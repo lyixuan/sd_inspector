@@ -5,7 +5,7 @@ import BISelect from '@/ant_components/BISelect'
 import BITable from '@/ant_components/BITable'
 import Indent from '../../../components/indent';
 const { Option } = BISelect;
-@connect(({ loading } ) => ({
+@connect(({ loading }) => ({
   loading: loading.effects['xdWorkModal/getFamilyList'],
 }))
 class FamilyIncomeRight extends React.Component {
@@ -14,7 +14,7 @@ class FamilyIncomeRight extends React.Component {
     this.state = {
       orgOptions: [],
       collegeId: undefined,
-      dataSource : [],
+      dataSource: [],
       userFlag: false,
       userLocation: '',
       userMsg: '',
@@ -50,7 +50,7 @@ class FamilyIncomeRight extends React.Component {
       })
     }
   }
-  getFamilyList = (collegeId) =>  {
+  getFamilyList = (collegeId) => {
     this.props.dispatch({
       type: 'xdWorkModal/getFamilyList',
       payload: { params: { collegeId } },
@@ -120,14 +120,17 @@ class FamilyIncomeRight extends React.Component {
     this.getFamilyList(collegeId);
   };
   onClickRow = (record) => {
+    const obj = { widgetName: '创收组织选择', traceName: '家族长工作台/创收组织选择' };
+    const { BI = {} } = window;
     return {
       onClick: () => {
-        this.props.changeSelected(record,record.familyId)
+        this.props.changeSelected(record, record.familyId)
+        BI.traceV && BI.traceV(obj);
       },
     };
   }
   setRowClassName = (record, index) => {
-    const {familyList}=this.props
+    const { familyList } = this.props
     let className = ''
     if (record.familyId == familyList.selfFamilyId) {
 
@@ -138,7 +141,7 @@ class FamilyIncomeRight extends React.Component {
     return className
   }
   render() {
-    const {orgOptions, collegeId, dataSource,userFlag, userMsg,} = this.state
+    const { orgOptions, collegeId, dataSource, userFlag, userMsg, } = this.state
     return (
       <div className={styles.familyRight}>
         <div className={styles.creditSelect} >
@@ -149,9 +152,9 @@ class FamilyIncomeRight extends React.Component {
             value={collegeId}
             onChange={this.onFormChange}
             allowClear
-            >
+          >
             {orgOptions.map(item => (
-              <Option key={item.collegeId} value={item.collegeId}>
+              <Option data-trace='{"widgetName":"选择创收对比组织","traceName":"家族长工作台/选择创收对比组织"}' key={item.collegeId} value={item.collegeId}>
                 {item.collegeName}
               </Option>
             ))}

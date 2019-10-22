@@ -9,13 +9,13 @@ import styles from './style.less';
 
 const tabsMsg = [{
   title: '未申诉',
-  dataTrace: '{"widgetName":"本期创收-综合对比","traceName":"小德工作台/本期创收/综合对比"}',
+  dataTrace: '{"widgetName":"未申诉","traceName":"家族长工作台/未申诉"}',
 }, {
   title: '被驳回',
-  dataTrace: '{"widgetName":"本期创收-综合对比","traceName":"小德工作台/本期创收/综合对比"}',
+  dataTrace: '{"widgetName":"被驳回","traceName":"家族长工作台/被驳回"}',
 }, {
   title: '审核中',
-  dataTrace: '{"widgetName":"本期创收-综合对比","traceName":"小德工作台/本期创收/综合对比"}',
+  dataTrace: '{"widgetName":"审核中","traceName":"家族长工作台/审核中"}',
 }];
 const tabSource = {
   1: 'nonAppealList',
@@ -46,11 +46,14 @@ class appeal extends React.Component {
         title: '家族小组',
         dataIndex: 'groupName',
         key: 'groupName',
+        render: (text, record) => {
+          return <div>{text}</div>
+        }
       }, {
         title: '质检',
         dataIndex: 'qualityNum',
         key: 'qualityNum',
-        render: (text, record)=> <>{record.primaryViolationFlag ? <div className={styles.rankMark}>{text}{<Tooltip placement="bottom" title='含一级违规'><img src={rankWarn} alt='icon' /></Tooltip>}</div> : text}</>
+        render: (text, record) => <>{record.primaryViolationFlag ? <div className={styles.rankMark}>{text}{<Tooltip placement="bottom" title='含一级违规'><img src={rankWarn} alt='icon' /></Tooltip>}</div> : text}</>
       }, {
         title: '底线',
         dataIndex: 'bottomLineNum',
@@ -63,16 +66,16 @@ class appeal extends React.Component {
         title: '工单',
         dataIndex: 'orderNum',
         key: 'orderNum',
-      } , {
+      }, {
         title: '优新',
         dataIndex: 'newExcellentNum',
         key: 'newExcellentNum',
-      } , {
+      }, {
         title: '创收',
         dataIndex: 'incomeNum',
         key: 'incomeNum',
-      } 
- 
+      }
+
     ];
     return columns || [];
   };

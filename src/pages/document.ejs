@@ -1,33 +1,35 @@
 <!doctype html>
 <html>
+
 <head>
-    <meta charset="utf-8" />
-    <title>督学平台</title>
-    <link rel="icon" type="image/x-icon" href="http://bd.ministudy.com/favicon.png" />
-    <style>
-      body>a {
-        position: absolute;
-        color: transparent;
-      }
-    </style>
+  <meta charset="utf-8" />
+  <title>督学平台</title>
+  <link rel="icon" type="image/x-icon" href="http://bd.ministudy.com/favicon.png" />
+  <style>
+    body>a {
+      position: absolute;
+      color: transparent;
+    }
+  </style>
 </head>
 
 <body>
-    <div id="root"></div>
+  <div id="root"></div>
 
-    <!-- 埋点测试地址 -->
-    <!-- <script type="text/javascript" src="http://172.16.117.64:9999/trace/trace_sdk.js?v=1.0"></script> -->
+  <!-- 埋点测试地址 -->
+  <script type="text/javascript" src="http://172.16.117.64:9999/trace/trace_sdk.js?v=1.0"></script>
 
-    <!-- 埋点生产地址 -->
-    <script type="text/javascript" src='http://bd.ministudy.com/trace/trace_sdk.js?v=1.2'></script>
-    <script>
-        function getUserId (){
-          const admin_user = localStorage.getItem('admin_user');
-          const userId = JSON.parse(admin_user)?JSON.parse(admin_user).userId:null;
-          return userId;
-        }
-        xd('config',{getUserId,site:1});
-    </script>
-    <script type="text/javascript" src="https://s5.cnzz.com/z_stat.php?id=1277653889&web_id=1277653889"></script>
+  <!-- 埋点生产地址 -->
+  <!-- <script type="text/javascript" src='http://bd.ministudy.com/trace/trace_sdk.js?v=1.2'></script> -->
+  <script>
+    function getUserId() {
+      const admin_user = localStorage.getItem('admin_user');
+      const userId = JSON.parse(admin_user) ? JSON.parse(admin_user).userId : null;
+      return userId;
+    }
+    xd('config', { getUserId, site: 1 });
+  </script>
+  <script type="text/javascript" src="https://s5.cnzz.com/z_stat.php?id=1277653889&web_id=1277653889"></script>
 </body>
+
 </html>

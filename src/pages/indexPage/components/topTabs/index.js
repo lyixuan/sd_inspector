@@ -41,7 +41,7 @@ class TopTabs extends React.Component {
             return (<TabPane tab={item.name} key={key}>
               <div keye={key}>{item.children}</div>
               {item.isShowBtn ? <div className={styles.topBtn}>
-                <BIButton type='primary' onClick={() => this.setContrast(item)}>设置对比项</BIButton>
+                {item.income ? <BIButton data-trace='{"widgetName":"创收设置对比项","traceName":"家族长工作台/创收设置对比项"}' type='primary' onClick={() => this.setContrast(item)}>设置对比项</BIButton> : <BIButton data-trace='{"widgetName":"学分设置对比项","traceName":"家族长工作台/学分设置对比项"}' type='primary' onClick={() => this.setContrast(item)}>设置对比项</BIButton>}
               </div> : null}
             </TabPane>
             )
