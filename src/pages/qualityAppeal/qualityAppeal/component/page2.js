@@ -212,7 +212,7 @@ class NewQualitySheet extends React.Component {
                     onChange={val => this.onFormChange(val, 'status')}
                   >
                     {BiFilter('APPEAL_STATE').map(
-                      item => item.type === 1 && <Option key={item.id}>{item.name}</Option>
+                      item => item.type === 2 && <Option key={item.id}>{item.name}</Option>
                     )}
                   </BISelect>
                 </span>
