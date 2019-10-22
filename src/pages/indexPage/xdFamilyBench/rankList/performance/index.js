@@ -15,7 +15,7 @@ import BILoading from '@/components/BILoading'
 
 const rankType = ['本学院排行', '集团排行'];
 
-@connect(({ xdWorkModal,loading }) => ({
+@connect(({ xdWorkModal, loading }) => ({
   xdWorkModal,
   loading: loading.effects['xdWorkModal/achievementList'],
 }))
@@ -204,9 +204,9 @@ class Performance extends React.Component {
     return (
       <div className={styles.performanceRank}>
         <BIRadio onChange={this.handleRankChange} value={this.state.rankType} style={{ marginBottom: 16 }}>
-          {rankType.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div>{item}</div></BIRadio.Radio.Button>)}
+          {rankType.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{item}</div></BIRadio.Radio.Button>)}
         </BIRadio>
-        {this.props.loading?<BILoading isLoading={this.props.loading} />:userFlag && userMsg && <div className={styles.suspenTable}>
+        {this.props.loading ? <BILoading isLoading={this.props.loading} /> : userFlag && userMsg && <div className={styles.suspenTable}>
           <BITable
             showHeader={false}
             columns={this.columns()}

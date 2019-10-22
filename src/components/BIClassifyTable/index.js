@@ -21,32 +21,32 @@ const reasonTypeList = [{
 }]
 const titleList2 = ['版本更新1', '版本更新2', '版本更新3', '版本更新4', '版本更新4']
 const dataSource = [{
-  orgId: 1,
-  orgName: '组织名称1',
+  id: 1,
+  name: '组织名称1',
   groupType: 'group',
   values: [1, 3.43, 15, 34, 45],
   total: 340
 }, {
-  orgId: 2,
-  orgName: '组织名称2',
+  id: 2,
+  name: '组织名称2',
   groupType: 'group',
   values: [2, 3.41, 55, 34, 45],
   total: 340
 }, {
-  orgId: 3,
-  orgName: '组织名称3',
+  id: 3,
+  name: '组织名称3',
   groupType: 'group',
   values: [3, 3.4, 55, 34, 55],
   total: 340
 }, {
-  orgId: 4,
-  orgName: '组织名称4',
+  id: 4,
+  name: '组织名称4',
   groupType: 'group',
   values: [4, 3.4, 55, 34, 55],
   total: 340
 }, {
-  orgId: 5,
-  orgName: '组织名称4',
+  id: 5,
+  name: '组织名称4',
   groupType: 'group',
   values: [5, 3.4, 55, 34, 55],
   total: 340
@@ -55,7 +55,7 @@ class BIClassifyTable extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      checked: false,
+      checkedId: null,
       scrollWidth: 0
     }
   }
@@ -77,7 +77,7 @@ class BIClassifyTable extends React.Component {
     console.log(55, record, index, e.target)
     this.setState({
       currentIndex: index,
-      checked: record.orgId
+      checkedId: record.id
     })
   }
 
@@ -96,7 +96,7 @@ class BIClassifyTable extends React.Component {
         className: styles.txRight,
         render: (text, record, indexs) => {
           return (
-            this.state.checked == record.orgId && this.state.currentIndex == index ? <BISelectCell key={index} text={dataSource[indexs].values[index]} onClick={(e) => { this.cellClick(record, index, e) }} /> : <BIContrastCell key={index} colors={colors} onClick={(e) => { this.cellClick(record, index, e) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
+            this.state.checkedId == record[this.props.defaultKey.id] && this.state.currentIndex == index ? <BISelectCell key={index} text={dataSource[indexs].values[index]} onClick={(e) => { this.cellClick(record, index, e) }} /> : <BIContrastCell key={index} colors={colors} onClick={(e) => { this.cellClick(record, index, e) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
           )
         },
       })
@@ -115,12 +115,11 @@ class BIClassifyTable extends React.Component {
         })
       }
     }
-
     const columns = [
       {
         title: '组织',
-        dataIndex: 'orgName',
-        key: 'orgName',
+        dataIndex: this.props.defaultKey.name,
+        key: this.props.defaultKey.name,
         width: 105,
         fixed: 'left'
       },
@@ -142,7 +141,7 @@ class BIClassifyTable extends React.Component {
   componentDidMount() {
     const tableWidth = document.getElementById("tableWrap").offsetWidth;
     const scrollWidth = tableWidth - 105 - 60;
-    console.log(138)
+
     this.setState({
       scrollWidth
     })
@@ -153,7 +152,7 @@ class BIClassifyTable extends React.Component {
         <BITable
           pagination={false}
           columns={this.columns()}
-          rowKey={record => record.orgId}
+          rowKey={record => record.id}
           samlled
           bordered
           dataSource={dataSource}

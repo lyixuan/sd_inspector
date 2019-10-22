@@ -35,7 +35,7 @@ class BISelectCell extends React.Component {
             : <BICell onClick={this.onClick} {...this.props}>{this.getAttribute('text')}</BICell>
         } */}
         {
-          <BICell className={styles.BISelects} onClick={this.onClick}>
+          <BICell className={styles.BISelects} onClick={this.onClick} {...this.props}>
             {this.getAttribute('text')}
             <div className={styles.icon}>{this.getAttribute('rightIcon')}</div>
           </BICell>

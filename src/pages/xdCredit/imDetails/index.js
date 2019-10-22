@@ -170,7 +170,8 @@ function TeacherOrStudent(props) {
 }
 
 
-@connect(({ loading }) => ({
+@connect(({ loading, xdCreditModal }) => ({
+  xdCreditModal,
   loading: loading.effects['xdCreditModal/getDimensionDetail'],
   loadingAppeal: loading.effects['xdCreditModal/getDimensionDetail'],
 }))
@@ -304,7 +305,23 @@ class CreditImDetials extends React.Component {
 
   }
   componentDidMount() {
-    // console.log(275, document.getElementById("classityBox").offsetHeight)
+    this.getData();
+  }
+  getData() {
+    const params = {
+      startTime: "2019-09-01",
+      endTime: "2019-09-15",
+      familyType: 0,
+      groupType: "family",
+      orgId: 103,
+      reasonTypeId: 0
+    }
+    this.props.dispatch({
+      type: 'xdCreditModal/reasonList',
+      payload: { params }
+    }).then(() => {
+      console.log(322, this.props.xdCreditModal.imDetailData)
+    });
   }
 
   render() {
@@ -312,6 +329,7 @@ class CreditImDetials extends React.Component {
       <div className={`${styles.detials}`}>
         <div className={styles.classityBox} id="classityBox">
           <BIClassifyTable
+            defaultKey={{ id: 'id', name: 'name' }}
             cellClick={this.cellClick}
             classifyClick={this.classifyClick}
           ></BIClassifyTable>
@@ -322,7 +340,7 @@ class CreditImDetials extends React.Component {
           dataSource={dataSource}
           rowClassName={this.setRowClassName}
         />
-      </div>
+      </div >
     );
   }
 }
