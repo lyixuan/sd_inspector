@@ -4,7 +4,8 @@ import {
   getDimensionList,
   getDimensionDetail,
   getKpiDateRange,
-  getAppealType
+  getAppealType,
+  reasonList,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -20,9 +21,20 @@ export default {
       data: [],
     },
     kpiDateRange: {},
+    imDetailData: {},
   },
 
+
   effects: {
+    *reasonList({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(reasonList, params);
+      if (result.code === 20000) {
+        yield put({ type: 'save', payload: { imDetailData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     *getUserInfo({ callback }, { call }) {
       const result = yield call(getUserInfo);
       if (result.code === 20000 && result.data) {

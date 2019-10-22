@@ -14,7 +14,7 @@ import {
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import constants from '@/utils/constants';
-
+const colors = ['rgba(255, 89, 89, 1)', 'rgba(255, 89, 89, 0.8)', 'rgba(255, 89, 89, .6)', 'rgba(255, 89, 89, .5)', 'rgba(255, 89, 89, .4)', 'rgba(255, 89, 89, .3)']
 const dataSource = [
   {
     key: '1',
@@ -169,8 +169,8 @@ function TeacherOrStudent(props) {
   }
 }
 
-
-@connect(({ loading }) => ({
+@connect(({ loading, xdCreditModal }) => ({
+  xdCreditModal,
   loading: loading.effects['xdCreditModal/getDimensionDetail'],
   loadingAppeal: loading.effects['xdCreditModal/getDimensionDetail'],
 }))
@@ -300,19 +300,44 @@ class CreditImDetials extends React.Component {
   classifyClick(type) {
     console.log(301, type)
   }
+  reasonTypeClick(item) {
+    console.log(305, item)
+  }
   cellClick() {
 
   }
   componentDidMount() {
-    // console.log(275, document.getElementById("classityBox").offsetHeight)
+    this.getData();
+  }
+  getData() {
+    const params = {
+      startTime: "2019-09-01",
+      endTime: "2019-09-15",
+      familyType: 0,
+      groupType: "family",
+      orgId: 103,
+      reasonTypeId: 2
+    }
+    this.props.dispatch({
+      type: 'xdCreditModal/reasonList',
+      payload: { params }
+    }).then(() => {
+      console.log(322, this.props.xdCreditModal.imDetailData)
+    });
   }
 
   render() {
+    const { imDetailData } = this.props.xdCreditModal;
+    console.log(329, imDetailData)
     return (
       <div className={`${styles.detials}`}>
         <div className={styles.classityBox} id="classityBox">
           <BIClassifyTable
+            colors={colors}
+            dataSource={imDetailData}
+            defaultKey={{ id: 'orgId', name: 'orgName' }}
             cellClick={this.cellClick}
+            reasonTypeClick={this.reasonTypeClick}
             classifyClick={this.classifyClick}
           ></BIClassifyTable>
         </div>
@@ -322,7 +347,7 @@ class CreditImDetials extends React.Component {
           dataSource={dataSource}
           rowClassName={this.setRowClassName}
         />
-      </div>
+      </div >
     );
   }
 }
