@@ -405,6 +405,11 @@ class QualityAppeal extends React.Component {
       this.setState({
         page: pg.page,
       });
+    } else {
+      params.page = 1;
+      this.setState({
+        page: 1,
+      });
     }
     this.findStartManListData();
     if (isExport) {
