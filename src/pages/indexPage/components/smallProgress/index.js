@@ -3,7 +3,6 @@ import styles from './style.less'
 class SmallProgress extends React.Component {
   render() {
     const {percent,isColor} = this.props;
-    console.log(percent)
     return(
       <>
       <div className={styles.progressBg} style={this.props.style}>

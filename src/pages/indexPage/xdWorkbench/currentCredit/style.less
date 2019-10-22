@@ -5,20 +5,19 @@
 }
 .creditRight{
   width:100%;
-  margin-top:42px;
   .creditSelect{
     width:100%;
     margin-bottom:16px;
     .title{
       font-size: 13px;
       color: #1A1C1F;
+      display: block;
+      margin-bottom: 24px;
     }
   }
   .tableContent {
-    //overflow-x: auto;
     position: relative;
     background: #FAFFFF;
-    height:448px;
     .suspension {
       width: 100%;
       position: absolute;
@@ -46,22 +45,9 @@
     }
   }
   :global {
-    .ant-table-thead > tr > th, .ant-table-tbody > tr > td, .ant-table-middle > .ant-table-content > .ant-table-header > table > .ant-table-thead > tr > th, .ant-table-middle > .ant-table-content > .ant-table-body > table > .ant-table-thead > tr > th, .ant-table-middle > .ant-table-content > .ant-table-scroll > .ant-table-header > table > .ant-table-thead > tr > th, .ant-table-middle > .ant-table-content > .ant-table-scroll > .ant-table-body > table > .ant-table-thead > tr > th, .ant-table-middle > .ant-table-content > .ant-table-fixed-left > .ant-table-header > table > .ant-table-thead > tr > th, .ant-table-middle > .ant-table-content > .ant-table-fixed-right > .ant-table-header > table > .ant-table-thead > tr > th, .ant-table-middle > .ant-table-content > .ant-table-fixed-left > .ant-table-body-outer > .ant-table-body-inner > table > .ant-table-thead > tr > th, .ant-table-middle > .ant-table-content > .ant-table-fixed-right > .ant-table-body-outer > .ant-table-body-inner > table > .ant-table-thead > tr > th, .ant-table-middle > .ant-table-content > .ant-table-header > table > .ant-table-tbody > tr > td, .ant-table-middle > .ant-table-content > .ant-table-body > table > .ant-table-tbody > tr > td, .ant-table-middle > .ant-table-content > .ant-table-scroll > .ant-table-header > table > .ant-table-tbody > tr > td, .ant-table-middle > .ant-table-content > .ant-table-scroll > .ant-table-body > table > .ant-table-tbody > tr > td, .ant-table-middle > .ant-table-content > .ant-table-fixed-left > .ant-table-header > table > .ant-table-tbody > tr > td, .ant-table-middle > .ant-table-content > .ant-table-fixed-right > .ant-table-header > table > .ant-table-tbody > tr > td, .ant-table-middle > .ant-table-content > .ant-table-fixed-left > .ant-table-body-outer > .ant-table-body-inner > table > .ant-table-tbody > tr > td, .ant-table-middle > .ant-table-content > .ant-table-fixed-right > .ant-table-body-outer > .ant-table-body-inner > table > .ant-table-tbody > tr > td {
-      padding: 0 12px 0 0;
-      height:40px;
-    }
-    .ant-table-thead > tr > th{
-      padding: 16px 12px 16px 0;
-    }
-    .ant-table-thead > tr > th:nth-last-child(1){
-     padding-left:14px;
-      padding-right:0;
-    }
-    .ant-table-thead > tr > th:nth-child(1){
-      padding-left:24px;
-    }
-    .ant-table-tbody > tr > td:nth-child(1){
-      padding-left:24px;
+    .ant-table-tbody > tr > td {
+      padding: 5px 8px;
+      cursor: pointer;
     }
     .background1{
       background:#FAFFFF;
@@ -89,6 +75,11 @@
         cursor: not-allowed !important;
       }
     }
+    .rowSelect{
+      > td {
+        color: #00CCC3;
+      }
+    }
     .ant-progress-inner{
       background: #D5D8DB;
     }
@@ -98,17 +89,20 @@
 .creditLeft{
   width: 100%;
   overflow: hidden;
-  height: 460px;
+  // height: 732px;
   position: relative;
   :global{
-    .oneLevelBgColor{
-      background: #FFFDF8;
-    }
-    .otherLevelBgColor{
+    // 正
+    .plusBgColor{
       background: #FAFFFF;
     }
-    .otherLevelBgColor1{
-      background: #F5FBFF;
+    // 负
+    .minusBgColor{
+      background: #FFF9F9;
+    }
+    // 学分均分
+    .yellowBgColor{
+      background: #FFFDF8;
     }
     .ant-progress-success-bg{
       background: #FF626A;

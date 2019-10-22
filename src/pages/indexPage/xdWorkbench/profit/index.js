@@ -19,7 +19,7 @@ class Profit extends React.Component {
   // PK数组
   changeSelected = (id) => {
     const { pkUsers } = this.state;
-    if (pkUsers instanceof Object) {
+    if (pkUsers instanceof Array) {
       if (pkUsers.includes(id)) {
         pkUsers.splice(pkUsers.indexOf(id), 1);
       } else {

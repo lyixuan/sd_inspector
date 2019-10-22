@@ -1,7 +1,7 @@
 import React from 'react';
 import BIFillCell from '../BIFillCell';
 
-const colorsArr = ['rgba(75, 193, 255, 1)', 'rgba(75, 193, 255, 0.8)', 'rgba(75, 193, 255, 0.6)', 'rgba(75, 193, 255, 0.5)', 'rgba(75, 193, 255, 0.4)', 'rgba(75, 193, 255, 0.3)'];
+const colorsArr = ['rgba(75, 193, 255, 1)', 'rgba(75, 193, 255, 0.8)', 'rgba(75, 193, 255, 0.6)', 'rgba(75, 193, 255, 0.4)', 'rgba(75, 193, 255, 0.2)', 'rgba(75, 193, 255, 0.1)'];
 // 排序
 function orderFn(nums = [], isReversed) {
   nums.sort(function (a, b) {

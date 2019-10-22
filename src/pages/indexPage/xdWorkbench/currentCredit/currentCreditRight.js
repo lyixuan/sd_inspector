@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Progress } from 'antd';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import BIWrapperTable from '../../components/BIWrapperTable';
 import BISelect from '@/ant_components/BISelect'
 import BITable from '@/ant_components/BITable'
 import Indent from '../../components/indent';
 import styles from './style.less';
 
+const { BI = {} } = window;
 const { Option } = BISelect;
 @connect(({ xdWorkModal, loading }) => ({
   xdWorkModal,
@@ -82,7 +83,7 @@ class currentCreditRight extends React.Component {
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
-    if (scrollTop > userLocation && scrollTop < userLocation + 400) {
+    if ((scrollTop > userLocation && scrollTop < userLocation + this.props.getNumValue(600)) || scrollTop === 0) {
       if (userFlag === true) {
         this.setState({
           userFlag: false
@@ -99,71 +100,34 @@ class currentCreditRight extends React.Component {
     const total = this.state.groupList && this.state.groupList[0] ? this.state.groupList[0].credit : 0
     const columns = [
       {
-        width: '10%',
+        width: '16%',
         title: '排名',
         dataIndex: 'creditRanking',
         key: 'creditRanking',
-        render: (creditRanking) => {
-          return (
-            <Indent style={{
-              marginLeft: '-8px'
-            }}>
-              <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{creditRanking}</div>
-            </Indent>
-          )
-        }
       }, {
-        width: '36%',
+        width: '40%',
         title: '组织',
         dataIndex: 'groupName',
         key: 'groupName',
-        render: (groupName) => {
-          return (
-            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{groupName}</div>
-          )
-        }
       }, {
-        width: '18%',
+        width: '20%',
         title: '排名系数',
         dataIndex: 'creditRankingCoefficient',
         key: 'creditRankingCoefficient',
-        render: (creditRankingCoefficient) => {
-          return (
-            <div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{creditRankingCoefficient}</div>
-          )
-        }
       }, {
-        width: '14%',
         title: '学分',
         dataIndex: 'credit',
         key: 'credit',
         render: (credit, record) => {
-          const percent = credit / total * 100;
-          return (
-            <Indent style={{
-              marginLeft: '-8px'
-            }}>
-              <div
-                style={{
-                  cursor: 'pointer',
-                }}
-                data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'
-              >
-                <span style={{ fontSize: '13px' }}>{credit}</span>
-                <Progress
-                  percent={Number(percent)}
-                  strokeColor={'#00CCC3'}
-                  showInfo={false}
-                  strokeWidth={4}
-                ></Progress>
-              </div>
-              {/* <BIWrapperProgress text={credit} percent={percent} iconed={this.getIncludes(record.userId)} propsStyle={{flex: 'inherit',width: '60px'}}/> */}
-            </Indent>
-          );
+          const percent = credit / total * 100 + '%';
+          return <BIWrapperProgress text={credit} percent={percent} iconed={this.getIncludes(record.groupId)} propsStyle={{flex: 'inherit',width: '60px'}}/>
         },
       },
     ]
     return columns || [];
+  }
+  getIncludes = (id) => {
+    return this.props.pkGroupList && this.props.pkGroupList.includes(id);
   }
   onFormChange = (value, vname) => {
     const { orgSecondOptions } = this.state
@@ -220,8 +184,11 @@ class currentCreditRight extends React.Component {
     let taClassName = ""
     if (record.isMyGroup) {
       this.state.userMsg = record;
-      this.state.userLocation = 40 * (index + 1) - 430;
-      taClassName = "rowHover"
+      this.state.userLocation = 40 * (index + 1) - this.props.getNumValue(620);
+      taClassName = "rowHover";
+    }
+    if (this.getIncludes(record.groupId)) {
+      taClassName = 'rowSelect';
     }
     if (record.creditRankingCoefficient === 3) {
       className = "background1 " + taClassName
@@ -240,8 +207,10 @@ class currentCreditRight extends React.Component {
   onClickRow = (record) => {
     return {
       onClick: () => {
-        // 做个自己的判断 ？？？？
-        this.props.clickRow(record.id);
+        if (!record.isMyGroup) {
+          this.props.clickRow(record.groupId);
+          BI.traceV &&  BI.traceV({"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"})
+        }
       },
     };
   }
@@ -264,6 +233,7 @@ class currentCreditRight extends React.Component {
     );
     return data;
   };
+  
   render() {
     const { orgOptions, orgValue, studentValue, userFlag, userMsg, secondOptions, groupList } = this.state;
     const dataSource = groupList ? this.fillDataSource(groupList) : []
@@ -271,14 +241,14 @@ class currentCreditRight extends React.Component {
       <div className={styles.creditRight}>
         <div className={styles.creditSelect} >
           <span className={styles.title}>选择对比小组:</span>
-          <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val, 'oneLevel')}>
+          <BISelect style={{ width: 138}} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val, 'oneLevel')}>
             {orgOptions.map((item, index) => (
               <Option key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
                 {item.name}
               </Option>
             ))}
           </BISelect>
-          <BISelect style={{ width: 222, marginLeft: 12 }} placeholder="请选择" value={studentValue} onChange={(val) => this.onFormChange(val, 'secondLevel')} >
+          <BISelect style={{ width: 188, marginLeft: 12 }} placeholder="请选择" value={studentValue} onChange={(val) => this.onFormChange(val, 'secondLevel')} >
             {secondOptions.map(item => (
               <Option key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
                 {item.name}
@@ -288,27 +258,27 @@ class currentCreditRight extends React.Component {
         </div>
         <div className={styles.tableContent}>
           {userFlag && userMsg && <div className={styles.suspension} >
-            <BITable
+            <BIWrapperTable
               showHeader={false}
               columns={this.columnsRight()}
               dataSource={[userMsg]}
               pagination={false}
               rowKey={record => record.userId}
               rowClassName={this.setRowClassName}
+              scroll={{ y: 40 }}
             />
           </div>}
-          <div id="scroll1" data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>
-            <BITable
+          <div id="scroll1">
+            <BIWrapperTable
               columns={this.columnsRight()}
               dataSource={dataSource}
               pagination={false}
               loading={this.props.loading}
               rowClassName={this.setRowClassName}
               onRow={this.onClickRow}
-              scroll={{ y: 408 }}
+              scroll={{ y: this.props.getNumValue(600) }}
               rowKey={record => record.groupId}
-            >
-            </BITable>
+            />
           </div>
         </div>
 

@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
-import styles from './style.less'
-import Container from '../../components/container'
-import CurrentCreditLeft from './currentCreditLeft'
-import CurrentCreditRight from './currentCreditRight';
-import BIDrawer from '@/components/BIDrawer';
 import BIButton from '@/ant_components/BIButton';
+import BIDrawer from '@/components/BIDrawer';
+import CurrentCreditRight from './currentCreditRight';
+import CurrentCreditLeft from './currentCreditLeft';
+import Container from '../../components/container';
+import closeImg from '@/assets/xdFamily/closeeye.png';
+import showImg from '@/assets/xdFamily/eye.png';
+import styles from './style.less';
 
 @connect(({ xdWorkModal, loading }) => ({
   xdWorkModal,
@@ -30,7 +32,7 @@ class currentCredit extends React.Component {
   // 增减PK者
   clickRow = (id) => {
     const { pkGroupList } = this.state;
-    if (pkGroupList instanceof Object) {
+    if (pkGroupList instanceof Array) {
       if (pkGroupList.includes(id)) {
         pkGroupList.splice(pkGroupList.indexOf(id), 1);
       } else {
@@ -54,6 +56,11 @@ class currentCredit extends React.Component {
       visible: bul,
     });
   };
+  // 隐藏数据
+  getNumValue = (n, s = 160) => {
+    if(!this.state.hasData) return n - s;
+    return n;
+  }
 
   render() {
     const { pkGroupList, visible, hasData } = this.state
@@ -61,15 +68,15 @@ class currentCredit extends React.Component {
       <Container
         title='本期学分'
         style={{ width: '100%', marginBottom: '16px', position: 'relative' }}
-        right={<BIButton onClick={this.toggleData} type="online">{hasData ? '隐藏' : '显示'}基础信息</BIButton>}
+        right={<BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton>}
       >
         <div className={styles.creditContainer}>
           <CurrentCreditLeft 
           toggleDrawer={this.toggleDrawer} 
-          // userData={this.userData}
           changePkFn={this.clickRow}
           hasData={hasData}
           pkGroupList={pkGroupList}
+           getNumValue={this.getNumValue}
           />
           <BIDrawer
           onClose={() => this.toggleDrawer(false)}
@@ -77,7 +84,12 @@ class currentCredit extends React.Component {
           visible={visible}
           drawerStyle={{width: '40%'}}
           >
-            <CurrentCreditRight pkGroupList={pkGroupList} clickRow={this.clickRow} />
+            <CurrentCreditRight 
+            hasData={hasData} 
+            pkGroupList={pkGroupList} 
+            clickRow={this.clickRow} 
+            getNumValue={this.getNumValue}
+            />
           </BIDrawer>
         </div>
       </Container>

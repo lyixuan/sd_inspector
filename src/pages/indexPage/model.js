@@ -259,7 +259,7 @@ export default {
       }
     },
     //  获取左侧的列表数据
-    *groupPkList({ payload, callback }, { call, put }) {
+    *groupPkList({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(groupPkList, params)
       if (result.code === 20000) {
@@ -425,7 +425,7 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { familyGroupPkList } });
         if (callback && typeof callback === 'function') {
-          callback(result.data);
+          callback(result.data.groupList);
         }
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));

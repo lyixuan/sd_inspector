@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less'
-import IndentNum from '../../components/indentNum';
 import BIWrapperTable from '../../components/BIWrapperTable';
 import BIContrastCell from '@/components/BIContrastCell';
 import BILoading from '@/components/BILoading';
@@ -11,13 +10,8 @@ import pluscircle from '@/assets/xdwork/pluscircle.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
 import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
-import normal from '@/assets/xdFamily/rankNormal.png';
 
-const rankImg = {
-  0: down,
-  1: normal,
-  2: up,
-}
+const colorsArr = ['rgba(255, 89, 89, 1)', 'rgba(255, 89, 89, 0.8)', 'rgba(255, 89, 89, 0.6)', 'rgba(255, 89, 89, 0.4)', 'rgba(255, 89, 89, 0.2)', 'rgba(255, 89, 89, 0.1)'];
 function CustomExpandIcon(props) {
   return (
     <a />
@@ -25,8 +19,7 @@ function CustomExpandIcon(props) {
 }
 @connect(({ xdWorkModal, loading }) => ({
   xdWorkModal,
-  // loading: loading.effects['xdWorkModal/groupPkList'],
-  loading: loading.effects['xdWorkModal/getGroupPkList'],
+  loading: loading.effects['xdWorkModal/groupPkList'],
 }))
 class currentCreditLeft extends React.Component {
   constructor(props) {
@@ -46,35 +39,25 @@ class currentCreditLeft extends React.Component {
       this.getGroupPkData(nextProps.pkGroupList);
     }
   }
-  //获取左侧列表数据的方法
-  getGroupPkData = (pkGroupList = this.props.pkGroupList) => {
-    this.props.dispatch({
-      type: 'xdWorkModal/getGroupPkList',
-      payload: { params: { myGroupIds: 272,showFamilyGroup: true } },
-      callback: (groupPkList) => this.setState({ groupPkList })
-    });
-  }
-
   columns = () => {
-    const { groupPkList } = this.state;
+    const { groupList = [] } = this.state.groupPkList;
     const columns = [
       {
         title: '学分维度',
         dataIndex: 'dimensionName',
         key: 'dimensionName',
-        width: '20%'
+        render: (text, record, index) => this.getDimensionName(record, index)
       }, {
-        title: '环比（%）',
+        width: '8%',
+        title: '环比(%)',
         dataIndex: 'myScoreRatio',
         key: 'myScoreRatio',
-        render: (text, record) => <BIFillCell>
-          -5.31 <img src={rankImg[0]} alt=""/>
-        </BIFillCell>
+        render: (text, record) => <>{text ? <BIFillCell>{text} <img src={text > 0 ? up : down} alt=""/></BIFillCell> : ''}</>
       },
     ];
-    groupPkList && groupPkList.groupList.map((item, index) => {
+    groupList.map((item, index) => {
       columns.push({
-        width: '150px',
+        width: '148px',
         title: <div>
           {item.groupName}
           <BIIcon onClick={() => this.props.changePkFn(item.groupId)}/>
@@ -88,7 +71,7 @@ class currentCreditLeft extends React.Component {
         }
       })
     })
-    for (var i = 0; i < 6 - groupPkList.groupList.length; i++) {
+    for (var i = 0; i < 6 - groupList.length; i++) {
       columns.push({
         width: '150px',
         title: <div className={styles.pluscircle} onClick={() => this.props.toggleDrawer(true)}><img src={pluscircle} alt='icon'/>添加PK对象</div>,
@@ -98,35 +81,48 @@ class currentCreditLeft extends React.Component {
     }
     return columns || [];
   };
-  // 是否存在
+  //获取左侧列表数据的方法
+  getGroupPkData = (pkGroupList = this.props.pkGroupList) => {
+    this.props.dispatch({
+      type: 'xdWorkModal/groupPkList',
+      payload: { params: { pkGroupList } },
+      callback: res => {
+        res.dimensionList = this.fillDataSource(res.dimensionList);
+        this.setState({ groupPkList: res });
+      }
+    });
+  }
+  // PK是否选中
   getIncludes = (id) => {
     return this.props.pkUsers && this.props.pkUsers.includes(id);
   }
-  setRowClassName = (record) => {
-    let className = ''
-    if (record.level === 1 && record.dimensionName === "学分均分") {
-      className = "oneLevelBgColor"
-    } else if (record.level === 1 && record.dimensionName !== "学分均分") {
-      className = "otherLevelBgColor"
+  getDimensionName = ({ dimensionName, level, flagMark }, index) => {
+    if (dimensionName === '正面均分' || dimensionName === '负面均分') {
+      return <b>{flagMark} {dimensionName}</b>
+    } else if (level === 3) {
+      return <b style={{marginLeft: '-20px'}}>{flagMark}.{index+1} {dimensionName}</b>
     } else {
-      className = "otherLevelBgColor1"
+      return dimensionName
+    }
+  }
+  setRowClassName = record => {
+    let className = ''
+    if (record.dimensionName === '学分均分') {
+      className = 'yellowBgColor';
+    } else if (record.flagMark === 1 || record.dimensionName === '退挽' || record.dimensionName === '随堂考') {
+      className = 'plusBgColor';
+    } else if (record.flagMark === 2) {
+      className = 'minusBgColor';
     }
     return className
   }
-  serverArray = (arr) => {
-    for (var item = 0; item < arr.length; item++) {
-      if (arr[item].children) {
-        arr[item].isShowPro = true
-        this.serverArray(arr[item].children)
-      }
-    }
-    return arr
-  }
-  fillDataSource = (params = [], n = 1) => {
+  fillDataSource = (params = [], n = 1, flagMark) => {
     params.map(item => {
       item.level = n;
+      item.flagMark = flagMark; // 1 正面均分  2 负面均分 其它
       if (item.children && item.children.length > 0) {
-        this.fillDataSource(item.children, n + 1);
+        const mark = item.dimensionName === '学分均分' ? 1 : (item.dimensionName === '负面均分' ? 2 : flagMark);
+        this.fillDataSource(item.children, n + 1, mark);
       }
     })
     return params
@@ -135,17 +131,16 @@ class currentCreditLeft extends React.Component {
     const { groupPkList } = this.state;
     const data = groupPkList.dimensionList ? JSON.parse(JSON.stringify(groupPkList.dimensionList)) : [];
     if (this.props.hasData) {
-      return this.fillDataSource(data.splice(0));
+      return data.splice(0);
     } else {
-      return this.fillDataSource(data.splice(2));
+      return data.splice(4);
     }
   }
   render() {
     const { pkGroupList } = this.props
     const dataSource = this.getDataSource();
-    console.log(dataSource, 'kkkkk')
     return (
-      <div className={styles.creditLeft}>
+      <div className={styles.creditLeft} style={{height: this.props.getNumValue(732) + 'px'}}>
         {this.props.loading ? <BILoading isLoading={this.props.loading}/> : <div className={styles.tableContainer}>  
           {
             dataSource && dataSource.length > 0 && <BIWrapperTable
@@ -158,10 +153,9 @@ class currentCreditLeft extends React.Component {
               rowKey={record => record.id}
               loading={this.props.loading}
               bordered={true}
-              scroll={{ x: 'max-content', y: 400 }}
+              scroll={{ x: 'max-content', y: this.props.getNumValue(680) }}
             />
           }
-
           {
             pkGroupList && pkGroupList.length <5 ? <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} /></div> : ''
           }

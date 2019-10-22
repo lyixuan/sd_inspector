@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-import BITable from '@/ant_components/BITable';
 import BISelect from '@/ant_components/BISelect';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import BIWrapperTable from '../../../components/BIWrapperTable';
 import styles from '../style.less';
 
+const { BI = {} } = window;
 const { Option } = BISelect;
 const pkTypeconfig = ['集团排行', '学院内排行', '家族内排行', '同期入职排行', '同级排行',];
 @connect(({ loading }) => ({
@@ -24,7 +25,7 @@ class ProfitList extends React.Component {
     this.getData();
     // 表格添加滚动事件
     document.querySelector("#scroll .ant-table-body").onscroll = (e) => {
-      this.getScrollFn(e.target.scrollTop)
+      this.getScrollFn(e.target.scrollTop);
     }
   }
   componentWillUnmount() {
@@ -32,7 +33,7 @@ class ProfitList extends React.Component {
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
-    if (scrollTop > userLocation && scrollTop < userLocation + 400) {
+    if ((scrollTop > userLocation && scrollTop < userLocation + 400) || scrollTop === 0) {
       if (userFlag === true) {
         this.setState({
           userFlag: false
@@ -48,23 +49,21 @@ class ProfitList extends React.Component {
     const total = this.state.profitList && this.state.profitList[0] ? this.state.profitList[0].incomeKpi : 0
     const columns = [
       {
-        width: '10%',
+        width: '16%',
         title: '排名',
         dataIndex: 'sort',
         key: 'sort',
-        render: text => <div data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</div>
+
       }, {
-        width: '50%',
+        width: '40%',
         title: '组织',
         dataIndex: 'org',
         key: 'org',
-        render: text => <div data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</div>
       }, {
         width: '20%',
         title: '班主任',
         dataIndex: 'userName',
         key: 'userName',
-        render: text => <div data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</div>
       }, {
         title: '绩效收入',
         dataIndex: 'incomeKpi',
@@ -82,6 +81,7 @@ class ProfitList extends React.Component {
       onClick: () => {
         if (this.props.userId === record.userId) return;
         this.props.changeSelected(record.userId);
+        BI.traceV &&  BI.traceV({"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"})
       },
     };
   }
@@ -131,17 +131,18 @@ class ProfitList extends React.Component {
         </div>
         <div className={styles.tableContent}>
           {userFlag && userMsg && <div className={styles.suspenTable}>
-            <BITable
+            <BIWrapperTable
               showHeader={false}
               columns={this.columns()}
               dataSource={[userMsg]}
               pagination={false}
               rowKey={record => record.userId}
               rowClassName={this.getRowClassName}
+              scroll={{ y: 40 }}
             />
           </div>}
           <div id='scroll' className={`${yScrollFlag ? styles.scrollTable : ''} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
-            <BITable
+            <BIWrapperTable
               columns={this.columns()}
               dataSource={profitList}
               pagination={false}
