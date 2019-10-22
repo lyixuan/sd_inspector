@@ -44,7 +44,7 @@ class FamilyIncomeLeft extends React.Component {
     })
     data.map((item) => {
       if (item.dimensionName === "好推单量" || item.dimensionName === "好推流水") {
-        item.isShowPro= true
+        item.isShowPro = true
 
       }
     })
@@ -61,33 +61,33 @@ class FamilyIncomeLeft extends React.Component {
     return arr
   }
   columns = () => {
-    const { pkFamilyId,userInfo } = this.props;
+    const { pkFamilyId, userInfo } = this.props;
     const columns = [{
       width: '25%',
       title: '创收维度',
       dataIndex: 'dim',
       key: 'dim',
-    },{
+    }, {
       width: '14%',
       title: '环比(%)',
       dataIndex: 'ringPk',
       key: 'ringPk',
       render: text => <IndentNum className={JudgeNumFn(text)}>{text}</IndentNum>
-    },{
+    }, {
       width: '14%',
       title: userInfo.familyName,
       dataIndex: 'selfValue',
       key: 'selfValue',
-      render:(text, record, index)=> <IndentNum className={pkFamilyId ? JudgeNumFn(Number(text), Number(record.familyPk), index === 0 ? true : false) : ''}>{text}</IndentNum>
-    },{
+      render: (text, record, index) => <IndentNum className={pkFamilyId ? JudgeNumFn(Number(text), Number(record.familyPk), index === 0 ? true : false) : ''}>{text}</IndentNum>
+    }, {
       title: '',
       dataIndex: 'selfValue',
       key: 'leftNum',
       width: 51,
       render: (text, record, index) => {
         return (
-          pkFamilyId && index > 2 ? <Progress leftNumber = {true} data={{myScore: text, groupScore: record.familyPk}}/>
-          : <div className={styles.pkRankMain} style={{ justifyContent: 'flex-end', marginRight: '-18px' }}>
+          pkFamilyId && index > 2 && text != '0.00' ? <Progress leftNumber={true} data={{ myScore: text, groupScore: record.familyPk }} />
+            : <div className={styles.pkRankMain} style={{ justifyContent: 'flex-end', marginRight: '-18px' }}>
               <div
                 style={{
                   color: '#52C9C2',
@@ -97,7 +97,7 @@ class FamilyIncomeLeft extends React.Component {
                   justifyContent: 'flex-end'
                 }}
               />
-          </div>
+            </div>
         );
       }
     }, {
@@ -107,27 +107,27 @@ class FamilyIncomeLeft extends React.Component {
       width: 51,
       render: (text, record, index) => {
         return (
-          pkFamilyId && index > 2  ? <Progress data={{myScore: record.selfValue, groupScore: text}}/>
-          : <div className={styles.pkRankMain} style={{ justifyContent: 'flex-satrt', marginRight: '-18px' }}>
-            <div
-              style={{
-                color: '#52C9C2',
-                cursor: 'pointer',
-                width: '58.5px',
-                display: 'flex',
-                justifyContent: 'flex-satrt'
-              }}
-            >
+          pkFamilyId && index > 2 && text != '0.00' ? <Progress data={{ myScore: record.selfValue, groupScore: text }} />
+            : <div className={styles.pkRankMain} style={{ justifyContent: 'flex-satrt', marginRight: '-18px' }}>
+              <div
+                style={{
+                  color: '#52C9C2',
+                  cursor: 'pointer',
+                  width: '58.5px',
+                  display: 'flex',
+                  justifyContent: 'flex-satrt'
+                }}
+              >
+              </div>
             </div>
-          </div>
         );
       }
-    },{
+    }, {
       title: '对比家族',
       dataIndex: 'familyPk',
       key: 'familyPk',
-      width:'25%',
-      render:(text, record, index)=> <IndentNum className={pkFamilyId ? JudgeNumFn(Number(text), Number(record.selfValue), index === 0 ? true : false) : ''}>{text ? text : ''}</IndentNum>
+      width: '25%',
+      render: (text, record, index) => <IndentNum className={pkFamilyId ? JudgeNumFn(Number(text), Number(record.selfValue), index === 0 ? true : false) : ''}>{text ? text : ''}</IndentNum>
     }]
     return columns || [];
   }
@@ -143,24 +143,24 @@ class FamilyIncomeLeft extends React.Component {
             rightCollege={familyList.pkFamilyName}
             style={{ width: 'calc(100% - 200px)' }}
           /> : <div className={styles.proNone}>
-          <img src={pkImg} style={{ width: '32px' }} />
-          <span>快从右边选择一个家族进行学分PK吧！</span>
-        </div>}
+              <img src={pkImg} style={{ width: '32px' }} />
+              <span>快从右边选择一个家族进行学分PK吧！</span>
+            </div>}
         </div>
         <div className={styles.tableContainer}>
-            <BITable
-              columns={this.columns()}
-              dataSource={familyList.pkInfo || []}
-              defaultExpandAllRows={true}
-              expandIcon={CustomExpandIcon}
-              pagination={false}
-              scroll={{ x: 0, y: 208 }}
-              rowKey={record => record.id}
-              loading={this.props.loading}
-            />
-            {
-              !pkFamilyId && <div className={styles.tableImg}><img src={xdPkImg} /></div>
-            }
+          <BITable
+            columns={this.columns()}
+            dataSource={familyList.pkInfo || []}
+            defaultExpandAllRows={true}
+            expandIcon={CustomExpandIcon}
+            pagination={false}
+            scroll={{ x: 0, y: 208 }}
+            rowKey={record => record.id}
+            loading={this.props.loading}
+          />
+          {
+            !pkFamilyId && <div className={styles.tableImg}><img src={xdPkImg} /></div>
+          }
         </div>
       </div>
     );

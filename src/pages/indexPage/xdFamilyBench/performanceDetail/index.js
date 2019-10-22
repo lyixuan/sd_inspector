@@ -72,7 +72,7 @@ class performanceDetail extends React.Component {
           cursor: 'default',
           type: 'pie',
           radius: ['80%', '100%'],
-          color: ["#00CCC3", "#FFBC00"],
+          color: ["#00CCC3", "#FFBC00", "#ebebeb"],
           hoverOffset: 0,
           avoidLabelOverlap: false,
           itemStyle: {
@@ -87,7 +87,8 @@ class performanceDetail extends React.Component {
           },
           data: [
             data1.achievement,
-            data1.incomeKpi
+            data1.incomeKpi,
+            data2.amount
           ]
         }
       ]
@@ -97,6 +98,9 @@ class performanceDetail extends React.Component {
     }
     if (data1.incomeKpi == 0) {
       option.series[0].color[1] = '#ebebeb'
+    }
+    if (data2.amount == 0) {
+      option.series[0].color[2] = '#ebebeb'
     }
     this.myChart = echarts.init(this.ID);
     this.myChart.setOption(option);

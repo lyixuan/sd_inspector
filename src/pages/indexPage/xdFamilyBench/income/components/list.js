@@ -5,6 +5,7 @@ import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
 import normal from '@/assets/xdFamily/rankNormal.png';
 import SmallProgress from '@/pages/indexPage/components/smallProgress'
+import { thousandsFormat } from '@/utils/utils';
 import styles from './style.less';
 
 const rankImg = {
@@ -13,7 +14,7 @@ const rankImg = {
   2: up,
 }
 const getPercentFn = (m, d) => {
-  return (d ? m/d * 100 : 0) + '%';
+  return (d ? m / d * 100 : 0) + '%';
 }
 @connect(({ loading }) => ({
   loading: loading.effects['xdWorkModal/getCurrentIncomeClass'] || loading.effects['xdWorkModal/getCurrentIncomeGroup'],
@@ -32,7 +33,7 @@ class ProfitList extends React.Component {
     this.getData();
   }
   columns = () => {
-    const { goodpushKpiMax, renewalKpiMax, examZbtKpiMax} = this.state;
+    const { goodpushKpiMax, renewalKpiMax, examZbtKpiMax } = this.state;
     const { tabKey } = this.props;
     const widthVal = tabKey === '1' ? '8%' : '7%';
     const columns = [
@@ -54,13 +55,16 @@ class ProfitList extends React.Component {
         title: '总绩效',
         dataIndex: 'incomeKpi',
         key: 'incomeKpi',
+        render: (text, record) => {
+          return <span>{thousandsFormat(parseInt(text))}</span>
+        }
       }, {
         width: '9%',
         title: '好推绩效',
         dataIndex: 'goodpushKpi',
         key: 'goodpushKpi',
         className: styles.row1,
-        render: text => <>{text}<SmallProgress isColor="green" percent={getPercentFn(text, goodpushKpiMax)}></SmallProgress></>
+        render: text => <>{thousandsFormat(parseInt(text))}<SmallProgress isColor="green" percent={getPercentFn(text, goodpushKpiMax)}></SmallProgress></>
       }, {
         width: widthVal,
         title: '好推单量',
@@ -73,13 +77,16 @@ class ProfitList extends React.Component {
         dataIndex: 'goodpushFlow',
         key: 'goodpushFlow',
         className: styles.row1,
+        render: (text, record) => {
+          return <span>{thousandsFormat(parseInt(text))}</span>
+        }
       }, {
         width: widthVal,
         title: '续报绩效',
         dataIndex: 'renewalKpi',
         key: 'renewalKpi',
         className: styles.row2,
-        render: text => <>{text}<SmallProgress isColor="green" percent={getPercentFn(text, renewalKpiMax)}></SmallProgress></>
+        render: text => <>{thousandsFormat(parseInt(text))}<SmallProgress isColor="green" percent={getPercentFn(text, renewalKpiMax)}></SmallProgress></>
       }, {
         width: widthVal,
         title: '续报单量',
@@ -92,13 +99,16 @@ class ProfitList extends React.Component {
         dataIndex: 'renewalFlow',
         key: 'renewalFlow',
         className: styles.row2,
+        render: (text, record) => {
+          return <span>{thousandsFormat(parseInt(text))}</span>
+        }
       }, {
         width: widthVal,
         title: '成本套绩效',
         dataIndex: 'examZbtKpi',
         key: 'examZbtKpi',
         className: styles.row3,
-        render: text => <>{text}<SmallProgress isColor="green" percent={getPercentFn(text, examZbtKpiMax)}></SmallProgress></>
+        render: text => <>{thousandsFormat(parseInt(text))}<SmallProgress isColor="green" percent={getPercentFn(text, examZbtKpiMax)}></SmallProgress></>
       }, {
         width: widthVal,
         title: '成本套当量',
@@ -111,6 +121,9 @@ class ProfitList extends React.Component {
         dataIndex: 'examZbtFlow',
         key: 'examZbtFlow',
         className: styles.row3,
+        render: (text, record) => {
+          return <span>{thousandsFormat(parseInt(text))}</span>
+        }
       },
     ];
     if (this.props.tabKey === '2') {
@@ -134,10 +147,10 @@ class ProfitList extends React.Component {
         type: 'xdWorkModal/getCurrentIncomeClass',
         callback: familyIncome => this.dispatchCallback(familyIncome)
       });
-    } 
+    }
   }
   dispatchCallback = familyIncome => {
-    this.setState({ 
+    this.setState({
       familyIncome,
       goodpushKpiMax: Math.max.apply(Math, familyIncome.map(item => item.goodpushKpi)),
       renewalKpiMax: Math.max.apply(Math, familyIncome.map(item => item.renewalKpi)),

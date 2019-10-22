@@ -9,18 +9,18 @@ import xdPkImg from '@/assets/workBench/incomeImg.gif';
 }))
 class GroupIncome extends React.Component {
   componentDidMount() {
-    console.log(11,this.props.familyAndGroup)
+    console.log(11, this.props.familyAndGroup)
     this.props.getIncomeFamilyGroupPk(this.props.familyAndGroup.state.groupPkInitFlag);
   }
-  columns = () =>{
+  columns = () => {
     const { colName = [] } = this.props.familyIncomeGroup;
     const columns = [{
-        title: '创收维度',
-        dataIndex: '创收维度',
-        key: '创收维度',
-        width:"12%",
-        render: (text, record) => record[0],
-      }];
+      title: '创收维度',
+      dataIndex: '创收维度',
+      key: '创收维度',
+      width: "12%",
+      render: (text, record) => record[0],
+    }];
 
     if (colName && colName.length > 0) {
       colName.map(({ groupName, groupId }, index) => columns.push({
@@ -28,7 +28,7 @@ class GroupIncome extends React.Component {
         dataIndex: groupName,
         key: groupName,
         className: this.getTdClass(groupId),
-        width:'13%',
+        width: '13%',
         render: (text, record) => record[index + 1],
       }))
     }
@@ -60,21 +60,21 @@ class GroupIncome extends React.Component {
     const dataSource = this.props.familyIncomeGroup && this.props.familyIncomeGroup.data
     const colName = this.props.familyIncomeGroup && this.props.familyIncomeGroup.colName
     return (
-      <div className={styles.creditContainer} style={{display:'block'}}>
+      <div className={styles.creditContainer} style={{ display: 'block' }}>
         {
           <BITable
             columns={this.columns()}
-            dataSource={dataSource||[]}
+            dataSource={dataSource || []}
             pagination={false}
             loading={this.props.loading}
             rowKey={record => record.id}
-            scroll={{ y: 208 }}
+            scroll={{ y: 408 }}
             smalled
           >
           </BITable>
         }
         {
-          (colName || []).length <=0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
+          (colName || []).length <= 0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
         }
       </div>
     );
