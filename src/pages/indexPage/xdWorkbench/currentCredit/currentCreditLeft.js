@@ -46,7 +46,7 @@ class currentCreditLeft extends React.Component {
         title: '学分维度',
         dataIndex: 'dimensionName',
         key: 'dimensionName',
-        render: (text, record, index) => this.getDimensionName(record, index)
+        render: (text, record) => this.getDimensionName(record)
       }, {
         width: '8%',
         title: '环比(%)',
@@ -96,11 +96,10 @@ class currentCreditLeft extends React.Component {
   getIncludes = (id) => {
     return this.props.pkUsers && this.props.pkUsers.includes(id);
   }
-  getDimensionName = ({ dimensionName, level, flagMark }, index) => {
-    if (dimensionName === '正面均分' || dimensionName === '负面均分') {
-      return <b>{flagMark} {dimensionName}</b>
-    } else if (level === 3) {
-      return <b style={{marginLeft: '-20px'}}>{flagMark}.{index+1} {dimensionName}</b>
+  // 列表维度name
+  getDimensionName = ({ dimensionName, level, sequenceNo }) => {
+    if (sequenceNo) {
+      return <b style={{marginLeft: level === 3 ? '-20px' : '0'}}>{sequenceNo} {dimensionName}</b>
     } else {
       return dimensionName
     }
