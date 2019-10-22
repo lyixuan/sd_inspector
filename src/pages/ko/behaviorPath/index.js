@@ -150,11 +150,11 @@ class BehaviorPath1 extends React.Component {
   }
 
   render() {
+    const baseInfo ={"imageUrl":null,"stuName":"姓名","nickName":"昵称","sex":"男","age":26,"city":"北京","collegeName":"自变量学院","familyName":"汉语言家族","groupName":"产研小组","businessName":"很长的前端学院","registerDate":"2019-09-09","serviceEndDate":"2019-09-11"}
+
     const pathParams = JSON.parse(this.props.location.query.params)
     const target = pathParams.target
     const userInfoParams = this.props.behaviorPath.userInfo
-    console.log(11,this.state.activeKey)
-    console.log(12,this.state.searchType)
     if (target.indexOf("im") == 0) {
       this.state.activeKey = "2"
     } else if (target.indexOf("bbs") == 0) {
@@ -215,7 +215,7 @@ class BehaviorPath1 extends React.Component {
       </div>
         {
           ((this.state.searchType && this.state.searchType=== '6') || (!this.state.searchType && this.state.activeKey==='6'))?
-            <UserPortary stuId={sutId}/> :null
+            <UserPortary stuId={sutId} baseInfo={baseInfo}/> :null
         }
       </>
     );
