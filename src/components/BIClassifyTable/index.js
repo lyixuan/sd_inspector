@@ -95,7 +95,6 @@ class BIClassifyTable extends React.Component {
         width: 85,
         className: styles.txRight,
         render: (text, record, indexs) => {
-          console.log(98, record.orgId, this.state.currentIndex)
           return (
             this.state.checked == record.orgId && this.state.currentIndex == index ? <BISelectCell key={index} text={dataSource[indexs].values[index]} onClick={(e) => { this.cellClick(record, index, e) }} /> : <BIContrastCell key={index} colors={colors} onClick={(e) => { this.cellClick(record, index, e) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
           )
