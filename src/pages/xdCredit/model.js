@@ -30,7 +30,6 @@ export default {
       const params = payload.params;
       const result = yield call(reasonList, params);
       if (result.code === 20000) {
-        console.log(31, result)
         yield put({ type: 'save', payload: { imDetailData: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));

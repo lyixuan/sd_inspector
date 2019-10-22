@@ -2,7 +2,8 @@ import request from '@/utils/request';
 
 // 用户—获得具有权限的组织架构
 export async function getUserOrgList(params) {
-  return request('/deskperfpcapi/organization/userOrgList', { method: 'get', params });
+  // return request('/deskperfpcapi/organization/userOrgList', { method: 'get', params });
+  return request('http://172.16.17.211:8083/organization/userOrgList', { method: 'get', params });
 }
 // 学分—小组维度列表
 export async function getDimensionList(data) {

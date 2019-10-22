@@ -5,52 +5,52 @@ import BISelectCell from '@/components/BISelectCell';
 import searchIcon from '@/assets/xdCredit/search.png';
 import styles from './style.less';
 
-const colors = ['rgba(255, 89, 89, 1)', 'rgba(255, 89, 89, 0.8)', 'rgba(255, 89, 89, .6)', 'rgba(255, 89, 89, .5)', 'rgba(255, 89, 89, .4)', 'rgba(255, 89, 89, .3)']
-const reasonTypeList = [{
-  typeId: 1,
-  typeName: '所有分类'
-}, {
-  typeId: 2,
-  typeName: '产品方向'
-}, {
-  typeId: 3,
-  typeName: '产品使用'
-}, {
-  typeId: 4,
-  typeName: '产品使用'
-}]
-const titleList2 = ['版本更新1', '版本更新2', '版本更新3', '版本更新4', '版本更新4']
-const dataSource = [{
-  id: 1,
-  name: '组织名称1',
-  groupType: 'group',
-  values: [1, 3.43, 15, 34, 45],
-  total: 340
-}, {
-  id: 2,
-  name: '组织名称2',
-  groupType: 'group',
-  values: [2, 3.41, 55, 34, 45],
-  total: 340
-}, {
-  id: 3,
-  name: '组织名称3',
-  groupType: 'group',
-  values: [3, 3.4, 55, 34, 55],
-  total: 340
-}, {
-  id: 4,
-  name: '组织名称4',
-  groupType: 'group',
-  values: [4, 3.4, 55, 34, 55],
-  total: 340
-}, {
-  id: 5,
-  name: '组织名称4',
-  groupType: 'group',
-  values: [5, 3.4, 55, 34, 55],
-  total: 340
-}]
+
+// const reasonTypeList = [{
+//   typeId: 1,
+//   typeName: '所有分类'
+// }, {
+//   typeId: 2,
+//   typeName: '产品方向'
+// }, {
+//   typeId: 3,
+//   typeName: '产品使用'
+// }, {
+//   typeId: 4,
+//   typeName: '产品使用'
+// }]
+// const titleList2 = ['版本更新1', '版本更新2', '版本更新3', '版本更新4', '版本更新4']
+// const dataSource = [{
+//   id: 1,
+//   name: '组织名称1',
+//   groupType: 'group',
+//   values: [1, 3.43, 15, 34, 45],
+//   total: 340
+// }, {
+//   id: 2,
+//   name: '组织名称2',
+//   groupType: 'group',
+//   values: [2, 3.41, 55, 34, 45],
+//   total: 340
+// }, {
+//   id: 3,
+//   name: '组织名称3',
+//   groupType: 'group',
+//   values: [3, 3.4, 55, 34, 55],
+//   total: 340
+// }, {
+//   id: 4,
+//   name: '组织名称4',
+//   groupType: 'group',
+//   values: [4, 3.4, 55, 34, 55],
+//   total: 340
+// }, {
+//   id: 5,
+//   name: '组织名称4',
+//   groupType: 'group',
+//   values: [5, 3.4, 55, 34, 55],
+//   total: 340
+// }]
 class BIClassifyTable extends React.Component {
   constructor(props) {
     super();
@@ -60,6 +60,10 @@ class BIClassifyTable extends React.Component {
     }
   }
   title = () => {
+    const reasonTypeList = this.props.dataSource.reasonTypeList
+    if (!reasonTypeList) {
+      return <span>所有分类</span>
+    }
     return (
       <div>
         {reasonTypeList.map((item, index) => {
@@ -73,40 +77,65 @@ class BIClassifyTable extends React.Component {
   handleClassifyClick = (item) => {
     this.props.classifyClick(item);
   }
-  cellClick = (record, index, e) => {
-    console.log(55, record, index, e.target)
+  reasonTypeClick = (item) => {
+    this.props.reasonTypeClick(item);
+  }
+  cellClick = (record, index) => {
+    console.log(84, record, index)
     this.setState({
       currentIndex: index,
-      checkedId: record.id
+      checkedId: record[this.props.defaultKey.id]
     })
   }
 
   columns = () => {
+    const data = this.props.dataSource
+    const titleList = data.titleList
+    const dataSource = data.dataList
+    const reasonTypeList = data.reasonTypeList
     const children = [];
     let repairArr = 0
-    if (this.state.scrollWidth > titleList2.length * 85) {
-      repairArr = Math.ceil((this.state.scrollWidth - titleList2.length * 85) / 85)
+    if (!titleList) return;
+    if (this.state.scrollWidth > titleList.length * 85) {
+      repairArr = Math.ceil((this.state.scrollWidth - titleList.length * 85) / 85)
     }
-    titleList2.map((item, index) => {
+    titleList && titleList.map((item, index) => {
       children.push({
-        title: <div>{item}<img src={searchIcon}></img></div>,
+        title: <div onClick={() => this.reasonTypeClick(item)}>{item.typeName}{item.expand ? <img src={searchIcon}></img> : null}</div>,
         dataIndex: 'index',
         key: index,
         width: 85,
         className: styles.txRight,
         render: (text, record, indexs) => {
           return (
-            this.state.checkedId == record[this.props.defaultKey.id] && this.state.currentIndex == index ? <BISelectCell key={index} text={dataSource[indexs].values[index]} onClick={(e) => { this.cellClick(record, index, e) }} /> : <BIContrastCell key={index} colors={colors} onClick={(e) => { this.cellClick(record, index, e) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
+            this.state.checkedId == record[this.props.defaultKey.id] && this.state.currentIndex == index ? <BISelectCell key={index} text={dataSource[indexs].values[index]} onClick={(e) => { this.cellClick(record, index, e) }} /> : <BIContrastCell key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, index, e) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
           )
         },
       })
+
     })
+    if (!reasonTypeList) {
+      children.push({
+        title: '未分类数据',
+        dataIndex: 'unClassifyCount',
+        key: 'unClassifyCount',
+        width: 60,
+        className: styles.txRight,
+        render: (text, record, index) => {
+          const nums = [...dataSource[index].values, text]
+          return (
+            this.state.checkedId == record[this.props.defaultKey.id] && this.state.currentIndex == index ? <BISelectCell text={text} onClick={(e) => { this.cellClick(record, index) }} /> : <BIContrastCell key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, index, e) }} nums={nums} text={text} />
+          )
+        }
+      })
+    }
+
 
     if (repairArr > 0) {
       for (let i = 0; i < repairArr; i++) {
         children.push({
           title: '-',
-          dataIndex: 'companyName',
+          dataIndex: 'i',
           className: styles.txRight,
           key: `empty${i}`,
           render: () => {
@@ -135,18 +164,19 @@ class BIClassifyTable extends React.Component {
         className: styles.txRight,
         fixed: 'right',
       }
+
     ]
     return columns;
   }
   componentDidMount() {
     const tableWidth = document.getElementById("tableWrap").offsetWidth;
     const scrollWidth = tableWidth - 105 - 60;
-
     this.setState({
       scrollWidth
     })
   }
   render() {
+    const dataSource = this.props.dataSource.dataList
     return (
       <div className={styles.tableWrap} id="tableWrap">
         <BITable
