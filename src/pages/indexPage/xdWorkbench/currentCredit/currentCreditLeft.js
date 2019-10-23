@@ -68,7 +68,7 @@ class currentCreditLeft extends React.Component {
         //   // const others = index === 0 && record.values[index] ? <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span> : <span style={{marginLeft: '8px'}}></span>;
         //   return <BIContrastCell nums={record.values} text={record.values[index]} others={''}/>
         // }
-        render: (text, record) => record.flagMark ? record.valuesBlock : <BIFillCell>{record.values[index]}</BIFillCell>
+        render: (text, record) => record.flagMark ? <>1</> : <BIFillCell>{record.values[index]}</BIFillCell>
       })
     })
     for (var i = 0; i < 6 - groupList.length; i++) {
@@ -144,7 +144,8 @@ class currentCreditLeft extends React.Component {
     const dataSource = this.getDataSource();
     return (
       <div className={styles.creditLeft} style={{height: this.props.getNumValue(732) + 'px'}}>
-        {this.props.loading ? <BILoading isLoading={this.props.loading}/> : <div className={styles.tableContainer}>  
+        {BIContrastCell.colorContrast({nums: [1,3,4,4,4,4]}).map(item => <span style={{position: 'relative'}}>{item}</span>)}
+        {/* {this.props.loading ? <BILoading isLoading={this.props.loading}/> : <div className={styles.tableContainer}>  
           {
             dataSource && dataSource.length > 0 && <BIWrapperTable
               columns={this.columns()}
@@ -163,6 +164,7 @@ class currentCreditLeft extends React.Component {
             pkGroupList && pkGroupList.length <5 ? <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} /></div> : ''
           }
       </div>}
+      </div> */}
       </div>
     );
   }
