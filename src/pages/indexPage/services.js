@@ -30,7 +30,7 @@ export async function groupList(params) {
 }
 // 左侧学分pk对象的数据
 export async function groupPkList(params) {
-  return request('/deskperfpcapi/scorePk/group/pk', { method: 'POST', data: params })
+  return request('/test/scorePk/group/pk', { method: 'POST', data: params })
 }
 //判断是否显示本期学分的模块
 export async function isShowPermission(params) {

@@ -1,9 +1,8 @@
 import React from 'react';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
 import ProfitList from './components/list';
 import ProfitTabs from './components/tabs';
 import BIDrawer from '@/components/BIDrawer';
-
 
 class Profit extends React.Component {
   constructor(props) {

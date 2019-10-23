@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Tooltip } from 'antd';
 import BIRadio from '@/ant_components/BIRadio';
 import BITable from '@/ant_components/BITable';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
 import rankWarn from '@/assets/xdFamily/rankWarn.png';
 import styles from './style.less';
 import BILoading from '@/components/BILoading'

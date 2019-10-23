@@ -34,7 +34,7 @@ class currentCreditLeft extends React.Component {
   componentDidMount() {
     this.getGroupPkData();
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.pkGroupList !== nextProps.pkGroupList) {
       this.getGroupPkData(nextProps.pkGroupList);
     }
