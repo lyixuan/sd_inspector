@@ -175,6 +175,9 @@ function TeacherOrStudent(props) {
   loadingAppeal: loading.effects['xdCreditModal/getDimensionDetail'],
 }))
 class CreditImDetials extends React.Component {
+  constructor(props) {
+    super();
+  }
   columns = () => {
 
     const { detailsData } = this.props;
@@ -297,11 +300,8 @@ class CreditImDetials extends React.Component {
       }
     });
   }
-  classifyClick(type) {
-    console.log(301, type)
-  }
-  reasonTypeClick(item) {
-    console.log(305, item)
+  reasonTypeClick = (item) => {
+    this.props.reasonTypeClick(item);
   }
   cellClick() {
 
@@ -338,7 +338,6 @@ class CreditImDetials extends React.Component {
             defaultKey={{ id: 'orgId', name: 'orgName' }}
             cellClick={this.cellClick}
             reasonTypeClick={this.reasonTypeClick}
-            classifyClick={this.classifyClick}
           ></BIClassifyTable>
         </div>
         <BITable

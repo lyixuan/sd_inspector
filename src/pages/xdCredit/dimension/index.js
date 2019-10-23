@@ -15,8 +15,8 @@ class Dimension extends React.Component {
     const columns = [
       {
         title: this.props.dimensionData.groupFullName,
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'dimensionName',
+        key: 'dimensionName',
         width: '160px',
         render: text => <span data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>{text}</span>
       }, {
