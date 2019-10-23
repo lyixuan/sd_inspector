@@ -151,6 +151,15 @@ class BehaviorPath1 extends React.Component {
 
   render() {
     const baseInfo ={"imageUrl":null,"stuName":"姓名","nickName":"昵称","sex":"男","age":26,"city":"北京","collegeName":"自变量学院","familyName":"汉语言家族","groupName":"产研小组","businessName":"很长的前端学院","registerDate":"2019-09-09","serviceEndDate":"2019-09-11"}
+    const tagInfo = {"learnInitiative":{
+      "dayCount":-1,"dayPercent":1,"liveTime":10847788,"replayTime":61602309},
+      "exerciseInitiative":{"dayCount":2,"dayPercent":83838877,"exerciseCount":39814673},
+      consultCount:6061,
+      "negativeList":[
+        {"countDate":"2019-09-09",
+          "count":2}],
+      "imNonRatio":0.47820885,
+      "exerciseRatio":0.85};
 
     const pathParams = JSON.parse(this.props.location.query.params)
     const target = pathParams.target
@@ -215,7 +224,7 @@ class BehaviorPath1 extends React.Component {
       </div>
         {
           ((this.state.searchType && this.state.searchType=== '6') || (!this.state.searchType && this.state.activeKey==='6'))?
-            <UserPortary stuId={sutId} baseInfo={baseInfo}/> :null
+            <UserPortary stuId={sutId} baseInfo={baseInfo} tagInfo={tagInfo}/> :null
         }
       </>
     );

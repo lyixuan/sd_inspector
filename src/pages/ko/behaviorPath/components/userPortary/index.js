@@ -3,13 +3,14 @@ import BaseInfo from './baseInfo';
 import styles from './style.css';
 
 export default class UserPortary extends React.Component {
+
   render() {
 
-    const { baseInfo={} } = this.props;
+    const { baseInfo={},tagInfo = {} } = this.props;
 
     return (
       <div className={styles.layout}>
-        <BaseInfo baseInfo={baseInfo}/>
+        <BaseInfo baseInfo={baseInfo} tagInfo={tagInfo}/>
       </div>
     );
   }

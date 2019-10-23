@@ -51,9 +51,20 @@
   color: #7A7C80;
 }
 
-.icon {
+.zxl,.qx,.im {
   height: 40px;
   font-size: 30px;
   font-weight: bold;
   margin-bottom: 10px;
+  color: #00CCC3;
+}
+
+.im {
+  color: #FF4A53;
+}
+
+.vertical {
+  height: 30px;
+  top: 10px;
+  color: #E1E4EA;
 }
