@@ -1,0 +1,47 @@
+.topTab{
+  position: relative;
+  .topBtn{
+    position: absolute;
+    top:9px;
+    right:24px;
+  }
+  :global{
+    .ant-tabs-bar{
+      width:100%;
+      border-bottom: 1px solid #F5F8FA;
+    }
+    .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-nav-container{
+      height:47px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab{
+      border:1px solid #fff;
+      border-radius: 0;
+      line-height: 22px;
+      margin-right:0;
+      background: none;
+      height:22px;
+      font-size: 16px;
+      color: #56595E;
+    }
+    .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab:nth-child(1){
+      margin-left:8px;
+    }
+    .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active{
+      height:22px;
+      border:1px solid #fff;
+      color: #1A1C1F;
+      font-weight:bold;
+    }
+    .ant-tabs-nav .ant-tabs-tab:nth-child(1)::after{
+      content: '|';
+      position: absolute;
+      color:#D8D8D8;
+      right: -4px;
+      top:1px;
+      transform: scale(.5, .7);
+    }
+  }
+}

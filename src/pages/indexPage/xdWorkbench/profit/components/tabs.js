@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Skeleton } from 'antd';
-import Proportion from '../../components/proportion';
+import Proportion from '../../../components/proportion';
 import BIRadio from '@/ant_components/BIRadio';
 import gradeA from '@/assets/workBench/a.png';
 import gradeB from '@/assets/workBench/b.png';
@@ -102,13 +102,13 @@ class ProfitTbas extends React.Component {
   getSizeStyle = ({ selfValue, pkUserValue }, index) => {
     if (!this.props.pkUser) return ''
     if (index === 0) {
-      if (selfValue < pkUserValue ) {
+      if (selfValue < pkUserValue) {
         return '#00CCC3';
       } else if (selfValue > pkUserValue) {
         return '#FF626A';
       }
     }
-    if (selfValue > pkUserValue ) {
+    if (selfValue > pkUserValue) {
       return '#00CCC3';
     } else if (selfValue < pkUserValue) {
       return '#FF626A';

@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less'
 import BITable from '@/ant_components/BITable'
-import Proportion from '../components/proportion';
-import IndentNum from '../components/indentNum';
+import Proportion from '../../components/proportion';
+import IndentNum from '../../components/indentNum';
 import pkImg from '@/assets/xdwork/pk.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
 import { Link } from 'dva/router';
@@ -148,7 +148,7 @@ class currentCreditLeft extends React.Component {
                     justifyContent: 'flex-end'
                   }}
                 >
-                  <div style={{ width: leftProgress }} className={`${styles.progress} ${isFlag === 1 ? styles.progressWin : (isFlag === 2 ? styles.progressLose : styles.progressLose)}`}>
+                  <div style={{ width: leftProgress }} className={`${styles.progress} ${isFlag === 1 ? styles.progressLeftWin : (isFlag === 2 ? styles.progressLeftLose : styles.progressLeftLose)}`}>
                   </div>
                 </div>
               </div> : <div className={styles.pkRankMain} style={{ justifyContent: 'flex-end', marginRight: '-18px' }}>
@@ -207,7 +207,7 @@ class currentCreditLeft extends React.Component {
                     justifyContent: 'flex-start'
                   }}
                 >
-                  <div style={{ width: leftProgress }} className={`${styles.rightProgress} ${isFlag === 1 ? styles.progressLose : (isFlag === 2 ? styles.progressWin : styles.progressWin)}`}>
+                  <div style={{ width: leftProgress }} className={`${styles.rightProgress} ${isFlag === 1 ? styles.progressRightLose : (isFlag === 2 ? styles.progressRightWin : styles.progressRightWin)}`}>
                   </div>
                 </div>
               </div> : <div className={styles.pkRankMain} style={{ justifyContent: 'flex-start', marginRight: '-18px' }}>
@@ -241,11 +241,11 @@ class currentCreditLeft extends React.Component {
   };
   setRowClassName = (record) => {
     let className = ''
-    if(record.level === 1 && record.dimensionName ==="学分均分"){
+    if (record.level === 1 && record.dimensionName === "学分均分") {
       className = "oneLevelBgColor"
-    }else if(record.level === 1 && record.dimensionName !=="学分均分"){
+    } else if (record.level === 1 && record.dimensionName !== "学分均分") {
       className = "otherLevelBgColor"
-    }else{
+    } else {
       className = "otherLevelBgColor1"
     }
     return className
@@ -282,25 +282,9 @@ class currentCreditLeft extends React.Component {
     }
     return arr
   }
-  // onClickRow = (record) => {
-  //   const {startTime,endTime} = this.props.xdWorkModal.kpiTimes
-  //   const params = JSON.stringify({"dementionId":  record.id, startTime, endTime});
-  //   return {
-  //     onClick: () => {
-  //       if(record.level === 4 && Number(record.myScore)){
-  //         router.push({
-  //           pathname: '/xdCredit/index',
-  //           query: { params: params }
-  //         });
-  //       }
-  //
-  //     }
-  //   };
-  // }
-
   render() {
     const { groupId } = this.props
-    const { groupPkList, myGroup, pkGroup } = this.state
+    const { groupPkList=[], myGroup, pkGroup } = this.state
     const dataSource = groupPkList && this.fillDataSource(groupPkList)
     const leftNum = myGroup && myGroup.score
     const userName = myGroup && myGroup.groupName

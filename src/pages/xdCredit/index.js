@@ -32,6 +32,7 @@ class XdCredit extends React.Component {
       groupId: [],
       groupTypeArr: [],
       dementionId: '',
+      pageFrom: '',
       // startTime: '',
       // endTime: '',
       pageSize: 15,
@@ -47,11 +48,12 @@ class XdCredit extends React.Component {
         if (extendFlag) {
           const { params } = this.props.location.query;
           if (params) {
-            const { dementionId, startTime, endTime } = params ? JSON.parse(params) : {};
+            const { dementionId, startTime, endTime, pageFrom } = params ? JSON.parse(params) : {};
             this.setState({
               dementionId,
               startTime,
               endTime,
+              pageFrom
             }, () => this.getUserOrgList())
           } else {
             this.getUserOrgList()
@@ -100,7 +102,32 @@ class XdCredit extends React.Component {
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionList',
       payload: { params: { ...this.getGroupMsg(), startTime, endTime } },
+      callback: (data) => {
+        if (this.state.pageFrom) {
+          this.fillDataSource(data.dimensionList)
+        }
+      }
     });
+  }
+  fillDataSource = (params) => {
+    let data = []
+    data = params
+    data.map(item => {
+      if (item.children && item.children.length > 0) {
+        this.fillDataSource(item.children);
+      }
+    })
+    data.map((item) => {
+      if (item.id === this.state.dementionId) {
+        this.setState({
+          dementionId: item.children[0].id
+        }, () => {
+          this.getDimensionDetail()
+        })
+      }
+    })
+    return data
+
   }
   // 详情
   getDimensionDetail = () => {

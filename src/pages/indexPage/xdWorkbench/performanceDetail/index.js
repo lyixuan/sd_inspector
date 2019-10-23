@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Progress, Tooltip } from 'antd';
 import { thousandsFormat } from '@/utils/utils';
 import echarts from 'echarts';
-import Container from '../components/container';
+import Container from '../../components/container';
 import styles from './index.less';
 import { connect } from 'dva';
 
@@ -31,7 +31,6 @@ class performanceDetail extends React.Component {
           kpiInfo: data
         })
         this.drawChart(data)
-        console.log(30, data)
       },
     });
   }

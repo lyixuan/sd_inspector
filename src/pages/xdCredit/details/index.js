@@ -2,7 +2,8 @@ import React from 'react';
 import { Tooltip } from 'antd';
 import { connect } from 'dva';
 import BITable from '@/ant_components/BITable';
-import creditImg from '@/assets/xdcredit/credit.gif'
+import creditImg from '@/assets/xdcredit/credit.gif';
+import router from 'umi/router';
 import styles from './style.less';
 import {
   pathImUrl,
@@ -11,8 +12,7 @@ import {
 } from '@/pages/ko/utils/utils';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
-
-
+import constants from '@/utils/constants';
 
 function Layout(props) {
   const layout = <section>
@@ -23,6 +23,7 @@ function Layout(props) {
   return layout;
 }
 
+const appealObj = ['', '质检', '底线', 'IM', '工单', '优新', '创收',];
 //对话区域行
 function ListItem(props) {
   if (!props.item) {
@@ -34,7 +35,6 @@ function ListItem(props) {
 
 // 判断是老师还是学员
 function TeacherOrStudent(props) {
-  // console.log(36, props)
   if (props.item.type == 1) {
     return (
       <li className={styles.step}>
@@ -93,10 +93,13 @@ function TeacherOrStudent(props) {
 
 @connect(({ loading }) => ({
   loading: loading.effects['xdCreditModal/getDimensionDetail'],
+  loadingAppeal: loading.effects['xdCreditModal/getDimensionDetail'],
 }))
 class CreditDetials extends React.Component {
   columns = () => {
+   
     const { detailsData } = this.props;
+    const { titleFive } = detailsData;
     const columns = [
       {
         title: '序号',
@@ -120,7 +123,7 @@ class CreditDetials extends React.Component {
         dataIndex: 'valFour',
         key: 'valFour',
         render: (text, r) => {
-          if (detailsData.titleFour == '操作') {
+          if (detailsData.titleFour === '操作') {
             return (
               <Tooltip overlayClassName={styles.listMarkingTooltip2} placement="top" title={text}>
                 <span style={{ color: "#00CCC3" }}>查看</span>
@@ -132,17 +135,20 @@ class CreditDetials extends React.Component {
         }
       },
     ];
-    if (detailsData.titleFive) {
+    if (titleFive) {
       columns.push({
-        title: detailsData.titleFive,
+        title: titleFive,
         dataIndex: 'action',
         key: 'action',
         render: (list, r) => {
           const content = r.contentList ? <Layout dataMark={r}></Layout> : r.content;
           return (
-            <Tooltip overlayClassName={styles.listMarkingTooltip} placement="right" title={content}>
-              <span style={{ color: "#00CCC3" }}>查看</span>
-            </Tooltip>
+            <>
+              {titleFive !== '申诉' && <Tooltip overlayClassName={styles.listMarkingTooltip} placement="right" title={content}>
+                <span style={{ color: "#00CCC3" }}>查看</span>
+              </Tooltip>}
+              {titleFive !== '查看' && <span onClick={() => this.getAppeal(r)} style={{ color: "#00CCC3", cursor: 'pointer', marginLeft: titleFive === '操作' ? '8px' : '0px' }}>申诉</span>}
+            </>
           );
         }
       })
@@ -163,6 +169,44 @@ class CreditDetials extends React.Component {
       onPageChange(currentPage);
     }
   };
+  getAppeal = (r) => {
+    const { dimensionType, appealNo } = r;
+    const params = { dimensionType };
+    if (dimensionType === 1) {
+      params.qualityNum = appealNo;
+    } else if (dimensionType === 2) {
+      params.bottomLineNum = appealNo;
+      params.bottomLineType = r.bottomLineType;
+    } else {
+      params.id = appealNo;
+    }
+    this.props.dispatch({
+      type: 'xdCreditModal/getAppealType',
+      payload: { params },
+      callback: res => {
+        const { type } = res;
+        if (dimensionType === 1) { // 质检
+          window.open(`/inspector/qualityAppeal/qualityAppeal?p=${JSON.stringify({ "tabType": type, type,  qualityNum: appealNo, })}`);
+        } else { // 其它
+          const dimensionData = constants.DIMENSION_TYPE.find(op => op.name === appealObj[dimensionType]);
+          const params = { "page": 1, "pageSize": 30, "dimensionType": dimensionData ? dimensionData.id : constants.DIMENSION_TYPE[0].id };
+          if (type === 0) { // 未申诉
+            params.creditBeginDate = r.bizDate;
+            params.creditEndDate = r.bizDate;
+            params.stuId = r.stuId;
+            window.open(`/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(params)}`);
+
+          } else if (type === 1) { // 其它状态
+            params.appealOrderNum = res.appealNum;
+            window.open(`/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(params)}`);
+          } else if (type === 2) {
+            params.appealOrderNum = res.appealNum;
+            window.open(`/inspector/scoreAppeal/finishAppeal?params=${JSON.stringify(params)}`);
+          }
+        }
+      }
+    });
+  }
 
   render() {
     const { dementionId, detailsData, pageSize = 15, currentPage } = this.props;

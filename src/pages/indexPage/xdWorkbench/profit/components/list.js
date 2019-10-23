@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Progress } from 'antd';
 import BITable from '@/ant_components/BITable';
 import BISelect from '@/ant_components/BISelect';
-import Indent from '../../components/indent';
+import Indent from '../../../components/indent';
 import styles from '../style.less';
 
 const { Option } = BISelect;
@@ -12,7 +12,7 @@ const pkTypeconfig = ['集团排行', '学院内排行', '家族内排行', '同
   loading: loading.effects['xdWorkModal/getIncomeKpiPkList'],
 }))
 class ProfitList extends React.Component {
-  constructor(props)  {
+  constructor(props) {
     super(props);
     this.state = {
       profitList: [],
@@ -138,7 +138,7 @@ class ProfitList extends React.Component {
             style={{ width: '136px', marginLeft: '8px' }}
             allowClear
           >
-            {pkTypeconfig.map((item, index) => <Option key={index} value={index + 1}  data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>{item}</Option>)}
+            {pkTypeconfig.map((item, index) => <Option key={index} value={index + 1} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>{item}</Option>)}
           </BISelect>
         </div>
         <div className={styles.tableContent}>
@@ -161,7 +161,7 @@ class ProfitList extends React.Component {
               rowKey={(record, index) => record.userId + '' + index}
               onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
-              scroll={{ x: 0, y: 420 }}
+              scroll={{ y: 420 }}
             />
           </div>
         </div>

@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import Container from '../components/container';
+import Container from '../../components/container';
 import BITable from '@/ant_components/BITable'
 import AuthButton from '@/components/AuthButton';
 
-const params = JSON.stringify({qualityType: '2'});
+const params = JSON.stringify({ qualityType: '2' });
 const levelObj = ['', '特级违规', '一级违规', '二级违规', '三级违规'];
-@connect(({ loading}) => ({
+@connect(({ loading }) => ({
   loading: loading.effects['xdWorkModal/getCountCurrentQuality'],
 }))
 class Quality extends React.Component {
@@ -46,12 +46,12 @@ class Quality extends React.Component {
         title: '违规数量',
         dataIndex: 'violationNumber',
         key: 'violationNumber',
-        render: text => text > 0 ? <span style={{color: '#FF626A'}}>{text}</span> : text
+        render: text => text > 0 ? <span style={{ color: '#FF626A' }}>{text}</span> : text
       }, {
         title: '违规扣除',
         dataIndex: 'reduceScore',
         key: 'reduceScore',
-        render: text => text > 0 ? <span style={{color: '#FF626A'}}>{text}</span> : text
+        render: text => text > 0 ? <span style={{ color: '#FF626A' }}>{text}</span> : text
       }, {
         title: '操作',
         dataIndex: 'action',
@@ -70,13 +70,13 @@ class Quality extends React.Component {
   };
   render() {
     return (
-      <Container 
-      title='本期质检'
-      style={{width: 'calc(100% - 840px)'}}
+      <Container
+        title='本期质检'
+        style={{ width: 'calc(100% - 840px)' }}
       >
         <div>
-          <BITable  
-            columns={this.columns()} 
+          <BITable
+            columns={this.columns()}
             dataSource={this.state.dataSource}
             pagination={false}
             loading={this.props.loading}
