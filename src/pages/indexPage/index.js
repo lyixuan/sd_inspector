@@ -5,6 +5,7 @@ import homeText from '@/assets/homeText.png';
 import XdWorkbench from './xdWorkbench'
 import { connect } from 'dva';
 import XdFamilyBench from './xdFamilyBench'
+import ManagementBench from './ManagementBench'
 @connect((xdWorkModal) => ({
   xdWorkModal,
 }))
@@ -34,6 +35,8 @@ class IndexPage extends Component {
       return <XdWorkbench />
     } else if (userType === 'family' && userInfo.privilegeView && userInfo.moreView) {
       return <XdFamilyBench /> //前端角色是家族长（family）角色 且 权限中勾选了 学分绩效 或 创收绩效 的用户显示页面
+    }else if ((userType === 'college'||userType === 'boss') && userInfo.privilegeView && userInfo.moreView) {
+      return <ManagementBench /> //前端角色是家族长（family）角色 且 权限中勾选了 学分绩效 或 创收绩效 的用户显示页面
     }
     return false
   }

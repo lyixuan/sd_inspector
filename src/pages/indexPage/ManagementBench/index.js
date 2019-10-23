@@ -5,7 +5,6 @@ import styles from './style.less'
 @connect((xdWorkModal) => ({
   xdWorkModal,
 }))
-// Current credits
 class ManagementBench extends React.Component {
   constructor(props) {
     super(props)
@@ -19,6 +18,7 @@ class ManagementBench extends React.Component {
     // const { userId} = this.state;
     return (
       <div className={styles.workbench}>
+        管理层工作台
       </div>
     );
   }
