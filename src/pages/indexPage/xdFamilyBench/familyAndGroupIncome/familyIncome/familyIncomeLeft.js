@@ -75,7 +75,7 @@ class FamilyIncomeLeft extends React.Component {
       render: text => <IndentNum className={JudgeNumFn(text)}>{text}</IndentNum>
     }, {
       width: '14%',
-      title: userInfo.familyName,
+      title: this.props.familyList.selfFamilyName,
       dataIndex: 'selfValue',
       key: 'selfValue',
       render: (text, record, index) => <IndentNum className={pkFamilyId ? JudgeNumFn(Number(text), Number(record.familyPk), index === 0 ? true : false) : ''}>{text}</IndentNum>
