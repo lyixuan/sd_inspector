@@ -61,23 +61,25 @@ class BIClassifyTable extends React.Component {
   }
   title = () => {
     const reasonTypeList = this.props.dataSource.reasonTypeList
-    if (!reasonTypeList) {
-      return <span>所有分类</span>
-    }
+    if (!reasonTypeList) return <span>所有分类</span>
+    const ressonTypeLists = [{
+      expand: true,
+      typeId: 0,
+      typeName: '所有分类'
+    }, ...reasonTypeList]
     return (
       <div>
-        {reasonTypeList.map((item, index) => {
-          const condition = index === reasonTypeList.length - 1;
-          return <span key={index} onClick={condition ? null : (e) => this.handleClassifyClick(item, e)} className={condition ? styles.titleCurrent : styles.title}>{item.typeName}{condition ? '' : '/'}</span>
+        {ressonTypeLists.map((item, index) => {
+          const condition = index === ressonTypeLists.length - 1;
+          return <span key={index} onClick={condition ? null : (e) => this.reasonTypeClick(item, e)} className={condition ? styles.titleCurrent : styles.title}>{item.typeName}{condition ? '' : '/'}</span>
         })}
         <span></span>
       </div>
     )
   }
-  handleClassifyClick = (item) => {
-    this.props.classifyClick(item);
-  }
+
   reasonTypeClick = (item) => {
+    if (!item.expand) return;
     this.props.reasonTypeClick(item);
   }
   cellClick = (record, index) => {
@@ -101,7 +103,7 @@ class BIClassifyTable extends React.Component {
     }
     titleList && titleList.map((item, index) => {
       children.push({
-        title: <div onClick={() => this.reasonTypeClick(item)}>{item.typeName}{item.expand ? <img src={searchIcon}></img> : null}</div>,
+        title: <div onClick={() => this.reasonTypeClick(item)} style={{ cursor: item.expand ? 'pointer' : '' }}>{item.typeName}{item.expand ? <img src={searchIcon}></img> : null}</div>,
         dataIndex: 'index',
         key: index,
         width: 85,

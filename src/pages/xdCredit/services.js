@@ -7,7 +7,7 @@ export async function getUserOrgList(params) {
 }
 // 学分—小组维度列表
 export async function getDimensionList(data) {
-  return request('/deskperfpcapi/credit/dimension/list', { method: 'post', data });
+  return request('http://172.16.17.211:8083/credit/dimension/list', { method: 'post', data });
 }
 // 学分—维度详情
 export async function getDimensionDetail(data) {
