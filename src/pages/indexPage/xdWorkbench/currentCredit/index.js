@@ -71,7 +71,7 @@ class currentCredit extends React.Component {
         style={{ width: '100%', marginBottom: '16px', position: 'relative' }}
         right={
           <>
-            {/* <BIButton type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${'startTime': startTime, endTime}`} target='_black'>IM差评快捷入口</Link></BIButton> */}
+            {/* <BIButton type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${startTime, endTime }`} target='_black'>IM差评快捷入口</Link></BIButton> */}
             <BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton>
           </>
         }
