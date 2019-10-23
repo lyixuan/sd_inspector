@@ -32,7 +32,7 @@ class IndexPage extends Component {
     const { userInfo } = this.state;
     if (userType === 'class' || userType === 'group') {
       return <XdWorkbench />
-    } else if (userType === 'family' && userInfo.privilegeView && userInfo.moreView) {
+    } else if (userType === 'family' && (userInfo.privilegeView || userInfo.moreView)) {
       return <XdFamilyBench /> //前端角色是家族长（family）角色 且 权限中勾选了 学分绩效 或 创收绩效 的用户显示页面
     }
     return false
