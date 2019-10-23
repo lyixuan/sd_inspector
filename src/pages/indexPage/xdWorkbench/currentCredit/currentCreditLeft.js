@@ -67,9 +67,25 @@ class currentCreditLeft extends React.Component {
         dataIndex: item.groupId,
         key: item.groupId,
         render: (text, record) => {
-          const others = index === 0 && record.values[index] ? <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span> : <span style={{marginLeft: '8px'}}></span>;
+          const textV = record.values[index];
           return (
-            <>{record.flagMark ? <BIFillCell {...record.valuesParams[index]}><Link to={`/xdCredit/index?params=${startTime, endTime }`} target='_black'>{record.values[index]}{others}</Link></BIFillCell> : <BIFillCell style={{paddingRight: '16px'}}>{record.values[index]}</BIFillCell>}</>
+            <>
+              {
+                record.flagMark ? <BIFillCell {...record.valuesParams[index]}>
+                  {
+                    index === 0 && textV ? <Link 
+                    style={{color: '#1A1C1F'}} 
+                    to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime })}`} 
+                    target='_black'>
+                      {textV}
+                      <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span>
+                    </Link> 
+                    : <>{textV}<span style={{marginLeft: '8px'}}></span></>
+                  }
+                </BIFillCell> 
+                : <BIFillCell style={{paddingRight: '16px'}}>{textV}</BIFillCell>
+              }
+            </>
           )
         }
       }) 
