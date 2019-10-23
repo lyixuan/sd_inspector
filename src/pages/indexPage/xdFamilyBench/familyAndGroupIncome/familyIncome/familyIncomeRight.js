@@ -178,7 +178,7 @@ class FamilyIncomeRight extends React.Component {
                 dataSource={dataSource}
                 pagination={false}
                 loading={this.props.loading}
-                scroll={{ y: 208 }}
+                scroll={{ y: 408 }}
                 onRow={this.onClickRow}
                 rowKey={record => record.familyId}
                 rowClassName={this.setRowClassName}

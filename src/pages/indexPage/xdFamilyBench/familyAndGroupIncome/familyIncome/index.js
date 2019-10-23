@@ -12,20 +12,21 @@ class FamilyIncome extends React.Component {
     this.state = {
       // pkFamilyId: 246,
       familyList: {},
-      pkFamilyId:localStorage.getItem("pkFamilyIncome")?JSON.parse(localStorage.getItem("pkFamilyIncome")).familyId:"",
+      pkFamilyId: localStorage.getItem("pkFamilyIncome") ? JSON.parse(localStorage.getItem("pkFamilyIncome")).familyId : "",
     }
   }
   componentDidMount() {
     this.getIncomeFamilyList();
   }
-  getIncomeFamilyList =()=>{
+  getIncomeFamilyList = () => {
     this.props.dispatch({
-      type:"xdWorkModal/getIncomeFamilyList",
-      payload:{params:{ pkFamilyId: this.state.pkFamilyId }},
+      type: "xdWorkModal/getIncomeFamilyList",
+      payload: { params: { pkFamilyId: this.state.pkFamilyId } },
       callback: familyList => this.setState({ familyList })
     })
   }
-  changeSelected = (record,pkFamilyId) => {
+  changeSelected = (record, pkFamilyId) => {
+    console.log(2999, record)
     this.setState({ pkFamilyId }, () => this.getIncomeFamilyList());
     if (record) {
       localStorage.setItem('pkFamilyIncome', JSON.stringify(record))
@@ -33,11 +34,11 @@ class FamilyIncome extends React.Component {
   }
   render() {
     const { familyList, pkFamilyId } = this.state;
-    const {userInfo} = this.props.xdWorkModal.xdWorkModal
+    const { userInfo } = this.props.xdWorkModal.xdWorkModal
     return (
       <div className={styles.creditContainer}>
-        <FamilyIncomeLeft className={styles.familyLeft} familyList={familyList} userInfo={userInfo} pkFamilyId={pkFamilyId}/>
-        <FamilyIncomeRight className={styles.familyRight} familyList={familyList} changeSelected={this.changeSelected}/>
+        <FamilyIncomeLeft className={styles.familyLeft} familyList={familyList} userInfo={userInfo} pkFamilyId={pkFamilyId} />
+        <FamilyIncomeRight className={styles.familyRight} familyList={familyList} changeSelected={this.changeSelected} />
       </div>
     );
   }

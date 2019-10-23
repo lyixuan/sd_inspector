@@ -123,7 +123,7 @@ class FamilyIncomeLeft extends React.Component {
         );
       }
     }, {
-      title: '对比家族',
+      title: this.props.familyList.pkFamilyName,
       dataIndex: 'familyPk',
       key: 'familyPk',
       width: '25%',
@@ -154,7 +154,7 @@ class FamilyIncomeLeft extends React.Component {
             defaultExpandAllRows={true}
             expandIcon={CustomExpandIcon}
             pagination={false}
-            scroll={{ x: 0, y: 208 }}
+            scroll={{ x: 0, y: 408 }}
             rowKey={record => record.id}
             loading={this.props.loading}
           />
