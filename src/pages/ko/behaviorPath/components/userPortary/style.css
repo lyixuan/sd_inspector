@@ -1,10 +1,10 @@
 .layout {
-  min-width: 980px;
+  min-width: 1050px;
 }
 
-.userPortarit {
+.contentLayout {
   background: #fff;
-  margin-top: 10px;
+  margin-top: 16px;
   overflow: hidden;
   border-radius: 10px;
   position: relative;
@@ -67,4 +67,32 @@
   height: 30px;
   top: 10px;
   color: #E1E4EA;
+}
+
+.boxHead {
+  padding: 16px 10px 20px 10px;
+  overflow: hidden;
+}
+.boxTitle {
+  font-size: 16px;
+  color: #1A1C1F;
+  font-weight: bold;
+  float: left;
+}
+.btn,.btnActive {
+  font-size: 16px;
+  float: right;
+  margin-left: 10px;
+  color: #7A7C80;
+  cursor: pointer;
+}
+.btnActive {
+  color: #00CCC3;
+}
+
+.btnActive i{
+  border-bottom: 2px solid #00CCC3;
+  width: 20px;
+  display: block;
+  margin: auto;
 }

@@ -19,7 +19,7 @@ export default class BaseInfo extends React.Component {
     } = this.props.tagInfo || {};
 
     return (
-      <div className={styles.userPortarit}>
+      <div className={styles.contentLayout}>
         <div className={styles.left}>
           <img className={styles.avatar} src={imageUrl || avatarStudent}/>
         </div>
