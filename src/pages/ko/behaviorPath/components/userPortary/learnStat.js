@@ -31,7 +31,7 @@ export default class LearnStat extends React.Component {
     return (
       <div className={styles.contentLayout}>
         <div className={styles.boxHead}>
-          <span className={styles.boxTitle}>活跃汇总</span>
+          <span className={styles.boxTitle}>学习汇总</span>
           <span className={current===learnStat2.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(learnStat2.time,2)}>{learnStat2.time} <i></i></span>
           <span className={current===learnStat1.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(learnStat1.time,1)}>{learnStat1.time} <i></i> </span>
         </div>
