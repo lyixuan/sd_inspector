@@ -20,14 +20,15 @@ const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
 const collegeType = [{
-  id: 0,
+  familyType: 0,
   name: '自考'
 }, {
-  id: 0,
+  familyType: 1,
   name: '壁垒'
 }]
 @connect(({ xdCreditModal, loading }) => ({
   dimensionData: xdCreditModal.dimensionData,
+  imDetailData: xdCreditModal.imDetailData,
   dimensionDetails: xdCreditModal.dimensionDetails,
   kpiDateRange: xdCreditModal.kpiDateRange,
   infoLoading: loading.effects['xdCreditModal/getUserInfo'],
@@ -42,6 +43,7 @@ class XdCredit extends React.Component {
       groupTypeArr: [],
       dementionId: '',
       pageFrom: '',
+      familyType: '',
       // startTime: '',
       // endTime: '',
       pageSize: 40,
@@ -70,6 +72,31 @@ class XdCredit extends React.Component {
         };
       }
     });
+
+  }
+  getReasonListData() {
+    console.log(78, this.getGroupMsg())
+    // const params = {
+    //   startTime: "2019-09-01",
+    //   endTime: "2019-09-15",
+    //   familyType: 0,
+    //   groupType: "family",
+    //   orgId: 103,
+    //   reasonTypeId: 0
+    // }
+    const params = {
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+      familyType: this.state.familyType,
+      groupType: this.getGroupMsg().groupType,
+      orgId: this.getGroupMsg().groupId,
+      reasonTypeId: 2
+    }
+    console.log(87, params)
+    this.props.dispatch({
+      type: 'xdCreditModal/reasonList',
+      payload: { params }
+    });
   }
   // 组织 - 时间
   getUserOrgList = (groupId) => {
@@ -81,9 +108,13 @@ class XdCredit extends React.Component {
           this.setState({
             userOrgConfig: res,
             ...this.getResetGroupMsg(res),
-          }, () => this.getDimensionList())
+          }, () => {
+            this.getDimensionList();
+            this.getReasonListData()
+          })
         } else {
           this.getDimensionList();
+          this.getReasonListData();
         }
         if (this.state.dementionId) this.getDimensionDetail();
       }
@@ -173,13 +204,14 @@ class XdCredit extends React.Component {
   getResetGroupMsg = (arr = this.state.userOrgConfig) => {
     if (arr && arr.length > 0) {
       const item = arr[0];
+      console.log(1932, item)
       if (item.groupType === 'college' && item.nodeList && item.nodeList.length > 0) {
         const node = item.nodeList[0];
-        return { groupId: [item.id, node.id], groupTypeArr: [item, node] };
+        return { groupId: [item.id, node.id], groupTypeArr: [item, node], familyType: node.familyType };
       }
-      return { groupId: [item.id], groupTypeArr: [item] };
+      return { groupId: [item.id], groupTypeArr: [item], familyType: item.familyType };
     } else {
-      return { groupId: [], groupTypeArr: [] };
+      return { groupId: [], groupTypeArr: [], familyType: '' };
     }
   }
   // date
@@ -207,7 +239,11 @@ class XdCredit extends React.Component {
   // 选择组织
   onChangeSelect = (groupId, groupTypeArr) => {
     console.log(208, groupId, groupTypeArr)
-    this.setState({ groupId, groupTypeArr });
+    this.setState({
+      groupId, groupTypeArr, familyType: groupTypeArr[groupTypeArr.length - 1].familyType
+    }, () => {
+      console.log(230, this.state.familyType)
+    });
   }
   // 选择时间
   onDateChange = (v) => {
@@ -216,6 +252,7 @@ class XdCredit extends React.Component {
   }
   handleClick = () => {
     this.getDimensionList();
+    this.getReasonListData();
   }
   handleReset = () => {
     this.setState({
@@ -224,6 +261,7 @@ class XdCredit extends React.Component {
       ...this.getResetGroupMsg()
     }, () => {
       this.getDimensionList();
+      this.getReasonListData();
       this.onChangeParams('', 'dementionId');
     })
   }
@@ -233,7 +271,9 @@ class XdCredit extends React.Component {
     }, () => this.getDimensionDetail());
   };
   onSelectChange = val => {
-    console.log(234, val)
+    this.setState({
+      familyType: val
+    })
   }
   render() {
     const { dementionId, groupId, extendFlag, userOrgConfig, startTime, endTime } = this.state;
@@ -262,7 +302,7 @@ class XdCredit extends React.Component {
                 </span>
               }
               {
-                this.state.groupTypeArr.length == 1 && this.state.groupTypeArr[0].groupType == 'college' &&
+                this.state.familyType.length == 3 && this.state.groupTypeArr[0].groupType == 'college' &&
                 <span className={styles.change}>
                   学院类型：
               <BISelect

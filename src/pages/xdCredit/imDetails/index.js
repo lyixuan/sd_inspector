@@ -307,7 +307,7 @@ class CreditImDetials extends React.Component {
 
   }
   componentDidMount() {
-    this.getData();
+    // this.getData();
   }
   getData() {
     const params = {
