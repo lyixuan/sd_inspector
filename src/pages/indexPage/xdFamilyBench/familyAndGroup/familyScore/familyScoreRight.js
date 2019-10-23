@@ -124,7 +124,7 @@ class FamilyScoreRight extends React.Component {
         },
       },
       {
-        title: '人均绩效在服学员',
+        title: '人均在服学员',
         dataIndex: 'averageStudentNumber',
         key: 'averageStudentNumber',
       }
