@@ -34,7 +34,7 @@ class currentCreditLeft extends React.Component {
   componentDidMount() {
     this.getGroupPkData();
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.pkGroupList !== nextProps.pkGroupList) {
       this.getGroupPkData(nextProps.pkGroupList);
     }
@@ -64,11 +64,11 @@ class currentCreditLeft extends React.Component {
         </div>,
         dataIndex: item.groupId,
         key: item.groupId,
-        render: (text, record) => {
-          // const others = index === 0 && record.values[index] ? <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span> : <span style={{marginLeft: '8px'}}></span>;
-          // return <BIContrastCell nums={record.values} text={record.values[index]} others={others}/>
-          return text;
-        }
+        // render: (text, record) => {
+        //   // const others = index === 0 && record.values[index] ? <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span> : <span style={{marginLeft: '8px'}}></span>;
+        //   return <BIContrastCell nums={record.values} text={record.values[index]} others={''}/>
+        // }
+        render: (text, record) => record.flagMark ? <>1</> : <BIFillCell>{record.values[index]}</BIFillCell>
       })
     })
     for (var i = 0; i < 6 - groupList.length; i++) {
@@ -88,6 +88,7 @@ class currentCreditLeft extends React.Component {
       payload: { params: { pkGroupList } },
       callback: res => {
         res.dimensionList = this.fillDataSource(res.dimensionList);
+        console.log(res.dimensionList)
         this.setState({ groupPkList: res });
       }
     });
@@ -106,7 +107,7 @@ class currentCreditLeft extends React.Component {
   }
   setRowClassName = record => {
     let className = ''
-    if (record.dimensionName === '学分均分') {
+    if (record.flagMark === 3) {
       className = 'yellowBgColor';
     } else if (record.flagMark === 1 || record.dimensionName === '退挽' || record.dimensionName === '随堂考') {
       className = 'plusBgColor';
@@ -116,9 +117,12 @@ class currentCreditLeft extends React.Component {
     return className
   }
   fillDataSource = (params = [], n = 1, flagMark) => {
-    params.map(item => {
+    params.map(item => { 
       item.level = n;
-      item.flagMark = flagMark; // 1 正面均分  2 负面均分 其它
+      item.flagMark = item.dimensionName === '学分均分' ? 3 : flagMark; // 1 正面均分  2 负面均分 3学分均分 其它
+      if (item.values) {
+        item.valuesBlock = BIContrastCell.colorContrast({nums:item.values});
+      }
       if (item.children && item.children.length > 0) {
         const mark = item.dimensionName === '学分均分' ? 1 : (item.dimensionName === '负面均分' ? 2 : flagMark);
         this.fillDataSource(item.children, n + 1, mark);
@@ -140,7 +144,8 @@ class currentCreditLeft extends React.Component {
     const dataSource = this.getDataSource();
     return (
       <div className={styles.creditLeft} style={{height: this.props.getNumValue(732) + 'px'}}>
-        {this.props.loading ? <BILoading isLoading={this.props.loading}/> : <div className={styles.tableContainer}>  
+        {BIContrastCell.colorContrast({nums: [1,3,4,4,4,4]}).map(item => <span style={{position: 'relative'}}>{item}</span>)}
+        {/* {this.props.loading ? <BILoading isLoading={this.props.loading}/> : <div className={styles.tableContainer}>  
           {
             dataSource && dataSource.length > 0 && <BIWrapperTable
               columns={this.columns()}
@@ -159,6 +164,7 @@ class currentCreditLeft extends React.Component {
             pkGroupList && pkGroupList.length <5 ? <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} /></div> : ''
           }
       </div>}
+      </div> */}
       </div>
     );
   }

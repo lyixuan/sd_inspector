@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { thousandsFormat } from '@/utils/utils';
 import echarts from 'echarts';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
 import Pannel from './components/pannel'
 import styles from './index.less';
 import { connect } from 'dva';
