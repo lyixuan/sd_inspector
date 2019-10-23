@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Skeleton } from 'antd'
 import router from 'umi/router';
 import Container from '../../components/container';
 import BILoading from '@/components/BILoading'

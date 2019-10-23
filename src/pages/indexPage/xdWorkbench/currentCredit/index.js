@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Link } from 'dva/router';
 import BIButton from '@/ant_components/BIButton';
 import BIDrawer from '@/components/BIDrawer';
 import CurrentCreditRight from './currentCreditRight';
@@ -68,7 +69,12 @@ class currentCredit extends React.Component {
       <Container
         title='本期学分'
         style={{ width: '100%', marginBottom: '16px', position: 'relative' }}
-        right={<BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton>}
+        right={
+          <>
+            {/* <BIButton type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${'startTime': startTime, endTime}`} target='_black'>IM差评快捷入口</Link></BIButton> */}
+            <BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton>
+          </>
+        }
       >
         <div className={styles.creditContainer}>
           <CurrentCreditLeft 
