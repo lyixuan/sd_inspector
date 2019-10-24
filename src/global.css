@@ -201,3 +201,7 @@ body > a {
 :global .ant-input-clear-icon{
   color:#ccc;
 }
+:global .userPortary .anticon{
+  font-size:18px;
+  color:#52C9C2;
+}

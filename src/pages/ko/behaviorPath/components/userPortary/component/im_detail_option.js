@@ -80,8 +80,10 @@ export function getOption(obj) {
       splitArea: {show: false},
     },
     grid: {
-      left: 60,
-      right:40
+      left: 80,
+      right:60,
+      top:20,
+      bottom:60
     },
     barGap:'-100%',
     series: [

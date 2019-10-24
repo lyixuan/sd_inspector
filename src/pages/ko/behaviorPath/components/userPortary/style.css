@@ -48,9 +48,13 @@
 
 .row {
   text-align: center;
+  margin: auto;
   color: #7A7C80;
 }
-
+.baseCol>span{
+  display: inline-block;
+  cursor: pointer;
+}
 .zxl,.qx,.im {
   height: 40px;
   font-size: 30px;
@@ -95,4 +99,58 @@
   width: 20px;
   display: block;
   margin: auto;
+}
+.num {
+  height: 40px;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #1A1C1F;
+}
+.card{
+  position:relative;
+  background:#fff;
+  border-radius:6px;
+  overflow:hidden;
+  padding:8px 12px 8px 26px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+  border: 1px solid #F7F7F7;
+}
+
+.card .orderInfo p{
+  margin-bottom:0;
+}
+.card h4,.card .price{
+  font-weight:bold;
+  color:#1A1C1F;
+}
+.card .line{
+  width:6px;
+  height:100%;
+  background:#52C9C2;
+  position:absolute;
+  left:0;
+  top:0;
+}
+.card .lineYellow{
+  background:#FFAA4D;
+}
+
+.tooltipContent h4{
+  color:#fff;
+  margin-top:10px;
+}
+.tooltipContent p{
+  font-size:13px;
+  color:#B8BBBF;
+  margin-bottom:0;
+}
+.orderRow {
+  padding-top: 40px;
+  padding-bottom: 90px;
+  text-align: center;
+  color: #7A7C80;
 }

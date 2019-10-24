@@ -35,8 +35,8 @@ export function getOption(obj) {
     singleAxis: {
       top: 10,
       bottom: 80,
-      left: 60,
-      right:40,
+      left: 70,
+      right:60,
       axisTick: {},
       axisLabel: {},
       type: 'time',

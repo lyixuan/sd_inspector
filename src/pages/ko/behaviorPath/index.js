@@ -177,6 +177,18 @@ class BehaviorPath1 extends React.Component {
         {
           'countDate': '2019-09-09',
           'count': 2,
+        },
+        {
+          'countDate': '2019-09-10',
+          'count': 12,
+        },
+        {
+          'countDate': '2019-09-19',
+          'count': 9,
+        },
+        {
+          'countDate': '2019-09-20',
+          'count': 121,
         }],
       'imNonRatio': 0.47820885,
       'exerciseRatio': 0.85,
@@ -206,9 +218,14 @@ class BehaviorPath1 extends React.Component {
         time:"1904考期"
       }
     ];
-    const orderStat = [
-
-    ];
+    const orderStat = {
+      orderNum: 202,
+      totalRestAmount: 10000,
+      orderList:[
+        {"packageName":"课程公开计划-教师资格证","totalAmount":84,"statusCode":"EXPIRED","bizDate":"2019-05-26 17:13:43",collegeName:'芝士学院',"familyName":"啊哈哈家族","groupName":"运营一组","businessName":"事业部","legionName":"军团","pj1Name":"nostrud non","pj2Name":"do laboris Duis labore in","orderId":75873351},
+        {"packageName":"课程公开计划-证券","totalAmount":849872,"statusCode":"PAID","bizDate":"2019-03-26 17:13:43",collegeName:'自变量学院',"familyName":"abc家族","groupName":"运营er组","businessName":"事业部","legionName":"军团","pj1Name":"nostrud non","pj2Name":"do laboris Duis labore in","orderId":75873351},
+      ]
+    };
     const learnStat = [
       {"indicator":[
           {"name":"1月","max":10000},

@@ -31,9 +31,9 @@ export function getOption(obj) {
     },
     grid: {
       top: '3%',
-      left: '3%',
-      right: '4%',
-      bottom: '12%',
+      left: 30,
+      right: 60,
+      bottom: 50,
       containLabel: true
     },
     xAxis : [
