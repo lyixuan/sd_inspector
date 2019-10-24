@@ -6,13 +6,14 @@ import ScoreContrast from './scoreContrast';
 import Header from './header';
 import IncomeCompare from './incomeCompare';
 // import IMPart from './IMPart'
+import ReactDOM from 'react-dom';
 
 // import styles from './style.less'
 // import ScoreContrast from "./scoreContrast"
-import IMPartLeft from './IMPartLeft'
-import IMPartRight from './IMPartRight'
-import NPSEvaluate from './NPSEvaluate'
-@connect((xdWorkModal) => ({
+import IMPartLeft from './IMPartLeft';
+import IMPartRight from './IMPartRight';
+import NPSEvaluate from './NPSEvaluate';
+@connect(xdWorkModal => ({
   xdWorkModal,
 }))
 class ManagementBench extends React.Component {
@@ -22,19 +23,31 @@ class ManagementBench extends React.Component {
       userId: storage.getItem('admin_user').userId,
     };
   }
-  componentDidMount() {}
+
+  componentDidUpdate() {
+    if (this.props.location) {
+      const anchor = this.props.location.hash.replace('#', '');
+      if (anchor) {
+        const domElement = ReactDOM.findDOMNode(this.refs[anchor]);
+        if (domElement) {
+          domElement.scrollIntoView();
+        }
+      }
+    }
+  }
+
   render() {
     // const { userId} = this.state;
     return (
       <div className={styles.workbench}>
         <Header />
         <IncomeCompare />
-        <ScoreContrast />
-        <div className={styles.qualityAppel}>
+        <ScoreContrast ref="one" />
+        <div className={styles.qualityAppel} ref="two">
           <IMPartLeft />
           <IMPartRight />
         </div>
-          <NPSEvaluate />
+        <NPSEvaluate ref="three" />
       </div>
     );
   }

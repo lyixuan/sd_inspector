@@ -26,7 +26,9 @@ class Header extends React.Component {
         </p>
         <ul className={styles.list}>
           <li>
-            <img src={workImg1} alt="icon" />
+            <a href="#one">
+              <img src={workImg1} alt="icon" />
+            </a>
             <span className={styles.changeType}>
               壁垒
               <img src={workArrow} className={styles.arrow} />
@@ -41,28 +43,36 @@ class Header extends React.Component {
             </p>
           </li>
           <li>
-            <img src={workImg2} alt="icon" />
+            <a href="#two">
+              <img src={workImg2} alt="icon" />
+            </a>
             <span className={styles.num}>8.92</span>
             <p className={styles.bottom}>
               <span>创收单量</span>
             </p>
           </li>
           <li>
-            <img src={workImg3} alt="icon" />
+            <a href="#three">
+              <img src={workImg3} alt="icon" />
+            </a>
             <span className={styles.num}>8.92</span>
             <p className={styles.bottom}>
               <span>创收流失</span>
             </p>
           </li>
           <li>
-            <img src={workImg4} alt="icon" />
+            <a href="#four">
+              <img src={workImg4} alt="icon" />
+            </a>
             <span className={styles.num}>8.92</span>
             <p className={styles.bottom}>
               <span>IM差评率</span>
             </p>
           </li>
           <li>
-            <img src={workImg5} alt="icon" />
+            <a href="#five">
+              <img src={workImg5} alt="icon" />
+            </a>
             <span className={styles.num}>8.92</span>
             <p className={styles.bottom}>
               <span>BBS负面贴数</span>
