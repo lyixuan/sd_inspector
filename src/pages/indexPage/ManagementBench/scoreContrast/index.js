@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import Container from "../../components/container/index";
+import Container from '@/components/BIContainer';
 import TopTabs from "../../components/topTabs"
 import BISelect from '@/ant_components/BISelect'
 import CollegeScore from "./collegeScore"

@@ -5,8 +5,13 @@ import styles from './style.less';
 import ScoreContrast from './scoreContrast';
 import Header from './header';
 import IncomeCompare from './incomeCompare';
-import IMPart from './IMPart'
+// import IMPart from './IMPart'
 
+// import styles from './style.less'
+// import ScoreContrast from "./scoreContrast"
+import IMPartLeft from './IMPartLeft'
+import IMPartRight from './IMPartRight'
+import NPSEvaluate from './NPSEvaluate'
 @connect((xdWorkModal) => ({
   xdWorkModal,
 }))
@@ -25,7 +30,11 @@ class ManagementBench extends React.Component {
         <Header />
         <IncomeCompare />
         <ScoreContrast />
-        <IMPart />
+        <div className={styles.qualityAppel}>
+          <IMPartLeft />
+          <IMPartRight />
+        </div>
+          <NPSEvaluate />
       </div>
     );
   }
