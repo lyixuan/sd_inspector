@@ -1,25 +1,29 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less'
+
 @connect((xdWorkModal) => ({
   xdWorkModal,
 }))
-class IMRight extends React.Component {
+class colorBlock extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+
     }
   }
   componentDidMount() {
   }
   render() {
     // const { userId} = this.state;
+    const {className,data} = this.props
     return (
-      <div className={styles.IMMain}>
-        IM负面数据对比
-      </div>
+      <>
+      <span className={`${styles.colorStyle} ${styles[className]}`}>{data.label} {data.num}</span>
+
+      </>
     );
   }
 }
 
-export default IMRight;
+export default colorBlock;
