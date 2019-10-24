@@ -10,7 +10,7 @@ export function getOption(obj) {
     tooltip: {
       confine:true,
       formatter: function(params) {
-        let results = '';
+        let results = '活跃汇总<br>';
         for (let i = 0; i < labels.length; i++) {
           results += labels[i] + '：' + params.value[i] + '天<br>';
         }

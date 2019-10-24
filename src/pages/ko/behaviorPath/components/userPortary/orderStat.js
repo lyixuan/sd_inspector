@@ -35,7 +35,7 @@ export default class OrderStat extends React.Component {
         end = `${item.collegeName}${item.familyName?'/':''}${item.familyName && item.familyName}${item.groupName?'/':''}${item.groupName&&item.groupName}`
       }
       if (item.legionName && item.businessName) {
-        front = item.legionName + '/' + item.businessName
+        front = item.businessName + '/' + item.legionName
       } else if (item.legionName && !item.businessName) {
         front = item.legionName
       } else if (!item.legionName && item.businessName) {
@@ -82,7 +82,9 @@ export default class OrderStat extends React.Component {
               <div>净流水总额（元）</div>
             </Col>
           </Row>
-          {orderRender}
+          <div className={styles.scorllOrder}>
+            {orderRender}
+          </div>
         </div>
       </div>
     );

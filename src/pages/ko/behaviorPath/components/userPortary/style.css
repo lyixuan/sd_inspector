@@ -154,3 +154,8 @@
   text-align: center;
   color: #7A7C80;
 }
+.scorllOrder {
+  padding-top: 8px;
+  height: 150px;
+  overflow-y: scroll;
+}

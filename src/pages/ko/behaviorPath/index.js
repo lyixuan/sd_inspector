@@ -244,6 +244,7 @@ class BehaviorPath1 extends React.Component {
       orderList:[
         {"packageName":"课程公开计划-教师资格证","totalAmount":84,"statusCode":"EXPIRED","bizDate":"2019-05-26 17:13:43",collegeName:'芝士学院',"familyName":"啊哈哈家族","groupName":"运营一组","businessName":"事业部","legionName":"军团","pj1Name":"nostrud non","pj2Name":"do laboris Duis labore in","orderId":75873351},
         {"packageName":"课程公开计划-证券","totalAmount":849872,"statusCode":"PAID","bizDate":"2019-03-26 17:13:43",collegeName:'自变量学院',"familyName":"abc家族","groupName":"运营er组","businessName":"事业部","legionName":"军团","pj1Name":"nostrud non","pj2Name":"do laboris Duis labore in","orderId":75873351},
+        {"packageName":"课程公开计划-证券","totalAmount":849872,"statusCode":"PAID","bizDate":"2019-03-26 17:13:43",collegeName:'自变量学院',"familyName":"abc家族","groupName":"运营er组","businessName":"事业部","legionName":"军团","pj1Name":"nostrud non","pj2Name":"do laboris Duis labore in","orderId":75873351},
       ]
     };
     const learnStat = [
