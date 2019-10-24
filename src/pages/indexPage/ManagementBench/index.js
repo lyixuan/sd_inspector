@@ -5,7 +5,9 @@ import styles from './style.less';
 import ScoreContrast from './scoreContrast';
 import Header from './header';
 import IncomeCompare from './incomeCompare';
-@connect(xdWorkModal => ({
+import IMPart from './IMPart'
+
+@connect((xdWorkModal) => ({
   xdWorkModal,
 }))
 class ManagementBench extends React.Component {
@@ -23,6 +25,7 @@ class ManagementBench extends React.Component {
         <Header />
         <IncomeCompare />
         <ScoreContrast />
+        <IMPart />
       </div>
     );
   }

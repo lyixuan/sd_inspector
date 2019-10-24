@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './style.less'
 
-class Container extends React.Component {
+class BIContainer extends React.Component {
   render() {
     return (
       <div className={styles.container} style={this.props.style}>
@@ -17,4 +17,4 @@ class Container extends React.Component {
   }
 }
 
-export default Container;
+export default BIContainer;

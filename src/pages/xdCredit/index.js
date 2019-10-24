@@ -48,6 +48,7 @@ class XdCredit extends React.Component {
       // endTime: '',
       pageSize: 40,
       page: 1,
+      reasonTypeId: 0
     }
   }
   componentDidMount() {
@@ -74,8 +75,17 @@ class XdCredit extends React.Component {
     });
 
   }
+  classifyClick = (item) => {
+    console.log(79, item)
+  }
+  reasonTypeClick = (item) => {
+    this.setState({
+      reasonTypeId: item.typeId
+    }, () => {
+      this.getReasonListData();
+    })
+  }
   getReasonListData() {
-    console.log(78, this.getGroupMsg())
     // const params = {
     //   startTime: "2019-09-01",
     //   endTime: "2019-09-15",
@@ -87,12 +97,13 @@ class XdCredit extends React.Component {
     const params = {
       startTime: this.state.startTime,
       endTime: this.state.endTime,
-      familyType: this.state.familyType,
+      familyType: this.state.familyType.length == 3 ? '0' : this.state.familyType,
       groupType: this.getGroupMsg().groupType,
       orgId: this.getGroupMsg().groupId,
-      reasonTypeId: 2
+      reasonTypeId: this.state.reasonTypeId
     }
-    console.log(87, params)
+    console.log(87, params);
+    // return;
     this.props.dispatch({
       type: 'xdCreditModal/reasonList',
       payload: { params }
@@ -133,7 +144,7 @@ class XdCredit extends React.Component {
   }
   // 列表
   getDimensionList = () => {
-    const groupMsg = this.getGroupMsg();
+    // const groupMsg = this.getGroupMsg();
     // if (groupMsg.groupType === 'college') {
     //   message.error('请选择家族或小组');
     //   return;
@@ -141,7 +152,7 @@ class XdCredit extends React.Component {
     const { startTime, endTime } = this.state;
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionList',
-      payload: { params: { ...this.getGroupMsg(), startTime, endTime } },
+      payload: { params: { ...this.getGroupMsg(), startTime, endTime, familyType: this.state.familyType.length == 3 ? '0' : this.state.familyType } },
       callback: (data) => {
         if (this.state.pageFrom) {
           this.fillDataSource(data.dimensionList)
@@ -204,7 +215,6 @@ class XdCredit extends React.Component {
   getResetGroupMsg = (arr = this.state.userOrgConfig) => {
     if (arr && arr.length > 0) {
       const item = arr[0];
-      console.log(1932, item)
       if (item.groupType === 'college' && item.nodeList && item.nodeList.length > 0) {
         const node = item.nodeList[0];
         return { groupId: [item.id, node.id], groupTypeArr: [item, node], familyType: node.familyType };
@@ -238,11 +248,8 @@ class XdCredit extends React.Component {
   }
   // 选择组织
   onChangeSelect = (groupId, groupTypeArr) => {
-    console.log(208, groupId, groupTypeArr)
     this.setState({
       groupId, groupTypeArr, familyType: groupTypeArr[groupTypeArr.length - 1].familyType
-    }, () => {
-      console.log(230, this.state.familyType)
     });
   }
   // 选择时间
@@ -343,7 +350,10 @@ class XdCredit extends React.Component {
                   dimensionData={this.props.dimensionData}
                   groupId={groupId}
                 />
-                <CreditImDetials></CreditImDetials>
+                <CreditImDetials
+                  reasonTypeClick={this.reasonTypeClick}>
+
+                </CreditImDetials>
                 {/* <CreditDetials
                   onPageChange={this.onPageChange}
                   pageSize={this.state.pageSize}

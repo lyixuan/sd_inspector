@@ -34,7 +34,6 @@ export default class EchartsComponent extends React.Component {
     }catch (e) {
       console.error('echarts data error')
     }
-
   };
   drawChart(nextProps = this.props) {
     const { options } = nextProps;
