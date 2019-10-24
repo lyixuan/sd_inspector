@@ -17,8 +17,16 @@ class Dimension extends React.Component {
         title: this.props.dimensionData.groupFullName,
         dataIndex: 'dimensionName',
         key: 'dimensionName',
+        rowClassName: styles.fontWeight,
         width: '160px',
-        render: text => <span data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>{text}</span>
+        render: (text, record) => {
+          if (record.sequenceNo) {
+            return <span data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'><b>{record.sequenceNo}{text}</b></span>
+          } else {
+            return <span data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>{record.sequenceNo}{text}</span>
+          }
+
+        }
       }, {
         width: '80px',
         title: '我的',
@@ -39,7 +47,7 @@ class Dimension extends React.Component {
           const imgSrc = num > 0 ? up : down;
           return (
             <div data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>
-              {num == 0 ? { text } : <span>{text}<img style={{ marginLeft: '3px' }} src={imgSrc} /></span>}
+              {num == 0 ? { text } : <span>{text}{text == 'N/A' ? null : <img style={{ marginLeft: '3px' }} src={imgSrc} />}</span>}
             </div>
           )
         }
@@ -60,19 +68,34 @@ class Dimension extends React.Component {
     return columns || [];
   };
   // 组织row
-  setRowClassName = (r) => {
-    if (this.props.dementionId === r.id) {
+  // setRowClassName = (r) => {
+  //   if (this.props.dementionId === r.id) {
+  //     return styles.selectedRow;
+  //   } else if (r.level === 4 && r.num) {
+  //     return styles.clickRow;
+  //   }
+  //   return styles['rowBg' + r.level]
+  // }
+  setRowClassName = record => {
+    let className = ''
+    if (this.props.dementionId === record.id) {
       return styles.selectedRow;
-    } else if (r.level === 4 && r.num) {
-      return styles.clickRow;
+    } else if (record.flagMark === 3) {
+      className = 'yellowBgColor';
+    } else if (record.flagMark === 1) {
+      className = 'plusBgColor';
+    } else if (record.flagMark === 2) {
+      className = 'minusBgColor';
     }
-    return styles['rowBg' + r.level]
+    return className
   }
-  fillDataSource = (params = [], n = 1) => {
+  fillDataSource = (params = [], n = 1, flagMark) => {
     params.map(item => {
       item.level = n;
+      item.flagMark = item.dimensionName === '学分均分' ? 3 : flagMark; // 1 正面均分  2 负面均分 3学分均分 其它
       if (item.children && item.children.length > 0) {
-        this.fillDataSource(item.children, n + 1);
+        const mark = item.dimensionName === '学分均分' ? 1 : (item.dimensionName === '负面均分' ? 2 : flagMark);
+        this.fillDataSource(item.children, n + 1, mark);
       }
     })
     return params
@@ -80,12 +103,15 @@ class Dimension extends React.Component {
   onClickRow = (record) => {
     return {
       onClick: () => {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        })
+
         // document.body.scrollTop = document.documentElement.scrollTop = 0;
-        if (record.level === 4 && record.num) this.props.onChangeParams(record.id, 'dementionId');
+        if (record.level === 4 && record.num) {
+          this.props.onChangeParams(record.id, 'dementionId');
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          })
+        }
       }
     };
   }
