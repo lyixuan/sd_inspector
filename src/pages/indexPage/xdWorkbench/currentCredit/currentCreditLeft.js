@@ -75,7 +75,7 @@ class currentCreditLeft extends React.Component {
                   {
                     index === 0 && textV ? <Link 
                     style={{color: '#1A1C1F'}} 
-                    to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime })}`} 
+                    to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": record.id })}`} 
                     target='_black'>
                       {textV}
                       <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span>
