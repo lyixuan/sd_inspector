@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import styles from './style.less'
+import { Link } from 'dva/router';
+import styles from './style.less';
 import BIWrapperTable from '../../components/BIWrapperTable';
 import BIContrastCell from '@/components/BIContrastCell';
 import BILoading from '@/components/BILoading';
@@ -18,7 +19,7 @@ function CustomExpandIcon(props) {
   );
 }
 @connect(({ xdWorkModal, loading }) => ({
-  xdWorkModal,
+  kpiTimes: xdWorkModal.kpiTimes || {},
   loading: loading.effects['xdWorkModal/groupPkList'],
 }))
 class currentCreditLeft extends React.Component {
@@ -34,13 +35,14 @@ class currentCreditLeft extends React.Component {
   componentDidMount() {
     this.getGroupPkData();
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.pkGroupList !== nextProps.pkGroupList) {
       this.getGroupPkData(nextProps.pkGroupList);
     }
   }
   columns = () => {
     const { groupList = [] } = this.state.groupPkList;
+    const { startTime, endTime } = this.props.kpiTimes;
     const columns = [
       {
         title: '学分维度',
@@ -52,24 +54,41 @@ class currentCreditLeft extends React.Component {
         title: '环比(%)',
         dataIndex: 'myScoreRatio',
         key: 'myScoreRatio',
-        render: (text, record) => <>{text ? <BIFillCell>{text} <img src={text > 0 ? up : down} alt=""/></BIFillCell> : ''}</>
+        render: text => <>{text ? <BIFillCell>{text} <img src={text > 0 ? up : down} alt=""/></BIFillCell> : ''}</>
       },
     ];
     groupList.map((item, index) => {
       columns.push({
         width: '148px',
         title: <div>
-          {item.groupName}
-          <BIIcon onClick={() => this.props.changePkFn(item.groupId)}/>
+          {index > 0 ? item.groupName : '我的'}
+          {index > 0 ? <BIIcon onClick={() => this.props.changePkFn(item.groupId)}/> : ''}
         </div>,
         dataIndex: item.groupId,
         key: item.groupId,
         render: (text, record) => {
-          // const others = index === 0 && record.values[index] ? <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span> : <span style={{marginLeft: '8px'}}></span>;
-          // return <BIContrastCell nums={record.values} text={record.values[index]} others={others}/>
-          return text;
+          const textV = record.values[index];
+          return (
+            <>
+              {
+                record.flagMark ? <BIFillCell {...record.valuesParams[index]}>
+                  {
+                    index === 0 && textV ? <Link 
+                    style={{color: '#1A1C1F'}} 
+                    to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": record.id })}`} 
+                    target='_black'>
+                      {textV}
+                      <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span>
+                    </Link> 
+                    : <>{textV}<span style={{marginLeft: '8px'}}></span></>
+                  }
+                </BIFillCell> 
+                : <BIFillCell style={{paddingRight: '16px'}}>{textV}</BIFillCell>
+              }
+            </>
+          )
         }
-      })
+      }) 
     })
     for (var i = 0; i < 6 - groupList.length; i++) {
       columns.push({
@@ -106,7 +125,7 @@ class currentCreditLeft extends React.Component {
   }
   setRowClassName = record => {
     let className = ''
-    if (record.dimensionName === '学分均分') {
+    if (record.flagMark === 3) {
       className = 'yellowBgColor';
     } else if (record.flagMark === 1 || record.dimensionName === '退挽' || record.dimensionName === '随堂考') {
       className = 'plusBgColor';
@@ -116,9 +135,16 @@ class currentCreditLeft extends React.Component {
     return className
   }
   fillDataSource = (params = [], n = 1, flagMark) => {
-    params.map(item => {
+    params.map(item => { 
       item.level = n;
-      item.flagMark = flagMark; // 1 正面均分  2 负面均分 其它
+      item.flagMark = item.dimensionName === '学分均分' ? 3 : flagMark; // 1 正面均分  2 负面均分 3学分均分 其它
+      if (item.values) {// 处理颜色对比
+        if (item.flagMark === 1 || item.flagMark === 3) {
+          item.valuesParams = BIContrastCell.colorContrast({ nums: item.values });
+        } else if (item.flagMark === 2) {
+          item.valuesParams = BIContrastCell.colorContrast({ nums: item.values, colors: colorsArr, isReversed: true });
+        }
+      }
       if (item.children && item.children.length > 0) {
         const mark = item.dimensionName === '学分均分' ? 1 : (item.dimensionName === '负面均分' ? 2 : flagMark);
         this.fillDataSource(item.children, n + 1, mark);
@@ -156,7 +182,7 @@ class currentCreditLeft extends React.Component {
             />
           }
           {
-            pkGroupList && pkGroupList.length <5 ? <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} /></div> : ''
+            pkGroupList && pkGroupList.length < 3 ? <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} /></div> : ''
           }
       </div>}
       </div>

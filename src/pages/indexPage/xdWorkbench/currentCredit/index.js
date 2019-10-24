@@ -3,15 +3,15 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import BIButton from '@/ant_components/BIButton';
 import BIDrawer from '@/components/BIDrawer';
+import Container from '@/components/BIContainer';
 import CurrentCreditRight from './currentCreditRight';
 import CurrentCreditLeft from './currentCreditLeft';
-import Container from '../../components/container';
 import closeImg from '@/assets/xdFamily/closeeye.png';
 import showImg from '@/assets/xdFamily/eye.png';
 import styles from './style.less';
 
 @connect(({ xdWorkModal, loading }) => ({
-  xdWorkModal,
+  kpiTimes: xdWorkModal.kpiTimes || {},
 }))
 class currentCredit extends React.Component {
   constructor(props) {
@@ -64,14 +64,15 @@ class currentCredit extends React.Component {
   }
 
   render() {
-    const { pkGroupList, visible, hasData } = this.state
+    const { pkGroupList, visible, hasData } = this.state;
+    const { startTime, endTime } = this.props.kpiTimes;
     return (
       <Container
         title='本期学分'
         style={{ width: '100%', marginBottom: '16px', position: 'relative' }}
         right={
           <>
-            {/* <BIButton type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${'startTime': startTime, endTime}`} target='_black'>IM差评快捷入口</Link></BIButton> */}
+            <BIButton type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${startTime, endTime }`} target='_black'>IM差评快捷入口</Link></BIButton>
             <BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton>
           </>
         }

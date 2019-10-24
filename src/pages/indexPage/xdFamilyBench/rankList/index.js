@@ -1,5 +1,5 @@
 import React from 'react';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
 import TopTabs from '../../components/topTabs'
 import Performance from './performance'
 import Score from './score'

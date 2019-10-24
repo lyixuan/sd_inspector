@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
 import BILoading from '@/components/BILoading'
 import constants from '@/utils/constants';
 import styles from './style.less';

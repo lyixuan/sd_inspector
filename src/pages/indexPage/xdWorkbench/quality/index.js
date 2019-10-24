@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
 import BITable from '@/ant_components/BITable'
 import AuthButton from '@/components/AuthButton';
 import BILoading from '@/components/BILoading'

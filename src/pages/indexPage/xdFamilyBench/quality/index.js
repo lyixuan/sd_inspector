@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
 import BITable from '@/ant_components/BITable'
 import BILoading from '@/components/BILoading'
 
