@@ -45,6 +45,7 @@ class currentCreditLeft extends React.Component {
     const { startTime, endTime } = this.props.kpiTimes;
     const columns = [
       {
+        width: '14%',
         title: '学分维度',
         dataIndex: 'dimensionName',
         key: 'dimensionName',
@@ -54,12 +55,12 @@ class currentCreditLeft extends React.Component {
         title: '环比(%)',
         dataIndex: 'myScoreRatio',
         key: 'myScoreRatio',
-        render: text => <>{text ? <BIFillCell>{text} <img src={text > 0 ? up : down} alt=""/></BIFillCell> : ''}</>
+        render: text => <>{text && text !== 'N/A' ? <BIFillCell>{text} <img src={text > 0 ? up : down} alt=""/></BIFillCell> : ''}</>
       },
     ];
     groupList.map((item, index) => {
       columns.push({
-        width: '148px',
+        width: '12%',
         title: <div>
           {index > 0 ? item.groupName : '我的'}
           {index > 0 ? <BIIcon onClick={() => this.props.changePkFn(item.groupId)}/> : ''}
@@ -71,12 +72,9 @@ class currentCreditLeft extends React.Component {
           return (
             <>
               {
-                record.flagMark ? <BIFillCell {...record.valuesParams[index]}>
+                record.flagMark ? <BIFillCell {...record.valuesParams[index]} className={index === 0 && textV ? styles.mineHover : ''}>
                   {
-                    index === 0 && textV ? <Link 
-                    style={{color: '#1A1C1F'}} 
-                    to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": record.id })}`} 
-                    target='_black'>
+                    index === 0 && textV ? <Link target='_black' to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": record.id })}`} >
                       {textV}
                       <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span>
                     </Link> 
@@ -92,7 +90,7 @@ class currentCreditLeft extends React.Component {
     })
     for (var i = 0; i < 6 - groupList.length; i++) {
       columns.push({
-        width: '150px',
+        width: '12%',
         title: <div className={styles.pluscircle} onClick={() => this.props.toggleDrawer(true)}><img src={pluscircle} alt='icon'/>添加PK对象</div>,
         dataIndex: '添加PK对象' + i,
         key: '添加PK对象' + i,
@@ -165,7 +163,7 @@ class currentCreditLeft extends React.Component {
     const { pkGroupList } = this.props
     const dataSource = this.getDataSource();
     return (
-      <div className={styles.creditLeft} style={{height: this.props.getNumValue(732) + 'px'}}>
+      <div className={styles.creditLeft} style={{minHeight: this.props.getNumValue(732) + 'px'}}>
         {this.props.loading ? <BILoading isLoading={this.props.loading}/> : <div className={styles.tableContainer}>  
           {
             dataSource && dataSource.length > 0 && <BIWrapperTable

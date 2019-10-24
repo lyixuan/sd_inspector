@@ -1,42 +1,30 @@
 import React from 'react';
 import { connect } from 'dva';
-import BIWrapperTable from '../../../components/BIWrapperTable'
-import BIRadio from '@/ant_components/BIRadio';
+import BIWrapperTable from '../../../components/BIWrapperTable';
+import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import gradeA from '@/assets/workBench/a.png';
 import gradeB from '@/assets/workBench/b.png';
 import gradeC from '@/assets/workBench/c.png';
 import gradeS from '@/assets/workBench/s.png';
-import pkImg from '@/assets/xdwork/pk.png';
 import { thousandsFormat } from '@/utils/utils';
-import BILoading from '@/components/BILoading'
 import styles from '../style.less';
 import BIIcon from '@/components/BIIcon';
-import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import rank1 from '@/assets/xdFamily/rank1.png';
+import rank2 from '@/assets/xdFamily/rank2.png';
+import rank3 from '@/assets/xdFamily/rank3.png';
 
-
-const thousandsFormatAll = (n, u) => {
-  if (n !== null) {
-    if (u === '%') {
-      return (n * 100).toFixed(2) + u
-    } else {
-      return thousandsFormat(n) + '' + u
-    }
-  } else {
-    return ' '
-  }
+const thousandsFormatAll = (n) => {
+  return thousandsFormat(parseInt(n));
 }
-// const pkTypeObj = ['综合对比', '好推绩效', '续报绩效', '成考专本套'];
-// const pkTypeTrace = [
-//   '{"widgetName":"本期创收-综合对比","traceName":"小德工作台/本期创收/综合对比"}',
-//   '{"widgetName":"本期创收-好推绩效","traceName":"小德工作台/本期创收/好推绩效"}',
-//   '{"widgetName":"本期创收-续报绩效","traceName":"小德工作台/本期创收/续报绩效"}',
-//   '{"widgetName":"本期创收-成考专本套","traceName":"小德工作台/本期创收/成考专本套"}',
-// ];
 const gradeImg = { // 等级
   A: gradeA,
   B: gradeB,
   C: gradeC,
   S: gradeS,
+  1: rank1, 
+  2: rank2, 
+  3: rank3,
 }
 @connect(({ loading }) => ({
   loading: loading.effects['xdWorkModal/getContrastIncomeKpiPkList'],
@@ -45,20 +33,9 @@ class ProfitTbas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // pkType: 1,
       profitData: {
-        colNames: ['创收绩效', '排名', '绩效流水'],
-        data: [{
-          userId: 1744,
-          name: '邓静雷',
-          rowMsg: [3000, 6, 900000],
-          org: '邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟'
-        }, {
-          userId: 1627,
-          name: '邓静雷',
-          rowMsg: [3000, 6, 900000],
-          org: '邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟邓嘟嘟'
-        }]
+        pkList: [],
+        maxValue: {}
       },
     }
   }
@@ -71,91 +48,130 @@ class ProfitTbas extends React.Component {
     }
   }
 
-  // handlePkTypeChange = (e) => {
-  //   this.setState({
-  //     pkType: e.target.value
-  //   }, () => this.getPkList());
-  // }
   // 对比列表
   getPkList = (pkUsers = this.props.pkUsers) => {
     this.props.dispatch({
       type: 'xdWorkModal/getContrastIncomeKpiPkList',
-      payload: {
-        params: {
-          pkUsers,
-          // tabType: this.state.pkType,
-          pkListType: this.props.pkListType,
-        }
+      payload: { params: { pkUsers } },
+      callback: (profitData) => {
+        if (profitData) this.setState({ profitData })
       },
-      // callback: (profitData) => {
-      //   if (profitData) this.setState({ profitData })
-      // },
     });
   }
-  getSizeStyle = ({ selfValue, pkUserValue }, index) => {
-    if (!this.props.pkUser) return ''
-    if (index === 0) {
-      if (selfValue < pkUserValue) {
-        return '#00CCC3';
-      } else if (selfValue > pkUserValue) {
-        return '#FF626A';
-      }
-    }
-    if (selfValue > pkUserValue) {
-      return '#00CCC3';
-    } else if (selfValue < pkUserValue) {
-      return '#FF626A';
-    }
-    return '';
-  }
   columns = () => {
-    const { profitData } = this.state;
+    const { maxValue } = this.state.profitData;
     const columns = [ {
-        width: '50%',
         title: 'PK 对象',
-        dataIndex: 'org',
-        key: 'org',
-        render: (text, record) => {
+        dataIndex: 'personId',
+        key: 'personId',
+        render: (text, record, index) => {
           return (
             <>
               <div className={styles.pkMsg}>
-                <img src={pkImg} alt=''/>
+                <img src={gradeImg[record.personGrade]} alt=''/>
                 <span>
-                  李三
-                  <span style={{color: '#56595E', fontWeight: 'normal'}}>自变量学院</span>
+                  {record.personName}
+                  <span style={{color: '#56595E', fontWeight: 'normal'}}>{record.orgName}</span>
                 </span>
               </div>
-              <BIIcon onClick={() => this.props.changeSelected(record.userId)}/>
+              {index !== 0 ? <BIIcon onClick={() => this.props.changeSelected(text)}/> : ''}
             </>
           )
         }
+      }, {
+        title: '排名',
+        dataIndex: 'sort',
+        key: 'sort',
+        render: text => <BITextAlign textalign='center'>{text > 3 ? text : <img src={gradeImg[text]} alt='' style={{ width: '20px'}}/>}</BITextAlign>
+      }, {
+        title: '创收绩效',
+        dataIndex: 'totalKpi',
+        key: 'totalKpi',
+        render: text => <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.totalKpi)} style={{marginLeft: '-8px'}}/>
+      }, {
+        title: '创收绩效流水',
+        dataIndex: 'totalFinanceNetFlow',
+        key: 'totalFinanceNetFlow',
+        render: text => <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.totalFinanceNetFlow)} style={{marginLeft: '-8px'}}/>
+      }, {
+        title: '创收总单量',
+        dataIndex: 'totalOrderCount',
+        key: 'totalOrderCount',
+        render: text => <BITextAlign>{text}</BITextAlign>
+      }, {
+        className: styles.rowBg2,
+        title: '好推绩效',
+        dataIndex: 'goodpushKpi',
+        key: 'goodpushKpi',
+        render: text => <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushKpi)} style={{marginLeft: '-8px'}}/>
+      }, {
+        className: styles.rowBg2,
+        title: '好推绩效流水',
+        dataIndex: 'goodpushFinanceNetFlow',
+        key: 'goodpushFinanceNetFlow',
+        render: text => <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushFinanceNetFlow)} style={{marginLeft: '-8px'}}/>
+      }, {
+        className: styles.rowBg2,
+        title: '好推绩效均值',
+        dataIndex: 'goodpushValueAvg',
+        key: 'goodpushValueAvg',
+        render: text => <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushValueAvg)} style={{marginLeft: '-8px'}}/>
+      }, {
+        className: styles.rowBg2,
+        title: '好推单量',
+        dataIndex: 'goodpushOrderCount',
+        key: 'goodpushOrderCount',
+        render: text => <BITextAlign>{text}</BITextAlign>
+      }, {
+        className: styles.rowBg3,
+        title: '续报绩效',
+        dataIndex: 'renewalKpi',
+        key: 'renewalKpi',
+        render: text => <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalKpi)} style={{marginLeft: '-8px'}}/>
+      }, {
+        className: styles.rowBg3,
+        title: '续报绩效流水',
+        dataIndex: 'renewalFinanceNetFlow',
+        key: 'renewalFinanceNetFlow',
+        render: text => <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalFinanceNetFlow)} style={{marginLeft: '-8px'}}/>
+      }, {
+        className: styles.rowBg3,
+        title: '续报单量',
+        dataIndex: 'renewalOrderCount',
+        key: 'renewalOrderCount',
+        render: text => <BITextAlign>{text}</BITextAlign>
+      }, {
+        className: styles.rowBg4,
+        title: '成考绩效',
+        dataIndex: 'examZbtKpi',
+        key: 'examZbtKpi',
+        render: text => <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtKpi)} style={{marginLeft: '-8px'}}/>
+      }, {
+        className: styles.rowBg4,
+        title: '成考绩效流水',
+        dataIndex: 'examZbtFinanceNetFlow',
+        key: 'examZbtFinanceNetFlow',
+        render: text => <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtFinanceNetFlow)} style={{marginLeft: '-8px'}}/>
+      }, {
+        className: styles.rowBg4,
+        title: '成考单量',
+        dataIndex: 'examZbtOrderCount',
+        key: 'examZbtOrderCount',
+        render: text => <BITextAlign>{text}</BITextAlign>
       }
     ];
-    profitData.colNames.map((item, index) => {
-      columns.push({
-        title: item,
-        dataIndex: item,
-        key: item,
-        render: (text, record) => {
-          return ( 
-            <BIWrapperProgress text={thousandsFormat(record.rowMsg[index])} isColor="green" percent={'30%'} style={{marginLeft: '-8px'}}/>
-          )
-        }
-      })
-    })
     return columns || [];
   };
+  getPercent = (n, t) => {
+    return (n/t)*100 + '%'
+  }
   render() {
     const { profitData } = this.state;
-    const { pkUser } = this.props;
     return (
       <div className={styles.profitTabs}>
-        {/* <BIRadio onChange={this.handlePkTypeChange} value={this.state.pkType} style={{ marginBottom: 16 }}>
-          {pkTypeObj.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace={pkTypeTrace[index]}>{item}</div></BIRadio.Radio.Button>)}
-        </BIRadio> */}
         <BIWrapperTable
           columns={this.columns()}
-          dataSource={profitData.data}
+          dataSource={profitData.pkList}
           pagination={false}
           loading={this.props.loading}
           rowKey={(record, index) => record.userId + '' + index}
@@ -163,7 +179,6 @@ class ProfitTbas extends React.Component {
           rowClassName={this.getRowClassName}
           bordered={true}
         />
-
       </div>
     );
   }

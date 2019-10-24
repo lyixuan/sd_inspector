@@ -22,6 +22,7 @@ class Profit extends React.Component {
       if (pkUsers.includes(id)) {
         pkUsers.splice(pkUsers.indexOf(id), 1);
       } else {
+        if (pkUsers.length >= 5) return;
         pkUsers.push(id);
       }
     }
