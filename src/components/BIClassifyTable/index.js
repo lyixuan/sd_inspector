@@ -13,6 +13,14 @@ class BIClassifyTable extends React.Component {
       scrollWidth: 0
     }
   }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (this.props.dataSource != nextProps.dataSource) {
+      const dataList = nextProps.dataSource.dataList;
+      const item = dataList[dataList.length - 1]
+      console.log(item, 9999)
+      this.cellClick(item, 9999);
+    }
+  }
   title = () => {
     const reasonTypeList = this.props.dataSource.reasonTypeList
     if (!reasonTypeList) return <span>所有分类</span>
@@ -37,12 +45,12 @@ class BIClassifyTable extends React.Component {
     this.props.reasonTypeClick(item);
   }
   cellClick = (record, index, type) => {
-    console.log(40, record);
+    console.log(40, record, index);
     this.setState({
       currentIndex: index,
       checkedId: record[this.props.defaultKey.id]
-    })
-    this.props.cellClick(this.props.dataSource.titleList[index], record, type)
+    }, () => console.log(this.state.currentIndex, this.state.checkedId))
+    this.props.cellClick(index !== 9999 ? this.props.dataSource.titleList[index] : '', record, type)
   }
 
   columns = () => {
@@ -121,8 +129,8 @@ class BIClassifyTable extends React.Component {
         className: styles.txRight,
         fixed: 'right',
         render: (text, record, index) => {
-          console.log(124, index)
-          const length = children.length + this.props.dataSource.dataList.length - 2;
+          // const length = children.length + this.props.dataSource.dataList.length - 2;
+          const length = 9999;
           return (
             this.state.checkedId == record[this.props.defaultKey.id] && this.state.currentIndex == length && this.props.isChecked ? <BISelectCell text={text} onClick={(e) => { this.cellClick(record, length, 'total') }} /> : <BIContrastCell key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, length, 'total') }} nums={record.values} text={text} />
           )

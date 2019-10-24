@@ -228,9 +228,9 @@ class CreditImDetials extends React.Component {
     });
   }
   reasonTypeClick = (item) => {
-    this.setState({
-      isChecked: false
-    })
+    // this.setState({
+    //   isChecked: false
+    // })
     this.props.reasonTypeClick(item);
   }
   cellClick = (item, record, type) => {
