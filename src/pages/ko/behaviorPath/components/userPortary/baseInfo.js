@@ -34,7 +34,7 @@ export default class BaseInfo extends React.Component {
               className={styles.item2}>{collegeName}{familyName && '/'}{familyName}{groupName && '/'}{groupName}</span>
             <span className={styles.item2}>{businessName}</span>
             <span className={styles.item2}>注册日期：{registerDate}</span>
-            <span className={styles.item2}>过服日期：{serviceEndDate}</span>
+            {/*<span className={styles.item2}>过服日期：{serviceEndDate}</span>*/}
           </div>
         </div>
         <Divider dashed/>

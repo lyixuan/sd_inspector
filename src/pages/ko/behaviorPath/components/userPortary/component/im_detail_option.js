@@ -70,36 +70,78 @@ export function getOption(obj) {
     xAxis: {
       data: obj.xAxisData,
       name: '',
+      // type:'category',
       silent: false,
+      // axisPointer: {
+      //   type: 'shadow'
+      // },
       axisLine: {onZero: true},
       splitLine: {show: false},
       splitArea: {show: false}
     },
-    yAxis: {
+    yAxis: [{
       inverse: false,
       splitArea: {show: false},
-    },
+      type: 'value',
+      min: navMax,
+      max: positiveMax,
+      axisLabel: {
+        formatter: '{value}'
+      }
+    },{
+      inverse: false,
+      splitArea: {show: false},
+      type: 'value',
+      min: navMax,
+      max: positiveMax,
+      axisLabel: {
+        formatter: '{value}'
+      }
+    }
+    ],
     grid: {
       left: 80,
       right:60,
       top:20,
       bottom:60
     },
-    barGap:'-100%',
+    // barGap:'-100%',
     series: [
+      { // For shadow
+        type: 'bar',
+        itemStyle: {
+          normal: {color: 'rgba(71,211,255,0.06)'}
+        },
+        barGap:'-100%',
+        barCategoryGap:'40%',
+        barWidth:50,
+        data: bg1,
+        animation: false
+      },
       {
         name: '正面',
         type: 'bar',
         stack: 'one',
-        barMaxWidth:50,
+        barWidth:50,
         itemStyle: itemStyle1,
         data: obj.positiveCount
+      },
+      { // For shadow
+        type: 'bar',
+        itemStyle: {
+          normal: {color: 'rgba(255,128,134,0.06)'}
+        },
+        barGap:'-100%',
+        barCategoryGap:'40%',
+        barWidth:50,
+        data: bg2,
+        animation: false
       },
       {
         name: '负面',
         type: 'bar',
         stack: 'one',
-        barMaxWidth:50,
+        barWidth:50,
         itemStyle: itemStyle2,
         data: obj.negativeCount
       },

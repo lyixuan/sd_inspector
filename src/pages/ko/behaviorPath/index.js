@@ -52,6 +52,7 @@ class BehaviorPath1 extends React.Component {
       this.getDateList(this.state.activeKey); // 获取日期列表
       this.getUserInfo();
     }
+    this.getUserPortary();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -106,6 +107,24 @@ class BehaviorPath1 extends React.Component {
       payload: { params: { userId: this.state.stuId } },
     });
   };
+  getUserPortary = () => {
+    this.props.dispatch({
+      type: 'behaviorPath/getBasicInfo',
+      payload: { params: { stuId: this.state.stuId } },
+    });
+    this.props.dispatch({
+      type: 'behaviorPath/getTagInfo',
+      payload: { params: { stuId: this.state.stuId } },
+    });
+    this.props.dispatch({
+      type: 'behaviorPath/getStatInfo',
+      payload: { params: { stuId: this.state.stuId } },
+    });
+    this.props.dispatch({
+      type: 'behaviorPath/getDetailInfo',
+      payload: { params: { stuId: this.state.stuId } },
+    });
+  };
 
   onTabChange = (e) => {
     this.setState({
@@ -148,6 +167,7 @@ class BehaviorPath1 extends React.Component {
       const param = this.state.searchType ? this.state.searchType : this.state.activeKey;
       this.getDateList(param); // 获取日期列表
       this.getUserInfo();
+      this.getUserPortary();
     });
 
   }
@@ -303,7 +323,7 @@ class BehaviorPath1 extends React.Component {
           <div className={styles.layoutbg}>
             <div className={styles.tabBox}>
               <div
-                className={((this.state.searchType && this.state.searchType === '6') || (!this.state.searchType && this.state.activeKey === '6')) ? styles.inputBox2 : styles.inputBox}>
+                className={((this.state.searchType && this.state.searchType === '6') || (!this.state.searchType && this.state.activeKey === '6')) ? styles.inputBox : styles.inputBox}>
                 <Search
                   allowClear
                   placeholder="输入学员ID"
@@ -334,7 +354,7 @@ class BehaviorPath1 extends React.Component {
                 </TabPane>
               </BhTabs>
             </div>
-            <div style={{ marginTop: '40px' }}>
+            <div style={{ marginTop: '40px'}}>
               {
                 ((this.state.searchType && this.state.searchType === '6') || (!this.state.searchType && this.state.activeKey === '6')) ? null : userInfoParams ?
                   <UserInfo info={userInfoParams}></UserInfo> : null
