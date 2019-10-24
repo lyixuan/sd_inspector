@@ -7,7 +7,7 @@ import Top from './block/top';
 class IncomeCompare extends React.Component {
   render() {
     return (
-      <div style={{ display: 'flex', justifyContent: 'left' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Income />
         <Top />
       </div>
