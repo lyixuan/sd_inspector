@@ -111,7 +111,7 @@ class NPSLeft extends React.Component {
   render() {
     const { colorParams,dataSource} = this.state;
     return (
-      <>
+      <div className={styles.NPALeftMain}>
       <div className={styles.colorPart}>
         {colorParams.map((item,index)=><ColorBlock data={{...item}} key={index} className={`colorStyle${index}`}/>)}
       </div>
@@ -122,8 +122,9 @@ class NPSLeft extends React.Component {
                        loading={this.props.loading}
                        onRow={this.onClickRow}
                        rowKey={record => record.id}
+                       style={{marginTop:'10px'}}
       />
-      </>
+      </div>
     );
   }
 }
