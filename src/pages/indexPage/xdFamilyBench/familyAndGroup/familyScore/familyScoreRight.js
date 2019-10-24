@@ -175,7 +175,7 @@ class FamilyScoreRight extends React.Component {
     return (
       <div className={styles.familyRight}>
         <div className={styles.creditSelect} >
-          <span className={styles.title}>选择对比组织:</span>
+          <span className={styles.title}>选择对比组织2:</span>
           <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
             {collegeList.map((item, index) => (
               <Option key={item.collegeId}>

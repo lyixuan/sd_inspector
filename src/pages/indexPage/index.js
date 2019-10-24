@@ -31,6 +31,7 @@ class IndexPage extends Component {
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
     const { userInfo } = this.state;
+    // return <ManagementBench />
     if (userType === 'class' || userType === 'group') {
       return <XdWorkbench />
     } else if (userType === 'family' && userInfo.privilegeView && userInfo.moreView) {
