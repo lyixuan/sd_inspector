@@ -34,7 +34,7 @@ export default class ActiveStat extends React.Component {
         <div className={styles.boxHead}>
           <span className={styles.boxTitle}>活跃汇总</span>
           <span className={current===activeStat2.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(activeStat2.time,2)}>{activeStat2.time} <i></i></span>
-          <span className={current===activeStat1.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(activeStat1.time,1)}>{activeStat1.time} <i></i> </span>
+          <span className={current!==activeStat2.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(activeStat1.time,1)}>{activeStat1.time} <i></i> </span>
         </div>
         <Echarts options={options} style={{ height: '350px' }}/>
       </div>

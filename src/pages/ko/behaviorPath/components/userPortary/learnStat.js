@@ -33,7 +33,7 @@ export default class LearnStat extends React.Component {
         <div className={styles.boxHead}>
           <span className={styles.boxTitle}>学习汇总</span>
           <span className={current===learnStat2.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(learnStat2.time,2)}>{learnStat2.time} <i></i></span>
-          <span className={current===learnStat1.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(learnStat1.time,1)}>{learnStat1.time} <i></i> </span>
+          <span className={current!==learnStat2.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(learnStat1.time,1)}>{learnStat1.time} <i></i> </span>
         </div>
         <Echarts options={options} style={{ height: '350px' }}/>
       </div>

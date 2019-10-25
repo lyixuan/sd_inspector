@@ -17,7 +17,7 @@ export function getOption(obj) {
     tooltip: {
       confine:true,
       formatter: function(params) {
-        let results = '';
+        let results = params.seriesName+'<br>';
         for (let i = 0; i < labels.length; i++) {
           results += labels[i] + '：' + params.value[i] + '天<br>';
         }
@@ -25,7 +25,7 @@ export function getOption(obj) {
       }
     },
     legend: {
-      data: [obj.data[0]&&obj.data[0].name,obj.data[1]&&obj.data[1].name],
+      data: obj.data?[obj.data[0]&&obj.data[0].name,obj.data[1]&&obj.data[1].name]:[],
       right:'right',
       bottom: 5,
       orient:'vertical',

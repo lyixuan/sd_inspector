@@ -1,10 +1,17 @@
+
 export function getOption(obj) {
   let labels = [];
-  f();
+  const data = [];
+  f();f1();
   function f() {
     obj.indicator && obj.indicator.forEach((v)=>[
       labels.push(v.name)
     ])
+  }
+  function f1() {
+    obj.data && obj.data.forEach((v)=>{
+      data.push(v.value)
+    })
   }
   return {
     tooltip: {
@@ -62,7 +69,7 @@ export function getOption(obj) {
           width: 1,
         }
       },
-      data : obj.data
+      data : [{"value":data}]
     }]
   };
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Icon, Divider, Row, Col, Tooltip } from 'antd';
 import styles from './style.css';
 import { thousandsFormat } from '@/utils/utils';
+import {COMPANY_IMG_HOST} from '@/utils/constants';
 import avatarStudent from '@/assets/avatarStudent.png';
 import face1 from '@/assets/face1.svg';
 import face2 from '@/assets/face2.svg';
@@ -21,7 +22,7 @@ export default class BaseInfo extends React.Component {
     return (
       <div className={styles.contentLayout}>
         <div className={styles.left}>
-          <img className={styles.avatar} src={imageUrl || avatarStudent}/>
+          <img className={styles.avatar} src={imageUrl?`${COMPANY_IMG_HOST}${imageUrl}`: avatarStudent}/>
         </div>
         <div className={styles.right}>
           <div className={styles.name}>{stuName || nickName}</div>

@@ -1,4 +1,20 @@
 export function getOption(obj) {
+  console.log(obj)
+  const bg1 = [];
+  const bg2 = [];
+  let negData = [];
+  function getNegative () {
+    if(obj.negativeCount) negData = obj.negativeCount.map((v)=>-v);
+  }
+  getNegative();
+  const positiveMax =  Math.max.apply(null, obj.positiveCount);
+  const navMax = Math.min.apply(null, negData);
+
+  obj.xAxisData && obj.xAxisData.forEach((v)=>{
+    bg1.push(positiveMax);
+    bg2.push(navMax);
+  });
+
 
   const itemStyle1 = {
     color:'#ccc',
@@ -29,16 +45,6 @@ export function getOption(obj) {
     }
   };
 
-  const positiveMax =  Math.max.apply(null, obj.positiveCount);
-  const navMax = Math.min.apply(null, obj.negativeCount);
-
-  const bg1 = [];
-  const bg2 = [];
-  obj.xAxisData && obj.xAxisData.forEach((v)=>{
-    bg1.push(positiveMax);
-    bg2.push(navMax);
-  });
-
   return {
     color: ["#50D4FD", "#FD8188"],
     tooltip: {
@@ -47,10 +53,10 @@ export function getOption(obj) {
         // type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
       },
       formatter: function (params) {
-        if(params[0]&& params[1]) {
+        if(params[0]) {
           return params[0].name +
-            "<br>正面：" + params[0].value +"个"+
-            "<br>负面：" +  -params[1].value+"个";
+            "<br>正面：" + (params[1]?params[1].value:0) +"个"+
+            "<br>负面：" +  (params[3]?-params[3].value:0)+"个";
         }
       }
     },
@@ -113,8 +119,8 @@ export function getOption(obj) {
           normal: {color: 'rgba(71,211,255,0.06)'}
         },
         barGap:'-100%',
-        barCategoryGap:'40%',
-        barWidth:50,
+        // barCategoryGap:'40%',
+        // barWidth:50,
         data: bg1,
         animation: false
       },
@@ -122,7 +128,7 @@ export function getOption(obj) {
         name: '正面',
         type: 'bar',
         stack: 'one',
-        barWidth:50,
+        // barWidth:50,
         itemStyle: itemStyle1,
         data: obj.positiveCount
       },
@@ -132,8 +138,8 @@ export function getOption(obj) {
           normal: {color: 'rgba(255,128,134,0.06)'}
         },
         barGap:'-100%',
-        barCategoryGap:'40%',
-        barWidth:50,
+        // barCategoryGap:'40%',
+        // barWidth:50,
         data: bg2,
         animation: false
       },
@@ -141,9 +147,9 @@ export function getOption(obj) {
         name: '负面',
         type: 'bar',
         stack: 'one',
-        barWidth:50,
+        // barWidth:50,
         itemStyle: itemStyle2,
-        data: obj.negativeCount
+        data: negData
       },
     ]
   }

@@ -25,7 +25,7 @@ export default class OrderStat extends React.Component {
     }
   }
   render() {
-    const { orderNum,totalRestAmount,orderList=[] } = this.props.orderStat || {};
+    const { orderNum=0,totalRestAmount=0,orderList=[] } = this.props.orderStat || {};
     const orderRender = orderList.map((item,i)=>{
       let end = '';
       let front = '';
@@ -74,11 +74,11 @@ export default class OrderStat extends React.Component {
         <div style={{ height: '350px' }}>
           <Row className={styles.orderRow}>
             <Col span={12}>
-              <div className={styles.num}>{thousandsFormat(orderNum)}</div>
+              <div className={styles.num}>{orderNum?thousandsFormat(orderNum):0}</div>
               <div>订单数</div>
             </Col>
             <Col span={12}>
-              <div className={styles.num}>{thousandsFormat(totalRestAmount)}</div>
+              <div className={styles.num}>{totalRestAmount?thousandsFormat(totalRestAmount):0}</div>
               <div>净流水总额（元）</div>
             </Col>
           </Row>

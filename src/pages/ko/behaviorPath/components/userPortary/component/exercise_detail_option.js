@@ -31,8 +31,9 @@ export function getOption(obj) {
     },
     grid: {
       top: '3%',
-      left: 30,
+      left: 50,
       right: 60,
+
       bottom: 50,
       containLabel: true
     },
