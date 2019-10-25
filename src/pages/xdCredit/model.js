@@ -127,16 +127,25 @@ export default {
     saveTable(state, { payload }) {
       let data = payload.imDetailData
       if (!data.reasonTypeList) {
-        // data.titleList.push({
-        //   expand: true,
-        //   typeId: -1,
-        //   typeName: "流程方向"
-        // })
+        data.dataList.map(item => {
+          item.values.push(item.unClassifyCount)
+        })
+        data.reasonTypeList = [{
+          expand: true,
+          typeId: 0,
+          typeName: '所有分类'
+        }]
         data.titleList = [...data.titleList, {
           expand: true,
           typeId: -1,
           typeName: "未分类数据"
         }]
+      } else {
+        data.reasonTypeList = [{
+          expand: true,
+          typeId: 0,
+          typeName: '所有分类'
+        }, ...data.reasonTypeList]
       }
       console.log(129, data)
       return { ...state, ...{ imDetailData: data } };

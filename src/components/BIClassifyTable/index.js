@@ -22,16 +22,10 @@ class BIClassifyTable extends React.Component {
   }
   title = () => {
     const reasonTypeList = this.props.dataSource.reasonTypeList
-    if (!reasonTypeList) return <span>所有分类</span>
-    const ressonTypeLists = [{
-      expand: true,
-      typeId: 0,
-      typeName: '所有分类'
-    }, ...reasonTypeList]
     return (
       <div>
-        {ressonTypeLists.map((item, index) => {
-          const condition = index === ressonTypeLists.length - 1;
+        {reasonTypeList.map((item, index) => {
+          const condition = index === reasonTypeList.length - 1;
           return <span key={index} onClick={condition ? null : (e) => this.reasonTypeClick(item, e)} className={condition ? styles.titleCurrent : styles.title}>{item.typeName}{condition ? '' : '/'}</span>
         })}
         <span></span>
@@ -48,15 +42,15 @@ class BIClassifyTable extends React.Component {
       currentIndex: index,
     })
   }
-  cellClick = (record, index, type) => {
-    this.resetCell(record, index, type)
-    this.props.cellClick(index !== totalLength ? this.props.dataSource.titleList[index] : '', record, type)
+  cellClick = (record, index, indexs, type) => {
+    this.resetCell(record, index)
+    this.props.cellClick(this.props.dataSource.titleList[indexs], record, type)
   }
 
   columns = () => {
-    const data = this.props.dataSource
-    const titleList = data.titleList
-    const dataSource = data.dataList
+    const data = this.props.dataSource;
+    const titleList = data.titleList;
+    const dataSource = data.dataList;
     const reasonTypeList = data.reasonTypeList
     const children = [];
     let repairArr = 0
@@ -74,28 +68,12 @@ class BIClassifyTable extends React.Component {
         render: (text, record, indexs) => {
           const currentIndex = `${index}${indexs}`
           return (
-            this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell key={index} text={dataSource[indexs].values[index]} unit="%" onClick={(e) => { this.cellClick(record, currentIndex, e) }}></BISelectCell> : <BIContrastCell others={this.props.others} key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, e) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
+            this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell key={index} text={`${dataSource[indexs].values[index]}`} unit="%" onClick={(e) => { this.cellClick(record, currentIndex, index) }}></BISelectCell> : <BIContrastCell others={this.props.others} key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, index) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
           )
         },
       })
 
     })
-    // if (!reasonTypeList) {
-    //   children.push({
-    //     title: '未分类数据',
-    //     dataIndex: 'unClassifyCount',
-    //     key: 'unClassifyCount',
-    //     width: 60,
-    //     className: styles.txRight,
-    //     render: (text, record, index) => {
-    //       const nums = [...dataSource[index].values, text];
-    //       const currentIndex = `${index}${nums.length - 1}`
-    //       return (
-    //         this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell text={text} unit="%" onClick={(e) => { this.cellClick(record, currentIndex, 'none') }} /> : <BIContrastCell others={this.props.others} key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, 'none') }} nums={nums} text={text} />
-    //       )
-    //     }
-    //   })
-    // }
     if (repairArr > 0) {
       for (let i = 0; i < repairArr; i++) {
         children.push({

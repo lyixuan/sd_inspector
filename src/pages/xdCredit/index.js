@@ -93,13 +93,12 @@ class XdCredit extends React.Component {
     })
   }
   cellClick = (item, record, type) => {
+    console.log(96, item, record)
     let reasonTypeId = this.state.reasonTypeId;
     if (item) {
       reasonTypeId = item.typeId
     } else if (type == 'total' && this.state.reasonTypeId == 0) {
       reasonTypeId = 0
-    } else if (type == 'none') {
-      reasonTypeId = -1
     }
     const params = {
       startTime: this.state.startTime,
