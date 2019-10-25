@@ -83,7 +83,6 @@ class currentCreditRight extends React.Component {
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
-    console.log(userLocation, scrollTop, 'lllll', userLocation + this.props.getNumValue(600))
     if ((scrollTop > userLocation && scrollTop < userLocation + this.props.getNumValue(600)) || scrollTop === 0) {
       if (userFlag === true) {
         this.setState({
@@ -151,7 +150,7 @@ class currentCreditRight extends React.Component {
     let taClassName = ""
     if (record.isMyGroup) {
       this.state.userMsg = record;
-      this.state.userLocation = 40 * (index + 1) - 400;
+      this.state.userLocation = 40 * (index + 1) - this.props.getNumValue(560);
       taClassName = "rowHover";
     }
     if (this.getIncludes(record.groupId)) {
