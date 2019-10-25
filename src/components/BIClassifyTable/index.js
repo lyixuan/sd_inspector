@@ -18,7 +18,7 @@ class BIClassifyTable extends React.Component {
     if (this.props.dataSource != nextProps.dataSource) {
       const dataList = nextProps.dataSource.dataList;
       const item = dataList[dataList.length - 1]
-      this.cellClick(item, totalLength);
+      this.resetCell(item, totalLength);
     }
   }
   title = () => {
@@ -44,11 +44,14 @@ class BIClassifyTable extends React.Component {
     if (!item.expand) return;
     this.props.reasonTypeClick(item);
   }
-  cellClick = (record, index, type) => {
+  resetCell = (record, index, type) => {
     this.setState({
       currentIndex: index,
       checkedId: record && record[this.props.defaultKey.id]
     })
+  }
+  cellClick = (record, index, type) => {
+    this.resetCell(record, index, type)
     this.props.cellClick(index !== totalLength ? this.props.dataSource.titleList[index] : '', record, type)
   }
 

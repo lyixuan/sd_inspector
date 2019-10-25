@@ -107,7 +107,8 @@ class CreditImDetials extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.xdCreditModal.imDetailList.data != nextProps.xdCreditModal.imDetailList.data) {
+    if (this.props.xdCreditModal.imDetailData != nextProps.xdCreditModal.imDetailData) {
+      console.log(111)
       const tableWidth = document.getElementById("classityBox").offsetHeight;
       this.setState({
         pageSize: parseInt((1700 - tableWidth) / 48)
@@ -115,6 +116,7 @@ class CreditImDetials extends React.Component {
     }
   }
   defaultPage = (pageSize) => {
+    console.log(120, pageSize)
     this.props.defaultPage(pageSize);
   }
   columns = () => {
@@ -239,12 +241,7 @@ class CreditImDetials extends React.Component {
       }
     });
   }
-  reasonTypeClick = (item) => {
-    this.props.reasonTypeClick(item);
-  }
-  cellClick = (item, record, type) => {
-    this.props.cellClick(item, record, type);
-  }
+
   render() {
     const { currentPage, pageSize2 } = this.props;
     const { imDetailData, imDetailList } = this.props.xdCreditModal;
@@ -259,8 +256,7 @@ class CreditImDetials extends React.Component {
             dataSource={imDetailData}
             isChecked={true}
             defaultKey={{ id: 'orgId', name: 'orgName' }}
-            cellClick={this.cellClick}
-            reasonTypeClick={this.reasonTypeClick}
+            {...this.props}
           ></BIClassifyTable>
         </div>
         <BITable
@@ -270,7 +266,7 @@ class CreditImDetials extends React.Component {
           smalled
           pagination={{
             onChange: this.onPageChange,
-            defaultPageSize: pageSize2,
+            pageSize: pageSize2,
             current: currentPage,
             hideOnSinglePage: true,
             showQuickJumper: true,
