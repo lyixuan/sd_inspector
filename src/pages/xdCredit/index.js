@@ -104,7 +104,7 @@ class XdCredit extends React.Component {
     const params = {
       startTime: this.state.startTime,
       endTime: this.state.endTime,
-      familyType: this.state.familyType.length == 3 ? '0' : this.state.familyType,
+      familyType: (this.state.familyType.length == 3 ? '0' : this.state.familyType) || this.state.allUserInfo.familyType,
       groupType: record.groupType,
       orgId: record.orgId,
       reasonTypeId: reasonTypeId,

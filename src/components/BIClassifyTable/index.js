@@ -10,7 +10,6 @@ class BIClassifyTable extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      checkedId: null,
       scrollWidth: 0
     }
   }
@@ -18,7 +17,7 @@ class BIClassifyTable extends React.Component {
     if (this.props.dataSource != nextProps.dataSource) {
       const dataList = nextProps.dataSource.dataList;
       const item = dataList[dataList.length - 1]
-      this.resetCell(item, totalLength);
+      this.resetCell(item, `${dataList.length - 1}${totalLength}`);
     }
   }
   title = () => {
@@ -45,10 +44,8 @@ class BIClassifyTable extends React.Component {
     this.props.reasonTypeClick(item);
   }
   resetCell = (record, index, type) => {
-    console.log(48, index)
     this.setState({
       currentIndex: index,
-      checkedId: record && record[this.props.defaultKey.id]
     })
   }
   cellClick = (record, index, type) => {
@@ -75,8 +72,9 @@ class BIClassifyTable extends React.Component {
         width: 85,
         className: styles.txRight,
         render: (text, record, indexs) => {
+          const currentIndex = `${index}${indexs}`
           return (
-            this.state.checkedId == record[this.props.defaultKey.id] && this.state.currentIndex == index && this.props.isChecked ? <BISelectCell key={index} text={dataSource[indexs].values[index]} unit="%" onClick={(e) => { this.cellClick(record, index, e) }}></BISelectCell> : <BIContrastCell others={this.props.others} key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, index, e) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
+            this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell key={index} text={dataSource[indexs].values[index]} unit="%" onClick={(e) => { this.cellClick(record, currentIndex, e) }}></BISelectCell> : <BIContrastCell others={this.props.others} key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, e) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
           )
         },
       })
@@ -90,9 +88,10 @@ class BIClassifyTable extends React.Component {
         width: 60,
         className: styles.txRight,
         render: (text, record, index) => {
-          const nums = [...dataSource[index].values, text]
+          const nums = [...dataSource[index].values, text];
+          const currentIndex = `${index}${nums.length - 1}`
           return (
-            this.state.checkedId == record[this.props.defaultKey.id] && this.state.currentIndex == nums.length - 1 && this.props.isChecked ? <BISelectCell text={text} unit="%" onClick={(e) => { this.cellClick(record, nums.length - 1, 'none') }} /> : <BIContrastCell others={this.props.others} key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, nums.length - 1, 'none') }} nums={nums} text={text} />
+            this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell text={text} unit="%" onClick={(e) => { this.cellClick(record, currentIndex, 'none') }} /> : <BIContrastCell others={this.props.others} key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, 'none') }} nums={nums} text={text} />
           )
         }
       })
@@ -132,9 +131,9 @@ class BIClassifyTable extends React.Component {
         className: styles.txRight,
         fixed: 'right',
         render: (text, record, index) => {
-          const length = totalLength;
+          const currentIndex = `${index}${totalLength}`;
           return (
-            this.state.checkedId == record[this.props.defaultKey.id] && this.state.currentIndex == length && this.props.isChecked ? <BISelectCell text={text} onClick={(e) => { this.cellClick(record, length, 'total') }} /> : <BIContrastCell key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, length, 'total') }} nums={record.values} text={text} />
+            this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell text={text} onClick={(e) => { this.cellClick(record, currentIndex, 'total') }} /> : <BIContrastCell key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, 'total') }} nums={record.values} text={text} />
           )
         }
       }
