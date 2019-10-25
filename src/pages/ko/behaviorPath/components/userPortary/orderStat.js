@@ -71,7 +71,7 @@ export default class OrderStat extends React.Component {
         <div className={styles.boxHead}>
           <span className={styles.boxTitle}>订单状况</span>
         </div>
-        <div style={{ height: '350px' }}>
+        <div className={styles.boxFlex} style={{ height: this.props.height+'px'}}>
           <Row className={styles.orderRow}>
             <Col span={12}>
               <div className={styles.num}>{orderNum?thousandsFormat(orderNum):0}</div>

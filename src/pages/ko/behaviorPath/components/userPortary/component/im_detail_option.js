@@ -1,5 +1,4 @@
 export function getOption(obj) {
-  console.log(obj)
   const bg1 = [];
   const bg2 = [];
   let negData = [];
@@ -111,7 +110,7 @@ export function getOption(obj) {
       splitLine:{
         lineStyle:{
           type:'dotted',
-          color:"RGBA(229, 229, 229, 0.8)"
+          color:"RGBA(229, 229, 229, 0.5)"
         }
       }
     },{
@@ -133,7 +132,7 @@ export function getOption(obj) {
       splitLine:{
         lineStyle:{
           type:'dotted',
-          color:"RGBA(229, 229, 229, 0.8)"
+          color:"RGBA(229, 229, 229, 0.5)"
         }
       }
     }

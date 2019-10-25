@@ -152,8 +152,9 @@
   margin-bottom:0;
 }
 .orderRow {
-  padding-top: 40px;
-  padding-bottom: 90px;
+  height: 100px;
+  margin-top: 30px;
+  padding-right: 10px;
   text-align: center;
   color: #7A7C80;
 }
@@ -161,4 +162,10 @@
   padding-top: 8px;
   height: 150px;
   overflow-y: scroll;
+}
+.boxFlex {
+  display: flex;
+  flex-direction:column;
+  align-content: space-between;
+  justify-content: space-between;
 }

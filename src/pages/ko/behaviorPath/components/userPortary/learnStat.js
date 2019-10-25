@@ -23,7 +23,7 @@ export default class LearnStat extends React.Component {
 
   render() {
     const {current,idx} = this.state;
-    const { learnStat = []}  = this.props || {};
+    const { learnStat = [],height=320}  = this.props || {};
     const learnStat1 = learnStat[0] || {};
     const learnStat2 = learnStat[1] || {};
 
@@ -35,7 +35,7 @@ export default class LearnStat extends React.Component {
           <span className={current===learnStat2.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(learnStat2.time,2)}>{learnStat2.time} <i></i></span>
           <span className={current!==learnStat2.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(learnStat1.time,1)}>{learnStat1.time} <i></i> </span>
         </div>
-        <Echarts options={options} style={{ height: '350px' }}/>
+        <Echarts options={options} style={{ height: height+'px' }}/>
       </div>
     );
   }

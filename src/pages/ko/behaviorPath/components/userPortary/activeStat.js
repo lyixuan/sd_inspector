@@ -24,7 +24,7 @@ export default class ActiveStat extends React.Component {
 
   render() {
     const {current,idx} = this.state;
-    const { activeStat = []}  = this.props || {};
+    const { activeStat = [],height=320}  = this.props || {};
     const activeStat1 = activeStat[0] || {};
     const activeStat2 = activeStat[1] || {};
 
@@ -36,7 +36,7 @@ export default class ActiveStat extends React.Component {
           <span className={current===activeStat2.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(activeStat2.time,2)}>{activeStat2.time} <i></i></span>
           <span className={current!==activeStat2.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(activeStat1.time,1)}>{activeStat1.time} <i></i> </span>
         </div>
-        <Echarts options={options} style={{ height: '350px' }}/>
+        <Echarts options={options} style={{ height: height+'px' }}/>
       </div>
     );
   }

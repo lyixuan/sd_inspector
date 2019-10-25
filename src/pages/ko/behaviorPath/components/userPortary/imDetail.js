@@ -7,7 +7,7 @@ import styles from './style.css';
 
 export default class ImDetail extends React.Component {
   render() {
-    const { imDetail = {}}  = this.props || {};
+    const { imDetail = {},height=320}  = this.props || {};
 
     const  options = getOption(imDetail);
     return (
@@ -15,7 +15,7 @@ export default class ImDetail extends React.Component {
         <div className={styles.boxHead}>
           <span className={styles.boxTitle}>IM情绪值</span>
         </div>
-        <Echarts options={options} style={{ height: '350px' }}/>
+        <Echarts options={options} style={{ height: height+'px' }}/>
       </div>
     );
   }

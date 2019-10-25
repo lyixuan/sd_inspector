@@ -15,7 +15,6 @@ export default class EchartsComponent extends React.Component {
       }catch (e) {
         console.error('echarts data error')
       }
-
     }
 
     if (JSON.stringify(nextProps.style) !== JSON.stringify(this.props.style)) {
@@ -23,6 +22,8 @@ export default class EchartsComponent extends React.Component {
       this.myChart.resize({ height: nextProps.style.height });
       this.myChart.setOption(nextProps.options);
     }
+
+
   }
   createRef = id => {
     this.ID = id;
