@@ -81,6 +81,8 @@ class XdCredit extends React.Component {
   defaultPage = (page) => {
     this.setState({
       pageSize2: page
+    }, () => {
+      this.getImDetail()
     })
   }
   reasonTypeClick = (item) => {
@@ -106,7 +108,8 @@ class XdCredit extends React.Component {
       groupType: record.groupType,
       orgId: record.orgId,
       reasonTypeId: reasonTypeId,
-      pageSize: this.state.pageSize2
+      pageSize: this.state.pageSize2,
+      page: this.state.page
     }
     this.props.dispatch({
       type: 'xdCreditModal/imDetailList',
@@ -126,11 +129,7 @@ class XdCredit extends React.Component {
       type: 'xdCreditModal/reasonList',
       payload: { params }
     });
-    this.getImDetail();
-    // this.props.dispatch({
-    //   type: 'xdCreditModal/imDetailList',
-    //   payload: { params: { ...params, pageSize: 40, page: this.state.page } },
-    // });
+    // this.getImDetail();
   }
   getImDetail = () => {
     const params = {
@@ -143,6 +142,7 @@ class XdCredit extends React.Component {
       pageSize: this.state.pageSize2,
       page: this.state.page
     }
+    console.log(144, params)
     this.props.dispatch({
       type: 'xdCreditModal/imDetailList',
       payload: { params: params },
@@ -195,7 +195,7 @@ class XdCredit extends React.Component {
     const { startTime, endTime } = this.state;
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionList',
-      payload: { params: { ...this.getGroupMsg(), startTime, endTime, familyType: this.state.familyType.length == 3 ? '0' : this.state.familyType } },
+      payload: { params: { ...this.getGroupMsg(), startTime, endTime, familyType: (this.state.familyType.length == 3 ? '0' : this.state.familyType) || this.state.allUserInfo.familyType } },
       callback: (data) => {
         if (this.state.pageFrom) {
           this.fillDataSource(data.dimensionList)
@@ -251,7 +251,7 @@ class XdCredit extends React.Component {
       const index = groupId.length - 1;
       return { groupId: groupId[index], groupType: groupTypeArr[index].groupType };
     } else {
-      return {};
+      return [];
     }
   }
   // reset groupId数组 getResetGroupId
@@ -412,10 +412,11 @@ class XdCredit extends React.Component {
                 {
                   this.state.isIm ? <CreditImDetials
                     onPageChange={this.onPageChange2}
-                    pageSize={this.state.pageSize2}
+                    pageSize2={this.state.pageSize2}
                     currentPage={this.state.page}
                     defaultPage={this.defaultPage}
                     cellClick={this.cellClick}
+                    resetCell={this.resetCell}
                     reasonTypeClick={this.reasonTypeClick}
                   /> : <CreditDetials
                       onPageChange={this.onPageChange}
