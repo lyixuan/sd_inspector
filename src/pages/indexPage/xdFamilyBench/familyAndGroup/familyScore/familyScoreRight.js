@@ -15,7 +15,7 @@ class FamilyScoreRight extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      orgValue: '全部（默认）',
+      orgValue: undefined,
       userFlag: false,
       userLocation: '',
       userMsg: '',
@@ -178,7 +178,7 @@ class FamilyScoreRight extends React.Component {
       <div className={styles.familyRight}>
         <div className={styles.creditSelect} >
           <span className={styles.title}>选择对比组织:</span>
-          <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
+          <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="全部" value={orgValue} onChange={(val) => this.onFormChange(val)} allowClear>
             {collegeList.map((item, index) => (
               <Option key={item.collegeId} data-trace='{"widgetName":"选择学分对比组织","traceName":"家族长工作台/选择学分对比组织"}'>
                 {item.collegeName}
