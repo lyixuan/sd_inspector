@@ -106,20 +106,35 @@ class CreditImDetials extends React.Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.xdCreditModal.imDetailData != nextProps.xdCreditModal.imDetailData) {
-      console.log(111)
       const tableWidth = document.getElementById("classityBox").offsetHeight;
+      const countPage = parseInt((1700 - tableWidth) / 48);
       this.setState({
-        pageSize: parseInt((1700 - tableWidth) / 48)
-      }, this.defaultPage(parseInt((1700 - tableWidth) / 48)))
+        pageSize: countPage
+      }, this.defaultPage(countPage))
     }
   }
   defaultPage = (pageSize) => {
-    console.log(120, pageSize)
     this.props.defaultPage(pageSize);
   }
   handleNameClick = (id) => {
-    console.log(123, id)
     jumpMarkingDetails(id, { target: 'im' })
+  }
+  columnsTable = () => {
+    const columns = [{
+      type: 'leftFixed',
+      name: '组织',
+      width: 105
+    }, {
+      type: 'children',
+      name: '',
+      width: 1,
+    }, {
+      type: 'rightFixed',
+      name: '汇总',
+      width: 60,
+      key: 'total'
+    }];
+    return columns || [];
   }
   columns = () => {
     const columns = [
@@ -139,7 +154,6 @@ class CreditImDetials extends React.Component {
             <Tooltip overlayClassName={styles.listMarkingTooltip} placement="right" title={content}>
               <div className={styles.content}>{text[0].content}</div>
             </Tooltip>
-
           )
         },
         width: 170
@@ -246,8 +260,10 @@ class CreditImDetials extends React.Component {
           <BIClassifyTable
             loading={this.props.loading}
             others='%'
+            columns={this.columnsTable()}
             colors={colors}
             dataSource={imDetailData}
+            cellWidth={85}
             isChecked={true}
             defaultKey={{ id: 'orgId', name: 'orgName' }}
             {...this.props}
