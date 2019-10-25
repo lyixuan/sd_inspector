@@ -45,6 +45,7 @@ class BIClassifyTable extends React.Component {
     this.props.reasonTypeClick(item);
   }
   resetCell = (record, index, type) => {
+    console.log(48, index)
     this.setState({
       currentIndex: index,
       checkedId: record && record[this.props.defaultKey.id]

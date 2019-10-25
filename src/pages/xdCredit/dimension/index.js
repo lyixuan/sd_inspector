@@ -48,7 +48,7 @@ class Dimension extends React.Component {
           const imgSrc = num > 0 ? up : down;
           return (
             <div data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>
-              {num == 0 ? { text } : <span>{text}{text == 'N/A' ? null : <img style={{ marginLeft: '3px' }} src={imgSrc} />}</span>}
+              {num == 0 ? text : <span>{text}{text == 'N/A' ? null : <img style={{ marginLeft: '3px' }} src={imgSrc} />}</span>}
             </div>
           )
         }

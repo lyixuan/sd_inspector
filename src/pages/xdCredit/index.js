@@ -142,7 +142,6 @@ class XdCredit extends React.Component {
       pageSize: this.state.pageSize2,
       page: this.state.page
     }
-    console.log(144, params)
     this.props.dispatch({
       type: 'xdCreditModal/imDetailList',
       payload: { params: params },
@@ -251,7 +250,7 @@ class XdCredit extends React.Component {
       const index = groupId.length - 1;
       return { groupId: groupId[index], groupType: groupTypeArr[index].groupType };
     } else {
-      return [];
+      return {};
     }
   }
   // reset groupId数组 getResetGroupId
@@ -331,7 +330,6 @@ class XdCredit extends React.Component {
     }, () => this.getDimensionDetail());
   };
   onPageChange2 = (currentPage) => {
-    console.log(333, currentPage)
     this.setState({
       page: currentPage,
     }, () => this.getImDetail());
