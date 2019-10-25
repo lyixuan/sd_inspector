@@ -42,7 +42,7 @@ class CurrentCredit extends React.Component {
       num: scoreData.creditRanking || 0,
       tip: '本绩效周期内用户所在家族的学分在集团所有家族中的排名'
     }, {
-      title1: '家族系数排名',
+      title1: '家族排名系数',
       num: scoreData.creditRankingCoefficient || 0,
       rank: scoreData.msgColor,
       rankTip: scoreData.msg,

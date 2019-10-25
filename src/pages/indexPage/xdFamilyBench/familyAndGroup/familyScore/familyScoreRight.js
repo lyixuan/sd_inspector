@@ -15,7 +15,7 @@ class FamilyScoreRight extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      orgValue: '全部',
+      orgValue: '全部（默认）',
       userFlag: false,
       userLocation: '',
       userMsg: '',

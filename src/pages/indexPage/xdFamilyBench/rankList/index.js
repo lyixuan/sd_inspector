@@ -1,6 +1,4 @@
 import React from 'react';
-import moment from 'moment';
-import { Progress, Tooltip } from 'antd';
 import Container from '../../components/container';
 import TopTabs from '../../components/topTabs'
 import Performance from './performance'
