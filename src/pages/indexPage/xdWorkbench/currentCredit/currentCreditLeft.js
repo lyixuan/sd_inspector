@@ -180,7 +180,7 @@ class currentCreditLeft extends React.Component {
             />
           }
           {
-            pkGroupList && pkGroupList.length < 3 ? <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} /></div> : ''
+            pkGroupList && pkGroupList.length < 4 ? <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} /></div> : ''
           }
       </div>}
       </div>

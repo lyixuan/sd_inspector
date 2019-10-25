@@ -1,18 +1,19 @@
 import React from 'react';
 import { connect } from 'dva';
-import BIWrapperTable from '../../../components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import BIWrapperTable from '../../../components/BIWrapperTable';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
+import BIIcon from '@/components/BIIcon';
 import gradeA from '@/assets/workBench/a.png';
 import gradeB from '@/assets/workBench/b.png';
 import gradeC from '@/assets/workBench/c.png';
 import gradeS from '@/assets/workBench/s.png';
-import { thousandsFormat } from '@/utils/utils';
-import styles from '../style.less';
-import BIIcon from '@/components/BIIcon';
 import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
+import { thousandsFormat } from '@/utils/utils';
+import styles from '../style.less';
+
 
 const thousandsFormatAll = (n) => {
   return thousandsFormat(parseInt(n));
