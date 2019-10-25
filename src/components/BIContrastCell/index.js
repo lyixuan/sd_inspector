@@ -36,13 +36,13 @@ function getColor(colors = colorsArr, order = 0) {
 function colorContrast({nums = [], isReversed, colors = colorsArr, ...props}) {
   const orderNums = orderFn([...nums], isReversed);
   return nums.map(item => {
-    return {bgColor: getColor(colors, item ? orderNums.indexOf(item) : -1), children: item ,...props}
+    return {bgcolor: getColor(colors, item ? orderNums.indexOf(item) : -1), children: item ,...props}
   })
 }
 class BIContrastCell extends React.Component {
   colorContrastSingle = ({nums = [], text = 0, isReversed, colors = colorsArr, others, ...props}) => {
     const orderNums = orderFn([...nums], isReversed);
-    return <BIFillCell bgColor={text ? getColor(colors, orderNums.indexOf(text)) : ''} {...props}>{text}{others}</BIFillCell>
+    return <BIFillCell bgcolor={text ? getColor(colors, orderNums.indexOf(text)) : ''} {...props}>{text}{others}</BIFillCell>
   }
   render() {
     const content = this.colorContrastSingle(this.props);

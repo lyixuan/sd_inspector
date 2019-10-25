@@ -6,6 +6,7 @@ import {
   getKpiDateRange,
   getAppealType,
   reasonList,
+  imDetailList,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -19,13 +20,24 @@ export default {
     },
     dimensionDetails: {
       data: [],
+      dimensionList: []
     },
     kpiDateRange: {},
     imDetailData: {},
+    imDetailList: [],
   },
 
 
   effects: {
+    *imDetailList({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(imDetailList, params);
+      if (result.code === 20000) {
+        yield put({ type: 'save', payload: { imDetailList: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     *reasonList({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(reasonList, params);

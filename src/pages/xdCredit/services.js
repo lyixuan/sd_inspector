@@ -3,11 +3,11 @@ import request from '@/utils/request';
 // 用户—获得具有权限的组织架构
 export async function getUserOrgList(params) {
   // return request('/deskperfpcapi/organization/userOrgList', { method: 'get', params });
-  return request('http://172.16.17.211:8083/organization/userOrgList', { method: 'get', params });
+  return request('/deskperfpcapi/organization/userOrgList', { method: 'get', params });
 }
 // 学分—小组维度列表
 export async function getDimensionList(data) {
-  return request('http://172.16.17.211:8083/credit/dimension/list', { method: 'post', data });
+  return request('/deskperfpcapi/credit/dimension/list', { method: 'post', data });
 }
 // 学分—维度详情
 export async function getDimensionDetail(data) {
@@ -28,5 +28,10 @@ export async function getAppealType(data) {
 }
 // IM不满意会话-原因列表
 export async function reasonList(data) {
-  return request('http://172.16.17.211:8083/im/reasonList', { method: 'post', data });
+  return request('/deskperfpcapi/im/reasonList', { method: 'post', data });
 }
+// IM不满意会话-会话详情
+export async function imDetailList(data) {
+  return request('/deskperfpcapi/im/detailList', { method: 'post', data });
+}
+

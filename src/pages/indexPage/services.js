@@ -1,8 +1,8 @@
 import request from '@/utils/request';
 
 // 班主任分层 - 本期创收 - 综合对比
-export async function getContrastIncomeKpiPkList(params) {
-  return request('/deskperfpcapi/workbenchIncomeKpi/incomeKpiPkItem', { method: 'get', params });
+export async function getContrastIncomeKpiPkList(data) {
+  return request('/deskperfpcapi/workbenchIncomeKpi/incomeKpiPkItem', {method: 'POST', data });
 }
 // 班主任分层 - 本期创收 - 查询对比小组
 export async function getIncomeKpiPkList(params) {

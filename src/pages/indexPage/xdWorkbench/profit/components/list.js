@@ -57,20 +57,20 @@ class ProfitList extends React.Component {
       }, {
         width: '40%',
         title: '组织',
-        dataIndex: 'org',
-        key: 'org',
+        dataIndex: 'orgName',
+        key: 'orgName',
       }, {
         width: '20%',
         title: '班主任',
-        dataIndex: 'userName',
-        key: 'userName',
+        dataIndex: 'personName',
+        key: 'personName',
       }, {
         title: '绩效收入',
-        dataIndex: 'incomeKpi',
-        key: 'incomeKpi',
+        dataIndex: 'totalKpi',
+        key: 'totalKpi',
         render: (text, record) => {
           const percent = text / total * 100 + '%';
-          return <BIWrapperProgress text={text} percent={percent} iconed={this.getIncludes(record.userId)} propsStyle={{flex: 'inherit',width: '60px'}}/>
+          return <BIWrapperProgress text={text} percent={percent} iconed={this.getIncludes(record.personId)} propsStyle={{flex: 'inherit',width: '60px'}}/>
         }
       }
     ];
@@ -79,19 +79,19 @@ class ProfitList extends React.Component {
   onClickRow = (record, index) => {
     return {
       onClick: () => {
-        if (this.props.userId === record.userId) return;
-        this.props.changeSelected(record.userId);
+        if (this.props.userId === record.personId) return;
+        this.props.changeSelected(record.personId);
         BI.traceV &&  BI.traceV({"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"})
       },
     };
   }
   getRowClassName = (record, index) => {
-    if (this.props.userId === record.userId) {
+    if (this.props.userId === record.personId) {
       this.state.userMsg = record;
       this.state.userLocation = 40 * (index + 1) - 430;
       return styles.pkMine;
     };
-    if (this.getIncludes(record.userId)) return styles.pkUser;
+    if (this.getIncludes(record.personId)) return styles.pkUser;
   }
   getIncludes = (id) => {
     return this.props.pkUsers && this.props.pkUsers.includes(id);
@@ -136,7 +136,7 @@ class ProfitList extends React.Component {
               columns={this.columns()}
               dataSource={[userMsg]}
               pagination={false}
-              rowKey={record => record.userId}
+              rowKey={record => record.personId}
               rowClassName={this.getRowClassName}
               scroll={{ y: 40 }}
             />
@@ -147,7 +147,7 @@ class ProfitList extends React.Component {
               dataSource={profitList}
               pagination={false}
               loading={this.props.loading}
-              rowKey={(record, index) => record.userId + '' + index}
+              rowKey={(record, index) => record.personId + '' + index}
               onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
               scroll={{ y: 410 }}
