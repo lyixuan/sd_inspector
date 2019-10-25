@@ -3,7 +3,7 @@ import { Tooltip } from 'antd';
 import { connect } from 'dva';
 import BITable from '@/ant_components/BITable';
 import BIClassifyTable from '@/components/BIClassifyTable';
-import creditImg from '@/assets/xdcredit/credit.gif';
+import { jumpMarkingDetails } from '@/pages/ko/utils/utils';
 import router from 'umi/router';
 import styles from './style.less';
 import {
@@ -15,8 +15,6 @@ import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import constants from '@/utils/constants';
 const colors = ['rgba(255, 89, 89, 1)', 'rgba(255, 89, 89, 0.8)', 'rgba(255, 89, 89, .6)', 'rgba(255, 89, 89, .5)', 'rgba(255, 89, 89, .4)', 'rgba(255, 89, 89, .3)']
-
-
 
 function Layout(props) {
   const layout = <section>
@@ -119,6 +117,10 @@ class CreditImDetials extends React.Component {
     console.log(120, pageSize)
     this.props.defaultPage(pageSize);
   }
+  handleNameClick = (id) => {
+    console.log(123, id)
+    jumpMarkingDetails(id, { target: 'im' })
+  }
   columns = () => {
     const columns = [
       {
@@ -146,7 +148,10 @@ class CreditImDetials extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        width: 80
+        width: 80,
+        render: (text, record) => {
+          return <span onClick={() => this.handleNameClick(record.stuId)} style={{ color: "#00CCC3", cursor: 'pointer' }}>{text}</span>
+        }
       },
       {
         title: '后端归属',
@@ -209,10 +214,7 @@ class CreditImDetials extends React.Component {
       callback: res => {
         const { type } = res;
         if (dimensionType === 1) { // 质检
-          router.push({
-            pathname: '/qualityAppeal/qualityAppeal',
-            query: { p: JSON.stringify({ "tabType": type, type, qualityNum: appealNo, }) }
-          });
+          window.open(`/inspector/qualityAppeal/qualityAppeal?p=${JSON.stringify({ "tabType": type, type, qualityNum: appealNo, })}`);
         } else { // 其它
           const dimensionData = constants.DIMENSION_TYPE.find(op => op.name === appealObj[dimensionType]);
           const params = { "page": 1, "pageSize": 30, "dimensionType": dimensionData ? dimensionData.id : constants.DIMENSION_TYPE[0].id };
@@ -220,22 +222,14 @@ class CreditImDetials extends React.Component {
             params.creditBeginDate = r.bizDate;
             params.creditEndDate = r.bizDate;
             params.stuId = r.stuId;
-            router.push({
-              pathname: '/scoreAppeal/awaitAppeal',
-              query: { params: JSON.stringify(params) }
-            });
+            window.open(`/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(params)}`);
+
           } else if (type === 1) { // 其它状态
             params.appealOrderNum = res.appealNum;
-            router.push({
-              pathname: '/scoreAppeal/onAppeal',
-              query: { params: JSON.stringify(params) }
-            });
+            window.open(`/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(params)}`);
           } else if (type === 2) {
             params.appealOrderNum = res.appealNum;
-            router.push({
-              pathname: '/scoreAppeal/finishAppeal',
-              query: { params: JSON.stringify(params) }
-            });
+            window.open(`/inspector/scoreAppeal/finishAppeal?params=${JSON.stringify(params)}`);
           }
         }
       }

@@ -195,7 +195,7 @@ class XdCredit extends React.Component {
     const { startTime, endTime } = this.state;
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionList',
-      payload: { params: { ...this.getGroupMsg(), startTime, endTime, familyType: this.state.familyType.length == 3 ? '0' : this.state.familyType } },
+      payload: { params: { ...this.getGroupMsg(), startTime, endTime, familyType: (this.state.familyType.length == 3 ? '0' : this.state.familyType) || this.state.allUserInfo.familyType } },
       callback: (data) => {
         if (this.state.pageFrom) {
           this.fillDataSource(data.dimensionList)
@@ -251,7 +251,7 @@ class XdCredit extends React.Component {
       const index = groupId.length - 1;
       return { groupId: groupId[index], groupType: groupTypeArr[index].groupType };
     } else {
-      return {};
+      return [];
     }
   }
   // reset groupId数组 getResetGroupId
