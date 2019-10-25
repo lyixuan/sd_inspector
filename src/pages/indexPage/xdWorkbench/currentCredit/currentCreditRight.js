@@ -150,7 +150,7 @@ class currentCreditRight extends React.Component {
     let taClassName = ""
     if (record.isMyGroup) {
       this.state.userMsg = record;
-      this.state.userLocation = 40 * (index + 1) - this.props.getNumValue(620);
+      this.state.userLocation = 40 * (index + 1) - this.props.getNumValue(560);
       taClassName = "rowHover";
     }
     if (this.getIncludes(record.groupId)) {

@@ -55,7 +55,7 @@ class Profit extends React.Component {
           visible={visible}
           drawerStyle={{width: '40%'}}
         >
-          <ProfitList {...this.props} pkUsers={pkUsers} pkListType={pkListType} changePkListType={this.changePkListType} changeSelected={this.changeSelected} />
+          <ProfitList {...this.props} pkUsers={pkUsers} pkListType={pkListType} changePkListType={this.changePkListType} changeSelected={this.changeSelected} {...this.props}/>
         </BIDrawer>
       </Container>
     );

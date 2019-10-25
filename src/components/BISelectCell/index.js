@@ -7,7 +7,6 @@ class BISelectCell extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      checked: false,
       text: '',
       rightIcon: <img src={checkIcon} />,
     }
@@ -16,9 +15,6 @@ class BISelectCell extends React.Component {
     if (this.props.onClick && typeof this.props.onClick === 'function') {
       this.props.onClick(obj);
     }
-    this.setState({
-      checked: !this.state.checked
-    });
   }
   getAttribute = type => {
     return this.props[type] ? this.props[type] : this.state[type];
@@ -38,7 +34,6 @@ class BISelectCell extends React.Component {
           <BICell className={styles.BISelects} onClick={this.onClick} {...this.props}>
             {this.getAttribute('text')}{this.props.unit}
             <div className={styles.icon}>{this.getAttribute('rightIcon')}</div>
-
           </BICell>
         }
       </>
