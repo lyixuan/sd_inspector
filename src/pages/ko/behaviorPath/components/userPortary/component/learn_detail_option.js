@@ -31,7 +31,6 @@ export function getOption(obj) {
       icon:'circle',
       itemWidth:10
     },
-
     singleAxis: {
       top: 10,
       bottom: 80,
@@ -41,31 +40,35 @@ export function getOption(obj) {
       axisLabel: {},
       type: 'time',
       axisPointer: {
-        animation: true,
+        // animation: true,
         label: {
-          show: true
+          // show: true
         }
       },
       splitLine: {
         show: true,
         lineStyle: {
+          color:'RGBA(229, 229, 229, 0.8)',
           type: 'dashed',
-          opacity: 0.2
         }
       },
       axisLine: {
         show: true,
         symbol: 'none',
-        symbolSize: [10, 15],
-        symbolOffset: [0, 0],
+        // symbolSize: [10, 15],
+        // symbolOffset: [0, 0],
         lineStyle: {
           color: '#333',
           width: 1,
           type: 'solid'
         }
       },
+      splitArea:{
+        areaStyle:{
+        }
+      },
     },
-    color: ["#55DBD4", "#FECF57"],
+    color: [ "#FECF57","#55DBD4"],
     series: [
       {
         type: 'themeRiver',
@@ -75,8 +78,8 @@ export function getOption(obj) {
         },
         itemStyle: {
           emphasis: {
-            shadowBlur: 20,
-            shadowColor: 'rgba(0, 0, 0, 0.8)'
+            shadowBlur: 10,
+            shadowColor: 'rgba(0, 0, 0, 0.1)'
           }
         },
         data: obj.data

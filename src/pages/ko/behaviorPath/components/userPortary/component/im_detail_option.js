@@ -27,7 +27,7 @@ export function getOption(obj) {
       shadowBlur: 10,
       shadowOffsetX: 0,
       shadowOffsetY: 0,
-      shadowColor: 'rgba(0,0,0,0.5)'
+      shadowColor: 'rgba(0,0,0,0.1)'
     }
   };
   const itemStyle2 = {
@@ -81,7 +81,15 @@ export function getOption(obj) {
       // axisPointer: {
       //   type: 'shadow'
       // },
-      axisLine: {onZero: true},
+      axisLine:{
+        lineStyle:{
+          type:'dotted',
+          color:"#4A90E2"
+        }
+      },
+      axisLabel:{
+        color:'#000000 '
+      },
       splitLine: {show: false},
       splitArea: {show: false}
     },
@@ -91,8 +99,20 @@ export function getOption(obj) {
       type: 'value',
       min: navMax,
       max: positiveMax,
-      axisLabel: {
-        formatter: '{value}'
+      axisLabel:{
+        color:'#000000 '
+      },
+      axisLine:{
+        lineStyle:{
+          type:'dotted',
+          color:"RGBA(229, 229, 229, 0.8)"
+        }
+      },
+      splitLine:{
+        lineStyle:{
+          type:'dotted',
+          color:"RGBA(229, 229, 229, 0.8)"
+        }
       }
     },{
       inverse: false,
@@ -100,8 +120,21 @@ export function getOption(obj) {
       type: 'value',
       min: navMax,
       max: positiveMax,
-      axisLabel: {
-        formatter: '{value}'
+      axisLabel:{
+        show:false,
+        color:'#000000 '
+      },
+      axisLine:{
+        lineStyle:{
+          type:'dotted',
+          color:"RGBA(229, 229, 229, 0.8)"
+        }
+      },
+      splitLine:{
+        lineStyle:{
+          type:'dotted',
+          color:"RGBA(229, 229, 229, 0.8)"
+        }
       }
     }
     ],
@@ -116,7 +149,7 @@ export function getOption(obj) {
       { // For shadow
         type: 'bar',
         itemStyle: {
-          normal: {color: 'rgba(71,211,255,0.06)'}
+          normal: {color: 'rgba(71,211,255,0.04)'}
         },
         barGap:'-100%',
         // barCategoryGap:'40%',
@@ -135,7 +168,7 @@ export function getOption(obj) {
       { // For shadow
         type: 'bar',
         itemStyle: {
-          normal: {color: 'rgba(255,128,134,0.06)'}
+          normal: {color: 'rgba(255,128,134,0.04)'}
         },
         barGap:'-100%',
         // barCategoryGap:'40%',

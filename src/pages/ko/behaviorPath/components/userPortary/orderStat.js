@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col,Tooltip,Icon } from 'antd';
+import { Row, Col,Tooltip,Icon,Empty } from 'antd';
 import styles from './style.css';
 import { thousandsFormat } from '@/utils/utils';
 export default class OrderStat extends React.Component {
@@ -83,7 +83,7 @@ export default class OrderStat extends React.Component {
             </Col>
           </Row>
           <div className={styles.scorllOrder}>
-            {orderRender}
+            {orderList.length===0?<Empty />:orderRender}
           </div>
         </div>
       </div>

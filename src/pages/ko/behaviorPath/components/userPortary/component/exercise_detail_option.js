@@ -41,12 +41,36 @@ export function getOption(obj) {
       {
         type : 'category',
         boundaryGap : false,
-        data : obj.xAxis
+        data : obj.xAxis,
+        axisLine:{
+          lineStyle:{
+            type:'dotted',
+            color:"RGBA(229, 229, 229, 0.8)"
+          }
+        },
+        axisLabel:{
+          color:'#000000 '
+        },
       }
     ],
     yAxis : [
       {
-        type : 'value'
+        type : 'value',
+        axisLabel:{
+          color:'#000000 '
+        },
+        axisLine:{
+          lineStyle:{
+            type:'dotted',
+            color:"RGBA(229, 229, 229, 0.8)"
+          }
+        },
+        splitLine:{
+          lineStyle:{
+            type:'dotted',
+            color:"RGBA(229, 229, 229, 0.8)"
+          }
+        }
       }
     ],
     color: ["#FDBB2C","#22CBC2"],

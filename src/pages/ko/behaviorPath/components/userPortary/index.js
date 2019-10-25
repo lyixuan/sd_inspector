@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col,Spin } from 'antd';
 import BaseInfo from './baseInfo';
 import OrderStat from './orderStat';
 import ActiveStat from './activeStat';
@@ -13,10 +13,10 @@ export default class UserPortary extends React.Component {
 
   render() {
 
-    const { baseInfo={},tagInfo = {},orderStat={},activeStat=[],learnStat=[],learnDetail={},imDetail={},exerciseDetail={}}  = this.props;
+    const { baseInfo={},tagInfo = {},orderStat={},activeStat=[],learnStat=[],learnDetail={},imDetail={},exerciseDetail={},isLoading=false}  = this.props;
 
     return (
-      <div className={styles.layout}>
+      <Spin spinning={isLoading} className={styles.layout}>
         {/*基础信息*/}
         <BaseInfo baseInfo={baseInfo} tagInfo={tagInfo}/>
         <Row gutter={16}>
@@ -40,7 +40,7 @@ export default class UserPortary extends React.Component {
         {/*做题分析*/}
         <ExerciseDetail exerciseDetail={exerciseDetail}/>
         <br/>
-      </div>
+      </Spin>
     );
   }
 }

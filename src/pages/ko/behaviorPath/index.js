@@ -16,9 +16,11 @@ import styles from './style.less';
 const TabPane = BhTabs.TabPane;
 const { Search } = Input;
 
-@connect(({ behaviorPath, koPlan }) => ({
+@connect(({ behaviorPath, koPlan,loading }) => ({
+  loading,
   behaviorPath,
   currentServiceTime: koPlan.currentServiceTime,
+  portaryLoading:loading.effects['behaviorPath/getBasicInfo'] || loading.effects['behaviorPath/getTagInfo']||loading.effects['behaviorPath/getStatInfo']||loading.effects['behaviorPath/getDetailInfo'],
 }))
 
 class BehaviorPath1 extends React.Component {
@@ -378,6 +380,7 @@ class BehaviorPath1 extends React.Component {
                          learnStat={learnStat}
                          learnDetail={learnDetail}
                          imDetail={imDetail}
+                         isLoading={this.props.portaryLoading}
                          exerciseDetail={exerciseDetail}/> :null
         }
       </>

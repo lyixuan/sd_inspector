@@ -6,8 +6,46 @@ import {COMPANY_IMG_HOST} from '@/utils/constants';
 import avatarStudent from '@/assets/avatarStudent.png';
 import face1 from '@/assets/face1.svg';
 import face2 from '@/assets/face2.svg';
+import p0 from '@/assets/behaviorPath/1.png';
+import p1 from '@/assets/behaviorPath/2.png';
+import p2 from '@/assets/behaviorPath/3.png';
+import p3 from '@/assets/behaviorPath/4.png';
+import p4 from '@/assets/behaviorPath/5.png';
+import p5 from '@/assets/behaviorPath/6.png';
+import p6 from '@/assets/behaviorPath/7.png';
+import p7 from '@/assets/behaviorPath/8.png';
 
 export default class BaseInfo extends React.Component {
+  getPic = (dayCount)=>{
+    switch(dayCount) {
+      case 0:
+        return p0;
+        break;
+      case 1:
+        return p1;
+        break;
+      case 2:
+        return p2;
+        break;
+      case 3:
+        return p3;
+        break;
+      case 4:
+        return p4;
+        break;
+      case 5:
+        return p5;
+        break;
+      case 6:
+        return p6;
+        break;
+      case 7:
+        return p7;
+        break;
+      default:
+        return p0;
+    }
+  };
   render() {
     const { imageUrl, stuName, nickName, sex, age, city, collegeName, familyName, groupName, businessName, registerDate, serviceEndDate } = this.props.baseInfo || {};
     const {
@@ -19,6 +57,8 @@ export default class BaseInfo extends React.Component {
       exerciseRatio,
     } = this.props.tagInfo || {};
 
+    const exedayCount = this.getPic(exerciseInitiative.dayCount);
+    const learndayCount = this.getPic(learnInitiative.dayCount);
     return (
       <div className={styles.contentLayout}>
         <div className={styles.left}>
@@ -43,7 +83,7 @@ export default class BaseInfo extends React.Component {
           <Col span={3} className={styles.baseCol}>
             <Tooltip placement="top"
                      title={`最近一周观看重播${thousandsFormat(Math.ceil(learnInitiative.replayTime / 60))}分钟，查看直播${thousandsFormat(Math.ceil(learnInitiative.liveTime / 60))}分钟。`}>
-              <div>图片</div>
+              <div><img className={styles.baseImg} src={learndayCount}/></div>
               <div>学习主动性</div>
             </Tooltip>
           </Col>
@@ -52,7 +92,7 @@ export default class BaseInfo extends React.Component {
           </Col>
           <Col span={3} className={styles.baseCol}>
             <Tooltip placement="top" title={`最近一周共做题${thousandsFormat(exerciseInitiative.exerciseCount)}道。`}>
-              <div>图片</div>
+              <div><img className={styles.baseImg} src={exedayCount}/></div>
               <div>做题主动性</div>
             </Tooltip>
           </Col>
@@ -80,13 +120,13 @@ export default class BaseInfo extends React.Component {
                   {negativeList[6]&&<div>${negativeList[6].countDate} ${negativeList[6].count}个负面会话</div>}
               </div>
             }}>
-              <div>{negativeList && negativeList.length === 0 ? <img className={styles.qx} src={face1}/> :
-                <img className={styles.qx} src={face2}/>}</div>
+              <div>{negativeList && negativeList.length === 0 ? <img className={styles.baseImg} src={face1}/> :
+                <img className={styles.baseImg} src={face2}/>}</div>
               <div>情绪状态</div>
             </Tooltip>:
               <div>
-              <div>{negativeList && negativeList.length === 0 ? <img className={styles.qx} src={face1}/> :
-              <img className={styles.qx} src={face2}/>}</div>
+              <div>{negativeList && negativeList.length === 0 ? <img className={styles.baseImg} src={face1}/> :
+              <img className={styles.baseImg} src={face2}/>}</div>
               <div>情绪状态</div>
               </div>
             }
