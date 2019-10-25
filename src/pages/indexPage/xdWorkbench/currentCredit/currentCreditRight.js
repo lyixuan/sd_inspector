@@ -1,17 +1,16 @@
 import React from 'react';
 import { connect } from 'dva';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIWrapperTable from '../../components/BIWrapperTable';
 import BISelect from '@/ant_components/BISelect'
-import BITable from '@/ant_components/BITable'
-import Indent from '../../components/indent';
 import styles from './style.less';
 
 const { BI = {} } = window;
 const { Option } = BISelect;
 @connect(({ xdWorkModal, loading }) => ({
   xdWorkModal,
-  studentsOptions: xdWorkModal.kpiLevelList,
+  studentsOptions: xdWorkModal.kpiLevelList || [],
   loading: loading.effects['xdWorkModal/kpiLevelList'],
 }))
 class currentCreditRight extends React.Component {
@@ -25,7 +24,6 @@ class currentCreditRight extends React.Component {
         id: 2,
         name: '人均在服学员'
       }],
-      orgValue: '组织',
       orgSecondOptions: [{
         id: 'group',
         name: '集团'
@@ -35,15 +33,12 @@ class currentCreditRight extends React.Component {
       }, {
         id: 'family',
         name: '本家族'
-      }],
-      secondOptions: [],
-      studentValue: '本学院',
+      }], 
       userFlag: false,
       userLocation: '',
       userMsg: '',
-      groupType: 'college',
-      kpiLevelId: "",
-      groupList: []
+      groupList: [],
+      ...this.getSearchParams()// 搜索参数初始化
     };
   }
   componentDidMount() {
@@ -53,15 +48,19 @@ class currentCreditRight extends React.Component {
     document.querySelector("#scroll1 .ant-table-body").onscroll = (e) => {
       this.getScrollFn(e.target.scrollTop)
     }
-    this.setState({
-      secondOptions: this.state.orgSecondOptions,
-      studentValue: this.state.studentValue
-    })
-  }
-  componentWillReceiveProps(nextProps) {
   }
   componentWillUnmount() {
     document.querySelector("#scroll1 .ant-table-body").onscroll = '';
+  }
+  // 获取存储参数
+  getSearchParams = () => {
+    const local = localStorage.getItem('creditSearchParams');
+    const params = local ? JSON.parse(local) : {};
+    if (params.orgValue && params.studentValue) { 
+      return { orgValue: params.orgValue, studentValue: params.studentValue,}  // 搜索参数初始化
+    } else {
+      return { orgValue: 1, studentValue: 'college'}
+    }
   }
   //获取人均在服学员的下来数据方法
   getKpiLevelList = () => {
@@ -72,9 +71,10 @@ class currentCreditRight extends React.Component {
   }
   //获取对比小组的列表页
   getGroupList = () => {
+    const paramsItem = this.state.orgValue === 1 ? 'groupType' : 'kpiLevelId';
     this.props.dispatch({
       type: 'xdWorkModal/groupList',
-      payload: { params: { groupType: this.state.groupType, kpiLevelId: this.state.kpiLevelId } },
+      payload: { params: { [paramsItem]:  this.state.studentValue} },
       callback: (groupList) => {
         this.setState({ groupList })
         this.getScrollFn();
@@ -114,6 +114,7 @@ class currentCreditRight extends React.Component {
         title: '排名系数',
         dataIndex: 'creditRankingCoefficient',
         key: 'creditRankingCoefficient',
+        render: text => <BITextAlign>{text}</BITextAlign>
       }, {
         title: '学分',
         dataIndex: 'credit',
@@ -130,49 +131,14 @@ class currentCreditRight extends React.Component {
     return this.props.pkGroupList && this.props.pkGroupList.includes(id);
   }
   onFormChange = (value, vname) => {
-    const { orgSecondOptions } = this.state
-    const { studentsOptions } = this.props
     if (vname === 'oneLevel') {
       this.setState({
-        orgValue: value
+        orgValue: value,   
+        studentValue: undefined
       })
-      if (value == 1) {
-        this.setState({
-          secondOptions: orgSecondOptions,
-          studentValue: '请选择'
-        })
-      } else {
-        this.setState({
-          secondOptions: studentsOptions,
-          studentValue: '请选择'
-        })
-      }
-    } else if (vname === 'secondLevel') {
-      if (value == "college") {
-        this.setState({
-          groupType: 'college',
-          kpiLevelId: '',
-          studentValue: value
-        })
-      } else if (value == "family") {
-        this.setState({
-          groupType: 'family',
-          kpiLevelId: '',
-          studentValue: value
-        })
-      } else if (value == "group") {
-        this.setState({
-          groupType: '',
-          kpiLevelId: '',
-          studentValue: value
-        })
-      } else {
-        this.setState({
-          kpiLevelId: value,
-          groupType: '',
-          studentValue: value
-        })
-      }
+    } else if (vname === 'studentValue') {
+      localStorage.setItem('creditSearchParams', JSON.stringify({studentValue:value, orgValue: this.state.orgValue}));
+      this.setState({studentValue: value});
       setTimeout(() => {
         this.getGroupList()
       }, 200)
@@ -233,9 +199,19 @@ class currentCreditRight extends React.Component {
     );
     return data;
   };
-  
+  // 二级选择参数
+  getStudentOptions = () => {
+    const { orgValue } = this.state;
+    if (orgValue === 1) {
+      return this.state.orgSecondOptions;
+    } else if (orgValue === 2) {
+      return this.props.studentsOptions
+    } else {
+      return [];
+    }
+  }
   render() {
-    const { orgOptions, orgValue, studentValue, userFlag, userMsg, secondOptions, groupList } = this.state;
+    const { orgOptions, orgValue, studentValue, userFlag, userMsg, groupList } = this.state;
     const dataSource = groupList ? this.fillDataSource(groupList) : []
     return (
       <div className={styles.creditRight}>
@@ -243,14 +219,14 @@ class currentCreditRight extends React.Component {
           <span className={styles.title}>选择对比小组:</span>
           <BISelect style={{ width: 138}} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val, 'oneLevel')}>
             {orgOptions.map((item, index) => (
-              <Option key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
+              <Option value={item.id} key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
                 {item.name}
               </Option>
             ))}
           </BISelect>
-          <BISelect style={{ width: 188, marginLeft: 12 }} placeholder="请选择" value={studentValue} onChange={(val) => this.onFormChange(val, 'secondLevel')} >
-            {secondOptions.map(item => (
-              <Option key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
+          <BISelect style={{ width: 188, marginLeft: 12 }} placeholder="请选择" value={studentValue} onChange={(val) => this.onFormChange(val, 'studentValue')} >
+            {this.getStudentOptions().map(item => (
+              <Option value={item.id} key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
                 {item.name}
               </Option>
             ))}
@@ -263,7 +239,7 @@ class currentCreditRight extends React.Component {
               columns={this.columnsRight()}
               dataSource={[userMsg]}
               pagination={false}
-              rowKey={record => record.userId}
+              rowKey={record => record.groupId}
               rowClassName={this.setRowClassName}
               scroll={{ y: 40 }}
             />
