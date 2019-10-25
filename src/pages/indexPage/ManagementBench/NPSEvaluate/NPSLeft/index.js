@@ -3,6 +3,8 @@ import { connect } from 'dva';
 import styles from '../style.less'
 import ColorBlock from '../components/colorBlock'
 import BIWrapperTable from '../../../components/BIWrapperTable';
+import Star from '../components/star'
+
 
 @connect((xdWorkModal) => ({
   xdWorkModal,
@@ -40,34 +42,34 @@ class NPSLeft extends React.Component {
       ],
       dataSource:[{
         id:1,
-        collegeName:"自变量",
-        badPostNum:"0.12",
-        notInTime:400,
-        Unanswered:500,
+        collegeName:"芝士学院 | 能源管理 | 运营1组",
+        studentName:"张三",
+        starClass:1,
+        content:"我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉",
       },{
         id:2,
-        collegeName:"π学院",
-        badPostNum:"0.12",
-        notInTime:400,
-        Unanswered:500,
+        collegeName:"芝士学院 | 能源管理 | 运营1组",
+        studentName:"张三",
+        starClass:2,
+        content:"我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉",
       },{
         id:3,
-        collegeName:"芒格",
-        badPostNum:"0.12",
-        notInTime:400,
-        Unanswered:500,
+        collegeName:"芝士学院 | 能源管理 | 运营1组",
+        studentName:"张三",
+        starClass:3,
+        content:"我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉",
       },{
         id:4,
-        collegeName:"狐逻泰罗",
-        badPostNum:"0.12",
-        notInTime:400,
-        Unanswered:500,
+        collegeName:"芝士学院 | 能源管理 | 运营1组",
+        studentName:"张三",
+        starClass:4,
+        content:"我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉",
       },{
         id:5,
-        collegeName:"芝士",
-        badPostNum:"0.12",
-        notInTime:400,
-        Unanswered:500,
+        collegeName:"芝士学院 | 能源管理 | 运营1组",
+        studentName:"张三",
+        starClass:5,
+        content:"我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉",
       }],
 
     }
@@ -82,24 +84,19 @@ class NPSLeft extends React.Component {
         key: 'collegeName',
       }, {
         title: '学员姓名',
-        dataIndex: 'badPostNum',
-        key: 'badPostNum',
-        // render: (badPostNum, record) => {
-        //   const percent = badPostNum * 100 + '%';
-        //   return <BIWrapperProgress text={percent} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"center"}}/>
-        // },
+        dataIndex: 'studentName',
+        key: 'studentName',
       }, {
-        title: '不及时次数',
-        dataIndex: 'notInTime',
-        key: 'notInTime',
-        // render: (notInTime, record) => {
-        //   const percent = notInTime/500 * 100 + '%';
-        //   return <BIWrapperProgress text={notInTime} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"center"}}/>
-        // },
+        title: '星级',
+        dataIndex: 'starClass',
+        key: 'starClass',
+        render: (starClass) => {
+          return <Star  star={starClass} />
+        },
       }, {
-        title: '未回复次数',
-        dataIndex: 'Unanswered',
-        key: 'Unanswered',
+        title: '内容',
+        dataIndex: 'content',
+        key: 'content',
         // render: (Unanswered, record) => {
         //   const percent = Unanswered/500 * 100 + '%';
         //   return <BIWrapperProgress text={Unanswered} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"center"}}/>
@@ -111,7 +108,7 @@ class NPSLeft extends React.Component {
   render() {
     const { colorParams,dataSource} = this.state;
     return (
-      <div className={styles.NPALeftMain}>
+      <div className={styles.NPALeftMain} style={{width: 'calc(100% - 350px)'}}>
       <div className={styles.colorPart}>
         {colorParams.map((item,index)=><ColorBlock data={{...item}} key={index} className={`colorStyle${index}`}/>)}
       </div>
