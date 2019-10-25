@@ -51,7 +51,7 @@ export default class OrderStat extends React.Component {
       </div>;
 
       return <div className={styles.card} key={i}>
-        <div className={`${styles.line} ${orderNum === 1 ? null : styles.lineYellow}`}/>
+        <div className={`${styles.line} ${item.orderType === 1 ? null : styles.lineYellow}`}/>
         <div className={styles.orderInfo}>
           <h4>{item.packageName}</h4>
           <p>
