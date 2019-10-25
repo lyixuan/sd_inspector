@@ -73,7 +73,9 @@ export function getOption(obj) {
       {
         type: 'themeRiver',
         label:{
-          show:true,
+          normal: {
+            show: false
+          },
           color:'#666'
         },
         itemStyle: {
