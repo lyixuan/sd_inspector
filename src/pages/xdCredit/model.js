@@ -33,7 +33,7 @@ export default {
       const params = payload.params;
       const result = yield call(imDetailList, params);
       if (result.code === 20000) {
-        yield put({ type: 'save', payload: { imDetailList: result.data } });
+        yield put({ type: 'save', payload: { imDetailList: result } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -51,7 +51,7 @@ export default {
       const result = yield call(getUserInfo);
       if (result.code === 20000 && result.data) {
         if (callback && typeof callback === 'function') {
-          callback(result.data.scoreView);
+          callback(result.data);
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
@@ -124,6 +124,11 @@ export default {
     save(state, { payload }) {
       return { ...state, ...payload };
     },
+    saveTable(state, { payload }) {
+      let aa = {};
+      console.log(129, payload)
+      return { ...state, ...{ imDetailData: aa } }
+    }
   },
   subscriptions: {},
 };

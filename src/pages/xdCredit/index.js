@@ -8,6 +8,7 @@ import BISelect from '@/ant_components/BISelect'
 import extentImg from '@/assets/xdcredit/extent.png';
 import { initTimeData } from '../ko/utils/utils';
 import { message } from 'antd/lib/index';
+
 import Dimension from './dimension';
 import CreditDetials from './details'
 import CreditImDetials from './imDetails'
@@ -38,6 +39,7 @@ class XdCredit extends React.Component {
     super(props);
     this.state = {
       userOrgConfig: [],
+      allUserInfo: {},
       extendFlag: false, // 权限
       groupId: [],
       groupTypeArr: [],
@@ -47,9 +49,10 @@ class XdCredit extends React.Component {
       // startTime: '',
       // endTime: '',
       pageSize: 40,
+      pageSize2: 10,
       page: 1,
       reasonTypeId: 0,
-      isIm: false
+      isIm: false,
     }
   }
   componentDidMount() {
@@ -57,8 +60,8 @@ class XdCredit extends React.Component {
     this.props.dispatch({
       type: 'xdCreditModal/getUserInfo',
       callback: extendFlag => {
-        this.setState({ extendFlag });
-        if (extendFlag) {
+        this.setState({ extendFlag: extendFlag.scoreView, allUserInfo: extendFlag });
+        if (extendFlag.scoreView) {
           const { params } = this.props.location.query;
           if (params) {
             const { dementionId, startTime, endTime, pageFrom } = params ? JSON.parse(params) : {};
@@ -74,7 +77,11 @@ class XdCredit extends React.Component {
         };
       }
     });
-
+  }
+  defaultPage = (page) => {
+    this.setState({
+      pageSize2: page
+    })
   }
   reasonTypeClick = (item) => {
     this.setState({
@@ -99,9 +106,8 @@ class XdCredit extends React.Component {
       groupType: record.groupType,
       orgId: record.orgId,
       reasonTypeId: reasonTypeId,
-      pageSize: 40
+      pageSize: this.state.pageSize2
     }
-    console.log(100, params)
     this.props.dispatch({
       type: 'xdCreditModal/imDetailList',
       payload: { params: params },
@@ -111,18 +117,35 @@ class XdCredit extends React.Component {
     const params = {
       startTime: this.state.startTime,
       endTime: this.state.endTime,
-      familyType: this.state.familyType.length == 3 ? '0' : this.state.familyType,
-      groupType: this.getGroupMsg().groupType,
-      orgId: this.getGroupMsg().groupId,
+      familyType: (this.state.familyType.length == 3 ? '0' : this.state.familyType) || this.state.allUserInfo.familyType,
+      groupType: this.getGroupMsg().groupType || 'group',
+      orgId: this.getGroupMsg().groupId || this.state.allUserInfo.groupId,
       reasonTypeId: this.state.reasonTypeId
     }
     this.props.dispatch({
       type: 'xdCreditModal/reasonList',
       payload: { params }
     });
+    this.getImDetail();
+    // this.props.dispatch({
+    //   type: 'xdCreditModal/imDetailList',
+    //   payload: { params: { ...params, pageSize: 40, page: this.state.page } },
+    // });
+  }
+  getImDetail = () => {
+    const params = {
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+      familyType: (this.state.familyType.length == 3 ? '0' : this.state.familyType) || this.state.allUserInfo.familyType,
+      groupType: this.getGroupMsg().groupType || 'group',
+      orgId: this.getGroupMsg().groupId || this.state.allUserInfo.groupId,
+      reasonTypeId: this.state.reasonTypeId,
+      pageSize: this.state.pageSize2,
+      page: this.state.page
+    }
     this.props.dispatch({
       type: 'xdCreditModal/imDetailList',
-      payload: { params: { ...params, pageSize: 40 } },
+      payload: { params: params },
     });
   }
   // 组织 - 时间
@@ -137,13 +160,17 @@ class XdCredit extends React.Component {
             ...this.getResetGroupMsg(res),
           }, () => {
             this.getDimensionList();
-            // this.getReasonListData()
           })
         } else {
           this.getDimensionList();
-          // this.getReasonListData();
         }
-        if (this.state.dementionId) this.getDimensionDetail();
+        if (this.state.dementionId == 16) {
+          this.setState({
+            isIm: true
+          })
+          this.getReasonListData();
+        }
+        if (this.state.dementionId && this.state.dementionId != 16) this.getDimensionDetail();
       }
     });
     this.props.dispatch({
@@ -303,6 +330,12 @@ class XdCredit extends React.Component {
       page: currentPage,
     }, () => this.getDimensionDetail());
   };
+  onPageChange2 = (currentPage) => {
+    console.log(333, currentPage)
+    this.setState({
+      page: currentPage,
+    }, () => this.getImDetail());
+  };
   onSelectChange = val => {
     this.setState({
       familyType: val
@@ -378,6 +411,10 @@ class XdCredit extends React.Component {
                 />
                 {
                   this.state.isIm ? <CreditImDetials
+                    onPageChange={this.onPageChange2}
+                    pageSize={this.state.pageSize2}
+                    currentPage={this.state.page}
+                    defaultPage={this.defaultPage}
                     cellClick={this.cellClick}
                     reasonTypeClick={this.reasonTypeClick}
                   /> : <CreditDetials

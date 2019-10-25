@@ -5,6 +5,7 @@ import BITable from '@/ant_components/BITable';
 import IndentNum from '../../indexPage/components/indentNum';
 import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
+import BILoading from '@/components/BILoading';
 import styles from './style.less'
 
 @connect(({ loading }) => ({
@@ -120,28 +121,28 @@ class Dimension extends React.Component {
     const dataSource = this.fillDataSource(this.props.dimensionData.dimensionList);
     return (
       <div className={styles.dimension}>
-        <Skeleton loading={this.props.loading} >
-          {
-            dataSource.length > 0 ? <BITable
+        {/* <Skeleton loading={this.props.loading} > */}
+        {
+          this.props.loading ? <BILoading isLoading={this.props.loading} /> : dataSource.length > 0 ? <BITable
+            columns={this.columns()}
+            bordered
+            dataSource={dataSource}
+            defaultExpandAllRows={true}
+            rowClassName={this.setRowClassName}
+            expandIcon={() => <a />}
+            pagination={false}
+            onRow={this.onClickRow}
+            indentSize={10}
+            rowKey={record => record.id}
+            smalled={true}
+          /> : <BITable
               columns={this.columns()}
-              bordered
-              dataSource={dataSource}
-              defaultExpandAllRows={true}
-              rowClassName={this.setRowClassName}
-              expandIcon={() => <a />}
               pagination={false}
               onRow={this.onClickRow}
-              indentSize={10}
               rowKey={record => record.id}
-              smalled={true}
-            /> : <BITable
-                columns={this.columns()}
-                pagination={false}
-                onRow={this.onClickRow}
-                rowKey={record => record.id}
-              />
-          }
-        </Skeleton>
+            />
+        }
+        {/* </Skeleton> */}
       </div>
 
     );

@@ -102,8 +102,20 @@ class CreditImDetials extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      isChecked: true
+      pageSize: 31
     }
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (this.props.xdCreditModal.imDetailList.data != nextProps.xdCreditModal.imDetailList.data) {
+      const tableWidth = document.getElementById("classityBox").offsetHeight;
+      this.setState({
+        pageSize: parseInt((1700 - tableWidth) / 48)
+      }, this.defaultPage(parseInt((1700 - tableWidth) / 48)))
+    }
+  }
+  defaultPage = (pageSize) => {
+    this.props.defaultPage(pageSize);
   }
   columns = () => {
     const columns = [
@@ -172,7 +184,7 @@ class CreditImDetials extends React.Component {
     }
     return styles['rowBg' + b]
   }
-  onChangeSize = (currentPage) => {
+  onPageChange = (currentPage) => {
     const { onPageChange } = this.props;
     if (onPageChange) {
       onPageChange(currentPage);
@@ -228,20 +240,15 @@ class CreditImDetials extends React.Component {
     });
   }
   reasonTypeClick = (item) => {
-    // this.setState({
-    //   isChecked: false
-    // })
     this.props.reasonTypeClick(item);
   }
   cellClick = (item, record, type) => {
     this.props.cellClick(item, record, type);
   }
-  componentDidMount() {
-    // this.getData();
-  }
-
   render() {
+    const { currentPage, pageSize2 } = this.props;
     const { imDetailData, imDetailList } = this.props.xdCreditModal;
+    const totalCount = imDetailList.total || 0;
     return (
       <div className={`${styles.detials}`}>
         <div className={styles.classityBox} id="classityBox">
@@ -250,7 +257,7 @@ class CreditImDetials extends React.Component {
             others='%'
             colors={colors}
             dataSource={imDetailData}
-            isChecked={this.state.isChecked}
+            isChecked={true}
             defaultKey={{ id: 'orgId', name: 'orgName' }}
             cellClick={this.cellClick}
             reasonTypeClick={this.reasonTypeClick}
@@ -259,12 +266,17 @@ class CreditImDetials extends React.Component {
         <BITable
           ellipsis={true}
           columns={this.columns()}
+          dataSource={imDetailList.data}
+          smalled
           pagination={{
+            onChange: this.onPageChange,
+            defaultPageSize: pageSize2,
+            current: currentPage,
             hideOnSinglePage: true,
             showQuickJumper: true,
+            total: totalCount,
           }}
           rowKey={(record, index) => record.stuId + '' + index}
-          dataSource={imDetailList}
           rowClassName={this.setRowClassName}
         />
       </div >

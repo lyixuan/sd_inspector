@@ -5,6 +5,7 @@ import BISelectCell from '@/components/BISelectCell';
 import searchIcon from '@/assets/xdCredit/search.png';
 import styles from './style.less';
 
+const totalLength = 9999;
 class BIClassifyTable extends React.Component {
   constructor(props) {
     super();
@@ -17,8 +18,7 @@ class BIClassifyTable extends React.Component {
     if (this.props.dataSource != nextProps.dataSource) {
       const dataList = nextProps.dataSource.dataList;
       const item = dataList[dataList.length - 1]
-      console.log(item, 9999)
-      this.cellClick(item, 9999);
+      this.cellClick(item, totalLength);
     }
   }
   title = () => {
@@ -45,12 +45,11 @@ class BIClassifyTable extends React.Component {
     this.props.reasonTypeClick(item);
   }
   cellClick = (record, index, type) => {
-    console.log(40, record, index);
     this.setState({
       currentIndex: index,
-      checkedId: record[this.props.defaultKey.id]
-    }, () => console.log(this.state.currentIndex, this.state.checkedId))
-    this.props.cellClick(index !== 9999 ? this.props.dataSource.titleList[index] : '', record, type)
+      checkedId: record && record[this.props.defaultKey.id]
+    })
+    this.props.cellClick(index !== totalLength ? this.props.dataSource.titleList[index] : '', record, type)
   }
 
   columns = () => {
@@ -129,8 +128,7 @@ class BIClassifyTable extends React.Component {
         className: styles.txRight,
         fixed: 'right',
         render: (text, record, index) => {
-          // const length = children.length + this.props.dataSource.dataList.length - 2;
-          const length = 9999;
+          const length = totalLength;
           return (
             this.state.checkedId == record[this.props.defaultKey.id] && this.state.currentIndex == length && this.props.isChecked ? <BISelectCell text={text} onClick={(e) => { this.cellClick(record, length, 'total') }} /> : <BIContrastCell key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, length, 'total') }} nums={record.values} text={text} />
           )
