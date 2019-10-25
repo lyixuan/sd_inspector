@@ -42,7 +42,7 @@ export default {
       const params = payload.params;
       const result = yield call(reasonList, params);
       if (result.code === 20000) {
-        yield put({ type: 'save', payload: { imDetailData: result.data } });
+        yield put({ type: 'saveTable', payload: { imDetailData: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -125,9 +125,21 @@ export default {
       return { ...state, ...payload };
     },
     saveTable(state, { payload }) {
-      let aa = {};
-      console.log(129, payload)
-      return { ...state, ...{ imDetailData: aa } }
+      let data = payload.imDetailData
+      if (!data.reasonTypeList) {
+        // data.titleList.push({
+        //   expand: true,
+        //   typeId: -1,
+        //   typeName: "流程方向"
+        // })
+        data.titleList = [...data.titleList, {
+          expand: true,
+          typeId: -1,
+          typeName: "未分类数据"
+        }]
+      }
+      console.log(129, data)
+      return { ...state, ...{ imDetailData: data } };
     }
   },
   subscriptions: {},

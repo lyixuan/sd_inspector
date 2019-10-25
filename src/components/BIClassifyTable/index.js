@@ -80,24 +80,22 @@ class BIClassifyTable extends React.Component {
       })
 
     })
-    if (!reasonTypeList) {
-      children.push({
-        title: '未分类数据',
-        dataIndex: 'unClassifyCount',
-        key: 'unClassifyCount',
-        width: 60,
-        className: styles.txRight,
-        render: (text, record, index) => {
-          const nums = [...dataSource[index].values, text];
-          const currentIndex = `${index}${nums.length - 1}`
-          return (
-            this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell text={text} unit="%" onClick={(e) => { this.cellClick(record, currentIndex, 'none') }} /> : <BIContrastCell others={this.props.others} key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, 'none') }} nums={nums} text={text} />
-          )
-        }
-      })
-    }
-
-
+    // if (!reasonTypeList) {
+    //   children.push({
+    //     title: '未分类数据',
+    //     dataIndex: 'unClassifyCount',
+    //     key: 'unClassifyCount',
+    //     width: 60,
+    //     className: styles.txRight,
+    //     render: (text, record, index) => {
+    //       const nums = [...dataSource[index].values, text];
+    //       const currentIndex = `${index}${nums.length - 1}`
+    //       return (
+    //         this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell text={text} unit="%" onClick={(e) => { this.cellClick(record, currentIndex, 'none') }} /> : <BIContrastCell others={this.props.others} key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, 'none') }} nums={nums} text={text} />
+    //       )
+    //     }
+    //   })
+    // }
     if (repairArr > 0) {
       for (let i = 0; i < repairArr; i++) {
         children.push({
