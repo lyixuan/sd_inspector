@@ -19,7 +19,7 @@ class colorBlock extends React.Component {
     const {className,data} = this.props
     return (
       <>
-      <span className={`${styles.colorStyle} ${styles[className]}`}>{data.label} {data.num}</span>
+      <span className={`${styles.colorStyle} ${styles[className]}`}>{data.text} {data.counts}</span>
 
       </>
     );

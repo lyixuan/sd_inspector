@@ -16,6 +16,8 @@ class NPSLeft extends React.Component {
   componentDidMount() {
   }
   optionsDraw=()=>{
+    // let  JosnList = [];
+    const {cloudOptions=[]} = this.props
     const worldCloudoption={
       title: {
         // text: '研发部邮件主题分析',
@@ -33,97 +35,52 @@ class NPSLeft extends React.Component {
         // name: '研发部邮件主题分析',
         type: 'wordCloud',
         left: 'center',
-        top: '-10px',
+        top: 'center',
         width: '90%',
         height: '90%',
         right: null,
         bottom: null,
-        sizeRange: [12, 24],
-        textPadding: 0,
+        sizeRange: [14, 36],
+        textPadding: 60,
         rotationRange: [0, 0],
         rotationStep: 0,
         gridSize: 2,
         autoSize: {
           enable: true,
-          minSize: 12
+          minSize: 14,
         },
         textStyle: {
           normal: {
-            color: function() {
-              return 'rgb(' + [
-                Math.round(Math.random() * 160),
-                Math.round(Math.random() * 160),
-                Math.round(Math.random() * 160)
-              ].join(',') + ')';
+            color: function(item) {
+              let color = '#333333'
+              if (item.data.star === 5) {
+                color = '#4A90E2';
+              } else if (item.data.star>=1 && item.data.star<=3) {
+                color = '#FC5B5C';
+              }
+              return color
             },
             fontFamily: 'sans-serif',
-            fontWeight: 'bold',
+            fontWeight: '500',
           },
           emphasis: {
             // shadowBlur: 10,
             // shadowColor: '#333'
           }
         },
-        data: [{
-          name: "态度一般",
-          value: 900
-        }]
+        data: cloudOptions
       }]
     }
-    let  JosnList = [];
-
-    JosnList.push({
-      name: "态度一般",
-      value: 900
-    }, {
-      name: "态度好",
-      value: 890
-    }, {
-      name: "态度差",
-      value: 900
-    }, {
-      name: "回复及时",
-      value: 888
-    }, {
-      name: "回复不及时",
-      value: 777
-    }, {
-      name: "不回复",
-      value: 688
-    }, {
-      name: "解决问题能力强",
-      value: 588
-    }, {
-      name: "问题未及时解决",
-      value: 516
-    }, {
-      name: "问题未解决",
-      value: 515
-    }, {
-      name: "关心我",
-      value: 483
-    }, {
-      name: "不够关心我",
-      value: 11
-    }, {
-      name: "不关心我",
-      value: 11
-    }, {
-      name: "考试规划合理",
-      value: 11
-    }, {
-      name: "考试规划不清晰",
-      value: 11
-    });
-    worldCloudoption.series[0].data = JosnList;
+    // cloudOptions.length>0 && (worldCloudoption.series[0].data = cloudOptions);
    return worldCloudoption
   }
   render() {
+    const {cloudOptions=[]} = this.props
     return (
       <div style={{ width: '334px',}} className={styles.NPSRight}>
         <div className={styles.title}>NPS标签词云图</div>
         <div className={styles.cloudChart}>
-          <Echart options={this.optionsDraw()} style={{height:'337px',width:'334px'}}/>
+          {cloudOptions.length>0 && <Echart options={this.optionsDraw()} style={{height:'337px',width:'334px'}}/>}
         </div>
 
 

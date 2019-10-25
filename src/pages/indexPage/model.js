@@ -32,7 +32,9 @@ import {
   myFamilyGroupList,
   getIncomeCollegeList,
   getIncomeFamilyGroupPk,
-  getUserInfo
+  getUserInfo,
+  getNpsStarOpinion,
+  getNpsAutonomousEvaluation
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -63,7 +65,8 @@ export default {
     familyIncomeGroup: {}, // 创收对比小组的数据
     familyGroupPkList: {},
     familyKpiInfo: {},
-    chargeCount: {}
+    chargeCount: {},
+    npsParams:{}//nps部分的数据
   },
 
   effects: {
@@ -492,6 +495,33 @@ export default {
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { userInfo: result.data } });
         if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+  //  管理层工作台的接口
+    *getNpsStarOpinion({payload,callback},{call,put}){
+      const result = yield call(getNpsStarOpinion, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { npsParams: result.data } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    //NPS自主评价所有的接口
+    *getNpsAutonomousEvaluation({payload,callback},{call,put}){
+      console.log(505,payload)
+      const result = yield call(getNpsAutonomousEvaluation, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { npsParams: result.data } });
+        if (callback && typeof callback === 'function') {
+
+          console.log(524,result)
           callback(result.data);
         }
       } else if (result) {

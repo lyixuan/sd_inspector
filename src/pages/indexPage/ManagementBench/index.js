@@ -5,11 +5,7 @@ import styles from './style.less';
 import ScoreContrast from './scoreContrast';
 import Header from './header';
 import IncomeCompare from './incomeCompare';
-// import IMPart from './IMPart'
 import ReactDOM from 'react-dom';
-
-// import styles from './style.less'
-// import ScoreContrast from "./scoreContrast"
 import IMPartLeft from './IMPartLeft';
 import IMPartRight from './IMPartRight';
 import NPSEvaluate from './NPSEvaluate';
@@ -43,11 +39,11 @@ class ManagementBench extends React.Component {
         <Header />
         <IncomeCompare />
         <ScoreContrast ref="one" />
-        <div className={styles.qualityAppel} ref="two">
+        <div className={styles.qualityAppel} ref="four">
           <IMPartLeft />
           <IMPartRight />
         </div>
-        <NPSEvaluate ref="three" />
+        <NPSEvaluate ref="five" />
       </div>
     );
   }

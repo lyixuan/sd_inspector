@@ -153,3 +153,12 @@ export async function getUserInfo(params) {
   return request('/deskperfpcapi/user/info', { method: 'get', params });
 }
 //=====文静end======
+//管理层工作台
+export async function getNpsStarOpinion(data) {
+  console.log(157,data)
+  return request('/nps/getNpsStarOpinion',{method:'POST',data: data})
+}
+export async function getNpsAutonomousEvaluation(data) {
+  console.log(157,data)
+  return request('/nps/getNpsAutonomousEvaluation',{method:'POST',data: data})
+}

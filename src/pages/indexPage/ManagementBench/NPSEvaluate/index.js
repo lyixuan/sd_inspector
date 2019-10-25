@@ -40,10 +40,12 @@ class NPSEvaluate extends React.Component {
       userOrgConfig: [],
       groupId: [],
       groupTypeArr: [],
+      NPSParams:{}
     }
   }
   componentDidMount() {
     console.log(44)
+    this.getNpsAutonomousEvaluation()
     // 权限
     this.props.dispatch({
       type: 'xdCreditModal/getUserInfo',
@@ -66,6 +68,31 @@ class NPSEvaluate extends React.Component {
         // };
       }
     });
+  }
+  //获取NPS自主评价的的数据接口
+  getNpsAutonomousEvaluation = () =>{
+    console.log(73)
+    let params = {
+      startTime:"2019-10-14",
+      endTime:"2019-10-24",
+      collegeId:103,
+      familyId:null,
+      groupId:null,
+      pageNum:1,
+      pageSize:10
+    }
+    this.props.dispatch({
+      type:'xdWorkModal/getNpsAutonomousEvaluation',
+      payload:{params:params},
+      callback:(res) => {
+        console.log(1111,res)
+        // this.setState({NPSparams:res})
+        this.setState({
+          NPSParams:res
+        })
+
+      }
+    })
   }
   // 组织 - 时间
   getUserOrgList = (groupId) => {
@@ -163,16 +190,17 @@ class NPSEvaluate extends React.Component {
     )
   }
   render() {
-    // const { userId} = this.state;
+    const { NPSParams} = this.state;
+    console.log(191,NPSParams)
     return (
       <Container title="NPS自主评价分析"
                  style={{ width: '100%', marginBottom: '16px' }}
                  right={this.rightPart()}
       >
-        <div className={styles.NPSMain}>
-          <NPSLeft />
-          <NPSRight />
-        </div>
+        {NPSParams && <div className={styles.NPSMain}>
+          <NPSLeft NPSleftParams = {NPSParams} />
+          <NPSRight cloudOptions={NPSParams.tagImageDtoList}/>
+        </div>}
 
       </Container>
     );
