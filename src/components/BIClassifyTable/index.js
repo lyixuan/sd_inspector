@@ -24,6 +24,7 @@ class BIClassifyTable extends React.Component {
     const reasonTypeList = this.props.dataSource.reasonTypeList
     return (
       <div>
+        {this.props.defaultKey.classfy}
         {reasonTypeList.map((item, index) => {
           const condition = index === reasonTypeList.length - 1;
           return <span key={index} onClick={condition ? null : (e) => this.reasonTypeClick(item, e)} className={condition ? styles.titleCurrent : styles.title}>{item.typeName}{condition ? '' : '/'}</span>
@@ -72,7 +73,7 @@ class BIClassifyTable extends React.Component {
         render: (text, record, indexs) => {
           const currentIndex = `${index}${indexs}`
           return (
-            this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell key={index} text={`${dataSource[indexs].values[index]}`} unit="%" onClick={(e) => { this.cellClick(record, currentIndex, index) }}></BISelectCell> : <BIContrastCell others={this.props.others} key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, index) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
+            this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell key={index} text={`${dataSource[indexs].values[index]}`} unit="%" onClick={(e) => { this.cellClick(record, currentIndex, index) }}></BISelectCell> : <BIContrastCell others={this.props.defaultKey.unit} key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, index) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
           )
         },
       })
@@ -166,7 +167,7 @@ class BIClassifyTable extends React.Component {
     // this.setState({
     //   scrollWidth
     // })
-    this.countWidth();
+    this.countWidth();//计算表格滚动区域的宽度
   }
   countWidth() {
     const tableWidth = document.getElementById("tableWrap").offsetWidth;

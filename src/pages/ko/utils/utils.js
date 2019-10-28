@@ -78,6 +78,27 @@ export const pathImUrl = 'http://static.sunlands.com'; // IM等图片的域名
 export function getSubStringValue(v = '', n = 10) { // 多余n个字符显示 n + '...'
   return (v ? v.length : 0) > n ? v.substring(0, n) + '...' : v;
 }
+// 多余len个字符显示 len + '...'（区分中英文）
+export function strLen(str = '', len = 10) {
+  if (!str) {
+    return;
+  }
+  let lengh = '';
+  for (var i = 0; i < str.length; i++) {
+    var c = str.charCodeAt(i);
+    //单字节加1 
+    if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+      // 英文
+      lengh = (str ? str.length : 0) > (len * 2) ? str.substring(0, len * 2) + '...' : str;
+    }
+    else {
+      // 汉字
+      lengh = (str ? str.length : 0) > len ? str.substring(0, len) + '...' : str;
+    }
+  }
+  return lengh;
+}
+
 export function jumpMarkingDetails(id, type) {
   // alert(id)
   const origin = window.location.origin;
@@ -119,7 +140,7 @@ export function jumpQualityRoute(path, params) {
 export function linkRoute(text, classname) {
   if (!text) return;
   const regurl = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
-  if(regurl.test(text) && /\.?(pic\.manager|jpg|jpeg|png|GIF|JPG|PNG|bm)/g.test(text)) {
+  if (regurl.test(text) && /\.?(pic\.manager|jpg|jpeg|png|GIF|JPG|PNG|bm)/g.test(text)) {
     return `<a class="${classname}" href="${text}" target="_blank"><img src="${text}" onerror="this.onerror='';this.src='${deImg}';this.style.width='100px'" /></a>`
   } else {
     return text.replace(regurl, (c) => `<a class="${classname}" href="${c}" target="_blank">${c}</a>`);
@@ -132,12 +153,12 @@ export function linkImgRouteBul(text) {
   return bul;
 }
 // 浮点乘法
-export function accMul(arg1,arg2) {
-  if(!arg1) return '0.00';
-  var m=0,s1=arg1.toString(),s2=arg2.toString();
-  try{m+=s1.split(".")[1].length}catch(e){}
-  try{m+=s2.split(".")[1].length}catch(e){}
-  return Number(s1.replace(".","")) * Number(s2.replace(".",""))/Math.pow(10,m);
+export function accMul(arg1, arg2) {
+  if (!arg1) return '0.00';
+  var m = 0, s1 = arg1.toString(), s2 = arg2.toString();
+  try { m += s1.split(".")[1].length } catch (e) { }
+  try { m += s2.split(".")[1].length } catch (e) { }
+  return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
 }
 // 转成年月日
 export function initTimeData(params) {
