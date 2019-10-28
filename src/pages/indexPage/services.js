@@ -152,17 +152,6 @@ export async function getIncomeFamilyGroupPk(data) {
 export async function getUserInfo(params) {
   return request('/deskperfpcapi/user/info', { method: 'get', params });
 }
-//=====文静end======
-//管理层工作台
-export async function getNpsStarOpinion(data) {
-  console.log(157,data)
-  return request('/nps/getNpsStarOpinion',{method:'POST',data: data})
-}
-export async function getNpsAutonomousEvaluation(data) {
-  console.log(157,data)
-  return request('/nps/getNpsAutonomousEvaluation',{method:'POST',data: data})
-}
-
 // 创收学院对比列表
 export async function compareCollegeList(data) {
   return request('/adminWorkbench/incomeCollege/compareCollegeList',{method:'POST',data: data})
@@ -195,4 +184,26 @@ export async function countByDate(data) {
 
 
 
+//=====文静end======
+//管理层工作台
+//NPS自主评价分析及云图的数据接口
+export async function getNpsAutonomousEvaluation(data) {
+  return request('/nps/getNpsAutonomousEvaluation',{method:'POST',data: data})
+}
+//点击分页调用的接口
+export async function getNpsStarOpinion(data) {
+  return request('/nps/getNpsStarOpinion',{method:'POST',data: data})
+}
+//查询组织架构的接口
+export async function getOrgMapTree(params) {
+  return request('/orgMap/getOrgMapTree', { method: 'get', params });
+}
+//IM负面数据对比
+export async function getImReverseSideData(params) {
+  return request('/im/getImReverseSideData', { method: 'get', params });
+}
+//学分对比柱状图
+export async function queryAppealDataPage(data) {
+  return request('/credit/queryAppealDataPage',{method:'POST',data:data})
+}
 

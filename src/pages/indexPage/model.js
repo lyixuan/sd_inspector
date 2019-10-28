@@ -40,7 +40,10 @@ import {
   getHotList,
   packageRankList,
   countCreditAvgScore,
-  countByDate
+  countByDate,
+  getOrgMapTree,
+  getImReverseSideData,
+  queryAppealDataPage
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -451,13 +454,16 @@ export default {
       }
     },
     // 组织列表
-    *getOrgMapList({ payload }, { call, put }) {
+    *getOrgMapList({ callback,payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(getOrgMapList, params);
       const orgList = result.data || [];
 
       if (result.code === 20000) {
         yield put({ type: 'saveMap', payload: { orgList } });
+        if (callback && typeof callback === 'function') {
+          callback(orgList);
+        }
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -608,18 +614,50 @@ export default {
     },
     //NPS自主评价所有的接口
     *getNpsAutonomousEvaluation({ payload, callback }, { call, put }) {
-      console.log(505, payload);
+
       const result = yield call(getNpsAutonomousEvaluation, payload.params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { npsParams: result.data } });
         if (callback && typeof callback === 'function') {
-          console.log(524, result);
           callback(result.data);
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+  //  获取组织架构
+    *getOrgMapTree({payload,callback},{call,put}){
+      const result = yield call(getOrgMapTree);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+  //  IM负面数据对比
+    *getImReverseSideData({payload,callback},{call,put}){
+      const result = yield call(getImReverseSideData);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+  //  家族学分对比柱状图部分的接口
+    *queryAppealDataPage({payload,callback},{call,put}){
+      const result = yield call(queryAppealDataPage,payload.params);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    }
   },
 
   reducers: {

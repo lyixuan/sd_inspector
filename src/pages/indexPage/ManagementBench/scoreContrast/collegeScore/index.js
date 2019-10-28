@@ -11,10 +11,13 @@ class CollegeScore extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      queryAppealDatas:{}
     }
   }
   componentDidMount() {
+
   }
+
   drawChart = () =>{
     let data = [6.89, 4.00, 2.00, 3.76, 5.08, 7.00]
     let yMax = 8
@@ -125,11 +128,14 @@ class CollegeScore extends React.Component {
     }
     return options
   }
+  clickTag = (dimensionId) =>{
+    this.props.queryAppealDataPage(dimensionId)
+  }
   render() {
-    // const { userId} = this.state;
+    const {queryAppealDatas} = this.props.queryAppealDatas.state;
     return (
       <div>
-        <TreeNames/>
+        <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.clickTag}/>
         <Echart options={this.drawChart()} style={{height:"354px"}}/>
         <EchartBottom/>
       </div>

@@ -44,7 +44,7 @@ class NPSLeft extends React.Component {
         textPadding: 60,
         rotationRange: [0, 0],
         rotationStep: 0,
-        gridSize: 2,
+        gridSize: 4,
         autoSize: {
           enable: true,
           minSize: 14,

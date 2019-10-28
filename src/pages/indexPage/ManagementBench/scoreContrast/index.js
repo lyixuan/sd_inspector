@@ -15,7 +15,7 @@ class ScoreContrast extends React.Component {
       tabParams:[{
         name: '学院学分对比',
         key: '1',
-        children: <CollegeScore />,
+        children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       },{
         name:'家族学分对比',
         key:'2',
@@ -45,10 +45,35 @@ class ScoreContrast extends React.Component {
         collegeId:5,
         collegeName:'狐逻泰罗'
       }],
-      orgValue:"自变量"
+      orgValue:"自变量",
+      queryAppealDatas:{}
     }
   }
   componentDidMount() {
+    this.queryAppealDataPage()
+  }
+  //获取柱状图及维度的接口
+  queryAppealDataPage = (contrasts=1,dimensionId) =>{
+    let params = {
+      contrasts:"1",
+      familyType:"0",
+      dimensionId:dimensionId?dimensionId:"",
+      collegeId:103,
+      startTime:"2019-10-01",
+      endTime:"2019-10-01"
+
+    }
+    this.props.dispatch({
+      type:'xdWorkModal/queryAppealDataPage',
+      payload:{params:params},
+      callback:(res) => {
+        console.log("柱状图",res)
+        this.setState({
+          queryAppealDatas:res
+        })
+
+      }
+    })
   }
   rightPart = () =>{
     const {collegeOptions,orgValue} = this.state
@@ -76,7 +101,7 @@ class ScoreContrast extends React.Component {
                  title=""
                  propStyle={{ padding: '0px' }}
                  head="none">
-        <TopTabs right={this.rightPart()} tabParams={this.state.tabParams}/>
+        <TopTabs right={this.rightPart()} tabParams={this.state.tabParams} queryAppealDataPage={this.queryAppealDataPage}/>
 
       </Container>
     );
