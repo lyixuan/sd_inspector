@@ -15,12 +15,19 @@ class TopTabs extends React.Component {
     }
   }
   componentDidMount() {
-
+    if(this.props.queryAppealDataPage){
+      console.log("componentDidMount")
+      this.props.queryAppealDataPage(this.state.keye)
+    }
   }
   onTabChange = (val) => {
     this.setState({
       keye: val
     })
+    if(this.props.queryAppealDataPage){
+      console.log("onTabChange")
+      this.props.queryAppealDataPage(val)
+    }
   };
 
   setContrast = (item) => {

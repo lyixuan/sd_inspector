@@ -1,15 +1,21 @@
 .treeMain{
-  margin-top:26px;
+
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding:0 15px;
+  margin:0 15px;
+  margin-top:26px;
+  width: 100%;
+  overflow: hidden;
+  overflow-x:auto ;
+  flex-wrap: nowrap;
   span{
     display:inline-block ;
     padding: 4px 11px;
     color: #56595E;
     font-size: 14px;
     cursor: pointer;
+    flex-shrink: 0;
   }
   .active{
     background: rgba(0,204,195,.1);

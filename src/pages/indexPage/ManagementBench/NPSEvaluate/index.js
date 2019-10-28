@@ -46,32 +46,10 @@ class NPSEvaluate extends React.Component {
   componentDidMount() {
     console.log(44)
     this.getNpsAutonomousEvaluation()
-    // 权限
-    this.props.dispatch({
-      type: 'xdCreditModal/getUserInfo',
-      callback: extendFlag => {
-        // this.setState({ extendFlag });
-        // if (extendFlag) {
-          const { params } = this.props.location.query;
-          console.log(50)
-          if (params) {
-            const { dementionId, startTime, endTime, pageFrom } = params ? JSON.parse(params) : {};
-            this.setState({
-              dementionId,
-              startTime,
-              endTime,
-              pageFrom
-            }, () => this.getUserOrgList())
-          } else {
-            this.getUserOrgList()
-          }
-        // };
-      }
-    });
+    this.getUserOrgList()
   }
   //获取NPS自主评价的的数据接口
   getNpsAutonomousEvaluation = () =>{
-    console.log(73)
     let params = {
       startTime:"2019-10-14",
       endTime:"2019-10-24",
@@ -85,8 +63,6 @@ class NPSEvaluate extends React.Component {
       type:'xdWorkModal/getNpsAutonomousEvaluation',
       payload:{params:params},
       callback:(res) => {
-        console.log(1111,res)
-        // this.setState({NPSparams:res})
         this.setState({
           NPSParams:res
         })
@@ -95,39 +71,19 @@ class NPSEvaluate extends React.Component {
     })
   }
   // 组织 - 时间
-  getUserOrgList = (groupId) => {
-    console.log(69)
+  getUserOrgList = () => {
     this.props.dispatch({
-      type: 'xdCreditModal/getUserOrgList',
-      payload: { params: { pkGroup: groupId } },
+      type: 'xdWorkModal/getOrgMapTree',
+      payload: { params: {} },
       callback: res => {
-
+        console.log("组织架构",res)
         if (res && res.length > 0) {
           this.setState({
-            userOrgConfig: res,
             ...this.getResetGroupMsg(res),
-          }, () => {
-            // this.getDimensionList();
-            // this.getReasonListData()
           })
-        } else {
-          // this.getDimensionList();
-          // this.getReasonListData();
         }
-        // if (this.state.dementionId) this.getDimensionDetail();
       }
     });
-    this.props.dispatch({
-      type: 'xdCreditModal/getKpiDateRange',
-      callback: res => {
-        if (!this.state.startTime || !this.state.endTime) {
-          this.setState({
-            startTime: res.endDate,
-            endTime: res.endDate,
-          });
-        }
-      }
-    })
   }
   // reset groupId数组 getResetGroupId
   getResetGroupMsg = (arr = this.state.userOrgConfig) => {
@@ -150,15 +106,11 @@ class NPSEvaluate extends React.Component {
   rightPart = () =>{
     // const {collegeOptions,orgValue} = this.state
     const {  groupId, userOrgConfig,  } = this.state;
+    const {orgList} = this.props.xdWorkModal;
+    orgList.length>0 && this.getResetGroupMsg(orgList)
+    console.log(112,this.state.userOrgConfig)
     return(
       <div>
-        {/*<BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>*/}
-          {/*{collegeOptions.map((item, index) => (*/}
-            {/*<Option key={item.collegeId}>*/}
-              {/*{item.collegeName}*/}
-            {/*</Option>*/}
-          {/*))}*/}
-        {/*</BISelect>*/}
         <span className={styles.change}>
                   选择组织：
                 <BICascader

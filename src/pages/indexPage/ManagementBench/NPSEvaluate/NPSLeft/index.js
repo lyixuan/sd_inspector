@@ -108,6 +108,21 @@ class NPSLeft extends React.Component {
     ]
     return columns || [];
   }
+  handleOnScroll = () => {
+    let flag = false
+    if (this.dom) {
+      const contentScrollTop = this.dom.scrollTop
+      console.log(115,this.dom.scrollTop)
+      if (contentScrollTop >= 500) {
+        flag = true
+      }
+      this.setState({
+        flag
+      }, () => {
+
+      })
+    }
+  }
   render() {
     // const { dataSource} = this.state;
     const {NPSleftParams} = this.props
@@ -118,7 +133,7 @@ class NPSLeft extends React.Component {
       <div>
         {NPSleftParams && NPSleftParams.reasonTypeDtoList && NPSleftParams.reasonTypeDtoList.map((item,index)=><ColorBlock data={{...item}} key={index} className={`colorStyle${index}`}/>)}
       </div>
-
+   <div id="scroll1">
       <BIWrapperTable  columns={this.columnsRight()}
                        dataSource={dataSource}
                        pagination={false}
@@ -128,6 +143,7 @@ class NPSLeft extends React.Component {
                        style={{marginTop:'10px'}}
                        scroll={{ y: 288 }}
       />
+    </div>
       </div>
     );
   }
