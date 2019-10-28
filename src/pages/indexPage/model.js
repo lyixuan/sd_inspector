@@ -34,10 +34,12 @@ import {
   getIncomeFamilyGroupPk,
   getUserInfo,
   getNpsStarOpinion,
-  getNpsAutonomousEvaluation
+  getNpsAutonomousEvaluation,
+  compareCollegeList,
+  getCurrentDateRange,
 } from './services';
 import { message } from 'antd/lib/index';
-import { msgF } from "@/utils/utils";
+import { msgF } from '@/utils/utils';
 import moment from 'moment';
 import { thousandsFormat } from '@/utils/utils';
 
@@ -59,17 +61,51 @@ export default {
     familyScoreList: {
       dimensionList: [],
       myGroup: {},
-      pkGroup: {}
+      pkGroup: {},
     },
     familyRankList: [],
     familyIncomeGroup: {}, // 创收对比小组的数据
     familyGroupPkList: {},
     familyKpiInfo: {},
     chargeCount: {},
-    npsParams:{}//nps部分的数据
+    npsParams: {}, //nps部分的数据
+    compareCollegeListData: [],
+    getCurrentDateRangeData: null,
   },
 
   effects: {
+    // 获取绩效周期
+    *getCurrentDateRange({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getCurrentDateRange, params);
+      if (result.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: {
+            getCurrentDateRangeData: result.data,
+          },
+        });
+       return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 创收学院对比列表
+    *getCompareCollegeList({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(compareCollegeList, params);
+      if (result.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: {
+            compareCollegeListData: result.data,
+          },
+        });
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     // 家族长工作台-绩效详情
     *familyAchievement({ payload, callback }, { call, put }) {
       const params = payload.params;
@@ -78,9 +114,16 @@ export default {
       if (result.code === 20000) {
         const params = {
           startTime: moment(result.data.kpiStartDate).format('YYYY-MM-DD'),
-          endTime: moment(result.data.kpiEndDate).format('YYYY-MM-DD')
-        }
-        yield put({ type: 'save', payload: { chargeCount: result2.data, familyKpiInfo: result.data, familyKpiTimes: params } });
+          endTime: moment(result.data.kpiEndDate).format('YYYY-MM-DD'),
+        };
+        yield put({
+          type: 'save',
+          payload: {
+            chargeCount: result2.data,
+            familyKpiInfo: result.data,
+            familyKpiTimes: params,
+          },
+        });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -241,7 +284,7 @@ export default {
     // 本期学分人均在服人员下拉里面的数据
     *kpiLevelList({ payload }, { call, put }) {
       const params = payload.params;
-      const result = yield call(kpiLevelList, params)
+      const result = yield call(kpiLevelList, params);
       if (result.code === 20000) {
         const kpiLevelList = result.data || {};
         yield put({ type: 'save', payload: { kpiLevelList } });
@@ -252,7 +295,7 @@ export default {
     // 获取右侧的列表数据
     *groupList({ payload, callback }, { call, put }) {
       const params = payload.params;
-      const result = yield call(groupList, params)
+      const result = yield call(groupList, params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -264,7 +307,7 @@ export default {
     //  获取左侧的列表数据
     *groupPkList({ payload, callback }, { call }) {
       const params = payload.params;
-      const result = yield call(groupPkList, params)
+      const result = yield call(groupPkList, params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -276,7 +319,7 @@ export default {
     //判断是否显示本期学分的模块
     *isShowPermission({ payload, callback }, { call, put }) {
       const params = payload.params;
-      const result = yield call(isShowPermission, params)
+      const result = yield call(isShowPermission, params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result);
@@ -289,12 +332,12 @@ export default {
       }
     },
     *getKpiInfo({ callback }, { call, put }) {
-      const result = yield call(getKpiInfo, {})
+      const result = yield call(getKpiInfo, {});
       if (result.code === 20000) {
         const params = {
           startTime: moment(result.data.kpiStartDate).format('YYYY-MM-DD'),
-          endTime: moment(result.data.kpiEndDate).format('YYYY-MM-DD')
-        }
+          endTime: moment(result.data.kpiEndDate).format('YYYY-MM-DD'),
+        };
         yield put({ type: 'save', payload: { kpiTimes: params } });
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -306,30 +349,36 @@ export default {
     // ====================家族
     // 创收明细
     *getCurrentIncomeTarget(_, { call, put }) {
-      const result = yield call(getCurrentIncomeTarget)
+      const result = yield call(getCurrentIncomeTarget);
       if (result.code === 20000) {
         const data = result.data;
-        const inCometarget = [{
-          title: '家族净流水',
-          num: thousandsFormat(Math.floor(data.kpiFlow)),
-          tip: '本绩效周期内用户所在家族的创收净流水'
-        }, {
-          title: '绩效排名',
-          num: `${data.ranking}/${data.familyCount}`,
-          tip: '本绩效周期内用户所在家族创收绩效在集团所有家族中的净流水的排名'
-        }, {
-          title: '好推绩效',
-          num: thousandsFormat(Math.floor(data.goodpushKpi)),
-          tip: '本绩效周期内用户所在家族好推绩效'
-        }, {
-          title: '续报绩效',
-          num: thousandsFormat(Math.floor(data.renewalKpi)),
-          tip: '本绩效周期内用户所在家族续报绩效'
-        }, {
-          title: '成本套绩效',
-          num: thousandsFormat(Math.floor(data.examZbtKpi)),
-          tip: '本绩效周期内用户所在家族成本套绩效'
-        }]
+        const inCometarget = [
+          {
+            title: '家族净流水',
+            num: thousandsFormat(Math.floor(data.kpiFlow)),
+            tip: '本绩效周期内用户所在家族的创收净流水',
+          },
+          {
+            title: '绩效排名',
+            num: `${data.ranking}/${data.familyCount}`,
+            tip: '本绩效周期内用户所在家族创收绩效在集团所有家族中的净流水的排名',
+          },
+          {
+            title: '好推绩效',
+            num: thousandsFormat(Math.floor(data.goodpushKpi)),
+            tip: '本绩效周期内用户所在家族好推绩效',
+          },
+          {
+            title: '续报绩效',
+            num: thousandsFormat(Math.floor(data.renewalKpi)),
+            tip: '本绩效周期内用户所在家族续报绩效',
+          },
+          {
+            title: '成本套绩效',
+            num: thousandsFormat(Math.floor(data.examZbtKpi)),
+            tip: '本绩效周期内用户所在家族成本套绩效',
+          },
+        ];
 
         yield put({ type: 'save', payload: { inCometarget } });
       } else if (result && result.code !== 50000) {
@@ -339,7 +388,7 @@ export default {
     *getCurrentIncomeGroup({ callback }, { call }) {
       const result = yield call(getCurrentIncomeGroup);
       if (result.code === 20000) {
-        result.data && result.data.map(item =>item.classCount = item.groupCount)
+        result.data && result.data.map(item => (item.classCount = item.groupCount));
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
@@ -348,7 +397,7 @@ export default {
       }
     },
     *getCurrentIncomeClass({ callback }, { call }) {
-      const result = yield call(getCurrentIncomeClass)
+      const result = yield call(getCurrentIncomeClass);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -371,7 +420,7 @@ export default {
     },
     // 本期申诉
     *getFamilyRecord({ payload }, { call, put }) {
-      const result = yield call(getFamilyRecord, payload.params)
+      const result = yield call(getFamilyRecord, payload.params);
       if (result.code === 20000) {
         const familyAppeal = result.data;
         yield put({ type: 'save', payload: { familyAppeal } });
@@ -381,7 +430,7 @@ export default {
     },
     // 本期质检 - 质检统计
     *getFamilyQuality({ payload }, { call, put }) {
-      const result = yield call(getFamilyQuality, payload.params)
+      const result = yield call(getFamilyQuality, payload.params);
       if (result.code === 20000) {
         const familyQuality = result.data;
         yield put({ type: 'save', payload: { familyQuality } });
@@ -391,7 +440,7 @@ export default {
     },
     //  家族学分对比
     *getFamilyScorePk({ payload }, { call, put }) {
-      const result = yield call(getFamilyScorePk, payload.params)
+      const result = yield call(getFamilyScorePk, payload.params);
       if (result.code === 20000) {
         const familyScoreList = result.data;
         yield put({ type: 'save', payload: { familyScoreList } });
@@ -401,7 +450,7 @@ export default {
     },
     //  家族学分对比右侧家族学分排名
     *getFamilyRankList({ payload, callback }, { call, put }) {
-      const result = yield call(getFamilyRankList, payload.params)
+      const result = yield call(getFamilyRankList, payload.params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -501,8 +550,8 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-  //  管理层工作台的接口
-    *getNpsStarOpinion({payload,callback},{call,put}){
+    //  管理层工作台的接口
+    *getNpsStarOpinion({ payload, callback }, { call, put }) {
       const result = yield call(getNpsStarOpinion, payload.params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { npsParams: result.data } });
@@ -514,14 +563,13 @@ export default {
       }
     },
     //NPS自主评价所有的接口
-    *getNpsAutonomousEvaluation({payload,callback},{call,put}){
-      console.log(505,payload)
+    *getNpsAutonomousEvaluation({ payload, callback }, { call, put }) {
+      console.log(505, payload);
       const result = yield call(getNpsAutonomousEvaluation, payload.params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { npsParams: result.data } });
         if (callback && typeof callback === 'function') {
-
-          console.log(524,result)
+          console.log(524, result);
           callback(result.data);
         }
       } else if (result) {
@@ -548,7 +596,13 @@ function toTreeData(orgList) {
     if (v.nodeList.length > 0) {
       o.children = [];
       v.nodeList.forEach(v1 => {
-        const o1 = { title: v1.name, value: `b-${v1.id}`, key: v1.id + 1000, selectable: false, lv: 2 };
+        const o1 = {
+          title: v1.name,
+          value: `b-${v1.id}`,
+          key: v1.id + 1000,
+          selectable: false,
+          lv: 2,
+        };
         o.children.push(o1);
         if (v1.nodeList.length > 0) {
           o1.children = [];

@@ -7,6 +7,7 @@ import workImg3 from '@/assets/workImg3.png';
 import workImg4 from '@/assets/workImg4.png';
 import workImg5 from '@/assets/workImg5.png';
 import workArrow from '@/assets/workArrow.png';
+import moment from 'moment';
 
 @connect(xdWorkModal => ({
   xdWorkModal,
@@ -17,12 +18,14 @@ class Header extends React.Component {
   }
   componentDidMount() {}
   render() {
-    // const { userId} = this.state;
+    const { date } = this.props;
+    const start = moment(date.startDate).format('YYYY.MM.DD');
+    const end = moment(date.endDate).format('YYYY.MM.DD');
     return (
       <div className={styles.header}>
         <p className={styles.title}>
           <span className={styles.word}>关键指标</span>
-          <span className={styles.date}>2019.07.29 - 2019.08.10 (最新学分日期)</span>
+          <span className={styles.date}>{start}- {end}(最新学分日期)</span>
         </p>
         <ul className={styles.list}>
           <li>

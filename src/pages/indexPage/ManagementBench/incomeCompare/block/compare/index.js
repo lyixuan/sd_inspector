@@ -1,72 +1,45 @@
 import React from 'react';
 import { connect } from 'dva';
-// import styles from './style.less'
+import styles from './styles.less'
 import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../../../components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 @connect(xdWorkModal => ({
   xdWorkModal,
 }))
-class IMPartRight extends React.Component {
+class Compare extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSource: [
-        {
-          id: 1,
-          collegeName: '自变量',
-          badPostNum: '0.12',
-          notInTime: 400,
-          Unanswered: 500,
-        },
-        {
-          id: 2,
-          collegeName: 'π学院',
-          badPostNum: '0.12',
-          notInTime: 400,
-          Unanswered: 500,
-        },
-        {
-          id: 3,
-          collegeName: '芒格',
-          badPostNum: '0.12',
-          notInTime: 400,
-          Unanswered: 500,
-        },
-        {
-          id: 4,
-          collegeName: '狐逻泰罗',
-          badPostNum: '0.12',
-          notInTime: 400,
-          Unanswered: 500,
-        },
-        {
-          id: 5,
-          collegeName: '芝士',
-          badPostNum: '0.12',
-          notInTime: 400,
-          Unanswered: 500,
-        },
-      ],
+      dataSource: [],
     };
   }
-  componentDidMount() {}
-  columnsRight = () => {
+  componentDidMount() {
+    this.props
+      .dispatch({
+        type: 'xdWorkModal/getCompareCollegeList',
+        payload: { params: { beginDate: '2019-08-09', endDate: '2019-10-10' } },
+      })
+      .then(res => {
+        this.setState({ dataSource: res });
+      });
+  }
+  columns = () => {
     const columns = [
       {
-        title: '学院',
-        dataIndex: 'collegeName',
-        key: 'collegeName',
+        title: '好推单量',
+        dataIndex: 'goodPushOrder',
+        key: 'goodPushOrder',
       },
       {
-        title: '差评率',
-        dataIndex: 'badPostNum',
-        key: 'badPostNum',
-        render: (badPostNum, record) => {
-          const percent = badPostNum * 100 + '%';
+        title: '好推流水',
+        dataIndex: 'goodPushFlowKpi',
+        key: 'goodPushFlowKpi',
+        render: (goodPushFlowKpi, record) => {
+          const percent = goodPushFlowKpi * 100 + '%';
           return (
             <BIWrapperProgress
-              text={percent}
+              text={goodPushFlowKpi}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />
@@ -74,14 +47,14 @@ class IMPartRight extends React.Component {
         },
       },
       {
-        title: '不及时次数',
-        dataIndex: 'notInTime',
-        key: 'notInTime',
-        render: (notInTime, record) => {
-          const percent = (notInTime / 500) * 100 + '%';
+        title: '续报单量',
+        dataIndex: 'repeatSignOrder',
+        key: 'repeatSignOrder',
+        render: (repeatSignOrder, record) => {
+          const percent = (repeatSignOrder / 500) * 100 + '%';
           return (
             <BIWrapperProgress
-              text={notInTime}
+              text={repeatSignOrder}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />
@@ -89,14 +62,14 @@ class IMPartRight extends React.Component {
         },
       },
       {
-        title: '未回复次数',
-        dataIndex: 'Unanswered',
-        key: 'Unanswered',
-        render: (Unanswered, record) => {
-          const percent = (Unanswered / 500) * 100 + '%';
+        title: '续报流水',
+        dataIndex: 'repeatSignFlowKpi',
+        key: 'repeatSignFlowKpi',
+        render: (repeatSignFlowKpi, record) => {
+          const percent = (repeatSignFlowKpi / 500) * 100 + '%';
           return (
             <BIWrapperProgress
-              text={Unanswered}
+              text={repeatSignFlowKpi}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />
@@ -104,19 +77,19 @@ class IMPartRight extends React.Component {
         },
       },
       {
-        title: '学院',
-        dataIndex: 'collegeName',
-        key: 'collegeName',
+        title: '成本套单量',
+        dataIndex: 'adultRegularOrder',
+        key: 'adultRegularOrder',
       },
       {
-        title: '差评率',
-        dataIndex: 'badPostNum',
-        key: 'badPostNum',
-        render: (badPostNum, record) => {
-          const percent = badPostNum * 100 + '%';
+        title: '成本套流水',
+        dataIndex: 'adultRegularFlowKpi',
+        key: 'adultRegularFlowKpi',
+        render: (adultRegularFlowKpi, record) => {
+          const percent = adultRegularFlowKpi * 100 + '%';
           return (
             <BIWrapperProgress
-              text={percent}
+              text={adultRegularFlowKpi}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />
@@ -124,19 +97,14 @@ class IMPartRight extends React.Component {
         },
       },
       {
-        title: '学院',
-        dataIndex: 'collegeName',
-        key: 'collegeName',
-      },
-      {
-        title: '差评率',
-        dataIndex: 'badPostNum',
-        key: 'badPostNum',
-        render: (badPostNum, record) => {
-          const percent = badPostNum * 100 + '%';
+        title: '创收总流水',
+        dataIndex: 'incomeTotalKpi',
+        key: 'incomeTotalKpi',
+        render: (incomeTotalKpi, record) => {
+          const percent = incomeTotalKpi * 100 + '%';
           return (
             <BIWrapperProgress
-              text={percent}
+              text={incomeTotalKpi}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />
@@ -149,9 +117,10 @@ class IMPartRight extends React.Component {
   render() {
     const { dataSource } = this.state;
     return (
-      <Container title="创收学院对比" style={{ width: 'calc(67% - 16px)', height: '372px' }}>
+      <Container title="创收学院对比" style={{ width: 'calc(67% - 16px)', height: '372px' ,overflow:'hidden'}}>
         <BIWrapperTable
-          columns={this.columnsRight()}
+          className={styles.table}
+          columns={this.columns()}
           dataSource={dataSource}
           pagination={false}
           loading={this.props.loading}
@@ -163,4 +132,4 @@ class IMPartRight extends React.Component {
   }
 }
 
-export default IMPartRight;
+export default Compare;

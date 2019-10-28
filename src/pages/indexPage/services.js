@@ -162,3 +162,15 @@ export async function getNpsAutonomousEvaluation(data) {
   console.log(157,data)
   return request('/nps/getNpsAutonomousEvaluation',{method:'POST',data: data})
 }
+
+// 创收学院对比列表
+export async function compareCollegeList(data) {
+  return request('/adminWorkbench/incomeCollege/compareCollegeList',{method:'POST',data: data})
+}
+
+// 获取当前绩效周期
+export async function getCurrentDateRange(params) {
+  return request('/deskperfpcapi/incomeKpiCommon/getCurrentDateRange',{method:'get', params})
+}
+
+

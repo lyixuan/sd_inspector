@@ -17,7 +17,29 @@ class ManagementBench extends React.Component {
     super(props);
     this.state = {
       userId: storage.getItem('admin_user').userId,
+      date: {
+        startDate: null,
+        kpiMonth: null,
+        endDate: null,
+      },
     };
+  }
+
+  componentDidMount() {
+    this.props
+      .dispatch({
+        type: 'xdWorkModal/getCurrentDateRange',
+        payload: { params: { userType: 'family' } },
+      })
+      .then(res => {
+        this.setState({
+          date: {
+            startDate: res.startDate,
+            endDate: res.endDate,
+            kpiMonth: res.kpiMonth,
+          },
+        });
+      });
   }
 
   componentDidUpdate() {
@@ -33,10 +55,10 @@ class ManagementBench extends React.Component {
   }
 
   render() {
-    // const { userId} = this.state;
+    const { date } = this.state;
     return (
       <div className={styles.workbench}>
-        <Header />
+        <Header date={date}/>
         <IncomeCompare />
         <ScoreContrast ref="one" />
         <div className={styles.qualityAppel} ref="four">

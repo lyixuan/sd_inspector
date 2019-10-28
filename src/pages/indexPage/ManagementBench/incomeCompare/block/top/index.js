@@ -1,116 +1,124 @@
 import React from 'react';
+import { connect } from 'dva';
 import BISelect from '@/ant_components/BISelect';
 import styles from './styles.less';
 import BITable from '@/ant_components/BITable';
 import Progress from '../../../../components/progress';
 import IndentNum from '../../../../components/indentNum';
+import Container from '@/components/BIContainer';
+import BIWrapperTable from '../../../../components/BIWrapperTable';
+import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import rank1 from '@/assets/xdFamily/rank1.png';
+import rank2 from '@/assets/xdFamily/rank2.png';
+import rank3 from '@/assets/xdFamily/rank3.png';
 function CustomExpandIcon(props) {
   return <a />;
 }
 
 const { Option } = BISelect;
 
+@connect(xdWorkModal => ({
+  xdWorkModal,
+}))
 class Top extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      originlist: [
+        {
+          id: 1,
+          collegeName: '自变量',
+          badPostNum: '0.12',
+          notInTime: 400,
+          Unanswered: 500,
+        },
+        {
+          id: 2,
+          collegeName: 'π学院',
+          badPostNum: '0.12',
+          notInTime: 400,
+          Unanswered: 500,
+        },
+        {
+          id: 3,
+          collegeName: '芒格',
+          badPostNum: '0.12',
+          notInTime: 400,
+          Unanswered: 500,
+        },
+        {
+          id: 4,
+          collegeName: '狐逻泰罗',
+          badPostNum: '0.12',
+          notInTime: 400,
+          Unanswered: 500,
+        },
+        {
+          id: 5,
+          collegeName: '芝士',
+          badPostNum: '0.12',
+          notInTime: 400,
+          Unanswered: 500,
+        },
+      ],
+    };
+  }
+
   columns = () => {
-    let maxNumMyScore = '';
-    const { familyScoreList, userInfo } = this.props;
-    const PkName = '';
     const columns = [
       {
-        title: '学院',
-        dataIndex: 'averageStudentNumber',
-        key: 'averageStudentNumber',
-      },
-      {
-        title: '好推单量',
-        dataIndex: 'credit',
-        key: 'credit',
-        render: (myScoreRatio, data) => {
-          let isFlag = 3;
-          if (PkName && data.isShowPro) {
-            isFlag = myScoreRatio >= 0 ? 1 : 2;
+        title: '排名',
+        dataIndex: 'collegeName',
+        key: 'collegeName',
+        render: (text, record) => {
+          let className = '';
+          let rank = 1;
+          if (record.creditRanking == 1) {
+            rank = rank1;
+          } else if (record.creditRanking == 2) {
+            rank = rank2;
+          } else if (record.creditRanking == 3) {
+            rank = rank3;
           }
-
           return (
-            <div
-              className={
-                isFlag === 1
-                  ? `${styles.titleGreen}`
-                  : isFlag === 2
-                  ? `${styles.titleRed}`
-                  : `${styles.titleBlack}`
-              }
-            >
-              <IndentNum>{myScoreRatio}</IndentNum>
+            <div className={`${styles.rankColumn} ${styles[className]}`}>
+              {record.creditRanking > 3 ? (
+                <span className={styles.rankSpan}>{record.creditRanking}</span>
+              ) : (
+                <img className={styles.rank} src={rank} />
+              )}
             </div>
           );
         },
       },
       {
-        title: '好推流水',
-        dataIndex: 'creditRanking',
-        key: 'creditRanking',
-        render: (myScore, data) => {
-          let isFlag = 3;
-          if (PkName && data.isShowPro) {
-            isFlag =
-              Number(myScore) > Number(data.groupScore)
-                ? 1
-                : Number(myScore) < Number(data.groupScore)
-                ? 2
-                : 3;
-          }
-          return (
-            <div
-              className={
-                isFlag === 1
-                  ? `${styles.titleGreen}`
-                  : isFlag === 2
-                  ? `${styles.titleRed}`
-                  : `${styles.titleBlack}`
-              }
-            >
-              <IndentNum>{myScore}</IndentNum>
-            </div>
-          );
-        },
+        title: '创收产品包',
+        dataIndex: 'packageName',
+        key: 'packageName',
       },
       {
-        title: '续报单量',
-        dataIndex: 'creditRankingCoefficient',
-        key: 'creditRankingCoefficient',
-        render: (myScore, data) => {
-          if (PkName && data.dimensionName === '正面均分') {
-            if (Number(data.myScore) > Number(data.groupScore)) {
-              maxNumMyScore = Number(data.myScore);
-            } else {
-              maxNumMyScore = Number(data.groupScore);
-            }
-          }
-          return data.isShowPro && PkName ? (
-            <Progress leftNumber={true} data={data} PkName={PkName} maxNumMyScore={maxNumMyScore} />
-          ) : (
-            <div
-              className={styles.pkRankMain}
-              style={{ justifyContent: 'flex-end', marginRight: '-18px' }}
-            >
-              <div
-                style={{
-                  color: '#52C9C2',
-                  cursor: 'pointer',
-                  width: '58.5px',
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                }}
-              ></div>
-            </div>
+        title: '创收单量',
+        dataIndex: 'incomeOrder',
+        key: 'incomeOrder',
+      },
+      {
+        title: '创收流水',
+        dataIndex: 'incomeFlowKpi',
+        key: 'incomeFlowKpi',
+        render: (incomeFlowKpi, record) => {
+          const percent = incomeFlowKpi * 100 + '%';
+          return (
+            <BIWrapperProgress
+              text={incomeFlowKpi}
+              percent={percent}
+              propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
+            />
           );
         },
       },
     ];
     return columns || [];
   };
-
   render() {
     const familyScoreList = [
       {
@@ -404,6 +412,16 @@ class Top extends React.Component {
           </div>
         </div>
         <div className={styles.tableContainer}>
+          <BIWrapperTable
+            columns={this.columns()}
+            dataSource={familyScoreList}
+            pagination={false}
+            loading={this.props.loading}
+            onRow={this.onClickRow}
+            rowKey={record => record.id}
+          />
+        </div>
+        {/* <div className={styles.tableContainer}>
           <BITable
             columns={this.columns()}
             dataSource={familyScoreList}
@@ -414,8 +432,8 @@ class Top extends React.Component {
             scroll={{ x: 0, y: 408 }}
             rowKey={record => record.id}
             loading={this.props.loading}
-          ></BITable>
-        </div>
+          ></BITable> */}
+        {/* </div> */}
       </div>
     );
   }
