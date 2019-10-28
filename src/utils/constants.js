@@ -65,7 +65,7 @@ export const knowledgeURL = {
 }[process.env.ENV_TYPE];
 
 export const PROXY_PATH = hasSelfPri => {
-  return hasSelfPri ? '' : '';
+  return hasSelfPri ? '' : '/inspectorapis';
 }; // /inspectorapis
 
 // =========================================== host =========
