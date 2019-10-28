@@ -24,9 +24,9 @@ class TopTabs extends React.Component {
     this.setState({
       keye: val
     })
-    if(this.props.queryAppealDataPage){
+    if(this.props.onTabChange){
       console.log("onTabChange")
-      this.props.queryAppealDataPage(val)
+      this.props.onTabChange({keye: val})
     }
   };
 

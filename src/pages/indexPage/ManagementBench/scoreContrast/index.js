@@ -19,7 +19,7 @@ class ScoreContrast extends React.Component {
       },{
         name:'家族学分对比',
         key:'2',
-        children: <CollegeScore />,
+        children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       },{
         name: '小组学分对比',
         key: '3',
@@ -46,23 +46,41 @@ class ScoreContrast extends React.Component {
         collegeName:'狐逻泰罗'
       }],
       orgValue:"自变量",
-      queryAppealDatas:{}
+      queryAppealDatas:{},
+      queryParams: {
+        contrasts:"1",
+        familyType:"0",
+        dimensionId:"",
+        collegeId:103,
+        startTime:"2019-10-01",
+        endTime:"2019-10-01",
+      },
+      query: { }
     }
   }
   componentDidMount() {
     this.queryAppealDataPage()
   }
-  //获取柱状图及维度的接口
-  queryAppealDataPage = (contrasts=1,dimensionId) =>{
-    let params = {
-      contrasts:"1",
-      familyType:"0",
-      dimensionId:dimensionId?dimensionId:"",
-      collegeId:103,
-      startTime:"2019-10-01",
-      endTime:"2019-10-01"
-
+  // tab改变
+  changeTab = (obj) => {
+    const { queryParams } = this.state;
+    this.state.query[queryParams.contrasts] = {
+      contrasts: obj.keye,
+      familyType: queryParams.familyType,
+      dimensionId: queryParams.dimensionId,
     }
+    if (!this.state.query[obj.keye]) {
+      this.state.query[obj.keye] = {};
+    }
+    this.queryAppealDataPage({contrasts: obj.keye, ...this.state.query[obj.keye]});
+  }
+  //获取柱状图及维度的接口
+  queryAppealDataPage = (obj = {}) =>{
+    const params = {
+      ...this.state.queryParams,
+      ...obj,
+    }
+    this.setState({queryParams: params });
     this.props.dispatch({
       type:'xdWorkModal/queryAppealDataPage',
       payload:{params:params},
@@ -76,7 +94,7 @@ class ScoreContrast extends React.Component {
     })
   }
   rightPart = () =>{
-    const {collegeOptions,orgValue} = this.state
+    const {collegeOptions, orgValue} = this.state
     return(
       <div>
         <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
@@ -101,8 +119,7 @@ class ScoreContrast extends React.Component {
                  title=""
                  propStyle={{ padding: '0px' }}
                  head="none">
-        <TopTabs right={this.rightPart()} tabParams={this.state.tabParams} queryAppealDataPage={this.queryAppealDataPage}/>
-
+        <TopTabs right={this.rightPart()} tabParams={this.state.tabParams} onTabChange={this.changeTab}/>
       </Container>
     );
   }
