@@ -1,36 +1,23 @@
 import React, { Component } from 'react';
+import { connect } from 'dva';
 import RenderRoute from '@/components/RenderRoute';
-import styles from './indexPage.less';
 import homeImg from '@/assets/homeImg.png';
 import homeText from '@/assets/homeText.png';
-import XdWorkbench from './xdWorkbench'
-import { connect } from 'dva';
-import XdFamilyBench from './xdFamilyBench'
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+import styles from './indexPage.less';
+
+@connect(({ xdWorkModal }) => ({
+  userInfo: xdWorkModal.userInfo,
 }))
 class IndexPage extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      userInfo: {}
-    }
-  }
   componentDidMount() {
     this.props.dispatch({
       type: 'xdWorkModal/getUserInfo',
-      payload: { params: {} },
-      callback: (data) => {
-        this.setState({
-          userInfo: data
-        })
-      }
     });
   }
   getPageDom = () => {
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
-    const { userInfo } = this.state;
+    const { userInfo } = this.props;
     if (userType === 'class' || userType === 'group') {
       if (this.props.history.location.pathname !== '/indexPage/xdWorkbench') {
         this.props.history.push({

@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIWrapperTable from '../../components/BIWrapperTable';
-import BISelect from '@/ant_components/BISelect'
+import BISelect from '@/ant_components/BISelect';
 import styles from './style.less';
 
 const { BI = {} } = window;

@@ -8,31 +8,15 @@ import BILoading from '@/components/BILoading'
 
 const params = JSON.stringify({ qualityType: '2' });
 const levelObj = ['', '特级违规', '一级违规', '二级违规', '三级违规'];
-@connect(({ loading }) => ({
+@connect(({ xdClsssModal, loading }) => ({
+  classQualityList: xdClsssModal.classQualityList,
   loading: loading.effects['xdClsssModal/getCountCurrentQuality'],
 }))
 class Quality extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      dataSource: [
-        {
-          violationLevel: 1,
-          violationNumber: 0,
-          reduceScore: 0
-        }, {
-          violationLevel: 2,
-          violationNumber: 2,
-          reduceScore: 80
-        }
-      ]
-    }
-  }
   componentDidMount() {
     this.props.dispatch({
       type: 'xdClsssModal/getCountCurrentQuality',
       payload: { params: { id: this.props.userId } },
-      callback: (dataSource) => this.setState({ dataSource }),
     });
   }
 
@@ -79,7 +63,7 @@ class Quality extends React.Component {
         {
           this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
             columns={this.columns()}
-            dataSource={this.state.dataSource}
+            dataSource={this.props.classQualityList}
             pagination={false}
             loading={this.props.loading}
             rowKey={record => record.violationLevel}

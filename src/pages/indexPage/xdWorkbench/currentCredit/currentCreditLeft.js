@@ -73,7 +73,7 @@ class currentCreditLeft extends React.Component {
           return (
             <>
               {
-                record.flagMark ? <BIFillCell {...record.valuesParams[index]} className={index === 0 && textV ? styles.mineHover : ''} style={{cursor: 'pointer'}}>
+                record.flagMark ? <BIFillCell {...record.valuesParams[index]} className={index === 0 && textV ? styles.mineHover : ''}>
                   {
                     index === 0 && textV ? <Link onClick={this.getDataTrace} target='_black' to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": record.id })}`} >
                       {textV}

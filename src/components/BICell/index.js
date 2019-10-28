@@ -27,7 +27,7 @@ class BICell extends React.Component {
     return styles;
   }
   render() {
-    const { style, ...props} = this.props;
+    const { color, bgcolor, textalign, style, ...props} = this.props;
     return (
       <div className={styles.BICell} onClick={this.onClick} style={this.getStyles()} {...props}>
         {this.props.children}

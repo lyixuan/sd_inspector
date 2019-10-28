@@ -17,11 +17,12 @@ export default {
   namespace: 'xdClsssModal',
   state: {
     userInfo: {}, // 全局值
-    kipInfo: null,
     kpiLevelList: null,
     groupList: null,
     kpiTimes: null,
     familyKpiTimes: {},
+    classQualityList: [],
+    classAppealList: []
   },
 
   effects: {
@@ -58,25 +59,21 @@ export default {
     },
 
     // 本期质检
-    *getCountCurrentQuality({ payload, callback }, { call }) {
+    *getCountCurrentQuality({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(getCountCurrentQuality, params);
       if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
+        yield put({ type: 'save', payload: { classQualityList: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
     // 我的申诉
-    *getCountAppealRecord({ payload, callback }, { call }) {
+    *getCountAppealRecord({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(getCountAppealRecord, params);
       if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
+        yield put({ type: 'save', payload: { classAppealList: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

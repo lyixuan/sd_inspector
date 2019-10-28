@@ -16,21 +16,15 @@ const appealTrace = [
   '{"widgetName":"我的申诉-优新卡片","traceName":"小德工作台/我的申诉/优新卡片"}',
   '{"widgetName":"我的申诉-创收卡片","traceName":"小德工作台/我的申诉/创收卡片"}',
 ];
-@connect(({ loading }) => ({
+@connect(({ xdClsssModal, loading }) => ({
+  classAppealList: xdClsssModal.classAppealList,
   loading: loading.effects['xdClsssModal/getCountAppealRecord'],
 }))
 class appeal extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      appealList: [{ appealType: 1 }, { appealType: 2 }, { appealType: 3 }, { appealType: 4 }, { appealType: 5 }, { appealType: 6 }]
-    }
-  }
   componentDidMount() {
     this.props.dispatch({
       type: 'xdClsssModal/getCountAppealRecord',
       payload: { params: { id: this.props.userId } },
-      callback: (appealList) => this.setState({ appealList }),
     });
   }
 
@@ -83,7 +77,7 @@ class appeal extends React.Component {
         propStyle={{ paddingLeft: '16px',height:'240px' }}
       >
         <BILoading isLoading={this.props.loading} >
-          <div className={styles.appeal}>{this.state.appealList.map(item => item && this.block(item))}</div>
+          <div className={styles.appeal}>{this.props.classAppealList.map(item => item && this.block(item))}</div>
         </BILoading>
       </Container>
     );
