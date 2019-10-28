@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
 import BITable from '@/ant_components/BITable'
+import BILoading from '@/components/BILoading'
 
 const levelObj = ['', '特级违规', '一级违规', '二级违规', '三级违规'];
 @connect(({ xdWorkModal, loading }) => ({
@@ -43,14 +44,14 @@ class Quality extends React.Component {
         title='本期质检'
         style={{ width: 'calc(40% - 16px)' }}
       >
-        <BITable
+        {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
           columns={this.columns()}
           dataSource={this.props.familyQuality}
           pagination={false}
           loading={this.props.loading}
           rowKey={record => record.violationLevel}
           smalled
-        />
+        />}
       </Container>
     );
   }

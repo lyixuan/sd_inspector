@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Skeleton } from 'antd'
 import router from 'umi/router';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
+import BILoading from '@/components/BILoading'
 import constants from '@/utils/constants';
 import styles from './style.less';
 
@@ -80,11 +80,11 @@ class appeal extends React.Component {
       <Container
         title='我的申诉'
         style={{ width: '824px' }}
-        propStyle={{ paddingLeft: '16px' }}
+        propStyle={{ paddingLeft: '16px',height:'240px' }}
       >
-        <Skeleton loading={this.props.loading} >
+        <BILoading isLoading={this.props.loading} >
           <div className={styles.appeal}>{this.state.appealList.map(item => item && this.block(item))}</div>
-        </Skeleton>
+        </BILoading>
       </Container>
     );
   }

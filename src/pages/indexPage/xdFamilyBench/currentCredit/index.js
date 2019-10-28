@@ -3,11 +3,13 @@ import { connect } from 'dva';
 import ColorBlock from '../../components/colorBlock';
 import TopTabs from '../../components/topTabs';
 import TableList from './components/list';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
 import styles from './index.less';
 
-@connect(({ xdWorkModal }) => ({
-  xdWorkModal
+@connect(({ xdWorkModal,loading }) => ({
+  xdWorkModal,
+  loading: loading.effects['xdWorkModal/getCountCurrentQuality'],
+
 }))
 class CurrentCredit extends React.Component {
   constructor(props) {

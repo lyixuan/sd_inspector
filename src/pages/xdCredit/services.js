@@ -2,7 +2,8 @@ import request from '@/utils/request';
 
 // 用户—获得具有权限的组织架构
 export async function getUserOrgList(params) {
-    return request('/deskperfpcapi/organization/userOrgList', { method: 'get', params });
+  // return request('/deskperfpcapi/organization/userOrgList', { method: 'get', params });
+  return request('/deskperfpcapi/organization/userOrgList', { method: 'get', params });
 }
 // 学分—小组维度列表
 export async function getDimensionList(data) {
@@ -25,3 +26,12 @@ export async function getKpiDateRange(params) {
 export async function getAppealType(data) {
   return request('/classWorkbench/getAppealType', { method: 'post', data });
 }
+// IM不满意会话-原因列表
+export async function reasonList(data) {
+  return request('/deskperfpcapi/im/reasonList', { method: 'post', data });
+}
+// IM不满意会话-会话详情
+export async function imDetailList(data) {
+  return request('/deskperfpcapi/im/detailList', { method: 'post', data });
+}
+

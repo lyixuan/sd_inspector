@@ -4,21 +4,32 @@ import { Skeleton } from 'antd';
 import BIButton from '@/ant_components/BIButton';
 import BICascader from '@/ant_components/BICascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
+import BISelect from '@/ant_components/BISelect'
 import extentImg from '@/assets/xdcredit/extent.png';
 import { initTimeData } from '../ko/utils/utils';
 import { message } from 'antd/lib/index';
+
 import Dimension from './dimension';
 import CreditDetials from './details'
+import CreditImDetials from './imDetails'
 import styles from './style.less';
 import moment from 'moment';
 
 
 
-
+const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
+const collegeType = [{
+  familyType: 0,
+  name: '自考'
+}, {
+  familyType: 1,
+  name: '壁垒'
+}]
 @connect(({ xdCreditModal, loading }) => ({
   dimensionData: xdCreditModal.dimensionData,
+  imDetailData: xdCreditModal.imDetailData,
   dimensionDetails: xdCreditModal.dimensionDetails,
   kpiDateRange: xdCreditModal.kpiDateRange,
   infoLoading: loading.effects['xdCreditModal/getUserInfo'],
@@ -28,15 +39,20 @@ class XdCredit extends React.Component {
     super(props);
     this.state = {
       userOrgConfig: [],
+      allUserInfo: {},
       extendFlag: false, // 权限
       groupId: [],
       groupTypeArr: [],
       dementionId: '',
       pageFrom: '',
+      familyType: '',
       // startTime: '',
       // endTime: '',
-      pageSize: 15,
+      pageSize: 40,
+      pageSize2: 10,
       page: 1,
+      reasonTypeId: 0,
+      isIm: false,
     }
   }
   componentDidMount() {
@@ -44,8 +60,8 @@ class XdCredit extends React.Component {
     this.props.dispatch({
       type: 'xdCreditModal/getUserInfo',
       callback: extendFlag => {
-        this.setState({ extendFlag });
-        if (extendFlag) {
+        this.setState({ extendFlag: extendFlag.scoreView, allUserInfo: extendFlag });
+        if (extendFlag.scoreView) {
           const { params } = this.props.location.query;
           if (params) {
             const { dementionId, startTime, endTime, pageFrom } = params ? JSON.parse(params) : {};
@@ -62,6 +78,74 @@ class XdCredit extends React.Component {
       }
     });
   }
+  defaultPage = (page) => {
+    this.setState({
+      pageSize2: page
+    }, () => {
+      this.getImDetail()
+    })
+  }
+  reasonTypeClick = (item) => {
+    this.setState({
+      reasonTypeId: item.typeId
+    }, () => {
+      this.getReasonListData();
+    })
+  }
+  cellClick = (item, record, type) => {
+    console.log(96, item, record)
+    let reasonTypeId = this.state.reasonTypeId;
+    if (item) {
+      reasonTypeId = item.typeId
+    } else if (type == 'total' && this.state.reasonTypeId == 0) {
+      reasonTypeId = 0
+    }
+    const params = {
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+      familyType: (this.state.familyType.length == 3 ? '0' : this.state.familyType) || this.state.allUserInfo.familyType,
+      groupType: record.groupType,
+      orgId: record.orgId,
+      reasonTypeId: reasonTypeId,
+      pageSize: this.state.pageSize2,
+      page: this.state.page
+    }
+    this.props.dispatch({
+      type: 'xdCreditModal/imDetailList',
+      payload: { params: params },
+    });
+  }
+  getReasonListData() {
+    const params = {
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+      familyType: (this.state.familyType.length == 3 ? '0' : this.state.familyType) || this.state.allUserInfo.familyType,
+      groupType: this.getGroupMsg().groupType || 'group',
+      orgId: this.getGroupMsg().groupId || this.state.allUserInfo.groupId,
+      reasonTypeId: this.state.reasonTypeId
+    }
+    this.props.dispatch({
+      type: 'xdCreditModal/reasonList',
+      payload: { params }
+    });
+    // this.getImDetail();
+  }
+  getImDetail = () => {
+    const params = {
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+      familyType: (this.state.familyType.length == 3 ? '0' : this.state.familyType) || this.state.allUserInfo.familyType,
+      groupType: this.getGroupMsg().groupType || 'group',
+      orgId: this.getGroupMsg().groupId || this.state.allUserInfo.groupId,
+      reasonTypeId: this.state.reasonTypeId,
+      pageSize: this.state.pageSize2,
+      page: this.state.page
+    }
+    this.props.dispatch({
+      type: 'xdCreditModal/imDetailList',
+      payload: { params: params },
+    });
+  }
   // 组织 - 时间
   getUserOrgList = (groupId) => {
     this.props.dispatch({
@@ -72,11 +156,19 @@ class XdCredit extends React.Component {
           this.setState({
             userOrgConfig: res,
             ...this.getResetGroupMsg(res),
-          }, () => this.getDimensionList())
+          }, () => {
+            this.getDimensionList();
+          })
         } else {
           this.getDimensionList();
         }
-        if (this.state.dementionId) this.getDimensionDetail();
+        if (this.state.dementionId == 16) {
+          this.setState({
+            isIm: true
+          })
+          this.getReasonListData();
+        }
+        if (this.state.dementionId && this.state.dementionId != 16) this.getDimensionDetail();
       }
     });
     this.props.dispatch({
@@ -93,15 +185,15 @@ class XdCredit extends React.Component {
   }
   // 列表
   getDimensionList = () => {
-    const groupMsg = this.getGroupMsg();
-    if (groupMsg.groupType === 'college') {
-      message.error('请选择家族或小组');
-      return;
-    }
+    // const groupMsg = this.getGroupMsg();
+    // if (groupMsg.groupType === 'college') {
+    //   message.error('请选择家族或小组');
+    //   return;
+    // }
     const { startTime, endTime } = this.state;
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionList',
-      payload: { params: { ...this.getGroupMsg(), startTime, endTime } },
+      payload: { params: { ...this.getGroupMsg(), startTime, endTime, familyType: (this.state.familyType.length == 3 ? '0' : this.state.familyType) || this.state.allUserInfo.familyType } },
       callback: (data) => {
         if (this.state.pageFrom) {
           this.fillDataSource(data.dimensionList)
@@ -132,10 +224,10 @@ class XdCredit extends React.Component {
   // 详情
   getDimensionDetail = () => {
     const groupMsg = this.getGroupMsg();
-    if (groupMsg.groupType === 'college') {
-      message.error('请选择家族或小组');
-      return;
-    }
+    // if (groupMsg.groupType === 'college') {
+    //   message.error('请选择家族或小组');
+    //   return;
+    // }
     const param = {
       ...groupMsg,
       dementionId: this.state.dementionId,
@@ -166,11 +258,11 @@ class XdCredit extends React.Component {
       const item = arr[0];
       if (item.groupType === 'college' && item.nodeList && item.nodeList.length > 0) {
         const node = item.nodeList[0];
-        return { groupId: [item.id, node.id], groupTypeArr: [item, node] };
+        return { groupId: [item.id, node.id], groupTypeArr: [item, node], familyType: node.familyType };
       }
-      return { groupId: [item.id], groupTypeArr: [item] };
+      return { groupId: [item.id], groupTypeArr: [item], familyType: item.familyType };
     } else {
-      return { groupId: [], groupTypeArr: [] };
+      return { groupId: [], groupTypeArr: [], familyType: '' };
     }
   }
   // date
@@ -191,13 +283,26 @@ class XdCredit extends React.Component {
   };
   // 左侧维度id
   onChangeParams = (v, type) => {
-    this.setState({ [type]: v, page: 1 }, () => {
-      if (type === 'dementionId') this.getDimensionDetail();
-    })
+    // 点击不满意会话
+    if (v == 16) {
+      this.setState({
+        isIm: true,
+        [type]: v,
+        page: 1
+      })
+      this.getReasonListData();
+    } else {
+      this.setState({ [type]: v, page: 1, isIm: false }, () => {
+        if (type === 'dementionId') this.getDimensionDetail();
+      })
+    }
+
   }
   // 选择组织
   onChangeSelect = (groupId, groupTypeArr) => {
-    this.setState({ groupId, groupTypeArr });
+    this.setState({
+      groupId, groupTypeArr, familyType: groupTypeArr[groupTypeArr.length - 1].familyType
+    });
   }
   // 选择时间
   onDateChange = (v) => {
@@ -206,6 +311,7 @@ class XdCredit extends React.Component {
   }
   handleClick = () => {
     this.getDimensionList();
+    // this.getReasonListData();
   }
   handleReset = () => {
     this.setState({
@@ -222,6 +328,16 @@ class XdCredit extends React.Component {
       page: currentPage,
     }, () => this.getDimensionDetail());
   };
+  onPageChange2 = (currentPage) => {
+    this.setState({
+      page: currentPage,
+    }, () => this.getImDetail());
+  };
+  onSelectChange = val => {
+    this.setState({
+      familyType: val
+    })
+  }
   render() {
     const { dementionId, groupId, extendFlag, userOrgConfig, startTime, endTime } = this.state;
     const { infoLoading } = this.props;
@@ -248,6 +364,25 @@ class XdCredit extends React.Component {
                   />
                 </span>
               }
+              {
+                this.state.familyType.length == 3 && this.state.groupTypeArr[0].groupType == 'college' &&
+                <span className={styles.change}>
+                  学院类型：
+              <BISelect
+                    defaultValue={collegeType[0].name}
+                    placeholder="请选择小组"
+                    style={{ width: '136px' }}
+                    onChange={this.onSelectChange}
+                  >
+                    {collegeType.map((item, index) => (
+                      <Option key={index}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </BISelect>
+                </span>
+              }
+
               <span className={styles.change}>
                 选择时间：
               <BIRangePicker
@@ -264,20 +399,30 @@ class XdCredit extends React.Component {
               <BIButton data-trace='{"widgetName":"查询","traceName":"数据服务/学分明细/查询"}' type='primary' onClick={this.handleClick} htmlType="submit">查询</BIButton>
             </div>
             {
-              < div className={styles.dataShow}>
+              <div className={styles.dataShow}>
                 <Dimension
                   dementionId={dementionId}
                   onChangeParams={this.onChangeParams}
                   dimensionData={this.props.dimensionData}
                   groupId={groupId}
                 />
-                <CreditDetials
-                  onPageChange={this.onPageChange}
-                  pageSize={this.state.pageSize}
-                  currentPage={this.state.page}
-                  detailsData={this.props.dimensionDetails}
-                  dementionId={dementionId}
-                />
+                {
+                  this.state.isIm ? <CreditImDetials
+                    onPageChange={this.onPageChange2}
+                    pageSize2={this.state.pageSize2}
+                    currentPage={this.state.page}
+                    defaultPage={this.defaultPage}
+                    cellClick={this.cellClick}
+                    resetCell={this.resetCell}
+                    reasonTypeClick={this.reasonTypeClick}
+                  /> : <CreditDetials
+                      onPageChange={this.onPageChange}
+                      pageSize={this.state.pageSize}
+                      currentPage={this.state.page}
+                      detailsData={this.props.dimensionDetails}
+                      dementionId={dementionId}
+                    />
+                }
               </div>
             } </> : <>
               <img src={extentImg} alt='权限' />

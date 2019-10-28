@@ -95,9 +95,9 @@ function TeacherOrStudent(props) {
   loading: loading.effects['xdCreditModal/getDimensionDetail'],
   loadingAppeal: loading.effects['xdCreditModal/getDimensionDetail'],
 }))
-class CreditDetials extends React.Component {
+class CreditImDetials extends React.Component {
   columns = () => {
-   
+
     const { detailsData } = this.props;
     const { titleFive } = detailsData;
     const columns = [
@@ -209,7 +209,7 @@ class CreditDetials extends React.Component {
   }
 
   render() {
-    const { dementionId, detailsData, pageSize = 15, currentPage } = this.props;
+    const { dementionId, detailsData, pageSize = 40, currentPage } = this.props;
     const dataSource = detailsData.data || [];
     const totalCount = detailsData.total || 0;
     return (
@@ -224,6 +224,7 @@ class CreditDetials extends React.Component {
               defaultPageSize: pageSize,
               current: currentPage,
               total: totalCount,
+              hideOnSinglePage: true,
               showQuickJumper: true,
             }}
             rowKey={(record, index) => record.id + '' + index}
@@ -236,4 +237,4 @@ class CreditDetials extends React.Component {
   }
 }
 
-export default CreditDetials;
+export default CreditImDetials;

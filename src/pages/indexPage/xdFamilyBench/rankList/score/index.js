@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import Wrap from './components/wrap'
 import styles from './index.less';
 import rank1 from '@/assets/xdFamily/rank1.png';
@@ -8,6 +7,7 @@ import rank3 from '@/assets/xdFamily/rank3.png';
 import storage from '@/utils/storage';
 import { thousandsFormat } from '@/utils/utils';
 import { connect } from 'dva';
+
 
 const columns = [
   {
@@ -224,8 +224,8 @@ const columns4 = [
   },
 ];
 
-@connect(({ xdWorkModal }) => ({
-  xdWorkModal
+@connect(({ xdWorkModal}) => ({
+  xdWorkModal,
 }))
 class Score extends React.Component {
   constructor(props) {

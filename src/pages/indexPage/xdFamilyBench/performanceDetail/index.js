@@ -1,15 +1,16 @@
 import React from 'react';
 import moment from 'moment';
-import { Progress, Tooltip } from 'antd';
 import { thousandsFormat } from '@/utils/utils';
 import echarts from 'echarts';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
 import Pannel from './components/pannel'
 import styles from './index.less';
 import { connect } from 'dva';
+import BILoading from '@/components/BILoading'
 
-@connect(({ xdWorkModal }) => ({
+@connect(({ xdWorkModal,loading }) => ({
   xdWorkModal,
+  loading: loading.effects['xdWorkModal/familyAchievement'],
 }))
 class performanceDetail extends React.Component {
   constructor(props) {
@@ -119,7 +120,7 @@ class performanceDetail extends React.Component {
         right={`${date1} ~ ${date2} (最新学分日期)`}
       >
         {
-          familyKpiInfo.kpiStartDate && chargeCount &&
+          this.props.loading?<BILoading isLoading={this.props.loading} />:familyKpiInfo.kpiStartDate && chargeCount &&
           <div className={styles.performanceDetail}>
             <div ref={this.createRef} className={styles.chart}></div>
             <div className={styles.panelBox}>

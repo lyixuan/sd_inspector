@@ -1,153 +1,61 @@
 .profitTabs {
-  flex: 1;
-  margin-right: 32px;
-  .tabContent {
+  width: 100%;
+  // 列表颜色分阶
+  .rowBg2 {
+    background-color: #FAFFFF;
+  }
+  .rowBg3 {
+    background-color: #FFF9F9;
+  }
+  .rowBg4 {
+    background-color: #F5FBFF;
+  }
+  .pkMsg { // 列表首列样式
     display: flex;
+    align-items: center;
+    img {
+      width: 32px;
+      margin-right: 12px;
+      margin-left: -4px;
+    }
+    > span {
+      display: flex;
+      flex-direction: column;
+      font-weight: bold;
+    }
+  }
+  .fillCell {
     flex-direction: column;
-    border: 1px solid #E8EBED;
-    border-radius: 6px;
-    position: relative;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding-top: 8px;
+    padding-right: 16px;
+  }
+  // 表头
+  .pluscircle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 0;
     > img {
-      position: absolute;
-      width: 144px;
-      height: 144px;
-      right: 24px;
-      bottom: 24px;
-      padding: 8px;
-      background-color: #FFFFFF;
-      border-radius: 16px;
-      box-shadow: 0 4px 8px rgba(26, 28, 31, 0.05);
+      width: 14px;
+      height: 14px;
+      margin-right: 8px;
     }
-    .tabBody {
-      display: flex;
-      border-bottom: 1px solid #E8EBED;
-      color: #56595E;
-      > div:first-child {
-        display: flex;
-        width: 200px;
-        background-color: #F6F7FA;
-        border-right: 1px solid #E8EBED;
-        > span {
-          margin-left: 12px;
-        }
-      }
-      > div:last-child {
-        display: flex;
-        flex: 1;
-      }
-      //  第一行
-      > .tabOneTh {
-        flex-direction: column;
-        justify-content: center;
-      }
-      > div:last-child.tabOneTd {
-        > div {
-          width: 50%;
-          height: 100%;
-          box-sizing: border-box;
-          padding: 12px 16px;
-          .msg {
-            display: flex;
-            align-items: center;
-            img {
-              width: 32px;
-            }
-            div {
-              display: flex;
-              flex: 1;
-              flex-direction: column;
-            }
-          }
-          .imgs {
-            margin-top: 8px;
-            img {
-              width: 28px;
-              background-color: #FFFFFF;
-              border-radius: 50%;
-              padding: 2px;
-              margin-top: 4px;
-              box-shadow: 0 2px 4px rgba(26, 28, 31, 0.1);
-            }
-          }
-        }
-        .tabMine {
-          border-right: 1px solid #E8EBED;
-        }
-        .tabMineLine {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-        .tabUserLine {
-          display: flex;
-          align-items: center;
-        }
-      }
-      // 第二行
-      .tabTwoTh {
-        align-items: center;
-      }
-      .tabTwoTd {
-        justify-content: center;
-        padding: 12px 16px;
-        .tabTwoNone {
-          display: flex;
-          width: 100%;
-          align-items: center;
-          > div {
-            width: 50%;
-            padding-right: 16px;
-            text-align: center;
-          }
-        }
-      }
-      // 第三行
-      .tabThreeTh {
-        flex-direction: column;
-        min-height: 100%;
-        > span{
-          height: 40px;
-          line-height: 40px;
-        }
-      }
-      .tabThreeTd {
-        flex-direction: column;
-        > div {
-          width: 100%;
-          height: 40px;
-          line-height: 40px;
-          span {
-            display: inline-block;
-            width: 50%;
-            text-align: center;
-          }
-        }
-      }
+  }
+  :global {
+    .ant-table-thead > tr > th{
+      padding: 16px 2px;
+      text-align: center;  
     }
-    .tabBody:last-child {
-      border-bottom: none;
-    }
-    .tabThreeBody{
-      height:240px;
-      overflow-y:auto;
-      .tabThreeTh{
-        min-height:240px;
-      }
-    }
-    .nonePk {
-      display: flex;
-      align-items: center;
-      font-size: 16px;
-      color: #1A1C1F;
-      img {
-        width: 32px;
-      }
+    .ant-table-thead > tr >th:first-child {
+      text-align: left; 
     }
   }
 }
 // 对比列表
 .profitList {
-    width: 40%;
+    width: 100%;
     .form {
       margin-bottom: 16px;
     }
@@ -156,17 +64,22 @@
         top: -10px;
       }
       .ant-table-tbody > tr > td {
-        padding: 8px;
+        padding: 5px 8px;
         cursor: pointer;
       }
       .ant-progress-inner{
-          background: #D5D8DB;
-        }
+        background: #D5D8DB;
+      }
+    }
+    .pkMine {
+      > td {
+        color: #00CCC3;
+        cursor: not-allowed !important;
+      }
     }
     .pkUser {
       > td {
         color: #00CCC3;
-        cursor: not-allowed !important;
       }
     }
     .tableContent {
@@ -195,6 +108,18 @@
           .ant-table-body {
             padding-top: 40px;
           }
+        }
+      }
+      // 表格内容
+      .incomeKpi {
+        display: flex;
+        .pro {
+          text-align: right;
+          width: 100px;
+        }
+        >img {
+          width: 10px;
+          height: 10px;
         }
       }
     }

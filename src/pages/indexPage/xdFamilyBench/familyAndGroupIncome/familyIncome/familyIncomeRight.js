@@ -4,6 +4,7 @@ import styles from '../style.less';
 import BISelect from '@/ant_components/BISelect'
 import BITable from '@/ant_components/BITable'
 import Indent from '../../../components/indent';
+import BILoading from '@/components/BILoading'
 const { Option } = BISelect;
 @connect(({ loading }) => ({
   loading: loading.effects['xdWorkModal/getFamilyList'],
@@ -28,13 +29,18 @@ class FamilyIncomeRight extends React.Component {
       },
     });
     this.getFamilyList();
-    // 表格添加滚动事件
-    document.querySelector("#scrollIncome .ant-table-body").onscroll = (e) => {
-      this.getScrollFn(e.target.scrollTop)
+    
+    if (document.querySelector("#scrollIncome .ant-table-body")) {
+      // 表格添加滚动事件
+      document.querySelector("#scrollIncome .ant-table-body").onscroll = (e) => {
+        this.getScrollFn(e.target.scrollTop)
+      }
     }
   }
   componentWillUnmount() {
-    document.querySelector("#scrollIncome .ant-table-body").onscroll = '';
+    if (document.querySelector("#scrollIncome .ant-table-body")) {
+      document.querySelector("#scrollIncome .ant-table-body").onscroll = '';
+    }
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
@@ -173,7 +179,7 @@ class FamilyIncomeRight extends React.Component {
               />
             </div>}
             <div id="scrollIncome" >
-              <BITable
+              {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
                 columns={this.columnsRight()}
                 dataSource={dataSource}
                 pagination={false}
@@ -182,8 +188,8 @@ class FamilyIncomeRight extends React.Component {
                 onRow={this.onClickRow}
                 rowKey={record => record.familyId}
                 rowClassName={this.setRowClassName}
-              >
-              </BITable>
+              />}
+
             </div>
           </div>
 

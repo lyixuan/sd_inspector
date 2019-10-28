@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less';
-import Container from '../../components/container'
+import Container from '@/components/BIContainer'
 import TopTabs from '../../components/topTabs'
 import FamilyIncome from './familyIncome'
 import GroupIncome from './groupIncome'

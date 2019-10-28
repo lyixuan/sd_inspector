@@ -1,0 +1,37 @@
+.tableWrap{
+  :global{
+    .ant-table-tbody > tr > td{
+      position:relative;
+      // border-right:1px solid #fff;
+      background:#fff;
+    }
+    
+    .ant-table-thead > tr > th{
+      white-space: nowrap;
+      border-top:none;
+    }
+    .ant-table-thead > tr:first-child > th:last-child{
+      border-right:none;
+    }
+    .ant-table-bordered .ant-table-tbody > tr > td:last-child{
+      border-right:none;
+     
+    }
+    .ant-table-fixed-right .ant-table-tbody > tr > td:last-child{
+      background:#F6F7FA;
+    }
+    .ant-table-bordered .ant-table-fixed-left table{
+      border-left:none;
+    }
+  }
+  .txRight{
+    text-align:right;
+    background:#F6F7FA;
+  }
+  .title{
+    cursor:pointer;
+  }
+  .titleCurrent{
+    color: #00CCC3;
+  }
+}

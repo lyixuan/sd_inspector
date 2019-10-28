@@ -7,6 +7,7 @@ import normal from '@/assets/xdFamily/rankNormal.png';
 import SmallProgress from '@/pages/indexPage/components/smallProgress'
 import { thousandsFormat } from '@/utils/utils';
 import styles from './style.less';
+import BILoading from '@/components/BILoading'
 
 const rankImg = {
   0: down,
@@ -160,14 +161,14 @@ class ProfitList extends React.Component {
   render() {
     return (
       <div className={styles.tableList}>
-        <BITable
+        {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
           columns={this.columns()}
           dataSource={this.state.familyIncome}
           pagination={false}
           loading={this.props.loading}
           rowKey={record => record.id}
           scroll={{ x: 'max-content', y: 400 }}
-        />
+        />}
       </div>
 
     );

@@ -1,7 +1,6 @@
 import {
   getContrastIncomeKpiPkList,
   getIncomeKpiPkList,
-  getIncomeKpiPersonInfo,
   getCountCurrentQuality,
   getCountAppealRecord,
   kpiLevelList,
@@ -47,7 +46,6 @@ export default {
     kipInfo: null,
     kpiLevelList: null,
     groupList: null,
-    groupPkList: {},
     kpiTimes: null,
     familyKpiTimes: {},
     inCometarget: [], // 以下是家族值
@@ -211,17 +209,6 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getIncomeKpiPersonInfo({ payload, callback }, { call }) {
-      const params = payload.params;
-      const result = yield call(getIncomeKpiPersonInfo, params);
-      if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data === null ? '' : result.data);
-        }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
 
     // 本期质检
     *getCountCurrentQuality({ payload, callback }, { call }) {
@@ -272,7 +259,7 @@ export default {
       }
     },
     //  获取左侧的列表数据
-    *groupPkList({ payload, callback }, { call, put }) {
+    *groupPkList({ payload, callback }, { call }) {
       const params = payload.params;
       const result = yield call(groupPkList, params)
       if (result.code === 20000) {

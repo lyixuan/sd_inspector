@@ -4,7 +4,9 @@ import {
   getDimensionList,
   getDimensionDetail,
   getKpiDateRange,
-  getAppealType
+  getAppealType,
+  reasonList,
+  imDetailList,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -18,16 +20,38 @@ export default {
     },
     dimensionDetails: {
       data: [],
+      dimensionList: []
     },
     kpiDateRange: {},
+    imDetailData: {},
+    imDetailList: [],
   },
 
+
   effects: {
+    *imDetailList({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(imDetailList, params);
+      if (result.code === 20000) {
+        yield put({ type: 'save', payload: { imDetailList: result } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *reasonList({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(reasonList, params);
+      if (result.code === 20000) {
+        yield put({ type: 'saveTable', payload: { imDetailData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     *getUserInfo({ callback }, { call }) {
       const result = yield call(getUserInfo);
       if (result.code === 20000 && result.data) {
         if (callback && typeof callback === 'function') {
-          callback(result.data.scoreView);
+          callback(result.data);
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
@@ -100,6 +124,32 @@ export default {
     save(state, { payload }) {
       return { ...state, ...payload };
     },
+    saveTable(state, { payload }) {
+      let data = payload.imDetailData
+      if (!data.reasonTypeList) {
+        data.dataList.map(item => {
+          item.values.push(item.unClassifyCount)
+        })
+        data.reasonTypeList = [{
+          expand: true,
+          typeId: 0,
+          typeName: '所有分类'
+        }]
+        data.titleList = [...data.titleList, {
+          expand: true,
+          typeId: -1,
+          typeName: "未分类数据"
+        }]
+      } else {
+        data.reasonTypeList = [{
+          expand: true,
+          typeId: 0,
+          typeName: '所有分类'
+        }, ...data.reasonTypeList]
+      }
+      console.log(129, data)
+      return { ...state, ...{ imDetailData: data } };
+    }
   },
   subscriptions: {},
 };

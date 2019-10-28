@@ -38,11 +38,11 @@ class XdWorkbench extends React.Component {
     return (
       <div className={styles.workbench}>
         <PerformanceDetail></PerformanceDetail>
-        {
+        {/* {
           isShowCredits !== 20002 ? <CurrentCredit></CurrentCredit> : null
-        }
+        } */}
 
-        <Profit userId={userId} />
+        {/* <Profit userId={userId} /> */}
         <div className={styles.qualityAppel}>
           <Quality userId={userId} />
           <Appeal userId={userId} />

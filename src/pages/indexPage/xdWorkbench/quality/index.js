@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
 import BITable from '@/ant_components/BITable'
 import AuthButton from '@/components/AuthButton';
+import BILoading from '@/components/BILoading'
 
 const params = JSON.stringify({ qualityType: '2' });
 const levelObj = ['', '特级违规', '一级违规', '二级违规', '三级违规'];
@@ -60,7 +61,7 @@ class Quality extends React.Component {
           {
             record.violationNumber !== 0 &&
             <AuthButton authority='/qualityAppeal/qualityAppeal'>
-              <Link  to={`/qualityAppeal/qualityAppeal?p=${params}`}><span data-trace='{"widgetName":"本期质检-申诉","traceName":"小德工作台/本期质检/申诉"}'>申诉</span></Link>
+              <Link  to={`/qualityAppeal/qualityAppeal?p=${params}`} target='_black'><span data-trace='{"widgetName":"本期质检-申诉","traceName":"小德工作台/本期质检/申诉"}'>申诉</span></Link>
             </AuthButton>
           }
         </>
@@ -73,9 +74,10 @@ class Quality extends React.Component {
       <Container
         title='本期质检'
         style={{ width: 'calc(100% - 840px)' }}
+        propStyle={{height:'240px'}}
       >
-        <div>
-          <BITable
+        {
+          this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
             columns={this.columns()}
             dataSource={this.state.dataSource}
             pagination={false}
@@ -83,7 +85,7 @@ class Quality extends React.Component {
             rowKey={record => record.violationLevel}
             smalled
           />
-        </div>
+        }
       </Container>
     );
   }
