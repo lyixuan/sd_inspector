@@ -17,9 +17,12 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      countList: [],
+      countList: {},
       allList: [],
       userType: JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null,
+      bflag: false,
+      val: '自考',
+      familyType: 0, // 0 自考 1 壁垒
     };
   }
   componentDidMount() {
@@ -40,35 +43,49 @@ class Header extends React.Component {
   }
 
   //学分
-  getCountList() {
+  getCountList(familyType) {
     this.props
       .dispatch({
         type: 'xdWorkModal/getCountCreditAvgScore',
-        payload: { params: { beginDate: '2019-08-09', endDate: '2019-10-10', familyType: 1 } },
+        payload: { params: { beginDate: '2019-08-09', endDate: '2019-10-10', familyType } },
       })
       .then(res => {
-        this.setState({ allList: res });
+        this.setState({ countList: res });
       });
+  }
+
+  changeType() {
+    let { bflag } = this.state;
+    bflag = !bflag;
+    if (bflag) {
+      this.getCountList(1);
+      this.setState({ val: '壁垒', bflag });
+    } else {
+      this.getCountList(0);
+      this.setState({ val: '自考', bflag });
+    }
   }
 
   // 院长不显示nps差评率
   getUlList() {
+    const { countList, val } = this.state;
     return (
       <ul className={styles.list}>
         <li>
           <a href="#one">
             <img src={workImg1} alt="icon" />
           </a>
-          <span className={styles.changeType}>
-            壁垒
+          {countList.familyTypeFlag && <span className={styles.changeType} onClick={() => this.changeType()}>
+            {val}
             <img src={workArrow} className={styles.arrow} />
           </span>
-          <span className={styles.num}>8.92</span>
+          }
+          <span className={styles.num}>{countList.value}</span>
           <p className={styles.bottom}>
             <span>学分均分</span>
             <span className={styles.arrowCon}>
-              10%<i className={styles.arrowTop}></i>
-              <i className={styles.arrowBottom}></i>
+              {countList.loopRatio}%{countList.loopRatio > 0 && <i className={styles.arrowTop}></i>}
+              {countList.loopRatio < 0 && <i className={styles.arrowBottom}></i>}
             </span>
           </p>
         </li>
