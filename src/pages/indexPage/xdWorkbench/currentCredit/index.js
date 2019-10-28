@@ -10,6 +10,7 @@ import closeImg from '@/assets/xdFamily/closeeye.png';
 import showImg from '@/assets/xdFamily/eye.png';
 import styles from './style.less';
 
+const { BI = {} } = window;
 @connect(({ xdWorkModal, loading }) => ({
   kpiTimes: xdWorkModal.kpiTimes || {},
 }))
@@ -35,6 +36,7 @@ class currentCredit extends React.Component {
     const { pkGroupList } = this.state;
     if (pkGroupList instanceof Array) {
       if (pkGroupList.includes(id)) {
+        BI.traceV &&  BI.traceV({"widgetName":"本期学分-删除pk对象按钮","traceName":"本期学分-删除pk对象按钮"})
         pkGroupList.splice(pkGroupList.indexOf(id), 1);
       } else {
         if (pkGroupList.length >= 5) return;
@@ -48,6 +50,11 @@ class currentCredit extends React.Component {
   toggleData = () => {
     const hasData = !this.state.hasData;
     localStorage.setItem('hasDataCredit', hasData ? 1 : 2);
+    if (hasData) {
+      BI.traceV &&  BI.traceV({"widgetName":"本期学分-显示基础信息","traceName":"本期学分-显示基础信息"});
+    } else {
+      BI.traceV &&  BI.traceV({"widgetName":"本期学分-隐藏基础信息","traceName":"本期学分-隐藏基础信息"});
+    }
     this.setState({
       hasData: hasData,
     });

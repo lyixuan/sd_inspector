@@ -4,6 +4,7 @@ import ProfitList from './components/list';
 import ProfitTabs from './components/tabs';
 import BIDrawer from '@/components/BIDrawer';
 
+const { BI = {} } = window;
 class Profit extends React.Component {
   constructor(props) {
     super(props);
@@ -20,6 +21,7 @@ class Profit extends React.Component {
     const { pkUsers } = this.state;
     if (pkUsers instanceof Array) {
       if (pkUsers.includes(id)) {
+        BI.traceV &&  BI.traceV({"widgetName":"本期创收-删除pk对象按钮","traceName":"小德工作台/本期创收/删除pk对象按钮"})
         pkUsers.splice(pkUsers.indexOf(id), 1);
       } else {
         if (pkUsers.length >= 5) return;
@@ -48,7 +50,7 @@ class Profit extends React.Component {
       // right={<a>创收详情</a>}
       propStyle={{ display: 'flex', height: '540px', position: 'relative' }}
       >
-        <ProfitTabs {...this.props} pkUsers={pkUsers} pkListType={pkListType} changeSelected={this.changeSelected}/>
+        <ProfitTabs {...this.props} pkUsers={pkUsers} pkListType={pkListType} changeSelected={this.changeSelected} toggleDrawer={this.toggleDrawer}/>
         <BIDrawer
           onClose={() => this.toggleDrawer(false)}
           onOpen={() => this.toggleDrawer(true)}
