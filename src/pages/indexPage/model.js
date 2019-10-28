@@ -39,6 +39,8 @@ import {
   getCurrentDateRange,
   getHotList,
   packageRankList,
+  countCreditAvgScore,
+  countByDate,
   getOrgMapTree,
   getImReverseSideData,
   queryAppealDataPage
@@ -79,6 +81,26 @@ export default {
   },
 
   effects: {
+    // 获取学分
+    *getCountCreditAvgScore({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(countCreditAvgScore, params);
+      if (result.code === 20000) {
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 获取指标
+    *getCountByDate({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(countByDate, params);
+      if (result.code === 20000) {
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     // 热销产品包列表
     *getPackageRankList({ payload, callback }, { call, put }) {
       const params = payload.params;
