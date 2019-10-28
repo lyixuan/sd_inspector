@@ -13,13 +13,22 @@ class BIClassifyTable extends React.Component {
       scrollWidth: 0
     }
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.dataSource != nextProps.dataSource) {
-      const dataList = nextProps.dataSource.dataList;
-      const item = dataList[dataList.length - 1]
-      console.log(200, dataList.length - 1, totalLength)
-      this.resetCell(item, `${dataList.length - 1}${totalLength}`);
-    }
+  componentDidMount() {
+    this.countWidth();//计算表格滚动区域的宽度
+    const dataList = this.props.dataSource.dataList;
+    if (!dataList) return;
+    const item = dataList[dataList.length - 1]
+    this.resetCell(item, `${dataList.length - 1}${totalLength}`);
+    window.addEventListener('resize', this.countWidth);
+  }
+  countWidth = () => {
+    const tableWidth = document.getElementById("tableWrap").offsetWidth;
+    let scrollWidth1 = this.props && this.props.columns.reduce(function (prev, curr, idx, arr) {
+      return prev.width ? prev.width : prev + curr.width;
+    })
+    this.setState({
+      scrollWidth: tableWidth - scrollWidth1
+    })
   }
   title = () => {
     const reasonTypeList = this.props.dataSource.reasonTypeList
@@ -163,24 +172,7 @@ class BIClassifyTable extends React.Component {
     // ]
     return columns || [];
   }
-  componentDidMount() {
-    // const tableWidth = document.getElementById("tableWrap").offsetWidth;
-    // const scrollWidth = tableWidth - 105 - 60;
-    // this.setState({
-    //   scrollWidth
-    // })
-    this.countWidth();//计算表格滚动区域的宽度
-    // window.addEventListener('resize', this.countWidth);
-  }
-  countWidth() {
-    const tableWidth = document.getElementById("tableWrap").offsetWidth;
-    let scrollWidth1 = this.props.columns.reduce(function (prev, curr, idx, arr) {
-      return prev.width ? prev.width : prev + curr.width;
-    })
-    this.setState({
-      scrollWidth: tableWidth - scrollWidth1
-    })
-  }
+
   render() {
     const dataSource = this.props.dataSource.dataList
     return (
