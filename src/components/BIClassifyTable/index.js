@@ -2,7 +2,7 @@ import React from 'react';
 import BITable from '@/ant_components/BITable';
 import BIContrastCell from '@/components/BIContrastCell';
 import BISelectCell from '@/components/BISelectCell';
-import searchIcon from '@/assets/xdCredit/search.png';
+import searchIcon from '@/assets/xdcredit/search.png';
 import styles from './style.less';
 
 const totalLength = 9999;
@@ -168,6 +168,7 @@ class BIClassifyTable extends React.Component {
     //   scrollWidth
     // })
     this.countWidth();//计算表格滚动区域的宽度
+    // window.addEventListener('resize', this.countWidth);
   }
   countWidth() {
     const tableWidth = document.getElementById("tableWrap").offsetWidth;
