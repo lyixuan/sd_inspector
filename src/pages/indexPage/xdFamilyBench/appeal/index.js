@@ -23,9 +23,9 @@ const tabSource = {
   2: 'rejectedAppealList',
   3: 'auditingAppealList'
 }
-@connect(({ xdWorkModal, loading }) => ({
-  familyAppeal: xdWorkModal.familyAppeal || {},
-  loading: loading.effects['xdWorkModal/getFamilyRecord'],
+@connect(({ xdFamilyModal, loading }) => ({
+  familyAppeal: xdFamilyModal.familyAppeal || {},
+  loading: loading.effects['xdFamilyModal/getFamilyRecord'],
 }))
 class appeal extends React.Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class appeal extends React.Component {
   }
   componentDidMount() {
     this.props.dispatch({
-      type: 'xdWorkModal/getFamilyRecord',
+      type: 'xdFamilyModal/getFamilyRecord',
       payload: { params: { id: this.props.userId } },
     });
   }

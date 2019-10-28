@@ -94,9 +94,14 @@ function TeacherOrStudent(props) {
   }
 }
 
+// @connect(({ loading, xdCreditModal }) => ({
+//   xdCreditModal,
+//   loading: loading.effects['xdCreditModal/reasonList']
+// }))
 @connect(({ loading, xdCreditModal }) => ({
   xdCreditModal,
-  loading: loading.effects['xdCreditModal/reasonList']
+  loading1: loading.effects['xdCreditModal/reasonList'],
+  loading2: loading.effects['xdCreditModal/imDetailList'],
 }))
 class CreditImDetials extends React.Component {
   constructor(props) {
@@ -166,7 +171,7 @@ class CreditImDetials extends React.Component {
         key: 'stuName',
         // width: 80,
         render: (text, record) => {
-          return <span onClick={() => this.handleNameClick(record.stuId)} style={{ color: "#00CCC3", cursor: 'pointer' }}>{strLen(text, 6)}</span>
+          return <span data-trace='{"widgetName":"选择学员","traceName":"数据服务/学分明细/不满意会话/选择学员"}' onClick={() => this.handleNameClick(record.stuId)} style={{ color: "#00CCC3", cursor: 'pointer' }}>{strLen(text, 6)}</span>
         }
       },
       {
@@ -271,12 +276,13 @@ class CreditImDetials extends React.Component {
       <div className={`${styles.detials}`}>
         <div className={styles.classityBox} id="classityBox">
           {
-            loading1 ? <BILoading isLoading={this.props.loading} /> : <BIClassifyTable
+            loading1 ? <BILoading isLoading={loading1} /> : <BIClassifyTable
               loading={this.props.loading}
               columns={this.columnsTable()}
               colors={colors}
               dataSource={imDetailData}
               cellWidth={85}
+              style={{ cursor: 'pointer' }}
               isChecked={true}
               defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
               {...this.props}
@@ -285,7 +291,7 @@ class CreditImDetials extends React.Component {
         </div>
         <div className={styles.detailsTable}>
           {
-            loading2 ? <BILoading isLoading={this.props.loading} /> : <BITable
+            loading2 ? <BILoading isLoading={loading2} /> : <BITable
               ellipsis={true}
               columns={this.columns()}
               dataSource={imDetailList.data}

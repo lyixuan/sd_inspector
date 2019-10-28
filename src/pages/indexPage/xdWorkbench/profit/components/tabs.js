@@ -29,7 +29,7 @@ const gradeImg = { // 等级
   3: rank3,
 }
 @connect(({ loading }) => ({
-  loading: loading.effects['xdWorkModal/getContrastIncomeKpiPkList'],
+  loading: loading.effects['xdClsssModal/getContrastIncomeKpiPkList'],
 }))
 class ProfitTbas extends React.Component {
   constructor(props) {
@@ -53,7 +53,7 @@ class ProfitTbas extends React.Component {
   // 对比列表
   getPkList = (pkUsers = this.props.pkUsers) => {
     this.props.dispatch({
-      type: 'xdWorkModal/getContrastIncomeKpiPkList',
+      type: 'xdClsssModal/getContrastIncomeKpiPkList',
       payload: { params: { pkUsers } },
       callback: (profitData) => {
         if (profitData) this.setState({ profitData })

@@ -224,8 +224,8 @@ const columns4 = [
   },
 ];
 
-@connect(({ xdWorkModal}) => ({
-  xdWorkModal,
+@connect(({ xdFamilyModal}) => ({
+  xdFamilyModal,
 }))
 class Score extends React.Component {
   constructor(props) {
@@ -252,28 +252,28 @@ class Score extends React.Component {
   }
   incomeCollegeRankList() {
     this.props.dispatch({
-      type: 'xdWorkModal/incomeCollegeRankList',
+      type: 'xdFamilyModal/incomeCollegeRankList',
       payload: {},
       callback: (incomeData) => this.setState({ incomeData }),
     });
   }
   incomeCompanyRankList() {
     this.props.dispatch({
-      type: 'xdWorkModal/incomeCompanyRankList',
+      type: 'xdFamilyModal/incomeCompanyRankList',
       payload: {},
       callback: (incomeCompanyData) => this.setState({ incomeCompanyData }),
     });
   }
   collegeRankList() {
     this.props.dispatch({
-      type: 'xdWorkModal/collegeRankList',
+      type: 'xdFamilyModal/collegeRankList',
       payload: {},
       callback: (scoreData) => this.setState({ scoreData }),
     });
   }
   companyRankList() {
     this.props.dispatch({
-      type: 'xdWorkModal/companyRankList',
+      type: 'xdFamilyModal/companyRankList',
       payload: {},
       callback: (companyScoreData) => this.setState({ companyScoreData }),
     });

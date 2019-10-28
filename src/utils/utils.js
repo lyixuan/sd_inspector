@@ -285,3 +285,10 @@ export function dealQuarys(pm) {
   return p;
 };
 
+
+// 埋点
+const { BI = {} } = window;
+export function handleDataTrace(obj) {
+  BI.traceV &&  BI.traceV(obj);
+}
+

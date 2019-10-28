@@ -19,9 +19,9 @@ function CustomExpandIcon(props) {
     <a />
   );
 }
-@connect(({ xdWorkModal, loading }) => ({
-  kpiTimes: xdWorkModal.kpiTimes || {},
-  loading: loading.effects['xdWorkModal/groupPkList'],
+@connect(({ xdClsssModal, loading }) => ({
+  kpiTimes: xdClsssModal.kpiTimes || {},
+  loading: loading.effects['xdClsssModal/groupPkList'],
 }))
 class currentCreditLeft extends React.Component {
   constructor(props) {
@@ -75,7 +75,7 @@ class currentCreditLeft extends React.Component {
               {
                 record.flagMark ? <BIFillCell {...record.valuesParams[index]} className={index === 0 && textV ? styles.mineHover : ''}>
                   {
-                    index === 0 && textV ? <Link onClick={this.getDataTrace} target='_black' to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": record.id })}`} >
+                    index === 0 && textV ? <Link onClick={() => this.getDataTrace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": record.id })}`} >
                       {textV}
                       <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span>
                     </Link> 
@@ -100,8 +100,8 @@ class currentCreditLeft extends React.Component {
     return columns || [];
   };
   // 学分查看埋点
-  getDataTrace = () => {
-    BI.traceV &&  BI.traceV({"widgetName":"本期学分-学分查看","traceName":"本期学分-学分查看"});
+  getDataTrace = (r) => {
+    BI.traceV &&  BI.traceV({"widgetName": r.dimensionName,"traceName": "班主任工作台/本期学分/" + r.dimensionName});
   }
   // 添加pk对象点击事件
   handleToggle = () => {
@@ -111,7 +111,7 @@ class currentCreditLeft extends React.Component {
   //获取左侧列表数据的方法
   getGroupPkData = (pkGroupList = this.props.pkGroupList) => {
     this.props.dispatch({
-      type: 'xdWorkModal/groupPkList',
+      type: 'xdClsssModal/groupPkList',
       payload: { params: { pkGroupList } },
       callback: res => {
         res.dimensionList = this.fillDataSource(res.dimensionList);

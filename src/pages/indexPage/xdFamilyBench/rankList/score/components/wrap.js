@@ -4,7 +4,7 @@ import BITable from '@/ant_components/BITable'
 import { connect } from 'dva';
 import BILoading from '@/components/BILoading'
 @connect(({loading}) => ({
-  loading: loading.effects['xdWorkModal/incomeCollegeRankList'||'xdWorkModal/incomeCompanyRankList'||'xdWorkModal/collegeRankList'||'xdWorkModal/companyRankList'],
+  loading: loading.effects['xdFamilyModal/incomeCollegeRankList'||'xdFamilyModal/incomeCompanyRankList'||'xdFamilyModal/collegeRankList'||'xdFamilyModal/companyRankList'],
 }))
 class Wrap extends React.Component {
   constructor(props) {

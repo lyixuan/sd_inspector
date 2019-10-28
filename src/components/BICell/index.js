@@ -13,8 +13,8 @@ class BICell extends React.Component {
     }
   }
   getStyles = () => {
-    const styles = {};
-    const { color, bgcolor, textalign } = this.props;
+    const { color, bgcolor, textalign, style } = this.props;
+    const styles = {...style};
     if (color) { 
       styles.color = color;
     }
@@ -27,8 +27,9 @@ class BICell extends React.Component {
     return styles;
   }
   render() {
+    const { color, bgcolor, textalign, style, ...props} = this.props;
     return (
-      <div className={styles.BICell} onClick={this.onClick} style={this.getStyles()} {...this.props}>
+      <div className={styles.BICell} onClick={this.onClick} style={this.getStyles()} {...props}>
         {this.props.children}
       </div>
     );

@@ -412,6 +412,7 @@ export const EmptyContentLayout = [
   { path: '/xdWorkbench', name: '小德工作台' },
   { path: '/xdCredit/index', name: '小德学分' },
   { path: '/xdFamilyBench/index', name: '家族长工作台' },
+  { path: '/indexPage', name: '小德工作台' },
 ];
 // 注册类型
 export const REGISTER_STATUS = [{ id: 1, name: '已注册' }];

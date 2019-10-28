@@ -7,11 +7,10 @@ import Indent from '../../../components/indent';
 import SmallProgress from '../../../components/smallProgress'
 import BILoading from '@/components/BILoading'
 const { Option } = BISelect;
-@connect(({ xdWorkModal, loading }) => ({
-  xdWorkModal,
-  loading: loading.effects['xdWorkModal/getFamilyRankList'],
+@connect(({xdFamilyModal,loading}) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/getFamilyRankList'],
 }))
-
 class FamilyScoreRight extends React.Component {
   constructor(props) {
     super(props)
@@ -51,9 +50,9 @@ class FamilyScoreRight extends React.Component {
   //获取右侧家族排名的列表
   getFamilyRankList = (collegeId) => {
     this.props.dispatch({
-      type: 'xdWorkModal/getFamilyRankList',
-      payload: { params: { collegeId: collegeId ? collegeId : this.state.collegeId } },
-      callback: (data) => {
+      type: 'xdFamilyModal/getFamilyRankList',
+      payload: { params: {collegeId:collegeId?collegeId:this.state.collegeId} },
+      callback:(data)=>{
         this.setState({
           familyRankList: data
         })

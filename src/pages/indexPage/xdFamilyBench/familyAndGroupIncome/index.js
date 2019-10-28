@@ -12,10 +12,10 @@ import BISelect from '@/ant_components/BISelect'
 import { message } from 'antd';
 const { Option } = BISelect;
 
-@connect(({ xdWorkModal }) => ({
+@connect(({ xdFamilyModal, xdWorkModal }) => ({
   userInfo: xdWorkModal.userInfo,
-  orgListTreeData: xdWorkModal.orgListTreeData,
-  familyIncomeGroup: xdWorkModal.familyIncomeGroup,
+  orgListTreeData: xdFamilyModal.orgListTreeData,
+  familyIncomeGroup: xdFamilyModal.familyIncomeGroup,
 }))
 class FamilyAndGroup extends React.Component {
   constructor(props) {
@@ -50,12 +50,12 @@ class FamilyAndGroup extends React.Component {
   // 小组创收
   getIncomeFamilyGroupPk = (flag) => {
     this.props.dispatch({
-      type: 'xdWorkModal/getIncomeFamilyGroupPk',
-      payload: { params: { pkGroupIds: this.getParamas(), selfGroupIds: this.state.myGroupValue, groupPkInitFlag: flag } },
-      callback: res => {
-        console.log(56, res)
-        if (flag && this.state.PkGroupIdList.length <= 0) {
-          this.setState({ myGroupValue: res.map(item => String(item.groupId)) });
+      type: 'xdFamilyModal/getIncomeFamilyGroupPk',
+      payload: { params: { pkGroupIds: this.getParamas(),  selfGroupIds: this.state.myGroupValue,groupPkInitFlag:flag} },
+      callback: res =>  {
+        console.log(56,res)
+        if (flag && this.state.PkGroupIdList.length<=0) {
+          this.setState({ myGroupValue: res.map(item => String(item.groupId))});
         }
       }
     });
@@ -93,9 +93,9 @@ class FamilyAndGroup extends React.Component {
   };
   myFamilyGroupList = () => {
     this.props.dispatch({
-      type: 'xdWorkModal/myFamilyGroupList',
-      payload: { params: {} },
-      callback: (data) => {
+      type:'xdFamilyModal/myFamilyGroupList',
+      payload:{params:{}},
+      callback:(data)=>{
         this.setState({
           myFamilyGroupList: data
         })
