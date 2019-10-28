@@ -94,22 +94,22 @@ class Top extends React.Component {
     const columns = [
       {
         title: '排名',
-        dataIndex: 'index',
-        key: 'index',
+        dataIndex: 'id',
+        key: 'id',
         render: (text, record) => {
           let className = '';
           let rank = 1;
-          if (record.creditRanking == 1) {
+          if (record.id == 1) {
             rank = rank1;
-          } else if (record.creditRanking == 2) {
+          } else if (record.id == 2) {
             rank = rank2;
-          } else if (record.creditRanking == 3) {
+          } else if (record.id == 3) {
             rank = rank3;
           }
           return (
             <div className={`${styles.rankColumn} ${styles[className]}`}>
-              {record.creditRanking > 3 ? (
-                <span className={styles.rankSpan}>{record.creditRanking}</span>
+              {record.id > 3 ? (
+                <span className={styles.rankSpan}>{record.id}</span>
               ) : (
                 <img className={styles.rank} src={rank} />
               )}
@@ -126,16 +126,17 @@ class Top extends React.Component {
         title: '创收单量',
         dataIndex: 'incomeOrder',
         key: 'incomeOrder',
+        width:70,
       },
       {
         title: '创收流水',
-        dataIndex: 'incomeFlowKpi',
-        key: 'incomeFlowKpi',
-        render: (incomeFlowKpi, record) => {
-          const percent = incomeFlowKpi * 100 + '%';
+        dataIndex: 'incomeFlowKpiRatio',
+        key: 'incomeFlowKpiRatio',
+        render: (incomeFlowKpiRatio, record) => {
+          const percent = incomeFlowKpiRatio * 100 + '%';
           return (
             <BIWrapperProgress
-              text={incomeFlowKpi}
+              text={incomeFlowKpiRatio}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />

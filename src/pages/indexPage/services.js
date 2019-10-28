@@ -183,6 +183,16 @@ export async function packageRankList(data) {
   return request('/adminWorkbench/hotSellPackage/packageRankList',{method:'POST',data: data})
 }
 
+// 获取学分接口
+export async function countCreditAvgScore(data) {
+  return request('/adminWorkbench/importantPoint/countCreditAvgScore',{method:'POST',data: data})
+}
+
+// 获取除了学分外的其他接口
+export async function countByDate(data) {
+  return request('/adminWorkbench/importantPoint/countByDate',{method:'POST',data: data})
+}
+
 
 
 
