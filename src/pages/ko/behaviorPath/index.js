@@ -16,6 +16,14 @@ import styles from './style.less';
 const TabPane = BhTabs.TabPane;
 const { Search } = Input;
 
+const portray = {widgetName:"画像",traceName:"学员查询/学员档案/画像"};
+const study = {widgetName:"学习",traceName:"学员查询/学员档案/学习"};
+const im = {widgetName:"IM",traceName:"学员查询/学员档案/IM"};
+const wechat = {widgetName:"微信",traceName:"学员查询/学员档案/微信"};
+const bbs = {widgetName:"BBS",traceName:"学员查询/学员档案/BBS"};
+const letter = {widgetName:"私信",traceName:"学员查询/学员档案/私信"};
+let traceTab = '';
+
 @connect(({ behaviorPath, koPlan,loading }) => ({
   loading,
   behaviorPath,
@@ -42,7 +50,6 @@ class BehaviorPath1 extends React.Component {
   }
 
   componentDidMount() {
-    // alert('跳入')
     this.getUserPortary();
     if (!this.props.currentServiceTime) {
       this.props.dispatch({
@@ -56,8 +63,26 @@ class BehaviorPath1 extends React.Component {
       this.getDateList(this.state.activeKey); // 获取日期列表
       this.getUserInfo();
     }
-
+    this.jumpInfoTrace();
   }
+
+  jumpInfoTrace=()=>{
+    const pathParams = JSON.parse(this.props.location.query.params);
+    const target = pathParams.target;
+    if (target.indexOf('im') === 0) {
+      traceTab = im;
+    } else if (target.indexOf('bbs') === 0) {
+      traceTab = bbs;
+    } else if (target.indexOf('wechat') === 0) {
+      traceTab = wechat;
+    } else if (target.indexOf('study') === 0) {
+      traceTab = study;
+    } else {
+      traceTab = portray;
+    }
+    const {BI = {}} = window;
+    traceTab && BI.traceV && BI.traceV(traceTab)
+  };
 
   componentWillReceiveProps(nextProps) {
     if ((JSON.stringify(nextProps.behaviorPath.dateListStudy) !== JSON.stringify(this.props.behaviorPath.dateListStudy))) {
@@ -131,25 +156,42 @@ class BehaviorPath1 extends React.Component {
   };
 
   onTabChange = (e) => {
+    if (e === '1') {
+      traceTab = study;
+    } else if (e === '2') {
+      traceTab = im;
+    } else if (e === '3') {
+      traceTab = wechat;
+    } else if (e === '4') {
+      traceTab = bbs;
+    } else if (e === '5') {
+      traceTab = letter;
+    } else  if (e === '6') {
+      traceTab = portray;
+    } else {
+      traceTab = '';
+    }
+    const {BI = {}} = window;
+    traceTab && BI.traceV && BI.traceV(traceTab)
+
     this.setState({
       searchType: e,
     });
-    if (e == '1' && !this.state.study) {
+    if (e === '1' && !this.state.study) {
       return;
-    } else if (e == '2' && !this.state.im) {
+    } else if (e === '2' && !this.state.im) {
       return;
-    } else if (e == '3' && !this.state.weChart) {
+    } else if (e === '3' && !this.state.weChart) {
       return;
-    } else if (e == '4' && !this.state.bbs) {
+    } else if (e === '4' && !this.state.bbs) {
       return;
-    } else if (e == '5' && !this.state.letter) {
+    } else if (e === '5' && !this.state.letter) {
       return;
-    } else if (e == '6') {
+    } else if (e === '6') {
       return;
     } else {
       this.getDateList(e);
     }
-
   };
 
   onChange(e) {

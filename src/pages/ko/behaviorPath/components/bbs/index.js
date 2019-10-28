@@ -268,6 +268,8 @@ class Bbs extends React.Component {
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {
+      const {BI = {}} = window;
+      BI.traceV && BI.traceV({widgetName:"BBS展开",traceName:"学员查询/学员档案/BBS展开"});
       if (this.state.dateList[index].dialogList.length < 1) {
         let date = this.state.dateList[index].date.replace(/[\u4e00-\u9fa5]/g, '-').split('-');
         date.length = 3;
