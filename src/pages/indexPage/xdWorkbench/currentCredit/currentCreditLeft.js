@@ -12,6 +12,7 @@ import xdPkImg from '@/assets/workBench/xdpk.gif';
 import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
 
+const { BI = {} } = window;
 const colorsArr = ['rgba(255, 89, 89, 1)', 'rgba(255, 89, 89, 0.8)', 'rgba(255, 89, 89, 0.6)', 'rgba(255, 89, 89, 0.4)', 'rgba(255, 89, 89, 0.2)', 'rgba(255, 89, 89, 0.1)'];
 function CustomExpandIcon(props) {
   return (
@@ -74,7 +75,7 @@ class currentCreditLeft extends React.Component {
               {
                 record.flagMark ? <BIFillCell {...record.valuesParams[index]} className={index === 0 && textV ? styles.mineHover : ''}>
                   {
-                    index === 0 && textV ? <Link target='_black' to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": record.id })}`} >
+                    index === 0 && textV ? <Link onClick={this.getDataTrace} target='_black' to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": record.id })}`} >
                       {textV}
                       <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span>
                     </Link> 
@@ -91,13 +92,22 @@ class currentCreditLeft extends React.Component {
     for (var i = 0; i < 6 - groupList.length; i++) {
       columns.push({
         width: '12%',
-        title: <div className={styles.pluscircle} onClick={() => this.props.toggleDrawer(true)}><img src={pluscircle} alt='icon'/>添加PK对象</div>,
+        title: <div className={styles.pluscircle} onClick={this.handleToggle}><img src={pluscircle} alt='icon'/>添加PK对象</div>,
         dataIndex: '添加PK对象' + i,
         key: '添加PK对象' + i,
       })
     }
     return columns || [];
   };
+  // 学分查看埋点
+  getDataTrace = () => {
+    BI.traceV &&  BI.traceV({"widgetName":"本期学分-学分查看","traceName":"本期学分-学分查看"});
+  }
+  // 添加pk对象点击事件
+  handleToggle = () => {
+    BI.traceV &&  BI.traceV({"widgetName":"本期学分-添加pk对象","traceName":"本期学分-添加pk对象"});
+    this.props.toggleDrawer(true);
+  }
   //获取左侧列表数据的方法
   getGroupPkData = (pkGroupList = this.props.pkGroupList) => {
     this.props.dispatch({
