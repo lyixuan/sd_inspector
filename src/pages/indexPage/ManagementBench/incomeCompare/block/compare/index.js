@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import styles from './styles.less'
+import moment from 'moment';
+import styles from './styles.less';
 import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../../../components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
@@ -12,13 +13,15 @@ class Compare extends React.Component {
     super(props);
     this.state = {
       dataSource: [],
+      date: this.props.date || {},
     };
   }
+
   componentDidMount() {
     this.props
       .dispatch({
         type: 'xdWorkModal/getCompareCollegeList',
-        payload: { params: { beginDate: '2019-08-09', endDate: '2019-10-10' } },
+        payload: { params: { beginDate: '2019-08-09', endDate: '2019-09-10' } },
       })
       .then(res => {
         this.setState({ dataSource: res });
@@ -111,11 +114,15 @@ class Compare extends React.Component {
   };
   render() {
     const { dataSource } = this.state;
-    if(dataSource && dataSource.length>6){
+
+    if (dataSource && dataSource.length > 6) {
       dataSource.splice(6);
     }
     return (
-      <Container title="创收学院对比" style={{ width: 'calc(67% - 16px)', height: '400px' ,overflow:'hidden'}}>
+      <Container
+        title="创收学院对比"
+        style={{ width: 'calc(67% - 16px)', height: '400px', overflow: 'hidden' }}
+      >
         <BIWrapperTable
           className={styles.table}
           columns={this.columns()}

@@ -58,8 +58,8 @@ class ManagementBench extends React.Component {
     const { date } = this.state;
     return (
       <div className={styles.workbench}>
-        <Header date={date}/>
-        <IncomeCompare  date={date}/>
+        <Header date={date} />
+        <IncomeCompare date={date} />
         <ScoreContrast ref="one" />
         <div className={styles.qualityAppel} ref="four">
           <IMPartLeft />

@@ -9,7 +9,7 @@ class IncomeCompare extends React.Component {
     const { date } = this.props.date;
     return (
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Income />
+        <Income date={date}/>
         <Top date={date} />
       </div>
     );
