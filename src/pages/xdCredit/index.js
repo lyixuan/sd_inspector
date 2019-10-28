@@ -32,9 +32,7 @@ const collegeType = [{
   imDetailData: xdCreditModal.imDetailData,
   dimensionDetails: xdCreditModal.dimensionDetails,
   kpiDateRange: xdCreditModal.kpiDateRange,
-  infoLoading: loading.effects['xdCreditModal/getUserInfo'],
-  loading1: loading.effects['xdCreditModal/reasonList'],
-  loading2: loading.effects['xdCreditModal/imDetailList'],
+  infoLoading: loading.effects['xdCreditModal/getUserInfo']
 }))
 class XdCredit extends React.Component {
   constructor(props) {
@@ -419,8 +417,6 @@ class XdCredit extends React.Component {
                 />
                 {
                   this.state.isIm ? <CreditImDetials
-                    loading1={loading1}
-                    loading2={loading2}
                     onPageChange={this.onPageChange2}
                     pageSize2={this.state.pageSize2}
                     currentPage={this.state.page}
