@@ -3,13 +3,15 @@ import { Tooltip } from 'antd';
 import { connect } from 'dva';
 import BITable from '@/ant_components/BITable';
 import BIClassifyTable from '@/components/BIClassifyTable';
-import { jumpMarkingDetails } from '@/pages/ko/utils/utils';
+import BILoading from '@/components/BILoading';
 import router from 'umi/router';
 import styles from './style.less';
 import {
   pathImUrl,
-  getSubStringValue,
-  linkRoute, linkImgRouteBul,
+  jumpMarkingDetails,
+  strLen,
+  linkRoute,
+  linkImgRouteBul,
 } from '@/pages/ko/utils/utils';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
@@ -50,7 +52,7 @@ function TeacherOrStudent(props) {
           <div className={styles.chatLeft}>
             <div className={styles.avatar}>
               <img src={props.dataMark.stuHeadUrl ? (pathImUrl + props.dataMark.stuHeadUrl) : avatarStudent} />
-              <p>{getSubStringValue(props.dataMark.stuName, 3)}</p>
+              <p>{strLen(props.dataMark.stuName, 3)}</p>
             </div>
             <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent}>
               <span className={styles.triangle}>
@@ -83,7 +85,7 @@ function TeacherOrStudent(props) {
             </div>
             <div className={styles.avatar}>
               <img src={props.dataMark.teacherHeadUrl ? (pathImUrl + props.dataMark.teacherHeadUrl) : avatarTeacher} />
-              <p>{getSubStringValue(props.dataMark.teacherName, 3)}</p>
+              <p>{strLen(props.dataMark.teacherName, 3)}</p>
             </div>
           </div>
         </div>
@@ -142,7 +144,7 @@ class CreditImDetials extends React.Component {
         title: '时间',
         dataIndex: 'bizDate',
         key: 'bizDate',
-        width: 100
+        // width: 110
       },
       {
         title: '内容',
@@ -156,34 +158,45 @@ class CreditImDetials extends React.Component {
             </Tooltip>
           )
         },
-        width: 170
+        width: 200
       },
       {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        width: 80,
+        // width: 80,
         render: (text, record) => {
-          return <span onClick={() => this.handleNameClick(record.stuId)} style={{ color: "#00CCC3", cursor: 'pointer' }}>{text}</span>
+          return <span onClick={() => this.handleNameClick(record.stuId)} style={{ color: "#00CCC3", cursor: 'pointer' }}>{strLen(text, 6)}</span>
         }
       },
       {
         title: '后端归属',
         dataIndex: 'hdTeamName',
         key: 'hdTeamName',
-        width: 180
+        render: text => <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right"
+          title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
+        // width: 180,
+        //   render: (text, record) => {
+        //     return <span>{strLen(text, 8)}</span>
+        //   }
       },
       {
         title: '会话老师',
         dataIndex: 'consultTeaName',
         key: 'consultTeaName',
-        width: 70
+        // width: 70,
+        render: (text, record) => {
+          return <span>{strLen(text, 6)}</span>
+        }
       },
       {
         title: '原因分类',
         dataIndex: 'reasonTypeName',
         key: 'reasonTypeName',
-        width: 70
+        // width: 70,
+        render: (text, record) => {
+          return <span>{strLen(text, 6)}</span>
+        }
       },
       {
         title: '操作',
@@ -192,7 +205,7 @@ class CreditImDetials extends React.Component {
         render: (text, r) => {
           return <span onClick={() => this.getAppeal(r)} style={{ color: "#00CCC3", cursor: 'pointer' }}>申诉</span>
         },
-        width: 50
+        // width: 60
       },
     ];
     return columns || [];
@@ -251,40 +264,45 @@ class CreditImDetials extends React.Component {
   }
 
   render() {
-    const { currentPage, pageSize2 } = this.props;
+    const { currentPage, pageSize2, loading1, loading2 } = this.props;
     const { imDetailData, imDetailList } = this.props.xdCreditModal;
     const totalCount = imDetailList.total || 0;
     return (
       <div className={`${styles.detials}`}>
         <div className={styles.classityBox} id="classityBox">
-          <BIClassifyTable
-            loading={this.props.loading}
-            others='%'
-            columns={this.columnsTable()}
-            colors={colors}
-            dataSource={imDetailData}
-            cellWidth={85}
-            isChecked={true}
-            defaultKey={{ id: 'orgId', name: 'orgName' }}
-            {...this.props}
-          ></BIClassifyTable>
+          {
+            loading1 ? <BILoading isLoading={this.props.loading} /> : <BIClassifyTable
+              loading={this.props.loading}
+              columns={this.columnsTable()}
+              colors={colors}
+              dataSource={imDetailData}
+              cellWidth={85}
+              isChecked={true}
+              defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
+              {...this.props}
+            ></BIClassifyTable>
+          }
         </div>
-        <BITable
-          ellipsis={true}
-          columns={this.columns()}
-          dataSource={imDetailList.data}
-          smalled
-          pagination={{
-            onChange: this.onPageChange,
-            pageSize: pageSize2,
-            current: currentPage,
-            hideOnSinglePage: true,
-            showQuickJumper: true,
-            total: totalCount,
-          }}
-          rowKey={(record, index) => record.stuId + '' + index}
-          rowClassName={this.setRowClassName}
-        />
+        <div className={styles.detailsTable}>
+          {
+            loading2 ? <BILoading isLoading={this.props.loading} /> : <BITable
+              ellipsis={true}
+              columns={this.columns()}
+              dataSource={imDetailList.data}
+              smalled
+              pagination={{
+                onChange: this.onPageChange,
+                pageSize: pageSize2,
+                current: currentPage,
+                hideOnSinglePage: true,
+                showQuickJumper: true,
+                total: totalCount,
+              }}
+              rowKey={(record, index) => record.stuId + '' + index}
+              rowClassName={this.setRowClassName}
+            />
+          }
+        </div>
       </div >
     );
   }

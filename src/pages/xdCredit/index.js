@@ -33,6 +33,8 @@ const collegeType = [{
   dimensionDetails: xdCreditModal.dimensionDetails,
   kpiDateRange: xdCreditModal.kpiDateRange,
   infoLoading: loading.effects['xdCreditModal/getUserInfo'],
+  loading1: loading.effects['xdCreditModal/reasonList'],
+  loading2: loading.effects['xdCreditModal/imDetailList'],
 }))
 class XdCredit extends React.Component {
   constructor(props) {
@@ -93,7 +95,6 @@ class XdCredit extends React.Component {
     })
   }
   cellClick = (item, record, type) => {
-    console.log(96, item, record)
     let reasonTypeId = this.state.reasonTypeId;
     if (item) {
       reasonTypeId = item.typeId
@@ -244,7 +245,6 @@ class XdCredit extends React.Component {
   // 参数groupId
   getGroupMsg = () => {
     const { groupId, groupTypeArr } = this.state;
-    // console.log(groupId, groupTypeArr)
     if (groupId && groupId.length > 0) {
       const index = groupId.length - 1;
       return { groupId: groupId[index], groupType: groupTypeArr[index].groupType };
@@ -302,6 +302,16 @@ class XdCredit extends React.Component {
   onChangeSelect = (groupId, groupTypeArr) => {
     this.setState({
       groupId, groupTypeArr, familyType: groupTypeArr[groupTypeArr.length - 1].familyType
+    }, () => {
+      if (this.state.familyType != '0' && this.state.familyType != '1' && groupTypeArr[groupTypeArr.length - 1].groupType == 'college') {
+        this.setState({
+          showCollege: true,
+        })
+      } else {
+        this.setState({
+          showCollege: false,
+        })
+      }
     });
   }
   // 选择时间
@@ -340,7 +350,7 @@ class XdCredit extends React.Component {
   }
   render() {
     const { dementionId, groupId, extendFlag, userOrgConfig, startTime, endTime } = this.state;
-    const { infoLoading } = this.props;
+    const { infoLoading, loading1, loading2 } = this.props;
     return (
       <div className={`${styles.credit} ${extendFlag ? '' : styles.extent}`}>
         <Skeleton loading={infoLoading} >
@@ -365,7 +375,8 @@ class XdCredit extends React.Component {
                 </span>
               }
               {
-                this.state.familyType.length == 3 && this.state.groupTypeArr[0].groupType == 'college' &&
+                // (this.state.familyType != 0 && this.state.familyType != 1) && (this.state.groupTypeArr.length > 0 && this.state.groupTypeArr[0].groupType == 'college') &&
+                this.state.showCollege &&
                 <span className={styles.change}>
                   学院类型：
               <BISelect
@@ -408,6 +419,8 @@ class XdCredit extends React.Component {
                 />
                 {
                   this.state.isIm ? <CreditImDetials
+                    loading1={loading1}
+                    loading2={loading2}
                     onPageChange={this.onPageChange2}
                     pageSize2={this.state.pageSize2}
                     currentPage={this.state.page}
