@@ -130,13 +130,13 @@ class Top extends React.Component {
       },
       {
         title: '创收流水',
-        dataIndex: 'incomeFlowKpiRatio',
-        key: 'incomeFlowKpiRatio',
-        render: (incomeFlowKpiRatio, record) => {
-          const percent = incomeFlowKpiRatio * 100 + '%';
+        dataIndex: 'incomeFlowKpi',
+        key: 'incomeFlowKpi',
+        render: (incomeFlowKpi, record) => {
+          const percent = record.incomeFlowKpiRatio * 100 + '%';
           return (
             <BIWrapperProgress
-              text={incomeFlowKpiRatio}
+              text={incomeFlowKpi}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />

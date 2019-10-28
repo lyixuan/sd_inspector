@@ -38,13 +38,13 @@ class Compare extends React.Component {
       },
       {
         title: '好推流水',
-        dataIndex: 'goodPushFlowKpiRatio',
-        key: 'goodPushFlowKpiRatio',
-        render: (goodPushFlowKpiRatio, record) => {
-          const percent = goodPushFlowKpiRatio * 100 + '%';
+        dataIndex: 'goodPushFlowKpi',
+        key: 'goodPushFlowKpi',
+        render: (goodPushFlowKpi, record) => {
+          const percent = record.goodPushFlowKpiRatio * 100 + '%';
           return (
             <BIWrapperProgress
-              text={goodPushFlowKpiRatio}
+              text={goodPushFlowKpi}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />
@@ -58,13 +58,13 @@ class Compare extends React.Component {
       },
       {
         title: '续报流水',
-        dataIndex: 'repeatSignFlowKpiRatio',
-        key: 'repeatSignFlowKpiRatio',
-        render: (repeatSignFlowKpiRatio, record) => {
-          const percent = (repeatSignFlowKpiRatio / 500) * 100 + '%';
+        dataIndex: 'repeatSignFlowKpi',
+        key: 'repeatSignFlowKpi',
+        render: (repeatSignFlowKpi, record) => {
+          const percent = (record.repeatSignFlowKpiRatio / 500) * 100 + '%';
           return (
             <BIWrapperProgress
-              text={repeatSignFlowKpiRatio}
+              text={repeatSignFlowKpi}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />
@@ -78,13 +78,13 @@ class Compare extends React.Component {
       },
       {
         title: '成本套流水',
-        dataIndex: 'adultRegularFlowKpiRatio',
-        key: 'adultRegularFlowKpiRatio',
-        render: (adultRegularFlowKpiRatio, record) => {
-          const percent = adultRegularFlowKpiRatio * 100 + '%';
+        dataIndex: 'adultRegularFlowKpi',
+        key: 'adultRegularFlowKpi',
+        render: (adultRegularFlowKpi, record) => {
+          const percent = record.adultRegularFlowKpiRatio * 100 + '%';
           return (
             <BIWrapperProgress
-              text={adultRegularFlowKpiRatio}
+              text={adultRegularFlowKpi}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />
@@ -93,13 +93,13 @@ class Compare extends React.Component {
       },
       {
         title: '创收总流水',
-        dataIndex: 'incomeTotalKpiRatio',
-        key: 'incomeTotalKpiRatio',
-        render: (incomeTotalKpiRatio, record) => {
-          const percent = incomeTotalKpiRatio * 100 + '%';
+        dataIndex: 'incomeTotalKpi',
+        key: 'incomeTotalKpi',
+        render: (incomeTotalKpi, record) => {
+          const percent = record.incomeTotalKpiRatio * 100 + '%';
           return (
             <BIWrapperProgress
-              text={incomeTotalKpiRatio}
+              text={incomeTotalKpi}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />
