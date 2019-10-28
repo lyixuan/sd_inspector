@@ -6,10 +6,11 @@ import Top from './block/top';
 
 class IncomeCompare extends React.Component {
   render() {
+    const { date } = this.props.date;
     return (
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Income />
-        <Top />
+        <Top date={date} />
       </div>
     );
   }

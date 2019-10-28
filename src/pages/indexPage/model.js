@@ -37,6 +37,8 @@ import {
   getNpsAutonomousEvaluation,
   compareCollegeList,
   getCurrentDateRange,
+  getHotList,
+  packageRankList,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -74,6 +76,17 @@ export default {
   },
 
   effects: {
+    // 热销产品包列表
+    *getPackageRankList({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(packageRankList, params);
+      if (result.code === 20000) {
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
     // 获取绩效周期
     *getCurrentDateRange({ payload, callback }, { call, put }) {
       const params = payload.params;
@@ -85,7 +98,7 @@ export default {
             getCurrentDateRangeData: result.data,
           },
         });
-       return result.data;
+        return result.data;
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -101,6 +114,15 @@ export default {
             compareCollegeListData: result.data,
           },
         });
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 获取热销榜单列表
+    *getHotList({ payload, callback }, { call, put }) {
+      const result = yield call(getHotList);
+      if (result.code === 20000) {
         return result.data;
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));

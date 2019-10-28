@@ -173,4 +173,16 @@ export async function getCurrentDateRange(params) {
   return request('/deskperfpcapi/incomeKpiCommon/getCurrentDateRange',{method:'get', params})
 }
 
+// 获取热销榜单列表
+export async function getHotList() {
+  return request('/orgMap/getAllCollegeList',{method:'get'})
+}
+
+// 热销产品包列表
+export async function packageRankList(data) {
+  return request('/adminWorkbench/hotSellPackage/packageRankList',{method:'POST',data: data})
+}
+
+
+
 

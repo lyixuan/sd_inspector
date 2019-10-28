@@ -59,7 +59,7 @@ class ManagementBench extends React.Component {
     return (
       <div className={styles.workbench}>
         <Header date={date}/>
-        <IncomeCompare />
+        <IncomeCompare  date={date}/>
         <ScoreContrast ref="one" />
         <div className={styles.qualityAppel} ref="four">
           <IMPartLeft />

@@ -61,15 +61,41 @@ class Top extends React.Component {
           Unanswered: 500,
         },
       ],
+      typeList: null,
+      orgValue: undefined,
+      dataSource:[],
     };
+  }
+
+  componentDidMount() {
+    this.getData();
+    this.props
+      .dispatch({
+        type: 'xdWorkModal/getHotList',
+      })
+      .then(res => {
+        this.setState({ typeList: res });
+      });
+  }
+
+  getData(collegeId) {
+    const { date } = this.props;
+    this.props
+      .dispatch({
+        type: 'xdWorkModal/getPackageRankList',
+        payload: { params: { beginDate: '2019-08-09', endDate: '2019-10-10', collegeId } },
+      })
+      .then(res => {
+        this.setState({ dataSource: res });
+      });
   }
 
   columns = () => {
     const columns = [
       {
         title: '排名',
-        dataIndex: 'collegeName',
-        key: 'collegeName',
+        dataIndex: 'index',
+        key: 'index',
         render: (text, record) => {
           let className = '';
           let rank = 1;
@@ -119,6 +145,14 @@ class Top extends React.Component {
     ];
     return columns || [];
   };
+
+  onFormChange = val => {
+    this.getData(val);
+    this.setState({
+      orgValue: val,
+    });
+  };
+
   render() {
     const familyScoreList = [
       {
@@ -392,29 +426,29 @@ class Top extends React.Component {
         myFamily: false,
       },
     ];
+    const { typeList, orgValue, dataSource } = this.state;
     return (
       <div className={styles.topCon}>
         <div className={styles.title}>
           <span>热销产品包榜单</span>
-          <div>
+          <div v-if="typeList">
             <BISelect
               style={{ width: 136, marginLeft: 12 }}
               placeholder="请选择"
-              //   value={orgValue}
-              value={1}
+              value={orgValue}
               onChange={val => this.onFormChange(val)}
             >
-              <Option key={1}>1</Option>
-              {/* {collegeList.map((item, index) => (
-                <Option key={item.collegeId}>{item.collegeName}</Option>
-              ))} */}
+              {typeList &&
+                typeList.map((item, index) => (
+                  <Option key={item.collegeId}>{item.collegeName}</Option>
+                ))}
             </BISelect>
           </div>
         </div>
         <div className={styles.tableContainer}>
           <BIWrapperTable
             columns={this.columns()}
-            dataSource={familyScoreList}
+            dataSource={dataSource}
             pagination={false}
             loading={this.props.loading}
             onRow={this.onClickRow}
