@@ -8,10 +8,10 @@ import styles from './style.less';
 
 const { BI = {} } = window;
 const { Option } = BISelect;
-@connect(({ xdWorkModal, loading }) => ({
-  xdWorkModal,
-  studentsOptions: xdWorkModal.kpiLevelList || [],
-  loading: loading.effects['xdWorkModal/kpiLevelList'],
+@connect(({ xdClsssModal, loading }) => ({
+  xdClsssModal,
+  studentsOptions: xdClsssModal.kpiLevelList || [],
+  loading: loading.effects['xdClsssModal/kpiLevelList'],
 }))
 class currentCreditRight extends React.Component {
   constructor(props) {
@@ -65,7 +65,7 @@ class currentCreditRight extends React.Component {
   //获取人均在服学员的下来数据方法
   getKpiLevelList = () => {
     this.props.dispatch({
-      type: 'xdWorkModal/kpiLevelList',
+      type: 'xdClsssModal/kpiLevelList',
       payload: { params: {} },
     });
   }
@@ -73,7 +73,7 @@ class currentCreditRight extends React.Component {
   getGroupList = () => {
     const paramsItem = this.state.orgValue === 1 ? 'groupType' : 'kpiLevelId';
     this.props.dispatch({
-      type: 'xdWorkModal/groupList',
+      type: 'xdClsssModal/groupList',
       payload: { params: { [paramsItem]:  this.state.studentValue} },
       callback: (groupList) => {
         this.setState({ groupList })
@@ -150,7 +150,7 @@ class currentCreditRight extends React.Component {
     let taClassName = ""
     if (record.isMyGroup) {
       this.state.userMsg = record;
-      this.state.userLocation = 40 * (index + 1) - this.props.getNumValue(560);
+      this.state.userLocation = 40 * (index + 1) - this.props.getNumValue(580);
       taClassName = "rowHover";
     }
     if (this.getIncludes(record.groupId)) {

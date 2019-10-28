@@ -9,7 +9,7 @@ import BILoading from '@/components/BILoading'
 const params = JSON.stringify({ qualityType: '2' });
 const levelObj = ['', '特级违规', '一级违规', '二级违规', '三级违规'];
 @connect(({ loading }) => ({
-  loading: loading.effects['xdWorkModal/getCountCurrentQuality'],
+  loading: loading.effects['xdClsssModal/getCountCurrentQuality'],
 }))
 class Quality extends React.Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class Quality extends React.Component {
   }
   componentDidMount() {
     this.props.dispatch({
-      type: 'xdWorkModal/getCountCurrentQuality',
+      type: 'xdClsssModal/getCountCurrentQuality',
       payload: { params: { id: this.props.userId } },
       callback: (dataSource) => this.setState({ dataSource }),
     });

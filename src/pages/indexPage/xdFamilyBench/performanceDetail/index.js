@@ -8,18 +8,11 @@ import styles from './index.less';
 import { connect } from 'dva';
 import BILoading from '@/components/BILoading'
 
-@connect(({ xdWorkModal,loading }) => ({
-  xdWorkModal,
-  loading: loading.effects['xdWorkModal/familyAchievement'],
+@connect(({ xdFamilyModal,loading }) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/familyAchievement'],
 }))
 class performanceDetail extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      // chargeCount: {},
-      // kpiInfo: {}
-    }
-  }
   componentDidMount() {
     this.getApiInfo();
   }
@@ -30,10 +23,10 @@ class performanceDetail extends React.Component {
     const admin_user = localStorage.getItem('admin_user');
     const userId = JSON.parse(admin_user) ? JSON.parse(admin_user).userId : null;
     this.props.dispatch({
-      type: 'xdWorkModal/familyAchievement',
+      type: 'xdFamilyModal/familyAchievement',
       payload: { params: { id: userId } },
     }).then(() => {
-      const { chargeCount, familyKpiInfo } = this.props.xdWorkModal;
+      const { chargeCount, familyKpiInfo } = this.props.xdFamilyModal;
       this.drawChart(familyKpiInfo, chargeCount)
     });
   }
@@ -105,7 +98,7 @@ class performanceDetail extends React.Component {
   }
 
   render() {
-    const { chargeCount, familyKpiInfo } = this.props.xdWorkModal;
+    const { chargeCount, familyKpiInfo } = this.props.xdFamilyModal;
     const { kpiStartDate = '', kpiEndDate = '' } = familyKpiInfo;
     const date1 = kpiStartDate ? moment(kpiStartDate).format('YYYY.MM.DD') : '';
     const date2 = kpiEndDate ? moment(kpiEndDate).format('YYYY.MM.DD') : '';

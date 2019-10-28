@@ -12,10 +12,10 @@ import BISelect from '@/ant_components/BISelect'
 import { message } from 'antd';
 const { Option } = BISelect;
 
-@connect(({ xdWorkModal }) => ({
+@connect(({ xdFamilyModal, xdWorkModal }) => ({
   userInfo: xdWorkModal.userInfo,
-  orgListTreeData: xdWorkModal.orgListTreeData,
-  familyIncomeGroup: xdWorkModal.familyIncomeGroup,
+  orgListTreeData: xdFamilyModal.orgListTreeData,
+  familyIncomeGroup: xdFamilyModal.familyIncomeGroup,
 }))
 class FamilyAndGroup extends React.Component {
   constructor(props) {
@@ -49,7 +49,7 @@ class FamilyAndGroup extends React.Component {
   // 小组创收
   getIncomeFamilyGroupPk = (flag) => {
     this.props.dispatch({
-      type: 'xdWorkModal/getIncomeFamilyGroupPk',
+      type: 'xdFamilyModal/getIncomeFamilyGroupPk',
       payload: { params: { pkGroupIds: this.getParamas(),  selfGroupIds: this.state.myGroupValue,groupPkInitFlag:flag} },
       callback: res =>  {
         console.log(56,res)
@@ -92,7 +92,7 @@ class FamilyAndGroup extends React.Component {
   };
   myFamilyGroupList = () =>{
     this.props.dispatch({
-      type:'xdWorkModal/myFamilyGroupList',
+      type:'xdFamilyModal/myFamilyGroupList',
       payload:{params:{}},
       callback:(data)=>{
         this.setState({

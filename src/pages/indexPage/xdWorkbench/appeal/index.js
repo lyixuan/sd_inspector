@@ -17,7 +17,7 @@ const appealTrace = [
   '{"widgetName":"我的申诉-创收卡片","traceName":"小德工作台/我的申诉/创收卡片"}',
 ];
 @connect(({ loading }) => ({
-  loading: loading.effects['xdWorkModal/getCountAppealRecord'],
+  loading: loading.effects['xdClsssModal/getCountAppealRecord'],
 }))
 class appeal extends React.Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class appeal extends React.Component {
   }
   componentDidMount() {
     this.props.dispatch({
-      type: 'xdWorkModal/getCountAppealRecord',
+      type: 'xdClsssModal/getCountAppealRecord',
       payload: { params: { id: this.props.userId } },
       callback: (appealList) => this.setState({ appealList }),
     });

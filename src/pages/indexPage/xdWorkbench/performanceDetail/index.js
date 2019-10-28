@@ -9,7 +9,7 @@ import styles from './index.less';
 import { connect } from 'dva';
 
 @connect(({loading}) => ({
-  loading: loading.effects['xdWorkModal/getKpiInfo'],
+  loading: loading.effects['xdClsssModal/getKpiInfo'],
 }))
 class performanceDetail extends React.Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class performanceDetail extends React.Component {
   };
   getApiInfo() {
     this.props.dispatch({
-      type: 'xdWorkModal/getKpiInfo',
+      type: 'xdClsssModal/getKpiInfo',
       callback: (data) => {
         this.setState({
           kpiInfo: data

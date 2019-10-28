@@ -19,9 +19,9 @@ function CustomExpandIcon(props) {
     <a />
   );
 }
-@connect(({ xdWorkModal, loading }) => ({
-  kpiTimes: xdWorkModal.kpiTimes || {},
-  loading: loading.effects['xdWorkModal/groupPkList'],
+@connect(({ xdClsssModal, loading }) => ({
+  kpiTimes: xdClsssModal.kpiTimes || {},
+  loading: loading.effects['xdClsssModal/groupPkList'],
 }))
 class currentCreditLeft extends React.Component {
   constructor(props) {
@@ -73,7 +73,7 @@ class currentCreditLeft extends React.Component {
           return (
             <>
               {
-                record.flagMark ? <BIFillCell {...record.valuesParams[index]} className={index === 0 && textV ? styles.mineHover : ''}>
+                record.flagMark ? <BIFillCell {...record.valuesParams[index]} className={index === 0 && textV ? styles.mineHover : ''} style={{cursor: 'pointer'}}>
                   {
                     index === 0 && textV ? <Link onClick={this.getDataTrace} target='_black' to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": record.id })}`} >
                       {textV}
@@ -111,7 +111,7 @@ class currentCreditLeft extends React.Component {
   //获取左侧列表数据的方法
   getGroupPkData = (pkGroupList = this.props.pkGroupList) => {
     this.props.dispatch({
-      type: 'xdWorkModal/groupPkList',
+      type: 'xdClsssModal/groupPkList',
       payload: { params: { pkGroupList } },
       callback: res => {
         res.dimensionList = this.fillDataSource(res.dimensionList);

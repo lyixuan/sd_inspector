@@ -7,7 +7,7 @@ import Indent from '../../../components/indent';
 import BILoading from '@/components/BILoading'
 const { Option } = BISelect;
 @connect(({ loading } ) => ({
-  loading: loading.effects['xdWorkModal/getFamilyList'],
+  loading: loading.effects['xdFamilyModal/getFamilyList'],
 }))
 class FamilyIncomeRight extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class FamilyIncomeRight extends React.Component {
   }
   componentDidMount() {
     this.props.dispatch({
-      type: 'xdWorkModal/getIncomeCollegeList',
+      type: 'xdFamilyModal/getIncomeCollegeList',
       callback: orgOptions => {
         this.setState({ orgOptions });
       },
@@ -53,7 +53,7 @@ class FamilyIncomeRight extends React.Component {
   }
   getFamilyList = (collegeId) =>  {
     this.props.dispatch({
-      type: 'xdWorkModal/getFamilyList',
+      type: 'xdFamilyModal/getFamilyList',
       payload: { params: { collegeId } },
       callback: dataSource => {
         this.setState({ dataSource });

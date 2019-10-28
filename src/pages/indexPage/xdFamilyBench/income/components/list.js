@@ -17,7 +17,7 @@ const getPercentFn = (m, d) => {
   return (d ? m/d * 100 : 0) + '%';
 }
 @connect(({ loading }) => ({
-  loading: loading.effects['xdWorkModal/getCurrentIncomeClass'] || loading.effects['xdWorkModal/getCurrentIncomeGroup'],
+  loading: loading.effects['xdFamilyModal/getCurrentIncomeClass'] || loading.effects['xdFamilyModal/getCurrentIncomeGroup'],
 }))
 class ProfitList extends React.Component {
   constructor(props) {
@@ -127,12 +127,12 @@ class ProfitList extends React.Component {
   getData = () => {
     if (this.props.tabKey === '1') { // 小组
       this.props.dispatch({
-        type: 'xdWorkModal/getCurrentIncomeGroup',
+        type: 'xdFamilyModal/getCurrentIncomeGroup',
         callback: familyIncome => this.dispatchCallback(familyIncome)
       });
     } else if (this.props.tabKey === '2') {
       this.props.dispatch({
-        type: 'xdWorkModal/getCurrentIncomeClass',
+        type: 'xdFamilyModal/getCurrentIncomeClass',
         callback: familyIncome => this.dispatchCallback(familyIncome)
       });
     }

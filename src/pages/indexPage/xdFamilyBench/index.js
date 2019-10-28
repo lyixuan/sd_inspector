@@ -11,8 +11,8 @@ import Quality from './quality';
 import Appeal from './appeal';
 import storage from '../../../utils/storage';
 
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+@connect((xdFamilyModal) => ({
+  xdFamilyModal,
 }))
 // Current credits
 class XdFamily extends React.Component {

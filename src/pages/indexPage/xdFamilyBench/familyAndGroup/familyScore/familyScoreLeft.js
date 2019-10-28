@@ -13,10 +13,9 @@ function CustomExpandIcon(props) {
     <a />
   );
 }
-@connect(({xdWorkModal,loading}) => ({
-  xdWorkModal,
-  loading: loading.effects['xdWorkModal/getFamilyScorePk'],
-
+@connect(({xdFamilyModal,loading}) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/getFamilyScorePk'],
 }))
 class FamilyScoreLeft extends React.Component {
   constructor(props) {
@@ -62,7 +61,7 @@ class FamilyScoreLeft extends React.Component {
   }
   columns = () => {
     let maxNumMyScore = ""
-    const {familyScoreList,userInfo} = this.props
+    const {familyScoreList, userInfo} = this.props
     const PkName = familyScoreList.pkGroup.familyName
     const columns = [{
       title: '学分维度',

@@ -11,8 +11,8 @@ import showImg from '@/assets/xdFamily/eye.png';
 import styles from './style.less';
 
 const { BI = {} } = window;
-@connect(({ xdWorkModal, loading }) => ({
-  kpiTimes: xdWorkModal.kpiTimes || {},
+@connect(({ xdClsssModal, loading }) => ({
+  kpiTimes: xdClsssModal.kpiTimes || {},
 }))
 class currentCredit extends React.Component {
   constructor(props) {

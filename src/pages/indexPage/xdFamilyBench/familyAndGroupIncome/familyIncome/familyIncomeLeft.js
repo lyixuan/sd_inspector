@@ -23,7 +23,7 @@ const JudgeNumFn = (n, m = 0, flag) => {
   return
 }
 @connect(({ loading }) => ({
-  loading: loading.effects['xdWorkModal/getIncomeFamilyList'],
+  loading: loading.effects['xdFamilyModal/getIncomeFamilyList'],
 }))
 class FamilyIncomeLeft extends React.Component {
   constructor(props) {
