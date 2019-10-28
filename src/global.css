@@ -178,6 +178,10 @@ body > a {
   color:#ccc;
 }
 
-:global .baseForm .ant-form-item{
+:global .baseForm .ant-form-item {
   margin-bottom: 0;
+}
+:global .userPortary .anticon{
+  font-size:18px;
+  color:#52C9C2;
 }

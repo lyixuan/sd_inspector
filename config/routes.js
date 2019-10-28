@@ -182,7 +182,7 @@ export const routes = [
           {
             path: '/ko/behaviorPath',
             component: './ko/behaviorPath',
-            name: '用户行为轨迹',
+            name: '用户档案',
           },
         ],
       },

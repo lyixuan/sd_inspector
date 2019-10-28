@@ -22,6 +22,9 @@ export const STATIC_HOST = {
   development2: 'http://172.16.109.99:29180',
 }[process.env.ENV_TYPE];
 
+// 集团静态文件地址，IM等图片
+export const COMPANY_IMG_HOST = 'http://static.sunlands.com';
+
 export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
   localhost: 'http://test.xd.admin.ministudy.com',

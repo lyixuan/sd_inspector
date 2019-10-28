@@ -29,7 +29,6 @@ class stepInput extends Component {
   }
   // input双向绑定
   handelChange(e) {
-    console.log(16, e.target.value)
     return;
     const { getNums, callBackParent } = this.props;
     if (getNums) {
