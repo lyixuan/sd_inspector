@@ -26,23 +26,23 @@ class ManagementBench extends React.Component {
     };
   }
   componentDidMount() {
-    // this.props
-    //   .dispatch({
-    //     type: 'xdManagementBench/getCurrentDateRange',
-    //     payload: { params: { userType: 'family' } },
-    //   })
-    //   .then(res => {
-    //     this.setState({
-    //       date: {
-    //         startDate: res.startDate,
-    //         endDate: res.endDate,
-    //         kpiMonth: res.kpiMonth,
-    //       },
-    //     });
-    //   }).then(res=>{
-    //     this.getReasonListData()
-    // });
-    this.getReasonListData()
+    this.props
+      .dispatch({
+        type: 'xdManagementBench/getCurrentDateRange',
+        payload: { params: { userType: 'family' } },
+      })
+      .then(res => {
+        this.setState({
+          date: {
+            startDate: res.startDate,
+            endDate: res.endDate,
+            kpiMonth: res.kpiMonth,
+          },
+        });
+      }).then(res=>{
+        this.getReasonListData()
+    });
+    // this.getReasonListData()
   }
 
   componentDidUpdate() {
