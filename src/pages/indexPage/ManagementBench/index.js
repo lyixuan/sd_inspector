@@ -11,7 +11,7 @@ import IMPartRight from './IMPartRight';
 import NPSEvaluate from './NPSEvaluate';
 @connect(({ xdManagementBench, xdWorkModal }) => ({
   xdManagementBench,
-  userInfo: xdWorkModal.userInfo
+  userInfo: xdWorkModal.userInfo,
 }))
 class ManagementBench extends React.Component {
   constructor(props) {
@@ -24,6 +24,22 @@ class ManagementBench extends React.Component {
         endDate: null,
       },
     };
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log(nextState, 'nextProps.date');
+  //   if (nextProps.xdManagementBench.getCurrentDateRangeData.startDate) {
+  //     return true;
+  //   }
+  // }
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps, 'nextPropsnextProps');
+    if (
+      nextProps.xdManagementBench.getCurrentDateRangeData &&
+      nextProps.xdManagementBench.getCurrentDateRangeData.startDate !== this.state.date.startDate
+    ) {
+      this.setState({ date: nextProps.xdManagementBench.getCurrentDateRangeData });
+    }
   }
   componentDidMount() {
     this.props
@@ -39,14 +55,14 @@ class ManagementBench extends React.Component {
             kpiMonth: res.kpiMonth,
           },
         });
-      }).then(res=>{
-        this.getReasonListData()
-    });
+      })
+      .then(res => {
+        this.getReasonListData();
+      });
     // this.getReasonListData()
   }
 
   componentDidUpdate() {
-    console.log('componentDidUpdate')
     if (this.props.location) {
       const anchor = this.props.location.hash.replace('#', '');
       if (anchor) {
@@ -58,7 +74,7 @@ class ManagementBench extends React.Component {
     }
   }
   getReasonListData() {
-    console.log("userInfo77777",this.props.userInfo)
+    console.log('userInfo77777', this.props.userInfo);
     // const params = {
     //   startTime: "2019-09-01",//this.state.startTime,
     //   endTime:"2019-09-26" ,//this.state.endTime,
@@ -77,9 +93,9 @@ class ManagementBench extends React.Component {
     const { date } = this.state;
     return (
       <div className={styles.workbench}>
-        <Header date={date} />
-        <IncomeCompare date={date} />
-        <ScoreContrast ref="one"  />
+        {date.startDate && <Header date={date} />}
+        {date.startDate && <IncomeCompare date={date} />}
+        <ScoreContrast ref="one" />
         <div className={styles.qualityAppel} ref="four">
           <IMPartLeft />
           <IMPartRight />

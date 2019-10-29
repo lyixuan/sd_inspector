@@ -11,6 +11,8 @@ import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
+import moment from 'moment';
+
 function CustomExpandIcon(props) {
   return <a />;
 }
@@ -83,7 +85,13 @@ class Top extends React.Component {
     this.props
       .dispatch({
         type: 'xdManagementBench/getPackageRankList',
-        payload: { params: { beginDate: '2019-08-09', endDate: '2019-10-10', collegeId } },
+        payload: {
+          params: {
+            beginDate: moment(date.startDate).format('YYYY-MM-DD'),
+            endDate: moment(date.endDate).format('YYYY-MM-DD'),
+            collegeId
+          },
+        },
       })
       .then(res => {
         this.setState({ dataSource: res });

@@ -18,10 +18,16 @@ class Compare extends React.Component {
   }
 
   componentDidMount() {
+    const { date } = this.props;
     this.props
       .dispatch({
         type: 'xdManagementBench/getCompareCollegeList',
-        payload: { params: { beginDate: '2019-08-09', endDate: '2019-09-10' } },
+        payload: {
+          params: {
+            beginDate: moment(date.startDate).format('YYYY-MM-DD'),
+            endDate: moment(date.endDate).format('YYYY-MM-DD'),
+          },
+        },
       })
       .then(res => {
         this.setState({ dataSource: res });

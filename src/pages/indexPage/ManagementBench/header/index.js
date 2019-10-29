@@ -66,10 +66,16 @@ class Header extends React.Component {
 
   //指标
   getAllList() {
+    const { date } = this.props;
     this.props
       .dispatch({
         type: 'xdManagementBench/getCountByDate',
-        payload: { params: { beginDate: '2019-08-09', endDate: '2019-10-10' } },
+        payload: {
+          params: {
+            beginDate: moment(date.startDate).format('YYYY-MM-DD'),
+            endDate: moment(date.endDate).format('YYYY-MM-DD'),
+          },
+        },
       })
       .then(res => {
         this.setState({ allList: res });
