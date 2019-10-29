@@ -32,13 +32,12 @@ class IndexPage extends Component {
               }); //前端角色是家族长（family）角色 且 权限中勾选了 学分绩效 或 创收绩效 的用户显示页面
             }
 
-    }else if ((userType === 'college'||userType === 'boss') ) {//&& userInfo.privilegeView && userInfo.moreView
-      // return <ManagementBench {...this.props} /> //前端角色是家族长（family）角色 且 权限中勾选了 学分绩效 或 创收绩效 的用户显示页面
+    } else if ((userType === 'college'||userType === 'boss') ) {//&& userInfo.privilegeView && userInfo.moreView
           if (this.props.history.location.pathname !== '/indexPage/managementBench') {
-          this.props.history.push({
-          pathname: '/indexPage/managementBench',
-        }); //前端角色是家族长（family）角色 且 权限中勾选了 学分绩效 或 创收绩效 的用户显示页面
-        }
+              this.props.history.push({
+                pathname: '/indexPage/managementBench',
+              }); //前端角色是家族长（college）角色 且 权限中勾选了 学分绩效 或 创收绩效 的用户显示页面
+          }
 
     } else {
       return <div className={styles.container}>

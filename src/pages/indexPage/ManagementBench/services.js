@@ -53,4 +53,7 @@ export async function queryAppealDataPage(data) {
 export async function getFamilyType(params) {
   return request('/orgMap/getFamilyType',{method:'get',params})
 }
-
+// IM不满意会话-原因列表
+export async function reasonList(data) {
+  return request('/deskperfpcapi/im/reasonList', { method: 'post', data });
+}

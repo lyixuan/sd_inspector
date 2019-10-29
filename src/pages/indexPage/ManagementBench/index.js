@@ -9,8 +9,9 @@ import ReactDOM from 'react-dom';
 import IMPartLeft from './IMPartLeft';
 import IMPartRight from './IMPartRight';
 import NPSEvaluate from './NPSEvaluate';
-@connect(xdManagementBench => ({
+@connect(({ xdManagementBench, xdWorkModal }) => ({
   xdManagementBench,
+  userInfo: xdWorkModal.userInfo
 }))
 class ManagementBench extends React.Component {
   constructor(props) {
@@ -24,25 +25,32 @@ class ManagementBench extends React.Component {
       },
     };
   }
-
   componentDidMount() {
-    this.props
-      .dispatch({
-        type: 'xdManagementBench/getCurrentDateRange',
-        payload: { params: { userType: 'family' } },
-      })
-      .then(res => {
-        this.setState({
-          date: {
-            startDate: res.startDate,
-            endDate: res.endDate,
-            kpiMonth: res.kpiMonth,
-          },
-        });
-      });
+    console.log('userInfo')
   }
+  // componentDidMount() {
+  //   console.log('userInfo')
+  //   // this.props
+  //   //   .dispatch({
+  //   //     type: 'xdManagementBench/getCurrentDateRange',
+  //   //     payload: { params: { userType: 'family' } },
+  //   //   })
+  //   //   .then(res => {
+  //   //     this.setState({
+  //   //       date: {
+  //   //         startDate: res.startDate,
+  //   //         endDate: res.endDate,
+  //   //         kpiMonth: res.kpiMonth,
+  //   //       },
+  //   //     });
+  //   //   }).then(res=>{
+  //   //     this.getReasonListData()
+  //   // });
+  //   this.getReasonListData()
+  // }
 
   componentDidUpdate() {
+    console.log('componentDidUpdate')
     if (this.props.location) {
       const anchor = this.props.location.hash.replace('#', '');
       if (anchor) {
@@ -53,7 +61,22 @@ class ManagementBench extends React.Component {
       }
     }
   }
-
+  getReasonListData() {
+    console.log("userInfo",this.props.xdWorkModal.userInfo)
+    const params = {
+      startTime: "2019-09-01",//this.state.startTime,
+      endTime:"2019-09-26" ,//this.state.endTime,
+      familyType: this.state.allUserInfo.familyType,
+      groupType: this.getGroupMsg().groupType || 'group',
+      orgId: this.getGroupMsg().groupId || this.state.allUserInfo.groupId,
+      reasonTypeId: this.state.reasonTypeId
+    }
+    this.props.dispatch({
+      type: 'xdCreditModal/reasonList',
+      payload: { params }
+    });
+    // this.getImDetail();
+  }
   render() {
     const { date } = this.state;
     return (

@@ -12,7 +12,8 @@ import {
   getOrgMapTree,
   getImReverseSideData,
   queryAppealDataPage,
-  getFamilyType
+  getFamilyType,
+  reasonList
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF ,thousandsFormat} from '@/utils/utils';
@@ -24,7 +25,8 @@ export default {
     npsParams: {}, //nps部分的数据
     compareCollegeListData: [],
     getCurrentDateRangeData: null,
-    orgList:[]
+    orgList:[],
+
   },
   effects: {
     //  管理层工作台的接口
@@ -168,6 +170,15 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+  },
+  *reasonList({ payload }, { call, put }) {
+    const params = payload.params;
+    const result = yield call(reasonList, params);
+    if (result.code === 20000) {
+      yield put({ type: 'saveTable', payload: { imDetailData: result.data } });
+    } else if (result) {
+      message.error(msgF(result.msg, result.msgDetail));
+    }
   },
 
   reducers: {
