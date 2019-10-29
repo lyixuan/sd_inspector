@@ -46,7 +46,7 @@ class ProfitList extends React.Component {
     }
   }
   columns = () => {
-    const total = this.state.profitList && this.state.profitList[0] ? this.state.profitList[0].incomeKpi : 0
+    const total = this.state.profitList && this.state.profitList[0] ? this.state.profitList[0].totalKpi : 0
     const columns = [
       {
         width: '16%',
@@ -61,11 +61,11 @@ class ProfitList extends React.Component {
         key: 'orgName',
       }, {
         width: '20%',
-        title: '班主任',
+        title: '老师姓名',
         dataIndex: 'personName',
         key: 'personName',
       }, {
-        title: '绩效收入',
+        title: '绩效收入（元）',
         dataIndex: 'totalKpi',
         key: 'totalKpi',
         render: (text, record) => {
