@@ -7,7 +7,6 @@ import Debounce from 'lodash-decorators/debounce';
 import styles from './style.less';
 
 const totalLength = 9999;
-console.log(10, this)
 class BIClassifyTable extends React.Component {
   constructor(props) {
     super();
