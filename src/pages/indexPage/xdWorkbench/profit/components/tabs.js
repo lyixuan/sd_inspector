@@ -12,6 +12,7 @@ import gradeS from '@/assets/workBench/s.png';
 import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
+import xdPkImg from '@/assets/workBench/xdpk.gif';
 import { thousandsFormat } from '@/utils/utils';
 import styles from '../style.less';
 
@@ -63,6 +64,8 @@ class ProfitTbas extends React.Component {
   columns = () => {
     const { maxValue } = this.state.profitData;
     const columns = [ {
+        width: 300,
+        fixed: 'left',
         title: 'PK 对象',
         dataIndex: 'personId',
         key: 'personId',
@@ -83,86 +86,104 @@ class ProfitTbas extends React.Component {
           )
         }
       }, {
+        width: 140,
         title: '排名',
         dataIndex: 'sort',
         key: 'sort',
         render: (text, record) => this.getColumn(record, <BITextAlign textalign='center'>{text > 3 ? text : <img src={gradeImg[text]} alt='' style={{ width: '20px'}}/>}</BITextAlign>)
       }, {
+        width: 140,
         title: '创收绩效',
         dataIndex: 'totalKpi',
         key: 'totalKpi',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.totalKpi)} style={{marginLeft: '-8px'}}/>)
       }, {
+        width: 140,
         title: '创收绩效流水',
         dataIndex: 'totalFinanceNetFlow',
         key: 'totalFinanceNetFlow',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.totalFinanceNetFlow)} style={{marginLeft: '-8px'}}/>)
       }, {
+        width: 140,
         title: '创收总单量',
         dataIndex: 'totalOrderCount',
         key: 'totalOrderCount',
         render: (text, record) => this.getColumn(record, <BITextAlign>{text}</BITextAlign>)
       }, {
+        width: 140,
         className: styles.rowBg2,
         title: '好推绩效',
         dataIndex: 'goodpushKpi',
         key: 'goodpushKpi',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushKpi)} style={{marginLeft: '-8px'}}/>)
       }, {
+        width: 140,
         className: styles.rowBg2,
         title: '好推绩效流水',
         dataIndex: 'goodpushFinanceNetFlow',
         key: 'goodpushFinanceNetFlow',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushFinanceNetFlow)} style={{marginLeft: '-8px'}}/>)
       }, {
+        width: 140,
         className: styles.rowBg2,
         title: '好推绩效均值',
         dataIndex: 'goodpushValueAvg',
         key: 'goodpushValueAvg',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushValueAvg)} style={{marginLeft: '-8px'}}/>)
       }, {
+        width: 140,
         className: styles.rowBg2,
         title: '好推单量',
         dataIndex: 'goodpushOrderCount',
         key: 'goodpushOrderCount',
         render: (text, record) => this.getColumn(record, <BITextAlign>{text}</BITextAlign>)
       }, {
+        width: 140,
         className: styles.rowBg3,
         title: '续报绩效',
         dataIndex: 'renewalKpi',
         key: 'renewalKpi',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalKpi)} style={{marginLeft: '-8px'}}/>)
       }, {
+        width: 140,
         className: styles.rowBg3,
         title: '续报绩效流水',
         dataIndex: 'renewalFinanceNetFlow',
         key: 'renewalFinanceNetFlow',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalFinanceNetFlow)} style={{marginLeft: '-8px'}}/>)
       }, {
+        width: 140,
         className: styles.rowBg3,
         title: '续报单量',
         dataIndex: 'renewalOrderCount',
         key: 'renewalOrderCount',
         render: (text, record) => this.getColumn(record, <BITextAlign>{text}</BITextAlign>)
       }, {
+        width: 140,
         className: styles.rowBg4,
         title: '成考绩效',
         dataIndex: 'examZbtKpi',
         key: 'examZbtKpi',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtKpi)} style={{marginLeft: '-8px'}}/>)
       }, {
+        width: 140,
         className: styles.rowBg4,
         title: '成考绩效流水',
         dataIndex: 'examZbtFinanceNetFlow',
         key: 'examZbtFinanceNetFlow',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtFinanceNetFlow)} style={{marginLeft: '-8px'}}/>)
       }, {
+        width: 140,
         className: styles.rowBg4,
         title: '成考单量',
         dataIndex: 'examZbtOrderCount',
         key: 'examZbtOrderCount',
         render: (text, record) => this.getColumn(record, <BITextAlign>{text}</BITextAlign>)
-      }
+      }, 
+      // {
+      //   title: '',
+      //   dataIndex: 'empty',
+      // }
     ];
     return columns || [];
   };
@@ -195,6 +216,7 @@ class ProfitTbas extends React.Component {
     }
   }
   render() {
+    const { pkUsers } = this.props;
     return (
       <div className={styles.profitTabs}>
         <BIWrapperTable
@@ -206,7 +228,11 @@ class ProfitTbas extends React.Component {
           onRow={this.onClickRow}
           rowClassName={this.getRowClassName}
           bordered={true}
+          scroll={{ x: 2260 }}
         />
+        {
+          pkUsers && pkUsers.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt=''/></div>
+        }
       </div>
     );
   }
