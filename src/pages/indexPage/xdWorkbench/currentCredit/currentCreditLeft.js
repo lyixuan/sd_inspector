@@ -77,7 +77,7 @@ class currentCreditLeft extends React.Component {
                   {
                     index === 0 && textV ? <Link onClick={() => this.getDataTrace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": record.id })}`} >
                       {textV}
-                      <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span>
+                      <span style={{ marginLeft: '2px'}}>{'>'}</span>
                     </Link> 
                     : <>{textV}<span style={{marginLeft: '8px'}}></span></>
                   }
@@ -147,7 +147,7 @@ class currentCreditLeft extends React.Component {
       item.level = n;
       item.flagMark = item.dimensionName === '学分均分' ? 3 : flagMark; // 1 正面均分  2 负面均分 3学分均分 其它
       if (item.values) {// 处理颜色对比
-        if (item.flagMark === 1 || item.flagMark === 3) {
+        if (item.flagMark === 1 || item.flagMark === 3 || item.dimensionName === '退挽' || item.dimensionName === '随堂考') {
           item.valuesParams = BIContrastCell.colorContrast({ nums: item.values });
         } else if (item.flagMark === 2) {
           item.valuesParams = BIContrastCell.colorContrast({ nums: item.values, colors: colorsArr, isReversed: true });
@@ -190,7 +190,7 @@ class currentCreditLeft extends React.Component {
             />
           }
           {
-            pkGroupList && pkGroupList.length < 4 ? <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} /></div> : ''
+            pkGroupList && pkGroupList.length >=1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt=''/></div>
           }
       </div>}
       </div>
