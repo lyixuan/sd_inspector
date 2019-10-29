@@ -5,6 +5,11 @@ import storage from './storage';
 export function redirectToLogin() {
   storage.removeItem('admin_user');
   storage.removeItem('admin_auth');
+  storage.removeItem('pkListType');
+  storage.removeItem('hasDataCredit');
+  storage.removeItem('creditSearchParams');
+  storage.removeItem('pkUsers');
+  storage.removeItem('pkGroupList');
   const { origin } = window.location;
   const serverUrl = `${CAS_HOST}/tologin`;
   window.location.href = `${serverUrl}?originPage=${origin}`;
@@ -13,6 +18,11 @@ export function redirectToLogin() {
 export function casLogout() {
   storage.removeItem('admin_user');
   storage.removeItem('admin_auth');
+  storage.removeItem('pkListType');
+  storage.removeItem('hasDataCredit');
+  storage.removeItem('creditSearchParams');
+  storage.removeItem('pkUsers');
+  storage.removeItem('pkGroupList');
   const { origin } = window.location;
   const logoutUrl = `${CAS_HOST}/apis/caslogout?`;
   const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${origin}`;

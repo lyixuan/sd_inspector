@@ -198,9 +198,9 @@ class FamilyScoreRight extends React.Component {
             />
           </div>}
           <div id="scrollScore" >
-            {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
+            {this.props.loading ? <BILoading isLoading={this.props.loading} /> : <BITable
               columns={this.columnsRight()}
-              dataSource={dataSource}
+              dataSource={dataSource || []}
               pagination={false}
               loading={this.props.loading}
               rowClassName={this.setRowClassName}
