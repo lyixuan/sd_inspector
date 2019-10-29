@@ -68,18 +68,20 @@ class Header extends React.Component {
 
   // 院长不显示nps差评率
   getUlList() {
-    const { countList, val } = this.state;
+    const { countList, val, allList } = this.state;
+    console.log(countList, allList, 'countList');
     return (
       <ul className={styles.list}>
         <li>
           <a href="#one">
             <img src={workImg1} alt="icon" />
           </a>
-          {countList.familyTypeFlag && <span className={styles.changeType} onClick={() => this.changeType()}>
-            {val}
-            <img src={workArrow} className={styles.arrow} />
-          </span>
-          }
+          {countList.familyTypeFlag && (
+            <span className={styles.changeType} onClick={() => this.changeType()}>
+              {val}
+              <img src={workArrow} className={styles.arrow} />
+            </span>
+          )}
           <span className={styles.num}>{countList.value}</span>
           <p className={styles.bottom}>
             <span>学分均分</span>
