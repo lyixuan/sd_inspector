@@ -55,21 +55,21 @@ class NPSLeft extends React.Component {
     // const { dataSource} = this.state;
     const {NPSleftParams} = this.props
     const dataSource = NPSleftParams && NPSleftParams.npsStarOpinionDtoListMap && NPSleftParams.npsStarOpinionDtoListMap.data.length>0 && NPSleftParams.npsStarOpinionDtoListMap.data
-    console.log("NPSleftParams",NPSleftParams)
     return (
       <div className={styles.NPALeftMain} style={{width: 'calc(100% - 350px)'}}>
       <div>
         {NPSleftParams && NPSleftParams.reasonTypeDtoList && NPSleftParams.reasonTypeDtoList.map((item,index)=><ColorBlock data={{...item}} key={index} className={`colorStyle${index}`}/>)}
       </div>
         {
-          this.props.loading?<BILoading/>: <BIWrapperTable  columns={this.columnsRight()}
-                                                            dataSource={dataSource}
-                                                            pagination={false}
-                                                            loading={this.props.loading}
-                                                            onRow={this.onClickRow}
-                                                            rowKey={record => record.id}
-                                                            style={{marginTop:'10px'}}
-                                                            scroll={{ y: 288 }}
+          this.props.loading?<BILoading isLoading={this.props.loading}/>
+            : <BIWrapperTable  columns={this.columnsRight()}
+                  dataSource={dataSource}
+                  pagination={false}
+                  loading={this.props.loading}
+                  onRow={this.onClickRow}
+                  rowKey={record => record.id}
+                  style={{marginTop:'10px',height:'336px'}}
+                  scroll={{ y: 288 }}
           />
         }
       </div>

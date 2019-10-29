@@ -29,7 +29,7 @@ class Dimension extends React.Component {
 
         }
       }, {
-        width: '80px',
+        width: 80,
         title: '我的',
         dataIndex: 'score',
         key: 'score',
@@ -38,7 +38,7 @@ class Dimension extends React.Component {
           return <div>{text}</div>
         }
       }, {
-        width: '80px',
+        width: 80,
         title: '环比(%)',
         dataIndex: 'scoreRatio',
         className: 'txRight',
@@ -53,16 +53,16 @@ class Dimension extends React.Component {
           )
         }
       }, {
-        width: '95px',
+        width: 95,
         title: '数量',
         dataIndex: 'num',
         className: 'txRight',
         key: 'num',
         render: (text, record) => <div style={{ whiteSpace: 'nowrap' }}>
-          {record.level === 4 && <>
+          {record.level === 4 && <div style={{ cursor: text ? 'pointer' : '' }}>
             {text > 99999 ? 99999 + '+' : text}{record.unit}
             {text ? <span className={styles.greenColor} style={{ marginLeft: '5px' }}>></span> : ''}
-          </>}
+          </div>}
         </div>
       }
     ];

@@ -51,11 +51,12 @@ class ScoreContrast extends React.Component {
         contrasts:"1",
         familyType:"0",
         dimensionId:"",
-        collegeId:103,
-        startTime:"2019-10-01",
-        endTime:"2019-10-01",
+        collegeId:null,
+        startTime:"2019-09-25",
+        endTime:"2019-09-30"
       },
-      query: { }
+      query: { },
+      orgId:0
     }
   }
   componentDidMount() {
@@ -75,10 +76,11 @@ class ScoreContrast extends React.Component {
   changeTab = (obj) => {
     const { queryParams } = this.state;
     this.state.query[queryParams.contrasts] = {
-      contrasts: obj.keye,
-      familyType: queryParams.familyType,
+      contrasts: queryParams.contrasts,
+      familyType: this.state.orgId,
       dimensionId: queryParams.dimensionId,
     }
+    console.log(82,this.state.query)
     if (!this.state.query[obj.keye]) {
       this.state.query[obj.keye] = {};
     }
@@ -95,11 +97,9 @@ class ScoreContrast extends React.Component {
       type:'xdManagementBench/queryAppealDataPage',
       payload:{params:params},
       callback:(res) => {
-        console.log("柱状图",res)
         this.setState({
           queryAppealDatas:res
         })
-
       }
     })
   }
@@ -118,7 +118,8 @@ class ScoreContrast extends React.Component {
   }
   onFormChange = (val) =>{
     this.setState({
-      orgValue:val
+      orgValue:val,
+      orgId:val
     })
     this.state.queryParams.familyType = val
     this.queryAppealDataPage()

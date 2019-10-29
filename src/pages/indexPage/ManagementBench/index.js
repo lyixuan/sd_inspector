@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom';
 import IMPartLeft from './IMPartLeft';
 import IMPartRight from './IMPartRight';
 import NPSEvaluate from './NPSEvaluate';
+import moment from 'moment'
 @connect(({ xdManagementBench, xdWorkModal }) => ({
   xdManagementBench,
   userInfo: xdWorkModal.userInfo,
@@ -22,6 +23,7 @@ class ManagementBench extends React.Component {
         startDate: null,
         kpiMonth: null,
         endDate: null,
+        reasonTypeId:0
       },
     };
   }
@@ -33,12 +35,15 @@ class ManagementBench extends React.Component {
   //   }
   // }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps, 'nextPropsnextProps');
+    // console.log(nextProps, 'nextPropsnextProps');
     if (
       nextProps.xdManagementBench.getCurrentDateRangeData &&
       nextProps.xdManagementBench.getCurrentDateRangeData.startDate !== this.state.date.startDate
     ) {
       this.setState({ date: nextProps.xdManagementBench.getCurrentDateRangeData });
+    }
+    if (this.props.userInfo !== nextProps.userInfo) {
+      this.getReasonListData(nextProps.userInfo)
     }
   }
   componentDidMount() {
@@ -75,6 +80,7 @@ class ManagementBench extends React.Component {
   }
   getReasonListData() {
     console.log('userInfo77777', this.props.userInfo);
+  }
     // const params = {
     //   startTime: "2019-09-01",//this.state.startTime,
     //   endTime:"2019-09-26" ,//this.state.endTime,
@@ -87,6 +93,47 @@ class ManagementBench extends React.Component {
     //   type: 'xdCreditModal/reasonList',
     //   payload: { params }
     // });
+  
+  reasonTypeClick = (item) => {
+    this.setState({
+      reasonTypeId: item.typeId
+    }, () => {
+      this.getReasonListData();
+    })
+  }
+  cellClick = (item, record, type) => {
+    console.log()
+    const {date} = this.state
+    let reasonTypeId = this.state.reasonTypeId;
+    if (item) {
+      reasonTypeId = item.typeId
+    } else if (type == 'total' && this.state.reasonTypeId == 0) {
+      reasonTypeId = 0
+    }
+    let params={
+      startTime:moment(date.startDate).format('YYYY-MM-DD'),
+      endTime:moment(date.endDate).format('YYYY-MM-DD'),
+      dimensionId:16,
+      reasonTypeId:reasonTypeId,
+      orgId:record.orgId,
+      orgClick:this.orgClick
+    }
+    window.open(`/inspector/xdCredit/index?p=${JSON.stringify(params)}`);
+  }
+  getReasonListData(userInfo) {
+    const {date} = this.state
+    const params = {
+      startTime: "2019-09-01",//moment(date.startDate).format('YYYY-MM-DD'),
+      endTime:"2019-09-26" ,//moment(date.endDate).format('YYYY-MM-DD'),
+      familyType: 0,
+      groupType: null,
+      orgId: null,
+      reasonTypeId: this.state.reasonTypeId
+    }
+    this.props.dispatch({
+      type: 'xdManagementBench/reasonList',
+      payload: { params }
+    });
     // this.getImDetail();
   }
   render() {

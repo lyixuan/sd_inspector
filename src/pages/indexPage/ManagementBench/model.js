@@ -170,16 +170,18 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+    *reasonList({ payload }, { call, put }) {
+      console.log(1717171771)
+      const params = payload.params;
+      const result = yield call(reasonList, params);
+      if (result.code === 20000) {
+        yield put({ type: 'saveTable', payload: { imDetailData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
   },
-  *reasonList({ payload }, { call, put }) {
-    const params = payload.params;
-    const result = yield call(reasonList, params);
-    if (result.code === 20000) {
-      yield put({ type: 'saveTable', payload: { imDetailData: result.data } });
-    } else if (result) {
-      message.error(msgF(result.msg, result.msgDetail));
-    }
-  },
+
 
   reducers: {
     save(state, { payload }) {

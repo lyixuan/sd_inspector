@@ -2,9 +2,11 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from '../style.less'
 import Echart from '../../scoreContrast/components/echart'
+import BILoading from '@/components/BILoading'
 
-@connect((xdManagementBench) => ({
+@connect(({xdManagementBench,loading}) => ({
   xdManagementBench,
+  loading: loading.effects['xdManagementBench/getNpsAutonomousEvaluation'],
 }))
 class NPSLeft extends React.Component {
   constructor(props) {
@@ -80,7 +82,12 @@ class NPSLeft extends React.Component {
       <div style={{ width: '334px',}} className={styles.NPSRight}>
         <div className={styles.title}>NPS标签词云图</div>
         <div className={styles.cloudChart}>
-          {cloudOptions.length>0 && <Echart options={this.optionsDraw()} style={{height:'337px',width:'334px'}}/>}
+          {
+            this.props.loading?
+              <BILoading isLoading={this.props.loading}/>
+              :
+              (cloudOptions.length>0 && <Echart options={this.optionsDraw()} style={{height:'337px',width:'334px'}}/>)
+          }
         </div>
 
 

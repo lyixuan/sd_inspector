@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
+import BILoading from '@/components/BILoading'
 // import styles from './style'
 import TreeNames from '../components/treeNames'
 import Echart from '../components/Echart'
 import EchartBottom from '../components/echartBottom'
-@connect((xdManagementBench) => ({
+@connect(({xdManagementBench,loading}) => ({
   xdManagementBench,
+  loading:loading.effects['xdManagementBench/queryAppealDataPage'],
 }))
 class CollegeScore extends React.Component {
   constructor(props) {
@@ -19,8 +21,6 @@ class CollegeScore extends React.Component {
   }
 
   drawChart = (arr) =>{
-    console.log(22,arr)
-
     let creaditValue = [];
     let familyName = [];
     let qoqValue = []
@@ -30,8 +30,8 @@ class CollegeScore extends React.Component {
     let maxShadow = []
     arr.map((item,index)=>{
       creaditValue.push(item.creaditValue);
-      familyName.push(item.name);
-      qoqValue.push(item.qoqValue)
+      familyName.push({value:item.name,id:item.id});
+      qoqValue.push(item.qoqValue*100)
     })
     for (let i = 0; i < creaditValue.length; i++) {
       dataShadow.push(yMin);
@@ -138,13 +138,28 @@ class CollegeScore extends React.Component {
   // clickTag = (dimensionId) =>{
   //   this.props.queryAppealDataPage(dimensionId)
   // }
+  clickEvent = (item)=>{
+    console.log(142,item);
+    let params={
+      startTime:"",//moment(date.startDate).format('YYYY-MM-DD'),
+      endTime:"",//moment(date.endDate).format('YYYY-MM-DD'),
+      dimensionId:16,
+      reasonTypeId:0,
+      orgId:item.name
+    }
+    window.open(`/inspector/xdCredit/index?p=${JSON.stringify(params)}`);
+
+  }
   render() {
     const {queryAppealDatas = {}} = this.props.queryAppealDatas.state;
     return (
-      <div>
-        {queryAppealDatas.dimensions && queryAppealDatas.dimensions.length>0 && <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>}
-        {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 && <Echart options={this.drawChart(queryAppealDatas.creaditDataList)} style={{height:"354px"}}/>}
-        <EchartBottom/>
+      <div style={{height:'479px'}}>
+        <BILoading isLoading={this.props.loading}><div>
+          <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>
+          {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 && <Echart options={this.drawChart(queryAppealDatas.creaditDataList)} style={{height:"354px"}} clickEvent={this.clickEvent}/>}
+          <EchartBottom/>
+        </div></BILoading>
+
       </div>
     );
   }

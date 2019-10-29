@@ -3,10 +3,12 @@ import { connect } from 'dva';
 // import styles from './style.less'
 import Container from '@/components/BIContainer/index';
 import BIClassifyTable from '@/components/BIClassifyTable';
+import BILoading from "../../../../components/BILoading/index";
 
 const colors = ['rgba(255, 89, 89, 1)', 'rgba(255, 89, 89, 0.8)', 'rgba(255, 89, 89, .6)', 'rgba(255, 89, 89, .5)', 'rgba(255, 89, 89, .4)', 'rgba(255, 89, 89, .3)']
-@connect((xdManagementBench) => ({
+@connect(({xdManagementBench,loading}) => ({
   xdManagementBench,
+  loading:loading.effects['xdManagementBench/reasonList'],
 }))
 class IMPartLeft extends React.Component {
   constructor(props) {
@@ -36,20 +38,23 @@ class IMPartLeft extends React.Component {
   }
   render() {
     const { imDetailData } = this.props.xdManagementBench;
+    console.log('loading',this.props.loading)
     return (
       <Container title="IM负面原因分析"
                  style={{ width: '60%', marginBottom: '16px' }}>
-        {/*<BIClassifyTable*/}
-          {/*loading={this.props.loading}*/}
-          {/*columns={this.columnsTable()}*/}
-          {/*colors={colors}*/}
-          {/*dataSource={imDetailData}*/}
-          {/*cellWidth={85}*/}
-          {/*style={{ cursor: 'pointer' }}*/}
-          {/*isChecked={false}*/}
-          {/*defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}*/}
-          {/*{...this.props}*/}
-        {/*></BIClassifyTable>*/}
+        {this.props.loading?<BILoading isLoading={this.props.loading}/>:(imDetailData && <BIClassifyTable
+          loading={this.props.loading}
+          columns={this.columnsTable()}
+          colors={colors}
+          dataSource={imDetailData}
+          cellWidth={85}
+          style={{ cursor: 'pointer' }}
+          isChecked={false}
+          defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
+          orgClick={true}
+          {...this.props}
+        ></BIClassifyTable>)}
+
         {/*{*/}
           {/*loading1 ? <BILoading isLoading={loading1} /> : <BIClassifyTable*/}
             {/*loading={this.props.loading}*/}
