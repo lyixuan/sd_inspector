@@ -16,7 +16,7 @@ import {
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import constants from '@/utils/constants';
-const colors = ['rgba(255, 89, 89, 1)', 'rgba(255, 89, 89, 0.8)', 'rgba(255, 89, 89, .6)', 'rgba(255, 89, 89, .5)', 'rgba(255, 89, 89, .4)', 'rgba(255, 89, 89, .3)']
+const colors = ['rgba(255, 120, 120, 1)', 'rgba(255, 120, 120, 0.8)', 'rgba(255, 120, 120, .6)', 'rgba(255, 120, 120, .4)', 'rgba(255, 120, 120, .2)', 'rgba(255, 120, 120, .1)']
 
 function Layout(props) {
   const layout = <section>
@@ -291,7 +291,7 @@ class CreditImDetials extends React.Component {
         </div>
         <div className={styles.detailsTable}>
           {
-            loading2 ? <BILoading isLoading={loading2} /> : <BITable
+            loading2 || loading2 ? <BILoading isLoading={loading2} /> : <BITable
               ellipsis={true}
               columns={this.columns()}
               dataSource={imDetailList.data}
