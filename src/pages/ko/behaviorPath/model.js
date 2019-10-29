@@ -257,7 +257,7 @@ export default {
         const TagInfo = result.data;
         yield put({ type: 'save', payload: { TagInfo } });
       } else {
-        message.error(msgF(result.msg, result.msgDetail));
+        // message.error(msgF(result.msg, result.msgDetail));
       }
     },
     *getStatInfo({ payload }, { call, put }) {
@@ -267,7 +267,7 @@ export default {
         const StatInfo = result.data;
         yield put({ type: 'save', payload: { StatInfo } });
       } else {
-        message.error(msgF(result.msg, result.msgDetail));
+        // message.error(msgF(result.msg, result.msgDetail));
       }
     },
     *getDetailInfo({ payload }, { call, put }) {
@@ -277,7 +277,7 @@ export default {
         const DetailInfo = result.data;
         yield put({ type: 'save', payload: { DetailInfo } });
       } else {
-        message.error(msgF(result.msg, result.msgDetail));
+        // message.error(msgF(result.msg, result.msgDetail));
       }
     },
   },
