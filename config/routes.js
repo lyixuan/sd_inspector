@@ -28,8 +28,8 @@ export const routes = [
             component: './indexPage/xdFamilyBench',
             name: '小德工作台',
           }, {
-            path: '/indexPage/managementBench',
-            component: './indexPage/managementBench',
+            path: '/indexPage/ManagementBench',
+            component: './indexPage/ManagementBench',
             name: '小德工作台',
           }
         ]

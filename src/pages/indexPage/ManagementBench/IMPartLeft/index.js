@@ -17,9 +17,25 @@ class IMPartLeft extends React.Component {
   }
   componentDidMount() {
   }
-
+  columnsTable = () => {
+    const columns = [{
+      type: 'leftFixed',
+      name: '组织',
+      width: 105
+    }, {
+      type: 'children',
+      name: '',
+      width: 1,
+    }, {
+      type: 'rightFixed',
+      name: '汇总',
+      width: 60,
+      key: 'total'
+    }];
+    return columns || [];
+  }
   render() {
-    const { imDetailData } = this.props.xdCreditModal;
+    const { imDetailData } = this.props.xdManagementBench;
     return (
       <Container title="IM负面原因分析"
                  style={{ width: '60%', marginBottom: '16px' }}>
