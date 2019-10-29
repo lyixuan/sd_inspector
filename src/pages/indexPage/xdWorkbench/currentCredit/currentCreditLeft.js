@@ -13,7 +13,7 @@ import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
 
 const { BI = {} } = window;
-const colorsArr = ['rgba(255, 89, 89, 1)', 'rgba(255, 89, 89, 0.8)', 'rgba(255, 89, 89, 0.6)', 'rgba(255, 89, 89, 0.4)', 'rgba(255, 89, 89, 0.2)', 'rgba(255, 89, 89, 0.1)'];
+const colorsArr = ['rgba(255, 120, 120, 1)', 'rgba(255, 120, 120, 0.8)', 'rgba(255, 120, 120, 0.6)', 'rgba(255, 120, 120, 0.4)', 'rgba(255, 120, 120, 0.2)', 'rgba(255, 120, 120, 0.1)'];
 function CustomExpandIcon(props) {
   return (
     <a />
@@ -56,7 +56,7 @@ class currentCreditLeft extends React.Component {
         title: '环比(%)',
         dataIndex: 'myScoreRatio',
         key: 'myScoreRatio',
-        render: text => <>{text && text !== 'N/A' ? <BIFillCell>{text} <img src={text > 0 ? up : down} alt=""/></BIFillCell> : ''}</>
+        render: text => <>{text && text !== 'N/A' ? <BIFillCell>{text} <img src={text > 0 ? up : down} alt="" /></BIFillCell> : ''}</>
       },
     ];
     groupList.map((item, index) => {
@@ -64,7 +64,7 @@ class currentCreditLeft extends React.Component {
         width: '12%',
         title: <div>
           {index > 0 ? item.groupName : '我的'}
-          {index > 0 ? <BIIcon onClick={() => this.props.changePkFn(item.groupId)}/> : ''}
+          {index > 0 ? <BIIcon onClick={() => this.props.changePkFn(item.groupId)} /> : ''}
         </div>,
         dataIndex: item.groupId,
         key: item.groupId,
@@ -75,24 +75,24 @@ class currentCreditLeft extends React.Component {
               {
                 record.flagMark ? <BIFillCell {...record.valuesParams[index]} className={index === 0 && textV ? styles.mineHover : ''}>
                   {
-                    index === 0 && textV ? <Link onClick={() => this.getDataTrace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": record.id })}`} >
+                    index === 0 && textV ? <Link onClick={() => this.getDataTrace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
                       {textV}
-                      <span style={{color: '#00beaf', marginLeft: '2px'}}>{'>'}</span>
-                    </Link> 
-                    : <>{textV}<span style={{marginLeft: '8px'}}></span></>
+                      <span style={{ color: '#00beaf', marginLeft: '2px' }}>{'>'}</span>
+                    </Link>
+                      : <>{textV}<span style={{ marginLeft: '8px' }}></span></>
                   }
-                </BIFillCell> 
-                : <BIFillCell style={{paddingRight: '16px'}}>{textV}</BIFillCell>
+                </BIFillCell>
+                  : <BIFillCell style={{ paddingRight: '16px' }}>{textV}</BIFillCell>
               }
             </>
           )
         }
-      }) 
+      })
     })
     for (var i = 0; i < 6 - groupList.length; i++) {
       columns.push({
         width: '12%',
-        title: <div className={styles.pluscircle} onClick={this.handleToggle}><img src={pluscircle} alt='icon'/>添加PK对象</div>,
+        title: <div className={styles.pluscircle} onClick={this.handleToggle}><img src={pluscircle} alt='icon' />添加PK对象</div>,
         dataIndex: '添加PK对象' + i,
         key: '添加PK对象' + i,
       })
@@ -101,11 +101,11 @@ class currentCreditLeft extends React.Component {
   };
   // 学分查看埋点
   getDataTrace = (r) => {
-    BI.traceV &&  BI.traceV({"widgetName": r.dimensionName,"traceName": "班主任工作台/本期学分/" + r.dimensionName});
+    BI.traceV && BI.traceV({ "widgetName": r.dimensionName, "traceName": "班主任工作台/本期学分/" + r.dimensionName });
   }
   // 添加pk对象点击事件
   handleToggle = () => {
-    BI.traceV &&  BI.traceV({"widgetName":"本期学分-添加pk对象","traceName":"本期学分-添加pk对象"});
+    BI.traceV && BI.traceV({ "widgetName": "本期学分-添加pk对象", "traceName": "本期学分-添加pk对象" });
     this.props.toggleDrawer(true);
   }
   //获取左侧列表数据的方法
@@ -126,7 +126,7 @@ class currentCreditLeft extends React.Component {
   // 列表维度name
   getDimensionName = ({ dimensionName, level, sequenceNo }) => {
     if (sequenceNo) {
-      return <b style={{marginLeft: level === 3 ? '-20px' : '0'}}>{sequenceNo} {dimensionName}</b>
+      return <b style={{ marginLeft: level === 3 ? '-20px' : '0' }}>{sequenceNo} {dimensionName}</b>
     } else {
       return dimensionName
     }
@@ -143,7 +143,7 @@ class currentCreditLeft extends React.Component {
     return className
   }
   fillDataSource = (params = [], n = 1, flagMark) => {
-    params.map(item => { 
+    params.map(item => {
       item.level = n;
       item.flagMark = item.dimensionName === '学分均分' ? 3 : flagMark; // 1 正面均分  2 负面均分 3学分均分 其它
       if (item.values) {// 处理颜色对比
@@ -173,8 +173,8 @@ class currentCreditLeft extends React.Component {
     const { pkGroupList } = this.props
     const dataSource = this.getDataSource();
     return (
-      <div className={styles.creditLeft} style={{minHeight: this.props.getNumValue(732) + 'px'}}>
-        {this.props.loading ? <BILoading isLoading={this.props.loading}/> : <div className={styles.tableContainer}>  
+      <div className={styles.creditLeft} style={{ minHeight: this.props.getNumValue(732) + 'px' }}>
+        {this.props.loading ? <BILoading isLoading={this.props.loading} /> : <div className={styles.tableContainer}>
           {
             dataSource && dataSource.length > 0 && <BIWrapperTable
               columns={this.columns()}
@@ -192,7 +192,7 @@ class currentCreditLeft extends React.Component {
           {
             pkGroupList && pkGroupList.length < 4 ? <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} /></div> : ''
           }
-      </div>}
+        </div>}
       </div>
     );
   }
