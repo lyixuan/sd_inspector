@@ -126,7 +126,11 @@ class BIClassifyTable extends React.Component {
           key: this.props.defaultKey.name,
           width: item.width,
           fixed: 'left',
-          className: styles.zIndex
+          className: styles.zIndex,
+          render: (text, record) => {
+            const flag = this.props.orgClick
+            return <span style={{ cursor: flag ? 'pointer' : '' }} onClick={flag ? () => this.props.cellClick('', record) : null}>{text}</span>
+          }
         })
       } else if (item.type == 'children') {
         columns.push({
