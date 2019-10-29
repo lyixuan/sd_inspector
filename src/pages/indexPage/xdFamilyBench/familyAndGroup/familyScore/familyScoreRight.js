@@ -171,7 +171,7 @@ class FamilyScoreRight extends React.Component {
   render() {
     const {orgValue,userFlag, userMsg,familyRankList=[]} = this.state
     const {collegeList=[]} = this.props;
-    const dataSource = familyRankList.length>0 && familyRankList
+    const dataSource = familyRankList.length >0 && familyRankList
     return (
       <div className={styles.familyRight}>
         <div className={styles.creditSelect} >
@@ -196,9 +196,9 @@ class FamilyScoreRight extends React.Component {
             />
           </div>}
           <div id="scrollScore" >
-            {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
+            {this.props.loading ? <BILoading isLoading={this.props.loading} /> : <BITable
               columns={this.columnsRight()}
-              dataSource={dataSource}
+              dataSource={dataSource || []}
               pagination={false}
               loading={this.props.loading}
               rowClassName={this.setRowClassName}
