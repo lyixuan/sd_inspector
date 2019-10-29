@@ -64,9 +64,10 @@ class BIClassifyTable extends React.Component {
     }
   }
   columns = () => {
+    console.log(67,this.props.dataSource)
     const data = this.props.dataSource;
-    const titleList = data.titleList;
-    const dataSource = data.dataList;
+    const titleList = data.titleList
+    const dataSource = data.dataList
     const children = [];
     let repairArr = 0
     if (!titleList) return;
@@ -142,39 +143,11 @@ class BIClassifyTable extends React.Component {
         })
       }
     })
-    // const columns = [
-    //   {
-    //     title: this.props.columns[type] == 'column' && this.props.columns[name],
-    //     dataIndex: this.props.defaultKey.name,
-    //     key: this.props.defaultKey.name,
-    //     width: 105,
-    //     fixed: 'left'
-    //   },
-    //   {
-    //     title: this.title(),
-    //     children: children
-    //   },
-    //   {
-    //     title: '汇总',
-    //     dataIndex: 'total',
-    //     key: 'total',
-    //     width: 60,
-    //     className: styles.txRight,
-    //     fixed: 'right',
-    //     render: (text, record, index) => {
-    //       const currentIndex = `${index}${totalLength}`;
-    //       return (
-    //         this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell text={text} onClick={(e) => { this.cellClick(record, currentIndex, 'total') }} /> : <BIContrastCell key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, 'total') }} nums={record.values} text={text} />
-    //       )
-    //     }
-    //   }
-
-    // ]
     return columns || [];
   }
 
   render() {
-    const dataSource = this.props.dataSource.dataList
+    const dataSource = this.props.dataSource && this.props.dataSource.dataList.length>0?this.props.dataSource.dataList:[]
     return (
       <div className={styles.tableWrap} id="tableWrap">
         <BITable

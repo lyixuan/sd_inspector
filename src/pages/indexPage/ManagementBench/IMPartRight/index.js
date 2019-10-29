@@ -4,8 +4,10 @@ import { connect } from 'dva';
 import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-@connect((xdManagementBench) => ({
+import BILoading from '@/components/BILoading'
+@connect(({xdManagementBench,loading}) => ({
   xdManagementBench,
+  loading:loading.effects['xdManagementBench/getImReverseSideData'],
 }))
 class IMPartRight extends React.Component {
   constructor(props) {
@@ -69,15 +71,15 @@ class IMPartRight extends React.Component {
       <Container title="IM负面数据对比"
                  style={{ width: 'calc(40% - 16px)',height:"372px" }}
       >
-          <BIWrapperTable  columns={this.columnsRight()}
-                           dataSource={dataSource||[]}
-                           pagination={false}
-                           loading={this.props.loading}
-                           onRow={this.onClickRow}
-                           rowKey={record => record.id}
-                           scroll={{ y: 249}}
+        {this.props.loading?<BILoading isLoading={this.props.loading}/>:<BIWrapperTable  columns={this.columnsRight()}
+                                                           dataSource={dataSource||[]}
+                                                           pagination={false}
+                                                           loading={this.props.loading}
+                                                           onRow={this.onClickRow}
+                                                           rowKey={record => record.id}
+                                                           scroll={{ y: 249}}
 
-          />
+        />}
       </Container>
     );
   }

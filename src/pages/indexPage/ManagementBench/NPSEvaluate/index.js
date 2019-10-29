@@ -12,9 +12,10 @@ import { initTimeData } from '../../../ko/utils/utils';
 // const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
-@connect(({xdManagementBench,xdCreditModal}) => ({
+@connect(({xdManagementBench,xdCreditModal,xdWorkModal}) => ({
   xdManagementBench,
-  xdCreditModal
+  xdCreditModal,
+  userInfo:xdWorkModal.userInfo
 }))
 
 class NPSEvaluate extends React.Component {
@@ -41,22 +42,27 @@ class NPSEvaluate extends React.Component {
       userOrgConfig: [],
       groupId: [],
       groupTypeArr: [],
-      NPSParams:{}
+      NPSParams:{},
+      userInfo:{}
     }
   }
   componentDidMount() {
-    console.log(44)
     this.getNpsAutonomousEvaluation()
     this.getUserOrgList()
   }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (this.props.userInfo !== nextProps.userInfo) {
+      this.getNpsAutonomousEvaluation(nextProps.userInfo)
+    }
+  }
   //获取NPS自主评价的的数据接口
-  getNpsAutonomousEvaluation = () =>{
+  getNpsAutonomousEvaluation = (userInfo,ids) =>{
     let params = {
-      startTime:"2019-10-14",
-      endTime:"2019-10-24",
-      collegeId:103,
-      familyId:null,
-      groupId:null,
+      startTime:this.state.startTime ? this.state.startTime : "2019-10-14",
+      endTime:this.state.endTime ? this.state.endTime : "2019-10-24",
+      collegeId:(userInfo && userInfo.collegeId) || (this.state.groupId.length>0 && this.state.groupId[0] || 103),
+      familyId:(userInfo && userInfo.familyId) || (this.state.groupId.length>0 && this.state.groupId[1])||null,
+      groupId:(userInfo && userInfo.groupId) || (this.state.groupId.length>0 && this.state.groupId[2])|| null,
       pageNum:1,
       pageSize:10
     }
@@ -77,7 +83,6 @@ class NPSEvaluate extends React.Component {
       type: 'xdManagementBench/getOrgMapTree',
       payload: { params: {} },
       callback: res => {
-        console.log("组织架构",res)
         if (res && res.length > 0) {
           this.setState({
             userOrgConfig:res,
@@ -89,13 +94,21 @@ class NPSEvaluate extends React.Component {
   // 选择组织
   onChangeSelect = (groupId, groupTypeArr) => {
     this.setState({
-      groupId, groupTypeArr, familyType: groupTypeArr[groupTypeArr.length - 1].familyType
+      groupId,
+      groupTypeArr
     });
+    setTimeout(()=>{
+      this.getNpsAutonomousEvaluation()
+    },200)
+
   }
   // 选择时间
   onDateChange = (v) => {
     const [startTime, endTime] = initTimeData(v);
     this.setState({ startTime, endTime, });
+    setTimeout(()=>{
+      this.getNpsAutonomousEvaluation()
+    },200)
   }
   // date
   getDate = () => {
@@ -107,7 +120,6 @@ class NPSEvaluate extends React.Component {
     const {  groupId, userOrgConfig,  } = this.state;
     const {orgList} = this.props.xdManagementBench;
     orgList.length>0 && this.getResetGroupMsg(orgList)
-    console.log(112,this.state.userOrgConfig)
     return(
       <div>
         <span className={styles.change}>
@@ -142,7 +154,6 @@ class NPSEvaluate extends React.Component {
   }
   render() {
     const { NPSParams} = this.state;
-    console.log(191,NPSParams)
     return (
       <Container title="NPS自主评价分析"
                  style={{ width: '100%', marginBottom: '16px' }}

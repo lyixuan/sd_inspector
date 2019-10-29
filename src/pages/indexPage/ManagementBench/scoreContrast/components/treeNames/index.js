@@ -32,7 +32,12 @@ class TreeNames extends React.Component {
     const dimensionId = this.getInit(dimensions);
     return (
       <div className={styles.treeMain}>
-        {dimensions.length>0 && dimensions.map((item)=><span className={item.dimensionId === dimensionId ? styles.active : ""} key={item.dimensionId} onClick={()=>this.clickTag({ dimensionId: item.dimensionId })}>{item.name}</span>)}
+        {dimensions.length>0 &&
+        dimensions.map((item)=><span className={item.dimensionId === dimensionId ? styles.active : ""}
+                                     key={item.dimensionId}
+                                     onClick={()=>this.clickTag({ dimensionId: item.dimensionId })}>
+          {item.name}
+          </span>)}
       </div>
     );
   }

@@ -15,17 +15,13 @@ class TopTabs extends React.Component {
     }
   }
   componentDidMount() {
-    if(this.props.queryAppealDataPage){
-      console.log("componentDidMount")
-      this.props.queryAppealDataPage(this.state.keye)
-    }
   }
   onTabChange = (val) => {
     this.setState({
       keye: val
     })
     if(this.props.onTabChange){
-      console.log("onTabChange")
+      console.log()
       this.props.onTabChange({keye: val})
     }
   };
@@ -40,7 +36,6 @@ class TopTabs extends React.Component {
   render() {
     const { keye } = this.state;
     const { tabParams = [] } = this.props;
-    console.log(36,this.props)
     return (
       <div className={styles.topTab} style={this.props.style}>
         <BITabs onChange={this.onTabChange} type="card" activeKey={keye}>
