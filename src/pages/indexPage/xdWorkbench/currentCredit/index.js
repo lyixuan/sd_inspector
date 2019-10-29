@@ -96,7 +96,7 @@ class currentCredit extends React.Component {
             changePkFn={this.clickRow}
             hasData={hasData}
             pkGroupList={pkGroupList}
-           getNumValue={this.getNumValue}
+            getNumValue={this.getNumValue}
           />
           <BIDrawer
           onClose={() => this.toggleDrawer(false)}
