@@ -3,6 +3,7 @@ import Container from '@/components/BIContainer';
 import ProfitList from './components/list';
 import ProfitTabs from './components/tabs';
 import BIDrawer from '@/components/BIDrawer';
+import { message } from 'antd/lib/index';
 
 const { BI = {} } = window;
 class Profit extends React.Component {
@@ -24,7 +25,10 @@ class Profit extends React.Component {
         BI.traceV &&  BI.traceV({"widgetName":"本期创收-删除pk对象按钮","traceName":"小德工作台/本期创收/删除pk对象按钮"})
         pkUsers.splice(pkUsers.indexOf(id), 1);
       } else {
-        if (pkUsers.length >= 5) return;
+        if (pkUsers.length >= 5) {
+          message.error('最多选择5个pk对象');
+          return;
+        };
         pkUsers.push(id);
       }
     }

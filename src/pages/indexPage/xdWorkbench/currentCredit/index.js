@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
+import { message } from 'antd/lib/index';
 import BIButton from '@/ant_components/BIButton';
 import BIDrawer from '@/components/BIDrawer';
 import Container from '@/components/BIContainer';
@@ -40,7 +41,10 @@ class currentCredit extends React.Component {
         BI.traceV &&  BI.traceV({"widgetName":"本期学分-删除pk对象按钮","traceName":"本期学分-删除pk对象按钮"})
         pkGroupList.splice(pkGroupList.indexOf(id), 1);
       } else {
-        if (pkGroupList.length >= 5) return;
+        if (pkGroupList.length >= 5) {
+          message.error('最多选择5个pk对象');
+          return;
+        }
         pkGroupList.push(id);
       }
     }
@@ -92,7 +96,7 @@ class currentCredit extends React.Component {
             changePkFn={this.clickRow}
             hasData={hasData}
             pkGroupList={pkGroupList}
-           getNumValue={this.getNumValue}
+            getNumValue={this.getNumValue}
           />
           <BIDrawer
           onClose={() => this.toggleDrawer(false)}

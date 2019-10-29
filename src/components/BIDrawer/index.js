@@ -3,6 +3,13 @@ import styles from './style.less';
 import closeImg from '@/assets/component/close.png';
 import openImg from '@/assets/component/open.png';
 
+/*
+* BIDrawer 抽屉组件
+*
+* 自定义组件样式
+* params
+* onClose-关闭  onOpen-打开 visible-控制  closeValue-收起提示  openValue-打开提示 drawerStyle-抽屉容器样式
+* */
 
 class BIDrawer extends React.Component {
   onClose = () => {
