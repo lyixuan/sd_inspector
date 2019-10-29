@@ -16,32 +16,32 @@ const TYPE = [
   {
     key: 1,
     name: '学分均分',
-    href: 'one',
+    href: '#one',
   },
   {
     key: 2,
     name: '创收单量',
-    href: 'two',
+    href: '#two',
   },
   {
     key: 3,
     name: '创收流水',
-    href: 'three',
+    href: '#three',
   },
   {
     key: 4,
     name: 'IM差评率',
-    href: 'four',
+    href: '#four',
   },
   {
     key: 5,
     name: 'NPS差评率',
-    href: 'five',
+    href: '#five',
   },
   {
     key: 6,
     name: 'BBS负面贴',
-    href: 'six',
+    href: '#six',
   },
 ];
 
@@ -60,14 +60,17 @@ class Block extends React.Component {
   render() {
     const { item } = this.props;
     if (!item) return;
-    const href = `workImg${item.type}`;
+    const href = TYPE.map(it => {
+      return it.key === item.type ? it.href : '';
+    });
+    console.log(href, 'href');
     const money =
       String(item.value).indexOf('.') !== -1
         ? thousandsFormat(String(item.value).split('.')[0]) + '.' + String(item.value).split('.')[1]
         : thousandsFormat(Number(item.value));
     return (
       <li>
-        <a href={href}>{/* <img src={href} alt="icon" /> */}</a>
+        <a href={href}></a>
         <span className={styles.num}>{money}</span>
         <p className={styles.bottom}>
           <span>
