@@ -206,7 +206,7 @@ class FamilyScoreRight extends React.Component {
               rowClassName={this.setRowClassName}
               onRow={this.onClickRow}
               scroll={{ y: 408 }}
-              rowKey={record => record.familyId}
+              rowKey={(record, index) => record.familyId + '' + index}
             />}
           </div>
         </div>

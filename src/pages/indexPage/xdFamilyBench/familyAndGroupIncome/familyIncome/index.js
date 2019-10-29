@@ -26,7 +26,6 @@ class FamilyIncome extends React.Component {
     })
   }
   changeSelected = (record, pkFamilyId) => {
-    console.log(2999, record)
     this.setState({ pkFamilyId }, () => this.getIncomeFamilyList());
     if (record) {
       localStorage.setItem('pkFamilyIncome', JSON.stringify(record))

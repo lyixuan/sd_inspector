@@ -156,7 +156,7 @@ class FamilyIncomeLeft extends React.Component {
             expandIcon={CustomExpandIcon}
             pagination={false}
             scroll={{ x: 0, y: 208 }}
-            rowKey={record => record.id}
+            rowKey={record => record.dim}
             loading={this.props.loading}
           />}
             {

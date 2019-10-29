@@ -166,7 +166,7 @@ class ProfitList extends React.Component {
           dataSource={this.state.familyIncome}
           pagination={false}
           loading={this.props.loading}
-          rowKey={record => record.id}
+          rowKey={record => record.userId}
           scroll={{ x: 'max-content', y: 400 }}
         />}
       </div>

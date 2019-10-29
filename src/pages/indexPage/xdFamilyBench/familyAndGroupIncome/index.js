@@ -53,7 +53,6 @@ class FamilyAndGroup extends React.Component {
       type: 'xdFamilyModal/getIncomeFamilyGroupPk',
       payload: { params: { pkGroupIds: this.getParamas(),  selfGroupIds: this.state.myGroupValue,groupPkInitFlag:flag} },
       callback: res =>  {
-        console.log(56,res)
         if (flag && this.state.PkGroupIdList.length<=0) {
           this.setState({ myGroupValue: res.map(item => String(item.groupId))});
         }
