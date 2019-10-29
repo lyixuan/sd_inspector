@@ -9,9 +9,9 @@ function CustomExpandIcon(props) {
     <a />
   );
 }
-@connect(({xdWorkModal,loading}) => ({
-  xdWorkModal,
-  loading: loading.effects['xdWorkModal/getGroupPkList'],
+@connect(({xdFamilyModal,loading}) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/getGroupPkList'],
 }))
 class GroupScore extends React.Component {
   constructor(props) {
@@ -38,7 +38,7 @@ class GroupScore extends React.Component {
     return data
   }
   columns = () =>{
-    const {familyGroupPkList} = this.props.xdWorkModal
+    const {familyGroupPkList} = this.props.xdFamilyModal
     const columns = [
       {
         title:'学分维度',
@@ -77,7 +77,7 @@ class GroupScore extends React.Component {
     return className
   }
   render() {
-    const {familyGroupPkList} = this.props.xdWorkModal
+    const {familyGroupPkList} = this.props.xdFamilyModal
     const dataSource = familyGroupPkList && familyGroupPkList.dimensionList&&familyGroupPkList.dimensionList.length > 0 && this.fillDataSource(familyGroupPkList.dimensionList)
     return (
       <div className={styles.creditContainer} style={{display:'block'}}>

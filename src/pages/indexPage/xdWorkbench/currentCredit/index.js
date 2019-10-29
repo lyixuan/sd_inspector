@@ -8,10 +8,12 @@ import CurrentCreditRight from './currentCreditRight';
 import CurrentCreditLeft from './currentCreditLeft';
 import closeImg from '@/assets/xdFamily/closeeye.png';
 import showImg from '@/assets/xdFamily/eye.png';
+import { handleDataTrace } from '@/utils/utils';
 import styles from './style.less';
 
-@connect(({ xdWorkModal, loading }) => ({
-  kpiTimes: xdWorkModal.kpiTimes || {},
+const { BI = {} } = window;
+@connect(({ xdClsssModal, loading }) => ({
+  kpiTimes: xdClsssModal.kpiTimes || {},
 }))
 class currentCredit extends React.Component {
   constructor(props) {
@@ -35,6 +37,7 @@ class currentCredit extends React.Component {
     const { pkGroupList } = this.state;
     if (pkGroupList instanceof Array) {
       if (pkGroupList.includes(id)) {
+        BI.traceV &&  BI.traceV({"widgetName":"本期学分-删除pk对象按钮","traceName":"本期学分-删除pk对象按钮"})
         pkGroupList.splice(pkGroupList.indexOf(id), 1);
       } else {
         if (pkGroupList.length >= 5) return;
@@ -48,6 +51,11 @@ class currentCredit extends React.Component {
   toggleData = () => {
     const hasData = !this.state.hasData;
     localStorage.setItem('hasDataCredit', hasData ? 1 : 2);
+    if (hasData) {
+      BI.traceV &&  BI.traceV({"widgetName":"本期学分-显示基础信息","traceName":"本期学分-显示基础信息"});
+    } else {
+      BI.traceV &&  BI.traceV({"widgetName":"本期学分-隐藏基础信息","traceName":"本期学分-隐藏基础信息"});
+    }
     this.setState({
       hasData: hasData,
     });
@@ -73,17 +81,17 @@ class currentCredit extends React.Component {
         style={{ width: '100%', marginBottom: '16px', position: 'relative' }}
         right={
           <>
-            <BIButton type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton>
+            <BIButton onClick={() => handleDataTrace({"widgetName":"消息差评快捷入口","traceName":"班主任工作台/消息差评入口"})} type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton>
             <BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton>
           </>
         }
       >
         <div className={styles.creditContainer}>
           <CurrentCreditLeft 
-          toggleDrawer={this.toggleDrawer} 
-          changePkFn={this.clickRow}
-          hasData={hasData}
-          pkGroupList={pkGroupList}
+            toggleDrawer={this.toggleDrawer} 
+            changePkFn={this.clickRow}
+            hasData={hasData}
+            pkGroupList={pkGroupList}
            getNumValue={this.getNumValue}
           />
           <BIDrawer

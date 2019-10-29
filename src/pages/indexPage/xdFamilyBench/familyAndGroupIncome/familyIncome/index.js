@@ -3,8 +3,8 @@ import { connect } from 'dva';
 import FamilyIncomeLeft from "./familyIncomeLeft"
 import FamilyIncomeRight from "./familyIncomeRight"
 import styles from '../style.less';
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+@connect(({ xdWorkModal }) => ({
+  userInfo: xdWorkModal.userInfo,
 }))
 class FamilyIncome extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class FamilyIncome extends React.Component {
   }
   getIncomeFamilyList =()=>{
     this.props.dispatch({
-      type:"xdWorkModal/getIncomeFamilyList",
+      type:"xdFamilyModal/getIncomeFamilyList",
       payload:{params:{ pkFamilyId: this.state.pkFamilyId }},
       callback: familyList => this.setState({ familyList })
     })
@@ -33,7 +33,7 @@ class FamilyIncome extends React.Component {
   }
   render() {
     const { familyList, pkFamilyId } = this.state;
-    const {userInfo} = this.props.xdWorkModal.xdWorkModal
+    const { userInfo } = this.props;
     return (
       <div className={styles.creditContainer}>
         <FamilyIncomeLeft className={styles.familyLeft} familyList={familyList} userInfo={userInfo} pkFamilyId={pkFamilyId}/>

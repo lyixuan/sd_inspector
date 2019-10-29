@@ -5,9 +5,9 @@ import TopTabs from '../../components/topTabs';
 import TableList from './components/list';
 import styles from './index.less';
 
-@connect(({ xdWorkModal,loading }) => ({
-  xdWorkModal,
-  loading: loading.effects['xdWorkModal/getCountCurrentQuality'],
+@connect(({ xdFamilyModal,loading }) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/getCountCurrentQuality'],
 
 }))
 class CurrentCredit extends React.Component {
@@ -22,7 +22,7 @@ class CurrentCredit extends React.Component {
   }
   getScoreStatistics() {
     this.props.dispatch({
-      type: 'xdWorkModal/scoreStatistics',
+      type: 'xdFamilyModal/scoreStatistics',
       payload: {},
       callback: (scoreData) => this.setState({ scoreData }),
     });

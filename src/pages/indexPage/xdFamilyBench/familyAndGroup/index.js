@@ -11,7 +11,7 @@ import BITreeSelect from '@/ant_components/BITreeSelect'
 import BISelect from '@/ant_components/BISelect'
 import { message } from 'antd';
 const { Option } = BISelect;
-@connect((xdWorkModal) => ({
+@connect(({ xdWorkModal }) => ({
   xdWorkModal,
 }))
 class FamilyAndGroup extends React.Component {
@@ -48,7 +48,7 @@ class FamilyAndGroup extends React.Component {
   componentDidMount() {
     // 获取组织
     this.props.dispatch({
-      type: 'xdWorkModal/getOrgMapList',
+      type: 'xdFamilyModal/getOrgMapList',
       payload: { params: {} },
     });
     this.myFamilyGroupList()
@@ -56,7 +56,7 @@ class FamilyAndGroup extends React.Component {
   }
   getGroupPkList=(flag)=>{
     this.props.dispatch({
-      type:'xdWorkModal/getGroupPkList',
+      type:'xdFamilyModal/getGroupPkList',
       payload: { params: {pkGroupIds:this.getParamas(),myGroupIds:this.state.myGroupValue,showFamilyGroup:flag} },
       callback: res =>  {
         if (flag && this.state.PkGroupIdList.length<=0) {
@@ -82,7 +82,7 @@ class FamilyAndGroup extends React.Component {
   }
   myFamilyGroupList = () =>{
     this.props.dispatch({
-      type:'xdWorkModal/myFamilyGroupList',
+      type:'xdFamilyModal/myFamilyGroupList',
       payload:{params:{}},
       callback:(data)=>{
         this.setState({
@@ -128,8 +128,8 @@ class FamilyAndGroup extends React.Component {
     return groupIds
   }
   render() {
-    const {orgListTreeData = [],userInfo} = this.props.xdWorkModal.xdWorkModal;
-    const {myFamilyGroupList,myGroupValue,PkGroupIdList} = this.state
+    const {orgListTreeData = [], userInfo = {}} = this.props.xdWorkModal;
+    const {myFamilyGroupList,myGroupValue,PkGroupIdList} = this.state;
     return (
       <Container
         style={{ width: '100%', marginBottom: '16px' }}

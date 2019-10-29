@@ -22,9 +22,9 @@ class Dimension extends React.Component {
         width: '160px',
         render: (text, record) => {
           if (record.sequenceNo) {
-            return <span data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'><b>{record.sequenceNo}{text}</b></span>
+            return <span><b>{record.sequenceNo}{text}</b></span>
           } else {
-            return <span data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>{record.sequenceNo}{text}</span>
+            return <span>{record.sequenceNo}{text}</span>
           }
 
         }
@@ -35,7 +35,7 @@ class Dimension extends React.Component {
         key: 'score',
         className: 'txRight',
         render: text => {
-          return <div data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>{text}</div>
+          return <div>{text}</div>
         }
       }, {
         width: '80px',
@@ -47,8 +47,8 @@ class Dimension extends React.Component {
           const num = Number(text);
           const imgSrc = num > 0 ? up : down;
           return (
-            <div data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>
-              {num == 0 ? text : <span>{text}{text == 'N/A' ? null : <img style={{ marginLeft: '3px' }} src={imgSrc} />}</span>}
+            <div>
+              {num == 0 ? text : <span>{text}{text == 'N/A' ? null : <img style={{ marginLeft: '3px', width: '10px', height: '12px' }} src={imgSrc} />}</span>}
             </div>
           )
         }
@@ -58,7 +58,7 @@ class Dimension extends React.Component {
         dataIndex: 'num',
         className: 'txRight',
         key: 'num',
-        render: (text, record) => <div style={{ whiteSpace: 'nowrap' }} data-trace='{"widgetName":"选择明细","traceName":"数据服务/学分明细/选择明细"}'>
+        render: (text, record) => <div style={{ whiteSpace: 'nowrap' }}>
           {record.level === 4 && <>
             {text > 99999 ? 99999 + '+' : text}{record.unit}
             {text ? <span className={styles.greenColor} style={{ marginLeft: '5px' }}>></span> : ''}
@@ -107,11 +107,14 @@ class Dimension extends React.Component {
 
         // document.body.scrollTop = document.documentElement.scrollTop = 0;
         if (record.level === 4 && record.num) {
+          const obj = { widgetName: record.dimensionName, traceName: `数据服务/学分明细/${record.dimensionName}` }
+          const { BI = {} } = window;
           this.props.onChangeParams(record.id, 'dementionId');
           window.scrollTo({
             top: 0,
             behavior: "smooth"
           })
+          BI.traceV && BI.traceV(obj);
         }
       }
     };

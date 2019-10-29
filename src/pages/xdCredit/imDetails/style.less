@@ -330,3 +330,59 @@
   width: 15px;
   vertical-align: middle;
 }
+.detailsTable {
+  :global{
+    .ant-table-tbody > tr > td, .ant-table-thead > tr > th{
+      white-space: nowrap;
+    }
+    .ant-table-thead > tr:first-child > th:first-child, .ant-table-tbody > tr > td:first-child{
+      padding-left:8px;
+    }
+  }
+}
+// bbs nps悬浮框样式
+.listMarkingTooltipOthers {
+  max-width: 520px;
+  :global {
+    .ant-tooltip-arrow {
+      border-right-color: #ffffff!important;
+      //border-color: transparent transparent #fff #fff;
+    }
+    .ant-tooltip-inner {
+      padding: 14px;
+      background-color: #ffffff;
+      color: #1B1C20;
+      font-size: 13px;
+    }
+  }
+}
+
+// 表格宽度自适应
+.textEllipsis {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+@media screen and (min-width: 0) and (max-width: 1200px) {
+  .textorg {
+    width: 120px;
+  }
+  .textname {
+    width: 60px;
+  }
+}
+@media screen and (min-width: 1200px) and (max-width: 1500px) {
+  .textorg {
+    width: 180px;
+  }
+  .textname {
+    width: 60px;
+  }
+}
+@media screen and (min-width: 1500px) and (max-width: 3000px) {
+  .textname {
+    width: 100px;
+  }
+}

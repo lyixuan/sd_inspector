@@ -3,17 +3,9 @@ import { connect } from 'dva';
 import styles from '../index.less';
 
 @connect(({ loading }) => ({
-  loading: loading.effects['xdWorkModal/getIncomeKpiPkList'],
+  loading: loading.effects['xdFamilyModal/getIncomeKpiPkList'],
 }))
 class Pannel extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-
-    }
-  }
-
   render() {
     const prop = this.props;
     return (

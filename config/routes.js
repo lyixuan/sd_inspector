@@ -18,6 +18,21 @@ export const routes = [
       {
         path: '/indexPage',
         component: './indexPage',
+        routes: [
+          {
+            path: '/indexPage/xdWorkbench',
+            component: './indexPage/xdWorkbench',
+            name: '小德工作台',
+          }, {
+            path: '/indexPage/xdFamilyBench',
+            component: './indexPage/xdFamilyBench',
+            name: '小德工作台',
+          }, {
+            path: '/indexPage/managementBench',
+            component: './indexPage/managementBench',
+            name: '小德工作台',
+          }
+        ]
       },
       {
         path: '/exception/403',

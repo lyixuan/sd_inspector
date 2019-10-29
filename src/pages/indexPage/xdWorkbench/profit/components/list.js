@@ -9,7 +9,7 @@ const { BI = {} } = window;
 const { Option } = BISelect;
 const pkTypeconfig = ['集团排行', '学院内排行', '家族内排行', '同期入职排行', '同级排行',];
 @connect(({ loading }) => ({
-  loading: loading.effects['xdWorkModal/getIncomeKpiPkList'],
+  loading: loading.effects['xdClsssModal/getIncomeKpiPkList'],
 }))
 class ProfitList extends React.Component {
   constructor(props) {
@@ -103,7 +103,7 @@ class ProfitList extends React.Component {
   }
   getData = (pkListType = this.props.pkListType) => {
     this.props.dispatch({
-      type: 'xdWorkModal/getIncomeKpiPkList',
+      type: 'xdClsssModal/getIncomeKpiPkList',
       payload: { params: { pkListType } },
       callback: (profitList) => {
         this.setState({ profitList })

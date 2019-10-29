@@ -5,14 +5,14 @@ import BITable from '@/ant_components/BITable'
 import BILoading from '@/components/BILoading'
 
 const levelObj = ['', '特级违规', '一级违规', '二级违规', '三级违规'];
-@connect(({ xdWorkModal, loading }) => ({
-  familyQuality: xdWorkModal.familyQuality || [],
-  loading: loading.effects['xdWorkModal/getFamilyQuality'],
+@connect(({ xdFamilyModal, loading }) => ({
+  familyQuality: xdFamilyModal.familyQuality || [],
+  loading: loading.effects['xdFamilyModal/getFamilyQuality'],
 }))
 class Quality extends React.Component {
   componentDidMount() {
     this.props.dispatch({
-      type: 'xdWorkModal/getFamilyQuality',
+      type: 'xdFamilyModal/getFamilyQuality',
       payload: { params: { id: this.props.userId } },
     });
   }
