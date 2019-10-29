@@ -34,6 +34,7 @@ function Prise(props) {
   return (
     <li className={styles.step}>
       <div className={styles.time}>
+        {props.li.evaluateTime ? props.li.evaluateTime.split(' ')[1] : ''}
         {/* {props.li.countDate ? props.li.countDate.split(' ')[1] : ''} */}
       </div>
       <div className={styles.content}>
