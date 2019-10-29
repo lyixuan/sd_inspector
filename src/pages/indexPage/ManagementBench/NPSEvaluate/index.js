@@ -8,6 +8,7 @@ import BIDatePicker from '@/ant_components/BIDatePicker';
 import NPSLeft from './NPSLeft'
 import NPSRight from './NPSRight'
 import moment from 'moment';
+import { initTimeData } from '../../../ko/utils/utils';
 // const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -79,24 +80,22 @@ class NPSEvaluate extends React.Component {
         console.log("组织架构",res)
         if (res && res.length > 0) {
           this.setState({
-            ...this.getResetGroupMsg(res),
+            userOrgConfig:res,
           })
         }
       }
     });
   }
-  // reset groupId数组 getResetGroupId
-  getResetGroupMsg = (arr = this.state.userOrgConfig) => {
-    if (arr && arr.length > 0) {
-      const item = arr[0];
-      if (item.groupType === 'college' && item.nodeList && item.nodeList.length > 0) {
-        const node = item.nodeList[0];
-        return { groupId: [item.id, node.id], groupTypeArr: [item, node], familyType: node.familyType };
-      }
-      return { groupId: [item.id], groupTypeArr: [item], familyType: item.familyType };
-    } else {
-      return { groupId: [], groupTypeArr: [], familyType: '' };
-    }
+  // 选择组织
+  onChangeSelect = (groupId, groupTypeArr) => {
+    this.setState({
+      groupId, groupTypeArr, familyType: groupTypeArr[groupTypeArr.length - 1].familyType
+    });
+  }
+  // 选择时间
+  onDateChange = (v) => {
+    const [startTime, endTime] = initTimeData(v);
+    this.setState({ startTime, endTime, });
   }
   // date
   getDate = () => {

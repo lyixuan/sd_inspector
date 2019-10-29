@@ -43,7 +43,8 @@ import {
   countByDate,
   getOrgMapTree,
   getImReverseSideData,
-  queryAppealDataPage
+  queryAppealDataPage,
+  getFamilyType
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -650,6 +651,17 @@ export default {
   //  家族学分对比柱状图部分的接口
     *queryAppealDataPage({payload,callback},{call,put}){
       const result = yield call(queryAppealDataPage,payload.params);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+  //  获取学院家族性质
+    *getFamilyType({payload,callback},{call,put}){
+      const result = yield call(getFamilyType);
       if (result.code === 20000 && result.data) {
         if (callback && typeof callback === 'function') {
           callback(result.data);

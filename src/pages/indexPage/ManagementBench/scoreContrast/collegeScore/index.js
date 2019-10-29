@@ -18,19 +18,28 @@ class CollegeScore extends React.Component {
 
   }
 
-  drawChart = () =>{
-    let data = [6.89, 4.00, 2.00, 3.76, 5.08, 7.00]
+  drawChart = (arr) =>{
+    console.log(22,arr)
+
+    let creaditValue = [];
+    let familyName = [];
+    let qoqValue = []
     let yMax = 8
     let yMin = -8
     let dataShadow = []
     let maxShadow = []
-
-    for (let i = 0; i < data.length; i++) {
+    arr.map((item,index)=>{
+      creaditValue.push(item.creaditValue);
+      familyName.push(item.name);
+      qoqValue.push(item.qoqValue)
+    })
+    for (let i = 0; i < creaditValue.length; i++) {
       dataShadow.push(yMin);
-    }
-    for (let i = 0; i < data.length; i++) {
       maxShadow.push(yMax);
     }
+    // for (let i = 0; i < data.length; i++) {
+    //   maxShadow.push(yMax);
+    // }
     const  options = {
       tooltip: {
         trigger: 'axis',
@@ -45,10 +54,8 @@ class CollegeScore extends React.Component {
       xAxis: [
         {
           type: 'category',
-          data: ['自变量学员','睿博学院','派学院','芝士学院','芒格学院','狐逻&泰罗'],
-          axisPointer: {
-            type: 'shadow'
-          }
+          data: familyName,//['自变量学员','睿博学院','派学院','芝士学院','芒格学院','狐逻&泰罗'],
+
         }
       ],
       yAxis: [
@@ -113,7 +120,7 @@ class CollegeScore extends React.Component {
               fontSize:13
             }
           },
-          data:data
+          data:creaditValue
         },{
           name:'环比',
           type:'line',
@@ -121,7 +128,7 @@ class CollegeScore extends React.Component {
           itemStyle: {
             normal: {color: '#F5A623'}
           },
-          data:[10.00, 100.00, 20.00, 120.00, -20.00, 40.00]
+          data:qoqValue,//[10.00, 100.00, 20.00, 120.00, -20.00, 40.00]
         }
       ]
 
@@ -132,11 +139,11 @@ class CollegeScore extends React.Component {
   //   this.props.queryAppealDataPage(dimensionId)
   // }
   render() {
-    const {queryAppealDatas} = this.props.queryAppealDatas.state;
+    const {queryAppealDatas = {}} = this.props.queryAppealDatas.state;
     return (
       <div>
-        <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>
-        <Echart options={this.drawChart()} style={{height:"354px"}}/>
+        {queryAppealDatas.dimensions && queryAppealDatas.dimensions.length>0 && <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>}
+        {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 && <Echart options={this.drawChart(queryAppealDatas.creaditDataList)} style={{height:"354px"}}/>}
         <EchartBottom/>
       </div>
     );

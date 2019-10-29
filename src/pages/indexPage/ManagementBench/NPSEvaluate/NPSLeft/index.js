@@ -4,74 +4,17 @@ import styles from '../style.less'
 import ColorBlock from '../components/colorBlock'
 import BIWrapperTable from '../../../components/BIWrapperTable';
 import Star from '../components/star'
+import BILoading from '@/components/BILoading'
 
 
-@connect((xdWorkModal) => ({
+@connect(({xdWorkModal,loading}) => ({
   xdWorkModal,
+  loading: loading.effects['xdWorkModal/getNpsAutonomousEvaluation'],
 }))
 class NPSLeft extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      colorParams:[
-        {
-          id:1,
-          label:'退费申请',
-          num:20
-        }, {
-          id:2,
-          label:'登陆不上',
-          num:100
-        }, {
-          id:3,
-          label:'APP使用',
-          num:10
-        },{
-          id:4,
-          label:'退费申请',
-          num:20
-        },{
-          id:5,
-          label:'登陆不上',
-          num:100
-        },{
-          id:6,
-          label:'APP使用',
-          num:10
-        }
-      ],
-      // dataSource:[{
-      //   id:1,
-      //   collegeName:"芝士学院 | 能源管理 | 运营1组",
-      //   studentName:"张三",
-      //   starClass:1,
-      //   content:"我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉",
-      // },{
-      //   id:2,
-      //   collegeName:"芝士学院 | 能源管理 | 运营1组",
-      //   studentName:"张三",
-      //   starClass:2,
-      //   content:"我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉",
-      // },{
-      //   id:3,
-      //   collegeName:"芝士学院 | 能源管理 | 运营1组",
-      //   studentName:"张三",
-      //   starClass:3,
-      //   content:"我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉",
-      // },{
-      //   id:4,
-      //   collegeName:"芝士学院 | 能源管理 | 运营1组",
-      //   studentName:"张三",
-      //   starClass:4,
-      //   content:"我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉",
-      // },{
-      //   id:5,
-      //   collegeName:"芝士学院 | 能源管理 | 运营1组",
-      //   studentName:"张三",
-      //   starClass:5,
-      //   content:"我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉我要投诉",
-      // }],
-
     }
   }
   componentDidMount() {
@@ -108,21 +51,6 @@ class NPSLeft extends React.Component {
     ]
     return columns || [];
   }
-  handleOnScroll = () => {
-    let flag = false
-    if (this.dom) {
-      const contentScrollTop = this.dom.scrollTop
-      console.log(115,this.dom.scrollTop)
-      if (contentScrollTop >= 500) {
-        flag = true
-      }
-      this.setState({
-        flag
-      }, () => {
-
-      })
-    }
-  }
   render() {
     // const { dataSource} = this.state;
     const {NPSleftParams} = this.props
@@ -133,17 +61,17 @@ class NPSLeft extends React.Component {
       <div>
         {NPSleftParams && NPSleftParams.reasonTypeDtoList && NPSleftParams.reasonTypeDtoList.map((item,index)=><ColorBlock data={{...item}} key={index} className={`colorStyle${index}`}/>)}
       </div>
-   <div id="scroll1">
-      <BIWrapperTable  columns={this.columnsRight()}
-                       dataSource={dataSource}
-                       pagination={false}
-                       loading={this.props.loading}
-                       onRow={this.onClickRow}
-                       rowKey={record => record.id}
-                       style={{marginTop:'10px'}}
-                       scroll={{ y: 288 }}
-      />
-    </div>
+        {
+          this.props.loading?<BILoading/>: <BIWrapperTable  columns={this.columnsRight()}
+                                                            dataSource={dataSource}
+                                                            pagination={false}
+                                                            loading={this.props.loading}
+                                                            onRow={this.onClickRow}
+                                                            rowKey={record => record.id}
+                                                            style={{marginTop:'10px'}}
+                                                            scroll={{ y: 288 }}
+          />
+        }
       </div>
     );
   }

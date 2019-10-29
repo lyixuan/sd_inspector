@@ -23,11 +23,11 @@ class ScoreContrast extends React.Component {
       },{
         name: '小组学分对比',
         key: '3',
-        children: <CollegeScore />,
+        children: <CollegeScore queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       },{
         name:'学分时间趋势',
         key:'4',
-        children:<CollegeScore />,
+        children:<CollegeScore queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       }],
       collegeOptions:[{
         collegeId:1,
@@ -45,7 +45,7 @@ class ScoreContrast extends React.Component {
         collegeId:5,
         collegeName:'狐逻泰罗'
       }],
-      orgValue:"自变量",
+      orgValue:"自考家族",
       queryAppealDatas:{},
       queryParams: {
         contrasts:"1",
@@ -59,7 +59,17 @@ class ScoreContrast extends React.Component {
     }
   }
   componentDidMount() {
-    this.queryAppealDataPage()
+    this.queryAppealDataPage();
+    this.props.dispatch({
+      type:"xdWorkModal/getFamilyType",
+      payload:{params:{}},
+      callback:(res) => {
+        // console.log(67,res)
+        this.setState({
+          collegeOptions:res
+        })
+      }
+    })
   }
   // tab改变
   changeTab = (obj) => {
@@ -94,15 +104,14 @@ class ScoreContrast extends React.Component {
     })
   }
   rightPart = () =>{
-    const {collegeOptions, orgValue} = this.state
+    const {collegeOptions={}, orgValue} = this.state
     return(
       <div>
         <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
-          {collegeOptions.map((item, index) => (
-            <Option key={item.collegeId}>
-              {item.collegeName}
-            </Option>
-          ))}
+
+          {Object.keys(collegeOptions).map((key)=> <Option key={key}>
+            {collegeOptions[key]}
+          </Option>)}
         </BISelect>
       </div>
     )
@@ -111,6 +120,8 @@ class ScoreContrast extends React.Component {
     this.setState({
       orgValue:val
     })
+    this.state.queryParams.familyType = val
+    this.queryAppealDataPage()
   }
   render() {
 

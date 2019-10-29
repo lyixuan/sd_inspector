@@ -24,7 +24,7 @@ export const STATIC_HOST = {
 
 export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
-  localhost: 'http://test.xd.admin.ministudy.com', //鲁也ip http://172.16.56.221:8086
+  localhost: 'http://test.xd.admin.ministudy.com', //鲁也ip http://172.16.56.221:8086 http://test.xd.admin.ministudy.com
   localhost2: 'http://test.xd.admin2.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   development2: 'http://test.xd.admin2.ministudy.com',
