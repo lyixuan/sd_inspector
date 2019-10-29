@@ -3,8 +3,8 @@ import { connect } from 'dva';
 import styles from '../style.less'
 import Echart from '../../scoreContrast/components/echart'
 
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+@connect((xdManagementBench) => ({
+  xdManagementBench,
 }))
 class NPSLeft extends React.Component {
   constructor(props) {

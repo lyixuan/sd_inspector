@@ -10,8 +10,8 @@ import workArrow from '@/assets/workArrow.png';
 import moment from 'moment';
 
 const admin_user = localStorage.getItem('admin_user');
-@connect(xdWorkModal => ({
-  xdWorkModal,
+@connect(xdManagementBench => ({
+  xdManagementBench,
 }))
 class Header extends React.Component {
   constructor(props) {
@@ -34,7 +34,7 @@ class Header extends React.Component {
   getAllList() {
     this.props
       .dispatch({
-        type: 'xdWorkModal/getCountByDate',
+        type: 'xdManagementBench/getCountByDate',
         payload: { params: { beginDate: '2019-08-09', endDate: '2019-10-10' } },
       })
       .then(res => {
@@ -46,7 +46,7 @@ class Header extends React.Component {
   getCountList(familyType) {
     this.props
       .dispatch({
-        type: 'xdWorkModal/getCountCreditAvgScore',
+        type: 'xdManagementBench/getCountCreditAvgScore',
         payload: { params: { beginDate: '2019-08-09', endDate: '2019-10-10', familyType } },
       })
       .then(res => {

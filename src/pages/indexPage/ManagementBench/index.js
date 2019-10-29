@@ -9,8 +9,8 @@ import ReactDOM from 'react-dom';
 import IMPartLeft from './IMPartLeft';
 import IMPartRight from './IMPartRight';
 import NPSEvaluate from './NPSEvaluate';
-@connect(xdWorkModal => ({
-  xdWorkModal,
+@connect(xdManagementBench => ({
+  xdManagementBench,
 }))
 class ManagementBench extends React.Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class ManagementBench extends React.Component {
   componentDidMount() {
     this.props
       .dispatch({
-        type: 'xdWorkModal/getCurrentDateRange',
+        type: 'xdManagementBench/getCurrentDateRange',
         payload: { params: { userType: 'family' } },
       })
       .then(res => {

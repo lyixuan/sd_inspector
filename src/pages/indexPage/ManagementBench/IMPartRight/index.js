@@ -4,8 +4,8 @@ import { connect } from 'dva';
 import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+@connect((xdManagementBench) => ({
+  xdManagementBench,
 }))
 class IMPartRight extends React.Component {
   constructor(props) {
@@ -16,7 +16,7 @@ class IMPartRight extends React.Component {
   }
   componentDidMount() {
     this.props.dispatch({
-      type: 'xdWorkModal/getImReverseSideData',
+      type: 'xdManagementBench/getImReverseSideData',
       payload: { params: {} },
       callback: data => {
         this.setState({

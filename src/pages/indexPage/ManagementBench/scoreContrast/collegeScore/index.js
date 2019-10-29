@@ -4,8 +4,8 @@ import { connect } from 'dva';
 import TreeNames from '../components/treeNames'
 import Echart from '../components/Echart'
 import EchartBottom from '../components/echartBottom'
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+@connect((xdManagementBench) => ({
+  xdManagementBench,
 }))
 class CollegeScore extends React.Component {
   constructor(props) {

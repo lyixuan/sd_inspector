@@ -17,8 +17,8 @@ function CustomExpandIcon(props) {
 
 const { Option } = BISelect;
 
-@connect(xdWorkModal => ({
-  xdWorkModal,
+@connect(xdManagementBench => ({
+  xdManagementBench,
 }))
 class Top extends React.Component {
   constructor(props) {
@@ -71,7 +71,7 @@ class Top extends React.Component {
     this.getData();
     this.props
       .dispatch({
-        type: 'xdWorkModal/getHotList',
+        type: 'xdManagementBench/getHotList',
       })
       .then(res => {
         this.setState({ typeList: res });
@@ -82,7 +82,7 @@ class Top extends React.Component {
     const { date } = this.props;
     this.props
       .dispatch({
-        type: 'xdWorkModal/getPackageRankList',
+        type: 'xdManagementBench/getPackageRankList',
         payload: { params: { beginDate: '2019-08-09', endDate: '2019-10-10', collegeId } },
       })
       .then(res => {

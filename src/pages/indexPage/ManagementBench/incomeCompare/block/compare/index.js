@@ -5,8 +5,8 @@ import styles from './styles.less';
 import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../../../components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-@connect(xdWorkModal => ({
-  xdWorkModal,
+@connect(xdManagementBench => ({
+  xdManagementBench,
 }))
 class Compare extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class Compare extends React.Component {
   componentDidMount() {
     this.props
       .dispatch({
-        type: 'xdWorkModal/getCompareCollegeList',
+        type: 'xdManagementBench/getCompareCollegeList',
         payload: { params: { beginDate: '2019-08-09', endDate: '2019-09-10' } },
       })
       .then(res => {

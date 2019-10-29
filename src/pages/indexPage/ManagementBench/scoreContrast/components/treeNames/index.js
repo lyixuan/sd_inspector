@@ -3,8 +3,8 @@ import { connect } from 'dva';
 
 import styles from './style.less'
 
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+@connect((xdManagementBench) => ({
+  xdManagementBench,
 }))
 class TreeNames extends React.Component {
   constructor(props) {

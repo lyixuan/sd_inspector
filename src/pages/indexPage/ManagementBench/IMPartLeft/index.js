@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 // import styles from './style.less'
 import Container from '@/components/BIContainer/index';
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+@connect((xdManagementBench) => ({
+  xdManagementBench,
 }))
 class IMPartLeft extends React.Component {
   constructor(props) {

@@ -12,8 +12,8 @@ import { initTimeData } from '../../../ko/utils/utils';
 // const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
-@connect(({xdWorkModal,xdCreditModal}) => ({
-  xdWorkModal,
+@connect(({xdManagementBench,xdCreditModal}) => ({
+  xdManagementBench,
   xdCreditModal
 }))
 
@@ -61,7 +61,7 @@ class NPSEvaluate extends React.Component {
       pageSize:10
     }
     this.props.dispatch({
-      type:'xdWorkModal/getNpsAutonomousEvaluation',
+      type:'xdManagementBench/getNpsAutonomousEvaluation',
       payload:{params:params},
       callback:(res) => {
         this.setState({
@@ -74,7 +74,7 @@ class NPSEvaluate extends React.Component {
   // 组织 - 时间
   getUserOrgList = () => {
     this.props.dispatch({
-      type: 'xdWorkModal/getOrgMapTree',
+      type: 'xdManagementBench/getOrgMapTree',
       payload: { params: {} },
       callback: res => {
         console.log("组织架构",res)
@@ -105,7 +105,7 @@ class NPSEvaluate extends React.Component {
   rightPart = () =>{
     // const {collegeOptions,orgValue} = this.state
     const {  groupId, userOrgConfig,  } = this.state;
-    const {orgList} = this.props.xdWorkModal;
+    const {orgList} = this.props.xdManagementBench;
     orgList.length>0 && this.getResetGroupMsg(orgList)
     console.log(112,this.state.userOrgConfig)
     return(

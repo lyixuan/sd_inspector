@@ -5,8 +5,8 @@ import TopTabs from "../../components/topTabs"
 import BISelect from '@/ant_components/BISelect'
 import CollegeScore from "./collegeScore"
 const { Option } = BISelect;
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+@connect((xdManagementBench) => ({
+  xdManagementBench,
 }))
 class ScoreContrast extends React.Component {
   constructor(props) {
@@ -61,7 +61,7 @@ class ScoreContrast extends React.Component {
   componentDidMount() {
     this.queryAppealDataPage();
     this.props.dispatch({
-      type:"xdWorkModal/getFamilyType",
+      type:"xdManagementBench/getFamilyType",
       payload:{params:{}},
       callback:(res) => {
         // console.log(67,res)
@@ -92,7 +92,7 @@ class ScoreContrast extends React.Component {
     }
     this.setState({queryParams: params });
     this.props.dispatch({
-      type:'xdWorkModal/queryAppealDataPage',
+      type:'xdManagementBench/queryAppealDataPage',
       payload:{params:params},
       callback:(res) => {
         console.log("柱状图",res)

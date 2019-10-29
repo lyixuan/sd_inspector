@@ -7,9 +7,9 @@ import Star from '../components/star'
 import BILoading from '@/components/BILoading'
 
 
-@connect(({xdWorkModal,loading}) => ({
-  xdWorkModal,
-  loading: loading.effects['xdWorkModal/getNpsAutonomousEvaluation'],
+@connect(({xdManagementBench,loading}) => ({
+  xdManagementBench,
+  loading: loading.effects['xdManagementBench/getNpsAutonomousEvaluation'],
 }))
 class NPSLeft extends React.Component {
   constructor(props) {
