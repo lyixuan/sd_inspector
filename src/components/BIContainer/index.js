@@ -1,6 +1,19 @@
 import React from 'react';
 import styles from './style.less'
 
+/*
+* BIContainer 容器组件
+*
+* 自定义组件样式
+* params *
+* style-外层样式
+* right-右侧数据
+* propStyle-body样式
+*
+* 用法
+* <BIContainer propStyle={{width: '100px'}} right={<span>BIContainer</span>}>BIContainer</BIContainer>
+* */
+
 class BIContainer extends React.Component {
   render() {
     return (
