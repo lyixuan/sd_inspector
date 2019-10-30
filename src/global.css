@@ -185,3 +185,8 @@ body > a {
   font-size:18px;
   color:#52C9C2;
 }
+
+/* 统一修改tooltip 透明度，与echart的tooltip统一*/
+:global .ant-tooltip-content{
+  opacity: 0.8;
+}

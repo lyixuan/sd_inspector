@@ -557,14 +557,14 @@ function Ul(props) {
 
 // 整个列表
 function Layout(props) {
-  const layout = props.dataLists.map((item, index) => (
+  const layout = props.dataLists && props.dataLists.map((item, index) => (
     <div key={index}>
       <DateBar date={item} list={props} index={index}>
         <section>
           <ul className={styles.behavior}>
             <ContentChildren
               content={
-                item.dialogList.length > 0 ? (
+                item&&item.dialogList&&item.dialogList.length > 0 ? (
                   <Ul item={item} />
                 ) : (
                     // <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
@@ -616,7 +616,7 @@ class Im extends React.Component {
     //   return;
     // }
     //
-    if (allData.length > 0) {
+    if (allData&&allData.length > 0) {
       allData.sort(function (a, b) {
         return Date.parse(a.countDate) - Date.parse(b.countDate);//时间正序
       });
