@@ -70,11 +70,11 @@ export default class BaseInfo extends React.Component {
             <span className={styles.item}>{sex === '男' ? <Icon type="man" className={styles.sex}/> :
               <Icon type="woman" className={styles.sex}/>}</span>
             <span className={styles.item}>{age}岁</span>
-            <span className={styles.item}>{city}</span>
+            {city && <span className={styles.item}>{city}</span>}
             <span
-              className={styles.item2}>{collegeName}{familyName && '/'}{familyName}{groupName && '/'}{groupName}</span>
-            <span className={styles.item2}>{businessName}</span>
-            <span className={styles.item2}>注册日期：{registerDate}</span>
+              className={styles.item}>{collegeName}{familyName && '/'}{familyName}{groupName && '/'}{groupName}</span>
+            {businessName&&<span className={styles.item}>{businessName}</span>}
+            <span className={styles.item}>注册日期：{registerDate}</span>
             {/*<span className={styles.item2}>过服日期：{serviceEndDate}</span>*/}
           </div>
         </div>
