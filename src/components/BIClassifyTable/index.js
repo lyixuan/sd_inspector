@@ -135,7 +135,7 @@ class BIClassifyTable extends React.Component {
           fixed: 'left',
           className: styles.zIndex,
           render: (text, record) => {
-            const flag = this.props.orgClick && this.props.collegeId && this.props.userType == 'college'; //判断组织列能不能点击
+            const flag = this.props.orgClick && this.props.collegeId == record[this.props.defaultKey.id] && this.props.userType == 'college'; //判断组织列能不能点击
             return <span style={{ cursor: flag ? 'pointer' : '' }} onClick={flag ? () => this.props.cellClick('', record) : null}>{text}</span>
           }
         })
