@@ -150,7 +150,7 @@ function Layout(props) {
       <DateBar date={item} list={props} index={index}>
         <section>
           <ul className={styles.behavior}>
-            <ContentChildren content={item.dialogList.length > 0 ? <Ul item={item.dialogList}></Ul> : <Spin size="small" style={{ textAlign: "center", width: "100%" }} />}></ContentChildren>
+            <ContentChildren content={item.dialogList&&item.dialogList.length > 0 ? <Ul item={item.dialogList}></Ul> : <Spin size="small" style={{ textAlign: "center", width: "100%" }} />}></ContentChildren>
           </ul>
         </section>
       </DateBar>
@@ -270,7 +270,7 @@ class Bbs extends React.Component {
     } else {
       const {BI = {}} = window;
       BI.traceV && BI.traceV({widgetName:"BBS展开",traceName:"学员查询/学员档案/BBS展开"});
-      if (this.state.dateList[index].dialogList.length < 1) {
+      if (this.state.dateList[index].dialogList&&this.state.dateList[index].dialogList.length < 1) {
         let date = this.state.dateList[index].date.replace(/[\u4e00-\u9fa5]/g, '-').split('-');
         date.length = 3;
         this.getBbsList(date.join('-'));
