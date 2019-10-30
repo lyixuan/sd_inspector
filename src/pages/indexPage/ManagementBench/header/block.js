@@ -60,8 +60,9 @@ class Block extends React.Component {
   render() {
     const { item } = this.props;
     if (!item) return;
-    const href = TYPE.map(currentValue => {
-      if (currentValue.key === item.type) return currentValue.href;
+    let href = '';
+    TYPE.map(currentValue => {
+      if (currentValue.key === item.type) return href = currentValue.href;
     });
     const money =
       String(item.value).indexOf('.') !== -1
