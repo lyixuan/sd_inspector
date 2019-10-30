@@ -88,7 +88,8 @@ class ManagementBench extends React.Component {
       dementionId:16,
       reasonTypeId:reasonTypeId,
       orgId:record.orgId,
-      orgClick:this.orgClick
+      orgClick:this.orgClick,
+      orgType:record.groupType
     }
     window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
   }
