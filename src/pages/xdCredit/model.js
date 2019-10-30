@@ -39,6 +39,7 @@ export default {
       }
     },
     *reasonList({ payload }, { call, put }) {
+      yield put({ type: 'save', payload: { imDetailList: [] } });
       const params = payload.params;
       const result = yield call(reasonList, params);
       if (result.code === 20000) {
@@ -147,7 +148,6 @@ export default {
           typeName: '所有分类'
         }, ...data.reasonTypeList]
       }
-      console.log(129, data)
       return { ...state, ...{ imDetailData: data } };
     }
   },

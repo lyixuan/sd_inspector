@@ -128,7 +128,7 @@ class ProfitList extends React.Component {
             placeholder="请选择"
             onChange={this.onChangeParams}
             style={{ width: '136px', marginLeft: '8px' }}
-            allowClear
+            // allowClear
           >
             {pkTypeconfig.map((item, index) => <Option key={index} value={index + 1} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>{item}</Option>)}
           </BISelect>
