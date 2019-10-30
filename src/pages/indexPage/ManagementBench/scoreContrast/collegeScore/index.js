@@ -32,7 +32,7 @@ class CollegeScore extends React.Component {
     arr.map((item,index)=>{
       creaditValue.push(item.creaditValue);
       familyName.push(item.name);
-      qoqValue.push(item.qoqValue*100)
+      qoqValue.push(Number(item.qoqValue*100))
     })
     const yMax =  Math.max.apply(null, creaditValue);
     const yMin = Math.min.apply(null, creaditValue);
@@ -160,12 +160,28 @@ class CollegeScore extends React.Component {
     }
     return options
   }
-  clickEvent = (arr,item)=>{
+  orgTypes = (tabNum)=>{
+    let orgType = ""
+   if(tabNum === 1||tabNum === 4){
+     orgType = "college"
+    }else if(tabNum === 2){
+      orgType = "family"
+    }else if(tabNum === 2){
+     orgType = "group"
+   }
+    return orgType
+
+  }
+  clickEvent = (arr,item,userInfo)=>{
+    let paramsArr = arr
+    console.log(arr,item,userInfo,this.props.queryAppealDatas.state)
     let orgId = "";
-    const {tabNum} = this.props.queryAppealDatas.state
-    const {userInfo} = this.props
-    console.log(143,this.props.queryAppealDatas.state.tabNum,this.props.userInfo)
-    (tabNum === 1 || tabNum ===2 || tabNum ===3) && arr.map((subItem)=>{
+    let tabNum = 1;
+    if(this.props){
+      tabNum = this.props.queryAppealDatas.state.tabNum
+      paramsArr = this.props.queryAppealDatas.state.queryAppealDatas.creaditDataList
+    }
+    (tabNum === 1 || tabNum ===2 || tabNum ===3) && paramsArr.map((subItem)=>{
       if(subItem.name === item.name){
         orgId = subItem.id
       }
@@ -176,18 +192,20 @@ class CollegeScore extends React.Component {
       endTime:tabNum === 4?item.name:moment(this.props.times.endDate).format('YYYY-MM-DD'),
       dementionId:16,
       reasonTypeId:0,
-      orgId:orgId
+      orgId:orgId,
+      orgType:this.orgTypes(tabNum)
     }
     window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
   }
   render() {
     const {queryAppealDatas = {}} = this.props.queryAppealDatas.state;
+    const {userInfo} = this.props
     return (
       <div style={{height:'479px'}}>
         <BILoading isLoading={this.props.loading}>
           <div>
             <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>
-            {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 && <Echart options={this.drawChart(queryAppealDatas.creaditDataList)} style={{height:"354px"}} clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item)}/>}
+            {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 && <Echart options={this.drawChart(queryAppealDatas.creaditDataList)} style={{height:"354px"}} clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}/>}
             <EchartBottom/>
         </div>
         </BILoading>
