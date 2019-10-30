@@ -483,7 +483,7 @@ export const routes = [
             name: '家族长工作台',
           },
         ]
-      }
+      },
       // {
       //   path: '/xdWorkbench',
       //   name: '小德工作台',
@@ -495,6 +495,10 @@ export const routes = [
       //     },
       //   ]
       // }
+      {
+        path: '/configWords',
+        component: './configWords/index'
+      }
     ],
   },
 ];
