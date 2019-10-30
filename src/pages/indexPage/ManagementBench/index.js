@@ -85,7 +85,7 @@ class ManagementBench extends React.Component {
     let params={
       startTime:moment(date.startDate).format('YYYY-MM-DD'),
       endTime:moment(date.endDate).format('YYYY-MM-DD'),
-      dimensionId:16,
+      dementionId:16,
       reasonTypeId:reasonTypeId,
       orgId:record.orgId,
       orgClick:this.orgClick

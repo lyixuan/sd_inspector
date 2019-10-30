@@ -12,7 +12,7 @@ import styles from './style.less';
 class BIWrapperTable extends React.Component {
   render() {
     return (
-      <div className={this.props.isEditTd?styles.BIWrapperTable4:styles.BIWrapperTable}>
+      <div className={`${styles.BIWrapperTable} ${this.props.isEditTd?styles.BIWrapperTable4:""}`}>
         <Table {...this.props} />
       </div>
     );
