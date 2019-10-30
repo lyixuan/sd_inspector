@@ -5,7 +5,8 @@ import Container from '@/components/BIContainer/index';
 import BIClassifyTable from '@/components/BIClassifyTable';
 import BILoading from "../../../../components/BILoading/index";
 
-const colors = ['rgba(255, 89, 89, 1)', 'rgba(255, 89, 89, 0.8)', 'rgba(255, 89, 89, .6)', 'rgba(255, 89, 89, .5)', 'rgba(255, 89, 89, .4)', 'rgba(255, 89, 89, .3)']
+const colors = ['rgba(255, 120, 120, 1)', 'rgba(255, 120, 120, 0.8)', 'rgba(255, 120, 120, .6)', 'rgba(255, 120, 120, .4)', 'rgba(255, 120, 120, .2)', 'rgba(255, 120, 120, .1)']
+
 @connect(({ xdManagementBench, loading }) => ({
   xdManagementBench,
   loading: loading.effects['xdManagementBench/reasonList'],
