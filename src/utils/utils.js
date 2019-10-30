@@ -73,7 +73,7 @@ export function BiFilter(param) {
     }
   }
   return result;
-};
+}
 
 export function DeepCopy(obj) {
   if (typeof obj === 'object' && obj) {
@@ -83,7 +83,7 @@ export function DeepCopy(obj) {
   }
 }
 
-export function msgF(msg,msgDetail) {
+export function msgF(msg, msgDetail) {
   let r = '';
   if (msg && !msgDetail) {
     r = msg;
@@ -92,9 +92,9 @@ export function msgF(msg,msgDetail) {
     r = msgDetail;
   }
   if (msg && msgDetail) {
-    r = msg +','+msgDetail;
+    r = msg + ',' + msgDetail;
   }
-  return  r;
+  return r;
 }
 
 function getRenderArr(routes) {
@@ -165,9 +165,9 @@ export function formatDate(timestamp, split = '') {
 }
 // 时间转化成星期几
 export function formatDateToWeek(date) {
-  const weekArr = ['周日','周一','周二','周三','周四','周五','周六']
+  const weekArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
   const dateTime = new Date(date).getDay();
-  return `${date} ${weekArr[dateTime]}`
+  return `${date} ${weekArr[dateTime]}`;
 }
 // 处理url
 /* eslint no-useless-escape:0 */
@@ -189,36 +189,49 @@ export function downBlob(blob, name) {
   window.URL.revokeObjectURL(href); // 释放掉blob对象
 }
 
-export function thousandsFormat (num) {
+export function thousandsFormat(num) {
   // 千分位分割,接收正整数
-  var reg=/\d{1,3}(?=(\d{3})+$)/g;
+  var reg = /\d{1,3}(?=(\d{3})+$)/g;
   return (num + '').replace(reg, '$&,');
+}
+
+export function thousandsFormatBigger(num) {
+  // 千分位分割,接收正整数
+  if (Math.ceil(num / 10000).lentgth > 7) {
+    return `${Math.ceil(num / 10000)}万`;
+  } else {
+    var reg = /\d{1,3}(?=(\d{3})+$)/g;
+    let newNum = (num + '').replace(reg, '$&,');
+    return String(newNum).indexOf('.') !== -1
+      ? thousandsFormat(String(newNum).split('.')[0]) + '.' + String(newNum).split('.')[1]
+      : newNum;
+  }
 }
 
 // 16进制转换成rgba
 export function colorRgba(sHex, alpha = 1) {
   // 十六进制颜色值的正则表达式
-  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
+  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
   /* 16进制颜色转为RGB格式 */
   let sColor = sHex ? sHex.toLowerCase() : sHex;
   if (sColor && reg.test(sColor)) {
     if (sColor.length === 4) {
-      var sColorNew = '#'
+      var sColorNew = '#';
       for (let i = 1; i < 4; i += 1) {
-        sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1))
+        sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
       }
-      sColor = sColorNew
+      sColor = sColorNew;
     }
     //  处理六位的颜色值
-    var sColorChange = []
+    var sColorChange = [];
     for (let i = 1; i < 7; i += 2) {
-      sColorChange.push(parseInt('0x' + sColor.slice(i, i + 2)))
+      sColorChange.push(parseInt('0x' + sColor.slice(i, i + 2)));
     }
     // return sColorChange.join(',')
     // 或
-    return 'rgba(' + sColorChange.join(',') + ',' + alpha + ')'
+    return 'rgba(' + sColorChange.join(',') + ',' + alpha + ')';
   } else {
-    return sColor
+    return sColor;
   }
 }
 
@@ -226,69 +239,66 @@ export function colorRgba(sHex, alpha = 1) {
 export function dealQuarys(pm) {
   const p = DeepCopy(pm);
   if (p.collegeIdList && p.collegeIdList.length > 0) {
-    p.collegeIdList = p.collegeIdList.map((v) => {
+    p.collegeIdList = p.collegeIdList.map(v => {
       return Number(v.toString().replace('a-', ''));
-    })
+    });
   } else {
     p.collegeIdList = undefined;
   }
   if (p.familyIdList && p.familyIdList.length > 0) {
-    p.familyIdList = p.familyIdList.map((v) => {
+    p.familyIdList = p.familyIdList.map(v => {
       return Number(v.toString().replace('b-', ''));
-    })
+    });
   } else {
     p.familyIdList = undefined;
   }
   if (p.groupIdList && p.groupIdList.length > 0) {
-    p.groupIdList = p.groupIdList.map((v) => {
+    p.groupIdList = p.groupIdList.map(v => {
       return Number(v.toString().replace('c-', ''));
-    })
+    });
   } else {
     p.groupIdList = undefined;
   }
-  if (!p.creditBeginDate||!p.creditEndDate) {
-    p.creditBeginDate = undefined
-    p.creditEndDate = undefined
+  if (!p.creditBeginDate || !p.creditEndDate) {
+    p.creditBeginDate = undefined;
+    p.creditEndDate = undefined;
   }
-  if (!p.appealBeginDate||!p.appealBeginDate) {
-    p.appealBeginDate = undefined
-    p.appealEndDate = undefined
+  if (!p.appealBeginDate || !p.appealBeginDate) {
+    p.appealBeginDate = undefined;
+    p.appealEndDate = undefined;
   }
   if (p.creditType) {
     p.creditType = parseInt(p.creditType);
   } else {
-    p.creditType = undefined
+    p.creditType = undefined;
   }
-  if (p.statusList&&p.statusList.length>0) {
-
-    p.statusList = p.statusList.map((v)=>Number(v))
+  if (p.statusList && p.statusList.length > 0) {
+    p.statusList = p.statusList.map(v => Number(v));
   } else {
-    p.statusList = undefined
+    p.statusList = undefined;
   }
 
   if (!p.appealOrderNum) {
-    p.appealOrderNum = undefined
+    p.appealOrderNum = undefined;
   } else {
-    p.appealOrderNum = p.appealOrderNum.trim()
+    p.appealOrderNum = p.appealOrderNum.trim();
   }
 
   if (!p.stuName) {
-    p.stuName = undefined
+    p.stuName = undefined;
   } else {
-    p.stuName = p.stuName.trim()
+    p.stuName = p.stuName.trim();
   }
   if (p.stuId) {
     p.stuId = parseInt(p.stuId.toString().trim());
   } else {
-    p.stuId = undefined
+    p.stuId = undefined;
   }
   return p;
-};
-
+}
 
 // 埋点
 const { BI = {} } = window;
 export function handleDataTrace(obj) {
-  BI.traceV &&  BI.traceV(obj);
+  BI.traceV && BI.traceV(obj);
 }
-

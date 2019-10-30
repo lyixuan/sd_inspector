@@ -276,7 +276,7 @@ class CreditImDetials extends React.Component {
       <div className={`${styles.detials}`}>
         <div className={styles.classityBox} id="classityBox">
           {
-            loading1 ? <BILoading isLoading={loading1} /> : <BIClassifyTable
+            loading1 ? <BILoading isLoading={loading1} /> : imDetailData.titleList && <BIClassifyTable
               loading={this.props.loading}
               columns={this.columnsTable()}
               colors={colors}
@@ -284,6 +284,7 @@ class CreditImDetials extends React.Component {
               cellWidth={85}
               style={{ cursor: 'pointer' }}
               isChecked={true}
+              collegeType='college'
               defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
               {...this.props}
             ></BIClassifyTable>

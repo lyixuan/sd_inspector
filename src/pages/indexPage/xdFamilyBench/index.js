@@ -36,7 +36,7 @@ class XdFamily extends React.Component {
         <Income />
         <FamilyAndGroupIncome />
         <div className={styles.qualityAppel}>
-          <Appeal userId={userId} />
+          {/* <Appeal userId={userId} /> */}
           <Quality userId={userId} />
         </div>
       </div>

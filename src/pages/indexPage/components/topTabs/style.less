@@ -5,6 +5,11 @@
     top:9px;
     right:24px;
   }
+  .topRight{
+    position: absolute;
+    top:9px;
+    right:24px;
+  }
   :global{
     .ant-tabs-bar{
       width:100%;
@@ -35,7 +40,7 @@
       color: #1A1C1F;
       font-weight:bold;
     }
-    .ant-tabs-nav .ant-tabs-tab:nth-child(1)::after{
+    .ant-tabs-nav .ant-tabs-tab::after {
       content: '|';
       position: absolute;
       color:#D8D8D8;
@@ -43,5 +48,14 @@
       top:1px;
       transform: scale(.5, .7);
     }
+    .ant-tabs-nav .ant-tabs-tab:last-child(1)::after {
+      content: '';
+      position: absolute;
+      color:#D8D8D8;
+      right: -4px;
+      top:1px;
+      transform: scale(.5, .7);
+    }
+
   }
 }
