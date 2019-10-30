@@ -3,6 +3,7 @@ import BITable from '@/ant_components/BITable';
 import BIContrastCell from '@/components/BIContrastCell';
 import BISelectCell from '@/components/BISelectCell';
 import searchIcon from '@/assets/xdcredit/search.png';
+import Debounce from 'lodash-decorators/debounce';
 import styles from './style.less';
 
 const totalLength = 9999;
@@ -19,10 +20,24 @@ class BIClassifyTable extends React.Component {
     if (!dataList) return;
     const item = dataList[dataList.length - 1]
     this.resetCell(item, `${dataList.length - 1}${totalLength}`);
-    window.addEventListener('resize', this.countWidth);
+    if (navigator.userAgent.indexOf("Firefox") > -1) return;
+    window.addEventListener('resize', this.debounce(this.countWidth, 600));
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.countWidth);
+  }
+  debounce(func, wait) {
+    let timeout;
+    return () => {
+      let args = arguments;
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        func.apply(this, args)
+      }, wait);
+    }
   }
   countWidth = () => {
-    const tableWidth = document.getElementById("tableWrap").offsetWidth;
+    const tableWidth = document.getElementById("tableWrap") && document.getElementById("tableWrap").offsetWidth;
     let scrollWidth1 = this.props && this.props.columns.reduce(function (prev, curr, idx, arr) {
       return prev.width ? prev.width : prev + curr.width;
     })
@@ -111,7 +126,11 @@ class BIClassifyTable extends React.Component {
           key: this.props.defaultKey.name,
           width: item.width,
           fixed: 'left',
-          className: styles.zIndex
+          className: styles.zIndex,
+          render: (text, record) => {
+            const flag = this.props.orgClick
+            return <span style={{ cursor: flag ? 'pointer' : '' }} onClick={flag ? () => this.props.cellClick('', record) : null}>{text}</span>
+          }
         })
       } else if (item.type == 'children') {
         columns.push({

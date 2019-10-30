@@ -13,7 +13,7 @@ class Profit extends React.Component {
     const pkListType = localStorage.getItem('pkListType');
     this.state = {
       pkUsers: pkUsers ? JSON.parse(pkUsers) : [], // 选中的pk者
-      pkListType: pkListType ? Number(pkListType) : 5, // 列表选项--同级排行
+      pkListType: pkListType ? Number(pkListType) : 3, // 列表选项--同级排行
       visible: false
     }
   }
