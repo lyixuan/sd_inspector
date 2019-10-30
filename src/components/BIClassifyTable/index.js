@@ -96,7 +96,6 @@ class BIClassifyTable extends React.Component {
         width: this.props.cellWidth,
         className: styles.txRight,
         render: (text, record, indexs) => {
-          console.log(99, this.props.collegeId)
           const currentIndex = `${index}${indexs}`
           // 如果userType == 'college'只能点击当前学院的数据
           if ((record[this.props.defaultKey.id] == this.props.collegeId && this.props.userType == 'college') || !this.props.collegeId) {
@@ -135,7 +134,7 @@ class BIClassifyTable extends React.Component {
           fixed: 'left',
           className: styles.zIndex,
           render: (text, record) => {
-            const flag = this.props.orgClick; //判断组织列能不能点击
+            const flag = this.props.orgClick && this.props.collegeId && this.props.userType == 'college'; //判断组织列能不能点击
             return <span style={{ cursor: flag ? 'pointer' : '' }} onClick={flag ? () => this.props.cellClick('', record) : null}>{text}</span>
           }
         })
@@ -161,9 +160,17 @@ class BIClassifyTable extends React.Component {
           fixed: 'right',
           render: (text, record, index) => {
             const currentIndex = `${index}${totalLength}`;
+            if ((record[this.props.defaultKey.id] == this.props.collegeId && this.props.userType == 'college') || !this.props.collegeId) {
+              return (
+                this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell style={{ cursor: 'pointer' }} text={text} onClick={(e) => { this.cellClick(record, currentIndex, 'total') }} /> : <BIContrastCell style={{ cursor: 'pointer' }} data-trace='{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}' key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, 'total') }} nums={record.values} text={text} />
+              )
+            }
             return (
-              this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell style={{ cursor: 'pointer' }} text={text} onClick={(e) => { this.cellClick(record, currentIndex, 'total') }} /> : <BIContrastCell style={{ cursor: 'pointer' }} data-trace='{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}' key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, 'total') }} nums={record.values} text={text} />
+              this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell text={text} /> : <BIContrastCell key={index} colors={this.props.colors} nums={record.values} text={text} />
             )
+            // return (
+            //   this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell style={{ cursor: 'pointer' }} text={text} onClick={(e) => { this.cellClick(record, currentIndex, 'total') }} /> : <BIContrastCell style={{ cursor: 'pointer' }} data-trace='{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}' key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, 'total') }} nums={record.values} text={text} />
+            // )
           }
         })
       }
