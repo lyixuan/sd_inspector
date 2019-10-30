@@ -51,6 +51,7 @@ class NPSEvaluate extends React.Component {
   }
   componentDidMount() {
     // this.getNpsAutonomousEvaluation()
+
     this.getUserOrgList()
     this.getNpsAutonomousEvaluation(this.state.userInfo)
     if(this.state.userInfo.collegeId){
@@ -60,6 +61,7 @@ class NPSEvaluate extends React.Component {
     }else if(this.state.userInfo.groupId){
       this.state.groupId.push(this.state.userInfo.groupId)
     }
+    console.log(54,this.state.groupId,this.state.userInfo)
     this.setState({
       groupId:this.state.groupId
     })
