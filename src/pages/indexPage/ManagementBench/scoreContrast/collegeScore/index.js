@@ -32,7 +32,7 @@ class CollegeScore extends React.Component {
     arr.map((item,index)=>{
       creaditValue.push(item.creaditValue);
       familyName.push(item.name);
-      qoqValue.push(Number(item.qoqValue*100))
+      qoqValue.push(Number(parseInt(item.qoqValue*100)))
     })
     const yMax =  Math.max.apply(null, creaditValue);
     const yMin = Math.min.apply(null, creaditValue);
