@@ -27,23 +27,12 @@ class ManagementBench extends React.Component {
       },
     };
   }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log(nextState, 'nextProps.date');
-  //   if (nextProps.xdManagementBench.getCurrentDateRangeData.startDate) {
-  //     return true;
-  //   }
-  // }
   componentWillReceiveProps(nextProps) {
-    // console.log(nextProps, 'nextPropsnextProps');
     if (
       nextProps.xdManagementBench.getCurrentDateRangeData &&
       nextProps.xdManagementBench.getCurrentDateRangeData.startDate !== this.state.date.startDate
     ) {
       this.setState({ date: nextProps.xdManagementBench.getCurrentDateRangeData });
-    }
-    if (this.props.userInfo !== nextProps.userInfo) {
-      this.getReasonListData(nextProps.userInfo)
     }
   }
   componentDidMount() {
@@ -64,7 +53,6 @@ class ManagementBench extends React.Component {
       .then(res => {
         this.getReasonListData();
       });
-    // this.getReasonListData()
   }
 
   componentDidUpdate() {
@@ -78,22 +66,6 @@ class ManagementBench extends React.Component {
       }
     }
   }
-  getReasonListData() {
-    console.log('userInfo77777', this.props.userInfo);
-  }
-    // const params = {
-    //   startTime: "2019-09-01",//this.state.startTime,
-    //   endTime:"2019-09-26" ,//this.state.endTime,
-    //   familyType: 0,
-    //   groupType: this.getGroupMsg().groupType || 'group',
-    //   orgId: this.getGroupMsg().groupId || this.state.allUserInfo.groupId,
-    //   reasonTypeId: this.state.reasonTypeId
-    // }
-    // this.props.dispatch({
-    //   type: 'xdCreditModal/reasonList',
-    //   payload: { params }
-    // });
-  
   reasonTypeClick = (item) => {
     this.setState({
       reasonTypeId: item.typeId
@@ -118,14 +90,14 @@ class ManagementBench extends React.Component {
       orgId:record.orgId,
       orgClick:this.orgClick
     }
-    window.open(`/inspector/xdCredit/index?p=${JSON.stringify(params)}`);
+    window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
   }
-  getReasonListData(userInfo) {
+  getReasonListData() {
     const {date} = this.state
     const params = {
-      startTime: "2019-09-01",//moment(date.startDate).format('YYYY-MM-DD'),
-      endTime:"2019-09-26" ,//moment(date.endDate).format('YYYY-MM-DD'),
-      familyType: 0,
+      startTime: moment(date.startDate).format('YYYY-MM-DD'),
+      endTime:moment(date.endDate).format('YYYY-MM-DD'),
+      familyType: null,
       groupType: null,
       orgId: null,
       reasonTypeId: this.state.reasonTypeId
@@ -138,16 +110,17 @@ class ManagementBench extends React.Component {
   }
   render() {
     const { date } = this.state;
+    const {userInfo={}} = this.props
     return (
       <div className={styles.workbench}>
         {date.startDate && <Header date={date} />}
         {date.startDate && <IncomeCompare date={date} />}
-        <ScoreContrast ref="one" />
+        {date.startDate && userInfo &&  <ScoreContrast ref="one" date={date} userInfo={userInfo}/>}
         <div className={styles.qualityAppel} ref="four">
-          <IMPartLeft />
+          {userInfo && <IMPartLeft  cellClick={this.cellClick} reasonTypeClick={this.reasonTypeClick}/>}
           <IMPartRight />
         </div>
-        <NPSEvaluate ref="five" />
+        {date.startDate && userInfo && <NPSEvaluate ref="five" date={date} userInfo={userInfo}/>}
       </div>
     );
   }

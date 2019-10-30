@@ -41,7 +41,7 @@ class IMPartRight extends React.Component {
         key: 'badContrasts',
         width:"25%",
         render: (badPostNum, record) => {
-          const percent = badPostNum * 100 + '%';
+          const percent = parseInt(badPostNum * 100) + '%';
           return <BIWrapperProgress text={percent} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"center"}}/>
         },
       }, {
@@ -69,7 +69,7 @@ class IMPartRight extends React.Component {
     const { dataSource} = this.state;
     return (
       <Container title="IM负面数据对比"
-                 style={{ width: 'calc(40% - 16px)',height:"372px" }}
+                 style={{ width: 'calc(40% - 16px)',minHeight:'372px'}}
       >
         {this.props.loading?<BILoading isLoading={this.props.loading}/>:<BIWrapperTable  columns={this.columnsRight()}
                                                            dataSource={dataSource||[]}
@@ -77,7 +77,8 @@ class IMPartRight extends React.Component {
                                                            loading={this.props.loading}
                                                            onRow={this.onClickRow}
                                                            rowKey={record => record.id}
-                                                           scroll={{ y: 249}}
+                                                           isEditTd={true}
+
 
         />}
       </Container>

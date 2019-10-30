@@ -4,12 +4,15 @@ import Container from '@/components/BIContainer';
 import TopTabs from "../../components/topTabs"
 import BISelect from '@/ant_components/BISelect'
 import CollegeScore from "./collegeScore"
+import moment from 'moment'
 const { Option } = BISelect;
 @connect((xdManagementBench) => ({
   xdManagementBench,
+  times:xdManagementBench.getCurrentDateRangeData
 }))
 class ScoreContrast extends React.Component {
   constructor(props) {
+    console.log("date",props.date,moment(props.date.startDate).format('YYYY-MM-DD'),moment(props.date.endDate).format('YYYY-MM-DD'))
     super(props)
     this.state = {
       tabParams:[{
@@ -48,12 +51,12 @@ class ScoreContrast extends React.Component {
       orgValue:"自考家族",
       queryAppealDatas:{},
       queryParams: {
-        contrasts:"1",
-        familyType:"0",
-        dimensionId:"",
-        collegeId:null,
-        startTime:"2019-09-25",
-        endTime:"2019-09-30"
+        contrasts:1,
+        familyType:0,
+        dimensionId:null,
+        collegeId:props.userInfo.collegeId,
+        startTime:moment(props.date.startDate).format('YYYY-MM-DD'),
+        endTime:moment(props.date.endDate).format('YYYY-MM-DD'),
       },
       query: { },
       orgId:0
@@ -65,7 +68,6 @@ class ScoreContrast extends React.Component {
       type:"xdManagementBench/getFamilyType",
       payload:{params:{}},
       callback:(res) => {
-        // console.log(67,res)
         this.setState({
           collegeOptions:res
         })
@@ -80,7 +82,6 @@ class ScoreContrast extends React.Component {
       familyType: this.state.orgId,
       dimensionId: queryParams.dimensionId,
     }
-    console.log(82,this.state.query)
     if (!this.state.query[obj.keye]) {
       this.state.query[obj.keye] = {};
     }
@@ -92,6 +93,7 @@ class ScoreContrast extends React.Component {
       ...this.state.queryParams,
       ...obj,
     }
+    console.log("params",params)
     this.setState({queryParams: params });
     this.props.dispatch({
       type:'xdManagementBench/queryAppealDataPage',

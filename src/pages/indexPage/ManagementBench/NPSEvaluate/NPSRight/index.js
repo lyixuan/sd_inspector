@@ -20,6 +20,7 @@ class NPSLeft extends React.Component {
   optionsDraw=()=>{
     // let  JosnList = [];
     const {cloudOptions=[]} = this.props
+    console.log("云图",cloudOptions)
     const worldCloudoption={
       title: {
         // text: '研发部邮件主题分析',

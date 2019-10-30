@@ -15,12 +15,13 @@ const dateFormat = 'YYYY-MM-DD';
 @connect(({xdManagementBench,xdCreditModal,xdWorkModal}) => ({
   xdManagementBench,
   xdCreditModal,
-  userInfo:xdWorkModal.userInfo
+  userInfo:xdWorkModal.userInfo,
 }))
 
 class NPSEvaluate extends React.Component {
   constructor(props) {
     super(props)
+    console.log(24,props.date)
     this.state = {
       collegeOptions:[{
         collegeId:1,
@@ -43,24 +44,34 @@ class NPSEvaluate extends React.Component {
       groupId: [],
       groupTypeArr: [],
       NPSParams:{},
-      userInfo:{}
+      startTime:moment(props.date.startDate).format('YYYY-MM-DD'),
+      endTime:moment(props.date.endDate).format('YYYY-MM-DD'),
+      userInfo:props.userInfo
     }
   }
   componentDidMount() {
-    this.getNpsAutonomousEvaluation()
+    // this.getNpsAutonomousEvaluation()
     this.getUserOrgList()
-  }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.userInfo !== nextProps.userInfo) {
-      this.getNpsAutonomousEvaluation(nextProps.userInfo)
+    this.getNpsAutonomousEvaluation(this.state.userInfo)
+    if(this.state.userInfo.collegeId){
+      this.state.groupId.push(this.state.userInfo.collegeId)
+    }else if(this.state.userInfo.familyId){
+      this.state.groupId.push(this.state.userInfo.familyId)
+    }else if(this.state.userInfo.groupId){
+      this.state.groupId.push(this.state.userInfo.groupId)
     }
+    this.setState({
+      groupId:this.state.groupId
+    })
   }
+
   //获取NPS自主评价的的数据接口
   getNpsAutonomousEvaluation = (userInfo,ids) =>{
+    console.log(61,userInfo,this.state.startTime,this.state.endTime)
     let params = {
-      startTime:this.state.startTime ? this.state.startTime : "2019-10-14",
-      endTime:this.state.endTime ? this.state.endTime : "2019-10-24",
-      collegeId:(userInfo && userInfo.collegeId) || (this.state.groupId.length>0 && this.state.groupId[0] || 103),
+      startTime:this.state.startTime ? this.state.startTime : "",
+      endTime:this.state.endTime ? this.state.endTime : "",
+      collegeId:(userInfo && userInfo.collegeId) || (this.state.groupId.length>0 && this.state.groupId[0])||null,
       familyId:(userInfo && userInfo.familyId) || (this.state.groupId.length>0 && this.state.groupId[1])||null,
       groupId:(userInfo && userInfo.groupId) || (this.state.groupId.length>0 && this.state.groupId[2])|| null,
       pageNum:1,
@@ -154,6 +165,7 @@ class NPSEvaluate extends React.Component {
   }
   render() {
     const { NPSParams} = this.state;
+    console.log(157,NPSParams)
     return (
       <Container title="NPS自主评价分析"
                  style={{ width: '100%', marginBottom: '16px' }}
