@@ -38,6 +38,7 @@ class IMPartLeft extends React.Component {
   }
   render() {
     const { imDetailData } = this.props.xdManagementBench;
+    const {userInfo} = this.props
     console.log('loading',this.props.loading)
     return (
       <Container title="IM负面原因分析"
@@ -55,6 +56,8 @@ class IMPartLeft extends React.Component {
             defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
             orgClick={true}
             {...this.props}
+            collegeId={userInfo.collegeId}
+            userType = {userInfo.userType}
           ></BIClassifyTable>}
 
 

@@ -118,7 +118,7 @@ class ManagementBench extends React.Component {
         {date.startDate && <IncomeCompare date={date} />}
         {date.startDate && userInfo &&  <ScoreContrast ref="one" date={date} userInfo={userInfo}/>}
         <div className={styles.qualityAppel} ref="four">
-          {userInfo && <IMPartLeft  cellClick={this.cellClick} reasonTypeClick={this.reasonTypeClick}/>}
+          {userInfo && <IMPartLeft  cellClick={this.cellClick} reasonTypeClick={this.reasonTypeClick} userInfo = {userInfo}/>}
           <IMPartRight />
         </div>
         {date.startDate && userInfo && <NPSEvaluate ref="five" date={date} userInfo={userInfo}/>}
