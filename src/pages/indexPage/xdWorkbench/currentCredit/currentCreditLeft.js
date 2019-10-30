@@ -31,6 +31,7 @@ class currentCreditLeft extends React.Component {
         groupList: [],
         dimensionList: []
       },
+      phLoading: false
     }
   }
   componentDidMount() {
@@ -110,12 +111,21 @@ class currentCreditLeft extends React.Component {
   }
   //获取左侧列表数据的方法
   getGroupPkData = (pkGroupList = this.props.pkGroupList) => {
+    this.setState({ phLoading: true});
     this.props.dispatch({
       type: 'xdClsssModal/groupPkList',
       payload: { params: { pkGroupList } },
       callback: res => {
+        // 点击多次，只显示最后一次的数据
+        const len = this.props.pkGroupList.length;
+        if (len !== res.groupList.length - 1) return;
+        for(let i = 0; i < len; i++) {
+          if (!res.groupList[i+1] || this.props.pkGroupList[i] !== res.groupList[i+1].groupId) {
+            return;
+          }
+        }
         res.dimensionList = this.fillDataSource(res.dimensionList);
-        this.setState({ groupPkList: res });
+        this.setState({ groupPkList: res, phLoading: false });
       }
     });
   }
@@ -145,7 +155,7 @@ class currentCreditLeft extends React.Component {
   fillDataSource = (params = [], n = 1, flagMark) => {
     params.map(item => {
       item.level = n;
-      item.flagMark = item.dimensionName === '学分均分' ? 3 : flagMark; // 1 正面均分  2 负面均分 3学分均分 其它
+      item.flagMark = item.dimensionName === '学分均分' ? 3 : (item.dimensionName === '负面均分' ? 2 : flagMark); // 1 正面均分  2 负面均分 3学分均分 其它
       if (item.values) {// 处理颜色对比
         if (item.flagMark === 1 || item.flagMark === 3 || item.dimensionName === '退挽' || item.dimensionName === '随堂考') {
           item.valuesParams = BIContrastCell.colorContrast({ nums: item.values });
@@ -171,10 +181,11 @@ class currentCreditLeft extends React.Component {
   }
   render() {
     const { pkGroupList } = this.props
+    const loading = this.props.loading || this.state.phLoading;
     const dataSource = this.getDataSource();
     return (
       <div className={styles.creditLeft} style={{ minHeight: this.props.getNumValue(732) + 'px' }}>
-        {this.props.loading ? <BILoading isLoading={this.props.loading} /> : <div className={styles.tableContainer}>
+        {loading ? <BILoading isLoading={loading} /> : <div className={styles.tableContainer}>
           {
             dataSource && dataSource.length > 0 && <BIWrapperTable
               columns={this.columns()}
