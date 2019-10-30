@@ -84,10 +84,17 @@ class Header extends React.Component {
 
   //学分
   getCountList(familyType) {
+    const { date } = this.props;
     this.props
       .dispatch({
         type: 'xdManagementBench/getCountCreditAvgScore',
-        payload: { params: { beginDate: '2019-08-09', endDate: '2019-10-10', familyType } },
+        payload: {
+          params: {
+            beginDate: moment(date.startDate).format('YYYY-MM-DD'),
+            endDate: moment(date.endDate).format('YYYY-MM-DD'),
+            familyType
+          },
+        },
       })
       .then(res => {
         this.setState({ countList: res });
