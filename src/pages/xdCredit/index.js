@@ -289,7 +289,6 @@ class XdCredit extends React.Component {
       const { orgId, orgType } = this.state;
       if (orgId && arr1.length > 0) {
         const groupArr = arr1.map(item => item.id)
-        console.log(292, groupArr)
         return { groupId: groupArr, groupTypeArr: arr1, familyType: arr1[arr1.length - 1].familyType }
       } else if (item.groupType === 'college' && item.nodeList && item.nodeList.length > 0) {
         const node = item.nodeList[0];
