@@ -119,7 +119,7 @@ class Header extends React.Component {
       <ul className={styles.list}>
         <li>
           <a href="#one">
-            <img src={workImg1} alt="icon" />
+            {/* <img src={workImg1} alt="icon" /> */}
           </a>
           {countList.familyTypeFlag && (
             <span className={styles.changeType} onClick={() => this.changeType()}>
