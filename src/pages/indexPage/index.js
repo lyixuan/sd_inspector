@@ -24,7 +24,7 @@ class IndexPage extends Component {
           pathname: '/indexPage/xdWorkbench',
         });
       }
-    } else if (userType === 'family' && userInfo.privilegeView && userInfo.moreView) {
+    } else if (userType === 'family' && (userInfo.privilegeView || userInfo.moreView)) {
 
         if (this.props.history.location.pathname !== '/indexPage/xdFamilyBench') {
               this.props.history.push({
@@ -32,10 +32,10 @@ class IndexPage extends Component {
               }); //前端角色是家族长（family）角色 且 权限中勾选了 学分绩效 或 创收绩效 的用户显示页面
             }
 
-    } else if ((userType === 'college'||userType === 'boss') ) {//&& userInfo.privilegeView && userInfo.moreView
-          if (this.props.history.location.pathname !== '/indexPage/managementBench') {
+    } else if ((userType === 'college'||userType === 'boss') && (userInfo.privilegeView || userInfo.moreView )) {//
+          if (this.props.history.location.pathname !== '/indexPage/ManagementBench') {
               this.props.history.push({
-                pathname: '/indexPage/managementBench',
+                pathname: '/indexPage/ManagementBench',
               }); //前端角色是家族长（college）角色 且 权限中勾选了 学分绩效 或 创收绩效 的用户显示页面
           }
 

@@ -41,33 +41,23 @@ class IMPartLeft extends React.Component {
     console.log('loading',this.props.loading)
     return (
       <Container title="IM负面原因分析"
-                 style={{ width: '60%', marginBottom: '16px' }}>
-        {this.props.loading?<BILoading isLoading={this.props.loading}/>:(imDetailData && <BIClassifyTable
-          loading={this.props.loading}
-          columns={this.columnsTable()}
-          colors={colors}
-          dataSource={imDetailData}
-          cellWidth={85}
-          style={{ cursor: 'pointer' }}
-          isChecked={false}
-          defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
-          orgClick={true}
-          {...this.props}
-        ></BIClassifyTable>)}
+                 style={{ width: '60%', marginBottom: '16px',minHeight:'372px'}}>
 
-        {/*{*/}
-          {/*loading1 ? <BILoading isLoading={loading1} /> : <BIClassifyTable*/}
-            {/*loading={this.props.loading}*/}
-            {/*columns={this.columnsTable()}*/}
-            {/*colors={colors}*/}
-            {/*dataSource={imDetailData}*/}
-            {/*cellWidth={85}*/}
-            {/*style={{ cursor: 'pointer' }}*/}
-            {/*isChecked={true}*/}
-            {/*defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}*/}
-            {/*{...this.props}*/}
-          {/*></BIClassifyTable>*/}
-        {/*}*/}
+
+          {this.props.loading ?<div style={{width:'100%',minHeight:'372px',display:'flex',justifyContent:'center',alignItems:'center'}}><BILoading isLoading={this.props.loading}/></div>:imDetailData&&<BIClassifyTable
+            loading={this.props.loading}
+            columns={this.columnsTable()}
+            colors={colors}
+            dataSource={imDetailData}
+            cellWidth={85}
+            style={{ cursor: 'pointer' }}
+            isChecked={false}
+            defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
+            orgClick={true}
+            {...this.props}
+          ></BIClassifyTable>}
+
+
 
       </Container>
     );

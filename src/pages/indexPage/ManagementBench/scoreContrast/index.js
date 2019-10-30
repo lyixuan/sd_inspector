@@ -4,15 +4,26 @@ import Container from '@/components/BIContainer';
 import TopTabs from "../../components/topTabs"
 import BISelect from '@/ant_components/BISelect'
 import CollegeScore from "./collegeScore"
+import moment from 'moment'
 const { Option } = BISelect;
 @connect((xdManagementBench) => ({
   xdManagementBench,
+  times:xdManagementBench.getCurrentDateRangeData
 }))
 class ScoreContrast extends React.Component {
   constructor(props) {
+    console.log("date",props.date,moment(props.date.startDate).format('YYYY-MM-DD'),moment(props.date.endDate).format('YYYY-MM-DD'))
     super(props)
     this.state = {
-      tabParams:[{
+      tabParams:props.userInfo.userType === "college"?[{
+        name: '学院学分对比',
+        key: '1',
+        children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
+      },{
+        name:'家族学分对比',
+        key:'2',
+        children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
+      }]:[{
         name: '学院学分对比',
         key: '1',
         children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
@@ -29,34 +40,20 @@ class ScoreContrast extends React.Component {
         key:'4',
         children:<CollegeScore queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       }],
-      collegeOptions:[{
-        collegeId:1,
-        collegeName:'自变量'
-      },{
-        collegeId:2,
-        collegeName:'睿博'
-      },{
-        collegeId:3,
-        collegeName:'π学院'
-      },{
-        collegeId:4,
-        collegeName:'芒格'
-      },{
-        collegeId:5,
-        collegeName:'狐逻泰罗'
-      }],
+      collegeOptions:[],
       orgValue:"自考家族",
       queryAppealDatas:{},
       queryParams: {
-        contrasts:"1",
-        familyType:"0",
-        dimensionId:"",
-        collegeId:null,
-        startTime:"2019-09-25",
-        endTime:"2019-09-30"
+        contrasts:1,
+        familyType:0,
+        dimensionId:null,
+        collegeId:props.userInfo.collegeId,
+        startTime:moment(props.date.startDate).format('YYYY-MM-DD'),
+        endTime:moment(props.date.endDate).format('YYYY-MM-DD'),
       },
       query: { },
-      orgId:0
+      orgId:0,
+      tabNum:1,
     }
   }
   componentDidMount() {
@@ -65,7 +62,6 @@ class ScoreContrast extends React.Component {
       type:"xdManagementBench/getFamilyType",
       payload:{params:{}},
       callback:(res) => {
-        // console.log(67,res)
         this.setState({
           collegeOptions:res
         })
@@ -80,11 +76,11 @@ class ScoreContrast extends React.Component {
       familyType: this.state.orgId,
       dimensionId: queryParams.dimensionId,
     }
-    console.log(82,this.state.query)
+    this.state.tabNum = Number(obj.keye)
     if (!this.state.query[obj.keye]) {
       this.state.query[obj.keye] = {};
     }
-    this.queryAppealDataPage({contrasts: obj.keye, ...this.state.query[obj.keye]});
+    this.queryAppealDataPage({contrasts: Number(obj.keye), ...this.state.query[obj.keye]});
   }
   //获取柱状图及维度的接口
   queryAppealDataPage = (obj = {}) =>{
@@ -92,6 +88,7 @@ class ScoreContrast extends React.Component {
       ...this.state.queryParams,
       ...obj,
     }
+    console.log("params",params)
     this.setState({queryParams: params });
     this.props.dispatch({
       type:'xdManagementBench/queryAppealDataPage',

@@ -5,6 +5,8 @@
   <meta charset="utf-8" />
   <title>督学平台</title>
   <link rel="icon" type="image/x-icon" href="http://bd.ministudy.com/favicon.png" />
+    <!--小德反馈入口的CSS文件-->
+    <link rel="stylesheet" href="http://172.16.109.87:20082/PMsdk_style.css">
   <style>
     body>a {
       position: absolute;
@@ -30,6 +32,20 @@
     xd('config', { getUserId, site: 1 });
   </script>
   <script type="text/javascript" src="https://s5.cnzz.com/z_stat.php?id=1277653889&web_id=1277653889"></script>
+
+    <!--小德反馈入口-->
+  <script src="http://172.16.109.87:20082/post_message_sdk.js"></script>
+  <script>
+      function PM_getUserId() {
+        return JSON.parse(localStorage.getItem('admin_user')).userId;
+      }
+      let PM_list_name = [];
+      PMsdk({
+        getUserIdentity: PM_getUserId,
+        pathnameList: PM_list_name,
+        listFlag: 'black'
+      });
+  </script>
 </body>
 
 </html>

@@ -1,11 +1,9 @@
 import React from 'react';
 import echarts from 'echarts';
 import styles from './styles.less';
-
-// require('echarts-wordcloud');
+require('echarts-wordcloud');
 
 export default class EchartsComponent extends React.Component {
-
   componentDidMount() {
     this.initChart(this.props.options)
   }
@@ -17,7 +15,6 @@ export default class EchartsComponent extends React.Component {
       }catch (e) {
         console.error('echarts data error')
       }
-
     }
 
     if (JSON.stringify(nextProps.style) !== JSON.stringify(this.props.style)) {

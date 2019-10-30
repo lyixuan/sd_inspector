@@ -1,6 +1,5 @@
 
 import {
-  getUserInfo,
   getNpsStarOpinion,
   getNpsAutonomousEvaluation,
   compareCollegeList,
@@ -171,7 +170,6 @@ export default {
       }
     },
     *reasonList({ payload }, { call, put }) {
-      console.log(1717171771)
       const params = payload.params;
       const result = yield call(reasonList, params);
       if (result.code === 20000) {
@@ -187,6 +185,31 @@ export default {
     save(state, { payload }) {
       return { ...state, ...payload };
     },
+    saveTable(state, { payload }) {
+      let data = payload.imDetailData
+      if (!data.reasonTypeList) {
+        data.dataList.map(item => {
+          item.values.push(item.unClassifyCount)
+        })
+        data.reasonTypeList = [{
+          expand: true,
+          typeId: 0,
+          typeName: '所有分类'
+        }]
+        data.titleList = [...data.titleList, {
+          expand: true,
+          typeId: -1,
+          typeName: "未分类数据"
+        }]
+      } else {
+        data.reasonTypeList = [{
+          expand: true,
+          typeId: 0,
+          typeName: '所有分类'
+        }, ...data.reasonTypeList]
+      }
+      return { ...state, ...{ imDetailData: data } };
+    }
   },
   subscriptions: {},
 };

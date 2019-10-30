@@ -1,19 +1,22 @@
 import React from 'react';
 import { connect } from 'dva';
 import BILoading from '@/components/BILoading'
-// import styles from './style'
+import moment from 'moment'
 import TreeNames from '../components/treeNames'
 import Echart from '../components/Echart'
 import EchartBottom from '../components/echartBottom'
-@connect(({xdManagementBench,loading}) => ({
+@connect(({xdManagementBench,loading,xdWorkModal}) => ({
   xdManagementBench,
   loading:loading.effects['xdManagementBench/queryAppealDataPage'],
+  times:xdManagementBench.getCurrentDateRangeData,
+  userInfo: xdWorkModal.userInfo,
 }))
 class CollegeScore extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       queryAppealDatas:{},
+      familyName:[]
     }
   }
   componentDidMount() {
@@ -24,22 +27,21 @@ class CollegeScore extends React.Component {
     let creaditValue = [];
     let familyName = [];
     let qoqValue = []
-    let yMax = 8
-    let yMin = -8
     let dataShadow = []
     let maxShadow = []
     arr.map((item,index)=>{
       creaditValue.push(item.creaditValue);
-      familyName.push({value:item.name,id:item.id});
+      familyName.push(item.name);
       qoqValue.push(item.qoqValue*100)
     })
+    const yMax =  Math.max.apply(null, creaditValue);
+    const yMin = Math.min.apply(null, creaditValue);
+    const yRightMax =  Math.max.apply(null, qoqValue);
+    const yRightMin = Math.min.apply(null, qoqValue);
     for (let i = 0; i < creaditValue.length; i++) {
       dataShadow.push(yMin);
       maxShadow.push(yMax);
     }
-    // for (let i = 0; i < data.length; i++) {
-    //   maxShadow.push(yMax);
-    // }
     const  options = {
       tooltip: {
         trigger: 'axis',
@@ -54,28 +56,51 @@ class CollegeScore extends React.Component {
       xAxis: [
         {
           type: 'category',
-          data: familyName,//['自变量学员','睿博学院','派学院','芝士学院','芒格学院','狐逻&泰罗'],
+          data: familyName,
 
         }
       ],
       yAxis: [
         {
           type: 'value',
-          min: -8,
-          max: 8,
-          interval: 4,
+          min: -yMin,
+          max: yMax,
+          // interval: 4,
           axisLabel: {
             formatter: '{value}'
-          }
+          },
+          splitLine:{
+            show:true,
+            lineStyle:{
+              type:'dashed',
+              color:"RGBA(229, 229, 229, .8)"
+            }
+          },
+          axisLine:{
+            lineStyle:{
+              type:'solid',
+              color:"RGBA(0, 0, 0, 1)"
+            }
+          },
         },
         {
           type: 'value',
-          min: -300.00,
-          max: 300.00,
-          interval: 150,
+          min: -yRightMin,
+          max: yRightMax,
+          // interval: 150,
           axisLabel: {
-            formatter: '{value} %'
-          }
+            formatter: '{value} %',
+          },
+          splitLine:{
+            show:false
+          },
+          axisLine:{
+            lineStyle:{
+              type:'solid',
+              color:"RGBA(0, 0, 0, 1)"
+            }
+          },
+
         }
       ],
       grid:[
@@ -135,31 +160,37 @@ class CollegeScore extends React.Component {
     }
     return options
   }
-  // clickTag = (dimensionId) =>{
-  //   this.props.queryAppealDataPage(dimensionId)
-  // }
-  clickEvent = (item)=>{
-    console.log(142,item);
+  clickEvent = (arr,item)=>{
+    let orgId = "";
+    const {tabNum} = this.props.queryAppealDatas.state
+    const {userInfo} = this.props
+    console.log(143,this.props.queryAppealDatas.state.tabNum,this.props.userInfo)
+    (tabNum === 1 || tabNum ===2 || tabNum ===3) && arr.map((subItem)=>{
+      if(subItem.name === item.name){
+        orgId = subItem.id
+      }
+    })
+    tabNum === 4 && (orgId = userInfo.collegeId)
     let params={
-      startTime:"",//moment(date.startDate).format('YYYY-MM-DD'),
-      endTime:"",//moment(date.endDate).format('YYYY-MM-DD'),
-      dimensionId:16,
+      startTime:tabNum === 4?item.name:moment(this.props.times.startDate).format('YYYY-MM-DD'),
+      endTime:tabNum === 4?item.name:moment(this.props.times.endDate).format('YYYY-MM-DD'),
+      dementionId:16,
       reasonTypeId:0,
-      orgId:item.name
+      orgId:orgId
     }
-    window.open(`/inspector/xdCredit/index?p=${JSON.stringify(params)}`);
-
+    window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
   }
   render() {
     const {queryAppealDatas = {}} = this.props.queryAppealDatas.state;
     return (
       <div style={{height:'479px'}}>
-        <BILoading isLoading={this.props.loading}><div>
-          <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>
-          {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 && <Echart options={this.drawChart(queryAppealDatas.creaditDataList)} style={{height:"354px"}} clickEvent={this.clickEvent}/>}
-          <EchartBottom/>
-        </div></BILoading>
-
+        <BILoading isLoading={this.props.loading}>
+          <div>
+            <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>
+            {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 && <Echart options={this.drawChart(queryAppealDatas.creaditDataList)} style={{height:"354px"}} clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item)}/>}
+            <EchartBottom/>
+        </div>
+        </BILoading>
       </div>
     );
   }
