@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { thousandsFormat } from '@/utils/utils';
+import { thousandsFormatBigger } from '@/utils/utils';
 import styles from './styles.less';
 import workImg1 from '@/assets/workImg1.png';
 import workImg2 from '@/assets/workImg2.png';
@@ -64,10 +64,7 @@ class Block extends React.Component {
     TYPE.map(currentValue => {
       if (currentValue.key === item.type) return href = currentValue.href;
     });
-    const money =
-      String(item.value).indexOf('.') !== -1
-        ? thousandsFormat(String(item.value).split('.')[0]) + '.' + String(item.value).split('.')[1]
-        : thousandsFormat(Number(item.value));
+    const money = thousandsFormatBigger(item.value);
     return (
       <li>
         <a href={href}></a>

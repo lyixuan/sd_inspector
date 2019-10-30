@@ -5,6 +5,8 @@ import styles from './styles.less';
 import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../../../components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import { thousandsFormatBigger } from '@/utils/utils';
+
 @connect(xdManagementBench => ({
   xdManagementBench,
 }))
@@ -51,9 +53,10 @@ class Compare extends React.Component {
         key: 'goodPushFlowKpi',
         render: (goodPushFlowKpi, record) => {
           const percent = record.goodPushFlowKpiRatio * 100 + '%';
+          const money = thousandsFormatBigger(goodPushFlowKpi);
           return (
             <BIWrapperProgress
-              text={goodPushFlowKpi}
+              text={money}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />
@@ -71,9 +74,10 @@ class Compare extends React.Component {
         key: 'repeatSignFlowKpi',
         render: (repeatSignFlowKpi, record) => {
           const percent = (record.repeatSignFlowKpiRatio / 500) * 100 + '%';
+          const money = thousandsFormatBigger(repeatSignFlowKpi);
           return (
             <BIWrapperProgress
-              text={repeatSignFlowKpi}
+              text={money}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />
@@ -91,9 +95,10 @@ class Compare extends React.Component {
         key: 'adultRegularFlowKpi',
         render: (adultRegularFlowKpi, record) => {
           const percent = record.adultRegularFlowKpiRatio * 100 + '%';
+          const money = thousandsFormatBigger(adultRegularFlowKpi);
           return (
             <BIWrapperProgress
-              text={adultRegularFlowKpi}
+              text={money}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />
@@ -106,9 +111,10 @@ class Compare extends React.Component {
         key: 'incomeTotalKpi',
         render: (incomeTotalKpi, record) => {
           const percent = record.incomeTotalKpiRatio * 100 + '%';
+          const money = thousandsFormatBigger(incomeTotalKpi);
           return (
             <BIWrapperProgress
-              text={incomeTotalKpi}
+              text={money}
               percent={percent}
               propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
             />

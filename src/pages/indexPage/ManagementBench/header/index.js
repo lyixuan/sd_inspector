@@ -9,6 +9,7 @@ import workImg5 from '@/assets/workImg5.png';
 import workArrow from '@/assets/workArrow.png';
 import moment from 'moment';
 import Block from './block';
+import { thousandsFormatBigger } from '@/utils/utils';
 
 const admin_user = localStorage.getItem('admin_user');
 
@@ -134,7 +135,7 @@ class Header extends React.Component {
               <img src={workArrow} className={styles.arrow} />
             </span>
           )}
-          <span className={styles.num}>{countList.value}</span>
+          <span className={styles.num}>{thousandsFormatBigger(countList.value)}</span>
           <p className={styles.bottom}>
             <span>学分均分</span>
             <span className={styles.arrowCon}>
