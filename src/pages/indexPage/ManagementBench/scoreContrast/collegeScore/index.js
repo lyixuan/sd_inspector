@@ -129,10 +129,11 @@ class CollegeScore extends React.Component {
             }
           },
           splitLine:{
-            lineStyle:{
-              type:'dotted',
-              color:"RGBA(229, 229, 229, 0.5)"
-            }
+            show:false
+            // lineStyle:{
+            //   type:'dotted',
+            //   color:"RGBA(229, 229, 229, 0.5)"
+            // }
           }
 
         }
