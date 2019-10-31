@@ -52,7 +52,7 @@ class ScoreContrast extends React.Component {
         endTime:moment(props.date.endDate).format('YYYY-MM-DD')//"2019-09-30",
       },
       query: { },
-      orgId:0,
+      familyType:0,
       tabNum:1,
     }
   }
@@ -73,7 +73,7 @@ class ScoreContrast extends React.Component {
     const { queryParams } = this.state;
     this.state.query[queryParams.contrasts] = {
       contrasts: queryParams.contrasts,
-      familyType: this.state.orgId,
+      familyType: this.state.familyType,
       dimensionId: queryParams.dimensionId,
     }
     this.state.tabNum = Number(obj.keye)
@@ -116,7 +116,7 @@ class ScoreContrast extends React.Component {
   onFormChange = (val) =>{
     this.setState({
       orgValue:val,
-      orgId:val
+      familyType:val,
     })
     this.state.queryParams.familyType = val
     this.queryAppealDataPage()
