@@ -43,6 +43,7 @@ class CollegeScore extends React.Component {
       maxShadow.push(yMax);
     }
     const  options = {
+      color: ["#50D4FD", "#FD8188"],
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -53,66 +54,96 @@ class CollegeScore extends React.Component {
         },
         formatter: '{a2}: {c2}<br />{a3}: {c3}%'
       },
+      // legend: {
+      //   data: ['正面', '负面'],
+      //   bottom: 5,
+      //   itemHeight: 30,
+      //   right:30,
+      //   orient:'horizontal',
+      //   textStyle: {
+      //     color: '#7B7C80',
+      //     fontSize:13
+      //   },
+      //   icon:'circle',
+      //   itemWidth:10
+      // },
       xAxis: [
         {
           type: 'category',
           data: familyName,
           axisLabel: {
             interval:0,
-            rotate:40
-          }
+            rotate:40,
+            color:'#000000 '
+          },
+          axisLine:{
+            lineStyle:{
+              type:'dotted',
+              color:"#4A90E2"
+            }
+          },
+          splitLine: {show: false},
+          splitArea: {show: false}
         }
       ],
       yAxis: [
         {
+          inverse: false,
+          splitArea: {show: false},
           type: 'value',
           min: -yMin,
           max: yMax,
           // interval: 4,
           axisLabel: {
-            formatter: '{value}'
-          },
-          splitLine:{
-            show:true,
-            lineStyle:{
-              type:'dashed',
-              color:"RGBA(229, 229, 229, .8)"
-            }
+            formatter: '{value}',
+            color:'#000000 '
           },
           axisLine:{
             lineStyle:{
-              type:'solid',
-              color:"RGBA(0, 0, 0, 1)"
+              type:'dotted',
+              color:"RGBA(229, 229, 229, 0.8)"
             }
           },
+          splitLine:{
+            lineStyle:{
+              type:'dotted',
+              color:"RGBA(229, 229, 229, 0.5)"
+            }
+          }
         },
         {
+          inverse: false,
+          splitArea: {show: false},
           type: 'value',
           min: -yRightMin,
           max: yRightMax,
-          // interval: 150,
           axisLabel: {
             formatter: '{value} %',
-          },
-          splitLine:{
-            show:false
+            color:'#000000 '
           },
           axisLine:{
             lineStyle:{
-              type:'solid',
-              color:"RGBA(0, 0, 0, 1)"
+              type:'dotted',
+              color:"RGBA(229, 229, 229, 0.8)"
             }
           },
+          splitLine:{
+            lineStyle:{
+              type:'dotted',
+              color:"RGBA(229, 229, 229, 0.5)"
+            }
+          }
 
         }
       ],
-      grid:[
-        {
-          left:37,width:"94%",top:38
-        }
-      ],
+      grid: {
+        left: 45,
+        right:60,
+        top:40,
+        bottom:60
+      },
       series: [
-        { // For shadow
+        {
           type: 'bar',
           itemStyle: {
             normal: {color: 'rgba(0,0,0,0.05)'}
