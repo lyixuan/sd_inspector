@@ -42,7 +42,7 @@ class BIClassifyTable extends React.Component {
       return prev.width ? prev.width : prev + curr.width;
     })
     this.setState({
-      scrollWidth: tableWidth - scrollWidth1
+      scrollWidth: Math.floor(tableWidth - scrollWidth1)
     })
   }
   title = () => {
@@ -213,7 +213,7 @@ class BIClassifyTable extends React.Component {
         <BITable
           pagination={false}
           columns={this.columns()}
-          samlled
+          // smalled
           bordered
           rowKey={(record, index) => record[this.props.defaultKey.id] + '' + index}
           dataSource={dataSource}
