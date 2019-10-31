@@ -15,7 +15,7 @@ class ScoreContrast extends React.Component {
     console.log("date",props.date,moment(props.date.startDate).format('YYYY-MM-DD'),moment(props.date.endDate).format('YYYY-MM-DD'))
     super(props)
     this.state = {
-      tabParams:props.userInfo.userType === "college"?[{
+      tabParams:props.userInfo.userType === "boss"?[{
         name: '学院学分对比',
         key: '1',
         children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,

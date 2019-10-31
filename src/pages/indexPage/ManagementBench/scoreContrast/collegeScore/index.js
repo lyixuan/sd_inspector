@@ -57,7 +57,10 @@ class CollegeScore extends React.Component {
         {
           type: 'category',
           data: familyName,
-
+          axisLabel: {
+            interval:0,
+            rotate:40
+          }
         }
       ],
       yAxis: [
@@ -166,7 +169,7 @@ class CollegeScore extends React.Component {
      orgType = "college"
     }else if(tabNum === 2){
       orgType = "family"
-    }else if(tabNum === 2){
+    }else if(tabNum === 3){
      orgType = "group"
    }
     return orgType
@@ -201,7 +204,7 @@ class CollegeScore extends React.Component {
     const {queryAppealDatas = {}} = this.props.queryAppealDatas.state;
     const {userInfo} = this.props
     return (
-      <div style={{height:'479px'}}>
+      <div style={{minHeight:'479px'}}>
         <BILoading isLoading={this.props.loading}>
           <div>
             <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>
