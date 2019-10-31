@@ -1,33 +1,51 @@
 .tableWrap{
   :global{
+    .ant-table{
+      border:1px solid #e8e8e8;
+      border-radius:6px 6px 0 0;
+    }
+    .ant-table-fixed-left, .ant-table-fixed-right{
+      overflow:inherit
+    }
     .ant-table-fixed-left{
       z-index:2;
     }
     .ant-table-tbody > tr > td{
       position:relative;
-      // border-right:1px solid #fff;
       background:#fff;
     }
-    
+    .ant-table-bordered .ant-table-header > table, .ant-table-bordered .ant-table-body > table, .ant-table-bordered .ant-table-fixed-left table, .ant-table-bordered .ant-table-fixed-right table{
+      border:none;
+    }
+    .ant-table-fixed-right .ant-table-thead > tr:last-child > th:last-child{
+      border-right:none;
+    }
     .ant-table-thead > tr > th{
       white-space: nowrap;
       border-top:none;
     }
-    .ant-table-thead > tr:first-child > th:last-child{
-      border-right:none;
-    }
-    .ant-table-bordered .ant-table-tbody > tr > td:last-child{
-      border-right:none;
-    }
-    .ant-table-bordered .ant-table-tbody > tr:last-child td:first-child{
-      background:#F6F7FA;
-    }
     .ant-table-fixed-right .ant-table-tbody > tr > td:last-child{
       background:#F6F7FA;
     }
-    .ant-table-bordered .ant-table-fixed-left table{
-      border-left:none;
+    .ant-table-fixed-right{
+      box-shadow: -6px 0 6px -4px rgba(0, 0, 0, 0.05);
     }
+    .ant-table-wrapper{
+      ::-webkit-scrollbar{
+        width: 8px;
+        height: 8px;
+      }
+      //自动移滚动条样式
+      ::-webkit-scrollbar-thumb{
+        border-radius: 1em;
+        background-color: rgba(50,50,50,.3);
+      }
+      ::-webkit-scrollbar-track{
+        // border-radius: 1em;
+        background-color: rgba(50,50,50,.1);
+      }
+    }
+    
   }
   .txRight{
     text-align:right;
@@ -40,3 +58,4 @@
     color: #00CCC3;
   }
 }
+
