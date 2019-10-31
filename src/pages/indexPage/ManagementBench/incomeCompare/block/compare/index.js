@@ -4,6 +4,7 @@ import moment from 'moment';
 import styles from './styles.less';
 import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../../../components/BIWrapperTable';
+import BITable from '@/ant_components/BITable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import { thousandsFormatBigger } from '@/utils/utils';
 
@@ -124,6 +125,14 @@ class Compare extends React.Component {
     ];
     return columns || [];
   };
+  setRowClassName = (record, index) => {
+    let taClassName = '';
+    if (record.highlightFlag) {
+      taClassName = 'rowHover';
+    }
+    return taClassName;
+  };
+
   render() {
     const { dataSource } = this.state;
 
@@ -140,6 +149,7 @@ class Compare extends React.Component {
           columns={this.columns()}
           dataSource={dataSource}
           pagination={false}
+          rowClassName={this.setRowClassName}
           loading={this.props.loading}
           onRow={this.onClickRow}
           rowKey={record => record.id}

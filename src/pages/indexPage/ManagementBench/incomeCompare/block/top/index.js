@@ -14,7 +14,6 @@ import rank3 from '@/assets/xdFamily/rank3.png';
 import moment from 'moment';
 import { thousandsFormatBigger } from '@/utils/utils';
 
-
 function CustomExpandIcon(props) {
   return <a />;
 }
@@ -66,13 +65,13 @@ class Top extends React.Component {
         },
       ],
       typeList: null,
-      orgValue: undefined,
-      dataSource:[],
+      orgValue: localStorage.getItem('orgValue') || '0',
+      dataSource: [],
     };
   }
 
   componentDidMount() {
-    this.getData();
+    this.getData(localStorage.getItem('orgValue') || '0');
     this.props
       .dispatch({
         type: 'xdManagementBench/getHotList',
@@ -91,7 +90,7 @@ class Top extends React.Component {
           params: {
             beginDate: moment(date.startDate).format('YYYY-MM-DD'),
             endDate: moment(date.endDate).format('YYYY-MM-DD'),
-            collegeId
+            collegeId,
           },
         },
       })
@@ -136,7 +135,7 @@ class Top extends React.Component {
         title: '创收单量',
         dataIndex: 'incomeOrder',
         key: 'incomeOrder',
-        width:70,
+        width: 70,
       },
       {
         title: '创收流水',
@@ -163,6 +162,7 @@ class Top extends React.Component {
     this.setState({
       orgValue: val,
     });
+    localStorage.setItem('orgValue', val);
   };
 
   render() {
@@ -179,6 +179,7 @@ class Top extends React.Component {
               allowClear
               onChange={val => this.onFormChange(val)}
             >
+              <Option key={0}>全部</Option>
               {typeList &&
                 typeList.map((item, index) => (
                   <Option key={item.collegeId}>{item.collegeName}</Option>
