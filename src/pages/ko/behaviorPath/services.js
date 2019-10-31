@@ -41,3 +41,16 @@ export async function getDateRange() {
 export async function userInfo(params) {
   return request('/homePage/userBaseInfo', { params });
 }
+// 用户画像
+export async function getBasicInfo(params) {
+  return request('/userProfile/getBasicInfo', { params });
+}
+export async function getTagInfo(params) {
+  return request('/userProfile/getTagInfo', { params });
+}
+export async function getStatInfo(params) {
+  return request('/userProfile/getStatInfo', { params });
+}
+export async function getDetailInfo(params) {
+  return request('/userProfile/getDetailInfo', { params });
+}

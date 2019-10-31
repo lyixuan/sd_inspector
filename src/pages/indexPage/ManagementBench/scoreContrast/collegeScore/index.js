@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import BILoading from '@/components/BILoading'
 import moment from 'moment'
 import TreeNames from '../components/treeNames'
-import Echart from '../components/Echart'
+import Echart from '../components/echart'
 import EchartBottom from '../components/echartBottom'
 @connect(({xdManagementBench,loading,xdWorkModal}) => ({
   xdManagementBench,

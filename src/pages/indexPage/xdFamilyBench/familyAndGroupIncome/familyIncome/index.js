@@ -12,20 +12,20 @@ class FamilyIncome extends React.Component {
     this.state = {
       // pkFamilyId: 246,
       familyList: {},
-      pkFamilyId:localStorage.getItem("pkFamilyIncome")?JSON.parse(localStorage.getItem("pkFamilyIncome")).familyId:"",
+      pkFamilyId: localStorage.getItem("pkFamilyIncome") ? JSON.parse(localStorage.getItem("pkFamilyIncome")).familyId : "",
     }
   }
   componentDidMount() {
     this.getIncomeFamilyList();
   }
-  getIncomeFamilyList =()=>{
+  getIncomeFamilyList = () => {
     this.props.dispatch({
       type:"xdFamilyModal/getIncomeFamilyList",
       payload:{params:{ pkFamilyId: this.state.pkFamilyId }},
       callback: familyList => this.setState({ familyList })
     })
   }
-  changeSelected = (record,pkFamilyId) => {
+  changeSelected = (record, pkFamilyId) => {
     this.setState({ pkFamilyId }, () => this.getIncomeFamilyList());
     if (record) {
       localStorage.setItem('pkFamilyIncome', JSON.stringify(record))
@@ -36,8 +36,8 @@ class FamilyIncome extends React.Component {
     const { userInfo } = this.props;
     return (
       <div className={styles.creditContainer}>
-        <FamilyIncomeLeft className={styles.familyLeft} familyList={familyList} userInfo={userInfo} pkFamilyId={pkFamilyId}/>
-        <FamilyIncomeRight className={styles.familyRight} familyList={familyList} changeSelected={this.changeSelected}/>
+        <FamilyIncomeLeft className={styles.familyLeft} familyList={familyList} userInfo={userInfo} pkFamilyId={pkFamilyId} />
+        <FamilyIncomeRight className={styles.familyRight} familyList={familyList} changeSelected={this.changeSelected} />
       </div>
     );
   }

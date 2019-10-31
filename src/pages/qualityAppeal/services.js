@@ -5,11 +5,20 @@ import uploadRequest from '@/utils/uploadRequest';
 export async function getOrgMapList(params) {
   return request('/orgMap/getOrgMapList', { params });
 }
+// 查询质检申诉管理归属组织架构
+export async function getOrgMapTree(params) {
+  return request('/orgMap/getOrgMapTree');
+}
 
 // 查询分维
 export async function getDimensionList(params) {
   return request('/dimension/rootList', { params });
 }
+// 分维 违规分类
+export async function queryDimensionTreeList(params) {
+  return request('/dimension/queryDimensionTreeList', { params });
+}
+
 ////根据邮箱获取组织信息
 export async function getOrgMapByMail(params) {
   return request('/orgMap/getOrgMapByMail', { params });
@@ -31,10 +40,6 @@ export function uploadAttachment() {
   return uploadRequest('/quality/uploadAttachment');
 }
 
-// 分维树状数据
-export async function queryDimensionTreeList(params) {
-  return request('/dimension/queryDimensionTreeList', { params });
-}
 //  检验质检单是否重复
 export async function checkRepeatQualityInspection(data) {
   return request('/quality/checkRepeatQualityInspection', { method: 'post', data });
@@ -43,4 +48,3 @@ export async function checkRepeatQualityInspection(data) {
 export async function getPunishInfoList(data) {
   return request('/qualityRole/getPunishInfoList', { method: 'post', data });
 }
-

@@ -6,7 +6,11 @@ import {
   chatMessageAct,
   wechatAct,
   learningAct,
-  userInfo
+  userInfo,
+  getBasicInfo,
+  getTagInfo,
+  getStatInfo,
+  getDetailInfo,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -233,6 +237,47 @@ export default {
         yield put({ type: 'save', payload: { userInfo } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 用户画像
+    *getBasicInfo({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getBasicInfo, params);
+      if (result.code === 20000) {
+        const BasicInfo = result.data;
+        yield put({ type: 'save', payload: { BasicInfo } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getTagInfo({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getTagInfo, params);
+      if (result.code === 20000) {
+        const TagInfo = result.data;
+        yield put({ type: 'save', payload: { TagInfo } });
+      } else {
+        // message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getStatInfo({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getStatInfo, params);
+      if (result.code === 20000) {
+        const StatInfo = result.data;
+        yield put({ type: 'save', payload: { StatInfo } });
+      } else {
+        // message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getDetailInfo({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getDetailInfo, params);
+      if (result.code === 20000) {
+        const DetailInfo = result.data;
+        yield put({ type: 'save', payload: { DetailInfo } });
+      } else {
+        // message.error(msgF(result.msg, result.msgDetail));
       }
     },
   },

@@ -15,7 +15,7 @@ class FamilyIncomeRight extends React.Component {
     this.state = {
       orgOptions: [],
       collegeId: undefined,
-      dataSource : [],
+      dataSource: [],
       userFlag: false,
       userLocation: '',
       userMsg: '',
@@ -29,13 +29,18 @@ class FamilyIncomeRight extends React.Component {
       },
     });
     this.getFamilyList();
-    // 表格添加滚动事件
-    document.querySelector("#scrollIncome .ant-table-body").onscroll = (e) => {
-      this.getScrollFn(e.target.scrollTop)
+    
+    if (document.querySelector("#scrollIncome .ant-table-body")) {
+      // 表格添加滚动事件
+      document.querySelector("#scrollIncome .ant-table-body").onscroll = (e) => {
+        this.getScrollFn(e.target.scrollTop)
+      }
     }
   }
   componentWillUnmount() {
-    document.querySelector("#scrollIncome .ant-table-body").onscroll = '';
+    if (document.querySelector("#scrollIncome .ant-table-body")) {
+      document.querySelector("#scrollIncome .ant-table-body").onscroll = '';
+    }
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
@@ -51,7 +56,7 @@ class FamilyIncomeRight extends React.Component {
       })
     }
   }
-  getFamilyList = (collegeId) =>  {
+  getFamilyList = (collegeId) => {
     this.props.dispatch({
       type: 'xdFamilyModal/getFamilyList',
       payload: { params: { collegeId } },
@@ -121,14 +126,17 @@ class FamilyIncomeRight extends React.Component {
     this.getFamilyList(collegeId);
   };
   onClickRow = (record) => {
+    const obj = { widgetName: '创收组织选择', traceName: '家族长工作台/创收组织选择' };
+    const { BI = {} } = window;
     return {
       onClick: () => {
-        this.props.changeSelected(record,record.familyId)
+        this.props.changeSelected(record, record.familyId)
+        BI.traceV && BI.traceV(obj);
       },
     };
   }
   setRowClassName = (record, index) => {
-    const {familyList}=this.props
+    const { familyList } = this.props
     let className = ''
     if (record.familyId == familyList.selfFamilyId) {
 
@@ -139,7 +147,7 @@ class FamilyIncomeRight extends React.Component {
     return className
   }
   render() {
-    const {orgOptions, collegeId, dataSource,userFlag, userMsg,} = this.state
+    const { orgOptions, collegeId, dataSource, userFlag, userMsg, } = this.state
     return (
       <div className={styles.familyRight}>
         <div className={styles.creditSelect} >
@@ -150,9 +158,9 @@ class FamilyIncomeRight extends React.Component {
             value={collegeId}
             onChange={this.onFormChange}
             allowClear
-            >
+          >
             {orgOptions.map(item => (
-              <Option key={item.collegeId} value={item.collegeId}>
+              <Option data-trace='{"widgetName":"选择创收对比组织","traceName":"家族长工作台/选择创收对比组织"}' key={item.collegeId} value={item.collegeId}>
                 {item.collegeName}
               </Option>
             ))}
@@ -176,9 +184,9 @@ class FamilyIncomeRight extends React.Component {
                 dataSource={dataSource}
                 pagination={false}
                 loading={this.props.loading}
-                scroll={{ y: 208 }}
+                scroll={{ y: 408 }}
                 onRow={this.onClickRow}
-                rowKey={record => record.familyId}
+                rowKey={(record, index) => record.familyId + '' + index}
                 rowClassName={this.setRowClassName}
               />}
 

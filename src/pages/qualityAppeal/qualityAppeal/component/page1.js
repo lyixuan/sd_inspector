@@ -11,7 +11,7 @@ import BITreeSelect from '@/ant_components/BITreeSelect';
 import AuthButton from '@/components/AuthButton';
 import { BiFilter } from '@/utils/utils';
 import { Row, Col } from 'antd';
-import styles from '../../style.less'
+import styles from '../../style.less';
 import moment from 'moment/moment';
 const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
@@ -19,63 +19,78 @@ const { Option } = BISelect;
 @connect(({ newQuality }) => ({
   newQuality,
 }))
-
 class NewQualitySheet extends React.Component {
   constructor(props) {
     super(props);
     this.init = {
       qualityNum: undefined,
-      qualityType:'all',
-      beginDate:undefined,
-      endDate:undefined,
+      qualityType: 'all',
+      beginDate: undefined,
+      endDate: undefined,
       firstAppealBeginDate: undefined,
       firstAppealEndDate: undefined,
       secondAppealBeginDate: undefined,
       secondAppealEndDate: undefined,
       status: undefined,
       violationLevelList: undefined,
-      userName:undefined,
+      userName: undefined,
       collegeIdList: [],
       familyIdList: [],
       groupIdList: [],
+      startManList: [],
+      reduceScoreBeginDate: null,
+      reduceScoreEndDate: null,
+      stuId: null,
     };
-    const {p=null} = this.props.location.query;
-    this.state = {...this.init,...JSON.parse(p)};
+    const { p = null } = this.props.location.query;
+    this.state = { ...this.init, ...JSON.parse(p) };
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.tabType === '2' && nextProps.tabType === '1') {
-      this.reset()
+      this.reset();
     }
   }
+  componentDidMount() {
+    document.body.addEventListener('keypress', e => {
+      if (e.keyCode === 13) {
+        //主要区别就是这里，可以直接获取到keyCode的值
+        this.search();
+      }
+    });
+  }
 
-  onFormChange = (value,vname)=>{
-    if ('verifyDate' === vname ) {
+  componentWillMount() {
+    document.body.removeEventListener('keypress', () => {});
+  }
+
+  onFormChange = (value, vname) => {
+    if ('dateRange' === vname) {
       this.setState({
-        beginDate:value[0],
-        endDate:value[1],
+        reduceScoreBeginDate: value[0],
+        reduceScoreEndDate: value[1],
       });
-    } else if ('firstAppealDate' === vname ) {
+    } else if ('firstAppealDate' === vname) {
       this.setState({
-        firstAppealBeginDate:value[0],
-        firstAppealEndDate:value[1],
+        firstAppealBeginDate: value[0],
+        firstAppealEndDate: value[1],
       });
-    } else if ('secondAppealDate' === vname ) {
+    } else if ('secondAppealDate' === vname) {
       this.setState({
-        secondAppealBeginDate:value[0],
-        secondAppealEndDate:value[1],
+        secondAppealBeginDate: value[0],
+        secondAppealEndDate: value[1],
       });
     } else if ('organization' === vname) {
       const list1 = [];
       const list2 = [];
       const list3 = [];
-      value.forEach((v)=>{
-        if (v.indexOf('a-')>=0) {
+      value.forEach(v => {
+        if (v.indexOf('a-') >= 0) {
           list1.push(v);
         }
-        if (v.indexOf('b-')>=0) {
+        if (v.indexOf('b-') >= 0) {
           list2.push(v);
         }
-        if (v.indexOf('c-')>=0) {
+        if (v.indexOf('c-') >= 0) {
           list3.push(v);
         }
       });
@@ -83,33 +98,54 @@ class NewQualitySheet extends React.Component {
         collegeIdList: [...list1],
         familyIdList: [...list2],
         groupIdList: [...list3],
-      })
+      });
     } else {
       this.setState({
-        [vname]:value
+        [vname]: value,
       });
     }
   };
-  search = ()=>{
+  search = () => {
     this.props.queryData(this.state);
   };
 
-  onPageChange = (currentPage)=>{
-    this.props.queryData(this.state,{page:currentPage});
+  onPageChange = currentPage => {
+    this.props.queryData(this.state, { page: currentPage });
   };
-  reset = ()=>{
+  reset = () => {
     this.canDimension = false;
-    this.setState(this.init,()=>{
-      this.props.queryData(this.state,{page:1});
+    this.setState(this.init, () => {
+      this.props.queryData(this.state, { page: 1 });
     });
   };
-  exportRt = ()=>{
-    const {p=null} = this.props.location.query;
-    this.props.queryData(JSON.parse(p),null,true);
+  exportRt = () => {
+    const { p = null } = this.props.location.query;
+    this.props.queryData(JSON.parse(p), null, true);
   };
   render() {
-    const {qualityNum,qualityType,collegeIdList,familyIdList,groupIdList,beginDate,endDate,firstAppealBeginDate,firstAppealEndDate,status,secondAppealBeginDate,secondAppealEndDate,userName,} = this.state;
-    const {orgList = [],dataSource,columns,page,loading,loading2} = this.props;
+    const {
+      qualityNum,
+      qualityType,
+      collegeIdList,
+      familyIdList,
+      groupIdList,
+      status,
+      userName,
+      violationLevelList,
+      startManList,
+      stuId,
+      reduceScoreBeginDate,
+      reduceScoreEndDate,
+    } = this.state;
+    const {
+      orgList = [],
+      dataSource,
+      columns,
+      page,
+      loading,
+      loading2,
+      findStartManListData,
+    } = this.props;
     return (
       <div className={styles.newSheetWrap}>
         {/*form*/}
@@ -118,99 +154,174 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel}>质检单号</span>：
-                <span className={styles.gutterForm}><BIInput placeholder="请输入" allowClear value={qualityNum} onChange={(e)=>this.onFormChange(e.target.value,'qualityNum')}/></span>
-              </div>
-            </Col>
-            <Col className={styles.gutterCol}  span={8}>
-              <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>申诉状态</span>：
+                <span className={styles.gutterLabel}>扣分日期</span>：
                 <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} allowClear value={status} placeholder="请选择" onChange={(val)=>this.onFormChange(val,'status')}>
-                    {BiFilter('APPEAL_STATE').map(item => (
-                      item.type===1 && <Option key={item.id}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </BISelect>
+                  <BIRangePicker
+                    allowClear
+                    value={
+                      reduceScoreBeginDate && [
+                        moment(reduceScoreBeginDate),
+                        moment(reduceScoreEndDate),
+                      ]
+                    }
+                    onChange={(val, valStr) => this.onFormChange(valStr, 'dateRange')}
+                  />
                 </span>
               </div>
             </Col>
-            <Col className={styles.gutterCol}  span={8}>
-              {AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA') && (
-                <div className={styles.gutterBox3}>
-                  <span className={styles.gutterLabel}>质检类型</span>：
-                  <span className={styles.gutterForm}>
-                  <BISelect style={{width:230}} placeholder="请选择" value={qualityType} onChange={(val)=>this.onFormChange(val,'qualityType')}>
+            <Col className={styles.gutterCol} span={8}>
+              <div className={styles.gutterBox2}>
+                <span className={styles.gutterLabel}>质检类型</span>：
+                <span className={styles.gutterForm}>
+                  <BISelect
+                    style={{ width: 230 }}
+                    placeholder="请选择"
+                    value={qualityType}
+                    onChange={val => this.onFormChange(val, 'qualityType')}
+                  >
                     <Option key={'all'}>全部</Option>
                     {BiFilter('QUALITY_TYPE').map(item => (
-                      <Option key={item.id}>
-                        {item.name}
-                      </Option>
+                      <Option key={item.id}>{item.name}</Option>
                     ))}
                   </BISelect>
                 </span>
-                </div>
-              )}
+              </div>
+            </Col>
+            <Col className={styles.gutterCol} span={8}>
+              <div className={styles.gutterBox3}>
+                <span className={styles.gutterLabel}>违规等级</span>：
+                <span className={styles.gutterForm}>
+                  <BISelect
+                    style={{ width: 230 }}
+                    placeholder="请选择"
+                    allowClear
+                    mode="multiple"
+                    showArrow
+                    maxTagCount={1}
+                    value={violationLevelList}
+                    onChange={val => this.onFormChange(val, 'violationLevelList')}
+                  >
+                    {BiFilter('VIOLATION_LEVEL').map(item => (
+                      <Option key={item.id}>{item.name}</Option>
+                    ))}
+                  </BISelect>
+                </span>
+              </div>
             </Col>
           </Row>
           {/*第二行*/}
           <Row className={styles.gutterRow}>
             <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox1}>
-                <span className={styles.gutterLabel}>质检通过时间</span>：
-                <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} allowClear value={beginDate && [moment(beginDate),moment(endDate)]} onChange={(val)=>this.onFormChange(val,'verifyDate')}/></span>
+                <span className={styles.gutterLabel}>申诉状态</span>：
+                <span className={styles.gutterForm}>
+                  <BISelect
+                    style={{ width: 230 }}
+                    allowClear
+                    maxTagCount={1}
+                    value={status}
+                    placeholder="请选择"
+                    onChange={val => this.onFormChange(val, 'status')}
+                  >
+                    {BiFilter('APPEAL_STATE').map(
+                      item => item.type === 1 && <Option key={item.id}>{item.name}</Option>
+                    )}
+                  </BISelect>
+                </span>
               </div>
             </Col>
-            <Col className={styles.gutterCol}  span={8}>
+            <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox2}>
-                <span className={styles.gutterLabel}>一申截止时间</span>：
-                <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} allowClear value={firstAppealBeginDate && [moment(firstAppealBeginDate),moment(firstAppealEndDate)]}  onChange={(val)=>this.onFormChange(val,'firstAppealDate')}/></span>
+                <span className={styles.gutterLabel}>归属人</span>：
+                <span className={styles.gutterForm}>
+                  <BIInput
+                    placeholder="请输入"
+                    allowClear
+                    value={userName}
+                    onChange={e => this.onFormChange(e.target.value, 'userName')}
+                  />
+                </span>
               </div>
             </Col>
-            <Col className={styles.gutterCol}  span={8}>
+            <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox3}>
-                <span className={styles.gutterLabel}>二申截止时间</span>：
-                <span className={styles.gutterForm}><BIRangePicker style={{width:'100%'}} allowClear value={secondAppealBeginDate && [moment(secondAppealBeginDate),moment(secondAppealEndDate)]} onChange={(val)=>this.onFormChange(val,'secondAppealDate')}/></span>
+                <span className={styles.gutterLabel}>质检发起人</span>：
+                <span className={styles.gutterForm}>
+                  <BISelect
+                    style={{ width: 230 }}
+                    allowClear
+                    mode="multiple"
+                    value={startManList}
+                    placeholder="请选择"
+                    onChange={val => this.onFormChange(val, 'startManList')}
+                  >
+                    {findStartManListData.map(item => (
+                      <Option key={item}>{item}</Option>
+                    ))}
+                  </BISelect>
+                </span>
               </div>
             </Col>
           </Row>
           {/*第三行*/}
           <Row className={styles.gutterRow}>
-            <Col className={styles.gutterCol}  span={8}>
-              <AuthButton authority='/qualityAppeal/qualityAppeal/showQA'>
-                <div className={styles.gutterBox1}>
-                  <span className={styles.gutterLabel}>归属人</span>：
-                  <span className={styles.gutterForm}>
-                  <BIInput placeholder="请输入" allowClear value={userName} onChange={(e)=>this.onFormChange(e.target.value,'userName')}/>
+            <Col className={styles.gutterCol} span={8}>
+              <div className={styles.gutterBox1}>
+                <span className={styles.gutterLabel}>学员ID</span>：
+                <span className={styles.gutterForm}>
+                  <BIInput
+                    placeholder="请输入"
+                    allowClear
+                    value={stuId}
+                    onChange={e => this.onFormChange(e.target.value, 'stuId')}
+                  />
                 </span>
-                </div>
-              </AuthButton>
+              </div>
             </Col>
             <Col className={styles.gutterCol} span={8}>
-              {AuthButton.checkPathname('/qualityAppeal/qualityAppeal/showQA')&& AuthButton.checkPathname('/qualityAppeal/qualityAppeal/appeal')&& (
-                <div className={styles.gutterBox2}>
-                  <span className={styles.gutterLabel}>归属组织</span>：
-                  <span className={styles.gutterForm}>
+              <div className={styles.gutterBox2}>
+                <span className={styles.gutterLabel}>归属人组织</span>：
+                <span className={styles.gutterForm}>
                   <BITreeSelect
                     style={{ width: 230 }}
                     placeholder="请选择"
                     allowClear
-                    value={[...collegeIdList,...familyIdList,...groupIdList]}
+                    value={[...collegeIdList, ...familyIdList, ...groupIdList]}
                     multiple
-                    showArrow maxTagCount={1}
+                    showArrow
+                    maxTagCount={1}
                     dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                     treeData={orgList}
-                    onChange={(val)=>this.onFormChange(val,'organization')}
+                    onChange={val => this.onFormChange(val, 'organization')}
                   />
                 </span>
-                </div>
-              )}
+              </div>
             </Col>
-            <Col className={styles.gutterCol}  span={8}>
+            <Col className={styles.gutterCol} span={8}>
               <div className={styles.gutterBox3}>
-                <span className={styles.gutterBtn1}><BIButton onClick={this.search}  type='primary'>搜索</BIButton></span>
-                <span className={styles.gutterBtn2}><BIButton onClick={this.reset}>重置</BIButton></span>
+                <span className={styles.gutterLabel}>质检单号</span>：
+                <span className={styles.gutterForm}>
+                  <BIInput
+                    placeholder="请输入"
+                    allowClear
+                    value={qualityNum}
+                    onChange={e => this.onFormChange(e.target.value, 'qualityNum')}
+                  />
+                </span>
+              </div>
+            </Col>
+          </Row>
+          <Row style={{ textAlign: 'right', marginTop: ' 12px' }}>
+            <Col className={styles.gutterCol} span={24}>
+              <div className={styles.gutterBox3}>
+                <span className={styles.gutterBtn1}>
+                  <BIButton onClick={this.search} type="primary">
+                    搜索
+                  </BIButton>
+                </span>
+                <span className={styles.gutterBtn2}>
+                  <BIButton onClick={this.reset}>重置</BIButton>
+                </span>
               </div>
             </Col>
           </Row>
@@ -220,20 +331,34 @@ class NewQualitySheet extends React.Component {
           <Row className={styles.gutterRow1}>
             <Col className={styles.gutterCol} span={12}>
               <div className={styles.gutterBox1}>
-                <AuthButton authority='/qualityAppeal/qualityAppeal/export'>
-                  <span className={styles.gutterBtn1}><BIButtonYellow type='primary' onClick={this.exportRt} loading={loading2} >导出Excel</BIButtonYellow></span>
+                <AuthButton authority="/qualityAppeal/qualityAppeal/export">
+                  <span className={styles.gutterBtn1}>
+                    <BIButtonYellow type="primary" onClick={this.exportRt} loading={loading2}>
+                      导出Excel
+                    </BIButtonYellow>
+                  </span>
                 </AuthButton>
               </div>
             </Col>
-            <Col className={styles.gutterCol}  span={12}>
-              <div className={styles.gutterBox3}>
-                总条数：{page.total}
-              </div>
+            <Col className={styles.gutterCol} span={12}>
+              <div className={styles.gutterBox3}>总条数：{page.total}</div>
             </Col>
           </Row>
-          <BITable rowKey={record=>record.id + Math.random()*1000}  dataSource={dataSource} columns={columns} pagination={false} loading={loading} />
-          <br/>
-          <BIPagination showQuickJumper defaultPageSize={page.pageSize?page.pageSize:30} onChange={this.onPageChange} current={page.pageNum} total={page.total}/>
+          <BITable
+            rowKey={record => record.id + Math.random() * 1000}
+            dataSource={dataSource}
+            columns={columns}
+            pagination={false}
+            loading={loading}
+          />
+          <br />
+          <BIPagination
+            showQuickJumper
+            defaultPageSize={page.pageSize ? page.pageSize : 30}
+            onChange={this.onPageChange}
+            current={page.pageNum}
+            total={page.total}
+          />
         </div>
       </div>
     );

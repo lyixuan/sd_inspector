@@ -63,9 +63,6 @@ a,a:hover{
 .txRight{
   text-align:right;
 }
-.labelWidth .ant-form-item label{
-  width:120px;
-}
 .ant-row{
   padding-bottom:6px;
 }
@@ -115,23 +112,6 @@ a,a:hover{
 }
 
 
-/* ko 模块需要，修改ant-popover浮出框背景为黑色，这个样式是定位到根的，所以需要在全局修改，以后其他地方用到再说 */
-/* .ant-popover .ant-popover-inner{
-  background-color: #565656;
-}
-
-
-.ant-popover-placement-top > .ant-popover-content > .ant-popover-arrow{
-  border-right-color: #565656;
-  border-bottom-color: #565656;
-  background-color: #565656;
-}
-
-.ant-popover-inner-content {
-  color: #fff;
-  font-size: 12px;
-} */
-
 
 /*ant table滚动条兼容 safri和外接显示器*/
 /*https://github.com/ant-design/ant-design/issues/13994*/
@@ -149,10 +129,6 @@ a,a:hover{
   line-height: 0;
   margin-right: 16px;
 }
-/* :global .ant-popover-inner-content .ant-btn-primary{
-  background:#52C9C2!important;
-  border-color:#52C9C2!important;
-} */
 /* 数据统计 */
 body > a {
   display: none;
@@ -200,4 +176,17 @@ body > a {
 }
 :global .ant-input-clear-icon{
   color:#ccc;
+}
+
+:global .baseForm .ant-form-item {
+  margin-bottom: 0;
+}
+:global .userPortary .anticon{
+  font-size:18px;
+  color:#52C9C2;
+}
+
+/* 统一修改tooltip 透明度，与echart的tooltip统一*/
+:global .ant-tooltip-content{
+  opacity: 0.8;
 }

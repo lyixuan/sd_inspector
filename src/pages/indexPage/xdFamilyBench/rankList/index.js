@@ -15,11 +15,11 @@ class RankList extends React.Component {
     this.state = {
       keye: '2',
       tabParams: [{
-        name: <span>本期绩效总排行榜</span>,
+        name: <span data-trace='{"widgetName":"本期绩效总排行","traceName":"家族长工作台/本期绩效总排行"}'>本期绩效总排行榜</span>,
         key: '1',
         children: <Performance />
       }, {
-        name: '本期学分&创收排行榜',
+        name: <span data-trace='{"widgetName":"本期学分&创收排行榜","traceName":"家族长工作台/本期学分&创收排行榜"}'>本期学分&创收排行榜</span>,
         key: '2',
         children: <Score />
       }]

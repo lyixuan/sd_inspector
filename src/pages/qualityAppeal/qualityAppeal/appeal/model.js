@@ -9,7 +9,6 @@ export default {
   state: {
     appealReview: null,
     appealShow: [],
-    qualityDetailData: {}
   },
 
   effects: {
@@ -38,16 +37,6 @@ export default {
         const appealReview = result.data ? result.data : [];
         yield put({ type: 'save', payload: { appealReview } });
         router.goBack();
-      } else {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    *getQualityDetailData({ payload }, { call, put }) {
-      //质检详情数据
-      const result = yield call(getQualityDetail, { ...payload });
-      const qualityDetailData = result.data ? result.data : {};
-      if (result.code === 20000) {
-        yield put({ type: 'save', payload: { qualityDetailData } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
