@@ -192,6 +192,7 @@ class Top extends React.Component {
             loading={this.props.loading}
             onRow={this.onClickRow}
             rowKey={record => record.id}
+            scroll={{ y: 288 }}
           />
         </div>
         {/* <div className={styles.tableContainer}>

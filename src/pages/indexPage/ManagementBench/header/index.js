@@ -126,7 +126,7 @@ class Header extends React.Component {
     return (
       <ul className={styles.list}>
         <li>
-          <a href="#one">
+          <a href="#one" title="当前绩效周期内本学院的学分均分">
             {/* <img src={workImg1} alt="icon" /> */}
           </a>
           {countList.familyTypeFlag && (
