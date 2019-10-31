@@ -73,7 +73,7 @@ class Compare extends React.Component {
         dataIndex: 'repeatSignFlowKpi',
         key: 'repeatSignFlowKpi',
         render: (repeatSignFlowKpi, record) => {
-          const percent = (record.repeatSignFlowKpiRatio / 500) * 100 + '%';
+          const percent = record.repeatSignFlowKpiRatio * 100 + '%';
           const money = thousandsFormatBigger(repeatSignFlowKpi);
           return (
             <BIWrapperProgress
