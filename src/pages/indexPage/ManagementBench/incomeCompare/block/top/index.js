@@ -176,6 +176,7 @@ class Top extends React.Component {
               style={{ width: 136, marginLeft: 12 }}
               placeholder="请选择"
               value={orgValue}
+              allowClear
               onChange={val => this.onFormChange(val)}
             >
               {typeList &&
