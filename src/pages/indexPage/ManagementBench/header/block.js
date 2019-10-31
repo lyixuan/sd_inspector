@@ -76,9 +76,7 @@ class Block extends React.Component {
     const money = thousandsFormatBigger(item.value);
     return (
       <li>
-        <Tooltip title={title}>
-          <a href={href}></a>
-        </Tooltip>
+        <a href={href}></a>
         <span className={styles.num}>
           <Tooltip title={title}>{money}</Tooltip>
         </span>

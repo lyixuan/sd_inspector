@@ -116,7 +116,7 @@ class ManagementBench extends React.Component {
       <div className={styles.workbench}>
         {date.startDate && <Header date={date} />}
         {date.startDate && <IncomeCompare date={date} />}
-        {date.startDate && userInfo &&  <ScoreContrast ref="one" date={date} userInfo={userInfo}/>}
+        {date.startDate && userInfo &&  <ScoreContrast date={date} userInfo={userInfo}/>}
         <div className={styles.qualityAppel} ref="four">
           {userInfo && <IMPartLeft  cellClick={this.cellClick} reasonTypeClick={this.reasonTypeClick} userInfo = {userInfo}/>}
           <IMPartRight />

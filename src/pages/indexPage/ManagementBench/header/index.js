@@ -127,16 +127,19 @@ class Header extends React.Component {
     return (
       <ul className={styles.list}>
         <li>
-          <Tooltip title="当前绩效周期内本学院的学分均分">
-            <a href="#one">{/* <img src={workImg1} alt="icon" /> */}</a>
-          </Tooltip>
+          <a href="#one">{/* <img src={workImg1} alt="icon" /> */}</a>
           {countList.familyTypeFlag && (
             <span className={styles.changeType} onClick={() => this.changeType()}>
               {val}
               <img src={workArrow} className={styles.arrow} />
             </span>
           )}
-          <span className={styles.num}>{thousandsFormatBigger(countList.value)}</span>
+          <span className={styles.num}>
+            {' '}
+            <Tooltip title="当前绩效周期内本学院的学分均分">
+              {thousandsFormatBigger(countList.value)}
+            </Tooltip>
+          </span>
           <p className={styles.bottom}>
             <span>学分均分</span>
             <span className={styles.arrowCon}>
