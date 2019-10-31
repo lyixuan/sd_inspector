@@ -177,8 +177,13 @@ class FamilyScoreRight extends React.Component {
     return (
       <div className={styles.familyRight}>
         <div className={styles.creditSelect} >
+
           <span className={styles.title}>选择对比组织:</span>
           <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="全部" value={orgValue} onChange={(val) => this.onFormChange(val)} allowClear>
+
+          {/*<span className={styles.title}>选择对比组织2:</span>*/}
+          {/*<BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>*/}
+
             {collegeList.map((item, index) => (
               <Option key={item.collegeId} data-trace='{"widgetName":"选择学分对比组织","traceName":"家族长工作台/选择学分对比组织"}'>
                 {item.collegeName}

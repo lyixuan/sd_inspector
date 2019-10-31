@@ -27,7 +27,11 @@ export const routes = [
             path: '/indexPage/xdFamilyBench',
             component: './indexPage/xdFamilyBench',
             name: '小德工作台',
-          },
+          }, {
+            path: '/indexPage/ManagementBench',
+            component: './indexPage/ManagementBench',
+            name: '小德工作台',
+          }
         ]
       },
       {

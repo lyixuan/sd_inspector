@@ -46,6 +46,9 @@ class XdCredit extends React.Component {
       dementionId: '',
       pageFrom: '',
       familyType: '',
+      groupArr: [],
+      orgId: '',
+      orgType: '',
       // startTime: '',
       // endTime: '',
       pageSize: 40,
@@ -64,12 +67,14 @@ class XdCredit extends React.Component {
         if (extendFlag.scoreView) {
           const { params } = this.props.location.query;
           if (params) {
-            const { dementionId, startTime, endTime, pageFrom } = params ? JSON.parse(params) : {};
+            const { dementionId, startTime, endTime, pageFrom, orgId, orgType = 'college' } = params ? JSON.parse(params) : {};
             this.setState({
               dementionId,
               startTime,
               endTime,
-              pageFrom
+              pageFrom,
+              orgId,
+              orgType
             }, () => this.getUserOrgList())
           } else {
             this.getUserOrgList()
@@ -164,7 +169,8 @@ class XdCredit extends React.Component {
         }
         if (this.state.dementionId == 16) {
           this.setState({
-            isIm: true
+            isIm: true,
+            showCollege: this.state.familyType.length > 1
           })
           this.getReasonListData();
         }
@@ -183,6 +189,29 @@ class XdCredit extends React.Component {
       }
     })
   }
+  getParentNode(data, nodeId, groupType, arr = []) {
+    // let arr = []
+    if (data && data.length > 0) {
+      for (let index = 0; index < data.length; index++) {
+        const item = data[index];
+        if (item.id == nodeId && item.groupType == groupType) {
+          arr.unshift(item);
+          return true;
+        } else {
+          if (item.nodeList && item.nodeList.length > 0) {
+            let flag = this.getParentNode(item.nodeList, nodeId, groupType, arr);
+            if (flag) {
+              arr.unshift(item);
+              return true;
+            }
+          } else {
+            return false;
+          }
+        }
+      }
+    }
+    return false;
+  };
   // 列表
   getDimensionList = () => {
     // const groupMsg = this.getGroupMsg();
@@ -254,8 +283,14 @@ class XdCredit extends React.Component {
   // reset groupId数组 getResetGroupId
   getResetGroupMsg = (arr = this.state.userOrgConfig) => {
     if (arr && arr.length > 0) {
+      this.getParentNode(arr, orgId, orgType, arr1)
       const item = arr[0];
-      if (item.groupType === 'college' && item.nodeList && item.nodeList.length > 0) {
+      let arr1 = [];
+      const { orgId, orgType } = this.state;
+      if (orgId && arr1.length > 0) {
+        const groupArr = arr1.map(item => item.id)
+        return { groupId: groupArr, groupTypeArr: arr1, familyType: arr1[arr1.length - 1].familyType }
+      } else if (item.groupType === 'college' && item.nodeList && item.nodeList.length > 0) {
         const node = item.nodeList[0];
         return { groupId: [item.id, node.id], groupTypeArr: [item, node], familyType: node.familyType };
       }
@@ -300,7 +335,7 @@ class XdCredit extends React.Component {
   // 选择组织
   onChangeSelect = (groupId, groupTypeArr) => {
     this.setState({
-      groupId, groupTypeArr, familyType: groupTypeArr[groupTypeArr.length - 1].familyType
+      groupId, groupTypeArr, familyType: groupTypeArr.length > 1 ? groupTypeArr[groupTypeArr.length - 1].familyType : groupTypeArr.familyType
     }, () => {
       if (this.state.familyType != '0' && this.state.familyType != '1' && groupTypeArr[groupTypeArr.length - 1].groupType == 'college') {
         this.setState({

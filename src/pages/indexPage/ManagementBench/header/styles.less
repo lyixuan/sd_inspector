@@ -1,0 +1,149 @@
+.header {
+  background: #ffffff;
+  border-radius: 10px;
+  border-radius: 10px;
+  height: 232px;
+  width: 100%;
+  margin-bottom: 16px;
+
+  .title {
+    border-bottom: 1px solid #f5f8fa;
+    height: 47px;
+    line-height: 47px;
+    .word {
+      font-family: PingFangSC-Medium;
+      font-size: 16px;
+      color: #1a1c1f;
+      letter-spacing: 0;
+      margin-left: 24px;
+    }
+    .date {
+      float: right;
+      margin-right: 24px;
+    }
+  }
+
+  .list {
+    display: flex;
+    margin-top: 26px;
+    li {
+      position: relative;
+      img {
+        width: 215px;
+        height: auto;
+        background-size: 100%;
+      }
+    }
+
+    li:nth-child(1),
+    li:nth-child(2),
+    li:nth-child(3),
+    li:nth-child(4),
+    li:nth-child(5) {
+      .changeType {
+        cursor: pointer;
+        color: #fff;
+        font-size: 12px;
+        position: absolute;
+        top: 10px;
+        right: 22px;
+      }
+
+      .arrow {
+        width: 11px;
+        height: auto;
+        background-size: 100%;
+      }
+
+      .num {
+        position: absolute;
+        font-size: 36px;
+        color: #ffffff;
+        top: 37%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .bottom {
+        position: absolute;
+        color: #ffffff;
+        top: 68%;
+        left: 50%;
+        display: flex;
+        font-size: 16px;
+        justify-content: space-around;
+        width: 80%;
+        transform: translate(-50%, -50%);
+      }
+
+      .arrowCon {
+        display: flex;
+        align-items: center;
+
+        /* 向下的箭头 */
+        .arrowBottom {
+          margin-left: 3px;
+          font-size: 0;
+          line-height: 0;
+          border-width: 5px;
+          border-color: #fff;
+          border-bottom-width: 0;
+          border-style: dashed;
+          border-top-style: solid;
+          border-left-color: transparent;
+          border-right-color: transparent;
+        }
+
+        /* 向上的箭头 */
+        .arrowTop {
+          margin-left: 3px;
+          font-size: 0;
+          line-height: 0;
+          border-width: 5px;
+          border-color: #fff;
+          border-top-width: 0;
+          border-style: dashed;
+          border-bottom-style: solid;
+          border-left-color: transparent;
+          border-right-color: transparent;
+        }
+      }
+    }
+
+    li:nth-child(1) > a {
+      background: url('../../../../assets/workImg1.png') no-repeat;
+      width: 215px;
+      height: 138px;
+      display: inline-block;
+      background-size: 100%;
+    }
+    li:nth-child(2) > a {
+      background: url('../../../../assets/workImg2.png') no-repeat;
+      width: 215px;
+      height: 138px;
+      display: inline-block;
+      background-size: 100%;
+    }
+    li:nth-child(3) > a {
+      background: url('../../../../assets/workImg3.png') no-repeat;
+      width: 215px;
+      height: 138px;
+      display: inline-block;
+      background-size: 100%;
+    }
+    li:nth-child(4) > a {
+      background: url('../../../../assets/workImg4.png') no-repeat;
+      width: 215px;
+      height: 138px;
+      display: inline-block;
+      background-size: 100%;
+    }
+    li:nth-child(5) > a {
+      background: url('../../../../assets/workImg5.png') no-repeat;
+      width: 215px;
+      height: 138px;
+      display: inline-block;
+      background-size: 100%;
+    }
+  }
+}

@@ -6,7 +6,16 @@ import styles from './style.less'
 class BILoading extends React.Component {
   render() {
     const {isLoading} = this.props
-    return (<div className={styles.loadingMain}>{isLoading?<img src={LoadingImg} />:this.props.children} </div>)
+    return (<div className={styles.loadingMain}>
+      {this.props.children}
+      {
+        isLoading && <div className={styles.imgMain}>
+          <img src={LoadingImg}/>
+        </div>
+      }
+
+      {/*{isLoading?:this.props.children} */}
+      </div>)
   }
 }
 
