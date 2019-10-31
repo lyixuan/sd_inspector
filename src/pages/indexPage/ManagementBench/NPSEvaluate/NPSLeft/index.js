@@ -54,7 +54,7 @@ class NPSLeft extends React.Component {
   render() {
     // const { dataSource} = this.state;
     const {NPSleftParams} = this.props
-    const dataSource = NPSleftParams && NPSleftParams.npsStarOpinionDtoListMap && NPSleftParams.npsStarOpinionDtoListMap.data.length>0 && NPSleftParams.npsStarOpinionDtoListMap.data
+    const dataSource = NPSleftParams && NPSleftParams.npsStarOpinionDtoListMap && NPSleftParams.npsStarOpinionDtoListMap.data.length>0 ? NPSleftParams.npsStarOpinionDtoListMap.data:[]
     return (
       <div className={styles.NPALeftMain} style={{width: 'calc(100% - 350px)'}}>
       <div>
