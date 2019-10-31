@@ -60,7 +60,7 @@ export default class BaseInfo extends React.Component {
     const exedayCount = this.getPic(exerciseInitiative.dayCount);
     const learndayCount = this.getPic(learnInitiative.dayCount);
     return (
-      <div className={styles.contentLayout}>
+      <div className={styles.contentLayoutbase}>
         <div className={styles.left}>
           <img className={styles.avatar} src={imageUrl?`${COMPANY_IMG_HOST}${imageUrl}`: avatarStudent}/>
         </div>
