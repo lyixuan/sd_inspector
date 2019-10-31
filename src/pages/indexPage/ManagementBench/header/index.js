@@ -10,6 +10,7 @@ import workArrow from '@/assets/workArrow.png';
 import moment from 'moment';
 import Block from './block';
 import { thousandsFormatBigger } from '@/utils/utils';
+import { Tooltip } from 'antd';
 
 const admin_user = localStorage.getItem('admin_user');
 
@@ -93,7 +94,7 @@ class Header extends React.Component {
           params: {
             beginDate: moment(date.startDate).format('YYYY-MM-DD'),
             endDate: moment(date.endDate).format('YYYY-MM-DD'),
-            familyType
+            familyType,
           },
         },
       })
@@ -126,9 +127,9 @@ class Header extends React.Component {
     return (
       <ul className={styles.list}>
         <li>
-          <a href="#one" title="当前绩效周期内本学院的学分均分">
-            {/* <img src={workImg1} alt="icon" /> */}
-          </a>
+          <Tooltip title="当前绩效周期内本学院的学分均分">
+            <a href="#one">{/* <img src={workImg1} alt="icon" /> */}</a>
+          </Tooltip>
           {countList.familyTypeFlag && (
             <span className={styles.changeType} onClick={() => this.changeType()}>
               {val}

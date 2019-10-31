@@ -9,6 +9,7 @@ import workImg4 from '@/assets/workImg4.png';
 import workImg5 from '@/assets/workImg5.png';
 import workArrow from '@/assets/workArrow.png';
 import moment from 'moment';
+import { Tooltip } from 'antd';
 
 const admin_user = localStorage.getItem('admin_user');
 
@@ -75,8 +76,12 @@ class Block extends React.Component {
     const money = thousandsFormatBigger(item.value);
     return (
       <li>
-        <a href={href} title={title}></a>
-        <span className={styles.num}>{money}</span>
+        <Tooltip title={title}>
+          <a href={href}></a>
+        </Tooltip>
+        <span className={styles.num}>
+          <Tooltip title={title}>{money}</Tooltip>
+        </span>
         <p className={styles.bottom}>
           <span>
             {TYPE.map(it => {
