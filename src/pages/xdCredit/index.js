@@ -67,14 +67,15 @@ class XdCredit extends React.Component {
         if (extendFlag.scoreView) {
           const { params } = this.props.location.query;
           if (params) {
-            const { dementionId, startTime, endTime, pageFrom, orgId, orgType = 'college' } = params ? JSON.parse(params) : {};
+            const { dementionId, startTime, endTime, pageFrom, orgId, orgType = 'college', familyType = '0' } = params ? JSON.parse(params) : {};
             this.setState({
               dementionId,
               startTime,
               endTime,
               pageFrom,
               orgId,
-              orgType
+              orgType,
+              familyType
             }, () => this.getUserOrgList())
           } else {
             this.getUserOrgList()
@@ -170,7 +171,7 @@ class XdCredit extends React.Component {
         if (this.state.dementionId == 16) {
           this.setState({
             isIm: true,
-            showCollege: this.state.familyType.length > 1
+            // showCollege: this.state.familyType.length > 1
           })
           this.getReasonListData();
         }
@@ -287,13 +288,21 @@ class XdCredit extends React.Component {
       let arr1 = [];
       const { orgId, orgType } = this.state;
       if (orgId) {
+        const { familyType } = JSON.parse(this.props.location.query.params);
         this.getParentNode(arr, orgId, orgType, arr1)
         const groupArr = arr1.map(item => item.id)
-        return { groupId: groupArr, groupTypeArr: arr1, familyType: arr1[arr1.length - 1].familyType }
-      } else if (item.groupType === 'college' && item.nodeList && item.nodeList.length > 0) {
-        const node = item.nodeList[0];
-        return { groupId: [item.id, node.id], groupTypeArr: [item, node], familyType: node.familyType };
+        this.setState({
+          showCollege: arr1.length == 1 && arr1[0].familyType.length > 1
+        })
+        return { groupId: groupArr, groupTypeArr: arr1, familyType: familyType ? familyType : arr1[arr1.length - 1].familyType }
       }
+      // else if (item.groupType === 'college' && item.nodeList && item.nodeList.length > 0) {
+      //   const node = item.nodeList[0];
+      //   return { groupId: [item.id, node.id], groupTypeArr: [item, node], familyType: node.familyType };
+      // }
+      this.setState({
+        showCollege: item.familyType.length > 1
+      })
       return { groupId: [item.id], groupTypeArr: [item], familyType: item.familyType };
     } else {
       return { groupId: [], groupTypeArr: [], familyType: '' };
@@ -335,9 +344,10 @@ class XdCredit extends React.Component {
   // 选择组织
   onChangeSelect = (groupId, groupTypeArr) => {
     this.setState({
-      groupId, groupTypeArr, familyType: groupTypeArr.length > 1 ? groupTypeArr[groupTypeArr.length - 1].familyType : groupTypeArr.familyType
+      groupId, groupTypeArr, familyType: groupTypeArr[groupTypeArr.length - 1].familyType
     }, () => {
-      if (this.state.familyType != '0' && this.state.familyType != '1' && groupTypeArr[groupTypeArr.length - 1].groupType == 'college') {
+      // if (this.state.familyType != '0' && this.state.familyType != '1' && groupTypeArr[groupTypeArr.length - 1].groupType == 'college') {
+      if (this.state.familyType && this.state.familyType.length > 1 && groupTypeArr[groupTypeArr.length - 1].groupType == 'college') {
         this.setState({
           showCollege: true,
         })
@@ -384,7 +394,8 @@ class XdCredit extends React.Component {
   }
   render() {
     const { dementionId, groupId, extendFlag, userOrgConfig, startTime, endTime } = this.state;
-    const { infoLoading, loading1, loading2 } = this.props;
+    const { infoLoading } = this.props;
+    const value = this.state.familyType.length > 1 ? 0 : this.state.familyType
     return (
       <div className={`${styles.credit} ${extendFlag ? '' : styles.extent}`}>
         <Skeleton loading={infoLoading} >
@@ -413,14 +424,14 @@ class XdCredit extends React.Component {
                 this.state.showCollege &&
                 <span className={styles.change}>
                   学院类型：
-              <BISelect
-                    defaultValue={collegeType[0].name}
+                  <BISelect
+                    value={value}
                     placeholder="请选择小组"
                     style={{ width: '136px' }}
                     onChange={this.onSelectChange}
                   >
                     {collegeType.map((item, index) => (
-                      <Option key={index}>
+                      <Option key={item.familyType} value={item.familyType}>
                         {item.name}
                       </Option>
                     ))}
