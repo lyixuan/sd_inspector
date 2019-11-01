@@ -21,7 +21,6 @@ const dateFormat = 'YYYY-MM-DD';
 class NPSEvaluate extends React.Component {
   constructor(props) {
     super(props)
-    console.log(24,props.date)
     this.state = {
       collegeOptions:[{
         collegeId:1,
@@ -44,7 +43,7 @@ class NPSEvaluate extends React.Component {
       groupId: [] ||localStorage.getItem('NPSGroupId'),
       groupTypeArr: [],
       NPSParams:{},
-      dateArr:this.handleDefaultPickerValueMark(),
+      dateArr:localStorage.getItem('NPSDates')?this.localStoryDates():this.handleDefaultPickerValueMark(),
       userInfo:props.userInfo,
       disableEndDate:this.handleDefaultPickerValueMark()[1]
     }
@@ -66,6 +65,11 @@ class NPSEvaluate extends React.Component {
     },()=>{
       this.getNpsAutonomousEvaluation(this.state.userInfo,ids)
     })
+  }
+  localStoryDates = () =>{
+    let startDate = moment(JSON.parse(localStorage.getItem('NPSDates'))[0])
+    let endDate = moment(JSON.parse(localStorage.getItem('NPSDates'))[1])
+    return [startDate,endDate]
   }
 
   initRecordTimeListData = (params=[]) =>{
@@ -119,6 +123,7 @@ class NPSEvaluate extends React.Component {
   }
   // 选择时间
   onDateChange = (v) => {
+    localStorage.setItem('NPSDates', JSON.stringify(initTimeData(v)));
     this.setState({ dateArr:v, },()=>this.getNpsAutonomousEvaluation());
   }
   //取T-2日期的数据
@@ -170,7 +175,6 @@ class NPSEvaluate extends React.Component {
   }
   render() {
     const { NPSParams} = this.state;
-    console.log(157,NPSParams)
     return (
       <Container title="NPS自主评价分析"
                  style={{ width: '100%', marginBottom: '16px' }}
