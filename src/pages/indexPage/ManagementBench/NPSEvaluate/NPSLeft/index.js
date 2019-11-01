@@ -5,6 +5,7 @@ import ColorBlock from '../components/colorBlock'
 import BIWrapperTable from '../../../components/BIWrapperTable';
 import Star from '../components/star'
 import BILoading from '@/components/BILoading'
+import { Tooltip } from 'antd';
 
 
 @connect(({xdManagementBench,loading}) => ({
@@ -45,7 +46,9 @@ class NPSLeft extends React.Component {
         key: 'opinion',
         width:351,
         render: (opinion,) => {
-          return <div className={styles.contentMain}>{opinion}</div>
+          return <Tooltip placement="right" title={opinion}>
+            <div className={styles.contentMain}>{opinion}</div>
+          </Tooltip>
         },
       },
     ]

@@ -198,19 +198,6 @@ class Top extends React.Component {
             scroll={{ y: 288 }}
           />
         </div>
-        {/* <div className={styles.tableContainer}>
-          <BITable
-            columns={this.columns()}
-            dataSource={familyScoreList}
-            defaultExpandAllRows={true}
-            expandIcon={CustomExpandIcon}
-            rowClassName={this.setRowClassName}
-            pagination={false}
-            scroll={{ x: 0, y: 408 }}
-            rowKey={record => record.id}
-            loading={this.props.loading}
-          ></BITable> */}
-        {/* </div> */}
       </div>
     );
   }
