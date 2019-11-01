@@ -41,7 +41,7 @@ class NPSEvaluate extends React.Component {
       }],
       orgValue:"自变量",
       userOrgConfig: [],
-      groupId: [],
+      groupId: [] ||localStorage.getItem('NPSGroupId'),
       groupTypeArr: [],
       NPSParams:{},
       dateArr:this.handleDefaultPickerValueMark(),
@@ -51,18 +51,23 @@ class NPSEvaluate extends React.Component {
   }
   componentDidMount() {
     this.getUserOrgList()
-    this.getNpsAutonomousEvaluation(this.state.userInfo)
-    if(this.state.userInfo.collegeId){
-      this.state.groupId.push(this.state.userInfo.collegeId)
-    }else if(this.state.userInfo.familyId){
-      this.state.groupId.push(this.state.userInfo.familyId)
-    }else if(this.state.userInfo.groupId){
-      this.state.groupId.push(this.state.userInfo.groupId)
+    let ids = localStorage.getItem('NPSGroupId') || []
+    if(ids.length <= 0){
+      if(this.state.userInfo.collegeId){
+        this.state.groupId.push(this.state.userInfo.collegeId)
+      }else if(this.state.userInfo.familyId){
+        this.state.groupId.push(this.state.userInfo.familyId)
+      }else if(this.state.userInfo.groupId){
+        this.state.groupId.push(this.state.userInfo.groupId)
+      }
     }
     this.setState({
-      groupId:this.state.groupId
+      groupId:localStorage.getItem('NPSGroupId')?JSON.parse(localStorage.getItem('NPSGroupId')):this.state.groupId
+    },()=>{
+      this.getNpsAutonomousEvaluation(this.state.userInfo,ids)
     })
   }
+
   initRecordTimeListData = (params=[]) =>{
     const [startTime,endTime]= params.map(item => item && moment(item).format(dateFormat))
     return {startTime,endTime};
@@ -94,6 +99,7 @@ class NPSEvaluate extends React.Component {
       payload: { params: {} },
       callback: res => {
         if (res && res.length > 0) {
+          res.unshift({id: 0,name: '全部',nodeList: ''})
           this.setState({
             userOrgConfig:res,
           })
@@ -109,15 +115,11 @@ class NPSEvaluate extends React.Component {
     },()=>{
       this.getNpsAutonomousEvaluation()
     });
+    localStorage.setItem('NPSGroupId', JSON.stringify(groupId));
   }
   // 选择时间
   onDateChange = (v) => {
     this.setState({ dateArr:v, },()=>this.getNpsAutonomousEvaluation());
-  }
-  // date
-  getDate = () => {
-    const { startTime, endTime } = this.state;
-    return startTime && endTime ? [moment(startTime), moment(endTime)] : [];
   }
   //取T-2日期的数据
   handleDefaultPickerValueMark = (n = 2, cTime) =>{
@@ -131,7 +133,7 @@ class NPSEvaluate extends React.Component {
   };
   rightPart = () =>{
     // const {collegeOptions,orgValue} = this.state
-    const {  groupId, userOrgConfig, dateArr } = this.state;
+    const {  groupId="全部", userOrgConfig, dateArr } = this.state;
     const {orgList} = this.props.xdManagementBench;
     orgList.length>0 && this.getResetGroupMsg(orgList)
     return(
