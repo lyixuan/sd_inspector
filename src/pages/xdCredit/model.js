@@ -138,7 +138,7 @@ export default {
         }]
         if (data.titleList) {
           data.titleList = [...data.titleList, {
-            expand: true,
+            expand: false,
             typeId: -1,
             typeName: "未分类数据"
           }]

@@ -138,7 +138,7 @@ class CreditImDetials extends React.Component {
     }, {
       type: 'rightFixed',
       name: '汇总',
-      width: 60,
+      width: 80,
       key: 'total'
     }];
     return columns || [];
