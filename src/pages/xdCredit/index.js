@@ -284,6 +284,7 @@ class XdCredit extends React.Component {
   // reset groupId数组 getResetGroupId
   getResetGroupMsg = (arr = this.state.userOrgConfig) => {
     if (arr && arr.length > 0) {
+      this.getParentNode(arr, orgId, orgType, arr1)
       const item = arr[0];
       let arr1 = [];
       const { orgId, orgType } = this.state;
