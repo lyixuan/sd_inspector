@@ -10,18 +10,17 @@ import BILoading from '@/components/BILoading'
 }))
 class GroupIncome extends React.Component {
   componentDidMount() {
-    console.log(11,this.props.familyAndGroup)
     this.props.getIncomeFamilyGroupPk(this.props.familyAndGroup.state.groupPkInitFlag);
   }
-  columns = () =>{
+  columns = () => {
     const { colName = [] } = this.props.familyIncomeGroup;
     const columns = [{
-        title: '创收维度',
-        dataIndex: '创收维度',
-        key: '创收维度',
-        width:"12%",
-        render: (text, record) => record[0],
-      }];
+      title: '创收维度',
+      dataIndex: '创收维度',
+      key: '创收维度',
+      width: "12%",
+      render: (text, record) => record && record.option[0],
+    }];
 
     if (colName && colName.length > 0) {
       colName.map(({ groupName, groupId }, index) => columns.push({
@@ -29,23 +28,24 @@ class GroupIncome extends React.Component {
         dataIndex: groupName,
         key: groupName,
         className: this.getTdClass(groupId),
-        width:'13%',
-        render: (text, record) => record[index + 1],
+        width: '13%',
+        render: (text, record) => record && record.option[index + 1],
       }))
     }
     return columns || []
   }
-  setRowClassName = (record) => {
-    let className = ''
-    if (record.level === 1 && record.dimensionName === "学分均分") {
-      className = "oneLevelBgColor"
-    } else if (record.level === 1 && record.dimensionName !== "学分均分") {
-      className = "otherLevelBgColor"
-    } else {
-      className = "otherLevelBgColor1"
-    }
-    return className
-  }
+  // setRowClassName = (record) => {
+  //   console.log(record, 'kkkkkk')
+  //   let className = ''
+  //   if (record.level === 1 && record.dimensionName === "学分均分") {
+  //     className = "oneLevelBgColor"
+  //   } else if (record.level === 1 && record.dimensionName !== "学分均分") {
+  //     className = "otherLevelBgColor"
+  //   } else {
+  //     className = "otherLevelBgColor1"
+  //   }
+  //   return className
+  // }
   getTdClass = (groupId) => {
     if (this.props.familyAndGroup) {
       const { myGroupValue = [] } = this.props.familyAndGroup.state;
@@ -58,18 +58,18 @@ class GroupIncome extends React.Component {
   }
   render() {
 
-    const dataSource = this.props.familyIncomeGroup && this.props.familyIncomeGroup.data
+    const dataSource = this.props.familyIncomeGroup && this.props.familyIncomeGroup.dataShow
     const colName = this.props.familyIncomeGroup && this.props.familyIncomeGroup.colName
     return (
-      <div className={styles.creditContainer} style={{display:'block'}}>
+      <div className={styles.creditContainer} style={{ display: 'block' }}>
         {
           this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
             columns={this.columns()}
-            dataSource={dataSource||[]}
+            dataSource={dataSource || []}
             pagination={false}
             loading={this.props.loading}
-            rowKey={record => record.id}
-            scroll={{ y: 208 }}
+            rowKey={(record, index) => index}
+            scroll={{ y: 408 }}
             smalled
           >
           </BITable>

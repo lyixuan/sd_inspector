@@ -113,7 +113,7 @@ class CreditImDetials extends React.Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.xdCreditModal.imDetailData != nextProps.xdCreditModal.imDetailData) {
-      const tableWidth = document.getElementById("classityBox").offsetHeight;
+      const tableWidth = nextProps.xdCreditModal.imDetailData.dataList.length * 50 + 100;
       const countPage = parseInt((1700 - tableWidth) / 48);
       this.setState({
         pageSize: countPage
@@ -130,7 +130,7 @@ class CreditImDetials extends React.Component {
     const columns = [{
       type: 'leftFixed',
       name: '组织',
-      width: 105
+      width: 120
     }, {
       type: 'children',
       name: '',
@@ -276,7 +276,7 @@ class CreditImDetials extends React.Component {
       <div className={`${styles.detials}`}>
         <div className={styles.classityBox} id="classityBox">
           {
-            loading1 ? <BILoading isLoading={loading1} /> : <BIClassifyTable
+            loading1 ? <div style={{ display: 'flex', height: '200px', alignItems: 'center', justifyContent: 'center' }}><BILoading isLoading={loading1} /></div> : imDetailData.titleList && <BIClassifyTable
               loading={this.props.loading}
               columns={this.columnsTable()}
               colors={colors}
@@ -284,6 +284,7 @@ class CreditImDetials extends React.Component {
               cellWidth={85}
               style={{ cursor: 'pointer' }}
               isChecked={true}
+              collegeType='college'
               defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
               {...this.props}
             ></BIClassifyTable>
@@ -291,7 +292,7 @@ class CreditImDetials extends React.Component {
         </div>
         <div className={styles.detailsTable}>
           {
-            loading2 || loading2 ? <BILoading isLoading={loading2} /> : <BITable
+            loading2 || loading2 ? <div style={{ display: 'flex', height: '200px', alignItems: 'center', justifyContent: 'center' }}><BILoading isLoading={loading2} /></div> : <BITable
               ellipsis={true}
               columns={this.columns()}
               dataSource={imDetailList.data}

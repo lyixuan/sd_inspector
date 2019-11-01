@@ -57,6 +57,15 @@ class ProfitList extends React.Component {
     }
     return result
   }
+  onClickRow = (record) => {
+    const obj = { widgetName: '学分明细', traceName: '家族长工作台/学分明细' };
+    const { BI = {} } = window;
+    return {
+      onClick: () => {
+        BI.traceV && BI.traceV(obj);
+      },
+    };
+  }
 
   columns = () => {
     const columns = [
@@ -159,6 +168,13 @@ class ProfitList extends React.Component {
             </div>
           }
         })
+      })
+
+      columns.push({
+        title: '',
+        dataIndex: 'empty',
+        key: 'empty',
+        className: `${className} ${className2}`,
       })
     }
 

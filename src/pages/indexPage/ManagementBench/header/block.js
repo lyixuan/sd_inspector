@@ -9,6 +9,7 @@ import workImg4 from '@/assets/workImg4.png';
 import workImg5 from '@/assets/workImg5.png';
 import workArrow from '@/assets/workArrow.png';
 import moment from 'moment';
+import { Tooltip } from 'antd';
 
 const admin_user = localStorage.getItem('admin_user');
 
@@ -17,31 +18,37 @@ const TYPE = [
     key: 1,
     name: '学分均分',
     href: '#one',
+    title: '当前绩效周期内本学院的学分均分',
   },
   {
     key: 2,
     name: '创收单量',
     href: '#two',
+    title: '当前绩效周期内创收总单量',
   },
   {
     key: 3,
     name: '创收流水',
     href: '#three',
+    title: '当前绩效周期内竞合后净流水',
   },
   {
     key: 4,
     name: 'IM差评率',
     href: '#four',
+    title: '当前绩效周期内IM差评率',
   },
   {
     key: 5,
     name: 'NPS差评率',
     href: '#five',
+    title: '当前绩效周期内NPS差评率',
   },
   {
     key: 6,
     name: 'BBS负面贴',
     href: '#six',
+    title: '当前绩效周期内BBS负面帖数',
   },
 ];
 
@@ -61,14 +68,18 @@ class Block extends React.Component {
     const { item } = this.props;
     if (!item) return;
     let href = '';
+    let title = '';
     TYPE.map(currentValue => {
-      if (currentValue.key === item.type) return href = currentValue.href;
+      if (currentValue.key === item.type)
+        return (href = currentValue.href), (title = currentValue.title);
     });
     const money = thousandsFormatBigger(item.value);
     return (
       <li>
         <a href={href}></a>
-        <span className={styles.num}>{money}</span>
+        <span className={styles.num}>
+          <Tooltip title={title}>{money}</Tooltip>
+        </span>
         <p className={styles.bottom}>
           <span>
             {TYPE.map(it => {

@@ -10,14 +10,15 @@ import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
 import SmallProgress from '@/pages/indexPage/components/smallProgress'
+import { thousandsFormat } from '@/utils/utils';
 import { connect } from 'dva';
 import BILoading from '@/components/BILoading'
 
 const rankType = ['本学院排行', '集团排行'];
-
-@connect(({ xdFamilyModal, loading }) => ({
-  xdFamilyModal,
-  loading: loading.effects['xdFamilyModal/achievementList'],
+const dataTrace = ['{"widgetName":"本学院排行","traceName":"家族长工作台/本学院排行"}', '{"widgetName":"集团排行","traceName":"家族长工作台/集团排行"}'];
+@connect(({ xdWorkModal, loading }) => ({
+  xdWorkModal,
+  loading: loading.effects['xdWorkModal/achievementList'],
 }))
 class Performance extends React.Component {
   constructor(props) {
@@ -85,7 +86,7 @@ class Performance extends React.Component {
         render: (text, record) => {
           const percent = text / this.state.totalAchievementMax * 100
           return <div>
-            <div>{text}</div>
+            <div>{thousandsFormat(parseInt(text))}</div>
             <SmallProgress isColor="green" percent={`${percent}%`}></SmallProgress>
           </div>
         },
@@ -98,7 +99,7 @@ class Performance extends React.Component {
         render: (text, record) => {
           const percent = text / this.state.achievementMax * 100
           return <div>
-            <div>{text}</div>
+            <div>{thousandsFormat(parseInt(text))}</div>
             <SmallProgress isColor="green" percent={`${percent}%`}></SmallProgress>
           </div>
         },
@@ -111,7 +112,7 @@ class Performance extends React.Component {
         render: (text, record) => {
           const percent = text / this.state.incomeKpiMax * 100
           return <div>
-            <div>{text}</div>
+            <div>{thousandsFormat(parseInt(text))}</div>
             <SmallProgress isColor="green" percent={`${percent}%`}></SmallProgress>
           </div>
         },
@@ -121,19 +122,28 @@ class Performance extends React.Component {
         title: '好推绩效',
         dataIndex: 'goodpushKpi',
         key: 'goodpushKpi',
-        width: width
+        width: width,
+        render: (text, record) => {
+          return <div>{thousandsFormat(parseInt(text))}</div>
+        }
       },
       {
         title: '续报绩效',
         dataIndex: 'renewalKpi',
         key: 'renewalKpi',
-        width: width
+        width: width,
+        render: (text, record) => {
+          return <div>{thousandsFormat(parseInt(text))}</div>
+        }
       },
       {
         title: '成本套绩效',
         dataIndex: 'examZbtKpi',
         key: 'examZbtKpi',
-        width: '12%'
+        width: '12%',
+        render: (text, record) => {
+          return <div>{thousandsFormat(parseInt(text))}</div>
+        }
       },
     ];
     if (this.state.rankType == 2) {
@@ -177,7 +187,7 @@ class Performance extends React.Component {
   achievementList() {
     const groupType = this.state.rankType == 1 ? 'college' : '';
     this.props.dispatch({
-      type: 'xdFamilyModal/achievementList',
+      type: 'xdWorkModal/achievementList',
       payload: { params: { groupType } },
       callback: (dataSource) => {
         this.setState({
@@ -192,7 +202,8 @@ class Performance extends React.Component {
 
   handleRankChange = (e) => {
     this.setState({
-      rankType: e.target.value
+      rankType: e.target.value,
+      userFlag: false
     }, () => {
       this.achievementList();
     });
@@ -204,7 +215,7 @@ class Performance extends React.Component {
     return (
       <div className={styles.performanceRank}>
         <BIRadio onChange={this.handleRankChange} value={this.state.rankType} style={{ marginBottom: 16 }}>
-          {rankType.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace='{"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"}'>{item}</div></BIRadio.Radio.Button>)}
+          {rankType.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace={dataTrace[index]}>{item}</div></BIRadio.Radio.Button>)}
         </BIRadio>
         {this.props.loading ? <BILoading isLoading={this.props.loading} /> : userFlag && userMsg && <div className={styles.suspenTable}>
           <BITable
@@ -218,7 +229,7 @@ class Performance extends React.Component {
             smalled
           />
         </div>}
-        <div id="scroller" className={styles.tableContainer}>
+        <div id="scroller" className={`${userFlag && userMsg ? styles.tbodyMarTop : ''}`} >
           <BITable
             columns={this.columns()}
             dataSource={this.state.dataSource}
@@ -230,7 +241,7 @@ class Performance extends React.Component {
           >
           </BITable>
         </div>
-      </div>
+      </div >
     );
   }
 }

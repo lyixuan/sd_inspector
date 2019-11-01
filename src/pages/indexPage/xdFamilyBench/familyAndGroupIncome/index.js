@@ -22,25 +22,26 @@ class FamilyAndGroup extends React.Component {
     super(props)
     this.state = {
       keye: '1',
-      incomeVisible:false,
-      tabParams:[{
-        name: '家族创收对比',
+      incomeVisible: false,
+      tabParams: [{
+        name: <span data-trace='{"widgetName":"家族创收对比","traceName":"家族长工作台/家族创收对比"}'>家族创收对比</span>,
         key: '1',
-        children: <FamilyIncome/>,
+        children: <FamilyIncome />,
         isShowBtn: false
-      },{
-        name:'小组创收对比',
-        key:'2',
-        children:  <GroupIncome familyAndGroup={this} getIncomeFamilyGroupPk={this.getIncomeFamilyGroupPk}/>,
+      }, {
+        name: <span data-trace='{"widgetName":"小组创收对比","traceName":"家族长工作台/小组创收对比"}'>小组创收对比</span>,
+        key: '2',
+        children: <GroupIncome familyAndGroup={this} getIncomeFamilyGroupPk={this.getIncomeFamilyGroupPk} />,
         isShowBtn: true,
+        income: true,
         visible: "incomeVisible",
         changeModal: this.changeIncomeModal
       }],
       groupIdList: [], // 小组创收参数,
-      myFamilyGroupList:[],
-      PkGroupIdList:localStorage.getItem('incomePkGroupIds')?JSON.parse(localStorage.getItem('incomePkGroupIds')):[], // 小组创收对比PK值
-      myGroupValue:localStorage.getItem('incomeMyGroupIds')?JSON.parse(localStorage.getItem('incomeMyGroupIds')):[], // 小组创收mine值
-      groupPkInitFlag:localStorage.getItem('incomePkGroupIds')||localStorage.getItem('incomeMyGroupIds')?false:true
+      myFamilyGroupList: [],
+      PkGroupIdList: localStorage.getItem('incomePkGroupIds') ? JSON.parse(localStorage.getItem('incomePkGroupIds')) : [], // 小组创收对比PK值
+      myGroupValue: localStorage.getItem('incomeMyGroupIds') ? JSON.parse(localStorage.getItem('incomeMyGroupIds')) : [], // 小组创收mine值
+      groupPkInitFlag: localStorage.getItem('incomePkGroupIds') || localStorage.getItem('incomeMyGroupIds') ? false : true
     }
   }
   componentDidMount() {
@@ -52,7 +53,6 @@ class FamilyAndGroup extends React.Component {
       type: 'xdFamilyModal/getIncomeFamilyGroupPk',
       payload: { params: { pkGroupIds: this.getParamas(),  selfGroupIds: this.state.myGroupValue,groupPkInitFlag:flag} },
       callback: res =>  {
-        console.log(56,res)
         if (flag && this.state.PkGroupIdList.length<=0) {
           this.setState({ myGroupValue: res.map(item => String(item.groupId))});
         }
@@ -66,22 +66,22 @@ class FamilyAndGroup extends React.Component {
     PkGroupIdList.map(item => groupIdList.push(item.replace("c-", '')))
     return groupIdList;
   }
-  changeIncomeModal = () =>{
+  changeIncomeModal = () => {
     this.setState({
-      incomeVisible:true
+      incomeVisible: true
     })
   }
   handleOk = () => {
-    if(this.state.myGroupValue.concat(this.state.PkGroupIdList).length>6){
+    if (this.state.myGroupValue.concat(this.state.PkGroupIdList).length > 6) {
       message.warning('小组最多只能选择6个');
       return;
     }
     this.setState({
       incomeVisible: false,
     });
-    setTimeout(()=>{
+    setTimeout(() => {
       this.getIncomeFamilyGroupPk(false);
-    },300)
+    }, 300)
     localStorage.setItem('incomePkGroupIds', JSON.stringify(this.state.PkGroupIdList));
     localStorage.setItem('incomeMyGroupIds', JSON.stringify(this.state.myGroupValue));
   };
@@ -90,7 +90,7 @@ class FamilyAndGroup extends React.Component {
       incomeVisible: false,
     });
   };
-  myFamilyGroupList = () =>{
+  myFamilyGroupList = () => {
     this.props.dispatch({
       type:'xdFamilyModal/myFamilyGroupList',
       payload:{params:{}},
@@ -101,23 +101,23 @@ class FamilyAndGroup extends React.Component {
       }
     })
   }
-  onFormChange = (value, vname)=>{
+  onFormChange = (value, vname) => {
     this.setState({
       [vname]: value
     });
   };
-  sliceArr=(arr)=>{
+  sliceArr = (arr) => {
     let array = []
-    if(arr.length>6){
-      array = arr.splice(0,4);
-    }else{
+    if (arr.length > 6) {
+      array = arr.splice(0, 4);
+    } else {
       array = arr
     }
     return array
   }
   render() {
     const { orgListTreeData = [], userInfo } = this.props;
-    const {myFamilyGroupList, myGroupValue, PkGroupIdList} = this.state
+    const { myFamilyGroupList, myGroupValue, PkGroupIdList } = this.state
     return (
       <Container
         style={{ width: '100%', marginBottom: '16px' }}
@@ -144,15 +144,15 @@ class FamilyAndGroup extends React.Component {
           >
             <div className={styles.modalWrap}>
               <div className={styles.myGroup}>
-                <span className={styles.titleName} style={{width:'91px'}}>添加我的小组：</span>
+                <span className={styles.titleName} style={{ width: '91px' }}>添加我的小组：</span>
                 <span className={styles.titleName}>{userInfo.collegeName}</span>
                 <span className={styles.titleName}>{userInfo.familyName}</span>
                 <BISelect
                   placeholder="请选择小组"
                   mode="multiple"
-                  style={{width:'100%'}}
+                  style={{ width: '100%' }}
                   value={this.sliceArr(myGroupValue)}
-                  onChange={(val) => this.onFormChange(val,'myGroupValue')}
+                  onChange={(val) => this.onFormChange(val, 'myGroupValue')}
                   maxTagCount={2}
                 >
                   {myFamilyGroupList.map((item, index) => (
@@ -163,7 +163,7 @@ class FamilyAndGroup extends React.Component {
                 </BISelect>
               </div>
               <div className={`${styles.myGroup} ${styles.pkGroup}`}>
-                <span className={styles.titleName} style={{width:'91px',display:'inline-block',textAlign:'right'}}>对比小组：</span>
+                <span className={styles.titleName} style={{ width: '91px', display: 'inline-block', textAlign: 'right' }}>对比小组：</span>
                 <BITreeSelect
                   style={{ width: 445 }}
                   placeholder="请选择对比小组"
@@ -173,7 +173,7 @@ class FamilyAndGroup extends React.Component {
                   value={PkGroupIdList}
                   dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                   treeData={orgListTreeData}
-                  onChange={(val)=>this.onFormChange(val,'PkGroupIdList')}
+                  onChange={(val) => this.onFormChange(val, 'PkGroupIdList')}
                 />
               </div>
             </div>

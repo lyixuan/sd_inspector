@@ -24,12 +24,16 @@ class ProfitList extends React.Component {
   componentDidMount() {
     this.getData();
     // 表格添加滚动事件
-    document.querySelector("#scroll .ant-table-body").onscroll = (e) => {
-      this.getScrollFn(e.target.scrollTop);
+    if ( document.querySelector("#scroll .ant-table-body")) {
+      document.querySelector("#scroll .ant-table-body").onscroll = (e) => {
+        this.getScrollFn(e.target.scrollTop);
+      }
     }
   }
   componentWillUnmount() {
-    document.querySelector("#scroll .ant-table-body").onscroll = '';
+    if (document.querySelector("#scroll .ant-table-body")) {
+      document.querySelector("#scroll .ant-table-body").onscroll = '';
+    }
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;

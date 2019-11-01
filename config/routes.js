@@ -121,7 +121,7 @@ export const routes = [
           },
           {
             path: '/qualityAppeal/qualityNewSheet/appealSt',
-            component: './qualityAppeal/qualityNewSheet/appealSt',
+            component: './qualityAppeal/qualityNewSheet/appeal',
             name: '审核',
             bread: {
               name: '新质检单管理',
@@ -152,15 +152,6 @@ export const routes = [
             },
           },
           {
-            path: '/qualityAppeal/qualityAppeal/edit',
-            component: './qualityAppeal/qualityAppeal/edit',
-            name: '发起申诉',
-            bread: {
-              name: '质检申诉管理',
-              path: '/qualityAppeal/qualityAppeal',
-            },
-          },
-          {
             path: '/qualityAppeal/qualityAppeal/appeal',
             component: './qualityAppeal/qualityAppeal/appeal',
             name: '申诉审核',
@@ -176,29 +167,6 @@ export const routes = [
             bread: {
               name: '质检申诉管理',
               path: '/qualityAppeal/qualityAppeal',
-            },
-          },
-          {
-            path: '/qualityAppeal/qualityAppeal/create',
-            component: './qualityAppeal/qualityAppeal/create',
-            name: '申诉审核',
-            bread: {
-              name: '申诉审核',
-              path: '/qualityAppeal/qualityAppeal',
-            },
-          },
-          {
-            path: '/qualityAppeal/qualityBook',
-            component: './qualityAppeal/qualityBook',
-            name: '品控质检手册',
-          },
-          {
-            path: '/qualityAppeal/qualityBook/create',
-            component: './qualityAppeal/qualityBook/create',
-            name: '新建质检手册',
-            bread: {
-              name: '品控质检手册',
-              path: '/qualityAppeal/qualityBook',
             },
           },
         ],
@@ -229,7 +197,7 @@ export const routes = [
           {
             path: '/ko/behaviorPath',
             component: './ko/behaviorPath',
-            name: '用户行为轨迹',
+            name: '用户档案',
           },
         ],
       },

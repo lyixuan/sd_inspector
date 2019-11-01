@@ -17,12 +17,14 @@ class Wrap extends React.Component {
   }
 
   componentDidMount() {
+    if (!this.props.rowId) return;
     const id = `#${this.props.rowId} .ant-table-body`;
     document.querySelector(id).onscroll = (e) => {
       this.getScrollFn(e.target.scrollTop)
     }
   }
   componentWillUnmount() {
+    if (!this.props.rowId) return;
     document.querySelector(`#${this.props.rowId} .ant-table-body`).onscroll = '';
   }
   getScrollFn = (scrollTop = 0) => {
@@ -40,6 +42,7 @@ class Wrap extends React.Component {
     }
   }
   getRowClassName = (record, index) => {
+    if (!this.props.rowId) return;
     if (this.props.userId === record.userId || record.isMyGroup) {
       this.state.userMsg = record;
       this.state.userLocation = 40 * (index + 1) - 230;
@@ -64,7 +67,7 @@ class Wrap extends React.Component {
             smalled
           />
         </div>}
-        <div id={this.props.rowId} className={styles.tableBorder}>
+        <div id={this.props.rowId} className={`${styles.tableBorder}} ${userFlag && userMsg ? styles.tbodyMarTop : ''}`} >
           <BITable
             columns={this.props.columns}
             dataSource={this.props.dataSource}

@@ -15,7 +15,7 @@ class ScoreContrast extends React.Component {
     console.log("date",props.date,moment(props.date.startDate).format('YYYY-MM-DD'),moment(props.date.endDate).format('YYYY-MM-DD'))
     super(props)
     this.state = {
-      tabParams:props.userInfo.userType === "college"?[{
+      tabParams:props.userInfo.userType === "boss"?[{
         name: '学院学分对比',
         key: '1',
         children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
@@ -48,11 +48,11 @@ class ScoreContrast extends React.Component {
         familyType:0,
         dimensionId:null,
         collegeId:props.userInfo.collegeId,
-        startTime:moment(props.date.startDate).format('YYYY-MM-DD'),
-        endTime:moment(props.date.endDate).format('YYYY-MM-DD'),
+        startTime:moment(props.date.startDate).format('YYYY-MM-DD'),//"2019-09-25",
+        endTime:moment(props.date.endDate).format('YYYY-MM-DD')//"2019-09-30",
       },
       query: { },
-      orgId:0,
+      familyType:0,
       tabNum:1,
     }
   }
@@ -73,7 +73,7 @@ class ScoreContrast extends React.Component {
     const { queryParams } = this.state;
     this.state.query[queryParams.contrasts] = {
       contrasts: queryParams.contrasts,
-      familyType: this.state.orgId,
+      familyType: this.state.familyType,
       dimensionId: queryParams.dimensionId,
     }
     this.state.tabNum = Number(obj.keye)
@@ -116,7 +116,7 @@ class ScoreContrast extends React.Component {
   onFormChange = (val) =>{
     this.setState({
       orgValue:val,
-      orgId:val
+      familyType:val,
     })
     this.state.queryParams.familyType = val
     this.queryAppealDataPage()

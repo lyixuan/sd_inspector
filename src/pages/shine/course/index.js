@@ -180,7 +180,8 @@ class Course extends React.Component {
     const params = DeepCopy(formParams);
     params.videoTypeId = formParams.videoTypeId[1];
     delete params.parentId;
-    this.delEmpty(params);
+    params.videoUserCollege = params.videoUserCollege?params.videoUserCollege:'';
+    // this.delEmpty(params);
     let type = 'course/addData';
     if(params.id) {
       type='course/updateData'
@@ -325,7 +326,7 @@ class Course extends React.Component {
           <div className={styles.gutterBox}>
             <span className={styles.gutterLabel}>讲师组织:</span>
             <span className={styles.gutterForm}>
-              <BISelect style={{ width: 180 }} placeholder="请选择"
+              <BISelect allowClear style={{ width: 180 }} placeholder="请选择"
                         value={videoUserCollege}
                         onChange={(val) => this.onFormChange(val, 'videoUserCollege')}>
                   {collegeList.map(item => (

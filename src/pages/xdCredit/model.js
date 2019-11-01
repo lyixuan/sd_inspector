@@ -128,7 +128,7 @@ export default {
     saveTable(state, { payload }) {
       let data = payload.imDetailData
       if (!data.reasonTypeList) {
-        data.dataList.map(item => {
+        data.dataList.length > 0 && data.dataList.map(item => {
           item.values.push(item.unClassifyCount)
         })
         data.reasonTypeList = [{
@@ -136,11 +136,14 @@ export default {
           typeId: 0,
           typeName: '所有分类'
         }]
-        data.titleList = [...data.titleList, {
-          expand: true,
-          typeId: -1,
-          typeName: "未分类数据"
-        }]
+        if (data.titleList) {
+          data.titleList = [...data.titleList, {
+            expand: true,
+            typeId: -1,
+            typeName: "未分类数据"
+          }]
+        }
+
       } else {
         data.reasonTypeList = [{
           expand: true,

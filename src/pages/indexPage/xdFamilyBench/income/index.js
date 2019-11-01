@@ -12,11 +12,11 @@ import { thousandsFormat } from '@/utils/utils';
 import styles from './style.less';
 
 const tabParams = [{
-  name: '小组创收',
-  children: <TableList tabKey="1"/>
+  name: <span data-trace='{"widgetName":"小组创收","traceName":"家族长工作台/小组创收"}'>小组创收</span>,
+  children: <TableList tabKey="1" />
 }, {
-  name: '班主任创收',
-  children: <TableList tabKey="2"/>
+  name: <span data-trace='{"widgetName":"班主任创收","traceName":"家族长工作台/班主任创收"}'>班主任创收</span>,
+  children: <TableList tabKey="2" />
 }]
 @connect(({ xdFamilyModal }) => ({
   inCometarget: xdFamilyModal.inCometarget,

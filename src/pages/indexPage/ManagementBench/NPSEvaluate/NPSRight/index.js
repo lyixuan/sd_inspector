@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import styles from '../style.less'
 import Echart from '../../scoreContrast/components/echart'
 import BILoading from '@/components/BILoading'
+import EmptyBox from '@/assets/workBench/emptyBox.png'
 
 @connect(({xdManagementBench,loading}) => ({
   xdManagementBench,
@@ -87,7 +88,7 @@ class NPSLeft extends React.Component {
             this.props.loading?
               <BILoading isLoading={this.props.loading}/>
               :
-              (cloudOptions.length>0 && <Echart options={this.optionsDraw()} style={{height:'337px',width:'334px'}}/>)
+              (cloudOptions.length>0 ? <Echart options={this.optionsDraw()} style={{height:'337px',width:'334px'}}/>:<div className={styles.emptyMain}><img src={EmptyBox}/></div>)
           }
         </div>
 

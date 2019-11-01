@@ -5,6 +5,7 @@ import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
 import storage from '@/utils/storage';
+import { thousandsFormat } from '@/utils/utils';
 import { connect } from 'dva';
 
 
@@ -134,19 +135,28 @@ const columns3 = [
     title: '好推',
     dataIndex: 'goodpushKpi',
     key: 'goodpushKpi',
-    width: '16.67%'
+    width: '16.67%',
+    render: (text, record) => {
+      return <div>{thousandsFormat(parseInt(text))}</div>
+    }
   },
   {
     title: '续报',
     dataIndex: 'renewalKpi',
     key: 'renewalKpi',
-    width: '16.67%'
+    width: '16.67%',
+    render: (text, record) => {
+      return <div>{thousandsFormat(parseInt(text))}</div>
+    }
   },
   {
     title: '成本套',
     dataIndex: 'examZbtKpi',
     key: 'examZbtKpi',
-    width: '16.67%'
+    width: '16.67%',
+    render: (text, record) => {
+      return <div>{thousandsFormat(parseInt(text))}</div>
+    }
   },
 ];
 const columns4 = [
@@ -189,19 +199,28 @@ const columns4 = [
     title: '好推',
     dataIndex: 'goodpushKpi',
     key: 'goodpushKpi',
-    width: '16.67%'
+    width: '16.67%',
+    render: (text, record) => {
+      return <div>{thousandsFormat(parseInt(text))}</div>
+    }
   },
   {
     title: '续报',
     dataIndex: 'renewalKpi',
     key: 'renewalKpi',
-    width: '16.67%'
+    width: '16.67%',
+    render: (text, record) => {
+      return <div>{thousandsFormat(parseInt(text))}</div>
+    }
   },
   {
     title: '成本套',
     dataIndex: 'examZbtKpi',
     key: 'examZbtKpi',
-    width: '16.67%'
+    width: '16.67%',
+    render: (text, record) => {
+      return <div>{thousandsFormat(parseInt(text))}</div>
+    }
   },
 ];
 
@@ -264,11 +283,11 @@ class Score extends React.Component {
     return (
       <div className={styles.scoreWrap}>
         <div className={styles.tableWrap}>
-          <div className={styles.table}><Wrap rowId='scroll1' userId={userId} columns={columns} dataSource={scoreData} title='本学院学分排名'></Wrap></div>
+          <div className={styles.table}><Wrap userId={userId} columns={columns} dataSource={scoreData} title='本学院学分排名'></Wrap></div>
           <div className={styles.table}><Wrap rowId='scroll2' userId={userId} columns={columns2} dataSource={companyScoreData} title='集团学分排名' className='bg2'></Wrap></div>
         </div>
         <div className={styles.tableWrap}>
-          <div className={styles.table}><Wrap rowId='scroll3' userId={userId} columns={columns3} dataSource={incomeData} title='本学院创收排名' className='bg3'></Wrap></div>
+          <div className={styles.table}><Wrap userId={userId} columns={columns3} dataSource={incomeData} title='本学院创收排名' className='bg3'></Wrap></div>
           <div className={styles.table}><Wrap rowId='scroll4' userId={userId} columns={columns4} dataSource={incomeCompanyData} title='集团创收排名' className='bg4'></Wrap></div>
         </div>
       </div>

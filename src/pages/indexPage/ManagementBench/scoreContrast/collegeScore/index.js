@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import BILoading from '@/components/BILoading'
 import moment from 'moment'
 import TreeNames from '../components/treeNames'
-import Echart from '../components/Echart'
+import Echart from '../components/echart'
 import EchartBottom from '../components/echartBottom'
 @connect(({xdManagementBench,loading,xdWorkModal}) => ({
   xdManagementBench,
@@ -20,6 +20,7 @@ class CollegeScore extends React.Component {
     }
   }
   componentDidMount() {
+    console.log("familyType",this.props.queryAppealDatas.state)
 
   }
 
@@ -32,7 +33,7 @@ class CollegeScore extends React.Component {
     arr.map((item,index)=>{
       creaditValue.push(item.creaditValue);
       familyName.push(item.name);
-      qoqValue.push(item.qoqValue*100)
+      qoqValue.push(Number(parseInt(item.qoqValue*100)))
     })
     const yMax =  Math.max.apply(null, creaditValue);
     const yMin = Math.min.apply(null, creaditValue);
@@ -43,6 +44,7 @@ class CollegeScore extends React.Component {
       maxShadow.push(yMax);
     }
     const  options = {
+      color: ["#50D4FD", "#FD8188"],
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -53,63 +55,97 @@ class CollegeScore extends React.Component {
         },
         formatter: '{a2}: {c2}<br />{a3}: {c3}%'
       },
+      // legend: {
+      //   data: ['正面', '负面'],
+      //   bottom: 5,
+      //   itemHeight: 30,
+      //   right:30,
+      //   orient:'horizontal',
+      //   textStyle: {
+      //     color: '#7B7C80',
+      //     fontSize:13
+      //   },
+      //   icon:'circle',
+      //   itemWidth:10
+      // },
       xAxis: [
         {
           type: 'category',
           data: familyName,
-
+          axisLabel: {
+            interval:0,
+            rotate:40,
+            color:'#000000 '
+          },
+          axisLine:{
+            lineStyle:{
+              type:'dotted',
+              color:"#4A90E2"
+            }
+          },
+          splitLine: {show: false},
+          splitArea: {show: false}
         }
       ],
       yAxis: [
         {
+          inverse: false,
+          splitArea: {show: false},
           type: 'value',
           min: -yMin,
           max: yMax,
           // interval: 4,
           axisLabel: {
-            formatter: '{value}'
-          },
-          splitLine:{
-            show:true,
-            lineStyle:{
-              type:'dashed',
-              color:"RGBA(229, 229, 229, .8)"
-            }
+            formatter: '{value}',
+            color:'#000000 '
           },
           axisLine:{
             lineStyle:{
-              type:'solid',
-              color:"RGBA(0, 0, 0, 1)"
+              type:'dotted',
+              color:"RGBA(229, 229, 229, 0.8)"
             }
           },
+          splitLine:{
+            lineStyle:{
+              type:'dotted',
+              color:"RGBA(229, 229, 229, 0.5)"
+            }
+          }
         },
         {
+          inverse: false,
+          splitArea: {show: false},
           type: 'value',
           min: -yRightMin,
           max: yRightMax,
-          // interval: 150,
           axisLabel: {
             formatter: '{value} %',
-          },
-          splitLine:{
-            show:false
+            color:'#000000 '
           },
           axisLine:{
             lineStyle:{
-              type:'solid',
-              color:"RGBA(0, 0, 0, 1)"
+              type:'dotted',
+              color:"RGBA(229, 229, 229, 0.8)"
             }
           },
+          splitLine:{
+            show:false
+            // lineStyle:{
+            //   type:'dotted',
+            //   color:"RGBA(229, 229, 229, 0.5)"
+            // }
+          }
 
         }
       ],
-      grid:[
-        {
-          left:37,width:"94%",top:38
-        }
-      ],
+      grid: {
+        left: 45,
+        right:60,
+        top:40,
+        bottom:60
+      },
       series: [
-        { // For shadow
+        {
           type: 'bar',
           itemStyle: {
             normal: {color: 'rgba(0,0,0,0.05)'}
@@ -160,34 +196,62 @@ class CollegeScore extends React.Component {
     }
     return options
   }
-  clickEvent = (arr,item)=>{
+  orgTypes = (tabNum)=>{
+    let orgType = ""
+   if(tabNum === 1||tabNum === 4){
+     orgType = "college"
+    }else if(tabNum === 2){
+      orgType = "family"
+    }else if(tabNum === 3){
+     orgType = "group"
+   }
+    return orgType
+
+  }
+  clickEvent = (arr,item,userInfo)=>{
+    let paramsArr = arr
     let orgId = "";
-    const {tabNum} = this.props.queryAppealDatas.state
-    const {userInfo} = this.props
-    console.log(143,this.props.queryAppealDatas.state.tabNum,this.props.userInfo)
-    (tabNum === 1 || tabNum ===2 || tabNum ===3) && arr.map((subItem)=>{
+    let tabNum = 1;
+    let familyType = 0
+    if(this.props){
+      tabNum = this.props.queryAppealDatas.state.tabNum
+      paramsArr = this.props.queryAppealDatas.state.queryAppealDatas.creaditDataList
+      familyType = this.props.queryAppealDatas.state.familyType
+    }
+    (tabNum === 1 || tabNum ===2 || tabNum ===3) && paramsArr.map((subItem)=>{
       if(subItem.name === item.name){
         orgId = subItem.id
       }
     })
     tabNum === 4 && (orgId = userInfo.collegeId)
-    let params={
-      startTime:tabNum === 4?item.name:moment(this.props.times.startDate).format('YYYY-MM-DD'),
-      endTime:tabNum === 4?item.name:moment(this.props.times.endDate).format('YYYY-MM-DD'),
-      dementionId:16,
-      reasonTypeId:0,
-      orgId:orgId
+    if(orgId === userInfo.collegeId && userInfo.userType === "college" || userInfo.userType === "boss" ){
+      let params={
+        startTime:tabNum === 4?item.name:moment(this.props.times.startDate).format('YYYY-MM-DD'),
+        endTime:tabNum === 4?item.name:moment(this.props.times.endDate).format('YYYY-MM-DD'),
+        dementionId:16,
+        reasonTypeId:0,
+        orgId:orgId,
+        orgType:this.orgTypes(tabNum),
+        familyType:familyType
+      }
+      window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
     }
-    window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
+
   }
   render() {
     const {queryAppealDatas = {}} = this.props.queryAppealDatas.state;
+    const {userInfo} = this.props
     return (
-      <div style={{height:'479px'}}>
+      <div style={{minHeight:'479px'}}>
         <BILoading isLoading={this.props.loading}>
           <div>
             <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>
-            {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 && <Echart options={this.drawChart(queryAppealDatas.creaditDataList)} style={{height:"354px"}} clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item)}/>}
+            {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 &&
+            <Echart
+              options={this.drawChart(queryAppealDatas.creaditDataList)}
+              style={{height:"354px"}}
+              clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}
+            />}
             <EchartBottom/>
         </div>
         </BILoading>

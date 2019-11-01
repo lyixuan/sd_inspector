@@ -44,14 +44,12 @@ class NPSEvaluate extends React.Component {
       groupId: [],
       groupTypeArr: [],
       NPSParams:{},
-      startTime:moment(props.date.startDate).format('YYYY-MM-DD'),
-      endTime:moment(props.date.endDate).format('YYYY-MM-DD'),
-      userInfo:props.userInfo
+      dateArr:this.handleDefaultPickerValueMark(),
+      userInfo:props.userInfo,
+      disableEndDate:this.handleDefaultPickerValueMark()[1]
     }
   }
   componentDidMount() {
-    // this.getNpsAutonomousEvaluation()
-
     this.getUserOrgList()
     this.getNpsAutonomousEvaluation(this.state.userInfo)
     if(this.state.userInfo.collegeId){
@@ -61,23 +59,23 @@ class NPSEvaluate extends React.Component {
     }else if(this.state.userInfo.groupId){
       this.state.groupId.push(this.state.userInfo.groupId)
     }
-    console.log(54,this.state.groupId,this.state.userInfo)
     this.setState({
       groupId:this.state.groupId
     })
   }
-
+  initRecordTimeListData = (params=[]) =>{
+    const [startTime,endTime]= params.map(item => item && moment(item).format(dateFormat))
+    return {startTime,endTime};
+  }
   //获取NPS自主评价的的数据接口
   getNpsAutonomousEvaluation = (userInfo,ids) =>{
-    console.log(61,userInfo,this.state.startTime,this.state.endTime)
     let params = {
-      startTime:this.state.startTime ? this.state.startTime : "",
-      endTime:this.state.endTime ? this.state.endTime : "",
+      ...this.initRecordTimeListData(this.state.dateArr),
       collegeId:(userInfo && userInfo.collegeId) || (this.state.groupId.length>0 && this.state.groupId[0])||null,
       familyId:(userInfo && userInfo.familyId) || (this.state.groupId.length>0 && this.state.groupId[1])||null,
       groupId:(userInfo && userInfo.groupId) || (this.state.groupId.length>0 && this.state.groupId[2])|| null,
-      pageNum:1,
-      pageSize:10
+      pageNum:null,
+      pageSize:null
     }
     this.props.dispatch({
       type:'xdManagementBench/getNpsAutonomousEvaluation',
@@ -86,7 +84,6 @@ class NPSEvaluate extends React.Component {
         this.setState({
           NPSParams:res
         })
-
       }
     })
   }
@@ -109,28 +106,32 @@ class NPSEvaluate extends React.Component {
     this.setState({
       groupId,
       groupTypeArr
-    });
-    setTimeout(()=>{
+    },()=>{
       this.getNpsAutonomousEvaluation()
-    },200)
-
+    });
   }
   // 选择时间
   onDateChange = (v) => {
-    const [startTime, endTime] = initTimeData(v);
-    this.setState({ startTime, endTime, });
-    setTimeout(()=>{
-      this.getNpsAutonomousEvaluation()
-    },200)
+    this.setState({ dateArr:v, },()=>this.getNpsAutonomousEvaluation());
   }
   // date
   getDate = () => {
     const { startTime, endTime } = this.state;
     return startTime && endTime ? [moment(startTime), moment(endTime)] : [];
   }
+  //取T-2日期的数据
+  handleDefaultPickerValueMark = (n = 2, cTime) =>{
+    cTime = cTime ? moment(cTime) : moment();
+    const defTime = cTime.subtract(n, 'days');
+    return [defTime,defTime];
+  }
+  // 时间控件可展示的时间范围
+  disabledDate = current => {
+    return current > moment(this.state.disableEndDate) || current < moment("2019-07-08");
+  };
   rightPart = () =>{
     // const {collegeOptions,orgValue} = this.state
-    const {  groupId, userOrgConfig,  } = this.state;
+    const {  groupId, userOrgConfig, dateArr } = this.state;
     const {orgList} = this.props.xdManagementBench;
     orgList.length>0 && this.getResetGroupMsg(orgList)
     return(
@@ -153,7 +154,7 @@ class NPSEvaluate extends React.Component {
         <span className={styles.change}>
                 选择时间：
               <BIRangePicker
-                value={this.getDate()}
+                value={dateArr}
                 placeholder={['选择起始时间', '选择截止时间']}
                 format={dateFormat}
                 onChange={this.onDateChange}

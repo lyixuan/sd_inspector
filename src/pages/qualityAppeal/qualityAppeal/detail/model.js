@@ -7,7 +7,6 @@ export default {
 
   state: {
     DetailData: [],
-    QualityDetailData: {},
   },
 
   effects: {
@@ -18,16 +17,6 @@ export default {
 
       if (result.code === 20000) {
         yield put({ type: 'saveDetailData', payload: { DetailData} });
-      } else {
-        message.error(msgF(result.msg,result.msgDetail));
-      }
-    },
-    *getQualityDetailData({ payload }, { call, put }) {
-      //申诉详情页数据
-      const result = yield call(getQualityDetail, { ...payload });
-      const QualityDetailData = result.data ? result.data : {};
-      if (result.code === 20000) {
-        yield put({ type: 'saveQualityDetailData', payload: { QualityDetailData } });
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }

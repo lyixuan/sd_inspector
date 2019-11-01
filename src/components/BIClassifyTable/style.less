@@ -1,6 +1,6 @@
 .tableWrap{
   :global{
-    .ant-table-fixed-left,.ant-table-fixed-right{
+    .ant-table-fixed-left{
       z-index:2;
     }
     .ant-table-tbody > tr > td{
@@ -18,7 +18,9 @@
     }
     .ant-table-bordered .ant-table-tbody > tr > td:last-child{
       border-right:none;
-     
+    }
+    .ant-table-bordered .ant-table-tbody > tr:last-child td:first-child{
+      background:#F6F7FA;
     }
     .ant-table-fixed-right .ant-table-tbody > tr > td:last-child{
       background:#F6F7FA;

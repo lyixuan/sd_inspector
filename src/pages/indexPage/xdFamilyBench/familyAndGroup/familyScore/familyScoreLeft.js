@@ -61,7 +61,7 @@ class FamilyScoreLeft extends React.Component {
   }
   columns = () => {
     let maxNumMyScore = ""
-    const {familyScoreList, userInfo} = this.props
+    const {familyScoreList,userInfo} = this.props
     const PkName = familyScoreList.pkGroup.familyName
     const columns = [{
       title: '学分维度',
@@ -186,6 +186,7 @@ class FamilyScoreLeft extends React.Component {
     return className
   }
   render() {
+
     const {familyScoreList} = this.props
     const dataSource = familyScoreList && familyScoreList.dimensionList.length>0 && this.fillDataSource(familyScoreList.dimensionList)
     const PkName = familyScoreList.pkGroup.familyName
@@ -201,7 +202,7 @@ class FamilyScoreLeft extends React.Component {
               rowClassName={this.setRowClassName}
               pagination={false}
               scroll={{ x: 0, y: 408 }}
-              rowKey={record => record.id}
+              rowKey={(record, index) => record.dimensionName + '' + index}
               loading={this.props.loading}
             >
             </BITable>
