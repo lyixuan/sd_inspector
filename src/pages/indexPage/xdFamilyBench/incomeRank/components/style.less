@@ -1,0 +1,170 @@
+.container{
+  width: 100%;
+  padding: 16px 24px 32px 24px;
+  min-height: 600px;
+  .right {
+    position: absolute;
+    right: 24px;
+    top: 7px;
+  }
+}
+.profitTabs {
+  width: 100%;
+  position: relative;
+  // 列表颜色分阶
+  .rowBg2 {
+    background-color: #FAFFFF;
+  }
+  .rowBg3 {
+    background-color: #FFF9F9;
+  }
+  .rowBg4 {
+    background-color: #F5FBFF;
+  }
+  .pkMsg { // 列表首列样式
+    display: flex;
+    align-items: center;
+    img {
+      width: 32px;
+      margin-right: 12px;
+      margin-left: -4px;
+    }
+    > span {
+      display: flex;
+      flex-direction: column;
+      font-weight: bold;
+    }
+  }
+  .fillCell {
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding-top: 8px;
+    padding-right: 16px;
+  }
+  // 表头
+  .pluscircle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 0;
+    > img {
+      width: 14px;
+      height: 14px;
+      margin-right: 8px;
+    }
+  }
+  .tableImg{
+    z-index: 2;
+    position: absolute;
+    right: 150px;
+    bottom: 50%;
+    width: 144px;
+    height: 144px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow:0 4px 8px 0 rgba(26,28,31,.05) ;
+    img{
+      width:128px;
+      height:128px;
+    }
+  }
+  :global {
+    .ant-table-thead > tr > th{
+      padding-right: 16px;
+      text-align: right;  
+    }
+    .ant-table-thead > tr >th:first-child {
+      text-align: left; 
+    }
+    .ant-table-thead > tr >th:nth-child(2) {
+      text-align: center; 
+    }
+  }
+}
+// 对比列表
+.profitList {
+    width: 100%;
+    padding-bottom: 32px;
+    .form { 
+      .title {
+        height: 47px;
+        line-height: 47px;
+        padding-left: 24px;
+        margin-bottom: 16px;
+        border-bottom: 1px solid #F5F8FA;
+      }
+    }
+    .pkMine {
+      > td {
+        color: #00CCC3;
+        cursor: not-allowed !important;
+      }
+    }
+    .pkUser {
+      > td {
+        color: #00CCC3;
+      }
+    }
+    .tableContent {
+      overflow-x: auto;
+      position: relative;
+      padding: 16px 0 16px 24px;
+      .suspenTable {
+        width: 100%;
+        position: absolute;
+        top: 48px;
+        z-index: 1;
+        :global {
+          .ant-table-tbody > tr > td {
+            border-bottom: none;
+          }
+        }
+      }
+      .scrollTable {
+        :global {
+          .ant-table-body {
+            height: 420px;
+          }
+        }
+      }
+      .scrollMineTable {
+        :global {
+          .ant-table-body {
+            padding-top: 40px;
+          }
+        }
+      }
+      // 表格内容
+      .incomeKpi {
+        display: flex;
+        .pro {
+          text-align: right;
+          width: 100px;
+        }
+        >img {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+    .actionBtn {
+      width: 100%;
+      text-align: center;
+    }
+    :global {
+      .ant-progress-line {
+        top: -10px;
+      }
+      .ant-table-tbody > tr > td {
+        padding: 5px 8px;
+        cursor: pointer;
+      }
+      .ant-progress-inner{
+        background: #D5D8DB;
+      }
+    }
+}

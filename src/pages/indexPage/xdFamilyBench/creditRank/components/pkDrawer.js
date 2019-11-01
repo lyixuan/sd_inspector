@@ -80,7 +80,7 @@ class currentCreditRight extends React.Component {
   }
   // 列表数据
   getGroupList = () => {
-    this.props.getGroupList(this.state.orgValue, this.handleCallBack);
+    this.props.getGroupList({orgValue: this.state.orgValue, studentValue: this.state.studentValue}, this.handleCallBack);
   }
   handleCallBack = groupList => {
     this.setState({ groupList })
@@ -122,7 +122,7 @@ class currentCreditRight extends React.Component {
     return columns || [];
   }
   getIncludes = (id) => {
-    return this.props.pkGroupList && this.props.pkGroupList.includes(id);
+    return this.props.pkUsers && this.props.pkUsers.includes(id);
   }
   onFormChange = (value, vname) => {
     if (vname === 'oneLevel') {
@@ -183,12 +183,13 @@ class currentCreditRight extends React.Component {
   render() {
     const { orgValue, studentValue, userFlag, userMsg, groupList } = this.state;
     const { orgOptions, hasData, handleAction=function(){} } = this.props;
-    const dataSource = groupList ? groupList : []
+    const dataSource = groupList ? groupList : [];
+    const pkValue = this.getShowKey('pkValue');
     return (
       <div className={styles.creditRight}>
         <div className={styles.creditSelect} >
           <span className={styles.title}>选择对比小组:</span>
-          <BISelect style={{ width: 138}} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val, 'oneLevel')}>
+          <BISelect style={{ width: 138, marginLeft: 24}} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val, 'oneLevel')}>
             {orgOptions.map((item, index) => (
               <Option value={item.id} key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
                 {item.name}
@@ -220,17 +221,17 @@ class currentCreditRight extends React.Component {
               columns={this.columnsRight()}
               dataSource={dataSource}
               pagination={false}
-              loading={this.props.loading}
+              loading={this.props.drawerloading}
               rowClassName={this.setRowClassName}
               onRow={this.onClickRow}
               scroll={{ y: getSubtract(hasData, 600) }}
-              rowKey={record => record.key}
+              rowKey={record => record[pkValue]}
             />
           </div>
         </div>
         <div className={styles.actionBtn}>
-          <BIButton onClick={() => handleAction([])} type="reset" style={{marginRight: '8px'}}>取消</BIButton>
-          <BIButton onClick={handleAction} type="primary">确定</BIButton>
+          <BIButton onClick={() => handleAction([])}  loading={this.props.dimenloading} type="reset" style={{marginRight: '8px'}}>取消</BIButton>
+          <BIButton onClick={() => handleAction(false)} loading={this.props.dimenloading}  type="primary">确定</BIButton>
         </div>      
       </div>
     );

@@ -3,8 +3,6 @@ import BIContrastCell from '@/components/BIContrastCell';
 // local存值
 export function setLocalValue(obj, item){
   const local = JSON.parse(localStorage.getItem(item)) || {};
-  console.log(local, obj, item, 9999)
-
   const data = {...local, ...obj}
   localStorage.setItem(item, JSON.stringify(data));
 }
@@ -29,6 +27,6 @@ export function fillDataSource(params = [], n = 1, flagMark) {
   return params
 }
 export function getSubtract(bul, n, s = 160) {
-  if(bul) return n - s;
+  if(!bul) return n - s;
   return n;
 }

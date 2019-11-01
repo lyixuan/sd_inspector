@@ -1,152 +1,167 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
+import { message } from 'antd/lib/index';
+import { setLocalValue, fillDataSource } from '@/pages/indexPage/components/utils/utils';
+import { handleDataTrace } from '@/utils/utils';
+import BIButton from '@/ant_components/BIButton';
+import BIDrawer from '@/components/BIDrawer';
+import PkDimension from './pkDimension';
+import PkDrawer from './pkDrawer';
+import closeImg from '@/assets/xdFamily/closeeye.png';
+import showImg from '@/assets/xdFamily/eye.png';
 import styles from './style.less';
-import { getSubtract } from '@/pages/indexPage/components/utils/utils';
-import BIWrapperTable from '../../../components/BIWrapperTable';
-import BIFillCell from '@/components/BIFillCell';
-import BILoading from '@/components/BILoading';
-import BIIcon from '@/components/BIIcon';
-import pluscircle from '@/assets/xdwork/pluscircle.png';
-import xdPkImg from '@/assets/workBench/xdpk.gif';
-import down from '@/assets/xdFamily/rankDown.png';
-import up from '@/assets/xdFamily/rankUp.png';
 
 const { BI = {} } = window;
-function CustomExpandIcon(props) {
-  return (
-    <a />
-  );
-}
-@connect(({ xdFamilyModal }) => ({
-  kpiTimes: xdFamilyModal.familyKpiTimes || {},
+const localKey = 'creditFamilyLocal'
+@connect(({ xdFamilyModal, loading }) => ({
+  kpiTimes: xdFamilyModal.familyKpiInfo || {},
+  dimenloading: loading.effects['xdFamilyModal/getFamilyScorePk'],
+  drawerloading: loading.effects['xdFamilyModal/getFamilyRankList'],
 }))
-class pkDimension extends React.Component {
-  columns = () => {
-    const { groupList = [] } = this.props.groupPkList;
-    const { startTime, endTime } = this.props.kpiTimes;
-    const columns = [
-      {
-        width: '14%',
-        title: '学分维度',
-        dataIndex: 'dimensionName',
-        key: 'dimensionName',
-        render: (text, record) => this.getDimensionName(record)
-      }, {
-        width: '8%',
-        title: '环比(%)',
-        dataIndex: 'myScoreRatio',
-        key: 'myScoreRatio',
-        render: text => <>{text && text !== 'N/A' ? <BIFillCell>{text} <img src={text > 0 ? up : down} alt="" /></BIFillCell> : ''}</>
-      },
-    ];
-    groupList &&groupList.map((item, index) => {
-      columns.push({
-        width: '12%',
-        title: <div>
-          {index > 0 ? item.groupName : '我的'}
-          {index > 0 ? <BIIcon onClick={() => this.props.changePkFn(item.groupId)} /> : ''}
-        </div>,
-        dataIndex: item.groupId,
-        key: item.groupId,
-        render: (text, record) => {
-          const textV = record.values[index];
-          return (
-            <>
-              {
-                record.flagMark ? <BIFillCell {...record.valuesParams[index]} className={index === 0 && textV ? styles.mineHover : ''}>
-                  {
-                    index === 0 && textV ? <Link onClick={() => this.getDataTrace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
-                      {textV}
-                      <span style={{ marginLeft: '2px' }}>{'>'}</span>
-                    </Link>
-                      : <>{textV}<span style={{ marginLeft: '8px' }}></span></>
-                  }
-                </BIFillCell>
-                  : <BIFillCell style={{ paddingRight: '16px' }}>{textV}</BIFillCell>
-              }
-            </>
-          )
-        }
-      })
+class currentCredit extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      groupPkList: {
+        groupList: [],
+        dimensionList: []
+      }, // 维度数据
+      visible: false, // 抽屉切换
+      ...this.getLocalValue(), 
+    }
+  }
+  componentDidMount() {
+    this.getGroupPkData();
+  }
+  // 初始化数据
+  getLocalValue = () => {
+    const {pkfamily = [], hasData} = JSON.parse(localStorage.getItem(localKey)) || {};
+    return { 
+      pkfamily, // 选中PK数组
+      hasData: hasData && hasData === 2 ? false : true // 学分基础信息切换显示
+    };
+  }
+  // 维度列表
+  getGroupPkData = () => {
+    this.props.dispatch({
+      type: 'xdFamilyModal/getFamilyScorePk',
+      payload: { params: { pkfamily: this.state.pkfamily } },
+      callback: res => {
+        res.dimensionList = fillDataSource(res.dimensionList);
+        this.setState({ groupPkList: res });
+      }
+    });
+  }
+  // 对比小组列表
+  getGroupList =({orgValue, studentValue}, callback)  => {
+    const paramsItem = orgValue === 1 ? 'groupType' : 'kpiLevelId';
+    this.props.dispatch({
+      type: 'xdFamilyModal/getFamilyRankList',
+      payload: { params: { [paramsItem]: studentValue} },
+      callback: res => callback(res),
     })
-    const len = groupList ? groupList.length: 6
-    for (var i = 0; i < len; i++) {
-      columns.push({
-        width: '12%',
-        title: <div className={styles.pluscircle} onClick={this.handleToggle}><img src={pluscircle} alt='icon' />添加PK对象</div>,
-        dataIndex: '添加PK对象' + i,
-        key: '添加PK对象' + i,
-      })
-    }
-    return columns || [];
-  };
-  // 学分查看埋点
-  getDataTrace = (r) => {
-    BI.traceV && BI.traceV({ "widgetName": r.dimensionName, "traceName": "班主任工作台/本期学分/" + r.dimensionName });
   }
-  // 添加pk对象点击事件
-  handleToggle = () => {
-    BI.traceV && BI.traceV({ "widgetName": "本期学分-添加pk对象", "traceName": "本期学分-添加pk对象" });
-    this.props.toggleDrawer(true);
-  }
-  // 列表维度name
-  getDimensionName = ({ dimensionName, level, sequenceNo }) => {
-    if (sequenceNo) {
-      return <b style={{ marginLeft: level === 3 ? '-20px' : '0' }}>{sequenceNo} {dimensionName}</b>
+  // 清空 确定 PK者
+  handleAction = pkfamily => {
+    if (pkfamily) {
+      setLocalValue({ pkfamily }, localKey);
+      this.setState({ pkfamily }, this.getGroupPkData());
     } else {
-      return dimensionName
-    }
+      setLocalValue({ pkfamily: this.state.pkfamily }, localKey);
+      this.getGroupPkData();
+    }  
   }
-  setRowClassName = record => {
-    let className = ''
-    if (record.flagMark === 3) {
-      className = 'yellowBgColor';
-    } else if (record.flagMark === 1 || record.dimensionName === '退挽' || record.dimensionName === '随堂考') {
-      className = 'plusBgColor';
-    } else if (record.flagMark === 2) {
-      className = 'minusBgColor';
-    }
-    return className
+  handleDelete = (id) => {
+    this.clickRow(id, this.handleAction);
   }
-  getDataSource = () => {
-    const { groupPkList = {} } = this.props;
-    const data = groupPkList.dimensionList || [];
-    if (data.length > 0) {
-      if (this.props.hasData) {
-        return data;
+  // 增减PK者
+  clickRow = (id, callback) => {
+    const { pkfamily } = this.state;
+    if (pkfamily instanceof Array) {
+      if (pkfamily.includes(id)) {
+        BI.traceV &&  BI.traceV({"widgetName":"本期学分-删除pk对象按钮","traceName":"本期学分-删除pk对象按钮"})
+        pkfamily.splice(pkfamily.indexOf(id), 1);
       } else {
-        return [data[4]];
+        if (pkfamily.length >= 5) {
+          message.error('最多选择5个pk对象');
+          return;
+        }
+        pkfamily.push(id);
       }
     }
+    this.setState({ pkfamily }, () => {
+      if (callback && typeof callback === 'function') {
+        callback();
+      }
+    });
   }
+  // 显示隐藏数据
+  toggleData = () => {
+    const hasData = !this.state.hasData;
+    setLocalValue({hasData: hasData ? 1 : 2}, localKey);
+    if (hasData) {
+      BI.traceV &&  BI.traceV({"widgetName":"本期学分-显示基础信息","traceName":"本期学分-显示基础信息"});
+    } else {
+      BI.traceV &&  BI.traceV({"widgetName":"本期学分-隐藏基础信息","traceName":"本期学分-隐藏基础信息"});
+    }
+    this.setState({
+      hasData: hasData,
+    });
+  };
+  // 抽屉切换
+  toggleDrawer = (bul) => {
+    this.setState({
+      visible: bul,
+    });
+  };
   render() {
-    const { pkGroupList, hasData } = this.props
-    const dataSource = this.getDataSource();
+    const { pkfamily, visible, hasData, groupPkList } = this.state;
+    const { startTime, endTime } = this.props.kpiTimes;
     return (
-      <div className={styles.creditLeft} style={{ minHeight: getSubtract(hasData, 732) + 'px' }}>
-        { this.props.loading ? <BILoading isLoading={ this.props.loading} /> : <div className={styles.tableContainer}>
-          {
-            dataSource && dataSource.length > 0 && <BIWrapperTable
-              columns={this.columns()}
-              dataSource={dataSource}
-              defaultExpandAllRows={true}
-              expandIcon={CustomExpandIcon}
-              rowClassName={this.setRowClassName}
-              pagination={false}
-              rowKey={record => record.id}
-              loading={this.props.loading}
-              bordered={true}
-              scroll={{ x: 'max-content', y: getSubtract(hasData, 680) }}
-            />
-          }
-          {
-            pkGroupList && pkGroupList.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt='' /></div>
-          }
-        </div>}
+      <div className={styles.container}>
+        <span className={styles.right}>
+          <BIButton onClick={() => handleDataTrace({"widgetName":"消息差评快捷入口","traceName":"班主任工作台/消息差评入口"})} type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton>
+          <BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton>
+        </span>
+        <PkDimension
+          getGroupPkData={this.getGroupPkData}
+          toggleDrawer={this.toggleDrawer} 
+          handleDelete={this.handleDelete}
+          loading={this.props.dimenloading}
+          groupPkList={groupPkList}
+          pkUsers={pkfamily}
+          hasData={hasData}
+          showKey={{
+            pkValue: 'familyId',
+            columnName: 'familyName'
+          }}
+        />
+        <BIDrawer
+        onClose={() => this.toggleDrawer(false)}
+        onOpen={() => this.toggleDrawer(true)}
+        visible={visible}
+        drawerStyle={{width: '40%'}}
+        propsStyle={{padding: 0}}
+        >
+          <PkDrawer  
+          getGroupList={this.getGroupList}
+          handleAction={this.handleAction}
+          clickRow={this.clickRow}
+          drawerloading={this.props.drawerloading}
+          dimenloading={this.props.dimenloading}
+          pkUsers={pkfamily} 
+          localKey={localKey}
+          hasData={hasData} 
+          showKey={{
+            columnOrgName: 'familyName',
+            mineFlag: 'myFamily',
+            pkValue: 'familyId',
+          }}
+          />
+        </BIDrawer>
       </div>
     );
   }
 }
-
-export default pkDimension;
+export default currentCredit;

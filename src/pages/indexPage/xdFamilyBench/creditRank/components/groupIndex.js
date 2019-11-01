@@ -13,13 +13,13 @@ import showImg from '@/assets/xdFamily/eye.png';
 import styles from './style.less';
 
 const { BI = {} } = window;
-const localKey = 'groupLocal';
+const localKey = 'creditGroupLocal';
 @connect(({ xdFamilyModal, loading  }) => ({
   kpiTimes: xdFamilyModal.familyKpiInfo || {},
-  loading: loading.effects['xdFamilyModal/groupPkList'],
+  dimenloading: loading.effects['xdFamilyModal/groupPkList'],
   drawerloading: loading.effects['xdWorkModal/groupList'],
 }))
-class currentCredit extends React.Component {
+class GroupIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +38,7 @@ class currentCredit extends React.Component {
   getLocalValue = () => {
     const {pkGroupList = [], hasData} = JSON.parse(localStorage.getItem(localKey)) || {};
     return { 
-      pkGroupList: pkGroupList, // 选中PK数组
+      pkGroupList, // 选中PK数组
       hasData: hasData && hasData === 2 ? false : true // 学分基础信息切换显示
     };
   }
@@ -68,11 +68,15 @@ class currentCredit extends React.Component {
       setLocalValue({ pkGroupList }, localKey);
       this.setState({ pkGroupList }, this.getGroupPkData());
     } else {
+      setLocalValue({ pkGroupList: this.state.pkGroupList }, localKey);
       this.getGroupPkData();
     }  
   }
+  handleDelete = (id) => {
+    this.clickRow(id, this.handleAction);
+  }
   // 增减PK者
-  clickRow = (id) => {
+  clickRow = (id, callback) => {
     const { pkGroupList } = this.state;
     if (pkGroupList instanceof Array) {
       if (pkGroupList.includes(id)) {
@@ -86,7 +90,11 @@ class currentCredit extends React.Component {
         pkGroupList.push(id);
       }
     }
-    this.setState({ pkGroupList });
+    this.setState({ pkGroupList: [...pkGroupList] }, () => {
+      if (callback && typeof callback === 'function') {
+        callback();
+      }
+    });
   }
   // 显示隐藏数据
   toggleData = () => {
@@ -97,9 +105,7 @@ class currentCredit extends React.Component {
     } else {
       BI.traceV &&  BI.traceV({"widgetName":"本期学分-隐藏基础信息","traceName":"本期学分-隐藏基础信息"});
     }
-    this.setState({
-      hasData: hasData,
-    });
+    this.setState({ hasData });
   };
   // 抽屉切换
   toggleDrawer = (bul) => {
@@ -117,38 +123,35 @@ class currentCredit extends React.Component {
           <BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton>
         </span>
         <PkDimension
-          getGroupPkData={this.getGroupPkData}
-          toggleDrawer={this.toggleDrawer} 
-          changePkFn={this.clickRow}
-          loading={this.props.loading}
-          pkGroupList={pkGroupList}
-          groupPkList={groupPkList}
-          hasData={hasData}
+        getGroupPkData={this.getGroupPkData}
+        toggleDrawer={this.toggleDrawer} 
+        handleDelete={this.handleDelete}
+        loading={this.props.dimenloading}
+        pkUsers={pkGroupList}
+        groupPkList={groupPkList}
+        hasData={hasData}
         />
         <BIDrawer
         onClose={() => this.toggleDrawer(false)}
         onOpen={() => this.toggleDrawer(true)}
         visible={visible}
         drawerStyle={{width: '40%'}}
+        propsStyle={{padding: 0}}
         >
           <PkDrawer    
           getDimension={this.getGroupPkData}
           handleAction={this.handleAction}
           getGroupList={this.getGroupList}
           clickRow={this.clickRow} 
-          loading={this.props.drawerloading}
-          pkGroupList={pkGroupList}         
+          drawerloading={this.props.drawerloading}
+          dimenloading={this.props.dimenloading}
+          pkUsers={pkGroupList}         
           localKey={localKey} 
           hasData={hasData} 
-          showKey={{
-            columnOrgName: 'groupName',
-            mineFlag: 'myGroup',
-            pkValue: 'groupId',
-          }}
           />
         </BIDrawer>
       </div>
     );
   }
 }
-export default currentCredit;
+export default GroupIndex;

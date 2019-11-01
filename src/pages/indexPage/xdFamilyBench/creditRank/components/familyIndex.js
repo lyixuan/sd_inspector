@@ -13,13 +13,13 @@ import showImg from '@/assets/xdFamily/eye.png';
 import styles from './style.less';
 
 const { BI = {} } = window;
-const localKey = 'familyLocal'
+const localKey = 'creditFamilyLocal'
 @connect(({ xdFamilyModal, loading }) => ({
   kpiTimes: xdFamilyModal.familyKpiInfo || {},
-  loading: loading.effects['xdFamilyModal/getFamilyScorePk'],
+  dimenloading: loading.effects['xdFamilyModal/getFamilyScorePk'],
   drawerloading: loading.effects['xdFamilyModal/getFamilyRankList'],
 }))
-class currentCredit extends React.Component {
+class FamilyIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +38,7 @@ class currentCredit extends React.Component {
   getLocalValue = () => {
     const {pkfamily = [], hasData} = JSON.parse(localStorage.getItem(localKey)) || {};
     return { 
-      pkfamily: pkfamily, // 选中PK数组
+      pkfamily, // 选中PK数组
       hasData: hasData && hasData === 2 ? false : true // 学分基础信息切换显示
     };
   }
@@ -54,11 +54,11 @@ class currentCredit extends React.Component {
     });
   }
   // 对比小组列表
-  getGroupList =(orgValue, callback)  => {
+  getGroupList =({orgValue, studentValue}, callback)  => {
     const paramsItem = orgValue === 1 ? 'groupType' : 'kpiLevelId';
     this.props.dispatch({
       type: 'xdFamilyModal/getFamilyRankList',
-      payload: { params: { [paramsItem]:  this.state.studentValue} },
+      payload: { params: { [paramsItem]: studentValue} },
       callback: res => callback(res),
     })
   }
@@ -68,11 +68,15 @@ class currentCredit extends React.Component {
       setLocalValue({ pkfamily }, localKey);
       this.setState({ pkfamily }, this.getGroupPkData());
     } else {
+      setLocalValue({ pkfamily: this.state.pkfamily }, localKey);
       this.getGroupPkData();
     }  
   }
+  handleDelete = (id) => {
+    this.clickRow(id, this.handleAction);
+  }
   // 增减PK者
-  clickRow = (id) => {
+  clickRow = (id, callback) => {
     const { pkfamily } = this.state;
     if (pkfamily instanceof Array) {
       if (pkfamily.includes(id)) {
@@ -86,12 +90,16 @@ class currentCredit extends React.Component {
         pkfamily.push(id);
       }
     }
-    this.setState({ pkfamily });
+    this.setState({ pkfamily }, () => {
+      if (callback && typeof callback === 'function') {
+        callback();
+      }
+    });
   }
   // 显示隐藏数据
   toggleData = () => {
     const hasData = !this.state.hasData;
-    localStorage.setItem('hasDataCredit', hasData ? 1 : 2);
+    setLocalValue({hasData: hasData ? 1 : 2}, localKey);
     if (hasData) {
       BI.traceV &&  BI.traceV({"widgetName":"本期学分-显示基础信息","traceName":"本期学分-显示基础信息"});
     } else {
@@ -119,24 +127,30 @@ class currentCredit extends React.Component {
         <PkDimension
           getGroupPkData={this.getGroupPkData}
           toggleDrawer={this.toggleDrawer} 
-          changePkFn={this.clickRow}
-          loading={this.props.loading}
+          handleDelete={this.handleDelete}
+          loading={this.props.dimenloading}
           groupPkList={groupPkList}
-          pkGroupList={pkfamily}
+          pkUsers={pkfamily}
           hasData={hasData}
+          showKey={{
+            pkValue: 'familyId',
+            columnName: 'familyName'
+          }}
         />
         <BIDrawer
         onClose={() => this.toggleDrawer(false)}
         onOpen={() => this.toggleDrawer(true)}
         visible={visible}
         drawerStyle={{width: '40%'}}
+        propsStyle={{padding: 0}}
         >
           <PkDrawer  
           getGroupList={this.getGroupList}
           handleAction={this.handleAction}
           clickRow={this.clickRow}
-          loading={this.props.drawerloading} 
-          pkGroupList={pkfamily} 
+          drawerloading={this.props.drawerloading}
+          dimenloading={this.props.dimenloading}
+          pkUsers={pkfamily} 
           localKey={localKey}
           hasData={hasData} 
           showKey={{
@@ -150,4 +164,4 @@ class currentCredit extends React.Component {
     );
   }
 }
-export default currentCredit;
+export default FamilyIndex;

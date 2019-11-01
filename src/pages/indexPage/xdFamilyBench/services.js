@@ -70,12 +70,12 @@ export async function getOrgMapList(params) {
   return request('/orgMap/getOrgMapList', { params });
 }
 //家族学分对比
-export async function getFamilyScorePk(params) {
-  return request('/deskperfpcapi/family/score/pk', { method: 'get', params });
+export async function getFamilyScorePk(data) {
+  return request('/test/deskperfpcapi/family/score/pk', { method: 'POST', data });
 }
 //家族学分对比右侧集团学分排名
 export async function getFamilyRankList(params) {
-  return request('/deskperfpcapi/family/score/familyRankList', { method: 'get', params });
+  return request('/test/deskperfpcapi/family/score/familyRankList', { method: 'get', params });
 }
 //获取家族学分对比右侧下拉筛选的数据
 export async function getCollegeList(params) {
@@ -110,5 +110,5 @@ export async function getUserInfo(params) {
 }
 // 学分小组PK----和班主任工作小组PK公用一个接口
 export async function groupPkList(params) {
-  return request('/deskperfpcapi/scorePk/group/pk', { method: 'POST', data: params })
+  return request('/test/deskperfpcapi/scorePk/group/pk', { method: 'POST', data: params })
 }

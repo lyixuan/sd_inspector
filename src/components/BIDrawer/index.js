@@ -25,7 +25,7 @@ class BIDrawer extends React.Component {
     }
   }
   render() {
-    const { visible, drawerStyle = {}, openValue='展开PK小组', closeValue='收起PK小组'} = this.props;
+    const { visible, drawerStyle = {}, propsStyle={}, openValue='展开PK小组', closeValue='收起PK小组'} = this.props;
     return (
       <div className={`${styles.BIDrawer} ${visible ? styles.BIDrawerOpen : ''}`}>
         <div className={styles.openWrapper}>
@@ -34,7 +34,7 @@ class BIDrawer extends React.Component {
             <span onClick={this.onClose} className={styles.toggleClose}>
               {closeValue}
               <img src={closeImg} alt=''/></span>
-            <div className={styles.drawerBody}>
+            <div className={styles.drawerBody} style={propsStyle}>
               {this.props.children}
             </div>
           </div>
