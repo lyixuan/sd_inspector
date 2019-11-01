@@ -224,7 +224,7 @@ class CollegeScore extends React.Component {
       }
     })
     tabNum === 4 && (orgId = userInfo.collegeId)
-    if(tabNum === 1 && orgId === userInfo.collegeId && userInfo.userType === "college" || userInfo.userType === "boss" ){
+    if( orgId === userInfo.collegeId && userInfo.userType === "college" || userInfo.userType === "boss" || tabNum !== 1 ){
       let params={
         startTime:tabNum === 4?item.name:moment(this.props.times.startDate).format('YYYY-MM-DD'),
         endTime:tabNum === 4?item.name:moment(this.props.times.endDate).format('YYYY-MM-DD'),

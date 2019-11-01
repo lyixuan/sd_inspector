@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 
 import styles from './style.less'
+const { BI = {} } = window;
 
 @connect((xdManagementBench) => ({
   xdManagementBench,
@@ -19,7 +20,8 @@ class TreeNames extends React.Component {
     this.setState({
       dimensionId: tag.dimensionId
     })
-    this.props.clickTag(tag);
+    BI.traceV && BI.traceV({ "widgetName": tag.name, "traceName": "管理层工作台/" + tag.name });
+    this.props.clickTag({dimensionId:tag.dimensionId});
   }
   getInit = dimensions => {
     if (!this.state.dimensionId && dimensions.length > 0) { // dimensionId
@@ -35,7 +37,7 @@ class TreeNames extends React.Component {
         {dimensions.length>0 &&
         dimensions.map((item)=><span className={item.dimensionId === dimensionId ? styles.active : ""}
                                      key={item.dimensionId}
-                                     onClick={()=>this.clickTag({ dimensionId: item.dimensionId })}>
+                                     onClick={()=>this.clickTag(item)}>
           {item.name}
           </span>)}
       </div>
