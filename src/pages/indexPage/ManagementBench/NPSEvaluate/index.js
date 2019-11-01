@@ -12,6 +12,7 @@ import { initTimeData } from '../../../ko/utils/utils';
 // const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
+const { BI = {} } = window;
 @connect(({xdManagementBench,xdCreditModal,xdWorkModal}) => ({
   xdManagementBench,
   xdCreditModal,
@@ -119,12 +120,14 @@ class NPSEvaluate extends React.Component {
     },()=>{
       this.getNpsAutonomousEvaluation()
     });
+    BI.traceV && BI.traceV({ "widgetName":"NPS归属筛选", "traceName": "管理层工作台/NPS归属筛选"});
     localStorage.setItem('NPSGroupId', JSON.stringify(groupId));
   }
   // 选择时间
   onDateChange = (v) => {
     localStorage.setItem('NPSDates', JSON.stringify(initTimeData(v)));
     this.setState({ dateArr:v, },()=>this.getNpsAutonomousEvaluation());
+    BI.traceV && BI.traceV({ "widgetName":"NPS时间筛选", "traceName": "管理层工作台/NPS时间筛选"});
   }
   //取T-2日期的数据
   handleDefaultPickerValueMark = (n = 2, cTime) =>{
