@@ -6,7 +6,14 @@ export async function getUserInfo(params) {
 export async function getOrgMapList(params) {
   return request('/orgMap/getOrgMapList', { params });
 }
-
+// 人均在服学员列表
+export async function kpiLevelList(params) {
+  return request('/deskperfpcapi/scorePk/kpiLevel/list', { method: 'get', params })
+}
+// 学分对比—小组排行
+export async function groupList(params) {
+  return request('/deskperfpcapi/scorePk/group/list', { method: 'POST', data: params })
+}
 
 
 

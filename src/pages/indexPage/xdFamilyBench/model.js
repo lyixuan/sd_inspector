@@ -28,12 +28,28 @@ import {
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
 import moment from 'moment';
-import { thousandsFormat } from '@/utils/utils';
 
 export default {
   namespace: 'xdFamilyModal',
   state: {
-    inCometarget: [], // 以下是家族值
+    familyKpiTimes: {}, // 时间
+    orgOptions: [{
+      id: 1,
+      name: '组织'
+    }, {
+      id: 2,
+      name: '人均在服学员'
+    }], // 学分抽屉选择条件
+    orgSecondOptions: [{
+      id: 'group',
+      name: '集团'
+    }, {
+      id: 'college',
+      name: '本学院'
+    }, {
+      id: 'family',
+      name: '本家族'
+    }], // 学分抽屉选择条件
     orgList: [], // 保存组织原始结构
     orgListTreeData: [], // 保存组织处理成treeData需要的结构
     familyIncome: [], // 创收
@@ -165,33 +181,12 @@ export default {
     },
     // ====================家族
     // 创收明细
-    *getCurrentIncomeTarget(_, { call, put }) {
+    *getCurrentIncomeTarget({ callback }, { call }) {
       const result = yield call(getCurrentIncomeTarget)
       if (result.code === 20000) {
-        const data = result.data;
-        const inCometarget = [{
-          title: '家族净流水',
-          num: thousandsFormat(Math.floor(data.kpiFlow)),
-          tip: '本绩效周期内用户所在家族的创收净流水'
-        }, {
-          title: '绩效排名',
-          num: `${data.ranking}/${data.familyCount}`,
-          tip: '本绩效周期内用户所在家族创收绩效在集团所有家族中的净流水的排名'
-        }, {
-          title: '好推绩效',
-          num: thousandsFormat(Math.floor(data.goodpushKpi)),
-          tip: '本绩效周期内用户所在家族好推绩效'
-        }, {
-          title: '续报绩效',
-          num: thousandsFormat(Math.floor(data.renewalKpi)),
-          tip: '本绩效周期内用户所在家族续报绩效'
-        }, {
-          title: '成本套绩效',
-          num: thousandsFormat(Math.floor(data.examZbtKpi)),
-          tip: '本绩效周期内用户所在家族成本套绩效'
-        }]
-
-        yield put({ type: 'save', payload: { inCometarget } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -250,11 +245,14 @@ export default {
       }
     },
     //  家族学分对比
-    *getFamilyScorePk({ payload }, { call, put }) {
+    *getFamilyScorePk({ payload, callback }, { call, put }) {
       const result = yield call(getFamilyScorePk, payload.params)
       if (result.code === 20000) {
-        const familyScoreList = result.data;
-        yield put({ type: 'save', payload: { familyScoreList } });
+        // const familyScoreList = result.data;
+        // yield put({ type: 'save', payload: { familyScoreList } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }

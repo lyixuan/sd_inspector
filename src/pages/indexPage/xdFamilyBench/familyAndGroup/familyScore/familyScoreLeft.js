@@ -191,18 +191,6 @@ class FamilyScoreLeft extends React.Component {
     const PkName = familyScoreList.pkGroup.familyName
     return (
       <div className={styles.familyLeft}>
-        <div className={styles.proMain}>
-          {PkName? <Proportion
-            leftNum={familyScoreList.myGroup.score}
-            rightNum={familyScoreList.pkGroup.score}
-            leftCollege={familyScoreList.myGroup.familyName}
-            rightCollege={PkName}
-            style={{ width: 'calc(100% - 200px)' }}
-          /> : <div className={styles.proNone}>
-            <img src={pkImg} style={{ width: '32px' }} />
-            <span>快从右边选择一个家族进行学分PK吧！</span>
-          </div>}
-        </div>
         <div className={styles.tableContainer}>
           {
             this.props.loading?<BILoading isLoading={this.props.loading} />:dataSource && dataSource.length > 0 && <BITable
