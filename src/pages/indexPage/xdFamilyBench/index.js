@@ -46,7 +46,7 @@ class XdFamily extends React.Component {
     }]
     return (
       <div className={styles.familyBench}>
-        <PerformanceDetail />
+        {/* <PerformanceDetail /> */}
         <PageTab tabs={tabs}/>
         {/* <RankList/>
         <CurrentCredit/>

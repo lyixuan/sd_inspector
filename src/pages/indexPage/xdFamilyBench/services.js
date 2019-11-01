@@ -108,4 +108,7 @@ export async function getIncomeFamilyGroupPk(data) {
 export async function getUserInfo(params) {
   return request('/deskperfpcapi/user/info', { method: 'get', params });
 }
-//=====文静end======
+// 学分小组PK----和班主任工作小组PK公用一个接口
+export async function groupPkList(params) {
+  return request('/deskperfpcapi/scorePk/group/pk', { method: 'POST', data: params })
+}

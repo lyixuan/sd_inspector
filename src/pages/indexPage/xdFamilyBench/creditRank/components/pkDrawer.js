@@ -1,19 +1,25 @@
 import React from 'react';
 import { connect } from 'dva';
+import { getSubtract } from '@/pages/indexPage/components/utils/utils';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIWrapperTable from '../../../components/BIWrapperTable';
+import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect';
 import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import styles from './style.less';
 
 const { BI = {} } = window;
 const { Option } = BISelect;
+const initShowKey = {
+  columnOrgName: 'groupName',
+  mineFlag: 'myGroup',
+  pkValue: 'groupId',
+}
 @connect(({ xdFamilyModal, xdWorkModal, loading }) => ({
   orgOptions: xdFamilyModal.orgOptions,
   orgSecondOptions: xdFamilyModal.orgSecondOptions,
   globalLevelList: xdWorkModal.globalLevelList,
-  loading: loading.effects['xdFamilyModal/getFamilyRankList'],
 }))
 class currentCreditRight extends React.Component {
   constructor(props) {
@@ -40,6 +46,15 @@ class currentCreditRight extends React.Component {
     const ele = document.querySelector("#scroll1 .ant-table-body");
     if (ele) { ele.onscroll = ''; } 
   }
+  // getShowKe
+  getShowKey = (key) => {
+    const { showKey = {} } = this.props;
+    if (showKey[key]) {
+      return showKey[key]
+    } else {
+      return initShowKey[key];
+    }
+  }
   // 获取存储参数
   getSearchParams = () => {
     const { orgValue, studentValue }= JSON.parse(localStorage.getItem(this.props.localKey)) || {};
@@ -51,7 +66,7 @@ class currentCreditRight extends React.Component {
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
-    if ((scrollTop > userLocation && scrollTop < userLocation + this.props.getNumValue(600)) || scrollTop === 0) {
+    if ((scrollTop > userLocation && scrollTop < userLocation + getSubtract(this.props.hasData, 600)) || scrollTop === 0) {
       if (userFlag === true) {
         this.setState({
           userFlag: false
@@ -63,12 +78,12 @@ class currentCreditRight extends React.Component {
       })
     }
   }
+  // 列表数据
   getGroupList = () => {
     this.props.getGroupList(this.state.orgValue, this.handleCallBack);
   }
   handleCallBack = groupList => {
     this.setState({ groupList })
-    document.querySelector("#scroll .ant-table-body").scrollTop = 0;
     const ele = document.querySelector("#scroll .ant-table-body");
     if (ele) {  ele.scrollTop = 0; }
     this.getScrollFn();
@@ -76,7 +91,7 @@ class currentCreditRight extends React.Component {
 
   columnsRight = () => {
     const total = this.state.groupList && this.state.groupList[0] ? this.state.groupList[0].credit : 0;
-    const { columnOrgName='familyName'} = this.props;
+    const orgName = this.getShowKey('columnOrgName');
     const columns = [
       {
         width: '16%',
@@ -86,8 +101,8 @@ class currentCreditRight extends React.Component {
       }, {
         width: '40%',
         title: '组织',
-        dataIndex: columnOrgName,
-        key: columnOrgName,
+        dataIndex: orgName,
+        key: orgName,
       }, {
         width: '20%',
         title: '排名系数',
@@ -100,7 +115,7 @@ class currentCreditRight extends React.Component {
         key: 'credit',
         render: (credit, record) => {
           const percent = credit / total * 100 + '%';
-          return <BIWrapperProgress text={credit} percent={percent} iconed={this.getIncludes(record[this.props.pkValue])} propsStyle={{flex: 'inherit',width: '60px'}}/>
+          return <BIWrapperProgress text={credit} percent={percent} iconed={this.getIncludes(record[this.getShowKey('pkValue')])} propsStyle={{flex: 'inherit',width: '60px'}}/>
         },
       },
     ]
@@ -123,12 +138,12 @@ class currentCreditRight extends React.Component {
   setRowClassName = (record, index) => {
     let className = ''
     let taClassName = ""
-    if (record[this.props.mineFlag]) {
+    if (record[this.getShowKey('mineFlag')]) {
       this.state.userMsg = record;
-      this.state.userLocation = 40 * (index + 1) - this.props.getNumValue(580);
+      this.state.userLocation = 40 * (index + 1) - getSubtract(this.props.hasData, 580);
       taClassName = "rowHover";
     }
-    if (this.getIncludes(record[this.props.pkValue])) {
+    if (this.getIncludes(this.getShowKey('pkValue'))) {
       taClassName = 'rowSelect';
     }
     if (record.creditRankingCoefficient === 3) {
@@ -147,8 +162,8 @@ class currentCreditRight extends React.Component {
   onClickRow = (record) => {
     return {
       onClick: () => {
-        if (!record[this.props.mineFlag]) {
-          this.props.clickRow(record[this.props.pkValue]);
+        if (!record[this.getShowKey('mineFlag')]) {
+          this.props.clickRow(record[this.getShowKey('pkValue')]);
           BI.traceV &&  BI.traceV({"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"})
         }
       },
@@ -167,7 +182,7 @@ class currentCreditRight extends React.Component {
   }
   render() {
     const { orgValue, studentValue, userFlag, userMsg, groupList } = this.state;
-    const { orgOptions } = this.props;
+    const { orgOptions, hasData, handleAction=function(){} } = this.props;
     const dataSource = groupList ? groupList : []
     return (
       <div className={styles.creditRight}>
@@ -208,12 +223,15 @@ class currentCreditRight extends React.Component {
               loading={this.props.loading}
               rowClassName={this.setRowClassName}
               onRow={this.onClickRow}
-              scroll={{ y: this.props.getNumValue(600) }}
+              scroll={{ y: getSubtract(hasData, 600) }}
               rowKey={record => record.key}
             />
           </div>
         </div>
-
+        <div className={styles.actionBtn}>
+          <BIButton onClick={() => handleAction([])} type="reset" style={{marginRight: '8px'}}>取消</BIButton>
+          <BIButton onClick={handleAction} type="primary">确定</BIButton>
+        </div>      
       </div>
     );
   }

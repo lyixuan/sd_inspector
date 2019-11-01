@@ -23,7 +23,7 @@ import {
   myFamilyGroupList,
   getIncomeCollegeList,
   getIncomeFamilyGroupPk,
-  getUserInfo
+  groupPkList
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
@@ -351,10 +351,11 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getUserInfo({ callback }, { call, put }) {
-      const result = yield call(getUserInfo);
-      if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { userInfo: result.data } });
+    // 小组学分对比
+    *groupPkList({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(groupPkList, params)
+      if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
