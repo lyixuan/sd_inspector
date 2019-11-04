@@ -23,16 +23,18 @@ export const routes = [
             path: '/indexPage/xdWorkbench',
             component: './indexPage/xdWorkbench',
             name: '小德工作台',
-          }, {
+          },
+          {
             path: '/indexPage/xdFamilyBench',
             component: './indexPage/xdFamilyBench',
             name: '小德工作台',
-          }, {
+          },
+          {
             path: '/indexPage/ManagementBench',
             component: './indexPage/ManagementBench',
             name: '小德工作台',
-          }
-        ]
+          },
+        ],
       },
       {
         path: '/exception/403',
@@ -382,13 +384,25 @@ export const routes = [
             component: './ko/entrancePlatform',
           },
         ],
-      }, {
+      },
+      {
         path: '/allReport',
         name: '报表',
         routes: [
           {
             path: '/allReport/:siteKey',
             component: './allReport',
+          },
+        ],
+      },
+      {
+        path: '/config',
+        component: './config',
+        name: '更多配置',
+        routes: [
+          {
+            path: '/config/report',
+            component: './config/index',
           },
         ],
       },
@@ -477,7 +491,8 @@ export const routes = [
             name: '小程序管理',
           },
         ],
-      }, {
+      },
+      {
         path: '/xdCredit',
         name: '小德工作台',
         routes: [
@@ -486,7 +501,7 @@ export const routes = [
             component: './xdCredit',
             name: '小德学分',
           },
-        ]
+        ],
       },
       {
         path: '/xdFamilyBench',
@@ -497,8 +512,8 @@ export const routes = [
             component: './indexPage/xdFamilyBench',
             name: '家族长工作台',
           },
-        ]
-      }
+        ],
+      },
       // {
       //   path: '/xdWorkbench',
       //   name: '小德工作台',
