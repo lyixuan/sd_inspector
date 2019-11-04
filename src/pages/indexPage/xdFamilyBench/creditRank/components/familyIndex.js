@@ -15,7 +15,7 @@ import styles from './style.less';
 const { BI = {} } = window;
 const localKey = 'creditFamilyLocal'
 @connect(({ xdFamilyModal, loading }) => ({
-  kpiTimes: xdFamilyModal.familyKpiInfo || {},
+  kpiTimes: xdFamilyModal.familyKpiTimes || {},
   dimenloading: loading.effects['xdFamilyModal/getFamilyScorePk'],
   drawerloading: loading.effects['xdFamilyModal/getFamilyRankList'],
 }))
@@ -54,11 +54,10 @@ class FamilyIndex extends React.Component {
     });
   }
   // 对比小组列表
-  getGroupList =({orgValue, studentValue}, callback)  => {
-    const paramsItem = orgValue === 1 ? 'groupType' : 'kpiLevelId';
+  getGroupList =({ collegeId }, callback)  => {
     this.props.dispatch({
       type: 'xdFamilyModal/getFamilyRankList',
-      payload: { params: { [paramsItem]: studentValue} },
+      payload: { params: { collegeId } },
       callback: res => callback(res),
     })
   }
@@ -66,12 +65,13 @@ class FamilyIndex extends React.Component {
   handleAction = pkfamily => {
     if (pkfamily) {
       setLocalValue({ pkfamily }, localKey);
-      this.setState({ pkfamily }, this.getGroupPkData());
+      this.setState({ pkfamily }, () => this.getGroupPkData());
     } else {
       setLocalValue({ pkfamily: this.state.pkfamily }, localKey);
       this.getGroupPkData();
     }  
   }
+  // 单个删除PK者
   handleDelete = (id) => {
     this.clickRow(id, this.handleAction);
   }
@@ -114,7 +114,7 @@ class FamilyIndex extends React.Component {
     });
   };
   render() {
-    const { pkfamily, visible, hasData, groupPkList } = this.state;
+    const { pkfamily, visible, hasData, groupPkList, } = this.state;
     const { startTime, endTime } = this.props.kpiTimes;
     return (
       <div className={styles.container}>
@@ -123,7 +123,6 @@ class FamilyIndex extends React.Component {
           <BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton>
         </span>
         <PkDimension
-          // getGroupPkData={this.getGroupPkData}
           toggleDrawer={this.toggleDrawer} 
           handleDelete={this.handleDelete}
           loading={this.props.dimenloading}
@@ -155,8 +154,8 @@ class FamilyIndex extends React.Component {
             columnOrgName: 'familyName',
             mineFlag: 'myFamily',
             pkValue: 'familyId',
-          }}
-          />
+            serachName: '选择对比组织'
+          }}/>
         </BIDrawer>
       </div>
     );
