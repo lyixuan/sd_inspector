@@ -80,9 +80,11 @@ class Block extends React.Component {
       if (currentValue.key === item.type)
         return (href = currentValue.href), (title = currentValue.title), (name = currentValue.name);
     });
-    let money = thousandsFormatBigger(item.value);
-    if (item.name === 'IM差评率') {
-      money = Number(item.value) * 100 + '%';
+    let money = 0;
+    if (name === 'IM差评率' || name === 'NPS差评率') {
+      money = item.value !== 0 ? Number(item.value) * 100 + '%' : 0;
+    } else {
+      money = thousandsFormatBigger(item.value);
     }
     return (
       <li onClick={e => this.addPoint(e, name)}>
