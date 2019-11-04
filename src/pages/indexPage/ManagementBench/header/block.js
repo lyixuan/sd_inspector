@@ -41,7 +41,7 @@ const TYPE = [
   {
     key: 5,
     name: 'NPS差评率',
-    href: '#five',
+    href: '#four',
     title: '当前绩效周期内NPS差评率',
   },
   {
@@ -80,7 +80,10 @@ class Block extends React.Component {
       if (currentValue.key === item.type)
         return (href = currentValue.href), (title = currentValue.title), (name = currentValue.name);
     });
-    const money = thousandsFormatBigger(item.value);
+    let money = thousandsFormatBigger(item.value);
+    if (item.name === 'IM差评率') {
+      money = Number(item.value) * 100 + '%';
+    }
     return (
       <li onClick={e => this.addPoint(e, name)}>
         <a href={href}></a>
