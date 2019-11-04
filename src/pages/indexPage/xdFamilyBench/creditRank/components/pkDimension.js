@@ -65,12 +65,13 @@ class pkDimension extends React.Component {
         key: item[pkValue],
         render: (text, record) => {
           const textV = record.values[index];
+          const flagText = index === 0 && textV && record.level === 4;
           return (
               <>
                 {
-                  record.flagMark ? <BIFillCell {...record.valuesParams[index]} className={index === 0 && textV ? styles.mineHover : ''}>
+                  record.flagMark ? <BIFillCell {...record.valuesParams[index]} className={flagText ? styles.mineHover : ''}>
                     {
-                      index === 0 && textV ? <Link onClick={() => this.getDataTrace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
+                      flagText ? <Link onClick={() => this.getDataTrace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
                         {textV}
                         <span style={{ marginLeft: '2px' }}>{'>'}</span>
                       </Link>
@@ -129,14 +130,14 @@ class pkDimension extends React.Component {
       if (this.props.hasData) {
         return data;
       } else {
-        return [data[4]];
+        return [data[data.length -1]]; 
       }
     }
-    return data
+    return []
   }
 
   render() {
-    const { pkGroupList, hasData } = this.props
+    const { pkUsers, hasData } = this.props
     const dataSource = this.getDataSource();
     return (
       <div className={styles.creditLeft} style={{ minHeight: getSubtract(hasData, 732) + 'px' }}>
@@ -156,7 +157,7 @@ class pkDimension extends React.Component {
             />
           }
           {
-            pkGroupList && pkGroupList.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt='' /></div>
+            pkUsers && pkUsers.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt='' /></div>
           }
         </div>}
       </div>

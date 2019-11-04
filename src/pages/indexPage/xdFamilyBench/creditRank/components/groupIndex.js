@@ -15,7 +15,7 @@ import styles from './style.less';
 const { BI = {} } = window;
 const localKey = 'creditGroupLocal';
 @connect(({ xdFamilyModal, loading  }) => ({
-  kpiTimes: xdFamilyModal.familyKpiInfo || {},
+  kpiTimes: xdFamilyModal.familyKpiTimes || {},
   dimenloading: loading.effects['xdFamilyModal/groupPkList'],
   drawerloading: loading.effects['xdWorkModal/groupList'],
 }))

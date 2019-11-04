@@ -15,7 +15,7 @@ import styles from './style.less';
 const { BI = {} } = window;
 const localKey = 'creditFamilyLocal'
 @connect(({ xdFamilyModal, loading }) => ({
-  kpiTimes: xdFamilyModal.familyKpiInfo || {},
+  kpiTimes: xdFamilyModal.familyKpiTimes || {},
   dimenloading: loading.effects['xdFamilyModal/getFamilyScorePk'],
   drawerloading: loading.effects['xdFamilyModal/getFamilyRankList'],
 }))
@@ -123,7 +123,6 @@ class FamilyIndex extends React.Component {
           <BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton>
         </span>
         <PkDimension
-          // getGroupPkData={this.getGroupPkData}
           toggleDrawer={this.toggleDrawer} 
           handleDelete={this.handleDelete}
           loading={this.props.dimenloading}
