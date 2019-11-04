@@ -20,6 +20,13 @@ class NPSLeft extends React.Component {
   }
   componentDidMount() {
   }
+  clickStudentName = (record) =>{
+    let params={
+      userId:'1502698',//record,
+      target:'userName'
+    }
+    window.open(`/inspector/ko/behaviorPath?params=${JSON.stringify(params)}`);
+  }
   columnsRight = () =>{
     const columns = [
       {
@@ -31,7 +38,10 @@ class NPSLeft extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        width:"20%"
+        width:"20%",
+        render: (stuName,record) => {
+          return <div className={styles.studentColor} onClick={()=>this.clickStudentName(record)}>{stuName}</div>
+        },
       }, {
         title: '星级',
         dataIndex: 'star',
