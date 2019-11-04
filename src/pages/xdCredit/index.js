@@ -261,6 +261,7 @@ class XdCredit extends React.Component {
     // }
     const param = {
       ...groupMsg,
+      familyType: this.state.familyType.length == 3 ? '0' : this.state.familyType,
       dementionId: this.state.dementionId,
       startTime: this.state.startTime,
       endTime: this.state.endTime,
