@@ -16,7 +16,7 @@ class creditRank extends React.Component {
           name:'家族学分对比',
           key:'1',
           children: <FamilyIndex/>,
-        },{
+        }, {
           name:'小组学分对比',
           key:'2',
           children:  <GroupIndex/>,

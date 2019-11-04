@@ -66,7 +66,7 @@ class GroupIndex extends React.Component {
   handleAction = pkGroupList => {
     if (pkGroupList) {
       setLocalValue({ pkGroupList }, localKey);
-      this.setState({ pkGroupList }, this.getGroupPkData());
+      this.setState({ pkGroupList }, () => this.getGroupPkData());
     } else {
       setLocalValue({ pkGroupList: this.state.pkGroupList }, localKey);
       this.getGroupPkData();
@@ -139,7 +139,6 @@ class GroupIndex extends React.Component {
         propsStyle={{padding: 0}}
         >
           <PkDrawer    
-          getDimension={this.getGroupPkData}
           handleAction={this.handleAction}
           getGroupList={this.getGroupList}
           clickRow={this.clickRow} 
@@ -147,7 +146,7 @@ class GroupIndex extends React.Component {
           dimenloading={this.props.dimenloading}
           pkUsers={pkGroupList}         
           localKey={localKey} 
-          hasData={hasData} 
+          hasData={hasData}
           />
         </BIDrawer>
       </div>
