@@ -41,7 +41,7 @@ class NPSEvaluate extends React.Component {
       }],
       orgValue:"自变量",
       userOrgConfig: [],
-      groupId: [] ||localStorage.getItem('NPSGroupId'),
+      groupId: [0] ||localStorage.getItem('NPSGroupId'),
       groupTypeArr: [],
       NPSParams:{},
       dateArr:localStorage.getItem('NPSDates')?this.localStoryDates():this.handleDefaultPickerValueMark(),
