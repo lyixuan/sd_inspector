@@ -82,7 +82,6 @@ class Block extends React.Component {
     });
     let money = 0;
     if (name === 'IM差评率' || name === 'NPS差评率') {
-      debugger
       money = item.value !== 0 ? Number(Number(item.value) * 100).toFixed(0) + '%' : 0;
     } else {
       money = thousandsFormatBigger(item.value);
