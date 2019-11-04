@@ -152,42 +152,7 @@ class Header extends React.Component {
           if (!item || !item.type) return;
           return <Block item={item} />;
         })}
-        {/* <li>
-          <a href="#two">
-            <img src={workImg2} alt="icon" />
-          </a>
-          <span className={styles.num}>8.92</span>
-          <p className={styles.bottom}>
-            <span>创收单量</span>
-          </p>
-        </li>
-        <li>
-          <a href="#three">
-            <img src={workImg3} alt="icon" />
-          </a>
-          <span className={styles.num}>8.92</span>
-          <p className={styles.bottom}>
-            <span>创收流水</span>
-          </p>
-        </li>
-        <li>
-          <a href="#four">
-            <img src={workImg4} alt="icon" />
-          </a>
-          <span className={styles.num}>8.92</span>
-          <p className={styles.bottom}>
-            <span>IM差评率</span>
-          </p>
-        </li>
-        <li>
-          <a href="#five">
-            <img src={workImg5} alt="icon" />
-          </a>
-          <span className={styles.num}>8.92</span>
-          <p className={styles.bottom}>
-            <span>BBS负面帖数</span>
-          </p>
-        </li> */}
+
       </ul>
     );
   }

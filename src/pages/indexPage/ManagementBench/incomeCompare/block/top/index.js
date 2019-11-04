@@ -179,10 +179,10 @@ class Top extends React.Component {
               allowClear
               onChange={val => this.onFormChange(val)}
             >
-              <Option key={0}>全部</Option>
+              <Option key={0} data-trace='{"widgetName":"产品包学院筛选","traceName":"管理层工作台/产品包学院筛选"}'>全部</Option>
               {typeList &&
                 typeList.map((item, index) => (
-                  <Option key={item.collegeId}>{item.collegeName}</Option>
+                  <Option key={item.collegeId} data-trace='{"widgetName":"产品包学院筛选","traceName":"管理层工作台/产品包学院筛选"}'>{item.collegeName}</Option>
                 ))}
             </BISelect>
           </div>

@@ -55,19 +55,6 @@ class CollegeScore extends React.Component {
         },
         formatter: '{a2}: {c2}<br />{a3}: {c3}%'
       },
-      // legend: {
-      //   data: ['正面', '负面'],
-      //   bottom: 5,
-      //   itemHeight: 30,
-      //   right:30,
-      //   orient:'horizontal',
-      //   textStyle: {
-      //     color: '#7B7C80',
-      //     fontSize:13
-      //   },
-      //   icon:'circle',
-      //   itemWidth:10
-      // },
       xAxis: [
         {
           type: 'category',
@@ -130,10 +117,6 @@ class CollegeScore extends React.Component {
           },
           splitLine:{
             show:false
-            // lineStyle:{
-            //   type:'dotted',
-            //   color:"RGBA(229, 229, 229, 0.5)"
-            // }
           }
 
         }

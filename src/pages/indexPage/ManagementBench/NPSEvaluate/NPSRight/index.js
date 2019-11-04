@@ -21,22 +21,19 @@ class NPSLeft extends React.Component {
   optionsDraw=()=>{
     // let  JosnList = [];
     const {cloudOptions=[]} = this.props
-    console.log("云图",cloudOptions)
+    const colorArr=['#FC5B5C','#00B27B','#F5A623','#FF57D5','#4A90E2','#8B572A','#4AE2BD']
     const worldCloudoption={
       title: {
-        // text: '研发部邮件主题分析',
         x: 'center',
         textStyle: {
           fontSize: 23,
           color:'#FFFFFF'
         }
-
       },
       tooltip: {
         show: true
       },
       series: [{
-        // name: '研发部邮件主题分析',
         type: 'wordCloud',
         left: 'center',
         top: 'center',
@@ -48,21 +45,15 @@ class NPSLeft extends React.Component {
         textPadding: 60,
         rotationRange: [0, 0],
         rotationStep: 0,
-        gridSize: 4,
+        gridSize: 12,
         autoSize: {
           enable: true,
           minSize: 14,
         },
         textStyle: {
           normal: {
-            color: function(item) {
-              let color = '#333333'
-              if (item.data.star === 5) {
-                color = '#4A90E2';
-              } else if (item.data.star>=1 && item.data.star<=3) {
-                color = '#FC5B5C';
-              }
-              return color
+            color: function () {
+              return colorArr[Math.floor((Math.random()*colorArr.length))]
             },
             fontFamily: 'sans-serif',
             fontWeight: '500',
