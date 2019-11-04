@@ -35,11 +35,9 @@ class CollegeScore extends React.Component {
       familyName.push(item.name);
       qoqValue.push((item.qoqValue*100).toFixed(2))
     })
-    console.log(38,qoqValue,creaditValue)
     const yMax =  Math.max.apply(null, creaditValue);
     const yMin = Math.min.apply(null, creaditValue);
     const yRightMax =  Math.max.apply(null, qoqValue);
-    console.log(42,yRightMax)
     const yRightMin = Math.min.apply(null, qoqValue);
     for (let i = 0; i < creaditValue.length; i++) {
       dataShadow.push(yMin);
@@ -63,7 +61,7 @@ class CollegeScore extends React.Component {
           data: familyName,
           axisLabel: {
             interval:0,
-            rotate:40,
+            rotate:30,
             color:'#000000 '
           },
           axisLine:{
