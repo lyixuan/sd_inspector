@@ -78,7 +78,7 @@ class ScoreContrast extends React.Component {
     }
     this.state.tabNum = Number(obj.keye)
     if (!this.state.query[obj.keye]) {
-      this.state.query[obj.keye] = {};
+      this.state.query[obj.keye] = {dimensionId:null};
     }
     this.queryAppealDataPage({contrasts: Number(obj.keye), ...this.state.query[obj.keye]});
   }

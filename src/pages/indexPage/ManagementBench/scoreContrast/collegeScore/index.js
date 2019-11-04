@@ -228,7 +228,7 @@ class CollegeScore extends React.Component {
       let params={
         startTime:tabNum === 4?item.name:moment(this.props.times.startDate).format('YYYY-MM-DD'),
         endTime:tabNum === 4?item.name:moment(this.props.times.endDate).format('YYYY-MM-DD'),
-        dementionId:16,
+        dementionId:this.props.queryAppealDatas.state.queryParams.dimensionId?this.props.queryAppealDatas.state.queryParams.dimensionId:1,
         reasonTypeId:0,
         orgId:orgId,
         orgType:this.orgTypes(tabNum),
