@@ -14,7 +14,10 @@ export async function kpiLevelList(params) {
 export async function groupList(params) {
   return request('/test/deskperfpcapi/scorePk/group/list', { method: 'POST', data: params })
 }
-
+// 家族-学院列表
+export async function getIncomeCollegeList(params) {
+  return request('/deskperfpcapi/incomeFamily/getCollegeList', { method: 'get', params });
+}
 
 
 

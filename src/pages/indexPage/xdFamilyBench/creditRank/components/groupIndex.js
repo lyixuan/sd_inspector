@@ -54,11 +54,11 @@ class GroupIndex extends React.Component {
     });
   }
  // 对比小组列表
-  getGroupList =(orgValue, callback)  => {
+  getGroupList =({orgValue, studentValue}, callback)  => {
     const paramsItem = orgValue === 1 ? 'groupType' : 'kpiLevelId';
     this.props.dispatch({
       type: 'xdWorkModal/groupList',
-      payload: { params: { [paramsItem]:  this.state.studentValue} },
+      payload: { params: { [paramsItem]: studentValue } },
       callback: res => callback(res),
     })
   }
@@ -147,6 +147,9 @@ class GroupIndex extends React.Component {
           pkUsers={pkGroupList}         
           localKey={localKey} 
           hasData={hasData}
+          showKey={{
+            serachName: '选择对比小组'
+          }}
           />
         </BIDrawer>
       </div>

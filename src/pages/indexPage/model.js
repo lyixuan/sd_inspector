@@ -3,7 +3,8 @@ import {
   getUserInfo,
   getOrgMapList,
   kpiLevelList,
-  groupList
+  groupList,
+  getIncomeCollegeList
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -13,7 +14,8 @@ export default {
   state: {
     userInfo: {}, // 全局值
     orgList:[],
-    globalLevelList: []
+    globalLevelList: [],
+    globalCollegeList: []
   },
   effects: {
     *getUserInfo({ callback }, { call, put }) {
@@ -32,7 +34,6 @@ export default {
       const params = payload.params;
       const result = yield call(getOrgMapList, params);
       const orgList = result.data || [];
-
       if (result.code === 20000) {
         yield put({ type: 'saveMap', payload: { orgList } });
       } else {
@@ -58,6 +59,15 @@ export default {
           callback(result.data);
         }
       } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 家族-学院列表
+    *getIncomeCollegeList(_, { call, put }) {
+      const result = yield call(getIncomeCollegeList);
+      if (result.code === 20000) {
+        yield put({ type: 'save', payload: { globalCollegeList: result.data } });
+      } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },

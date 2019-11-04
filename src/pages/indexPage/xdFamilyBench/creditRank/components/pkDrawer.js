@@ -16,10 +16,11 @@ const initShowKey = {
   mineFlag: 'myGroup',
   pkValue: 'groupId',
 }
-@connect(({ xdFamilyModal, xdWorkModal, loading }) => ({
+@connect(({ xdFamilyModal, xdWorkModal }) => ({
   orgOptions: xdFamilyModal.orgOptions,
   orgSecondOptions: xdFamilyModal.orgSecondOptions,
   globalLevelList: xdWorkModal.globalLevelList,
+  globalCollegeList: xdWorkModal.globalCollegeList,
 }))
 class currentCreditRight extends React.Component {
   constructor(props) {
@@ -57,12 +58,21 @@ class currentCreditRight extends React.Component {
   }
   // 获取存储参数
   getSearchParams = () => {
-    const { orgValue, studentValue }= JSON.parse(localStorage.getItem(this.props.localKey)) || {};
+    const { orgValue, studentValue, collegeId }= JSON.parse(localStorage.getItem(this.props.localKey)) || {};
+    const data = {};
     if (orgValue && studentValue) { 
-      return { orgValue, studentValue }  // 搜索参数初始化
+      data.orgValue = orgValue;
+      data.studentValue = studentValue; 
     } else {
-      return { orgValue: 1, studentValue: 'college'}
+      data.orgValue= 1;
+      data.studentValue = 'college';
     }
+    if (collegeId === 'undefined') {
+      data.collegeId = undefined;
+    } else {
+      data.collegeId = collegeId || '103';
+    }
+    return data;
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
@@ -80,7 +90,12 @@ class currentCreditRight extends React.Component {
   }
   // 列表数据
   getGroupList = () => {
-    this.props.getGroupList({orgValue: this.state.orgValue, studentValue: this.state.studentValue}, this.handleCallBack);
+    const { orgValue, studentValue, collegeId } = this.state;
+    this.props.getGroupList({
+      orgValue, 
+      studentValue,
+      collegeId,
+    }, this.handleCallBack);
   }
   handleCallBack = groupList => {
     this.setState({ groupList })
@@ -131,8 +146,11 @@ class currentCreditRight extends React.Component {
         studentValue: undefined
       })
     } else if (vname === 'studentValue') {
-      setLocalValue({studentValue:value, orgValue: this.state.orgValue}, this.props.localKey)
-      this.setState({studentValue: value}, this.getGroupList());
+      setLocalValue({studentValue: value, orgValue: this.state.orgValue}, this.props.localKey)
+      this.setState({studentValue: value}, () => this.getGroupList());
+    } else if (vname === 'collegeId') {
+      setLocalValue({collegeId: value === undefined ? 'undefined' : value}, this.props.localKey)
+      this.setState({collegeId: value}, () => this.getGroupList());
     }
   };
   setRowClassName = (record, index) => {
@@ -162,6 +180,7 @@ class currentCreditRight extends React.Component {
   onClickRow = (record) => {
     return {
       onClick: () => {
+        console.log(this.getShowKey('pkValue'), record[this.getShowKey('pkValue')], 678)
         if (!record[this.getShowKey('mineFlag')]) {
           this.props.clickRow(record[this.getShowKey('pkValue')]);
           BI.traceV &&  BI.traceV({"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"})
@@ -181,28 +200,40 @@ class currentCreditRight extends React.Component {
     }
   }
   render() {
-    const { orgValue, studentValue, userFlag, userMsg, groupList } = this.state;
-    const { orgOptions, hasData, handleAction=function(){} } = this.props;
+    const { orgValue, studentValue, collegeId, userFlag, userMsg, groupList } = this.state;
+    const { orgOptions, hasData, handleAction=function(){}, showKey={}, globalCollegeList } = this.props;
     const dataSource = groupList ? groupList : [];
     const pkValue = this.getShowKey('pkValue');
     return (
       <div className={styles.creditRight}>
         <div className={styles.creditSelect} >
-          <span className={styles.title}>选择对比小组:</span>
-          <BISelect style={{ width: 138, marginLeft: 24}} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val, 'oneLevel')}>
-            {orgOptions.map((item, index) => (
-              <Option value={item.id} key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
-                {item.name}
-              </Option>
-            ))}
-          </BISelect>
-          <BISelect style={{ width: 188, marginLeft: 12 }} placeholder="请选择" value={studentValue} onChange={(val) => this.onFormChange(val, 'studentValue')} >
-            {this.getStudentOptions().map(item => (
-              <Option value={item.id} key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
-                {item.name}
-              </Option>
-            ))}
-          </BISelect>
+          <span className={styles.title}>{showKey.serachName}:</span>
+          {
+              pkValue === 'groupId' ? <>
+                <BISelect style={{ width: 138, marginLeft: 24}} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val, 'oneLevel')}>
+                  {orgOptions.map((item, index) => (
+                    <Option value={item.id} key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
+                      {item.name}
+                    </Option>
+                  ))}
+                </BISelect>
+                <BISelect style={{ width: 188, marginLeft: 12 }} placeholder="请选择" value={studentValue} onChange={(val) => this.onFormChange(val, 'studentValue')} >
+                  {this.getStudentOptions().map(item => (
+                    <Option value={item.id} key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
+                      {item.name}
+                    </Option>
+                  ))}
+                </BISelect>
+              </> : <BISelect style={{ width: 138, marginLeft: 24 }} placeholder="全部" value={collegeId} onChange={(val) => this.onFormChange(val, 'collegeId')} allowClear>
+              {
+                globalCollegeList.map(item => (
+                  <Option key={item.collegeId} data-trace='{"widgetName":"选择学分对比组织","traceName":"家族长工作台/选择学分对比组织"}'>
+                    {item.collegeName}
+                  </Option>
+                ))
+              }
+            </BISelect>
+          }
         </div>
         <div className={styles.tableContent}>
           {userFlag && userMsg && <div className={styles.suspension} >

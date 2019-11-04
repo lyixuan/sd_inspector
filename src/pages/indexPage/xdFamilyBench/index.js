@@ -23,10 +23,12 @@ class XdFamily extends React.Component {
       tabs: [{
         title: '学分分析',
         children: <><CurrentCredit/><CreditRank/></>
-      }, {
-        title: '创收分析',
-        children: <><Income /><IncomeRank/></>
-      }, {
+      }, 
+      // {
+      //   title: '创收分析',
+      //   children: <><Income /><IncomeRank/></>
+      // }, 
+      {
         title: '负面分析',
         children: <div className={styles.qualityAppel}>
           <Appeal userId={userId} />
@@ -36,8 +38,13 @@ class XdFamily extends React.Component {
     }
   }
   componentDidMount() {
+    // 小组-绩效列表
     this.props.dispatch({
       type: 'xdWorkModal/getKpiLevelList',
+    });
+    // 家族-学院列表
+    this.props.dispatch({
+      type: 'xdWorkModal/getIncomeCollegeList',
     });
   }
   render() {
