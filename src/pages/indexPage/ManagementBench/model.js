@@ -66,7 +66,7 @@ export default {
     },
     //  IM负面数据对比
     *getImReverseSideData({ payload, callback }, { call, put }) {
-      const result = yield call(getImReverseSideData);
+      const result = yield call(getImReverseSideData,payload.params);
       if (result.code === 20000 && result.data) {
         if (callback && typeof callback === 'function') {
           callback(result.data);

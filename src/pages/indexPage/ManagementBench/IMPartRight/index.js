@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
-// import styles from './style.less'
 import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BILoading from '@/components/BILoading'
+import moment from 'moment'
 @connect(({xdManagementBench,loading}) => ({
   xdManagementBench,
   loading:loading.effects['xdManagementBench/getImReverseSideData'],
@@ -19,7 +19,7 @@ class IMPartRight extends React.Component {
   componentDidMount() {
     this.props.dispatch({
       type: 'xdManagementBench/getImReverseSideData',
-      payload: { params: {} },
+      payload: { params: {startTime:moment(this.props.date.startDate).format('YYYY-MM-DD'),endTime:moment(this.props.date.endDate).format('YYYY-MM-DD')} },
       callback: data => {
         this.setState({
           dataSource:data
