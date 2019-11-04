@@ -10,6 +10,8 @@ export function redirectToLogin() {
   storage.removeItem('creditSearchParams');
   storage.removeItem('pkUsers');
   storage.removeItem('pkGroupList');
+  storage.removeItem('NPSGroupId');
+  storage.removeItem('NPSDates');
   const { origin } = window.location;
   const serverUrl = `${CAS_HOST}/tologin`;
   window.location.href = `${serverUrl}?originPage=${origin}`;
@@ -23,6 +25,8 @@ export function casLogout() {
   storage.removeItem('creditSearchParams');
   storage.removeItem('pkUsers');
   storage.removeItem('pkGroupList');
+  storage.removeItem('NPSGroupId');
+  storage.removeItem('NPSDates');
   const { origin } = window.location;
   const logoutUrl = `${CAS_HOST}/apis/caslogout?`;
   const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${origin}`;
