@@ -10,7 +10,7 @@ import workImg5 from '@/assets/workImg5.png';
 import workArrow from '@/assets/workArrow.png';
 import moment from 'moment';
 import { Tooltip } from 'antd';
-
+const { BI = {} } = window;
 const admin_user = localStorage.getItem('admin_user');
 
 const TYPE = [
@@ -64,18 +64,25 @@ class Block extends React.Component {
       familyType: 0, // 0 自考 1 壁垒
     };
   }
+
+  addPoint = (e, name) => {
+    if (name === 'IM差评率') {
+      BI.traceV && BI.traceV({ widgetName: 'IM差评率', traceName: '管理层工作台/IM差评率' });
+    }
+  };
   render() {
     const { item } = this.props;
     if (!item) return;
     let href = '';
     let title = '';
+    let name = '';
     TYPE.map(currentValue => {
       if (currentValue.key === item.type)
-        return (href = currentValue.href), (title = currentValue.title);
+        return (href = currentValue.href), (title = currentValue.title), (name = currentValue.name);
     });
     const money = thousandsFormatBigger(item.value);
     return (
-      <li>
+      <li onClick={e => this.addPoint(e, name)}>
         <a href={href}></a>
         <span className={styles.num}>
           <Tooltip title={title}>{money}</Tooltip>
