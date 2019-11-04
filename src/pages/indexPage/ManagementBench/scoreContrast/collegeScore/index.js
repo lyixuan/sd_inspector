@@ -35,7 +35,7 @@ class CollegeScore extends React.Component {
       familyName.push(item.name);
       qoqValue.push((item.qoqValue*100).toFixed(2))
     })
-    console.log(38,qoqValue)
+    console.log(38,qoqValue,creaditValue)
     const yMax =  Math.max.apply(null, creaditValue);
     const yMin = Math.min.apply(null, creaditValue);
     const yRightMax =  Math.max.apply(null, qoqValue);
@@ -55,7 +55,7 @@ class CollegeScore extends React.Component {
             color: '#999'
           }
         },
-        formatter: '{a1}: {c1}<br />{a3}: {c3}%'
+        formatter: '{a2}: {c2}<br />{a3}: {c3}%'
       },
       xAxis: [
         {
@@ -81,7 +81,7 @@ class CollegeScore extends React.Component {
           inverse: false,
           splitArea: {show: false},
           type: 'value',
-          min: -yMin,
+          min: yMin,
           max: yMax,
           // interval: 4,
           axisLabel: {
@@ -137,8 +137,21 @@ class CollegeScore extends React.Component {
           },
           barGap:'-100%',
           barCategoryGap:'40%',
-          barWidth:50,
+          // barWidth:25,
+          barMaxWidth:50,
           data: dataShadow
+        },
+        { // For shadow
+          type: 'bar',
+          itemStyle: {
+            normal: {color: 'rgba(71,211,255,0.06)'}
+          },
+          barGap:'-100%',
+          barCategoryGap:'40%',
+          // barWidth:50,
+          barMaxWidth:50,
+          data: maxShadow,
+          animation: false
         },
         {
           name:'均分',
@@ -146,7 +159,8 @@ class CollegeScore extends React.Component {
           itemStyle: {
             normal: {color: '#47D3FF',barBorderRadius:[4, 4, 0, 0]}
           },
-          barWidth:50,
+          // barWidth:50,
+          barMaxWidth:50,
           label: {
             normal: {
               show: true,
@@ -157,18 +171,6 @@ class CollegeScore extends React.Component {
           },
           data:creaditValue,
         },
-        { // For shadow
-          type: 'bar',
-          itemStyle: {
-            normal: {color: 'rgba(71,211,255,0.06)'}
-          },
-          barGap:'-100%',
-          barCategoryGap:'40%',
-          barWidth:50,
-          data: maxShadow,
-          animation: false
-        },
-
         {
           name:'环比',
           type:'line',

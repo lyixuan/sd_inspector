@@ -71,7 +71,7 @@ class Top extends React.Component {
   }
 
   componentDidMount() {
-    this.getData(localStorage.getItem('orgValue') || '0');
+    this.getData(localStorage.getItem('orgValue'));
     this.props
       .dispatch({
         type: 'xdManagementBench/getHotList',
@@ -83,6 +83,11 @@ class Top extends React.Component {
 
   getData(collegeId) {
     const { date } = this.props;
+    if (collegeId === 'undefined') {
+      this.setState({
+        orgValue: '0',
+      });
+    }
     this.props
       .dispatch({
         type: 'xdManagementBench/getPackageRankList',
@@ -90,7 +95,7 @@ class Top extends React.Component {
           params: {
             beginDate: moment(date.startDate).format('YYYY-MM-DD'),
             endDate: moment(date.endDate).format('YYYY-MM-DD'),
-            collegeId,
+            collegeId: collegeId !== 'undefined' ? collegeId : '0',
           },
         },
       })
@@ -176,13 +181,22 @@ class Top extends React.Component {
               style={{ width: 136, marginLeft: 12 }}
               placeholder="请选择"
               value={orgValue}
-              allowClear
               onChange={val => this.onFormChange(val)}
             >
-              <Option key={0} data-trace='{"widgetName":"产品包学院筛选","traceName":"管理层工作台/产品包学院筛选"}'>全部</Option>
+              <Option
+                key={'0'}
+                data-trace='{"widgetName":"产品包学院筛选","traceName":"管理层工作台/产品包学院筛选"}'
+              >
+                全部
+              </Option>
               {typeList &&
                 typeList.map((item, index) => (
-                  <Option key={item.collegeId} data-trace='{"widgetName":"产品包学院筛选","traceName":"管理层工作台/产品包学院筛选"}'>{item.collegeName}</Option>
+                  <Option
+                    key={item.collegeId}
+                    data-trace='{"widgetName":"产品包学院筛选","traceName":"管理层工作台/产品包学院筛选"}'
+                  >
+                    {item.collegeName}
+                  </Option>
                 ))}
             </BISelect>
           </div>
