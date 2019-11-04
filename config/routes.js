@@ -402,7 +402,8 @@ export const routes = [
         routes: [
           {
             path: '/config/report',
-            component: './config/index',
+            component: './config/report',
+            name: '周报',
           },
         ],
       },
