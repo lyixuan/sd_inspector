@@ -33,11 +33,13 @@ class CollegeScore extends React.Component {
     arr.map((item,index)=>{
       creaditValue.push(item.creaditValue);
       familyName.push(item.name);
-      qoqValue.push(Number(parseInt(item.qoqValue*100)))
+      qoqValue.push((item.qoqValue*100).toFixed(2))
     })
+    console.log(38,qoqValue)
     const yMax =  Math.max.apply(null, creaditValue);
     const yMin = Math.min.apply(null, creaditValue);
     const yRightMax =  Math.max.apply(null, qoqValue);
+    console.log(42,yRightMax)
     const yRightMin = Math.min.apply(null, qoqValue);
     for (let i = 0; i < creaditValue.length; i++) {
       dataShadow.push(yMin);
@@ -53,7 +55,7 @@ class CollegeScore extends React.Component {
             color: '#999'
           }
         },
-        formatter: '{a2}: {c2}<br />{a3}: {c3}%'
+        formatter: '{a1}: {c1}<br />{a3}: {c3}%'
       },
       xAxis: [
         {
@@ -103,7 +105,7 @@ class CollegeScore extends React.Component {
           inverse: false,
           splitArea: {show: false},
           type: 'value',
-          min: -yRightMin,
+          min: yRightMin,
           max: yRightMax,
           axisLabel: {
             formatter: '{value} %',
@@ -138,17 +140,6 @@ class CollegeScore extends React.Component {
           barWidth:50,
           data: dataShadow
         },
-        { // For shadow
-          type: 'bar',
-          itemStyle: {
-            normal: {color: 'rgba(71,211,255,0.06)'}
-          },
-          barGap:'-100%',
-          barCategoryGap:'40%',
-          barWidth:50,
-          data: maxShadow,
-          animation: false
-        },
         {
           name:'均分',
           type:'bar',
@@ -164,8 +155,21 @@ class CollegeScore extends React.Component {
               fontSize:13
             }
           },
-          data:creaditValue
-        },{
+          data:creaditValue,
+        },
+        { // For shadow
+          type: 'bar',
+          itemStyle: {
+            normal: {color: 'rgba(71,211,255,0.06)'}
+          },
+          barGap:'-100%',
+          barCategoryGap:'40%',
+          barWidth:50,
+          data: maxShadow,
+          animation: false
+        },
+
+        {
           name:'环比',
           type:'line',
           yAxisIndex: 1,
