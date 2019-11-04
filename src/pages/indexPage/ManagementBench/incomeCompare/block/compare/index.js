@@ -6,7 +6,7 @@ import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../../../components/BIWrapperTable';
 import BITable from '@/ant_components/BITable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-import { thousandsFormatBigger } from '@/utils/utils';
+import { thousandsFormat } from '@/utils/utils';
 
 @connect(xdManagementBench => ({
   xdManagementBench,
@@ -54,7 +54,7 @@ class Compare extends React.Component {
         key: 'goodPushFlowKpi',
         render: (goodPushFlowKpi, record) => {
           const percent = record.goodPushFlowKpiRatio * 100 + '%';
-          const money = thousandsFormatBigger(goodPushFlowKpi);
+          const money = thousandsFormat(goodPushFlowKpi);
           return (
             <BIWrapperProgress
               text={money}
@@ -75,7 +75,7 @@ class Compare extends React.Component {
         key: 'repeatSignFlowKpi',
         render: (repeatSignFlowKpi, record) => {
           const percent = record.repeatSignFlowKpiRatio * 100 + '%';
-          const money = thousandsFormatBigger(repeatSignFlowKpi);
+          const money = thousandsFormat(repeatSignFlowKpi);
           return (
             <BIWrapperProgress
               text={money}
@@ -96,7 +96,7 @@ class Compare extends React.Component {
         key: 'adultRegularFlowKpi',
         render: (adultRegularFlowKpi, record) => {
           const percent = record.adultRegularFlowKpiRatio * 100 + '%';
-          const money = thousandsFormatBigger(adultRegularFlowKpi);
+          const money = thousandsFormat(adultRegularFlowKpi);
           return (
             <BIWrapperProgress
               text={money}
@@ -112,7 +112,7 @@ class Compare extends React.Component {
         key: 'incomeTotalKpi',
         render: (incomeTotalKpi, record) => {
           const percent = record.incomeTotalKpiRatio * 100 + '%';
-          const money = thousandsFormatBigger(incomeTotalKpi);
+          const money = thousandsFormat(incomeTotalKpi);
           return (
             <BIWrapperProgress
               text={money}
