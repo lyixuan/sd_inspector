@@ -71,14 +71,14 @@ class currentCreditLeft extends React.Component {
         key: item.groupId,
         render: (text, record) => {
           const textV = record.values[index];
+          const flagText = index === 0 && textV && record.level === 4;
           return (
             <>
               {
-                record.flagMark ? <BIFillCell {...record.valuesParams[index]} className={index === 0 && textV ? styles.mineHover : ''}>
+                record.flagMark ? <BIFillCell {...record.valuesParams[index]} className={ flagText ? styles.mineHover : ''}>
                   {
-                    index === 0 && textV ? <Link onClick={() => this.getDataTrace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
-                      {textV}
-                      <span style={{ marginLeft: '2px' }}>{'>'}</span>
+                    flagText ? <Link onClick={() => this.getDataTrace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
+                      {textV} <span style={{ marginLeft: '2px' }}>{'>'}</span>
                     </Link>
                       : <>{textV}<span style={{ marginLeft: '8px' }}></span></>
                   }
