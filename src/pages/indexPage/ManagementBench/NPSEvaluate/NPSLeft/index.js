@@ -22,7 +22,7 @@ class NPSLeft extends React.Component {
   }
   clickStudentName = (record) =>{
     let params={
-      userId:'1502698',//record,
+      userId:record.stuId,//record,
       target:'userName'
     }
     window.open(`/inspector/ko/behaviorPath?params=${JSON.stringify(params)}`);
