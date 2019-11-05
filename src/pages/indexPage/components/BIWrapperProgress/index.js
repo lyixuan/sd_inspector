@@ -5,7 +5,7 @@ import styles from './style.less';
 
 class BIWrapperProgress extends React.Component {
   render() {
-    const {text, percent, isColor='green', iconed, propsStyle, ...props} = this.props
+    const {text, percent, isColor='green', iconed, propsStyle, ...props} = this.props;
     return(
       <div className={styles.BIWrapperProgress} {...props}>
         <div className={styles.pro} style={propsStyle}>
