@@ -71,22 +71,30 @@ class Top extends React.Component {
   }
 
   componentDidMount() {
-    this.getData(localStorage.getItem('orgValue'));
+    let newcollegeId = localStorage.getItem('orgValue') || this.props.userInfo.collegeId;
+    let { orgValue } = this.state;
+    this.getData(newcollegeId);
     this.props
       .dispatch({
         type: 'xdManagementBench/getHotList',
       })
       .then(res => {
-        this.setState({ typeList: res });
+        res.map((item, index) => {
+          if (item.collegeId === newcollegeId) {
+            orgValue = String(newcollegeId);
+          }
+        });
+        this.setState({ typeList: res, orgValue });
       });
   }
 
   getData(collegeId) {
     const { date } = this.props;
+    let { orgValue } = this.state;
     if (collegeId === 'undefined') {
-      this.setState({
-        orgValue: '0',
-      });
+      orgValue = 0;
+    } else {
+      orgValue = String(collegeId);
     }
     this.props
       .dispatch({
@@ -100,7 +108,7 @@ class Top extends React.Component {
         },
       })
       .then(res => {
-        this.setState({ dataSource: res });
+        this.setState({ dataSource: res, orgValue });
       });
   }
 

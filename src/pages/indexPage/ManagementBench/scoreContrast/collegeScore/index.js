@@ -134,9 +134,6 @@ class CollegeScore extends React.Component {
             normal: {color: 'rgba(0,0,0,0.05)'}
           },
           barGap:'-100%',
-          barCategoryGap:'40%',
-          // barWidth:25,
-          barMaxWidth:50,
           data: dataShadow
         },
         { // For shadow
@@ -145,9 +142,6 @@ class CollegeScore extends React.Component {
             normal: {color: 'rgba(71,211,255,0.06)'}
           },
           barGap:'-100%',
-          barCategoryGap:'40%',
-          // barWidth:50,
-          barMaxWidth:50,
           data: maxShadow,
           animation: false
         },
@@ -157,8 +151,6 @@ class CollegeScore extends React.Component {
           itemStyle: {
             normal: {color: '#47D3FF',barBorderRadius:[4, 4, 0, 0]}
           },
-          // barWidth:50,
-          barMaxWidth:50,
           label: {
             normal: {
               show: true,
@@ -176,7 +168,7 @@ class CollegeScore extends React.Component {
           itemStyle: {
             normal: {color: '#F5A623'}
           },
-          data:qoqValue,//[10.00, 100.00, 20.00, 120.00, -20.00, 40.00]
+          data:qoqValue,
         }
       ]
 
