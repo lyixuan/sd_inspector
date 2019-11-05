@@ -1,62 +1,89 @@
 import React from 'react';
-import { Form, Tooltip, Icon, Cascader, Select, Row, Col, Button, AutoComplete, Spin } from 'antd';
-// import { connect } from 'dva';
+import {
+  Form,
+  Tooltip,
+  Icon,
+  Cascader,
+  Select,
+  Row,
+  Col,
+  Button,
+  AutoComplete,
+  Spin,
+  message,
+} from 'antd';
+import BIModal from '@/ant_components/BIModal';
+import { connect } from 'dva';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect';
 import style from './style.less';
+import moment from 'moment';
 import { Input, Checkbox } from 'antd/lib/index';
+const confirm = BIModal.confirm;
 const { BIRangePicker } = BIDatePicker;
 
 const { Option } = BISelect;
 
-const residences = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
-
+@connect(report => ({
+  report,
+}))
 class Report extends React.Component {
   state = {
-    confirmDirty: false,
-    autoCompleteResult: [],
+    disabled: true,
+    beginDate: null,
+    endDate: null,
+  };
+
+  componentDidMount() {
+    this.checkMail();
+  }
+
+  checkMail = () => {
+    this.setState({ disabled: false });
+    // this.props
+    //   .dispatch({
+    //     type: 'report/checkMail',
+    //   })
+    //   .then(res => {
+    //     console.log(res);
+    //   });
   };
 
   handleSubmit = e => {
+    let { beginDate, endDate } = this.state;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
       }
+      const time = values.time;
+      values.beginDate = moment(time[0]).format('x');
+      values.endDate = moment(time[1]).format('x');
+      if (endDate - beginDate > 2 * 30 * 24 * 60 * 60 * 1000) {
+        message.error('日期范围不能超过 60天');
+        return;
+      }
+      const that = this;
+      confirm({
+        className: 'BIConfirm',
+        // okType: 'danger',
+        title: '是否确定发送？',
+        cancelText: '取消',
+        okText: '确定',
+        onOk() {
+          that.props
+            .dispatch({
+              type: 'report/sendMail',
+              payload: { params: { values } },
+            })
+            .then(() => {
+              this.checkMail();
+              this.form.setFieldFormValue({});
+            });
+        },
+        onCancel() {},
+      });
     });
   };
 
@@ -121,6 +148,7 @@ class Report extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { disabled } = this.state;
 
     const options = [
       { label: '院长&副院长', value: '1' },
@@ -160,7 +188,7 @@ class Report extends React.Component {
             <div className={style.title}>发周报</div>
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
               <Form.Item label="开始日期：">
-                {getFieldDecorator('email', {
+                {getFieldDecorator('time', {
                   rules: [
                     {
                       required: true,
@@ -220,7 +248,7 @@ class Report extends React.Component {
                 )}
               </Form.Item>
               <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" disabled={disabled} htmlType="submit">
                   发送
                 </Button>
               </Form.Item>

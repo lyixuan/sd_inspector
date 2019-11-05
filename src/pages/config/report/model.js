@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { getIgnoreUser, send } from './services';
+import { getIgnoreUser, send, checkSend } from './services';
 import { downBlob, msgF } from '@/utils/utils';
 
 export default {
@@ -10,22 +10,36 @@ export default {
   },
 
   effects: {
-    // 获取屏蔽人名单
+    // sendEmail
     *sendMail({ payload }, { call, put }) {
       const result = yield call(send);
       if (result.code === 20000) {
         const { data } = result.data;
         yield put({ type: 'save', payload: { data } });
+        return data;
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-
+    // 获取屏蔽人名单
     *getIgnoreUser({ payload }, { call, put }) {
       const result = yield call(getIgnoreUser);
       if (result.code === 20000) {
         const { data } = result.data;
         yield put({ type: 'save', payload: { data } });
+        return data;
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    // checksend mail
+    *checkMail({ payload }, { call, put }) {
+      const result = yield call(checkSend);
+      if (result.code === 20000) {
+        const { data } = result.data;
+        yield put({ type: 'save', payload: { data } });
+        return data;
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
