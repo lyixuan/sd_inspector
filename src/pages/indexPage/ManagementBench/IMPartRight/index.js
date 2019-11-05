@@ -40,8 +40,8 @@ class IMPartRight extends React.Component {
         dataIndex: 'badContrasts',
         key: 'badContrasts',
         width:"23%",
-        render: (badPostNum, record) => {
-          const percent = parseInt(badPostNum * 100) + '%';
+        render: (badContrasts, record) => {
+          const percent =(badContrasts * 100).toFixed(2) + '%';
           return <BIWrapperProgress text={percent} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"left"}}/>
         },
       }, {
@@ -71,7 +71,7 @@ class IMPartRight extends React.Component {
       <Container title="IM负面数据对比"
                  style={{ width: 'calc(40% - 16px)',minHeight:'372px'}}
       >
-        {this.props.loading?<BILoading isLoading={this.props.loading}/>:<BIWrapperTable  columns={this.columnsRight()}
+        {this.props.loading?<BILoading isLoading={this.props.loading} height = '372px'/>:<BIWrapperTable  columns={this.columnsRight()}
                                                            dataSource={dataSource||[]}
                                                            pagination={false}
                                                            loading={this.props.loading}

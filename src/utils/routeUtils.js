@@ -3,34 +3,17 @@ import {CAS_HOST} from './constants';
 import storage from './storage';
 
 export function redirectToLogin() {
-  storage.removeItem('admin_user');
-  storage.removeItem('admin_auth');
-  storage.removeItem('pkListType');
-  storage.removeItem('hasDataCredit');
-  storage.removeItem('creditSearchParams');
-  storage.removeItem('pkUsers');
-  storage.removeItem('pkGroupList');
-  storage.removeItem('NPSGroupId');
-  storage.removeItem('NPSDates');
-  const { origin } = window.location;
+  localStorage.clear()
+  const { href } = window.location;
   const serverUrl = `${CAS_HOST}/tologin`;
-  window.location.href = `${serverUrl}?originPage=${origin}`;
+  window.location.href = `${serverUrl}?originPage=${href}`;
 }
 
 export function casLogout() {
-  storage.removeItem('admin_user');
-  storage.removeItem('admin_auth');
-  storage.removeItem('pkListType');
-  storage.removeItem('hasDataCredit');
-  storage.removeItem('creditSearchParams');
-  storage.removeItem('pkUsers');
-  storage.removeItem('pkGroupList');
-  storage.removeItem('NPSGroupId');
-  storage.removeItem('NPSDates');
-  const { origin } = window.location;
+  localStorage.clear();
+  const { href } = window.location;
   const logoutUrl = `${CAS_HOST}/apis/caslogout?`;
-  const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${origin}`;
-
+  const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${href}`;
   window.location.href = `${logoutUrl}${pageUrl}`;
 }
 export function checkPathname(path = '') {
