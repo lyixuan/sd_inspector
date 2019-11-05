@@ -11,19 +11,10 @@ import styles from './indexPage.less';
 }))
 class IndexPage extends Component {
   componentDidMount() {
-    this.setTrace();
     this.props.dispatch({
       type: 'xdWorkModal/getUserInfo',
     });
   }
-
-  setTrace = () =>{
-    const { location } = this.props;
-    const { query} = location || {};
-    if(query && query.source && query.source === 'email'){
-      handleDataTrace({widgetName:"邮件埋点",traceName:"学员查询/学员档案/学习展开"});
-    }
-  };
 
   getPageDom = () => {
     const admin_user = localStorage.getItem('admin_user');
