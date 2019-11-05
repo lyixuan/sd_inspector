@@ -6,7 +6,7 @@ import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../../../components/BIWrapperTable';
 import BITable from '@/ant_components/BITable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-import { thousandsFormat } from '@/utils/utils';
+import { thousandsFormatDot } from '@/utils/utils';
 
 @connect(xdManagementBench => ({
   xdManagementBench,
@@ -53,8 +53,8 @@ class Compare extends React.Component {
         dataIndex: 'goodPushFlowKpi',
         key: 'goodPushFlowKpi',
         render: (goodPushFlowKpi, record) => {
-          const percent = record.goodPushFlowKpiRatio * 100 + '%';
-          const money = thousandsFormat(goodPushFlowKpi);
+          const percent = (record.goodPushFlowKpiRatio * 100).toFixed(2) + '%';
+          const money = thousandsFormatDot(goodPushFlowKpi);
           return (
             <BIWrapperProgress
               text={money}
@@ -74,8 +74,8 @@ class Compare extends React.Component {
         dataIndex: 'repeatSignFlowKpi',
         key: 'repeatSignFlowKpi',
         render: (repeatSignFlowKpi, record) => {
-          const percent = record.repeatSignFlowKpiRatio * 100 + '%';
-          const money = thousandsFormat(repeatSignFlowKpi);
+          const percent = (record.repeatSignFlowKpiRatio * 100).toFixed(2) + '%';
+          const money = thousandsFormatDot(repeatSignFlowKpi);
           return (
             <BIWrapperProgress
               text={money}
@@ -95,8 +95,8 @@ class Compare extends React.Component {
         dataIndex: 'adultRegularFlowKpi',
         key: 'adultRegularFlowKpi',
         render: (adultRegularFlowKpi, record) => {
-          const percent = record.adultRegularFlowKpiRatio * 100 + '%';
-          const money = thousandsFormat(adultRegularFlowKpi);
+          const percent = (record.adultRegularFlowKpiRatio * 100).toFixed(2) + '%';
+          const money = thousandsFormatDot(adultRegularFlowKpi);
           return (
             <BIWrapperProgress
               text={money}
@@ -111,8 +111,8 @@ class Compare extends React.Component {
         dataIndex: 'incomeTotalKpi',
         key: 'incomeTotalKpi',
         render: (incomeTotalKpi, record) => {
-          const percent = record.incomeTotalKpiRatio * 100 + '%';
-          const money = thousandsFormat(incomeTotalKpi);
+          const percent = (record.incomeTotalKpiRatio * 100).toFixed(2) + '%';
+          const money = thousandsFormatDot(incomeTotalKpi);
           return (
             <BIWrapperProgress
               text={money}

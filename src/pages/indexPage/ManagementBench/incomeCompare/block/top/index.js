@@ -2,10 +2,6 @@ import React from 'react';
 import { connect } from 'dva';
 import BISelect from '@/ant_components/BISelect';
 import styles from './styles.less';
-import BITable from '@/ant_components/BITable';
-import Progress from '../../../../components/progress';
-import IndentNum from '../../../../components/indentNum';
-import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../../../components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import rank1 from '@/assets/xdFamily/rank1.png';
@@ -13,10 +9,6 @@ import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
 import moment from 'moment';
 import { thousandsFormat } from '@/utils/utils';
-
-function CustomExpandIcon(props) {
-  return <a />;
-}
 
 const { Option } = BISelect;
 
@@ -71,7 +63,7 @@ class Top extends React.Component {
   }
 
   componentDidMount() {
-    let newcollegeId = localStorage.getItem('orgValue') || this.props.userInfo.collegeId;
+    let newcollegeId = localStorage.getItem('orgValue') || this.props.userInfo.collegeId || '0';
     let { orgValue } = this.state;
     this.getData(newcollegeId);
     this.props
