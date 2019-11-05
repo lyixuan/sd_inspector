@@ -143,7 +143,7 @@ class Header extends React.Component {
           <p className={styles.bottom}>
             <span>学分均分</span>
             <span className={styles.arrowCon}>
-              {countList.loopRatio * 100}%
+              {(countList.loopRatio * 100).toFixed(2)}%
               {countList.loopRatio > 0 && <i className={styles.arrowTop}></i>}
               {countList.loopRatio < 0 && <i className={styles.arrowBottom}></i>}
             </span>
