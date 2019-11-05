@@ -143,7 +143,8 @@ class Header extends React.Component {
           <p className={styles.bottom}>
             <span>学分均分</span>
             <span className={styles.arrowCon}>
-              {countList.loopRatio}%{countList.loopRatio > 0 && <i className={styles.arrowTop}></i>}
+              {countList.loopRatio * 100}%
+              {countList.loopRatio > 0 && <i className={styles.arrowTop}></i>}
               {countList.loopRatio < 0 && <i className={styles.arrowBottom}></i>}
             </span>
           </p>
@@ -152,14 +153,13 @@ class Header extends React.Component {
           if (!item || !item.type) return;
           return <Block item={item} />;
         })}
-
       </ul>
     );
   }
 
   // 管理层不显示学分
   getUlList1() {
-    const { allList=[] } = this.state;
+    const { allList = [] } = this.state;
     return (
       <ul className={styles.list}>
         {allList.map(item => {
