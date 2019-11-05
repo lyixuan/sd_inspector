@@ -191,8 +191,6 @@ class XdCredit extends React.Component {
     })
   }
   getParentNode(data, nodeId, groupType, arr = []) {
-    // let arr = []
-    console.log(195, nodeId, groupType)
     if (data && data.length > 0) {
       for (let index = 0; index < data.length; index++) {
         const item = data[index];
@@ -206,8 +204,6 @@ class XdCredit extends React.Component {
               arr.unshift(item);
               return true;
             }
-          } else {
-            return false;
           }
         }
       }
@@ -261,6 +257,7 @@ class XdCredit extends React.Component {
     // }
     const param = {
       ...groupMsg,
+      familyType: this.state.familyType.length == 3 ? '0' : this.state.familyType,
       dementionId: this.state.dementionId,
       startTime: this.state.startTime,
       endTime: this.state.endTime,
@@ -284,16 +281,13 @@ class XdCredit extends React.Component {
   }
   // reset groupId数组 getResetGroupId
   getResetGroupMsg = (arr = this.state.userOrgConfig) => {
-    console.log(287, arr)
     const { orgId, orgType } = this.state;
     let arr1 = [];
     if (arr && arr.length > 0) {
       this.getParentNode(arr, orgId, orgType, arr1)
       const item = arr[0];
-      console.log(291, arr1)
       if (orgId && arr1.length > 0) {
         const { familyType } = JSON.parse(this.props.location.query.params);
-        // this.getParentNode(arr, orgId, orgType, arr1)
         const groupArr = arr1.map(item => item.id)
         this.setState({
           showCollege: arr1.length == 1 && arr1[0].familyType.length > 1

@@ -195,9 +195,17 @@ export function thousandsFormat(num) {
   return (num + '').replace(reg, '$&,');
 }
 
+export function thousandsFormatDot(num) {
+  var reg = /\d{1,3}(?=(\d{3})+$)/g;
+    let newNum = (num + '').replace(reg, '$&,');
+    return String(newNum).indexOf('.') !== -1
+      ? thousandsFormat(String(newNum).split('.')[0]) + '.' + String(newNum).split('.')[1]
+      : newNum;
+}
+
 export function thousandsFormatBigger(num) {
   // 千分位分割,接收正整数
-  if (Math.ceil(num / 10000).lentgth > 7) {
+  if (String(num).length >= 7) {
     return `${Math.ceil(num / 10000)}万`;
   } else {
     var reg = /\d{1,3}(?=(\d{3})+$)/g;

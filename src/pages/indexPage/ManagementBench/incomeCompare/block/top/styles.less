@@ -8,6 +8,16 @@
   border-radius: 10px;
   margin-left: 20px;
 
+  :global {
+    .ant-table-thead > tr > th {
+      text-align: right;
+    }
+    .ant-table-thead > tr > th:nth-child(1),
+    .ant-table-thead > tr > th:nth-child(2) {
+      text-align: left !important;
+    }
+  }
+
   .title {
     display: flex;
     justify-content: space-between;

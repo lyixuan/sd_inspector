@@ -51,8 +51,9 @@ class NPSEvaluate extends React.Component {
   }
   componentDidMount() {
     this.getUserOrgList()
-    let ids = localStorage.getItem('NPSGroupId') || []
-    if(ids.length <= 0){
+    if(this.state.userInfo.userType == "boss"){
+      this.state.groupId = [0]
+    }else{
       if(this.state.userInfo.collegeId){
         this.state.groupId.push(this.state.userInfo.collegeId)
       }else if(this.state.userInfo.familyId){
@@ -64,7 +65,7 @@ class NPSEvaluate extends React.Component {
     this.setState({
       groupId:localStorage.getItem('NPSGroupId')?JSON.parse(localStorage.getItem('NPSGroupId')):this.state.groupId
     },()=>{
-      this.getNpsAutonomousEvaluation(this.state.userInfo,ids)
+      this.getNpsAutonomousEvaluation(this.state.userInfo,'')
     })
   }
   localStoryDates = () =>{
@@ -132,7 +133,7 @@ class NPSEvaluate extends React.Component {
   //取T-2日期的数据
   handleDefaultPickerValueMark = (n = 2, cTime) =>{
     cTime = cTime ? moment(cTime) : moment();
-    const defTime = cTime.subtract(n, 'days');
+    const defTime = cTime.subtract(1, 'months');
     return [defTime,defTime];
   }
   // 时间控件可展示的时间范围
@@ -141,7 +142,8 @@ class NPSEvaluate extends React.Component {
   };
   rightPart = () =>{
     // const {collegeOptions,orgValue} = this.state
-    const {  groupId="全部", userOrgConfig, dateArr } = this.state;
+    const {  groupId=[0], userOrgConfig, dateArr } = this.state;
+    console.log(145,groupId)
     const {orgList} = this.props.xdManagementBench;
     orgList.length>0 && this.getResetGroupMsg(orgList)
     return(
