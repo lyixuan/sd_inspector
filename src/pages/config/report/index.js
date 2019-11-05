@@ -185,7 +185,7 @@ class Report extends React.Component {
       <>
         <Spin spinning={false}>
           <div className={style.box}>
-            <div className={style.title}>发周报</div>
+            <div className={style.title}></div>
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
               <Form.Item label="开始日期：">
                 {getFieldDecorator('time', {
