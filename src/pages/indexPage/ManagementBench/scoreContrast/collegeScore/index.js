@@ -20,6 +20,7 @@ class CollegeScore extends React.Component {
     }
   }
   componentDidMount() {
+    console.log("familyType",this.props.queryAppealDatas.state)
 
   }
 
@@ -32,7 +33,7 @@ class CollegeScore extends React.Component {
     arr.map((item,index)=>{
       creaditValue.push(item.creaditValue);
       familyName.push(item.name);
-      qoqValue.push(Number(parseInt(item.qoqValue*100)))
+      qoqValue.push((item.qoqValue*100).toFixed(2))
     })
     const yMax =  Math.max.apply(null, creaditValue);
     const yMin = Math.min.apply(null, creaditValue);
@@ -54,26 +55,13 @@ class CollegeScore extends React.Component {
         },
         formatter: '{a2}: {c2}<br />{a3}: {c3}%'
       },
-      // legend: {
-      //   data: ['正面', '负面'],
-      //   bottom: 5,
-      //   itemHeight: 30,
-      //   right:30,
-      //   orient:'horizontal',
-      //   textStyle: {
-      //     color: '#7B7C80',
-      //     fontSize:13
-      //   },
-      //   icon:'circle',
-      //   itemWidth:10
-      // },
       xAxis: [
         {
           type: 'category',
           data: familyName,
           axisLabel: {
             interval:0,
-            rotate:40,
+            rotate:30,
             color:'#000000 '
           },
           axisLine:{
@@ -91,7 +79,7 @@ class CollegeScore extends React.Component {
           inverse: false,
           splitArea: {show: false},
           type: 'value',
-          min: -yMin,
+          min: yMin,
           max: yMax,
           // interval: 4,
           axisLabel: {
@@ -115,7 +103,7 @@ class CollegeScore extends React.Component {
           inverse: false,
           splitArea: {show: false},
           type: 'value',
-          min: -yRightMin,
+          min: yRightMin,
           max: yRightMax,
           axisLabel: {
             formatter: '{value} %',
@@ -128,10 +116,7 @@ class CollegeScore extends React.Component {
             }
           },
           splitLine:{
-            lineStyle:{
-              type:'dotted',
-              color:"RGBA(229, 229, 229, 0.5)"
-            }
+            show:false
           }
 
         }
@@ -150,7 +135,8 @@ class CollegeScore extends React.Component {
           },
           barGap:'-100%',
           barCategoryGap:'40%',
-          barWidth:50,
+          // barWidth:25,
+          barMaxWidth:50,
           data: dataShadow
         },
         { // For shadow
@@ -160,7 +146,8 @@ class CollegeScore extends React.Component {
           },
           barGap:'-100%',
           barCategoryGap:'40%',
-          barWidth:50,
+          // barWidth:50,
+          barMaxWidth:50,
           data: maxShadow,
           animation: false
         },
@@ -170,7 +157,8 @@ class CollegeScore extends React.Component {
           itemStyle: {
             normal: {color: '#47D3FF',barBorderRadius:[4, 4, 0, 0]}
           },
-          barWidth:50,
+          // barWidth:50,
+          barMaxWidth:50,
           label: {
             normal: {
               show: true,
@@ -179,8 +167,9 @@ class CollegeScore extends React.Component {
               fontSize:13
             }
           },
-          data:creaditValue
-        },{
+          data:creaditValue,
+        },
+        {
           name:'环比',
           type:'line',
           yAxisIndex: 1,
@@ -208,12 +197,13 @@ class CollegeScore extends React.Component {
   }
   clickEvent = (arr,item,userInfo)=>{
     let paramsArr = arr
-    console.log(arr,item,userInfo,this.props.queryAppealDatas.state)
     let orgId = "";
     let tabNum = 1;
+    let familyType = 0
     if(this.props){
       tabNum = this.props.queryAppealDatas.state.tabNum
       paramsArr = this.props.queryAppealDatas.state.queryAppealDatas.creaditDataList
+      familyType = this.props.queryAppealDatas.state.familyType
     }
     (tabNum === 1 || tabNum ===2 || tabNum ===3) && paramsArr.map((subItem)=>{
       if(subItem.name === item.name){
@@ -221,25 +211,34 @@ class CollegeScore extends React.Component {
       }
     })
     tabNum === 4 && (orgId = userInfo.collegeId)
-    let params={
-      startTime:tabNum === 4?item.name:moment(this.props.times.startDate).format('YYYY-MM-DD'),
-      endTime:tabNum === 4?item.name:moment(this.props.times.endDate).format('YYYY-MM-DD'),
-      dementionId:16,
-      reasonTypeId:0,
-      orgId:orgId,
-      orgType:this.orgTypes(tabNum)
+    if( orgId === userInfo.collegeId && userInfo.userType === "college" || userInfo.userType === "boss" || tabNum !== 1 ){
+      let params={
+        startTime:tabNum === 4?item.name:moment(this.props.times.startDate).format('YYYY-MM-DD'),
+        endTime:tabNum === 4?item.name:moment(this.props.times.endDate).format('YYYY-MM-DD'),
+        dementionId:this.props.queryAppealDatas.state.queryParams.dimensionId?this.props.queryAppealDatas.state.queryParams.dimensionId:1,
+        reasonTypeId:0,
+        orgId:orgId,
+        orgType:this.orgTypes(tabNum),
+        familyType:familyType
+      }
+      window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
     }
-    window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
+
   }
   render() {
     const {queryAppealDatas = {}} = this.props.queryAppealDatas.state;
     const {userInfo} = this.props
     return (
       <div style={{minHeight:'479px'}}>
-        <BILoading isLoading={this.props.loading}>
+        <BILoading isLoading={this.props.loading} height="479px">
           <div>
             <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>
-            {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 && <Echart options={this.drawChart(queryAppealDatas.creaditDataList)} style={{height:"354px"}} clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}/>}
+            {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 &&
+            <Echart
+              options={this.drawChart(queryAppealDatas.creaditDataList)}
+              style={{height:"354px"}}
+              clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}
+            />}
             <EchartBottom/>
         </div>
         </BILoading>

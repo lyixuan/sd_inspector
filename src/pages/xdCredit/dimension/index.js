@@ -30,7 +30,7 @@ class Dimension extends React.Component {
         }
       }, {
         width: 80,
-        title: '我的',
+        title: '学分',
         dataIndex: 'score',
         key: 'score',
         className: 'txRight',

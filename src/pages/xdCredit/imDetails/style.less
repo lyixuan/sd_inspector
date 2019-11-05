@@ -3,6 +3,7 @@
   padding:16px 24px;
   border-radius:10px;
   flex: 1;  
+  flex-shrink: 0;
   // :global .ant-table{
   //   min-height:615px;
   // }
@@ -37,6 +38,9 @@
   max-width: 520px;
   width: 520px;
   :global {
+    .ant-tooltip-content{
+      opacity:1;
+    }
     .ant-tooltip-arrow {
       border-right-color: #ffffff!important;
       //border-color: transparent transparent #fff #fff;
@@ -49,6 +53,9 @@
 }
 .listMarkingTooltip2{
   :global {
+      .ant-tooltip-content{
+        opacity:1;
+      }
       .ant-tooltip-arrow {
         border-right-color: #ffffff!important;
       //   border-color: transparent transparent #fff #fff;
