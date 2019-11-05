@@ -135,9 +135,9 @@ class Top extends React.Component {
         title: '创收产品包',
         dataIndex: 'packageName',
         key: 'packageName',
-        width: '45%',
+        width: '40%',
         render: (packageName, record) => {
-          return <div style={{ textAlign: 'right' }}>{packageName}</div>;
+          return <div style={{ textAlign: 'left' }}>{packageName}</div>;
         },
       },
       {
@@ -153,7 +153,7 @@ class Top extends React.Component {
         title: '创收流水',
         dataIndex: 'incomeFlowKpi',
         key: 'incomeFlowKpi',
-        width: '15%',
+        // width: '15%',
         render: (incomeFlowKpi, record) => {
           const percent = record.incomeFlowKpiRatio * 100 + '%';
           const money = thousandsFormatBigger(incomeFlowKpi);
