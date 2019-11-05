@@ -43,6 +43,18 @@ class CollegeScore extends React.Component {
       dataShadow.push(yMin);
       maxShadow.push(yMax);
     }
+    //  barBg = () =>{
+    //   let backgroundColor = ""
+    //   if(creaditValue[0]< 0 ){
+    //     // {color: this.barBg(),barBorderRadius:[4, 4, 0, 0]}
+    //     backgroundColor =  {color: "#FF8086",barBorderRadius:[4, 4, 0, 0]}
+    //   }else{
+    //     backgroundColor =  {color: "#47D3FF",barBorderRadius:[4, 4, 0, 0]}
+    //   }
+    //   return backgroundColor
+    // }
+    const barBackground = creaditValue[0]< 0?"#FF8086":"#47D3FF"
+    console.log(55,barBackground)
     const  options = {
       color: ["#50D4FD", "#FD8188"],
       tooltip: {
@@ -149,7 +161,7 @@ class CollegeScore extends React.Component {
           name:'均分',
           type:'bar',
           itemStyle: {
-            normal: {color: '#47D3FF',barBorderRadius:[4, 4, 0, 0]}
+            normal: {color: barBackground,barBorderRadius:[4, 4, 0, 0]}
           },
           label: {
             normal: {
