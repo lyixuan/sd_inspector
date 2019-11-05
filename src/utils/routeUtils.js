@@ -3,17 +3,17 @@ import {CAS_HOST} from './constants';
 import storage from './storage';
 
 export function redirectToLogin() {
-  localStorage.clear()
-  const { href } = window.location;
+  localStorage.clear();
+  const { origin,pathname } = window.location;
   const serverUrl = `${CAS_HOST}/tologin`;
-  window.location.href = `${serverUrl}?originPage=${href}`;
+  window.location.href = `${serverUrl}?originPage=${origin}${pathname}`;
 }
 
 export function casLogout() {
   localStorage.clear();
-  const { href } = window.location;
+  const { origin,pathname } = window.location;
   const logoutUrl = `${CAS_HOST}/apis/caslogout?`;
-  const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${href}`;
+  const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${origin}${pathname}`;
   window.location.href = `${logoutUrl}${pageUrl}`;
 }
 export function checkPathname(path = '') {
