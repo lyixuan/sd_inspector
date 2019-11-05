@@ -63,7 +63,19 @@ class IndexPage extends Component {
   };
 
   render() {
-    const flag = this.getPageDom();
+    const { location } = this.props;
+    const { query,pathname} = location || {};
+    let flag = false;
+    if(query && query.source && query.source === 'fullPath'){
+      // 如果带有参数source='fullPath'，要跳转到具体路径，不进工作台
+      if(pathname!=='/indexPage'){
+        this.props.history.push({
+          pathname,query
+        });
+      }
+    } else {
+      flag = this.getPageDom();
+    }
     return (
       <>
         {flag ? flag : ''}
