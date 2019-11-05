@@ -43,16 +43,7 @@ class CollegeScore extends React.Component {
       dataShadow.push(yMin);
       maxShadow.push(yMax);
     }
-    //  barBg = () =>{
-    //   let backgroundColor = ""
-    //   if(creaditValue[0]< 0 ){
-    //     // {color: this.barBg(),barBorderRadius:[4, 4, 0, 0]}
-    //     backgroundColor =  {color: "#FF8086",barBorderRadius:[4, 4, 0, 0]}
-    //   }else{
-    //     backgroundColor =  {color: "#47D3FF",barBorderRadius:[4, 4, 0, 0]}
-    //   }
-    //   return backgroundColor
-    // }
+  const barWidth = familyName.length>=22 ? 20 : 50
     const barBackground = creaditValue[0]< 0?"#FF8086":"#47D3FF"
     console.log(55,barBackground)
     const  options = {
@@ -146,6 +137,7 @@ class CollegeScore extends React.Component {
             normal: {color: 'rgba(0,0,0,0.05)'}
           },
           barGap:'-100%',
+          barWidth:barWidth,
           data: dataShadow
         },
         { // For shadow
@@ -154,6 +146,7 @@ class CollegeScore extends React.Component {
             normal: {color: 'rgba(71,211,255,0.06)'}
           },
           barGap:'-100%',
+          barWidth:barWidth,
           data: maxShadow,
           animation: false
         },
@@ -163,6 +156,7 @@ class CollegeScore extends React.Component {
           itemStyle: {
             normal: {color: barBackground,barBorderRadius:[4, 4, 0, 0]}
           },
+          barWidth:barWidth,
           label: {
             normal: {
               show: true,
