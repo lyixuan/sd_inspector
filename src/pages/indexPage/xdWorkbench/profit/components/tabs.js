@@ -129,7 +129,7 @@ class ProfitTbas extends React.Component {
         title: '好推绩效系数',
         dataIndex: 'goodpushValueAvg',
         key: 'goodpushValueAvg',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={text} isColor="green" percent={this.getPercent(text, maxValue.goodpushValueAvg, '好推绩效系数')} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={text} isColor="green" percent={this.getPercent(text, maxValue.goodpushValueAvg)} style={{marginLeft: '-8px'}}/>)
       }, {
         width: 140,
         className: styles.rowBg2,
@@ -195,7 +195,6 @@ class ProfitTbas extends React.Component {
     }
   }
   getPercent = (n, t, title) => {
-    console.log(n, t, title)
     if (t && n) {
       return (n/t)*100 + '%'
     } else {
