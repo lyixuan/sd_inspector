@@ -3,7 +3,6 @@ import { connect } from 'dva';
 import RenderRoute from '@/components/RenderRoute';
 import homeImg from '@/assets/homeImg.png';
 import homeText from '@/assets/homeText.png';
-import {handleDataTrace} from '@/utils/utils';
 import styles from './indexPage.less';
 
 @connect(({ xdWorkModal }) => ({
@@ -11,19 +10,10 @@ import styles from './indexPage.less';
 }))
 class IndexPage extends Component {
   componentDidMount() {
-    this.setTrace();
     this.props.dispatch({
       type: 'xdWorkModal/getUserInfo',
     });
   }
-
-  setTrace = () =>{
-    const { location } = this.props;
-    const { query} = location || {};
-    if(query && query.source && query.source === 'email'){
-      handleDataTrace({widgetName:"邮件埋点",traceName:"学员查询/学员档案/学习展开"});
-    }
-  };
 
   getPageDom = () => {
     const admin_user = localStorage.getItem('admin_user');
