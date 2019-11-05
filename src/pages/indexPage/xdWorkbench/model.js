@@ -3,7 +3,6 @@ import {
   getIncomeKpiPkList,
   getCountCurrentQuality,
   getCountAppealRecord,
-  kpiLevelList,
   groupList,
   groupPkList,
   getKpiInfo,
@@ -17,7 +16,6 @@ export default {
   namespace: 'xdClsssModal',
   state: {
     userInfo: {}, // 全局值
-    kpiLevelList: null,
     groupList: null,
     kpiTimes: null,
     familyKpiTimes: {},
@@ -74,18 +72,6 @@ export default {
       const result = yield call(getCountAppealRecord, params);
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { classAppealList: result.data } });
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    // 以下是本期学分相关的接口
-    // 本期学分人均在服人员下拉里面的数据
-    *kpiLevelList({ payload }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(kpiLevelList, params)
-      if (result.code === 20000) {
-        const kpiLevelList = result.data || {};
-        yield put({ type: 'save', payload: { kpiLevelList } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

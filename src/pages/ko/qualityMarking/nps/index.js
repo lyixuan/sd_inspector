@@ -1,7 +1,12 @@
 import React from 'react';
 import { Tooltip } from 'antd';
 import { connect } from 'dva/index';
-import { getSubStringValue, jumpMarkingDetails, handleDefaultPickerValueMark } from '../../utils/utils';
+import { 
+  getSubStringValue, 
+  jumpMarkingDetails,
+  handleDefaultPickerValueMark,
+  getArrLastValue
+} from '@/pages/ko/utils/utils';
 import AuthButton from '@/components/AuthButton';
 import ModalTip from '../components/modalTip';
 import MarkForm from '../components/form';
@@ -16,13 +21,14 @@ const shapeArr = Array.from(Array(5), (v,k) =>k);
   workTableModel,
   currentPage: workTableModel.pageParams[markType] || 1,
   searchParams: workTableModel.searchParams[markType] || {},
-  collegeList: [{ id: 0, name: '空' }].concat(workTableModel.collegeList),
+  collegeList: [{ id: 0, name: '空', nodeList: [] }].concat(workTableModel.collegeList),
   consultList: workTableModel.consultList,
   reasonList: workTableModel.reasonList,
   evaluateList: workTableModel.evaluateList,
   idList: workTableModel.idList,
   operatorList: workTableModel.operatorList,// im bbs nps
-  currentServiceTime: koPlan.currentServiceTime
+  currentServiceTime: koPlan.currentServiceTime,
+  evaluationList: workTableModel.evaluationList,
 }))
 class bbsPage extends React.Component {
   constructor(props) {
@@ -109,8 +115,12 @@ class bbsPage extends React.Component {
     return columns || [];
   };
   handleEdit = (id) => {
-    const { choiceTime, ...others } = this.state.searchParams;
-    jumpMarkingDetails(id, { type: markType, ...others });
+    const { choiceTime, reasonType = [], ...others } = this.state.searchParams;
+    jumpMarkingDetails(id, { 
+      type: markType, 
+      reasonType: getArrLastValue(reasonType),
+      ...others
+     });
   };
   onSearchChange = (searchParams) => {
     this.setState({
@@ -125,9 +135,15 @@ class bbsPage extends React.Component {
   };
   queryData = () => {
     const { searchParams, currentPage } = this.state;
+    const { reasonType = [] } = searchParams;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
-      payload: { params: { ...searchParams, page: currentPage, type: markType } },
+      payload: { params: {
+         ...searchParams, 
+         page: currentPage, 
+         type: markType, 
+         reasonType: getArrLastValue(reasonType)
+      } },
     });
   };
   changeOperatorId = (key, v) => {

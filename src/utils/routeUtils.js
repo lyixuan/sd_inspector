@@ -1,6 +1,10 @@
 import pathToRegexp from 'path-to-regexp';
-import {CAS_HOST} from './constants';
+import {CAS_HOST, REMOVE_LOCAL_DATA} from './constants';
 import storage from './storage';
+
+function removeLocalData() {
+  REMOVE_LOCAL_DATA.map(item =>  storage.removeItem(item))
+}
 
 export function redirectToLogin() {
   storage.removeItem('admin_user');
@@ -10,6 +14,8 @@ export function redirectToLogin() {
   storage.removeItem('creditSearchParams');
   storage.removeItem('pkUsers');
   storage.removeItem('pkGroupList');
+  removeLocalData()
+  
   const { origin } = window.location;
   const serverUrl = `${CAS_HOST}/tologin`;
   window.location.href = `${serverUrl}?originPage=${origin}`;
@@ -23,10 +29,11 @@ export function casLogout() {
   storage.removeItem('creditSearchParams');
   storage.removeItem('pkUsers');
   storage.removeItem('pkGroupList');
+  removeLocalData()
+
   const { origin } = window.location;
   const logoutUrl = `${CAS_HOST}/apis/caslogout?`;
   const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${origin}`;
-
   window.location.href = `${logoutUrl}${pageUrl}`;
 }
 export function checkPathname(path = '') {

@@ -261,7 +261,7 @@ class currentCreditRight extends React.Component {
           </div>
         </div>
         <div className={styles.actionBtn}>
-          <BIButton onClick={() => handleAction([])}  loading={this.props.dimenloading} type="reset" style={{marginRight: '8px'}}>取消</BIButton>
+          <BIButton onClick={() => handleAction([])}  loading={this.props.dimenloading} type="reset" style={{marginRight: '8px'}}>清空</BIButton>
           <BIButton onClick={() => handleAction(false)} loading={this.props.dimenloading}  type="primary">确定</BIButton>
         </div>      
       </div>

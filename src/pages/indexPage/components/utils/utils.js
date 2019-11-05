@@ -1,4 +1,5 @@
 import BIContrastCell from '@/components/BIContrastCell';
+import { thousandsFormat } from '@/utils/utils';
 
 // local存值
 export function setLocalValue(obj, item){
@@ -29,4 +30,8 @@ export function fillDataSource(params = [], n = 1, flagMark) {
 export function getSubtract(bul, n, s = 160) {
   if(!bul) return n - s;
   return n;
+}
+// 取整千分位
+export function thousandsFormatAll(n)  {
+  return thousandsFormat(parseInt(n));
 }

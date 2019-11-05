@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIWrapperTable from '../../components/BIWrapperTable';
@@ -8,10 +9,9 @@ import styles from './style.less';
 
 const { BI = {} } = window;
 const { Option } = BISelect;
-@connect(({ xdClsssModal, loading }) => ({
-  xdClsssModal,
-  studentsOptions: xdClsssModal.kpiLevelList || [],
-  loading: loading.effects['xdClsssModal/kpiLevelList'],
+@connect(({ xdWorkModal, loading }) => ({
+  globalLevelList: xdWorkModal.globalLevelList,
+  loading: loading.effects['xdClsssModal/groupList'],
 }))
 class currentCreditRight extends React.Component {
   constructor(props) {
@@ -42,7 +42,6 @@ class currentCreditRight extends React.Component {
     };
   }
   componentDidMount() {
-    this.getKpiLevelList()
     this.getGroupList()
     // 表格添加滚动事件
     document.querySelector("#scroll1 .ant-table-body").onscroll = (e) => {
@@ -54,20 +53,16 @@ class currentCreditRight extends React.Component {
   }
   // 获取存储参数
   getSearchParams = () => {
-    const local = localStorage.getItem('creditSearchParams');
-    const params = local ? JSON.parse(local) : {};
-    if (params.orgValue && params.studentValue) { 
-      return { orgValue: params.orgValue, studentValue: params.studentValue,}  // 搜索参数初始化
+    const { orgValue, studentValue }= JSON.parse(localStorage.getItem(this.props.localKey)) || {};
+    const data = {};
+    if (orgValue && studentValue) { 
+      data.orgValue = orgValue;
+      data.studentValue = studentValue; 
     } else {
-      return { orgValue: 1, studentValue: 'college'}
+      data.orgValue= 1;
+      data.studentValue = 'college';
     }
-  }
-  //获取人均在服学员的下来数据方法
-  getKpiLevelList = () => {
-    this.props.dispatch({
-      type: 'xdClsssModal/kpiLevelList',
-      payload: { params: {} },
-    });
+    return data;
   }
   //获取对比小组的列表页
   getGroupList = () => {
@@ -137,11 +132,8 @@ class currentCreditRight extends React.Component {
         studentValue: undefined
       })
     } else if (vname === 'studentValue') {
-      localStorage.setItem('creditSearchParams', JSON.stringify({studentValue:value, orgValue: this.state.orgValue}));
-      this.setState({studentValue: value});
-      setTimeout(() => {
-        this.getGroupList()
-      }, 200)
+      setLocalValue({studentValue: value, orgValue: this.state.orgValue}, this.props.localKey)
+      this.setState({studentValue: value}, () => this.getGroupList());
       document.querySelector("#scroll .ant-table-body").scrollTop = 0;
     } else { }
   };
@@ -205,7 +197,7 @@ class currentCreditRight extends React.Component {
     if (orgValue === 1) {
       return this.state.orgSecondOptions;
     } else if (orgValue === 2) {
-      return this.props.studentsOptions
+      return this.props.globalLevelList
     } else {
       return [];
     }

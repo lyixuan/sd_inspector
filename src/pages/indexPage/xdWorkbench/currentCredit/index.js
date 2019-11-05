@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
+import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import { message } from 'antd/lib/index';
 import BIButton from '@/ant_components/BIButton';
 import BIDrawer from '@/components/BIDrawer';
@@ -13,6 +14,7 @@ import { handleDataTrace } from '@/utils/utils';
 import styles from './style.less';
 
 const { BI = {} } = window;
+const localKey = 'creditWorkLocal';
 @connect(({ xdClsssModal, loading }) => ({
   kpiTimes: xdClsssModal.kpiTimes || {},
 }))
@@ -24,12 +26,17 @@ class currentCredit extends React.Component {
       ...this.getLocalValue(), 
     }
   }
+  componentDidMount() {
+    // 小组-绩效列表
+    this.props.dispatch({
+      type: 'xdWorkModal/getKpiLevelList',
+    });
+  }
   // 初始化数据
   getLocalValue = () => {
-    const pkGroupList = JSON.parse(localStorage.getItem('pkGroupList'));
-    const  hasData = JSON.parse(localStorage.getItem('hasDataCredit'));
+    const {pkGroupList = [], hasData} = JSON.parse(localStorage.getItem(localKey)) || {};
     return { 
-      pkGroupList: pkGroupList ? pkGroupList : [], // 选中PK数组
+      pkGroupList, // 选中PK数组
       hasData: hasData && hasData === 2 ? false : true // 学分基础信息切换显示
     };
   }
@@ -48,13 +55,13 @@ class currentCredit extends React.Component {
         pkGroupList.push(id);
       }
     }
-    localStorage.setItem('pkGroupList', JSON.stringify(pkGroupList));
+    setLocalValue({ pkGroupList }, localKey);
     this.setState({ pkGroupList: [...pkGroupList] });
   }
   // 显示隐藏数据
   toggleData = () => {
     const hasData = !this.state.hasData;
-    localStorage.setItem('hasDataCredit', hasData ? 1 : 2);
+    setLocalValue({hasData: hasData ? 1 : 2}, localKey);
     if (hasData) {
       BI.traceV &&  BI.traceV({"widgetName":"本期学分-显示基础信息","traceName":"本期学分-显示基础信息"});
     } else {
@@ -109,6 +116,7 @@ class currentCredit extends React.Component {
             pkGroupList={pkGroupList} 
             clickRow={this.clickRow} 
             getNumValue={this.getNumValue}
+            localKey={localKey}
             />
           </BIDrawer>
         </div>

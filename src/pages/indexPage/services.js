@@ -12,7 +12,7 @@ export async function kpiLevelList(params) {
 }
 // 学分对比—小组排行
 export async function groupList(params) {
-  return request('/test/deskperfpcapi/scorePk/group/list', { method: 'POST', data: params })
+  return request('/deskperfpcapi/scorePk/group/list', { method: 'POST', data: params })
 }
 // 家族-学院列表
 export async function getIncomeCollegeList(params) {

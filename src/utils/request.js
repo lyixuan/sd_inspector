@@ -75,11 +75,10 @@ const request = extend({
 request.interceptors.request.use((url, options) => {
   options.headers = Object.assign({}, options.headers, { 'X-Requested-With': 'XMLHttpRequest', authorization: storage.getToken() });
   const hasSelfPri = url.indexOf('/apis') > -1 || url.indexOf('/shinecollege') > -1 || url.indexOf('/inspectorapis') > -1 || url.indexOf('/deskperfpcapi') > -1;
-  const hasTest = url.includes('/test/deskperfpcapi');
+  const hasTest = url.includes('/test');
   if (hasTest) {
-    console.log(url,hasTest, 189)
     return {
-      url: `http://172.16.17.211:8083${url.replace('/test/deskperfpcapi', '')}`,
+      url: `http://172.16.29.154:8086${url.replace('/test', '')}`,
       options,
     };
   } 

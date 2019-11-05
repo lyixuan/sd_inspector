@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import TopTabs from '@/pages/indexPage/components/topTabs'
 import FamilyIndex from './components/familyIndex'
-// import GroupIndex from './components/groupIndex';
+import GroupIndex from './components/groupIndex';
 import styles from './style.less';
 
 @connect(() => ({
@@ -15,11 +15,11 @@ class IncomeRank extends React.Component {
         {
           name:'家族创收对比',
           key:'1',
-          children: <FamilyIndex/>,
+          children: <FamilyIndex />,
         },{
           name:'小组创收对比',
           key:'2',
-          children: <FamilyIndex/>,
+          children: <GroupIndex />,
         }
       ]
     }

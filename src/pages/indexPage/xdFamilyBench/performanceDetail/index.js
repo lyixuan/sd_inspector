@@ -106,24 +106,24 @@ class performanceDetail extends React.Component {
     const { kpiStartDate = '', kpiEndDate = '' } = familyKpiInfo;
     const date1 = kpiStartDate ? moment(kpiStartDate).format('YYYY.MM.DD') : '';
     const date2 = kpiEndDate ? moment(kpiEndDate).format('YYYY.MM.DD') : '';
-    const charge = chargeCount.emptyFlag ? thousandsFormat(parseInt(familyKpiInfo.achievement)) : chargeCount.amount ? `-${thousandsFormat(parseInt(chargeCount.amount))}` : 0
+    const charge = chargeCount.emptyFlag ? thousandsFormat(parseInt(familyKpiInfo.achievement)) : chargeCount.amount ? `-${thousandsFormat(parseInt(chargeCount.amount))}` : 0;
     return (
       <Container
         title='绩效详情'
         right={`${date1} ~ ${date2} (最新学分日期)`}
       >
-        {
-          this.props.loading?<BILoading isLoading={this.props.loading} />:familyKpiInfo.kpiStartDate && chargeCount &&
+        <BILoading isLoading={this.props.loading}> 
           <div className={styles.performanceDetail}>
-            <div ref={this.createRef} className={styles.chart}></div>
-            <div className={styles.panelBox}>
-              <Pannel name='学分收入' label='排名系数' level={familyKpiInfo.creditRankingCoefficient} income={thousandsFormat(parseInt(familyKpiInfo.achievement))}></Pannel>
-              <Pannel name='创收收入' label='创收排名' level={familyKpiInfo.incomeRanking} income={thousandsFormat(parseInt(familyKpiInfo.incomeKpi))} className='performancePanel2'></Pannel>
-              <Pannel name='质检扣款' label='均值' level={chargeCount.avgAmount} income={charge} className='performancePanel3'></Pannel>
-            </div>
-
-          </div>
-        }
+            {
+              familyKpiInfo.kpiStartDate && chargeCount && <><div ref={this.createRef} className={styles.chart}></div>
+              <div className={styles.panelBox}>
+                <Pannel name='学分收入' label='排名系数' level={familyKpiInfo.creditRankingCoefficient} income={thousandsFormat(parseInt(familyKpiInfo.achievement))}></Pannel>
+                <Pannel name='创收收入' label='创收排名' level={familyKpiInfo.incomeRanking} income={thousandsFormat(parseInt(familyKpiInfo.incomeKpi))} className='performancePanel2'></Pannel>
+                <Pannel name='质检扣款' label='均值' level={chargeCount.avgAmount} income={charge} className='performancePanel3'></Pannel>
+              </div></>
+            }
+          </div> 
+        </BILoading>
       </Container>
     );
   }

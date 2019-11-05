@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { thousandsFormatAll } from '@/pages/indexPage/components/utils/utils';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BIWrapperTable from '../../../components/BIWrapperTable';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
@@ -9,13 +10,9 @@ import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
-import { thousandsFormat } from '@/utils/utils';
 import styles from './style.less';
 
 const { BI = {} } = window;
-const thousandsFormatAll = (n) => {
-  return thousandsFormat(parseInt(n));
-}
 const gradeImg = { // 等级
   1: rank1, 
   2: rank2, 
@@ -38,7 +35,7 @@ class ProfitTbas extends React.Component {
             <>
               {
                 record.isNot ? <div className={styles.pluscircle} onClick={this.handleToggle}><img src={pluscircle} alt='icon'/>添加PK对象</div> : <>{record.orgName}
-                {index !== 0 ? <BIIcon onClick={() => this.props.changeSelected(text)}/> : ''}</>
+                {index !== 0 ? <BIIcon onClick={() => this.props.handleDelete(text)}/> : ''}</>
               }
             </>
           )
@@ -52,9 +49,9 @@ class ProfitTbas extends React.Component {
       }, {
         width: 140,
         title: this.props.incomeType + '总流水',
-        dataIndex: 'incomeFlow',
-        key: 'incomeFlow',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.incomeFlow)} style={{marginLeft: '-8px'}}/>)
+        dataIndex: 'kpiFlow',
+        key: 'kpiFlow',
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.kpiFlow)} style={{marginLeft: '-8px'}}/>)
       }, {
         width: 140,
         title: '好推流水',
@@ -73,7 +70,7 @@ class ProfitTbas extends React.Component {
         title: '好推单量',
         dataIndex: 'goodpushOrderCount',
         key: 'goodpushOrderCount',
-        render: (text, record) => this.getColumn(record, <BITextAlign>{text}</BITextAlign>)
+        render: (text, record) => this.getColumn(record, <BITextAlign style={{marginRight: 8}}>{text}</BITextAlign>)
       }, {
         width: 140,
         className: styles.rowBg2,
@@ -94,14 +91,7 @@ class ProfitTbas extends React.Component {
         title: '续报单量',
         dataIndex: 'renewalOrderCount',
         key: 'renewalOrderCount',
-        render: (text, record) => this.getColumn(record, <BITextAlign>{text}</BITextAlign>)
-      }, {
-        width: 140,
-        className: styles.rowBg3,
-        title: '续报绩效',
-        dataIndex: 'renewalKpi',
-        key: 'renewalKpi',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalKpi)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BITextAlign style={{marginRight: 8}}>{text}</BITextAlign>)
       }, {
         width: 140,
         className: styles.rowBg3,
@@ -122,12 +112,8 @@ class ProfitTbas extends React.Component {
         title: '成本套单量',
         dataIndex: 'examZbtOrderCount',
         key: 'examZbtOrderCount',
-        render: (text, record) => this.getColumn(record, <BITextAlign>{text}</BITextAlign>)
+        render: (text, record) => this.getColumn(record, <BITextAlign style={{marginRight: 8}}>{text}</BITextAlign>)
       },
-      // {
-      //   title: '',
-      //   dataIndex: 'empty',
-      // }
     ];
     return columns || [];
   };
@@ -172,7 +158,7 @@ class ProfitTbas extends React.Component {
           onRow={this.onClickRow}
           rowClassName={this.getRowClassName}
           bordered={true}
-          scroll={{ x: 2000 }}
+          scroll={{ x: 1800 }}
         />
         {
           pkUsers && pkUsers.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt=''/></div>

@@ -24,10 +24,10 @@ class XdFamily extends React.Component {
         title: '学分分析',
         children: <><CurrentCredit/><CreditRank/></>
       }, 
-      // {
-      //   title: '创收分析',
-      //   children: <><Income /><IncomeRank/></>
-      // }, 
+      {
+        title: '创收分析',
+        children: <><Income /><IncomeRank/></>
+      }, 
       {
         title: '负面分析',
         children: <div className={styles.qualityAppel}>
@@ -53,15 +53,6 @@ class XdFamily extends React.Component {
       <div className={styles.familyBench}>
         <PerformanceDetail />
         <PageTab tabs={tabs}/>
-        {/* <RankList/>
-        <CurrentCredit/>
-        <FamilyAndGroup />
-        <Income />
-        <FamilyAndGroupIncome />
-        <div className={styles.qualityAppel}>
-          <Appeal userId={userId} />
-          <Quality userId={userId} />
-        </div> */}
       </div>
     );
   }

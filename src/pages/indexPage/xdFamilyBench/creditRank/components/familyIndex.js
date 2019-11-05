@@ -13,7 +13,7 @@ import showImg from '@/assets/xdFamily/eye.png';
 import styles from './style.less';
 
 const { BI = {} } = window;
-const localKey = 'creditFamilyLocal'
+const localKey = 'creditFamilyLocal';
 @connect(({ xdFamilyModal, loading }) => ({
   kpiTimes: xdFamilyModal.familyKpiTimes || {},
   dimenloading: loading.effects['xdFamilyModal/getFamilyScorePk'],
@@ -140,6 +140,8 @@ class FamilyIndex extends React.Component {
         visible={visible}
         drawerStyle={{width: '40%'}}
         propsStyle={{padding: 0}}
+        closeValue='收起PK对象'
+        openValue='展开PK对象'
         >
           <PkDrawer  
           getGroupList={this.getGroupList}

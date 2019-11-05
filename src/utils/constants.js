@@ -509,7 +509,13 @@ export const PUNISH_TYPE_LIST = [
   {id:3,name:'扣除挽留金额'},
   {id:4,name:'扣除人均挽留金额'},
 ];
-
+// 需要清空的local数据
+export const REMOVE_LOCAL_DATA = [
+  'incomeFamilyLocal',
+  'incomeGroupLocal',
+  'creditFamilyLocal',
+  'creditGroupLocal',
+]
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -544,7 +550,8 @@ export default {
   SCORE_APPEAL_STATE_ON_OWNER,
   SCORE_APPEAL_STATE_ON_MASTER,
   SCORE_APPEAL_DIS,
-  PUNISH_TYPE_LIST
+  PUNISH_TYPE_LIST,
+  REMOVE_LOCAL_DATA
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

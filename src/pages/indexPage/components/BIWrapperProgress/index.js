@@ -1,5 +1,4 @@
 import React from 'react';
-import BIFillCell from '@/components/BIFillCell';
 import SmallProgress from '@/pages/indexPage/components/smallProgress';
 import checkIcon from '@/assets/component/checkicon.png';
 import styles from './style.less';

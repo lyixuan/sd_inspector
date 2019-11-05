@@ -1,24 +1,69 @@
 import React from 'react';
-import Container from '@/components/BIContainer';
-import ProfitList from './components/list';
-import ProfitTabs from './components/tabs';
+import { connect } from 'dva';
+import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import BIDrawer from '@/components/BIDrawer';
 import { message } from 'antd/lib/index';
+import PkDrawer from './pkDrawer';
+import PkResult from './pkResult';
+import styles from './style.less';
 
 const { BI = {} } = window;
-class Profit extends React.Component {
+const localKey = 'incomeGroupLocal';
+@connect(({ xdFamilyModal, loading }) => ({
+  groupPkList: xdFamilyModal.groupIncomeList,
+  groupPkDrawer: xdFamilyModal.groupIncomeDrawer,
+  dimenloading: loading.effects['xdFamilyModal/getIncomeFamilyGroupPk'],
+  drawerloading: loading.effects['xdFamilyModal/getIncomeGroupList'],
+}))
+class FamilyIndex extends React.Component {
   constructor(props) {
     super(props);
-    const pkUsers = localStorage.getItem('pkUsers');
-    const pkListType = localStorage.getItem('pkListType');
     this.state = {
-      pkUsers: pkUsers ? JSON.parse(pkUsers) : [], // 选中的pk者
-      pkListType: pkListType ? Number(pkListType) : 3, // 列表选项--同级排行
+      ...this.getLocalValue(),
       visible: false
     }
   }
+  componentDidMount() {
+    this.getResulitList();
+  }
+  // 初始化数据
+  getLocalValue = () => {
+    const {pkUsers = [] } = JSON.parse(localStorage.getItem(localKey)) || {};
+    return { 
+      pkUsers, // 选中的pk者
+    };
+  }
+  // 对比列表
+  getResulitList = () => {
+    this.props.dispatch({
+      type: 'xdFamilyModal/getIncomeFamilyGroupPk',
+      payload: { params: { pkIds: this.state.pkUsers } },
+    });
+  }
+  // pk者列表
+  getGroupList = ({ collegeId }, callback) => {
+    this.props.dispatch({
+      type: 'xdFamilyModal/getIncomeGroupList',
+      payload: { params: { collegeId } },
+      callback: (res) => callback(res)
+    });
+  }
+  // 抽屉操作
+  handleAction = pkUsers => {
+    if (pkUsers) {
+      setLocalValue({ pkUsers }, localKey);
+      this.setState({ pkUsers }, this.getResulitList());
+    } else {
+      setLocalValue({ pkUsers: this.state.pkUsers }, localKey);
+      this.getResulitList();
+    }
+  }
+  // 删除
+  handleDelete = id => {
+    this.changeSelected(id, this.handleAction)
+  }
   // PK数组
-  changeSelected = (id) => {
+  changeSelected = (id, callback) => {
     const { pkUsers } = this.state;
     if (pkUsers instanceof Array) {
       if (pkUsers.includes(id)) {
@@ -32,13 +77,11 @@ class Profit extends React.Component {
         pkUsers.push(id);
       }
     }
-    localStorage.setItem('pkUsers', JSON.stringify(pkUsers));
-    this.setState({ pkUsers: [...pkUsers] });
-  }
-  // 对比小组筛选条件
-  changePkListType = (v) => {
-    localStorage.setItem('pkListType', v);
-    this.setState({pkListType: v});
+    this.setState({ pkUsers: [...pkUsers] }, () => {
+      if (callback && typeof callback === 'function') {
+        callback();
+      }
+    });
   }
   toggleDrawer = (bul) => {
     this.setState({
@@ -47,25 +90,44 @@ class Profit extends React.Component {
   };
 
   render() {
-    const { pkUsers, pkListType, visible } = this.state;
+    const { pkUsers, visible } = this.state;
+    const { groupPkList, groupPkDrawer, dimenloading, drawerloading } = this.props; 
     return (
-      <Container 
-      title='本期创收' 
-      // right={<a>创收详情</a>}
-      propStyle={{ display: 'flex', height: '540px', position: 'relative' }}
-      >
-        <ProfitTabs {...this.props} pkUsers={pkUsers} pkListType={pkListType} changeSelected={this.changeSelected} toggleDrawer={this.toggleDrawer}/>
+      <div className={styles.container}>
+        <PkResult 
+        handleDelete={this.handleDelete} 
+        toggleDrawer={this.toggleDrawer}
+        loading={dimenloading}
+        profitData={groupPkList}
+        pkUsers={pkUsers}
+        incomeType='小组'
+        />
         <BIDrawer
           onClose={() => this.toggleDrawer(false)}
           onOpen={() => this.toggleDrawer(true)}
+          closeValue='收起PK对象'
+          openValue='展开PK对象'
           visible={visible}
-          drawerStyle={{width: '40%'}}
+          drawerStyle={{width: '50%'}}
+          propsStyle={{padding: 0}}
         >
-          <ProfitList {...this.props} pkUsers={pkUsers} pkListType={pkListType} changePkListType={this.changePkListType} changeSelected={this.changeSelected} {...this.props}/>
+          <PkDrawer 
+          changeSelected={this.changeSelected} 
+          handleAction={this.handleAction}
+          getDrawerList={this.getGroupList}
+          drawerList={groupPkDrawer}
+          dimenloading={dimenloading}
+          drawerloading={drawerloading}
+          pkUsers={pkUsers} 
+          localKey={localKey}
+          showKey={{
+            mineFlag: 'myGroup',
+          }}
+          />
         </BIDrawer>
-      </Container>
+      </div>
     );
   }
 }
 
-export default Profit;
+export default FamilyIndex;

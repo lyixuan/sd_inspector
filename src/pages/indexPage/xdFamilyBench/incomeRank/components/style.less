@@ -112,7 +112,7 @@
     .tableContent {
       overflow-x: auto;
       position: relative;
-      padding: 16px 0 16px 24px;
+      margin: 16px 0 16px 24px;
       .suspenTable {
         width: 100%;
         position: absolute;
@@ -160,8 +160,11 @@
         top: -10px;
       }
       .ant-table-tbody > tr > td {
-        padding: 5px 8px;
+        padding: 0px 8px;
         cursor: pointer;
+      }
+      .ant-table-thead > tr > th:nth-child(4) {
+        text-align: right;
       }
       .ant-progress-inner{
         background: #D5D8DB;

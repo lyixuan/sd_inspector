@@ -1,23 +1,24 @@
 import React from 'react';
 import { connect } from 'dva';
 import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
-import PkDrawer from './pkDrawer';
-import PkResult from './pkResult';
 import BIDrawer from '@/components/BIDrawer';
 import { message } from 'antd/lib/index';
+import PkDrawer from './pkDrawer';
+import PkResult from './pkResult';
 import styles from './style.less';
 
 const { BI = {} } = window;
 const localKey = 'incomeFamilyLocal';
-@connect(({ loading }) => ({
+@connect(({ xdFamilyModal, loading }) => ({
+  familyPkList: xdFamilyModal.familyIncomeList,
+  familyPkDrawer: xdFamilyModal.familyIncomeDrawer,
   dimenloading: loading.effects['xdFamilyModal/getIncomeFamilyList'],
-  drawerloading: loading.effects['xdFamilyModal/getIncomeCollegeList'],
+  drawerloading: loading.effects['xdFamilyModal/getFamilyList'],
 }))
 class FamilyIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      profitData: {},
       ...this.getLocalValue(),
       visible: false
     }
@@ -27,50 +28,43 @@ class FamilyIndex extends React.Component {
   }
   // 初始化数据
   getLocalValue = () => {
-    const {pkUsers = [], pkListType=3} = JSON.parse(localStorage.getItem(localKey)) || {};
+    const {pkUsers = []} = JSON.parse(localStorage.getItem(localKey)) || {};
     return { 
       pkUsers, // 选中的pk者
-      pkListType, // 列表选项--同级排行
     };
   }
   // 对比列表
   getResulitList = () => {
     this.props.dispatch({
       type: 'xdFamilyModal/getIncomeFamilyList',
-      payload: { params: { pkUsers: this.state.pkUsers } },
-      callback: (profitData) => {
-        if (profitData) this.setState({ profitData })
-      },
+      payload: { params: { pkIds: this.state.pkUsers } },
     });
   }
   // pk者列表
-  getGroupList = callback => {
+  getGroupList = ({ collegeId }, callback) => {
     this.props.dispatch({
-      type: 'xdFamilyModal/getIncomeCollegeList',
-      payload: { params: { pkListType: this.state.pkListType } },
-      callback: (profitList) => callback(profitList)
+      type: 'xdFamilyModal/getFamilyList',
+      payload: { params: { collegeId } },
+      callback: (res) => callback(res)
     });
   }
   // 抽屉操作
   handleAction = pkUsers => {
     if (pkUsers) {
+      console.log()
       setLocalValue({ pkUsers }, localKey);
-      this.setState({ pkUsers }, this.getResulitList());
+      this.setState({ pkUsers }, () => this.getResulitList());
     } else {
+      setLocalValue({ pkUsers: this.state.pkUsers }, localKey);
       this.getResulitList();
     }
   }
-  // 抽屉筛选条件
-  handleGroup = (callback, pkListType) => {
-    if (pkListType) {
-      setLocalValue({ pkListType }, localKey);
-      this.setState({ pkListType }, this.getGroupList(callback));
-    } else {
-      this.getGroupList(callback);
-    }
+  // 删除
+  handleDelete = id => {
+    this.changeSelected(id, this.handleAction)
   }
   // PK数组
-  changeSelected = (id) => {
+  changeSelected = (id, callback) => {
     const { pkUsers } = this.state;
     if (pkUsers instanceof Array) {
       if (pkUsers.includes(id)) {
@@ -84,7 +78,11 @@ class FamilyIndex extends React.Component {
         pkUsers.push(id);
       }
     }
-    this.setState({ pkUsers });
+    this.setState({ pkUsers: [...pkUsers] }, () => {
+      if (callback && typeof callback === 'function') {
+        callback();
+      }
+    });
   }
   toggleDrawer = (bul) => {
     this.setState({
@@ -93,15 +91,15 @@ class FamilyIndex extends React.Component {
   };
 
   render() {
-    const { pkUsers, pkListType, visible, profitData } = this.state;
+    const { pkUsers, visible } = this.state;
+    const { familyPkList, familyPkDrawer, dimenloading, drawerloading } = this.props; 
     return (
       <div className={styles.container}>
         <PkResult 
-        changeSelected={this.changeSelected} 
+        handleDelete={this.handleDelete} 
         toggleDrawer={this.toggleDrawer}
-        loading={this.props.dimenloading}
-        profitData={profitData}
-        pkListType={pkListType} 
+        loading={dimenloading}
+        profitData={familyPkList}
         pkUsers={pkUsers}
         incomeType='家族' 
         />
@@ -111,17 +109,21 @@ class FamilyIndex extends React.Component {
           closeValue='收起PK对象'
           openValue='展开PK对象'
           visible={visible}
-          drawerStyle={{width: '40%'}}
+          drawerStyle={{width: '50%'}}
           propsStyle={{padding: 0}}
         >
           <PkDrawer 
           changeSelected={this.changeSelected} 
-          handleGroup={this.handleGroup}
           handleAction={this.handleAction}
-          dimenloading={this.props.dimenloading}
-          drawerloading={this.props.drawerloading}
-          pkListType={pkListType} 
+          getDrawerList={this.getGroupList}
+          drawerList={familyPkDrawer}
+          dimenloading={dimenloading}
+          drawerloading={drawerloading}
           pkUsers={pkUsers} 
+          localKey={localKey}
+          showKey={{
+            mineFlag: 'myFamily',
+          }}
           />
         </BIDrawer>
       </div>

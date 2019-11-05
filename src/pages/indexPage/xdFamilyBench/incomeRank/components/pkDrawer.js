@@ -1,29 +1,32 @@
 import React from 'react';
 import { connect } from 'dva';
-import BISelect from '@/ant_components/BISelect';
+import { setLocalValue, thousandsFormatAll } from '@/pages/indexPage/components/utils/utils';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIWrapperTable from '../../../components/BIWrapperTable';
+import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
+import checkIcon from '@/assets/component/checkicon.png';
 import styles from './style.less';
 
 const { BI = {} } = window;
 const { Option } = BISelect;
-const pkTypeconfig = ['集团排行', '学院内排行', '家族内排行', '同期入职排行', '同级排行',];
-@connect(({ loading }) => ({
-  // loading: loading.effects['xdClsssModal/getIncomeKpiPkList'],
+// const pkTypeconfig = ['集团排行', '学院内排行', '家族内排行', '同期入职排行', '同级排行',];
+@connect(({ xdWorkModal, loading }) => ({
+  globalCollegeList: xdWorkModal.globalCollegeList,
 }))
 class ProfitList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      profitList: [],
       userMsg: '',
       userFlag: false,
-      userLocation: ''
+      userLocation: '',
+      ...this.getSearchParams()// 搜索参数初始化
     }
   }
   componentDidMount() {
-    this.props.handleGroup(this.handleCallBack);
+    this.getDrawerList();
     // 表格添加滚动事件
     if (document.querySelector("#scroll .ant-table-body")) {
       document.querySelector("#scroll .ant-table-body").onscroll = (e) => {
@@ -36,10 +39,25 @@ class ProfitList extends React.Component {
       document.querySelector("#scroll .ant-table-body").onscroll = '';
     }
   }
-  handleCallBack = profitList => {
-    this.setState({ profitList })
-    this.getScrollFn();
+  // 获取存储参数
+  getSearchParams = () => {
+    const { orgValue, studentValue, collegeId }= JSON.parse(localStorage.getItem(this.props.localKey)) || {};
+    const data = {};
+    if (orgValue && studentValue) { 
+      data.orgValue = orgValue;
+      data.studentValue = studentValue; 
+    } else {
+      data.orgValue= 1;
+      data.studentValue = 'college';
+    }
+    if (collegeId === 'undefined') {
+      data.collegeId = undefined;
+    } else {
+      data.collegeId = collegeId || '103';
+    }
+    return data;
   }
+  // 滚动
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
     if ((scrollTop > userLocation && scrollTop < userLocation + 400) || scrollTop === 0) {
@@ -54,90 +72,111 @@ class ProfitList extends React.Component {
       })
     }
   }
+  // getShowKe
+  getShowKey = (key) => {
+    const { showKey = {} } = this.props;
+    if (showKey[key]) {
+      return showKey[key]
+    }
+    return ''
+  }
   columns = () => {
-    const total = this.state.profitList && this.state.profitList[0] ? this.state.profitList[0].totalKpi : 0
+    const { drawerList } = this.props;
+    const total = drawerList && drawerList[0] ? drawerList[0].kpiFlow : 0;
     const columns = [
       {
-        width: '16%',
+        width: '14%',
         title: '排名',
-        dataIndex: 'sort',
-        key: 'sort',
-
+        dataIndex: 'ranking',
+        key: 'ranking',
       }, {
-        width: '40%',
+        width: '30%',
         title: '组织',
         dataIndex: 'orgName',
         key: 'orgName',
       }, {
         width: '20%',
-        title: '老师姓名',
-        dataIndex: 'personName',
-        key: 'personName',
-      }, {
-        title: '绩效收入（元）',
-        dataIndex: 'totalKpi',
-        key: 'totalKpi',
-        render: (text, record) => {
-          const percent = text / total * 100 + '%';
-          return <BIWrapperProgress text={text} percent={percent} iconed={this.getIncludes(record.personId)} propsStyle={{flex: 'inherit',width: '60px'}}/>
+        title: '创收绩效',
+        dataIndex: 'kpiFlow',
+        key: 'kpiFlow',
+        render: text => {
+          const percent = (total ? text / total * 100 : 0) + '%';
+          return <BIWrapperProgress text={thousandsFormatAll(text)} percent={percent}/>
         }
+      }, {
+        title: '人均绩效在服学院',
+        dataIndex: 'stuAvg',
+        key: 'stuAvg',
+        render: (text, record) => <BITextAlign>{text}</BITextAlign>
+      }, {
+        width: 40,
+        title: '',
+        dataIndex: 'action',
+        key: 'action',
+        render: (text, record) => <>{this.getIncludes(record.orgId) ? <img style={{width: 14, height: 14}} src={checkIcon} alt='icon'/> : ''}</>
       }
     ];
     return columns || [];
   };
-  onClickRow = (record, index) => {
+  onClickRow = (record) => {
     return {
       onClick: () => {
-        if (this.props.userId === record.personId) return;
-        this.props.changeSelected(record.personId);
+        if (record[this.getShowKey('mineFlag')]) return;
+        this.props.changeSelected(record.orgId);
         BI.traceV &&  BI.traceV({"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"})
       },
     };
   }
   getRowClassName = (record, index) => {
-    if (this.props.userId === record.personId) {
+    if (record[this.getShowKey('mineFlag')]) {
       this.state.userMsg = record;
       this.state.userLocation = 40 * (index + 1) - 430;
       return styles.pkMine;
     };
-    if (this.getIncludes(record.personId)) return styles.pkUser;
+    if (this.getIncludes(record.orgId)) return styles.pkUser;
   }
   getIncludes = (id) => {
     return this.props.pkUsers && this.props.pkUsers.includes(id);
   }
-  onChangeParams = (v) => {
-    // this.getData(v);
-    // this.props.changePkListType(v);
-    this.props.handleGroup(this.handleCallBack, v);
-    // document.querySelector("#scroll .ant-table-body").scrollTop = 0;
+  onChangeParams = (value, vname) => {
+    if (vname === 'oneLevel') {
+      this.setState({
+        orgValue: value,   
+        studentValue: undefined
+      })
+    } else if (vname === 'studentValue') {
+      setLocalValue({studentValue: value, orgValue: this.state.orgValue}, this.props.localKey)
+      this.setState({studentValue: value}, () => this.getDrawerList());
+    } else if (vname === 'collegeId') {
+      setLocalValue({collegeId: value === undefined ? 'undefined' : value}, this.props.localKey)
+      this.setState({collegeId: value}, () => this.getDrawerList());
+    }
+  };
+  // 列表数据
+  getDrawerList = () => {
+    const { orgValue, studentValue, collegeId } = this.state;
+    this.props.getDrawerList({
+      orgValue, 
+      studentValue,
+      collegeId,
+    }, this.getScrollFn);
   }
-  // getData = (pkListType = this.props.pkListType) => {
-  //   this.props.dispatch({
-  //     type: 'xdClsssModal/getIncomeKpiPkList',
-  //     payload: { params: { pkListType } },
-  //     callback: (profitList) => {
-  //       this.setState({ profitList })
-  //       this.getScrollFn();
-  //     },
-  //   });
-  // }
-
   render() {
-    const { profitList, userMsg, userFlag } = this.state;
-    const { handleAction=function() {}} = this.props;
-    const yScrollFlag = profitList && profitList.length > 0;
+    const { userMsg, userFlag, collegeId} = this.state;
+    const { handleAction=function() {}, drawerList, globalCollegeList} = this.props;
+    const yScrollFlag = drawerList && drawerList.length > 0;
     return (
       <div className={styles.profitList}>
         <div className={styles.form}>
           <div className={styles.title}>选择对比对象：</div>
           <BISelect
-            value={this.props.pkListType}
+            value={collegeId}
             placeholder="请选择"
-            onChange={this.onChangeParams}
+            onChange={(val) => this.onChangeParams(val, 'collegeId')}
             style={{ width: '136px', marginLeft: '24px' }}
-            // allowClear
+            allowClear
           >
-            {pkTypeconfig.map((item, index) => <Option key={index} value={index + 1} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>{item}</Option>)}
+            {globalCollegeList.map(item => <Option key={item.collegeId} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>{item.collegeName}</Option>)}
           </BISelect>
         </div>
         <div className={styles.tableContent}>
@@ -147,18 +186,18 @@ class ProfitList extends React.Component {
               columns={this.columns()}
               dataSource={[userMsg]}
               pagination={false}
-              rowKey={record => record.personId}
+              rowKey={record => record.orgId}
               rowClassName={this.getRowClassName}
-              scroll={{ y: 40 }}
+              scroll={{ y: 410 }}
             />
           </div>}
           <div id='scroll' className={`${yScrollFlag ? styles.scrollTable : ''} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
             <BIWrapperTable
               columns={this.columns()}
-              dataSource={profitList}
+              dataSource={drawerList}
               pagination={false}
               loading={this.props.drawerloading}
-              rowKey={(record, index) => record.personId + '' + index}
+              rowKey={(record, index) => record.orgId + '' + index}
               onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
               scroll={{ y: 410 }}
@@ -166,7 +205,7 @@ class ProfitList extends React.Component {
           </div>
         </div>
         <div className={styles.actionBtn}>
-          <BIButton onClick={() => handleAction([])}  loading={this.props.dimenloading} type="reset" style={{marginRight: '8px'}}>取消</BIButton>
+          <BIButton onClick={() => handleAction([])}  loading={this.props.dimenloading} type="reset" style={{marginRight: '8px'}}>清空</BIButton>
           <BIButton onClick={() => handleAction(false)} loading={this.props.dimenloading}  type="primary">确定</BIButton>
         </div> 
       </div>
