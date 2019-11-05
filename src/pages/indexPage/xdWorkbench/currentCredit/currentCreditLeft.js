@@ -157,7 +157,15 @@ class currentCreditLeft extends React.Component {
       item.level = n;
       item.flagMark = item.dimensionName === '学分均分' ? 3 : (item.dimensionName === '负面均分' ? 2 : flagMark); // 1 正面均分  2 负面均分 3学分均分 其它
       if (item.values) {// 处理颜色对比
-        if (item.flagMark === 1 || item.flagMark === 3 || item.dimensionName === '退挽' || item.dimensionName === '随堂考') {
+        if (item.flagMark === 3) {
+          item.valuesParams = item.values.map(item => {
+            if (item > 0) {
+              return <BIContrastCell text={item} nums={item.values}/>
+            } else {
+              return <BIContrastCell text={item} nums={item.values} colors={colorsArr}/>
+            }
+          });
+        } else if (item.flagMark === 1 || item.dimensionName === '退挽' || item.dimensionName === '随堂考') {
           item.valuesParams = BIContrastCell.colorContrast({ nums: item.values });
         } else if (item.flagMark === 2) {
           item.valuesParams = BIContrastCell.colorContrast({ nums: item.values, colors: colorsArr, isReversed: true });
@@ -172,11 +180,11 @@ class currentCreditLeft extends React.Component {
   }
   getDataSource = () => {
     const { groupPkList } = this.state;
-    const data = groupPkList.dimensionList ? JSON.parse(JSON.stringify(groupPkList.dimensionList)) : [];
+    const { dimensionList=[] } = groupPkList;
     if (this.props.hasData) {
-      return data.splice(0);
+      return dimensionList;
     } else {
-      return data.splice(4);
+      return [dimensionList[dimensionList.length - 1]];
     }
   }
   render() {
