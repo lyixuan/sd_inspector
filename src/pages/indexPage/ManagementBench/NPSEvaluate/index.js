@@ -147,7 +147,7 @@ class NPSEvaluate extends React.Component {
     const {orgList} = this.props.xdManagementBench;
     orgList.length>0 && this.getResetGroupMsg(orgList)
     return(
-      <div>
+      <div className={styles.con}>
         <span className={styles.change}>
                   选择组织：
                 <BICascader
