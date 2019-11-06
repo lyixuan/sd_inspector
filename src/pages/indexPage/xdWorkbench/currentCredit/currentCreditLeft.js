@@ -71,7 +71,6 @@ class currentCreditLeft extends React.Component {
         key: item.groupId,
         render: (text, record) => {
           const textV = record.values[index];
-          const flagText = index === 0 && textV && record.level === 4;
           return (
             <>
               {
