@@ -91,7 +91,7 @@ class pkDimension extends React.Component {
   // }
   // 添加pk对象点击事件
   handleToggle = () => {
-    BI.traceV && BI.traceV({ "widgetName": "学分-添加pk对象", "traceName": "家族长工作台/学分-添加pk对象" });
+    BI.traceV && BI.traceV({ "widgetName": "学分-选择PK家族", "traceName": "家族长工作台/学分-选择PK家族" });
     this.props.toggleDrawer(true);
   }
   // 列表维度name
