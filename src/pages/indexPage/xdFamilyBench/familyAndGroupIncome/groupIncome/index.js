@@ -3,13 +3,13 @@ import { connect } from 'dva';
 import styles from '../style.less';
 import BITable from '@/ant_components/BITable'
 import xdPkImg from '@/assets/workBench/incomeImg.gif';
-@connect(({ xdWorkModal, loading }) => ({
-  familyIncomeGroup: xdWorkModal.familyIncomeGroup,
-  loading: loading.effects['xdWorkModal/getIncomeFamilyGroupPk'],
+import BILoading from '@/components/BILoading'
+@connect(({ xdFamilyModal, loading }) => ({
+  familyIncomeGroup: xdFamilyModal.familyIncomeGroup,
+  loading: loading.effects['xdFamilyModal/getIncomeFamilyGroupPk'],
 }))
 class GroupIncome extends React.Component {
   componentDidMount() {
-    console.log(11, this.props.familyAndGroup)
     this.props.getIncomeFamilyGroupPk(this.props.familyAndGroup.state.groupPkInitFlag);
   }
   columns = () => {
@@ -19,7 +19,7 @@ class GroupIncome extends React.Component {
       dataIndex: '创收维度',
       key: '创收维度',
       width: "12%",
-      render: (text, record) => record[0],
+      render: (text, record) => record && record.option[0],
     }];
 
     if (colName && colName.length > 0) {
@@ -29,22 +29,23 @@ class GroupIncome extends React.Component {
         key: groupName,
         className: this.getTdClass(groupId),
         width: '13%',
-        render: (text, record) => record[index + 1],
+        render: (text, record) => record && record.option[index + 1],
       }))
     }
     return columns || []
   }
-  setRowClassName = (record) => {
-    let className = ''
-    if (record.level === 1 && record.dimensionName === "学分均分") {
-      className = "oneLevelBgColor"
-    } else if (record.level === 1 && record.dimensionName !== "学分均分") {
-      className = "otherLevelBgColor"
-    } else {
-      className = "otherLevelBgColor1"
-    }
-    return className
-  }
+  // setRowClassName = (record) => {
+  //   console.log(record, 'kkkkkk')
+  //   let className = ''
+  //   if (record.level === 1 && record.dimensionName === "学分均分") {
+  //     className = "oneLevelBgColor"
+  //   } else if (record.level === 1 && record.dimensionName !== "学分均分") {
+  //     className = "otherLevelBgColor"
+  //   } else {
+  //     className = "otherLevelBgColor1"
+  //   }
+  //   return className
+  // }
   getTdClass = (groupId) => {
     if (this.props.familyAndGroup) {
       const { myGroupValue = [] } = this.props.familyAndGroup.state;
@@ -57,24 +58,24 @@ class GroupIncome extends React.Component {
   }
   render() {
 
-    const dataSource = this.props.familyIncomeGroup && this.props.familyIncomeGroup.data
+    const dataSource = this.props.familyIncomeGroup && this.props.familyIncomeGroup.dataShow
     const colName = this.props.familyIncomeGroup && this.props.familyIncomeGroup.colName
     return (
       <div className={styles.creditContainer} style={{ display: 'block' }}>
         {
-          <BITable
+          this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
             columns={this.columns()}
             dataSource={dataSource || []}
             pagination={false}
             loading={this.props.loading}
-            rowKey={record => record.id}
+            rowKey={(record, index) => index}
             scroll={{ y: 408 }}
             smalled
           >
           </BITable>
         }
         {
-          (colName || []).length <= 0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
+          (colName || []).length <=0 && !this.props.loading && <div className={styles.tableImg}><img src={xdPkImg} /></div>
         }
       </div>
     );

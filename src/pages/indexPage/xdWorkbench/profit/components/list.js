@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Progress } from 'antd';
-import BITable from '@/ant_components/BITable';
 import BISelect from '@/ant_components/BISelect';
-import Indent from '../../../components/indent';
+import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import BIWrapperTable from '../../../components/BIWrapperTable';
 import styles from '../style.less';
 
+const { BI = {} } = window;
 const { Option } = BISelect;
 const pkTypeconfig = ['集团排行', '学院内排行', '家族内排行', '同期入职排行', '同级排行',];
 @connect(({ loading }) => ({
-  loading: loading.effects['xdWorkModal/getIncomeKpiPkList'],
+  loading: loading.effects['xdClsssModal/getIncomeKpiPkList'],
 }))
 class ProfitList extends React.Component {
   constructor(props) {
@@ -24,16 +24,20 @@ class ProfitList extends React.Component {
   componentDidMount() {
     this.getData();
     // 表格添加滚动事件
-    document.querySelector("#scroll .ant-table-body").onscroll = (e) => {
-      this.getScrollFn(e.target.scrollTop)
+    if ( document.querySelector("#scroll .ant-table-body")) {
+      document.querySelector("#scroll .ant-table-body").onscroll = (e) => {
+        this.getScrollFn(e.target.scrollTop);
+      }
     }
   }
   componentWillUnmount() {
-    document.querySelector("#scroll .ant-table-body").onscroll = '';
+    if (document.querySelector("#scroll .ant-table-body")) {
+      document.querySelector("#scroll .ant-table-body").onscroll = '';
+    }
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
-    if (scrollTop > userLocation && scrollTop < userLocation + 400) {
+    if ((scrollTop > userLocation && scrollTop < userLocation + 400) || scrollTop === 0) {
       if (userFlag === true) {
         this.setState({
           userFlag: false
@@ -46,67 +50,55 @@ class ProfitList extends React.Component {
     }
   }
   columns = () => {
-    const total = this.state.profitList && this.state.profitList[0] ? this.state.profitList[0].incomeKpi : 0
+    const total = this.state.profitList && this.state.profitList[0] ? this.state.profitList[0].totalKpi : 0
     const columns = [
       {
-        width: '10%',
+        width: '16%',
         title: '排名',
         dataIndex: 'sort',
         key: 'sort',
-        render: text => <div data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</div>
+
       }, {
-        width: '50%',
+        width: '40%',
         title: '组织',
-        dataIndex: 'org',
-        key: 'org',
-        render: text => <div data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</div>
+        dataIndex: 'orgName',
+        key: 'orgName',
       }, {
         width: '20%',
-        title: '班主任',
-        dataIndex: 'userName',
-        key: 'userName',
-        render: text => <Indent data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'>{text}</Indent>
+        title: '老师姓名',
+        dataIndex: 'personName',
+        key: 'personName',
       }, {
-        title: '绩效收入',
-        dataIndex: 'incomeKpi',
-        key: 'incomeKpi',
-        render: text => {
-          const percent = text / total * 100;
-          return <Indent
-            style={{
-              cursor: 'pointer',
-              height: '24px',
-              marginLeft: '-8px'
-            }}
-            data-trace='{"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"}'
-          >
-            <span style={{ position: 'relative', top: '-2px' }}>{text}</span>
-            <Progress
-              percent={percent}
-              strokeColor={'#00CCC3'}
-              showInfo={false}
-              strokeWidth={4}
-            ></Progress>
-          </Indent>
+        title: '绩效收入（元）',
+        dataIndex: 'totalKpi',
+        key: 'totalKpi',
+        render: (text, record) => {
+          const percent = text / total * 100 + '%';
+          return <BIWrapperProgress text={text} percent={percent} iconed={this.getIncludes(record.personId)} propsStyle={{flex: 'inherit',width: '60px'}}/>
         }
       }
     ];
     return columns || [];
   };
-  onClickRow = (record) => {
+  onClickRow = (record, index) => {
     return {
       onClick: () => {
-        if (this.props.userId === record.userId) return;
-        this.props.changeSelected(record.userId)
+        if (this.props.userId === record.personId) return;
+        this.props.changeSelected(record.personId);
+        BI.traceV &&  BI.traceV({"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"})
       },
     };
   }
   getRowClassName = (record, index) => {
-    if (this.props.userId === record.userId) {
+    if (this.props.userId === record.personId) {
       this.state.userMsg = record;
       this.state.userLocation = 40 * (index + 1) - 430;
-      return styles.pkUser;
+      return styles.pkMine;
     };
+    if (this.getIncludes(record.personId)) return styles.pkUser;
+  }
+  getIncludes = (id) => {
+    return this.props.pkUsers && this.props.pkUsers.includes(id);
   }
   onChangeParams = (v) => {
     this.getData(v);
@@ -115,7 +107,7 @@ class ProfitList extends React.Component {
   }
   getData = (pkListType = this.props.pkListType) => {
     this.props.dispatch({
-      type: 'xdWorkModal/getIncomeKpiPkList',
+      type: 'xdClsssModal/getIncomeKpiPkList',
       payload: { params: { pkListType } },
       callback: (profitList) => {
         this.setState({ profitList })
@@ -136,37 +128,37 @@ class ProfitList extends React.Component {
             placeholder="请选择"
             onChange={this.onChangeParams}
             style={{ width: '136px', marginLeft: '8px' }}
-            allowClear
+            // allowClear
           >
             {pkTypeconfig.map((item, index) => <Option key={index} value={index + 1} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>{item}</Option>)}
           </BISelect>
         </div>
         <div className={styles.tableContent}>
           {userFlag && userMsg && <div className={styles.suspenTable}>
-            <BITable
+            <BIWrapperTable
               showHeader={false}
               columns={this.columns()}
               dataSource={[userMsg]}
               pagination={false}
-              rowKey={record => record.userId}
+              rowKey={record => record.personId}
               rowClassName={this.getRowClassName}
+              scroll={{ y: 40 }}
             />
           </div>}
           <div id='scroll' className={`${yScrollFlag ? styles.scrollTable : ''} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
-            <BITable
+            <BIWrapperTable
               columns={this.columns()}
               dataSource={profitList}
               pagination={false}
               loading={this.props.loading}
-              rowKey={(record, index) => record.userId + '' + index}
+              rowKey={(record, index) => record.personId + '' + index}
               onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
-              scroll={{ y: 420 }}
+              scroll={{ y: 410 }}
             />
           </div>
         </div>
       </div>
-
     );
   }
 }

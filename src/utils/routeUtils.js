@@ -3,20 +3,17 @@ import {CAS_HOST} from './constants';
 import storage from './storage';
 
 export function redirectToLogin() {
-  storage.removeItem('admin_user');
-  storage.removeItem('admin_auth');
-  const { origin } = window.location;
+  localStorage.clear();
+  const { origin,pathname } = window.location;
   const serverUrl = `${CAS_HOST}/tologin`;
-  window.location.href = `${serverUrl}?originPage=${origin}`;
+  window.location.href = `${serverUrl}?originPage=${origin}${pathname}`;
 }
 
 export function casLogout() {
-  storage.removeItem('admin_user');
-  storage.removeItem('admin_auth');
-  const { origin } = window.location;
+  localStorage.clear();
+  const { origin,pathname } = window.location;
   const logoutUrl = `${CAS_HOST}/apis/caslogout?`;
-  const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${origin}`;
-
+  const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${origin}${pathname}`;
   window.location.href = `${logoutUrl}${pageUrl}`;
 }
 export function checkPathname(path = '') {

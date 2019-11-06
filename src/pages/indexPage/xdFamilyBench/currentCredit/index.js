@@ -3,11 +3,13 @@ import { connect } from 'dva';
 import ColorBlock from '../../components/colorBlock';
 import TopTabs from '../../components/topTabs';
 import TableList from './components/list';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
 import styles from './index.less';
 
-@connect(({ xdWorkModal }) => ({
-  xdWorkModal
+@connect(({ xdFamilyModal,loading }) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/getCountCurrentQuality'],
+
 }))
 class CurrentCredit extends React.Component {
   constructor(props) {
@@ -21,7 +23,7 @@ class CurrentCredit extends React.Component {
   }
   getScoreStatistics() {
     this.props.dispatch({
-      type: 'xdWorkModal/scoreStatistics',
+      type: 'xdFamilyModal/scoreStatistics',
       payload: {},
       callback: (scoreData) => this.setState({ scoreData }),
     });

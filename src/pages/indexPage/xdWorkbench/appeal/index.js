@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Skeleton } from 'antd'
 import router from 'umi/router';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
+import BILoading from '@/components/BILoading'
 import constants from '@/utils/constants';
 import styles from './style.less';
 
@@ -16,21 +16,15 @@ const appealTrace = [
   '{"widgetName":"我的申诉-优新卡片","traceName":"小德工作台/我的申诉/优新卡片"}',
   '{"widgetName":"我的申诉-创收卡片","traceName":"小德工作台/我的申诉/创收卡片"}',
 ];
-@connect(({ loading }) => ({
-  loading: loading.effects['xdWorkModal/getCountAppealRecord'],
+@connect(({ xdClsssModal, loading }) => ({
+  classAppealList: xdClsssModal.classAppealList,
+  loading: loading.effects['xdClsssModal/getCountAppealRecord'],
 }))
 class appeal extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      appealList: [{ appealType: 1 }, { appealType: 2 }, { appealType: 3 }, { appealType: 4 }, { appealType: 5 }, { appealType: 6 }]
-    }
-  }
   componentDidMount() {
     this.props.dispatch({
-      type: 'xdWorkModal/getCountAppealRecord',
+      type: 'xdClsssModal/getCountAppealRecord',
       payload: { params: { id: this.props.userId } },
-      callback: (appealList) => this.setState({ appealList }),
     });
   }
 
@@ -80,11 +74,11 @@ class appeal extends React.Component {
       <Container
         title='我的申诉'
         style={{ width: '824px' }}
-        propStyle={{ paddingLeft: '16px' }}
+        propStyle={{ paddingLeft: '16px',height:'240px' }}
       >
-        <Skeleton loading={this.props.loading} >
-          <div className={styles.appeal}>{this.state.appealList.map(item => item && this.block(item))}</div>
-        </Skeleton>
+        <BILoading isLoading={this.props.loading} >
+          <div className={styles.appeal}>{this.props.classAppealList.map(item => item && this.block(item))}</div>
+        </BILoading>
       </Container>
     );
   }

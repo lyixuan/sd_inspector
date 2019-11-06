@@ -2,7 +2,20 @@ import React from 'react';
 import { Tooltip } from 'antd';
 import styles from './style.less'
 
-class Container extends React.Component {
+/*
+* BIContainer 容器组件
+*
+* 自定义组件样式
+* params *
+* style-外层样式
+* right-右侧数据
+* propStyle-body样式
+*
+* 用法
+* <BIContainer propStyle={{width: '100px'}} right={<span>BIContainer</span>}>BIContainer</BIContainer>
+* */
+
+class BIContainer extends React.Component {
   render() {
     return (
       <div className={styles.container} style={this.props.style}>
@@ -22,4 +35,4 @@ class Container extends React.Component {
   }
 }
 
-export default Container;
+export default BIContainer;

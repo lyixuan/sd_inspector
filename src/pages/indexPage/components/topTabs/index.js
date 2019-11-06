@@ -15,12 +15,14 @@ class TopTabs extends React.Component {
     }
   }
   componentDidMount() {
-
   }
   onTabChange = (val) => {
     this.setState({
       keye: val
     })
+    if(this.props.onTabChange){
+      this.props.onTabChange({keye: val})
+    }
   };
 
   setContrast = (item) => {
@@ -48,7 +50,7 @@ class TopTabs extends React.Component {
           }
           )}
         </BITabs>
-
+        <div className={styles.topRight}>{this.props.right}</div>
       </div>
     );
   }

@@ -22,9 +22,12 @@ export const STATIC_HOST = {
   development2: 'http://172.16.109.99:29180',
 }[process.env.ENV_TYPE];
 
+// 集团静态文件地址，IM等图片
+export const COMPANY_IMG_HOST = 'http://static.sunlands.com';
+
 export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
-  localhost: 'http://test.xd.admin.ministudy.com',
+  localhost: 'http://test.xd.admin.ministudy.com', //鲁也ip http://172.16.56.221:8086 http://test.xd.admin.ministudy.com
   localhost2: 'http://test.xd.admin2.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   development2: 'http://test.xd.admin2.ministudy.com',
@@ -46,26 +49,27 @@ export const ADMIN_URL = {
   development2: 'http://test.xd.admin2.ministudy.com',
 }[process.env.ENV_TYPE];
 
-
 // ko-sessionReport，跳转URL
 export const sessionReportURL = {
-  production: "http://sscp.ministudy.com/college_learn/#/sessionRecord",
-  localhost: "http://172.16.109.87:38080/#/sessionRecord",
-  localhost2: "http://172.16.109.87:38080/#/sessionRecord",
-  development: "http://172.16.109.87:38080/#/sessionRecord",
-  development2: "http://172.16.109.87:38080/#/sessionRecord",
+  production: 'http://sscp.ministudy.com/college_learn/#/sessionRecord',
+  localhost: 'http://172.16.109.87:38080/#/sessionRecord',
+  localhost2: 'http://172.16.109.87:38080/#/sessionRecord',
+  development: 'http://172.16.109.87:38080/#/sessionRecord',
+  development2: 'http://172.16.109.87:38080/#/sessionRecord',
 }[process.env.ENV_TYPE];
 
 // ko-knowledge，跳转URL
 export const knowledgeURL = {
-  production: "http://sscp.ministudy.com/college_learn/#/questions",
-  localhost: "http://172.16.109.87:38080/#/questions",
-  localhost2: "http://172.16.109.87:38080/#/questions",
-  development: "http://172.16.109.87:38080/#/questions",
-  development2: "http://172.16.109.87:38080/#/questions",
+  production: 'http://sscp.ministudy.com/college_learn/#/questions',
+  localhost: 'http://172.16.109.87:38080/#/questions',
+  localhost2: 'http://172.16.109.87:38080/#/questions',
+  development: 'http://172.16.109.87:38080/#/questions',
+  development2: 'http://172.16.109.87:38080/#/questions',
 }[process.env.ENV_TYPE];
 
-export const PROXY_PATH = (hasSelfPri) => { return hasSelfPri ? '' : '/inspectorapis' };
+export const PROXY_PATH = hasSelfPri => {
+  return hasSelfPri ? '' : '/inspectorapis';
+}; // /inspectorapis
 
 // =========================================== host =========
 
@@ -391,11 +395,8 @@ export const UNIT_DATE = [
   { id: 'ss', name: '秒' },
 ];
 
-
 // 应用类型
-export const APP_LIST = [
-  { id: '1', name: '极速版App' }
-]
+export const APP_LIST = [{ id: '1', name: '极速版App' }];
 // 空ContentLayout页面名单
 export const EmptyContentLayout = [
   { path: '/ko', name: 'KO计划' },
@@ -409,6 +410,7 @@ export const EmptyContentLayout = [
   { path: '/xdWorkbench', name: '小德工作台' },
   { path: '/xdCredit/index', name: '小德学分' },
   { path: '/xdFamilyBench/index', name: '家族长工作台' },
+  { path: '/indexPage', name: '小德工作台' },
 ];
 // 注册类型
 export const REGISTER_STATUS = [{ id: 1, name: '已注册' }];
@@ -546,5 +548,3 @@ export default {
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
-
-

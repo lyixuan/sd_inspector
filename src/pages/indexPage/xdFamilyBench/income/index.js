@@ -12,13 +12,13 @@ const tabParams = [{
   name: <span data-trace='{"widgetName":"班主任创收","traceName":"家族长工作台/班主任创收"}'>班主任创收</span>,
   children: <TableList tabKey="2" />
 }]
-@connect(({ xdWorkModal }) => ({
-  inCometarget: xdWorkModal.inCometarget,
+@connect(({ xdFamilyModal }) => ({
+  inCometarget: xdFamilyModal.inCometarget,
 }))
 class Income extends React.Component {
   componentDidMount() {
     this.props.dispatch({
-      type: 'xdWorkModal/getCurrentIncomeTarget',
+      type: 'xdFamilyModal/getCurrentIncomeTarget',
     });
   }
   render() {

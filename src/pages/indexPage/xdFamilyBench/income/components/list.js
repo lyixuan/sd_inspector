@@ -7,6 +7,7 @@ import normal from '@/assets/xdFamily/rankNormal.png';
 import SmallProgress from '@/pages/indexPage/components/smallProgress'
 import { thousandsFormat } from '@/utils/utils';
 import styles from './style.less';
+import BILoading from '@/components/BILoading'
 
 const rankImg = {
   0: down,
@@ -17,7 +18,7 @@ const getPercentFn = (m, d) => {
   return (d ? m / d * 100 : 0) + '%';
 }
 @connect(({ loading }) => ({
-  loading: loading.effects['xdWorkModal/getCurrentIncomeClass'] || loading.effects['xdWorkModal/getCurrentIncomeGroup'],
+  loading: loading.effects['xdFamilyModal/getCurrentIncomeClass'] || loading.effects['xdFamilyModal/getCurrentIncomeGroup'],
 }))
 class ProfitList extends React.Component {
   constructor(props) {
@@ -139,12 +140,12 @@ class ProfitList extends React.Component {
   getData = () => {
     if (this.props.tabKey === '1') { // 小组
       this.props.dispatch({
-        type: 'xdWorkModal/getCurrentIncomeGroup',
+        type: 'xdFamilyModal/getCurrentIncomeGroup',
         callback: familyIncome => this.dispatchCallback(familyIncome)
       });
     } else if (this.props.tabKey === '2') {
       this.props.dispatch({
-        type: 'xdWorkModal/getCurrentIncomeClass',
+        type: 'xdFamilyModal/getCurrentIncomeClass',
         callback: familyIncome => this.dispatchCallback(familyIncome)
       });
     }
@@ -160,14 +161,14 @@ class ProfitList extends React.Component {
   render() {
     return (
       <div className={styles.tableList}>
-        <BITable
+        {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
           columns={this.columns()}
           dataSource={this.state.familyIncome}
           pagination={false}
           loading={this.props.loading}
-          rowKey={record => record.id}
+          rowKey={record => record.userId}
           scroll={{ x: 'max-content', y: 400 }}
-        />
+        />}
       </div>
 
     );

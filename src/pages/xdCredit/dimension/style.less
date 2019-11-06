@@ -5,8 +5,62 @@
     color: #FF626A;
 }
 .dimension {
-    width: 46%;
-    margin-right: 24px;
+    width: 440px;
+    margin-right: 8px;
+    background:#fff;
+    padding:16px 24px;
+    border-radius:10px;
+    box-sizing:border-box;
+    overflow-x:auto;
+    flex-shrink: 0;
+    :global{
+        // 正
+        .plusBgColor{
+            background: #FAFFFF;
+        }
+        // 负
+        .minusBgColor{
+            background: #FFF9F9;
+        }
+        // 学分均分
+        .yellowBgColor{
+            background: #FFFDF8;
+        }
+        .ant-table-thead > tr:first-child > th:last-child{
+            border-right:none;
+        }
+        .ant-table-tbody > tr > td:first-child{
+            padding-left:10px;
+        }
+        .ant-table-bordered .ant-table-tbody > tr > td, .ant-table-thead tr > th{
+            padding: 10px 0px;
+            // text-align:center;
+            white-space: nowrap;
+        }
+        .ant-table-thead tr > th{
+            text-align:right;
+            padding-right:12px;
+        }
+        .ant-table-thead > tr:first-child > th:first-child, .ant-table-tbody > tr > td:first-child{
+            padding-left:16px;
+            text-align:left;
+        }
+       .ant-table-bordered .ant-table-tbody > tr > td:last-child{
+            border-right:none;
+        }
+        .ant-table-bordered .ant-table-header > table, .ant-table-bordered .ant-table-body > table, .ant-table-bordered .ant-table-fixed-left table, .ant-table-bordered .ant-table-fixed-right table{
+            border:none;
+        }
+        .ant-table-bordered .ant-table-tbody > tr .txRight{
+            text-align:right;
+            padding-right:10px;
+            white-space: nowrap;
+        }
+        .ant-table-bordered .ant-table-thead > tr > th, .ant-table-bordered .ant-table-tbody > tr > td{
+            border-right-color:#EFF3F6;
+        }
+
+    } 
     // 维度不同背景色
     .rowBg2 {
         background-color: #FFF9F9;

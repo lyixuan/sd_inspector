@@ -8,10 +8,9 @@ import styles from './style.less';
 import CurrentCredit from './currentCredit'
 import storage from '../../../utils/storage';
 
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+@connect((xdClsssModal) => ({
+  xdClsssModal,
 }))
-// Current credits
 class XdWorkbench extends React.Component {
   constructor(props) {
     super(props)
@@ -22,7 +21,7 @@ class XdWorkbench extends React.Component {
   }
   componentDidMount() {
     this.props.dispatch({
-      type: 'xdWorkModal/isShowPermission',
+      type: 'xdClsssModal/isShowPermission',
       payload: { params: {} },
       callback: (data) => {
         this.setState({
@@ -30,18 +29,15 @@ class XdWorkbench extends React.Component {
         })
       }
     });
-
-
   }
   render() {
     const { userId, isShowCredits } = this.state;
     return (
       <div className={styles.workbench}>
         <PerformanceDetail></PerformanceDetail>
-        {
+       {
           isShowCredits !== 20002 ? <CurrentCredit></CurrentCredit> : null
         }
-
         <Profit userId={userId} />
         <div className={styles.qualityAppel}>
           <Quality userId={userId} />

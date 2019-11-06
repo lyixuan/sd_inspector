@@ -1,0 +1,58 @@
+.topCon {
+  width: 33%;
+  height: 400px;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  // margin-left: 20px;
+
+  :global {
+    .ant-table-thead > tr > th {
+      text-align: right;
+    }
+    .ant-table-thead > tr > th:nth-child(1),
+    .ant-table-thead > tr > th:nth-child(2) {
+      text-align: left !important;
+    }
+  }
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+    line-height: 48px;
+    border-bottom: 1px solid #f5f8fa;
+    color: #1a1c1f;
+    font-size: 16px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .tableContainer {
+    padding: 16px 24px;
+    height: 400px;
+    overflow-y: auto;
+  }
+}
+.rankColumn {
+  .rankSpan {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    display: inline-block;
+    margin-right: 7px;
+  }
+  .rank {
+    width: 20px;
+    height: 14px;
+    margin-right: 7px;
+  }
+  .changes {
+    width: 10px;
+    height: 12px;
+    vertical-align: -2px;
+    margin-left: 13px;
+  }
+}

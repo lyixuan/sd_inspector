@@ -8,6 +8,8 @@ const TabPane = Tabs.TabPane;
 *
 * 基于原 ant Tabs
 * 只扩展自定义样式
+*
+* 不支持复用
 * */
 
 class BITabs extends React.Component {

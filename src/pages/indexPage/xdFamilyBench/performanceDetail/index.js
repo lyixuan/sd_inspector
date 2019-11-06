@@ -1,24 +1,18 @@
 import React from 'react';
 import moment from 'moment';
-import { Progress, Tooltip } from 'antd';
 import { thousandsFormat } from '@/utils/utils';
 import echarts from 'echarts';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
 import Pannel from './components/pannel'
 import styles from './index.less';
 import { connect } from 'dva';
+import BILoading from '@/components/BILoading'
 
-@connect(({ xdWorkModal }) => ({
-  xdWorkModal,
+@connect(({ xdFamilyModal,loading }) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/familyAchievement'],
 }))
 class performanceDetail extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      // chargeCount: {},
-      // kpiInfo: {}
-    }
-  }
   componentDidMount() {
     this.getApiInfo();
   }
@@ -29,10 +23,10 @@ class performanceDetail extends React.Component {
     const admin_user = localStorage.getItem('admin_user');
     const userId = JSON.parse(admin_user) ? JSON.parse(admin_user).userId : null;
     this.props.dispatch({
-      type: 'xdWorkModal/familyAchievement',
+      type: 'xdFamilyModal/familyAchievement',
       payload: { params: { id: userId } },
     }).then(() => {
-      const { chargeCount, familyKpiInfo } = this.props.xdWorkModal;
+      const { chargeCount, familyKpiInfo } = this.props.xdFamilyModal;
       this.drawChart(familyKpiInfo, chargeCount)
     });
   }
@@ -108,7 +102,7 @@ class performanceDetail extends React.Component {
   }
 
   render() {
-    const { chargeCount, familyKpiInfo } = this.props.xdWorkModal;
+    const { chargeCount, familyKpiInfo } = this.props.xdFamilyModal;
     const { kpiStartDate = '', kpiEndDate = '' } = familyKpiInfo;
     const date1 = kpiStartDate ? moment(kpiStartDate).format('YYYY.MM.DD') : '';
     const date2 = kpiEndDate ? moment(kpiEndDate).format('YYYY.MM.DD') : '';
@@ -119,7 +113,7 @@ class performanceDetail extends React.Component {
         right={`${date1} ~ ${date2} (最新学分日期)`}
       >
         {
-          familyKpiInfo.kpiStartDate && chargeCount &&
+          this.props.loading?<BILoading isLoading={this.props.loading} />:familyKpiInfo.kpiStartDate && chargeCount &&
           <div className={styles.performanceDetail}>
             <div ref={this.createRef} className={styles.chart}></div>
             <div className={styles.panelBox}>

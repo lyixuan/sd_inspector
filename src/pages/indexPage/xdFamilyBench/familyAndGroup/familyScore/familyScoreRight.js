@@ -5,12 +5,12 @@ import BISelect from '@/ant_components/BISelect'
 import BITable from '@/ant_components/BITable'
 import Indent from '../../../components/indent';
 import SmallProgress from '../../../components/smallProgress'
+import BILoading from '@/components/BILoading'
 const { Option } = BISelect;
-@connect(({ xdWorkModal, loading }) => ({
-  xdWorkModal,
-  loading: loading.effects['xdWorkModal/getFamilyRankList'],
+@connect(({xdFamilyModal,loading}) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/getFamilyRankList'],
 }))
-
 class FamilyScoreRight extends React.Component {
   constructor(props) {
     super(props)
@@ -50,9 +50,9 @@ class FamilyScoreRight extends React.Component {
   //获取右侧家族排名的列表
   getFamilyRankList = (collegeId) => {
     this.props.dispatch({
-      type: 'xdWorkModal/getFamilyRankList',
-      payload: { params: { collegeId: collegeId ? collegeId : this.state.collegeId } },
-      callback: (data) => {
+      type: 'xdFamilyModal/getFamilyRankList',
+      payload: { params: {collegeId:collegeId?collegeId:this.state.collegeId} },
+      callback:(data)=>{
         this.setState({
           familyRankList: data
         })
@@ -177,8 +177,13 @@ class FamilyScoreRight extends React.Component {
     return (
       <div className={styles.familyRight}>
         <div className={styles.creditSelect} >
+
           <span className={styles.title}>选择对比组织:</span>
           <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="全部" value={orgValue} onChange={(val) => this.onFormChange(val)} allowClear>
+
+          {/*<span className={styles.title}>选择对比组织2:</span>*/}
+          {/*<BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>*/}
+
             {collegeList.map((item, index) => (
               <Option key={item.collegeId} data-trace='{"widgetName":"选择学分对比组织","traceName":"家族长工作台/选择学分对比组织"}'>
                 {item.collegeName}
@@ -198,17 +203,16 @@ class FamilyScoreRight extends React.Component {
             />
           </div>}
           <div id="scrollScore" >
-            <BITable
+            {this.props.loading ? <BILoading isLoading={this.props.loading} /> : <BITable
               columns={this.columnsRight()}
-              dataSource={dataSource}
+              dataSource={dataSource || []}
               pagination={false}
               loading={this.props.loading}
               rowClassName={this.setRowClassName}
               onRow={this.onClickRow}
               scroll={{ y: 408 }}
-              rowKey={record => record.familyId}
-            >
-            </BITable>
+              rowKey={(record, index) => record.familyId + '' + index}
+            />}
           </div>
         </div>
       </div>

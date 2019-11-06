@@ -1,10 +1,11 @@
 import React from 'react';
-import moment from 'moment';
 import styles from '../index.less';
 import BITable from '@/ant_components/BITable'
 import { connect } from 'dva';
-
-
+import BILoading from '@/components/BILoading'
+@connect(({loading}) => ({
+  loading: loading.effects['xdFamilyModal/incomeCollegeRankList'||'xdFamilyModal/incomeCompanyRankList'||'xdFamilyModal/collegeRankList'||'xdFamilyModal/companyRankList'],
+}))
 class Wrap extends React.Component {
   constructor(props) {
     super(props);
@@ -54,7 +55,7 @@ class Wrap extends React.Component {
     return (
       <div className={styles.scoreTable}>
         <div className={`${styles.header} ${styles[this.props.className]}`}>{this.props.title}</div>
-        {userFlag && userMsg && <div className={styles.suspenTable}>
+        {this.props.loading?<BILoading isLoading={this.props.loading} />:userFlag && userMsg && <div className={styles.suspenTable}>
           <BITable
             showHeader={false}
             columns={this.props.columns}

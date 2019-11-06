@@ -7,6 +7,7 @@ import Progress from '../../../components/progress'
 import IndentNum from '../../../components/indentNum';
 import pkImg from '@/assets/xdwork/pk.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
+import BILoading from '@/components/BILoading'
 
 function CustomExpandIcon(props) {
   return (
@@ -22,7 +23,7 @@ const JudgeNumFn = (n, m = 0, flag) => {
   return
 }
 @connect(({ loading }) => ({
-  loading: loading.effects['xdWorkModal/getIncomeFamilyList'],
+  loading: loading.effects['xdFamilyModal/getIncomeFamilyList'],
 }))
 class FamilyIncomeLeft extends React.Component {
   constructor(props) {
@@ -148,19 +149,19 @@ class FamilyIncomeLeft extends React.Component {
             </div>}
         </div>
         <div className={styles.tableContainer}>
-          <BITable
+          {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
             columns={this.columns()}
             dataSource={familyList.pkInfo || []}
             defaultExpandAllRows={true}
             expandIcon={CustomExpandIcon}
             pagination={false}
-            scroll={{ x: 0, y: 408 }}
-            rowKey={record => record.id}
+            scroll={{ x: 0, y: 208 }}
+            rowKey={record => record.dim}
             loading={this.props.loading}
-          />
-          {
-            !pkFamilyId && <div className={styles.tableImg}><img src={xdPkImg} /></div>
-          }
+          />}
+            {
+              !pkFamilyId && !this.props.loading && <div className={styles.tableImg}><img src={xdPkImg} /></div>
+            }
         </div>
       </div>
     );

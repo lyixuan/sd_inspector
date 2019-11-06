@@ -7,22 +7,22 @@ import xdPkImg from '@/assets/workBench/xdpk.gif';
 import Proportion from '../../../components/proportion';
 import Progress from '../../../components/progress'
 import IndentNum from '../../../components/indentNum'
+import BILoading from '@/components/BILoading'
 function CustomExpandIcon(props) {
   return (
     <a />
   );
 }
-@connect(({ xdWorkModal, loading }) => ({
-  xdWorkModal,
-  loading: loading.effects['xdWorkModal/getFamilyScorePk'],
-
+@connect(({xdFamilyModal,loading}) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/getFamilyScorePk'],
 }))
 class FamilyScoreLeft extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       keye: '1',
-      pkGroup: null,
+      pkGroup:null,
     }
   }
   componentDidMount() {
@@ -61,53 +61,53 @@ class FamilyScoreLeft extends React.Component {
   }
   columns = () => {
     let maxNumMyScore = ""
-    const { familyScoreList, userInfo } = this.props
+    const {familyScoreList,userInfo} = this.props
     const PkName = familyScoreList.pkGroup.familyName
     const columns = [{
       title: '学分维度',
       dataIndex: 'dimensionName',
       key: 'dimensionName',
       width: '24%'
-    }, {
+    },{
       title: '环比(%)',
       dataIndex: 'myScoreRatio',
       key: 'myScoreRatio',
       width: '15%',
-      render: (myScoreRatio, data) => {
+      render: (myScoreRatio,data) => {
         let isFlag = 3
         if (PkName && data.isShowPro) {
           isFlag = myScoreRatio >= 0 ? 1 : 2
         }
 
         return (
-          <div className={isFlag === 1 ? `${styles.titleGreen}` : (isFlag === 2 ? `${styles.titleRed}` : `${styles.titleBlack}`)}>
+          <div className={isFlag === 1 ? `${styles.titleGreen}` :(isFlag ===2?`${styles.titleRed}`:`${styles.titleBlack}`) }>
             <IndentNum>{myScoreRatio}</IndentNum>
           </div>
         )
       }
-    }, {
-      title: this.props.familyScoreList.myGroup.familyName,
+    },{
+      title: userInfo.familyName,
       dataIndex: 'myScore',
       key: 'myScore',
       width: '14%',
-      render: (myScore, data) => {
+      render:(myScore,data)=>{
         let isFlag = 3
         if (PkName && data.isShowPro) {
           isFlag = Number(myScore) > Number(data.groupScore) ? 1 : Number(myScore) < Number(data.groupScore) ? 2 : 3
         }
         return (
-          <div className={isFlag === 1 ? `${styles.titleGreen}` : isFlag === 2 ? `${styles.titleRed}` : `${styles.titleBlack}`}>
+          <div className={isFlag === 1 ? `${styles.titleGreen}` : isFlag === 2? `${styles.titleRed}` : `${styles.titleBlack}`}>
             <IndentNum>{myScore}</IndentNum>
           </div>
         )
       }
-    }, {
+    },{
       title: '',
       dataIndex: 'myScore',
       key: 'leftNum',
       width: 58.5,
       render: (myScore, data) => {
-        if (PkName && data.dimensionName === "正面均分") {
+        if(PkName && data.dimensionName === "正面均分"){
           if (Number(data.myScore) > Number(data.groupScore)) {
             maxNumMyScore = Number(data.myScore)
           } else {
@@ -115,7 +115,7 @@ class FamilyScoreLeft extends React.Component {
           }
         }
         return (
-          data.isShowPro && PkName && myScore != '0.00' ? <Progress leftNumber={true} data={data} PkName={PkName} maxNumMyScore={maxNumMyScore} /> : <div className={styles.pkRankMain} style={{ justifyContent: 'flex-end', marginRight: '-18px' }}>
+         data.isShowPro && PkName ? <Progress leftNumber = {true} data ={data} PkName={PkName} maxNumMyScore={maxNumMyScore}/>:<div className={styles.pkRankMain} style={{ justifyContent: 'flex-end', marginRight: '-18px' }}>
             <div
               style={{
                 color: '#52C9C2',
@@ -135,7 +135,7 @@ class FamilyScoreLeft extends React.Component {
       key: 'rightNum',
       width: 58.5,
       render: (groupScore, data) => {
-        if (PkName && data.dimensionName === "正面均分") {
+        if(PkName && data.dimensionName === "正面均分"){
           if (Number(data.myScore) > Number(data.groupScore)) {
             maxNumMyScore = Number(data.myScore)
           } else {
@@ -143,7 +143,7 @@ class FamilyScoreLeft extends React.Component {
           }
         }
         return (
-          data.isShowPro && PkName && groupScore != '0.00' ? <Progress leftNumber={false} data={data} PkName={PkName} maxNumMyScore={maxNumMyScore} /> : <div className={styles.pkRankMain} style={{ justifyContent: 'flex-satrt', marginRight: '-18px' }}>
+          data.isShowPro && PkName ? <Progress leftNumber={false} data ={data} PkName={PkName} maxNumMyScore={maxNumMyScore}/>:<div className={styles.pkRankMain} style={{ justifyContent: 'flex-satrt', marginRight: '-18px' }}>
             <div
               style={{
                 color: '#52C9C2',
@@ -157,15 +157,15 @@ class FamilyScoreLeft extends React.Component {
           </div>
         );
       }
-    }, {
-      title: this.props.familyScoreList.pkGroup.familyName,
+    },{
+      title: '对比家族',
       dataIndex: 'groupScore',
       key: 'groupScore',
       width: '15%',
-      render: (groupScore, ) => {
+      render: (groupScore,) => {
         return (
           <div className={styles.pkRankMain}>
-            <div style={{ marginLeft: '-16px' }}>
+            <div style={{marginLeft:'-16px'}}>
               <IndentNum>{groupScore}</IndentNum>
             </div>
           </div>
@@ -186,26 +186,27 @@ class FamilyScoreLeft extends React.Component {
     return className
   }
   render() {
-    const { familyScoreList } = this.props
-    const dataSource = familyScoreList && familyScoreList.dimensionList.length > 0 && this.fillDataSource(familyScoreList.dimensionList)
+
+    const {familyScoreList} = this.props
+    const dataSource = familyScoreList && familyScoreList.dimensionList.length>0 && this.fillDataSource(familyScoreList.dimensionList)
     const PkName = familyScoreList.pkGroup.familyName
     return (
       <div className={styles.familyLeft}>
         <div className={styles.proMain}>
-          {PkName ? <Proportion
+          {PkName? <Proportion
             leftNum={familyScoreList.myGroup.score}
             rightNum={familyScoreList.pkGroup.score}
             leftCollege={familyScoreList.myGroup.familyName}
             rightCollege={PkName}
             style={{ width: 'calc(100% - 200px)' }}
           /> : <div className={styles.proNone}>
-              <img src={pkImg} style={{ width: '32px' }} />
-              <span>快从右边选择一个家族进行学分PK吧！</span>
-            </div>}
+            <img src={pkImg} style={{ width: '32px' }} />
+            <span>快从右边选择一个家族进行学分PK吧！</span>
+          </div>}
         </div>
         <div className={styles.tableContainer}>
           {
-            dataSource && dataSource.length > 0 && <BITable
+            this.props.loading?<BILoading isLoading={this.props.loading} />:dataSource && dataSource.length > 0 && <BITable
               columns={this.columns()}
               dataSource={dataSource}
               defaultExpandAllRows={true}
@@ -213,14 +214,14 @@ class FamilyScoreLeft extends React.Component {
               rowClassName={this.setRowClassName}
               pagination={false}
               scroll={{ x: 0, y: 408 }}
-              rowKey={record => record.id}
+              rowKey={(record, index) => record.dimensionName + '' + index}
               loading={this.props.loading}
             >
             </BITable>
           }
 
           {
-            !PkName && <div className={styles.tableImg}><img src={xdPkImg} /></div>
+            !PkName && !this.props.loading && <div className={styles.tableImg}><img src={xdPkImg} /></div>
           }
 
         </div>

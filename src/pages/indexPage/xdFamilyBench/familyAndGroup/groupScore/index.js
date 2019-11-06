@@ -3,13 +3,15 @@ import { connect } from 'dva';
 import styles from '../style.less';
 import BITable from '@/ant_components/BITable'
 import xdPkImg from '@/assets/workBench/incomeImg.gif';
+import BILoading from '@/components/BILoading'
 function CustomExpandIcon(props) {
   return (
     <a />
   );
 }
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+@connect(({xdFamilyModal,loading}) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/getGroupPkList'],
 }))
 class GroupScore extends React.Component {
   constructor(props) {
@@ -36,7 +38,7 @@ class GroupScore extends React.Component {
     return data
   }
   columns = () =>{
-    const {familyGroupPkList} = this.props.xdWorkModal.xdWorkModal
+    const {familyGroupPkList} = this.props.xdFamilyModal
     const columns = [
       {
         title:'学分维度',
@@ -75,12 +77,12 @@ class GroupScore extends React.Component {
     return className
   }
   render() {
-    const {familyGroupPkList} = this.props.xdWorkModal.xdWorkModal
+    const {familyGroupPkList} = this.props.xdFamilyModal
     const dataSource = familyGroupPkList && familyGroupPkList.dimensionList&&familyGroupPkList.dimensionList.length > 0 && this.fillDataSource(familyGroupPkList.dimensionList)
     return (
       <div className={styles.creditContainer} style={{display:'block'}}>
         {
-          dataSource && dataSource.length > 0 && <BITable
+          this.props.loading?<BILoading isLoading={this.props.loading} />:dataSource && dataSource.length > 0 && <BITable
             columns={this.columns()}
             dataSource={dataSource}
             defaultExpandAllRows={true}
@@ -94,7 +96,7 @@ class GroupScore extends React.Component {
           </BITable>
         }
         {
-          familyGroupPkList && familyGroupPkList.groupList <=0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
+          !this.props.loading && familyGroupPkList && familyGroupPkList.groupList <=0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
         }
       </div>
     );

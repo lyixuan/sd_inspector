@@ -11,8 +11,8 @@ import Quality from './quality';
 import Appeal from './appeal';
 import storage from '../../../utils/storage';
 
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+@connect((xdFamilyModal) => ({
+  xdFamilyModal,
 }))
 // Current credits
 class XdFamily extends React.Component {
@@ -29,14 +29,14 @@ class XdFamily extends React.Component {
     const { userId } = this.state;
     return (
       <div className={styles.familyBench}>
-        <PerformanceDetail ></PerformanceDetail>
-        <RankList></RankList>
-        <CurrentCredit></CurrentCredit>
+        <PerformanceDetail />
+        <RankList/>
+        <CurrentCredit/>
         <FamilyAndGroup />
         <Income />
         <FamilyAndGroupIncome />
         <div className={styles.qualityAppel}>
-          <Appeal userId={userId} />
+          {/* <Appeal userId={userId} /> */}
           <Quality userId={userId} />
         </div>
       </div>

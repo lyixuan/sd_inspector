@@ -18,6 +18,21 @@ export const routes = [
       {
         path: '/indexPage',
         component: './indexPage',
+        routes: [
+          {
+            path: '/indexPage/xdWorkbench',
+            component: './indexPage/xdWorkbench',
+            name: '小德工作台',
+          }, {
+            path: '/indexPage/xdFamilyBench',
+            component: './indexPage/xdFamilyBench',
+            name: '小德工作台',
+          }, {
+            path: '/indexPage/ManagementBench',
+            component: './indexPage/ManagementBench',
+            name: '小德工作台',
+          }
+        ]
       },
       {
         path: '/exception/403',
@@ -182,7 +197,7 @@ export const routes = [
           {
             path: '/ko/behaviorPath',
             component: './ko/behaviorPath',
-            name: '用户行为轨迹',
+            name: '用户档案',
           },
         ],
       },

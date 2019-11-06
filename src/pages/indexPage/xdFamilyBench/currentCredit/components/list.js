@@ -7,10 +7,11 @@ import down from '@/assets/xdFamily/rankDown.png';
 import normal from '@/assets/xdFamily/rankNormal.png';
 import SmallProgress from '@/pages/indexPage/components/smallProgress'
 import { Link } from 'dva/router';
+import BILoading from '@/components/BILoading'
 
-@connect(({ xdWorkModal, loading }) => ({
-  xdWorkModal,
-  loading: loading.effects['xdWorkModal/scoreDetail']
+@connect(({ xdFamilyModal, loading }) => ({
+  familyKpiTimes: xdFamilyModal.familyKpiTimes || {},
+  loading: loading.effects['xdFamilyModal/scoreDetail']
 }))
 class ProfitList extends React.Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class ProfitList extends React.Component {
   }
   getScoreStatistics() {
     this.props.dispatch({
-      type: 'xdWorkModal/scoreDetail',
+      type: 'xdFamilyModal/scoreDetail',
       payload: {},
       callback: (profitList) => this.setState({ profitList }),
     });
@@ -135,7 +136,7 @@ class ProfitList extends React.Component {
           fixed: item.name == '学分均分' ? 'left' : '',
           className: `${className} ${className2}`,
           render: (text, record) => {
-            const { startTime, endTime } = this.props.xdWorkModal.familyKpiTimes
+            const { startTime, endTime } = this.props.familyKpiTimes
             const params = JSON.stringify({ "dementionId": record.obj[item.id].id, startTime, endTime, pageFrom: 'family' });
             if (record.obj[item.id].name == '正面均分') {
               arrPositiVe.push(record.obj[item.id].score)
@@ -186,7 +187,7 @@ class ProfitList extends React.Component {
     const { profitList = [] } = this.state;
     return (
       <div className={styles.tableList}>
-        <BITable
+        {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
           columns={this.columns()}
           dataSource={profitList}
           pagination={false}
@@ -196,7 +197,7 @@ class ProfitList extends React.Component {
           rowKey={(record, index) => index}
           scroll={{ x: 'max-content', y: 420 }}
           smalled
-        />
+        />}
       </div>
 
     );
