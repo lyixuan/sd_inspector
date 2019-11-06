@@ -21,7 +21,7 @@ import {
   getFamilyList,
   getCollegeList,
   myFamilyGroupList,
-  getIncomeCollegeList,
+  // getIncomeCollegeList,
   getIncomeFamilyGroupPk,
   groupPkList,
   getIncomeGroupList
@@ -323,16 +323,16 @@ export default {
       }
     },
     // 家族创收对比右侧的学院列表
-    *getIncomeCollegeList({ callback }, { call }) {
-      const result = yield call(getIncomeCollegeList);
-      if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
-      } else if (result && result.code !== 50000) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *getIncomeCollegeList({ callback }, { call }) {
+    //   const result = yield call(getIncomeCollegeList);
+    //   if (result.code === 20000) {
+    //     if (callback && typeof callback === 'function') {
+    //       callback(result.data);
+    //     }
+    //   } else if (result && result.code !== 50000) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     // 家族创收对比-小组创收对比
     *getIncomeFamilyGroupPk({ payload, callback }, { call, put }) {
       const result = yield call(getIncomeFamilyGroupPk, payload.params);
