@@ -136,17 +136,21 @@ class Header extends React.Component {
           )}
           <span className={styles.num}>
             {' '}
-            <Tooltip title="当前绩效周期内本学院的学分均分">
-              {thousandsFormatBigger(countList.value)}
-            </Tooltip>
+            {countList.value && (
+              <Tooltip title="当前绩效周期内本学院的学分均分">
+                {thousandsFormatBigger(countList.value)}
+              </Tooltip>
+            )}
           </span>
           <p className={styles.bottom}>
             <span>学分均分</span>
-            <span className={styles.arrowCon}>
-              {(countList.loopRatio * 100).toFixed(2)}%
-              {countList.loopRatio > 0 && <i className={styles.arrowTop}></i>}
-              {countList.loopRatio < 0 && <i className={styles.arrowBottom}></i>}
-            </span>
+            {countList.loopRatio && (
+              <span className={styles.arrowCon}>
+                {(countList.loopRatio * 100).toFixed(2)}%
+                {countList.loopRatio > 0 && <i className={styles.arrowTop}></i>}
+                {countList.loopRatio < 0 && <i className={styles.arrowBottom}></i>}
+              </span>
+            )}
           </p>
         </li>
         {allList.map(item => {

@@ -5,8 +5,6 @@
   background: #fff;
   border-radius: 10px;
   margin-bottom: 16px;
-  border-radius: 10px;
-
   .title {
     display: inline-block;
     height: 50px;
@@ -28,20 +26,21 @@
     height: 340px;
   }
 }
+.table{
+  :global {
+    .rowHover {
+      background: #e6fff9;
+      // cursor: not-allowed !important;
+    }
+    .ant-table-thead > tr > th {
+      text-align: right;
+    }
+    .ant-table-thead > tr > th:nth-child(1) {
+      text-align: left !important;
+    }
 
-:global {
-  .rowHover {
-    background: #e6fff9;
-    // cursor: not-allowed !important;
-  }
-  .ant-table-thead > tr > th {
-    text-align: right;
-  }
-  .ant-table-thead > tr > th:nth-child(1) {
-    text-align: left !important;
-  }
-
-  .BIWrapperProgress {
-    justify-content: flex-end !important;
+    .BIWrapperProgress {
+      justify-content: flex-end !important;
+    }
   }
 }

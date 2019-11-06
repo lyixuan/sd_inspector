@@ -3,7 +3,8 @@
   border-radius: 10px;
   border-radius: 10px;
   height: 232px;
-  width: 100%;
+  // width: 100%;
+  padding: 0 24px;
   margin-bottom: 16px;
 
   .title {
@@ -24,13 +25,14 @@
   }
 
   .list {
+    padding: 0;
     display: flex;
     margin-top: 26px;
     li {
       position: relative;
       img {
-        width: 215px;
-        height: auto;
+        width: 247px;
+        height: 148px;
         background-size: 100%;
       }
     }
@@ -56,15 +58,15 @@
       }
 
       .num {
-        width: 100%;
+        // width: 100%;
         position: absolute;
         font-size: 36px;
         color: #ffffff;
-        top: 33%;
+        top: 39%;
         left: 50%;
         transform: translate(-50%, -50%);
         span {
-          width: 100%;
+          // width: 100%;
           text-align: center;
           display: inline-block;
         }
@@ -73,7 +75,7 @@
       .bottom {
         position: absolute;
         color: #ffffff;
-        top: 60%;
+        top: 66%;
         left: 50%;
         display: flex;
         font-size: 16px;
@@ -116,6 +118,15 @@
       }
     }
 
+    li:nth-child(1) {
+      .num {
+        margin-left: -8px;
+      }
+      .bottom {
+        margin-left: -8px;
+      }
+    }
+
     li > div {
       position: relative;
       a {
@@ -126,36 +137,37 @@
     }
     li:nth-child(1) > div {
       background: url('../../../../assets/workImg1.png') no-repeat;
-      width: 215px;
-      height: 138px;
+      width: 237px;
+      height: 148px;
       display: inline-block;
       background-size: 100%;
+      margin-left: -16px;
     }
     li:nth-child(2) > div {
       background: url('../../../../assets/workImg2.png') no-repeat;
-      width: 215px;
-      height: 138px;
+      width: 237px;
+      height: 148px;
       display: inline-block;
       background-size: 100%;
     }
     li:nth-child(3) > div {
       background: url('../../../../assets/workImg3.png') no-repeat;
-      width: 215px;
-      height: 138px;
+      width: 237px;
+      height: 148px;
       display: inline-block;
       background-size: 100%;
     }
     li:nth-child(4) > div {
       background: url('../../../../assets/workImg4.png') no-repeat;
-      width: 215px;
-      height: 138px;
+      width: 237px;
+      height: 148px;
       display: inline-block;
       background-size: 100%;
     }
     li:nth-child(5) > div {
       background: url('../../../../assets/workImg5.png') no-repeat;
-      width: 215px;
-      height: 138px;
+      width: 237px;
+      height: 148px;
       display: inline-block;
       background-size: 100%;
     }
