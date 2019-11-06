@@ -16,9 +16,9 @@ import BILoading from '@/components/BILoading'
 
 const rankType = ['本学院排行', '集团排行'];
 const dataTrace = ['{"widgetName":"本学院排行","traceName":"家族长工作台/本学院排行"}', '{"widgetName":"集团排行","traceName":"家族长工作台/集团排行"}'];
-@connect(({ xdWorkModal, loading }) => ({
-  xdWorkModal,
-  loading: loading.effects['xdWorkModal/achievementList'],
+@connect(({ xdFamilyModal, loading }) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/achievementList'],
 }))
 class Performance extends React.Component {
   constructor(props) {
@@ -187,7 +187,7 @@ class Performance extends React.Component {
   achievementList() {
     const groupType = this.state.rankType == 1 ? 'college' : '';
     this.props.dispatch({
-      type: 'xdWorkModal/achievementList',
+      type: 'xdFamilyModal/achievementList',
       payload: { params: { groupType } },
       callback: (dataSource) => {
         this.setState({
