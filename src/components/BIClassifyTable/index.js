@@ -116,13 +116,13 @@ class BIClassifyTable extends React.Component {
     if (repairArr > 0) {
       for (let i = 0; i < repairArr; i++) {
         children.push({
-          title: '-',
+          title: ' ',
           dataIndex: 'i',
           className: styles.txRight,
           key: `empty${i}`,
           width: this.props.cellWidth,
           render: () => {
-            return <>-</>
+            return <> </>
           },
         })
       }

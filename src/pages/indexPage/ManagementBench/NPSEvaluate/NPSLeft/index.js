@@ -70,7 +70,7 @@ class NPSLeft extends React.Component {
     const dataSource = NPSleftParams && NPSleftParams.npsStarOpinionDtoListMap && NPSleftParams.npsStarOpinionDtoListMap.data.length>0 ? NPSleftParams.npsStarOpinionDtoListMap.data:[]
     return (
       <div className={styles.NPALeftMain} style={{width: 'calc(100% - 366px)'}}>
-      <div>
+      <div style={{width:'100%',height:'30px'}}>
         {NPSleftParams && NPSleftParams.reasonTypeDtoList && NPSleftParams.reasonTypeDtoList.map((item,index)=><ColorBlock data={{...item}} key={index} className={`colorStyle${index}`}/>)}
       </div>
         {
