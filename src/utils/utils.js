@@ -197,22 +197,26 @@ export function thousandsFormat(num) {
 
 export function thousandsFormatDot(num) {
   var reg = /\d{1,3}(?=(\d{3})+$)/g;
-    let newNum = (num + '').replace(reg, '$&,');
-    return String(newNum).indexOf('.') !== -1
-      ? thousandsFormat(String(newNum).split('.')[0]) + '.' + String(newNum).split('.')[1]
-      : newNum;
+  let newNum = (num + '').replace(reg, '$&,');
+  return String(newNum).indexOf('.') !== -1
+    ? thousandsFormat(String(newNum).split('.')[0]) + '.' + String(newNum).split('.')[1]
+    : newNum;
 }
 
 export function thousandsFormatBigger(num) {
-  // 千分位分割,接收正整数
-  if (String(num).length >= 7) {
-    return `${Math.ceil(num / 10000)}万`;
+  const newNum = String(num);
+  let newNum1 = 0;
+  let newNum2 = 0;
+  if (String(num).indexOf('.') !== -1) {
+    newNum1 = Number(newNum.split('.')[0]);
+    newNum2 = Number(newNum.split('.')[1]);
   } else {
-    var reg = /\d{1,3}(?=(\d{3})+$)/g;
-    let newNum = (num + '').replace(reg, '$&,');
-    return String(newNum).indexOf('.') !== -1
-      ? thousandsFormat(String(newNum).split('.')[0]) + '.' + String(newNum).split('.')[1]
-      : newNum;
+    newNum1 = num;
+  }
+  if (String(newNum1).length >= 7) {
+    return `${Math.ceil(newNum1 / 10000)}万`;
+  } else {
+    return thousandsFormat(newNum1) + '.' + newNum2;
   }
 }
 
