@@ -42,9 +42,10 @@ class IMPartRight extends React.Component {
         key: 'badContrasts',
         width:"23%",
         render: (badContrasts, record) => {
-          const percent =(badContrasts * 100).toFixed(2) + '%';
+          const percent =(record.badContrastsBar * 100).toFixed(2) + '%';
+          const text = (badContrasts*100).toFixed(2)+"%"
           return<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <BIWrapperProgress text={percent} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"right"}}/>
+            <BIWrapperProgress text={text} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"right"}}/>
           </div>
 
         },
