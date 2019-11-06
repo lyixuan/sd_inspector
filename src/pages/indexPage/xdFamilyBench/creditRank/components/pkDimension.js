@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Link } from 'dva/router';
 import { getSubtract } from '@/pages/indexPage/components/utils/utils';
 import BIWrapperTable from '../../../components/BIWrapperTable';
 import BIFillCell from '@/components/BIFillCell';
@@ -37,7 +36,6 @@ class pkDimension extends React.Component {
   }
   columns = () => {
     const { groupList = [] } = this.props.groupPkList;
-    const { startTime, endTime } = this.props.kpiTimes;
     const pkValue = this.getShowKey('pkValue');
     const columns = [
       {
@@ -54,7 +52,7 @@ class pkDimension extends React.Component {
         render: text => <>{text && text !== 'N/A' ? <BIFillCell>{text} <img src={text > 0 ? up : down} alt="" /></BIFillCell> : ''}</>
       },
     ];
-    groupList &&groupList.map((item, index) => {
+    groupList && groupList.map((item, index) => {
       columns.push({
         width: '12%',
           title: <div>

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { message } from 'antd/lib/index';
-import { setLocalValue, fillDataSource } from '@/pages/indexPage/components/utils/utils';
+import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
 import BIButton from '@/ant_components/BIButton';
 import BIDrawer from '@/components/BIDrawer';
@@ -16,6 +16,7 @@ const { BI = {} } = window;
 const localKey = 'creditFamilyLocal';
 @connect(({ xdFamilyModal, loading }) => ({
   kpiTimes: xdFamilyModal.familyKpiTimes || {},
+  groupPkList: xdFamilyModal.familyScorePk,
   dimenloading: loading.effects['xdFamilyModal/getFamilyScorePk'],
   drawerloading: loading.effects['xdFamilyModal/getFamilyRankList'],
 }))
@@ -23,10 +24,6 @@ class FamilyIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      groupPkList: {
-        groupList: [],
-        dimensionList: []
-      }, // 维度数据
       visible: false, // 抽屉切换
       ...this.getLocalValue(), 
     }
@@ -47,10 +44,6 @@ class FamilyIndex extends React.Component {
     this.props.dispatch({
       type: 'xdFamilyModal/getFamilyScorePk',
       payload: { params: { pkfamily: this.state.pkfamily } },
-      callback: res => {
-        res.dimensionList = fillDataSource(res.dimensionList);
-        this.setState({ groupPkList: res });
-      }
     });
   }
   // 对比小组列表
@@ -114,7 +107,7 @@ class FamilyIndex extends React.Component {
     });
   };
   render() {
-    const { pkfamily, visible, hasData, groupPkList, } = this.state;
+    const { pkfamily, visible, hasData, } = this.state;
     const { startTime, endTime } = this.props.kpiTimes;
     return (
       <div className={styles.container}>
@@ -126,7 +119,7 @@ class FamilyIndex extends React.Component {
           toggleDrawer={this.toggleDrawer} 
           handleDelete={this.handleDelete}
           loading={this.props.dimenloading}
-          groupPkList={groupPkList}
+          groupPkList={this.props.groupPkList}
           pkUsers={pkfamily}
           hasData={hasData}
           showKey={{

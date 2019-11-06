@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { message } from 'antd/lib/index';
-import { setLocalValue, fillDataSource } from '@/pages/indexPage/components/utils/utils';
+import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
 import BIButton from '@/ant_components/BIButton';
 import BIDrawer from '@/components/BIDrawer';
@@ -16,6 +16,7 @@ const { BI = {} } = window;
 const localKey = 'creditGroupLocal';
 @connect(({ xdFamilyModal, loading  }) => ({
   kpiTimes: xdFamilyModal.familyKpiTimes || {},
+  groupPkList: xdFamilyModal.groupScorePk,
   dimenloading: loading.effects['xdFamilyModal/groupPkList'],
   drawerloading: loading.effects['xdWorkModal/groupList'],
 }))
@@ -23,10 +24,6 @@ class GroupIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      groupPkList: {
-        groupList: [],
-        dimensionList: []
-      }, // 维度数据
       visible: false, // 抽屉切换
       ...this.getLocalValue(), 
     }
@@ -47,10 +44,6 @@ class GroupIndex extends React.Component {
     this.props.dispatch({
       type: 'xdFamilyModal/groupPkList',
       payload: { params: { pkGroupList: this.state.pkGroupList } },
-      callback: res => {
-        res.dimensionList = fillDataSource(res.dimensionList);
-        this.setState({ groupPkList: res });
-      }
     });
   }
  // 对比小组列表
@@ -114,7 +107,7 @@ class GroupIndex extends React.Component {
     });
   };
   render() {
-    const { pkGroupList, groupPkList, visible, hasData } = this.state;
+    const { pkGroupList, visible, hasData } = this.state;
     const { startTime, endTime } = this.props.kpiTimes;
     return (
       <div className={styles.container}>
@@ -128,7 +121,7 @@ class GroupIndex extends React.Component {
         handleDelete={this.handleDelete}
         loading={this.props.dimenloading}
         pkUsers={pkGroupList}
-        groupPkList={groupPkList}
+        groupPkList={this.props.groupPkList}
         hasData={hasData}
         />
         <BIDrawer

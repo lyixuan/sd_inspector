@@ -28,6 +28,7 @@ import {
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
+import { fillDataSource } from '@/pages/indexPage/components/utils/utils';
 import moment from 'moment';
 
 export default {
@@ -59,6 +60,8 @@ export default {
     // familyGroupPkList: {},
     familyKpiInfo: {},
     chargeCount: {},
+    familyScorePk: {}, // 创收对比家族
+    groupScorePk: {}, // 学分对比小组
     familyIncomeList: {},// 创收对比家族
     familyIncomeDrawer: [],
     groupIncomeList: {},// 创收对比小组
@@ -250,6 +253,7 @@ export default {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
+        yield put({ type: 'saveScore', payload: { data: result.data, key: 'familyScorePk'} });
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -339,13 +343,14 @@ export default {
       }
     },
     // 小组学分对比
-    *groupPkList({ payload, callback }, { call }) {
+    *groupPkList({ payload, callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(groupPkList, params)
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
+        yield put({ type: 'saveScore', payload: { data: result.data, key: 'groupScorePk'} });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -376,6 +381,11 @@ export default {
         maxValue[k] = Math.max.apply(null, pkList.map(item => item[k]));
       }
       return { ...state, [payload.key]: {maxValue, pkList} };
+    },
+    saveScore(state, { payload }) {
+      const data = payload.data;
+      data.dimensionList = fillDataSource(data.dimensionList)
+      return { ...state, [payload.key]: data};
     }
   },
   subscriptions: {},

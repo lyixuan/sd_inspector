@@ -1,14 +1,31 @@
 import BIContrastCell from '@/components/BIContrastCell';
 import { thousandsFormat } from '@/utils/utils';
+import { Link } from 'dva/router';
+import styles from './style.less';
 
 // local存值
-export function setLocalValue(obj, item){
+export function setLocalValue(obj, item) {
   const local = JSON.parse(localStorage.getItem(item)) || {};
   const data = {...local, ...obj}
   localStorage.setItem(item, JSON.stringify(data));
 }
 // 学分维度处理
 const colorsArr = ['rgba(255, 120, 120, 1)', 'rgba(255, 120, 120, 0.8)', 'rgba(255, 120, 120, 0.6)', 'rgba(255, 120, 120, 0.4)', 'rgba(255, 120, 120, 0.2)', 'rgba(255, 120, 120, 0.1)'];
+const getContentLink = function (text, record, index) {
+  if (index === 0 && text) {
+    const { startTime, endTime } = this.props.kpiTimes;
+    return { 
+      className: styles.mineHover,
+      textContent: <Link onClick={() => this.getDataTrace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
+      {text} <span style={{ marginLeft: '2px' }}>{'>'}</span>
+    </Link>
+    }        
+  } else {
+    return {
+      textContent: index === 0 ? <span style={{marginRight: '16px'}}>{text}</span> : ''
+    }
+  }
+}
 export function fillDataSource(params = [], n = 1, flagMark) {
   params.map(item => {
     item.level = n;
@@ -20,7 +37,7 @@ export function fillDataSource(params = [], n = 1, flagMark) {
             return <BIContrastCell 
             text={text} 
             nums={item.values}
-            {...this.getContentLink(text, item, index)}
+            {...getContentLink(text, item, index)}
             />
           } else {
             return <BIContrastCell 
@@ -28,7 +45,7 @@ export function fillDataSource(params = [], n = 1, flagMark) {
             nums={item.values} 
             colors={colorsArr} 
             isReversed={true}
-            {...this.getContentLink(text, item, index)}
+            {...getContentLink(text, item, index)}
             />
           } 
         });
