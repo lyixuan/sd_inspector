@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Progress, Tooltip } from 'antd';
 import { thousandsFormat } from '@/utils/utils';
-import echarts from 'echarts';
+// import echarts from 'echarts';
 import Container from '@/components/BIContainer';
 import Echart from '@/components/Echart';
 import BILoading from '@/components/BILoading'
@@ -166,7 +166,7 @@ class performanceDetail extends React.Component {
         right={`${date1} ~ ${date2} (最新学分日期)`}
       >
         {
-          this.props.loading ? <BILoading isLoading={this.props.loading} /> : kpiInfo && scoreKpiInfo &&
+          this.props.loading ? <div style={{height: 140}}><BILoading isLoading={this.props.loading} /></div> : kpiInfo && scoreKpiInfo &&
             <div className={styles.performanceDetail}>
               <div className={styles.chart}>
                 <Echart options={this.drawChart(this.state.kpiInfo)} style={{ width: '140px', height: '140px' }}></Echart>
