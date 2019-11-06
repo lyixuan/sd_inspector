@@ -1,4 +1,5 @@
 import React from 'react';
+import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import Container from '@/components/BIContainer';
 import ProfitList from './components/list';
 import ProfitTabs from './components/tabs';
@@ -6,16 +7,22 @@ import BIDrawer from '@/components/BIDrawer';
 import { message } from 'antd/lib/index';
 
 const { BI = {} } = window;
+const localKey = 'incomeWorkLocal'
 class Profit extends React.Component {
   constructor(props) {
     super(props);
-    const pkUsers = localStorage.getItem('pkUsers');
-    const pkListType = localStorage.getItem('pkListType');
     this.state = {
-      pkUsers: pkUsers ? JSON.parse(pkUsers) : [], // 选中的pk者
-      pkListType: pkListType ? Number(pkListType) : 3, // 列表选项--同级排行
-      visible: false
+      visible: false,
+      ...this.getLocalValue()
     }
+  }
+  // 初始化数据
+  getLocalValue = () => {
+    const {pkUsers = [], pkListType = 3} = JSON.parse(localStorage.getItem(localKey)) || {};
+    return {
+      pkUsers, // 选中PK数组
+      pkListType: pkListType // 学分基础信息切换显示
+    };
   }
   // PK数组
   changeSelected = (id) => {
@@ -32,12 +39,12 @@ class Profit extends React.Component {
         pkUsers.push(id);
       }
     }
-    localStorage.setItem('pkUsers', JSON.stringify(pkUsers));
+    setLocalValue({ pkUsers }, localKey);
     this.setState({ pkUsers: [...pkUsers] });
   }
   // 对比小组筛选条件
   changePkListType = (v) => {
-    localStorage.setItem('pkListType', v);
+    setLocalValue({ pkListType: v }, localKey);
     this.setState({pkListType: v});
   }
   toggleDrawer = (bul) => {

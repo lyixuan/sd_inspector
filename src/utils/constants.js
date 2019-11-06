@@ -515,6 +515,8 @@ export const REMOVE_LOCAL_DATA = [
   'incomeGroupLocal',
   'creditFamilyLocal',
   'creditGroupLocal',
+  'creditWorkLocal',
+  'incomeWorkLocal',
 ]
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
