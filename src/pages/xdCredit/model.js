@@ -152,7 +152,6 @@ export default {
           typeName: '所有分类'
         }, ...data.reasonTypeList]
       }
-      console.log(154, data)
       return { ...state, ...{ imDetailData: data } };
     }
   },

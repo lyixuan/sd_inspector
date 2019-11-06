@@ -79,7 +79,6 @@ class BIClassifyTable extends React.Component {
     }
   }
   columns = () => {
-    console.log(67, this.props.dataSource)
     const data = this.props.dataSource;
     const titleList = data.titleList
     const dataSource = data.dataList
@@ -103,13 +102,13 @@ class BIClassifyTable extends React.Component {
             return (
               this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell style={{ cursor: 'pointer' }} key={index} text={`${dataSource[indexs].values[index]}`} unit="%" onClick={(e) => { this.cellClick(record, currentIndex, index) }}></BISelectCell> :
                 <Tooltip overlayClassName={styles.listMarkingTooltip2} placement="right" title={`差评数：${dataSource[indexs].valueCounts[index]}`}>
-                  <BIContrastCell style={{ cursor: 'pointer' }} data-trace='{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}' others={this.props.defaultKey.unit} key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, index) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
+                  <BIContrastCell style={{ cursor: 'pointer' }} data-trace='{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}' others="%" key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, index) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
                 </Tooltip>
 
             )
           }
           return (
-            this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell key={index} text={`${dataSource[indexs].values[index]}`} unit="%" ></BISelectCell> : <BIContrastCell others={this.props.defaultKey.unit} key={index} colors={this.props.colors} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
+            this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell key={index} text={`${dataSource[indexs].values[index]}`} unit="%" ></BISelectCell> : <BIContrastCell others="%" key={index} colors={this.props.colors} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
           )
         },
       })
