@@ -129,7 +129,8 @@ export default {
       let data = payload.imDetailData
       if (!data.reasonTypeList) {
         data.dataList.length > 0 && data.dataList.map(item => {
-          item.values.push(item.unClassifyCount)
+          item.values.push(item.unClassifyValue)
+          item.valueCounts.push(item.unClassifyCount)
         })
         data.reasonTypeList = [{
           expand: true,
@@ -151,6 +152,7 @@ export default {
           typeName: '所有分类'
         }, ...data.reasonTypeList]
       }
+      console.log(154, data)
       return { ...state, ...{ imDetailData: data } };
     }
   },
