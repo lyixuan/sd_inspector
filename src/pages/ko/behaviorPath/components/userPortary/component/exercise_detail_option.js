@@ -9,11 +9,10 @@ export function getOption(obj) {
         }
       },
       formatter: function (params) {
-        if(params[0]&& params[1]) {
-          return params[0].name +
-            "<br>做题数量：" + params[0].value +"个"+
-            "<br>正确数量：" +  params[1].value+"个";
-        }
+        const zb = params[0]?"<br>做题数量：" + params[0].value +"个":'';
+        const cb =  params[1]?"<br>正确数量：" +  params[1].value+"个":'';
+        return params[0].name + zb + cb;
+
       }
     },
     legend: {
@@ -39,9 +38,10 @@ export function getOption(obj) {
     },
     xAxis : [
       {
-        type : 'category',
+        // type : 'category',
         boundaryGap : false,
         data : obj.xAxis,
+        splitNumber:10,
         axisLine:{
           lineStyle:{
             type:'dotted',

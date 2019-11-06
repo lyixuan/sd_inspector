@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col,Spin } from 'antd';
+import { Row, Col,Spin,Empty } from 'antd';
 import BaseInfo from './baseInfo';
 import OrderStat from './orderStat';
 import ActiveStat from './activeStat';
@@ -28,9 +28,10 @@ export default class UserPortary extends React.Component {
     const height = this.getHeight(offsetWidth);
     const { baseInfo={},tagInfo = {},orderStat={},activeStat=[],learnStat=[],learnDetail={},imDetail={},exerciseDetail={},isLoading=false}  = this.props;
 
+    console.log(1,baseInfo)
     return (
       <Spin spinning={isLoading}>
-        <div  className={styles.layout}>
+        {baseInfo?<div  className={styles.layout}>
           {/*基础信息*/}
           <BaseInfo baseInfo={baseInfo} tagInfo={tagInfo}/>
           <Row gutter={16}>
@@ -54,7 +55,11 @@ export default class UserPortary extends React.Component {
           {/*做题分析*/}
           <ExerciseDetail exerciseDetail={exerciseDetail} height={height}/>
           <br/>
+        </div>:
+        <div className={styles.layout1}>
+          <div className={styles.contentLayout} style={{minHeight:800,marginBottom:20,paddingTop:50}}><Empty/> </div>
         </div>
+        }
       </Spin>
     );
   }

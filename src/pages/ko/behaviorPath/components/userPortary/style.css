@@ -1,7 +1,10 @@
 .layout {
   min-width: 1050px;
 }
-
+.layout1 {
+  min-width: 1050px;
+  height: 1000px;
+}
 .contentLayout , .contentLayoutbase,.contentLayoutbase2{
   background: #fff;
   margin-top: 16px;
