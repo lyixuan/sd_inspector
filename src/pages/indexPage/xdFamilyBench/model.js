@@ -48,7 +48,7 @@ export default {
     familyIncomeGroup: {}, // 创收对比小组的数据
     familyGroupPkList: {},
     familyKpiInfo: {},
-    chargeCount: {}
+    chargeCount: {},
   },
 
   effects: {
