@@ -10,7 +10,7 @@ import { Link } from 'dva/router';
 import BILoading from '@/components/BILoading'
 
 @connect(({ xdFamilyModal, loading }) => ({
-  xdFamilyModal,
+  familyKpiTimes: xdFamilyModal.familyKpiTimes || {},
   loading: loading.effects['xdFamilyModal/scoreDetail']
 }))
 class ProfitList extends React.Component {
@@ -136,7 +136,7 @@ class ProfitList extends React.Component {
           fixed: item.name == '学分均分' ? 'left' : '',
           className: `${className} ${className2}`,
           render: (text, record) => {
-            const { startTime, endTime } = this.props.xdFamilyModal.familyKpiTimes
+            const { startTime, endTime } = this.props.familyKpiTimes
             const params = JSON.stringify({ "dementionId": record.obj[item.id].id, startTime, endTime, pageFrom: 'family' });
             if (record.obj[item.id].name == '正面均分') {
               arrPositiVe.push(record.obj[item.id].score)

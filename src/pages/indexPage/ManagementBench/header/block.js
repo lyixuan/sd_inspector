@@ -76,19 +76,26 @@ class Block extends React.Component {
     let href = '';
     let title = '';
     let name = '';
+    let flag = false;
     TYPE.map(currentValue => {
       if (currentValue.key === item.type)
         return (href = currentValue.href), (title = currentValue.title), (name = currentValue.name);
     });
     let money = 0;
     if (name === 'IM差评率' || name === 'NPS差评率') {
+      flag = true;
       money = item.value !== 0 ? Number(item.value * 100).toFixed(2) + '%' : 0;
-    } else {
+    } else if (name === '创收流水') {
       money = thousandsFormatBigger(item.value);
+      flag = false;
+    } else {
+      money = item.value;
+      flag = false;
     }
     return (
       <li onClick={e => this.addPoint(e, name)}>
-        <a href={href}></a>
+        {/* <div>{flag && <a href={href} />}</div> */}
+        <div></div>
         <span className={styles.num}>
           <Tooltip title={title}>{money}</Tooltip>
         </span>

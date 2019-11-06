@@ -60,7 +60,7 @@
         position: absolute;
         font-size: 36px;
         color: #ffffff;
-        top: 37%;
+        top: 33%;
         left: 50%;
         transform: translate(-50%, -50%);
         span {
@@ -73,7 +73,7 @@
       .bottom {
         position: absolute;
         color: #ffffff;
-        top: 68%;
+        top: 60%;
         left: 50%;
         display: flex;
         font-size: 16px;
@@ -116,35 +116,43 @@
       }
     }
 
-    li:nth-child(1) > a {
+    li > div {
+      position: relative;
+      a {
+        height: 100%;
+        position: absolute;
+        width: 100%;
+      }
+    }
+    li:nth-child(1) > div {
       background: url('../../../../assets/workImg1.png') no-repeat;
       width: 215px;
       height: 138px;
       display: inline-block;
       background-size: 100%;
     }
-    li:nth-child(2) > a {
+    li:nth-child(2) > div {
       background: url('../../../../assets/workImg2.png') no-repeat;
       width: 215px;
       height: 138px;
       display: inline-block;
       background-size: 100%;
     }
-    li:nth-child(3) > a {
+    li:nth-child(3) > div {
       background: url('../../../../assets/workImg3.png') no-repeat;
       width: 215px;
       height: 138px;
       display: inline-block;
       background-size: 100%;
     }
-    li:nth-child(4) > a {
+    li:nth-child(4) > div {
       background: url('../../../../assets/workImg4.png') no-repeat;
       width: 215px;
       height: 138px;
       display: inline-block;
       background-size: 100%;
     }
-    li:nth-child(5) > a {
+    li:nth-child(5) > div {
       background: url('../../../../assets/workImg5.png') no-repeat;
       width: 215px;
       height: 138px;

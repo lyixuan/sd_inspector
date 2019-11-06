@@ -133,7 +133,7 @@ class NPSEvaluate extends React.Component {
   //取T-2日期的数据
   handleDefaultPickerValueMark = (n = 2, cTime) =>{
     cTime = cTime ? moment(cTime) : moment();
-    const defTime = cTime.subtract(n, 'days');
+    const defTime = cTime.subtract(1, 'months');
     return [defTime,defTime];
   }
   // 时间控件可展示的时间范围
@@ -147,7 +147,7 @@ class NPSEvaluate extends React.Component {
     const {orgList} = this.props.xdManagementBench;
     orgList.length>0 && this.getResetGroupMsg(orgList)
     return(
-      <div>
+      <div className={styles.con}>
         <span className={styles.change}>
                   选择组织：
                 <BICascader

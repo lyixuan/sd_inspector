@@ -2,22 +2,13 @@ import React from 'react';
 import { connect } from 'dva';
 import BISelect from '@/ant_components/BISelect';
 import styles from './styles.less';
-import BITable from '@/ant_components/BITable';
-import Progress from '../../../../components/progress';
-import IndentNum from '../../../../components/indentNum';
-import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../../../components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
 import moment from 'moment';
-import { thousandsFormat } from '@/utils/utils';
-
-function CustomExpandIcon(props) {
-  return <a />;
-}
-
+import { thousandsFormatBigger } from '@/utils/utils';
 const { Option } = BISelect;
 
 @connect(xdManagementBench => ({
@@ -71,7 +62,7 @@ class Top extends React.Component {
   }
 
   componentDidMount() {
-    let newcollegeId = localStorage.getItem('orgValue') || this.props.userInfo.collegeId;
+    let newcollegeId = localStorage.getItem('orgValue') || this.props.userInfo.collegeId || '0';
     let { orgValue } = this.state;
     this.getData(newcollegeId);
     this.props
@@ -118,6 +109,7 @@ class Top extends React.Component {
         title: '排名',
         dataIndex: 'id',
         key: 'id',
+        width: '20%',
         render: (text, record) => {
           let className = '';
           let rank = 1;
@@ -143,26 +135,36 @@ class Top extends React.Component {
         title: '创收产品包',
         dataIndex: 'packageName',
         key: 'packageName',
+        width: '40%',
+        render: (packageName, record) => {
+          return <div style={{ textAlign: 'left' }}>{packageName}</div>;
+        },
       },
       {
         title: '创收单量',
         dataIndex: 'incomeOrder',
         key: 'incomeOrder',
-        width: 70,
+        width: '20%',
+        render: (incomeOrder, record) => {
+          return <div style={{ textAlign: 'right' }}>{incomeOrder}</div>;
+        },
       },
       {
         title: '创收流水',
         dataIndex: 'incomeFlowKpi',
         key: 'incomeFlowKpi',
+        // width: '15%',
         render: (incomeFlowKpi, record) => {
           const percent = record.incomeFlowKpiRatio * 100 + '%';
-          const money = thousandsFormat(incomeFlowKpi);
+          const money = thousandsFormatBigger(incomeFlowKpi);
           return (
-            <BIWrapperProgress
-              text={money}
-              percent={percent}
-              propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
-            />
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <BIWrapperProgress
+                text={money}
+                percent={percent}
+                propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'right' }}
+              />
+            </div>
           );
         },
       },

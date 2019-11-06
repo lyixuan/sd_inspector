@@ -126,10 +126,10 @@ class ProfitTbas extends React.Component {
       }, {
         width: 140,
         className: styles.rowBg2,
-        title: '好推绩效均值',
+        title: '好推绩效系数',
         dataIndex: 'goodpushValueAvg',
         key: 'goodpushValueAvg',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushValueAvg)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={text} isColor="green" percent={this.getPercent(text, maxValue.goodpushValueAvg)} style={{marginLeft: '-8px'}}/>)
       }, {
         width: 140,
         className: styles.rowBg2,
@@ -179,11 +179,7 @@ class ProfitTbas extends React.Component {
         dataIndex: 'examZbtOrderCount',
         key: 'examZbtOrderCount',
         render: (text, record) => this.getColumn(record, <BITextAlign>{text}</BITextAlign>)
-      }, 
-      // {
-      //   title: '',
-      //   dataIndex: 'empty',
-      // }
+      },
     ];
     return columns || [];
   };
@@ -198,8 +194,12 @@ class ProfitTbas extends React.Component {
       return v;
     }
   }
-  getPercent = (n, t) => {
-    return (n/t)*100 + '%'
+  getPercent = (n, t, title) => {
+    if (t && n) {
+      return (n/t)*100 + '%'
+    } else {
+      return 0
+    } 
   }
   // 列表渲染数据
   getDataSource = () => {

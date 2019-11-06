@@ -6,7 +6,7 @@ import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../../../components/BIWrapperTable';
 import BITable from '@/ant_components/BITable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-import { thousandsFormat } from '@/utils/utils';
+import { thousandsFormatBigger } from '@/utils/utils';
 
 @connect(xdManagementBench => ({
   xdManagementBench,
@@ -47,20 +47,25 @@ class Compare extends React.Component {
         title: '好推单量',
         dataIndex: 'goodPushOrder',
         key: 'goodPushOrder',
+        render: (goodPushOrder, record) => {
+          return <div style={{ textAlign: 'right' }}>{goodPushOrder}</div>;
+        },
       },
       {
         title: '好推流水',
         dataIndex: 'goodPushFlowKpi',
         key: 'goodPushFlowKpi',
         render: (goodPushFlowKpi, record) => {
-          const percent = record.goodPushFlowKpiRatio * 100 + '%';
-          const money = thousandsFormat(goodPushFlowKpi);
+          const percent = (record.goodPushFlowKpiRatio * 100).toFixed(2) + '%';
+          const money = thousandsFormatBigger(goodPushFlowKpi);
           return (
-            <BIWrapperProgress
-              text={money}
-              percent={percent}
-              propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
-            />
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <BIWrapperProgress
+                text={money}
+                percent={percent}
+                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'flex-end' }}
+              />
+            </div>
           );
         },
       },
@@ -68,20 +73,25 @@ class Compare extends React.Component {
         title: '续报单量',
         dataIndex: 'repeatSignOrder',
         key: 'repeatSignOrder',
+        render: (repeatSignOrder, record) => {
+          return <div style={{ textAlign: 'right' }}>{repeatSignOrder}</div>;
+        },
       },
       {
         title: '续报流水',
         dataIndex: 'repeatSignFlowKpi',
         key: 'repeatSignFlowKpi',
         render: (repeatSignFlowKpi, record) => {
-          const percent = record.repeatSignFlowKpiRatio * 100 + '%';
-          const money = thousandsFormat(repeatSignFlowKpi);
+          const percent = (record.repeatSignFlowKpiRatio * 100).toFixed(2) + '%';
+          const money = thousandsFormatBigger(repeatSignFlowKpi);
           return (
-            <BIWrapperProgress
-              text={money}
-              percent={percent}
-              propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
-            />
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <BIWrapperProgress
+                text={money}
+                percent={percent}
+                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'flex-end' }}
+              />
+            </div>
           );
         },
       },
@@ -89,20 +99,25 @@ class Compare extends React.Component {
         title: '成本套单量',
         dataIndex: 'adultRegularOrder',
         key: 'adultRegularOrder',
+        render: (adultRegularOrder, record) => {
+          return <div style={{ textAlign: 'right' }}>{adultRegularOrder}</div>;
+        },
       },
       {
         title: '成本套流水',
         dataIndex: 'adultRegularFlowKpi',
         key: 'adultRegularFlowKpi',
         render: (adultRegularFlowKpi, record) => {
-          const percent = record.adultRegularFlowKpiRatio * 100 + '%';
-          const money = thousandsFormat(adultRegularFlowKpi);
+          const percent = (record.adultRegularFlowKpiRatio * 100).toFixed(2) + '%';
+          const money = thousandsFormatBigger(adultRegularFlowKpi);
           return (
-            <BIWrapperProgress
-              text={money}
-              percent={percent}
-              propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
-            />
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <BIWrapperProgress
+                text={money}
+                percent={percent}
+                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'flex-end' }}
+              />
+            </div>
           );
         },
       },
@@ -111,14 +126,16 @@ class Compare extends React.Component {
         dataIndex: 'incomeTotalKpi',
         key: 'incomeTotalKpi',
         render: (incomeTotalKpi, record) => {
-          const percent = record.incomeTotalKpiRatio * 100 + '%';
-          const money = thousandsFormat(incomeTotalKpi);
+          const percent = (record.incomeTotalKpiRatio * 100).toFixed(2) + '%';
+          const money = thousandsFormatBigger(incomeTotalKpi);
           return (
-            <BIWrapperProgress
-              text={money}
-              percent={percent}
-              propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
-            />
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <BIWrapperProgress
+                text={money}
+                percent={percent}
+                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'flex-end' }}
+              />
+            </div>
           );
         },
       },
