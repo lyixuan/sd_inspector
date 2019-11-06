@@ -149,7 +149,7 @@ export default {
     },
     saveScore(state, { payload }) {
       const data = payload.data;
-      data.dimensionList = getFillData(state.kpiTimes, data.dimensionList)
+      data.dimensionList = getFillData({kpiTime: state.kpiTimes}, data.dimensionList)
       return { ...state, [payload.key]: data};
     }
   },

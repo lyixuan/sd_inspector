@@ -28,7 +28,7 @@ import {
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
-import { fillDataSource } from '@/pages/indexPage/components/utils/utils';
+import { getFillData } from '@/pages/indexPage/components/utils/utils';
 import moment from 'moment';
 
 export default {
@@ -79,7 +79,6 @@ export default {
           startTime: moment(result.data.kpiStartDate).format('YYYY-MM-DD'),
           endTime: moment(result.data.kpiEndDate).format('YYYY-MM-DD')
         }
-        console.log(result2, 7777)
         yield put({ type: 'save', payload: { chargeCount: result2.data, familyKpiInfo: result.data, familyKpiTimes: params } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
@@ -384,7 +383,7 @@ export default {
     },
     saveScore(state, { payload }) {
       const data = payload.data;
-      data.dimensionList = fillDataSource(data.dimensionList)
+      data.dimensionList = getFillData({kpiTime: state.familyKpiTimes}, data.dimensionList)
       return { ...state, [payload.key]: data};
     }
   },

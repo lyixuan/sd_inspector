@@ -10,7 +10,7 @@ export function setLocalValue(obj, item) {
   localStorage.setItem(item, JSON.stringify(data));
 }
 // 学分维度处理
-const fillValue = {
+let fillValue = {
   kpitime: {},
   trace: function() {
 
@@ -19,7 +19,7 @@ const fillValue = {
 const colorsArr = ['rgba(255, 120, 120, 1)', 'rgba(255, 120, 120, 0.8)', 'rgba(255, 120, 120, 0.6)', 'rgba(255, 120, 120, 0.4)', 'rgba(255, 120, 120, 0.2)', 'rgba(255, 120, 120, 0.1)'];
 const getContentLink = function (text, record, index) {
   if (index === 0 && text) {
-    const { startTime, endTime } = fillValue.kpitime;
+    const { startTime, endTime } = fillValue.kpiTime;
     return { 
       className: styles.mineHover,
       textContent: <Link onClick={() => fillValue.trace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
@@ -80,7 +80,7 @@ export function fillDataSource(params = [], n = 1, flagMark) {
   return params
 }
 export function getFillData(obj, data) {
-  fillValue.kpitime = {...fillValue.kpitime, ...obj};
+  fillValue = {...fillValue, ...obj};
   return fillDataSource(data);
 }
 export function getSubtract(bul, n, s = 160) {
