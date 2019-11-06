@@ -60,6 +60,8 @@ class Profit extends React.Component {
           onOpen={() => this.toggleDrawer(true)}
           visible={visible}
           drawerStyle={{width: '40%'}}
+          closeValue='收起PK对象'
+          openValue='展开PK对象'
         >
           <ProfitList {...this.props} pkUsers={pkUsers} pkListType={pkListType} changePkListType={this.changePkListType} changeSelected={this.changeSelected} {...this.props}/>
         </BIDrawer>
