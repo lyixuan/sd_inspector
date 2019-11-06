@@ -4,6 +4,7 @@ import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BILoading from '@/components/BILoading'
+import styles from './style.less'
 import moment from 'moment'
 @connect(({xdManagementBench,loading}) => ({
   xdManagementBench,
@@ -85,6 +86,8 @@ class IMPartRight extends React.Component {
                                                            onRow={this.onClickRow}
                                                            rowKey={record => record.id}
                                                            isEditTd={true}
+                                                           className={styles.IMRight}
+
 
 
         />}

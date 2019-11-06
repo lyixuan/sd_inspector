@@ -19,17 +19,17 @@ class Dimension extends React.Component {
         dataIndex: 'dimensionName',
         key: 'dimensionName',
         rowClassName: styles.fontWeight,
-        width: '160px',
+        width: '170px',
         render: (text, record) => {
           if (record.sequenceNo) {
-            return <span><b>{record.sequenceNo}{text}</b></span>
+            return <span><b>{record.sequenceNo} {text}</b></span>
           } else {
-            return <span>{record.sequenceNo}{text}</span>
+            return <span>{text}</span>
           }
 
         }
       }, {
-        width: 80,
+        width: 90,
         title: '学分',
         dataIndex: 'score',
         key: 'score',
@@ -38,7 +38,7 @@ class Dimension extends React.Component {
           return <div>{text}</div>
         }
       }, {
-        width: 80,
+        width: 90,
         title: '环比(%)',
         dataIndex: 'scoreRatio',
         className: 'txRight',
@@ -53,7 +53,7 @@ class Dimension extends React.Component {
           )
         }
       }, {
-        width: 95,
+        width: 105,
         title: '数量',
         dataIndex: 'num',
         className: 'txRight',
