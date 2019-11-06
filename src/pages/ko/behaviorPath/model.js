@@ -246,6 +246,10 @@ export default {
       if (result.code === 20000) {
         const BasicInfo = result.data;
         yield put({ type: 'save', payload: { BasicInfo } });
+      } else if(result.code === 20003){
+        const BasicInfo = result.data;
+        yield put({ type: 'save', payload: { BasicInfo } });
+        message.warn(result.msgDetail);
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -256,8 +260,9 @@ export default {
       if (result.code === 20000) {
         const TagInfo = result.data;
         yield put({ type: 'save', payload: { TagInfo } });
-      } else {
-        // message.error(msgF(result.msg, result.msgDetail));
+      } else if (result.code === 20003){
+        const TagInfo = result.data;
+        yield put({ type: 'save', payload: { TagInfo } });
       }
     },
     *getStatInfo({ payload }, { call, put }) {
@@ -266,8 +271,9 @@ export default {
       if (result.code === 20000) {
         const StatInfo = result.data;
         yield put({ type: 'save', payload: { StatInfo } });
-      } else {
-        // message.error(msgF(result.msg, result.msgDetail));
+      } else if (result.code === 20003){
+        const StatInfo = result.data;
+        yield put({ type: 'save', payload: { StatInfo } });
       }
     },
     *getDetailInfo({ payload }, { call, put }) {
@@ -276,8 +282,9 @@ export default {
       if (result.code === 20000) {
         const DetailInfo = result.data;
         yield put({ type: 'save', payload: { DetailInfo } });
-      } else {
-        // message.error(msgF(result.msg, result.msgDetail));
+      } else if (result.code === 20003){
+        const DetailInfo = result.data;
+        yield put({ type: 'save', payload: { DetailInfo } });
       }
     },
   },
