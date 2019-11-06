@@ -126,7 +126,7 @@ class ProfitTbas extends React.Component {
       }, {
         width: 140,
         className: styles.rowBg2,
-        title: '好推绩效系数',
+        title: '好推系数均值',
         dataIndex: 'goodpushValueAvg',
         key: 'goodpushValueAvg',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={text} isColor="green" percent={this.getPercent(text, maxValue.goodpushValueAvg)} style={{marginLeft: '-8px'}}/>)
