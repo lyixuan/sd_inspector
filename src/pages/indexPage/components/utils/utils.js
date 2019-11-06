@@ -14,12 +14,41 @@ export function fillDataSource(params = [], n = 1, flagMark) {
     item.level = n;
     item.flagMark = item.dimensionName === '学分均分' ? 3 : (item.dimensionName === '负面均分' ? 2 : flagMark); // 1 正面均分  2 负面均分 3学分均分 其它
     if (item.values) {// 处理颜色对比
-      if (item.flagMark === 1 || item.flagMark === 3 || item.dimensionName === '退挽' || item.dimensionName === '随堂考') {
-        item.valuesParams = BIContrastCell.colorContrast({ nums: item.values });
+      if (item.flagMark === 3) {
+        item.valuesParams = item.values.map((text, index) => {
+          if (text > 0) {
+            return <BIContrastCell 
+            text={text} 
+            nums={item.values}
+            {...this.getContentLink(text, item, index)}
+            />
+          } else {
+            return <BIContrastCell 
+            text={text} 
+            nums={item.values} 
+            colors={colorsArr} 
+            isReversed={true}
+            {...this.getContentLink(text, item, index)}
+            />
+          } 
+        });
+      } else if (item.flagMark === 1 || item.dimensionName === '退挽' || item.dimensionName === '随堂考') {
+        item.valuesParams =item.values.map((text, index) => <BIContrastCell 
+        text={text} 
+        nums={item.values}
+        {...this.getContentLink(text, item, index)}
+        />) 
       } else if (item.flagMark === 2) {
-        item.valuesParams = BIContrastCell.colorContrast({ nums: item.values, colors: colorsArr, isReversed: true });
+        item.valuesParams =item.values.map((text, index) => <BIContrastCell 
+        text={text} 
+        nums={item.values}
+        colors={colorsArr}
+        isReversed={true}
+        {...this.getContentLink(text, item, index)}
+        />) 
       }
     }
+
     if (item.children && item.children.length > 0) {
       const mark = item.dimensionName === '学分均分' ? 1 : (item.dimensionName === '负面均分' ? 2 : flagMark);
       fillDataSource(item.children, n + 1, mark);
