@@ -17,6 +17,8 @@ const { BI = {} } = window;
 const localKey = 'creditWorkLocal';
 @connect(({ xdClsssModal, loading }) => ({
   kpiTimes: xdClsssModal.kpiTimes || {},
+  groupPkList: xdClsssModal.familyScorePk,
+  dimenloading: loading.effects['xdClsssModal/groupPkList'],
 }))
 class currentCredit extends React.Component {
   constructor(props) {
@@ -31,6 +33,7 @@ class currentCredit extends React.Component {
     this.props.dispatch({
       type: 'xdWorkModal/getKpiLevelList',
     });
+    this.getPkData()
   }
   // 初始化数据
   getLocalValue = () => {
@@ -40,8 +43,26 @@ class currentCredit extends React.Component {
       hasData: hasData && hasData === 2 ? false : true // 学分基础信息切换显示
     };
   }
+  getPkData = () => {
+    this.props.dispatch({
+      type: 'xdClsssModal/groupPkList',
+      payload: { params: { pkGroupList: this.state.pkGroupList } },
+    })
+  }
+  handleAction = pkGroupList => {
+    if (pkGroupList) {
+      setLocalValue({ pkGroupList }, localKey);
+      this.setState({ pkGroupList }, () => this.getPkData());
+    } else {
+      setLocalValue({ pkGroupList: this.state.pkGroupList }, localKey);
+      this.getPkData();
+    }  
+  }
+  handleDelete = (id) => {
+    this.clickRow(id, this.handleAction);
+  }
   // 增减PK者
-  clickRow = (id) => {
+  clickRow = (id, callback) => {
     const { pkGroupList } = this.state;
     if (pkGroupList instanceof Array) {
       if (pkGroupList.includes(id)) {
@@ -55,8 +76,11 @@ class currentCredit extends React.Component {
         pkGroupList.push(id);
       }
     }
-    setLocalValue({ pkGroupList }, localKey);
-    this.setState({ pkGroupList: [...pkGroupList] });
+    this.setState({ pkGroupList: [...pkGroupList] }, () => {
+      if (callback && typeof callback === 'function') {
+        callback();
+      }
+    });
   }
   // 显示隐藏数据
   toggleData = () => {
@@ -86,6 +110,7 @@ class currentCredit extends React.Component {
   render() {
     const { pkGroupList, visible, hasData } = this.state;
     const { startTime, endTime } = this.props.kpiTimes;
+    const { dimenloading } = this.props;
     return (
       <Container
         title='本期学分'
@@ -99,11 +124,13 @@ class currentCredit extends React.Component {
       >
         <div className={styles.creditContainer}>
           <CurrentCreditLeft 
-            toggleDrawer={this.toggleDrawer} 
-            changePkFn={this.clickRow}
+            toggleDrawer={this.toggleDrawer}
+            getNumValue={this.getNumValue}
+            handleDelete={this.handleDelete} 
             hasData={hasData}
             pkGroupList={pkGroupList}
-            getNumValue={this.getNumValue}
+            loading={dimenloading}
+            groupPkList={this.props.groupPkList}
           />
           <BIDrawer
           onClose={() => this.toggleDrawer(false)}
@@ -117,6 +144,8 @@ class currentCredit extends React.Component {
             clickRow={this.clickRow} 
             getNumValue={this.getNumValue}
             localKey={localKey}
+            handleAction={this.handleAction}
+            dimenloading={dimenloading}
             />
           </BIDrawer>
         </div>

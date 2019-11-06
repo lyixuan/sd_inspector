@@ -199,9 +199,8 @@ class currentCreditRight extends React.Component {
     }
   }
   render() {
-    const { orgValue, studentValue, collegeId, userFlag, userMsg, groupList } = this.state;
+    const { orgValue, studentValue, collegeId, userFlag, userMsg, groupList=[] } = this.state;
     const { orgOptions, hasData, handleAction=function(){}, showKey={}, globalCollegeList } = this.props;
-    const dataSource = groupList ? groupList : [];
     const pkValue = this.getShowKey('pkValue');
     return (
       <div className={styles.creditRight}>
@@ -249,7 +248,7 @@ class currentCreditRight extends React.Component {
           <div id="scroll1">
             <BIWrapperTable
               columns={this.columnsRight()}
-              dataSource={dataSource}
+              dataSource={groupList}
               pagination={false}
               loading={this.props.drawerloading}
               rowClassName={this.setRowClassName}

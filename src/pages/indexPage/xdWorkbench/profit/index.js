@@ -5,9 +5,14 @@ import ProfitList from './components/list';
 import ProfitTabs from './components/tabs';
 import BIDrawer from '@/components/BIDrawer';
 import { message } from 'antd/lib/index';
+import { connect } from 'dva';
 
 const { BI = {} } = window;
-const localKey = 'incomeWorkLocal'
+const localKey = 'incomeWorkLocal';
+@connect(({ xdClsssModal, loading }) => ({
+  groupIncomePk: xdClsssModal.groupIncomePk,
+  resultloading: loading.effects['xdClsssModal/getContrastIncomeKpiPkList'],
+}))
 class Profit extends React.Component {
   constructor(props) {
     super(props);
@@ -16,16 +21,39 @@ class Profit extends React.Component {
       ...this.getLocalValue()
     }
   }
+  componentDidMount() {
+    this.getResulitList()
+  }
   // 初始化数据
   getLocalValue = () => {
-    const {pkUsers = [], pkListType = 3} = JSON.parse(localStorage.getItem(localKey)) || {};
+    const { pkUsers = [], pkListType = 3} = JSON.parse(localStorage.getItem(localKey)) || {};
     return {
       pkUsers, // 选中PK数组
       pkListType: pkListType // 学分基础信息切换显示
     };
+  }  
+  getResulitList = () => {
+    this.props.dispatch({
+      type: 'xdClsssModal/getContrastIncomeKpiPkList',
+      payload: { params: { pkUsers: this.state.pkUsers } }
+    });
+  }
+  // 操作 确定  清空
+  handleAction = pkUsers => {
+    if (pkUsers) {
+      setLocalValue({ pkUsers }, localKey);
+      this.setState({ pkUsers }, () => this.getResulitList());
+    } else {
+      setLocalValue({ pkUsers: this.state.pkUsers }, localKey);
+      this.getResulitList();
+    }
+  }
+  // 删除
+  handleDelete = id => {
+    this.changeSelected(id, this.handleAction)
   }
   // PK数组
-  changeSelected = (id) => {
+  changeSelected = (id, callback) => {
     const { pkUsers } = this.state;
     if (pkUsers instanceof Array) {
       if (pkUsers.includes(id)) {
@@ -39,8 +67,11 @@ class Profit extends React.Component {
         pkUsers.push(id);
       }
     }
-    setLocalValue({ pkUsers }, localKey);
-    this.setState({ pkUsers: [...pkUsers] });
+    this.setState({ pkUsers: [...pkUsers] }, () => {
+      if (callback && typeof callback === 'function') {
+        callback();
+      }
+    });
   }
   // 对比小组筛选条件
   changePkListType = (v) => {
@@ -55,20 +86,36 @@ class Profit extends React.Component {
 
   render() {
     const { pkUsers, pkListType, visible } = this.state;
+    const { resultloading } = this.props;
     return (
       <Container 
       title='本期创收' 
       // right={<a>创收详情</a>}
-      propStyle={{ display: 'flex', height: '540px', position: 'relative' }}
+      propStyle={{ display: 'flex', height: '640px', position: 'relative' }}
       >
-        <ProfitTabs {...this.props} pkUsers={pkUsers} pkListType={pkListType} changeSelected={this.changeSelected} toggleDrawer={this.toggleDrawer}/>
+        <ProfitTabs 
+        pkUsers={pkUsers} 
+        toggleDrawer={this.toggleDrawer}
+        handleDelete={this.handleDelete}
+        loading={resultloading}
+        profitData={this.props.groupIncomePk}
+        {...this.props} 
+        />
         <BIDrawer
           onClose={() => this.toggleDrawer(false)}
           onOpen={() => this.toggleDrawer(true)}
           visible={visible}
           drawerStyle={{width: '40%'}}
         >
-          <ProfitList {...this.props} pkUsers={pkUsers} pkListType={pkListType} changePkListType={this.changePkListType} changeSelected={this.changeSelected} {...this.props}/>
+          <ProfitList 
+          pkUsers={pkUsers} 
+          pkListType={pkListType}
+          changePkListType={this.changePkListType} 
+          changeSelected={this.changeSelected} 
+          handleAction={this.handleAction}
+          resultloading={resultloading}
+          {...this.props}
+          />
         </BIDrawer>
       </Container>
     );

@@ -48,11 +48,11 @@ class FamilyIndex extends React.Component {
       callback: (res) => callback(res)
     });
   }
-  // 抽屉操作
+  // 操作 确定  清空
   handleAction = pkUsers => {
     if (pkUsers) {
       setLocalValue({ pkUsers }, localKey);
-      this.setState({ pkUsers }, this.getResulitList());
+      this.setState({ pkUsers }, () => this.getResulitList());
     } else {
       setLocalValue({ pkUsers: this.state.pkUsers }, localKey);
       this.getResulitList();

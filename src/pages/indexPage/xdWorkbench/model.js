@@ -8,6 +8,7 @@ import {
   getKpiInfo,
   isShowPermission,
 } from './services';
+import { getFillData } from '@/pages/indexPage/components/utils/utils';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
 import moment from 'moment';
@@ -17,21 +18,26 @@ export default {
   state: {
     userInfo: {}, // 全局值
     groupList: null,
-    kpiTimes: null,
-    familyKpiTimes: {},
+    kpiTimes: {},
     classQualityList: [],
-    classAppealList: []
+    classAppealList: [],
+    familyScorePk: {}, // 本期学分
+    groupIncomePk: {
+      maxValue: {},
+      pkList: []
+    }
   },
 
   effects: {
     // 本期创收
-    *getContrastIncomeKpiPkList({ payload, callback }, { call }) {
+    *getContrastIncomeKpiPkList({ payload, callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(getContrastIncomeKpiPkList, params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
+        yield put({ type: 'save', payload: { groupIncomePk: result.data } });
       } else if (result.code === 50000) {
         if (callback && typeof callback === 'function') {
           callback();
@@ -89,13 +95,14 @@ export default {
       }
     },
     //  获取左侧的列表数据
-    *groupPkList({ payload, callback }, { call }) {
+    *groupPkList({ payload, callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(groupPkList, params)
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
+        yield put({ type: 'saveScore', payload: { data: result.data, key: 'familyScorePk'} });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -140,6 +147,11 @@ export default {
       const orgListTreeData = toTreeData(payload.orgList);
       return { ...state, orgList: payload.orgList, orgListTreeData };
     },
+    saveScore(state, { payload }) {
+      const data = payload.data;
+      data.dimensionList = getFillData(state.kpiTimes, data.dimensionList)
+      return { ...state, [payload.key]: data};
+    }
   },
   subscriptions: {},
 };

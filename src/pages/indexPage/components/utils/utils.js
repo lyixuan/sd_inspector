@@ -10,13 +10,19 @@ export function setLocalValue(obj, item) {
   localStorage.setItem(item, JSON.stringify(data));
 }
 // 学分维度处理
+const fillValue = {
+  kpitime: {},
+  trace: function() {
+
+  }
+};
 const colorsArr = ['rgba(255, 120, 120, 1)', 'rgba(255, 120, 120, 0.8)', 'rgba(255, 120, 120, 0.6)', 'rgba(255, 120, 120, 0.4)', 'rgba(255, 120, 120, 0.2)', 'rgba(255, 120, 120, 0.1)'];
 const getContentLink = function (text, record, index) {
   if (index === 0 && text) {
-    const { startTime, endTime } = this.props.kpiTimes;
+    const { startTime, endTime } = fillValue.kpitime;
     return { 
       className: styles.mineHover,
-      textContent: <Link onClick={() => this.getDataTrace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
+      textContent: <Link onClick={() => fillValue.trace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
       {text} <span style={{ marginLeft: '2px' }}>{'>'}</span>
     </Link>
     }        
@@ -53,7 +59,7 @@ export function fillDataSource(params = [], n = 1, flagMark) {
         item.valuesParams =item.values.map((text, index) => <BIContrastCell 
         text={text} 
         nums={item.values}
-        {...this.getContentLink(text, item, index)}
+        {...getContentLink(text, item, index)}
         />) 
       } else if (item.flagMark === 2) {
         item.valuesParams =item.values.map((text, index) => <BIContrastCell 
@@ -61,7 +67,7 @@ export function fillDataSource(params = [], n = 1, flagMark) {
         nums={item.values}
         colors={colorsArr}
         isReversed={true}
-        {...this.getContentLink(text, item, index)}
+        {...getContentLink(text, item, index)}
         />) 
       }
     }
@@ -72,6 +78,10 @@ export function fillDataSource(params = [], n = 1, flagMark) {
     }
   })
   return params
+}
+export function getFillData(obj, data) {
+  fillValue.kpitime = {...fillValue.kpitime, ...obj};
+  return fillDataSource(data);
 }
 export function getSubtract(bul, n, s = 160) {
   if(!bul) return n - s;

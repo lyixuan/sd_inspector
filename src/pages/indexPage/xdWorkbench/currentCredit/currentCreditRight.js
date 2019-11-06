@@ -4,6 +4,7 @@ import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIWrapperTable from '../../components/BIWrapperTable';
+import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect';
 import styles from './style.less';
 
@@ -38,18 +39,26 @@ class currentCreditRight extends React.Component {
       userLocation: '',
       userMsg: '',
       groupList: [],
+      eleScroll: '',
       ...this.getSearchParams()// 搜索参数初始化
     };
   }
   componentDidMount() {
     this.getGroupList()
     // 表格添加滚动事件
-    document.querySelector("#scroll1 .ant-table-body").onscroll = (e) => {
-      this.getScrollFn(e.target.scrollTop)
+    const eleScroll = document.querySelector("#scroll1 .ant-table-body");
+    this.setState({ eleScroll });
+    if (eleScroll) {
+      eleScroll.onscroll = (e) => {
+        this.getScrollFn(e.target.scrollTop)
+      }
     }
   }
   componentWillUnmount() {
-    document.querySelector("#scroll1 .ant-table-body").onscroll = '';
+    const { eleScroll } = this.state;
+    if (eleScroll) {
+      eleScroll.onscroll = '';
+    } 
   }
   // 获取存储参数
   getSearchParams = () => {
@@ -71,7 +80,9 @@ class currentCreditRight extends React.Component {
       type: 'xdClsssModal/groupList',
       payload: { params: { [paramsItem]:  this.state.studentValue} },
       callback: (groupList) => {
-        this.setState({ groupList })
+        this.setState({ groupList });
+        const { eleScroll } = this.state;
+        if (eleScroll) { eleScroll.scrollTop = 0;}
         this.getScrollFn();
       },
     })
@@ -90,7 +101,6 @@ class currentCreditRight extends React.Component {
       })
     }
   }
-
   columnsRight = () => {
     const total = this.state.groupList && this.state.groupList[0] ? this.state.groupList[0].credit : 0
     const columns = [
@@ -134,13 +144,12 @@ class currentCreditRight extends React.Component {
     } else if (vname === 'studentValue') {
       setLocalValue({studentValue: value, orgValue: this.state.orgValue}, this.props.localKey)
       this.setState({studentValue: value}, () => this.getGroupList());
-      document.querySelector("#scroll .ant-table-body").scrollTop = 0;
-    } else { }
+    }
   };
   setRowClassName = (record, index) => {
     let className = ''
     let taClassName = ""
-    if (record.isMyGroup) {
+    if (record.myGroup) {
       this.state.userMsg = record;
       this.state.userLocation = 40 * (index + 1) - this.props.getNumValue(580);
       taClassName = "rowHover";
@@ -165,32 +174,13 @@ class currentCreditRight extends React.Component {
   onClickRow = (record) => {
     return {
       onClick: () => {
-        if (!record.isMyGroup) {
+        if (!record.myGroup) {
           this.props.clickRow(record.groupId);
           BI.traceV &&  BI.traceV({"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"})
         }
       },
     };
   }
-  // 初始化tabale 列数据
-  fillDataSource = val => {
-    const data = [];
-    val.map((item, index) =>
-      data.push({
-        key: index + 1,
-        averageStudentNumber: item.averageStudentNumber,
-        collegeId: item.collegeId,
-        groupName: item.groupName,
-        credit: item.credit,
-        familyId: item.familyId,
-        groupId: item.groupId,
-        creditRankingCoefficient: item.creditRankingCoefficient,
-        creditRanking: item.creditRanking,
-        isMyGroup: item.myGroup,
-      })
-    );
-    return data;
-  };
   // 二级选择参数
   getStudentOptions = () => {
     const { orgValue } = this.state;
@@ -203,13 +193,13 @@ class currentCreditRight extends React.Component {
     }
   }
   render() {
-    const { orgOptions, orgValue, studentValue, userFlag, userMsg, groupList } = this.state;
-    const dataSource = groupList ? this.fillDataSource(groupList) : []
+    const { orgOptions, orgValue, studentValue, userFlag, userMsg, groupList=[] } = this.state;
+    const { handleAction } = this.props;
     return (
       <div className={styles.creditRight}>
         <div className={styles.creditSelect} >
-          <span className={styles.title}>选择对比小组:</span>
-          <BISelect style={{ width: 138}} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val, 'oneLevel')}>
+          <div className={styles.title}>选择对比小组:</div>
+          <BISelect style={{ width: 138, marginLeft: 24}} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val, 'oneLevel')}>
             {orgOptions.map((item, index) => (
               <Option value={item.id} key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
                 {item.name}
@@ -239,7 +229,7 @@ class currentCreditRight extends React.Component {
           <div id="scroll1">
             <BIWrapperTable
               columns={this.columnsRight()}
-              dataSource={dataSource}
+              dataSource={groupList}
               pagination={false}
               loading={this.props.loading}
               rowClassName={this.setRowClassName}
@@ -249,7 +239,10 @@ class currentCreditRight extends React.Component {
             />
           </div>
         </div>
-
+        <div className={styles.actionBtn}>
+          <BIButton onClick={() => handleAction([])}  loading={this.props.dimenloading} type="reset" style={{marginRight: '8px'}}>清空</BIButton>
+          <BIButton onClick={() => handleAction(false)} loading={this.props.dimenloading}  type="primary">确定</BIButton>
+        </div> 
       </div>
     );
   }
