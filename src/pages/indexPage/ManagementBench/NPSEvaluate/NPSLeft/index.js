@@ -5,6 +5,7 @@ import ColorBlock from '../components/colorBlock'
 import BIWrapperTable from '../../../components/BIWrapperTable';
 import Star from '../components/star'
 import BILoading from '@/components/BILoading'
+import { Tooltip } from 'antd';
 
 
 @connect(({xdManagementBench,loading}) => ({
@@ -19,6 +20,13 @@ class NPSLeft extends React.Component {
   }
   componentDidMount() {
   }
+  clickStudentName = (record) =>{
+    let params={
+      userId:record.stuId,//record,
+      target:'userName'
+    }
+    window.open(`/inspector/ko/behaviorPath?params=${JSON.stringify(params)}`);
+  }
   columnsRight = () =>{
     const columns = [
       {
@@ -30,7 +38,10 @@ class NPSLeft extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        width:"20%"
+        width:"20%",
+        render: (stuName,record) => {
+          return <div className={styles.studentColor} onClick={()=>this.clickStudentName(record)}>{stuName}</div>
+        },
       }, {
         title: '星级',
         dataIndex: 'star',
@@ -45,7 +56,9 @@ class NPSLeft extends React.Component {
         key: 'opinion',
         width:351,
         render: (opinion,) => {
-          return <div className={styles.contentMain}>{opinion}</div>
+          return <Tooltip placement="right" title={opinion}>
+            <div className={styles.contentMain}>{opinion}</div>
+          </Tooltip>
         },
       },
     ]
@@ -56,7 +69,7 @@ class NPSLeft extends React.Component {
     const {NPSleftParams} = this.props
     const dataSource = NPSleftParams && NPSleftParams.npsStarOpinionDtoListMap && NPSleftParams.npsStarOpinionDtoListMap.data.length>0 ? NPSleftParams.npsStarOpinionDtoListMap.data:[]
     return (
-      <div className={styles.NPALeftMain} style={{width: 'calc(100% - 350px)'}}>
+      <div className={styles.NPALeftMain} style={{width: 'calc(100% - 366px)'}}>
       <div>
         {NPSleftParams && NPSleftParams.reasonTypeDtoList && NPSleftParams.reasonTypeDtoList.map((item,index)=><ColorBlock data={{...item}} key={index} className={`colorStyle${index}`}/>)}
       </div>

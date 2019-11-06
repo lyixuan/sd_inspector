@@ -33,7 +33,7 @@ class CollegeScore extends React.Component {
     arr.map((item,index)=>{
       creaditValue.push(item.creaditValue);
       familyName.push(item.name);
-      qoqValue.push(Number(parseInt(item.qoqValue*100)))
+      qoqValue.push((item.qoqValue*100).toFixed(2))
     })
     const yMax =  Math.max.apply(null, creaditValue);
     const yMin = Math.min.apply(null, creaditValue);
@@ -43,6 +43,9 @@ class CollegeScore extends React.Component {
       dataShadow.push(yMin);
       maxShadow.push(yMax);
     }
+  const barWidth = familyName.length>=22 ? 20 : 50
+    const barBackground = creaditValue[0]< 0?"#FF8086":"#47D3FF"
+    console.log(55,barBackground)
     const  options = {
       color: ["#50D4FD", "#FD8188"],
       tooltip: {
@@ -55,26 +58,13 @@ class CollegeScore extends React.Component {
         },
         formatter: '{a2}: {c2}<br />{a3}: {c3}%'
       },
-      // legend: {
-      //   data: ['正面', '负面'],
-      //   bottom: 5,
-      //   itemHeight: 30,
-      //   right:30,
-      //   orient:'horizontal',
-      //   textStyle: {
-      //     color: '#7B7C80',
-      //     fontSize:13
-      //   },
-      //   icon:'circle',
-      //   itemWidth:10
-      // },
       xAxis: [
         {
           type: 'category',
           data: familyName,
           axisLabel: {
             interval:0,
-            rotate:40,
+            rotate:30,
             color:'#000000 '
           },
           axisLine:{
@@ -92,7 +82,7 @@ class CollegeScore extends React.Component {
           inverse: false,
           splitArea: {show: false},
           type: 'value',
-          min: -yMin,
+          min: yMin,
           max: yMax,
           // interval: 4,
           axisLabel: {
@@ -116,7 +106,7 @@ class CollegeScore extends React.Component {
           inverse: false,
           splitArea: {show: false},
           type: 'value',
-          min: -yRightMin,
+          min: yRightMin,
           max: yRightMax,
           axisLabel: {
             formatter: '{value} %',
@@ -130,10 +120,6 @@ class CollegeScore extends React.Component {
           },
           splitLine:{
             show:false
-            // lineStyle:{
-            //   type:'dotted',
-            //   color:"RGBA(229, 229, 229, 0.5)"
-            // }
           }
 
         }
@@ -151,8 +137,7 @@ class CollegeScore extends React.Component {
             normal: {color: 'rgba(0,0,0,0.05)'}
           },
           barGap:'-100%',
-          barCategoryGap:'40%',
-          barWidth:50,
+          barWidth:barWidth,
           data: dataShadow
         },
         { // For shadow
@@ -161,8 +146,7 @@ class CollegeScore extends React.Component {
             normal: {color: 'rgba(71,211,255,0.06)'}
           },
           barGap:'-100%',
-          barCategoryGap:'40%',
-          barWidth:50,
+          barWidth:barWidth,
           data: maxShadow,
           animation: false
         },
@@ -170,9 +154,9 @@ class CollegeScore extends React.Component {
           name:'均分',
           type:'bar',
           itemStyle: {
-            normal: {color: '#47D3FF',barBorderRadius:[4, 4, 0, 0]}
+            normal: {color: barBackground,barBorderRadius:[4, 4, 0, 0]}
           },
-          barWidth:50,
+          barWidth:barWidth,
           label: {
             normal: {
               show: true,
@@ -181,15 +165,16 @@ class CollegeScore extends React.Component {
               fontSize:13
             }
           },
-          data:creaditValue
-        },{
+          data:creaditValue,
+        },
+        {
           name:'环比',
           type:'line',
           yAxisIndex: 1,
           itemStyle: {
             normal: {color: '#F5A623'}
           },
-          data:qoqValue,//[10.00, 100.00, 20.00, 120.00, -20.00, 40.00]
+          data:qoqValue,
         }
       ]
 
@@ -224,11 +209,11 @@ class CollegeScore extends React.Component {
       }
     })
     tabNum === 4 && (orgId = userInfo.collegeId)
-    if(orgId === userInfo.collegeId && userInfo.userType === "college" || userInfo.userType === "boss" ){
+    if( orgId === userInfo.collegeId && userInfo.userType === "college" || userInfo.userType === "boss" || tabNum !== 1 ){
       let params={
         startTime:tabNum === 4?item.name:moment(this.props.times.startDate).format('YYYY-MM-DD'),
         endTime:tabNum === 4?item.name:moment(this.props.times.endDate).format('YYYY-MM-DD'),
-        dementionId:16,
+        dementionId:this.props.queryAppealDatas.state.queryParams.dimensionId?this.props.queryAppealDatas.state.queryParams.dimensionId:1,
         reasonTypeId:0,
         orgId:orgId,
         orgType:this.orgTypes(tabNum),
@@ -243,7 +228,7 @@ class CollegeScore extends React.Component {
     const {userInfo} = this.props
     return (
       <div style={{minHeight:'479px'}}>
-        <BILoading isLoading={this.props.loading}>
+        <BILoading isLoading={this.props.loading} height="479px">
           <div>
             <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>
             {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 &&

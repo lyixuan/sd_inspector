@@ -3,7 +3,7 @@ import BITable from '@/ant_components/BITable';
 import BIContrastCell from '@/components/BIContrastCell';
 import BISelectCell from '@/components/BISelectCell';
 import searchIcon from '@/assets/xdcredit/search.png';
-import Debounce from 'lodash-decorators/debounce';
+import { Tooltip } from 'antd';
 import styles from './style.less';
 
 const totalLength = 9999;
@@ -79,7 +79,6 @@ class BIClassifyTable extends React.Component {
     }
   }
   columns = () => {
-    console.log(67,this.props.dataSource)
     const data = this.props.dataSource;
     const titleList = data.titleList
     const dataSource = data.dataList
@@ -101,11 +100,15 @@ class BIClassifyTable extends React.Component {
           // 如果userType == 'college'只能点击当前学院的数据
           if ((record[this.props.defaultKey.id] == this.props.collegeId && this.props.userType == 'college') || !this.props.collegeId) {
             return (
-              this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell style={{ cursor: 'pointer' }} key={index} text={`${dataSource[indexs].values[index]}`} unit="%" onClick={(e) => { this.cellClick(record, currentIndex, index) }}></BISelectCell> : <BIContrastCell style={{ cursor: 'pointer' }} data-trace='{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}' others={this.props.defaultKey.unit} key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, index) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
+              this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell style={{ cursor: 'pointer' }} key={index} text={`${dataSource[indexs].values[index]}`} unit="%" onClick={(e) => { this.cellClick(record, currentIndex, index) }}></BISelectCell> :
+                <Tooltip overlayClassName={styles.listMarkingTooltip2} placement="right" title={`差评数：${dataSource[indexs].valueCounts[index]}`}>
+                  <BIContrastCell style={{ cursor: 'pointer' }} data-trace='{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}' key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, index) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} textContent={`${dataSource[indexs].values[index]}%`} />
+                </Tooltip>
+
             )
           }
           return (
-            this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell key={index} text={`${dataSource[indexs].values[index]}`} unit="%" ></BISelectCell> : <BIContrastCell others={this.props.defaultKey.unit} key={index} colors={this.props.colors} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} />
+            this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell key={index} text={`${dataSource[indexs].values[index]}`} unit="%" ></BISelectCell> : <BIContrastCell others="%" key={index} colors={this.props.colors} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} textContent={`${dataSource[indexs].values[index]}%`} />
           )
         },
       })
@@ -135,7 +138,7 @@ class BIClassifyTable extends React.Component {
           fixed: 'left',
           className: styles.zIndex,
           render: (text, record) => {
-            const flag = this.props.orgClick && this.props.collegeId == record[this.props.defaultKey.id] && this.props.userType == 'college'; //判断组织列能不能点击
+            const flag = this.props.orgClick && this.props.collegeId == record[this.props.defaultKey.id] && this.props.userType == 'college' || this.props.userType == 'boss'; //判断组织列能不能点击
             return <span style={{ cursor: flag ? 'pointer' : '' }} onClick={flag ? () => this.props.cellClick('', record) : null}>{text}</span>
           }
         })
@@ -163,7 +166,7 @@ class BIClassifyTable extends React.Component {
             const currentIndex = `${index}${totalLength}`;
             if ((record[this.props.defaultKey.id] == this.props.collegeId && this.props.userType == 'college') || !this.props.collegeId) {
               return (
-                this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell style={{ cursor: 'pointer' }} text={text} onClick={(e) => { this.cellClick(record, currentIndex, 'total') }} /> : <BIContrastCell style={{ cursor: 'pointer' }} data-trace='{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}' key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, 'total') }} nums={record.values} text={text} />
+                this.state.currentIndex == currentIndex && this.props.isChecked ? <BISelectCell style={{ cursor: 'pointer' }} text={text} onClick={(e) => { this.cellClick(record, currentIndex, 'total') }} /> : <BIContrastCell style={{ cursor: 'pointer' }} data-trace='{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}' key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, 'total') }} text={text} />
               )
             }
             return (
@@ -180,7 +183,7 @@ class BIClassifyTable extends React.Component {
   }
 
   render() {
-    const dataSource = this.props.dataSource && this.props.dataSource.dataList.length>0?this.props.dataSource.dataList:[]
+    const dataSource = this.props.dataSource && this.props.dataSource.dataList.length > 0 ? this.props.dataSource.dataList : []
     return (
       <div className={styles.tableWrap} id="tableWrap">
         <BITable

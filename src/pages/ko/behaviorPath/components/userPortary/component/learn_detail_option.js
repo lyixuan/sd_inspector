@@ -11,11 +11,9 @@ export function getOption(obj) {
         }
       },
       formatter: function (params) {
-        if(params[0]&& params[1]) {
-          return '学习状况' +
-            "<br>直播：" + Math.ceil(params[0].value[1]/60) +"分钟"+
-            "<br>重播：" +  Math.ceil(params[1].value[1]/60)+"分钟";
-        }
+        const zb = params[0]?"<br>直播：" + Math.ceil(params[0].value[1]/60) +"分钟":'';
+        const cb =  params[1]?"<br>重播：" +  Math.ceil(params[1].value[1]/60)+"分钟":'';
+        return '学习状况' + zb + cb;
       }
     },
     legend: {
@@ -39,6 +37,8 @@ export function getOption(obj) {
       axisTick: {},
       axisLabel: {},
       type: 'time',
+      // interval: 2,
+      splitNumber:10,
       axisPointer: {
         // animation: true,
         label: {

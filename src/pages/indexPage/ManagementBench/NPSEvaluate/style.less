@@ -2,12 +2,19 @@
   display: flex;
   justify-content: space-between;
 }
+.con {
+  height: 32px;
+}
+
 .change {
   display: inline-block;
   margin-right: 24px;
   > div {
     display: inline-block;
   }
+}
+.change:nth-last-child(1){
+  margin-right:0;
 }
 .NPALeftMain{
  width:60%;
@@ -18,6 +25,10 @@
     word-break:keep-all;
     white-space:nowrap;
     text-overflow:ellipsis;
+  }
+  .studentColor{
+    color: rgb(0, 204, 195);
+    cursor: pointer;
   }
 }
 .NPSRight{

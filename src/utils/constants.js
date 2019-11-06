@@ -553,7 +553,6 @@ export default {
   SCORE_APPEAL_STATE_ON_MASTER,
   SCORE_APPEAL_DIS,
   PUNISH_TYPE_LIST,
-  REMOVE_LOCAL_DATA
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

@@ -191,7 +191,6 @@ class XdCredit extends React.Component {
     })
   }
   getParentNode(data, nodeId, groupType, arr = []) {
-    // let arr = []
     if (data && data.length > 0) {
       for (let index = 0; index < data.length; index++) {
         const item = data[index];
@@ -205,8 +204,6 @@ class XdCredit extends React.Component {
               arr.unshift(item);
               return true;
             }
-          } else {
-            return false;
           }
         }
       }
@@ -260,6 +257,7 @@ class XdCredit extends React.Component {
     // }
     const param = {
       ...groupMsg,
+      familyType: this.state.familyType.length == 3 ? '0' : this.state.familyType,
       dementionId: this.state.dementionId,
       startTime: this.state.startTime,
       endTime: this.state.endTime,
@@ -283,14 +281,13 @@ class XdCredit extends React.Component {
   }
   // reset groupId数组 getResetGroupId
   getResetGroupMsg = (arr = this.state.userOrgConfig) => {
+    const { orgId, orgType } = this.state;
+    let arr1 = [];
     if (arr && arr.length > 0) {
       this.getParentNode(arr, orgId, orgType, arr1)
       const item = arr[0];
-      let arr1 = [];
-      const { orgId, orgType } = this.state;
-      if (orgId) {
+      if (orgId && arr1.length > 0) {
         const { familyType } = JSON.parse(this.props.location.query.params);
-        this.getParentNode(arr, orgId, orgType, arr1)
         const groupArr = arr1.map(item => item.id)
         this.setState({
           showCollege: arr1.length == 1 && arr1[0].familyType.length > 1
@@ -396,7 +393,7 @@ class XdCredit extends React.Component {
   render() {
     const { dementionId, groupId, extendFlag, userOrgConfig, startTime, endTime } = this.state;
     const { infoLoading } = this.props;
-    const value = this.state.familyType.length > 1 ? 0 : this.state.familyType
+    const value = this.state.familyType.length > 1 ? 0 : parseInt(this.state.familyType);
     return (
       <div className={`${styles.credit} ${extendFlag ? '' : styles.extent}`}>
         <Skeleton loading={infoLoading} >
@@ -427,7 +424,7 @@ class XdCredit extends React.Component {
                   学院类型：
                   <BISelect
                     value={value}
-                    placeholder="请选择小组"
+                    placeholder="请选择学院类型"
                     style={{ width: '136px' }}
                     onChange={this.onSelectChange}
                   >

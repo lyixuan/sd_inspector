@@ -2,10 +2,6 @@ import React from 'react';
 import { connect } from 'dva';
 import BISelect from '@/ant_components/BISelect';
 import styles from './styles.less';
-import BITable from '@/ant_components/BITable';
-import Progress from '../../../../components/progress';
-import IndentNum from '../../../../components/indentNum';
-import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../../../components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import rank1 from '@/assets/xdFamily/rank1.png';
@@ -13,11 +9,6 @@ import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
 import moment from 'moment';
 import { thousandsFormatBigger } from '@/utils/utils';
-
-function CustomExpandIcon(props) {
-  return <a />;
-}
-
 const { Option } = BISelect;
 
 @connect(xdManagementBench => ({
@@ -71,18 +62,31 @@ class Top extends React.Component {
   }
 
   componentDidMount() {
-    this.getData(localStorage.getItem('orgValue') || '0');
+    let newcollegeId = localStorage.getItem('orgValue') || this.props.userInfo.collegeId || '0';
+    let { orgValue } = this.state;
+    this.getData(newcollegeId);
     this.props
       .dispatch({
         type: 'xdManagementBench/getHotList',
       })
       .then(res => {
-        this.setState({ typeList: res });
+        res.map((item, index) => {
+          if (item.collegeId === newcollegeId) {
+            orgValue = String(newcollegeId);
+          }
+        });
+        this.setState({ typeList: res, orgValue });
       });
   }
 
   getData(collegeId) {
     const { date } = this.props;
+    let { orgValue } = this.state;
+    if (collegeId === 'undefined') {
+      orgValue = 0;
+    } else {
+      orgValue = String(collegeId);
+    }
     this.props
       .dispatch({
         type: 'xdManagementBench/getPackageRankList',
@@ -90,12 +94,12 @@ class Top extends React.Component {
           params: {
             beginDate: moment(date.startDate).format('YYYY-MM-DD'),
             endDate: moment(date.endDate).format('YYYY-MM-DD'),
-            collegeId,
+            collegeId: collegeId !== 'undefined' ? collegeId : '0',
           },
         },
       })
       .then(res => {
-        this.setState({ dataSource: res });
+        this.setState({ dataSource: res, orgValue });
       });
   }
 
@@ -105,6 +109,7 @@ class Top extends React.Component {
         title: '排名',
         dataIndex: 'id',
         key: 'id',
+        width: '20%',
         render: (text, record) => {
           let className = '';
           let rank = 1;
@@ -130,26 +135,36 @@ class Top extends React.Component {
         title: '创收产品包',
         dataIndex: 'packageName',
         key: 'packageName',
+        width: '40%',
+        render: (packageName, record) => {
+          return <div style={{ textAlign: 'left' }}>{packageName}</div>;
+        },
       },
       {
         title: '创收单量',
         dataIndex: 'incomeOrder',
         key: 'incomeOrder',
-        width: 70,
+        width: '20%',
+        render: (incomeOrder, record) => {
+          return <div style={{ textAlign: 'right' }}>{incomeOrder}</div>;
+        },
       },
       {
         title: '创收流水',
         dataIndex: 'incomeFlowKpi',
         key: 'incomeFlowKpi',
+        // width: '15%',
         render: (incomeFlowKpi, record) => {
           const percent = record.incomeFlowKpiRatio * 100 + '%';
           const money = thousandsFormatBigger(incomeFlowKpi);
           return (
-            <BIWrapperProgress
-              text={money}
-              percent={percent}
-              propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'center' }}
-            />
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <BIWrapperProgress
+                text={money}
+                percent={percent}
+                propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'right' }}
+              />
+            </div>
           );
         },
       },
@@ -176,13 +191,22 @@ class Top extends React.Component {
               style={{ width: 136, marginLeft: 12 }}
               placeholder="请选择"
               value={orgValue}
-              allowClear
               onChange={val => this.onFormChange(val)}
             >
-              <Option key={0}>全部</Option>
+              <Option
+                key={'0'}
+                data-trace='{"widgetName":"产品包学院筛选","traceName":"管理层工作台/产品包学院筛选"}'
+              >
+                全部
+              </Option>
               {typeList &&
                 typeList.map((item, index) => (
-                  <Option key={item.collegeId}>{item.collegeName}</Option>
+                  <Option
+                    key={item.collegeId}
+                    data-trace='{"widgetName":"产品包学院筛选","traceName":"管理层工作台/产品包学院筛选"}'
+                  >
+                    {item.collegeName}
+                  </Option>
                 ))}
             </BISelect>
           </div>
@@ -198,19 +222,6 @@ class Top extends React.Component {
             scroll={{ y: 288 }}
           />
         </div>
-        {/* <div className={styles.tableContainer}>
-          <BITable
-            columns={this.columns()}
-            dataSource={familyScoreList}
-            defaultExpandAllRows={true}
-            expandIcon={CustomExpandIcon}
-            rowClassName={this.setRowClassName}
-            pagination={false}
-            scroll={{ x: 0, y: 408 }}
-            rowKey={record => record.id}
-            loading={this.props.loading}
-          ></BITable> */}
-        {/* </div> */}
       </div>
     );
   }

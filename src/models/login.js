@@ -116,6 +116,8 @@ export default {
         const saveObj = { ...userInfo, ...others };
         storage.setUserInfo(saveObj);
         storage.setUserAuth(privilegeList);
+        // storage.removeItem('NPSGroupId');
+        // storage.removeItem('NPSDates');
         yield put({
           type: 'menu/getMenu',
           payload: { routeData: response.privilegeList },

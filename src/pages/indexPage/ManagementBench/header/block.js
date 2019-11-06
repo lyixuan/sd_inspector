@@ -10,7 +10,7 @@ import workImg5 from '@/assets/workImg5.png';
 import workArrow from '@/assets/workArrow.png';
 import moment from 'moment';
 import { Tooltip } from 'antd';
-
+const { BI = {} } = window;
 const admin_user = localStorage.getItem('admin_user');
 
 const TYPE = [
@@ -41,12 +41,12 @@ const TYPE = [
   {
     key: 5,
     name: 'NPS差评率',
-    href: '#five',
+    href: '#four',
     title: '当前绩效周期内NPS差评率',
   },
   {
     key: 6,
-    name: 'BBS负面贴',
+    name: 'BBS负面帖数',
     href: '#six',
     title: '当前绩效周期内BBS负面帖数',
   },
@@ -64,19 +64,38 @@ class Block extends React.Component {
       familyType: 0, // 0 自考 1 壁垒
     };
   }
+
+  addPoint = (e, name) => {
+    if (name === 'IM差评率') {
+      BI.traceV && BI.traceV({ widgetName: 'IM差评率', traceName: '管理层工作台/IM差评率' });
+    }
+  };
   render() {
     const { item } = this.props;
     if (!item) return;
     let href = '';
     let title = '';
+    let name = '';
+    let flag = false;
     TYPE.map(currentValue => {
       if (currentValue.key === item.type)
-        return (href = currentValue.href), (title = currentValue.title);
+        return (href = currentValue.href), (title = currentValue.title), (name = currentValue.name);
     });
-    const money = thousandsFormatBigger(item.value);
+    let money = 0;
+    if (name === 'IM差评率' || name === 'NPS差评率') {
+      flag = true;
+      money = item.value !== 0 ? Number(item.value * 100).toFixed(2) + '%' : 0;
+    } else if (name === '创收流水') {
+      money = thousandsFormatBigger(item.value);
+      flag = false;
+    } else {
+      money = item.value;
+      flag = false;
+    }
     return (
-      <li>
-        <a href={href}></a>
+      <li onClick={e => this.addPoint(e, name)}>
+        {/* <div>{flag && <a href={href} />}</div> */}
+        <div></div>
         <span className={styles.num}>
           <Tooltip title={title}>{money}</Tooltip>
         </span>

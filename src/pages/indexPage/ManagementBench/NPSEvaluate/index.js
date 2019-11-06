@@ -12,6 +12,7 @@ import { initTimeData } from '../../../ko/utils/utils';
 // const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
+const { BI = {} } = window;
 @connect(({xdManagementBench,xdCreditModal,xdWorkModal}) => ({
   xdManagementBench,
   xdCreditModal,
@@ -21,7 +22,6 @@ const dateFormat = 'YYYY-MM-DD';
 class NPSEvaluate extends React.Component {
   constructor(props) {
     super(props)
-    console.log(24,props.date)
     this.state = {
       collegeOptions:[{
         collegeId:1,
@@ -41,28 +41,39 @@ class NPSEvaluate extends React.Component {
       }],
       orgValue:"自变量",
       userOrgConfig: [],
-      groupId: [],
+      groupId: [] ||localStorage.getItem('NPSGroupId'),
       groupTypeArr: [],
       NPSParams:{},
-      dateArr:this.handleDefaultPickerValueMark(),
+      dateArr:localStorage.getItem('NPSDates')?this.localStoryDates():this.handleDefaultPickerValueMark(),
       userInfo:props.userInfo,
-      disableEndDate:this.handleDefaultPickerValueMark()[1]
+      disableEndDate:this.handleDefaultPickerValueMarkDays()[1]
     }
   }
   componentDidMount() {
     this.getUserOrgList()
-    this.getNpsAutonomousEvaluation(this.state.userInfo)
-    if(this.state.userInfo.collegeId){
-      this.state.groupId.push(this.state.userInfo.collegeId)
-    }else if(this.state.userInfo.familyId){
-      this.state.groupId.push(this.state.userInfo.familyId)
-    }else if(this.state.userInfo.groupId){
-      this.state.groupId.push(this.state.userInfo.groupId)
+    if(this.state.userInfo.userType == "boss"){
+      this.state.groupId = [0]
+    }else{
+      if(this.state.userInfo.collegeId){
+        this.state.groupId.push(this.state.userInfo.collegeId)
+      }else if(this.state.userInfo.familyId){
+        this.state.groupId.push(this.state.userInfo.familyId)
+      }else if(this.state.userInfo.groupId){
+        this.state.groupId.push(this.state.userInfo.groupId)
+      }
     }
     this.setState({
-      groupId:this.state.groupId
+      groupId:localStorage.getItem('NPSGroupId')?JSON.parse(localStorage.getItem('NPSGroupId')):this.state.groupId
+    },()=>{
+      this.getNpsAutonomousEvaluation(this.state.userInfo,'')
     })
   }
+  localStoryDates = () =>{
+    let startDate = moment(JSON.parse(localStorage.getItem('NPSDates'))[0])
+    let endDate = moment(JSON.parse(localStorage.getItem('NPSDates'))[1])
+    return [startDate,endDate]
+  }
+
   initRecordTimeListData = (params=[]) =>{
     const [startTime,endTime]= params.map(item => item && moment(item).format(dateFormat))
     return {startTime,endTime};
@@ -94,6 +105,7 @@ class NPSEvaluate extends React.Component {
       payload: { params: {} },
       callback: res => {
         if (res && res.length > 0) {
+          res.unshift({id: 0,name: '全部',nodeList: ''})
           this.setState({
             userOrgConfig:res,
           })
@@ -109,33 +121,39 @@ class NPSEvaluate extends React.Component {
     },()=>{
       this.getNpsAutonomousEvaluation()
     });
+    BI.traceV && BI.traceV({ "widgetName":"NPS归属筛选", "traceName": "管理层工作台/NPS归属筛选"});
+    localStorage.setItem('NPSGroupId', JSON.stringify(groupId));
   }
   // 选择时间
   onDateChange = (v) => {
+    localStorage.setItem('NPSDates', JSON.stringify(initTimeData(v)));
     this.setState({ dateArr:v, },()=>this.getNpsAutonomousEvaluation());
-  }
-  // date
-  getDate = () => {
-    const { startTime, endTime } = this.state;
-    return startTime && endTime ? [moment(startTime), moment(endTime)] : [];
+    BI.traceV && BI.traceV({ "widgetName":"NPS时间筛选", "traceName": "管理层工作台/NPS时间筛选"});
   }
   //取T-2日期的数据
-  handleDefaultPickerValueMark = (n = 2, cTime) =>{
+  handleDefaultPickerValueMark = ( cTime) =>{
+    cTime = cTime ? moment(cTime) : moment();
+    const defTime = cTime.subtract(1, 'months');
+    return [defTime,defTime];
+  }
+  handleDefaultPickerValueMarkDays = (n = 2, cTime) =>{
     cTime = cTime ? moment(cTime) : moment();
     const defTime = cTime.subtract(n, 'days');
     return [defTime,defTime];
   }
+
   // 时间控件可展示的时间范围
   disabledDate = current => {
     return current > moment(this.state.disableEndDate) || current < moment("2019-07-08");
   };
   rightPart = () =>{
     // const {collegeOptions,orgValue} = this.state
-    const {  groupId, userOrgConfig, dateArr } = this.state;
+    const {  groupId=[0], userOrgConfig, dateArr } = this.state;
+    console.log(145,groupId)
     const {orgList} = this.props.xdManagementBench;
     orgList.length>0 && this.getResetGroupMsg(orgList)
     return(
-      <div>
+      <div className={styles.con}>
         <span className={styles.change}>
                   选择组织：
                 <BICascader
@@ -168,7 +186,6 @@ class NPSEvaluate extends React.Component {
   }
   render() {
     const { NPSParams} = this.state;
-    console.log(157,NPSParams)
     return (
       <Container title="NPS自主评价分析"
                  style={{ width: '100%', marginBottom: '16px' }}

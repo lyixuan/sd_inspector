@@ -21,7 +21,6 @@ class TopTabs extends React.Component {
       keye: val
     })
     if(this.props.onTabChange){
-      console.log()
       this.props.onTabChange({keye: val})
     }
   };

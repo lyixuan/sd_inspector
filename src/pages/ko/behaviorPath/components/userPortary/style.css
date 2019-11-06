@@ -1,8 +1,11 @@
 .layout {
   min-width: 1050px;
 }
-
-.contentLayout {
+.layout1 {
+  min-width: 1050px;
+  height: 1000px;
+}
+.contentLayout , .contentLayoutbase,.contentLayoutbase2{
   background: #fff;
   margin-top: 16px;
   overflow: hidden;
@@ -10,7 +13,12 @@
   position: relative;
   padding: 10px;
 }
-
+.contentLayoutbase {
+  margin-top: 12px;
+}
+.contentLayoutbase2 {
+  margin-top: 10px;
+}
 .avatar {
   width: 70px;
   height: 70px;

@@ -9,7 +9,7 @@ import ReactDOM from 'react-dom';
 import IMPartLeft from './IMPartLeft';
 import IMPartRight from './IMPartRight';
 import NPSEvaluate from './NPSEvaluate';
-import moment from 'moment'
+import moment from 'moment';
 @connect(({ xdManagementBench, xdWorkModal }) => ({
   xdManagementBench,
   userInfo: xdWorkModal.userInfo,
@@ -23,7 +23,7 @@ class ManagementBench extends React.Component {
         startDate: null,
         kpiMonth: null,
         endDate: null,
-        reasonTypeId:0
+        reasonTypeId: 0,
       },
     };
   }
@@ -66,62 +66,71 @@ class ManagementBench extends React.Component {
       }
     }
   }
-  reasonTypeClick = (item) => {
-    this.setState({
-      reasonTypeId: item.typeId
-    }, () => {
-      this.getReasonListData();
-    })
-  }
+  reasonTypeClick = item => {
+    this.setState(
+      {
+        reasonTypeId: item.typeId,
+      },
+      () => {
+        this.getReasonListData();
+      }
+    );
+  };
   cellClick = (item, record, type) => {
-    console.log()
-    const {date} = this.state
+    console.log();
+    const { date } = this.state;
     let reasonTypeId = this.state.reasonTypeId;
     if (item) {
-      reasonTypeId = item.typeId
+      reasonTypeId = item.typeId;
     } else if (type == 'total' && this.state.reasonTypeId == 0) {
-      reasonTypeId = 0
+      reasonTypeId = 0;
     }
-    let params={
-      startTime:moment(date.startDate).format('YYYY-MM-DD'),
-      endTime:moment(date.endDate).format('YYYY-MM-DD'),
-      dementionId:16,
-      reasonTypeId:reasonTypeId,
-      orgId:record.orgId,
-      orgClick:this.orgClick,
-      orgType:record.groupType
-    }
+    let params = {
+      startTime: moment(date.startDate).format('YYYY-MM-DD'),
+      endTime: moment(date.endDate).format('YYYY-MM-DD'),
+      dementionId: 16,
+      reasonTypeId: reasonTypeId,
+      orgId: record.orgId,
+      orgClick: this.orgClick,
+      orgType: record.groupType,
+    };
     window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
-  }
+  };
   getReasonListData() {
-    const {date} = this.state
+    const { date } = this.state;
     const params = {
       startTime: moment(date.startDate).format('YYYY-MM-DD'),
-      endTime:moment(date.endDate).format('YYYY-MM-DD'),
+      endTime: moment(date.endDate).format('YYYY-MM-DD'),
       familyType: null,
       groupType: null,
       orgId: null,
-      reasonTypeId: this.state.reasonTypeId
-    }
+      reasonTypeId: this.state.reasonTypeId,
+    };
     this.props.dispatch({
       type: 'xdManagementBench/reasonList',
-      payload: { params }
+      payload: { params },
     });
     // this.getImDetail();
   }
   render() {
     const { date } = this.state;
-    const {userInfo={}} = this.props
+    const { userInfo = {} } = this.props;
     return (
       <div className={styles.workbench}>
         {date.startDate && <Header date={date} />}
-        {date.startDate && <IncomeCompare date={date} />}
-        {date.startDate && userInfo &&  <ScoreContrast date={date} userInfo={userInfo}/>}
+        {date.startDate && userInfo && <IncomeCompare date={date} userInfo={userInfo} />}
+        {date.startDate && userInfo && <ScoreContrast date={date} userInfo={userInfo} />}
         <div className={styles.qualityAppel} ref="four">
-          {userInfo && <IMPartLeft  cellClick={this.cellClick} reasonTypeClick={this.reasonTypeClick} userInfo = {userInfo}/>}
-          <IMPartRight />
+          {userInfo && (
+            <IMPartLeft
+              cellClick={this.cellClick}
+              reasonTypeClick={this.reasonTypeClick}
+              userInfo={userInfo}
+            />
+          )}
+          {date.startDate && <IMPartRight date={date} />}
         </div>
-        {date.startDate && userInfo && <NPSEvaluate ref="five" date={date} userInfo={userInfo}/>}
+        {date.startDate && userInfo && <NPSEvaluate ref="five" date={date} userInfo={userInfo} />}
       </div>
     );
   }

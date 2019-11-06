@@ -16,27 +16,27 @@ class ScoreContrast extends React.Component {
     super(props)
     this.state = {
       tabParams:props.userInfo.userType === "boss"?[{
-        name: '学院学分对比',
+        name: <span data-trace='{"widgetName":"学院学分对比","traceName":"管理层工作台/学院学分对比"}'>学院学分对比</span>,
         key: '1',
         children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       },{
-        name:'家族学分对比',
+        name:<span data-trace='{"widgetName":"家族学分对比","traceName":"管理层工作台/家族学分对比"}'>家族学分对比</span>,
         key:'2',
         children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       }]:[{
-        name: '学院学分对比',
+        name: <span data-trace='{"widgetName":"学院学分对比","traceName":"管理层工作台/学院学分对比"}'>学院学分对比</span>,
         key: '1',
         children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       },{
-        name:'家族学分对比',
+        name:<span data-trace='{"widgetName":"家族学分对比","traceName":"管理层工作台/家族学分对比"}'>家族学分对比</span>,
         key:'2',
         children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       },{
-        name: '小组学分对比',
+        name: <span data-trace='{"widgetName":"小组学分对比","traceName":"管理层工作台/小组学分对比"}'>小组学分对比</span>,
         key: '3',
         children: <CollegeScore queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       },{
-        name:'学分时间趋势',
+        name:<span data-trace='{"widgetName":"学分时间趋势","traceName":"管理层工作台/学分时间趋势"}'>学分时间趋势</span>,
         key:'4',
         children:<CollegeScore queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       }],
@@ -78,7 +78,7 @@ class ScoreContrast extends React.Component {
     }
     this.state.tabNum = Number(obj.keye)
     if (!this.state.query[obj.keye]) {
-      this.state.query[obj.keye] = {};
+      this.state.query[obj.keye] = {dimensionId:null};
     }
     this.queryAppealDataPage({contrasts: Number(obj.keye), ...this.state.query[obj.keye]});
   }
@@ -106,7 +106,7 @@ class ScoreContrast extends React.Component {
       <div>
         <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
 
-          {Object.keys(collegeOptions).map((key)=> <Option key={key}>
+          {Object.keys(collegeOptions).map((key)=> <Option key={key} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
             {collegeOptions[key]}
           </Option>)}
         </BISelect>

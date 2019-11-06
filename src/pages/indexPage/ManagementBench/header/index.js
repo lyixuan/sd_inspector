@@ -42,7 +42,7 @@ const TYPE = [
   },
   {
     key: 6,
-    name: 'BBS负面贴',
+    name: 'BBS负面帖数',
     href: 'six',
   },
 ];
@@ -127,7 +127,7 @@ class Header extends React.Component {
     return (
       <ul className={styles.list}>
         <li>
-          <a href="#one">{/* <img src={workImg1} alt="icon" /> */}</a>
+          <div>{/* <img src={workImg1} alt="icon" /> */}</div>
           {countList.familyTypeFlag && (
             <span className={styles.changeType} onClick={() => this.changeType()}>
               {val}
@@ -136,116 +136,40 @@ class Header extends React.Component {
           )}
           <span className={styles.num}>
             {' '}
-            <Tooltip title="当前绩效周期内本学院的学分均分">
-              {thousandsFormatBigger(countList.value)}
-            </Tooltip>
+            {countList.value && (
+              <Tooltip title="当前绩效周期内本学院的学分均分">
+                {thousandsFormatBigger(countList.value)}
+              </Tooltip>
+            )}
           </span>
           <p className={styles.bottom}>
             <span>学分均分</span>
-            <span className={styles.arrowCon}>
-              {countList.loopRatio}%{countList.loopRatio > 0 && <i className={styles.arrowTop}></i>}
-              {countList.loopRatio < 0 && <i className={styles.arrowBottom}></i>}
-            </span>
+            {countList.loopRatio && (
+              <span className={styles.arrowCon}>
+                {(countList.loopRatio * 100).toFixed(2)}%
+                {countList.loopRatio > 0 && <i className={styles.arrowTop}></i>}
+                {countList.loopRatio < 0 && <i className={styles.arrowBottom}></i>}
+              </span>
+            )}
           </p>
         </li>
         {allList.map(item => {
           if (!item || !item.type) return;
           return <Block item={item} />;
         })}
-        {/* <li>
-          <a href="#two">
-            <img src={workImg2} alt="icon" />
-          </a>
-          <span className={styles.num}>8.92</span>
-          <p className={styles.bottom}>
-            <span>创收单量</span>
-          </p>
-        </li>
-        <li>
-          <a href="#three">
-            <img src={workImg3} alt="icon" />
-          </a>
-          <span className={styles.num}>8.92</span>
-          <p className={styles.bottom}>
-            <span>创收流水</span>
-          </p>
-        </li>
-        <li>
-          <a href="#four">
-            <img src={workImg4} alt="icon" />
-          </a>
-          <span className={styles.num}>8.92</span>
-          <p className={styles.bottom}>
-            <span>IM差评率</span>
-          </p>
-        </li>
-        <li>
-          <a href="#five">
-            <img src={workImg5} alt="icon" />
-          </a>
-          <span className={styles.num}>8.92</span>
-          <p className={styles.bottom}>
-            <span>BBS负面帖数</span>
-          </p>
-        </li> */}
       </ul>
     );
   }
 
   // 管理层不显示学分
   getUlList1() {
-    const { allList } = this.state;
+    const { allList = [] } = this.state;
     return (
       <ul className={styles.list}>
         {allList.map(item => {
           if (!item || !item.type) return;
           return <Block item={item} />;
         })}
-        {/* <li>
-          <a href="#one">
-            <img src={workImg1} alt="icon" />
-          </a>
-          <span className={styles.num}>8.92</span>
-          <p className={styles.bottom}>
-            <span>创收单量</span>
-          </p>
-        </li>
-        <li>
-          <a href="#two">
-            <img src={workImg2} alt="icon" />
-          </a>
-          <span className={styles.num}>8.92</span>
-          <p className={styles.bottom}>
-            <span>创收流失</span>
-          </p>
-        </li>
-        <li>
-          <a href="#three">
-            <img src={workImg3} alt="icon" />
-          </a>
-          <span className={styles.num}>8.92</span>
-          <p className={styles.bottom}>
-            <span>IM差评率</span>
-          </p>
-        </li>
-        <li>
-          <a href="#four">
-            <img src={workImg4} alt="icon" />
-          </a>
-          <span className={styles.num}>8.92</span>
-          <p className={styles.bottom}>
-            <span>NPS差评率</span>
-          </p>
-        </li>
-        <li> 
-          <a href="#five">
-            <img src={workImg5} alt="icon" />
-          </a>
-          <span className={styles.num}>8.92</span>
-          <p className={styles.bottom}>
-            <span>BBS负面帖数</span>
-          </p>
-        </li>*/}
       </ul>
     );
   }

@@ -78,7 +78,7 @@ export default class OrderStat extends React.Component {
               <div>订单数</div>
             </Col>
             <Col span={12}>
-              <div className={styles.num}>{totalRestAmount?thousandsFormat(totalRestAmount):0}</div>
+              <div className={styles.num}>{totalRestAmount?thousandsFormat(Math.ceil(totalRestAmount)):0}</div>
               <div>净流水总额（元）</div>
             </Col>
           </Row>

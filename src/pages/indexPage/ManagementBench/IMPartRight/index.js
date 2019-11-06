@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-// import styles from './style.less'
 import Container from '@/components/BIContainer';
 import BIWrapperTable from '../../components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BILoading from '@/components/BILoading'
+import styles from './style.less'
+import moment from 'moment'
 @connect(({xdManagementBench,loading}) => ({
   xdManagementBench,
   loading:loading.effects['xdManagementBench/getImReverseSideData'],
@@ -19,7 +20,7 @@ class IMPartRight extends React.Component {
   componentDidMount() {
     this.props.dispatch({
       type: 'xdManagementBench/getImReverseSideData',
-      payload: { params: {} },
+      payload: { params: {startTime:moment(this.props.date.startDate).format('YYYY-MM-DD'),endTime:moment(this.props.date.endDate).format('YYYY-MM-DD')} },
       callback: data => {
         this.setState({
           dataSource:data
@@ -34,24 +35,30 @@ class IMPartRight extends React.Component {
         title: '学院',
         dataIndex: 'college',
         key: 'college',
-        width:"31%"
+        width:"30%"
       }, {
         title: '差评率',
         dataIndex: 'badContrasts',
         key: 'badContrasts',
         width:"23%",
-        render: (badPostNum, record) => {
-          const percent = parseInt(badPostNum * 100) + '%';
-          return <BIWrapperProgress text={percent} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"left"}}/>
+        render: (badContrasts, record) => {
+          const percent =(record.badContrastsBar * 100).toFixed(2) + '%';
+          const text = (badContrasts*100).toFixed(2)+"%"
+          return<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <BIWrapperProgress text={text} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"right"}}/>
+          </div>
+
         },
       }, {
         title: '不及时次数',
         dataIndex: 'notInTime',
         key: 'notInTime',
-        width:"23%",
+        width:"24%",
         render: (notInTime, record) => {
           const percent = record.notInTimeContrasts* 100 + '%';
-          return <BIWrapperProgress text={notInTime} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"left"}}/>
+          return <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <BIWrapperProgress text={notInTime} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"right"}}/>
+          </div>
         },
       }, {
         title: '未回复次数',
@@ -59,7 +66,9 @@ class IMPartRight extends React.Component {
         key: 'notReply',
         render: (notReply, record) => {
           const percent = record.notReplyContrasts * 100 + '%';
-          return <BIWrapperProgress text={notReply} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"left"}}/>
+          return <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <BIWrapperProgress text={notReply} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"right"}}/>
+          </div>
         },
       },
     ]
@@ -69,15 +78,17 @@ class IMPartRight extends React.Component {
     const { dataSource} = this.state;
     return (
       <Container title="IM负面数据对比"
-                 style={{ width: 'calc(40% - 16px)',minHeight:'372px'}}
+                 style={{ width: '33%',minHeight:'372px'}}
       >
-        {this.props.loading?<BILoading isLoading={this.props.loading}/>:<BIWrapperTable  columns={this.columnsRight()}
+        {this.props.loading?<BILoading isLoading={this.props.loading} height = '372px'/>:<BIWrapperTable  columns={this.columnsRight()}
                                                            dataSource={dataSource||[]}
                                                            pagination={false}
                                                            loading={this.props.loading}
                                                            onRow={this.onClickRow}
                                                            rowKey={record => record.id}
                                                            isEditTd={true}
+                                                           className={styles.IMRight}
+
 
 
         />}

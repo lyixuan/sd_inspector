@@ -5,13 +5,14 @@
     color: #FF626A;
 }
 .dimension {
-    width: 410px;
+    width: 440px;
     margin-right: 8px;
     background:#fff;
     padding:16px 24px;
     border-radius:10px;
     box-sizing:border-box;
     overflow-x:auto;
+    flex-shrink: 0;
     :global{
         // 正
         .plusBgColor{
@@ -55,9 +56,9 @@
             padding-right:10px;
             white-space: nowrap;
         }
-        // .ant-table-thead > tr:first-child > th:first-child, .ant-table-tbody > tr > td:first-child {
-        //     padding-left: 24px;
-        //   }
+        .ant-table-bordered .ant-table-thead > tr > th, .ant-table-bordered .ant-table-tbody > tr > td{
+            border-right-color:#EFF3F6;
+        }
 
     } 
     // 维度不同背景色

@@ -43,7 +43,7 @@ class IMPartLeft extends React.Component {
     console.log('loading', this.props.loading)
     return (
       <Container title="IM负面原因分析"
-        style={{ width: '60%', marginBottom: '16px', minHeight: '372px' }}>
+        style={{ width: 'calc(67% - 16px)', marginBottom: '16px', minHeight: '372px' }}>
 
 
         {this.props.loading ? <div style={{ width: '100%', minHeight: '372px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}><BILoading isLoading={this.props.loading} /></div> : imDetailData && <BIClassifyTable

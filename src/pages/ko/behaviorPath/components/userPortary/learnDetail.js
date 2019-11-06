@@ -11,7 +11,7 @@ export default class LearnDetail extends React.Component {
 
     const  options = getOption(learnDetail);
     return (
-      <div className={styles.contentLayout}>
+      <div className={styles.contentLayoutbase2}>
         <div className={styles.boxHead}>
           <span className={styles.boxTitle}>学习状况</span>
         </div>

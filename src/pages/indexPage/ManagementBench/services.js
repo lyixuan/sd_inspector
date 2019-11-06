@@ -39,7 +39,7 @@ export async function getNpsStarOpinion(data) {
 }
 //查询组织架构的接口
 export async function getOrgMapTree(params) {
-  return request('/orgMap/getOrgMapTree', { method: 'get', params });
+  return request('/orgMap/getAllOrgMapTree', { method: 'get', params });
 }
 //IM负面数据对比
 export async function getImReverseSideData(params) {
