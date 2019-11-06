@@ -22,9 +22,9 @@ class Dimension extends React.Component {
         width: '170px',
         render: (text, record) => {
           if (record.sequenceNo) {
-            return <span><b>{record.sequenceNo}{text}</b></span>
+            return <span><b>{record.sequenceNo} {text}</b></span>
           } else {
-            return <span>{record.sequenceNo}{text}</span>
+            return <span>{text}</span>
           }
 
         }
