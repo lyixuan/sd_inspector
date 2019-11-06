@@ -44,9 +44,9 @@ class NPSEvaluate extends React.Component {
       groupId: [] ||localStorage.getItem('NPSGroupId'),
       groupTypeArr: [],
       NPSParams:{},
-      dateArr:localStorage.getItem('NPSDates')?this.localStoryDates():this.handleDefaultPickerValueMark(),
+      dateArr:localStorage.getItem('NPSDates')?this.localStoryDates():[this.handleDefaultPickerValueMark(),this.handleDefaultPickerValueMarkDays()],
       userInfo:props.userInfo,
-      disableEndDate:this.handleDefaultPickerValueMarkDays()[1]
+      disableEndDate:this.handleDefaultPickerValueMarkDays()
     }
   }
   componentDidMount() {
@@ -131,15 +131,15 @@ class NPSEvaluate extends React.Component {
     BI.traceV && BI.traceV({ "widgetName":"NPS时间筛选", "traceName": "管理层工作台/NPS时间筛选"});
   }
   //取T-2日期的数据
-  handleDefaultPickerValueMark = ( cTime) =>{
+  handleDefaultPickerValueMark = (cTime) =>{
     cTime = cTime ? moment(cTime) : moment();
-    const defTime = cTime.subtract(1, 'months');
-    return [defTime,defTime];
+    // const startDate = cTime.subtract(1, 'months');
+    return cTime.subtract(1, 'months');
   }
   handleDefaultPickerValueMarkDays = (n = 2, cTime) =>{
     cTime = cTime ? moment(cTime) : moment();
-    const defTime = cTime.subtract(n, 'days');
-    return [defTime,defTime];
+    // const defTime = cTime.subtract(n, 'days');
+    return cTime.subtract(n, 'days')
   }
 
   // 时间控件可展示的时间范围
