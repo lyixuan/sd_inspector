@@ -10,7 +10,7 @@ import { Link } from 'dva/router';
 import BILoading from '@/components/BILoading'
 
 @connect(({ xdFamilyModal, loading }) => ({
-  familyKpiTimes: xdFamilyModal.familyKpiTimes,
+  familyKpiTimes: xdFamilyModal.familyKpiTimes || {},
   loading: loading.effects['xdFamilyModal/scoreDetail']
 }))
 class ProfitList extends React.Component {
