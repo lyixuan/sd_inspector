@@ -12,11 +12,12 @@ export default {
   effects: {
     // sendEmail
     *sendMail({ payload }, { call, put }) {
-      const result = yield call(send);
+      const params = payload.params;
+      const result = yield call(send, params);
       if (result.code === 20000) {
         const { data } = result.data;
         yield put({ type: 'save', payload: { data } });
-        return data;
+        return result;
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -25,7 +26,7 @@ export default {
     *getIgnoreUser({ payload }, { call, put }) {
       const result = yield call(getIgnoreUser);
       if (result.code === 20000) {
-        const { data } = result.data;
+        const data = result.data;
         yield put({ type: 'save', payload: { data } });
         return data;
       } else {

@@ -37,26 +37,37 @@ class Report extends React.Component {
 
   componentDidMount() {
     this.checkMail();
+    this.getIgnoreUser();
   }
 
+  getIgnoreUser() {
+    this.props
+      .dispatch({
+        type: 'report/getIgnoreUser',
+      })
+      .then(res => {
+        this.props.form.setFieldsValue({
+          ignoreUsers: res,
+        });
+      });
+  }
   checkMail = () => {
-    this.setState({ disabled: false });
-    // this.props
-    //   .dispatch({
-    //     type: 'report/checkMail',
-    //   })
-    //   .then(res => {
-    //     console.log(res);
-    //   });
+    this.props
+      .dispatch({
+        type: 'report/checkMail',
+      })
+      .then(res => {
+        this.setState({ disabled: res });
+      });
   };
 
   handleSubmit = e => {
     let { beginDate, endDate } = this.state;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
+      // if (!err) {
+      //   console.log('Received values of form: ', values);
+      // }
       const time = values.time;
       values.beginDate = moment(time[0]).format('x');
       values.endDate = moment(time[1]).format('x');
@@ -64,6 +75,7 @@ class Report extends React.Component {
         message.error('日期范围不能超过 60天');
         return;
       }
+      delete values.time;
       const that = this;
       confirm({
         className: 'BIConfirm',
@@ -75,11 +87,16 @@ class Report extends React.Component {
           that.props
             .dispatch({
               type: 'report/sendMail',
-              payload: { params: { values } },
+              payload: { params: values },
             })
-            .then(() => {
-              this.checkMail();
-              this.form.setFieldFormValue({});
+            .then(res => {
+              if (res.code === 20000) {
+                that.props.form.resetFields();
+                that.checkMail();
+                that.getIgnoreUser();
+              } else {
+                message.error(res.msg);
+              }
             });
         },
         onCancel() {},
@@ -214,6 +231,7 @@ class Report extends React.Component {
                   ],
                 })(
                   <Input
+                    maxLength={50}
                     // value={'1'}
                     // onInput={e => this.inputChange(e, 'title')}
                     style={{ width: 330 }}
