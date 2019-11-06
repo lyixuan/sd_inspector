@@ -123,7 +123,6 @@ class ProfitList extends React.Component {
       onClick: () => {
         if (record[this.getShowKey('mineFlag')]) return;
         this.props.changeSelected(record.orgId);
-        BI.traceV &&  BI.traceV({"widgetName":"本期创收-创收pk","traceName":"小德工作台/本期创收/创收pk"})
       },
     };
   }
@@ -176,7 +175,7 @@ class ProfitList extends React.Component {
             style={{ width: '136px', marginLeft: '24px' }}
             allowClear
           >
-            {globalCollegeList.map(item => <Option key={item.collegeId} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>{item.collegeName}</Option>)}
+            {globalCollegeList.map(item => <Option key={item.collegeId} data-trace='{"widgetName":"创收-选择对比小组","traceName":"家族长工作台/创收-选择对比小组"}'>{item.collegeName}</Option>)}
           </BISelect>
         </div>
         <div className={styles.tableContent}>

@@ -22,18 +22,21 @@ class XdFamily extends React.Component {
     this.state = {
       tabs: [{
         title: '学分分析',
-        children: <><CurrentCredit/><CreditRank/></>
+        children: <><CurrentCredit/><CreditRank/></>,
+        dataTrace: '{"widgetName":"学分分析","traceName":"家族长工作台/学分分析"}'
       }, 
       {
         title: '创收分析',
-        children: <><Income /><IncomeRank/></>
+        children: <><Income /><IncomeRank/></>,
+        dataTrace: '{"widgetName":"创收分析","traceName":"家族长工作台/创收分析"}'
       }, 
       {
         title: '负面分析',
         children: <div className={styles.qualityAppel}>
           <Appeal userId={userId} />
           <Quality userId={userId} />
-        </div>
+        </div>,
+        dataTrace: '{"widgetName":"负面分析","traceName":"家族长工作台/负面分析"}'
       }]
     }
   }
@@ -51,7 +54,7 @@ class XdFamily extends React.Component {
     const { tabs } = this.state;
     return (
       <div className={styles.familyBench}>
-        <PerformanceDetail />
+        {/* <PerformanceDetail /> */}
         <PageTab tabs={tabs}/>
       </div>
     );

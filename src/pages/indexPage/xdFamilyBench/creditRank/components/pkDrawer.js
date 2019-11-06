@@ -180,10 +180,9 @@ class currentCreditRight extends React.Component {
   onClickRow = (record) => {
     return {
       onClick: () => {
-        console.log(this.getShowKey('pkValue'), record[this.getShowKey('pkValue')], 678)
         if (!record[this.getShowKey('mineFlag')]) {
           this.props.clickRow(record[this.getShowKey('pkValue')]);
-          BI.traceV &&  BI.traceV({"widgetName":"本期学分-学分pk","traceName":"本期学分-学分pk"})
+          BI.traceV &&  BI.traceV({"widgetName":"学分-学分pk","traceName":"家族长工作台/学分-学分pk"})
         }
       },
     };
@@ -212,14 +211,14 @@ class currentCreditRight extends React.Component {
               pkValue === 'groupId' ? <>
                 <BISelect style={{ width: 138, marginLeft: 24}} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val, 'oneLevel')}>
                   {orgOptions.map((item, index) => (
-                    <Option value={item.id} key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
+                    <Option value={item.id} key={item.id} data-trace='{"widgetName":"学分-选择对比小组","traceName":"家族长工作台/学分-选择对比小组"}'>
                       {item.name}
                     </Option>
                   ))}
                 </BISelect>
                 <BISelect style={{ width: 188, marginLeft: 12 }} placeholder="请选择" value={studentValue} onChange={(val) => this.onFormChange(val, 'studentValue')} >
                   {this.getStudentOptions().map(item => (
-                    <Option value={item.id} key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
+                    <Option value={item.id} key={item.id} data-trace='{"widgetName":"学分-选择对比小组","traceName":"家族长工作台/学分-选择对比小组"}'>
                       {item.name}
                     </Option>
                   ))}
@@ -227,7 +226,7 @@ class currentCreditRight extends React.Component {
               </> : <BISelect style={{ width: 138, marginLeft: 24 }} placeholder="全部" value={collegeId} onChange={(val) => this.onFormChange(val, 'collegeId')} allowClear>
               {
                 globalCollegeList.map(item => (
-                  <Option key={item.collegeId} data-trace='{"widgetName":"选择学分对比组织","traceName":"家族长工作台/选择学分对比组织"}'>
+                  <Option key={item.collegeId} data-trace='{"widgetName":"学分-选择对比组织","traceName":"家族长工作台/选择学分对比组织"}'>
                     {item.collegeName}
                   </Option>
                 ))

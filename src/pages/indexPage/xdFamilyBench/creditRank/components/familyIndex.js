@@ -94,14 +94,17 @@ class FamilyIndex extends React.Component {
     const hasData = !this.state.hasData;
     setLocalValue({hasData: hasData ? 1 : 2}, localKey);
     if (hasData) {
-      BI.traceV &&  BI.traceV({"widgetName":"本期学分-显示基础信息","traceName":"本期学分-显示基础信息"});
+      BI.traceV &&  BI.traceV({"widgetName":"学分-显示基础信息","traceName":"家族长工作台/学分-显示基础信息"});
     } else {
-      BI.traceV &&  BI.traceV({"widgetName":"本期学分-隐藏基础信息","traceName":"本期学分-隐藏基础信息"});
+      BI.traceV &&  BI.traceV({"widgetName":"学分-隐藏基础信息","traceName":"家族长工作台/学分-隐藏基础信息"});
     }
     this.setState({ hasData });
   };
   // 抽屉切换
   toggleDrawer = (bul) => {
+    if (bul) {
+      BI.traceV &&  BI.traceV({"widgetName":"学分-展开PK对象","traceName":"家族长工作台/学分-展开PK对象"});
+    }
     this.setState({
       visible: bul,
     });
@@ -112,7 +115,7 @@ class FamilyIndex extends React.Component {
     return (
       <div className={styles.container}>
         <span className={styles.right}>
-          <BIButton onClick={() => handleDataTrace({"widgetName":"消息差评快捷入口","traceName":"班主任工作台/消息差评入口"})} type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton>
+          <BIButton onClick={() => handleDataTrace({"widgetName":"消息差评快捷入口","traceName":"家族长工作台/消息差评入口"})} type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton>
           <BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton>
         </span>
         <PkDimension

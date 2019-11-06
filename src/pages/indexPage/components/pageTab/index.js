@@ -26,7 +26,7 @@ class PageTab extends React.Component {
       <div className={styles.pageTab}>
         <div className={styles.tabTitle}>
           <div>
-            {tabs.map((item, index) => <span className={keye === index+1 ? styles.active : ''} onClick={() => this.onTabChange(index + 1)} key={index}>{item.title}</span>)}
+            {tabs.map((item, index) => <span data-trace={item.dataTrace} className={keye === index+1 ? styles.active : ''} onClick={() => this.onTabChange(index + 1)} key={index}>{item.title}</span>)}
           </div>
         </div>
         <div className={styles.tabContainer}>

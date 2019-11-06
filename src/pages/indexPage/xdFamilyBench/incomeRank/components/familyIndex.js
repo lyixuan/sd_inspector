@@ -68,7 +68,7 @@ class FamilyIndex extends React.Component {
     const { pkUsers } = this.state;
     if (pkUsers instanceof Array) {
       if (pkUsers.includes(id)) {
-        BI.traceV &&  BI.traceV({"widgetName":"本期创收-删除pk对象按钮","traceName":"小德工作台/本期创收/删除pk对象按钮"})
+        BI.traceV &&  BI.traceV({"widgetName":"创收-删除pk对象按钮","traceName":"家族长工作台/创收-删除pk对象按钮"})
         pkUsers.splice(pkUsers.indexOf(id), 1);
       } else {
         if (pkUsers.length >= 5) {
@@ -85,6 +85,9 @@ class FamilyIndex extends React.Component {
     });
   }
   toggleDrawer = (bul) => {
+    if (bul) {
+      BI.traceV &&  BI.traceV({"widgetName":"创收-展开PK对象","traceName":"家族长工作台/创收-展开PK对象"});
+    }
     this.setState({
       visible: bul,
     });

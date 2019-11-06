@@ -85,12 +85,13 @@ class pkDimension extends React.Component {
       return columns || [];
   };
   // 学分查看埋点
-  getDataTrace = (r) => {
-    BI.traceV && BI.traceV({ "widgetName": r.dimensionName, "traceName": "班主任工作台/本期学分/" + r.dimensionName });
-  }
+  // getDataTrace = (r) => {
+  //   const   this.getShowKey('columnOrgName')
+  //   BI.traceV && BI.traceV({ "widgetName": r.dimensionName, "traceName": "家族长工作台/学分/" + r.dimensionName });
+  // }
   // 添加pk对象点击事件
   handleToggle = () => {
-    BI.traceV && BI.traceV({ "widgetName": "本期学分-添加pk对象", "traceName": "本期学分-添加pk对象" });
+    BI.traceV && BI.traceV({ "widgetName": "学分-添加pk对象", "traceName": "家族长工作台/学分-添加pk对象" });
     this.props.toggleDrawer(true);
   }
   // 列表维度name
