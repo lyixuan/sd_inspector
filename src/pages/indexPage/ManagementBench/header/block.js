@@ -46,7 +46,7 @@ const TYPE = [
   },
   {
     key: 6,
-    name: 'BBS负面贴',
+    name: 'BBS负面帖数',
     href: '#six',
     title: '当前绩效周期内BBS负面帖数',
   },

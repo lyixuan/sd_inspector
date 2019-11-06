@@ -286,6 +286,7 @@ class XdCredit extends React.Component {
     if (arr && arr.length > 0) {
       this.getParentNode(arr, orgId, orgType, arr1)
       const item = arr[0];
+      console.log(289, arr1)
       if (orgId && arr1.length > 0) {
         const { familyType } = JSON.parse(this.props.location.query.params);
         const groupArr = arr1.map(item => item.id)
