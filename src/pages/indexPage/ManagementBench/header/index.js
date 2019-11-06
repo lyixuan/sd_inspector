@@ -55,7 +55,9 @@ class Header extends React.Component {
     this.state = {
       countList: {},
       allList: [],
-      userType: JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null,
+      userType: localStorage.getItem('admin_user')
+        ? JSON.parse(localStorage.getItem('admin_user')).userType
+        : null,
       bflag: false,
       val: '自考',
       familyType: 0, // 0 自考 1 壁垒
@@ -188,9 +190,9 @@ class Header extends React.Component {
           </span>
         </p>
         {/* 管理层不显示学分 */}
-        {userType !== 'boss' && <div>{this.getUlList()}</div>}
+        {userType && userType !== 'boss' && <div>{this.getUlList()}</div>}
         {/* 院长副院长 不显示差评率 */}
-        {userType !== 'college' && <div>{this.getUlList1()}</div>}
+        {userType && userType !== 'college' && <div>{this.getUlList1()}</div>}
       </div>
     );
   }
