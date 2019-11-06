@@ -42,7 +42,7 @@ const TYPE = [
   },
   {
     key: 6,
-    name: 'BBS负面贴',
+    name: 'BBS负面帖数',
     href: 'six',
   },
 ];

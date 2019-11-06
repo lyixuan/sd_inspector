@@ -35,7 +35,7 @@ class IMPartRight extends React.Component {
         title: '学院',
         dataIndex: 'college',
         key: 'college',
-        width:"31%"
+        width:"30%"
       }, {
         title: '差评率',
         dataIndex: 'badContrasts',
@@ -53,7 +53,7 @@ class IMPartRight extends React.Component {
         title: '不及时次数',
         dataIndex: 'notInTime',
         key: 'notInTime',
-        width:"23%",
+        width:"24%",
         render: (notInTime, record) => {
           const percent = record.notInTimeContrasts* 100 + '%';
           return <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -78,7 +78,7 @@ class IMPartRight extends React.Component {
     const { dataSource} = this.state;
     return (
       <Container title="IM负面数据对比"
-                 style={{ width: 'calc(40% - 16px)',minHeight:'372px'}}
+                 style={{ width: '33%',minHeight:'372px'}}
       >
         {this.props.loading?<BILoading isLoading={this.props.loading} height = '372px'/>:<BIWrapperTable  columns={this.columnsRight()}
                                                            dataSource={dataSource||[]}
