@@ -59,7 +59,7 @@ class Profit extends React.Component {
           onClose={() => this.toggleDrawer(false)}
           onOpen={() => this.toggleDrawer(true)}
           visible={visible}
-          drawerStyle={{width: '40%'}}
+          drawerStyle={{width: '42%'}}
           closeValue='收起PK对象'
           openValue='展开PK对象'
         >

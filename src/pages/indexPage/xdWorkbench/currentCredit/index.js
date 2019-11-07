@@ -69,12 +69,6 @@ class currentCredit extends React.Component {
       visible: bul,
     });
   };
-  // 隐藏数据
-  getNumValue = (n, s = 160) => {
-    if(!this.state.hasData) return n - s;
-    return n;
-  }
-
   render() {
     const { pkGroupList, visible, hasData } = this.state;
     const { startTime, endTime } = this.props.kpiTimes;
@@ -95,19 +89,17 @@ class currentCredit extends React.Component {
           changePkFn={this.clickRow}
           hasData={hasData}
           pkGroupList={pkGroupList}
-          getNumValue={this.getNumValue}
         />
           <BIDrawer
           onClose={() => this.toggleDrawer(false)}
           onOpen={() => this.toggleDrawer(true)}
           visible={visible}
-          drawerStyle={{width: '40%'}}
+          drawerStyle={{width: '42%'}}
           >
             <CurrentCreditRight 
             hasData={hasData} 
             pkGroupList={pkGroupList} 
             clickRow={this.clickRow} 
-            getNumValue={this.getNumValue}
             />
           </BIDrawer>
       </Container>

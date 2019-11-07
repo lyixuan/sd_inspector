@@ -4,6 +4,7 @@ import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BIWrapperTable from '../../../components/BIWrapperTable';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIIcon from '@/components/BIIcon';
+import BILoading from '@/components/BILoading';
 import pluscircle from '@/assets/xdwork/pluscircle.png';
 import gradeA from '@/assets/workBench/a.png';
 import gradeB from '@/assets/workBench/b.png';
@@ -218,23 +219,25 @@ class ProfitTbas extends React.Component {
   render() {
     const { pkUsers } = this.props;
     return (
-      <div className={styles.profitTabs}>
-        <BIWrapperTable
-          name='incomes'
-          columns={this.columns()}
-          dataSource={this.getDataSource()}
-          pagination={false}
-          loading={this.props.loading}
-          rowKey={(record, index) => record.userId + '' + index}
-          onRow={this.onClickRow}
-          rowClassName={this.getRowClassName}
-          bordered={true}
-          scroll={{ x: 2260 }}
-        />
-        {
-          pkUsers && pkUsers.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt='' /></div>
-        }
-      </div>
+      <BILoading isLoading={this.props.loading}>
+        <div className={styles.profitTabs}>
+          <BIWrapperTable
+            name='incomes'
+            columns={this.columns()}
+            dataSource={this.getDataSource()}
+            pagination={false}
+            // loading={this.props.loading}
+            rowKey={(record, index) => record.userId + '' + index}
+            onRow={this.onClickRow}
+            rowClassName={this.getRowClassName}
+            bordered={true}
+            scroll={{ x: 2260 }}
+          />
+          {
+            pkUsers && pkUsers.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt='' /></div>
+          }
+        </div>
+      </BILoading>
     );
   }
 }

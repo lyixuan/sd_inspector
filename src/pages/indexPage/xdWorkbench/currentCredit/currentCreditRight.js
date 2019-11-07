@@ -83,7 +83,7 @@ class currentCreditRight extends React.Component {
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
-    if ((scrollTop > userLocation && scrollTop < userLocation + this.props.getNumValue(600)) || scrollTop === 0) {
+    if ((scrollTop > userLocation && scrollTop < (userLocation + 400)) || scrollTop === 0) {
       if (userFlag === true) {
         this.setState({
           userFlag: false
@@ -114,7 +114,7 @@ class currentCreditRight extends React.Component {
         title: '排名系数',
         dataIndex: 'creditRankingCoefficient',
         key: 'creditRankingCoefficient',
-        render: text => <BITextAlign>{text}</BITextAlign>
+        render: text => <BITextAlign textalign='left'>{text}</BITextAlign>
       }, {
         title: '学分',
         dataIndex: 'credit',
@@ -150,7 +150,7 @@ class currentCreditRight extends React.Component {
     let taClassName = ""
     if (record.isMyGroup) {
       this.state.userMsg = record;
-      this.state.userLocation = 40 * (index + 1) - this.props.getNumValue(580);
+      this.state.userLocation = 40 * (index + 1) - 400;
       taClassName = "rowHover";
     }
     if (this.getIncludes(record.groupId)) {
@@ -252,7 +252,7 @@ class currentCreditRight extends React.Component {
               loading={this.props.loading}
               rowClassName={this.setRowClassName}
               onRow={this.onClickRow}
-              scroll={{ y: this.props.getNumValue(560) }}
+              scroll={{ y: 410 }}
               rowKey={record => record.groupId}
             />
           </div>

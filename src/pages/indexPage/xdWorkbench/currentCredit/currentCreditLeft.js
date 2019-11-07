@@ -6,7 +6,6 @@ import BIWrapperTable from '../../components/BIWrapperTable';
 import BIContrastCell from '../../components/BIContrastCell';
 import BITextCell from '../../components/BITextCell';
 import BILoading from '@/components/BILoading';
-import BIFillCell from '@/components/BIFillCell';
 import BIIcon from '@/components/BIIcon';
 import pluscircle from '@/assets/xdwork/pluscircle.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
@@ -15,11 +14,6 @@ import down from '@/assets/xdFamily/rankDown.png';
 
 const { BI = {} } = window;
 const colorsArr = ['rgba(255, 120, 120, 1)', 'rgba(255, 120, 120, 0.8)', 'rgba(255, 120, 120, 0.6)', 'rgba(255, 120, 120, 0.4)', 'rgba(255, 120, 120, 0.2)', 'rgba(255, 120, 120, 0.1)'];
-function CustomExpandIcon(props) {
-  return (
-    <a />
-  );
-}
 @connect(({ xdClsssModal, loading }) => ({
   kpiTimes: xdClsssModal.kpiTimes || {},
   loading: loading.effects['xdClsssModal/groupPkList'],
@@ -116,6 +110,7 @@ class currentCreditLeft extends React.Component {
           }
         }
         res.dimensionList = this.fillDataSource(res.dimensionList);
+        console.log(res.dimensionList, 789)
         this.setState({ groupPkList: res, phLoading: false });
       }
     });
@@ -127,7 +122,9 @@ class currentCreditLeft extends React.Component {
   // 列表维度name
   getDimensionName = ({ dimensionName, level, sequenceNo }) => {
     if (sequenceNo) {
-      return <b style={{ marginLeft: level === 3 ? '-20px' : '0' }}>{sequenceNo} {dimensionName}</b>
+      return <b style={{ marginLeft: level === 2 || level === 3 ? '20px' : '0' }}>{sequenceNo} {dimensionName}</b>
+    } else if (level === 3) {
+      return <span style={{ marginLeft: '40px' }}>{dimensionName}</span>
     } else {
       return dimensionName
     }
@@ -158,7 +155,7 @@ class currentCreditLeft extends React.Component {
       }
     }
   }
-  fillDataSource = (params = [], n = 1, flagMark) => {
+  fillDataSource = (params = [], intData = [], n = 1, flagMark) => {
     params.map(item => {
       item.level = n;
       item.flagMark = item.dimensionName === '学分均分' ? 3 : (item.dimensionName === '负面均分' ? 2 : flagMark); // 1 正面均分  2 负面均分 3学分均分 其它
@@ -197,12 +194,14 @@ class currentCreditLeft extends React.Component {
           />)
         }
       }
+      const { children, ...others } = item;
+      intData.push(others);
       if (item.children && item.children.length > 0) {
         const mark = item.dimensionName === '学分均分' ? 1 : (item.dimensionName === '负面均分' ? 2 : flagMark);
-        this.fillDataSource(item.children, n + 1, mark);
-      }
+        this.fillDataSource(item.children, intData, n + 1, mark);
+      }  
     })
-    return params
+    return intData
   }
   getDataSource = () => {
     const { groupPkList } = this.state;
@@ -211,7 +210,8 @@ class currentCreditLeft extends React.Component {
       if (this.props.hasData) {
         return dimensionList;
       } else {
-        return [dimensionList[dimensionList.length - 1]];
+        const [s, a, d, f, ...others] = dimensionList;
+        return others;
       }
     } else {
       return []
@@ -219,31 +219,28 @@ class currentCreditLeft extends React.Component {
 
   }
   render() {
-    const { pkGroupList } = this.props
+    const { pkGroupList, hasData } = this.props
     const loading = this.props.loading || this.state.phLoading;
     const dataSource = this.getDataSource();
     return (
-      <div className={styles.creditLeft} style={{ minHeight: this.props.getNumValue(732) + 'px' }}>
-        {loading ? <BILoading isLoading={loading} /> : <div className={styles.tableContainer}>
-          {
-            dataSource && dataSource.length > 0 && <BIWrapperTable
-              name='abcd'
-              columns={this.columns()}
-              dataSource={dataSource}
-              defaultExpandAllRows={true}
-              expandIcon={CustomExpandIcon}
-              rowClassName={this.setRowClassName}
-              pagination={false}
-              rowKey={record => record.id}
-              loading={this.props.loading}
-              bordered={true}
-              scroll={{ y: this.props.getNumValue(680) }}
-            />
-          }
+      <div className={styles.creditLeft} style={{ minHeight: 560 }}>
+        <BILoading isLoading={loading} > <div className={styles.tableContainer}>
+          <BIWrapperTable
+            columns={this.columns()}
+            dataSource={dataSource}
+            defaultExpandAllRows={true}
+            expandIcon={() => <a/>}
+            rowClassName={this.setRowClassName}
+            pagination={false}
+            rowKey={record => record.id}
+            bordered={true}
+            scroll={{ y: 492 }}
+          />
           {
             pkGroupList && pkGroupList.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt='' /></div>
           }
-        </div>}
+        </div>
+        </BILoading>
       </div>
     );
   }
