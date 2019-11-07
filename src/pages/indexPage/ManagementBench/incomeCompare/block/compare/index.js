@@ -48,7 +48,7 @@ class Compare extends React.Component {
         dataIndex: 'goodPushOrder',
         key: 'goodPushOrder',
         render: (goodPushOrder, record) => {
-          return <div style={{ textAlign: 'right' }}>{goodPushOrder.toFixed(1)}</div>;
+          return <div style={{ textAlign: 'right' }}>{goodPushOrder}</div>;
         },
       },
       {
@@ -74,7 +74,7 @@ class Compare extends React.Component {
         dataIndex: 'repeatSignOrder',
         key: 'repeatSignOrder',
         render: (repeatSignOrder, record) => {
-          return <div style={{ textAlign: 'right' }}>{repeatSignOrder.toFixed(1)}</div>;
+          return <div style={{ textAlign: 'right' }}>{repeatSignOrder}</div>;
         },
       },
       {
@@ -100,7 +100,7 @@ class Compare extends React.Component {
         dataIndex: 'adultRegularOrder',
         key: 'adultRegularOrder',
         render: (adultRegularOrder, record) => {
-          return <div style={{ textAlign: 'right' }}>{adultRegularOrder.toFixed(1)}</div>;
+          return <div style={{ textAlign: 'right' }}>{adultRegularOrder}</div>;
         },
       },
       {
