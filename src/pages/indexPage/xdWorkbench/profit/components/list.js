@@ -143,6 +143,7 @@ class ProfitList extends React.Component {
               rowKey={record => record.personId}
               rowClassName={this.getRowClassName}
               scroll={{ y: 40 }}
+              name='ghyu2'
             />
           </div>}
           <div id='scroll' className={`${yScrollFlag ? styles.scrollTable : ''} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
@@ -155,6 +156,7 @@ class ProfitList extends React.Component {
               onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
               scroll={{ y: 280 }}
+              name='ghyu1'
             />
           </div>
         </div>
