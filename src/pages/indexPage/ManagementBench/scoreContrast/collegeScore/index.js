@@ -23,6 +23,17 @@ class CollegeScore extends React.Component {
     console.log("familyType",this.props.queryAppealDatas.state)
 
   }
+  bgColor=(creaditValue)=>{
+    let barBackground = ""
+    creaditValue.map((item)=>{
+      if(item>0){
+        barBackground = "#47D3FF"
+      }else if(item<0){
+        barBackground = "#FF8086"
+      }
+    })
+    return barBackground
+  }
 
   drawChart = (arr) =>{
     let creaditValue = [];
@@ -35,6 +46,9 @@ class CollegeScore extends React.Component {
       familyName.push(item.name);
       qoqValue.push((item.qoqValue*100).toFixed(2))
     })
+    creaditValue.unshift(0)
+    qoqValue.unshift(0)
+    console.log(50,creaditValue,qoqValue)
     const yMax =  Math.max.apply(null, creaditValue);
     const yMin = Math.min.apply(null, creaditValue);
     const yRightMax =  Math.max.apply(null, qoqValue);
@@ -44,7 +58,7 @@ class CollegeScore extends React.Component {
       maxShadow.push(yMax);
     }
   const barWidth = familyName.length>=22 ? 20 : 50
-    const barBackground = creaditValue[0]< 0?"#FF8086":"#47D3FF"
+  const barBackground = this.bgColor(creaditValue)
     console.log(55,barBackground)
     const  options = {
       color: ["#50D4FD", "#FD8188"],
@@ -64,7 +78,7 @@ class CollegeScore extends React.Component {
           data: familyName,
           axisLabel: {
             interval:0,
-            rotate:30,
+            rotate:familyName.length>=22?30:0,
             color:'#000000 '
           },
           axisLine:{
@@ -84,7 +98,7 @@ class CollegeScore extends React.Component {
           type: 'value',
           min: yMin,
           max: yMax,
-          // interval: 4,
+          onZeroAxisIndex:0,
           axisLabel: {
             formatter: '{value}',
             color:'#000000 '
@@ -96,6 +110,7 @@ class CollegeScore extends React.Component {
             }
           },
           splitLine:{
+            // show:false
             lineStyle:{
               type:'dotted',
               color:"RGBA(229, 229, 229, 0.5)"
@@ -112,6 +127,7 @@ class CollegeScore extends React.Component {
             formatter: '{value} %',
             color:'#000000 '
           },
+          onZeroAxisIndex:0,
           axisLine:{
             lineStyle:{
               type:'dotted',
