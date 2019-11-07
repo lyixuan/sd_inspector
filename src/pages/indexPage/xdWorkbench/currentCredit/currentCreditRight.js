@@ -242,6 +242,7 @@ class currentCreditRight extends React.Component {
               rowKey={record => record.groupId}
               rowClassName={this.setRowClassName}
               scroll={{ y: 40 }}
+              name='ghyu3'
             />
           </div>}
           <div id="scroll1">
@@ -254,6 +255,7 @@ class currentCreditRight extends React.Component {
               onRow={this.onClickRow}
               scroll={{ y: 410 }}
               rowKey={record => record.groupId}
+              name='ghyu4'
             />
           </div>
         </div>
