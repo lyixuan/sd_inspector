@@ -28,7 +28,7 @@ import {
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
-import { getFillData } from '@/pages/indexPage/components/utils/utils';
+import { fillDataSource } from '@/pages/indexPage/components/utils/utils';
 import moment from 'moment';
 
 export default {
@@ -383,7 +383,10 @@ export default {
     },
     saveScore(state, { payload }) {
       const data = payload.data;
-      data.dimensionList = getFillData({kpiTime: state.familyKpiTimes}, data.dimensionList)
+      data.dimensionList = fillDataSource({
+        ...state.familyKpiTimes,
+        dataTrace: `家族长工作台/${payload.key === 'familyScorePk' ? '家族' : '小组'}学分/`
+      }, data.dimensionList)
       return { ...state, [payload.key]: data};
     }
   },

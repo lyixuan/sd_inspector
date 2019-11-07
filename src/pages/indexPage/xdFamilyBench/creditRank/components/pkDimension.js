@@ -84,14 +84,10 @@ class pkDimension extends React.Component {
     }
       return columns || [];
   };
-  // 学分查看埋点
-  // getDataTrace = (r) => {
-  //   const   this.getShowKey('columnOrgName')
-  //   BI.traceV && BI.traceV({ "widgetName": r.dimensionName, "traceName": "家族长工作台/学分/" + r.dimensionName });
-  // }
   // 添加pk对象点击事件
   handleToggle = () => {
-    BI.traceV && BI.traceV({ "widgetName": "学分-选择PK家族", "traceName": "家族长工作台/学分-选择PK家族" });
+    const pkName = this.getShowKey('pkValue') === 'groupId' ? '小组' : '家族';
+    BI.traceV && BI.traceV({ "widgetName": `学分-选择PK${pkName}`, "traceName": `家族长工作台/学分-选择PK${pkName}` });
     this.props.toggleDrawer(true);
   }
   // 列表维度name

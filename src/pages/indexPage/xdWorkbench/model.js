@@ -8,7 +8,7 @@ import {
   getKpiInfo,
   isShowPermission,
 } from './services';
-import { getFillData } from '@/pages/indexPage/components/utils/utils';
+import { fillDataSource } from '@/pages/indexPage/components/utils/utils';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
 import moment from 'moment';
@@ -18,11 +18,11 @@ export default {
   state: {
     userInfo: {}, // 全局值
     groupList: null,
-    kpiTimes: {},
+    kpiTimes: {}, // 时间
     classQualityList: [],
     classAppealList: [],
     familyScorePk: {}, // 本期学分
-    groupIncomePk: {
+    groupIncomePk: { // 本期创收
       maxValue: {},
       pkList: []
     }
@@ -149,7 +149,10 @@ export default {
     },
     saveScore(state, { payload }) {
       const data = payload.data;
-      data.dimensionList = getFillData({kpiTime: state.kpiTimes}, data.dimensionList)
+      data.dimensionList = fillDataSource({
+        ...state.kpiTimes,
+        datatrace: '家族长工作台/本期学分/'
+      }, data.dimensionList)
       return { ...state, [payload.key]: data};
     }
   },

@@ -182,7 +182,8 @@ class currentCreditRight extends React.Component {
       onClick: () => {
         if (!record[this.getShowKey('mineFlag')]) {
           this.props.clickRow(record[this.getShowKey('pkValue')]);
-          BI.traceV &&  BI.traceV({"widgetName":"学分-学分pk","traceName":"家族长工作台/学分-学分pk"})
+          const pkName = this.getShowKey('pkValue') === 'groupId' ? '小组' : '家族';
+          BI.traceV &&  BI.traceV({"widgetName": `学分-${pkName}学分pk`,"traceName": `家族长工作台/学分-${pkName}学分pk`})
         }
       },
     };
@@ -225,7 +226,7 @@ class currentCreditRight extends React.Component {
               </> : <BISelect style={{ width: 138, marginLeft: 24 }} placeholder="全部" value={collegeId} onChange={(val) => this.onFormChange(val, 'collegeId')} allowClear>
               {
                 globalCollegeList.map(item => (
-                  <Option key={item.collegeId} data-trace='{"widgetName":"学分-选择对比组织","traceName":"家族长工作台/选择学分对比组织"}'>
+                  <Option key={item.collegeId} data-trace='{"widgetName":"学分-选择家族学分对比组织","traceName":"家族长工作台/选择家族学分对比组织"}'>
                     {item.collegeName}
                   </Option>
                 ))

@@ -3,28 +3,25 @@ import { thousandsFormat } from '@/utils/utils';
 import { Link } from 'dva/router';
 import styles from './style.less';
 
+const { BI = {} } = window;
 // local存值
 export function setLocalValue(obj, item) {
   const local = JSON.parse(localStorage.getItem(item)) || {};
   const data = {...local, ...obj}
   localStorage.setItem(item, JSON.stringify(data));
 }
-// 学分维度处理
-let fillValue = {
-  kpitime: {},
-  trace: function() {
-
-  }
-};
 const colorsArr = ['rgba(255, 120, 120, 1)', 'rgba(255, 120, 120, 0.8)', 'rgba(255, 120, 120, 0.6)', 'rgba(255, 120, 120, 0.4)', 'rgba(255, 120, 120, 0.2)', 'rgba(255, 120, 120, 0.1)'];
-const getContentLink = function (text, record, index) {
+const getContentLink = function (linkdata, text, record, index) {
   if (index === 0 && text) {
-    const { startTime, endTime } = fillValue.kpiTime;
+    const { startTime, endTime, datatrace } = linkdata;
     return { 
+      onClick: function () {
+        BI.traceV &&  BI.traceV({ "widgetName": record.dimensionName, "traceName": datatrace + record.dimensionName})
+      },
       className: styles.mineHover,
-      textContent: <Link onClick={() => fillValue.trace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
+      textContent: <Link target='_black' to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
       {text} <span style={{ marginLeft: '2px' }}>{'>'}</span>
-    </Link>
+    </Link>,
     }        
   } else {
     return {
@@ -32,7 +29,7 @@ const getContentLink = function (text, record, index) {
     }
   }
 }
-export function fillDataSource(params = [], n = 1, flagMark) {
+export function fillDataSource(linkdata={}, params = [], n = 1, flagMark) {
   params.map(item => {
     item.level = n;
     item.flagMark = item.dimensionName === '学分均分' ? 3 : (item.dimensionName === '负面均分' ? 2 : flagMark); // 1 正面均分  2 负面均分 3学分均分 其它
@@ -43,7 +40,7 @@ export function fillDataSource(params = [], n = 1, flagMark) {
             return <BIContrastCell 
             text={text} 
             nums={item.values}
-            {...getContentLink(text, item, index)}
+            {...getContentLink(linkdata, text, item, index)}
             />
           } else {
             return <BIContrastCell 
@@ -51,7 +48,7 @@ export function fillDataSource(params = [], n = 1, flagMark) {
             nums={item.values} 
             colors={colorsArr} 
             isReversed={true}
-            {...getContentLink(text, item, index)}
+            {...getContentLink(linkdata, text, item, index)}
             />
           } 
         });
@@ -59,7 +56,7 @@ export function fillDataSource(params = [], n = 1, flagMark) {
         item.valuesParams =item.values.map((text, index) => <BIContrastCell 
         text={text} 
         nums={item.values}
-        {...getContentLink(text, item, index)}
+        {...getContentLink(linkdata, text, item, index)}
         />) 
       } else if (item.flagMark === 2) {
         item.valuesParams =item.values.map((text, index) => <BIContrastCell 
@@ -67,21 +64,17 @@ export function fillDataSource(params = [], n = 1, flagMark) {
         nums={item.values}
         colors={colorsArr}
         isReversed={true}
-        {...getContentLink(text, item, index)}
+        {...getContentLink(linkdata, text, item, index)}
         />) 
       }
     }
 
     if (item.children && item.children.length > 0) {
       const mark = item.dimensionName === '学分均分' ? 1 : (item.dimensionName === '负面均分' ? 2 : flagMark);
-      fillDataSource(item.children, n + 1, mark);
+      fillDataSource(linkdata, item.children, n + 1, mark);
     }
   })
   return params
-}
-export function getFillData(obj, data) {
-  fillValue = {...fillValue, ...obj};
-  return fillDataSource(data);
 }
 export function getSubtract(bul, n, s = 160) {
   if(!bul) return n - s;

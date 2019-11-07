@@ -9,7 +9,6 @@ import BIButton from '@/ant_components/BIButton';
 import checkIcon from '@/assets/component/checkicon.png';
 import styles from './style.less';
 
-const { BI = {} } = window;
 const { Option } = BISelect;
 // const pkTypeconfig = ['集团排行', '学院内排行', '家族内排行', '同期入职排行', '同级排行',];
 @connect(({ xdWorkModal, loading }) => ({
@@ -175,7 +174,7 @@ class ProfitList extends React.Component {
             style={{ width: '136px', marginLeft: '24px' }}
             allowClear
           >
-            {globalCollegeList.map(item => <Option key={item.collegeId} data-trace='{"widgetName":"创收-选择对比小组","traceName":"家族长工作台/创收-选择对比小组"}'>{item.collegeName}</Option>)}
+            {globalCollegeList.map(item => <Option key={item.collegeId} data-trace={{"widgetName":`创收-${this.getShowKey('incomeType')}选择学院`,"traceName": `家族长工作台/创收-${this.getShowKey('incomeType')}选择学院`}}>{item.collegeName}</Option>)}
           </BISelect>
         </div>
         <div className={styles.tableContent}>

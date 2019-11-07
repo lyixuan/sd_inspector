@@ -117,8 +117,8 @@ class ProfitTbas extends React.Component {
     ];
     return columns || [];
   };
-  handleToggle = () => {
-    BI.traceV &&  BI.traceV({"widgetName":"本期创收-添加pk对象","traceName":"本期创收-添加pk对象"});
+  handleToggle = () => {    
+    BI.traceV &&  BI.traceV({"widgetName": `创收-选择PK小组${this.props.incomeType}`,"traceName": `家族长工作台/创收-选择PK${this.props.incomeType}`});
     this.props.toggleDrawer(true);
   }
   getColumn = (r, v) => {

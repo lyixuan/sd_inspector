@@ -68,7 +68,7 @@ class FamilyIndex extends React.Component {
     const { pkUsers } = this.state;
     if (pkUsers instanceof Array) {
       if (pkUsers.includes(id)) {
-        BI.traceV &&  BI.traceV({"widgetName":"创收-删除pk对象按钮","traceName":"家族长工作台/创收-删除pk对象按钮"})
+        BI.traceV &&  BI.traceV({"widgetName":"创收-删除PK家族","traceName":"家族长工作台/创收-删除PK家族"})
         pkUsers.splice(pkUsers.indexOf(id), 1);
       } else {
         if (pkUsers.length >= 5) {
@@ -86,7 +86,7 @@ class FamilyIndex extends React.Component {
   }
   toggleDrawer = (bul) => {
     if (bul) {
-      BI.traceV &&  BI.traceV({"widgetName":"创收-展开PK对象","traceName":"家族长工作台/创收-展开PK对象"});
+      BI.traceV &&  BI.traceV({"widgetName":"创收-展开PK家族","traceName":"家族长工作台/创收-展开PK家族"});
     }
     this.setState({
       visible: bul,
@@ -126,6 +126,7 @@ class FamilyIndex extends React.Component {
           localKey={localKey}
           showKey={{
             mineFlag: 'myFamily',
+            incomeType: '家族'
           }}
           />
         </BIDrawer>
