@@ -241,7 +241,7 @@ class BehaviorPath1 extends React.Component {
     return (
       <>
         <div className={styles.behaviorPath}>
-          <div className={styles.headBar}>用户档案</div>
+          <div className={styles.headBar}>学员档案</div>
           <div className={styles.tabBlank}>&nbsp;</div>
           <div className={styles.layoutbg}>
             <div className={styles.tabBox}>
