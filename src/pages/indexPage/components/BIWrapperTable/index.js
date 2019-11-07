@@ -26,9 +26,10 @@ class BIWrapperTable extends React.Component {
   }
   countWidth = () => {
     const tableWidth = document.querySelector(`#${this.props.name} .ant-table-body`).offsetWidth;
-    const tableHeight = document.querySelector(`#${this.props.name} .ant-table-body`).offsetHeight + 20;
+    const tableHeight = document.querySelector(`#${this.props.name} .ant-table-body`).offsetHeight + 52;
     this.setState({
       tableWidth: tableWidth,
+      tableHeight: tableHeight
     });
   };
   onMouseEnter = () => {
@@ -63,7 +64,7 @@ class BIWrapperTable extends React.Component {
         id={this.props.name}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
-        style={{ minHeight: this.state.tableHeight + 'px' }}
+        style={{ minHeight: this.props.xScroll ? this.state.tableHeight + 'px' : '' }}
         className={`${styles.BIWrapperTable} ${this.props.isEditTd ? styles.BIWrapperTable4 : ''}`}
       >
         <Table {...this.props} />
