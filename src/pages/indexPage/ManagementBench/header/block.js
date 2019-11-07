@@ -84,9 +84,17 @@ class Block extends React.Component {
     let money = 0;
     if (name === 'IM差评率' || name === 'NPS差评率') {
       flag = true;
-      money = item.value !== 0 ? Number(item.value * 100).toFixed(2) + '%' : 0;
+      money =
+        item.value !== 0 ? (
+          <>
+            {Number(item.value * 100).toFixed(2)}
+            <span style={{ fontSize: '20px' }}>%</span>
+          </>
+        ) : (
+          0
+        );
     } else if (name === '创收流水') {
-      money = thousandsFormatBigger(item.value);
+      money = thousandsFormatBigger(item.value, 1);
       flag = false;
     } else {
       money = item.value;
@@ -96,9 +104,9 @@ class Block extends React.Component {
       <li onClick={e => this.addPoint(e, name)}>
         {/* <div>{flag && <a href={href} />}</div> */}
         <div></div>
-        <span className={styles.num}>
-          <Tooltip title={title}>{money}</Tooltip>
-        </span>
+        <Tooltip title={title}>
+          <span className={styles.num}>{money}</span>
+        </Tooltip>
         <p className={styles.bottom}>
           <span>
             {TYPE.map(it => {

@@ -1,11 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './styles.less';
-import workImg1 from '@/assets/workImg1.png';
-import workImg2 from '@/assets/workImg2.png';
-import workImg3 from '@/assets/workImg3.png';
-import workImg4 from '@/assets/workImg4.png';
-import workImg5 from '@/assets/workImg5.png';
 import workArrow from '@/assets/workArrow.png';
 import moment from 'moment';
 import Block from './block';
@@ -190,9 +185,11 @@ class Header extends React.Component {
           </span>
         </p>
         {/* 管理层不显示学分 */}
-        {userType && userType !== 'boss' && <div>{this.getUlList()}</div>}
+        {userType && userType !== 'boss' && <div className={styles.headerCon}>{this.getUlList()}</div>}
         {/* 院长副院长 不显示差评率 */}
-        {userType && userType !== 'college' && <div>{this.getUlList1()}</div>}
+        {userType && userType !== 'college' && (
+          <div className={styles.headerCon}>{this.getUlList1()}</div>
+        )}
       </div>
     );
   }

@@ -37,7 +37,7 @@ class ProfitList extends React.Component {
   }
   getScrollFn = (scrollTop = 0) => {
     const { userLocation, userFlag } = this.state;
-    if ((scrollTop > userLocation && scrollTop < userLocation + 400) || scrollTop === 0) {
+    if ((scrollTop > userLocation && scrollTop < userLocation + 240) || scrollTop === 0) {
       if (userFlag === true) {
         this.setState({
           userFlag: false
@@ -92,7 +92,7 @@ class ProfitList extends React.Component {
   getRowClassName = (record, index) => {
     if (this.props.userId === record.personId) {
       this.state.userMsg = record;
-      this.state.userLocation = 40 * (index + 1) - 430;
+      this.state.userLocation = 40 * (index + 1) - 280;
       return styles.pkMine;
     };
     if (this.getIncludes(record.personId)) return styles.pkUser;
@@ -154,7 +154,7 @@ class ProfitList extends React.Component {
               rowKey={(record, index) => record.personId + '' + index}
               onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
-              scroll={{ y: 410 }}
+              scroll={{ y: 250 }}
             />
           </div>
         </div>

@@ -3,7 +3,8 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import styles from './style.less';
 import BIWrapperTable from '../../components/BIWrapperTable';
-import BIContrastCell from '@/components/BIContrastCell';
+import BIContrastCell from '../../components/BIContrastCell';
+import BITextCell from '../../components/BITextCell';
 import BILoading from '@/components/BILoading';
 import BIFillCell from '@/components/BIFillCell';
 import BIIcon from '@/components/BIIcon';
@@ -44,20 +45,19 @@ class currentCreditLeft extends React.Component {
   }
   columns = () => {
     const { groupList = [] } = this.state.groupPkList;
-    // const { startTime, endTime } = this.props.kpiTimes;
     const columns = [
       {
-        width: '14%',
+        width: '18%',
         title: '学分维度',
         dataIndex: 'dimensionName',
         key: 'dimensionName',
         render: (text, record) => this.getDimensionName(record)
       }, {
-        width: '8%',
+        width: '10%',
         title: '环比(%)',
         dataIndex: 'myScoreRatio',
         key: 'myScoreRatio',
-        render: text => <>{text && text !== 'N/A' ? <BIFillCell>{text} <img src={text > 0 ? up : down} alt="" /></BIFillCell> : ''}</>
+        render: text => <>{text && text !== 'N/A' ? <BITextCell>{text} <img src={text > 0 ? up : down} alt="" /></BITextCell> : ''}</>
       },
     ];
     groupList.map((item, index) => {
@@ -74,7 +74,7 @@ class currentCreditLeft extends React.Component {
           return (
             <>
               {
-                record.flagMark ? record.valuesParams[index] : <BIFillCell style={{ paddingRight: '16px' }}>{textV}</BIFillCell>
+                record.flagMark ? record.valuesParams[index] : <BITextCell style={{ paddingRight: '16px' }}>{textV}</BITextCell>
               }
             </>
           )
@@ -236,7 +236,7 @@ class currentCreditLeft extends React.Component {
               rowKey={record => record.id}
               loading={this.props.loading}
               bordered={true}
-              scroll={{ x: 'max-content', y: this.props.getNumValue(680) }}
+              scroll={{ y: this.props.getNumValue(680) }}
             />
           }
           {
