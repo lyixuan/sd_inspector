@@ -26,19 +26,19 @@ class BIWrapperTable extends React.Component {
     // window.addEventListener('resize', this.debounce(this.countWidth, 300));
   }
   componentWillUnmount() {
-    window.removeEventListener('resize', this.countWidth);
+    // window.removeEventListener('resize', this.countWidth);
   }
 
-  debounce(func, wait) {
-    let timeout;
-    return () => {
-      let args = arguments;
-      if (timeout) clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        func.apply(this, args);
-      }, wait);
-    };
-  }
+  // debounce(func, wait) {
+  //   let timeout;
+  //   return () => {
+  //     let args = arguments;
+  //     if (timeout) clearTimeout(timeout);
+  //     timeout = setTimeout(() => {
+  //       func.apply(this, args);
+  //     }, wait);
+  //   };
+  // }
 
   // countWidth = () => {
   //   const tableWidth =
