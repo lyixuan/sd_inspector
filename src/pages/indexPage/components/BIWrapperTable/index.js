@@ -19,25 +19,25 @@ class BIWrapperTable extends React.Component {
   }
   componentDidMount() {
     // this.countWidth(); //计算表格滚动区域的宽度
-    if (this.props.name) {
-      this.countHeight(); //计算表格高度
-    }
-    window.addEventListener('resize', this.debounce(this.countWidth, 300));
+    // if (this.props.name) {
+    //   this.countHeight(); //计算表格高度
+    // }
+    // window.addEventListener('resize', this.debounce(this.countWidth, 300));
   }
   componentWillUnmount() {
-    window.removeEventListener('resize', this.countWidth);
+    // window.removeEventListener('resize', this.countWidth);
   }
 
-  debounce(func, wait) {
-    let timeout;
-    return () => {
-      let args = arguments;
-      if (timeout) clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        func.apply(this, args);
-      }, wait);
-    };
-  }
+  // debounce(func, wait) {
+  //   let timeout;
+  //   return () => {
+  //     let args = arguments;
+  //     if (timeout) clearTimeout(timeout);
+  //     timeout = setTimeout(() => {
+  //       func.apply(this, args);
+  //     }, wait);
+  //   };
+  // }
 
   // countWidth = () => {
   //   const tableWidth =
@@ -59,16 +59,16 @@ class BIWrapperTable extends React.Component {
       tableHeight: tableHeight,
     });
   };
-  onMouseEnter = () => {
-    const dom = document.getElementById(this.props.name).querySelector('.ant-table-body');
-    dom.style.overflowX = 'scroll';
-  };
-  onMouseLeave = () => {
-    console.log(1);
-    const dom = document.getElementById(this.props.name).querySelector('.ant-table-body');
-    console.log(dom, 'dom');
-    dom.style.overflowX = 'hidden';
-  };
+  // onMouseEnter = () => {
+  //   const dom = document.getElementById(this.props.name).querySelector('.ant-table-body');
+  //   dom.style.overflowX = 'scroll';
+  // };
+  // onMouseLeave = () => {
+  //   console.log(1);
+  //   const dom = document.getElementById(this.props.name).querySelector('.ant-table-body');
+  //   console.log(dom, 'dom');
+  //   dom.style.overflowX = 'hidden';
+  // };
   render() {
     return (
       <div
