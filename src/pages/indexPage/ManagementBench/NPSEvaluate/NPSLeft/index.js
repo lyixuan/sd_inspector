@@ -6,6 +6,7 @@ import BIWrapperTable from '../../../components/BIWrapperTable';
 import Star from '../components/star'
 import BILoading from '@/components/BILoading'
 import { Tooltip } from 'antd';
+import moment from 'moment';
 
 
 @connect(({xdManagementBench,loading}) => ({
@@ -43,6 +44,15 @@ class NPSLeft extends React.Component {
           return <div className={styles.studentColor} onClick={()=>this.clickStudentName(record)}>{stuName}</div>
         },
       }, {
+        title: '时间',
+        dataIndex: 'createTime',
+        key: 'createTime',
+        width:"20%",
+        render: (createTime) => {
+          const dateTimes = moment(createTime).format("YYYY-MM-DD hh:mm:ss")
+          return <div>{dateTimes}</div>
+        },
+      }, {
         title: '星级',
         dataIndex: 'star',
         key: 'star',
@@ -50,11 +60,12 @@ class NPSLeft extends React.Component {
         render: (star) => {
           return <Star  star={star} />
         },
-      }, {
+      },
+      {
         title: '内容',
         dataIndex: 'opinion',
         key: 'opinion',
-        width:351,
+        width:100,
         render: (opinion,) => {
           return <Tooltip placement="right" title={opinion}>
             <div className={styles.contentMain}>{opinion}</div>
