@@ -9,6 +9,7 @@ import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
 import moment from 'moment';
 import { thousandsFormatBigger } from '@/utils/utils';
+import { Tooltip } from 'antd';
 const { Option } = BISelect;
 
 @connect(xdManagementBench => ({
@@ -137,7 +138,11 @@ class Top extends React.Component {
         key: 'packageName',
         // width: '40%',
         render: (packageName, record) => {
-          return <div style={{ textAlign: 'left' }}>{packageName}</div>;
+          return (
+            <Tooltip title={packageName}>
+              <div style={{ textAlign: 'left' }}>{packageName}</div>
+            </Tooltip>
+          );
         },
       },
       {
