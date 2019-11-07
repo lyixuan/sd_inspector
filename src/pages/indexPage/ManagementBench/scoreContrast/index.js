@@ -41,7 +41,7 @@ class ScoreContrast extends React.Component {
         children:<CollegeScore queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       }],
       collegeOptions:[],
-      orgValue:"自考家族",
+      orgValue:"自考",
       queryAppealDatas:{},
       queryParams: {
         contrasts:1,
