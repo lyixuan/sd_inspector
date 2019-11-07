@@ -1,4 +1,13 @@
 export function getOption(obj) {
+  const newX = [];
+  obj.xAxis && obj.xAxis.forEach((item)=>{
+    let arr = [];
+    let newDate = '';
+    arr = item.split('-');
+    newDate = `${arr[1]}-${arr[2]}\n${arr[0]}`;
+    newX.push(newDate)
+  });
+
   return {
     tooltip : {
       trigger: 'axis',
@@ -32,16 +41,14 @@ export function getOption(obj) {
       top: '3%',
       left: 50,
       right: 60,
-
       bottom: 50,
       containLabel: true
     },
     xAxis : [
       {
-        // type : 'category',
+        // type : 'time',
         boundaryGap : false,
-        data : obj.xAxis,
-        splitNumber:10,
+        data : newX,
         axisLine:{
           lineStyle:{
             type:'dotted',
