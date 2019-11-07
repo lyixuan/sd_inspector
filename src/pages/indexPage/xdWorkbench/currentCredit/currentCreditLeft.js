@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import styles from './style.less';
-import BIWrapperTable from '../../components/BIWrapperTable';
+import BIWrapperTable1 from '../../components/BIWrapperTable1';
 import BIContrastCell from '../../components/BIContrastCell';
 import BITextCell from '../../components/BITextCell';
 import BILoading from '@/components/BILoading';
@@ -219,13 +219,13 @@ class currentCreditLeft extends React.Component {
 
   }
   render() {
-    const { pkGroupList, hasData } = this.props
+    const { pkGroupList } = this.props
     const loading = this.props.loading || this.state.phLoading;
     const dataSource = this.getDataSource();
     return (
       <div className={styles.creditLeft} style={{ minHeight: 560 }}>
         <BILoading isLoading={loading} > <div className={styles.tableContainer}>
-          <BIWrapperTable
+          <BIWrapperTable1
             name='abcd'
             columns={this.columns()}
             dataSource={dataSource}
