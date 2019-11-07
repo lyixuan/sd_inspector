@@ -25,6 +25,7 @@ class ManagementBench extends React.Component {
         endDate: null,
         reasonTypeId: 0,
       },
+      loadingStatus: true
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -69,6 +70,7 @@ class ManagementBench extends React.Component {
   reasonTypeClick = item => {
     this.setState(
       {
+        loadingStatus: false,
         reasonTypeId: item.typeId,
       },
       () => {
@@ -124,6 +126,7 @@ class ManagementBench extends React.Component {
           {userInfo && (
             <IMPartLeft
               cellClick={this.cellClick}
+              loadingStatus={this.state.loadingStatus}
               reasonTypeClick={this.reasonTypeClick}
               userInfo={userInfo}
             />
