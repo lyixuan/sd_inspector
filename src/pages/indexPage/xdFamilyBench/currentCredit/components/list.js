@@ -188,8 +188,9 @@ class ProfitList extends React.Component {
     const { profitList = [] } = this.state;
     return (
       <div className={styles.tableList}>
-        {this.props.loading ? <BILoading isLoading={this.props.loading} /> : <BIWrapperTable
+        {this.props.loading ? <div style={{ minHeight: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><BILoading isLoading={this.props.loading} /></div> : <BIWrapperTable
           name='credit'
+          xScroll={true}
           columns={this.columns()}
           dataSource={profitList}
           pagination={false}
