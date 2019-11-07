@@ -199,7 +199,7 @@ class currentCreditLeft extends React.Component {
       if (item.children && item.children.length > 0) {
         const mark = item.dimensionName === '学分均分' ? 1 : (item.dimensionName === '负面均分' ? 2 : flagMark);
         this.fillDataSource(item.children, intData, n + 1, mark);
-      }  
+      }
     })
     return intData
   }
@@ -226,10 +226,11 @@ class currentCreditLeft extends React.Component {
       <div className={styles.creditLeft} style={{ minHeight: 560 }}>
         <BILoading isLoading={loading} > <div className={styles.tableContainer}>
           <BIWrapperTable
+            name='abcd'
             columns={this.columns()}
             dataSource={dataSource}
             defaultExpandAllRows={true}
-            expandIcon={() => <a/>}
+            expandIcon={() => <a />}
             rowClassName={this.setRowClassName}
             pagination={false}
             rowKey={record => record.id}

@@ -439,6 +439,18 @@ class XdCredit extends React.Component {
           {extendFlag ? <>
             <div className={styles.form}>
               {/* <span className={styles.date}>{startTime}～{endTime}</span> */}
+              <span className={styles.change}>
+                选择时间：
+              <BIRangePicker
+                  value={this.getDate()}
+                  placeholder={['选择起始时间', '选择截止时间']}
+                  format={dateFormat}
+                  onChange={this.onDateChange}
+                  allowClear={false}
+                  disabledDate={this.disabledDate}
+                  style={{ width: '224px' }}
+                />
+              </span>
               {
                 userOrgConfig.length > 0 && <span className={styles.change}>
                   选择组织：
@@ -476,18 +488,7 @@ class XdCredit extends React.Component {
                 </span>
               }
 
-              <span className={styles.change}>
-                选择时间：
-              <BIRangePicker
-                  value={this.getDate()}
-                  placeholder={['选择起始时间', '选择截止时间']}
-                  format={dateFormat}
-                  onChange={this.onDateChange}
-                  allowClear={false}
-                  disabledDate={this.disabledDate}
-                  style={{ width: '224px' }}
-                />
-              </span>
+
               <BIButton type='reset' onClick={this.handleReset} style={{ marginRight: '8px' }}>重置</BIButton>
               <BIButton data-trace='{"widgetName":"查询","traceName":"数据服务/学分明细/查询"}' type='primary' onClick={this.handleClick} htmlType="submit">查询</BIButton>
             </div>
