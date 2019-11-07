@@ -81,8 +81,8 @@ class GroupScore extends React.Component {
     const dataSource = familyGroupPkList && familyGroupPkList.dimensionList&&familyGroupPkList.dimensionList.length > 0 && this.fillDataSource(familyGroupPkList.dimensionList)
     return (
       <div className={styles.creditContainer} style={{display:'block'}}>
-        {
-          this.props.loading?<BILoading isLoading={this.props.loading} />:dataSource && dataSource.length > 0 && <BITable
+        <BILoading isLoading={this.props.loading}>
+          {dataSource && dataSource.length > 0 && <BITable
             columns={this.columns()}
             dataSource={dataSource}
             defaultExpandAllRows={true}
@@ -91,13 +91,11 @@ class GroupScore extends React.Component {
             pagination={false}
             scroll={{ x: 0, y: 408 }}
             rowKey={record => record.id}
-            loading={this.props.loading}
-          >
-          </BITable>
-        }
-        {
-          !this.props.loading && familyGroupPkList && familyGroupPkList.groupList <=0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
-        }
+          />}
+          {
+            familyGroupPkList && familyGroupPkList.groupList <=0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
+          }
+        </BILoading>
       </div>
     );
   }

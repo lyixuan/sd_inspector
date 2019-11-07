@@ -56,6 +56,7 @@ class XdCredit extends React.Component {
       page: 1,
       reasonTypeId: 0,
       isIm: false,
+      loadingStatus: true
     }
   }
   componentDidMount() {
@@ -93,6 +94,7 @@ class XdCredit extends React.Component {
   }
   reasonTypeClick = (item) => {
     this.setState({
+      loadingStatus: false,
       reasonTypeId: item.typeId
     }, () => {
       this.getReasonListData();
@@ -364,7 +366,7 @@ class XdCredit extends React.Component {
   }
   handleClick = () => {
     this.getDimensionList();
-    this.onChangeParams('', 'dementionId');
+    this.onChangeParams(this.state.dementionId, 'dementionId');
     // this.getReasonListData();
   }
   handleReset = () => {
@@ -401,7 +403,7 @@ class XdCredit extends React.Component {
         <Skeleton loading={infoLoading} >
           {extendFlag ? <>
             <div className={styles.form}>
-              <span className={styles.date}>{startTime}～{endTime}</span>
+              {/* <span className={styles.date}>{startTime}～{endTime}</span> */}
               {
                 userOrgConfig.length > 0 && <span className={styles.change}>
                   选择组织：
@@ -468,6 +470,7 @@ class XdCredit extends React.Component {
                     pageSize2={this.state.pageSize2}
                     currentPage={this.state.page}
                     defaultPage={this.defaultPage}
+                    loadingStatus={this.state.loadingStatus}
                     cellClick={this.cellClick}
                     resetCell={this.resetCell}
                     reasonTypeClick={this.reasonTypeClick}

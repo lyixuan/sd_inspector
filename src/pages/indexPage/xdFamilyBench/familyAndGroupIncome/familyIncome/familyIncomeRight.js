@@ -179,7 +179,8 @@ class FamilyIncomeRight extends React.Component {
               />
             </div>}
             <div id="scrollIncome" >
-              {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
+              <BILoading isLoading={this.props.loading}>
+                <BITable
                 columns={this.columnsRight()}
                 dataSource={dataSource}
                 pagination={false}
@@ -188,8 +189,8 @@ class FamilyIncomeRight extends React.Component {
                 onRow={this.onClickRow}
                 rowKey={(record, index) => record.familyId + '' + index}
                 rowClassName={this.setRowClassName}
-              />}
-
+              />
+              </BILoading>
             </div>
           </div>
 

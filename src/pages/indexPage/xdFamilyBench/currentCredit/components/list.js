@@ -43,11 +43,11 @@ class ProfitList extends React.Component {
     return this.state.profitList
   }
 
-  flatTree({ id, name, score, children }, flag = 1, result = [], pid = "", level = 1) {
-    result = [{ id, name, score, pid, level, flag }]
+  flatTree({ id, dimensionName, score, children }, flag = 1, result = [], pid = "", level = 1) {
+    result = [{ id, dimensionName, score, pid, level, flag }]
     if (Array.isArray(children) && children.length) {
       children.reduce((result, data) => {
-        if (data.name === '负面均分') {
+        if (data.dimensionName === '负面均分') {
           result.push(...this.flatTree(data, 2, result, id, level + 1))
         } else {
           result.push(...this.flatTree(data, flag, result, id, level + 1))
@@ -127,18 +127,18 @@ class ProfitList extends React.Component {
         }
 
         item.level == 3 ? className2 = styles.cursor : className2 = ''
-        if (item.name == '调增学分' || item.name == '调减学分') return; //去掉调增调减学分
+        if (item.dimensionName == '调增学分' || item.dimensionName == '调减学分') return; //去掉调增调减学分
         columns.push({
-          title: item.name,
+          title: item.dimensionName,
           dataIndex: item.id,
           key: item.id,
           width: 110,
-          fixed: item.name == '学分均分' ? 'left' : '',
+          fixed: item.dimensionName == '学分均分' ? 'left' : '',
           className: `${className} ${className2}`,
           render: (text, record) => {
             const { startTime, endTime } = this.props.familyKpiTimes
             const params = JSON.stringify({ "dementionId": record.obj[item.id].id, startTime, endTime, pageFrom: 'family' });
-            if (record.obj[item.id].name == '正面均分') {
+            if (record.obj[item.id].dimensionName == '正面均分') {
               arrPositiVe.push(record.obj[item.id].score)
               const numOneScorePositive = Math.max.apply(Math, arrPositiVe.map(item => item));
               const percent1 = (record.obj[item.id].score / numOneScorePositive * 100).toFixed(2);
@@ -147,7 +147,7 @@ class ProfitList extends React.Component {
                 <SmallProgress isColor="green" percent={`${percent1}%`}></SmallProgress>
               </div>
             }
-            if (record.obj[item.id].name == '负面均分') {
+            if (record.obj[item.id].dimensionName == '负面均分') {
               record.obj[item.id].score >= 0 ? arrNegative1.push(record.obj[item.id].score) : arrNegative2.push(Math.abs(record.obj[item.id].score))
               const numOneScoreNegative1 = Math.max.apply(Math, arrNegative1.map(item => item)); //正值
               const numOneScoreNegative2 = Math.max.apply(Math, arrNegative2.map(item => item)); //负值
@@ -187,7 +187,7 @@ class ProfitList extends React.Component {
     const { profitList = [] } = this.state;
     return (
       <div className={styles.tableList}>
-        {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
+        {this.props.loading ? <BILoading isLoading={this.props.loading} /> : <BITable
           columns={this.columns()}
           dataSource={profitList}
           pagination={false}

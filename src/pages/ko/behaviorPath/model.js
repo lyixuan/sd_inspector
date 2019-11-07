@@ -242,6 +242,10 @@ export default {
     // 用户画像
     *getBasicInfo({ payload }, { call, put }) {
       const params = payload.params;
+      if(params && params.stuId && params.stuId>2147483647){
+        message.warn('学院ID不合法');
+        return;
+      }
       const result = yield call(getBasicInfo, params);
       if (result.code === 20000) {
         const BasicInfo = result.data;
@@ -256,6 +260,9 @@ export default {
     },
     *getTagInfo({ payload }, { call, put }) {
       const params = payload.params;
+      if(params && params.stuId && params.stuId>2147483647){
+        return;
+      }
       const result = yield call(getTagInfo, params);
       if (result.code === 20000) {
         const TagInfo = result.data;
@@ -267,6 +274,9 @@ export default {
     },
     *getStatInfo({ payload }, { call, put }) {
       const params = payload.params;
+      if(params && params.stuId && params.stuId>2147483647){
+        return;
+      }
       const result = yield call(getStatInfo, params);
       if (result.code === 20000) {
         const StatInfo = result.data;
@@ -278,6 +288,9 @@ export default {
     },
     *getDetailInfo({ payload }, { call, put }) {
       const params = payload.params;
+      if(params && params.stuId && params.stuId>2147483647){
+        return;
+      }
       const result = yield call(getDetailInfo, params);
       if (result.code === 20000) {
         const DetailInfo = result.data;

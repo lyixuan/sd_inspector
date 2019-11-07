@@ -44,14 +44,14 @@ class Quality extends React.Component {
         title='本期质检'
         style={{ width: 'calc(40% - 16px)' }}
       >
-        {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
+        <BILoading isLoading={this.props.loading}> <BITable
           columns={this.columns()}
           dataSource={this.props.familyQuality}
           pagination={false}
-          loading={this.props.loading}
           rowKey={record => record.violationLevel}
           smalled
-        />}
+        />
+        </BILoading>
       </Container>
     );
   }
