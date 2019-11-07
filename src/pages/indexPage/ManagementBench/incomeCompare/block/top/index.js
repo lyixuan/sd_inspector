@@ -144,7 +144,7 @@ class Top extends React.Component {
         title: '创收单量',
         dataIndex: 'incomeOrder',
         key: 'incomeOrder',
-        width: '60px',
+        width: '70px',
         render: (incomeOrder, record) => {
           return <div style={{ textAlign: 'right', width: '60px' }}>{incomeOrder}</div>;
         },
@@ -184,12 +184,6 @@ class Top extends React.Component {
     const { typeList, orgValue, dataSource } = this.state;
     return (
       <div className={styles.topCon}>
-        {/* <p className={styles.tableTitle}>
-          <span>排名</span>
-          <span>创收产品包</span>
-          <span>创收单量</span>
-          <span>创收流水</span>
-        </p> */}
         <div className={styles.title}>
           <span>热销产品包榜单</span>
           <div v-if="typeList">
@@ -225,7 +219,7 @@ class Top extends React.Component {
             loading={this.props.loading}
             onRow={this.onClickRow}
             rowKey={record => record.id}
-            // scroll={{ y: 288 }}
+            scroll={{ y: 288 }}
           />
         </div>
       </div>
