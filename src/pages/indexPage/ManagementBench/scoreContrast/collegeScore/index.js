@@ -32,6 +32,17 @@ class CollegeScore extends React.Component {
     })
     return barBackground
   }
+  borderRadiusAll = (creaditValue) =>{
+    let borderRadius = [4,4,0,0];
+    creaditValue.map((item)=>{
+      if(item>0){
+        borderRadius = [4,4,0,0]
+      }else if(item<0){
+        borderRadius = [0,0,4,4]
+      }
+    })
+    return borderRadius
+  }
   drawChart = (arr) =>{
     let creaditValue = [];
     let familyName = [];
@@ -53,8 +64,9 @@ class CollegeScore extends React.Component {
       dataShadow.push(yMin);
       maxShadow.push(yMax);
     }
-  const barWidth = familyName.length>=22 ? 20 : 50
-  const barBackground = this.bgColor(creaditValue)
+    const barWidth = familyName.length>=22 ? 20 : 50
+    const barBackground = this.bgColor(creaditValue)
+    const borderRadius = this.borderRadiusAll(creaditValue)
     const  options = {
       color: ["#50D4FD", "#FD8188"],
       tooltip: {
@@ -164,7 +176,7 @@ class CollegeScore extends React.Component {
           name:'均分',
           type:'bar',
           itemStyle: {
-            normal: {color: barBackground,barBorderRadius:[4, 4, 0, 0]}
+            normal: {color: barBackground,barBorderRadius:borderRadius}
           },
           barWidth:barWidth,
           label: {
