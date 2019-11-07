@@ -146,7 +146,7 @@ export default class BaseInfo extends React.Component {
           </Col>
           <Col span={3} className={styles.baseCol}>
             <Tooltip placement="top" title={`该学员所有做题情况：做对题目/总做题数。`}>
-            <div>
+            <div style={{cursor:'pointer'}}>
               <div style={{ color: '#1A1C1F' }}><span className={styles.zxl}>{(exerciseRatio * 100).toFixed(2)}</span> %
               </div>
               <div>做题准确率</div>
