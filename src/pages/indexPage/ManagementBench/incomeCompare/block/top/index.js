@@ -226,6 +226,7 @@ class Top extends React.Component {
             onRow={this.onClickRow}
             rowKey={record => record.id}
             scroll={{ y: 288 }}
+            name="hotData"
           />
         </div>
       </div>
