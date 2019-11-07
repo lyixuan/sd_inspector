@@ -20,8 +20,6 @@ class CollegeScore extends React.Component {
     }
   }
   componentDidMount() {
-    console.log("familyType",this.props.queryAppealDatas.state)
-
   }
   bgColor=(creaditValue)=>{
     let barBackground = ""
@@ -34,7 +32,6 @@ class CollegeScore extends React.Component {
     })
     return barBackground
   }
-
   drawChart = (arr) =>{
     let creaditValue = [];
     let familyName = [];
@@ -48,7 +45,6 @@ class CollegeScore extends React.Component {
     })
     creaditValue.unshift(0)
     qoqValue.unshift(0)
-    console.log(50,creaditValue,qoqValue)
     const yMax =  Math.max.apply(null, creaditValue);
     const yMin = Math.min.apply(null, creaditValue);
     const yRightMax =  Math.max.apply(null, qoqValue);
@@ -59,7 +55,6 @@ class CollegeScore extends React.Component {
     }
   const barWidth = familyName.length>=22 ? 20 : 50
   const barBackground = this.bgColor(creaditValue)
-    console.log(55,barBackground)
     const  options = {
       color: ["#50D4FD", "#FD8188"],
       tooltip: {
@@ -110,7 +105,6 @@ class CollegeScore extends React.Component {
             }
           },
           splitLine:{
-            // show:false
             lineStyle:{
               type:'dotted',
               color:"RGBA(229, 229, 229, 0.5)"
@@ -243,18 +237,20 @@ class CollegeScore extends React.Component {
     const {queryAppealDatas = {}} = this.props.queryAppealDatas.state;
     const {userInfo} = this.props
     return (
-      <div style={{minHeight:'479px'}}>
+      <div style={{minHeight:'490px'}}>
           <div>
             <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>
-            <BILoading isLoading={this.props.loading} height="479px">
-              {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 &&
-              <Echart
-                options={this.drawChart(queryAppealDatas.creaditDataList)}
-                style={{height:"354px"}}
-                clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}
-              />}
-              <EchartBottom/>
-            </BILoading>
+            {
+              this.props.loading?<BILoading isLoading={this.props.loading} height="354px" />:(
+                queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 &&
+                <Echart
+                  options={this.drawChart(queryAppealDatas.creaditDataList)}
+                  style={{height:"354px"}}
+                  clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}
+                />
+              )
+            }
+            <EchartBottom/>
         </div>
 
       </div>
