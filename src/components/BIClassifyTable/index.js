@@ -57,7 +57,7 @@ class BIClassifyTable extends React.Component {
   }
   onMouseEnter = () => {
     const dom = document.getElementById("tableWrap").querySelector('.ant-table-body');
-    dom.style.overflowX = 'scroll';
+    dom.style.overflowX = 'auto';
   }
   onMouseLeave = () => {
     const dom = document.getElementById("tableWrap").querySelector('.ant-table-body');
@@ -130,7 +130,6 @@ class BIClassifyTable extends React.Component {
         },
       })
     })
-    console.log(133, repairArr)
     if (repairArr > 0) {
       children.push({
         title: ' ',

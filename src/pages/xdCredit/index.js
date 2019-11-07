@@ -274,6 +274,13 @@ class XdCredit extends React.Component {
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionDetail',
       payload: { params: param },
+      callback: res => {
+        if (res && res.length > 0) {
+          this.setState({
+            userOrgConfig: res,
+          })
+        }
+      }
     });
   }
   // 参数groupId
@@ -374,7 +381,16 @@ class XdCredit extends React.Component {
       }
       this.props.dispatch({
         type: 'xdCreditModal/getUserOrgList',
-        payload: { params: params }
+        payload: { params: params },
+        callback: res => {
+          if (res && res.length > 0) {
+            this.setState({
+              userOrgConfig: res,
+              ...this.getResetGroupMsg(res),
+            })
+          }
+
+        }
       })
     });
   }

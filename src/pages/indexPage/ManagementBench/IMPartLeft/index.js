@@ -43,20 +43,24 @@ class IMPartLeft extends React.Component {
     return (
       <Container title="IM负面原因分析"
         style={{ width: 'calc(69% - 16px)', marginBottom: '16px', minHeight: '372px' }}>
-        {(this.props.loading && this.props.loadingStatus) ? <div style={{ width: '100%', minHeight: '372px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}><BILoading isLoading={this.props.loading} /></div> : imDetailData && <BIClassifyTable
-          loading={this.props.loading}
-          columns={this.columnsTable()}
-          colors={colors}
-          dataSource={imDetailData}
-          cellWidth={85}
-          style={{ cursor: 'pointer' }}
-          isChecked={false}
-          defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
-          orgClick={true}
-          {...this.props}
-          collegeId={userInfo.collegeId}
-          userType={userInfo.userType}
-        ></BIClassifyTable>}
+        {(this.props.loading && this.props.loadingStatus) ? <div style={{ width: '100%', minHeight: '372px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}><BILoading isLoading={this.props.loading} /></div> : imDetailData &&
+          <div style={{ display: 'flex', flex: 1, flexShrink: 0 }}>
+            <BIClassifyTable
+              loading={this.props.loading}
+              columns={this.columnsTable()}
+              colors={colors}
+              dataSource={imDetailData}
+              cellWidth={85}
+              style={{ cursor: 'pointer' }}
+              isChecked={false}
+              defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
+              orgClick={true}
+              {...this.props}
+              collegeId={userInfo.collegeId}
+              userType={userInfo.userType}
+            ></BIClassifyTable>
+          </div>
+        }
 
 
 
