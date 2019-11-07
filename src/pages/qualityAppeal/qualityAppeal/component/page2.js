@@ -50,17 +50,6 @@ class NewQualitySheet extends React.Component {
       this.reset();
     }
   }
-  componentDidMount() {
-    document.body.addEventListener('keypress', e => {
-      if (e.keyCode === 13) {
-        this.search();
-      }
-    });
-  }
-
-  componentWillMount() {
-    document.body.removeEventListener('keypress', () => {});
-  }
 
   onFormChange = (value, vname) => {
     if ('dateRange' === vname) {
@@ -223,7 +212,7 @@ class NewQualitySheet extends React.Component {
                     onChange={val => this.onFormChange(val, 'status')}
                   >
                     {BiFilter('APPEAL_STATE').map(
-                      item => item.type === 1 && <Option key={item.id}>{item.name}</Option>
+                      item => item.type === 2 && <Option key={item.id}>{item.name}</Option>
                     )}
                   </BISelect>
                 </span>
@@ -237,6 +226,9 @@ class NewQualitySheet extends React.Component {
                     placeholder="请输入"
                     allowClear
                     value={userName}
+                    onPressEnter={() => {
+                      this.search();
+                    }}
                     onChange={e => this.onFormChange(e.target.value, 'userName')}
                   />
                 </span>
@@ -272,6 +264,9 @@ class NewQualitySheet extends React.Component {
                     placeholder="请输入"
                     allowClear
                     value={stuId}
+                    onPressEnter={() => {
+                      this.search();
+                    }}
                     onChange={e => this.onFormChange(e.target.value, 'stuId')}
                   />
                 </span>
@@ -303,6 +298,9 @@ class NewQualitySheet extends React.Component {
                   <BIInput
                     placeholder="请输入"
                     allowClear
+                    onPressEnter={() => {
+                      this.search();
+                    }}
                     value={qualityNum}
                     onChange={e => this.onFormChange(e.target.value, 'qualityNum')}
                   />

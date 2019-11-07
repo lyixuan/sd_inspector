@@ -164,7 +164,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
               </Form.Item> &nbsp;
               <Form.Item className={styles.formItem} style={{ width: 140 }}>
                 {getFieldDecorator(`qualityValue-${i}`, {
-                  initialValue: attachedPersonList[i].qualityValue || undefined,
+                  initialValue: attachedPersonList[i].qualityValue|| (attachedPersonList[i].qualityValue===0?0:undefined),
                   rules: [{
                     validator(rule, value, callback) {
                       if (value&&isNaN(value)) {
@@ -191,6 +191,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
           data={{ type: 1 }}
           onChange={this.uploadChange}
           beforeUpload={this.beforeUpload}
+          onRemove={this.onRemove}
         >
           <BIButton type="primary"><Icon type="upload" />上传附件</BIButton>
           <span style={{ color: '#aaa', fontSize: 12 }}>（请上传10M以内的rar、zip格式文件）</span>
@@ -212,6 +213,13 @@ const BaseForm = Form.create({ name: 'base_form' })(
       const attachedRoleList = this.attachedRoleList();
 
       const punishTypeUnit = form.getFieldValue('punishType');
+
+      const temp = form.getFieldValue('organize');
+      const familyTypeShow = [];
+      temp && temp.forEach((v)=>{
+        if(v){familyTypeShow.push(v)}
+      });
+
       return (
         <Form className="baseForm" onSubmit={this.handleSubmit}>
 
@@ -320,7 +328,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 </Form.Item>
               </BoxItem>
               {
-                this.state.familyType&&<BoxItem label="学院类型" required>
+                familyTypeShow.length ===1&&<BoxItem label="学院类型" required>
                   <Form.Item className={styles.formItem}>
                     {getFieldDecorator('familyType', {
                       initialValue: familyType, rules: [{ required: true, message: '请选择学院类型' }],
@@ -387,8 +395,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                   {getFieldDecorator('punishType', {
                     initialValue: punishType || undefined, rules: [{ required: true, message: '请选择处罚方式' }],
                   })(
-                    <BISelect allowClear placeholder="处罚方式" notFoundContent="先选择违规分类"
-                              onChange={this.onChangePunishType}>
+                    <BISelect allowClear placeholder="处罚方式" notFoundContent="先选择违规分类">
                       {BiFilter('PUNISH_TYPE_LIST').map(item => (
                         <Option value={item.id} key={item.id}>
                           {item.name}
@@ -399,7 +406,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 </Form.Item> &nbsp;
                 <Form.Item className={styles.formItem}>
                   {getFieldDecorator('ownQualityValue', {
-                    initialValue: ownQualityValue || undefined, rules: [{
+                    initialValue: ownQualityValue || (ownQualityValue == 0?0:undefined), rules: [{
                       validator(rule, value, callback) {
                         if (isNaN(value)) {
                           callback({ message: '请输入合法数据' });
@@ -453,7 +460,6 @@ const BaseForm = Form.create({ name: 'base_form' })(
           if(backType==="closeModal"){
             that.props.onCancel();
           } else {
-            this.props.form.resetFields();
             router.goBack();
           }
         },
@@ -485,6 +491,14 @@ const BaseForm = Form.create({ name: 'base_form' })(
       return isZip && isLt10M;
     };
 
+    onRemove = ()=>{
+      console.log(123,this.state)
+      this.setState({
+        attUrl:"",
+        fileList:[]
+
+      })
+    };
     uploadChange = info => {
       let { fileList = [], file = {} } = info || {};
       if (isLt10M) {

@@ -16,19 +16,19 @@ import styles from './style.less';
 const TabPane = BhTabs.TabPane;
 const { Search } = Input;
 
-const portray = {widgetName:"画像",traceName:"学员查询/学员档案/画像"};
-const study = {widgetName:"学习",traceName:"学员查询/学员档案/学习"};
-const im = {widgetName:"IM",traceName:"学员查询/学员档案/IM"};
-const wechat = {widgetName:"微信",traceName:"学员查询/学员档案/微信"};
-const bbs = {widgetName:"BBS",traceName:"学员查询/学员档案/BBS"};
-const letter = {widgetName:"私信",traceName:"学员查询/学员档案/私信"};
+const portray = { widgetName: "画像", traceName: "学员查询/学员档案/画像" };
+const study = { widgetName: "学习", traceName: "学员查询/学员档案/学习" };
+const im = { widgetName: "IM", traceName: "学员查询/学员档案/IM" };
+const wechat = { widgetName: "微信", traceName: "学员查询/学员档案/微信" };
+const bbs = { widgetName: "BBS", traceName: "学员查询/学员档案/BBS" };
+const letter = { widgetName: "私信", traceName: "学员查询/学员档案/私信" };
 let traceTab = '';
 
-@connect(({ behaviorPath, koPlan,loading }) => ({
+@connect(({ behaviorPath, koPlan, loading }) => ({
   loading,
   behaviorPath,
   currentServiceTime: koPlan.currentServiceTime,
-  portaryLoading:loading.effects['behaviorPath/getBasicInfo'] || loading.effects['behaviorPath/getTagInfo']||loading.effects['behaviorPath/getStatInfo'],
+  portaryLoading: loading.effects['behaviorPath/getBasicInfo'] || loading.effects['behaviorPath/getTagInfo'] || loading.effects['behaviorPath/getStatInfo'],
 }))
 
 class BehaviorPath1 extends React.Component {
@@ -66,7 +66,7 @@ class BehaviorPath1 extends React.Component {
     this.jumpInfoTrace();
   }
 
-  jumpInfoTrace=()=>{
+  jumpInfoTrace = () => {
     const pathParams = JSON.parse(this.props.location.query.params);
     const target = pathParams.target;
     if (target.indexOf('im') === 0) {
@@ -80,7 +80,7 @@ class BehaviorPath1 extends React.Component {
     } else {
       traceTab = portray;
     }
-    const {BI = {}} = window;
+    const { BI = {} } = window;
     traceTab && BI.traceV && BI.traceV(traceTab)
   };
 
@@ -166,12 +166,12 @@ class BehaviorPath1 extends React.Component {
       traceTab = bbs;
     } else if (e === '5') {
       traceTab = letter;
-    } else  if (e === '6') {
+    } else if (e === '6') {
       traceTab = portray;
     } else {
       traceTab = '';
     }
-    const {BI = {}} = window;
+    const { BI = {} } = window;
     traceTab && BI.traceV && BI.traceV(traceTab)
 
     this.setState({
@@ -219,9 +219,9 @@ class BehaviorPath1 extends React.Component {
   }
 
   render() {
-      const {BasicInfo,TagInfo,StatInfo,DetailInfo} = this.props.behaviorPath;
-      const {activeStat,orderStat,learnStat} = StatInfo ||{};
-      const {learnDetail,imDetail,exerciseDetail} = DetailInfo ||{};
+    const { BasicInfo, TagInfo, StatInfo, DetailInfo } = this.props.behaviorPath;
+    const { activeStat, orderStat, learnStat } = StatInfo || {};
+    const { learnDetail, imDetail, exerciseDetail } = DetailInfo || {};
     const pathParams = JSON.parse(this.props.location.query.params);
     const target = pathParams.target;
     const userInfoParams = this.props.behaviorPath.userInfo;
@@ -277,7 +277,7 @@ class BehaviorPath1 extends React.Component {
                 </TabPane>
               </BhTabs>
             </div>
-            <div style={{ marginTop: '40px'}}>
+            <div style={{ marginTop: '40px' }}>
               {
                 ((this.state.searchType && this.state.searchType === '6') || (!this.state.searchType && this.state.activeKey === '6')) ? null : userInfoParams ?
                   <UserInfo info={userInfoParams}></UserInfo> : null
@@ -288,15 +288,15 @@ class BehaviorPath1 extends React.Component {
         {
           ((this.state.searchType && this.state.searchType === '6') || (!this.state.searchType && this.state.activeKey === '6')) ?
             <UserPortary stuId={sutId}
-                         baseInfo={BasicInfo}
-                         tagInfo={TagInfo}
-                         orderStat={orderStat}
-                         activeStat={activeStat}
-                         learnStat={learnStat}
-                         learnDetail={learnDetail}
-                         imDetail={imDetail}
-                         isLoading={this.props.portaryLoading}
-                         exerciseDetail={exerciseDetail}/> :null
+              baseInfo={BasicInfo}
+              tagInfo={TagInfo}
+              orderStat={orderStat}
+              activeStat={activeStat}
+              learnStat={learnStat}
+              learnDetail={learnDetail}
+              imDetail={imDetail}
+              isLoading={this.props.portaryLoading}
+              exerciseDetail={exerciseDetail} /> : null
         }
       </>
     );

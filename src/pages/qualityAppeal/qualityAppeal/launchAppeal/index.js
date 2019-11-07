@@ -38,13 +38,19 @@ class Launch extends React.Component {
   render() {
     const { qualityAppealHome = {} } = this.props;
     const { QualityDetailData = {}, DetailData = {} } = qualityAppealHome || {};
+    // 转换字段
+    QualityDetailData.qualityValue = QualityDetailData.ownQualityValue;
     return (
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.detailContainer}>
           {/*质检详情*/}
           <BaseDetail data={QualityDetailData} />
           {/* 申诉信息 */}
-          <AppealLaunch {...this.props} />
+          <AppealLaunch
+            {...this.props}
+            qualityDetailData={QualityDetailData}
+            detailData={DetailData}
+          />
         </div>
       </Spin>
     );

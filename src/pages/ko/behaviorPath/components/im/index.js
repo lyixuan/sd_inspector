@@ -35,6 +35,7 @@ function Prise(props) {
     <li className={styles.step}>
       <div className={styles.time}>
         {props.li.evaluateTime ? props.li.evaluateTime.split(' ')[1] : ''}
+        {/* {props.li.countDate ? props.li.countDate.split(' ')[1] : ''} */}
       </div>
       <div className={styles.content}>
         <div className={styles.bigDot}>
@@ -564,7 +565,7 @@ function Layout(props) {
           <ul className={styles.behavior}>
             <ContentChildren
               content={
-                item&&item.dialogList&&item.dialogList.length > 0 ? (
+                item && item.dialogList && item.dialogList.length > 0 ? (
                   <Ul item={item} />
                 ) : (
                     // <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
@@ -616,7 +617,7 @@ class Im extends React.Component {
     //   return;
     // }
     //
-    if (allData&&allData.length > 0) {
+    if (allData && allData.length > 0) {
       allData.sort(function (a, b) {
         return Date.parse(a.countDate) - Date.parse(b.countDate);//时间正序
       });
@@ -732,8 +733,8 @@ class Im extends React.Component {
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {
-      const {BI = {}} = window;
-      BI.traceV && BI.traceV({widgetName:"IM展开",traceName:"学员查询/学员档案/IM展开"});
+      const { BI = {} } = window;
+      BI.traceV && BI.traceV({ widgetName: "IM展开", traceName: "学员查询/学员档案/IM展开" });
       if (this.state.dateList[index].dialogList.length < 1) {
         let date = this.state.dateList[index].date.replace(/[\u4e00-\u9fa5]/g, '-').split('-');
         date.length = 3;

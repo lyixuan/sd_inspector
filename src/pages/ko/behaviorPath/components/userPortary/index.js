@@ -28,7 +28,6 @@ export default class UserPortary extends React.Component {
     const height = this.getHeight(offsetWidth);
     const { baseInfo={},tagInfo = {},orderStat={},activeStat=[],learnStat=[],learnDetail={},imDetail={},exerciseDetail={},isLoading=false}  = this.props;
 
-    console.log(1,baseInfo)
     return (
       <Spin spinning={isLoading}>
         {baseInfo?<div  className={styles.layout}>
@@ -51,7 +50,7 @@ export default class UserPortary extends React.Component {
           {/*学习状况*/}
           <LearnDetail learnDetail={learnDetail} height={height}/>
           {/*IM情绪值*/}
-          <ImDetail imDetail={imDetail} height={height}/>
+          {/*<ImDetail imDetail={imDetail} height={height}/>*/}
           {/*做题分析*/}
           <ExerciseDetail exerciseDetail={exerciseDetail} height={height}/>
           <br/>

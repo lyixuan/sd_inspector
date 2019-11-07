@@ -36,8 +36,19 @@ class QualityNewSheetAppealSt extends React.Component {
     });
   };
   handleCancel = () => {
-    this.props.history.goBack();
+    const that = this;
+    confirm({
+      className: 'BIConfirm',
+      title: '此操作将不保存已录入内容，是否确认？',
+      cancelText: '取消',
+      okText: '确认',
+      onOk() {
+        that.props.history.goBack();
+      },
+      onCancel() {},
+    });
   };
+
   onSubmit = params => {
     const { qualityDetailData = {} } = this.props;
     const { appealParam } = this;
@@ -56,10 +67,20 @@ class QualityNewSheetAppealSt extends React.Component {
       checkResultDesc: appealParam.desc ? appealParam.desc : undefined,
       firstAppealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
     };
-    console.log(params2, 'params2');
-    this.props.dispatch({
-      type: 'newQualityAppeal/checkQuality',
-      payload: { ...qualityDetailData, ...params2 },
+
+    const that = this;
+    confirm({
+      className: 'BIConfirm',
+      title: '是否确认提交？',
+      cancelText: '取消',
+      okText: '确认',
+      onOk() {
+        that.props.dispatch({
+          type: 'newQualityAppeal/checkQuality',
+          payload: { ...qualityDetailData, ...params2 },
+        });
+      },
+      onCancel() {},
     });
   };
 

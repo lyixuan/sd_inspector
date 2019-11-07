@@ -276,7 +276,7 @@ class CreditImDetials extends React.Component {
       <div className={`${styles.detials}`}>
         <div className={styles.classityBox} id="classityBox">
           {
-            loading1 ? <div style={{ display: 'flex', height: '200px', alignItems: 'center', justifyContent: 'center' }}><BILoading isLoading={loading1} /></div> : imDetailData.titleList && <BIClassifyTable
+            (loading1 && this.props.loadingStatus) ? <div style={{ display: 'flex', height: '200px', alignItems: 'center', justifyContent: 'center' }}><BILoading isLoading={loading1} /></div> : imDetailData.titleList && <BIClassifyTable
               loading={this.props.loading}
               columns={this.columnsTable()}
               colors={colors}

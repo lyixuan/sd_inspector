@@ -7,15 +7,6 @@ import AppealInfo from '../appealBlock/appealDeailInfo';
 import router from 'umi/router';
 import { message, Spin } from 'antd';
 const confirm = BIModal.confirm;
-
-@connect(({ qualityAppealing, qualityAppealHome, loading }) => ({
-  qualityAppealing,
-  orgList: qualityAppealHome.orgList,
-  qualityAppealHome,
-  submitLoading: loading.effects['qualityAppealing/reviewAppeal'],
-  submitLoading2: loading.effects['qualityAppealing/sopAppeal'],
-  pageLoading: loading.effects['qualityAppealing/getAppealInfo'],
-}))
 class QualityAppealing extends React.Component {
   constructor(props) {
     super(props);
@@ -25,6 +16,7 @@ class QualityAppealing extends React.Component {
       appealParam: {},
       checkResult: undefined,
       appealEndDate: undefined,
+      visible: false,
     };
     const { query = {} } = this.props.location;
     this.query = query;
@@ -36,23 +28,6 @@ class QualityAppealing extends React.Component {
   handleAppeal() {
     this.setState({ appealIsShow: !this.state.appealIsShow });
   }
-  componentDidMount() {
-    this.getQualityInfo();
-    this.getAppealInfo();
-  }
-  getAppealInfo = () => {
-    this.props.dispatch({
-      type: 'qualityAppealing/getAppealInfo',
-      payload: { id: this.query.id },
-    });
-  };
-  getQualityInfo = () => {
-    this.props.dispatch({
-      type: 'qualityAppealing/getQualityDetailData',
-      payload: { id: this.query.id },
-    });
-  };
-
   handleSubmitSop = () => {
     const { appealParam } = this.state;
     if (Number(appealParam.checkResult) !== 0 && !appealParam.checkResult) {
@@ -83,12 +58,9 @@ class QualityAppealing extends React.Component {
     const that = this;
     confirm({
       className: 'BIConfirm',
-      title:
-        params.checkResult === 1
-          ? '提交后，该申诉将被提交给质检主管进行审核。'
-          : '确认驳回这条记录吗？',
+      title: '是否确认提交？',
       cancelText: '取消',
-      okText: '确定',
+      okText: '确认',
       onOk() {
         that.props.dispatch({
           type: 'qualityAppealing/sopAppeal',
@@ -121,16 +93,36 @@ class QualityAppealing extends React.Component {
       desc: appealParam.desc ? appealParam.desc : undefined,
       appealEndDate: appealParam.appealEndDate ? appealParam.appealEndDate : undefined,
     };
-    this.props.dispatch({
-      type: 'qualityAppealing/reviewAppeal',
-      payload: {
-        qualityInspectionParam: QualityDetailData,
-        appealParam: appealParamNew,
+    const that = this;
+    confirm({
+      className: 'BIConfirm',
+      title: '是否确认提交？',
+      cancelText: '取消',
+      okText: '确认',
+      onOk() {
+        that.props.dispatch({
+          type: 'qualityAppealing/reviewAppeal',
+          payload: {
+            qualityInspectionParam: QualityDetailData,
+            appealParam: appealParamNew,
+          },
+        });
       },
+      onCancel() {},
     });
   };
   handleCancel = () => {
-    router.goBack();
+    const that = this;
+    confirm({
+      className: 'BIConfirm',
+      title: '此操作将不保存已录入内容，是否确认？',
+      cancelText: '取消',
+      okText: '确认',
+      onOk() {
+        router.goBack();
+      },
+      onCancel() {},
+    });
   };
   setStateData = val => {
     this.setState({
@@ -146,7 +138,7 @@ class QualityAppealing extends React.Component {
     return '+';
   }
   render() {
-    const { checkResult, appealEndDate } = this.state;
+    const { visible, checkResult, appealEndDate } = this.state;
     const { appealShow = [], QualityDetailData = {} } = this.props;
     const { submitLoading2 } = this.props;
     if (appealShow) {
@@ -179,7 +171,7 @@ class QualityAppealing extends React.Component {
               </div>
             </section>
           ) : (
-            <div style={{ marginLeft: '-20px' }}>
+            <div>
               <AppealInfo
                 {...this.props}
                 dataList={appealShow}
@@ -197,22 +189,6 @@ class QualityAppealing extends React.Component {
               </div>
             </div>
           )}
-          <BIModal
-            title="提交确认"
-            visible={this.state.visible}
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-            footer={[
-              <BIButton style={{ marginRight: 10 }} onClick={this.handleCancel}>
-                取消
-              </BIButton>,
-              <BIButton type="primary" onClick={this.handleOk}>
-                确定
-              </BIButton>,
-            ]}
-          >
-            <div className={styles.modalWrap}>该条记录将被提交给质检主管进行审核，确定提交吗？</div>
-          </BIModal>
         </div>
       </Spin>
     );

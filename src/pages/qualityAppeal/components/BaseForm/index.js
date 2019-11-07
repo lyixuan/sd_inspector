@@ -42,6 +42,7 @@ class FormIndex extends React.Component {
           name: res.name,
           organize: [res.collegeId, res.familyId, res.groupId],
         };
+
       }
       form.setFieldsValue({ ...form.getFieldsValue(), ...obj });
     });
@@ -165,7 +166,7 @@ class FormIndex extends React.Component {
         roleName: srcData[`roleName-${i}`] || null,
         userName: srcData[`userName-${i}`] || null,
         punishType: srcData[`punishType-${i}`] || null,
-        qualityValue: Number(srcData[`qualityValue-${i}`]) || null,
+        qualityValue: (Number(srcData[`qualityValue-${i}`]) || Number(srcData[`qualityValue-${i}`]) === 0) ? Number(srcData[`qualityValue-${i}`]): null,
       });
     }
 
@@ -220,8 +221,8 @@ class FormIndex extends React.Component {
       = this.props.qualityAppealHome || {};
     params.organize = (params.collegeId || params.familyId || params.groupId) ? [params.collegeId, params.familyId, params.groupId]:[];
     params.dimension = (params.primaryAssortmentId || params.secondAssortmentId || params.thirdAssortmentId) ? [params.primaryAssortmentId, params.secondAssortmentId, params.thirdAssortmentId]:[];
-    params.violationDate = moment(params.violationDate);
-    params.reduceScoreDate = moment(params.reduceScoreDate);
+    params.violationDate = params.violationDate && moment(params.violationDate);
+    params.reduceScoreDate = params.reduceScoreDate && moment(params.reduceScoreDate);
 
     return (
       <BaseForm backType={backType}

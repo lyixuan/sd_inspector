@@ -54,7 +54,7 @@ class XdFamily extends React.Component {
     const { tabs } = this.state;
     return (
       <div className={styles.familyBench}>
-        {/* <PerformanceDetail /> */}
+        <PerformanceDetail />
         <PageTab tabs={tabs}/>
       </div>
     );

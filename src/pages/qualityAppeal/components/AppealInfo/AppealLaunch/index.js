@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './style.less';
 import { Row, Col, Form, Input, Upload, message, Spin } from 'antd';
 import BIButton from '@/ant_components/BIButton';
+import BIModal from '@/ant_components/BIModal';
 import AppealInfoComponent from '../appealBlock/appealInfoComponent';
 import SOPCheckResult from '../../../qualityAppeal/component/sopCheckResult';
 import SuperiorCheck from '../../../qualityAppeal/component/superiorCheck';
@@ -11,15 +12,7 @@ import moment from 'moment';
 import router from 'umi/router';
 const { TextArea } = Input;
 let isLt10M = false;
-let isZip = false;
-@connect(({ Launch, qualityAppealHome, loading }) => ({
-  Launch,
-  qualityAppealHome,
-  loading: loading.effects['Launch/launchAppeal'],
-  pageLoading:
-    loading.effects['qualityAppealHome/getDetailData'] ||
-    loading.effects['qualityAppealHome/getQualityDetailData'],
-}))
+const confirm = BIModal.confirm;
 class Launch extends React.Component {
   constructor(props) {
     super(props);
@@ -42,16 +35,7 @@ class Launch extends React.Component {
     };
     this.firstAppealEndDate = null;
   }
-  // componentDidMount() {
-  //   this.props.dispatch({
-  //     type: 'qualityAppealHome/getDetailData',
-  //     payload: this.state.paramId,
-  //   });
-  //   this.props.dispatch({
-  //     type: 'qualityAppealHome/getQualityDetailData',
-  //     payload: this.state.paramId,
-  //   });
-  // }
+
   handleSubmit = () => {
     const { secondAppealEndDate } = this.props.location.query;
     let params = this.state.params;
@@ -65,9 +49,32 @@ class Launch extends React.Component {
       message.error('请填写申诉说明');
       return;
     }
-    this.props.dispatch({
-      type: 'Launch/launchAppeal',
-      payload: { params },
+    const that = this;
+    confirm({
+      className: 'BIConfirm',
+      title: '是否确认提交？',
+      cancelText: '取消',
+      okText: '确认',
+      onOk() {
+        that.props.dispatch({
+          type: 'Launch/launchAppeal',
+          payload: { params },
+        });
+      },
+      onCancel() {},
+    });
+  };
+  handleCancel = () => {
+    const that = this;
+    confirm({
+      className: 'BIConfirm',
+      title: '此操作将不保存已录入内容，是否确认？',
+      cancelText: '取消',
+      okText: '确认',
+      onOk() {
+        router.goBack();
+      },
+      onCancel() {},
     });
   };
   handleAppealInfoCollapse(index) {
@@ -86,10 +93,8 @@ class Launch extends React.Component {
 
   getAppealInfos(detailData) {
     let domFragment = [];
-    console.log(detailData, 'detailData');
     if (detailData.length > 0) {
       detailData.forEach((item, index) => {
-        console.log(item, item.type, 'type');
         domFragment.push(
           <div key={index}>
             <AppealInfoComponent
@@ -129,8 +134,7 @@ class Launch extends React.Component {
     return domFragment;
   }
   render() {
-    const { qualityAppealHome = {}, loading } = this.props;
-    const qualityDetailData = qualityAppealHome.QualityDetailData;
+    const { qualityDetailData = {}, loading, detailData } = this.props;
     this.firstAppealEndDate = qualityDetailData.firstAppealEndDate;
     const { secondAppealEndDate } = this.props.location.query;
     return (
@@ -138,8 +142,9 @@ class Launch extends React.Component {
         <div className={styles.launchContainer}>
           {secondAppealEndDate ? (
             <div className={styles.info}>
-              {this.getAppealInfos(qualityAppealHome.DetailData)}
-              <div className={styles.appealInfo}>
+              <div className={styles.title}>申诉信息</div>
+              {this.getAppealInfos(detailData)}
+              <div className={styles.appealInfo} style={{ marginTop: '20px', background: 'none' }}>
                 二次申诉
                 <span>
                   二次申诉截止日期：
@@ -148,6 +153,8 @@ class Launch extends React.Component {
               </div>
               <AppealUpload
                 {...this.props}
+                qualityDetailData={qualityDetailData}
+                detailData={detailData}
                 inputChange={desc => this.inputChange(desc)}
                 uploadFileChange={attUrl => {
                   this.uploadFileChange(attUrl);
@@ -158,15 +165,18 @@ class Launch extends React.Component {
             <div className={styles.info}>
               <div className={styles.title}>申诉信息</div>
               <div className={styles.appealInfoWrap}>
-                <div className={styles.appealInfo}>
+                {/* <div className={styles.appealInfo}>
                   一次申诉
                   <span>
                     （一次申诉截止日期：
                     {moment(qualityDetailData.firstAppealEndDate).format('YYYY-MM-DD')}）
                   </span>
-                </div>
+                </div> */}
+                {this.getAppealInfos(detailData)}
                 <AppealUpload
                   {...this.props}
+                  qualityDetailData={qualityDetailData}
+                  detailData={detailData}
                   inputChange={desc => this.inputChange(desc)}
                   uploadFileChange={attUrl => {
                     this.uploadFileChange(attUrl);
@@ -179,7 +189,7 @@ class Launch extends React.Component {
             <Col span={24}>
               <div className={styles.gutterBox1}>
                 <span className={styles.gutterBtn2}>
-                  <BIButton onClick={() => router.goBack()}>取消</BIButton>
+                  <BIButton onClick={this.handleCancel}>取消</BIButton>
                 </span>
                 <span className={styles.gutterBtn1}>
                   <BIButton type="primary" loading={loading} onClick={this.handleSubmit}>

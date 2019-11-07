@@ -78,7 +78,7 @@ class IMPartRight extends React.Component {
     const { dataSource} = this.state;
     return (
       <Container title="IM负面数据对比"
-                 style={{ width: '33%',minHeight:'372px'}}
+                 style={{ width: '33%',minHeight:'372px',overflow:'hidden'}}
       >
         {this.props.loading?<BILoading isLoading={this.props.loading} height = '372px'/>:<BIWrapperTable  columns={this.columnsRight()}
                                                            dataSource={dataSource||[]}

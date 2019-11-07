@@ -97,14 +97,15 @@ class appeal extends React.Component {
         <BIRadio onChange={this.handleChange} value={this.state.appealType} style={{ marginBottom: 16 }}>
           {tabsMsg.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace={item.dataTrace}>{item.title}</div></BIRadio.Radio.Button>)}
         </BIRadio>
-        {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
-          columns={this.columns()}
-          dataSource={dataSource}
-          pagination={false}
-          loading={this.props.loading}
-          rowKey={(record, index) => index}
-          smalled
-        />}
+        <BILoading isLoading={this.props.loading} >
+          <BITable
+            columns={this.columns()}
+            dataSource={dataSource}
+            pagination={false}
+            rowKey={(record, index) => index}
+            smalled
+          />
+        </BILoading>
       </Container>
     );
   }

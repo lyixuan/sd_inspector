@@ -13,7 +13,7 @@ export default class IllegalInfo extends React.Component {
         <span>{v.roleName?BiFilter(`FRONT_ROLE_TYPE_LIST|id:${v.roleName}`).name:'--'}</span>，
         <span>{v.userName?v.userName:'--'}@sunlands.com</span>，
         <span>{v.punishType?BiFilter(`PUNISH_TYPE_LIST|id:${v.punishType}`).name:'--'}</span>，
-        <span>{v.qualityValue?v.qualityValue:'--'}</span>
+        <span>{v.qualityValue||v.qualityValue===0?v.qualityValue:'--'}</span>
         <span>{v.punishType?v.punishType===2?'分':'元':'--'}</span>
       </div>
     });
@@ -30,13 +30,15 @@ export default class IllegalInfo extends React.Component {
             <div><span className={styles.spanLabel}>违规日期</span>：{moment(data.violationDate).format('YYYY-MM-DD')}</div>
             <div><span className={styles.spanLabel}>扣分日期</span>：{moment(data.reduceScoreDate).format('YYYY-MM-DD')}</div>
             <div><span className={styles.spanLabel}>质检类型</span>：{BiFilter(`QUALITY_TYPE|id:${data.qualityType}`).name}</div>
-            <div><span className={styles.spanLabel}>分维</span>：{data.dimension}</div>
+            <div><span className={styles.spanLabel}>分维</span>：{data.violationName}</div>
             <div><span className={styles.spanLabel}>违规分类</span>：{data.thirdAssortment||data.secondAssortment||data.primaryAssortment}</div>
           </div>
           <div className={styles.secRow}>
             <div>&nbsp;</div>
             <div>&nbsp;</div>
-            <div><span className={styles.spanLabel}>学院类型</span>：{BiFilter(`FAMILY_TYPE|id:${data.familyType}`).name}</div>
+            <div>{!data.familyName && !data.groupName?
+              (<span><span className={styles.spanLabel}>学院类型</span>：{BiFilter(`FAMILY_TYPE|id:${data.familyType}`).name}</span>):null}
+              </div>
             <div>&nbsp;</div>
             <div><span className={styles.spanLabel}>违规等级</span>：{data.violationLevelName}</div>
           </div>

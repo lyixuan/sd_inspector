@@ -50,18 +50,6 @@ class NewQualitySheet extends React.Component {
       this.reset();
     }
   }
-  componentDidMount() {
-    document.body.addEventListener('keypress', e => {
-      if (e.keyCode === 13) {
-        //主要区别就是这里，可以直接获取到keyCode的值
-        this.search();
-      }
-    });
-  }
-
-  componentWillMount() {
-    document.body.removeEventListener('keypress', () => {});
-  }
 
   onFormChange = (value, vname) => {
     if ('dateRange' === vname) {
@@ -196,7 +184,6 @@ class NewQualitySheet extends React.Component {
                     placeholder="请选择"
                     allowClear
                     mode="multiple"
-                    showArrow
                     maxTagCount={1}
                     value={violationLevelList}
                     onChange={val => this.onFormChange(val, 'violationLevelList')}
@@ -238,6 +225,9 @@ class NewQualitySheet extends React.Component {
                     placeholder="请输入"
                     allowClear
                     value={userName}
+                    onPressEnter={() => {
+                      this.search();
+                    }}
                     onChange={e => this.onFormChange(e.target.value, 'userName')}
                   />
                 </span>
@@ -273,6 +263,9 @@ class NewQualitySheet extends React.Component {
                     placeholder="请输入"
                     allowClear
                     value={stuId}
+                    onPressEnter={() => {
+                      this.search();
+                    }}
                     onChange={e => this.onFormChange(e.target.value, 'stuId')}
                   />
                 </span>
@@ -305,6 +298,9 @@ class NewQualitySheet extends React.Component {
                     placeholder="请输入"
                     allowClear
                     value={qualityNum}
+                    onPressEnter={() => {
+                      this.search();
+                    }}
                     onChange={e => this.onFormChange(e.target.value, 'qualityNum')}
                   />
                 </span>

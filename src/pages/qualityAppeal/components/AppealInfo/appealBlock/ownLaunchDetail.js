@@ -12,7 +12,7 @@ class OwnLaunchDetail extends React.Component {
       appealStart &&
       appealStart.map((v, i) => {
         if (i === 0) {
-          return <AppealInfo type="startAppeal" data={v} />;
+          return <AppealInfo type="startAppeal" data={v} key={i}/>;
         }
       });
     return (

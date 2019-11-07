@@ -16,9 +16,9 @@ import BILoading from '@/components/BILoading'
 
 const rankType = ['本学院排行', '集团排行'];
 const dataTrace = ['{"widgetName":"本学院排行","traceName":"家族长工作台/本学院排行"}', '{"widgetName":"集团排行","traceName":"家族长工作台/集团排行"}'];
-@connect(({ xdWorkModal, loading }) => ({
-  xdWorkModal,
-  loading: loading.effects['xdWorkModal/achievementList'],
+@connect(({ xdFamilyModal, loading }) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/achievementList'],
 }))
 class Performance extends React.Component {
   constructor(props) {
@@ -187,7 +187,7 @@ class Performance extends React.Component {
   achievementList() {
     const groupType = this.state.rankType == 1 ? 'college' : '';
     this.props.dispatch({
-      type: 'xdWorkModal/achievementList',
+      type: 'xdFamilyModal/achievementList',
       payload: { params: { groupType } },
       callback: (dataSource) => {
         this.setState({
@@ -217,7 +217,7 @@ class Performance extends React.Component {
         <BIRadio onChange={this.handleRankChange} value={this.state.rankType} style={{ marginBottom: 16 }}>
           {rankType.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace={dataTrace[index]}>{item}</div></BIRadio.Radio.Button>)}
         </BIRadio>
-        {this.props.loading ? <BILoading isLoading={this.props.loading} /> : userFlag && userMsg && <div className={styles.suspenTable}>
+        {userFlag && userMsg && <div className={styles.suspenTable}>
           <BITable
             showHeader={false}
             columns={this.columns()}
@@ -230,16 +230,17 @@ class Performance extends React.Component {
           />
         </div>}
         <div id="scroller" className={`${userFlag && userMsg ? styles.tbodyMarTop : ''}`} >
+        <BILoading isLoading={this.props.loading} >
           <BITable
-            columns={this.columns()}
-            dataSource={this.state.dataSource}
-            pagination={false}
-            scroll={{ x: 0, y: 400 }}
-            rowKey={(record, index) => index}
-            rowClassName={this.getRowClassName}
-            smalled
-          >
-          </BITable>
+              columns={this.columns()}
+              dataSource={this.state.dataSource}
+              pagination={false}
+              scroll={{ x: 0, y: 400 }}
+              rowKey={(record, index) => index}
+              rowClassName={this.getRowClassName}
+              smalled
+            />
+          </BILoading> 
         </div>
       </div >
     );
