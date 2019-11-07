@@ -50,7 +50,7 @@ class IMPartRight extends React.Component {
 
         },
       }, {
-        title: '不及时次数',
+        title: '不及时数',
         dataIndex: 'notInTime',
         key: 'notInTime',
         width:"24%",
@@ -61,7 +61,7 @@ class IMPartRight extends React.Component {
           </div>
         },
       }, {
-        title: '未回复次数',
+        title: '未回复数',
         dataIndex: 'notReply',
         key: 'notReply',
         width:"27%",
@@ -79,7 +79,7 @@ class IMPartRight extends React.Component {
     const { dataSource} = this.state;
     return (
       <Container title="IM负面数据对比"
-                 style={{ width: '31%',minHeight:'372px',overflow:'hidden'}}
+                 style={{ width: '29%',minHeight:'372px',overflow:'hidden'}}
       >
         {this.props.loading?<BILoading isLoading={this.props.loading} height = '372px'/>:<BIWrapperTable  columns={this.columnsRight()}
                                                            dataSource={dataSource||[]}
