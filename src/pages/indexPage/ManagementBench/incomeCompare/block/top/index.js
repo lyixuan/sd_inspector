@@ -186,7 +186,7 @@ class Top extends React.Component {
       <div className={styles.topCon}>
         <div className={styles.title}>
           <span>热销产品包榜单</span>
-          <div v-if="typeList">
+          <div>
             <BISelect
               style={{ width: 136, marginLeft: 12 }}
               placeholder="请选择"
@@ -213,6 +213,7 @@ class Top extends React.Component {
         </div>
         <div className={styles.tableContainer}>
           <BIWrapperTable
+            name={'tableWrap'}
             columns={this.columns()}
             dataSource={dataSource}
             pagination={false}
