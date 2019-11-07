@@ -48,7 +48,7 @@ class Compare extends React.Component {
         dataIndex: 'goodPushOrder',
         key: 'goodPushOrder',
         render: (goodPushOrder, record) => {
-          return <div style={{ textAlign: 'right' }}>{goodPushOrder}</div>;
+          return <div style={{ textAlign: 'right' }}>{goodPushOrder.toFixed(1)}</div>;
         },
       },
       {
@@ -56,7 +56,7 @@ class Compare extends React.Component {
         dataIndex: 'goodPushFlowKpi',
         key: 'goodPushFlowKpi',
         render: (goodPushFlowKpi, record) => {
-          const percent = (record.goodPushFlowKpiRatio * 100).toFixed(2) + '%';
+          const percent = (record.goodPushFlowKpiRatio * 100) + '%';
           const money = thousandsFormatBigger(goodPushFlowKpi);
           return (
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -74,7 +74,7 @@ class Compare extends React.Component {
         dataIndex: 'repeatSignOrder',
         key: 'repeatSignOrder',
         render: (repeatSignOrder, record) => {
-          return <div style={{ textAlign: 'right' }}>{repeatSignOrder}</div>;
+          return <div style={{ textAlign: 'right' }}>{repeatSignOrder.toFixed(1)}</div>;
         },
       },
       {
@@ -82,7 +82,7 @@ class Compare extends React.Component {
         dataIndex: 'repeatSignFlowKpi',
         key: 'repeatSignFlowKpi',
         render: (repeatSignFlowKpi, record) => {
-          const percent = (record.repeatSignFlowKpiRatio * 100).toFixed(2) + '%';
+          const percent = (record.repeatSignFlowKpiRatio * 100) + '%';
           const money = thousandsFormatBigger(repeatSignFlowKpi);
           return (
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -100,7 +100,7 @@ class Compare extends React.Component {
         dataIndex: 'adultRegularOrder',
         key: 'adultRegularOrder',
         render: (adultRegularOrder, record) => {
-          return <div style={{ textAlign: 'right' }}>{adultRegularOrder}</div>;
+          return <div style={{ textAlign: 'right' }}>{adultRegularOrder.toFixed(1)}</div>;
         },
       },
       {
@@ -108,7 +108,7 @@ class Compare extends React.Component {
         dataIndex: 'adultRegularFlowKpi',
         key: 'adultRegularFlowKpi',
         render: (adultRegularFlowKpi, record) => {
-          const percent = (record.adultRegularFlowKpiRatio * 100).toFixed(2) + '%';
+          const percent = (record.adultRegularFlowKpiRatio * 100) + '%';
           const money = thousandsFormatBigger(adultRegularFlowKpi);
           return (
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -126,7 +126,7 @@ class Compare extends React.Component {
         dataIndex: 'incomeTotalKpi',
         key: 'incomeTotalKpi',
         render: (incomeTotalKpi, record) => {
-          const percent = (record.incomeTotalKpiRatio * 100).toFixed(2) + '%';
+          const percent = (record.incomeTotalKpiRatio * 100) + '%';
           const money = thousandsFormatBigger(incomeTotalKpi);
           return (
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
