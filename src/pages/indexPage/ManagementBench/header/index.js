@@ -190,9 +190,11 @@ class Header extends React.Component {
           </span>
         </p>
         {/* 管理层不显示学分 */}
-        {userType && userType !== 'boss' && <div>{this.getUlList()}</div>}
+        {userType && userType !== 'boss' && <div className={styles.headerCon}>{this.getUlList()}</div>}
         {/* 院长副院长 不显示差评率 */}
-        {userType && userType !== 'college' && <div>{this.getUlList1()}</div>}
+        {userType && userType !== 'college' && (
+          <div className={styles.headerCon}>{this.getUlList1()}</div>
+        )}
       </div>
     );
   }
