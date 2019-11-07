@@ -50,8 +50,6 @@ class BIWrapperTable1 extends React.Component {
     console.log(dom2, 'dom');
     if (dom) {
       dom.style.overflow = 'hidden'
-      dom.style.overflowX = 'hidden'
-
     }
     if (dom2) {
       dom2.style.overflowY = 'hidden'

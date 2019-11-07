@@ -123,7 +123,7 @@ class currentCreditLeft extends React.Component {
   getDimensionName = ({ dimensionName, level, sequenceNo }) => {
     if (sequenceNo) {
       return <b style={{ marginLeft: level === 2 || level === 3 ? '20px' : '0' }}>{sequenceNo} {dimensionName}</b>
-    } else if (level === 3) {
+    } else if (level === 4) {
       return <span style={{ marginLeft: '40px' }}>{dimensionName}</span>
     } else {
       return dimensionName
