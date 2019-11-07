@@ -17,6 +17,8 @@ import styles from './style.less'
 
 class BIContainer extends React.Component {
   render() {
+    console.log(this.props.right, 100000)
+
     return (
       <div className={styles.container} style={this.props.style}>
         {
