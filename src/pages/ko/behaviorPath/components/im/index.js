@@ -477,7 +477,6 @@ function TeacherOrStudent(props) {
       } else {
         message = props.item.message
       }
-      console.log(480, answer)
       if (!message) message = props.item.message
       if (!answer) {
         return null

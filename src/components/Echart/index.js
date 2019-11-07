@@ -6,7 +6,6 @@ import styles from './styles.less';
 export default class EchartsComponent extends React.Component {
 
   componentDidMount() {
-    console.log(999, this.props.options)
     this.initChart(this.props.options)
   }
 

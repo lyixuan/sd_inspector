@@ -47,7 +47,6 @@ class BIWrapperTable extends React.Component {
   onMouseLeave = () => {
     const dom = document.querySelector(`#${this.props.name} .ant-table-body`);
     const dom2 = document.querySelector(`#${this.props.name} .ant-table-header`);
-    console.log(dom2, 'dom');
     if (dom) {
       dom.style.overflow = 'hidden'
       dom.style.overflowX = 'hidden'

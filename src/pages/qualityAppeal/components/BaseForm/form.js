@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Form, message, Upload,Icon } from 'antd';
+import { Input, Form, message, Upload, Icon } from 'antd';
 import { BiFilter, msgF } from '@/utils/utils';
 import BIButton from '@/ant_components/BIButton';
 import BIInput from '@/ant_components/BIInput';
@@ -27,15 +27,15 @@ const BaseForm = Form.create({ name: 'base_form' })(
     constructor(props) {
       super(props);
       this.state = {
-        familyType:true,
+        familyType: true,
         showMore: false,
-        fileList:props.params.attUrl ?[{
+        fileList: props.params.attUrl ? [{
           uid: '-1',
-          name:  props.params.attUrl.split('/')[3],
+          name: props.params.attUrl.split('/')[3],
           status: 'done',
           url: `${STATIC_HOST}/${props.params.attUrl}`,
-        }]:[],
-        attUrl:props.params.attUrl?props.params.attUrl:'',
+        }] : [],
+        attUrl: props.params.attUrl ? props.params.attUrl : '',
       };
     }
 
@@ -55,7 +55,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
     }
 
     getOrgMapByMail = () => {
-      this.props.getOrgMapByMail(this.props.form.getFieldValue('mail'),this.props.form);
+      this.props.getOrgMapByMail(this.props.form.getFieldValue('mail'), this.props.form);
     };
 
     getSubOrderDetail = () => {
@@ -87,21 +87,21 @@ const BaseForm = Form.create({ name: 'base_form' })(
       violationLevelObj = violationLevelObj.length > 0 ? violationLevelObj[0] : {};
       const qualityType = this.props.form.getFieldValue('qualityType');
       const role = this.props.form.getFieldValue('role');
-      this.props.changeDimensionTree({ qualityType, role, form:this.props.form,...violationLevelObj });
+      this.props.changeDimensionTree({ qualityType, role, form: this.props.form, ...violationLevelObj });
     };
 
     onChangeViolationLevel = (value) => {
-      this.props.changeViolationLevel(value,this.props.form);
+      this.props.changeViolationLevel(value, this.props.form);
     };
 
-    onChangeOrganize = (val)=>{
-      if(val.length>1){
+    onChangeOrganize = (val) => {
+      if (val.length > 1) {
         this.setState({
-          familyType:false
+          familyType: false
         })
       } else {
         this.setState({
-          familyType:true
+          familyType: true
         })
       }
 
@@ -112,7 +112,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
       let listRole = [];
       if (qualityType === 1) {// 客诉
         listRole = [{ id: 'cssupervisor', name: '客诉主管' }, { id: 'csleader', name: '客诉组长' }];
-      } else if(qualityType===2){
+      } else if (qualityType === 2) {
         listRole = [{ id: 'family', name: '家族长' }, { id: 'group', name: '运营长' }];
       }
       return listRole;
@@ -124,19 +124,19 @@ const BaseForm = Form.create({ name: 'base_form' })(
       });
     };
 
-    renderAttachedPersonList = (attachedPersonListSrc, attachedRoleList,showMore) => {
+    renderAttachedPersonList = (attachedPersonListSrc, attachedRoleList, showMore) => {
       const { form } = this.props;
       const { getFieldDecorator } = this.props.form;
-      const count = showMore||attachedPersonListSrc.length>2 ? 4 : 2;
-      const attachedPersonList = [{},{},{},{}];
-      attachedPersonListSrc.forEach((v,i)=>{
+      const count = showMore || attachedPersonListSrc.length > 2 ? 4 : 2;
+      const attachedPersonList = [{}, {}, {}, {}];
+      attachedPersonListSrc.forEach((v, i) => {
         attachedPersonList[i] = v;
       });
       const children = [];
       for (let i = 0; i < attachedPersonList.length; i++) {
         children.push(
           <div className={styles.formRow} style={{ display: i < count ? 'block' : 'none' }} key={i}>
-            <BoxItem label={i===0?"连带责任人处罚":""} oneRow noSemicolon={i!==0}>
+            <BoxItem label={i === 0 ? "连带责任人处罚" : ""} oneRow noSemicolon={i !== 0}>
               <Form.Item className={styles.formItem} style={{ width: 140 }}>
                 {getFieldDecorator(`roleName-${i}`, {
                   initialValue: attachedPersonList[i].roleName || undefined,
@@ -149,7 +149,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
               <Form.Item className={styles.formItem}>
                 {getFieldDecorator(`userName-${i}`, {
                   initialValue: attachedPersonList[i].userName || undefined,
-                })(<BIInput allowClear placeholder="邮箱前缀" addonAfter="@sunlands.com"/>)}
+                })(<BIInput allowClear placeholder="邮箱前缀" addonAfter="@sunlands.com" />)}
               </Form.Item> &nbsp;
               <Form.Item className={styles.formItem} style={{ width: 140 }}>
                 {getFieldDecorator(`punishType-${i}`, {
@@ -164,17 +164,17 @@ const BaseForm = Form.create({ name: 'base_form' })(
               </Form.Item> &nbsp;
               <Form.Item className={styles.formItem} style={{ width: 140 }}>
                 {getFieldDecorator(`qualityValue-${i}`, {
-                  initialValue: attachedPersonList[i].qualityValue|| (attachedPersonList[i].qualityValue===0?0:undefined),
+                  initialValue: attachedPersonList[i].qualityValue || (attachedPersonList[i].qualityValue === 0 ? 0 : undefined),
                   rules: [{
                     validator(rule, value, callback) {
-                      if (value&&isNaN(value)) {
+                      if (value && isNaN(value)) {
                         callback({ message: '请输入合法数据' });
                       } else {
                         callback();
                       }
                     },
                   }],
-                })(<BIInput placeholder="处罚力度" allowClear  addonAfter={form.getFieldValue(`punishType-${i}`)?form.getFieldValue(`punishType-${i}`)===2?'分':'元':'--'}/>)}
+                })(<BIInput placeholder="处罚力度" allowClear addonAfter={form.getFieldValue(`punishType-${i}`) ? form.getFieldValue(`punishType-${i}`) === 2 ? '分' : '元' : '--'} />)}
               </Form.Item>
             </BoxItem>
           </div>
@@ -216,8 +216,8 @@ const BaseForm = Form.create({ name: 'base_form' })(
 
       const temp = form.getFieldValue('organize');
       const familyTypeShow = [];
-      temp && temp.forEach((v)=>{
-        if(v){familyTypeShow.push(v)}
+      temp && temp.forEach((v) => {
+        if (v) { familyTypeShow.push(v) }
       });
 
       return (
@@ -227,7 +227,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
           <Form.Item style={{ display: 'none' }}>
             {getFieldDecorator('id', {
               initialValue: id,
-            })(<Input/>)}
+            })(<Input />)}
           </Form.Item>
 
           {/*第一部分*/}
@@ -237,10 +237,10 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 <Form.Item className={styles.formItem}>
                   {getFieldDecorator('mail', {
                     initialValue: mail, rules: [{ required: true, message: '请输入邮箱' }],
-                  })(<BIInput allowClear placeholder="请输入" addonAfter="@sunlands.com"/>)}
+                  })(<BIInput allowClear placeholder="请输入" addonAfter="@sunlands.com" />)}
                 </Form.Item>&nbsp;&nbsp;
                 <BIButton type="primary" size="default" onClick={this.getOrgMapByMail}
-                          loading={this.props.loadingMail}>查询</BIButton>
+                  loading={this.props.loadingMail}>查询</BIButton>
               </BoxItem>
               <BoxItem label="角色" required>
                 <Form.Item className={styles.formItem}>
@@ -261,7 +261,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 <Form.Item className={styles.formItem}>
                   {getFieldDecorator('name', {
                     initialValue: name, rules: [{ required: true, message: '请输入归属人' }],
-                  })(<BIInput placeholder="请输入"/>)}
+                  })(<BIInput placeholder="请输入" />)}
                 </Form.Item>
               </BoxItem>
               <BoxItem label="组织架构" required>
@@ -269,8 +269,8 @@ const BaseForm = Form.create({ name: 'base_form' })(
                   {getFieldDecorator('organize', {
                     initialValue: organize, rules: [{ required: true, message: '请选择归属组织' }],
                   })(<BICascader placeholder='请选择' changeOnSelect options={orgList}
-                                 onChange={this.onChangeOrganize}
-                                 fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+                    onChange={this.onChangeOrganize}
+                    fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
                   />)}
                 </Form.Item>
               </BoxItem>
@@ -283,14 +283,14 @@ const BaseForm = Form.create({ name: 'base_form' })(
               <Form.Item className={styles.formItem}>
                 {getFieldDecorator('orderNum', {
                   initialValue: orderNum,
-                })(<BIInput allowClear placeholder="请输入"/>)}
+                })(<BIInput allowClear placeholder="请输入" />)}
               </Form.Item>&nbsp;&nbsp;
               <BIButton type="primary" size="default" onClick={this.getSubOrderDetail}
-                        loading={this.props.loadingOrder}>查询</BIButton>
+                loading={this.props.loadingOrder}>查询</BIButton>
             </BoxItem>
           </div>
           {orderNumData && <Box title="子订单信息">
-            <SubOrder orderNumData={orderNumData}/>
+            <SubOrder orderNumData={orderNumData} />
           </Box>}
 
           {/*第三部分*/}
@@ -300,7 +300,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 <Form.Item className={styles.formItem}>
                   {getFieldDecorator('violationDate', {
                     initialValue: violationDate, rules: [{ required: true, message: '请选择违规日期' }],
-                  })(<BIDatePicker style={{ width: 230 }} disabledDate={this.disabledDate} format="YYYY-MM-DD"/>)}
+                  })(<BIDatePicker style={{ width: 230 }} disabledDate={this.disabledDate} format="YYYY-MM-DD" />)}
                 </Form.Item>
               </BoxItem>
             </div>
@@ -309,7 +309,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 <Form.Item className={styles.formItem}>
                   {getFieldDecorator('reduceScoreDate', {
                     initialValue: reduceScoreDate, rules: [{ required: true, message: '请选择扣分日期' }],
-                  })(<BIDatePicker style={{ width: 230 }} format="YYYY-MM-DD"/>)}
+                  })(<BIDatePicker style={{ width: 230 }} format="YYYY-MM-DD" />)}
                 </Form.Item>
               </BoxItem>
             </div>
@@ -328,7 +328,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 </Form.Item>
               </BoxItem>
               {
-                familyTypeShow.length ===1&&<BoxItem label="学院类型" required>
+                familyTypeShow.length === 1 && <BoxItem label="学院类型" required>
                   <Form.Item className={styles.formItem}>
                     {getFieldDecorator('familyType', {
                       initialValue: familyType, rules: [{ required: true, message: '请选择学院类型' }],
@@ -349,7 +349,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                   {getFieldDecorator('dimensionId', {
                     initialValue: dimensionId || undefined, rules: [{ required: true, message: '请选择分维' }],
                   })(<BISelect allowClear placeholder="请选择"
-                               onChange={this.onChangeDimensionId}>
+                    onChange={this.onChangeDimensionId}>
                     {dimensionIdList.map(item => (
                       <Option value={item.id} key={item.name}>
                         {item.name}
@@ -365,10 +365,10 @@ const BaseForm = Form.create({ name: 'base_form' })(
                   {getFieldDecorator('dimension', {
                     initialValue: dimension, rules: [{ required: true, message: '请选择违规分类' }],
                   })(<BICascader placeholder="请选择" options={dimensionTreeList}
-                                 notFoundContent="先选择质检类型和分维"
-                                 fieldNames={{ label: 'title', value: 'key', children: 'children' }}
-                                 displayRender={label => label[label.length - 1]}
-                                 onChange={this.onChangeDimensionTree}
+                    notFoundContent="先选择质检类型和分维"
+                    fieldNames={{ label: 'title', value: 'key', children: 'children' }}
+                    displayRender={label => label[label.length - 1]}
+                    onChange={this.onChangeDimensionTree}
                   />)}
                 </Form.Item>
               </BoxItem>
@@ -387,7 +387,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
               </BoxItem>
             </div>
 
-            <div className={styles.line}/>
+            <div className={styles.line} />
 
             <div className={styles.formRow}>
               <BoxItem label="归属人处罚" required oneRow>
@@ -406,7 +406,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 </Form.Item> &nbsp;
                 <Form.Item className={styles.formItem}>
                   {getFieldDecorator('ownQualityValue', {
-                    initialValue: ownQualityValue || (ownQualityValue == 0?0:undefined), rules: [{
+                    initialValue: ownQualityValue || (ownQualityValue == 0 ? 0 : undefined), rules: [{
                       validator(rule, value, callback) {
                         if (isNaN(value)) {
                           callback({ message: '请输入合法数据' });
@@ -415,32 +415,32 @@ const BaseForm = Form.create({ name: 'base_form' })(
                         }
                       },
                     }],
-                  })(<BIInput placeholder="处罚力度" addonAfter={punishTypeUnit?punishTypeUnit===2?'分':'元':'--'}/>)}
+                  })(<BIInput placeholder="处罚力度" addonAfter={punishTypeUnit ? punishTypeUnit === 2 ? '分' : '元' : '--'} />)}
                 </Form.Item>
               </BoxItem>
             </div>
             {this.renderAttachedPersonList(attachedPersonList, attachedRoleList, this.state.showMore)}
-            {this.state.showMore ? <span onClick={this.changeShowMore} className={styles.more}>&lt;&lt;收起更多</span>:
+            {this.state.showMore ? <span onClick={this.changeShowMore} className={styles.more}>&lt;&lt;收起更多</span> :
               <span onClick={this.changeShowMore} className={styles.more}>&gt;&gt;填写更多</span>}
           </Box>
           {/*第四部分*/}
           <Box title="违规详情">
             <div className={styles.formRow} style={{}}>
               <BoxItem label="附件" oneRow>
-                <div style={{ width: 500,display:'inline-flex'}} >{this.renderUpload()}</div>
+                <div style={{ width: 500, display: 'inline-flex' }} >{this.renderUpload()}</div>
               </BoxItem>
             </div>
-            <div className={styles.formRow} style={{marginTop:20}}>
+            <div className={styles.formRow} style={{ marginTop: 20 }}>
               <BoxItem label="违规详情" required oneRow>
                 <Form.Item className={styles.textArea}>
                   {getFieldDecorator('desc', {
                     initialValue: desc, rules: [{ required: true, message: '请输入违规详情' }],
-                  })(<TextArea maxLength={1000} rows="4" placeholder="请输入违规详情"/>)}
+                  })(<TextArea maxLength={1000} rows="4" placeholder="请输入违规详情" />)}
                 </Form.Item>
               </BoxItem>
             </div>
           </Box>
-          <div style={{textAlign:'right'}}>
+          <div style={{ textAlign: 'right' }}>
             <BIButton onClick={this.onCancel} >取消</BIButton> &nbsp;&nbsp;
             <BIButton type="primary" htmlType="submit">提交</BIButton>
           </div>
@@ -449,7 +449,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
     };
 
     onCancel = () => {
-      const {backType} = this.props;
+      const { backType } = this.props;
       const that = this;
       confirm({
         className: 'BIConfirm',
@@ -457,13 +457,13 @@ const BaseForm = Form.create({ name: 'base_form' })(
         cancelText: '取消',
         okText: '确认',
         onOk() {
-          if(backType==="closeModal"){
+          if (backType === "closeModal") {
             that.props.onCancel();
           } else {
             router.goBack();
           }
         },
-        onCancel() {},
+        onCancel() { },
       });
     };
 
@@ -491,11 +491,10 @@ const BaseForm = Form.create({ name: 'base_form' })(
       return isZip && isLt10M;
     };
 
-    onRemove = ()=>{
-      console.log(123,this.state)
+    onRemove = () => {
       this.setState({
-        attUrl:"",
-        fileList:[]
+        attUrl: "",
+        fileList: []
 
       })
     };
@@ -513,7 +512,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
         if (response) {
           if (response.code === 20000) {
             attUrl = response.data.fileUrl;
-            this.setState({ fileList,attUrl });
+            this.setState({ fileList, attUrl });
           } else {
             this.setState({ fileList: [] });
             message.error(msgF(response.msg, response.msgDetail));
