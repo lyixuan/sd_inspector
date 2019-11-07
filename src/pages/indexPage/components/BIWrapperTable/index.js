@@ -40,42 +40,28 @@ class BIWrapperTable extends React.Component {
   //   };
   // }
 
-  // countWidth = () => {
-  //   const tableWidth =
-  //     document.getElementById('tableWrap') && document.getElementById('tableWrap').offsetWidth;
-  //   let scrollWidth1 =
-  //     this.props &&
-  //     this.props.columns.reduce(function(prev, curr, idx, arr) {
-  //       return prev.width ? prev.width : prev + curr.width;
-  //     });
-  //   this.setState({
-  //     scrollWidth: Math.floor(tableWidth - scrollWidth1),
-  //   });
-  // };
   countHeight = () => {
     const tableWidth = document.querySelector(`#${this.props.name} .ant-table-body`).offsetWidth;
-    console.log(56, tableWidth)
     this.setState({
       tableWidth: tableWidth,
     });
   };
   onMouseEnter = () => {
-    console.log(63, document.querySelector(`#${this.props.name} .ant-table-body`))
+    console.log("onMouseEnter")
     const dom = document.querySelector(`#${this.props.name} .ant-table-body`);
     const dom2 = document.querySelector(`#${this.props.name} .ant-table-header`);
     if (dom) {
-      dom.style.overflow = 'scroll!important'
-      dom2.style.overflowY = 'scroll!important'
+      dom.style.overflow = 'scroll !important'
+      dom2.style.overflowY = 'scroll !important'
     }
   };
   onMouseLeave = () => {
-    console.log(1);
     const dom = document.querySelector(`#${this.props.name} .ant-table-body`);
     const dom2 = document.querySelector(`#${this.props.name} .ant-table-header`);
     console.log(dom2, 'dom');
     if (dom) {
-      dom.style.overflow = 'hidden!important'
-      dom2.style.overflowY = 'hidden!important'
+      dom.style.overflow = 'hidden !important'
+      dom2.style.overflowY = 'hidden !important'
     }
   };
   render() {
