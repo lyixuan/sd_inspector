@@ -55,7 +55,7 @@ class Wrap extends React.Component {
     return (
       <div className={styles.scoreTable}>
         <div className={`${styles.header} ${styles[this.props.className]}`}>{this.props.title}</div>
-        {this.props.loading?<BILoading isLoading={this.props.loading} />:userFlag && userMsg && <div className={styles.suspenTable}>
+        {userFlag && userMsg && <div className={styles.suspenTable}>
           <BITable
             showHeader={false}
             columns={this.props.columns}
@@ -68,16 +68,17 @@ class Wrap extends React.Component {
           />
         </div>}
         <div id={this.props.rowId} className={`${styles.tableBorder}} ${userFlag && userMsg ? styles.tbodyMarTop : ''}`} >
-          <BITable
-            columns={this.props.columns}
-            dataSource={this.props.dataSource}
-            rowKey={(record, index) => index}
-            rowClassName={this.getRowClassName}
-            pagination={false}
-            scroll={{ x: 0, y: 200 }}
-            smalled
-          >
-          </BITable>
+          <BILoading isLoading={this.props.loading} >
+            <BITable
+              columns={this.props.columns}
+              dataSource={this.props.dataSource}
+              rowKey={(record, index) => index}
+              rowClassName={this.getRowClassName}
+              pagination={false}
+              scroll={{ x: 0, y: 200 }}
+              smalled
+            />
+          </BILoading>
         </div>
       </div>
     );

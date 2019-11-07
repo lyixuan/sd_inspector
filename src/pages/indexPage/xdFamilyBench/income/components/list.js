@@ -161,14 +161,16 @@ class ProfitList extends React.Component {
   render() {
     return (
       <div className={styles.tableList}>
-        {this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
+        <BILoading isLoading={this.props.loading} >
+          <BITable
           columns={this.columns()}
           dataSource={this.state.familyIncome}
           pagination={false}
           loading={this.props.loading}
           rowKey={record => record.userId}
           scroll={{ x: 'max-content', y: 400 }}
-        />}
+          />
+        </BILoading>
       </div>
 
     );

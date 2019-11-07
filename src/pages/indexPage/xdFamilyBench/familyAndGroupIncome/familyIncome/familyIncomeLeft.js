@@ -155,7 +155,7 @@ class FamilyIncomeLeft extends React.Component {
             defaultExpandAllRows={true}
             expandIcon={CustomExpandIcon}
             pagination={false}
-            scroll={{ x: 0, y: 208 }}
+            scroll={{ x: 0, y: 408 }}
             rowKey={record => record.dim}
             loading={this.props.loading}
           />}
