@@ -366,7 +366,7 @@ class XdCredit extends React.Component {
   }
   handleClick = () => {
     this.getDimensionList();
-    this.onChangeParams('', 'dementionId');
+    this.onChangeParams(this.state.dementionId, 'dementionId');
     // this.getReasonListData();
   }
   handleReset = () => {
@@ -403,7 +403,7 @@ class XdCredit extends React.Component {
         <Skeleton loading={infoLoading} >
           {extendFlag ? <>
             <div className={styles.form}>
-              <span className={styles.date}>{startTime}～{endTime}</span>
+              {/* <span className={styles.date}>{startTime}～{endTime}</span> */}
               {
                 userOrgConfig.length > 0 && <span className={styles.change}>
                   选择组织：

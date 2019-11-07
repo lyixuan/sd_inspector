@@ -11,17 +11,21 @@ class BIClassifyTable extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      scrollWidth: 0
+      scrollWidth: 0,
+      tableHeight: 0
     }
   }
   componentDidMount() {
     this.countWidth();//计算表格滚动区域的宽度
+    this.countHeight()//计算表格高度
+    this.onMouseLeave();
     const dataList = this.props.dataSource.dataList;
     if (!dataList) return;
     const item = dataList[dataList.length - 1]
     this.resetCell(item, `${dataList.length - 1}${totalLength}`);
     if (navigator.userAgent.indexOf("Firefox") > -1) return;
-    window.addEventListener('resize', this.debounce(this.countWidth, 600));
+    window.addEventListener('resize', this.debounce(this.countWidth, 300));
+
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.countWidth);
@@ -44,6 +48,20 @@ class BIClassifyTable extends React.Component {
     this.setState({
       scrollWidth: Math.floor(tableWidth - scrollWidth1)
     })
+  }
+  countHeight = () => {
+    const tableHeight = document.getElementById("tableWrap") && document.getElementById("tableWrap").offsetHeight;
+    this.setState({
+      tableHeight: tableHeight
+    })
+  }
+  onMouseEnter = () => {
+    const dom = document.getElementById("tableWrap").querySelector('.ant-table-body');
+    dom.style.overflowX = 'scroll';
+  }
+  onMouseLeave = () => {
+    const dom = document.getElementById("tableWrap").querySelector('.ant-table-body');
+    dom.style.overflowX = 'hidden';
   }
   title = () => {
     const reasonTypeList = this.props.dataSource.reasonTypeList
@@ -104,7 +122,6 @@ class BIClassifyTable extends React.Component {
                 <Tooltip overlayClassName={styles.listMarkingTooltip2} placement="right" title={`差评数：${dataSource[indexs].valueCounts[index]}`}>
                   <BIContrastCell style={{ cursor: 'pointer' }} data-trace='{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}' key={index} colors={this.props.colors} onClick={(e) => { this.cellClick(record, currentIndex, index) }} nums={dataSource[indexs].values} text={dataSource[indexs].values[index]} textContent={`${dataSource[indexs].values[index]}%`} />
                 </Tooltip>
-
             )
           }
           return (
@@ -183,9 +200,10 @@ class BIClassifyTable extends React.Component {
   }
 
   render() {
+    const height = this.state.tableHeight + 20;
     const dataSource = this.props.dataSource && this.props.dataSource.dataList.length > 0 ? this.props.dataSource.dataList : []
     return (
-      <div className={styles.tableWrap} id="tableWrap">
+      <div className={styles.tableWrap} id="tableWrap" onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} style={{ minHeight: `${height}px` }}>
         <BITable
           pagination={false}
           columns={this.columns()}
