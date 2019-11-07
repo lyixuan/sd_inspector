@@ -26,6 +26,7 @@ class BIWrapperTable extends React.Component {
   }
   countWidth = () => {
     const tableWidth = document.querySelector(`#${this.props.name} .ant-table-body`).offsetWidth;
+    const tableHeight = document.querySelector(`#${this.props.name} .ant-table-body`).offsetHeight;
     this.setState({
       tableWidth: tableWidth,
     });
@@ -34,11 +35,12 @@ class BIWrapperTable extends React.Component {
     const dom = document.querySelector(`#${this.props.name} .ant-table-body`);
     const dom2 = document.querySelector(`#${this.props.name} .ant-table-header`);
     if (dom) {
-      dom.style.overflowY = 'scroll'
+      dom.style.overflowY = 'auto'
       dom.style.overflowX = 'auto'
     }
     if (dom2) {
-      dom2.style.overflowY = 'scroll'
+      dom2.style.overflowY = 'auto'
+      dom2.style.overflowX = 'hidden'
     }
   };
   onMouseLeave = () => {
@@ -52,6 +54,7 @@ class BIWrapperTable extends React.Component {
     }
     if (dom2) {
       dom2.style.overflowY = 'hidden'
+      dom2.style.overflowX = 'hidden'
     }
   };
   render() {
@@ -60,7 +63,7 @@ class BIWrapperTable extends React.Component {
         id={this.props.name}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
-        style={{ minWidth: this.state.tableWidth + 'px' }}
+        style={{ minHeight: this.state.tableHeight + 'px' }}
         className={`${styles.BIWrapperTable} ${this.props.isEditTd ? styles.BIWrapperTable4 : ''}`}
       >
         <Table {...this.props} />
