@@ -110,7 +110,6 @@ class currentCreditLeft extends React.Component {
           }
         }
         res.dimensionList = this.fillDataSource(res.dimensionList);
-        console.log(res.dimensionList, 789)
         this.setState({ groupPkList: res, phLoading: false });
       }
     });
@@ -141,7 +140,7 @@ class currentCreditLeft extends React.Component {
     return className
   }
   getContentLink = (text, record, index) => {
-    if (index === 0 && text) {
+    if (index === 0 && text && record.level === 4) {
       const { startTime, endTime } = this.props.kpiTimes;
       return {
         className: styles.mineHover,
