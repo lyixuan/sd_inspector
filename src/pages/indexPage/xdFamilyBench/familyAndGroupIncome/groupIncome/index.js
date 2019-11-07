@@ -57,26 +57,25 @@ class GroupIncome extends React.Component {
     }
   }
   render() {
-
-    const dataSource = this.props.familyIncomeGroup && this.props.familyIncomeGroup.dataShow
-    const colName = this.props.familyIncomeGroup && this.props.familyIncomeGroup.colName
+    const dataSource = this.props.familyIncomeGroup && this.props.familyIncomeGroup.dataShow;
+    const { colName = []} = this.props.familyIncomeGroup && this.props.familyIncomeGroup;
     return (
       <div className={styles.creditContainer} style={{ display: 'block' }}>
-        {
-          this.props.loading?<BILoading isLoading={this.props.loading} />:<BITable
-            columns={this.columns()}
-            dataSource={dataSource || []}
-            pagination={false}
-            loading={this.props.loading}
-            rowKey={(record, index) => index}
-            scroll={{ y: 408 }}
-            smalled
-          >
-          </BITable>
-        }
-        {
-          (colName || []).length <=0 && !this.props.loading && <div className={styles.tableImg}><img src={xdPkImg} /></div>
-        }
+        <BILoading isLoading={this.props.loading}>
+          {
+            <BITable
+              columns={this.columns()}
+              dataSource={dataSource || []}
+              pagination={false}
+              rowKey={(record, index) => index}
+              scroll={{ y: 408 }}
+              smalled
+            />
+          }
+          {
+            colName.length <=0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
+          }
+        </BILoading>
       </div>
     );
   }
