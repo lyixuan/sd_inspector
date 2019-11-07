@@ -50,7 +50,7 @@ class NPSLeft extends React.Component {
         key: 'createTime',
         width:"180px",
         render: (createTime) => {
-          const dateTimes = moment(createTime).format("YYYY-MM-DD hh:mm:ss")
+          const dateTimes = moment(createTime).format("YYYY-MM-DD HH:mm:ss")
           return <div>{dateTimes}</div>
         },
       }, {
@@ -100,6 +100,7 @@ class NPSLeft extends React.Component {
                   style={{marginTop:'10px',height:'336px'}}
                   scroll={{ y: 288 }}
                   className={styles.NPALeftMain}
+                  name="NPALeftMain"
           />
         }
       {/*</div>*/}
