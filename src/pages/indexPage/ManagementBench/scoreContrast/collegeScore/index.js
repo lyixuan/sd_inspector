@@ -228,18 +228,19 @@ class CollegeScore extends React.Component {
     const {userInfo} = this.props
     return (
       <div style={{minHeight:'479px'}}>
-        <BILoading isLoading={this.props.loading} height="479px">
           <div>
             <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>
-            {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 &&
-            <Echart
-              options={this.drawChart(queryAppealDatas.creaditDataList)}
-              style={{height:"354px"}}
-              clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}
-            />}
-            <EchartBottom/>
+            <BILoading isLoading={this.props.loading} height="479px">
+              {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 &&
+              <Echart
+                options={this.drawChart(queryAppealDatas.creaditDataList)}
+                style={{height:"354px"}}
+                clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}
+              />}
+              <EchartBottom/>
+            </BILoading>
         </div>
-        </BILoading>
+
       </div>
     );
   }
