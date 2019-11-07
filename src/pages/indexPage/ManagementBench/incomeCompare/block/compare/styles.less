@@ -26,7 +26,7 @@
     height: 340px;
   }
 }
-.table{
+.table {
   :global {
     .rowHover {
       background: #e6fff9;
@@ -41,6 +41,18 @@
 
     .BIWrapperProgress {
       justify-content: flex-end !important;
+    }
+    .ant-table-thead > tr:first-child > th:first-child,
+    .ant-table-tbody > tr > td:first-child {
+      padding-left: 16px;
+    }
+
+    .ant-table-thead > tr:first-child > th:last-child {
+      padding-right: 16px;
+    }
+    .ant-table-thead > tr:last-child > th:last-child,
+    .ant-table-tbody > tr > td:last-child {
+      padding-right: 16px;
     }
   }
 }

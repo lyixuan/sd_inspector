@@ -203,7 +203,7 @@ export function thousandsFormatDot(num) {
     : newNum;
 }
 
-export function thousandsFormatBigger(num) {
+export function thousandsFormatBigger(num, type) {
   const newNum = String(num);
   let newNum1 = 0;
   let newNum2 = 0;
@@ -214,7 +214,21 @@ export function thousandsFormatBigger(num) {
     newNum1 = num;
   }
   if (String(newNum1).length >= 7) {
-    return `${Math.ceil(newNum1 / 10000)}万`;
+    if (type) {
+      return (
+        <>
+          {Math.ceil(newNum1 / 10000)}
+          <span style={{ fontSize: '20px' }}>万</span>
+        </>
+      );
+    } else {
+      return (
+        <>
+          {Math.ceil(newNum1 / 10000)}
+          <span>万</span>
+        </>
+      );
+    }
   } else {
     return thousandsFormat(newNum1) + '.' + newNum2;
   }
