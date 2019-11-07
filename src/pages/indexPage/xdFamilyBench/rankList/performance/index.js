@@ -217,7 +217,7 @@ class Performance extends React.Component {
         <BIRadio onChange={this.handleRankChange} value={this.state.rankType} style={{ marginBottom: 16 }}>
           {rankType.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace={dataTrace[index]}>{item}</div></BIRadio.Radio.Button>)}
         </BIRadio>
-        {this.props.loading ? <BILoading isLoading={this.props.loading} /> : userFlag && userMsg && <div className={styles.suspenTable}>
+        {userFlag && userMsg && <div className={styles.suspenTable}>
           <BITable
             showHeader={false}
             columns={this.columns()}
@@ -230,16 +230,17 @@ class Performance extends React.Component {
           />
         </div>}
         <div id="scroller" className={`${userFlag && userMsg ? styles.tbodyMarTop : ''}`} >
+        <BILoading isLoading={this.props.loading} >
           <BITable
-            columns={this.columns()}
-            dataSource={this.state.dataSource}
-            pagination={false}
-            scroll={{ x: 0, y: 400 }}
-            rowKey={(record, index) => index}
-            rowClassName={this.getRowClassName}
-            smalled
-          >
-          </BITable>
+              columns={this.columns()}
+              dataSource={this.state.dataSource}
+              pagination={false}
+              scroll={{ x: 0, y: 400 }}
+              rowKey={(record, index) => index}
+              rowClassName={this.getRowClassName}
+              smalled
+            />
+          </BILoading> 
         </div>
       </div >
     );
