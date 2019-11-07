@@ -130,6 +130,7 @@ class BIClassifyTable extends React.Component {
         },
       })
     })
+    console.log(133, repairArr)
     if (repairArr > 0) {
       children.push({
         title: ' ',

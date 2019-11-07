@@ -102,7 +102,7 @@ class currentCreditLeft extends React.Component {
   }
   //获取左侧列表数据的方法
   getGroupPkData = (pkGroupList = this.props.pkGroupList) => {
-    this.setState({ phLoading: true});
+    this.setState({ phLoading: true });
     this.props.dispatch({
       type: 'xdClsssModal/groupPkList',
       payload: { params: { pkGroupList } },
@@ -110,8 +110,8 @@ class currentCreditLeft extends React.Component {
         // 点击多次，只显示最后一次的数据
         const len = this.props.pkGroupList.length;
         if (len !== res.groupList.length - 1) return;
-        for(let i = 0; i < len; i++) {
-          if (!res.groupList[i+1] || this.props.pkGroupList[i] !== res.groupList[i+1].groupId) {
+        for (let i = 0; i < len; i++) {
+          if (!res.groupList[i + 1] || this.props.pkGroupList[i] !== res.groupList[i + 1].groupId) {
             return;
           }
         }
@@ -146,15 +146,15 @@ class currentCreditLeft extends React.Component {
   getContentLink = (text, record, index) => {
     if (index === 0 && text) {
       const { startTime, endTime } = this.props.kpiTimes;
-      return { 
+      return {
         className: styles.mineHover,
         textContent: <Link onClick={() => this.getDataTrace(record)} target='_black' to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
-        {text} <span style={{ marginLeft: '2px' }}>{'>'}</span>
-      </Link>
-      }        
+          {text} <span style={{ marginLeft: '2px' }}>{'>'}</span>
+        </Link>
+      }
     } else {
       return {
-        textContent: index === 0 ? <span style={{marginRight: '16px'}}>{text}</span> : ''
+        textContent: index === 0 ? <span style={{ marginRight: '16px' }}>{text}</span> : ''
       }
     }
   }
@@ -166,35 +166,35 @@ class currentCreditLeft extends React.Component {
         if (item.flagMark === 3) {
           item.valuesParams = item.values.map((text, index) => {
             if (text > 0) {
-              return <BIContrastCell 
-              text={text} 
-              nums={item.values}
-              {...this.getContentLink(text, item, index)}
+              return <BIContrastCell
+                text={text}
+                nums={item.values}
+                {...this.getContentLink(text, item, index)}
               />
             } else {
-              return <BIContrastCell 
-              text={text} 
-              nums={item.values} 
-              colors={colorsArr} 
-              isReversed={true}
-              {...this.getContentLink(text, item, index)}
+              return <BIContrastCell
+                text={text}
+                nums={item.values}
+                colors={colorsArr}
+                isReversed={true}
+                {...this.getContentLink(text, item, index)}
               />
-            } 
+            }
           });
         } else if (item.flagMark === 1 || item.dimensionName === '退挽' || item.dimensionName === '随堂考') {
-          item.valuesParams =item.values.map((text, index) => <BIContrastCell 
-          text={text} 
-          nums={item.values}
-          {...this.getContentLink(text, item, index)}
-          />) 
+          item.valuesParams = item.values.map((text, index) => <BIContrastCell
+            text={text}
+            nums={item.values}
+            {...this.getContentLink(text, item, index)}
+          />)
         } else if (item.flagMark === 2) {
-          item.valuesParams =item.values.map((text, index) => <BIContrastCell 
-          text={text} 
-          nums={item.values}
-          colors={colorsArr}
-          isReversed={true}
-          {...this.getContentLink(text, item, index)}
-          />) 
+          item.valuesParams = item.values.map((text, index) => <BIContrastCell
+            text={text}
+            nums={item.values}
+            colors={colorsArr}
+            isReversed={true}
+            {...this.getContentLink(text, item, index)}
+          />)
         }
       }
       if (item.children && item.children.length > 0) {
@@ -216,7 +216,7 @@ class currentCreditLeft extends React.Component {
     } else {
       return []
     }
-    
+
   }
   render() {
     const { pkGroupList } = this.props
@@ -227,6 +227,7 @@ class currentCreditLeft extends React.Component {
         {loading ? <BILoading isLoading={loading} /> : <div className={styles.tableContainer}>
           {
             dataSource && dataSource.length > 0 && <BIWrapperTable
+              name='abcd'
               columns={this.columns()}
               dataSource={dataSource}
               defaultExpandAllRows={true}

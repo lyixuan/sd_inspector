@@ -24,7 +24,7 @@ class IMPartLeft extends React.Component {
     const columns = [{
       type: 'leftFixed',
       name: '组织',
-      width: 105
+      width: 120
     }, {
       type: 'children',
       name: '',
@@ -32,7 +32,7 @@ class IMPartLeft extends React.Component {
     }, {
       type: 'rightFixed',
       name: '汇总',
-      width: 60,
+      width: 80,
       key: 'total'
     }];
     return columns || [];

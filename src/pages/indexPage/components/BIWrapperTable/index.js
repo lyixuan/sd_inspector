@@ -21,8 +21,9 @@ class BIWrapperTable extends React.Component {
     // this.countWidth(); //计算表格滚动区域的宽度
     if (this.props.name) {
       this.countHeight(); //计算表格高度
+      this.onMouseLeave();
     }
-    window.addEventListener('resize', this.debounce(this.countWidth, 300));
+    // window.addEventListener('resize', this.debounce(this.countWidth, 300));
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.countWidth);
@@ -52,26 +53,35 @@ class BIWrapperTable extends React.Component {
   //   });
   // };
   countHeight = () => {
-    const tableHeight =
-      document.getElementById(this.props.name) &&
-      document.getElementById(this.props.name).offsetHeight;
+    const tableWidth = document.querySelector(`#${this.props.name} .ant-table-body`).offsetWidth;
+    console.log(56, tableWidth)
     this.setState({
-      tableHeight: tableHeight,
+      tableWidth: tableWidth,
     });
   };
   onMouseEnter = () => {
-    const dom = document.getElementById(this.props.name).querySelector('.ant-table-body');
-    dom.style.overflowX = 'scroll';
+    console.log(63, document.querySelector(`#${this.props.name} .ant-table-body`))
+    const dom = document.querySelector(`#${this.props.name} .ant-table-body`);
+    const dom2 = document.querySelector(`#${this.props.name} .ant-table-header`);
+    if (dom) {
+      dom.style.overflow = 'scroll!important'
+      dom2.style.overflowY = 'scroll!important'
+    }
   };
   onMouseLeave = () => {
     console.log(1);
-    const dom = document.getElementById(this.props.name).querySelector('.ant-table-body');
-    console.log(dom, 'dom');
-    dom.style.overflowX = 'hidden';
+    const dom = document.querySelector(`#${this.props.name} .ant-table-body`);
+    const dom2 = document.querySelector(`#${this.props.name} .ant-table-header`);
+    console.log(dom2, 'dom');
+    if (dom) {
+      dom.style.overflow = 'hidden!important'
+      dom2.style.overflowY = 'hidden!important'
+    }
   };
   render() {
     return (
       <div
+        styles={{ minWidth: this.state.tableWidth }}
         id={this.props.name}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}

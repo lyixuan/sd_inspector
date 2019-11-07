@@ -157,14 +157,13 @@ class XdCredit extends React.Component {
   }
   // 组织 - 时间
   getUserOrgList = () => {
-    console.log(159)
     const params = {
       startTime: this.state.startTime,
       endTime: this.state.endTime
     }
     this.props.dispatch({
       type: 'xdCreditModal/getUserOrgList',
-      payload: { params: {} },
+      payload: { params: params },
       callback: res => {
         if (res && res.length > 0) {
           this.setState({
@@ -368,7 +367,16 @@ class XdCredit extends React.Component {
   // 选择时间
   onDateChange = (v) => {
     const [startTime, endTime] = initTimeData(v);
-    this.setState({ startTime, endTime, });
+    this.setState({ startTime, endTime, }, () => {
+      const params = {
+        startTime: startTime,
+        endTime: endTime
+      }
+      this.props.dispatch({
+        type: 'xdCreditModal/getUserOrgList',
+        payload: { params: params }
+      })
+    });
   }
   handleClick = () => {
     this.setState({
