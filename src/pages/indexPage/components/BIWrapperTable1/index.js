@@ -42,7 +42,6 @@ class BIWrapperTable1 extends React.Component {
     if (dom2) {
       dom2.style.overflowY = 'auto'
       dom2.style.overflowX = 'hidden'
-      dom2.style.width = 'calc(100% - 4px)';
     }
   };
   onMouseLeave = () => {
@@ -51,13 +50,10 @@ class BIWrapperTable1 extends React.Component {
     console.log(dom2, 'dom');
     if (dom) {
       dom.style.overflow = 'hidden'
-      dom.style.overflowX = 'hidden'
-
     }
     if (dom2) {
       dom2.style.overflowY = 'hidden'
       dom2.style.overflowX = 'hidden'
-      dom2.style.width = '100%';
     }
   };
   render() {
