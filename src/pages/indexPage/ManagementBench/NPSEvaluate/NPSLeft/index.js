@@ -7,6 +7,7 @@ import Star from '../components/star'
 import BILoading from '@/components/BILoading'
 import { Tooltip } from 'antd';
 import moment from 'moment';
+import Container from '@/components/BIContainer';
 
 
 @connect(({xdManagementBench,loading}) => ({
@@ -39,7 +40,7 @@ class NPSLeft extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        width:"20%",
+        width:"100px",
         render: (stuName,record) => {
           return <div className={styles.studentColor} onClick={()=>this.clickStudentName(record)}>{stuName}</div>
         },
@@ -47,7 +48,7 @@ class NPSLeft extends React.Component {
         title: '时间',
         dataIndex: 'createTime',
         key: 'createTime',
-        width:"20%",
+        width:"180px",
         render: (createTime) => {
           const dateTimes = moment(createTime).format("YYYY-MM-DD hh:mm:ss")
           return <div>{dateTimes}</div>
@@ -56,7 +57,7 @@ class NPSLeft extends React.Component {
         title: '星级',
         dataIndex: 'star',
         key: 'star',
-        width:"20%",
+        width:"120px",
         render: (star) => {
           return <Star  star={star} />
         },
@@ -65,7 +66,7 @@ class NPSLeft extends React.Component {
         title: '内容',
         dataIndex: 'opinion',
         key: 'opinion',
-        width:100,
+        // width:100,
         render: (opinion,) => {
           return <Tooltip placement="right" title={opinion}>
             <div className={styles.contentMain}>{opinion}</div>
@@ -80,23 +81,29 @@ class NPSLeft extends React.Component {
     const {NPSleftParams} = this.props
     const dataSource = NPSleftParams && NPSleftParams.npsStarOpinionDtoListMap && NPSleftParams.npsStarOpinionDtoListMap.data.length>0 ? NPSleftParams.npsStarOpinionDtoListMap.data:[]
     return (
-      <div className={styles.NPALeftMain} style={{width: 'calc(100% - 366px)'}}>
+      <Container
+        title="创收学院对比"
+        style={{width: 'calc(100% - 350px)',}}
+        head="none"
+        propStyle={{padding:0}}
+      >
+      {/*<div className={styles.NPALeftMain} >*/}
       <div style={{width:'100%',height:'30px'}}>
         {NPSleftParams && NPSleftParams.reasonTypeDtoList && NPSleftParams.reasonTypeDtoList.map((item,index)=><ColorBlock data={{...item}} key={index} className={`colorStyle${index}`}/>)}
       </div>
         {
-          this.props.loading?<BILoading isLoading={this.props.loading}/>
+          this.props.loading?<BILoading isLoading={this.props.loading} height='336px' />
             : <BIWrapperTable  columns={this.columnsRight()}
                   dataSource={dataSource}
                   pagination={false}
-                  loading={this.props.loading}
-                  onRow={this.onClickRow}
                   rowKey={record => record.id}
                   style={{marginTop:'10px',height:'336px'}}
                   scroll={{ y: 288 }}
+                  className={styles.NPALeftMain}
           />
         }
-      </div>
+      {/*</div>*/}
+      </Container>
     );
   }
 }

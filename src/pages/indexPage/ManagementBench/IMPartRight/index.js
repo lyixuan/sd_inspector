@@ -40,7 +40,7 @@ class IMPartRight extends React.Component {
         title: '差评率',
         dataIndex: 'badContrasts',
         key: 'badContrasts',
-        width:"23%",
+        width:"20%",
         render: (badContrasts, record) => {
           const percent =(record.badContrastsBar * 100).toFixed(2) + '%';
           const text = (badContrasts*100).toFixed(2)+"%"
