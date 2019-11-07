@@ -40,13 +40,10 @@ class IMPartLeft extends React.Component {
   render() {
     const { imDetailData } = this.props.xdManagementBench;
     const { userInfo } = this.props
-    console.log('loading', this.props.loading)
     return (
       <Container title="IM负面原因分析"
         style={{ width: 'calc(67% - 16px)', marginBottom: '16px', minHeight: '372px' }}>
-
-
-        {this.props.loading ? <div style={{ width: '100%', minHeight: '372px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}><BILoading isLoading={this.props.loading} /></div> : imDetailData && <BIClassifyTable
+        {(this.props.loading && this.props.loadingStatus) ? <div style={{ width: '100%', minHeight: '372px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}><BILoading isLoading={this.props.loading} /></div> : imDetailData && <BIClassifyTable
           loading={this.props.loading}
           columns={this.columnsTable()}
           colors={colors}
