@@ -102,7 +102,6 @@ class appeal extends React.Component {
             columns={this.columns()}
             dataSource={dataSource}
             pagination={false}
-            loading={this.props.loading}
             rowKey={(record, index) => index}
             smalled
           />
