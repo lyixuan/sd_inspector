@@ -26,7 +26,7 @@ class BIWrapperTable extends React.Component {
   }
   countWidth = () => {
     const tableWidth = document.querySelector(`#${this.props.name} .ant-table-body`).offsetWidth;
-    const tableHeight = document.querySelector(`#${this.props.name} .ant-table-body`).offsetHeight;
+    const tableHeight = document.querySelector(`#${this.props.name} .ant-table-body`).offsetHeight + 20;
     this.setState({
       tableWidth: tableWidth,
     });
