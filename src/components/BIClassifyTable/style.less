@@ -1,10 +1,15 @@
 .tableWrap{
+  width:100%;
   :global{
     .ant-table{
       border:1px solid #EFF3F6;
-      border-bottom:none;
+      // border-bottom:none;
       border-radius:6px 6px 0 0;
     }
+    .ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td, .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td, .ant-table-thead > tr:hover:not(.ant-table-expanded-row) > td, .ant-table-tbody > tr:hover:not(.ant-table-expanded-row) > td{
+      background:none;
+    }
+
     .ant-table-fixed-left, .ant-table-fixed-right{
       overflow:inherit;
       z-index:2;
@@ -12,6 +17,9 @@
     // .ant-table-fixed-left{
     //   z-index:2;
     // }
+    .ant-table-tbody > tr:last-child td{
+      // border-bottom:none;
+    }
     .ant-table-tbody > tr > td{
       position:relative;
       background:#fff;

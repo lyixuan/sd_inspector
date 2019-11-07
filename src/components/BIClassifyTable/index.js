@@ -57,7 +57,7 @@ class BIClassifyTable extends React.Component {
   }
   onMouseEnter = () => {
     const dom = document.getElementById("tableWrap").querySelector('.ant-table-body');
-    dom.style.overflowX = 'scroll';
+    dom.style.overflowX = 'auto';
   }
   onMouseLeave = () => {
     const dom = document.getElementById("tableWrap").querySelector('.ant-table-body');
@@ -131,18 +131,32 @@ class BIClassifyTable extends React.Component {
       })
     })
     if (repairArr > 0) {
-      for (let i = 0; i < repairArr; i++) {
-        children.push({
-          title: ' ',
-          dataIndex: 'i',
-          className: styles.txRight,
-          key: `empty${i}`,
-          width: this.props.cellWidth,
-          render: () => {
-            return <> </>
-          },
-        })
-      }
+      children.push({
+        title: ' ',
+        dataIndex: 'repairArr',
+        key: `empty${repairArr}`,
+        render: (val, row, index) => {
+          const obj = {
+            children: ' ',
+            props: {}
+          }
+          obj.props.rowSpan = 0
+          return obj
+          // return <> </>
+        },
+      })
+      // for (let i = 0; i < repairArr; i++) {
+      //   children.push({
+      //     title: ' ',
+      //     dataIndex: 'i',
+      //     className: styles.txRight,
+      //     key: `empty${i}`,
+      //     width: this.props.cellWidth,
+      //     render: () => {
+      //       return <> </>
+      //     },
+      //   })
+      // }
     }
     const columns = []
     this.props.columns.map(item => {

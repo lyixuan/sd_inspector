@@ -35,12 +35,12 @@ class IMPartRight extends React.Component {
         title: '学院',
         dataIndex: 'college',
         key: 'college',
-        width:"30%"
+        // width:"26%"
       }, {
         title: '差评率',
         dataIndex: 'badContrasts',
         key: 'badContrasts',
-        width:"23%",
+        width:"16%",
         render: (badContrasts, record) => {
           const percent =(record.badContrastsBar * 100).toFixed(2) + '%';
           const text = (badContrasts*100).toFixed(2)+"%"
@@ -64,6 +64,7 @@ class IMPartRight extends React.Component {
         title: '未回复次数',
         dataIndex: 'notReply',
         key: 'notReply',
+        width:"27%",
         render: (notReply, record) => {
           const percent = record.notReplyContrasts * 100 + '%';
           return <div style={{ display: 'flex', justifyContent: 'flex-end' }}>

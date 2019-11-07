@@ -54,8 +54,6 @@ class CollegeScore extends React.Component {
       familyName.push(item.name);
       qoqValue.push((item.qoqValue*100).toFixed(2))
     })
-    creaditValue.unshift(0)
-    qoqValue.unshift(0)
     const yMax =  Math.max.apply(null, creaditValue);
     const yMin = Math.min.apply(null, creaditValue);
     const yRightMax =  Math.max.apply(null, qoqValue);
@@ -103,8 +101,8 @@ class CollegeScore extends React.Component {
           inverse: false,
           splitArea: {show: false},
           type: 'value',
-          min: yMin,
-          max: yMax,
+          min: yMin>0?0:yMin,
+          max: yMax<0?0:yMax,
           onZeroAxisIndex:0,
           axisLabel: {
             formatter: '{value}',
@@ -127,8 +125,8 @@ class CollegeScore extends React.Component {
           inverse: false,
           splitArea: {show: false},
           type: 'value',
-          min: yRightMin,
-          max: yRightMax,
+          min: yRightMin>0?0:yRightMin,
+          max: yRightMax<0?0:yRightMax,
           axisLabel: {
             formatter: '{value} %',
             color:'#000000 '

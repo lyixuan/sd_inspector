@@ -56,7 +56,8 @@ class XdCredit extends React.Component {
       page: 1,
       reasonTypeId: 0,
       isIm: false,
-      loadingStatus: true
+      loadingStatus: true,
+      dimisionLoadingStatus: true
     }
   }
   componentDidMount() {
@@ -155,10 +156,14 @@ class XdCredit extends React.Component {
     });
   }
   // 组织 - 时间
-  getUserOrgList = (groupId) => {
+  getUserOrgList = () => {
+    const params = {
+      startTime: this.state.startTime,
+      endTime: this.state.endTime
+    }
     this.props.dispatch({
       type: 'xdCreditModal/getUserOrgList',
-      payload: { params: { pkGroup: groupId } },
+      payload: { params: params },
       callback: res => {
         if (res && res.length > 0) {
           this.setState({
@@ -269,6 +274,13 @@ class XdCredit extends React.Component {
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionDetail',
       payload: { params: param },
+      callback: res => {
+        if (res && res.length > 0) {
+          this.setState({
+            userOrgConfig: res,
+          })
+        }
+      }
     });
   }
   // 参数groupId
@@ -362,15 +374,38 @@ class XdCredit extends React.Component {
   // 选择时间
   onDateChange = (v) => {
     const [startTime, endTime] = initTimeData(v);
-    this.setState({ startTime, endTime, });
+    this.setState({ startTime, endTime, }, () => {
+      const params = {
+        startTime: startTime,
+        endTime: endTime
+      }
+      this.props.dispatch({
+        type: 'xdCreditModal/getUserOrgList',
+        payload: { params: params },
+        callback: res => {
+          if (res && res.length > 0) {
+            this.setState({
+              userOrgConfig: res,
+              ...this.getResetGroupMsg(res),
+            })
+          }
+
+        }
+      })
+    });
   }
   handleClick = () => {
-    this.getDimensionList();
-    this.onChangeParams(this.state.dementionId, 'dementionId');
-    // this.getReasonListData();
+    this.setState({
+      dimisionLoadingStatus: false
+    }, () => {
+      this.getDimensionList();
+      this.onChangeParams(this.state.dementionId, 'dementionId');
+    })
+
   }
   handleReset = () => {
     this.setState({
+      dimisionLoadingStatus: false,
       startTime: this.props.kpiDateRange.endDate,
       endTime: this.props.kpiDateRange.endDate,
       ...this.getResetGroupMsg()
@@ -459,6 +494,7 @@ class XdCredit extends React.Component {
             {
               <div className={styles.dataShow}>
                 <Dimension
+                  dimisionLoadingStatus={this.state.dimisionLoadingStatus}
                   dementionId={dementionId}
                   onChangeParams={this.onChangeParams}
                   dimensionData={this.props.dimensionData}
