@@ -8,12 +8,11 @@ import {
   Icon} from 'antd';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
-import InputComponent from '@/pages/configWords/components/inputComponent';
 import ConfigModal from '@/pages/configWords/components/configModal';
-import {getKeywordsList, saveKeywordsConfig, deleteKeywordsConfig} from '@/pages/configWords/services';
+import {getEntityWordsList, saveEntityConfig, deleteEntityConfig} from '@/pages/configWords/services';
 import {formatTime} from '@/pages/configWords/utils/util';
 
-class Keywords extends React.Component{
+class EntityWords extends React.Component{
   constructor(props) {
     super(props);
     this.columns = [
@@ -25,9 +24,9 @@ class Keywords extends React.Component{
         align: 'center'
       },
       {
-        title: '关键词',
-        dataIndex: 'keyWord',
-        key: 'keyWord'
+        title: '实体词',
+        dataIndex: 'entityWordName',
+        key: 'entityWordName'
       },
       {
         title: '引导问题数量',
@@ -85,7 +84,6 @@ class Keywords extends React.Component{
       },
     ];
     this.state = {
-      searchWords: '',
       formData: [],
       total: 0,
       page: 1,
@@ -98,7 +96,6 @@ class Keywords extends React.Component{
 
   render() {
     const {
-      searchWords,
       formData,
       total,
       page,
@@ -111,15 +108,11 @@ class Keywords extends React.Component{
       <div className={styles.keywords}>
         {/*输入框和配置按钮部分*/}
         <div className={styles['input-part']}>
-          <InputComponent
-            defaultValue={searchWords}
-            resultCount={total}
-            onSearch={this.handleSearch}
-            onReset={this.handleSearchReset}/>
+          <div></div>
           <Button
             className={styles.config}
             icon='plus'
-            onClick={this.AddConfigWords}>配置关键词</Button>
+            onClick={this.AddConfigWords}>配置实体词</Button>
         </div>
         {/*表格部分*/}
         <div className={styles['form-part']}>
@@ -153,7 +146,7 @@ class Keywords extends React.Component{
                 type="exclamation-circle"
                 className={styles['icon']}
                 theme="filled" />
-              <span>删除关键词</span>
+              <span>删除实体词</span>
             </p>
           }
           width={432}
@@ -170,12 +163,12 @@ class Keywords extends React.Component{
           }
           wrapClassName={styles['delete-modal']}
           onCancel={this.handleDeleteModalCancel}>
-          <p style={{marginBottom: 0}}>是否要删除，该关键词及引导问题</p>
+          <p style={{marginBottom: 0}}>是否要删除，该实体词及引导问题</p>
         </Modal>
         {/*新增或编辑配置词弹框*/}
         <ConfigModal
           isShow={showConfigModal}
-          title="配置关键词"
+          title="配置实体词"
           onSave={this.handleConfigModalSave}
           onCancel={this.handleConfigModalClose}
           key={Math.random()}/>
@@ -184,27 +177,9 @@ class Keywords extends React.Component{
   }
 
   componentDidMount() {
-    const {searchWords, page, pageSize} = this.state;
-    this._getKeywordsList(searchWords, page, pageSize);
+    const {page, pageSize} = this.state;
+    this._getEntityWordsList(page, pageSize);
   }
-
-  //当搜索框搜索时
-  handleSearch = (value) => {
-    this.setState({
-      searchWords: value
-    });
-    const {page, pageSize} = this.state;
-    this._getKeywordsList(value, page, pageSize)
-  };
-
-  // 当搜索框重置时
-  handleSearchReset = () => {
-    this.setState({
-      searchWords: ''
-    });
-    const {page, pageSize} = this.state;
-    this._getKeywordsList('', page, pageSize)
-  };
 
   // 添加配置词
   AddConfigWords = () => {
@@ -212,7 +187,7 @@ class Keywords extends React.Component{
       type: 'configWords/changeConfigData',
       payload: {
         id: 0,
-        keyWord: '',
+        entityWordId: 0,
         questionList: [
           {
             sort: 1,
@@ -250,18 +225,16 @@ class Keywords extends React.Component{
 
   // 当分页器页码变化时
   handlePageChange = (page, pageSize) => {
-    const {searchWords} = this.state;
-    this._getKeywordsList(searchWords, page, pageSize);
+    this._getEntityWordsList(page, pageSize);
     this.setState({
       page: page,
       pageSize: pageSize
-    });
+    })
   };
 
   // 当分页器pagesize变化时
   handleSizeChange = (current, size) => {
-    const {searchWords} = this.state;
-    this._getKeywordsList(searchWords, current, size);
+    this._getEntityWordsList(current, size);
     this.setState({
       page: current,
       pageSize: size
@@ -272,8 +245,8 @@ class Keywords extends React.Component{
   handleDeleteModalOk = () => {
     let {deleteId} = this.state;
     this._deleteConfig(deleteId).then(() => {
-      const {searchWords, page, pageSize} = this.state;
-      this._getKeywordsList(searchWords, page, pageSize);
+      const {page, pageSize} = this.state;
+      this._getEntityWordsList(page, pageSize);
     });
   };
 
@@ -287,14 +260,14 @@ class Keywords extends React.Component{
 
   // 监听配置弹框保存事件
   handleConfigModalSave = (configData) => {
-    let {id, keyWord, questionList} = configData;
-    let data = {keyWord, questionList};
+    let {id, entityWordId, questionList} = configData;
+    let data = {entityWordId, questionList};
     if (id) {
       data.id = id;
     }
     this._saveConfig(data).then(() => {
-      const {searchWords, page, pageSize} = this.state;
-      this._getKeywordsList(searchWords, page, pageSize);
+      const {page, pageSize} = this.state;
+      this._getEntityWordsList(page, pageSize);
     });
   };
 
@@ -305,9 +278,9 @@ class Keywords extends React.Component{
     });
   };
 
-  // 获取关键词列表
-  _getKeywordsList = async (searchWords, page, pageSize) => {
-    let res = await getKeywordsList(searchWords, page, pageSize);
+  // 获取实体词列表
+  _getEntityWordsList = async (page, pageSize) => {
+    let res = await getEntityWordsList(page, pageSize);
     if (res.code === 200) {
       res.data.items = this._formatFormData(res.data.items);
       this.setState({
@@ -317,9 +290,9 @@ class Keywords extends React.Component{
     }
   };
 
-  // 保存关键词配置
+  // 保存实体词配置
   _saveConfig = async (data) => {
-    let res = await saveKeywordsConfig(data);
+    let res = await saveEntityConfig(data);
     if (res.code === 200) {
       this.setState({
         showConfigModal: false
@@ -327,9 +300,9 @@ class Keywords extends React.Component{
     }
   };
 
-  // 删除关键词配置
+  // 删除实体词配置
   _deleteConfig = async (id) => {
-    let res = await deleteKeywordsConfig(id);
+    let res = await deleteEntityConfig(id);
     if (res.code === 200) {
       this.setState({
         showDeleteModal: false
@@ -351,4 +324,4 @@ class Keywords extends React.Component{
 
 }
 
-export default connect(() => ({}))(Keywords);
+export default connect(() => ({}))(EntityWords);

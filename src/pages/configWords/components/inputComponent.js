@@ -12,16 +12,18 @@ class InputComponent extends React.Component{
   }
 
   render() {
-    const {resultCount} = this.props;
+    const {resultCount, defaultValue} = this.props;
     const {text} = this.state;
     return (
       <div className={styles['input-component']}>
         <Input
           value={text}
+          defaultValue={defaultValue}
           placeholder="请输入搜索词"
           className={styles['input']}
           onChange={this.onInputChange}
-          onPressEnter={this.onInputEnter} ref={this.myInput}/>
+          onPressEnter={this.onInputEnter}
+          ref={this.myInput}/>
         <Button className={styles['reset']} onClick={this.resetSearchResult}>重置</Button>
         <Button className={styles['search']} onClick={this.onInputEnter}>搜索</Button>
         <span className={styles.text}>
@@ -33,7 +35,6 @@ class InputComponent extends React.Component{
 
   // 监听输入框内容变化事件
   onInputChange = (e) => {
-    this.props.onChange(e.target.value);
     this.setState({
       text: e.target.value
     })
@@ -41,12 +42,20 @@ class InputComponent extends React.Component{
 
   // 监听回车事件
   onInputEnter = () => {
-    this.props.onSearch(this.state.text);
+    const {text} = this.state;
+    if (text === '') {
+      return;
+    }
+    this.props.onSearch(text);
     this.myInput.current.blur();
   };
 
   // 重置搜索结果
   resetSearchResult = () => {
+    const {text} = this.state;
+    if (text === '') {
+      return;
+    }
     this.props.onReset();
     this.setState({
       text: ""

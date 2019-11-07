@@ -10,10 +10,13 @@ import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
 import InputComponent from '@/pages/configWords/components/inputComponent';
 import ConfigModal from '@/pages/configWords/components/configModal';
-import {getKeywordsList, saveKeywordsConfig, deleteKeywordsConfig} from '@/pages/configWords/services';
+import {
+  getCombineWordsList,
+  saveCombineConfig,
+  deleteCombineConfig} from '@/pages/configWords/services';
 import {formatTime} from '@/pages/configWords/utils/util';
 
-class Keywords extends React.Component{
+class CombineWords extends React.Component{
   constructor(props) {
     super(props);
     this.columns = [
@@ -25,9 +28,15 @@ class Keywords extends React.Component{
         align: 'center'
       },
       {
-        title: '关键词',
-        dataIndex: 'keyWord',
-        key: 'keyWord'
+        title: '组合词',
+        dataIndex: 'combine',
+        key: 'combine',
+        render: (combine) => {
+          return <div>
+            <span style={{marginRight: 8}}>{combine.word1}</span>
+            <span>{combine.word2}</span>
+          </div>
+        }
       },
       {
         title: '引导问题数量',
@@ -119,7 +128,7 @@ class Keywords extends React.Component{
           <Button
             className={styles.config}
             icon='plus'
-            onClick={this.AddConfigWords}>配置关键词</Button>
+            onClick={this.AddConfigWords}>配置组合词</Button>
         </div>
         {/*表格部分*/}
         <div className={styles['form-part']}>
@@ -153,7 +162,7 @@ class Keywords extends React.Component{
                 type="exclamation-circle"
                 className={styles['icon']}
                 theme="filled" />
-              <span>删除关键词</span>
+              <span>删除组合词</span>
             </p>
           }
           width={432}
@@ -170,22 +179,22 @@ class Keywords extends React.Component{
           }
           wrapClassName={styles['delete-modal']}
           onCancel={this.handleDeleteModalCancel}>
-          <p style={{marginBottom: 0}}>是否要删除，该关键词及引导问题</p>
+          <p style={{marginBottom: 0}}>是否要删除，该组合词及引导问题</p>
         </Modal>
         {/*新增或编辑配置词弹框*/}
         <ConfigModal
           isShow={showConfigModal}
-          title="配置关键词"
+          title="配置组合词"
           onSave={this.handleConfigModalSave}
           onCancel={this.handleConfigModalClose}
-          key={Math.random()}/>
+          key={Math.random()} />
       </div>
     )
   }
 
   componentDidMount() {
     const {searchWords, page, pageSize} = this.state;
-    this._getKeywordsList(searchWords, page, pageSize);
+    this._getCombineWordsList(searchWords, page, pageSize);
   }
 
   //当搜索框搜索时
@@ -194,7 +203,7 @@ class Keywords extends React.Component{
       searchWords: value
     });
     const {page, pageSize} = this.state;
-    this._getKeywordsList(value, page, pageSize)
+    this._getCombineWordsList(value, page, pageSize)
   };
 
   // 当搜索框重置时
@@ -203,7 +212,7 @@ class Keywords extends React.Component{
       searchWords: ''
     });
     const {page, pageSize} = this.state;
-    this._getKeywordsList('', page, pageSize)
+    this._getCombineWordsList('', page, pageSize)
   };
 
   // 添加配置词
@@ -212,7 +221,10 @@ class Keywords extends React.Component{
       type: 'configWords/changeConfigData',
       payload: {
         id: 0,
-        keyWord: '',
+        word1Id: 0,
+        word2Id: 0,
+        word1Type: 0,
+        word2Type: 0,
         questionList: [
           {
             sort: 1,
@@ -251,7 +263,7 @@ class Keywords extends React.Component{
   // 当分页器页码变化时
   handlePageChange = (page, pageSize) => {
     const {searchWords} = this.state;
-    this._getKeywordsList(searchWords, page, pageSize);
+    this._getCombineWordsList(searchWords, page, pageSize);
     this.setState({
       page: page,
       pageSize: pageSize
@@ -261,7 +273,7 @@ class Keywords extends React.Component{
   // 当分页器pagesize变化时
   handleSizeChange = (current, size) => {
     const {searchWords} = this.state;
-    this._getKeywordsList(searchWords, current, size);
+    this._getCombineWordsList(searchWords, current, size);
     this.setState({
       page: current,
       pageSize: size
@@ -273,7 +285,7 @@ class Keywords extends React.Component{
     let {deleteId} = this.state;
     this._deleteConfig(deleteId).then(() => {
       const {searchWords, page, pageSize} = this.state;
-      this._getKeywordsList(searchWords, page, pageSize);
+      this._getCombineWordsList(searchWords, page, pageSize);
     });
   };
 
@@ -287,14 +299,20 @@ class Keywords extends React.Component{
 
   // 监听配置弹框保存事件
   handleConfigModalSave = (configData) => {
-    let {id, keyWord, questionList} = configData;
-    let data = {keyWord, questionList};
+    let {
+      id,
+      word1Id,
+      word2Id,
+      word1Type,
+      word2Type,
+      questionList} = configData;
+    let data = {word1Id, word2Id, word1Type, word2Type, questionList};
     if (id) {
       data.id = id;
     }
     this._saveConfig(data).then(() => {
       const {searchWords, page, pageSize} = this.state;
-      this._getKeywordsList(searchWords, page, pageSize);
+      this._getCombineWordsList(searchWords, page, pageSize);
     });
   };
 
@@ -305,9 +323,9 @@ class Keywords extends React.Component{
     });
   };
 
-  // 获取关键词列表
-  _getKeywordsList = async (searchWords, page, pageSize) => {
-    let res = await getKeywordsList(searchWords, page, pageSize);
+  // 获取组合词列表
+  _getCombineWordsList = async (searchWords, page, pageSize) => {
+    let res = await getCombineWordsList(searchWords, page, pageSize);
     if (res.code === 200) {
       res.data.items = this._formatFormData(res.data.items);
       this.setState({
@@ -317,9 +335,9 @@ class Keywords extends React.Component{
     }
   };
 
-  // 保存关键词配置
+  // 保存组合词配置
   _saveConfig = async (data) => {
-    let res = await saveKeywordsConfig(data);
+    let res = await saveCombineConfig(data);
     if (res.code === 200) {
       this.setState({
         showConfigModal: false
@@ -327,9 +345,9 @@ class Keywords extends React.Component{
     }
   };
 
-  // 删除关键词配置
+  // 删除组合词配置
   _deleteConfig = async (id) => {
-    let res = await deleteKeywordsConfig(id);
+    let res = await deleteCombineConfig(id);
     if (res.code === 200) {
       this.setState({
         showDeleteModal: false
@@ -337,12 +355,16 @@ class Keywords extends React.Component{
     }
   };
 
-  // 给列表数据增加序号，处理时间戳
+  // 给列表数据增加序号，处理时间戳，添加组合词对象
   _formatFormData = (data) => {
     const {page, pageSize} = this.state;
     let start = (page - 1 ) * pageSize + 1;
     data.forEach(item => {
       item.number = start;
+      item.combine = {
+        word1: item.word1,
+        word2: item.word2
+      };
       item.updateTime = formatTime(item.updateTime);
       start ++;
     });
@@ -351,4 +373,4 @@ class Keywords extends React.Component{
 
 }
 
-export default connect(() => ({}))(Keywords);
+export default connect(() => ({}))(CombineWords);

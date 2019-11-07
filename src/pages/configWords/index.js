@@ -1,8 +1,9 @@
 import React from 'react';
-import {connect} from 'dva';
 import {Radio} from 'antd';
-import Keywords from '@/pages/configWords/keywords';
 import style from './style.less';
+import Keywords from '@/pages/configWords/keywords';
+import EntityWords from '@/pages/configWords/entityWords';
+import CombineWords from '@/pages/configWords/combineWords';
 
 class Config extends React.Component{
   constructor(props) {
@@ -18,15 +19,13 @@ class Config extends React.Component{
   }
 
   render() {
-    const {currentResult, total} = this.props;
     const {showWhich} = this.state;
-
-    let titleObj = this.titleObj;
-    let titleText = titleObj[showWhich];
+    const {titleObj} = this;
+    const title = titleObj[showWhich];
 
     return (
     <div className={style['content-wrap']}>
-      <div className={style.header}>{titleText}</div>
+      <div className={style.header}>{title}</div>
       <div className={style.content}>
         <Radio.Group defaultValue={showWhich} onChange={this.onChangeTab} className={style['tabs']}>
           <Radio.Button value='keywords' className={style['tab-button']}>关键词</Radio.Button>
@@ -34,7 +33,11 @@ class Config extends React.Component{
           <Radio.Button value='combine' className={style['tab-button']}>组合词</Radio.Button>
         </Radio.Group>
         <div className={style['item-content']}>
-          {showWhich === 'keywords' ? <Keywords formData={currentResult} total={total}/> : null}
+          {
+            showWhich === "keywords"
+            ? <Keywords/>
+            : (showWhich === "entity" ? <EntityWords/> : <CombineWords/>)
+          }
         </div>
       </div>
     </div>
@@ -49,8 +52,4 @@ class Config extends React.Component{
   }
 }
 
-export default
-connect(({configWords}) => ({
-  currentResult: configWords.searchResult,
-  total: configWords.total
-}))(Config);
+export default Config;
