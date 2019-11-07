@@ -366,7 +366,7 @@ class XdCredit extends React.Component {
   }
   handleClick = () => {
     this.getDimensionList();
-    this.onChangeParams('', 'dementionId');
+    this.onChangeParams(this.state.dementionId, 'dementionId');
     // this.getReasonListData();
   }
   handleReset = () => {
