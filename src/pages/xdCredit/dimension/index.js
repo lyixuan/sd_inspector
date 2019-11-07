@@ -126,7 +126,7 @@ class Dimension extends React.Component {
       <div className={styles.dimension}>
         {/* <Skeleton loading={this.props.loading} > */}
         {
-          this.props.loading ? <BILoading isLoading={this.props.loading} /> : dataSource.length > 0 ? <BITable
+          this.props.loading && this.props.dimisionLoadingStatus ? <BILoading isLoading={this.props.loading} /> : dataSource.length > 0 ? <BITable
             columns={this.columns()}
             bordered
             dataSource={dataSource}
