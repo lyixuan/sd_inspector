@@ -96,13 +96,13 @@ class ProfitTbas extends React.Component {
         title: '创收绩效',
         dataIndex: 'totalKpi',
         key: 'totalKpi',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.totalKpi)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.totalKpi)} style={{marginLeft: '-8px', marginTop: '10px'}}/>)
       }, {
         width: 140,
         title: '创收绩效流水',
         dataIndex: 'totalFinanceNetFlow',
         key: 'totalFinanceNetFlow',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.totalFinanceNetFlow)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.totalFinanceNetFlow)} style={{marginLeft: '-8px', marginTop: '10px'}}/>)
       }, {
         width: 140,
         title: '创收总单量',
@@ -115,21 +115,21 @@ class ProfitTbas extends React.Component {
         title: '好推绩效',
         dataIndex: 'goodpushKpi',
         key: 'goodpushKpi',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushKpi)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushKpi)} style={{marginLeft: '-8px', marginTop: '10px'}}/>)
       }, {
         width: 140,
         className: styles.rowBg2,
         title: '好推绩效流水',
         dataIndex: 'goodpushFinanceNetFlow',
         key: 'goodpushFinanceNetFlow',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushFinanceNetFlow)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushFinanceNetFlow)} style={{marginLeft: '-8px', marginTop: '10px'}}/>)
       }, {
         width: 140,
         className: styles.rowBg2,
         title: '好推系数均值',
         dataIndex: 'goodpushValueAvg',
         key: 'goodpushValueAvg',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={text} isColor="green" percent={this.getPercent(text, maxValue.goodpushValueAvg)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={text} isColor="green" percent={this.getPercent(text, maxValue.goodpushValueAvg)} style={{marginLeft: '-8px', marginTop: '10px'}}/>)
       }, {
         width: 140,
         className: styles.rowBg2,
@@ -143,14 +143,14 @@ class ProfitTbas extends React.Component {
         title: '续报绩效',
         dataIndex: 'renewalKpi',
         key: 'renewalKpi',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalKpi)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalKpi)} style={{marginLeft: '-8px', marginTop: '10px'}}/>)
       }, {
         width: 140,
         className: styles.rowBg3,
         title: '续报绩效流水',
         dataIndex: 'renewalFinanceNetFlow',
         key: 'renewalFinanceNetFlow',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalFinanceNetFlow)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalFinanceNetFlow)} style={{marginLeft: '-8px', marginTop: '10px'}}/>)
       }, {
         width: 140,
         className: styles.rowBg3,
@@ -164,14 +164,14 @@ class ProfitTbas extends React.Component {
         title: '成考绩效',
         dataIndex: 'examZbtKpi',
         key: 'examZbtKpi',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtKpi)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtKpi)} style={{marginLeft: '-8px', marginTop: '10px'}}/>)
       }, {
         width: 140,
         className: styles.rowBg4,
         title: '成考绩效流水',
         dataIndex: 'examZbtFinanceNetFlow',
         key: 'examZbtFinanceNetFlow',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtFinanceNetFlow)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtFinanceNetFlow)} style={{marginLeft: '-8px', marginTop: '10px'}}/>)
       }, {
         width: 140,
         className: styles.rowBg4,

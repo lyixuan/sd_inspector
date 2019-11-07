@@ -10,7 +10,6 @@ import CurrentCreditLeft from './currentCreditLeft';
 import closeImg from '@/assets/xdFamily/closeeye.png';
 import showImg from '@/assets/xdFamily/eye.png';
 import { handleDataTrace } from '@/utils/utils';
-import styles from './style.less';
 
 const { BI = {} } = window;
 @connect(({ xdClsssModal, loading }) => ({
@@ -82,7 +81,8 @@ class currentCredit extends React.Component {
     return (
       <Container
         title='本期学分'
-        style={{ width: '100%', marginBottom: '16px', position: 'relative' }}
+        // style={{ width: '100%', marginBottom: '16px',}}
+        propStyle={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }}
         right={
           <>
             <BIButton onClick={() => handleDataTrace({"widgetName":"消息差评快捷入口","traceName":"班主任工作台/消息差评入口"})} type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton>
@@ -90,14 +90,13 @@ class currentCredit extends React.Component {
           </>
         }
       >
-        <div className={styles.creditContainer}>
-          <CurrentCreditLeft 
-            toggleDrawer={this.toggleDrawer} 
-            changePkFn={this.clickRow}
-            hasData={hasData}
-            pkGroupList={pkGroupList}
-            getNumValue={this.getNumValue}
-          />
+        <CurrentCreditLeft 
+          toggleDrawer={this.toggleDrawer} 
+          changePkFn={this.clickRow}
+          hasData={hasData}
+          pkGroupList={pkGroupList}
+          getNumValue={this.getNumValue}
+        />
           <BIDrawer
           onClose={() => this.toggleDrawer(false)}
           onOpen={() => this.toggleDrawer(true)}
@@ -111,7 +110,6 @@ class currentCredit extends React.Component {
             getNumValue={this.getNumValue}
             />
           </BIDrawer>
-        </div>
       </Container>
     );
   }

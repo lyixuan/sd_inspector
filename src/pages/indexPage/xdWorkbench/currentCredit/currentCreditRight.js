@@ -252,7 +252,7 @@ class currentCreditRight extends React.Component {
               loading={this.props.loading}
               rowClassName={this.setRowClassName}
               onRow={this.onClickRow}
-              scroll={{ y: this.props.getNumValue(600) }}
+              scroll={{ y: this.props.getNumValue(560) }}
               rowKey={record => record.groupId}
             />
           </div>
