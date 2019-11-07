@@ -104,9 +104,9 @@ class Block extends React.Component {
       <li onClick={e => this.addPoint(e, name)}>
         {/* <div>{flag && <a href={href} />}</div> */}
         <div></div>
-        <span className={styles.num}>
-          <Tooltip title={title}>{money}</Tooltip>
-        </span>
+        <Tooltip title={title}>
+          <span className={styles.num}>{money}</span>
+        </Tooltip>
         <p className={styles.bottom}>
           <span>
             {TYPE.map(it => {
