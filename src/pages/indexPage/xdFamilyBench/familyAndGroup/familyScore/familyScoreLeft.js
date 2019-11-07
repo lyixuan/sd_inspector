@@ -206,7 +206,7 @@ class FamilyScoreLeft extends React.Component {
         </div>
         <div className={styles.tableContainer}>
           {
-            this.props.loading?<BILoading isLoading={this.props.loading} />:dataSource && dataSource.length > 0 && <BITable
+            this.props.loading? <BILoading isLoading={this.props.loading} /> : dataSource && dataSource.length > 0 && <BITable
               columns={this.columns()}
               dataSource={dataSource}
               defaultExpandAllRows={true}
@@ -214,8 +214,7 @@ class FamilyScoreLeft extends React.Component {
               rowClassName={this.setRowClassName}
               pagination={false}
               scroll={{ x: 0, y: 408 }}
-              rowKey={(record, index) => record.dimensionName + '' + index}
-              loading={this.props.loading}
+              rowKey={(record, index) => record.id}
             >
             </BITable>
           }
