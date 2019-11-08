@@ -41,29 +41,17 @@ class IndexPage extends Component {
 
     }else {
       return <div className={styles.container}>
-              < div className={styles.content}>
-                <img src={homeImg} alt="首页" className={styles.homeImg} />
-                <div className={styles.userDescription}>
-                  <img src={homeText} alt="首页文字" />
-                </div>
-              </div>
-            </div>
+        < div className={styles.content}>
+          <img src={homeImg} alt="首页" className={styles.homeImg}/>
+          <div className={styles.userDescription}>
+            <img src={homeText} alt="首页文字"/>
+          </div>
+        </div>
+      </div>
     }
   }
   render() {
-    const { location } = this.props;
-    const { query,pathname} = location || {};
-    let flag = false;
-    if(query && query.source && query.source === 'fullPath'){
-      // 如果带有参数source='fullPath'，要跳转到具体路径，不进工作台
-      if(pathname!=='/indexPage'){
-        this.props.history.push({
-          pathname,query
-        });
-      }
-    } else {
-      flag = this.getPageDom();
-    }
+    const flag = this.getPageDom();
     return (
       <>
         {flag ? flag : <RenderRoute {...this.props} />}
