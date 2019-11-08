@@ -86,14 +86,20 @@
 .profitList {
     width: 100%;
     .form {
-      margin-bottom: 16px;
+      .title {
+        height: 47px;
+        line-height: 47px;
+        padding-left: 24px;
+        margin-bottom: 16px;
+        // border-bottom: 1px solid #F5F8FA;
+      }
     }
     :global {
       .ant-progress-line {
         top: -10px;
       }
       .ant-table-tbody > tr > td {
-        padding: 5px 8px;
+        padding: 0 8px;
         cursor: pointer;
       }
       .ant-progress-inner{
@@ -114,6 +120,7 @@
     .tableContent {
       overflow-x: auto;
       position: relative;
+      margin: 16px 24px;
       .suspenTable {
         width: 100%;
         position: absolute;
@@ -151,5 +158,9 @@
           height: 10px;
         }
       }
+    }
+    .actionBtn {
+      width: 100%;
+      text-align: center;
     }
 }

@@ -78,18 +78,18 @@ a,a:hover{
 }
 
 /*!*兼容windows 固定高度的 scroll问题*!*/
- .ant-table-fixed-header .ant-table-scroll .ant-table-header {
+.ant-table-fixed-header .ant-table-scroll .ant-table-header {
   overflow-x: hidden!important;
   overflow-y: scroll!important;
   margin-bottom:0!important;
   padding-bottom: 0!important;
 }
-/*.ant-table-fixed-header .ant-table-scroll .ant-table-header {*/
-  /*overflow-x: hidden;*/
-  /*overflow-y: scroll;*/
-  /*margin-bottom:0!important;*/
-  /*padding-bottom: 0!important;*/
-/*}*/
+/* .ant-table-fixed-header .ant-table-scroll .ant-table-header {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  margin-bottom:0!important;
+  padding-bottom: 0!important;
+} */
 .ant-upload-list-item-info .anticon-loading, .ant-upload-list-item-info .anticon-paper-clip{
   color: #52C9C2;
 }

@@ -8,6 +8,7 @@ import {
   getSubStringValue,
   jumpMarkingDetails,
   linkRoute, linkImgRouteBul,
+  emptyValue, getArrLastValue
 } from '@/pages/ko/utils/utils';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
@@ -94,16 +95,16 @@ function TeacherOrStudent(props) {
     );
   }
 }
-
 @connect(({ workTableModel, koPlan }) => ({
   workTableModel,
   currentPage: workTableModel.pageParams[markType],
   searchParams: workTableModel.searchParams[markType] || {},
   collegeList: workTableModel.collegeList,// bbs nps
-  consultList: [{ id: 0, name: '空' }].concat(workTableModel.consultList),// im
+  consultList: [{ id: emptyValue, name: '空', nodeList: [] }].concat(workTableModel.consultList),// im
   reasonList: workTableModel.reasonList,// im
   operatorList: workTableModel.operatorList,// im bbs nps
   idList: workTableModel.idList,
+  evaluationList: workTableModel.evaluationList,
   currentServiceTime: koPlan.currentServiceTime
 }))
 class imPage extends React.Component {
@@ -186,8 +187,13 @@ class imPage extends React.Component {
     return columns || [];
   };
   handleEdit = (id) => {
-    const { choiceTime, ...others } = this.state.searchParams;
-    jumpMarkingDetails(id, { type: markType, ...others });
+    const { choiceTime, consultType = [], reasonType = [], ...others } = this.state.searchParams;
+    jumpMarkingDetails(id, { 
+      type: markType, 
+      consultType: getArrLastValue(consultType), 
+      reasonType: getArrLastValue(reasonType),
+      ...others 
+    });
   };
   onSearchChange = (searchParams) => {
     this.setState({
@@ -202,9 +208,16 @@ class imPage extends React.Component {
   };
   queryData = () => {
     const { searchParams, currentPage } = this.state;
+    const { consultType = [], reasonType = [] } = searchParams;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
-      payload: { params: { ...searchParams, page: currentPage, type: markType } },
+      payload: { params: { 
+        ...searchParams, 
+        page: currentPage, 
+        type: markType, 
+        consultType: getArrLastValue(consultType),
+        reasonType: getArrLastValue(reasonType)
+       } },
     });
   };
   changeOperatorId = (key, v) => {
