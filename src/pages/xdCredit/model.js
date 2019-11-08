@@ -58,8 +58,9 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getUserOrgList({ callback }, { call, put }) {
-      const result = yield call(getUserOrgList);
+    *getUserOrgList({ payload, callback }, { call, put }) {
+      const params = payload.params
+      const result = yield call(getUserOrgList, params);
       if (result.code === 20000) {
         const res = result.data;
         if (callback && typeof callback === 'function') {

@@ -11,7 +11,6 @@ import CurrentCreditLeft from './currentCreditLeft';
 import closeImg from '@/assets/xdFamily/closeeye.png';
 import showImg from '@/assets/xdFamily/eye.png';
 import { handleDataTrace } from '@/utils/utils';
-import styles from './style.less';
 
 const { BI = {} } = window;
 const localKey = 'creditWorkLocal';
@@ -101,12 +100,6 @@ class currentCredit extends React.Component {
       visible: bul,
     });
   };
-  // 隐藏数据
-  getNumValue = (n, s = 160) => {
-    if(!this.state.hasData) return n - s;
-    return n;
-  }
-
   render() {
     const { pkGroupList, visible, hasData } = this.state;
     const { startTime, endTime } = this.props.kpiTimes;
@@ -114,7 +107,7 @@ class currentCredit extends React.Component {
     return (
       <Container
         title='本期学分'
-        style={{ width: '100%', marginBottom: '16px', position: 'relative' }}
+        propStyle={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }}
         right={
           <>
             <BIButton onClick={() => handleDataTrace({"widgetName":"消息差评快捷入口","traceName":"班主任工作台/消息差评入口"})} type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton>
@@ -122,10 +115,8 @@ class currentCredit extends React.Component {
           </>
         }
       >
-        <div className={styles.creditContainer}>
-          <CurrentCreditLeft 
+        <CurrentCreditLeft 
             toggleDrawer={this.toggleDrawer}
-            getNumValue={this.getNumValue}
             handleDelete={this.handleDelete} 
             hasData={hasData}
             pkGroupList={pkGroupList}
@@ -136,19 +127,17 @@ class currentCredit extends React.Component {
           onClose={() => this.toggleDrawer(false)}
           onOpen={() => this.toggleDrawer(true)}
           visible={visible}
-          drawerStyle={{width: '40%'}}
+          drawerStyle={{width: '42%'}}
           >
             <CurrentCreditRight 
             hasData={hasData} 
             pkGroupList={pkGroupList} 
             clickRow={this.clickRow} 
-            getNumValue={this.getNumValue}
             localKey={localKey}
             handleAction={this.handleAction}
             dimenloading={dimenloading}
             />
-          </BIDrawer>
-        </div>
+          </BIDrawer>    
       </Container>
     );
   }

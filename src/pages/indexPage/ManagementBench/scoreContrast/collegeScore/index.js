@@ -20,10 +20,29 @@ class CollegeScore extends React.Component {
     }
   }
   componentDidMount() {
-    console.log("familyType",this.props.queryAppealDatas.state)
-
   }
-
+  bgColor=(creaditValue)=>{
+    let barBackground = ""
+    creaditValue.map((item)=>{
+      if(item>0){
+        barBackground = "#47D3FF"
+      }else if(item<0){
+        barBackground = "#FF8086"
+      }
+    })
+    return barBackground
+  }
+  borderRadiusAll = (creaditValue) =>{
+    let borderRadius = [4,4,0,0];
+    creaditValue.map((item)=>{
+      if(item>0){
+        borderRadius = [4,4,0,0]
+      }else if(item<0){
+        borderRadius = [0,0,4,4]
+      }
+    })
+    return borderRadius
+  }
   drawChart = (arr) =>{
     let creaditValue = [];
     let familyName = [];
@@ -43,9 +62,9 @@ class CollegeScore extends React.Component {
       dataShadow.push(yMin);
       maxShadow.push(yMax);
     }
-  const barWidth = familyName.length>=22 ? 20 : 50
-    const barBackground = creaditValue[0]< 0?"#FF8086":"#47D3FF"
-    console.log(55,barBackground)
+    const barWidth = familyName.length>=22 ? 20 : 50
+    const barBackground = this.bgColor(creaditValue)
+    const borderRadius = this.borderRadiusAll(creaditValue)
     const  options = {
       color: ["#50D4FD", "#FD8188"],
       tooltip: {
@@ -64,7 +83,7 @@ class CollegeScore extends React.Component {
           data: familyName,
           axisLabel: {
             interval:0,
-            rotate:30,
+            rotate:familyName.length>=22?30:0,
             color:'#000000 '
           },
           axisLine:{
@@ -82,9 +101,9 @@ class CollegeScore extends React.Component {
           inverse: false,
           splitArea: {show: false},
           type: 'value',
-          min: yMin,
-          max: yMax,
-          // interval: 4,
+          min: yMin>0?0:yMin,
+          max: yMax<0?0:yMax,
+          onZeroAxisIndex:0,
           axisLabel: {
             formatter: '{value}',
             color:'#000000 '
@@ -106,12 +125,13 @@ class CollegeScore extends React.Component {
           inverse: false,
           splitArea: {show: false},
           type: 'value',
-          min: yRightMin,
-          max: yRightMax,
+          min: yRightMin>0?0:yRightMin,
+          max: yRightMax<0?0:yRightMax,
           axisLabel: {
             formatter: '{value} %',
             color:'#000000 '
           },
+          onZeroAxisIndex:0,
           axisLine:{
             lineStyle:{
               type:'dotted',
@@ -154,7 +174,7 @@ class CollegeScore extends React.Component {
           name:'均分',
           type:'bar',
           itemStyle: {
-            normal: {color: barBackground,barBorderRadius:[4, 4, 0, 0]}
+            normal: {color: barBackground,barBorderRadius:borderRadius}
           },
           barWidth:barWidth,
           label: {
@@ -227,19 +247,22 @@ class CollegeScore extends React.Component {
     const {queryAppealDatas = {}} = this.props.queryAppealDatas.state;
     const {userInfo} = this.props
     return (
-      <div style={{minHeight:'479px'}}>
-        <BILoading isLoading={this.props.loading} height="479px">
+      <div style={{minHeight:'490px'}}>
           <div>
             <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>
-            {queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 &&
-            <Echart
-              options={this.drawChart(queryAppealDatas.creaditDataList)}
-              style={{height:"354px"}}
-              clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}
-            />}
+            {
+              this.props.loading?<BILoading isLoading={this.props.loading} height="354px" />:(
+                queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 &&
+                <Echart
+                  options={this.drawChart(queryAppealDatas.creaditDataList)}
+                  style={{height:"354px"}}
+                  clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}
+                />
+              )
+            }
             <EchartBottom/>
         </div>
-        </BILoading>
+
       </div>
     );
   }

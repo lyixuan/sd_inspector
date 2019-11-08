@@ -37,8 +37,7 @@ export function getOption(obj) {
       axisTick: {},
       axisLabel: {},
       type: 'time',
-      // interval: 2,
-      splitNumber:10,
+      splitNumber:20,
       axisPointer: {
         // animation: true,
         label: {

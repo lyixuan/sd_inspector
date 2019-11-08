@@ -6,6 +6,7 @@ import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
 import normal from '@/assets/xdFamily/rankNormal.png';
 import SmallProgress from '@/pages/indexPage/components/smallProgress'
+import BIWrapperTable from '@/pages/indexPage/components/BIWrapperTable';
 import { Link } from 'dva/router';
 import BILoading from '@/components/BILoading'
 

@@ -199,7 +199,7 @@ export const routes = [
           {
             path: '/ko/behaviorPath',
             component: './ko/behaviorPath',
-            name: '用户档案',
+            name: '学员档案',
           },
         ],
       },

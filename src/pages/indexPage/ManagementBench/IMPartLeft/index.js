@@ -24,7 +24,7 @@ class IMPartLeft extends React.Component {
     const columns = [{
       type: 'leftFixed',
       name: '组织',
-      width: 105
+      width: 120
     }, {
       type: 'children',
       name: '',
@@ -32,7 +32,7 @@ class IMPartLeft extends React.Component {
     }, {
       type: 'rightFixed',
       name: '汇总',
-      width: 60,
+      width: 80,
       key: 'total'
     }];
     return columns || [];
@@ -42,21 +42,25 @@ class IMPartLeft extends React.Component {
     const { userInfo } = this.props
     return (
       <Container title="IM负面原因分析"
-        style={{ width: 'calc(67% - 16px)', marginBottom: '16px', minHeight: '372px' }}>
-        {(this.props.loading && this.props.loadingStatus) ? <div style={{ width: '100%', minHeight: '372px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}><BILoading isLoading={this.props.loading} /></div> : imDetailData && <BIClassifyTable
-          loading={this.props.loading}
-          columns={this.columnsTable()}
-          colors={colors}
-          dataSource={imDetailData}
-          cellWidth={85}
-          style={{ cursor: 'pointer' }}
-          isChecked={false}
-          defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
-          orgClick={true}
-          {...this.props}
-          collegeId={userInfo.collegeId}
-          userType={userInfo.userType}
-        ></BIClassifyTable>}
+        style={{ width: 'calc(71% - 16px)', marginBottom: '16px', minHeight: '372px' }}>
+        {(this.props.loading && this.props.loadingStatus) ? <div style={{ width: '100%', minHeight: '372px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}><BILoading isLoading={this.props.loading} /></div> : imDetailData &&
+          <div style={{ display: 'flex', flex: 1, flexShrink: 0 }}>
+            <BIClassifyTable
+              loading={this.props.loading}
+              columns={this.columnsTable()}
+              colors={colors}
+              dataSource={imDetailData}
+              cellWidth={85}
+              style={{ cursor: 'pointer' }}
+              isChecked={false}
+              defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
+              orgClick={true}
+              {...this.props}
+              collegeId={userInfo.collegeId}
+              userType={userInfo.userType}
+            ></BIClassifyTable>
+          </div>
+        }
 
 
 

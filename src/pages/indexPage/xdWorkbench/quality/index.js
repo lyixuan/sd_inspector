@@ -66,7 +66,6 @@ class Quality extends React.Component {
             columns={this.columns()}
             dataSource={this.props.classQualityList}
             pagination={false}
-            loading={this.props.loading}
             rowKey={record => record.violationLevel}
             smalled
             />

@@ -9,7 +9,7 @@ import styles from './style.less';
  * 只扩展自定义样式
  * */
 
-class BIWrapperTable extends React.Component {
+class BIWrapperTable1 extends React.Component {
   constructor(props) {
     super();
     this.state = {
@@ -50,8 +50,6 @@ class BIWrapperTable extends React.Component {
     console.log(dom2, 'dom');
     if (dom) {
       dom.style.overflow = 'hidden'
-      dom.style.overflowX = 'hidden'
-
     }
     if (dom2) {
       dom2.style.overflowY = 'hidden'
@@ -73,4 +71,4 @@ class BIWrapperTable extends React.Component {
   }
 }
 
-export default BIWrapperTable;
+export default BIWrapperTable1;

@@ -91,7 +91,7 @@ class Profit extends React.Component {
       <Container 
       title='本期创收' 
       // right={<a>创收详情</a>}
-      propStyle={{ display: 'flex', height: '640px', position: 'relative' }}
+      propStyle={{ display: 'flex', height: '440px', position: 'relative' }}
       >
         <ProfitTabs 
         pkUsers={pkUsers} 
@@ -105,7 +105,7 @@ class Profit extends React.Component {
           onClose={() => this.toggleDrawer(false)}
           onOpen={() => this.toggleDrawer(true)}
           visible={visible}
-          drawerStyle={{width: '40%'}}
+          drawerStyle={{width: '42%'}}
           closeValue='收起PK对象'
           openValue='展开PK对象'
         >
