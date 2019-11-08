@@ -200,7 +200,6 @@ class Report extends React.Component {
                     },
                   ],
                   getValueFromEvent: event => {
-                    console.log();
                     return event.target.value.replace(/[^\d\r\ ]/g, '');
                   },
                   // initialValue: '',
