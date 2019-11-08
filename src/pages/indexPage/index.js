@@ -25,14 +25,14 @@ class IndexPage extends Component {
           pathname: '/indexPage/xdWorkbench',
         });
       }
-    } else if (userType === 'family' && (userInfo.privilegeView || userInfo.moreView)) {
-
+      return false;
+    } else if (userType === 'family' && userInfo.privilegeView && userInfo.moreView) {
       if (this.props.history.location.pathname !== '/indexPage/xdFamilyBench') {
         this.props.history.push({
           pathname: '/indexPage/xdFamilyBench',
         }); //前端角色是家族长（family）角色 且 权限中勾选了 学分绩效 或 创收绩效 的用户显示页面
       }
-
+      return false;
     } else if ((userType === 'college' || userType === 'boss') && (userInfo.privilegeView || userInfo.moreView)) {//
       if (this.props.history.location.pathname !== '/indexPage/ManagementBench') {
         this.props.history.push({
@@ -48,28 +48,14 @@ class IndexPage extends Component {
             <img src={homeText} alt="首页文字"/>
           </div>
         </div>
-      </div>;
+            </div>
     }
-  };
-
+  }
   render() {
-    const { location } = this.props;
-    const { query,pathname} = location || {};
-    let flag = false;
-    if(query && query.source && query.source === 'fullPath'){
-      // 如果带有参数source='fullPath'，要跳转到具体路径，不进工作台
-      if(pathname!=='/indexPage'){
-        this.props.history.push({
-          pathname,query
-        });
-      }
-    } else {
-      flag = this.getPageDom();
-    }
+    const flag = this.getPageDom();
     return (
       <>
-        {flag ? flag : ''}
-        <RenderRoute {...this.props} />
+        {flag ? flag : <RenderRoute {...this.props} />}
       </>
     );
   }
