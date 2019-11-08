@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import BISelect from '@/ant_components/BISelect';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BIWrapperTable from '../../../components/BIWrapperTable';
+import BIButton from '@/ant_components/BIButton';
 import styles from '../style.less';
 
 const { BI = {} } = window;
@@ -18,7 +19,6 @@ class ProfitList extends React.Component {
       profitList: [],
       userMsg: '',
       userFlag: false,
-      userLocation: ''
     }
   }
   componentDidMount() {
@@ -36,8 +36,8 @@ class ProfitList extends React.Component {
     }
   }
   getScrollFn = (scrollTop = 0) => {
-    const { userLocation, userFlag } = this.state;
-    if ((scrollTop > userLocation && scrollTop < userLocation + 240) || scrollTop === 0) {
+    const { userFlag } = this.state;
+    if (scrollTop === 0) {
       if (userFlag === true) {
         this.setState({
           userFlag: false
@@ -92,7 +92,6 @@ class ProfitList extends React.Component {
   getRowClassName = (record, index) => {
     if (this.props.userId === record.personId) {
       this.state.userMsg = record;
-      this.state.userLocation = 40 * (index + 1) - 280;
       return styles.pkMine;
     };
     if (this.getIncludes(record.personId)) return styles.pkUser;
@@ -118,16 +117,17 @@ class ProfitList extends React.Component {
 
   render() {
     const { profitList, userMsg, userFlag } = this.state;
+    const { handleAction } = this.props;
     const yScrollFlag = profitList && profitList.length > 0;
     return (
       <div className={styles.profitList}>
         <div className={styles.form}>
-          选择对比小组：
+          <div className={styles.title}>选择对比对象：</div>
           <BISelect
             value={this.props.pkListType}
             placeholder="请选择"
             onChange={this.onChangeParams}
-            style={{ width: '136px', marginLeft: '8px' }}
+            style={{ width: '136px', marginLeft: '24px' }}
             // allowClear
           >
             {pkTypeconfig.map((item, index) => <Option key={index} value={index + 1} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>{item}</Option>)}
@@ -155,11 +155,15 @@ class ProfitList extends React.Component {
               rowKey={(record, index) => record.personId + '' + index}
               onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
-              scroll={{ y: 280 }}
+              scroll={{ y: 240 }}
               name='ghyu1'
             />
           </div>
         </div>
+        <div className={styles.actionBtn}>
+          <BIButton onClick={() => handleAction([])}  loading={this.props.resultloading} type="reset" style={{marginRight: '8px'}}>清空</BIButton>
+          <BIButton onClick={() => handleAction(false)} loading={this.props.resultloading}  type="primary">确定</BIButton>
+        </div> 
       </div>
     );
   }

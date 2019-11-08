@@ -53,7 +53,6 @@ class ProfitList extends React.Component {
         } else {
           result.push(...this.flatTree(data, flag, result, id, level + 1))
         }
-        // result.push(...this.flatTree(data, result, id, level + 1))
         return result
       }, result)
     }
@@ -95,7 +94,7 @@ class ProfitList extends React.Component {
         },
         width: 110,
       }, {
-        title: '小组',
+        title: '家族/小组',
         dataIndex: 'groupName',
         key: 'groupName',
         fixed: 'left',
@@ -121,9 +120,9 @@ class ProfitList extends React.Component {
       // }) //获取第一名的正面均分和负面均分值
       arr.map(item => {
         if (item.level >= 4) return; //大于四级的不显示
-        if (item.flag == 1 && item.level != 1) {
+        if (item.flag === 1 && item.level !== 1) {
           className = styles.bgColor
-        } else if (item.flag == 2) {
+        } else if (item.flag === 2) {
           className = styles.bgColor2
         }
 
@@ -187,22 +186,19 @@ class ProfitList extends React.Component {
   render() {
     const { profitList = [] } = this.state;
     return (
-      <div className={styles.tableList}>
-        {this.props.loading ? <div style={{ minHeight: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><BILoading isLoading={this.props.loading} /></div> : <BIWrapperTable
-          name='credit'
-          xScroll={true}
-          columns={this.columns()}
-          dataSource={profitList}
-          pagination={false}
-          loading={this.props.loading}
-          onRow={this.onClickRow}
-          // rowKey={record => record.id}
-          rowKey={(record, index) => index}
-          scroll={{ x: 'max-content', y: 420 }}
-          smalled
-        />}
-      </div>
-
+      <BILoading isLoading={this.props.loading}>
+        <div className={styles.tableList}>
+            <BITable
+            columns={this.columns()}
+            dataSource={profitList}
+            pagination={false}
+            onRow={this.onClickRow}
+            rowKey={(record, index) => index}
+            scroll={{ x: 'max-content', y: 420 }}
+            smalled
+            />
+        </div>
+      </BILoading>
     );
   }
 }
