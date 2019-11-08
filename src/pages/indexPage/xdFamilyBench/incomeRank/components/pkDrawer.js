@@ -10,7 +10,6 @@ import checkIcon from '@/assets/component/checkicon.png';
 import styles from './style.less';
 
 const { Option } = BISelect;
-// const pkTypeconfig = ['集团排行', '学院内排行', '家族内排行', '同期入职排行', '同级排行',];
 @connect(({ xdWorkModal, loading }) => ({
   globalCollegeList: xdWorkModal.globalCollegeList,
 }))
@@ -20,7 +19,6 @@ class ProfitList extends React.Component {
     this.state = {
       userMsg: '',
       userFlag: false,
-      userLocation: '',
       ...this.getSearchParams()// 搜索参数初始化
     }
   }
@@ -58,8 +56,8 @@ class ProfitList extends React.Component {
   }
   // 滚动
   getScrollFn = (scrollTop = 0) => {
-    const { userLocation, userFlag } = this.state;
-    if ((scrollTop > userLocation && scrollTop < userLocation + 400) || scrollTop === 0) {
+    const { userFlag } = this.state;
+    if (scrollTop === 0) {
       if (userFlag === true) {
         this.setState({
           userFlag: false
@@ -128,7 +126,6 @@ class ProfitList extends React.Component {
   getRowClassName = (record, index) => {
     if (record[this.getShowKey('mineFlag')]) {
       this.state.userMsg = record;
-      this.state.userLocation = 40 * (index + 1) - 430;
       return styles.pkMine;
     };
     if (this.getIncludes(record.orgId)) return styles.pkUser;
@@ -198,7 +195,7 @@ class ProfitList extends React.Component {
               rowKey={(record, index) => record.orgId + '' + index}
               onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
-              scroll={{ y: 410 }}
+              scroll={{ y: 250 }}
             />
           </div>
         </div>

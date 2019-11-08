@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'dva';
-import { getSubtract } from '@/pages/indexPage/components/utils/utils';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIWrapperTable from '../../../components/BIWrapperTable';
@@ -27,7 +26,6 @@ class currentCreditRight extends React.Component {
     super(props);
     this.state = {
       userFlag: false,
-      userLocation: '',
       userMsg: '',
       groupList: [],
       ...this.getSearchParams()// 搜索参数初始化
@@ -75,8 +73,8 @@ class currentCreditRight extends React.Component {
     return data;
   }
   getScrollFn = (scrollTop = 0) => {
-    const { userLocation, userFlag } = this.state;
-    if ((scrollTop > userLocation && scrollTop < userLocation + getSubtract(this.props.hasData, 600)) || scrollTop === 0) {
+    const { userFlag } = this.state;
+    if (scrollTop === 0) {
       if (userFlag === true) {
         this.setState({
           userFlag: false
@@ -158,7 +156,6 @@ class currentCreditRight extends React.Component {
     let taClassName = ""
     if (record[this.getShowKey('mineFlag')]) {
       this.state.userMsg = record;
-      this.state.userLocation = 40 * (index + 1) - getSubtract(this.props.hasData, 580);
       taClassName = "rowHover";
     }
     if (this.getIncludes(this.getShowKey('pkValue'))) {
@@ -201,7 +198,7 @@ class currentCreditRight extends React.Component {
   }
   render() {
     const { orgValue, studentValue, collegeId, userFlag, userMsg, groupList=[] } = this.state;
-    const { orgOptions, hasData, handleAction=function(){}, showKey={}, globalCollegeList } = this.props;
+    const { orgOptions, handleAction=function(){}, showKey={}, globalCollegeList } = this.props;
     const pkValue = this.getShowKey('pkValue');
     return (
       <div className={styles.creditRight}>
@@ -254,7 +251,7 @@ class currentCreditRight extends React.Component {
               loading={this.props.drawerloading}
               rowClassName={this.setRowClassName}
               onRow={this.onClickRow}
-              scroll={{ y: getSubtract(hasData, 600) }}
+              scroll={{ y: 410 }}
               rowKey={record => record[pkValue]}
             />
           </div>

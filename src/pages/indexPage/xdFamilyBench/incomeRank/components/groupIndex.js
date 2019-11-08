@@ -111,7 +111,7 @@ class FamilyIndex extends React.Component {
           closeValue='收起PK对象'
           openValue='展开PK对象'
           visible={visible}
-          drawerStyle={{width: '50%'}}
+          drawerStyle={{width: '48%'}}
           propsStyle={{padding: 0}}
         >
           <PkDrawer 

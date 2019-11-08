@@ -107,16 +107,13 @@ class currentCreditLeft extends React.Component {
       <div className={styles.creditLeft} style={{ minHeight: 560 }}>
         <BILoading isLoading={loading} > <div className={styles.tableContainer}>
           <BIWrapperTable1
-            name='abcd'
             columns={this.columns()}
             dataSource={dataSource}
-            defaultExpandAllRows={true}
-            expandIcon={() => <a />}
             rowClassName={this.setRowClassName}
             pagination={false}
             rowKey={record => record.id}
             bordered={true}
-            scroll={{ y: 492 }}
+            scroll={{ y: 392 }}
           />
           {
             pkGroupList && pkGroupList.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt='' /></div>

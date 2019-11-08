@@ -91,7 +91,7 @@ class Profit extends React.Component {
       <Container 
       title='本期创收' 
       // right={<a>创收详情</a>}
-      propStyle={{ display: 'flex', height: '440px', position: 'relative' }}
+      style={{ position: 'relative'}}
       >
         <ProfitTabs 
         pkUsers={pkUsers} 

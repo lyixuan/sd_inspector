@@ -36,7 +36,6 @@ class currentCreditRight extends React.Component {
         name: '本家族'
       }], 
       userFlag: false,
-      userLocation: '',
       userMsg: '',
       groupList: [],
       eleScroll: '',
@@ -56,9 +55,7 @@ class currentCreditRight extends React.Component {
   }
   componentWillUnmount() {
     const { eleScroll } = this.state;
-    if (eleScroll) {
-      eleScroll.onscroll = '';
-    } 
+    if (eleScroll) { eleScroll.onscroll = ''; } 
   }
   // 获取存储参数
   getSearchParams = () => {
@@ -88,8 +85,8 @@ class currentCreditRight extends React.Component {
     })
   }
   getScrollFn = (scrollTop = 0) => {
-    const { userLocation, userFlag } = this.state;
-    if ((scrollTop > userLocation && scrollTop < (userLocation + 400)) || scrollTop === 0) {
+    const { userFlag } = this.state;
+    if (scrollTop === 0) {
       if (userFlag === true) {
         this.setState({
           userFlag: false
@@ -151,7 +148,6 @@ class currentCreditRight extends React.Component {
     let taClassName = ""
     if (record.myGroup) {
       this.state.userMsg = record;
-      this.state.userLocation = 40 * (index + 1) - 400;
       taClassName = "rowHover";
     }
     if (this.getIncludes(record.groupId)) {

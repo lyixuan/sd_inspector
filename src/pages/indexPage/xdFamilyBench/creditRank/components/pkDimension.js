@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { getSubtract } from '@/pages/indexPage/components/utils/utils';
-import BIWrapperTable from '../../../components/BIWrapperTable';
+import BIWrapperTable from '../../../components/BIWrapperTable1';
 import BIFillCell from '@/components/BIFillCell';
 import BILoading from '@/components/BILoading';
 import BIIcon from '@/components/BIIcon';
@@ -12,11 +11,6 @@ import up from '@/assets/xdFamily/rankUp.png';
 import styles from './style.less';
 
 const { BI = {} } = window;
-function CustomExpandIcon(props) {
-  return (
-     <a />
-   );
-}
 const initShowKey ={
   pkValue: 'groupId',
   columnOrgName: 'groupName'
@@ -93,7 +87,9 @@ class pkDimension extends React.Component {
   // 列表维度name
   getDimensionName = ({ dimensionName, level, sequenceNo }) => {
     if (sequenceNo) {
-      return <b style={{ marginLeft: level === 3 ? '-20px' : '0' }}>{sequenceNo} {dimensionName}</b>
+      return <b style={{ marginLeft: level === 2 || level === 3 ? '20px' : '0' }}>{sequenceNo} {dimensionName}</b>
+    } else if (level === 4) {
+      return <span style={{ marginLeft: '40px' }}>{dimensionName}</span>
     } else {
       return dimensionName
     }
@@ -110,42 +106,48 @@ class pkDimension extends React.Component {
     return className
   }
   getDataSource = () => {
-    const { groupPkList = {} } = this.props;
-    const data = groupPkList.dimensionList || [];
-    if (data.length > 0) {
+    const { groupPkList={} } = this.props;
+    const { dimensionList = [] } = groupPkList;
+    if (dimensionList.length > 0) {
       if (this.props.hasData) {
-        return data;
+        return dimensionList;
       } else {
-        return [data[data.length -1]]; 
+        if (this.getShowKey('pkValue') === 'groupId') {
+          const [s, a, d, f, ...others] = dimensionList;
+          return others;
+        } else {
+          const [s, a, d, ...others] = dimensionList;
+          return others;
+        }      
       }
+    } else {
+      return []
     }
-    return []
   }
 
   render() {
-    const { pkUsers, hasData } = this.props
+    const { pkUsers } = this.props
     const dataSource = this.getDataSource();
     return (
-      <div className={styles.creditLeft} style={{ minHeight: getSubtract(hasData, 732) + 'px' }}>
-        {this.props.loading ? <BILoading isLoading={ this.props.loading} /> : <div className={styles.tableContainer}>
-          {
-            dataSource && dataSource.length > 0 && <BIWrapperTable
-              columns={this.columns()}
-              dataSource={dataSource}
-              defaultExpandAllRows={true}
-              expandIcon={CustomExpandIcon}
-              rowClassName={this.setRowClassName}
-              pagination={false}
-              rowKey={record => record.id}
-              loading={this.props.loading}
-              bordered={true}
-              scroll={{ x: 'max-content', y: getSubtract(hasData, 680) }}
-            />
-          }
-          {
-            pkUsers && pkUsers.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt='' /></div>
-          }
-        </div>}
+      <div className={styles.creditLeft} style={{ minHeight: 560 + 'px' }}>
+        <BILoading isLoading={ this.props.loading} > 
+          <div className={styles.tableContainer}>
+            {
+              <BIWrapperTable
+                columns={this.columns()}
+                dataSource={dataSource}
+                rowClassName={this.setRowClassName}
+                pagination={false}
+                rowKey={record => record.id}
+                bordered={true}
+                scroll={{ y: 480 }}
+              />
+            }
+            {
+              pkUsers && pkUsers.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt='' /></div>
+            }
+          </div>
+        </BILoading>
       </div>
     );
   }

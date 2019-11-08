@@ -4,6 +4,7 @@ import { thousandsFormatAll } from '@/pages/indexPage/components/utils/utils';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BIWrapperTable from '../../../components/BIWrapperTable';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
+import BILoading from '@/components/BILoading';
 import BIIcon from '@/components/BIIcon';
 import pluscircle from '@/assets/xdwork/pluscircle.png';
 import rank1 from '@/assets/xdFamily/rank1.png';

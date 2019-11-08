@@ -107,7 +107,7 @@ class currentCredit extends React.Component {
     return (
       <Container
         title='本期学分'
-        propStyle={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }}
+        style={{ position: 'relative' }}
         right={
           <>
             <BIButton onClick={() => handleDataTrace({"widgetName":"消息差评快捷入口","traceName":"班主任工作台/消息差评入口"})} type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton>
