@@ -1,3 +1,22 @@
+#wb-table{
+  //overflow: hidden;
+}
+:global {
+  .scorll-enter .ant-table-fixed-header .ant-table-scroll .ant-table-body{
+    overflow-x: auto!important;
+    overflow-y: auto!important;
+  }
+  .scorll-enter .ant-table-fixed-header .ant-table-scroll .ant-table-header{
+    overflow-y: auto!important;
+    overflow-x: hidden!important;
+  }
+  .scorll-leave .ant-table-fixed-header .ant-table-scroll .ant-table-body{
+    overflow: hidden!important;
+  }
+  .scorll-leave .ant-table-fixed-header .ant-table-scroll .ant-table-header{
+    overflow: hidden!important;
+  }
+}
 .BIWrapperTable {
   width: 100%;
   box-sizing: border-box;

@@ -9,12 +9,14 @@ import styles from './style.less';
  * 只扩展自定义样式
  * */
 
+
 class BIWrapperTable extends React.Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       scrollWidth: 0,
-      tableHeight: 0
+      tableHeight: 0,
+      isEnter:false
     }
   }
   componentDidMount() {
@@ -33,29 +35,20 @@ class BIWrapperTable extends React.Component {
     });
   };
   onMouseEnter = () => {
-    const dom = document.querySelector(`#${this.props.name} .ant-table-body`);
-    const dom2 = document.querySelector(`#${this.props.name} .ant-table-header`);
-    if (dom) {
-      dom.style.overflowY = 'auto'
-      dom.style.overflowX = 'auto'
-    }
-    if (dom2) {
-      dom2.style.overflowY = 'auto'
-      dom2.style.overflowX = 'hidden'
-    }
+    // const dom = document.querySelector(`#wb-table`);
+    // // const dom2 = document.querySelector(`#${this.props.name} .ant-table-header`);
+    // dom.classList.add('scorll-enter');
+    this.setState({
+      isEnter:true
+    })
   };
   onMouseLeave = () => {
-    const dom = document.querySelector(`#${this.props.name} .ant-table-body`);
-    const dom2 = document.querySelector(`#${this.props.name} .ant-table-header`);
-    if (dom) {
-      dom.style.overflow = 'hidden'
-      dom.style.overflowX = 'hidden'
-
-    }
-    if (dom2) {
-      dom2.style.overflowY = 'hidden'
-      dom2.style.overflowX = 'hidden'
-    }
+    // const dom = document.querySelector(`#wb-table`);
+    // // const dom2 = document.querySelector(`#${this.props.name} .ant-table-header`);
+    // dom.setAttribute("class", "scorll-leave")
+    this.setState({
+      isEnter:false
+    })
   };
   render() {
     return (
@@ -64,9 +57,9 @@ class BIWrapperTable extends React.Component {
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
         style={{ minHeight: this.props.xScroll ? this.state.tableHeight + 'px' : '' }}
-        className={`${styles.BIWrapperTable} ${this.props.isEditTd ? styles.BIWrapperTable4 : ''}`}
+        className={`${styles.BIWrapperTable} ${this.props.isEditTd ? styles.BIWrapperTable4 : ''} ${this.state.isEnter?'scorll-enter':'scorll-leave'}`}
       >
-        <Table {...this.props} />
+          <Table  {...this.props} />
       </div>
     );
   }

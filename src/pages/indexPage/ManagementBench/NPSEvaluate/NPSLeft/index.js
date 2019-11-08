@@ -96,7 +96,7 @@ class NPSLeft extends React.Component {
             : <BIWrapperTable  columns={this.columnsRight()}
                   dataSource={dataSource}
                   pagination={false}
-                  rowKey={record => record.id}
+                  rowKey={(record,idx) => idx}
                   style={{marginTop:'10px',height:'336px'}}
                   scroll={{ y: 288 }}
                   className={styles.NPALeftMain}
