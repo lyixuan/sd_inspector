@@ -7,8 +7,9 @@ export default {
       questionList: [
         {
           sort: 1,
-          knowledgeId: 0,
+          knowledgeId: 264,
           questionTypeId: 0,
+          questionTypeName: '',
           questionId: 0,
           question: ''
         }
@@ -87,12 +88,14 @@ export default {
 
     // 更改配置数据的引导问题列表的某一项的questionTypeId
     updateQuestionTypeId(state, {payload}) {
-      let {sort, value} = payload;
+      let {sort, value, questionTypeName} = payload;
       let data = JSON.parse(JSON.stringify(state)).configData;
       data.questionList.forEach(item => {
         if (item.sort === sort) {
           item.questionTypeId = value;
+          item.questionTypeName = questionTypeName;
           item.questionId = 0;
+          item.question = '';
         }
       });
       return {
@@ -103,10 +106,11 @@ export default {
 
     // 更改配置数据的引导问题列表的某一项的questionId
     updateQuestionId(state, {payload}) {
-      let {sort, value, question} = payload;
+      let {sort, value, question, questionTypeId} = payload;
       let data = JSON.parse(JSON.stringify(state)).configData;
       data.questionList.forEach(item => {
         if (item.sort === sort) {
+          // item.questionTypeId = questionTypeId;
           item.questionId = value;
           item.question = question;
         }
@@ -136,6 +140,8 @@ export default {
 
     // 改变选中要调整顺序的引导问题ID
     changeRadioId(state, {payload}) {
+      let {radioId} = state;
+      payload = payload === radioId ? -1 : payload;
       return {
         ...state,
         radioId: payload

@@ -11,10 +11,7 @@ class QuestionItem extends React.Component {
     this.state = {
       questionType: [],
       questions: [],
-      knowledgeId: null,
-      questionTypeId: null,
-      questionId: null,
-      chooseRadio: ''
+      questionsLoading: false
     };
   }
 
@@ -23,7 +20,8 @@ class QuestionItem extends React.Component {
     const {item, knowledgeList, radioId} = this.props;
     let {
       questionType,
-      questions
+      questions,
+      questionsLoading
     } = this.state;
 
     return <div>
@@ -50,11 +48,11 @@ class QuestionItem extends React.Component {
       </TreeSelect>
       <Select
         className={styles.question}
+        loading={questionsLoading}
         defaultValue={item.questionId ? item.questionId : undefined}
         placeholder="选择标准问题"
         showSearch
         optionFilterProp="children"
-        notFoundContent="未查找到相关数据"
         onChange={this.onSelectThreeChange}>
         {
           questions.map((item) => {
@@ -82,7 +80,9 @@ class QuestionItem extends React.Component {
   componentDidMount() {
     const  {knowledgeId, questionTypeId} = this.props.item;
     this._getQuestionType(knowledgeId);
-    this._getQuestions(knowledgeId, questionTypeId);
+    if (questionTypeId) {
+      this._getQuestions(knowledgeId, questionTypeId);
+    }
   }
 
   // 第一个选择框改变时
@@ -99,20 +99,29 @@ class QuestionItem extends React.Component {
   };
 
   // 第二个选择框改变时
-  onSelectTwoChange = (value) => {
+  onSelectTwoChange = (value, option) => {
+    let questionTypeName = option[0];
     let {sort, knowledgeId} = this.props.item;
     this._getQuestions(knowledgeId, value);
     this.props.dispatch({
       type: 'configWords/updateQuestionTypeId',
       payload: {
         sort,
-        value
+        value,
+        questionTypeName
       }
     })
   };
 
   // 第三个选择框改变时
   onSelectThreeChange = (value, option) => {
+    // let {questionType} = this.state;
+    // let questionTypeId = 0;
+    // questionType.forEach(item => {
+    //   if (item.questionId === value) {
+    //     questionTypeId = item.questionTypeId;
+    //   }
+    // });
     let sort = this.props.item.sort;
     let question = option.props.children;
     this.props.onChange();
@@ -121,7 +130,8 @@ class QuestionItem extends React.Component {
       payload: {
         sort,
         value,
-        question
+        question,
+        // questionTypeId
       }
     })
   };
@@ -160,10 +170,14 @@ class QuestionItem extends React.Component {
 
   // 根据知识库和问题分类请求问题列表
   _getQuestions = async (knowledgeId, questionTypeId) => {
+    this.setState({
+      questionsLoading: true
+    });
     let res = await getQuestion(knowledgeId, questionTypeId);
     if (res && res.code === 200) {
       this.setState({
-        questions: res.data
+        questions: res.data,
+        questionsLoading: false
       })
     }
   };

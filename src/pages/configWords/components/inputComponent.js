@@ -43,9 +43,6 @@ class InputComponent extends React.Component{
   // 监听回车事件
   onInputEnter = () => {
     const {text} = this.state;
-    if (text === '') {
-      return;
-    }
     this.props.onSearch(text);
     this.myInput.current.blur();
   };

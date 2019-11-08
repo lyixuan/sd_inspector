@@ -23,6 +23,8 @@ class ConfigModal extends React.Component {
       placeholderTwo: '选择关键词',
       option1: [],
       option2: [],
+      option1Loading: true,
+      option2Loading: true,
       keywordsOptionList: [],
       entityOptionList: [],
       knowledgeList: []
@@ -40,6 +42,8 @@ class ConfigModal extends React.Component {
       placeholderTwo,
       option1,
       option2,
+      option1Loading,
+      option2Loading,
       keywordsOptionList,
       entityOptionList,
       knowledgeList
@@ -108,7 +112,9 @@ class ConfigModal extends React.Component {
           </Select>
           <Select
             style={{width: 224, height: 30}}
+            loading={option1Loading}
             defaultValue={word1Id ? word1Id : undefined}
+            value={word1Id ? word1Id : undefined}
             placeholder={placeholderOne}
             onChange={this.word1IdChange}>
             {
@@ -128,7 +134,9 @@ class ConfigModal extends React.Component {
           </Select>
           <Select
             style={{width: 224, height: 30}}
+            loading={option2Loading}
             defaultValue={word2Id ? word2Id : undefined}
+            value={word2Id ? word2Id : undefined}
             placeholder={placeholderTwo}
             onChange={this.word2IdChange}>
             {
@@ -144,6 +152,7 @@ class ConfigModal extends React.Component {
 
     return (
       <Modal
+        getContainer={false}
         wrapClassName={styles['config-modal']}
         visible={isShow}
         title={title}
@@ -157,7 +166,7 @@ class ConfigModal extends React.Component {
             <span className={styles.footerText}>{remindText2}</span>
           </div>
         }
-        width={920}
+        width={940}
         destroyOnClose={true}
         onCancel={this.closeModal}>
         <div className={styles.content}>
@@ -488,12 +497,14 @@ class ConfigModal extends React.Component {
       });
       if (word1Type === 1) {
         this.setState({
-          option1: res.data
+          option1: res.data,
+          option1Loading: false
         })
       }
       if (word2Type === 1) {
         this.setState({
-          option2: res.data
+          option2: res.data,
+          option2Loading: false
         })
       }
     }
@@ -510,12 +521,14 @@ class ConfigModal extends React.Component {
       });
       if (word1Type === 2 || word1Type === 0) {
         this.setState({
-          option1: res.data
+          option1: res.data,
+          option1Loading: false
         })
       }
       if (word2Type === 2 || word2Type === 0) {
         this.setState({
-          option2: res.data
+          option2: res.data,
+          option2Loading: false
         })
       }
     }

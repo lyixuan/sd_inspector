@@ -96,6 +96,7 @@ class CombineWords extends React.Component{
     this.state = {
       searchWords: '',
       formData: [],
+      tableLoading: true,
       total: 0,
       page: 1,
       pageSize: 30,
@@ -109,6 +110,7 @@ class CombineWords extends React.Component{
     const {
       searchWords,
       formData,
+      tableLoading,
       total,
       page,
       pageSize,
@@ -133,6 +135,7 @@ class CombineWords extends React.Component{
         {/*表格部分*/}
         <div className={styles['form-part']}>
           <BITable
+            loading={tableLoading}
             dataSource={formData}
             columns={this.columns}
             pagination={false}
@@ -154,6 +157,7 @@ class CombineWords extends React.Component{
         </div>
         {/*删除二次确认弹框*/}
         <Modal
+          getContainer={false}
           visible={showDeleteModal}
           closable={false}
           title={
@@ -228,7 +232,8 @@ class CombineWords extends React.Component{
         questionList: [
           {
             sort: 1,
-            knowledgeId: 0,
+            knowledgeId: 264,
+            questionTypeName: '',
             questionTypeId: 0,
             questionId: 0,
             question: ''
@@ -329,6 +334,7 @@ class CombineWords extends React.Component{
     if (res.code === 200) {
       res.data.items = this._formatFormData(res.data.items);
       this.setState({
+        tableLoading: false,
         formData: res.data.items,
         total: res.data.totalCount
       })
