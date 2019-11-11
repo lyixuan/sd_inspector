@@ -65,13 +65,14 @@ class Report extends React.Component {
     let { beginDate, endDate } = this.state;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      // if (!err) {
-      //   console.log('Received values of form: ', values);
-      // }
+      if (err) {
+        // console.log('Received values of form: ', values);
+        return;
+      }
       const time = values.time;
       values.beginDate = moment(time[0]).format('x');
       values.endDate = moment(time[1]).format('x');
-      if (endDate - beginDate > 2 * 30 * 24 * 60 * 60 * 1000) {
+      if (values.endDate - values.beginDate > 2 * 30 * 24 * 60 * 60 * 1000) {
         message.error('日期范围不能超过 60天');
         return;
       }
@@ -196,13 +197,11 @@ class Report extends React.Component {
                     {
                       required: true,
                       message: '请输入屏蔽用户',
-                      // pattern: new RegExp(/^[\d\s]+$/, 'g'),
                     },
                   ],
                   getValueFromEvent: event => {
                     return event.target.value.replace(/[^\d\r\ ]/g, '');
                   },
-                  // initialValue: '',
                 })(<Input style={{ width: 330 }} />)}
               </Form.Item>
               <Form.Item {...tailFormItemLayout}>
