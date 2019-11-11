@@ -9,6 +9,7 @@ import WeChart from './components/weChart';
 import UserInfo from './components/userInfo';
 import PrivateLetter from './components/privateLetter';
 import UserPortary from './components/userPortary';
+import Score from './components/score';
 
 import { handleTNDateValue } from '@/pages/ko/utils/utils';
 import styles from './style.less';
@@ -238,6 +239,9 @@ class BehaviorPath1 extends React.Component {
     }
     const sutId = this.state.inputStuId || pathParams.userId;
 
+    console.log(1,this.state.searchType)
+    console.log(2,this.state.activeKey)
+    console.log(3,userInfoParams)
     return (
       <>
         <div className={styles.behaviorPath}>
@@ -263,11 +267,12 @@ class BehaviorPath1 extends React.Component {
                 <TabPane tab="私信" key="5">
                   <PrivateLetter stuId={sutId}></PrivateLetter>
                 </TabPane>
+                <TabPane tab="成绩" key="7"></TabPane>
               </BhTabs>
             </div>
             <div style={{ marginTop: '40px' }}>
               {
-                ((this.state.searchType && this.state.searchType === '6') || (!this.state.searchType && this.state.activeKey === '6')) ? null : userInfoParams ?
+                ((this.state.searchType && this.state.searchType === '6') || (!this.state.searchType && this.state.activeKey === '6') || (this.state.searchType && this.state.searchType === '7') || (!this.state.searchType && this.state.activeKey === '7')) ? null : userInfoParams ?
                   <UserInfo info={userInfoParams}></UserInfo> : null
               }
             </div>
@@ -298,6 +303,10 @@ class BehaviorPath1 extends React.Component {
               imDetail={imDetail}
               isLoading={this.props.portaryLoading}
               exerciseDetail={exerciseDetail} /> : null
+        }
+        {
+          ((this.state.searchType && this.state.searchType === '7') || (!this.state.searchType && this.state.activeKey === '7')) ?
+            <Score stuId={sutId} info={userInfoParams}/> : null
         }
       </>
     );

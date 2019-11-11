@@ -5,11 +5,12 @@ import Container from '@/components/BIContainer/index';
 import BISelect from '@/ant_components/BISelect'
 import BICascader from '@/ant_components/BICascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
+import {BiFilter} from '@/utils/utils';
 import NPSLeft from './NPSLeft'
 import NPSRight from './NPSRight'
 import moment from 'moment';
 import { initTimeData } from '../../../ko/utils/utils';
-// const { Option } = BISelect;
+const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
 const { BI = {} } = window;
@@ -46,7 +47,8 @@ class NPSEvaluate extends React.Component {
       NPSParams: {},
       dateArr: localStorage.getItem('NPSDates') ? this.localStoryDates() : [this.handleDefaultPickerValueMark(), this.handleDefaultPickerValueMarkDays()],
       userInfo: props.userInfo,
-      disableEndDate: this.handleDefaultPickerValueMarkDays()
+      disableEndDate: this.handleDefaultPickerValueMarkDays(),
+      star:localStorage.getItem('NPSStar')?localStorage.getItem('NPSStar'):'0'
     }
   }
   componentDidMount() {
@@ -85,6 +87,7 @@ class NPSEvaluate extends React.Component {
       collegeId: (userInfo && userInfo.collegeId) || (this.state.groupId.length > 0 && this.state.groupId[0]) || null,
       familyId: (userInfo && userInfo.familyId) || (this.state.groupId.length > 0 && this.state.groupId[1]) || null,
       groupId: (userInfo && userInfo.groupId) || (this.state.groupId.length > 0 && this.state.groupId[2]) || null,
+      star: this.state.star==='0'?null:Number(this.state.star),
       pageNum: null,
       pageSize: null
     }
@@ -124,6 +127,16 @@ class NPSEvaluate extends React.Component {
     BI.traceV && BI.traceV({ "widgetName": "NPS归属筛选", "traceName": "管理层工作台/NPS归属筛选" });
     localStorage.setItem('NPSGroupId', JSON.stringify(groupId));
   }
+  onChangeStar = (star) =>{
+    this.setState({
+      star,
+    }, () => {
+      this.getNpsAutonomousEvaluation()
+    });
+    BI.traceV && BI.traceV({ "widgetName": "星级筛选", "traceName": "管理层工作台/NPS分析" });
+    localStorage.setItem('NPSStar', star);
+  };
+
   // 选择时间
   onDateChange = (v) => {
     localStorage.setItem('NPSDates', JSON.stringify(initTimeData(v)));
@@ -148,7 +161,7 @@ class NPSEvaluate extends React.Component {
   };
   rightPart = () => {
     // const {collegeOptions,orgValue} = this.state
-    const { groupId = [0], userOrgConfig, dateArr } = this.state;
+    const { groupId = [0], userOrgConfig, dateArr,star } = this.state;
     const { orgList } = this.props.xdManagementBench;
     orgList.length > 0 && this.getResetGroupMsg(orgList)
     return (
@@ -167,6 +180,20 @@ class NPSEvaluate extends React.Component {
             allowClear={false}
             style={{ width: '136px' }}
           />
+        </span>
+        <span className={styles.change}>
+          选择星级：
+                <BISelect
+                  placeholder="选择星级"
+                  value={star}
+                  onChange={this.onChangeStar}
+                  allowClear={false}
+                  style={{ width: '136px' }}
+                >
+                  {BiFilter('WB_STAR').map(item => (
+                    <Option key={item.id}>{item.name}</Option>
+                  ))}
+                </BISelect>
         </span>
         <span className={styles.change}>
           选择时间：
