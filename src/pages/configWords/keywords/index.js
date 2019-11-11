@@ -326,12 +326,11 @@ class Keywords extends React.Component{
 
   // 保存关键词配置
   _saveConfig = async (data) => {
+    this.setState({
+      showConfigModal: false
+    });
     let res = await saveKeywordsConfig(data);
-    if (res.code === 200) {
-      this.setState({
-        showConfigModal: false
-      })
-    }
+    if (res.code === 200) {}
   };
 
   // 删除关键词配置

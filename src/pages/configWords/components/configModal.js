@@ -208,7 +208,7 @@ class ConfigModal extends React.Component {
                       onChange={() => {
                         setTimeout(() => {
                           this._validateQuestionList()
-                        }, 500);
+                        }, 300);
                       }}/>
                   </li>;
                 })
@@ -401,6 +401,9 @@ class ConfigModal extends React.Component {
 
     let flag = this._validateQuestionList();
     if (flag) {
+      this.props.dispatch({
+        type: 'configWords/resetRadioId'
+      });
       this.props.onSave(configData);
     }
   };
@@ -583,15 +586,18 @@ class ConfigModal extends React.Component {
       }
     }
 
-    let id = list[0].questionId;
-    for (let i = 1; i < list.length; i++) {
-      if (list[i].questionId === id) {
-        this.setState({
-          remindText2: '已存在该问题'
-        });
-        return false;
-      }
+    let arr = [];
+    for (let i = 0; i < list.length; i++) {
+      arr.push(list[i].questionId);
     }
+    let arr1 = [...new Set(arr)];
+    if (arr1.length < arr.length) {
+      this.setState({
+        remindText2: '已存在该问题'
+      });
+      return false;
+    }
+
     this.setState({
       remindText2: ''
     });

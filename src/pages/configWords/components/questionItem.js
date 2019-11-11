@@ -44,15 +44,17 @@ class QuestionItem extends React.Component {
         defaultValue={item.questionTypeId ? item.questionTypeId : undefined}
         treeData={questionType}
         dropdownStyle={{ height: 300 }}
-        onChange={this.onSelectTwoChange}>
+        onChange={this.onSelectTwoChange}
+        key={Math.random()}>
       </TreeSelect>
       <Select
         className={styles.question}
         loading={questionsLoading}
-        defaultValue={item.questionId ? item.questionId : undefined}
+        defaultValue={item.questionId === 0 ? undefined : item.questionId}
         placeholder="选择标准问题"
         showSearch
         optionFilterProp="children"
+        notFoundContent="未查找到相关数据"
         onChange={this.onSelectThreeChange}>
         {
           questions.map((item) => {
@@ -99,29 +101,20 @@ class QuestionItem extends React.Component {
   };
 
   // 第二个选择框改变时
-  onSelectTwoChange = (value, option) => {
-    let questionTypeName = option[0];
+  onSelectTwoChange = (value) => {
     let {sort, knowledgeId} = this.props.item;
     this._getQuestions(knowledgeId, value);
     this.props.dispatch({
       type: 'configWords/updateQuestionTypeId',
       payload: {
         sort,
-        value,
-        questionTypeName
+        value
       }
     })
   };
 
   // 第三个选择框改变时
   onSelectThreeChange = (value, option) => {
-    // let {questionType} = this.state;
-    // let questionTypeId = 0;
-    // questionType.forEach(item => {
-    //   if (item.questionId === value) {
-    //     questionTypeId = item.questionTypeId;
-    //   }
-    // });
     let sort = this.props.item.sort;
     let question = option.props.children;
     this.props.onChange();
@@ -130,8 +123,7 @@ class QuestionItem extends React.Component {
       payload: {
         sort,
         value,
-        question,
-        // questionTypeId
+        question
       }
     })
   };

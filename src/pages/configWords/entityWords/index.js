@@ -298,12 +298,11 @@ class EntityWords extends React.Component{
 
   // 保存实体词配置
   _saveConfig = async (data) => {
+    this.setState({
+      showConfigModal: false
+    });
     let res = await saveEntityConfig(data);
-    if (res.code === 200) {
-      this.setState({
-        showConfigModal: false
-      })
-    }
+    if (res.code === 200) {}
   };
 
   // 删除实体词配置

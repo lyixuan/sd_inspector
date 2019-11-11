@@ -1,7 +1,7 @@
 export function formatTime(timestamp, connect1='-', connect2=':') {
   let date = new Date(timestamp);
   let year = addZero(date.getFullYear()),
-    month = addZero(date.getMonth()),
+    month = addZero(date.getMonth() + 1),
     day = addZero(date.getDate()),
     hour = addZero(date.getHours()),
     min = addZero(date.getMinutes()),

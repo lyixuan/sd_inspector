@@ -343,12 +343,11 @@ class CombineWords extends React.Component{
 
   // 保存组合词配置
   _saveConfig = async (data) => {
+    this.setState({
+      showConfigModal: false
+    });
     let res = await saveCombineConfig(data);
-    if (res.code === 200) {
-      this.setState({
-        showConfigModal: false
-      })
-    }
+    if (res.code === 200) {}
   };
 
   // 删除组合词配置

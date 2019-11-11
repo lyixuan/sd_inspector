@@ -7,13 +7,14 @@ class InputComponent extends React.Component{
     super(props);
     this.myInput = React.createRef();
     this.state = {
-      text: ""
+      text: "",
+      showSearchRecord: false
     }
   }
 
   render() {
     const {resultCount, defaultValue} = this.props;
-    const {text} = this.state;
+    const {text, showSearchRecord} = this.state;
     return (
       <div className={styles['input-component']}>
         <Input
@@ -26,9 +27,13 @@ class InputComponent extends React.Component{
           ref={this.myInput}/>
         <Button className={styles['reset']} onClick={this.resetSearchResult}>重置</Button>
         <Button className={styles['search']} onClick={this.onInputEnter}>搜索</Button>
-        <span className={styles.text}>
-          共搜索到 <span className={styles.count}>{resultCount}</span>条 记录
-        </span>
+        {
+          showSearchRecord
+            ? <span className={styles.text}>
+                共搜索到 <span className={styles.count}>{resultCount}</span>条 记录
+              </span>
+            : null
+        }
       </div>
     )
   }
@@ -45,6 +50,15 @@ class InputComponent extends React.Component{
     const {text} = this.state;
     this.props.onSearch(text);
     this.myInput.current.blur();
+    if (text === '') {
+      this.setState({
+        showSearchRecord: false
+      });
+    } else {
+      this.setState({
+        showSearchRecord: true
+      });
+    }
   };
 
   // 重置搜索结果
@@ -55,7 +69,8 @@ class InputComponent extends React.Component{
     }
     this.props.onReset();
     this.setState({
-      text: ""
+      text: "",
+      showSearchRecord: false
     });
   }
 }
