@@ -114,7 +114,12 @@ class ProfitTbas extends React.Component {
         dataIndex: 'examZbtOrderCount',
         key: 'examZbtOrderCount',
         render: (text, record) => this.getColumn(record, <BITextAlign style={{marginRight: 8}}>{text}</BITextAlign>)
-      },
+      }, {
+        title: '',
+        dataIndex: 'empty',
+        key: 'empty',
+        className: styles.rowBg4,
+      }
     ];
     return columns || [];
   };

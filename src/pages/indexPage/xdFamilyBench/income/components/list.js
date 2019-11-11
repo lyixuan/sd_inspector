@@ -36,11 +36,10 @@ class ProfitList extends React.Component {
   }
   columns = () => {
     const { goodpushKpiMax, renewalKpiMax, examZbtKpiMax } = this.state;
-    const { tabKey } = this.props;
+    const widthVal = this.props.tabKey === '2' ? '7%' : '8%'
     const columns = [
       {
-        fixed: 'left',
-        width: 110,
+        width: this.props.tabKey === '2' ? '8%' : '10%',
         title: '集团排名',
         dataIndex: 'ranking',
         key: 'ranking',
@@ -48,57 +47,51 @@ class ProfitList extends React.Component {
           {text}/{record.classCount} <img src={rankImg[record.rankingFlag + 1]} alt=""/>
         </div>
       }, {
-        fixed: 'left',
-        width: 110,
+        width: '8%',
         title: '家族/小组',
         dataIndex: 'groupName',
         key: 'groupName',
-        render: text => <BITextAlign textalign='left'>{text}</BITextAlign>
       }, {
-        width: 110,
-        title: this.props.tabKey === '2' ? '班主任总流水' : '家族总流水',
+        width: '7%',
+        title: '总流水',
         dataIndex: 'kpiFlow',
         key: 'kpiFlow',
-        render: text => {
-          return <span>{thousandsFormat(parseInt(text))}</span>
-        }
+        render: text => thousandsFormat(parseInt(text))
       }, {
-        width: 110,
+        width: '8%',
         title: '好推绩效',
         dataIndex: 'goodpushKpi',
         key: 'goodpushKpi',
         className: styles.row1,
         render: text => <BIWrapperProgress style={{marginLeft: '-8px'}} text={thousandsFormat(parseInt(text))} isColor="green" percent={getPercentFn(text, goodpushKpiMax)}/>
       }, {
-        width: 110,
+        width: widthVal,
         title: '好推单量',
         dataIndex: 'goodpushOrderCount',
         key: 'goodpushOrderCount',
         className: styles.row1,
       }, {
-        width: 110,
+        width: widthVal,
         title: '好推流水',
         dataIndex: 'goodpushFlow',
         key: 'goodpushFlow',
         className: styles.row1,
-        render: (text, record) => {
-          return <span>{thousandsFormat(parseInt(text))}</span>
-        }
+        render: (text, record) => thousandsFormat(parseInt(text))
       }, {
-        width: 110,
+        width: '8%',
         title: '续报绩效',
         dataIndex: 'renewalKpi',
         key: 'renewalKpi',
         className: styles.row2,
         render: text => <BIWrapperProgress style={{marginLeft: '-8px'}} text={thousandsFormat(parseInt(text))} isColor="green" percent={getPercentFn(text, renewalKpiMax)}/>
       }, {
-        width: 110,
+        width: widthVal,
         title: '续报单量',
         dataIndex: 'renewalOrderCount',
         key: 'renewalOrderCount',
         className: styles.row2,
       }, {
-        width: 110,
+        width: widthVal,
         title: '续报流水',
         dataIndex: 'renewalFlow',
         key: 'renewalFlow',
@@ -107,20 +100,20 @@ class ProfitList extends React.Component {
           return <span>{thousandsFormat(parseInt(text))}</span>
         }
       }, {
-        width: 110,
+        width: '8%',
         title: '成本套绩效',
         dataIndex: 'examZbtKpi',
         key: 'examZbtKpi',
         className: styles.row3,
         render: text =>  <BIWrapperProgress style={{marginLeft: '-8px'}} text={thousandsFormat(parseInt(text))} isColor="green" percent={getPercentFn(text, examZbtKpiMax)}/>
       }, {
-        width: 110,
+        width: '8%',
         title: '成本套当量',
         dataIndex: 'examZbtOrderCount',
         key: 'examZbtOrderCount',
         className: styles.row3,
       }, {
-        width: 110,
+        width: '8%',
         title: '成本套流水',
         dataIndex: 'examZbtFlow',
         key: 'examZbtFlow',
@@ -137,8 +130,7 @@ class ProfitList extends React.Component {
     ];
     if (this.props.tabKey === '2') {
       columns.splice(2, 0, {
-        fixed: 'left',
-        width: 110,
+        width: widthVal,
         title: '班主任',
         dataIndex: 'userName',
         key: 'userName',
