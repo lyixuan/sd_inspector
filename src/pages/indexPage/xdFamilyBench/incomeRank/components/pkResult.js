@@ -159,7 +159,7 @@ class ProfitTbas extends React.Component {
           onRow={this.onClickRow}
           rowClassName={this.getRowClassName}
           bordered={true}
-          scroll={{ x: 1800 }}
+          scroll={{ x: 'max-content' }}
         />
         {
           pkUsers && pkUsers.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt=''/></div>

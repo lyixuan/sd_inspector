@@ -32,11 +32,6 @@ export async function groupList(params) {
 export async function groupPkList(params) {
   return request('/deskperfpcapi/scorePk/group/pk', { method: 'POST', data: params })
 }
-//判断是否显示本期学分的模块
-export async function isShowPermission(params) {
-  return request('/deskperfpcapi/scorePk/permission', { method: 'get', params })
-}
-
 // 绩效详情
 export async function getKpiInfo(params) {
   return request('/deskperfpcapi/workbenchIncomeKpi/getKpiInfo', { method: 'get', data: params })
