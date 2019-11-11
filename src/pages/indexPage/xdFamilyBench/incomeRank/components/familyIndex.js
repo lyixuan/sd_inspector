@@ -51,7 +51,6 @@ class FamilyIndex extends React.Component {
   // 抽屉操作
   handleAction = pkUsers => {
     if (pkUsers) {
-      console.log()
       setLocalValue({ pkUsers }, localKey);
       this.setState({ pkUsers }, () => this.getResulitList());
     } else {
