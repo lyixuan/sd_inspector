@@ -6,7 +6,7 @@ import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
 import normal from '@/assets/xdFamily/rankNormal.png';
 import SmallProgress from '@/pages/indexPage/components/smallProgress'
-import BIWrapperTable from '@/pages/indexPage/components/BIWrapperTable';
+import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import { Link } from 'dva/router';
 import BILoading from '@/components/BILoading'
 
@@ -142,10 +142,11 @@ class ProfitList extends React.Component {
               arrPositiVe.push(record.obj[item.id].score)
               const numOneScorePositive = Math.max.apply(Math, arrPositiVe.map(item => item));
               const percent1 = (record.obj[item.id].score / numOneScorePositive * 100).toFixed(2);
-              return <div>
-                <div>{record.obj[item.id].score}</div>
-                <SmallProgress isColor="green" percent={`${percent1}%`}></SmallProgress>
-              </div>
+              // return <div>
+              //   <div>{record.obj[item.id].score}</div>
+              //   <SmallProgress isColor="green" percent={`${percent1}%`}></SmallProgress>
+              // </div>
+              return <BIWrapperProgress text={record.obj[item.id].score} isColor="green" percent={`${percent1}%`} style={{marginLeft: '-8px'}}/>
             }
             if (record.obj[item.id].dimensionName == '负面均分') {
               record.obj[item.id].score >= 0 ? arrNegative1.push(record.obj[item.id].score) : arrNegative2.push(Math.abs(record.obj[item.id].score))
@@ -196,6 +197,7 @@ class ProfitList extends React.Component {
             rowKey={(record, index) => index}
             scroll={{ x: 'max-content', y: 420 }}
             smalled
+            // bordered={true}
             />
         </div>
       </BILoading>
