@@ -245,18 +245,6 @@ class BehaviorPath1 extends React.Component {
           <div className={styles.tabBlank}>&nbsp;</div>
           <div className={styles.layoutbg}>
             <div className={styles.tabBox}>
-              <div
-                className={((this.state.searchType && this.state.searchType === '6') || (!this.state.searchType && this.state.activeKey === '6')) ? styles.inputBox : styles.inputBox}>
-                <Search
-                  allowClear
-                  placeholder="输入学员ID"
-                  maxLength={10}
-                  value={this.state.inputStuId}
-                  onChange={value => this.onChange(value)}
-                  onSearch={value => this.onSearchUser(value)}
-                />
-                {/* <Input placeholder="输入学员ID" allowClear onChange={this.changeUserId} /> */}
-              </div>
               <BhTabs onChange={this.onTabChange} animated={false} defaultActiveKey={this.state.activeKey}>
                 <TabPane tab="画像" key="6">
                 </TabPane>
@@ -282,6 +270,19 @@ class BehaviorPath1 extends React.Component {
                 ((this.state.searchType && this.state.searchType === '6') || (!this.state.searchType && this.state.activeKey === '6')) ? null : userInfoParams ?
                   <UserInfo info={userInfoParams}></UserInfo> : null
               }
+            </div>
+            <div
+              className={styles.inputBox}>
+              <Search
+                allowClear
+                placeholder="输入学员ID"
+                maxLength={10}
+                width={260}
+                value={this.state.inputStuId}
+                onChange={value => this.onChange(value)}
+                onSearch={value => this.onSearchUser(value)}
+              />
+              {/* <Input placeholder="输入学员ID" allowClear onChange={this.changeUserId} /> */}
             </div>
           </div>
         </div>

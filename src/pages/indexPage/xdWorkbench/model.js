@@ -3,12 +3,12 @@ import {
   getIncomeKpiPkList,
   getCountCurrentQuality,
   getCountAppealRecord,
-  kpiLevelList,
   groupList,
   groupPkList,
   getKpiInfo,
   isShowPermission,
 } from './services';
+import { fillDataSource } from '@/pages/indexPage/components/utils/utils';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
 import moment from 'moment';
@@ -17,23 +17,27 @@ export default {
   namespace: 'xdClsssModal',
   state: {
     userInfo: {}, // 全局值
-    kpiLevelList: null,
     groupList: null,
-    kpiTimes: null,
-    familyKpiTimes: {},
+    kpiTimes: {}, // 时间
     classQualityList: [],
-    classAppealList: []
+    classAppealList: [],
+    familyScorePk: {}, // 本期学分
+    groupIncomePk: { // 本期创收
+      maxValue: {},
+      pkList: []
+    }
   },
 
   effects: {
     // 本期创收
-    *getContrastIncomeKpiPkList({ payload, callback }, { call }) {
+    *getContrastIncomeKpiPkList({ payload, callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(getContrastIncomeKpiPkList, params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
+        yield put({ type: 'save', payload: { groupIncomePk: result.data } });
       } else if (result.code === 50000) {
         if (callback && typeof callback === 'function') {
           callback();
@@ -78,18 +82,6 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    // 以下是本期学分相关的接口
-    // 本期学分人均在服人员下拉里面的数据
-    *kpiLevelList({ payload }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(kpiLevelList, params)
-      if (result.code === 20000) {
-        const kpiLevelList = result.data || {};
-        yield put({ type: 'save', payload: { kpiLevelList } });
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
     // 获取右侧的列表数据
     *groupList({ payload, callback }, { call, put }) {
       const params = payload.params;
@@ -103,13 +95,14 @@ export default {
       }
     },
     //  获取左侧的列表数据
-    *groupPkList({ payload, callback }, { call }) {
+    *groupPkList({ payload, callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(groupPkList, params)
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
+        yield put({ type: 'saveScore', payload: { data: result.data, key: 'familyScorePk'} });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -154,6 +147,14 @@ export default {
       const orgListTreeData = toTreeData(payload.orgList);
       return { ...state, orgList: payload.orgList, orgListTreeData };
     },
+    saveScore(state, { payload }) {
+      const data = payload.data;
+      data.dimensionList = fillDataSource({
+        ...state.kpiTimes,
+        datatrace: '家族长工作台/本期学分/'
+      }, data.dimensionList)
+      return { ...state, [payload.key]: data};
+    }
   },
   subscriptions: {},
 };

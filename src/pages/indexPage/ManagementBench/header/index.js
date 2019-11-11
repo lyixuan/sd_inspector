@@ -163,9 +163,9 @@ class Header extends React.Component {
     const { allList = [] } = this.state;
     return (
       <ul className={styles.list}>
-        {allList.map(item => {
+        {allList.map((item,i) => {
           if (!item || !item.type) return;
-          return <Block item={item} />;
+          return <Block item={item} key={i} />;
         })}
       </ul>
     );

@@ -106,7 +106,7 @@ class performanceDetail extends React.Component {
     const { kpiStartDate = '', kpiEndDate = '' } = familyKpiInfo;
     const date1 = kpiStartDate ? moment(kpiStartDate).format('YYYY.MM.DD') : '';
     const date2 = kpiEndDate ? moment(kpiEndDate).format('YYYY.MM.DD') : '';
-    const charge = chargeCount.emptyFlag ? thousandsFormat(parseInt(familyKpiInfo.achievement)) : chargeCount.amount ? `-${thousandsFormat(parseInt(chargeCount.amount))}` : 0
+    const charge = chargeCount.emptyFlag ? thousandsFormat(parseInt(familyKpiInfo.achievement)) : chargeCount.amount ? `-${thousandsFormat(parseInt(chargeCount.amount))}` : 0;
     return (
       <Container
         title='绩效详情'

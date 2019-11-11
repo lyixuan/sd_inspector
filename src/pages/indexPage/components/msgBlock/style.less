@@ -1,0 +1,89 @@
+// 渐变色加阴影
+.bg_color (@c1, @c2, @c3){
+    box-shadow: 0 4px 8px @c3;
+    background: -webkit-linear-gradient(left, @c1, @c2); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, @c1, @c2); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, @c1, @c2); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, @c1, @c2); /* 标准的语法（必须放在最后） */
+    box-shadow: 0 4px 8px @c3;
+}
+.msgBlock {
+    display: flex;
+    .blockOption {
+        flex: 1;
+        margin-right: 16px;
+        .block {
+            display: flex;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #D8D8D8; 
+            img {
+                width: 46px;
+                height: 46px;
+            }
+            .rankMsg {
+                margin-left: 16px;
+                div {
+                    font-size: 24px;
+                    color: #1A1C1F;
+                    font-weight: bold;
+                }
+                span {
+                    color: #7B7C80;
+                    font-size: 12px;
+                }
+            }
+        }
+        .tips {
+            position: relative;
+            box-shadow: 0 2px 8px rgba(26, 28, 31, .05);
+            background-color: #FFFFFF;
+            height: 40px;
+            padding: 10px 12px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            margin-top: 10px;
+            div {
+                display: flex;
+                align-items: center;
+                img {
+                    margin-right: 8px;
+                }
+            }
+            .arrow {
+                display: block;
+                width: 0px;
+                height: 0px;
+                border-width: 0px 6px 6px 6px;
+                border-style: solid;
+                border-color: transparent transparent #CFCFCF transparent;
+                position: absolute;
+                top: -6px;
+                right: -50%;
+                em {
+                    display: block;
+                    width: 0;
+                    height: 0;
+                    border-width: 0px 6px 6px 6px;
+                    border-style: solid;
+                    border-color: transparent transparent #FFFFFF transparent;
+                    position: absolute;
+                    top: 0px;
+                    right: -6px;
+                }
+            }
+        }
+    }
+    .blockOption:last-child .block{
+        border-right: none;
+    }
+
+}
+.rankTip{
+    font-size:13px;
+    color:#00CCC3;
+}
+.rankTipError{
+    color:#FF5959;
+}

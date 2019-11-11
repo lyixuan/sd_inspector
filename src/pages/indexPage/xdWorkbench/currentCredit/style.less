@@ -3,16 +3,18 @@
   .creditSelect{
     width:100%;
     margin-bottom:16px;
-    .title{
-      font-size: 13px;
-      color: #1A1C1F;
-      display: block;
-      margin-bottom: 24px;
+    .title {
+      height: 47px;
+      line-height: 47px;
+      padding-left: 24px;
+      margin-bottom: 16px;
+      // border-bottom: 1px solid #F5F8FA;
     }
   }
   .tableContent {
     position: relative;
     background: #FAFFFF;
+    margin: 16px 24px;
     .suspension {
       width: 100%;
       position: absolute;
@@ -39,13 +41,14 @@
       }
     }
     :global {
-      // .ant-table-thead > tr > th:nth-child(3){
-      //   text-align: right;  
-      // }
       .ant-table-thead > tr > th:nth-child(4) {
         padding-left: 40px;
       }
     }
+  }
+  .actionBtn {
+    width: 100%;
+    text-align: center;
   }
   :global {
     .ant-table-tbody > tr > td {
@@ -87,7 +90,6 @@
       background: #D5D8DB;
     }
   }
-
 }
 .creditLeft{
   width: 100%;

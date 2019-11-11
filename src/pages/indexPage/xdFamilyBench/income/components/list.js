@@ -48,15 +48,15 @@ class ProfitList extends React.Component {
         </div>
       }, {
         width: '9%',
-        title: '小组',
+        title: '家族/小组',
         dataIndex: 'groupName',
         key: 'groupName',
       }, {
         width: '9%',
-        title: '总绩效',
-        dataIndex: 'incomeKpi',
-        key: 'incomeKpi',
-        render: (text, record) => {
+        title: this.props.tabKey === '2' ? '班主任总流水' : '家族总流水',
+        dataIndex: 'kpiFlow',
+        key: 'kpiFlow',
+        render: text => {
           return <span>{thousandsFormat(parseInt(text))}</span>
         }
       }, {
@@ -160,19 +160,18 @@ class ProfitList extends React.Component {
   }
   render() {
     return (
-      <div className={styles.tableList}>
-        <BILoading isLoading={this.props.loading} >
+      <BILoading isLoading={this.props.loading}>
+        <div className={styles.tableList}>
           <BITable
-          columns={this.columns()}
-          dataSource={this.state.familyIncome}
-          pagination={false}
-          loading={this.props.loading}
-          rowKey={record => record.userId}
-          scroll={{ x: 'max-content', y: 400 }}
+            columns={this.columns()}
+            dataSource={this.state.familyIncome}
+            pagination={false}
+            loading={this.props.loading}
+            rowKey={record => record.userId}
+            scroll={{ x: 'max-content', y: 400 }}
           />
-        </BILoading>
-      </div>
-
+        </div>
+      </BILoading>
     );
   }
 }

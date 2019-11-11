@@ -1,8 +1,10 @@
 import pathToRegexp from 'path-to-regexp';
-import {CAS_HOST} from './constants';
+import { CAS_HOST } from './constants';
 import storage from './storage';
 
 export function redirectToLogin() {
+  storage.removeItem('admin_user');
+  storage.removeItem('admin_auth');
   localStorage.clear();
   const { origin,pathname } = window.location;
   const serverUrl = `${CAS_HOST}/tologin`;
@@ -10,6 +12,8 @@ export function redirectToLogin() {
 }
 
 export function casLogout() {
+  storage.removeItem('admin_user');
+  storage.removeItem('admin_auth');
   localStorage.clear();
   const { origin,pathname } = window.location;
   const logoutUrl = `${CAS_HOST}/apis/caslogout?`;
