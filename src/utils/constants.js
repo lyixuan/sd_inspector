@@ -518,6 +518,17 @@ export const REMOVE_LOCAL_DATA = [
   'creditWorkLocal',
   'incomeWorkLocal',
 ]
+// 工作台星级
+export const WB_STAR = [
+  {id:'0',name:'全部'},
+  {id:'5',name:'5星'},
+  {id:'4',name:'4星'},
+  {id:'3',name:'3星'},
+  {id:'2',name:'2星'},
+  {id:'1',name:'1星'},
+  {id:'6',name:'1-3星'},
+];
+
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -553,6 +564,7 @@ export default {
   SCORE_APPEAL_STATE_ON_MASTER,
   SCORE_APPEAL_DIS,
   PUNISH_TYPE_LIST,
+  WB_STAR
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

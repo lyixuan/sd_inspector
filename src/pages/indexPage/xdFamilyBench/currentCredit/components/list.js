@@ -6,7 +6,7 @@ import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
 import normal from '@/assets/xdFamily/rankNormal.png';
 import SmallProgress from '@/pages/indexPage/components/smallProgress'
-import BIWrapperTable from '@/pages/indexPage/components/BIWrapperTable';
+import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import { Link } from 'dva/router';
 import BILoading from '@/components/BILoading'
 
@@ -142,10 +142,11 @@ class ProfitList extends React.Component {
               arrPositiVe.push(record.obj[item.id].score)
               const numOneScorePositive = Math.max.apply(Math, arrPositiVe.map(item => item));
               const percent1 = (record.obj[item.id].score / numOneScorePositive * 100).toFixed(2);
-              return <div>
-                <div>{record.obj[item.id].score}</div>
-                <SmallProgress isColor="green" percent={`${percent1}%`}></SmallProgress>
-              </div>
+              // return <div>
+              //   <div>{record.obj[item.id].score}</div>
+              //   <SmallProgress isColor="green" percent={`${percent1}%`}></SmallProgress>
+              // </div>
+              return <BIWrapperProgress text={record.obj[item.id].score} isColor="green" percent={`${percent1}%`} style={{marginLeft: '-8px'}}/>
             }
             if (record.obj[item.id].dimensionName == '负面均分') {
               record.obj[item.id].score >= 0 ? arrNegative1.push(record.obj[item.id].score) : arrNegative2.push(Math.abs(record.obj[item.id].score))
@@ -153,13 +154,12 @@ class ProfitList extends React.Component {
               const numOneScoreNegative2 = Math.max.apply(Math, arrNegative2.map(item => item)); //负值
               const percent2 = (record.obj[item.id].score / numOneScoreNegative1 * 100).toFixed(2); //正值
               const percent3 = (Math.abs(record.obj[item.id].score) / numOneScoreNegative2 * 100).toFixed(2);//负值
-              return <div>
-                <div style={{ paddingLeft: '20px' }}>{record.obj[item.id].score}</div>
-                <div style={{ display: 'flex' }}>
-                  <div style={{ width: '44px' }}>{record.obj[item.id].score < 0 ? <SmallProgress isColor={'red'} percent={`${percent3}%`}></SmallProgress> : null}</div>
-                  <div style={{ width: '44px' }}>{record.obj[item.id].score > 0 ? <SmallProgress isColor={'green'} percent={`${percent2}%`}></SmallProgress> : null}</div>
-                </div>
-              </div>
+              const t = record.obj[item.id].score;
+              if (t< 0) {
+                return <BIWrapperProgress isColor="red" text={t} percent={`${percent3}%`} style={{marginLeft: '-8px'}}/>
+              } else {
+                return <BIWrapperProgress isColor="green" text={t}  percent={`${percent2}%`} style={{marginLeft: '-8px'}}/>
+              }
             }
             return <div>
               {
@@ -196,6 +196,7 @@ class ProfitList extends React.Component {
             rowKey={(record, index) => index}
             scroll={{ x: 'max-content', y: 420 }}
             smalled
+            // bordered={true}
             />
         </div>
       </BILoading>
