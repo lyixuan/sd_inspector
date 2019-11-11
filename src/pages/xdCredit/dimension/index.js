@@ -130,7 +130,7 @@ class Dimension extends React.Component {
             columns={this.columns()}
             bordered
             dataSource={dataSource}
-            defaultExpandAllRows={true}
+            // defaultExpandAllRows={true}
             rowClassName={this.setRowClassName}
             expandIcon={() => <a />}
             pagination={false}
@@ -138,6 +138,7 @@ class Dimension extends React.Component {
             indentSize={10}
             rowKey={record => record.id}
             smalled={true}
+            expandedRowKeys={[1,3,4,]}
           /> : <BITable
               columns={this.columns()}
               pagination={false}
