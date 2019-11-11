@@ -8,35 +8,23 @@ import styles from './style.less';
 import CurrentCredit from './currentCredit'
 import storage from '../../../utils/storage';
 
-@connect((xdClsssModal) => ({
-  xdClsssModal,
+@connect(({ xdWorkModal }) => ({
+  userInfo: xdWorkModal.userInfo || {},
 }))
 class XdWorkbench extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       userId: storage.getItem('admin_user').userId,
-      isShowCredits: 20002
     }
   }
-  componentDidMount() {
-    this.props.dispatch({
-      type: 'xdClsssModal/isShowPermission',
-      payload: { params: {} },
-      callback: (data) => {
-        this.setState({
-          isShowCredits: data.code
-        })
-      }
-    });
-  }
   render() {
-    const { userId, isShowCredits } = this.state;
+    const { userId } = this.state;
     return (
       <div className={styles.workbench}>
         <PerformanceDetail></PerformanceDetail>
-       {
-          isShowCredits !== 20002 ? <CurrentCredit></CurrentCredit> : null
+        {
+          this.props.userInfo.privilegeView &&  <CurrentCredit></CurrentCredit>
         }
         <Profit userId={userId} />
         <div className={styles.qualityAppel}>

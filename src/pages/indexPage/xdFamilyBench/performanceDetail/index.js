@@ -96,9 +96,10 @@ class performanceDetail extends React.Component {
     if (data2.amount == 0) {
       option.series[0].color[2] = '#ebebeb'
     }
-    this.myChart = echarts.init(this.ID);
-    this.myChart.setOption(option);
-
+    if (this.ID) {
+      this.myChart = echarts.init(this.ID);
+      this.myChart && this.myChart.setOption(option);
+    }
   }
 
   render() {
