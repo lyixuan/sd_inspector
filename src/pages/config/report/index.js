@@ -95,6 +95,7 @@ class Report extends React.Component {
                 that.props.form.resetFields();
                 that.checkMail();
                 that.getIgnoreUser();
+                message.success('发送成功');
               } else {
                 message.error(res.msg);
               }
