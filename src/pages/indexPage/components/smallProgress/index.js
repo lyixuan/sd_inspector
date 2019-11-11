@@ -3,7 +3,6 @@ import styles from './style.less'
 class SmallProgress extends React.Component {
   getColorCalss = () => {
     const { isColor } = this.props;
-    console.log(isColor)
     if (isColor === 'green') {
       return styles.progressGreen;
     } else if (isColor === 'leftred'){
