@@ -37,10 +37,10 @@ class ProfitList extends React.Component {
   columns = () => {
     const { goodpushKpiMax, renewalKpiMax, examZbtKpiMax } = this.state;
     const { tabKey } = this.props;
-    const widthVal = tabKey === '1' ? '8%' : '7%';
     const columns = [
       {
-        width: '9%',
+        fixed: 'left',
+        width: 110,
         title: '集团排名',
         dataIndex: 'ranking',
         key: 'ranking',
@@ -48,13 +48,14 @@ class ProfitList extends React.Component {
           {text}/{record.classCount} <img src={rankImg[record.rankingFlag + 1]} alt=""/>
         </div>
       }, {
-        width: '8%',
+        fixed: 'left',
+        width: 110,
         title: '家族/小组',
         dataIndex: 'groupName',
         key: 'groupName',
         render: text => <BITextAlign textalign='left'>{text}</BITextAlign>
       }, {
-        width: '9%',
+        width: 110,
         title: this.props.tabKey === '2' ? '班主任总流水' : '家族总流水',
         dataIndex: 'kpiFlow',
         key: 'kpiFlow',
@@ -62,20 +63,20 @@ class ProfitList extends React.Component {
           return <span>{thousandsFormat(parseInt(text))}</span>
         }
       }, {
-        width: '7%',
+        width: 110,
         title: '好推绩效',
         dataIndex: 'goodpushKpi',
         key: 'goodpushKpi',
         className: styles.row1,
         render: text => <BIWrapperProgress style={{marginLeft: '-8px'}} text={thousandsFormat(parseInt(text))} isColor="green" percent={getPercentFn(text, goodpushKpiMax)}/>
       }, {
-        width: widthVal,
+        width: 110,
         title: '好推单量',
         dataIndex: 'goodpushOrderCount',
         key: 'goodpushOrderCount',
         className: styles.row1,
       }, {
-        width: '9%',
+        width: 110,
         title: '好推流水',
         dataIndex: 'goodpushFlow',
         key: 'goodpushFlow',
@@ -84,20 +85,20 @@ class ProfitList extends React.Component {
           return <span>{thousandsFormat(parseInt(text))}</span>
         }
       }, {
-        width: widthVal,
+        width: 110,
         title: '续报绩效',
         dataIndex: 'renewalKpi',
         key: 'renewalKpi',
         className: styles.row2,
         render: text => <BIWrapperProgress style={{marginLeft: '-8px'}} text={thousandsFormat(parseInt(text))} isColor="green" percent={getPercentFn(text, renewalKpiMax)}/>
       }, {
-        width: widthVal,
+        width: 110,
         title: '续报单量',
         dataIndex: 'renewalOrderCount',
         key: 'renewalOrderCount',
         className: styles.row2,
       }, {
-        width: widthVal,
+        width: 110,
         title: '续报流水',
         dataIndex: 'renewalFlow',
         key: 'renewalFlow',
@@ -106,20 +107,20 @@ class ProfitList extends React.Component {
           return <span>{thousandsFormat(parseInt(text))}</span>
         }
       }, {
-        // width: widthVal,
+        width: 110,
         title: '成本套绩效',
         dataIndex: 'examZbtKpi',
         key: 'examZbtKpi',
         className: styles.row3,
-        render: text =>  <BIWrapperProgress text={thousandsFormat(parseInt(text))} isColor="green" percent={getPercentFn(text, examZbtKpiMax)}/>
+        render: text =>  <BIWrapperProgress style={{marginLeft: '-8px'}} text={thousandsFormat(parseInt(text))} isColor="green" percent={getPercentFn(text, examZbtKpiMax)}/>
       }, {
-        // width: widthVal,
+        width: 110,
         title: '成本套当量',
         dataIndex: 'examZbtOrderCount',
         key: 'examZbtOrderCount',
         className: styles.row3,
       }, {
-        // width: tabKey === '1' ? '12%': '16%',
+        width: 110,
         title: '成本套流水',
         dataIndex: 'examZbtFlow',
         key: 'examZbtFlow',
@@ -127,11 +128,17 @@ class ProfitList extends React.Component {
         render: (text, record) => {
           return <span>{thousandsFormat(parseInt(text))}</span>
         }
-      },
+      }, {
+        title: '',
+        dataIndex: 'empty',
+        key: 'empty',
+        className: styles.row3,
+      }
     ];
     if (this.props.tabKey === '2') {
       columns.splice(2, 0, {
-        width: widthVal,
+        fixed: 'left',
+        width: 110,
         title: '班主任',
         dataIndex: 'userName',
         key: 'userName',

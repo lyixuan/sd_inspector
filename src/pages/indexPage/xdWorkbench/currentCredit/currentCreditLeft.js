@@ -113,7 +113,7 @@ class currentCreditLeft extends React.Component {
             pagination={false}
             rowKey={record => record.id}
             bordered={true}
-            scroll={{ y: 392 }}
+            scroll={{ y: 492 }}
           />
           {
             pkGroupList && pkGroupList.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt='' /></div>

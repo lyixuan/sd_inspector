@@ -154,13 +154,12 @@ class ProfitList extends React.Component {
               const numOneScoreNegative2 = Math.max.apply(Math, arrNegative2.map(item => item)); //负值
               const percent2 = (record.obj[item.id].score / numOneScoreNegative1 * 100).toFixed(2); //正值
               const percent3 = (Math.abs(record.obj[item.id].score) / numOneScoreNegative2 * 100).toFixed(2);//负值
-              return <div>
-                <div style={{ paddingLeft: '20px' }}>{record.obj[item.id].score}</div>
-                <div style={{ display: 'flex' }}>
-                  <div style={{ width: '44px' }}>{record.obj[item.id].score < 0 ? <SmallProgress isColor={'red'} percent={`${percent3}%`}></SmallProgress> : null}</div>
-                  <div style={{ width: '44px' }}>{record.obj[item.id].score > 0 ? <SmallProgress isColor={'green'} percent={`${percent2}%`}></SmallProgress> : null}</div>
-                </div>
-              </div>
+              const t = record.obj[item.id].score;
+              if (t< 0) {
+                return <BIWrapperProgress isColor="red" text={t} percent={`${percent3}%`} style={{marginLeft: '-8px'}}/>
+              } else {
+                return <BIWrapperProgress isColor="green" text={t}  percent={`${percent2}%`} style={{marginLeft: '-8px'}}/>
+              }
             }
             return <div>
               {
