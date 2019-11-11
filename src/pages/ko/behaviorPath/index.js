@@ -2,12 +2,12 @@ import React from 'react';
 import { Input, message } from 'antd';
 import { connect } from 'dva';
 import BhTabs from './components/BhTabs';
-import Study from './components/study';
-import Im from './components/im';
-import Bbs from './components/bbs';
-import WeChart from './components/weChart';
+import StudyWrap from './components/study/studyWrap';
+import ImWrap from './components/im/imWrap';
+import BBsWrap from './components/bbs/BBsWrap';
+import WechartWrap from './components/weChart/wechartWrap';
 import UserInfo from './components/userInfo';
-import PrivateLetter from './components/privateLetter';
+import LetterWrap from './components/privateLetter/letterWrap';
 import UserPortary from './components/userPortary';
 import Score from './components/score';
 
@@ -239,9 +239,6 @@ class BehaviorPath1 extends React.Component {
     }
     const sutId = this.state.inputStuId || pathParams.userId;
 
-    console.log(1,this.state.searchType)
-    console.log(2,this.state.activeKey)
-    console.log(3,userInfoParams)
     return (
       <>
         <div className={styles.behaviorPath}>
@@ -250,34 +247,22 @@ class BehaviorPath1 extends React.Component {
           <div className={styles.layoutbg}>
             <div className={styles.tabBox}>
               <BhTabs onChange={this.onTabChange} animated={false} defaultActiveKey={this.state.activeKey}>
-                <TabPane tab="画像" key="6">
-                </TabPane>
-                <TabPane tab="学习" key="1">
-                  <Study stuId={sutId}></Study>
-                </TabPane>
-                <TabPane tab="IM" key="2" className="abc">
-                  <Im stuId={sutId}></Im>
-                </TabPane>
-                <TabPane tab="微信" key="3">
-                  <WeChart stuId={sutId}></WeChart>
-                </TabPane>
-                <TabPane tab="BBS" key="4">
-                  <Bbs stuId={sutId}></Bbs>
-                </TabPane>
-                <TabPane tab="私信" key="5">
-                  <PrivateLetter stuId={sutId}></PrivateLetter>
-                </TabPane>
+                <TabPane tab="画像" key="6" />
+                <TabPane tab="学习" key="1" />
+                <TabPane tab="IM" key="2" className="abc"/>
+                <TabPane tab="微信" key="3"/>
+                <TabPane tab="BBS" key="4"/>
+                <TabPane tab="私信" key="5"/>
                 <TabPane tab="成绩" key="7"></TabPane>
               </BhTabs>
             </div>
-            <div style={{ marginTop: '40px' }}>
-              {
-                ((this.state.searchType && this.state.searchType === '6') || (!this.state.searchType && this.state.activeKey === '6') || (this.state.searchType && this.state.searchType === '7') || (!this.state.searchType && this.state.activeKey === '7')) ? null : userInfoParams ?
-                  <UserInfo info={userInfoParams}></UserInfo> : null
-              }
-            </div>
-            <div
-              className={styles.inputBox}>
+            {/*<div style={{ marginTop: '40px' }}>*/}
+              {/*{*/}
+                {/*((this.state.searchType && this.state.searchType === '6') || (!this.state.searchType && this.state.activeKey === '6') || (this.state.searchType && this.state.searchType === '7') || (!this.state.searchType && this.state.activeKey === '7')) ? null : userInfoParams ?*/}
+                  {/*<UserInfo info={userInfoParams}></UserInfo> : null*/}
+              {/*}*/}
+            {/*</div>*/}
+            <div className={styles.inputBox}>
               <Search
                 allowClear
                 placeholder="输入学员ID"
@@ -307,6 +292,26 @@ class BehaviorPath1 extends React.Component {
         {
           ((this.state.searchType && this.state.searchType === '7') || (!this.state.searchType && this.state.activeKey === '7')) ?
             <Score stuId={sutId} info={userInfoParams}/> : null
+        }
+        {
+          ((this.state.searchType && this.state.searchType === '1') || (!this.state.searchType && this.state.activeKey === '1')) ?
+            <StudyWrap stuId={sutId} info={userInfoParams}/> : null
+        }
+        {
+          ((this.state.searchType && this.state.searchType === '2') || (!this.state.searchType && this.state.activeKey === '2')) ?
+            <ImWrap stuId={sutId} info={userInfoParams}/> : null
+        }
+        {
+          ((this.state.searchType && this.state.searchType === '3') || (!this.state.searchType && this.state.activeKey === '3')) ?
+            <WechartWrap stuId={sutId} info={userInfoParams}/> : null
+        }
+        {
+          ((this.state.searchType && this.state.searchType === '4') || (!this.state.searchType && this.state.activeKey === '4')) ?
+            <BBsWrap stuId={sutId} info={userInfoParams}/> : null
+        }
+        {
+          ((this.state.searchType && this.state.searchType === '5') || (!this.state.searchType && this.state.activeKey === '5')) ?
+            <LetterWrap stuId={sutId} info={userInfoParams}/> : null
         }
       </>
     );
