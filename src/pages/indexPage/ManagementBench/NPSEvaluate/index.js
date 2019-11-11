@@ -87,6 +87,7 @@ class NPSEvaluate extends React.Component {
       collegeId: (userInfo && userInfo.collegeId) || (this.state.groupId.length > 0 && this.state.groupId[0]) || null,
       familyId: (userInfo && userInfo.familyId) || (this.state.groupId.length > 0 && this.state.groupId[1]) || null,
       groupId: (userInfo && userInfo.groupId) || (this.state.groupId.length > 0 && this.state.groupId[2]) || null,
+      star: this.state.star==='0'?null:Number(this.state.star),
       pageNum: null,
       pageSize: null
     }

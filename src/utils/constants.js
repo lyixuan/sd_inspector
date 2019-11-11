@@ -526,7 +526,7 @@ export const WB_STAR = [
   {id:'3',name:'3星'},
   {id:'2',name:'2星'},
   {id:'1',name:'1星'},
-  {id:'11',name:'1-3星'},
+  {id:'6',name:'1-3星'},
 ];
 
 // 需要用于global filter 进行数据筛选的，必须加到default里
