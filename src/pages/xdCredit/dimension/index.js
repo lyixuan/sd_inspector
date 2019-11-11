@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Skeleton } from 'antd';
 import BITable from '@/ant_components/BITable';
-import IndentNum from '../../indexPage/components/indentNum';
 import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
+import open from '@/assets/xdCredit/open.png';
+import close from '@/assets/xdCredit/close.png';
 import BILoading from '@/components/BILoading';
 import styles from './style.less'
 
@@ -132,13 +132,18 @@ class Dimension extends React.Component {
             dataSource={dataSource}
             // defaultExpandAllRows={true}
             rowClassName={this.setRowClassName}
-            expandIcon={() => <a />}
+            expandIcon={() => <img src={open} alt=""/>}
             pagination={false}
             onRow={this.onClickRow}
             indentSize={10}
             rowKey={record => record.id}
             smalled={true}
-            expandedRowKeys={[1,3,4,]}
+            // expandedRowRender= {record => <p>11111</p>}
+            // expandedRowKeys={[1]}
+            defaultExpandedRowKeys={[1,2,10]}
+            onExpand={(a, b, c) => {console.log(999,a, b, c)}}
+            onExpandedRowsChange={(a, b, c) => {console.log(768,a, b, c)}}
+            expandRowByClick={true}
           /> : <BITable
               columns={this.columns()}
               pagination={false}
