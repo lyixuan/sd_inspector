@@ -122,7 +122,7 @@ class currentCreditRight extends React.Component {
         dataIndex: 'creditRankingCoefficient',
         key: 'creditRankingCoefficient',
         render: text => <BITextAlign textalign='left'>{text}</BITextAlign>
-      }, {
+      }, {   
         title: '学分',
         dataIndex: 'credit',
         key: 'credit',
