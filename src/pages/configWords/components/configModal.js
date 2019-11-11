@@ -201,7 +201,7 @@ class ConfigModal extends React.Component {
             <ul className={styles.right}>
               {
                 questionList.map((item) => {
-                  return <li className={styles.item} key={item.questionId}>
+                  return <li className={styles.item} key={item.sort}>
                     <QuestionItem
                       item={item}
                       knowledgeList={knowledgeList}

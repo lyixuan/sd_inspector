@@ -78,6 +78,7 @@ export default {
           item.knowledgeId = value;
           item.questionTypeId = 0;
           item.questionId = 0;
+          item.question = '';
         }
       });
       return {
@@ -90,7 +91,6 @@ export default {
     updateQuestionTypeId(state, {payload}) {
       let {sort, value} = payload;
       let data = JSON.parse(JSON.stringify(state)).configData;
-      console.log(value);
       data.questionList.forEach(item => {
         if (item.sort === sort) {
           item.questionTypeId = value;
@@ -106,11 +106,10 @@ export default {
 
     // 更改配置数据的引导问题列表的某一项的questionId
     updateQuestionId(state, {payload}) {
-      let {sort, value, question, questionTypeId} = payload;
+      let {sort, value, question} = payload;
       let data = JSON.parse(JSON.stringify(state)).configData;
       data.questionList.forEach(item => {
         if (item.sort === sort) {
-          // item.questionTypeId = questionTypeId;
           item.questionId = value;
           item.question = question;
         }

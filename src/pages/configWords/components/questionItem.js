@@ -55,7 +55,8 @@ class QuestionItem extends React.Component {
         showSearch
         optionFilterProp="children"
         notFoundContent="未查找到相关数据"
-        onChange={this.onSelectThreeChange}>
+        onChange={this.onSelectThreeChange}
+        key={Math.random()}>
         {
           questions.map((item) => {
             return <Option value={item.questionId} key={item.questionId}>
@@ -104,6 +105,7 @@ class QuestionItem extends React.Component {
   onSelectTwoChange = (value) => {
     let {sort, knowledgeId} = this.props.item;
     this._getQuestions(knowledgeId, value);
+    // this.props.onChange();
     this.props.dispatch({
       type: 'configWords/updateQuestionTypeId',
       payload: {
