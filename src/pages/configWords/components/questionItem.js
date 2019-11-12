@@ -50,7 +50,7 @@ class QuestionItem extends React.Component {
       <Select
         className={styles.question}
         loading={questionsLoading}
-        defaultValue={item.questionId === 0 ? undefined : item.questionId}
+        defaultValue={item.question === "" ? undefined : item.question}
         placeholder="选择标准问题"
         showSearch
         optionFilterProp="children"

@@ -166,10 +166,10 @@ class ConfigModal extends React.Component {
             <span className={styles.footerText}>{remindText2}</span>
           </div>
         }
-        width={940}
+        width={920}
         destroyOnClose={true}
         onCancel={this.closeModal}>
-        <div className={styles.content}>
+        <div className={styles['config-modal-content']}>
           {contentTop}
           {/*上移下移部分*/}
           <div className={styles.changeSort}>
@@ -205,6 +205,7 @@ class ConfigModal extends React.Component {
                     <QuestionItem
                       item={item}
                       knowledgeList={knowledgeList}
+                      key={item.questionId}
                       onChange={() => {
                         setTimeout(() => {
                           this._validateQuestionList()

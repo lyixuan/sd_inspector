@@ -5,8 +5,7 @@ import {
   Button,
   Popover,
   Modal,
-  Icon,
-  message} from 'antd';
+  Icon} from 'antd';
 import BITable from '@/ant_components/BITable';
 import BIPagination from '@/ant_components/BIPagination';
 import InputComponent from '@/pages/configWords/components/inputComponent';
