@@ -109,9 +109,11 @@ class BasicLayout extends React.PureComponent {
     } else {
       const {pathname} = this.props.location||{};
       const num = pathname.indexOf('/fromEmail')>0?pathname.indexOf('/fromEmail'):1000;
-      router.push({
-        pathname: pathname.substring(0,num)
-      });
+      if(num!==1000){
+        router.push({
+          pathname: pathname.substring(0,num)
+        });
+      }
     }
   }
 
