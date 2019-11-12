@@ -1,5 +1,5 @@
 import React from 'react';
-import BIWrapperProgress from '@/pages/indexPage/components/BIRepeatProgress';
+import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BIWrapperTable from '../../../components/BIWrapperTable';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIIcon from '@/components/BIIcon';

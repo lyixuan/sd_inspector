@@ -5,7 +5,7 @@ import styles from './style.less';
 import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
 import normal from '@/assets/xdFamily/rankNormal.png';
-import BIWrapperProgress from '@/pages/indexPage/components/BIRepeatProgress';
+import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import { Link } from 'dva/router';
 import BILoading from '@/components/BILoading'
 

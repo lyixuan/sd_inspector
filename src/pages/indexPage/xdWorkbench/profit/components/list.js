@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import BISelect from '@/ant_components/BISelect';
-import BIWrapperProgress from '@/pages/indexPage/components/BIRepeatProgress';
+import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BIWrapperTable from '../../../components/BIWrapperTable';
 import BIButton from '@/ant_components/BIButton';
 import styles from '../style.less';
