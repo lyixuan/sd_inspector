@@ -28,9 +28,9 @@ class Dimension extends React.Component {
         width: '170px',
         render: (text, record) => {
           if (record.level === 4) {    
-            return  <div style={{color: '#999999'}}>
+            return  <div className={styles.dimensionName}>
               <span>{text}</span>
-                { record.num > 0 ? <span>{record.num}{record.unit}</span> : <span>{record.num}{record.unit}</span>}
+              <span className={record.num > 0 ? styles.num : ''}>{record.num}{record.unit}</span>
             </div>
           } else {
             return <span style={{color: '#1B1C20'}}>{text}</span>
