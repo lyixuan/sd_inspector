@@ -12,10 +12,6 @@ export function redirectToLogin() {
   if(pathname){
     fromEmail = isFromEmail(pathname);
   }
-  console.log(pathname,fromEmail)
-  alert(pathname);
-  alert(fromEmail);
-  alert(pathname.substring(0,fromEmail));
   if(fromEmail) {
     window.location.href = `${serverUrl}?originPage=${origin}${pathname.substring(0,fromEmail)}`;
   } else {
@@ -33,8 +29,6 @@ export function casLogout() {
   if(pathname){
     fromEmail = isFromEmail(pathname);
   }
-  console.log('fromEmail',fromEmail);
-  alert(pathname)
   if(fromEmail) {
     const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${origin}${pathname.substring(0,fromEmail)}`;
     window.location.href = `${logoutUrl}${pageUrl}`;

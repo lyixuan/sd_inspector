@@ -19,7 +19,7 @@ import storage from '../utils/storage';
 import HeaderLayout from './Header';
 import { query } from './utils/query';
 import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
-import { redirectUrlParams, checkPathname } from '../utils/routeUtils';
+import { redirectUrlParams,redirectToLogin, checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
 
 // import router from 'umi/router';
@@ -125,13 +125,16 @@ class BasicLayout extends React.PureComponent {
     if (JSON.stringify(nextProps.menuData) !== JSON.stringify(this.props.menuData)) {
       this.setRedirectData(nextProps.menuData);
     }
-    const {pathname} = nextProps.location||{};
-    const num = pathname.indexOf('/fromEmail')>0?pathname.indexOf('/fromEmail'):1000;
-    console.log(33333,num)
-    if(num!==1000){
-      router.push({
-        pathname: pathname.substring(0,num)
-      });
+    if (checkoutLogin()) {
+      const {pathname} = nextProps.location||{};
+      const num = pathname.indexOf('/fromEmail')>0?pathname.indexOf('/fromEmail'):1000;
+      if(num!==1000){
+        router.push({
+          pathname: pathname.substring(0,num)
+        });
+      }
+    } else {
+      redirectToLogin()
     }
   }
 
