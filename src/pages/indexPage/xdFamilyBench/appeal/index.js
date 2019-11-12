@@ -10,11 +10,11 @@ import NPSEvaluate from './components/NPSEvaluate';
 import moment from 'moment';
 import styles from './style.less';
 
-@connect(({ xdManagementBench, xdWorkModal }) => ({
-  xdManagementBench,
+@connect(({ xdFamilyModal, xdWorkModal }) => ({
+  xdFamilyModal,
   userInfo: xdWorkModal.userInfo,
 }))
-class AppalCom extends React.Component {
+class Negative extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,31 +30,31 @@ class AppalCom extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     if (
-      nextProps.xdManagementBench.getCurrentDateRangeData &&
-      nextProps.xdManagementBench.getCurrentDateRangeData.startDate !== this.state.date.startDate
+      nextProps.xdFamilyModal.getCurrentDateRangeData &&
+      nextProps.xdFamilyModal.getCurrentDateRangeData.startDate !== this.state.date.startDate
     ) {
-      this.setState({ date: nextProps.xdManagementBench.getCurrentDateRangeData });
+      this.setState({ date: nextProps.xdFamilyModal.getCurrentDateRangeData });
     }
   }
-  // componentDidMount() {
-  //   this.props
-  //     .dispatch({
-  //       type: 'xdManagementBench/getCurrentDateRange',
-  //       payload: { params: { userType: 'family' } },
-  //     })
-  //     .then(res => {
-  //       this.setState({
-  //         date: {
-  //           startDate: res.startDate,
-  //           endDate: res.endDate,
-  //           kpiMonth: res.kpiMonth,
-  //         },
-  //       });
-  //     })
-  //     .then(res => {
-  //       this.getReasonListData();
-  //     });
-  // }
+  componentDidMount() {
+    this.props
+      .dispatch({
+        type: 'xdFamilyModal/getCurrentDateRange',
+        payload: { params: { userType: 'family' } },
+      })
+      .then(res => {
+        this.setState({
+          date: {
+            startDate: res.startDate,
+            endDate: res.endDate,
+            kpiMonth: res.kpiMonth,
+          },
+        });
+      })
+      .then(res => {
+        this.getReasonListData();
+      });
+  }
 
   componentDidUpdate() {
     if (this.props.location) {
@@ -108,7 +108,7 @@ class AppalCom extends React.Component {
       reasonTypeId: this.state.reasonTypeId,
     };
     this.props.dispatch({
-      type: 'xdManagementBench/reasonList',
+      type: 'xdFamilyModal/reasonList',
       payload: { params },
     });
     // this.getImDetail();
@@ -118,8 +118,8 @@ class AppalCom extends React.Component {
     const { date } = this.state;
     const { userInfo = {} } = this.props;
     return (
-      <Container title="本期申诉" style={{ width: '60%' }} propStyle={{ paddingLeft: '16px' }}>
-        {/* {date.startDate && userInfo && <ScoreContrast date={date} userInfo={userInfo} />}
+      <div style={{ width: '100%' }}>
+        {/* {date.startDate && userInfo && <ScoreContrast date={date} userInfo={userInfo} />} */}
         <div className={styles.qualityAppel}>
           {userInfo && (
             <IMPartLeft
@@ -131,11 +131,15 @@ class AppalCom extends React.Component {
           )}
           {date.startDate && <IMPartRight date={date} />}
         </div>
-        {date.startDate && userInfo && <NPSEvaluate ref="five" date={date} userInfo={userInfo} />} */}
-        <Appeal />
-      </Container>
+        {date.startDate && userInfo && <NPSEvaluate ref="five" date={date} userInfo={userInfo} />}
+        <div>
+          <Container title="本期申诉" propStyle={{ paddingLeft: '16px' }}>
+            <Appeal />
+          </Container>
+        </div>
+      </div>
     );
   }
 }
 
-export default AppalCom;
+export default Negative;

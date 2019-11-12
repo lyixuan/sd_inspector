@@ -14,8 +14,8 @@ const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
 const { BI = {} } = window;
-@connect(({ xdManagementBench, xdCreditModal, xdWorkModal }) => ({
-  xdManagementBench,
+@connect(({ xdFamilyModal, xdCreditModal, xdWorkModal }) => ({
+  xdFamilyModal,
   xdCreditModal,
   userInfo: xdWorkModal.userInfo,
 }))
@@ -92,7 +92,7 @@ class NPSEvaluate extends React.Component {
       pageSize: null
     }
     this.props.dispatch({
-      type: 'xdManagementBench/getNpsAutonomousEvaluation',
+      type: 'xdFamilyModal/getNpsAutonomousEvaluation',
       payload: { params: params },
       callback: (res) => {
         this.setState({
@@ -104,7 +104,7 @@ class NPSEvaluate extends React.Component {
   // 组织 - 时间
   getUserOrgList = () => {
     this.props.dispatch({
-      type: 'xdManagementBench/getOrgMapTree',
+      type: 'xdFamilyModal/getOrgMapTree',
       payload: { params: {} },
       callback: res => {
         if (res && res.length > 0) {
@@ -162,7 +162,7 @@ class NPSEvaluate extends React.Component {
   rightPart = () => {
     // const {collegeOptions,orgValue} = this.state
     const { groupId = [0], userOrgConfig, dateArr,star } = this.state;
-    const { orgList } = this.props.xdManagementBench;
+    const { orgList } = this.props.xdFamilyModal;
     orgList.length > 0 && this.getResetGroupMsg(orgList)
     return (
       <div className={styles.con}>
