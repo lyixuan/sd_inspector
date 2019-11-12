@@ -16,13 +16,10 @@ class BIWrapperTable extends React.Component {
     this.state = {
       scrollWidth: 0,
       tableHeight: 0,
-      isEnter:false
     }
   }
   componentDidMount() { 
     if (this.props.name) {
-      // this.countWidth();
-      // this.onMouseLeave();
       this.countWidth();//计算表格滚动区域的宽度
       this.countHeight()//计算表格高度
       this.onMouseLeave();
@@ -30,7 +27,9 @@ class BIWrapperTable extends React.Component {
     }
   }
   componentWillUnmount() {
-    window.removeEventListener('resize', this.countWidth);
+    if (this.props.name) {
+      window.removeEventListener('resize', this.countWidth);
+    }
   }
   debounce(func, wait) {
     let timeout;
@@ -66,12 +65,13 @@ class BIWrapperTable extends React.Component {
     dom.style.overflowX = 'hidden';
   }
   render() {
+    console.log(this.state.tableHeight + this.props.xScroll)
     return (
       <div
         id={this.props.name}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
-        style={{ minHeight: this.props.xScroll ? this.state.tableHeight + 'px' : '' }}
+        style={{ minHeight: this.props.xScroll ? this.state.tableHeight + this.props.xScroll + 'px' : '' }}
         className={`${styles.BIWrapperTable} ${this.props.isEditTd ? styles.BIWrapperTable4 : ''} ${this.state.isEnter?'scorll-enter':'scorll-leave'}`}
       >
           <Table  {...this.props} />

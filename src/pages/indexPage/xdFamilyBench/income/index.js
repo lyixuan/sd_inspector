@@ -33,29 +33,29 @@ class Income extends React.Component {
       type: 'xdFamilyModal/getCurrentIncomeTarget',
       callback: data => this.setState({dataSet: [{
         img: income1,
-        title: '家族净流水',
+        title: '家族总流水',
         num: thousandsFormat(Math.floor(data.kpiFlow)),
-        tip: '本绩效周期内用户所在家族的创收净流水'
+        tip: '本绩效周期内用户所在家族的家族总流水'
       }, {
         img: income2,
-        title: '绩效排名',
+        title: '家族流水排名',
         num: `${data.ranking}/${data.familyCount}`,
-        tip: '本绩效周期内用户所在家族创收绩效在集团所有家族中的净流水的排名'
+        tip: '本绩效周期内用户所在家族创收绩效在集团所有家族中的流水的排名'
       }, {
         img: income3,
-        title: '好推绩效',
-        num: thousandsFormat(Math.floor(data.goodpushKpi)),
-        tip: '本绩效周期内用户所在家族好推绩效'
+        title: '好推流水',
+        num: thousandsFormat(Math.floor(data.goodpushFlow)),
+        tip: '本绩效周期内用户所在家族好推流水'
       }, {
         img: income4,
-        title: '续报绩效',
-        num: thousandsFormat(Math.floor(data.renewalKpi)),
-        tip: '本绩效周期内用户所在家族续报绩效'
+        title: '续报流水',
+        num: thousandsFormat(Math.floor(data.renewalFlow)),
+        tip: '本绩效周期内用户所在家族续报流水'
       }, {
         img: income5,
-        title: '成本套绩效',
-        num: thousandsFormat(Math.floor(data.examZbtKpi)),
-        tip: '本绩效周期内用户所在家族成本套绩效'
+        title: '成本套流水',
+        num: thousandsFormat(Math.floor(data.examZbtFlow)),
+        tip: '本绩效周期内用户所在家族成本套流水'
       }]})
     });
   }

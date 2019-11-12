@@ -183,7 +183,7 @@ class ProfitList extends React.Component {
               pagination={false}
               rowKey={record => record.orgId}
               rowClassName={this.getRowClassName}
-              scroll={{ y: 410 }}
+              scroll={{ y: 40 }}
             />
           </div>}
           <div id='scroll' className={`${yScrollFlag ? styles.scrollTable : ''} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
