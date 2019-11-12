@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout, Spin } from 'antd';
+import router from 'umi/router';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { ContainerQuery } from 'react-container-query';
@@ -81,6 +82,7 @@ class BasicLayout extends React.PureComponent {
     isMobile,
   };
 
+
   routerFlat = (routes) => {
     const that = this;
     for (let i = 0; i < routes.length; i++) {
@@ -104,12 +106,9 @@ class BasicLayout extends React.PureComponent {
   componentWillMount() {
     if (!checkoutLogin()) {
       this.initSysItem();
+    } else {
+
     }
-    // else {
-    //   router.push({
-    //     pathname:'/indexPage'
-    //   });
-    // }
   }
 
   componentDidMount() {
@@ -125,6 +124,14 @@ class BasicLayout extends React.PureComponent {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.menuData) !== JSON.stringify(this.props.menuData)) {
       this.setRedirectData(nextProps.menuData);
+    }
+    const {pathname} = nextProps.location||{};
+    const num = pathname.indexOf('/fromEmail')>0?pathname.indexOf('/fromEmail'):1000;
+    console.log(33333,num)
+    if(num!==1000){
+      router.push({
+        pathname: pathname.substring(0,num)
+      });
     }
   }
 
