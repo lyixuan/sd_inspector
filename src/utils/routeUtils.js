@@ -8,7 +8,15 @@ export function redirectToLogin() {
   localStorage.clear();
   const { origin,pathname } = window.location;
   const serverUrl = `${CAS_HOST}/tologin`;
-  window.location.href = `${serverUrl}?originPage=${origin}${pathname}`;
+  let fromEmail = false;
+  if(pathname){
+    fromEmail = isFromEmail(pathname);
+  }
+  if(fromEmail) {
+    window.location.href = `${serverUrl}?originPage=${origin}${pathname.substring(0,fromEmail)}`;
+  } else {
+    window.location.href = `${serverUrl}?originPage=${origin}`;
+  }
 }
 
 export function casLogout() {
@@ -17,8 +25,18 @@ export function casLogout() {
   localStorage.clear();
   const { origin,pathname } = window.location;
   const logoutUrl = `${CAS_HOST}/apis/caslogout?`;
-  const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${origin}${pathname}`;
-  window.location.href = `${logoutUrl}${pageUrl}`;
+  let fromEmail = false;
+  if(pathname){
+    fromEmail = isFromEmail(pathname);
+  }
+  console.log('fromEmail',fromEmail);
+  if(fromEmail) {
+    const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${origin}${pathname.substring(0,fromEmail)}`;
+    window.location.href = `${logoutUrl}${pageUrl}`;
+  } else {
+    const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${origin}`;
+    window.location.href = `${logoutUrl}${pageUrl}`;
+  }
 }
 export function checkPathname(path = '') {
   const data1 = storage.getUserAuth() || [];
@@ -27,4 +45,8 @@ export function checkPathname(path = '') {
   if (menuKey) {
     return true;
   } else return false;
+}
+
+function isFromEmail(pathname) {
+  return pathname.indexOf('/fromEmail')>0?pathname.indexOf('/fromEmail'):false;
 }
