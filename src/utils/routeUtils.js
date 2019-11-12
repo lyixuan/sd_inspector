@@ -6,11 +6,11 @@ export function redirectToLogin() {
   storage.removeItem('admin_user');
   storage.removeItem('admin_auth');
   localStorage.clear();
-  const { origin,pathname,search } = window.location;
+  const { origin,pathname } = window.location;
   const serverUrl = `${CAS_HOST}/tologin`;
   let fromEmail = false;
-  if(search){
-    fromEmail = isFromEmail(search);
+  if(pathname){
+    fromEmail = isFromEmail(pathname);
   }
   if(fromEmail) {
     window.location.href = `${serverUrl}?originPage=${origin}${pathname}`;
@@ -47,15 +47,6 @@ export function checkPathname(path = '') {
   } else return false;
 }
 
-function isFromEmail(search) {
-  let result  = false;
-  const str = search.substr(1);
-  const arr = str.split('&');
-  arr.forEach((v)=>{
-    const arrItem = v.split('=');
-    if(arrItem[0] && arrItem[0]==='src' && arrItem[1] && arrItem[1]==='email') {
-      result = true;
-    }
-  });
-  return result;
+function isFromEmail(pathname) {
+  return pathname.indexOf('/fromEmail')>0;
 }

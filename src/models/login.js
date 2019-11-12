@@ -47,7 +47,7 @@ export default {
       if (response.code === 2000) {
         const data = response.data || null;
         storage.setItem('admin_auth', data);
-        // yield put(routerRedux.push('/indexPage'));
+        yield put(routerRedux.push('/indexPage'));
         return true
       } else {
         message.error(response.msg);
