@@ -150,12 +150,11 @@ class Dimension extends React.Component {
       <div className={styles.dimension}>
         {
           dataSource.length > 0 ? <BITable
-            // defaultExpandedRowKeys={[1,2,10]}
-            // expandIcon={this.expandIconRender}
-            // expandedRowKeys={this.state.expandedRowKeys}
-            // onExpandedRowsChange={expandedRowKeys => this.onExpandedRowsChange(expandedRowKeys)}
+            defaultExpandedRowKeys={[1,2,10]}
+            expandIcon={this.expandIconRender}
+            expandedRowKeys={this.state.expandedRowKeys}
+            onExpandedRowsChange={expandedRowKeys => this.onExpandedRowsChange(expandedRowKeys)}
             columns={this.columns()}
-            defaultExpandAllRows={true}
             dataSource={dataSource}
             rowClassName={this.setRowClassName}
             onRow={this.onClickRow}

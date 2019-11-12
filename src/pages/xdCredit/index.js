@@ -102,7 +102,6 @@ class XdCredit extends React.Component {
     })
   }
   cellClick = (item, record, type) => {
-    console.log(96, item, record)
     let reasonTypeId = this.state.reasonTypeId;
     if (item) {
       reasonTypeId = item.typeId
