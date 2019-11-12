@@ -158,7 +158,7 @@ class currentCreditRight extends React.Component {
       this.state.userMsg = record;
       taClassName = "rowHover";
     }
-    if (this.getIncludes(this.getShowKey('pkValue'))) {
+    if (this.getIncludes(record[this.getShowKey('pkValue')])) {
       taClassName = 'rowSelect';
     }
     if (record.creditRankingCoefficient === 3) {
