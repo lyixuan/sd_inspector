@@ -110,6 +110,7 @@ class NPSEvaluate extends React.Component {
         (this.state.groupId.length > 0 && this.state.groupId[2]) ||
         null,
       star: this.state.star === '0' ? null : Number(this.state.star),
+      star: this.state.cycle === '0' ? null : Number(this.state.cycle),
       pageNum: null,
       pageSize: null,
     };
@@ -164,7 +165,6 @@ class NPSEvaluate extends React.Component {
     BI.traceV && BI.traceV({ widgetName: '星级筛选', traceName: '管理层工作台/NPS分析' });
     localStorage.setItem('NPSStar', star);
   };
-  
   onChangeCycle = cycle => {
     this.setState(
       {
