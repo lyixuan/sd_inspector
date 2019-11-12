@@ -27,16 +27,10 @@ class Dimension extends React.Component {
         rowClassName: styles.fontWeight,
         width: '170px',
         render: (text, record) => {
-          // if (record.sequenceNo) {
-          //   return <span><b>{record.sequenceNo} {text}</b></span>
-          // } else {
-          //   return <span>{text}</span>
-          // }
-          const vul = record.level === 4 && record.num > 0;
-          if (record.level === 4 && record.num > 0) {    
+          if (record.level === 4) {    
             return  <div style={{color: '#999999'}}>
               <span>{text}</span>
-                {/* { record.level === 4 && record.num > 0<span>{record.num}{record.unit}</span> } */}
+                { record.num > 0 ? <span>{record.num}{record.unit}</span> : <span>{record.num}{record.unit}</span>}
             </div>
           } else {
             return <span style={{color: '#1B1C20'}}>{text}</span>
