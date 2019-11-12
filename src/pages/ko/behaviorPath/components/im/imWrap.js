@@ -7,7 +7,6 @@ export default class ImWrap extends React.Component {
   render() {
     const { info={},stuId}  = this.props;
 
-    console.log(1111,stuId)
     return (
       <div  className={styles.layout}>
         <div className={styles.leftContent}>

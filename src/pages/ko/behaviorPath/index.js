@@ -36,7 +36,7 @@ class BehaviorPath1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeKey: '6',
+      activeKey: '7',
       study: true,
       im: true,
       weChart: true,
@@ -188,7 +188,7 @@ class BehaviorPath1 extends React.Component {
       return;
     } else if (e === '5' && !this.state.letter) {
       return;
-    } else if (e === '6') {
+    } else if (e === '6' || e === '7') {
       return;
     } else {
       this.getDateList(e);
@@ -235,10 +235,46 @@ class BehaviorPath1 extends React.Component {
     } else if (target.indexOf('study') == 0) {
       this.state.activeKey = '1';
     } else {
-      this.state.activeKey = '6';
+      this.state.activeKey = '7';
     }
     const sutId = this.state.inputStuId || pathParams.userId;
 
+    const scoreData = {
+      list: [
+        {
+          examDate:"201904",
+          examCount:1,
+          examDetailList:[{
+            examName:"语文",score:28,
+            scoreDesc:"aute aliquip qui"
+            }]
+          },
+        {
+          examDate:"201910",
+          examCount:3,
+          examDetailList:[{
+            examName:"数学",score:79,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"语文",score:28,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"化学",score:22,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"英语",score:99,
+            scoreDesc:"aute aliquip qui"
+          }]
+        },
+        {
+          examDate:"202004",
+          examCount:3,
+          examDetailList:[{
+            examName:"英语",score:99,
+            scoreDesc:"aute aliquip qui"
+          }]
+        }],
+      pageNum:1,total:20,pages:10};
     return (
       <>
         <div className={styles.behaviorPath}>
@@ -253,7 +289,7 @@ class BehaviorPath1 extends React.Component {
                 <TabPane tab="微信" key="3"/>
                 <TabPane tab="BBS" key="4"/>
                 <TabPane tab="私信" key="5"/>
-                <TabPane tab="成绩" key="7"></TabPane>
+                <TabPane tab="成绩" key="7" />
               </BhTabs>
             </div>
             {/*<div style={{ marginTop: '40px' }}>*/}
@@ -291,7 +327,7 @@ class BehaviorPath1 extends React.Component {
         }
         {
           ((this.state.searchType && this.state.searchType === '7') || (!this.state.searchType && this.state.activeKey === '7')) ?
-            <Score stuId={sutId} info={userInfoParams}/> : null
+            <Score stuId={sutId} info={userInfoParams} scoreData={scoreData} isLoading={this.props.portaryLoading}/> : null
         }
         {
           ((this.state.searchType && this.state.searchType === '1') || (!this.state.searchType && this.state.activeKey === '1')) ?
