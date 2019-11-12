@@ -4,8 +4,8 @@ import { connect } from 'dva';
 import styles from './style.less'
 const { BI = {} } = window;
 
-@connect((xdManagementBench) => ({
-  xdManagementBench,
+@connect((xdFamilyModal) => ({
+  xdFamilyModal,
 }))
 class TreeNames extends React.Component {
   constructor(props) {

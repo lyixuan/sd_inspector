@@ -10,9 +10,9 @@ import moment from 'moment';
 import Container from '@/components/BIContainer';
 
 
-@connect(({xdManagementBench,loading}) => ({
-  xdManagementBench,
-  loading: loading.effects['xdManagementBench/getNpsAutonomousEvaluation'],
+@connect(({xdFamilyModal,loading}) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/getNpsAutonomousEvaluation'],
 }))
 class NPSLeft extends React.Component {
   constructor(props) {

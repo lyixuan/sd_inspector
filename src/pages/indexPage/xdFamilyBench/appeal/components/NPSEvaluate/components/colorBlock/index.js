@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less'
 
-@connect((xdManagementBench) => ({
-  xdManagementBench,
+@connect((xdFamilyModal) => ({
+  xdFamilyModal,
 }))
 class colorBlock extends React.Component {
   constructor(props) {

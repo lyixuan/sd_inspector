@@ -5,10 +5,10 @@ import moment from 'moment'
 import TreeNames from '../components/treeNames'
 import Echart from '../components/echart'
 import EchartBottom from '../components/echartBottom'
-@connect(({xdManagementBench,loading,xdWorkModal}) => ({
-  xdManagementBench,
-  loading:loading.effects['xdManagementBench/queryAppealDataPage'],
-  times:xdManagementBench.getCurrentDateRangeData,
+@connect(({xdFamilyModal,loading,xdWorkModal}) => ({
+  xdFamilyModal,
+  loading:loading.effects['xdFamilyModal/queryAppealDataPage'],
+  times:xdFamilyModal.getCurrentDateRangeData,
   userInfo: xdWorkModal.userInfo,
 }))
 class CollegeScore extends React.Component {

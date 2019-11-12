@@ -14,9 +14,9 @@ const colors = [
   'rgba(255, 120, 120, .1)',
 ];
 
-@connect(({ xdManagementBench, loading }) => ({
-  xdManagementBench,
-  loading: loading.effects['xdManagementBench/reasonList'],
+@connect(({ xdFamilyModal, loading }) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/reasonList'],
 }))
 class IMPartLeft extends React.Component {
   constructor(props) {
@@ -48,7 +48,7 @@ class IMPartLeft extends React.Component {
     return columns || [];
   };
   render() {
-    const { imDetailData } = this.props.xdManagementBench || '';
+    const { imDetailData } = this.props.xdFamilyModal || '';
     const { userInfo } = this.props;
     return (
       <Container

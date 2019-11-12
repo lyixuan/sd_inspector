@@ -6,9 +6,9 @@ import BISelect from '@/ant_components/BISelect';
 import CollegeScore from './collegeScore';
 import moment from 'moment';
 const { Option } = BISelect;
-@connect(xdManagementBench => ({
-  xdManagementBench,
-  times: xdManagementBench.getCurrentDateRangeData,
+@connect(xdFamilyModal => ({
+  xdFamilyModal,
+  times: xdFamilyModal.getCurrentDateRangeData,
 }))
 class ScoreContrast extends React.Component {
   constructor(props) {
@@ -129,7 +129,7 @@ class ScoreContrast extends React.Component {
   componentDidMount() {
     this.queryAppealDataPage();
     this.props.dispatch({
-      type: 'xdManagementBench/getFamilyType',
+      type: 'xdFamilyModal/getFamilyType',
       payload: { params: {} },
       callback: res => {
         this.setState({
@@ -161,7 +161,7 @@ class ScoreContrast extends React.Component {
     console.log('params', params);
     this.setState({ queryParams: params });
     this.props.dispatch({
-      type: 'xdManagementBench/queryAppealDataPage',
+      type: 'xdFamilyModal/queryAppealDataPage',
       payload: { params: params },
       callback: res => {
         this.setState({
