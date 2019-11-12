@@ -196,7 +196,7 @@ class ProfitList extends React.Component {
               onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
               scroll={{ y: 250 }}
-              name={this.getShowKey('mineFlag') === 'myFamily' ? 'abc1' : 'abc2'}
+              name={this.getShowKey('mineFlag') === 'myFamily' ? 'djlabc11' : 'djlabc12'}
             />
           </div>
         </div>
