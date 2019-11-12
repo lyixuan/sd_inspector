@@ -213,7 +213,7 @@ export function thousandsFormatBigger(num, type) {
   } else {
     newNum1 = num;
   }
-  if (String(newNum1).length >= 7) {
+  if (String(newNum1).length >= 6) {
     if (type) {
       return (
         <>
