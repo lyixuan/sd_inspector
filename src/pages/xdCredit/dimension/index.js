@@ -12,6 +12,12 @@ import styles from './style.less'
   loading: loading.effects['xdCreditModal/getDimensionList'],
 }))
 class Dimension extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      expandedRowKeys: [1, 2, 10]
+    }
+  }
   columns = () => {
     const columns = [
       {
@@ -30,53 +36,24 @@ class Dimension extends React.Component {
         }
       }, {
         width: 90,
-        title: '学分',
-        dataIndex: 'score',
-        key: 'score',
-        className: 'txRight',
-        render: text => {
-          return <div>{text}</div>
-        }
-      }, {
-        width: 90,
-        title: '环比(%)',
+        title: '学分/环比',
         dataIndex: 'scoreRatio',
         className: 'txRight',
         key: 'scoreRatio',
-        render: text => {
+        render: (text, record) => {
           const num = Number(text);
           const imgSrc = num > 0 ? up : down;
           return (
-            <div>
-              {num == 0 ? text : <span>{text}{text == 'N/A' ? null : <img style={{ marginLeft: '3px', width: '10px', height: '12px' }} src={imgSrc} />}</span>}
+            <div className={styles.scoreRatio}>
+              <span className={styles.score}>{record.score}</span>
+              <span className={styles.ratio}>{text}{text === 'N/A' || num === 0 ? '' : <img src={imgSrc} alt=""/>}</span>
             </div>
           )
         }
-      }, {
-        width: 105,
-        title: '数量',
-        dataIndex: 'num',
-        className: 'txRight',
-        key: 'num',
-        render: (text, record) => <div style={{ whiteSpace: 'nowrap' }}>
-          {record.level === 4 && <div style={{ cursor: text ? 'pointer' : '' }}>
-            {text > 99999 ? 99999 + '+' : text}{record.unit}
-            {text ? <span className={styles.greenColor} style={{ marginLeft: '5px' }}>></span> : ''}
-          </div>}
-        </div>
-      }
+      },
     ];
     return columns || [];
   };
-  // 组织row
-  // setRowClassName = (r) => {
-  //   if (this.props.dementionId === r.id) {
-  //     return styles.selectedRow;
-  //   } else if (r.level === 4 && r.num) {
-  //     return styles.clickRow;
-  //   }
-  //   return styles['rowBg' + r.level]
-  // }
   setRowClassName = record => {
     let className = ''
     if (this.props.dementionId === record.id) {
@@ -90,13 +67,21 @@ class Dimension extends React.Component {
     }
     return className
   }
-  fillDataSource = (params = [], n = 1, flagMark) => {
+  fillDataSource = (params = [], n = 1, flagMark, record) => {
     params.map(item => {
       item.level = n;
       item.flagMark = item.dimensionName === '学分均分' ? 3 : flagMark; // 1 正面均分  2 负面均分 3学分均分 其它
+      if (record && item.level === 3) { // 获取正面均分 和 负面均分下一级的别的id
+        record.childrenIds.push(item.id);
+      }
       if (item.children && item.children.length > 0) {
         const mark = item.dimensionName === '学分均分' ? 1 : (item.dimensionName === '负面均分' ? 2 : flagMark);
-        this.fillDataSource(item.children, n + 1, mark);
+        if (item.id === 2 || item.id === 10) { // 获取正面均分 和 负面均分下一级的别的id
+          item.childrenIds = [];
+          this.fillDataSource(item.children, n + 1, mark, item);
+        } else {
+          this.fillDataSource(item.children, n + 1, mark, record ? record : '');
+        }
       }
     })
     return params
@@ -104,8 +89,6 @@ class Dimension extends React.Component {
   onClickRow = (record) => {
     return {
       onClick: () => {
-
-        // document.body.scrollTop = document.documentElement.scrollTop = 0;
         if (record.level === 4 && record.num) {
           const obj = { widgetName: record.dimensionName, traceName: `数据服务/学分明细/${record.dimensionName}` }
           const { BI = {} } = window;
@@ -119,39 +102,69 @@ class Dimension extends React.Component {
       }
     };
   }
+  // 正负极点击事件
+  onExpandLevel = record => {
+    const { expandedRowKeys } = this.state;
+    record.panelProps = !record.panelProps;
+    if (record.panelProps) {  
+      record.childrenIds.map(addVal => {
+        if (!expandedRowKeys.includes(addVal)) {
+          expandedRowKeys.push(addVal);
+        }
+      });
+    } else {
+      record.childrenIds.map(delVal => {
+        if (expandedRowKeys.includes(delVal)) {
+          expandedRowKeys.splice(expandedRowKeys.indexOf(delVal), 1)
+        }
+      });
+    }
+    this.setState({expandedRowKeys});
+  }
+  // 展开关闭图标渲染
+  expandIconRender = (panelProps) => {
+    if (panelProps.record.level === 2) {
+      if (panelProps.record.panelProps) {
+        return <img src={close} onClick={() => this.onExpandLevel(panelProps.record)} className={styles.expandIcon} alt=""/>
+      } else {
+        return <img src={open} onClick={() => this.onExpandLevel(panelProps.record)} className={styles.expandIcon} alt=""/>
+      }
+    } else if (panelProps.record.level === 3) {
+      if (panelProps.expanded) {
+        return <img src={close} onClick={panelProps.onExpand} className={styles.expandIcon} alt=""/>
+      } else {
+        return <img src={open} onClick={panelProps.onExpand} className={styles.expandIcon} alt=""/>
+      }
+    } else {
+      return <img src={open} style={{width: 0}} alt=""/>
+    }
+  }
+  // 得到打开关闭的值
+  onExpandedRowsChange = expandedRowKeys => {
+    this.setState({expandedRowKeys})
+  }
 
   render() {
     const dataSource = this.fillDataSource(this.props.dimensionData.dimensionList);
     return (
       <div className={styles.dimension}>
-        {/* <Skeleton loading={this.props.loading} > */}
         {
-          this.props.loading && this.props.dimisionLoadingStatus ? <BILoading isLoading={this.props.loading} /> : dataSource.length > 0 ? <BITable
-            columns={this.columns()}
-            bordered
-            dataSource={dataSource}
-            // defaultExpandAllRows={true}
-            rowClassName={this.setRowClassName}
-            expandIcon={() => <img src={open} alt=""/>}
-            pagination={false}
-            onRow={this.onClickRow}
-            indentSize={10}
-            rowKey={record => record.id}
-            smalled={true}
-            // expandedRowRender= {record => <p>11111</p>}
-            // expandedRowKeys={[1]}
+          dataSource.length > 0 ? <BITable
             defaultExpandedRowKeys={[1,2,10]}
-            onExpand={(a, b, c) => {console.log(999,a, b, c)}}
-            onExpandedRowsChange={(a, b, c) => {console.log(768,a, b, c)}}
-            expandRowByClick={true}
-          /> : <BITable
-              columns={this.columns()}
-              pagination={false}
-              onRow={this.onClickRow}
-              rowKey={record => record.id}
-            />
+            expandIcon={this.expandIconRender}
+            expandedRowKeys={this.state.expandedRowKeys}
+            onExpandedRowsChange={expandedRowKeys => this.onExpandedRowsChange(expandedRowKeys)}
+            columns={this.columns()}
+            dataSource={dataSource}
+            rowClassName={this.setRowClassName}
+            onRow={this.onClickRow}
+            loading={this.props.loading}
+            rowKey={record => record.id}
+            pagination={false}
+            smalled={true}
+            bordered
+          /> : ''
         }
-        {/* </Skeleton> */}
       </div>
 
     );
