@@ -65,13 +65,12 @@ class BIWrapperTable extends React.Component {
     dom.style.overflowX = 'hidden';
   }
   render() {
-    console.log(this.state.tableHeight + this.props.xScroll)
     return (
       <div
         id={this.props.name}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
-        style={{ minHeight: this.props.xScroll ? this.state.tableHeight + this.props.xScroll + 'px' : '' }}
+        style={{ minHeight: this.props.xScroll ? this.props.xScroll + 'px' : '' }}
         className={`${styles.BIWrapperTable} ${this.props.isEditTd ? styles.BIWrapperTable4 : ''} ${this.state.isEnter?'scorll-enter':'scorll-leave'}`}
       >
           <Table  {...this.props} />

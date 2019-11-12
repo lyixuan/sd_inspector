@@ -53,12 +53,14 @@ class ProfitTbas extends React.Component {
         key: 'kpiFlow',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.kpiFlow)} style={{marginLeft: '-8px'}}/>)
       }, {
+        className: styles.rowBg2,
         width: 140,
         title: '好推流水',
         dataIndex: 'goodpushFlow',
         key: 'goodpushFlow',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushFlow)} style={{marginLeft: '-8px'}}/>)
       }, {
+        className: styles.rowBg2,
         width: 140,
         title: '好推绩效',
         dataIndex: 'goodpushKpi',
@@ -73,35 +75,35 @@ class ProfitTbas extends React.Component {
         render: (text, record) => this.getColumn(record, <BITextAlign style={{marginRight: 8}}>{text}</BITextAlign>)
       }, {
         width: 140,
-        className: styles.rowBg2,
+        className: styles.rowBg3,
         title: '续报流水',
         dataIndex: 'renewalFlow',
         key: 'renewalFlow',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalFlow)} style={{marginLeft: '-8px'}}/>)
       }, {
         width: 140,
-        className: styles.rowBg2,
+        className: styles.rowBg3,
         title: '续报绩效',
         dataIndex: 'renewalKpi',
         key: 'renewalKpi',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalKpi)} style={{marginLeft: '-8px'}}/>)
       }, {
         width: 140,
-        className: styles.rowBg2,
+        className: styles.rowBg3,
         title: '续报单量',
         dataIndex: 'renewalOrderCount',
         key: 'renewalOrderCount',
         render: (text, record) => this.getColumn(record, <BITextAlign style={{marginRight: 8}}>{text}</BITextAlign>)
       }, {
         width: 140,
-        className: styles.rowBg3,
+        className: styles.rowBg4,
         title: '成本套流水',
         dataIndex: 'examZbtFlow',
         key: 'examZbtFlow',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtFlow)} style={{marginLeft: '-8px'}}/>)
       }, {
         width: 140,
-        className: styles.rowBg3,
+        className: styles.rowBg4,
         title: '成本套绩效',
         dataIndex: 'examZbtKpi',
         key: 'examZbtKpi',

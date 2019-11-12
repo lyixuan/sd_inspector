@@ -50,7 +50,7 @@ class pkDimension extends React.Component {
       columns.push({
         width: '12%',
           title: <div>
-          {index > 0 ? item[this.getShowKey('columnOrgName')] : '我的'}
+          {item[this.getShowKey('columnOrgName')]}
           {index > 0 ? <BIIcon onClick={() => this.props.handleDelete(item[pkValue])} /> : ''}
         </div>,
         dataIndex: item[pkValue],
