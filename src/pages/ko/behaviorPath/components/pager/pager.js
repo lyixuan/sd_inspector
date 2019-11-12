@@ -173,7 +173,7 @@ class Pager extends React.Component {
             />
           </span>
         </div>
-        <div className={styles.pagers}>
+        {this.props.total!==0?<div className={styles.pagers}>
           <BIPagination
             showQuickJumper
             showSizeChanger
@@ -184,7 +184,7 @@ class Pager extends React.Component {
             current={this.state.page}
             total={this.props.total}
           />
-        </div>
+        </div>:null}
       </>
     );
   }
