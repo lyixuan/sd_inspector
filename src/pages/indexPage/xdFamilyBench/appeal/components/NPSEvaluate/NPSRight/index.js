@@ -5,9 +5,9 @@ import Echart from '../../scoreContrast/components/echart'
 import BILoading from '@/components/BILoading'
 import EmptyBox from '@/assets/workBench/emptyBox.png'
 
-@connect(({xdManagementBench,loading}) => ({
-  xdManagementBench,
-  loading: loading.effects['xdManagementBench/getNpsAutonomousEvaluation'],
+@connect(({xdFamilyModal,loading}) => ({
+  xdFamilyModal,
+  loading: loading.effects['xdFamilyModal/getNpsAutonomousEvaluation'],
 }))
 class NPSLeft extends React.Component {
   constructor(props) {
