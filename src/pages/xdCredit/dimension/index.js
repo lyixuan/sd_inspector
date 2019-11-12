@@ -32,8 +32,14 @@ class Dimension extends React.Component {
           // } else {
           //   return <span>{text}</span>
           // }
-          if (record.sequenceNo) {
-            
+          const vul = record.level === 4 && record.num > 0;
+          if (record.level === 4 && record.num > 0) {    
+            return  <div style={{color: '#999999'}}>
+              <span>{text}</span>
+                {/* { record.level === 4 && record.num > 0<span>{record.num}{record.unit}</span> } */}
+            </div>
+          } else {
+            return <span style={{color: '#1B1C20'}}>{text}</span>
           }
         }
       }, {
