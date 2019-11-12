@@ -126,7 +126,7 @@ class BasicLayout extends React.PureComponent {
       this.setRedirectData(nextProps.menuData);
     }
     if (checkoutLogin()) {
-      alert(1);
+      // alert(1);
       const {pathname} = nextProps.location||{};
       const num = pathname.indexOf('/fromEmail')>0?pathname.indexOf('/fromEmail'):1000;
       if(num!==1000){
@@ -135,7 +135,7 @@ class BasicLayout extends React.PureComponent {
         });
       }
     } else {
-      alert(2);
+      // alert(2);
       redirectToLogin()
     }
   }
