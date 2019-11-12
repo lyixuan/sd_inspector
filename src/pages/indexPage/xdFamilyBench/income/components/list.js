@@ -4,8 +4,7 @@ import BITable from '@/ant_components/BITable';
 import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
 import normal from '@/assets/xdFamily/rankNormal.png';
-import BITextAlign from '@/pages/indexPage/components/BITextAlign';
-import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import BIWrapperProgress from '@/pages/indexPage/components/BIRepeatProgress';
 import { thousandsFormat } from '@/utils/utils';
 import styles from './style.less';
 import BILoading from '@/components/BILoading'
