@@ -249,7 +249,7 @@ class AiForm extends React.Component {
                               dropdownClassName={styles.popupClassName}
                               getPopupContainer={triggerNode => triggerNode.parentNode}
                               allowClear>
-                      {evaluationList.map((item, index) => <Option key={index + 1} value={index}>{item}</Option>)}
+                      {evaluationList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}
                 </Form.Item>
