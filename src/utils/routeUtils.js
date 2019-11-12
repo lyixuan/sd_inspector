@@ -7,6 +7,7 @@ export function redirectToLogin() {
   storage.removeItem('admin_auth');
   localStorage.clear();
   const { origin,pathname } = window.location;
+  alert(pathname)
   const serverUrl = `${CAS_HOST}/tologin`;
   let fromEmail = false;
   if(pathname){
