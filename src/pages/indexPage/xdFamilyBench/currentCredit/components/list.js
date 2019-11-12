@@ -195,7 +195,7 @@ class ProfitList extends React.Component {
             onRow={this.onClickRow}
             rowKey={(record, index) => index}
             scroll={{ x: 'max-content'}}
-            xScroll={profitList.length * 40 + 8}
+            xScroll={profitList.length * 40 + 56}
             smalled
             name="djlabc5"
             // bordered={true}
