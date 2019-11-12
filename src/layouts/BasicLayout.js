@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout, Spin } from 'antd';
+import router from 'umi/router';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { ContainerQuery } from 'react-container-query';
@@ -81,6 +82,7 @@ class BasicLayout extends React.PureComponent {
     isMobile,
   };
 
+
   routerFlat = (routes) => {
     const that = this;
     for (let i = 0; i < routes.length; i++) {
@@ -104,12 +106,13 @@ class BasicLayout extends React.PureComponent {
   componentWillMount() {
     if (!checkoutLogin()) {
       this.initSysItem();
+    } else {
+      const {pathname} = this.props.location||{};
+      const num = pathname.indexOf('/fromEmail')>0?pathname.indexOf('/fromEmail'):1000;
+      router.push({
+        pathname: pathname.substring(0,num)
+      });
     }
-    // else {
-    //   router.push({
-    //     pathname:'/indexPage'
-    //   });
-    // }
   }
 
   componentDidMount() {
