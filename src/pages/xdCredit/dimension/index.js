@@ -30,41 +30,21 @@ class Dimension extends React.Component {
         }
       }, {
         width: 90,
-        title: '学分',
-        dataIndex: 'score',
-        key: 'score',
-        className: 'txRight',
-        render: text => {
-          return <div>{text}</div>
-        }
-      }, {
-        width: 90,
-        title: '环比(%)',
+        title: '学分/环比',
         dataIndex: 'scoreRatio',
         className: 'txRight',
         key: 'scoreRatio',
-        render: text => {
+        render: (text, record) => {
           const num = Number(text);
           const imgSrc = num > 0 ? up : down;
           return (
-            <div>
-              {num == 0 ? text : <span>{text}{text == 'N/A' ? null : <img style={{ marginLeft: '3px', width: '10px', height: '12px' }} src={imgSrc} />}</span>}
+            <div className={styles.scoreRatio}>
+              <span className={styles.score}>{record.score}</span>
+              <span className={styles.ratio}>{text}{text === 'N/A' || num === 0 ? '' : <img src={imgSrc} alt=""/>}</span>
             </div>
           )
         }
-      }, {
-        width: 105,
-        title: '数量',
-        dataIndex: 'num',
-        className: 'txRight',
-        key: 'num',
-        render: (text, record) => <div style={{ whiteSpace: 'nowrap' }}>
-          {record.level === 4 && <div style={{ cursor: text ? 'pointer' : '' }}>
-            {text > 99999 ? 99999 + '+' : text}{record.unit}
-            {text ? <span className={styles.greenColor} style={{ marginLeft: '5px' }}>></span> : ''}
-          </div>}
-        </div>
-      }
+      },
     ];
     return columns || [];
   };
@@ -119,46 +99,43 @@ class Dimension extends React.Component {
       }
     };
   }
+  // 展开关闭图标渲染
+  expandIconRender = (panelProps) => {
+    if (panelProps.record.level === 2 || panelProps.record.level === 3) {
+      if (panelProps.expanded) {
+        return <img src={close} onClick={panelProps.onExpand} className={styles.expandIcon} alt=""/>
+      } else {
+        return <img src={open} onClick={panelProps.onExpand} className={styles.expandIcon} alt=""/>
+      }
+    } else {
+      return <img src={open} style={{width: 0}} alt=""/>
+    }
+  }
 
   render() {
     const dataSource = this.fillDataSource(this.props.dimensionData.dimensionList);
     return (
       <div className={styles.dimension}>
-        {/* <Skeleton loading={this.props.loading} > */}
         {
-          this.props.loading && this.props.dimisionLoadingStatus ? <BILoading isLoading={this.props.loading} /> : dataSource.length > 0 ? <BITable
+          dataSource.length > 0 ? <BITable
             columns={this.columns()}
             bordered
             dataSource={dataSource}
             // defaultExpandAllRows={true}
             rowClassName={this.setRowClassName}
-            expandIcon={(panelProps) => {
-              console.log(111,panelProps )
-              if (panelProps) {
-                return <img src={open} alt=""/>
-              } else {
-                return <img src={close} alt=""/>
-              }
-            }}
+            expandIcon={this.expandIconRender}
             pagination={false}
             onRow={this.onClickRow}
-            indentSize={10}
+            // indentSize={40}
             rowKey={record => record.id}
             smalled={true}
-            // expandedRowRender= {record => <p>11111</p>}
-            // expandedRowKeys={[1]}
             defaultExpandedRowKeys={[1,2,10]}
             onExpand={(a, b, c) => {console.log(999,a, b, c)}}
-            onExpandedRowsChange={(a, b, c) => {console.log(768,a, b, c)}}
-            expandRowByClick={true}
-          /> : <BITable
-              columns={this.columns()}
-              pagination={false}
-              onRow={this.onClickRow}
-              rowKey={record => record.id}
-            />
+            // onExpandedRowsChange={(a, b, c) => {console.log(768,a, b, c)}}
+            // expandRowByClick={true}
+            loading={this.props.loading}
+          /> : ''
         }
-        {/* </Skeleton> */}
       </div>
 
     );
