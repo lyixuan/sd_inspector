@@ -339,7 +339,7 @@ class PrivateLetter extends React.Component {
           {this.state.dateList.length > 0 ? (
             <Layout dataLists={this.state.dateList} onClick={this.toggle} />
           ) : (
-              <Empty />
+              <div style={{textAlign:'center'}}><Empty /></div>
             )}
         </Spin>
         <Pager onClick={this.setIndex} type="5" total={total} stuId={this.props.stuId}></Pager>
