@@ -10,9 +10,8 @@ import NPSEvaluate from './components/NPSEvaluate';
 import moment from 'moment';
 import styles from './style.less';
 
-@connect(({ xdFamilyModal, xdManagementBench, xdWorkModal }) => ({
+@connect(({ xdManagementBench, xdWorkModal }) => ({
   xdManagementBench,
-  familyAppeal: xdFamilyModal.familyAppeal || {},
   userInfo: xdWorkModal.userInfo,
 }))
 class AppalCom extends React.Component {
@@ -37,25 +36,25 @@ class AppalCom extends React.Component {
       this.setState({ date: nextProps.xdManagementBench.getCurrentDateRangeData });
     }
   }
-  componentDidMount() {
-    this.props
-      .dispatch({
-        type: 'xdManagementBench/getCurrentDateRange',
-        payload: { params: { userType: 'family' } },
-      })
-      .then(res => {
-        this.setState({
-          date: {
-            startDate: res.startDate,
-            endDate: res.endDate,
-            kpiMonth: res.kpiMonth,
-          },
-        });
-      })
-      .then(res => {
-        this.getReasonListData();
-      });
-  }
+  // componentDidMount() {
+  //   this.props
+  //     .dispatch({
+  //       type: 'xdManagementBench/getCurrentDateRange',
+  //       payload: { params: { userType: 'family' } },
+  //     })
+  //     .then(res => {
+  //       this.setState({
+  //         date: {
+  //           startDate: res.startDate,
+  //           endDate: res.endDate,
+  //           kpiMonth: res.kpiMonth,
+  //         },
+  //       });
+  //     })
+  //     .then(res => {
+  //       this.getReasonListData();
+  //     });
+  // }
 
   componentDidUpdate() {
     if (this.props.location) {
@@ -120,7 +119,7 @@ class AppalCom extends React.Component {
     const { userInfo = {} } = this.props;
     return (
       <Container title="本期申诉" style={{ width: '60%' }} propStyle={{ paddingLeft: '16px' }}>
-        {date.startDate && userInfo && <ScoreContrast date={date} userInfo={userInfo} />}
+        {/* {date.startDate && userInfo && <ScoreContrast date={date} userInfo={userInfo} />}
         <div className={styles.qualityAppel}>
           {userInfo && (
             <IMPartLeft
@@ -132,7 +131,7 @@ class AppalCom extends React.Component {
           )}
           {date.startDate && <IMPartRight date={date} />}
         </div>
-        {date.startDate && userInfo && <NPSEvaluate ref="five" date={date} userInfo={userInfo} />}
+        {date.startDate && userInfo && <NPSEvaluate ref="five" date={date} userInfo={userInfo} />} */}
         <Appeal />
       </Container>
     );
