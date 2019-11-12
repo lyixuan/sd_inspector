@@ -30,7 +30,6 @@ class Pager extends React.Component {
       pageSize: 10,
       page: 1,
     };
-
   }
 
   componentDidMount() {
