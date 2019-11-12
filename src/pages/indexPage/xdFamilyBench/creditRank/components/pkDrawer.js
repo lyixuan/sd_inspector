@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import BIWrapperProgress from '@/pages/indexPage/components/BIRepeatProgress';
+import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIWrapperTable from '../../../components/BIWrapperTable';
 import BIButton from '@/ant_components/BIButton';
