@@ -116,7 +116,7 @@ class appeal extends React.Component {
   render() {
     const dataSource = this.props.familyAppeal[tabSource[this.state.appealType]] || [];
     return (
-      <div title="本期申诉" style={{ width: '60%' }} propStyle={{ paddingLeft: '16px' }}>
+      <div>
         <BIRadio
           onChange={this.handleChange}
           value={this.state.appealType}
