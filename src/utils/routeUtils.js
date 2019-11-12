@@ -47,6 +47,6 @@ export function checkPathname(path = '') {
 }
 
 function isFromEmail(pathname) {
-  alert(pathname);
+  // alert(pathname);
   return pathname.indexOf('/fromEmail')>0?pathname.indexOf('/fromEmail'):false;
 }
