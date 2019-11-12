@@ -166,7 +166,7 @@ class ProfitTbas extends React.Component {
           rowClassName={this.getRowClassName}
           bordered={true}
           scroll={{ x: 'max-content' }}
-          name="djlabc"
+          name={this.props.incomeType === '小组' ? "djlGroupe" : 'djlFamily'}
         />
         {
           pkUsers && pkUsers.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt=''/></div>
