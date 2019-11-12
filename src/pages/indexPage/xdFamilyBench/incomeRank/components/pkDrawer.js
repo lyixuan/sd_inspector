@@ -93,7 +93,7 @@ class ProfitList extends React.Component {
         key: 'orgName',
       }, {
         width: '20%',
-        title: '创收绩效',
+        title: '创收总流水',
         dataIndex: 'kpiFlow',
         key: 'kpiFlow',
         render: text => {
@@ -101,7 +101,7 @@ class ProfitList extends React.Component {
           return <BIWrapperProgress text={thousandsFormatAll(text)} percent={percent}/>
         }
       }, {
-        title: '人均绩效在服学院',
+        title: '人均绩效在服学员',
         dataIndex: 'stuAvg',
         key: 'stuAvg',
         render: (text, record) => <BITextAlign>{text}</BITextAlign>
