@@ -27,12 +27,14 @@ class Dimension extends React.Component {
         rowClassName: styles.fontWeight,
         width: '170px',
         render: (text, record) => {
+          // if (record.sequenceNo) {
+          //   return <span><b>{record.sequenceNo} {text}</b></span>
+          // } else {
+          //   return <span>{text}</span>
+          // }
           if (record.sequenceNo) {
-            return <span><b>{record.sequenceNo} {text}</b></span>
-          } else {
-            return <span>{text}</span>
+            
           }
-
         }
       }, {
         width: 90,
