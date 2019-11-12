@@ -132,7 +132,14 @@ class Dimension extends React.Component {
             dataSource={dataSource}
             // defaultExpandAllRows={true}
             rowClassName={this.setRowClassName}
-            expandIcon={() => <img src={open} alt=""/>}
+            expandIcon={(panelProps) => {
+              console.log(111,panelProps )
+              if (panelProps) {
+                return <img src={open} alt=""/>
+              } else {
+                return <img src={close} alt=""/>
+              }
+            }}
             pagination={false}
             onRow={this.onClickRow}
             indentSize={10}
