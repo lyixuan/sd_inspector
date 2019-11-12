@@ -6,6 +6,7 @@ import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
 import normal from '@/assets/xdFamily/rankNormal.png';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import BIWrapperTable from '../../../components/BIWrapperTable2';
 import { Link } from 'dva/router';
 import BILoading from '@/components/BILoading'
 
@@ -187,14 +188,16 @@ class ProfitList extends React.Component {
     return (
       <BILoading isLoading={this.props.loading}>
         <div className={styles.tableList}>
-            <BITable
+            <BIWrapperTable
             columns={this.columns()}
             dataSource={profitList}
             pagination={false}
             onRow={this.onClickRow}
             rowKey={(record, index) => index}
-            scroll={{ x: 'max-content', y: 420 }}
+            scroll={{ x: 'max-content'}}
+            xScroll={profitList.length * 40 + 8}
             smalled
+            name="djlabc5"
             // bordered={true}
             />
         </div>
