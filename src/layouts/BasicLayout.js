@@ -107,13 +107,7 @@ class BasicLayout extends React.PureComponent {
     if (!checkoutLogin()) {
       this.initSysItem();
     } else {
-      const {pathname} = this.props.location||{};
-      const num = pathname.indexOf('/fromEmail')>0?pathname.indexOf('/fromEmail'):1000;
-      if(num!==1000){
-        router.push({
-          pathname: pathname.substring(0,num)
-        });
-      }
+
     }
   }
 
@@ -130,6 +124,14 @@ class BasicLayout extends React.PureComponent {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.menuData) !== JSON.stringify(this.props.menuData)) {
       this.setRedirectData(nextProps.menuData);
+    }
+    const {pathname} = nextProps.location||{};
+    const num = pathname.indexOf('/fromEmail')>0?pathname.indexOf('/fromEmail'):1000;
+    console.log(33333,num)
+    if(num!==1000){
+      router.push({
+        pathname: pathname.substring(0,num)
+      });
     }
   }
 
