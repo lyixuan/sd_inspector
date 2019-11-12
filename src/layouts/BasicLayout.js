@@ -135,8 +135,7 @@ class BasicLayout extends React.PureComponent {
         });
       }
     } else {
-      // alert(2);
-      redirectToLogin()
+      // redirectToLogin()
     }
   }
 
