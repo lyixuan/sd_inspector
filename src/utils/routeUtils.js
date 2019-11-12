@@ -13,7 +13,7 @@ export function redirectToLogin() {
     fromEmail = isFromEmail(pathname);
   }
   if(fromEmail) {
-    window.location.href = `${serverUrl}?originPage=${origin}${pathname}`;
+    window.location.href = `${serverUrl}?originPage=${origin}${pathname.substring(0,fromEmail)}`;
   } else {
     window.location.href = `${serverUrl}?originPage=${origin}`;
   }
@@ -23,15 +23,15 @@ export function casLogout() {
   storage.removeItem('admin_user');
   storage.removeItem('admin_auth');
   localStorage.clear();
-  const { origin,pathname,search } = window.location;
+  const { origin,pathname } = window.location;
   const logoutUrl = `${CAS_HOST}/apis/caslogout?`;
   let fromEmail = false;
-  if(search){
-    fromEmail = isFromEmail(search);
+  if(pathname){
+    fromEmail = isFromEmail(pathname);
   }
-  console.log('fromEmail',fromEmail)
+  console.log('fromEmail',fromEmail);
   if(fromEmail) {
-    const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${origin}${pathname}`;
+    const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${origin}${pathname.substring(0,fromEmail)}`;
     window.location.href = `${logoutUrl}${pageUrl}`;
   } else {
     const pageUrl = `pageUrl=${CAS_HOST}/tologin?originPage=${origin}`;
@@ -48,5 +48,5 @@ export function checkPathname(path = '') {
 }
 
 function isFromEmail(pathname) {
-  return pathname.indexOf('/fromEmail')>0;
+  return pathname.indexOf('/fromEmail')>0?pathname.indexOf('/fromEmail'):false;
 }
