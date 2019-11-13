@@ -72,7 +72,9 @@ class appeal extends React.Component {
                 }
               </div>
             ) : text ? (
-              <div className={styles.rankMarkGreen}>{text}</div>
+              <div className={styles.rankMarkGreen}>
+                <a href="" target="_blank">{text}</a>
+              </div>
             ) : (
               text
             )}
@@ -83,26 +85,41 @@ class appeal extends React.Component {
         title: '底线',
         dataIndex: 'bottomLineNum',
         key: 'bottomLineNum',
+        render: (text, record) => (
+          <>{text ? <div className={styles.rankMarkGreen}>{text}</div> : text}</>
+        ),
       },
       {
         title: 'IM',
         dataIndex: 'imNum',
         key: 'imNum',
+        render: (text, record) => (
+          <>{text ? <div className={styles.rankMarkGreen}>{text}</div> : text}</>
+        ),
       },
       {
         title: '工单',
         dataIndex: 'orderNum',
         key: 'orderNum',
+        render: (text, record) => (
+          <>{text ? <div className={styles.rankMarkGreen}>{text}</div> : text}</>
+        ),
       },
       {
         title: '优新',
         dataIndex: 'newExcellentNum',
         key: 'newExcellentNum',
+        render: (text, record) => (
+          <>{text ? <div className={styles.rankMarkGreen}>{text}</div> : text}</>
+        ),
       },
       {
         title: '创收',
         dataIndex: 'incomeNum',
         key: 'incomeNum',
+        render: (text, record) => (
+          <>{text ? <div className={styles.rankMarkGreen}>{text}</div> : text}</>
+        ),
       },
     ];
     return columns || [];

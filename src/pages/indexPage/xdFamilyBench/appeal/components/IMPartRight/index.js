@@ -32,9 +32,9 @@ class IMPartRight extends React.Component {
   columnsRight = () =>{
     const columns = [
       {
-        title: '学院',
-        dataIndex: 'college',
-        key: 'college',
+        title: '组织',
+        dataIndex: 'groupName',
+        key: 'groupName',
         // width:"26%"
       }, {
         title: '差评率',

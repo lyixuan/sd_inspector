@@ -7,6 +7,7 @@ import ScoreContrast from './components/scoreContrast';
 import IMPartLeft from './components/IMPartLeft';
 import IMPartRight from './components/IMPartRight';
 import NPSEvaluate from './components/NPSEvaluate';
+import Quality from '../quality/index';
 import moment from 'moment';
 import styles from './style.less';
 
