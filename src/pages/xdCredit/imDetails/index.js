@@ -4,7 +4,6 @@ import { connect } from 'dva';
 import BITable from '@/ant_components/BITable';
 import BIClassifyTable from '@/components/BIClassifyTable';
 import BILoading from '@/components/BILoading';
-import router from 'umi/router';
 import styles from './style.less';
 import {
   pathImUrl,
@@ -124,7 +123,9 @@ class CreditImDetials extends React.Component {
     this.props.defaultPage(pageSize);
   }
   handleNameClick = (id) => {
-    jumpMarkingDetails(id, { target: 'im' })
+    if (id) {
+      jumpMarkingDetails(id, { target: 'im' })
+    }
   }
   columnsTable = () => {
     const columns = [{
@@ -171,7 +172,7 @@ class CreditImDetials extends React.Component {
         key: 'stuName',
         // width: 80,
         render: (text, record) => {
-          return <span data-trace='{"widgetName":"选择学员","traceName":"数据服务/学分明细/不满意会话/选择学员"}' onClick={() => this.handleNameClick(record.stuId)} style={{ color: "#00CCC3", cursor: 'pointer' }}>{strLen(text, 6)}</span>
+          return <span data-trace='{"widgetName":"选择学员","traceName":"数据服务/学分明细/不满意会话/选择学员"}' onClick={() => this.handleNameClick(record.stuId)} style={ record.stuId ? { color: "#00CCC3", cursor: 'pointer' } : {}}>{strLen(text, 6)}</span>
         }
       },
       {

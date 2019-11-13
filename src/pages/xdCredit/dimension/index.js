@@ -5,6 +5,7 @@ import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
 import open from '@/assets/xdCredit/open.png';
 import close from '@/assets/xdCredit/close.png';
+import mingxi from '@/assets/xdCredit/mingxi.png';
 import BILoading from '@/components/BILoading';
 import styles from './style.less'
 
@@ -24,20 +25,19 @@ class Dimension extends React.Component {
         title: this.props.dimensionData.groupFullName,
         dataIndex: 'dimensionName',
         key: 'dimensionName',
-        rowClassName: styles.fontWeight,
-        width: '170px',
+        className: styles.selected,
+        width: 146,
         render: (text, record) => {
           if (record.level === 4) {    
-            return  <div className={styles.dimensionName}>
+            return  <div onClick={() => this.onClickRow(record)} className={styles.dimensionName}>
               <span>{text}</span>
-              <span className={record.num > 0 ? styles.num : ''}>{record.num}{record.unit}</span>
+              <span className={record.num > 0 ? styles.num : ''}>{record.num}{record.unit} {record.num > 0 ?<img src={mingxi} alt=""/> : ''}</span>
             </div>
           } else {
             return <span style={{color: '#1B1C20'}}>{text}</span>
           }
         }
       }, {
-        width: 90,
         title: '学分/环比',
         dataIndex: 'scoreRatio',
         className: 'txRight',
@@ -57,17 +57,9 @@ class Dimension extends React.Component {
     return columns || [];
   };
   setRowClassName = record => {
-    let className = ''
     if (this.props.dementionId === record.id) {
       return styles.selectedRow;
-    } else if (record.flagMark === 3) {
-      className = 'yellowBgColor';
-    } else if (record.flagMark === 1) {
-      className = 'plusBgColor';
-    } else if (record.flagMark === 2) {
-      className = 'minusBgColor';
     }
-    return className
   }
   fillDataSource = (params = [], n = 1, flagMark, record) => {
     params.map(item => {
@@ -89,20 +81,16 @@ class Dimension extends React.Component {
     return params
   }
   onClickRow = (record) => {
-    return {
-      onClick: () => {
-        if (record.level === 4 && record.num) {
-          const obj = { widgetName: record.dimensionName, traceName: `数据服务/学分明细/${record.dimensionName}` }
-          const { BI = {} } = window;
-          this.props.onChangeParams(record.id, 'dementionId');
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          })
-          BI.traceV && BI.traceV(obj);
-        }
-      }
-    };
+    if (record.level === 4 && record.num) {
+      const obj = { widgetName: record.dimensionName, traceName: `数据服务/学分明细/${record.dimensionName}` }
+      const { BI = {} } = window;
+      this.props.onChangeParams(record.id, 'dementionId');
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      })
+      BI.traceV && BI.traceV(obj);
+    }
   }
   // 正负极点击事件
   onExpandLevel = record => {
@@ -138,7 +126,7 @@ class Dimension extends React.Component {
         return <img src={open} onClick={panelProps.onExpand} className={styles.expandIcon} alt=""/>
       }
     } else {
-      return <img src={open} style={{width: 0}} alt=""/>
+      return
     }
   }
   // 得到打开关闭的值
@@ -159,9 +147,9 @@ class Dimension extends React.Component {
             columns={this.columns()}
             dataSource={dataSource}
             rowClassName={this.setRowClassName}
-            onRow={this.onClickRow}
             loading={this.props.loading}
             rowKey={record => record.id}
+            indentSize={10}
             pagination={false}
             smalled={true}
             bordered
