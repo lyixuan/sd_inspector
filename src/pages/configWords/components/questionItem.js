@@ -24,11 +24,12 @@ class QuestionItem extends React.Component {
       questionsLoading
     } = this.state;
 
-    return <div>
+    return <div id="scrollArea">
       <Select
         defaultValue={item.knowledgeId ? item.knowledgeId : undefined}
         className={styles.knowledge}
         placeholder="选择知识库"
+        getPopupContainer={() => document.getElementById('scrollArea')}
         onChange={this.onSelectOneChange}>
         {
           knowledgeList.map((item) => {
@@ -44,6 +45,7 @@ class QuestionItem extends React.Component {
         defaultValue={item.questionTypeId ? item.questionTypeId : undefined}
         treeData={questionType}
         dropdownStyle={{ height: 300 }}
+        getPopupContainer={() => document.getElementById('scrollArea')}
         onChange={this.onSelectTwoChange}
         key={Math.random()}>
       </TreeSelect>
@@ -55,6 +57,7 @@ class QuestionItem extends React.Component {
         showSearch
         optionFilterProp="children"
         notFoundContent="未查找到相关数据"
+        getPopupContainer={() => document.getElementById('scrollArea')}
         onChange={this.onSelectThreeChange}
         key={Math.random()}>
         {
