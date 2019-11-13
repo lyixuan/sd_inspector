@@ -83,12 +83,13 @@ class ConfigModal extends React.Component {
       </div>
     }
     if (title === "配置实体词") {
-      contentTop = <div className={styles.keywords}>
+      contentTop = <div className={styles.keywords} id="entity">
         <span className={styles.label}>{title}：</span>
         <Select
           style={{width: 200, height: 32}}
           defaultValue={entityWordId ? entityWordId : undefined}
           placeholder="选择实体词"
+          getPopupContainer={() => document.getElementById('entity')}
           onChange={this.changeEntityOption}>
           {
             entityOptionList.map(item => {
@@ -100,12 +101,13 @@ class ConfigModal extends React.Component {
       </div>
     }
     if (title === "配置组合词") {
-      contentTop = <div className={styles.keywords}>
+      contentTop = <div className={styles.keywords} id="combine">
         <div style={{marginBottom: 8}}>
           <Select
             style={{width: 136, height: 30, marginRight: 8}}
             defaultValue={word1Type ? word1Type : undefined}
             placeholder="选择类型"
+            getPopupContainer={() => document.getElementById('combine')}
             onChange={this.word1TypeChange}>
             <Option value={1}>关键词</Option>
             <Option value={2}>实体词</Option>
@@ -116,6 +118,7 @@ class ConfigModal extends React.Component {
             defaultValue={word1Id ? word1Id : undefined}
             value={word1Id ? word1Id : undefined}
             placeholder={placeholderOne}
+            getPopupContainer={() => document.getElementById('combine')}
             onChange={this.word1IdChange}>
             {
               option1.map(item => {
@@ -128,7 +131,9 @@ class ConfigModal extends React.Component {
           <Select
             style={{width: 136, height: 30, marginRight: 8}}
             defaultValue={word2Type ? word2Type : undefined}
-            placeholder="选择类型" onChange={this.word2TypeChange}>
+            placeholder="选择类型"
+            getPopupContainer={() => document.getElementById('combine')}
+            onChange={this.word2TypeChange}>
             <Option value={1}>关键词</Option>
             <Option value={2}>实体词</Option>
           </Select>
@@ -138,6 +143,7 @@ class ConfigModal extends React.Component {
             defaultValue={word2Id ? word2Id : undefined}
             value={word2Id ? word2Id : undefined}
             placeholder={placeholderTwo}
+            getPopupContainer={() => document.getElementById('combine')}
             onChange={this.word2IdChange}>
             {
               option2.map(item => {
