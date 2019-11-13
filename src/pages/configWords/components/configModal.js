@@ -383,7 +383,11 @@ class ConfigModal extends React.Component {
     }
 
     if (title === "配置实体词") {
+      let {remindText1} = this.state;
       let {entityWordId} = configData;
+      if (remindText1 !== '') {
+        return;
+      }
       if (!entityWordId) {
         this.setState({
           remindText1: '请先选择实体词再进行保存'

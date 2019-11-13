@@ -86,15 +86,15 @@ class QuestionItem extends React.Component {
   componentDidMount() {
     const  {knowledgeId, questionTypeId} = this.props.item;
     this._getQuestionType(knowledgeId);
-    if (questionTypeId) {
-      this._getQuestions(knowledgeId, questionTypeId);
-    }
+    this._getQuestions(knowledgeId, questionTypeId);
   }
 
   // 第一个选择框改变时
   onSelectOneChange = (value) => {
-    let sort = this.props.item.sort;
+    const  {questionTypeId} = this.props.item;
     this._getQuestionType(value);
+    this._getQuestions(value, questionTypeId);
+    let sort = this.props.item.sort;
     this.props.dispatch({
       type: 'configWords/updateKnowledgeId',
       payload: {
@@ -120,6 +120,13 @@ class QuestionItem extends React.Component {
 
   // 第三个选择框改变时
   onSelectThreeChange = (value, option) => {
+    const {questions} = this.state;
+    let questionTypeId;
+    questions.forEach(item => {
+      if (item.questionId === value) {
+        questionTypeId = item.questionTypeId;
+      }
+    });
     let sort = this.props.item.sort;
     let question = option.props.children;
     this.props.onChange();
@@ -128,7 +135,8 @@ class QuestionItem extends React.Component {
       payload: {
         sort,
         value,
-        question
+        question,
+        questionTypeId
       }
     })
   };

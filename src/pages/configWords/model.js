@@ -106,12 +106,13 @@ export default {
 
     // 更改配置数据的引导问题列表的某一项的questionId
     updateQuestionId(state, {payload}) {
-      let {sort, value, question} = payload;
+      let {sort, value, question, questionTypeId} = payload;
       let data = JSON.parse(JSON.stringify(state)).configData;
       data.questionList.forEach(item => {
         if (item.sort === sort) {
           item.questionId = value;
           item.question = question;
+          item.questionTypeId = questionTypeId;
         }
       });
       return {
