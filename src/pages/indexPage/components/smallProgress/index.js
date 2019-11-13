@@ -1,13 +1,23 @@
 import React from 'react';
 import styles from './style.less'
 class SmallProgress extends React.Component {
+  getColorCalss = () => {
+    const { isColor } = this.props;
+    if (isColor === 'green') {
+      return styles.progressGreen;
+    } else if (isColor === 'leftred'){
+      return styles.leftRed;
+    } else {
+      return styles.progressRed;
+    }
+  }
   render() {
-    const {percent,isColor} = this.props
+    const { percent } = this.props;
     return(
       <>
-      <div className={styles.progressBg}>
-        <div className ={`${styles.progressCenter} ${isColor==="green"?styles.progressGreen:styles.progressRed}`} style={{width:percent}}></div>
-      </div>
+        <div className={styles.progressBg} style={this.props.style}>
+          {percent && percent !== '0%' && percent !== 'NaN%' ? <div className ={`${styles.progressCenter} ${this.getColorCalss()}`} style={{width:percent}}></div> : ''}
+        </div>
       </>
     )
   }

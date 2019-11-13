@@ -116,7 +116,6 @@ class PathUserInfo extends React.Component {
   render() {
     const info = this.props.info.user[0];
     const orderData = this.props.info.orderData;
-    console.log(119, info)
     const intent = getTransactionIntentionValue(this.props.enumDataIntention);
     return (
       <div className={styles.personIntro}>

@@ -284,6 +284,9 @@ class Study extends React.Component {
     if (this.state.dateList[index].collapse) {
       console.log('收起');
     } else {
+      const {BI = {}} = window;
+      BI.traceV && BI.traceV({widgetName:"学习展开",traceName:"学员查询/学员档案/学习展开"});
+
       if (this.state.dateList[index].dialogList.length < 1) {
         let date = this.state.dateList[index].date.replace(/[\u4e00-\u9fa5]/g, '-').split('-');
         date.length = 3;
@@ -297,14 +300,14 @@ class Study extends React.Component {
     const total = this.props.behaviorPath.studyTotal
     return (
       <div className={styles.comWrap}>
-        <Spin spinning={this.props.isLoading}>
-          {this.state.dateList.length > 0 ? (
-            <Layout dataLists={this.state.dateList} onClick={this.toggle} />
-          ) : (
+          <Spin spinning={this.props.isLoading}>
+            {this.state.dateList.length > 0 ? (
+              <Layout dataLists={this.state.dateList} onClick={this.toggle} />
+            ) : (
               <Empty />
             )}
-        </Spin>
-        <Pager onClick={this.setIndex} type="1" total={total} stuId={this.props.stuId}></Pager>
+          </Spin>
+          <Pager onClick={this.setIndex} type="1" total={total} stuId={this.props.stuId}></Pager>
       </div>
     );
   }

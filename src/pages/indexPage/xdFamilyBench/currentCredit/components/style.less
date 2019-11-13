@@ -1,5 +1,5 @@
 .tableList {
-    padding-top: 16px;
+	padding: 16px 24px 0px 24px;
     .row {
         background-color: #FAFFFF;
     }
@@ -19,10 +19,26 @@
 			cursor:pointer;
 		}
 		:global{
-			.ant-table-tbody > tr > td{
-				height:40px;
-				// padding-top:0;
-				padding-bottom:1px;
+			.ant-table-fixed-header .ant-table-scroll .ant-table-header {
+				overflow-y: hidden!important;
+			}
+			.ant-table-tbody > tr > td {
+				padding: 5px 16px 5px 8px;
+				text-align: right;
+			}
+			.ant-table-thead > tr > th {
+				padding-right: 16px;
+				text-align: right;
+			}
+			.ant-table-thead > tr:first-child > th:first-child, .ant-table-tbody > tr > td:first-child {
+				padding-left: 24px;
+				text-align: left;
+			}
+			.ant-table-thead > tr:first-child > th:nth-child(2), .ant-table-tbody > tr > td:nth-child(2) {
+				text-align: left;
+			}
+			.ant-table-thead > tr:first-child > th:nth-child(3), .ant-table-tbody > tr > td:nth-child(3),  .ant-table-thead > tr:first-child > th:nth-child(4), .ant-table-tbody > tr > td:nth-child(4) {
+				text-align: center;
 			}
 		}
 }

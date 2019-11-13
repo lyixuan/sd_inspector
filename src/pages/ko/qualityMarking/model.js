@@ -2,9 +2,7 @@ import { message } from 'antd';
 import { getOperatorList, getConsultTypeTree, getReasonTypeTree, getTableList, exportData } from './services';
 import { downBlob, msgF } from '@/utils/utils';
 import { getKOEnumList } from '@/pages/ko/services';
-
-
-
+import { emptyValue } from '@/pages/ko/utils/utils';
 export default {
   namespace: 'workTableModel',
 
@@ -14,6 +12,14 @@ export default {
     reasonList: [],
     operatorList: [],
     evaluateList: [{ id: 0, name: '空' }, { id: 1, name: '非空' }],// 以上都是 搜索框基本信息
+    // evaluationList: ['空', '正面', '负面', '中性', '全部'],
+    evaluationList: [
+      { id: 2, name: '负面' }, 
+      { id: 3, name: '中性' }, 
+      { id: 1, name: '正面' }, 
+      { id: 0, name: '空' }, 
+      { id: 4, name: '全部' }, 
+    ],
     pageParams: {// 各列表当前页
     },
     searchParams: {// 各列表搜索值
@@ -36,7 +42,7 @@ export default {
         yield put({ type: 'save', payload: { consultList: consultResult.data } });
       }
       if (reasonResult && reasonResult.code && reasonResult.code === 20000) {
-        yield put({ type: 'save', payload: { reasonList: [{ id: 0, name: '空' }].concat(reasonResult.data) } });
+        yield put({ type: 'save', payload: { reasonList: [{ id: emptyValue, name: '空' }].concat(reasonResult.data) } });
       }
     },
     *getTableList({ payload, callback }, { call, put, select }) {

@@ -1,0 +1,402 @@
+.detials {
+  background:#fff;
+  padding:16px 24px;
+  box-sizing:border-box;
+  border-radius:10px;
+  flex: 1;  
+  flex-shrink: 0;
+  overflow:hidden;
+  // :global .ant-table{
+  //   min-height:615px;
+  // }
+  .content{
+    width:170px;
+    background: #F6F7FA;
+    border-radius:6px;
+    line-height: 26px;
+    padding: 0 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow:hidden;
+  }
+}
+.classityBox{
+  min-height:200px;
+  // padding-bottom:16px;
+}
+.noneData {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  // border: 1px solid #E8EBF2;
+  border-radius: 10px;
+  img {
+      width: 241px;
+  }
+}
+// IM悬浮框样式
+.listMarkingTooltip {
+  max-width: 520px;
+  width: 520px;
+  :global {
+    .ant-tooltip-content{
+      opacity:1;
+    }
+    .ant-tooltip-arrow {
+      border-right-color: #ffffff!important;
+      //border-color: transparent transparent #fff #fff;
+    }
+    .ant-tooltip-inner {
+      padding: 20px 10px 20px 0px;
+      background-color: #ffffff;
+    }
+  }
+}
+.listMarkingTooltip2{
+  :global {
+      .ant-tooltip-content{
+        opacity:1;
+      }
+      .ant-tooltip-arrow {
+        border-right-color: #ffffff!important;
+      //   border-color: transparent transparent #fff #fff;
+      }
+      .ant-tooltip-inner {
+      //   padding: 20px 10px 20px 0px;
+        background-color: #ffffff;
+        color:#000;
+      }
+    }
+}
+// // 悬浮框对话样式
+.behavior {
+  padding: 0px;
+  margin-bottom: 0;
+  max-height: 340px;
+  overflow-y: auto;
+}
+.behavior li:last-child .content {
+  border: none;
+}
+.step {
+  display: flex;
+  align-items: flex-start;
+}
+.step .time {
+  min-width: 160px;
+  margin-top: 6px;
+  color: #ffffff;
+  text-align: right;
+  padding-right: 10px;
+  flex-shrink:0;
+  font-size: 13px;
+  color: #1B1C20;
+}
+.step .content {
+  //border-left: 1px solid #00CCC3;
+  padding-left: 10px;
+  position: relative;
+  padding-bottom: 5px;
+  flex: 1;
+}
+.step .content:after {
+  content: '';
+  position: absolute;
+  left: 0px;
+  top: 10px;
+  border-left: 1px solid #00CCC3;
+  height: 100%;
+}
+.step:last-child .content:after {
+  border: none;
+}
+.step .content .text {
+  padding-bottom: 30px;
+  margin-top: -4px;
+  padding-left: 30px;
+}
+.step .content .bigDot {
+  width: 12px;
+  height: 12px;
+  background: #00CCC3;
+  border-radius: 50px;
+  position: absolute;
+  left: -6px;
+  top: 10px;
+  z-index: 1;
+}
+.step .content .bigDot .dot {
+  width: 4px;
+  height: 4px;
+  display: block;
+  border-radius: 50px;
+  margin: 4px auto 0;
+  background: #fff;
+}
+.behavior .title .text,
+.behavior .title .time {
+  margin-top: -2px;
+  color: #000;
+  font-weight: bold;
+}
+.behavior .title .bigDot {
+  width: 17px;
+  height: 17px;
+  background: #fff;
+  border: 2px solid #48c2ba;
+  left: -8px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.behavior .title .bigDot .dot::before {
+  content: '-';
+  position: absolute;
+  left: 1px;
+  top: -8px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #48c2ba;
+}
+.behavior .title .plus .dot::before {
+  content: '+';
+  position: absolute;
+  left: 2px;
+  top: -5px;
+  font-size: 14px;
+  color: #48c2ba;
+}
+.behavior .title .plus .dot {
+  width: 8px;
+  height: 8px;
+}
+.behavior .chatLeft .avatar,
+.behavior .chatRight .avatar {
+  //text-align: center;
+  // height:55px;
+  //min-width:70px;
+  min-width: 40px;
+  margin-left: 6px;
+}
+.behavior .chatLeft .avatar img,
+.behavior .chatRight .avatar img {
+  width: 32px;
+  height: 32px;
+  border-radius: 100px;
+}
+.behavior .chatLeft .avatar p,
+.behavior .chatRight .avatar p {
+  font-size: 12px;
+  transform: scale(0.9);
+  margin-bottom:0;
+}
+.behavior .chatLeft,
+.behavior .chatRight {
+  display: flex;
+  align-items: flex-start;
+  padding-bottom:10px;
+}
+.behavior .chatLeft .chatContent {
+  max-width: 240px;
+  background-color: #f6f7fa;
+  //border: 1px solid #e8e8e8;
+  border-radius: 5px;
+  padding: 6px 10px;
+  position: relative;
+  word-break: break-all;
+  color: #595959;
+  .linkRoute {
+    color: #52C9C2;
+    text-decoration: underline;
+  }
+}
+.behavior .chatLeft .chatContentImg {
+  //max-width: 260px;
+  //width: 260px;
+  text-align: center;
+  padding: 3px;
+  border: 1px solid #E8E8E8;
+  border-radius: 0;
+  //margin-left: 15px;
+  img {
+    width: 254px;
+  }
+  .triangle {
+    border-color:transparent #E8E8E8 transparent transparent;
+    top:10px;
+    left:51px;
+  }
+  .triangle em{
+    border-color:transparent #FFFFFF transparent transparent;
+  }
+}
+.behavior .chatLeft .triangle {
+  display: block;
+  width: 0;
+  height: 0;
+  border-width: 5px 5px 5px 0;
+  border-style: solid;
+  border-color: transparent #f6f7fa transparent transparent;
+  position: absolute;
+  top: 10px;
+  left: -5px;
+}
+.behavior .chatLeft .triangle em {
+  display: block;
+  width: 0;
+  height: 0;
+  border-width: 5px 5px 5px 0;
+  border-style: solid;
+  border-color: transparent #f6f7fa transparent transparent;
+  position: absolute;
+  top: -5px;
+  left: 2px;
+}
+
+.behavior .chatRight {
+  //padding-left: 60px;
+  padding-bottom: 10px;
+  float: right;
+}
+.behavior .chatRight .chatContent {
+  max-width: 240px;
+  background-color: #00CCC3;
+  //border: 1px solid #00CCC3;
+  border-radius: 5px;
+  // margin-right: 15px;
+  padding: 6px 10px;
+  color: #ffffff;
+  box-sizing: border-box;
+  position: relative;
+  word-break: break-all;
+  .linkRoute {
+    color: #fff;
+    text-decoration: underline;
+  }
+}
+.behavior .chatRight .chatContentImg {
+  //max-width: 260px;
+  //width: 260px;
+  text-align: center;
+  padding: 3px;
+  border: 1px solid #E8E8E8;
+  border-radius: 0;
+  //margin-right: 15px;
+  img {
+    width: 254px;
+  }
+  .triangle {
+    border-color:transparent transparent transparent #E8E8E8;
+    top:10px;
+    right:41px;
+  }
+  .triangle em{
+    border-color:transparent transparent transparent #FFFFFF;
+  }
+}
+.behavior .chatRight .miniApp, .behavior .chatLeft .miniApp{
+  background:#fff;
+  border: 1px solid #48c2ba;
+  color:#000;
+  padding-top:10px;
+  padding-bottom:10px;
+}
+.behavior .chatRight .miniApp img,  .behavior .chatLeft .miniApp img{
+  margin-right:8px;
+}
+.behavior .chatRight .triangle {
+  display: block;
+  width: 0;
+  height: 0;
+  border-width: 5px 0 5px 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent #00CCC3;
+  position: absolute;
+  top: 10px;
+  right: -5px;
+}
+.behavior .chatRight .triangle em {
+  display: block;
+  width: 0;
+  height: 0;
+  border-width: 5px 0 5px 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent #00CCC3;
+  position: absolute;
+  top: -5px;
+  right: 2px;
+}
+.step .prise {
+  display: flex;
+  padding-left: 30px;
+  color: #52c9c2;
+  padding-bottom: 20px;
+}
+.step .prise .stars {
+  padding-left: 10px;
+}
+
+.step .prise img {
+  width: 15px;
+  vertical-align: middle;
+}
+.detailsTable {
+  min-height:200px;
+  :global{
+    .ant-table-tbody > tr > td, .ant-table-thead > tr > th{
+      white-space: nowrap;
+    }
+    .ant-table-thead > tr:first-child > th:first-child, .ant-table-tbody > tr > td:first-child{
+      padding-left:8px;
+    }
+  }
+}
+// bbs nps悬浮框样式
+.listMarkingTooltipOthers {
+  max-width: 520px;
+  :global {
+    .ant-tooltip-content{
+      opacity:1;
+    }
+    .ant-tooltip-arrow {
+      border-right-color: #ffffff!important;
+      //border-color: transparent transparent #fff #fff;
+    }
+    .ant-tooltip-inner {
+      padding: 14px;
+      background-color: #ffffff;
+      color: #1B1C20;
+      font-size: 13px;
+    }
+  }
+}
+
+// 表格宽度自适应
+.textEllipsis {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+@media screen and (min-width: 0) and (max-width: 1200px) {
+  .textorg {
+    width: 120px;
+  }
+  .textname {
+    width: 60px;
+  }
+}
+@media screen and (min-width: 1200px) and (max-width: 1500px) {
+  .textorg {
+    width: 180px;
+  }
+  .textname {
+    width: 60px;
+  }
+}
+@media screen and (min-width: 1500px) and (max-width: 3000px) {
+  .textname {
+    width: 100px;
+  }
+}

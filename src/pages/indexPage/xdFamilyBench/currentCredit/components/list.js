@@ -5,12 +5,14 @@ import styles from './style.less';
 import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
 import normal from '@/assets/xdFamily/rankNormal.png';
-import SmallProgress from '@/pages/indexPage/components/smallProgress'
+import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import BIWrapperTable from '../../../components/BIWrapperTable2';
 import { Link } from 'dva/router';
+import BILoading from '@/components/BILoading'
 
-@connect(({ xdWorkModal, loading }) => ({
-  xdWorkModal,
-  loading: loading.effects['xdWorkModal/scoreDetail']
+@connect(({ xdFamilyModal, loading }) => ({
+  familyKpiTimes: xdFamilyModal.familyKpiTimes || {},
+  loading: loading.effects['xdFamilyModal/scoreDetail']
 }))
 class ProfitList extends React.Component {
   constructor(props) {
@@ -26,7 +28,7 @@ class ProfitList extends React.Component {
   }
   getScoreStatistics() {
     this.props.dispatch({
-      type: 'xdWorkModal/scoreDetail',
+      type: 'xdFamilyModal/scoreDetail',
       payload: {},
       callback: (profitList) => this.setState({ profitList }),
     });
@@ -42,16 +44,15 @@ class ProfitList extends React.Component {
     return this.state.profitList
   }
 
-  flatTree({ id, name, score, children }, flag = 1, result = [], pid = "", level = 1) {
-    result = [{ id, name, score, pid, level, flag }]
+  flatTree({ id, dimensionName, score, children }, flag = 1, result = [], pid = "", level = 1) {
+    result = [{ id, dimensionName, score, pid, level, flag }]
     if (Array.isArray(children) && children.length) {
       children.reduce((result, data) => {
-        if (data.name === '负面均分') {
+        if (data.dimensionName === '负面均分') {
           result.push(...this.flatTree(data, 2, result, id, level + 1))
         } else {
           result.push(...this.flatTree(data, flag, result, id, level + 1))
         }
-        // result.push(...this.flatTree(data, result, id, level + 1))
         return result
       }, result)
     }
@@ -93,7 +94,7 @@ class ProfitList extends React.Component {
         },
         width: 110,
       }, {
-        title: '小组',
+        title: '家族/小组',
         dataIndex: 'groupName',
         key: 'groupName',
         fixed: 'left',
@@ -119,46 +120,46 @@ class ProfitList extends React.Component {
       // }) //获取第一名的正面均分和负面均分值
       arr.map(item => {
         if (item.level >= 4) return; //大于四级的不显示
-        if (item.flag == 1 && item.level != 1) {
+        if (item.flag === 1 && item.level !== 1) {
           className = styles.bgColor
-        } else if (item.flag == 2) {
+        } else if (item.flag === 2) {
           className = styles.bgColor2
         }
 
         item.level == 3 ? className2 = styles.cursor : className2 = ''
-        if (item.name == '调增学分' || item.name == '调减学分') return; //去掉调增调减学分
+        if (item.dimensionName == '调增学分' || item.dimensionName == '调减学分') return; //去掉调增调减学分
         columns.push({
-          title: item.name,
+          title: item.dimensionName,
           dataIndex: item.id,
           key: item.id,
           width: 110,
-          fixed: item.name == '学分均分' ? 'left' : '',
+          fixed: item.dimensionName == '学分均分' ? 'left' : '',
           className: `${className} ${className2}`,
           render: (text, record) => {
-            const { startTime, endTime } = this.props.xdWorkModal.familyKpiTimes
+            const { startTime, endTime } = this.props.familyKpiTimes
             const params = JSON.stringify({ "dementionId": record.obj[item.id].id, startTime, endTime, pageFrom: 'family' });
-            if (record.obj[item.id].name == '正面均分') {
+            if (record.obj[item.id].dimensionName == '正面均分') {
               arrPositiVe.push(record.obj[item.id].score)
               const numOneScorePositive = Math.max.apply(Math, arrPositiVe.map(item => item));
               const percent1 = (record.obj[item.id].score / numOneScorePositive * 100).toFixed(2);
-              return <div>
-                <div>{record.obj[item.id].score}</div>
-                <SmallProgress isColor="green" percent={`${percent1}%`}></SmallProgress>
-              </div>
+              // return <div>
+              //   <div>{record.obj[item.id].score}</div>
+              //   <SmallProgress isColor="green" percent={`${percent1}%`}></SmallProgress>
+              // </div>
+              return <BIWrapperProgress text={record.obj[item.id].score} isColor="green" percent={`${percent1}%`} style={{marginLeft: '-8px'}}/>
             }
-            if (record.obj[item.id].name == '负面均分') {
+            if (record.obj[item.id].dimensionName == '负面均分') {
               record.obj[item.id].score >= 0 ? arrNegative1.push(record.obj[item.id].score) : arrNegative2.push(Math.abs(record.obj[item.id].score))
               const numOneScoreNegative1 = Math.max.apply(Math, arrNegative1.map(item => item)); //正值
               const numOneScoreNegative2 = Math.max.apply(Math, arrNegative2.map(item => item)); //负值
               const percent2 = (record.obj[item.id].score / numOneScoreNegative1 * 100).toFixed(2); //正值
               const percent3 = (Math.abs(record.obj[item.id].score) / numOneScoreNegative2 * 100).toFixed(2);//负值
-              return <div>
-                <div style={{ paddingLeft: '20px' }}>{record.obj[item.id].score}</div>
-                <div style={{ display: 'flex' }}>
-                  <div style={{ width: '44px' }}>{record.obj[item.id].score < 0 ? <SmallProgress isColor={'red'} percent={`${percent3}%`}></SmallProgress> : null}</div>
-                  <div style={{ width: '44px' }}>{record.obj[item.id].score > 0 ? <SmallProgress isColor={'green'} percent={`${percent2}%`}></SmallProgress> : null}</div>
-                </div>
-              </div>
+              const t = record.obj[item.id].score;
+              if (t< 0) {
+                return <BIWrapperProgress isColor="red" text={t} percent={`${percent3}%`} style={{marginLeft: '-8px'}}/>
+              } else {
+                return <BIWrapperProgress isColor="green" text={t}  percent={`${percent2}%`} style={{marginLeft: '-8px'}}/>
+              }
             }
             return <div>
               {
@@ -185,20 +186,22 @@ class ProfitList extends React.Component {
   render() {
     const { profitList = [] } = this.state;
     return (
-      <div className={styles.tableList}>
-        <BITable
-          columns={this.columns()}
-          dataSource={profitList}
-          pagination={false}
-          loading={this.props.loading}
-          onRow={this.onClickRow}
-          // rowKey={record => record.id}
-          rowKey={(record, index) => index}
-          scroll={{ x: 'max-content', y: 420 }}
-          smalled
-        />
-      </div>
-
+      <BILoading isLoading={this.props.loading}>
+        <div className={styles.tableList}>
+            <BIWrapperTable
+            columns={this.columns()}
+            dataSource={profitList}
+            pagination={false}
+            onRow={this.onClickRow}
+            rowKey={(record, index) => index}
+            scroll={{ x: 'max-content'}}
+            xScroll={profitList.length * 40 + 56}
+            smalled
+            name="djlabc5"
+            // bordered={true}
+            />
+        </div>
+      </BILoading>
     );
   }
 }

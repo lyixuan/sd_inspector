@@ -26,7 +26,6 @@ class PlugSelect extends React.Component {
   triggerChange = (changedValue) => {
     // Should provide an event to pass value to Form.
     const onChange = this.props.onChange;
-    console.log(this.props);
     if (onChange) {
       onChange(changedValue);
     }

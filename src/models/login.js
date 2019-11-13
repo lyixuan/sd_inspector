@@ -47,7 +47,7 @@ export default {
       if (response.code === 2000) {
         const data = response.data || null;
         storage.setItem('admin_auth', data);
-        yield put(routerRedux.push('/indexPage'));
+        // yield put(routerRedux.push('/indexPage'));
         return true
       } else {
         message.error(response.msg);
@@ -116,6 +116,8 @@ export default {
         const saveObj = { ...userInfo, ...others };
         storage.setUserInfo(saveObj);
         storage.setUserAuth(privilegeList);
+        // storage.removeItem('NPSGroupId');
+        // storage.removeItem('NPSDates');
         yield put({
           type: 'menu/getMenu',
           payload: { routeData: response.privilegeList },

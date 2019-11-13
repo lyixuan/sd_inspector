@@ -1,10 +1,11 @@
 import React from 'react';
-import moment from 'moment';
 import styles from '../index.less';
 import BITable from '@/ant_components/BITable'
 import { connect } from 'dva';
-
-
+import BILoading from '@/components/BILoading'
+@connect(({loading}) => ({
+  loading: loading.effects['xdFamilyModal/incomeCollegeRankList'||'xdFamilyModal/incomeCompanyRankList'||'xdFamilyModal/collegeRankList'||'xdFamilyModal/companyRankList'],
+}))
 class Wrap extends React.Component {
   constructor(props) {
     super(props);
@@ -67,16 +68,17 @@ class Wrap extends React.Component {
           />
         </div>}
         <div id={this.props.rowId} className={`${styles.tableBorder}} ${userFlag && userMsg ? styles.tbodyMarTop : ''}`} >
-          <BITable
-            columns={this.props.columns}
-            dataSource={this.props.dataSource}
-            rowKey={(record, index) => index}
-            rowClassName={this.getRowClassName}
-            pagination={false}
-            scroll={{ x: 0, y: 200 }}
-            smalled
-          >
-          </BITable>
+          <BILoading isLoading={this.props.loading} >
+            <BITable
+              columns={this.props.columns}
+              dataSource={this.props.dataSource}
+              rowKey={(record, index) => index}
+              rowClassName={this.getRowClassName}
+              pagination={false}
+              scroll={{ x: 0, y: 200 }}
+              smalled
+            />
+          </BILoading>
         </div>
       </div>
     );

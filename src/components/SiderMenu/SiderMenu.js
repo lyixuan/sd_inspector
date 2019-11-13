@@ -87,9 +87,12 @@ export default class SiderMenu extends PureComponent {
   getDefaultCollapsedSubMenus(props) {
     const { location: { pathname } } = props || this.props;
     const open = getMenuMatchKeys(this.flatMenuKeys, urlToList(pathname));
-    const openMenu = open.length > 0 ? open[open.length - 1].parentId : ''
-    if (this.props.collapsed && openMenu) {
+    const openMenu = open.length > 0 ? open[open.length - 1].parentId : '';
+    if ((this.props.collapsed && openMenu)) {
       this.props.onCollapse(false);
+    }
+    if (open && open[0] && open[0].path === '/xdCredit/index') {
+      this.props.onCollapse(true);
     }
     return { openMenu, openKeys: open.map(item => item.path) }
   }
@@ -207,7 +210,15 @@ export default class SiderMenu extends PureComponent {
       openKeys: moreThanOne ? [lastOpenKey] : [...openKeys],
     });
   };
-
+  getActiveImg = (bul, url) => {
+    let icon = url;
+    if (bul) {
+      var index = url.lastIndexOf("\/");
+      const str = url.substring(index + 1, url.length - 4);
+      icon = `http://bd.ministudy.com/staticFile/icon1/${str}1.svg`;
+    }
+    return getIcon(icon);
+  }
   // 一级菜单
   getMenuItems = menusData => {
     if (!menusData) {
@@ -216,7 +227,7 @@ export default class SiderMenu extends PureComponent {
     return menusData
       .filter(item => item.name && !item.hideInMenu)
       .map(item => {
-        const ItemDom = <li key={item.id} className={this.state.openMenu === item.id ? styles.active : ''} onClick={() => this.getOpenMenu(item.id)}>{getIcon(item.icon)}<span>{item.name}</span></li>;
+        const ItemDom = <li key={item.id} className={this.state.openMenu === item.id ? styles.active : ''} onClick={() => this.getOpenMenu(item.id)}>{this.getActiveImg(this.state.openMenu === item.id, item.icon)}<span>{item.name}</span></li>;
         return this.checkPermissionItem(item.authority, ItemDom);
       })
       .filter(item => item);

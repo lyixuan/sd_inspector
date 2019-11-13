@@ -1,331 +1,125 @@
 import React from 'react';
 import { connect } from 'dva';
-import styles from './style.less'
-import BITable from '@/ant_components/BITable'
-import Proportion from '../../components/proportion';
-import IndentNum from '../../components/indentNum';
-import pkImg from '@/assets/xdwork/pk.png';
+import styles from './style.less';
+import BIWrapperTable1 from '../../components/BIWrapperTable1';
+import BITextCell from '../../components/BITextCell';
+import BILoading from '@/components/BILoading';
+import BIIcon from '@/components/BIIcon';
+import pluscircle from '@/assets/xdwork/pluscircle.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
-import { Link } from 'dva/router';
-function CustomExpandIcon(props) {
-  return (
-    <a />
-  );
-}
-@connect(({ xdWorkModal, loading }) => ({
-  xdWorkModal,
-  loading: loading.effects['xdWorkModal/groupPkList'],
-}))
+import up from '@/assets/xdFamily/rankUp.png';
+import down from '@/assets/xdFamily/rankDown.png';
+
+const { BI = {} } = window;
 class currentCreditLeft extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      groupPkList: [],
-      myGroup: {},
-      leftNum: '',
-      rightNum: '',
-      groupId: '',
-      pkGroup: {}
-
-    }
-  }
-  componentDidMount() {
-  }
-  componentWillMount() {
-    this.getGroupPkData(this.props.groupId)
-  }
-  componentWillReceiveProps(nextProps) {
-    if (this.props.groupId !== nextProps.groupId) {
-      this.getGroupPkData(nextProps.groupId)
-      this.setState({
-        groupId: nextProps.groupId
-      })
-    }
-  }
-  //获取左侧列表数据的方法
-  getGroupPkData = (groupId) => {
-    this.props.dispatch({
-      type: 'xdWorkModal/groupPkList',
-      payload: { params: { pkGroup: groupId } },
-      callback: (groupPkList) => {
-        this.setState({
-          groupPkList: groupPkList.dimensionList,
-          myGroup: groupPkList.myGroup,
-          pkGroup: groupPkList.pkGroup,
-        })
-
-      }
-    });
-  }
-
   columns = () => {
-    let maxNumMyScore = ""
-    let maxNumGroupScore = ""
-    const { pkGroup } = this.state
-    const PkName = pkGroup && pkGroup.groupName
+    const { groupList = [] } = this.props.groupPkList;
     const columns = [
       {
+        width: '18%',
         title: '学分维度',
         dataIndex: 'dimensionName',
         key: 'dimensionName',
-        width: '30%'
+        render: (text, record) => this.getDimensionName(record)
       }, {
-        title: '环比（%）',
-        width: '20%',
+        width: '10%',
+        title: '环比(%)',
         dataIndex: 'myScoreRatio',
         key: 'myScoreRatio',
-        render: (myScoreRatio) => {
-          const isFlag = myScoreRatio >= 0 ? true : false
-          return (
-            <div className={isFlag ? `${styles.titleGreen}` : `${styles.titleRed}`}>
-              <IndentNum>{myScoreRatio}</IndentNum>
-            </div>
-          )
-        }
-      }, {
-        title: '我的',
-        dataIndex: 'myScore',
-        key: 'myScore',
-        width: 90,
-        render: (myScore, data) => {
-          let isFlag = 3
-          if (data.dimensionName !== "绩效排名系数" && data.dimensionName !== "集团排名" && data.dimensionName !== "家族内排名" && data.dimensionName !== "人均在服学员" && data.dimensionName !== "学分均分") {
-            isFlag = Number(myScore) > Number(data.groupScore) ? 1 : Number(myScore) < Number(data.groupScore) ? 2 : 3
-          }
-          let myScoreName = ""
-          if (myScore !== null) {
-            myScoreName = myScore
-          }
-          const { startTime, endTime } = this.props.xdWorkModal.kpiTimes
-          const params = JSON.stringify({ "dementionId": data.id, startTime, endTime });
-          return (
-            <div className={isFlag === 1 && data.isShowPro && PkName ? `${styles.titleGreen}` : isFlag === 2 && data.isShowPro && PkName ? `${styles.titleRed}` : `${styles.titleBlack}`}>
-              {data.level === 4 && Number(myScoreName) !== 0 ? <Link to={`/xdCredit/index?params=${params}`} target="_blank" className={isFlag === 1 && data.isShowPro && PkName ? `${styles.titleGreen}` : isFlag === 2 && data.isShowPro && PkName ? `${styles.titleRed}` : `${styles.titleBlack}`}>
-                <IndentNum>{myScoreName}</IndentNum> >
-              </Link> : <IndentNum>{myScoreName}</IndentNum>
-              }
-
-            </div>
-          )
-        }
-      }, {
-        title: '',
-        dataIndex: 'myScore',
-        key: 'leftNum',
-        width: 58.5,
-        render: (myScore, data) => {
-          const { groupName } = this.state.pkGroup
-          let isFlag = ""
-          let leftProgress = ""
-          let myScoreLefNum = ""
-          let myScoreRightNum = ""
-          if (groupName) {
-            if (data.dimensionName === "正面均分" || data.isShowPro) {
-              isFlag = Number(myScore) > Number(data.groupScore) ? 1 : Number(myScore) < Number(data.groupScore) ? 2 : 3
-              myScoreLefNum = Number(myScore)
-              myScoreRightNum = Number(data.groupScore)
-            }
-            if (data.dimensionName === "正面均分") {
-              if (myScoreLefNum > myScoreRightNum) {
-                maxNumMyScore = myScoreLefNum
-              } else {
-                maxNumMyScore = myScoreRightNum
-              }
-            }
-            if (data.dimensionName === "正面均分" || data.isShowPro) {
-              leftProgress = ((myScoreLefNum / maxNumMyScore) * 100).toFixed(2) + '%'
-            }
-          }
-          return (
-            data.dimensionName === "正面均分" || data.isShowPro && groupName ?
-              <div className={styles.pkRankMain} style={{ justifyContent: 'flex-end', marginRight: '-18px' }}>
-                <div
-                  style={{
-                    color: '#52C9C2',
-                    cursor: 'pointer',
-                    width: '58.5px',
-                    display: 'flex',
-                    justifyContent: 'flex-end'
-                  }}
-                >
-                  <div style={{ width: leftProgress }} className={`${styles.progress} ${isFlag === 1 ? styles.progressLeftWin : (isFlag === 2 ? styles.progressLeftLose : styles.progressLeftLose)}`}>
-                  </div>
-                </div>
-              </div> : <div className={styles.pkRankMain} style={{ justifyContent: 'flex-end', marginRight: '-18px' }}>
-                <div
-                  style={{
-                    color: '#52C9C2',
-                    cursor: 'pointer',
-                    width: '58.5px',
-                    display: 'flex',
-                    justifyContent: 'flex-end'
-                  }}
-                >
-                </div>
-              </div>
-          );
-        }
-      }, {
-        title: '',
-        dataIndex: 'groupScore',
-        key: 'rightNum',
-        width: 58.5,
-        render: (groupScore, data) => {
-          const { groupName } = this.state.pkGroup
-          let isFlag = ""
-          let leftProgress = ""
-          let lefNum = ""
-          let rightNum = ""
-          if (groupName) {
-            isFlag = Number(data.myScore) > Number(groupScore) ? 1 : Number(data.myScore) < Number(groupScore) ? 2 : 3
-            if (data.dimensionName === "正面均分" || data.isShowPro) {
-              lefNum = Number(groupScore)
-              rightNum = Number(data.myScore)
-            }
-            if (data.dimensionName === "正面均分") {
-
-              if (lefNum > rightNum) {
-                maxNumGroupScore = lefNum
-              } else {
-                maxNumGroupScore = rightNum
-              }
-            }
-            if (data.dimensionName === "正面均分" || data.isShowPro && groupName) {
-              leftProgress = (lefNum / maxNumGroupScore) * 100 + '%'
-            }
-          }
-
-          return (
-            data.dimensionName === "正面均分" || data.isShowPro ?
-              <div className={styles.pkRankMain} style={{ justifyContent: 'flex-start', marginLeft: '-18px' }}>
-                <div
-                  style={{
-                    color: '#52C9C2',
-                    cursor: 'pointer',
-                    width: '58.5px',
-                    display: 'flex',
-                    justifyContent: 'flex-start'
-                  }}
-                >
-                  <div style={{ width: leftProgress }} className={`${styles.rightProgress} ${isFlag === 1 ? styles.progressRightLose : (isFlag === 2 ? styles.progressRightWin : styles.progressRightWin)}`}>
-                  </div>
-                </div>
-              </div> : <div className={styles.pkRankMain} style={{ justifyContent: 'flex-start', marginRight: '-18px' }}>
-                <div
-                  style={{
-                    color: '#52C9C2',
-                    cursor: 'pointer',
-                    width: '58.5px',
-                    display: 'flex',
-                    justifyContent: 'flex-start'
-                  }}
-                >
-                </div>
-              </div>
-          );
-        }
-      }, {
-        title: '对比小组',
-        dataIndex: 'groupScore',
-        key: 'groupScore',
-        render: (groupScore, data) => {
-          return (
-            <div className={styles.pkRankMain}>
-              <div style={{ marginLeft: '30px' }}><IndentNum>{groupScore}</IndentNum></div>
-            </div>
-          );
-        },
-      }
+        render: text => <>{text && text !== 'N/A' ? <BITextCell>{text} <img src={text > 0 ? up : down} alt="" /></BITextCell> : ''}</>
+      },
     ];
+    groupList.map((item, index) => {
+      columns.push({
+        width: '12%',
+        title: <div>
+          {index > 0 ? item.groupName : '我的'}
+          {index > 0 ? <BIIcon onClick={() => this.props.handleDelete(item.groupId)} /> : ''}
+        </div>,
+        dataIndex: item.groupId,
+        key: item.groupId,
+        render: (text, record) => {
+          const textV = record.values[index];
+          return (
+            <>
+              {
+                record.flagMark ? record.valuesParams[index] : <BITextCell style={{ paddingRight: '16px' }}>{textV}</BITextCell>
+              }
+            </>
+          )
+        }
+      })
+    })
+    for (var i = 0; i < 6 - groupList.length; i++) {
+      columns.push({
+        width: '12%',
+        title: <div className={styles.pluscircle} onClick={this.handleToggle}><img src={pluscircle} alt='icon' />添加PK对象</div>,
+        dataIndex: '添加PK对象' + i,
+        key: '添加PK对象' + i,
+      })
+    }
     return columns || [];
   };
-  setRowClassName = (record) => {
-    let className = ''
-    if (record.level === 1 && record.dimensionName === "学分均分") {
-      className = "oneLevelBgColor"
-    } else if (record.level === 1 && record.dimensionName !== "学分均分") {
-      className = "otherLevelBgColor"
+  // 添加pk对象点击事件
+  handleToggle = () => {
+    BI.traceV && BI.traceV({ "widgetName": "本期学分-添加pk对象", "traceName": "本期学分-添加pk对象" });
+    this.props.toggleDrawer(true);
+  }
+  // 列表维度name
+  getDimensionName = ({ dimensionName, level, sequenceNo }) => {
+    if (sequenceNo) {
+      return <b style={{ marginLeft: level === 2 || level === 3 ? '20px' : '0' }}>{sequenceNo} {dimensionName}</b>
+    } else if (level === 4) {
+      return <span style={{ marginLeft: '40px' }}>{dimensionName}</span>
     } else {
-      className = "otherLevelBgColor1"
+      return dimensionName
+    }
+  }
+  setRowClassName = record => {
+    let className = ''
+    if (record.flagMark === 3) {
+      className = 'yellowBgColor';
+    } else if (record.flagMark === 1 || record.dimensionName === '退挽' || record.dimensionName === '随堂考') {
+      className = 'plusBgColor';
+    } else if (record.flagMark === 2) {
+      className = 'minusBgColor';
     }
     return className
   }
-  fillDataSource = (params, n = 1) => {
-    let data = []
-    data = params
-    data.map(item => {
-      item.level = n;
-      if (item.children && item.children.length > 0) {
-        this.fillDataSource(item.children, n + 1);
+  getDataSource = () => {
+    const { groupPkList={} } = this.props;
+    const { dimensionList = [] } = groupPkList;
+    if (dimensionList.length > 0) {
+      if (this.props.hasData) {
+        return dimensionList;
+      } else {
+        const [s, a, d, f, ...others] = dimensionList;
+        return others;
       }
-    })
-    data.map((item) => {
-      if (item.dimensionName === "学分均分") {
-        item.children.map((subItem, subIndex) => {
-          if (subItem.dimensionName === "正面均分") {
-            subItem.isShowPro = true
-            this.serverArray(subItem.children)
-          }
-
-        })
-      }
-    })
-    return data
-
-  }
-  serverArray = (arr) => {
-    for (var item = 0; item < arr.length; item++) {
-      if (arr[item].children) {
-        arr[item].isShowPro = true
-        this.serverArray(arr[item].children)
-      }
+    } else {
+      return []
     }
-    return arr
   }
   render() {
-    const { groupId } = this.props
-    const { groupPkList=[], myGroup, pkGroup } = this.state
-    const dataSource = groupPkList && this.fillDataSource(groupPkList)
-    const leftNum = myGroup && myGroup.score
-    const userName = myGroup && myGroup.groupName
-    const rightNum = pkGroup && pkGroup.score
-    const PkName = pkGroup && pkGroup.groupName
-
+    const { pkGroupList, loading } = this.props;
+    const dataSource = this.getDataSource();
     return (
-      <div className={styles.creditLeft}>
-        <div className={styles.proMain}>
-          {groupId !== 0 ? <Proportion
-            leftNum={leftNum}
-            rightNum={rightNum}
-            leftCollege={userName}
-            rightCollege={PkName}
-            style={{ width: 'calc(100% - 200px)' }}
-          /> : <div className={styles.proNone}>
-              <img src={pkImg} style={{ width: '32px' }} />
-              <span>快从右边选择一个小组进行学分PK吧！</span>
-            </div>}
-        </div>
-        <div className={styles.tableContainer}>
+      <div className={styles.creditLeft} style={{ minHeight: 560 }}>
+        <BILoading isLoading={loading} > <div className={styles.tableContainer}>
+          <BIWrapperTable1
+            columns={this.columns()}
+            dataSource={dataSource}
+            rowClassName={this.setRowClassName}
+            pagination={false}
+            rowKey={record => record.id}
+            bordered={true}
+            scroll={{ y: 492 }}
+          />
           {
-            dataSource && dataSource.length > 0 && <BITable
-              columns={this.columns()}
-              dataSource={dataSource}
-              defaultExpandAllRows={true}
-              expandIcon={CustomExpandIcon}
-              rowClassName={this.setRowClassName}
-              pagination={false}
-              scroll={{ x: 0, y: 408 }}
-              rowKey={record => record.id}
-              loading={this.props.loading}
-            >
-            </BITable>
+            pkGroupList && pkGroupList.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt='' /></div>
           }
-
-          {
-            groupId === 0 && <div className={styles.tableImg}><img src={xdPkImg} /></div>
-          }
-
         </div>
+        </BILoading>
       </div>
     );
   }

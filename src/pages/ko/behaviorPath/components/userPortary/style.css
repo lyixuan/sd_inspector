@@ -1,0 +1,179 @@
+.layout {
+  min-width: 1050px;
+}
+.layout1 {
+  min-width: 1050px;
+  height: 1000px;
+}
+.contentLayout , .contentLayoutbase,.contentLayoutbase2{
+  background: #fff;
+  margin-top: 16px;
+  overflow: hidden;
+  border-radius: 10px;
+  position: relative;
+  padding: 10px;
+}
+.contentLayoutbase {
+  margin-top: 12px;
+}
+.contentLayoutbase2 {
+  margin-top: 10px;
+}
+.avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 35px;
+}
+.left {
+  float: left;
+  margin: 30px 30px;
+}
+.right{
+  float: left;
+  margin-top: 25px;
+  line-height: 40px;
+}
+.sex {
+  color: #FF549B;
+}
+
+.item,.item2 {
+  margin-right: 18px;
+  color: #1A1C1F;
+}
+.item2 {
+  /*margin-right: 30px;*/
+}
+
+.item:last-child {
+  margin-right: 0;
+}
+.name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #1A1C1F;
+}
+
+.row {
+  text-align: center;
+  margin:10px auto;
+  color: #7A7C80;
+}
+.baseCol>span{
+  display: inline-block;
+  cursor: pointer;
+}
+.zxl,.im {
+  height: 40px;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 0px;
+  color: #00CCC3;
+}
+.baseImg {
+  height: 35px;
+  margin-bottom: 10px;
+}
+.im {
+  color: #FF4A53;
+}
+
+.vertical {
+  height: 30px;
+  top: 10px;
+  color: #E1E4EA;
+}
+
+.boxHead {
+  padding: 6px 10px 20px 10px;
+  overflow: hidden;
+}
+.boxTitle {
+  font-size: 16px;
+  color: #1A1C1F;
+  font-weight: bold;
+  float: left;
+}
+.btn,.btnActive {
+  font-size: 16px;
+  float: right;
+  margin-left: 10px;
+  color: #7A7C80;
+  cursor: pointer;
+}
+.btnActive {
+  color: #00CCC3;
+}
+
+.btnActive i{
+  border-bottom: 2px solid #00CCC3;
+  width: 20px;
+  display: block;
+  margin: auto;
+}
+.num {
+  height: 40px;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #1A1C1F;
+}
+.card{
+  position:relative;
+  background:#fff;
+  border-radius:6px;
+  overflow:hidden;
+  padding:8px 12px 8px 26px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+  border: 1px solid #F7F7F7;
+}
+
+.card .orderInfo p{
+  margin-bottom:0;
+}
+.card h4,.card .price{
+  font-weight:bold;
+  color:#1A1C1F;
+}
+.card .line{
+  width:6px;
+  height:100%;
+  background:#52C9C2;
+  position:absolute;
+  left:0;
+  top:0;
+}
+.card .lineYellow{
+  background:#FFAA4D;
+}
+
+.tooltipContent h4{
+  color:#fff;
+  margin-top:10px;
+}
+.tooltipContent p{
+  font-size:13px;
+  color:#B8BBBF;
+  margin-bottom:0;
+}
+.orderRow {
+  height: 100px;
+  margin-top: 30px;
+  padding-right: 10px;
+  text-align: center;
+  color: #7A7C80;
+}
+.scorllOrder {
+  padding-top: 8px;
+  height: 150px;
+  overflow-y: scroll;
+}
+.boxFlex {
+  display: flex;
+  flex-direction:column;
+  align-content: space-between;
+  justify-content: space-between;
+}

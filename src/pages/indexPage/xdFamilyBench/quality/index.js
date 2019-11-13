@@ -1,17 +1,18 @@
 import React from 'react';
 import { connect } from 'dva';
-import Container from '../../components/container';
+import Container from '@/components/BIContainer';
 import BITable from '@/ant_components/BITable'
+import BILoading from '@/components/BILoading'
 
 const levelObj = ['', '特级违规', '一级违规', '二级违规', '三级违规'];
-@connect(({ xdWorkModal, loading }) => ({
-  familyQuality: xdWorkModal.familyQuality || [],
-  loading: loading.effects['xdWorkModal/getFamilyQuality'],
+@connect(({ xdFamilyModal, loading }) => ({
+  familyQuality: xdFamilyModal.familyQuality || [],
+  loading: loading.effects['xdFamilyModal/getFamilyQuality'],
 }))
 class Quality extends React.Component {
   componentDidMount() {
     this.props.dispatch({
-      type: 'xdWorkModal/getFamilyQuality',
+      type: 'xdFamilyModal/getFamilyQuality',
       payload: { params: { id: this.props.userId } },
     });
   }
@@ -43,14 +44,14 @@ class Quality extends React.Component {
         title='本期质检'
         style={{ width: 'calc(40% - 16px)' }}
       >
-        <BITable
+        <BILoading isLoading={this.props.loading}> <BITable
           columns={this.columns()}
           dataSource={this.props.familyQuality}
           pagination={false}
-          loading={this.props.loading}
           rowKey={record => record.violationLevel}
           smalled
         />
+        </BILoading>
       </Container>
     );
   }

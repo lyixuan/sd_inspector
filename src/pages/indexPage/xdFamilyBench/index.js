@@ -1,44 +1,61 @@
 import React from 'react';
 import { connect } from 'dva';
-import PerformanceDetail from './performanceDetail';
-import RankList from './rankList';
-import styles from './style.less';
-import FamilyAndGroup from './familyAndGroup';
-import FamilyAndGroupIncome from './familyAndGroupIncome';
-import Income from './income';
-import CurrentCredit from './currentCredit';
-import Quality from './quality';
-import Appeal from './appeal';
 import storage from '../../../utils/storage';
+import PageTab from '@/pages/indexPage/components/pageTab'
+import PerformanceDetail from './performanceDetail';
+import CurrentCredit from './currentCredit';
+import CreditRank from './creditRank';
+import IncomeRank from './incomeRank';
+import Quality from './quality';
+import Income from './income';
+import Appeal from './appeal';
+import styles from './style.less';
 
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+
+@connect((xdFamilyModal) => ({
+  xdFamilyModal,
 }))
-// Current credits
 class XdFamily extends React.Component {
   constructor(props) {
     super(props)
+    const userId = storage.getItem('admin_user').userId;
     this.state = {
-      userId: storage.getItem('admin_user').userId,
+      tabs: [{
+        title: '学分分析',
+        children: <><CurrentCredit/><CreditRank/></>,
+        dataTrace: '{"widgetName":"学分分析","traceName":"家族长工作台/学分分析"}'
+      }, 
+      {
+        title: '创收分析',
+        children: <><Income /><IncomeRank/></>,
+        dataTrace: '{"widgetName":"创收分析","traceName":"家族长工作台/创收分析"}'
+      }, 
+      {
+        title: '负面分析',
+        children: <div className={styles.qualityAppel}>
+          <Appeal userId={userId} />
+          <Quality userId={userId} />
+        </div>,
+        dataTrace: '{"widgetName":"负面分析","traceName":"家族长工作台/负面分析"}'
+      }]
     }
   }
   componentDidMount() {
-
+    // 小组-绩效列表
+    this.props.dispatch({
+      type: 'xdWorkModal/getKpiLevelList',
+    });
+    // 家族-学院列表
+    this.props.dispatch({
+      type: 'xdWorkModal/getIncomeCollegeList',
+    });
   }
   render() {
-    const { userId } = this.state;
+    const { tabs } = this.state;
     return (
       <div className={styles.familyBench}>
-        <PerformanceDetail ></PerformanceDetail>
-        <RankList></RankList>
-        <CurrentCredit></CurrentCredit>
-        <FamilyAndGroup />
-        <Income />
-        <FamilyAndGroupIncome />
-        <div className={styles.qualityAppel}>
-          <Appeal userId={userId} />
-          <Quality userId={userId} />
-        </div>
+        <PerformanceDetail />
+        <PageTab tabs={tabs}/>
       </div>
     );
   }

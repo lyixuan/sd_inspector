@@ -1,0 +1,37 @@
+.pageTab{
+  .tabTitle {
+    text-align: center;
+    margin-bottom: 16px;
+    > div {
+      display: inline-block;
+      border: 1px solid #00CCC3;
+      border-radius: 24px;
+      text-align: center;
+      background-color: #FFFFFF;
+      >span {
+        display: inline-block;
+        width: 222px;
+        height: 46px;
+        line-height: 46px;
+        text-align: center;
+        cursor: pointer; 
+      }
+      .active {
+        // cursor: no-drop; 
+        background-color: #00CCC3;
+        border-radius: 24px;
+        color: #FFFFFF;
+      }
+    }
+  }
+  .tabContainer {
+    width: 100%;
+    .tabHidden {
+      height: 0;
+      padding: 0!important;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}

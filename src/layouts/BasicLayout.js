@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout, Spin } from 'antd';
+import router from 'umi/router';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { ContainerQuery } from 'react-container-query';
@@ -9,6 +10,7 @@ import pathToRegexp from 'path-to-regexp';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { LocaleProvider } from 'antd';
+import Footer from './Footer';
 import ContentLayout from '@/layouts/ContentLayout';
 import SiderMenu from '../components/SiderMenu';
 import biIcon from '../assets/biIcon.png';
@@ -17,7 +19,7 @@ import storage from '../utils/storage';
 import HeaderLayout from './Header';
 import { query } from './utils/query';
 import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
-import { redirectUrlParams, checkPathname } from '../utils/routeUtils';
+import { redirectUrlParams,redirectToLogin, checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
 
 // import router from 'umi/router';
@@ -65,11 +67,13 @@ enquireScreen(b => {
 });
 
 const routesData = {};
+
 class BasicLayout extends React.PureComponent {
   constructor(props) {
     super(props);
     this.routerFlat(props.route.routes);
   }
+
   static childContextTypes = {
     location: PropTypes.object,
     breadcrumbNameMap: PropTypes.object,
@@ -78,13 +82,14 @@ class BasicLayout extends React.PureComponent {
     isMobile,
   };
 
+
   routerFlat = (routes) => {
     const that = this;
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].path) {
         routesData[routes[i].path] = { name: routes[i].name, bread: routes[i].bread };
         if (routes[i].routes) {
-          that.routerFlat(routes[i].routes)
+          that.routerFlat(routes[i].routes);
         }
       }
     }
@@ -97,16 +102,15 @@ class BasicLayout extends React.PureComponent {
       breadcrumbNameMap: getBreadcrumbNameMap(menuData, routerData),
     };
   }
+
   componentWillMount() {
-    if(!checkoutLogin()){
+    if (!checkoutLogin()) {
       this.initSysItem();
+    } else {
+
     }
-    // else {
-    //   router.push({
-    //     pathname:'/indexPage'
-    //   });
-    // }
   }
+
   componentDidMount() {
     this.enquireHandler = enquireScreen(mobile => {
       this.setState({
@@ -116,9 +120,22 @@ class BasicLayout extends React.PureComponent {
     this.MenuData();
     this.setRedirectData(this.props.menuData);
   }
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.menuData) !== JSON.stringify(this.props.menuData)) {
       this.setRedirectData(nextProps.menuData);
+    }
+    if (checkoutLogin()) {
+      // alert(1);
+      const {pathname} = nextProps.location||{};
+      const num = pathname.indexOf('/fromEmail')>0?pathname.indexOf('/fromEmail'):1000;
+      if(num!==1000){
+        router.push({
+          pathname: pathname.substring(0,num)
+        });
+      }
+    } else {
+      // redirectToLogin()
     }
   }
 
@@ -174,9 +191,10 @@ class BasicLayout extends React.PureComponent {
     }
     return title;
   }
+
   handleUserInfo = () => {
-    const { userName = '小德',userId } = storage.getItem('admin_user') || {};
-    return { name: userName,userId };
+    const { userName = '小德', userId } = storage.getItem('admin_user') || {};
+    return { name: userName, userId };
   };
   handleMenuCollapse = collapsed => {
     this.props.dispatch({
@@ -195,9 +213,9 @@ class BasicLayout extends React.PureComponent {
     const that = this;
     this.props.dispatch({
       type: 'login/initSubSystem',
-      payload: { },
+      payload: {},
     }).then(() => {
-      that.MenuData()
+      that.MenuData();
     });
   };
 
@@ -208,28 +226,34 @@ class BasicLayout extends React.PureComponent {
       payload: { routeData },
     });
   };
+
   gobalMarkClass() {// 质检标注的几个页面布局 需要改变一下头部的样式
-    const tabGroup = ['/setting/performance/list','/qualityMarking/im', '/qualityMarking/bbs', '/qualityMarking/nps', '/entrancePlatform/statistics'];
+    const tabGroup = ['/setting/performance/list', '/qualityMarking/im', '/qualityMarking/bbs', '/qualityMarking/nps', '/entrancePlatform/statistics', '/ko/behaviorPath'];
     return tabGroup.includes(this.props.location.pathname) ? 'aiWorktable-ant-layout-content' : '';
   }
+
   render() {
     const { collapsed, fetchingNotices, notices, location, children, isLoginIng } = this.props;
     const { menuData } = this.props;
     const currentUser = this.handleUserInfo();
     currentUser.avatar = biIcon;
     const layout = (
-      <Layout>
-        <SiderMenu
-          logo={logo}
-          menuData={menuData}
-          collapsed={collapsed}
-          location={location}
-          isMobile={this.state.isMobile}
-          onCollapse={this.handleMenuCollapse}
-          onClick={({ item, key, keyPath }) => { console.log(item, key); window.location.href = 'www.baidu.com' }}
-        />
-        <Layout style={{backgroundColor: '#F5F8FA'}}>
-          <HeaderLayout
+      <>
+        <Layout>
+          <SiderMenu
+            logo={logo}
+            menuData={menuData}
+            collapsed={collapsed}
+            location={location}
+            isMobile={this.state.isMobile}
+            onCollapse={this.handleMenuCollapse}
+            onClick={({ item, key, keyPath }) => {
+              console.log(item, key);
+              window.location.href = 'www.baidu.com';
+            }}
+          />
+          <Layout style={{ backgroundColor: '#F5F8FA' }}>
+            <HeaderLayout
               {...this.props}
               logo={biIcon}
               currentUser={currentUser}
@@ -240,25 +264,27 @@ class BasicLayout extends React.PureComponent {
               onCollapse={this.handleMenuCollapse}
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
-           <Content className={this.gobalMarkClass()}>
-            <ContentLayout {...this.props} routesData={routesData}>
-              <Authorized
-                authority={checkPathname.bind(null, location.patchname)}
-              >
-                {children}
-              </Authorized>
-            </ContentLayout>
-          </Content>
+            <Content className={this.gobalMarkClass()}>
+              <ContentLayout {...this.props} routesData={routesData}>
+                <Authorized
+                  authority={checkPathname.bind(null, location.patchname)}
+                >
+                  {children}
+                </Authorized>
+              </ContentLayout>
+            </Content>
+          </Layout>
         </Layout>
-      </Layout>
+        <Footer />
+      </>
     );
 
     return (
       <LocaleProvider locale={zhCN}>
         <DocumentTitle title={this.getPageTitle()}>
-            <ContainerQuery query={query}>
-              {params => <div className={classNames(params)}>{layout}</div>}
-            </ContainerQuery>
+          <ContainerQuery query={query}>
+            {params => <div className={classNames(params)}>{layout}</div>}
+          </ContainerQuery>
         </DocumentTitle>
       </LocaleProvider>
     );

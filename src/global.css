@@ -84,6 +84,12 @@ a,a:hover{
   margin-bottom:0!important;
   padding-bottom: 0!important;
 }
+/* .ant-table-fixed-header .ant-table-scroll .ant-table-header {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  margin-bottom:0!important;
+  padding-bottom: 0!important;
+} */
 .ant-upload-list-item-info .anticon-loading, .ant-upload-list-item-info .anticon-paper-clip{
   color: #52C9C2;
 }
@@ -178,6 +184,15 @@ body > a {
   color:#ccc;
 }
 
-:global .baseForm .ant-form-item{
+:global .baseForm .ant-form-item {
   margin-bottom: 0;
+}
+:global .userPortary .anticon{
+  font-size:18px;
+  color:#52C9C2;
+}
+
+/* 统一修改tooltip 透明度，与echart的tooltip统一*/
+:global .ant-tooltip-content{
+  opacity: 0.8;
 }

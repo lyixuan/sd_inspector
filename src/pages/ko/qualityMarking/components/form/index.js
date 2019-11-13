@@ -2,6 +2,7 @@ import React from 'react';
 import { Skeleton, Form, message } from 'antd';
 import { handleDateParams, handleDefaultPickerValueMark } from '@/pages/ko/utils/utils';
 import BIDatePicker from '@/ant_components/BIDatePicker';
+import BICascader from '@/ant_components/BICascader/FormCascader';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
 import { connect } from 'dva/index';
@@ -18,7 +19,6 @@ const dateFormat = 'YYYY.MM.DD';
   loading: loading.effects['workTableModel/getBasicData'] || loading.effects['koPlan/getCurrentTime'],
 }))
 class AiForm extends React.Component {
-
   componentDidMount() {
     if (!this.props.currentServiceTime) {
       this.props.dispatch({
@@ -100,7 +100,7 @@ class AiForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { markType, searchParams, collegeList, consultList, reasonList, evaluateList, operatorList } = this.props;
+    const { markType, searchParams, collegeList, consultList, reasonList, evaluateList, operatorList, evaluationList=[] } = this.props;
     const { loading } = this.props;
     return (
       <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
@@ -145,13 +145,14 @@ class AiForm extends React.Component {
                   {getFieldDecorator('consultType', {
                     initialValue: searchParams.consultType,
                   })(
-                    <BISelect
-                      placeholder="请选择"
-                      dropdownClassName={styles.popupClassName}
-                      getPopupContainer={triggerNode => triggerNode.parentNode}
-                      allowClear>
-                      {consultList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                    </BISelect>,
+                    // <BISelect
+                    //   placeholder="请选择"
+                    //   dropdownClassName={styles.popupClassName}
+                    //   getPopupContainer={triggerNode => triggerNode.parentNode}
+                    //   allowClear>
+                    //   {consultList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                    // </BISelect>
+                    <BICascader placeholder="请选择" changeOnSelect options={consultList} fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }} />
                   )}
                 </Form.Item>
               </div>}
@@ -160,12 +161,13 @@ class AiForm extends React.Component {
                   {getFieldDecorator('reasonType', {
                     initialValue: searchParams.reasonType,
                   })(
-                    <BISelect placeholder="请选择"
-                              dropdownClassName={styles.popupClassName}
-                              getPopupContainer={triggerNode => triggerNode.parentNode}
-                              allowClear>
-                      {reasonList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                    </BISelect>,
+                    // <BISelect placeholder="请选择"
+                    //           dropdownClassName={styles.popupClassName}
+                    //           getPopupContainer={triggerNode => triggerNode.parentNode}
+                    //           allowClear>
+                    //   {reasonList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                    // </BISelect>,
+                    <BICascader placeholder="请选择" changeOnSelect options={reasonList} fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }} />
                   )}
                 </Form.Item>
               </div>
@@ -238,6 +240,20 @@ class AiForm extends React.Component {
                   </Form.Item>
                 </div>
               }
+              <div className={styles.itemCls}>
+                <Form.Item label='评价性质：'>
+                  {getFieldDecorator('evaluationNature', {
+                    initialValue: searchParams.evaluationNature,
+                  })(
+                    <BISelect placeholder="请选择"
+                              dropdownClassName={styles.popupClassName}
+                              getPopupContainer={triggerNode => triggerNode.parentNode}
+                              allowClear>
+                      {evaluationList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                    </BISelect>,
+                  )}
+                </Form.Item>
+              </div>
             </div>
           </Skeleton>
           <div className={`${styles.rowWrap} ${styles.buttonGroup}`}>
