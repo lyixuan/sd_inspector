@@ -73,7 +73,9 @@ class appeal extends React.Component {
               </div>
             ) : text ? (
               <div className={styles.rankMarkGreen}>
-                <a href="" target="_blank">{text}</a>
+                <a href="" target="_blank">
+                  {text}
+                </a>
               </div>
             ) : (
               text
@@ -133,7 +135,7 @@ class appeal extends React.Component {
   render() {
     const dataSource = this.props.familyAppeal[tabSource[this.state.appealType]] || [];
     return (
-      <div>
+      <div className={styles.appealWrap}>
         <BIRadio
           onChange={this.handleChange}
           value={this.state.appealType}

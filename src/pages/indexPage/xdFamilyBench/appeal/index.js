@@ -133,10 +133,11 @@ class Negative extends React.Component {
           {date.startDate && <IMPartRight date={date} />}
         </div>
         {date.startDate && userInfo && <NPSEvaluate ref="five" date={date} userInfo={userInfo} />}
-        <div>
-          <Container title="本期申诉" propStyle={{ paddingLeft: '16px' }}>
-            <Appeal userId={this.props.userId} />
-          </Container>
+        <div className={styles.appealWrap}>
+          {/* <Container title="本期申诉" propStyle={{ paddingLeft: '16px' }}> */}
+          <Appeal userId={this.props.userId} />
+          {/* </Container> */}
+          <Quality userId={this.props.userId} />
         </div>
       </div>
     );
