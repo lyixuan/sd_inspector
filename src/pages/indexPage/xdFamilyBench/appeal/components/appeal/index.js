@@ -7,6 +7,7 @@ import Container from '@/components/BIContainer';
 import rankWarn from '@/assets/xdFamily/rankWarn.png';
 import styles from './style.less';
 import BILoading from '@/components/BILoading';
+import { beforeAll } from 'lodash-decorators';
 
 const tabsMsg = [
   {
@@ -22,6 +23,43 @@ const tabsMsg = [
     dataTrace: '{"widgetName":"审核中","traceName":"家族长工作台/审核中"}',
   },
 ];
+function bottomParams(num) {
+  return {
+    page: 1,
+    pageSize: 30,
+    dimensionType: num,
+  };
+}
+
+let bottomLineUrl, imUrl, orderUrl, newExcellentUrl, incomeUrl;
+
+function gotoUrl(type) {
+  switch (type) {
+    case 1:
+      bottomLineUrl = `/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(
+        bottomParams(23)
+      )}`; // 底线
+      imUrl = `/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(bottomParams(14))}`; // im
+      orderUrl = `/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(bottomParams(19))}`; // 工单
+      newExcellentUrl = `/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(
+        bottomParams(11)
+      )}`; // 优新
+      incomeUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(bottomParams(42))}`; // 创收
+      break;
+    case 2:
+      bottomLineUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(bottomParams(23))}`; // 底线
+      imUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(bottomParams(14))}`; // im
+      orderUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(bottomParams(19))}`; // 工单
+      newExcellentUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(
+        bottomParams(11)
+      )}`; // 优新
+      incomeUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(bottomParams(42))}`; // 创收
+      break;
+    default:
+      break;
+  }
+}
+
 const tabSource = {
   1: 'nonAppealList',
   2: 'rejectedAppealList',
@@ -47,6 +85,7 @@ class appeal extends React.Component {
 
   columns = () => {
     const { appealType } = this.state;
+    gotoUrl(appealType);
     const columns = [
       {
         title: '家族小组',
@@ -73,7 +112,7 @@ class appeal extends React.Component {
               </div>
             ) : text ? (
               <div className={styles.rankMarkGreen}>
-                <a href="" target="_blank">
+                <a href="/inspector/qualityAppeal/qualityNewSheet" target="_blank">
                   {text}
                 </a>
               </div>
@@ -88,7 +127,17 @@ class appeal extends React.Component {
         dataIndex: 'bottomLineNum',
         key: 'bottomLineNum',
         render: (text, record) => (
-          <>{text ? <div className={styles.rankMarkGreen}>{text}</div> : text}</>
+          <>
+            {text ? (
+              <div className={styles.rankMarkGreen}>
+                <a href={bottomLineUrl} target="_blank">
+                  {text}
+                </a>
+              </div>
+            ) : (
+              text
+            )}
+          </>
         ),
       },
       {
@@ -96,7 +145,17 @@ class appeal extends React.Component {
         dataIndex: 'imNum',
         key: 'imNum',
         render: (text, record) => (
-          <>{text ? <div className={styles.rankMarkGreen}>{text}</div> : text}</>
+          <>
+            {text ? (
+              <div className={styles.rankMarkGreen}>
+                <a href={imUrl} target="_blank">
+                  {text}
+                </a>
+              </div>
+            ) : (
+              text
+            )}
+          </>
         ),
       },
       {
@@ -104,7 +163,17 @@ class appeal extends React.Component {
         dataIndex: 'orderNum',
         key: 'orderNum',
         render: (text, record) => (
-          <>{text ? <div className={styles.rankMarkGreen}>{text}</div> : text}</>
+          <>
+            {text ? (
+              <div className={styles.rankMarkGreen}>
+                <a href={orderUrl} target="_blank">
+                  {text}
+                </a>
+              </div>
+            ) : (
+              text
+            )}
+          </>
         ),
       },
       {
@@ -112,7 +181,17 @@ class appeal extends React.Component {
         dataIndex: 'newExcellentNum',
         key: 'newExcellentNum',
         render: (text, record) => (
-          <>{text ? <div className={styles.rankMarkGreen}>{text}</div> : text}</>
+          <>
+            {text ? (
+              <div className={styles.rankMarkGreen}>
+                <a href={newExcellentUrl} target="_blank">
+                  {text}
+                </a>
+              </div>
+            ) : (
+              text
+            )}
+          </>
         ),
       },
       {
@@ -120,7 +199,17 @@ class appeal extends React.Component {
         dataIndex: 'incomeNum',
         key: 'incomeNum',
         render: (text, record) => (
-          <>{text ? <div className={styles.rankMarkGreen}>{text}</div> : text}</>
+          <>
+            {text ? (
+              <div className={styles.rankMarkGreen}>
+                <a href={incomeUrl} target="_blank">
+                  {text}
+                </a>
+              </div>
+            ) : (
+              text
+            )}
+          </>
         ),
       },
     ];
@@ -134,6 +223,7 @@ class appeal extends React.Component {
 
   render() {
     const dataSource = this.props.familyAppeal[tabSource[this.state.appealType]] || [];
+    console.log(this.state.appealType, 'dataSource');
     return (
       <div className={styles.appealWrap}>
         <BIRadio
@@ -149,7 +239,7 @@ class appeal extends React.Component {
         </BIRadio>
         <BILoading isLoading={this.props.loading}>
           <BITable
-            columns={this.columns()}
+            columns={this.columns(this.state.appealType)}
             dataSource={dataSource}
             pagination={false}
             rowKey={(record, index) => index}

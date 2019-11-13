@@ -171,7 +171,7 @@ export async function getOrgMapTree(params) {
 }
 //IM负面数据对比
 export async function getImReverseSideData(params) {
-  return request('/im/getImReverseSideData', { method: 'get', params });
+  return request('/im/countGroupIMList?', { method: 'get', params });
 }
 //学分对比柱状图
 export async function queryAppealDataPage(data) {
