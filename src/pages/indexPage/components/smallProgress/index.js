@@ -16,7 +16,7 @@ class SmallProgress extends React.Component {
     return(
       <>
         <div className={styles.progressBg} style={this.props.style}>
-          {percent && percent !== '0%' ? <div className ={`${styles.progressCenter} ${this.getColorCalss()}`} style={{width:percent}}></div> : ''}
+          {percent && percent !== '0%' && percent !== 'NaN%' ? <div className ={`${styles.progressCenter} ${this.getColorCalss()}`} style={{width:percent}}></div> : ''}
         </div>
       </>
     )
