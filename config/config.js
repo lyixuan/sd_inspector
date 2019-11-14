@@ -12,6 +12,9 @@ export default {
   publicPath: '/inspector/',
   outputPath: './inspector',    //   ../sd_node/inspector
   // outputPath: '../sd_node/inspector',
+  context:{
+    ENV_TYPE:process.env.ENV_TYPE
+  },
   /**
    * webpack相关配置
    * **/
