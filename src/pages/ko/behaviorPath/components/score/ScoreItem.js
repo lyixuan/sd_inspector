@@ -37,13 +37,19 @@ export default class ScoreItem extends React.Component {
     const last2Index = (times - 1) * 3 + 1;
     const last3Index = (times - 1) * 3 + 2;
     const last = ln % 3;
-    const middleList = ln>6?examDetailList.slice(2,examDetailList.length-last):[];
+    const middleList = ln>6?examDetailList.slice(3,examDetailList.length-last):[];
     const middleRow = middleList.length/3;
     let middleDiv = [];
     if (middleRow >= 1) {
       for (let i = 0; i < middleRow;i++){
         middleDiv.push(
           <div className={`${styles.row} ${styles.row2} ${styles.row3}`}>
+            <div>
+              <div
+                className={`${examDetailList[3*(i+1)] && examDetailList[3*(i+1)].score < 60 ? styles.redText : ''}`}>{examDetailList[3*(i+1)] && examDetailList[3*(i+1)].score}</div>
+              <div>{examDetailList[3*(i+1)] && examDetailList[3*(i+1)].examName}</div>
+            </div>
+            <div className={styles.row1Line}/>
             <div>
               <div
                 className={`${examDetailList[3*(i+1)+1] && examDetailList[3*(i+1)+1].score < 60 ? styles.redText : ''}`}>{examDetailList[3*(i+1)+1] && examDetailList[3*(i+1)+1].score}</div>
@@ -54,12 +60,6 @@ export default class ScoreItem extends React.Component {
               <div
                 className={`${examDetailList[3*(i+1)+2] && examDetailList[3*(i+1)+2].score < 60 ? styles.redText : ''}`}>{examDetailList[3*(i+1)+2] && examDetailList[3*(i+1)+2].score}</div>
               <div>{examDetailList[3*(i+1)+2] && examDetailList[3*(i+1)+2].examName}</div>
-            </div>
-            <div className={styles.row1Line}/>
-            <div>
-              <div
-                className={`${examDetailList[3*(i+1)+3] && examDetailList[3*(i+1)+3].score < 60 ? styles.redText : ''}`}>{examDetailList[3*(i+1)+3] && examDetailList[3*(i+1)+3].score}</div>
-              <div>{examDetailList[3*(i+1)+3] && examDetailList[3*(i+1)+3].examName}</div>
             </div>
           </div>
         )
