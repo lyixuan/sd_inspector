@@ -57,5 +57,5 @@ export async function getDetailInfo(params) {
 
 // 成绩
 export async function getExamScore(params) {
-  return request('/test/exam/queryExamScore', { params });
+  return request('/exam/queryExamScore', { params });
 }

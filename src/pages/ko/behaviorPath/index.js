@@ -36,7 +36,7 @@ class BehaviorPath1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeKey: '7',
+      activeKey: '6',
       study: true,
       im: true,
       weChart: true,
@@ -262,7 +262,7 @@ class BehaviorPath1 extends React.Component {
     } else if (target.indexOf('study') == 0) {
       this.state.activeKey = '1';
     } else {
-      this.state.activeKey = '7';
+      this.state.activeKey = '6';
     }
     const sutId = this.state.inputStuId || pathParams.userId;
 
