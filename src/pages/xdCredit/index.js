@@ -7,11 +7,11 @@ import BIDatePicker from '@/ant_components/BIDatePicker';
 import BISelect from '@/ant_components/BISelect'
 import extentImg from '@/assets/xdcredit/extent.png';
 import { initTimeData } from '../ko/utils/utils';
-import { message } from 'antd/lib/index';
-
 import Dimension from './dimension';
-import CreditDetials from './details'
-import CreditImDetials from './imDetails'
+import CollegeScore from './collegeScore';
+import CreditDetials from './details';
+import CreditImDetials from './imDetails';
+import creditImg from '@/assets/xdcredit/credit.gif';
 import styles from './style.less';
 import moment from 'moment';
 
@@ -426,6 +426,24 @@ class XdCredit extends React.Component {
     this.setState({
       familyType: val
     })
+  } 
+  //获取柱状图及维度的接口
+  queryAppealDataPage = (obj = {}) =>{
+    const params = {
+      ...this.state.queryParams,
+      ...obj,
+    }
+    console.log("params",params)
+    this.setState({queryParams: params });
+    this.props.dispatch({
+      type:'xdManagementBench/queryAppealDataPage',
+      payload:{params:params},
+      callback:(res) => {
+        this.setState({
+          queryAppealDatas:res
+        })
+      }
+    })
   }
   render() {
     const { dementionId, groupId, extendFlag, userOrgConfig, startTime, endTime } = this.state;
@@ -485,8 +503,6 @@ class XdCredit extends React.Component {
                   </BISelect>
                 </span>
               }
-
-
               <BIButton type='reset' onClick={this.handleReset} style={{ marginRight: '8px' }}>重置</BIButton>
               <BIButton data-trace='{"widgetName":"查询","traceName":"数据服务/学分明细/查询"}' type='primary' onClick={this.handleClick} htmlType="submit">查询</BIButton>
             </div>
@@ -499,24 +515,29 @@ class XdCredit extends React.Component {
                   dimensionData={this.props.dimensionData}
                   groupId={groupId}
                 />
-                {
-                  this.state.isIm ? <CreditImDetials
-                    onPageChange={this.onPageChange2}
-                    pageSize2={this.state.pageSize2}
-                    currentPage={this.state.page}
-                    defaultPage={this.defaultPage}
-                    loadingStatus={this.state.loadingStatus}
-                    cellClick={this.cellClick}
-                    resetCell={this.resetCell}
-                    reasonTypeClick={this.reasonTypeClick}
-                  /> : <CreditDetials
-                      onPageChange={this.onPageChange}
-                      pageSize={this.state.pageSize}
+                <div className={`${styles.creditTrend} ${dementionId ? '' : styles.creditNone}`}>
+                  {dementionId ? <> 
+                    <CollegeScore queryAppealDataPage={this.queryAppealDataPage}/>
+                    {
+                    this.state.isIm ? <CreditImDetials
+                      onPageChange={this.onPageChange2}
+                      pageSize2={this.state.pageSize2}
                       currentPage={this.state.page}
-                      detailsData={this.props.dimensionDetails}
-                      dementionId={dementionId}
-                    />
-                }
+                      defaultPage={this.defaultPage}
+                      loadingStatus={this.state.loadingStatus}
+                      cellClick={this.cellClick}
+                      resetCell={this.resetCell}
+                      reasonTypeClick={this.reasonTypeClick}
+                    /> : <CreditDetials
+                        onPageChange={this.onPageChange}
+                        pageSize={this.state.pageSize}
+                        currentPage={this.state.page}
+                        detailsData={this.props.dimensionDetails}
+                        dementionId={dementionId}
+                      />
+                    }
+                  </> : <img src={creditImg} alt='权限' />}
+                </div>
               </div>
             } </> : <>
               <img src={extentImg} alt='权限' />
