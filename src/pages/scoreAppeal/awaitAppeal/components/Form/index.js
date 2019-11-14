@@ -54,6 +54,26 @@ class CSForm extends React.Component {
           [vname]: value,
         });
       }
+    } else if ('organization' === vname) {
+      const list1 = [];
+      const list2 = [];
+      const list3 = [];
+      value.forEach(v => {
+        if (v.indexOf('a-') >= 0) {
+          list1.push(v);
+        }
+        if (v.indexOf('b-') >= 0) {
+          list2.push(v);
+        }
+        if (v.indexOf('c-') >= 0) {
+          list3.push(v);
+        }
+      });
+      this.setState({
+        collegeIdList: [...list1],
+        familyIdList: [...list2],
+        groupIdList: [...list3],
+      });
     } else {
       this.setState({
         [vname]: value,
