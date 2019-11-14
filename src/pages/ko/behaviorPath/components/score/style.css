@@ -6,6 +6,7 @@
   margin-bottom: 16px;
   border-radius: 10px;
   padding: 10px;
+  padding-bottom: 60px;
 }
 .layout1 {
   min-width: 1050px;
@@ -96,6 +97,8 @@
 .itemContent1 > div >div:nth-child(2),.itemContent2 .row > div >div:nth-child(2) {
   font-size: 13px;
   color: #1A1C1F;
+  height: 36px;
+  overflow: hidden;
 }
 
 .itemContent2 {
@@ -112,22 +115,22 @@
 .itemContent2 .row > div{
   width: calc(100% / 3.2);
   text-align: center;
-  padding: 36px 0 22px 0;
+  padding: 36px 0 17px 0;
 }
 
 .itemContent2 .row2 > div{
   width: calc(100% / 3.2);
   text-align: center;
-  padding: 22px 0 36px 0;
+  padding: 22px 0 17px 0;
 }
 .itemContent2 .row .row1Line {
   border-right: 1px dashed #E1E4EA;
-  height: 66px;
+  height: 74px;
   width: 1px;
 }
 
 .itemContent2 .row1 .row1Line {
-  margin-top: 52px;
+  margin-top: 58px;
 }
 
 .itemContent2 .row2 {
@@ -139,4 +142,14 @@
 }
 .itemContent2 .row3 .row1Line{
   height: 122px;
+}
+
+.pagers{
+  width:720px;
+  position:absolute;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  white-space: nowrap;
+  margin-top: 15px;
 }

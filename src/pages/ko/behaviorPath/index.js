@@ -45,6 +45,7 @@ class BehaviorPath1 extends React.Component {
       page: 1,
       pageSize: 10,
       inputStuId: '',
+      pageNum:1,
       stuId: JSON.parse(this.props.location.query.params).userId,
       searchType: null,
     };
@@ -158,11 +159,27 @@ class BehaviorPath1 extends React.Component {
 
   };
 
-  getExamScore = (page,pageSize) => {
+  getExamScore = () => {
     this.props.dispatch({
       type: 'behaviorPath/getExamScore',
-      payload: { params: { stuId: this.state.stuId,page:page || 1,pageSize:pageSize || 10 } },
+      payload: { params: { stuId: this.state.stuId,page:this.state.pageNum || 1,pageSize:this.state.pageSize || 10 } },
     });
+  };
+
+  onPageChange = (page) =>{
+    this.setState({
+      pageNum:page
+    },()=>{
+      this.getExamScore();
+    })
+  };
+  onSizeChange = (current, size) =>{
+    this.setState({
+      pageNum:1,
+      pageSize:size,
+    },()=>{
+      this.getExamScore();
+    })
   };
 
   onTabChange = (e) => {
@@ -250,150 +267,6 @@ class BehaviorPath1 extends React.Component {
     const sutId = this.state.inputStuId || pathParams.userId;
 
 
-    // const scoreData = {
-    //   list: [
-    //     {
-    //       examDate:"201910",
-    //       examCount:7,
-    //       examDetailList:[{
-    //         examName:"市场及市场营销",score:11,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"JAVA程序设计",score:22,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"模拟电路",score:33,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"数字电路",score:44,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"大学英语",score:55,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"数字电路",score:66,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"模拟电路",score:77,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"数字电路",score:88,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"大学英语",score:99,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"数字电路",score:60,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"大学英语",score:70,
-    //         scoreDesc:"aute aliquip qui"
-    //       }]
-    //     },
-    //     {
-    //       examDate:"201910",
-    //       examCount:7,
-    //       examDetailList:[{
-    //         examName:"市场及市场营销",score:1,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"JAVA程序设计",score:2,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"模拟电路",score:3,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"数字电路",score:4,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"大学英语",score:5,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"数字电路",score:6,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"大学英语",score:7,
-    //         scoreDesc:"aute aliquip qui"
-    //       }]
-    //     },
-    //
-    //     {
-    //       examDate:"202004",
-    //       examCount:6,
-    //       examDetailList:[{
-    //         examName:"市场及市场营销",score:1,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"JAVA程序设计",score:2,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"模拟电路",score:3,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"数字电路",score:4,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"大学英语",score:5,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"毛概",score:6,
-    //         scoreDesc:"aute aliquip qui"
-    //       }]
-    //     },{
-    //       examDate:"201910",
-    //       examCount:5,
-    //       examDetailList:[{
-    //         examName:"市场及市场营销",score:1,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"JAVA程序设计",score:2,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"模拟电路",score:3,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"数字电路",score:4,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"大学英语",score:5,
-    //         scoreDesc:"aute aliquip qui"
-    //       }]
-    //     },
-    //     {
-    //       examDate:"201804",
-    //       examCount:3,
-    //       examDetailList:[{
-    //         examName:"市场及市场营销",score:79,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"毛概",score:28,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"中国近现代史",score:22,
-    //         scoreDesc:"aute aliquip qui"
-    //       }]
-    //     },
-    //     {
-    //       examDate:"201810",
-    //       examCount:2,
-    //       examDetailList:[{
-    //         examName:"高等数学",score:99,
-    //         scoreDesc:"aute aliquip qui"
-    //       },{
-    //         examName:"大学物理",score:44,
-    //         scoreDesc:"aute aliquip qui"
-    //       }]
-    //     },
-    //     {
-    //       examDate:"201904",
-    //       examCount:1,
-    //       examDetailList:[{
-    //         examName:"语文",score:28,
-    //         scoreDesc:"aute aliquip qui"
-    //         }]
-    //       }
-    //     ],
-    //   pageNum:1,total:20,pages:10};
     return (
       <>
         <div className={styles.behaviorPath}>
@@ -446,7 +319,7 @@ class BehaviorPath1 extends React.Component {
         }
         {
           ((this.state.searchType && this.state.searchType === '7') || (!this.state.searchType && this.state.activeKey === '7')) ?
-            <Score stuId={sutId} info={userInfoParams} scoreData={ScoreData} isLoading={this.props.portaryLoading}/> : null
+            <Score info={userInfoParams} scoreData={ScoreData} pageNum={this.state.pageNum} pageSize={this.state.pageSize} isLoading={this.props.portaryLoading} onPageChange={this.onPageChange} onSizeChange={this.onSizeChange}/> : null
         }
         {
           ((this.state.searchType && this.state.searchType === '1') || (!this.state.searchType && this.state.activeKey === '1')) ?
