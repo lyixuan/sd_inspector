@@ -1,0 +1,213 @@
+.content-wrap {
+  margin-bottom: 16px;
+  padding-bottom: 30px;
+  border-radius: 10px;
+  background: #ffffff;
+  overflow: hidden;
+
+  .header {
+    padding-left: 26px;
+    height: 48px;
+    line-height: 48px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1A1C1F;
+    border-bottom: 1px solid #F5F8FA;
+  }
+
+  .content {
+    padding: 16px 24px 0;
+
+    .tabs {
+      .tab-button {
+        width: 130px;
+        height: 30px;
+        text-align: center;
+      }
+    }
+
+    .item-content {
+      margin-top: 28px;
+    }
+  }
+
+  .keywords {
+    .input-part {
+      display: flex;
+      justify-content: space-between;
+
+      .config {
+        width: 126px;
+        border: none;
+        color: #ffffff;
+        background: #00CCC3;
+      }
+    }
+
+    .form-part {
+      margin-top: 16px;
+    }
+
+    .pagination-part {
+      margin-top: 250px;
+    }
+  }
+}
+
+//表格中的一些字体样式和pop的样式
+.default-color {
+  color: #00CCC3;
+  cursor: pointer;
+}
+
+.form-pop {
+  padding: 0;
+}
+
+.pop-panel {
+  padding: 0;
+  margin: 0;
+
+  .pop-item {
+    width: 190px;
+    margin-bottom: 12px;
+    color: #333333;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+//确认删除弹框部分
+.delete-modal {
+  .modal-title {
+    margin-bottom: 0;
+    height: 24px;
+    line-height: 24px;
+    .icon {
+      color: #FFBC00;
+      font-size: 24px;
+      margin-right: 9px
+    }
+  }
+
+  .modal-footer {
+    margin:5px 0;
+  }
+
+  .modal-btn-cancel {
+    width: 80px;
+  }
+
+  .modal-btn-delete {
+    width: 80px;
+    border:none;
+  }
+}
+
+// 配置词语弹框部分
+.config-modal {
+  .config-modal-content {
+    .keywords {
+      .label {
+        display:inline-block;
+        width:91px;
+        margin-right:8px;
+        font-size:13px;
+        color:#1A1C1F;
+        text-align:end;
+      }
+      .input {
+        width:200px;
+      }
+      .prompt {
+        margin-left:8px;
+        font-size:12px;
+        color:#FF5959;
+        vertical-align:bottom;
+      }
+    }
+  }
+  .footer {
+    width:80px;
+    font-size:14px;
+    background:#00CCC3;
+  }
+  .footerText {
+    position:absolute;
+    top:15px;
+    left:50%;
+    margin-left:48px;
+    font-size:12px;
+    color:#FF5959;
+  }
+}
+.changeSort {
+  padding-right:30px;
+  font-size:12px;
+  color:#55595E;
+  text-align:end;
+  .icon {
+    margin-right:5px;
+  }
+}
+.config-content {
+  display:flex;
+  margin-top:15px;
+  align-items:flex-start;
+  .left {
+    margin-right:8px;
+    width:91px;
+    height:32px;
+    line-height:32px;
+    font-size:13px;
+    color:#1A1C1F;
+  }
+  .right {
+    margin:0;
+    padding:0;
+  }
+  .item {
+    .knowledge {
+      margin-right:8px;
+      width:136px;
+    }
+    .question-type {
+      margin-right:8px;
+      width:224px;
+    }
+    .question {
+      margin-right:20px;
+      width:288px;
+    }
+    .delete-sort {
+      display:inline-block;
+      height:32px;
+      vertical-align:center;
+      .delete {
+        margin-right:20px;
+        width:16px;
+        height:16px;
+        cursor:pointer;
+      }
+      .sort {
+        width:16px;
+        height:16px;
+      }
+    }
+  }
+}
+.addConfig {
+  margin:8px auto 0;
+  width:233px;
+  height:30px;
+  line-height:30px;
+  text-align:center;
+  background: #F5F8FA;
+  border: 1px dashed #D5D8DB;
+  border-radius: 3px;
+  font-size:12px;
+  color:#9A9DA1;
+  cursor:pointer;
+}
