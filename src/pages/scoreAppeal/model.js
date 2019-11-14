@@ -106,7 +106,6 @@ export default {
       return { ...state, ...payload };
     },
     saveAppealMap(state, { payload }) {
-      console.log(payload, 'payload');
       const appealOrgListTreeData = toTreeData(payload.appealOrgList);
       return { ...state, appealOrgList: payload.appealOrgList, appealOrgListTreeData };
     },

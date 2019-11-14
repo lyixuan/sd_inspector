@@ -11,7 +11,6 @@ import './style.less';
 
 class BITreeSelect extends React.Component {
   render() {
-    console.log(this.props, 'props');
     return (
       <span className="BITreeSelect">
         <TreeSelect {...this.props}></TreeSelect>
