@@ -22,56 +22,61 @@ class CSForm extends React.Component {
   constructor(props) {
     super(props);
     this.init = {
-      creditBeginDate: undefined,  // 学分开始日期
-      creditEndDate: undefined,    // 学分结束日期
-      stuId: undefined,            // 学员id
-      stuName: undefined,          // 学员姓名
-      creditType: undefined,       // 学分维度
+      creditBeginDate: undefined, // 学分开始日期
+      creditEndDate: undefined, // 学分结束日期
+      stuId: undefined, // 学员id
+      stuName: undefined, // 学员姓名
+      creditType: undefined, // 学分维度
+      collegeIdList: [],
+      familyIdList: [],
+      groupIdList: [],
     };
-    const {params=null} = this.props.location.query;
-    this.state = {...this.init,...JSON.parse(params)};
+    const { params = null } = this.props.location.query;
+    this.state = { ...this.init, ...JSON.parse(params) };
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if(nextProps.location.query!==this.props.location.query){
-      const {params=null} = nextProps.location.query;
-      const obj = {...this.init,...JSON.parse(params)}
-      this.setState(obj)
+    if (nextProps.location.query !== this.props.location.query) {
+      const { params = null } = nextProps.location.query;
+      const obj = { ...this.init, ...JSON.parse(params) };
+      this.setState(obj);
     }
   }
-  onFormChange = (value,vname)=>{
-    if ('creditDate' === vname ) {
+  onFormChange = (value, vname) => {
+    if ('creditDate' === vname) {
       this.setState({
-        creditBeginDate:value[0],
-        creditEndDate:value[1],
+        creditBeginDate: value[0],
+        creditEndDate: value[1],
       });
-    } else if ('stuId' === vname ) {
+    } else if ('stuId' === vname) {
       const reg = /^[0-9]*$/;
       if ((!Number.isNaN(value) && reg.test(value)) || value === '') {
         this.setState({
-          [vname]:value
+          [vname]: value,
         });
       }
-    }else {
+    } else {
       this.setState({
-        [vname]:value
+        [vname]: value,
       });
     }
   };
-  reset = ()=>{
-    this.setState(this.init,()=>{
-      this.props.onSubmit(this.state,{page:1});
+  reset = () => {
+    this.setState(this.init, () => {
+      this.props.onSubmit(this.state, { page: 1 });
     });
   };
 
-  search = ()=>{
-    this.props.onSubmit(this.state,{page:1});
+  search = () => {
+    this.props.onSubmit(this.state, { page: 1 });
   };
   render() {
+    const { collegeIdList, familyIdList, groupIdList } = this.state;
     // dimensionType:  11 优新 14 IM 19 工单 23 底线 42 创收
-    const {scoreAppealModel={}, dimensionType = 11,loading} = this.props;
-    const {dimensionList=[]} = scoreAppealModel;
-    const dimensionList2 = dimensionList.filter((v)=>v.parentId===dimensionType&&v.id!==47);
-    const {creditBeginDate,creditEndDate,stuId,stuName,creditType} = this.state;
+    const { scoreAppealModel = {}, dimensionType = 11, loading } = this.props;
+    const { appealOrgListTreeData = [], dimensionList = [] } = scoreAppealModel;
+
+    const dimensionList2 = dimensionList.filter(v => v.parentId === dimensionType && v.id !== 47);
+    const { creditBeginDate, creditEndDate, stuId, stuName, creditType } = this.state;
     return (
       <div className={styles.newSheetWrap}>
         {/*form1*/}
@@ -82,17 +87,29 @@ class CSForm extends React.Component {
               <Col className={styles.gutterCol} span={8}>
                 <div className={styles.gutterBox1}>
                   <span className={styles.gutterLabel}>学分日期</span>：
-                  <span className={styles.gutterForm}><BIRangePicker allowClear value={creditBeginDate && [moment(creditBeginDate),moment(creditEndDate)]} onChange={(val,valStr)=>this.onFormChange(valStr,'creditDate')}/></span>
+                  <span className={styles.gutterForm}>
+                    <BIRangePicker
+                      allowClear
+                      value={creditBeginDate && [moment(creditBeginDate), moment(creditEndDate)]}
+                      onChange={(val, valStr) => this.onFormChange(valStr, 'creditDate')}
+                    />
+                  </span>
                 </div>
               </Col>
-              <Col className={styles.gutterCol}  span={8}>
+              <Col className={styles.gutterCol} span={8}>
                 <div className={styles.gutterBox2}>
                   <span className={styles.gutterLabel}>学员ID</span>：
-                  <span className={styles.gutterForm}><BIInput placeholder="请输入学员ID(数字类型)" allowClear value={stuId} onChange={(e)=>this.onFormChange(e.target.value,'stuId')}/></span>
+                  <span className={styles.gutterForm}>
+                    <BIInput
+                      placeholder="请输入学员ID(数字类型)"
+                      allowClear
+                      value={stuId}
+                      onChange={e => this.onFormChange(e.target.value, 'stuId')}
+                    />
+                  </span>
                 </div>
               </Col>
-              <Col className={styles.gutterCol}  span={8}>
-              </Col>
+              <Col className={styles.gutterCol} span={8}></Col>
             </Row>
             {/*第二行*/}
             <Row className={styles.gutterRow}>
@@ -100,42 +117,81 @@ class CSForm extends React.Component {
                 <div className={styles.gutterBox1}>
                   <span className={styles.gutterLabel}>学员姓名</span>：
                   <span className={styles.gutterForm}>
-                    <BIInput placeholder="请输入" allowClear value={stuName} onChange={(e)=>this.onFormChange(e.target.value,'stuName')}/></span>
+                    <BIInput
+                      placeholder="请输入"
+                      allowClear
+                      value={stuName}
+                      onChange={e => this.onFormChange(e.target.value, 'stuName')}
+                    />
+                  </span>
                 </div>
               </Col>
-              <Col className={styles.gutterCol}  span={8}>
-                {dimensionType!==11&&(
+              <Col className={styles.gutterCol} span={8}>
+                {dimensionType !== 11 && (
                   <div className={styles.gutterBox2}>
                     <span className={styles.gutterLabel}>学分维度</span>：
                     <span className={styles.gutterForm}>
-                      <BISelect style={{width:230}} placeholder="请选择" value={creditType} onChange={(val)=>this.onFormChange(val,'creditType')}>
+                      <BISelect
+                        style={{ width: 230 }}
+                        placeholder="请选择"
+                        value={creditType}
+                        onChange={val => this.onFormChange(val, 'creditType')}
+                      >
                         {dimensionList2.map(item => (
-                          <Option key={item.id}>
-                            {item.name}
-                          </Option>
+                          <Option key={item.id}>{item.name}</Option>
                         ))}
                       </BISelect>
                     </span>
                   </div>
                 )}
               </Col>
-              <Col className={styles.gutterCol}  span={8}>
+              <Col className={styles.gutterCol} span={8}></Col>
+              <Col className={styles.gutterCol} span={8}>
+                {/* {(AuthButton.checkPathname('/scoreAppeal/roles/master')
+                  || AuthButton.checkPathname('/scoreAppeal/roles/master2')
+                  || AuthButton.checkPathname('/scoreAppeal/roles/dockingMan')
+                  || AuthButton.checkPathname('/scoreAppeal/roles/dockingMan2')) &&
+                  ( */}
+                <div className={styles.gutterBox3}>
+                  <span className={styles.gutterLabel}>归属组织</span>：
+                  <span className={styles.gutterForm}>
+                    <BITreeSelect
+                      style={{ width: 230 }}
+                      placeholder="请选择"
+                      allowClear
+                      maxTagTextLength={7}
+                      maxTagPlaceholder={omittedValues => <span>{`+${omittedValues.length}`}</span>}
+                      value={[...collegeIdList, ...familyIdList, ...groupIdList]}
+                      multiple
+                      showArrow
+                      maxTagCount={1}
+                      dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                      treeData={appealOrgListTreeData}
+                      onChange={val => this.onFormChange(val, 'organization')}
+                    />
+                  </span>
+                </div>
+                {/* )} */}
               </Col>
             </Row>
           </div>
-        {/*第三行*/}
-        <Row className={styles.gutterRow}>
-          <Col className={styles.gutterCol} span={8}>
-          </Col>
-          <Col className={styles.gutterCol}  span={8}>
-          </Col>
-          <Col className={styles.gutterCol}  span={8}>
-            <div className={styles.gutterBox3}>
-              <span className={styles.gutterBtn1}><BIButton onClick={this.search} type='primary'>搜索</BIButton></span>
-              <span className={styles.gutterBtn2}><BIButton onClick={this.reset}>重置</BIButton></span>
-            </div>
-          </Col>
-        </Row>
+          {/*第三行*/}
+          <Row className={styles.gutterRow}>
+            <Col className={styles.gutterCol} span={8}></Col>
+            <Col className={styles.gutterCol} span={8}></Col>
+            <Col className={styles.gutterCol} span={8}>
+              <div className={styles.gutterBox3}>
+                <span className={styles.gutterBtn1}>
+                  <BIButton onClick={this.search} type="primary">
+                    搜索
+                  </BIButton>
+                </span>
+                <span className={styles.gutterBtn2}>
+                  <BIButton onClick={this.reset}>重置</BIButton>
+                </span>
+              </div>
+            </Col>
+          </Row>
         </div>
       </div>
     );
