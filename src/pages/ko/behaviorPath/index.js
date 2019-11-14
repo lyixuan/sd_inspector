@@ -242,38 +242,146 @@ class BehaviorPath1 extends React.Component {
     const scoreData = {
       list: [
         {
+          examDate:"201910",
+          examCount:7,
+          examDetailList:[{
+            examName:"市场及市场营销",score:11,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"JAVA程序设计",score:22,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"模拟电路",score:33,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"数字电路",score:44,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"大学英语",score:55,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"数字电路",score:66,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"模拟电路",score:77,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"数字电路",score:88,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"大学英语",score:99,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"数字电路",score:60,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"大学英语",score:70,
+            scoreDesc:"aute aliquip qui"
+          }]
+        },
+        {
+          examDate:"201910",
+          examCount:7,
+          examDetailList:[{
+            examName:"市场及市场营销",score:1,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"JAVA程序设计",score:2,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"模拟电路",score:3,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"数字电路",score:4,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"大学英语",score:5,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"数字电路",score:6,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"大学英语",score:7,
+            scoreDesc:"aute aliquip qui"
+          }]
+        },
+
+        {
+          examDate:"202004",
+          examCount:6,
+          examDetailList:[{
+            examName:"市场及市场营销",score:1,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"JAVA程序设计",score:2,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"模拟电路",score:3,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"数字电路",score:4,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"大学英语",score:5,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"毛概",score:6,
+            scoreDesc:"aute aliquip qui"
+          }]
+        },{
+          examDate:"201910",
+          examCount:5,
+          examDetailList:[{
+            examName:"市场及市场营销",score:1,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"JAVA程序设计",score:2,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"模拟电路",score:3,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"数字电路",score:4,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"大学英语",score:5,
+            scoreDesc:"aute aliquip qui"
+          }]
+        },
+        {
+          examDate:"201804",
+          examCount:3,
+          examDetailList:[{
+            examName:"市场及市场营销",score:79,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"毛概",score:28,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"中国近现代史",score:22,
+            scoreDesc:"aute aliquip qui"
+          }]
+        },
+        {
+          examDate:"201810",
+          examCount:2,
+          examDetailList:[{
+            examName:"高等数学",score:99,
+            scoreDesc:"aute aliquip qui"
+          },{
+            examName:"大学物理",score:44,
+            scoreDesc:"aute aliquip qui"
+          }]
+        },
+        {
           examDate:"201904",
           examCount:1,
           examDetailList:[{
             examName:"语文",score:28,
             scoreDesc:"aute aliquip qui"
             }]
-          },
-        {
-          examDate:"201910",
-          examCount:3,
-          examDetailList:[{
-            examName:"数学",score:79,
-            scoreDesc:"aute aliquip qui"
-          },{
-            examName:"语文",score:28,
-            scoreDesc:"aute aliquip qui"
-          },{
-            examName:"化学",score:22,
-            scoreDesc:"aute aliquip qui"
-          },{
-            examName:"英语",score:99,
-            scoreDesc:"aute aliquip qui"
-          }]
-        },
-        {
-          examDate:"202004",
-          examCount:3,
-          examDetailList:[{
-            examName:"英语",score:99,
-            scoreDesc:"aute aliquip qui"
-          }]
-        }],
+          }
+        ],
       pageNum:1,total:20,pages:10};
     return (
       <>
