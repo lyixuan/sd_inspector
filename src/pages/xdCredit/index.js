@@ -430,11 +430,14 @@ class XdCredit extends React.Component {
   //获取柱状图及维度的接口
   queryAppealDataPage = (obj = {}) =>{
     const params = {
-      ...this.state.queryParams,
-      ...obj,
+      collegeId: 11,
+      contrasts: 1,
+      dimensionId: 41,
+      endTime: "2019-09-25",
+      familyType: 0,
+      startTime: "2019-08-29",
     }
     console.log("params",params)
-    this.setState({queryParams: params });
     this.props.dispatch({
       type:'xdManagementBench/queryAppealDataPage',
       payload:{params:params},
