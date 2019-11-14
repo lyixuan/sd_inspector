@@ -7,40 +7,8 @@ import style from './style.less'
 import CSForm from '@/pages/scoreAppeal/awaitAppeal/components/Form';
 import AuthButton from '@/components/AuthButton/index';
 import storage from '@/utils/storage';
+import { jumpMarkingDetails } from '@/pages/ko/utils/utils';
 
-const columns = [
-  {
-    title: '学分日期',
-    dataIndex: 'creditDate',
-  },
-  {
-    title: '学分维度',
-    dataIndex: 'creditName',
-  },
-  {
-    title: '学分归属人',
-    dataIndex: 'userName',
-  },
-  {
-    title: '归属组织',
-    dataIndex: 'collegeName',
-    render: (text, record) => {
-      return (
-        <>
-          {`${record.collegeName ? record.collegeName : ''} ${record.familyName ? `| ${record.familyName}` : ''}  ${record.groupName ? `| ${record.groupName}` : ''}`}
-        </>
-      );
-    },
-  },
-  {
-    title: '学员姓名',
-    dataIndex: 'stuName',
-  },
-  {
-    title: '学员ID',
-    dataIndex: 'stuId',
-  },
-];
 
 @connect(({ awaitAppealModel,loading }) => ({
   awaitAppealModel,
@@ -139,7 +107,48 @@ class AwaitAppeal extends React.Component {
     this.onJumpPage(query, '/scoreAppeal/awaitAppeal/appeal');
   };
   columnsAction = () => {
-    const actionObj = [{
+    const {dimensionType} = this.state;
+    console.log(1,dimensionType)
+    const actionObj = [
+        {
+          title: '学分日期',
+          dataIndex: 'creditDate',
+        },
+        {
+          title: '学分维度',
+          dataIndex: 'creditName',
+        },
+        {
+          title: '学分归属人',
+          dataIndex: 'userName',
+        },
+        {
+          title: '归属组织',
+          dataIndex: 'collegeName',
+          render: (text, record) => {
+            return (
+              <>
+                {`${record.collegeName ? record.collegeName : ''} ${record.familyName ? `| ${record.familyName}` : ''}  ${record.groupName ? `| ${record.groupName}` : ''}`}
+              </>
+            );
+          },
+        },
+        {
+          title: '学员姓名',
+          dataIndex: 'stuName',
+          render: (text, record) => {
+            return (
+              <>
+                {dimensionType == 14 ?<span style={{color:'#00CCC3',cursor:'pointer'}} onClick={()=>jumpMarkingDetails(record.stuId,{target:'im'} )}>{text}</span>:<span>{text}</span>}
+              </>
+            );
+          },
+        },
+        {
+          title: '学员ID',
+          dataIndex: 'stuId',
+        },
+      {
       title: '操作',
       dataIndex: 'operation',
       render: (text, record) => {
@@ -159,7 +168,7 @@ class AwaitAppeal extends React.Component {
         );
       },
     }];
-    return [...columns, ...actionObj];
+    return [...actionObj];
   };
 
   changeTab(dimensionType){
