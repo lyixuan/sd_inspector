@@ -2,7 +2,6 @@ import React from 'react';
 import { Tooltip } from 'antd';
 import { connect } from 'dva';
 import BITable from '@/ant_components/BITable';
-import creditImg from '@/assets/xdcredit/credit.gif';
 import styles from './style.less';
 import {
   pathImUrl,
@@ -254,13 +253,11 @@ class CreditImDetials extends React.Component {
     }
   }
   render() {
-    const { dementionId, detailsData, pageSize = 40, currentPage } = this.props;
+    const { detailsData, pageSize = 15, currentPage } = this.props;
     const dataSource = detailsData.data || [];
     const totalCount = detailsData.total || 0;
     return (
-      <div className={`${styles.detials} ${dementionId ? '' : styles.noneData}`}>
-        {
-          dementionId ? <BITable
+        <BITable
             columns={this.columns()}
             dataSource={dataSource}
             rowClassName={this.setRowClassName}
@@ -275,9 +272,7 @@ class CreditImDetials extends React.Component {
             rowKey={(record, index) => record.id + '' + index}
             loading={this.props.loading}
             smalled={true}
-          /> : <img src={creditImg} alt='权限' />
-        }
-      </div>
+          />
     );
   }
 }

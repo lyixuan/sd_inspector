@@ -153,6 +153,7 @@ class Dimension extends React.Component {
             pagination={false}
             smalled={true}
             bordered
+            // scroll={{ y: 1000 }}
           /> : ''
         }
       </div>

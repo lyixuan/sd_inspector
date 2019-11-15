@@ -100,7 +100,6 @@ export function strLen(str = '', len = 10) {
 }
 
 export function jumpMarkingDetails(id, type) {
-  // alert(id)
   const origin = window.location.origin;
   if (type.target) {
     const url = `${origin}${config.base}ko/behaviorPath`;
