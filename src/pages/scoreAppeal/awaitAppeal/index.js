@@ -7,42 +7,7 @@ import style from './style.less';
 import CSForm from '@/pages/scoreAppeal/awaitAppeal/components/Form';
 import AuthButton from '@/components/AuthButton/index';
 import storage from '@/utils/storage';
-
-const columns = [
-  {
-    title: '学分日期',
-    dataIndex: 'creditDate',
-  },
-  {
-    title: '学分维度',
-    dataIndex: 'creditName',
-  },
-  {
-    title: '学分归属人',
-    dataIndex: 'userName',
-  },
-  {
-    title: '归属组织',
-    dataIndex: 'collegeName',
-    render: (text, record) => {
-      return (
-        <>
-          {`${record.collegeName ? record.collegeName : ''} ${
-            record.familyName ? `| ${record.familyName}` : ''
-          }  ${record.groupName ? `| ${record.groupName}` : ''}`}
-        </>
-      );
-    },
-  },
-  {
-    title: '学员姓名',
-    dataIndex: 'stuName',
-  },
-  {
-    title: '学员ID',
-    dataIndex: 'stuId',
-  },
-];
+import { jumpMarkingDetails } from '@/pages/ko/utils/utils';
 
 @connect(({ awaitAppealModel, loading }) => ({
   awaitAppealModel,
@@ -60,6 +25,7 @@ class AwaitAppeal extends React.Component {
       dimensionType: myParam && myParam.dimensionType ? myParam.dimensionType : 11,
     };
   }
+
   componentDidMount() {
     const { dimensionType } = this.state;
     const { params = null } = this.props.location.query;
@@ -68,6 +34,7 @@ class AwaitAppeal extends React.Component {
     }
     this.queryData(dimensionType, JSON.parse(params));
   }
+
   onFormChange = (value, vname) => {
     if ('creditDate' === vname) {
       this.setState({
@@ -182,34 +149,69 @@ class AwaitAppeal extends React.Component {
     this.onJumpPage(query, '/scoreAppeal/awaitAppeal/appeal');
   };
   columnsAction = () => {
+    const {dimensionType} = this.state;
     const actionObj = [
+      {
+        title: '学分日期',
+        dataIndex: 'creditDate',
+      },
+      {
+        title: '学分维度',
+        dataIndex: 'creditName',
+      },
+      {
+        title: '学分归属人',
+        dataIndex: 'userName',
+      },
+      {
+        title: '归属组织',
+        dataIndex: 'collegeName',
+        render: (text, record) => {
+          return (
+            <>
+              {`${record.collegeName ? record.collegeName : ''} ${record.familyName ? `| ${record.familyName}` : ''}  ${record.groupName ? `| ${record.groupName}` : ''}`}
+            </>
+          );
+        },
+      },
+      {
+        title: '学员姓名',
+        dataIndex: 'stuName',
+        render: (text, record) => {
+          return (
+            <>
+              {dimensionType == 14 ?<span style={{color:'#00CCC3',cursor:'pointer'}} onClick={()=>jumpMarkingDetails(record.stuId,{target:'im'} )}>{text}</span>:<span>{text}</span>}
+            </>
+          );
+        },
+      },
+      {
+        title: '学员ID',
+        dataIndex: 'stuId',
+      },
       {
         title: '操作',
         dataIndex: 'operation',
         render: (text, record) => {
           return (
             <>
-              <AuthButton authority="/scoreAppeal/awaitAppeal/detail">
-                <span
-                  style={{ marginLeft: '-5px' }}
-                  className={style.actionBtn}
-                  onClick={() => this.onDetail(record)}
-                >
-                  详情
-                </span>
+              <AuthButton authority='/scoreAppeal/awaitAppeal/detail'>
+            <span style={{marginLeft:'-5px'}} className={style.actionBtn} onClick={() => this.onDetail(record)}>
+              详情
+            </span>
               </AuthButton>
-              <AuthButton authority="/scoreAppeal/awaitAppeal/appeal">
-                <span className={style.actionBtn} onClick={() => this.onCreateAppeal(record)}>
-                  申诉
-                </span>
+              <AuthButton authority='/scoreAppeal/awaitAppeal/appeal'>
+            <span className={style.actionBtn} onClick={() => this.onCreateAppeal(record)}>
+              申诉
+            </span>
               </AuthButton>
             </>
           );
         },
-      },
-    ];
-    return [...columns, ...actionObj];
+      }];
+    return [...actionObj];
   };
+
 
   changeTab(dimensionType) {
     const score_tab = storage.getSessionItem('score_tab');
@@ -219,20 +221,22 @@ class AwaitAppeal extends React.Component {
         {
           dimensionType,
         },
-        () => this.queryData(undefined, JSON.parse(tabParams), undefined)
+        () => this.queryData(undefined, JSON.parse(tabParams), undefined),
       );
     } else {
       this.setState(
         {
           dimensionType,
         },
-        () => this.queryData(dimensionType, undefined, { page: 1 })
+        () => this.queryData(dimensionType, undefined, { page: 1 }),
       );
     }
   }
+
   formSubmit(dimensionType, params, pg) {
     this.queryData(dimensionType, params, pg);
   }
+
   changePage(dimensionType, params, pg) {
     const score_tab = storage.getSessionItem('score_tab');
     if (score_tab && score_tab[this.state.dimensionType]) {
@@ -241,17 +245,18 @@ class AwaitAppeal extends React.Component {
         {
           dimensionType: this.state.dimensionType,
         },
-        () => this.queryData(dimensionType, JSON.parse(tabParams), pg)
+        () => this.queryData(dimensionType, JSON.parse(tabParams), pg),
       );
     } else {
       this.setState(
         {
           dimensionType: this.state.dimensionType,
         },
-        () => this.queryData(dimensionType, undefined, pg)
+        () => this.queryData(dimensionType, undefined, pg),
       );
     }
   }
+
   render() {
     const { dimensionType } = this.state;
     const { loading } = this.props;
