@@ -19,40 +19,34 @@ class CollegeScore extends React.Component {
       familyName:[]
     }
   }
-  componentDidMount() {
-  }
-  bgColor=(creaditValue)=>{
-    let barBackground = ""
-    creaditValue.map((item)=>{
-      if(item>0){
-        barBackground = "#47D3FF"
-      }else if(item<0){
-        barBackground = "#FF8086"
+  getItemStyle = v =>{
+    if (v > 0) {
+      return {
+        color: "#47D3FF",
+        barBorderRadius: [4,4,0,0]
       }
-    })
-    return barBackground
-  }
-  borderRadiusAll = (creaditValue) =>{
-    let borderRadius = [4,4,0,0];
-    creaditValue.map((item)=>{
-      if(item>0){
-        borderRadius = [4,4,0,0]
-      }else if(item<0){
-        borderRadius = [0,0,4,4]
+    } else {
+      return {
+        color: "#FF8086",
+        barBorderRadius: [0,0,4,4]
       }
-    })
-    return borderRadius
+    }
   }
   drawChart = (arr) =>{
     let creaditValue = [];
     let familyName = [];
     let qoqValue = []
     let dataShadow = []
-    let maxShadow = []
+    let maxShadow = [];
+    const seriesDatas = [];
     arr.map((item,index)=>{
       creaditValue.push(item.creaditValue);
       familyName.push(item.name);
-      qoqValue.push((item.qoqValue*100).toFixed(2))
+      qoqValue.push((item.qoqValue*100).toFixed(2));
+      seriesDatas.push({
+        itemStyle: this.getItemStyle(item.creaditValue),
+        value: item.creaditValue
+      })
     })
     const yMax =  Math.max.apply(null, creaditValue);
     const yMin = Math.min.apply(null, creaditValue);
@@ -63,8 +57,6 @@ class CollegeScore extends React.Component {
       maxShadow.push(yMax);
     }
     const barWidth = familyName.length>=22 ? 20 : 50
-    const barBackground = this.bgColor(creaditValue)
-    const borderRadius = this.borderRadiusAll(creaditValue)
     const  options = {
       color: ["#50D4FD", "#FD8188"],
       tooltip: {
@@ -173,9 +165,6 @@ class CollegeScore extends React.Component {
         {
           name:'均分',
           type:'bar',
-          itemStyle: {
-            normal: {color: barBackground,barBorderRadius:borderRadius}
-          },
           barWidth:barWidth,
           label: {
             normal: {
@@ -185,7 +174,7 @@ class CollegeScore extends React.Component {
               fontSize:13
             }
           },
-          data:creaditValue,
+          data: seriesDatas,
         },
         {
           name:'环比',

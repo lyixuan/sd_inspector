@@ -54,3 +54,8 @@ export async function getStatInfo(params) {
 export async function getDetailInfo(params) {
   return request('/userProfile/getDetailInfo', { params });
 }
+
+// 成绩
+export async function getExamScore(params) {
+  return request('/exam/queryExamScore', { params });
+}

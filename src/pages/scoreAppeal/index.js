@@ -4,12 +4,15 @@ import { connect } from 'dva/index';
 @connect(({ scoreAppealModel }) => ({
   scoreAppealModel,
 }))
-
 class scoreAppeal extends React.Component {
   componentDidMount() {
     // 获取组织
+    // this.props.dispatch({
+    //   type: 'scoreAppealModel/getOrgMapList',
+    //   payload: { params: {} },
+    // });
     this.props.dispatch({
-      type: 'scoreAppealModel/getOrgMapList',
+      type: 'scoreAppealModel/getOrgMapTree',
       payload: { params: {} },
     });
     // // 学分维度

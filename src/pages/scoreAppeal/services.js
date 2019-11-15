@@ -4,6 +4,10 @@ import request from '@/utils/request';
 export async function getOrgMapList(params) {
   return request('/orgMap/getOrgMapList', { params });
 }
+// 查询质检申诉管理归属组织架构
+export async function getOrgMapTree(params) {
+  return request('/orgMap/getOrgMapTree');
+}
 
 // 查询学分维度
 export async function creditDimensionList(params) {
@@ -22,6 +26,10 @@ export async function getAppealInfoCheckList(params) {
 
 // 导出
 export async function exportExcel(data) {
-  return request('/creditAppeal/exportExcel', { method: 'post', data,responseType:'blob',getResponse: true });
+  return request('/creditAppeal/exportExcel', {
+    method: 'post',
+    data,
+    responseType: 'blob',
+    getResponse: true,
+  });
 }
-
