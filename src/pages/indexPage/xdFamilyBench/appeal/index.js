@@ -132,9 +132,9 @@ class Negative extends React.Component {
           )}
           {date.startDate && <IMPartRight date={date} />}
         </div>
-        {date.startDate && userInfo && <NPSEvaluate ref="five" date={date} userInfo={userInfo} />}
+        {date.startDate && userInfo && <NPSEvaluate date={date} userInfo={userInfo} />}
         <div className={styles.appealWrap}>
-          <Appeal userId={this.props.userId} />
+          <Appeal userId={this.props.userId} date={date} />
           <Quality userId={this.props.userId} />
         </div>
       </div>

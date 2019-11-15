@@ -11,6 +11,7 @@ import {
   getTagInfo,
   getStatInfo,
   getDetailInfo,
+  getExamScore,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -298,6 +299,19 @@ export default {
       } else if (result.code === 20003){
         const DetailInfo = result.data;
         yield put({ type: 'save', payload: { DetailInfo } });
+      }
+    },
+    *getExamScore({ payload }, { call, put }) {
+      const params = payload.params;
+      if(params && params.stuId && params.stuId>2147483647){
+        return;
+      }
+      const result = yield call(getExamScore, params);
+      if (result.code === 20000) {
+        const ScoreData = result.data;
+        yield put({ type: 'save', payload: { ScoreData } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
   },

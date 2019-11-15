@@ -4,6 +4,7 @@
 import { extend } from 'umi-request';
 import { routerRedux } from 'dva/router';
 import { SERVER_HOST, PROXY_PATH } from './constants';
+import { DebugConfig } from './debug';
 
 import { notification } from 'antd';
 import { redirectToLogin } from './routeUtils';
@@ -71,15 +72,21 @@ const request = extend({
   // },
   credentials: 'include',
 });
+
 // 动态添加数据;
 request.interceptors.request.use((url, options) => {
   options.headers = Object.assign({}, options.headers, { 'X-Requested-With': 'XMLHttpRequest', authorization: storage.getToken() });
   const hasSelfPri = url.indexOf('/apis') > -1 || url.indexOf('/shinecollege') > -1 || url.indexOf('/inspectorapis') > -1 || url.indexOf('/deskperfpcapi') > -1;
+  if (url.includes('/test')) {
+    // 连接本地接口
+    return DebugApis(DebugConfig,url,options);
+  }
   return {
     url: `${SERVER_HOST}${PROXY_PATH(hasSelfPri)}${url}`,
     options,
   };
 });
+
 request.interceptors.response.use((response, options) => {
   const data =  response.clone().json();
   data.then((res)=>{
@@ -89,4 +96,14 @@ request.interceptors.response.use((response, options) => {
   });
   return response;
 });
+
+const DebugApis = (DebugConfig,url,options) => {
+  return {
+    url: `http://${DebugConfig.ip}${url.replace(`/test${DebugConfig.sliceTail}`, '')}`,
+    options,
+  };
+};
+
+
+
 export default request;

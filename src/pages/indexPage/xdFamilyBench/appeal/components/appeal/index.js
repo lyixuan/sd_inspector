@@ -23,26 +23,28 @@ const tabsMsg = [
     dataTrace: '{"widgetName":"审核中","traceName":"家族长工作台/审核中"}',
   },
 ];
-function bottomParams(num) {
+function bottomParams(num, date, type) {
   return {
     page: 1,
     pageSize: 30,
     dimensionType: num,
+    date,
+    type,
   };
 }
 
 let bottomLineUrl, imUrl, orderUrl, newExcellentUrl, incomeUrl;
 
-function gotoUrl(type) {
+function gotoUrl(type, date) {
   switch (type) {
     case 1:
       bottomLineUrl = `/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(
-        bottomParams(23)
+        bottomParams(23, date, type)
       )}`; // 底线
       imUrl = `/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(bottomParams(14))}`; // im
       orderUrl = `/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(bottomParams(19))}`; // 工单
       newExcellentUrl = `/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(
-        bottomParams(11)
+        bottomParams(11, date, type)
       )}`; // 优新
       incomeUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(bottomParams(42))}`; // 创收
       break;
@@ -51,7 +53,7 @@ function gotoUrl(type) {
       imUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(bottomParams(14))}`; // im
       orderUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(bottomParams(19))}`; // 工单
       newExcellentUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(
-        bottomParams(11)
+        bottomParams(11, date, type)
       )}`; // 优新
       incomeUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(bottomParams(42))}`; // 创收
       break;
@@ -85,7 +87,8 @@ class appeal extends React.Component {
 
   columns = () => {
     const { appealType } = this.state;
-    gotoUrl(appealType);
+    const { date } = this.props;
+    gotoUrl(appealType, date);
     const columns = [
       {
         title: '家族小组',

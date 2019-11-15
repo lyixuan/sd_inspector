@@ -51,9 +51,8 @@ export default class EchartsComponent extends React.Component {
   }
 
   render() {
-    const { style } = this.props;
     return (
-      <div style={{ ...style }}>
+      <div style={this.props.style} className={this.props.className}>
         <div ref={this.createRef} className={styles.echartDom} />
      </div>
     )

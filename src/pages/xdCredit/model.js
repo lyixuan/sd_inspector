@@ -26,8 +26,8 @@ export default {
     kpiDateRange: {},
     imDetailData: {},
     imDetailList: [],
+    appealDatas: {} // 日趋图数据
   },
-
 
   effects: {
     *imDetailList({ payload }, { call, put }) {
@@ -123,11 +123,10 @@ export default {
     },
     //  家族学分对比柱状图部分的接口
     *queryAppealDataPage({ payload, callback }, { call, put }) {
+      yield put({ type: 'save', payload: { appealDatas: [] } });
       const result = yield call(queryAppealDataPage, payload.params);
       if (result.code === 20000 && result.data) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
+        yield put({ type: 'save', payload: { appealDatas: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

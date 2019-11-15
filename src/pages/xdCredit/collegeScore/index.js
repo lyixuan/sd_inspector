@@ -5,43 +5,24 @@ import moment from 'moment'
 import Echart from '../components/echart'
 import EchartBottom from '@/pages/indexPage/ManagementBench/scoreContrast/components/echartBottom';
 import styles from './style.less'
-@connect(({xdManagementBench,loading,xdWorkModal}) => ({
-  xdManagementBench,
-  loading:loading.effects['xdManagementBench/queryAppealDataPage'],
-  // times:xdManagementBench.getCurrentDateRangeData,
-  // userInfo: xdWorkModal.userInfo,
+
+@connect(({xdCreditModal, loading}) => ({
+  loading:loading.effects['xdCreditModal/queryAppealDataPage'],
+  appealDatas: xdCreditModal.appealDatas || {},
 }))
 class CollegeScore extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      queryAppealDatas:{},
-      familyName:[]
+  getItemStyle = v =>{
+    if (v > 0) {
+      return {
+        color: "#47D3FF",
+        barBorderRadius: [4,4,0,0]
+      }
+    } else {
+      return {
+        color: "#FF8086",
+        barBorderRadius: [0,0,4,4]
+      }
     }
-  }
-  componentDidMount() {
-  }
-  bgColor=(creaditValue)=>{
-    let barBackground = ""
-    creaditValue.map((item)=>{
-      if(item>0){
-        barBackground = "#47D3FF"
-      }else if(item<0){
-        barBackground = "#FF8086"
-      }
-    })
-    return barBackground
-  }
-  borderRadiusAll = (creaditValue) =>{
-    let borderRadius = [4,4,0,0];
-    creaditValue.map((item)=>{
-      if(item>0){
-        borderRadius = [4,4,0,0]
-      }else if(item<0){
-        borderRadius = [0,0,4,4]
-      }
-    })
-    return borderRadius
   }
   drawChart = (arr) =>{
     let creaditValue = [];
@@ -49,10 +30,15 @@ class CollegeScore extends React.Component {
     let qoqValue = []
     let dataShadow = []
     let maxShadow = []
+    const seriesDatas = [];
     arr.map((item,index)=>{
       creaditValue.push(item.creaditValue);
       familyName.push(item.name);
-      qoqValue.push((item.qoqValue*100).toFixed(2))
+      qoqValue.push((item.qoqValue*100).toFixed(2));
+      seriesDatas.push({
+        itemStyle: this.getItemStyle(item.creaditValue),
+        value: item.creaditValue
+      })
     })
     const yMax =  Math.max.apply(null, creaditValue);
     const yMin = Math.min.apply(null, creaditValue);
@@ -62,9 +48,7 @@ class CollegeScore extends React.Component {
       dataShadow.push(yMin);
       maxShadow.push(yMax);
     }
-    const barWidth = familyName.length>=22 ? 20 : 50
-    const barBackground = this.bgColor(creaditValue)
-    const borderRadius = this.borderRadiusAll(creaditValue)
+    const barWidth = familyName.length >= 10 ? 20 : 50
     const  options = {
       color: ["#50D4FD", "#FD8188"],
       tooltip: {
@@ -83,7 +67,7 @@ class CollegeScore extends React.Component {
           data: familyName,
           axisLabel: {
             interval:0,
-            rotate:familyName.length>=22?30:0,
+            rotate: familyName.length >= 10 ? 30:0,
             color:'#000000 '
           },
           axisLine:{
@@ -101,8 +85,8 @@ class CollegeScore extends React.Component {
           inverse: false,
           splitArea: {show: false},
           type: 'value',
-          min: yMin>0?0:yMin,
-          max: yMax<0?0:yMax,
+          min: yMin>0 ? 0: yMin,
+          max: yMax<0 ? 0: yMax,
           onZeroAxisIndex:0,
           axisLabel: {
             formatter: '{value}',
@@ -157,7 +141,7 @@ class CollegeScore extends React.Component {
             normal: {color: 'rgba(0,0,0,0.05)'}
           },
           barGap:'-100%',
-          barWidth:barWidth,
+          barWidth,
           data: dataShadow
         },
         { // For shadow
@@ -166,17 +150,17 @@ class CollegeScore extends React.Component {
             normal: {color: 'rgba(71,211,255,0.06)'}
           },
           barGap:'-100%',
-          barWidth:barWidth,
+          barWidth,
           data: maxShadow,
           animation: false
         },
         {
           name:'均分',
           type:'bar',
-          itemStyle: {
-            normal: {color: barBackground,barBorderRadius:borderRadius}
-          },
-          barWidth:barWidth,
+          // itemStyle: {
+          //   normal: {color: barBackground,barBorderRadius:borderRadius}
+          // },
+          barWidth,
           label: {
             normal: {
               show: true,
@@ -185,7 +169,7 @@ class CollegeScore extends React.Component {
               fontSize:13
             }
           },
-          data:creaditValue,
+          data: seriesDatas,
         },
         {
           name:'环比',
@@ -194,7 +178,7 @@ class CollegeScore extends React.Component {
           itemStyle: {
             normal: {color: '#F5A623'}
           },
-          data:qoqValue,
+          data: qoqValue,
         }
       ]
 
@@ -211,57 +195,30 @@ class CollegeScore extends React.Component {
      orgType = "group"
    }
     return orgType
-
   }
-  clickEvent = (arr,item,userInfo)=>{
-    let paramsArr = arr
-    let orgId = "";
-    let tabNum = 1;
-    let familyType = 0
-    if(this.props){
-      tabNum = this.props.queryAppealDatas.state.tabNum
-      paramsArr = this.props.queryAppealDatas.state.queryAppealDatas.creaditDataList
-      familyType = this.props.queryAppealDatas.state.familyType
-    }
-    (tabNum === 1 || tabNum ===2 || tabNum ===3) && paramsArr.map((subItem)=>{
-      if(subItem.name === item.name){
-        orgId = subItem.id
+  getEchartRender = creaditDataList => {
+    return <>
+      {
+        creaditDataList && creaditDataList.length > 0 &&
+          <Echart
+            options={this.drawChart(creaditDataList)}
+            className={styles.collegeInner}
+            style={{ height:"300px", width: creaditDataList.length * 50}}
+          />
       }
-    })
-    tabNum === 4 && (orgId = userInfo.collegeId)
-    if( orgId === userInfo.collegeId && userInfo.userType === "college" || userInfo.userType === "boss" || tabNum !== 1 ){
-      let params={
-        startTime:tabNum === 4?item.name:moment(this.props.times.startDate).format('YYYY-MM-DD'),
-        endTime:tabNum === 4?item.name:moment(this.props.times.endDate).format('YYYY-MM-DD'),
-        dementionId:this.props.queryAppealDatas.state.queryParams.dimensionId?this.props.queryAppealDatas.state.queryParams.dimensionId:1,
-        reasonTypeId:0,
-        orgId:orgId,
-        orgType:this.orgTypes(tabNum),
-        familyType:familyType
-      }
-      window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
-    }
-
+    </>
   }
   render() {
-    const {queryAppealDatas = {}} = this.props;
-    // const {userInfo} = this.props
+    const {creaditDataList = []} = this.props.appealDatas;
     return (
-      // <BILoading isLoading={this.props.loading} height="354px" > 
-        <div className={styles.collegeScore}>
-          <div className={styles.collegeInner} style={{width: queryAppealDatas.creaditDataList.length * 100}}>
-              {
-                queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 &&
-                  <Echart
-                    options={this.drawChart(queryAppealDatas.creaditDataList)}
-                    style={{height:"354px"}}
-                    // clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}
-                  />
-                }
-              <EchartBottom/> 
-          </div>
-        </div>
-      // </BILoading>
+      <div>
+        <BILoading isLoading={this.props.loading}> 
+          <div className={styles.collegeScore}>
+              {this.getEchartRender(creaditDataList)}
+            </div>
+            <EchartBottom/>
+        </BILoading>
+      </div>
     );
   }
 }
