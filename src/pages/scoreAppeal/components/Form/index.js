@@ -33,6 +33,7 @@ class CSForm extends React.Component {
       groupIdList: [],
     };
     const { params = null } = this.props.location.query;
+    console.log(params, 'params');
     this.state = { ...this.init, ...JSON.parse(params) };
   }
 
