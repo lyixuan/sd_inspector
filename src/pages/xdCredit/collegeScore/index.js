@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import BILoading from '@/components/BILoading'
-import moment from 'moment'
 import Echart from '../components/echart'
 import EchartBottom from '@/pages/indexPage/ManagementBench/scoreContrast/components/echartBottom';
-import styles from './style.less'
+import { Scrollbars } from 'react-custom-scrollbars';
 
 @connect(({xdCreditModal, loading}) => ({
   loading:loading.effects['xdCreditModal/queryAppealDataPage'],
@@ -202,7 +201,6 @@ class CollegeScore extends React.Component {
         creaditDataList && creaditDataList.length > 0 &&
           <Echart
             options={this.drawChart(creaditDataList)}
-            className={styles.collegeInner}
             style={{ height:"300px", width: creaditDataList.length * 50}}
           />
       }
@@ -213,9 +211,12 @@ class CollegeScore extends React.Component {
     return (
       <div>
         <BILoading isLoading={this.props.loading}> 
-          <div className={styles.collegeScore}>
+            {/* <div className={styles.collegeScore}>
+              
+            </div> */}
+            <Scrollbars style={{ width: '100%', height: 340 }}>
               {this.getEchartRender(creaditDataList)}
-            </div>
+            </Scrollbars>
             <EchartBottom/>
         </BILoading>
       </div>

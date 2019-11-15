@@ -39,5 +39,5 @@ export async function imDetailList(data) {
 
 //学分对比柱状图----test
 export async function queryAppealDataPage(data) {
-  return request('/test/credit/queryAppealDataPage',{method:'POST',data:data})
+  return request('/credit/queryAppealDataPage',{method:'POST',data:data})
 }
