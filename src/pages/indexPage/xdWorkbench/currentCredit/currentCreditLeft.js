@@ -42,9 +42,9 @@ class currentCreditLeft extends React.Component {
           const textV = record.values[index];
           return (
             <>
-              {
+              {/* {
                 record.flagMark ? record.valuesParams[index] : <BITextCell style={{ paddingRight: '16px' }}>{textV}</BITextCell>
-              }
+              } */}
             </>
           )
         }
