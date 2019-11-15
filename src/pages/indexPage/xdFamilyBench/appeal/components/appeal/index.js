@@ -8,6 +8,7 @@ import rankWarn from '@/assets/xdFamily/rankWarn.png';
 import styles from './style.less';
 import BILoading from '@/components/BILoading';
 import { beforeAll } from 'lodash-decorators';
+const { BI = {} } = window;
 
 const tabsMsg = [
   {
@@ -140,7 +141,7 @@ class appeal extends React.Component {
               </div>
             ) : text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={appealUrl} target="_blank">
+                <a href={appealUrl} target="_blank"  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
                   {text}
                 </a>
               </div>
@@ -159,7 +160,7 @@ class appeal extends React.Component {
             {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={bottomLineUrl} target="_blank">
+                <a href={bottomLineUrl} target="_blank"  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
                   {text}
                 </a>
               </div>
@@ -178,7 +179,7 @@ class appeal extends React.Component {
             {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={imUrl} target="_blank">
+                <a href={imUrl} target="_blank"  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
                   {text}
                 </a>
               </div>
@@ -197,7 +198,7 @@ class appeal extends React.Component {
             {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={orderUrl} target="_blank">
+                <a href={orderUrl} target="_blank" data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
                   {text}
                 </a>
               </div>
@@ -216,7 +217,7 @@ class appeal extends React.Component {
             {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={newExcellentUrl} target="_blank">
+                <a href={newExcellentUrl} target="_blank"  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
                   {text}
                 </a>
               </div>
@@ -235,7 +236,7 @@ class appeal extends React.Component {
             {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={incomeUrl} target="_blank">
+                <a href={incomeUrl} target="_blank" >
                   {text}
                 </a>
               </div>
