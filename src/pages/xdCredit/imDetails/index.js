@@ -113,7 +113,7 @@ class CreditImDetials extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.xdCreditModal.imDetailData != nextProps.xdCreditModal.imDetailData) {
       const tableWidth = nextProps.xdCreditModal.imDetailData.dataList.length * 50 + 100;
-      const countPage = parseInt((1700 - tableWidth) / 48);
+      const countPage = parseInt((1360 - tableWidth) / 48);
       this.setState({
         pageSize: countPage
       }, this.defaultPage(countPage))

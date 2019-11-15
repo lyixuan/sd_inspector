@@ -2,23 +2,15 @@ import React from 'react';
 import { connect } from 'dva';
 import BILoading from '@/components/BILoading'
 import moment from 'moment'
-import TreeNames from '../components/treeNames'
 import Echart from '../components/echart'
-import EchartBottom from '../components/echartBottom'
-@connect(({xdManagementBench,loading,xdWorkModal}) => ({
-  xdManagementBench,
-  loading:loading.effects['xdManagementBench/queryAppealDataPage'],
-  times:xdManagementBench.getCurrentDateRangeData,
-  userInfo: xdWorkModal.userInfo,
+import EchartBottom from '@/pages/indexPage/ManagementBench/scoreContrast/components/echartBottom';
+import styles from './style.less'
+
+@connect(({xdCreditModal, loading}) => ({
+  loading:loading.effects['xdCreditModal/queryAppealDataPage'],
+  appealDatas: xdCreditModal.appealDatas || {},
 }))
 class CollegeScore extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      queryAppealDatas:{},
-      familyName:[]
-    }
-  }
   getItemStyle = v =>{
     if (v > 0) {
       return {
@@ -37,7 +29,7 @@ class CollegeScore extends React.Component {
     let familyName = [];
     let qoqValue = []
     let dataShadow = []
-    let maxShadow = [];
+    let maxShadow = []
     const seriesDatas = [];
     arr.map((item,index)=>{
       creaditValue.push(item.creaditValue);
@@ -56,7 +48,7 @@ class CollegeScore extends React.Component {
       dataShadow.push(yMin);
       maxShadow.push(yMax);
     }
-    const barWidth = familyName.length>=22 ? 20 : 50
+    const barWidth = familyName.length >= 10 ? 20 : 50
     const  options = {
       color: ["#50D4FD", "#FD8188"],
       tooltip: {
@@ -75,7 +67,7 @@ class CollegeScore extends React.Component {
           data: familyName,
           axisLabel: {
             interval:0,
-            rotate:familyName.length>=22?30:0,
+            rotate: familyName.length >= 10 ? 30:0,
             color:'#000000 '
           },
           axisLine:{
@@ -93,8 +85,8 @@ class CollegeScore extends React.Component {
           inverse: false,
           splitArea: {show: false},
           type: 'value',
-          min: yMin>0?0:yMin,
-          max: yMax<0?0:yMax,
+          min: yMin>0 ? 0: yMin,
+          max: yMax<0 ? 0: yMax,
           onZeroAxisIndex:0,
           axisLabel: {
             formatter: '{value}',
@@ -149,7 +141,7 @@ class CollegeScore extends React.Component {
             normal: {color: 'rgba(0,0,0,0.05)'}
           },
           barGap:'-100%',
-          barWidth:barWidth,
+          barWidth,
           data: dataShadow
         },
         { // For shadow
@@ -158,14 +150,17 @@ class CollegeScore extends React.Component {
             normal: {color: 'rgba(71,211,255,0.06)'}
           },
           barGap:'-100%',
-          barWidth:barWidth,
+          barWidth,
           data: maxShadow,
           animation: false
         },
         {
           name:'均分',
           type:'bar',
-          barWidth:barWidth,
+          // itemStyle: {
+          //   normal: {color: barBackground,barBorderRadius:borderRadius}
+          // },
+          barWidth,
           label: {
             normal: {
               show: true,
@@ -183,7 +178,7 @@ class CollegeScore extends React.Component {
           itemStyle: {
             normal: {color: '#F5A623'}
           },
-          data:qoqValue,
+          data: qoqValue,
         }
       ]
 
@@ -200,58 +195,29 @@ class CollegeScore extends React.Component {
      orgType = "group"
    }
     return orgType
-
   }
-  clickEvent = (arr,item,userInfo)=>{
-    let paramsArr = arr
-    let orgId = "";
-    let tabNum = 1;
-    let familyType = 0
-    if(this.props){
-      tabNum = this.props.queryAppealDatas.state.tabNum
-      paramsArr = this.props.queryAppealDatas.state.queryAppealDatas.creaditDataList
-      familyType = this.props.queryAppealDatas.state.familyType
-    }
-    (tabNum === 1 || tabNum ===2 || tabNum ===3) && paramsArr.map((subItem)=>{
-      if(subItem.name === item.name){
-        orgId = subItem.id
+  getEchartRender = creaditDataList => {
+    return <>
+      {
+        creaditDataList && creaditDataList.length > 0 &&
+          <Echart
+            options={this.drawChart(creaditDataList)}
+            className={styles.collegeInner}
+            style={{ height:"300px", width: creaditDataList.length * 50}}
+          />
       }
-    })
-    tabNum === 4 && (orgId = userInfo.collegeId)
-    if( orgId === userInfo.collegeId && userInfo.userType === "college" || userInfo.userType === "boss" || tabNum !== 1 ){
-      let params={
-        startTime:tabNum === 4?item.name:moment(this.props.times.startDate).format('YYYY-MM-DD'),
-        endTime:tabNum === 4?item.name:moment(this.props.times.endDate).format('YYYY-MM-DD'),
-        dementionId:this.props.queryAppealDatas.state.queryParams.dimensionId?this.props.queryAppealDatas.state.queryParams.dimensionId:1,
-        reasonTypeId:0,
-        orgId:orgId,
-        orgType:this.orgTypes(tabNum),
-        familyType:familyType
-      }
-      window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
-    }
-
+    </>
   }
   render() {
-    const {queryAppealDatas = {}} = this.props.queryAppealDatas.state;
-    const {userInfo} = this.props
+    const {creaditDataList = []} = this.props.appealDatas;
     return (
-      <div style={{minHeight:'490px'}}>
-          <div>
-            <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>
-            {
-              this.props.loading?<BILoading isLoading={this.props.loading} height="354px" />:(
-                queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 &&
-                <Echart
-                  options={this.drawChart(queryAppealDatas.creaditDataList)}
-                  style={{height:"354px"}}
-                  clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}
-                />
-              )
-            }
+      <div>
+        <BILoading isLoading={this.props.loading}> 
+          <div className={styles.collegeScore}>
+              {this.getEchartRender(creaditDataList)}
+            </div>
             <EchartBottom/>
-        </div>
-
+        </BILoading>
       </div>
     );
   }

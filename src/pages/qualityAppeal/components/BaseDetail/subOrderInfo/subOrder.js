@@ -2,6 +2,7 @@ import React  from 'react';
 import { Row, Col } from 'antd';
 import styles from './subOrder.less';
 import moment from 'moment/moment';
+import { jumpMarkingDetails } from '@/pages/ko/utils/utils';
 
 class SubOrder extends React.Component {
   render() {
@@ -12,7 +13,7 @@ class SubOrder extends React.Component {
         <div style={{marginLeft:20}}>
           <Row gutter={16}>
             <Col className={styles.gutter} span={8}>
-              <div><span className={styles.formLabel}>学员姓名</span>：<span>{stuName}</span></div>
+              <div><span className={styles.formLabel}>学员姓名</span>：<span style={{color:'#00CCC3',cursor:'pointer'}} onClick={()=>jumpMarkingDetails(stuId,{target:'protail'} )}>{stuName}</span></div>
             </Col>
             <Col className={styles.gutter} span={10}>
               <div><span className={styles.formLabel}>实际支付金额</span>：<span>{trainingAmount}</span></div>

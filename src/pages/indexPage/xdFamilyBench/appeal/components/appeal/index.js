@@ -8,6 +8,7 @@ import rankWarn from '@/assets/xdFamily/rankWarn.png';
 import styles from './style.less';
 import BILoading from '@/components/BILoading';
 import { beforeAll } from 'lodash-decorators';
+const { BI = {} } = window;
 
 const tabsMsg = [
   {
@@ -23,39 +24,64 @@ const tabsMsg = [
     dataTrace: '{"widgetName":"审核中","traceName":"家族长工作台/审核中"}',
   },
 ];
-function bottomParams(num, date, type) {
+
+function appealParams(type, date) {
+  let status = undefined;
+  if (type === 1) {
+    status = '1';
+  }
+  return {
+    tabType: '1',
+    type: '1',
+    status,
+    reduceScoreBeginDate: date && date.startDate,
+    reduceScoreEndDate: date && date.endDate,
+  };
+}
+function bottomParams(num, date, type, id) {
+  let statusList = [];
+  const creditBeginDate = date && date.startDate; // 申诉开始日期
+  const creditEndDate = date && date.endDate; // 申诉结束日期
+  if (type === 2) {
+    statusList = ['3', '4', '7'];
+  }
+  if (type === 3) {
+    statusList = ['1', '2', '5', '6'];
+  }
   return {
     page: 1,
     pageSize: 30,
     dimensionType: num,
-    date,
-    type,
+    creditBeginDate,
+    creditEndDate,
+    statusList,
+    groupIdList: [`c-${id}`],
   };
 }
 
-let bottomLineUrl, imUrl, orderUrl, newExcellentUrl, incomeUrl;
+let appealUrl, bottomLineUrl, imUrl, orderUrl, newExcellentUrl, incomeUrl;
+const scoreAppeal = '/inspector/scoreAppeal/onAppeal'; // 在途申诉
+const qualityAppeal = '/inspector/qualityAppeal/qualityAppeal'; // 质检
+const awaitAppeal = '/inspector/scoreAppeal/awaitAppeal'; // 待申诉
 
-function gotoUrl(type, date) {
+function gotoUrl(type, date, id) {
   switch (type) {
     case 1:
-      bottomLineUrl = `/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(
-        bottomParams(23, date, type)
-      )}`; // 底线
-      imUrl = `/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(bottomParams(14))}`; // im
-      orderUrl = `/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(bottomParams(19))}`; // 工单
-      newExcellentUrl = `/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(
-        bottomParams(11, date, type)
-      )}`; // 优新
-      incomeUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(bottomParams(42))}`; // 创收
+      appealUrl = `${qualityAppeal}?p=${JSON.stringify(appealParams(type, date))}`; // 质检
+      bottomLineUrl = `${awaitAppeal}?params=${JSON.stringify(bottomParams(23, date, type, id))}`; // 底线
+      imUrl = `${awaitAppeal}?params=${JSON.stringify(bottomParams(14, date, type, id))}`; // im
+      orderUrl = `${awaitAppeal}?params=${JSON.stringify(bottomParams(19, date, type, id))}`; // 工单
+      newExcellentUrl = `${awaitAppeal}?params=${JSON.stringify(bottomParams(11, date, type, id))}`; // 优新
+      incomeUrl = `${awaitAppeal}?params=${JSON.stringify(bottomParams(42, date, type, id))}`; // 创收
       break;
     case 2:
-      bottomLineUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(bottomParams(23))}`; // 底线
-      imUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(bottomParams(14))}`; // im
-      orderUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(bottomParams(19))}`; // 工单
-      newExcellentUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(
-        bottomParams(11, date, type)
-      )}`; // 优新
-      incomeUrl = `/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(bottomParams(42))}`; // 创收
+    case 3:
+      appealUrl = `${qualityAppeal}?p=${JSON.stringify(appealParams(type, date))}`;
+      bottomLineUrl = `${scoreAppeal}?params=${JSON.stringify(bottomParams(23, date, type, id))}`; // 底线
+      imUrl = `${scoreAppeal}?params=${JSON.stringify(bottomParams(14, date, type, id))}`; // im
+      orderUrl = `${scoreAppeal}?params=${JSON.stringify(bottomParams(19, date, type, id))}`; // 工单
+      newExcellentUrl = `${scoreAppeal}?params=${JSON.stringify(bottomParams(11, date, type, id))}`; // 优新
+      incomeUrl = `${scoreAppeal}?params=${JSON.stringify(bottomParams(42, date, type, id))}`; // 创收
       break;
     default:
       break;
@@ -88,7 +114,6 @@ class appeal extends React.Component {
   columns = () => {
     const { appealType } = this.state;
     const { date } = this.props;
-    gotoUrl(appealType, date);
     const columns = [
       {
         title: '家族小组',
@@ -104,6 +129,7 @@ class appeal extends React.Component {
         key: 'qualityNum',
         render: (text, record) => (
           <>
+            {gotoUrl(appealType, date, record.groupId)}
             {record.primaryViolationFlag ? (
               <div className={styles.rankMark}>
                 {text}
@@ -115,7 +141,7 @@ class appeal extends React.Component {
               </div>
             ) : text ? (
               <div className={styles.rankMarkGreen}>
-                <a href="/inspector/qualityAppeal/qualityNewSheet" target="_blank">
+                <a href={appealUrl} target="_blank"  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
                   {text}
                 </a>
               </div>
@@ -131,9 +157,10 @@ class appeal extends React.Component {
         key: 'bottomLineNum',
         render: (text, record) => (
           <>
+            {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={bottomLineUrl} target="_blank">
+                <a href={bottomLineUrl} target="_blank"  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
                   {text}
                 </a>
               </div>
@@ -149,9 +176,10 @@ class appeal extends React.Component {
         key: 'imNum',
         render: (text, record) => (
           <>
+            {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={imUrl} target="_blank">
+                <a href={imUrl} target="_blank"  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
                   {text}
                 </a>
               </div>
@@ -167,9 +195,10 @@ class appeal extends React.Component {
         key: 'orderNum',
         render: (text, record) => (
           <>
+            {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={orderUrl} target="_blank">
+                <a href={orderUrl} target="_blank" data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
                   {text}
                 </a>
               </div>
@@ -185,9 +214,10 @@ class appeal extends React.Component {
         key: 'newExcellentNum',
         render: (text, record) => (
           <>
+            {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={newExcellentUrl} target="_blank">
+                <a href={newExcellentUrl} target="_blank"  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
                   {text}
                 </a>
               </div>
@@ -203,9 +233,10 @@ class appeal extends React.Component {
         key: 'incomeNum',
         render: (text, record) => (
           <>
+            {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={incomeUrl} target="_blank">
+                <a href={incomeUrl} target="_blank" >
                   {text}
                 </a>
               </div>
@@ -226,7 +257,6 @@ class appeal extends React.Component {
 
   render() {
     const dataSource = this.props.familyAppeal[tabSource[this.state.appealType]] || [];
-    console.log(this.state.appealType, 'dataSource');
     return (
       <div className={styles.appealWrap}>
         <BIRadio
