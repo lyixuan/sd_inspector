@@ -124,11 +124,23 @@ class XdCredit extends React.Component {
       payload: { params: params },
     });
   }
+  getFamilyType = () => {
+    const { familyType } = this.state;
+    if (familyType.length === 3 || !familyType ) {
+      return 0;
+    } else if (familyType) {
+      return familyType;
+    } else if (this.state.allUserInfo.familyType) {
+      return this.state.allUserInfo.familyType;
+    } else {
+      return 0;
+    }
+  }
   getReasonListData() {
     const params = {
       startTime: this.state.startTime,
       endTime: this.state.endTime,
-      familyType: (this.state.familyType.length == 3 ? '0' : this.state.familyType) || this.state.allUserInfo.familyType,
+      familyType: this.getFamilyType(),
       groupType: this.getGroupMsg().groupType || 'group',
       orgId: this.getGroupMsg().groupId || this.state.allUserInfo.groupId,
       reasonTypeId: this.state.reasonTypeId
@@ -143,7 +155,7 @@ class XdCredit extends React.Component {
     const params = {
       startTime: this.state.startTime,
       endTime: this.state.endTime,
-      familyType: (this.state.familyType.length == 3 ? '0' : this.state.familyType) || this.state.allUserInfo.familyType,
+      familyType: this.getFamilyType(),
       groupType: this.getGroupMsg().groupType || 'group',
       orgId: this.getGroupMsg().groupId || this.state.allUserInfo.groupId,
       reasonTypeId: this.state.reasonTypeId,
@@ -227,7 +239,7 @@ class XdCredit extends React.Component {
     const { startTime, endTime } = this.state;
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionList',
-      payload: { params: { ...this.getGroupMsg(), startTime, endTime, familyType: (this.state.familyType.length == 3 ? '0' : this.state.familyType) || this.state.allUserInfo.familyType } },
+      payload: { params: { ...this.getGroupMsg(), startTime, endTime, familyType: this.getFamilyType() } },
       callback: (data) => {
         if (this.state.pageFrom) {
           this.fillDataSource(data.dimensionList)
@@ -264,7 +276,7 @@ class XdCredit extends React.Component {
     // }
     const param = {
       ...groupMsg,
-      familyType: this.state.familyType.length == 3 ? '0' : this.state.familyType,
+      familyType: this.getFamilyType(),
       dementionId: this.state.dementionId,
       startTime: this.state.startTime,
       endTime: this.state.endTime,
@@ -424,6 +436,7 @@ class XdCredit extends React.Component {
     }, () => this.getImDetail());
   };
   onSelectChange = val => {
+    console.log(val, 100000)
     this.setState({
       familyType: val
     })

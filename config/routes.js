@@ -526,6 +526,10 @@ export const routes = [
       //     },
       //   ]
       // }
+      {
+        path: '/configWords',
+        component: './configWords/index'
+      }
     ],
   },
 ];
