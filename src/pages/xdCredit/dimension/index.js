@@ -3,11 +3,11 @@ import { connect } from 'dva';
 import BITable from '@/ant_components/BITable';
 import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
-import open from '@/assets/xdCredit/open.png';
-import close from '@/assets/xdCredit/close.png';
-import mingxi from '@/assets/xdCredit/mingxi.png';
+import open from '@/assets/xdcredit/open.png';
+import close from '@/assets/xdcredit/close.png';
+import mingxi from '@/assets/xdcredit/mingxi.png';
 import BILoading from '@/components/BILoading';
-import styles from './style.less'
+import styles from './style.less';
 
 @connect(({ loading }) => ({
   loading: loading.effects['xdCreditModal/getDimensionList'],
