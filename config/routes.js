@@ -532,12 +532,14 @@ export const routes = [
       },
       {
         path: '/operateActivity',
-        component: './operateActivity',
         routes: [
           {
-            path: '/operateActivity/configActivity',
-            component: './operateActivity/configActivity',
-            name: "创建活动",
+            path: '/operateActivity/index',
+            component: './operateActivity',
+          },
+          {
+            path: '/operateActivity/createActivity',
+            component: './operateActivity/createActivity',
           }
         ]
       }
