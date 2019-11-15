@@ -14,7 +14,7 @@ export default class PersonInfoComponent extends React.Component {
         <ScorePersonInfo userInfo={userInfo}/>
         <div className={styles.spaceLine}/>
         {/* 子订单详情 */}
-        {orderInfo&&<SubOrderDetail orderInfo={orderInfo}/>}
+        {orderInfo&&<SubOrderDetail orderInfo={orderInfo}  dimensionType={Number(dimensionType)}/>}
         {orderInfo&&<div className={styles.spaceLine}/>}
         {/* 申诉基础信息 */}
         <ScoreBasicInfo baseAppealInfo={baseAppealInfo} dimensionType={Number(dimensionType)}/>

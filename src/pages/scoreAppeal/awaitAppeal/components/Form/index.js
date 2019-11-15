@@ -165,13 +165,7 @@ class CSForm extends React.Component {
                   </div>
                 )}
               </Col>
-              <Col className={styles.gutterCol} span={8}></Col>
               <Col className={styles.gutterCol} span={8}>
-                {/* {(AuthButton.checkPathname('/scoreAppeal/roles/master')
-                  || AuthButton.checkPathname('/scoreAppeal/roles/master2')
-                  || AuthButton.checkPathname('/scoreAppeal/roles/dockingMan')
-                  || AuthButton.checkPathname('/scoreAppeal/roles/dockingMan2')) &&
-                  ( */}
                 <div className={styles.gutterBox3}>
                   <span className={styles.gutterLabel}>归属组织</span>：
                   <span className={styles.gutterForm}>
@@ -191,7 +185,6 @@ class CSForm extends React.Component {
                     />
                   </span>
                 </div>
-                {/* )} */}
               </Col>
             </Row>
           </div>
