@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'dva';
 import BILoading from '@/components/BILoading'
 import moment from 'moment'
-import TreeNames from '@/pages/indexPage/ManagementBench/scoreContrast/components/treeNames'
-import Echart from '@/pages/indexPage/ManagementBench/scoreContrast/components/echart'
-import EchartBottom from '@/pages/indexPage/ManagementBench/scoreContrast/components/echartBottom'
+import Echart from '../components/echart'
+import EchartBottom from '@/pages/indexPage/ManagementBench/scoreContrast/components/echartBottom';
+import styles from './style.less'
 @connect(({xdManagementBench,loading,xdWorkModal}) => ({
   xdManagementBench,
   loading:loading.effects['xdManagementBench/queryAppealDataPage'],
@@ -247,23 +247,21 @@ class CollegeScore extends React.Component {
     const {queryAppealDatas = {}} = this.props;
     // const {userInfo} = this.props
     return (
-      <div style={{minHeight:'490px'}}>
-          <div>
-            {/* <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/> */}
-            {
-              this.props.loading?<BILoading isLoading={this.props.loading} height="354px" />:(
+      // <BILoading isLoading={this.props.loading} height="354px" > 
+        <div className={styles.collegeScore}>
+          <div className={styles.collegeInner} style={{width: queryAppealDatas.creaditDataList.length * 100}}>
+              {
                 queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 &&
-                <Echart
-                  options={this.drawChart(queryAppealDatas.creaditDataList)}
-                  style={{height:"354px"}}
-                  // clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}
-                />
-              )
-            }
-            <EchartBottom/>
+                  <Echart
+                    options={this.drawChart(queryAppealDatas.creaditDataList)}
+                    style={{height:"354px"}}
+                    // clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}
+                  />
+                }
+              <EchartBottom/> 
+          </div>
         </div>
-
-      </div>
+      // </BILoading>
     );
   }
 }

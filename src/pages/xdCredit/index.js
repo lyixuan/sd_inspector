@@ -85,6 +85,7 @@ class XdCredit extends React.Component {
         };
       }
     });
+    this.queryAppealDataPage();
   }
   defaultPage = (page) => {
     this.setState({
@@ -429,21 +430,21 @@ class XdCredit extends React.Component {
   } 
   //获取柱状图及维度的接口
   queryAppealDataPage = (obj = {}) =>{
+    const groupMsg = this.getGroupMsg();
     const params = {
-      collegeId: 11,
-      contrasts: 1,
-      dimensionId: 41,
-      endTime: "2019-09-25",
-      familyType: 0,
-      startTime: "2019-08-29",
+      ...groupMsg,
+      familyType: this.state.familyType.length === 3 ? '0' : this.state.familyType,
+      dementionId: this.state.dementionId,
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
     }
     console.log("params",params)
     this.props.dispatch({
-      type:'xdManagementBench/queryAppealDataPage',
+      type:'xdCreditModal/queryAppealDataPage',
       payload:{params:params},
       callback:(res) => {
         this.setState({
-          queryAppealDatas:res
+          queryAppealDatas: res
         })
       }
     })
@@ -520,7 +521,7 @@ class XdCredit extends React.Component {
                 />
                 <div className={`${styles.creditTrend} ${dementionId ? '' : styles.creditNone}`}>
                   {dementionId ? <> 
-                    <CollegeScore queryAppealDataPage={this.queryAppealDataPage}/>
+                    <CollegeScore queryAppealDatas={this.state.queryAppealDatas} queryAppealDataPage={this.queryAppealDataPage}/>
                     {
                     this.state.isIm ? <CreditImDetials
                       onPageChange={this.onPageChange2}
