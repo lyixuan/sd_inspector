@@ -529,6 +529,18 @@ export const routes = [
       {
         path: '/configWords',
         component: './configWords/index'
+      },
+      {
+        path: '/examPlant',
+        component: './examPlant/index',
+        name: '报考大盘',
+        routes: [
+          {
+            path: '/examPlant/index',
+            component: './examPlant/index',
+            name: '报考大盘',
+          },
+        ]
       }
     ],
   },
