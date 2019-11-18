@@ -4,6 +4,7 @@
   border-radius:10px;
   background:#ffffff;
   box-shadow:0 3px 10px 0 rgba(221,230,236,1);
+  overflow:hidden;
 }
 .head {
   display:flex;
@@ -11,7 +12,7 @@
   align-items:center;
   padding-right:24px;
   height:48px;
-  border-bottom:1px solid #F5F8FA;
+  //border-bottom:1px solid #F5F8FA;
   .left {
     display:flex;
     align-items:center;
@@ -26,5 +27,46 @@
     }
   }
   .close {
+  }
+}
+.content {
+  padding:0 32px;
+  height:96px;
+  .name {
+    margin-top:18px;
+    font-size:16px;
+    color:#1A1C1F;
+    font-weight:bold;
+  }
+  .time {
+    margin-top:18px;
+    font-size:13px;
+    color:#1A1C1F;
+  }
+}
+.footer {
+  padding:0 24px;
+  height:56px;
+  line-height:56px;
+  background:#F5F8FA;
+  font-size:13px;
+  color:#56595E;
+}
+
+//删除二次确认弹框
+.delete-modal {
+  .content-box {
+    display:flex;
+    align-items:center;
+  }
+  .icon {
+    margin-right:17px;
+    width:24px;
+    height:24px;
+  }
+  .content {
+    padding:0;
+    font-size:13px;
+    color:#1A1C1F;
   }
 }
