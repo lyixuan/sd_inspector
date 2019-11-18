@@ -531,16 +531,9 @@ export const routes = [
         component: './configWords/index'
       },
       {
-        path: '/examPlant',
+        path: '/examPlant/index',
         component: './examPlant/index',
-        name: '报考大盘',
-        routes: [
-          {
-            path: '/examPlant/index',
-            component: './examPlant/index',
-            name: '报考大盘',
-          },
-        ]
+        name: '报考大盘'
       }
     ],
   },
