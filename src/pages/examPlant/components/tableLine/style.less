@@ -2,6 +2,7 @@
   padding:0 8px;
   display:flex;
   align-items:center;
+  justify-content: center;
 }
 .tbody{
   display:flex;
@@ -10,10 +11,10 @@
   padding:0;
   li{
     width:10%;
-    height:32px;
+    // height:32px;
     line-height:32px;
     text-align:center;
-    color:#1A1C1F;
+    // color:#1A1C1F;
     font-size:13px;
     font-weight:bold;
     box-sizing:border-box;
@@ -25,14 +26,23 @@
     }
   }
 }
+.examLineHover .tbody li{
+  padding-top:15px;
+  padding-bottom:15px;
+}
 .examLine{
   position:relative;
+  &:last-child{
+    .tbody li{
+      border-bottom:none;
+    }
+  }
   .hoverLine{
     width:101%;
     height:62px;
     position:absolute;
     left:-0.5%;
-    top:-20px;
+    top:-4px;
     background:#fff;
     // opacity:0;
     z-index:3;
@@ -41,6 +51,8 @@
     li{
       height:62px;
       float:left;
+      padding-top:0;
+      padding-bottom:0;
       // border:none;
     }
   }
@@ -51,9 +63,12 @@
   //   }
   // }
 }
+
 .tooltipContent{
   padding-bottom:8px;
   p{
+    white-space: nowrap;
+    font-size:13px;
     img{
       margin:0 5px 0 10px;
     }
