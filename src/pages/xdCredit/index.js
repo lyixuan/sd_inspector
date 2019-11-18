@@ -433,7 +433,6 @@ class XdCredit extends React.Component {
     }, () => this.getImDetail());
   };
   onSelectChange = val => {
-    console.log(val, 100000)
     this.setState({
       familyType: val
     })
@@ -468,16 +467,16 @@ class XdCredit extends React.Component {
       // "startTime": "2019-08-29",
       // "endTime": "2019-09-30"
     }
-    console.log("params",params)
+    // console.log("params",params)
     this.props.dispatch({
       type:'xdCreditModal/queryAppealDataPage',
       payload:{params:params},
     })
   }
   render() {
-    const { dementionId, groupId, extendFlag, userOrgConfig, startTime, endTime } = this.state;
+    const { dementionId, groupId, extendFlag, userOrgConfig } = this.state;
     const { infoLoading } = this.props;
-    const value = this.state.familyType.length > 1 ? 0 : parseInt(this.state.familyType);
+    const value = this.getFamilyType();
     return (
       <div className={`${styles.credit} ${extendFlag ? '' : styles.extent}`}>
         <Skeleton loading={infoLoading} >
@@ -524,7 +523,7 @@ class XdCredit extends React.Component {
                     style={{ width: '136px' }}
                     onChange={this.onSelectChange}
                   >
-                    {collegeType.map((item, index) => (
+                    {collegeType && collegeType.map(item => (
                       <Option key={item.familyType} value={item.familyType}>
                         {item.name}
                       </Option>
