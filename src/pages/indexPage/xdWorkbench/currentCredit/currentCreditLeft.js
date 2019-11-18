@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less';
 import BIWrapperTable1 from '../../components/BIWrapperTable1';
+import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BITextCell from '../../components/BITextCell';
 import BILoading from '@/components/BILoading';
 import BIIcon from '@/components/BIIcon';
@@ -106,7 +107,7 @@ class currentCreditLeft extends React.Component {
     return (
       <div className={styles.creditLeft} style={{ minHeight: 560 }}>
         <BILoading isLoading={loading} > <div className={styles.tableContainer}>
-          <BIWrapperTable1
+          <BIScrollbarTable
             columns={this.columns()}
             dataSource={dataSource}
             rowClassName={this.setRowClassName}
@@ -114,6 +115,7 @@ class currentCreditLeft extends React.Component {
             rowKey={record => record.id}
             bordered={true}
             scroll={{ y: 492 }}
+            scrollBar={{height: 492}}  
           />
           {
             pkGroupList && pkGroupList.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt='' /></div>

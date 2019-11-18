@@ -1,6 +1,4 @@
 import React from 'react';
-import { Table } from 'antd';
-import styles from './style.less';
 import Scrollbar from 'react-smooth-scrollbar';
 
 /*
@@ -19,6 +17,7 @@ class BIScrollbar extends React.Component {
   }
   componentDidMount() {
     const { scrollbar } = this.$container;
+    // console.log(scrollbar, 999999)
     this.setState({ scrollbar })  
   }
   onMouseEnter = e => {
@@ -35,13 +34,29 @@ class BIScrollbar extends React.Component {
       this.state.scrollbar.track.yAxis.show()  
     }
   }
+  onMouseLeave = e => {
+    const { onMouseLeave } = this.props;
+    const { scrollbar = {} } = this.state;
+    const { limit } = scrollbar;
+    if (onMouseLeave && typeof onMouseLeave === 'function') {
+      onMouseLeave(e)
+    }
+    if (limit.x) {
+      this.state.scrollbar.track.xAxis.hide()  
+    }
+    if (limit.y) {
+      this.state.scrollbar.track.yAxis.hide()  
+    }
+  }
   render() {
+    const { onMouseEnter, onMouseLeave, ref, ...props} = this.props;
     return (
       <Scrollbar
         ref={c => this.$container = c}
         style={{ minHeight: 320 }}
         onMouseEnter={(e) => this.onMouseEnter(e)}
-        {...this.props}
+        onMouseLeave={(e) => this.onMouseLeave(e)}
+        {...props}
       />
     );
   }
