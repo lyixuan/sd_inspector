@@ -23,6 +23,7 @@ const im = { widgetName: "IM", traceName: "学员查询/学员档案/IM" };
 const wechat = { widgetName: "微信", traceName: "学员查询/学员档案/微信" };
 const bbs = { widgetName: "BBS", traceName: "学员查询/学员档案/BBS" };
 const letter = { widgetName: "私信", traceName: "学员查询/学员档案/私信" };
+const score = { widgetName: "学员成绩", traceName: "学员查询/学员档案/学员成绩" };
 let traceTab = '';
 
 @connect(({ behaviorPath, koPlan, loading }) => ({
@@ -195,9 +196,12 @@ class BehaviorPath1 extends React.Component {
       traceTab = letter;
     } else if (e === '6') {
       traceTab = portray;
+    } else if (e === '7') {
+      traceTab = score;
     } else {
       traceTab = '';
     }
+
     const { BI = {} } = window;
     traceTab && BI.traceV && BI.traceV(traceTab)
 

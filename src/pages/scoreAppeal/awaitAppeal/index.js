@@ -180,7 +180,7 @@ class AwaitAppeal extends React.Component {
         render: (text, record) => {
           return (
             <>
-              {dimensionType == 14 ?<span style={{color:'#00CCC3',cursor:'pointer'}} onClick={()=>jumpMarkingDetails(record.stuId,{target:'im'} )}>{text}</span>:<span>{text}</span>}
+              {dimensionType == 14 ?<span data-trace='{"widgetName":"im待申诉列表进学员档案","traceName":"学分管理/待申诉/im/列表页/学员姓名"}' style={{color:'#00CCC3',cursor:'pointer'}} onClick={()=>jumpMarkingDetails(record.stuId,{target:'im'} )} >{text}</span>:<span>{text}</span>}
             </>
           );
         },

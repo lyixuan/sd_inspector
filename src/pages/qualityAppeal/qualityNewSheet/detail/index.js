@@ -29,7 +29,7 @@ class QualityDetail extends React.Component {
       <Spin spinning={this.props.pageLoading}>
         <div className={styles.qualityContainter}>
           {/* 质检单详情 */}
-          <BaseDetail data={{ ...others }} />
+          <BaseDetail data={{ ...others }}/>
           <QualityNewSheetDetail qualityDetailData={QualityDetailData} />
         </div>
       </Spin>
