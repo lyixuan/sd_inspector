@@ -98,7 +98,7 @@ class TableLine extends React.Component {
     // return layout;
     return (
       <>
-        <li className={hover ? styles.progressCell : ''}>
+        <li className={`${styles.li} ${hover ? styles.progressCell : ''}`}>
           {
             isShowIcon > 0 && <Tooltip placement="top" title={this.tooltipText()}>
               <img className={styles.examIcon} src={examNotice} />
