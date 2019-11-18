@@ -5,15 +5,20 @@ import moment from 'moment/moment';
 import { jumpMarkingDetails } from '@/pages/ko/utils/utils';
 
 class SubOrder extends React.Component {
+
   render() {
     const { stuName,trainingAmount,orderStatus,stuId,packageName,classTeacherName,bizDate,collegeName,familyName,groupName } = this.props.orderNumData||{};
+    let str = '{"widgetName":"新质检单详情进学员档案","traceName":"新质检单管理/质检详情/学员姓名"}';
+    if(Number(this.props.from)===1){
+      str='{"widgetName":"im在途申诉详情进学员档案","traceName":"学分管理/在途申诉/im/详情页/学员姓名"}';
+    }
     return (
       <div className={styles.boxWrap}>
         <div className={styles.title}>子订单信息</div>
         <div style={{marginLeft:20}}>
           <Row gutter={16}>
             <Col className={styles.gutter} span={8}>
-              <div><span className={styles.formLabel}>学员姓名</span>：<span style={{color:'#00CCC3',cursor:'pointer'}} onClick={()=>jumpMarkingDetails(stuId,{target:'protail'} )}>{stuName}</span></div>
+              <div><span className={styles.formLabel}>学员姓名</span>：<span style={{color:'#00CCC3',cursor:'pointer'}} onClick={()=>jumpMarkingDetails(stuId,{target:'protail'} )} data-trace={str}>{stuName}</span></div>
             </Col>
             <Col className={styles.gutter} span={10}>
               <div><span className={styles.formLabel}>实际支付金额</span>：<span>{trainingAmount}</span></div>

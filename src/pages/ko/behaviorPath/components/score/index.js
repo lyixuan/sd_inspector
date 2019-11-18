@@ -18,7 +18,13 @@ export default class Score extends React.Component {
       this.setState({
         collapseList:this.state.collapseList
       })
+      const { BI = {} } = window;
+      BI.traceV && BI.traceV({ widgetName: "学员成绩展开", traceName: "学员查询/学员档案/学员成绩展开" });
     } else {
+      if(!this.state.collapseList[index]){
+        const { BI = {} } = window;
+        BI.traceV && BI.traceV({ widgetName: "学员成绩展开", traceName: "学员查询/学员档案/学员成绩展开" });
+      }
       this.state.collapseList[index] = !this.state.collapseList[index];
       this.setState({
         collapseList:this.state.collapseList
