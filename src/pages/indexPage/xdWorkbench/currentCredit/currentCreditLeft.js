@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less';
-import BIWrapperTable1 from '../../components/BIWrapperTable1';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BITextCell from '../../components/BITextCell';
 import BILoading from '@/components/BILoading';
@@ -115,7 +114,6 @@ class currentCreditLeft extends React.Component {
             rowKey={record => record.id}
             bordered={true}
             scroll={{ y: 492 }}
-            scrollBar={{height: 492}}  
           />
           {
             pkGroupList && pkGroupList.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt='' /></div>

@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import BISelect from '@/ant_components/BISelect';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-import BIWrapperTable from '../../../components/BIWrapperTable';
+// import BIWrapperTable from '../../../components/BIWrapperTable';
+import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BIButton from '@/ant_components/BIButton';
 import styles from '../style.less';
 
@@ -127,7 +128,7 @@ class ProfitList extends React.Component {
             value={this.props.pkListType}
             placeholder="请选择"
             onChange={this.onChangeParams}
-            style={{ width: '136px', marginLeft: '24px' }}
+            style={{ width: '136px'}}
             // allowClear
           >
             {pkTypeconfig.map((item, index) => <Option key={index} value={index + 1} data-trace='{"widgetName":"本期创收-选择对比小组","traceName":"小德工作台/本期创收/选择对比小组"}'>{item}</Option>)}
@@ -135,19 +136,17 @@ class ProfitList extends React.Component {
         </div>
         <div className={styles.tableContent}>
           {userFlag && userMsg && <div className={styles.suspenTable}>
-            <BIWrapperTable
+            <BIScrollbarTable
               showHeader={false}
               columns={this.columns()}
               dataSource={[userMsg]}
               pagination={false}
               rowKey={record => record.personId}
               rowClassName={this.getRowClassName}
-              scroll={{ y: 40 }}
-              name='ghyu2'
             />
           </div>}
           <div id='scroll' className={`${yScrollFlag ? styles.scrollTable : ''} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
-            <BIWrapperTable
+            <BIScrollbarTable
               columns={this.columns()}
               dataSource={profitList}
               pagination={false}
@@ -156,7 +155,6 @@ class ProfitList extends React.Component {
               onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
               scroll={{ y: 240 }}
-              name='ghyu1'
             />
           </div>
         </div>
