@@ -1,45 +1,90 @@
 import { message } from 'antd';
 import { msgF } from '@/utils/utils';
 import {
-  getKOEnumList,
-  getKoDateRange, getKOMessage, getPageDetailInfoList, getUserGroupList, getCurrentTime
+  getExamList,
+  getProvinceData
 } from './services';
 
-
+const tHead = ['省份', '在服学员', '新生注册', '新生报考', '老生报考', '新生确认', '老生确认', '实践报考', '缴费', '补考',]
 export default {
   namespace: 'examPlant',
 
   state: {
-    enumData: {},
+    yearMonthList: [],
+    selectVal: null,
+    provinceExamList: [],
+    systemTime: '',
   },
 
   effects: {
-
-    // *getCurrentTime({ callback }, { call, put }) {
-    //   const response = yield call(getCurrentTime);
-    //   if (response && response.code === 20000) {
-    //     yield put({
-    //       type: 'save',
-    //       payload: { currentServiceTime: response.data.currentTime },
-    //     });
-    //     if (callback && typeof callback === 'function') {
-    //       callback(response.data.currentTime)
-    //     }
-    //     return;
-    //   } else if (response) {
-    //     message.error(response.msg)
-    //   }
-    //   if (callback && typeof callback === 'function') {
-    //     callback()
-    //   }
-    // },
-  },
-
-  reducers: {
-    saveParams(state, { payload }) {
-      return { ...state, ...payload };
+    *getExamList({ }, { call, put }) {
+      const response = yield call(getExamList);
+      const res = yield call(getProvinceData, { id: response.data[0].id })
+      if (response && response.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: { yearMonthList: response.data, selectVal: response.data[0].id },
+        });
+        yield put({
+          type: 'saveData',
+          payload: { provinceExamList: res.data.list, systemTime: res.data.systemTime },
+        });
+      } else if (response) {
+        message.error(response.msg)
+      }
+    },
+    *getProvinceData({ payload }, { call, put }) {
+      const params = payload.params
+      const response = yield call(getProvinceData, params);
+      if (response && response.code === 20000) {
+        yield put({
+          type: 'saveData',
+          payload: { provinceExamList: response.data.list, systemTime: response.data.systemTime },
+        });
+      } else if (response) {
+        message.error(response.msg)
+      }
     },
 
+  },
+
+  // const tHead = ['省份', '在服学员', '新生注册', '新生报考', '老生报考', '新生确认', '老生确认', '实践报考', '缴费', '补考',]
+
+  reducers: {
+    save(state, { payload }) {
+      return { ...state, ...payload };
+    },
+    saveData(state, { payload }) {
+      let data = payload.provinceExamList
+      data.map(item => {
+        if (item.register) {
+          item.register.name = tHead[2]
+        }
+        if (item.enroll) {
+          item.enroll.name = tHead[3]
+        }
+        if (item.oldEnroll) {
+          item.oldEnroll.name = tHead[4]
+        }
+        if (item.scene) {
+          item.scene.name = tHead[5]
+        }
+        if (item.oldScene) {
+          item.oldScene.name = tHead[6]
+        }
+        if (item.practice) {
+          item.practice.name = tHead[7]
+        }
+        if (item.pay) {
+          item.pay.name = tHead[8]
+        }
+        if (item.repairEnroll) {
+          item.repairEnroll.name = tHead[9]
+        }
+      })
+      return { ...state, ...{ provinceExamList: data, systemTime: payload.systemTime } };
+
+    },
   },
   subscriptions: {},
 };

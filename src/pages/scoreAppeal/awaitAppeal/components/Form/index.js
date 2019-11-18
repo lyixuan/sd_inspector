@@ -147,26 +147,7 @@ class CSForm extends React.Component {
                 </div>
               </Col>
               <Col className={styles.gutterCol} span={8}>
-                {dimensionType !== 11 && (
-                  <div className={styles.gutterBox2}>
-                    <span className={styles.gutterLabel}>学分维度</span>：
-                    <span className={styles.gutterForm}>
-                      <BISelect
-                        style={{ width: 230 }}
-                        placeholder="请选择"
-                        value={creditType}
-                        onChange={val => this.onFormChange(val, 'creditType')}
-                      >
-                        {dimensionList2.map(item => (
-                          <Option key={item.id}>{item.name}</Option>
-                        ))}
-                      </BISelect>
-                    </span>
-                  </div>
-                )}
-              </Col>
-              <Col className={styles.gutterCol} span={8}>
-                <div className={styles.gutterBox3}>
+                <div className={styles.gutterBox2}>
                   <span className={styles.gutterLabel}>归属组织</span>：
                   <span className={styles.gutterForm}>
                     <BITreeSelect
@@ -185,6 +166,25 @@ class CSForm extends React.Component {
                     />
                   </span>
                 </div>
+              </Col>
+              <Col className={styles.gutterCol} span={8}>
+                {dimensionType !== 11 && (
+                  <div className={styles.gutterBox2}>
+                    <span className={styles.gutterLabel}>学分维度</span>：
+                    <span className={styles.gutterForm}>
+                      <BISelect
+                        style={{ width: 230 }}
+                        placeholder="请选择"
+                        value={creditType}
+                        onChange={val => this.onFormChange(val, 'creditType')}
+                      >
+                        {dimensionList2.map(item => (
+                          <Option key={item.id}>{item.name}</Option>
+                        ))}
+                      </BISelect>
+                    </span>
+                  </div>
+                )}
               </Col>
             </Row>
           </div>

@@ -18,7 +18,7 @@ class SmallProgress extends React.Component {
     return (
       <>
         <div className={styles.progressBg} style={this.props.style}>
-          {percent && percent !== '0%' && percent !== 'NaN%' ? <div className={`${styles.progressCenter} ${this.getColorCalss()}`} style={{ width: percent }}>{thousandsFormat(parseInt(this.props.text))}{}</div> : ''}
+          {percent && percent !== '0%' && percent !== 'NaN%' ? <div className={`${styles.progressCenter} ${this.getColorCalss()}`} style={{ width: percent, textAlign: 'left' }}>{thousandsFormat(parseInt(this.props.text))}{}</div> : <span style={{ paddingLeft: '4px' }}>{this.props.text}</span>}
         </div>
       </>
     )
