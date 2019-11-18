@@ -75,7 +75,7 @@ class ExamPlan extends React.Component {
               onChange={this.onSelectChange}
             >
               {yearMonthList.map((item, index) => (
-                <Option key={item.id} value={item.id}>
+                <Option data-trace='{"widgetName":"切换考期","traceName":"报考大盘/切换考期"}' key={item.id} value={item.id}>
                   {item.examYearMonthStr}
                 </Option>
               ))}
