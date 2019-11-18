@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
-import BIWrapperTable from '../../../components/BIWrapperTable';
+import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
+// import BIWrapperTable from '../../../components/BIWrapperTable';
 import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect';
 import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
@@ -233,7 +234,7 @@ class currentCreditRight extends React.Component {
         </div>
         <div className={styles.tableContent}>
           {userFlag && userMsg && <div className={styles.suspension} >
-            <BIWrapperTable
+            <BIScrollbarTable
               showHeader={false}
               columns={this.columnsRight()}
               dataSource={[userMsg]}
@@ -244,7 +245,7 @@ class currentCreditRight extends React.Component {
             />
           </div>}
           <div id="scroll1">
-            <BIWrapperTable
+            <BIScrollbarTable
               columns={this.columnsRight()}
               dataSource={groupList}
               pagination={false}

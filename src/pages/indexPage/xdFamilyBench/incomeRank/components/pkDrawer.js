@@ -4,6 +4,7 @@ import { setLocalValue, thousandsFormatAll } from '@/pages/indexPage/components/
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIWrapperTable from '../../../components/BIWrapperTable';
+import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
 import checkIcon from '@/assets/component/checkicon.png';
@@ -176,7 +177,7 @@ class ProfitList extends React.Component {
         </div>
         <div className={styles.tableContent}>
           {userFlag && userMsg && <div className={styles.suspenTable}>
-            <BIWrapperTable
+            <BIScrollbarTable
               showHeader={false}
               columns={this.columns()}
               dataSource={[userMsg]}
@@ -187,7 +188,7 @@ class ProfitList extends React.Component {
             />
           </div>}
           <div id='scroll' className={`${yScrollFlag ? styles.scrollTable : ''} ${userFlag && userMsg ? styles.scrollMineTable : ''}`}>
-            <BIWrapperTable
+            <BIScrollbarTable
               columns={this.columns()}
               dataSource={drawerList}
               pagination={false}
