@@ -79,7 +79,7 @@ request.interceptors.request.use((url, options) => {
   const hasSelfPri = url.indexOf('/apis') > -1 || url.indexOf('/shinecollege') > -1 || url.indexOf('/inspectorapis') > -1 || url.indexOf('/deskperfpcapi') > -1;
   if (url.includes('/test')) {
     // 连接本地接口
-    return DebugApis(DebugConfig,url,options);
+    return DebugApis(DebugConfig, url, options);
   }
   return {
     url: `${SERVER_HOST}${PROXY_PATH(hasSelfPri)}${url}`,
@@ -88,16 +88,16 @@ request.interceptors.request.use((url, options) => {
 });
 
 request.interceptors.response.use((response, options) => {
-  const data =  response.clone().json();
-  data.then((res)=>{
-    if(res&&res.code===20002){
+  const data = response.clone().json();
+  data.then((res) => {
+    if (res && res.code === 20002) {
       redirectToLogin();
     }
   });
   return response;
 });
 
-const DebugApis = (DebugConfig,url,options) => {
+const DebugApis = (DebugConfig, url, options) => {
   return {
     url: `http://${DebugConfig.ip}${url.replace(`/test${DebugConfig.sliceTail}`, '')}`,
     options,
