@@ -139,7 +139,7 @@ class AppealCheck extends React.Component {
     return (
       <Spin spinning={loading}>
       <div className={styles.appealContainer}>
-        <BaseInfo detailInfo={detailInfo} dimensionType={query.dimensionType}/>
+        <BaseInfo detailInfo={detailInfo} dimensionType={query.dimensionType} from={2}/>
         {firstRecord&&(
           <div>
             <div className={styles.foldBox}>

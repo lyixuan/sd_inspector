@@ -12,6 +12,7 @@ import {
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import constants from '@/utils/constants';
+import { handleDataTrace } from '@/utils/utils';
 
 // 跳转学院档案
 const linkStuFiles = {
@@ -34,6 +35,27 @@ const linkStuFiles = {
   15: 'im',// 未回复会话
   16: 'im',// 不满意会话
   17: 'im',// 不及时消息
+}
+const linkStuName = {
+  37: '有效直播',
+  38: '有效重播',
+  40: '课后作业',
+  41: '智能推题',
+  33: '主帖',
+  34: '跟帖',
+  20: '工单初次减分',
+  21: '工单二次减分',
+  22: '工单三次减分',
+  24: '事件',
+  25: '班投',
+  26: '退费',
+  27: '投诉',
+  47: '退挽', 
+  12: '开班电话',
+  13: '随堂考', 
+  15: '未回复会话',
+  16: '不满意会话',
+  17: '不及时消息',
 }
 function Layout(props) {
   const layout = <section>
@@ -248,9 +270,11 @@ class CreditImDetials extends React.Component {
     });
   }
   handleRouter = (stuId, target) => {
+    const dimensionName = linkStuName[this.props.dementionId];
     if (stuId) {
       jumpMarkingDetails(stuId, { target })
     }
+    handleDataTrace({ "widgetName": `${dimensionName}进学员档案`, "traceName": `小德学分/学分/${dimensionName}进学员档案` })
   }
   render() {
     const { detailsData, pageSize = 15, currentPage } = this.props;

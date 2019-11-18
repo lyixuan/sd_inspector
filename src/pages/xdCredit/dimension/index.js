@@ -3,11 +3,12 @@ import { connect } from 'dva';
 import BITable from '@/ant_components/BITable';
 import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
-import open from '@/assets/xdcredit/open.png';
-import close from '@/assets/xdcredit/close.png';
-import mingxi from '@/assets/xdcredit/mingxi.png';
-import BILoading from '@/components/BILoading';
-import styles from './style.less';
+import open from '@/assets/xdCredit/open.png';
+import close from '@/assets/xdCredit/close.png';
+import mingxi from '@/assets/xdCredit/mingxi.png';
+// import BILoading from '@/components/BILoading';
+import { handleDataTrace } from '@/utils/utils';
+import styles from './style.less'
 
 @connect(({ loading }) => ({
   loading: loading.effects['xdCreditModal/getDimensionList'],
@@ -102,14 +103,23 @@ class Dimension extends React.Component {
           expandedRowKeys.push(addVal);
         }
       });
+      handleDataTrace({ "widgetName": `${record.dimensionName}展开`, "traceName": `小德学分/学分/${record.dimensionName}展开` })
     } else {
       record.childrenIds.map(delVal => {
         if (expandedRowKeys.includes(delVal)) {
           expandedRowKeys.splice(expandedRowKeys.indexOf(delVal), 1)
         }
       });
+      // handleDataTrace({ "widgetName": `${record.dimensionName}关闭`, "traceName": `小德学分/学分/${record.dimensionName}关闭` })
     }
     this.setState({expandedRowKeys});
+  }
+  // 其它展开关闭事件
+  onExpandOthers = (panelProps) => {
+    panelProps.onExpand();
+    if (!panelProps.expanded) {
+      handleDataTrace({ "widgetName": `${panelProps.record.dimensionName}展开`, "traceName": `小德学分/学分/${panelProps.record.dimensionName}展开` })
+    }
   }
   // 展开关闭图标渲染
   expandIconRender = (panelProps) => {
@@ -121,14 +131,15 @@ class Dimension extends React.Component {
       }
     } else if (panelProps.record.level === 3) {
       if (panelProps.expanded) {
-        return <img src={close} onClick={panelProps.onExpand} className={styles.expandIcon} alt=""/>
+        return <img src={close} onClick={() => this.onExpandOthers(panelProps)} className={styles.expandIcon} alt=""/>
       } else {
-        return <img src={open} onClick={panelProps.onExpand} className={styles.expandIcon} alt=""/>
+        return <img src={open} onClick={() => this.onExpandOthers(panelProps)} className={styles.expandIcon} alt=""/>
       }
     } else {
       return
     }
   }
+  //
   // 得到打开关闭的值
   onExpandedRowsChange = expandedRowKeys => {
     this.setState({expandedRowKeys})
