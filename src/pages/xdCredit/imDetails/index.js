@@ -172,7 +172,7 @@ class CreditImDetials extends React.Component {
         key: 'stuName',
         // width: 80,
         render: (text, record) => {
-          return <span data-trace='{"widgetName":"选择学员","traceName":"数据服务/学分明细/不满意会话/选择学员"}' onClick={() => this.handleNameClick(record.stuId)} style={ record.stuId ? { color: "#00CCC3", cursor: 'pointer' } : {}}>{strLen(text, 6)}</span>
+          return <span data-trace='{"widgetName":"不满意会话进学员档案","traceName":"小德学分/学分/不满意会话进学员档案"}' onClick={() => this.handleNameClick(record.stuId)} style={ record.stuId ? { color: "#00CCC3", cursor: 'pointer' } : {}}>{strLen(text, 6)}</span>
         }
       },
       {

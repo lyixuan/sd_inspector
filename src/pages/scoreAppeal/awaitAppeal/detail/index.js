@@ -33,7 +33,7 @@ class AppealAwaitCheck extends React.Component {
     return (
       <Spin spinning={loading}>
       <div className={styles.appealContainer}>
-        <BaseInfo detailInfo={detailInfo} dimensionType={query.dimensionType}/>
+        <BaseInfo detailInfo={detailInfo} dimensionType={query.dimensionType} from={1}/>
         <footer style={{ textAlign: 'right', marginTop: '20px' }}>
           <BIButton onClick={() => router.goBack()}>返回</BIButton>
         </footer>
