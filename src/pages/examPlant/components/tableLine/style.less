@@ -18,11 +18,24 @@
     font-size:13px;
     font-weight:bold;
     box-sizing:border-box;
-    border-right:1px solid #EFF3F6;
-    border-bottom:1px solid #EFF3F6;
+    // border-right:1px solid #EFF3F6;
+    // border-bottom:1px solid #EFF3F6;
     overflow:hidden;
     &:last-child{
       border-right:none;
+    }
+    &.li,&.progressCell{
+      border-right:1px solid #EFF3F6;
+      border-bottom:1px solid #EFF3F6;
+    }
+  }
+  .li{
+    position:relative;
+    img{
+      position:absolute;
+      left:15px;
+      top:50%;
+      margin-top:-8px;
     }
   }
 }
