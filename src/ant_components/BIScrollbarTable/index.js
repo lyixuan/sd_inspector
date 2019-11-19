@@ -1,6 +1,6 @@
 import React from 'react';
 import BITable from '@/ant_components/BITable';
-import BIScrollbar from '@/ant_components/BIScrollbar';
+// import BIScrollbar from '@/ant_components/BIScrollbar';
 import SmoothScrollbar from 'smooth-scrollbar';
 import styles from './style.less';
 
@@ -16,25 +16,30 @@ import styles from './style.less';
 
 class BIScrollbarTable extends React.Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       scrollbar: false,
-      tableId: `BIScrollbar${new Date().getTime()}`,
+      tableId: props.name ? props.name : `BIScrollbar${new Date().getTime()}`,
     }
   }
   componentDidMount() {
-    const ele = document.querySelector(`#${this.state.tableId} .ant-table-body`)
+    const ele = document.querySelector(`#${this.state.tableId} .ant-table-body`);
     if (ele) {
       const scrollbar = SmoothScrollbar.init(ele, this.props );
       this.setState({ scrollbar });
       ele.addEventListener('mouseenter', this.onMouseEnter);
       ele.addEventListener('mouseleave', this.onMouseLeave);
+      scrollbar.addListener(this.handleScroll.bind(this));
     }
   }
   componentWillUnmount() {
     if (this.scrollbar) {
         this.scrollbar.destroy();
     }
+  }
+  componentDidUpdate() {
+    const { scrollbar } = this.state;
+    scrollbar && scrollbar.update();
   }
   onMouseEnter = e => {
     const { scrollbar = {} } = this.state;
@@ -56,6 +61,12 @@ class BIScrollbarTable extends React.Component {
     }
     if (limit.y && scroll.y) {
       this.state.scrollbar.track.yAxis.hide()  
+    }
+  }
+  handleScroll(status) {
+    const { onScrollProps } = this.props;
+    if (onScrollProps && typeof onScrollProps === 'function') {
+      onScrollProps(status, this.scrollbar);
     }
   }
   render() {
