@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon, Modal} from 'antd';
+import { Button, Icon, Modal } from 'antd';
 import style from './cardStyle.less';
 import going from '@/assets/operateActivity/going.png';
 import wait from '@/assets/operateActivity/wait.png';
@@ -17,6 +17,7 @@ class ActivityCard extends React.Component{
 
   render() {
     const {status, showDeleteModal} = this.state;
+    const {sourceData} = this.props;
 
     return <div className={style.wrap}>
       <div onClick={this.clickCard}>
@@ -33,11 +34,12 @@ class ActivityCard extends React.Component{
             onClick={this.closeCard}/>
         </div>
         <div className={style.content}>
-          <div className={style.name}>专升本88折秒杀</div>
-          <div className={style.time}>展示时间：2019-08-01 10:00 ~ 2019-08-10 10:00</div>
+          <div className={style.name}>{sourceData.name}</div>
+          <div className={style.time}>展示时间：{sourceData.startTime} ~ {sourceData.endTime}</div>
         </div>
         <div className={style.footer}>
-          <span style={{marginRight: 8}}>张办理</span><span>2019-08-01 10:00</span>
+          <span style={{marginRight: 8}}>{sourceData.operatorName}</span>
+          <span>{sourceData.updateTime}</span>
         </div>
       </div>
 
@@ -47,11 +49,20 @@ class ActivityCard extends React.Component{
         getContainer={false}
         visible={showDeleteModal}
         wrapClassName={style['delete-modal']}
-        onCancel={this.closeDeleteModal}
-        onOk={this.confirmModal}>
+        footer={
+          <div>
+            <Button
+              style={{width: 80}}
+              onClick={this.closeDeleteModal}>取消</Button>
+            <Button
+              style={{width: 80, border: 'none'}}
+              type="primary" onClick={this.confirmModal}>确定</Button>
+          </div>
+        }
+        onCancel={this.closeDeleteModal}>
         <div className={style['content-box']}>
           <img className={style.icon} src={deleteImg} />
-          <span className={style.content}>你确定要删除活动吗？</span>
+          <span className={style.content}>你确定要删除活动{sourceData.name}吗？</span>
         </div>
       </Modal>
     </div>
@@ -61,7 +72,8 @@ class ActivityCard extends React.Component{
     this.props.onClick();
   };
 
-  closeCard = () => {
+  closeCard = (e) => {
+    e.stopPropagation();
     this.setState({
       showDeleteModal: true
     })
@@ -74,7 +86,8 @@ class ActivityCard extends React.Component{
   };
 
   confirmModal = () => {
-    this.props.onConfirm();
+    const {sourceData} = this.props;
+    this.props.onConfirm(sourceData.id);
     this.setState({
       showDeleteModal: false
     });
