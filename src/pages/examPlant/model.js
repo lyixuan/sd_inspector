@@ -59,27 +59,35 @@ export default {
       data.map(item => {
         if (item.register) {
           item.register.name = tHead[2]
+          item.register.index = 0
         }
         if (item.enroll) {
           item.enroll.name = tHead[3]
+          item.enroll.index = 1
         }
         if (item.oldEnroll) {
           item.oldEnroll.name = tHead[4]
+          item.oldEnroll.index = 2
         }
         if (item.scene) {
           item.scene.name = tHead[5]
+          item.scene.index = 3
         }
         if (item.oldScene) {
           item.oldScene.name = tHead[6]
+          item.oldScene.index = 4
         }
         if (item.practice) {
           item.practice.name = tHead[7]
+          item.practice.index = 5
         }
         if (item.pay) {
           item.pay.name = tHead[8]
+          item.pay.index = 6
         }
         if (item.repairEnroll) {
           item.repairEnroll.name = tHead[9]
+          item.repairEnroll.index = 7
         }
       })
       return { ...state, ...{ provinceExamList: data, systemTime: payload.systemTime } };

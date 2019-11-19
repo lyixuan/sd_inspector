@@ -25,6 +25,7 @@ class TableLine extends React.Component {
           obj.push({
             name: lineData[i].name,
             flag: '即将开始',
+            indexs: lineData[i].index,
             time: `${moment(lineData[i].start).format('MM/DD')}-${moment(lineData[i].end).format('MM/DD')}`
 
           })
@@ -33,13 +34,17 @@ class TableLine extends React.Component {
           obj.push({
             name: lineData[i].name,
             flag: '即将结束',
+            indexs: lineData[i].index,
             time: `${moment(lineData[i].start).format('MM/DD')}-${moment(lineData[i].end).format('MM/DD')}`
           })
         }
       }
 
     }
-    return obj;
+    const sort = obj.sort((a, b) => {
+      return a.indexs - b.indexs
+    })
+    return sort;
   }
   // 计算开始时间和结束时间
   countDate(startDate, endDate) {
