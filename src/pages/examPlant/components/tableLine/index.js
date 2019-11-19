@@ -119,19 +119,15 @@ class TableLine extends React.Component {
     )
   }
   mouseHover = () => {
-    setTimeout(() => {
-      this.setState({
-        showHover: true
-      })
-    }, 200);
+    this.setState({
+      showHover: true
+    })
 
   }
   mouseOut = () => {
-    setTimeout(() => {
-      this.setState({
-        showHover: false
-      })
-    }, 200);
+    this.setState({
+      showHover: false
+    })
   }
 
   render() {
