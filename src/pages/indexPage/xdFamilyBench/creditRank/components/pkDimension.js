@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import BIWrapperTable from '../../../components/BIWrapperTable1';
+import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BIFillCell from '@/components/BIFillCell';
 import BILoading from '@/components/BILoading';
 import BIIcon from '@/components/BIIcon';
@@ -133,7 +133,7 @@ class pkDimension extends React.Component {
         <BILoading isLoading={ this.props.loading} > 
           <div className={styles.tableContainer}>
             {
-              <BIWrapperTable
+              <BIScrollbarTable
                 columns={this.columns()}
                 dataSource={dataSource}
                 rowClassName={this.setRowClassName}
