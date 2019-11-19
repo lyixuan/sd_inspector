@@ -27,6 +27,8 @@ class NPSLeft extends React.Component {
       userId:record.stuId,//record,
       target:'userName'
     }
+    const { BI = {} } = window;
+    BI.traceV && BI.traceV({ widgetName: '管理层首页nps进学员档案', traceName: '管理层工作台/nps/列表/学员档案' });
     window.open(`/inspector/ko/behaviorPath?params=${JSON.stringify(params)}`);
   }
   columnsRight = () =>{

@@ -6,6 +6,40 @@ import searchIcon from '@/assets/xdcredit/search.png';
 import { Tooltip } from 'antd';
 import styles from './style.less';
 
+
+/*
+* BIClassifyTable 分类表格组件
+*
+* 自定义组件样式
+* params *
+* columns-列字段 （数组）
+* colors-自定义背景色（一组背景色值或一个值）
+* dataSource-数据源
+* isChecked-单元格是否可选中（布尔值，默认false）
+* collegeId-学院id
+* userType-用户角色
+* cellWidth-单元格宽度
+* orgClick-组织结构是否可点击（布尔值，默认false）
+* defaultKey-默认字段key,处理后台返回数据key值不相同的情况
+* 其它默认属性值
+*
+* 用法
+* <BIClassifyTable
+    loading={this.props.loading}
+    columns={this.columnsTable()}
+    colors={colors}
+    dataSource={imDetailData}
+    cellWidth={85}
+    style={{ cursor: 'pointer' }}
+    isChecked={false}
+    defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
+    orgClick={true}
+    collegeId={userInfo.collegeId}
+    userType={userInfo.userType}
+  ></BIClassifyTable>
+  */
+
+
 const totalLength = 9999;
 class BIClassifyTable extends React.Component {
   constructor(props) {

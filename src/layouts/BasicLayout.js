@@ -16,6 +16,7 @@ import SiderMenu from '../components/SiderMenu';
 import biIcon from '../assets/biIcon.png';
 import logo from '../assets/menu/logo.png';
 import storage from '../utils/storage';
+import {getBowerInfo} from '../utils/utils';
 import HeaderLayout from './Header';
 import { query } from './utils/query';
 import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
@@ -107,7 +108,7 @@ class BasicLayout extends React.PureComponent {
     if (!checkoutLogin()) {
       this.initSysItem();
     } else {
-
+      this.setBrowserInfo();
     }
   }
 
@@ -216,6 +217,14 @@ class BasicLayout extends React.PureComponent {
       payload: {},
     }).then(() => {
       that.MenuData();
+    });
+  };
+
+  setBrowserInfo= () => {
+    const obj = getBowerInfo();
+    this.props.dispatch({
+      type: 'login/setBrowserInfo',
+      payload: {...obj},
     });
   };
 

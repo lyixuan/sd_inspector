@@ -1,12 +1,50 @@
 .BIScrollbarTable {
   :global {
+    .ant-table-title {
+      color: #1A1C1F;
+      font-weight: bold;
+    }
+    .ant-table-tbody {
+      background-color: #FFFFFF;
+      td {
+        border-color: #EFF3F6;
+        color: #1A1C1F;
+        position: relative;
+        padding: 8px;
+      }
+    }
+    .ant-table-thead > tr > th {
+      background-color: #F6F7FA;
+      color: #7B7C80;
+      position: relative;
+      padding: 14px 8px;
+    }
+    .ant-table-fixed-header .ant-table-scroll .ant-table-header::-webkit-scrollbar{
+      border: 1px solid #F6F7FA;
+    }
+    .ant-table-thead > tr:first-child > th:first-child, .ant-table-tbody > tr > td:first-child {
+      padding-left: 24px;
+    }
+    .ant-table-bordered .ant-table-tbody > tr > td {
+      border-right: 1px solid #EFF3F6;
+    }
     .ant-table-fixed-header .ant-table-scroll .ant-table-header {
       overflow-y: hidden!important;
     }
     .ant-table-fixed-header > .ant-table-content > .ant-table-scroll > .ant-table-body {
       overflow-y: hidden!important;
     }
+    .ant-table-bordered.ant-table-fixed-header .ant-table-header + .ant-table-body  table{
+      border-top: 0;
+    }
+    .ant-table-bordered.ant-table-fixed-header .ant-table-body  table {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+   .ant-table-bordered .ant-table-body table {
+      border: 1px solid #e8e8e8;
+      border-right: 0;
+      border-bottom: 0;
+    }
   }
 }
-
-
