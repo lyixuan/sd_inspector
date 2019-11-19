@@ -12,6 +12,7 @@ class Cell extends React.Component {
     // 未开始：当前时间<开始时间时
     // 已结束：当前时间>结束时间时
     // 进行中：当前时间>=开始时间且当前时间<=结束时间时
+    console.log(15, currentDate, start, end)
     if (!start || !end) {
       return style;
     }
@@ -21,7 +22,7 @@ class Cell extends React.Component {
     } else if (currentDate.isAfter(end) && !currentDate.isSame(end, 'day')) {
       //已结束
       style = 'end'
-    } else if ((currentDate.isAfter(start, 'day') || currentDate.isSame(start, 'day')) && (currentDate.isBefore(end, 'day') || currentDate.isSame(start, 'day'))) {
+    } else if ((currentDate.isAfter(start, 'day') || currentDate.isSame(start, 'day')) && (currentDate.isBefore(end, 'day') || currentDate.isSame(end, 'day'))) {
       style = 'ing'
     }
     return style;
