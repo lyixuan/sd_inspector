@@ -134,7 +134,7 @@ function getRelation(str1, str2) {
  */
 export function getRoutes(path, routerData) {
   let routes = Object.keys(routerData).filter(
-    routePath => routePath.indexOf(path) === 0 && routePath !== path
+    routePath => routePath.indexOf(path) === 0 && routePath !== path,
   );
   // Replace path to '' eg. path='user' /user/name => name
   routes = routes.map(item => item.replace(path, ''));
@@ -163,12 +163,14 @@ export function formatDate(timestamp, split = '') {
   d = d < 10 ? `0${d}` : d; // 判断日期是否大10
   return `${y}${split}${m}${split}${d}`; // 返回时间格式
 }
+
 // 时间转化成星期几
 export function formatDateToWeek(date) {
   const weekArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
   const dateTime = new Date(date).getDay();
   return `${date} ${weekArr[dateTime]}`;
 }
+
 // 处理url
 /* eslint no-useless-escape:0 */
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
@@ -325,6 +327,79 @@ export function dealQuarys(pm) {
 
 // 埋点
 const { BI = {} } = window;
+
 export function handleDataTrace(obj) {
   BI.traceV && BI.traceV(obj);
 }
+
+
+export function getBowerInfo() {
+  // var engine = { ie:0, webkit:0, gecko:0, opera:0, khtml:0 }; 内核
+  const engine = {
+    screenSize: `${window.screen.width}x${window.screen.height}`,
+    userName:'',
+    browserVersion:'',
+    browserCore:'',
+    browserType:'',
+    osType:''
+  };
+
+  var ua = window.navigator.userAgent;
+  if (window.opera) {
+    engine.browserVersion = window.opera.version();
+    engine.browserCore='opera';
+    engine.browserType='Opera';
+  } else if (/AppleWebKit\/(\S+)/.test(ua)) {
+    engine.browserVersion = RegExp['$1'];
+    engine.browserCore='webkit';
+
+    if (/Chrome\/(\S+)/.test(ua)) {
+      engine.browserType = 'Chrome';
+    }else if(/Version\/(\S+)/.test(ua)){
+      engine.browserType = 'Safari';
+    }
+  } else if (/KHTML\/(\S+)/.test(ua)||/Konqueror\/([^;]+)/.test(ua)) {
+    engine.browserVersion =  RegExp['$1'];
+    engine.browserCore='khtml';
+    engine.browserType = 'Konqueror';
+  } else if (/rv:([^\)]+)\) Gecko\/\d{8}/.test(ua)) {
+    engine.browserVersion =  RegExp['$1'];
+    engine.browserCore='gecko';
+    if(/Firefox\/(\S+)/.test(ua)){
+      engine.browserType = 'Firefox';
+    }
+  } else if (/MSIE ([^;]+)/.test(ua)) {
+    engine.browserVersion = RegExp['$1'];
+    engine.browserCore='ie';
+    engine.browserType='IE';
+  } else if (ua.indexOf('WOW') != -1 && ua.indexOf("NET") < 0 && ua.indexOf("Firefox") < 0) {
+    engine.browserType='360';
+  } else if (ua.match(/tencenttraveler/) != null || ua.match(/qqbrowse/) != null) {
+    engine.browserType='QQ';
+  } else {
+    engine.browserVersion = null;
+    engine.browserCore='未知';
+    engine.browserType='未知';
+  }
+
+
+  let p = navigator.platform;
+  if(p.indexOf("Win") === 0){
+    engine.osType='Windows'
+  } else if (p.indexOf("Mac") === 0){
+    engine.osType='MacOS'
+  } else if (p.indexOf("Xll") === 0 || p.indexOf("Linux") == 0) {
+    engine.osType='Unix'
+  } else {
+    engine.osType='未知'
+  }
+
+  const temp = localStorage.getItem('admin_user');
+  const userName = JSON.parse(temp)?JSON.parse(temp).mail:'';
+  engine.userName = userName.substr(0,userName.indexOf('@'));
+
+  return engine;
+}
+
+
+
