@@ -15,14 +15,13 @@ class Cell extends React.Component {
     if (!start || !end) {
       return style;
     }
-
     if (currentDate.isBefore(start)) {
       //未开始
       style = 'unBegin'
-    } else if (currentDate.isAfter(end)) {
+    } else if (currentDate.isAfter(end) && !currentDate.isSame(end, 'day')) {
       //已结束
       style = 'end'
-    } else if ((currentDate.isAfter(start) || currentDate.isSame(start)) && (currentDate.isBefore(end) || currentDate.isSame(start))) {
+    } else if ((currentDate.isAfter(start, 'day') || currentDate.isSame(start, 'day')) && (currentDate.isBefore(end, 'day') || currentDate.isSame(start, 'day'))) {
       style = 'ing'
     }
     return style;
