@@ -7,6 +7,7 @@ import open from '@/assets/xdcredit/open.png';
 import close from '@/assets/xdcredit/close.png';
 import mingxi from '@/assets/xdcredit/mingxi.png';
 // import BILoading from '@/components/BILoading';
+import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import { handleDataTrace } from '@/utils/utils';
 import styles from './style.less'
 
@@ -150,7 +151,7 @@ class Dimension extends React.Component {
     return (
       <div className={styles.dimension}>
         {
-          dataSource.length > 0 ? <BITable
+          dataSource.length > 0 ? <BIScrollbarTable
             defaultExpandedRowKeys={[1,2,10]}
             expandIcon={this.expandIconRender}
             expandedRowKeys={this.state.expandedRowKeys}
@@ -164,7 +165,7 @@ class Dimension extends React.Component {
             pagination={false}
             smalled={true}
             bordered
-            // scroll={{ y: 1000 }}
+            scroll={{ y: 1000 }}
           /> : ''
         }
       </div>
