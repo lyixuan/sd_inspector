@@ -12,7 +12,6 @@ class Cell extends React.Component {
     // 未开始：当前时间<开始时间时
     // 已结束：当前时间>结束时间时
     // 进行中：当前时间>=开始时间且当前时间<=结束时间时
-    console.log(15, currentDate, start, end)
     if (!start || !end) {
       return style;
     }
