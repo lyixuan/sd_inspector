@@ -21,7 +21,7 @@ class Cell extends React.Component {
     } else if (currentDate.isAfter(end) && !currentDate.isSame(end, 'day')) {
       //已结束
       style = 'end'
-    } else if ((currentDate.isAfter(start, 'day') || currentDate.isSame(start, 'day')) && (currentDate.isBefore(end, 'day') || currentDate.isSame(start, 'day'))) {
+    } else if ((currentDate.isAfter(start, 'day') || currentDate.isSame(start, 'day')) && (currentDate.isBefore(end, 'day') || currentDate.isSame(end, 'day'))) {
       style = 'ing'
     }
     return style;
