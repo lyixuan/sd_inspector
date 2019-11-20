@@ -222,6 +222,9 @@ class BasicLayout extends React.PureComponent {
 
   setBrowserInfo= () => {
     const obj = getBowerInfo();
+    if(!obj){
+      return
+    }
     this.props.dispatch({
       type: 'login/setBrowserInfo',
       payload: {...obj},

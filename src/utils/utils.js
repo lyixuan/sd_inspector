@@ -396,7 +396,10 @@ export function getBowerInfo() {
 
   const temp = localStorage.getItem('admin_user');
   const userName = JSON.parse(temp)?JSON.parse(temp).mail:'';
-  engine.userName = userName && userName.substr(0,userName.indexOf('@'));
+  if(!userName){
+    return false
+  }
+  engine.userName = userName.substr(0,userName.indexOf('@'));
 
   return engine;
 }
