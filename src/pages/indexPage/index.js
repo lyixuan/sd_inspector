@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import RenderRoute from '@/components/RenderRoute';
+import Questionnaire from '@/pages/questionnaire';
 import homeImg from '@/assets/homeImg.png';
 import homeText from '@/assets/homeText.png';
 import styles from './indexPage.less';
@@ -55,6 +56,7 @@ class IndexPage extends Component {
     return (
       <>
         {flag ? flag : <RenderRoute {...this.props} />}
+        <Questionnaire/>
       </>
     );
   }
