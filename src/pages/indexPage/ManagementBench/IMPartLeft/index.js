@@ -49,7 +49,6 @@ class IMPartLeft extends React.Component {
   };
   render() {
     const { imDetailData } = this.props.xdManagementBench;
-    console.log(imDetailData, 'imDetailData');
     const { userInfo } = this.props;
     return (
       <Container
