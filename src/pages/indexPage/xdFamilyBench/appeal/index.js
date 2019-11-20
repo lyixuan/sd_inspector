@@ -26,6 +26,8 @@ class Negative extends React.Component {
         endDate: null,
         reasonTypeId: 0,
       },
+      orgId: null,
+      orgType: null,
       loadingStatus: true,
     };
   }
@@ -100,12 +102,13 @@ class Negative extends React.Component {
   };
   getReasonListData() {
     const { date } = this.state;
+    const { userInfo = {} } = this.props;
     const params = {
       startTime: moment(date.startDate).format('YYYY-MM-DD'),
       endTime: moment(date.endDate).format('YYYY-MM-DD'),
       familyType: null,
-      groupType: null,
-      orgId: null,
+      groupType: userInfo.userType,
+      orgId: userInfo.familyId,
       reasonTypeId: this.state.reasonTypeId,
     };
     this.props.dispatch({

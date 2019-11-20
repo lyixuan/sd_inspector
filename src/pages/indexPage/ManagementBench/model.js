@@ -1,4 +1,3 @@
-
 import {
   getNpsStarOpinion,
   getNpsAutonomousEvaluation,
@@ -12,7 +11,7 @@ import {
   getImReverseSideData,
   queryAppealDataPage,
   getFamilyType,
-  reasonList
+  reasonList,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF, thousandsFormat } from '@/utils/utils';
@@ -25,7 +24,7 @@ export default {
     compareCollegeListData: [],
     getCurrentDateRangeData: null,
     orgList: [],
-
+    imDetailData: [],
   },
   effects: {
     //  管理层工作台的接口
@@ -42,7 +41,6 @@ export default {
     },
     //NPS自主评价所有的接口
     *getNpsAutonomousEvaluation({ payload, callback }, { call, put }) {
-
       const result = yield call(getNpsAutonomousEvaluation, payload.params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { npsParams: result.data } });
@@ -180,37 +178,44 @@ export default {
     },
   },
 
-
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
     },
     saveTable(state, { payload }) {
-      let data = payload.imDetailData
+      let data = payload.imDetailData;
       if (!data.reasonTypeList) {
         data.dataList.map(item => {
-          item.values.push(item.unClassifyValue)
-          item.valueCounts.push(item.unClassifyCount)
-        })
-        data.reasonTypeList = [{
-          expand: true,
-          typeId: 0,
-          typeName: '所有分类'
-        }]
-        data.titleList = [...data.titleList, {
-          expand: false,
-          typeId: -1,
-          typeName: "未分类数据"
-        }]
+          item.values.push(item.unClassifyValue);
+          item.valueCounts.push(item.unClassifyCount);
+        });
+        data.reasonTypeList = [
+          {
+            expand: true,
+            typeId: 0,
+            typeName: '所有分类',
+          },
+        ];
+        data.titleList = [
+          ...data.titleList,
+          {
+            expand: false,
+            typeId: -1,
+            typeName: '未分类数据',
+          },
+        ];
       } else {
-        data.reasonTypeList = [{
-          expand: true,
-          typeId: 0,
-          typeName: '所有分类'
-        }, ...data.reasonTypeList]
+        data.reasonTypeList = [
+          {
+            expand: true,
+            typeId: 0,
+            typeName: '所有分类',
+          },
+          ...data.reasonTypeList,
+        ];
       }
       return { ...state, ...{ imDetailData: data } };
-    }
+    },
   },
   subscriptions: {},
 };
