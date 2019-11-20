@@ -64,13 +64,27 @@ class NPSEvaluate extends React.Component {
     if (this.state.userInfo.userType == 'boss') {
       this.state.groupId = [0];
     } else {
-      if (this.state.userInfo.collegeId) {
-        this.state.groupId.push(this.state.userInfo.collegeId);
-      } else if (this.state.userInfo.familyId) {
-        this.state.groupId.push(this.state.userInfo.familyId);
-      } else if (this.state.userInfo.groupId) {
-        this.state.groupId.push(this.state.userInfo.groupId);
+      debugger;
+      switch (this.state.userInfo.userType) {
+        case 'family':
+          this.state.groupId.push(this.state.userInfo.collegeId, this.state.userInfo.familyId);
+          break;
+        case 'college':
+          this.state.groupId.push(this.state.userInfo.collegeId);
+          break;
+        case 'group':
+          this.state.groupId.push(this.state.userInfo.groupId);
+          break;
+        default:
+          break;
       }
+      // if (this.state.userInfo.collegeId) {
+      //   this.state.groupId.push(this.state.userInfo.collegeId);
+      // } else if (this.state.userInfo.familyId) {
+      //   this.state.groupId.push(this.state.userInfo.familyId);
+      // } else if (this.state.userInfo.groupId) {
+      //   this.state.groupId.push(this.state.userInfo.groupId);
+      // }
     }
     this.setState(
       {
@@ -150,7 +164,7 @@ class NPSEvaluate extends React.Component {
         this.getNpsAutonomousEvaluation();
       }
     );
-    BI.traceV && BI.traceV({ widgetName: 'NPS归属筛选', traceName: '管理层工作台/NPS归属筛选' });
+    BI.traceV && BI.traceV({ widgetName: 'NPS归属筛选', traceName: '家族长工作台/NPS归属筛选' });
     localStorage.setItem('NPSGroupId', JSON.stringify(groupId));
   };
   onChangeStar = star => {
@@ -162,7 +176,7 @@ class NPSEvaluate extends React.Component {
         this.getNpsAutonomousEvaluation();
       }
     );
-    BI.traceV && BI.traceV({ widgetName: '星级筛选', traceName: '管理层工作台/NPS星级筛选' });
+    BI.traceV && BI.traceV({ widgetName: '星级筛选', traceName: '家族长工作台/NPS星级筛选' });
     localStorage.setItem('NPSStar', star);
   };
   onChangeCycle = cycle => {
@@ -174,7 +188,8 @@ class NPSEvaluate extends React.Component {
         this.getNpsAutonomousEvaluation();
       }
     );
-    BI.traceV && BI.traceV({ widgetName: '学员生命周期筛选', traceName: '管理层工作台/NPS学员生命周期筛选' });
+    BI.traceV &&
+      BI.traceV({ widgetName: '学员生命周期筛选', traceName: '家族长工作台/NPS学员生命周期筛选' });
     localStorage.setItem('CYCLE_VALUE', cycle);
   };
 
@@ -182,7 +197,7 @@ class NPSEvaluate extends React.Component {
   onDateChange = v => {
     localStorage.setItem('NPSDates', JSON.stringify(initTimeData(v)));
     this.setState({ dateArr: v }, () => this.getNpsAutonomousEvaluation());
-    BI.traceV && BI.traceV({ widgetName: 'NPS时间筛选', traceName: '管理层工作台/NPS时间筛选' });
+    BI.traceV && BI.traceV({ widgetName: 'NPS时间筛选', traceName: '家族长工作台/NPS时间筛选' });
   };
   //取T-2日期的数据
   handleDefaultPickerValueMark = cTime => {
