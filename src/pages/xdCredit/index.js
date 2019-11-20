@@ -15,8 +15,6 @@ import creditImg from '@/assets/xdcredit/credit.gif';
 import styles from './style.less';
 import moment from 'moment';
 
-
-
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
