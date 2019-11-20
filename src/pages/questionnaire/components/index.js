@@ -1,5 +1,5 @@
 import React from 'react';
-import blue from '@/assets/questionnaire/red.svg';
+import round from '@/assets/questionnaire/round.svg';
 import styles from './style.less';
 
 class QContainer extends React.Component {
@@ -7,7 +7,7 @@ class QContainer extends React.Component {
     return (
       <div className={styles.qContainer}>
           <div className={styles.title}>
-            <img src={blue} alt=''/>
+            <img src={round} alt=''/>
           </div>
       </div>
     );
