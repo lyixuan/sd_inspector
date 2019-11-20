@@ -380,7 +380,7 @@ class BIClassifyTable extends React.Component {
   render() {
     const height = this.state.tableHeight + 20;
     const dataSource =
-      this.props.dataSource && this.props.dataSource.dataList.length > 0
+      this.props.dataSource && this.props.dataSource.dataList  && this.props.dataSource.dataList.length > 0
         ? this.props.dataSource.dataList
         : [];
     return (
