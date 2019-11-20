@@ -25,7 +25,7 @@ class ManagementBench extends React.Component {
         endDate: null,
         reasonTypeId: 0,
       },
-      loadingStatus: true
+      loadingStatus: true,
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -43,16 +43,20 @@ class ManagementBench extends React.Component {
         payload: { params: { userType: 'family' } },
       })
       .then(res => {
-        this.setState({
-          date: {
-            startDate: res.startDate,
-            endDate: res.endDate,
-            kpiMonth: res.kpiMonth,
-          },
-        });
+        if (res) {
+          this.setState({
+            date: {
+              startDate: res.startDate,
+              endDate: res.endDate,
+              kpiMonth: res.kpiMonth,
+            },
+          });
+        }
       })
       .then(res => {
-        this.getReasonListData();
+        if (res) {
+          this.getReasonListData();
+        }
       });
   }
 
