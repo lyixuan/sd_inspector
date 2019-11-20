@@ -54,7 +54,7 @@ class ManagementBench extends React.Component {
         }
       })
       .then(res => {
-          this.getReasonListData();
+        this.getReasonListData();
       });
   }
 
