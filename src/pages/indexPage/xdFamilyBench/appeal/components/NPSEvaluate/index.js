@@ -162,7 +162,7 @@ class NPSEvaluate extends React.Component {
         this.getNpsAutonomousEvaluation();
       }
     );
-    BI.traceV && BI.traceV({ widgetName: '星级筛选', traceName: '管理层工作台/NPS分析' });
+    BI.traceV && BI.traceV({ widgetName: '星级筛选', traceName: '管理层工作台/NPS星级筛选' });
     localStorage.setItem('NPSStar', star);
   };
   onChangeCycle = cycle => {
@@ -174,7 +174,7 @@ class NPSEvaluate extends React.Component {
         this.getNpsAutonomousEvaluation();
       }
     );
-    BI.traceV && BI.traceV({ widgetName: '学员生命周期筛选', traceName: '管理层工作台/NPS分析' });
+    BI.traceV && BI.traceV({ widgetName: '学员生命周期筛选', traceName: '管理层工作台/NPS学员生命周期筛选' });
     localStorage.setItem('CYCLE_VALUE', cycle);
   };
 

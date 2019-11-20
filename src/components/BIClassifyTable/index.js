@@ -273,7 +273,7 @@ class BIClassifyTable extends React.Component {
               (this.props.orgClick &&
                 this.props.collegeId == record[this.props.defaultKey.id] &&
                 this.props.userType == 'college') ||
-              this.props.userType == 'boss'; //判断组织列能不能点击
+              this.props.userType == 'boss' || this.props.userType == 'family'; //判断组织列能不能点击
             return (
               <span
                 style={{ cursor: flag ? 'pointer' : '' }}
