@@ -6,7 +6,6 @@ import searchIcon from '@/assets/xdcredit/search.png';
 import { Tooltip } from 'antd';
 import styles from './style.less';
 
-
 /*
 * BIClassifyTable 分类表格组件
 *
@@ -38,7 +37,6 @@ import styles from './style.less';
     userType={userInfo.userType}
   ></BIClassifyTable>
   */
-
 
 const totalLength = 9999;
 class BIClassifyTable extends React.Component {
@@ -147,6 +145,19 @@ class BIClassifyTable extends React.Component {
     const data = this.props.dataSource;
     const titleList = data.titleList;
     const dataSource = data.dataList;
+
+    const userType = this.props.userType;
+
+    let point1 = '{widgetName: "选择数据",traceName: "数据服务/学分明细/不满意会话/切换原因"}';
+    let point = '{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}';
+    switch (userType) {
+      case 'family':
+        point1 = '{widgetName: "选择数据",traceName: "家族长工作台/学分明细/不满意会话/切换原因"}';
+        point = '{"widgetName":"选择数据","traceName":"家族长工作台/学分明细/不满意会话/选择数据"}';
+        break;
+      default:
+        break;
+    }
     const children = [];
     let repairArr = 0;
     if (!titleList) return;
@@ -160,7 +171,7 @@ class BIClassifyTable extends React.Component {
         children.push({
           title: (
             <div
-              data-trace='{"widgetName":"切换原因","traceName":"数据服务/学分明细/不满意会话/切换原因"}'
+              data-trace={point1}
               onClick={() => this.reasonTypeClick(item)}
               style={{ cursor: item.expand ? 'pointer' : '' }}
             >
@@ -198,7 +209,7 @@ class BIClassifyTable extends React.Component {
                 >
                   <BIContrastCell
                     style={{ cursor: 'pointer' }}
-                    data-trace='{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}'
+                    data-trace={point1}
                     key={index}
                     colors={this.props.colors}
                     onClick={e => {
@@ -273,7 +284,8 @@ class BIClassifyTable extends React.Component {
               (this.props.orgClick &&
                 this.props.collegeId == record[this.props.defaultKey.id] &&
                 this.props.userType == 'college') ||
-              this.props.userType == 'boss' || this.props.userType == 'family'; //判断组织列能不能点击
+              this.props.userType == 'boss' ||
+              this.props.userType == 'family'; //判断组织列能不能点击
             return (
               <span
                 style={{ cursor: flag ? 'pointer' : '' }}
@@ -322,7 +334,7 @@ class BIClassifyTable extends React.Component {
               ) : (
                 <BIContrastCell
                   style={{ cursor: 'pointer' }}
-                  data-trace='{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}'
+                  data-trace={point}
                   key={index}
                   colors={this.props.colors}
                   onClick={e => {
@@ -347,7 +359,7 @@ class BIClassifyTable extends React.Component {
               ) : (
                 <BIContrastCell
                   style={{ cursor: 'pointer' }}
-                  data-trace='{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}'
+                  data-trace={point}
                   key={index}
                   colors={this.props.colors}
                   onClick={e => {
@@ -380,7 +392,9 @@ class BIClassifyTable extends React.Component {
   render() {
     const height = this.state.tableHeight + 20;
     const dataSource =
-      this.props.dataSource && this.props.dataSource.dataList  && this.props.dataSource.dataList.length > 0
+      this.props.dataSource &&
+      this.props.dataSource.dataList &&
+      this.props.dataSource.dataList.length > 0
         ? this.props.dataSource.dataList
         : [];
     return (
