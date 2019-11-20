@@ -1,110 +1,89 @@
-.tableWrap {
-  width: 100%;
-  :global {
-    .ant-table {
-      border: 1px solid #eff3f6;
+.tableWrap{
+  width:100%;
+  :global{
+    .ant-table{
+      border:1px solid #EFF3F6;
       // border-bottom:none;
-      border-radius: 6px 6px 0 0;
+      border-radius:6px 6px 0 0;
     }
-    .ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td,
-    .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td,
-    .ant-table-thead > tr:hover:not(.ant-table-expanded-row) > td,
-    .ant-table-tbody > tr:hover:not(.ant-table-expanded-row) > td {
-      background: none;
+    .ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td, .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td, .ant-table-thead > tr:hover:not(.ant-table-expanded-row) > td, .ant-table-tbody > tr:hover:not(.ant-table-expanded-row) > td{
+      background:none;
     }
 
-    .ant-table-fixed-left,
-    .ant-table-fixed-right {
-      overflow: inherit;
-      z-index: 2;
+    .ant-table-fixed-left, .ant-table-fixed-right{
+      overflow:inherit;
+      z-index:2;
     }
     // .ant-table-fixed-left{
     //   z-index:2;
     // }
-    .ant-table-tbody > tr:last-child td {
+    .ant-table-tbody > tr:last-child td{
       // border-bottom:none;
     }
-    .ant-table-fixed-left,      // 这个就是含最后一列固定的table表格类名
-    .ant-table-fixed-right {
-      z-index: 999999;
-      // overflow: visible
+    .ant-table-tbody > tr > td{
+      position:relative;
+      background:#fff;
+      border-right-color:#EFF3F6;
     }
-    .ant-table th,
-    .ant-table td {
+    .ant-table-bordered .ant-table-header > table, .ant-table-bordered .ant-table-body > table, .ant-table-bordered .ant-table-fixed-left table, .ant-table-bordered .ant-table-fixed-right table{
+      border:none;
+    }
+    .ant-table-fixed-right .ant-table-thead > tr:last-child > th:last-child{
+      border-right:none;
+    }
+    .ant-table-thead > tr > th{
       white-space: nowrap;
+      border-top:none;
+      border-right-color:#EFF3F6;
     }
-    .ant-table-fixed {
-      // 对max-content做浏览器兼容
-      width: -webkit-max-content;
-      width: -moz-max-content;
-      width: max-content;
+    .ant-table-fixed-right .ant-table-tbody > tr > td:last-child{
+      background:#F6F7FA;
     }
-
-    .ant-table-tbody > tr > td {
-      position: relative;
-      background: #fff;
-      border-right-color: #eff3f6;
-    }
-    .ant-table-bordered .ant-table-header > table,
-    .ant-table-bordered .ant-table-body > table,
-    .ant-table-bordered .ant-table-fixed-left table,
-    .ant-table-bordered .ant-table-fixed-right table {
-      border: none;
-    }
-    .ant-table-fixed-right .ant-table-thead > tr:last-child > th:last-child {
-      border-right: none;
-    }
-    .ant-table-thead > tr > th {
-      white-space: nowrap;
-      border-top: none;
-      border-right-color: #eff3f6;
-    }
-    .ant-table-fixed-right .ant-table-tbody > tr > td:last-child {
-      background: #f6f7fa;
-    }
-    .ant-table-fixed-right {
+    .ant-table-fixed-right{
       box-shadow: -6px 0 6px -4px rgba(0, 0, 0, 0.05);
     }
-    .ant-table-wrapper {
-      ::-webkit-scrollbar {
+    .ant-table-wrapper{
+      ::-webkit-scrollbar{
         width: 8px;
         height: 8px;
       }
       //自动移滚动条样式
-      ::-webkit-scrollbar-thumb {
+      ::-webkit-scrollbar-thumb{
         border-radius: 1em;
-        background-color: rgba(50, 50, 50, 0.3);
+        background-color: rgba(50,50,50,.3);
       }
-      ::-webkit-scrollbar-track {
+      ::-webkit-scrollbar-track{
         // border-radius: 1em;
-        background-color: rgba(50, 50, 50, 0.1);
+        background-color: rgba(50,50,50,.1);
+      }
+    }
+    
+  }
+  .txRight{
+    text-align:right;
+    background:#F6F7FA;
+  }
+  .title{
+    cursor:pointer;
+  }
+  .titleCurrent{
+    color: #00CCC3;
+  }
+}
+.listMarkingTooltip2{
+  :global {
+    .ant-tooltip-content{
+      opacity:1;
+    }
+      .ant-tooltip-arrow {
+        border-right-color: #ffffff!important;
+      //   border-color: transparent transparent #fff #fff;
+      }
+      .ant-tooltip-inner {
+      //   padding: 20px 10px 20px 0px;
+        background: #ffffff;
+        color:#000;
       }
     }
   }
-  .txRight {
-    text-align: right;
-    background: #f6f7fa;
-  }
-  .title {
-    cursor: pointer;
-  }
-  .titleCurrent {
-    color: #00ccc3;
-  }
-}
-.listMarkingTooltip2 {
-  :global {
-    .ant-tooltip-content {
-      opacity: 1;
-    }
-    .ant-tooltip-arrow {
-      border-right-color: #ffffff !important;
-      //   border-color: transparent transparent #fff #fff;
-    }
-    .ant-tooltip-inner {
-      //   padding: 20px 10px 20px 0px;
-      background: #ffffff;
-      color: #000;
-    }
-  }
-}
+
