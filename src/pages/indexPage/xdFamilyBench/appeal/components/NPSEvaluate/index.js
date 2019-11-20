@@ -64,7 +64,6 @@ class NPSEvaluate extends React.Component {
     if (this.state.userInfo.userType == 'boss') {
       this.state.groupId = [0];
     } else {
-      debugger;
       switch (this.state.userInfo.userType) {
         case 'family':
           this.state.groupId.push(this.state.userInfo.collegeId, this.state.userInfo.familyId);

@@ -31,7 +31,7 @@ class Dimension extends React.Component {
         width: 146,
         render: (text, record) => {
           if (record.level === 4) {    
-            return  <div onClick={() => this.onClickRow(record)} className={styles.dimensionName}>
+            return  <div onClick={() => this.onClickRow(record)} className={`${styles.dimensionName} ${record.num > 0 ? styles.dimensionClick : ''}`}>
               <span>{text}</span>
               <span className={record.num > 0 ? styles.num : ''}>{record.num}{record.unit} {record.num > 0 ?<img src={mingxi} alt=""/> : ''}</span>
             </div>
