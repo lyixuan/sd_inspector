@@ -5,7 +5,7 @@ import {
   getProvinceData
 } from './services';
 
-const tHead = ['省份', '在服学员', '新生注册', '新生报考', '老生报考', '新生确认', '老生确认', '实践报考', '缴费', '补考',]
+const tHead = ['省份', '在服学员', '新生注册', '新生报考', '老生报考', '新生确认', '老生确认', '实践报考', '缴费', '补报',]
 export default {
   namespace: 'examPlant',
 

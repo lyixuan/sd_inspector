@@ -7,7 +7,7 @@ import examEmpty from '@/assets/examEmpty.png';
 import styles from './style.less';
 
 const { Option } = BISelect;
-const tHead = ['省份', '在服学员', '新生注册', '新生报考', '老生报考', '新生确认', '老生确认', '实践报考', '缴费', '补考',]
+const tHead = ['省份', '在服学员', '新生注册', '新生报考', '老生报考', '新生确认', '老生确认', '实践报考', '缴费', '补报',]
 const allData = [{
   province: '北京',
   stuNum: '1543000',
@@ -18,7 +18,7 @@ const allData = [{
   oldScene: { start: '2019-11-20', end: '2019-11-20', name: '老生确认' },
   practice: { start: '2019-11-13', end: '2019-11-13', name: '实践报考' },
   pay: { start: '2019-11-13', end: '2019-11-13', name: '缴费' },
-  repairEnroll: { start: '2019-11-13', end: '2019-11-13', name: '补考' },
+  repairEnroll: { start: '2019-11-13', end: '2019-11-13', name: '补报' },
 }]
 @connect(({ examPlant, loading }) => ({
   examPlant,
