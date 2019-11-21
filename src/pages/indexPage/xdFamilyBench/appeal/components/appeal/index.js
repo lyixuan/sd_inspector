@@ -280,26 +280,28 @@ class appeal extends React.Component {
     const dataSource = this.props.familyAppeal[tabSource[this.state.appealType]] || [];
     return (
       <div className={styles.appealWrap}>
-        <BIRadio
-          onChange={this.handleChange}
-          value={this.state.appealType}
-          style={{ marginBottom: 16 }}
-        >
-          {tabsMsg.map((item, index) => (
-            <BIRadio.Radio.Button value={index + 1} key={index}>
-              <div data-trace={item.dataTrace}>{item.title}</div>
-            </BIRadio.Radio.Button>
-          ))}
-        </BIRadio>
-        <BILoading isLoading={this.props.loading}>
-          <BITable
-            columns={this.columns(this.state.appealType)}
-            dataSource={dataSource}
-            pagination={false}
-            rowKey={(record, index) => index}
-            smalled
-          />
-        </BILoading>
+        <Container title="本期申诉">
+          <BIRadio
+            onChange={this.handleChange}
+            value={this.state.appealType}
+            style={{ marginBottom: 16 }}
+          >
+            {tabsMsg.map((item, index) => (
+              <BIRadio.Radio.Button value={index + 1} key={index}>
+                <div data-trace={item.dataTrace}>{item.title}</div>
+              </BIRadio.Radio.Button>
+            ))}
+          </BIRadio>
+          <BILoading isLoading={this.props.loading}>
+            <BITable
+              columns={this.columns(this.state.appealType)}
+              dataSource={dataSource}
+              pagination={false}
+              rowKey={(record, index) => index}
+              smalled
+            />
+          </BILoading>
+        </Container>
       </div>
     );
   }
