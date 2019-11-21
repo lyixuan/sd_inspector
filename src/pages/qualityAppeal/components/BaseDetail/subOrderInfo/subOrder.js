@@ -10,7 +10,7 @@ class SubOrder extends React.Component {
     const { stuName,trainingAmount,orderStatus,stuId,packageName,classTeacherName,bizDate,collegeName,familyName,groupName } = this.props.orderNumData||{};
     let str = '{"widgetName":"新质检单详情进学员档案","traceName":"新质检单管理/质检详情/学员姓名"}';
     if(Number(this.props.from)===1){
-      str='{"widgetName":"im在途申诉详情进学员档案","traceName":"学分管理/在途申诉/im/详情页/学员姓名"}';
+      str='{"widgetName":"质检在途申诉详情进学员档案","traceName":"质检申诉/在途申诉/详情/学员姓名"}';
     }
     return (
       <div className={styles.boxWrap}>
