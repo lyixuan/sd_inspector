@@ -211,10 +211,10 @@ class CollegeScore extends React.Component {
     return (
       <div>
         <BILoading isLoading={this.props.loading}> 
-              <BIScrollbar style={{ minHeight: 300 }}>
-                {this.getEchartRender(creaditDataList)}
-              </BIScrollbar>            
-            <EchartBottom/>
+          <BIScrollbar style={{ minHeight: 300 }}>
+            {this.getEchartRender(creaditDataList)}
+          </BIScrollbar>            
+          <EchartBottom/>
         </BILoading>
       </div>
     );

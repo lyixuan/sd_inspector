@@ -10,7 +10,7 @@ class QContainer extends React.Component {
           <div className={styles.title}>
             <img src={round} alt=''/>
           </div>
-          <div style={propsStyle}>
+          <div className={styles.qChildren} style={propsStyle}>
             {children}
           </div>
       </div>
