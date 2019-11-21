@@ -239,7 +239,7 @@ class BIClassifyTable extends React.Component {
           },
         });
       });
-    if (repairArr > 0) {
+    if (repairArr+1 > 0) {
       children.push({
         title: ' ',
         dataIndex: 'repairArr',
