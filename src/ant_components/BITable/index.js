@@ -13,7 +13,7 @@ class BITable extends React.Component {
   render() {
     return (
       <div className={`${styles.BITable} ${this.props.bordered ? '' : styles.BINone} ${this.props.smalled ? styles.BISmall : ''}`}>
-        <Table {...this.props} />
+        <Table tableLayout ="fixed" {...this.props} />
       </div>
     );
   }
