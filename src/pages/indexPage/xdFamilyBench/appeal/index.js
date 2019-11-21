@@ -11,6 +11,7 @@ import Quality from '../quality/index';
 import moment from 'moment';
 import styles from './style.less';
 
+const _isMounted = false;
 @connect(({ xdFamilyModal, xdWorkModal }) => ({
   xdFamilyModal,
   userInfo: xdWorkModal.userInfo,
@@ -57,6 +58,8 @@ class Negative extends React.Component {
       .then(res => {
         this.getReasonListData();
       });
+
+    this._isMounted = true;
   }
 
   componentDidUpdate() {
@@ -118,9 +121,7 @@ class Negative extends React.Component {
     // this.getImDetail();
   }
   componentWillUnmount = () => {
-    this.setState = (state, callback) => {
-      return;
-    };
+    this._isMounted = false;
   };
 
   render() {
