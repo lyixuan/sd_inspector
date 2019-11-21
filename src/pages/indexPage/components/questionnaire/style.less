@@ -16,9 +16,25 @@
       width: 900px;
       height: 1339px;
       background-color: #5049A4;
+      border-radius: 10px;
+      position: relative;
+      .close{
+        position: absolute;
+        right: 10px;
+        color: #FFFFFF;
+        font-size: 26px;
+        cursor: pointer;
+      }
       .headImg {
         height: 245px;
         margin: 16px 0;
+      }
+      textarea {
+        height: 156px;
+        box-sizing: border-box;
+        border: 1px solid #000000;
+        padding-top: 16px;
+        color: #1A1C1F;
       }
       .btn {
         text-align: center;
@@ -37,8 +53,26 @@
   }
 }
 .questionTitle {
-  margin-top: 30px;
+  // margin-top: 30px;
   margin-bottom: 8px;
   font-size: 18px;
   color: #000000;
+}
+.questionOption {
+  display: flex;
+  font-size: 14px;
+  margin-top: 20px;
+  color: #000000;
+  > div {
+    width: 33%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    :nth-child(1) {
+      margin-right: 8px
+    }
+    :nth-child(2) {
+      margin-left: 8px
+    }
+  }
 }
