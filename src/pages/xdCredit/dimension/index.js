@@ -87,10 +87,10 @@ class Dimension extends React.Component {
       const obj = { widgetName: record.dimensionName, traceName: `数据服务/学分明细/${record.dimensionName}` }
       const { BI = {} } = window;
       this.props.onChangeParams(record.id, 'dementionId');
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      })
+      // window.scrollTo({ // 产品去掉了
+      //   top: 0,
+      //   behavior: "smooth"
+      // })
       BI.traceV && BI.traceV(obj);
     }
   }
