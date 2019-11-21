@@ -43,8 +43,12 @@ class Questionnaire extends React.Component {
   componentDidMount() {
     this.props.dispatch({
       type: 'xdWorkModal/getQuestionCheckUser',
+      callback: res => {
+        if (res) {
+          document.body.style.overflow = 'hidden';
+        }
+      },
     });
-    document.body.style.overflow = 'hidden'
   }
   getIsInclude = (arr, v) => {
     return arr.includes(v);
