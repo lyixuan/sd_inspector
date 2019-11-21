@@ -93,6 +93,8 @@
   color: #1A1C1F;
   font-weight: bold;
   float: left;
+  width: 75px;
+  cursor: pointer;
 }
 .btn,.btnActive {
   font-size: 16px;
