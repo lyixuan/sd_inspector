@@ -8,6 +8,7 @@ import rankWarn from '@/assets/xdFamily/rankWarn.png';
 import styles from './style.less';
 import BILoading from '@/components/BILoading';
 import { beforeAll } from 'lodash-decorators';
+import moment from 'moment';
 const { BI = {} } = window;
 
 const tabsMsg = [
@@ -34,14 +35,14 @@ function appealParams(type, date) {
     tabType: '1',
     type: '1',
     status,
-    reduceScoreBeginDate: date && date.startDate,
-    reduceScoreEndDate: date && date.endDate,
+    reduceScoreBeginDate: date && moment(date.startDate).format('YYYY-MM-DD'),
+    reduceScoreEndDate: date && moment(date.endDate).format('YYYY-MM-DD'),
   };
 }
 function bottomParams(num, date, type, id) {
   let statusList = [];
-  const creditBeginDate = date && date.startDate; // 申诉开始日期
-  const creditEndDate = date && date.endDate; // 申诉结束日期
+  const creditBeginDate = date && moment(date.startDate).format('YYYY-MM-DD'); // 申诉开始日期
+  const creditEndDate = date && moment(date.endDate).format('YYYY-MM-DD'); // 申诉结束日期
   if (type === 2) {
     statusList = ['3', '4', '7'];
   }
@@ -141,7 +142,11 @@ class appeal extends React.Component {
               </div>
             ) : text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={appealUrl} target="_blank"  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
+                <a
+                  href={appealUrl}
+                  target="_blank"
+                  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'
+                >
                   {text}
                 </a>
               </div>
@@ -160,7 +165,11 @@ class appeal extends React.Component {
             {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={bottomLineUrl} target="_blank"  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
+                <a
+                  href={bottomLineUrl}
+                  target="_blank"
+                  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'
+                >
                   {text}
                 </a>
               </div>
@@ -179,7 +188,11 @@ class appeal extends React.Component {
             {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={imUrl} target="_blank"  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
+                <a
+                  href={imUrl}
+                  target="_blank"
+                  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'
+                >
                   {text}
                 </a>
               </div>
@@ -198,7 +211,11 @@ class appeal extends React.Component {
             {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={orderUrl} target="_blank" data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
+                <a
+                  href={orderUrl}
+                  target="_blank"
+                  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'
+                >
                   {text}
                 </a>
               </div>
@@ -217,7 +234,11 @@ class appeal extends React.Component {
             {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={newExcellentUrl} target="_blank"  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'>
+                <a
+                  href={newExcellentUrl}
+                  target="_blank"
+                  data-trace='{"traceName":"家族长工作台/本期申诉","widgetName":"本期申诉数据详情"}'
+                >
                   {text}
                 </a>
               </div>
@@ -236,7 +257,7 @@ class appeal extends React.Component {
             {gotoUrl(appealType, date, record.groupId)}
             {text ? (
               <div className={styles.rankMarkGreen}>
-                <a href={incomeUrl} target="_blank" >
+                <a href={incomeUrl} target="_blank">
                   {text}
                 </a>
               </div>
@@ -259,26 +280,28 @@ class appeal extends React.Component {
     const dataSource = this.props.familyAppeal[tabSource[this.state.appealType]] || [];
     return (
       <div className={styles.appealWrap}>
-        <BIRadio
-          onChange={this.handleChange}
-          value={this.state.appealType}
-          style={{ marginBottom: 16 }}
-        >
-          {tabsMsg.map((item, index) => (
-            <BIRadio.Radio.Button value={index + 1} key={index}>
-              <div data-trace={item.dataTrace}>{item.title}</div>
-            </BIRadio.Radio.Button>
-          ))}
-        </BIRadio>
-        <BILoading isLoading={this.props.loading}>
-          <BITable
-            columns={this.columns(this.state.appealType)}
-            dataSource={dataSource}
-            pagination={false}
-            rowKey={(record, index) => index}
-            smalled
-          />
-        </BILoading>
+        <Container title="本期申诉">
+          <BIRadio
+            onChange={this.handleChange}
+            value={this.state.appealType}
+            style={{ marginBottom: 16 }}
+          >
+            {tabsMsg.map((item, index) => (
+              <BIRadio.Radio.Button value={index + 1} key={index}>
+                <div data-trace={item.dataTrace}>{item.title}</div>
+              </BIRadio.Radio.Button>
+            ))}
+          </BIRadio>
+          <BILoading isLoading={this.props.loading}>
+            <BITable
+              columns={this.columns(this.state.appealType)}
+              dataSource={dataSource}
+              pagination={false}
+              rowKey={(record, index) => index}
+              smalled
+            />
+          </BILoading>
+        </Container>
       </div>
     );
   }

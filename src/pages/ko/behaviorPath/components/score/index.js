@@ -55,8 +55,8 @@ export default class Score extends React.Component {
     );
     return (
       <Spin spinning={isLoading}>
-        {list.length>0?
           <div  className={styles.layout}>
+            {list.length>0?
             <div className={styles.leftContent}>
               {scoreList}
               {total!==0?
@@ -72,13 +72,12 @@ export default class Score extends React.Component {
                   total={total}
                 />
               </div>:null}
-            </div>
+            </div>: <div className={styles.leftContent}>
+                <div className={styles.contentLayout} style={{minHeight:800,marginBottom:20,paddingTop:50}}><Empty/> </div>
+              </div>}
             <div className={styles.userInfo}>
               <UserInfo info={info} />
             </div>
-          </div>:
-          <div className={styles.layout1}>
-            <div className={styles.contentLayout} style={{minHeight:800,marginBottom:20,paddingTop:50}}><Empty/> </div>
           </div>
         }
       </Spin>
