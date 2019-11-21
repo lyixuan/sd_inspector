@@ -11,7 +11,6 @@ import IMPartRight from './IMPartRight';
 import NPSEvaluate from './NPSEvaluate';
 import moment from 'moment';
 
-const _isMounted = false;
 @connect(({ xdManagementBench, xdWorkModal }) => ({
   xdManagementBench,
   userInfo: xdWorkModal.userInfo,

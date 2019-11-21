@@ -11,7 +11,6 @@ import Quality from '../quality/index';
 import moment from 'moment';
 import styles from './style.less';
 
-const _isMounted = false;
 @connect(({ xdFamilyModal, xdWorkModal }) => ({
   xdFamilyModal,
   userInfo: xdWorkModal.userInfo,
