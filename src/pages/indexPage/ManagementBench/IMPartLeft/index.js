@@ -40,7 +40,7 @@ class IMPartLeft extends React.Component {
       },
       {
         type: 'rightFixed',
-        name: '汇总',
+        name: '汇总', 
         width: 80,
         key: 'total',
       },

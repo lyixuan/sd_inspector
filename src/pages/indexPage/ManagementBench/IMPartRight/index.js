@@ -40,35 +40,35 @@ class IMPartRight extends React.Component {
         title: '差评率',
         dataIndex: 'badContrasts',
         key: 'badContrasts',
-        width:"16%",
+        width:"48px",
         render: (badContrasts, record) => {
           const percent =(record.badContrastsBar * 100).toFixed(2) + '%';
           const text = (badContrasts*100).toFixed(2)+"%"
           return<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <BIWrapperProgress text={text} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"right"}}/>
+            <BIWrapperProgress text={text} percent={percent}  propsStyle={{flex: 'inherit',width: '48px',textAlign:"right"}}/>
           </div>
 
         },
       }, {
-        title: '不及时数',
+        title: '不及时',
         dataIndex: 'notInTime',
         key: 'notInTime',
-        width:"24%",
+        width:"48px",
         render: (notInTime, record) => {
           const percent = record.notInTimeContrasts* 100 + '%';
           return <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <BIWrapperProgress text={notInTime} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"right"}}/>
+            <BIWrapperProgress text={notInTime} percent={percent}  propsStyle={{flex: 'inherit',width: '48px',textAlign:"right"}}/>
           </div>
         },
       }, {
-        title: '未回复数',
+        title: '未回复',
         dataIndex: 'notReply',
         key: 'notReply',
-        width:"27%",
+        width:"48px",
         render: (notReply, record) => {
           const percent = record.notReplyContrasts * 100 + '%';
           return <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <BIWrapperProgress text={notReply} percent={percent}  propsStyle={{flex: 'inherit',width: '60px',textAlign:"right"}}/>
+            <BIWrapperProgress text={notReply} percent={percent}  propsStyle={{flex: 'inherit',width: '48px',textAlign:"right"}}/>
           </div>
         },
       },
