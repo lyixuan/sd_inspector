@@ -11,37 +11,30 @@ class QuestionTable extends React.Component{
       {
         title: '标准问题',
         dataIndex: 'question',
-        ellipsis: true,
         key: 'question',
-        width: 280
+        ellipsis: true,
       },
       {
         title: '简称',
-        dataIndex: 'simple',
-        key: 'simple',
-        width: 120
+        dataIndex: 'questionShortName',
+        key: 'questionShortName'
       },
       {
         title: '回复内容',
-        dataIndex: 'content',
-        key: 'content',
-        render: (text) => {
-          return <Tooltip title={text}>
-            <div className={style.content}>{text}</div>
-          </Tooltip>
-        }
+        dataIndex: 'answerText',
+        key: 'answerText',
+        ellipsis: true,
       },
       {
         title: '操作',
         key: 'action',
-        width: 100,
         render: (data) => {
           return <div>
             <span
               onClick={this.editContent.bind(this, data)}
               className={style.edit}>编辑</span>
             <span
-              onClick={this.deleteContent.bind(this, data.id)}
+              onClick={this.deleteContent.bind(this, data.question)}
               className={style.delete}>删除</span>
           </div>
         }
@@ -57,7 +50,8 @@ class QuestionTable extends React.Component{
         columns={columns}
         dataSource={sourceData}
         loading={loading}
-        rowKey={record =>  record.id} />
+        rowKey={record =>  record.id}
+        pagination={false} />
     </div>
   }
 
@@ -65,8 +59,8 @@ class QuestionTable extends React.Component{
     this.props.onEdit(data);
   };
 
-  deleteContent = (id) => {
-    this.props.onDelete();
+  deleteContent = (question) => {
+    this.props.onDelete(question);
   };
 }
 

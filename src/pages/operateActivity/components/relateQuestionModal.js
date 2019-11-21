@@ -8,8 +8,8 @@ class RelateQuestionModal extends React.Component{
     super(props);
     this.state = {
       question: '',
-      simple: '',
-      content: '',
+      questionShortName: '',
+      answerText: '',
       disabled: true
     };
   }
@@ -17,7 +17,7 @@ class RelateQuestionModal extends React.Component{
   render() {
     const {TextArea} = Input;
     const {isShow, relateQuestion} = this.props;
-    const {question, simple, content} = relateQuestion;
+    const {question, questionShortName, answerText} = relateQuestion;
     const {disabled} = this.state;
 
     return <div>
@@ -56,7 +56,7 @@ class RelateQuestionModal extends React.Component{
             className={style.input}
             maxLength={6}
             placeholder="请输入问题简称"
-            defaultValue={simple}
+            defaultValue={questionShortName}
             onChange={this.simpleChange}/>
         </div>
         <div className={style.line}>
@@ -65,7 +65,7 @@ class RelateQuestionModal extends React.Component{
             className={style.area}
             maxLength={300}
             placeholder="请输入回复内容"
-            defaultValue={content}
+            defaultValue={answerText}
             onChange={this.contentChange}/>
         </div>
       </Modal>
@@ -76,8 +76,8 @@ class RelateQuestionModal extends React.Component{
     const {relateQuestion} = this.props;
     this.setState({
       question: relateQuestion.question,
-      simple: relateQuestion.simple,
-      content: relateQuestion.content
+      questionShortName: relateQuestion.questionShortName,
+      answerText: relateQuestion.answerText
     });
   }
 
@@ -90,21 +90,21 @@ class RelateQuestionModal extends React.Component{
 
   simpleChange = (e) => {
     this.setState({
-      simple: e.target.value
+      questionShortName: e.target.value
     });
     this._dejitter(this._judgeButtonStatus, 500)
   };
 
   contentChange = (e) => {
     this.setState({
-      content: e.target.value
+      answerText: e.target.value
     });
     this._dejitter(this._judgeButtonStatus, 500)
   };
 
   confirmModal = () => {
-    const {question, simple, content} = this.state;
-    this.props.onOk({question, simple, content})
+    const {question, questionShortName, answerText} = this.state;
+    this.props.onOk({question, questionShortName, answerText})
   };
 
   closeModal = () => {
@@ -113,8 +113,8 @@ class RelateQuestionModal extends React.Component{
 
   // 判断按钮是否可用
   _judgeButtonStatus = () => {
-    const {question, simple, content} = this.state;
-    if (question && simple && content) {
+    const {question, questionShortName, answerText} = this.state;
+    if (question && questionShortName && answerText) {
       this.setState({
         disabled: false
       })

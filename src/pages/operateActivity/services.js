@@ -18,3 +18,7 @@ export function getActiveList(robotId) {
 export function deleteActive(id) {
   return axios.get(`/activity/del?activityId=${id}`)
 }
+
+export function getActiveContent(id) {
+  return axios.get(`/activity/findone?activityId=${id}`)
+}

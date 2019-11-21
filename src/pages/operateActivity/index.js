@@ -1,6 +1,7 @@
 import React from 'react';
+import {connect} from 'dva';
 import styles from './styles.less';
-import {Button, Input, Icon, Spin} from 'antd';
+import { Button, Input, Icon, Spin, Modal, message} from 'antd';
 import router from 'umi/router';
 import ActivityCard from '@/pages/operateActivity/components/activityCard';
 import kongbai from '@/assets/operateActivity/kongbai.png';
@@ -8,6 +9,8 @@ import {getUserInfo, getRobotId, getActiveList, deleteActive} from './services';
 import storage from '@/utils/storage';
 import extentImg from '@/assets/xdcredit/extent.png';
 import {withoutSeconds} from '@/pages/configWords/utils/util';
+import style from '@/pages/operateActivity/components/cardStyle.less';
+import deleteImg from '@/assets/operateActivity/delete-img.png';
 
 class OperateActivity extends React.Component{
   constructor(props) {
@@ -15,12 +18,15 @@ class OperateActivity extends React.Component{
     this.state = {
       activities: [],
       isLoading: true,
-      hasPermission: true
+      hasPermission: true,
+      showDeleteModal: false,
+      deleteActivityId: 0,
+      deleteActivityName: ''
     };
   }
 
   render() {
-    const {isLoading, activities, hasPermission} = this.state;
+    const {isLoading, activities, hasPermission, showDeleteModal, deleteActivityName} = this.state;
 
     let loading = <div style={{textAlign: 'center'}}>
       <Spin size="large" />
@@ -54,17 +60,41 @@ class OperateActivity extends React.Component{
         {/*  suffix={<Icon type="search" style={{color: '#B8BBBF'}} />}*/}
         {/*  placeholder="请输入活动名称进行搜索" />*/}
       </div>
+
       <div className={styles.content}>
         {
           activities.map(item => {
             return <ActivityCard
               sourceData={item}
-              onClick={this.handleCardClick}
-              onConfirm={this.handleCardConfirm}
+              onClick={this.handleCardClick.bind(this, item.id)}
+              onClose={this.handleCardClose}
               key={item.id}/>
           })
         }
       </div>
+
+      <Modal
+        title="删除提示"
+        width={520}
+        getContainer={false}
+        visible={showDeleteModal}
+        wrapClassName={style['delete-modal']}
+        footer={
+          <div>
+            <Button
+              style={{width: 80}}
+              onClick={this.closeDeleteModal}>取消</Button>
+            <Button
+              style={{width: 80, border: 'none'}}
+              type="primary" onClick={this.confirmDeleteModal}>确定</Button>
+          </div>
+        }
+        onCancel={this.closeDeleteModal}>
+        <div className={style['content-box']}>
+          <img className={style.icon} src={deleteImg} />
+          <span className={style.content}>你确定要删除活动{deleteActivityName}吗？</span>
+        </div>
+      </Modal>
     </div>;
 
     return <div>
@@ -90,15 +120,44 @@ class OperateActivity extends React.Component{
 
   // 跳转到新建活动页面
   goToCreate = () => {
+    this.props.dispatch({
+      type: 'operateActivity/changeActivityId',
+      payload: 0
+    });
     router.push('/operateActivity/createActivity')
   };
 
-  handleCardClick = () => {
-    this.goToCreate();
+  handleCardClick = (id) => {
+    this.props.dispatch({
+      type: 'operateActivity/changeActivityId',
+      payload: id
+    });
+    router.push('/operateActivity/createActivity')
   };
 
-  handleCardConfirm = (id) => {
-    this._deleteActive(id);
+  handleCardClose = (id, name) => {
+    this.setState({
+      deleteActivityId: id,
+      deleteActivityName: name,
+      showDeleteModal: true
+    })
+  };
+
+  closeDeleteModal = () => {
+    this.setState({
+      showDeleteModal: false
+    })
+  };
+
+  confirmDeleteModal = async () => {
+    const {deleteActivityId} = this.state;
+    this._deleteActive(deleteActivityId);
+    this.setState({
+      showDeleteModal: false
+    });
+    setTimeout(() => {
+      this._getActiveList();
+    }, 500)
   };
 
   // 获取用户身份标识
@@ -131,16 +190,11 @@ class OperateActivity extends React.Component{
           hasPermission: false,
           isLoading: false
         });
-        return;
+      } else {
+        this.robotId = res.data;
+        storage.setItem('robot_id', res.data);
       }
-      this.robotId = res.data;
-      this.setState({
-        isLoading: false
-      });
-      storage.setItem('robot_id', res.data);
-    } else {
-
-    }
+    } else {}
   };
 
   // 获取活动列表
@@ -155,7 +209,8 @@ class OperateActivity extends React.Component{
         item.updateTime = withoutSeconds(item.updateTime);
       });
       this.setState({
-        activities: res.data
+        activities: res.data,
+        isLoading: false
       })
     } else {
     }
@@ -165,10 +220,10 @@ class OperateActivity extends React.Component{
   _deleteActive = async (id) => {
     let res = await deleteActive(id);
     if (res && res.code === 200) {
-
     } else {
+      message.error('删除失败，请稍后重试');
     }
   };
 }
 
-export default OperateActivity;
+export default connect(() => ({}))(OperateActivity);
