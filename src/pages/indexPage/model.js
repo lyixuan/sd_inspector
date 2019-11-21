@@ -75,9 +75,12 @@ export default {
       }
     },
     // 问卷调查获取
-    *getQuestionCheckUser(_, { call, put }) {
+    *getQuestionCheckUser({ callback }, { call, put }) {
       const result = yield call(getQuestionCheckUser);
       if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
         yield put({ type: 'save', payload: { globalQVisible: result.data} });
       }
     },
