@@ -48,8 +48,6 @@ class IMPartLeft extends React.Component {
     return columns || [];
   };
   render() {
-
-    console.log(this.props.xdFamilyModal,'this.props.xdFamilyModal');
     const { imDetailData = [] } = this.props.xdFamilyModal || {};
     const { userInfo } = this.props;
     return (
