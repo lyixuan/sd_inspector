@@ -534,7 +534,7 @@ export const routes = [
         path: '/examPlant/index',
         component: './examPlant/index',
         name: '报考时间'
-      }
+      },
     ],
   },
 ];
