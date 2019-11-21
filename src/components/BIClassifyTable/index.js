@@ -173,9 +173,7 @@ class BIClassifyTable extends React.Component {
     let repairArr = 0;
     if (!titleList) return;
     if (this.state.scrollWidth > titleList.length * this.props.cellWidth) {
-      repairArr = Math.ceil(
-        (this.state.scrollWidth - titleList.length * this.props.cellWidth) / this.props.cellWidth
-      );
+      repairArr = this.state.scrollWidth - titleList.length * this.props.cellWidth -2
     }
     titleList &&
       titleList.map((item, index) => {
@@ -252,11 +250,12 @@ class BIClassifyTable extends React.Component {
           },
         });
       });
-    if (repairArr > 0) {
+    if (repairArr+2 > 0) {
       children.push({
         title: ' ',
         dataIndex: 'repairArr',
         key: `empty${repairArr}`,
+        width:`${repairArr}px`,
         render: (val, row, index) => {
           const obj = {
             children: ' ',
