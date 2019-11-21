@@ -116,6 +116,13 @@ class ManagementBench extends React.Component {
     });
     // this.getImDetail();
   }
+
+  componentWillUnmount = () => {
+    this.setState = (state, callback) => {
+      return;
+    };
+  };
+
   render() {
     const { date } = this.state;
     const { userInfo = {} } = this.props;
