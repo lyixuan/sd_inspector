@@ -2,13 +2,14 @@ import React from 'react';
 import { Input, message } from 'antd';
 import { connect } from 'dva';
 import BhTabs from './components/BhTabs';
-import Study from './components/study';
-import Im from './components/im';
-import Bbs from './components/bbs';
-import WeChart from './components/weChart';
+import StudyWrap from './components/study/studyWrap';
+import ImWrap from './components/im/imWrap';
+import BBsWrap from './components/bbs/BBsWrap';
+import WechartWrap from './components/weChart/wechartWrap';
 import UserInfo from './components/userInfo';
-import PrivateLetter from './components/privateLetter';
+import LetterWrap from './components/privateLetter/letterWrap';
 import UserPortary from './components/userPortary';
+import Score from './components/score';
 
 import { handleTNDateValue } from '@/pages/ko/utils/utils';
 import styles from './style.less';
@@ -22,6 +23,7 @@ const im = { widgetName: "IM", traceName: "学员查询/学员档案/IM" };
 const wechat = { widgetName: "微信", traceName: "学员查询/学员档案/微信" };
 const bbs = { widgetName: "BBS", traceName: "学员查询/学员档案/BBS" };
 const letter = { widgetName: "私信", traceName: "学员查询/学员档案/私信" };
+const score = { widgetName: "学员成绩", traceName: "学员查询/学员档案/学员成绩" };
 let traceTab = '';
 
 @connect(({ behaviorPath, koPlan, loading }) => ({
@@ -44,6 +46,7 @@ class BehaviorPath1 extends React.Component {
       page: 1,
       pageSize: 10,
       inputStuId: '',
+      pageNum:1,
       stuId: JSON.parse(this.props.location.query.params).userId,
       searchType: null,
     };
@@ -64,6 +67,7 @@ class BehaviorPath1 extends React.Component {
       this.getUserInfo();
     }
     this.jumpInfoTrace();
+    this.getExamScore();
   }
 
   jumpInfoTrace = () => {
@@ -153,6 +157,30 @@ class BehaviorPath1 extends React.Component {
       type: 'behaviorPath/getDetailInfo',
       payload: { params: { stuId: this.state.stuId } },
     });
+
+  };
+
+  getExamScore = () => {
+    this.props.dispatch({
+      type: 'behaviorPath/getExamScore',
+      payload: { params: { stuId: this.state.stuId,page:this.state.pageNum || 1,pageSize:this.state.pageSize || 10 } },
+    });
+  };
+
+  onPageChange = (page) =>{
+    this.setState({
+      pageNum:page
+    },()=>{
+      this.getExamScore();
+    })
+  };
+  onSizeChange = (current, size) =>{
+    this.setState({
+      pageNum:1,
+      pageSize:size,
+    },()=>{
+      this.getExamScore();
+    })
   };
 
   onTabChange = (e) => {
@@ -168,9 +196,12 @@ class BehaviorPath1 extends React.Component {
       traceTab = letter;
     } else if (e === '6') {
       traceTab = portray;
+    } else if (e === '7') {
+      traceTab = score;
     } else {
       traceTab = '';
     }
+
     const { BI = {} } = window;
     traceTab && BI.traceV && BI.traceV(traceTab)
 
@@ -187,7 +218,7 @@ class BehaviorPath1 extends React.Component {
       return;
     } else if (e === '5' && !this.state.letter) {
       return;
-    } else if (e === '6') {
+    } else if (e === '6' || e === '7') {
       return;
     } else {
       this.getDateList(e);
@@ -214,12 +245,13 @@ class BehaviorPath1 extends React.Component {
       this.getDateList(param); // 获取日期列表
       this.getUserInfo();
       this.getUserPortary();
+      this.getExamScore();
     });
 
   }
 
   render() {
-    const { BasicInfo, TagInfo, StatInfo, DetailInfo } = this.props.behaviorPath;
+    const { BasicInfo, TagInfo, StatInfo, DetailInfo,ScoreData } = this.props.behaviorPath;
     const { activeStat, orderStat, learnStat } = StatInfo || {};
     const { learnDetail, imDetail, exerciseDetail } = DetailInfo || {};
     const pathParams = JSON.parse(this.props.location.query.params);
@@ -238,6 +270,7 @@ class BehaviorPath1 extends React.Component {
     }
     const sutId = this.state.inputStuId || pathParams.userId;
 
+
     return (
       <>
         <div className={styles.behaviorPath}>
@@ -245,43 +278,33 @@ class BehaviorPath1 extends React.Component {
           <div className={styles.tabBlank}>&nbsp;</div>
           <div className={styles.layoutbg}>
             <div className={styles.tabBox}>
-              <div
-                className={((this.state.searchType && this.state.searchType === '6') || (!this.state.searchType && this.state.activeKey === '6')) ? styles.inputBox : styles.inputBox}>
-                <Search
-                  allowClear
-                  placeholder="输入学员ID"
-                  maxLength={10}
-                  value={this.state.inputStuId}
-                  onChange={value => this.onChange(value)}
-                  onSearch={value => this.onSearchUser(value)}
-                />
-                {/* <Input placeholder="输入学员ID" allowClear onChange={this.changeUserId} /> */}
-              </div>
               <BhTabs onChange={this.onTabChange} animated={false} defaultActiveKey={this.state.activeKey}>
-                <TabPane tab="画像" key="6">
-                </TabPane>
-                <TabPane tab="学习" key="1">
-                  <Study stuId={sutId}></Study>
-                </TabPane>
-                <TabPane tab="IM" key="2" className="abc">
-                  <Im stuId={sutId}></Im>
-                </TabPane>
-                <TabPane tab="微信" key="3">
-                  <WeChart stuId={sutId}></WeChart>
-                </TabPane>
-                <TabPane tab="BBS" key="4">
-                  <Bbs stuId={sutId}></Bbs>
-                </TabPane>
-                <TabPane tab="私信" key="5">
-                  <PrivateLetter stuId={sutId}></PrivateLetter>
-                </TabPane>
+                <TabPane tab="画像" key="6" />
+                <TabPane tab="学习" key="1" />
+                <TabPane tab="IM" key="2" className="abc"/>
+                <TabPane tab="微信" key="3"/>
+                <TabPane tab="BBS" key="4"/>
+                <TabPane tab="私信" key="5"/>
+                <TabPane tab="成绩" key="7" />
               </BhTabs>
             </div>
-            <div style={{ marginTop: '40px' }}>
-              {
-                ((this.state.searchType && this.state.searchType === '6') || (!this.state.searchType && this.state.activeKey === '6')) ? null : userInfoParams ?
-                  <UserInfo info={userInfoParams}></UserInfo> : null
-              }
+            {/*<div style={{ marginTop: '40px' }}>*/}
+              {/*{*/}
+                {/*((this.state.searchType && this.state.searchType === '6') || (!this.state.searchType && this.state.activeKey === '6') || (this.state.searchType && this.state.searchType === '7') || (!this.state.searchType && this.state.activeKey === '7')) ? null : userInfoParams ?*/}
+                  {/*<UserInfo info={userInfoParams}></UserInfo> : null*/}
+              {/*}*/}
+            {/*</div>*/}
+            <div className={styles.inputBox}>
+              <Search
+                allowClear
+                placeholder="输入学员ID"
+                maxLength={10}
+                width={260}
+                value={this.state.inputStuId}
+                onChange={value => this.onChange(value)}
+                onSearch={value => this.onSearchUser(value)}
+              />
+              {/* <Input placeholder="输入学员ID" allowClear onChange={this.changeUserId} /> */}
             </div>
           </div>
         </div>
@@ -297,6 +320,30 @@ class BehaviorPath1 extends React.Component {
               imDetail={imDetail}
               isLoading={this.props.portaryLoading}
               exerciseDetail={exerciseDetail} /> : null
+        }
+        {
+          ((this.state.searchType && this.state.searchType === '7') || (!this.state.searchType && this.state.activeKey === '7')) ?
+            <Score info={userInfoParams} scoreData={ScoreData} pageNum={this.state.pageNum} pageSize={this.state.pageSize} isLoading={this.props.portaryLoading} onPageChange={this.onPageChange} onSizeChange={this.onSizeChange}/> : null
+        }
+        {
+          ((this.state.searchType && this.state.searchType === '1') || (!this.state.searchType && this.state.activeKey === '1')) ?
+            <StudyWrap stuId={sutId} info={userInfoParams}/> : null
+        }
+        {
+          ((this.state.searchType && this.state.searchType === '2') || (!this.state.searchType && this.state.activeKey === '2')) ?
+            <ImWrap stuId={sutId} info={userInfoParams}/> : null
+        }
+        {
+          ((this.state.searchType && this.state.searchType === '3') || (!this.state.searchType && this.state.activeKey === '3')) ?
+            <WechartWrap stuId={sutId} info={userInfoParams}/> : null
+        }
+        {
+          ((this.state.searchType && this.state.searchType === '4') || (!this.state.searchType && this.state.activeKey === '4')) ?
+            <BBsWrap stuId={sutId} info={userInfoParams}/> : null
+        }
+        {
+          ((this.state.searchType && this.state.searchType === '5') || (!this.state.searchType && this.state.activeKey === '5')) ?
+            <LetterWrap stuId={sutId} info={userInfoParams}/> : null
         }
       </>
     );

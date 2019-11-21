@@ -529,6 +529,11 @@ export const routes = [
       {
         path: '/configWords',
         component: './configWords/index'
+      },
+      {
+        path: '/examPlant/index',
+        component: './examPlant/index',
+        name: '报考时间'
       }
     ],
   },

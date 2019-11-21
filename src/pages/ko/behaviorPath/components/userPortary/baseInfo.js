@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon, Divider, Row, Col, Tooltip } from 'antd';
 import styles from './style.css';
+import styles2 from './style2.less';
 import { thousandsFormat } from '@/utils/utils';
 import {COMPANY_IMG_HOST} from '@/utils/constants';
 import avatarStudent from '@/assets/avatarStudent.png';
@@ -55,6 +56,7 @@ export default class BaseInfo extends React.Component {
       negativeList = [],
       imNonRatio,
       exerciseRatio,
+      examScore={},
     } = this.props.tagInfo || {};
 
     const exedayCount = this.getPic(exerciseInitiative.dayCount);
@@ -79,8 +81,10 @@ export default class BaseInfo extends React.Component {
           </div>
         </div>
         <Divider dashed/>
-        <Row className={styles.row}>
-          <Col span={3} className={styles.baseCol}>
+        <Row className="user-portary-row">
+          <Col span={1}>
+          </Col>
+          <Col span={2} className={styles.baseCol}>
             <Tooltip placement="top"
                      title={`最近一周观看重播${thousandsFormat(Math.ceil(learnInitiative.replayTime / 60))}分钟，查看直播${thousandsFormat(Math.ceil(learnInitiative.liveTime / 60))}分钟。`}>
               <div><img className={styles.baseImg} src={learndayCount}/></div>
@@ -90,7 +94,7 @@ export default class BaseInfo extends React.Component {
           <Col span={1}>
             <Divider type="vertical" className={styles.vertical}/>
           </Col>
-          <Col span={3} className={styles.baseCol}>
+          <Col span={2} className={styles.baseCol}>
             <Tooltip placement="top" title={`最近一周共做题${thousandsFormat(exerciseInitiative.exerciseCount)}道。`}>
               <div><img className={styles.baseImg} src={exedayCount}/></div>
               <div>做题主动性</div>
@@ -99,7 +103,7 @@ export default class BaseInfo extends React.Component {
           <Col span={1}>
             <Divider type="vertical" className={styles.vertical}/>
           </Col>
-          <Col span={3} className={styles.baseCol}>
+          <Col span={2} className={styles.baseCol}>
             <Tooltip placement="top" title={`最近一周IM咨询总量${thousandsFormat(consultCount)}`}>
               <div className={styles.zxl}>{thousandsFormat(consultCount)}</div>
               <div>咨询量</div>
@@ -108,7 +112,7 @@ export default class BaseInfo extends React.Component {
           <Col span={1}>
             <Divider type="vertical" className={styles.vertical}/>
           </Col>
-          <Col span={3} className={styles.baseCol}>
+          <Col span={2} className={styles.baseCol}>
             {negativeList && negativeList.length>0?<Tooltip placement="top" title={()=>{
               return <div>
                   {negativeList[0]&&<div>{negativeList[0].countDate} {negativeList[0].count}个负面会话</div>}
@@ -134,7 +138,7 @@ export default class BaseInfo extends React.Component {
           <Col span={1}>
             <Divider type="vertical" className={styles.vertical}/>
           </Col>
-          <Col span={3} className={styles.baseCol}>
+          <Col span={2} className={styles.baseCol}>
             <Tooltip placement="top" title={`最近一周IM会话“不满意”率。`}>
               <div style={{ color: '#1A1C1F' }}><span className={styles.im}>{(imNonRatio * 100).toFixed(2)}</span> %
               </div>
@@ -144,13 +148,25 @@ export default class BaseInfo extends React.Component {
           <Col span={1}>
             <Divider type="vertical" className={styles.vertical}/>
           </Col>
-          <Col span={3} className={styles.baseCol}>
+          <Col span={2} className={styles.baseCol}>
             <Tooltip placement="top" title={`该学员所有做题情况：做对题目/总做题数。`}>
             <div style={{cursor:'pointer'}}>
               <div style={{ color: '#1A1C1F' }}><span className={styles.zxl}>{(exerciseRatio * 100).toFixed(2)}</span> %
               </div>
               <div>做题准确率</div>
             </div>
+            </Tooltip>
+          </Col>
+          <Col span={1}>
+            <Divider type="vertical" className={styles.vertical}/>
+          </Col>
+          <Col span={2} className={styles.baseCol}>
+            <Tooltip placement="top" title={`该学员所有做题情况：做对题目/总做题数。`}>
+              <div style={{cursor:'pointer'}}>
+                <div style={{ color: '#1A1C1F' }}><span className={styles.zxl}>{examScore.passed||0}</span>/{examScore.total||0}
+                </div>
+                <div>通过科次</div>
+              </div>
             </Tooltip>
           </Col>
           <Col span={1}>

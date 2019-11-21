@@ -48,3 +48,11 @@ export async function getUserInfoNew(params) {
 export async function getCertificationList() {
     return request('/inspectorapis/classStratification/getCertificationList', {});
 }
+
+
+export async function setBrowserInfo(data) {
+  return request(`/user/recordBrowserInfo`, {
+    method: 'POST',
+    data,
+  });
+}

@@ -1,0 +1,155 @@
+.layout {
+  background: #fff;
+  overflow: hidden;
+  min-width: 1150px;
+  margin-top: 12px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  padding: 10px;
+  padding-bottom: 60px;
+}
+.layout1 {
+  min-width: 1050px;
+  height: 1000px;
+}
+
+.contentLayout {
+  background: #fff;
+  margin-top: 16px;
+  overflow: hidden;
+  border-radius: 10px;
+  position: relative;
+  padding: 10px;
+}
+.leftContent {
+  float: left;
+  width: 720px;
+  padding-top: 30px;
+  margin-top: 9px;
+  min-height: 700px;
+  padding-top: 30px;
+  padding-left: 36px;
+}
+.userInfo {
+  float: left;
+}
+
+.itemBar {
+  width: 675px;
+  height: 36px;
+  line-height: 36px;
+  background:#F0F2F5;
+  border-radius:4px;
+  display: flex;
+  padding: 0 20px;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+
+.titleRight {
+  display: inline-block;
+  float: left;
+  width: 55px;
+  text-align: right;
+  color: #000;
+}
+
+.titleLeft {
+  display: inline-block;
+  float: left;
+  color: #000;
+  width: 40px;
+}
+
+.itemContent1 {
+  width: 600px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+
+.itemContent1 > div {
+  width: calc(100% / 3.2);
+  text-align: center;
+  margin: 36px 0;
+  /*height: 124px;*/
+}
+
+.itemContent1 .row1Line {
+  border-right: 1px dashed #E1E4EA;
+  height: 66px;
+  width: 1px;
+}
+
+.itemContent1 > div >div:nth-child(1),.itemContent2 .row > div >div:nth-child(1) {
+  font-size: 30px;
+  font-weight: bold;
+  color: #00C5BB;
+}
+
+.itemContent1 > div >div:nth-child(2),.itemContent2 .row > div >div:nth-child(2) {
+  font-size: 13px;
+  color: #1A1C1F;
+  height: 36px;
+  overflow: hidden;
+}
+
+.itemContent2 {
+  width: 600px;
+  margin: auto;
+}
+
+.itemContent2 .row{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.itemContent2 .row > div{
+  width: calc(100% / 3.2);
+  text-align: center;
+  padding: 36px 0 17px 0;
+}
+
+.itemContent2 .row2 > div{
+  width: calc(100% / 3.2);
+  text-align: center;
+  padding: 22px 0 17px 0;
+}
+.itemContent2 .row .row1Line {
+  border-right: 1px dashed #E1E4EA;
+  height: 74px;
+  width: 1px;
+}
+
+.itemContent2 .row1 .row1Line {
+  margin-top: 58px;
+}
+
+.itemContent2 .row2 {
+  border-top: 1px dashed #E1E4EA;
+}
+
+.redText {
+  color: #FF4049!important;
+}
+.itemContent2 .row3 .row1Line{
+  height: 122px;
+}
+
+.pagers{
+  width:720px;
+  position:absolute;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  white-space: nowrap;
+  margin-top: 15px;
+}
