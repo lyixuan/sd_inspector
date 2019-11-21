@@ -10,6 +10,7 @@ import IMPartLeft from './IMPartLeft';
 import IMPartRight from './IMPartRight';
 import NPSEvaluate from './NPSEvaluate';
 import moment from 'moment';
+
 @connect(({ xdManagementBench, xdWorkModal }) => ({
   xdManagementBench,
   userInfo: xdWorkModal.userInfo,
@@ -56,6 +57,7 @@ class ManagementBench extends React.Component {
       .then(res => {
         this.getReasonListData();
       });
+    this._isMounted = true;
   }
 
   componentDidUpdate() {
@@ -118,9 +120,7 @@ class ManagementBench extends React.Component {
   }
 
   componentWillUnmount = () => {
-    this.setState = (state, callback) => {
-      return;
-    };
+    this._isMounted = false;
   };
 
   render() {
