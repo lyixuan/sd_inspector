@@ -4,7 +4,9 @@ import {
   getOrgMapList,
   kpiLevelList,
   groupList,
-  getIncomeCollegeList
+  getIncomeCollegeList,
+  getQuestionCheckUser, 
+  postWriteQuestion
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -15,7 +17,8 @@ export default {
     userInfo: {}, // 全局值
     orgList:[],
     globalLevelList: [],
-    globalCollegeList: []
+    globalCollegeList: [],
+    globalQVisible: false, // 问卷调查是否显示
   },
   effects: {
     *getUserInfo({ callback }, { call, put }) {
@@ -69,6 +72,32 @@ export default {
         yield put({ type: 'save', payload: { globalCollegeList: result.data } });
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 问卷调查获取
+    *getQuestionCheckUser({ callback }, { call, put }) {
+      const result = yield call(getQuestionCheckUser);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+        yield put({ type: 'save', payload: { globalQVisible: result.data} });
+      }
+    },
+    // 问卷调查提交
+    *postWriteQuestion({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      yield put({ type: 'save', payload: { globalQVisible: false} });
+      const result = yield call(postWriteQuestion, params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback();
+        }
+        if (!params.refuseFlag) {
+          message.success('提交成功！么么哒');
+        }
+      } else {
+        message.success('网络异常，请稍后重试');
       }
     },
   },
