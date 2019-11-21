@@ -100,6 +100,16 @@ class BIClassifyTable extends React.Component {
   };
   title = () => {
     const reasonTypeList = this.props.dataSource.reasonTypeList;
+    const userType = this.props.userType;
+    let point1 = '{"widgetName":"切换原因","traceName":"数据服务/学分明细/不满意会话/切换原因"}';
+    switch (userType) {
+      case 'family':
+        point1 =
+          '{"widgetName":"切换原因","traceName":"家族长工作台/学分明细/不满意会话/切换原因"}';
+        break;
+      default:
+        break;
+    }
     return (
       <div>
         {this.props.defaultKey.classfy}
@@ -108,7 +118,7 @@ class BIClassifyTable extends React.Component {
           return (
             <span
               key={index}
-              data-trace='{"widgetName":"切换原因","traceName":"数据服务/学分明细/不满意会话/切换原因"}'
+              data-trace={point1}
               onClick={condition ? null : e => this.reasonTypeClick(item, e)}
               className={condition ? styles.titleCurrent : styles.title}
             >
@@ -148,11 +158,12 @@ class BIClassifyTable extends React.Component {
 
     const userType = this.props.userType;
 
-    let point1 = '{widgetName: "选择数据",traceName: "数据服务/学分明细/不满意会话/切换原因"}';
+    let point1 = '{"widgetName":"切换原因","traceName":"数据服务/学分明细/不满意会话/切换原因"}';
     let point = '{"widgetName":"选择数据","traceName":"数据服务/学分明细/不满意会话/选择数据"}';
     switch (userType) {
       case 'family':
-        point1 = '{widgetName: "选择数据",traceName: "家族长工作台/学分明细/不满意会话/切换原因"}';
+        point1 =
+          '{"widgetName":"切换原因","traceName":"家族长工作台/学分明细/不满意会话/切换原因"}';
         point = '{"widgetName":"选择数据","traceName":"家族长工作台/学分明细/不满意会话/选择数据"}';
         break;
       default:
@@ -207,7 +218,7 @@ class BIClassifyTable extends React.Component {
                 >
                   <BIContrastCell
                     style={{ cursor: 'pointer' }}
-                    data-trace={point1}
+                    data-trace={point}
                     key={index}
                     colors={this.props.colors}
                     onClick={e => {
