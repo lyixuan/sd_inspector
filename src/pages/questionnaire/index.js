@@ -9,13 +9,17 @@ import QContainer from './components';
 import styles from './style.less';
 
 const questionData1 = [
-  [{
-    name: '查看学分（电脑端查看）',
-  }, {
-    name: '查看学分（手机端查看）',
-  }, {
-    name: '学分申诉',
-  }]
+  [{ name: '查看学分（电脑端查看）', }, {name: '查看学分（手机端查看）', }, { name: '学分申诉', }], 
+  [{ name: '学分PK功能',}, { name: '学分底表下载', }], 
+  [{ name: '查看学分绩效（手机端查看）', }, { name: '创收绩效PK', }], 
+  [{ name: '学员档案（画像、IM等)', }], 
+  // [{ name: 'IM差评原因分析',}, {
+  //   name: '学员档案（画像、IM等)',
+  // }, {
+  //   name: '负面帖原因分析',
+  // }, {
+  //   name: 'NPS评价原因分析',
+  // }]
 ]
 @connect(({ }) => ({
 }))
