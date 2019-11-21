@@ -1,4 +1,5 @@
 import React from 'react';
+import {Tooltip } from 'antd';
 import Echarts from './component/Echart_User';
 import {getOption} from './component/active_option';
 
@@ -32,7 +33,9 @@ export default class ActiveStat extends React.Component {
     return (
       <div className={styles.contentLayout}>
         <div className={styles.boxHead}>
-          <span className={styles.boxTitle}>活跃汇总</span>
+          <Tooltip placement="right" title={`学员各个维度在考期内的活跃比例：活跃天数/考期天数。`}>
+            <span className={styles.boxTitle}>活跃汇总</span>
+          </Tooltip>
           <span className={current===activeStat2.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(activeStat2.time,2)}>{activeStat2.time} <i></i></span>
           <span className={current!==activeStat2.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(activeStat1.time,1)}>{activeStat1.time} <i></i> </span>
         </div>

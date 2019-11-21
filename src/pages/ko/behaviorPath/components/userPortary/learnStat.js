@@ -1,4 +1,5 @@
 import React from 'react';
+import {Tooltip } from 'antd';
 import Echarts from './component/Echart_User';
 import {getOption} from './component/learn_option';
 import styles from './style.css';
@@ -31,7 +32,9 @@ export default class LearnStat extends React.Component {
     return (
       <div className={styles.contentLayout}>
         <div className={styles.boxHead}>
-          <span className={styles.boxTitle}>学习汇总</span>
+          <Tooltip placement="right" title={`学员直播或重播的年度活跃比例：活跃天数/月份天数。`}>
+            <span className={styles.boxTitle}>学习汇总</span>
+          </Tooltip>
           <span className={current===learnStat2.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(learnStat2.time,2)}>{learnStat2.time} <i></i></span>
           <span className={current!==learnStat2.time ? styles.btnActive : styles.btn} onClick={()=>this.changeCheck(learnStat1.time,1)}>{learnStat1.time} <i></i> </span>
         </div>

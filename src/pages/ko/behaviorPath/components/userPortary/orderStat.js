@@ -69,7 +69,9 @@ export default class OrderStat extends React.Component {
     return (
       <div className={styles.contentLayout}>
         <div className={styles.boxHead}>
-          <span className={styles.boxTitle}>订单状况</span>
+          <Tooltip placement="right" title={`学员所有订单的汇总数据以及订单详情。`}>
+            <span className={styles.boxTitle}>订单状况</span>
+          </Tooltip>
         </div>
         <div className={styles.boxFlex} style={{ height: this.props.height+'px'}}>
           <Row className={styles.orderRow}>
