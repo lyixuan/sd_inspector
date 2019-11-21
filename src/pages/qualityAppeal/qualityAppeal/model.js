@@ -24,21 +24,20 @@ export default {
     *getAppealList({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(getAppealList, params);
-
       if (result.code === 20000) {
         let qualityAppealList1 = [];
         let qualityAppealList2 = [];
         let page1 = {};
         let page2 = {};
-        if (params.type === 1) {
-          qualityAppealList1 = result.data.list ? result.data.list : [];
-          page1 = {
+        if (Number(params.type) === 2) {
+          qualityAppealList2 = result.data.list ? result.data.list : [];
+          page2 = {
             total: result.data.total ? result.data.total : 0,
             pageNum: result.data.pageNum ? result.data.pageNum : 1,
           };
         } else {
-          qualityAppealList2 = result.data.list ? result.data.list : [];
-          page2 = {
+          qualityAppealList1 = result.data.list ? result.data.list : [];
+          page1 = {
             total: result.data.total ? result.data.total : 0,
             pageNum: result.data.pageNum ? result.data.pageNum : 1,
           };
@@ -90,7 +89,7 @@ export default {
     // 质检发起人list
     *findStartManList({ payload }, { call, put }) {
       const params = payload.params;
-      const result = yield call(findStartManList, {...payload});
+      const result = yield call(findStartManList, { ...payload });
       if (result.code === 20000) {
         yield put({
           type: 'save',
