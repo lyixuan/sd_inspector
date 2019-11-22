@@ -13,8 +13,10 @@ class CubePlan extends React.Component {
     const sWidth = window.screen.width;
 
     if(sWidth < 1440){
+      // width:1030px;
       screenRange = 'small_screen';
     } else if (sWidth >= 1440) {
+      // width:1190px;
       screenRange = 'middle_screen';
     }
     this.props.dispatch({
