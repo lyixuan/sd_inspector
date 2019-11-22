@@ -14,8 +14,14 @@ import level1 from '@/assets/classQuality/level1.png';
 import level2 from '@/assets/classQuality/level2.png';
 import level3 from '@/assets/classQuality/level3.png';
 import level0 from '@/assets/classQuality/level0.png';
-
 import styles from './style.less';
+
+const funArr = [
+  {
+    img: rulesImg,
+    imgted: rulesImg1,
+  }
+]
 
 @connect(({ classQualityModel }) => ({
 }))
@@ -23,17 +29,13 @@ class ClassQuality extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchData: '',
-      scrollbar: '',
+      searchData: '', // 查询值
+      scrollbar: '', // 滚动条
+      funTypeSelected: 1 // 左侧悬浮滚动条
     }
   }
   componentDidMount() {
     console.log(this.$container, 89888)
-  }
-  // back top
-  handleTop = () => {
-    console.log(this.$container)
-    this.$container.scrollTop = 0;
   }
   // 搜索条件 onChange
   changeSearch = v => {
@@ -48,13 +50,21 @@ class ClassQuality extends React.Component {
     }
     // 请求
   }
+  // 左侧功能选择
+  handleFun = type => {
+    this.setState({ funTypeSelected: type });
+    if (type === 3) {
+      this.$container.scrollTop = 0;
+    }
+  }
   render() {
+    const { funTypeSelected } = this.state;
     return (
       <div className={styles.classQuality}>
         <div className={styles.functionBar}>
-          <span><img src={rulesImg} alt=""/></span>
-          <span style={{ borderTop: '1px solid #E1E1E1', borderBottom: '1px solid #E1E1E1', }}><img src={detailImg} alt=""/></span>
-          <span onClick={this.handleTop}><img src={topImg} alt=""/></span>
+          <span onClick={() => this.handleFun(1)}><img src={funTypeSelected === 1 ? rulesImg1 : rulesImg} alt=""/></span>
+          <span onClick={() => this.handleFun(2)} style={{ borderTop: '1px solid #E1E1E1', borderBottom: '1px solid #E1E1E1', }}><img src={funTypeSelected === 2 ? detailImg1 : detailImg} alt=""/></span>
+          <span onClick={() => this.handleFun(3)}><img src={funTypeSelected === 3 ? topImg1 : topImg} alt=""/></span>
         </div>
         <div className={styles.search}>
           <img className={styles.icon} src={searchImg} alt=""/>
@@ -63,7 +73,7 @@ class ClassQuality extends React.Component {
           <BIButton onClick={() => this.handleSubmit('reset')} style={{ marginLeft : '8px'}}>重置</BIButton>
         </div>
         <div className={styles.treeCatalog}>
-          <BIScrollbar refScrollbar={c => this.$container = c} style={{ width: '100%', height: '100%'}}>
+          <BIScrollbar onRefScrollbar={c => this.$container = c} style={{ width: '100%', height: '100%'}}>
             <div className={styles.catalog}>
               <div className={styles.title}>质检手册（班主任）</div>
               <div className={styles.level}>
@@ -72,7 +82,7 @@ class ClassQuality extends React.Component {
                   <img src={level0} alt=""/>
                 </div>
                 <div className={styles.classB}>1. 禁止以利己为目的，利用用户权益舞弊</div>
-                <div className={styles.classC}>1.1 操作用户账号</div>
+                <span className={`${styles.class} ${styles.classC} ${styles.classBorder}`}>1.1 操作用户账号<img src={level0} alt=""/></span>
                 <div className={styles.classD}>2.2.1 IM场景违规舞弊</div>
                 <div className={styles.classE}>质检细则</div>
                 <div className={styles.detailed}>
