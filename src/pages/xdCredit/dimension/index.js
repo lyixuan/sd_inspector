@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 // import BITable from '@/ant_components/BITable';
-import up from '@/assets/xdcredit/zheng.png';
-import down from '@/assets/xdcredit/fu.png';
+import up from '@/assets/xdcredit/fu.png';
+import down from '@/assets/xdcredit/zheng.png';
 import open from '@/assets/xdcredit/open.png';
 import close from '@/assets/xdcredit/close.png';
 import mingxi from '@/assets/xdcredit/mingxi.png';
@@ -50,7 +50,7 @@ class Dimension extends React.Component {
           return (
             <div className={styles.scoreRatio}>
               <span className={styles.score}>{record.score}</span>
-              <span className={styles.ratio}>{text}{text === 'N/A' || num === 0 ? '' : <img src={imgSrc} alt=""/>}</span>
+              <span className={styles.ratio}>{text}{text === 'N/A' ? '' : '%'}{text === 'N/A' || num === 0 ? '' : <img src={imgSrc} alt=""/>}</span>
             </div>
           )
         }
