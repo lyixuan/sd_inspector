@@ -546,9 +546,9 @@ export const routes = [
             name: '首页',
           },
           {
-            path: '/cubePlan/detail',
+            path: '/cubePlan/list/detail',
             component: './cubePlan/detail/index',
-            name: '魔方详情',
+            name: '查看详情',
             bread: {
               name: '首页',
               path: '/cubePlan/list',

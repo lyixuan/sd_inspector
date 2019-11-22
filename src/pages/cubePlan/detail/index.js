@@ -1,25 +1,37 @@
 import React from 'react';
 import { connect } from 'dva';
 import style from './style.less';
+import LeftBox from './component/LeftBox';
+import RightBox from './component/RightBox';
+import BottomBox from './component/BottomBox';
 
-@connect(({ cubePlanDetail ,loading }) => ({
-  cubePlanDetail,
+@connect(({ cubePlanDetail, cubePlan, loading }) => ({
+  cubePlanDetail, cubePlan,
   loading: loading.effects['cubePlanDetail/getDetail'],
 }))
 
-class Course extends React.Component {
+class CubePlanDetail extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
+
   componentDidMount() {
   }
+
   render() {
+    const { screenRange } = this.props.cubePlan;
     return (
-      <div></div>
+      <div className={screenRange === 'small_screen' ? style.layoutSmall : style.layoutMiddle}>
+        <div>
+          <LeftBox screenRange={screenRange}/>
+          <RightBox screenRange={screenRange}/>
+        </div>
+        <div className={style.clear} />
+        <BottomBox screenRange={screenRange}/>
+      </div>
     );
   }
 }
 
-export default Course;
+export default CubePlanDetail;
