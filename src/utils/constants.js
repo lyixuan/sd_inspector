@@ -411,6 +411,7 @@ export const EmptyContentLayout = [
   { path: '/xdCredit/index', name: '小德学分' },
   { path: '/xdFamilyBench/index', name: '家族长工作台' },
   { path: '/indexPage', name: '小德工作台' },
+  { path: '/cubePlan/list', name: '魔方计划' },
 ];
 export const EmptyContentLayoutWithBread = [
   { path: '/cubePlan/detail', name: '魔方详情' },
