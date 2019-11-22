@@ -546,6 +546,9 @@ export const routes = [
             name: '首页',
           },
         ],
+      }, {
+        path: '/classQuality/index',
+        component: './classQuality/index',
       },
     ],
   },
