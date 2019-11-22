@@ -50,7 +50,55 @@
     height: calc(100vh - 134px);
     background-color: #FFFFFF;
     box-shadow:0px 0px 5px 0px rgba(0,0,0,0.1);
-    line-height: 40px;
-    font-size: 50px;
+    .catalog {
+      width: 100%;
+      padding: 74px 90px 24px 90px;
+      color: #1A1C1F;
+      .title {
+        font-size: 30px;
+        text-align: center;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #E8ECF1;
+      }
+      .level {
+        .class{
+          display: flex;
+          align-items: center;
+          > img {
+            height: 22px;
+            margin-left: 8px;
+          }
+        }
+        .classA {
+          font-size: 22px;
+        }
+        .classB {
+          font-size: 18px;
+        }
+        .classC {
+          font-size: 16px;
+        }
+        .classD {
+          font-size: 14px;
+        }
+        .classE {
+          display: flex;
+          align-items: center;
+          font-size: 14px;
+          color: #00CCC3;
+        }
+        .classE::before {
+          content: '·';
+          color: #1A1C1F;
+          font-size: 20px;
+        }
+        .detailed {
+          background:rgba(0,204,195,0.1);
+          font-size: 13px;
+          padding: 16px 16px 16px 24px;
+          border-radius:6px;
+        }
+      }
+    }
   }
 }

@@ -69,6 +69,7 @@ class Questionnaire extends React.Component {
     }
   }
   handleSubmit = refuseFlag => {
+    document.body.style.overflow = 'visible';
     this.props.dispatch({
       type: 'xdWorkModal/postWriteQuestion',
       payload: { 
@@ -76,9 +77,6 @@ class Questionnaire extends React.Component {
           ...this.state, 
           refuseFlag 
         } 
-      },
-      callback: res => {
-        document.body.style.overflow = 'visible';
       },
     })
   }
