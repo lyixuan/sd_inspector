@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 // import BITable from '@/ant_components/BITable';
 import up from '@/assets/xdcredit/fu.png';
-import down from '@/assets/xdcredit/zheng.png';
+import down from '@/assets/xdFamily/rankDown.png';
 import open from '@/assets/xdcredit/open.png';
 import close from '@/assets/xdcredit/close.png';
 import mingxi from '@/assets/xdcredit/mingxi.png';
