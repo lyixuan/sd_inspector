@@ -410,9 +410,9 @@ class CreateActivity extends React.Component{
   };
 
   // 监听表格删除事件
-  handleTableDelete = (question) => {
+  handleTableDelete = (sort) => {
     this.setState({
-      deleteRelateQuestion: question,
+      deleteRelateQuestion: sort,
       showDeleteModal: true
     })
   };
@@ -506,7 +506,7 @@ class CreateActivity extends React.Component{
   confirmDeleteModal = () => {
     let {aiActivityRelationQuestionList, deleteRelateQuestion} = this.state;
     aiActivityRelationQuestionList = aiActivityRelationQuestionList.filter(item => {
-      return item.question !== deleteRelateQuestion;
+      return item.sort !== deleteRelateQuestion;
     });
     this.setState({
       aiActivityRelationQuestionList: [...aiActivityRelationQuestionList],
@@ -677,6 +677,7 @@ class CreateActivity extends React.Component{
   // 编辑原有活动
   _updateActivity = async (data) => {
     let res = await updateActivity(data);
+    console.log(res);
     if (res && res.code === 200) {
       router.replace('/operateActivity/index')
     } else {

@@ -16,7 +16,7 @@ export function getRobotId(data) {
 }
 
 export function getActiveList(robotId) {
-  return axios.get(`/activity/list?robotId=${robotId}`)
+  return axios.get(`/activity/list?robotId=${robotId}`).catch(err => err);
 }
 
 export function deleteActive(id) {
@@ -31,14 +31,14 @@ export function saveActivity(data) {
   robotId = robotId ? robotId : storage.getItem('robot_id');
   userOrganization = userOrganization ? userOrganization : storage.getItem('active_info');
   let {collegeName, familyName, groupName} = userOrganization;
-  return axios.post('/activity/save', {...data, robotId, collegeName, familyName, groupName});
+  return axios.post('/activity/save', {...data, robotId, collegeName, familyName, groupName}).catch(err => err);
 }
 
 export function updateActivity(data) {
   robotId = robotId ? robotId : storage.getItem('robot_id');
   userOrganization = userOrganization ? userOrganization : storage.getItem('active_info');
   let {collegeName, familyName, groupName} = userOrganization;
-  return axios.post('/activity/update', {...data, robotId, collegeName, familyName, groupName});
+  return axios.post('/activity/update', {...data, robotId, collegeName, familyName, groupName}).catch(err => err);
 }
 
 export function checkActivityTime({startTime, endTime}) {

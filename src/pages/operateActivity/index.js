@@ -214,6 +214,10 @@ class OperateActivity extends React.Component{
         isLoading: false
       })
     } else {
+      message.error('网络错误，请稍后重试');
+      this.setState({
+        isLoading: false
+      })
     }
   };
 

@@ -13,6 +13,11 @@ class QuestionTable extends React.Component{
         dataIndex: 'question',
         key: 'question',
         ellipsis: true,
+        render: (text) => {
+          return <Tooltip title={text} placement='topLeft'>
+            <span title="">{text}</span>
+          </Tooltip>
+        }
       },
       {
         title: '简称',
@@ -24,7 +29,11 @@ class QuestionTable extends React.Component{
         dataIndex: 'answerText',
         key: 'answerText',
         ellipsis: true,
-
+        render: (text) => {
+          return <Tooltip title={text} placement='topLeft'>
+            <span title="">{text}</span>
+          </Tooltip>
+        }
       },
       {
         title: '操作',
@@ -35,7 +44,7 @@ class QuestionTable extends React.Component{
               onClick={this.editContent.bind(this, data)}
               className={style.edit}>编辑</span>
             <span
-              onClick={this.deleteContent.bind(this, data.question)}
+              onClick={this.deleteContent.bind(this, data.sort)}
               className={style.delete}>删除</span>
           </div>
         }
