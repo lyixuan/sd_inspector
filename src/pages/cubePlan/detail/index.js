@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import style from './style.less';
 
 @connect(({ cubePlanDetail ,loading }) => ({
   cubePlanDetail,
@@ -16,9 +17,7 @@ class Course extends React.Component {
   }
   render() {
     return (
-      <>
-
-      </>
+      <div></div>
     );
   }
 }
