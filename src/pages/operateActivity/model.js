@@ -3,6 +3,7 @@ export default {
   state: {
     activityId: 0,
     relateQuestion: {
+      sort: 0,
       question: '',
       questionShortName: '',
       answerText: ''

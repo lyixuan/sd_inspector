@@ -538,8 +538,8 @@ export const routes = [
             component: './operateActivity',
           },
           {
-            path: '/operateActivity/createActivity',
-            component: './operateActivity/createActivity',
+            path: '/operateActivity/configActivity',
+            component: './operateActivity/configActivity',
           }
         ]
       }

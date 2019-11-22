@@ -8,7 +8,7 @@ import RelateQuestionModal from '@/pages/operateActivity/components/relateQuesti
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import deleteImg from '@/assets/operateActivity/delete-img.png';
 import { router } from 'umi';
-import {getActiveContent} from '../services';
+import {getActiveContent, saveActivity, updateActivity, checkActivityTime} from '../services';
 
 function checkImageWH(file, width, height) {
   return new Promise((resolve, reject) => {
@@ -48,7 +48,6 @@ class CreateActivity extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      id: 0,
       name: '',
       startTime: 0,
       endTime: 0,
@@ -65,6 +64,7 @@ class CreateActivity extends React.Component{
       showConfigModal: false,
       showDeleteModal: false,
       showPreviewModal: false,
+      showOverlapModal: false,
       isLoading: true,
     };
   }
@@ -79,11 +79,13 @@ class CreateActivity extends React.Component{
       question,
       answerText,
       answerImgUrl,
-      imageWidth,
+      imgWidth,
+      imgHeight,
       imageList,
       showConfigModal,
       showDeleteModal,
       showPreviewModal,
+      showOverlapModal,
       aiActivityRelationQuestionList,
       isLoading} = this.state;
     const {activityId} = this.props;
@@ -104,26 +106,30 @@ class CreateActivity extends React.Component{
       </div>
 
       <div className={style.content}>
-        <div className={style.name}>
-          <p className={style.text}>活动名称：</p>
-          <Input
-            className={style.input}
-            placeholder="请输入活动名称（6个字以内）"
-            value={name}
-            maxLength={6}
-            onChange={this.activeNameChange}/>
-          <p className={style.text}>展示时间：</p>
-          <BIRangePicker
-            className={style.picker}
-            style={{width: 290}}
-            value={
-              [startTime === 0 ? null : moment(startTime), endTime === 0 ? null : moment(endTime)]
-            }
-            showTime={{format: 'HH:mm'}}
-            format="YYYY-MM-DD HH:mm"
-            disabledDate={(current) => {return current && current < moment().endOf('day')}}
-            onOk={this.datePickerChange} />
-          <p className={style.prompt}>温馨提示：因数据缓存，活动将在保存后第二天按照设定的展示时间生效</p>
+        <div className={style['name-time']}>
+          <div className={style.name}>
+            <div className={style.text}>活动名称：</div>
+            <Input
+              className={style.input}
+              placeholder="请输入活动名称（6个字以内）"
+              value={name}
+              maxLength={6}
+              onChange={this.activeNameChange}/>
+          </div>
+          <div className={style.time}>
+            <div className={style.text}>展示时间：</div>
+            <BIRangePicker
+              className={style.picker}
+              style={{width: 290}}
+              defaultValue={
+                [startTime === 0 ? null : moment(startTime), endTime === 0 ? null : moment(endTime)]
+              }
+              showTime={{format: 'HH:mm'}}
+              format="YYYY-MM-DD HH:mm"
+              disabledDate={(current) => {return current && current < moment().endOf('day')}}
+              onOk={this.datePickerChange} />
+            <div className={style.prompt}>温馨提示：因数据缓存，活动将在保存后第二天按照设定的展示时间生效</div>
+          </div>
         </div>
 
         <div className={style.question}>
@@ -232,9 +238,35 @@ class CreateActivity extends React.Component{
       <Modal
         visible={showPreviewModal}
         footer={null}
-        width={imageWidth + 48}
+        width={imgWidth + 48}
         onCancel={this.closePreviewModal}>
         <img src={answerImgUrl} alt="activity"/>
+      </Modal>
+
+      {/*活动时间有重叠弹框*/}
+      <Modal
+        title="活动时间重合提示"
+        width={520}
+        getContainer={false}
+        visible={showOverlapModal}
+        wrapClassName={style['overlap-modal']}
+        footer={
+          <div>
+            <Button
+              style={{width: 80}}
+              onClick={this.closeOverlapModal}>取消</Button>
+            <Button
+              style={{width: 80, border: 'none'}}
+              type="primary" onClick={this.confirmOverlapModal}>继续保存</Button>
+          </div>
+        }
+        onCancel={this.closeOverlapModal}>
+        <div className={style['content-box']}>
+          <img className={style.icon} src={deleteImg} />
+          <span
+            className={style.content}>
+            活动展示时间与其他时间有重合，将以展示时间最近的活动为准，是否继续保存？</span>
+        </div>
       </Modal>
 
       <div className={style.buttons}>
@@ -273,9 +305,10 @@ class CreateActivity extends React.Component{
   };
 
   datePickerChange = (dates) => {
-    dates.forEach(item => {
-      console.log(item.toDate().getTime());
-    })
+    this.setState({
+      startTime: dates[0].toDate().getTime(),
+      endTime: dates[1].toDate().getTime()
+    });
   };
 
   questionNameChange = (e) => {
@@ -304,30 +337,49 @@ class CreateActivity extends React.Component{
   };
 
   previewImage = async (file) => {
-    let res = await getImageWH(file.thumbUrl);
+    let res = await getImageWH(file.url);
     this.setState({
-      answerImgUrl: file.thumbUrl,
-      imageWidth: res.width,
-      imageHeight: res.height,
+      answerImgUrl: file.url,
+      imgWidth: res.width,
+      imgHeight: res.height,
       showPreviewModal: true
     })
   };
 
   UploadChange = async ({file, fileList}) => {
     if (file.status === 'done') {
-      console.log(file);
       fileList.forEach(item => {
-        if (item.response && file.response.data.imageQcloudUrl) {
-          item.thumbUrl = file.response.data.imageQcloudUrl;
+        if (item.response) {
+          item.url = file.response.data.imageQcloudUrl;
+          item.thumbUrl = file.response.data.imageThumQcloudUrl;
         }
+      });
+      this.setState({
+        imageList: [...fileList],
+        answerImgUrl: fileList[0].url,
+        answerThumImgUrl: fileList[0].thumbUrl,
+        answerImgName: file.name
+      });
+      this._setImageWH(fileList[0].url);
+    } else if (file.status === 'removed') {
+      this.setState({
+        imageList: [...fileList],
+        answerImgUrl: '',
+        answerThumImgUrl: '',
+        answerImgName: '',
+        imgWidth: 0,
+        imgHeight: 0
+      });
+    } else if (file.status === 'error') {
+      message.error('上传失败');
+      this.setState({
+        imageList: []
       })
-    }  else {
+    } else {
+      this.setState({
+        imageList: [...fileList]
+      })
     }
-    this.setState({
-      imageList: [...fileList],
-      answerImgUrl: file.thumbUrl,
-      answerImgName: file.name
-    })
   };
 
   // 添加关联问题
@@ -335,6 +387,7 @@ class CreateActivity extends React.Component{
     this.props.dispatch({
       type: 'operateActivity/changeRelateQuestion',
       payload: {
+        sort: 0,
         question: '',
         questionShortName: '',
         answerText: ''
@@ -368,26 +421,70 @@ class CreateActivity extends React.Component{
   handleModalOk = (data) => {
     let list = this.state.aiActivityRelationQuestionList;
     let flag;
+    // 如果是添加关联问题
+    if (data.sort === 0) {
 
-    for (let i = 0, len = list.length; i < len; i++) {
-      if (list[i].question === data.question) {
-        flag = 0;
-        break;
-      } else if (list[i].questionShortName === data.questionShortName) {
-        flag = 1;
-        break;
-      } else {}
-    }
+      for (let i = 0, len = list.length; i < len; i++) {
+        if (list[i].question === data.question) {
+          flag = 0;
+          break;
+        } else if (list[i].questionShortName === data.questionShortName) {
+          flag = 1;
+          break;
+        } else {}
+      }
 
-    if (flag === 0) {
-      message.error('该问题在本活动中已存在，请检查');
-    } else if (flag === 1) {
-      message.error('问题简称在本活动中已存在，请检查');
+      switch (flag) {
+        case 0:
+          message.error('该问题在本活动中已存在，请检查');
+          break;
+        case 1:
+          message.error('问题简称在本活动中已存在，请检查');
+          break;
+        default:
+          data.sort = list.length === 0 ? 1: list[list.length - 1].sort + 1;
+          this.setState({
+            aiActivityRelationQuestionList: [...list, data],
+            showConfigModal: false
+          })
+      }
     } else {
-      this.setState({
-        aiActivityRelationQuestionList: [...this.state.aiActivityRelationQuestionList, data],
-        showConfigModal: false
-      })
+      // 如果是编辑关联问题
+      let filterList = list.filter(item => {
+        return item.sort !== data.sort;
+      });
+
+      for (let i = 0, len = filterList.length; i < len; i++) {
+        if (filterList[i].question === data.question) {
+          flag = 0;
+          break;
+        } else if (filterList[i].questionShortName === data.questionShortName) {
+          flag = 1;
+          break;
+        } else {}
+      }
+
+      switch (flag) {
+        case 0:
+          message.error('该问题在本活动中已存在，请检查');
+          break;
+        case 1:
+          message.error('问题简称在本活动中已存在，请检查');
+          break;
+        default:
+          for (let i = 0, len = list.length; i < len; i++) {
+            if (list[i].sort === data.sort) {
+              list[i].question = data.question;
+              list[i].questionShortName = data.questionShortName;
+              list[i].answerText = data.answerText;
+              break;
+            } else {}
+          }
+          this.setState({
+            aiActivityRelationQuestionList: [...list],
+            showConfigModal: false
+          })
+      }
     }
   };
 
@@ -398,12 +495,14 @@ class CreateActivity extends React.Component{
     })
   };
 
+  // 关闭删除弹框
   closeDeleteModal = () => {
     this.setState({
       showDeleteModal: false
     })
   };
 
+  // 删除弹框确认事件
   confirmDeleteModal = () => {
     let {aiActivityRelationQuestionList, deleteRelateQuestion} = this.state;
     aiActivityRelationQuestionList = aiActivityRelationQuestionList.filter(item => {
@@ -415,16 +514,28 @@ class CreateActivity extends React.Component{
     })
   };
 
+   // 关闭预览图片弹框
   closePreviewModal = () => {
     this.setState({
       showPreviewModal: false
     })
   };
 
+  // 关闭时间重合提示弹框
+  closeOverlapModal = () => {
+    this.setState({
+      showOverlapModal: false
+    })
+  };
+
+  // 时间重合继续保存事件
+  confirmOverlapModal = () => {
+    this._allSaveActivity();
+  };
+
   // 保存活动
   saveActive = () => {
     const {
-      id,
       name,
       startTime,
       endTime,
@@ -436,6 +547,8 @@ class CreateActivity extends React.Component{
       imgWidth,
       imgHeight,
       aiActivityRelationQuestionList} = this.state;
+    const {activityData} = this;
+    const {activityId} = this.props;
 
     if (!name) {
       return message.error('活动名称不能为空！');
@@ -450,8 +563,7 @@ class CreateActivity extends React.Component{
       return message.error('回复内容不能为空！');
     }
 
-    console.log(
-      id,
+    let data = {
       name,
       startTime,
       endTime,
@@ -462,7 +574,15 @@ class CreateActivity extends React.Component{
       answerThumImgUrl,
       imgWidth,
       imgHeight,
-      aiActivityRelationQuestionList)
+      aiActivityRelationQuestionList
+    };
+    if (activityId !== 0) {
+      data = {...data, ...activityData}
+    } else {}
+
+    this.allActivityData = data;
+
+    this._checkActivityTime({startTime, endTime});
   };
 
   // 跳转到运营活动首页
@@ -475,7 +595,6 @@ class CreateActivity extends React.Component{
     let res = await getActiveContent(id);
     if (res && res.code === 200) {
       const {
-        id,
         name,
         startTime,
         endTime,
@@ -484,10 +603,35 @@ class CreateActivity extends React.Component{
         answerImgUrl,
         answerImgName,
         answerThumImgUrl,
-        aiActivityRelationQuestionList
+        imgWidth,
+        imgHeight,
+        aiActivityRelationQuestionList,
+        // 下面是不需要放到state中的数据
+        id,
+        knowledgeId,
+        questionId,
+        questionTypeId,
+        questionType
       } = res.data;
+
+      this.activityData = {
+        id,
+        knowledgeId,
+        questionId,
+        questionTypeId,
+        questionType
+      };
+
+      let activityImageList = answerImgUrl === ""
+        ? []
+        : [{
+            uid: '-1',
+            name: answerImgName,
+            status: 'done',
+            url: answerImgUrl,
+            thumbUrl: answerThumImgUrl
+          }];
       this.setState({
-        id: id,
         name: name,
         startTime: startTime,
         endTime: endTime,
@@ -496,13 +640,9 @@ class CreateActivity extends React.Component{
         answerImgUrl: answerImgUrl,
         answerImgName: answerImgName,
         answerThumImgUrl: answerThumImgUrl,
-        imageList: [{
-          uid: '-1',
-          name: answerImgName,
-          status: 'done',
-          url: answerImgUrl,
-          thumbUrl: answerImgUrl
-        }],
+        imgHeight: imgHeight,
+        imgWidth: imgWidth,
+        imageList: activityImageList,
         aiActivityRelationQuestionList: aiActivityRelationQuestionList,
         isLoading: false
       })
@@ -510,12 +650,57 @@ class CreateActivity extends React.Component{
     }
   };
 
+  // 检查活动时间是否有重叠
+  _checkActivityTime = async (time) => {
+    let res = await checkActivityTime(time);
+    if (res && res.code === 200) {
+      if (res.data) {
+        this.setState({
+          showOverlapModal: true
+        })
+      } else {
+        this._allSaveActivity();
+      }
+    } else {}
+  };
+
+  // 新建活动的保存
+  _saveNewActivity = async (data) => {
+    let res = await saveActivity(data);
+    if (res && res.code === 200) {
+      router.replace('/operateActivity/index')
+    } else {
+      message.error('网络错误，请稍后重试')
+    }
+  };
+
+  // 编辑原有活动
+  _updateActivity = async (data) => {
+    let res = await updateActivity(data);
+    if (res && res.code === 200) {
+      router.replace('/operateActivity/index')
+    } else {
+      message.error('网络错误，请稍后重试')
+    }
+  };
+
+  // 对新建或者修改活动的包装函数
+  _allSaveActivity = () => {
+    const {allActivityData} = this;
+    const {activityId} = this.props;
+    if (activityId === 0) {
+      this._saveNewActivity(allActivityData)
+    } else {
+      this._updateActivity(allActivityData)
+    }
+  };
+
   // 获取并setState活动图片的宽高
   _setImageWH = async (url) => {
     let res = await getImageWH(url);
     this.setState({
-      imageWidth: res.width,
-      imageHeight: res.height
+      imgWidth: res.width,
+      imgHeight: res.height
     })
   };
 

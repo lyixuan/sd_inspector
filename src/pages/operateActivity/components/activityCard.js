@@ -21,7 +21,7 @@ class ActivityCard extends React.Component{
           <div className={style.left}>
             <img
             className={style.image}
-            src={sourceData.status === 0 ? wait : (sourceData.status === 1 ? going : gone)} />
+            src={sourceData.status === 0 ? going : (sourceData.status === 1 ? wait : gone)} />
             {/*<span className={style.title}>专升本88折秒杀</span>*/}
           </div>
           <Icon

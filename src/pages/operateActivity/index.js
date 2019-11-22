@@ -124,7 +124,7 @@ class OperateActivity extends React.Component{
       type: 'operateActivity/changeActivityId',
       payload: 0
     });
-    router.push('/operateActivity/createActivity')
+    router.push('/operateActivity/configActivity')
   };
 
   handleCardClick = (id) => {
@@ -132,7 +132,7 @@ class OperateActivity extends React.Component{
       type: 'operateActivity/changeActivityId',
       payload: id
     });
-    router.push('/operateActivity/createActivity')
+    router.push('/operateActivity/configActivity')
   };
 
   handleCardClose = (id, name) => {
@@ -164,8 +164,11 @@ class OperateActivity extends React.Component{
   _getUserInfo = async () => {
     let activeInfo = {
       collegeId: '',
+      collegeName: '',
       familyId: '',
-      groupId: ''
+      familyName: '',
+      groupId: '',
+      groupName: ''
     };
     let res = await getUserInfo();
     if (res && res.code === 20000) {
@@ -173,9 +176,7 @@ class OperateActivity extends React.Component{
       for (let key in activeInfo) {
         activeInfo[key] = data[key] ? data[key] : ''
       }
-    } else {
-
-    }
+    } else {}
     this.activeInfo = activeInfo;
     storage.setItem('active_info', activeInfo);
   };

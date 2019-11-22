@@ -17,7 +17,7 @@ class RelateQuestionModal extends React.Component{
   render() {
     const {TextArea} = Input;
     const {isShow, relateQuestion} = this.props;
-    const {question, questionShortName, answerText} = relateQuestion;
+    const {sort, question, questionShortName, answerText} = relateQuestion;
     const {disabled} = this.state;
 
     return <div>
@@ -37,7 +37,7 @@ class RelateQuestionModal extends React.Component{
               style={{width: 80, border: 'none'}}
               type="primary"
               disabled={disabled}
-              onClick={this.confirmModal}>创建</Button>
+              onClick={this.confirmModal}>{sort === 0 ? '创建' : '保存'}</Button>
           </div>
         }
         onCancel={this.closeModal}>
@@ -104,7 +104,9 @@ class RelateQuestionModal extends React.Component{
 
   confirmModal = () => {
     const {question, questionShortName, answerText} = this.state;
-    this.props.onOk({question, questionShortName, answerText})
+    const {relateQuestion} = this.props;
+    const {sort} = relateQuestion;
+    this.props.onOk({sort, question, questionShortName, answerText})
   };
 
   closeModal = () => {

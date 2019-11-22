@@ -24,6 +24,7 @@ class QuestionTable extends React.Component{
         dataIndex: 'answerText',
         key: 'answerText',
         ellipsis: true,
+
       },
       {
         title: '操作',
@@ -50,7 +51,7 @@ class QuestionTable extends React.Component{
         columns={columns}
         dataSource={sourceData}
         loading={loading}
-        rowKey={record =>  record.id}
+        rowKey={record =>  record.sort}
         pagination={false} />
     </div>
   }

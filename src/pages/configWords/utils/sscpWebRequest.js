@@ -6,7 +6,7 @@ let {userName, userId} = storage.getUserInfo();
 
 axios.defaults.baseURL = SSCP_WEB_BASE_URL;
 axios.defaults.headers["Content-Type"] = "application/json";
-axios.defaults.timeout = 6000;
+axios.defaults.timeout = 60000;
 
 axios.interceptors.request.use((config) => {
   config.data = {
