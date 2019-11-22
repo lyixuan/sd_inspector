@@ -548,7 +548,11 @@ export const routes = [
           {
             path: '/cubePlan/detail',
             component: './cubePlan/detail/index',
-            name: '详情',
+            name: '魔方详情',
+            bread: {
+              name: '首页',
+              path: '/cubePlan/list',
+            },
           },
         ],
       },
