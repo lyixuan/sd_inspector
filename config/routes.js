@@ -545,8 +545,14 @@ export const routes = [
             component: './cubePlan/home/index',
             name: '首页',
           },
+          {
+            path: '/cubePlan/detail',
+            component: './cubePlan/detail/index',
+            name: '详情',
+          },
         ],
-      }, {
+      },
+      {
         path: '/classQuality/index',
         component: './classQuality/index',
       },
