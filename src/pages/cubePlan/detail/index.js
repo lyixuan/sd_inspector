@@ -54,8 +54,8 @@ function dealQuarys(pm) {
   return p;
 };
 
-@connect(({ faguang, course, loading }) => ({
-  faguang,
+@connect(({ cubePlanDetail, course, loading }) => ({
+  cubePlanDetail,
   course,
   loading: loading.effects['course/getList'],
   loading3: loading.effects['course/sortData'],
@@ -65,6 +65,7 @@ function dealQuarys(pm) {
 class Course extends React.Component {
   constructor(props) {
     super(props);
+    console.log(123,props)
     this.state = {
       visible: false,
       visible2: false,

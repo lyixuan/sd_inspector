@@ -3,7 +3,7 @@ import { getList, delelte, addData,updateData,getCourseTypeChildren,sortData } f
 import { msgF } from '@/utils/utils';
 
 export default {
-  namespace: 'course',
+  namespace: 'cubePlanDetail',
 
   state: {
     dataList: [],
