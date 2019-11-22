@@ -9,6 +9,7 @@ export default {
   namespace: 'cubePlan',
 
   state: {
+    screenRange:'small_screen',
     collegeList: [],
     courseList: [],
   },
@@ -42,6 +43,9 @@ export default {
 
   reducers: {
     save(state, { payload }) {
+      return { ...state, ...payload };
+    },
+    checkScreen(state, { payload }) {
       return { ...state, ...payload };
     },
   },
