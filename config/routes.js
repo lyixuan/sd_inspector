@@ -528,13 +528,28 @@ export const routes = [
       // }
       {
         path: '/configWords',
-        component: './configWords/index'
+        component: './configWords/index',
       },
       {
         path: '/examPlant/index',
         component: './examPlant/index',
-        name: '报考时间'
-      }
+        name: '报考时间',
+      },
+      {
+        path: '/cubePlan',
+        component: './cubePlan',
+        name: '魔方计划',
+        routes: [
+          {
+            path: '/cubePlan/list',
+            component: './cubePlan/home/index',
+            name: '首页',
+          },
+        ],
+      }, {
+        path: '/classQuality/index',
+        component: './classQuality/index',
+      },
     ],
   },
 ];
