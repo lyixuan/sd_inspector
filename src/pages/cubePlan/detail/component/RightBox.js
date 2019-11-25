@@ -10,24 +10,55 @@ class RightBox extends React.Component {
     this.state = {};
   }
 
+  openModal = (type,data) =>{
+    this.props.openModal(type,data);
+  };
+
   render() {
-    const { screenRange } = this.props;
-    const  abc = '方式一：下载专属二维码，载专属二维码载专属\n二维码载专属二维码载专属\n二维码载专属二维码载专属二维码载专属二维码载专属二维码载专属二维码载专属二维码载专属二维码方式一：下载专属二属二\n方式一：下载专属二属二方式一：下载专属二属二方式一：下载专属二属二维码'
-    const ln = Math.ceil(GetLength(abc)/2);
-    let abcStr = abc;
-    if(abc.indexOf('\n')===-1){
-      if(ln>100){
-        abcStr = abc.substr(0,100)+'...';
-      }
-    } else {
-      let a = abc.substr(0,abc.indexOf('\n'));
-      const al = Math.ceil(GetLength(a)/2);
-      let b = abc.substr(abc.indexOf('\n')+1);
-      const bl = Math.ceil(GetLength(b)/2);
-      const aend =  al>50? a.substr(0,50) +'...':a;
-      const bend =  bl>50? b.substr(0,50) +'...':b;
-      abcStr=aend+'\n'+bend;
-    }
+    const {detail,screenRange} = this.props || {};
+    const {description,usageList=[],versionList = []} = detail||{};
+
+    const usage = usageList && usageList.map((val,i)=>{
+      return i<2&&(
+        <div className={style.boxContent}>
+        <Paragraph ellipsis={{ rows: 1 }}>
+          {val.title}
+        </Paragraph>
+        <pre className={style.boxContentPre}>
+            {val.content}
+            </pre>
+      </div>)
+    });
+
+    const usageAll = usageList && usageList.map((val)=>{
+      return (
+        <div className={style.boxContent}>
+          <div>
+            {val.title}
+          </div>
+          <pre className={style.boxContentPre}>
+            {val.content}
+            </pre>
+        </div>)
+    });
+    const version = versionList && versionList.map((val,i)=>{
+      return i<1&&(
+        <div className={style.boxContent}>
+          <div className={style.boxDate}>{val.publishDate}更新</div>
+          {
+            val.modifyList.map((item,idx)=>{
+              return idx<2&&<div>
+                <Paragraph ellipsis={{ rows: 1 }}>
+                  {item.title}
+                </Paragraph>
+                <pre className={style.boxContentPre}>
+                  {item.content}
+                </pre>
+              </div>
+            })
+          }
+        </div>)
+    });
     return (
       <div className={screenRange === 'small_screen' ? style.rightBoxSmall : style.rightBoxMiddle}>
         <div><span className={style.titleLine}/> <span className={style.title}>报考通知</span></div>
@@ -35,11 +66,11 @@ class RightBox extends React.Component {
         <div className="cubeDetail">
           <div className={style.boxBar}>
             <span>简单介绍</span>
-            <span>查看更多 &gt;</span>
+            <span onClick={()=>this.openModal('简单介绍',description)}>查看更多 &gt;</span>
           </div>
           <div className={style.boxContent}>
             <Paragraph ellipsis={{ rows: 2 }}>
-              学员学习报告是针对学员，学习的阶段性总结报告，适用于鼓励学员完成学习任务目标，让学员通过查看自己的学习数据，总结和发现自己的学习情况，适用于鼓励学员完成学习任务目标，让学员通过查看自己的学习数据，总结和发现自己的学习情况，发现与他人的差距，达到运营督学的目
+              {description}
             </Paragraph>
           </div>
         </div>
@@ -47,44 +78,17 @@ class RightBox extends React.Component {
         <div className="cubeDetail">
           <div className={style.boxBar}>
             <span>使用说明</span>
-            <span>查看更多 &gt;</span>
+            <span onClick={()=>this.openModal('使用说明',usageAll)}>查看更多 &gt;</span>
           </div>
-          <div className={style.boxContent}>
-            <Paragraph ellipsis={{ rows: 1 }}>
-              1、通过什么渠道发给学员？
-            </Paragraph>
-            <pre className={style.boxContentPre}>
-            {abcStr}
-            </pre>
-          </div>
-          <div className={style.boxContent}>
-            <Paragraph ellipsis={{ rows: 1 }}>
-              2、通过什么渠道发给学员？
-            </Paragraph>
-            <pre className={style.boxContentPre}>
-            {abcStr}
-            </pre>
-          </div>
+          {usage}
         </div>
         {/*功能更新说明*/}
         <div className="cubeDetail">
           <div className={style.boxBar}>
             <span>功能更新说明</span>
-            <span>查看更多 &gt;</span>
+            <span onClick={()=>this.openModal('功能更新说明',usageAll)}>查看更多 &gt;</span>
           </div>
-          <div className={style.boxContent}>
-            <div className={style.boxDate}>2019.11.24更新</div>
-            <Paragraph ellipsis={{ rows: 1 }}>
-              1、通过什么渠道发给学员？
-            </Paragraph>
-            <span className={style.smText}>直播、、出勤、做题数据直播、出勤、做题数据直播、出勤、做题数据直播、出勤、做题数据直播、出勤、做题数据</span>
-          </div>
-          <div className={style.boxContent}>
-            <Paragraph ellipsis={{ rows: 1 }}>
-              2、通过什么渠道发给学员？
-            </Paragraph>
-            <span className={style.smText}>周、月、考期、年</span>
-          </div>
+          {version}
         </div>
       </div>
     );
