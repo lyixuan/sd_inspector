@@ -46,6 +46,7 @@ class PlanDia extends React.Component {
       .then(res => {
         if (res === 20000) {
           message.success('收到您的需求，我们将第一时间联系您');
+          this.close();
         }
       });
   };
