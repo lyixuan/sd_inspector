@@ -4,9 +4,9 @@
   align-items: center;
   position: relative;
   .functionBar {
-    position: absolute;
-    top: 174px;
-    left: 6px;
+    position: fixed;
+    top: 230px;
+    left: 236px;
     z-index: 2;
     height: 240px;
     width: 55px;
@@ -21,14 +21,21 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      > img {
+      img {
         width: 18px;
+      }
+      :global {
+        .ant-back-top {
+          width: auto;
+          position: inherit;
+        }
       }
     }
   }
   .navigation {
     position: fixed;
-    top: 40px;
+    z-index: 2;
+    top: 138px;
     right: 0;
     width: 258px;
     background:rgba(245,248,250,1);
@@ -41,29 +48,34 @@
       border-bottom: 1px solid #E8EBED;
       margin-bottom: 10px;
     }
-    .options {
-      display: flex;
-      flex-direction: column;
-      background-color: #FFFFFF;
-      color: #1A1C1F;
-      font-size: 14px;
-      padding: 0 10px;
-      cursor: pointer;
-      > span {
+    :global {
+      .ant-anchor-wrapper {
+        padding: 0 10px;
+        // margin-left: 0;
+        // border: 1px solid #E8EBED;
+      }
+      .ant-anchor-link {
         height: 42px;
         line-height: 42px;
-        padding-left: 10px;
+        padding: 0;
         border-radius: 6px;
+        padding-left: 10px;
       }
-      .active {
+      .ant-anchor-ink {
+        display: none;
+      }
+      .ant-anchor-link-active {
         background-color: #00CCC3;
+      }
+      .ant-anchor-link-active > .ant-anchor-link-title {
         color: #FFFFFF;
       }
     }
   }
   .search {
+    display: inline-block;
     position: relative;
-    margin-bottom: 16px;
+    padding-bottom: 16px;
     .icon {
       position: absolute;
       width: 15px;
@@ -80,10 +92,19 @@
       padding-left: 34px;
     }
   }
+  .searchFixed {
+    top: 0;
+    width: 100%;
+    text-align: center;
+    background:rgba(245,248,250,1);
+    z-index: 4;
+    position: fixed;
+    padding-top: 16px;
+  }
   .treeCatalog {
     // display: flex;
     position: relative;
-    height: calc(100vh - 150px);
+    // height: calc(100vh - 150px);
     // background-color: #FFFFFF;
     // box-shadow:0px 0px 5px 0px rgba(0,0,0,0.1);
     .catalog {
@@ -131,6 +152,9 @@
           color: #00CCC3;
           margin-left: 24px;
           margin-top: 4px;
+          cursor: pointer;
+          position: relative;
+          z-index: 3;
         }
         .classE::before {
           content: '·';
@@ -151,7 +175,8 @@
         }
         .violationName {
           position: relative;
-          display: inline-block;
+          display: flex;
+          align-items: center;
           padding: 8px 6px;
           z-index: 3;
           background-color: #FFFFFF;
@@ -159,7 +184,7 @@
         .tagging {
           position: absolute;
           width: 748px;
-          top: 14px;
+          top: 20px;
           z-index: 2;
           border-top: 1px dashed #FF0200;
           font-size: 13px;
@@ -188,7 +213,7 @@
     .catalogTime {
       position: absolute;
       top: 36px;
-      right: 22px;
+      right: -210px;
       display: flex;
       flex-direction: column;
       > span:first-child {
@@ -201,8 +226,5 @@
         font-size: 12px;
       }
     }
-  }
-  .treeCatalogSelected {
-    width: 1020px;
   }
 }
