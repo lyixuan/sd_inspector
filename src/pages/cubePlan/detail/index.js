@@ -48,11 +48,12 @@ class CubePlanDetail extends React.Component {
   render() {
     const { screenRange } = this.props.cubePlan;
     const { detailInfo = {} } = this.props.cubePlanDetail;
+    const {videoUrl}=detailInfo||{};
     const { titleName,data } = this.state;
     return (
       <div className={screenRange === 'small_screen' ? style.layoutSmall : style.layoutMiddle}>
         <div>
-          <LeftBox screenRange={screenRange}/>
+          <LeftBox screenRange={screenRange} videoUrl={videoUrl}/>
           <RightBox screenRange={screenRange}
                     detail={detailInfo}
                     openModal={(type,data)=>this.openModal(type,data)}/>
@@ -67,7 +68,7 @@ class CubePlanDetail extends React.Component {
           footer={null}
           onCancel={this.handleCancel}
         >
-          <div style={{ minHeight: 300 }}>
+          <div className='cubeDetailModal'>
             <pre className={style.pre}>
               {data}
           </pre>
