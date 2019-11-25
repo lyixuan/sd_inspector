@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 // 获取bannerList
 export async function getBannerList() {
-  return request('/component/getBannerList');
+  return request('/test/component/getBannerList');
 }
 
 // 获取学院列表
