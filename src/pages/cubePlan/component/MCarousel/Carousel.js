@@ -1,5 +1,6 @@
 import React from 'react';
 import { Carousel } from 'antd';
+import './style.less';
 /*
  * 扩展为数字翻页的走马灯
  * */

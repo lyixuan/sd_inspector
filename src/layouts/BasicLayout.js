@@ -260,6 +260,8 @@ class BasicLayout extends React.PureComponent {
     menuData.map(item => {
       if (item.path === '/cubePlan/list') {
         color = '#fff';
+      } else {
+        color = '#F5F8FA';
       }
     });
     const currentUser = this.handleUserInfo();
