@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import Carousel from './Carousel';
-import './style.less';
+import styles from './style.less';
 import banner from '@/assets/cube/banner.png';
 
 @connect(({ classQualityModel }) => ({}))
@@ -24,7 +24,7 @@ class MCarousel extends React.Component {
       height: '260px',
     };
     return (
-      <div class="MCarousel" style={{ width: settings.width, height: settings.height }}>
+      <div className={styles.MCarousel} style={{ width: settings.width, height: settings.height }}>
         <Carousel {...settings}>
           <div>
             <div>
