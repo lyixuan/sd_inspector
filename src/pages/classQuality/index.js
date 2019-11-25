@@ -22,33 +22,55 @@ const funArr = [
     imgted: rulesImg1,
   }
 ]
+const classStyles = {
+  1: styles.classA,
+  2: styles.classB,
+  3: styles.classC,
+  4: styles.classD,
+  5: styles.classE
+}
+const levelImgs = {
+  '特级违规': level0,
+  '一级违规': level1,
+  '二级违规': level2,
+  '三级违规': level3,
+}
 
 @connect(({ classQualityModel }) => ({
+  treeList: classQualityModel.treeList
 }))
 class ClassQuality extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchData: '', // 查询值
+      keyWord: undefined, // 查询值
       scrollbar: '', // 滚动条
       funTypeSelected: 1 // 左侧悬浮滚动条
     }
   }
   componentDidMount() {
     console.log(this.$container, 89888)
+    this.requestTree();
+  }
+  // 请求
+  requestTree = (keyWord = this.state.keyWord) => {
+    this.props.dispatch({
+      type:'classQualityModel/getFindTreeList',
+      payload: { params: { qualityType: 1, keyWord: keyWord === 'reset' ? undefined :  keyWord } }
+    })
   }
   // 搜索条件 onChange
   changeSearch = v => {
-    this.setState({
-      searchData: v
-    })
+    this.setState({ keyWord: v });
   }
   // 搜索条件 reset
   handleSubmit = v => {
     if (v === 'reset') {
-      this.changeSearch('');
+      this.changeSearch();
+      this.requestTree(v);
+    } else {
+      this.requestTree();
     }
-    // 请求
   }
   // 左侧功能选择
   handleFun = type => {
@@ -59,6 +81,8 @@ class ClassQuality extends React.Component {
   }
   render() {
     const { funTypeSelected } = this.state;
+    const { treeList = [] } = this.props;
+    console.log(treeList,1234)
     return (
       <div className={styles.classQuality}>
         <div className={styles.functionBar}>
@@ -68,7 +92,7 @@ class ClassQuality extends React.Component {
         </div>
         <div className={styles.search}>
           <img className={styles.icon} src={searchImg} alt=""/>
-          <span style={{display: 'inline-block'}}><BIInput onChange={e => this.changeSearch(e.target.value)} value={this.state.searchData} placeholder="请输入要查找的手册内容" allowClear/></span>
+          <span style={{display: 'inline-block'}}><BIInput onChange={e => this.changeSearch(e.target.value)} value={this.state.keyWord} placeholder="请输入要查找的手册内容" allowClear/></span>
           <BIButton onClick={this.handleSubmit} type="primary" style={{ marginLeft : '16px'}}>查询</BIButton>
           <BIButton onClick={() => this.handleSubmit('reset')} style={{ marginLeft : '8px'}}>重置</BIButton>
         </div>
@@ -76,19 +100,25 @@ class ClassQuality extends React.Component {
           <BIScrollbar onRefScrollbar={c => this.$container = c} style={{ width: '100%', height: '100%'}}>
             <div className={styles.catalog}>
               <div className={styles.title}>质检手册（班主任）</div>
-              <div className={styles.level}>
-                <div className={`${styles.class} ${styles.classA}`}>
-                  徇私舞弊
-                  <img src={level0} alt=""/>
+              {treeList.map(item => <div key={item.id} className={styles.level}>
+                <div className={`${styles.class} ${classStyles[item.level]}`}>
+                  {item.violationName}
+                  {item.violationLevel && <img src={levelImgs[item.violationLevel]} alt=""/>}
                 </div>
-                <div className={styles.classB}>1. 禁止以利己为目的，利用用户权益舞弊</div>
+                {/* <div className={styles.classB}>1. 禁止以利己为目的，利用用户权益舞弊</div>
                 <span className={`${styles.class} ${styles.classC} ${styles.classBorder}`}>1.1 操作用户账号<img src={level0} alt=""/></span>
-                <div className={styles.classD}>2.2.1 IM场景违规舞弊</div>
-                <div className={styles.classE}>质检细则</div>
-                <div className={styles.detailed}>
-                  禁止与用户沟通过程中老师主动恶意羞辱讽刺禁止与用户沟通过程中老师主动恶意羞辱讽刺禁止与用户沟通过程中老师主动恶意羞辱讽刺禁止与用户沟通过程中老师主动恶意羞辱讽刺
-                </div>
-              </div>
+                <div className={styles.classD}>2.2.1 IM场景违规舞弊</div> */}
+                { 
+                  item.qualityDetaile && 
+                  <>
+                    <div className={styles.classE}>质检细则</div>
+                    <div className={styles.detailed}>
+                     {item.qualityDetaile}
+                    </div>
+                  </>
+                }
+              </div>)}
+              
             </div>
           </BIScrollbar>
         </div>
