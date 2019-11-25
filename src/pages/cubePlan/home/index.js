@@ -2,13 +2,19 @@ import React from 'react';
 import { connect } from 'dva';
 import MCarousel from '../component/MCarousel/MCarousel';
 
-import styles from './style.less';
+// import styles from './style.less';
 
 @connect(({ classQualityModel }) => ({}))
 class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'cubePlan/getBannerList',
+    });
   }
 
   render() {
