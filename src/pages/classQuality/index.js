@@ -79,6 +79,14 @@ class ClassQuality extends React.Component {
       this.$container.scrollTop = 0;
     }
   }
+  // 是否显示标注
+  getIsShowTag = l => {
+    if (l && this.state.funTypeSelected === 2) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   render() {
     const { funTypeSelected } = this.state;
     const { treeList = [] } = this.props;
@@ -101,9 +109,20 @@ class ClassQuality extends React.Component {
             <div className={styles.catalog}>
               <div className={styles.title}>质检手册（班主任）</div>
               {treeList.map(item => <div key={item.id} className={styles.level}>
-                <div className={`${styles.class} ${classStyles[item.level]}`}>
-                  {item.violationName}
-                  {item.violationLevel && <img src={levelImgs[item.violationLevel]} alt=""/>}
+                <div className={`${styles.class} ${classStyles[item.level]} `}>
+                  <span className={`${styles.violationName} ${this.getIsShowTag(item.violationLevel) ? styles.classBorder : ''}`}>
+                    {item.violationName}
+                    {this.getIsShowTag(item.violationLevel) && <img src={levelImgs[item.violationLevel]} alt=""/>}
+                  </span>
+                  {/* 违规 */}
+                  { 
+                    this.getIsShowTag(item.violationLevel) &&
+                    <span className={styles.tagging}>
+                      <span>
+                        违规次数：{item.violationNumber}次 <br/>违规人数：{item.personNumber}人
+                      </span>
+                    </span>
+                  }
                 </div>
                 {/* <div className={styles.classB}>1. 禁止以利己为目的，利用用户权益舞弊</div>
                 <span className={`${styles.class} ${styles.classC} ${styles.classBorder}`}>1.1 操作用户账号<img src={level0} alt=""/></span>
@@ -119,6 +138,10 @@ class ClassQuality extends React.Component {
                 }
               </div>)}
               
+            </div>
+            <div className={styles.catalogDetails}>
+              <span>近30天集团质检记录</span>
+              <span>2019.10.13-2019.11.1</span>
             </div>
           </BIScrollbar>
         </div>

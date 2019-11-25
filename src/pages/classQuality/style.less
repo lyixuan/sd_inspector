@@ -29,6 +29,7 @@
   .search {
     position: relative;
     margin-bottom: 16px;
+    right: 102px;
     .icon {
       position: absolute;
       width: 15px;
@@ -46,14 +47,16 @@
     }
   }
   .treeCatalog {
-    width: 816px;
-    height: calc(100vh - 134px);
-    background-color: #FFFFFF;
-    box-shadow:0px 0px 5px 0px rgba(0,0,0,0.1);
+    display: flex;
+    height: calc(100vh - 150px);
+    // background-color: #FFFFFF;
+    // box-shadow:0px 0px 5px 0px rgba(0,0,0,0.1);
     .catalog {
-      width: 100%;
+      width: 800px;
       padding: 74px 90px 24px 90px;
       color: #1A1C1F;
+      background-color: #FFFFFF;
+      box-shadow:0px 0px 5px 0px rgba(0,0,0,0.1);
       .title {
         font-size: 30px;
         text-align: center;
@@ -61,13 +64,11 @@
         border-bottom: 1px solid #E8ECF1;
       }
       .level {
-        .classBorder {
-          border: 1px solid #FF0200;
-        }
         .class{
           display: flex;
           align-items: center;
-          > img {
+          position: relative;
+          img {
             height: 22px;
             margin-left: 8px;
           }
@@ -108,7 +109,49 @@
           border-radius:6px;
           margin-left: 24px;
         }
+
+        // 选中功能2
+        .classBorder {
+          border: 1px solid #FF0200;
+        }
+        .violationName {
+          position: relative;
+          display: inline-block;
+          padding: 0 6px;
+          z-index: 3;
+          background-color: #FFFFFF;
+        }
+        .tagging {
+          position: absolute;
+          width: 748px;
+          top: 14px;
+          z-index: 2;
+          border-top: 1px dashed #FF0200;
+          font-size: 13px;
+          color: #1A1C1F;
+          text-align: right;
+        }
+        .tagging > span {
+          display: inline-block;
+          text-align: left;
+          margin-right: -120px;
+          margin-top: -20px;
+          line-height: 30px;
+        }
+        .tagging::after{
+          content: '';
+          position: absolute;
+          display: inline-block;
+          width: 10px;
+          height: 10px;
+          top: -6px;
+          background-color: #FF0200;
+          border-radius: 10px;
+        }
       }
+    }
+    .catalogDetails {
+      flex: 1;
     }
   }
 }

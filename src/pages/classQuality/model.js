@@ -8,7 +8,13 @@ export default {
   namespace: 'classQualityModel',
 
   state: {
-    treeList: [], // 目录
+    treeList: [
+      {
+        violationName: '违规',
+        level: 1,
+        violationLevel: '特级违规'
+      }
+    ], // 目录
   },
 
   effects: {
