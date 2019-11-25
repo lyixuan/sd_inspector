@@ -6,7 +6,7 @@ import styles from './style.less';
 
 // import styles from './style.less';
 
-@connect(({ cubePlan }) => ({ cubePlan }))
+@connect(({ cubePlanDia, cubePlan }) => ({ cubePlanDia, cubePlan }))
 class Index extends React.Component {
   constructor(props) {
     super(props);
@@ -15,7 +15,7 @@ class Index extends React.Component {
 
   componentDidMount() {
     this.props.dispatch({
-      type: 'cubePlan/getBannerList',
+      type: 'cubePlanDia/getBannerList',
     });
   }
 
@@ -29,10 +29,16 @@ class Index extends React.Component {
 
   render() {
     const { screenRange } = this.props.cubePlan;
+    const { bannerList } = this.props.cubePlanDia;
     const { showDia } = this.state;
+    console.log(bannerList, 'bannerList');
     return (
       <div className={styles.cubePlanCon}>
-        <MCarousel screenRange={screenRange} onChangeDia={this.onChangeDia}></MCarousel>
+        <MCarousel
+          screenRange={screenRange}
+          onChangeDia={this.onChangeDia}
+          bannerList={bannerList}
+        ></MCarousel>
         <PlanDia className={styles.dialogs} showDia={showDia} close={this.close} />
       </div>
     );
