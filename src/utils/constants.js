@@ -27,7 +27,7 @@ export const COMPANY_IMG_HOST = 'http://static.sunlands.com';
 
 export const SERVER_HOST = {
   production: 'http://bd.ministudy.com',
-  localhost: 'http://172.16.29.154:9902', //鲁也ip http://172.16.56.221:8086 http://test.xd.admin.ministudy.com
+  localhost: 'http://test.xd.admin.ministudy.com', //鲁也ip http://172.16.56.221:8086 http://test.xd.admin.ministudy.com
   localhost2: 'http://test.xd.admin2.ministudy.com',
   development: 'http://test.xd.admin.ministudy.com',
   development2: 'http://test.xd.admin2.ministudy.com',
@@ -68,8 +68,7 @@ export const knowledgeURL = {
 }[process.env.ENV_TYPE];
 
 export const PROXY_PATH = hasSelfPri => {
-  // return hasSelfPri ? '' : '/inspectorapis';
-  return hasSelfPri ? '' : '';
+  return hasSelfPri ? '' : '/inspectorapis';
 }; // /inspectorapis
 
 // =========================================== host =========
