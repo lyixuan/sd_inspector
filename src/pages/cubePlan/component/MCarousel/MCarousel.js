@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import Carousel from './Carousel';
 import styles from './style.less';
 import banner from '@/assets/cube/banner.png';
+import router from 'umi/router';
 
 @connect(({ cubePlan }) => ({}))
 class MCarousel extends React.Component {
@@ -15,9 +16,16 @@ class MCarousel extends React.Component {
     this.props.onChangeDia(true);
   };
 
+  goto = id => {
+    router.push({
+      pathname: '/cubePlan/list/detail',
+      query: { params: JSON.stringify({ id }) },
+    });
+  };
+
   render() {
     // const { params } = this.props;
-    const { screenRange } = this.props;
+    const { screenRange, bannerList } = this.props;
     var settings = {
       dots: true,
       infinite: true,
@@ -25,8 +33,8 @@ class MCarousel extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       autoplay: true,
-      width: '1016px', //  screenRange === 'middle_screen' ? '1176px' : '1016px',
-      height: '260px', //  screenRange === 'middle_screen' ? '260px' : '225px',
+      width: screenRange === 'middle_screen' ? '1176px' : '1016px',
+      height: screenRange === 'middle_screen' ? '260px' : '225px',
     };
     return (
       <div className={styles.MCarousel} style={{ width: settings.width, height: settings.height }}>
@@ -35,10 +43,15 @@ class MCarousel extends React.Component {
             <div onClick={this.openDialogs}>
               <img src={banner} style={{ width: settings.width }}></img>
             </div>
-            <div>
-              <h3>2</h3>
-            </div>
           </div>
+          {bannerList &&
+            bannerList.map(item => {
+              return (
+                <div onClick={() => this.goto(item.id)}>
+                  <img src={item.bannerUrl} />
+                </div>
+              );
+            })}
         </Carousel>
       </div>
     );
