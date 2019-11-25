@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Anchor } from 'antd';
 import BIInput from '@/ant_components/BIInput';
 import BIButton from '@/ant_components/BIButton';
 import BIScrollbar from '@/ant_components/BIScrollbar';
@@ -16,6 +17,7 @@ import level3 from '@/assets/classQuality/level3.png';
 import level0 from '@/assets/classQuality/level0.png';
 import styles from './style.less';
 
+const { Link } = Anchor;
 const funArr = [
   {
     img: rulesImg,
@@ -37,7 +39,8 @@ const levelImgs = {
 }
 
 @connect(({ classQualityModel }) => ({
-  treeList: classQualityModel.treeList
+  logTreeList: classQualityModel.logTreeList,
+  flatTreeList: classQualityModel.flatTreeList,
 }))
 class ClassQuality extends React.Component {
   constructor(props) {
@@ -89,30 +92,42 @@ class ClassQuality extends React.Component {
   }
   render() {
     const { funTypeSelected } = this.state;
-    const { treeList = [] } = this.props;
-    console.log(treeList,1234)
+    const { logTreeList = [], flatTreeList = [] } = this.props;
+    console.log(logTreeList, flatTreeList)
     return (
       <div className={styles.classQuality}>
+        {/* 左侧功能条 */}
         <div className={styles.functionBar}>
           <span onClick={() => this.handleFun(1)}><img src={funTypeSelected === 1 ? rulesImg1 : rulesImg} alt=""/></span>
           <span onClick={() => this.handleFun(2)} style={{ borderTop: '1px solid #E1E1E1', borderBottom: '1px solid #E1E1E1', }}><img src={funTypeSelected === 2 ? detailImg1 : detailImg} alt=""/></span>
           <span onClick={() => this.handleFun(3)}><img src={funTypeSelected === 3 ? topImg1 : topImg} alt=""/></span>
         </div>
-        <div className={styles.search}>
+        {/* 右侧导航条 */}
+        <div className={styles.navigation}>
+          <div className={styles.title}> 客诉手册目录
+          </div>
+          {/* <div className={styles.options}>
+            {treeList.map(item => <span className={styles.active} key={item.id}>{item.violationName}</span>)}
+          </div> */}
+          <Anchor>
+          {logTreeList.map(item => <Link href={`#Anchor${item.id}`}  key={item.id} title={item.violationName} />)}
+          </Anchor>
+        </div>
+        <div className={styles.search} style={{ right: funTypeSelected === 2 ? 102 : 0}}>
           <img className={styles.icon} src={searchImg} alt=""/>
           <span style={{display: 'inline-block'}}><BIInput onChange={e => this.changeSearch(e.target.value)} value={this.state.keyWord} placeholder="请输入要查找的手册内容" allowClear/></span>
           <BIButton onClick={this.handleSubmit} type="primary" style={{ marginLeft : '16px'}}>查询</BIButton>
           <BIButton onClick={() => this.handleSubmit('reset')} style={{ marginLeft : '8px'}}>重置</BIButton>
         </div>
-        <div className={styles.treeCatalog}>
+        <div className={`${styles.treeCatalog} ${funTypeSelected === 2 ? styles.treeCatalogSelected : ''}`}>
           <BIScrollbar onRefScrollbar={c => this.$container = c} style={{ width: '100%', height: '100%'}}>
             <div className={styles.catalog}>
               <div className={styles.title}>质检手册（班主任）</div>
-              {treeList.map(item => <div key={item.id} className={styles.level}>
+              {flatTreeList.map(item => <div id={`Anchor${item.id}`} key={item.id} className={styles.level}>
                 <div className={`${styles.class} ${classStyles[item.level]} `}>
                   <span className={`${styles.violationName} ${this.getIsShowTag(item.violationLevel) ? styles.classBorder : ''}`}>
                     {item.violationName}
-                    {this.getIsShowTag(item.violationLevel) && <img src={levelImgs[item.violationLevel]} alt=""/>}
+                    {item.violationLevel && <img src={levelImgs[item.violationLevel]} alt=""/>}
                   </span>
                   {/* 违规 */}
                   { 
@@ -137,12 +152,11 @@ class ClassQuality extends React.Component {
                   </>
                 }
               </div>)}
-              
-            </div>
-            <div className={styles.catalogDetails}>
+            </div> 
+            {funTypeSelected === 2 ? <div className={styles.catalogTime}>
               <span>近30天集团质检记录</span>
               <span>2019.10.13-2019.11.1</span>
-            </div>
+            </div> : ''}
           </BIScrollbar>
         </div>
       </div>

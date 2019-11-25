@@ -26,10 +26,44 @@
       }
     }
   }
+  .navigation {
+    position: fixed;
+    top: 40px;
+    right: 0;
+    width: 258px;
+    background:rgba(245,248,250,1);
+    box-shadow:0px 0px 8px 0px rgba(0,0,0,0.12);
+    border-radius:4px;
+    padding: 0 20px 20px 20px;
+    box-sizing: border-box;
+    .title {
+      padding: 16px 0;
+      border-bottom: 1px solid #E8EBED;
+      margin-bottom: 10px;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      background-color: #FFFFFF;
+      color: #1A1C1F;
+      font-size: 14px;
+      padding: 0 10px;
+      cursor: pointer;
+      > span {
+        height: 42px;
+        line-height: 42px;
+        padding-left: 10px;
+        border-radius: 6px;
+      }
+      .active {
+        background-color: #00CCC3;
+        color: #FFFFFF;
+      }
+    }
+  }
   .search {
     position: relative;
     margin-bottom: 16px;
-    right: 102px;
     .icon {
       position: absolute;
       width: 15px;
@@ -47,7 +81,8 @@
     }
   }
   .treeCatalog {
-    display: flex;
+    // display: flex;
+    position: relative;
     height: calc(100vh - 150px);
     // background-color: #FFFFFF;
     // box-shadow:0px 0px 5px 0px rgba(0,0,0,0.1);
@@ -75,19 +110,19 @@
         }
         .classA {
           font-size: 22px;
-          margin-top: 34px;
+          margin-top: 26px;
         }
         .classB {
           font-size: 18px;
-          margin-top: 16px;
+          margin-top: 8px;
         }
         .classC {
           font-size: 16px;
-          margin-top: 16px;
+          margin-top: 8px;
         }
         .classD {
           font-size: 14px;
-          margin-top: 16px;
+          margin-top: 8px;
         }
         .classE {
           display: flex;
@@ -117,7 +152,7 @@
         .violationName {
           position: relative;
           display: inline-block;
-          padding: 0 6px;
+          padding: 8px 6px;
           z-index: 3;
           background-color: #FFFFFF;
         }
@@ -135,7 +170,7 @@
           display: inline-block;
           text-align: left;
           margin-right: -120px;
-          margin-top: -20px;
+          margin-top: -16px;
           line-height: 30px;
         }
         .tagging::after{
@@ -150,8 +185,24 @@
         }
       }
     }
-    .catalogDetails {
-      flex: 1;
+    .catalogTime {
+      position: absolute;
+      top: 36px;
+      right: 22px;
+      display: flex;
+      flex-direction: column;
+      > span:first-child {
+        color: #555555;
+        font-size: 15px;
+        margin-bottom: 8px;
+      }
+      >span:last-child {
+        color: #888888;
+        font-size: 12px;
+      }
     }
+  }
+  .treeCatalogSelected {
+    width: 1020px;
   }
 }
