@@ -37,7 +37,10 @@ class MCarousel extends React.Component {
       height: screenRange === 'middle_screen' ? '260px' : '225px',
     };
     return (
-      <div className={styles.MCarousel} style={{ width: settings.width, height: settings.height }}>
+      <div
+        className={styles.MCarousel}
+        style={{ width: settings.width, height: settings.height, margin: '0 auto' }}
+      >
         <Carousel {...settings}>
           <div>
             <div onClick={this.openDialogs}>

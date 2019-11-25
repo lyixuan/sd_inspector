@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import MCarousel from '../component/MCarousel/MCarousel';
+import MCard from '../component/MCard/card';
 import PlanDia from './planDia';
 import styles from './style.less';
 
@@ -17,6 +18,7 @@ class Index extends React.Component {
     this.props.dispatch({
       type: 'cubePlanDia/getBannerList',
     });
+    document.body.style.overflow = 'visible';
   }
 
   onChangeDia = showDia => {
@@ -35,10 +37,12 @@ class Index extends React.Component {
     return (
       <div className={styles.cubePlanCon}>
         <MCarousel
+          className={styles.mCarousel}
           screenRange={screenRange}
           onChangeDia={this.onChangeDia}
           bannerList={bannerList}
         ></MCarousel>
+        <MCard />
         <PlanDia className={styles.dialogs} showDia={showDia} close={this.close} />
       </div>
     );
