@@ -69,7 +69,6 @@ export const knowledgeURL = {
 
 export const PROXY_PATH = hasSelfPri => {
   return hasSelfPri ? '' : '/inspectorapis';
-  // return hasSelfPri ? '' : '';
 }; // /inspectorapis
 
 // =========================================== host =========
