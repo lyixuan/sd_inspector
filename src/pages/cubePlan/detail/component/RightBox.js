@@ -18,7 +18,7 @@ class RightBox extends React.Component {
     const {detail,screenRange} = this.props || {};
     const {description,usageList=[],versionList = []} = detail||{};
 
-    const usage = usageList && usageList.map((val,i)=>{
+    const usage = usageList && usageList.length>0 ? usageList.map((val,i)=>{
       return i<2&&(
         <div className={style.boxContent}>
         <Paragraph ellipsis={{ rows: 1 }}>
@@ -28,7 +28,7 @@ class RightBox extends React.Component {
             {val.content}
             </pre>
       </div>)
-    });
+    }):<span>&nbsp;&nbsp;&nbsp;&nbsp;无</span> ;
 
     const usageAll = usageList && usageList.map((val)=>{
       return (
@@ -41,7 +41,7 @@ class RightBox extends React.Component {
             </pre>
         </div>)
     });
-    const version = versionList && versionList.map((val,i)=>{
+    const version = versionList && versionList.length>0 ? versionList.map((val,i)=>{
       return i<1&&(
         <div className={style.boxContent}>
           <div className={style.boxDate}>{val.publishDate}更新</div>
@@ -58,7 +58,7 @@ class RightBox extends React.Component {
             })
           }
         </div>)
-    });
+    }):<span>&nbsp;&nbsp;&nbsp;&nbsp;无</span>;
     return (
       <div className={screenRange === 'small_screen' ? style.rightBoxSmall : style.rightBoxMiddle}>
         <div><span className={style.titleLine}/> <span className={style.title}>报考通知</span></div>
@@ -70,7 +70,7 @@ class RightBox extends React.Component {
           </div>
           <div className={style.boxContent}>
             <Paragraph ellipsis={{ rows: 2 }}>
-              {description}
+              {description||'无'}
             </Paragraph>
           </div>
         </div>
