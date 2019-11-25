@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
 import MCarousel from '../component/MCarousel/MCarousel';
+import PlanDia from './planDia';
+import styles from './style.less';
 
 // import styles from './style.less';
 
-@connect(({ classQualityModel }) => ({}))
+@connect(({ cubePlan }) => ({ cubePlan }))
 class Index extends React.Component {
   constructor(props) {
     super(props);
@@ -17,26 +19,22 @@ class Index extends React.Component {
     });
   }
 
+  onChangeDia = showDia => {
+    this.setState({ showDia });
+  };
+
+  close = showDia => {
+    this.setState({ showDia });
+  };
+
   render() {
+    const { screenRange } = this.props.cubePlan;
+    const { showDia } = this.state;
     return (
-      <MCarousel></MCarousel>
-      // <div>
-      //   1111
-      //   <MCarousel>
-      //     <div>
-      //       <h3>1</h3>
-      //     </div>
-      //     <div>
-      //       <h3>2</h3>
-      //     </div>
-      //     <div>
-      //       <h3>3</h3>
-      //     </div>
-      //     <div>
-      //       <h3>4</h3>
-      //     </div>
-      //   </MCarousel>
-      // </div>
+      <div className={styles.cubePlanCon}>
+        <MCarousel screenRange={screenRange} onChangeDia={this.onChangeDia}></MCarousel>
+        <PlanDia className={styles.dialogs} showDia={showDia} close={this.close} />
+      </div>
     );
   }
 }
