@@ -547,6 +547,15 @@ export const routes = [
             component: './operateActivity/configActivity',
           }
         ]
+      },
+      {
+        path: '/hotQuestion',
+        routes: [
+          {
+            path: '/hotQuestion/index',
+            component: './hotQuestion'
+          }
+        ]
       }
     ],
   },
