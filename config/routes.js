@@ -554,6 +554,10 @@ export const routes = [
           {
             path: '/hotQuestion/index',
             component: './hotQuestion'
+          },
+          {
+            path: '/hotQuestion/guessEdit',
+            component: './hotQuestion/guessEdit',
           }
         ]
       }
