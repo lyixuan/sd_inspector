@@ -8,7 +8,7 @@ import kongbai from '@/assets/operateActivity/kongbai.png';
 import {getUserInfo, getRobotId, getActiveList, deleteActive} from './services';
 import storage from '@/utils/storage';
 import extentImg from '@/assets/xdcredit/extent.png';
-import {withoutSeconds} from '@/pages/configWords/utils/util';
+import {withoutMinutes} from '@/pages/configWords/utils/util';
 import style from '@/pages/operateActivity/components/cardStyle.less';
 import deleteImg from '@/assets/operateActivity/delete-img.png';
 
@@ -205,9 +205,9 @@ class OperateActivity extends React.Component{
     if (res && res.code === 200) {
       let data = res.data;
       data.forEach(item => {
-        item.startTime = withoutSeconds(item.startTime);
-        item.endTime = withoutSeconds(item.endTime);
-        item.updateTime = withoutSeconds(item.updateTime);
+        item.startTime = withoutMinutes(item.startTime);
+        item.endTime = withoutMinutes(item.endTime);
+        item.updateTime = withoutMinutes(item.updateTime);
       });
       this.setState({
         activities: res.data,

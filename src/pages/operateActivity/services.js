@@ -11,8 +11,8 @@ export function getUserInfo() {
 
 export function getRobotId(data) {
   const {collegeId, familyId, groupId} = data;
-  // return axios.get(`/robot/findByParam?collegeId=${collegeId}&familyId=${familyId}&groupId=${groupId}`)
-  return axios.get(`/robot/findByParam?collegeId=104&familyId=155&groupId=54`)
+  return axios.get(`/robot/findByParam?collegeId=${collegeId}&familyId=${familyId}&groupId=${groupId}`)
+  // return axios.get(`/robot/findByParam?collegeId=104&familyId=155&groupId=54`)
 }
 
 export function getActiveList(robotId) {

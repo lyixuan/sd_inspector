@@ -66,6 +66,7 @@ class CreateActivity extends React.Component{
       showPreviewModal: false,
       showOverlapModal: false,
       isLoading: true,
+      saveButtonLoading: false
     };
   }
 
@@ -87,7 +88,8 @@ class CreateActivity extends React.Component{
       showPreviewModal,
       showOverlapModal,
       aiActivityRelationQuestionList,
-      isLoading} = this.state;
+      isLoading,
+      saveButtonLoading} = this.state;
     const {activityId} = this.props;
 
     // loading部分
@@ -124,9 +126,22 @@ class CreateActivity extends React.Component{
               defaultValue={
                 [startTime === 0 ? null : moment(startTime), endTime === 0 ? null : moment(endTime)]
               }
-              showTime={{format: 'HH:mm'}}
+              showTime={{
+                format: 'HH:mm',
+                defaultValue: [
+                  moment("00:00", "HH:mm"),
+                  moment("00:00", "HH:mm")
+                ]
+              }}
               format="YYYY-MM-DD HH:mm"
-              disabledDate={(current) => {return current && current < moment().endOf('day')}}
+              disabledDate={(current) => {
+                return current && current < moment().endOf('day')}
+              }
+              disabledTime={() => {
+                return {
+                  disabledMinutes: () => this._range(1, 60)
+                }
+              }}
               onOk={this.datePickerChange} />
             <div className={style.prompt}>温馨提示：因数据缓存，活动将在保存后第二天按照设定的展示时间生效</div>
           </div>
@@ -178,7 +193,7 @@ class CreateActivity extends React.Component{
           </Upload>
           {
             imageList.length === 0
-              ? <span className={style.notice}>注：图片尺寸为3：2，大小不超过20M</span>
+              ? <span className={style.notice}>注：图片宽高比例为3:2，大小不超过10M</span>
               : null
           }
         </div>
@@ -276,7 +291,8 @@ class CreateActivity extends React.Component{
         <Button
           className={style.save}
           type="primary"
-          onClick={this.saveActive}>保存</Button>
+          onClick={this.saveActive}
+          loading={saveButtonLoading}>保存</Button>
       </div>
     </div>;
 
@@ -328,9 +344,9 @@ class CreateActivity extends React.Component{
     if (!isJpgOrPng) {
       message.error('只支持上传 JPG/PNG 格式的文件');
     }
-    const isLt20M = file.size / 1024 / 1024 < 20;
+    const isLt20M = file.size / 1024 / 1024 < 10;
     if (!isLt20M) {
-      message.error('图片大小不能超过20M');
+      message.error('图片大小不能超过10M');
     }
 
     return isJpgOrPng && isLt20M && checkImageWH(file, 3, 2);
@@ -361,6 +377,7 @@ class CreateActivity extends React.Component{
         answerImgName: file.name
       });
       this._setImageWH(fileList[0].url);
+      message.success('图片上传成功');
     } else if (file.status === 'removed') {
       this.setState({
         imageList: [...fileList],
@@ -419,6 +436,7 @@ class CreateActivity extends React.Component{
 
   //编辑弹框OK事件
   handleModalOk = (data) => {
+    const {question} = this.state;
     let list = this.state.aiActivityRelationQuestionList;
     let flag;
     // 如果是添加关联问题
@@ -433,6 +451,10 @@ class CreateActivity extends React.Component{
           break;
         } else {}
       }
+
+      if (data.question === question) {
+        flag = 0
+      } else {}
 
       switch (flag) {
         case 0:
@@ -463,6 +485,10 @@ class CreateActivity extends React.Component{
           break;
         } else {}
       }
+
+      if (data.question === question) {
+        flag = 0
+      } else {}
 
       switch (flag) {
         case 0:
@@ -582,6 +608,10 @@ class CreateActivity extends React.Component{
 
     this.allActivityData = data;
 
+    this.setState({
+      saveButtonLoading: true
+    });
+
     this._checkActivityTime({startTime, endTime});
   };
 
@@ -656,7 +686,8 @@ class CreateActivity extends React.Component{
     if (res && res.code === 200) {
       if (res.data) {
         this.setState({
-          showOverlapModal: true
+          showOverlapModal: true,
+          saveButtonLoading: false
         })
       } else {
         this._allSaveActivity();
@@ -667,22 +698,13 @@ class CreateActivity extends React.Component{
   // 新建活动的保存
   _saveNewActivity = async (data) => {
     let res = await saveActivity(data);
-    if (res && res.code === 200) {
-      router.replace('/operateActivity/index')
-    } else {
-      message.error('网络错误，请稍后重试')
-    }
+    this._validateResponse(res);
   };
 
   // 编辑原有活动
   _updateActivity = async (data) => {
     let res = await updateActivity(data);
-    console.log(res);
-    if (res && res.code === 200) {
-      router.replace('/operateActivity/index')
-    } else {
-      message.error('网络错误，请稍后重试')
-    }
+    this._validateResponse(res);
   };
 
   // 对新建或者修改活动的包装函数
@@ -704,6 +726,32 @@ class CreateActivity extends React.Component{
       imgHeight: res.height
     })
   };
+
+  // 产出时间范围数组的函数
+  _range = (start, end) => {
+    const result = [];
+    for (let i = start; i < end; i++) {
+      result.push(i);
+    }
+    return result;
+  };
+
+  // 对修改活动和新建活动的返回结果进行验证
+  _validateResponse = (res) => {
+    if (res && res.code === 200) {
+      router.replace('/operateActivity/index')
+    } else if (res && res.code === 403) {
+      message.error('活动中有问题名称重复，请检查后保存');
+      this.setState({
+        saveButtonLoading: false
+      })
+    } else {
+      message.error('网络错误，请稍后重试');
+      this.setState({
+        saveButtonLoading: false
+      })
+    }
+  }
 
 }
 

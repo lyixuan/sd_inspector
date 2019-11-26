@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'dva';
 import { Input, Modal, Button, message } from 'antd';
-import style from '@/pages/operateActivity/createActivity/style.less';
+import style from '@/pages/operateActivity/configActivity/style.less';
 
 class RelateQuestionModal extends React.Component{
   constructor(props) {
