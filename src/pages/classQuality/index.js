@@ -122,7 +122,7 @@ class ClassQuality extends React.Component {
   }
   // 是否显示标注
   getIsShowTag = item => {
-    if ((item.violationLevel && this.state.funTypeSelected === 2) || item.level === 1) {
+    if ((item.violationLevel || item.level === 1) && this.state.funTypeSelected === 2) {
       return true;
     } else {
       return false;
@@ -147,7 +147,7 @@ class ClassQuality extends React.Component {
     return (
       <div className={styles.classQuality}>
         {/* 左侧功能条 */}
-        <div className={styles.functionBar}>
+        <div className={styles.functionBar} style={{ }}>
           <Tooltip title="手册目录" >
             <span onClick={() => this.handleFun(1)}><img src={funTypeSelected === 1 ? rulesImg1 : rulesImg} alt=""/></span>
           </Tooltip>
