@@ -73,8 +73,7 @@ class MCard extends React.Component {
       height: screenRange === 'middle_screen' ? '260px' : '225px',
     };
     return (
-      // <div className={screenRange === 'middle_screen' ? styles.middleCard : styles.smallCard}>
-      <div className={screenRange === 'middle_screen' ? styles.smallCard : styles.smallCard}>
+      <div className={screenRange === 'middle_screen' ? styles.middleCard : styles.smallCard}>
         <div className={styles.cardList}>
           {cardList &&
             cardList.map((item, index) => {
@@ -90,8 +89,8 @@ class MCard extends React.Component {
                     <div className={styles.top}>
                       <span className={styles.tips}>
                         <i>{item.name}</i>
-                        {item.stepStatus !== 1 && <img src={icon1} className={styles.icon} />}
-                        {item.stepStatus !== 1 && <img src={icon2} className={styles.icon} />}
+                        <img src={icon1} className={styles.icon} />
+                        <img src={icon2} className={styles.icon} />
                       </span>
                       <span className={styles.status}>
                         {item.stepStatus === 1 && <img className={styles.icon1} src={gary} />}
