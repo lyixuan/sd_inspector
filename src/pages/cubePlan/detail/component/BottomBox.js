@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar } from 'antd';
+import { Avatar,Spin } from 'antd';
 import Xing from './Xing';
 import kongmimade from '@/assets/kongmimade.png';
 import style from './style.less';
@@ -14,6 +14,10 @@ export default class BottomBox extends React.Component {
 
   more=(pageNum)=>{
     this.props.getCommentList(pageNum);
+  };
+
+  openBBModal=()=>{
+    this.props.openBBModal();
   };
 
   render() {
@@ -39,10 +43,10 @@ export default class BottomBox extends React.Component {
 
     return (
       <div className={screenRange==='small_screen'?style.bottomBoxSmall:style.bottomBoxMiddle}>
-        <div>
+        <Spin spinning={this.props.pageLoading}>
           <div className={style.boxBar}>
             <span>评价与建议</span>
-            <span onClick={()=>this.openModal('简单介绍')}>我要评价 &gt;</span>
+            <span onClick={()=>this.openBBModal()}>我要评价 &gt;</span>
           </div>
           <div className={style.boxContent}>
             {commentLists.length>0?comment:<div className={style.kong}>
@@ -54,7 +58,7 @@ export default class BottomBox extends React.Component {
             <div className={style.footer}>
               {isLastPage?<span>没有更多了</span>:<span onClick={()=>this.more(pageNum)}>查看更多 ></span>}
             </div>}
-        </div>
+        </Spin>
       </div>
     );
   }

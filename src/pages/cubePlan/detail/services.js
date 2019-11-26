@@ -12,3 +12,7 @@ export async function getCommentPage(params) {
 
 
 
+//  提交评论
+export async function saveUserComment(data) {
+  return request('/component/saveUserComment', { method: 'post', data });
+}

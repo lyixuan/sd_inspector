@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { getDetail,getCommentPage } from './services';
+import { getDetail,getCommentPage,saveUserComment } from './services';
 import { msgF } from '@/utils/utils';
 
 export default {
@@ -24,12 +24,27 @@ export default {
     },
     *getCommentPage({ payload }, { call, put }) {
       const {id,pageSize,page,commentLists:oldLists} = payload.params;
+
       const params = {id,pageSize,page};
       const result = yield call(getCommentPage, params);
       if (result.code === 20000) {
         const commentData = result.data||{};
-        const commentLists = oldLists.concat(commentData.list);
+        let commentLists = [];
+        if(page!==1){
+          commentLists = oldLists.concat(commentData.list);
+        } else {
+          commentLists = [].concat(commentData.list);
+        }
+
         yield put({ type: 'save', payload: {commentData,commentLists }});
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    *saveUserComment({ payload }, { call, put }) {
+      const result = yield call(saveUserComment, payload);
+      if (result.code === 20000) {
+        return true;
       } else {
         message.error(msgF(result.msg,result.msgDetail));
       }
