@@ -5,8 +5,8 @@ import styles from './style.less'
 
 class BILoading extends React.Component {
   render() {
-    const {isLoading,height} = this.props
-    return (<div className={styles.loadingMain} >
+    const {isLoading, height, ...props} = this.props
+    return (<div className={styles.loadingMain} {...props}>
       {this.props.children}
       {
         isLoading && <div className={styles.imgMain} style={{height:height}}>

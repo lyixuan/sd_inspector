@@ -14,13 +14,9 @@ class VideoDia extends React.Component {
       //   showVideo: false,
     };
   }
-  componentDidMount() {
-    document.body.style.overflow = 'hidden';
-  }
 
   close = () => {
     this.props.close(false);
-    document.body.style.overflow = 'visible';
   };
 
   render() {

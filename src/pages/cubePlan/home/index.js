@@ -30,18 +30,22 @@ class Index extends React.Component {
 
   onChangeDia = showDia => {
     this.setState({ showDia });
+    document.body.style.overflow = 'hidden';
   };
 
   close = showDia => {
     this.setState({ showDia });
+    document.body.style.overflow = 'visible';
   };
 
   closeFn = showVideo => {
     this.setState({ showVideo });
+    document.body.style.overflow = 'visible';
   };
 
   showVideoDia = (showVideo, sourceUrl, coverUrl) => {
     this.setState({ showVideo, sourceUrl, coverUrl });
+    document.body.style.overflow = 'hidden';
   };
 
   render() {

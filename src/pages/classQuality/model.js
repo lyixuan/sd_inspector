@@ -12,13 +12,7 @@ export default {
   state: {
     dateRange: {},
     logTreeList: [],
-    flatTreeList: [
-      {
-        violationName: '违规',
-        level: 1,
-        violationLevel: '特级违规'
-      }
-    ], // 目录
+    flatTreeList: undefined, // 目录
   },
 
   effects: {
@@ -29,7 +23,7 @@ export default {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
-        yield put({ type: 'saveTree', payload: { flatTreeList: result.data } });
+        yield put({ type: 'saveTree', payload: { flatTreeList: result.data || [] } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
