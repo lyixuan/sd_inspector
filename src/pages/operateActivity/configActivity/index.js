@@ -255,7 +255,7 @@ class CreateActivity extends React.Component{
         footer={null}
         width={imgWidth + 48}
         onCancel={this.closePreviewModal}>
-        <img src={answerImgUrl} alt="activity"/>
+        <img src={answerImgUrl} alt="activity" style={{marginTop: 10}}/>
       </Modal>
 
       {/*活动时间有重叠弹框*/}
