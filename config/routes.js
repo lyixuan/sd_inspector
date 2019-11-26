@@ -557,7 +557,11 @@ export const routes = [
         ],
       },
       {
-        path: '/classQuality/index',
+        path: '/classQuality/qualityType/1', // 客诉
+        component: './classQuality/index',
+      },
+      {
+        path: '/classQuality/qualityType/2', // 班主任
         component: './classQuality/index',
       },
     ],

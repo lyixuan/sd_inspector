@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+  margin-bottom: 16px;
   .functionBar {
     position: fixed;
     top: 230px;
@@ -26,7 +27,11 @@
       }
       :global {
         .ant-back-top {
-          width: auto;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           position: inherit;
         }
       }
@@ -44,9 +49,17 @@
     padding: 0 20px 20px 20px;
     box-sizing: border-box;
     .title {
+      display: flex;
       padding: 16px 0;
       border-bottom: 1px solid #E8EBED;
       margin-bottom: 10px;
+      justify-content: space-between;
+      align-items: center;
+      img {
+        width: 10px;
+        height: 10px;
+        cursor: pointer;
+      }
     }
     :global {
       .ant-anchor-wrapper {
@@ -94,7 +107,7 @@
   }
   .searchFixed {
     top: 0;
-    width: 100%;
+    width: 80%;
     text-align: center;
     background:rgba(245,248,250,1);
     z-index: 4;
@@ -183,7 +196,7 @@
         }
         .tagging {
           position: absolute;
-          width: 748px;
+          width: 730px;
           top: 20px;
           z-index: 2;
           border-top: 1px dashed #FF0200;
@@ -194,7 +207,7 @@
         .tagging > span {
           display: inline-block;
           text-align: left;
-          margin-right: -120px;
+          margin-right: -110px;
           margin-top: -16px;
           line-height: 30px;
         }
@@ -213,7 +226,7 @@
     .catalogTime {
       position: absolute;
       top: 36px;
-      right: -210px;
+      right: -184px;
       display: flex;
       flex-direction: column;
       > span:first-child {
