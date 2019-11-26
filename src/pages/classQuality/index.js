@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Anchor, BackTop } from 'antd';
+import { Anchor, BackTop, Tooltip } from 'antd';
 import BIInput from '@/ant_components/BIInput';
 import BIButton from '@/ant_components/BIButton';
 import searchImg from '@/assets/classQuality/search.png';
@@ -13,7 +13,7 @@ import level1 from '@/assets/classQuality/level1.png';
 import level2 from '@/assets/classQuality/level2.png';
 import level3 from '@/assets/classQuality/level3.png';
 import level0 from '@/assets/classQuality/level0.png';
-import closeImg from '@/assets/classQuality/delete.png'
+import closeImg from '@/assets/classQuality/delete.png';
 import styles from './style.less';
 
 const { Link } = Anchor;
@@ -34,10 +34,11 @@ const typeTranslate = {
   1: '客诉',
   2: '班主任',
 }
-@connect(({ classQualityModel }) => ({
+@connect(({ classQualityModel, loading }) => ({
   dateRange: classQualityModel.dateRange,
   logTreeList: classQualityModel.logTreeList,
   flatTreeList: classQualityModel.flatTreeList,
+  loading: loading.effects['xdClsssModal/getCountCurrentQuality'],
 }))
 class ClassQuality extends React.Component {
   constructor(props) {
@@ -89,7 +90,13 @@ class ClassQuality extends React.Component {
   requestTree = (keyWord = this.state.keyWord) => {
     this.props.dispatch({
       type:'classQualityModel/getFindTreeList',
-      payload: { params: { qualityType: this.state.qualityType, keyWord: keyWord === 'reset' ? undefined :  keyWord } }
+      payload: { params: { qualityType: this.state.qualityType, keyWord: keyWord === 'reset' ? undefined :  keyWord } },
+      callback: () => {
+        const val = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+        if (val !== 0) {
+          document.documentElement.scrollTop = 0;
+        }
+      }
     })
   }
   // 搜索条件 onChange
@@ -114,8 +121,8 @@ class ClassQuality extends React.Component {
     }
   }
   // 是否显示标注
-  getIsShowTag = l => {
-    if (l && this.state.funTypeSelected === 2) {
+  getIsShowTag = item => {
+    if ((item.violationLevel && this.state.funTypeSelected === 2) || item.level === 1) {
       return true;
     } else {
       return false;
@@ -141,9 +148,11 @@ class ClassQuality extends React.Component {
       <div className={styles.classQuality}>
         {/* 左侧功能条 */}
         <div className={styles.functionBar}>
-          <span onClick={() => this.handleFun(1)}><img src={funTypeSelected === 1 ? rulesImg1 : rulesImg} alt=""/></span>
+          <Tooltip title="手册目录" >
+            <span onClick={() => this.handleFun(1)}><img src={funTypeSelected === 1 ? rulesImg1 : rulesImg} alt=""/></span>
+          </Tooltip>
           <span onClick={() => this.handleFun(2)} style={{ borderTop: '1px solid #E1E1E1', borderBottom: '1px solid #E1E1E1', }}><img src={funTypeSelected === 2 ? detailImg1 : detailImg} alt=""/></span>
-          <span><BackTop visibilityHeight={-1}><img src={topImg} alt=""/></BackTop></span>
+          <span><BackTop visibilityHeight={-1000}><img src={topImg} alt=""/></BackTop></span>
         </div>
         {/* 右侧导航条 */}
         { funTypeSelected === 1 ?
@@ -170,13 +179,13 @@ class ClassQuality extends React.Component {
             <div className={styles.title}>质检手册（{typeTranslate[qualityType]}）</div>
             {flatTreeList.map((item, index) => <div key={item.id + '' + index} id={`Anchor${item.id}`}  className={styles.level}>
               <div className={`${styles.class} ${classStyles[item.level]} `}>
-                <span className={`${styles.violationName} ${this.getIsShowTag(item.violationLevel) ? styles.classBorder : ''}`}>
+                <span className={`${styles.violationName} ${this.getIsShowTag(item) ? styles.classBorder : ''}`}>
                   {item.violationName}
                   {item.violationLevel && <img src={levelImgs[item.violationLevel]} alt=""/>}
                 </span>
                 {/* 违规 */}
                 { 
-                  this.getIsShowTag(item.violationLevel) &&
+                  this.getIsShowTag(item) &&
                   <span className={styles.tagging}>
                     <span>
                       违规次数：{item.violationNumber}次 <br/>违规人数：{item.personNumber}人

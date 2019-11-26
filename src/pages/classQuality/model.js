@@ -22,10 +22,13 @@ export default {
   },
 
   effects: {
-    *getFindTreeList({ payload }, { call, put }) {
+    *getFindTreeList({ payload, callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(getFindTreeList, params);
       if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
         yield put({ type: 'saveTree', payload: { flatTreeList: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
