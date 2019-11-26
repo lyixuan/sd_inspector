@@ -1,20 +1,19 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Anchor, BackTop } from 'antd';
+import { Anchor, BackTop, Tooltip } from 'antd';
 import BIInput from '@/ant_components/BIInput';
 import BIButton from '@/ant_components/BIButton';
-import BIScrollbar from '@/ant_components/BIScrollbar';
 import searchImg from '@/assets/classQuality/search.png';
 import rulesImg from '@/assets/classQuality/func1.png';
 import detailImg from '@/assets/classQuality/func2.png';
 import topImg from '@/assets/classQuality/func3.png';
 import rulesImg1 from '@/assets/classQuality/fun1.png';
 import detailImg1 from '@/assets/classQuality/fun2.png';
-// import topImg1 from '@/assets/classQuality/fun3.png';
 import level1 from '@/assets/classQuality/level1.png';
 import level2 from '@/assets/classQuality/level2.png';
 import level3 from '@/assets/classQuality/level3.png';
 import level0 from '@/assets/classQuality/level0.png';
+import closeImg from '@/assets/classQuality/delete.png';
 import styles from './style.less';
 
 const { Link } = Anchor;
@@ -31,15 +30,21 @@ const levelImgs = {
   '二级违规': level2,
   '三级违规': level3,
 }
-
-@connect(({ classQualityModel }) => ({
+const typeTranslate = {
+  1: '客诉',
+  2: '班主任',
+}
+@connect(({ classQualityModel, loading }) => ({
+  dateRange: classQualityModel.dateRange,
   logTreeList: classQualityModel.logTreeList,
   flatTreeList: classQualityModel.flatTreeList,
+  loading: loading.effects['xdClsssModal/getCountCurrentQuality'],
 }))
 class ClassQuality extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      qualityType: 1,
       setFixed: '', // serach类名
       keyWord: undefined, // 查询值
       scrollbar: '', // 滚动条
@@ -48,7 +53,14 @@ class ClassQuality extends React.Component {
     }
   }
   componentDidMount() {
-    this.requestTree();
+    // 时间
+    this.props.dispatch({
+      type:'classQualityModel/getDateRange',
+    })
+    // 数据
+    this.setState({
+      qualityType: this.getQualityType(this.props.location.pathname)
+    }, () => this.requestTree()) 
     // 表格添加滚动事件
     if (document.body) {
       document.body.onscroll = (e) => {
@@ -66,11 +78,25 @@ class ClassQuality extends React.Component {
       document.body.onscroll = '';
     }
   }
+  getQualityType = urlStr => {
+    const type = Number(urlStr.match('[^/]+(?!.*/)')[0]);
+    if (type === 1 || type === 2) {
+      return type;
+    } else {
+      return 1;
+    }   
+  }
   // 请求
   requestTree = (keyWord = this.state.keyWord) => {
     this.props.dispatch({
       type:'classQualityModel/getFindTreeList',
-      payload: { params: { qualityType: 1, keyWord: keyWord === 'reset' ? undefined :  keyWord } }
+      payload: { params: { qualityType: this.state.qualityType, keyWord: keyWord === 'reset' ? undefined :  keyWord } },
+      callback: () => {
+        const val = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+        if (val !== 0) {
+          document.documentElement.scrollTop = 0;
+        }
+      }
     })
   }
   // 搜索条件 onChange
@@ -95,8 +121,8 @@ class ClassQuality extends React.Component {
     }
   }
   // 是否显示标注
-  getIsShowTag = l => {
-    if (l && this.state.funTypeSelected === 2) {
+  getIsShowTag = item => {
+    if ((item.violationLevel || item.level === 1) && this.state.funTypeSelected === 2) {
       return true;
     } else {
       return false;
@@ -109,27 +135,35 @@ class ClassQuality extends React.Component {
       rulesObj: { ...rulesObj, [id]: !rulesObj[id]} 
     })
   }
+  // 手册关闭
+  handleClose = () => {
+    if (this.state.funTypeSelected === 1) {
+      this.setState({ funTypeSelected: '' });
+    }
+  }
   render() {
-    const { funTypeSelected, setFixed, rulesObj } = this.state;
-    const { logTreeList = [], flatTreeList = [] } = this.props;
+    const { funTypeSelected, setFixed, rulesObj, qualityType } = this.state;
+    const { logTreeList = [], flatTreeList = [], dateRange = {} } = this.props;
     return (
       <div className={styles.classQuality}>
         {/* 左侧功能条 */}
-        <div className={styles.functionBar}>
-          <span onClick={() => this.handleFun(1)}><img src={funTypeSelected === 1 ? rulesImg1 : rulesImg} alt=""/></span>
+        <div className={styles.functionBar} style={{ }}>
+          <Tooltip title="手册目录" >
+            <span onClick={() => this.handleFun(1)}><img src={funTypeSelected === 1 ? rulesImg1 : rulesImg} alt=""/></span>
+          </Tooltip>
           <span onClick={() => this.handleFun(2)} style={{ borderTop: '1px solid #E1E1E1', borderBottom: '1px solid #E1E1E1', }}><img src={funTypeSelected === 2 ? detailImg1 : detailImg} alt=""/></span>
-          <span><BackTop visibilityHeight={-1}><img src={topImg} alt=""/></BackTop></span>
+          <span><BackTop visibilityHeight={-1000}><img src={topImg} alt=""/></BackTop></span>
         </div>
         {/* 右侧导航条 */}
         { funTypeSelected === 1 ?
           <div className={styles.navigation}>
-            <div className={styles.title}> 客诉手册目录
+            <div className={styles.title}> 
+            {typeTranslate[qualityType]}手册目录
+            <img onClick={this.handleClose} src={closeImg} alt=""/>
             </div>
-            <BIScrollbar style={{height: 400, border: '1px solid #E8EBED'}}>
-              <Anchor >
-                {logTreeList.map((item, index) => <Link href={`#Anchor${item.id}`}  key={item.id + '' + index} title={item.violationName} />)}
-              </Anchor>
-            </BIScrollbar>
+            <Anchor>
+              {logTreeList.map((item, index) => <Link href={`#Anchor${item.id}`}  key={item.id} title={item.violationName} />)}
+            </Anchor>
           </div> : ''
         }
         <div className={setFixed}>
@@ -142,16 +176,16 @@ class ClassQuality extends React.Component {
         </div>
         <div className={styles.treeCatalog}>
           <div className={styles.catalog}>
-            <div className={styles.title}>质检手册（班主任）</div>
-            {flatTreeList.map((item, index) => <div id={`Anchor${item.id}`}  key={item.id + '' + index} className={styles.level}>
+            <div className={styles.title}>质检手册（{typeTranslate[qualityType]}）</div>
+            {flatTreeList.map((item, index) => <div key={item.id + '' + index} id={`Anchor${item.id}`}  className={styles.level}>
               <div className={`${styles.class} ${classStyles[item.level]} `}>
-                <span className={`${styles.violationName} ${this.getIsShowTag(item.violationLevel) ? styles.classBorder : ''}`}>
+                <span className={`${styles.violationName} ${this.getIsShowTag(item) ? styles.classBorder : ''}`}>
                   {item.violationName}
                   {item.violationLevel && <img src={levelImgs[item.violationLevel]} alt=""/>}
                 </span>
                 {/* 违规 */}
                 { 
-                  this.getIsShowTag(item.violationLevel) &&
+                  this.getIsShowTag(item) &&
                   <span className={styles.tagging}>
                     <span>
                       违规次数：{item.violationNumber}次 <br/>违规人数：{item.personNumber}人
@@ -159,9 +193,6 @@ class ClassQuality extends React.Component {
                   </span>
                 }
               </div>
-              {/* <div className={styles.classB}>1. 禁止以利己为目的，利用用户权益舞弊</div>
-              <span className={`${styles.class} ${styles.classC} ${styles.classBorder}`}>1.1 操作用户账号<img src={level0} alt=""/></span>
-              <div className={styles.classD}>2.2.1 IM场景违规舞弊</div> */}
               { 
                 item.qualityDetaile && 
                 <>
@@ -177,7 +208,7 @@ class ClassQuality extends React.Component {
           </div> 
           {funTypeSelected === 2 ? <div className={styles.catalogTime}>
             <span>近30天集团质检记录</span>
-            <span>2019.10.13-2019.11.1</span>
+            <span>{dateRange.startTime}-{dateRange.endTime}</span>
           </div> : ''}
         </div>
       </div>
