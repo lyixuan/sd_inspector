@@ -33,8 +33,8 @@ class MCarousel extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       autoplay: true,
-      width: screenRange === 'middle_screen' ? '1176px' : '1016px',
-      height: screenRange === 'middle_screen' ? '260px' : '225px',
+      width: '1016px', //  screenRange === 'middle_screen' ? '1176px' : '1016px',
+      height: '225px', // screenRange === 'middle_screen' ? '260px' : '225px',
     };
     return (
       <div

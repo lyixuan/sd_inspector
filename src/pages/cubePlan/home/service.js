@@ -9,3 +9,8 @@ export async function saveUserDemand(params) {
 export async function getBannerList() {
   return request('/component/getBannerList');
 }
+
+// 获取cardlist
+export async function getCardList() {
+  return request('/component/getCardList');
+}
