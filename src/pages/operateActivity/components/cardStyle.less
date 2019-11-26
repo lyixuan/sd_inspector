@@ -6,6 +6,9 @@
   box-shadow:0 3px 10px 0 rgba(221,230,236,1);
   overflow:hidden;
   cursor:pointer;
+  &:hover {
+    box-shadow:0 3px 10px 0 rgba(0,204,195,0.27);
+  }
 }
 .head {
   display:flex;
@@ -71,5 +74,17 @@
     line-height:24px;
     font-size:13px;
     color:#1A1C1F;
+  }
+}
+
+@media all and (max-width: 1439px){
+  .wrap {
+    width:470px;
+  }
+}
+
+@media all and (min-width: 1440px){
+  .wrap {
+    width:540px;
   }
 }
