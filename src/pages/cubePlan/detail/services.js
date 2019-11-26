@@ -1,8 +1,8 @@
 import request from '@/utils/request';
 
-// 查询列表
-export async function getList(params) {
-  return request('/shinecollege/videos/list', { params });
+// 获取详情
+export async function getDetail(params) {
+  return request('/component/getDetail', { params });
 }
 
 

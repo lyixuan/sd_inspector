@@ -546,14 +546,22 @@ export const routes = [
             name: '首页',
           },
           {
-            path: '/cubePlan/detail',
+            path: '/cubePlan/list/detail',
             component: './cubePlan/detail/index',
-            name: '详情',
+            name: '查看详情',
+            bread: {
+              name: '首页',
+              path: '/cubePlan/list',
+            },
           },
         ],
       },
       {
-        path: '/classQuality/index',
+        path: '/classQuality/qualityType/1', // 客诉
+        component: './classQuality/index',
+      },
+      {
+        path: '/classQuality/qualityType/2', // 班主任
         component: './classQuality/index',
       },
     ],

@@ -1,68 +1,99 @@
-.gutterRow {
-  height: 32px;
-  margin-bottom: 10px;
-}
-
-
-.gutterBox {
-  float: left;
-}
-
-.gutterLabel {
-  width: 70px;
-  display: inline-block;
-  text-align: right;
-}
-
-.gutterForm {
-  margin-left: 5px;
-  width: 210px;
-  display: inline-block;
-}
-.gutterForm2 {
-  margin-left: 5px;
-  width: 495px;
-  display: inline-block;
-}
-
-.actionBtn {
-  padding-right: 5px;
-  color: #52C9C2;
-  cursor: pointer;
-  display: inline-block
-}
-
-.sortTitle {
-  font-weight: bold;
-}
-.row {
+.layer {
   width: 100%;
-  overflow: hidden;
-  height: 40px;
-  line-height: 40px;
-}
-.sortTitleLf,.sortTitleRt {
-  color: #999;
-  float: left;
-}
-.sortTitleLf,.sortLf {
-  width: 80px;
-}
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  background: rgba(0, 0, 0, 0.7);
 
-.sortLf,.sortRt{
-  color: #222;
-  float: left;
+  .dialogs {
+    border-radius: 15px;
+    text-align: center;
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+  }
 }
+// dialogs
+.PlanDiaCon {
+  width: 100%;
+  .imgCon {
+    width: 900px;
+    height: 500px;
+    margin: 0 auto;
+    padding-top: 80px;
+    position: relative;
 
-.icon {
-  color: #52C9C2;
-  font-size: 14px;
-  cursor: pointer;
-}
-.sortRt {
-  width: 370px;
-}
-.sortRtIcon {
-  width: 30px;
-float: left;
+    .plan {
+      width: 900px;
+      background-size: 100%;
+    }
+    .close {
+      position: absolute;
+      width: 0.3em;
+      right: 17px;
+      top: 90px;
+      height: 1.5em;
+      background: #fff;
+      transform: rotate(45deg);
+      display: inline-block;
+    }
+
+    .close:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0.3em;
+      height: 1.5em;
+      background: #fff;
+      transform: rotate(270deg);
+    }
+
+    .inputCon {
+      width: 100%;
+      padding-bottom: 40px;
+      background: #181e3e;
+      .formCom {
+        p {
+          display: flex;
+          padding: 0 20px;
+          width: 770px;
+          margin: 0 auto 10px;
+          font-size: 13px;
+          font-family: PingFangSC-Semibold, PingFang SC;
+          span:nth-child(1) {
+            width: 72px;
+            height: 18px;
+            font-size: 13px;
+            font-family: PingFangSC-Semibold, PingFang SC;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 1);
+            line-height: 18px;
+            margin-top: 5px;
+          }
+          textarea {
+            width: 100%;
+          }
+        }
+
+        .submit {
+          margin-top: 23px;
+          display: flex;
+          justify-content: center;
+          img {
+            margin-right: 12px;
+            width: 130px;
+            background-size: 100%;
+          }
+        }
+      }
+    }
+  }
 }
