@@ -34,7 +34,8 @@ const typeTranslate = {
   1: '客诉',
   2: '班主任',
 }
-@connect(({ classQualityModel, loading }) => ({
+@connect(({ global, classQualityModel, loading }) => ({
+  globalCollapsed: global.collapsed,// 左侧二级下单是否打开
   dateRange: classQualityModel.dateRange,
   logTreeList: classQualityModel.logTreeList,
   flatTreeList: classQualityModel.flatTreeList,
@@ -53,6 +54,7 @@ class ClassQuality extends React.Component {
     }
   }
   componentDidMount() {
+    console.log(this.props.globalCollapsed, 'ooooo')
     // 时间
     this.props.dispatch({
       type:'classQualityModel/getDateRange',
@@ -122,7 +124,7 @@ class ClassQuality extends React.Component {
   }
   // 是否显示标注
   getIsShowTag = item => {
-    if ((item.violationLevel || item.level === 1) && this.state.funTypeSelected === 2) {
+    if ((item.violationNumber || item.personNumber || item.level === 1) && this.state.funTypeSelected === 2) {
       return true;
     } else {
       return false;
@@ -143,11 +145,11 @@ class ClassQuality extends React.Component {
   }
   render() {
     const { funTypeSelected, setFixed, rulesObj, qualityType } = this.state;
-    const { logTreeList = [], flatTreeList = [], dateRange = {} } = this.props;
+    const { logTreeList = [], flatTreeList = [], dateRange = {}, globalCollapsed } = this.props;
     return (
       <div className={styles.classQuality}>
         {/* 左侧功能条 */}
-        <div className={styles.functionBar} style={{ }}>
+        <div className={styles.functionBar} style={{ left: globalCollapsed ? 100 : 236 }}>
           <Tooltip title="手册目录" >
             <span onClick={() => this.handleFun(1)}><img src={funTypeSelected === 1 ? rulesImg1 : rulesImg} alt=""/></span>
           </Tooltip>
@@ -166,7 +168,7 @@ class ClassQuality extends React.Component {
             </Anchor>
           </div> : ''
         }
-        <div className={setFixed}>
+        <div className={setFixed} style={ setFixed ? {width: globalCollapsed ? '100%' : 'calc(100vw - 230px)'} : {}}>
           <div className={styles.search}>
             <img className={styles.icon} src={searchImg} alt=""/>
             <span style={{display: 'inline-block'}}><BIInput onChange={e => this.changeSearch(e.target.value)} value={this.state.keyWord} placeholder="请输入要查找的手册内容" allowClear/></span>
