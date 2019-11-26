@@ -35,6 +35,8 @@
     "react-document-title": "^2.0.3",
     "react-dom": "^16.7.0",
     "react-media": "^1.9.2",
+    "react-smooth-scrollbar": "^8.0.6",
+    "smooth-scrollbar": "^8.5.0",
     "umi-request": "^1.0.4"
   },
   "devDependencies": {

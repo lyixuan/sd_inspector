@@ -3,7 +3,8 @@ import { connect } from 'dva';
 import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
-import BIWrapperTable from '../../components/BIWrapperTable';
+// import BIWrapperTable from '../../components/BIWrapperTable';
+import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BIButton from '@/ant_components/BIButton';
 import BISelect from '@/ant_components/BISelect';
 import styles from './style.less';
@@ -212,19 +213,17 @@ class currentCreditRight extends React.Component {
         </div>
         <div className={styles.tableContent}>
           {userFlag && userMsg && <div className={styles.suspension} >
-            <BIWrapperTable
+            <BIScrollbarTable
               showHeader={false}
               columns={this.columnsRight()}
               dataSource={[userMsg]}
               pagination={false}
               rowKey={record => record.groupId}
               rowClassName={this.setRowClassName}
-              scroll={{ y: 40 }}
-              name='ghyu3'
             />
           </div>}
           <div id="scroll1">
-            <BIWrapperTable
+            <BIScrollbarTable
               columns={this.columnsRight()}
               dataSource={groupList}
               pagination={false}
@@ -233,7 +232,6 @@ class currentCreditRight extends React.Component {
               onRow={this.onClickRow}
               scroll={{ y: 410 }}
               rowKey={record => record.groupId}
-              name='ghyu4'
             />
           </div>
         </div>

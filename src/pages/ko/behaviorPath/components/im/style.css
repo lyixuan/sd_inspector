@@ -1,0 +1,31 @@
+.layout {
+  background: #fff;
+  overflow: hidden;
+  min-width: 1150px;
+  margin-top: 12px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  padding: 10px;
+  padding-bottom: 60px;
+}
+.layout1 {
+  min-width: 1050px;
+  height: 1000px;
+}
+
+.contentLayout {
+  background: #fff;
+  margin-top: 16px;
+  overflow: hidden;
+  border-radius: 10px;
+  position: relative;
+  padding: 10px;
+}
+.leftContent {
+  float: left;
+  width: 720px;
+}
+.userInfo {
+  float: left;
+}
+

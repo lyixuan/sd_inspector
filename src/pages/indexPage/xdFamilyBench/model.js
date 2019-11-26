@@ -24,10 +24,25 @@ import {
   // getIncomeCollegeList,
   getIncomeFamilyGroupPk,
   groupPkList,
-  getIncomeGroupList
+  getIncomeGroupList,
+  // 新增加的
+  getNpsStarOpinion,
+  getNpsAutonomousEvaluation,
+  compareCollegeList,
+  getCurrentDateRange,
+  getHotList,
+  packageRankList,
+  countCreditAvgScore,
+  countByDate,
+  getOrgMapTree,
+  getImReverseSideData,
+  queryAppealDataPage,
+  getFamilyType,
+  reasonList,
+  // end
 } from './services';
 import { message } from 'antd/lib/index';
-import { msgF } from "@/utils/utils";
+import { msgF, thousandsFormat } from '@/utils/utils';
 import { fillDataSource } from '@/pages/indexPage/components/utils/utils';
 import moment from 'moment';
 
@@ -35,23 +50,30 @@ export default {
   namespace: 'xdFamilyModal',
   state: {
     familyKpiTimes: {}, // 时间
-    orgOptions: [{
-      id: 1,
-      name: '组织'
-    }, {
-      id: 2,
-      name: '人均在服学员'
-    }], // 学分抽屉选择条件
-    orgSecondOptions: [{
-      id: 'group',
-      name: '集团'
-    }, {
-      id: 'college',
-      name: '本学院'
-    }, {
-      id: 'family',
-      name: '本家族'
-    }], // 学分抽屉选择条件
+    orgOptions: [
+      {
+        id: 1,
+        name: '组织',
+      },
+      {
+        id: 2,
+        name: '人均在服学员',
+      },
+    ], // 学分抽屉选择条件
+    orgSecondOptions: [
+      {
+        id: 'group',
+        name: '集团',
+      },
+      {
+        id: 'college',
+        name: '本学院',
+      },
+      {
+        id: 'family',
+        name: '本家族',
+      },
+    ], // 学分抽屉选择条件
     // orgList: [], // 保存组织原始结构
     // orgListTreeData: [], // 保存组织处理成treeData需要的结构
     familyIncome: [], // 创收
@@ -62,10 +84,16 @@ export default {
     chargeCount: {},
     familyScorePk: {}, // 创收对比家族
     groupScorePk: {}, // 学分对比小组
-    familyIncomeList: {},// 创收对比家族
+    familyIncomeList: {}, // 创收对比家族
     familyIncomeDrawer: [],
-    groupIncomeList: {},// 创收对比小组
-    groupIncomeDrawer: []
+    groupIncomeList: {}, // 创收对比小组
+    groupIncomeDrawer: [],
+    // 新增加部分
+    npsParams: {}, //nps部分的数据
+    compareCollegeListData: [],
+    getCurrentDateRangeData: null,
+    orgList: [],
+    // end
   },
 
   effects: {
@@ -77,9 +105,16 @@ export default {
       if (result.code === 20000) {
         const params = {
           startTime: moment(result.data.kpiStartDate).format('YYYY-MM-DD'),
-          endTime: moment(result.data.kpiEndDate).format('YYYY-MM-DD')
-        }
-        yield put({ type: 'save', payload: { chargeCount: result2.data, familyKpiInfo: result.data, familyKpiTimes: params } });
+          endTime: moment(result.data.kpiEndDate).format('YYYY-MM-DD'),
+        };
+        yield put({
+          type: 'save',
+          payload: {
+            chargeCount: result2.data,
+            familyKpiInfo: result.data,
+            familyKpiTimes: params,
+          },
+        });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -183,7 +218,7 @@ export default {
     // ====================家族
     // 创收明细
     *getCurrentIncomeTarget({ callback }, { call }) {
-      const result = yield call(getCurrentIncomeTarget)
+      const result = yield call(getCurrentIncomeTarget);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -195,7 +230,7 @@ export default {
     *getCurrentIncomeGroup({ callback }, { call }) {
       const result = yield call(getCurrentIncomeGroup);
       if (result.code === 20000) {
-        result.data && result.data.map(item =>item.classCount = item.groupCount)
+        result.data && result.data.map(item => (item.classCount = item.groupCount));
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
@@ -204,7 +239,7 @@ export default {
       }
     },
     *getCurrentIncomeClass({ callback }, { call }) {
-      const result = yield call(getCurrentIncomeClass)
+      const result = yield call(getCurrentIncomeClass);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -227,7 +262,7 @@ export default {
     // },
     // 本期申诉
     *getFamilyRecord({ payload }, { call, put }) {
-      const result = yield call(getFamilyRecord, payload.params)
+      const result = yield call(getFamilyRecord, payload.params);
       if (result.code === 20000) {
         const familyAppeal = result.data;
         yield put({ type: 'save', payload: { familyAppeal } });
@@ -237,7 +272,7 @@ export default {
     },
     // 本期质检 - 质检统计
     *getFamilyQuality({ payload }, { call, put }) {
-      const result = yield call(getFamilyQuality, payload.params)
+      const result = yield call(getFamilyQuality, payload.params);
       if (result.code === 20000) {
         const familyQuality = result.data;
         yield put({ type: 'save', payload: { familyQuality } });
@@ -247,19 +282,19 @@ export default {
     },
     //  家族学分对比
     *getFamilyScorePk({ payload, callback }, { call, put }) {
-      const result = yield call(getFamilyScorePk, payload.params)
+      const result = yield call(getFamilyScorePk, payload.params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
-        yield put({ type: 'saveScore', payload: { data: result.data, key: 'familyScorePk'} });
+        yield put({ type: 'saveScore', payload: { data: result.data, key: 'familyScorePk' } });
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
     //  家族学分对比右侧家族学分排名
     *getFamilyRankList({ payload, callback }, { call, put }) {
-      const result = yield call(getFamilyRankList, payload.params)
+      const result = yield call(getFamilyRankList, payload.params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
@@ -344,12 +379,12 @@ export default {
     // 小组学分对比
     *groupPkList({ payload, callback }, { call, put }) {
       const params = payload.params;
-      const result = yield call(groupPkList, params)
+      const result = yield call(groupPkList, params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
-        yield put({ type: 'saveScore', payload: { data: result.data, key: 'groupScorePk'} });
+        yield put({ type: 'saveScore', payload: { data: result.data, key: 'groupScorePk' } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -363,12 +398,199 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+
+    // 新增加部分
+    //  管理层工作台的接口
+    *getNpsStarOpinion({ payload, callback }, { call, put }) {
+      const result = yield call(getNpsStarOpinion, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { npsParams: result.data } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    //NPS自主评价所有的接口
+    *getNpsAutonomousEvaluation({ payload, callback }, { call, put }) {
+      const result = yield call(getNpsAutonomousEvaluation, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { npsParams: result.data } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    //  获取组织架构
+    *getOrgMapTree({ payload, callback }, { call, put }) {
+      const result = yield call(getOrgMapTree);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    //  IM负面数据对比
+    *getImReverseSideData({ payload, callback }, { call, put }) {
+      const result = yield call(getImReverseSideData, payload.params);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    //  家族学分对比柱状图部分的接口
+    *queryAppealDataPage({ payload, callback }, { call, put }) {
+      const result = yield call(queryAppealDataPage, payload.params);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    //  获取学院家族性质
+    *getFamilyType({ payload, callback }, { call, put }) {
+      const result = yield call(getFamilyType);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 获取学分
+    *getCountCreditAvgScore({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(countCreditAvgScore, params);
+      if (result.code === 20000) {
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 获取指标
+    *getCountByDate({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(countByDate, params);
+      if (result.code === 20000) {
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 热销产品包列表
+    *getPackageRankList({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(packageRankList, params);
+      if (result.code === 20000) {
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    // 获取绩效周期
+    *getCurrentDateRange({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getCurrentDateRange, params);
+      if (result.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: {
+            getCurrentDateRangeData: result.data,
+          },
+        });
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 创收学院对比列表
+    *getCompareCollegeList({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(compareCollegeList, params);
+      if (result.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: {
+            compareCollegeListData: result.data,
+          },
+        });
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 获取热销榜单列表
+    *getHotList({ payload, callback }, { call, put }) {
+      const result = yield call(getHotList);
+      if (result.code === 20000) {
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *reasonList({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(reasonList, params);
+      if (result.code === 20000) {
+        yield put({ type: 'saveTable', payload: { imDetailData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // end
   },
 
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
     },
+    saveTable(state, { payload }) {
+      let data = payload.imDetailData;
+      if (!data.reasonTypeList) {
+        data.dataList.map(item => {
+          item.values.push(item.unClassifyValue);
+          item.valueCounts.push(item.unClassifyCount);
+        });
+        data.reasonTypeList = [
+          {
+            expand: true,
+            typeId: 0,
+            typeName: '所有分类',
+          },
+        ];
+        data.titleList = [
+          ...data.titleList,
+          {
+            expand: false,
+            typeId: -1,
+            typeName: '未分类数据',
+          },
+        ];
+      } else {
+        data.reasonTypeList = [
+          {
+            expand: true,
+            typeId: 0,
+            typeName: '所有分类',
+          },
+          ...data.reasonTypeList,
+        ];
+      }
+      return { ...state, ...{ imDetailData: data } };
+    },
+
     // saveMap(state, { payload }) {
     //   const orgListTreeData = toTreeData(payload.orgList);
     //   return { ...state, orgList: payload.orgList, orgListTreeData };
@@ -376,41 +598,51 @@ export default {
     saveMax(state, { payload }) {
       const pkList = payload.data;
       const maxValue = {};
-      for(var k in pkList[0]) {
+      for (var k in pkList[0]) {
         maxValue[k] = Math.max.apply(null, pkList.map(item => item[k]));
       }
-      return { ...state, [payload.key]: {maxValue, pkList} };
+      return { ...state, [payload.key]: { maxValue, pkList } };
     },
     saveScore(state, { payload }) {
       const data = payload.data;
-      data.dimensionList = fillDataSource({
-        ...state.familyKpiTimes,
-        dataTrace: `家族长工作台/${payload.key === 'familyScorePk' ? '家族' : '小组'}学分/`
-      }, data.dimensionList)
-      return { ...state, [payload.key]: data};
-    }
+      data.dimensionList = fillDataSource(
+        {
+          ...state.familyKpiTimes,
+          dataTrace: `家族长工作台/${payload.key === 'familyScorePk' ? '家族' : '小组'}学分/`,
+        },
+        data.dimensionList
+      );
+      return { ...state, [payload.key]: data };
+    },
   },
   subscriptions: {},
 };
-// function toTreeData(orgList) {
-//   const treeData = [];
-//   orgList.forEach(v => {
-//     const o = { title: v.name, value: `a-${v.id}`, key: v.id, selectable: false, lv: 1 };
-//     if (v.nodeList.length > 0) {
-//       o.children = [];
-//       v.nodeList.forEach(v1 => {
-//         const o1 = { title: v1.name, value: `b-${v1.id}`, key: v1.id + 1000, selectable: false, lv: 2 };
-//         o.children.push(o1);
-//         if (v1.nodeList.length > 0) {
-//           o1.children = [];
-//           v1.nodeList.forEach(v2 => {
-//             const o2 = { title: v2.name, value: `c-${v2.id}`, key: v2.id + 100000, lv: 3 };
-//             o1.children.push(o2);
-//           });
-//         }
-//       });
-//     }
-//     treeData.push(o);
-//   });
-//   return treeData;
-// }
+
+function toTreeData(orgList) {
+  const treeData = [];
+  orgList.forEach(v => {
+    const o = { title: v.name, value: `a-${v.id}`, key: v.id, selectable: false, lv: 1 };
+    if (v.nodeList.length > 0) {
+      o.children = [];
+      v.nodeList.forEach(v1 => {
+        const o1 = {
+          title: v1.name,
+          value: `b-${v1.id}`,
+          key: v1.id + 1000,
+          selectable: false,
+          lv: 2,
+        };
+        o.children.push(o1);
+        if (v1.nodeList.length > 0) {
+          o1.children = [];
+          v1.nodeList.forEach(v2 => {
+            const o2 = { title: v2.name, value: `c-${v2.id}`, key: v2.id + 100000, lv: 3 };
+            o1.children.push(o2);
+          });
+        }
+      });
+    }
+    treeData.push(o);
+  });
+  return treeData;
+}

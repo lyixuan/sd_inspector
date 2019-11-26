@@ -35,3 +35,9 @@ export async function imDetailList(data) {
   return request('/deskperfpcapi/im/detailList', { method: 'post', data });
 }
 
+
+
+//学分对比柱状图----test
+export async function queryAppealDataPage(data) {
+  return request('/credit/queryAppealDataPage',{method:'POST',data:data})
+}

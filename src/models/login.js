@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { routerRedux } from 'dva/router';
 import router from 'umi/router';
-import { getPrivilegeList, getPrivilegeListNew, getUserInfoNew, CurrentUserListRole, userChangeRole, getCertificationList } from '@/services/api';
+import { getPrivilegeList, getPrivilegeListNew, getUserInfoNew, CurrentUserListRole, userChangeRole, getCertificationList,setBrowserInfo } from '@/services/api';
 import storage from '@/utils/storage';
 import { msgF } from '@/utils/utils';
 import { redirectToLogin, casLogout } from '@/utils/routeUtils';
@@ -131,7 +131,14 @@ export default {
         payload: response,
       });
     },
-
+    *setBrowserInfo({ payload }, { call, put }) {
+      const response = yield call(setBrowserInfo, { ...payload });
+      if (response && response.code ===20000) {
+        return true;
+      } else {
+        return false
+      }
+    },
     *logout() {
       casLogout();
     },

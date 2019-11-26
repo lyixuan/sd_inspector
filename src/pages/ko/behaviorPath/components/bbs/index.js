@@ -203,6 +203,9 @@ class Bbs extends React.Component {
   }
   mount(props) {
     if (props.behaviorPath.dateListBbs.length > 0) {
+      if(!this.state.dateList[this.state.currentIndex]) {
+        this.state.dateList[this.state.currentIndex]={};
+      }
       this.state.dateList[this.state.currentIndex].dialogList = props.behaviorPath.bbsData;
       this.setState({
         dateList: this.state.dateList,

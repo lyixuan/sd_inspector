@@ -1,114 +1,148 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Tooltip } from 'antd';
-import BIRadio from '@/ant_components/BIRadio';
-import BITable from '@/ant_components/BITable';
 import Container from '@/components/BIContainer';
-import rankWarn from '@/assets/xdFamily/rankWarn.png';
+import Appeal from './components/appeal';
+import ReactDOM from 'react-dom';
+import ScoreContrast from './components/scoreContrast';
+import IMPartLeft from './components/IMPartLeft';
+import IMPartRight from './components/IMPartRight';
+import NPSEvaluate from './components/NPSEvaluate';
+import Quality from '../quality/index';
+import moment from 'moment';
 import styles from './style.less';
-import BILoading from '@/components/BILoading'
 
-const tabsMsg = [{
-  title: '未申诉',
-  dataTrace: '{"widgetName":"未申诉","traceName":"家族长工作台/未申诉"}',
-}, {
-  title: '被驳回',
-  dataTrace: '{"widgetName":"被驳回","traceName":"家族长工作台/被驳回"}',
-}, {
-  title: '审核中',
-  dataTrace: '{"widgetName":"审核中","traceName":"家族长工作台/审核中"}',
-}];
-const tabSource = {
-  1: 'nonAppealList',
-  2: 'rejectedAppealList',
-  3: 'auditingAppealList'
-}
-@connect(({ xdFamilyModal, loading }) => ({
-  familyAppeal: xdFamilyModal.familyAppeal || {},
-  loading: loading.effects['xdFamilyModal/getFamilyRecord'],
+@connect(({ xdFamilyModal, xdWorkModal }) => ({
+  xdFamilyModal,
+  userInfo: xdWorkModal.userInfo,
 }))
-class appeal extends React.Component {
+class Negative extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      appealType: 1,
+      userId: localStorage.getItem('admin_user').userId,
+      date: {
+        startDate: null,
+        kpiMonth: null,
+        endDate: null,
+        reasonTypeId: 0,
+      },
+      orgId: null,
+      orgType: null,
+      loadingStatus: true,
+    };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.xdFamilyModal.getCurrentDateRangeData &&
+      nextProps.xdFamilyModal.getCurrentDateRangeData.startDate !== this.state.date.startDate
+    ) {
+      this.setState({ date: nextProps.xdFamilyModal.getCurrentDateRangeData });
     }
   }
   componentDidMount() {
-    this.props.dispatch({
-      type: 'xdFamilyModal/getFamilyRecord',
-      payload: { params: { id: this.props.userId } },
-    });
+    this.props
+      .dispatch({
+        type: 'xdFamilyModal/getCurrentDateRange',
+        payload: { params: { userType: 'family' } },
+      })
+      .then(res => {
+        this.setState({
+          date: {
+            startDate: res.startDate,
+            endDate: res.endDate,
+            kpiMonth: res.kpiMonth,
+          },
+        });
+      })
+      .then(res => {
+        this.getReasonListData();
+      });
   }
 
-  columns = () => {
-    const columns = [
-      {
-        title: '家族小组',
-        dataIndex: 'groupName',
-        key: 'groupName',
-        render: (text, record) => {
-          return <div>{text}</div>
+  componentDidUpdate() {
+    if (this.props.location) {
+      const anchor = this.props.location.hash.replace('#', '');
+      if (anchor) {
+        const domElement = ReactDOM.findDOMNode(this.refs[anchor]);
+        if (domElement) {
+          domElement.scrollIntoView();
         }
-      }, {
-        title: '质检',
-        dataIndex: 'qualityNum',
-        key: 'qualityNum',
-        render: (text, record) => <>{record.primaryViolationFlag ? <div className={styles.rankMark}>{text}{<Tooltip placement="bottom" title='含一级违规'><img src={rankWarn} alt='icon' /></Tooltip>}</div> : text}</>
-      }, {
-        title: '底线',
-        dataIndex: 'bottomLineNum',
-        key: 'bottomLineNum',
-      }, {
-        title: 'IM',
-        dataIndex: 'imNum',
-        key: 'imNum',
-      }, {
-        title: '工单',
-        dataIndex: 'orderNum',
-        key: 'orderNum',
-      }, {
-        title: '优新',
-        dataIndex: 'newExcellentNum',
-        key: 'newExcellentNum',
-      }, {
-        title: '创收',
-        dataIndex: 'incomeNum',
-        key: 'incomeNum',
       }
-
-    ];
-    return columns || [];
+    }
+  }
+  reasonTypeClick = item => {
+    this.setState(
+      {
+        loadingStatus: false,
+        reasonTypeId: item.typeId,
+      },
+      () => {
+        this.getReasonListData();
+      }
+    );
   };
-  handleChange = (e) => {
-    this.setState({
-      appealType: e.target.value
+  cellClick = (item, record, type) => {
+    const { date } = this.state;
+    let reasonTypeId = this.state.reasonTypeId;
+    if (item) {
+      reasonTypeId = item.typeId;
+    } else if (type == 'total' && this.state.reasonTypeId == 0) {
+      reasonTypeId = 0;
+    }
+    let params = {
+      startTime: moment(date.startDate).format('YYYY-MM-DD'),
+      endTime: moment(date.endDate).format('YYYY-MM-DD'),
+      dementionId: 16,
+      reasonTypeId: reasonTypeId,
+      orgId: record.orgId,
+      orgClick: this.orgClick,
+      orgType: record.groupType,
+    };
+    window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
+  };
+  getReasonListData() {
+    const { date } = this.state;
+    const { userInfo = {} } = this.props;
+    const params = {
+      startTime: moment(date.startDate).format('YYYY-MM-DD'),
+      endTime: moment(date.endDate).format('YYYY-MM-DD'),
+      familyType: null,
+      groupType: userInfo.userType,
+      orgId: userInfo.familyId,
+      reasonTypeId: this.state.reasonTypeId,
+    };
+    this.props.dispatch({
+      type: 'xdFamilyModal/reasonList',
+      payload: { params },
     });
+    // this.getImDetail();
   }
 
   render() {
-    const dataSource = this.props.familyAppeal[tabSource[this.state.appealType]] || []
+    const { date } = this.state;
+    const { userInfo = {} } = this.props;
     return (
-      <Container
-        title='本期申诉'
-        style={{ width: '60%' }}
-        propStyle={{ paddingLeft: '16px' }}
-      >
-        <BIRadio onChange={this.handleChange} value={this.state.appealType} style={{ marginBottom: 16 }}>
-          {tabsMsg.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace={item.dataTrace}>{item.title}</div></BIRadio.Radio.Button>)}
-        </BIRadio>
-        <BILoading isLoading={this.props.loading} >
-          <BITable
-            columns={this.columns()}
-            dataSource={dataSource}
-            pagination={false}
-            rowKey={(record, index) => index}
-            smalled
-          />
-        </BILoading>
-      </Container>
+      <div style={{ width: '100%' }}>
+        {/* {date.startDate && userInfo && <ScoreContrast date={date} userInfo={userInfo} />} */}
+        <div className={styles.qualityAppel}>
+          {userInfo && (
+            <IMPartLeft
+              cellClick={this.cellClick}
+              loadingStatus={this.state.loadingStatus}
+              reasonTypeClick={this.reasonTypeClick}
+              userInfo={userInfo}
+            />
+          )}
+          {date.startDate && <IMPartRight date={date} />}
+        </div>
+        {date.startDate && userInfo && <NPSEvaluate date={date} userInfo={userInfo} />}
+        <div className={styles.appealWrap}>
+          <Appeal userId={this.props.userId} date={date} />
+          <Quality userId={this.props.userId} />
+        </div>
+      </div>
     );
   }
 }
 
-export default appeal;
+export default Negative;
