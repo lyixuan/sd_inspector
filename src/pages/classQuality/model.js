@@ -32,8 +32,8 @@ export default {
       const result = yield call(getDateRange);
       if (result.code === 20000) {
         const dateRange = {
-          startTime: moment(result.data.beginDate).format('YYYY-MM-DD'),
-          endTime: moment(result.data.endDate).format('YYYY-MM-DD')
+          startTime: moment(result.data.beginDate).format('YYYY.MM.DD'),
+          endTime: moment(result.data.endDate).format('YYYY.MM.DD')
         }  
         yield put({ type: 'save', payload: { dateRange } });
       } else if (result) {
