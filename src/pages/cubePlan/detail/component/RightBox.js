@@ -1,10 +1,11 @@
 import React from 'react';
-import { Typography } from 'antd';
-import {GetLength} from '@/utils/utils';
+import { Typography,message } from 'antd';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 import appid from '@/assets/cube/btn-appid.png';
 import btnid from '@/assets/cube/btn-id.png';
 import btndz from '@/assets/cube/btn-dz.png';
 import btnewm from '@/assets/cube/btn-ewm.png';
+import btnfz from '@/assets/cube/btn-fz.png';
 
 import style from './style.less';
 
@@ -12,16 +13,22 @@ const { Paragraph } = Typography;
 class RightBox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      copied:false
+    };
   }
 
   openModal = (type,data) =>{
     this.props.openModal(type,data);
   };
 
+  copySuccess = () =>{
+    message.success('复制成功')
+  };
+
   render() {
     const {detail,screenRange} = this.props || {};
-    const {description,usageList=[],versionList = [],name} = detail||{};
+    const {description,usageList=[],versionList = [],name,usedMp,usedH5,mpOriginId,mpAppId,mpUrl,h5Url} = detail||{};
 
     const usage = usageList && usageList.length>0 ? usageList.map((val,i)=>{
       return i<2&&(
@@ -115,9 +122,22 @@ class RightBox extends React.Component {
           {version}
         </div>
         <div className={style.btns}>
-          <img src={btnid} alt=""/>
-          <img src={appid} alt=""/>
-          <img src={btndz} alt=""/>
+          {usedMp===1&&<CopyToClipboard text={mpOriginId}
+                           onCopy={() => this.copySuccess()}>
+            <span><img src={btnid} alt=""/></span>
+          </CopyToClipboard>}
+          {usedMp===1&&<CopyToClipboard text={mpAppId}
+                                        onCopy={() => this.copySuccess()}>
+            <span><img src={appid} alt=""/></span>
+          </CopyToClipboard>}
+          {usedMp===1&&<CopyToClipboard text={mpUrl}
+                                        onCopy={() => this.copySuccess()}>
+            <span><img src={btndz} alt=""/></span>
+          </CopyToClipboard>}
+          {usedH5===1&&<CopyToClipboard text={h5Url}
+                                        onCopy={() => this.copySuccess()}>
+            <span><img src={btnfz} alt=""/></span>
+          </CopyToClipboard>}
           <img src={btnewm} alt=""/>
         </div>
       </div>

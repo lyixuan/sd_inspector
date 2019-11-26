@@ -1,6 +1,5 @@
 import React from 'react';
 import Player from 'griffith'
-import fm from '@/assets/cube/fengmian.png';
 import bg from '@/assets/cube/video-bg.png';
 import newIdea from '@/assets/cube/newIdea.png';
 import style from './style.less';
@@ -14,14 +13,11 @@ class LeftBox extends React.Component {
   }
 
   render() {
-    const { screenRange } = this.props;
+    const { screenRange,detailCoverUrl } = this.props;
     const sources = {
       hd: {
         play_url: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_hd.mp4',
       },
-      // sd: {
-      //   play_url: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_sd.mp4',
-      // },
     }
 
     const playerProps = {
@@ -29,7 +25,7 @@ class LeftBox extends React.Component {
       initialObjectFit:'contain',
       locale:'en',
       shouldObserveResize:true,
-      cover:newIdea,
+      cover:detailCoverUrl,
     };
     return (
       <div className={screenRange==='small_screen'?style.leftBoxSmall:style.leftBoxMiddle}>

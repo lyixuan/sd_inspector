@@ -1,4 +1,7 @@
 import React from 'react';
+import { Avatar } from 'antd';
+import Xing from './Xing';
+import kongmimade from '@/assets/kongmimade.png';
 import style from './style.less';
 
 export default class BottomBox extends React.Component {
@@ -9,11 +12,49 @@ export default class BottomBox extends React.Component {
     };
   }
 
+  more=(pageNum)=>{
+    this.props.getCommentList(pageNum);
+  };
+
   render() {
-    const { screenRange } = this.props;
+    const { screenRange, commentData ,commentLists} = this.props;
+
+    const {pageNum,isLastPage} = commentData||{};
+
+    const comment = commentLists.map((item) => {
+      return <div className={style.btRow}>
+        <div className={style.btLeft}>
+          <Avatar size={60} src={item.imageUrl} />
+        </div>
+        <div className={style.btMiddle}>
+          <div>{item.outwardName}</div>
+          <div>发表于{item.createTime}</div>
+        </div>
+        <div className={style.btRight}>
+          <Xing starLevel={item.starLevel} />
+          <div>{item.content}</div>
+        </div>
+      </div>
+    });
+
     return (
       <div className={screenRange==='small_screen'?style.bottomBoxSmall:style.bottomBoxMiddle}>
-
+        <div>
+          <div className={style.boxBar}>
+            <span>评价与建议</span>
+            <span onClick={()=>this.openModal('简单介绍')}>我要评价 &gt;</span>
+          </div>
+          <div className={style.boxContent}>
+            {commentLists.length>0?comment:<div className={style.kong}>
+              <img src={kongmimade} alt=""/>
+              <span>快来抢沙发，留下你的评论。</span>
+            </div>}
+          </div>
+          {commentLists.length>0&&
+            <div className={style.footer}>
+              {isLastPage?<span>没有更多了</span>:<span onClick={()=>this.more(pageNum)}>查看更多 ></span>}
+            </div>}
+        </div>
       </div>
     );
   }

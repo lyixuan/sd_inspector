@@ -25,11 +25,22 @@ class CubePlanDetail extends React.Component {
 
   componentDidMount() {
     const params = { id: 1 };
+
     this.props.dispatch({
       type: 'cubePlanDetail/getCubeDetail',
       payload: { params },
     });
+    this.getCommentList();
   }
+
+  getCommentList = (page) =>{
+    const {commentLists} = this.props.cubePlanDetail;
+    const params = { id: 1,pageSize:10,page:page+1||1,commentLists };
+    this.props.dispatch({
+      type: 'cubePlanDetail/getCommentPage',
+      payload: { params },
+    });
+  };
 
   openModal = (titleName,data) => {
     this.setState({
@@ -47,19 +58,19 @@ class CubePlanDetail extends React.Component {
 
   render() {
     const { screenRange } = this.props.cubePlan;
-    const { detailInfo = {} } = this.props.cubePlanDetail;
-    const {videoUrl}=detailInfo||{};
+    const { detailInfo = {},commentData={},commentLists=[] } = this.props.cubePlanDetail;
+    const {videoUrl,detailCoverUrl}=detailInfo||{};
     const { titleName,data } = this.state;
     return (
       <div className={screenRange === 'small_screen' ? style.layoutSmall : style.layoutMiddle}>
         <div>
-          <LeftBox screenRange={screenRange} videoUrl={videoUrl}/>
+          <LeftBox screenRange={screenRange} videoUrl={videoUrl} detailCoverUrl={detailCoverUrl}/>
           <RightBox screenRange={screenRange}
                     detail={detailInfo}
                     openModal={(type,data)=>this.openModal(type,data)}/>
         </div>
         <div className={style.clear}/>
-        <BottomBox screenRange={screenRange}/>
+        <BottomBox screenRange={screenRange} commentData={commentData} commentLists={commentLists} getCommentList={(pageNum)=>{this.getCommentList(pageNum)}}/>
 
         <BIModal
           title={titleName}
