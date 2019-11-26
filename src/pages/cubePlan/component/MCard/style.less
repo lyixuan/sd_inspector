@@ -4,12 +4,106 @@
   }
 }
 .middleCard {
-  width: 1776px;
+  width: 1176px;
   margin: 0 auto;
 
+  .cardList {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 18px;
+  }
+
+  // margin: 0 auto;
+
+  .imgCon {
+    width: 376px;
+    height: 240px;
+    background: #ffd600;
+    background-size: 100%;
+  }
   .card {
+    // width: 326px;
+    // height: 343px;
+    margin-top: 24px;
+    margin-right: 21px;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 8px;
+    border: 1px solid rgba(202, 202, 202, 1);
     width: 378px;
     height: 398px;
+    position: relative;
+
+    .videoLayer {
+      width: 376px;
+      height: 240px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      .layerCon {
+        width: 376px;
+        height: 240px;
+        background: rgba(0, 0, 0, 0.7);
+      }
+      img {
+        width: 75px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-size: 100%;
+      }
+    }
+
+    .tipsImg {
+      position: absolute;
+      left: -13px;
+      top: -10px;
+      z-index: 1;
+    }
+
+    .meta {
+      .top {
+        display: flex;
+        justify-content: space-between;
+        .tips {
+          display: flex;
+          justify-content: center;
+          // margin-bottom: 8px;
+          i {
+            margin-right: 8px;
+            font-style: normal;
+          }
+          img {
+            margin-right: 2px;
+          }
+        }
+      }
+      .detail {
+        width: 331px;
+        img {
+          width: 100%;
+          background-size: 100%;
+        }
+      }
+      .icon {
+        width: 18px;
+        background-size: 100%;
+      }
+      .status {
+        .icon1 {
+          width: 40px;
+          background-size: 100%;
+        }
+      }
+    }
+    .paragraph {
+      height: 38px;
+      margin-top: 8px;
+    }
+  }
+  .card:nth-child(3n) {
+    margin-right: 0px;
   }
 }
 

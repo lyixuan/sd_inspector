@@ -73,8 +73,7 @@ class MCard extends React.Component {
       height: screenRange === 'middle_screen' ? '260px' : '225px',
     };
     return (
-      // <div className={screenRange === 'middle_screen' ? styles.middleCard : styles.smallCard}>
-      <div className={screenRange === 'middle_screen' ? styles.smallCard : styles.smallCard}>
+      <div className={screenRange === 'middle_screen' ? styles.middleCard : styles.smallCard}>
         <div className={styles.cardList}>
           {cardList &&
             cardList.map((item, index) => {
