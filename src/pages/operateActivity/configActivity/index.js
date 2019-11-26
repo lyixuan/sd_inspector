@@ -392,9 +392,13 @@ class CreateActivity extends React.Component{
       this.setState({
         imageList: []
       })
-    } else {
+    } else if (file.status === 'uploading') {
       this.setState({
         imageList: [...fileList]
+      })
+    } else {
+      this.setState({
+        imageList: []
       })
     }
   };

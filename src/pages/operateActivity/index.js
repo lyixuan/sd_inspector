@@ -7,7 +7,7 @@ import ActivityCard from '@/pages/operateActivity/components/activityCard';
 import kongbai from '@/assets/operateActivity/kongbai.png';
 import {getUserInfo, getRobotId, getActiveList, deleteActive} from './services';
 import storage from '@/utils/storage';
-import extentImg from '@/assets/xdcredit/extent.png';
+import extentImg from '@/assets/operateActivity/auth.png';
 import {withoutMinutes} from '@/pages/configWords/utils/util';
 import style from '@/pages/operateActivity/components/cardStyle.less';
 import deleteImg from '@/assets/operateActivity/delete-img.png';
