@@ -23,13 +23,9 @@ class PlanDia extends React.Component {
       showDia: false,
     };
   }
-  componentDidMount() {
-    document.body.style.overflow = 'hidden';
-  }
 
   close = () => {
     this.props.close(false);
-    document.body.style.overflow = 'visible';
   };
   submitFn = () => {
     const { targetCustomer, usageScenarios, expectTarget } = this.state;
