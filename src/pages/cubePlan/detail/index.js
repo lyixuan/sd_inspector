@@ -13,6 +13,7 @@ import cal from '@/assets/cube/cal.png';
 import save from '@/assets/cube/save.png';
 import text from '@/assets/cube/text.png';
 import html2canvas from 'html2canvas';
+import {BiFilter} from '@/utils/utils';
 import {takeScreenshot,downloadBase64} from '@/utils/screenshort';
 
 let IMAGE_URL = '';
@@ -151,6 +152,10 @@ class CubePlanDetail extends React.Component {
     const that = this;
     const {content,starLevel,outwardName,id} = this.state;
     const params = {content,starLevel,outwardName,id};
+    if(starLevel===0){
+      message.warn('请选择评分星级~')
+      return;
+    }
     this.props.dispatch({
       type: 'cubePlanDetail/saveUserComment',
       payload: { ...params },
@@ -188,6 +193,7 @@ class CubePlanDetail extends React.Component {
     const { detailInfo = {}, commentData = {}, commentLists = [],qrCode ,copyUrl} = this.props.cubePlanDetail;
     const { videoUrl, detailCoverUrl } = detailInfo || {};
     const { titleName, data } = this.state;
+    const xingText = BiFilter(`Xing|id:${starLevel}`).name;
     return (
       <div className={screenRange === 'small_screen' ? style.layoutSmall : style.layoutMiddle}>
         <div>
@@ -232,7 +238,7 @@ class CubePlanDetail extends React.Component {
             </div>
             <div>
               <span className={style.tt}>打分</span>：
-              <span><Xing starLevel={starLevel}  clickXing={(lv)=>this.clickXing(lv)}/></span>
+              <span><Xing starLevel={starLevel}  clickXing={(lv)=>this.clickXing(lv)}/>  <span className={style.text}>{xingText}</span></span>
             </div>
             <div>
               <span className={style.tt}>评论内容</span>：
