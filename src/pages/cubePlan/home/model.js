@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { saveUserDemand } from './service';
+import { saveUserDemand, getBannerList, getCardList } from './service';
 import { msgF } from '@/utils/utils';
 
 export default {
@@ -7,6 +7,8 @@ export default {
 
   state: {
     saveUserDemandData: null,
+    bannerList: [],
+    cardList: [],
   },
 
   effects: {
@@ -17,6 +19,26 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { saveUserDemandData } });
         return result.code;
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    *getBannerList({ payload }, { call, put }) {
+      const result = yield call(getBannerList);
+      const bannerList = result.data || [];
+      if (result.code === 20000) {
+        yield put({ type: 'save', payload: { bannerList } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    *getCardList({ payload }, { call, put }) {
+      const result = yield call(getCardList);
+      const cardList = result.data || [];
+      if (result.code === 20000) {
+        yield put({ type: 'save', payload: { cardList } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

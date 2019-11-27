@@ -108,7 +108,7 @@ class ProfitList extends React.Component {
         render: text =>  <BIWrapperProgress style={{marginLeft: '-8px'}} text={thousandsFormat(parseInt(text))} isColor="green" percent={getPercentFn(text, examZbtKpiMax)}/>
       }, {
         width: '8%',
-        title: '成本套当量',
+        title: '成本套单量',
         dataIndex: 'examZbtOrderCount',
         key: 'examZbtOrderCount',
         className: styles.row3,

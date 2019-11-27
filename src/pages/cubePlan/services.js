@@ -1,10 +1,5 @@
 import request from '@/utils/request';
 
-// 获取bannerList
-export async function getBannerList() {
-  return request('/test/component/getBannerList');
-}
-
 // 获取学院列表
 export async function getCollegeList() {
   return request('/shinecollege/org/collegeList');

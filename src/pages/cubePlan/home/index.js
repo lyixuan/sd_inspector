@@ -1,39 +1,78 @@
 import React from 'react';
 import { connect } from 'dva';
 import MCarousel from '../component/MCarousel/MCarousel';
+import MCard from '../component/MCard/card';
 import PlanDia from './planDia';
+import VideoDia from './videoDia';
 import styles from './style.less';
 
 // import styles from './style.less';
 
-@connect(({ cubePlan }) => ({ cubePlan }))
+@connect(({ cubePlanDia, cubePlan }) => ({ cubePlanDia, cubePlan }))
 class Index extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      sourceUrl: '',
+      coverUrl: '',
+    };
   }
 
   componentDidMount() {
     this.props.dispatch({
-      type: 'cubePlan/getBannerList',
+      type: 'cubePlanDia/getBannerList',
     });
+    this.props.dispatch({
+      type: 'cubePlanDia/getCardList',
+    });
+    document.body.style.overflow = 'visible';
   }
 
   onChangeDia = showDia => {
     this.setState({ showDia });
+    document.body.style.overflow = 'hidden';
   };
 
   close = showDia => {
     this.setState({ showDia });
+    document.body.style.overflow = 'visible';
+  };
+
+  closeFn = showVideo => {
+    this.setState({ showVideo });
+    document.body.style.overflow = 'visible';
+  };
+
+  showVideoDia = (showVideo, sourceUrl, coverUrl) => {
+    this.setState({ showVideo, sourceUrl, coverUrl });
+    document.body.style.overflow = 'hidden';
   };
 
   render() {
     const { screenRange } = this.props.cubePlan;
-    const { showDia } = this.state;
+    const { bannerList, cardList } = this.props.cubePlanDia;
+    const { showDia, sourceUrl, showVideo, coverUrl } = this.state;
     return (
       <div className={styles.cubePlanCon}>
-        <MCarousel screenRange={screenRange} onChangeDia={this.onChangeDia}></MCarousel>
+        <MCarousel
+          className={styles.mCarousel}
+          screenRange={screenRange}
+          onChangeDia={this.onChangeDia}
+          bannerList={bannerList}
+        ></MCarousel>
+        <MCard
+          screenRange={screenRange}
+          cardList={cardList}
+          onChangeDia={this.onChangeDia}
+          showVideoDia={(showVideo, url, coverUrl) => this.showVideoDia(showVideo, url, coverUrl)}
+        />
         <PlanDia className={styles.dialogs} showDia={showDia} close={this.close} />
+        <VideoDia
+          showVideo={showVideo}
+          sourceUrl={sourceUrl}
+          coverUrl={coverUrl}
+          close={this.closeFn}
+        />
       </div>
     );
   }

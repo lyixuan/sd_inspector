@@ -10,7 +10,7 @@ import submit from '@/assets/cube/submit.png';
 import none from '@/assets/cube/none.png';
 import styles from './style.less';
 import { beforeAll } from 'lodash-decorators';
-import { message } from 'antd';
+import { message, Icon } from 'antd';
 
 @connect(({ cubePlanDia }) => ({ cubePlanDia }))
 class PlanDia extends React.Component {
@@ -22,9 +22,6 @@ class PlanDia extends React.Component {
       expectTarget: '',
       showDia: false,
     };
-  }
-  componentDidMount() {
-    document.body.style.overflow = 'hidden';
   }
 
   close = () => {
@@ -46,6 +43,7 @@ class PlanDia extends React.Component {
       .then(res => {
         if (res === 20000) {
           message.success('收到您的需求，我们将第一时间联系您');
+          this.close();
         }
       });
   };
@@ -80,7 +78,9 @@ class PlanDia extends React.Component {
         <BIScrollbar style={{ width: '100%', height: '100%' }}>
           <div className={styles.PlanDiaCon}>
             <div className={styles.imgCon}>
-              <i className={styles.close} onClick={this.close}></i>
+              <div className={styles.close} onClick={this.close}>
+                <Icon type="close-circle" style={{ fontSize: '30px', color: '#fff' }} />
+              </div>
               <img className={styles.plan} src={plan1}></img>
               <img className={styles.plan} src={plan2}></img>
               <img className={styles.plan} src={plan3}></img>
