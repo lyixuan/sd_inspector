@@ -126,15 +126,15 @@ class RightBox extends React.Component {
           {version}
         </div>
         <div className={style.btns}>
-          {usedMp>0&&<CopyToClipboard text={mpOriginId}
+          {usedMp===1&&<CopyToClipboard text={mpOriginId}
                            onCopy={() => this.copySuccess()}>
             <span><img src={btnid} alt=""/></span>
           </CopyToClipboard>}
-          {usedMp>0&&<CopyToClipboard text={mpAppId}
+          {usedMp===1&&<CopyToClipboard text={mpAppId}
                                         onCopy={() => this.copySuccess()}>
             <span><img src={appid} alt=""/></span>
           </CopyToClipboard>}
-          {usedMp>0&&<CopyToClipboard text={mpUrl}
+          {usedMp===1&&<CopyToClipboard text={mpUrl}
                                         onCopy={() => this.copySuccess()}>
             <span><img src={btndz} alt=""/></span>
           </CopyToClipboard>}
