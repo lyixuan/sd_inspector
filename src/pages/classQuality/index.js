@@ -15,6 +15,7 @@ import level3 from '@/assets/classQuality/level3.png';
 import level0 from '@/assets/classQuality/level0.png';
 import closeImg from '@/assets/classQuality/delete.png';
 import BILoading from '@/components/BILoading';
+import BIScrollbar from '@/ant_components/BIScrollbar';
 import { handleDataTrace } from '@/utils/utils';
 import styles from './style.less';
 
@@ -136,7 +137,7 @@ class ClassQuality extends React.Component {
   }
   // 是否显示标注
   getIsShowTag = item => {
-    if ((item.violationNumber || item.personNumber || item.level === 1) && this.state.funTypeSelected === 2) {
+    if ((item.violationNumber || item.personNumber) && this.state.funTypeSelected === 2) {
       return true;
     } else {
       return false;
@@ -183,9 +184,11 @@ class ClassQuality extends React.Component {
               {typeName}手册目录
               <img onClick={this.handleClose} src={closeImg} alt=""/>
               </div>
-              <Anchor onClick={() => { handleDataTrace({"widgetName":`目录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检报告/目录按钮点击`});}}>
-                {logTreeList.map((item, index) => <Link href={`#Anchor${item.id}`}  key={item.id} title={item.violationName} />)}
-              </Anchor>
+              <BIScrollbar style={{ height: 400 }}>
+                <Anchor targetOffset={120} onClick={() => { handleDataTrace({"widgetName":`目录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检报告/目录按钮点击`});}}>
+                  {logTreeList.map((item, index) => <Link href={`#Anchor${item.id}`}  key={item.id} title={`${index+1}.${item.violationName}`} />)}
+                </Anchor>
+              </BIScrollbar>
             </div> : ''
           }
           <div className={setFixed} style={ setFixed ? {width: globalCollapsed ? '100%' : 'calc(100vw - 230px)'} : {}}>
