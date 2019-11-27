@@ -1,7 +1,6 @@
 import React from 'react';
 import Player from 'griffith'
 import bg from '@/assets/cube/video-bg.png';
-import newIdea from '@/assets/cube/newIdea.png';
 import style from './style.less';
 
 class LeftBox extends React.Component {
@@ -18,7 +17,7 @@ class LeftBox extends React.Component {
       hd: {
         play_url: videoUrl,
       },
-    }
+    };
 
     const playerProps = {
       sources,

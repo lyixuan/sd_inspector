@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { getDetail,getCommentPage,saveUserComment,getOutwardNameList } from './services';
+import { getDetail,getCommentPage,saveUserComment,getOutwardNameList,getQRCode } from './services';
 import { msgF } from '@/utils/utils';
 
 export default {
@@ -54,6 +54,17 @@ export default {
       if (result.code === 20000) {
         const OutwardName = result.data||[];
         yield put({ type: 'save', payload: {OutwardName }});
+        return true;
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    *getQRCode({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getQRCode,params);
+      if (result.code === 20000) {
+        const qrCode = result.data;
+        yield put({ type: 'save', payload: {qrCode }});
         return true;
       } else {
         message.error(msgF(result.msg,result.msgDetail));

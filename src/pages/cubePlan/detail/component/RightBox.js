@@ -22,6 +22,10 @@ class RightBox extends React.Component {
     this.props.openModal(type,data);
   };
 
+  openEwmModal = () =>{
+    this.props.openEwmModal();
+  };
+
   copySuccess = () =>{
     message.success('复制成功')
   };
@@ -42,9 +46,9 @@ class RightBox extends React.Component {
       </div>)
     }):<span>&nbsp;&nbsp;&nbsp;&nbsp;无</span> ;
 
-    const usageAll = usageList && usageList.map((val)=>{
+    const usageAll = usageList && usageList.map((val,i)=>{
       return (
-        <div className={style.boxContent}>
+        <div className={style.boxContent} key={i}>
           <div>
             {val.title}
           </div>
@@ -55,11 +59,11 @@ class RightBox extends React.Component {
     });
     const version = versionList && versionList.length>0 ? versionList.map((val,i)=>{
       return i<1&&(
-        <div className={style.boxContent}>
+        <div className={style.boxContent} key={i}>
           <div className={style.boxDate}>{val.publishDate}更新</div>
           {
             val.modifyList.map((item,idx)=>{
-              return idx<2&&<div>
+              return idx<2&&<div key={idx}>
                 <Paragraph ellipsis={{ rows: 1 }}>
                   {item.title}
                 </Paragraph>
@@ -74,11 +78,11 @@ class RightBox extends React.Component {
 
     const versionAll = versionList && versionList.length>0 ? versionList.map((val,i)=>{
       return (
-        <div className={style.boxContent}>
+        <div className={style.boxContent} key={i}>
           <div className={style.boxDate}>{val.publishDate}更新</div>
           {
             val.modifyList.map((item,idx)=>{
-              return <div>
+              return <div key={idx}>
                 <Paragraph ellipsis={{ rows: 1 }}>
                   {item.title}
                 </Paragraph>
@@ -122,15 +126,15 @@ class RightBox extends React.Component {
           {version}
         </div>
         <div className={style.btns}>
-          {usedMp===1&&<CopyToClipboard text={mpOriginId}
+          {usedMp>0&&<CopyToClipboard text={mpOriginId}
                            onCopy={() => this.copySuccess()}>
             <span><img src={btnid} alt=""/></span>
           </CopyToClipboard>}
-          {usedMp===1&&<CopyToClipboard text={mpAppId}
+          {usedMp>0&&<CopyToClipboard text={mpAppId}
                                         onCopy={() => this.copySuccess()}>
             <span><img src={appid} alt=""/></span>
           </CopyToClipboard>}
-          {usedMp===1&&<CopyToClipboard text={mpUrl}
+          {usedMp>0&&<CopyToClipboard text={mpUrl}
                                         onCopy={() => this.copySuccess()}>
             <span><img src={btndz} alt=""/></span>
           </CopyToClipboard>}
@@ -138,7 +142,7 @@ class RightBox extends React.Component {
                                         onCopy={() => this.copySuccess()}>
             <span><img src={btnfz} alt=""/></span>
           </CopyToClipboard>}
-          <img src={btnewm} alt=""/>
+          {usedH5===1&&<img src={btnewm} alt="" onClick={()=>this.openEwmModal()}/>}
         </div>
       </div>
     );

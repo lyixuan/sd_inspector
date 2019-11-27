@@ -1,5 +1,6 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect} from 'dva';
+import { message ,Icon } from 'antd';
 import BIModal from '@/ant_components/BIModal';
 import style from './style.less';
 import LeftBox from './component/LeftBox';
@@ -21,22 +22,23 @@ import cal from '@/assets/cube/cal.png';
 class CubePlanDetail extends React.Component {
   constructor(props) {
     super(props);
-    const {id} = this.props.location.query;
-    if(!id){return}
-    this.id = Number(id);
     this.state = {
       visible: false,
       visible2: false,
+      visible3: false,
       titleName: '简单介绍',
       data: '',
       content:'',
       starLevel:0,
       outwardName:''
     };
+    const {id} = this.props.location.query;
+    this.id = Number(id);
   }
 
   componentDidMount() {
     const params = { id:this.id };
+
     this.props.dispatch({
       type: 'cubePlanDetail/getCubeDetail',
       payload: { params },
@@ -45,6 +47,7 @@ class CubePlanDetail extends React.Component {
       type: 'cubePlanDetail/getOutwardNameList',
       payload: { },
     });
+
     this.getCommentList();
   }
 
@@ -79,6 +82,24 @@ class CubePlanDetail extends React.Component {
       id:detailInfo.id,
       outwardName,
     });
+  };
+
+  openEwmModal = () => {
+    const { detailInfo = {} } = this.props.cubePlanDetail;
+    const usedType = detailInfo.usedH5===1?31:null;
+    const params = {id:this.id, usedType};
+    if(usedType){
+      this.props.dispatch({
+        type: 'cubePlanDetail/getQRCode',
+        payload: {params},
+      }).then(()=>{
+        this.setState({
+          visible3: true,
+        });
+      });
+    } else {
+      message.warn('获取二维码失败')
+    }
   };
 
   handleCancel = () => {
@@ -123,10 +144,10 @@ class CubePlanDetail extends React.Component {
 
 
   render() {
-    const {content,starLevel,outwardName} = this.state;
+    const {content,starLevel,outwardName,visible3} = this.state;
     const { pageLoading } = this.props;
     const { screenRange } = this.props.cubePlan;
-    const { detailInfo = {}, commentData = {}, commentLists = [] } = this.props.cubePlanDetail;
+    const { detailInfo = {}, commentData = {}, commentLists = [],qrCode } = this.props.cubePlanDetail;
     const { videoUrl, detailCoverUrl } = detailInfo || {};
     const { titleName, data } = this.state;
     return (
@@ -135,7 +156,9 @@ class CubePlanDetail extends React.Component {
           <LeftBox screenRange={screenRange} videoUrl={videoUrl} detailCoverUrl={detailCoverUrl}/>
           <RightBox screenRange={screenRange}
                     detail={detailInfo}
-                    openModal={(type, data) => this.openModal(type, data)}/>
+                    openModal={(type, data) => this.openModal(type, data)}
+                    openEwmModal={() => this.openEwmModal()}
+          />
         </div>
         <div className={style.clear}/>
         <BottomBox screenRange={screenRange} pageLoading={pageLoading} commentData={commentData} commentLists={commentLists}
@@ -186,6 +209,13 @@ class CubePlanDetail extends React.Component {
             </div>
           </div>
         </BIModal>
+
+        <div className={visible3?style.modallayer:style.modallayer2}>
+          <div className={style.videoInner}>
+            <img src={detailInfo.coverUrl} alt="" width={376} height={279}/>
+            <img src={qrCode} alt="" width={376} height={279}/>
+          </div>
+        </div>
       </div>
     );
   }
