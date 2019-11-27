@@ -1,5 +1,5 @@
 import { message } from 'antd/lib/index';
-import { getDetail,getCommentPage,saveUserComment } from './services';
+import { getDetail,getCommentPage,saveUserComment,getOutwardNameList } from './services';
 import { msgF } from '@/utils/utils';
 
 export default {
@@ -44,6 +44,16 @@ export default {
     *saveUserComment({ payload }, { call, put }) {
       const result = yield call(saveUserComment, payload);
       if (result.code === 20000) {
+        return true;
+      } else {
+        message.error(msgF(result.msg,result.msgDetail));
+      }
+    },
+    *getOutwardNameList({ payload }, { call, put }) {
+      const result = yield call(getOutwardNameList);
+      if (result.code === 20000) {
+        const OutwardName = result.data||[];
+        yield put({ type: 'save', payload: {OutwardName }});
         return true;
       } else {
         message.error(msgF(result.msg,result.msgDetail));

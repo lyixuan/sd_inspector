@@ -21,6 +21,9 @@ import cal from '@/assets/cube/cal.png';
 class CubePlanDetail extends React.Component {
   constructor(props) {
     super(props);
+    const {id} = this.props.location.query;
+    if(!id){return}
+    this.id = Number(id);
     this.state = {
       visible: false,
       visible2: false,
@@ -28,23 +31,26 @@ class CubePlanDetail extends React.Component {
       data: '',
       content:'',
       starLevel:0,
-      outwardName:'段誉'
+      outwardName:''
     };
   }
 
   componentDidMount() {
-    const params = { id: 1 };
-
+    const params = { id:this.id };
     this.props.dispatch({
       type: 'cubePlanDetail/getCubeDetail',
       payload: { params },
+    });
+    this.props.dispatch({
+      type: 'cubePlanDetail/getOutwardNameList',
+      payload: { },
     });
     this.getCommentList();
   }
 
   getCommentList = (page) => {
     const { commentLists } = this.props.cubePlanDetail;
-    const params = { id: 1, pageSize: 10, page: page + 1 || 1, commentLists };
+    const params = { id: this.id, pageSize: 10, page: page + 1 || 1, commentLists };
     this.props.dispatch({
       type: 'cubePlanDetail/getCommentPage',
       payload: { params },
@@ -60,10 +66,18 @@ class CubePlanDetail extends React.Component {
   };
 
   openBBModal = () => {
-    const { detailInfo = {}} = this.props.cubePlanDetail;
+    const { detailInfo = {},OutwardName=[]} = this.props.cubePlanDetail;
+
+    function random(lower, upper) {
+      return Math.floor(Math.random() * (upper - lower)) + lower;
+    }
+    const idx = random(0,OutwardName.length);
+
+    const outwardName = OutwardName[idx] ? OutwardName[idx].outwardName : OutwardName[0].outwardName;
     this.setState({
       visible2: true,
       id:detailInfo.id,
+      outwardName,
     });
   };
 
@@ -96,6 +110,11 @@ class CubePlanDetail extends React.Component {
     }).then((res)=>{
       if(res){
         that.getCommentList();
+        this.setState({
+          content:'',
+          starLevel:0,
+          outwardName:''
+        })
       }
     });
     this.handleCancel()
@@ -147,7 +166,7 @@ class CubePlanDetail extends React.Component {
           <div className={style.bb}>
             <div>
               <span className={style.tt}>选个花名</span>：
-              <span>选个花名</span>
+              <span>{outwardName}</span>
             </div>
             <div>
               <span className={style.tt}>打分</span>：

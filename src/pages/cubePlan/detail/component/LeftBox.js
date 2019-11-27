@@ -13,10 +13,10 @@ class LeftBox extends React.Component {
   }
 
   render() {
-    const { screenRange,detailCoverUrl } = this.props;
+    const { screenRange,detailCoverUrl,videoUrl } = this.props;
     const sources = {
       hd: {
-        play_url: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_hd.mp4',
+        play_url: videoUrl,
       },
     }
 

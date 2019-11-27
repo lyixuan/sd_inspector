@@ -10,9 +10,12 @@ export async function getCommentPage(params) {
   return request('/component/getCommentPage', { params });
 }
 
-
-
 //  提交评论
 export async function saveUserComment(data) {
   return request('/component/saveUserComment', { method: 'post', data });
+}
+
+
+export async function getOutwardNameList() {
+  return request('/component/getOutwardNameList');
 }
