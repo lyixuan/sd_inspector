@@ -19,7 +19,7 @@ const questionData1 = [
   [{ name: '查看学分绩效（手机端查看）', }, { name: '创收绩效PK', }], 
   [{ name: '学员档案（画像、IM等)', img: blueImg}], 
   [{ name: 'IM差评原因分析',}, { name: '负面帖原因分析',img: redImg}, { name: 'NPS评价原因分析', }],
-  [{ name: '质检手册培训',img: redImg}, { name: '发光学员（小程序）', }]
+  [{ name: '质检手册培训',img: blueImg}, { name: '发光学院（小程序）', }]
 ]
 const questionData2 = [
   [{ name: 'windows电脑', }, {name: '苹果电脑', }], 
@@ -104,7 +104,7 @@ class Questionnaire extends React.Component {
                       }
                     </QContainer>
                     <QContainer propsStyle={{height: 256, paddingRight: 24}}>
-                      <div className={styles.questionTitle}>2、上面没有感兴趣的？想要什么新功能或者</div>
+                      <div className={styles.questionTitle}>2、上面没有感兴趣的？想要什么新功能或者希望对哪些工作提供帮助，都告诉我吧</div>
                       <BIInput.TextArea onChange={e => this.getChangeParams(e.target.value, 'interestingContent')} value={interestingContent} maxLength={200} placeholder="增加更多学分分析 / 帮我提高创收 / 怎么提高督学效率 / 想减少退费..."/>
                     </QContainer>
                     <QContainer propsStyle={{height: 254}}>
