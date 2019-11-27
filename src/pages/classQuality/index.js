@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Anchor, BackTop, Tooltip } from 'antd';
+import BIScrollbar from '@/ant_components/BIScrollbar';
+import BILoading from '@/components/BILoading';
 import BIInput from '@/ant_components/BIInput';
 import BIButton from '@/ant_components/BIButton';
 import searchImg from '@/assets/classQuality/search.png';
@@ -14,7 +16,7 @@ import level2 from '@/assets/classQuality/level2.png';
 import level3 from '@/assets/classQuality/level3.png';
 import level0 from '@/assets/classQuality/level0.png';
 import closeImg from '@/assets/classQuality/delete.png';
-import BILoading from '@/components/BILoading';
+import noImg from '@/assets/classQuality/nodata.png';
 import { handleDataTrace } from '@/utils/utils';
 import styles from './style.less';
 
@@ -96,7 +98,7 @@ class ClassQuality extends React.Component {
   requestTree = (keyWord = this.state.keyWord) => {
     this.props.dispatch({
       type:'classQualityModel/getFindTreeList',
-      payload: { params: { qualityType: this.state.qualityType, keyWord: keyWord === 'reset' ? undefined :  keyWord } },
+      payload: { params: { qualityType: this.state.qualityType, keyWord: keyWord === 'reset' || !keyWord ? undefined :  keyWord.trim() } },
       callback: () => {
         const val = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
         if (val !== 0) {
@@ -136,7 +138,7 @@ class ClassQuality extends React.Component {
   }
   // 是否显示标注
   getIsShowTag = item => {
-    if ((item.violationNumber || item.personNumber || item.level === 1) && this.state.funTypeSelected === 2) {
+    if ((item.violationNumber || item.personNumber) && this.state.funTypeSelected === 2) {
       return true;
     } else {
       return false;
@@ -161,6 +163,7 @@ class ClassQuality extends React.Component {
     const { funTypeSelected, setFixed, rulesObj, typeName } = this.state;
     const { logTreeList = [], flatTreeList = [], dateRange = {}, globalCollapsed, loading } = this.props;
     const isLoading = loading && !this.props.flatTreeList ? true : false;
+    const flagNoData = !isLoading && flatTreeList.length === 0 ? true : false;
     return (
       <BILoading isLoading={isLoading} style={{height: 'auto'}}>
         <div className={styles.classQuality}>
@@ -183,50 +186,59 @@ class ClassQuality extends React.Component {
               {typeName}手册目录
               <img onClick={this.handleClose} src={closeImg} alt=""/>
               </div>
-              <Anchor onClick={() => { handleDataTrace({"widgetName":`目录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检报告/目录按钮点击`});}}>
-                {logTreeList.map((item, index) => <Link href={`#Anchor${item.id}`}  key={item.id} title={item.violationName} />)}
-              </Anchor>
+              <BIScrollbar style={{ maxHeight: 400 }}>
+                <Anchor targetOffset={200} onClick={() => { handleDataTrace({"widgetName":`目录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检报告/目录按钮点击`});}}>
+                  {logTreeList.map((item, index) => <Link href={`#Anchor${item.id}`}  key={item.id} title={`${index+1}.${item.violationName}`} />)}
+                </Anchor>
+              </BIScrollbar>
             </div> : ''
           }
           <div className={setFixed} style={ setFixed ? {width: globalCollapsed ? '100%' : 'calc(100vw - 230px)'} : {}}>
             <div className={styles.search}>
               <img className={styles.icon} src={searchImg} alt=""/>
-              <span style={{display: 'inline-block'}}><BIInput onChange={e => this.changeSearch(e.target.value)} value={this.state.keyWord} placeholder="请输入要查找的手册内容" allowClear/></span>
+              <span style={{display: 'inline-block'}}><BIInput onChange={e => this.changeSearch(e.target.value)} value={this.state.keyWord} onPressEnter={this.handleSubmit} placeholder="请输入要查找的手册内容" allowClear/></span>
               <BIButton onClick={this.handleSubmit} type="primary" style={{ marginLeft : '16px'}}>查询</BIButton>
               <BIButton onClick={() => this.handleSubmit('reset')} style={{ marginLeft : '8px'}}>重置</BIButton>
             </div>
           </div>
           <div className={styles.treeCatalog}>
-            <div className={styles.catalog}>
+            <div className={`${styles.catalog} ${flagNoData ? styles.catalogNoData : ''}`}>
               <div className={styles.title}>质检手册（{typeName}）</div>
-              {flatTreeList.map((item, index) => <div key={item.id + '' + index} id={`Anchor${item.id}`}  className={styles.level}>
-                <div className={`${styles.class} ${classStyles[item.level]} `}>
-                  <span className={`${styles.violationName} ${this.getIsShowTag(item) ? styles.classBorder : ''}`}>
-                    {item.violationName}
-                    {item.violationLevel && <img src={levelImgs[item.violationLevel]} alt=""/>}
-                  </span>
-                  {/* 违规 */}
-                  { 
-                    this.getIsShowTag(item) &&
-                    <span className={styles.tagging}>
-                      <span>
-                        违规次数：{item.violationNumber}次 <br/>违规人数：{item.personNumber}人
-                      </span>
+             {   
+               !flagNoData ? 
+               <>
+                {
+                  flatTreeList.map((item, index) => <div key={item.id + '' + index} id={`Anchor${item.id}`}  className={styles.level}>
+                  <div className={`${styles.class} ${classStyles[item.level]} `}>
+                    <span className={`${styles.violationName} ${this.getIsShowTag(item) ? styles.classBorder : ''}`}>
+                      {item.violationName}
+                      {item.violationLevel && <img src={levelImgs[item.violationLevel]} alt=""/>}
                     </span>
-                  }
-                </div>
-                { 
-                  item.qualityDetaile && 
-                  <>
-                    <Tooltip title="点击查看质检细则" placement="right"><span onClick={() => this.getQualityDetaile(item.id)} className={styles.classE}>质检细则</span></Tooltip>
-                    {rulesObj[item.id] &&
-                      <div className={styles.detailed}>
-                        {item.qualityDetaile}
-                      </div>
+                    {/* 违规 */}
+                    { 
+                      this.getIsShowTag(item) &&
+                      <span className={styles.tagging}>
+                        <span>
+                          违规次数：{item.violationNumber}次 <br/>违规人数：{item.personNumber}人
+                        </span>
+                      </span>
                     }
-                  </>
-                }
-              </div>)}
+                  </div>
+                  { 
+                    item.qualityDetaile && 
+                    <>
+                      <Tooltip title="点击查看质检细则" placement="right"><span onClick={() => this.getQualityDetaile(item.id)} className={styles.classE}>质检细则</span></Tooltip>
+                      {rulesObj[item.id] &&
+                        <div className={styles.detailed}>
+                          {item.qualityDetaile}
+                        </div>
+                      }
+                    </>
+                  }
+                  </div>)
+                  } 
+                </> : <span className={styles.noData}> <img src={noImg} alt=""/> <br/>抱歉，没有搜索到相关内容~</span> 
+              }  
             </div> 
             {funTypeSelected === 2 ? <div className={styles.catalogTime}>
               <span>近30天集团质检记录</span>

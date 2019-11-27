@@ -550,7 +550,11 @@ export const WB_LIFE_CYCLE = [
   { id: '630', name: '630' },
   { id: '710', name: '710' },
 ];
-
+export const DO_NOT_MENU = [
+  '/xdCredit/index', // 小德学分
+  '/classQuality/qualityType/1', // 客诉任手册
+  '/classQuality/qualityType/2', // 班主任手册
+]
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -589,6 +593,7 @@ export default {
   PUNISH_TYPE_LIST,
   WB_STAR,
   WB_LIFE_CYCLE,
+  DO_NOT_MENU
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
