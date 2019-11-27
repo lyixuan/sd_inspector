@@ -257,13 +257,10 @@ class BasicLayout extends React.PureComponent {
     let color = '#F5F8FA';
     const { collapsed, fetchingNotices, notices, location, children, isLoginIng } = this.props;
     const { menuData } = this.props;
-    menuData.map(item => {
-      if (item.path === '/cubePlan/list') {
-        color = '#fff';
-      } else {
-        color = '#F5F8FA';
-      }
-    });
+
+    if(this.props.location.pathname === '/cubePlan/list'){
+      color = '#fff';
+    }
     const currentUser = this.handleUserInfo();
     currentUser.avatar = biIcon;
     const layout = (
