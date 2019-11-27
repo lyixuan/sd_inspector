@@ -108,9 +108,9 @@ class ClassQuality extends React.Component {
     })
     const { typeName } = this.state;
     if (keyWord === 'reset') {
-      handleDataTrace({"widgetName":`手册查询重置-${typeName}`,"traceName":`质检管理/${typeName}质检报告/手册查询重置`});
+      handleDataTrace({"widgetName":`手册查询重置-${typeName}`,"traceName":`质检管理/${typeName}质检手册/手册查询重置`});
     } else {
-      handleDataTrace({"widgetName":`手册查询确认-${typeName}`,"traceName":`质检管理/${typeName}质检报告/手册查询确认`});
+      handleDataTrace({"widgetName":`手册查询确认-${typeName}`,"traceName":`质检管理/${typeName}质检手册/手册查询确认`});
     }
   }
   // 搜索条件 onChange
@@ -134,7 +134,12 @@ class ClassQuality extends React.Component {
       this.setState({ funTypeSelected: type });
     }
     const { typeName } = this.state;
-    handleDataTrace({"widgetName":`质检记录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检报告/质检记录按钮点击`});
+    if (type === 1) {
+      handleDataTrace({"widgetName":`目录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检手册/目录按钮点击`})
+    } else if (type === 2) {
+      handleDataTrace({"widgetName":`质检记录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检手册/质检记录按钮点击`});
+    }
+    
   }
   // 是否显示标注
   getIsShowTag = item => {
@@ -151,7 +156,7 @@ class ClassQuality extends React.Component {
       rulesObj: { ...rulesObj, [id]: !rulesObj[id]} 
     })
     const { typeName } = this.state;
-    handleDataTrace({"widgetName":`质检细则-${typeName}`,"traceName":`质检管理/${typeName}质检报告/质检细则`});
+    handleDataTrace({"widgetName":`质检细则-${typeName}`,"traceName":`质检管理/${typeName}质检手册/质检细则`});
   }
   // 手册关闭
   handleClose = () => {
@@ -169,12 +174,14 @@ class ClassQuality extends React.Component {
         <div className={styles.classQuality}>
           {/* 左侧功能条 */}
           <div className={styles.functionBar} style={{ left: globalCollapsed ? 100 : 236 }}>
-            <Tooltip title="手册目录" >
+            <Tooltip title="手册目录" placement="right">
               <span onClick={() => this.handleFun(1)}><img src={funTypeSelected === 1 ? rulesImg1 : rulesImg} alt=""/></span>
             </Tooltip>
-            <span onClick={() => this.handleFun(2)} style={{ borderTop: '1px solid #E1E1E1', borderBottom: '1px solid #E1E1E1', }}><img src={funTypeSelected === 2 ? detailImg1 : detailImg} alt=""/></span>
+            <Tooltip title="质检记录" placement="right">
+              <span onClick={() => this.handleFun(2)} style={{ borderTop: '1px solid #E1E1E1', borderBottom: '1px solid #E1E1E1', }}><img src={funTypeSelected === 2 ? detailImg1 : detailImg} alt=""/></span>
+            </Tooltip>
             <span>
-              <BackTop visibilityHeight={-1000} onClick={() => { handleDataTrace({"widgetName":`质检记录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检报告/质检记录按钮点击`});}}>
+              <BackTop visibilityHeight={-1000}>
                 <img src={topImg} alt=""/>
               </BackTop>
             </span>
@@ -187,8 +194,8 @@ class ClassQuality extends React.Component {
               <img onClick={this.handleClose} src={closeImg} alt=""/>
               </div>
               <BIScrollbar style={{ maxHeight: 400 }}>
-                <Anchor targetOffset={200} onClick={() => { handleDataTrace({"widgetName":`目录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检报告/目录按钮点击`});}}>
-                  {logTreeList.map((item, index) => <Link href={`#Anchor${item.id}`}  key={item.id} title={`${index+1}.${item.violationName}`} />)}
+                <Anchor targetOffset={200}>
+                  {logTreeList.map((item, index) => <Link href={`#Anchor${item.id}`}  key={item.id} title={item.violationName} />)}
                 </Anchor>
               </BIScrollbar>
             </div> : ''
