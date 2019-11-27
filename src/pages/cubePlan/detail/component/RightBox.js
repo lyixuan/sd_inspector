@@ -31,12 +31,12 @@ class RightBox extends React.Component {
   };
 
   render() {
-    const {detail,screenRange} = this.props || {};
+    const {detail,screenRange,copyUrl} = this.props || {};
     const {description,usageList=[],versionList = [],name,usedMp,usedH5,mpOriginId,mpAppId,mpUrl,h5Url} = detail||{};
 
     const usage = usageList && usageList.length>0 ? usageList.map((val,i)=>{
       return i<2&&(
-        <div className={style.boxContent}>
+        <div className={style.boxContent} key={i}>
         <Paragraph ellipsis={{ rows: 1 }}>
           {val.title}
         </Paragraph>
@@ -138,7 +138,7 @@ class RightBox extends React.Component {
                                         onCopy={() => this.copySuccess()}>
             <span><img src={btndz} alt=""/></span>
           </CopyToClipboard>}
-          {usedH5===1&&<CopyToClipboard text={h5Url}
+          {usedH5===1&&<CopyToClipboard text={copyUrl}
                                         onCopy={() => this.copySuccess()}>
             <span><img src={btnfz} alt=""/></span>
           </CopyToClipboard>}

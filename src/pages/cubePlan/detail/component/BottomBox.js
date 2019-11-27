@@ -25,8 +25,8 @@ export default class BottomBox extends React.Component {
 
     const {pageNum,isLastPage} = commentData||{};
 
-    const comment = commentLists.map((item) => {
-      return <div className={style.btRow}>
+    const comment = commentLists.map((item,i) => {
+      return <div className={style.btRow} key={i}>
         <div className={style.btLeft}>
           <Avatar size={60} src={item.imageUrl} />
         </div>

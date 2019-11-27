@@ -15,16 +15,22 @@ class LeftBox extends React.Component {
     const { screenRange,detailCoverUrl,videoUrl } = this.props;
     const sources = {
       hd: {
-        play_url: videoUrl,
+        play_url: videoUrl||'',
+        bitrate:1,
+        duration:10,
+        format:'',
+        height: 1,
+        width: 1,
+        size:1
       },
     };
 
     const playerProps = {
+      id:'abd',
+      duration:10,
       sources,
       initialObjectFit:'contain',
-      locale:'en',
-      shouldObserveResize:true,
-      cover:detailCoverUrl,
+      cover:detailCoverUrl||'',
     };
     return (
       <div className={screenRange==='small_screen'?style.leftBoxSmall:style.leftBoxMiddle}>

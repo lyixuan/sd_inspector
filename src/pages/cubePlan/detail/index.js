@@ -10,8 +10,12 @@ import BIInput from '@/ant_components/BIInput';
 import Xing from './component/Xing';
 import sub from '@/assets/cube/sub.png';
 import cal from '@/assets/cube/cal.png';
+import save from '@/assets/cube/save.png';
+import text from '@/assets/cube/text.png';
+import html2canvas from 'html2canvas';
+import {takeScreenshot,downloadBase64} from '@/utils/screenshort';
 
-
+let IMAGE_URL = '';
 @connect(({ cubePlanDetail, cubePlan, loading }) => ({
   cubePlanDetail,
   cubePlan,
@@ -33,6 +37,9 @@ class CubePlanDetail extends React.Component {
       outwardName:''
     };
     const {id} = this.props.location.query;
+    if(!id){
+      message.error('缺少参数id')
+    }
     this.id = Number(id);
   }
 
@@ -48,8 +55,21 @@ class CubePlanDetail extends React.Component {
       payload: { },
     });
 
+    this.urlChange();
     this.getCommentList();
   }
+
+  urlChange =()=>{
+    const { detailInfo = {}} = this.props.cubePlanDetail;
+    if(!detailInfo.usedH5 || detailInfo.usedH5!==1){
+      return
+    }
+    const params = { id:this.id,usedType:31 };
+    this.props.dispatch({
+      type: 'cubePlanDetail/getCopyUrl',
+      payload: {params },
+    });
+  };
 
   getCommentList = (page) => {
     const { commentLists } = this.props.cubePlanDetail;
@@ -85,6 +105,7 @@ class CubePlanDetail extends React.Component {
   };
 
   openEwmModal = () => {
+    const that = this;
     const { detailInfo = {} } = this.props.cubePlanDetail;
     const usedType = detailInfo.usedH5===1?31:null;
     const params = {id:this.id, usedType};
@@ -93,9 +114,15 @@ class CubePlanDetail extends React.Component {
         type: 'cubePlanDetail/getQRCode',
         payload: {params},
       }).then(()=>{
-        this.setState({
+        that.setState({
           visible3: true,
+        },()=>{
+          setTimeout(function () {
+            that.takeScreenshot();
+          }, 100)
         });
+
+
       });
     } else {
       message.warn('获取二维码失败')
@@ -106,6 +133,7 @@ class CubePlanDetail extends React.Component {
     this.setState({
       visible: false,
       visible2: false,
+      visible3: false,
     });
   };
 
@@ -141,13 +169,25 @@ class CubePlanDetail extends React.Component {
     this.handleCancel()
   };
 
+  takeScreenshot=()=>{
+    const {shareContent, opts} = takeScreenshot();
+    html2canvas(shareContent, opts).then(function (canvas) {
+      IMAGE_URL = canvas.toDataURL("image/png");
+      const copyDom = document.querySelector("#copyImage");
+      copyDom.setAttribute('src',IMAGE_URL);
+    })
+  };
 
+  saveScreenshot=()=>{
+    downloadBase64(IMAGE_URL, 'h5二维码.png')
+    message.success('保存成功')
+  };
 
   render() {
     const {content,starLevel,outwardName,visible3} = this.state;
     const { pageLoading } = this.props;
     const { screenRange } = this.props.cubePlan;
-    const { detailInfo = {}, commentData = {}, commentLists = [],qrCode } = this.props.cubePlanDetail;
+    const { detailInfo = {}, commentData = {}, commentLists = [],qrCode ,copyUrl} = this.props.cubePlanDetail;
     const { videoUrl, detailCoverUrl } = detailInfo || {};
     const { titleName, data } = this.state;
     return (
@@ -156,6 +196,7 @@ class CubePlanDetail extends React.Component {
           <LeftBox screenRange={screenRange} videoUrl={videoUrl} detailCoverUrl={detailCoverUrl}/>
           <RightBox screenRange={screenRange}
                     detail={detailInfo}
+                    copyUrl={copyUrl}
                     openModal={(type, data) => this.openModal(type, data)}
                     openEwmModal={() => this.openEwmModal()}
           />
@@ -212,10 +253,19 @@ class CubePlanDetail extends React.Component {
 
         <div className={visible3?style.modallayer:style.modallayer2}>
           <div className={style.videoInner}>
-            <img src={detailInfo.coverUrl} alt="" width={376} height={279}/>
-            <img src={qrCode} alt="" width={376} height={279}/>
+            <div id="shareContent" className={style.videoInner1}>
+              <img src={detailInfo.coverUrl} alt="" width={376} height={279}/>
+              <img src={qrCode} alt="" width={95} height={95} style={{marginLeft:10}}/>
+              <img src={text} alt="" width={195} style={{marginLeft:30}}/>
+            </div>
+            <div className={style.btnfooter}>
+              <img onClick={this.handleCancel}  src={cal} alt=""/>
+              <img onClick={this.saveScreenshot} src={save} alt=""/>
+            </div>
           </div>
         </div>
+        <a id="dl-hidden" style={{display:'none'}} />
+        <img src="" id="copyImage"  className={style.copyImage}/>
       </div>
     );
   }

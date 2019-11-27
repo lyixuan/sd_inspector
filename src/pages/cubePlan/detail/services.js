@@ -19,3 +19,8 @@ export async function getOutwardNameList() {
 export async function getQRCode(params) {
   return request('/component/getQRCode',{params});
 }
+
+export async function getCopyUrl(params) {
+  return request('/component/getCopyUrl',{params});
+}
+

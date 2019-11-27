@@ -99,13 +99,26 @@
 
 .videoInner {
   position: relative;
-  width: 326px;
-  border-radius: 6px;
-  height: 554px;
+  width: 376px;
+  height: 454px;
+  border-radius: 8px;
   margin: 80px auto 0;
 }
 
-.videoInner img {
-  //width: 100%;
-  //height: 100%;
+.videoInner1 {
+  background: #fff;
+  border-radius: 8px;
+}
+.videoInner img:nth-child(1),.videoInner img:nth-child(2) {
+  border-radius: 8px;
+}
+
+.copyImage{
+  position: absolute;
+  top:0;
+  left:0;
+  z-index: 10002;
+  width:376px;
+  height:354px;
+  opacity:0;
 }
