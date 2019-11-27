@@ -40,7 +40,7 @@ class MCard extends React.Component {
   goto = id => {
     router.push({
       pathname: '/cubePlan/list/detail',
-      query: { params: JSON.stringify({ id }) },
+      query: { id: JSON.stringify(id) },
     });
   };
 

@@ -79,7 +79,8 @@ class PlanDia extends React.Component {
           <div className={styles.PlanDiaCon}>
             <div className={styles.imgCon}>
               <div className={styles.close} onClick={this.close}>
-                <Icon type="close-circle" style={{ fontSize: '30px', color: '#fff' }} />
+                <Icon type="close" style={{ fontSize: '30px', color: '#fff' }} />
+                {/* <Icon type="close-circle" style={{ fontSize: '30px', color: '#fff' }} /> */}
               </div>
               <img className={styles.plan} src={plan1}></img>
               <img className={styles.plan} src={plan2}></img>
