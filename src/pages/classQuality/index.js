@@ -169,10 +169,12 @@ class ClassQuality extends React.Component {
         <div className={styles.classQuality}>
           {/* 左侧功能条 */}
           <div className={styles.functionBar} style={{ left: globalCollapsed ? 100 : 236 }}>
-            <Tooltip title="手册目录" >
+            <Tooltip title="手册目录" placement="right">
               <span onClick={() => this.handleFun(1)}><img src={funTypeSelected === 1 ? rulesImg1 : rulesImg} alt=""/></span>
             </Tooltip>
-            <span onClick={() => this.handleFun(2)} style={{ borderTop: '1px solid #E1E1E1', borderBottom: '1px solid #E1E1E1', }}><img src={funTypeSelected === 2 ? detailImg1 : detailImg} alt=""/></span>
+            <Tooltip title="质检记录" placement="right">
+              <span onClick={() => this.handleFun(2)} style={{ borderTop: '1px solid #E1E1E1', borderBottom: '1px solid #E1E1E1', }}><img src={funTypeSelected === 2 ? detailImg1 : detailImg} alt=""/></span>
+            </Tooltip>
             <span>
               <BackTop visibilityHeight={-1000} onClick={() => { handleDataTrace({"widgetName":`质检记录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检手册/质检记录按钮点击`});}}>
                 <img src={topImg} alt=""/>
