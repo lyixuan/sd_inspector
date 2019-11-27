@@ -240,7 +240,7 @@ class BasicLayout extends React.PureComponent {
   };
 
   gobalMarkClass() {// 质检标注的几个页面布局 需要改变一下头部的样式
-    const tabGroup = ['/setting/performance/list', '/qualityMarking/im', '/qualityMarking/bbs', '/qualityMarking/nps', '/entrancePlatform/statistics', '/ko/behaviorPath'];
+    const tabGroup = ['/setting/performance/list', '/qualityMarking/im', '/qualityMarking/bbs', '/qualityMarking/nps', '/entrancePlatform/statistics', '/ko/behaviorPath', '/hotQuestion/index'];
     return tabGroup.includes(this.props.location.pathname) ? 'aiWorktable-ant-layout-content' : '';
   }
 
