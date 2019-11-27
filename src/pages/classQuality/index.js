@@ -188,7 +188,7 @@ class ClassQuality extends React.Component {
               </div>
               <BIScrollbar style={{ maxHeight: 400 }}>
                 <Anchor targetOffset={200} onClick={() => { handleDataTrace({"widgetName":`目录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检手册/目录按钮点击`});}}>
-                  {logTreeList.map((item, index) => <Link href={`#Anchor${item.id}`}  key={item.id} title={`${index+1}.${item.violationName}`} />)}
+                  {logTreeList.map((item, index) => <Link href={`#Anchor${item.id}`}  key={item.id} title={item.violationName} />)}
                 </Anchor>
               </BIScrollbar>
             </div> : ''
