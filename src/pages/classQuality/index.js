@@ -204,8 +204,8 @@ class ClassQuality extends React.Component {
           <div className={styles.treeCatalog}>
             <div className={`${styles.catalog} ${flagNoData ? styles.catalogNoData : ''}`}>
               <div className={styles.title}>质检手册（{typeName}）</div>
-             { 
-               flatTreeList.length > 0 ? 
+             {   
+               !flagNoData ? 
                <>
                 {
                   flatTreeList.map((item, index) => <div key={item.id + '' + index} id={`Anchor${item.id}`}  className={styles.level}>
