@@ -36,7 +36,7 @@ export default class BottomBox extends React.Component {
         </div>
         <div className={style.btRight}>
           <Xing starLevel={item.starLevel} />
-          <div>{item.content}</div>
+          <div>{item.content?item.content:`系统：【${item.outwardName}】没有留言`}</div>
         </div>
       </div>
     });
