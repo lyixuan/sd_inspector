@@ -5,10 +5,12 @@
   overflow: hidden;
   padding: 20px;
   width:1190px;
+  margin-bottom: 15px;
 }
 
 .layoutSmall {
   width:1030px;
+  margin-bottom: 15px;
 }
 
 .clear {
@@ -33,4 +35,77 @@
     color:rgba(0,0,0,1);
     margin-bottom: 3px;
   }
+}
+
+.bb {
+  width: 100%;
+  padding: 0 20px;
+  color: #1A1C1F;
+  font-size: 13px;
+  overflow: hidden;
+}
+
+.bb>div:nth-child(1),.bb>div:nth-child(2) {
+  width: 100%;
+  height: 30px;
+}
+.bb>div span {
+  display: inline-block;
+}
+.bb .tt{
+  width: 70px;
+  display: inline-block;
+  text-align-last: justify;
+  text-align: justify;
+}
+
+.bb>div:nth-child(3) span:nth-child(2){
+  margin-top: 3px;
+  vertical-align: text-top;
+ width:calc(100% - 100px);
+}
+
+.btnfooter {
+  margin-top: 30px;
+  text-align: center;
+}
+.btnfooter img{
+  width: 110px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.moreText {
+  float: right;
+  font-size:13px;
+  font-weight:400;
+  color:rgba(255,74,83,1);
+  margin-right: 15px;
+}
+
+.modallayer,.modallayer2 {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.modallayer2 {
+  display: none;
+}
+
+.videoInner {
+  position: relative;
+  width: 326px;
+  border-radius: 6px;
+  height: 554px;
+  margin: 80px auto 0;
+}
+
+.videoInner img {
+  //width: 100%;
+  //height: 100%;
 }
