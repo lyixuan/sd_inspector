@@ -3,7 +3,7 @@
 }
 
 .choose-robot {
-  padding:32px 24px 12px 32px;
+  padding:32px 24px 0 32px;
   background:#ffffff;
   box-shadow:0 10px 20px 0 rgba(26,28,31,0.05);
   .label {
@@ -18,9 +18,11 @@
 
 .tabs {
   display:flex;
-  margin-top:10px;
+  margin-top:24px;
   justify-content:space-between;
   .tab {
+    position:relative;
+    top:2px;
     display:flex;
     font-size:14px;
     color:#1A1C1F;
@@ -28,7 +30,8 @@
       margin-right:30px;
       height:32px;
       box-sizing:border-box;
-      padding:14px 2px 0;
+      padding:0 2px;
+      cursor:pointer;
       &.active {
         color:#00CCC3;
         border-bottom:2px solid #00CCC3;
@@ -36,6 +39,34 @@
     }
   }
   .button {
+    position:relative;
+    bottom:12px;
     width:80px;
+  }
+}
+
+.relation {
+  margin:18px 16px 0;
+  background:#ffffff;
+  border-radius:10px;
+  .title {
+    display:flex;
+    justify-content:space-between;
+    padding:0 24px;
+    height:53px;
+    line-height:53px;
+    border:1px solid #F5F8FA;
+    .text {
+      font-size:16px;
+      color:#1A1C1F;
+    }
+    .edit {
+      font-size:13px;
+      color:#00CCC3;
+      cursor:pointer;
+    }
+  }
+  .content {
+    padding:16px 24px 24px;
   }
 }
