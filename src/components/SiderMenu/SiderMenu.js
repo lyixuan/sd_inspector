@@ -4,6 +4,7 @@ import pathToRegexp from 'path-to-regexp';
 import { Link } from 'dva/router';
 import styles from './index.less';
 import { urlToList } from '../_utils/pathTools';
+import {  DO_NOT_MENU } from '@/utils/constants'
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -91,7 +92,7 @@ export default class SiderMenu extends PureComponent {
     if ((this.props.collapsed && openMenu)) {
       this.props.onCollapse(false);
     }
-    if (open && open[0] && open[0].path === '/xdCredit/index') {
+    if (open && open[0] && open[0].path && DO_NOT_MENU.includes(open[0].path)) {
       this.props.onCollapse(true);
     }
     return { openMenu, openKeys: open.map(item => item.path) }
