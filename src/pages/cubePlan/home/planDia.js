@@ -6,6 +6,7 @@ import BIScrollbar from '@/ant_components/BIScrollbar';
 import plan1 from '@/assets/cube/plan1.png';
 import plan2 from '@/assets/cube/plan2.png';
 import submit from '@/assets/cube/submit.png';
+import close from '@/assets/cube/close.png'
 import none from '@/assets/cube/none.png';
 import styles from './style.less';
 import { beforeAll } from 'lodash-decorators';
@@ -78,7 +79,8 @@ class PlanDia extends React.Component {
           <div className={styles.PlanDiaCon}>
             <div className={styles.imgCon}>
               <div className={styles.close} onClick={this.close}>
-                <Icon type="close" style={{ fontSize: '30px', color: '#fff' }} />
+                <img src={close} />
+                {/* <Icon type="close" style={{ fontSize: '30px', color: '#fff' }} /> */}
                 {/* <Icon type="close-circle" style={{ fontSize: '30px', color: '#fff' }} /> */}
               </div>
               <img className={styles.plan} src={plan1}></img>
@@ -91,7 +93,7 @@ class PlanDia extends React.Component {
                       maxLength={200}
                       value={targetCustomer}
                       autoSize
-                      placeholder="描述您的需求目标用户以及预计覆盖数量"
+                      placeholder="请描述目标用户以及预计覆盖数量"
                       onChange={e => this.onFormChange(e.target.value, 'targetCustomer')}
                       // rows={4}
                     />
@@ -101,7 +103,7 @@ class PlanDia extends React.Component {
                     <BIInput.TextArea
                       maxLength={200}
                       value={usageScenarios}
-                      placeholder="描述您的需求场景"
+                      placeholder="请描述用户的使用场景"
                       autoSize
                       onChange={e => this.onFormChange(e.target.value, 'usageScenarios')}
                       // rows={4}
@@ -113,7 +115,7 @@ class PlanDia extends React.Component {
                       maxLength={200}
                       value={expectTarget}
                       autoSize
-                      placeholder="描述您希望达到的需求目标"
+                      placeholder="请描述用户的使用场景"
                       onChange={e => this.onFormChange(e.target.value, 'expectTarget')}
                       // rows={4}
                     />
