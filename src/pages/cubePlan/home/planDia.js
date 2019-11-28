@@ -117,7 +117,7 @@ class PlanDia extends React.Component {
                       maxLength={200}
                       value={expectTarget}
                       autoSize
-                      placeholder="请描述用户的使用场景"
+                      placeholder="请描述希望达到的目标"
                       onChange={e => this.onFormChange(e.target.value, 'expectTarget')}
                       // rows={4}
                     />
