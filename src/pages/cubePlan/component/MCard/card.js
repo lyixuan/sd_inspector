@@ -81,6 +81,7 @@ class MCard extends React.Component {
             cardList.map((item, index) => {
               return (
                 <Card
+                  key={index}
                   className={styles.card}
                   onMouseEnter={() => this.handleEnter(index)}
                   onMouseLeave={() => this.handleOut(index)}
@@ -105,9 +106,9 @@ class MCard extends React.Component {
                         {item.stepStatus === 4 && <img className={styles.icon1} src={green} />}
                       </span>
                     </div>
-                    <p className={styles.paragraph}>
+                    <div className={styles.paragraph}>
                       <Paragraph ellipsis={{ rows: 2 }}>{item.description}</Paragraph>
-                    </p>
+                    </div>
                     {item.stepStatus === 1 && (
                       <div
                         className={styles.detail}
@@ -169,11 +170,11 @@ class MCard extends React.Component {
                   <i>你有金点子吗？</i>
                 </span>
               </div>
-              <p className={styles.paragraph}>
+              <div className={styles.paragraph}>
                 <Paragraph ellipsis={{ rows: 2 }}>
                   你有需求，我有研发，你有金点子，我可以实现。
                 </Paragraph>
-              </p>
+              </div>
               <div className={styles.detail} onClick={() => this.props.onChangeDia(true)}>
                 <img src={newIdea} />
               </div>

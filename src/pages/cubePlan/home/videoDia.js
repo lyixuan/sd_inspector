@@ -27,6 +27,13 @@ class VideoDia extends React.Component {
       hd: {
         // play_url: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_hd.mp4',
         play_url: sourceUrl,
+        bitrate:1,
+        duration:10,
+        format:'',
+        height: 1,
+        width: 1,
+        size:1,
+        id: Math.random()
       },
     };
 

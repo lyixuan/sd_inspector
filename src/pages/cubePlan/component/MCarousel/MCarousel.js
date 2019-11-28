@@ -50,9 +50,9 @@ class MCarousel extends React.Component {
             </div>
           </div>
           {bannerList &&
-            bannerList.map(item => {
+            bannerList.map((item, index) => {
               return (
-                <div onClick={() => this.goto(item.id)}>
+                <div key={index} onClick={() => this.goto(item.id)}>
                   <img src={item.bannerUrl} />
                 </div>
               );
