@@ -121,8 +121,8 @@ class PlanDia extends React.Component {
                     />
                   </p>
                   <div className={styles.submit}>
-                    <img src={submit} onClick={this.submitFn} />
                     <img src={none} onClick={this.close} />
+                    <img src={submit} onClick={this.submitFn} />
                   </div>
                 </div>
               </div>

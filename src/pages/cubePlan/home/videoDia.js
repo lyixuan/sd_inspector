@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Icon } from 'antd';
 import BIScrollbar from '@/ant_components/BIScrollbar';
 import Player from 'griffith';
+import border from '@/assets/cube/border.png';
 import styles from './style.less';
 import { message } from 'antd';
 
@@ -40,10 +41,13 @@ class VideoDia extends React.Component {
     return (
       <div className={styles.layer} style={{ display: showVideo ? 'block' : 'none' }}>
         <BIScrollbar style={{ width: '100%', height: '100%' }}>
-          <div className={styles.videoInner}>
-            {showVideo && <Player {...playerProps} />}
-            <div onClick={this.close} className={styles.close}>
-              <Icon type="close-circle" style={{ fontSize: '30px', color: '#fff' }} />
+          <div className={styles.mobile}>
+            <img src={border} className={styles.border} />
+            <div className={styles.videoInner}>
+              {showVideo && <Player {...playerProps} />}
+              <div onClick={this.close} className={styles.close}>
+                <Icon type="close-circle" style={{ fontSize: '30px', color: '#fff' }} />
+              </div>
             </div>
           </div>
         </BIScrollbar>
