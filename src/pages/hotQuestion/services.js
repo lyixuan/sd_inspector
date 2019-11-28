@@ -14,3 +14,7 @@ export function getQuestionType(id) {
 export function getQuestionList(param) {
   return axios.get(`/question/${param.knowledgeId}/${param.questionTypeId}`)
 }
+// 猜你想问页面回显
+export function getGuessData(param) {
+  return axios.get(`/guessTemp/getList?robotId=${param.robotId}&isSunlands=${param.isSunlands}&cardId=${param.cardId}`)
+}

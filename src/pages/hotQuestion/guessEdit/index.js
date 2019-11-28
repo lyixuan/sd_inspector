@@ -71,8 +71,18 @@ class GuessEdit extends React.Component {
     }
   }
   componentDidMount = () => {
+    this.getDataSource();
     this.getKnowledgeList();
+    this.getPageData();
     // this.getQuestionType();
+    console.log(77, this.props.location.query)
+  }
+  getPageData = () => {
+    const query = this.props.location.query;
+    this.props.dispatch({
+      type: 'hotQuestion/getGuessData',
+      payload: { params: query },
+    });
   }
   getKnowledgeList = () => {
     this.props.dispatch({
@@ -88,7 +98,7 @@ class GuessEdit extends React.Component {
   }
   countArray = () => {
     let array = [];
-    for (let i = 0; i < 27; i++) {
+    for (let i = this.state.dataSource.list.length; i < 27 - this.state.dataSource.list.length; i++) {
       array.push(i)
     }
     return array;
@@ -111,16 +121,49 @@ class GuessEdit extends React.Component {
     })
   }
   handleDelete = (data, index) => {
-    console.log(104, data, index)
-    this.state.dataSource.list.splice(index, 1);
-    // this.state.dataSource.list.map((item, index) => {
-    //   item.sort = index + 1
-    // })
-    // this.state.dataSource.list = list
-    this.setState({
-      dataSource: this.state.dataSource
+    const temp = this.state.dataSource
+    let list = temp.list;
+    list = list.filter((item, i) => {
+      return i != index
     })
-    console.log(126, this.state.dataSource)
+    list.map((item, index) => {
+      item.sort = index + 1
+    })
+    temp.list = list
+    this.getDataSource(list);
+  }
+  swapItems = (arr, index1, index2) => {
+    arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+    return arr
+  }
+  moveUp = () => {
+    const { list } = this.state.dataSource
+    console.log(128, list)
+    if (this.state.radioId != -1) {
+      const index = this.state.radioId;
+      this.swapItems(this.state.dataSource.list, index, index - 1);
+      this.state.dataSource.list.map((item, index) => {
+        item.sort = index + 1
+      })
+      this.setState({
+        dataSource: this.state.dataSource,
+        radioId: -1
+      })
+      console.log(142, this.state.dataSource.list)
+    }
+
+
+  }
+  moveDown = () => {
+    const { list } = this.state.dataSource
+    if (this.state.radioId != -1) {
+      const index = this.state.radioId;
+      this.swapItems(this.state.dataSource.list, index, index + 1);
+      this.setState({
+        dataSource: this.state.dataSource,
+        radioId: -1
+      })
+    }
   }
   submit = () => {
     console.log(104, this.state.dataSource)
@@ -131,7 +174,6 @@ class GuessEdit extends React.Component {
     })
   }
   updateData = (params) => {
-    console.log(124, params)
     const list = this.state.dataSource.list[params.index];
     list.knowledgeId = params.knowledgeId;
     list.knowledgeName = params.knowledgeName;
@@ -140,7 +182,33 @@ class GuessEdit extends React.Component {
     list.question = params.question;
     list.questionId = params.questionId;
   }
-
+  getDataSource = (list = this.state.dataSource.list) => {
+    for (var i = list.length; i < 27; i++) {
+      list.push({
+        key: new Date().getTime() + i,
+        sort: i + 1
+      })
+    }
+    this.setState({
+      dataSource: this.state.dataSource
+    })
+  }
+  getOthersLine = () => {
+    const others = [];
+    for (let i = this.state.dataSource.list.length; i < 27; i++) {
+      others.push(<Line
+        handleEdit={this.handleEdit}
+        handleDelete={this.handleDelete}
+        clickRadio={this.clickRadio}
+        updateData={this.updateData}
+        key={i}
+        dataSource={{}}
+        auth={true}
+        index={i}
+      />)
+    }
+    return others;
+  }
 
   render() {
     const { cardName, visible, dataSource, radioId } = this.state;
@@ -175,25 +243,27 @@ class GuessEdit extends React.Component {
               <li className={styles.eq2}>{tHead[2]}</li>
               <li className={styles.eq3}>{tHead[3]}</li>
               <li className={styles.eq4}>
-                <div className={styles.icon}><Icon type="up-circle" />上移</div>
-                <div className={styles.icon}><Icon type="down-circle" />上移</div>
+                <div className={`${styles.icon} ${radioId === 0 ? styles.disabled : ''}`} onClick={radioId === 0 ? null : this.moveUp}><Icon type="up-circle" />上移</div>
+                <div className={`${styles.icon} ${radioId === 26 ? styles.disabled : ''}`} onClick={radioId === 26 ? null : this.moveDown}><Icon type="down-circle" />下移</div>
               </li>
             </ul>
             <div className={styles.tbody}>
               {
-                this.countArray().map((item, index) => {
+                dataSource.list.map((item, index) => {
                   return <Line
-                    dataSource={dataSource.list[index] || {}}
+                    dataSource={item || {}}
                     handleEdit={this.handleEdit}
                     handleDelete={this.handleDelete}
                     clickRadio={this.clickRadio}
                     updateData={this.updateData}
-                    key={index}
+                    key={item.questionId || item.key}
                     auth={true}
                     index={index}
                     radioId={radioId}></Line>
                 })
+
               }
+
 
             </div>
           </div>

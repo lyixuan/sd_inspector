@@ -1,7 +1,8 @@
 import {
   getKnowledgeList,
   getQuestionType,
-  getQuestionList
+  getQuestionList,
+  getGuessData
 } from './services';
 
 import { message } from 'antd/lib/index';
@@ -12,7 +13,8 @@ export default {
   state: {
     knowledgeList: [],
     questionTypeList: [],
-    questionList: []
+    questionList: [],
+    guessData: {}
   },
   effects: {
     *getKnowledgeList({ payload }, { call, put }) {
@@ -42,6 +44,16 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+    *getGuessData({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getGuessData, params);
+      if (result.code === 200) {
+        yield put({ type: 'save', payload: { guessData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
   },
   reducers: {
     save(state, { payload }) {
