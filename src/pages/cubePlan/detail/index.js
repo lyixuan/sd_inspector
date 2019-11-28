@@ -277,8 +277,8 @@ class CubePlanDetail extends React.Component {
           <div className={style.videoInner}>
             <div id="shareContent" className={style.videoInner1}>
               <img src={detailInfo.coverUrl} alt="" width={376} height={279}/>
-              <img src={qrCode} alt="" width={95} height={95} style={{marginLeft:10}}/>
-              <img src={text} alt="" width={195} style={{marginLeft:30}}/>
+              <img src={text} alt="" width={195} style={{marginLeft:35}}/>
+              <img src={qrCode} alt="" width={95} height={95} style={{marginLeft:30}}/>
             </div>
             <div className={style.btnfooter}>
               <img onClick={this.handleCancel}  src={cal} alt=""/>
