@@ -5,7 +5,6 @@ import BIButton from '@/ant_components/BIButton';
 import BIScrollbar from '@/ant_components/BIScrollbar';
 import plan1 from '@/assets/cube/plan1.png';
 import plan2 from '@/assets/cube/plan2.png';
-import plan3 from '@/assets/cube/plan3.png';
 import submit from '@/assets/cube/submit.png';
 import none from '@/assets/cube/none.png';
 import styles from './style.less';
@@ -84,7 +83,6 @@ class PlanDia extends React.Component {
               </div>
               <img className={styles.plan} src={plan1}></img>
               <img className={styles.plan} src={plan2}></img>
-              <img className={styles.plan} src={plan3}></img>
               <div className={styles.inputCon}>
                 <div className={styles.formCom}>
                   <p>
