@@ -29,7 +29,7 @@ class LeftBox extends React.Component {
       id:'abd',
       duration:10,
       sources,
-      initialObjectFit:'contain',
+      initialObjectFit:'contain', // fill | contain | cover | none | scale-down
       cover:detailCoverUrl||'',
     };
     return (
