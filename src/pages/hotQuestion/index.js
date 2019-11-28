@@ -2,6 +2,7 @@ import React from 'react';
 import style from './style.less';
 import {Button, Select, Icon} from 'antd';
 import QuestionTable from '@/pages/hotQuestion/components/questionTable';
+import GuessQuestionCard from '@/pages/hotQuestion/components/guessQuestionCard';
 
 class HotQuestion extends React.Component{
   constructor(props) {
@@ -10,18 +11,183 @@ class HotQuestion extends React.Component{
       relationQuestion: [
         {
           sort: 1,
-          question: '什么时候考试'
+          question: '什么时候考试',
+          updateTime: '2019-11-30 16:00',
+          operatorName: '王国娜'
         },
         {
           sort: 2,
           question: '尚德有哪些专业'
+        },
+        {
+          sort: 3,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 4,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 5,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 6,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 7,
+          question: '尚德有哪些专业'
+        }
+      ],
+      goingActivity: '中秋节打折',
+      guessQuestion: [
+        {
+          cardName: '报考类',
+          questionList: [
+        {
+          sort: 1,
+          question: '什么时候考试',
+          updateTime: '2019-11-30 16:00',
+          operatorName: '王国娜'
+        },
+        {
+          sort: 2,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 3,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 4,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 5,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 6,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 7,
+          question: '尚德有哪些专业'
+        }
+      ],
+        },
+        {
+          cardName: '课程类',
+          questionList: [
+        {
+          sort: 1,
+          question: '什么时候考试',
+          updateTime: '2019-11-30 16:00',
+          operatorName: '王国娜'
+        },
+        {
+          sort: 2,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 3,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 4,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 5,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 6,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 7,
+          question: '尚德有哪些专业'
+        }
+      ],
+        },
+        {
+          cardName: 'App操作类',
+          questionList: [
+        {
+          sort: 1,
+          question: '什么时候考试',
+          updateTime: '2019-11-30 16:00',
+          operatorName: '王国娜'
+        },
+        {
+          sort: 2,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 3,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 4,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 5,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 6,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 7,
+          question: '尚德有哪些专业'
+        }
+      ],
+        },
+        {
+          cardName: '新生入学类',
+          questionList: [
+        {
+          sort: 1,
+          question: '什么时候考试',
+          updateTime: '2019-11-30 16:00',
+          operatorName: '王国娜'
+        },
+        {
+          sort: 2,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 3,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 4,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 5,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 6,
+          question: '尚德有哪些专业'
+        },
+        {
+          sort: 7,
+          question: '尚德有哪些专业'
+        }
+      ],
         }
       ]
     }
   }
 
   render() {
-    const {relationQuestion} = this.state;
+    const {relationQuestion, goingActivity, guessQuestion} = this.state;
 
     const {Option} = Select;
 
@@ -57,9 +223,27 @@ class HotQuestion extends React.Component{
           <div className={style.edit}><Icon type="edit" style={{marginRight: 9}}/>编辑</div>
         </div>
         <div className={style.content}>
-          <QuestionTable sourceData={relationQuestion}/>
+          <QuestionTable
+            sourceData={relationQuestion}
+            activity={goingActivity}/>
         </div>
       </div>
+
+      {/*猜你想问部分*/}
+      <div className={style.guess}>
+        <div className={style.title}>猜你想问</div>
+        <div className={style.content}>
+          {
+            guessQuestion.map(item => {
+              return <div className={style.item} key={item.cardName}>
+                  <GuessQuestionCard
+                    cardData={item}/>
+                </div>
+            })
+          }
+        </div>
+      </div>
+
     </div>
   }
 }

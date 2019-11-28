@@ -1,5 +1,6 @@
 import React from 'react';
 import BITable from '@/ant_components/BITable';
+import styles from './styles.less';
 
 class QuestionTable extends React.Component{
   constructor(props) {
@@ -22,15 +23,30 @@ class QuestionTable extends React.Component{
   }
 
   render() {
-    const {sourceData} = this.props;
+    const {sourceData, activity} = this.props;
     const {columns} = this;
 
-    return <div>
+    return <div className={styles['question-table']}>
       <BITable
         dataSource={sourceData}
         columns={columns}
         rowKey={(record) => record.sort}
-        pagination={false} />
+        pagination={false}
+        scroll={{y: 250}}/>
+
+      <div className={styles.bottom}>
+        <div className={styles.activity}>
+          {
+            activity
+              ? `当前已配置运营活动：【${activity}】该活动展示在底部第一位（优先于默认底部关联问题）`
+              : null
+          }
+        </div>
+        <div className={styles.operator}>
+          <span className={styles.first}>修改时间：{sourceData[0].updateTime}</span>
+          <span>操作人：{sourceData[0].operatorName}</span>
+        </div>
+      </div>
     </div>
   }
 }
