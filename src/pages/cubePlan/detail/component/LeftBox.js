@@ -34,7 +34,7 @@ class LeftBox extends React.Component {
       duration:10,
       // onBeforePlay:this.onBeforePlay,
       sources,
-      initialObjectFit:'fill', // fill | contain | cover | none | scale-down
+      initialObjectFit:'cover', // fill | contain | cover | none | scale-down
       cover:detailCoverUrl||'',
     };
     return (
