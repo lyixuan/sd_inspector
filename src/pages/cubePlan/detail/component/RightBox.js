@@ -157,7 +157,7 @@ class RightBox extends React.Component {
                                                                            onCopy={() => this.copySuccess('复制链接','魔方计划/魔方计划列表/')}>
               <span><img src={btnfz} alt=""/></span>
             </CopyToClipboard></Spin></div>}
-          {usedH5===1&&<img src={btnewm} alt="" onClick={()=>this.openEwmModal('下载二维码','魔方计划/魔方计划列表/')}/>}
+          {/*{usedH5===1&&<img src={btnewm} alt="" onClick={()=>this.openEwmModal('下载二维码','魔方计划/魔方计划列表/')}/>}*/}
         </div>
       </div>
     );

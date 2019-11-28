@@ -14,6 +14,7 @@ import save from '@/assets/cube/save.png';
 import text from '@/assets/cube/text.png';
 import html2canvas from 'html2canvas';
 import {BiFilter} from '@/utils/utils';
+
 import { handleDataTrace } from '@/utils/utils';
 import {takeScreenshot,downloadBase64} from '@/utils/screenshort';
 
@@ -204,6 +205,7 @@ class CubePlanDetail extends React.Component {
   };
 
   render() {
+
     const {content,starLevel,outwardName,visible3} = this.state;
     const { pageLoading,loadingBtn ,loadingBtn2,loading} = this.props;
     const { screenRange } = this.props.cubePlan;
@@ -281,9 +283,9 @@ class CubePlanDetail extends React.Component {
         <div className={visible3?style.modallayer:style.modallayer2}>
           <div className={style.videoInner}>
             <div id="shareContent" className={style.videoInner1}>
-              <img src={detailInfo.coverUrl} alt="" width={376} height={279} crossorigin="anonymous"/>
+              <img src={detailInfo.coverUrl} alt="" width={376} height={279}/>
               <img src={text} alt="" width={195} style={{marginLeft:35}}/>
-              <img src={qrCode} alt="" width={95} height={95} style={{marginLeft:30}} crossorigin="anonymous"/>
+              <img src={qrCode} alt="" width={95} height={95} style={{marginLeft:30}}/>
             </div>
             <div className={style.btnfooter}>
               <img onClick={this.handleCancel}  src={cal} alt=""/>
