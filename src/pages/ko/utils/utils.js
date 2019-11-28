@@ -180,7 +180,7 @@ export function initTimeData(params) {
 
 //
 export const emptyValue = 9999;
-export function getArrLastValue(arr) {
+export function getArrLastValue(arr = []) {
   const val = arr.length > 0 ? arr[arr.length -1].value : undefined;
   if (val === emptyValue) {
     return 0;

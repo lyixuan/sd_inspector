@@ -3,7 +3,8 @@ import { Modal } from 'antd';
 import { connect } from 'dva/index'
 import BIButton from '@/ant_components/BIButton';
 import exportimg from '@/assets/ai/export.svg';
-import styles from '../../style.less'
+import styles from '../../style.less';
+import { getArrLastValue } from '@/pages/ko/utils/utils';
 
 @connect(({ loading }) => ({
   loading: loading.effects['workTableModel/exportExcelData'],
@@ -23,10 +24,16 @@ class index  extends React.Component {
     });
   };
   handleOk = () => {
+    const { choiceTime, consultType = [], reasonType = [], ...others } = this.props.othersSearch;
     this.props.dispatch({
       type: 'workTableModel/exportExcelData',
       payload: {
-        params: { ...this.props.othersSearch, type: this.state.exportType},
+        params: { 
+          ...others, 
+          type: this.state.exportType,
+          consultType: getArrLastValue(consultType), 
+          reasonType: getArrLastValue(reasonType),
+        },
       },
       callback: (res) => {
         this.handleCancel();
