@@ -24,8 +24,8 @@ class VideoDia extends React.Component {
 
     const sources = {
       hd: {
-        play_url: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_hd.mp4',
-        // play_url: sourceUrl,
+        // play_url: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_hd.mp4',
+        play_url: sourceUrl,
       },
     };
 

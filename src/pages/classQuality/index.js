@@ -41,8 +41,6 @@ const typeTranslate = {
 @connect(({ global, classQualityModel, loading }) => ({
   globalCollapsed: global.collapsed,// 左侧二级下单是否打开
   dateRange: classQualityModel.dateRange,
-  logTreeList: classQualityModel.logTreeList,
-  flatTreeList: classQualityModel.flatTreeList,
   loading: loading.effects['classQualityModel/getFindTreeList'],
 }))
 class ClassQuality extends React.Component {
@@ -55,7 +53,8 @@ class ClassQuality extends React.Component {
       keyWord: undefined, // 查询值
       scrollbar: '', // 滚动条
       funTypeSelected: 2 ,// 左侧悬浮滚动条
-      rulesObj: {}
+      rulesObj: {},
+      oneLoding: true,
     }
   }
   componentDidMount() {
@@ -99,7 +98,16 @@ class ClassQuality extends React.Component {
     this.props.dispatch({
       type:'classQualityModel/getFindTreeList',
       payload: { params: { qualityType: this.state.qualityType, keyWord: keyWord === 'reset' || !keyWord ? undefined :  keyWord.trim() } },
-      callback: () => {
+      callback: (flatTreeList, logTreeList) => {
+        this.setState({
+          flatTreeList,
+          logTreeList
+        })
+        if (this.state.oneLoding) {
+          this.setState({
+            oneLoding: false
+          })
+        }
         const val = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
         if (val !== 0) {
           document.documentElement.scrollTop = 0;
@@ -165,9 +173,9 @@ class ClassQuality extends React.Component {
     }
   }
   render() {
-    const { funTypeSelected, setFixed, rulesObj, typeName } = this.state;
-    const { logTreeList = [], flatTreeList = [], dateRange = {}, globalCollapsed, loading } = this.props;
-    const isLoading = loading && !this.props.flatTreeList ? true : false;
+    const { funTypeSelected, setFixed, rulesObj, typeName, logTreeList = [], flatTreeList = [], oneLoding} = this.state;
+    const {  dateRange = {}, globalCollapsed, loading } = this.props;
+    const isLoading = loading && oneLoding ? true : false;
     const flagNoData = !isLoading && flatTreeList.length === 0 ? true : false;
     return (
       <BILoading isLoading={isLoading} style={{height: 'auto'}}>
@@ -204,7 +212,7 @@ class ClassQuality extends React.Component {
             <div className={styles.search}>
               <img className={styles.icon} src={searchImg} alt=""/>
               <span style={{display: 'inline-block'}}><BIInput onChange={e => this.changeSearch(e.target.value)} value={this.state.keyWord} onPressEnter={this.handleSubmit} placeholder="请输入要查找的手册内容" allowClear/></span>
-              <BIButton onClick={this.handleSubmit} type="primary" style={{ marginLeft : '16px'}}>查询</BIButton>
+              <BIButton loading={this.props.loading} onClick={this.handleSubmit} type="primary" style={{ marginLeft : '16px'}}>查询</BIButton>
               <BIButton onClick={() => this.handleSubmit('reset')} style={{ marginLeft : '8px'}}>重置</BIButton>
             </div>
           </div>
@@ -247,7 +255,7 @@ class ClassQuality extends React.Component {
                 </> : <span className={styles.noData}> <img src={noImg} alt=""/> <br/>抱歉，没有搜索到相关内容~</span> 
               }  
             </div> 
-            {funTypeSelected === 2 ? <div className={styles.catalogTime}>
+            {funTypeSelected === 2 && !isLoading ? <div className={styles.catalogTime}>
               <span>近30天集团质检记录</span>
               <span>{dateRange.startTime}-{dateRange.endTime}</span>
             </div> : ''}

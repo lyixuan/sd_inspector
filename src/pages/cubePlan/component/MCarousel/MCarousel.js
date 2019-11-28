@@ -39,7 +39,7 @@ class MCarousel extends React.Component {
     return (
       <div
         className={styles.MCarousel}
-        style={{ width: settings.width, height: settings.height, margin: '0 auto' }}
+        style={{ width: settings.width, height: settings.height, margin: '24px auto 0' }}
       >
         <Carousel {...settings}>
           <div>

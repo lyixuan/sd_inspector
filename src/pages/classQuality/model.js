@@ -20,10 +20,11 @@ export default {
       const params = payload.params;
       const result = yield call(getFindTreeList, params);
       if (result.code === 20000) {
+        const flatTreeList = fillDataSource(result.data === null ? [] : result.data);
+        const logTreeList = flatTreeList.filter(item => item.level === 1 );
         if (callback && typeof callback === 'function') {
-          callback(result.data);
+          callback(flatTreeList, logTreeList);
         }
-        yield put({ type: 'saveTree', payload: { flatTreeList: result.data || [] } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -45,11 +46,6 @@ export default {
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
-    },
-    saveTree(state, { payload }) {
-      const flatTreeList = fillDataSource(payload.flatTreeList);
-      const logTreeList = flatTreeList.filter(item => item.level === 1 );
-      return { ...state, flatTreeList, logTreeList  };
     },
   },
 
