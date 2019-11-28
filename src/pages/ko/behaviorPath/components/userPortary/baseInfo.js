@@ -121,9 +121,9 @@ export default class BaseInfo extends React.Component {
                   {negativeList[1]&&<div>{negativeList[1].countDate} {negativeList[1].count}个负面会话</div>}
                   {negativeList[2]&&<div>{negativeList[2].countDate} {negativeList[2].count}个负面会话</div>}
                   {negativeList[3]&&<div>{negativeList[3].countDate} {negativeList[3].count}个负面会话</div>}
-                  {negativeList[4]&&<div>${negativeList[4].countDate} ${negativeList[4].count}个负面会话</div>}
-                  {negativeList[5]&&<div>${negativeList[5].countDate} ${negativeList[5].count}个负面会话</div>}
-                  {negativeList[6]&&<div>${negativeList[6].countDate} ${negativeList[6].count}个负面会话</div>}
+                  {negativeList[4]&&<div>${negativeList[4].countDate} {negativeList[4].count}个负面会话</div>}
+                  {negativeList[5]&&<div>${negativeList[5].countDate} {negativeList[5].count}个负面会话</div>}
+                  {negativeList[6]&&<div>${negativeList[6].countDate} {negativeList[6].count}个负面会话</div>}
               </div>
             }}>
               <div>{negativeList && negativeList.length === 0 ? <img className={styles.baseImg} src={face1}/> :

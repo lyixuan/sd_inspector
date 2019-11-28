@@ -45,9 +45,14 @@ class RightBox extends React.Component {
         <Paragraph ellipsis={{ rows: 1 }}>
           {val.title}
         </Paragraph>
-        <pre className={style.boxContentPre}>
-            {val.content}
-            </pre>
+          <div className="cube-detail">
+            <Paragraph ellipsis={{ rows: 1 }}>
+              {val.content}
+            </Paragraph>
+          </div>
+        {/*<pre className={style.boxContentPre}>*/}
+            {/*{val.content}*/}
+            {/*</pre>*/}
       </div>)
     }):<span>&nbsp;&nbsp;&nbsp;&nbsp;暂无说明</span> ;
 
@@ -72,9 +77,14 @@ class RightBox extends React.Component {
                 <Paragraph ellipsis={{ rows: 1 }}>
                   {item.title}
                 </Paragraph>
-                <pre className={style.boxContentPre}>
-                  {item.content}
-                </pre>
+                {/*<pre className={style.boxContentPre}>*/}
+                  {/*{item.content}*/}
+                {/*</pre>*/}
+                <div className="cube-detail">
+                  <Paragraph ellipsis={{ rows: 1 }}>
+                    {item.content}
+                  </Paragraph>
+                </div>
               </div>
             })
           }
