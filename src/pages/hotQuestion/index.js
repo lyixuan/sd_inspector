@@ -3,11 +3,16 @@ import style from './style.less';
 import {Button, Select, Icon} from 'antd';
 import QuestionTable from '@/pages/hotQuestion/components/questionTable';
 import GuessQuestionCard from '@/pages/hotQuestion/components/guessQuestionCard';
+import storage from '@/utils/storage';
+import {getRobotList} from './services';
 
 class HotQuestion extends React.Component{
   constructor(props) {
     super(props);
+    this.userType = storage.getUserInfo().userType;
+    this.guessCardColor = ['#FF5959', '#3389FF', '#9013FE', '#F5A623'];
     this.state = {
+      robotList: [],
       relationQuestion: [
         {
           sort: 1,
@@ -182,14 +187,26 @@ class HotQuestion extends React.Component{
         }
       ],
         }
-      ]
+      ],
+      currentRobot: 185
     }
   }
 
   render() {
+    let {userType, userIdentity} = this;
     const {relationQuestion, goingActivity, guessQuestion} = this.state;
 
     const {Option} = Select;
+
+    // 根据用户类型判断用户身份并保存在this上
+    if (!userIdentity) {
+      if (userType === 'admin' || userType === 'boss') {
+        userIdentity = 1
+      } else {
+        userIdentity = 2
+      }
+      this.userIdentity = userIdentity;
+    } else {}
 
     let tabsAndCopyButton = <div className={style.tabs}>
       <div className={style.tab}>
@@ -214,13 +231,23 @@ class HotQuestion extends React.Component{
     </div>;
 
     return <div className={style.wrap}>
-      {chooseRobotArea}
+      {
+        userIdentity === 1
+          ? chooseRobotArea
+          : null
+      }
 
       {/*默认底部关联问题部分*/}
       <div className={style.relation}>
         <div className={style.title}>
-          <div className={style.text}>默认底部关联问题</div>
-          <div className={style.edit}><Icon type="edit" style={{marginRight: 9}}/>编辑</div>
+          <div className={style.text}>
+            {
+              userIdentity === 1
+                ? '默认底部关联问题'
+                : '底部热门问题'
+            }
+          </div>
+          <div className={style.edit}><Icon type="edit" style={{marginRight: 8}}/>编辑</div>
         </div>
         <div className={style.content}>
           <QuestionTable
@@ -230,14 +257,21 @@ class HotQuestion extends React.Component{
       </div>
 
       {/*猜你想问部分*/}
-      <div className={style.guess}>
-        <div className={style.title}>猜你想问</div>
+      <div className={style['guess-part']}>
+        <div className={style.title}>
+          {
+            userIdentity === 1
+              ? '猜你想问'
+              : '顶部热门问题'
+          }
+        </div>
         <div className={style.content}>
           {
-            guessQuestion.map(item => {
+            guessQuestion.map((item, index) => {
               return <div className={style.item} key={item.cardName}>
                   <GuessQuestionCard
-                    cardData={item}/>
+                    cardData={item}
+                    topLeftColor={this.getColor(index)}/>
                 </div>
             })
           }
@@ -246,6 +280,35 @@ class HotQuestion extends React.Component{
 
     </div>
   }
+
+  componentDidMount() {
+    const {userIdentity} = this;
+    if (userIdentity === 1) {
+      this._getRobotList();
+    } else {}
+  }
+
+  getColor = (i) => {
+    let colors = this.guessCardColor;
+    let index;
+    if (i < colors.length) {
+      return colors[i]
+    } else {
+      index = i % colors.length;
+      return colors[index]
+    }
+  };
+
+  _getRobotList = async () => {
+    let res = await getRobotList();
+    if (res && res.code) {
+      console.log(res.data);
+      this.setState({
+        robotList: res.data
+      })
+    }
+  }
+
 }
 
 export default HotQuestion;

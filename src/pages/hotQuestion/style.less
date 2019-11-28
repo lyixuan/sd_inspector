@@ -71,7 +71,7 @@
   }
 }
 
-.guess {
+.guess-part {
   margin:16px 16px 0;
   background:#ffffff;
   border-radius:10px;
@@ -86,9 +86,20 @@
   .content {
     display:flex;
     flex-wrap:wrap;
-    padding:15px 24px 8px;
+    padding:15px 16px 8px;
     .item {
-      margin:0 16px 24px 0;
+      padding:0 8px 24px;
+      width:50%;
+      box-sizing:border-box;
+    }
+  }
+}
+@media all and (min-width:1450px){
+  .guess-part {
+    .content {
+      .item {
+        width:auto;
+      }
     }
   }
 }

@@ -10,19 +10,19 @@ class GuessQuestionCard extends React.Component{
   }
 
   render() {
-    const {cardData} = this.props;
+    const {cardData, topLeftColor} = this.props;
 
     return (
-      <div className={styles.guess}>
+      <div className={styles['guess-card']}>
         <div className={styles.title}>
           <div className={styles.text}>{cardData.cardName}</div>
-          <div className={styles.edit}><Icon type="edit" />编辑</div>
+          <div className={styles.edit}><Icon type="edit" style={{marginRight: 8}}/> 编辑</div>
         </div>
         <div className={styles.content}>
           <QuestionTable
             sourceData={cardData.questionList}/>
         </div>
-        <div className={styles.circle}></div>
+        <div className={styles.circle} style={{background: `${topLeftColor}`}}></div>
       </div>
     )
   }

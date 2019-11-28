@@ -1,5 +1,5 @@
 import React from 'react';
-import BITable from '@/ant_components/BITable';
+import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import styles from './styles.less';
 
 class QuestionTable extends React.Component{
@@ -27,7 +27,7 @@ class QuestionTable extends React.Component{
     const {columns} = this;
 
     return <div className={styles['question-table']}>
-      <BITable
+      <BIScrollbarTable
         dataSource={sourceData}
         columns={columns}
         rowKey={(record) => record.sort}
