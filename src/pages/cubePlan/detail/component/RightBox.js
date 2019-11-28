@@ -141,6 +141,7 @@ class RightBox extends React.Component {
           {version}
         </div>
         <div className={style.btns}>
+          <Spin spinning={loadingBtn2||loadingBtn}>
           {usedMp===1&&<CopyToClipboard text={mpOriginId}
                            onCopy={() => this.copySuccess('复制小程序原始ID','魔方计划/魔方计划列表/')}>
             <span><img src={btnid} alt=""/></span>
@@ -149,16 +150,18 @@ class RightBox extends React.Component {
                                         onCopy={() => this.copySuccess('复制小程序APPID','魔方计划/魔方计划列表/')}>
             <span><img src={appid} alt=""/></span>
           </CopyToClipboard>}
-          {usedMp===1&&<div className={style.copyUrl}><Spin spinning={loadingBtn2}><CopyToClipboard text={copyBottomUrl}
+          {usedMp===1&&<CopyToClipboard text={copyBottomUrl}
                                         onCopy={() => this.copySuccess('复制落地页','魔方计划/魔方计划列表/')}>
             <span><img src={btndz} alt=""/></span>
-          </CopyToClipboard></Spin></div>}
-            {usedH5===1&&<div className={style.copyUrl}><Spin spinning={loadingBtn}><CopyToClipboard text={copyUrl}
+          </CopyToClipboard>}
+            {usedH5===1&&<CopyToClipboard text={copyUrl}
                                                                            onCopy={() => this.copySuccess('复制链接','魔方计划/魔方计划列表/')}>
               <span><img src={btnfz} alt=""/></span>
-            </CopyToClipboard></Spin></div>}
+            </CopyToClipboard>}
           {/*{usedH5===1&&<img src={btnewm} alt="" onClick={()=>this.openEwmModal('下载二维码','魔方计划/魔方计划列表/')}/>}*/}
+          </Spin>
         </div>
+
       </div>
     );
   }
