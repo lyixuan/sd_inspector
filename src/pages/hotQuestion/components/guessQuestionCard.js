@@ -22,7 +22,7 @@ class GuessQuestionCard extends React.Component{
           <QuestionTable
             sourceData={cardData.questionList}/>
         </div>
-        <div className={styles.circle} style={{background: `${topLeftColor}`}}></div>
+        <div className={styles.circle} style={{background: `${topLeftColor}`}}>.</div>
       </div>
     )
   }
