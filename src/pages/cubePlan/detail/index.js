@@ -247,7 +247,7 @@ class CubePlanDetail extends React.Component {
           width={650}
           visible={this.state.visible2}
           footer={null}
-          onCancel={this.handleCancel}
+          onCancel={this.handleCancel1}
         >
           <div className={style.bb}>
             <div>
