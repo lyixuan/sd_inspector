@@ -113,7 +113,10 @@ class MCard extends React.Component {
                       <div
                         className={styles.detail}
                         onClick={() => {
-                          handleDataTrace({ widgetName: `查看详情`, traceName: `魔方计划/魔方计划列表/${item.name}` });
+                          handleDataTrace({
+                            widgetName: `查看详情`,
+                            traceName: `魔方计划/魔方计划列表/${item.name}`,
+                          });
                           message.success('该组件还在创意中，欢迎老师提需求');
                         }}
                       >
@@ -124,7 +127,10 @@ class MCard extends React.Component {
                       <div
                         className={styles.detail}
                         onClick={() => {
-                          handleDataTrace({ widgetName: `查看详情`, traceName: `魔方计划/魔方计划列表/${item.name}` });
+                          handleDataTrace({
+                            widgetName: `查看详情`,
+                            traceName: `魔方计划/魔方计划列表/${item.name}`,
+                          });
                           message.success('该组件正在开发中，请期待～');
                         }}
                       >
@@ -152,7 +158,13 @@ class MCard extends React.Component {
                       src={videoIcon}
                       alt=""
                       onClick={() =>
-                        this.props.showVideoDia(true, item.videoUrl, item.detailCoverUrl, item.name, item.stepStatus)
+                        this.props.showVideoDia(
+                          true,
+                          item.videoUrl,
+                          item.detailCoverUrl,
+                          item.name,
+                          item.stepStatus
+                        )
                       }
                     />
                   </div>
@@ -175,7 +187,16 @@ class MCard extends React.Component {
                   你有需求，我有研发，你有金点子，我可以实现。
                 </Paragraph>
               </div>
-              <div className={styles.detail} onClick={() => this.props.onChangeDia(true)}>
+              <div
+                className={styles.detail}
+                onClick={() => {
+                  handleDataTrace({
+                    widgetName: `我要出谋划策`,
+                    traceName: `魔方计划/魔方介绍金点子`,
+                  });
+                  this.props.onChangeDia(true);
+                }}
+              >
                 <img src={newIdea} />
               </div>
             </div>
