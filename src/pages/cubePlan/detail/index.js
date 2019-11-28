@@ -22,7 +22,7 @@ let IMAGE_URL = '';
   cubePlanDetail,
   cubePlan,
   pageLoading: loading.effects['cubePlanDetail/getCommentPage'],
-  loading: loading.effects['cubePlanDetail/getCubeDetail'],
+  loadingBtn: loading.effects['cubePlanDetail/getCopyUrl'],
 }))
 
 class CubePlanDetail extends React.Component {
@@ -66,10 +66,6 @@ class CubePlanDetail extends React.Component {
   }
 
   urlChange =()=>{
-    const { detailInfo = {}} = this.props.cubePlanDetail;
-    if(!detailInfo.usedH5 || detailInfo.usedH5!==1){
-      return
-    }
     const params = { id:this.id,usedType:31 };
     this.props.dispatch({
       type: 'cubePlanDetail/getCopyUrl',
@@ -203,7 +199,8 @@ class CubePlanDetail extends React.Component {
 
   render() {
     const {content,starLevel,outwardName,visible3} = this.state;
-    const { pageLoading } = this.props;
+    const { pageLoading,loadingBtn } = this.props;
+    console.log(1111,pageLoading)
     const { screenRange } = this.props.cubePlan;
     const { detailInfo = {}, commentData = {}, commentLists = [],qrCode ,copyUrl} = this.props.cubePlanDetail;
     const { videoUrl, detailCoverUrl } = detailInfo || {};
@@ -218,6 +215,7 @@ class CubePlanDetail extends React.Component {
           <RightBox screenRange={screenRange}
                     detail={detailInfo}
                     copyUrl={copyUrl}
+                    loadingBtn={loadingBtn}
                     name={this.name}
                     openModal={(type, data) => this.openModal(type, data)}
                     openEwmModal={() => this.openEwmModal()}

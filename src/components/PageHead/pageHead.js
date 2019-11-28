@@ -8,7 +8,6 @@ export default class PageHead extends React.Component {
     // const routeObj = this.getRouterPathname();
     const { routerData = {} } = this.props;
     const { bread = {}, name = '' } = routerData;
-    console.log(11,bread)
     return (
       <div className='pagehead'>
         <Breadcrumb>

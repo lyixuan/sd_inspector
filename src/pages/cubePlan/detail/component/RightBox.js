@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography,message } from 'antd';
+import { Typography,message,Spin } from 'antd';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import appid from '@/assets/cube/btn-appid.png';
 import btnid from '@/assets/cube/btn-id.png';
@@ -36,7 +36,7 @@ class RightBox extends React.Component {
   };
 
   render() {
-    const {detail,screenRange,copyUrl} = this.props || {};
+    const {detail,screenRange,copyUrl,loadingBtn} = this.props || {};
     const {description,usageList=[],versionList = [],name,usedMp,usedH5,mpOriginId,mpAppId,mpUrl,h5Url} = detail||{};
 
     const usage = usageList && usageList.length>0 ? usageList.map((val,i)=>{
@@ -153,10 +153,10 @@ class RightBox extends React.Component {
                                         onCopy={() => this.copySuccess('复制落地页','魔方计划/魔方计划列表/')}>
             <span><img src={btndz} alt=""/></span>
           </CopyToClipboard>}
-          {usedH5===1&&<CopyToClipboard text={copyUrl}
-                                        onCopy={() => this.copySuccess('复制链接','魔方计划/魔方计划列表/')}>
-            <span><img src={btnfz} alt=""/></span>
-          </CopyToClipboard>}
+            {usedH5===1&&<div className={style.copyUrl}><Spin spinning={loadingBtn}><CopyToClipboard text={copyUrl}
+                                                                           onCopy={() => this.copySuccess('复制链接','魔方计划/魔方计划列表/')}>
+              <span><img src={btnfz} alt=""/></span>
+            </CopyToClipboard></Spin></div>}
           {usedH5===1&&<img src={btnewm} alt="" onClick={()=>this.openEwmModal('下载二维码','魔方计划/魔方计划列表/')}/>}
         </div>
       </div>

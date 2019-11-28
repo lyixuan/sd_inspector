@@ -30,7 +30,7 @@ class LeftBox extends React.Component {
     };
 
     const playerProps = {
-      id: Math.random(),
+      id: String(Math.random()),
       duration:10,
       // onBeforePlay:this.onBeforePlay,
       sources,
