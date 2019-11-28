@@ -36,6 +36,7 @@ class VideoDia extends React.Component {
       locale: 'en',
       shouldObserveResize: true,
       cover: coverUrl,
+      initialObjectFit:'cover',
     };
 
     return (

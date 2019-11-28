@@ -4,6 +4,7 @@ import Carousel from './Carousel';
 import styles from './style.less';
 import banner from '@/assets/cube/banner.png';
 import router from 'umi/router';
+import { handleDataTrace } from '@/utils/utils';
 
 @connect(({ cubePlan }) => ({}))
 class MCarousel extends React.Component {
@@ -13,6 +14,7 @@ class MCarousel extends React.Component {
   }
 
   openDialogs = () => {
+    handleDataTrace({"widgetName":`魔方计划介绍`,"traceName":`魔方计划/魔方计划介绍`});
     this.props.onChangeDia(true);
   };
 
