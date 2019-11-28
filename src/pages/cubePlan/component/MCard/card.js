@@ -152,7 +152,7 @@ class MCard extends React.Component {
                       src={videoIcon}
                       alt=""
                       onClick={() =>
-                        this.props.showVideoDia(true, item.videoUrl, item.detailCoverUrl, item.name)
+                        this.props.showVideoDia(true, item.videoUrl, item.detailCoverUrl, item.name, item.stepStatus)
                       }
                     />
                   </div>

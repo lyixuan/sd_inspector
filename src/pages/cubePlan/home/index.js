@@ -45,10 +45,16 @@ class Index extends React.Component {
     document.body.style.overflow = 'visible';
   };
 
-  showVideoDia = (showVideo, sourceUrl, coverUrl,name) => {
-    handleDataTrace({"widgetName":`播放视频`,"traceName":`魔方计划/魔方计划列表/${name}`});
+  showVideoDia = (showVideo, sourceUrl, coverUrl, name, status) => {
+    handleDataTrace({ widgetName: `播放视频`, traceName: `魔方计划/魔方计划列表/${name}` });
     if (!sourceUrl) {
-      message.success('该组件正在开发中，请期待～');
+      if (status === 1) {
+        message.success('该组件还在创意中，欢迎老师提需求');
+      }
+      if (status === 2) {
+        message.success('该组件正在开发中，请期待～');
+      }
+
       return;
     }
     this.setState({ showVideo, sourceUrl, coverUrl });
@@ -71,7 +77,9 @@ class Index extends React.Component {
           screenRange={screenRange}
           cardList={cardList}
           onChangeDia={this.onChangeDia}
-          showVideoDia={(showVideo, url, coverUrl, name) => this.showVideoDia(showVideo, url, coverUrl, name)}
+          showVideoDia={(showVideo, url, coverUrl, name, status) =>
+            this.showVideoDia(showVideo, url, coverUrl, name, status)
+          }
         />
         <PlanDia className={styles.dialogs} showDia={showDia} close={this.close} />
         <VideoDia
