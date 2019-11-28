@@ -32,7 +32,8 @@ class VideoDia extends React.Component {
         format:'',
         height: 1,
         width: 1,
-        size:1
+        size:1,
+        id: Math.random()
       },
     };
 
