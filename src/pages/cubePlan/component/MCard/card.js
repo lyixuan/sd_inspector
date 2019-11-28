@@ -18,6 +18,7 @@ import blueTips from '@/assets/cube/blueTips.png';
 import purpleTips from '@/assets/cube/purpleTips.png';
 import videoIcon from '@/assets/cube/videoIcon.png';
 import router from 'umi/router';
+import { handleDataTrace } from '@/utils/utils';
 
 const { Paragraph } = Typography;
 
@@ -37,7 +38,8 @@ class MCard extends React.Component {
     this.props.onChangeDia(true);
   };
 
-  goto = id => {
+  goto = (id, name) => {
+    handleDataTrace({ widgetName: `查看详情`, traceName: `魔方计划/魔方计划列表/${name}` });
     router.push({
       pathname: '/cubePlan/list/detail',
       query: { id: JSON.stringify(id) },
@@ -109,7 +111,10 @@ class MCard extends React.Component {
                     {item.stepStatus === 1 && (
                       <div
                         className={styles.detail}
-                        onClick={() => message.success('该组件还在创意中，欢迎老师提需求')}
+                        onClick={() => {
+                          handleDataTrace({ widgetName: `查看详情`, traceName: `魔方计划/魔方计划列表/${item.name}` });
+                          message.success('该组件还在创意中，欢迎老师提需求');
+                        }}
                       >
                         <img src={detail} />
                       </div>
@@ -117,13 +122,16 @@ class MCard extends React.Component {
                     {item.stepStatus === 2 && (
                       <div
                         className={styles.detail}
-                        onClick={() => message.success('该组件正在开发中，请期待～')}
+                        onClick={() => {
+                          handleDataTrace({ widgetName: `查看详情`, traceName: `魔方计划/魔方计划列表/${item.name}` });
+                          message.success('该组件正在开发中，请期待～');
+                        }}
                       >
                         <img src={detail} />
                       </div>
                     )}
                     {(item.stepStatus === 3 || item.stepStatus === 4) && (
-                      <div className={styles.detail} onClick={() => this.goto(item.id)}>
+                      <div className={styles.detail} onClick={() => this.goto(item.id, item.name)}>
                         <img src={detail} />
                       </div>
                     )}
@@ -143,7 +151,7 @@ class MCard extends React.Component {
                       src={videoIcon}
                       alt=""
                       onClick={() =>
-                        this.props.showVideoDia(true, item.videoUrl, item.detailCoverUrl)
+                        this.props.showVideoDia(true, item.videoUrl, item.detailCoverUrl, item.name)
                       }
                     />
                   </div>

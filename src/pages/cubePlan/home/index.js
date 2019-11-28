@@ -6,6 +6,7 @@ import PlanDia from './planDia';
 import VideoDia from './videoDia';
 import styles from './style.less';
 import { message } from 'antd';
+import { handleDataTrace } from '@/utils/utils';
 
 // import styles from './style.less';
 
@@ -44,7 +45,8 @@ class Index extends React.Component {
     document.body.style.overflow = 'visible';
   };
 
-  showVideoDia = (showVideo, sourceUrl, coverUrl) => {
+  showVideoDia = (showVideo, sourceUrl, coverUrl,name) => {
+    handleDataTrace({"widgetName":`播放视频`,"traceName":`魔方计划/魔方计划列表/${name}`});
     if (!sourceUrl) {
       message.success('该组件正在开发中，请期待～');
       return;
