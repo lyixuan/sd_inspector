@@ -11,6 +11,7 @@ import none from '@/assets/cube/none.png';
 import styles from './style.less';
 import { beforeAll } from 'lodash-decorators';
 import { message, Icon } from 'antd';
+import { handleDataTrace } from '@/utils/utils';
 
 @connect(({ cubePlanDia }) => ({ cubePlanDia }))
 class PlanDia extends React.Component {
@@ -28,6 +29,7 @@ class PlanDia extends React.Component {
     this.props.close(false);
   };
   submitFn = () => {
+    handleDataTrace({"widgetName":`提交需求`,"traceName":`魔方计划/魔方计划介绍`});
     const { targetCustomer, usageScenarios, expectTarget } = this.state;
     const params = {
       targetCustomer,
