@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect} from 'dva';
-import { message ,Icon } from 'antd';
+import { message } from 'antd';
 import BIModal from '@/ant_components/BIModal';
 import style from './style.less';
 import LeftBox from './component/LeftBox';
@@ -44,6 +44,7 @@ class CubePlanDetail extends React.Component {
     }
     this.id = Number(id);
     this.name=''
+    window.scrollTo(0, -1);
   }
 
   componentDidMount() {
@@ -62,7 +63,6 @@ class CubePlanDetail extends React.Component {
 
     this.urlChange();
     this.getCommentList();
-
   }
 
   urlChange =()=>{
@@ -200,7 +200,6 @@ class CubePlanDetail extends React.Component {
   render() {
     const {content,starLevel,outwardName,visible3} = this.state;
     const { pageLoading,loadingBtn } = this.props;
-    console.log(1111,pageLoading)
     const { screenRange } = this.props.cubePlan;
     const { detailInfo = {}, commentData = {}, commentLists = [],qrCode ,copyUrl} = this.props.cubePlanDetail;
     const { videoUrl, detailCoverUrl } = detailInfo || {};
