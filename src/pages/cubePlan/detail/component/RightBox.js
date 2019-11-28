@@ -58,7 +58,7 @@ class RightBox extends React.Component {
 
     const usageAll = usageList && usageList.map((val,i)=>{
       return (
-        <div className={style.boxContent} key={i}>
+        <div className={style.boxContent1} key={i}>
           <div>
             {val.title}
           </div>
@@ -93,7 +93,7 @@ class RightBox extends React.Component {
 
     const versionAll = versionList && versionList.length>0 ? versionList.map((val,i)=>{
       return (
-        <div className={style.boxContent} key={i}>
+        <div className={style.boxContent2} key={i}>
           <div className={style.boxDate}>{val.publishDate}更新</div>
           {
             val.modifyList.map((item,idx)=>{
