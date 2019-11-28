@@ -5,6 +5,7 @@ import MCard from '../component/MCard/card';
 import PlanDia from './planDia';
 import VideoDia from './videoDia';
 import styles from './style.less';
+import { message } from 'antd';
 
 // import styles from './style.less';
 
@@ -44,6 +45,10 @@ class Index extends React.Component {
   };
 
   showVideoDia = (showVideo, sourceUrl, coverUrl) => {
+    if (!sourceUrl) {
+      message.success('该组件正在开发中，请期待～');
+      return;
+    }
     this.setState({ showVideo, sourceUrl, coverUrl });
     document.body.style.overflow = 'hidden';
   };
