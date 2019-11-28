@@ -89,8 +89,12 @@ class MCard extends React.Component {
                     <div className={styles.top}>
                       <span className={styles.tips}>
                         <i>{item.name}</i>
-                        <img src={icon1} className={styles.icon} />
-                        <img src={icon2} className={styles.icon} />
+                        {item.usedMp !== null && item.usedMp > 0 && (
+                          <img src={icon1} className={styles.icon} />
+                        )}
+                        {item.usedH5 !== null && item.usedH5 > 0 && (
+                          <img src={icon2} className={styles.icon} />
+                        )}
                       </span>
                       <span className={styles.status}>
                         {item.stepStatus === 1 && <img className={styles.icon1} src={gary} />}
@@ -138,7 +142,9 @@ class MCard extends React.Component {
                     <img
                       src={videoIcon}
                       alt=""
-                      onClick={() => this.props.showVideoDia(true, item.videoUrl, item.coverUrl)}
+                      onClick={() =>
+                        this.props.showVideoDia(true, item.videoUrl, item.detailCoverUrl)
+                      }
                     />
                   </div>
                 </Card>
