@@ -4,6 +4,7 @@ import Xing from './Xing';
 import kongmimade from '@/assets/kongmimade.png';
 import lujing from '@/assets/cube/lujing.png'
 import style from './style.less';
+import { handleDataTrace } from '@/utils/utils';
 
 export default class BottomBox extends React.Component {
   constructor(props) {
@@ -18,6 +19,7 @@ export default class BottomBox extends React.Component {
   };
 
   openBBModal=()=>{
+    handleDataTrace({"widgetName":`我要评价`,"traceName":`魔方计划/魔方计划列表/${this.props.name}`});
     this.props.openBBModal();
   };
 

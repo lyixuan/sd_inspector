@@ -224,7 +224,7 @@ class CubePlanDetail extends React.Component {
           />
         </div>
         <div className={style.clear}/>
-        <BottomBox screenRange={screenRange} pageLoading={pageLoading} commentData={commentData} commentLists={commentLists}
+        <BottomBox name={this.name} screenRange={screenRange} pageLoading={pageLoading} commentData={commentData} commentLists={commentLists}
                    getCommentList={(pageNum) => {this.getCommentList(pageNum);}}
                    openBBModal={() => {this.openBBModal();}}/>
 
