@@ -14,6 +14,7 @@ import save from '@/assets/cube/save.png';
 import text from '@/assets/cube/text.png';
 import html2canvas from 'html2canvas';
 import {BiFilter} from '@/utils/utils';
+import { handleDataTrace } from '@/utils/utils';
 import {takeScreenshot,downloadBase64} from '@/utils/screenshort';
 
 let IMAGE_URL = '';
@@ -42,6 +43,7 @@ class CubePlanDetail extends React.Component {
       message.error('缺少参数id')
     }
     this.id = Number(id);
+    this.name=''
   }
 
   componentDidMount() {
@@ -50,6 +52,8 @@ class CubePlanDetail extends React.Component {
     this.props.dispatch({
       type: 'cubePlanDetail/getCubeDetail',
       payload: { params },
+    }).then(()=>{
+      handleDataTrace({"widgetName":`查看详情`,"traceName":`魔方计划/魔方计划列表/${this.name}`});
     });
     this.props.dispatch({
       type: 'cubePlanDetail/getOutwardNameList',
@@ -58,6 +62,7 @@ class CubePlanDetail extends React.Component {
 
     this.urlChange();
     this.getCommentList();
+
   }
 
   urlChange =()=>{
@@ -135,6 +140,15 @@ class CubePlanDetail extends React.Component {
       visible3: false,
     });
   };
+  handleCancel1 = () => {
+    handleDataTrace({"widgetName":`取消`,"traceName":`魔方计划/${this.name}/评价`});
+    this.setState({
+      visible: false,
+      visible2: false,
+      visible3: false,
+    });
+  };
+
 
   onFormChange = (value) => {
     this.setState({
@@ -156,6 +170,7 @@ class CubePlanDetail extends React.Component {
       message.warn('请选择评分星级~')
       return;
     }
+    handleDataTrace({"widgetName":`提交`,"traceName":`魔方计划/${this.name}/评价`});
     this.props.dispatch({
       type: 'cubePlanDetail/saveUserComment',
       payload: { ...params },
@@ -169,7 +184,7 @@ class CubePlanDetail extends React.Component {
         })
       }
     });
-    this.handleCancel()
+    this.handleCancel1()
   };
 
   takeScreenshot=()=>{
@@ -182,6 +197,7 @@ class CubePlanDetail extends React.Component {
   };
 
   saveScreenshot=()=>{
+    handleDataTrace({"widgetName":`保存图片`,"traceName":`魔方计划/魔方计划列表/${this.name}/下载二维码`});
     downloadBase64(IMAGE_URL, 'h5二维码.png');
   };
 
@@ -192,14 +208,17 @@ class CubePlanDetail extends React.Component {
     const { detailInfo = {}, commentData = {}, commentLists = [],qrCode ,copyUrl} = this.props.cubePlanDetail;
     const { videoUrl, detailCoverUrl } = detailInfo || {};
     const { titleName, data } = this.state;
+
+    this.name = detailInfo.name;
     const xingText = BiFilter(`Xing|id:${starLevel}`).name;
     return (
       <div className={screenRange === 'small_screen' ? style.layoutSmall : style.layoutMiddle}>
         <div>
-          <LeftBox screenRange={screenRange} videoUrl={videoUrl} detailCoverUrl={detailCoverUrl}/>
+          <LeftBox screenRange={screenRange} videoUrl={videoUrl} detailCoverUrl={detailCoverUrl} name={this.name}/>
           <RightBox screenRange={screenRange}
                     detail={detailInfo}
                     copyUrl={copyUrl}
+                    name={this.name}
                     openModal={(type, data) => this.openModal(type, data)}
                     openEwmModal={() => this.openEwmModal()}
           />
@@ -232,7 +251,7 @@ class CubePlanDetail extends React.Component {
         >
           <div className={style.bb}>
             <div>
-              <span className={style.tt}>选个花名</span>：
+              <span className={style.tt}>我的花名</span>：
               <span>{outwardName}</span>
             </div>
             <div>
@@ -248,7 +267,7 @@ class CubePlanDetail extends React.Component {
               <span className={style.moreText}>最多不超过100字</span>
             </div>
             <div className={style.btnfooter}>
-              <img onClick={this.handleCancel}  src={cal} alt=""/>
+              <img onClick={this.handleCancel1}  src={cal} alt=""/>
               <img onClick={this.submit} src={sub} alt=""/>
             </div>
           </div>

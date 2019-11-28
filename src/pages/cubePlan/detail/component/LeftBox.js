@@ -2,6 +2,7 @@ import React from 'react';
 import Player from 'griffith'
 import bg from '@/assets/cube/video-bg.png';
 import style from './style.less';
+import { handleDataTrace } from '@/utils/utils';
 
 class LeftBox extends React.Component {
   constructor(props) {
@@ -11,6 +12,9 @@ class LeftBox extends React.Component {
     };
   }
 
+  onBeforePlay=()=>{
+    handleDataTrace({"widgetName":`播放视频`,"traceName":`魔方计划/魔方计划列表/${this.props.name}`});
+  };
   render() {
     const { screenRange,detailCoverUrl,videoUrl } = this.props;
     const sources = {
@@ -28,8 +32,9 @@ class LeftBox extends React.Component {
     const playerProps = {
       id:'abd',
       duration:10,
+      // onBeforePlay:this.onBeforePlay,
       sources,
-      initialObjectFit:'contain', // fill | contain | cover | none | scale-down
+      initialObjectFit:'fill', // fill | contain | cover | none | scale-down
       cover:detailCoverUrl||'',
     };
     return (

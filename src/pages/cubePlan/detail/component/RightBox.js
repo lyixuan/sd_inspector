@@ -9,6 +9,7 @@ import btnfz from '@/assets/cube/btn-fz.png';
 import lujing from '@/assets/cube/lujing.png';
 
 import style from './style.less';
+import { handleDataTrace } from '@/utils/utils';
 
 const { Paragraph } = Typography;
 class RightBox extends React.Component {
@@ -20,14 +21,17 @@ class RightBox extends React.Component {
   }
 
   openModal = (type,data) =>{
+    handleDataTrace({"widgetName":`${type}-查看更多`,"traceName":`魔方计划/魔方计划列表/${this.props.name}`});
     this.props.openModal(type,data);
   };
 
-  openEwmModal = () =>{
+  openEwmModal = (text,text2) =>{
+    handleDataTrace({"widgetName":`${text}`,"traceName":`${text2}${this.props.name}`});
     this.props.openEwmModal();
   };
 
-  copySuccess = () =>{
+  copySuccess = (text,text2) =>{
+    handleDataTrace({"widgetName":`${text}`,"traceName":`${text2}${this.props.name}`});
     message.success('复制成功')
   };
 
@@ -45,7 +49,7 @@ class RightBox extends React.Component {
             {val.content}
             </pre>
       </div>)
-    }):<span>&nbsp;&nbsp;&nbsp;&nbsp;无</span> ;
+    }):<span>&nbsp;&nbsp;&nbsp;&nbsp;暂无说明</span> ;
 
     const usageAll = usageList && usageList.map((val,i)=>{
       return (
@@ -75,7 +79,7 @@ class RightBox extends React.Component {
             })
           }
         </div>)
-    }):<span>&nbsp;&nbsp;&nbsp;&nbsp;无</span>;
+    }):<span>&nbsp;&nbsp;&nbsp;&nbsp;暂无说明</span>;
 
     const versionAll = versionList && versionList.length>0 ? versionList.map((val,i)=>{
       return (
@@ -94,7 +98,7 @@ class RightBox extends React.Component {
             })
           }
         </div>)
-    }):<span>&nbsp;&nbsp;&nbsp;&nbsp;无</span>;
+    }):<span>&nbsp;&nbsp;&nbsp;&nbsp;暂无说明</span>;
     return (
       <div className={screenRange === 'small_screen' ? style.rightBoxSmall : style.rightBoxMiddle}>
         <div><span className={style.titleLine}/> <span className={style.title}>{name}</span></div>
@@ -106,7 +110,7 @@ class RightBox extends React.Component {
           </div>
           <div className={style.boxContent}>
             <Paragraph ellipsis={{ rows: 2 }}>
-              {description||'无'}
+              {description||'暂无介绍'}
             </Paragraph>
           </div>
         </div>
@@ -122,28 +126,28 @@ class RightBox extends React.Component {
         <div className="cubeDetail">
           <div className={style.boxBar}>
             <span>功能更新说明</span>
-            <span onClick={()=>this.openModal('功能更新说明',versionAll)}>查看更多 <img className={style.lujing} src={lujing} alt=""/></span>
+            {versionList.length>0&&<span onClick={()=>this.openModal('功能更新说明',versionAll)}>查看更多 <img className={style.lujing} src={lujing} alt=""/></span>}
           </div>
           {version}
         </div>
         <div className={style.btns}>
           {usedMp===1&&<CopyToClipboard text={mpOriginId}
-                           onCopy={() => this.copySuccess()}>
+                           onCopy={() => this.copySuccess('复制小程序原始ID','魔方计划/魔方计划列表/')}>
             <span><img src={btnid} alt=""/></span>
           </CopyToClipboard>}
           {usedMp===1&&<CopyToClipboard text={mpAppId}
-                                        onCopy={() => this.copySuccess()}>
+                                        onCopy={() => this.copySuccess('复制小程序APPID','魔方计划/魔方计划列表/')}>
             <span><img src={appid} alt=""/></span>
           </CopyToClipboard>}
           {usedMp===1&&<CopyToClipboard text={mpUrl}
-                                        onCopy={() => this.copySuccess()}>
+                                        onCopy={() => this.copySuccess('复制落地页','魔方计划/魔方计划列表/')}>
             <span><img src={btndz} alt=""/></span>
           </CopyToClipboard>}
           {usedH5===1&&<CopyToClipboard text={copyUrl}
-                                        onCopy={() => this.copySuccess()}>
+                                        onCopy={() => this.copySuccess('复制链接','魔方计划/魔方计划列表/')}>
             <span><img src={btnfz} alt=""/></span>
           </CopyToClipboard>}
-          {usedH5===1&&<img src={btnewm} alt="" onClick={()=>this.openEwmModal()}/>}
+          {usedH5===1&&<img src={btnewm} alt="" onClick={()=>this.openEwmModal('下载二维码','魔方计划/魔方计划列表/')}/>}
         </div>
       </div>
     );
