@@ -183,7 +183,6 @@ class CubePlanDetail extends React.Component {
 
   saveScreenshot=()=>{
     downloadBase64(IMAGE_URL, 'h5二维码.png');
-    message.success('保存成功')
   };
 
   render() {

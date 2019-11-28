@@ -12,7 +12,7 @@ export default class Xing extends React.Component {
   }
 
   clickXing=(lv)=>{
-    this.props.clickXing(lv);
+    this.props.clickXing && this.props.clickXing(lv);
   };
 
   render() {

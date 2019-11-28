@@ -6,6 +6,7 @@ import btnid from '@/assets/cube/btn-id.png';
 import btndz from '@/assets/cube/btn-dz.png';
 import btnewm from '@/assets/cube/btn-ewm.png';
 import btnfz from '@/assets/cube/btn-fz.png';
+import lujing from '@/assets/cube/lujing.png';
 
 import style from './style.less';
 
@@ -101,7 +102,7 @@ class RightBox extends React.Component {
         <div className="cubeDetail">
           <div className={style.boxBar}>
             <span>简单介绍</span>
-            <span onClick={()=>this.openModal('简单介绍',description)}>查看更多 &gt;</span>
+            <span onClick={()=>this.openModal('简单介绍',description)}>查看更多 <img className={style.lujing} src={lujing} alt=""/></span>
           </div>
           <div className={style.boxContent}>
             <Paragraph ellipsis={{ rows: 2 }}>
@@ -113,7 +114,7 @@ class RightBox extends React.Component {
         <div className="cubeDetail">
           <div className={style.boxBar}>
             <span>使用说明</span>
-            <span onClick={()=>this.openModal('使用说明',usageAll)}>查看更多 &gt;</span>
+            <span onClick={()=>this.openModal('使用说明',usageAll)}>查看更多 <img className={style.lujing} src={lujing} alt=""/></span>
           </div>
           {usage}
         </div>
@@ -121,7 +122,7 @@ class RightBox extends React.Component {
         <div className="cubeDetail">
           <div className={style.boxBar}>
             <span>功能更新说明</span>
-            <span onClick={()=>this.openModal('功能更新说明',versionAll)}>查看更多 &gt;</span>
+            <span onClick={()=>this.openModal('功能更新说明',versionAll)}>查看更多 <img className={style.lujing} src={lujing} alt=""/></span>
           </div>
           {version}
         </div>

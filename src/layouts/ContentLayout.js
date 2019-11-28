@@ -31,22 +31,23 @@ class ContentLayout extends Component {
 
     let isEmptyContentLayoutWithBread = false;
     EmptyContentLayoutWithBread && EmptyContentLayoutWithBread.forEach((v) => {
-      if (path && path.indexOf(v.path) > -1) {
-        isEmptyContentLayout = true;
+      if (path && path===v.path) {
+        isEmptyContentLayoutWithBread = true;
       }
     });
+
     return (
       <>
-        {isEmptyContentLayout ? (
-          <div style={{ marginTop: '16px' }}>{this.props.children && { ...this.props.children }}</div>
-        ) : isEmptyContentLayoutWithBread?(
-          <div style={{ marginTop: '16px' }}>
+        {isEmptyContentLayoutWithBread?(
+          <div>
             <div className={styles.bread}>
               {bread && bread.path && <PageHead routerData={routeObj} />}
             </div>
             {this.props.children && { ...this.props.children }}
-            </div>
-          ):(
+          </div>
+        ):isEmptyContentLayout ? (
+          <div style={{ marginTop: '16px' }}>{this.props.children && { ...this.props.children }}</div>
+        ) :(
             <div>
               <div className={styles.bread}>
                 {bread && bread.path && <PageHead routerData={routeObj} />}

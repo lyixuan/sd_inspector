@@ -2,6 +2,7 @@ import React from 'react';
 import { Avatar,Spin } from 'antd';
 import Xing from './Xing';
 import kongmimade from '@/assets/kongmimade.png';
+import lujing from '@/assets/cube/lujing.png'
 import style from './style.less';
 
 export default class BottomBox extends React.Component {
@@ -20,6 +21,7 @@ export default class BottomBox extends React.Component {
     this.props.openBBModal();
   };
 
+
   render() {
     const { screenRange, commentData ,commentLists} = this.props;
 
@@ -35,7 +37,7 @@ export default class BottomBox extends React.Component {
           <div>发表于{item.createTime}</div>
         </div>
         <div className={style.btRight}>
-          <Xing starLevel={item.starLevel} />
+          <Xing starLevel={item.starLevel}/>
           <div>{item.content?item.content:`系统：【${item.outwardName}】没有留言`}</div>
         </div>
       </div>
@@ -46,7 +48,7 @@ export default class BottomBox extends React.Component {
         <Spin spinning={this.props.pageLoading}>
           <div className={style.boxBar}>
             <span>评价与建议</span>
-            <span onClick={()=>this.openBBModal()}>我要评价 &gt;</span>
+            <span onClick={()=>this.openBBModal()}>我要评价  <img className={style.lujing} src={lujing} alt=""/></span>
           </div>
           <div className={style.boxContent}>
             {commentLists.length>0?comment:<div className={style.kong}>
@@ -56,7 +58,7 @@ export default class BottomBox extends React.Component {
           </div>
           {commentLists.length>0&&
             <div className={style.footer}>
-              {isLastPage?<span>没有更多了</span>:<span onClick={()=>this.more(pageNum)}>查看更多 ></span>}
+              {isLastPage?<span>没有更多了</span>:<span onClick={()=>this.more(pageNum)}>查看更多</span>}
             </div>}
         </Spin>
       </div>

@@ -414,7 +414,7 @@ export const EmptyContentLayout = [
   { path: '/cubePlan/list', name: '魔方计划' },
 ];
 export const EmptyContentLayoutWithBread = [
-  { path: '/cubePlan/detail', name: '魔方详情' },
+  { path: '/cubePlan/list/detail', name: '魔方详情' },
 ];
 // 注册类型
 export const REGISTER_STATUS = [{ id: 1, name: '已注册' }];
