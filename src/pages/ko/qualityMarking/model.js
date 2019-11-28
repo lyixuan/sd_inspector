@@ -2,7 +2,7 @@ import { message } from 'antd';
 import { getOperatorList, getConsultTypeTree, getReasonTypeTree, getTableList, exportData } from './services';
 import { downBlob, msgF } from '@/utils/utils';
 import { getKOEnumList } from '@/pages/ko/services';
-import { emptyValue } from '@/pages/ko/utils/utils';
+import { emptyValue, getArrLastValue } from '@/pages/ko/utils/utils';
 export default {
   namespace: 'workTableModel',
 
@@ -50,7 +50,12 @@ export default {
       const params = payload.params;
       const { choiceTime, ...otherParams } = params;
       const pageSize = yield select(state => state.workTableModel.pageSize);
-      const result = yield call(getTableList, { ...otherParams, pageSize });
+      const result = yield call(getTableList, { 
+        ...otherParams, 
+        pageSize, 
+        consultType: getArrLastValue(otherParams.consultType),
+        reasonType: getArrLastValue(otherParams.reasonType),
+      });
       if (result && result.code && result.code === 20000) {
         const { currentPage, type, ...others } = params;
         const data = result.data || {};

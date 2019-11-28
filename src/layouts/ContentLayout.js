@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PageHead from '@/components/PageHead/pageHead';
 import styles from './ContentLayout.less';
 import { BiFilter } from '@/utils/utils';
+import { EmptyContentLayoutWithBread } from '@/utils/constants';
 
 
 class ContentLayout extends Component {
@@ -27,11 +28,26 @@ class ContentLayout extends Component {
         isEmptyContentLayout = true;
       }
     });
+
+    let isEmptyContentLayoutWithBread = false;
+    EmptyContentLayoutWithBread && EmptyContentLayoutWithBread.forEach((v) => {
+      if (path && path===v.path) {
+        isEmptyContentLayoutWithBread = true;
+      }
+    });
+
     return (
       <>
-        {isEmptyContentLayout ? (
+        {isEmptyContentLayoutWithBread?(
+          <div>
+            <div className={styles.bread}>
+              {bread && bread.path && <PageHead routerData={routeObj} />}
+            </div>
+            {this.props.children && { ...this.props.children }}
+          </div>
+        ):isEmptyContentLayout ? (
           <div style={{ marginTop: '16px' }}>{this.props.children && { ...this.props.children }}</div>
-        ) : (
+        ) :(
             <div>
               <div className={styles.bread}>
                 {bread && bread.path && <PageHead routerData={routeObj} />}
@@ -40,7 +56,8 @@ class ContentLayout extends Component {
               {name && path.indexOf('shine')===-1 && <div className={styles.title}>{name}</div>}
               <div>{this.props.children && { ...this.props.children }}</div>
             </div>
-          )}
+          )
+        }
       </>
     );
   }

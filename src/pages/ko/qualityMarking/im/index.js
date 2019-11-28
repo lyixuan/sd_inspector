@@ -208,15 +208,12 @@ class imPage extends React.Component {
   };
   queryData = () => {
     const { searchParams, currentPage } = this.state;
-    const { consultType = [], reasonType = [] } = searchParams;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
       payload: { params: { 
         ...searchParams, 
         page: currentPage, 
-        type: markType, 
-        consultType: getArrLastValue(consultType),
-        reasonType: getArrLastValue(reasonType)
+        type: markType,
        } },
     });
   };

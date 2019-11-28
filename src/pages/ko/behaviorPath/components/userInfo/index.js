@@ -158,10 +158,10 @@ class PathUserInfo extends React.Component {
               </span> : <span>{info.backOrgs}</span>
             }
           </li> */}
-          <li>
-            <label>设备：</label>
-            <span>{info.deviceModel ? info.deviceModel : '其他'}</span>
-          </li>
+          {/*<li>*/}
+            {/*<label>设备：</label>*/}
+            {/*<span>{info.deviceModel ? info.deviceModel : '其他'}</span>*/}
+          {/*</li>*/}
           <li>
             <label>注册时间：</label>
             <span>{info.registerTime}</span>

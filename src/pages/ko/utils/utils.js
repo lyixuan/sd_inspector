@@ -86,7 +86,7 @@ export function strLen(str = '', len = 10) {
   let lengh = '';
   for (var i = 0; i < str.length; i++) {
     var c = str.charCodeAt(i);
-    //单字节加1 
+    //单字节加1
     if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
       // 英文
       lengh = (str ? str.length : 0) > (len * 2) ? str.substring(0, len * 2) + '...' : str;
@@ -114,6 +114,16 @@ export function jumpMarkingDetails(id, type) {
     const strParams = encodeURIComponent(JSON.stringify(params));
     const url = `${origin}${config.base}qualityMarking/detail?params=${strParams}`;
     window.open(url);
+  }
+
+}
+export function jumpRouter(id, type) {
+  const origin = window.location.origin;
+  if (type.target) {
+    const url = `${origin}${config.base}ko/behaviorPath`;
+    const params = { userId: id, target: type.target };
+    const strParams = encodeURIComponent(JSON.stringify(params));
+    window.open(`${url}?params=${strParams}`, "_self");
   }
 
 }
@@ -168,9 +178,9 @@ export function initTimeData(params) {
   }
 }
 
-// 
+//
 export const emptyValue = 9999;
-export function getArrLastValue(arr) {
+export function getArrLastValue(arr = []) {
   const val = arr.length > 0 ? arr[arr.length -1].value : undefined;
   if (val === emptyValue) {
     return 0;

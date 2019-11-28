@@ -20,5 +20,15 @@ export async function getIncomeCollegeList(params) {
 }
 
 
+// 问卷调查
+export async function getQuestionCheckUser(params) {
+  return request('/questionPage/checkUser', { method: 'get', data: params })
+}
+// 问卷调查提交
+export async function postWriteQuestion(data) {
+  return request('/questionPage/writeQuestion', { method: 'POST', data });
+}
+
+
 
 

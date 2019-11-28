@@ -1,0 +1,142 @@
+.layer {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  background: rgba(0, 0, 0, 0.7);
+
+  .dialogs {
+    border-radius: 15px;
+    text-align: center;
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+  }
+}
+// dialogs
+.PlanDiaCon {
+  width: 100%;
+  .imgCon {
+    width: 900px;
+    height: 500px;
+    margin: 0 auto;
+    padding-top: 80px;
+    position: relative;
+
+    .plan {
+      width: 900px;
+      background-size: 100%;
+    }
+    .close {
+      position: absolute;
+      //   width: 0.3em;
+      right: 17px;
+      top: 90px;
+      img {
+        width: 17px;
+        height: 17px;
+        background-size: 100%;
+      }
+      //   height: 1.5em;
+      //   background: #fff;
+      //   transform: rotate(45deg);
+      //   display: inline-block;
+    }
+
+    // .close:after {
+    //   content: '';
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    //   width: 0.3em;
+    //   height: 1.5em;
+    //   background: #fff;
+    //   transform: rotate(270deg);
+    // }
+
+    .inputCon {
+      width: 100%;
+      padding-bottom: 40px;
+      background: #181e3e;
+      .formCom {
+        p {
+          display: flex;
+          padding: 0 20px;
+          width: 770px;
+          margin: 0 auto 10px;
+          font-size: 13px;
+          font-family: PingFangSC-Semibold, PingFang SC;
+          span:nth-child(1) {
+            width: 72px;
+            height: 18px;
+            font-size: 13px;
+            font-family: PingFangSC-Semibold, PingFang SC;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 1);
+            line-height: 18px;
+            margin-top: 7px;
+          }
+          textarea {
+            width: 100%;
+            line-height: 22px;
+          }
+        }
+
+        .submit {
+          margin-top: 23px;
+          display: flex;
+          justify-content: center;
+          img {
+            margin-right: 12px;
+            width: 130px;
+            height: 45px;
+            background-size: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+.mobile {
+  position: relative;
+  width: 316px;
+  height: 560px;
+  margin: 80px auto 0;
+  img {
+    position: absolute;
+    width: 321px;
+    height: 570px;
+    top: -4px;
+  }
+  .videoInner {
+    width: 313px;
+    height: 562px;
+    margin-left: 4px;
+    margin-top: 0px;
+    border-radius: 10px;
+    overflow: auto;
+    .border {
+      width: 325px;
+      position: absolute;
+      top: -5px;
+      left: -3px;
+      z-index: 2;
+    }
+
+    .close {
+      position: absolute;
+      right: -47px;
+      top: 0;
+    }
+    div[class*='_'] {
+      font-size: 0.6em !important;
+    }
+  }
+}

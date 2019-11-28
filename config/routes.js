@@ -528,26 +528,42 @@ export const routes = [
       // }
       {
         path: '/configWords',
-        component: './configWords/index'
+        component: './configWords/index',
       },
       {
         path: '/examPlant/index',
         component: './examPlant/index',
-        name: '报考时间'
+        name: '报考时间',
       },
       {
-        path: '/operateActivity',
+        path: '/cubePlan',
+        component: './cubePlan',
+        name: '魔方计划',
         routes: [
           {
-            path: '/operateActivity/index',
-            component: './operateActivity',
+            path: '/cubePlan/list',
+            component: './cubePlan/home/index',
+            name: '首页',
           },
           {
-            path: '/operateActivity/configActivity',
-            component: './operateActivity/configActivity',
-          }
-        ]
-      }
+            path: '/cubePlan/list/detail',
+            component: './cubePlan/detail/index',
+            name: '查看详情',
+            bread: {
+              name: '首页',
+              path: '/cubePlan/list',
+            },
+          },
+        ],
+      },
+      {
+        path: '/classQuality/qualityType/1', // 客诉
+        component: './classQuality/index',
+      },
+      {
+        path: '/classQuality/qualityType/2', // 班主任
+        component: './classQuality/index',
+      },
     ],
   },
 ];

@@ -411,6 +411,10 @@ export const EmptyContentLayout = [
   { path: '/xdCredit/index', name: '小德学分' },
   { path: '/xdFamilyBench/index', name: '家族长工作台' },
   { path: '/indexPage', name: '小德工作台' },
+  { path: '/cubePlan/list', name: '魔方计划' },
+];
+export const EmptyContentLayoutWithBread = [
+  { path: '/cubePlan/list/detail', name: '魔方详情' },
 ];
 // 注册类型
 export const REGISTER_STATUS = [{ id: 1, name: '已注册' }];
@@ -546,7 +550,19 @@ export const WB_LIFE_CYCLE = [
   { id: '630', name: '630' },
   { id: '710', name: '710' },
 ];
+export const DO_NOT_MENU = [
+  '/xdCredit/index', // 小德学分
+  '/classQuality/qualityType/1', // 客诉任手册
+  '/classQuality/qualityType/2', // 班主任手册
+]
 
+export const Xing = [
+  { id: 1, name: '非常难用' },
+  { id: 2, name: '不好用' },
+  { id: 3, name: '一般般' },
+  { id: 4, name: '好用' },
+  { id: 5, name: '非常好用' },
+];
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -571,6 +587,7 @@ export default {
   APPEAL_RESULT_TYPE,
   QUALITY_UPLOAD_TYPE,
   EmptyContentLayout,
+  EmptyContentLayoutWithBread,
   APP_LIST,
   HOT_RANGE,
   REGISTER_STATUS,
@@ -584,6 +601,8 @@ export default {
   PUNISH_TYPE_LIST,
   WB_STAR,
   WB_LIFE_CYCLE,
+  DO_NOT_MENU,
+  Xing
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

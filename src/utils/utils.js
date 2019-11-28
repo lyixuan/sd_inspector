@@ -357,6 +357,8 @@ export function getBowerInfo() {
       engine.browserType = 'Chrome';
     }else if(/Version\/(\S+)/.test(ua)){
       engine.browserType = 'Safari';
+    } else {
+      engine.browserType = '其他';
     }
   } else if (/KHTML\/(\S+)/.test(ua)||/Konqueror\/([^;]+)/.test(ua)) {
     engine.browserVersion =  RegExp['$1'];
@@ -367,6 +369,8 @@ export function getBowerInfo() {
     engine.browserCore='gecko';
     if(/Firefox\/(\S+)/.test(ua)){
       engine.browserType = 'Firefox';
+    } else {
+      engine.browserType = '其他';
     }
   } else if (/MSIE ([^;]+)/.test(ua)) {
     engine.browserVersion = RegExp['$1'];
@@ -379,7 +383,7 @@ export function getBowerInfo() {
   } else {
     engine.browserVersion = null;
     engine.browserCore='未知';
-    engine.browserType='未知';
+    engine.browserType='其他';
   }
 
 
@@ -404,5 +408,6 @@ export function getBowerInfo() {
   return engine;
 }
 
-
-
+export function GetLength(str) {
+  return str.replace(/[\u0391-\uFFE5]/g,"aa").length;   //先把中文替换成两个字节的英文，在计算长度
+};

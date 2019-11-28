@@ -16,11 +16,11 @@ import SiderMenu from '../components/SiderMenu';
 import biIcon from '../assets/biIcon.png';
 import logo from '../assets/menu/logo.png';
 import storage from '../utils/storage';
-import {getBowerInfo} from '../utils/utils';
+import { getBowerInfo } from '../utils/utils';
 import HeaderLayout from './Header';
 import { query } from './utils/query';
 import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
-import { redirectUrlParams,redirectToLogin, checkPathname } from '../utils/routeUtils';
+import { redirectUrlParams, redirectToLogin, checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
 
 // import router from 'umi/router';
@@ -83,8 +83,7 @@ class BasicLayout extends React.PureComponent {
     isMobile,
   };
 
-
-  routerFlat = (routes) => {
+  routerFlat = routes => {
     const that = this;
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].path) {
@@ -128,11 +127,11 @@ class BasicLayout extends React.PureComponent {
     }
     if (checkoutLogin()) {
       // alert(1);
-      const {pathname} = nextProps.location||{};
-      const num = pathname.indexOf('/fromEmail')>0?pathname.indexOf('/fromEmail'):1000;
-      if(num!==1000){
+      const { pathname } = nextProps.location || {};
+      const num = pathname.indexOf('/fromEmail') > 0 ? pathname.indexOf('/fromEmail') : 1000;
+      if (num !== 1000) {
         router.push({
-          pathname: pathname.substring(0,num)
+          pathname: pathname.substring(0, num),
         });
       }
     } else {
@@ -143,7 +142,6 @@ class BasicLayout extends React.PureComponent {
   componentWillUnmount() {
     unenquireScreen(this.enquireHandler);
   }
-
 
   // checkoutHasAuth = () => {
   //   // debugger环境下使用url跳转传参
@@ -212,22 +210,24 @@ class BasicLayout extends React.PureComponent {
   };
   initSysItem = () => {
     const that = this;
-    this.props.dispatch({
-      type: 'login/initSubSystem',
-      payload: {},
-    }).then(() => {
-      that.MenuData();
-    });
+    this.props
+      .dispatch({
+        type: 'login/initSubSystem',
+        payload: {},
+      })
+      .then(() => {
+        that.MenuData();
+      });
   };
 
-  setBrowserInfo= () => {
+  setBrowserInfo = () => {
     const obj = getBowerInfo();
-    if(!obj){
-      return
+    if (!obj) {
+      return;
     }
     this.props.dispatch({
       type: 'login/setBrowserInfo',
-      payload: {...obj},
+      payload: { ...obj },
     });
   };
 
@@ -239,14 +239,28 @@ class BasicLayout extends React.PureComponent {
     });
   };
 
-  gobalMarkClass() {// 质检标注的几个页面布局 需要改变一下头部的样式
-    const tabGroup = ['/setting/performance/list', '/qualityMarking/im', '/qualityMarking/bbs', '/qualityMarking/nps', '/entrancePlatform/statistics', '/ko/behaviorPath'];
+  gobalMarkClass() {
+    // 质检标注的几个页面布局 需要改变一下头部的样式
+    const tabGroup = [
+      '/cubePlan/list',
+      '/setting/performance/list',
+      '/qualityMarking/im',
+      '/qualityMarking/bbs',
+      '/qualityMarking/nps',
+      '/entrancePlatform/statistics',
+      '/ko/behaviorPath',
+    ];
     return tabGroup.includes(this.props.location.pathname) ? 'aiWorktable-ant-layout-content' : '';
   }
 
   render() {
+    let color = '#F5F8FA';
     const { collapsed, fetchingNotices, notices, location, children, isLoginIng } = this.props;
     const { menuData } = this.props;
+
+    if(this.props.location.pathname === '/cubePlan/list'){
+      color = '#fff';
+    }
     const currentUser = this.handleUserInfo();
     currentUser.avatar = biIcon;
     const layout = (
@@ -264,7 +278,7 @@ class BasicLayout extends React.PureComponent {
               window.location.href = 'www.baidu.com';
             }}
           />
-          <Layout style={{ backgroundColor: '#F5F8FA' }}>
+          <Layout style={{ backgroundColor: color }}>
             <HeaderLayout
               {...this.props}
               logo={biIcon}
@@ -278,9 +292,7 @@ class BasicLayout extends React.PureComponent {
             />
             <Content className={this.gobalMarkClass()}>
               <ContentLayout {...this.props} routesData={routesData}>
-                <Authorized
-                  authority={checkPathname.bind(null, location.patchname)}
-                >
+                <Authorized authority={checkPathname.bind(null, location.patchname)}>
                   {children}
                 </Authorized>
               </ContentLayout>

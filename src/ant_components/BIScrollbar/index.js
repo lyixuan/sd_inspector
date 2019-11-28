@@ -17,7 +17,11 @@ class BIScrollbar extends React.Component {
   }
   componentDidMount() {
     const { scrollbar } = this.$container;
-    this.setState({ scrollbar })  
+    this.setState({ scrollbar })
+    const { onRefScrollbar } = this.props;
+    if (onRefScrollbar && typeof onRefScrollbar === 'function') {
+      onRefScrollbar(scrollbar);
+    }
   }
   onMouseEnter = e => {
     const { onMouseEnter } = this.props;
@@ -48,7 +52,7 @@ class BIScrollbar extends React.Component {
     }
   }
   render() {
-    const { onMouseEnter, onMouseLeave, ref, ...props} = this.props;
+    const { onMouseEnter, onMouseLeave, onRefScrollbar, ...props} = this.props;
     return (
       <Scrollbar
         ref={c => this.$container = c}

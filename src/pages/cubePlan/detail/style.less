@@ -1,0 +1,135 @@
+.layoutSmall ,.layoutMiddle{
+  background: #fff;
+  min-height: 800px;
+  border-radius:10px;
+  overflow: hidden;
+  padding: 20px;
+  width:1190px;
+  margin-bottom: 15px;
+}
+
+.layoutSmall {
+  width:1014px;
+  margin-bottom: 15px;
+}
+
+.clear {
+  clear: both;
+}
+.pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-weight: normal;
+  font-size:14px;
+  color:#666;
+  display: inline;
+  height: 300px;
+}
+
+
+:global .cubeDetailModal {
+  height: 400px;
+  overflow-y: auto;
+  .ant-typography {
+    font-size:13px;
+    color:rgba(0,0,0,1);
+    margin-bottom: 3px;
+  }
+  pre {
+    line-height: 2;
+  }
+}
+
+.bb {
+  width: 100%;
+  padding: 0 20px;
+  color: #1A1C1F;
+  font-size: 13px;
+  overflow: hidden;
+}
+
+.bb>div:nth-child(1),.bb>div:nth-child(2) {
+  width: 100%;
+  height: 40px;
+}
+.bb>div span {
+  display: inline-block;
+}
+.bb .tt{
+  width: 70px;
+  display: inline-block;
+  text-align-last: justify;
+  text-align: justify;
+}
+
+.bb>div:nth-child(3) span:nth-child(2){
+  margin-top: 5px;
+  vertical-align: text-top;
+ width:calc(100% - 100px);
+}
+
+.btnfooter {
+  margin-top: 30px;
+  text-align: center;
+}
+.btnfooter img{
+  width: 110px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.moreText {
+  float: right;
+  font-size:13px;
+  font-weight:400;
+  color:#999;
+  margin-top: 5px;
+  margin-right: 17px;
+}
+
+.modallayer,.modallayer2 {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.modallayer2 {
+  display: none;
+}
+
+.videoInner {
+  position: relative;
+  width: 376px;
+  height: 454px;
+  border-radius: 8px;
+  margin: 80px auto 0;
+}
+
+.videoInner1 {
+  background: #fff;
+  border-radius: 8px;
+}
+.videoInner img:nth-child(1),.videoInner img:nth-child(2) {
+  border-radius: 8px;
+}
+
+.copyImage{
+  position: absolute;
+  top:0;
+  left:0;
+  z-index: -10;
+  width:376px;
+  height:354px;
+  opacity:0;
+}
+
+.text {
+  display: inline-block;
+  vertical-align: bottom;
+  margin-left: 30px;
+  color: #999;
+}

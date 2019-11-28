@@ -57,6 +57,8 @@ class Negative extends React.Component {
       .then(res => {
         this.getReasonListData();
       });
+
+    this._isMounted = true;
   }
 
   componentDidUpdate() {
@@ -117,6 +119,9 @@ class Negative extends React.Component {
     });
     // this.getImDetail();
   }
+  componentWillUnmount = () => {
+    this._isMounted = false;
+  };
 
   render() {
     const { date } = this.state;

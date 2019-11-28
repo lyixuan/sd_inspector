@@ -10,6 +10,7 @@ import IMPartLeft from './IMPartLeft';
 import IMPartRight from './IMPartRight';
 import NPSEvaluate from './NPSEvaluate';
 import moment from 'moment';
+
 @connect(({ xdManagementBench, xdWorkModal }) => ({
   xdManagementBench,
   userInfo: xdWorkModal.userInfo,
@@ -51,11 +52,14 @@ class ManagementBench extends React.Component {
               kpiMonth: res.kpiMonth,
             },
           });
+          this.getReasonListData(res.startDate, res.endDate);
         }
-      })
-      .then(res => {
-        this.getReasonListData();
       });
+    // .then(res => {
+    //   console.log(res,'res');
+    //   this.getReasonListData();
+    // });
+    this._isMounted = true;
   }
 
   componentDidUpdate() {
@@ -81,7 +85,6 @@ class ManagementBench extends React.Component {
     );
   };
   cellClick = (item, record, type) => {
-    console.log();
     const { date } = this.state;
     let reasonTypeId = this.state.reasonTypeId;
     if (item) {
@@ -100,22 +103,37 @@ class ManagementBench extends React.Component {
     };
     window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
   };
-  getReasonListData() {
+  getReasonListData(startTime, endTime) {
     const { date } = this.state;
+    const { userInfo = {} } = this.props;
     const params = {
-      startTime: moment(date.startDate).format('YYYY-MM-DD'),
-      endTime: moment(date.endDate).format('YYYY-MM-DD'),
+      startTime: startTime ? moment(startTime).format('YYYY-MM-DD') : moment(date.startDate).format('YYYY-MM-DD'),
+      endTime:endTime ? moment(endTime).format('YYYY-MM-DD') : moment(date.endDate).format('YYYY-MM-DD'),
       familyType: null,
-      groupType: null,
-      orgId: null,
+      groupType: userInfo.userType,
+      orgId: userInfo.familyId,
       reasonTypeId: this.state.reasonTypeId,
     };
+
+    // const params = {
+    //   startTime: moment(date.startDate).format('YYYY-MM-DD'),
+    //   endTime: moment(date.endDate).format('YYYY-MM-DD'),
+    //   familyType: null,
+    //   groupType: null,
+    //   orgId: null,
+    //   reasonTypeId: this.state.reasonTypeId,
+    // };
     this.props.dispatch({
       type: 'xdManagementBench/reasonList',
       payload: { params },
     });
     // this.getImDetail();
   }
+
+  componentWillUnmount = () => {
+    this._isMounted = false;
+  };
+
   render() {
     const { date } = this.state;
     const { userInfo = {} } = this.props;
