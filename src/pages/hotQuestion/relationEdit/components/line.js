@@ -58,6 +58,8 @@ class Line extends React.Component {
               className={styles['question-type']}
               placeholder="选择分类"
               defaultValue={undefined}
+              treeNodeLabelProp='text'
+              treeNodeFilterProp='id'
               treeData={this.state.treeData}
               dropdownStyle={{ height: 300 }}>
             </TreeSelect> : <BIInput readOnly={true} value={'23'}></BIInput>

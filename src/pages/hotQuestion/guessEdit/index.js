@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Link } from 'dva/router';
 import BIInput from '@/ant_components/BIInput';
 import BIButton from '@/ant_components/BIButton';
 import BIModal from '@/ant_components/BIModal';
@@ -20,11 +21,58 @@ class GuessEdit extends React.Component {
     super(props);
     this.state = {
       cardName: '',
-      visible: false
+      visible: false,
+      radioId: -1,
+      dataSource: {
+        card_id: 1,
+        card_name: '',
+        robot_id: '',
+        isSunlands: true,
+        operateName: '',//操作人
+        list: [{
+          sort: 1,
+          knowledgeId: 264,
+          knowledgeName: '报考知识库',
+          questionTypeId: 794,
+          questionType: '自考介绍',
+          question: '我爱学习',
+          questionId: 22655,
+          answerId: 1,
+          statistic_id: 1,//数据唯一主键，没有则不传（新增的没有）
+          is_proxy: true,//是否是静态问题，非静态问题不可编辑
+          answer: 'dkfdlf'
+        }, {
+          sort: 2,
+          knowledgeId: 267,
+          knowledgeName: '课程库',
+          questionTypeId: 723,
+          questionType: '自考介绍',
+          question: '笔试需要带什么',
+          questionId: 19449,
+          answerId: 1,
+          statistic_id: 1,//数据唯一主键，没有则不传（新增的没有）
+          is_proxy: true,//是否是静态问题，非静态问题不可编辑
+          answer: 'dkfdlf'
+        }, {
+          sort: 3,
+          knowledgeId: 268,
+          knowledgeName: 'APP操作',
+          questionTypeId: 725,
+          questionType: '自考介绍',
+          question: '笔试需要带什么',
+          questionId: 1,
+          answerId: 1,
+          statistic_id: 1,//数据唯一主键，没有则不传（新增的没有）
+          is_proxy: true,//是否是静态问题，非静态问题不可编辑
+          answer: 'dkfdlf'
+        }]
+      }
+
     }
   }
   componentDidMount = () => {
     this.getKnowledgeList();
+    // this.getQuestionType();
   }
   getKnowledgeList = () => {
     this.props.dispatch({
@@ -32,6 +80,7 @@ class GuessEdit extends React.Component {
       payload: { params: {} },
     });
   }
+
   handleBread = () => {
     router.push({
       pathname: '/hotQuestion/index'
@@ -50,9 +99,51 @@ class GuessEdit extends React.Component {
   handleImgChange = (info) => {
     console.log(42, info)
   }
+  handleEdit = (item) => {
+    console.log(54, item)
+    this.setState({
+      visible: true
+    })
+  }
+  handleCancel = () => {
+    this.setState({
+      visible: false
+    })
+  }
+  handleDelete = (data, index) => {
+    console.log(104, data, index)
+    this.state.dataSource.list.splice(index, 1);
+    // this.state.dataSource.list.map((item, index) => {
+    //   item.sort = index + 1
+    // })
+    // this.state.dataSource.list = list
+    this.setState({
+      dataSource: this.state.dataSource
+    })
+    console.log(126, this.state.dataSource)
+  }
+  submit = () => {
+    console.log(104, this.state.dataSource)
+  }
+  clickRadio = (index) => {
+    this.setState({
+      radioId: index
+    })
+  }
+  updateData = (params) => {
+    console.log(124, params)
+    const list = this.state.dataSource.list[params.index];
+    list.knowledgeId = params.knowledgeId;
+    list.knowledgeName = params.knowledgeName;
+    list.questionType = params.questionType;
+    list.questionTypeId = params.questionTypeId
+    list.question = params.question;
+    list.questionId = params.questionId;
+  }
+
 
   render() {
-    const { cardName, visible } = this.state;
+    const { cardName, visible, dataSource, radioId } = this.state;
     return (
       <div className={styles.editContainer}>
         <div className={styles.breadCustom}>
@@ -91,7 +182,16 @@ class GuessEdit extends React.Component {
             <div className={styles.tbody}>
               {
                 this.countArray().map((item, index) => {
-                  return <Line key={index} auth={false} index={index}></Line>
+                  return <Line
+                    dataSource={dataSource.list[index] || {}}
+                    handleEdit={this.handleEdit}
+                    handleDelete={this.handleDelete}
+                    clickRadio={this.clickRadio}
+                    updateData={this.updateData}
+                    key={index}
+                    auth={true}
+                    index={index}
+                    radioId={radioId}></Line>
                 })
               }
 
@@ -99,8 +199,10 @@ class GuessEdit extends React.Component {
           </div>
           <div className={styles.btns}>
             {/* <BIButton><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton> */}
-            <BIButton style={{ marginRight: '8px' }} type="reset">取消</BIButton>
-            <BIButton type="primary">保存</BIButton>
+            <BIButton style={{ marginRight: '8px' }} type="reset">
+              <Link to={'/hotQuestion/index'}>取消</Link>
+            </BIButton>
+            <BIButton type="primary" onClick={this.submit}>保存</BIButton>
           </div>
         </div>
         {/* modal */}
