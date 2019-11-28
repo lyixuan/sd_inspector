@@ -171,12 +171,6 @@ class MCard extends React.Component {
               </div>
             </div>
           </Card>
-          {/* {showVideo && (
-            <div className={styles.videoLayer}>
-              <div className={styles.layerCon}></div>
-              <img src={videoIcon} alt="" />
-            </div>
-          )} */}
         </div>
       </div>
     );
