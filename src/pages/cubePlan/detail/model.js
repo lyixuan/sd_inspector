@@ -74,8 +74,13 @@ export default {
       const params = payload.params;
       const result = yield call(getCopyUrl,params);
       if (result.code === 20000) {
-        const copyUrl = result.data.copyUrl;
-        yield put({ type: 'save', payload: {copyUrl }});
+        if(params.usedType===11){
+          const copyBottomUrl = result.data.copyUrl;
+          yield put({ type: 'save', payload: {copyBottomUrl }});
+        } else {
+          const copyUrl = result.data.copyUrl;
+          yield put({ type: 'save', payload: {copyUrl }});
+        }
         return true;
       } else {
         message.error(msgF(result.msg,result.msgDetail));

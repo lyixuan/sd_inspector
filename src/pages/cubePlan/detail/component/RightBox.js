@@ -36,7 +36,7 @@ class RightBox extends React.Component {
   };
 
   render() {
-    const {detail,screenRange,copyUrl,loadingBtn} = this.props || {};
+    const {detail,screenRange,copyUrl,loadingBtn,copyBottomUrl,loadingBtn2} = this.props || {};
     const {description,usageList=[],versionList = [],name,usedMp,usedH5,mpOriginId,mpAppId,mpUrl,h5Url} = detail||{};
 
     const usage = usageList && usageList.length>0 ? usageList.map((val,i)=>{
@@ -149,10 +149,10 @@ class RightBox extends React.Component {
                                         onCopy={() => this.copySuccess('复制小程序APPID','魔方计划/魔方计划列表/')}>
             <span><img src={appid} alt=""/></span>
           </CopyToClipboard>}
-          {usedMp===1&&<CopyToClipboard text={mpUrl}
+          {usedMp===1&&<div className={style.copyUrl}><Spin spinning={loadingBtn2}><CopyToClipboard text={copyBottomUrl}
                                         onCopy={() => this.copySuccess('复制落地页','魔方计划/魔方计划列表/')}>
             <span><img src={btndz} alt=""/></span>
-          </CopyToClipboard>}
+          </CopyToClipboard></Spin></div>}
             {usedH5===1&&<div className={style.copyUrl}><Spin spinning={loadingBtn}><CopyToClipboard text={copyUrl}
                                                                            onCopy={() => this.copySuccess('复制链接','魔方计划/魔方计划列表/')}>
               <span><img src={btnfz} alt=""/></span>

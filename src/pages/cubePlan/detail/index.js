@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect} from 'dva';
-import { message } from 'antd';
+import { message,Spin } from 'antd';
 import BIModal from '@/ant_components/BIModal';
 import style from './style.less';
 import LeftBox from './component/LeftBox';
@@ -23,6 +23,8 @@ let IMAGE_URL = '';
   cubePlan,
   pageLoading: loading.effects['cubePlanDetail/getCommentPage'],
   loadingBtn: loading.effects['cubePlanDetail/getCopyUrl'],
+  loadingBtn2: loading.effects['cubePlanDetail/getCopyUrl'],
+  loading:loading.effects['cubePlanDetail/getCommentPage']||loading.effects['cubePlanDetail/getCopyUrl'],
 }))
 
 class CubePlanDetail extends React.Component {
@@ -43,7 +45,7 @@ class CubePlanDetail extends React.Component {
       message.error('缺少参数id')
     }
     this.id = Number(id);
-    this.name=''
+    this.name='';
     window.scrollTo(0, -1);
   }
 
@@ -54,19 +56,23 @@ class CubePlanDetail extends React.Component {
       type: 'cubePlanDetail/getCubeDetail',
       payload: { params },
     }).then(()=>{
+      const { detailInfo = {}} = this.props.cubePlanDetail;
+      if(detailInfo.usedH5 && detailInfo.usedH5===1){
+        this.urlChange(31);
+      } else if(detailInfo.usedMp && detailInfo.usedMp===1){
+        this.urlChange(11);
+      }
       handleDataTrace({"widgetName":`查看详情`,"traceName":`魔方计划/魔方计划列表/${this.name}`});
     });
     this.props.dispatch({
       type: 'cubePlanDetail/getOutwardNameList',
       payload: { },
     });
-
-    this.urlChange();
     this.getCommentList();
   }
 
-  urlChange =()=>{
-    const params = { id:this.id,usedType:31 };
+  urlChange =(type)=>{
+    const params = { id:this.id,usedType:type };
     this.props.dispatch({
       type: 'cubePlanDetail/getCopyUrl',
       payload: {params },
@@ -199,22 +205,24 @@ class CubePlanDetail extends React.Component {
 
   render() {
     const {content,starLevel,outwardName,visible3} = this.state;
-    const { pageLoading,loadingBtn } = this.props;
+    const { pageLoading,loadingBtn ,loadingBtn2,loading} = this.props;
     const { screenRange } = this.props.cubePlan;
-    const { detailInfo = {}, commentData = {}, commentLists = [],qrCode ,copyUrl} = this.props.cubePlanDetail;
+    const { detailInfo = {}, commentData = {}, commentLists = [],qrCode ,copyUrl,copyBottomUrl} = this.props.cubePlanDetail;
     const { videoUrl, detailCoverUrl } = detailInfo || {};
     const { titleName, data } = this.state;
 
     this.name = detailInfo.name;
     const xingText = BiFilter(`Xing|id:${starLevel}`).name;
     return (
-      <div className={screenRange === 'small_screen' ? style.layoutSmall : style.layoutMiddle}>
+      <Spin  spinning={loading}><div className={screenRange === 'small_screen' ? style.layoutSmall : style.layoutMiddle}>
         <div>
           <LeftBox screenRange={screenRange} videoUrl={videoUrl} detailCoverUrl={detailCoverUrl} name={this.name}/>
           <RightBox screenRange={screenRange}
                     detail={detailInfo}
                     copyUrl={copyUrl}
+                    copyBottomUrl={copyBottomUrl}
                     loadingBtn={loadingBtn}
+                    loadingBtn2={loadingBtn2}
                     name={this.name}
                     openModal={(type, data) => this.openModal(type, data)}
                     openEwmModal={() => this.openEwmModal()}
@@ -286,6 +294,7 @@ class CubePlanDetail extends React.Component {
         <a id="dl-hidden" style={{display:'none'}} />
         <img src="" id="copyImage"  className={style.copyImage}/>
       </div>
+      </Spin>
     );
   }
 }
