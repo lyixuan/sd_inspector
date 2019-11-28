@@ -71,7 +71,7 @@ class Index extends React.Component {
           screenRange={screenRange}
           cardList={cardList}
           onChangeDia={this.onChangeDia}
-          showVideoDia={(showVideo, url, coverUrl) => this.showVideoDia(showVideo, url, coverUrl)}
+          showVideoDia={(showVideo, url, coverUrl, name) => this.showVideoDia(showVideo, url, coverUrl, name)}
         />
         <PlanDia className={styles.dialogs} showDia={showDia} close={this.close} />
         <VideoDia
