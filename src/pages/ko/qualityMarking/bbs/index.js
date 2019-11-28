@@ -119,14 +119,12 @@ class bbsPage extends React.Component {
   };
   queryData = () => {
     const { searchParams, currentPage } = this.state;
-    const { reasonType = [] } = searchParams;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
       payload: { params: { 
         ...searchParams, 
         page: currentPage, 
         type: markType,
-        reasonType: getArrLastValue(reasonType)
        } },
     });
   };
