@@ -1,6 +1,6 @@
 import React from 'react';
 
-class HotQuestion extends React.Component{
+class HotQuestion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {}

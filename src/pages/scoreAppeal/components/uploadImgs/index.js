@@ -64,7 +64,7 @@ class UploadImg extends React.Component {
 
   handleChange = async ({ file, fileList }) => {
     const { type, status, size, response, appealProof } = file;
-    const { currentIndex , mainNum, fileList:{length}} = this.state;
+    const { currentIndex, mainNum, fileList: { length } } = this.state;
     // eslint-disable-next-line default-case
     switch (status) {
       // 上传
@@ -90,8 +90,8 @@ class UploadImg extends React.Component {
         break;
       case 'removed':
         this.props.uploadImg(fileList);
-        if(length - currentIndex < mainNum)
-        this.setIndex(currentIndex - 1);
+        if (length - currentIndex < mainNum)
+          this.setIndex(currentIndex - 1);
         break;
     }
     this.setState({ fileList: [...fileList] });
@@ -167,8 +167,8 @@ class UploadImg extends React.Component {
             ? 'block'
             : 'none'
           : len > mainNum
-          ? 'block'
-          : 'none',
+            ? 'block'
+            : 'none',
     };
 
     const rightButtonStyle = {
@@ -179,8 +179,8 @@ class UploadImg extends React.Component {
             ? 'block'
             : 'none'
           : len > mainNum
-          ? 'block'
-          : 'none',
+            ? 'block'
+            : 'none',
     };
 
     const contentStyle = {
@@ -205,7 +205,7 @@ class UploadImg extends React.Component {
     );
     let name = isShowDelBtn === 'show' ? 'showDelBtn' : 'hideDelBtn';
     return (
-        <div className="clearfix">
+      <div className="clearfix">
         <div className={styles.uploadImgWrap}>
           <a
             style={leftButtonStyle}
@@ -219,7 +219,7 @@ class UploadImg extends React.Component {
           </a>
           <div className={styles.listContent} style={listContent}>
             <div style={contentStyle}>
-              <Upload 
+              <Upload
                 className={name}
                 {...uploadMultipleFile()}
                 onChange={this.handleChange}
@@ -246,8 +246,8 @@ class UploadImg extends React.Component {
           </a>
         </div>
 
-        <Modal width="70%" visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
+        <Modal width={this.props.modalWidth.width1 || '70%'} visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+          <img alt="example" style={{ width: this.props.modalWidth.width2 || '100%' }} src={previewImage} />
         </Modal>
       </div>
     );

@@ -558,6 +558,10 @@ export const routes = [
           {
             path: '/hotQuestion/guessEdit',
             component: './hotQuestion/guessEdit',
+          },
+          {
+            path: '/hotQuestion/relationEdit',
+            component: './hotQuestion/relationEdit',
           }
         ]
       }

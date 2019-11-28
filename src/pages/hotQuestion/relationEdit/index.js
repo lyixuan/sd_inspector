@@ -10,12 +10,8 @@ import Line from './components/line';
 import UploadImg from '@/pages/scoreAppeal/components/uploadImgs';
 const { TextArea } = BIInput;
 
-const tHead = ['序号', '所属知识库', '所属分类', '标准问题']
-@connect(({ hotQuestion, loading }) => ({
-  hotQuestion
-}))
-
-class GuessEdit extends React.Component {
+const tHead = ['序号', '所属知识库', '所属分类', '标准问题', '问题简称']
+class RelationEdit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,13 +20,7 @@ class GuessEdit extends React.Component {
     }
   }
   componentDidMount = () => {
-    this.getKnowledgeList();
-  }
-  getKnowledgeList = () => {
-    this.props.dispatch({
-      type: 'hotQuestion/getKnowledgeList',
-      payload: { params: {} },
-    });
+    console.log(19, this.countArray())
   }
   handleBread = () => {
     router.push({
@@ -39,7 +29,7 @@ class GuessEdit extends React.Component {
   }
   countArray = () => {
     let array = [];
-    for (let i = 0; i < 27; i++) {
+    for (let i = 0; i < 4; i++) {
       array.push(i)
     }
     return array;
@@ -59,18 +49,10 @@ class GuessEdit extends React.Component {
           <a onClick={this.handleBread}>首页/</a>配置编辑
         </div>
         <div className={styles.guessEdit}>
-          <div className={styles.title}>猜你想问</div>
+          <div className={styles.title}>默认底部关联问题</div>
 
           <div className={styles.editTop}>
-            <div className={styles.cardName}>
-              <span>猜你想问卡片名称：</span>
-              <BIInput
-                style={{ width: '238px' }}
-                placeholder="请输入"
-                value={cardName}
-              />
-            </div>
-            <div className={styles.labels}>
+            <div className={styles.labels} style={{ paddingTop: '10px' }}>
               <span>尚德学员</span>
               <span>尚小德</span>
               <p>当前已配置运营活动：【领现金】 该活动固定展示在底部第一位（优先于默认底部关联问题）</p>
@@ -82,6 +64,7 @@ class GuessEdit extends React.Component {
               <li className={styles.eq0}>{tHead[0]}</li>
               <li className={styles.eq1}>{tHead[1]}</li>
               <li className={styles.eq2}>{tHead[2]}</li>
+              <li className={styles.eq5}>{tHead[4]}</li>
               <li className={styles.eq3}>{tHead[3]}</li>
               <li className={styles.eq4}>
                 <div className={styles.icon}><Icon type="up-circle" />上移</div>
@@ -91,7 +74,7 @@ class GuessEdit extends React.Component {
             <div className={styles.tbody}>
               {
                 this.countArray().map((item, index) => {
-                  return <Line key={index} auth={false} index={index}></Line>
+                  return <Line key={index} auth={true} index={index}></Line>
                 })
               }
 
@@ -154,4 +137,4 @@ class GuessEdit extends React.Component {
   }
 }
 
-export default GuessEdit;
+export default RelationEdit;

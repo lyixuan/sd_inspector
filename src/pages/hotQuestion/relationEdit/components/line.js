@@ -63,12 +63,17 @@ class Line extends React.Component {
             </TreeSelect> : <BIInput readOnly={true} value={'23'}></BIInput>
           }
         </div>
+        <div className={styles.eq5}>
+          {
+            auth ? <BIInput value={'23'}></BIInput> : <BIInput readOnly={true} value={'23'}></BIInput>
+          }
+        </div>
         <div className={styles.eq3}>
           {
             auth ? <Select
               defaultValue={'123'}
               className={styles.knowledge}
-              placeholder="选择知识库">
+              placeholder="标准问题">
               {
                 knowledgeList.map((item) => {
                   return <Option value={item.knowledgeId} key={item.knowledgeId}>
