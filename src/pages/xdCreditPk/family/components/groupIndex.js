@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { message } from 'antd/lib/index';
-import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
+import { message } from 'antd/lib';
+import { setLocalValue } from '../../class/node_modules/@/pages/indexPage/components/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
-import BIButton from '@/ant_components/BIButton';
+import BIButton from '../../class/node_modules/@/ant_components/BIButton';
 import BIDrawer from '@/components/BIDrawer';
 import PkDimension from './pkDimension';
 import PkDrawer from './pkDrawer';
@@ -14,11 +14,11 @@ import styles from './style.less';
 
 const { BI = {} } = window;
 const localKey = 'creditGroupLocal';
-@connect(({ xdFamilyModal, loading  }) => ({
-  kpiTimes: xdFamilyModal.familyKpiTimes || {},
-  groupPkList: xdFamilyModal.groupScorePk,
-  dimenloading: loading.effects['xdFamilyModal/groupPkList'],
-  drawerloading: loading.effects['xdWorkModal/groupList'],
+@connect(({ xdCreditPkModal, loading  }) => ({
+  kpiTimes: xdCreditPkModal.familyKpiTimes || {},
+  groupPkList: xdCreditPkModal.groupScorePk,
+  dimenloading: loading.effects['xdCreditPkModal/groupPkList'],
+  drawerloading: loading.effects['xdCreditPkModal/groupList'],
 }))
 class GroupIndex extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class GroupIndex extends React.Component {
   // 维度列表
   getGroupPkData = () => {
     this.props.dispatch({
-      type: 'xdFamilyModal/groupPkList',
+      type: 'xdCreditPkModal/groupPkList',
       payload: { params: { pkGroupList: this.state.pkGroupList } },
     });
   }

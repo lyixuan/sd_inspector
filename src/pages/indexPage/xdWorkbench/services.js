@@ -29,9 +29,9 @@ export async function groupList(params) {
   return request('/deskperfpcapi/scorePk/group/list', { method: 'POST', data: params })
 }
 // 左侧学分pk对象的数据
-export async function groupPkList(params) {
-  return request('/deskperfpcapi/scorePk/group/pk', { method: 'POST', data: params })
-}
+// export async function groupPkList(params) {
+//   return request('/deskperfpcapi/scorePk/group/pk', { method: 'POST', data: params })
+// }
 // 绩效详情
 export async function getKpiInfo(params) {
   return request('/deskperfpcapi/workbenchIncomeKpi/getKpiInfo', { method: 'get', data: params })

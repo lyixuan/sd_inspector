@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
-import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-import BITextAlign from '@/pages/indexPage/components/BITextAlign';
-import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
+import BIWrapperProgress from '../../class/node_modules/@/pages/indexPage/components/BIWrapperProgress';
+import BITextAlign from '../../class/node_modules/@/pages/indexPage/components/BITextAlign';
+import BIScrollbarTable from '../../class/node_modules/@/ant_components/BIScrollbarTable';
 // import BIWrapperTable from '../../../components/BIWrapperTable';
-import BIButton from '@/ant_components/BIButton';
-import BISelect from '@/ant_components/BISelect';
-import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
+import BIButton from '../../class/node_modules/@/ant_components/BIButton';
+import BISelect from '../../class/node_modules/@/ant_components/BISelect';
+import { setLocalValue } from '../../class/node_modules/@/pages/indexPage/components/utils/utils';
 import styles from './style.less';
 
 const { BI = {} } = window;
@@ -16,9 +16,9 @@ const initShowKey = {
   mineFlag: 'myGroup',
   pkValue: 'groupId',
 }
-@connect(({ xdFamilyModal, xdWorkModal }) => ({
-  orgOptions: xdFamilyModal.orgOptions,
-  orgSecondOptions: xdFamilyModal.orgSecondOptions,
+@connect(({ xdCreditPkModal, xdWorkModal }) => ({
+  orgOptions: xdCreditPkModal.orgOptions,
+  orgSecondOptions: xdCreditPkModal.orgSecondOptions,
   globalLevelList: xdWorkModal.globalLevelList,
   globalCollegeList: xdWorkModal.globalCollegeList,
 }))

@@ -2,7 +2,7 @@
 import {
   getUserInfo,
   getOrgMapList,
-  kpiLevelList,
+  // kpiLevelList,
   groupList,
   getIncomeCollegeList,
   getQuestionCheckUser, 
@@ -16,7 +16,7 @@ export default {
   state: {
     userInfo: {}, // 全局值
     orgList:[],
-    globalLevelList: [],
+    // globalLevelList: [],
     globalCollegeList: [],
     globalQVisible: false, // 问卷调查是否显示
   },
@@ -44,15 +44,15 @@ export default {
       }
     },
     // 本期学分数据
-    *getKpiLevelList(_, { call, put }) {
-      const result = yield call(kpiLevelList)
-      if (result.code === 20000) {
-        const globalLevelList = result.data || {};
-        yield put({ type: 'save', payload: { globalLevelList } });
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *getKpiLevelList(_, { call, put }) {
+    //   const result = yield call(kpiLevelList)
+    //   if (result.code === 20000) {
+    //     const globalLevelList = result.data || {};
+    //     yield put({ type: 'save', payload: { globalLevelList } });
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     // 学分小组列表
     *groupList({ payload, callback }, { call, put }) {
       const params = payload.params;

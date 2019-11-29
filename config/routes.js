@@ -564,6 +564,10 @@ export const routes = [
         path: '/classQuality/qualityType/2', // 班主任
         component: './classQuality/index',
       },
+      {
+        path: '/classQuality/qualityType/2', // 班主任
+        component: './classQuality/index',
+      },
     ],
   },
 ];

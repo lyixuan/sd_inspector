@@ -16,7 +16,7 @@ const { BI = {} } = window;
 const localKey = 'creditWorkLocal';
 @connect(({ xdClsssModal, loading }) => ({
   kpiTimes: xdClsssModal.kpiTimes || {},
-  groupPkList: xdClsssModal.familyScorePk,
+  groupPkList: xdClsssModal.classScorePk,
   dimenloading: loading.effects['xdClsssModal/groupPkList'],
 }))
 class currentCredit extends React.Component {
