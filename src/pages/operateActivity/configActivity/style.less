@@ -1,0 +1,224 @@
+.title {
+  font-size:14px;
+  margin-bottom:5px;
+}
+
+//内容区域
+.content {
+  padding:24px;
+  background:#ffffff;
+  border-radius:10px;
+
+  .name-time {
+    display:flex;
+  }
+
+  //活动名称
+  .name {
+    display:flex;
+    margin-bottom:16px;
+    .text {
+      margin-right:7px;
+      height:32px;
+      line-height:32px;
+      font-size:13px;
+      color:#1A1C1F;
+    }
+    .input {
+      width:224px;
+      margin-right:40px;
+    }
+  }
+
+  // 时间部分
+  .time {
+    display:flex;
+    margin-bottom:16px;
+    .text {
+      margin-right:7px;
+      height:32px;
+      line-height:32px;
+      font-size:13px;
+      color:#1A1C1F;
+    }
+    .picker {
+      margin-right:24px;
+    }
+    .prompt {
+      margin-bottom:0;
+      height:32px;
+      line-height:32px;
+      font-size:13px;
+      color:#B8BBBF;
+    }
+  }
+
+  //问题名称
+  .question {
+    display:flex;
+    margin-bottom:8px;
+    .text {
+      margin-bottom:0;
+      margin-right:7px;
+      height:32px;
+      line-height:32px;
+      font-size:13px;
+      color:#1A1C1F;
+    }
+    .input {
+      width:625px;
+    }
+  }
+
+  //回复内容
+  .answer {
+    display:flex;
+    margin-bottom:8px;
+    .text {
+      margin-bottom:0;
+      margin-right:7px;
+      height:32px;
+      line-height:32px;
+      font-size:13px;
+      color:#1A1C1F;
+    }
+    .area {
+      width:800px;
+      height:120px;
+      resize:none;
+      font-size:13px;
+      color:#1A1C1F;
+    }
+  }
+
+  // 上传图片区域
+  .uploadbox {
+    display:flex;
+    margin-left:72px;
+    margin-bottom:24px;
+    .upload-list-inline {
+      .ant-upload-list-item {
+        margin-top:0;
+      }
+    }
+    .uploadBtn {
+      margin-right:16px;
+      width:100px;
+      height:30px;
+      border:1px solid #E8EBED;
+      border-radius:6px;
+      color:#56595E;
+      font-size:12px;
+    }
+    .notice {
+      height:30px;
+      line-height:30px;
+      font-size:13px;
+      color:#FF4A53;
+    }
+  }
+
+  //关联问题
+  .relate {
+    .top {
+      display:flex;
+      justify-content:space-between;
+      .text {
+        margin-bottom:0;
+        margin-right:7px;
+        height:32px;
+        line-height:32px;
+        font-size:13px;
+        color:#1A1C1F;
+      }
+      .add {
+        border:0;
+      }
+    }
+  }
+}
+
+// 添加关联问题弹窗
+.config-question {
+  .line {
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    padding:0 16px;
+    align-items:flex-start;
+    .label {
+      height:32px;
+      line-height:32px;
+    }
+    .input {
+      width:496px;
+    }
+    .area {
+      width:496px;
+      height:152px;
+      resize:none;
+    }
+  }
+}
+
+//删除二次确认弹框
+.delete-modal {
+  .content-box {
+    display:flex;
+    align-items:center;
+  }
+  .icon {
+    margin-right:17px;
+    width:24px;
+    height:24px;
+  }
+  .content {
+    padding:0;
+    font-size:13px;
+    color:#1A1C1F;
+  }
+}
+
+//活动时间重合弹框
+.overlap-modal {
+  .content-box {
+    display:flex;
+    align-items:center;
+  }
+  .icon {
+    margin-right:17px;
+    width:24px;
+    height:24px;
+  }
+  .content {
+    padding:0;
+    font-size:13px;
+    color:#1A1C1F;
+  }
+}
+
+// 底部按钮区域
+.buttons {
+  margin:16px 0;
+  text-align:center;
+  .cancel {
+    margin-right:8px;
+    width:80px;
+    font-size:14px;
+    color:#56595E;
+    border:none;
+    background:#E8EBED;
+  }
+  .save {
+    width:80px;
+    border:none;
+    font-size:14px;
+  }
+}
+
+@media all and (max-width: 1460px){
+  .name-time {
+    display:flex;
+    flex-direction:column;
+  }
+}
