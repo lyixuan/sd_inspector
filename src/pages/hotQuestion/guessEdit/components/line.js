@@ -125,7 +125,8 @@ class Line extends React.Component {
   }
   // 点击编辑 
   handleEdit = () => {
-    this.props.handleEdit(this.props.dataSource);
+    const { questionId, question, index } = this.state;
+    this.props.handleEdit({ questionId, question, index });
   }
   handleDelete = () => {
     this.props.handleDelete(this.props.dataSource, this.props.index);
@@ -133,6 +134,7 @@ class Line extends React.Component {
   render() {
     const { index, auth, dataSource = {}, knowledgeList, radioId } = this.props
     const { knowledgeId, knowledgeName, questionType, questionTypeId, questionTypeList, questionList, questionId, question } = this.state
+
     return (
       <div className={styles.lineItem}>
         <span className={styles.eq0}>{index + 1}</span>
@@ -147,7 +149,7 @@ class Line extends React.Component {
               onChange={this.knowledgeChange}>
               {
                 knowledgeList.map((item) => {
-                  return <Option value={item.knowledgeId} key={item.knowledgeId}>
+                  return <Option value={item.knowledgeId} key={`${item.knowledgeId}${index}`}>
                     {item.name}
                   </Option>;
                 })
@@ -180,7 +182,7 @@ class Line extends React.Component {
               placeholder="选择标准问题">
               {
                 questionList && questionList.map((item) => {
-                  return <Option value={item.questionId} key={item.questionId}>
+                  return <Option value={item.questionId} key={`${item.questionId}${index}`}>
                     {item.question}
                   </Option>;
                 })
