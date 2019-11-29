@@ -11,8 +11,7 @@ class QuestionTable extends React.Component{
         title: '序号',
         dataIndex: 'sort',
         key: 'sort',
-        width: 120,
-        align: 'center'
+        width: 120
       },
       {
         title: '标准问题',
@@ -23,11 +22,17 @@ class QuestionTable extends React.Component{
   }
 
   render() {
-    const {sourceData, activity} = this.props;
+    const {
+      sourceData,
+      activity,
+      operator,
+      updateTime,
+      hasBackground} = this.props;
     const {columns} = this;
 
     return <div className={styles['question-table']}>
       <BIScrollbarTable
+        rowClassName={hasBackground ? styles['row'] : ''}
         dataSource={sourceData}
         columns={columns}
         rowKey={(record) => record.sort}
@@ -43,8 +48,16 @@ class QuestionTable extends React.Component{
           }
         </div>
         <div className={styles.operator}>
-          <span className={styles.first}>修改时间：{sourceData[0].updateTime}</span>
-          <span>操作人：{sourceData[0].operatorName}</span>
+          <span className={styles.first}>
+            {
+              updateTime ? `修改时间：${updateTime}`: ''
+            }
+          </span>
+          <span>
+            {
+              operator ? `操作人：${operator}` : ''
+            }
+          </span>
         </div>
       </div>
     </div>

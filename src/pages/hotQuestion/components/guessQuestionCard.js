@@ -16,16 +16,29 @@ class GuessQuestionCard extends React.Component{
       <div className={styles['guess-card']}>
         <div className={styles.title}>
           <div className={styles.text}>{cardData.cardName}</div>
-          <div className={styles.edit}><Icon type="edit" style={{marginRight: 8}}/> 编辑</div>
+          <div
+            className={styles.edit}
+            onClick={this.onEdit}>
+            <Icon type="edit" style={{marginRight: 8}}/> 编辑
+          </div>
         </div>
         <div className={styles.content}>
           <QuestionTable
-            sourceData={cardData.questionList}/>
+            sourceData={cardData.list}
+            operator={cardData.operator}
+            updateTime={cardData.updateTime}
+            hasBackground={true}/>
         </div>
-        <div className={styles.circle} style={{background: `${topLeftColor}`}}>.</div>
+        <div className={styles.circle} style={{background: `${topLeftColor}`}}> </div>
       </div>
     )
   }
+
+  onEdit = () => {
+    const {cardData} = this.props;
+    this.props.onEdit(cardData.cardId);
+  }
+
 }
 
 export default GuessQuestionCard;
