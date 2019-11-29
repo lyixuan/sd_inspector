@@ -57,3 +57,7 @@ export function getQuestionList(param) {
 export function getGuessData(param) {
   return axios.get(`/guessTemp/getList?robotId=${param.robotId}&isSunlands=${param.isSunlands}&cardId=${param.cardId}`)
 }
+// 猜你问题默认答案
+export function getAnswer(param) {
+  return axios.get(`/guessTemp/getAnswer?robotId=${param.robotId}&questionId=${param.questionId}`)
+}
