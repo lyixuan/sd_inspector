@@ -1,0 +1,162 @@
+.breadCustom{
+  padding-bottom:8px;
+  a{
+    cursor:pointer;
+    color:#8c8c8c;
+  }
+}
+.guessEdit{
+  background:#fff;
+  border-radius:10px;
+  color:#1A1C1F;
+  min-height:500px;
+  margin-bottom:20px;
+  .title{
+    height:50px;
+    line-height:50px;
+    overflow:hidden;
+    font-size:16px;
+    padding:0 24px;
+    border-bottom:1px solid #F5F8FA;
+  }
+  .btns{
+    text-align:center;
+    padding:15px 0 10px;
+  }
+}
+.editTop{
+  padding:15px 24px 0;
+  .cardName{
+    display:flex;
+    align-items: center;
+    span{
+      margin-right:5px;
+    }
+  }
+  .labels{
+    padding-top:24px;
+    display:flex;
+    align-items : flex-end;
+    span{
+      height:30px;
+      line-height:30px;
+      text-align:center;
+      background:#DAE5FF;
+      font-size:12px;
+      border-radius:6px;
+      padding:0 16px;
+      margin-right:8px;
+      &:first-child{
+        background:#DCF7F7;
+      }
+    }
+    p{
+      color:#B8BBBF;
+      margin:0;
+    }
+  }
+}
+.editTable{
+  min-width:1120px;
+  padding:8px 24px;
+  .thead{
+    height:48px;
+    line-height:48px;
+    background:#F6F7FA;
+    border-radius:6px 6px 0 0;
+    padding:0 24px;
+    box-sizing:border-box;
+    display:flex;
+    align-items: center;
+    color:#7B7C80;
+    margin:0;
+    li{
+      padding-left:5px;
+    }
+    .eq0{
+      width:10%;
+      min-width:70px;
+    }
+    .eq1{
+      width:18%;
+      min-width:160px;
+    }
+    .eq2{
+      width:18%;
+      min-width:160px;
+    }
+    .eq3{
+      width:39%;
+      flex:1
+    }
+    .eq4{
+      width:15%;
+      min-width:140px;
+      display:flex;
+      .icon{
+        cursor:pointer;
+        i{
+          margin-right:4px;
+          font-size:16px;
+          vertical-align:-3px;
+          color:#D9D9D9;
+        }
+        margin-left:20px;
+      }
+      .disabled{
+        color:#f00;
+        cursor:text;
+      }
+    }
+  }
+}
+.popContainer{
+  .formItem{
+    display:flex;
+    align-items:center;
+    padding-bottom:15px;
+    label{
+      width:70px;
+      text-align:right;
+      padding-right:5px;
+    }
+    .inputs{
+      flex:1;
+    }
+    .notice{
+      color:#FF4A53;
+      font-size:13px;
+    }
+  }
+  :global{
+    .ant-upload.ant-upload-select-picture-card, .ant-upload-list-item{
+      width:200px;
+      height:90px;
+    }
+    .ant-upload-list-picture-card .ant-upload-list-item-thumbnail, .ant-upload-list-picture-card .ant-upload-list-item-thumbnail img{
+      width:auto;
+      height:auto;
+      max-width:100%;
+    }
+  }
+  .formItem2{
+    align-items:flex-start;
+    :global{
+      textarea.ant-input{
+        height:180px;
+        resize:none;
+      }
+    }
+  }
+  .defaultBtn{
+    text-align:right;
+    margin:-5px 0 5px;
+    :global{
+      .ant-btn{
+        background:#F2FCFC;
+        color:#00CCC3;
+      }
+    }
+  }
+  
+}

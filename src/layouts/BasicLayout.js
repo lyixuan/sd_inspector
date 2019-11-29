@@ -16,11 +16,11 @@ import SiderMenu from '../components/SiderMenu';
 import biIcon from '../assets/biIcon.png';
 import logo from '../assets/menu/logo.png';
 import storage from '../utils/storage';
-import {getBowerInfo} from '../utils/utils';
+import { getBowerInfo } from '../utils/utils';
 import HeaderLayout from './Header';
 import { query } from './utils/query';
 import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
-import { redirectUrlParams,redirectToLogin, checkPathname } from '../utils/routeUtils';
+import { redirectUrlParams, redirectToLogin, checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
 
 // import router from 'umi/router';
@@ -128,11 +128,11 @@ class BasicLayout extends React.PureComponent {
     }
     if (checkoutLogin()) {
       // alert(1);
-      const {pathname} = nextProps.location||{};
-      const num = pathname.indexOf('/fromEmail')>0?pathname.indexOf('/fromEmail'):1000;
-      if(num!==1000){
+      const { pathname } = nextProps.location || {};
+      const num = pathname.indexOf('/fromEmail') > 0 ? pathname.indexOf('/fromEmail') : 1000;
+      if (num !== 1000) {
         router.push({
-          pathname: pathname.substring(0,num)
+          pathname: pathname.substring(0, num)
         });
       }
     } else {
@@ -220,14 +220,14 @@ class BasicLayout extends React.PureComponent {
     });
   };
 
-  setBrowserInfo= () => {
+  setBrowserInfo = () => {
     const obj = getBowerInfo();
-    if(!obj){
+    if (!obj) {
       return
     }
     this.props.dispatch({
       type: 'login/setBrowserInfo',
-      payload: {...obj},
+      payload: { ...obj },
     });
   };
 

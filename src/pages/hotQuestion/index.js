@@ -15,20 +15,21 @@ import {
   getGuessQuestion,
   getGoingActivity} from './services';
 import kongbai from '@/assets/hotQuestion/kongbai.png';
+import {User_Identity} from './constants/user'
 
-class HotQuestion extends React.Component{
+class HotQuestion extends React.Component {
   constructor(props) {
     super(props);
     this.userType = storage.getUserInfo().userType;
-    this.robots = [];
-    this.guessCardColor = ['#FF5959', '#3389FF', '#9013FE', '#F5A623'];
+    this.guessCardColor = ['#FF5959', '#3389FF', '#9013FE', '#F5A623', '#00CCC3'];
     this.state = {
       robotList: [],
       robotListLoading: true,
+      copyRobots: [],
       relationQuestion: [],
       relationOperator: null,
       relationUpdateTime: null,
-      goingActivity: '中秋节打折',
+      goingActivity: '',
       guessQuestion: [],
       currentRobot: 175,
       isSunlands: 1,
@@ -42,7 +43,10 @@ class HotQuestion extends React.Component{
     const {
       robotList,
       robotListLoading,
+      copyRobots,
       relationQuestion,
+      relationOperator,
+      relationUpdateTime,
       goingActivity,
       guessQuestion,
       currentRobot,
@@ -55,9 +59,9 @@ class HotQuestion extends React.Component{
     // 根据用户类型判断用户身份并保存在this上
     if (!userIdentity) {
       if (userType === 'admin' || userType === 'boss') {
-        userIdentity = 1
+        userIdentity = User_Identity.ADMIN_AND_BOSS
       } else {
-        userIdentity = 2
+        userIdentity = User_Identity.NORMAL_USER
       }
       this.userIdentity = userIdentity;
     } else {}
@@ -107,7 +111,7 @@ class HotQuestion extends React.Component{
         <div className={style.title}>
           <div className={style.text}>
             {
-              userIdentity === 1
+              userIdentity === User_Identity.ADMIN_AND_BOSS
                 ? '默认底部关联问题'
                 : '底部热门问题'
             }
@@ -120,8 +124,8 @@ class HotQuestion extends React.Component{
           <QuestionTable
             sourceData={relationQuestion}
             activity={goingActivity}
-            operator={relationQuestion}
-            updateTime={relationQuestion}/>
+            operator={relationOperator}
+            updateTime={relationUpdateTime}/>
         </div>
       </div>;
 
@@ -129,7 +133,7 @@ class HotQuestion extends React.Component{
     let guessArea = <div className={style['guess-part']}>
         <div className={style.title}>
           {
-            userIdentity === 1
+            userIdentity === User_Identity.ADMIN_AND_BOSS
               ? '猜你想问'
               : '顶部热门问题'
           }
@@ -158,7 +162,7 @@ class HotQuestion extends React.Component{
 
     return <div className={style.wrap}>
       {
-        userIdentity === 1
+        userIdentity === User_Identity.ADMIN_AND_BOSS
           ? chooseRobotArea
           : null
       }
@@ -196,6 +200,7 @@ class HotQuestion extends React.Component{
             className={style.select}
             mode="multiple"
             placeholder="请选择"
+            value={copyRobots}
             onChange={this.multipleChange}>
             {
               robotList.map(item => {
@@ -214,13 +219,25 @@ class HotQuestion extends React.Component{
 
   componentDidMount() {
     const {userIdentity} = this;
-    if (userIdentity === 1) {
+
+    if (userIdentity === User_Identity.ADMIN_AND_BOSS) {
+      // admin 和 boss的请求数据逻辑
       const {currentRobot, isSunlands} = this.state;
       this._getRobotList();
-      this._bossGetRelationQuestion(currentRobot, isSunlands);
-      this._bossGetGuessQuestion(currentRobot, isSunlands);
+      this._getRelationQuestion(currentRobot, isSunlands);
+      this._getGuessQuestion(currentRobot, isSunlands);
       this._getGoingActivity(currentRobot);
-    } else {}
+    } else {
+      // 普通用户的请求数据逻辑
+      this._getUserInfo().then(() => {
+        this._getRobotId().then(() => {
+          const {robotId} = this;
+          this._getRelationQuestion(robotId, 1);
+          this._getGuessQuestion(robotId, 1);
+          this._getGoingActivity(robotId);
+        })
+      })
+    }
 
   }
 
@@ -244,6 +261,7 @@ class HotQuestion extends React.Component{
     });
     this._bossGetRelationQuestion(value, isSunlands);
     this._bossGetGuessQuestion(value, isSunlands);
+    this._getGoingActivity(value);
   };
 
   // 改变学员类型
@@ -266,14 +284,17 @@ class HotQuestion extends React.Component{
   // 关闭弹框
   closeCopyModal = () => {
     this.setState({
+      copyRobots: [],
       showCopyModal: false
     })
   };
 
   // 同步modal中多选框改变
   multipleChange = (value) => {
+    this.setState({
+      copyRobots: value
+    });
     this._updateButtonStatus(value);
-    this.robots = value;
   };
 
   // 点击同步弹框的确认按钮
@@ -287,21 +308,26 @@ class HotQuestion extends React.Component{
   // 点击底部默认关联问题的编辑按钮
   goToEditRelationQuestionPage = () => {
     const {currentRobot, isSunlands} = this.state;
-    console.log(currentRobot, isSunlands);
-    // router.push({
-    //   pathname: '',
-    //   query: {}
-    // })
+    router.push({
+      pathname: '/hotQuestion/relationEdit',
+      query: {
+        robotId: currentRobot,
+        isSunlands: isSunlands
+      }
+    })
   };
 
   // 点击猜你想问卡片的编辑
   handleGuessCardEdit = (cardId) => {
     const {currentRobot, isSunlands} = this.state;
-    console.log(currentRobot, isSunlands, cardId);
-    // router.push({
-    //   pathname: '',
-    //   query: {}
-    // })
+    router.push({
+      pathname: '/hotQuestion/guessEdit',
+      query: {
+        robotId: currentRobot,
+        isSunlands: isSunlands,
+        cardId: cardId
+      }
+    })
   };
 
   // 检测同步弹框的配置按钮是否可用
@@ -321,11 +347,8 @@ class HotQuestion extends React.Component{
   _getUserInfo = async () => {
     let info = {
       collegeId: '',
-      collegeName: '',
       familyId: '',
-      familyName: '',
-      groupId: '',
-      groupName: ''
+      groupId: ''
     };
     let res = await getUserInfo();
     if (res && res.code === 20000) {
@@ -334,19 +357,17 @@ class HotQuestion extends React.Component{
         info[key] = data[key] ? data[key] : ''
       }
     } else {}
-    this.userInfo = info;
+    this.userOrganization = info;
   };
 
   // 获取机器人ID
   _getRobotId = async () => {
-    const {userInfo} = this;
-    let res = await getRobotId(userInfo);
+    const {userOrganization} = this;
+    let res = await getRobotId(userOrganization);
     if (res && res.code === 200) {
-      if (!res.data) {
-
-      } else {
+      if (res.data) {
         this.robotId = res.data;
-      }
+      } else {}
     } else {}
   };
 
@@ -363,13 +384,13 @@ class HotQuestion extends React.Component{
 
   // 同步配置
   _copyRobotConfig = async () => {
-    const {robots} = this;
-    // let res = await copyRobot(robots);
-    console.log(robots);
+    const {copyRobots} = this.state;
+    // let res = await copyRobot(copyRobots);
+    console.log(copyRobots);
   };
 
   // 管理员获取底部关联问题
-  _bossGetRelationQuestion = async (robotId, isSunlands) => {
+  _getRelationQuestion = async (robotId, isSunlands) => {
     let res = await getRelationQuestion(robotId, isSunlands);
     if (res && res.code === 200) {
       this.setState({
@@ -381,7 +402,7 @@ class HotQuestion extends React.Component{
   };
 
   // 管理员获取猜你想问数据
-  _bossGetGuessQuestion = async (id, flag) => {
+  _getGuessQuestion = async (id, flag) => {
     let res = await getGuessQuestion(id, flag);
     if (res && res.code === 200) {
       this.setState({
@@ -391,10 +412,13 @@ class HotQuestion extends React.Component{
   };
 
   // 获取当前机器人正在进行中的活动的名称
-  _getGoingActivity = async () => {
-    const {robotId} = this;
-    let res = await getGoingActivity(robotId);
-    console.log(res);
+  _getGoingActivity = async (id) => {
+    let res = await getGoingActivity(id);
+    if (res && res.code === 200) {
+      this.setState({
+        goingActivity: res.data
+      })
+    } else {}
   };
 
 }
