@@ -6,7 +6,7 @@ import BIScrollbar from '@/ant_components/BIScrollbar';
 import plan1 from '@/assets/cube/plan1.png';
 import plan2 from '@/assets/cube/plan2.png';
 import submit from '@/assets/cube/submit.png';
-import close from '@/assets/cube/close.png'
+import close from '@/assets/cube/close.png';
 import none from '@/assets/cube/none.png';
 import styles from './style.less';
 import { beforeAll } from 'lodash-decorators';
@@ -27,9 +27,14 @@ class PlanDia extends React.Component {
 
   close = () => {
     this.props.close(false);
+    this.setState({
+      targetCustomer: '',
+      usageScenarios: '',
+      expectTarget: '',
+    });
   };
   submitFn = () => {
-    handleDataTrace({"widgetName":`提交需求`,"traceName":`魔方计划/魔方计划介绍`});
+    handleDataTrace({ widgetName: `提交需求`, traceName: `魔方计划/魔方计划介绍` });
     const { targetCustomer, usageScenarios, expectTarget } = this.state;
     const params = {
       targetCustomer,
