@@ -536,6 +536,19 @@ export const routes = [
         name: '报考时间',
       },
       {
+        path: '/operateActivity',
+        routes: [
+          {
+            path: '/operateActivity/index',
+            component: './operateActivity',
+          },
+          {
+            path: '/operateActivity/configActivity',
+            component: './operateActivity/configActivity',
+          }
+        ]
+      },
+      {
         path: '/cubePlan',
         component: './cubePlan',
         name: '魔方计划',
