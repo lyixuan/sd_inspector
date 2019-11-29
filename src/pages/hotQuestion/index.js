@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './style.less';
-import { Button, Select, Icon, message } from 'antd';
+import { Button, Select, Icon, message, Spin } from 'antd';
 import router from 'umi/router';
 import BIModal from '@/ant_components/BIModal';
 import QuestionTable from '@/pages/hotQuestion/components/questionTable';
@@ -34,7 +34,8 @@ class HotQuestion extends React.Component {
       currentRobot: 175,
       isSunlands: 1,
       showCopyModal: false,
-      copyConfirmButtonDis: true
+      copyConfirmButtonDis: true,
+      pageLoading: true
     }
   }
 
@@ -52,7 +53,8 @@ class HotQuestion extends React.Component {
       currentRobot,
       isSunlands,
       showCopyModal,
-      copyConfirmButtonDis} = this.state;
+      copyConfirmButtonDis,
+      pageLoading} = this.state;
 
     const {Option} = Select;
 
@@ -65,6 +67,10 @@ class HotQuestion extends React.Component {
       }
       this.userIdentity = userIdentity;
     } else {}
+
+    let loading = <div style={{textAlign: 'center', marginTop: 20}}>
+      <Spin size="large" />
+    </div>;
 
     let tabsAndCopyButton = <div className={style.tabs}>
       <div className={style.tab}>
@@ -168,20 +174,31 @@ class HotQuestion extends React.Component {
       }
 
       {
-        relationQuestion.length === 0
-          ? null
-          : relationQuestionArea
+        pageLoading ? loading : null
       }
 
       {
-        guessQuestion.length === 0
+        pageLoading
           ? null
-          : guessArea
+          : (relationQuestion.length === 0
+            ? null
+            : relationQuestionArea)
+
+      }
+
+      {
+        pageLoading
+          ? null
+          : (guessQuestion.length === 0
+            ? null
+            : guessArea)
+
       }
 
       {
         relationQuestion.length === 0
         && guessQuestion.length === 0
+        && !pageLoading
         && noData
       }
 
@@ -259,8 +276,8 @@ class HotQuestion extends React.Component {
     this.setState({
       currentRobot: value
     });
-    this._bossGetRelationQuestion(value, isSunlands);
-    this._bossGetGuessQuestion(value, isSunlands);
+    this._getRelationQuestion(value, isSunlands);
+    this._getGuessQuestion(value, isSunlands);
     this._getGoingActivity(value);
   };
 
@@ -270,8 +287,8 @@ class HotQuestion extends React.Component {
     this.setState({
       isSunlands: value
     });
-    this._bossGetRelationQuestion(currentRobot, value);
-    this._bossGetGuessQuestion(currentRobot, value);
+    this._getRelationQuestion(currentRobot, value);
+    this._getGuessQuestion(currentRobot, value);
   };
 
   // 打开同步弹框
@@ -389,24 +406,26 @@ class HotQuestion extends React.Component {
     console.log(copyRobots);
   };
 
-  // 管理员获取底部关联问题
+  // 获取底部关联问题
   _getRelationQuestion = async (robotId, isSunlands) => {
     let res = await getRelationQuestion(robotId, isSunlands);
     if (res && res.code === 200) {
       this.setState({
         relationQuestion: res.data.similarTempQuestionDtoList,
         relationOperator: res.data.operator,
-        relationUpdateTime: res.data.updateTime
+        relationUpdateTime: res.data.updateTime,
+        pageLoading: false
       })
     }
   };
 
-  // 管理员获取猜你想问数据
+  // 获取猜你想问数据
   _getGuessQuestion = async (id, flag) => {
     let res = await getGuessQuestion(id, flag);
     if (res && res.code === 200) {
       this.setState({
-        guessQuestion: res.data
+        guessQuestion: res.data,
+        pageLoading: false
       })
     } else {}
   };
