@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Typography, Tooltip } from 'antd';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 // import BIWrapperTable from '@/components/BIWrapperTable';
 import BIFillCell from '@/components/BIFillCell';
@@ -8,10 +9,11 @@ import BIIcon from '@/components/BIIcon';
 import pluscircle from '@/assets/xdwork/pluscircle.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
 import down from '@/assets/xdFamily/rankDown.png';
-import up from '@/assets/xdFamily/rankUp.png';
+import up from '@/assets/xdcredit/fu.png';
 import styles from './style.less';
 
 const { BI = {} } = window;
+const { Paragraph } = Typography
 const initShowKey ={
   pkValue: 'groupId',
   columnOrgName: 'groupName'
@@ -50,10 +52,12 @@ class pkDimension extends React.Component {
     groupList && groupList.map((item, index) => {
       columns.push({
         width: '12%',
-          title: <div>
-          {item[this.getShowKey('columnOrgName')]}
-          {index > 0 ? <BIIcon onClick={() => this.props.handleDelete(item[pkValue])} /> : ''}
-        </div>,
+        title: <Tooltip title={item[this.getShowKey('columnOrgName')]}>
+          <Paragraph ellipsis={{ rows: 1}}>
+            {item[this.getShowKey('columnOrgName')]}
+            {index > 0 ? <BIIcon onClick={() => this.props.handleDelete(item[pkValue])} /> : ''}
+          </Paragraph>
+        </Tooltip>,
         dataIndex: item[pkValue],
         key: item[pkValue],
         render: (text, record) => {
@@ -107,23 +111,24 @@ class pkDimension extends React.Component {
     return className
   }
   getDataSource = () => {
-    const { groupPkList={} } = this.props;
+    const { groupPkList = {} } = this.props;
     const { dimensionList = [] } = groupPkList;
-    if (dimensionList.length > 0) {
-      if (this.props.hasData) {
-        return dimensionList;
-      } else {
-        if (this.getShowKey('pkValue') === 'groupId') {
-          const [s, a, d, f, ...others] = dimensionList;
-          return others;
-        } else {
-          const [s, a, d, ...others] = dimensionList;
-          return others;
-        }      
-      }
-    } else {
-      return []
-    }
+    return dimensionList;
+    // if (dimensionList.length > 0) {
+    //   if (this.props.hasData) {
+    //     return dimensionList;
+    //   } else {
+    //     if (this.getShowKey('pkValue') === 'groupId') {
+    //       const [s, a, d, f, ...others] = dimensionList;
+    //       return others;
+    //     } else {
+    //       const [s, a, d, ...others] = dimensionList;
+    //       return others;
+    //     }      
+    //   }
+    // } else {
+    //   return []
+    // }
   }
 
   render() {

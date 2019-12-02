@@ -4,7 +4,7 @@ import BIDatePicker from '@/ant_components/BIDatePicker';
 import XdFamilyPk from './family';
 import XdClassPk from './class';
 import styles from './style.less';
-import { initTimeData, jumpGobalRouter } from '../ko/utils/utils';
+import { initTimeData } from '../ko/utils/utils';
 import moment from 'moment';
 
 const { BIRangePicker } = BIDatePicker;
@@ -63,10 +63,7 @@ class XdCreditPk extends React.Component {
   render() {
     const { userType, dataRange } = this.state;
     return (
-      <div className={styles.xdCreditPk}>
-        <div onClick={() => {
-          jumpGobalRouter('classQuality/qualityType/2', {keyWord: '服务'})
-        }}>11111</div> 
+      <div className={styles.xdCreditPk}> 
         { userType && 
           <> <div className={styles.dataRange} style={{ left: userType === 1 ? 24 : 280}}>
             {userType === 1 ? '选择时间：' : ''}
