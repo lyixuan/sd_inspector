@@ -111,7 +111,7 @@ class ManagementBench extends React.Component {
       endTime:endTime ? moment(endTime).format('YYYY-MM-DD') : moment(date.endDate).format('YYYY-MM-DD'),
       familyType: null,
       groupType: userInfo.userType,
-      orgId: userInfo.familyId,
+      orgId: userInfo.collegeId,
       reasonTypeId: this.state.reasonTypeId,
     };
 
