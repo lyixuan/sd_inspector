@@ -26,7 +26,9 @@ class Line extends React.Component {
       questionTypeId: dataSource.questionTypeId || undefined,
       question: dataSource.question || undefined,
       questionId: dataSource.questionId || undefined,
-      index: this.props.index
+      index: this.props.index,
+      isEdit: false,
+      answer: null
     };
   }
   componentDidMount() {
@@ -50,18 +52,24 @@ class Line extends React.Component {
   }
   // 切换知识库
   knowledgeChange = (val) => {
-    console.log(53, val)
+    let key = {}
+    this.props.knowledgeList.map(item => {
+      if (val === item.knowledgeId) {
+        key = item
+      }
+    })
     this.setState({
-      knowledgeName: val.label,
-      knowledgeId: val.key,
+      knowledgeName: key.name,
+      knowledgeId: key.knowledgeId,
       questionTypeId: undefined,
       questionType: undefined,
       question: undefined,
-      questionId: undefined
+      questionId: undefined,
+      answer: null
     }, () => {
       const params = this.state
       this.props.updateData(params)
-      this.getQuestionType(val.key);
+      this.getQuestionType(key.knowledgeId);
     })
   }
   // 获取分类
@@ -85,7 +93,8 @@ class Line extends React.Component {
       questionTypeId: val,
       questionType: label[0],
       question: undefined,
-      questionId: undefined
+      questionId: undefined,
+      answer: null
     }, () => {
       const { knowledgeId, questionTypeId } = this.state;
       const params = this.state
@@ -109,10 +118,16 @@ class Line extends React.Component {
   }
   // 切换标准问题
   questionChange = (val) => {
-    console.log(110, val)
+    let key = {}
+    this.state.questionList.map(item => {
+      if (val === item.questionId) {
+        key = item
+      }
+    })
     this.setState({
-      questionId: val.key,
-      question: val.label
+      questionId: key.questionId,
+      question: key.question,
+      answer: key.answer
     }, () => {
       const params = this.state
       this.props.updateData(params)
@@ -134,16 +149,14 @@ class Line extends React.Component {
   render() {
     const { index, auth, dataSource = {}, knowledgeList, radioId } = this.props
     const { knowledgeId, knowledgeName, questionType, questionTypeId, questionTypeList, questionList, questionId, question } = this.state
-
     return (
       <div className={styles.lineItem}>
         <span className={styles.eq0}>{index + 1}</span>
         <div className={styles.eq1}>
           {
             auth ? <Select
-              defaultvalue={{ key: knowledgeId }}
-              value={{ key: knowledgeId, label: knowledgeName }}
-              labelInValue={true}
+              // labelInValue={true}
+              value={knowledgeId}
               className={styles.knowledge}
               placeholder="选择知识库"
               onChange={this.knowledgeChange}>
@@ -172,9 +185,7 @@ class Line extends React.Component {
         <div className={styles.eq3}>
           {
             auth ? <Select
-              defaultvalue={{ key: questionId }}
-              value={{ key: questionId, label: question }}
-              labelInValue={true}
+              value={questionId}
               showSearch
               optionFilterProp="children"
               className={styles.knowledge}
@@ -187,7 +198,7 @@ class Line extends React.Component {
                   </Option>;
                 })
               }
-            </Select> : <BIInput readOnly={true} value={'23'}></BIInput>
+            </Select> : <BIInput placeholder="选择标准问题" readOnly={true} value={question}></BIInput>
           }
         </div>
         <div className={`${styles.eq4} ${questionId ? '' : styles.gray}`}>

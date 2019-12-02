@@ -3,12 +3,12 @@ import request from '@/utils/request';
 
 // 获取小德系统的用户信息的接口
 export function getUserInfo() {
-  return request('/deskperfpcapi/user/info', {method: 'get'})
+  return request('/deskperfpcapi/user/info', { method: 'get' })
 }
 
 // 获取机器人ID
 export function getRobotId(data) {
-  const {collegeId, familyId, groupId} = data;
+  const { collegeId, familyId, groupId } = data;
   return axios.get(`/robot/findByParam?collegeId=${collegeId}&familyId=${familyId}&groupId=${groupId}`)
 }
 
@@ -41,8 +41,8 @@ export function getGoingActivity(id) {
   return axios.get(`/activity/getCurrentActivity?robotId=${id}`)
 }
 // 请求知识库列表
-export function getKnowledgeList() {
-  return axios.get('/knowledge/list')
+export function getKnowledgeList(id) {
+  return axios.get(`/knowledge/list?robotId=${id}`)
 }
 
 // 根据知识库类型请求问题分类
@@ -58,7 +58,12 @@ export function getQuestionList(param) {
 export function getGuessData(param) {
   return axios.get(`/guessTemp/getList?robotId=${param.robotId}&isSunlands=${param.isSunlands}&cardId=${param.cardId}`)
 }
-// 猜你问题默认答案
+// 猜你想问默认答案
 export function getAnswer(param) {
   return axios.get(`/guessTemp/getAnswer?robotId=${param.robotId}&questionId=${param.questionId}`)
+}
+
+// 猜你想问保存
+export function guessTempSave(param) {
+  return axios.post('/guessTemp/save', param)
 }
