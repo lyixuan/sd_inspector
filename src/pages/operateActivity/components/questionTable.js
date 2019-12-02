@@ -38,6 +38,7 @@ class QuestionTable extends React.Component{
       {
         title: '操作',
         key: 'action',
+        width: 100,
         render: (data) => {
           return <div>
             <span

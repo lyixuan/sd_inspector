@@ -37,7 +37,7 @@ class QuestionTable extends React.Component{
         columns={columns}
         rowKey={(record) => record.sort}
         pagination={false}
-        scroll={{y: 250}}/>
+        scroll={{y: 200}}/>
 
       <div className={styles.bottom}>
         <div className={styles.activity}>

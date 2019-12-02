@@ -15,7 +15,8 @@ import {
   getGuessQuestion,
   getGoingActivity} from './services';
 import kongbai from '@/assets/hotQuestion/kongbai.png';
-import {User_Identity} from './constants/user'
+import {User_Identity} from './constants/user';
+import {withoutSeconds} from '@/pages/configWords/utils/util';
 
 class HotQuestion extends React.Component {
   constructor(props) {
@@ -162,7 +163,11 @@ class HotQuestion extends React.Component {
     let noData = <div className={style.kongbai}>
       <img src={kongbai} className={style.image}/>
       <p className={style.text}>
-        该机器人还没有专属【猜你想问】及【默认底部关联问题】请在首页进行同步操作
+        {
+          userIdentity === User_Identity.ADMIN_AND_BOSS
+            ? '该机器人还没有专属【猜你想问】及【默认底部关联问题】请在首页进行同步操作'
+            : '该机器人还没有专属热门问题 请联系管理员进行同步操作'
+        }
       </p>
     </div>;
 
@@ -317,6 +322,7 @@ class HotQuestion extends React.Component {
   // 点击同步弹框的确认按钮
   confirmCopyModal = () => {
     this.setState({
+      copyRobots: [],
       showCopyModal: false
     });
     this._copyRobotConfig();
@@ -324,12 +330,13 @@ class HotQuestion extends React.Component {
 
   // 点击底部默认关联问题的编辑按钮
   goToEditRelationQuestionPage = () => {
-    const {currentRobot, isSunlands} = this.state;
+    const {currentRobot, isSunlands, goingActivity} = this.state;
     router.push({
       pathname: '/hotQuestion/relationEdit',
       query: {
         robotId: currentRobot,
-        isSunlands: isSunlands
+        isSunlands: isSunlands,
+        activityName: goingActivity
       }
     })
   };
@@ -401,15 +408,20 @@ class HotQuestion extends React.Component {
 
   // 同步配置
   _copyRobotConfig = async () => {
-    const {copyRobots} = this.state;
-    // let res = await copyRobot(copyRobots);
-    console.log(copyRobots);
+    const {copyRobots, isSunlands} = this.state;
+    let res = await copyRobot(copyRobots, isSunlands);
+    if (res && res.code === 200) {
+      message.success('同步成功');
+    } else {
+      message.error('同步失败')
+    }
   };
 
   // 获取底部关联问题
   _getRelationQuestion = async (robotId, isSunlands) => {
     let res = await getRelationQuestion(robotId, isSunlands);
     if (res && res.code === 200) {
+      res.data.updateTime = withoutSeconds(res.data.updateTime);
       this.setState({
         relationQuestion: res.data.similarTempQuestionDtoList,
         relationOperator: res.data.operator,
@@ -423,6 +435,9 @@ class HotQuestion extends React.Component {
   _getGuessQuestion = async (id, flag) => {
     let res = await getGuessQuestion(id, flag);
     if (res && res.code === 200) {
+      res.data.forEach(item => {
+        item.updateTime = withoutSeconds(item.updateTime)
+      });
       this.setState({
         guessQuestion: res.data,
         pageLoading: false
