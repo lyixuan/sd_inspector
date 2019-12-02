@@ -73,7 +73,7 @@ class BIWrapperTable extends React.Component {
         // onMouseEnter={this.onMouseEnter}
         // onMouseLeave={this.onMouseLeave}
         // style={{ minHeight: this.props.xScroll ? this.props.xScroll + 'px' : '' }}
-        className={`${styles.BIWrapperTable} 'scorll-enter'`}
+        className={`${styles.BIWrapperTableQuality} 'scorll-enter'`}
       >
           <Table  {...this.props} />
       </div>
