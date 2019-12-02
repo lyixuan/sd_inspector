@@ -218,6 +218,11 @@ export const routes = [
         ],
       },
       {
+        path: '/nps',
+        component: './operation/nps',
+        name: 'nps',
+      },
+      {
         path: '/koUserOperation',
         name: '用户运营',
         routes: [
@@ -536,6 +541,19 @@ export const routes = [
         name: '报考时间',
       },
       {
+        path: '/operateActivity',
+        routes: [
+          {
+            path: '/operateActivity/index',
+            component: './operateActivity',
+          },
+          {
+            path: '/operateActivity/configActivity',
+            component: './operateActivity/configActivity',
+          }
+        ]
+      },
+      {
         path: '/cubePlan',
         component: './cubePlan',
         name: '魔方计划',
@@ -563,10 +581,6 @@ export const routes = [
       {
         path: '/classQuality/qualityType/2', // 班主任
         component: './classQuality/index',
-      },
-      {
-        path: '/xdCreditPk/list', // 小德学分PK
-        component: './xdCreditPk/index',
       },
     ],
   },
