@@ -23,7 +23,7 @@ export function copyRobot(robots, isSunlands) {
     fromRobotId: 175,
     toRobotIds: robots,
     isSunlands: isSunlands
-  })
+  }).catch(err => err)
 }
 
 // 获取关联问题部分数据

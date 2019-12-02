@@ -15,7 +15,8 @@ import {
   getGuessQuestion,
   getGoingActivity} from './services';
 import kongbai from '@/assets/hotQuestion/kongbai.png';
-import {User_Identity} from './constants/user'
+import {User_Identity} from './constants/user';
+import {withoutSeconds} from '@/pages/configWords/utils/util';
 
 class HotQuestion extends React.Component {
   constructor(props) {
@@ -317,6 +318,7 @@ class HotQuestion extends React.Component {
   // 点击同步弹框的确认按钮
   confirmCopyModal = () => {
     this.setState({
+      copyRobots: [],
       showCopyModal: false
     });
     this._copyRobotConfig();
@@ -324,12 +326,13 @@ class HotQuestion extends React.Component {
 
   // 点击底部默认关联问题的编辑按钮
   goToEditRelationQuestionPage = () => {
-    const {currentRobot, isSunlands} = this.state;
+    const {currentRobot, isSunlands, goingActivity} = this.state;
     router.push({
       pathname: '/hotQuestion/relationEdit',
       query: {
         robotId: currentRobot,
-        isSunlands: isSunlands
+        isSunlands: isSunlands,
+        activityName: goingActivity
       }
     })
   };
@@ -406,7 +409,7 @@ class HotQuestion extends React.Component {
     if (res && res.code === 200) {
       message.success('同步成功');
     } else {
-      message.error('网络错误，请稍后重试')
+      message.error('同步失败')
     }
   };
 
@@ -414,7 +417,7 @@ class HotQuestion extends React.Component {
   _getRelationQuestion = async (robotId, isSunlands) => {
     let res = await getRelationQuestion(robotId, isSunlands);
     if (res && res.code === 200) {
-      res.data.updateTime =
+      res.data.updateTime = withoutSeconds(res.data.updateTime);
       this.setState({
         relationQuestion: res.data.similarTempQuestionDtoList,
         relationOperator: res.data.operator,
@@ -428,6 +431,9 @@ class HotQuestion extends React.Component {
   _getGuessQuestion = async (id, flag) => {
     let res = await getGuessQuestion(id, flag);
     if (res && res.code === 200) {
+      res.data.forEach(item => {
+        item.updateTime = withoutSeconds(item.updateTime)
+      });
       this.setState({
         guessQuestion: res.data,
         pageLoading: false
