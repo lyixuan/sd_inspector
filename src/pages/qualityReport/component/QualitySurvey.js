@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Spin } from 'antd';
-import BIWrapperTable from '@/pages/qualityReport/component/BIWrapperTable2'
+// import BIWrapperTable from '@/pages/qualityReport/component/BIWrapperTable2'
+import BIWrapperTable from '@/components/BIWrapperTable'
 import style from './style.less';
 import { BiFilter } from '@/utils/utils';
 
@@ -13,7 +14,6 @@ export default class QualitySurvey extends React.Component {
   clickXing = (lv) => {
     this.props.clickXing && this.props.clickXing(lv);
   };
-
 
   getColumns = () => {
     const { name, totalCountName, specialViolationName, dimensionNameList = [] } = this.props.headers || {};

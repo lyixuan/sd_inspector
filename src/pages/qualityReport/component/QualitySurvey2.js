@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Spin } from 'antd';
-import BIWrapperTable from '@/pages/qualityReport/component/BIWrapperTable2'
+// import BIWrapperTable from '@/pages/qualityReport/component/BIWrapperTable2'
+import BIWrapperTable from '@/components/BIWrapperTable'
 import style from './style.less';
 
 export default class QualitySurvey extends React.Component {
@@ -90,7 +91,7 @@ export default class QualitySurvey extends React.Component {
             rowKey={(record, index) => index}
             dataSource={data}
             bordered
-            size="middle"
+            // size="middle"
             pagination={false}
             scroll={{x:'max-content', y:470 }}
           />
