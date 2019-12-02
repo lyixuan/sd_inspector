@@ -8,13 +8,16 @@ import { Icon, Upload, message } from 'antd';
 import styles from './style.less';
 import router from 'umi/router';
 import Line from './components/line';
+import storage from '@/utils/storage';
+import BILoading from '@/components/BILoading';
 const { TextArea } = BIInput;
 
 const tHead = ['序号', '所属知识库', '所属分类', '标准问题']
 @connect(({ hotQuestion, loading }) => ({
   hotQuestion,
   answer: hotQuestion.answer,
-  guessData: hotQuestion.guessData
+  guessData: hotQuestion.guessData,
+  loading: loading.effects['hotQuestion/getGuessData'],
 }))
 
 class GuessEdit extends React.Component {
@@ -23,15 +26,17 @@ class GuessEdit extends React.Component {
     this.state = {
       visible: false,
       radioId: -1,
+      cardName: '',
       dataSource: {
-        card_id: 1,
+        cardId: 999,
         cardName: '1',
         robotName: '尚小德',
-        robot_id: '',
-        isSunlands: true,
-        operateName: '',//操作人
+        robotId: 175,
+        sunlandsFlag: true,
+        operator: '11',//操作人
         list: [{
           sort: 1,
+          isEdit: true,
           knowledgeId: 264,
           knowledgeName: '报考知识库',
           questionTypeId: 794,
@@ -45,6 +50,7 @@ class GuessEdit extends React.Component {
         }, {
           sort: 2,
           knowledgeId: 267,
+          isEdit: true,
           knowledgeName: '课程库',
           questionTypeId: 723,
           questionType: '自考介绍',
@@ -57,6 +63,7 @@ class GuessEdit extends React.Component {
         }, {
           sort: 3,
           knowledgeId: 268,
+          isEdit: true,
           knowledgeName: 'APP操作',
           questionTypeId: 725,
           questionType: '自考介绍',
@@ -66,13 +73,30 @@ class GuessEdit extends React.Component {
           statistic_id: 1,//数据唯一主键，没有则不传（新增的没有）
           is_proxy: true,//是否是静态问题，非静态问题不可编辑
           answer: 'dkfdlf'
+        }, {
+          sort: 4,
+          knowledgeId: undefined,
+          isEdit: true,
+          knowledgeName: undefined,
+          questionTypeId: 725,
+          questionType: '自考介绍',
+          question: undefined,
+          questionId: undefined,
+          answerId: 1,
+          statistic_id: 1,//数据唯一主键，没有则不传（新增的没有）
+          is_proxy: true,//是否是静态问题，非静态问题不可编辑
+          answer: 'dkfdlf'
         }]
       },
+      dataSource: {},
       question: '',
       answerContent: '',
+      answerCode: null,
       imageList: [],
       questionId: null,
-      currentEditIndex: -1
+      currentEditIndex: -1,
+      status: 0,
+      userType: storage.getUserInfo().userType
 
     }
   }
@@ -86,14 +110,20 @@ class GuessEdit extends React.Component {
       type: 'hotQuestion/getGuessData',
       payload: { params: query },
     }).then(() => {
-      // this.getDataSource(this.props.guessData.list);
-      this.getDataSource(this.state.dataSource.list);
+      this.setState({
+        dataSource: this.props.guessData,
+        cardName: this.props.guessData.cardName
+      })
+      this.submitBtnStatus();
+      this.getDataSource(this.props.guessData.list);
+      // this.getDataSource(this.state.dataSource.list);
+
     });
   }
   getKnowledgeList = () => {
     this.props.dispatch({
       type: 'hotQuestion/getKnowledgeList',
-      payload: { params: {} },
+      payload: { params: { id: this.props.location.query.robotId } },
     });
   }
 
@@ -214,6 +244,7 @@ class GuessEdit extends React.Component {
     })
     temp.list = list
     this.getDataSource(list);
+    this.submitBtnStatus();
   }
   swapItems = (arr, index1, index2) => {
     arr[index1] = arr.splice(index2, 1, arr[index1])[0];
@@ -246,14 +277,13 @@ class GuessEdit extends React.Component {
     }
   }
   cardNameChange = (e) => {
-    this.state.dataSource.cardName = e.target.value
     this.setState({
-      dataSource: this.state.dataSource
+      cardName: e.target.value,
     })
+    this.state.dataSource.cardName = e.target.value
   }
   submit = () => {
     const { dataSource } = this.state;
-
     const list = dataSource.list.filter((item, i) => {
       return item.questionId
     })
@@ -272,8 +302,37 @@ class GuessEdit extends React.Component {
     })
 
     dataSource.list = list;
-    console.log(259, this.state.dataSource)
+    const params = this.state.dataSource;
+    if (dataSource.list.length < 4) {
+      message.info('不能少于四条')
+      return false;
+    }
+    this.props.dispatch({
+      type: 'hotQuestion/guessTempSave',
+      payload: { params: params },
+      callBack: (data) => {
+        if (data.code == 200) {
+          router.push({
+            pathname: '/hotQuestion/index'
+          });
+        }
+        console.log(304, data)
+      }
+    }).then(() => {
+
+    })
+
   }
+
+  submitBtnStatus = () => {
+    const list = this.state.dataSource.list.filter((item, i) => {
+      return item.questionId
+    })
+    this.setState({
+      status: list.length
+    })
+  }
+
   clickRadio = (index) => {
     this.setState({
       radioId: index
@@ -287,15 +346,27 @@ class GuessEdit extends React.Component {
     list.questionTypeId = params.questionTypeId
     list.question = params.question;
     list.questionId = params.questionId;
+    list.isEdit = params.isEdit
+    list.answer = params.answer
+    this.submitBtnStatus()
   }
+
   // 初始化页面数据，给定唯一值
-  getDataSource = (list) => {
+  getDataSource = (list = []) => {
+    if (list.length > 0) {
+      list.map((item, index) => {
+        item.key = new Date().getTime() + index
+        item.sort = index + 1
+      })
+    }
+
     for (var i = list.length; i < 27; i++) {
       list.push({
         key: new Date().getTime() + i,
         sort: i + 1
       })
     }
+    this.state.dataSource.list = list
     this.setState({
       dataSource: this.state.dataSource
     })
@@ -345,31 +416,37 @@ class GuessEdit extends React.Component {
 
 
   render() {
-    const { visible, radioId, question, dataSource, answerContent, imageList } = this.state;
+    const { visible, radioId, question, answerContent, imageList, status, userType, cardName } = this.state;
+    const dataSource = this.props.guessData
     const { isSunlands, robotName } = dataSource
+    // const isSunlands = true, robotName = '33'
+    const auth = userType === 'boss' || userType === 'admin';
+    const { loading } = this.props
     return (
       <div className={styles.editContainer}>
         <div className={styles.breadCustom}>
           <a onClick={this.handleBread}>首页/</a>配置编辑
         </div>
         <div className={styles.guessEdit}>
-          <div className={styles.title}>猜你想问</div>
+          <div className={styles.title}>{auth ? '猜你想问' : `顶部热门问题${cardName}`}</div>
 
-          <div className={styles.editTop}>
-            <div className={styles.cardName}>
-              <span>猜你想问卡片名称：</span>
-              <BIInput
-                value={dataSource.cardName}
-                style={{ width: '238px' }}
-                placeholder="请输入"
-                onChange={this.cardNameChange}
-              />
+          {
+            auth && <div className={styles.editTop}>
+              <div className={styles.cardName}>
+                <span>猜你想问卡片名称：</span>
+                <BIInput
+                  value={cardName}
+                  style={{ width: '238px' }}
+                  placeholder="请输入"
+                  onChange={this.cardNameChange}
+                />
+              </div>
+              <div className={styles.labels}>
+                <span>{isSunlands ? '尚德学员' : '非尚德学员'}</span>
+                {robotName && <span>{robotName}</span>}
+              </div>
             </div>
-            <div className={styles.labels}>
-              <span>{isSunlands ? '尚德学员' : '非尚德学员'}</span>
-              <span>{robotName}</span>
-            </div>
-          </div>
+          }
 
           <div className={styles.editTable}>
             <ul className={styles.thead}>
@@ -384,7 +461,7 @@ class GuessEdit extends React.Component {
             </ul>
             <div className={styles.tbody}>
               {
-                dataSource.list && dataSource.list.map((item, index) => {
+                loading ? <BILoading isLoading={loading} height="200px"></BILoading> : dataSource.list && dataSource.list.map((item, index) => {
                   return <Line
                     dataSource={item || {}}
                     handleEdit={this.handleEdit}
@@ -392,13 +469,12 @@ class GuessEdit extends React.Component {
                     clickRadio={this.clickRadio}
                     updateData={this.updateData}
                     key={item.questionId || item.key}
-                    auth={true}
+                    auth={auth}
                     index={index}
                     radioId={radioId}></Line>
                 })
 
               }
-
 
             </div>
           </div>
@@ -406,7 +482,7 @@ class GuessEdit extends React.Component {
             <BIButton style={{ marginRight: '8px' }} type="reset">
               <Link to={'/hotQuestion/index'}>取消</Link>
             </BIButton>
-            <BIButton type="primary" onClick={this.submit}>保存</BIButton>
+            <BIButton type="primary" disabled={status > 3 ? false : true} onClick={this.submit}>保存</BIButton>
           </div>
         </div>
         {/* modal */}
@@ -420,7 +496,7 @@ class GuessEdit extends React.Component {
             <BIButton key="back" style={{ marginRight: 10 }} onClick={this.handleCancel}>
               取消
             </BIButton>,
-            <BIButton key="submit" type="primary" onClick={this.handleOk}>
+            <BIButton key={'submit'} type="primary" onClick={this.handleOk}>
               保存
             </BIButton>,
           ]}>

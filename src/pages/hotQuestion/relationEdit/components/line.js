@@ -3,9 +3,9 @@ import { connect } from 'dva';
 import { Radio, Select, TreeSelect } from 'antd';
 import styles from './line.less';
 import BIInput from '@/ant_components/BIInput';
-import deleteImg from '@/assets/configWords/delete.png';
-import { getQuestionType, getQuestion } from '@/pages/configWords/services';
 const { Option } = Select;
+
+
 
 const knowledgeList = [{
   knowledgeId: 24,
@@ -14,41 +14,151 @@ const knowledgeList = [{
   knowledgeId: 24,
   name: '知识库1'
 }]
+@connect(({ hotQuestion, loading }) => ({
+  hotQuestion,
+  knowledgeList: hotQuestion.knowledgeList,
+  questionTypeList: hotQuestion.questionTypeList,
+  questionList: hotQuestion.questionList || []
+}))
+
 class Line extends React.Component {
   constructor(props) {
     super(props);
+    const { dataSource } = this.props
     this.state = {
-      treeData: [
-        { id: 1, pId: 0, value: '1', title: 'Expand to load' },
-        { id: 2, pId: 0, value: '2', title: 'Expand to load' },
-        { id: 3, pId: 0, value: '3', title: 'Tree Node', isLeaf: true },
-      ],
+      knowledgeId: dataSource.knowledgeId,
+      knowledgeName: dataSource.knowledgeName,
+      questionType: dataSource.questionType || undefined,
+      questionTypeId: dataSource.questionTypeId || undefined,
+      question: dataSource.question || '',
+      questionId: dataSource.questionId || '',
+      index: this.props.index
     };
   }
   componentDidMount() {
-
+    const { knowledgeId, questionTypeId } = this.state;
+    this.getQuestionType(knowledgeId);
+    this.getQuestionList({ knowledgeId, questionTypeId })
+  }
+  // 递归处理问题分类
+  formatData = (data) => {
+    if (Array.isArray(data)) {
+      for (let i = 0, len = data.length; i < len; i++) {
+        data[i].value = data[i].id;
+        data[i].title = data[i].text;
+        data[i].children = data[i].childNodes;
+        if (data[i].childNodes && data[i].childNodes.length > 0) {
+          data[i].children = this.formatData(data[i].childNodes);
+        }
+      }
+      return data;
+    }
+  }
+  // 切换知识库
+  knowledgeChange = (val) => {
+    console.log(53, val)
+    this.setState({
+      knowledgeName: val.label,
+      knowledgeId: val.key,
+      questionTypeId: undefined,
+      questionType: undefined,
+      question: undefined,
+      questionId: undefined
+    }, () => {
+      const params = this.state
+      this.props.updateData(params)
+      this.getQuestionType(val.key);
+    })
+  }
+  // 获取分类
+  getQuestionType = (id) => {
+    const { knowledgeId } = this.state;
+    if (knowledgeId) {
+      this.props.dispatch({
+        type: 'hotQuestion/getQuestionType',
+        payload: { params: { id: id } },
+      }).then(() => {
+        this.setState({
+          questionTypeList: this.formatData(this.props.questionTypeList)
+        })
+      });
+    }
+  }
+  // 切换分类
+  questionTypeChange = (val, label) => {
+    console.log(83, label)
+    this.setState({
+      questionTypeId: val,
+      questionType: label[0],
+      question: undefined,
+      questionId: undefined
+    }, () => {
+      const { knowledgeId, questionTypeId } = this.state;
+      const params = this.state
+      this.props.updateData(params)
+      this.getQuestionList({ knowledgeId, questionTypeId });
+    })
+  }
+  // 获取问题列表
+  getQuestionList = (params) => {
+    const { knowledgeId, questionTypeId } = this.state;
+    if (knowledgeId && questionTypeId) {
+      this.props.dispatch({
+        type: 'hotQuestion/getQuestionList',
+        payload: { params: params },
+      }).then(() => {
+        this.setState({
+          questionList: this.props.questionList
+        })
+      });
+    }
+  }
+  // 切换标准问题
+  questionChange = (val) => {
+    console.log(110, val)
+    this.setState({
+      questionId: val.key,
+      question: val.label
+    }, () => {
+      const params = this.state
+      this.props.updateData(params)
+    })
+  }
+  // 点击radio
+  clickRadio = (index) => {
+    console.log(106, index)
+    this.props.clickRadio(index);
+  }
+  // 点击编辑 
+  handleEdit = () => {
+    const { questionId, question, index } = this.state;
+    this.props.handleEdit({ questionId, question, index });
+  }
+  handleDelete = () => {
+    this.props.handleDelete(this.props.dataSource, this.props.index);
   }
   render() {
-    const { index, auth } = this.props
+    const { index, auth, dataSource = {}, knowledgeList, radioId } = this.props
+    const { knowledgeId, knowledgeName, questionType, questionTypeId, questionTypeList, questionList, questionId, question } = this.state
     return (
       <div className={styles.lineItem}>
         <span className={styles.eq0}>{index + 1}</span>
         <div className={styles.eq1}>
           {
             auth ? <Select
-              defaultValue={'123'}
+              labelInValue={true}
+              value={{ key: knowledgeId, label: knowledgeName }}
               className={styles.knowledge}
               placeholder="选择知识库"
-              getPopupContainer={() => document.getElementById('scrollArea')}
-              onChange={this.onSelectOneChange}>
+              onChange={this.knowledgeChange}>
               {
                 knowledgeList.map((item) => {
-                  return <Option value={item.knowledgeId} key={item.knowledgeId}>
+                  return <Option value={item.knowledgeId} key={`${item.knowledgeId}${index}`}>
                     {item.name}
                   </Option>;
                 })
               }
-            </Select> : <BIInput readOnly={true} value={'23'}></BIInput>
+            </Select> : <BIInput readOnly={true} value={knowledgeName}></BIInput>
           }
 
         </div>
@@ -67,7 +177,7 @@ class Line extends React.Component {
         </div>
         <div className={styles.eq5}>
           {
-            auth ? <BIInput value={'23'}></BIInput> : <BIInput readOnly={true} value={'23'}></BIInput>
+            auth ? <BIInput value={'23'} maxLength={6}></BIInput> : <BIInput readOnly={true} value={'23'}></BIInput>
           }
         </div>
         <div className={styles.eq3}>
