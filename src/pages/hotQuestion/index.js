@@ -401,15 +401,20 @@ class HotQuestion extends React.Component {
 
   // 同步配置
   _copyRobotConfig = async () => {
-    const {copyRobots} = this.state;
-    // let res = await copyRobot(copyRobots);
-    console.log(copyRobots);
+    const {copyRobots, isSunlands} = this.state;
+    let res = await copyRobot(copyRobots, isSunlands);
+    if (res && res.code === 200) {
+      message.success('同步成功');
+    } else {
+      message.error('网络错误，请稍后重试')
+    }
   };
 
   // 获取底部关联问题
   _getRelationQuestion = async (robotId, isSunlands) => {
     let res = await getRelationQuestion(robotId, isSunlands);
     if (res && res.code === 200) {
+      res.data.updateTime =
       this.setState({
         relationQuestion: res.data.similarTempQuestionDtoList,
         relationOperator: res.data.operator,

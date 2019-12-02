@@ -18,10 +18,11 @@ export function getRobotList() {
 }
 
 // 同步机器人配置
-export function copyRobot(robots) {
-  return axios.post('/publishRobotApplication', {
+export function copyRobot(robots, isSunlands) {
+  return axios.post('/guessTemp/synchronize', {
     fromRobotId: 175,
-    toRobotIds: robots
+    toRobotIds: robots,
+    isSunlands: isSunlands
   })
 }
 
