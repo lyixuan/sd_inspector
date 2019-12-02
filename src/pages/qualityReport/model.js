@@ -3,12 +3,9 @@ import { getCollegeList, getCourseType } from './services';
 import { msgF } from '@/utils/utils';
 
 export default {
-  namespace: 'cubePlan',
+  namespace: 'qualityReport',
 
   state: {
-    screenRange: 'small_screen',
-    collegeList: [],
-    courseList: [],
   },
 
   effects: {

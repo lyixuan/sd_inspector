@@ -174,6 +174,24 @@ export const routes = [
         ],
       },
       {
+        path: '/qualityReport',
+        component: './qualityReport',
+        name: '质检报告',
+        routes: [
+          {
+            path: '/qualityReport/classReport',
+            component: './qualityReport/classReport',
+            name: '班主任质检报告',
+          },
+          {
+            path: '/qualityReport/customReport',
+            component: './qualityReport/customReport',
+            name: '客诉质检报告',
+          },
+        ],
+      },
+
+      {
         path: '/ko',
         component: './ko',
         name: 'KO项目',
