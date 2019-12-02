@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
-import BITextCell from '../../components/BITextCell';
+import BITextCell from '@/pages/indexPage/components/BITextCell';
 import BILoading from '@/components/BILoading';
 import BIIcon from '@/components/BIIcon';
 import pluscircle from '@/assets/xdwork/pluscircle.png';

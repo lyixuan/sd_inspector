@@ -1,0 +1,35 @@
+.BIWrapperTable {
+  width: 100%;
+  box-sizing: border-box;
+  :global {
+    .ant-table-title {
+      color: #1A1C1F;
+      font-weight: bold;
+    }
+    .ant-table-tbody {
+      background-color: #FFFFFF;
+      td {
+        border-color: #EFF3F6;
+        color: #1A1C1F;
+        position: relative;
+        padding: 8px;
+      }
+    }
+    .ant-table-thead > tr > th {
+      background-color: #F6F7FA;
+      color: #7B7C80;
+      position: relative;
+      padding: 14px 8px;
+    }
+    .ant-table-fixed-header .ant-table-scroll .ant-table-header::-webkit-scrollbar{
+      border: 1px solid #F6F7FA;
+    }
+    .ant-table-thead > tr:first-child > th:first-child, .ant-table-tbody > tr > td:first-child {
+      padding-left: 24px;
+    }
+    .ant-table-bordered .ant-table-tbody > tr > td {
+      border-right: 1px solid #EFF3F6;
+    }
+  }
+}
+

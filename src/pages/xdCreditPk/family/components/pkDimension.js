@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
+// import BIWrapperTable from '@/components/BIWrapperTable';
 import BIFillCell from '@/components/BIFillCell';
 import BILoading from '@/components/BILoading';
 import BIIcon from '@/components/BIIcon';
@@ -15,8 +16,8 @@ const initShowKey ={
   pkValue: 'groupId',
   columnOrgName: 'groupName'
 }
-@connect(({ xdFamilyModal }) => ({
-  kpiTimes: xdFamilyModal.familyKpiTimes || {},
+@connect(({ xdCreditPkModal }) => ({
+  kpiTimes: xdCreditPkModal.familyKpiTimes || {},
 }))
 class pkDimension extends React.Component {
   // getShowKe

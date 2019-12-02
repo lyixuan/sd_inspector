@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { message } from 'antd/lib/index';
+import { message } from 'antd/lib';
 import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
 import BIButton from '@/ant_components/BIButton';
@@ -14,11 +14,11 @@ import styles from './style.less';
 
 const { BI = {} } = window;
 const localKey = 'creditFamilyLocal';
-@connect(({ xdFamilyModal, loading }) => ({
-  kpiTimes: xdFamilyModal.familyKpiTimes || {},
-  groupPkList: xdFamilyModal.familyScorePk,
-  dimenloading: loading.effects['xdFamilyModal/getFamilyScorePk'],
-  drawerloading: loading.effects['xdFamilyModal/getFamilyRankList'],
+@connect(({ xdCreditPkModal, loading }) => ({
+  kpiTimes: xdCreditPkModal.familyKpiTimes || {},
+  groupPkList: xdCreditPkModal.familyScorePk,
+  dimenloading: loading.effects['xdCreditPkModal/getFamilyScorePk'],
+  drawerloading: loading.effects['xdCreditPkModal/getFamilyRankList'],
 }))
 class FamilyIndex extends React.Component {
   constructor(props) {
@@ -28,8 +28,10 @@ class FamilyIndex extends React.Component {
       ...this.getLocalValue(), 
     }
   }
-  componentDidMount() {
-    this.getGroupPkData();
+  componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(nextProps.dateRangeSelect) !== JSON.stringify(this.props.dateRangeSelect)) {
+      this.getGroupPkData(nextProps.dateRangeSelect);
+    }
   }
   // 初始化数据
   getLocalValue = () => {
@@ -40,16 +42,16 @@ class FamilyIndex extends React.Component {
     };
   }
   // 维度列表
-  getGroupPkData = () => {
+  getGroupPkData = ([s, e] = this.props.dateRangeSelect) => {
     this.props.dispatch({
-      type: 'xdFamilyModal/getFamilyScorePk',
-      payload: { params: { pkfamily: this.state.pkfamily } },
+      type: 'xdCreditPkModal/getFamilyScorePk',
+      payload: { params: { pkfamily: this.state.pkfamily, s, e } },
     });
   }
   // 对比小组列表
   getGroupList =({ collegeId }, callback)  => {
     this.props.dispatch({
-      type: 'xdFamilyModal/getFamilyRankList',
+      type: 'xdCreditPkModal/getFamilyRankList',
       payload: { params: { collegeId } },
       callback: res => callback(res),
     })

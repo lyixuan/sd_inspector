@@ -16,11 +16,11 @@ const initShowKey = {
   mineFlag: 'myGroup',
   pkValue: 'groupId',
 }
-@connect(({ xdFamilyModal, xdWorkModal }) => ({
-  orgOptions: xdFamilyModal.orgOptions,
-  orgSecondOptions: xdFamilyModal.orgSecondOptions,
-  globalLevelList: xdWorkModal.globalLevelList,
-  globalCollegeList: xdWorkModal.globalCollegeList,
+@connect(({ xdCreditPkModal }) => ({
+  orgOptions: xdCreditPkModal.orgOptions,
+  orgSecondOptions: xdCreditPkModal.orgSecondOptions,
+  globalLevelList: xdCreditPkModal.globalLevelList,
+  globalCollegeList: xdCreditPkModal.globalCollegeList,
 }))
 class currentCreditRight extends React.Component {
   constructor(props) {

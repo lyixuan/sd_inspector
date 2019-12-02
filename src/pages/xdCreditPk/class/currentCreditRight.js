@@ -11,9 +11,9 @@ import styles from './style.less';
 
 const { BI = {} } = window;
 const { Option } = BISelect;
-@connect(({ xdWorkModal, loading }) => ({
-  globalLevelList: xdWorkModal.globalLevelList,
-  loading: loading.effects['xdClsssModal/groupList'],
+@connect(({ xdCreditPkModal, loading }) => ({
+  globalLevelList: xdCreditPkModal.globalLevelList,
+  loading: loading.effects['xdCreditPkModal/groupList'],
 }))
 class currentCreditRight extends React.Component {
   constructor(props) {
@@ -75,7 +75,7 @@ class currentCreditRight extends React.Component {
   getGroupList = () => {
     const paramsItem = this.state.orgValue === 1 ? 'groupType' : 'kpiLevelId';
     this.props.dispatch({
-      type: 'xdClsssModal/groupList',
+      type: 'xdCreditPkModal/groupList',
       payload: { params: { [paramsItem]:  this.state.studentValue} },
       callback: (groupList) => {
         this.setState({ groupList });

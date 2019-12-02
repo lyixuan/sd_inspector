@@ -4,12 +4,10 @@ import storage from '../../../utils/storage';
 import PageTab from '@/pages/indexPage/components/pageTab';
 import PerformanceDetail from './performanceDetail';
 import CurrentCredit from './currentCredit';
-import CreditRank from './creditRank';
+// import CreditRank from './creditRank';
 import IncomeRank from './incomeRank';
 import Negative from './appeal';
-import Quality from './quality';
 import Income from './income';
-import Appeal from './appeal';
 import styles from './style.less';
 
 @connect(xdFamilyModal => ({
@@ -26,7 +24,7 @@ class XdFamily extends React.Component {
           children: (
             <>
               <CurrentCredit />
-              <CreditRank />
+              {/* <CreditRank /> */}
             </>
           ),
           dataTrace: '{"widgetName":"学分分析","traceName":"家族长工作台/学分分析"}',
@@ -57,9 +55,9 @@ class XdFamily extends React.Component {
   }
   componentDidMount() {
     // 小组-绩效列表
-    this.props.dispatch({
-      type: 'xdWorkModal/getKpiLevelList',
-    });
+    // this.props.dispatch({
+    //   type: 'xdWorkModal/getKpiLevelList',
+    // });
     // 家族-学院列表
     this.props.dispatch({
       type: 'xdWorkModal/getIncomeCollegeList',
