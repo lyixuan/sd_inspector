@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { message } from 'antd/lib';
-import { setLocalValue } from '../../class/node_modules/@/pages/indexPage/components/utils/utils';
+import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
-import BIButton from '../../class/node_modules/@/ant_components/BIButton';
+import BIButton from '@/ant_components/BIButton';
 import BIDrawer from '@/components/BIDrawer';
 import PkDimension from './pkDimension';
 import PkDrawer from './pkDrawer';
@@ -28,8 +28,10 @@ class FamilyIndex extends React.Component {
       ...this.getLocalValue(), 
     }
   }
-  componentDidMount() {
-    this.getGroupPkData();
+  componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(nextProps.dateRangeSelect) !== JSON.stringify(this.props.dateRangeSelect)) {
+      this.getGroupPkData(nextProps.dateRangeSelect);
+    }
   }
   // 初始化数据
   getLocalValue = () => {
@@ -40,10 +42,10 @@ class FamilyIndex extends React.Component {
     };
   }
   // 维度列表
-  getGroupPkData = () => {
+  getGroupPkData = ([s, e] = this.props.dateRangeSelect) => {
     this.props.dispatch({
       type: 'xdCreditPkModal/getFamilyScorePk',
-      payload: { params: { pkfamily: this.state.pkfamily } },
+      payload: { params: { pkfamily: this.state.pkfamily, s, e } },
     });
   }
   // 对比小组列表

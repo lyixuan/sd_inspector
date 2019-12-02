@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import { thousandsFormatAll } from '@/pages/indexPage/components/utils/utils';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-import BIWrapperTable from '../../../components/BIWrapperTable2';
+import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
+// import BIWrapperTable from '../../../components/BIWrapperTable2';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIIcon from '@/components/BIIcon';
 import pluscircle from '@/assets/xdwork/pluscircle.png';
@@ -156,7 +157,7 @@ class ProfitTbas extends React.Component {
     const { pkUsers } = this.props;
     return (
       <div className={styles.profitTabs}>
-        <BIWrapperTable
+        <BIScrollbarTable
           columns={this.columns()}
           dataSource={this.getDataSource()}
           pagination={false}

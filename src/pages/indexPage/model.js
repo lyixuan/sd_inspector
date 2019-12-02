@@ -3,7 +3,7 @@ import {
   getUserInfo,
   getOrgMapList,
   // kpiLevelList,
-  groupList,
+  // groupList,
   getIncomeCollegeList,
   getQuestionCheckUser, 
   postWriteQuestion
@@ -54,17 +54,17 @@ export default {
     //   }
     // },
     // 学分小组列表
-    *groupList({ payload, callback }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(groupList, params)
-      if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *groupList({ payload, callback }, { call, put }) {
+    //   const params = payload.params;
+    //   const result = yield call(groupList, params)
+    //   if (result.code === 20000) {
+    //     if (callback && typeof callback === 'function') {
+    //       callback(result.data);
+    //     }
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     // 家族-学院列表
     *getIncomeCollegeList(_, { call, put }) {
       const result = yield call(getIncomeCollegeList);

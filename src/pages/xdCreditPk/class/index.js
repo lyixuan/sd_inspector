@@ -14,10 +14,9 @@ import { handleDataTrace } from '@/utils/utils';
 
 const { BI = {} } = window;
 const localKey = 'creditWorkLocal';
-@connect(({ xdClsssModal, loading }) => ({
-  kpiTimes: xdClsssModal.kpiTimes || {},
-  groupPkList: xdClsssModal.classScorePk,
-  dimenloading: loading.effects['xdClsssModal/groupPkList'],
+@connect(({ xdCreditPkModal, loading }) => ({
+  groupPkList: xdCreditPkModal.classScorePk,
+  dimenloading: loading.effects['xdCreditPkModal/groupPkClassList'],
 }))
 class currentCredit extends React.Component {
   constructor(props) {
@@ -28,11 +27,12 @@ class currentCredit extends React.Component {
     }
   }
   componentDidMount() {
-    // 小组-绩效列表
-    this.props.dispatch({
-      type: 'xdWorkModal/getKpiLevelList',
-    });
-    this.getPkData()
+    // this.getPkData()
+  }
+  componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(nextProps.dateRangeSelect) !== JSON.stringify(this.props.dateRangeSelect)) {
+      this.getPkData(nextProps.dateRangeSelect);
+    }
   }
   // 初始化数据
   getLocalValue = () => {
@@ -42,10 +42,10 @@ class currentCredit extends React.Component {
       hasData: hasData && hasData === 2 ? false : true // 学分基础信息切换显示
     };
   }
-  getPkData = () => {
+  getPkData = ([s, e] = this.props.dateRangeSelect) => {
     this.props.dispatch({
-      type: 'xdClsssModal/groupPkList',
-      payload: { params: { pkGroupList: this.state.pkGroupList } },
+      type: 'xdCreditPkModal/groupPkClassList',
+      payload: { params: { pkGroupList: this.state.pkGroupList, s, e } },
     })
   }
   handleAction = pkGroupList => {
@@ -102,11 +102,11 @@ class currentCredit extends React.Component {
   };
   render() {
     const { pkGroupList, visible, hasData } = this.state;
-    const { startTime, endTime } = this.props.kpiTimes;
+    const [startTime, endTime] = this.props.dateRangeSelect;
     const { dimenloading } = this.props;
     return (
       <Container
-        title='本期学分'
+        // title='本期学分'
         style={{ position: 'relative' }}
         right={
           <>

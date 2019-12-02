@@ -565,8 +565,8 @@ export const routes = [
         component: './classQuality/index',
       },
       {
-        path: '/classQuality/qualityType/2', // 班主任
-        component: './classQuality/index',
+        path: '/xdCreditPk/list', // 小德学分PK
+        component: './xdCreditPk/index',
       },
     ],
   },

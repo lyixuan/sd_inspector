@@ -56,7 +56,7 @@ class IndexPage extends Component {
     return (
       <>
         {flag ? flag : <RenderRoute {...this.props} />}
-        <Questionnaire/>
+        {/* <Questionnaire/> */}
       </>
     );
   }

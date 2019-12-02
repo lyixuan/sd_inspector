@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import BIScrollbarTable from '../../class/node_modules/@/ant_components/BIScrollbarTable';
+import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
+// import BIWrapperTable from '@/components/BIWrapperTable';
 import BIFillCell from '@/components/BIFillCell';
 import BILoading from '@/components/BILoading';
 import BIIcon from '@/components/BIIcon';

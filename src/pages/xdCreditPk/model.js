@@ -1,18 +1,23 @@
 import {
   kpiLevelList,
+  getIncomeCollegeList,
   groupList,
+  getKpiDateRange,
   getFamilyScorePk,
   getFamilyRankList,
   groupPkList,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
+import moment from 'moment';
 import { fillDataSource } from '@/pages/indexPage/components/utils/utils';
 
 export default {
   namespace: 'xdCreditPkModal',
   state: {
+    globalDateRange: {},
     globalLevelList: [],
+    globalCollegeList: [],
     // class
     groupList: null,
     classScorePk: {},
@@ -47,12 +52,38 @@ export default {
   },
 
   effects: {
+    // 日期
+    *getKpiDateRange({ callback }, { call, put }) {
+      const result = yield call(getKpiDateRange);
+      if (result.code === 20000) {
+        const res = result.data;
+        if (res && res !== null) {
+          const dateRange = [ moment(res.endDate), moment(res.endDate) ]
+          yield put({ type: 'save', payload: { globalDateRange: res} });
+          if (callback && typeof callback === 'function') {
+            callback(dateRange);
+          }
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 小组-绩效列表
     *getKpiLevelList(_, { call, put }) {
       const result = yield call(kpiLevelList)
       if (result.code === 20000) {
         const globalLevelList = result.data || {};
         yield put({ type: 'save', payload: { globalLevelList } });
       } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 家族-学院列表
+    *getIncomeCollegeList(_, { call, put }) {
+      const result = yield call(getIncomeCollegeList);
+      if (result.code === 20000) {
+        yield put({ type: 'save', payload: { globalCollegeList: result.data } });
+      } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
@@ -68,7 +99,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *groupPkList({ payload, callback }, { call, put }) {
+    *groupPkClassList({ payload, callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(groupPkList, params)
       if (result.code === 20000) {

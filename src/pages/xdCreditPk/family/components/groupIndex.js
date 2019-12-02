@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { message } from 'antd/lib';
-import { setLocalValue } from '../../class/node_modules/@/pages/indexPage/components/utils/utils';
+import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
-import BIButton from '../../class/node_modules/@/ant_components/BIButton';
+import BIButton from '@/ant_components/BIButton';
 import BIDrawer from '@/components/BIDrawer';
 import PkDimension from './pkDimension';
 import PkDrawer from './pkDrawer';
@@ -31,6 +31,11 @@ class GroupIndex extends React.Component {
   componentDidMount() {
     this.getGroupPkData();
   }
+  componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(nextProps.dateRangeSelect) !== JSON.stringify(this.props.dateRangeSelect)) {
+      this.getGroupPkData(nextProps.dateRangeSelect);
+    }
+  }
   // 初始化数据
   getLocalValue = () => {
     const {pkGroupList = [], hasData} = JSON.parse(localStorage.getItem(localKey)) || {};
@@ -40,17 +45,17 @@ class GroupIndex extends React.Component {
     };
   }
   // 维度列表
-  getGroupPkData = () => {
+  getGroupPkData = ([s, e] = this.props.dateRangeSelect) => {
     this.props.dispatch({
       type: 'xdCreditPkModal/groupPkList',
-      payload: { params: { pkGroupList: this.state.pkGroupList } },
+      payload: { params: { pkGroupList: this.state.pkGroupList, s, e } },
     });
   }
  // 对比小组列表
   getGroupList =({orgValue, studentValue}, callback)  => {
     const paramsItem = orgValue === 1 ? 'groupType' : 'kpiLevelId';
     this.props.dispatch({
-      type: 'xdWorkModal/groupList',
+      type: 'xdCreditPkModal/groupList',
       payload: { params: { [paramsItem]: studentValue } },
       callback: res => callback(res),
     })

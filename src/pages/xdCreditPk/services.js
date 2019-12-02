@@ -1,12 +1,22 @@
 import request from '@/utils/request';
 // 配置信息
+// 学分—日期
+export async function getKpiDateRange(params) {
+  return request('/deskperfpcapi/credit/dimension/kpiDateRange', { method: 'get', params });
+}
+// 组织
 export async function kpiLevelList(params) {
   return request('/deskperfpcapi/scorePk/kpiLevel/list', { method: 'get', params })
 }
-// 学分对比—小组排行
+// 家族-学院列表
+export async function getIncomeCollegeList(params) {
+  return request('/deskperfpcapi/incomeFamily/getCollegeList', { method: 'get', params });
+}
+//右侧对比小组的列表页
 export async function groupList(params) {
   return request('/deskperfpcapi/scorePk/group/list', { method: 'POST', data: params })
 }
+
 // 左侧学分pk对象的数据
 // export async function groupPkList(params) {
 //   return request('/deskperfpcapi/scorePk/group/pk', { method: 'POST', data: params })
