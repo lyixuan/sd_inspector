@@ -36,7 +36,9 @@ class HotQuestion extends React.Component {
       isSunlands: 1,
       showCopyModal: false,
       copyConfirmButtonDis: true,
-      pageLoading: true
+      pageLoading: true,
+      copyConfirmButtonLoading: false,
+      copyCancelButtonDis: false
     }
   }
 
@@ -55,7 +57,9 @@ class HotQuestion extends React.Component {
       isSunlands,
       showCopyModal,
       copyConfirmButtonDis,
-      pageLoading} = this.state;
+      pageLoading,
+      copyConfirmButtonLoading,
+      copyCancelButtonDis} = this.state;
 
     const {Option} = Select;
 
@@ -165,7 +169,7 @@ class HotQuestion extends React.Component {
       <p className={style.text}>
         {
           userIdentity === User_Identity.ADMIN_AND_BOSS
-            ? '该机器人还没有专属【猜你想问】及【默认底部关联问题】请在首页进行同步操作'
+            ? '该机器人还没有专属【猜你想问】及【默认底部关联问题】请前往尚小德机器人进行同步操作'
             : '该机器人还没有专属热门问题 请联系管理员进行同步操作'
         }
       </p>
@@ -213,7 +217,8 @@ class HotQuestion extends React.Component {
         width={432}
         okText="确认"
         title="你希望将该套配置同步至"
-        okButtonProps={{disabled: copyConfirmButtonDis}}
+        okButtonProps={{disabled: copyConfirmButtonDis, loading: copyConfirmButtonLoading}}
+        cancelButtonProps={{disabled: copyCancelButtonDis}}
         onCancel={this.closeCopyModal}
         onOk={this.confirmCopyModal}>
         <div className={style['copy-modal']}>
@@ -322,8 +327,8 @@ class HotQuestion extends React.Component {
   // 点击同步弹框的确认按钮
   confirmCopyModal = () => {
     this.setState({
-      copyRobots: [],
-      showCopyModal: false
+      copyConfirmButtonLoading: true,
+      copyCancelButtonDis: true
     });
     this._copyRobotConfig();
   };
@@ -412,8 +417,20 @@ class HotQuestion extends React.Component {
     let res = await copyRobot(copyRobots, isSunlands);
     if (res && res.code === 200) {
       message.success('同步成功');
+      this.setState({
+        copyConfirmButtonLoading: false,
+        copyCancelButtonDis: false,
+        showCopyModal: false,
+        copyRobots: []
+      })
     } else {
-      message.error('同步失败')
+      message.error('同步失败');
+      this.setState({
+        copyConfirmButtonLoading: false,
+        copyCancelButtonDis: false,
+        showCopyModal: false,
+        copyRobots: []
+      })
     }
   };
 
@@ -423,7 +440,7 @@ class HotQuestion extends React.Component {
     if (res && res.code === 200) {
       res.data.updateTime = withoutSeconds(res.data.updateTime);
       this.setState({
-        relationQuestion: res.data.similarTempQuestionDtoList,
+        relationQuestion: res.data.list,
         relationOperator: res.data.operator,
         relationUpdateTime: res.data.updateTime,
         pageLoading: false
