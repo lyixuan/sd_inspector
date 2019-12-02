@@ -163,7 +163,11 @@ class HotQuestion extends React.Component {
     let noData = <div className={style.kongbai}>
       <img src={kongbai} className={style.image}/>
       <p className={style.text}>
-        该机器人还没有专属【猜你想问】及【默认底部关联问题】请在首页进行同步操作
+        {
+          userIdentity === User_Identity.ADMIN_AND_BOSS
+            ? '该机器人还没有专属【猜你想问】及【默认底部关联问题】请在首页进行同步操作'
+            : '该机器人还没有专属热门问题 请联系管理员进行同步操作'
+        }
       </p>
     </div>;
 
