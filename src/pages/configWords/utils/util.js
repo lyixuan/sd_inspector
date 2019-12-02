@@ -14,9 +14,18 @@ export function withoutMinutes(timestamp, connect1='-', connect2=':') {
   let year = addZero(date.getFullYear()),
     month = addZero(date.getMonth() + 1),
     day = addZero(date.getDate()),
+    hour = addZero(date.getHours());
+  return `${year}${connect1}${month}${connect1}${day} ${hour}${connect2}00`
+}
+
+export function withoutSeconds(timestamp, connect1='-', connect2=':') {
+  let date = new Date(timestamp);
+  let year = addZero(date.getFullYear()),
+    month = addZero(date.getMonth() + 1),
+    day = addZero(date.getDate()),
     hour = addZero(date.getHours()),
     min = addZero(date.getMinutes());
-  return `${year}${connect1}${month}${connect1}${day} ${hour}${connect2}00`
+  return `${year}${connect1}${month}${connect1}${day} ${hour}${connect2}${min}`
 }
 
 function addZero(val) {

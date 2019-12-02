@@ -9,6 +9,7 @@ import BIDatePicker from '@/ant_components/BIDatePicker';
 import deleteImg from '@/assets/operateActivity/delete-img.png';
 import { router } from 'umi';
 import {getActiveContent, saveActivity, updateActivity, checkActivityTime} from '../services';
+import {SSCP_WEB_BASE_URL} from '@/pages/configWords/utils/constants';
 
 function checkImageWH(file, width, height) {
   return new Promise((resolve, reject) => {
@@ -170,7 +171,7 @@ class CreateActivity extends React.Component{
         <div className={style.uploadbox}>
           <Upload
             accept="image/png, image/jpeg"
-            action="http://172.16.56.221:9100/activity/imageUpload"
+            action={`${SSCP_WEB_BASE_URL}/activity/imageUpload`}
             listType="picture"
             className={style['upload-list-inline']}
             showUploadList={{
@@ -392,9 +393,13 @@ class CreateActivity extends React.Component{
       this.setState({
         imageList: []
       })
-    } else {
+    } else if (file.status === 'uploading') {
       this.setState({
         imageList: [...fileList]
+      })
+    } else {
+      this.setState({
+        imageList: []
       })
     }
   };
