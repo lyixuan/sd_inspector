@@ -42,10 +42,10 @@ class FamilyIndex extends React.Component {
     };
   }
   // 维度列表
-  getGroupPkData = ([s, e] = this.props.dateRangeSelect) => {
+  getGroupPkData = ([startTime, endTime] = this.props.dateRangeSelect) => {
     this.props.dispatch({
       type: 'xdCreditPkModal/getFamilyScorePk',
-      payload: { params: { pkfamily: this.state.pkfamily, s, e } },
+      payload: { params: { pkfamily: this.state.pkfamily, startTime, endTime } },
     });
   }
   // 对比小组列表

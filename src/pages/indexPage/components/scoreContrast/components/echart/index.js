@@ -18,6 +18,8 @@ export default class EchartsComponent extends React.Component {
     }
 
     if (JSON.stringify(nextProps.style) !== JSON.stringify(this.props.style)) {
+      // style 变化，resize echarts
+      this.myChart.resize({ height: nextProps.style.height });
       this.myChart.setOption(nextProps.options);
     }
   }
@@ -42,7 +44,9 @@ export default class EchartsComponent extends React.Component {
     if (this.props.clickEvent) {
       this.myChart.on("click", this.props.clickEvent);
     }
-
+    window.addEventListener("resize", () => {
+      this.myChart.resize();
+    });
   }
 
   render() {
