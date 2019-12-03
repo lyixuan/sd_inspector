@@ -47,13 +47,11 @@ export default class EchartsComponent extends React.Component {
     window.addEventListener("resize", () => {
       this.myChart.resize();
     });
-
   }
 
   render() {
-    const { style } = this.props;
     return (
-      <div className={styles.echartContainer} style={{ ...style }}>
+      <div style={this.props.style} className={styles.collegeInner}>
         <div ref={this.createRef} className={styles.echartDom} />
       </div>
     )

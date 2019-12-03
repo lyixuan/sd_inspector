@@ -29,6 +29,12 @@ export async function postWriteQuestion(data) {
   return request('/questionPage/writeQuestion', { method: 'POST', data });
 }
 
-
-
+//学分对比柱状图
+export async function queryAppealDataPage(data) {
+  return request('/credit/queryAppealDataPage',{method:'POST',data:data})
+}
+//获取学院性质的接口
+export async function getFamilyType(params) {
+  return request('/orgMap/getFamilyType',{method:'get',params})
+}
 

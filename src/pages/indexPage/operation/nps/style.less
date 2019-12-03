@@ -1,10 +1,18 @@
-.NPSMain{
+.NPSMain {
   display: flex;
   justify-content: space-between;
 }
 .con {
   height: 32px;
 }
+
+// .more {
+//   cursor: pointer;
+//   color: #00ccc3;
+//   span {
+//     margin-left: 6px;
+//   }
+// }
 
 .change {
   display: inline-block;
@@ -13,15 +21,15 @@
     display: inline-block;
   }
 }
-.change:nth-last-child(1){
-  margin-right:0;
+.change:nth-last-child(1) {
+  margin-right: 0;
 }
-.NPALeftMain{
- //width:60%;
-  :global{
+.NPALeftMain {
+  //width:60%;
+  :global {
     @media screen and (min-width: 1800px) and (max-width: 1920px) {
       .ant-table-thead > tr:nth-child(5) > th:nth-child(5),
-      .ant-table-tbody > tr > td:nth-child(5)> div {
+      .ant-table-tbody > tr > td:nth-child(5) > div {
         width: 630px;
         white-space: nowrap;
         overflow: hidden;
@@ -30,7 +38,7 @@
     }
     @media screen and (min-width: 1681px) and (max-width: 1781px) {
       .ant-table-thead > tr:nth-child(5) > th:nth-child(5),
-      .ant-table-tbody > tr > td:nth-child(5)> div {
+      .ant-table-tbody > tr > td:nth-child(5) > div {
         width: 465px;
         white-space: nowrap;
         overflow: hidden;
@@ -64,8 +72,6 @@
         text-overflow: ellipsis;
       }
     }
-
-
   }
   //.contentMain{
   //  width: 100px;
@@ -75,34 +81,8 @@
   //  white-space:nowrap;
   //  text-overflow:ellipsis;
   //}
-  .studentColor{
+  .studentColor {
     color: rgb(0, 204, 195);
     cursor: pointer;
-  }
-}
-.NPSRight{
-  .title{
-    color: #1A1C1F;
-    font-size: 16px;
-  }
-  .cloudChart{
-    border:1px solid #F6F7FA;
-    //background: #F6F7FA;
-    border-radius:6px;
-    margin-top:17px;
-    box-shadow: 0 0 8px rgba(0,0,0,.12);
-    width:334px;
-    height:337px;
-    .emptyMain{
-      width: 100%;
-      height:100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      img{
-        width: 100px;
-        height:81px;
-      }
-    }
   }
 }

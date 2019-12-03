@@ -1,12 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
+import styles from './style.less';
 
-import styles from './style.less'
 const { BI = {} } = window;
-
-@connect((xdManagementBench) => ({
-  xdManagementBench,
-}))
+@connect(( ) => ({}))
 class TreeNames extends React.Component {
   constructor(props) {
     super(props)
@@ -34,12 +31,15 @@ class TreeNames extends React.Component {
     const dimensionId = this.getInit(dimensions);
     return (
       <div className={styles.treeMain}>
-        {dimensions.length>0 &&
-        dimensions.map((item)=><span className={item.dimensionId === dimensionId ? styles.active : ""}
-                                     key={item.dimensionId}
-                                     onClick={()=>this.clickTag(item)}>
-          {item.name}
-          </span>)}
+        {
+          dimensions.length > 0 &&
+          dimensions.map(item => <span className={item.dimensionId === dimensionId ? styles.active : styles[`d${item.dataType || 1}`]}
+            key={item.dimensionId}
+            onClick={()=>this.clickTag(item)}
+          >
+            {item.name}
+          </span>)
+        }
       </div>
     );
   }

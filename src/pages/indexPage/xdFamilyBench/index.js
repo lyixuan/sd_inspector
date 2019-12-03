@@ -25,7 +25,7 @@ class XdFamily extends React.Component {
           children: (
             <>
               <CurrentCredit />
-              <Histogram/>
+              <Histogram allTimes={{startTime: '2019-08-01', endTime: '2019-09-01'}}/>
               {/* <CreditRank /> */}
             </>
           ),

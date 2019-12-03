@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import { message } from 'antd/lib/index';
+import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import BIButton from '@/ant_components/BIButton';
-import BIDrawer from '@/components/BIDrawer';
 import Container from '@/components/BIContainer';
+import BIDrawer from '@/components/BIDrawer';
 import CurrentCreditRight from './currentCreditRight';
 import CurrentCreditLeft from './currentCreditLeft';
-import closeImg from '@/assets/xdFamily/closeeye.png';
-import showImg from '@/assets/xdFamily/eye.png';
 import { handleDataTrace } from '@/utils/utils';
+// import closeImg from '@/assets/xdFamily/closeeye.png';
+// import showImg from '@/assets/xdFamily/eye.png';
 
 const { BI = {} } = window;
 const localKey = 'creditWorkLocal';
@@ -42,10 +42,10 @@ class currentCredit extends React.Component {
       // hasData: hasData && hasData === 2 ? false : true // 学分基础信息切换显示
     };
   }
-  getPkData = ([s, e] = this.props.dateRangeSelect) => {
+  getPkData = ([startTime, endTime] = this.props.dateRangeSelect) => {
     this.props.dispatch({
       type: 'xdCreditPkModal/groupPkClassList',
-      payload: { params: { pkGroupList: this.state.pkGroupList, s, e } },
+      payload: { params: { pkGroupList: this.state.pkGroupList, startTime, endTime } },
     })
   }
   handleAction = pkGroupList => {

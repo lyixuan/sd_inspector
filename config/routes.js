@@ -218,8 +218,8 @@ export const routes = [
         ],
       },
       {
-        path: '/nps',
-        component: './operation/nps',
+        path: '/nps', 
+        component: './indexPage/operation/nps',
         name: 'nps',
       },
       {
@@ -581,6 +581,10 @@ export const routes = [
       {
         path: '/classQuality/qualityType/2', // 班主任
         component: './classQuality/index',
+      },
+      {
+        path: '/xdCreditPk/list', // 小德学分PK
+        component: './xdCreditPk/index',
       },
     ],
   },

@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import styles from './style.less'
-@connect((xdManagementBench) => ({
-  xdManagementBench,
-}))
+import styles from './style.less';
+
+@connect(( ) => ({}))
 class EchartBottom extends React.Component {
   constructor(props) {
     super(props)

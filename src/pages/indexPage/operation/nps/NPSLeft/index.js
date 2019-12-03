@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from '../style.less'
 import ColorBlock from '../components/colorBlock'
-import BIWrapperTable from '../../../indexPage/components/BIWrapperTable';
+import BIWrapperTable from '@/components/BIWrapperTable';
 import Star from '../components/star'
 import BILoading from '@/components/BILoading'
 import { Tooltip } from 'antd';
@@ -55,8 +55,18 @@ class NPSLeft extends React.Component {
           const dateTimes = moment(createTime).format("YYYY-MM-DD HH:mm:ss")
           return <div>{dateTimes}</div>
         },
-      }, {
+      },
+      {
         title: '星级',
+        dataIndex: 'star',
+        key: 'star',
+        width:"120px",
+        render: (star) => {
+          return <Star  star={star} />
+        },
+      },
+      {
+        title: '原因',
         dataIndex: 'star',
         key: 'star',
         width:"120px",
@@ -85,7 +95,7 @@ class NPSLeft extends React.Component {
     return (
       <Container
         title="创收学院对比"
-        style={{width: 'calc(100% - 350px)',}}
+        style={{width: 'calc(100%)',}}
         head="none"
         propStyle={{padding:0}}
       >
@@ -99,8 +109,8 @@ class NPSLeft extends React.Component {
                   dataSource={dataSource}
                   pagination={false}
                   rowKey={(record,idx) => idx}
-                  style={{marginTop:'10px',height:'336px'}}
-                  scroll={{ y: 288 }}
+                  style={{marginTop:'10px'}}
+                  // scroll={{ y: 288 }}
                   className={styles.NPALeftMain}
                   name="NPALeftMain"
           />

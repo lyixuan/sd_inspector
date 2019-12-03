@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'dva';
-import BILoading from '@/components/BILoading'
-import moment from 'moment'
-import TreeNames from '../components/treeNames'
-import Echart from '../components/echart'
-import EchartBottom from '../components/echartBottom'
-@connect(({xdManagementBench,loading,xdWorkModal}) => ({
-  xdManagementBench,
-  loading:loading.effects['xdManagementBench/queryAppealDataPage'],
-  times:xdManagementBench.getCurrentDateRangeData,
+import EchartBottom from '../components/echartBottom';
+import BILoading from '@/components/BILoading';
+import TreeNames from '../components/treeNames';
+import Echart from '../components/echart';
+import { jumpGobalRouter } from '@/pages/ko/utils/utils';
+import BIScrollbar from '@/ant_components/BIScrollbar';
+
+
+@connect(({xdWorkModal,loading}) => ({
   userInfo: xdWorkModal.userInfo,
+  loading: loading.effects['xdWorkModal/queryAppealDataPage'],
 }))
 class CollegeScore extends React.Component {
   constructor(props) {
@@ -39,13 +40,20 @@ class CollegeScore extends React.Component {
     let dataShadow = []
     let maxShadow = [];
     const seriesDatas = [];
-    arr.map((item,index)=>{
+    arr.map((item, index)=>{
       creaditValue.push(item.creaditValue);
-      familyName.push(item.name);
       qoqValue.push((item.qoqValue*100).toFixed(2));
+      // x坐标轴
+      familyName.push({
+        value: item.name,
+        textStyle: {
+          color: item.selfOrg ? '#FF9E00' : '#000'
+        }
+      });
+      // 柱状图
       seriesDatas.push({
         itemStyle: this.getItemStyle(item.creaditValue),
-        value: item.creaditValue
+        value: item.creaditValue,
       })
     })
     const yMax =  Math.max.apply(null, creaditValue);
@@ -67,6 +75,9 @@ class CollegeScore extends React.Component {
             color: '#999'
           }
         },
+        textStyle: {
+          cursor: 'no-drop'
+        },
         formatter: '{a2}: {c2}<br />{a3}: {c3}%'
       },
       xAxis: [
@@ -75,7 +86,7 @@ class CollegeScore extends React.Component {
           data: familyName,
           axisLabel: {
             interval:0,
-            rotate:familyName.length>=22?30:0,
+            rotate:familyName.length >= 22 ? 30:0,
             color:'#000000 '
           },
           axisLine:{
@@ -183,7 +194,7 @@ class CollegeScore extends React.Component {
           itemStyle: {
             normal: {color: '#F5A623'}
           },
-          data:qoqValue,
+          data: qoqValue,
         }
       ]
 
@@ -202,59 +213,62 @@ class CollegeScore extends React.Component {
     return orgType
 
   }
-  clickEvent = (arr,item,userInfo)=>{
-    let paramsArr = arr
+  clickEvent = (arr, item, userInfo)=>{
+    const { queryParams = {}, tabNum = 1, queryAppealDatas = {}, familyType = 0 } = this.props.queryAppealDatas.state;
+    let paramsArr = queryAppealDatas.creaditDataList || arr;
+    if (!paramsArr[item.dataIndex].selfOrg) {
+      return;
+    }
     let orgId = "";
-    let tabNum = 1;
-    let familyType = 0
-    if(this.props){
-      tabNum = this.props.queryAppealDatas.state.tabNum
-      paramsArr = this.props.queryAppealDatas.state.queryAppealDatas.creaditDataList
-      familyType = this.props.queryAppealDatas.state.familyType
+    if (tabNum === 1 || tabNum ===2 || tabNum ===3) {
+      orgId = paramsArr.find(subItem => subItem.name === item.name);
+    } else if (tabNum === 4) {
+      orgId = userInfo.collegeId;
     }
-    (tabNum === 1 || tabNum ===2 || tabNum ===3) && paramsArr.map((subItem)=>{
-      if(subItem.name === item.name){
-        orgId = subItem.id
-      }
-    })
-    tabNum === 4 && (orgId = userInfo.collegeId)
     if( orgId === userInfo.collegeId && userInfo.userType === "college" || userInfo.userType === "boss" || tabNum !== 1 ){
+      const { startTime, endTime  } = this.props.queryAppealDatas.props.allTimes;
+      const { dimensionId } = queryParams
       let params={
-        startTime:tabNum === 4?item.name:moment(this.props.times.startDate).format('YYYY-MM-DD'),
-        endTime:tabNum === 4?item.name:moment(this.props.times.endDate).format('YYYY-MM-DD'),
-        dementionId:this.props.queryAppealDatas.state.queryParams.dimensionId?this.props.queryAppealDatas.state.queryParams.dimensionId:1,
-        reasonTypeId:0,
-        orgId:orgId,
-        orgType:this.orgTypes(tabNum),
-        familyType:familyType
+        startTime: tabNum === 4 ? item.name : startTime,
+        endTime: tabNum === 4? item.name : endTime,
+        dementionId: dimensionId ? dimensionId : 1,
+        orgType: this.orgTypes(tabNum),
+        familyType,
+        reasonTypeId: 0,
+        orgId: orgId,
       }
-      window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
+      // window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
+      jumpGobalRouter('xdCredit/index', params);
     }
-
+  }
+  getEchartRender = creaditDataList => {
+    return <>
+      {
+        creaditDataList && creaditDataList.length > 0 &&
+          <Echart
+            options={this.drawChart(creaditDataList)}
+            style={{height: 354, width: creaditDataList.length * 50}}
+            clickEvent={(item)=>this.clickEvent(creaditDataList, item, this.props.userInfo)}
+          />
+      }
+    </>
   }
   render() {
-    const {queryAppealDatas = {}} = this.props.queryAppealDatas.state;
-    const {userInfo} = this.props
+    const { queryAppealDatas = {} } = this.props.queryAppealDatas.state;
+    const { creaditDataList = [] } = queryAppealDatas;
     return (
       <div style={{minHeight:'490px'}}>
           <div>
             <TreeNames dimensions={queryAppealDatas.dimensions} clickTag={this.props.queryAppealDataPage}/>
-            {
-              this.props.loading?<BILoading isLoading={this.props.loading} height="354px" />:(
-                queryAppealDatas.creaditDataList && queryAppealDatas.creaditDataList.length>0 &&
-                <Echart
-                  options={this.drawChart(queryAppealDatas.creaditDataList)}
-                  style={{height:"354px"}}
-                  clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}
-                />
-              )
-            }
-            <EchartBottom/>
+            <BILoading isLoading={this.props.loading}> 
+              <BIScrollbar style={{ minHeight: 354 }}>
+                {this.props.loading ? '' : this.getEchartRender(creaditDataList)}
+              </BIScrollbar>            
+              <EchartBottom/>
+            </BILoading>
         </div>
-
       </div>
     );
   }
 }
-
 export default CollegeScore;

@@ -1,14 +1,16 @@
 import React from 'react';
 import { connect } from 'dva';
+import TopTabs from "../../components/topTabs";
 import Container from '@/components/BIContainer';
-import TopTabs from "../../components/topTabs"
-import BISelect from '@/ant_components/BISelect'
-import CollegeScore from "./collegeScore"
-import moment from 'moment'
+import BISelect from '@/ant_components/BISelect';
+import BIButton from '@/ant_components/BIButton';
+import CollegeScore from "./collegeScore";
+import { handleDataTrace } from '@/utils/utils';
+import { jumpGobalRouter } from '@/pages/ko/utils/utils';
+
 const { Option } = BISelect;
-@connect((xdManagementBench, xdWorkModal) => ({
-  xdManagementBench,
-  times:xdManagementBench.getCurrentDateRangeData,
+@connect((xdWorkModal) => ({
+  // times: xdWorkModal.getCurrentDateRangeData,
   userInfo: xdWorkModal.userInfo || {},
 }))
 class ScoreContrast extends React.Component {
@@ -16,30 +18,18 @@ class ScoreContrast extends React.Component {
     // console.log("date",props.date,moment(props.date.startDate).format('YYYY-MM-DD'),moment(props.date.endDate).format('YYYY-MM-DD'))
     super(props)
     this.state = {
-      tabParams: props.userInfo.userType === "boss" ? [{
+      tabParams: [{
         name: <span data-trace='{"widgetName":"学院学分对比","traceName":"管理层工作台/学院学分对比"}'>学院学分对比</span>,
         key: '1',
         children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       },{
-        name:<span data-trace='{"widgetName":"家族学分对比","traceName":"管理层工作台/家族学分对比"}'>家族学分对比</span>,
-        key:'2',
-        children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
-      }] : [{
-        name: <span data-trace='{"widgetName":"学院学分对比","traceName":"管理层工作台/学院学分对比"}'>学院学分对比</span>,
-        key: '1',
-        children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
-      },{
-        name:<span data-trace='{"widgetName":"家族学分对比","traceName":"管理层工作台/家族学分对比"}'>家族学分对比</span>,
+        name: <span data-trace='{"widgetName":"家族学分对比","traceName":"管理层工作台/家族学分对比"}'>家族学分对比</span>,
         key:'2',
         children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       },{
         name: <span data-trace='{"widgetName":"小组学分对比","traceName":"管理层工作台/小组学分对比"}'>小组学分对比</span>,
         key: '3',
         children: <CollegeScore queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
-      },{
-        name:<span data-trace='{"widgetName":"学分时间趋势","traceName":"管理层工作台/学分时间趋势"}'>学分时间趋势</span>,
-        key:'4',
-        children:<CollegeScore queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       }],
       collegeOptions:[],
       orgValue:"自考",
@@ -52,7 +42,8 @@ class ScoreContrast extends React.Component {
         // startTime:moment(props.date.startDate).format('YYYY-MM-DD'),//"2019-09-25",
         // endTime:moment(props.date.endDate).format('YYYY-MM-DD')//"2019-09-30",
         startTime: '2019-09-25',
-        endTime: '2019-09-30'
+        endTime: '2019-09-30',
+        ...this.props.allTimes
       },
       query: { },
       familyType:0,
@@ -62,7 +53,7 @@ class ScoreContrast extends React.Component {
   componentDidMount() {
     this.queryAppealDataPage();
     this.props.dispatch({
-      type:"xdManagementBench/getFamilyType",
+      type:"xdWorkModal/getFamilyType",
       payload:{params:{}},
       callback:(res) => {
         this.setState({
@@ -94,26 +85,30 @@ class ScoreContrast extends React.Component {
     console.log("params",params)
     this.setState({queryParams: params });
     this.props.dispatch({
-      type:'xdManagementBench/queryAppealDataPage',
+      type:'xdWorkModal/queryAppealDataPage',
       payload:{params:params},
-      callback:(res) => {
-        this.setState({
-          queryAppealDatas:res
-        })
-      }
+      callback:(res) => this.setState({
+        queryAppealDatas:res
+      })
     })
   }
   rightPart = () =>{
-    const {collegeOptions={}, orgValue} = this.state
+    const {collegeOptions={}, orgValue} = this.state;
+    const { allTimes } = this.props;
     return(
-      <div>
-        <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
-
-          {Object.keys(collegeOptions).map((key)=> <Option key={key} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
-            {collegeOptions[key]}
-          </Option>)}
-        </BISelect>
-      </div>
+      <>
+        <span style={{ marginRight: 200 }}>
+          <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
+            {Object.keys(collegeOptions).map((key)=> <Option key={key} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
+              {collegeOptions[key]}
+            </Option>)}
+          </BISelect>
+        </span>
+        <span>
+          <BIButton onClick={() => this.handleRouter('xdCredit/index', {...allTimes, "dementionId": 16})} type="online" style={{marginRight: '8px'}}>学分趋势</BIButton>
+          <BIButton onClick={() => this.handleRouter('xdCreditPk/list', allTimes)} type="online" style={{marginRight: '8px'}}>学分PK</BIButton>
+        </span>
+      </>
     )
   }
   onFormChange = (val) =>{
@@ -124,13 +119,17 @@ class ScoreContrast extends React.Component {
     this.state.queryParams.familyType = val
     this.queryAppealDataPage()
   }
+  handleRouter = (path, params) => {
+    handleDataTrace({"widgetName":"学分趋势","traceName":"班主任工作台/学分趋势"});
+    jumpGobalRouter(path, params);
+  }
   render() {
-
     return (
-      <Container style={{ width: '100%', marginBottom: '16px' }}
-                 title=""
-                 propStyle={{ padding: '0px' }}
-                 head="none">
+      <Container 
+        style={{ width: '100%', marginBottom: '16px' }}
+        propStyle={{ padding: '0px', position: 'relative' }}
+        head="none"
+      >            
         <TopTabs right={this.rightPart()} tabParams={this.state.tabParams} onTabChange={this.changeTab}/>
       </Container>
     );
