@@ -110,7 +110,7 @@ class Top extends React.Component {
         title: '排名',
         dataIndex: 'id',
         key: 'id',
-        width: '60px',
+        width: '100px',
         render: (text, record) => {
           let className = '';
           let rank = 1;
@@ -124,9 +124,15 @@ class Top extends React.Component {
           return (
             <div className={`${styles.rankColumn} ${styles[className]}`}>
               {record.id > 3 ? (
-                <span className={styles.rankSpan}>{record.id}</span>
+                <div className={styles.rankSpan}>
+                  <span className={styles.num}>{record.id}</span>
+                  <span>111</span>
+                </div>
               ) : (
-                <img className={styles.rank} src={rank} />
+                <div>
+                  <img className={styles.rank} src={rank} />
+                  <span>22</span>
+                </div>
               )}
             </div>
           );

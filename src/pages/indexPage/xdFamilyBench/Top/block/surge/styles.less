@@ -61,6 +61,12 @@
     height: 335px;
 
     :global {
+      .ant-table-tbody td {
+        border-color: #EFF3F6;
+        color: #1A1C1F;
+        position: relative;
+        padding: 10px 8px !important;
+      }
       .ant-table-thead > tr > th {
         text-align: right;
       }
@@ -78,9 +84,9 @@
       .ant-table-tbody > tr > td:last-child {
         padding-right: 16px;
       }
-      @media screen and (min-width:1441px) and (max-width: 1920px) {
+      @media screen and (min-width: 1441px) and (max-width: 1920px) {
         .ant-table-thead > tr:nth-child(2) > th:nth-child(2) > div,
-        .ant-table-tbody > tr > td:nth-child(2)>div {
+        .ant-table-tbody > tr > td:nth-child(2) > div {
           // display: inline-block;
           white-space: nowrap;
           width: 290px;
@@ -90,7 +96,7 @@
       }
       @media screen and (min-width: 0) and (max-width: 1440px) {
         .ant-table-thead > tr:nth-child(2) > th:nth-child(2) > div,
-        .ant-table-tbody > tr > td:nth-child(2)>div{
+        .ant-table-tbody > tr > td:nth-child(2) > div {
           // display: inline-block;
           white-space: nowrap;
           width: 248px;
@@ -98,18 +104,21 @@
           text-overflow: ellipsis;
         }
       }
-
     }
     // overflow-y: auto;
   }
 }
 .rankColumn {
   .rankSpan {
-    width: 20px;
+    width: 100%;
     height: 20px;
-    text-align: center;
     display: inline-block;
-    margin-right: 7px;
+    .num {
+      width: 20px;
+      display: inline-block;
+      margin-right: 7px;
+      text-align: center;
+    }
   }
   .rank {
     width: 20px;

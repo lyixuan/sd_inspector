@@ -42,8 +42,8 @@ class IncomeCompare extends React.Component {
     const { date } = this.state;
     return (
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        {date && date.startDate && <Surge date={date} userInfo={userInfo} />}
         {date && date.startDate && <Top date={date} userInfo={userInfo} />}
+        {date && date.startDate && <Surge date={date} userInfo={userInfo} />}
       </div>
     );
   }
