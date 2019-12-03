@@ -1,13 +1,19 @@
 import request from '@/utils/request';
 
-// 获取学院列表
-export async function getCollegeList() {
-  return request('/shinecollege/org/collegeList');
+export async function getOrgMapTreeByRole() {
+  return request('/orgMap/getOrgMapTree');
 }
 
-
-// 课程分类
-export async function getCourseType() {
-  return request('/shinecollege/videoType/tree' );
+export async function qualitySurveyData(data) {
+  return request('/qualityReport/countViolationSceneReport', { method: 'post', data });
 }
 
+// 有效范围
+export async function getTimeRange() {
+  return request('/incomeOrder/dateRangeList');
+}
+
+// 当期
+export async function getCurrentDateRange(params) {
+  return request('/deskperfpcapi/incomeKpiCommon/getCurrentDateRange', { method: 'get', params });
+}

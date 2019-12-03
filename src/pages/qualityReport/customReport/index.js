@@ -2,7 +2,7 @@ import React from 'react';
 import { connect} from 'dva';
 import { message,Spin } from 'antd';
 import QualitySurvey from '../component/QualitySurvey2';
-import TopSelect from '../component/TopSelect';
+import SearchSelect from '../component/SearchSelect';
 
 
 @connect(({ customReport,loading }) => ({
@@ -76,7 +76,7 @@ class CustomReport extends React.Component {
     return (
       <Spin  spinning={false}>
         <div>
-          <TopSelect title="客诉质检报告" type={2}/>
+          <SearchSelect title="客诉质检报告" type={2}/>
           <QualitySurvey headers={headers}/>
         </div>
       </Spin>

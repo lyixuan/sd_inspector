@@ -139,7 +139,6 @@ class FinishAppeal extends React.Component {
         payload: {params:{ ...params,...{type:2} }},
       })
     }
-
   };
   onJumpPage = (query, pathname) => {
     router.push({

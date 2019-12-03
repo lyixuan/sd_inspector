@@ -1,64 +1,64 @@
 import React from 'react';
-import { connect} from 'dva';
-import { message,Spin } from 'antd';
+import { connect } from 'dva';
 import QualitySurvey from '../component/QualitySurvey';
-import TopSelect from '../component/TopSelect';
+import SearchSelect from '../component/SearchSelect';
+import moment from 'moment/moment';
 
 
-@connect(({ classReport,loading }) => ({
-  classReport,
-  loading:loading.effects['classReport/getCommentPage'],
+@connect(({ qualityReport, loading }) => ({
+  qualityReport,
+  loading: loading.effects['qualityReport/qualitySurveyData'],
 }))
 
 class CubePlanDetail extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
 
   componentDidMount() {
+
   }
 
+  query = (params) => {
+    this.props.dispatch({
+      type: 'qualityReport/qualitySurveyData',
+      payload: { ...params, ...{ qualityType: 2 } },
+    });
+  };
+  reset = (params) => {
+    this.props.dispatch({
+      type: 'qualityReport/saveTimeReset',
+      payload: { params },
+    });
+  };
+
+  changeDate = (params) => {
+    this.props.dispatch({
+      type: 'qualityReport/saveTime',
+      payload: { ...params},
+    });
+  };
 
   render() {
-    const {surveyData} = this.props.classReport;
-    const {} = surveyData || {};
-    const headers = {
-      name:"归属组织",
-      totalCountName:"总计",
-      specialViolationName:"特技违规",
-      dimensionNameList:[
-        {
-          dimensionName:"品牌形象公司权益",
-          dimensionId:"pp",
-          primaryViolationName:"一级",
-          secondViolationName:"二级",
-          thirdViolationName:"三级",
-        },
-        {
-          dimensionName:"徇私舞弊",
-          dimensionId:"pttp",
-          primaryViolationName:"一级",
-          secondViolationName:"二级",
-          thirdViolationName:"三级",
-        },
-        {
-          dimensionName:"用户体验",
-          dimensionId:"dd",
-          primaryViolationName:"一级",
-          secondViolationName:"二级",
-          thirdViolationName:"三级",
-        }
-      ]
-    }
+    const { orgTreeList = [], surveyData, startDate, endDate, activeStartDate, activeEndDate ,startDateBak, endDateBak} = this.props.qualityReport;
+    const { headers = [], values = [], maxCount } = surveyData || {};
     return (
-      <Spin  spinning={false}>
-        <div>
-          <TopSelect title="班主任质检报告" type={1}/>
-          <QualitySurvey headers={headers}/>
+      <div>
+        <SearchSelect title="班主任质检报告"
+                      orgList={orgTreeList}
+                      beginDate={startDate}
+                      endDate={endDate}
+                      startDateBak={startDateBak}
+                      endDateBak={endDateBak}
+                      activeStartDate={activeStartDate}
+                      activeEndDate={activeEndDate}
+                      type={1}
+                      changeDate={(params)=>this.changeDate(params)}
+                      reset={(params) => this.reset(params)}
+                      search={(params) => this.query(params)}/>
+        <QualitySurvey headers={headers}/>
       </div>
-      </Spin>
     );
   }
 }

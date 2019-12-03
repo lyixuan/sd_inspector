@@ -81,6 +81,13 @@ export default class QualitySurvey extends React.Component {
       });
     }
 
+    const lastLine = ['1','sjl','就算了','jsl'];
+
+
+    const footer = lastLine.map((item)=>{
+      return <span className={style.footerItem}>item</span>
+    })
+
     return (
       <div className={style.qualitySurvey}>
         <div className={style.title}>质检违规场景概览</div>
@@ -95,6 +102,17 @@ export default class QualitySurvey extends React.Component {
             pagination={false}
             scroll={{x:'max-content', y:470 }}
           />
+          {/*<BIWrapperTable*/}
+            {/*name='sadfa2'*/}
+            {/*showHeader={false}*/}
+            {/*columns={this.getColumns()}*/}
+            {/*rowKey={(record, index) => index}*/}
+            {/*dataSource={[data[0]]}*/}
+            {/*bordered*/}
+            {/*size="middle"*/}
+            {/*pagination={false}*/}
+            {/*scroll={{ y:470 }}*/}
+          {/*/>*/}
         </div>
       </div>
     );
