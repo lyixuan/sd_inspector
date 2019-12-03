@@ -7,8 +7,10 @@ import styles from './style.less';
  *
  * 基于原 ant Table
  * 只扩展自定义样式
+ *
  * */
 
+//  ****** 公共组件不要 随意修改 ******
 
 class BIWrapperTable extends React.Component {
   render() {

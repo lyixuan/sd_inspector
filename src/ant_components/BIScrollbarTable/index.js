@@ -45,6 +45,7 @@ class BIScrollbarTable extends React.Component {
     const { scroll } = this.props;
     const { limit } = scrollbar;
     if (limit.x && scroll.x) {
+      console.log('llll')
       this.state.scrollbar.track.xAxis.show()  
     }
     if (limit.y && scroll.y) {

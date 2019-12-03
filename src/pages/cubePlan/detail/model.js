@@ -75,7 +75,7 @@ export default {
       const params = payload.params;
       const result = yield call(getCopyUrl,params);
       if (result.code === 20000) {
-        if(params.usedType===11){
+        if(params.usedType===11) {
           const copyBottomUrl = result.data.copyUrl;
           yield put({ type: 'save', payload: {copyBottomUrl }});
         } else {
