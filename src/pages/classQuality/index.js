@@ -64,7 +64,10 @@ class ClassQuality extends React.Component {
     })
     // 数据
     const qualityType = this.getQualityType(this.props.location.pathname);
+    const params = this.props.location.query.params;
+    const { keyWord } = params ? JSON.parse(params) : {};
     this.setState({
+      keyWord,
       qualityType,
       typeName: typeTranslate[qualityType]
     }, () => this.requestTree()) 

@@ -160,7 +160,7 @@ class CreditImDetials extends React.Component {
           const content = text ? <Layout dataMark={record}></Layout> : record.content;
           return (
             <Tooltip overlayClassName={styles.listMarkingTooltip} placement="right" title={content}>
-              <div className={styles.content}>{text[0].content}</div>
+              <div className={styles.content}><div></div>{text[0].content}</div>
             </Tooltip>
           )
         },
@@ -180,7 +180,7 @@ class CreditImDetials extends React.Component {
         dataIndex: 'hdTeamName',
         key: 'hdTeamName',
         render: text => <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right"
-          title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
+          title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}><div></div>{text}</span></Tooltip>,
         // width: 180,
         //   render: (text, record) => {
         //     return <span>{strLen(text, 8)}</span>

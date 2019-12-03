@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { message } from 'antd/lib/index';
+import { message } from 'antd/lib';
 import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
 import BIButton from '@/ant_components/BIButton';
@@ -14,11 +14,11 @@ import styles from './style.less';
 
 const { BI = {} } = window;
 const localKey = 'creditFamilyLocal';
-@connect(({ xdFamilyModal, loading }) => ({
-  kpiTimes: xdFamilyModal.familyKpiTimes || {},
-  groupPkList: xdFamilyModal.familyScorePk,
-  dimenloading: loading.effects['xdFamilyModal/getFamilyScorePk'],
-  drawerloading: loading.effects['xdFamilyModal/getFamilyRankList'],
+@connect(({ xdCreditPkModal, loading }) => ({
+  kpiTimes: xdCreditPkModal.familyKpiTimes || {},
+  groupPkList: xdCreditPkModal.familyScorePk,
+  dimenloading: loading.effects['xdCreditPkModal/getFamilyScorePk'],
+  drawerloading: loading.effects['xdCreditPkModal/getFamilyRankList'],
 }))
 class FamilyIndex extends React.Component {
   constructor(props) {
@@ -28,28 +28,30 @@ class FamilyIndex extends React.Component {
       ...this.getLocalValue(), 
     }
   }
-  componentDidMount() {
-    this.getGroupPkData();
+  componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(nextProps.dateRangeSelect) !== JSON.stringify(this.props.dateRangeSelect)) {
+      this.getGroupPkData(nextProps.dateRangeSelect);
+    }
   }
   // 初始化数据
   getLocalValue = () => {
-    const {pkfamily = [], hasData} = JSON.parse(localStorage.getItem(localKey)) || {};
+    const {pkfamily = []} = JSON.parse(localStorage.getItem(localKey)) || {};
     return { 
       pkfamily, // 选中PK数组
-      hasData: hasData && hasData === 2 ? false : true // 学分基础信息切换显示
+      // hasData: hasData && hasData === 2 ? false : true // 学分基础信息切换显示
     };
   }
   // 维度列表
-  getGroupPkData = () => {
+  getGroupPkData = ([s, e] = this.props.dateRangeSelect) => {
     this.props.dispatch({
-      type: 'xdFamilyModal/getFamilyScorePk',
-      payload: { params: { pkfamily: this.state.pkfamily } },
+      type: 'xdCreditPkModal/getFamilyScorePk',
+      payload: { params: { pkfamily: this.state.pkfamily, s, e } },
     });
   }
   // 对比小组列表
   getGroupList =({ collegeId }, callback)  => {
     this.props.dispatch({
-      type: 'xdFamilyModal/getFamilyRankList',
+      type: 'xdCreditPkModal/getFamilyRankList',
       payload: { params: { collegeId } },
       callback: res => callback(res),
     })
@@ -90,16 +92,16 @@ class FamilyIndex extends React.Component {
     });
   }
   // 显示隐藏数据
-  toggleData = () => {
-    const hasData = !this.state.hasData;
-    setLocalValue({hasData: hasData ? 1 : 2}, localKey);
-    if (hasData) {
-      BI.traceV &&  BI.traceV({"widgetName":"学分-显示基础信息","traceName":"家族长工作台/学分-显示基础信息"});
-    } else {
-      BI.traceV &&  BI.traceV({"widgetName":"学分-隐藏基础信息","traceName":"家族长工作台/学分-隐藏基础信息"});
-    }
-    this.setState({ hasData });
-  };
+  // toggleData = () => {
+  //   const hasData = !this.state.hasData;
+  //   setLocalValue({hasData: hasData ? 1 : 2}, localKey);
+  //   if (hasData) {
+  //     BI.traceV &&  BI.traceV({"widgetName":"学分-显示基础信息","traceName":"家族长工作台/学分-显示基础信息"});
+  //   } else {
+  //     BI.traceV &&  BI.traceV({"widgetName":"学分-隐藏基础信息","traceName":"家族长工作台/学分-隐藏基础信息"});
+  //   }
+  //   this.setState({ hasData });
+  // };
   // 抽屉切换
   toggleDrawer = (bul) => {
     if (bul) {
@@ -110,13 +112,14 @@ class FamilyIndex extends React.Component {
     });
   };
   render() {
-    const { pkfamily, visible, hasData, } = this.state;
+    const { pkfamily, visible, } = this.state;
     const { startTime, endTime } = this.props.kpiTimes;
     return (
       <div className={styles.container}>
         <span className={styles.right}>
+          <BIButton onClick={() => handleDataTrace({"widgetName":"学分趋势","traceName":"家族长工作台/家族/学分趋势"})} type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime}) }`} target='_black'>学分趋势</Link></BIButton>
           <BIButton onClick={() => handleDataTrace({"widgetName":"消息差评快捷入口","traceName":"家族长工作台/家族/消息差评入口"})} type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton>
-          <BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton>
+          {/* <BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton> */}
         </span>
         <PkDimension
           toggleDrawer={this.toggleDrawer} 
@@ -124,7 +127,7 @@ class FamilyIndex extends React.Component {
           loading={this.props.dimenloading}
           groupPkList={this.props.groupPkList}
           pkUsers={pkfamily}
-          hasData={hasData}
+          // hasData={hasData}
           showKey={{
             pkValue: 'familyId',
             columnOrgName: 'familyName'
@@ -147,7 +150,6 @@ class FamilyIndex extends React.Component {
           dimenloading={this.props.dimenloading}
           pkUsers={pkfamily} 
           localKey={localKey}
-          hasData={hasData} 
           showKey={{
             columnOrgName: 'familyName',
             mineFlag: 'myFamily',

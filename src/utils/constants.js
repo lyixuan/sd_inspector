@@ -399,6 +399,7 @@ export const UNIT_DATE = [
 export const APP_LIST = [{ id: '1', name: '极速版App' }];
 // 空ContentLayout页面名单
 export const EmptyContentLayout = [
+  { path: '/nps' ,name: 'nps'},
   { path: '/ko', name: 'KO计划' },
   { path: '/qualityMarking', name: '质检标注' },
   { path: '/qualityReport', name: '质检图表' },
@@ -413,9 +414,7 @@ export const EmptyContentLayout = [
   { path: '/indexPage', name: '小德工作台' },
   { path: '/cubePlan/list', name: '魔方计划' },
 ];
-export const EmptyContentLayoutWithBread = [
-  { path: '/cubePlan/list/detail', name: '魔方详情' },
-];
+export const EmptyContentLayoutWithBread = [{ path: '/cubePlan/list/detail', name: '魔方详情' }];
 // 注册类型
 export const REGISTER_STATUS = [{ id: 1, name: '已注册' }];
 // 选课状态
@@ -554,7 +553,7 @@ export const DO_NOT_MENU = [
   '/xdCredit/index', // 小德学分
   '/classQuality/qualityType/1', // 客诉任手册
   '/classQuality/qualityType/2', // 班主任手册
-]
+];
 
 export const Xing = [
   { id: 1, name: '非常难用' },
@@ -602,7 +601,7 @@ export default {
   WB_STAR,
   WB_LIFE_CYCLE,
   DO_NOT_MENU,
-  Xing
+  Xing,
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

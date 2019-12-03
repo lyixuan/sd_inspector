@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { message } from 'antd/lib/index';
+import { message } from 'antd/lib';
 import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
 import BIButton from '@/ant_components/BIButton';
@@ -14,11 +14,11 @@ import styles from './style.less';
 
 const { BI = {} } = window;
 const localKey = 'creditGroupLocal';
-@connect(({ xdFamilyModal, loading  }) => ({
-  kpiTimes: xdFamilyModal.familyKpiTimes || {},
-  groupPkList: xdFamilyModal.groupScorePk,
-  dimenloading: loading.effects['xdFamilyModal/groupPkList'],
-  drawerloading: loading.effects['xdWorkModal/groupList'],
+@connect(({ xdCreditPkModal, loading  }) => ({
+  kpiTimes: xdCreditPkModal.familyKpiTimes || {},
+  groupPkList: xdCreditPkModal.groupScorePk,
+  dimenloading: loading.effects['xdCreditPkModal/groupPkList'],
+  drawerloading: loading.effects['xdCreditPkModal/groupList'],
 }))
 class GroupIndex extends React.Component {
   constructor(props) {
@@ -31,27 +31,32 @@ class GroupIndex extends React.Component {
   componentDidMount() {
     this.getGroupPkData();
   }
+  componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(nextProps.dateRangeSelect) !== JSON.stringify(this.props.dateRangeSelect)) {
+      this.getGroupPkData(nextProps.dateRangeSelect);
+    }
+  }
   // 初始化数据
   getLocalValue = () => {
-    const {pkGroupList = [], hasData} = JSON.parse(localStorage.getItem(localKey)) || {};
+    const {pkGroupList = []} = JSON.parse(localStorage.getItem(localKey)) || {};
     return { 
       pkGroupList, // 选中PK数组
-      hasData: hasData && hasData === 2 ? false : true // 学分基础信息切换显示
+      // hasData: hasData && hasData === 2 ? false : true // 学分基础信息切换显示
     };
   }
   // 维度列表
-  getGroupPkData = () => {
+  getGroupPkData = ([s, e] = this.props.dateRangeSelect) => {
     this.props.dispatch({
-      type: 'xdFamilyModal/groupPkList',
-      payload: { params: { pkGroupList: this.state.pkGroupList } },
+      type: 'xdCreditPkModal/groupPkList',
+      payload: { params: { pkGroupList: this.state.pkGroupList, s, e } },
     });
   }
  // 对比小组列表
-  getGroupList =({orgValue, studentValue}, callback)  => {
-    const paramsItem = orgValue === 1 ? 'groupType' : 'kpiLevelId';
+  getGroupList =({studentValue}, callback)  => {
+    // const paramsItem = orgValue === 1 ? 'groupType' : 'kpiLevelId';
     this.props.dispatch({
-      type: 'xdWorkModal/groupList',
-      payload: { params: { [paramsItem]: studentValue } },
+      type: 'xdCreditPkModal/groupList',
+      payload: { params: { groupType: studentValue } },
       callback: res => callback(res),
     })
   }
@@ -90,16 +95,16 @@ class GroupIndex extends React.Component {
     });
   }
   // 显示隐藏数据
-  toggleData = () => {
-    const hasData = !this.state.hasData;
-    setLocalValue({hasData: hasData ? 1 : 2}, localKey);
-    if (hasData) {
-      BI.traceV &&  BI.traceV({"widgetName":"学分-显示基础信息","traceName":"家族长工作台/学分-显示基础信息"});
-    } else {
-      BI.traceV &&  BI.traceV({"widgetName":"学分-隐藏基础信息","traceName":"家族长工作台/学分-隐藏基础信息"});
-    }
-    this.setState({ hasData });
-  };
+  // toggleData = () => {
+  //   const hasData = !this.state.hasData;
+  //   setLocalValue({hasData: hasData ? 1 : 2}, localKey);
+  //   if (hasData) {
+  //     BI.traceV &&  BI.traceV({"widgetName":"学分-显示基础信息","traceName":"家族长工作台/学分-显示基础信息"});
+  //   } else {
+  //     BI.traceV &&  BI.traceV({"widgetName":"学分-隐藏基础信息","traceName":"家族长工作台/学分-隐藏基础信息"});
+  //   }
+  //   this.setState({ hasData });
+  // };
   // 抽屉切换
   toggleDrawer = (bul) => {
     if (bul) {
@@ -110,13 +115,14 @@ class GroupIndex extends React.Component {
     });
   };
   render() {
-    const { pkGroupList, visible, hasData } = this.state;
+    const { pkGroupList, visible } = this.state;
     const { startTime, endTime } = this.props.kpiTimes;
     return (
       <div className={styles.container}>
         <span className={styles.right}>
+          <BIButton onClick={() => handleDataTrace({"widgetName":"学分趋势","traceName":"家族长工作台/小组/学分趋势"})} type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime }) }`} target='_black'>学分趋势</Link></BIButton>
           <BIButton onClick={() => handleDataTrace({"widgetName":"消息差评快捷入口","traceName":"家族长工作台/小组/消息差评入口"})} type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton>
-          <BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton>
+          {/* <BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton> */}
         </span>
         <PkDimension
         getGroupPkData={this.getGroupPkData}
@@ -125,7 +131,7 @@ class GroupIndex extends React.Component {
         loading={this.props.dimenloading}
         pkUsers={pkGroupList}
         groupPkList={this.props.groupPkList}
-        hasData={hasData}
+        // hasData={hasData}
         />
         <BIDrawer
         onClose={() => this.toggleDrawer(false)}
@@ -142,7 +148,6 @@ class GroupIndex extends React.Component {
           dimenloading={this.props.dimenloading}
           pkUsers={pkGroupList}         
           localKey={localKey} 
-          hasData={hasData}
           showKey={{
             serachName: '选择对比小组'
           }}

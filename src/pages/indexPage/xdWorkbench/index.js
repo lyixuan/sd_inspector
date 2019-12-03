@@ -5,7 +5,7 @@ import PerformanceDetail from './performanceDetail';
 import Appeal from './appeal';
 import Quality from './quality';
 import styles from './style.less';
-import CurrentCredit from './currentCredit'
+// import CurrentCredit from './currentCredit'
 import storage from '../../../utils/storage';
 
 @connect(({ xdWorkModal }) => ({
@@ -23,9 +23,9 @@ class XdWorkbench extends React.Component {
     return (
       <div className={styles.workbench}>
         <PerformanceDetail></PerformanceDetail>
-        {
+        {/* {
           this.props.userInfo.privilegeView &&  <CurrentCredit></CurrentCredit>
-        }
+        } */}
         <Profit userId={userId} />
         <div className={styles.qualityAppel}>
           <Quality userId={userId} />

@@ -12,19 +12,32 @@ import {
   queryAppealDataPage,
   getFamilyType,
   reasonList,
+  getUserInfo,
+  getOrgMapList,
+  // kpiLevelList,
+  // groupList,
+  getIncomeCollegeList,
+  getQuestionCheckUser, 
+  postWriteQuestion
 } from './services';
-import { message } from 'antd/lib/index';
+import { message } from 'antd/lib';
 import { msgF, thousandsFormat } from '@/utils/utils';
 import moment from 'moment';
 
 export default {
-  namespace: 'xdManagementBench',
+  namespace: 'xdOperation',
   state: {
     npsParams: {}, //nps部分的数据
+    npsList: [],
     compareCollegeListData: [],
     getCurrentDateRangeData: null,
     orgList: [],
     imDetailData: [],
+    userInfo: {}, // 全局值
+    orgList:[],
+    // globalLevelList: [],
+    globalCollegeList: [],
+    globalQVisible: false, // 问卷调查是否显示
   },
   effects: {
     //  管理层工作台的接口
@@ -41,15 +54,51 @@ export default {
     },
     //NPS自主评价所有的接口
     *getNpsAutonomousEvaluation({ payload, callback }, { call, put }) {
-      const result = yield call(getNpsAutonomousEvaluation, payload.params);
-      if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { npsParams: result.data } });
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
+      const {
+        collegeId,
+        star,
+        cycle,
+        pageNum,
+        pageSize,
+        npsList: oldLists,
+        change,
+        endTime,
+        startTime,
+      } = payload.params;
+
+      const params = { collegeId, star, cycle, pageSize, pageNum, startTime, endTime };
+      const result = yield call(getNpsAutonomousEvaluation, params);
+      if (result.code === 20000) {
+        const npsParams = result.data || {};
+
+        let npsList = [];
+        if (change) {
+          npsList = [].concat(npsParams.npsStarOpinionDtoListMap.data);
+        } else {
+          if (Number(pageNum) !== 1) {
+            npsList = oldLists.concat(npsParams.npsStarOpinionDtoListMap.data);
+          } else {
+            npsList = [].concat(npsParams.npsStarOpinionDtoListMap.data);
+          }
         }
-      } else if (result) {
+
+        yield put({ type: 'save', payload: { npsParams, npsList } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data, npsList);
+        }
+      } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
+
+      // const result = yield call(getNpsAutonomousEvaluation, payload.params);
+      // if (result.code === 20000 && result.data) {
+      //   yield put({ type: 'save', payload: { npsParams: result.data } });
+      //   if (callback && typeof callback === 'function') {
+      //     callback(result.data);
+      //   }
+      // } else if (result) {
+      //   message.error(msgF(result.msg, result.msgDetail));
+      // }
     },
     //  获取组织架构
     *getOrgMapTree({ payload, callback }, { call, put }) {
@@ -176,6 +225,63 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+    *getUserInfo({ callback }, { call, put }) {
+      const result = yield call(getUserInfo);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { userInfo: result.data } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 组织列表
+    *getOrgMapList({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getOrgMapList, params);
+      const orgList = result.data || [];
+      if (result.code === 20000) {
+        yield put({ type: 'saveMap', payload: { orgList } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 家族-学院列表
+    *getIncomeCollegeList(_, { call, put }) {
+      const result = yield call(getIncomeCollegeList);
+      if (result.code === 20000) {
+        yield put({ type: 'save', payload: { globalCollegeList: result.data } });
+      } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 问卷调查获取
+    *getQuestionCheckUser({ callback }, { call, put }) {
+      const result = yield call(getQuestionCheckUser);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+        yield put({ type: 'save', payload: { globalQVisible: result.data} });
+      }
+    },
+    // 问卷调查提交
+    *postWriteQuestion({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      yield put({ type: 'save', payload: { globalQVisible: false} });
+      const result = yield call(postWriteQuestion, params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback();
+        }
+        if (!params.refuseFlag) {
+          message.success('提交成功！么么哒');
+        }
+      } else {
+        message.success('网络异常，请稍后重试');
+      }
+    },
   },
 
   reducers: {
@@ -184,7 +290,6 @@ export default {
     },
     saveTable(state, { payload }) {
       let data = payload.imDetailData;
-
       if (!data.reasonTypeList) {
         data.dataList.map(item => {
           item.values.push(item.unClassifyValue);
@@ -197,16 +302,14 @@ export default {
             typeName: '所有分类',
           },
         ];
-        if (data.titleList) {
-          data.titleList = [
-            ...data.titleList,
-            {
-              expand: false,
-              typeId: -1,
-              typeName: '未分类数据',
-            },
-          ];
-        }
+        data.titleList = [
+          ...data.titleList,
+          {
+            expand: false,
+            typeId: -1,
+            typeName: '未分类数据',
+          },
+        ];
       } else {
         data.reasonTypeList = [
           {
@@ -218,6 +321,10 @@ export default {
         ];
       }
       return { ...state, ...{ imDetailData: data } };
+    },
+    saveMap(state, { payload }) {
+      const orgListTreeData = toTreeData(payload.orgList);
+      return { ...state, orgList: payload.orgList, orgListTreeData };
     },
   },
   subscriptions: {},

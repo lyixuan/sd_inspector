@@ -81,7 +81,10 @@ class NPSLeft extends React.Component {
   render() {
     // const { dataSource} = this.state;
     const {NPSleftParams} = this.props
-    const dataSource = NPSleftParams && NPSleftParams.npsStarOpinionDtoListMap && NPSleftParams.npsStarOpinionDtoListMap.data.length>0 ? NPSleftParams.npsStarOpinionDtoListMap.data:[]
+    let dataSource = NPSleftParams && NPSleftParams.npsStarOpinionDtoListMap && NPSleftParams.npsStarOpinionDtoListMap.data.length>0 ? NPSleftParams.npsStarOpinionDtoListMap.data:[];
+    if(dataSource.length >=6){
+      dataSource = dataSource.splice(0,7);
+    }
     return (
       <Container
         title="创收学院对比"
