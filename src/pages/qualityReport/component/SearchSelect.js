@@ -12,10 +12,6 @@ class SearchSelect extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      collegeId: null,
-      familyId: null,
-      groupId: null,
-      organization: [],
     };
   }
 
@@ -23,13 +19,7 @@ class SearchSelect extends React.Component {
     if ('dateRange' === vname) {
       this.props.changeDate && this.props.changeDate({startDate: value[0], endDate: value[1]});
     } else if ('organization' === vname) {
-      const arr = value.split('-');
-      this.setState({
-        organization: value,
-        collegeId: arr[0] ? Number(arr[0]) : null,
-        familyId: arr[1] ? Number(arr[1]) : null,
-        groupId: arr[2] ? Number(arr[2]) : null,
-      });
+      this.props.changeOrganization && this.props.changeOrganization({organization:value});
     }
   };
   disabledDate = current => {
@@ -37,27 +27,22 @@ class SearchSelect extends React.Component {
     return current < moment(new Date(activeStartDate),'YYYY-MM-DD') || current > moment(new Date(activeEndDate),'YYYY-MM-DD').add(1, 'days');
   };
   search = () => {
-    const { collegeId, familyId, groupId } = this.state;
-    const { beginDate, endDate} = this.props;
-    const params = {collegeId, familyId, groupId, beginDate, endDate};
-    if(!beginDate || !endDate) {
+    const { beginDate, endDate,organization} = this.props;
+    const params = {organization, beginDate, endDate};
+    if(!beginDate || !endDate ||!organization) {
       message.warn('请选择搜索条件');
       return;
     }
     this.props.search && this.props.search(params);
   };
   reset = () => {
-    const { startDateBak, endDateBak} = this.props;
-    console.log('reset',moment(startDateBak).format('YYYY-MM-DD'))
-    console.log('reset',moment(endDateBak).format('YYYY-MM-DD'))
-    this.props.reset && this.props.reset({startDate:startDateBak, endDate:endDateBak});
+    const { startDateBak, endDateBak,organizationBak} = this.props;
+    this.props.reset && this.props.reset({startDate:startDateBak, endDate:endDateBak,organization:organizationBak});
   };
 
   render() {
-    const { organization } = this.state;
-    const { title, orgList = [],beginDate, endDate } = this.props;
-    console.log('back',moment(beginDate).format('YYYY-MM-DD'))
-    console.log('back',moment(endDate).format('YYYY-MM-DD'))
+    const { title, orgList = [],beginDate, endDate,organization } = this.props;
+
     return (
       <div className={style.topSelect}>
         <div className={style.title}>{title}</div>

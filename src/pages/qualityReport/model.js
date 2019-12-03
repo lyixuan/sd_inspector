@@ -2,7 +2,6 @@ import { message } from 'antd';
 import { getOrgMapTreeByRole ,qualitySurveyData,getCurrentDateRange} from './services';
 import { msgF } from '@/utils/utils';
 import { getTimeRange } from '@/pages/setting/createIncome/services';
-import moment from 'moment/moment';
 
 export default {
   namespace: 'qualityReport',
@@ -14,6 +13,8 @@ export default {
     endDate:null,
     startDateBak:null,
     endDateBak:null,
+    organization:undefined,
+    organizationBak:undefined,
   },
 
   effects: {
@@ -21,8 +22,9 @@ export default {
       const result = yield call(getOrgMapTreeByRole);
       if (result.code === 20000) {
         const orgListTemp = result.data || [];
-        const orgTreeList = toTreeData(orgListTemp);
-        yield put({ type: 'save', payload: { orgTreeList } });
+        const obj = toTreeData(orgListTemp);
+        const {orgTreeList,organization} = obj||{};
+        yield put({ type: 'save', payload: { orgTreeList,organization ,organizationBak:organization} });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -54,6 +56,9 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+    *saveTimeReset({ payload }, { call, put }) {
+      yield put({ type: 'saveTimeReset1', payload });
+    },
   },
 
   reducers: {
@@ -63,8 +68,11 @@ export default {
     saveTime(state, { payload }) {
       return { ...state, ...payload };
     },
-    saveTimeReset(state, { payload }) {
+    saveTimeReset1(state, { payload }) {
       return { ...state, ...payload.params };
+    },
+    saveOrganization(state, { payload }) {
+      return { ...state, ...payload };
     },
 
   },
@@ -78,12 +86,12 @@ function toTreeData(orgList) {
     const o = { title: v.name, value: `${v.id}` };
     if (v.nodeList.length > 0) {
       o.children = [];
-      v.nodeList.forEach((v1, i1) => {
+      v.nodeList.forEach((v1) => {
         const o1 = { title: v1.name, value: `${v.id}-${v1.id}` };
         o.children.push(o1);
         if (v1.nodeList.length > 0) {
           o1.children = [];
-          v1.nodeList.forEach((v2, i2) => {
+          v1.nodeList.forEach((v2) => {
             const o2 = { title: v2.name, value: `${v.id}-${v1.id}-${v2.id}` };
             o1.children.push(o2);
           });
@@ -92,5 +100,32 @@ function toTreeData(orgList) {
     }
     treeData.push(o);
   });
-  return treeData;
+
+  return getOrgLv(treeData);
 }
+
+
+function getOrgLv (orgList) {
+  if(orgList.length===0) {
+    return []
+  }
+  let organization = undefined;
+  const admin_user = localStorage.getItem('admin_user');
+  const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
+  let list = [];
+  if(userType==='admin' || userType==='boss'){
+    list = orgList;
+  } else if (userType==='college') {
+    list = orgList;
+  } else if (userType==='family') {
+    list = orgList[0].children;
+  } else if (userType==='group' || userType==='class') {
+    list = orgList[0].children[0].children;
+  } else {
+    list = orgList.map((item)=>{
+      return { title: item.title, value: item.value }
+    });
+  }
+  organization = list[0].value;
+  return {orgTreeList:list,organization};
+};

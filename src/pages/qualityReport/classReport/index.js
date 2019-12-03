@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'dva';
 import QualitySurvey from '../component/QualitySurvey';
 import SearchSelect from '../component/SearchSelect';
-import moment from 'moment/moment';
 
 
 @connect(({ qualityReport, loading }) => ({
@@ -21,15 +20,27 @@ class CubePlanDetail extends React.Component {
   }
 
   query = (params) => {
+    const arr = params.organization.split('-');
+    const org = {
+      collegeId:arr[0] ? Number(arr[0]) : null,
+      familyId: arr[1] ? Number(arr[1]) : null,
+      groupId: arr[2] ? Number(arr[2]) : null,
+    };
+
     this.props.dispatch({
       type: 'qualityReport/qualitySurveyData',
-      payload: { ...params, ...{ qualityType: 2 } },
+      payload: { ...params, ...org,...{ qualityType: 2 } },
     });
   };
+
   reset = (params) => {
     this.props.dispatch({
       type: 'qualityReport/saveTimeReset',
       payload: { params },
+    }).then(()=>{
+      console.log(11111)
+      const  { startDate, endDate, organization} = this.props.qualityReport;
+      this.query({startDate, endDate, organization});
     });
   };
 
@@ -39,9 +50,16 @@ class CubePlanDetail extends React.Component {
       payload: { ...params},
     });
   };
+  changeOrganization = (params) => {
+    this.props.dispatch({
+      type: 'qualityReport/saveOrganization',
+      payload: { ...params},
+    });
+  };
+
 
   render() {
-    const { orgTreeList = [], surveyData, startDate, endDate, activeStartDate, activeEndDate ,startDateBak, endDateBak} = this.props.qualityReport;
+    const { orgTreeList = [], surveyData, startDate, endDate, activeStartDate, activeEndDate ,startDateBak, endDateBak,organization,organizationBak} = this.props.qualityReport;
     const { headers = [], values = [], maxCount } = surveyData || {};
     return (
       <div>
@@ -53,8 +71,11 @@ class CubePlanDetail extends React.Component {
                       endDateBak={endDateBak}
                       activeStartDate={activeStartDate}
                       activeEndDate={activeEndDate}
+                      organization={organization}
+                      organizationBak={organizationBak}
                       type={1}
                       changeDate={(params)=>this.changeDate(params)}
+                      changeOrganization={(params)=>this.changeOrganization(params)}
                       reset={(params) => this.reset(params)}
                       search={(params) => this.query(params)}/>
         <QualitySurvey headers={headers}/>
