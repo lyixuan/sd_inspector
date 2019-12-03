@@ -22,7 +22,9 @@ export default {
     questionList: [],
     guessData: {},
     answer: {},
-    relationData: {}
+    relationData: {},
+    globalQTypes: {},
+    globalQuestion: {}
   },
   effects: {
     *getGoingActivity({ payload }, { call, put }) {
@@ -47,7 +49,7 @@ export default {
       const params = payload.params;
       const result = yield call(getQuestionType, params.id);
       if (result.code === 200) {
-        yield put({ type: 'save', payload: { questionTypeList: result.data } });
+        yield put({ type: 'saveGetQuestionData', payload: { list: result.data, id: params.id } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -55,8 +57,10 @@ export default {
     *getQuestionList({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(getQuestionList, params);
+      console.log(60, result)
       if (result.code === 200) {
-        yield put({ type: 'save', payload: { questionList: result.data } });
+        // yield put({ type: 'save', payload: { questionList: result.data } });
+        yield put({ type: 'saveGetQuestionList', payload: { questionList: result.data || [], questionTypeId: params.questionTypeId } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -101,7 +105,6 @@ export default {
     },
     *similarTempSave({ payload, callBack }, { call, put }) {
       const params = payload.params;
-      console.log(70, params)
       const result = yield call(similarTempSave, params);
       if (result.code === 200) {
         yield put({ type: 'save' });
@@ -118,13 +121,15 @@ export default {
       return { ...state, ...payload };
     },
     saveGetQuestionData(state, { payload }) {
-      console.log(121, state)
-      const { questionTypeList } = payload;
-      // payload.questionTypeList = formatData(questionTypeList)
-
-
-
-      return { ...state, ...payload };
+      const { list, id } = payload;
+      state.globalQTypes[id] = list;
+      return { ...state };
+    },
+    saveGetQuestionList(state, { payload }) {
+      const { questionList = [], questionTypeId } = payload;
+      console.log(129, state)
+      state.globalQuestion[questionTypeId] = questionList;
+      return { ...state };
     },
     formatData(data) {
       if (Array.isArray(data)) {

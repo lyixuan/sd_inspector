@@ -8,8 +8,10 @@ const { Option } = Select;
 @connect(({ hotQuestion, loading }) => ({
   hotQuestion,
   knowledgeList: hotQuestion.knowledgeList,
-  questionTypeList: hotQuestion.questionTypeList,
-  questionList: hotQuestion.questionList || []
+  globalQTypes: hotQuestion.globalQTypes || {},
+  globalQuestion: hotQuestion.globalQuestion || {},
+  // questionTypeList: hotQuestion.questionTypeList,
+  // questionList: hotQuestion.questionList || []
 }))
 
 class Line extends React.Component {
@@ -26,13 +28,14 @@ class Line extends React.Component {
       isEdit: dataSource.isEdit || true,
       answer: null,
       index: this.props.index,
-      simpleName: dataSource.simpleName
+      simpleName: dataSource.simpleName,
+      questionTypeName: dataSource.questionTypeName || undefined,
     };
   }
   componentDidMount() {
     const { knowledgeId, questionTypeId } = this.state;
-    this.getQuestionType(knowledgeId);
-    this.getQuestionList({ knowledgeId, questionTypeId })
+    if (knowledgeId) this.getQuestionType(knowledgeId);
+    if (questionTypeId) this.getQuestionList({ knowledgeId, questionTypeId })
   }
   // 递归处理问题分类
   formatData = (data) => {
@@ -78,28 +81,24 @@ class Line extends React.Component {
       this.props.dispatch({
         type: 'hotQuestion/getQuestionType',
         payload: { params: { id: id } },
-      }).then(() => {
-        this.setState({
-          questionTypeList: this.formatData(this.props.questionTypeList)
-        })
-      });
+      })
     }
   }
   // 切换分类
   questionTypeChange = (val, label) => {
-    console.log(83, label)
     this.setState({
       questionTypeId: val,
-      questionType: label[0],
+      questionTypeName: label[0],
       question: undefined,
       questionId: undefined,
       answer: null
     }, () => {
-      const { knowledgeId, questionTypeId } = this.state;
       const params = this.state
+      const { knowledgeId } = this.state;
+      this.getQuestionList({ knowledgeId, questionTypeId: val });
       this.props.updateData(params)
-      this.getQuestionList({ knowledgeId, questionTypeId });
     })
+
   }
   shortQuesChange = (e) => {
     this.setState({
@@ -116,17 +115,14 @@ class Line extends React.Component {
       this.props.dispatch({
         type: 'hotQuestion/getQuestionList',
         payload: { params: params },
-      }).then(() => {
-        this.setState({
-          questionList: this.props.questionList
-        })
       });
     }
   }
   // 切换标准问题
   questionChange = (val) => {
     let key = {}
-    this.state.questionList.map(item => {
+    const { questionTypeId } = this.state;
+    this.props.globalQuestion[questionTypeId].map(item => {
       if (val === item.questionId) {
         key = item
       }
@@ -156,14 +152,15 @@ class Line extends React.Component {
   }
   render() {
     const { index, auth, knowledgeList, radioId } = this.props
-    const { knowledgeId, knowledgeName, questionType, questionTypeId, questionTypeList, questionList, questionId, question, isEdit, simpleName } = this.state
+    const { knowledgeId, knowledgeName, questionTypeId, questionId, question, isEdit, questionTypeName, simpleName } = this.state
+    const questionList = this.props.globalQuestion[questionTypeId] || [];
+    const questionTypeList = this.formatData(this.props.globalQTypes[knowledgeId])
     return (
       <div className={styles.lineItem}>
         <span className={styles.eq0}>{index + 1}</span>
         <div className={styles.eq1}>
           {
             auth ? <Select
-              // labelInValue={true}
               value={knowledgeId}
               className={styles.knowledge}
               placeholder="选择知识库"
@@ -187,7 +184,7 @@ class Line extends React.Component {
               treeData={questionTypeList}
               onChange={this.questionTypeChange}
               dropdownStyle={{ height: 300 }}>
-            </TreeSelect> : <BIInput placeholder="选择分类" readOnly={true} value={questionType}></BIInput>
+            </TreeSelect> : <BIInput placeholder="选择分类" readOnly={true} value={questionTypeName}></BIInput>
           }
         </div>
         <div className={styles.eq5}>

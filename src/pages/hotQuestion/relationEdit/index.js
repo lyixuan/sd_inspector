@@ -13,6 +13,7 @@ import BILoading from '@/components/BILoading';
 import { SSCP_WEB_BASE_URL } from '@/pages/configWords/utils/constants';
 const { TextArea } = BIInput;
 
+
 const tHead = ['序号', '所属知识库', '所属分类', '标准问题', '问题简称']
 @connect(({ hotQuestion, loading }) => ({
   hotQuestion,
@@ -48,15 +49,18 @@ class RelationEdit extends React.Component {
       type: 'hotQuestion/getRelationData',
       payload: { params: query },
     }).then(() => {
-      // this.submitBtnStatus();
       this.getDataSource(this.props.relationData.list);
-      // this.getDataSource(this.state.dataSource.list);
     });
   }
   getKnowledgeList = () => {
     this.props.dispatch({
       type: 'hotQuestion/getKnowledgeList',
-      payload: { params: {} },
+      payload: { params: { id: this.props.location.query.robotId } },
+    });
+  }
+  handleBread = () => {
+    router.push({
+      pathname: '/hotQuestion/index'
     });
   }
   // 点击编辑
@@ -68,10 +72,10 @@ class RelationEdit extends React.Component {
     //   })
     //   return
     // }
-    // console.log(74, this.state.dataSoure.list[param.index])
-    if (this.state.dataSoure.list[param.index].hasEdit) {
+    const currentItem = this.state.dataSource.list[param.index]
+    if (currentItem.hasEdit) {
       // return;
-      this.answerData(this.state.dataSoure.list[param.index].answer);
+      this.answerData(currentItem.answer);
     } else {
       this.getAnswer({
         robotId: this.props.location.query.robotId,
@@ -90,8 +94,9 @@ class RelationEdit extends React.Component {
   }
   // 恢复默认
   resetAnswer = () => {
+    const { robotId } = this.props.location.query;
     this.getAnswer({
-      robotId: this.props.location.query.robotId,
+      robotId: robotId,
       questionId: this.state.questionId
     });
   }
@@ -106,7 +111,6 @@ class RelationEdit extends React.Component {
       type: 'hotQuestion/getAnswer',
       payload: { params: params },
     }).then(() => {
-      // 最最亲爱的同学新年快乐！φ(>ω<*)人气讲师私密会话来袭，快来找寻你的老师，一起冲冲冲！！！猪年大吉，万事“佩奇”ヾ(◍°∇°◍)ﾉﾞ##{"type": "video", "arr": [ { "imgUrl": "https://lesson-1257191707.cos.ap-beijing.myqcloud.com/ai_assistant/%E6%8B%9C%E5%B9%B4%E8%A7%86%E9%A2%91%E5%B0%81%E9%9D%A2.png","videoUrl":"http://1257191707.vod2.myqcloud.com/0f70548fvodtransgzp1257191707/8cc9b9715285890784432771138/v.f220.m3u8" } ] }##
       const { answer } = this.props;
       this.answerData(answer)
 
@@ -122,7 +126,6 @@ class RelationEdit extends React.Component {
       } catch (err) {
         console.log(145, err)
       }
-      console.log(164, answer.match(reg)[0])
       const content = answer.replace(reg, '')
       this.setState({
         answerContent: content,
@@ -176,7 +179,6 @@ class RelationEdit extends React.Component {
     })
     temp.list = list
     this.getDataSource(list);
-    // this.submitBtnStatus();
   }
   submitBtnStatus = () => {
     const list = this.state.dataSource.list.filter((item, i) => {
@@ -216,18 +218,11 @@ class RelationEdit extends React.Component {
       })
     }
   }
-  handleBread = () => {
-    router.push({
-      pathname: '/hotQuestion/index'
-    });
-  }
   submit = () => {
     const { dataSource } = this.state;
-
     const list = dataSource.list.filter((item, i) => {
       return item.questionId
     })
-
     let arr = [];
     let flag = true
     for (let i = 0; i < list.length; i++) {
@@ -253,6 +248,10 @@ class RelationEdit extends React.Component {
     dataSource.robotId = this.props.location.query.robotId
     dataSource.list = list;
     const params = this.state.dataSource;
+    if (dataSource.list.length < 4) {
+      message.info('不能少于四条')
+      return false;
+    }
     // console.log(247, params); return;
     this.props.dispatch({
       type: 'hotQuestion/similarTempSave',
@@ -286,7 +285,7 @@ class RelationEdit extends React.Component {
     // this.submitBtnStatus()
   }
   // 初始化页面数据，给定唯一值
-  getDataSource = (list) => {
+  getDataSource = (list = []) => {
     console.log(305, list)
     for (var i = list.length; i < 4; i++) {
       list.push({
@@ -294,6 +293,8 @@ class RelationEdit extends React.Component {
         sort: i + 1
       })
     }
+    this.state.dataSource = this.props.relationData
+    this.state.dataSource.list = list
     this.setState({
       dataSource: this.state.dataSource
     })
@@ -361,7 +362,7 @@ class RelationEdit extends React.Component {
             auth && <div className={styles.editTop}>
               <div className={styles.labels} style={{ paddingTop: '10px' }}>
                 <span>{sunlandsFlag ? '尚德学员' : '非尚德学员'}</span>
-                <span>{robotName}</span>
+                {robotName && <span>{robotName}</span>}
                 {
                   activityName && <p>当前已配置运营活动：【{activityName}】 该活动固定展示在底部第一位（优先于默认底部关联问题）</p>
                 }

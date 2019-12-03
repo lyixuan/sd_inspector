@@ -12,7 +12,9 @@ const { Option } = Select;
   hotQuestion,
   knowledgeList: hotQuestion.knowledgeList,
   questionTypeList: hotQuestion.questionTypeList,
-  questionList: hotQuestion.questionList || []
+  globalQTypes: hotQuestion.globalQTypes || {},
+  globalQuestion: hotQuestion.globalQuestion || {},
+  // questionList: hotQuestion.questionList || []
 }))
 
 class Line extends React.Component {
@@ -114,7 +116,10 @@ class Line extends React.Component {
   // 切换标准问题
   questionChange = (val) => {
     let key = {}
-    this.props.questionList.map(item => {
+    const { questionTypeId } = this.state;
+    // console.log(120, )
+    // return;
+    this.props.globalQuestion[questionTypeId].map(item => {
       if (val === item.questionId) {
         key = item
       }
@@ -144,17 +149,15 @@ class Line extends React.Component {
   }
   render() {
     const { index, auth, dataSource = {}, knowledgeList, radioId } = this.props
-    const { knowledgeId, knowledgeName, questionType, questionTypeId, questionId, question, isEdit, questionTypeName } = this.state
-    const { questionList } = this.props;
-    const questionTypeList = this.formatData(this.props.questionTypeList)
-    console.log(161, questionTypeName)
+    const { knowledgeId, knowledgeName, questionTypeId, questionId, question, isEdit, questionTypeName } = this.state
+    const questionList = this.props.globalQuestion[questionTypeId];
+    const questionTypeList = this.formatData(this.props.globalQTypes[knowledgeId])
     return (
       <div className={styles.lineItem}>
         <span className={styles.eq0}>{index + 1}</span>
         <div className={styles.eq1}>
           {
             auth ? <Select
-              // labelInValue={true}
               value={knowledgeId}
               className={styles.knowledge}
               placeholder="选择知识库"
@@ -174,7 +177,6 @@ class Line extends React.Component {
           {
             auth ? <TreeSelect
               placeholder="选择分类"
-              // defaultValue={dataSource.questionTypeId ? dataSource.questionTypeId : undefined}
               value={questionTypeId}
               treeData={questionTypeList}
               key={Math.random()}

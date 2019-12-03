@@ -50,8 +50,6 @@ class GuessEdit extends React.Component {
       type: 'hotQuestion/getGuessData',
       payload: { params: query },
     }).then(() => {
-      console.log(53, this.props.guessData)
-      // this.submitBtnStatus(this.props.guessData.list);
       this.getDataSource(this.props.guessData.list);
 
     });
@@ -78,7 +76,6 @@ class GuessEdit extends React.Component {
     //   return
     // }
     const currentItem = this.state.dataSource.list[param.index]
-    console.log(74, currentItem.hasEdit);
     const { robotId } = this.props.location.query
     if (currentItem.hasEdit) {
       this.answerData(currentItem.answer);
@@ -234,6 +231,7 @@ class GuessEdit extends React.Component {
       message.info('问题不能重复')
       return false;
     }
+    console.log(303, dataSource)
     if (!dataSource.cardName) {
       message.info('卡片名称不能为空')
       return false;
@@ -242,13 +240,13 @@ class GuessEdit extends React.Component {
       item.sort = index + 1
     })
 
-    console.log(303, dataSource);
     dataSource.list = list;
     const params = this.state.dataSource;
     if (dataSource.list.length < 4) {
       message.info('不能少于四条')
       return false;
     }
+
     this.props.dispatch({
       type: 'hotQuestion/guessTempSave',
       payload: { params: params },
@@ -313,8 +311,8 @@ class GuessEdit extends React.Component {
         sort: i + 1
       })
     }
+    this.state.dataSource = this.props.guessData
     this.state.dataSource.list = list
-    console.log(370, this.state.dataSource)
     this.setState({
       cardName: this.props.guessData.cardName,
       dataSource: this.state.dataSource
