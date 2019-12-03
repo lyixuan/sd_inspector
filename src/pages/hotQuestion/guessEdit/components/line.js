@@ -149,14 +149,14 @@ class Line extends React.Component {
     const questionList = this.props.globalQuestion[questionTypeId];
     const questionTypeList = this.formatData(this.props.globalQTypes[knowledgeId])
     return (
-      <div className={styles.lineItem}>
+      <div className={`${styles.lineItem} ${radioId === index ? styles.edits : null}`}>
         <span className={styles.eq0}>{index + 1}</span>
         <div className={styles.eq1}>
           {/* radioId === index */}
           {
             auth ? <Select
               value={knowledgeId}
-              className={styles.knowledge}
+              className={`${styles.knowledge}`}
               placeholder="选择知识库"
               onChange={this.knowledgeChange}>
               {
