@@ -6,6 +6,7 @@ import PerformanceDetail from './performanceDetail';
 import CurrentCredit from './currentCredit';
 // import CreditRank from './creditRank';
 import IncomeRank from './incomeRank';
+import Top from './Top';
 import Negative from './appeal';
 import Income from './income';
 import styles from './style.less';
@@ -34,6 +35,7 @@ class XdFamily extends React.Component {
           children: (
             <>
               <Income />
+              {/* <Top /> */}
               <IncomeRank />
             </>
           ),

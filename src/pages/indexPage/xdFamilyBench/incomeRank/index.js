@@ -18,11 +18,6 @@ class IncomeRank extends React.Component {
           key:'1',
           children: <FamilyIndex />,
         },
-        // {
-        //   name:'',
-        //   key:'2',
-        //   children: <Top/>,
-        // },
         {
           name:'小组创收对比',
           key:'2',
