@@ -152,6 +152,7 @@ class Line extends React.Component {
       <div className={styles.lineItem}>
         <span className={styles.eq0}>{index + 1}</span>
         <div className={styles.eq1}>
+          {/* radioId === index */}
           {
             auth ? <Select
               value={knowledgeId}
