@@ -90,7 +90,7 @@ class Top extends React.Component {
     }
     this.props
       .dispatch({
-        type: 'xdFamilyModal/getPackageRankList',
+        type: 'xdFamilyModal/getRisePackageRankList',
         payload: {
           params: {
             beginDate: moment(date.startDate).format('YYYY-MM-DD'),

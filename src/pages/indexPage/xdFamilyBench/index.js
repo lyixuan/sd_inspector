@@ -26,7 +26,7 @@ class XdFamily extends React.Component {
           children: (
             <>
               <CurrentCredit />
-              <Histogram allTimes={{startTime: '2019-08-01', endTime: '2019-09-01'}}/>
+              <Histogram allTimes={{ startTime: '2019-08-01', endTime: '2019-09-01' }} />
               {/* <CreditRank /> */}
             </>
           ),
@@ -37,7 +37,7 @@ class XdFamily extends React.Component {
           children: (
             <>
               <Income />
-              {/* <Top /> */}
+              <Top />
               <IncomeRank />
             </>
           ),
@@ -67,6 +67,7 @@ class XdFamily extends React.Component {
       type: 'xdWorkModal/getIncomeCollegeList',
     });
   }
+
   render() {
     const { tabs } = this.state;
     return (
