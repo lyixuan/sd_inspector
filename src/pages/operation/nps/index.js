@@ -7,9 +7,8 @@ import BICascader from '@/ant_components/BICascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import {BiFilter} from '@/utils/utils';
 import NPSLeft from './NPSLeft'
-import NPSRight from './NPSRight'
 import moment from 'moment';
-import { initTimeData } from '../../../ko/utils/utils';
+import { initTimeData } from '../../ko/utils/utils';
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -159,68 +158,67 @@ class NPSEvaluate extends React.Component {
   disabledDate = current => {
     return current > moment(this.state.disableEndDate) || current < moment("2019-07-08");
   };
-  rightPart = () => {
-    // const {collegeOptions,orgValue} = this.state
-    const { groupId = [0], userOrgConfig, dateArr,star } = this.state;
-    const { orgList } = this.props.xdManagementBench;
-    orgList.length > 0 && this.getResetGroupMsg(orgList)
-    return (
-      <div className={styles.more}>
-        查看更多<span>></span>
-        {/* <span className={styles.change}>
-          选择组织：
-                <BICascader
-            placeholder="选择组织"
-            changeOnSelect
-            options={userOrgConfig}
-            fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
-            getPopupContainer={triggerNode => triggerNode.parentNode}
-            displayRender={this.renderCascader}
-            value={groupId}
-            onChange={this.onChangeSelect}
-            allowClear={false}
-            style={{ width: '136px' }}
-          />
-        </span>
-        <span className={styles.change}>
-          选择星级：
-                <BISelect
-                  placeholder="选择星级"
-                  value={star}
-                  onChange={this.onChangeStar}
-                  allowClear={false}
-                  style={{ width: '136px' }}
-                >
-                  {BiFilter('WB_STAR').map(item => (
-                    <Option key={item.id}>{item.name}</Option>
-                  ))}
-                </BISelect>
-        </span>
-        <span className={styles.change}>
-          选择时间：
-              <BIRangePicker
-            value={dateArr}
-            placeholder={['选择起始时间', '选择截止时间']}
-            format={dateFormat}
-            onChange={this.onDateChange}
-            allowClear={false}
-            disabledDate={this.disabledDate}
-            style={{ width: '224px' }}
-          />
-        </span> */}
-      </div>
-    )
-  }
+  // rightPart = () => {
+  //   // const {collegeOptions,orgValue} = this.state
+  //   const { groupId = [0], userOrgConfig, dateArr,star } = this.state;
+  //   const { orgList } = this.props.xdManagementBench;
+  //   orgList.length > 0 && this.getResetGroupMsg(orgList)
+  //   return (
+  //     <div className={styles.con}>
+  //       <span className={styles.change}>
+  //         选择组织：
+  //               <BICascader
+  //           placeholder="选择组织"
+  //           changeOnSelect
+  //           options={userOrgConfig}
+  //           fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+  //           getPopupContainer={triggerNode => triggerNode.parentNode}
+  //           displayRender={this.renderCascader}
+  //           value={groupId}
+  //           onChange={this.onChangeSelect}
+  //           allowClear={false}
+  //           style={{ width: '136px' }}
+  //         />
+  //       </span>
+  //       <span className={styles.change}>
+  //         选择星级：
+  //               <BISelect
+  //                 placeholder="选择星级"
+  //                 value={star}
+  //                 onChange={this.onChangeStar}
+  //                 allowClear={false}
+  //                 style={{ width: '136px' }}
+  //               >
+  //                 {BiFilter('WB_STAR').map(item => (
+  //                   <Option key={item.id}>{item.name}</Option>
+  //                 ))}
+  //               </BISelect>
+  //       </span>
+  //       <span className={styles.change}>
+  //         选择时间：
+  //             <BIRangePicker
+  //           value={dateArr}
+  //           placeholder={['选择起始时间', '选择截止时间']}
+  //           format={dateFormat}
+  //           onChange={this.onDateChange}
+  //           allowClear={false}
+  //           disabledDate={this.disabledDate}
+  //           style={{ width: '224px' }}
+  //         />
+  //       </span>
+  //     </div>
+  //   )
+  // }
   render() {
     const { NPSParams } = this.state;
     return (
       <Container title="NPS自主评价分析"
         style={{ width: '100%', marginBottom: '16px' }}
-        right={this.rightPart()}
+        // right={this.rightPart()}
       >
         {NPSParams && <div className={styles.NPSMain}>
           <NPSLeft NPSleftParams={NPSParams} />
-          <NPSRight cloudOptions={NPSParams.tagImageDtoList} />
+          {/* <NPSRight cloudOptions={NPSParams.tagImageDtoList} /> */}
         </div>}
 
       </Container>
