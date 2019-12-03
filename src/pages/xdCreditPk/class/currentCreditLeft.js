@@ -34,7 +34,7 @@ class currentCreditLeft extends React.Component {
     groupList.map((item, index) => {
       columns.push({
         width: '12%',
-        title: <Tooltip title={item[this.getShowKey('columnOrgName')]}>
+        title: <Tooltip title={item.groupName}>
           <Paragraph ellipsis={{ rows: 1}}>
             {item.groupName}
             {index > 0 ? <BIIcon onClick={() => this.props.handleDelete(item.groupId)} /> : ''}

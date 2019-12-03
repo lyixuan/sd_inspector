@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Tooltip } from 'antd';
 import { setLocalValue, thousandsFormatAll } from '@/pages/indexPage/components/utils/utils';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
-import BIWrapperTable from '../../../components/BIWrapperTable';
+// import BIWrapperTable from '../../../components/BIWrapperTable';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
@@ -88,10 +89,12 @@ class ProfitList extends React.Component {
         dataIndex: 'ranking',
         key: 'ranking',
       }, {
+        ellipsis: true,
         width: '30%',
         title: '组织',
         dataIndex: 'orgName',
         key: 'orgName',
+        render: text => <Tooltip trigger="hover" title={text}>{text}</Tooltip>
       }, {
         width: '20%',
         title: '创收总流水',
@@ -102,6 +105,7 @@ class ProfitList extends React.Component {
           return <BIWrapperProgress text={thousandsFormatAll(text)} percent={percent}/>
         }
       }, {
+        ellipsis: true,
         title: '人均绩效在服学员',
         dataIndex: 'stuAvg',
         key: 'stuAvg',

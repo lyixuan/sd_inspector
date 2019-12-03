@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import storage from '../../../utils/storage';
 import PageTab from '@/pages/indexPage/components/pageTab';
+import Histogram from '@/pages/indexPage/components/scoreContrast';
 import PerformanceDetail from './performanceDetail';
 import CurrentCredit from './currentCredit';
 // import CreditRank from './creditRank';
@@ -24,6 +25,7 @@ class XdFamily extends React.Component {
           children: (
             <>
               <CurrentCredit />
+              <Histogram/>
               {/* <CreditRank /> */}
             </>
           ),
