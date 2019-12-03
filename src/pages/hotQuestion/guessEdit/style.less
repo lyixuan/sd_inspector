@@ -97,6 +97,7 @@
       display:flex;
       .icon{
         cursor:pointer;
+        
         i{
           margin-right:4px;
           font-size:16px;
@@ -104,6 +105,14 @@
           color:#D9D9D9;
         }
         margin-left:20px;
+      }
+      .active{
+        &:active{
+          color:#00CCC3;
+          i{
+            color:#00CCC3;
+          }
+        }
       }
       .disabled{
         color:#d9d9d9;

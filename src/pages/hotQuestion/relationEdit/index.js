@@ -379,8 +379,8 @@ class RelationEdit extends React.Component {
               <li className={styles.eq5}>{tHead[4]}</li>
               <li className={styles.eq3}>{tHead[3]}</li>
               <li className={styles.eq4}>
-                <div className={`${styles.icon} ${radioId === 0 ? styles.disabled : ''}`} onClick={radioId === 0 ? null : this.moveUp}><Icon type="up-circle" />上移</div>
-                <div className={`${styles.icon} ${radioId === 3 ? styles.disabled : ''}`} onClick={radioId === 3 ? null : this.moveDown}><Icon type="down-circle" />下移</div>
+                <div className={`${styles.icon} ${radioId !== -1 ? styles.active : ''} ${radioId === 0 ? styles.disabled : ''}`} onClick={radioId === 0 ? null : this.moveUp}><Icon type="up-circle" />上移</div>
+                <div className={`${styles.icon} ${radioId !== -1 ? styles.active : ''} ${radioId === 3 ? styles.disabled : ''}`} onClick={radioId === 3 ? null : this.moveDown}><Icon type="down-circle" />下移</div>
               </li>
             </ul>
             <div className={styles.tbody}>

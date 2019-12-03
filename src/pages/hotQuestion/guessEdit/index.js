@@ -412,8 +412,8 @@ class GuessEdit extends React.Component {
               <li className={styles.eq2}>{tHead[2]}</li>
               <li className={styles.eq3}>{tHead[3]}</li>
               <li className={styles.eq4}>
-                <div className={`${styles.icon} ${radioId === 0 ? styles.disabled : ''}`} onClick={radioId === 0 ? null : this.moveUp}><Icon type="up-circle" />上移</div>
-                <div className={`${styles.icon} ${radioId === 26 ? styles.disabled : ''}`} onClick={radioId === 26 ? null : this.moveDown}><Icon type="down-circle" />下移</div>
+                <div className={`${styles.icon} ${radioId !== -1 ? styles.active : ''} ${radioId === 0 ? styles.disabled : ''}`} onClick={radioId === 0 ? null : this.moveUp}><Icon type="up-circle" />上移</div>
+                <div className={`${styles.icon} ${radioId !== -1 ? styles.active : ''}  ${radioId === 26 ? styles.disabled : ''}`} onClick={radioId === 26 ? null : this.moveDown}><Icon type="down-circle" />下移</div>
               </li>
             </ul>
             <div className={styles.tbody}>
