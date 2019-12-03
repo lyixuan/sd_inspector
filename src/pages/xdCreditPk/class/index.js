@@ -135,6 +135,7 @@ class currentCredit extends React.Component {
             localKey={localKey}
             handleAction={this.handleAction}
             dimenloading={dimenloading}
+            dateRangeSelect={this.props.dateRangeSelect}
             />
           </BIDrawer>    
       </Container>
