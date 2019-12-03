@@ -38,7 +38,10 @@ class GuessEdit extends React.Component {
       questionId: null,
       currentEditIndex: -1,
       status: 0,
-      userType: storage.getUserInfo().userType
+      userType: storage.getUserInfo().userType,
+      isUploadImg: false,
+      moveUp: false,
+      moveDown: false
 
     }
   }
@@ -86,6 +89,7 @@ class GuessEdit extends React.Component {
     if (currentItem.hasEdit) {
       this.answerData(currentItem.answer);
     } else {
+      this.state.isUploadImg = false;
       this.getAnswer({
         robotId: robotId,
         questionId: param.questionId
@@ -136,6 +140,7 @@ class GuessEdit extends React.Component {
         console.log(145, err)
       }
       const content = answer.replace(reg, '')
+      if (data.type == 'img') { }
       this.setState({
         answerContent: content,
         answerCode: answer.match(reg)[0],
@@ -150,7 +155,8 @@ class GuessEdit extends React.Component {
   }
   handleCancel = () => {
     this.setState({
-      visible: false
+      visible: false,
+      isUploadImg: false
     })
   }
   handleOk = () => {
@@ -160,7 +166,7 @@ class GuessEdit extends React.Component {
       message.info('请输入答案');
       return;
     }
-    if (imageList.length > 0) {
+    if (imageList.length > 0 && this.state.isUploadImg) {
       const json = { type: 'img', arr: [{ 'url': imageList[0].url }] }
       answer = `${answerContent}##${JSON.stringify(json)}##`
     } else {
@@ -200,6 +206,8 @@ class GuessEdit extends React.Component {
       this.setState({
         radioId: this.state.radioId - 1,
         dataSource: this.state.dataSource,
+        moveUp: true,
+        moveDown: false
       })
     }
   }
@@ -212,7 +220,9 @@ class GuessEdit extends React.Component {
       })
       this.setState({
         dataSource: this.state.dataSource,
-        radioId: this.state.radioId + 1
+        radioId: this.state.radioId + 1,
+        moveUp: false,
+        moveDown: true
       })
     }
   }
@@ -287,8 +297,15 @@ class GuessEdit extends React.Component {
 
   clickRadio = (index) => {
     this.setState({
-      radioId: index
+      radioId: index,
+      moveUp: false,
+      moveDown: false
     })
+    if (this.state.radioId == index) {
+      this.setState({
+        radioId: -1,
+      })
+    }
   }
   updateData = (params) => {
     const list = this.state.dataSource.list[params.index];
@@ -351,6 +368,7 @@ class GuessEdit extends React.Component {
           item.thumbUrl = file.response.data.imageThumQcloudUrl;
         }
       });
+      this.state.isUploadImg = true;
       this.setState({
         imageList: [...fileList]
       });
@@ -373,7 +391,7 @@ class GuessEdit extends React.Component {
 
 
   render() {
-    const { visible, radioId, question, answerContent, imageList, status, userType, cardName } = this.state;
+    const { visible, radioId, question, answerContent, imageList, status, userType, cardName, moveUp, moveDown } = this.state;
     const dataSource = this.props.guessData
     const { sunlandsFlag, robotName } = dataSource
     const auth = userType === 'boss' || userType === 'admin';
@@ -412,8 +430,8 @@ class GuessEdit extends React.Component {
               <li className={styles.eq2}>{tHead[2]}</li>
               <li className={styles.eq3}>{tHead[3]}</li>
               <li className={styles.eq4}>
-                <div className={`${styles.icon} ${radioId !== -1 ? styles.active : ''} ${radioId === 0 ? styles.disabled : ''}`} onClick={radioId === 0 ? null : this.moveUp}><Icon type="up-circle" />上移</div>
-                <div className={`${styles.icon} ${radioId !== -1 ? styles.active : ''}  ${radioId === 26 ? styles.disabled : ''}`} onClick={radioId === 26 ? null : this.moveDown}><Icon type="down-circle" />下移</div>
+                <div className={`${styles.icon} ${radioId !== -1 && moveUp ? styles.active : ''} ${radioId === 0 ? styles.disabled : ''}`} onClick={radioId === 0 ? null : this.moveUp}><Icon type="up-circle" />上移</div>
+                <div className={`${styles.icon} ${radioId !== -1 && moveDown ? styles.active : ''}  ${radioId === 26 ? styles.disabled : ''}`} onClick={radioId === 26 ? null : this.moveDown}><Icon type="down-circle" />下移</div>
               </li>
             </ul>
             <div className={styles.tbody}>
