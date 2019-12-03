@@ -67,7 +67,8 @@ class Line extends React.Component {
       questionType: undefined,
       question: undefined,
       questionId: undefined,
-      answer: null
+      answer: null,
+      simpleName: undefined
     }, () => {
       const params = this.state
       this.props.updateData(params)
@@ -181,8 +182,7 @@ class Line extends React.Component {
               placeholder="选择分类"
               value={questionTypeId}
               treeData={questionTypeList}
-              onChange={this.questionTypeChange}
-              dropdownStyle={{ height: 300 }}>
+              onChange={this.questionTypeChange}>
             </TreeSelect> : <BIInput placeholder="选择分类" readOnly={true} value={questionTypeName}></BIInput>
           }
         </div>

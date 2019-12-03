@@ -225,6 +225,16 @@ class GuessEdit extends React.Component {
   submit = () => {
     const { dataSource } = this.state;
     const data2 = { ...dataSource }
+    let flag = true
+    for (let i = 0; i < data2.list.length; i++) {
+      if (data2.list[i].knowledgeId && !data2.list[i].questionId) {
+        flag = false
+      }
+    }
+    if (!flag) {
+      message.info('有问题未填写完成')
+      return false;
+    }
     const list = data2.list.filter((item, i) => {
       return item.questionId
     })
@@ -247,14 +257,13 @@ class GuessEdit extends React.Component {
     })
 
     data2.list = list;
-    const params = data2;
     if (data2.list.length < 4) {
       message.info('不能少于四条')
       return false;
     }
     this.props.dispatch({
       type: 'hotQuestion/guessTempSave',
-      payload: { params: params },
+      payload: { params: data2 },
       callBack: (data) => {
         if (data.code == 200) {
           message.success('保存成功', 2, () => {
@@ -384,6 +393,7 @@ class GuessEdit extends React.Component {
                 <BIInput
                   value={cardName}
                   style={{ width: '238px' }}
+                  maxLength={6}
                   placeholder="请输入"
                   onChange={this.cardNameChange}
                 />
