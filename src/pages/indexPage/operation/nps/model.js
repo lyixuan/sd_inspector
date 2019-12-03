@@ -58,9 +58,6 @@ export default {
         const npsParams = result.data || {};
 
         let npsList = [];
-        console.log(Number(pageNum) === 1, 'change');
-        alert(Number(pageNum));
-        console.log(Number(pageNum) === 1, 'change');
         if (change) {
           npsList = [].concat(npsParams.npsStarOpinionDtoListMap.data);
         } else {
