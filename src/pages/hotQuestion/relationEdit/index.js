@@ -61,8 +61,13 @@ class RelationEdit extends React.Component {
     });
   }
   handleBread = () => {
+    const { robotId, isSunlands } = this.props.location.query;
     router.push({
-      pathname: '/hotQuestion/index'
+      pathname: '/hotQuestion/index',
+      query: {
+        robotId: robotId,
+        isSunlands: isSunlands,
+      }
     });
   }
   // 点击编辑
@@ -253,15 +258,14 @@ class RelationEdit extends React.Component {
       message.info('不能少于四条')
       return false;
     }
-    // console.log(247, params); return;
     this.props.dispatch({
       type: 'hotQuestion/similarTempSave',
       payload: { params: params },
       callBack: (data) => {
         if (data.code == 200) {
-          router.push({
-            pathname: '/hotQuestion/index'
-          });
+          message.success('保存成功', 2, () => {
+            this.handleBread();
+          })
         }
       }
     })
@@ -402,8 +406,7 @@ class RelationEdit extends React.Component {
           </div>
           <div className={styles.btns}>
             {/* <BIButton><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton> */}
-            <BIButton style={{ marginRight: '8px' }} type="reset">
-              <Link to={'/hotQuestion/index'}>取消</Link>
+            <BIButton style={{ marginRight: '8px' }} type="reset" onClick={this.handleBread}>取消
             </BIButton>
             <BIButton type="primary" onClick={this.submit} loading={loadingSubmit}>保存</BIButton>
           </div>
