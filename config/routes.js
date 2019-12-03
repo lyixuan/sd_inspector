@@ -219,7 +219,7 @@ export const routes = [
       },
       {
         path: '/nps', 
-        component: './indexPage/operation/nps',
+        component: './operation/nps',
         name: 'nps',
       },
       {

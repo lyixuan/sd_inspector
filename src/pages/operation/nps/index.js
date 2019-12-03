@@ -9,15 +9,14 @@ import { BiFilter } from '@/utils/utils';
 import NPSLeft from './NPSLeft';
 // import NPSRight from './NPSRight'
 import moment from 'moment';
-import { initTimeData } from '../../../ko/utils/utils';
+import { initTimeData } from '../../ko/utils/utils';
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
 const { BI = {} } = window;
-@connect(({ xdManagementBench, xdCreditModal, xdWorkModal }) => ({
-  xdManagementBench,
-  xdCreditModal,
-  userInfo: xdWorkModal.userInfo,
+@connect(({ xdOperation }) => ({
+  xdOperation,
+  userInfo: xdOperation.userInfo,
 }))
 class NPSEvaluate extends React.Component {
   constructor(props) {
@@ -57,6 +56,7 @@ class NPSEvaluate extends React.Component {
       disableEndDate: this.handleDefaultPickerValueMarkDays(),
       star: localStorage.getItem('NPSStar') ? localStorage.getItem('NPSStar') : '0',
       cycle: localStorage.getItem('CYCLE_VALUE') ? localStorage.getItem('CYCLE_VALUE') : '0',
+      npsList: [],
     };
   }
   componentDidMount() {
@@ -79,7 +79,7 @@ class NPSEvaluate extends React.Component {
           : this.state.groupId,
       },
       () => {
-        this.getNpsAutonomousEvaluation(this.state.userInfo, '');
+        this.getNpsAutonomousEvaluation(0, false);
       }
     );
   }
@@ -93,8 +93,18 @@ class NPSEvaluate extends React.Component {
     const [startTime, endTime] = params.map(item => item && moment(item).format(dateFormat));
     return { startTime, endTime };
   };
+
+  getCommentList = (page, change) => {
+    // const { commentLists } = this.props.cubePlanDetail;
+    // const params = { id: this.id, pageSize: 10, page: page + 1 || 1, commentLists };
+    this.getNpsAutonomousEvaluation(page, change);
+  };
+
   //获取NPS自主评价的的数据接口
-  getNpsAutonomousEvaluation = (userInfo, ids) => {
+  getNpsAutonomousEvaluation = (pageNum, change) => {
+    const { userInfo, npsList } = this.state;
+    // const { npsList } = this.props.xdOperation;
+    // const params = { id: this.id, pageSize: 10, page: page + 1 || 1, npsList };
     let params = {
       ...this.initRecordTimeListData(this.state.dateArr),
       collegeId:
@@ -111,15 +121,18 @@ class NPSEvaluate extends React.Component {
         null,
       star: this.state.star === '0' ? null : Number(this.state.star),
       cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
-      pageNum: null,
-      pageSize: null,
+      pageNum: pageNum ? pageNum + 1 : 1,
+      pageSize: 30,
+      npsList,
+      change,
     };
     this.props.dispatch({
-      type: 'xdManagementBench/getNpsAutonomousEvaluation',
+      type: 'xdOperation/getNpsAutonomousEvaluation',
       payload: { params: params },
-      callback: res => {
+      callback: (res, npsList) => {
         this.setState({
           NPSParams: res,
+          npsList,
         });
       },
     });
@@ -127,7 +140,7 @@ class NPSEvaluate extends React.Component {
   // 组织 - 时间
   getUserOrgList = () => {
     this.props.dispatch({
-      type: 'xdManagementBench/getOrgMapTree',
+      type: 'xdOperation/getOrgMapTree',
       payload: { params: {} },
       callback: res => {
         if (res && res.length > 0) {
@@ -147,7 +160,7 @@ class NPSEvaluate extends React.Component {
         groupTypeArr,
       },
       () => {
-        this.getNpsAutonomousEvaluation();
+        this.getNpsAutonomousEvaluation(0, true);
       }
     );
     BI.traceV && BI.traceV({ widgetName: 'NPS归属筛选', traceName: '管理层工作台/NPS归属筛选' });
@@ -159,7 +172,7 @@ class NPSEvaluate extends React.Component {
         star,
       },
       () => {
-        this.getNpsAutonomousEvaluation();
+        this.getNpsAutonomousEvaluation(0, true);
       }
     );
     BI.traceV && BI.traceV({ widgetName: '星级筛选', traceName: '管理层工作台/NPS分析' });
@@ -172,7 +185,7 @@ class NPSEvaluate extends React.Component {
         cycle,
       },
       () => {
-        this.getNpsAutonomousEvaluation();
+        this.getNpsAutonomousEvaluation(0, true);
       }
     );
     BI.traceV &&
@@ -183,7 +196,15 @@ class NPSEvaluate extends React.Component {
   // 选择时间
   onDateChange = v => {
     localStorage.setItem('NPSDates', JSON.stringify(initTimeData(v)));
-    this.setState({ dateArr: v }, () => this.getNpsAutonomousEvaluation());
+    this.setState(
+      {
+        dateArr: v,
+      },
+      () => {
+        this.getNpsAutonomousEvaluation(0, true);
+      }
+    );
+    // this.setState({ dateArr: v }, () => this.getNpsAutonomousEvaluation(0, true));
     BI.traceV && BI.traceV({ widgetName: 'NPS时间筛选', traceName: '管理层工作台/NPS时间筛选' });
   };
   //取T-2日期的数据
@@ -204,8 +225,8 @@ class NPSEvaluate extends React.Component {
   };
   rightPart = () => {
     // const {collegeOptions,orgValue} = this.state
-    const { groupId = [0], userOrgConfig, dateArr, star ,cycle} = this.state;
-    const { orgList } = this.props.xdManagementBench;
+    const { groupId = [0], userOrgConfig, dateArr, star, cycle } = this.state;
+    const { orgList } = this.props.xdOperation;
     orgList.length > 0 && this.getResetGroupMsg(orgList);
     return (
       <div className={styles.more}>
@@ -269,6 +290,7 @@ class NPSEvaluate extends React.Component {
   };
   render() {
     const { NPSParams } = this.state;
+    const { npsList = [] } = this.props.xdOperation;
     return (
       <Container
         title="NPS自主评价分析"
@@ -277,7 +299,13 @@ class NPSEvaluate extends React.Component {
       >
         {NPSParams && (
           <div className={styles.NPSMain}>
-            <NPSLeft NPSleftParams={NPSParams} />
+            <NPSLeft
+              NPSleftParams={NPSParams}
+              npsList={npsList}
+              getCommentList={(pageNum, change) => {
+                this.getCommentList(pageNum, change);
+              }}
+            />
           </div>
         )}
       </Container>

@@ -16,7 +16,6 @@ import {
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
 import moment from 'moment';
-import { instanceOf } from 'prop-types';
 
 export default {
   namespace: 'xdManagementBench',
@@ -195,6 +194,7 @@ export default {
     },
     saveTable(state, { payload }) {
       let data = payload.imDetailData;
+
       if (!data.reasonTypeList) {
         data.dataList.map(item => {
           item.values.push(item.unClassifyValue);
