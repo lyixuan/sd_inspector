@@ -9,15 +9,14 @@ import { BiFilter } from '@/utils/utils';
 import NPSLeft from './NPSLeft';
 // import NPSRight from './NPSRight'
 import moment from 'moment';
-import { initTimeData } from '../../../ko/utils/utils';
+import { initTimeData } from '../../ko/utils/utils';
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
 const { BI = {} } = window;
-@connect(({ xdManagementBench, xdCreditModal, xdWorkModal }) => ({
-  xdManagementBench,
-  xdCreditModal,
-  userInfo: xdWorkModal.userInfo,
+@connect(({ xdOperation }) => ({
+  xdOperation,
+  userInfo: xdOperation.userInfo,
 }))
 class NPSEvaluate extends React.Component {
   constructor(props) {
@@ -104,7 +103,7 @@ class NPSEvaluate extends React.Component {
   //获取NPS自主评价的的数据接口
   getNpsAutonomousEvaluation = (pageNum, change) => {
     const { userInfo, npsList } = this.state;
-    // const { npsList } = this.props.xdManagementBench;
+    // const { npsList } = this.props.xdOperation;
     // const params = { id: this.id, pageSize: 10, page: page + 1 || 1, npsList };
     let params = {
       ...this.initRecordTimeListData(this.state.dateArr),
@@ -128,7 +127,7 @@ class NPSEvaluate extends React.Component {
       change,
     };
     this.props.dispatch({
-      type: 'xdManagementBench/getNpsAutonomousEvaluation',
+      type: 'xdOperation/getNpsAutonomousEvaluation',
       payload: { params: params },
       callback: (res, npsList) => {
         this.setState({
@@ -141,7 +140,7 @@ class NPSEvaluate extends React.Component {
   // 组织 - 时间
   getUserOrgList = () => {
     this.props.dispatch({
-      type: 'xdManagementBench/getOrgMapTree',
+      type: 'xdOperation/getOrgMapTree',
       payload: { params: {} },
       callback: res => {
         if (res && res.length > 0) {
@@ -227,7 +226,7 @@ class NPSEvaluate extends React.Component {
   rightPart = () => {
     // const {collegeOptions,orgValue} = this.state
     const { groupId = [0], userOrgConfig, dateArr, star, cycle } = this.state;
-    const { orgList } = this.props.xdManagementBench;
+    const { orgList } = this.props.xdOperation;
     orgList.length > 0 && this.getResetGroupMsg(orgList);
     return (
       <div className={styles.more}>
@@ -291,7 +290,7 @@ class NPSEvaluate extends React.Component {
   };
   render() {
     const { NPSParams } = this.state;
-    const { npsList = [] } = this.props.xdManagementBench;
+    const { npsList = [] } = this.props.xdOperation;
     return (
       <Container
         title="NPS自主评价分析"

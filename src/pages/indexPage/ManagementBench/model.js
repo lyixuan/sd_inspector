@@ -184,6 +184,7 @@ export default {
     },
     saveTable(state, { payload }) {
       let data = payload.imDetailData;
+
       if (!data.reasonTypeList) {
         data.dataList.map(item => {
           item.values.push(item.unClassifyValue);
@@ -196,14 +197,16 @@ export default {
             typeName: '所有分类',
           },
         ];
-        data.titleList = [
-          ...data.titleList,
-          {
-            expand: false,
-            typeId: -1,
-            typeName: '未分类数据',
-          },
-        ];
+        if (data.titleList) {
+          data.titleList = [
+            ...data.titleList,
+            {
+              expand: false,
+              typeId: -1,
+              typeName: '未分类数据',
+            },
+          ];
+        }
       } else {
         data.reasonTypeList = [
           {

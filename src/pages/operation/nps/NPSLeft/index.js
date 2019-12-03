@@ -10,9 +10,9 @@ import { Tooltip } from 'antd';
 import moment from 'moment';
 import Container from '@/components/BIContainer';
 
-@connect(({ xdManagementBench, loading }) => ({
-  xdManagementBench,
-  loading: loading.effects['xdManagementBench/getNpsAutonomousEvaluation'],
+@connect(({ xdOperation, loading }) => ({
+  xdOperation,
+  loading: loading.effects['xdOperation/getNpsAutonomousEvaluation'],
 }))
 class NPSLeft extends React.Component {
   constructor(props) {

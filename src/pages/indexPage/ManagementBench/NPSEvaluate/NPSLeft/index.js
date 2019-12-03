@@ -83,7 +83,7 @@ class NPSLeft extends React.Component {
     const {NPSleftParams} = this.props
     let dataSource = NPSleftParams && NPSleftParams.npsStarOpinionDtoListMap && NPSleftParams.npsStarOpinionDtoListMap.data.length>0 ? NPSleftParams.npsStarOpinionDtoListMap.data:[];
     if(dataSource.length >=6){
-      dataSource = dataSource.slice(0,7);
+      dataSource = dataSource.splice(0,7);
     }
     return (
       <Container
