@@ -26,7 +26,7 @@ class HotQuestion extends React.Component {
     this.state = {
       robotList: [],
       robotListLoading: true,
-      copyRobots: [],
+      copyRobots: null,
       relationQuestion: [],
       relationOperator: null,
       relationUpdateTime: null,
@@ -152,7 +152,7 @@ class HotQuestion extends React.Component {
         <div className={style.content}>
           {
             guessQuestion.map((item, index) => {
-              return <div className={style.item} key={item.cardId}>
+              return <div className={style.item} key={Math.random()}>
                   <GuessQuestionCard
                     cardData={item}
                     topLeftColor={this.getColor(index)}
@@ -225,7 +225,6 @@ class HotQuestion extends React.Component {
           <span className={style.label}>机器人：</span>
           <Select
             className={style.select}
-            mode="multiple"
             placeholder="请选择"
             value={copyRobots}
             onChange={this.multipleChange}>
@@ -318,6 +317,7 @@ class HotQuestion extends React.Component {
 
   // 同步modal中多选框改变
   multipleChange = (value) => {
+    console.log(value);
     this.setState({
       copyRobots: value
     });
@@ -361,7 +361,7 @@ class HotQuestion extends React.Component {
 
   // 检测同步弹框的配置按钮是否可用
   _updateButtonStatus = (robots) => {
-    if (robots.length === 0) {
+    if (robots === null) {
       this.setState({
         copyConfirmButtonDis: true
       })
@@ -414,14 +414,15 @@ class HotQuestion extends React.Component {
   // 同步配置
   _copyRobotConfig = async () => {
     const {copyRobots, isSunlands} = this.state;
-    let res = await copyRobot(copyRobots, isSunlands);
+    let arr = [copyRobots];
+    let res = await copyRobot(arr, isSunlands);
     if (res && res.code === 200) {
       message.success('同步成功');
       this.setState({
         copyConfirmButtonLoading: false,
         copyCancelButtonDis: false,
         showCopyModal: false,
-        copyRobots: []
+        copyRobots: null
       })
     } else {
       message.error('同步失败');
@@ -429,7 +430,7 @@ class HotQuestion extends React.Component {
         copyConfirmButtonLoading: false,
         copyCancelButtonDis: false,
         showCopyModal: false,
-        copyRobots: []
+        copyRobots: null
       })
     }
   };
