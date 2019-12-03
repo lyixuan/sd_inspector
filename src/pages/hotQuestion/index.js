@@ -16,6 +16,7 @@ import {
   getGoingActivity} from './services';
 import kongbai from '@/assets/hotQuestion/kongbai.png';
 import {User_Identity} from './constants/user';
+import {Robot_List} from './constants/robotList';
 import {withoutSeconds} from '@/pages/configWords/utils/util';
 
 class HotQuestion extends React.Component {
@@ -23,6 +24,16 @@ class HotQuestion extends React.Component {
     super(props);
     this.userType = storage.getUserInfo().userType;
     this.guessCardColor = ['#FF5959', '#3389FF', '#9013FE', '#F5A623', '#00CCC3'];
+
+    // 如果是从二级页面跳转回来的，要默认显示的机器人和跳走的时候一样
+    // 如果是175机器人，可以取isSunlands的值，否则都将isSunlands的值置为1
+    let {robotId, isSunlands} = this.props.location.query;
+    robotId = robotId !== undefined ? Number(robotId) : robotId;
+    isSunlands = isSunlands !== undefined ? Number(isSunlands) : isSunlands;
+    if (robotId !== Robot_List.SHANG_XIAO_DE) {
+      isSunlands = 1
+    } else {}
+
     this.state = {
       robotList: [],
       robotListLoading: true,
@@ -32,8 +43,8 @@ class HotQuestion extends React.Component {
       relationUpdateTime: null,
       goingActivity: '',
       guessQuestion: [],
-      currentRobot: 175,
-      isSunlands: 1,
+      currentRobot: robotId ? robotId : Robot_List.SHANG_XIAO_DE,
+      isSunlands: isSunlands !== undefined ? isSunlands : 1,
       showCopyModal: false,
       copyConfirmButtonDis: true,
       pageLoading: true,
@@ -111,7 +122,7 @@ class HotQuestion extends React.Component {
         </Select>
       </div>
       {
-        currentRobot === 175
+        currentRobot === Robot_List.SHANG_XIAO_DE
           ? tabsAndCopyButton
           : <div style={{height: 25}}> </div>
       }
@@ -233,7 +244,9 @@ class HotQuestion extends React.Component {
                 return <Option
                   value={item.robotId}
                   key={item.robotId}
-                  disabled={item.robotId === 175 ? true : false}>{item.name}</Option>
+                  disabled={item.robotId === Robot_List.SHANG_XIAO_DE ? true : false}>
+                  {item.name}
+                </Option>
               })
             }
           </Select>
@@ -401,6 +414,9 @@ class HotQuestion extends React.Component {
     if (res && res.code === 200) {
       if (res.data) {
         this.robotId = res.data;
+        this.setState({
+          currentRobot: res.data
+        })
       } else {}
     } else {}
   };
