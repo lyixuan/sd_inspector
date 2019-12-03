@@ -19,6 +19,8 @@ const tHead = ['序号', '所属知识库', '所属分类', '标准问题']
   answer: hotQuestion.answer,
   guessData: hotQuestion.guessData,
   loading: loading.effects['hotQuestion/getGuessData'],
+  loadingSubmit: loading.effects['hotQuestion/guessTempSave'],
+  loadingReset: loading.effects['hotQuestion/getAnswer'],
 }))
 
 class GuessEdit extends React.Component {
@@ -68,7 +70,6 @@ class GuessEdit extends React.Component {
   }
   // 点击编辑
   handleEdit = (param) => {
-    console.log(67, param)
     // if (this.state.questionId == param.questionId) {
     //   this.setState({
     //     visible: true,
@@ -218,7 +219,8 @@ class GuessEdit extends React.Component {
   }
   submit = () => {
     const { dataSource } = this.state;
-    const list = dataSource.list.filter((item, i) => {
+    const data2 = { ...dataSource }
+    const list = data2.list.filter((item, i) => {
       return item.questionId
     })
 
@@ -231,8 +233,7 @@ class GuessEdit extends React.Component {
       message.info('问题不能重复')
       return false;
     }
-    console.log(303, dataSource)
-    if (!dataSource.cardName) {
+    if (!data2.cardName) {
       message.info('卡片名称不能为空')
       return false;
     }
@@ -240,13 +241,12 @@ class GuessEdit extends React.Component {
       item.sort = index + 1
     })
 
-    dataSource.list = list;
-    const params = this.state.dataSource;
+    data2.list = list;
+    const params = data2;
     if (dataSource.list.length < 4) {
       message.info('不能少于四条')
       return false;
     }
-
     this.props.dispatch({
       type: 'hotQuestion/guessTempSave',
       payload: { params: params },
@@ -256,7 +256,6 @@ class GuessEdit extends React.Component {
             pathname: '/hotQuestion/index'
           });
         }
-        console.log(304, data)
       }
     })
 
@@ -291,7 +290,6 @@ class GuessEdit extends React.Component {
 
   // 初始化页面数据，给定唯一值
   getDataSource = (list = []) => {
-    console.log(301, list)
     if (list.length < 1) {
       router.push({
         pathname: '/hotQuestion/index'
@@ -366,7 +364,7 @@ class GuessEdit extends React.Component {
     const dataSource = this.props.guessData
     const { sunlandsFlag, robotName } = dataSource
     const auth = userType === 'boss' || userType === 'admin';
-    const { loading } = this.props
+    const { loading, loadingSubmit, loadingReset } = this.props
     return (
       <div className={styles.editContainer}>
         <div className={styles.breadCustom}>
@@ -414,7 +412,7 @@ class GuessEdit extends React.Component {
                       handleDelete={this.handleDelete}
                       clickRadio={this.clickRadio}
                       updateData={this.updateData}
-                      key={item.questionId || item.key}
+                      key={item.key}
                       auth={auth}
                       index={index}
                       radioId={radioId}></Line>
@@ -428,7 +426,7 @@ class GuessEdit extends React.Component {
             <BIButton style={{ marginRight: '8px' }} type="reset">
               <Link to={'/hotQuestion/index'}>取消</Link>
             </BIButton>
-            <BIButton type="primary" onClick={this.submit}>保存</BIButton>
+            <BIButton type="primary" onClick={this.submit} loading={loadingSubmit}>保存</BIButton>
           </div>
         </div>
         {/* modal */}
@@ -458,7 +456,7 @@ class GuessEdit extends React.Component {
               </div>
             </div>
             <div className={styles.defaultBtn}>
-              <BIButton type="primary" onClick={this.resetAnswer}>恢复默认</BIButton>
+              <BIButton type="primary" onClick={this.resetAnswer} loading={loadingReset}>恢复默认</BIButton>
             </div>
             <div className={`${styles.formItem} ${styles.formItem2}`}>
               <label>图片：</label>

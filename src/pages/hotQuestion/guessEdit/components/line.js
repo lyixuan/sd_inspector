@@ -70,7 +70,6 @@ class Line extends React.Component {
       questionId: undefined,
       answer: null
     }, () => {
-      console.log(74, this.state)
       const params = this.state
       this.props.updateData(params)
       this.getQuestionType(key.knowledgeId);
@@ -117,8 +116,6 @@ class Line extends React.Component {
   questionChange = (val) => {
     let key = {}
     const { questionTypeId } = this.state;
-    // console.log(120, )
-    // return;
     this.props.globalQuestion[questionTypeId].map(item => {
       if (val === item.questionId) {
         key = item
@@ -136,7 +133,6 @@ class Line extends React.Component {
   }
   // 点击radio
   clickRadio = (index) => {
-    console.log(106, index)
     this.props.clickRadio(index);
   }
   // 点击编辑 
@@ -179,7 +175,6 @@ class Line extends React.Component {
               placeholder="选择分类"
               value={questionTypeId}
               treeData={questionTypeList}
-              key={Math.random()}
               onChange={this.questionTypeChange}
               dropdownStyle={{ height: 300 }}>
             </TreeSelect> : <BIInput placeholder="选择分类" readOnly={true} value={questionTypeName}></BIInput>

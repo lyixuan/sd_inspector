@@ -20,6 +20,8 @@ const tHead = ['序号', '所属知识库', '所属分类', '标准问题', '问
   answer: hotQuestion.answer,
   relationData: hotQuestion.relationData,
   loading: loading.effects['hotQuestion/getRelationData'],
+  loadingSubmit: loading.effects['hotQuestion/similarTempSave'],
+  loadingReset: loading.effects['hotQuestion/getAnswer'],
 }))
 
 class RelationEdit extends React.Component {
@@ -65,7 +67,6 @@ class RelationEdit extends React.Component {
   }
   // 点击编辑
   handleEdit = (param) => {
-    console.log(67, param)
     // if (this.state.questionId == param.questionId) {
     //   this.setState({
     //     visible: true,
@@ -262,7 +263,6 @@ class RelationEdit extends React.Component {
             pathname: '/hotQuestion/index'
           });
         }
-        console.log(304, data)
       }
     })
   }
@@ -286,7 +286,6 @@ class RelationEdit extends React.Component {
   }
   // 初始化页面数据，给定唯一值
   getDataSource = (list = []) => {
-    console.log(305, list)
     for (var i = list.length; i < 4; i++) {
       list.push({
         key: new Date().getTime() + i,
@@ -324,7 +323,6 @@ class RelationEdit extends React.Component {
       this.setState({
         imageList: [...fileList]
       });
-      console.log(255, this.state.imageList)
       message.success('图片上传成功');
     } else if (file.status === 'removed') {
       this.setState({
@@ -348,7 +346,7 @@ class RelationEdit extends React.Component {
     const { sunlandsFlag, robotName } = dataSource
     // const isSunlands = true, robotName = '33'
     const auth = userType === 'boss' || userType === 'admin';
-    const { loading } = this.props
+    const { loading, loadingSubmit, loadingReset } = this.props
     const { activityName } = this.props.location.query
     return (
       <div className={styles.editContainer}>
@@ -407,7 +405,7 @@ class RelationEdit extends React.Component {
             <BIButton style={{ marginRight: '8px' }} type="reset">
               <Link to={'/hotQuestion/index'}>取消</Link>
             </BIButton>
-            <BIButton type="primary" onClick={this.submit}>保存</BIButton>
+            <BIButton type="primary" onClick={this.submit} loading={loadingSubmit}>保存</BIButton>
           </div>
         </div>
         {/* modal */}
@@ -437,7 +435,7 @@ class RelationEdit extends React.Component {
               </div>
             </div>
             <div className={styles.defaultBtn}>
-              <BIButton type="primary" onClick={this.resetAnswer}>恢复默认</BIButton>
+              <BIButton type="primary" onClick={this.resetAnswer} loading={loadingReset}>恢复默认</BIButton>
             </div>
             <div className={`${styles.formItem} ${styles.formItem2}`}>
               <label>图片：</label>

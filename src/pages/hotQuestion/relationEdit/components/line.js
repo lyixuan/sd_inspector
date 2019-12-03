@@ -139,7 +139,6 @@ class Line extends React.Component {
   }
   // 点击radio
   clickRadio = (index) => {
-    console.log(106, index)
     this.props.clickRadio(index);
   }
   // 点击编辑 
