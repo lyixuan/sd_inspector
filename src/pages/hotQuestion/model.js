@@ -57,7 +57,6 @@ export default {
     *getQuestionList({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(getQuestionList, params);
-      console.log(60, result)
       if (result.code === 200) {
         // yield put({ type: 'save', payload: { questionList: result.data } });
         yield put({ type: 'saveGetQuestionList', payload: { questionList: result.data || [], questionTypeId: params.questionTypeId } });
@@ -127,7 +126,7 @@ export default {
     },
     saveGetQuestionList(state, { payload }) {
       const { questionList = [], questionTypeId } = payload;
-      console.log(129, state)
+
       state.globalQuestion[questionTypeId] = questionList;
       return { ...state };
     },

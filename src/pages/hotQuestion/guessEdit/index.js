@@ -64,8 +64,13 @@ class GuessEdit extends React.Component {
   }
 
   handleBread = () => {
+    const { robotId, isSunlands } = this.props.location.query;
     router.push({
-      pathname: '/hotQuestion/index'
+      pathname: '/hotQuestion/index',
+      query: {
+        robotId: robotId,
+        isSunlands: isSunlands,
+      }
     });
   }
   // 点击编辑
@@ -243,7 +248,7 @@ class GuessEdit extends React.Component {
 
     data2.list = list;
     const params = data2;
-    if (dataSource.list.length < 4) {
+    if (data2.list.length < 4) {
       message.info('不能少于四条')
       return false;
     }
@@ -252,9 +257,10 @@ class GuessEdit extends React.Component {
       payload: { params: params },
       callBack: (data) => {
         if (data.code == 200) {
-          router.push({
-            pathname: '/hotQuestion/index'
-          });
+          message.success('保存成功', 2, () => {
+            this.handleBread();
+          })
+
         }
       }
     })
@@ -291,9 +297,7 @@ class GuessEdit extends React.Component {
   // 初始化页面数据，给定唯一值
   getDataSource = (list = []) => {
     if (list.length < 1) {
-      router.push({
-        pathname: '/hotQuestion/index'
-      });
+      this.handleBread()
       return;
     }
     if (list.length > 0) {
