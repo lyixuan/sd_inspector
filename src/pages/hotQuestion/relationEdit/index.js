@@ -8,13 +8,20 @@ import { Icon, Upload, message } from 'antd';
 import styles from './style.less';
 import router from 'umi/router';
 import Line from './components/line';
+import storage from '@/utils/storage';
+import BILoading from '@/components/BILoading';
+import { SSCP_WEB_BASE_URL } from '@/pages/configWords/utils/constants';
 const { TextArea } = BIInput;
+
 
 const tHead = ['序号', '所属知识库', '所属分类', '标准问题', '问题简称']
 @connect(({ hotQuestion, loading }) => ({
   hotQuestion,
   answer: hotQuestion.answer,
-  guessData: hotQuestion.guessData
+  relationData: hotQuestion.relationData,
+  loading: loading.effects['hotQuestion/getRelationData'],
+  loadingSubmit: loading.effects['hotQuestion/similarTempSave'],
+  loadingReset: loading.effects['hotQuestion/getAnswer'],
 }))
 
 class RelationEdit extends React.Component {
@@ -23,96 +30,60 @@ class RelationEdit extends React.Component {
     this.state = {
       visible: false,
       radioId: -1,
-      dataSource: {
-        cardId: 999,
-        cardName: '1',
-        robotName: '尚小德',
-        robotId: 175,
-        sunlandsFlag: true,
-        operator: '11',//操作人
-        list: [{
-          sort: 1,
-          isEdit: true,
-          knowledgeId: 264,
-          knowledgeName: '报考知识库',
-          questionTypeId: 794,
-          questionType: '自考介绍',
-          question: '我爱学习',
-          questionId: 22655,
-          answerId: 1,
-          statistic_id: 1,//数据唯一主键，没有则不传（新增的没有）
-          is_proxy: true,//是否是静态问题，非静态问题不可编辑
-          answer: 'dkfdlf'
-        }, {
-          sort: 2,
-          knowledgeId: 267,
-          isEdit: true,
-          knowledgeName: '课程库',
-          questionTypeId: 723,
-          questionType: '自考介绍',
-          question: '笔试需要带什么',
-          questionId: 19449,
-          answerId: 1,
-          statistic_id: 1,//数据唯一主键，没有则不传（新增的没有）
-          is_proxy: true,//是否是静态问题，非静态问题不可编辑
-          answer: 'dkfdlf'
-        }, {
-          sort: 3,
-          knowledgeId: 268,
-          isEdit: true,
-          knowledgeName: 'APP操作',
-          questionTypeId: 725,
-          questionType: '自考介绍',
-          question: '笔试需要带什么222',
-          questionId: 1,
-          answerId: 1,
-          statistic_id: 1,//数据唯一主键，没有则不传（新增的没有）
-          is_proxy: true,//是否是静态问题，非静态问题不可编辑
-          answer: 'dkfdlf'
-        }]
-      },
+      dataSource: {},
       question: '',
       answerContent: '',
       answerCode: null,
       imageList: [],
       questionId: null,
-      currentEditIndex: -1
+      currentEditIndex: -1,
+      status: 0,
+      userType: storage.getUserInfo().userType
     }
   }
   componentDidMount = () => {
-    // console.log(19, this.countArray())
     this.getKnowledgeList();
     this.getPageData();
   }
   getPageData = () => {
     const query = this.props.location.query;
     this.props.dispatch({
-      type: 'hotQuestion/getGuessData',
+      type: 'hotQuestion/getRelationData',
       payload: { params: query },
     }).then(() => {
-      // this.getDataSource(this.props.guessData.list);
-      this.getDataSource(this.state.dataSource.list);
+      this.getDataSource(this.props.relationData.list);
     });
   }
   getKnowledgeList = () => {
     this.props.dispatch({
       type: 'hotQuestion/getKnowledgeList',
-      payload: { params: {} },
+      payload: { params: { id: this.props.location.query.robotId } },
+    });
+  }
+  handleBread = () => {
+    router.push({
+      pathname: '/hotQuestion/index'
     });
   }
   // 点击编辑
   handleEdit = (param) => {
-    if (this.state.questionId == param.questionId) {
-      this.setState({
-        visible: true,
+    // if (this.state.questionId == param.questionId) {
+    //   this.setState({
+    //     visible: true,
+    //   })
+    //   return
+    // }
+    const currentItem = this.state.dataSource.list[param.index]
+    if (currentItem.hasEdit) {
+      // return;
+      this.answerData(currentItem.answer);
+    } else {
+      this.getAnswer({
+        robotId: this.props.location.query.robotId,
+        questionId: param.questionId
       })
-      return
     }
 
-    this.getAnswer({
-      robotId: this.props.location.query.robotId,
-      questionId: param.questionId
-    })
     this.setState({
       visible: true,
       questionId: param.questionId,
@@ -124,8 +95,9 @@ class RelationEdit extends React.Component {
   }
   // 恢复默认
   resetAnswer = () => {
+    const { robotId } = this.props.location.query;
     this.getAnswer({
-      robotId: this.props.location.query.robotId,
+      robotId: robotId,
       questionId: this.state.questionId
     });
   }
@@ -140,37 +112,39 @@ class RelationEdit extends React.Component {
       type: 'hotQuestion/getAnswer',
       payload: { params: params },
     }).then(() => {
-      // 最最亲爱的同学新年快乐！φ(>ω<*)人气讲师私密会话来袭，快来找寻你的老师，一起冲冲冲！！！猪年大吉，万事“佩奇”ヾ(◍°∇°◍)ﾉﾞ##{"type": "video", "arr": [ { "imgUrl": "https://lesson-1257191707.cos.ap-beijing.myqcloud.com/ai_assistant/%E6%8B%9C%E5%B9%B4%E8%A7%86%E9%A2%91%E5%B0%81%E9%9D%A2.png","videoUrl":"http://1257191707.vod2.myqcloud.com/0f70548fvodtransgzp1257191707/8cc9b9715285890784432771138/v.f220.m3u8" } ] }##
       const { answer } = this.props;
-      const reg = /##[\s\S]*##/g;
-      const isMedia = reg.test(answer);
-      let data = {};
-      if (isMedia) {
-        try {
-          data = JSON.parse(answer.match(reg)[0].replace(/##/g, ""))
-        } catch (err) {
-          console.log(145, err)
-        }
-        console.log(164, answer.match(reg)[0])
-        const content = answer.replace(reg, '')
-        this.setState({
-          answerContent: content,
-          answerCode: answer.match(reg)[0],
-          imageList: data.type === 'img' ? [{ uid: '-1', name: 'default', status: 'done', url: data.arr[0].url }] : []
-        })
-      } else {
-        this.setState({
-          answerContent: answer,
-        })
-      }
+      this.answerData(answer)
 
     });
   }
+  answerData = (answer) => {
+    const reg = /##[\s\S]*##/g;
+    const isMedia = reg.test(answer);
+    let data = {};
+    if (isMedia) {
+      try {
+        data = JSON.parse(answer.match(reg)[0].replace(/##/g, ""))
+      } catch (err) {
+        console.log(145, err)
+      }
+      const content = answer.replace(reg, '')
+      this.setState({
+        answerContent: content,
+        answerCode: answer.match(reg)[0],
+        imageList: data.type === 'img' ? [{ uid: '-1', name: 'default', status: 'done', url: data.arr[0].url }] : []
+      })
+    } else {
+      this.setState({
+        answerContent: answer,
+        imageList: []
+      })
+    }
+  }
   handleCancel = () => {
-    this.getAnswer({
-      robotId: this.props.location.query.robotId,
-      questionId: this.state.questionId
-    });
+    // this.getAnswer({
+    //   robotId: this.props.location.query.robotId,
+    //   questionId: this.state.questionId
+    // });
     this.setState({
       visible: false
     })
@@ -186,9 +160,10 @@ class RelationEdit extends React.Component {
       const json = { type: 'img', arr: [{ 'url': imageList[0].url }] }
       answer = `${answerContent}##${JSON.stringify(json)}##`
     } else {
-      answer = `${answerContent}${answerCode}`
+      answer = answerCode ? `${answerContent}${answerCode}` : answerContent
     }
     this.state.dataSource.list[currentEditIndex].answer = answer
+    this.state.dataSource.list[currentEditIndex].hasEdit = true
     this.setState({
       visible: false
     })
@@ -205,6 +180,14 @@ class RelationEdit extends React.Component {
     })
     temp.list = list
     this.getDataSource(list);
+  }
+  submitBtnStatus = () => {
+    const list = this.state.dataSource.list.filter((item, i) => {
+      return item.questionId
+    })
+    this.setState({
+      status: list.length
+    })
   }
   swapItems = (arr, index1, index2) => {
     arr[index1] = arr.splice(index2, 1, arr[index1])[0];
@@ -236,19 +219,13 @@ class RelationEdit extends React.Component {
       })
     }
   }
-  handleBread = () => {
-    router.push({
-      pathname: '/hotQuestion/index'
-    });
-  }
   submit = () => {
     const { dataSource } = this.state;
-
     const list = dataSource.list.filter((item, i) => {
       return item.questionId
     })
-
     let arr = [];
+    let flag = true
     for (let i = 0; i < list.length; i++) {
       arr.push(list[i].questionId);
     }
@@ -260,12 +237,33 @@ class RelationEdit extends React.Component {
     list.map((item, index) => {
       item.sort = index + 1
     })
-
+    for (var i = 0; i < list.length; i++) {
+      if (!list[i].simpleName) {
+        flag = false;
+      }
+    }
+    if (!flag) {
+      message.info('问题简称不能为空')
+      return false;
+    }
+    dataSource.robotId = this.props.location.query.robotId
     dataSource.list = list;
     const params = this.state.dataSource;
+    if (dataSource.list.length < 4) {
+      message.info('不能少于四条')
+      return false;
+    }
+    // console.log(247, params); return;
     this.props.dispatch({
-      type: 'hotQuestion/guessTempSave',
-      payload: { params: params }
+      type: 'hotQuestion/similarTempSave',
+      payload: { params: params },
+      callBack: (data) => {
+        if (data.code == 200) {
+          router.push({
+            pathname: '/hotQuestion/index'
+          });
+        }
+      }
     })
   }
   clickRadio = (index) => {
@@ -281,15 +279,21 @@ class RelationEdit extends React.Component {
     list.questionTypeId = params.questionTypeId
     list.question = params.question;
     list.questionId = params.questionId;
+    list.isEdit = params.isEdit
+    list.answer = params.answer
+    list.simpleName = params.simpleName
+    // this.submitBtnStatus()
   }
   // 初始化页面数据，给定唯一值
-  getDataSource = (list) => {
-    for (var i = list.length; i < 27; i++) {
+  getDataSource = (list = []) => {
+    for (var i = list.length; i < 4; i++) {
       list.push({
         key: new Date().getTime() + i,
         sort: i + 1
       })
     }
+    this.state.dataSource = this.props.relationData
+    this.state.dataSource.list = list
     this.setState({
       dataSource: this.state.dataSource
     })
@@ -319,7 +323,6 @@ class RelationEdit extends React.Component {
       this.setState({
         imageList: [...fileList]
       });
-      console.log(255, this.state.imageList)
       message.success('图片上传成功');
     } else if (file.status === 'removed') {
       this.setState({
@@ -338,9 +341,13 @@ class RelationEdit extends React.Component {
   };
 
   render() {
-    const { visible, radioId, question, dataSource, answerContent, imageList } = this.state;
-    const { isSunlands, robotName } = dataSource
-    console.log(356, dataSource)
+    const { visible, radioId, question, answerContent, imageList, status, userType, cardName } = this.state;
+    const dataSource = this.props.relationData
+    const { sunlandsFlag, robotName } = dataSource
+    // const isSunlands = true, robotName = '33'
+    const auth = userType === 'boss' || userType === 'admin';
+    const { loading, loadingSubmit, loadingReset } = this.props
+    const { activityName } = this.props.location.query
     return (
       <div className={styles.editContainer}>
         <div className={styles.breadCustom}>
@@ -349,13 +356,17 @@ class RelationEdit extends React.Component {
         <div className={styles.guessEdit}>
           <div className={styles.title}>默认底部关联问题</div>
 
-          <div className={styles.editTop}>
-            <div className={styles.labels} style={{ paddingTop: '10px' }}>
-              <span>尚德学员</span>
-              <span>尚小德</span>
-              <p>当前已配置运营活动：【领现金】 该活动固定展示在底部第一位（优先于默认底部关联问题）</p>
+          {
+            auth && <div className={styles.editTop}>
+              <div className={styles.labels} style={{ paddingTop: '10px' }}>
+                <span>{sunlandsFlag ? '尚德学员' : '非尚德学员'}</span>
+                {robotName && <span>{robotName}</span>}
+                {
+                  activityName && <p>当前已配置运营活动：【{activityName}】 该活动固定展示在底部第一位（优先于默认底部关联问题）</p>
+                }
+              </div>
             </div>
-          </div>
+          }
 
           <div className={styles.editTable}>
             <ul className={styles.thead}>
@@ -365,16 +376,14 @@ class RelationEdit extends React.Component {
               <li className={styles.eq5}>{tHead[4]}</li>
               <li className={styles.eq3}>{tHead[3]}</li>
               <li className={styles.eq4}>
-                <div className={styles.icon}><Icon type="up-circle" />上移</div>
-                <div className={styles.icon}><Icon type="down-circle" />上移</div>
+                <div className={`${styles.icon} ${radioId === 0 ? styles.disabled : ''}`} onClick={radioId === 0 ? null : this.moveUp}><Icon type="up-circle" />上移</div>
+                <div className={`${styles.icon} ${radioId === 3 ? styles.disabled : ''}`} onClick={radioId === 3 ? null : this.moveDown}><Icon type="down-circle" />下移</div>
               </li>
             </ul>
             <div className={styles.tbody}>
               {
-                // this.countArray().map((item, index) => {
-                //   return <Line key={index} auth={true} index={index}></Line>
-                // })
-                dataSource.list && dataSource.list.map((item, index) => {
+
+                loading ? <BILoading isLoading={loading} height="200px"></BILoading> : dataSource.list && dataSource.list.map((item, index) => {
                   return <Line
                     dataSource={item || {}}
                     handleEdit={this.handleEdit}
@@ -382,7 +391,7 @@ class RelationEdit extends React.Component {
                     clickRadio={this.clickRadio}
                     updateData={this.updateData}
                     key={item.questionId || item.key}
-                    auth={true}
+                    auth={auth}
                     index={index}
                     radioId={radioId}></Line>
                 })
@@ -393,8 +402,10 @@ class RelationEdit extends React.Component {
           </div>
           <div className={styles.btns}>
             {/* <BIButton><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton> */}
-            <BIButton style={{ marginRight: '8px' }} type="reset">取消</BIButton>
-            <BIButton type="primary">保存</BIButton>
+            <BIButton style={{ marginRight: '8px' }} type="reset">
+              <Link to={'/hotQuestion/index'}>取消</Link>
+            </BIButton>
+            <BIButton type="primary" onClick={this.submit} loading={loadingSubmit}>保存</BIButton>
           </div>
         </div>
         {/* modal */}
@@ -408,30 +419,30 @@ class RelationEdit extends React.Component {
             <BIButton key="back" style={{ marginRight: 10 }} onClick={this.handleCancel}>
               取消
             </BIButton>,
-            <BIButton key="submit" type="primary" onClick={this.handleOk}>
+            <BIButton key={'submit'} type="primary" onClick={this.handleOk}>
               保存
             </BIButton>,
           ]}>
           <div className={styles.popContainer}>
             <div className={styles.formItem}>
               <label>标准问题：</label>
-              <div className={styles.inputs}><BIInput /></div>
+              <div className={styles.inputs}><BIInput value={question} readOnly={true} /></div>
             </div>
             <div className={`${styles.formItem} ${styles.formItem2}`}>
               <label>答案：</label>
               <div className={styles.inputs}>
-                <TextArea />
+                <TextArea value={answerContent} onChange={this.answerChange} placeholder='请输入答案' />
               </div>
             </div>
             <div className={styles.defaultBtn}>
-              <BIButton type="primary">恢复默认</BIButton>
+              <BIButton type="primary" onClick={this.resetAnswer} loading={loadingReset}>恢复默认</BIButton>
             </div>
             <div className={`${styles.formItem} ${styles.formItem2}`}>
               <label>图片：</label>
               <div className={styles.inputs}>
                 <Upload
                   accept="image/png, image/jpeg"
-                  action="http://172.16.56.221:9100/activity/imageUpload"
+                  action={`${SSCP_WEB_BASE_URL}/activity/imageUpload`}
                   listType="picture-card"
                   accept="image/*"
                   showUploadList={{
@@ -448,7 +459,7 @@ class RelationEdit extends React.Component {
                       : null
                   }
                 </Upload>
-                <p className={styles.notice}>注：图片大小限制为2M</p>
+                < p className={styles.notice}>注：图片大小限制为2M</p>
               </div>
             </div>
           </div>

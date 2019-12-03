@@ -55,6 +55,10 @@ export function getQuestionList(param) {
   return axios.get(`/question/${param.knowledgeId}/${param.questionTypeId}`)
 }
 // 猜你想问页面回显
+export function getRelationData(param) {
+  return axios.get(`/similarTemp/getList?robotId=${param.robotId}&isSunlands=${param.isSunlands}`)
+}
+// 猜你想问页面回显
 export function getGuessData(param) {
   return axios.get(`/guessTemp/getList?robotId=${param.robotId}&isSunlands=${param.isSunlands}&cardId=${param.cardId}`)
 }
@@ -66,4 +70,9 @@ export function getAnswer(param) {
 // 猜你想问保存
 export function guessTempSave(param) {
   return axios.post('/guessTemp/save', param)
+}
+
+// 底部关联保存
+export function similarTempSave(param) {
+  return axios.post('/similarTemp/save', param)
 }
