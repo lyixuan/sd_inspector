@@ -258,9 +258,15 @@ class HotQuestion extends React.Component {
       this._getUserInfo().then(() => {
         this._getRobotId().then(() => {
           const {robotId} = this;
-          this._getRelationQuestion(robotId, 1);
-          this._getGuessQuestion(robotId, 1);
-          this._getGoingActivity(robotId);
+          if (robotId) {
+            this._getRelationQuestion(robotId, 1);
+            this._getGuessQuestion(robotId, 1);
+            this._getGoingActivity(robotId);
+          } else {
+            this.setState({
+              pageLoading: false
+            })
+          }
         })
       })
     }
@@ -317,7 +323,6 @@ class HotQuestion extends React.Component {
 
   // 同步modal中多选框改变
   multipleChange = (value) => {
-    console.log(value);
     this.setState({
       copyRobots: value
     });
