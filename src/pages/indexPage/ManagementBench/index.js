@@ -102,7 +102,6 @@ class ManagementBench extends React.Component {
     window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
   };
   getReasonListData(startTime, endTime) {
-    console.log(startTime, endTime, 1666)
     const { date } = this.state;
     const { userInfo = {} } = this.props;
     const params = {

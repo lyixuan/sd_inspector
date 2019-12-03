@@ -9,6 +9,11 @@ import { handleDataTrace } from '@/utils/utils';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 
 const { Option } = BISelect;
+const userTypes = {
+  'class': true,
+  'group': true,
+  'family': true,
+}
 @connect((xdWorkModal) => ({
   // times: xdWorkModal.getCurrentDateRangeData,
   userInfo: xdWorkModal.userInfo || {},
@@ -16,7 +21,9 @@ const { Option } = BISelect;
 class ScoreContrast extends React.Component {
   constructor(props) {
     // console.log("date",props.date,moment(props.date.startDate).format('YYYY-MM-DD'),moment(props.date.endDate).format('YYYY-MM-DD'))
-    super(props)
+    super(props);
+    const admin_user = localStorage.getItem('admin_user');
+    const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
     this.state = {
       tabParams: [{
         name: <span data-trace='{"widgetName":"学院学分对比","traceName":"管理层工作台/学院学分对比"}'>学院学分对比</span>,
@@ -38,7 +45,7 @@ class ScoreContrast extends React.Component {
         contrasts:1,
         familyType:0,
         dimensionId:null,
-        collegeId:props.userInfo.collegeId,
+        collegeId: props.userInfo.collegeId,
         // startTime:moment(props.date.startDate).format('YYYY-MM-DD'),//"2019-09-25",
         // endTime:moment(props.date.endDate).format('YYYY-MM-DD')//"2019-09-30",
         startTime: '2019-09-25',
@@ -48,6 +55,7 @@ class ScoreContrast extends React.Component {
       query: { },
       familyType:0,
       tabNum:1,
+      userType
     }
   }
   componentDidMount() {
@@ -93,7 +101,7 @@ class ScoreContrast extends React.Component {
     })
   }
   rightPart = () =>{
-    const {collegeOptions={}, orgValue} = this.state;
+    const {collegeOptions={}, orgValue, userType} = this.state;
     const { allTimes } = this.props;
     return(
       <>
@@ -105,8 +113,8 @@ class ScoreContrast extends React.Component {
           </BISelect>
         </span>
         <span>
-          <BIButton onClick={() => this.handleRouter('xdCredit/index', {...allTimes, "dementionId": 16})} type="online" style={{marginRight: '8px'}}>学分趋势</BIButton>
-          <BIButton onClick={() => this.handleRouter('xdCreditPk/list', allTimes)} type="online" style={{marginRight: '8px'}}>学分PK</BIButton>
+          <BIButton onClick={() => this.handleRouter('xdCredit/index', {...allTimes})} type="online" style={{marginRight: '8px'}}>学分趋势</BIButton>
+          { userTypes[userType] && <BIButton onClick={() => this.handleRouter('xdCreditPk/list', allTimes)} type="online" style={{marginRight: '8px'}}>学分PK</BIButton> } 
         </span>
       </>
     )
@@ -130,7 +138,17 @@ class ScoreContrast extends React.Component {
         propStyle={{ padding: '0px', position: 'relative' }}
         head="none"
       >            
-        <TopTabs right={this.rightPart()} tabParams={this.state.tabParams} onTabChange={this.changeTab}/>
+        <TopTabs 
+        right={this.rightPart()}
+        rightStyles={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: 'calc(100% - 400px)',
+          marginLeft: 400,
+          left: 0
+        }} 
+        tabParams={this.state.tabParams} onTabChange={this.changeTab}
+        />
       </Container>
     );
   }

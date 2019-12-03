@@ -56,7 +56,7 @@ class TopTabs extends React.Component {
           }
           )}
         </BITabs>
-        <div className={styles.topRight}>{this.props.right}</div>
+        <div className={styles.topRight} style={this.props.rightStyles || {}}>{this.props.right}</div>
       </div>
     );
   }
