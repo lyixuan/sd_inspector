@@ -21,6 +21,7 @@ export default {
   namespace: 'xdManagementBench',
   state: {
     npsParams: {}, //nps部分的数据
+    npsList: [],
     compareCollegeListData: [],
     getCurrentDateRangeData: null,
     orgList: [],
@@ -41,15 +42,52 @@ export default {
     },
     //NPS自主评价所有的接口
     *getNpsAutonomousEvaluation({ payload, callback }, { call, put }) {
-      const result = yield call(getNpsAutonomousEvaluation, payload.params);
-      if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { npsParams: result.data } });
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
+      const {
+        collegeId,
+        star,
+        cycle,
+        pageNum,
+        pageSize,
+        npsList: oldLists,
+        change,
+      } = payload.params;
+
+      const params = { collegeId, star, cycle, pageSize, pageNum };
+      const result = yield call(getNpsAutonomousEvaluation, params);
+      if (result.code === 20000) {
+        const npsParams = result.data || {};
+
+        let npsList = [];
+        console.log(Number(pageNum) === 1, 'change');
+        alert(Number(pageNum));
+        console.log(Number(pageNum) === 1, 'change');
+        if (change) {
+          npsList = [].concat(npsParams.npsStarOpinionDtoListMap.data);
+        } else {
+          if (Number(pageNum) !== 1) {
+            npsList = oldLists.concat(npsParams.npsStarOpinionDtoListMap.data);
+          } else {
+            npsList = [].concat(npsParams.npsStarOpinionDtoListMap.data);
+          }
         }
-      } else if (result) {
+
+        yield put({ type: 'save', payload: { npsParams, npsList } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data, npsList);
+        }
+      } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
+
+      // const result = yield call(getNpsAutonomousEvaluation, payload.params);
+      // if (result.code === 20000 && result.data) {
+      //   yield put({ type: 'save', payload: { npsParams: result.data } });
+      //   if (callback && typeof callback === 'function') {
+      //     callback(result.data);
+      //   }
+      // } else if (result) {
+      //   message.error(msgF(result.msg, result.msgDetail));
+      // }
     },
     //  获取组织架构
     *getOrgMapTree({ payload, callback }, { call, put }) {
