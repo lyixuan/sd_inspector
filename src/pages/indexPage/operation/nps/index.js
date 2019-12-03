@@ -80,7 +80,7 @@ class NPSEvaluate extends React.Component {
           : this.state.groupId,
       },
       () => {
-        this.getNpsAutonomousEvaluation(0,false);
+        this.getNpsAutonomousEvaluation(0, false);
       }
     );
   }
@@ -123,7 +123,7 @@ class NPSEvaluate extends React.Component {
       star: this.state.star === '0' ? null : Number(this.state.star),
       cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
       pageNum: pageNum ? pageNum + 1 : 1,
-      pageSize: 10,
+      pageSize: 30,
       npsList,
       change,
     };
@@ -197,7 +197,15 @@ class NPSEvaluate extends React.Component {
   // 选择时间
   onDateChange = v => {
     localStorage.setItem('NPSDates', JSON.stringify(initTimeData(v)));
-    this.setState({ dateArr: v }, () => this.getNpsAutonomousEvaluation(0, true));
+    this.setState(
+      {
+        dateArr: v,
+      },
+      () => {
+        this.getNpsAutonomousEvaluation(0, true);
+      }
+    );
+    // this.setState({ dateArr: v }, () => this.getNpsAutonomousEvaluation(0, true));
     BI.traceV && BI.traceV({ widgetName: 'NPS时间筛选', traceName: '管理层工作台/NPS时间筛选' });
   };
   //取T-2日期的数据

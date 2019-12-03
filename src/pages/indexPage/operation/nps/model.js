@@ -50,9 +50,11 @@ export default {
         pageSize,
         npsList: oldLists,
         change,
+        endTime,
+        startTime,
       } = payload.params;
 
-      const params = { collegeId, star, cycle, pageSize, pageNum };
+      const params = { collegeId, star, cycle, pageSize, pageNum, startTime, endTime };
       const result = yield call(getNpsAutonomousEvaluation, params);
       if (result.code === 20000) {
         const npsParams = result.data || {};

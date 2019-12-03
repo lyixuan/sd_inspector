@@ -107,20 +107,19 @@ class NPSLeft extends React.Component {
     // const { dataSource} = this.state;
     const { NPSleftParams = {}, npsList = [], loading } = this.props;
     let isLastPage = false;
-    const { nowPage: pageNum, total } = NPSleftParams.npsStarOpinionDtoListMap || {};
-    if (total && Math.ceil(total / 30) <= pageNum) {
+    const { nowPage: pageNum, pages } = NPSleftParams.npsStarOpinionDtoListMap || {};
+    if (pages <= pageNum) {
       isLastPage = true;
     }
     const dataSource = npsList || [];
     return (
-      <Spin spinning={loading}>
         <Container
           title="创收学院对比"
           style={{ width: 'calc(100%)' }}
           head="none"
           propStyle={{ padding: 0 }}
         >
-          {/*<div className={styles.NPALeftMain} >*/}
+          <Spin spinning={loading}  style={{ width: '100%' }}>
           <div style={{ width: '100%', height: '30px' }}>
             {NPSleftParams &&
               NPSleftParams.reasonTypeDtoList &&
@@ -147,9 +146,9 @@ class NPSLeft extends React.Component {
               )}
             </div>
           )}
-          {/*</div>*/}
+           </Spin>
         </Container>
-      </Spin>
+     
     );
   }
 }
