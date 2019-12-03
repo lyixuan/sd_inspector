@@ -22,19 +22,19 @@ class Line extends React.Component {
     this.state = {
       knowledgeId: dataSource.knowledgeId || undefined,
       knowledgeName: dataSource.knowledgeName || undefined,
-      questionType: dataSource.questionType || undefined,
-      questionTypeId: dataSource.questionTypeId || undefined,
+      questionTypeId: (dataSource.questionTypeId) || undefined,
       question: dataSource.question || undefined,
-      questionId: dataSource.questionId || undefined,
+      questionId: (dataSource.questionId) || undefined,
+      isEdit: dataSource.isEdit,
+      answer: null,
       index: this.props.index,
-      isEdit: false,
-      answer: null
+      questionTypeName: dataSource.questionTypeName || undefined,
     };
   }
   componentDidMount() {
     const { knowledgeId, questionTypeId } = this.state;
-    this.getQuestionType(knowledgeId);
-    this.getQuestionList({ knowledgeId, questionTypeId })
+    if (knowledgeId) this.getQuestionType(knowledgeId);
+    if (questionTypeId) this.getQuestionList({ knowledgeId, questionTypeId })
   }
   // 递归处理问题分类
   formatData = (data) => {
@@ -61,12 +61,14 @@ class Line extends React.Component {
     this.setState({
       knowledgeName: key.name,
       knowledgeId: key.knowledgeId,
+      index: this.props.index,
       questionTypeId: undefined,
-      questionType: undefined,
+      questionTypeName: undefined,
       question: undefined,
       questionId: undefined,
       answer: null
     }, () => {
+      console.log(74, this.state)
       const params = this.state
       this.props.updateData(params)
       this.getQuestionType(key.knowledgeId);
@@ -79,28 +81,25 @@ class Line extends React.Component {
       this.props.dispatch({
         type: 'hotQuestion/getQuestionType',
         payload: { params: { id: id } },
-      }).then(() => {
-        this.setState({
-          questionTypeList: this.formatData(this.props.questionTypeList)
-        })
       });
     }
   }
   // 切换分类
   questionTypeChange = (val, label) => {
-    console.log(83, label)
     this.setState({
       questionTypeId: val,
-      questionType: label[0],
+      questionTypeName: label[0],
       question: undefined,
       questionId: undefined,
       answer: null
     }, () => {
-      const { knowledgeId, questionTypeId } = this.state;
       const params = this.state
+      const { knowledgeId } = this.state;
+      this.getQuestionList({ knowledgeId, questionTypeId: val });
       this.props.updateData(params)
-      this.getQuestionList({ knowledgeId, questionTypeId });
     })
+    // debugger
+
   }
   // 获取问题列表
   getQuestionList = (params) => {
@@ -109,17 +108,13 @@ class Line extends React.Component {
       this.props.dispatch({
         type: 'hotQuestion/getQuestionList',
         payload: { params: params },
-      }).then(() => {
-        this.setState({
-          questionList: this.props.questionList
-        })
       });
     }
   }
   // 切换标准问题
   questionChange = (val) => {
     let key = {}
-    this.state.questionList.map(item => {
+    this.props.questionList.map(item => {
       if (val === item.questionId) {
         key = item
       }
@@ -127,7 +122,8 @@ class Line extends React.Component {
     this.setState({
       questionId: key.questionId,
       question: key.question,
-      answer: key.answer
+      answer: key.answer,
+      isEdit: key.isEdit
     }, () => {
       const params = this.state
       this.props.updateData(params)
@@ -148,7 +144,10 @@ class Line extends React.Component {
   }
   render() {
     const { index, auth, dataSource = {}, knowledgeList, radioId } = this.props
-    const { knowledgeId, knowledgeName, questionType, questionTypeId, questionTypeList, questionList, questionId, question } = this.state
+    const { knowledgeId, knowledgeName, questionType, questionTypeId, questionId, question, isEdit, questionTypeName } = this.state
+    const { questionList } = this.props;
+    const questionTypeList = this.formatData(this.props.questionTypeList)
+    console.log(161, questionTypeName)
     return (
       <div className={styles.lineItem}>
         <span className={styles.eq0}>{index + 1}</span>
@@ -175,11 +174,13 @@ class Line extends React.Component {
           {
             auth ? <TreeSelect
               placeholder="选择分类"
+              // defaultValue={dataSource.questionTypeId ? dataSource.questionTypeId : undefined}
               value={questionTypeId}
               treeData={questionTypeList}
+              key={Math.random()}
               onChange={this.questionTypeChange}
               dropdownStyle={{ height: 300 }}>
-            </TreeSelect> : <BIInput placeholder="选择分类" readOnly={true} value={questionType}></BIInput>
+            </TreeSelect> : <BIInput placeholder="选择分类" readOnly={true} value={questionTypeName}></BIInput>
           }
         </div>
         <div className={styles.eq3}>
@@ -202,7 +203,7 @@ class Line extends React.Component {
           }
         </div>
         <div className={`${styles.eq4} ${questionId ? '' : styles.gray}`}>
-          <span onClick={questionId ? this.handleEdit : null}>编辑</span>
+          <span onClick={questionId && isEdit ? this.handleEdit : null} className={isEdit ? null : styles.gray}>编辑</span>
           {auth ? <span onClick={questionId ? this.handleDelete : null}>删除</span> : null}
           <Radio
             disabled={questionId ? false : true}

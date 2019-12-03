@@ -5,15 +5,6 @@ import styles from './line.less';
 import BIInput from '@/ant_components/BIInput';
 const { Option } = Select;
 
-
-
-const knowledgeList = [{
-  knowledgeId: 24,
-  name: '知识库1'
-}, {
-  knowledgeId: 24,
-  name: '知识库1'
-}]
 @connect(({ hotQuestion, loading }) => ({
   hotQuestion,
   knowledgeList: hotQuestion.knowledgeList,
@@ -26,13 +17,16 @@ class Line extends React.Component {
     super(props);
     const { dataSource } = this.props
     this.state = {
-      knowledgeId: dataSource.knowledgeId,
-      knowledgeName: dataSource.knowledgeName,
+      knowledgeId: dataSource.knowledgeId || undefined,
+      knowledgeName: dataSource.knowledgeName || undefined,
       questionType: dataSource.questionType || undefined,
-      questionTypeId: dataSource.questionTypeId || undefined,
-      question: dataSource.question || '',
-      questionId: dataSource.questionId || '',
-      index: this.props.index
+      questionTypeId: (dataSource.questionTypeId) || undefined,
+      question: dataSource.question || undefined,
+      questionId: (dataSource.questionId) || undefined,
+      isEdit: dataSource.isEdit || true,
+      answer: null,
+      index: this.props.index,
+      simpleName: dataSource.simpleName
     };
   }
   componentDidMount() {
@@ -56,18 +50,25 @@ class Line extends React.Component {
   }
   // 切换知识库
   knowledgeChange = (val) => {
-    console.log(53, val)
+    let key = {}
+    this.props.knowledgeList.map(item => {
+      if (val === item.knowledgeId) {
+        key = item
+      }
+    })
     this.setState({
-      knowledgeName: val.label,
-      knowledgeId: val.key,
+      knowledgeName: key.name,
+      knowledgeId: key.knowledgeId,
+      index: this.props.index,
       questionTypeId: undefined,
       questionType: undefined,
       question: undefined,
-      questionId: undefined
+      questionId: undefined,
+      answer: null
     }, () => {
       const params = this.state
       this.props.updateData(params)
-      this.getQuestionType(val.key);
+      this.getQuestionType(key.knowledgeId);
     })
   }
   // 获取分类
@@ -91,12 +92,21 @@ class Line extends React.Component {
       questionTypeId: val,
       questionType: label[0],
       question: undefined,
-      questionId: undefined
+      questionId: undefined,
+      answer: null
     }, () => {
       const { knowledgeId, questionTypeId } = this.state;
       const params = this.state
       this.props.updateData(params)
       this.getQuestionList({ knowledgeId, questionTypeId });
+    })
+  }
+  shortQuesChange = (e) => {
+    this.setState({
+      simpleName: e.target.value
+    }, () => {
+      const params = this.state
+      this.props.updateData(params)
     })
   }
   // 获取问题列表
@@ -115,10 +125,17 @@ class Line extends React.Component {
   }
   // 切换标准问题
   questionChange = (val) => {
-    console.log(110, val)
+    let key = {}
+    this.state.questionList.map(item => {
+      if (val === item.questionId) {
+        key = item
+      }
+    })
     this.setState({
-      questionId: val.key,
-      question: val.label
+      questionId: key.questionId,
+      question: key.question,
+      answer: key.answer,
+      isEdit: key.isEdit
     }, () => {
       const params = this.state
       this.props.updateData(params)
@@ -138,16 +155,16 @@ class Line extends React.Component {
     this.props.handleDelete(this.props.dataSource, this.props.index);
   }
   render() {
-    const { index, auth, dataSource = {}, knowledgeList, radioId } = this.props
-    const { knowledgeId, knowledgeName, questionType, questionTypeId, questionTypeList, questionList, questionId, question } = this.state
+    const { index, auth, knowledgeList, radioId } = this.props
+    const { knowledgeId, knowledgeName, questionType, questionTypeId, questionTypeList, questionList, questionId, question, isEdit, simpleName } = this.state
     return (
       <div className={styles.lineItem}>
         <span className={styles.eq0}>{index + 1}</span>
         <div className={styles.eq1}>
           {
             auth ? <Select
-              labelInValue={true}
-              value={{ key: knowledgeId, label: knowledgeName }}
+              // labelInValue={true}
+              value={knowledgeId}
               className={styles.knowledge}
               placeholder="选择知识库"
               onChange={this.knowledgeChange}>
@@ -158,52 +175,55 @@ class Line extends React.Component {
                   </Option>;
                 })
               }
-            </Select> : <BIInput readOnly={true} value={knowledgeName}></BIInput>
+            </Select> : <BIInput placeholder="选择知识库" readOnly={true} value={knowledgeName}></BIInput>
           }
 
         </div>
         <div className={styles.eq2}>
           {
             auth ? <TreeSelect
-              className={styles['question-type']}
               placeholder="选择分类"
-              defaultValue={undefined}
-              treeNodeLabelProp='text'
-              treeNodeFilterProp='id'
-              treeData={this.state.treeData}
+              value={questionTypeId}
+              treeData={questionTypeList}
+              onChange={this.questionTypeChange}
               dropdownStyle={{ height: 300 }}>
-            </TreeSelect> : <BIInput readOnly={true} value={'23'}></BIInput>
+            </TreeSelect> : <BIInput placeholder="选择分类" readOnly={true} value={questionType}></BIInput>
           }
         </div>
         <div className={styles.eq5}>
           {
-            auth ? <BIInput value={'23'} maxLength={6}></BIInput> : <BIInput readOnly={true} value={'23'}></BIInput>
+            auth ? <BIInput value={simpleName} placeholder="问题简称" onChange={this.shortQuesChange} maxLength={6}></BIInput> : <BIInput placeholder="问题简称" readOnly={true} value={'23'}></BIInput>
           }
         </div>
         <div className={styles.eq3}>
           {
             auth ? <Select
-              defaultValue={'123'}
+              value={questionId}
+              showSearch
+              optionFilterProp="children"
               className={styles.knowledge}
-              placeholder="标准问题">
+              onChange={this.questionChange}
+              placeholder="选择标准问题">
               {
-                knowledgeList.map((item) => {
-                  return <Option value={item.knowledgeId} key={item.knowledgeId}>
-                    {item.name}
+                questionList && questionList.map((item) => {
+                  return <Option value={item.questionId} key={`${item.questionId}${index}`}>
+                    {item.question}
                   </Option>;
                 })
               }
-            </Select> : <BIInput readOnly={true} value={'23'}></BIInput>
+            </Select> : <BIInput placeholder="选择标准问题" readOnly={true} value={question}></BIInput>
           }
 
         </div>
 
-        <div className={styles.eq4}>
-          <span>编辑</span>
-          {auth ? <span>删除</span> : null}
+        <div className={`${styles.eq4} ${questionId ? '' : styles.gray}`}>
+          <span onClick={questionId && isEdit ? this.handleEdit : null} className={isEdit ? null : styles.gray}>编辑</span>
+          {auth ? <span onClick={questionId ? this.handleDelete : null}>删除</span> : null}
           <Radio
-            checked={false}
-            value={index}
+            disabled={questionId ? false : true}
+            checked={radioId === index ? true : false}
+            value={radioId}
+            onClick={() => this.clickRadio(index)}
             className={styles.sort} />
         </div>
       </div>
