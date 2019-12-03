@@ -8,6 +8,7 @@ import CSForm from '@/pages/scoreAppeal/awaitAppeal/components/Form';
 import AuthButton from '@/components/AuthButton/index';
 import storage from '@/utils/storage';
 import { jumpMarkingDetails } from '@/pages/ko/utils/utils';
+import moment from 'moment/moment';
 
 @connect(({ awaitAppealModel, loading }) => ({
   awaitAppealModel,
@@ -24,15 +25,17 @@ class AwaitAppeal extends React.Component {
       pageSize: 30,
       dimensionType: myParam && myParam.dimensionType ? myParam.dimensionType : 11,
     };
+    this.initTime = {creditBeginDate:moment().subtract(6,'days').format('YYYY-MM-DD'),"creditEndDate":moment().format('YYYY-MM-DD')};
   }
 
   componentDidMount() {
     const { dimensionType } = this.state;
-    const { params = null } = this.props.location.query;
+    let { params = null } =this.props.location.query;
     if (params === null) {
       storage.removeSessonItem('score_tab');
     }
-    this.queryData(dimensionType, JSON.parse(params));
+    params=JSON.stringify({...JSON.parse(params),...this.initTime})
+    this.queryData(dimensionType, JSON.parse(params),null,1);
   }
 
   onFormChange = (value, vname) => {
@@ -73,7 +76,7 @@ class AwaitAppeal extends React.Component {
     }
   };
 
-  queryData = (dimensionType, pm, pg) => {
+  queryData = (dimensionType, pm, pg,flag) => {
     let params = this.state;
     let paramsUrl = this.state;
     if (pm) {
@@ -98,12 +101,23 @@ class AwaitAppeal extends React.Component {
 
     const saveUrlParams = JSON.stringify(paramsUrl);
 
+    const timeParams = JSON.stringify(this.initTime);
     const score_tab = storage.getSessionItem('score_tab');
     if (score_tab) {
+      if(flag===1){
+        score_tab[11] = timeParams;
+        score_tab[14] = timeParams;
+        score_tab[19] = timeParams;
+        score_tab[23] = timeParams;
+        score_tab[42] = timeParams;
+      }
       score_tab[paramsUrl.dimensionType] = saveUrlParams;
       storage.setSessonItem('score_tab', score_tab);
     } else {
-      storage.setSessonItem('score_tab', { [paramsUrl.dimensionType]: saveUrlParams });
+      storage.setSessonItem('score_tab', { [paramsUrl.dimensionType]: saveUrlParams});
+      if(flag===1){
+        storage.setSessonItem('score_tab', { 11:timeParams,14:timeParams,19:timeParams,23:timeParams,42:timeParams,});
+      }
     }
     // 请求成功后保留查询条件
     this.props

@@ -570,14 +570,24 @@ export default {
             typeName: '所有分类',
           },
         ];
-        data.titleList = [
-          ...data.titleList,
-          {
-            expand: false,
-            typeId: -1,
-            typeName: '未分类数据',
-          },
-        ];
+        if (data.titleList instanceof Array) {
+          data.titleList = [
+            ...data.titleList,
+            {
+              expand: false,
+              typeId: -1,
+              typeName: '未分类数据',
+            },
+          ];
+        } else {
+          data.titleList = [
+            {
+              expand: false,
+              typeId: -1,
+              typeName: '未分类数据',
+            }
+          ]
+        } 
       } else {
         data.reasonTypeList = [
           {

@@ -49,7 +49,7 @@ export default class EchartsComponent extends React.Component {
     return (
       <div style={this.props.style} className={styles.collegeInner}>
         <div ref={this.createRef} className={styles.echartDom} />
-     </div>
+      </div>
     )
   }
 }

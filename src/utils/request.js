@@ -88,6 +88,7 @@ request.interceptors.request.use((url, options) => {
 });
 
 request.interceptors.response.use((response, options) => {
+  if(!response) {return}
   const data = response.clone().json();
   data.then((res) => {
     if (res && res.code === 20002) {

@@ -45,18 +45,19 @@ class GroupIndex extends React.Component {
     };
   }
   // 维度列表
-  getGroupPkData = ([s, e] = this.props.dateRangeSelect) => {
+  getGroupPkData = ([startTime, endTime] = this.props.dateRangeSelect) => {
     this.props.dispatch({
       type: 'xdCreditPkModal/groupPkList',
-      payload: { params: { pkGroupList: this.state.pkGroupList, s, e } },
+      payload: { params: { pkGroupList: this.state.pkGroupList, startTime, endTime } },
     });
   }
  // 对比小组列表
   getGroupList =({studentValue}, callback)  => {
     // const paramsItem = orgValue === 1 ? 'groupType' : 'kpiLevelId';
+    const [startTime, endTime] = this.props.dateRangeSelect;
     this.props.dispatch({
       type: 'xdCreditPkModal/groupList',
-      payload: { params: { groupType: studentValue } },
+      payload: { params: { groupType: studentValue, startTime, endTime } },
       callback: res => callback(res),
     })
   }
@@ -140,7 +141,8 @@ class GroupIndex extends React.Component {
         drawerStyle={{width: '40%'}}
         propsStyle={{padding: 0}}
         >
-          <PkDrawer    
+          <PkDrawer 
+          dateRangeSelect={this.props.dateRangeSelect}   
           handleAction={this.handleAction}
           getGroupList={this.getGroupList}
           clickRow={this.clickRow} 

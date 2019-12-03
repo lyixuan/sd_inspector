@@ -1,0 +1,64 @@
+.topSelect {
+  width: 100%;
+  height: 106px;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 10px;
+  padding: 10px 20px;
+  margin-bottom: 16px;
+  .title {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(26, 28, 31, 1);
+    margin-bottom: 20px;
+  }
+
+  .sel {
+    float: left;
+    height: 40px;
+    line-height: 40px;
+  }
+
+  .sel:nth-child(2), .sel:nth-child(4) {
+    margin-right: 25px;
+  }
+  .sel:nth-child(5) {
+    margin-right: 10px;
+  }
+}
+
+.qualitySurvey {
+  background: #fff;
+  border-radius: 10px;
+  .title {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(26, 28, 31, 1);
+    border-bottom: 1px solid #F5F8FA;
+    margin-bottom: 20px;
+  }
+  > div:nth-child(2) {
+    padding: 0 24px 30px;
+  }
+
+}
+
+:global {
+  .qualitySurveyTable {
+    .ant-table-thead > tr:last-child >th {
+      background: #fff;
+    }
+  }
+}
+
+.dotStl {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  margin-right: 5px;
+}
+
+.footerItem {
+  border-right: 1px solid red;
+}
