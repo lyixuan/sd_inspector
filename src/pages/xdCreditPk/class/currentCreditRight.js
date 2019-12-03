@@ -19,13 +19,13 @@ class currentCreditRight extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orgOptions: [{
-        id: 1,
-        name: '组织'
-      }, {
-        id: 2,
-        name: '人均在服学员'
-      }],
+      // orgOptions: [{
+      //   id: 1,
+      //   name: '组织'
+      // },{
+      //   id: 2,
+      //   name: '人均在服学员'
+      // }],
       orgSecondOptions: [{
         id: 'group',
         name: '集团'
@@ -62,8 +62,8 @@ class currentCreditRight extends React.Component {
   getSearchParams = () => {
     const { orgValue, studentValue }= JSON.parse(localStorage.getItem(this.props.localKey)) || {};
     const data = {};
-    if (orgValue && studentValue) { 
-      data.orgValue = orgValue;
+    if (orgValue === 1 && studentValue) { 
+      // data.orgValue = orgValue;
       data.studentValue = studentValue; 
     } else {
       data.orgValue= 1;
@@ -108,17 +108,20 @@ class currentCreditRight extends React.Component {
         dataIndex: 'creditRanking',
         key: 'creditRanking',
       }, {
-        width: '40%',
+        // width: '40%',
         title: '组织',
         dataIndex: 'groupName',
         key: 'groupName',
-      }, {
-        width: '20%',
-        title: '排名系数',
-        dataIndex: 'creditRankingCoefficient',
-        key: 'creditRankingCoefficient',
-        render: text => <BITextAlign textalign='left'>{text}</BITextAlign>
-      }, {
+      }, 
+      // {
+      //   width: '20%',
+      //   title: '排名系数',
+      //   dataIndex: 'creditRankingCoefficient',
+      //   key: 'creditRankingCoefficient',
+      //   render: text => <BITextAlign textalign='left'>{text}</BITextAlign>
+      // }, 
+      {
+        width: 120,
         title: '学分',
         dataIndex: 'credit',
         key: 'credit',
@@ -145,7 +148,7 @@ class currentCreditRight extends React.Component {
     }
   };
   setRowClassName = (record, index) => {
-    let className = ''
+    // let className = ''
     let taClassName = ""
     if (record.myGroup) {
       this.state.userMsg = record;
@@ -154,18 +157,18 @@ class currentCreditRight extends React.Component {
     if (this.getIncludes(record.groupId)) {
       taClassName = 'rowSelect';
     }
-    if (record.creditRankingCoefficient === 3) {
-      className = "background1 " + taClassName
-    } else if (record.creditRankingCoefficient === 2) {
-      className = "background2 " + taClassName
-    } else if (record.creditRankingCoefficient === 1) {
-      className = "background3 " + taClassName
-    } else if (record.creditRankingCoefficient === 0.8) {
-      className = "background4 " + taClassName
-    } else {
-      className = "background5 " + taClassName
-    }
-    return className
+    // if (record.creditRankingCoefficient === 3) {
+    //   className = "background1 " + taClassName
+    // } else if (record.creditRankingCoefficient === 2) {
+    //   className = "background2 " + taClassName
+    // } else if (record.creditRankingCoefficient === 1) {
+    //   className = "background3 " + taClassName
+    // } else if (record.creditRankingCoefficient === 0.8) {
+    //   className = "background4 " + taClassName
+    // } else {
+    //   className = "background5 " + taClassName
+    // }
+    return taClassName
   }
 
   onClickRow = (record) => {
@@ -180,30 +183,30 @@ class currentCreditRight extends React.Component {
   }
   // 二级选择参数
   getStudentOptions = () => {
-    const { orgValue } = this.state;
-    if (orgValue === 1) {
+    // const { orgValue } = this.state;
+    // if (orgValue === 1) {
       return this.state.orgSecondOptions;
-    } else if (orgValue === 2) {
-      return this.props.globalLevelList
-    } else {
-      return [];
-    }
+    // } else if (orgValue === 2) {
+    //   return this.props.globalLevelList
+    // } else {
+    //   return [];
+    // }
   }
   render() {
-    const { orgOptions, orgValue, studentValue, userFlag, userMsg, groupList=[] } = this.state;
+    const { studentValue, userFlag, userMsg, groupList=[] } = this.state;
     const { handleAction } = this.props;
     return (
       <div className={styles.creditRight}>
         <div className={styles.creditSelect} >
           <div className={styles.title}>选择对比小组:</div>
-          <BISelect style={{ width: 138, marginLeft: 24}} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val, 'oneLevel')}>
+          {/* <BISelect style={{ width: 138, marginLeft: 24}} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val, 'oneLevel')}>
             {orgOptions.map((item, index) => (
               <Option value={item.id} key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
                 {item.name}
               </Option>
             ))}
-          </BISelect>
-          <BISelect style={{ width: 188, marginLeft: 12 }} placeholder="请选择" value={studentValue} onChange={(val) => this.onFormChange(val, 'studentValue')} >
+          </BISelect> */}
+          <BISelect style={{ width: 188, marginLeft: 24 }} placeholder="请选择" value={studentValue} onChange={(val) => this.onFormChange(val, 'studentValue')} >
             {this.getStudentOptions().map(item => (
               <Option value={item.id} key={item.id} data-trace='{"widgetName":"本期学分-选择对比小组","traceName":"本期学分-选择对比小组"}'>
                 {item.name}
@@ -231,7 +234,7 @@ class currentCreditRight extends React.Component {
               rowClassName={this.setRowClassName}
               onRow={this.onClickRow}
               scroll={{ y: 410 }}
-              rowKey={record => record.groupId}
+              rowKey={(record, index) => record.groupId + '' + index}
             />
           </div>
         </div>

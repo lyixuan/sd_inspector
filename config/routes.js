@@ -236,6 +236,11 @@ export const routes = [
         ],
       },
       {
+        path: '/nps', 
+        component: './operation/nps',
+        name: 'nps',
+      },
+      {
         path: '/koUserOperation',
         name: '用户运营',
         routes: [
@@ -552,6 +557,19 @@ export const routes = [
         path: '/examPlant/index',
         component: './examPlant/index',
         name: '报考时间',
+      },
+      {
+        path: '/operateActivity',
+        routes: [
+          {
+            path: '/operateActivity/index',
+            component: './operateActivity',
+          },
+          {
+            path: '/operateActivity/configActivity',
+            component: './operateActivity/configActivity',
+          }
+        ]
       },
       {
         path: '/cubePlan',

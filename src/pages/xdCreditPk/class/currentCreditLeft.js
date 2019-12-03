@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Typography, Tooltip } from 'antd';
 import styles from './style.less';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BITextCell from '@/pages/indexPage/components/BITextCell';
@@ -7,10 +8,11 @@ import BILoading from '@/components/BILoading';
 import BIIcon from '@/components/BIIcon';
 import pluscircle from '@/assets/xdwork/pluscircle.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
-import up from '@/assets/xdFamily/rankUp.png';
+import up from '@/assets/xdcredit/fu.png';
 import down from '@/assets/xdFamily/rankDown.png';
 
 const { BI = {} } = window;
+const { Paragraph } = Typography
 class currentCreditLeft extends React.Component {
   columns = () => {
     const { groupList = [] } = this.props.groupPkList;
@@ -32,10 +34,12 @@ class currentCreditLeft extends React.Component {
     groupList.map((item, index) => {
       columns.push({
         width: '12%',
-        title: <div>
-          {index > 0 ? item.groupName : '我的'}
-          {index > 0 ? <BIIcon onClick={() => this.props.handleDelete(item.groupId)} /> : ''}
-        </div>,
+        title: <Tooltip title={item.groupName}>
+          <Paragraph ellipsis={{ rows: 1}}>
+            {item.groupName}
+            {index > 0 ? <BIIcon onClick={() => this.props.handleDelete(item.groupId)} /> : ''}
+          </Paragraph>
+        </Tooltip>,
         dataIndex: item.groupId,
         key: item.groupId,
         render: (text, record) => {
@@ -89,16 +93,17 @@ class currentCreditLeft extends React.Component {
   getDataSource = () => {
     const { groupPkList={} } = this.props;
     const { dimensionList = [] } = groupPkList;
-    if (dimensionList.length > 0) {
-      if (this.props.hasData) {
-        return dimensionList;
-      } else {
-        const [s, a, d, f, ...others] = dimensionList;
-        return others;
-      }
-    } else {
-      return []
-    }
+    return dimensionList
+    // if (dimensionList.length > 0) {
+    //   if (this.props.hasData) {
+    //     return dimensionList;
+    //   } else {
+    //     const [s, a, d, f, ...others] = dimensionList;
+    //     return others;
+    //   }
+    // } else {
+    //   return []
+    // }
   }
   render() {
     const { pkGroupList, loading } = this.props;

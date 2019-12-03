@@ -4,7 +4,7 @@ import BIDatePicker from '@/ant_components/BIDatePicker';
 import XdFamilyPk from './family';
 import XdClassPk from './class';
 import styles from './style.less';
-import { initTimeData, jumpGobalRouter } from '../ko/utils/utils';
+import { initTimeData } from '../ko/utils/utils';
 import moment from 'moment';
 
 const { BIRangePicker } = BIDatePicker;
@@ -26,16 +26,27 @@ class XdCreditPk extends React.Component {
       dataRange: []
     }
   }
-  componentDidMount() {  
+  componentDidMount() {
+    // 时间接参
+    const params = this.props.location.query.params;
+    const { startTime, endTime } = params ? JSON.parse(params) : {}; 
+    this.props.dispatch({
+      type: 'xdCreditPkModal/getKpiDateRange',
+      callback: dataRange => {  
+        if (startTime && endTime)  {
+          this.setState({
+            dataRange: [moment(startTime), moment(endTime)]
+          })
+        } else {
+          this.setState({ dataRange })   
+        }
+      }
+    })
     // 小组-绩效列表
     this.props.dispatch({
       type: 'xdCreditPkModal/getKpiLevelList',
     });
-    // 时间
-    this.props.dispatch({
-      type: 'xdCreditPkModal/getKpiDateRange',
-      callback: dataRange => this.setState({ dataRange })
-    })
+    
     const admin_user = localStorage.getItem('admin_user');
     const userType = userTypes[JSON.parse(admin_user) ? JSON.parse(admin_user).userType : 'none'];
     this.setState({ userType });
@@ -46,11 +57,6 @@ class XdCreditPk extends React.Component {
       });
     }
   }
-  // 时间显示
-  // dateRangeValue = () => {
-  //   const { startTime, endTime } = this.state;
-  //   return startTime && endTime ? [moment(startTime), moment(endTime)] : [];
-  // }
   // 选择时间
   onDateChange = dataRange => {
     this.setState({ dataRange })
@@ -63,10 +69,7 @@ class XdCreditPk extends React.Component {
   render() {
     const { userType, dataRange } = this.state;
     return (
-      <div className={styles.xdCreditPk}>
-        <div onClick={() => {
-          jumpGobalRouter('classQuality/qualityType/2', {keyWord: '服务'})
-        }}>11111</div> 
+      <div className={styles.xdCreditPk}> 
         { userType && 
           <> <div className={styles.dataRange} style={{ left: userType === 1 ? 24 : 280}}>
             {userType === 1 ? '选择时间：' : ''}

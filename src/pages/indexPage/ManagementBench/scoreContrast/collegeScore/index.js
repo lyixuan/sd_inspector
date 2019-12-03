@@ -245,7 +245,7 @@ class CollegeScore extends React.Component {
                 <Echart
                   options={this.drawChart(queryAppealDatas.creaditDataList)}
                   style={{height:"354px"}}
-                  clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList,item,userInfo)}
+                  clickEvent={(item)=>this.clickEvent(queryAppealDatas.creaditDataList, item, userInfo)}
                 />
               )
             }
