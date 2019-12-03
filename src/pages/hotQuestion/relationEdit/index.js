@@ -226,7 +226,8 @@ class RelationEdit extends React.Component {
   }
   submit = () => {
     const { dataSource } = this.state;
-    const list = dataSource.list.filter((item, i) => {
+    const data2 = { ...dataSource }
+    const list = data2.list.filter((item, i) => {
       return item.questionId
     })
     let arr = [];
@@ -251,16 +252,14 @@ class RelationEdit extends React.Component {
       message.info('问题简称不能为空')
       return false;
     }
-    dataSource.robotId = this.props.location.query.robotId
-    dataSource.list = list;
-    const params = this.state.dataSource;
-    if (dataSource.list.length < 4) {
+    data2.list = list;
+    if (data2.list.length < 4) {
       message.info('不能少于四条')
       return false;
     }
     this.props.dispatch({
       type: 'hotQuestion/similarTempSave',
-      payload: { params: params },
+      payload: { params: data2 },
       callBack: (data) => {
         if (data.code == 200) {
           message.success('保存成功', 2, () => {
@@ -438,7 +437,7 @@ class RelationEdit extends React.Component {
               </div>
             </div>
             <div className={styles.defaultBtn}>
-              <BIButton type="primary" onClick={this.resetAnswer} loading={loadingReset}>恢复默认</BIButton>
+              <BIButton type="primary" onClick={loadingReset ? null : this.resetAnswer}>恢复默认</BIButton>
             </div>
             <div className={`${styles.formItem} ${styles.formItem2}`}>
               <label>图片：</label>
