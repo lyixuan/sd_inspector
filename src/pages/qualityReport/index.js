@@ -1,5 +1,4 @@
 import React from 'react';
-import { Spin } from 'antd';
 import { connect } from 'dva';
 
 @connect(({ qualityReport,loading }) => ({
@@ -22,7 +21,7 @@ class qualityReport extends React.Component {
     });
   }
   render() {
-    return <Spin spinning={this.props.loading}>{this.props.children}</Spin>;
+    return <div>{this.props.children}</div>;
   }
 }
 

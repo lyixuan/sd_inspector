@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { getOrgMapTreeByRole ,qualitySurveyData,getCurrentDateRange} from './services';
+import { getOrgMapTreeByRole ,qualitySurveyData,getCurrentDateRange,qualityAssortmentRank,qualityCountPersonRank} from './services';
 import { msgF } from '@/utils/utils';
 import { getTimeRange } from '@/pages/setting/createIncome/services';
 
@@ -9,6 +9,8 @@ export default {
   state: {
     orgTreeList: [],
     surveyData: {},
+    assortmentRankData: [],
+    personRankData: [],
     startDate:null,
     endDate:null,
     startDateBak:null,
@@ -34,6 +36,24 @@ export default {
       if (result.code === 20000) {
         const surveyData = result.data || {};
         yield put({ type: 'save', payload: { surveyData } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *qualityAssortmentRank({ payload }, { call, put }) {
+      const result = yield call(qualityAssortmentRank, payload);
+      if (result.code === 20000) {
+        const assortmentRankData = result.data || [];
+        yield put({ type: 'save', payload: { assortmentRankData } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *qualityCountPersonRank({ payload }, { call, put }) {
+      const result = yield call(qualityCountPersonRank, payload);
+      if (result.code === 20000) {
+        const personRankData = result.data || [];
+        yield put({ type: 'save', payload: { personRankData } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

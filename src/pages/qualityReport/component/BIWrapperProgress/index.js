@@ -9,7 +9,7 @@ class BIWrapperProgress extends React.Component {
     return(
       <div className={styles.BIWrapperProgress} {...props}>
         <div className={styles.pro} style={propsStyle}>
-            <span>{text}</span>
+            <span style={{right:'4px'}}>{text}</span>
             <SmallProgress isColor={isColor} percent={percent} style={{width: '100%'}}/>
         </div>
         {iconed ? <img src={checkIcon} alt='icon'/> : ''}
