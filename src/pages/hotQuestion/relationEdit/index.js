@@ -139,12 +139,14 @@ class RelationEdit extends React.Component {
       const content = answer.replace(reg, '')
       this.setState({
         answerContent: content,
+        compareContent: content,
         answerCode: answer.match(reg)[0],
         imageList: data.type === 'img' ? [{ uid: '-1', name: 'default', status: 'done', url: data.arr[0].url }] : []
       })
     } else {
       this.setState({
         answerContent: answer,
+        compareContent: answer,
         imageList: []
       })
     }
@@ -156,20 +158,22 @@ class RelationEdit extends React.Component {
     })
   }
   handleOk = () => {
-    const { answerContent, imageList, answerCode, currentEditIndex } = this.state;
+    const { answerContent, imageList, answerCode, currentEditIndex, compareContent } = this.state;
     let answer = ''
     if (!answerContent) {
       message.info('请输入答案');
       return;
     }
-    if (imageList.length > 0 && this.state.isUploadImg) {
-      const json = { type: 'img', arr: [{ 'url': imageList[0].url }] }
-      answer = `${answerContent}##${JSON.stringify(json)}##`
-    } else if (this.state.isUploadImg) {
-      answer = answerContent
-    } else {
-      answer = answerCode ? `${answerContent}${answerCode}` : answerContent
-    }
+
+    answer = answerContent !== compareContent ? answerContent : this.props.answer
+    // if (imageList.length > 0 && this.state.isUploadImg) {
+    //   const json = { type: 'img', arr: [{ 'url': imageList[0].url }] }
+    //   answer = `${answerContent}##${JSON.stringify(json)}##`
+    // } else if (this.state.isUploadImg) {
+    //   answer = answerContent
+    // } else {
+    //   answer = answerCode ? `${answerContent}${answerCode}` : answerContent
+    // }
     this.state.dataSource.list[currentEditIndex].answer = answer
     this.state.dataSource.list[currentEditIndex].hasEdit = true
     this.setState({
@@ -458,7 +462,7 @@ class RelationEdit extends React.Component {
             <div className={styles.defaultBtn}>
               <BIButton type="primary" onClick={loadingReset ? null : this.resetAnswer}>恢复默认</BIButton>
             </div>
-            <div className={`${styles.formItem} ${styles.formItem2}`}>
+            <div className={`${styles.formItem} ${styles.formItem2}`} style={{ display: 'none' }}>
               <label>图片：</label>
               <div className={styles.inputs}>
                 <Upload
