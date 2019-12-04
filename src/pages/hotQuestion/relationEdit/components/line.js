@@ -25,7 +25,7 @@ class Line extends React.Component {
       questionTypeId: (dataSource.questionTypeId) || undefined,
       question: dataSource.question || undefined,
       questionId: (dataSource.questionId) || undefined,
-      isEdit: dataSource.isEdit || true,
+      isEdit: dataSource.isEdit,
       answer: null,
       index: this.props.index,
       simpleName: dataSource.simpleName,
@@ -67,7 +67,8 @@ class Line extends React.Component {
       questionType: undefined,
       question: undefined,
       questionId: undefined,
-      answer: null
+      answer: null,
+      simpleName: undefined
     }, () => {
       const params = this.state
       this.props.updateData(params)
@@ -154,6 +155,7 @@ class Line extends React.Component {
     const { knowledgeId, knowledgeName, questionTypeId, questionId, question, isEdit, questionTypeName, simpleName } = this.state
     const questionList = this.props.globalQuestion[questionTypeId] || [];
     const questionTypeList = this.formatData(this.props.globalQTypes[knowledgeId])
+    console.log(158, isEdit)
     return (
       <div className={`${styles.lineItem} ${radioId === index ? styles.edits : null}`}>
         <span className={styles.eq0}>{index + 1}</span>
@@ -181,8 +183,7 @@ class Line extends React.Component {
               placeholder="选择分类"
               value={questionTypeId}
               treeData={questionTypeList}
-              onChange={this.questionTypeChange}
-              dropdownStyle={{ height: 300 }}>
+              onChange={this.questionTypeChange}>
             </TreeSelect> : <BIInput placeholder="选择分类" readOnly={true} value={questionTypeName}></BIInput>
           }
         </div>

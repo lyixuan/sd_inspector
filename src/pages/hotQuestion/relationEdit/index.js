@@ -38,7 +38,10 @@ class RelationEdit extends React.Component {
       questionId: null,
       currentEditIndex: -1,
       status: 0,
-      userType: storage.getUserInfo().userType
+      userType: storage.getUserInfo().userType,
+      isUploadImg: false,
+      moveUp: false,
+      moveDown: false
     }
   }
   componentDidMount = () => {
@@ -83,6 +86,7 @@ class RelationEdit extends React.Component {
       // return;
       this.answerData(currentItem.answer);
     } else {
+      this.state.isUploadImg = false;
       this.getAnswer({
         robotId: this.props.location.query.robotId,
         questionId: param.questionId
@@ -146,12 +150,9 @@ class RelationEdit extends React.Component {
     }
   }
   handleCancel = () => {
-    // this.getAnswer({
-    //   robotId: this.props.location.query.robotId,
-    //   questionId: this.state.questionId
-    // });
     this.setState({
-      visible: false
+      visible: false,
+      isUploadImg: false
     })
   }
   handleOk = () => {
@@ -161,9 +162,11 @@ class RelationEdit extends React.Component {
       message.info('请输入答案');
       return;
     }
-    if (imageList.length > 0) {
+    if (imageList.length > 0 && this.state.isUploadImg) {
       const json = { type: 'img', arr: [{ 'url': imageList[0].url }] }
       answer = `${answerContent}##${JSON.stringify(json)}##`
+    } else if (this.state.isUploadImg) {
+      answer = answerContent
     } else {
       answer = answerCode ? `${answerContent}${answerCode}` : answerContent
     }
@@ -208,6 +211,8 @@ class RelationEdit extends React.Component {
       this.setState({
         dataSource: this.state.dataSource,
         radioId: this.state.radioId - 1,
+        moveUp: true,
+        moveDown: false
       })
     }
   }
@@ -220,13 +225,16 @@ class RelationEdit extends React.Component {
       })
       this.setState({
         dataSource: this.state.dataSource,
-        radioId: this.state.radioId + 1
+        radioId: this.state.radioId + 1,
+        moveUp: false,
+        moveDown: true
       })
     }
   }
   submit = () => {
     const { dataSource } = this.state;
-    const list = dataSource.list.filter((item, i) => {
+    const data2 = { ...dataSource }
+    const list = data2.list.filter((item, i) => {
       return item.questionId
     })
     let arr = [];
@@ -251,16 +259,14 @@ class RelationEdit extends React.Component {
       message.info('问题简称不能为空')
       return false;
     }
-    dataSource.robotId = this.props.location.query.robotId
-    dataSource.list = list;
-    const params = this.state.dataSource;
-    if (dataSource.list.length < 4) {
+    data2.list = list;
+    if (data2.list.length < 4) {
       message.info('不能少于四条')
       return false;
     }
     this.props.dispatch({
       type: 'hotQuestion/similarTempSave',
-      payload: { params: params },
+      payload: { params: data2 },
       callBack: (data) => {
         if (data.code == 200) {
           message.success('保存成功', 2, () => {
@@ -272,8 +278,15 @@ class RelationEdit extends React.Component {
   }
   clickRadio = (index) => {
     this.setState({
-      radioId: index
+      radioId: index,
+      moveUp: false,
+      moveDown: false
     })
+    if (this.state.radioId == index) {
+      this.setState({
+        radioId: -1,
+      })
+    }
   }
   updateData = (params) => {
     const list = this.state.dataSource.list[params.index];
@@ -317,6 +330,7 @@ class RelationEdit extends React.Component {
     // return isJpgOrPng && isLt20M;
   };
   UploadChange = async ({ file, fileList }) => {
+    this.state.isUploadImg = true;
     if (file.status === 'done') {
       fileList.forEach(item => {
         if (item.response) {
@@ -345,10 +359,9 @@ class RelationEdit extends React.Component {
   };
 
   render() {
-    const { visible, radioId, question, answerContent, imageList, status, userType, cardName } = this.state;
+    const { visible, radioId, question, answerContent, imageList, status, userType, moveUp, moveDown } = this.state;
     const dataSource = this.props.relationData
     const { sunlandsFlag, robotName } = dataSource
-    // const isSunlands = true, robotName = '33'
     const auth = userType === 'boss' || userType === 'admin';
     const { loading, loadingSubmit, loadingReset } = this.props
     const { activityName } = this.props.location.query
@@ -380,8 +393,8 @@ class RelationEdit extends React.Component {
               <li className={styles.eq5}>{tHead[4]}</li>
               <li className={styles.eq3}>{tHead[3]}</li>
               <li className={styles.eq4}>
-                <div className={`${styles.icon} ${radioId === 0 ? styles.disabled : ''}`} onClick={radioId === 0 ? null : this.moveUp}><Icon type="up-circle" />上移</div>
-                <div className={`${styles.icon} ${radioId === 3 ? styles.disabled : ''}`} onClick={radioId === 3 ? null : this.moveDown}><Icon type="down-circle" />下移</div>
+                <div className={`${styles.icon} ${radioId !== -1 && moveUp ? styles.active : ''} ${radioId === 0 ? styles.disabled : ''}`} onClick={radioId === 0 ? null : this.moveUp}><Icon type="up-circle" />上移</div>
+                <div className={`${styles.icon} ${radioId !== -1 && moveDown ? styles.active : ''} ${radioId === 3 ? styles.disabled : ''}`} onClick={radioId === 3 ? null : this.moveDown}><Icon type="down-circle" />下移</div>
               </li>
             </ul>
             <div className={styles.tbody}>
@@ -438,7 +451,7 @@ class RelationEdit extends React.Component {
               </div>
             </div>
             <div className={styles.defaultBtn}>
-              <BIButton type="primary" onClick={this.resetAnswer} loading={loadingReset}>恢复默认</BIButton>
+              <BIButton type="primary" onClick={loadingReset ? null : this.resetAnswer}>恢复默认</BIButton>
             </div>
             <div className={`${styles.formItem} ${styles.formItem2}`}>
               <label>图片：</label>

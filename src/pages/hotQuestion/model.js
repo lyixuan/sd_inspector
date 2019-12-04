@@ -126,7 +126,6 @@ export default {
     },
     saveGetQuestionList(state, { payload }) {
       const { questionList = [], questionTypeId } = payload;
-
       state.globalQuestion[questionTypeId] = questionList;
       return { ...state };
     },
