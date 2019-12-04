@@ -27,6 +27,7 @@ class Line extends React.Component {
       questionTypeId: (dataSource.questionTypeId) || undefined,
       question: dataSource.question || undefined,
       questionId: (dataSource.questionId) || undefined,
+      oldQuestionId: dataSource.oldQuestionId || null,
       isEdit: dataSource.isEdit,
       answer: null,
       index: this.props.index,
@@ -68,6 +69,7 @@ class Line extends React.Component {
       questionTypeName: undefined,
       question: undefined,
       questionId: undefined,
+      oldQuestionId: null,
       answer: null
     }, () => {
       const params = this.state
@@ -92,6 +94,7 @@ class Line extends React.Component {
       questionTypeName: label[0],
       question: undefined,
       questionId: undefined,
+      oldQuestionId: null,
       answer: null
     }, () => {
       const params = this.state
@@ -125,6 +128,7 @@ class Line extends React.Component {
       questionId: key.questionId,
       question: key.question,
       answer: key.answer,
+      oldQuestionId: null,
       isEdit: key.isEdit
     }, () => {
       const params = this.state
@@ -137,8 +141,8 @@ class Line extends React.Component {
   }
   // 点击编辑 
   handleEdit = () => {
-    const { questionId, question, index } = this.state;
-    this.props.handleEdit({ questionId, question, index });
+    const { questionId, question, index, oldQuestionId } = this.state;
+    this.props.handleEdit({ questionId, question, index, oldQuestionId });
   }
   handleDelete = () => {
     this.props.handleDelete(this.props.dataSource, this.props.index);

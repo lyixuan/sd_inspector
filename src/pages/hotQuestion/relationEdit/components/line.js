@@ -23,6 +23,7 @@ class Line extends React.Component {
       knowledgeName: dataSource.knowledgeName || undefined,
       questionType: dataSource.questionType || undefined,
       questionTypeId: (dataSource.questionTypeId) || undefined,
+      oldQuestionId: dataSource.oldQuestionId || null,
       question: dataSource.question || undefined,
       questionId: (dataSource.questionId) || undefined,
       isEdit: dataSource.isEdit,
@@ -68,6 +69,7 @@ class Line extends React.Component {
       question: undefined,
       questionId: undefined,
       answer: null,
+      oldQuestionId: null,
       simpleName: undefined
     }, () => {
       const params = this.state
@@ -92,6 +94,7 @@ class Line extends React.Component {
       questionTypeName: label[0],
       question: undefined,
       questionId: undefined,
+      oldQuestionId: null,
       answer: null
     }, () => {
       const params = this.state
@@ -128,10 +131,12 @@ class Line extends React.Component {
         key = item
       }
     })
+    console.log(131, key)
     this.setState({
       questionId: key.questionId,
       question: key.question,
       answer: key.answer,
+      oldQuestionId: null,
       isEdit: key.isEdit
     }, () => {
       const params = this.state
@@ -144,8 +149,8 @@ class Line extends React.Component {
   }
   // 点击编辑 
   handleEdit = () => {
-    const { questionId, question, index } = this.state;
-    this.props.handleEdit({ questionId, question, index });
+    const { questionId, question, index, oldQuestionId } = this.state;
+    this.props.handleEdit({ questionId, question, index, oldQuestionId });
   }
   handleDelete = () => {
     this.props.handleDelete(this.props.dataSource, this.props.index);
@@ -155,7 +160,6 @@ class Line extends React.Component {
     const { knowledgeId, knowledgeName, questionTypeId, questionId, question, isEdit, questionTypeName, simpleName } = this.state
     const questionList = this.props.globalQuestion[questionTypeId] || [];
     const questionTypeList = this.formatData(this.props.globalQTypes[knowledgeId])
-    console.log(158, isEdit)
     return (
       <div className={`${styles.lineItem} ${radioId === index ? styles.edits : null}`}>
         <span className={styles.eq0}>{index + 1}</span>

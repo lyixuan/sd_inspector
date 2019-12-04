@@ -81,6 +81,7 @@ class RelationEdit extends React.Component {
     //   })
     //   return
     // }
+    console.log(84, param)
     const currentItem = this.state.dataSource.list[param.index]
     if (currentItem.hasEdit) {
       // return;
@@ -95,6 +96,7 @@ class RelationEdit extends React.Component {
 
     this.setState({
       visible: true,
+      oldQuestionId: param.oldQuestionId,
       questionId: param.questionId,
       question: param.question,
       currentEditIndex: param.index
@@ -105,9 +107,10 @@ class RelationEdit extends React.Component {
   // 恢复默认
   resetAnswer = () => {
     const { robotId } = this.props.location.query;
+    const { questionId, oldQuestionId } = this.state;
     this.getAnswer({
       robotId: robotId,
-      questionId: this.state.questionId
+      questionId: oldQuestionId || questionId
     });
   }
   // 输入答案

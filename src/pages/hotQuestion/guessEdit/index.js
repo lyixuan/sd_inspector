@@ -100,6 +100,7 @@ class GuessEdit extends React.Component {
       visible: true,
       questionId: param.questionId,
       question: param.question,
+      oldQuestionId: param.oldQuestionId,
       currentEditIndex: param.index
     })
 
@@ -108,9 +109,10 @@ class GuessEdit extends React.Component {
   // 恢复默认
   resetAnswer = () => {
     const { robotId } = this.props.location.query;
+    const { questionId, oldQuestionId } = this.state;
     this.getAnswer({
       robotId: robotId,
-      questionId: this.state.questionId
+      questionId: oldQuestionId || questionId
     });
   }
   // 输入答案
