@@ -99,10 +99,14 @@ class HotQuestion extends React.Component {
           className={`${style.each} ${isSunlands === 0 ? style.active : ''}`}>
           非尚德学员</div>
       </div>
-      <Button
-        type="primary"
-        className={style.button}
-        onClick={this.openCopyModal}>同步</Button>
+      {
+        isSunlands === 1
+          ? <Button
+              type="primary"
+              className={style.button}
+              onClick={this.openCopyModal}>同步</Button>
+          : null
+      }
     </div>;
 
     let chooseRobotArea = <div className={style['choose-robot']}>
@@ -129,13 +133,14 @@ class HotQuestion extends React.Component {
     </div>;
 
     // 默认底部关联问题部分
+    let title = userIdentity === User_Identity.ADMIN_AND_BOSS
+                ? '默认底部关联问题'
+                : '底部热门问题';
     let relationQuestionArea = <div className={style.relation}>
         <div className={style.title}>
           <div className={style.text}>
             {
-              userIdentity === User_Identity.ADMIN_AND_BOSS
-                ? '默认底部关联问题'
-                : '底部热门问题'
+              title
             }
           </div>
           <div className={style.edit} onClick={this.goToEditRelationQuestionPage}>
@@ -147,7 +152,8 @@ class HotQuestion extends React.Component {
             sourceData={relationQuestion}
             activity={goingActivity}
             operator={relationOperator}
-            updateTime={relationUpdateTime}/>
+            updateTime={relationUpdateTime}
+            text={title}/>
         </div>
       </div>;
 
