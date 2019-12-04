@@ -4,6 +4,7 @@ import TopTabs from "../../components/topTabs";
 import Container from '@/components/BIContainer';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
+import BICascader from '@/ant_components/BICascader';
 import CollegeScore from "./collegeScore";
 import { handleDataTrace } from '@/utils/utils';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
@@ -101,16 +102,34 @@ class ScoreContrast extends React.Component {
     })
   }
   rightPart = () =>{
-    const {collegeOptions={}, orgValue, userType} = this.state;
+    const {collegeOptions={}, orgValue, userType, groupId, queryParams} = this.state;
     const { allTimes } = this.props;
+    console.log(queryParams)
     return(
       <>
-        <span style={{ marginRight: 200 }}>
-          <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
+        <span style={{ marginRight: 200, display: 'flex' }}>
+          <BISelect style={{ width: 136, marginRight: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
             {Object.keys(collegeOptions).map((key)=> <Option key={key} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
               {collegeOptions[key]}
             </Option>)}
           </BISelect>
+          {queryParams.contrasts === 2 && <BISelect style={{ width: 136, marginRight: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
+            {Object.keys(collegeOptions).map((key)=> <Option key={key} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
+              {collegeOptions[key]}
+            </Option>)}
+          </BISelect>}
+          {queryParams.contrasts === 3 && <BICascader
+            placeholder="选择组织"
+            changeOnSelect
+            options={[]}
+            fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+            getPopupContainer={triggerNode => triggerNode.parentNode}
+            displayRender={this.renderCascader}
+            value={groupId}
+            onChange={this.onChangeSelect}
+            allowClear={false}
+            style={{ width: '136px' }}
+          />}
         </span>
         <span>
           <BIButton onClick={() => this.handleRouter('xdCredit/index', {...allTimes})} type="online" style={{marginRight: '8px'}}>学分趋势</BIButton>

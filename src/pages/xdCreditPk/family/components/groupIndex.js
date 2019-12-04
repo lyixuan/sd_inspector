@@ -117,7 +117,7 @@ class GroupIndex extends React.Component {
   };
   render() {
     const { pkGroupList, visible } = this.state;
-    const { startTime, endTime } = this.props.kpiTimes;
+    const [startTime, endTime] = this.props.dateRangeSelect;
     return (
       <div className={styles.container}>
         <span className={styles.right}>

@@ -106,7 +106,7 @@ export default {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
-        yield put({ type: 'saveScore', payload: { data: result.data, key: 'classScorePk', dataTrace: '家族长工作台/本期学分/' } });
+        yield put({ type: 'saveScore', payload: { times: {endTime: params.endTime, startTime: params.startTime}, data: result.data, key: 'classScorePk', dataTrace: '家族长工作台/本期学分/' } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -119,7 +119,7 @@ export default {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
-        yield put({ type: 'saveScore', payload: { data: result.data, key: 'familyScorePk', dataTrace: '家族长工作台/家族学分/' } });
+        yield put({ type: 'saveScore', payload: { times: {endTime:  payload.params.endTime, startTime:  payload.params.startTime}, data: result.data, key: 'familyScorePk', dataTrace: '家族长工作台/家族学分/' } });
       } else if (result && result.code !== 50000) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -143,7 +143,7 @@ export default {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
-        yield put({ type: 'saveScore', payload: { data: result.data, key: 'groupScorePk', dataTrace: '家族长工作台/小组学分/' } });
+        yield put({ type: 'saveScore', payload: { times: {endTime: params.endTime, startTime: params.startTime}, data: result.data, key: 'groupScorePk', dataTrace: '家族长工作台/小组学分/' } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -158,7 +158,7 @@ export default {
       const data = payload.data;
       data.dimensionList = fillDataSource(
         {
-          ...state.familyKpiTimes,
+          ...payload.times,
           dataTrace: payload.dataTrace
         },
         data.dimensionList
