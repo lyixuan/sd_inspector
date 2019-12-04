@@ -169,6 +169,8 @@ class GuessEdit extends React.Component {
     if (imageList.length > 0 && this.state.isUploadImg) {
       const json = { type: 'img', arr: [{ 'url': imageList[0].url }] }
       answer = `${answerContent}##${JSON.stringify(json)}##`
+    } else if (this.state.isUploadImg) {
+      answer = answerContent
     } else {
       answer = answerCode ? `${answerContent}${answerCode}` : answerContent
     }
@@ -361,6 +363,7 @@ class GuessEdit extends React.Component {
     // return isJpgOrPng && isLt20M;
   };
   UploadChange = async ({ file, fileList }) => {
+    this.state.isUploadImg = true;
     if (file.status === 'done') {
       fileList.forEach(item => {
         if (item.response) {
@@ -368,7 +371,6 @@ class GuessEdit extends React.Component {
           item.thumbUrl = file.response.data.imageThumQcloudUrl;
         }
       });
-      this.state.isUploadImg = true;
       this.setState({
         imageList: [...fileList]
       });
