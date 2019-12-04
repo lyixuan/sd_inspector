@@ -132,7 +132,7 @@ export default {
     },
     // 自考壁垒对应学院
     *getOrgList({ payload, callback }, { call, put }) {
-      const result = yield call(getOrgList);
+      const result = yield call(getOrgList, payload.params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { globalOrgList: result.data } });
       } else if (result) {

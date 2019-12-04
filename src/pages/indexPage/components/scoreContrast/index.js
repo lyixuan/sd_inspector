@@ -23,7 +23,6 @@ const userTypes = {
 }))
 class ScoreContrast extends React.Component {
   constructor(props) {
-    // console.log("date",props.date,moment(props.date.startDate).format('YYYY-MM-DD'),moment(props.date.endDate).format('YYYY-MM-DD'))
     super(props);
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
@@ -53,20 +52,32 @@ class ScoreContrast extends React.Component {
       },
       query: { }, // tabs值储存
       tabNum:1,
-      userType
+      userType,
+      familyTypeInit: '0'
     }
   }
   componentDidMount() {
-    this.queryAppealDataPage();
     this.props.dispatch({
       type:"xdWorkModal/getFamilyType",
-      payload:{params:{}},
       callback:(res) => {
-        this.setState({
-          collegeOptions:res
-        })
+        this.setState({ collegeOptions:res });
+        if (!res['0']) {
+          const { queryParams } = this.state;
+          queryParams.familyType = '1';
+          this.setState({
+            familyTypeInit: '1',
+            queryParams
+          }, () => this.queryAppealDataPage())
+        } else {
+          this.queryAppealDataPage()
+        }
       }
     })
+    // 自考壁垒对应的学院  三个工作台都要用
+    this.props.dispatch({
+      type: 'xdWorkModal/getOrgList',
+      payload:{params: this.props.allTimes },
+    });
   }
   // tab改变
   changeTab = (obj) => {
@@ -83,9 +94,9 @@ class ScoreContrast extends React.Component {
     if (!this.state.query[keye]) {
       this.state.query[keye] = {
         dimensionId: undefined,
-        familyType: '0',
-        collegeId: keye === 2 ? 1 : undefined,
-        groupId: keye === 3 ? [1]: undefined
+        familyType: this.state.familyTypeInit,
+        collegeId: undefined,
+        groupId: undefined
       };
     }
     this.queryAppealDataPage({contrasts: Number(obj.keye), ...this.state.query[obj.keye]});
@@ -96,7 +107,6 @@ class ScoreContrast extends React.Component {
       ...this.state.queryParams,
       ...obj,
     }
-    // console.log("params", params)
     this.setState({queryParams: params });
     this.props.dispatch({
       type:'xdWorkModal/queryAppealDataPage',
@@ -108,12 +118,20 @@ class ScoreContrast extends React.Component {
   }
   // 参数
   getQueryParams = params => {
-    if (params.contrasts === 3) {
-      return {
-        ...params,
-        collegeId: params.groupId[0],
-        groupId: params.groupId.length > 1 ? params.groupId[1] : undefined
-      }
+    if (params.contrasts === 3 && params.groupId) {
+      const l = params.groupId.length;
+      if (l === 0) {
+        return {
+          ...params,
+          groupId: undefined
+        }
+      } else if (l > 1) {
+        return {
+          ...params,
+          collegeId: params.groupId[0],
+          groupId: params.groupId.length > 1 ? params.groupId[1] : undefined
+        }
+      }  
     } else {
       return params
     }
@@ -130,7 +148,7 @@ class ScoreContrast extends React.Component {
               {collegeOptions[key]}
             </Option>)}
           </BISelect>
-          {queryParams.contrasts === 2 && <BISelect style={{ width: 136, marginRight: 12 }} placeholder="请选择" value={queryParams.collegeId} onChange={(val) => this.onFormChange(val, 'collegeId')}>
+          {queryParams.contrasts === 2 && <BISelect style={{ width: 136, marginRight: 12 }} placeholder="请选择" value={queryParams.collegeId} onChange={(val) => this.onFormChange(val, 'collegeId')} allowClear>
             {orgList.map(item => <Option key={item.id} value={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
               {item.name}
             </Option>)}
@@ -144,7 +162,7 @@ class ScoreContrast extends React.Component {
             displayRender={this.renderCascader}
             value={queryParams.groupId}
             onChange={(val) => this.onFormChange(val, 'groupId')}
-            allowClear={false}
+            allowClear
             style={{ width: '136px' }}
           />}
         </span>
@@ -165,11 +183,15 @@ class ScoreContrast extends React.Component {
   }
   // select
   onFormChange = (val, type) =>{
-    this.state.queryParams[type] = val;
+    const { queryParams } = this.state;
+    queryParams[type] = val;
+    if (type === 'familyType') {
+      queryParams.groupId = undefined;
+      queryParams.collegeId = undefined;
+    }
     this.setState({
-      queryParams: this.state.queryParams
-    })
-    this.queryAppealDataPage()
+      queryParams: this.state.queryParams,
+    }, () => this.queryAppealDataPage())
   }
   handleRouter = (path, params) => {
     handleDataTrace({"widgetName":"学分趋势","traceName":"班主任工作台/学分趋势"});

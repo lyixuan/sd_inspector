@@ -203,7 +203,7 @@ class CollegeScore extends React.Component {
   }
   orgTypes = (tabNum)=>{
     let orgType = ""
-   if(tabNum === 1||tabNum === 4){
+   if(tabNum === 1|| tabNum === 4){
      orgType = "college"
     }else if(tabNum === 2){
       orgType = "family"
@@ -214,9 +214,9 @@ class CollegeScore extends React.Component {
 
   }
   clickEvent = (arr, item, userInfo)=>{
-    const { queryParams = {}, tabNum = 1, queryAppealDatas = {}, familyType = 0 } = this.props.queryAppealDatas.state;
+    const { queryParams = {}, tabNum = 1, queryAppealDatas = {} } = this.props.queryAppealDatas.state;
     let paramsArr = queryAppealDatas.creaditDataList || arr;
-    if (!paramsArr[item.dataIndex].selfOrg) {
+    if (!paramsArr[item.dataIndex].selfOrLower) {
       return;
     }
     let orgId = "";
@@ -225,21 +225,20 @@ class CollegeScore extends React.Component {
     } else if (tabNum === 4) {
       orgId = userInfo.collegeId;
     }
-    if( orgId === userInfo.collegeId && userInfo.userType === "college" || userInfo.userType === "boss" || tabNum !== 1 ){
-      const { startTime, endTime  } = this.props.queryAppealDatas.props.allTimes;
-      const { dimensionId } = queryParams
+    // if( orgId === userInfo.collegeId && userInfo.userType === "college" || userInfo.userType === "boss" || tabNum !== 1 ){
+      const { allTimes = {}  } = this.props.queryAppealDatas.props.allTimes;
+      const { dimensionId, familyType } = queryParams
       let params={
-        startTime: tabNum === 4 ? item.name : startTime,
-        endTime: tabNum === 4? item.name : endTime,
-        dementionId: dimensionId ? dimensionId : 1,
+        ...allTimes,
+        dementionId: dimensionId ? dimensionId : 37,
         orgType: this.orgTypes(tabNum),
         familyType,
         reasonTypeId: 0,
-        orgId: orgId,
+        orgId,
       }
       // window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
       jumpGobalRouter('xdCredit/index', params);
-    }
+    // }
   }
   getEchartRender = creaditDataList => {
     return <>
