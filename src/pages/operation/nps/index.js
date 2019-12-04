@@ -60,28 +60,35 @@ class NPSEvaluate extends React.Component {
     };
   }
   componentDidMount() {
-    this.getUserOrgList();
-    if (this.state.userInfo.userType == 'boss') {
-      this.state.groupId = [0];
-    } else {
-      if (this.state.userInfo.collegeId) {
-        this.state.groupId.push(this.state.userInfo.collegeId);
-      } else if (this.state.userInfo.familyId) {
-        this.state.groupId.push(this.state.userInfo.familyId);
-      } else if (this.state.userInfo.groupId) {
-        this.state.groupId.push(this.state.userInfo.groupId);
-      }
-    }
-    this.setState(
-      {
-        groupId: localStorage.getItem('NPSGroupId')
-          ? JSON.parse(localStorage.getItem('NPSGroupId'))
-          : this.state.groupId,
+    debugger
+    this.props.dispatch({
+      type: 'xdOperation/getUserInfo',
+      callback: userInfo => {
+        this.getUserOrgList();
+        if (userInfo.userType == 'boss') {
+          this.state.groupId = [0];
+        } else {
+          if (userInfo.collegeId) {
+            this.state.groupId.push(this.state.userInfo.collegeId);
+          } else if (userInfo.familyId) {
+            this.state.groupId.push(this.state.userInfo.familyId);
+          } else if (userInfo.groupId) {
+            this.state.groupId.push(this.state.userInfo.groupId);
+          }
+        }
+        this.setState(
+          {
+            groupId: localStorage.getItem('NPSGroupId')
+              ? JSON.parse(localStorage.getItem('NPSGroupId'))
+              : this.state.groupId,
+            userInfo,
+          },
+          () => {
+            this.getNpsAutonomousEvaluation(0, false);
+          }
+        );
       },
-      () => {
-        this.getNpsAutonomousEvaluation(0, false);
-      }
-    );
+    });
   }
   localStoryDates = () => {
     let startDate = moment(JSON.parse(localStorage.getItem('NPSDates'))[0]);
