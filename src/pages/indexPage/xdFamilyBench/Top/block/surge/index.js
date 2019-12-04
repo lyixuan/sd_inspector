@@ -7,6 +7,9 @@ import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
+import up from '@/assets/up.png';
+import down from '@/assets/down.png';
+import flat from '@/assets/flat.png';
 import moment from 'moment';
 import { thousandsFormatBigger } from '@/utils/utils';
 import { Tooltip } from 'antd';
@@ -19,88 +22,22 @@ class Top extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      originlist: [
-        {
-          id: 1,
-          collegeName: '自变量',
-          badPostNum: '0.12',
-          notInTime: 400,
-          Unanswered: 500,
-        },
-        {
-          id: 2,
-          collegeName: 'π学院',
-          badPostNum: '0.12',
-          notInTime: 400,
-          Unanswered: 500,
-        },
-        {
-          id: 3,
-          collegeName: '芒格',
-          badPostNum: '0.12',
-          notInTime: 400,
-          Unanswered: 500,
-        },
-        {
-          id: 4,
-          collegeName: '狐逻泰罗',
-          badPostNum: '0.12',
-          notInTime: 400,
-          Unanswered: 500,
-        },
-        {
-          id: 5,
-          collegeName: '芝士',
-          badPostNum: '0.12',
-          notInTime: 400,
-          Unanswered: 500,
-        },
-      ],
-      typeList: null,
-      orgValue: localStorage.getItem('orgValue') || '0',
       dataSource: [],
     };
   }
 
   componentDidMount() {
-    let newcollegeId = localStorage.getItem('orgValue') || this.props.userInfo.collegeId || '0';
-    let { orgValue } = this.state;
-    this.getData(newcollegeId);
-    this.props
-      .dispatch({
-        type: 'xdFamilyModal/getHotList',
-      })
-      .then(res => {
-        res.map((item, index) => {
-          if (item.collegeId === newcollegeId) {
-            orgValue = String(newcollegeId);
-          }
-        });
-        this.setState({ typeList: res, orgValue });
-      });
+    this.getData();
   }
 
-  getData(collegeId) {
-    const { date } = this.props;
-    let { orgValue } = this.state;
-    if (collegeId === 'undefined') {
-      orgValue = 0;
-    } else {
-      orgValue = String(collegeId);
-    }
+  getData() {
     this.props
       .dispatch({
         type: 'xdFamilyModal/getRisePackageRankList',
-        payload: {
-          params: {
-            beginDate: moment(date.startDate).format('YYYY-MM-DD'),
-            endDate: moment(date.endDate).format('YYYY-MM-DD'),
-            collegeId: collegeId !== 'undefined' ? collegeId : '0',
-          },
-        },
       })
       .then(res => {
-        this.setState({ dataSource: res, orgValue });
+        console.log(res, 'res');
+        this.setState({ dataSource: res });
       });
   }
 
@@ -126,12 +63,48 @@ class Top extends React.Component {
               {record.id > 3 ? (
                 <div className={styles.rankSpan}>
                   <span className={styles.num}>{record.id}</span>
-                  <span>111</span>
+                  {record.riseIndex > 0 && (
+                    <span>
+                      <img src={up} />
+                    </span>
+                  )}
+                  {record.riseIndex < 0 && (
+                    <span>
+                      <img src={down} />
+                    </span>
+                  )}
+                  {
+                    (record.riseIndex = 0 && (
+                      <span>
+                        <img src={flat} />
+                        111
+                      </span>
+                    ))
+                  }
+                  <div>{JSON.stringify(record)}</div>
                 </div>
               ) : (
                 <div>
                   <img className={styles.rank} src={rank} />
-                  <span>22</span>
+                  <div>{JSON.stringify(record)}</div>
+                  {record.riseIndex > 0 && (
+                    <span>
+                      <img src={up} />
+                    </span>
+                  )}
+                  {record.riseIndex < 0 && (
+                    <span>
+                      <img src={down} />
+                    </span>
+                  )}
+                  {
+                    (record.riseIndex = 0 && (
+                      <span>
+                        <img src={flat} />
+                        111
+                      </span>
+                    ))
+                  }
                 </div>
               )}
             </div>
@@ -144,6 +117,7 @@ class Top extends React.Component {
         key: 'packageName',
         // width: '40%',
         render: (packageName, record) => {
+          console.log(record, 'record');
           return (
             <Tooltip title={packageName}>
               <div style={{ textAlign: 'left' }}>{packageName}</div>
@@ -183,44 +157,13 @@ class Top extends React.Component {
     return columns || [];
   };
 
-  onFormChange = val => {
-    this.getData(val);
-    this.setState({
-      orgValue: val,
-    });
-    localStorage.setItem('orgValue', val);
-  };
-
   render() {
-    const { typeList, orgValue, dataSource } = this.state;
+    const { dataSource } = this.state;
     return (
       <div className={styles.topCon}>
         <div className={styles.title}>
           <span>热销产品包榜单</span>
-          <div>
-            <BISelect
-              style={{ width: 136, marginLeft: 12 }}
-              placeholder="请选择"
-              value={orgValue}
-              onChange={val => this.onFormChange(val)}
-            >
-              <Option
-                key={'0'}
-                data-trace='{"widgetName":"产品包学院筛选","traceName":"管理层工作台/产品包学院筛选"}'
-              >
-                全部
-              </Option>
-              {typeList &&
-                typeList.map((item, index) => (
-                  <Option
-                    key={item.collegeId}
-                    data-trace='{"widgetName":"产品包学院筛选","traceName":"管理层工作台/产品包学院筛选"}'
-                  >
-                    {item.collegeName}
-                  </Option>
-                ))}
-            </BISelect>
-          </div>
+          <div style={{ fontSize: '13px' }}>一周内</div>
         </div>
         <div className={styles.tableContainer}>
           <BIWrapperTable
@@ -232,7 +175,6 @@ class Top extends React.Component {
             onRow={this.onClickRow}
             rowKey={record => record.id}
             scroll={{ y: 288 }}
-            name="hotData"
           />
         </div>
       </div>

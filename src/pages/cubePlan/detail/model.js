@@ -29,7 +29,6 @@ export default {
       const result = yield call(getCommentPage, params);
       if (result.code === 20000) {
         const commentData = result.data||{};
-        debugger
         let commentLists = [];
         if(page!==1){
           commentLists = oldLists.concat(commentData.list);
