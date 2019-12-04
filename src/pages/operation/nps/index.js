@@ -60,7 +60,6 @@ class NPSEvaluate extends React.Component {
     };
   }
   componentDidMount() {
-    debugger
     this.props.dispatch({
       type: 'xdOperation/getUserInfo',
       callback: userInfo => {
