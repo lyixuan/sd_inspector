@@ -277,7 +277,6 @@ function MediaType(props) {
   if (props.type.media.type == "evaluation" || props.type.media.type == "province" || props.type.media.type == "projectShowList" || props.type.media.type == "artificial" || props.type.media.type == "customer" || props.type.media.type == "shangdeStudent" || props.type.media.type == "projectButtonCard") {
     return null;
   }
-  console.log(280, props)
   return (
     <li className={styles.step}>
       <div className={styles.time}>
@@ -300,7 +299,6 @@ function MediaType(props) {
   )
 }
 function MediaLi(props) {
-  console.log(303, props)
   if (props.prop.content == '</p>') {
     return null
   }
@@ -402,7 +400,6 @@ function IMType(props) {
 }
 // 判断是老师还是学员
 function TeacherOrStudent(props) {
-  // console.log(343, props)
   if (props.item.userType == 1) {
     return (
       <li className={styles.step}>
