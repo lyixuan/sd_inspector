@@ -41,12 +41,25 @@
     padding: 0 24px 30px;
   }
 
+  .cell {
+    display: inline-block;
+    width: 100%;
+    padding: 10px 4px;
+  }
+
 }
 
 :global {
   .qualitySurveyTable {
     .ant-table-thead > tr:last-child >th {
       background: #fff;
+    }
+
+    .ant-table-tbody tr td {
+      padding: 10px 8px!important;
+    }
+    .ant-table-tbody tr td:nth-child(n+3) {
+      padding: 0!important;
     }
   }
 }
