@@ -322,8 +322,8 @@ function MediaLi(props) {
             </div>
 
             <div className={styles.avatar}>
-              <img src={robort} />
-              <p>{props.item.userName}</p>
+              <img src={robort2} />
+              <p>IM机器人</p>
             </div>
           </div>
           <div className={styles.chatRight}>
@@ -400,7 +400,6 @@ function IMType(props) {
 }
 // 判断是老师还是学员
 function TeacherOrStudent(props) {
-  // console.log(343, props)
   if (props.item.userType == 1) {
     return (
       <li className={styles.step}>
