@@ -308,7 +308,8 @@ class HotQuestion extends React.Component {
   changeRobot = (value) => {
     const {isSunlands} = this.state;
     this.setState({
-      currentRobot: value
+      currentRobot: value,
+      isSunlands: 1
     });
     if (value === Robot_List.SHANG_XIAO_DE) {
       this._getRelationQuestion(value, isSunlands);
