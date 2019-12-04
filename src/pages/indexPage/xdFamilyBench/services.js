@@ -128,7 +128,7 @@ export async function compareCollegeList(data) {
     method: 'POST',
     data: data,
   });
-}
+} 
 
 // 获取当前绩效周期
 export async function getCurrentDateRange(params) {

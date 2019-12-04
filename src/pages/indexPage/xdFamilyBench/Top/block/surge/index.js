@@ -36,7 +36,6 @@ class Top extends React.Component {
         type: 'xdFamilyModal/getRisePackageRankList',
       })
       .then(res => {
-        console.log(res, 'res');
         this.setState({ dataSource: res });
       });
   }
@@ -157,7 +156,7 @@ class Top extends React.Component {
     return (
       <div className={styles.topCon}>
         <div className={styles.title}>
-          <span>热销产品包榜单</span>
+          <span>飙升产品包榜单</span>
           <div style={{ fontSize: '13px' }}>一周内</div>
         </div>
         <div className={styles.tableContainer}>

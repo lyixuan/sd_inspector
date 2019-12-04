@@ -88,14 +88,22 @@ class NPSLeft extends React.Component {
     return columns || [];
   };
   render() {
-    // const { dataSource} = this.state;
-    const { NPSleftParams } = this.props;
-    const dataSource =
-      NPSleftParams &&
-      NPSleftParams.npsStarOpinionDtoListMap &&
-      NPSleftParams.npsStarOpinionDtoListMap.data.length > 0
-        ? NPSleftParams.npsStarOpinionDtoListMap.data
-        : [];
+    const {NPSleftParams} = this.props
+    let dataSource = NPSleftParams && NPSleftParams.npsStarOpinionDtoListMap && NPSleftParams.npsStarOpinionDtoListMap.data.length>0 ? NPSleftParams.npsStarOpinionDtoListMap.data:[];
+    if(dataSource.length >=6){
+      dataSource = dataSource.splice(0,7);
+    }
+    let { reasonTypeDtoList = [] } = NPSleftParams;
+    if (reasonTypeDtoList.length >= 5) {
+      reasonTypeDtoList = reasonTypeDtoList.splice(0, 5);
+    }
+    // const { NPSleftParams } = this.props;
+    // const dataSource =
+    //   NPSleftParams &&
+    //   NPSleftParams.npsStarOpinionDtoListMap &&
+    //   NPSleftParams.npsStarOpinionDtoListMap.data.length > 0
+    //     ? NPSleftParams.npsStarOpinionDtoListMap.data
+    //     : [];
     return (
       <Container
         title="创收学院对比"

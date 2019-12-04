@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import router from 'umi/router';
 import styles from './style.less';
 import Container from '@/components/BIContainer/index';
 import BISelect from '@/ant_components/BISelect';
@@ -214,16 +215,24 @@ class NPSEvaluate extends React.Component {
   disabledDate = current => {
     return current > moment(this.state.disableEndDate) || current < moment('2019-07-08');
   };
+
+  goto = () => {
+    router.push({
+      pathname: '/nps',
+    });
+  };
+
   rightPart = () => {
     // const {collegeOptions,orgValue} = this.state
     const { groupId = [0], userOrgConfig, dateArr, star, cycle } = this.state;
     const { orgList } = this.props.xdFamilyModal;
     orgList.length > 0 && this.getResetGroupMsg(orgList);
     return (
-      <div className={styles.con}>
-        <span className={styles.change}>
+      <div className={styles.more} onClick={this.goto}>
+        查看更多<span>></span>
+        {/* <span className={styles.change}>
           选择组织：
-          <BICascader
+                <BICascader
             placeholder="选择组织"
             changeOnSelect
             options={userOrgConfig}
@@ -238,35 +247,21 @@ class NPSEvaluate extends React.Component {
         </span>
         <span className={styles.change}>
           选择星级：
-          <BISelect
-            placeholder="选择星级"
-            value={star}
-            onChange={this.onChangeStar}
-            allowClear={false}
-            style={{ width: '136px' }}
-          >
-            {BiFilter('WB_STAR').map(item => (
-              <Option key={item.id}>{item.name}</Option>
-            ))}
-          </BISelect>
-        </span>
-        <span className={styles.change}>
-          选择周期：
-          <BISelect
-            placeholder="选择周期"
-            value={cycle}
-            onChange={this.onChangeCycle}
-            allowClear={false}
-            style={{ width: '136px' }}
-          >
-            {BiFilter('WB_LIFE_CYCLE').map(item => (
-              <Option key={item.id}>{item.name}</Option>
-            ))}
-          </BISelect>
+                <BISelect
+                  placeholder="选择星级"
+                  value={star}
+                  onChange={this.onChangeStar}
+                  allowClear={false}
+                  style={{ width: '136px' }}
+                >
+                  {BiFilter('WB_STAR').map(item => (
+                    <Option key={item.id}>{item.name}</Option>
+                  ))}
+                </BISelect>
         </span>
         <span className={styles.change}>
           选择时间：
-          <BIRangePicker
+              <BIRangePicker
             value={dateArr}
             placeholder={['选择起始时间', '选择截止时间']}
             format={dateFormat}
@@ -275,7 +270,7 @@ class NPSEvaluate extends React.Component {
             disabledDate={this.disabledDate}
             style={{ width: '224px' }}
           />
-        </span>
+        </span> */}
       </div>
     );
   };
