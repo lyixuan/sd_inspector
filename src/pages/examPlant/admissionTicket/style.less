@@ -1,0 +1,46 @@
+.examContainer{
+  position:relative;
+  min-height:500px;
+  background:#fff;
+  .empty{
+    height:500px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    img{
+      width:300px;
+    }
+  }
+  .examDate{
+    position:absolute;
+    right:24px;
+    top:-40px;
+  }
+  .tableList{
+    border:1px solid #EFF3F6;
+    border-radius:6px;
+    .thead{
+      display:flex;
+      width:100%;
+      margin:0;
+      padding:0;
+      li{
+        width:10%;
+        height:32px;
+        line-height:32px;
+        text-align:center;
+        color:#1A1C1F;
+        font-size:13px;
+        font-weight:bold;
+        box-sizing:border-box;
+        border-right:1px solid #EFF3F6;
+        border-bottom:1px solid #EFF3F6;
+        &:last-child{
+          border-right:none;
+        }
+      }
+    }
+  }
+  
+}
