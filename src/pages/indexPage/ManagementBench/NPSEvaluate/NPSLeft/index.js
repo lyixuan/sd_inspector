@@ -34,10 +34,12 @@ class NPSLeft extends React.Component {
   columnsRight = () =>{
     const columns = [
       {
+        ellipsis: true,
         title: '后端归属',
         dataIndex: 'backend',
         key: 'backend',
-        width:'20%'
+        width:'20%',
+        render: text => <Tooltip trigger="hover" title={text}>{text}</Tooltip>
       }, {
         title: '学员姓名',
         dataIndex: 'stuName',
