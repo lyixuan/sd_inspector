@@ -81,12 +81,10 @@ class Top extends React.Component {
                       </span>
                     ))
                   }
-                  <div>{JSON.stringify(record)}</div>
                 </div>
               ) : (
                 <div>
                   <img className={styles.rank} src={rank} />
-                  <div>{JSON.stringify(record)}</div>
                   {record.riseIndex > 0 && (
                     <span>
                       <img src={up} />
@@ -117,7 +115,6 @@ class Top extends React.Component {
         key: 'packageName',
         // width: '40%',
         render: (packageName, record) => {
-          console.log(record, 'record');
           return (
             <Tooltip title={packageName}>
               <div style={{ textAlign: 'left' }}>{packageName}</div>
@@ -172,8 +169,8 @@ class Top extends React.Component {
             dataSource={dataSource}
             pagination={false}
             loading={this.props.loading}
-            onRow={this.onClickRow}
-            rowKey={record => record.id}
+            // onRow={this.onClickRow}
+            // rowKey={record => record.id}
             scroll={{ y: 288 }}
           />
         </div>
