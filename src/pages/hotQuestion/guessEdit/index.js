@@ -498,7 +498,7 @@ class GuessEdit extends React.Component {
               </div>
             </div>
             <div className={styles.defaultBtn}>
-              <BIButton type="primary" onClick={loadingReset ? null : this.resetAnswer}>恢复上一次</BIButton>
+              <BIButton type="primary" onClick={loadingReset ? null : this.resetAnswer}>恢复默认</BIButton>
             </div>
             <div className={`${styles.formItem} ${styles.formItem2}`} style={{ display: 'none' }}>
               <label>图片：</label>
