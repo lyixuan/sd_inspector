@@ -12,7 +12,7 @@ export async function getCurrentDateRange(params) {
 
 // 获取热销榜单列表
 export async function getHotList() {
-  return request('/orgMap/getAllCollegeList',{method:'get'})
+  return request('/orgMap/findCollegeShortNameList', { method: 'get' });
 }
 
 // 热销产品包列表

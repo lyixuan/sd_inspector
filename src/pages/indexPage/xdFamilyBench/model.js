@@ -572,16 +572,6 @@ export default {
       }
     },
     // end
-    // 热销产品包列表
-    *getPackageRankList({ payload, callback }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(packageRankList, params);
-      if (result.code === 20000) {
-        return result.data;
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
   },
 
   reducers: {

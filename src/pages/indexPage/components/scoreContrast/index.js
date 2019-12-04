@@ -103,8 +103,7 @@ class ScoreContrast extends React.Component {
   }
   rightPart = () =>{
     const {collegeOptions={}, orgValue, userType, groupId, queryParams} = this.state;
-    const { allTimes } = this.props;
-    console.log(queryParams)
+    const { allTimes } = this.props;    
     return(
       <>
         <span style={{ marginRight: 200, display: 'flex' }}>
