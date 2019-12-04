@@ -385,7 +385,7 @@ class RelationEdit extends React.Component {
               }
 
               {
-                activityName && <p>当前已配置运营活动：【{activityName}】 该活动固定展示在底部第一位（优先于默认底部关联问题）</p>
+                activityName && <p>当前已配置运营活动：【{activityName}】 该活动固定展示在底部第一位（优先于底部热门问题） </p>
               }
             </div>
           </div>
