@@ -117,6 +117,7 @@ class appeal extends React.Component {
     const { date } = this.props;
     const columns = [
       {
+        width: '20%',
         title: '家族小组',
         dataIndex: 'groupName',
         key: 'groupName',

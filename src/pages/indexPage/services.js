@@ -38,3 +38,9 @@ export async function getFamilyType(params) {
   return request('/orgMap/getFamilyType',{method:'get',params})
 }
 
+
+// 学分对比组织架构列表接口
+export async function getOrgList(params) {
+  return request('/credit/getOrgList',{method:'get',params})
+}
+

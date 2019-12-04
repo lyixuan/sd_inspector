@@ -114,7 +114,7 @@ class FamilyIndex extends React.Component {
   };
   render() {
     const { pkfamily, visible, } = this.state;
-    const { startTime, endTime } = this.props.kpiTimes;
+    const [startTime, endTime] = this.props.dateRangeSelect;
     return (
       <div className={styles.container}>
         <span className={styles.right}>
