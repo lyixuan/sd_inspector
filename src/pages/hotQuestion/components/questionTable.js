@@ -1,6 +1,7 @@
 import React from 'react';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import styles from './styles.less';
+import { Tooltip } from 'antd';
 
 class QuestionTable extends React.Component{
   constructor(props) {
@@ -11,12 +12,18 @@ class QuestionTable extends React.Component{
         title: '序号',
         dataIndex: 'sort',
         key: 'sort',
-        width: 120
+        width: 71
       },
       {
         title: '标准问题',
         dataIndex: 'question',
-        key: 'question'
+        key: 'question',
+        ellipsis: true,
+        render: (text) => {
+          return <Tooltip title={text} placement='topLeft'>
+            <span title="">{text}</span>
+          </Tooltip>
+        }
       }
     ]
   }
