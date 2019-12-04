@@ -174,6 +174,8 @@ class RelationEdit extends React.Component {
     this.state.dataSource.list[currentEditIndex].hasEdit = true
     this.setState({
       visible: false
+    }, () => {
+      message.info('答案已暂存，需在列表页进行发布后生效');
     })
 
   }
@@ -371,19 +373,22 @@ class RelationEdit extends React.Component {
           <a onClick={this.handleBread}>首页/</a>配置编辑
         </div>
         <div className={styles.guessEdit}>
-          <div className={styles.title}>默认底部关联问题</div>
+          <div className={styles.title}>{auth ? '默认底部关联问题' : `底部热门问题`}</div>
+          {/* <div className={styles.title}></div> */}
+          <div className={styles.editTop}>
+            <div className={styles.labels} style={{ paddingTop: '10px' }}>
+              {
+                auth && <>
+                  <span>{sunlandsFlag ? '尚德学员' : '非尚德学员'}</span>
+                  {robotName && <span>{robotName}</span>}
+                </>
+              }
 
-          {
-            auth && <div className={styles.editTop}>
-              <div className={styles.labels} style={{ paddingTop: '10px' }}>
-                <span>{sunlandsFlag ? '尚德学员' : '非尚德学员'}</span>
-                {robotName && <span>{robotName}</span>}
-                {
-                  activityName && <p>当前已配置运营活动：【{activityName}】 该活动固定展示在底部第一位（优先于默认底部关联问题）</p>
-                }
-              </div>
+              {
+                activityName && <p>当前已配置运营活动：【{activityName}】 该活动固定展示在底部第一位（优先于默认底部关联问题）</p>
+              }
             </div>
-          }
+          </div>
 
           <div className={styles.editTable}>
             <ul className={styles.thead}>
@@ -421,7 +426,7 @@ class RelationEdit extends React.Component {
             {/* <BIButton><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton> */}
             <BIButton style={{ marginRight: '8px' }} type="reset" onClick={this.handleBread}>取消
             </BIButton>
-            <BIButton type="primary" onClick={this.submit} loading={loadingSubmit}>保存</BIButton>
+            <BIButton type="primary" onClick={this.submit} loading={loadingSubmit}>保存并发布</BIButton>
           </div>
         </div>
         {/* modal */}
