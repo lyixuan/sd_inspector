@@ -277,6 +277,7 @@ function MediaType(props) {
   if (props.type.media.type == "evaluation" || props.type.media.type == "province" || props.type.media.type == "projectShowList" || props.type.media.type == "artificial" || props.type.media.type == "customer" || props.type.media.type == "shangdeStudent" || props.type.media.type == "projectButtonCard") {
     return null;
   }
+  console.log(280, props)
   return (
     <li className={styles.step}>
       <div className={styles.time}>
@@ -299,6 +300,7 @@ function MediaType(props) {
   )
 }
 function MediaLi(props) {
+  console.log(303, props)
   if (props.prop.content == '</p>') {
     return null
   }
@@ -322,8 +324,8 @@ function MediaLi(props) {
             </div>
 
             <div className={styles.avatar}>
-              <img src={robort} />
-              <p>{props.item.userName}</p>
+              <img src={robort2} />
+              <p>IM机器人</p>
             </div>
           </div>
           <div className={styles.chatRight}>
