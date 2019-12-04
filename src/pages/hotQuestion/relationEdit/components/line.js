@@ -189,7 +189,7 @@ class Line extends React.Component {
         </div>
         <div className={styles.eq5}>
           {
-            auth ? <BIInput value={simpleName} placeholder="问题简称" onChange={this.shortQuesChange} maxLength={6}></BIInput> : <BIInput placeholder="问题简称" readOnly={true} value={'23'}></BIInput>
+            auth ? <BIInput value={simpleName} placeholder="问题简称" onChange={this.shortQuesChange} maxLength={6}></BIInput> : <BIInput placeholder="问题简称" readOnly={true} value={simpleName}></BIInput>
           }
         </div>
         <div className={styles.eq3}>

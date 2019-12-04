@@ -178,6 +178,8 @@ class GuessEdit extends React.Component {
     this.state.dataSource.list[currentEditIndex].hasEdit = true
     this.setState({
       visible: false
+    }, () => {
+      message.info('答案已暂存，需在列表页进行发布后生效');
     })
 
   }
@@ -459,7 +461,7 @@ class GuessEdit extends React.Component {
           <div className={styles.btns}>
             <BIButton style={{ marginRight: '8px' }} type="reset" onClick={this.handleBread}>取消
             </BIButton>
-            <BIButton type="primary" onClick={this.submit} loading={loadingSubmit}>保存</BIButton>
+            <BIButton type="primary" onClick={this.submit} loading={loadingSubmit}>保存并发布</BIButton>
           </div>
         </div>
         {/* modal */}
