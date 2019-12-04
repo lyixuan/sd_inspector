@@ -455,8 +455,7 @@ class GuessEdit extends React.Component {
             </div>
           </div>
           <div className={styles.btns}>
-            <BIButton style={{ marginRight: '8px' }} type="reset">
-              <Link to={'/hotQuestion/index'}>取消</Link>
+            <BIButton style={{ marginRight: '8px' }} type="reset" onClick={this.handleBread}>取消
             </BIButton>
             <BIButton type="primary" onClick={this.submit} loading={loadingSubmit}>保存</BIButton>
           </div>
