@@ -310,9 +310,15 @@ class HotQuestion extends React.Component {
     this.setState({
       currentRobot: value
     });
-    this._getRelationQuestion(value, isSunlands);
-    this._getGuessQuestion(value, isSunlands);
-    this._getGoingActivity(value);
+    if (value === Robot_List.SHANG_XIAO_DE) {
+      this._getRelationQuestion(value, isSunlands);
+      this._getGuessQuestion(value, isSunlands);
+      this._getGoingActivity(value);
+    } else {
+      this._getRelationQuestion(value, 1);
+      this._getGuessQuestion(value, 1);
+      this._getGoingActivity(value);
+    }
   };
 
   // 改变学员类型
