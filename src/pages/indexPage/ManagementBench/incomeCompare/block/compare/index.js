@@ -159,7 +159,7 @@ class Compare extends React.Component {
     return (
       <Container
         title="创收学院对比"
-        style={{ width: 'calc(67% - 16px)', height: '400px', overflow: 'hidden' }}
+        style={{ width: 'calc(67% - 16px)', height: '372px', overflow: 'hidden' }}
       >
         <BIWrapperTable
           className={styles.table}
