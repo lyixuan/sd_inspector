@@ -12,51 +12,10 @@ import Negative from './appeal';
 import Income from './income';
 import styles from './style.less';
 
-@connect(xdFamilyModal => ({
-  xdFamilyModal,
+@connect(({ xdFamilyModal }) => ({
+  familyKpiTimes: xdFamilyModal.familyKpiTimes || {}
 }))
 class XdFamily extends React.Component {
-  constructor(props) {
-    super(props);
-    const userId = storage.getItem('admin_user').userId;
-    this.state = {
-      tabs: [
-        {
-          title: '学分分析',
-          children: (
-            <>
-              <CurrentCredit />
-              <Histogram allTimes={{ startTime: '2019-08-01', endTime: '2019-09-01' }} />
-              {/* <CreditRank /> */}
-            </>
-          ),
-          dataTrace: '{"widgetName":"学分分析","traceName":"家族长工作台/学分分析"}',
-        },
-        {
-          title: '创收分析',
-          children: (
-            <>
-              <Income />
-              <Top />
-              <IncomeRank />
-            </>
-          ),
-          dataTrace: '{"widgetName":"创收分析","traceName":"家族长工作台/创收分析"}',
-        },
-        {
-          title: '负面分析',
-          children: (
-            <div className={styles.qualityAppel}>
-              <>
-                <Negative userId={userId}></Negative>
-              </>
-            </div>
-          ),
-          dataTrace: '{"widgetName":"负面分析","traceName":"家族长工作台/负面分析"}',
-        },
-      ],
-    };
-  }
   componentDidMount() {
     // 小组-绩效列表
     // this.props.dispatch({
@@ -67,13 +26,49 @@ class XdFamily extends React.Component {
       type: 'xdWorkModal/getIncomeCollegeList',
     });
   }
-
+  getTabs = () => {
+    const userId = storage.getItem('admin_user').userId;
+    return [
+      {
+        title: '学分分析',
+        children: (
+          <>
+            <CurrentCredit />
+            {this.props.familyKpiTimes.endTime && <Histogram allTimes={this.props.familyKpiTimes} />}
+            {/* <CreditRank /> */}
+          </>
+        ),
+        dataTrace: '{"widgetName":"学分分析","traceName":"家族长工作台/学分分析"}',
+      },
+      {
+        title: '创收分析',
+        children: (
+          <>
+            <Income />
+            <Top />
+            <IncomeRank />
+          </>
+        ),
+        dataTrace: '{"widgetName":"创收分析","traceName":"家族长工作台/创收分析"}',
+      },
+      {
+        title: '负面分析',
+        children: (
+          <div className={styles.qualityAppel}>
+            <>
+              <Negative userId={userId}></Negative>
+            </>
+          </div>
+        ),
+        dataTrace: '{"widgetName":"负面分析","traceName":"家族长工作台/负面分析"}',
+      },
+    ]
+  }
   render() {
-    const { tabs } = this.state;
     return (
       <div className={styles.familyBench}>
         <PerformanceDetail />
-        <PageTab tabs={tabs} />
+        <PageTab tabs={this.getTabs()} />
       </div>
     );
   }

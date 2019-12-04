@@ -8,6 +8,8 @@ import BICascader from '@/ant_components/BICascader';
 import CollegeScore from "./collegeScore";
 import { handleDataTrace } from '@/utils/utils';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
+import pkBtnImg from '@/assets/pkbtn.png';
+import qushiImg from '@/assets/qushibtn.png';
 
 const { Option } = BISelect;
 const userTypes = {
@@ -15,8 +17,8 @@ const userTypes = {
   'group': true,
   'family': true,
 }
-@connect((xdWorkModal) => ({
-  // times: xdWorkModal.getCurrentDateRangeData,
+@connect(({ xdWorkModal }) => ({
+  globalOrgList: xdWorkModal.globalOrgList || {},
   userInfo: xdWorkModal.userInfo || {},
 }))
 class ScoreContrast extends React.Component {
@@ -40,21 +42,16 @@ class ScoreContrast extends React.Component {
         children: <CollegeScore queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       }],
       collegeOptions:[],
-      orgValue:"自考",
       queryAppealDatas:{},
       queryParams: {
-        contrasts:1,
-        familyType:0,
-        dimensionId:null,
-        collegeId: props.userInfo.collegeId,
-        // startTime:moment(props.date.startDate).format('YYYY-MM-DD'),//"2019-09-25",
-        // endTime:moment(props.date.endDate).format('YYYY-MM-DD')//"2019-09-30",
-        startTime: '2019-09-25',
-        endTime: '2019-09-30',
+        contrasts: 1,
+        familyType: '0',
+        dimensionId: undefined,
+        collegeId: undefined,
+        groupId: undefined,
         ...this.props.allTimes
       },
-      query: { },
-      familyType:0,
+      query: { }, // tabs值储存
       tabNum:1,
       userType
     }
@@ -76,12 +73,20 @@ class ScoreContrast extends React.Component {
     const { queryParams } = this.state;
     this.state.query[queryParams.contrasts] = {
       contrasts: queryParams.contrasts,
-      familyType: this.state.familyType,
+      familyType: queryParams.familyType,
       dimensionId: queryParams.dimensionId,
+      collegeId: queryParams.collegeId,
+      groupId: queryParams.groupId,
     }
-    this.state.tabNum = Number(obj.keye)
-    if (!this.state.query[obj.keye]) {
-      this.state.query[obj.keye] = {dimensionId:null};
+    const keye = Number(obj.keye);
+    this.state.tabNum = keye;
+    if (!this.state.query[keye]) {
+      this.state.query[keye] = {
+        dimensionId: undefined,
+        familyType: '0',
+        collegeId: keye === 2 ? 1 : undefined,
+        groupId: keye === 3 ? [1]: undefined
+      };
     }
     this.queryAppealDataPage({contrasts: Number(obj.keye), ...this.state.query[obj.keye]});
   }
@@ -91,59 +96,79 @@ class ScoreContrast extends React.Component {
       ...this.state.queryParams,
       ...obj,
     }
-    console.log("params",params)
+    // console.log("params", params)
     this.setState({queryParams: params });
     this.props.dispatch({
       type:'xdWorkModal/queryAppealDataPage',
-      payload:{params:params},
+      payload:{params: this.getQueryParams(params)},
       callback:(res) => this.setState({
         queryAppealDatas:res
       })
     })
   }
-  rightPart = () =>{
-    const {collegeOptions={}, orgValue, userType, groupId, queryParams} = this.state;
+  // 参数
+  getQueryParams = params => {
+    if (params.contrasts === 3) {
+      return {
+        ...params,
+        collegeId: params.groupId[0],
+        groupId: params.groupId.length > 1 ? params.groupId[1] : undefined
+      }
+    } else {
+      return params
+    }
+  }
+  rightPart = () => {
+    const {collegeOptions={}, userType, queryParams} = this.state;
     const { allTimes } = this.props;
-    console.log(queryParams)
+    const orgList = this.props.globalOrgList[queryParams.familyType] || []
     return(
       <>
         <span style={{ marginRight: 200, display: 'flex' }}>
-          <BISelect style={{ width: 136, marginRight: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
-            {Object.keys(collegeOptions).map((key)=> <Option key={key} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
+          <BISelect style={{ width: 136, marginRight: 12 }} placeholder="请选择" value={queryParams.familyType} onChange={(val) => this.onFormChange(val, 'familyType')}>
+            {Object.keys(collegeOptions).map(key => <Option key={key} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
               {collegeOptions[key]}
             </Option>)}
           </BISelect>
-          {queryParams.contrasts === 2 && <BISelect style={{ width: 136, marginRight: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
-            {Object.keys(collegeOptions).map((key)=> <Option key={key} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
-              {collegeOptions[key]}
+          {queryParams.contrasts === 2 && <BISelect style={{ width: 136, marginRight: 12 }} placeholder="请选择" value={queryParams.collegeId} onChange={(val) => this.onFormChange(val, 'collegeId')}>
+            {orgList.map(item => <Option key={item.id} value={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
+              {item.name}
             </Option>)}
           </BISelect>}
           {queryParams.contrasts === 3 && <BICascader
             placeholder="选择组织"
-            changeOnSelect
-            options={[]}
+            // changeOnSelect
+            options={orgList}
             fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
             getPopupContainer={triggerNode => triggerNode.parentNode}
             displayRender={this.renderCascader}
-            value={groupId}
-            onChange={this.onChangeSelect}
+            value={queryParams.groupId}
+            onChange={(val) => this.onFormChange(val, 'groupId')}
             allowClear={false}
             style={{ width: '136px' }}
           />}
         </span>
         <span>
-          <BIButton onClick={() => this.handleRouter('xdCredit/index', {...allTimes})} type="online" style={{marginRight: '8px'}}>学分趋势</BIButton>
-          { userTypes[userType] && <BIButton onClick={() => this.handleRouter('xdCreditPk/list', allTimes)} type="online" style={{marginRight: '8px'}}>学分PK</BIButton> } 
+          <BIButton onClick={() => this.handleRouter('xdCredit/index', {...allTimes})} type="online" style={{marginRight: '8px'}}>
+            <img src={qushiImg} alt='' style={{ width: 15, marginRight: 6 }}/>
+            学分趋势
+          </BIButton>
+          { 
+            userTypes[userType] && <BIButton onClick={() => this.handleRouter('xdCreditPk/list', allTimes)} type="online" style={{marginRight: '8px'}}>
+              <img src={pkBtnImg} alt='' style={{ width: 16, marginRight: 12 }}/>
+              学分PK
+            </BIButton>
+          } 
         </span>
       </>
     )
   }
-  onFormChange = (val) =>{
+  // select
+  onFormChange = (val, type) =>{
+    this.state.queryParams[type] = val;
     this.setState({
-      orgValue:val,
-      familyType:val,
+      queryParams: this.state.queryParams
     })
-    this.state.queryParams.familyType = val
     this.queryAppealDataPage()
   }
   handleRouter = (path, params) => {

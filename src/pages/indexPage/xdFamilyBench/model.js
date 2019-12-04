@@ -574,17 +574,17 @@ export default {
       }
       return { ...state, [payload.key]: { maxValue, pkList } };
     },
-    saveScore(state, { payload }) {
-      const data = payload.data;
-      data.dimensionList = fillDataSource(
-        {
-          ...state.familyKpiTimes,
-          dataTrace: `家族长工作台/${payload.key === 'familyScorePk' ? '家族' : '小组'}学分/`,
-        },
-        data.dimensionList
-      );
-      return { ...state, [payload.key]: data };
-    },
+    // saveScore(state, { payload }) {
+    //   const data = payload.data;
+    //   data.dimensionList = fillDataSource(
+    //     {
+    //       ...state.familyKpiTimes,
+    //       dataTrace: `家族长工作台/${payload.key === 'familyScorePk' ? '家族' : '小组'}学分/`,
+    //     },
+    //     data.dimensionList
+    //   );
+    //   return { ...state, [payload.key]: data };
+    // },
   },
   subscriptions: {},
 };

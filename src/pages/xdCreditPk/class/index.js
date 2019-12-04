@@ -9,6 +9,7 @@ import BIDrawer from '@/components/BIDrawer';
 import CurrentCreditRight from './currentCreditRight';
 import CurrentCreditLeft from './currentCreditLeft';
 import { handleDataTrace } from '@/utils/utils';
+import qushiImg from '@/assets/qushibtn.png';
 // import closeImg from '@/assets/xdFamily/closeeye.png';
 // import showImg from '@/assets/xdFamily/eye.png';
 
@@ -109,7 +110,10 @@ class currentCredit extends React.Component {
         style={{ position: 'relative' }}
         right={
           <>
-            <BIButton onClick={() => handleDataTrace({"widgetName":"学分趋势","traceName":"班主任工作台/学分趋势"})} type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime }) }`} target='_black'>学分趋势</Link></BIButton>
+            <BIButton onClick={() => handleDataTrace({"widgetName":"学分趋势","traceName":"班主任工作台/学分趋势"})} type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime }) }`} target='_black'>
+              <img src={qushiImg} alt='' style={{ width: 15, marginRight: 6, marginTop: '-2px'}}/>
+              学分趋势
+            </Link></BIButton>
             <BIButton onClick={() => handleDataTrace({"widgetName":"消息差评快捷入口","traceName":"班主任工作台/消息差评入口"})} type="online" style={{marginRight: '8px'}}><Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime, "dementionId": 16 }) }`} target='_black'>IM差评快捷入口</Link></BIButton>
             {/* <BIButton onClick={this.toggleData} type="online"><img style={{width: '16px', marginRight: '8px'}} src={ hasData ? showImg : closeImg} alt='icon'/>{hasData ? '隐藏' : '显示'}基础信息</BIButton> */}
           </>

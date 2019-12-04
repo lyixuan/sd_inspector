@@ -140,7 +140,7 @@ class ManagementBench extends React.Component {
         {date.startDate && <Header date={date} />}
         {date.startDate && userInfo && <IncomeCompare date={date} userInfo={userInfo} />}
         {/* {date.startDate && userInfo && <ScoreContrast date={date} userInfo={userInfo} />} */}
-        {date.startDate && userInfo && <Histogram allTimes={globalDateRange} userInfo={userInfo} />}
+        {globalDateRange.endTime && userInfo && <Histogram allTimes={globalDateRange} userInfo={userInfo} />}
         <div className={styles.qualityAppel} ref="four">
           {userInfo && (
             <IMPartLeft
