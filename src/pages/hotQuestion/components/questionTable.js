@@ -27,7 +27,8 @@ class QuestionTable extends React.Component{
       activity,
       operator,
       updateTime,
-      hasBackground} = this.props;
+      hasBackground,
+      text} = this.props;
     const {columns} = this;
 
     return <div className={styles['question-table']}>
@@ -43,7 +44,9 @@ class QuestionTable extends React.Component{
         <div className={styles.activity}>
           {
             activity
-              ? `当前已配置运营活动：【${activity}】该活动展示在底部第一位（优先于默认底部关联问题）`
+              ? <div>
+                  当前已配置运营活动：【{activity}】&nbsp;&nbsp;该活动展示在底部第一位（优先于{text}）
+                </div>
               : null
           }
         </div>
