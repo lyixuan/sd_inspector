@@ -424,6 +424,7 @@ class GuessEdit extends React.Component {
                   style={{ width: '238px' }}
                   maxLength={6}
                   placeholder="请输入"
+                  readOnly
                   onChange={this.cardNameChange}
                 />
               </div>
