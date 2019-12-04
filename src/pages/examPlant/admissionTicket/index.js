@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import BISelect from '@/ant_components/BISelect'
 import BILoading from '@/components/BILoading';
-import examEmpty from '@/assets/examEmpty.png';
+import TabSwitch from './components/tabSwitch';
 import styles from './style.less';
 
 const { Option } = BISelect;
@@ -28,7 +28,7 @@ class AdmissionTicket extends React.Component {
   render() {
     return (
       <div>
-        dfdf
+        <TabSwitch></TabSwitch>
       </div>
     );
   }
