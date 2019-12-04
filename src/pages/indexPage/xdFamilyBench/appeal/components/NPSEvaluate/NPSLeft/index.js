@@ -97,13 +97,6 @@ class NPSLeft extends React.Component {
     if (reasonTypeDtoList.length >= 5) {
       reasonTypeDtoList = reasonTypeDtoList.splice(0, 5);
     }
-    // const { NPSleftParams } = this.props;
-    // const dataSource =
-    //   NPSleftParams &&
-    //   NPSleftParams.npsStarOpinionDtoListMap &&
-    //   NPSleftParams.npsStarOpinionDtoListMap.data.length > 0
-    //     ? NPSleftParams.npsStarOpinionDtoListMap.data
-    //     : [];
     return (
       <Container
         title="创收学院对比"

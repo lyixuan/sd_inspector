@@ -51,9 +51,7 @@ class NPSEvaluate extends React.Component {
       groupId: [] || localStorage.getItem('NPSGroupId'),
       groupTypeArr: [],
       NPSParams: {},
-      dateArr: localStorage.getItem('NPSDates')
-        ? this.localStoryDates()
-        : [this.handleDefaultPickerValueMark(), this.handleDefaultPickerValueMarkDays()],
+      dateArr: [this.handleDefaultPickerValueMark(), this.handleDefaultPickerValueMarkDays()],
       userInfo: props.userInfo,
       disableEndDate: this.handleDefaultPickerValueMarkDays(),
       star: localStorage.getItem('NPSStar') ? localStorage.getItem('NPSStar') : '0',
@@ -111,20 +109,20 @@ class NPSEvaluate extends React.Component {
   getNpsAutonomousEvaluation = (userInfo, ids) => {
     let params = {
       ...this.initRecordTimeListData(this.state.dateArr),
-      collegeId:
-        (userInfo && userInfo.collegeId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[0]) ||
-        null,
-      familyId:
-        (userInfo && userInfo.familyId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[1]) ||
-        null,
-      groupId:
-        (userInfo && userInfo.groupId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[2]) ||
-        null,
-      star: this.state.star === '0' ? null : Number(this.state.star),
-      cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
+      // collegeId:
+      //   (userInfo && userInfo.collegeId) ||
+      //   (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+      //   null,
+      // familyId:
+      //   (userInfo && userInfo.familyId) ||
+      //   (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+      //   null,
+      // groupId:
+      //   (userInfo && userInfo.groupId) ||
+      //   (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+      //   null,
+      // star: this.state.star === '0' ? null : Number(this.state.star),
+      // cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
       pageNum: null,
       pageSize: null,
     };
