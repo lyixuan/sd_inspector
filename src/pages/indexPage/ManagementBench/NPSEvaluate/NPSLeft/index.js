@@ -34,10 +34,12 @@ class NPSLeft extends React.Component {
   columnsRight = () =>{
     const columns = [
       {
+        ellipsis: true,
         title: '后端归属',
         dataIndex: 'backend',
         key: 'backend',
-        width:'20%'
+        width:'20%',
+        render: text => <Tooltip trigger="hover" title={text}>{text}</Tooltip>
       }, {
         title: '学员姓名',
         dataIndex: 'stuName',
@@ -82,8 +84,8 @@ class NPSLeft extends React.Component {
     // const { dataSource} = this.state;
     const {NPSleftParams} = this.props
     let dataSource = NPSleftParams && NPSleftParams.npsStarOpinionDtoListMap && NPSleftParams.npsStarOpinionDtoListMap.data.length>0 ? NPSleftParams.npsStarOpinionDtoListMap.data:[];
-    if(dataSource.length >=6){
-      dataSource = dataSource.splice(0,7);
+    if(dataSource.length >=7){
+      dataSource = dataSource.splice(0,8);
     }
     let { reasonTypeDtoList = [] } = NPSleftParams;
     if (reasonTypeDtoList.length >= 5) {
