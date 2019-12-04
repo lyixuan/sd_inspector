@@ -33,13 +33,20 @@ class currentCreditRight extends React.Component {
     };
   }
   componentDidMount() {
-    this.getGroupList();
+    if (this.getShowKey('pkValue') === 'groupId') {
+      this.getGroupList();
+    }
     // 表格添加滚动事件
     const ele = document.querySelector("#scroll1 .ant-table-body");
     if (ele) {
       ele.onscroll = (e) => {
         this.getScrollFn(e.target.scrollTop)
       }
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(nextProps.dateRangeSelect) !== JSON.stringify(this.props.dateRangeSelect)) {
+      this.getGroupList();
     }
   }
   componentWillUnmount() {
@@ -104,7 +111,7 @@ class currentCreditRight extends React.Component {
   }
 
   columnsRight = () => {
-    const total = this.state.groupList && this.state.groupList[0] ? this.state.groupList[0].credit : 0;
+    const total =  Math.max.apply(Math, this.state.groupList.map(item => item.credit));
     const orgName = this.getShowKey('columnOrgName');
     const columns = [
       {

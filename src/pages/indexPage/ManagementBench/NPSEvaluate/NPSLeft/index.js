@@ -85,6 +85,11 @@ class NPSLeft extends React.Component {
     if(dataSource.length >=6){
       dataSource = dataSource.splice(0,7);
     }
+    let { reasonTypeDtoList = [] } = NPSleftParams;
+    if (reasonTypeDtoList.length >= 5) {
+      reasonTypeDtoList = reasonTypeDtoList.splice(0, 5);
+    }
+
     return (
       <Container
         title="创收学院对比"
@@ -94,7 +99,7 @@ class NPSLeft extends React.Component {
       >
       {/*<div className={styles.NPALeftMain} >*/}
       <div style={{width:'100%',height:'30px'}}>
-        {NPSleftParams && NPSleftParams.reasonTypeDtoList && NPSleftParams.reasonTypeDtoList.map((item,index)=><ColorBlock data={{...item}} key={index} className={`colorStyle${index}`}/>)}
+        {reasonTypeDtoList && reasonTypeDtoList.map((item,index)=><ColorBlock data={{...item}} key={index} className={`colorStyle${index}`}/>)}
       </div>
         {
           this.props.loading?<BILoading isLoading={this.props.loading} height='336px' />

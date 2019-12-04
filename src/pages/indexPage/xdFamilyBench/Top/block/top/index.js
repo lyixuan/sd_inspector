@@ -12,8 +12,8 @@ import { thousandsFormatBigger } from '@/utils/utils';
 import { Tooltip } from 'antd';
 const { Option } = BISelect;
 
-@connect(xdManagementBench => ({
-  xdManagementBench,
+@connect(xdFamilyModal => ({
+  xdFamilyModal,
 }))
 class Top extends React.Component {
   constructor(props) {
@@ -68,7 +68,7 @@ class Top extends React.Component {
     this.getData(newcollegeId);
     this.props
       .dispatch({
-        type: 'xdManagementBench/getHotList',
+        type: 'xdFamilyModal/getHotList',
       })
       .then(res => {
         res.map((item, index) => {
@@ -90,7 +90,7 @@ class Top extends React.Component {
     }
     this.props
       .dispatch({
-        type: 'xdManagementBench/getPackageRankList',
+        type: 'xdFamilyModal/getPackageRankList',
         payload: {
           params: {
             beginDate: moment(date.startDate).format('YYYY-MM-DD'),
@@ -149,16 +149,16 @@ class Top extends React.Component {
         title: '创收单量',
         dataIndex: 'incomeOrder',
         key: 'incomeOrder',
-        width: '70px',
+        width: '100px',
         render: (incomeOrder, record) => {
-          return <div style={{ textAlign: 'right', width: '60px' }}>{incomeOrder}</div>;
+          return <div style={{ textAlign: 'right', width: '70px' }}>{incomeOrder}</div>;
         },
       },
       {
         title: '创收流水',
         dataIndex: 'incomeFlowKpi',
         key: 'incomeFlowKpi',
-        width: '90px',
+        width: '100px',
         render: (incomeFlowKpi, record) => {
           const percent = record.incomeFlowKpiRatio * 100 + '%';
           const money = thousandsFormatBigger(incomeFlowKpi);
@@ -167,7 +167,7 @@ class Top extends React.Component {
               <BIWrapperProgress
                 text={money}
                 percent={percent}
-                propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'right' }}
+                propsStyle={{ flex: 'inherit', width: '70px', textAlign: 'right' }}
               />
             </div>
           );

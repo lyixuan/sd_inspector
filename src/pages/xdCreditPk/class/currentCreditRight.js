@@ -44,7 +44,6 @@ class currentCreditRight extends React.Component {
     };
   }
   componentDidMount() {
-    this.getGroupList()
     // 表格添加滚动事件
     const eleScroll = document.querySelector("#scroll1 .ant-table-body");
     this.setState({ eleScroll });
@@ -57,6 +56,11 @@ class currentCreditRight extends React.Component {
   componentWillUnmount() {
     const { eleScroll } = this.state;
     if (eleScroll) { eleScroll.onscroll = ''; } 
+  }
+  componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(nextProps.dateRangeSelect) !== JSON.stringify(this.props.dateRangeSelect)) {
+      this.getGroupList(nextProps.dateRangeSelect)
+    }
   }
   // 获取存储参数
   getSearchParams = () => {
@@ -72,11 +76,11 @@ class currentCreditRight extends React.Component {
     return data;
   }
   //获取对比小组的列表页
-  getGroupList = () => {
+  getGroupList = ([startTime, endTime] = this.props.dateRangeSelect) => {
     const paramsItem = this.state.orgValue === 1 ? 'groupType' : 'kpiLevelId';
     this.props.dispatch({
       type: 'xdCreditPkModal/groupList',
-      payload: { params: { [paramsItem]:  this.state.studentValue} },
+      payload: { params: { [paramsItem]:  this.state.studentValue, startTime, endTime} },
       callback: (groupList) => {
         this.setState({ groupList });
         const { eleScroll } = this.state;

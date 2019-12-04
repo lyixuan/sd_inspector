@@ -50,9 +50,10 @@ class FamilyIndex extends React.Component {
   }
   // 对比小组列表
   getGroupList =({ collegeId }, callback)  => {
+    const [startTime, endTime] = this.props.dateRangeSelect;
     this.props.dispatch({
       type: 'xdCreditPkModal/getFamilyRankList',
-      payload: { params: { collegeId } },
+      payload: { params: { collegeId, startTime, endTime } },
       callback: res => callback(res),
     })
   }
@@ -113,7 +114,7 @@ class FamilyIndex extends React.Component {
   };
   render() {
     const { pkfamily, visible, } = this.state;
-    const { startTime, endTime } = this.props.kpiTimes;
+    const [startTime, endTime] = this.props.dateRangeSelect;
     return (
       <div className={styles.container}>
         <span className={styles.right}>
@@ -142,7 +143,8 @@ class FamilyIndex extends React.Component {
         closeValue='收起PK对象'
         openValue='展开PK对象'
         >
-          <PkDrawer  
+          <PkDrawer
+          dateRangeSelect={this.props.dateRangeSelect}
           getGroupList={this.getGroupList}
           handleAction={this.handleAction}
           clickRow={this.clickRow}

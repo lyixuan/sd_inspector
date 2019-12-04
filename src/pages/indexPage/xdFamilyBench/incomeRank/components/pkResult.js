@@ -26,7 +26,7 @@ class ProfitTbas extends React.Component {
     const { profitData={} } = this.props;
     const { maxValue= {} } = profitData;
     const columns = [ {
-        width: 300,
+        width: 200,
         fixed: 'left',
         title: 'PK 对象',
         dataIndex: 'orgId',

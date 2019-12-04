@@ -4,11 +4,17 @@ import TopTabs from "../../components/topTabs";
 import Container from '@/components/BIContainer';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
+import BICascader from '@/ant_components/BICascader';
 import CollegeScore from "./collegeScore";
 import { handleDataTrace } from '@/utils/utils';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 
 const { Option } = BISelect;
+const userTypes = {
+  'class': true,
+  'group': true,
+  'family': true,
+}
 @connect((xdWorkModal) => ({
   // times: xdWorkModal.getCurrentDateRangeData,
   userInfo: xdWorkModal.userInfo || {},
@@ -16,7 +22,9 @@ const { Option } = BISelect;
 class ScoreContrast extends React.Component {
   constructor(props) {
     // console.log("date",props.date,moment(props.date.startDate).format('YYYY-MM-DD'),moment(props.date.endDate).format('YYYY-MM-DD'))
-    super(props)
+    super(props);
+    const admin_user = localStorage.getItem('admin_user');
+    const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
     this.state = {
       tabParams: [{
         name: <span data-trace='{"widgetName":"学院学分对比","traceName":"管理层工作台/学院学分对比"}'>学院学分对比</span>,
@@ -38,7 +46,7 @@ class ScoreContrast extends React.Component {
         contrasts:1,
         familyType:0,
         dimensionId:null,
-        collegeId:props.userInfo.collegeId,
+        collegeId: props.userInfo.collegeId,
         // startTime:moment(props.date.startDate).format('YYYY-MM-DD'),//"2019-09-25",
         // endTime:moment(props.date.endDate).format('YYYY-MM-DD')//"2019-09-30",
         startTime: '2019-09-25',
@@ -48,6 +56,7 @@ class ScoreContrast extends React.Component {
       query: { },
       familyType:0,
       tabNum:1,
+      userType
     }
   }
   componentDidMount() {
@@ -93,20 +102,38 @@ class ScoreContrast extends React.Component {
     })
   }
   rightPart = () =>{
-    const {collegeOptions={}, orgValue} = this.state;
+    const {collegeOptions={}, orgValue, userType, groupId, queryParams} = this.state;
     const { allTimes } = this.props;
+    console.log(queryParams)
     return(
       <>
-        <span style={{ marginRight: 200 }}>
-          <BISelect style={{ width: 136, marginLeft: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
+        <span style={{ marginRight: 200, display: 'flex' }}>
+          <BISelect style={{ width: 136, marginRight: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
             {Object.keys(collegeOptions).map((key)=> <Option key={key} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
               {collegeOptions[key]}
             </Option>)}
           </BISelect>
+          {queryParams.contrasts === 2 && <BISelect style={{ width: 136, marginRight: 12 }} placeholder="请选择" value={orgValue} onChange={(val) => this.onFormChange(val)}>
+            {Object.keys(collegeOptions).map((key)=> <Option key={key} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
+              {collegeOptions[key]}
+            </Option>)}
+          </BISelect>}
+          {queryParams.contrasts === 3 && <BICascader
+            placeholder="选择组织"
+            changeOnSelect
+            options={[]}
+            fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+            getPopupContainer={triggerNode => triggerNode.parentNode}
+            displayRender={this.renderCascader}
+            value={groupId}
+            onChange={this.onChangeSelect}
+            allowClear={false}
+            style={{ width: '136px' }}
+          />}
         </span>
         <span>
-          <BIButton onClick={() => this.handleRouter('xdCredit/index', {...allTimes, "dementionId": 16})} type="online" style={{marginRight: '8px'}}>学分趋势</BIButton>
-          <BIButton onClick={() => this.handleRouter('xdCreditPk/list', allTimes)} type="online" style={{marginRight: '8px'}}>学分PK</BIButton>
+          <BIButton onClick={() => this.handleRouter('xdCredit/index', {...allTimes})} type="online" style={{marginRight: '8px'}}>学分趋势</BIButton>
+          { userTypes[userType] && <BIButton onClick={() => this.handleRouter('xdCreditPk/list', allTimes)} type="online" style={{marginRight: '8px'}}>学分PK</BIButton> } 
         </span>
       </>
     )
@@ -130,7 +157,17 @@ class ScoreContrast extends React.Component {
         propStyle={{ padding: '0px', position: 'relative' }}
         head="none"
       >            
-        <TopTabs right={this.rightPart()} tabParams={this.state.tabParams} onTabChange={this.changeTab}/>
+        <TopTabs 
+        right={this.rightPart()}
+        rightStyles={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: 'calc(100% - 400px)',
+          marginLeft: 400,
+          left: 0
+        }} 
+        tabParams={this.state.tabParams} onTabChange={this.changeTab}
+        />
       </Container>
     );
   }

@@ -22,7 +22,7 @@ export default {
     globalCollegeList: [],
     globalQVisible: false, // 问卷调查是否显示
   },
-  effects: {
+  effects: { 
     *getUserInfo({ callback }, { call, put }) {
       const result = yield call(getUserInfo);
       if (result.code === 20000 && result.data) {
@@ -34,18 +34,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    // 组织列表
-    *getOrgMapList({ payload }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(getOrgMapList, params);
-      const orgList = result.data || [];
-      if (result.code === 20000) {
-        yield put({ type: 'saveMap', payload: { orgList } });
-      } else {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    // 本期学分数据
+        // 本期学分数据
     // *getKpiLevelList(_, { call, put }) {
     //   const result = yield call(kpiLevelList)
     //   if (result.code === 20000) {
@@ -67,6 +56,17 @@ export default {
     //     message.error(msgF(result.msg, result.msgDetail));
     //   }
     // },
+    // 组织列表
+    *getOrgMapList({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getOrgMapList, params);
+      const orgList = result.data || [];
+      if (result.code === 20000) {
+        yield put({ type: 'saveMap', payload: { orgList } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     // 家族-学院列表
     *getIncomeCollegeList(_, { call, put }) {
       const result = yield call(getIncomeCollegeList);

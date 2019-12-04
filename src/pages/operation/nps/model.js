@@ -17,8 +17,8 @@ import {
   // kpiLevelList,
   // groupList,
   getIncomeCollegeList,
-  getQuestionCheckUser, 
-  postWriteQuestion
+  getQuestionCheckUser,
+  postWriteQuestion,
 } from './services';
 import { message } from 'antd/lib';
 import { msgF, thousandsFormat } from '@/utils/utils';
@@ -34,7 +34,7 @@ export default {
     orgList: [],
     imDetailData: [],
     userInfo: {}, // 全局值
-    orgList:[],
+    orgList: [],
     // globalLevelList: [],
     globalCollegeList: [],
     globalQVisible: false, // 问卷调查是否显示
@@ -56,6 +56,8 @@ export default {
     *getNpsAutonomousEvaluation({ payload, callback }, { call, put }) {
       const {
         collegeId,
+        familyId,
+        groupId,
         star,
         cycle,
         pageNum,
@@ -66,7 +68,17 @@ export default {
         startTime,
       } = payload.params;
 
-      const params = { collegeId, star, cycle, pageSize, pageNum, startTime, endTime };
+      const params = {
+        collegeId,
+        familyId,
+        groupId,
+        star,
+        cycle,
+        pageSize,
+        pageNum,
+        startTime,
+        endTime,
+      };
       const result = yield call(getNpsAutonomousEvaluation, params);
       if (result.code === 20000) {
         const npsParams = result.data || {};
@@ -263,13 +275,13 @@ export default {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
-        yield put({ type: 'save', payload: { globalQVisible: result.data} });
+        yield put({ type: 'save', payload: { globalQVisible: result.data } });
       }
     },
     // 问卷调查提交
     *postWriteQuestion({ payload, callback }, { call, put }) {
       const params = payload.params;
-      yield put({ type: 'save', payload: { globalQVisible: false} });
+      yield put({ type: 'save', payload: { globalQVisible: false } });
       const result = yield call(postWriteQuestion, params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
@@ -317,10 +329,9 @@ export default {
               expand: false,
               typeId: -1,
               typeName: '未分类数据',
-            }
-          ]
+            },
+          ];
         }
-        
       } else {
         data.reasonTypeList = [
           {
