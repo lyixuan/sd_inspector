@@ -280,7 +280,6 @@ class GuessEdit extends React.Component {
       message.info('不能少于四条')
       return false;
     }
-    console.log(278, data2); return;
     this.props.dispatch({
       type: 'hotQuestion/guessTempSave',
       payload: { params: data2 },
