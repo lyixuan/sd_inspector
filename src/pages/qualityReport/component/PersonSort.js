@@ -18,10 +18,11 @@ export default class PersonRank extends React.Component {
       {
         title: '归属组织',
         dataIndex: 'itemName',
+        width:250,
         render: (text, record) => {
           return (
             <>
-              {`${record.collegeName ? record.collegeName : ''} ${record.familyName ? `/${record.familyName}` : ''}  ${record.groupName ? `/${record.groupName}` : ''}`}
+              {`${record.collegeName ? record.collegeName : ''}${record.groupName ? `/${record.groupName}` : ''}`}
             </>
           );
         },
@@ -29,15 +30,17 @@ export default class PersonRank extends React.Component {
       {
         title: '质检归属人',
         dataIndex: 'userName',
+        width:90,
       },
       {
         title: '质检违规数',
         dataIndex: 'totalCount',
         align:'center',
+        width:100,
         render: (text, record) => {
           return (
             <div style={{width:80,margin:'auto'}}>
-              <BIWrapperProgress right text={record.totalCount} percent={`${record.totalCountRatio*100}%`}/>
+              <BIWrapperProgress  text={record.totalCount} percent={`${record.totalCountRatio*100}%`}/>
             </div>
           );
         },

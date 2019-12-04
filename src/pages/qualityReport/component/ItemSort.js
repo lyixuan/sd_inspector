@@ -22,15 +22,17 @@ export default class ItemSort extends React.Component {
       {
         title: '违规项',
         dataIndex: 'itemName',
+        width:250,
       },
       {
         title: '质检违规数量',
         dataIndex: 'totalCount',
+        width:90,
         align:'center',
         render: (text, record) => {
           return (
             <div style={{width:80,margin:'auto'}}>
-              <BIWrapperProgress right text={record.totalCount} percent={`${record.totalCountRatio*100}%`}/>
+              <BIWrapperProgress  text={record.totalCount} percent={`${record.totalCountRatio*100}%`}/>
             </div>
           );
         },
@@ -39,6 +41,7 @@ export default class ItemSort extends React.Component {
         title: '违规等级',
         dataIndex: 'violationLevel',
         align:'right',
+        width:90,
         render: (text, record) => {
           let str = yi;
             if(record.violationLevel ==='一级违规'){

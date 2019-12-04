@@ -17,6 +17,8 @@ export default {
     endDateBak:null,
     organization:undefined,
     organizationBak:undefined,
+    activeStartDate:undefined,
+    activeEndDate:undefined,
   },
 
   effects: {
@@ -135,6 +137,7 @@ function getOrgLv (orgList) {
   let list = [];
   if(userType==='admin' || userType==='boss'){
     list = orgList;
+    list.unshift({ title: '全部', value: '-' })
   } else if (userType==='college') {
     list = orgList;
   } else if (userType==='family') {

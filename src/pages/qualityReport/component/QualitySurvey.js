@@ -19,22 +19,23 @@ export default class QualitySurvey extends React.Component {
       {
         title: name,
         children: [{
-          title: '',
           children: [{
             title:'总计',
             dataIndex: 'name',
             align:'center',
+            width:scrollx?120:'',
           }]
         }]
       },
       {
         title: totalCountName,
+        align:'right',
         children: [{
-          title: '',
           children: [{
             title:lastData.totalCount,
             dataIndex: 'totalCount',
             align:'right',
+            width:scrollx?76:'',
           }]
         }]
       },
@@ -45,7 +46,8 @@ export default class QualitySurvey extends React.Component {
           children: [{
             title:lastData.specialViolationCount,
             dataIndex: 'specialViolationCount',
-            align:'center'
+            align:'center',
+            width:scrollx?76:'',
           }]
         }]
       }];
@@ -58,7 +60,7 @@ export default class QualitySurvey extends React.Component {
           title:lastData[val.dimensionId + val.primaryViolationName],
           dataIndex: val.dimensionId + val.primaryViolationName,
           align:'center',
-          width:scrollx?80:'',
+          width:scrollx?76:'',
           render: (text, record) => {
             return (
               <>
@@ -75,7 +77,7 @@ export default class QualitySurvey extends React.Component {
           title:lastData[val.dimensionId + val.secondViolationName],
           dataIndex: val.dimensionId + val.secondViolationName,
           align:'center',
-          width:scrollx?80:'',
+          width:scrollx?76:'',
           render: (text, record) => {
             return (
               <>
@@ -92,7 +94,7 @@ export default class QualitySurvey extends React.Component {
           title:lastData[val.dimensionId + val.thirdViolationName],
           dataIndex: val.dimensionId + val.thirdViolationName,
           align:'center',
-          width:scrollx?80:'',
+          width:scrollx?76:'',
           render: (text, record) => {
             return (
               <>
@@ -139,8 +141,10 @@ export default class QualitySurvey extends React.Component {
   };
 
   getDom =()=>{
-    let dom0 = document.querySelector(".qualitySurveyTable .ant-table-thead tr:nth-child(1)");
-    let dom = document.querySelector(".qualitySurveyTable .ant-table-thead tr:nth-child(2)");
+    const {scrollx} = this.props;
+    let dom0 = scrollx?document.querySelector(".qualitySurveyTable .ant-table-fixed .ant-table-thead tr:nth-child(1)"):document.querySelector(".qualitySurveyTable .ant-table-thead tr:nth-child(1)");
+    let dom = scrollx?document.querySelector(".qualitySurveyTable .ant-table-fixed .ant-table-thead tr:nth-child(2)"):document.querySelector(".qualitySurveyTable .ant-table-thead tr:nth-child(2)");
+
     let spandom1 = dom0.querySelector("th:nth-child(1)");
     let spandom2 = dom0.querySelector("th:nth-child(2)");
     let spandom3 = dom0.querySelector("th:nth-child(3)");
