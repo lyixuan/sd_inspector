@@ -64,45 +64,43 @@ class Top extends React.Component {
                 <div className={styles.rankSpan}>
                   <span className={styles.num}>{record.id}</span>
                   {record.riseIndex > 0 && (
-                    <span>
+                    <span className={styles.up}>
                       <img src={up} />
+                      <i>{record.riseIndex}</i>
                     </span>
                   )}
                   {record.riseIndex < 0 && (
-                    <span>
+                    <span className={styles.down}>
                       <img src={down} />
+                      <i>{record.riseIndex}</i>
                     </span>
                   )}
-                  {
-                    (record.riseIndex = 0 && (
-                      <span>
-                        <img src={flat} />
-                        111
-                      </span>
-                    ))
-                  }
+                  {record.riseIndex === 0 && (
+                    <span className={styles.flat}>
+                      <img src={flat} />
+                    </span>
+                  )}
                 </div>
               ) : (
-                <div>
+                <div className={styles.rankSpan}>
                   <img className={styles.rank} src={rank} />
                   {record.riseIndex > 0 && (
-                    <span>
+                    <span className={styles.up}>
                       <img src={up} />
+                      <i>{record.riseIndex}</i>
                     </span>
                   )}
                   {record.riseIndex < 0 && (
-                    <span>
+                    <span className={styles.down}>
                       <img src={down} />
+                      <i>{record.riseIndex}</i>
                     </span>
                   )}
-                  {
-                    (record.riseIndex = 0 && (
-                      <span>
-                        <img src={flat} />
-                        111
-                      </span>
-                    ))
-                  }
+                  {record.riseIndex === 0 && (
+                    <span className={styles.flat}>
+                      <img src={flat} />
+                    </span>
+                  )}
                 </div>
               )}
             </div>
