@@ -406,7 +406,7 @@ class GuessEdit extends React.Component {
           <a onClick={this.handleBread}>首页/</a>配置编辑
         </div>
         <div className={styles.guessEdit}>
-          <div className={styles.title}>{auth ? '猜你想问' : `顶部热门问题${cardName}`}</div>
+          <div className={styles.title}>{auth ? '猜你想问' : `顶部热门问题-${cardName}`}</div>
 
           {
             auth && <div className={styles.editTop}>
