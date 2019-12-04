@@ -13,18 +13,18 @@ export default class ScoreItem extends React.Component {
     return (
       <div className={styles.itemContent1}>
         {ln > 0 ? <div>
-          <div className={`${examDetailList[0].score < 60 ? styles.redText : ''}`}>{examDetailList[0].score}</div>
+          <div className={`${examDetailList[0].colorType === 'red' ? styles.redText : ''}`}>{examDetailList[0].scoreDisplay}</div>
           <div>{examDetailList[0].examName}</div>
         </div> : null}
         {ln > 1 ? <div className={styles.row1Line}/> : null}
         {ln > 1 ? <div>
-          <div className={`${examDetailList[1].score < 60 ? styles.redText : ''}`}>{examDetailList[1].score}</div>
+          <div className={`${examDetailList[1].colorType === 'red' ? styles.redText : ''}`}>{examDetailList[1].scoreDisplay}</div>
           <div>{examDetailList[1].examName}</div>
         </div> : null}
         {ln > 2 ? examDetailList[2] ? <div className={styles.row1Line}/> : <div></div> : null}
         {ln > 1 ? <div>
           <div
-            className={`${examDetailList[2] && examDetailList[2].score < 60 ? styles.redText : ''}`}>{examDetailList[2] && examDetailList[2].score}</div>
+            className={`${examDetailList[2] && examDetailList[2].colorType === 'red' ? styles.redText : ''}`}>{examDetailList[2] && examDetailList[2].scoreDisplay}</div>
           <div>{examDetailList[2] && examDetailList[2].examName}</div>
         </div> : null}
       </div>
@@ -46,19 +46,19 @@ export default class ScoreItem extends React.Component {
           <div className={`${styles.row} ${styles.row2} ${styles.row3}`}>
             <div>
               <div
-                className={`${examDetailList[3*(i+1)] && examDetailList[3*(i+1)].score < 60 ? styles.redText : ''}`}>{examDetailList[3*(i+1)] && examDetailList[3*(i+1)].score}</div>
+                className={`${examDetailList[3*(i+1)] && examDetailList[3*(i+1)].colorType === 'red' ? styles.redText : ''}`}>{examDetailList[3*(i+1)] && examDetailList[3*(i+1)].scoreDisplay}</div>
               <div>{examDetailList[3*(i+1)] && examDetailList[3*(i+1)].examName}</div>
             </div>
             <div className={styles.row1Line}/>
             <div>
               <div
-                className={`${examDetailList[3*(i+1)+1] && examDetailList[3*(i+1)+1].score < 60 ? styles.redText : ''}`}>{examDetailList[3*(i+1)+1] && examDetailList[3*(i+1)+1].score}</div>
+                className={`${examDetailList[3*(i+1)+1] && examDetailList[3*(i+1)+1].colorType === 'red' ? styles.redText : ''}`}>{examDetailList[3*(i+1)+1] && examDetailList[3*(i+1)+1].scoreDisplay}</div>
               <div>{examDetailList[3*(i+1)+1] && examDetailList[3*(i+1)+1].examName}</div>
             </div>
             <div className={styles.row1Line}/>
             <div>
               <div
-                className={`${examDetailList[3*(i+1)+2] && examDetailList[3*(i+1)+2].score < 60 ? styles.redText : ''}`}>{examDetailList[3*(i+1)+2] && examDetailList[3*(i+1)+2].score}</div>
+                className={`${examDetailList[3*(i+1)+2] && examDetailList[3*(i+1)+2].colorType === 'red' ? styles.redText : ''}`}>{examDetailList[3*(i+1)+2] && examDetailList[3*(i+1)+2].scoreDisplay}</div>
               <div>{examDetailList[3*(i+1)+2] && examDetailList[3*(i+1)+2].examName}</div>
             </div>
           </div>
@@ -71,19 +71,19 @@ export default class ScoreItem extends React.Component {
         <div className={`${styles.row} ${styles.row1}`}>
           <div>
             <div
-              className={`${examDetailList[0] && examDetailList[0].score < 60 ? styles.redText : ''}`}>{examDetailList[0] && examDetailList[0].score}</div>
+              className={`${examDetailList[0] && examDetailList[0].colorType === 'red' ? styles.redText : ''}`}>{examDetailList[0] && examDetailList[0].scoreDisplay}</div>
             <div>{examDetailList[0] && examDetailList[0].examName}</div>
           </div>
           <div className={styles.row1Line}/>
           <div>
             <div
-              className={`${examDetailList[1] && examDetailList[1].score < 60 ? styles.redText : ''}`}>{examDetailList[1] && examDetailList[1].score}</div>
+              className={`${examDetailList[1] && examDetailList[1].colorType === 'red' ? styles.redText : ''}`}>{examDetailList[1] && examDetailList[1].scoreDisplay}</div>
             <div>{examDetailList[1] && examDetailList[1].examName}</div>
           </div>
           <div className={styles.row1Line}/>
           <div>
             <div
-              className={`${examDetailList[2] && examDetailList[2].score < 60 ? styles.redText : ''}`}>{examDetailList[2] && examDetailList[2].score}</div>
+              className={`${examDetailList[2] && examDetailList[2].colorType === 'red' ? styles.redText : ''}`}>{examDetailList[2] && examDetailList[2].scoreDisplay}</div>
             <div>{examDetailList[2] && examDetailList[2].examName}</div>
           </div>
         </div>
@@ -91,19 +91,19 @@ export default class ScoreItem extends React.Component {
         <div className={`${styles.row} ${styles.row2}`}>
           <div>
             <div
-              className={`${examDetailList[last1Index] && examDetailList[last1Index].score < 60 ? styles.redText : ''}`}>{examDetailList[last1Index] && examDetailList[last1Index].score}</div>
+              className={`${examDetailList[last1Index] && examDetailList[last1Index].colorType === 'red' ? styles.redText : ''}`}>{examDetailList[last1Index] && examDetailList[last1Index].scoreDisplay}</div>
             <div>{examDetailList[last1Index] && examDetailList[last1Index].examName}</div>
           </div>
           <div className={styles.row1Line}/>
           <div>
             <div
-              className={`${examDetailList[last2Index] && examDetailList[last2Index].score < 60 ? styles.redText : ''}`}>{examDetailList[last2Index] && examDetailList[last2Index].score}</div>
+              className={`${examDetailList[last2Index] && examDetailList[last2Index].colorType === 'red' ? styles.redText : ''}`}>{examDetailList[last2Index] && examDetailList[last2Index].scoreDisplay}</div>
             <div>{examDetailList[last2Index] && examDetailList[last2Index].examName}</div>
           </div>
           <div className={styles.row1Line}/>
           <div>
             <div
-              className={`${examDetailList[last3Index] && examDetailList[last3Index].score < 60 ? styles.redText : ''}`}>{examDetailList[last3Index] && examDetailList[last3Index].score}</div>
+              className={`${examDetailList[last3Index] && examDetailList[last3Index].colorType === 'red' ? styles.redText : ''}`}>{examDetailList[last3Index] && examDetailList[last3Index].scoreDisplay}</div>
             <div>{examDetailList[last3Index] && examDetailList[last3Index].examName}</div>
           </div>
         </div>

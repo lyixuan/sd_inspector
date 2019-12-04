@@ -1,8 +1,6 @@
 import React from 'react';
-import { Table, Spin } from 'antd';
 import BIWrapperTable from '@/components/BIWrapperTable'
 import style from './style.less';
-import { BiFilter } from '@/utils/utils';
 
 export default class QualitySurvey extends React.Component {
   constructor(props) {
@@ -14,57 +12,38 @@ export default class QualitySurvey extends React.Component {
     this.getDom();
   }
 
-  clickXing = (lv) => {
-    this.props.clickXing && this.props.clickXing(lv);
-  };
-
-  getColumns = () => {
+  getColumns = (lastData) => {
     const { name, totalCountName, specialViolationName, dimensionNameList = [] } = this.props.headers || {};
-
-    const ddd = {
-      key: 1,
-      name: 'John Brown',
-      totalCount: 1 + 1,
-      street: 'Lake Park',
-      building: 'C',
-      number: 2035,
-      companyAddress: 'Lake Street 42',
-      companyName: 'SoftLake Co',
-      gender: 'M',
-    }
+    const {maxCount,scrollx} = this.props;
     const col1 = [
       {
         title: name,
-        dataIndex: 'name',
         children: [{
-          // title: name,
-          // dataIndex: 'name',
+          title: '',
           children: [{
             title:'总计',
             dataIndex: 'name',
-            align:'center'
+            align:'center',
           }]
         }]
       },
       {
         title: totalCountName,
-        dataIndex: 'totalCount',
-        width:80,
-        align:'right',
         children: [{
+          title: '',
           children: [{
-            title:ddd.totalCount,
+            title:lastData.totalCount,
             dataIndex: 'totalCount',
-            align:'right'
+            align:'right',
           }]
         }]
       },
       {
         title: specialViolationName,
-        dataIndex: 'specialViolationCount',
         children: [{
+          title: '',
           children: [{
-            title:ddd.specialViolationCount,
+            title:lastData.specialViolationCount,
             dataIndex: 'specialViolationCount',
             align:'center'
           }]
@@ -72,41 +51,91 @@ export default class QualitySurvey extends React.Component {
       }];
 
     const col2 = dimensionNameList && dimensionNameList.map((val) => {
-      return {
-        title: val.dimensionName,
+      const colCell1 = {
+        title:<span><span className={style.dotStl} style={{ background: '#F34E2D' }}/> <span>{val.primaryViolationName}</span></span>,
+        align:'center',
         children: [{
-          title:<span><span className={style.dotStl} style={{ background: '#F34E2D' }}/> <span>{val.primaryViolationName}</span></span>,
+          title:lastData[val.dimensionId + val.primaryViolationName],
           dataIndex: val.dimensionId + val.primaryViolationName,
           align:'center',
-          children: [{
-            title:ddd[val.dimensionId + val.primaryViolationName],
-            dataIndex: val.dimensionId + val.primaryViolationName,
-            align:'center'
-          }]
-        },
-          {
-            title:<span><span className={style.dotStl} style={{ background: '#F0963C' }}/> <span>{val.secondViolationName}</span></span>,
-            dataIndex: val.dimensionId + val.secondViolationName,
-            align:'center',
-            children: [{
-              title:ddd[val.dimensionId + val.secondViolationName],
-              dataIndex: val.dimensionId + val.secondViolationName,
-              align:'center'
-            }]
+          width:scrollx?80:'',
+          render: (text, record) => {
+            return (
+              <>
+                <span className={style.cell} style={{background:`rgba(242,45,47,${record[val.dimensionId + val.primaryViolationName]?record[val.dimensionId + val.primaryViolationName]/maxCount:0})`}}>{record[val.dimensionId + val.primaryViolationName]}</span>
+              </>
+            );
           },
-          {
-            title: <span><span className={style.dotStl} style={{ background: '#32B67A' }}/> <span>{val.thirdViolationName}</span></span>,
-            dataIndex: val.dimensionId + val.thirdViolationName,
-            align:'center',
-            children: [{
-              title:ddd[val.dimensionId + val.thirdViolationName],
-              dataIndex: val.dimensionId + val.thirdViolationName,
-              align:'center'
-            }]
-          }],
+        }]
+      };
+      const colCell2 = {
+        title:<span><span className={style.dotStl} style={{ background: '#F0963C' }}/> <span>{val.secondViolationName}</span></span>,
+        align:'center',
+        children: [{
+          title:lastData[val.dimensionId + val.secondViolationName],
+          dataIndex: val.dimensionId + val.secondViolationName,
+          align:'center',
+          width:scrollx?80:'',
+          render: (text, record) => {
+            return (
+              <>
+                <span className={style.cell} style={{background:`rgba(242,45,47,${record[val.dimensionId + val.secondViolationName]?record[val.dimensionId + val.secondViolationName]/maxCount:0})`}}>{record[val.dimensionId + val.secondViolationName]}</span>
+              </>
+            );
+          },
+        }]
+      };
+      const colCell3 = {
+        title: <span><span className={style.dotStl} style={{ background: '#32B67A' }}/> <span>{val.thirdViolationName}</span></span>,
+        align:'center',
+        children: [{
+          title:lastData[val.dimensionId + val.thirdViolationName],
+          dataIndex: val.dimensionId + val.thirdViolationName,
+          align:'center',
+          width:scrollx?80:'',
+          render: (text, record) => {
+            return (
+              <>
+                <span className={style.cell} style={{background:`rgba(242,45,47,${record[val.dimensionId + val.thirdViolationName]?record[val.dimensionId + val.thirdViolationName]/maxCount:0})`}}>{record[val.dimensionId + val.thirdViolationName]}</span>
+              </>
+            );
+          },
+        }]
+      };
+
+      const children = [];
+      if(val.primaryViolationName){
+        children.push(colCell1)
+      }
+      if(val.secondViolationName){
+        children.push(colCell2)
+      }
+      if(val.thirdViolationName){
+        children.push(colCell3)
+      }
+      return {
+        title: val.dimensionName,
+        children,
       };
     });
+
     return col1.concat(col2);
+  };
+
+  getValues = () => {
+    const { values=[] } = this.props;
+    let data = [];
+    values.map((item)=>{
+      let details = {name:item.name,totalCount:item.totalCount,specialViolationCount:item.specialViolationCount};
+      item.dimensionCountList.forEach((val)=>{
+        details[val.dimensionId+'一级'] = val.primaryViolationCount;
+        details[val.dimensionId+'二级'] = val.secondViolationCount;
+        details[val.dimensionId+'三级'] = val.thirdViolationCount;
+      });
+      data.push(details);
+    });
+    const column = this.getColumns(data[data.length-1]||{});
+    return {data:data.slice(0,data.length-1),column};
   };
 
   getDom =()=>{
@@ -129,39 +158,25 @@ export default class QualitySurvey extends React.Component {
       dom.removeChild(rmdom3)
     }
   };
+
   render() {
-    const { top = 10, type = 'class', cycle = 'current', linkTital = '质检手册', linkRouter = '', width = 1280, headers } = this.props;
 
-
-    const data = [];
-    for (let i = 0; i < 100; i++) {
-      data.push({
-        key: i,
-        name: 'John Brown',
-        age: i + 1,
-        street: 'Lake Park',
-        building: 'C',
-        number: 2035,
-        companyAddress: 'Lake Street 42',
-        companyName: 'SoftLake Co',
-        gender: 'M',
-      });
-    }
-
-
+    const {scrollx} = this.props;
+    const scrollData = scrollx?{x:'max-content',y:470} : {y:470};
+    const {data,column} = this.getValues();
     return (
       <div className={style.qualitySurvey}>
         <div className={style.title}>质检违规场景概览</div>
         <div className="qualitySurveyTable">
           <BIWrapperTable
             name='sadfa'
-            columns={this.getColumns()}
+            columns={column}
             rowKey={(record, index) => index}
             dataSource={data}
             bordered
             size="middle"
             pagination={false}
-            scroll={{ y:470 }}
+            scroll={scrollData}
           />
         </div>
       </div>

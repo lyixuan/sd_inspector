@@ -79,7 +79,6 @@ export default class Score extends React.Component {
               <UserInfo info={info} />
             </div>
           </div>
-        }
       </Spin>
     );
   }

@@ -36,7 +36,6 @@ class Top extends React.Component {
         type: 'xdFamilyModal/getRisePackageRankList',
       })
       .then(res => {
-        console.log(res, 'res');
         this.setState({ dataSource: res });
       });
   }
@@ -64,45 +63,43 @@ class Top extends React.Component {
                 <div className={styles.rankSpan}>
                   <span className={styles.num}>{record.id}</span>
                   {record.riseIndex > 0 && (
-                    <span>
+                    <span className={styles.up}>
                       <img src={up} />
+                      <i>{record.riseIndex}</i>
                     </span>
                   )}
                   {record.riseIndex < 0 && (
-                    <span>
+                    <span className={styles.down}>
                       <img src={down} />
+                      <i>{record.riseIndex}</i>
                     </span>
                   )}
-                  {
-                    (record.riseIndex = 0 && (
-                      <span>
-                        <img src={flat} />
-                        111
-                      </span>
-                    ))
-                  }
+                  {record.riseIndex === 0 && (
+                    <span className={styles.flat}>
+                      <img src={flat} />
+                    </span>
+                  )}
                 </div>
               ) : (
-                <div>
+                <div className={styles.rankSpan}>
                   <img className={styles.rank} src={rank} />
                   {record.riseIndex > 0 && (
-                    <span>
+                    <span className={styles.up}>
                       <img src={up} />
+                      <i>{record.riseIndex}</i>
                     </span>
                   )}
                   {record.riseIndex < 0 && (
-                    <span>
+                    <span className={styles.down}>
                       <img src={down} />
+                      <i>{record.riseIndex}</i>
                     </span>
                   )}
-                  {
-                    (record.riseIndex = 0 && (
-                      <span>
-                        <img src={flat} />
-                        111
-                      </span>
-                    ))
-                  }
+                  {record.riseIndex === 0 && (
+                    <span className={styles.flat}>
+                      <img src={flat} />
+                    </span>
+                  )}
                 </div>
               )}
             </div>
@@ -159,7 +156,7 @@ class Top extends React.Component {
     return (
       <div className={styles.topCon}>
         <div className={styles.title}>
-          <span>热销产品包榜单</span>
+          <span>飙升产品包榜单</span>
           <div style={{ fontSize: '13px' }}>一周内</div>
         </div>
         <div className={styles.tableContainer}>
