@@ -98,7 +98,7 @@ class ProfitList extends React.Component {
         dataIndex: 'groupName',
         key: 'groupName',
         fixed: 'left',
-        width: 120,
+        width: 160,
       }, {
         title: '排名系数',
         fixed: 'left',
