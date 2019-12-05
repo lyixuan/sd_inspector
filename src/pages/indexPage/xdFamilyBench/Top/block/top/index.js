@@ -133,6 +133,7 @@ class Top extends React.Component {
         },
       },
       {
+        ellipsis: true,
         title: '创收产品包',
         dataIndex: 'packageName',
         key: 'packageName',
@@ -152,7 +153,7 @@ class Top extends React.Component {
         width: '25%',
         className: styles.marIncome,
         render: (incomeOrder, record) => {
-          return <div style={{ textAlign: 'right', width: '70px' }}>{incomeOrder}</div>;
+          return <div style={{ textAlign: 'left', width: '70px' }}>{incomeOrder}</div>;
         },
       },
       {
