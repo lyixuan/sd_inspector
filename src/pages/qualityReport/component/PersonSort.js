@@ -24,7 +24,9 @@ export default class PersonRank extends React.Component {
         render: (text, record) => {
           return (
             <>
-              <span style={{cursor:'pointer'}}  data-trace='{"widgetName":"点击质检归属人-班主任","traceName":"质检管理/班主任质检报告/归属人质检情况排行/点击质检归属人"}' onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {qualityType:"2",userName:record.userName})}>{`${record.collegeName ? record.collegeName : ''}${record.groupName ? `/${record.groupName}` : ''}`}</span>
+              <Tooltip placement="right" title="点击查看质检详情" >
+                <span style={{cursor:'pointer'}}  data-trace='{"widgetName":"点击质检归属人-班主任","traceName":"质检管理/班主任质检报告/归属人质检情况排行/点击质检归属人"}' onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {qualityType:"2",userName:record.userName})}>{`${record.collegeName ? record.collegeName : ''}${record.groupName ? `/${record.groupName}` : ''}`}</span>
+              </Tooltip >
             </>
           );
         },
@@ -36,8 +38,10 @@ export default class PersonRank extends React.Component {
         render: (text, record) => {
           return (
             <>
+              <Tooltip placement="right" title="点击查看质检详情" >
               <span style={{cursor:'pointer'}} onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {qualityType:"2",userName:record.userName})}>{text}</span>
-            </>
+              </Tooltip >
+              </>
           );
         },
       },
