@@ -141,7 +141,7 @@ class Top extends React.Component {
         render: (packageName, record) => {
           return (
             <Tooltip title={packageName}>
-              <div style={{ textAlign: 'left' }}>{packageName}</div>
+              <span style={{ textAlign: 'left' }}>{packageName}</span>
             </Tooltip>
           );
         },
@@ -153,7 +153,7 @@ class Top extends React.Component {
         key: 'incomeOrder',
         width: '70px',
         render: (incomeOrder, record) => {
-          return <div style={{ textAlign: 'right', width: '60px', textAlign: 'center' }}>{incomeOrder}</div>;
+          return <span style={{ textAlign: 'right', width: '60px', textAlign: 'center' }}>{incomeOrder}</span>;
         },
       },
       {

@@ -86,15 +86,14 @@ class NPSLeft extends React.Component {
         title: '内容',
         dataIndex: 'opinion',
         key: 'opinion',
-        ellipsis: true,
         // w idth:'210px',
         render: opinion => {
           return (
             <Tooltip placement="right" title={opinion}>
-              <div className={styles.contentMain}>
+              <span className={styles.contentMain}>
                 {opinion}
                 <div />
-              </div>
+              </span>
             </Tooltip>
           );
         },
