@@ -25,7 +25,6 @@ const userTypes = {
 class ScoreContrast extends React.Component {
   constructor(props) {
     super(props);
-    jumpGobalRouter('classQuality/qualityType/2', {keyWord: '服务'}) 
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
     const trace = this.props.globalUserTypes[userType]
@@ -182,7 +181,7 @@ class ScoreContrast extends React.Component {
           </BIButton>
           { 
             userTypes[userType] && <BIButton onClick={() => this.handleRouter('xdCreditPk/list', allTimes, 'pk')} type="online" style={{marginRight: '8px'}}>
-              <img src={pkBtnImg} alt='' style={{ width: 16, marginRight: 12 }}/>
+              <img src={pkBtnImg} alt='' style={{ width: 14, marginRight: 12,     marginTop: '-1px' }}/>
               学分PK
             </BIButton>
           } 
