@@ -24,7 +24,7 @@ export default class PersonRank extends React.Component {
         render: (text, record) => {
           return (
             <>
-              <span style={{cursor:'pointer'}} onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {qualityType:"2",userName:record.userName})}>{`${record.collegeName ? record.collegeName : ''}${record.groupName ? `/${record.groupName}` : ''}`}</span>
+              <span style={{cursor:'pointer'}}  data-trace='{"widgetName":"点击质检归属人-班主任","traceName":"质检管理/班主任质检报告/归属人质检情况排行/点击质检归属人"}' onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {qualityType:"2",userName:record.userName})}>{`${record.collegeName ? record.collegeName : ''}${record.groupName ? `/${record.groupName}` : ''}`}</span>
             </>
           );
         },
@@ -33,15 +33,22 @@ export default class PersonRank extends React.Component {
         title: '质检归属人',
         dataIndex: 'userName',
         width:90,
+        render: (text, record) => {
+          return (
+            <>
+              <span style={{cursor:'pointer'}} onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {qualityType:"2",userName:record.userName})}>{text}</span>
+            </>
+          );
+        },
       },
       {
         title: '质检违规数',
         dataIndex: 'totalCount',
-        align:'center',
-        width:100,
+        align:'right',
+        width:90,
         render: (text, record) => {
           return (
-            <div style={{width:80,margin:'auto'}}>
+            <div style={{width:80, float:'right'}}>
               <BIWrapperProgress  text={record.totalCount} percent={`${record.totalCountRatio*100}%`}/>
             </div>
           );
@@ -68,9 +75,9 @@ export default class PersonRank extends React.Component {
     return (
       <div className={style.qualitySurvey} style={{marginTop:20}}>
         <div className={style.title}>归属人质检情况排行 <Tooltip placement="top" title="点击查看质检详情" >
-          <img onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {})} src={guanli} alt=""/>
+          <img data-trace='{"widgetName":"点击质检管理-班主任","traceName":"质检管理/班主任质检报告/归属人质检情况排行/点击质检管理"}'  onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {})} src={guanli} alt=""/>
         </Tooltip ></div>
-        <div>
+        <div style={{height:545}}>
           <BIWrapperTable
             name='rrt'
             columns={this.getColumns()}

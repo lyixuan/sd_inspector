@@ -20,8 +20,8 @@ class NewQualitySheet extends React.Component {
     super(props);
     this.init = {
       qualityNum: undefined,
-      beginDate: undefined,
-      endDate: undefined,
+      beginDate: moment().subtract(6,'days').format('YYYY-MM-DD'),
+      endDate: moment().format('YYYY-MM-DD'),
       dimensionIdList: undefined,
       statusList: undefined,
       violationLevelList: undefined,

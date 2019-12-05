@@ -3,6 +3,7 @@ import { INDEX_PAGE } from '@/utils/constants';
 import config from '../../../../config/config';
 import React from 'react';
 import deImg from '@/assets/ai/de.png'
+import { handleDataTrace } from '@/utils/utils';
 
 const commitDateFormat = 'YYYY-MM-DD';
 export const handleDateParams = (item) => {
@@ -196,5 +197,13 @@ export function jumpGobalRouter(path, params) {
     const url = `${origin}${config.base}${path}`;
     const strParams = encodeURIComponent(JSON.stringify(params));
     window.open(`${url}?params=${strParams}`);
+  }
+}
+export function jumpGobalSelfRouter(path, params) {
+  const origin = window.location.origin;
+  if (path) {
+    const url = `${origin}${config.base}${path}`;
+    const strParams = encodeURIComponent(JSON.stringify(params));
+    window.open(`${url}?params=${strParams}`, "_self");
   }
 }

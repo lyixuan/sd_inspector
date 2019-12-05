@@ -8,6 +8,10 @@ import { connect } from 'dva';
 class qualityReport extends React.Component {
   componentDidMount() {
     this.props.dispatch({
+      type: 'qualityReport/save',
+      payload: { organization:null},
+    });
+    this.props.dispatch({
       type: 'qualityReport/getCurrentDateRange',
       payload: { ...{userType:'family'}},
     });

@@ -5,6 +5,7 @@ import QualitySurvey from '../component/QualitySurvey';
 import ItemSort from '../component/ItemSort';
 import PersonSort from '../component/PersonSort';
 import SearchSelect from '../component/SearchSelect';
+import { handleDataTrace } from '@/utils/utils';
 
 
 @connect(({ qualityReport, loading }) => ({
@@ -18,6 +19,7 @@ class CubePlanDetail extends React.Component {
     this.state = {
       isGroup:false
     };
+    handleDataTrace({ widgetName: `班主任质检报告`, traceName: `质检管理/班主任质检报告`,traceType:200 });
   }
 
   componentDidMount() {
@@ -108,8 +110,8 @@ class CubePlanDetail extends React.Component {
                       search={(params) => this.query(params)}/>
         <QualitySurvey headers={headers} values={values} maxCount={maxCount}/>
         {isGroup&&<ItemSort assortmentRankData={assortmentRankData}/>}
-        {!isGroup&&<div style={{width:'49%',float:'left'}}><ItemSort assortmentRankData={assortmentRankData}/></div>}
-        {!isGroup&&<div style={{width:'49.5%',float:'right',marginBottom:20}}><PersonSort personRankData={personRankData} beginDate={startDate} endDate={endDate}/></div>}
+        {!isGroup&&<div style={{width:'49%',float:'left',marginBottom:20}}><ItemSort assortmentRankData={assortmentRankData}/></div>}
+        {!isGroup&&<div style={{width:'49.5%',float:'right'}}><PersonSort personRankData={personRankData} beginDate={startDate} endDate={endDate}/></div>}
       </Spin>
     );
   }
