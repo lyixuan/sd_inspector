@@ -152,12 +152,13 @@ class NewQualitySheetIndex extends React.Component {
       pageSize: 30,
     };
     this.saveUrlParams = undefined;
-    this.initTime = {reduceScoreBeginDate:moment().subtract(6,'days').format('YYYY-MM-DD'),reduceScoreEndDate:moment().format('YYYY-MM-DD')};
+    this.initTime = {beginDate:moment().subtract(6,'days').format('YYYY-MM-DD'),endDate:moment().format('YYYY-MM-DD')};
     // this.columnsAction = this.columnsAction()
   }
   componentDidMount() {
     let { p = null } = this.props.location.query;
     p=JSON.stringify({...JSON.parse(p),...this.initTime})
+    console.log(p)
     this.queryData(JSON.parse(p));
   }
 
