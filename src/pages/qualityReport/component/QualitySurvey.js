@@ -18,12 +18,13 @@ export default class QualitySurvey extends React.Component {
     const col1 = [
       {
         title: name,
+        align:'left',
         children: [{
           children: [{
             title:'总计',
             dataIndex: 'name',
-            align:'center',
-            width:scrollx?120:'',
+            align:'left',
+            width:130,
           }]
         }]
       },
@@ -35,7 +36,7 @@ export default class QualitySurvey extends React.Component {
             title:lastData.totalCount,
             dataIndex: 'totalCount',
             align:'right',
-            width:scrollx?76:'',
+            width:90,
           }]
         }]
       },

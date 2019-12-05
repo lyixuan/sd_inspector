@@ -110,8 +110,8 @@ class CubePlanDetail extends React.Component {
                       search={(params) => this.query(params)}/>
         <QualitySurvey headers={headers} values={values} maxCount={maxCount}/>
         {isGroup&&<ItemSort assortmentRankData={assortmentRankData}/>}
-        {!isGroup&&<div style={{width:'49%',float:'left'}}><ItemSort assortmentRankData={assortmentRankData}/></div>}
-        {!isGroup&&<div style={{width:'49.5%',float:'right',marginBottom:20}}><PersonSort personRankData={personRankData} beginDate={startDate} endDate={endDate}/></div>}
+        {!isGroup&&<div style={{width:'49%',float:'left',marginBottom:20}}><ItemSort assortmentRankData={assortmentRankData}/></div>}
+        {!isGroup&&<div style={{width:'49.5%',float:'right'}}><PersonSort personRankData={personRankData} beginDate={startDate} endDate={endDate}/></div>}
       </Spin>
     );
   }
