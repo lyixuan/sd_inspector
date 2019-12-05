@@ -22,25 +22,6 @@ const dataSource = [
     address: '西湖区湖底公园1号',
   },
 ];
-
-const columns = [
-  {
-    title: '姓名',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: '年龄',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: '住址',
-    dataIndex: 'address',
-    key: 'address',
-  },
-];
-
 @connect(({ admissionTicket, loading }) => ({
   admissionTicket
 
@@ -60,7 +41,6 @@ class TicketRankList extends React.Component {
     });
   }
   columns() {
-    const width = this.state.rankType == 1 ? '12.5%' : '11%';
     const columns = [
       {
         title: '排名',
@@ -69,9 +49,47 @@ class TicketRankList extends React.Component {
       },
       {
         title: '学院',
+        dataIndex: 'address',
+        key: 'address',
+        render: (text, record) => {
+          console.log(57, text, record)
+
+        }
+      },
+      {
+        title: '在服学员人数',
         dataIndex: 'familyName',
         key: 'familyName',
-        width: width
+      },
+      {
+        title: '填写人数',
+        dataIndex: 'familyName',
+        key: 'familyName',
+      },
+      {
+        title: '填写率',
+        dataIndex: 'familyName',
+        key: 'familyName',
+      },
+      {
+        title: '尚小德渠道填写人数',
+        dataIndex: 'familyName',
+        key: 'familyName',
+      },
+      {
+        title: '填写占比',
+        dataIndex: 'familyName',
+        key: 'familyName',
+      },
+      {
+        title: '验证准确数量',
+        dataIndex: 'familyName',
+        key: 'familyName',
+      },
+      {
+        title: '准确率',
+        dataIndex: 'familyName',
+        key: 'familyName',
       },
     ];
     if (this.state.rankType == 2) {
@@ -93,7 +111,7 @@ class TicketRankList extends React.Component {
         <div className={styles.tableWrap}>
           <BIScrollbarTable
             columns={this.columns()}
-            dataSource={this.state.dataSource}
+            dataSource={dataSource}
             pagination={false}
             scroll={{ x: 0, y: 700 }}
             rowKey={(record, index) => index}
