@@ -9,6 +9,7 @@ import {
   postWriteQuestion,
   queryAppealDataPage,
   getFamilyType,
+  getCurrentFamilyType,
   getOrgList
 } from './services';
 import { message } from 'antd/lib/index';
@@ -122,6 +123,17 @@ export default {
     // 自考壁垒接口
     *getFamilyType({ payload, callback }, { call, put }) {
       const result = yield call(getFamilyType);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 获取用户familyType
+    *getCurrentFamilyType({ payload, callback }, { call, put }) {
+      const result = yield call(getCurrentFamilyType);
       if (result.code === 20000 && result.data) {
         if (callback && typeof callback === 'function') {
           callback(result.data);

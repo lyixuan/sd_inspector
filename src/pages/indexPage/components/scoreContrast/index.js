@@ -27,7 +27,6 @@ class ScoreContrast extends React.Component {
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
     this.state = {
-      collegeOptions:[],
       queryAppealDatas:{},
       queryParams: {
         contrasts: 1,
@@ -45,19 +44,14 @@ class ScoreContrast extends React.Component {
   }
   componentDidMount() {
     this.props.dispatch({
-      type:"xdWorkModal/getFamilyType",
-      callback:(res) => {
-        this.setState({ collegeOptions:res });
-        if (!res['0']) {
-          const { queryParams } = this.state;
-          queryParams.familyType = '1';
-          this.setState({
-            familyTypeInit: '1',
-            queryParams
-          }, () => this.queryAppealDataPage())
-        } else {
-          this.queryAppealDataPage()
-        }
+      type:"xdWorkModal/getCurrentFamilyType",
+      callback:({ familyType }) => {
+        const { queryParams } = this.state;
+        queryParams.familyType = familyType + '';
+        this.setState({
+          familyTypeInit: familyType + '',
+          queryParams
+        }, () => this.queryAppealDataPage())
       }
     })
     // 自考壁垒对应的学院  三个工作台都要用
@@ -130,15 +124,15 @@ class ScoreContrast extends React.Component {
     }
   }
   rightPart = () => {
-    const {collegeOptions={}, userType, queryParams} = this.state;
+    const {userType, queryParams} = this.state;
     const { allTimes } = this.props;
     const orgList = this.props.globalOrgList[queryParams.familyType] || []
     return(
       <>
         <span style={{ marginRight: 200, display: 'flex' }}>
           <BISelect style={{ width: 136, marginRight: 12 }} placeholder="请选择" value={queryParams.familyType} onChange={(val) => this.onFormChange(val, 'familyType')}>
-            {Object.keys(collegeOptions).map(key => <Option key={key} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
-              {collegeOptions[key]}
+            {[{id: '0', name:'自考'}, {id: '1', name: '壁垒'}].map(item => <Option key={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
+              {item.name}
             </Option>)}
           </BISelect>
           {queryParams.contrasts === 2 && <BISelect style={{ width: 136, marginRight: 12 }} placeholder="请选择" value={queryParams.collegeId} onChange={(val) => this.onFormChange(val, 'collegeId')} allowClear>

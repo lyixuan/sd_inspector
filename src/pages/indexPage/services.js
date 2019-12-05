@@ -44,3 +44,7 @@ export async function getOrgList(params) {
   return request('/credit/getOrgList',{method:'get',params})
 }
 
+//获取学院性质的接口
+export async function getCurrentFamilyType(params) {
+  return request('/orgMap/getCurrentFamilyType',{method:'get',params})
+}
