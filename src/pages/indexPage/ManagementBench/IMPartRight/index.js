@@ -66,7 +66,7 @@ class IMPartRight extends React.Component {
         title: '未回复',
         dataIndex: 'notReply',
         key: 'notReply',
-        width: "22%",
+        width: "24%",
         render: (notReply, record) => {
           const percent = record.notReplyContrasts * 100 + '%';
           return <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
