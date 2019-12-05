@@ -215,6 +215,11 @@ class NPSEvaluate extends React.Component {
   };
 
   goto = () => {
+    BI.traceV &&
+    BI.traceV({
+      widgetName: 'NPS查看更多（家族长）',
+      traceName: '家族长工作台/NPS分析',
+    });
     router.push({
       pathname: '/nps',
     });
