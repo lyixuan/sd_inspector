@@ -1,7 +1,12 @@
 import React from 'react';
+import { Tooltip } from 'antd';
 import BIWrapperTable from '@/components/BIWrapperTable'
 import BIWrapperProgress from './BIWrapperProgress';
+import guanli from '@/assets/quality/guanli2x.png';
+
 import style from './style.less';
+import config from '../../../../config/config';
+import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 
 export default class PersonRank extends React.Component {
   constructor(props) {
@@ -9,9 +14,6 @@ export default class PersonRank extends React.Component {
     this.state = {
     };
   }
-
-  more=(pageNum)=>{
-  };
 
   getColumns=()=>{
     return [
@@ -22,7 +24,7 @@ export default class PersonRank extends React.Component {
         render: (text, record) => {
           return (
             <>
-              {`${record.collegeName ? record.collegeName : ''}${record.groupName ? `/${record.groupName}` : ''}`}
+              <span style={{cursor:'pointer'}} onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {qualityType:"2",userName:record.userName})}>{`${record.collegeName ? record.collegeName : ''}${record.groupName ? `/${record.groupName}` : ''}`}</span>
             </>
           );
         },
@@ -48,13 +50,26 @@ export default class PersonRank extends React.Component {
     ];
   };
 
+  jumpQualityRouter = (path, params)=> {
+    const { beginDate , endDate } = this.props;
+    const time = {reduceScoreBeginDate:beginDate,reduceScoreEndDate:endDate};
+    params = {...params,...time};
+    const origin = window.location.origin;
+    if (path) {
+      const url = `${origin}${config.base}${path}`;
+      const strParams = encodeURIComponent(JSON.stringify(params));
+      window.open(`${url}?p=${strParams}`);
+    }
+  };
 
   render() {
     const { personRankData } = this.props;
 
     return (
       <div className={style.qualitySurvey} style={{marginTop:20}}>
-        <div className={style.title}>归属人质检情况排行</div>
+        <div className={style.title}>归属人质检情况排行 <Tooltip placement="top" title="点击查看质检详情" >
+          <img onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {})} src={guanli} alt=""/>
+        </Tooltip ></div>
         <div>
           <BIWrapperTable
             name='rrt'

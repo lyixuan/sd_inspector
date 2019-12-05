@@ -1,6 +1,9 @@
 import React from 'react';
+import { Tooltip } from 'antd';
 import BIWrapperTable from '@/components/BIWrapperTable'
+import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 import BIWrapperProgress from './BIWrapperProgress';
+import shouce from '@/assets/quality/shouce2x.png';
 import yi from '@/assets/quality/yi.png';
 import er from '@/assets/quality/er.png';
 import san from '@/assets/quality/san.png';
@@ -14,15 +17,21 @@ export default class ItemSort extends React.Component {
     };
   }
 
-  more=(pageNum)=>{
-  };
-
   getColumns=()=>{
     return [
       {
         title: '违规项',
         dataIndex: 'itemName',
         width:250,
+        render: (text, record) => {
+          return (
+            <>
+              <Tooltip placement="right" title="点击查看质检细则" >
+                <span style={{cursor:'pointer'}} onClick={()=>jumpGobalRouter('classQuality/qualityType/2', {keyWord: text})}>{text}</span>
+              </Tooltip >
+            </>
+          );
+        },
       },
       {
         title: '质检违规数量',
@@ -66,14 +75,13 @@ export default class ItemSort extends React.Component {
     ];
   };
 
-
   render() {
     const { assortmentRankData } = this.props;
-
-
     return (
       <div className={style.qualitySurvey} style={{marginTop:20}}>
-        <div className={style.title}>违规项质检情况排行</div>
+        <div className={style.title}>违规项质检情况排行 <Tooltip placement="top" title="点击查看质检细则" >
+          <img onClick={()=>jumpGobalRouter('classQuality/qualityType/2', {})} src={shouce} alt=""/>
+        </Tooltip ></div>
         <div>
           <BIWrapperTable
             name='rrt'

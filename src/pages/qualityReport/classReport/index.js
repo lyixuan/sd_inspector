@@ -109,7 +109,7 @@ class CubePlanDetail extends React.Component {
         <QualitySurvey headers={headers} values={values} maxCount={maxCount}/>
         {isGroup&&<ItemSort assortmentRankData={assortmentRankData}/>}
         {!isGroup&&<div style={{width:'49%',float:'left'}}><ItemSort assortmentRankData={assortmentRankData}/></div>}
-        {!isGroup&&<div style={{width:'49.5%',float:'right',marginBottom:20}}><PersonSort personRankData={personRankData}/></div>}
+        {!isGroup&&<div style={{width:'49.5%',float:'right',marginBottom:20}}><PersonSort personRankData={personRankData} beginDate={startDate} endDate={endDate}/></div>}
       </Spin>
     );
   }
