@@ -73,7 +73,7 @@ class BIClassifyTable extends React.Component {
   }
   countWidth = () => {
     const tableWidth =
-      document.getElementById('tableWrap') && document.getElementById('tableWrap').offsetWidth;
+      document.getElementById('tableWrapClassFy') && document.getElementById('tableWrapClassFy').offsetWidth;
     let scrollWidth1 =
       this.props &&
       this.props.columns.reduce(function(prev, curr, idx, arr) {
@@ -85,17 +85,17 @@ class BIClassifyTable extends React.Component {
   };
   countHeight = () => {
     const tableHeight =
-      document.getElementById('tableWrap') && document.getElementById('tableWrap').offsetHeight;
+      document.getElementById('tableWrapClassFy') && document.getElementById('tableWrapClassFy').offsetHeight;
     this.setState({
       tableHeight: tableHeight,
     });
   };
   onMouseEnter = () => {
-    const dom = document.getElementById('tableWrap').querySelector('.ant-table-body');
+    const dom = document.getElementById('tableWrapClassFy').querySelector('.ant-table-body');
     dom.style.overflowX = 'auto';
   };
   onMouseLeave = () => {
-    const dom = document.getElementById('tableWrap').querySelector('.ant-table-body');
+    const dom = document.getElementById('tableWrapClassFy').querySelector('.ant-table-body');
     dom.style.overflowX = 'hidden';
   };
   title = () => {
@@ -410,7 +410,7 @@ class BIClassifyTable extends React.Component {
     return (
       <div
         className={styles.tableWrap}
-        id="tableWrap"
+        id="tableWrapClassFy"
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
         style={{ minHeight: `${height}px` }}
