@@ -39,7 +39,7 @@ class ProfitList extends React.Component {
     const widthVal = this.props.tabKey === '2' ? '7%' : '8%'
     const columns = [
       {
-        width: this.props.tabKey === '2' ? '8%' : '10%',
+        width: this.props.tabKey === '2' ? '9%' : '10%',
         title: '集团排名',
         dataIndex: 'ranking',
         key: 'ranking',

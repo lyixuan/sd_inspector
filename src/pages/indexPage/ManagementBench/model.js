@@ -17,6 +17,7 @@ import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
 import moment from 'moment';
 
+
 export default {
   namespace: 'xdManagementBench',
   state: {
@@ -26,6 +27,7 @@ export default {
     orgList: [],
     imDetailData: [],
     globalDateRange: {}, // 时间 --
+    screenRange: 'small_screen',
   },
   effects: {
     //  管理层工作台的接口
@@ -237,6 +239,9 @@ export default {
         ];
       }
       return { ...state, ...{ imDetailData: data } };
+    },
+    checkScreen(state, { payload }) {
+      return { ...state, ...payload };
     },
   },
   subscriptions: {},

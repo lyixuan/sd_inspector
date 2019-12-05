@@ -572,16 +572,6 @@ export default {
       }
     },
     // end
-    // 热销产品包列表
-    *getPackageRankList({ payload, callback }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(packageRankList, params);
-      if (result.code === 20000) {
-        return result.data;
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
   },
 
   reducers: {
@@ -645,17 +635,17 @@ export default {
       }
       return { ...state, [payload.key]: { maxValue, pkList } };
     },
-    saveScore(state, { payload }) {
-      const data = payload.data;
-      data.dimensionList = fillDataSource(
-        {
-          ...state.familyKpiTimes,
-          dataTrace: `家族长工作台/${payload.key === 'familyScorePk' ? '家族' : '小组'}学分/`,
-        },
-        data.dimensionList
-      );
-      return { ...state, [payload.key]: data };
-    },
+    // saveScore(state, { payload }) {
+    //   const data = payload.data;
+    //   data.dimensionList = fillDataSource(
+    //     {
+    //       ...state.familyKpiTimes,
+    //       dataTrace: `家族长工作台/${payload.key === 'familyScorePk' ? '家族' : '小组'}学分/`,
+    //     },
+    //     data.dimensionList
+    //   );
+    //   return { ...state, [payload.key]: data };
+    // },
   },
   subscriptions: {},
 };

@@ -123,7 +123,8 @@ class Top extends React.Component {
         title: '创收单量',
         dataIndex: 'incomeOrder',
         key: 'incomeOrder',
-        width: '100px',
+        width: '25%',
+        className: styles.marIncome,
         render: (incomeOrder, record) => {
           return <div style={{ textAlign: 'right', width: '70px' }}>{incomeOrder}</div>;
         },

@@ -195,6 +195,6 @@ export function jumpGobalRouter(path, params) {
   if (path) {
     const url = `${origin}${config.base}${path}`;
     const strParams = encodeURIComponent(JSON.stringify(params));
-    window.open(`${url}?params=${strParams}`, "_self");
+    window.open(`${url}?params=${strParams}`);
   }
 }

@@ -41,7 +41,7 @@ const TYPE = [
     href: 'six',
   },
 ];
-@connect(xdManagementBench => ({
+@connect(({ xdManagementBench }) => ({
   xdManagementBench,
 }))
 class Header extends React.Component {
@@ -121,8 +121,10 @@ class Header extends React.Component {
   // 6	BBS负面贴
   getUlList() {
     const { countList, val, allList } = this.state;
+    const { screenRange } = this.props.xdManagementBench;
+    const list = screenRange === 'small_screen' ? 'list' : 'biglist';
     return (
-      <ul className={styles.list}>
+      <ul className={styles[list]}>
         <li>
           <div>{/* <img src={workImg1} alt="icon" /> */}</div>
           {countList.familyTypeFlag && (
@@ -161,9 +163,11 @@ class Header extends React.Component {
   // 管理层不显示学分
   getUlList1() {
     const { allList = [] } = this.state;
+    const { screenRange } = this.props.xdManagementBench;
+    const list = screenRange === 'small_screen' ? 'list' : 'biglist';
     return (
-      <ul className={styles.list}>
-        {allList.map((item,i) => {
+      <ul className={styles[list]}>
+        {allList.map((item, i) => {
           if (!item || !item.type) return;
           return <Block item={item} key={i} />;
         })}
@@ -173,6 +177,7 @@ class Header extends React.Component {
 
   render() {
     const { date } = this.props;
+    // screenRange
     const { allList, userType } = this.state;
     const start = moment(date.startDate).format('YYYY.MM.DD');
     const end = moment(date.endDate).format('YYYY.MM.DD');
@@ -185,7 +190,9 @@ class Header extends React.Component {
           </span>
         </p>
         {/* 管理层不显示学分 */}
-        {userType && userType !== 'boss' && <div className={styles.headerCon}>{this.getUlList()}</div>}
+        {userType && userType !== 'boss' && (
+          <div className={styles.headerCon}>{this.getUlList()}</div>
+        )}
         {/* 院长副院长 不显示差评率 */}
         {userType && userType !== 'college' && (
           <div className={styles.headerCon}>{this.getUlList1()}</div>
