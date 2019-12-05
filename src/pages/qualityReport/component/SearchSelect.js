@@ -24,7 +24,8 @@ class SearchSelect extends React.Component {
   };
   disabledDate = current => {
     const {activeStartDate,activeEndDate} = this.props;
-    return current < moment(new Date(activeStartDate),'YYYY-MM-DD') || current > moment(new Date(activeEndDate),'YYYY-MM-DD').add(1, 'days');
+    console.log(moment(new Date(1572192000000)).format('YYYY-MM-DD'))
+    return current < moment(new Date(activeStartDate),'YYYY-MM-DD') || current > moment(new Date(activeEndDate),'YYYY-MM-DD').add(0, 'days');
   };
   search = () => {
     const { beginDate, endDate,organization} = this.props;

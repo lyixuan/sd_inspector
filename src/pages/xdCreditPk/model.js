@@ -106,7 +106,7 @@ export default {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
-        yield put({ type: 'saveScore', payload: { times: {endTime: params.endTime, startTime: params.startTime}, data: result.data, key: 'classScorePk', dataTrace: '家族长工作台/本期学分/' } });
+        yield put({ type: 'saveScore', payload: { times: {endTime: params.endTime, startTime: params.startTime}, data: result.data, key: 'classScorePk', dataTrace: '班主任工作台/本期学分/' } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

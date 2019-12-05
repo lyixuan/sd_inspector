@@ -3,7 +3,9 @@ import { connect } from 'dva';
 import styles from './style.less';
 
 const { BI = {} } = window;
-@connect(( ) => ({}))
+@connect(({ global }) => ({
+  globalUserTypes: global.globalUserTypes || {}
+}))
 class TreeNames extends React.Component {
   constructor(props) {
     super(props)
@@ -12,12 +14,17 @@ class TreeNames extends React.Component {
     }
   }
   componentDidMount() {
+    const admin_user = localStorage.getItem('admin_user');
+    const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : undefined;
+    this.setState({
+      traceName: this.props.globalUserTypes[userType]
+    })
   }
   clickTag = (tag) =>{
     this.setState({
       dimensionId: tag.dimensionId
     })
-    BI.traceV && BI.traceV({ "widgetName": tag.name, "traceName": "管理层工作台/" + tag.name });
+    BI.traceV && BI.traceV({ "widgetName": tag.name, "traceName": `${this.state.traceName}工作台${tag.name}` });
     this.props.clickTag({dimensionId:tag.dimensionId});
   }
   getInit = dimensions => {

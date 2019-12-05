@@ -15,14 +15,16 @@ import SearchSelect from '../component/SearchSelect';
 class CubePlanDetail extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isGroup:false
+    };
   }
 
   componentDidMount() {
     const that = this;
-    const { startDate, endDate, organization } = this.props.qualityReport;
-    if (startDate && endDate && organization) {
-      this.query({ startDate, endDate, organization });
+    const { startDate:beginDate, endDate, organization } = this.props.qualityReport;
+    if (beginDate && endDate && (organization || organization==='')) {
+      this.query({ beginDate, endDate, organization });
     } else {
       setTimeout(function() {
         that.componentDidMount();
@@ -37,6 +39,15 @@ class CubePlanDetail extends React.Component {
       familyId: arr[1] ? Number(arr[1]) : null,
       groupId: arr[2] ? Number(arr[2]) : null,
     };
+    if(org.groupId){
+      this.setState({
+        isGroup:true
+      })
+    } else {
+      this.setState({
+        isGroup:false
+      })
+    }
 
     this.props.dispatch({
       type: 'qualityReport/qualitySurveyData',
@@ -57,8 +68,8 @@ class CubePlanDetail extends React.Component {
       type: 'qualityReport/saveTimeReset',
       payload: { params },
     }).then(() => {
-      const { startDate, endDate, organization } = this.props.qualityReport;
-      this.query({ startDate, endDate, organization });
+      const { startDate:beginDate, endDate, organization } = this.props.qualityReport;
+      this.query({ beginDate, endDate, organization });
     });
   };
 
@@ -76,6 +87,7 @@ class CubePlanDetail extends React.Component {
   };
 
   render() {
+    const {isGroup} = this.state;
     const { orgTreeList = [], surveyData,assortmentRankData, personRankData,startDate, endDate, activeStartDate, activeEndDate, startDateBak, endDateBak, organization, organizationBak } = this.props.qualityReport;
     const { headers = [], values = [], maxCount } = surveyData || {};
     return (
@@ -95,8 +107,9 @@ class CubePlanDetail extends React.Component {
                       reset={(params) => this.reset(params)}
                       search={(params) => this.query(params)}/>
         <QualitySurvey headers={headers} values={values} maxCount={maxCount}/>
-        <div style={{width:'49%',float:'left'}}><ItemSort assortmentRankData={assortmentRankData}/></div>
-        <div style={{width:'49.5%',float:'right',marginBottom:20}}><PersonSort personRankData={personRankData}/></div>
+        {isGroup&&<ItemSort assortmentRankData={assortmentRankData}/>}
+        {!isGroup&&<div style={{width:'49%',float:'left'}}><ItemSort assortmentRankData={assortmentRankData}/></div>}
+        {!isGroup&&<div style={{width:'49.5%',float:'right',marginBottom:20}}><PersonSort personRankData={personRankData} beginDate={startDate} endDate={endDate}/></div>}
       </Spin>
     );
   }
