@@ -224,7 +224,7 @@ class ScoreContrast extends React.Component {
         tabParams={this.getTabParams()} onTabChange={this.changeTab}
         propsData = {{
           ...this.state,
-          ...this.props.allTimes,
+          allTimes: this.props.allTimes,
           queryAppealDataPage: this.queryAppealDataPage
         }}
         />
