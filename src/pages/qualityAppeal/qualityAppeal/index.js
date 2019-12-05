@@ -372,7 +372,9 @@ class QualityAppeal extends React.Component {
     this.c2 = this.columnsAction2();
   }
   componentDidMount() {
-    const { p = null } = this.props.location.query;
+    let { p = null } = this.props.location.query;
+    this.initTime = {reduceScoreBeginDate:moment().subtract(6,'days').format('YYYY-MM-DD'),reduceScoreEndDate:moment().format('YYYY-MM-DD')};
+    p=JSON.stringify({...JSON.parse(p),...this.initTime})
     this.queryData(JSON.parse(p));
     this.getOrgTreeData();
   }

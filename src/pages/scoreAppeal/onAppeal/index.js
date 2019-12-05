@@ -124,7 +124,7 @@ class OnAppeal extends React.Component {
     } else {
       storage.setSessonItem('score_tab2',{[paramsUrl.dimensionType]:saveUrlParams});
       if(flag===1){
-        storage.setSessonItem('score_tab', { 11:timeParams,14:timeParams,19:timeParams,23:timeParams,42:timeParams});
+        storage.setSessonItem('score_tab2', { 11:timeParams,14:timeParams,19:timeParams,23:timeParams,42:timeParams});
       }
     }
     // 请求成功后保留查询条件

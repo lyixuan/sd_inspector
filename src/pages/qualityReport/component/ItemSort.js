@@ -27,7 +27,7 @@ export default class ItemSort extends React.Component {
           return (
             <>
               <Tooltip placement="right" title="点击查看质检细则" >
-                <span style={{cursor:'pointer'}} onClick={()=>jumpGobalRouter('classQuality/qualityType/2', {keyWord: text})}>{text}</span>
+                <span style={{cursor:'pointer'}} data-trace='{"widgetName":"点击违规项-班主任","traceName":"质检管理/班主任质检报告/违规项质检情况排行/点击违规项"}'  onClick={()=>jumpGobalRouter('classQuality/qualityType/2', {keyWord: text})}>{text}</span>
               </Tooltip >
             </>
           );
@@ -80,9 +80,9 @@ export default class ItemSort extends React.Component {
     return (
       <div className={style.qualitySurvey} style={{marginTop:20}}>
         <div className={style.title}>违规项质检情况排行 <Tooltip placement="top" title="点击查看质检细则" >
-          <img onClick={()=>jumpGobalRouter('classQuality/qualityType/2', {})} src={shouce} alt=""/>
+          <img data-trace='{"widgetName":"点击质检手册入口-班主任","traceName":"质检管理/班主任质检报告/违规项质检情况排行/点击质检手册入口"}' onClick={()=>jumpGobalRouter('classQuality/qualityType/2', {})} src={shouce} alt=""/>
         </Tooltip ></div>
-        <div>
+        <div style={{height:545}}>
           <BIWrapperTable
             name='rrt'
             columns={this.getColumns()}
