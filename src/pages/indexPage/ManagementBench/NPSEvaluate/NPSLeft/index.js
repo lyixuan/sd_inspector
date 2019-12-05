@@ -45,8 +45,9 @@ class NPSLeft extends React.Component {
         dataIndex: 'stuName',
         key: 'stuName',
         width:"100px",
+        ellipsis: true,
         render: (stuName,record) => {
-          return <div className={styles.studentColor} onClick={()=>this.clickStudentName(record)}>{stuName}</div>
+          return <Tooltip trigger="hover" title={stuName}><div className={styles.studentColor} onClick={()=>this.clickStudentName(record)}>{stuName}</div></Tooltip>
         },
       }, {
         title: '时间',
@@ -63,14 +64,15 @@ class NPSLeft extends React.Component {
         key: 'star',
         width:"120px",
         render: (star) => {
-          return <Star  star={star} />
+          return <Star star={star} />
         },
       },
       {
         title: '内容',
         dataIndex: 'opinion',
         key: 'opinion',
-        // width:100,
+        ellipsis: true,
+        // w idth:'210px',
         render: (opinion,) => {
           return <Tooltip placement="right" title={opinion}>
             <div className={styles.contentMain}>{opinion}<div/></div>
@@ -100,7 +102,7 @@ class NPSLeft extends React.Component {
         propStyle={{padding:0}}
       >
       {/*<div className={styles.NPALeftMain} >*/}
-      <div style={{width:'100%',height:'30px'}}>
+      <div className={styles.NPALeftMain}  style={{width:'100%',height:'30px'}}>
         {reasonTypeDtoList && reasonTypeDtoList.map((item,index)=><ColorBlock data={{...item}} key={index} className={`colorStyle${index}`}/>)}
       </div>
         {

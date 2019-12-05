@@ -151,7 +151,7 @@ class Top extends React.Component {
         key: 'incomeOrder',
         width: '70px',
         render: (incomeOrder, record) => {
-          return <div style={{ textAlign: 'right', width: '60px' }}>{incomeOrder}</div>;
+          return <div style={{ textAlign: 'right', width: '60px', textAlign: 'center' }}>{incomeOrder}</div>;
         },
       },
       {
@@ -167,7 +167,7 @@ class Top extends React.Component {
               <BIWrapperProgress
                 text={money}
                 percent={percent}
-                propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'right' }}
+                propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'flex-end' }}
               />
             </div>
           );

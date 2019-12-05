@@ -49,38 +49,39 @@
       .ant-table-thead > tr:nth-child(5) > th:nth-child(5) > div,
       .ant-table-tbody > tr > td:nth-child(5) > div {
         white-space: nowrap;
-        width: 240px;
+        width: 336x;
         overflow: hidden;
         text-overflow: ellipsis;
       }
     }
-    @media screen and (min-width: 0) and (max-width: 1580px) {
+    @media screen and (min-width: 1281) and (max-width: 1440px) {
       .ant-table-thead > tr:nth-child(5) > th:nth-child(5) > div,
       .ant-table-tbody > tr > td:nth-child(5) > div {
         white-space: nowrap;
-        width: 260px;
+        width: 336x;
         overflow: hidden;
         text-overflow: ellipsis;
       }
     }
-    @media screen and (min-width: 1000px) and (max-width: 1200px) {
+    @media screen and (min-width: 1000px) and (max-width: 1280px) {
       .ant-table-thead > tr:nth-child(5) > th:nth-child(5) > div,
       .ant-table-tbody > tr > td:nth-child(5) > div {
         white-space: nowrap;
-        width: 200px;
+        width: 210px;
         overflow: hidden;
         text-overflow: ellipsis;
       }
     }
   }
-  //.contentMain{
+  .contentMain{
+    padding-right:24px;
   //  width: 100px;
-  //  //display:block;
+   //display:block;
   //  overflow:hidden;
   //  word-break:keep-all;
   //  white-space:nowrap;
   //  text-overflow:ellipsis;
-  //}
+  }
   .studentColor {
     color: rgb(0, 204, 195);
     cursor: pointer;
@@ -112,3 +113,17 @@
     }
   }
 }
+
+// :global {
+//   .ant-table-thead > tr > th:nth-child(1) {
+//     text-align: left !important;
+//   }
+
+//   .ant-table-thead > tr > th:last-child {
+//     text-align: left !important;
+//   }
+
+//   .ant-table-thead > tr > th {
+//     text-align: center !important;
+//   }
+// }
