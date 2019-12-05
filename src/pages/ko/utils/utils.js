@@ -3,6 +3,7 @@ import { INDEX_PAGE } from '@/utils/constants';
 import config from '../../../../config/config';
 import React from 'react';
 import deImg from '@/assets/ai/de.png'
+import { handleDataTrace } from '@/utils/utils';
 
 const commitDateFormat = 'YYYY-MM-DD';
 export const handleDateParams = (item) => {
