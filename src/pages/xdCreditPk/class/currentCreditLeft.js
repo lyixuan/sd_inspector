@@ -18,13 +18,13 @@ class currentCreditLeft extends React.Component {
     const { groupList = [] } = this.props.groupPkList;
     const columns = [
       {
-        width: '18%',
+        width: '17%',
         title: '学分维度',
         dataIndex: 'dimensionName',
         key: 'dimensionName',
         render: (text, record) => this.getDimensionName(record)
       }, {
-        width: '10%',
+        width: '11%',
         title: '环比(%)',
         dataIndex: 'myScoreRatio',
         key: 'myScoreRatio',
@@ -109,7 +109,7 @@ class currentCreditLeft extends React.Component {
     const { pkGroupList, loading } = this.props;
     const dataSource = this.getDataSource();
     return (
-      <div className={styles.creditLeft} style={{ minHeight: 560 }}>
+      <div className={styles.creditLeft} style={{ minHeight: 600 }}>
         <BILoading isLoading={loading} > <div className={styles.tableContainer}>
           <BIScrollbarTable
             columns={this.columns()}
@@ -118,7 +118,7 @@ class currentCreditLeft extends React.Component {
             pagination={false}
             rowKey={record => record.id}
             bordered={true}
-            scroll={{ y: 492 }}
+            scroll={{ y: 560 }}
           />
           {
             pkGroupList && pkGroupList.length >= 1 ? '' : <div onClick={() => this.props.toggleDrawer(true)} className={styles.tableImg}><img src={xdPkImg} alt='' /></div>

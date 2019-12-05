@@ -77,10 +77,10 @@ class currentCreditRight extends React.Component {
   }
   //获取对比小组的列表页
   getGroupList = ([startTime, endTime] = this.props.dateRangeSelect) => {
-    const paramsItem = this.state.orgValue === 1 ? 'groupType' : 'kpiLevelId';
+    // const paramsItem = this.state.orgValue === 1 ? 'groupType' : 'kpiLevelId';
     this.props.dispatch({
       type: 'xdCreditPkModal/groupList',
-      payload: { params: { [paramsItem]:  this.state.studentValue, startTime, endTime} },
+      payload: { params: { groupType:  this.state.studentValue, startTime, endTime} },
       callback: (groupList) => {
         this.setState({ groupList });
         const { eleScroll } = this.state;
@@ -237,7 +237,7 @@ class currentCreditRight extends React.Component {
               loading={this.props.loading}
               rowClassName={this.setRowClassName}
               onRow={this.onClickRow}
-              scroll={{ y: 410 }}
+              scroll={{ y: 470 }}
               rowKey={(record, index) => record.groupId + '' + index}
             />
           </div>

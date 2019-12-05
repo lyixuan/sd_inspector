@@ -262,7 +262,7 @@ class currentCreditRight extends React.Component {
               loading={this.props.drawerloading}
               rowClassName={this.setRowClassName}
               onRow={this.onClickRow}
-              scroll={{ y: 410 }}
+              scroll={{ y: 470 }}
               rowKey={record => record[pkValue]}
               name={this.getShowKey('mineFlag') === 'myFamily' ? 'abc3' : 'abc4'}
             />
