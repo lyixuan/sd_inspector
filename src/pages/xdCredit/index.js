@@ -77,8 +77,6 @@ class XdCredit extends React.Component {
               orgType,
               familyType
             }, () => this.getUserOrgList())
-            
-            // () => this.getUserOrgList()
           } else {
             this.getUserOrgList()
           }
@@ -463,7 +461,6 @@ class XdCredit extends React.Component {
     })
   }
   render() {
-    console.log('ppppppp')
     const { dementionId, groupId, extendFlag, userOrgConfig } = this.state;
     const { infoLoading } = this.props;
     const value = this.getFamilyType();

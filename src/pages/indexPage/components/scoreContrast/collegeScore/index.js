@@ -216,7 +216,7 @@ class CollegeScore extends React.Component {
   clickEvent = (arr, item, userInfo)=>{
     const { queryParams = {}, tabNum = 1, queryAppealDatas = {} } = this.props;
     let paramsArr = queryAppealDatas.creaditDataList || arr;
-    if (!paramsArr[item.dataIndex].selfOrLower) {
+    if (userInfo.userType !== "boss" && !paramsArr[item.dataIndex].selfOrLower) {
       return;
     }
     let orgId = "";
@@ -236,9 +236,8 @@ class CollegeScore extends React.Component {
         reasonTypeId: 0,
         orgId,
       }
-      // window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`);
-      jumpGobalRouter('xdCredit/index', params);
-    // }
+      window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`, "_self");
+      // jumpGobalRouter('xdCredit/index', params);
   }
   getEchartRender = creaditDataList => {
     return <>

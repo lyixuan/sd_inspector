@@ -239,7 +239,6 @@ class CreditImDetials extends React.Component {
             title={text}
           >
             <span className={`${styles.textEllipsis} ${styles.textorg}`}>
-              <div></div>
               {text}
             </span>
           </Tooltip>
