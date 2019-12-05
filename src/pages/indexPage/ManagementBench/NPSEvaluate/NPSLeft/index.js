@@ -68,6 +68,7 @@ class NPSLeft extends React.Component {
         },
       },
       {
+        ellipsis: true,
         title: '内容',
         dataIndex: 'opinion',
         key: 'opinion',
