@@ -9,70 +9,101 @@ export default class QualitySurvey extends React.Component {
   }
 
   componentDidMount() {
-    // this.getDom();
+    this.getDom();
   }
 
-  getColumns = (lastLineIdx) => {
+  getColumns = (lastData) => {
     const { name, totalCountName, specialViolationName, dimensionNameList = [] } = this.props.headers || {};
     const {maxCount,scrollx} = this.props;
     const col1 = [
       {
         title: name,
-        dataIndex: 'name',
         align:'left',
-        width:130,
+        children: [{
+          children: [{
+            title:'总计',
+            dataIndex: 'name',
+            align:'left',
+            width:130,
+          }]
+        }]
       },
       {
         title: totalCountName,
-        dataIndex: 'totalCount',
         align:'right',
-        width:90,
+        children: [{
+          children: [{
+            title:lastData.totalCount,
+            dataIndex: 'totalCount',
+            align:'right',
+            width:90,
+          }]
+        }]
       },
       {
         title: specialViolationName,
-        dataIndex: 'specialViolationCount',
-        align:'center',
+        children: [{
+          title: '',
+          children: [{
+            title:lastData.specialViolationCount,
+            dataIndex: 'specialViolationCount',
+            align:'center',
+            width:scrollx?76:'',
+          }]
+        }]
       }];
 
     const col2 = dimensionNameList && dimensionNameList.map((val) => {
       const colCell1 = {
         title:<span><span className={style.dotStl} style={{ background: '#F34E2D' }}/> <span>{val.primaryViolationName}</span></span>,
         align:'center',
-        dataIndex: val.dimensionId + val.primaryViolationName,
-        width:scrollx?76:'',
-        render: (text, record,idx) => {
-          return (
-            <>
-              <span className={style.cell} style={{background:`rgba(242,45,47,${record[val.dimensionId + val.primaryViolationName]&&idx!==lastLineIdx?record[val.dimensionId + val.primaryViolationName]/maxCount:0})`}}>{record[val.dimensionId + val.primaryViolationName]}</span>
-            </>
-          );
-        },
+        children: [{
+          title:lastData[val.dimensionId + val.primaryViolationName],
+          dataIndex: val.dimensionId + val.primaryViolationName,
+          align:'center',
+          width:scrollx?76:'',
+          render: (text, record) => {
+            return (
+              <>
+                <span className={style.cell} style={{background:`rgba(242,45,47,${record[val.dimensionId + val.primaryViolationName]?record[val.dimensionId + val.primaryViolationName]/maxCount:0})`}}>{record[val.dimensionId + val.primaryViolationName]}</span>
+              </>
+            );
+          },
+        }]
       };
       const colCell2 = {
         title:<span><span className={style.dotStl} style={{ background: '#F0963C' }}/> <span>{val.secondViolationName}</span></span>,
         align:'center',
-        dataIndex: val.dimensionId + val.secondViolationName,
-        width:scrollx?76:'',
-        render: (text, record,idx) => {
-          return (
-            <>
-              <span className={style.cell} style={{background:`rgba(242,45,47,${record[val.dimensionId + val.secondViolationName]&&idx!==lastLineIdx?record[val.dimensionId + val.secondViolationName]/maxCount:0})`}}>{record[val.dimensionId + val.secondViolationName]}</span>
-            </>
-          );
-        },
+        children: [{
+          title:lastData[val.dimensionId + val.secondViolationName],
+          dataIndex: val.dimensionId + val.secondViolationName,
+          align:'center',
+          width:scrollx?76:'',
+          render: (text, record) => {
+            return (
+              <>
+                <span className={style.cell} style={{background:`rgba(242,45,47,${record[val.dimensionId + val.secondViolationName]?record[val.dimensionId + val.secondViolationName]/maxCount:0})`}}>{record[val.dimensionId + val.secondViolationName]}</span>
+              </>
+            );
+          },
+        }]
       };
       const colCell3 = {
         title: <span><span className={style.dotStl} style={{ background: '#32B67A' }}/> <span>{val.thirdViolationName}</span></span>,
         align:'center',
-        dataIndex: val.dimensionId + val.thirdViolationName,
-        width:scrollx?76:'',
-        render: (text, record,idx) => {
-          return (
-            <>
-              <span className={style.cell} style={{background:`rgba(242,45,47,${record[val.dimensionId + val.thirdViolationName]&&idx!==lastLineIdx?record[val.dimensionId + val.thirdViolationName]/maxCount:0})`}}>{record[val.dimensionId + val.thirdViolationName]}</span>
-            </>
-          );
-        },
+        children: [{
+          title:lastData[val.dimensionId + val.thirdViolationName],
+          dataIndex: val.dimensionId + val.thirdViolationName,
+          align:'center',
+          width:scrollx?76:'',
+          render: (text, record) => {
+            return (
+              <>
+                <span className={style.cell} style={{background:`rgba(242,45,47,${record[val.dimensionId + val.thirdViolationName]?record[val.dimensionId + val.thirdViolationName]/maxCount:0})`}}>{record[val.dimensionId + val.thirdViolationName]}</span>
+              </>
+            );
+          },
+        }]
       };
 
       const children = [];
@@ -106,10 +137,8 @@ export default class QualitySurvey extends React.Component {
       });
       data.push(details);
     });
-    data.push(data[0]);
-    data = data.slice(1);
-    const column = this.getColumns(data.length-1);
-    return {data,column};
+    const column = this.getColumns(data[data.length-1]||{});
+    return {data:data.slice(0,data.length-1),column};
   };
 
   getDom =()=>{
