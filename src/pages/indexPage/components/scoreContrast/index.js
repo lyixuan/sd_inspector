@@ -17,26 +17,29 @@ const userTypes = {
   'group': true,
   'family': true,
 }
-@connect(({ xdWorkModal }) => ({
+@connect(({ xdWorkModal, global}) => ({
   globalOrgList: xdWorkModal.globalOrgList || {},
   userInfo: xdWorkModal.userInfo || {},
+  globalUserTypes: global.globalUserTypes || {}
 }))
 class ScoreContrast extends React.Component {
   constructor(props) {
     super(props);
+    jumpGobalRouter('classQuality/qualityType/2', {keyWord: '服务'}) 
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
+    const trace = this.props.globalUserTypes[userType]
     this.state = {
       tabParams: [{
-        name: <span data-trace='{"widgetName":"学院学分对比","traceName":"管理层工作台/学院学分对比"}'>学院学分对比</span>,
+        name: <span data-trace={`{"widgetName":"学院学分对比","traceName":"${trace}工作台/学院学分对比"}`}>学院学分对比</span>,
         key: '1',
         children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       },{
-        name: <span data-trace='{"widgetName":"家族学分对比","traceName":"管理层工作台/家族学分对比"}'>家族学分对比</span>,
+        name: <span data-trace={`{"widgetName":"家族学分对比","traceName":"${trace}工作台/家族学分对比"}`}>家族学分对比</span>,
         key:'2',
         children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       },{
-        name: <span data-trace='{"widgetName":"小组学分对比","traceName":"管理层工作台/小组学分对比"}'>小组学分对比</span>,
+        name: <span data-trace={`{"widgetName":"小组学分对比","traceName":"${trace}工作台/小组学分对比"}`}>小组学分对比</span>,
         key: '3',
         children: <CollegeScore queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
       }],
@@ -173,12 +176,12 @@ class ScoreContrast extends React.Component {
           />}
         </span>
         <span>
-          <BIButton onClick={() => this.handleRouter('xdCredit/index', {...allTimes})} type="online" style={{marginRight: '8px'}}>
+          <BIButton onClick={() => this.handleRouter('xdCredit/index', allTimes, '趋势')} type="online" style={{marginRight: '8px'}}>
             <img src={qushiImg} alt='' style={{ width: 15, marginRight: 6 }}/>
             学分趋势
           </BIButton>
           { 
-            userTypes[userType] && <BIButton onClick={() => this.handleRouter('xdCreditPk/list', allTimes)} type="online" style={{marginRight: '8px'}}>
+            userTypes[userType] && <BIButton onClick={() => this.handleRouter('xdCreditPk/list', allTimes, 'pk')} type="online" style={{marginRight: '8px'}}>
               <img src={pkBtnImg} alt='' style={{ width: 16, marginRight: 12 }}/>
               学分PK
             </BIButton>
@@ -199,8 +202,10 @@ class ScoreContrast extends React.Component {
       queryParams: this.state.queryParams,
     }, () => this.queryAppealDataPage())
   }
-  handleRouter = (path, params) => {
-    handleDataTrace({"widgetName":"学分趋势","traceName":"班主任工作台/学分趋势"});
+  handleRouter = (path, params, trace) => {
+    const { userType } = this.state;
+    const { globalUserTypes } = this.props;
+    handleDataTrace({"widgetName":`${globalUserTypes[userType]}点学分${trace}`,"traceName":`${globalUserTypes[userType]}工作台/学分${trace}按钮`});
     jumpGobalRouter(path, params);
   }
   render() {

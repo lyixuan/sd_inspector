@@ -226,8 +226,8 @@ class CollegeScore extends React.Component {
       orgId = userInfo.collegeId;
     }
     // if( orgId === userInfo.collegeId && userInfo.userType === "college" || userInfo.userType === "boss" || tabNum !== 1 ){
-      const { allTimes = {}  } = this.props.queryAppealDatas.props.allTimes;
-      const { dimensionId, familyType } = queryParams
+      const { allTimes = {}  } = this.props.queryAppealDatas.props;
+      const { dimensionId, familyType } = queryParams;
       let params={
         ...allTimes,
         dementionId: dimensionId ? dimensionId : 37,
