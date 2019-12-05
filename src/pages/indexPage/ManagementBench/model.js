@@ -14,7 +14,7 @@ import {
   reasonList,
 } from './services';
 import { message } from 'antd/lib/index';
-import { msgF } from '@/utils/utils';
+import { msgF,DeepCopy } from '@/utils/utils';
 import moment from 'moment';
 
 
@@ -47,8 +47,11 @@ export default {
       const result = yield call(getNpsAutonomousEvaluation, payload.params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { npsParams: result.data } });
+        return result.data;
+        console.log(result.data,'adada');
         if (callback && typeof callback === 'function') {
-          callback(result.data);
+          console.log(result.data,'adada');
+          callback(DeepCopy(result.data));
         }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));

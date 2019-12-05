@@ -114,7 +114,7 @@ class NPSLeft extends React.Component {
 
   render() {
     // const { dataSource} = this.state;
-    const { NPSleftParams = {}, npsList = [], loading } = this.props;
+    const { NPSleftParams , npsList = [], loading } = this.props;
     let isLastPage = false;
     const { nowPage: pageNum, pages } = NPSleftParams.npsStarOpinionDtoListMap || {};
     if (pages <= pageNum) {

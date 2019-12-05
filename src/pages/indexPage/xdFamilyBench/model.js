@@ -489,8 +489,9 @@ export default {
     //NPS自主评价所有的接口
     *getNpsAutonomousEvaluation({ payload, callback }, { call, put }) {
       const result = yield call(getNpsAutonomousEvaluation, payload.params);
-      if (result.code === 20000 && result.data) {
+      if (result.code === 20000) {
         yield put({ type: 'save', payload: { npsParams: result.data } });
+        return result.data;
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }

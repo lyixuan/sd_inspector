@@ -25,7 +25,11 @@ class NPSLeft extends React.Component {
       target: 'userName',
     };
     const { BI = {} } = window;
-    BI.traceV && BI.traceV({ widgetName: '家族长首页nps进学员档案', traceName: '家族长工作台/nps/列表/学员档案' });
+    BI.traceV &&
+      BI.traceV({
+        widgetName: '家族长首页nps进学员档案',
+        traceName: '家族长工作台/nps/列表/学员档案',
+      });
     window.open(`/inspector/ko/behaviorPath?params=${JSON.stringify(params)}`);
   };
   columnsRight = () => {
@@ -87,16 +91,25 @@ class NPSLeft extends React.Component {
     ];
     return columns || [];
   };
+
+  arrFn = arr => {
+    return arr.length > 5 ? arr.filter((item, index) => index <= 4) : arr;
+  };
   render() {
-    const {NPSleftParams} = this.props
-    let dataSource = NPSleftParams && NPSleftParams.npsStarOpinionDtoListMap && NPSleftParams.npsStarOpinionDtoListMap.data.length>0 ? NPSleftParams.npsStarOpinionDtoListMap.data:[];
-    if(dataSource.length >=7){
-      dataSource = dataSource.splice(0,8);
+    const { NPSleftParams } = this.props;
+    let dataSource =
+      NPSleftParams &&
+      NPSleftParams.npsStarOpinionDtoListMap &&
+      NPSleftParams.npsStarOpinionDtoListMap.data.length > 0
+        ? NPSleftParams.npsStarOpinionDtoListMap.data
+        : [];
+    if (dataSource.length >= 7) {
+      dataSource = dataSource.splice(0, 8);
     }
+
     let { reasonTypeDtoList = [] } = NPSleftParams;
-    if (reasonTypeDtoList.length >= 5) {
-      reasonTypeDtoList = reasonTypeDtoList.splice(0, 5);
-    }
+    const newList = this.arrFn(reasonTypeDtoList);
+
     return (
       <Container
         title="创收学院对比"
@@ -106,9 +119,8 @@ class NPSLeft extends React.Component {
       >
         {/*<div className={styles.NPALeftMain} >*/}
         <div style={{ width: '100%', height: '30px' }}>
-          {NPSleftParams &&
-            NPSleftParams.reasonTypeDtoList &&
-            NPSleftParams.reasonTypeDtoList.map((item, index) => (
+          {newList &&
+            newList.map((item, index) => (
               <ColorBlock data={{ ...item }} key={index} className={`colorStyle${index}`} />
             ))}
         </div>

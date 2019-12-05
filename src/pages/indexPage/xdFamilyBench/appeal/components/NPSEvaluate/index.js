@@ -126,15 +126,18 @@ class NPSEvaluate extends React.Component {
       pageNum: null,
       pageSize: null,
     };
-    this.props.dispatch({
-      type: 'xdFamilyModal/getNpsAutonomousEvaluation',
-      payload: { params: params },
-      callback: res => {
-        this.setState({
-          NPSParams: res,
-        });
-      },
-    });
+    this.props
+      .dispatch({
+        type: 'xdFamilyModal/getNpsAutonomousEvaluation',
+        payload: { params: params },
+      })
+      .then(res => {
+        if (res) {
+          this.setState({
+            NPSParams: res,
+          });
+        }
+      });
   };
   // 组织 - 时间
   getUserOrgList = () => {
@@ -216,10 +219,10 @@ class NPSEvaluate extends React.Component {
 
   goto = () => {
     BI.traceV &&
-    BI.traceV({
-      widgetName: 'NPS查看更多（家族长）',
-      traceName: '家族长工作台/NPS分析',
-    });
+      BI.traceV({
+        widgetName: 'NPS查看更多（家族长）',
+        traceName: '家族长工作台/NPS分析',
+      });
     router.push({
       pathname: '/nps',
     });
@@ -232,7 +235,7 @@ class NPSEvaluate extends React.Component {
     orgList.length > 0 && this.getResetGroupMsg(orgList);
     return (
       <div className={styles.more} onClick={this.goto}>
-         查看更多<span style={{ marginTop: '-1px' }}>></span>
+        查看更多<span style={{ marginTop: '-1px' }}>></span>
         {/* <span className={styles.change}>
           选择组织：
                 <BICascader

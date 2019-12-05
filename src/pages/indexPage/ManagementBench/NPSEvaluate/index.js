@@ -111,15 +111,19 @@ class NPSEvaluate extends React.Component {
       pageNum: null,
       pageSize: null,
     };
-    this.props.dispatch({
-      type: 'xdManagementBench/getNpsAutonomousEvaluation',
-      payload: { params: params },
-      callback: res => {
-        this.setState({
-          NPSParams: res,
-        });
-      },
-    });
+    this.props
+      .dispatch({
+        type: 'xdManagementBench/getNpsAutonomousEvaluation',
+        payload: { params: params },
+      })
+      .then((res) => {
+        console.log(res,'dssadsadsadsad');
+        if (res) {
+          this.setState({
+            NPSParams: res,
+          });
+        }
+      });
   };
   // 组织 - 时间
   getUserOrgList = () => {
@@ -195,6 +199,7 @@ class NPSEvaluate extends React.Component {
       pathname: '/nps',
     });
   };
+
   rightPart = () => {
     // const {collegeOptions,orgValue} = this.state
     const { groupId = [0], userOrgConfig, dateArr, star } = this.state;
