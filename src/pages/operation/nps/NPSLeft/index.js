@@ -75,9 +75,17 @@ class NPSLeft extends React.Component {
       },
       {
         title: '原因',
+        ellipsis: true,
         dataIndex: 'reasonTypeDesc',
         key: 'reasonTypeDesc',
         width: '120px',
+        render: opinion => {
+          return (
+            <Tooltip title={opinion}>
+                {opinion}
+            </Tooltip>
+          );
+        },
       },
       {
         title: '内容',
