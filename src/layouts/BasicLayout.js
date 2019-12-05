@@ -239,8 +239,7 @@ class BasicLayout extends React.PureComponent {
     });
   };
 
-  gobalMarkClass() {
-    // 质检标注的几个页面布局 需要改变一下头部的样式
+  gobalMarkClass() {// 质检标注的几个页面布局 需要改变一下头部的样式
     const tabGroup = [
       '/cubePlan/list',
       '/setting/performance/list',
@@ -249,7 +248,7 @@ class BasicLayout extends React.PureComponent {
       '/qualityMarking/nps',
       '/entrancePlatform/statistics',
       '/ko/behaviorPath',
-    ];
+      '/hotQuestion/index'];
     return tabGroup.includes(this.props.location.pathname) ? 'aiWorktable-ant-layout-content' : '';
   }
 
@@ -258,7 +257,7 @@ class BasicLayout extends React.PureComponent {
     const { collapsed, fetchingNotices, notices, location, children, isLoginIng } = this.props;
     const { menuData } = this.props;
 
-    if(this.props.location.pathname === '/cubePlan/list'){
+    if (this.props.location.pathname === '/cubePlan/list') {
       color = '#fff';
     }
     const currentUser = this.handleUserInfo();

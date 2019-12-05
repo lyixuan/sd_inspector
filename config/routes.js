@@ -586,6 +586,23 @@ export const routes = [
         path: '/classQuality/qualityType/2', // 班主任
         component: './classQuality/index',
       },
+      {
+        path: '/hotQuestion',
+        routes: [
+          {
+            path: '/hotQuestion/index',
+            component: './hotQuestion'
+          },
+          {
+            path: '/hotQuestion/guessEdit',
+            component: './hotQuestion/guessEdit',
+          },
+          {
+            path: '/hotQuestion/relationEdit',
+            component: './hotQuestion/relationEdit',
+          }
+        ]
+      }
     ],
   },
 ];
