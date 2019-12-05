@@ -69,7 +69,7 @@ class NPSLeft extends React.Component {
         key: 'star',
         width: '120px',
         render: star => {
-          return <Star star={star} />;
+          return <Star star={star} style={{ display: 'flex', alignItem: 'center' }} />;
         },
       },
       {
