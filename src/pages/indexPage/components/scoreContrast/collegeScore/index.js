@@ -214,7 +214,7 @@ class CollegeScore extends React.Component {
 
   }
   clickEvent = (arr, item, userInfo)=>{
-    const { queryParams = {}, tabNum = 1, queryAppealDatas = {} } = this.props.queryAppealDatas.state;
+    const { queryParams = {}, tabNum = 1, queryAppealDatas = {} } = this.props;
     let paramsArr = queryAppealDatas.creaditDataList || arr;
     if (!paramsArr[item.dataIndex].selfOrLower) {
       return;
@@ -226,7 +226,7 @@ class CollegeScore extends React.Component {
       orgId = userInfo.collegeId;
     }
     // if( orgId === userInfo.collegeId && userInfo.userType === "college" || userInfo.userType === "boss" || tabNum !== 1 ){
-      const { allTimes = {}  } = this.props.queryAppealDatas.props;
+      const { allTimes = {}  } = this.props;
       const { dimensionId, familyType } = queryParams;
       let params={
         ...allTimes,
@@ -253,7 +253,7 @@ class CollegeScore extends React.Component {
     </>
   }
   render() {
-    const { queryAppealDatas = {} } = this.props.queryAppealDatas.state;
+    const { queryAppealDatas = {} } = this.props;
     const { creaditDataList = [] } = queryAppealDatas;
     return (
       <div style={{minHeight:'490px'}}>

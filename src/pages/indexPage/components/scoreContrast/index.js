@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
-import TopTabs from "../../components/topTabs";
+import TopTabs from "../../components/topTabsAll";
 import Container from '@/components/BIContainer';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
 import BICascader from '@/ant_components/BICascader';
-import CollegeScore from "./collegeScore";
 import { handleDataTrace } from '@/utils/utils';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 import pkBtnImg from '@/assets/pkbtn.png';
@@ -27,21 +26,7 @@ class ScoreContrast extends React.Component {
     super(props);
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
-    const trace = this.props.globalUserTypes[userType]
     this.state = {
-      tabParams: [{
-        name: <span data-trace={`{"widgetName":"学院学分对比","traceName":"${trace}工作台/学院学分对比"}`}>学院学分对比</span>,
-        key: '1',
-        children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
-      },{
-        name: <span data-trace={`{"widgetName":"家族学分对比","traceName":"${trace}工作台/家族学分对比"}`}>家族学分对比</span>,
-        key:'2',
-        children: <CollegeScore  queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
-      },{
-        name: <span data-trace={`{"widgetName":"小组学分对比","traceName":"${trace}工作台/小组学分对比"}`}>小组学分对比</span>,
-        key: '3',
-        children: <CollegeScore queryAppealDatas={this} queryAppealDataPage={this.queryAppealDataPage}/>,
-      }],
       collegeOptions:[],
       queryAppealDatas:{},
       queryParams: {
@@ -207,6 +192,19 @@ class ScoreContrast extends React.Component {
     handleDataTrace({"widgetName":`${globalUserTypes[userType]}点学分${trace}`,"traceName":`${globalUserTypes[userType]}工作台/学分${trace}按钮`});
     jumpGobalRouter(path, params);
   }
+  getTabParams = () => {
+    const trace = this.props.globalUserTypes[this.state.userType];
+    return [{
+      name: <span data-trace={`{"widgetName":"学院学分对比","traceName":"${trace}工作台/学院学分对比"}`}>学院学分对比</span>,
+      key: '1',
+    },{
+      name: <span data-trace={`{"widgetName":"家族学分对比","traceName":"${trace}工作台/家族学分对比"}`}>家族学分对比</span>,
+      key:'2',
+    },{
+      name: <span data-trace={`{"widgetName":"小组学分对比","traceName":"${trace}工作台/小组学分对比"}`}>小组学分对比</span>,
+      key: '3',
+    }]
+  }
   render() {
     return (
       <Container 
@@ -223,7 +221,12 @@ class ScoreContrast extends React.Component {
           marginLeft: 400,
           left: 0
         }} 
-        tabParams={this.state.tabParams} onTabChange={this.changeTab}
+        tabParams={this.getTabParams()} onTabChange={this.changeTab}
+        propsData = {{
+          ...this.state,
+          ...this.props.allTimes,
+          queryAppealDataPage: this.queryAppealDataPage
+        }}
         />
       </Container>
     );

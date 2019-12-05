@@ -152,9 +152,9 @@ class Header extends React.Component {
             )}
           </p>
         </li>
-        {allList.map(item => {
+        {allList.map((item, index) => {
           if (!item || !item.type) return;
-          return <Block item={item} />;
+          return <Block key={index} item={item} />;
         })}
       </ul>
     );
