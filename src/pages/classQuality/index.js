@@ -133,9 +133,9 @@ class ClassQuality extends React.Component {
   // 搜索条件 reset
   handleSubmit = v => {
     if (v === 'reset') {
-      const { resetKeyWord } = this.state;
-      this.changeSearch(resetKeyWord);
-      this.requestTree(resetKeyWord);
+      // const { resetKeyWord } = this.state;
+      this.changeSearch();
+      this.requestTree(v);
     } else {
       this.requestTree();
     }
