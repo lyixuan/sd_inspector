@@ -4,7 +4,7 @@ import EchartBottom from '../components/echartBottom';
 import BILoading from '@/components/BILoading';
 import TreeNames from '../components/treeNames';
 import Echart from '../components/echart';
-import { jumpGobalRouter } from '@/pages/ko/utils/utils';
+import { jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
 import BIScrollbar from '@/ant_components/BIScrollbar';
 
 
@@ -236,8 +236,7 @@ class CollegeScore extends React.Component {
         reasonTypeId: 0,
         orgId,
       }
-      window.open(`/inspector/xdCredit/index?params=${JSON.stringify(params)}`, "_self");
-      // jumpGobalRouter('xdCredit/index', params);
+      jumpGobalSelfRouter('xdCredit/index', params);
   }
   getEchartRender = creaditDataList => {
     return <>

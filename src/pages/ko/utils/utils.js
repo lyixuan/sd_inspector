@@ -198,3 +198,11 @@ export function jumpGobalRouter(path, params) {
     window.open(`${url}?params=${strParams}`);
   }
 }
+export function jumpGobalSelfRouter(path, params) {
+  const origin = window.location.origin;
+  if (path) {
+    const url = `${origin}${config.base}${path}`;
+    const strParams = encodeURIComponent(JSON.stringify(params));
+    window.open(`${url}?params=${strParams}`, "_self");
+  }
+}
