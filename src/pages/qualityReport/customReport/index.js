@@ -20,9 +20,9 @@ class CustomReport extends React.Component {
 
   componentDidMount() {
     const that = this;
-    const { startDate, endDate, organization } = this.props.qualityReport;
-    if (startDate && endDate && organization) {
-      this.query({ startDate, endDate, organization });
+    const { startDate:beginDate, endDate, organization } = this.props.qualityReport;
+    if (beginDate && endDate  && (organization || organization==='')) {
+      this.query({ beginDate, endDate, organization });
     } else {
       setTimeout(function() {
         that.componentDidMount();
@@ -53,8 +53,8 @@ class CustomReport extends React.Component {
       type: 'qualityReport/saveTimeReset',
       payload: { params },
     }).then(() => {
-      const { startDate, endDate, organization } = this.props.qualityReport;
-      this.query({ startDate, endDate, organization });
+      const { startDate:beginDate, endDate, organization } = this.props.qualityReport;
+      this.query({ beginDate, endDate, organization });
     });
   };
 
@@ -64,13 +64,13 @@ class CustomReport extends React.Component {
       payload: { ...params },
     });
   };
+
   changeOrganization = (params) => {
     this.props.dispatch({
       type: 'qualityReport/saveOrganization',
       payload: { ...params },
     });
   };
-
 
   render() {
     const { orgTreeList = [], surveyData,assortmentRankData,startDate, endDate, activeStartDate, activeEndDate, startDateBak, endDateBak, organization, organizationBak } = this.props.qualityReport;
