@@ -187,10 +187,10 @@ class NPSEvaluate extends React.Component {
   };
   goto = () => {
     BI.traceV &&
-    BI.traceV({
-      widgetName: 'NPS查看更多（管理层）',
-      traceName: '管理层工作台/NPS分析',
-    });
+      BI.traceV({
+        widgetName: 'NPS查看更多（管理层）',
+        traceName: '管理层工作台/NPS分析',
+      });
     router.push({
       pathname: '/nps',
     });
@@ -202,7 +202,7 @@ class NPSEvaluate extends React.Component {
     orgList.length > 0 && this.getResetGroupMsg(orgList);
     return (
       <div className={styles.more} onClick={this.goto}>
-        查看更多<span>></span>
+        查看更多<span style={{ marginTop: '-1px' }}>></span>
         {/* <span className={styles.change}>
           选择组织：
                 <BICascader
