@@ -135,7 +135,7 @@ class pkDimension extends React.Component {
     const { pkUsers } = this.props
     const dataSource = this.getDataSource();
     return (
-      <div className={styles.creditLeft} style={{ minHeight: 560 + 'px' }}>
+      <div className={styles.creditLeft} style={{ minHeight: 604 }}>
         <BILoading isLoading={ this.props.loading} > 
           <div className={styles.tableContainer}>
             {
@@ -146,7 +146,7 @@ class pkDimension extends React.Component {
                 pagination={false}
                 rowKey={record => record.id}
                 bordered={true}
-                scroll={{ y: 480 }}
+                scroll={{ y: 552 }}
               />
             }
             {
