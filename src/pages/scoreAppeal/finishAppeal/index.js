@@ -118,7 +118,7 @@ class FinishAppeal extends React.Component {
     } else {
       storage.setSessonItem('score_tab3',{[paramsUrl.dimensionType]:saveUrlParams});
       if(flag===1){
-        storage.setSessonItem('score_tab', { 11:timeParams,14:timeParams,19:timeParams,23:timeParams,42:timeParams});
+        storage.setSessonItem('score_tab3', { 11:timeParams,14:timeParams,19:timeParams,23:timeParams,42:timeParams});
       }
     }
     const that = this;
