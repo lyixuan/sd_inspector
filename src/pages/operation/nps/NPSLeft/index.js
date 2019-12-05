@@ -96,10 +96,10 @@ class NPSLeft extends React.Component {
         render: opinion => {
           return (
             <Tooltip title={opinion}>
-              <div className={styles.contentMain}>
+              <span className={styles.contentMain}>
                 {opinion}
                 <div />
-              </div>
+              </span>
             </Tooltip>
           );
         },
