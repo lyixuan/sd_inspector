@@ -36,7 +36,7 @@ export default class QualitySurvey extends React.Component {
 
     const col2 = dimensionNameList && dimensionNameList.map((val) => {
       const colCell1 = {
-        title:<span><span className={style.dotStl} style={{ background: '#F34E2D' }}/> <span>{val.primaryViolationName}</span></span>,
+        title:<span className={style.ttbg}><span className={style.dotStl} style={{ background: '#F34E2D' }}/> <span>{val.primaryViolationName}</span></span>,
         align:'center',
         dataIndex: val.dimensionId + val.primaryViolationName,
         width:scrollx?76:'',
