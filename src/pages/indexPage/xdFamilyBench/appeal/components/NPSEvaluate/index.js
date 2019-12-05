@@ -232,7 +232,7 @@ class NPSEvaluate extends React.Component {
     orgList.length > 0 && this.getResetGroupMsg(orgList);
     return (
       <div className={styles.more} onClick={this.goto}>
-        查看更多<span>></span>
+         查看更多<span style={{ marginTop: '-1px' }}>></span>
         {/* <span className={styles.change}>
           选择组织：
                 <BICascader
