@@ -77,6 +77,8 @@ class XdCredit extends React.Component {
               orgType,
               familyType
             }, () => this.getUserOrgList())
+            
+            // () => this.getUserOrgList()
           } else {
             this.getUserOrgList()
           }
@@ -179,9 +181,7 @@ class XdCredit extends React.Component {
           this.setState({
             userOrgConfig: res,
             ...this.getResetGroupMsg(res),
-          }, () => {
-            this.getDimensionList();
-          })
+          }, () => this.getDimensionList())
         } else {
           this.getDimensionList();
         }
@@ -192,7 +192,6 @@ class XdCredit extends React.Component {
             this.getReasonListData();
             this.setState({
               isIm: true,
-              // showCollege: this.state.familyType.length > 1
             })
           } else {
             this.getDimensionDetail();
@@ -450,7 +449,6 @@ class XdCredit extends React.Component {
   }
   //获取柱状图及维度的接口
   queryAppealDataPage = () =>{
-    console.log(this.getTypeId())
     const params = {
       "contrasts": 4,
       "familyType": this.getFamilyType(),
@@ -458,20 +456,14 @@ class XdCredit extends React.Component {
       "startTime": this.state.startTime,
       "endTime": this.state.endTime,
       ...this.getTypeId()
-      // "contrasts": 4,
-      // "familyType": 0,
-      // "dimensionId": 10,
-      // "collegeId": 100,
-      // "startTime": "2019-08-29",
-      // "endTime": "2019-09-30"
     }
-    // console.log("params",params)
     this.props.dispatch({
       type:'xdCreditModal/queryAppealDataPage',
       payload:{params:params},
     })
   }
   render() {
+    console.log('ppppppp')
     const { dementionId, groupId, extendFlag, userOrgConfig } = this.state;
     const { infoLoading } = this.props;
     const value = this.getFamilyType();
