@@ -158,7 +158,7 @@ class Top extends React.Component {
       <div className={styles.topCon}>
         <div className={styles.title}>
           <span>飙升产品包榜单</span>
-          <div style={{ fontSize: '13px' }}>一周内</div>
+          <div style={{ fontSize: '13px' }}>最近一周</div>
         </div>
         <div className={styles.tableContainer}>
           <BIWrapperTable

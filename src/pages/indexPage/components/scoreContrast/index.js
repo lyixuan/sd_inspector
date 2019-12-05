@@ -125,6 +125,12 @@ class ScoreContrast extends React.Component {
           ...params,
           groupId: undefined
         }
+      } else if (l === 1) {
+        return {
+          ...params,
+          collegeId: params.groupId[0],
+          groupId: undefined
+        }
       } else if (l > 1) {
         return {
           ...params,
@@ -155,7 +161,7 @@ class ScoreContrast extends React.Component {
           </BISelect>}
           {queryParams.contrasts === 3 && <BICascader
             placeholder="选择组织"
-            // changeOnSelect
+            changeOnSelect
             options={orgList}
             fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
             getPopupContainer={triggerNode => triggerNode.parentNode}

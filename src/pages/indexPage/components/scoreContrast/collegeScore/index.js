@@ -86,7 +86,7 @@ class CollegeScore extends React.Component {
           data: familyName,
           axisLabel: {
             interval:0,
-            rotate:familyName.length >= 22 ? 30:0,
+            rotate:familyName.length >= 12 ? 30:0,
             color:'#000000 '
           },
           axisLine:{
