@@ -604,6 +604,23 @@ export const routes = [
         path: '/xdCreditPk/list', // 小德学分PK
         component: './xdCreditPk/index',
       },
+      {
+        path: '/hotQuestion',
+        routes: [
+          {
+            path: '/hotQuestion/index',
+            component: './hotQuestion'
+          },
+          {
+            path: '/hotQuestion/guessEdit',
+            component: './hotQuestion/guessEdit',
+          },
+          {
+            path: '/hotQuestion/relationEdit',
+            component: './hotQuestion/relationEdit',
+          }
+        ]
+      }
     ],
   },
 ];

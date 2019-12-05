@@ -1,4 +1,7 @@
 export function formatTime(timestamp, connect1='-', connect2=':') {
+  if (!timestamp) {
+    return timestamp;
+  }
   let date = new Date(timestamp);
   let year = addZero(date.getFullYear()),
     month = addZero(date.getMonth() + 1),
@@ -10,6 +13,9 @@ export function formatTime(timestamp, connect1='-', connect2=':') {
 }
 
 export function withoutMinutes(timestamp, connect1='-', connect2=':') {
+  if (!timestamp) {
+    return timestamp;
+  }
   let date = new Date(timestamp);
   let year = addZero(date.getFullYear()),
     month = addZero(date.getMonth() + 1),
@@ -19,6 +25,9 @@ export function withoutMinutes(timestamp, connect1='-', connect2=':') {
 }
 
 export function withoutSeconds(timestamp, connect1='-', connect2=':') {
+  if (!timestamp) {
+    return timestamp;
+  }
   let date = new Date(timestamp);
   let year = addZero(date.getFullYear()),
     month = addZero(date.getMonth() + 1),
