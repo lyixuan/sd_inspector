@@ -122,7 +122,7 @@ class GroupIndex extends React.Component {
     return (
       <div className={styles.container}>
         <span className={styles.right}>
-          <BIButton onClick={() => handleDataTrace({"widgetName":"运营组学分pk页点趋势","traceName":"运营组工作台/学分pk页/学分趋势按钮"})} type="online" style={{marginRight: '8px'}}>
+          <BIButton onClick={() => handleDataTrace({"widgetName":"家族长学分pk页点趋势","traceName":"家族长工作台/学分pk页/学分趋势按钮"})} type="online" style={{marginRight: '8px'}}>
             <Link to={`/xdCredit/index?params=${JSON.stringify({startTime, endTime }) }`} target='_black'>
             <img src={qushiImg} alt='' style={{ width: 15, marginRight: 6, marginTop: '-2px'}}/>学分趋势</Link>
             </BIButton>

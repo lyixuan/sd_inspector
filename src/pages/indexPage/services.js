@@ -16,7 +16,7 @@ export async function getOrgMapList(params) {
 // }
 // 家族-学院列表
 export async function getIncomeCollegeList(params) {
-  return request('/deskperfpcapi/incomeFamily/getCollegeList', { method: 'get', params });
+  return request('/orgMap/findCollegeShortNameList', { method: 'get', params });
 }
 
 
