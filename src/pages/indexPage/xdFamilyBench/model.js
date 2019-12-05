@@ -522,7 +522,6 @@ export default {
             getCurrentDateRangeData: result.data,
           },
         });
-        console.log(result.data,'result.data');
         return result.data;
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));

@@ -48,11 +48,6 @@ export default {
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { npsParams: result.data } });
         return result.data;
-        console.log(result.data,'adada');
-        if (callback && typeof callback === 'function') {
-          console.log(result.data,'adada');
-          callback(DeepCopy(result.data));
-        }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

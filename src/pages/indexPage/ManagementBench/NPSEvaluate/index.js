@@ -117,7 +117,6 @@ class NPSEvaluate extends React.Component {
         payload: { params: params },
       })
       .then((res) => {
-        console.log(res,'dssadsadsadsad');
         if (res) {
           this.setState({
             NPSParams: res,
