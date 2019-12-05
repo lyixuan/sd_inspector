@@ -110,7 +110,6 @@ class NPSLeft extends React.Component {
   render() {
     // const { dataSource} = this.state;
     const { NPSleftParams } = this.props;
-    console.log(this.props, 'props');
     let dataSource =
       NPSleftParams &&
       NPSleftParams.npsStarOpinionDtoListMap &&

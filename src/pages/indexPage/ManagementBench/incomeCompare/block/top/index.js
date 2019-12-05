@@ -133,6 +133,7 @@ class Top extends React.Component {
         },
       },
       {
+        ellipsis: true,
         title: '创收产品包',
         dataIndex: 'packageName',
         key: 'packageName',
@@ -146,6 +147,7 @@ class Top extends React.Component {
         },
       },
       {
+        ellipsis: true,
         title: '创收单量',
         dataIndex: 'incomeOrder',
         key: 'incomeOrder',
