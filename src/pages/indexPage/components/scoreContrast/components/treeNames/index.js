@@ -40,7 +40,7 @@ class TreeNames extends React.Component {
       <div className={styles.treeMain}>
         {
           dimensions.length > 0 &&
-          dimensions.map(item => <span className={item.dimensionId === dimensionId ? styles.active : styles[`d${item.dataType || 1}`]}
+          dimensions.map(item => <span className={item.dimensionId === dimensionId ? styles.active : (item.dataType ? styles[`d${item.dataType}`] : '')}
             key={item.dimensionId}
             onClick={()=>this.clickTag(item)}
           >

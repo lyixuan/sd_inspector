@@ -65,18 +65,19 @@ class Top extends React.Component {
                   {record.riseIndex > 0 && (
                     <span className={styles.up}>
                       <img src={up} />
-                      <i>{record.riseIndex}</i>
+                      <i>+{record.riseIndex}</i>
                     </span>
                   )}
                   {record.riseIndex < 0 && (
                     <span className={styles.down}>
                       <img src={down} />
-                      <i>{record.riseIndex}</i>
+                      <i>-{record.riseIndex}</i>
                     </span>
                   )}
                   {record.riseIndex === 0 && (
                     <span className={styles.flat}>
                       <img src={flat} />
+                      <i>+0</i>
                     </span>
                   )}
                 </div>
@@ -86,18 +87,19 @@ class Top extends React.Component {
                   {record.riseIndex > 0 && (
                     <span className={styles.up}>
                       <img src={up} />
-                      <i>{record.riseIndex}</i>
+                      <i>+{record.riseIndex}</i>
                     </span>
                   )}
                   {record.riseIndex < 0 && (
                     <span className={styles.down}>
                       <img src={down} />
-                      <i>{record.riseIndex}</i>
+                      <i>-{record.riseIndex}</i>
                     </span>
                   )}
                   {record.riseIndex === 0 && (
                     <span className={styles.flat}>
                       <img src={flat} />
+                      <i>+0</i>
                     </span>
                   )}
                 </div>
@@ -107,6 +109,7 @@ class Top extends React.Component {
         },
       },
       {
+        ellipsis: true,
         title: '创收产品包',
         dataIndex: 'packageName',
         key: 'packageName',
@@ -126,7 +129,7 @@ class Top extends React.Component {
         width: '25%',
         className: styles.marIncome,
         render: (incomeOrder, record) => {
-          return <div style={{ textAlign: 'right', width: '70px' }}>{incomeOrder}</div>;
+          return <div style={{ textAlign: 'left', width: '70px' }}>{incomeOrder}</div>;
         },
       },
       {
