@@ -25,7 +25,7 @@ class Star extends Component {
   }
   render() {
     return (
-      <span className="star">
+      <span className="star" style={this.props.style || {}}>
         {this.state.starNum &&
           this.state.starNum.map((item, index) => {
             return (

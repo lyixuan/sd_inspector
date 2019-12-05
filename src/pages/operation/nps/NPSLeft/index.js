@@ -70,7 +70,7 @@ class NPSLeft extends React.Component {
         key: 'star',
         width: '120px',
         render: star => {
-          return <Star star={star} />;
+          return <Star star={star} style={{ display: 'flex', alignItem: 'center' }} />;
         },
       },
       {
@@ -80,11 +80,7 @@ class NPSLeft extends React.Component {
         key: 'reasonTypeDesc',
         width: '120px',
         render: opinion => {
-          return (
-            <Tooltip title={opinion}>
-                {opinion}
-            </Tooltip>
-          );
+          return <Tooltip title={opinion}>{opinion}</Tooltip>;
         },
       },
       {
@@ -114,7 +110,7 @@ class NPSLeft extends React.Component {
 
   render() {
     // const { dataSource} = this.state;
-    const { NPSleftParams , npsList = [], loading } = this.props;
+    const { NPSleftParams, npsList = [], loading } = this.props;
     let isLastPage = false;
     const { nowPage: pageNum, pages } = NPSleftParams.npsStarOpinionDtoListMap || {};
     if (pages <= pageNum) {
