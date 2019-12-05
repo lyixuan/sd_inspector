@@ -33,6 +33,13 @@ export default class PersonRank extends React.Component {
         title: '质检归属人',
         dataIndex: 'userName',
         width:90,
+        render: (text, record) => {
+          return (
+            <>
+              <span style={{cursor:'pointer'}} onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {qualityType:"2",userName:record.userName})}>{text}</span>
+            </>
+          );
+        },
       },
       {
         title: '质检违规数',
