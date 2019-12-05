@@ -110,13 +110,15 @@ class ScoreContrast extends React.Component {
         return {
           ...params,
           collegeId: params.groupId[0],
-          groupId: undefined
+          groupId: undefined,
+          familyId: undefined
         }
       } else if (l > 1) {
         return {
           ...params,
           collegeId: params.groupId[0],
-          groupId: params.groupId.length > 1 ? params.groupId[1] : undefined
+          groupId: undefined,
+          familyId: params.groupId.length > 1 ? params.groupId[1] : undefined
         }
       }  
     } else {
