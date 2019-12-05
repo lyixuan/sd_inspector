@@ -153,7 +153,7 @@ class Top extends React.Component {
         key: 'incomeOrder',
         width: '70px',
         render: (incomeOrder, record) => {
-          return <div style={{ textAlign: 'right', width: '60px', textAlign: 'center' }}>{incomeOrder}</div>;
+          return <span style={{ textAlign: 'right', width: '60px', textAlign: 'center' }}>{incomeOrder}</span>;
         },
       },
       {
