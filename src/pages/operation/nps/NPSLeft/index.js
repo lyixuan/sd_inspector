@@ -75,9 +75,17 @@ class NPSLeft extends React.Component {
       },
       {
         title: '原因',
+        ellipsis: true,
         dataIndex: 'reasonTypeDesc',
         key: 'reasonTypeDesc',
         width: '120px',
+        render: opinion => {
+          return (
+            <Tooltip title={opinion}>
+                {opinion}
+            </Tooltip>
+          );
+        },
       },
       {
         title: '内容',
@@ -101,7 +109,7 @@ class NPSLeft extends React.Component {
   };
 
   more = pageNum => {
-    this.props.getCommentList(pageNum,false);
+    this.props.getCommentList(pageNum, false);
   };
 
   render() {
@@ -114,14 +122,14 @@ class NPSLeft extends React.Component {
     }
     const dataSource = npsList || [];
     return (
-        <Container
-          title="创收学院对比"
-          style={{ width: 'calc(100%)' }}
-          head="none"
-          propStyle={{ padding: 0 }}
-        >
-          <Spin spinning={loading}  style={{ width: '100%' }}>
-          <div style={{ width: '100%', height: '30px' }}>
+      <Container
+        title="创收学院对比"
+        style={{ width: 'calc(100%)' }}
+        head="none"
+        propStyle={{ padding: 0 }}
+      >
+        <Spin spinning={loading} style={{ width: '100%' }}>
+          <div style={{ width: '100%', height: '32px', overflow: 'hidden' }}>
             {NPSleftParams &&
               NPSleftParams.reasonTypeDtoList &&
               NPSleftParams.reasonTypeDtoList.map((item, index) => (
@@ -147,9 +155,8 @@ class NPSLeft extends React.Component {
               )}
             </div>
           )}
-           </Spin>
-        </Container>
-     
+        </Spin>
+      </Container>
     );
   }
 }
