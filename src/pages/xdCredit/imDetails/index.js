@@ -15,18 +15,29 @@ import {
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import constants from '@/utils/constants';
-const colors = ['rgba(255, 120, 120, 1)', 'rgba(255, 120, 120, 0.8)', 'rgba(255, 120, 120, .6)', 'rgba(255, 120, 120, .4)', 'rgba(255, 120, 120, .2)', 'rgba(255, 120, 120, .1)']
+const colors = [
+  'rgba(255, 120, 120, 1)',
+  'rgba(255, 120, 120, 0.8)',
+  'rgba(255, 120, 120, .6)',
+  'rgba(255, 120, 120, .4)',
+  'rgba(255, 120, 120, .2)',
+  'rgba(255, 120, 120, .1)',
+];
 
 function Layout(props) {
-  const layout = <section>
-    <ul className={styles.behavior}>
-      {props.dataMark.content.map((item, index) => <ListItem item={item} dataMark={props.dataMark} key={index} />)}
-    </ul>
-  </section>;
+  const layout = (
+    <section>
+      <ul className={styles.behavior}>
+        {props.dataMark.content.map((item, index) => (
+          <ListItem item={item} dataMark={props.dataMark} key={index} />
+        ))}
+      </ul>
+    </section>
+  );
   return layout;
 }
 
-const appealObj = ['', '质检', '底线', 'IM', '工单', '优新', '创收',];
+const appealObj = ['', '质检', '底线', 'IM', '工单', '优新', '创收'];
 //对话区域行
 function ListItem(props) {
   if (!props.item) {
@@ -41,24 +52,34 @@ function TeacherOrStudent(props) {
   if (props.item.type == 1) {
     return (
       <li className={styles.step}>
-        <div className={styles.time}>
-          {props.item.time ? props.item.time : ''}
-        </div>
+        <div className={styles.time}>{props.item.time ? props.item.time : ''}</div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
             <span className={styles.dot} />
           </div>
           <div className={styles.chatLeft}>
             <div className={styles.avatar}>
-              <img src={props.dataMark.stuHeadUrl ? (pathImUrl + props.dataMark.stuHeadUrl) : avatarStudent} />
+              <img
+                src={
+                  props.dataMark.stuHeadUrl ? pathImUrl + props.dataMark.stuHeadUrl : avatarStudent
+                }
+              />
               <p>{strLen(props.dataMark.stuName, 3)}</p>
             </div>
-            <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent}>
+            <div
+              className={
+                linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent
+              }
+            >
               <span className={styles.triangle}>
                 <em />
               </span>
               {/*{props.item.content}*/}
-              <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.content, styles.linkRoute) }}></span>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: linkRoute(props.item.content, styles.linkRoute),
+                }}
+              ></span>
             </div>
           </div>
         </div>
@@ -67,23 +88,35 @@ function TeacherOrStudent(props) {
   } else {
     return (
       <li className={styles.step}>
-        <div className={styles.time}>
-          {props.item.time ? props.item.time : ''}
-        </div>
+        <div className={styles.time}>{props.item.time ? props.item.time : ''}</div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
             <span className={styles.dot} />
           </div>
           <div className={styles.chatRight}>
-            <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent}>
+            <div
+              className={
+                linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent
+              }
+            >
               <span className={styles.triangle}>
                 <em />
               </span>
               {/*{props.item.content}*/}
-              <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.content, styles.linkRoute) }}></span>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: linkRoute(props.item.content, styles.linkRoute),
+                }}
+              ></span>
             </div>
             <div className={styles.avatar}>
-              <img src={props.dataMark.teacherHeadUrl ? (pathImUrl + props.dataMark.teacherHeadUrl) : avatarTeacher} />
+              <img
+                src={
+                  props.dataMark.teacherHeadUrl
+                    ? pathImUrl + props.dataMark.teacherHeadUrl
+                    : avatarTeacher
+                }
+              />
               <p>{strLen(props.dataMark.teacherName, 3)}</p>
             </div>
           </div>
@@ -106,44 +139,51 @@ class CreditImDetials extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      pageSize: 31
-    }
+      pageSize: 31,
+    };
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.xdCreditModal.imDetailData != nextProps.xdCreditModal.imDetailData) {
       const tableWidth = nextProps.xdCreditModal.imDetailData.dataList.length * 50 + 100;
       const countPage = parseInt((1360 - tableWidth) / 48);
-      this.setState({
-        pageSize: countPage
-      }, this.defaultPage(countPage))
+      this.setState(
+        {
+          pageSize: countPage,
+        },
+        this.defaultPage(countPage)
+      );
     }
   }
-  defaultPage = (pageSize) => {
+  defaultPage = pageSize => {
     this.props.defaultPage(pageSize);
-  }
-  handleNameClick = (id) => {
+  };
+  handleNameClick = id => {
     if (id) {
-      jumpMarkingDetails(id, { target: 'im' })
+      jumpMarkingDetails(id, { target: 'im' });
     }
-  }
+  };
   columnsTable = () => {
-    const columns = [{
-      type: 'leftFixed',
-      name: '组织',
-      width: 120
-    }, {
-      type: 'children',
-      name: '',
-      width: 1,
-    }, {
-      type: 'rightFixed',
-      name: '汇总',
-      width: 80,
-      key: 'total'
-    }];
+    const columns = [
+      {
+        type: 'leftFixed',
+        name: '组织',
+        width: 120,
+      },
+      {
+        type: 'children',
+        name: '',
+        width: 1,
+      },
+      {
+        type: 'rightFixed',
+        name: '汇总',
+        width: 80,
+        key: 'total',
+      },
+    ];
     return columns || [];
-  }
+  };
   columns = () => {
     const columns = [
       {
@@ -160,11 +200,14 @@ class CreditImDetials extends React.Component {
           const content = text ? <Layout dataMark={record}></Layout> : record.content;
           return (
             <Tooltip overlayClassName={styles.listMarkingTooltip} placement="right" title={content}>
-              <div className={styles.content}>{text[0].content}</div>
+              <div className={styles.content}>
+                <div></div>
+                {text[0].content}
+              </div>
             </Tooltip>
-          )
+          );
         },
-        width: 200
+        width: 200,
       },
       {
         title: '学员姓名',
@@ -172,28 +215,52 @@ class CreditImDetials extends React.Component {
         key: 'stuName',
         // width: 80,
         render: (text, record) => {
-          return <span data-trace='{"widgetName":"不满意会话进学员档案","traceName":"小德学分/学分/不满意会话进学员档案"}' onClick={() => this.handleNameClick(record.stuId)} style={ record.stuId ? { color: "#00CCC3", cursor: 'pointer' } : {}}>{strLen(text, 6)}</span>
-        }
+          return (
+            <Tooltip placement="right" title={text}>
+              <span
+                data-trace='{"widgetName":"不满意会话进学员档案","traceName":"小德学分/学分/不满意会话进学员档案"}'
+                onClick={() => this.handleNameClick(record.stuId)}
+                style={record.stuId ? { color: '#00CCC3', cursor: 'pointer' } : {}}
+              >
+                {strLen(text, 6)}
+              </span>
+            </Tooltip>
+          );
+        },
       },
       {
         title: '后端归属',
         dataIndex: 'hdTeamName',
         key: 'hdTeamName',
-        render: text => <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right"
-          title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
+        render: text => (
+          <Tooltip
+            overlayClassName={styles.listMarkingTooltipOthers}
+            placement="right"
+            title={text}
+          >
+            <span className={`${styles.textEllipsis} ${styles.textorg}`}>
+              {text}
+            </span>
+          </Tooltip>
+        ),
         // width: 180,
         //   render: (text, record) => {
         //     return <span>{strLen(text, 8)}</span>
         //   }
       },
       {
+        ellipsis: true,
         title: '会话老师',
         dataIndex: 'consultTeaName',
         key: 'consultTeaName',
         // width: 70,
         render: (text, record) => {
-          return <span>{strLen(text, 6)}</span>
-        }
+          return (
+            <Tooltip placement="right" title={text}>
+              <span>{strLen(text, 6)}</span>
+            </Tooltip>
+          );
+        },
       },
       {
         title: '原因分类',
@@ -201,15 +268,19 @@ class CreditImDetials extends React.Component {
         key: 'reasonTypeName',
         // width: 70,
         render: (text, record) => {
-          return <span>{strLen(text, 6)}</span>
-        }
+          return <span>{strLen(text, 6)}</span>;
+        },
       },
       {
         title: '操作',
         dataIndex: 'address',
         key: 'address',
         render: (text, r) => {
-          return <span onClick={() => this.getAppeal(r)} style={{ color: "#00CCC3", cursor: 'pointer' }}>申诉</span>
+          return (
+            <span onClick={() => this.getAppeal(r)} style={{ color: '#00CCC3', cursor: 'pointer' }}>
+              申诉
+            </span>
+          );
         },
         // width: 60
       },
@@ -222,15 +293,15 @@ class CreditImDetials extends React.Component {
     } else if (r.level === 4 && r.num) {
       return styles.clickRow;
     }
-    return styles['rowBg' + b]
-  }
-  onPageChange = (currentPage) => {
+    return styles['rowBg' + b];
+  };
+  onPageChange = currentPage => {
     const { onPageChange } = this.props;
     if (onPageChange) {
       onPageChange(currentPage);
     }
   };
-  getAppeal = (r) => {
+  getAppeal = r => {
     const { dimensionType, appealNo } = r;
     const params = { dimensionType };
     if (dimensionType === 1) {
@@ -246,18 +317,33 @@ class CreditImDetials extends React.Component {
       payload: { params },
       callback: res => {
         const { type } = res;
-        if (dimensionType === 1) { // 质检
-          window.open(`/inspector/qualityAppeal/qualityAppeal?p=${JSON.stringify({ "tabType": type, type, qualityNum: appealNo, })}`);
-        } else { // 其它
-          const dimensionData = constants.DIMENSION_TYPE.find(op => op.name === appealObj[dimensionType]);
-          const params = { "page": 1, "pageSize": 30, "dimensionType": dimensionData ? dimensionData.id : constants.DIMENSION_TYPE[0].id };
-          if (type === 0) { // 未申诉
+        if (dimensionType === 1) {
+          // 质检
+          window.open(
+            `/inspector/qualityAppeal/qualityAppeal?p=${JSON.stringify({
+              tabType: type,
+              type,
+              qualityNum: appealNo,
+            })}`
+          );
+        } else {
+          // 其它
+          const dimensionData = constants.DIMENSION_TYPE.find(
+            op => op.name === appealObj[dimensionType]
+          );
+          const params = {
+            page: 1,
+            pageSize: 30,
+            dimensionType: dimensionData ? dimensionData.id : constants.DIMENSION_TYPE[0].id,
+          };
+          if (type === 0) {
+            // 未申诉
             params.creditBeginDate = r.bizDate;
             params.creditEndDate = r.bizDate;
             params.stuId = r.stuId;
             window.open(`/inspector/scoreAppeal/awaitAppeal?params=${JSON.stringify(params)}`);
-
-          } else if (type === 1) { // 其它状态
+          } else if (type === 1) {
+            // 其它状态
             params.appealOrderNum = res.appealNum;
             window.open(`/inspector/scoreAppeal/onAppeal?params=${JSON.stringify(params)}`);
           } else if (type === 2) {
@@ -265,9 +351,9 @@ class CreditImDetials extends React.Component {
             window.open(`/inspector/scoreAppeal/finishAppeal?params=${JSON.stringify(params)}`);
           }
         }
-      }
+      },
     });
-  }
+  };
 
   render() {
     const { currentPage, pageSize2, loading1, loading2 } = this.props;
@@ -276,24 +362,48 @@ class CreditImDetials extends React.Component {
     return (
       <div className={`${styles.detials}`}>
         <div className={styles.classityBox} id="classityBox">
-          {
-            (loading1 && this.props.loadingStatus) ? <div style={{ display: 'flex', height: '200px', alignItems: 'center', justifyContent: 'center' }}><BILoading isLoading={loading1} /></div> : imDetailData.titleList && <BIClassifyTable
-              loading={this.props.loading}
-              columns={this.columnsTable()}
-              colors={colors}
-              dataSource={imDetailData}
-              cellWidth={85}
-              style={{ cursor: 'pointer' }}
-              isChecked={true}
-              collegeType='college'
-              defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
-              {...this.props}
-            ></BIClassifyTable>
-          }
+          {loading1 && this.props.loadingStatus ? (
+            <div
+              style={{
+                display: 'flex',
+                height: '200px',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <BILoading isLoading={loading1} />
+            </div>
+          ) : (
+            imDetailData.titleList && (
+              <BIClassifyTable
+                loading={this.props.loading}
+                columns={this.columnsTable()}
+                colors={colors}
+                dataSource={imDetailData}
+                cellWidth={85}
+                style={{ cursor: 'pointer' }}
+                isChecked={true}
+                collegeType="college"
+                defaultKey={{ id: 'orgId', name: 'orgName', unit: '%', classfy: '选择分类：' }}
+                {...this.props}
+              ></BIClassifyTable>
+            )
+          )}
         </div>
         <div className={styles.detailsTable}>
-          {
-            loading2 || loading2 ? <div style={{ display: 'flex', height: '200px', alignItems: 'center', justifyContent: 'center' }}><BILoading isLoading={loading2} /></div> : <BITable
+          {loading2 || loading2 ? (
+            <div
+              style={{
+                display: 'flex',
+                height: '200px',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <BILoading isLoading={loading2} />
+            </div>
+          ) : (
+            <BITable
               ellipsis={true}
               columns={this.columns()}
               dataSource={imDetailList.data}
@@ -309,9 +419,9 @@ class CreditImDetials extends React.Component {
               rowKey={(record, index) => record.stuId + '' + index}
               rowClassName={this.setRowClassName}
             />
-          }
+          )}
         </div>
-      </div >
+      </div>
     );
   }
 }

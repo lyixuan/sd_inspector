@@ -28,12 +28,16 @@
 }
 .table {
   :global {
+    .ant-table-tbody td {
+      padding-top: 10px !important;
+      padding-bottom: 10px !important;
+    }
     .rowHover {
       background: #e6fff9;
       // cursor: not-allowed !important;
     }
     .ant-table-thead > tr > th {
-      text-align: right;
+      text-align: center;
     }
     .ant-table-thead > tr > th:nth-child(1) {
       text-align: left !important;
@@ -52,6 +56,7 @@
     }
     .ant-table-thead > tr:last-child > th:last-child,
     .ant-table-tbody > tr > td:last-child {
+      text-align: right;
       padding-right: 16px;
     }
   }

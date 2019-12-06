@@ -6,6 +6,19 @@ export default {
   state: {
     collapsed: true,
     notices: [],
+    globalUserTypes: {
+      'admin': '管理员',
+      'boss': '管理员',
+      'class': '班主任',
+      'college': '院长',
+      'csleader': '客诉组长',
+      'csmanager': '客诉经理',
+      'csofficer': '客诉专员',
+      'cssupervisor': '客诉主管',
+      'family': '家族长',
+      'group': '运营长',
+      'others': '无绩效岗位',
+    }
   },
 
   effects: {

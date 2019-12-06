@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
-import BITable from '@/ant_components/BITable';
 import styles from './style.less';
 import up from '@/assets/xdFamily/rankUp.png';
 import down from '@/assets/xdFamily/rankDown.png';
 import normal from '@/assets/xdFamily/rankNormal.png';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-import BIWrapperTable from '../../../components/BIWrapperTable2';
+// import BIWrapperTable from '../../../components/BIWrapperTable2';
+import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import { Link } from 'dva/router';
 import BILoading from '@/components/BILoading'
 
@@ -98,7 +98,7 @@ class ProfitList extends React.Component {
         dataIndex: 'groupName',
         key: 'groupName',
         fixed: 'left',
-        width: 120,
+        width: 160,
       }, {
         title: '排名系数',
         fixed: 'left',
@@ -188,7 +188,7 @@ class ProfitList extends React.Component {
     return (
       <BILoading isLoading={this.props.loading}>
         <div className={styles.tableList}>
-            <BIWrapperTable
+            <BIScrollbarTable
             columns={this.columns()}
             dataSource={profitList}
             pagination={false}

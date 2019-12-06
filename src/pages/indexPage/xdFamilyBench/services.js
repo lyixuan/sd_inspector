@@ -128,7 +128,7 @@ export async function compareCollegeList(data) {
     method: 'POST',
     data: data,
   });
-}
+} 
 
 // 获取当前绩效周期
 export async function getCurrentDateRange(params) {
@@ -137,9 +137,13 @@ export async function getCurrentDateRange(params) {
 
 // 获取热销榜单列表
 export async function getHotList() {
-  return request('/orgMap/getAllCollegeList', { method: 'get' });
+  return request('/orgMap/findCollegeShortNameList', { method: 'get' });
 }
 
+// 飙升产品包榜单
+export async function risePackageRankList() {
+  return request('/classWorkbench/risePackageRankList', { method: 'get' });
+}
 // 热销产品包列表
 export async function packageRankList(data) {
   return request('/adminWorkbench/hotSellPackage/packageRankList', { method: 'POST', data: data });
@@ -185,5 +189,6 @@ export async function getFamilyType(params) {
 export async function reasonList(data) {
   return request('/deskperfpcapi/im/reasonList', { method: 'post', data });
 }
+
 
 // end

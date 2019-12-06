@@ -21,7 +21,7 @@ class Star extends Component{
     })
   }
   render(){
-    return (<span className="star">
+    return (<span className="star" style={this.props.style || {}}>
             {
               this.state.starNum.map((item, index)=>{
                 return <img src={item}  key={index} style={{width:'12px',height:'12px',marginRight:'3px'}}/>

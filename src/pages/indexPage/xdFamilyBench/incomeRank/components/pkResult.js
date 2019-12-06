@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import { thousandsFormatAll } from '@/pages/indexPage/components/utils/utils';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-import BIWrapperTable from '../../../components/BIWrapperTable2';
+import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
+// import BIWrapperTable from '../../../components/BIWrapperTable2';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIIcon from '@/components/BIIcon';
 import pluscircle from '@/assets/xdwork/pluscircle.png';
@@ -25,7 +26,7 @@ class ProfitTbas extends React.Component {
     const { profitData={} } = this.props;
     const { maxValue= {} } = profitData;
     const columns = [ {
-        width: 300,
+        width: 200,
         fixed: 'left',
         title: 'PK 对象',
         dataIndex: 'orgId',
@@ -41,75 +42,75 @@ class ProfitTbas extends React.Component {
           )
         }
       }, {
-        width: 140,
+        width: 66,
         title: '排名',
         dataIndex: 'ranking',
         key: 'ranking',
         render: (text, record) => this.getColumn(record, <BITextAlign textalign='center'>{text > 3 ? text : <img src={gradeImg[text]} alt='' style={{ width: '20px'}}/>}</BITextAlign>)
       }, {
-        width: 140,
+        width: 90,
         title: this.props.incomeType + '总流水',
         dataIndex: 'kpiFlow',
         key: 'kpiFlow',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.kpiFlow)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.kpiFlow)}/>)
       }, {
         className: styles.rowBg2,
-        width: 140,
+        width: 90,
         title: '好推流水',
         dataIndex: 'goodpushFlow',
         key: 'goodpushFlow',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushFlow)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushFlow)}/>)
       }, {
         className: styles.rowBg2,
-        width: 140,
+        width: 90,
         title: '好推绩效',
         dataIndex: 'goodpushKpi',
         key: 'goodpushKpi',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushKpi)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushKpi)}/>)
       }, {
-        width: 140,
+        width: 90,
         className: styles.rowBg2,
         title: '好推单量',
         dataIndex: 'goodpushOrderCount',
         key: 'goodpushOrderCount',
         render: (text, record) => this.getColumn(record, <BITextAlign style={{marginRight: 8}}>{text}</BITextAlign>)
       }, {
-        width: 140,
+        width: 90,
         className: styles.rowBg3,
         title: '续报流水',
         dataIndex: 'renewalFlow',
         key: 'renewalFlow',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalFlow)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalFlow)}/>)
       }, {
-        width: 140,
+        width: 90,
         className: styles.rowBg3,
         title: '续报绩效',
         dataIndex: 'renewalKpi',
         key: 'renewalKpi',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalKpi)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalKpi)}/>)
       }, {
-        width: 140,
+        width: 90,
         className: styles.rowBg3,
         title: '续报单量',
         dataIndex: 'renewalOrderCount',
         key: 'renewalOrderCount',
         render: (text, record) => this.getColumn(record, <BITextAlign style={{marginRight: 8}}>{text}</BITextAlign>)
       }, {
-        width: 140,
+        width: 90,
         className: styles.rowBg4,
         title: '成本套流水',
         dataIndex: 'examZbtFlow',
         key: 'examZbtFlow',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtFlow)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtFlow)}/>)
       }, {
-        width: 140,
+        width: 90,
         className: styles.rowBg4,
         title: '成本套绩效',
         dataIndex: 'examZbtKpi',
         key: 'examZbtKpi',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtKpi)} style={{marginLeft: '-8px'}}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtKpi)}/>)
       }, {
-        width: 140,
+        width: 90,
         className: styles.rowBg4,
         title: '成本套单量',
         dataIndex: 'examZbtOrderCount',
@@ -156,7 +157,7 @@ class ProfitTbas extends React.Component {
     const { pkUsers } = this.props;
     return (
       <div className={styles.profitTabs}>
-        <BIWrapperTable
+        <BIScrollbarTable
           columns={this.columns()}
           dataSource={this.getDataSource()}
           pagination={false}

@@ -1,6 +1,7 @@
 // 全局函数文件
 
 import constants from './constants';
+import config from '../../config/config';
 
 export function BiFilter(param) {
   /**
@@ -409,5 +410,7 @@ export function getBowerInfo() {
 }
 
 export function GetLength(str) {
-  return str.replace(/[\u0391-\uFFE5]/g,"aa").length;   //先把中文替换成两个字节的英文，在计算长度
+  return str.replace(/[\u0391-\uFFE5]/g,"aa").length;   // 计算中英文字符串长度
 };
+
+

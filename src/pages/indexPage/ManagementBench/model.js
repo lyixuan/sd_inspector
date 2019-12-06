@@ -9,13 +9,14 @@ import {
   countByDate,
   getOrgMapTree,
   getImReverseSideData,
-  queryAppealDataPage,
+  // queryAppealDataPage,
   getFamilyType,
   reasonList,
 } from './services';
 import { message } from 'antd/lib/index';
-import { msgF, thousandsFormat } from '@/utils/utils';
+import { msgF,DeepCopy } from '@/utils/utils';
 import moment from 'moment';
+
 
 export default {
   namespace: 'xdManagementBench',
@@ -25,6 +26,8 @@ export default {
     getCurrentDateRangeData: null,
     orgList: [],
     imDetailData: [],
+    globalDateRange: {}, // 时间 --
+    screenRange: 'small_screen',
   },
   effects: {
     //  管理层工作台的接口
@@ -44,9 +47,7 @@ export default {
       const result = yield call(getNpsAutonomousEvaluation, payload.params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { npsParams: result.data } });
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
+        return result.data;
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -74,16 +75,16 @@ export default {
       }
     },
     //  家族学分对比柱状图部分的接口
-    *queryAppealDataPage({ payload, callback }, { call, put }) {
-      const result = yield call(queryAppealDataPage, payload.params);
-      if (result.code === 20000 && result.data) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *queryAppealDataPage({ payload, callback }, { call, put }) {
+    //   const result = yield call(queryAppealDataPage, payload.params);
+    //   if (result.code === 20000 && result.data) {
+    //     if (callback && typeof callback === 'function') {
+    //       callback(result.data);
+    //     }
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     //  获取学院家族性质
     *getFamilyType({ payload, callback }, { call, put }) {
       const result = yield call(getFamilyType);
@@ -137,6 +138,15 @@ export default {
             getCurrentDateRangeData: result.data,
           },
         });
+        yield put({
+          type: 'save',
+          payload: {
+            globalDateRange: {
+              startTime: moment(result.data.startDate).format('YYYY-MM-DD'),
+              endTime: moment(result.data.endDate).format('YYYY-MM-DD'),
+            },
+          },
+        });
         return result.data;
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
@@ -184,6 +194,7 @@ export default {
     },
     saveTable(state, { payload }) {
       let data = payload.imDetailData;
+
       if (!data.reasonTypeList) {
         data.dataList.map(item => {
           item.values.push(item.unClassifyValue);
@@ -196,14 +207,25 @@ export default {
             typeName: '所有分类',
           },
         ];
-        data.titleList = [
-          ...data.titleList,
-          {
-            expand: false,
-            typeId: -1,
-            typeName: '未分类数据',
-          },
-        ];
+        if (data.titleList instanceof Array) {
+          data.titleList = [
+            ...data.titleList,
+            {
+              expand: false,
+              typeId: -1,
+              typeName: '未分类数据',
+            },
+          ];
+        } else {
+          data.titleList = [
+            {
+              expand: false,
+              typeId: -1,
+              typeName: '未分类数据',
+            },
+          ];
+        }
+        
       } else {
         data.reasonTypeList = [
           {
@@ -215,6 +237,9 @@ export default {
         ];
       }
       return { ...state, ...{ imDetailData: data } };
+    },
+    checkScreen(state, { payload }) {
+      return { ...state, ...payload };
     },
   },
   subscriptions: {},

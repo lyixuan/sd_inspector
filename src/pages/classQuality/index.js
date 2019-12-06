@@ -55,6 +55,7 @@ class ClassQuality extends React.Component {
       funTypeSelected: 2 ,// 左侧悬浮滚动条
       rulesObj: {},
       oneLoding: true,
+      resetKeyWord: undefined
     }
   }
   componentDidMount() {
@@ -64,7 +65,11 @@ class ClassQuality extends React.Component {
     })
     // 数据
     const qualityType = this.getQualityType(this.props.location.pathname);
+    const params = this.props.location.query.params;
+    const { keyWord } = params ? JSON.parse(params) : {};
     this.setState({
+      resetKeyWord: keyWord,
+      keyWord,
       qualityType,
       typeName: typeTranslate[qualityType]
     }, () => this.requestTree()) 
@@ -128,6 +133,7 @@ class ClassQuality extends React.Component {
   // 搜索条件 reset
   handleSubmit = v => {
     if (v === 'reset') {
+      // const { resetKeyWord } = this.state;
       this.changeSearch();
       this.requestTree(v);
     } else {

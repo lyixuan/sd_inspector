@@ -2,11 +2,15 @@
 import {
   getUserInfo,
   getOrgMapList,
-  kpiLevelList,
-  groupList,
+  // kpiLevelList,
+  // groupList,
   getIncomeCollegeList,
   getQuestionCheckUser, 
-  postWriteQuestion
+  postWriteQuestion,
+  queryAppealDataPage,
+  getFamilyType,
+  getCurrentFamilyType,
+  getOrgList
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -16,11 +20,15 @@ export default {
   state: {
     userInfo: {}, // 全局值
     orgList:[],
-    globalLevelList: [],
+    // globalLevelList: [],
     globalCollegeList: [],
     globalQVisible: false, // 问卷调查是否显示
+    globalOrgList: {
+      0: [{ id:1, name: '自变量' }],
+      1: [{ id:2, name: '熟悉' }],
+    } // 柱状图组织
   },
-  effects: {
+  effects: { 
     *getUserInfo({ callback }, { call, put }) {
       const result = yield call(getUserInfo);
       if (result.code === 20000 && result.data) {
@@ -32,6 +40,28 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+        // 本期学分数据
+    // *getKpiLevelList(_, { call, put }) {
+    //   const result = yield call(kpiLevelList)
+    //   if (result.code === 20000) {
+    //     const globalLevelList = result.data || {};
+    //     yield put({ type: 'save', payload: { globalLevelList } });
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
+    // 学分小组列表
+    // *groupList({ payload, callback }, { call, put }) {
+    //   const params = payload.params;
+    //   const result = yield call(groupList, params)
+    //   if (result.code === 20000) {
+    //     if (callback && typeof callback === 'function') {
+    //       callback(result.data);
+    //     }
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     // 组织列表
     *getOrgMapList({ payload }, { call, put }) {
       const params = payload.params;
@@ -40,28 +70,6 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'saveMap', payload: { orgList } });
       } else {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    // 本期学分数据
-    *getKpiLevelList(_, { call, put }) {
-      const result = yield call(kpiLevelList)
-      if (result.code === 20000) {
-        const globalLevelList = result.data || {};
-        yield put({ type: 'save', payload: { globalLevelList } });
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    // 学分小组列表
-    *groupList({ payload, callback }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(groupList, params)
-      if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
-      } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
@@ -98,6 +106,49 @@ export default {
         }
       } else {
         message.success('网络异常，请稍后重试');
+      }
+    },
+    // 柱状图
+    //  家族学分对比柱状图部分的接口
+    *queryAppealDataPage({ payload, callback }, { call, put }) {
+      const result = yield call(queryAppealDataPage, payload.params);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 自考壁垒接口
+    *getFamilyType({ payload, callback }, { call, put }) {
+      const result = yield call(getFamilyType);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 获取用户familyType
+    *getCurrentFamilyType({ payload, callback }, { call, put }) {
+      const result = yield call(getCurrentFamilyType);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 自考壁垒对应学院
+    *getOrgList({ payload, callback }, { call, put }) {
+      const result = yield call(getOrgList, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { globalOrgList: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
       }
     },
   },

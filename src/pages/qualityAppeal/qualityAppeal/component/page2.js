@@ -38,8 +38,8 @@ class NewQualitySheet extends React.Component {
       familyIdList: [],
       groupIdList: [],
       startManList: [],
-      reduceScoreBeginDate: null,
-      reduceScoreEndDate: null,
+      reduceScoreBeginDate: moment().subtract(6,'days').format('YYYY-MM-DD'),
+      reduceScoreEndDate: moment().format('YYYY-MM-DD'),
       stuId: null,
     };
     const { p = null } = this.props.location.query;

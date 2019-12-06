@@ -174,6 +174,24 @@ export const routes = [
         ],
       },
       {
+        path: '/qualityReport',
+        component: './qualityReport',
+        name: '质检报告',
+        routes: [
+          {
+            path: '/qualityReport/classReport',
+            component: './qualityReport/classReport',
+            name: '班主任质检报告',
+          },
+          // {
+          //   path: '/qualityReport/customReport',
+          //   component: './qualityReport/customReport',
+          //   name: '客诉质检报告',
+          // },
+        ],
+      },
+
+      {
         path: '/ko',
         component: './ko',
         name: 'KO项目',
@@ -216,6 +234,11 @@ export const routes = [
             commonPath: true, // 继承父页面
           },
         ],
+      },
+      {
+        path: '/nps',
+        component: './operation/nps',
+        name: 'nps',
       },
       {
         path: '/koUserOperation',
@@ -585,6 +608,10 @@ export const routes = [
       {
         path: '/classQuality/qualityType/2', // 班主任
         component: './classQuality/index',
+      },
+      {
+        path: '/xdCreditPk/list', // 小德学分PK
+        component: './xdCreditPk/index',
       },
       {
         path: '/hotQuestion',

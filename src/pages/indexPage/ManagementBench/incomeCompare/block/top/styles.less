@@ -1,7 +1,7 @@
 .topCon {
   position: relative;
   width: 33%;
-  height: 400px;
+  height: 372px;
   // overflow: hidden;
   background: #fff;
   border-radius: 10px;
@@ -61,13 +61,19 @@
     height: 335px;
 
     :global {
-      .ant-table-thead > tr > th {
-        text-align: right;
+      .ant-table-tbody td {
+        padding-top: 10px!important;
+        padding-bottom: 10px!important;
       }
-      .ant-table-thead > tr > th:nth-child(1),
-      .ant-table-thead > tr > th:nth-child(2) {
+      // .ant-table-thead > tr > th {
+      //   text-align: center;
+      // }
+      .ant-table-thead > tr > th:nth-child(1) {
         text-align: left !important;
       }
+      // .ant-table-thead > tr > th:nth-child(2) {
+      //   text-align: center !important;
+      // }
 
       .ant-table-thead > tr:first-child > th:first-child,
       .ant-table-tbody > tr > td:first-child {
@@ -76,29 +82,29 @@
 
       .ant-table-thead > tr:last-child > th:last-child,
       .ant-table-tbody > tr > td:last-child {
+        text-align: right;
         padding-right: 16px;
       }
-      @media screen and (min-width:1441px) and (max-width: 1920px) {
-        .ant-table-thead > tr:nth-child(2) > th:nth-child(2) > div,
-        .ant-table-tbody > tr > td:nth-child(2)>div {
-          // display: inline-block;
-          white-space: nowrap;
-          width: 290px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-      @media screen and (min-width: 0) and (max-width: 1440px) {
-        .ant-table-thead > tr:nth-child(2) > th:nth-child(2) > div,
-        .ant-table-tbody > tr > td:nth-child(2)>div{
-          // display: inline-block;
-          white-space: nowrap;
-          width: 120px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-
+      // @media screen and (min-width: 1441px) and (max-width: 1920px) {
+      //   .ant-table-thead > tr:nth-child(2) > th:nth-child(2) > div,
+      //   .ant-table-tbody > tr > td:nth-child(2) > div {
+      //     // display: inline-block;
+      //     white-space: nowrap;
+      //     width: 290px;
+      //     overflow: hidden;
+      //     text-overflow: ellipsis;
+      //   }
+      // }
+      // @media screen and (min-width: 0) and (max-width: 1440px) {
+      //   .ant-table-thead > tr:nth-child(2) > th:nth-child(2) > div,
+      //   .ant-table-tbody > tr > td:nth-child(2) > div {
+      //     // display: inline-block;
+      //     white-space: nowrap;
+      //     width: 120px;
+      //     overflow: hidden;
+      //     text-overflow: ellipsis;
+      //   }
+      // }
     }
     // overflow-y: auto;
   }

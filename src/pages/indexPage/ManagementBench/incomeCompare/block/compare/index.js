@@ -48,7 +48,7 @@ class Compare extends React.Component {
         dataIndex: 'goodPushOrder',
         key: 'goodPushOrder',
         render: (goodPushOrder, record) => {
-          return <div style={{ textAlign: 'right' }}>{goodPushOrder}</div>;
+          return <div style={{ textAlign: 'center' }}>{goodPushOrder}</div>;
         },
       },
       {
@@ -56,14 +56,14 @@ class Compare extends React.Component {
         dataIndex: 'goodPushFlowKpi',
         key: 'goodPushFlowKpi',
         render: (goodPushFlowKpi, record) => {
-          const percent = (record.goodPushFlowKpiRatio * 100) + '%';
+          const percent = record.goodPushFlowKpiRatio * 100 + '%';
           const money = thousandsFormatBigger(goodPushFlowKpi);
           return (
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
               <BIWrapperProgress
                 text={money}
                 percent={percent}
-                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'flex-end' }}
+                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'center' }}
               />
             </div>
           );
@@ -74,7 +74,7 @@ class Compare extends React.Component {
         dataIndex: 'repeatSignOrder',
         key: 'repeatSignOrder',
         render: (repeatSignOrder, record) => {
-          return <div style={{ textAlign: 'right' }}>{repeatSignOrder}</div>;
+          return <div style={{ textAlign: 'center' }}>{repeatSignOrder}</div>;
         },
       },
       {
@@ -82,14 +82,14 @@ class Compare extends React.Component {
         dataIndex: 'repeatSignFlowKpi',
         key: 'repeatSignFlowKpi',
         render: (repeatSignFlowKpi, record) => {
-          const percent = (record.repeatSignFlowKpiRatio * 100) + '%';
+          const percent = record.repeatSignFlowKpiRatio * 100 + '%';
           const money = thousandsFormatBigger(repeatSignFlowKpi);
           return (
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
               <BIWrapperProgress
                 text={money}
                 percent={percent}
-                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'flex-end' }}
+                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'center' }}
               />
             </div>
           );
@@ -100,7 +100,7 @@ class Compare extends React.Component {
         dataIndex: 'adultRegularOrder',
         key: 'adultRegularOrder',
         render: (adultRegularOrder, record) => {
-          return <div style={{ textAlign: 'right' }}>{adultRegularOrder}</div>;
+          return <div style={{ textAlign: 'center' }}>{adultRegularOrder}</div>;
         },
       },
       {
@@ -108,14 +108,14 @@ class Compare extends React.Component {
         dataIndex: 'adultRegularFlowKpi',
         key: 'adultRegularFlowKpi',
         render: (adultRegularFlowKpi, record) => {
-          const percent = (record.adultRegularFlowKpiRatio * 100) + '%';
+          const percent = record.adultRegularFlowKpiRatio * 100 + '%';
           const money = thousandsFormatBigger(adultRegularFlowKpi);
           return (
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
               <BIWrapperProgress
                 text={money}
                 percent={percent}
-                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'flex-end' }}
+                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'center' }}
               />
             </div>
           );
@@ -126,7 +126,7 @@ class Compare extends React.Component {
         dataIndex: 'incomeTotalKpi',
         key: 'incomeTotalKpi',
         render: (incomeTotalKpi, record) => {
-          const percent = (record.incomeTotalKpiRatio * 100) + '%';
+          const percent = record.incomeTotalKpiRatio * 100 + '%';
           const money = thousandsFormatBigger(incomeTotalKpi);
           return (
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -159,7 +159,7 @@ class Compare extends React.Component {
     return (
       <Container
         title="创收学院对比"
-        style={{ width: 'calc(67% - 16px)', height: '400px', overflow: 'hidden' }}
+        style={{ width: 'calc(67% - 16px)', height: '372px', overflow: 'hidden' }}
       >
         <BIWrapperTable
           className={styles.table}

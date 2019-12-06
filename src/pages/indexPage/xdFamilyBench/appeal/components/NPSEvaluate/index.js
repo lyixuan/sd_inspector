@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import router from 'umi/router';
 import styles from './style.less';
 import Container from '@/components/BIContainer/index';
 import BISelect from '@/ant_components/BISelect';
@@ -50,9 +51,7 @@ class NPSEvaluate extends React.Component {
       groupId: [] || localStorage.getItem('NPSGroupId'),
       groupTypeArr: [],
       NPSParams: {},
-      dateArr: localStorage.getItem('NPSDates')
-        ? this.localStoryDates()
-        : [this.handleDefaultPickerValueMark(), this.handleDefaultPickerValueMarkDays()],
+      dateArr: [this.handleDefaultPickerValueMark(), this.handleDefaultPickerValueMarkDays()],
       userInfo: props.userInfo,
       disableEndDate: this.handleDefaultPickerValueMarkDays(),
       star: localStorage.getItem('NPSStar') ? localStorage.getItem('NPSStar') : '0',
@@ -110,32 +109,35 @@ class NPSEvaluate extends React.Component {
   getNpsAutonomousEvaluation = (userInfo, ids) => {
     let params = {
       ...this.initRecordTimeListData(this.state.dateArr),
-      collegeId:
-        (userInfo && userInfo.collegeId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[0]) ||
-        null,
-      familyId:
-        (userInfo && userInfo.familyId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[1]) ||
-        null,
-      groupId:
-        (userInfo && userInfo.groupId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[2]) ||
-        null,
-      star: this.state.star === '0' ? null : Number(this.state.star),
-      cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
+      // collegeId:
+      //   (userInfo && userInfo.collegeId) ||
+      //   (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+      //   null,
+      // familyId:
+      //   (userInfo && userInfo.familyId) ||
+      //   (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+      //   null,
+      // groupId:
+      //   (userInfo && userInfo.groupId) ||
+      //   (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+      //   null,
+      // star: this.state.star === '0' ? null : Number(this.state.star),
+      // cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
       pageNum: null,
       pageSize: null,
     };
-    this.props.dispatch({
-      type: 'xdFamilyModal/getNpsAutonomousEvaluation',
-      payload: { params: params },
-      callback: res => {
-        this.setState({
-          NPSParams: res,
-        });
-      },
-    });
+    this.props
+      .dispatch({
+        type: 'xdFamilyModal/getNpsAutonomousEvaluation',
+        payload: { params: params },
+      })
+      .then(res => {
+        if (res) {
+          this.setState({
+            NPSParams: res,
+          });
+        }
+      });
   };
   // 组织 - 时间
   getUserOrgList = () => {
@@ -214,16 +216,29 @@ class NPSEvaluate extends React.Component {
   disabledDate = current => {
     return current > moment(this.state.disableEndDate) || current < moment('2019-07-08');
   };
+
+  goto = () => {
+    BI.traceV &&
+      BI.traceV({
+        widgetName: 'NPS查看更多（家族长）',
+        traceName: '家族长工作台/NPS分析',
+      });
+    router.push({
+      pathname: '/nps',
+    });
+  };
+
   rightPart = () => {
     // const {collegeOptions,orgValue} = this.state
     const { groupId = [0], userOrgConfig, dateArr, star, cycle } = this.state;
     const { orgList } = this.props.xdFamilyModal;
     orgList.length > 0 && this.getResetGroupMsg(orgList);
     return (
-      <div className={styles.con}>
-        <span className={styles.change}>
+      <div className={styles.more} onClick={this.goto}>
+        查看更多<span style={{ marginTop: '-1px' }}>></span>
+        {/* <span className={styles.change}>
           选择组织：
-          <BICascader
+                <BICascader
             placeholder="选择组织"
             changeOnSelect
             options={userOrgConfig}
@@ -238,35 +253,21 @@ class NPSEvaluate extends React.Component {
         </span>
         <span className={styles.change}>
           选择星级：
-          <BISelect
-            placeholder="选择星级"
-            value={star}
-            onChange={this.onChangeStar}
-            allowClear={false}
-            style={{ width: '136px' }}
-          >
-            {BiFilter('WB_STAR').map(item => (
-              <Option key={item.id}>{item.name}</Option>
-            ))}
-          </BISelect>
-        </span>
-        <span className={styles.change}>
-          选择周期：
-          <BISelect
-            placeholder="选择周期"
-            value={cycle}
-            onChange={this.onChangeCycle}
-            allowClear={false}
-            style={{ width: '136px' }}
-          >
-            {BiFilter('WB_LIFE_CYCLE').map(item => (
-              <Option key={item.id}>{item.name}</Option>
-            ))}
-          </BISelect>
+                <BISelect
+                  placeholder="选择星级"
+                  value={star}
+                  onChange={this.onChangeStar}
+                  allowClear={false}
+                  style={{ width: '136px' }}
+                >
+                  {BiFilter('WB_STAR').map(item => (
+                    <Option key={item.id}>{item.name}</Option>
+                  ))}
+                </BISelect>
         </span>
         <span className={styles.change}>
           选择时间：
-          <BIRangePicker
+              <BIRangePicker
             value={dateArr}
             placeholder={['选择起始时间', '选择截止时间']}
             format={dateFormat}
@@ -275,7 +276,7 @@ class NPSEvaluate extends React.Component {
             disabledDate={this.disabledDate}
             style={{ width: '224px' }}
           />
-        </span>
+        </span> */}
       </div>
     );
   };

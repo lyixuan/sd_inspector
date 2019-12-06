@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'dva';
 import Profit from './profit'
 import PerformanceDetail from './performanceDetail';
+import Histogram from '@/pages/indexPage/components/scoreContrast';
 import Appeal from './appeal';
 import Quality from './quality';
 import styles from './style.less';
-import CurrentCredit from './currentCredit'
 import storage from '../../../utils/storage';
 
-@connect(({ xdWorkModal }) => ({
+@connect(({ xdWorkModal, xdClsssModal }) => ({
+  kpiTimes: xdClsssModal.kpiTimes || {},
   userInfo: xdWorkModal.userInfo || {},
 }))
 class XdWorkbench extends React.Component {
@@ -23,9 +24,10 @@ class XdWorkbench extends React.Component {
     return (
       <div className={styles.workbench}>
         <PerformanceDetail></PerformanceDetail>
-        {
+        {/* {
           this.props.userInfo.privilegeView &&  <CurrentCredit></CurrentCredit>
-        }
+        } */}
+        {this.props.kpiTimes.endTime && <Histogram allTimes={this.props.kpiTimes} />}
         <Profit userId={userId} />
         <div className={styles.qualityAppel}>
           <Quality userId={userId} />

@@ -14,16 +14,16 @@ import {
   achievementList,
   familyAchievement,
   qualityChargeCount,
-  getFamilyScorePk,
-  getFamilyRankList,
-  getGroupPkList,
+  // getFamilyScorePk,
+  // getFamilyRankList,
+  // getGroupPkList,
   getIncomeFamilyList,
   getFamilyList,
-  getCollegeList,
-  myFamilyGroupList,
+  // getCollegeList,
+  // myFamilyGroupList,
   // getIncomeCollegeList,
   getIncomeFamilyGroupPk,
-  groupPkList,
+  // groupPkList,
   getIncomeGroupList,
   // 新增加的
   getNpsStarOpinion,
@@ -32,13 +32,14 @@ import {
   getCurrentDateRange,
   getHotList,
   packageRankList,
-  countCreditAvgScore,
-  countByDate,
   getOrgMapTree,
+  risePackageRankList,
   getImReverseSideData,
   queryAppealDataPage,
   getFamilyType,
   reasonList,
+  countCreditAvgScore,
+  countByDate,
   // end
 } from './services';
 import { message } from 'antd/lib/index';
@@ -93,6 +94,15 @@ export default {
     compareCollegeListData: [],
     getCurrentDateRangeData: null,
     orgList: [],
+
+    npsParams: {}, //nps部分的数据
+    compareCollegeListData: [],
+    getCurrentDateRangeData: null,
+    orgList: [],
+    imDetailData: [],
+    globalDateRange: {}, // 时间 --
+    packageRankList: [],
+
     // end
   },
 
@@ -280,29 +290,93 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+    //  IM负面数据对比
+    *getImReverseSideData({ payload, callback }, { call, put }) {
+      const result = yield call(getImReverseSideData, payload.params);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    //  家族学分对比柱状图部分的接口
+    *queryAppealDataPage({ payload, callback }, { call, put }) {
+      const result = yield call(queryAppealDataPage, payload.params);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    //  获取学院家族性质
+    *getFamilyType({ payload, callback }, { call, put }) {
+      const result = yield call(getFamilyType);
+      if (result.code === 20000 && result.data) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 获取学分
+    *getCountCreditAvgScore({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(countCreditAvgScore, params);
+      if (result.code === 20000) {
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 获取指标
+    *getCountByDate({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(countByDate, params);
+      if (result.code === 20000) {
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 热销产品包列表
+    *getPackageRankList({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(packageRankList, params);
+      if (result.code === 20000) {
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
     //  家族学分对比
-    *getFamilyScorePk({ payload, callback }, { call, put }) {
-      const result = yield call(getFamilyScorePk, payload.params);
-      if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
-        yield put({ type: 'saveScore', payload: { data: result.data, key: 'familyScorePk' } });
-      } else if (result && result.code !== 50000) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *getFamilyScorePk({ payload, callback }, { call, put }) {
+    //   const result = yield call(getFamilyScorePk, payload.params);
+    //   if (result.code === 20000) {
+    //     if (callback && typeof callback === 'function') {
+    //       callback(result.data);
+    //     }
+    //     yield put({ type: 'saveScore', payload: { data: result.data, key: 'familyScorePk' } });
+    //   } else if (result && result.code !== 50000) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     //  家族学分对比右侧家族学分排名
-    *getFamilyRankList({ payload, callback }, { call, put }) {
-      const result = yield call(getFamilyRankList, payload.params);
-      if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
-      } else if (result && result.code !== 50000) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *getFamilyRankList({ payload, callback }, { call, put }) {
+    //   const result = yield call(getFamilyRankList, payload.params);
+    //   if (result.code === 20000) {
+    //     if (callback && typeof callback === 'function') {
+    //       callback(result.data);
+    //     }
+    //   } else if (result && result.code !== 50000) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     //  家族学分对比的学院列表
     // *getCollegeList({ payload, callback }, { call, put }) {
     //   const result = yield call(getCollegeList, payload.params);
@@ -377,18 +451,18 @@ export default {
       }
     },
     // 小组学分对比
-    *groupPkList({ payload, callback }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(groupPkList, params);
-      if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
-        yield put({ type: 'saveScore', payload: { data: result.data, key: 'groupScorePk' } });
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *groupPkList({ payload, callback }, { call, put }) {
+    //   const params = payload.params;
+    //   const result = yield call(groupPkList, params);
+    //   if (result.code === 20000) {
+    //     if (callback && typeof callback === 'function') {
+    //       callback(result.data);
+    //     }
+    //     yield put({ type: 'saveScore', payload: { data: result.data, key: 'groupScorePk' } });
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     // 家族创收对比右侧的家族绩效列表
     *getIncomeGroupList({ payload, callback }, { call, put }) {
       const result = yield call(getIncomeGroupList, payload.params);
@@ -415,8 +489,9 @@ export default {
     //NPS自主评价所有的接口
     *getNpsAutonomousEvaluation({ payload, callback }, { call, put }) {
       const result = yield call(getNpsAutonomousEvaluation, payload.params);
-      if (result.code === 20000 && result.data) {
+      if (result.code === 20000) {
         yield put({ type: 'save', payload: { npsParams: result.data } });
+        return result.data;
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
@@ -431,69 +506,6 @@ export default {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    //  IM负面数据对比
-    *getImReverseSideData({ payload, callback }, { call, put }) {
-      const result = yield call(getImReverseSideData, payload.params);
-      if (result.code === 20000 && result.data) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    //  家族学分对比柱状图部分的接口
-    *queryAppealDataPage({ payload, callback }, { call, put }) {
-      const result = yield call(queryAppealDataPage, payload.params);
-      if (result.code === 20000 && result.data) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    //  获取学院家族性质
-    *getFamilyType({ payload, callback }, { call, put }) {
-      const result = yield call(getFamilyType);
-      if (result.code === 20000 && result.data) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    // 获取学分
-    *getCountCreditAvgScore({ payload, callback }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(countCreditAvgScore, params);
-      if (result.code === 20000) {
-        return result.data;
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    // 获取指标
-    *getCountByDate({ payload, callback }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(countByDate, params);
-      if (result.code === 20000) {
-        return result.data;
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    // 热销产品包列表
-    *getPackageRankList({ payload, callback }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(packageRankList, params);
-      if (result.code === 20000) {
-        return result.data;
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -540,6 +552,16 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+
+    // 飙升产品包榜单
+    *getRisePackageRankList({ payload, callback }, { call, put }) {
+      const result = yield call(risePackageRankList);
+      if (result.code === 20000) {
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     *reasonList({ payload }, { call, put }) {
       const params = payload.params;
       const result = yield call(reasonList, params);
@@ -570,14 +592,24 @@ export default {
             typeName: '所有分类',
           },
         ];
-        data.titleList = [
-          ...data.titleList,
-          {
-            expand: false,
-            typeId: -1,
-            typeName: '未分类数据',
-          },
-        ];
+        if (data.titleList instanceof Array) {
+          data.titleList = [
+            ...data.titleList,
+            {
+              expand: false,
+              typeId: -1,
+              typeName: '未分类数据',
+            },
+          ];
+        } else {
+          data.titleList = [
+            {
+              expand: false,
+              typeId: -1,
+              typeName: '未分类数据',
+            },
+          ];
+        }
       } else {
         data.reasonTypeList = [
           {
@@ -603,17 +635,17 @@ export default {
       }
       return { ...state, [payload.key]: { maxValue, pkList } };
     },
-    saveScore(state, { payload }) {
-      const data = payload.data;
-      data.dimensionList = fillDataSource(
-        {
-          ...state.familyKpiTimes,
-          dataTrace: `家族长工作台/${payload.key === 'familyScorePk' ? '家族' : '小组'}学分/`,
-        },
-        data.dimensionList
-      );
-      return { ...state, [payload.key]: data };
-    },
+    // saveScore(state, { payload }) {
+    //   const data = payload.data;
+    //   data.dimensionList = fillDataSource(
+    //     {
+    //       ...state.familyKpiTimes,
+    //       dataTrace: `家族长工作台/${payload.key === 'familyScorePk' ? '家族' : '小组'}学分/`,
+    //     },
+    //     data.dimensionList
+    //   );
+    //   return { ...state, [payload.key]: data };
+    // },
   },
   subscriptions: {},
 };

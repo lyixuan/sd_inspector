@@ -3,11 +3,11 @@ import {
   getIncomeKpiPkList,
   getCountCurrentQuality,
   getCountAppealRecord,
-  groupList,
-  groupPkList,
+  // groupList,
+  // groupPkList,
   getKpiInfo,
 } from './services';
-import { fillDataSource } from '@/pages/indexPage/components/utils/utils';
+// import { fillDataSource } from '@/pages/indexPage/components/utils/utils';
 import { message } from 'antd/lib/index';
 import { msgF } from "@/utils/utils";
 import moment from 'moment';
@@ -16,11 +16,11 @@ export default {
   namespace: 'xdClsssModal',
   state: {
     userInfo: {}, // 全局值
-    groupList: null,
+    // groupList: null,
     kpiTimes: {}, // 时间
     classQualityList: [],
     classAppealList: [],
-    familyScorePk: {}, // 本期学分
+    // familyScorePk: {}, // 本期学分
     groupIncomePk: { // 本期创收
       maxValue: {},
       pkList: []
@@ -82,30 +82,30 @@ export default {
       }
     },
     // 获取右侧的列表数据
-    *groupList({ payload, callback }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(groupList, params)
-      if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *groupList({ payload, callback }, { call, put }) {
+    //   const params = payload.params;
+    //   const result = yield call(groupList, params)
+    //   if (result.code === 20000) {
+    //     if (callback && typeof callback === 'function') {
+    //       callback(result.data);
+    //     }
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     //  获取左侧的列表数据
-    *groupPkList({ payload, callback }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(groupPkList, params)
-      if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
-        yield put({ type: 'saveScore', payload: { data: result.data, key: 'familyScorePk'} });
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *groupPkList({ payload, callback }, { call, put }) {
+    //   const params = payload.params;
+    //   const result = yield call(groupPkList, params)
+    //   if (result.code === 20000) {
+    //     if (callback && typeof callback === 'function') {
+    //       callback(result.data);
+    //     }
+    //     yield put({ type: 'saveScore', payload: { data: result.data, key: 'familyScorePk'} });
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     *getKpiInfo({ callback }, { call, put }) {
       const result = yield call(getKpiInfo, {})
       if (result.code === 20000) {
@@ -131,14 +131,14 @@ export default {
       const orgListTreeData = toTreeData(payload.orgList);
       return { ...state, orgList: payload.orgList, orgListTreeData };
     },
-    saveScore(state, { payload }) {
-      const data = payload.data;
-      data.dimensionList = fillDataSource({
-        ...state.kpiTimes,
-        datatrace: '家族长工作台/本期学分/'
-      }, data.dimensionList)
-      return { ...state, [payload.key]: data};
-    }
+    // saveScore(state, { payload }) {
+    //   const data = payload.data;
+    //   data.dimensionList = fillDataSource({
+    //     ...state.kpiTimes,
+    //     datatrace: '家族长工作台/本期学分/'
+    //   }, data.dimensionList)
+    //   return { ...state, [payload.key]: data};
+    // }
   },
   subscriptions: {},
 };

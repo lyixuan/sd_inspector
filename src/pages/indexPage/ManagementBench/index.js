@@ -10,9 +10,11 @@ import IMPartLeft from './IMPartLeft';
 import IMPartRight from './IMPartRight';
 import NPSEvaluate from './NPSEvaluate';
 import moment from 'moment';
+import Histogram from '@/pages/indexPage/components/scoreContrast';
 
 @connect(({ xdManagementBench, xdWorkModal }) => ({
   xdManagementBench,
+  globalDateRange: xdManagementBench.globalDateRange,
   userInfo: xdWorkModal.userInfo,
 }))
 class ManagementBench extends React.Component {
@@ -37,7 +39,26 @@ class ManagementBench extends React.Component {
       this.setState({ date: nextProps.xdManagementBench.getCurrentDateRangeData });
     }
   }
+
+  getScreenWidth = ()=>{
+    let screenRange = 'small_screen';
+    const sWidth = window.screen.width;
+
+    if(sWidth < 1440){
+      // width:1030px;
+      screenRange = 'small_screen';
+    } else if (sWidth >= 1440) {
+      // width:1190px;
+      screenRange = 'middle_screen';
+    }
+    this.props.dispatch({
+      type: 'xdManagementBench/checkScreen',
+      payload: { screenRange },
+    })
+  };
+
   componentDidMount() {
+    this.getScreenWidth();
     this.props
       .dispatch({
         type: 'xdManagementBench/getCurrentDateRange',
@@ -55,10 +76,6 @@ class ManagementBench extends React.Component {
           this.getReasonListData(res.startDate, res.endDate);
         }
       });
-    // .then(res => {
-    //   console.log(res,'res');
-    //   this.getReasonListData();
-    // });
     this._isMounted = true;
   }
 
@@ -136,12 +153,13 @@ class ManagementBench extends React.Component {
 
   render() {
     const { date } = this.state;
-    const { userInfo = {} } = this.props;
+    const { userInfo = {}, globalDateRange } = this.props;
     return (
       <div className={styles.workbench}>
         {date.startDate && <Header date={date} />}
         {date.startDate && userInfo && <IncomeCompare date={date} userInfo={userInfo} />}
-        {date.startDate && userInfo && <ScoreContrast date={date} userInfo={userInfo} />}
+        {/* {date.startDate && userInfo && <ScoreContrast date={date} userInfo={userInfo} />} */}
+        {globalDateRange.endTime && userInfo && <Histogram allTimes={globalDateRange} userInfo={userInfo} />}
         <div className={styles.qualityAppel} ref="four">
           {userInfo && (
             <IMPartLeft

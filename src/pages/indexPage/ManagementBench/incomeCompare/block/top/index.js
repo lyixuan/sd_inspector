@@ -133,6 +133,7 @@ class Top extends React.Component {
         },
       },
       {
+        ellipsis: true,
         title: '创收产品包',
         dataIndex: 'packageName',
         key: 'packageName',
@@ -140,18 +141,19 @@ class Top extends React.Component {
         render: (packageName, record) => {
           return (
             <Tooltip title={packageName}>
-              <div style={{ textAlign: 'left' }}>{packageName}</div>
+              <span style={{ textAlign: 'left' }}>{packageName}</span>
             </Tooltip>
           );
         },
       },
       {
+        ellipsis: true,
         title: '创收单量',
         dataIndex: 'incomeOrder',
         key: 'incomeOrder',
         width: '70px',
         render: (incomeOrder, record) => {
-          return <div style={{ textAlign: 'right', width: '60px' }}>{incomeOrder}</div>;
+          return <span style={{ textAlign: 'right', width: '60px', textAlign: 'center' }}>{incomeOrder}</span>;
         },
       },
       {
@@ -167,7 +169,7 @@ class Top extends React.Component {
               <BIWrapperProgress
                 text={money}
                 percent={percent}
-                propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'right' }}
+                propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'flex-end' }}
               />
             </div>
           );
