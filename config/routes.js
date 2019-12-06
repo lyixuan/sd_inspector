@@ -564,6 +564,10 @@ export const routes = [
           {
             path: '/examPlant/admissionTicket',
             component: './examPlant/admissionTicket',
+          },
+          {
+            path: '/examPlant/registTouch',
+            component: './examPlant/registTouch',
           }
         ]
       },

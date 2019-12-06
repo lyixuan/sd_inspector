@@ -34,7 +34,6 @@ class TicketRankList extends React.Component {
     super(props);
     this.state = {
       rankType: 1,
-      visible: true
     }
   }
   handleRankChange = (e) => {
@@ -63,9 +62,10 @@ class TicketRankList extends React.Component {
         },
       },
       {
-        title: '填写人数',
-        dataIndex: 'tianxie',
-        key: 'tianxie',
+        title: '尚小德渠道触达人数',
+        dataIndex: 'column5',
+        key: 'column5',
+        className: styles.sunlandBg,
         render: (text, record) => {
           const percent = '40%'
           return <div style={{ display: 'flex' }}>
@@ -77,36 +77,6 @@ class TicketRankList extends React.Component {
         title: '填写率',
         dataIndex: 'familyName',
         key: 'familyName',
-      },
-      {
-        title: '尚小德渠道填写人数',
-        dataIndex: 'column5',
-        key: 'column5',
-        className: styles.sunlandBg,
-        render: (text, record) => {
-          const percent = '40%'
-          return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text} isColor='blue' percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
-          </div>
-        },
-      },
-      {
-        title: '填写占比',
-        dataIndex: 'familyName',
-        key: 'familyName',
-        className: styles.sunlandBg
-      },
-      {
-        title: '验证准确数量',
-        dataIndex: 'familyName',
-        key: 'familyName',
-        className: styles.sunlandBg
-      },
-      {
-        title: '准确率',
-        dataIndex: 'familyName',
-        key: 'familyName',
-        className: styles.sunlandBg
       },
     ];
     if (this.state.rankType == 1) {
@@ -139,11 +109,14 @@ class TicketRankList extends React.Component {
   }
 
   render() {
-    const { visible } = this.state;
     return (
       <div className={styles.ticketList}>
         <BIRadio onChange={this.handleRankChange} value={this.state.rankType} style={{ marginBottom: 16 }}>
-          {rankType.map((item, index) => <BIRadio.Radio.Button value={index + 1} key={index}><div data-trace={`{ "widgetName": "准考证填写-${item}", "traceName": "报考大盘/准考证填写排行" }`}>{item}</div></BIRadio.Radio.Button>)}
+          {rankType.map((item, index) =>
+            <BIRadio.Radio.Button value={index + 1} key={index}>
+              <div data-trace={`{ "widgetName": "准考证填写-${item}", "traceName": "报考大盘/报考触达" }`}>{item}</div>
+            </BIRadio.Radio.Button>
+          )}
         </BIRadio>
         <div className={styles.tableWrap}>
           <BIScrollbarTable
@@ -156,12 +129,6 @@ class TicketRankList extends React.Component {
             smalled
           />
         </div>
-        {
-          visible ? <div className={styles.floatPop}>
-            <img src={pop} className={styles.img1}></img>
-            <img src={close} className={styles.img2} onClick={this.onClose}></img>
-          </div> : null
-        }
       </div>
     );
   }

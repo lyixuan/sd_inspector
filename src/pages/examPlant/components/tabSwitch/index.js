@@ -16,7 +16,9 @@ class TabSwitch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      keye: 1
+      keye: 1,
+      startTime: this.props.startTime,
+      endTime: this.props.endTime
     }
   }
   onTabChange = (keye) => {
@@ -27,36 +29,26 @@ class TabSwitch extends React.Component {
   };
   // date
   getDate = () => {
-    const { startTime, endTime } = this.state;
+    // const startTime = '2019-09-01';
+    // const endTime = '2019-19-01';
+    const { startTime, endTime } = this.state
     return startTime && endTime ? [moment(startTime), moment(endTime)] : [];
   }
   // 选择时间
   onDateChange = (v) => {
+    console.log(39, v)
     const [startTime, endTime] = initTimeData(v);
-    this.setState({ startTime, endTime, }, () => {
-      const params = {
-        startTime: startTime,
-        endTime: endTime
+    this.setState({ startTime, endTime }, () => {
+      if (this.props.refreshList) {
+        this.props.refreshList({ startTime, endTime })
       }
-      this.props.dispatch({
-        type: 'xdCreditModal/getUserOrgList',
-        payload: { params: params },
-        callback: res => {
-          if (res && res.length > 0) {
-            this.setState({
-              userOrgConfig: res,
-              ...this.getResetGroupMsg(res),
-            })
-          }
 
-        }
-      })
     });
   }
   // 时间控件可展示的时间范围
   disabledDate = current => {
-    return;
-    return current > moment(this.props.kpiDateRange.endDate) || current < moment(this.props.kpiDateRange.startDate);
+    const start = '2019-07-01'
+    return current > moment().endOf('day') || current < moment(start);
   };
 
   render() {
