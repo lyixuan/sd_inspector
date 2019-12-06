@@ -266,7 +266,7 @@ class NPSEvaluate extends React.Component {
           </BISelect>
         </span>
         <span className={styles.change}>
-          周期：
+        学员生命周期：
           <BISelect
             placeholder="选择周期"
             value={cycle}
