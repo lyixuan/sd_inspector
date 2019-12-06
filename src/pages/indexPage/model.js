@@ -24,8 +24,8 @@ export default {
     globalCollegeList: [],
     globalQVisible: false, // 问卷调查是否显示
     globalOrgList: {
-      0: [{ id:1, name: '自变量' }],
-      1: [{ id:2, name: '熟悉' }],
+      0: [],
+      1: [],
     } // 柱状图组织
   },
   effects: { 
@@ -146,7 +146,7 @@ export default {
     *getOrgList({ payload, callback }, { call, put }) {
       const result = yield call(getOrgList, payload.params);
       if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { globalOrgList: result.data } });
+        yield put({ type: 'saveOrg', payload: { listObj: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -160,6 +160,13 @@ export default {
     saveMap(state, { payload }) {
       const orgListTreeData = toTreeData(payload.orgList);
       return { ...state, orgList: payload.orgList, orgListTreeData };
+    },
+    saveOrg(state, { payload }) {
+      const globalOrgList = {
+        0: getNullNodeList(payload.listObj[0]),
+        1: getNullNodeList(payload.listObj[1])
+      }
+      return { ...state, globalOrgList };
     },
   },
   subscriptions: {},
@@ -191,4 +198,17 @@ function toTreeData(orgList) {
     treeData.push(o);
   });
   return treeData;
+}
+function getNullNodeList(data = []) {
+  data.map(item => {
+    if (item.nodeList instanceof Array) {
+      const l = item.nodeList.length;
+      if (l === 0) {
+        item.nodeList = null
+      } else if (l > 0) {
+        getNullNodeList(item.nodeList)
+      } 
+    } 
+  })
+  return data;
 }
