@@ -195,8 +195,12 @@ export function jumpGobalRouter(path, params) {
   const origin = window.location.origin;
   if (path) {
     const url = `${origin}${config.base}${path}`;
-    const strParams = encodeURIComponent(JSON.stringify(params));
-    window.open(`${url}?params=${strParams}`);
+    if(params){
+      const strParams = encodeURIComponent(JSON.stringify(params));
+      window.open(`${url}?params=${strParams}`);
+    }else{
+      window.open(`${url}`);
+    }
   }
 }
 export function jumpGobalSelfRouter(path, params) {

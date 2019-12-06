@@ -10,7 +10,7 @@ import { BiFilter } from '@/utils/utils';
 import NPSLeft from './NPSLeft';
 import NPSRight from './NPSRight';
 import moment from 'moment';
-import { initTimeData } from '../../../ko/utils/utils';
+import { initTimeData, jumpGobalRouter } from '../../../ko/utils/utils';
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -116,7 +116,7 @@ class NPSEvaluate extends React.Component {
         type: 'xdManagementBench/getNpsAutonomousEvaluation',
         payload: { params: params },
       })
-      .then((res) => {
+      .then(res => {
         if (res) {
           this.setState({
             NPSParams: res,
@@ -194,9 +194,10 @@ class NPSEvaluate extends React.Component {
         widgetName: 'NPS查看更多（管理层）',
         traceName: '管理层工作台/NPS分析',
       });
-    router.push({
-      pathname: '/nps',
-    });
+    jumpGobalRouter('nps');
+    // router.push({
+    //   pathname: '/nps',
+    // });
   };
 
   rightPart = () => {

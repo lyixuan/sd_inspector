@@ -10,7 +10,7 @@ import { BiFilter } from '@/utils/utils';
 import NPSLeft from './NPSLeft';
 import NPSRight from './NPSRight';
 import moment from 'moment';
-import { initTimeData } from '../../../../../ko/utils/utils';
+import { initTimeData, jumpGobalRouter } from '../../../../../ko/utils/utils';
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -223,9 +223,7 @@ class NPSEvaluate extends React.Component {
         widgetName: 'NPS查看更多（家族长）',
         traceName: '家族长工作台/NPS分析',
       });
-    router.push({
-      pathname: '/nps',
-    });
+    jumpGobalRouter('nps');
   };
 
   rightPart = () => {
