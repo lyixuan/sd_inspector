@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import BIRadio from '@/ant_components/BIRadio';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
+import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
@@ -10,21 +11,21 @@ import styles from './style.less';
 const rankType = ['学院', '家族', '小组'];
 const dataSource = [
   {
-    key: '1',
-    name: '胡彦斌',
-    age: 32,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '2',
-    name: '胡彦祖',
-    age: 42,
-    address: '西湖区湖底公园1号',
-  },
+    sort: 1,
+    collegeName: '学院名称',
+    familyName: '家族',
+    zaifu: '10000',
+    tianxie: '3000',
+    column4: '填写率',
+    column5: '尚小德渠道填写人数',
+    column6: '填写占比',
+    column7: '填写占比',
+    column8: '验证准确数量',
+    column9: '准确率',
+  }
 ];
 @connect(({ admissionTicket, loading }) => ({
   admissionTicket
-
 }))
 class TicketRankList extends React.Component {
   constructor(props) {
@@ -44,27 +45,24 @@ class TicketRankList extends React.Component {
     const columns = [
       {
         title: '排名',
-        dataIndex: 'name',
-        key: 'name',
-      },
-      {
-        title: '学院',
-        dataIndex: 'address',
-        key: 'address',
-        render: (text, record) => {
-          console.log(57, text, record)
-
-        }
+        dataIndex: 'sort',
+        key: 'sort',
       },
       {
         title: '在服学员人数',
-        dataIndex: 'familyName',
-        key: 'familyName',
+        dataIndex: 'zaifu',
+        key: 'zaifu',
+        render: (text, record) => {
+          const percent = '70%'
+          return <div style={{ display: 'flex' }}>
+            <BIWrapperProgress text={text} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+          </div>
+        },
       },
       {
         title: '填写人数',
-        dataIndex: 'familyName',
-        key: 'familyName',
+        dataIndex: 'tianxie',
+        key: 'tianxie',
       },
       {
         title: '填写率',
@@ -92,9 +90,23 @@ class TicketRankList extends React.Component {
         key: 'familyName',
       },
     ];
-    if (this.state.rankType == 2) {
+    if (this.state.rankType == 1) {
       columns.splice(1, 0, {
         title: '学院',
+        dataIndex: 'collegeName',
+        key: 'collegeName',
+      })
+    }
+    if (this.state.rankType == 2) {
+      columns.splice(1, 0, {
+        title: '家族',
+        dataIndex: 'collegeName',
+        key: 'collegeName',
+      })
+    }
+    if (this.state.rankType == 3) {
+      columns.splice(1, 0, {
+        title: '小组',
         dataIndex: 'collegeName',
         key: 'collegeName',
       })
