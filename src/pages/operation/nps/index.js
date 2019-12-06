@@ -237,7 +237,7 @@ class NPSEvaluate extends React.Component {
     return (
       <div className={styles.more}>
         <span className={styles.change}>
-          选择组织：
+         组织：
           <BICascader
             placeholder="选择组织"
             changeOnSelect
@@ -252,7 +252,7 @@ class NPSEvaluate extends React.Component {
           />
         </span>
         <span className={styles.change}>
-          选择星级：
+          星级：
           <BISelect
             placeholder="选择星级"
             value={star}
@@ -266,7 +266,7 @@ class NPSEvaluate extends React.Component {
           </BISelect>
         </span>
         <span className={styles.change}>
-          选择周期：
+          周期：
           <BISelect
             placeholder="选择周期"
             value={cycle}
@@ -280,7 +280,7 @@ class NPSEvaluate extends React.Component {
           </BISelect>
         </span>
         <span className={styles.change}>
-          选择时间：
+          时间：
           <BIRangePicker
             value={dateArr}
             placeholder={['选择起始时间', '选择截止时间']}
