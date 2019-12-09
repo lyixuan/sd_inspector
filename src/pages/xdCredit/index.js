@@ -9,6 +9,7 @@ import extentImg from '@/assets/xdcredit/extent.png';
 import { initTimeData } from '../ko/utils/utils';
 import Dimension from './dimension';
 import CollegeScore from './collegeScore';
+import AttendanceScore from './attendanceScore';
 import CreditDetials from './details';
 import Attendance from './attendance';
 import CreditImDetials from './imDetails';
@@ -415,9 +416,11 @@ class XdCredit extends React.Component {
         }
       );
       this.getReasonListData();
-    } else if (v === 37 || v === 38) {
-      this.getAttendanceDeail();
-    } else {
+    }
+    //  else if (v === 37 || v === 38) {
+    //   this.getAttendanceDeail();
+    // }
+    else {
       this.setState(
         {
           [type]: v,
@@ -572,6 +575,7 @@ class XdCredit extends React.Component {
     const level = dimensionLevel[dementionId];
 
     let newTable = null;
+    let newChart = null;
     switch (dementionId) {
       case 16:
         newTable = (
@@ -586,20 +590,23 @@ class XdCredit extends React.Component {
             reasonTypeClick={this.reasonTypeClick}
           />
         );
+        newChart = <CollegeScore />;
         break;
       case 37:
       case 38:
-        newTable = (
-          <Attendance
-            onPageChange={this.onPageChange3}
-            pageSize={this.state.pageSize}
-            currentPage={this.state.page}
-            detailsData={this.props.dimensionDetails}
-            dementionId={dementionId}
-          />
-        );
+        newChart = <AttendanceScore />;
+        //   newTable = (
+        //     <Attendance
+        //       onPageChange={this.onPageChange3}
+        //       pageSize={this.state.pageSize}
+        //       currentPage={this.state.page}
+        //       detailsData={this.props.dimensionDetails}
+        //       dementionId={dementionId}
+        //     />
+        //   );
         break;
       default:
+        newChart = <CollegeScore />;
         newTable = (
           <CreditDetials
             onPageChange={this.onPageChange}
@@ -691,7 +698,8 @@ class XdCredit extends React.Component {
                   <div className={`${styles.creditTrend} ${dementionId ? '' : styles.creditNone}`}>
                     {dementionId ? (
                       <>
-                        <CollegeScore />
+                        {/* 图表代码 */}
+                        {newChart}
                         {level === 4
                           ? newTable
                           : // <>
