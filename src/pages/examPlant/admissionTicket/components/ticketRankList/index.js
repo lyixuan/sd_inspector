@@ -8,26 +8,14 @@ import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
 import pop from '@/assets/examPlan/pop.png';
 import close from '@/assets/examPlan/close.png';
+import router from 'umi/router';
 import styles from './style.less';
 
 const rankType = ['学院', '家族', '小组'];
-const dataSource = [
-  {
-    sort: 1,
-    collegeName: '学院名称',
-    familyName: '家族',
-    zaifu: '10000',
-    tianxie: '3000',
-    column4: '填写率',
-    column5: '2000',
-    column6: '填写占比',
-    column7: '填写占比',
-    column8: '验证准确数量',
-    column9: '准确率',
-  }
-];
 @connect(({ admissionTicket, loading }) => ({
-  admissionTicket
+  admissionTicket,
+  zkzWriteList: admissionTicket.zkzWriteList,
+  loading: loading.effects['admissionTicket/zkzWriteList']
 }))
 class TicketRankList extends React.Component {
   constructor(props) {
@@ -41,7 +29,9 @@ class TicketRankList extends React.Component {
     this.setState({
       rankType: e.target.value
     }, () => {
-      // this.achievementList();
+      if (this.props.getList) {
+        this.props.getList(e.target.value);
+      }
     });
   }
   columns() {
@@ -53,81 +43,112 @@ class TicketRankList extends React.Component {
       },
       {
         title: '在服学员人数',
-        dataIndex: 'zaifu',
-        key: 'zaifu',
+        dataIndex: 'stuNumber',
+        key: 'stuNumber',
         render: (text, record) => {
-          const percent = '70%'
+          const maxNum = Math.max.apply(Math, this.props.admissionTicket.zkzWriteList.map(item => item.stuNumber))
+          const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress text={text || 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
       {
         title: '填写人数',
-        dataIndex: 'tianxie',
-        key: 'tianxie',
+        dataIndex: 'writePersonNum',
+        key: 'writePersonNum',
         render: (text, record) => {
-          const percent = '40%'
+          const maxNum = Math.max.apply(Math, this.props.admissionTicket.zkzWriteList.map(item => item.writePersonNum))
+          const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress text={text || 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
       {
         title: '填写率',
-        dataIndex: 'familyName',
-        key: 'familyName',
+        dataIndex: 'writePercent',
+        key: 'writePercent',
+        render: (text, record) => {
+          const maxNum = Math.max.apply(Math, this.props.admissionTicket.zkzWriteList.map(item => item.writePercent))
+          const percent = `${(text || 0) / maxNum * 100}%`
+          return <div style={{ display: 'flex' }}>
+            <BIWrapperProgress text={`${(text * 100).toFixed(2)}%`} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+          </div>
+        },
       },
       {
         title: '尚小德渠道填写人数',
-        dataIndex: 'column5',
-        key: 'column5',
+        dataIndex: 'sunlandsWritePersonNum',
+        key: 'sunlandsWritePersonNum',
         className: styles.sunlandBg,
         render: (text, record) => {
-          const percent = '40%'
+          const maxNum = Math.max.apply(Math, this.props.admissionTicket.zkzWriteList.map(item => item.sunlandsWritePersonNum))
+          const percent = `${(text || 0) / maxNum * 100}%`
+          return <div style={{ display: 'flex' }}>
+            <BIWrapperProgress text={text || 0} isColor='blue' percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+          </div>
+        },
+      },
+      {
+        title: '填写占比',
+        dataIndex: 'sunlandsWritePercent',
+        key: 'sunlandsWritePercent',
+        className: styles.sunlandBg,
+        render: (text, record) => {
+          const maxNum = Math.max.apply(Math, this.props.admissionTicket.zkzWriteList.map(item => item.sunlandsWritePercent))
+          const percent = `${(text || 0) / maxNum * 100}%`
+          return <div style={{ display: 'flex' }}>
+            <BIWrapperProgress text={`${(text * 100).toFixed(2)}%`} isColor='blue' percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+          </div>
+        },
+      },
+      {
+        title: '验证准确数量',
+        dataIndex: 'sunlandsCorrectNum',
+        key: 'sunlandsCorrectNum',
+        className: styles.sunlandBg,
+        render: (text, record) => {
+          const maxNum = Math.max.apply(Math, this.props.admissionTicket.zkzWriteList.map(item => item.sunlandsCorrectNum))
+          const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
             <BIWrapperProgress text={text} isColor='blue' percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
       {
-        title: '填写占比',
-        dataIndex: 'familyName',
-        key: 'familyName',
-        className: styles.sunlandBg
-      },
-      {
-        title: '验证准确数量',
-        dataIndex: 'familyName',
-        key: 'familyName',
-        className: styles.sunlandBg
-      },
-      {
         title: '准确率',
-        dataIndex: 'familyName',
-        key: 'familyName',
-        className: styles.sunlandBg
+        dataIndex: 'sunlandsWriteCorrectPercent',
+        key: 'sunlandsWriteCorrectPercent',
+        className: styles.sunlandBg,
+        render: (text, record) => {
+          const maxNum = Math.max.apply(Math, this.props.admissionTicket.zkzWriteList.map(item => item.sunlandsWriteCorrectPercent))
+          const percent = `${(text || 0) / maxNum * 100}%`
+          return <div style={{ display: 'flex' }}>
+            <BIWrapperProgress text={`${(text * 100).toFixed(2)}%`} isColor='blue' percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+          </div>
+        },
       },
     ];
     if (this.state.rankType == 1) {
       columns.splice(1, 0, {
         title: '学院',
-        dataIndex: 'collegeName',
-        key: 'collegeName',
+        dataIndex: 'orgName',
+        key: 'orgName',
       })
     }
     if (this.state.rankType == 2) {
       columns.splice(1, 0, {
         title: '家族',
-        dataIndex: 'collegeName',
-        key: 'collegeName',
+        dataIndex: 'orgName',
+        key: 'orgName',
       })
     }
     if (this.state.rankType == 3) {
       columns.splice(1, 0, {
         title: '小组',
-        dataIndex: 'collegeName',
-        key: 'collegeName',
+        dataIndex: 'orgName',
+        key: 'orgName',
       })
     }
     return columns || []
@@ -137,9 +158,24 @@ class TicketRankList extends React.Component {
       visible: false
     })
   }
+  goRoute = () => {
+    router.push({
+      pathname: '/cubePlan/list/detail',
+      query: {
+        id: 1,
+      }
+    });
+  }
+  getRowClassName = (record, index) => {
+    if (record.hightLightFlag) {
+      this.state.userMsg = record;
+      return styles.pkMine;
+    };
+  }
 
   render() {
     const { visible } = this.state;
+    const { zkzWriteList } = this.props.admissionTicket
     return (
       <div className={styles.ticketList}>
         <BIRadio onChange={this.handleRankChange} value={this.state.rankType} style={{ marginBottom: 16 }}>
@@ -148,9 +184,10 @@ class TicketRankList extends React.Component {
         <div className={styles.tableWrap}>
           <BIScrollbarTable
             columns={this.columns()}
-            dataSource={dataSource}
+            dataSource={zkzWriteList}
             pagination={false}
-            scroll={{ x: 0, y: 700 }}
+            loading={this.props.loading}
+            scroll={{ x: 0, y: 600 }}
             rowKey={(record, index) => index}
             rowClassName={this.getRowClassName}
             smalled
@@ -158,7 +195,7 @@ class TicketRankList extends React.Component {
         </div>
         {
           visible ? <div className={styles.floatPop}>
-            <img src={pop} className={styles.img1}></img>
+            <img src={pop} className={styles.img1} onClick={this.goRoute}></img>
             <img src={close} className={styles.img2} onClick={this.onClose}></img>
           </div> : null
         }

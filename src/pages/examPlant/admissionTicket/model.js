@@ -1,32 +1,75 @@
 import { message } from 'antd';
-import { msgF } from '@/utils/utils';
+import { msgF, downBlob } from '@/utils/utils';
 import {
-  getExamList,
-  getProvinceData
+  zkzWriteList,
+  zkzWriteDetail,
+  errorData,
+  exportErrorDetail
 } from './services';
 
 export default {
   namespace: 'admissionTicket',
 
   state: {
-    yearMonthList: []
+    zkzWriteList: [],
+    zkzWriteDetail: {},
+    errorData: {},
+    exportErrorDetail: {}
   },
 
   effects: {
-    *getExamList({ }, { call, put }) {
-      const response = yield call(getExamList);
-      const res = yield call(getProvinceData, { id: response.data[0].id })
+    *zkzWriteList({ payload }, { call, put }) {
+      const params = payload.params
+      const response = yield call(zkzWriteList, params);
       if (response && response.code === 20000) {
         yield put({
           type: 'save',
-          payload: { yearMonthList: response.data, selectVal: response.data[0].id },
-        });
-        yield put({
-          type: 'saveData',
-          payload: { provinceExamList: res.data.list, systemTime: res.data.systemTime },
+          payload: { zkzWriteList: response.data },
         });
       } else if (response) {
         message.error(response.msg)
+      }
+    },
+    *zkzWriteDetail({ payload }, { call, put }) {
+      const params = payload.params
+      const response = yield call(zkzWriteDetail, params);
+      if (response && response.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: { zkzWriteDetail: response.data },
+        });
+      } else if (response) {
+        message.error(response.msg)
+      }
+    },
+    *errorData({ payload }, { call, put }) {
+      const params = payload.params
+      const response = yield call(errorData, params);
+      if (response && response.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: { errorData: response.data },
+        });
+      } else if (response) {
+        message.error(response.msg)
+      }
+    },
+    *exportErrorDetail({ payload }, { call, put }) {
+      const params = payload.params
+      const result = yield call(exportErrorDetail, params);
+      if (result) {
+        const { headers } = result.response || {};
+        const filename = headers.get('content-disposition') || '';
+        const numName = filename.split('filename=')[1] || ''; // 带后缀的文件名
+        const numName2 = numName.split('.')[0];   // 纯文件名
+        // downBlob(result.data, `${eval('\'' + numName2 + '\'')}.xlsx`);
+        downBlob(result.data, `${payload.fileName}.xlsx`);
+        message.success('导出成功');
+        return
+      } else if (result && result instanceof Object) {
+        message.error(msgF(result.msg, result.msgDetail));
+      } else {
+        message.error('导出失败');
       }
     },
 
