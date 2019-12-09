@@ -26,6 +26,7 @@ const collegeType = [{
   name: '壁垒'
 }]
 @connect(({ xdCreditModal, loading }) => ({
+  dimensionLevel: xdCreditModal.dimensionLevel,
   dimensionData: xdCreditModal.dimensionData,
   imDetailData: xdCreditModal.imDetailData,
   dimensionDetails: xdCreditModal.dimensionDetails,
@@ -53,7 +54,7 @@ class XdCredit extends React.Component {
       pageSize2: 10,
       page: 1,
       reasonTypeId: 0,
-      isIm: false,
+      // isIm: false,
       loadingStatus: true,
       dimisionLoadingStatus: true
     }
@@ -188,9 +189,9 @@ class XdCredit extends React.Component {
           this.queryAppealDataPage();
           if (dementionId == 16) {
             this.getReasonListData();
-            this.setState({
-              isIm: true,
-            })
+            // this.setState({
+            //   isIm: true,
+            // })
           } else {
             this.getDimensionDetail();
           }
@@ -341,7 +342,7 @@ class XdCredit extends React.Component {
     // 点击不满意会话
     if (v == 16) {
       this.setState({
-        isIm: true,
+        // isIm: true,
         [type]: v,
         page: 1
       }, () => {
@@ -462,8 +463,9 @@ class XdCredit extends React.Component {
   }
   render() {
     const { dementionId, groupId, extendFlag, userOrgConfig } = this.state;
-    const { infoLoading } = this.props;
+    const { infoLoading, dimensionLevel = {} } = this.props;
     const value = this.getFamilyType();
+    const level = dimensionLevel[dementionId];
     return (
       <div className={`${styles.credit} ${extendFlag ? '' : styles.extent}`}>
         <Skeleton loading={infoLoading} >
@@ -533,24 +535,24 @@ class XdCredit extends React.Component {
                 <div className={`${styles.creditTrend} ${dementionId ? '' : styles.creditNone}`}>
                   {dementionId ? <> 
                     <CollegeScore/>
-                    {
-                    this.state.isIm ? <CreditImDetials
-                      onPageChange={this.onPageChange2}
-                      pageSize2={this.state.pageSize2}
-                      currentPage={this.state.page}
-                      defaultPage={this.defaultPage}
-                      loadingStatus={this.state.loadingStatus}
-                      cellClick={this.cellClick}
-                      resetCell={this.resetCell}
-                      reasonTypeClick={this.reasonTypeClick}
-                    /> : <CreditDetials
-                        onPageChange={this.onPageChange}
-                        pageSize={this.state.pageSize}
+                    { level === 4 ? <>{
+                      this.state.dementionId === 16 ? <CreditImDetials
+                        onPageChange={this.onPageChange2}
+                        pageSize2={this.state.pageSize2}
                         currentPage={this.state.page}
-                        detailsData={this.props.dimensionDetails}
-                        dementionId={dementionId}
-                      />
-                    }
+                        defaultPage={this.defaultPage}
+                        loadingStatus={this.state.loadingStatus}
+                        cellClick={this.cellClick}
+                        resetCell={this.resetCell}
+                        reasonTypeClick={this.reasonTypeClick}
+                      /> : <CreditDetials
+                          onPageChange={this.onPageChange}
+                          pageSize={this.state.pageSize}
+                          currentPage={this.state.page}
+                          detailsData={this.props.dimensionDetails}
+                          dementionId={dementionId}
+                        />
+                    }</> : ''} 
                   </> : <img src={creditImg} alt='权限' />}
                 </div>
               </div>

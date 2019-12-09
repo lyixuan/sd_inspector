@@ -78,6 +78,7 @@ export default {
         const res = result.data;
         if (res && res !== null) {
           yield put({ type: 'save', payload: { dimensionData: res } });
+          yield put({ type: 'saveLevel', payload: { dimensionLevel: res.dimensionList } });
           if (callback && typeof callback === 'function') {
             callback(res);
           }
@@ -165,7 +166,20 @@ export default {
         }, ...data.reasonTypeList]
       }
       return { ...state, ...{ imDetailData: data } };
-    }
+    },
+    saveLevel(state, { payload }) {
+      const dimensionLevel = {};
+      getLevel(payload.dimensionLevel, dimensionLevel);
+      return { ...state, dimensionLevel };
+    },
   },
   subscriptions: {},
 };
+function getLevel(arr = [], init = {}, l = 1, ) {
+  arr.map(item => {
+    init[item.id + ''] = l;
+    if (item.children && item.children.length > 0) {
+      getLevel(item.children, init, l + 1);
+    }
+  })
+}
