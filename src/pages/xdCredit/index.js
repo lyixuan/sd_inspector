@@ -43,7 +43,7 @@ class XdCredit extends React.Component {
       groupId: [],
       groupTypeArr: [],
       dementionId: '',
-      pageFrom: '',
+      // pageFrom: '',
       familyType: '',
       groupArr: [],
       orgId: '',
@@ -68,12 +68,12 @@ class XdCredit extends React.Component {
         if (extendFlag.scoreView) {
           const { params } = this.props.location.query;
           if (params) {
-            const { dementionId, startTime, endTime, pageFrom, orgId, orgType = 'college', familyType = '0' } = params ? JSON.parse(params) : {};
+            const { dementionId, startTime, endTime, orgId, orgType = 'college', familyType = '0' } = params ? JSON.parse(params) : {};
             this.setState({
               dementionId,
               startTime,
               endTime,
-              pageFrom,
+              // pageFrom,
               orgId,
               orgType,
               familyType
@@ -187,7 +187,7 @@ class XdCredit extends React.Component {
         const { dementionId } = this.state;
         if (dementionId) {
           this.queryAppealDataPage();
-          if (dementionId == 16) {
+          if (dementionId === 16) {
             this.getReasonListData();
             // this.setState({
             //   isIm: true,
@@ -236,30 +236,30 @@ class XdCredit extends React.Component {
     this.props.dispatch({
       type: 'xdCreditModal/getDimensionList',
       payload: { params: { ...this.getGroupMsg(), startTime, endTime, familyType: this.getFamilyType() } },
-      callback: (data) => {
-        if (this.state.pageFrom) {
-          this.fillDataSource(data.dimensionList)
-        }
-      }
+      // callback: (data) => {
+      //   if (this.state.pageFrom) {
+      //     this.fillDataSource(data.dimensionList)
+      //   }
+      // }
     });
   }
-  fillDataSource = (params) => {
-    params.map(item => {
-      if (item.children && item.children.length > 0) {
-        this.fillDataSource(item.children);
-      }
-    })
-    params.map((item) => {
-      if (item.id === this.state.dementionId) {
-        this.setState({
-          dementionId: item.children[0].id
-        }, () => {
-          this.getDimensionDetail()
-        })
-      }
-    })
-    return params
-  }
+  // fillDataSource = (params) => {
+  //   params.map(item => {
+  //     if (item.children && item.children.length > 0) {
+  //       this.fillDataSource(item.children);
+  //     }
+  //   })
+    // params.map((item) => {
+    //   if (item.id === this.state.dementionId) {
+    //     this.setState({
+    //       dementionId: item.children[0].id
+    //     }, () => {
+    //       this.getDimensionDetail()
+    //     })
+    //   }
+    // })
+  //   return params
+  // }
   // 详情
   getDimensionDetail = () => {
     const groupMsg = this.getGroupMsg();
@@ -350,7 +350,10 @@ class XdCredit extends React.Component {
       })
       this.getReasonListData();
     } else {
-      this.setState({ [type]: v, page: 1, isIm: false }, () => {
+      this.setState({ [type]: v, 
+        page: 1, 
+        // isIm: false 
+      }, () => {
         if (type === 'dementionId') {
           this.getDimensionDetail();
           this.queryAppealDataPage();
