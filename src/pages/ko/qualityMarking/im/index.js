@@ -179,7 +179,7 @@ class imPage extends React.Component {
         key: 'action',
         render: (text, record) => (
           <div>
-            <a href="javascript:;" onClick={() => this.handleEdit(record.id)}>编辑</a>
+            <span style={{ color: '#52c9c2', cursor: 'pointer'}} onClick={() => this.handleEdit(record.id)}>编辑</span>
           </div>
         ),
       });
