@@ -19,8 +19,7 @@ class TicketRankList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rankType: 1,
-
+      rankType: 1
     }
   }
   handleRankChange = (e) => {
@@ -48,12 +47,8 @@ class TicketRankList extends React.Component {
             rank = rank3;
           }
           return (
-            <div>
-              {text > 3 ? (
-                <span>{text}</span>
-              ) : (
-                  <img className={styles.rank} src={rank} style={{ width: '18px' }} />
-                )}
+            <div style={{ width: '30px', textAlign: 'center' }}>
+              {text > 3 ? <span>{text}</span> : <img className={styles.rank} src={rank} style={{ width: '18px' }} />}
             </div>
           );
         },
@@ -97,6 +92,7 @@ class TicketRankList extends React.Component {
       {
         title: '尚小德渠道填写人数',
         dataIndex: 'sunlandsWritePersonNum',
+        width: 130,
         key: 'sunlandsWritePersonNum',
         className: styles.sunlandBg,
         render: (text, record) => {
@@ -173,7 +169,6 @@ class TicketRankList extends React.Component {
 
   getRowClassName = (record, index) => {
     if (record.hightLightFlag) {
-      this.state.userMsg = record;
       return styles.pkMine;
     };
   }

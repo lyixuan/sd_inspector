@@ -9,6 +9,7 @@ import storage from '@/utils/storage';
 import { thousandsFormat } from '@/utils/utils';
 import pop from '@/assets/examPlan/pop.png';
 import close from '@/assets/examPlan/close.png';
+import examEmpty from '@/assets/examEmpty.png';
 import router from 'umi/router';
 import styles from './style.less';
 
@@ -21,7 +22,7 @@ class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false,
+      // visible: false,
       visible2: true
     }
   }
@@ -103,16 +104,19 @@ class Details extends React.Component {
 
   }
   closePop = (data) => {
-    if (data === 'pop') {
-      this.setState({
-        visible: ''
-      })
-    } else {
-
-      this.setState({
-        visible: data
-      })
-    }
+    // if (data === 'pop') {
+    //   this.setState({
+    //     visible: ''
+    //   })
+    // } else {
+    //   this.setState({
+    //     visible: data
+    //   })
+    // }
+    this.props.dispatch({
+      type: 'examPlant/checkDialog',
+      payload: { params: { visible: '' } }
+    })
 
 
   }
@@ -129,16 +133,20 @@ class Details extends React.Component {
     this.props.dispatch({
       type: 'admissionTicket/errorData',
       payload: { params: params }
-    }).then(() => {
-      this.setState({
-        visible: record.provinceName
-      })
+    })
+    // .then(() => {
+    //   this.setState({
+    //     visible: record.provinceName
+    //   })
+    // })
+    this.props.dispatch({
+      type: 'examPlant/checkDialog',
+      payload: { params: { visible: record.provinceName } }
     })
 
   }
   export = (record) => {
     const props = this.props.zkzWriteDetail
-    console.log(141, props)
     const params = {
       orgId: props.orgId,
       orgType: props.orgType,
@@ -158,12 +166,15 @@ class Details extends React.Component {
     if (errorData.length < 1) {
       return <div className={styles.tooltipContent}>
         <div className={styles.title}>
-          <span>暂无</span>
+          <span>运营准考证准确率分析</span>
           <Icon type='close' onClick={() => this.closePop('pop')} style={{ cursor: 'pointer', fontWeight: 'bold', color: '#8B8B8B' }}></Icon>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', color: '#7B7C80', paddingTop: '40px' }}>
+          <img src={examEmpty} style={{ width: '220px' }} />
+          <p>暂无数据</p>
         </div>
       </div>
     } else {
-      const data = [100, 200, 300, 400, 500, 600]
       return (
         <div className={styles.tooltipContent}>
           <div className={styles.title}>
@@ -273,9 +284,10 @@ class Details extends React.Component {
         key: 'familyName',
         render: (text, record, index) => {
           const content = this.renderPopContent(record, index);
+          const { visible } = this.props.examPlant
           const { orgId } = this.props.zkzWriteDetail;
           return <div className={styles.options}>
-            <Tooltip trigger='click' visible={this.state.visible === record.provinceName} overlayClassName={styles.listMarkingTooltip} placement="leftTop" title={content}>
+            <Tooltip trigger='click' visible={visible === record.provinceName} overlayClassName={styles.listMarkingTooltip} placement="leftTop" title={content}>
               <span onClick={() => this.handleCheck(record, index)}>查看</span>
             </Tooltip>
             {orgId ? <span onClick={(e) => this.export(record)}>导出错误明细</span> : null}
@@ -286,8 +298,9 @@ class Details extends React.Component {
     return columns || []
   }
   onClose = () => {
-    this.setState({
-      visible: false
+    this.props.dispatch({
+      type: 'examPlant/checkDialog',
+      payload: { params: { visible: false } }
     })
   }
   onClose2 = () => {
@@ -323,7 +336,7 @@ class Details extends React.Component {
         </div>
         {
           visible2 ? <div className={styles.floatPop}>
-            <img src={pop} className={styles.img1} onClick={this.goRoute}></img>
+            <img src={pop} className={styles.img1} onClick={this.goRoute} data-trace={`{"widgetName":"跳转准考证填写组件","traceName":"报考大盘/尚小德渠道填写明细"}`}></img>
             <img src={close} className={styles.img2} onClick={this.onClose2}></img>
           </div> : null
         }

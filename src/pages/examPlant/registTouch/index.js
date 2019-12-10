@@ -20,8 +20,8 @@ class RegistTouch extends React.Component {
     super(props);
     this.state = {
       orgType: 'college',
-      startTime: '2019-12-08',
-      endTime: new Date().getTime()
+      // startTime: '2019-12-08',
+      // endTime: new Date().getTime()
     }
   }
   tabParams = () => {
@@ -39,8 +39,23 @@ class RegistTouch extends React.Component {
     return tab
   }
   componentDidMount = () => {
-    this.getPageData();
-    this.getDetailData()
+    this.props.dispatch({
+      type: 'examPlant/updateDate',
+      payload: { params: this.initDate() }
+    }).then(() => {
+      this.getPageData();
+      this.getDetailData()
+    })
+  }
+  // componentDidMount = () => {
+  //   this.getPageData();
+  //     this.getDetailData()
+  // }
+  initDate = () => {
+    return {
+      startTime: moment('2019-12-08'),
+      endTime: moment(new Date().getTime())
+    }
   }
   getParams = (type) => {
     const operatorId = storage.getUserInfo().userId;
@@ -92,15 +107,12 @@ class RegistTouch extends React.Component {
 
   }
 
-
-
   render() {
-    const { startTime, endTime } = this.state;
-
+    const { startTime, endTime } = this.initDate();
     return (
       <div className={styles.ticketPage}>
         <TabSwitch
-          beginDate={'2019-09-04'}
+          beginDate={'2019-10-04'}
           startTime={startTime}
           endTime={endTime}
           getList={this.getList}
