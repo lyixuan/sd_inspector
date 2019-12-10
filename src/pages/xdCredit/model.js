@@ -3,6 +3,7 @@ import {
   getUserOrgList,
   getDimensionList,
   getDimensionDetail,
+  attendanceDeail,
   getKpiDateRange,
   getAppealType,
   reasonList,
@@ -20,6 +21,10 @@ export default {
       dimensionList: []
     },
     dimensionDetails: {
+      data: [],
+      dimensionList: []
+    },
+    attendanceDeatils: {
       data: [],
       dimensionList: []
     },
@@ -97,6 +102,19 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+
+    // 重播直播维度详情
+    *getAttendanceDeail({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(attendanceDeail, params);
+      if (result.code === 20000) {
+        const res = result.data;
+        if (res && res !== null) yield put({ type: 'save', payload: { attendanceDeatils: res } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
     *getKpiDateRange({ callback }, { call, put }) {
       const result = yield call(getKpiDateRange);
       if (result.code === 20000) {
