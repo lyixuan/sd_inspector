@@ -115,25 +115,24 @@ class CubePlanDetail extends React.Component {
 
   openEwmModal = () => {
     const that = this;
-    const { detailInfo = {} } = this.props.cubePlanDetail;
-    const usedType = detailInfo.usedH5===1?31:null;
-    const params = {id:this.id, usedType};
-    if(usedType){
-      this.props.dispatch({
-        type: 'cubePlanDetail/getQRCode',
-        payload: {params},
-      }).then(()=>{
-        that.setState({
-          visible3: true,
-        },()=>{
-          setTimeout(function () {
-            that.takeScreenshot();
-          }, 100)
-        });
+    const { copyBottomUrl } = this.props.cubePlanDetail;
+    let regexpUid = /uid_(\d+)_/;
+    let regexpCode = /componentCode=([^&]+)/;
+    let uid = regexpUid.exec(copyBottomUrl)[1];
+    let componentCode = regexpCode.exec(copyBottomUrl)[1];
+    const params = {uid, componentCode};
+    this.props.dispatch({
+      type: 'cubePlanDetail/getQRCode',
+      payload: {params},
+    }).then(()=>{
+      that.setState({
+        visible3: true,
+      },()=>{
+        setTimeout(function () {
+          that.takeScreenshot();
+        }, 500)
       });
-    } else {
-      message.warn('获取二维码失败')
-    }
+    });
   };
 
   handleCancel = () => {
@@ -212,6 +211,7 @@ class CubePlanDetail extends React.Component {
     const { detailInfo = {}, commentData = {}, commentLists = [],qrCode ,copyUrl,copyBottomUrl} = this.props.cubePlanDetail;
     const { videoUrl, detailCoverUrl } = detailInfo || {};
     const { titleName, data } = this.state;
+    const {id} = this;
 
     this.name = detailInfo.name;
     const xingText = BiFilter(`Xing|id:${starLevel}`).name;
@@ -220,6 +220,7 @@ class CubePlanDetail extends React.Component {
         <div>
           <LeftBox screenRange={screenRange} videoUrl={videoUrl} detailCoverUrl={detailCoverUrl} name={this.name}/>
           <RightBox screenRange={screenRange}
+                    id={id}
                     detail={detailInfo}
                     copyUrl={copyUrl}
                     copyBottomUrl={copyBottomUrl}
