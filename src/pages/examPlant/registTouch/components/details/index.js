@@ -5,6 +5,9 @@ import Echart from '@/components/Echart';
 import { thousandsFormat } from '@/utils/utils';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import pop2 from '@/assets/examPlan/pop2.png';
+import close from '@/assets/examPlan/close.png';
+import router from 'umi/router';
 import styles from './style.less';
 
 const dataSource = [
@@ -30,7 +33,7 @@ class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      visible2: true
     }
   }
   columns() {
@@ -79,10 +82,24 @@ class Details extends React.Component {
     ];
     return columns || []
   }
+  onClose2 = () => {
+    this.setState({
+      visible2: false
+    })
+  }
+  goRoute = () => {
+    router.push({
+      pathname: '/cubePlan/list/detail',
+      query: {
+        id: 4,
+      }
+    });
+  }
 
 
   render() {
     const { reachNumDetail } = this.props
+    const { visible2 } = this.state;
     return (
       <div className={styles.details}>
         <h4 className={styles.h4}>{reachNumDetail.orgName}</h4>
@@ -97,6 +114,12 @@ class Details extends React.Component {
             smalled
           />
         </div>
+        {
+          visible2 ? <div className={styles.floatPop}>
+            <img src={pop2} className={styles.img1} onClick={this.goRoute}></img>
+            <img src={close} className={styles.img2} onClick={this.onClose2}></img>
+          </div> : null
+        }
 
       </div>
     );

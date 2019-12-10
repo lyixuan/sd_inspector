@@ -47,7 +47,7 @@ class RegistTouch extends React.Component {
     const startTime = this.props.examPlant.startTime || this.state.startTime
     const endTime = this.props.examPlant.endTime || this.state.endTime
     const params = {
-      operatorId: 91,
+      operatorId: operatorId,
       startDate: moment(startTime).format('YYYY-MM-DD'),
       endDate: moment(endTime).format('YYYY-MM-DD')
     }

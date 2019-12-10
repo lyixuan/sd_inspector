@@ -6,10 +6,7 @@ import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
-import pop from '@/assets/examPlan/pop.png';
-import close from '@/assets/examPlan/close.png';
 import { thousandsFormat } from '@/utils/utils';
-import router from 'umi/router';
 import styles from './style.less';
 
 const rankType = ['学院', '家族', '小组'];
@@ -23,7 +20,7 @@ class TicketRankList extends React.Component {
     super(props);
     this.state = {
       rankType: 1,
-      visible: true
+
     }
   }
   handleRankChange = (e) => {
@@ -173,19 +170,7 @@ class TicketRankList extends React.Component {
     }
     return columns || []
   }
-  onClose = () => {
-    this.setState({
-      visible: false
-    })
-  }
-  goRoute = () => {
-    router.push({
-      pathname: '/cubePlan/list/detail',
-      query: {
-        id: 1,
-      }
-    });
-  }
+
   getRowClassName = (record, index) => {
     if (record.hightLightFlag) {
       this.state.userMsg = record;
@@ -194,7 +179,7 @@ class TicketRankList extends React.Component {
   }
 
   render() {
-    const { visible } = this.state;
+
     const { zkzWriteList } = this.props.admissionTicket
     return (
       <div className={styles.ticketList}>
@@ -213,12 +198,7 @@ class TicketRankList extends React.Component {
             smalled
           />
         </div>
-        {
-          visible ? <div className={styles.floatPop}>
-            <img src={pop} className={styles.img1} onClick={this.goRoute}></img>
-            <img src={close} className={styles.img2} onClick={this.onClose}></img>
-          </div> : null
-        }
+
       </div>
     );
   }

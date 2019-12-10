@@ -72,8 +72,8 @@ class AdmissionTicket extends React.Component {
     const endTime = this.props.examPlant.endTime || this.state.endTime
     const operatorId = storage.getUserInfo().userId;
     const params = {
-      // operatorId: operatorId,
-      operatorId: 91,
+      operatorId: operatorId,
+      // operatorId: 91,
       startDate: moment(startTime).format('YYYY-MM-DD'),
       endDate: moment(endTime).format('YYYY-MM-DD')
     }

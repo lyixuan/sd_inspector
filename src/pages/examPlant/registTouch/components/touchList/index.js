@@ -86,7 +86,7 @@ class TicketRankList extends React.Component {
         },
       },
       {
-        title: '填写率',
+        title: '触达率',
         dataIndex: 'reachNumPercent',
         key: 'reachNumPercent',
         render: (text, record) => {
@@ -139,7 +139,7 @@ class TicketRankList extends React.Component {
         <BIRadio onChange={this.handleRankChange} value={this.state.rankType} style={{ marginBottom: 16 }}>
           {rankType.map((item, index) =>
             <BIRadio.Radio.Button value={index + 1} key={index}>
-              <div data-trace={`{ "widgetName": "准考证填写-${item}", "traceName": "报考大盘/报考触达" }`}>{item}</div>
+              <div data-trace={`{ "widgetName": "报考触达-${item}", "traceName": "报考大盘/报考触达" }`}>{item}</div>
             </BIRadio.Radio.Button>
           )}
         </BIRadio>

@@ -62,6 +62,7 @@ export default {
         const filename = headers.get('content-disposition') || '';
         const numName = filename.split('filename=')[1] || ''; // 带后缀的文件名
         const numName2 = numName.split('.')[0];   // 纯文件名
+        console.log(65, numName2)
         // downBlob(result.data, `${eval('\'' + numName2 + '\'')}.xlsx`);
         downBlob(result.data, `${payload.fileName}.xlsx`);
         message.success('导出成功');
