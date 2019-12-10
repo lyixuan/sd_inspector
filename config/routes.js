@@ -554,9 +554,22 @@ export const routes = [
         component: './configWords/index',
       },
       {
-        path: '/examPlant/index',
-        component: './examPlant/index',
-        name: '报考时间',
+        path: '/examPlant',
+        routes: [
+          {
+            path: '/examPlant/index',
+            component: './examPlant/index',
+            name: '报考时间',
+          },
+          {
+            path: '/examPlant/admissionTicket',
+            component: './examPlant/admissionTicket',
+          },
+          {
+            path: '/examPlant/registTouch',
+            component: './examPlant/registTouch',
+          }
+        ]
       },
       {
         path: '/operateActivity',
