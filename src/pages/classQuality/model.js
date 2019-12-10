@@ -2,6 +2,7 @@ import { message } from 'antd';
 import {
   getFindTreeList,
   getDateRange,
+  getLastModifyDate
 } from './services';
 import { msgF } from '@/utils/utils';
 import moment from 'moment';
@@ -11,17 +12,22 @@ export default {
 
   state: {
     dateRange: {},
+    dateChangeRange: '',
     logTreeList: [],
     flatTreeList: undefined, // 目录
   },
 
   effects: {
+    *getInitList(_, { put }) {
+      yield put({ type: 'save', payload: { flatTreeList: undefined, logTreeList: [] } });
+    },
     *getFindTreeList({ payload, callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(getFindTreeList, params);
       if (result.code === 20000) {
         const flatTreeList = fillDataSource(result.data === null ? [] : result.data);
         const logTreeList = flatTreeList.filter(item => item.level === 1 );
+        yield put({ type: 'save', payload: { flatTreeList, logTreeList } });
         if (callback && typeof callback === 'function') {
           callback(flatTreeList, logTreeList);
         }
@@ -29,14 +35,25 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getDateRange(_, { call, put }) {
-      const result = yield call(getDateRange);
+    *getDateRange({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getDateRange, params);
       if (result.code === 20000) {
         const dateRange = {
           startTime: moment(result.data.beginDate).format('YYYY.MM.DD'),
           endTime: moment(result.data.endDate).format('YYYY.MM.DD')
         }  
         yield put({ type: 'save', payload: { dateRange } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getLastModifyDate({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getLastModifyDate, params);
+      if (result.code === 20000) {
+        const dateChangeRange = moment(result.data).format('YYYY年MM月DD日 HH:mm:ss')
+        yield put({ type: 'save', payload: { dateChangeRange } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -54,11 +71,6 @@ export default {
 function fillDataSource(params = [], intList = [], n = 1) {
   params.map(item => {
     item.level = n;
-    // if (item.violationLevel) {
-    //   item.qualityDetaile = `在与用户沟通过程中老师应耐心回复用
-    //   户所述在与用户沟通过程中老师应耐心回复用户所述在与用户沟通过程中老师应耐心回
-    //   复用户所述在与用户沟通过程中老师应耐心回复用户所述在与用户沟通过程中老师应耐心回复用户所`;
-    // }
     const { childNode	, ...others } = item;
     intList.push(others);
     if (childNode && childNode.length > 0) {
