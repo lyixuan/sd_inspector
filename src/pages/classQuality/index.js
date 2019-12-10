@@ -17,8 +17,11 @@ import level3 from '@/assets/classQuality/level3.png';
 import level0 from '@/assets/classQuality/level0.png';
 import closeImg from '@/assets/classQuality/delete.png';
 import noImg from '@/assets/classQuality/nodata.png';
+import changeImg from '@/assets/classQuality/change.png';
+import changeImg1 from '@/assets/classQuality/change1.png';
 import { handleDataTrace } from '@/utils/utils';
 import styles from './style.less';
+import moment from 'moment';
 
 const { Link } = Anchor;
 const classStyles = {
@@ -38,9 +41,15 @@ const typeTranslate = {
   1: '客诉',
   2: '班主任',
 }
+const getMoemnt = function (date) {
+  return moment(date).format('YYYY.MM.DD')
+}
 @connect(({ global, classQualityModel, loading }) => ({
-  globalCollapsed: global.collapsed,// 左侧二级下单是否打开
+  globalCollapsed: global.collapsed,// 左侧二级下单是否打 
+  flatTreeList: classQualityModel.flatTreeList,
+  logTreeList: classQualityModel.logTreeList,
   dateRange: classQualityModel.dateRange,
+  dateChangeRange: classQualityModel.dateChangeRange,
   loading: loading.effects['classQualityModel/getFindTreeList'],
 }))
 class ClassQuality extends React.Component {
@@ -59,10 +68,6 @@ class ClassQuality extends React.Component {
     }
   }
   componentDidMount() {
-    // 时间
-    this.props.dispatch({
-      type:'classQualityModel/getDateRange',
-    })
     // 数据
     const qualityType = this.getQualityType(this.props.location.pathname);
     const params = this.props.location.query.params;
@@ -72,7 +77,19 @@ class ClassQuality extends React.Component {
       keyWord,
       qualityType,
       typeName: typeTranslate[qualityType]
-    }, () => this.requestTree()) 
+    }, () => {
+      this.requestTree();
+      // 质检记录时间
+      this.props.dispatch({
+        type:'classQualityModel/getDateRange',
+        payload: { params: { qualityType }}
+      })
+      // 变更记录最近时间
+      this.props.dispatch({
+        type:'classQualityModel/getLastModifyDate',
+        payload: { params: { qualityType }}
+      })
+    }) 
     // 表格添加滚动事件
     if (document.body) {
       document.body.onscroll = (e) => {
@@ -89,6 +106,9 @@ class ClassQuality extends React.Component {
     if (document.body) {
       document.body.onscroll = '';
     }
+    this.props.dispatch({
+      type:'classQualityModel/getInitList',
+    })
   }
   getQualityType = urlStr => {
     const type = Number(urlStr.match('[^/]+(?!.*/)')[0]);
@@ -103,11 +123,11 @@ class ClassQuality extends React.Component {
     this.props.dispatch({
       type:'classQualityModel/getFindTreeList',
       payload: { params: { qualityType: this.state.qualityType, keyWord: keyWord === 'reset' || !keyWord ? undefined :  keyWord.trim() } },
-      callback: (flatTreeList, logTreeList) => {
-        this.setState({
-          flatTreeList,
-          logTreeList
-        })
+      callback: () => {
+        // this.setState({
+        //   flatTreeList,
+        //   logTreeList
+        // })
         if (this.state.oneLoding) {
           this.setState({
             oneLoding: false
@@ -152,13 +172,15 @@ class ClassQuality extends React.Component {
       handleDataTrace({"widgetName":`目录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检手册/目录按钮点击`})
     } else if (type === 2) {
       handleDataTrace({"widgetName":`质检记录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检手册/质检记录按钮点击`});
-    }
-    
+    } 
   }
   // 是否显示标注
   getIsShowTag = item => {
-    if ((item.violationNumber || item.personNumber) && this.state.funTypeSelected === 2) {
-      return true;
+    const { funTypeSelected } = this.state;
+    if (((item.violationNumber || item.personNumber) && funTypeSelected === 2) || (funTypeSelected === 3 && (item.modifyType === 2 || item.detailModifyType === 2))) {
+      return styles.classSelected2;
+    } else if (funTypeSelected === 3 && (item.modifyType === 1 || item.detailModifyType === 1)) {
+      return styles.classSelected3;
     } else {
       return false;
     }
@@ -179,8 +201,8 @@ class ClassQuality extends React.Component {
     }
   }
   render() {
-    const { funTypeSelected, setFixed, rulesObj, typeName, logTreeList = [], flatTreeList = [], oneLoding} = this.state;
-    const {  dateRange = {}, globalCollapsed, loading } = this.props;
+    const { funTypeSelected, setFixed, rulesObj, typeName, oneLoding} = this.state;
+    const {  dateRange = {}, globalCollapsed, loading, logTreeList = [], flatTreeList = [] } = this.props;
     const isLoading = loading && oneLoding ? true : false;
     const flagNoData = !isLoading && flatTreeList.length === 0 ? true : false;
     return (
@@ -193,6 +215,9 @@ class ClassQuality extends React.Component {
             </Tooltip>
             <Tooltip title="质检记录" placement="right">
               <span onClick={() => this.handleFun(2)} style={{ borderTop: '1px solid #E1E1E1', borderBottom: '1px solid #E1E1E1', }}><img src={funTypeSelected === 2 ? detailImg1 : detailImg} alt=""/></span>
+            </Tooltip>
+            <Tooltip title="变更记录" placement="right">
+              <span onClick={() => this.handleFun(3)} style={{ borderTop: '1px solid #E1E1E1', borderBottom: '1px solid #E1E1E1', }}><img src={funTypeSelected === 3 ? changeImg1 : changeImg} alt=""/></span>
             </Tooltip>
             <span>
               <BackTop visibilityHeight={-1000}>
@@ -224,14 +249,16 @@ class ClassQuality extends React.Component {
           </div>
           <div className={styles.treeCatalog}>
             <div className={`${styles.catalog} ${flagNoData ? styles.catalogNoData : ''}`}>
-              <div className={styles.title}>质检手册（{typeName}）</div>
+              <div className={styles.title}>质检手册（{typeName})
+              {funTypeSelected === 3 ? <div className={styles.dateChange}>最近更新时间：{this.props.dateChangeRange}</div> : ''}
+              </div>
              {   
                !flagNoData ? 
                <>
                 {
                   flatTreeList.map((item, index) => <div key={item.id + '' + index} id={`Anchor${item.id}`}  className={styles.level}>
-                  <div className={`${styles.class} ${classStyles[item.level]} `}>
-                    <span className={`${styles.violationName} ${this.getIsShowTag(item) ? styles.classBorder : ''}`}>
+                  <div className={`${styles.class} ${classStyles[item.level]} ${this.getIsShowTag(item)}`}>
+                    <span className={styles.violationName}>
                       {item.violationName}
                       {item.violationLevel && <img src={levelImgs[item.violationLevel]} alt=""/>}
                     </span>
@@ -240,7 +267,10 @@ class ClassQuality extends React.Component {
                       this.getIsShowTag(item) &&
                       <span className={styles.tagging}>
                         <span>
-                          违规次数：{item.violationNumber}次 <br/>违规人数：{item.personNumber}人
+                          {funTypeSelected === 2 ? <>违规次数：{item.violationNumber}次 <br/>违规人数：{item.personNumber}人</> : ''}
+                          {funTypeSelected === 3 && item.modifyDate ? <>{getMoemnt(item.modifyDate)} <br/>{item.modifyTag}</> : ''}
+                          {funTypeSelected === 3 && item.modifyDate && item.detailModifyDate ? <br/> : ''}
+                          {funTypeSelected === 3 && item.detailModifyDate ? <>{getMoemnt(item.detailModifyDate)} <br/>{item.detailModifyTag}</> : ''}
                         </span>
                       </span>
                     }
@@ -248,7 +278,7 @@ class ClassQuality extends React.Component {
                   { 
                     item.qualityDetaile && 
                     <>
-                      <Tooltip title="点击查看质检细则" placement="right"><span onClick={() => this.getQualityDetaile(item.id)} className={styles.classE}>质检细则</span></Tooltip>
+                      <Tooltip title={`点击${rulesObj[item.id] ? '关闭' : '查看'}质检细则`} placement="right"><span onClick={() => this.getQualityDetaile(item.id)} className={styles.classE}>质检细则</span></Tooltip>
                       {rulesObj[item.id] &&
                         <div className={styles.detailed}>
                           {item.qualityDetaile}
@@ -264,6 +294,10 @@ class ClassQuality extends React.Component {
             {funTypeSelected === 2 && !isLoading ? <div className={styles.catalogTime}>
               <span>近30天集团质检记录</span>
               <span>{dateRange.startTime}-{dateRange.endTime}</span>
+            </div> : ''}
+            {funTypeSelected === 3 && !isLoading ? <div className={styles.catalogTime}>
+              <span>质检手册更新记录</span>
+              <span></span>
             </div> : ''}
           </div>
         </div>

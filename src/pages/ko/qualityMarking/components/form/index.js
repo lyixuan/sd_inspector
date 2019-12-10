@@ -12,7 +12,11 @@ import styles from './style.less';
 const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
 const dateFormat = 'YYYY.MM.DD';
-
+const robotData = [
+  {id: 0, name: '班主任会话'},
+  {id: 2, name: '客诉会话'},
+  {id: 1, name: '机器人会话'},
+] 
 @connect(({ koPlan, loading }) => ({
   koPlanPageParams: koPlan.pageParams,
   currentServiceTime: koPlan.currentServiceTime,
@@ -234,7 +238,7 @@ class AiForm extends React.Component {
                         dropdownClassName={styles.popupClassName}
                         getPopupContainer={triggerNode => triggerNode.parentNode}
                         allowClear>
-                        {['班主任会话', '机器人会话'].map((item, index) => <Option key={item} value={index}>{item}</Option>)}
+                        {robotData.map((item, index) => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                       </BISelect>,
                     )}
                   </Form.Item>

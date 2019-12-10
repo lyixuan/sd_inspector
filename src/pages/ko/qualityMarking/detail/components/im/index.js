@@ -7,7 +7,7 @@ import moment from 'moment'
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 
-const robotConfig = ['班主任会话', '机器人会话'];
+const robotConfig = {0: '班主任会话', 1: '机器人会话', 2: '客诉会话'};
 //对话区域
 function SessionContent(props) {
   const li = props.li.map((item, index) => <ListItem {...props} li={item} key={index} />);
