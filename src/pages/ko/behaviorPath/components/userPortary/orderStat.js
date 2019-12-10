@@ -55,7 +55,7 @@ export default class OrderStat extends React.Component {
             </p>
             <p style={{ color: '#fff' }}>
               {item.refundBackDate}
-              <span style={{ marginLeft: '5px' }}>发起退挽</span>
+              <span style={{ marginLeft: '5px' }}>退挽成功</span>
             </p>
           </div>
         );
