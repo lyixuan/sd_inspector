@@ -8,6 +8,7 @@ import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
 import pop from '@/assets/examPlan/pop.png';
 import close from '@/assets/examPlan/close.png';
+import { thousandsFormat } from '@/utils/utils';
 import router from 'umi/router';
 import styles from './style.less';
 
@@ -40,6 +41,25 @@ class TicketRankList extends React.Component {
         title: '排名',
         dataIndex: 'sort',
         key: 'sort',
+        render: (text, record) => {
+          let rank = 1;
+          if (text == 1) {
+            rank = rank1;
+          } else if (text == 2) {
+            rank = rank2;
+          } else if (text == 3) {
+            rank = rank3;
+          }
+          return (
+            <div>
+              {text > 3 ? (
+                <span>{text}</span>
+              ) : (
+                  <img className={styles.rank} src={rank} style={{ width: '18px' }} />
+                )}
+            </div>
+          );
+        },
       },
       {
         title: '在服学员人数',
@@ -49,7 +69,7 @@ class TicketRankList extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.admissionTicket.zkzWriteList.map(item => item.stuNumber))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text || 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
@@ -61,7 +81,7 @@ class TicketRankList extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.admissionTicket.zkzWriteList.map(item => item.writePersonNum))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text || 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
@@ -86,7 +106,7 @@ class TicketRankList extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.admissionTicket.zkzWriteList.map(item => item.sunlandsWritePersonNum))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text || 0} isColor='blue' percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress text={text ? thousandsFormat(text) : 0} isColor='blue' percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
@@ -112,7 +132,7 @@ class TicketRankList extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.admissionTicket.zkzWriteList.map(item => item.sunlandsCorrectNum))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text} isColor='blue' percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress text={text ? thousandsFormat(text) : 0} isColor='blue' percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },

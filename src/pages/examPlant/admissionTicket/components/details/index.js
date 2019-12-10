@@ -6,6 +6,7 @@ import Echart from '@/components/Echart';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import storage from '@/utils/storage';
+import { thousandsFormat } from '@/utils/utils';
 import styles from './style.less';
 
 @connect(({ examPlant, admissionTicket, loading }) => ({
@@ -43,7 +44,7 @@ class Details extends React.Component {
         formatter: "{b}<br/> {c}({d}%)"
       },
       legend: {
-        bottom: 10,
+        bottom: 0,
         left: 'center',
         data: valueName,
         formatter: function (name) {
@@ -63,6 +64,7 @@ class Details extends React.Component {
         width: '420px',
         itemWidth: 4,
         itemHeight: 4,
+        itemGap: 30,
         textStyle: {
           width: '100%'
         }
@@ -72,7 +74,7 @@ class Details extends React.Component {
           name: '运营准考证准确率分析',
           cursor: 'default',
           type: 'pie',
-          radius: ['45%', '68%'],
+          radius: ['45%', '66%'],
           center: ['50%', '40%'],
           color: ["#4A90E2", "#FFCC01", "#FF626A", "#4EB5EB"],
           // hoverOffset: 0,
@@ -193,7 +195,7 @@ class Details extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.zkzWriteDetail.list.map(item => item.stuNumber))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text || 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
@@ -205,7 +207,7 @@ class Details extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.zkzWriteDetail.list.map(item => item.sunlandsWritePersonNum))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text || 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
@@ -227,7 +229,7 @@ class Details extends React.Component {
         key: 'sunlandsWriteNum',
         className: styles.sunlandBg,
         render: (text, record) => {
-          return <span>{text || 0}</span>
+          return <span>{text ? thousandsFormat(text) : 0}</span>
         }
       },
       {
@@ -235,7 +237,7 @@ class Details extends React.Component {
         dataIndex: 'sunlandsCorrectNum',
         key: 'sunlandsCorrectNum',
         render: (text, record) => {
-          return <span>{text || 0}</span>
+          return <span>{text ? thousandsFormat(text) : 0}</span>
         }
       },
       {

@@ -2,6 +2,7 @@ import React from 'react';
 import { Tooltip, Icon } from 'antd';
 import { connect } from 'dva';
 import Echart from '@/components/Echart';
+import { thousandsFormat } from '@/utils/utils';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import styles from './style.less';
@@ -47,7 +48,7 @@ class Details extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.reachNumDetail.list.map(item => item.stuNumber))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text || 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
@@ -59,7 +60,7 @@ class Details extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.reachNumDetail.list.map(item => item.reachNum))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text || 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },

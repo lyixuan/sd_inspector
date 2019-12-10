@@ -100,7 +100,7 @@ class RegistTouch extends React.Component {
     return (
       <div className={styles.ticketPage}>
         <TabSwitch
-          beginDate={'2019-12-04'}
+          beginDate={'2019-09-04'}
           startTime={startTime}
           endTime={endTime}
           getList={this.getList}
