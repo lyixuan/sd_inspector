@@ -21,6 +21,7 @@ import changeImg from '@/assets/classQuality/change.png';
 import changeImg1 from '@/assets/classQuality/change1.png';
 import { handleDataTrace } from '@/utils/utils';
 import styles from './style.less';
+import moment from 'moment';
 
 const { Link } = Anchor;
 const classStyles = {
@@ -39,6 +40,9 @@ const levelImgs = {
 const typeTranslate = {
   1: '客诉',
   2: '班主任',
+}
+const getMoemnt = function (date) {
+  return moment(date).format('YYYY.MM.DD')
 }
 @connect(({ global, classQualityModel, loading }) => ({
   globalCollapsed: global.collapsed,// 左侧二级下单是否打 
@@ -73,7 +77,19 @@ class ClassQuality extends React.Component {
       keyWord,
       qualityType,
       typeName: typeTranslate[qualityType]
-    }, () => this.requestTree()) 
+    }, () => {
+      this.requestTree();
+      // 质检记录时间
+      this.props.dispatch({
+        type:'classQualityModel/getDateRange',
+        payload: { params: { qualityType }}
+      })
+      // 变更记录最近时间
+      this.props.dispatch({
+        type:'classQualityModel/getLastModifyDate',
+        payload: { params: { qualityType }}
+      })
+    }) 
     // 表格添加滚动事件
     if (document.body) {
       document.body.onscroll = (e) => {
@@ -85,14 +101,6 @@ class ClassQuality extends React.Component {
         }
       }
     }
-    // 质检记录时间
-    this.props.dispatch({
-      type:'classQualityModel/getDateRange',
-    })
-    // 变更记录最近时间
-    this.props.dispatch({
-      type:'classQualityModel/getLastModifyDate',
-    })
   }
   componentWillUnmount() {
     if (document.body) {
@@ -164,15 +172,14 @@ class ClassQuality extends React.Component {
       handleDataTrace({"widgetName":`目录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检手册/目录按钮点击`})
     } else if (type === 2) {
       handleDataTrace({"widgetName":`质检记录按钮点击-${typeName}`,"traceName":`质检管理/${typeName}质检手册/质检记录按钮点击`});
-    }
-    
+    } 
   }
   // 是否显示标注
   getIsShowTag = item => {
     const { funTypeSelected } = this.state;
-    if (((item.violationNumber || item.personNumber) && funTypeSelected === 2) || (funTypeSelected === 3 && item.modifyType === 2)) {
+    if (((item.violationNumber || item.personNumber) && funTypeSelected === 2) || (funTypeSelected === 3 && (item.modifyType === 2 || item.detailModifyType === 2))) {
       return styles.classSelected2;
-    } else if (funTypeSelected === 3 && item.modifyType === 1) {
+    } else if (funTypeSelected === 3 && (item.modifyType === 1 || item.detailModifyType === 1)) {
       return styles.classSelected3;
     } else {
       return false;
@@ -242,7 +249,9 @@ class ClassQuality extends React.Component {
           </div>
           <div className={styles.treeCatalog}>
             <div className={`${styles.catalog} ${flagNoData ? styles.catalogNoData : ''}`}>
-              <div className={styles.title}>质检手册（{typeName}）</div>
+              <div className={styles.title}>质检手册（{typeName})
+              {funTypeSelected === 3 ? <div className={styles.dateChange}>最近更新时间：{this.props.dateChangeRange}</div> : ''}
+              </div>
              {   
                !flagNoData ? 
                <>
@@ -259,7 +268,9 @@ class ClassQuality extends React.Component {
                       <span className={styles.tagging}>
                         <span>
                           {funTypeSelected === 2 ? <>违规次数：{item.violationNumber}次 <br/>违规人数：{item.personNumber}人</> : ''}
-                          {funTypeSelected === 3 ? <>{item.modifyDate} <br/>{item.modifyTag}</> : ''}
+                          {funTypeSelected === 3 && item.modifyDate ? <>{getMoemnt(item.modifyDate)} <br/>{item.modifyTag}</> : ''}
+                          {funTypeSelected === 3 && item.modifyDate && item.detailModifyDate ? <br/> : ''}
+                          {funTypeSelected === 3 && item.detailModifyDate ? <>{getMoemnt(item.detailModifyDate)} <br/>{item.detailModifyTag}</> : ''}
                         </span>
                       </span>
                     }

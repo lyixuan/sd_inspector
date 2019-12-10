@@ -142,7 +142,7 @@ class CreditImDetials extends React.Component {
   columns = () => {
 
     const { detailsData } = this.props;
-    const { titleFive } = detailsData;
+    const { titleFour, titleFive } = detailsData;
     const columns = [
       {
         title: '序号',
@@ -178,14 +178,14 @@ class CreditImDetials extends React.Component {
           }
         }
       }, {
-        title: detailsData.titleFour,
+        title: titleFour,
         dataIndex: 'valFour',
         key: 'valFour',
         render: (text, r) => {
           const target = linkStuFiles[this.props.dementionId];
-          if (detailsData.titleFour === '发帖人姓名' && r.stuId  && target)  {
+          if (titleFour === '发帖人姓名' && r.stuId  && target)  {
             return <span onClick={() => this.handleRouter(r.stuId, target)} className={styles.linkRecord}>{text}</span>
-          } else if (detailsData.titleFour === '操作') {
+          } else if (titleFour === '操作') {
             return (
               <Tooltip overlayClassName={styles.listMarkingTooltip2} placement="top" title={text}>
                 <span style={{ color: "#00CCC3" }}>查看</span>
@@ -203,13 +203,9 @@ class CreditImDetials extends React.Component {
         dataIndex: 'action',
         key: 'action',
         render: (list, r) => {
-          const content = r.contentList ? <Layout dataMark={r}></Layout> : r.content;
           return (
             <>
-              {titleFive !== '申诉' && <Tooltip overlayClassName={styles.listMarkingTooltip} placement="right" title={content}>
-                <span style={{ color: "#00CCC3" }}>查看</span>
-              </Tooltip>}
-              {titleFive !== '查看' && <span onClick={() => this.getAppeal(r)} style={{ color: "#00CCC3", cursor: 'pointer', marginLeft: titleFive === '操作' ? '8px' : '0px' }}>申诉</span>}
+              {this.getAactionContent(titleFive, r)}
             </>
           );
         }
@@ -217,6 +213,29 @@ class CreditImDetials extends React.Component {
     }
     return columns || [];
   };
+  getAactionContent = (titleFive, r) => {
+    const content = r.contentList ? <Layout dataMark={r}></Layout> : r.content;
+    const shensu = <span onClick={() => this.getAppeal(r)} style={{ color: "#00CCC3", cursor: 'pointer', marginLeft: titleFive === '操作' ? '8px' : '0px' }}>申诉</span>;
+    const check = <Tooltip overlayClassName={styles.listMarkingTooltip} placement="right" title={content}>
+      <span style={{ color: "#00CCC3" }}>查看</span>
+    </Tooltip>;
+    if (titleFive === '质检申诉') {
+      return <span 
+      style={{ 
+        color: "#00CCC3", 
+        cursor: 'pointer', 
+      }}
+      onClick={() => this.getAppeal(r)} >
+        {(r.valFour === '待申诉' || r.valFour === '申诉失败') ? '申诉' : '查看'}
+      </span>
+    } else if (titleFive === '操作') {
+      return <>{shensu}{check}</>;
+    } else if (titleFive === '查看') {
+      return check;
+    } else if (titleFive === '申诉' || titleFive === '质检申诉') {
+      return shensu;
+    }
+  }
   setRowClassName = (r, c, b) => {
     if (this.props.dementionId === r.id) {
       return styles.selectedRow;
@@ -248,7 +267,7 @@ class CreditImDetials extends React.Component {
       callback: res => {
         const { type } = res;
         if (dimensionType === 1) { // 质检
-          window.open(`/inspector/qualityAppeal/qualityAppeal?p=${JSON.stringify({ "tabType": type, type,  qualityNum: appealNo, })}`);
+          window.open(`/inspector/qualityAppeal/qualityAppeal?p=${JSON.stringify({ "tabType": type + '', type,  qualityNum: appealNo, })}`);
         } else { // 其它
           const dimensionData = constants.DIMENSION_TYPE.find(op => op.name === appealObj[dimensionType]);
           const params = { "page": 1, "pageSize": 30, "dimensionType": dimensionData ? dimensionData.id : constants.DIMENSION_TYPE[0].id };

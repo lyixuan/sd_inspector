@@ -35,8 +35,9 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getDateRange(_, { call, put }) {
-      const result = yield call(getDateRange);
+    *getDateRange({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getDateRange, params);
       if (result.code === 20000) {
         const dateRange = {
           startTime: moment(result.data.beginDate).format('YYYY.MM.DD'),
@@ -51,7 +52,8 @@ export default {
       const params = payload.params;
       const result = yield call(getLastModifyDate, params);
       if (result.code === 20000) {
-        yield put({ type: 'save', payload: { dateChangeRange: result.data } });
+        const dateChangeRange = moment(result.data).format('YYYY年MM月DD日 HH:mm:ss')
+        yield put({ type: 'save', payload: { dateChangeRange } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
