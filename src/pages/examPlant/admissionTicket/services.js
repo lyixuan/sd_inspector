@@ -16,6 +16,6 @@ export async function errorData(params) {
 
 // 错误明细
 export async function exportErrorDetail(params) {
-  return request('/zkzStatistics/zkzWrite/exportErrorDetail', { method: 'post', params, responseType: 'blob', getResponse: true });
+  return request('/zkzStatistics/zkzWrite/exportErrorDetail', { method: 'post', data: params, responseType: 'blob', getResponse: true });
 }
 

@@ -7,6 +7,9 @@ import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import storage from '@/utils/storage';
 import { thousandsFormat } from '@/utils/utils';
+import pop from '@/assets/examPlan/pop.png';
+import close from '@/assets/examPlan/close.png';
+import router from 'umi/router';
 import styles from './style.less';
 
 @connect(({ examPlant, admissionTicket, loading }) => ({
@@ -18,7 +21,8 @@ class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false
+      visible: false,
+      visible2: true
     }
   }
   drawChart(data) {
@@ -134,6 +138,7 @@ class Details extends React.Component {
   }
   export = (record) => {
     const props = this.props.zkzWriteDetail
+    console.log(141, props)
     const params = {
       orgId: props.orgId,
       orgType: props.orgType,
@@ -141,7 +146,7 @@ class Details extends React.Component {
       endDate: moment(this.props.examPlant.endTime).format('YYYY-MM-DD'),
       provinceName: record.provinceName,
     }
-    const fileName = record.provinceName + '准考证填写错误明细' + moment(this.props.examPlant.endTime).format('YYYY.MM.DD')
+    const fileName = record.provinceName + '准考证填写错误明细' + moment(new Date().getTime()).format('YYYY-MM-DD')
 
     this.props.dispatch({
       type: 'admissionTicket/exportErrorDetail',
@@ -207,7 +212,7 @@ class Details extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.zkzWriteDetail.list.map(item => item.sunlandsWritePersonNum))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress isColor='blue' text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
@@ -219,7 +224,7 @@ class Details extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.zkzWriteDetail.list.map(item => item.sunlandsWritePercent))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text || 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress isColor='blue' text={text ? `${(text * 100).toFixed(2)}%` : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
@@ -229,16 +234,24 @@ class Details extends React.Component {
         key: 'sunlandsWriteNum',
         className: styles.sunlandBg,
         render: (text, record) => {
-          return <span>{text ? thousandsFormat(text) : 0}</span>
-        }
+          const maxNum = Math.max.apply(Math, this.props.zkzWriteDetail.list.map(item => item.sunlandsWriteNum))
+          const percent = `${(text || 0) / maxNum * 100}%`
+          return <div style={{ display: 'flex' }}>
+            <BIWrapperProgress isColor='blue' text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+          </div>
+        },
       },
       {
         title: '验证准确数量',
         dataIndex: 'sunlandsCorrectNum',
         key: 'sunlandsCorrectNum',
         render: (text, record) => {
-          return <span>{text ? thousandsFormat(text) : 0}</span>
-        }
+          const maxNum = Math.max.apply(Math, this.props.zkzWriteDetail.list.map(item => item.sunlandsCorrectNum))
+          const percent = `${(text || 0) / maxNum * 100}%`
+          return <div style={{ display: 'flex' }}>
+            <BIWrapperProgress isColor='blue' text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+          </div>
+        },
       },
       {
         title: '准确率',
@@ -248,21 +261,24 @@ class Details extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.zkzWriteDetail.list.map(item => item.sunlandsWriteCorrectPercent))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text || 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress isColor='blue' text={text ? `${(text * 100).toFixed(2)}%` : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
       {
-        title: '操作',
+        title: <div>操作 <Tooltip title={'由于查成绩时间会影响填写准考证的准确率，所以会多次提交验证，准确率会发生变化，请多关注该数据'}>
+          <Icon type="question-circle" />
+        </Tooltip></div>,
         dataIndex: 'familyName',
         key: 'familyName',
         render: (text, record, index) => {
           const content = this.renderPopContent(record, index);
+          const { orgId } = this.props.zkzWriteDetail;
           return <div className={styles.options}>
             <Tooltip trigger='click' visible={this.state.visible === record.provinceName} overlayClassName={styles.listMarkingTooltip} placement="leftTop" title={content}>
               <span onClick={() => this.handleCheck(record, index)}>查看</span>
             </Tooltip>
-            <span onClick={(e) => this.export(record)}>导出错误明细</span>
+            {orgId ? <span onClick={(e) => this.export(record)}>导出错误明细</span> : null}
           </div>
         }
       },
@@ -274,9 +290,23 @@ class Details extends React.Component {
       visible: false
     })
   }
+  onClose2 = () => {
+    this.setState({
+      visible2: false
+    })
+  }
+  goRoute = () => {
+    router.push({
+      pathname: '/cubePlan/list/detail',
+      query: {
+        id: 1,
+      }
+    });
+  }
 
   render() {
     const { zkzWriteDetail } = this.props
+    const { visible2 } = this.state;
     return (
       <div className={styles.details}>
         <h4 className={styles.h4}>{zkzWriteDetail.orgName}</h4>
@@ -291,6 +321,12 @@ class Details extends React.Component {
             smalled
           />
         </div>
+        {
+          visible2 ? <div className={styles.floatPop}>
+            <img src={pop} className={styles.img1} onClick={this.goRoute}></img>
+            <img src={close} className={styles.img2} onClick={this.onClose2}></img>
+          </div> : null
+        }
 
       </div>
     );
