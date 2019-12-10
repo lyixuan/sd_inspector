@@ -48,10 +48,16 @@ export default class OrderStat extends React.Component {
       }
       if (item.orderFlag === 3) {
         textDate = (
-          <p style={{ color: '#fff' }}>
-            {item.refundBackDate}
-            <span style={{ marginLeft: '5px' }}>发起退挽</span>
-          </p>
+          <div>
+            <p style={{ color: '#fff' }}>
+              {item.refundDate}
+              <span style={{ marginLeft: '5px' }}>发起退费</span>
+            </p>
+            <p style={{ color: '#fff' }}>
+              {item.refundBackDate}
+              <span style={{ marginLeft: '5px' }}>发起退挽</span>
+            </p>
+          </div>
         );
       }
 
