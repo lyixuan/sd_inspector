@@ -10,24 +10,29 @@
     border-bottom: 1px solid #f5f8fa;
     .lefts{
       color:#56595E;
-      >span {
-        text-align: center;
-        margin-right:10px;
-        cursor: pointer; 
-      }
-      .active {
-        color:#1A1C1F;
-        font-weight:bold;
-      }
-      i{
-        font-style:normal;
-        margin-right:10px;
-        font-size:12px;
-        color:#f5f8fa;
-        &:last-child{
+      display:flex;
+      .tabDiv{
+        >span {
+          text-align: center;
+          margin-right:10px;
+          cursor: pointer; 
+        }
+        .active {
+          color:#1A1C1F;
+          font-weight:bold;
+        }
+        i{
+          font-style:normal;
+          margin-right:10px;
+          font-size:12px;
+          color:#f5f8fa;
+          
+        }
+        &:last-child i{
           display:none;
         }
       }
+     
     }
   }
   .tabContainer {

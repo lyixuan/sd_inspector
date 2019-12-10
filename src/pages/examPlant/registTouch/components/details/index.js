@@ -2,8 +2,12 @@ import React from 'react';
 import { Tooltip, Icon } from 'antd';
 import { connect } from 'dva';
 import Echart from '@/components/Echart';
+import { thousandsFormat } from '@/utils/utils';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import pop2 from '@/assets/examPlan/pop2.png';
+import close from '@/assets/examPlan/close.png';
+import router from 'umi/router';
 import styles from './style.less';
 
 const dataSource = [
@@ -21,69 +25,101 @@ const dataSource = [
     column9: '准确率',
   }
 ];
-@connect(({ admissionTicket, loading }) => ({
-  admissionTicket
+@connect(({ registTouch, loading }) => ({
+  registTouch,
+  reachNumDetail: registTouch.reachNumDetail
 }))
 class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      visible2: true
     }
   }
   columns() {
     const columns = [
       {
         title: '省份',
-        dataIndex: 'sort',
-        key: 'sort',
+        dataIndex: 'provinceName',
+        key: 'provinceName',
       },
       {
         title: '在服学员人数',
-        dataIndex: 'zaifu',
-        key: 'zaifu',
+        dataIndex: 'stuNumber',
+        key: 'stuNumber',
         render: (text, record) => {
-          const percent = '70%'
+          const maxNum = Math.max.apply(Math, this.props.reachNumDetail.list.map(item => item.stuNumber))
+          const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
       {
         title: '触达人数',
-        dataIndex: 'tianxie',
-        key: 'tianxie',
+        dataIndex: 'reachNum',
+        key: 'reachNum',
         render: (text, record) => {
-          const percent = '40%'
+          const maxNum = Math.max.apply(Math, this.props.reachNumDetail.list.map(item => item.reachNum))
+          const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
       {
         title: '触达率',
-        dataIndex: 'familyName',
-        key: 'familyName',
+        dataIndex: 'reachNumPercent',
+        key: 'reachNumPercent',
+        render: (text, record) => {
+          const maxNum = Math.max.apply(Math, this.props.reachNumDetail.list.map(item => item.reachNumPercent))
+          const percent = `${(text || 0) / maxNum * 100}%`
+          return <div style={{ display: 'flex' }}>
+            <BIWrapperProgress text={`${(text * 100).toFixed(2)}%`} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+          </div>
+        },
       }
     ];
     return columns || []
   }
+  onClose2 = () => {
+    this.setState({
+      visible2: false
+    })
+  }
+  goRoute = () => {
+    router.push({
+      pathname: '/cubePlan/list/detail',
+      query: {
+        id: 4,
+      }
+    });
+  }
+
 
   render() {
+    const { reachNumDetail } = this.props
+    const { visible2 } = this.state;
     return (
       <div className={styles.details}>
-        <h4 className={styles.h4}>集团</h4>
+        <h4 className={styles.h4}>{reachNumDetail.orgName}</h4>
         <div className={styles.tableWrap}>
           <BIScrollbarTable
             columns={this.columns()}
-            dataSource={dataSource}
+            dataSource={reachNumDetail.list}
             pagination={false}
-            scroll={{ x: 0, y: 700 }}
+            scroll={{ x: 0, y: 600 }}
             rowKey={(record, index) => index}
             rowClassName={this.getRowClassName}
             smalled
           />
         </div>
+        {
+          visible2 ? <div className={styles.floatPop}>
+            <img src={pop2} className={styles.img1} onClick={this.goRoute}></img>
+            <img src={close} className={styles.img2} onClick={this.onClose2}></img>
+          </div> : null
+        }
 
       </div>
     );

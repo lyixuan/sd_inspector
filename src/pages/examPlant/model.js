@@ -16,8 +16,10 @@ export default {
     selectVal: null,
     provinceExamList: [],
     systemTime: '',
-    startTime: moment('2019-09-01'),
-    endTime: moment(new Date().getTime())
+    // startTime: moment('2019-09-01'),
+    // endTime: moment(new Date().getTime())
+    startTime: '',
+    endTime: ''
   },
 
   effects: {

@@ -1,29 +1,39 @@
 import { message } from 'antd';
 import { msgF } from '@/utils/utils';
 import {
-  getExamList,
-  getProvinceData
+  reachNumRankList,
+  reachNumDetail
 } from './services';
 
 export default {
-  namespace: 'admissionTicket',
+  namespace: 'registTouch',
 
   state: {
-    yearMonthList: []
+    reachNumRankList: [],
+    reachNumDetail: {}
   },
 
   effects: {
-    *getExamList({ }, { call, put }) {
-      const response = yield call(getExamList);
-      const res = yield call(getProvinceData, { id: response.data[0].id })
+    *reachNumRankList({ payload }, { call, put }) {
+      const params = payload.params
+      const response = yield call(reachNumRankList, params);
       if (response && response.code === 20000) {
         yield put({
           type: 'save',
-          payload: { yearMonthList: response.data, selectVal: response.data[0].id },
+          payload: { reachNumRankList: response.data },
         });
+      } else if (response) {
+        message.error(response.msg)
+      }
+    },
+    *reachNumDetail({ payload }, { call, put }) {
+      const params = payload.params
+      const response = yield call(reachNumDetail, params);
+      console.log(18, response)
+      if (response && response.code === 20000) {
         yield put({
-          type: 'saveData',
-          payload: { provinceExamList: res.data.list, systemTime: res.data.systemTime },
+          type: 'save',
+          payload: { reachNumDetail: response.data },
         });
       } else if (response) {
         message.error(response.msg)
