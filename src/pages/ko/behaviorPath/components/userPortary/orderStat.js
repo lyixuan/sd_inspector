@@ -37,6 +37,30 @@ export default class OrderStat extends React.Component {
     const orderRender = orderList.map((item, i) => {
       let end = '';
       let front = '';
+      let textDate = '';
+      if (item.orderFlag === 2) {
+        textDate = (
+          <p style={{ color: '#fff' }}>
+            {item.refundDate}
+            <span style={{ marginLeft: '5px' }}>发起退费</span>
+          </p>
+        );
+      }
+      if (item.orderFlag === 3) {
+        textDate = (
+          <div>
+            <p style={{ color: '#fff' }}>
+              {item.refundDate}
+              <span style={{ marginLeft: '5px' }}>发起退费</span>
+            </p>
+            <p style={{ color: '#fff' }}>
+              {item.refundBackDate}
+              <span style={{ marginLeft: '5px' }}>退挽成功</span>
+            </p>
+          </div>
+        );
+      }
+
       if (!item.collegeName && item.familyName && !item.groupName) {
         end = '无';
       } else {
@@ -54,18 +78,7 @@ export default class OrderStat extends React.Component {
       }
       const text = (
         <div className={styles.tooltipContent}>
-          {orderFlag && orderFlag === 2 && (
-            <p style={{ color: '#fff' }}>
-              {refundDate}
-              <span>发起退费</span>
-            </p>
-          )}
-          {orderFlag && orderFlag === 3 && (
-            <p style={{ color: '#fff' }}>
-              {refundBackDate}
-              <span>发起退挽</span>
-            </p>
-          )}
+          {textDate}
           <h4>前端归属</h4>
           <p>{front}</p>
           <h4>后端归属</h4>
