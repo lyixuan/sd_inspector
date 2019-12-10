@@ -17,9 +17,7 @@ class TabSwitch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      keye: 1,
-      // startTime: moment('2019-09-01'),
-      // endTime: moment(new Date().getTime())
+      keye: 1
     }
   }
   onTabChange = (keye) => {
@@ -27,31 +25,36 @@ class TabSwitch extends React.Component {
     if (this.props.onTabChange) {
       this.props.onTabChange(keye);
     }
+    this.props.dispatch({
+      type: 'examPlant/checkDialog',
+      payload: { params: { visible: false } }
+    })
   };
   // date
   getDate = () => {
-    // if (this.props.startTime) {
-    //   const { startTime, endTime } = this.props;
-    //   return startTime && endTime ? [moment(startTime), moment(endTime)] : [];
-    // } else {
-    //   const { startTime, endTime } = this.props.examPlant
-    //   return startTime && endTime ? [startTime, endTime] : [];
-    // }
     const startTime = this.props.examPlant.startTime || moment(this.props.startTime);
     const endTime = this.props.examPlant.endTime || moment(this.props.endTime);
     return startTime && endTime ? [startTime, endTime] : [];
-
   }
   // 选择时间
   onDateChange = (v) => {
-    console.log(39, v)
+    const [startTime, endTime] = initTimeData(v);
     this.props.dispatch({
       type: 'examPlant/updateDate',
-      payload: { params: v }
+      payload: { params: { startTime, endTime } }
     }).then(() => {
       this.props.getList();
       this.props.getDetailList()
     })
+
+  }
+  onOpenChange = (status) => {
+    if (status) {
+      this.props.dispatch({
+        type: 'examPlant/checkDialog',
+        payload: { params: { visible: false } }
+      })
+    }
   }
   // 时间控件可展示的时间范围
   disabledDate = current => {
@@ -62,7 +65,6 @@ class TabSwitch extends React.Component {
   render() {
     const { tabs = [] } = this.props;
     const { keye } = this.state;
-    console.log(58, tabs)
     return (
       <div className={styles.pageTab}>
         <div className={styles.tabTitle}>
@@ -78,6 +80,7 @@ class TabSwitch extends React.Component {
               format={dateFormat}
               onChange={this.onDateChange}
               allowClear={false}
+              onOpenChange={this.onOpenChange}
               disabledDate={this.disabledDate}
               style={{ width: '224px' }}
             />

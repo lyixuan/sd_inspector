@@ -1,5 +1,12 @@
 import { message } from 'antd/lib/index';
-import { getDetail,getCommentPage,saveUserComment,getOutwardNameList,getQRCode,getCopyUrl } from './services';
+import {
+  getDetail,
+  getCommentPage,
+  saveUserComment,
+  getOutwardNameList,
+  getQRCode,
+  getCopyUrl,
+  getMiniProgramCode } from './services';
 import { msgF } from '@/utils/utils';
 
 export default {
@@ -61,9 +68,9 @@ export default {
     },
     *getQRCode({ payload }, { call, put }) {
       const params = payload.params;
-      const result = yield call(getQRCode,params);
-      if (result.code === 20000) {
-        const qrCode = result.data.qrcodeUrl;
+      const result = yield call(getMiniProgramCode,params);
+      if (result.code === 200) {
+        const qrCode = result.data;
         yield put({ type: 'save', payload: {qrCode }});
         return true;
       } else {

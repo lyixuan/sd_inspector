@@ -26,18 +26,25 @@ class RightBox extends React.Component {
   };
 
   openEwmModal = (text,text2) =>{
-    handleDataTrace({"widgetName":`${text}`,"traceName":`${text2}${this.props.name}`});
+    // handleDataTrace({"widgetName":`${text}`,"traceName":`${text2}${this.props.name}`});
     this.props.openEwmModal();
   };
 
   copySuccess = (text,text2) =>{
     handleDataTrace({"widgetName":`${text}`,"traceName":`${text2}${this.props.name}`});
-    message.success('复制成功')
+    message.success('复制成功');
   };
 
   render() {
-    const {detail,screenRange,copyUrl,loadingBtn,copyBottomUrl,loadingBtn2} = this.props || {};
+    const {detail,screenRange,copyUrl,loadingBtn,copyBottomUrl,loadingBtn2, id} = this.props || {};
     const {description,usageList=[],versionList = [],name,usedMp,usedH5,mpOriginId,mpAppId,mpUrl,h5Url} = detail||{};
+
+    let ewmFlag;
+    if (id === 1 || id === 4) {
+      ewmFlag = true
+    } else {
+      ewmFlag = false
+    }
 
     const usage = usageList && usageList.length>0 ? usageList.map((val,i)=>{
       return i<2&&(
@@ -158,6 +165,11 @@ class RightBox extends React.Component {
                                           onCopy={() => this.copySuccess('复制链接','魔方计划/魔方计划列表/')}>
               <span><img src={btnfz} alt=""/></span>
             </CopyToClipboard>}
+            {
+              ewmFlag
+                ? <img src={btnewm} alt="" onClick={this.openEwmModal} />
+                : null
+            }
           </Spin>
         </div>
 

@@ -50,7 +50,7 @@ class TicketRankList extends React.Component {
             rank = rank3;
           }
           return (
-            <div>
+            <div style={{ width: '30px', textAlign: 'center' }}>
               {text > 3 ? (
                 <span>{text}</span>
               ) : (
@@ -81,7 +81,7 @@ class TicketRankList extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.reachNumRankList.map(item => item.reachNum))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress isColor='blue' text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
@@ -93,7 +93,7 @@ class TicketRankList extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.reachNumRankList.map(item => item.reachNumPercent))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={`${(text * 100).toFixed(2)}%`} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress isColor='blue' text={`${(text * 100).toFixed(2)}%`} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },

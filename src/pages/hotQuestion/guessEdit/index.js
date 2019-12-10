@@ -407,6 +407,7 @@ class GuessEdit extends React.Component {
     const { sunlandsFlag, robotName } = dataSource
     const auth = userType === 'boss' || userType === 'admin';
     const { loading, loadingSubmit, loadingReset } = this.props
+    const { robotId } = this.props.location.query
     return (
       <div className={styles.editContainer}>
         <div className={styles.breadCustom}>
@@ -451,6 +452,7 @@ class GuessEdit extends React.Component {
                 loading ? <BILoading isLoading={loading} height="200px"></BILoading> :
                   dataSource.list && dataSource.list.map((item, index) => {
                     return <Line
+                      robotId={robotId}
                       dataSource={item || {}}
                       handleEdit={this.handleEdit}
                       handleDelete={this.handleDelete}

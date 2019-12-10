@@ -14,7 +14,8 @@ export default {
     zkzWriteList: [],
     zkzWriteDetail: {},
     errorData: {},
-    exportErrorDetail: {}
+    exportErrorDetail: {},
+    visible: false
   },
 
   effects: {

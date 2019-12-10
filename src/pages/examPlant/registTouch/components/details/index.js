@@ -63,7 +63,7 @@ class Details extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.reachNumDetail.list.map(item => item.reachNum))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress isColor='blue' text={text ? thousandsFormat(text) : 0} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       },
@@ -75,7 +75,7 @@ class Details extends React.Component {
           const maxNum = Math.max.apply(Math, this.props.reachNumDetail.list.map(item => item.reachNumPercent))
           const percent = `${(text || 0) / maxNum * 100}%`
           return <div style={{ display: 'flex' }}>
-            <BIWrapperProgress text={`${(text * 100).toFixed(2)}%`} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
+            <BIWrapperProgress isColor='blue' text={`${(text * 100).toFixed(2)}%`} percent={percent} propsStyle={{ flex: 'inherit', width: '60px', textAlign: "left" }} />
           </div>
         },
       }
@@ -116,7 +116,7 @@ class Details extends React.Component {
         </div>
         {
           visible2 ? <div className={styles.floatPop}>
-            <img src={pop2} className={styles.img1} onClick={this.goRoute}></img>
+            <img src={pop2} className={styles.img1} onClick={this.goRoute} data-trace={`{"widgetName":"跳转报考触达组件","traceName":"报考大盘/尚小德渠道触达明细"}`}></img>
             <img src={close} className={styles.img2} onClick={this.onClose2}></img>
           </div> : null
         }
