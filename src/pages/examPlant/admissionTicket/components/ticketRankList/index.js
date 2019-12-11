@@ -92,7 +92,7 @@ class TicketRankList extends React.Component {
       {
         title: '尚小德渠道填写人数',
         dataIndex: 'sunlandsWritePersonNum',
-        width: 130,
+        width: 140,
         key: 'sunlandsWritePersonNum',
         className: styles.sunlandBg,
         render: (text, record) => {

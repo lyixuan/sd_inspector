@@ -27,9 +27,6 @@ class Details extends React.Component {
     }
   }
   drawChart(data) {
-    // console.log(244, data); return;
-    // let value = [{ value: 4, name: '广东' }, { value: 4, name: '广东1' }, { value: 4, name: '广东2' }, { value: 4, name: '广东3' }];
-    // let valueName = ['广东', '广东1', '广东2', '广东3'];
     let value = [];
     let valueName = [];
     if (data && data.length > 0) {
@@ -46,7 +43,7 @@ class Details extends React.Component {
       // calculable: true,
       tooltip: {
         trigger: 'item',
-        formatter: "{b}<br/> {c}({d}%)"
+        formatter: "{b}<br/> {c}"
       },
       legend: {
         bottom: 0,
@@ -69,7 +66,7 @@ class Details extends React.Component {
         width: '420px',
         itemWidth: 4,
         itemHeight: 4,
-        itemGap: 30,
+        itemGap: 15,
         textStyle: {
           width: '100%'
         }
@@ -288,9 +285,9 @@ class Details extends React.Component {
           const { orgId } = this.props.zkzWriteDetail;
           return <div className={styles.options}>
             <Tooltip trigger='click' visible={visible === record.provinceName} overlayClassName={styles.listMarkingTooltip} placement="leftTop" title={content}>
-              <span onClick={() => this.handleCheck(record, index)}>查看</span>
+              <span onClick={() => this.handleCheck(record, index)} data-trace={`{"widgetName":"尚小德渠道填写明细-查看","traceName":"报考大盘/尚小德渠道填写明细"}`}>查看</span>
             </Tooltip>
-            {orgId ? <span onClick={(e) => this.export(record)}>导出错误明细</span> : null}
+            {orgId ? <span onClick={(e) => this.export(record)} data-trace={`{"widgetName":"尚小德渠道填写明细-导出错误明细","traceName":"报考大盘/尚小德渠道填写明细"}`}>导出错误明细</span> : null}
           </div>
         }
       },
@@ -316,7 +313,9 @@ class Details extends React.Component {
       }
     });
   }
-
+  componentDidMount = () => {
+    // window.onresize = this.drawChart(this.props.admissionTicket.errorData)
+  }
   render() {
     const { zkzWriteDetail } = this.props
     const { visible2 } = this.state;
