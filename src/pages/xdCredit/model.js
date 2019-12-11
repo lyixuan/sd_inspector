@@ -9,7 +9,7 @@ import {
   reasonList,
   imDetailList,
   queryAppealDataPage,
-  queryAttendancePage
+  queryAttendancePage,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -33,7 +33,7 @@ export default {
     imDetailData: {},
     imDetailList: [],
     appealDatas: {}, // 日趋图数据
-    appealAttendanceDatas: {} //柱状图
+    appealAttendanceDatas: {}, //柱状图
   },
 
   effects: {
@@ -106,12 +106,15 @@ export default {
     },
 
     // 重播直播维度详情
-    *getAttendanceDeail({ payload }, { call, put }) {
+    *getAttendanceDeail({ payload, callback }, { call, put }) {
       const params = payload.params;
       const result = yield call(attendanceDeail, params);
       if (result.code === 20000) {
         const res = result.data;
         if (res && res !== null) yield put({ type: 'save', payload: { attendanceDeatils: res } });
+        if (callback && typeof callback === 'function') {
+          callback(res);
+        }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

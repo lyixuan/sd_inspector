@@ -36,7 +36,7 @@ const collegeType = [
   dimensionData: xdCreditModal.dimensionData,
   imDetailData: xdCreditModal.imDetailData,
   dimensionDetails: xdCreditModal.dimensionDetails,
-  attendanceDeail: xdCreditModal.getAttendanceDeail,
+  attendanceDeatils: xdCreditModal.attendanceDeatils,
   kpiDateRange: xdCreditModal.kpiDateRange,
   infoLoading: loading.effects['xdCreditModal/getUserInfo'],
 }))
@@ -220,11 +220,9 @@ class XdCredit extends React.Component {
             // this.setState({
             //   isIm: true,
             // })
-          }
-          //  else if (dementionId === 37 || dementionId === 38) {
-          //   this.getAttendanceDeail();
-          // }
-          else {
+          } else if (dementionId === 37 || dementionId === 38) {
+            this.getAttendanceDeail();
+          } else {
             this.getDimensionDetail();
           }
         }
@@ -419,8 +417,6 @@ class XdCredit extends React.Component {
       );
       this.getReasonListData();
     } else if (v === 37 || v === 38) {
-      
-      // this.getAttendanceDeail();
       this.setState(
         {
           [type]: v,
@@ -429,7 +425,7 @@ class XdCredit extends React.Component {
         },
         () => {
           if (type === 'dementionId') {
-            // this.getDimensionDetail();
+            this.getAttendanceDeail();
             this.queryAppealDataPage();
           }
         }
@@ -594,7 +590,6 @@ class XdCredit extends React.Component {
     const { infoLoading, dimensionLevel = {} } = this.props;
     const value = this.getFamilyType();
     const level = dimensionLevel[dementionId];
-
     let newTable = null;
     let newChart = null;
     switch (dementionId) {
@@ -616,15 +611,15 @@ class XdCredit extends React.Component {
       case 37:
       case 38:
         newChart = <AttendanceScore />;
-        //   newTable = (
-        //     <Attendance
-        //       onPageChange={this.onPageChange3}
-        //       pageSize={this.state.pageSize}
-        //       currentPage={this.state.page}
-        //       detailsData={this.props.dimensionDetails}
-        //       dementionId={dementionId}
-        //     />
-        //   );
+        newTable = (
+          <Attendance
+            onPageChange={this.onPageChange3}
+            pageSize={this.state.pageSize}
+            currentPage={this.state.page}
+            detailsData={this.props.attendanceDeatils}
+            dementionId={dementionId}
+          />
+        );
         break;
       default:
         newChart = <CollegeScore />;
