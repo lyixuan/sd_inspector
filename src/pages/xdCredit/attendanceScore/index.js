@@ -6,7 +6,7 @@ import Echart from '../components/echart';
 import BIScrollbar from '@/ant_components/BIScrollbar';
 
 @connect(({ xdCreditModal, loading }) => ({
-  loading: loading.effects['xdCreditModal/queryAppealDataPage'],
+  loading: loading.effects['xdCreditModal/queryAttendancePage'],
   appealAttendanceDatas: xdCreditModal.appealAttendanceDatas || {},
 }))
 class AttendanceScore extends React.Component {
@@ -231,34 +231,22 @@ class AttendanceScore extends React.Component {
             color: '#999',
           },
         },
+        formatter: function(params) {
+          const newDate = params[0].name;
+          const zb = params[0].marker + params[0] ? '<br>直播学分：' + params[0].value + '' : '';
+          const zb1 = params[1].marker + params[1] ? '<br>直播环比：' + params[1].value + '%' : '';
+          const cb = params[2].marker + params[2] ? '<br>重播学分：' + params[2].value + '' : '';
+          const cb1 = params[3].marker + params[3] ? '<br>重播环比：' + params[3].value + '%' : '';
+          return newDate + zb + zb1 + cb + cb1;
+        },
         // formatter: '{a2}: {c2}<br />{a3}: {c3}%',
       },
-      // tooltip: {
-      //   trigger: 'axis',
-      //   axisPointer: {
-      //     type: 'cross',
-      //     crossStyle: {
-      //       color: '#999',
-      //     },
-      //   },
-      // },
       grid: {
         left: 45,
         right: 60,
         top: 40,
         bottom: 60,
       },
-      // toolbox: {
-      //   feature: {
-      //     dataView: { show: true, readOnly: false },
-      //     magicType: { show: true, type: ['line', 'bar'] },
-      //     restore: { show: true },
-      //     saveAsImage: { show: true },
-      //   },
-      // },
-      // legend: {
-      //   data: ['蒸发量', '降水量', '平均温度', '平均温度1'],
-      // },
       xAxis: [
         {
           type: 'category',
@@ -379,8 +367,6 @@ class AttendanceScore extends React.Component {
   };
   render() {
     const { live = {}, replay = {} } = this.props.appealAttendanceDatas;
-    console.log(this.props.loading, 'xxxx');
-    // console.log(creaditDataList, 'creaditDataList');
     return (
       <div>
         <BILoading isLoading={this.props.loading}>
