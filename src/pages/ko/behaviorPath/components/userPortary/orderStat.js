@@ -37,6 +37,38 @@ export default class OrderStat extends React.Component {
     const orderRender = orderList.map((item, i) => {
       let end = '';
       let front = '';
+      let textDate = '';
+      textDate = (
+        <div>
+          {item.refundDateList &&
+            item.refundDateList.map(item => {
+              return (
+                <p style={{ color: '#fff' }}>
+                  {item.date}
+                  {item.type === 2 && <span style={{ marginLeft: '5px' }}>发起退费</span>}
+                  {item.type === 3 && <span style={{ marginLeft: '5px' }}>退挽成功</span>}
+                </p>
+              );
+            })}
+        </div>
+      );
+      // if (item.orderFlag === 2) {
+      // }
+      // if (item.orderFlag === 3) {
+      //   textDate = (
+      //     <div>
+      //       <p style={{ color: '#fff' }}>
+      //         {item.refundDate}
+      //         <span style={{ marginLeft: '5px' }}>发起退费</span>
+      //       </p>
+      //       <p style={{ color: '#fff' }}>
+      //         {item.refundBackDate}
+      //         <span style={{ marginLeft: '5px' }}>退挽成功</span>
+      //       </p>
+      //     </div>
+      //   );
+      // }
+
       if (!item.collegeName && item.familyName && !item.groupName) {
         end = '无';
       } else {
@@ -54,18 +86,7 @@ export default class OrderStat extends React.Component {
       }
       const text = (
         <div className={styles.tooltipContent}>
-          {orderFlag && orderFlag === 2 && (
-            <p style={{ color: '#fff' }}>
-              {refundDate}
-              <span>发起退费</span>
-            </p>
-          )}
-          {orderFlag && orderFlag === 3 && (
-            <p style={{ color: '#fff' }}>
-              {refundBackDate}
-              <span>发起退挽</span>
-            </p>
-          )}
+          {textDate}
           <h4>前端归属</h4>
           <p>{front}</p>
           <h4>后端归属</h4>
@@ -81,8 +102,8 @@ export default class OrderStat extends React.Component {
           <div className={styles.orderInfo}>
             <h4>
               {item.packageName}
-              {orderFlag && orderFlag === 2 && <span className={styles.orderStatus2}>退</span>}
-              {orderFlag && orderFlag === 3 && <span className={styles.orderStatus3}>挽</span>}
+              {item.orderFlag && item.orderFlag === 2 && <span className={styles.orderStatus2}>退</span>}
+              {item.orderFlag && item.orderFlag === 3 && <span className={styles.orderStatus3}>挽</span>}
             </h4>
             <p>
               <span className={styles.price}>{thousandsFormat(item.totalAmount)}元</span>{' '}

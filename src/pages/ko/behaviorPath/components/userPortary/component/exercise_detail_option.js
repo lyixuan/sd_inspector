@@ -9,6 +9,12 @@ export function getOption(obj) {
       newX.push(newDate);
     });
 
+  const newCorrectRatio = [];
+  obj.correctRatio &&
+    obj.correctRatio.forEach(item => {
+      newCorrectRatio.push((item * 100).toFixed(2));
+    });
+
   return {
     tooltip: {
       trigger: 'axis',
@@ -22,7 +28,7 @@ export function getOption(obj) {
         const newDate = params[0].name;
         const zb = params[0] ? '<br>做题数量：' + params[0].value + '个' : '';
         const cb = params[1] ? '<br>正确数量：' + params[1].value + '个' : '';
-        const accuracy = params[2] ? '<br>准确率：' + (params[2].value * 100).toFixed(2) + '%' : '';
+        const accuracy = params[2] ? '<br>准确率：' + params[2].value + '%' : '';
         return newDate.split(/[\s\n]/)[1] + '-' + newDate.split(/[\s\n]/)[0] + zb + cb + accuracy;
       },
     },
@@ -81,8 +87,18 @@ export function getOption(obj) {
           },
         },
       },
+      {
+        type: 'value',
+        name: '准确率',
+        min: 0,
+        max: 100,
+        interval: 20,
+        axisLabel: {
+          formatter: '{value} %',
+        },
+      },
     ],
-    color: ['#FDBB2C', '#22CBC2'],
+    color: ['#FDBB2C', '#22CBC2', '#BD10E0'],
     series: [
       {
         name: '做题数量',
@@ -145,11 +161,12 @@ export function getOption(obj) {
       {
         name: '准确率',
         type: 'line',
-        data: obj.correctRatio,
+        yAxisIndex: 1,
+        data: newCorrectRatio,
         lineStyle: {
           color: '#BD10E0',
         },
-        // smooth: true,
+        smooth: true,
       },
     ],
   };

@@ -23,9 +23,20 @@ export default class BottomBox extends React.Component {
     this.props.openBBModal();
   };
 
+  goToPage = () => {
+    this.props.viewStatisticData();
+  };
+
 
   render() {
-    const { screenRange, commentData ,commentLists} = this.props;
+    const { screenRange, commentData ,commentLists, id} = this.props;
+
+    let viewDataFlag;
+    if (id === 1 || id === 4) {
+      viewDataFlag = true
+    } else {
+      viewDataFlag = false
+    }
 
     const {pageNum,isLastPage} = commentData||{};
 
@@ -49,8 +60,19 @@ export default class BottomBox extends React.Component {
       <div className={screenRange==='small_screen'?style.bottomBoxSmall:style.bottomBoxMiddle}>
         <Spin spinning={this.props.pageLoading}>
           <div className={style.boxBar}>
-            <span>评价与建议</span>
-            <span onClick={()=>this.openBBModal()}>我要评价  <img className={style.lujing} src={lujing} alt=""/></span>
+            <div>
+              <span className={style.comment}>评价与建议<span className={style.line}> </span></span>
+              {
+                viewDataFlag
+                  ? <span onClick={this.goToPage} className={style.view}>查看数据统计</span>
+                  : null
+              }
+            </div>
+            <span
+              onClick={()=>this.openBBModal()}
+              className={style.public}>
+              我要评价  <img className={style.lujing} src={lujing} alt=""/>
+            </span>
           </div>
           <div className={style.boxContent}>
             {commentLists.length>0?comment:<div className={style.kong}>

@@ -17,6 +17,7 @@ import {BiFilter} from '@/utils/utils';
 
 import { handleDataTrace } from '@/utils/utils';
 import {takeScreenshot,downloadBase64} from '@/utils/screenshort';
+import router from 'umi/router';
 
 let IMAGE_URL = '';
 @connect(({ cubePlanDetail, cubePlan, loading }) => ({
@@ -132,6 +133,8 @@ class CubePlanDetail extends React.Component {
           that.takeScreenshot();
         }, 500)
       });
+    }).catch(() => {
+      message.error('请重试')
     });
   };
 
@@ -203,6 +206,15 @@ class CubePlanDetail extends React.Component {
     downloadBase64(IMAGE_URL, 'h5二维码.png');
   };
 
+  gotoStatisticPage = () => {
+    const {id} = this;
+    if (id === 1) {
+      router.push('/examPlant/admissionTicket')
+    } else if (id === 4) {
+      router.push('/examPlant/registTouch')
+    } else {}
+  };
+
   render() {
 
     const {content,starLevel,outwardName,visible3} = this.state;
@@ -232,9 +244,16 @@ class CubePlanDetail extends React.Component {
           />
         </div>
         <div className={style.clear}/>
-        <BottomBox name={this.name} screenRange={screenRange} pageLoading={pageLoading} commentData={commentData} commentLists={commentLists}
-                   getCommentList={(pageNum) => {this.getCommentList(pageNum);}}
-                   openBBModal={() => {this.openBBModal();}}/>
+        <BottomBox
+          id={id}
+          name={this.name}
+          screenRange={screenRange}
+          pageLoading={pageLoading}
+          commentData={commentData}
+          commentLists={commentLists}
+          getCommentList={(pageNum) => {this.getCommentList(pageNum);}}
+          openBBModal={() => {this.openBBModal();}}
+          viewStatisticData={this.gotoStatisticPage}/>
 
         <BIModal
           title={titleName}
