@@ -63,7 +63,7 @@ class Details extends React.Component {
           let p = (tarValue / total * 100).toFixed(2);
           return name + ' ' + ' ' + p + '%';
         },
-        width: '420px',
+        width: '400px',
         itemWidth: 4,
         itemHeight: 4,
         itemGap: 15,
@@ -78,7 +78,7 @@ class Details extends React.Component {
           type: 'pie',
           radius: ['45%', '66%'],
           center: ['50%', '40%'],
-          color: ["#4A90E2", "#FFCC01", "#FF626A", "#4EB5EB"],
+          color: ["#4A90E2", "#FFCC01", "#FF626A", "#B648E1", "#F7B35B", "#00CCC3"],
           // hoverOffset: 0,
           // avoidLabelOverlap: false,
           xAxisIndex: 0,
@@ -175,7 +175,7 @@ class Details extends React.Component {
       return (
         <div className={styles.tooltipContent}>
           <div className={styles.title}>
-            <span>运营准考证准确率分析</span>
+            <span>准考证填写错误率分析</span>
             <Icon type='close' onClick={() => this.closePop('pop')} style={{ cursor: 'pointer', fontWeight: 'bold', color: '#8B8B8B' }}></Icon>
           </div>
           <div className={styles.chart}>
@@ -274,7 +274,7 @@ class Details extends React.Component {
         },
       },
       {
-        title: <div>操作 <Tooltip title={'由于查成绩时间会影响填写准考证的准确率，所以会多次提交验证，准确率会发生变化，请多关注该数据'}>
+        title: <div>查看错误详情 <Tooltip title={'由于查成绩时间会影响填写准考证的准确率，所以会多次提交验证，准确率会发生变化，请多关注该数据'}>
           <Icon type="question-circle" />
         </Tooltip></div>,
         dataIndex: 'familyName',
