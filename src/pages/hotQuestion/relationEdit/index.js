@@ -373,7 +373,7 @@ class RelationEdit extends React.Component {
     const { sunlandsFlag, robotName } = dataSource
     const auth = userType === 'boss' || userType === 'admin';
     const { loading, loadingSubmit, loadingReset } = this.props
-    const { activityName } = this.props.location.query
+    const { activityName, robotId } = this.props.location.query
     return (
       <div className={styles.editContainer}>
         <div className={styles.breadCustom}>
@@ -423,6 +423,7 @@ class RelationEdit extends React.Component {
                     key={item.questionId || item.key}
                     auth={auth}
                     index={index}
+                    robotId={robotId}
                     radioId={radioId}></Line>
                 })
 

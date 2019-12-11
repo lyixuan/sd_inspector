@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import moment from 'moment';
-import { initTimeData } from '@/pages/ko/utils/utils';
+
 import { msgF } from '@/utils/utils';
 import {
   getExamList,
@@ -19,12 +19,20 @@ export default {
     // startTime: moment('2019-09-01'),
     // endTime: moment(new Date().getTime())
     startTime: '',
-    endTime: ''
+    endTime: '',
+    visible: false
   },
 
   effects: {
+    *checkDialog({ payload }, { call, put }) {
+      const { visible } = payload.params;
+      yield put({
+        type: 'save',
+        payload: { visible },
+      })
+    },
     *updateDate({ payload }, { call, put }) {
-      const [startTime, endTime] = initTimeData(payload.params);
+      const { startTime, endTime } = payload.params;
       yield put({
         type: 'saveTime',
         payload: { startTime, endTime },

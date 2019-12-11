@@ -148,7 +148,7 @@ class Line extends React.Component {
     this.props.handleDelete(this.props.dataSource, this.props.index);
   }
   render() {
-    const { index, auth, dataSource = {}, knowledgeList, radioId } = this.props
+    const { index, auth, dataSource = {}, knowledgeList, radioId, robotId } = this.props
     const { knowledgeId, knowledgeName, questionTypeId, questionId, question, isEdit, questionTypeName } = this.state
     const questionList = this.props.globalQuestion[questionTypeId];
     const questionTypeList = this.formatData(this.props.globalQTypes[knowledgeId])
@@ -204,7 +204,8 @@ class Line extends React.Component {
           }
         </div>
         <div className={`${styles.eq4} ${questionId ? '' : styles.gray}`}>
-          <span onClick={questionId && isEdit ? this.handleEdit : null} className={isEdit ? null : styles.gray}>编辑</span>
+          <span onClick={(questionId && isEdit) || robotId != 175 ? this.handleEdit : null} className={isEdit && robotId != 175 ? null : styles.gray}>编辑</span>
+          {/* <span onClick={questionId && isEdit ? this.handleEdit : null} className={isEdit ? null : styles.gray}>编辑</span> */}
           {auth ? <span onClick={questionId ? this.handleDelete : null}>删除</span> : null}
           <Radio
             disabled={questionId ? false : true}

@@ -9,8 +9,6 @@ import Details from './components/details';
 import storage from '@/utils/storage';
 import styles from './style.less';
 
-const { Option } = BISelect;
-
 @connect(({ admissionTicket, examPlant, loading }) => ({
   admissionTicket,
   examPlant
@@ -19,7 +17,11 @@ class AdmissionTicket extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orgType: 'college',
+      orgType: 'college'
+    }
+  }
+  initDate = () => {
+    return {
       startTime: moment('2019-09-01'),
       endTime: moment(new Date().getTime())
     }
@@ -38,22 +40,19 @@ class AdmissionTicket extends React.Component {
     ]
     return tab
   }
-  componentDidMount = () => {
-    this.getPageData();
-    this.getDetailData()
-  }
-  // onTabChange = (kye) => {
-
-  //   if (kye === 1) {
-  //     if (this.props.admissionTicket.zkzWriteList.length > 0) {
-  //       return;
-  //     }
-  //     this.getPageData();
-  //   } else {
-  //     this.getDetailData()
-  //   }
-
+  // componentDidMount = () => {
+  //   this.getPageData();
+  //   this.getDetailData()
   // }
+  componentDidMount = () => {
+    this.props.dispatch({
+      type: 'examPlant/updateDate',
+      payload: { params: this.initDate() }
+    }).then(() => {
+      this.getPageData();
+      this.getDetailData()
+    })
+  }
   getDetailData = () => {
     this.props.dispatch({
       type: 'admissionTicket/zkzWriteDetail',
@@ -67,13 +66,11 @@ class AdmissionTicket extends React.Component {
     })
   }
   getParams = (type) => {
-    // const { startTime, endTime } = this.props.examPlant;
     const startTime = this.props.examPlant.startTime || this.state.startTime
     const endTime = this.props.examPlant.endTime || this.state.endTime
     const operatorId = storage.getUserInfo().userId;
     const params = {
       operatorId: operatorId,
-      // operatorId: 91,
       startDate: moment(startTime).format('YYYY-MM-DD'),
       endDate: moment(endTime).format('YYYY-MM-DD')
     }
@@ -108,14 +105,14 @@ class AdmissionTicket extends React.Component {
   }
 
   render() {
-    const { startTime, endTime } = this.state;
+    const { startTime, endTime } = this.initDate();
     return (
       <div className={styles.ticketPage}>
         <TabSwitch
+          page='ticket'
           beginDate={'2019-07-01'}
           startTime={startTime}
           endTime={endTime}
-          onTabChange={this.onTabChange}
           getList={this.getList}
           getDetailList={this.getDetailList}
           tabs={this.tabParams()}>
