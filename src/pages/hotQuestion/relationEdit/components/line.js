@@ -131,7 +131,6 @@ class Line extends React.Component {
         key = item
       }
     })
-    console.log(131, key)
     this.setState({
       questionId: key.questionId,
       question: key.question,
