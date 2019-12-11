@@ -1,0 +1,90 @@
+.details{
+  padding:0 24px;
+  .h4{
+    color:#1A1C1F;
+    font-size:16px;
+    padding-top:10px;
+  }
+  .options{
+    color:#00CCC3;
+    span{
+      margin-right:10px;
+      cursor:pointer;
+    }
+  }
+}
+
+// IM悬浮框样式
+.listMarkingTooltip {
+  max-width: 420px;
+  width: 420px;
+  padding-right:0;
+  :global {
+    .ant-tooltip-content{
+      opacity:1;
+    }
+    .ant-tooltip-arrow {
+      display:none;
+      border-right-color: #ffffff!important;
+      //border-color: transparent transparent #fff #fff;
+    }
+    .ant-tooltip-inner {
+      padding: 20px 10px 20px 0px;
+      background-color: #ffffff;
+      color:#000;
+    }
+  }
+}
+.tooltipContent{
+  .title{
+    color:#1A1C1F;
+    font-size:13px;
+    padding:0 16px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .chart{
+    display:flex;
+    justify-content: center;
+    padding:20px 0 0;
+  }
+}
+.intro{
+  display:flex;
+  flex-wrap: wrap;
+  padding-left:20px;
+  li{
+    width:50%;
+    padding-bottom:10px;
+    .circle{
+      display: inline-block;
+      width:8px;
+      height:8px;
+      font-size:1px;
+      border-radius:100%;
+      flex-shrink: 0;
+      background:#4A90E2;
+      margin-right:8px;
+    }
+  }
+  
+}
+.floatPop{
+  width:200px;
+  height:95px;
+  position:fixed;
+  right:20px;
+  bottom:80px;
+  z-index:10;
+  .img1{
+    width:200px;
+    cursor:pointer;
+  }
+  .img2{
+    width:16px;
+    position:absolute;
+    right:5px;
+    top:-10px;
+    cursor:pointer;
+  }
+}
