@@ -107,11 +107,12 @@ class CubePlanDetail extends React.Component {
                       changeDate={(params) => this.changeDate(params)}
                       changeOrganization={(params) => this.changeOrganization(params)}
                       reset={(params) => this.reset(params)}
-                      search={(params) => this.query(params)}/>
-        <QualitySurvey headers={headers} values={values} maxCount={maxCount}/>
+                      search={(params) => this.query(params)}
+                      traceType="班主任"/>
+        <QualitySurvey headers={headers} values={values} maxCount={maxCount} traceType="班主任"/>
         {isGroup&&<ItemSort assortmentRankData={assortmentRankData}/>}
-        {!isGroup&&<div style={{width:'49%',float:'left',marginBottom:20}}><ItemSort assortmentRankData={assortmentRankData}/></div>}
-        {!isGroup&&<div style={{width:'49.5%',float:'right'}}><PersonSort personRankData={personRankData} beginDate={startDate} endDate={endDate}/></div>}
+        {!isGroup&&<div style={{width:'49%',float:'left',marginBottom:20}}><ItemSort assortmentRankData={assortmentRankData} traceType="班主任"/></div>}
+        {!isGroup&&<div style={{width:'49.5%',float:'right'}}><PersonSort personRankData={personRankData} beginDate={startDate} endDate={endDate} traceType="班主任"/></div>}
       </Spin>
     );
   }

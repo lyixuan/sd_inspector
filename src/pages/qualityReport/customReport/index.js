@@ -92,9 +92,10 @@ class CustomReport extends React.Component {
                       changeDate={(params) => this.changeDate(params)}
                       changeOrganization={(params) => this.changeOrganization(params)}
                       reset={(params) => this.reset(params)}
-                      search={(params) => this.query(params)}/>
-        <QualitySurvey headers={headers} values={values} maxCount={maxCount} scrollx={true}/>
-        <div style={{marginBottom:20}}><ItemSort assortmentRankData={assortmentRankData}/></div>
+                      search={(params) => this.query(params)}
+                      traceType="客诉"/>
+        <QualitySurvey headers={headers} values={values} maxCount={maxCount} scrollx={true} traceType="客诉"/>
+        <div style={{marginBottom:20}}><ItemSort assortmentRankData={assortmentRankData} traceType="客诉"/></div>
       </Spin>
     );
   }
