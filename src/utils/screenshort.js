@@ -1,3 +1,5 @@
+import { message } from 'antd';
+
 export function takeScreenshot(){
   var shareContent = document.getElementById('shareContent');//需要截图的包裹的（原生的）DOM 对象
   var width = shareContent.offsetWidth; //获取dom 宽度
@@ -52,6 +54,7 @@ export function downloadBase64(dataUrl, filename) {
     downloadLink.href = href
     downloadLink.click()
   } catch (err) {
+    message.error('请重试')
   } finally {
     if (href) {
       window.URL.revokeObjectURL(href)
