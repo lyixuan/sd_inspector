@@ -29,7 +29,6 @@ export default {
     *reachNumDetail({ payload }, { call, put }) {
       const params = payload.params
       const response = yield call(reachNumDetail, params);
-      console.log(18, response)
       if (response && response.code === 20000) {
         yield put({
           type: 'save',

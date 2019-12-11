@@ -27,7 +27,6 @@ class Details extends React.Component {
     }
   }
   drawChart(data, record) {
-    console.log(30, record.sunlandsWriteNum)
     let value = [];
     let valueName = [];
     if (data && data.length > 0) {
@@ -160,7 +159,6 @@ class Details extends React.Component {
     })
   }
   renderPopContent = (record, index) => {
-    console.log(163, record, index)
     const { errorData } = this.props.admissionTicket
     if (errorData.length < 1) {
       return <div className={styles.tooltipContent}>
