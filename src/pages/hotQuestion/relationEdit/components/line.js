@@ -148,7 +148,8 @@ class Line extends React.Component {
   }
   // 点击编辑 
   handleEdit = () => {
-    const { questionId, question, index, oldQuestionId } = this.state;
+    const { questionId, question, oldQuestionId } = this.state;
+    const index = this.props.index
     this.props.handleEdit({ questionId, question, index, oldQuestionId });
   }
   handleDelete = () => {
