@@ -98,7 +98,7 @@ export function getOption(obj) {
         },
       },
     ],
-    color: ['#FDBB2C', '#22CBC2'],
+    color: ['#FDBB2C', '#22CBC2', '#BD10E0'],
     series: [
       {
         name: '做题数量',
@@ -166,7 +166,7 @@ export function getOption(obj) {
         lineStyle: {
           color: '#BD10E0',
         },
-        // smooth: true,
+        smooth: true,
       },
     ],
   };
