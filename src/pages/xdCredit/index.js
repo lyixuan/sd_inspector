@@ -220,9 +220,11 @@ class XdCredit extends React.Component {
             // this.setState({
             //   isIm: true,
             // })
-          } else if (dementionId === 37 || dementionId === 38) {
-            this.getAttendanceDeail();
-          } else {
+          }
+          //  else if (dementionId === 37 || dementionId === 38) {
+          //   this.getAttendanceDeail();
+          // }
+          else {
             this.getDimensionDetail();
           }
         }
@@ -416,11 +418,23 @@ class XdCredit extends React.Component {
         }
       );
       this.getReasonListData();
-    }
-    //  else if (v === 37 || v === 38) {
-    //   this.getAttendanceDeail();
-    // }
-    else {
+    } else if (v === 37 || v === 38) {
+      
+      // this.getAttendanceDeail();
+      this.setState(
+        {
+          [type]: v,
+          page: 1,
+          // isIm: false
+        },
+        () => {
+          if (type === 'dementionId') {
+            // this.getDimensionDetail();
+            this.queryAppealDataPage();
+          }
+        }
+      );
+    } else {
       this.setState(
         {
           [type]: v,
@@ -563,10 +577,17 @@ class XdCredit extends React.Component {
       endTime: this.state.endTime,
       ...this.getTypeId(),
     };
-    this.props.dispatch({
-      type: 'xdCreditModal/queryAppealDataPage',
-      payload: { params: params },
-    });
+    if (this.state.dementionId === 37 || this.state.dementionId === 38) {
+      this.props.dispatch({
+        type: 'xdCreditModal/queryAttendancePage',
+        payload: { params: params },
+      });
+    } else {
+      this.props.dispatch({
+        type: 'xdCreditModal/queryAppealDataPage',
+        payload: { params: params },
+      });
+    }
   };
   render() {
     const { dementionId, groupId, extendFlag, userOrgConfig } = this.state;

@@ -8,30 +8,32 @@ import {
   getAppealType,
   reasonList,
   imDetailList,
-  queryAppealDataPage
+  queryAppealDataPage,
+  queryAttendancePage
 } from './services';
 import { message } from 'antd/lib/index';
-import { msgF } from "@/utils/utils";
+import { msgF } from '@/utils/utils';
 
 export default {
   namespace: 'xdCreditModal',
   state: {
     dimensionData: {
       data: [],
-      dimensionList: []
+      dimensionList: [],
     },
     dimensionDetails: {
       data: [],
-      dimensionList: []
+      dimensionList: [],
     },
     attendanceDeatils: {
       data: [],
-      dimensionList: []
+      dimensionList: [],
     },
     kpiDateRange: {},
     imDetailData: {},
     imDetailList: [],
-    appealDatas: {} // 日趋图数据
+    appealDatas: {}, // 日趋图数据
+    appealAttendanceDatas: {} //柱状图
   },
 
   effects: {
@@ -65,7 +67,7 @@ export default {
       }
     },
     *getUserOrgList({ payload, callback }, { call, put }) {
-      const params = payload.params
+      const params = payload.params;
       const result = yield call(getUserOrgList, params);
       if (result.code === 20000) {
         const res = result.data;
@@ -129,7 +131,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getAppealType({ payload, callback }, { call, }) {
+    *getAppealType({ payload, callback }, { call }) {
       const result = yield call(getAppealType, payload.params);
       if (result.code === 20000) {
         const res = result.data;
@@ -150,6 +152,17 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+
+    //  直播重播柱状图修改
+    *queryAttendancePage({ payload, callback }, { call, put }) {
+      yield put({ type: 'save', payload: { appealAttendanceDatas: [] } });
+      const result = yield call(queryAttendancePage, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { appealAttendanceDatas: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
   },
 
   reducers: {
@@ -157,31 +170,39 @@ export default {
       return { ...state, ...payload };
     },
     saveTable(state, { payload }) {
-      let data = payload.imDetailData
+      let data = payload.imDetailData;
       if (!data.reasonTypeList) {
-        data.dataList.length > 0 && data.dataList.map(item => {
-          item.values.push(item.unClassifyValue)
-          item.valueCounts.push(item.unClassifyCount)
-        })
-        data.reasonTypeList = [{
-          expand: true,
-          typeId: 0,
-          typeName: '所有分类'
-        }]
+        data.dataList.length > 0 &&
+          data.dataList.map(item => {
+            item.values.push(item.unClassifyValue);
+            item.valueCounts.push(item.unClassifyCount);
+          });
+        data.reasonTypeList = [
+          {
+            expand: true,
+            typeId: 0,
+            typeName: '所有分类',
+          },
+        ];
         if (data.titleList) {
-          data.titleList = [...data.titleList, {
-            expand: false,
-            typeId: -1,
-            typeName: "未分类数据"
-          }]
+          data.titleList = [
+            ...data.titleList,
+            {
+              expand: false,
+              typeId: -1,
+              typeName: '未分类数据',
+            },
+          ];
         }
-
       } else {
-        data.reasonTypeList = [{
-          expand: true,
-          typeId: 0,
-          typeName: '所有分类'
-        }, ...data.reasonTypeList]
+        data.reasonTypeList = [
+          {
+            expand: true,
+            typeId: 0,
+            typeName: '所有分类',
+          },
+          ...data.reasonTypeList,
+        ];
       }
       return { ...state, ...{ imDetailData: data } };
     },
@@ -193,11 +214,11 @@ export default {
   },
   subscriptions: {},
 };
-function getLevel(arr = [], init = {}, l = 1, ) {
+function getLevel(arr = [], init = {}, l = 1) {
   arr.map(item => {
     init[item.id + ''] = l;
     if (item.children && item.children.length > 0) {
       getLevel(item.children, init, l + 1);
     }
-  })
+  });
 }
