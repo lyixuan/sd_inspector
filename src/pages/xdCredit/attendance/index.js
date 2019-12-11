@@ -164,8 +164,8 @@ function TeacherOrStudent(props) {
 }
 
 @connect(({ loading }) => ({
-  loading: loading.effects['xdCreditModal/getDimensionDetail'],
-  loadingAppeal: loading.effects['xdCreditModal/getDimensionDetail'],
+  loading: loading.effects['xdCreditModal/getAttendanceDeail'],
+  loadingAppeal: loading.effects['xdCreditModal/getAttendanceDeail'],
 }))
 class Attendance extends React.Component {
   columns = () => {
@@ -391,7 +391,10 @@ class Attendance extends React.Component {
   };
   render() {
     const { detailsData, pageSize = 15, currentPage } = this.props;
-    const dataSource = detailsData.data || [];
+    if (!detailsData) {
+      return <div></div>;
+    }
+    const dataSource = (detailsData && detailsData.data) || [];
     const totalCount = detailsData.total || 0;
     return (
       <BIWrapperTable
