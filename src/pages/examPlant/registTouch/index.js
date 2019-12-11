@@ -54,7 +54,7 @@ class RegistTouch extends React.Component {
   initDate = () => {
     return {
       startTime: moment('2019-12-12'),
-      endTime: moment(new Date().getTime())
+      endTime: moment(new Date().getTime()).subtract(1, 'days')
     }
   }
   getParams = (type) => {
