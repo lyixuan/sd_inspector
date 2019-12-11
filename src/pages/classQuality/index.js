@@ -177,9 +177,9 @@ class ClassQuality extends React.Component {
   // 是否显示标注
   getIsShowTag = item => {
     const { funTypeSelected } = this.state;
-    if (((item.violationNumber || item.personNumber) && funTypeSelected === 2) || (funTypeSelected === 3 && (item.modifyType === 2 || item.detailModifyType === 2))) {
+    if (((item.violationNumber || item.personNumber) && funTypeSelected === 2) || (funTypeSelected === 3 && item.modifyType === 2)) {
       return styles.classSelected2;
-    } else if (funTypeSelected === 3 && (item.modifyType === 1 || item.detailModifyType === 1)) {
+    } else if (funTypeSelected === 3 && item.modifyType === 1) {
       return styles.classSelected3;
     } else {
       return false;
@@ -214,7 +214,7 @@ class ClassQuality extends React.Component {
               <span onClick={() => this.handleFun(1)}><img src={funTypeSelected === 1 ? rulesImg1 : rulesImg} alt=""/></span>
             </Tooltip>
             <Tooltip title="质检记录" placement="right">
-              <span onClick={() => this.handleFun(2)} style={{ borderTop: '1px solid #E1E1E1', borderBottom: '1px solid #E1E1E1', }}><img src={funTypeSelected === 2 ? detailImg1 : detailImg} alt=""/></span>
+              <span onClick={() => this.handleFun(2)} style={{ borderTop: '1px solid #E1E1E1' }}><img src={funTypeSelected === 2 ? detailImg1 : detailImg} alt=""/></span>
             </Tooltip>
             <Tooltip title="变更记录" placement="right">
               <span onClick={() => this.handleFun(3)} style={{ borderTop: '1px solid #E1E1E1', borderBottom: '1px solid #E1E1E1', }}><img src={funTypeSelected === 3 ? changeImg1 : changeImg} alt=""/></span>
@@ -258,10 +258,14 @@ class ClassQuality extends React.Component {
                 {
                   flatTreeList.map((item, index) => <div key={item.id + '' + index} id={`Anchor${item.id}`}  className={styles.level}>
                   <div className={`${styles.class} ${classStyles[item.level]} ${this.getIsShowTag(item)}`}>
-                    <span className={styles.violationName}>
+                    {item.level !== 5 ? <span className={styles.violationName}>
                       {item.violationName}
                       {item.violationLevel && <img src={levelImgs[item.violationLevel]} alt=""/>}
-                    </span>
+                    </span> : <Tooltip 
+                    title={`点击${rulesObj[item.id] ? '关闭' : '查看'}质检细则`} 
+                    placement="right">
+                      <span onClick={() => this.getQualityDetaile(item.id)} className={styles.violationName}>质检细则</span>
+                    </Tooltip>}
                     {/* 违规 */}
                     { 
                       this.getIsShowTag(item) &&
@@ -278,7 +282,6 @@ class ClassQuality extends React.Component {
                   { 
                     item.qualityDetaile && 
                     <>
-                      <Tooltip title={`点击${rulesObj[item.id] ? '关闭' : '查看'}质检细则`} placement="right"><span onClick={() => this.getQualityDetaile(item.id)} className={styles.classE}>质检细则</span></Tooltip>
                       {rulesObj[item.id] &&
                         <div className={styles.detailed}>
                           {item.qualityDetaile}

@@ -26,6 +26,7 @@ export default {
       const result = yield call(getFindTreeList, params);
       if (result.code === 20000) {
         const flatTreeList = fillDataSource(result.data === null ? [] : result.data);
+        console.log(flatTreeList, 'kkkk')
         const logTreeList = flatTreeList.filter(item => item.level === 1 );
         yield put({ type: 'save', payload: { flatTreeList, logTreeList } });
         if (callback && typeof callback === 'function') {
@@ -72,7 +73,24 @@ function fillDataSource(params = [], intList = [], n = 1) {
   params.map(item => {
     item.level = n;
     const { childNode	, ...others } = item;
-    intList.push(others);
+    console.log('pppppp')
+    intList.push({...others, modifyTag: '哈哈哈哈哈哈',
+    modifyType: 2,
+    modifyDate: '2019-08-07',});
+    if (item.qualityDetaile) {
+      intList.push({
+        id: new Date().getDate() + '' + item.id,
+        level: 5,
+        violationName: '质检细则',
+        qualityDetaile: item.qualityDetaile,
+        // modifyTag: item.detailModifyTag,
+        // modifyType: item.detailModifyType,
+        // modifyDate: item.detailModifyDate,
+        modifyTag: '哈哈哈哈哈哈',
+        modifyType: 1,
+        modifyDate: '2019-08-07',
+      })
+    }
     if (childNode && childNode.length > 0) {
       fillDataSource(childNode, intList, n + 1);
     }
