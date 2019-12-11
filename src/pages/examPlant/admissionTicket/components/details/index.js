@@ -26,7 +26,8 @@ class Details extends React.Component {
       visible2: true
     }
   }
-  drawChart(data) {
+  drawChart(data, record) {
+    console.log(30, record.sunlandsWriteNum)
     let value = [];
     let valueName = [];
     if (data && data.length > 0) {
@@ -52,10 +53,10 @@ class Details extends React.Component {
         formatter: function (name) {
           // 获取legend显示内容
           let data = option.series[0].data;
-          let total = 0;
+          let total = record.sunlandsWriteNum;
           let tarValue = 0;
           for (let i = 0, l = data.length; i < l; i++) {
-            total += data[i].value;
+            // total += data[i].value;
             if (data[i].name == name) {
               tarValue = data[i].value;
             }
@@ -158,12 +159,13 @@ class Details extends React.Component {
       payload: { params: params, fileName: fileName }
     })
   }
-  renderPopContent = record => {
+  renderPopContent = (record, index) => {
+    console.log(163, record, index)
     const { errorData } = this.props.admissionTicket
     if (errorData.length < 1) {
       return <div className={styles.tooltipContent}>
         <div className={styles.title}>
-          <span>运营准考证准确率分析</span>
+          <span>准考证填写错误率分析</span>
           <Icon type='close' onClick={() => this.closePop('pop')} style={{ cursor: 'pointer', fontWeight: 'bold', color: '#8B8B8B' }}></Icon>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', color: '#7B7C80', paddingTop: '40px' }}>
@@ -179,7 +181,7 @@ class Details extends React.Component {
             <Icon type='close' onClick={() => this.closePop('pop')} style={{ cursor: 'pointer', fontWeight: 'bold', color: '#8B8B8B' }}></Icon>
           </div>
           <div className={styles.chart}>
-            <Echart options={this.drawChart(errorData)} style={{ width: '420px', height: '320px' }}></Echart>
+            <Echart options={this.drawChart(errorData, record, index)} style={{ width: '420px', height: '320px' }}></Echart>
           </div>
           {/* <ul className={styles.intro}>
             <li><span className={styles.circle}></span>首次参考：50.00%</li>
