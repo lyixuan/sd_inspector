@@ -132,6 +132,8 @@ class CubePlanDetail extends React.Component {
           that.takeScreenshot();
         }, 500)
       });
+    }).catch(() => {
+      message.error('请重试')
     });
   };
 
