@@ -73,6 +73,17 @@ function fillDataSource(params = [], intList = [], n = 1) {
     item.level = n;
     const { childNode	, ...others } = item;
     intList.push(others);
+    if (item.qualityDetaile) {
+      intList.push({
+        id: new Date().getDate() + '' + item.id,
+        level: 5,
+        violationName: '质检细则',
+        qualityDetaile: item.qualityDetaile,
+        modifyTag: item.detailModifyTag,
+        modifyType: item.detailModifyType,
+        modifyDate: item.detailModifyDate,
+      })
+    }
     if (childNode && childNode.length > 0) {
       fillDataSource(childNode, intList, n + 1);
     }
