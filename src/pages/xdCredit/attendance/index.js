@@ -205,7 +205,7 @@ class Attendance extends React.Component {
         key: 'titleThree',
         render: (titleThree, record) => {
           const percent = record.titleThreeRatio * 100 + '%';
-          const money = thousandsFormatBigger(titleThree);
+          const money = titleThree;
           return (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <BIWrapperProgress
@@ -236,7 +236,7 @@ class Attendance extends React.Component {
         key: 'titleFour',
         render: (titleFour, record) => {
           const percent = record.titleFourRatio * 100 + '%';
-          const money = thousandsFormatBigger(titleFour);
+          const money = titleFour;
           return (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <BIWrapperProgress
@@ -267,7 +267,7 @@ class Attendance extends React.Component {
         key: 'titleFive',
         render: (titleFive, record) => {
           const percent = record.titleFiveRatio * 100 + '%';
-          const money = thousandsFormatBigger(titleFive);
+          const money = titleFive;
           return (
             <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: '16px' }}>
               <BIWrapperProgress
