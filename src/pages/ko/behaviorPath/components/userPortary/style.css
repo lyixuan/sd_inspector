@@ -138,12 +138,13 @@
   border: 1px solid #f7f7f7;
 }
 
-.orderStatus2 ,.orderStatus3 {
+.orderStatus2,
+.orderStatus3 {
   width: 16px;
   height: 16px;
   font-size: 12px;
   font-family: PingFangSC-Regular, PingFang SC;
-  font-weight:400;
+  font-weight: 400;
   line-height: 16px;
   text-align: center;
   display: inline-block;
@@ -196,7 +197,18 @@
 .scorllOrder {
   padding-top: 8px;
   height: 150px;
-  overflow-y: scroll;
+  overflow-y: hidden;
+}
+.scorllOrder:hover {
+  padding-top: 8px;
+  height: 150px;
+  overflow-y: auto;
+}
+
+.scorllOrder1 {
+  padding-top: 8px;
+  height: 150px;
+  overflow-y: hidden;
 }
 .boxFlex {
   display: flex;

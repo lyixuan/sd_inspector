@@ -36,7 +36,7 @@ class Dimension extends React.Component {
               <span className={record.num > 0 ? styles.num : ''}>{record.num}{record.unit} {record.num > 0 ?<img src={mingxi} alt=""/> : ''}</span>
             </div>
           } else {
-            return <span onClick={() => this.onClickRow(record)} style={{color: '#1B1C20'}}>{text}</span>
+            return <span onClick={() => this.onClickRow(record)} style={{color: '#1B1C20', cursor: 'pointer'}}>{text}</span>
           }
         }
       }, {
