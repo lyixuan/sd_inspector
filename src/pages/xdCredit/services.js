@@ -13,6 +13,11 @@ export async function getDimensionList(data) {
 export async function getDimensionDetail(data) {
   return request('/deskperfpcapi/credit/dimension/detail', { method: 'post', data });
 }
+
+// 学分—维度详情 重播 直播
+export async function attendanceDeail(data) {
+  return request('/v1.9/credit/dimension/detail', { method: 'post', data });
+}
 // 学分—权限
 export async function getUserInfo(params) {
   return request('/deskperfpcapi/user/info', { method: 'get', params });
@@ -41,3 +46,9 @@ export async function imDetailList(data) {
 export async function queryAppealDataPage(data) {
   return request('/credit/queryAppealDataPage',{method:'POST',data:data})
 }
+
+//直播重播柱状图---test
+export async function queryAttendancePage(data) {
+  return request('/credit/v1.9/queryAppealDataPage',{method:'POST',data:data})
+}
+

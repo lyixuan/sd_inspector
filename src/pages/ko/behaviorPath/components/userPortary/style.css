@@ -5,7 +5,9 @@
   min-width: 1050px;
   height: 1000px;
 }
-.contentLayout , .contentLayoutbase,.contentLayoutbase2{
+.contentLayout,
+.contentLayoutbase,
+.contentLayoutbase2 {
   background: #fff;
   margin-top: 16px;
   overflow: hidden;
@@ -28,18 +30,19 @@
   float: left;
   margin: 30px 30px;
 }
-.right{
+.right {
   float: left;
   margin-top: 25px;
   line-height: 40px;
 }
 .sex {
-  color: #FF549B;
+  color: #ff549b;
 }
 
-.item,.item2 {
+.item,
+.item2 {
   margin-right: 18px;
-  color: #1A1C1F;
+  color: #1a1c1f;
 }
 .item2 {
   /*margin-right: 30px;*/
@@ -51,37 +54,38 @@
 .name {
   font-size: 16px;
   font-weight: bold;
-  color: #1A1C1F;
+  color: #1a1c1f;
 }
 
 .row {
   text-align: center;
-  margin:10px auto;
-  color: #7A7C80;
+  margin: 10px auto;
+  color: #7a7c80;
 }
-.baseCol>span{
+.baseCol > span {
   display: inline-block;
   cursor: pointer;
 }
-.zxl,.im {
+.zxl,
+.im {
   height: 40px;
   font-size: 30px;
   font-weight: bold;
   margin-bottom: 0px;
-  color: #00CCC3;
+  color: #00ccc3;
 }
 .baseImg {
   height: 35px;
   margin-bottom: 10px;
 }
 .im {
-  color: #FF4A53;
+  color: #ff4a53;
 }
 
 .vertical {
   height: 30px;
   top: 10px;
-  color: #E1E4EA;
+  color: #e1e4ea;
 }
 
 .boxHead {
@@ -90,25 +94,26 @@
 }
 .boxTitle {
   font-size: 16px;
-  color: #1A1C1F;
+  color: #1a1c1f;
   font-weight: bold;
   float: left;
   width: 75px;
   cursor: pointer;
 }
-.btn,.btnActive {
+.btn,
+.btnActive {
   font-size: 16px;
   float: right;
   margin-left: 10px;
-  color: #7A7C80;
+  color: #7a7c80;
   cursor: pointer;
 }
 .btnActive {
-  color: #00CCC3;
+  color: #00ccc3;
 }
 
-.btnActive i{
-  border-bottom: 2px solid #00CCC3;
+.btnActive i {
+  border-bottom: 2px solid #00ccc3;
   width: 20px;
   display: block;
   margin: auto;
@@ -118,64 +123,96 @@
   font-size: 30px;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #1A1C1F;
+  color: #1a1c1f;
 }
-.card{
-  position:relative;
-  background:#fff;
-  border-radius:6px;
-  overflow:hidden;
-  padding:8px 12px 8px 26px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
-  border: 1px solid #F7F7F7;
-}
-
-.card .orderInfo p{
-  margin-bottom:0;
-}
-.card h4,.card .price{
-  font-weight:bold;
-  color:#1A1C1F;
-}
-.card .line{
-  width:6px;
-  height:100%;
-  background:#52C9C2;
-  position:absolute;
-  left:0;
-  top:0;
-}
-.card .lineYellow{
-  background:#FFAA4D;
+.card {
+  position: relative;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 8px 12px 8px 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border: 1px solid #f7f7f7;
 }
 
-.tooltipContent h4{
-  color:#fff;
-  margin-top:10px;
+.orderStatus2,
+.orderStatus3 {
+  width: 16px;
+  height: 16px;
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+  display: inline-block;
+  background: #ff666c;
+  border-radius: 50%;
+  color: #fff;
+  margin-left: 5px;
 }
-.tooltipContent p{
-  font-size:13px;
-  color:#B8BBBF;
-  margin-bottom:0;
+
+.orderStatus3 {
+  background: #009dfd;
+}
+
+.card .orderInfo p {
+  margin-bottom: 0;
+}
+.card h4,
+.card .price {
+  font-weight: bold;
+  color: #1a1c1f;
+}
+.card .line {
+  width: 6px;
+  height: 100%;
+  background: #52c9c2;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.card .lineYellow {
+  background: #ffaa4d;
+}
+
+.tooltipContent h4 {
+  color: #fff;
+  margin-top: 10px;
+}
+.tooltipContent p {
+  font-size: 13px;
+  color: #b8bbbf;
+  margin-bottom: 0;
 }
 .orderRow {
   height: 100px;
   margin-top: 30px;
   padding-right: 10px;
   text-align: center;
-  color: #7A7C80;
+  color: #7a7c80;
 }
 .scorllOrder {
   padding-top: 8px;
   height: 150px;
-  overflow-y: scroll;
+  overflow-y: hidden;
+}
+.scorllOrder:hover {
+  padding-top: 8px;
+  height: 150px;
+  overflow-y: auto;
+}
+
+.scorllOrder1 {
+  padding-top: 8px;
+  height: 150px;
+  overflow-y: hidden;
 }
 .boxFlex {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   align-content: space-between;
   justify-content: space-between;
 }

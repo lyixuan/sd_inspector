@@ -132,6 +132,11 @@
         text-align: center;
         padding-bottom: 8px;
         border-bottom: 1px solid #E8ECF1;
+        .dateChange {
+          font-size: 12px;
+          color: #888888;
+          margin: 6px 0;
+        }
       }
       .level {
         .class{
@@ -164,20 +169,33 @@
           margin-top: 8px;
         }
         .classE {
-          align-items: center;
+          // display: flex;
+          // align-items: center;
           font-size: 14px;
           color: #00CCC3;
-          margin-left: 24px;
-          margin-top: 4px;
+          // margin-left: 24px;
+          // margin-top: 4px;
           cursor: pointer;
           position: relative;
           z-index: 3;
+          width: 100px;
+          font-weight: normal;
+          .violationName {
+            padding: 0 6px 0 34px;
+            line-height: 30px;
+          }
+          .violationName::before {
+            content: '·';
+            color: #1A1C1F;
+            font-size: 20px;
+            position: absolute;
+            left: 26px;
+          }
+          .tagging {
+            top: 16px;
+          }
         }
-        .classE::before {
-          content: '·';
-          color: #1A1C1F;
-          font-size: 20px;
-        }
+        
         .detailed {
           background:rgba(0,204,195,0.1);
           font-size: 13px;
@@ -185,15 +203,8 @@
           border-radius:6px;
           margin-left: 24px;
         }
-
-        // 选中功能2
-        .classBorder {
-          border: 1px solid #FF0200;
-        }
         .violationName {
           position: relative;
-          // display: flex;
-          // align-items: center;
           padding: 8px 6px;
           z-index: 3;
           background-color: #FFFFFF;
@@ -203,7 +214,6 @@
           width: 730px;
           top: 20px;
           z-index: 2;
-          border-top: 1px dashed #FF0200;
           font-size: 13px;
           color: #1A1C1F;
           text-align: right;
@@ -213,8 +223,8 @@
           display: inline-block;
           text-align: left;
           margin-right: -138px;
-          margin-top: -16px;
-          line-height: 30px;
+          margin-top: -12px;
+          line-height: 20px;
           width: 114px;
         }
         .tagging::after{
@@ -224,8 +234,34 @@
           width: 10px;
           height: 10px;
           top: -6px;
-          background-color: #FF0200;
           border-radius: 10px;
+        }
+        // 选中功能2
+        .classSelected2 {
+          .violationName {
+            border: 1px solid #FF0200;
+          }
+          .tagging {
+            border-top: 1px dashed #FF0200;
+          }
+          .tagging::after {
+            background-color: #FF0200;
+          }
+        }
+        // 选中功能2
+        .classSelected3 {
+          .violationName {
+            border: 1px solid #00CCC3;
+          }
+          .tagging {
+            border-top: 1px dashed #00CCC3;
+          }
+          .tagging::after {
+            background-color: #00CCC3;
+          }
+        }
+        .classSelected2.classE, .classSelected3.classE {
+          margin-top: 8px!important;
         }
       }
       

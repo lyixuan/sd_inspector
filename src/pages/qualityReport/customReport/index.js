@@ -4,6 +4,7 @@ import { Spin } from 'antd';
 import QualitySurvey from '../component/QualitySurvey';
 import ItemSort from '../component/ItemSort';
 import SearchSelect from '../component/SearchSelect';
+import { handleDataTrace } from '@/utils/utils';
 
 
 @connect(({ qualityReport, loading }) => ({
@@ -16,12 +17,18 @@ class CustomReport extends React.Component {
     super(props);
     this.state = {
     };
+    handleDataTrace({ widgetName: `客诉质检报告`, traceName: `质检管理/客诉质检报告`,traceType:200 });
   }
 
   componentDidMount() {
+    this.props.dispatch({
+      type: 'qualityReport/getOrgMapTreeByRole',
+      payload: { },
+    });
+
     const that = this;
     const { startDate:beginDate, endDate, organization } = this.props.qualityReport;
-    if (beginDate && endDate  && (organization || organization==='')) {
+    if (beginDate && endDate  && organization) {
       this.query({ beginDate, endDate, organization });
     } else {
       setTimeout(function() {
@@ -90,9 +97,10 @@ class CustomReport extends React.Component {
                       changeDate={(params) => this.changeDate(params)}
                       changeOrganization={(params) => this.changeOrganization(params)}
                       reset={(params) => this.reset(params)}
-                      search={(params) => this.query(params)}/>
-        <QualitySurvey headers={headers} values={values} maxCount={maxCount} scrollx={true}/>
-        <div style={{marginBottom:20}}><ItemSort assortmentRankData={assortmentRankData}/></div>
+                      search={(params) => this.query(params)}
+                      traceType="客诉"/>
+        <QualitySurvey headers={headers} values={values} maxCount={maxCount} scrollx={true} traceType="客诉"/>
+        <div style={{marginBottom:20}}><ItemSort assortmentRankData={assortmentRankData} traceType="客诉"/></div>
       </Spin>
     );
   }

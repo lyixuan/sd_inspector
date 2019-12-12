@@ -1,39 +1,31 @@
-@base-green: #52C9C2;
-@base-green-shadow: rgba(82,201,194, 0.2);
-@base-blue: #61B8FF;
-@base-yellow: #FFBC00;
-@base-color: rgba(0, 0, 0, 0.65);
-@base-white: rgba(255, 255, 255, 1);
-
-.tabGroupContainer {
-  background-color: #FFFFFF;
-  padding-left: 20px;
-  :global {
-    .ant-tabs-bar {
-      border-bottom: 1px solid #FFFFFF;
-      margin: 0;
+.table {
+  margin-top: 39px;
+  // background:#fff;
+  // padding:16px 24px;
+  // box-sizing:border-box;
+  // border-radius:10px;
+  // flex: 1;
+  :global .ant-table {
+    min-height: 615px;
+    tr > th {
+      text-align: center;
     }
-    .ant-tabs-ink-bar {
-      background-color: @base-green;
+    tr > th:first-child {
+      text-align: left;
     }
-    .ant-tabs-nav .ant-tabs-tab-active {
-      color: @base-color;
+    tr > th:last-child {
+      text-align: right;
+      padding-right: 24px;
     }
   }
+  // .linkRecord {
+  //   color: #00CCC3;
+  //   cursor: pointer;
+  // }
 }
-
-
-// 导出按钮样式
-.exportBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  img {width: 14px;margin-right: 6px;}
-}
-.exportBtn:hover, .exportBtn:focus {
-  color: @base-white;
-  background-color: @base-yellow;
-  border-color: @base-yellow!important;
+.linkRecord {
+  color: #00ccc3;
+  cursor: pointer;
 }
 
 // IM悬浮框样式
@@ -42,19 +34,29 @@
   width: 520px;
   :global {
     .ant-tooltip-arrow {
-      border-right-color: #ffffff!important;
+      border-right-color: #ffffff !important;
       //border-color: transparent transparent #fff #fff;
     }
     .ant-tooltip-inner {
       padding: 20px 10px 20px 0px;
       background-color: #ffffff;
     }
-    .ant-tooltip-content {
-      opacity: 1;
+  }
+}
+.listMarkingTooltip2 {
+  :global {
+    .ant-tooltip-arrow {
+      border-right-color: #ffffff !important;
+      //   border-color: transparent transparent #fff #fff;
+    }
+    .ant-tooltip-inner {
+      //   padding: 20px 10px 20px 0px;
+      background-color: #ffffff;
+      color: #000;
     }
   }
 }
-// 悬浮框对话样式
+// // 悬浮框对话样式
 .behavior {
   padding: 0px;
   margin-bottom: 0;
@@ -74,9 +76,9 @@
   color: #ffffff;
   text-align: right;
   padding-right: 10px;
-  flex-shrink:0;
+  flex-shrink: 0;
   font-size: 13px;
-  color: #1B1C20;
+  color: #1b1c20;
 }
 .step .content {
   //border-left: 1px solid #00CCC3;
@@ -90,7 +92,7 @@
   position: absolute;
   left: 0px;
   top: 10px;
-  border-left: 1px solid #00CCC3;
+  border-left: 1px solid #00ccc3;
   height: 100%;
 }
 .step:last-child .content:after {
@@ -104,7 +106,7 @@
 .step .content .bigDot {
   width: 12px;
   height: 12px;
-  background: #00CCC3;
+  background: #00ccc3;
   border-radius: 50px;
   position: absolute;
   left: -6px;
@@ -173,13 +175,13 @@
 .behavior .chatRight .avatar p {
   font-size: 12px;
   transform: scale(0.9);
-  margin-bottom:0;
+  margin-bottom: 0;
 }
 .behavior .chatLeft,
 .behavior .chatRight {
   display: flex;
   align-items: flex-start;
-  padding-bottom:10px;
+  padding-bottom: 10px;
 }
 .behavior .chatLeft .chatContent {
   max-width: 240px;
@@ -191,7 +193,7 @@
   word-break: break-all;
   color: #595959;
   .linkRoute {
-    color: #52C9C2;
+    color: #52c9c2;
     text-decoration: underline;
   }
 }
@@ -200,19 +202,19 @@
   //width: 260px;
   text-align: center;
   padding: 3px;
-  border: 1px solid #E8E8E8;
+  border: 1px solid #e8e8e8;
   border-radius: 0;
   //margin-left: 15px;
   img {
     width: 254px;
   }
   .triangle {
-    border-color:transparent #E8E8E8 transparent transparent;
-    top:10px;
-    left:51px;
+    border-color: transparent #e8e8e8 transparent transparent;
+    top: 10px;
+    left: 51px;
   }
-  .triangle em{
-    border-color:transparent #FFFFFF transparent transparent;
+  .triangle em {
+    border-color: transparent #ffffff transparent transparent;
   }
 }
 .behavior .chatLeft .triangle {
@@ -245,7 +247,7 @@
 }
 .behavior .chatRight .chatContent {
   max-width: 240px;
-  background-color: #00CCC3;
+  background-color: #00ccc3;
   //border: 1px solid #00CCC3;
   border-radius: 5px;
   // margin-right: 15px;
@@ -264,30 +266,32 @@
   //width: 260px;
   text-align: center;
   padding: 3px;
-  border: 1px solid #E8E8E8;
+  border: 1px solid #e8e8e8;
   border-radius: 0;
   //margin-right: 15px;
   img {
     width: 254px;
   }
   .triangle {
-    border-color:transparent transparent transparent #E8E8E8;
-    top:10px;
-    right:41px;
+    border-color: transparent transparent transparent #e8e8e8;
+    top: 10px;
+    right: 41px;
   }
-  .triangle em{
-    border-color:transparent transparent transparent #FFFFFF;
+  .triangle em {
+    border-color: transparent transparent transparent #ffffff;
   }
 }
-.behavior .chatRight .miniApp, .behavior .chatLeft .miniApp{
-  background:#fff;
+.behavior .chatRight .miniApp,
+.behavior .chatLeft .miniApp {
+  background: #fff;
   border: 1px solid #48c2ba;
-  color:#000;
-  padding-top:10px;
-  padding-bottom:10px;
+  color: #000;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
-.behavior .chatRight .miniApp img,  .behavior .chatLeft .miniApp img{
-  margin-right:8px;
+.behavior .chatRight .miniApp img,
+.behavior .chatLeft .miniApp img {
+  margin-right: 8px;
 }
 .behavior .chatRight .triangle {
   display: block;
@@ -295,7 +299,7 @@
   height: 0;
   border-width: 5px 0 5px 5px;
   border-style: solid;
-  border-color: transparent transparent transparent #00CCC3;
+  border-color: transparent transparent transparent #00ccc3;
   position: absolute;
   top: 10px;
   right: -5px;
@@ -306,7 +310,7 @@
   height: 0;
   border-width: 5px 0 5px 5px;
   border-style: solid;
-  border-color: transparent transparent transparent #00CCC3;
+  border-color: transparent transparent transparent #00ccc3;
   position: absolute;
   top: -5px;
   right: 2px;
@@ -324,76 +328,4 @@
 .step .prise img {
   width: 15px;
   vertical-align: middle;
-}
-
-// bbs nps悬浮框样式
-.listMarkingTooltipOthers {
-  max-width: 520px;
-  :global {
-    .ant-tooltip-arrow {
-      border-right-color: #ffffff!important;
-      //border-color: transparent transparent #fff #fff;
-    }
-    .ant-tooltip-inner {
-      padding: 14px;
-      background-color: #ffffff;
-      color: #1B1C20;
-      font-size: 13px;
-    }
-    .ant-tooltip-content {
-      opacity: 1;
-    }
-  }
-}
-.behaviorOthers {
-  margin-bottom: 0;
-  max-height: 352px;
-  overflow-y: auto;
-}
-// 表格宽度自适应
-.textEllipsis {
-  display: inline-block;
-  max-width: 100%;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-@media screen and (min-width: 0) and (max-width: 1200px) {
-  .textorg {
-    width: 120px;
-  }
-  .textname {
-    width: 60px;
-  }
-}
-@media screen and (min-width: 1200px) and (max-width: 1500px) {
-  .textorg {
-    width: 180px;
-  }
-  .textname {
-    width: 60px;
-  }
-}
-@media screen and (min-width: 1500px) and (max-width: 3000px) {
-  .textname {
-    width: 100px;
-  }
-}
-.textEllipsisContent {
-  width: 180px;
-  height: 26px;
-  line-height: 26px;
-  border-radius: 6px;
-  background-color: #F6F7FA;
-  color: #1B1C20;
-  padding: 0 6px;
-  vertical-align: middle; 
-}
-.textname {
-  color: #00CCC3;
-  cursor: pointer;
-}
-// 星星的颜色
-.shapeMargin {
-  margin: 0 2px;
 }

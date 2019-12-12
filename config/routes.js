@@ -183,11 +183,11 @@ export const routes = [
             component: './qualityReport/classReport',
             name: '班主任质检报告',
           },
-          // {
-          //   path: '/qualityReport/customReport',
-          //   component: './qualityReport/customReport',
-          //   name: '客诉质检报告',
-          // },
+          {
+            path: '/qualityReport/customReport',
+            component: './qualityReport/customReport',
+            name: '客诉质检报告',
+          },
         ],
       },
 

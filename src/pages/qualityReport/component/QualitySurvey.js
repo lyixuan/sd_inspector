@@ -12,6 +12,36 @@ export default class QualitySurvey extends React.Component {
     // this.getDom();
   }
 
+  getDom =()=>{
+    let domLeft = document.querySelector(".qualitySurveyTable .ant-table-fixed-left .ant-table-body-outer .ant-table-tbody tr:last-child");
+    let dom0 = document.querySelector(".qualitySurveyTable .ant-table-scroll .ant-table-body .ant-table-tbody tr:last-child");
+
+    const that = this;
+    if(!(domLeft && dom0)){
+      setTimeout(function() {
+        that.getDom();
+      }, 500);
+    } else {
+      let domLeft1 = domLeft.querySelector("td:nth-child(1)");
+      let domLeft2 = domLeft.querySelector("td:nth-child(2)");
+      let dom1 = dom0.querySelector("td:nth-child(1)");
+      let dom1List = dom0.querySelectorAll("td");
+      domLeft.setAttribute('style',"position: absolute;");
+      dom0.setAttribute('style',"position: absolute;");
+      domLeft1.setAttribute('style',"text-align: left;width:90px;");
+      domLeft2.setAttribute('style',"text-align: right;width:70px;");
+
+      dom1.setAttribute('style',"text-align: left;width:90px;");
+      dom1List.forEach((domItem)=>{
+        domItem.setAttribute('style',"text-align: center;width:70px;")
+      })
+    }
+      // dom.removeChild(rmdom1)
+      // dom.removeChild(rmdom2)
+      // dom.removeChild(rmdom3)
+    // }
+  };
+
   getColumns = (lastLineIdx) => {
     const { name, totalCountName, specialViolationName, dimensionNameList = [] } = this.props.headers || {};
     const {maxCount,scrollx} = this.props;
@@ -20,18 +50,21 @@ export default class QualitySurvey extends React.Component {
         title: name,
         dataIndex: 'name',
         align:'left',
-        width:130,
+        width:scrollx?90:130,
+        fixed: 'left',
       },
       {
         title: totalCountName,
         dataIndex: 'totalCount',
         align:'right',
-        width:90,
+        width:scrollx?70:90,
+        fixed: 'left',
       },
       {
         title: specialViolationName,
         dataIndex: 'specialViolationCount',
         align:'center',
+        width:scrollx?70:'',
       }];
 
     const col2 = dimensionNameList && dimensionNameList.map((val) => {
@@ -39,7 +72,7 @@ export default class QualitySurvey extends React.Component {
         title:<span className={style.ttbg}><span className={style.dotStl} style={{ background: '#F34E2D' }}/> <span>{val.primaryViolationName}</span></span>,
         align:'center',
         dataIndex: val.dimensionId + val.primaryViolationName,
-        width:scrollx?76:'',
+        width:scrollx?70:'',
         render: (text, record,idx) => {
           return (
             <>
@@ -52,7 +85,7 @@ export default class QualitySurvey extends React.Component {
         title:<span><span className={style.dotStl} style={{ background: '#F0963C' }}/> <span>{val.secondViolationName}</span></span>,
         align:'center',
         dataIndex: val.dimensionId + val.secondViolationName,
-        width:scrollx?76:'',
+        width:scrollx?70:'',
         render: (text, record,idx) => {
           return (
             <>
@@ -65,7 +98,7 @@ export default class QualitySurvey extends React.Component {
         title: <span><span className={style.dotStl} style={{ background: '#32B67A' }}/> <span>{val.thirdViolationName}</span></span>,
         align:'center',
         dataIndex: val.dimensionId + val.thirdViolationName,
-        width:scrollx?76:'',
+        width:scrollx?70:'',
         render: (text, record,idx) => {
           return (
             <>
@@ -112,31 +145,8 @@ export default class QualitySurvey extends React.Component {
     return {data,column};
   };
 
-  getDom =()=>{
-    const {scrollx} = this.props;
-    let dom0 = scrollx?document.querySelector(".qualitySurveyTable .ant-table-fixed .ant-table-thead tr:nth-child(1)"):document.querySelector(".qualitySurveyTable .ant-table-thead tr:nth-child(1)");
-    let dom = scrollx?document.querySelector(".qualitySurveyTable .ant-table-fixed .ant-table-thead tr:nth-child(2)"):document.querySelector(".qualitySurveyTable .ant-table-thead tr:nth-child(2)");
-
-    let spandom1 = dom0.querySelector("th:nth-child(1)");
-    let spandom2 = dom0.querySelector("th:nth-child(2)");
-    let spandom3 = dom0.querySelector("th:nth-child(3)");
-    let rmdom1 = dom.querySelector("th:nth-child(1)");
-    let rmdom2 = dom.querySelector("th:nth-child(2)");
-    let rmdom3 = dom.querySelector("th:nth-child(3)");
-    if(!dom){
-      this.getDom();
-    } else {
-      spandom1.setAttribute('rowspan',2)
-      spandom2.setAttribute('rowspan',2)
-      spandom3.setAttribute('rowspan',2)
-      dom.removeChild(rmdom1)
-      dom.removeChild(rmdom2)
-      dom.removeChild(rmdom3)
-    }
-  };
-
   render() {
-
+    // this.getDom();
     const {scrollx} = this.props;
     const scrollData = scrollx?{x:'max-content',y:470} : {y:470};
     const {data,column} = this.getValues();

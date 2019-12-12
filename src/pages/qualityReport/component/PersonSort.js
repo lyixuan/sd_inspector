@@ -22,10 +22,11 @@ export default class PersonRank extends React.Component {
         dataIndex: 'itemName',
         width:250,
         render: (text, record) => {
+          const traceStr = JSON.stringify({widgetName:`点击质检归属人-${this.props.traceType}`,traceName:`质检管理/${this.props.traceType}质检报告/归属人质检情况排行/点击质检归属人`});
           return (
             <>
               <Tooltip placement="right" title="点击查看质检详情" >
-                <span style={{cursor:'pointer'}}  data-trace='{"widgetName":"点击质检归属人-班主任","traceName":"质检管理/班主任质检报告/归属人质检情况排行/点击质检归属人"}' onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {qualityType:"2",userName:record.userName})}>{`${record.collegeName ? record.collegeName : ''}${record.groupName ? `/${record.groupName}` : ''}`}</span>
+                <span style={{cursor:'pointer'}}  data-trace={traceStr} onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {qualityType:"2",userName:record.userName})}>{`${record.collegeName ? record.collegeName : ''}${record.groupName ? `/${record.groupName}` : ''}`}</span>
               </Tooltip >
             </>
           );
@@ -75,11 +76,11 @@ export default class PersonRank extends React.Component {
 
   render() {
     const { personRankData } = this.props;
-
+    const traceStr = JSON.stringify({widgetName:`点击质检管理-${this.props.traceType}`,traceName:`质检管理/${this.props.traceType}质检报告/归属人质检情况排行/点击质检管理`});
     return (
       <div className={style.qualitySurvey} style={{marginTop:20}}>
         <div className={style.title}>归属人质检情况排行 <Tooltip placement="top" title="点击查看质检详情" >
-          <img data-trace='{"widgetName":"点击质检管理-班主任","traceName":"质检管理/班主任质检报告/归属人质检情况排行/点击质检管理"}'  onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {})} src={guanli} alt=""/>
+          <img data-trace={traceStr}  onClick={()=>this.jumpQualityRouter('qualityAppeal/qualityAppeal', {})} src={guanli} alt=""/>
         </Tooltip ></div>
         <div style={{height:545}}>
           <BIWrapperTable

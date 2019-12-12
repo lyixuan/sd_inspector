@@ -36,7 +36,7 @@ class Dimension extends React.Component {
               <span className={record.num > 0 ? styles.num : ''}>{record.num}{record.unit} {record.num > 0 ?<img src={mingxi} alt=""/> : ''}</span>
             </div>
           } else {
-            return <span style={{color: '#1B1C20'}}>{text}</span>
+            return <span onClick={() => this.onClickRow(record)} className={styles.dimensionSpan}>{text}</span>
           }
         }
       }, {
@@ -83,15 +83,13 @@ class Dimension extends React.Component {
     return params
   }
   onClickRow = (record) => {
-    if (record.level === 4 && record.num) {
-      const obj = { widgetName: record.dimensionName, traceName: `数据服务/学分明细/${record.dimensionName}` }
-      const { BI = {} } = window;
+    handleDataTrace({ widgetName: record.dimensionName, traceName: `数据服务/学分明细/${record.dimensionName}` })
+    if ((record.level === 4 && record.num) || record.level !== 4) {
       this.props.onChangeParams(record.id, 'dementionId');
       // window.scrollTo({ // 产品去掉了
       //   top: 0,
       //   behavior: "smooth"
       // })
-      BI.traceV && BI.traceV(obj);
     }
   }
   // 正负极点击事件
@@ -111,7 +109,6 @@ class Dimension extends React.Component {
           expandedRowKeys.splice(expandedRowKeys.indexOf(delVal), 1)
         }
       });
-      // handleDataTrace({ "widgetName": `${record.dimensionName}关闭`, "traceName": `小德学分/学分/${record.dimensionName}关闭` })
     }
     this.setState({expandedRowKeys});
   }
