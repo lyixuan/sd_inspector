@@ -16,7 +16,7 @@ export async function getDimensionDetail(data) {
 
 // 学分—维度详情 重播 直播
 export async function attendanceDeail(data) {
-  return request('/credit/dimension/detail', { method: 'post', data });
+  return request('/v1.9/credit/dimension/detail', { method: 'post', data });
 }
 // 学分—权限
 export async function getUserInfo(params) {
