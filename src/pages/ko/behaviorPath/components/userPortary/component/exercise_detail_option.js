@@ -98,7 +98,7 @@ export function getOption(obj) {
         },
       },
     ],
-    color: ['#FDBB2C', '#22CBC2', '#BD10E0'],
+    color: ['#FDBB2C', '#22CBC2', '#88D2FF'],
     series: [
       {
         name: '做题数量',
@@ -164,7 +164,7 @@ export function getOption(obj) {
         yAxisIndex: 1,
         data: newCorrectRatio,
         lineStyle: {
-          color: '#BD10E0',
+          color: '#88D2FF',
         },
         smooth: true,
       },
