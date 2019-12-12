@@ -197,6 +197,11 @@
 .scorllOrder {
   padding-top: 8px;
   height: 150px;
+  overflow-y: hidden;
+}
+.scorllOrder:hover {
+  padding-top: 8px;
+  height: 150px;
   overflow-y: auto;
 }
 
