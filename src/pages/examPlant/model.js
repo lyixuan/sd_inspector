@@ -1,4 +1,6 @@
 import { message } from 'antd';
+import moment from 'moment';
+
 import { msgF } from '@/utils/utils';
 import {
   getExamList,
@@ -14,9 +16,28 @@ export default {
     selectVal: null,
     provinceExamList: [],
     systemTime: '',
+    // startTime: moment('2019-09-01'),
+    // endTime: moment(new Date().getTime())
+    startTime: '',
+    endTime: '',
+    visible: false
   },
 
   effects: {
+    *checkDialog({ payload }, { call, put }) {
+      const { visible } = payload.params;
+      yield put({
+        type: 'save',
+        payload: { visible },
+      })
+    },
+    *updateDate({ payload }, { call, put }) {
+      const { startTime, endTime } = payload.params;
+      yield put({
+        type: 'saveTime',
+        payload: { startTime, endTime },
+      })
+    },
     *getExamList({ }, { call, put }) {
       const response = yield call(getExamList);
       const res = yield call(getProvinceData, { id: response.data[0].id })
@@ -53,6 +74,13 @@ export default {
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
+    },
+    saveTime(state, { payload }) {
+      const value = {
+        startTime: moment(payload.startTime),
+        endTime: moment(payload.endTime)
+      }
+      return { ...state, ...value };
     },
     saveData(state, { payload }) {
       let data = payload.provinceExamList

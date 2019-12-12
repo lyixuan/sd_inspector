@@ -195,5 +195,5 @@ body > a {
 
 /* 统一修改tooltip 透明度，与echart的tooltip统一*/
 :global .ant-tooltip-content{
-  opacity: 0.8;
+   opacity: 0.8;
 }

@@ -282,14 +282,19 @@ class GuessEdit extends React.Component {
       message.info('不能少于四条')
       return false;
     }
+    const config = {
+      content: <div style={{ lineHeight: '26px' }}><Icon type="check-circle" />保存成功<br />注：由于IM缓存问题，卡片内配置的问题，会在24小时内显示。</div>,
+      duration: 3,
+      onClose: () => { this.handleBread() },
+      icon: <div style={{ display: 'none' }}></div>
+
+    }
     this.props.dispatch({
       type: 'hotQuestion/guessTempSave',
       payload: { params: data2 },
       callBack: (data) => {
         if (data.code == 200) {
-          message.success('保存成功', 2, () => {
-            this.handleBread();
-          })
+          message.success(config)
 
         }
       }
@@ -407,6 +412,7 @@ class GuessEdit extends React.Component {
     const { sunlandsFlag, robotName } = dataSource
     const auth = userType === 'boss' || userType === 'admin';
     const { loading, loadingSubmit, loadingReset } = this.props
+    const { robotId } = this.props.location.query
     return (
       <div className={styles.editContainer}>
         <div className={styles.breadCustom}>
@@ -451,6 +457,7 @@ class GuessEdit extends React.Component {
                 loading ? <BILoading isLoading={loading} height="200px"></BILoading> :
                   dataSource.list && dataSource.list.map((item, index) => {
                     return <Line
+                      robotId={robotId}
                       dataSource={item || {}}
                       handleEdit={this.handleEdit}
                       handleDelete={this.handleDelete}
@@ -495,7 +502,7 @@ class GuessEdit extends React.Component {
             <div className={`${styles.formItem} ${styles.formItem2}`}>
               <label>答案：</label>
               <div className={styles.inputs}>
-                <TextArea value={answerContent} onChange={this.answerChange} placeholder='请输入答案' />
+                <TextArea value={answerContent} maxLength={1000} onChange={this.answerChange} placeholder='请输入答案' />
               </div>
             </div>
             <div className={styles.defaultBtn}>
