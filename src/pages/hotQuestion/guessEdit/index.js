@@ -502,7 +502,7 @@ class GuessEdit extends React.Component {
             <div className={`${styles.formItem} ${styles.formItem2}`}>
               <label>答案：</label>
               <div className={styles.inputs}>
-                <TextArea value={answerContent} onChange={this.answerChange} placeholder='请输入答案' />
+                <TextArea value={answerContent} maxLength={1000} onChange={this.answerChange} placeholder='请输入答案' />
               </div>
             </div>
             <div className={styles.defaultBtn}>

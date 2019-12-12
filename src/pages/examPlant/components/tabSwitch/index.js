@@ -59,7 +59,7 @@ class TabSwitch extends React.Component {
   // 时间控件可展示的时间范围
   disabledDate = current => {
     const start = this.props.beginDate
-    return current > moment().endOf('day') || current < moment(start);
+    return current > moment().endOf('day').subtract(1, 'days') || current < moment(start);
   };
 
   render() {

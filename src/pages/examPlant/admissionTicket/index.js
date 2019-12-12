@@ -23,7 +23,7 @@ class AdmissionTicket extends React.Component {
   initDate = () => {
     return {
       startTime: moment('2019-09-01'),
-      endTime: moment(new Date().getTime())
+      endTime: moment(new Date().getTime()).subtract(1, 'days')
     }
   }
   tabParams = () => {

@@ -167,7 +167,8 @@ class RightBox extends React.Component {
             </CopyToClipboard>}
             {
               ewmFlag
-                ? <img src={btnewm} alt="" onClick={this.openEwmModal} />
+                ? null
+                // ? <img src={btnewm} alt="" onClick={this.openEwmModal} />
                 : null
             }
           </Spin>

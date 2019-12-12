@@ -170,28 +170,42 @@ function TeacherOrStudent(props) {
 class Attendance extends React.Component {
   columns = () => {
     const { detailsData } = this.props;
-    const { titleFive } = detailsData;
     const columns = [
       {
         title: '科目',
+        ellipsis: true,
         dataIndex: 'titleOne',
         key: 'titleOne',
+        width: '20%',
+        render: (titleOne, record) => {
+          return (
+            <Tooltip title={titleOne}>
+              <span style={{ cursor: 'pointer' }}>{titleOne}</span>
+            </Tooltip>
+          );
+        },
       },
       {
         title: '直播出勤率',
         dataIndex: 'titleTwo',
         key: 'titleTwo',
+        width: '20%',
         render: (titleTwo, record) => {
-          return <div style={{ textAlign: 'center' }}>{titleTwo}</div>;
+          return <div style={{ textAlign: 'center' }}>{`${(titleTwo * 100).toFixed(2)}%`}</div>;
         },
       },
       {
-        title: '直播达标随堂考不达标人次',
+        title: (
+          <Tooltip title="学员直播听课时长达标，但随堂考完程度未达标">
+            <span style={{ cursor: 'pointer' }}>直播达标随堂考不达标人次</span>
+          </Tooltip>
+        ),
+        width: '20%',
         dataIndex: 'titleThree',
         key: 'titleThree',
         render: (titleThree, record) => {
           const percent = record.titleThreeRatio * 100 + '%';
-          const money = thousandsFormatBigger(titleThree);
+          const money = titleThree;
           return (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <BIWrapperProgress
@@ -212,12 +226,17 @@ class Attendance extends React.Component {
       //   },
       // },
       {
-        title: '重播达标随堂考不达标人次',
+        title: (
+          <Tooltip title="学员重播听课时长达标，但随堂考完程度未达标（不包含直播听课时长达标数据）">
+            <span style={{ cursor: 'pointer' }}>重播达标随堂考不达标人次</span>
+          </Tooltip>
+        ),
+        width: '20%',
         dataIndex: 'titleFour',
         key: 'titleFour',
         render: (titleFour, record) => {
           const percent = record.titleFourRatio * 100 + '%';
-          const money = thousandsFormatBigger(titleFour);
+          const money = titleFour;
           return (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <BIWrapperProgress
@@ -238,18 +257,23 @@ class Attendance extends React.Component {
       //   },
       // },
       {
-        title: '重播不达标人次',
+        title: (
+          <Tooltip title="学员重播听课时长不达标（不包含直播听课时长达标数据）">
+            <span style={{ cursor: 'pointer' }}>重播不达标人次</span>
+          </Tooltip>
+        ),
+        width: '20%',
         dataIndex: 'titleFive',
         key: 'titleFive',
         render: (titleFive, record) => {
           const percent = record.titleFiveRatio * 100 + '%';
-          const money = thousandsFormatBigger(titleFive);
+          const money = titleFive;
           return (
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: '16px' }}>
               <BIWrapperProgress
                 text={money}
                 percent={percent}
-                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'center' }}
+                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'flex-end' }}
               />
             </div>
           );
@@ -394,7 +418,7 @@ class Attendance extends React.Component {
     if (!detailsData) {
       return <div></div>;
     }
-    const dataSource = (detailsData && detailsData.data) || [];
+    const dataSource = (detailsData && detailsData.list) || [];
     const totalCount = detailsData.total || 0;
     return (
       <BIWrapperTable
@@ -416,22 +440,6 @@ class Attendance extends React.Component {
         rowKey={record => record.id}
         smalled={true}
       />
-      // <BITable
-      //   columns={this.columns()}
-      //   dataSource={dataSource}
-      //   rowClassName={this.setRowClassName}
-      //   pagination={{
-      //     onChange: this.onChangeSize,
-      //     defaultPageSize: pageSize,
-      //     current: currentPage,
-      //     total: totalCount,
-      //     hideOnSinglePage: true,
-      //     showQuickJumper: true,
-      //   }}
-      //   rowKey={(record, index) => record.id + '' + index}
-      //   loading={this.props.loading}
-      //   smalled={true}
-      // />
     );
   }
 }
