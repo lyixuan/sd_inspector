@@ -196,7 +196,7 @@
 .scorllOrder {
   padding-top: 8px;
   height: 150px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .boxFlex {
   display: flex;
