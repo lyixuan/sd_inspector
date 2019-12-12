@@ -19,7 +19,7 @@ export default {
 
   effects: {
     *getInitList(_, { put }) {
-      yield put({ type: 'save', payload: { flatTreeList: undefined, logTreeList: [] } });
+      yield put({ type: 'save', payload: { flatTreeList: undefined, logTreeList: [], dateChangeRange: '' } });
     },
     *getFindTreeList({ payload, callback }, { call, put }) {
       const params = payload.params;
