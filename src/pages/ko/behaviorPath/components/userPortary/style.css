@@ -197,6 +197,7 @@
   padding-top: 8px;
   height: 150px;
   overflow-y: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 .boxFlex {
   display: flex;
