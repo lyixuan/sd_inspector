@@ -18,10 +18,11 @@ class SearchSelect extends React.Component {
 
   onFormChange = (value, vname) => {
     if ('dateRange' === vname) {
-      handleDataTrace({ widgetName: `选择时间-班主任`, traceName: `质检管理/班主任质检报告/选择时间` });
+
+      handleDataTrace({ widgetName: `选择时间-${this.props.traceType}`, traceName: `质检管理/${this.props.traceType}质检报告/选择时间` });
       this.props.changeDate && this.props.changeDate({startDate: value[0], endDate: value[1]});
     } else if ('organization' === vname) {
-      handleDataTrace({ widgetName: `选择组织-班主任`, traceName: `质检管理/班主任质检报告/选择组织` });
+      handleDataTrace({ widgetName: `选择组织-${this.props.traceType}`, traceName: `质检管理/${this.props.traceType}质检报告/选择组织` });
       this.props.changeOrganization && this.props.changeOrganization({organization:value});
     }
   };
@@ -37,7 +38,7 @@ class SearchSelect extends React.Component {
       return;
     }
     this.props.search && this.props.search(params);
-    handleDataTrace({ widgetName: `点击查询-班主任`, traceName: `质检管理/班主任质检报告/查询` });
+    handleDataTrace({ widgetName: `点击查询-${this.props.traceType}`, traceName: `质检管理/${this.props.traceType}质检报告/查询` });
   };
   reset = () => {
     const { startDateBak, endDateBak,organizationBak} = this.props;

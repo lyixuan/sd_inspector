@@ -53,8 +53,8 @@ class RegistTouch extends React.Component {
   // }
   initDate = () => {
     return {
-      startTime: moment('2019-12-08'),
-      endTime: moment(new Date().getTime())
+      startTime: moment('2019-12-12'),
+      endTime: moment(new Date().getTime()).subtract(1, 'days')
     }
   }
   getParams = (type) => {
@@ -112,7 +112,7 @@ class RegistTouch extends React.Component {
     return (
       <div className={styles.ticketPage}>
         <TabSwitch
-          beginDate={'2019-10-04'}
+          beginDate={'2019-12-12'}
           startTime={startTime}
           endTime={endTime}
           getList={this.getList}

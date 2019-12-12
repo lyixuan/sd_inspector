@@ -24,10 +24,11 @@ export default class ItemSort extends React.Component {
         dataIndex: 'itemName',
         width:250,
         render: (text, record) => {
+          const traceStr = JSON.stringify({widgetName:`点击违规项-${this.props.traceType}`,traceName:`质检管理/${this.props.traceType}质检报告/违规项质检情况排行/点击违规项`});
           return (
             <>
               <Tooltip placement="right" title="点击查看质检细则" >
-                <span style={{cursor:'pointer'}} data-trace='{"widgetName":"点击违规项-班主任","traceName":"质检管理/班主任质检报告/违规项质检情况排行/点击违规项"}'  onClick={()=>jumpGobalRouter('classQuality/qualityType/2', {keyWord: text})}>{text}</span>
+                <span style={{cursor:'pointer'}} data-trace={traceStr}  onClick={()=>jumpGobalRouter('classQuality/qualityType/2', {keyWord: text})}>{text}</span>
               </Tooltip >
             </>
           );
@@ -77,10 +78,11 @@ export default class ItemSort extends React.Component {
 
   render() {
     const { assortmentRankData } = this.props;
+    const traceStr = JSON.stringify({widgetName:`点击质检手册入口-${this.props.traceType}`,traceName:`质检管理/${this.props.traceType}质检报告/违规项质检情况排行/点击质检手册入口`});
     return (
       <div className={style.qualitySurvey} style={{marginTop:20}}>
         <div className={style.title}>违规项质检情况排行 <Tooltip placement="top" title="点击查看质检细则" >
-          <img data-trace='{"widgetName":"点击质检手册入口-班主任","traceName":"质检管理/班主任质检报告/违规项质检情况排行/点击质检手册入口"}' onClick={()=>jumpGobalRouter('classQuality/qualityType/2', {})} src={shouce} alt=""/>
+          <img data-trace={traceStr} onClick={()=>jumpGobalRouter('classQuality/qualityType/2', {})} src={shouce} alt=""/>
         </Tooltip ></div>
         <div style={{height:545}}>
           <BIWrapperTable
