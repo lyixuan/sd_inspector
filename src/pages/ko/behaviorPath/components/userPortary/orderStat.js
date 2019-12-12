@@ -147,7 +147,9 @@ export default class OrderStat extends React.Component {
               <div>净流水总额（元）</div>
             </Col>
           </Row>
-          <div className={styles.scorllOrder}>
+          <div
+            className={orderList && orderList.length > 2 ? styles.scorllOrder : styles.scorllOrder1}
+          >
             {orderList.length === 0 ? <Empty /> : orderRender}
           </div>
         </div>
