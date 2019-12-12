@@ -273,8 +273,6 @@ class ClassQuality extends React.Component {
                         <span>
                           {funTypeSelected === 2 ? <>违规次数：{item.violationNumber}次 <br/>违规人数：{item.personNumber}人</> : ''}
                           {funTypeSelected === 3 && item.modifyDate ? <>{getMoemnt(item.modifyDate)} <br/>{item.modifyTag}</> : ''}
-                          {funTypeSelected === 3 && item.modifyDate && item.detailModifyDate ? <br/> : ''}
-                          {funTypeSelected === 3 && item.detailModifyDate ? <>{getMoemnt(item.detailModifyDate)} <br/>{item.detailModifyTag}</> : ''}
                         </span>
                       </span>
                     }

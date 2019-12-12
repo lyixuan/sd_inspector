@@ -170,7 +170,6 @@ function TeacherOrStudent(props) {
 class Attendance extends React.Component {
   columns = () => {
     const { detailsData } = this.props;
-    const { titleFive } = detailsData;
     const columns = [
       {
         title: '科目',
@@ -182,7 +181,7 @@ class Attendance extends React.Component {
         dataIndex: 'titleTwo',
         key: 'titleTwo',
         render: (titleTwo, record) => {
-          return <div style={{ textAlign: 'center' }}>{titleTwo}</div>;
+          return <div style={{ textAlign: 'center' }}>{`${(titleTwo*100).toFixed(2)}%`}</div>;
         },
       },
       {
@@ -390,11 +389,11 @@ class Attendance extends React.Component {
     });
   };
   render() {
-    const { detailsData, pageSize = 15, currentPage } = this.props;
+    const { detailsData, pageSize = 15, currentPage } = this.props;   
     if (!detailsData) {
       return <div></div>;
     }
-    const dataSource = (detailsData && detailsData.data) || [];
+    const dataSource = (detailsData && detailsData.list) || [];
     const totalCount = detailsData.total || 0;
     return (
       <BIWrapperTable
