@@ -250,7 +250,7 @@ class ClassQuality extends React.Component {
           <div className={styles.treeCatalog}>
             <div className={`${styles.catalog} ${flagNoData ? styles.catalogNoData : ''}`}>
               <div className={styles.title}>质检手册（{typeName})
-              {funTypeSelected === 3 ? <div className={styles.dateChange}>最近更新时间：{this.props.dateChangeRange}</div> : ''}
+              <div className={styles.dateChange}>最近更新时间：{this.props.dateChangeRange}</div> 
               </div>
              {   
                !flagNoData ? 
