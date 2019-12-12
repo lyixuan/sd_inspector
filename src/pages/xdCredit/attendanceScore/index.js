@@ -113,7 +113,7 @@ class AttendanceScore extends React.Component {
       yAxis: [
         {
           type: 'value',
-          name: '均分',
+          // name: '均分',
           // min: 0,
           // max: 10,
           // interval: 50,
@@ -121,31 +121,44 @@ class AttendanceScore extends React.Component {
           //   formatter: '{value}',
           // },
           axisLabel: {
-            color: '#000000 ',
             formatter: '{value}',
+            color:'#000000 '
           },
-          // axisLine: {
-          //   lineStyle: {
-          //     type: 'dotted',
-          //     color: 'RGBA(229, 229, 229, 0.8)',
-          //   },
-          // },
-          splitLine: {
-            lineStyle: {
-              type: 'dotted',
-              color: 'RGBA(229, 229, 229, 0.8)',
-            },
+          axisLine:{
+            lineStyle:{
+              type:'dotted',
+              color:"RGBA(229, 229, 229, 0.8)"
+            }
           },
+          splitLine:{
+            lineStyle:{
+              type:'dotted',
+              color:"RGBA(229, 229, 229, 0.5)"
+            }
+          }
         },
         {
           type: 'value',
-          name: '环比',
+          // name: '环比',
           // min: -100,
           // max: 100,
           // interval: 20,
           axisLabel: {
             formatter: '{value} %',
+            color: '#000000',
           },
+          axisLine:{
+            lineStyle:{
+              type:'dotted',
+              color:"RGBA(229, 229, 229, 0.8)"
+            }
+          },
+          splitLine:{
+            lineStyle:{
+              type:'dotted',
+              color:"RGBA(229, 229, 229, 0.5)"
+            }
+          }
         },
       ],
       series: [
