@@ -191,7 +191,7 @@ class Attendance extends React.Component {
         key: 'titleTwo',
         width: '20%',
         render: (titleTwo, record) => {
-          return <div style={{ textAlign: 'center' }}>{`${(titleTwo * 100).toFixed(2)}%`}</div>;
+          return <div style={{ textAlign: 'center' }}>{`${(titleTwo * 100).toFixed(1)}%`}</div>;
         },
       },
       {
@@ -227,7 +227,7 @@ class Attendance extends React.Component {
       // },
       {
         title: (
-          <Tooltip title="学员重播听课时长达标，但随堂考完程度未达标（不包含直播听课时长达标数据）">
+          <Tooltip title="学员重播听课时长达标，但随堂考完成度未达标（不包含直播听课时长达标数据）">
             <span style={{ cursor: 'pointer' }}>重播达标随堂考不达标人次</span>
           </Tooltip>
         ),

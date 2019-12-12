@@ -267,7 +267,8 @@ class CreditImDetials extends React.Component {
       callback: res => {
         const { type } = res;
         if (dimensionType === 1) { // 质检
-          window.open(`/inspector/qualityAppeal/qualityAppeal?p=${JSON.stringify({ "tabType": type + '', type,  qualityNum: appealNo, })}`);
+          const { startTime, endTime } = this.props.timeDate;
+          window.open(`/inspector/qualityAppeal/qualityAppeal?p=${JSON.stringify({ "tabType": type + '', type,  qualityNum: appealNo, reduceScoreBeginDate: startTime, reduceScoreEndDate: endTime})}`);
         } else { // 其它
           const dimensionData = constants.DIMENSION_TYPE.find(op => op.name === appealObj[dimensionType]);
           const params = { "page": 1, "pageSize": 30, "dimensionType": dimensionData ? dimensionData.id : constants.DIMENSION_TYPE[0].id };
