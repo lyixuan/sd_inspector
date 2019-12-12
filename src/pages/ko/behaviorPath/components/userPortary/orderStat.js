@@ -43,7 +43,7 @@ export default class OrderStat extends React.Component {
           {item.refundDateList &&
             item.refundDateList.map(item => {
               return (
-                <p style={{ color: '#fff' }}>
+                <p style={{ color: '#fff', marignTop: '5px' }}>
                   {item.date}
                   {item.type === 2 && <span style={{ marginLeft: '5px' }}>发起退费</span>}
                   {item.type === 3 && <span style={{ marginLeft: '5px' }}>退挽成功</span>}
@@ -102,8 +102,12 @@ export default class OrderStat extends React.Component {
           <div className={styles.orderInfo}>
             <h4>
               {item.packageName}
-              {item.orderFlag && item.orderFlag === 2 && <span className={styles.orderStatus2}>退</span>}
-              {item.orderFlag && item.orderFlag === 3 && <span className={styles.orderStatus3}>挽</span>}
+              {item.orderFlag && item.orderFlag === 2 && (
+                <span className={styles.orderStatus2}>退</span>
+              )}
+              {item.orderFlag && item.orderFlag === 3 && (
+                <span className={styles.orderStatus3}>挽</span>
+              )}
             </h4>
             <p>
               <span className={styles.price}>{thousandsFormat(item.totalAmount)}元</span>{' '}
