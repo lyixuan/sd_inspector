@@ -189,18 +189,18 @@ class Attendance extends React.Component {
         title: '直播出勤率',
         dataIndex: 'titleTwo',
         key: 'titleTwo',
-        width: '20%',
+        width: '14%',
         render: (titleTwo, record) => {
           return <div style={{ textAlign: 'center' }}>{`${(titleTwo * 100).toFixed(1)}%`}</div>;
         },
       },
       {
         title: (
-          <Tooltip title="学员直播听课时长达标，但随堂考完程度未达标">
-            <span style={{ cursor: 'pointer' }}>直播达标随堂考不达标人次</span>
+          <Tooltip title="学员直播听课时长达标，但未做随堂考的排课数">
+            <span style={{ cursor: 'pointer' }}>直播达标&未参加随堂考人次</span>
           </Tooltip>
         ),
-        width: '20%',
+        width: '23%',
         dataIndex: 'titleThree',
         key: 'titleThree',
         render: (titleThree, record) => {
@@ -227,11 +227,11 @@ class Attendance extends React.Component {
       // },
       {
         title: (
-          <Tooltip title="学员重播听课时长达标，但随堂考完成度未达标（不包含直播听课时长达标数据）">
-            <span style={{ cursor: 'pointer' }}>重播达标随堂考不达标人次</span>
+          <Tooltip title="学员重播听课时长达标，但未做随堂考的排课数（不包含直播听课时长达标数据）">
+            <span style={{ cursor: 'pointer' }}>重播达标&未参加随堂考人次</span>
           </Tooltip>
         ),
-        width: '20%',
+        width: '23%',
         dataIndex: 'titleFour',
         key: 'titleFour',
         render: (titleFour, record) => {
@@ -258,7 +258,7 @@ class Attendance extends React.Component {
       // },
       {
         title: (
-          <Tooltip title="学员重播听课时长不达标（不包含直播听课时长达标数据）">
+          <Tooltip title="学员重播听课时长不达标的排课数（不包含直播听课时长达标数据）">
             <span style={{ cursor: 'pointer' }}>重播不达标人次</span>
           </Tooltip>
         ),
