@@ -23,6 +23,10 @@ class CubePlanDetail extends React.Component {
   }
 
   componentDidMount() {
+    this.props.dispatch({
+      type: 'qualityReport/getOrgMapTreeByRole',
+      payload: { },
+    });
     const that = this;
     const { startDate:beginDate, endDate, organization } = this.props.qualityReport;
     if (beginDate && endDate && (organization || organization==='')) {

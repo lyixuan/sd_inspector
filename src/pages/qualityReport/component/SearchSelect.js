@@ -18,7 +18,6 @@ class SearchSelect extends React.Component {
 
   onFormChange = (value, vname) => {
     if ('dateRange' === vname) {
-
       handleDataTrace({ widgetName: `选择时间-${this.props.traceType}`, traceName: `质检管理/${this.props.traceType}质检报告/选择时间` });
       this.props.changeDate && this.props.changeDate({startDate: value[0], endDate: value[1]});
     } else if ('organization' === vname) {
@@ -46,7 +45,14 @@ class SearchSelect extends React.Component {
   };
 
   render() {
-    const { title, orgList = [],beginDate, endDate,organization } = this.props;
+    let { title, orgList = [],beginDate, endDate,organization,traceType } = this.props;
+    if(traceType==='客诉') {
+      orgList.forEach((item)=>{
+        delete item.children;
+      })
+    }
+
+
 
     return (
       <div className={style.topSelect}>
