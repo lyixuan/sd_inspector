@@ -630,6 +630,7 @@ class XdCredit extends React.Component {
             currentPage={this.state.page}
             detailsData={this.props.dimensionDetails}
             dementionId={dementionId}
+            timeDate={{startTime: this.state.startTime, endTime: this.state.endTime}}
           />
         );
         break;
