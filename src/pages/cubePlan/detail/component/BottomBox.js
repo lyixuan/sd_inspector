@@ -59,7 +59,7 @@ export default class BottomBox extends React.Component {
     return (
       <div className={screenRange==='small_screen'?style.bottomBoxSmall:style.bottomBoxMiddle}>
         <Spin spinning={this.props.pageLoading}>
-          <div className={style.boxBar}>
+          <div className={style['boxBar-bottom']}>
             <div>
               <span className={style.comment}>评价与建议<span className={style.line}> </span></span>
               {
