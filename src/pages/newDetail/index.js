@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import RenderRoute from '@/components/RenderRoute';
 import { connect } from 'dva';
 
 @connect(({ newDetailModal }) => ({}))
@@ -15,7 +16,11 @@ class NewDetail extends Component {
     });
   }
   render() {
-    return <></>;
+    return (
+      <>
+        <RenderRoute {...this.props} />
+      </>
+    );
   }
 }
 

@@ -568,8 +568,8 @@ export const routes = [
           {
             path: '/examPlant/registTouch',
             component: './examPlant/registTouch',
-          }
-        ]
+          },
+        ],
       },
       {
         path: '/operateActivity',
@@ -581,8 +581,8 @@ export const routes = [
           {
             path: '/operateActivity/configActivity',
             component: './operateActivity/configActivity',
-          }
-        ]
+          },
+        ],
       },
       {
         path: '/cubePlan',
@@ -622,7 +622,7 @@ export const routes = [
         routes: [
           {
             path: '/hotQuestion/index',
-            component: './hotQuestion'
+            component: './hotQuestion',
           },
           {
             path: '/hotQuestion/guessEdit',
@@ -631,9 +631,20 @@ export const routes = [
           {
             path: '/hotQuestion/relationEdit',
             component: './hotQuestion/relationEdit',
-          }
-        ]
-      }
+          },
+        ],
+      },
+      {
+        path: '/newdetail',
+        component: './newDetail',
+        routes: [
+          {
+            path: '/newdetail/analyze',
+            component: './newDetail/analyze',
+            name: '创收分析页',
+          },
+        ],
+      },
     ],
   },
 ];

@@ -1,4 +1,4 @@
-import { getUserInfo, getCurrentDateRange } from './services';
+import { getUserInfo, getCurrentDateRange, getHotList, packageRankList, risePackageRankList } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
 import moment from 'moment';
@@ -13,7 +13,7 @@ export default {
     *getUserInfo({ callback }, { call, put }) {
       const result = yield call(getUserInfo);
       if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { userInfo: result.data } });
+        yield put({ type: 'save', payload: { globalUserInfo: result.data } });
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
@@ -36,6 +36,37 @@ export default {
             },
           },
         });
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    // 获取热销榜单列表
+    *getHotList({ payload, callback }, { call, put }) {
+      const result = yield call(getHotList);
+      if (result.code === 20000) {
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    // // 热销产品包列表
+    *getPackageRankList({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(packageRankList, params);
+      if (result.code === 20000) {
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    // 飙升产品包榜单
+    *getRisePackageRankList({ payload, callback }, { call, put }) {
+      const result = yield call(risePackageRankList);
+      if (result.code === 20000) {
         return result.data;
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));

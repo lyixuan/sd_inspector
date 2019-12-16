@@ -23,7 +23,7 @@ class IndexPage extends Component {
         this.props
           .dispatch({
             type: 'xdWorkModal/getCurrentDateRange',
-            payload: { params: { userType: 'family' } },
+            // payload: { params: { userType: 'family' } },
           })
           .then(res => {
             this.setState({ date: res });
