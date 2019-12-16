@@ -162,7 +162,7 @@ class SelfHeader extends PureComponent {
 		const { visible, certificationList } = this.state;
 		const selectedGroup = this.handleMenuList();
 		return (
-			<Header style={{ padding: 0, height: '54px', lineHeight: '54px' }}>
+			<Header className={styles.headerWrap}>
 				<GlobalHeader
 					{...this.props}
 					certificationList={certificationList}
