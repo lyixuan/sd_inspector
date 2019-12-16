@@ -19,10 +19,9 @@ export async function getIncomeCollegeList(params) {
   return request('/orgMap/findCollegeShortNameList', { method: 'get', params });
 }
 
-
 // 问卷调查
 export async function getQuestionCheckUser(params) {
-  return request('/questionPage/checkUser', { method: 'get', data: params })
+  return request('/questionPage/checkUser', { method: 'get', data: params });
 }
 // 问卷调查提交
 export async function postWriteQuestion(data) {
@@ -31,20 +30,24 @@ export async function postWriteQuestion(data) {
 
 //学分对比柱状图
 export async function queryAppealDataPage(data) {
-  return request('/credit/queryAppealDataPage',{method:'POST',data:data})
+  return request('/credit/queryAppealDataPage', { method: 'POST', data: data });
 }
 //获取学院性质的接口
 export async function getFamilyType(params) {
-  return request('/orgMap/getFamilyType',{method:'get',params})
+  return request('/orgMap/getFamilyType', { method: 'get', params });
 }
-
 
 // 学分对比组织架构列表接口
 export async function getOrgList(params) {
-  return request('/credit/getOrgList',{method:'get',params})
+  return request('/credit/getOrgList', { method: 'get', params });
 }
 
 //获取学院性质的接口
 export async function getCurrentFamilyType(params) {
-  return request('/orgMap/getCurrentFamilyType',{method:'get',params})
+  return request('/orgMap/getCurrentFamilyType', { method: 'get', params });
+}
+
+// 获取当前绩效周期
+export async function getCurrentDateRange(params) {
+  return request('/deskperfpcapi/incomeKpiCommon/getCurrentDateRange', { method: 'get', params });
 }
