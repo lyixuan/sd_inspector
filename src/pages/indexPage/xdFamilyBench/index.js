@@ -6,7 +6,7 @@ import Histogram from '@/pages/indexPage/components/scoreContrast';
 import PerformanceDetail from './performanceDetail';
 import CurrentCredit from './currentCredit';
 // import CreditRank from './creditRank';
-import IncomeRank from './incomeRank';
+// import IncomeRank from './incomeRank';
 import Top from './Top';
 import Negative from './appeal';
 import Income from './income';
@@ -46,7 +46,7 @@ class XdFamily extends React.Component {
           <>
             <Income />
             <Top />
-            <IncomeRank />
+            {/* <IncomeRank /> */}
           </>
         ),
         dataTrace: '{"widgetName":"创收分析","traceName":"家族长工作台/创收分析"}',
