@@ -61,8 +61,10 @@ class CubePlanDetail extends React.Component {
       const { detailInfo = {}} = this.props.cubePlanDetail;
       if(detailInfo.usedH5 && detailInfo.usedH5===1){
         this.urlChange(31);
+        console.log(31);
       } else if(detailInfo.usedMp && detailInfo.usedMp===1){
         this.urlChange(11);
+        console.log(11);
       }
       handleDataTrace({"widgetName":`查看详情`,"traceName":`魔方计划/魔方计划列表/${this.name}`});
     });
@@ -116,12 +118,20 @@ class CubePlanDetail extends React.Component {
 
   openEwmModal = () => {
     const that = this;
-    const { copyBottomUrl } = this.props.cubePlanDetail;
-    let regexpUid = /uid_(\d+)_/;
-    let regexpCode = /componentCode=([^&]+)/;
-    let uid = regexpUid.exec(copyBottomUrl)[1];
-    let componentCode = regexpCode.exec(copyBottomUrl)[1];
-    const params = {uid, componentCode};
+    const { copyBottomUrl, detailInfo={} } = this.props.cubePlanDetail;
+    let params;
+
+    if (detailInfo.usedH5 === 1) {
+      const usedType = detailInfo.usedH5===1?31:null;
+      params = {id:this.id, usedType, usedH5: true};
+    } else {
+      let regexpUid = /uid_(\d+)_/;
+      let regexpCode = /componentCode=([^&]+)/;
+      let uid = regexpUid.exec(copyBottomUrl)[1];
+      let componentCode = regexpCode.exec(copyBottomUrl)[1];
+      params = {uid, componentCode, usedH5: false};
+    }
+
     this.props.dispatch({
       type: 'cubePlanDetail/getQRCode',
       payload: {params},

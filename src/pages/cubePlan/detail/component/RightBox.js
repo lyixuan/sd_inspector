@@ -166,7 +166,7 @@ class RightBox extends React.Component {
               <span><img src={btnfz} alt=""/></span>
             </CopyToClipboard>}
             {
-              ewmFlag
+              (ewmFlag || usedH5 === 1)
                 ? <img src={btnewm} alt="" onClick={this.openEwmModal} />
                 : null
             }
