@@ -633,7 +633,10 @@ export const routes = [
             component: './hotQuestion/relationEdit',
           }
         ]
-      }
+      }, {
+        path: '/incomeRank/index', // 创收对比详情页
+        component: './incomeRank/index',
+      },
     ],
   },
 ];

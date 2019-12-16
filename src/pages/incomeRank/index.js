@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import TopTabs from '@/pages/indexPage/components/topTabs'
+import TopTabs from '@/pages/indexPage/components/topTabs';
 import FamilyIndex from './components/familyIndex'
 import GroupIndex from './components/groupIndex';
 import styles from './style.less';
@@ -24,6 +24,12 @@ class IncomeRank extends React.Component {
         }
       ]
     }
+  }
+  componentDidMount() {
+    // 家族-学院列表
+    this.props.dispatch({
+      type: 'incomeRankModal/getIncomeCollegeList',
+    });
   }
   render() {
     return (
