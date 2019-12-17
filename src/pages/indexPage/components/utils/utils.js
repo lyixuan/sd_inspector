@@ -4,6 +4,7 @@ import { Link } from 'dva/router';
 import styles from './style.less';
 import moment from 'moment';
 
+const dateFormat = 'YYYY-MM-DD';
 const { BI = {} } = window;
 // local存值
 export function setLocalValue(obj, item) {
@@ -102,3 +103,12 @@ export function disabledDate(current, date) {
   }
   
 };
+export function getDateObj(date = []) {
+  if (date instanceof Array && date.length === 2) {
+    return {
+      startTime: moment(date[0]).format(dateFormat),
+      endTime: moment(date[1]).format(dateFormat)
+    }
+  }
+  return {}
+}
