@@ -7,7 +7,7 @@ class Score extends React.Component {
     const { WorkbenchScore } = this.props;
     return (
       <div className={stylefather.boxLeft}>
-
+        <div className={stylefather.boxHeader}></div>
       </div>
     );
   }

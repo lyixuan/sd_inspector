@@ -17,8 +17,8 @@ class ScoreIncome extends React.Component {
           <span className={style.leftLine}/> <span className={style.leftText}>学分绩效</span>
           <span className={style.date}>{moment(new Date(date.startDate)).format('YYYY.MM.DD')} ~ {moment(new Date(date.endDate)).format('YYYY.MM.DD')}</span>
         </div>
+        <Score WorkbenchScore={WorkbenchScore}/>
         <Income WorkbenchScore={WorkbenchScore}/>
-        <Score />
       </div>
     );
   }
