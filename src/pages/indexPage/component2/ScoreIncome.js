@@ -39,10 +39,7 @@ class Score extends React.Component {
     };
     return (
       <div className={screenRange==='small_screen'?style.leftBoxSmall:style.leftBoxMiddle}>
-        <img src={bg} alt="" className={style.videoBg}/>
-        <div className={style.videoInner}>
-          <Player {...playerProps}/>
-        </div>
+
       </div>
     );
   }
