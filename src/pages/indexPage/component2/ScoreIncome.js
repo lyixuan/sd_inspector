@@ -1,48 +1,27 @@
 import React from 'react';
-import Player from 'griffith'
-import bg from '@/assets/cube/video-bg.png';
 import style from './style.less';
+import moment from 'moment';
+import Income from './Income';
+import Score from './Score';
 import { handleDataTrace } from '@/utils/utils';
 
-class Score extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
-  }
+class ScoreIncome extends React.Component {
 
   onBeforePlay=()=>{
-    handleDataTrace({"widgetName":`播放视频`,"traceName":`魔方计划/魔方计划列表/${this.props.name}`});
   };
   render() {
-    const { screenRange,detailCoverUrl,videoUrl } = this.props;
-    const sources = {
-      hd: {
-        play_url: videoUrl||'',
-        bitrate:1,
-        duration:10,
-        format:'',
-        height: 1,
-        width: 1,
-        size:1
-      },
-    };
-
-    const playerProps = {
-      id: String(Math.random()),
-      duration:10,
-      // onBeforePlay:this.onBeforePlay,
-      sources,
-      initialObjectFit:'cover', // fill | contain | cover | none | scale-down
-      cover:detailCoverUrl||'',
-    };
+    const { WorkbenchScore,date } = this.props;
     return (
-      <div className={screenRange==='small_screen'?style.leftBoxSmall:style.leftBoxMiddle}>
-
+      <div className={style.scoreWrap}>
+        <div className={style.scoreHeader}>
+          <span className={style.leftLine}/> <span className={style.leftText}>学分绩效</span>
+          <span className={style.date}>{moment(new Date(date.startDate)).format('YYYY.MM.DD')} ~ {moment(new Date(date.endDate)).format('YYYY.MM.DD')}</span>
+        </div>
+        <Income WorkbenchScore={WorkbenchScore}/>
+        <Score />
       </div>
     );
   }
 }
 
-export default Score;
+export default ScoreIncome;

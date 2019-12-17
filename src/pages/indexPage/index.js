@@ -40,8 +40,8 @@ class IndexPage extends Component {
     const { WorkbenchScore,IncomeData } =  this.props.xdWorkModal;
     return (
       <>
-        <MainPage />
         <ScoreIncome date={date} WorkbenchScore={WorkbenchScore} IncomeData={IncomeData}/>
+        <MainPage />
       </>
     );
   }
