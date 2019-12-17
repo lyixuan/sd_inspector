@@ -6,7 +6,7 @@ import zheng from '@/assets/newIndex/zheng@2x.png';
 import fu from '@/assets/newIndex/fu@2x.png';
 import Echarts from './Echart_WorkBentch';
 import style from './style.less';
-import { getOption } from './Score_option';
+import { getOption } from './score_normal_option';
 
 class Score extends React.Component {
   constructor(props) {
