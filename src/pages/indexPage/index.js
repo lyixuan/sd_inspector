@@ -29,7 +29,10 @@ class IndexPage extends Component {
   }
 
   getData=(date)=>{
-
+    this.props.dispatch({
+        type: 'xdWorkModal/getWorkbenchScore',
+        payload: { params: { startTime: date.startDate,endTime:date.endDate }},
+      });
   };
 
   render() {
