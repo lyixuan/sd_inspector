@@ -51,3 +51,10 @@ export async function getCurrentFamilyType(params) {
 export async function getCurrentDateRange(params) {
   return request('/deskperfpcapi/incomeKpiCommon/getCurrentDateRange', { method: 'get', params });
 }
+
+// l
+export async function getWorkbenchScore(params) {
+  return request('/workbench/score',{params});
+}
+
+

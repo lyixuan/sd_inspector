@@ -34,11 +34,11 @@ class IndexPage extends Component {
 
   render() {
     const { date } = this.state;
-    const { ScoreData,IncomeData } =  this.props.xdWorkModal;
+    const { WorkbenchScore,IncomeData } =  this.props.xdWorkModal;
     return (
       <>
         <MainPage />
-        <ScoreIncome date={date} ScoreData={ScoreData} IncomeData={IncomeData}/>
+        <ScoreIncome date={date} WorkbenchScore={WorkbenchScore} IncomeData={IncomeData}/>
       </>
     );
   }

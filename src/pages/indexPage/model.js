@@ -10,7 +10,8 @@ import {
   getFamilyType,
   getCurrentFamilyType,
   getOrgList,
-  getCurrentDateRange
+  getCurrentDateRange,
+  getWorkbenchScore
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -29,8 +30,20 @@ export default {
       1: [],
     }, // 柱状图组织
     getCurrentDateRangeData: null,
+    WorkbenchScore:{}
   },
   effects: {
+    // l
+    *getWorkbenchScore({ payload, callback }, { call, put }) {
+      const result = yield call(getWorkbenchScore, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { WorkbenchScore: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+
     *getUserInfo({ callback }, { call, put }) {
       const result = yield call(getUserInfo);
       if (result.code === 20000 && result.data) {
@@ -173,6 +186,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+
   },
 
   reducers: {
