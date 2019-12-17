@@ -11,7 +11,8 @@ import {
   getCurrentFamilyType,
   getOrgList,
   getCurrentDateRange,
-  getWorkbenchScore
+  getWorkbenchScore,
+  getNpsData,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -30,7 +31,8 @@ export default {
       1: [],
     }, // 柱状图组织
     getCurrentDateRangeData: null,
-    WorkbenchScore:{}
+    WorkbenchScore: {},
+    WorkbenchNpsData: {},
   },
   effects: {
     // l
@@ -42,7 +44,6 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-
 
     *getUserInfo({ callback }, { call, put }) {
       const result = yield call(getUserInfo);
@@ -187,6 +188,15 @@ export default {
       }
     },
 
+    // 获取Nps数据
+    *getNpsData({ payload, callback }, { call, put }) {
+      const result = yield call(getNpsData, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { WorkbenchNpsData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
   },
 
   reducers: {

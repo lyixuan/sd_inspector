@@ -58,3 +58,9 @@ export async function getWorkbenchScore(params) {
 }
 
 
+// 获取nps
+export async function getNpsData(params) {
+  return request('/workbench/nps',{params});
+}
+
+
