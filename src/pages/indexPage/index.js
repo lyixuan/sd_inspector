@@ -4,7 +4,7 @@ import MainPage from './mainPage/index';
 import ScoreIncome  from './component2/ScoreIncome';
 
 @connect(({ xdWorkModal }) => ({
-  userInfo: xdWorkModal.userInfo,
+  xdWorkModal
 }))
 class IndexPage extends Component {
   constructor(props) {
