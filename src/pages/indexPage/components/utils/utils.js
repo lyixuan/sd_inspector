@@ -2,6 +2,7 @@ import BIContrastCell from '@/components/BIContrastCell';
 import { thousandsFormat } from '@/utils/utils';
 import { Link } from 'dva/router';
 import styles from './style.less';
+import moment from 'moment';
 
 const { BI = {} } = window;
 // local存值
@@ -85,3 +86,19 @@ export function getSubtract(bul, n, s = 160) {
 export function thousandsFormatAll(n)  {
   return thousandsFormat(parseInt(n));
 }
+
+
+export function disabledDate(current, date) {
+  if (date) {
+    return (
+      current > moment(date.endDate) ||
+      current < moment(date.startDate)
+    );
+  } else {
+    return (
+      current > moment() ||
+      current < moment()
+    );
+  }
+  
+};

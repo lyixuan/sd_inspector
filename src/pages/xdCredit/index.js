@@ -16,7 +16,6 @@ import CreditImDetials from './imDetails';
 import creditImg from '@/assets/xdcredit/credit.gif';
 import styles from './style.less';
 import moment from 'moment';
-import { beforeAll } from 'lodash-decorators';
 
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;

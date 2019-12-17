@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import TopTabs from '@/pages/indexPage/components/topTabs';
+import CollegeIndex from './components/compare'
 import FamilyIndex from './components/familyIndex'
 import GroupIndex from './components/groupIndex';
 import styles from './style.less';
@@ -13,13 +14,18 @@ class IncomeRank extends React.Component {
     this.state = {
       tabParams: [
         {
-          name:'家族创收对比',
+          name:'学院对比',
           key:'1',
+          children: <CollegeIndex />,
+        },
+        {
+          name:'家族对比',
+          key:'2',
           children: <FamilyIndex />,
         },
         {
-          name:'小组创收对比',
-          key:'2',
+          name:'小组对比',
+          key:'3',
           children: <GroupIndex />,
         }
       ]

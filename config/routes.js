@@ -525,6 +525,11 @@ export const routes = [
             component: './xdCredit',
             name: '小德学分',
           },
+          {
+            path: '/xdCredit/im',
+            component: './xdCredit/imPage',
+            name: 'im差评分析',
+          },
         ],
       },
       {

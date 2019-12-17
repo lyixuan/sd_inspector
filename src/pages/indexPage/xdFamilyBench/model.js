@@ -627,14 +627,14 @@ export default {
     //   const orgListTreeData = toTreeData(payload.orgList);
     //   return { ...state, orgList: payload.orgList, orgListTreeData };
     // },
-    saveMax(state, { payload }) {
-      const pkList = payload.data;
-      const maxValue = {};
-      for (var k in pkList[0]) {
-        maxValue[k] = Math.max.apply(null, pkList.map(item => item[k]));
-      }
-      return { ...state, [payload.key]: { maxValue, pkList } };
-    },
+    // saveMax(state, { payload }) {
+    //   const pkList = payload.data;
+    //   const maxValue = {};
+    //   for (var k in pkList[0]) {
+    //     maxValue[k] = Math.max.apply(null, pkList.map(item => item[k]));
+    //   }
+    //   return { ...state, [payload.key]: { maxValue, pkList } };
+    // },
     // saveScore(state, { payload }) {
     //   const data = payload.data;
     //   data.dimensionList = fillDataSource(

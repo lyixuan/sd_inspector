@@ -26,3 +26,8 @@ export async function getIncomeGroupList(params) {
 export async function getIncomeFamilyGroupPk(data) {
   return request('/deskperfpcapi/incomeFamily/getGroupPk', { method: 'POST', data });
 }
+
+// 创收学院对比列表
+export async function compareCollegeList(data) {
+  return request('/adminWorkbench/incomeCollege/compareCollegeList',{method:'POST',data: data})
+}

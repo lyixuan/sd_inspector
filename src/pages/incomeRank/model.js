@@ -5,6 +5,7 @@ import {
   getFamilyList,
   getIncomeFamilyGroupPk,
   getIncomeGroupList,
+  compareCollegeList
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -18,6 +19,7 @@ export default {
     familyIncomeDrawer: [],
     groupIncomeList: {}, // 创收对比小组
     groupIncomeDrawer: [],
+    compareCollegeListData: [], // 学院创收对比
   },
 
   effects: {
@@ -82,11 +84,35 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+    // 创收学院对比列表
+    *getCompareCollegeList({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(compareCollegeList, params);
+      if (result.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: {
+            compareCollegeListData: result.data,
+          },
+        });
+        return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
   },
 
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
+    },
+    saveMax(state, { payload }) {
+      const pkList = payload.data;
+      const maxValue = {};
+      for (var k in pkList[0]) {
+        maxValue[k] = Math.max.apply(null, pkList.map(item => item[k]));
+      }
+      return { ...state, [payload.key]: { maxValue, pkList } };
     },
   },
   subscriptions: {},
