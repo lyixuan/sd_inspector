@@ -3,7 +3,6 @@ import stylefather from '../indexPage.less';
 import NpsImg from '@/assets/NPS@2x.png';
 import gengduo from '@/assets/newIndex/gengduo@2x.png';
 import style from './style.less';
-
 class Nps extends React.Component {
   render() {
     const { WorkbenchNpsData } = this.props;
@@ -12,9 +11,10 @@ class Nps extends React.Component {
       <div className={stylefather.boxRight}>
         <div className={stylefather.boxHeader}>
           <img src={NpsImg} />
-          <span className={stylefather.headerTitle}>Nps分析</span>
+          <span className={stylefather.headerTitle}>NPS分析</span>
           <img src={gengduo} alt="" />
         </div>
+        <div></div>
       </div>
     );
   }
