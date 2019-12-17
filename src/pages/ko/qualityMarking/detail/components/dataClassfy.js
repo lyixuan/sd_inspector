@@ -64,7 +64,7 @@ class DataClassfy extends React.Component {
     return lifeCycle
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(this.props.pageData) !== JSON.stringify(nextProps.pageData)) {
       if (JSON.stringify(this.state.submitParam) != '{}') {
         this.setState({

@@ -1,25 +1,30 @@
 import React from 'react';
 import { connect } from 'dva';
-import TopTabs from "../../components/topTabsAll";
+import BIDatePicker from '@/ant_components/BIDatePicker';
+import BICascader from '@/ant_components/BICascader';
 import Container from '@/components/BIContainer';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
-import BICascader from '@/ant_components/BICascader';
+import TopTabs from "./components/topTabsAll";
 import { handleDataTrace } from '@/utils/utils';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
+import { disabledDate, getDateObj } from '@/pages/indexPage/components/utils/utils';
 import pkBtnImg from '@/assets/pkbtn.png';
 import qushiImg from '@/assets/qushibtn.png';
 
+const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
+const dateFormat = 'YYYY-MM-DD';
 const userTypes = {
   'class': true,
   'group': true,
   'family': true,
 }
-@connect(({ xdWorkModal, global}) => ({
-  globalOrgList: xdWorkModal.globalOrgList || {},
-  userInfo: xdWorkModal.userInfo || {},
-  globalUserTypes: global.globalUserTypes || {}
+@connect(({ histogramModel, newDetailModal, global}) => ({
+  globalOrgList: histogramModel.globalOrgList || {},
+  userInfo: histogramModel.userInfo || {},
+  globalUserTypes: global.globalUserTypes || {},
+  globalDateMoment: newDetailModal.globalDateMoment
 }))
 class ScoreContrast extends React.Component {
   constructor(props) {
@@ -34,7 +39,7 @@ class ScoreContrast extends React.Component {
         dimensionId: undefined,
         collegeId: undefined,
         groupId: undefined,
-        ...this.props.allTimes
+        dataRange: this.props.globalDateMoment
       },
       query: { }, // tabs值储存
       tabNum:1,
@@ -43,8 +48,9 @@ class ScoreContrast extends React.Component {
     }
   }
   componentDidMount() {
+     // 自考壁垒对应的学院  三个工作台都要用
     this.props.dispatch({
-      type:"xdWorkModal/getCurrentFamilyType",
+      type:"histogramModel/getCurrentFamilyType",
       callback:({ familyType }) => {
         const { queryParams } = this.state;
         queryParams.familyType = familyType + '';
@@ -53,22 +59,19 @@ class ScoreContrast extends React.Component {
           queryParams
         }, () => this.queryAppealDataPage())
       }
-    })
-    // 自考壁垒对应的学院  三个工作台都要用
-    this.props.dispatch({
-      type: 'xdWorkModal/getOrgList',
-      payload:{params: this.props.allTimes },
-    });
+    }) 
   }
   // tab改变
   changeTab = (obj) => {
     const { queryParams } = this.state;
     this.state.query[queryParams.contrasts] = {
-      contrasts: queryParams.contrasts,
-      familyType: queryParams.familyType,
-      dimensionId: queryParams.dimensionId,
-      collegeId: queryParams.collegeId,
-      groupId: queryParams.groupId,
+      // contrasts: queryParams.contrasts,
+      // familyType: queryParams.familyType,
+      // dimensionId: queryParams.dimensionId,
+      // collegeId: queryParams.collegeId,
+      // groupId: queryParams.groupId,
+      // dataRange: queryParams.dataRange
+      ...queryParams
     }
     const keye = Number(obj.keye);
     this.state.tabNum = keye;
@@ -77,10 +80,21 @@ class ScoreContrast extends React.Component {
         dimensionId: undefined,
         familyType: this.state.familyTypeInit,
         collegeId: undefined,
-        groupId: undefined
+        groupId: undefined,
+        dataRange: this.props.globalDateMoment
       };
     }
+    if (keye !== 1) {
+      this.getOrgList(this.state.query[keye].dataRange);
+    }
     this.queryAppealDataPage({contrasts: Number(obj.keye), ...this.state.query[obj.keye]});
+  }
+  // 获取组织
+  getOrgList = (date = this.state.queryParams.dataRange) => {
+    this.props.dispatch({
+      type: 'histogramModel/getOrgList',
+      payload:{ params: getDateObj(date) },
+    });
   }
   //获取柱状图及维度的接口
   queryAppealDataPage = (obj = {}) =>{
@@ -90,7 +104,7 @@ class ScoreContrast extends React.Component {
     }
     this.setState({queryParams: params });
     this.props.dispatch({
-      type:'xdWorkModal/queryAppealDataPage',
+      type:'histogramModel/queryAppealDataPage',
       payload:{params: this.getQueryParams(params)},
       callback:(res) => this.setState({
         queryAppealDatas:res
@@ -99,45 +113,47 @@ class ScoreContrast extends React.Component {
   }
   // 参数
   getQueryParams = params => {
+    const { dataRange, ...others } = params;
+    const allTimes = getDateObj(dataRange);
+    const newParams = { ...others, ...allTimes };
     if (params.contrasts === 3 && params.groupId) {
       const l = params.groupId.length;
       if (l === 0) {
-        return {
-          ...params,
-          groupId: undefined
-        }
+        newParams.groupId = undefined;
       } else if (l === 1) {
-        return {
-          ...params,
-          collegeId: params.groupId[0],
-          groupId: undefined,
-          familyId: undefined
-        }
+        newParams.collegeId = params.groupId[0];
+        newParams.groupId = undefined;
+        newParams.familyId = undefined;
       } else if (l > 1) {
-        return {
-          ...params,
-          collegeId: params.groupId[0],
-          groupId: undefined,
-          familyId: params.groupId.length > 1 ? params.groupId[1] : undefined
-        }
+        newParams.collegeId = params.groupId[0];
+        newParams.groupId = undefined;
+        newParams.familyId = params.groupId.length > 1 ? params.groupId[1] : undefined;
       }  
-    } else {
-      return params
     }
+    return newParams
   }
   rightPart = () => {
     const {userType, queryParams} = this.state;
-    const { allTimes } = this.props;
+    const allTimes = getDateObj(this.state.queryParams.dataRange);
     const orgList = this.props.globalOrgList[queryParams.familyType] || []
     return(
       <>
-        <span style={{ marginRight: 200, display: 'flex' }}>
-          <BISelect style={{ width: 136, marginRight: 12 }} placeholder="请选择" value={queryParams.familyType} onChange={(val) => this.onFormChange(val, 'familyType')}>
+        <span style={{ display: 'flex' }}>
+          <BIRangePicker
+            value={queryParams.dataRange}
+            placeholder={['选择起始时间', '选择截止时间']}
+            format={dateFormat}
+            onChange={val => this.onFormChange(val, 'dataRange')}
+            allowClear={false}
+            disabledDate={val => disabledDate(val, this.props.globalDate)}
+            style={{ width: 224, marginRight: 12 }}
+          />
+          <BISelect style={{ width: 100, marginRight: 12 }} placeholder="请选择" value={queryParams.familyType} onChange={val => this.onFormChange(val, 'familyType')}>
             {[{id: '0', name:'自考'}, {id: '1', name: '壁垒'}].map(item => <Option key={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
               {item.name}
             </Option>)}
           </BISelect>
-          {queryParams.contrasts === 2 && <BISelect style={{ width: 136, marginRight: 12 }} placeholder="请选择" value={queryParams.collegeId} onChange={(val) => this.onFormChange(val, 'collegeId')} allowClear>
+          {queryParams.contrasts === 2 && <BISelect style={{ width: 130, marginRight: 12 }} placeholder="请选择" value={queryParams.collegeId} onChange={val => this.onFormChange(val, 'collegeId')} allowClear>
             {orgList.map(item => <Option key={item.id} value={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
               {item.name}
             </Option>)}
@@ -150,9 +166,9 @@ class ScoreContrast extends React.Component {
             getPopupContainer={triggerNode => triggerNode.parentNode}
             displayRender={this.renderCascader}
             value={queryParams.groupId}
-            onChange={(val) => this.onFormChange(val, 'groupId')}
+            onChange={val => this.onFormChange(val, 'groupId')}
             allowClear
-            style={{ width: '136px' }}
+            style={{ width: '130px' }}
           />}
         </span>
         <span>
@@ -174,9 +190,12 @@ class ScoreContrast extends React.Component {
   onFormChange = (val, type) =>{
     const { queryParams } = this.state;
     queryParams[type] = val;
-    if (type === 'familyType') {
+    if (queryParams.contrasts !== 1 && (type === 'familyType' || type === 'dataRange')) {
       queryParams.groupId = undefined;
       queryParams.collegeId = undefined;
+      if (type === 'dataRange') {
+        this.getOrgList(val);
+      }
     }
     this.setState({
       queryParams: this.state.queryParams,
@@ -220,7 +239,7 @@ class ScoreContrast extends React.Component {
         tabParams={this.getTabParams()} onTabChange={this.changeTab}
         propsData = {{
           ...this.state,
-          allTimes: this.props.allTimes,
+          allTimes: getDateObj(this.state.queryParams.dataRange),
           queryAppealDataPage: this.queryAppealDataPage
         }}
         />

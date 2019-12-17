@@ -2,18 +2,18 @@ import React from 'react';
 import { connect } from 'dva';
 import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
 import BIDrawer from '@/components/BIDrawer';
-import { message } from 'antd/lib/index';
+import { message } from 'antd/lib';
 import PkDrawer from './pkDrawer';
 import PkResult from './pkResult';
 import styles from './style.less';
 
 const { BI = {} } = window;
 const localKey = 'incomeFamilyLocal';
-@connect(({ xdFamilyModal, loading }) => ({
-  familyPkList: xdFamilyModal.familyIncomeList,
-  familyPkDrawer: xdFamilyModal.familyIncomeDrawer,
-  dimenloading: loading.effects['xdFamilyModal/getIncomeFamilyList'],
-  drawerloading: loading.effects['xdFamilyModal/getFamilyList'],
+@connect(({ incomeRankModal, loading }) => ({
+  familyPkList: incomeRankModal.familyIncomeList,
+  familyPkDrawer: incomeRankModal.familyIncomeDrawer,
+  dimenloading: loading.effects['incomeRankModal/getIncomeFamilyList'],
+  drawerloading: loading.effects['incomeRankModal/getFamilyList'],
 }))
 class FamilyIndex extends React.Component {
   constructor(props) {
@@ -36,14 +36,14 @@ class FamilyIndex extends React.Component {
   // 对比列表
   getResulitList = () => {
     this.props.dispatch({
-      type: 'xdFamilyModal/getIncomeFamilyList',
+      type: 'incomeRankModal/getIncomeFamilyList',
       payload: { params: { pkIds: this.state.pkUsers } },
     });
   }
   // pk者列表
   getGroupList = ({ collegeId }, callback) => {
     this.props.dispatch({
-      type: 'xdFamilyModal/getFamilyList',
+      type: 'incomeRankModal/getFamilyList',
       payload: { params: { collegeId } },
       callback: (res) => callback(res)
     });

@@ -1,16 +1,15 @@
 import React from 'react';
 import { connect } from 'dva';
-import EchartBottom from '../components/echartBottom';
-import BILoading from '@/components/BILoading';
-import TreeNames from '../components/treeNames';
-import Echart from '../components/echart';
-import { jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
 import BIScrollbar from '@/ant_components/BIScrollbar';
+import BILoading from '@/components/BILoading';
+import EchartBottom from '../echartBottom';
+import TreeNames from '../treeNames';
+import Echart from '../echart';
+import { jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
 
-
-@connect(({xdWorkModal,loading}) => ({
-  userInfo: xdWorkModal.userInfo,
-  loading: loading.effects['xdWorkModal/queryAppealDataPage'],
+@connect(({ newDetailModal,loading }) => ({
+  userInfo: newDetailModal.globalUserInfo,
+  loading: loading.effects['histogramModel/queryAppealDataPage'],
 }))
 class CollegeScore extends React.Component {
   constructor(props) {

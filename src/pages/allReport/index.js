@@ -16,7 +16,7 @@ class metaBase extends React.Component {
   componentDidMount() {
     this.getReportMessage();
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.match) !== JSON.stringify(this.props.match)) {
       this.getReportMessage(nextProps.match.params.siteKey);
     }

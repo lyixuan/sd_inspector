@@ -8,6 +8,8 @@ export default {
   state: {
     globalUserInfo: {}, // 全局值
     globalDateRange: {},
+    globalDateMoment: [],
+    globalDate: {}
   },
   effects: {
     *getUserInfo({ callback }, { call, put }) {
@@ -34,6 +36,14 @@ export default {
               startTime: moment(result.data.startDate).format('YYYY-MM-DD'),
               endTime: moment(result.data.endDate).format('YYYY-MM-DD'),
             },
+            globalDate: {
+              startDate: moment(result.data.startDate).format('YYYY-MM-DD'),
+              endDate: moment(result.data.endDate).format('YYYY-MM-DD'),
+            },
+            globalDateMoment: [
+              moment(result.data.startDate),
+              moment(result.data.endDate),
+            ]
           },
         });
         return result.data;

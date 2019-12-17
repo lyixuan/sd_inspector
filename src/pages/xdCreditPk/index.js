@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
+import { disabledDate } from '@/pages/indexPage/components/utils/utils';
+import { initTimeData } from '../ko/utils/utils';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import XdFamilyPk from './family';
 import XdClassPk from './class';
-import styles from './style.less';
-import { initTimeData } from '../ko/utils/utils';
 import moment from 'moment';
+import styles from './style.less';
 
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -61,10 +62,6 @@ class XdCreditPk extends React.Component {
   onDateChange = dataRange => {
     this.setState({ dataRange })
   }
-  // 时间控件可展示的时间范围
-  disabledDate = current => {
-    return current > moment(this.props.globalDateRange.endDate) || current < moment(this.props.globalDateRange.startDate);
-  };
   
   render() {
     const { userType, dataRange } = this.state;
@@ -79,7 +76,7 @@ class XdCreditPk extends React.Component {
                 format={dateFormat}
                 onChange={this.onDateChange}
                 allowClear={false}
-                disabledDate={this.disabledDate}
+                disabledDate={c => disabledDate(c, this.props.globalDateRange)}
                 style={{ width: '224px' }}
               />
           </div>
