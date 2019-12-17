@@ -4,7 +4,7 @@ import NpsImg from '@/assets/NPS@2x.png';
 import gengduo from '@/assets/newIndex/gengduo@2x.png';
 import style from './style.less';
 
-class Nps extends React.Component {
+class Appeal extends React.Component {
   render() {
     const { WorkbenchNpsData } = this.props;
     console.log(WorkbenchNpsData, 'WorkbenchNpsDatas');
@@ -20,4 +20,4 @@ class Nps extends React.Component {
   }
 }
 
-export default Nps;
+export default Appeal;

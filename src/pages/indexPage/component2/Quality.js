@@ -4,7 +4,7 @@ import IMImg from '@/assets/IM@2x.png';
 import gengduo from '@/assets/newIndex/gengduo@2x.png';
 import style from './style.less';
 
-class Im extends React.Component {
+class Quality extends React.Component {
   render() {
     const { WorkbenchScore } = this.props;
     return (
@@ -19,4 +19,4 @@ class Im extends React.Component {
   }
 }
 
-export default Im;
+export default Quality;

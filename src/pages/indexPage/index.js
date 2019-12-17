@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import MainPage from './mainPage/index';
 import ScoreIncome from './component2/ScoreIncome';
 import ImNps from './component2/ImNps';
+import QualityAppeal from './component2/QualityAppeal';
 
 @connect(({ xdWorkModal }) => ({
   xdWorkModal,
@@ -53,6 +54,7 @@ class IndexPage extends Component {
       <>
         <ScoreIncome date={date} WorkbenchScore={WorkbenchScore} IncomeData={IncomeData} />
         <ImNps WorkbenchNpsData={WorkbenchNpsData} />
+        <QualityAppeal WorkbenchNpsData={WorkbenchNpsData} />
       </>
     );
   }
