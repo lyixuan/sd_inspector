@@ -53,7 +53,10 @@ export async function getCurrentDateRange(params) {
 }
 
 // l
-export async function getWorkbenchScore(params) {
+export async function getWorkbenchScore(data) {
+  return request('/workbench/score',{ method: 'POST', data: data });
+}
+export async function getWorkbenchIncome(params) {
   return request('/workbench/score',{params});
 }
 

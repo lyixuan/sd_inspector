@@ -1,41 +1,34 @@
 import echarts from 'echarts';
 
-export function getNormalOption(list) {
-  const xArr = [];
-  const yArr = [];
-  const seriesData = [];
-  list.forEach((item,i)=>{
-    xArr.push(i);
-    yArr.push(item.value);
-    seriesData.push({name:i,value:item.selfGroup ?item.value:null,showName:item.name,rankNum:item.rankNum,total:list.length})
-  });
-
-
+export function getOptionL2(obj) {
+  // function getData (str) {
+  //   let r = [];
+  //   obj.data && obj.data.forEach((v)=>{
+  //     if(v.name===str ) {r = v.value}
+  //   });
+  //   return r;
+  // }
+  // let labels = [];
+  // f();
+  // function f() {
+  //   obj.indicator && obj.indicator.forEach((v)=>[
+  //     labels.push(v.name)
+  //   ])
+  // }
   return {
     tooltip: {
-      backgroundColor:'#fff',
-      borderColor:'#eee',
-      borderWidth:1,
-      textStyle:{
-        color:'#666',
-        fontSize:12,
-      },
       trigger: 'item',
-      position: function (pos, params, dom, rect, size) {
-        var obj = {top: 60};
-        obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
-        return obj;
-      },
+      triggerOn: 'mousemove',
       formatter: function(param) {
         const { data } = param;
-        const { showName = '', rankNum='',total=''} = data;
-        return `${showName}排名   ${rankNum}/${total}`
+        const { name = undefined } = data;
+        return `<div style='font-size: 12px;background: #fff;color: #414D55;width: 100%'>${name}</div>`;
       },
     },
     xAxis: {
       show: false,
       type: 'category',
-      data: xArr,
+      data: [1, 2, 3, 4, 5],
     },
     yAxis: {
       show: false,
@@ -61,11 +54,11 @@ export function getNormalOption(list) {
         },
       },
 
-      data: seriesData,
+      data: [{ name: 1, value: 1 },{ name: 2, value: 2 },{ name: 4, value: 4 },{ name: 6, value: 6 },{ name: 7, value: 10 }],
     },
       {
         smooth: true,
-        data: yArr,
+        data: [1, 2, 4, 6, 10],
         type: 'line',
         areaStyle: {
           normal: {
