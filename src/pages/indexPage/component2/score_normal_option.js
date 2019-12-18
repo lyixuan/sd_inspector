@@ -16,6 +16,11 @@ export function getNormalOption(list) {
       backgroundColor:'#fff',
       borderColor:'#eee',
       borderWidth:1,
+      shadowBlur: 10,
+      shadowOffsetX: 0,
+      shadowOffsetY: 0,
+      borderRadius:10,
+      shadowColor: 'rgba(0,0,0,0.5)',
       textStyle:{
         color:'#666',
         fontSize:12,

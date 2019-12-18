@@ -29,7 +29,8 @@ class Score extends React.Component {
     const { familyType } = WorkbenchScore || {};
     let positive = [];
     let rank = {};
-    let boss = [];
+    let boss0 = [];
+    let boss1 = [];
 
     let typeName = '';
     if (userType === 'group' || userType === 'class') {
@@ -42,15 +43,17 @@ class Score extends React.Component {
       typeName = '学院排名';
     }
 
-    if (userType === 'boss' && WorkbenchScore[familyType]) {
-      boss = WorkbenchScore[familyType].boss;
+    if (userType === 'boss' && WorkbenchScore[0]&& WorkbenchScore[1]) {
+      boss0 = WorkbenchScore[0].boss;
+      boss1 = WorkbenchScore[1].boss;
     } else if (userType !== 'boss' && WorkbenchScore[familyType]) {
       positive = this.state.tabActive===1? WorkbenchScore[familyType].positive:WorkbenchScore[familyType].negative;
       rank = WorkbenchScore[familyType].rank;
     }
     const {rankList=[]}=rank||{};
     const normalOptions = getNormalOption(rankList);
-    // const options2 = getOptionBoss(1);
+    const bossOptions1 = getOptionBoss(boss0);
+    const bossOptions2 = getOptionBoss(boss1);
 
     const normalContent =positive.map((item)=>{
       return (
@@ -94,8 +97,8 @@ class Score extends React.Component {
         </div>}
 
         {userType === 'boss' && <div className={style.crossRow}>
-          <Echarts options={normalOptions} style={{ height: 250, width: 265, float: 'left' }}/>
-          <Echarts options={normalOptions} style={{ height: 250, width: 260, float: 'left' }}/>
+          <Echarts options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }}/>
+          <Echarts options={bossOptions2} style={{ height: 250, width: 260, float: 'left' }}/>
         </div>}
       </div>
     );
