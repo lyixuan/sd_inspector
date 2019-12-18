@@ -28,13 +28,82 @@
 }
 
 .sider {
-  min-height: 100vh;
+  //min-height: 100vh;
   // box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
-  position: relative;
-  z-index: 10;
+  height:calc(100vh - 185px);
+  position: fixed;
+  //z-index: 1000;
+  //overflow-y: auto;
+  border-radius:20px;
+  overflow: hidden;
+  background:#ffffff;
+  .secondaryMenu {
+    display:flex;
+    justify-content:flex-start;
+    align-items:center;
+    .dot {
+      margin-right:15px;
+      display:block;
+      width:5px;
+      height:5px;
+      border-radius:50%;
+      background:#282828;
+    }
+    .name {
+      color:#282828;
+    }
+  }
+
   :global {
     .ant-layout-sider-children {
-      background-color: #00CCC3;
+      //min-height:100vh;
+      width:152px;
+      //background-color: #00CCC3;
+      background:#ffffff;
+    }
+    //.ant-menu-submenu-open {
+    //  .ant-menu-submenu-title {
+    //    background:#FFE300;
+    //  }
+    //}
+    .ant-menu-submenu-active {
+      .ant-menu-submenu-title {
+        color:#FFE300;
+      }
+    }
+    .ant-menu-submenu-open {
+      .ant-menu-submenu-title {
+        margin-bottom:0;
+      }
+    }
+    .ant-menu-submenu-selected {
+      color: #282828;
+      //.ant-menu-submenu-title {
+      //  background:#FFE300;
+      //}
+    }
+    .ant-menu-submenu-title {
+      margin:18px 0;
+      padding-left:20px !important;
+      font-size:14px;
+    }
+    .ant-menu-submenu-title:hover {
+      .ant-menu-submenu-arrow::after {
+        background:linear-gradient(to right, #FFE300, #FFE300);
+      }
+      .ant-menu-submenu-arrow::before {
+        background:linear-gradient(to right, #FFE300, #FFE300);
+      }
+    }
+    .ant-menu-item {
+      padding-left:42px !important;
+      font-size:12px;
+    }
+    .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+      background-color: #FFE300;
+      &:after {
+        display:none;
+      }
     }
   }
   &.ligth {
@@ -48,9 +117,23 @@
   }
 }
 
+.menuBox {
+  box-sizing:border-box;
+  padding-top:21px;
+  width:168px;
+  height:calc(100vh - 185px);
+  overflow-y:auto;
+}
+
+.menuInner {
+  min-height:calc(100vh - 204px);
+}
+
 .icon {
-  width: 14px;
+  //width: 14px;
   margin-right: 10px;
+  width:18px;
+  height:18px;
 }
 
 :global {

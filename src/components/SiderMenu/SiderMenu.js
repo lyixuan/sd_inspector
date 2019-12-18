@@ -4,7 +4,8 @@ import pathToRegexp from 'path-to-regexp';
 import { Link } from 'dva/router';
 import styles from './index.less';
 import { urlToList } from '../_utils/pathTools';
-import { DO_NOT_MENU } from '@/utils/constants'
+import { DO_NOT_MENU } from '@/utils/constants';
+import demoImg from '@/assets/yunying@2x.png';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -88,7 +89,7 @@ export default class SiderMenu extends PureComponent {
   getDefaultCollapsedSubMenus(props) {
     const { location: { pathname } } = props || this.props;
     const open = getMenuMatchKeys(this.flatMenuKeys, urlToList(pathname));
-    const openKeys = open.length > 0 ? [open[open.length - 1].parentId] : [];
+    const openKeys = open.length > 0 ? [open[open.length - 1].parentId.toString()] : [];
     // if ((this.props.collapsed && openMenu)) {
     //   this.props.onCollapse(false);
     // }
@@ -109,13 +110,15 @@ export default class SiderMenu extends PureComponent {
     // Is it a http link
     if (/^https?:\/\//.test(itemPath)) {
       return (
-        <a href={itemPath} target={target}>
-          <span>{name}</span>
+        <a href={itemPath} target={target} className={styles.secondaryMenu}>
+          <span className={styles.dot}> </span>
+          <span className={styles.name}>{name}</span>
         </a>
       );
     }
     return (
       <Link
+        className={styles.secondaryMenu}
         to={itemPath}
         target={target}
         replace={itemPath === this.props.location.pathname}
@@ -127,7 +130,8 @@ export default class SiderMenu extends PureComponent {
             : undefined
         }
       >
-        <span>{name}</span>
+        <span className={styles.dot}> </span>
+        <span className={styles.name}>{name}</span>
       </Link>
     );
   };
@@ -151,7 +155,7 @@ export default class SiderMenu extends PureComponent {
                   item.name
                 )
             }
-            key={item.path}
+            key={item.id}
           >
             {childrenItems}
           </SubMenu>
@@ -206,8 +210,8 @@ export default class SiderMenu extends PureComponent {
   };
 
   handleOpenChange = openKeys => {
-    const lastOpenKey = openKeys[openKeys.length - 1];
-    const moreThanOne = openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1;
+    // const lastOpenKey = openKeys[openKeys.length - 1];
+    // const moreThanOne = openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1;
     this.setState({
       openKeys: openKeys,
     });
@@ -258,17 +262,18 @@ export default class SiderMenu extends PureComponent {
     const { logo, collapsed, menuData } = this.props;
     const {openKeys, selectKeys} = this.state;
     return (
-      <div className={styles.menuPart}>
-        <Sider
-          trigger={null}
-          collapsible
-          breakpoint="lg"
-          width={80}
-          className={styles.sider}>
+      <Sider
+        trigger={null}
+        // collapsible
+        breakpoint="lg"
+        width={152}
+        className={styles.sider}>
+        <div className={styles.menuBox}>
           <Menu
             key="Menu"
             theme="light"
             mode="inline"
+            className={styles.menuInner}
             // defaultOpenKeys={openKeys}
             // defaultSelectedKeys={selectKeys}
             openKeys={openKeys}
@@ -280,27 +285,8 @@ export default class SiderMenu extends PureComponent {
               this.getNavMenuItems(menuData)
             }
           </Menu>
-          {/*<div className={styles.logo} key="logo">*/}
-          {/*  <Link to="/"><img src={logo} alt="logo" /></Link>*/}
-          {/*</div>*/}
-          {/*<ul className={styles.menuUl}>*/}
-          {/*  {*/}
-          {/*    this.getMenuItems(this.state.menus)*/}
-          {/*  }*/}
-          {/*</ul>*/}
-        </Sider>
-        {/*{!collapsed && this.state.openMenu && <Menu*/}
-        {/*  key="Menu"*/}
-        {/*  theme="light"*/}
-        {/*  mode="inline"*/}
-        {/*  onOpenChange={this.handleOpenChange}*/}
-        {/*  selectedKeys={this.state.openKeys}*/}
-        {/*>*/}
-        {/*  {*/}
-        {/*    this.getNavMenuItems(this.getCurrentMenu())*/}
-        {/*  }*/}
-        {/*</Menu>}*/}
-      </div>
+        </div>
+      </Sider>
     );
   }
 }

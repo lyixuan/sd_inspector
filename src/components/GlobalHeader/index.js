@@ -61,32 +61,32 @@ export default class GlobalHeader extends PureComponent {
           </Link>,
           <Divider type="vertical" key="line" />,
         ]}
-        <img 
-          src={bilogo} 
-          alt="logo" 
+        <img
+          src={bilogo}
+          alt="logo"
           className={styles.newLogo}/>
-        <Icon
-          className={styles.trigger}
-          type={collapsed ? 'menu-unfold' : 'menu-fold'}
-          onClick={this.toggle}
-        />
+        {/*<Icon*/}
+        {/*  className={styles.trigger}*/}
+        {/*  type={collapsed ? 'menu-unfold' : 'menu-fold'}*/}
+        {/*  onClick={this.toggle}*/}
+        {/*/>*/}
         {
-          userType == 'class' ? <ul className={styles.certification}>
-            {
-              certificationList.map(item => {
-                return (
-                  <>
-                    {
-                      item.child.map(item2 => (
-                        item2.obtained ? <li key={item2.id + item.grade}><img src={`${url}${item2.obtainedIcon}`} /></li> : <li key={item2.id + item.grade}><img src={`${url}${item2.originalIcon}`} /></li>
-                      ))
-                    }
-                    <li className={styles.bigImgLi} key={item.grade}><img src={item.imgUrl} className={styles.bigImg} /></li>
-                  </>
-                )
-              })
-            }
-          </ul> : null
+          // userType == 'class' ? <ul className={styles.certification}>
+          //   {
+          //     certificationList.map(item => {
+          //       return (
+          //         <>
+          //           {
+          //             item.child.map(item2 => (
+          //               item2.obtained ? <li key={item2.id + item.grade}><img src={`${url}${item2.obtainedIcon}`} /></li> : <li key={item2.id + item.grade}><img src={`${url}${item2.originalIcon}`} /></li>
+          //             ))
+          //           }
+          //           <li className={styles.bigImgLi} key={item.grade}><img src={item.imgUrl} className={styles.bigImg} /></li>
+          //         </>
+          //       )
+          //     })
+          //   }
+          // </ul> : null
         }
         <div className={styles.right}>
           {currentUser.name ? (

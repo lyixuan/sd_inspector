@@ -293,7 +293,7 @@ class BasicLayout extends React.PureComponent {
               }}
             />
 
-            <Content className={this.gobalMarkClass()}>
+            <Content className={`${this.gobalMarkClass()} ${style.content}`}>
               <ContentLayout {...this.props} routesData={routesData}>
                 <Authorized authority={checkPathname.bind(null, location.patchname)}>
                   {children}
