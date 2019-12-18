@@ -2,7 +2,7 @@ import React from 'react';
 import style from './style.less';
 import moment from 'moment';
 import Im from './Im';
-import Nps from './Nps';
+// import Nps from './Nps';
 import { handleDataTrace } from '@/utils/utils';
 
 class ImNps extends React.Component {
@@ -15,7 +15,7 @@ class ImNps extends React.Component {
           <span className={style.leftLine} /> <span className={style.leftText}>学院反馈</span>
         </div>
         <Im />
-        <Nps WorkbenchNpsData={WorkbenchNpsData} />
+        {/* <Nps WorkbenchNpsData={WorkbenchNpsData} /> */}
       </div>
     );
   }

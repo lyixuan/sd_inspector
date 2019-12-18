@@ -1,4 +1,27 @@
-export function getOption(m2R2Data) {
+export function getOption(data) {
+  const colorArr = [
+    { color: '#6665DD' },
+    { color: '#FF602F' },
+    { color: '#33D195' },
+    { color: '#B5E1F9' },
+    { color: '#FFC442' },
+    { color: '#4A5F75' },
+    { color: '#0496FF' },
+    { color: '#AEB89F' },
+  ];
+  const newData = [];
+  let total = 0;
+  if (Object.prototype.toString.call(data) == '[object Array]' && data.length > 0) {
+    data.map((item, index) => {
+      newData.push({
+        value: item.noStatisticNum,
+        name: item.reasonTypeName.replace('方向', ''),
+        itemStyle: colorArr[index],
+      });
+      total += item.noStatisticNum;
+    });
+  }
+  console.log(total);
   // const newX = [];
   // m2R2Data.xAxis &&
   // m2R2Data.xAxis.forEach(item => {
@@ -29,7 +52,7 @@ export function getOption(m2R2Data) {
         orient: 'vertical',
         x: 'center',
         y: '40%',
-        text: 12312,
+        text: total,
         subtext: '总量',
         textStyle: {
           fontSize: 26,
@@ -49,14 +72,11 @@ export function getOption(m2R2Data) {
           '</br>' +
           parms.marker +
           '' +
-          parms.data.legendname +
+          parms.data.name +
           '</br>' +
           '数量：' +
           parms.data.value +
-          '</br>' +
-          '占比：' +
-          parms.percent +
-          '%';
+          '</br>' ;
         return str;
       },
     },
@@ -85,8 +105,8 @@ export function getOption(m2R2Data) {
         label: {
           normal: {
             position: 'inside',
-            formatter: function(parms) {
-              return parms.data.legendname;
+            formatter: function(params) {
+              return params.data.value;
             },
           },
         },
@@ -101,7 +121,7 @@ export function getOption(m2R2Data) {
             smooth: true,
           },
         },
-        data: m2R2Data,
+        data: newData,
       },
     ],
   };

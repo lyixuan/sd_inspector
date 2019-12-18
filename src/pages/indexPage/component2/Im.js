@@ -1,25 +1,37 @@
 import React from 'react';
+import { connect } from 'dva';
 import stylefather from '../indexPage.less';
 import IMImg from '@/assets/IM@2x.png';
 import gengduo from '@/assets/newIndex/gengduo@2x.png';
+import dianzan from '@/assets/dianzan@2x.png';
+import flower from '@/assets/flower@2x.png';
+import kaixin from '@/assets/kaixin@2x.png';
+import bixin from '@/assets/bixin@2x.png';
 import style from './style.less';
 import Echarts from '@/components/Echart';
 import { getOption } from './getImOptions';
+import { Spin } from 'antd';
 
 const m2R2Data = [
   { value: 335, legendname: '335', name: '产品', itemStyle: { color: '#6665DD' } },
   { value: 310, legendname: '310', name: '退学', itemStyle: { color: '#FF602F' } },
   { value: 234, legendname: '234', name: '学术', itemStyle: { color: '#33D195' } },
   { value: 154, legendname: '154', name: '其他', itemStyle: { color: '#B5E1F9' } },
-  { value: 335, legendname: '335', name: '服务', itemStyle: { color: '#f2719a' } },
-  { value: 335, legendname: '335', name: '流程', itemStyle: { color: '#fca4bb' } },
-  { value: 335, legendname: '334', name: '课程', itemStyle: { color: '#f59a8f' } },
-  { value: 335, legendname: '336', name: '未分类', itemStyle: { color: '#fdb301' } },
+  { value: 335, legendname: '335', name: '服务', itemStyle: { color: '#FFC442' } },
+  { value: 335, legendname: '335', name: '流程', itemStyle: { color: '#4A5F75' } },
+  { value: 335, legendname: '334', name: '课程', itemStyle: { color: '#0496FF' } },
+  { value: 335, legendname: '336', name: '未分类', itemStyle: { color: '#AEB89F' } },
 ];
+
+@connect(({ xdWorkModal, loading }) => ({
+  WorkbenchImNegativeData: xdWorkModal.WorkbenchImNegativeData,
+  WorkbenchImPieData: xdWorkModal.WorkbenchImPieData,
+  loadingTime: loading.effects['xdWorkModal/getImPieData'],
+}))
 class Im extends React.Component {
   render() {
-    const { WorkbenchScore } = this.props;
-    const options = getOption(m2R2Data);
+    const { WorkbenchImNegativeData, WorkbenchImPieData, loadingTime } = this.props;
+    const options = getOption(WorkbenchImPieData);
     return (
       <div className={stylefather.boxLeft}>
         <div className={stylefather.boxHeader}>
@@ -29,28 +41,67 @@ class Im extends React.Component {
         </div>
         <div className={style.imContent}>
           <div className={style.imContentLeft}>
-            <div className={style.imItem}>
-              <p className={style.items}>
-                2.21<span className={style.precent}>%</span>
-              </p>
-              <p className={style.small}>不满意率</p>
-            </div>
-            <div className={style.imItem}>
-              <p className={style.items}>146</p>
-              <p className={style.small}>不满意会话</p>
-            </div>
-            <div className={style.imItem}>
-              <p className={style.items}>146</p>
-              <p className={style.small}>未回复数</p>
-            </div>
-            <div className={style.imItem}>
-              <p className={style.items}>146</p>
-              <p className={style.small}>不及时数</p>
-            </div>
+            {WorkbenchImNegativeData.badContrasts ? (
+              <div className={style.imItem}>
+                <p className={style.items}>
+                  {(WorkbenchImNegativeData.badContrasts * 100).toFixed(2)}
+                  <span className={style.precent}>%</span>
+                </p>
+                <p className={style.small}>不满意率</p>
+              </div>
+            ) : (
+              <div className={style.imItem}>
+                <p className={style.items}>
+                  <img src={dianzan} className={style.iconImg} />
+                </p>
+                <p className={style.small}>全部满意</p>
+              </div>
+            )}
+            {WorkbenchImNegativeData.notSatisfied ? (
+              <div className={style.imItem}>
+                <p className={style.items}>{WorkbenchImNegativeData.notSatisfied}</p>
+                <p className={style.small}>不满意会话</p>
+              </div>
+            ) : (
+              <div className={style.imItem}>
+                <p className={style.items}>
+                  <img src={kaixin} className={style.iconImg} />
+                </p>
+                <p className={style.small}>全部满意</p>
+              </div>
+            )}
+            {WorkbenchImNegativeData.notReply ? (
+              <div className={style.imItem}>
+                <p className={style.items}>{WorkbenchImNegativeData.notReply}</p>
+                <p className={style.small}>未回复数</p>
+              </div>
+            ) : (
+              <div className={style.imItem}>
+                <p className={style.items}>
+                  <img src={flower} className={style.iconImg} />
+                </p>
+                <p className={style.small}>全部回复</p>
+              </div>
+            )}
+            {WorkbenchImNegativeData.notInTime ? (
+              <div className={style.imItem}>
+                <p className={style.items}>{WorkbenchImNegativeData.notInTime}</p>
+                <p className={style.small}>不及时数</p>
+              </div>
+            ) : (
+              <div className={style.imItem}>
+                <p className={style.items}>
+                  <img src={bixin} className={style.iconImg1} />
+                </p>
+                <p className={style.small}>全部及时</p>
+              </div>
+            )}
           </div>
-          <div className={style.imContentRight}>
-            <Echarts options={options} style={{ height: 275 + 'px', top: '-49px' }} />
-          </div>
+          <Spin spinning={loadingTime}>
+            <div className={style.imContentRight}>
+              <Echarts options={options} style={{ height: 275 + 'px', top: '-49px' }} />
+            </div>
+          </Spin>
         </div>
       </div>
     );

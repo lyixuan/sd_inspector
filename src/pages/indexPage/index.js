@@ -8,6 +8,7 @@ import moment from 'moment/moment';
 
 @connect(({ xdWorkModal }) => ({
   xdWorkModal,
+  getCurrentDateRangeData: xdWorkModal.getCurrentDateRangeData,
 }))
 class IndexPage extends Component {
   constructor(props) {
@@ -30,14 +31,35 @@ class IndexPage extends Component {
         this.setState({ date: res });
         this.getData(res);
         this.getNpsData(res);
+        this.getImNegativeData(res);
+        this.getImPieData(res);
       });
   }
 
   // 获取nps接口
   getNpsData = date => {
+    const { startTime, endTime } = this.props.getCurrentDateRangeData;
     this.props.dispatch({
       type: 'xdWorkModal/getNpsData',
-      payload: { params: { startTime: date.startDate, endTime: date.endDate } },
+      payload: { params: { startTime, endTime } },
+    });
+  };
+
+  // 获取IM负面数据接口
+  getImNegativeData = date => {
+    const { startTime, endTime } = this.props.getCurrentDateRangeData;
+    this.props.dispatch({
+      type: 'xdWorkModal/getImNegativeData',
+      payload: { params: { startTime, endTime } },
+    });
+  };
+
+  // 获取IM饼图接口
+  getImPieData = date => {
+    const { startTime, endTime } = this.props.getCurrentDateRangeData;
+    this.props.dispatch({
+      type: 'xdWorkModal/getImPieData',
+      payload: { params: { startTime, endTime } },
     });
   };
 
