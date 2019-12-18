@@ -58,8 +58,8 @@ export async function getWorkbenchScore(params) {
 }
 
 // 获取nps
-export async function getNpsData(params) {
-  return request('/workbench/nps', { params });
+export async function getNpsData(data) {
+  return request('/workbench/nps', { method: 'POST', data });
 }
 
 export async function getImNegativeData(params) {
@@ -67,5 +67,5 @@ export async function getImNegativeData(params) {
 }
 
 export async function getImPieData(data) {
-  return request('/deskperfpcapi/im/reasonListV2',{ method: 'POST', data });
+  return request('/deskperfpcapi/im/reasonListV2', { method: 'POST', data });
 }
