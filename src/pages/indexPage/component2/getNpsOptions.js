@@ -1,10 +1,11 @@
 const dataShadow = [];
 
 export function getOption(data) {
+  console.log(data, 'aa');
   const newAxis = [];
   if (data.starList) {
     let maxArr = [];
-    for (let i of data.starList) {
+    for (let i of data.tagImageDtoList) {
       maxArr.push(Number(i.value));
     }
     const max = Math.max.apply(null, maxArr);
@@ -49,7 +50,7 @@ export function getOption(data) {
       },
       axisLabel: {
         textStyle: {
-          color: '#7D90AA',
+          color: '#999',
         },
       },
     },
@@ -63,13 +64,18 @@ export function getOption(data) {
         // For shadow
         type: 'bar',
         itemStyle: {
-          color: '#F6F6F4',
-          barBorderRadius: [10, 10, 0, 0],
+          normal: { color: '#F6F6F4' },
         },
+
         barGap: '-100%',
         barWidth: 17, //柱图宽度
+        // barCategoryGap: '100%',
         data: dataShadow,
-        animation: false,
+        // animation: false,
+        itemStyle: {
+          barBorderRadius: [10, 10, 0, 0],
+          color: '#F6F6F4',
+        },
       },
       {
         type: 'bar',
@@ -117,7 +123,7 @@ export function getOption(data) {
             },
           },
         },
-        data: data.starList,
+        data: data.tagImageDtoList,
       },
     ],
   };

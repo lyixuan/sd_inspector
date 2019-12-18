@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
+import { Spin } from 'antd';
 import MainPage from './mainPage/index';
 import ScoreIncome from './component2/ScoreIncome';
 import ImNps from './component2/ImNps';
 import QualityAppeal from './component2/QualityAppeal';
 import moment from 'moment/moment';
 
-@connect(({ xdWorkModal }) => ({
+@connect(({ xdWorkModal, loading }) => ({
   xdWorkModal,
+  loadingTime: loading.effects['xdWorkModal/getCurrentDateRange'],
   getCurrentDateRangeData: xdWorkModal.getCurrentDateRangeData,
 }))
 class IndexPage extends Component {
@@ -37,12 +39,14 @@ class IndexPage extends Component {
   }
 
   // 获取nps接口
-  getNpsData = date => {
+  getNpsData = () => {
     const { startTime, endTime } = this.props.getCurrentDateRangeData;
-    this.props.dispatch({
-      type: 'xdWorkModal/getNpsData',
-      payload: { params: { startTime, endTime } },
-    });
+    if (startTime) {
+      this.props.dispatch({
+        type: 'xdWorkModal/getNpsData',
+        payload: { params: { startTime, endTime } },
+      });
+    }
   };
 
   // 获取IM负面数据接口
@@ -66,19 +70,29 @@ class IndexPage extends Component {
   getData = date => {
     this.props.dispatch({
       type: 'xdWorkModal/getWorkbenchScore',
-      payload: { params: { startTime: moment(new Date(date.startDate)).format('YYYY-MM-DD'), endTime: moment(new Date(date.endDate)).format('YYYY-MM-DD') } },
+      payload: {
+        params: {
+          startTime: moment(new Date(date.startDate)).format('YYYY-MM-DD'),
+          endTime: moment(new Date(date.endDate)).format('YYYY-MM-DD'),
+        },
+      },
     });
   };
 
   render() {
     const { date } = this.state;
+    const { loadingTime } = this.props;
     const { WorkbenchScore, WorkbenchIncome, WorkbenchNpsData } = this.props.xdWorkModal;
     return (
-      <>
-        <ScoreIncome date={date} WorkbenchScore={WorkbenchScore} WorkbenchIncome={WorkbenchIncome} />
+      <Spin spinning={loadingTime}>
+        <ScoreIncome
+          date={date}
+          WorkbenchScore={WorkbenchScore}
+          WorkbenchIncome={WorkbenchIncome}
+        />
         <ImNps WorkbenchNpsData={WorkbenchNpsData} />
         <QualityAppeal WorkbenchNpsData={WorkbenchNpsData} />
-      </>
+      </Spin>
     );
   }
 }

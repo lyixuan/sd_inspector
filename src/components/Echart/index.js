@@ -2,6 +2,7 @@ import React from 'react';
 import echarts from 'echarts';
 import Empty from '@/components/Empty';
 import styles from './styles.less';
+require('echarts-wordcloud');
 
 export default class EchartsComponent extends React.Component {
 
