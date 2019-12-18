@@ -31,7 +31,7 @@ class ScoreContrast extends React.Component {
   constructor(props) {
     super(props);
     const { params } = this.props.location.query;
-    const { contrasts = 3 } = params ? JSON.parse(params) : {};
+    const { contrasts = 1 } = params ? JSON.parse(params) : {};
     this.state = {
       queryAppealDatas:{},
       queryParams: {
