@@ -11,6 +11,7 @@ import {
   // getCurrentFamilyType,
   // getOrgList,
   getCurrentDateRange,
+  getWorkbenchIncome,
   getWorkbenchScore,
   getNpsData,
   getImNegativeData,
@@ -30,6 +31,7 @@ export default {
     globalQVisible: false, // 问卷调查是否显示
     getCurrentDateRangeData: null,
     WorkbenchScore: {},
+    WorkbenchIncome: {},
     WorkbenchNpsData: {},
     WorkbenchImNegativeData: {},
     WorkbenchImPieData: {},
@@ -40,6 +42,14 @@ export default {
       const result = yield call(getWorkbenchScore, payload.params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { WorkbenchScore: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getWorkbenchIncome({ payload, callback }, { call, put }) {
+      const result = yield call(getWorkbenchIncome, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { WorkbenchIncome: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

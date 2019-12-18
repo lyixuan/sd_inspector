@@ -24,17 +24,18 @@ const userTypes = {
   globalOrgList: histogramModel.globalOrgList || {},
   userInfo: histogramModel.userInfo || {},
   globalUserTypes: global.globalUserTypes || {},
-  globalDateMoment: newDetailModal.globalDateMoment
+  globalDateMoment: newDetailModal.globalDateMoment,
+  userType: newDetailModal.globalUserType
 }))
 class ScoreContrast extends React.Component {
   constructor(props) {
     super(props);
-    const admin_user = localStorage.getItem('admin_user');
-    const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
+    const { params } = this.props.location.query;
+    const { contrasts = 3 } = params ? JSON.parse(params) : {};
     this.state = {
       queryAppealDatas:{},
       queryParams: {
-        contrasts: 1,
+        contrasts,
         familyType: '0',
         dimensionId: undefined,
         collegeId: undefined,
@@ -42,13 +43,12 @@ class ScoreContrast extends React.Component {
         dataRange: this.props.globalDateMoment
       },
       query: { }, // tabs值储存
-      tabNum:1,
-      userType,
+      tabNum: contrasts,
       familyTypeInit: '0'
     }
   }
   componentDidMount() {
-     // 自考壁垒对应的学院  三个工作台都要用
+    // 自考壁垒对应的学院  三个工作台都要用
     this.props.dispatch({
       type:"histogramModel/getCurrentFamilyType",
       callback:({ familyType }) => {
@@ -59,7 +59,10 @@ class ScoreContrast extends React.Component {
           queryParams
         }, () => this.queryAppealDataPage())
       }
-    }) 
+    })
+    if (this.tabNum !== 1) {
+      this.getOrgList();
+    }
   }
   // tab改变
   changeTab = (obj) => {
@@ -133,7 +136,8 @@ class ScoreContrast extends React.Component {
     return newParams
   }
   rightPart = () => {
-    const {userType, queryParams} = this.state;
+    const { queryParams } = this.state;
+    const { userType } = this.props;
     const allTimes = getDateObj(this.state.queryParams.dataRange);
     const orgList = this.props.globalOrgList[queryParams.familyType] || []
     return(
@@ -202,13 +206,13 @@ class ScoreContrast extends React.Component {
     }, () => this.queryAppealDataPage())
   }
   handleRouter = (path, params, trace) => {
-    const { userType } = this.state;
+    const { userType } = this.props;
     const { globalUserTypes } = this.props;
     handleDataTrace({"widgetName":`${globalUserTypes[userType]}点学分${trace}`,"traceName":`${globalUserTypes[userType]}工作台/学分${trace}按钮`});
     jumpGobalRouter(path, params);
   }
   getTabParams = () => {
-    const trace = this.props.globalUserTypes[this.state.userType];
+    const trace = this.props.globalUserTypes[this.props.userType];
     return [{
       name: <span data-trace={`{"widgetName":"学院学分对比","traceName":"${trace}工作台/学院学分对比"}`}>学院学分对比</span>,
       key: '1',
@@ -236,6 +240,7 @@ class ScoreContrast extends React.Component {
           marginLeft: 400,
           left: 0
         }} 
+        keye={this.state.tabNum}
         tabParams={this.getTabParams()} onTabChange={this.changeTab}
         propsData = {{
           ...this.state,

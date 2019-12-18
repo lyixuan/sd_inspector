@@ -10,10 +10,10 @@ class ScoreIncome extends React.Component {
   onBeforePlay=()=>{
   };
   render() {
-    const { WorkbenchScore,date } = this.props;
+    const { WorkbenchScore,WorkbenchIncome,date } = this.props;
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType :'';
-    console.log(123,userType)
+    console.log(123,WorkbenchScore)
     return (
       <div className={style.scoreWrap}>
         <div className={style.scoreHeader}>
@@ -21,7 +21,7 @@ class ScoreIncome extends React.Component {
           <span className={style.date}>{moment(new Date(date.startDate)).format('YYYY.MM.DD')} ~ {moment(new Date(date.endDate)).format('YYYY.MM.DD')}</span>
         </div>
         <Score WorkbenchScore={WorkbenchScore} userType={userType}/>
-        <Income WorkbenchScore={WorkbenchScore} userType={userType}/>
+        <Income WorkbenchIncome={WorkbenchIncome} userType={userType}/>
       </div>
     );
   }

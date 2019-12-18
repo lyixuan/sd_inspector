@@ -3,13 +3,16 @@ import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
 import moment from 'moment';
 
+const admin_user = localStorage.getItem('admin_user');
+const globalUserType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
 export default {
   namespace: 'newDetailModal',
   state: {
+    globalUserType: globalUserType,
     globalUserInfo: {}, // 全局值
     globalDateRange: {},
     globalDateMoment: [],
-    globalDate: {}
+    globalDate: {},
   },
   effects: {
     *getUserInfo({ callback }, { call, put }) {

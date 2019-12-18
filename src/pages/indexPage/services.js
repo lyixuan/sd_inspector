@@ -53,8 +53,11 @@ export async function getCurrentDateRange(params) {
 }
 
 // l
-export async function getWorkbenchScore(params) {
-  return request('/workbench/score', { params });
+export async function getWorkbenchScore(data) {
+  return request('/workbench/score',{ method: 'POST', data: data });
+}
+export async function getWorkbenchIncome(params) {
+  return request('/workbench/score',{params});
 }
 
 // 获取nps

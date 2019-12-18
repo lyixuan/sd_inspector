@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Tooltip } from 'antd';
 import BISelect from '@/ant_components/BISelect';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-// import BIWrapperTable from '../../../components/BIWrapperTable';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BIButton from '@/ant_components/BIButton';
 import styles from '../style.less';
@@ -11,7 +11,7 @@ const { BI = {} } = window;
 const { Option } = BISelect;
 const pkTypeconfig = ['集团排行', '学院内排行', '家族内排行', '同期入职排行', '同级排行',];
 @connect(({ loading }) => ({
-  loading: loading.effects['xdClsssModal/getIncomeKpiPkList'],
+  loading: loading.effects['incomeRankModal/getIncomeKpiPkList'],
 }))
 class ProfitList extends React.Component {
   constructor(props) {
@@ -60,16 +60,19 @@ class ProfitList extends React.Component {
         key: 'sort',
 
       }, {
+        ellipsis: true,
         width: '40%',
         title: '组织',
         dataIndex: 'orgName',
         key: 'orgName',
+        render: text => <Tooltip trigger="hover" title={text}>{text}</Tooltip>
       }, {
         width: '20%',
         title: '老师姓名',
         dataIndex: 'personName',
         key: 'personName',
       }, {
+        ellipsis: true,
         title: '绩效收入（元）',
         dataIndex: 'totalKpi',
         key: 'totalKpi',
@@ -107,7 +110,7 @@ class ProfitList extends React.Component {
   }
   getData = (pkListType = this.props.pkListType) => {
     this.props.dispatch({
-      type: 'xdClsssModal/getIncomeKpiPkList',
+      type: 'incomeRankModal/getIncomeKpiPkList',
       payload: { params: { pkListType } },
       callback: (profitList) => {
         this.setState({ profitList })

@@ -9,7 +9,7 @@ class Histogram extends React.Component {
   render() {
     return (
       <>
-       { this.props.globalDate.startDate && <ScoreContrast globalDate={this.props.globalDate} /> }
+       { this.props.globalDate.startDate && <ScoreContrast globalDate={this.props.globalDate} location={this.props.location}/> }
       </>
     );
   }

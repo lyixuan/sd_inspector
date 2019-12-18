@@ -50,8 +50,8 @@ class ImPage extends React.Component {
     //   type: 'xdCreditModal/getUserInfo',
     // }); 
     const { params } = this.props.location.query;
-    const { dataRange = [], groupId = []} = params ? JSON.parse(params) : {};
-    this.setState({ dataRange, groupId,}, () => {
+    const { dataRange = [], groupId = [], reasonTypeId = 0} = params ? JSON.parse(params) : {};
+    this.setState({ dataRange, groupId, reasonTypeId}, () => {
       this.props.dispatch({
         type: 'xdCreditModal/getKpiDateRange',
         callback: res => {

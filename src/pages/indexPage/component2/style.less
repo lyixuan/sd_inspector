@@ -42,7 +42,10 @@
   background:rgba(249,249,249,1);
   border-radius:20px;
 }
-
+.incomeRight {
+  height: 228px;
+  margin-top: 15px;
+}
 .total {
   text-align: center;
   width: 100%;
@@ -58,7 +61,24 @@
     color:rgba(40,40,40,1);
   }
 }
-
+.incomeTotal {
+  width: 100%;
+  overflow: hidden;
+  >div {
+    width: 50%;
+    float: left;
+    text-align: center;
+    >div:nth-child(1) {
+      font-family:DINCondensed-Bold,DINCondensed!important;
+      font-size: 32px;
+      color:rgba(40,40,40,1);
+    }
+    >div:nth-child(2){
+      color: #7E7D82;
+      font-weight: normal;
+    }
+  }
+}
 .ScoreTab {
   text-align: center;
 }
@@ -108,6 +128,37 @@
 .dataItem div:nth-child(3){
   font-size:12px;
   color:rgba(126,125,130,1);
+}
+
+.crossRow {
+  position: relative;
+  overflow: hidden;
+}
+
+.footer,.footer2 {
+  position: absolute;
+  bottom: 40px;
+  right: 0px;
+  width: 260px;
+  span {
+    display: inline-block;
+    width: 80px;
+    text-align: center;
+    font-weight: bold;
+    i{
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+  }
+}
+.footer2 {
+  bottom: 20px;
+  span{
+    font-weight: normal;
+  }
 }
 //  wen
 .imContent {

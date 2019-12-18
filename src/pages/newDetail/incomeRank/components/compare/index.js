@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import moment from 'moment';
-import styles from './styles.less';
-import Container from '@/components/BIContainer';
-import BIWrapperTable from '../../../../components/BIWrapperTable';
+import styles from './style.less';
+import BIWrapperTable from '@/components/BIWrapperTable';
+import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import { thousandsFormatBigger } from '@/utils/utils';
 
@@ -45,9 +44,7 @@ class Compare extends React.Component {
         title: '好推单量',
         dataIndex: 'goodPushOrder',
         key: 'goodPushOrder',
-        // render: (goodPushOrder, record) => {
-        //   return <div style={{ textAlign: 'center' }}>{goodPushOrder}</div>;
-        // },
+        render: text => <BITextAlign>{text}</BITextAlign>
       },
       {
         title: '好推流水',
@@ -61,7 +58,6 @@ class Compare extends React.Component {
               <BIWrapperProgress
                 text={money}
                 percent={percent}
-                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'center' }}
               />
             // </div>
           );
@@ -71,9 +67,7 @@ class Compare extends React.Component {
         title: '续报单量',
         dataIndex: 'repeatSignOrder',
         key: 'repeatSignOrder',
-        // render: (repeatSignOrder, record) => {
-        //   return <div style={{ textAlign: 'center' }}>{repeatSignOrder}</div>;
-        // },
+        render: text => <BITextAlign>{text}</BITextAlign>
       },
       {
         title: '续报流水',
@@ -87,22 +81,19 @@ class Compare extends React.Component {
               <BIWrapperProgress
                 text={money}
                 percent={percent}
-                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'center' }}
               />
             // </div>
           );
         },
       },
       {
-        title: '成本套单量',
+        title: '成考单量',
         dataIndex: 'adultRegularOrder',
         key: 'adultRegularOrder',
-        // render: (adultRegularOrder, record) => {
-        //   return <div style={{ textAlign: 'center' }}>{adultRegularOrder}</div>;
-        // },
+        render: text => <BITextAlign>{text}</BITextAlign>
       },
       {
-        title: '成本套流水',
+        title: '成考流水',
         dataIndex: 'adultRegularFlowKpi',
         key: 'adultRegularFlowKpi',
         render: (adultRegularFlowKpi, record) => {
@@ -113,7 +104,6 @@ class Compare extends React.Component {
               <BIWrapperProgress
                 text={money}
                 percent={percent}
-                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'center' }}
               />
             // </div>
           );
@@ -131,7 +121,6 @@ class Compare extends React.Component {
               <BIWrapperProgress
                 text={money}
                 percent={percent}
-                propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'flex-end' }}
               />
             // </div>
           );
@@ -164,6 +153,7 @@ class Compare extends React.Component {
             loading={this.props.loading}
             onRow={this.onClickRow}
             rowKey={record => record.id}
+            bordered={true}
           />
       </div>
     );
