@@ -3,6 +3,12 @@
     'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial,
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
 }
+
+.ant-layout {
+  color:#282828;
+  background:#F4F4F4;
+}
+
 .ant-menu {
   font-weight: 300;
   font-family: 'PingFangSC-Regular', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',

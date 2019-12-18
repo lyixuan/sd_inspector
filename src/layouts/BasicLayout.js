@@ -22,6 +22,7 @@ import { query } from './utils/query';
 import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
 import { redirectUrlParams, redirectToLogin, checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
+import style from './styles/basic.less';
 
 // import router from 'umi/router';
 const { Content, Header } = Layout;
@@ -253,7 +254,7 @@ class BasicLayout extends React.PureComponent {
   }
 
   render() {
-    let color = '#F5F8FA';
+    let color = '#F4F4F4';
     const { collapsed, fetchingNotices, notices, location, children, isLoginIng } = this.props;
     const { menuData } = this.props;
 
@@ -265,37 +266,41 @@ class BasicLayout extends React.PureComponent {
     const layout = (
       <>
         <Layout>
-          <SiderMenu
-            logo={logo}
-            menuData={menuData}
+
+          <HeaderLayout
+            {...this.props}
+            logo={biIcon}
+            currentUser={currentUser}
+            fetchingNotices={fetchingNotices}
+            notices={notices}
             collapsed={collapsed}
-            location={location}
             isMobile={this.state.isMobile}
             onCollapse={this.handleMenuCollapse}
-            onClick={({ item, key, keyPath }) => {
-              console.log(item, key);
-              window.location.href = 'www.baidu.com';
-            }}
+            onNoticeVisibleChange={this.handleNoticeVisibleChange}
           />
-          <Layout style={{ backgroundColor: color }}>
-            <HeaderLayout
-              {...this.props}
-              logo={biIcon}
-              currentUser={currentUser}
-              fetchingNotices={fetchingNotices}
-              notices={notices}
+
+          <Layout className={style.contentLayout}>
+            <SiderMenu
+              logo={logo}
+              menuData={menuData}
               collapsed={collapsed}
+              location={location}
               isMobile={this.state.isMobile}
               onCollapse={this.handleMenuCollapse}
-              onNoticeVisibleChange={this.handleNoticeVisibleChange}
+              onClick={({ item, key, keyPath }) => {
+                console.log(item, key);
+                window.location.href = 'www.baidu.com';
+              }}
             />
-            <Content className={this.gobalMarkClass()}>
+
+            <Content className={`${this.gobalMarkClass()} ${style.content}`}>
               <ContentLayout {...this.props} routesData={routesData}>
                 <Authorized authority={checkPathname.bind(null, location.patchname)}>
                   {children}
                 </Authorized>
               </ContentLayout>
             </Content>
+
           </Layout>
         </Layout>
         <Footer />
