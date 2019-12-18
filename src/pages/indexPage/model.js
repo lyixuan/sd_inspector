@@ -13,6 +13,8 @@ import {
   getCurrentDateRange,
   getWorkbenchScore,
   getNpsData,
+  getImNegativeData,
+  getImPieData,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -29,6 +31,8 @@ export default {
     getCurrentDateRangeData: null,
     WorkbenchScore: {},
     WorkbenchNpsData: {},
+    WorkbenchImNegativeData: {},
+    WorkbenchImPieData: {},
   },
   effects: {
     // l
@@ -189,6 +193,26 @@ export default {
       const result = yield call(getNpsData, payload.params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { WorkbenchNpsData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    // 获取im负面数据
+    *getImNegativeData({ payload, callback }, { call, put }) {
+      const result = yield call(getImNegativeData, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { WorkbenchImNegativeData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    // 获取im负面数据
+    *getImPieData({ payload, callback }, { call, put }) {
+      const result = yield call(getImPieData, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { WorkbenchImPieData: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

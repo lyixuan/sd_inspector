@@ -54,13 +54,18 @@ export async function getCurrentDateRange(params) {
 
 // l
 export async function getWorkbenchScore(params) {
-  return request('/workbench/score',{params});
+  return request('/workbench/score', { params });
 }
-
 
 // 获取nps
 export async function getNpsData(params) {
-  return request('/workbench/nps',{params});
+  return request('/workbench/nps', { params });
 }
 
+export async function getImNegativeData(params) {
+  return request('/im/getImReverseSideDataV2', { method: 'get', params });
+}
 
+export async function getImPieData(data) {
+  return request('/deskperfpcapi/im/reasonListV2',{ method: 'POST', data });
+}
