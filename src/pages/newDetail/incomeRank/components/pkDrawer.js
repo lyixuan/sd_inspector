@@ -4,7 +4,6 @@ import { Tooltip } from 'antd';
 import { setLocalValue, thousandsFormatAll } from '@/pages/indexPage/components/utils/utils';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
-// import BIWrapperTable from '../../../components/BIWrapperTable';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BISelect from '@/ant_components/BISelect';
 import BIButton from '@/ant_components/BIButton';
@@ -12,7 +11,7 @@ import checkIcon from '@/assets/component/checkicon.png';
 import styles from './style.less';
 
 const { Option } = BISelect;
-@connect(({ incomeRankModal, loading }) => ({
+@connect(({ incomeRankModal }) => ({
   globalCollegeList: incomeRankModal.globalCollegeList,
 }))
 class ProfitList extends React.Component {
@@ -200,7 +199,7 @@ class ProfitList extends React.Component {
               rowKey={(record, index) => record.orgId + '' + index}
               onRow={this.onClickRow}
               rowClassName={this.getRowClassName}
-              scroll={{ y: 250 }}
+              scroll={{ y: 308 }}
               name={this.getShowKey('mineFlag') === 'myFamily' ? 'djlabc11' : 'djlabc12'}
             />
           </div>

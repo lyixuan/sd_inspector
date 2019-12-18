@@ -1,17 +1,17 @@
 import React from 'react';
 import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
-import Container from '@/components/BIContainer';
 import ProfitList from './components/list';
 import ProfitTabs from './components/tabs';
 import BIDrawer from '@/components/BIDrawer';
 import { message } from 'antd/lib/index';
 import { connect } from 'dva';
+import styles from './style.less';
 
 const { BI = {} } = window;
 const localKey = 'incomeWorkLocal';
-@connect(({ xdClsssModal, loading }) => ({
-  groupIncomePk: xdClsssModal.groupIncomePk,
-  resultloading: loading.effects['xdClsssModal/getContrastIncomeKpiPkList'],
+@connect(({ incomeRankModal, loading }) => ({
+  groupIncomePk: incomeRankModal.groupIncomePk,
+  resultloading: loading.effects['incomeRankModal/getContrastIncomeKpiPkList'],
 }))
 class Profit extends React.Component {
   constructor(props) {
@@ -34,7 +34,7 @@ class Profit extends React.Component {
   }  
   getResulitList = () => {
     this.props.dispatch({
-      type: 'xdClsssModal/getContrastIncomeKpiPkList',
+      type: 'incomeRankModal/getContrastIncomeKpiPkList',
       payload: { params: { pkUsers: this.state.pkUsers } }
     });
   }
@@ -88,11 +88,7 @@ class Profit extends React.Component {
     const { pkUsers, pkListType, visible } = this.state;
     const { resultloading } = this.props;
     return (
-      <Container 
-      title='本期创收' 
-      // right={<a>创收详情</a>}
-      style={{ position: 'relative'}}
-      >
+      <div className={styles.container}>
         <ProfitTabs 
         pkUsers={pkUsers} 
         toggleDrawer={this.toggleDrawer}
@@ -119,7 +115,7 @@ class Profit extends React.Component {
           {...this.props}
           />
         </BIDrawer>
-      </Container>
+      </div>
     );
   }
 }

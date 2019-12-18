@@ -5,7 +5,9 @@ import {
   getFamilyList,
   getIncomeFamilyGroupPk,
   getIncomeGroupList,
-  compareCollegeList
+  compareCollegeList,
+  getIncomeKpiPkList,
+  getContrastIncomeKpiPkList
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -96,6 +98,39 @@ export default {
           },
         });
         return result.data;
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 班主任
+    *getIncomeKpiPkList({ payload, callback }, { call }) {
+      const params = payload.params;
+      const result = yield call(getIncomeKpiPkList, params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+      } else if (result.code === 50000) {
+        if (callback && typeof callback === 'function') {
+          callback();
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 本期创收
+    *getContrastIncomeKpiPkList({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getContrastIncomeKpiPkList, params);
+      if (result.code === 20000) {
+        if (callback && typeof callback === 'function') {
+          callback(result.data);
+        }
+        yield put({ type: 'save', payload: { groupIncomePk: result.data } });
+      } else if (result.code === 50000) {
+        if (callback && typeof callback === 'function') {
+          callback();
+        }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

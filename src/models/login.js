@@ -117,7 +117,8 @@ export default {
         storage.setUserInfo(saveObj);
         storage.setUserAuth(privilegeList);
         // storage.removeItem('NPSGroupId');
-        // storage.removeItem('NPSDates');
+        storage.removeItem('incomeFamilyLocal');
+        storage.removeItem('incomeGroupLocal');
         yield put({
           type: 'menu/getMenu',
           payload: { routeData: response.privilegeList },

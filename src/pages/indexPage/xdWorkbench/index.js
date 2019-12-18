@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import Profit from './profit'
+// import Profit from './profit'
 import PerformanceDetail from './performanceDetail';
 // import Histogram from '@/pages/indexPage/components/scoreContrast';
 import Appeal from './appeal';
@@ -28,7 +28,7 @@ class XdWorkbench extends React.Component {
           this.props.userInfo.privilegeView &&  <CurrentCredit></CurrentCredit>
         } */}
         {/* {this.props.kpiTimes.endTime && <Histogram allTimes={this.props.kpiTimes} />} */}
-        <Profit userId={userId} />
+        {/* <Profit userId={userId} /> */}
         <div className={styles.qualityAppel}>
           <Quality userId={userId} />
           <Appeal userId={userId} />
