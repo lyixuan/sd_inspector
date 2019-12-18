@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'dva';
 import storage from '../../../utils/storage';
 import PageTab from '@/pages/indexPage/components/pageTab';
-import Histogram from '@/pages/indexPage/components/scoreContrast';
+// import Histogram from '@/pages/indexPage/components/scoreContrast';
 import PerformanceDetail from './performanceDetail';
 import CurrentCredit from './currentCredit';
 // import CreditRank from './creditRank';
-import IncomeRank from './incomeRank';
+// import IncomeRank from './incomeRank';
 import Top from './Top';
 import Negative from './appeal';
 import Income from './income';
@@ -34,7 +34,7 @@ class XdFamily extends React.Component {
         children: (
           <>
             <CurrentCredit />
-            {this.props.familyKpiTimes.endTime && <Histogram allTimes={this.props.familyKpiTimes} />}
+            {/* {this.props.familyKpiTimes.endTime && <Histogram allTimes={this.props.familyKpiTimes} />} */}
             {/* <CreditRank /> */}
           </>
         ),
@@ -46,7 +46,7 @@ class XdFamily extends React.Component {
           <>
             <Income />
             <Top />
-            <IncomeRank />
+            {/* <IncomeRank /> */}
           </>
         ),
         dataTrace: '{"widgetName":"创收分析","traceName":"家族长工作台/创收分析"}',

@@ -33,7 +33,9 @@ class BIDrawer extends React.Component {
           <div className={styles.drawer} style={drawerStyle}>
             <span onClick={this.onClose} className={styles.toggleClose}>
               {closeValue}
-              <img src={closeImg} alt=''/></span>
+              {/* <img src={closeImg} alt=''/> */}
+              <span className={styles.img}>{'>'}</span>
+            </span>
             <div className={styles.drawerBody} style={propsStyle}>
               {this.props.children}
             </div>
@@ -41,7 +43,9 @@ class BIDrawer extends React.Component {
         </div>
         {!visible ? <span onClick={this.onOpen} className={styles.toggleOpen}>
           {openValue}
-          <img src={openImg} alt=''/></span> : ''}
+          {/* <img src={openImg} alt=''/> */}
+          <span className={styles.img}>{'<'}</span>
+          </span> : ''}
       </div>    
     );
   }

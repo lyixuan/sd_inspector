@@ -525,6 +525,11 @@ export const routes = [
             component: './xdCredit',
             name: '小德学分',
           },
+          {
+            path: '/xdCredit/im',
+            component: './xdCredit/imPage',
+            name: 'im差评分析',
+          },
         ],
       },
       {
@@ -568,8 +573,8 @@ export const routes = [
           {
             path: '/examPlant/registTouch',
             component: './examPlant/registTouch',
-          }
-        ]
+          },
+        ],
       },
       {
         path: '/operateActivity',
@@ -581,8 +586,8 @@ export const routes = [
           {
             path: '/operateActivity/configActivity',
             component: './operateActivity/configActivity',
-          }
-        ]
+          },
+        ],
       },
       {
         path: '/cubePlan',
@@ -622,7 +627,7 @@ export const routes = [
         routes: [
           {
             path: '/hotQuestion/index',
-            component: './hotQuestion'
+            component: './hotQuestion',
           },
           {
             path: '/hotQuestion/guessEdit',
@@ -633,7 +638,24 @@ export const routes = [
             component: './hotQuestion/relationEdit',
           }
         ]
-      }
+      }, {
+        path: '/newdetail',
+        component: './newDetail',
+        routes: [
+          {
+            path: '/newdetail/analyze',
+            component: './newDetail/analyze',
+            name: '创收分析页',
+          }, {
+            path: '/newdetail/histogram',
+            component: './newDetail/histogram',
+          }, {
+            path: '/newdetail/incomeRank',
+            component: './newDetail/incomeRank',
+            name: '创收数据',
+          },
+        ],
+      },
     ],
   },
 ];

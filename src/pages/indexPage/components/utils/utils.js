@@ -2,7 +2,9 @@ import BIContrastCell from '@/components/BIContrastCell';
 import { thousandsFormat } from '@/utils/utils';
 import { Link } from 'dva/router';
 import styles from './style.less';
+import moment from 'moment';
 
+const dateFormat = 'YYYY-MM-DD';
 const { BI = {} } = window;
 // local存值
 export function setLocalValue(obj, item) {
@@ -84,4 +86,29 @@ export function getSubtract(bul, n, s = 160) {
 // 取整千分位
 export function thousandsFormatAll(n)  {
   return thousandsFormat(parseInt(n));
+}
+
+
+export function disabledDate(current, date) {
+  if (date) {
+    return (
+      current > moment(date.endDate) ||
+      current < moment(date.startDate)
+    );
+  } else {
+    return (
+      current > moment() ||
+      current < moment()
+    );
+  }
+  
+};
+export function getDateObj(date = []) {
+  if (date instanceof Array && date.length === 2) {
+    return {
+      startTime: moment(date[0]).format(dateFormat),
+      endTime: moment(date[1]).format(dateFormat)
+    }
+  }
+  return {}
 }

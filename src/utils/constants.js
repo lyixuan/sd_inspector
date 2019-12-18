@@ -413,6 +413,7 @@ export const EmptyContentLayout = [
   { path: '/xdFamilyBench/index', name: '家族长工作台' },
   { path: '/indexPage', name: '小德工作台' },
   { path: '/cubePlan/list', name: '魔方计划' },
+  { path: '/xdCredit/im', name: 'im差评分析'}
 ];
 export const EmptyContentLayoutWithBread = [{ path: '/cubePlan/list/detail', name: '魔方详情' }];
 // 注册类型

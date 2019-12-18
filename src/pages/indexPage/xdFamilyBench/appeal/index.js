@@ -31,7 +31,7 @@ class Negative extends React.Component {
       loadingStatus: true,
     };
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       nextProps.xdFamilyModal.getCurrentDateRangeData &&
       nextProps.xdFamilyModal.getCurrentDateRangeData.startDate !== this.state.date.startDate

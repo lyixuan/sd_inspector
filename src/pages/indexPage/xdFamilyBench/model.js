@@ -2,7 +2,7 @@ import {
   getCurrentIncomeGroup,
   getCurrentIncomeClass,
   getCurrentIncomeTarget,
-  getOrgMapList,
+  // getOrgMapList,
   getFamilyRecord,
   getFamilyQuality,
   scoreStatistics,
@@ -17,14 +17,14 @@ import {
   // getFamilyScorePk,
   // getFamilyRankList,
   // getGroupPkList,
-  getIncomeFamilyList,
-  getFamilyList,
+  // getIncomeFamilyList,
+  // getFamilyList,
   // getCollegeList,
   // myFamilyGroupList,
   // getIncomeCollegeList,
-  getIncomeFamilyGroupPk,
+  // getIncomeFamilyGroupPk,
   // groupPkList,
-  getIncomeGroupList,
+  // getIncomeGroupList,
   // 新增加的
   getNpsStarOpinion,
   getNpsAutonomousEvaluation,
@@ -85,10 +85,10 @@ export default {
     chargeCount: {},
     familyScorePk: {}, // 创收对比家族
     groupScorePk: {}, // 学分对比小组
-    familyIncomeList: {}, // 创收对比家族
-    familyIncomeDrawer: [],
-    groupIncomeList: {}, // 创收对比小组
-    groupIncomeDrawer: [],
+    // familyIncomeList: {}, // 创收对比家族
+    // familyIncomeDrawer: [],
+    // groupIncomeList: {}, // 创收对比小组
+    // groupIncomeDrawer: [],
     // 新增加部分
     npsParams: {}, //nps部分的数据
     compareCollegeListData: [],
@@ -413,23 +413,23 @@ export default {
     //   }
     // },
     //  家族创收对比
-    *getIncomeFamilyList({ payload }, { call, put }) {
-      const result = yield call(getIncomeFamilyList, payload.params);
-      if (result.code === 20000) {
-        yield put({ type: 'saveMax', payload: { data: result.data, key: 'familyIncomeList' } });
-      } else if (result && result.code !== 50000) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *getIncomeFamilyList({ payload }, { call, put }) {
+    //   const result = yield call(getIncomeFamilyList, payload.params);
+    //   if (result.code === 20000) {
+    //     yield put({ type: 'saveMax', payload: { data: result.data, key: 'familyIncomeList' } });
+    //   } else if (result && result.code !== 50000) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     // 家族创收对比右侧的家族绩效列表
-    *getFamilyList({ payload, callback }, { call, put }) {
-      const result = yield call(getFamilyList, payload.params);
-      if (result.code === 20000) {
-        yield put({ type: 'save', payload: { familyIncomeDrawer: result.data } });
-      } else if (result && result.code !== 50000) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *getFamilyList({ payload, callback }, { call, put }) {
+    //   const result = yield call(getFamilyList, payload.params);
+    //   if (result.code === 20000) {
+    //     yield put({ type: 'save', payload: { familyIncomeDrawer: result.data } });
+    //   } else if (result && result.code !== 50000) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     // 家族创收对比右侧的学院列表
     // *getIncomeCollegeList({ callback }, { call }) {
     //   const result = yield call(getIncomeCollegeList);
@@ -442,14 +442,14 @@ export default {
     //   }
     // },
     // 家族创收对比-小组创收对比
-    *getIncomeFamilyGroupPk({ payload, callback }, { call, put }) {
-      const result = yield call(getIncomeFamilyGroupPk, payload.params);
-      if (result.code === 20000) {
-        yield put({ type: 'saveMax', payload: { data: result.data, key: 'groupIncomeList' } });
-      } else if (result && result.code !== 50000) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *getIncomeFamilyGroupPk({ payload, callback }, { call, put }) {
+    //   const result = yield call(getIncomeFamilyGroupPk, payload.params);
+    //   if (result.code === 20000) {
+    //     yield put({ type: 'saveMax', payload: { data: result.data, key: 'groupIncomeList' } });
+    //   } else if (result && result.code !== 50000) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     // 小组学分对比
     // *groupPkList({ payload, callback }, { call, put }) {
     //   const params = payload.params;
@@ -464,14 +464,14 @@ export default {
     //   }
     // },
     // 家族创收对比右侧的家族绩效列表
-    *getIncomeGroupList({ payload, callback }, { call, put }) {
-      const result = yield call(getIncomeGroupList, payload.params);
-      if (result.code === 20000) {
-        yield put({ type: 'save', payload: { groupIncomeDrawer: result.data } });
-      } else if (result && result.code !== 50000) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *getIncomeGroupList({ payload, callback }, { call, put }) {
+    //   const result = yield call(getIncomeGroupList, payload.params);
+    //   if (result.code === 20000) {
+    //     yield put({ type: 'save', payload: { groupIncomeDrawer: result.data } });
+    //   } else if (result && result.code !== 50000) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
 
     // 新增加部分
     //  管理层工作台的接口
@@ -627,14 +627,14 @@ export default {
     //   const orgListTreeData = toTreeData(payload.orgList);
     //   return { ...state, orgList: payload.orgList, orgListTreeData };
     // },
-    saveMax(state, { payload }) {
-      const pkList = payload.data;
-      const maxValue = {};
-      for (var k in pkList[0]) {
-        maxValue[k] = Math.max.apply(null, pkList.map(item => item[k]));
-      }
-      return { ...state, [payload.key]: { maxValue, pkList } };
-    },
+    // saveMax(state, { payload }) {
+    //   const pkList = payload.data;
+    //   const maxValue = {};
+    //   for (var k in pkList[0]) {
+    //     maxValue[k] = Math.max.apply(null, pkList.map(item => item[k]));
+    //   }
+    //   return { ...state, [payload.key]: { maxValue, pkList } };
+    // },
     // saveScore(state, { payload }) {
     //   const data = payload.data;
     //   data.dimensionList = fillDataSource(

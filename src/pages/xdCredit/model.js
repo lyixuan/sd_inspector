@@ -34,6 +34,8 @@ export default {
     imDetailList: [],
     appealDatas: {}, // 日趋图数据
     appealAttendanceDatas: {}, //柱状图
+    globalOrgList: [],
+    globalUserMsg: {},
   },
 
   effects: {
@@ -71,6 +73,7 @@ export default {
       const result = yield call(getUserOrgList, params);
       if (result.code === 20000) {
         const res = result.data;
+        yield put({ type: 'save', payload: { globalOrgList: res } });
         if (callback && typeof callback === 'function') {
           callback(res);
         }

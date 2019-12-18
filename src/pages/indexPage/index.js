@@ -1,62 +1,83 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import RenderRoute from '@/components/RenderRoute';
-import Questionnaire from './components/questionnaire';
-import homeImg from '@/assets/homeImg.png';
-import homeText from '@/assets/homeText.png';
-import styles from './indexPage.less';
+import MainPage from './mainPage/index';
+import ScoreIncome from './component2/ScoreIncome';
+import ImNps from './component2/ImNps';
+import QualityAppeal from './component2/QualityAppeal';
+import moment from 'moment/moment';
 
 @connect(({ xdWorkModal }) => ({
-  userInfo: xdWorkModal.userInfo,
+  xdWorkModal,
+  getCurrentDateRangeData: xdWorkModal.getCurrentDateRangeData,
 }))
 class IndexPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: {
+        startDate: null,
+        kpiMonth: null,
+        endDate: null,
+      },
+    };
+  }
   componentDidMount() {
-    this.props.dispatch({
-      type: 'xdWorkModal/getUserInfo',
-    });
+    this.props
+      .dispatch({
+        type: 'xdWorkModal/getCurrentDateRange',
+        payload: { params: { userType: 'family' } },
+      })
+      .then(res => {
+        this.setState({ date: res });
+        this.getData(res);
+        this.getNpsData(res);
+        this.getImNegativeData(res);
+        this.getImPieData(res);
+      });
   }
-  getPageDom = () => {
-    const admin_user = localStorage.getItem('admin_user');
-    const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
-    const { userInfo } = this.props;
-    if (userType === 'class' || userType === 'group') {
-      if (this.props.history.location.pathname !== '/indexPage/xdWorkbench') {
-        this.props.history.push({
-          pathname: '/indexPage/xdWorkbench',
-        });
-      }
-      return false;
-    } else if (userType === 'family' && userInfo.privilegeView && userInfo.moreView) {
-      if (this.props.history.location.pathname !== '/indexPage/xdFamilyBench') {
-        this.props.history.push({
-          pathname: '/indexPage/xdFamilyBench',
-        }); //前端角色是家族长（family）角色 且 权限中勾选了 学分绩效 或 创收绩效 的用户显示页面
-      }
-      return false;
-    } else if ((userType === 'college' || userType === 'boss') && (userInfo.privilegeView || userInfo.moreView)) {//
-      if (this.props.history.location.pathname !== '/indexPage/ManagementBench') {
-        this.props.history.push({
-          pathname: '/indexPage/ManagementBench',
-        }); //前端角色是家族长（college）角色 且 权限中勾选了 学分绩效 或 创收绩效 的用户显示页面
-      }
 
-    }else {
-      return <div className={styles.container}>
-        <div className={styles.content}>
-          <img src={homeImg} alt="首页" className={styles.homeImg}/>
-          <div className={styles.userDescription}>
-            <img src={homeText} alt="首页文字"/>
-          </div>
-        </div>
-      </div>
-    }
-  }
+  // 获取nps接口
+  getNpsData = date => {
+    const { startTime, endTime } = this.props.getCurrentDateRangeData;
+    this.props.dispatch({
+      type: 'xdWorkModal/getNpsData',
+      payload: { params: { startTime, endTime } },
+    });
+  };
+
+  // 获取IM负面数据接口
+  getImNegativeData = date => {
+    const { startTime, endTime } = this.props.getCurrentDateRangeData;
+    this.props.dispatch({
+      type: 'xdWorkModal/getImNegativeData',
+      payload: { params: { startTime, endTime } },
+    });
+  };
+
+  // 获取IM饼图接口
+  getImPieData = date => {
+    const { startTime, endTime } = this.props.getCurrentDateRangeData;
+    this.props.dispatch({
+      type: 'xdWorkModal/getImPieData',
+      payload: { params: { startTime, endTime } },
+    });
+  };
+
+  getData = date => {
+    this.props.dispatch({
+      type: 'xdWorkModal/getWorkbenchScore',
+      payload: { params: { startTime: moment(new Date(date.startDate)).format('YYYY-MM-DD'), endTime: moment(new Date(date.endDate)).format('YYYY-MM-DD') } },
+    });
+  };
+
   render() {
-    const flag = this.getPageDom();
+    const { date } = this.state;
+    const { WorkbenchScore, WorkbenchIncome, WorkbenchNpsData } = this.props.xdWorkModal;
     return (
       <>
-        {flag ? flag : <RenderRoute {...this.props} />}
-        {/* <Questionnaire/> */}
+        <ScoreIncome date={date} WorkbenchScore={WorkbenchScore} WorkbenchIncome={WorkbenchIncome} />
+        <ImNps WorkbenchNpsData={WorkbenchNpsData} />
+        <QualityAppeal WorkbenchNpsData={WorkbenchNpsData} />
       </>
     );
   }

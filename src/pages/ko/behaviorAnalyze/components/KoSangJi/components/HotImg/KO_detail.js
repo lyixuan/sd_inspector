@@ -20,7 +20,7 @@ class KoDetailPage extends React.Component {
   componentDidMount() {
     this.drewLended([],pages.homepage);
   }
-  componentWillReceiveProps(nextProps){
+  UNSAFE_componentWillReceiveProps(nextProps){
     if(JSON.stringify(nextProps.behavior.hotDataList)!=='{}'||nextProps.behavior.hotDataList!==this.props.behavior.hotDataList){
       this.drewLended(nextProps.behavior.hotDataList,nextProps.behavior.currentPage,nextProps.behavior.currentActionName);
     }

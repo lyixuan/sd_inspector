@@ -1,34 +1,60 @@
-
 import {
   getUserInfo,
   getOrgMapList,
   // kpiLevelList,
   // groupList,
   getIncomeCollegeList,
-  getQuestionCheckUser, 
+  getQuestionCheckUser,
   postWriteQuestion,
-  queryAppealDataPage,
-  getFamilyType,
-  getCurrentFamilyType,
-  getOrgList
+  // queryAppealDataPage,
+  // getFamilyType,
+  // getCurrentFamilyType,
+  // getOrgList,
+  getCurrentDateRange,
+  getWorkbenchIncome,
+  getWorkbenchScore,
+  getNpsData,
+  getImNegativeData,
+  getImPieData,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
+import moment from 'moment';
 
 export default {
   namespace: 'xdWorkModal',
   state: {
     userInfo: {}, // 全局值
-    orgList:[],
+    orgList: [],
     // globalLevelList: [],
     globalCollegeList: [],
     globalQVisible: false, // 问卷调查是否显示
-    globalOrgList: {
-      0: [],
-      1: [],
-    } // 柱状图组织
+    getCurrentDateRangeData: null,
+    WorkbenchScore: {},
+    WorkbenchIncome: {},
+    WorkbenchNpsData: {},
+    WorkbenchImNegativeData: {},
+    WorkbenchImPieData: {},
   },
-  effects: { 
+  effects: {
+    // l
+    *getWorkbenchScore({ payload, callback }, { call, put }) {
+      const result = yield call(getWorkbenchScore, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { WorkbenchScore: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getWorkbenchIncome({ payload, callback }, { call, put }) {
+      const result = yield call(getWorkbenchIncome, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { WorkbenchIncome: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
     *getUserInfo({ callback }, { call, put }) {
       const result = yield call(getUserInfo);
       if (result.code === 20000 && result.data) {
@@ -40,7 +66,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-        // 本期学分数据
+    // 本期学分数据
     // *getKpiLevelList(_, { call, put }) {
     //   const result = yield call(kpiLevelList)
     //   if (result.code === 20000) {
@@ -89,13 +115,13 @@ export default {
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }
-        yield put({ type: 'save', payload: { globalQVisible: result.data} });
+        yield put({ type: 'save', payload: { globalQVisible: result.data } });
       }
     },
     // 问卷调查提交
     *postWriteQuestion({ payload, callback }, { call, put }) {
       const params = payload.params;
-      yield put({ type: 'save', payload: { globalQVisible: false} });
+      yield put({ type: 'save', payload: { globalQVisible: false } });
       const result = yield call(postWriteQuestion, params);
       if (result.code === 20000) {
         if (callback && typeof callback === 'function') {
@@ -110,43 +136,93 @@ export default {
     },
     // 柱状图
     //  家族学分对比柱状图部分的接口
-    *queryAppealDataPage({ payload, callback }, { call, put }) {
-      const result = yield call(queryAppealDataPage, payload.params);
-      if (result.code === 20000 && result.data) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *queryAppealDataPage({ payload, callback }, { call, put }) {
+    //   const result = yield call(queryAppealDataPage, payload.params);
+    //   if (result.code === 20000 && result.data) {
+    //     if (callback && typeof callback === 'function') {
+    //       callback(result.data);
+    //     }
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     // 自考壁垒接口
-    *getFamilyType({ payload, callback }, { call, put }) {
-      const result = yield call(getFamilyType);
-      if (result.code === 20000 && result.data) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
+    // *getFamilyType({ payload, callback }, { call, put }) {
+    //   const result = yield call(getFamilyType);
+    //   if (result.code === 20000 && result.data) {
+    //     if (callback && typeof callback === 'function') {
+    //       callback(result.data);
+    //     }
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
+    // // 获取用户familyType
+    // *getCurrentFamilyType({ payload, callback }, { call, put }) {
+    //   const result = yield call(getCurrentFamilyType);
+    //   if (result.code === 20000 && result.data) {
+    //     if (callback && typeof callback === 'function') {
+    //       callback(result.data);
+    //     }
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
+    // // 自考壁垒对应学院
+    // *getOrgList({ payload, callback }, { call, put }) {
+    //   const result = yield call(getOrgList, payload.params);
+    //   if (result.code === 20000 && result.data) {
+    //     yield put({ type: 'saveOrg', payload: { listObj: result.data } });
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
+
+    // 获取绩效周期
+    *getCurrentDateRange({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getCurrentDateRange, params);
+      if (result.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: {
+            getCurrentDateRangeData: {
+              startTime: moment(result.data.startDate).format('YYYY-MM-DD'),
+              endTime: moment(result.data.endDate).format('YYYY-MM-DD'),
+            },
+          },
+        });
+        return result.data;
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    // 获取用户familyType
-    *getCurrentFamilyType({ payload, callback }, { call, put }) {
-      const result = yield call(getCurrentFamilyType);
+
+    // 获取Nps数据
+    *getNpsData({ payload, callback }, { call, put }) {
+      const result = yield call(getNpsData, payload.params);
       if (result.code === 20000 && result.data) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
+        yield put({ type: 'save', payload: { WorkbenchNpsData: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    // 自考壁垒对应学院
-    *getOrgList({ payload, callback }, { call, put }) {
-      const result = yield call(getOrgList, payload.params);
+
+    // 获取im负面数据
+    *getImNegativeData({ payload, callback }, { call, put }) {
+      const result = yield call(getImNegativeData, payload.params);
       if (result.code === 20000 && result.data) {
-        yield put({ type: 'saveOrg', payload: { listObj: result.data } });
+        yield put({ type: 'save', payload: { WorkbenchImNegativeData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    // 获取im负面数据
+    *getImPieData({ payload, callback }, { call, put }) {
+      const result = yield call(getImPieData, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { WorkbenchImPieData: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -164,8 +240,8 @@ export default {
     saveOrg(state, { payload }) {
       const globalOrgList = {
         0: getNullNodeList(payload.listObj[0]),
-        1: getNullNodeList(payload.listObj[1])
-      }
+        1: getNullNodeList(payload.listObj[1]),
+      };
       return { ...state, globalOrgList };
     },
   },
@@ -204,11 +280,11 @@ function getNullNodeList(data = []) {
     if (item.nodeList instanceof Array) {
       const l = item.nodeList.length;
       if (l === 0) {
-        item.nodeList = null
+        item.nodeList = null;
       } else if (l > 0) {
-        getNullNodeList(item.nodeList)
-      } 
-    } 
-  })
+        getNullNodeList(item.nodeList);
+      }
+    }
+  });
   return data;
 }

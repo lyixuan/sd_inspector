@@ -35,7 +35,7 @@ class koPlan extends React.Component {
     this.getInitData();
     this.handleOriginParams(pageParams);
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.pageParams) !== JSON.stringify(this.props.pageParams)) {
       this.handleOriginParams(nextProps.pageParams);
     }

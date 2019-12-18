@@ -1,14 +1,17 @@
 * {
-  font-family: "PingFangSC-Regular","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"!important;
+  font-family: 'PingFangSC-Regular', 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
 }
-
 .ant-menu {
   font-weight: 300;
-  font-family: "PingFangSC-Regular","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"!important;
+  font-family: 'PingFangSC-Regular', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+    'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol' !important;
 }
 
 .ant-menu.ant-menu-dark .ant-menu-item-selected {
-  background-color:  #52C9C2!important;
+  background-color: #52c9c2 !important;
 }
 /* dxForm */
 .dxForm .ant-form-item-label label {
@@ -19,7 +22,7 @@
 }
 /* dxForm */
 .dxForm .ant-form-item-label label::after {
-  content: ""!important;
+  content: '' !important;
   display: inline;
   width: 100%;
 }
@@ -29,61 +32,66 @@
   display: inline-block;
   text-align: justify;
 }
-.ant-form-item-label > label::after{
+.ant-form-item-label > label::after {
   left: 98px;
   display: inline-block;
   width: 100%;
 }
 
-.ant-form-item-required::before{
-  content: none!important;
+.ant-form-item-required::before {
+  content: none !important;
 }
 
-.ant-checkbox-checked .ant-checkbox-inner{
+.ant-checkbox-checked .ant-checkbox-inner {
   background: #52c9c2;
   border-color: #52c9c2;
 }
-.ant-checkbox-wrapper:hover .ant-checkbox-inner, .ant-checkbox:hover .ant-checkbox-inner, .ant-checkbox-input:focus + .ant-checkbox-inner{
+.ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.ant-checkbox:hover .ant-checkbox-inner,
+.ant-checkbox-input:focus + .ant-checkbox-inner {
   border-color: #52c9c2;
 }
-a,a:hover{
+a,
+a:hover {
   color: #52c9c2;
 }
 .ant-radio-checked .ant-radio-inner {
   border-color: #52c9c2;
 }
-.ant-radio-checked::after{
+.ant-radio-checked::after {
   border-color: #52c9c2;
 }
 .ant-radio-inner::after {
   background-color: #52c9c2;
 }
-.ant-radio-wrapper:hover .ant-radio, .ant-radio:hover .ant-radio-inner, .ant-radio-input:focus + .ant-radio-inner {
+.ant-radio-wrapper:hover .ant-radio,
+.ant-radio:hover .ant-radio-inner,
+.ant-radio-input:focus + .ant-radio-inner {
   border-color: #52c9c2;
 }
-.txRight{
-  text-align:right;
+.txRight {
+  text-align: right;
 }
-.ant-row{
-  padding-bottom:6px;
+.ant-row {
+  padding-bottom: 6px;
 }
-.ant-form-item label{
-  width:95px!important;
+.ant-form-item label {
+  width: 95px !important;
   white-space: normal;
   line-height: 0;
   margin-right: 20px;
 }
 
-.ant-form-inline .ant-form-item{
-  margin-right:0;
+.ant-form-inline .ant-form-item {
+  margin-right: 0;
 }
 
 /*!*兼容windows 固定高度的 scroll问题*!*/
 .ant-table-fixed-header .ant-table-scroll .ant-table-header {
-  overflow-x: hidden!important;
-  overflow-y: scroll!important;
-  margin-bottom:0!important;
-  padding-bottom: 0!important;
+  overflow-x: hidden !important;
+  overflow-y: scroll !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
 /* .ant-table-fixed-header .ant-table-scroll .ant-table-header {
   overflow-x: hidden;
@@ -91,34 +99,33 @@ a,a:hover{
   margin-bottom:0!important;
   padding-bottom: 0!important;
 } */
-.ant-upload-list-item-info .anticon-loading, .ant-upload-list-item-info .anticon-paper-clip{
-  color: #52C9C2;
+.ant-upload-list-item-info .anticon-loading,
+.ant-upload-list-item-info .anticon-paper-clip {
+  color: #52c9c2;
 }
 /*  */
-.ant-divider-inner-text{
+.ant-divider-inner-text {
   cursor: pointer;
 }
 /* 柱状图自定义tip框样式 */
-.tipWrap{
+.tipWrap {
   min-width: 136px;
   min-height: 80px;
   padding: 5px;
   border-radius: 6px;
   font-size: 12px;
 }
-.tipItem{
- line-height: 24px;
+.tipItem {
+  line-height: 24px;
 }
-.tipIcon{
+.tipIcon {
   display: inline-block;
   width: 6px;
   height: 6px;
   border-radius: 6px;
   margin-right: 4px;
-  vertical-align:6%;
+  vertical-align: 6%;
 }
-
-
 
 /*ant table滚动条兼容 safri和外接显示器*/
 /*https://github.com/ant-design/ant-design/issues/13994*/
@@ -126,12 +133,11 @@ a,a:hover{
   display: none !important;
 }
 .ant-table-header::-webkit-scrollbar {
-  opacity: 0!important;
+  opacity: 0 !important;
 }
 
-
-:global(.zhijian .ant-form-item label){
-  width:100px!important;
+:global(.zhijian .ant-form-item label) {
+  width: 100px !important;
   white-space: normal;
   line-height: 0;
   margin-right: 16px;
@@ -152,15 +158,15 @@ body > a {
 .ant-pagination-options .ant-pagination-options-quick-jumper input {
   border-radius: 3px;
 }
-.circleTable .ant-table-thead > tr:first-child > th:first-child{
+.circleTable .ant-table-thead > tr:first-child > th:first-child {
   border-radius: 6px 0 0 6px;
 }
 .circleTable .ant-table-thead > tr:first-child > th:last-child {
   border-radius: 0 6px 6px 0;
 }
-.circleTable .ant-table-thead > tr > th{
-  border-bottom:none;
-  color: #7B7C80;
+.circleTable .ant-table-thead > tr > th {
+  border-bottom: none;
+  color: #7b7c80;
   font-weight: normal;
 }
 
@@ -168,8 +174,8 @@ body > a {
   max-width: 70%;
 }
 
-.agc  .ant-input-number-handler-wrap{
-  opacity: 0!important;
+.agc .ant-input-number-handler-wrap {
+  opacity: 0 !important;
 }
 .agc {
   border-radius: 1px;
@@ -181,19 +187,19 @@ body > a {
 :global .ant-layout-content.antContent {
   margin: 0 16px !important;
 }
-:global .ant-input-clear-icon{
-  color:#ccc;
+:global .ant-input-clear-icon {
+  color: #ccc;
 }
 
 :global .baseForm .ant-form-item {
   margin-bottom: 0;
 }
-:global .userPortary .anticon{
-  font-size:18px;
-  color:#52C9C2;
+:global .userPortary .anticon {
+  font-size: 18px;
+  color: #52c9c2;
 }
 
 /* 统一修改tooltip 透明度，与echart的tooltip统一*/
-:global .ant-tooltip-content{
-   opacity: 0.8;
+:global .ant-tooltip-content {
+  opacity: 0.8;
 }

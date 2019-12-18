@@ -32,7 +32,7 @@ class GroupIndex extends React.Component {
   componentDidMount() {
     this.getGroupPkData();
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.dateRangeSelect) !== JSON.stringify(this.props.dateRangeSelect)) {
       this.getGroupPkData(nextProps.dateRangeSelect);
     }

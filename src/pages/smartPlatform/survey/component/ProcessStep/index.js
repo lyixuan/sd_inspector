@@ -24,7 +24,7 @@ class ProcessStep extends PureComponent {
     };
   }
 
-  componentWillReceiveProps = nextProps => {
+  UNSAFE_componentWillReceiveProps = nextProps => {
     if (nextProps.province != this.props.province && nextProps.data && nextProps.data.length > 0) {
       this.handleNodeExam(nextProps.province, nextProps.pushNum);
     }
