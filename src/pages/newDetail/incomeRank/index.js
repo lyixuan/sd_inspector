@@ -21,17 +21,17 @@ class IncomeRank extends React.Component {
   getTabParams = () => {
     const tabParams = [
       {
-        name:'学院对比',
+        name:<span data-trace={`{"widgetName":"创收_学院对比","traceName":"2.0/创收_学院排名"}`}>学院对比</span>,
         key:'1',
         children: <CollegeIndex />,
       },
       {
-        name:'家族对比',
+        name:<span data-trace={`{"widgetName":"创收_家族对比","traceName":"2.0/创收_家族对比"}`}>家族对比</span>,
         key:'2',
         children: <FamilyIndex />,
       },
       {
-        name:'小组对比',
+        name:<span data-trace={`{"widgetName":"创收_小组对比","traceName":"2.0/创收_小组对比"}`}>小组对比</span>,
         key:'3',
         children: <GroupIndex />,
       },
@@ -39,7 +39,7 @@ class IncomeRank extends React.Component {
     const { globalUserType } = this.props;
     if (globalUserType === 'group' || globalUserType === 'class') {
       tabParams.push({
-        name:'班主任对比',
+        name:<span data-trace={`{"widgetName":"创收_班主任对比","traceName":"2.0/创收_班主任对比"}`}>班主任对比</span>,
         key:'4',
         children: <ClassIndex />,
       })

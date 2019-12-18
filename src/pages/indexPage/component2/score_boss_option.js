@@ -1,25 +1,51 @@
-export function getOption(obj) {
+export function getOptionBoss(list) {
   const bg1 = [];
   const bg2 = [];
+  let positiveData = [];
   let negData = [];
-  function getNegative () {
-    if(obj.negativeCount) negData = obj.negativeCount.map((v)=>-v);
-  }
-  getNegative();
-  const positiveMax =  Math.max.apply(null, obj.positiveCount);
-  const navMax = Math.min.apply(null, negData);
+  const scores = [];
+  const xArr = [];
+  list.forEach((item)=>{
+    scores.push(item.score);
+    xArr.push(item.name);
+    if(item.score>=0){
+      positiveData.push(item.score);
+      negData.push(0);
+    } else {
+      negData.push(item.score);
+      positiveData.push(0);
+    }
+  });
 
-  obj.xAxisData && obj.xAxisData.forEach((v)=>{
+  const positiveMax =  Math.max.apply(null, positiveData);
+  const navMax = Math.min.apply(null, negData);
+  list.forEach((item)=>{
     bg1.push(positiveMax);
     bg2.push(navMax);
   });
 
-
   const itemStyle1 = {
     color:'#ccc',
     normal: {
-      // color: '#06d3cd',
-      barBorderRadius: [4,4,0,0]
+      barBorderRadius: [10,10,0,0],
+      color: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 0,
+        y2: 1,
+        colorStops: [
+          {
+            offset: 0,
+            color: '#00BFCC', // 0% 处的颜色
+          },
+          {
+            offset: 1,
+            color: '#5384DF', // 100% 处的颜色
+          },
+        ],
+        global: false, // 缺省为 false
+    }
     },
     emphasis: {
       barBorderWidth: 1,
@@ -32,9 +58,26 @@ export function getOption(obj) {
   const itemStyle2 = {
     color:'#ccc',
     normal: {
-      // color: '#06d3cd',
-      barBorderRadius: [0,0,4,4]
-    },
+      barBorderRadius: [0,0,10,10],
+      color: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 0,
+        y2: 1,
+        colorStops: [
+          {
+            offset: 0,
+            color: '#00BFCC', // 0% 处的颜色
+          },
+          {
+            offset: 1,
+            color: '#5384DF', // 100% 处的颜色
+          },
+        ],
+        global: false, // 缺省为 false
+        barBorderRadius: [0,0,10,10]
+    }},
     emphasis: {
       barBorderWidth: 1,
       shadowBlur: 10,
@@ -44,13 +87,45 @@ export function getOption(obj) {
     }
   };
 
+  const itemStyleBg1 = {
+    normal: {
+      color: '#F6F6F4',
+      barBorderRadius: [10, 10, 0, 0],
+    },
+    emphasis: {
+      color:'#F6F6F4',
+    }
+  };
+  const itemStyleBg2 = {
+    normal: {
+      color: '#F6F6F4',
+      barBorderRadius: [0, 0, 10, 10],
+    },
+    emphasis: {
+      color:'#F6F6F4',
+    }
+  };
+
   return {
     color: ["#50D4FD", "#FD8188"],
     tooltip: {
+      backgroundColor:'#fff',
+      borderColor:'#eee',
+      borderWidth:1,
+      borderRadius:10,
+      shadowBlur: 10,
+      shadowOffsetX: 1,
+      shadowOffsetY: 0,
+      shadowColor: 'rgba(0,0,0,0.8)',
+      textStyle:{
+        color:'#666',
+        fontSize:12,
+      },
       trigger: 'axis',
       axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-        // type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        type : 'none'        // 默认为直线，可选为：'line' | 'shadow'
       },
+      animation:false,
       formatter: function (params) {
         if(params[0]) {
           return params[0].name +
@@ -59,21 +134,8 @@ export function getOption(obj) {
         }
       }
     },
-    legend: {
-      data: ['正面', '负面'],
-      bottom: 5,
-      itemHeight: 30,
-      right:30,
-      orient:'horizontal',
-      textStyle: {
-        color: '#7B7C80',
-        fontSize:13
-      },
-      icon:'circle',
-      itemWidth:10
-    },
     xAxis: {
-      data: obj.xAxisData,
+      data: xArr,
       name: '',
       // type:'category',
       silent: false,
@@ -81,41 +143,36 @@ export function getOption(obj) {
       //   type: 'shadow'
       // },
       axisLine:{
-        lineStyle:{
-          type:'dotted',
-          color:"#4A90E2"
-        }
+        show:false
       },
       axisLabel:{
+        rotate:45,
         color:'#000000 '
+      },
+      axisTick:{
+        show:false
       },
       splitLine: {show: false},
       splitArea: {show: false}
     },
     yAxis: [{
       inverse: false,
-      splitArea: {show: false},
       type: 'value',
       min: navMax,
       max: positiveMax,
-      axisLabel:{
-        color:'#000000 '
-      },
       axisLine:{
-        lineStyle:{
-          type:'dotted',
-          color:"RGBA(229, 229, 229, 0.8)"
-        }
+        show:false
       },
-      splitLine:{
-        lineStyle:{
-          type:'dotted',
-          color:"RGBA(229, 229, 229, 0.5)"
-        }
-      }
+      axisLabel:{
+        color:'#E2E7EC'
+      },
+      axisTick:{
+        show:false
+      },
+      splitLine: {show: false},
+      splitArea: {show: false}
     },{
       inverse: false,
-      splitArea: {show: false},
       type: 'value',
       min: navMax,
       max: positiveMax,
@@ -124,62 +181,55 @@ export function getOption(obj) {
         color:'#000000 '
       },
       axisLine:{
-        lineStyle:{
-          type:'dotted',
-          color:"RGBA(229, 229, 229, 0.8)"
-        }
+        show:false
       },
-      splitLine:{
-        lineStyle:{
-          type:'dotted',
-          color:"RGBA(229, 229, 229, 0.5)"
-        }
-      }
+      axisTick:{
+        show:false
+      },
+      splitLine: {show: false},
+      splitArea: {show: false}
     }
     ],
     grid: {
-      left: 80,
-      right:60,
-      top:20,
+      left: 40,
+      right:20,
+      top:30,
       bottom:60
     },
     // barGap:'-100%',
     series: [
       { // For shadow
         type: 'bar',
-        itemStyle: {
-          normal: {color: 'rgba(71,211,255,0.04)'}
-        },
         barGap:'-100%',
         // barCategoryGap:'40%',
-        // barWidth:50,
+        barWidth:17,
         data: bg1,
-        animation: false
+        animation: false,
+        itemStyle: itemStyleBg1,
       },
       {
         name: '正面',
         type: 'bar',
         stack: 'one',
-        // barWidth:50,
+        barWidth:17,
         itemStyle: itemStyle1,
-        data: obj.positiveCount
+        data: positiveData
+
       },
       { // For shadow
         type: 'bar',
-        itemStyle: {
-          normal: {color: 'rgba(255,128,134,0.04)'}
-        },
         barGap:'-100%',
         // barCategoryGap:'40%',
-        // barWidth:50,
+        barWidth:17,
         data: bg2,
+        itemStyle: itemStyleBg2,
         animation: false
       },
       {
         name: '负面',
         type: 'bar',
         stack: 'one',
-        // barWidth:50,
+        barWidth:17,
         itemStyle: itemStyle2,
         data: negData
       },

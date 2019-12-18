@@ -31,7 +31,7 @@ class ScoreContrast extends React.Component {
   constructor(props) {
     super(props);
     const { params } = this.props.location.query;
-    const { contrasts = 3 } = params ? JSON.parse(params) : {};
+    const { contrasts = 1 } = params ? JSON.parse(params) : {};
     this.state = {
       queryAppealDatas:{},
       queryParams: {
@@ -206,9 +206,7 @@ class ScoreContrast extends React.Component {
     }, () => this.queryAppealDataPage())
   }
   handleRouter = (path, params, trace) => {
-    const { userType } = this.props;
-    const { globalUserTypes } = this.props;
-    handleDataTrace({"widgetName":`${globalUserTypes[userType]}点学分${trace}`,"traceName":`${globalUserTypes[userType]}工作台/学分${trace}按钮`});
+    handleDataTrace({"widgetName":`学分排名页点学分${trace}`,"traceName":`学分排名/学分${trace}按钮`});
     jumpGobalRouter(path, params);
   }
   getTabParams = () => {

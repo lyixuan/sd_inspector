@@ -13,7 +13,6 @@ class ScoreIncome extends React.Component {
     const { WorkbenchScore,WorkbenchIncome,date } = this.props;
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType :'';
-    console.log(123,WorkbenchScore)
     return (
       <div className={style.scoreWrap}>
         <div className={style.scoreHeader}>
