@@ -31,3 +31,13 @@ export async function getIncomeFamilyGroupPk(data) {
 export async function compareCollegeList(data) {
   return request('/adminWorkbench/incomeCollege/compareCollegeList',{method:'POST',data: data})
 }
+
+
+// 班主任分层 - 本期创收 - 综合对比
+export async function getContrastIncomeKpiPkList(data) {
+  return request('/deskperfpcapi/workbenchIncomeKpi/incomeKpiPkItem', {method: 'POST', data });
+}
+// 班主任分层 - 本期创收 - 查询对比小组
+export async function getIncomeKpiPkList(params) {
+  return request('/deskperfpcapi/workbenchIncomeKpi/getIncomeKpiPkList', { method: 'get', params });
+}

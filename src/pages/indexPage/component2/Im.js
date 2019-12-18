@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Spin } from 'antd';
 import stylefather from '../indexPage.less';
 import IMImg from '@/assets/IM@2x.png';
 import gengduo from '@/assets/newIndex/gengduo@2x.png';
@@ -10,18 +11,7 @@ import bixin from '@/assets/bixin@2x.png';
 import style from './style.less';
 import Echarts from '@/components/Echart';
 import { getOption } from './getImOptions';
-import { Spin } from 'antd';
 
-const m2R2Data = [
-  { value: 335, legendname: '335', name: '产品', itemStyle: { color: '#6665DD' } },
-  { value: 310, legendname: '310', name: '退学', itemStyle: { color: '#FF602F' } },
-  { value: 234, legendname: '234', name: '学术', itemStyle: { color: '#33D195' } },
-  { value: 154, legendname: '154', name: '其他', itemStyle: { color: '#B5E1F9' } },
-  { value: 335, legendname: '335', name: '服务', itemStyle: { color: '#FFC442' } },
-  { value: 335, legendname: '335', name: '流程', itemStyle: { color: '#4A5F75' } },
-  { value: 335, legendname: '334', name: '课程', itemStyle: { color: '#0496FF' } },
-  { value: 335, legendname: '336', name: '未分类', itemStyle: { color: '#AEB89F' } },
-];
 
 @connect(({ xdWorkModal, loading }) => ({
   WorkbenchImNegativeData: xdWorkModal.WorkbenchImNegativeData,

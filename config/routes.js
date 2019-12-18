@@ -639,10 +639,6 @@ export const routes = [
           }
         ]
       }, {
-        path: '/incomeRank/index', // 创收对比详情页
-        component: './incomeRank/index',
-      },
-      {
         path: '/newdetail',
         component: './newDetail',
         routes: [
@@ -653,7 +649,10 @@ export const routes = [
           }, {
             path: '/newdetail/histogram',
             component: './newDetail/histogram',
-            name: '创收分析页',
+          }, {
+            path: '/newdetail/incomeRank',
+            component: './newDetail/incomeRank',
+            name: '创收数据',
           },
         ],
       },

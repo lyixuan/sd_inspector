@@ -1,56 +1,31 @@
-const dataAxis = [
-  '点',
-  '击',
-  '柱',
-  '子',
-  '或',
-  '者',
-  '两',
-  '指',
-  '在',
-  '触',
-  '屏',
-  '上',
-  '滑',
-  '动',
-  '能',
-  '够',
-  '自',
-  '动',
-  '缩',
-  '放',
-];
-const yMax = 500;
 const dataShadow = [];
 
 export function getOption(data) {
-  // const newX = [];
-  // m2R2Data.xAxis &&
-  // m2R2Data.xAxis.forEach(item => {
-  //     let arr = [];
-  //     let newDate = '';
-  //     arr = item.split('-');
-  //     newDate = `${arr[1]}-${arr[2]}\n${arr[0]}`;
-  //     newX.push(newDate);
-  //   });
-
-  // const newCorrectRatio = [];
-  // m2R2Data.correctRatio &&
-  // m2R2Data.correctRatio.forEach(item => {
-  //     newCorrectRatio.push((item * 100).toFixed(2));
-  //   });
+  const newAxis = [];
+  if (data.starList) {
+    let maxArr = [];
+    for (let i of data.starList) {
+      maxArr.push(Number(i.value));
+    }
+    const max = Math.max.apply(null, maxArr);
+    data.starList.map(item => {
+      newAxis.push(item.name);
+      dataShadow.push(max);
+    });
+  }
 
   return {
     title: {
-      text: '特性示例：渐变色 阴影 点击缩放',
-      subtext: 'Feature Sample: Gradient Color, Shadow, Click Zoom',
+      text: '',
+      subtext: '',
     },
     xAxis: {
-      data: dataAxis,
+      data: newAxis,
       axisLabel: {
-        inside: true,
+        // inside: true,
         textStyle: {
-          color: '#fff',
+          color: '#7D90AA',
+          fontSize: 12,
         },
       },
       axisTick: {
@@ -68,50 +43,81 @@ export function getOption(data) {
       axisTick: {
         show: false,
       },
+      splitLine: {
+        //网格线
+        show: false,
+      },
       axisLabel: {
         textStyle: {
-          color: '#999',
+          color: '#7D90AA',
         },
       },
     },
-    dataZoom: [
-      {
-        type: 'inside',
-      },
-    ],
+    // dataZoom: [
+    //   {
+    //     type: 'inside',
+    //   },
+    // ],
     series: [
       {
         // For shadow
         type: 'bar',
         itemStyle: {
-          normal: { color: 'rgba(0,0,0,0.05)' },
+          color: '#F6F6F4',
+          barBorderRadius: [10, 10, 0, 0],
         },
-
         barGap: '-100%',
-        barCategoryGap: '40%',
+        barWidth: 17, //柱图宽度
         data: dataShadow,
         animation: false,
       },
       {
         type: 'bar',
+        barWidth: 17, //柱图宽度
         itemStyle: {
           normal: {
             barBorderRadius: [10, 10, 0, 0],
-            // color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            //   { offset: 0, color: '#83bff6' },
-            //   { offset: 0.5, color: '#188df0' },
-            //   { offset: 1, color: '#188df0' },
-            // ]),
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: '#00BFCC', // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: '#5384DF', // 100% 处的颜色
+                },
+              ],
+              global: false, // 缺省为 false
+            },
           },
           emphasis: {
-            // color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            //   { offset: 0, color: '#2378f7' },
-            //   { offset: 0.7, color: '#2378f7' },
-            //   { offset: 1, color: '#83bff6' },
-            // ]),
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: '#00BFCC', // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: '#5384DF', // 100% 处的颜色
+                },
+              ],
+              global: false, // 缺省为 false
+            },
           },
         },
-        data: data,
+        data: data.starList,
       },
     ],
   };

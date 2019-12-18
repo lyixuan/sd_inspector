@@ -45,21 +45,21 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getIncomeKpiPkList({ payload, callback }, { call }) {
-      const params = payload.params;
-      const result = yield call(getIncomeKpiPkList, params);
-      if (result.code === 20000) {
-        if (callback && typeof callback === 'function') {
-          callback(result.data);
-        }
-      } else if (result.code === 50000) {
-        if (callback && typeof callback === 'function') {
-          callback();
-        }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *getIncomeKpiPkList({ payload, callback }, { call }) {
+    //   const params = payload.params;
+    //   const result = yield call(getIncomeKpiPkList, params);
+    //   if (result.code === 20000) {
+    //     if (callback && typeof callback === 'function') {
+    //       callback(result.data);
+    //     }
+    //   } else if (result.code === 50000) {
+    //     if (callback && typeof callback === 'function') {
+    //       callback();
+    //     }
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
 
     // 本期质检
     *getCountCurrentQuality({ payload }, { call, put }) {

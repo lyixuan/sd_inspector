@@ -9,9 +9,10 @@ import styles from './style.less';
 
 const { BI = {} } = window;
 const localKey = 'incomeGroupLocal';
-@connect(({ incomeRankModal, loading }) => ({
+@connect(({ newDetailModal, incomeRankModal, loading }) => ({
   groupPkList: incomeRankModal.groupIncomeList,
   groupPkDrawer: incomeRankModal.groupIncomeDrawer,
+  globalUserType: newDetailModal.globalUserType,
   dimenloading: loading.effects['incomeRankModal/getIncomeFamilyGroupPk'],
   drawerloading: loading.effects['incomeRankModal/getIncomeGroupList'],
 }))
@@ -70,8 +71,9 @@ class FamilyIndex extends React.Component {
         BI.traceV &&  BI.traceV({"widgetName": "创收-删除PK小组","traceName": "家族长工作台/创收-删除PK小组"})
         pkUsers.splice(pkUsers.indexOf(id), 1);
       } else {
-        if (pkUsers.length >= 5) {
-          message.error('最多选择5个pk对象');
+        const nums = this.props.globalUserType === 'boss' ? 8 : 7;
+        if (pkUsers.length >= nums) {
+          message.error(`最多选择${nums}个pk对象`);
           return;
         };
         pkUsers.push(id);

@@ -21,7 +21,6 @@ export function getOption(data) {
       total += item.noStatisticNum;
     });
   }
-  console.log(total);
   // const newX = [];
   // m2R2Data.xAxis &&
   // m2R2Data.xAxis.forEach(item => {
@@ -64,6 +63,15 @@ export function getOption(data) {
         },
       },
     ],
+    // tooltip: {
+    //   trigger: 'item',
+    //   triggerOn: 'mousemove',
+    //   formatter: function(param) {
+    //     const { data } = param;
+    //     const { name = undefined } = data;
+    //     return `<div style='font-size: 12px;background: #fff;color: #414D55;width: 100%'>${name}</div>`;
+    //   },
+    // },
     tooltip: {
       trigger: 'item',
       formatter: function(parms) {
@@ -76,7 +84,7 @@ export function getOption(data) {
           '</br>' +
           '数量：' +
           parms.data.value +
-          '</br>' ;
+          '</br>';
         return str;
       },
     },
