@@ -10,7 +10,7 @@ import IMPartLeft from './IMPartLeft';
 import IMPartRight from './IMPartRight';
 import NPSEvaluate from './NPSEvaluate';
 import moment from 'moment';
-import Histogram from '@/pages/indexPage/components/scoreContrast';
+// import Histogram from '@/pages/indexPage/components/scoreContrast';
 
 @connect(({ xdManagementBench, xdWorkModal }) => ({
   xdManagementBench,
@@ -31,7 +31,7 @@ class ManagementBench extends React.Component {
       loadingStatus: true,
     };
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       nextProps.xdManagementBench.getCurrentDateRangeData &&
       nextProps.xdManagementBench.getCurrentDateRangeData.startDate !== this.state.date.startDate
@@ -159,7 +159,7 @@ class ManagementBench extends React.Component {
         {date.startDate && <Header date={date} />}
         {date.startDate && userInfo && <IncomeCompare date={date} userInfo={userInfo} />}
         {/* {date.startDate && userInfo && <ScoreContrast date={date} userInfo={userInfo} />} */}
-        {globalDateRange.endTime && userInfo && <Histogram allTimes={globalDateRange} userInfo={userInfo} />}
+        {/* {globalDateRange.endTime && userInfo && <Histogram allTimes={globalDateRange} userInfo={userInfo} />} */}
         <div className={styles.qualityAppel} ref="four">
           {userInfo && (
             <IMPartLeft

@@ -7,12 +7,10 @@ class NewDetail extends Component {
   componentDidMount() {
     this.props.dispatch({
       type: 'newDetailModal/getUserInfo',
-      callback: res => {
-        this.props.dispatch({
-          type: 'newDetailModal/getCurrentDateRange',
-          payload: { params: { userType: 'family' } },
-        });
-      },
+    });
+    this.props.dispatch({
+      type: 'newDetailModal/getCurrentDateRange',
+      payload: { params: { userType: 'family' } },
     });
   }
   render() {

@@ -12,8 +12,8 @@ import checkIcon from '@/assets/component/checkicon.png';
 import styles from './style.less';
 
 const { Option } = BISelect;
-@connect(({ xdWorkModal, loading }) => ({
-  globalCollegeList: xdWorkModal.globalCollegeList,
+@connect(({ incomeRankModal, loading }) => ({
+  globalCollegeList: incomeRankModal.globalCollegeList,
 }))
 class ProfitList extends React.Component {
   constructor(props) {

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less';
 import BITabs from '@/ant_components/BITabs';
-import CollegeScore from "@/pages/indexPage/components/scoreContrast/collegeScore";
+import CollegeScore from "../collegeScore";
 
 const TabPane = BITabs.TabPane;
 @connect((xdWorkModal) => ({

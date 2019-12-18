@@ -525,6 +525,11 @@ export const routes = [
             component: './xdCredit',
             name: '小德学分',
           },
+          {
+            path: '/xdCredit/im',
+            component: './xdCredit/imPage',
+            name: 'im差评分析',
+          },
         ],
       },
       {
@@ -631,8 +636,11 @@ export const routes = [
           {
             path: '/hotQuestion/relationEdit',
             component: './hotQuestion/relationEdit',
-          },
-        ],
+          }
+        ]
+      }, {
+        path: '/incomeRank/index', // 创收对比详情页
+        component: './incomeRank/index',
       },
       {
         path: '/newdetail',
@@ -641,6 +649,10 @@ export const routes = [
           {
             path: '/newdetail/analyze',
             component: './newDetail/analyze',
+            name: '创收分析页',
+          }, {
+            path: '/newdetail/histogram',
+            component: './newDetail/histogram',
             name: '创收分析页',
           },
         ],

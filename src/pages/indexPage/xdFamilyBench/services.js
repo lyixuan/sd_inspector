@@ -93,25 +93,25 @@ export async function getCollegeList(params) {
 //   return request('/deskperfpcapi/organization/myFamilyGroupList', { method: 'get', params })
 // }
 //家族创收对比
-export async function getIncomeFamilyList(data) {
-  return request('/deskperfpcapi/incomeFamily/getFamilyPk', { method: 'POST', data });
-}
+// export async function getIncomeFamilyList(data) {
+//   return request('/deskperfpcapi/incomeFamily/getFamilyPk', { method: 'POST', data });
+// }
 //家族创收对比的家族绩效列表
-export async function getFamilyList(params) {
-  return request('/deskperfpcapi/incomeFamily/getFamilyList', { method: 'get', params });
-}
+// export async function getFamilyList(params) {
+//   return request('/deskperfpcapi/incomeFamily/getFamilyList', { method: 'get', params });
+// }
 //家族创收对比-小组绩效列表
-export async function getIncomeGroupList(params) {
-  return request('/deskperfpcapi/incomeFamily/getGroupList', { method: 'get', params });
-}
+// export async function getIncomeGroupList(params) {
+//   return request('/deskperfpcapi/incomeFamily/getGroupList', { method: 'get', params });
+// }
 //家族创收对比的学院列表
 // export async function getIncomeCollegeList(params) {
 //   return request('/deskperfpcapi/incomeFamily/getCollegeList', { method: 'get', params });
 // }
 // 家族创收对比-小组创收对比
-export async function getIncomeFamilyGroupPk(data) {
-  return request('/deskperfpcapi/incomeFamily/getGroupPk', { method: 'POST', data });
-}
+// export async function getIncomeFamilyGroupPk(data) {
+//   return request('/deskperfpcapi/incomeFamily/getGroupPk', { method: 'POST', data });
+// }
 export async function getUserInfo(params) {
   return request('/deskperfpcapi/user/info', { method: 'get', params });
 }

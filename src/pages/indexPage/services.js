@@ -28,24 +28,24 @@ export async function postWriteQuestion(data) {
   return request('/questionPage/writeQuestion', { method: 'POST', data });
 }
 
-//学分对比柱状图
-export async function queryAppealDataPage(data) {
-  return request('/credit/queryAppealDataPage', { method: 'POST', data: data });
-}
-//获取学院性质的接口
-export async function getFamilyType(params) {
-  return request('/orgMap/getFamilyType', { method: 'get', params });
-}
+// //学分对比柱状图
+// export async function queryAppealDataPage(data) {
+//   return request('/credit/queryAppealDataPage', { method: 'POST', data: data });
+// }
+// //获取学院性质的接口
+// export async function getFamilyType(params) {
+//   return request('/orgMap/getFamilyType', { method: 'get', params });
+// }
 
-// 学分对比组织架构列表接口
-export async function getOrgList(params) {
-  return request('/credit/getOrgList', { method: 'get', params });
-}
+// // 学分对比组织架构列表接口
+// export async function getOrgList(params) {
+//   return request('/credit/getOrgList', { method: 'get', params });
+// }
 
-//获取学院性质的接口
-export async function getCurrentFamilyType(params) {
-  return request('/orgMap/getCurrentFamilyType', { method: 'get', params });
-}
+// //获取学院性质的接口
+// export async function getCurrentFamilyType(params) {
+//   return request('/orgMap/getCurrentFamilyType', { method: 'get', params });
+// }
 
 // 获取当前绩效周期
 export async function getCurrentDateRange(params) {
@@ -55,6 +55,12 @@ export async function getCurrentDateRange(params) {
 // l
 export async function getWorkbenchScore(params) {
   return request('/workbench/score',{params});
+}
+
+
+// 获取nps
+export async function getNpsData(params) {
+  return request('/workbench/nps',{params});
 }
 
 

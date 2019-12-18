@@ -1,7 +1,7 @@
 import {
   getNpsStarOpinion,
   getNpsAutonomousEvaluation,
-  compareCollegeList,
+  // compareCollegeList,
   getCurrentDateRange,
   getHotList,
   packageRankList,
@@ -22,7 +22,7 @@ export default {
   namespace: 'xdManagementBench',
   state: {
     npsParams: {}, //nps部分的数据
-    compareCollegeListData: [],
+    // compareCollegeListData: [],
     getCurrentDateRangeData: null,
     orgList: [],
     imDetailData: [],
@@ -153,21 +153,21 @@ export default {
       }
     },
     // 创收学院对比列表
-    *getCompareCollegeList({ payload, callback }, { call, put }) {
-      const params = payload.params;
-      const result = yield call(compareCollegeList, params);
-      if (result.code === 20000) {
-        yield put({
-          type: 'save',
-          payload: {
-            compareCollegeListData: result.data,
-          },
-        });
-        return result.data;
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *getCompareCollegeList({ payload, callback }, { call, put }) {
+    //   const params = payload.params;
+    //   const result = yield call(compareCollegeList, params);
+    //   if (result.code === 20000) {
+    //     yield put({
+    //       type: 'save',
+    //       payload: {
+    //         compareCollegeListData: result.data,
+    //       },
+    //     });
+    //     return result.data;
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     // 获取热销榜单列表
     *getHotList({ payload, callback }, { call, put }) {
       const result = yield call(getHotList);

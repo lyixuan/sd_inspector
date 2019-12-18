@@ -79,7 +79,7 @@ class ChinaMap extends Component {
     this.handleData(this.props.data);
     this.initMap();
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.data) !== JSON.stringify(this.props.data)) {
       this.handleData(nextProps.data);
     }

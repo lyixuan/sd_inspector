@@ -25,7 +25,7 @@ class Tab extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.mapOriginData(nextProps.itemList);
     this.setState({ itemList: nextProps.itemList });
   }
